@@ -781,6 +781,25 @@
     "armor": [ { "encumbrance": 10, "coverage": 85, "covers": [ "head" ] } ]
   },
   {
+    "id": "nun_wimple",
+    "type": "ARMOR",
+    "name": { "str": "wimple" },
+    "description": "A loose cloth headwrap and veil.  Typically worn by Christian nuns.",
+    "weight": "70 g",
+    "volume": "250 ml",
+    "price": 600,
+    "price_postapoc": 60,
+    "to_hit": -1,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "color": "white",
+    "warmth": 5,
+    "material_thickness": 0.1,
+    "environmental_protection": 1,
+    "flags": [ "OVERSIZE" ],
+    "armor": [ { "encumbrance": 4, "coverage": 80, "covers": [ "head" ] } ]
+  },
+  {
     "id": "tallit_gadol",
     "type": "TOOL_ARMOR",
     "category": "clothing",

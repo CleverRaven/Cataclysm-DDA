@@ -290,7 +290,7 @@ void turret_data::post_fire( Character &you, int shots )
     static const auto clear_mag_wells = []( item & it ) {
         std::vector<item_pocket *> magazine_wells = it.get_contents().get_pockets(
         []( const item_pocket & pocket ) {
-            return pocket.is_type( item_pocket::pocket_type::MAGAZINE_WELL );
+            return pocket.is_type( pocket_type::MAGAZINE_WELL );
         } );
         for( item_pocket *pocket : magazine_wells ) {
             pocket->clear_items();
@@ -431,8 +431,8 @@ bool vehicle::turrets_aim( std::vector<vehicle_part *> &turrets )
         }
 
         ///\EFFECT_INT speeds up aiming of vehicle turrets
-        player_character.moves = std::min( 0,
-                                           player_character.moves - 100 + ( 5 * player_character.int_cur ) );
+        player_character.set_moves( std::min( 0,
+                                              player_character.get_moves() - 100 + ( 5 * player_character.int_cur ) ) );
     }
     return got_target;
 }

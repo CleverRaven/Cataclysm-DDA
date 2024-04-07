@@ -11,9 +11,9 @@
     "cancels": [
       "BIOKIN_NEEDS",
       "CLAIR_SENSES",
-      "PYROGLOW_WEAK",
-      "PYROGLOW_STRONG",
-      "TELEKINETIC_CARRY",
+      "PHOTO_EYES",
+      "PYROKIN_ADAPTATION",
+      "TELEKINETIC_LIFTER_1",
       "TELEPATHIC_SUGGESTION",
       "TELEPORTER_PROTECT",
       "VITAKINETIC_HEALTH"
@@ -27,19 +27,14 @@
     "description": "Thanks to your powers, you need less food and drink than the average person and are more efficient at processing it.",
     "vitamins_absorb_multi": [ [ "all", [ [ "vitA", 1.05 ], [ "vitB", 1.05 ], [ "vitC", 1.05 ], [ "calcium", 1.05 ], [ "iron", 1.05 ] ] ] ],
     "player_display": true,
+    "valid": false,
     "purifiable": false,
     "enchantments": [
       {
         "values": [
-          { "value": "HUNGER", "multiply": { "math": [ "(-0.03 - (0.015 * u_val('spell_level', 'school: BIOKINETIC')))" ] } },
-          {
-            "value": "THIRST",
-            "multiply": { "math": [ "(-0.03 - (0.015 * u_val('spell_level', 'school: BIOKINETIC')))" ] }
-          },
-          {
-            "value": "METABOLISM",
-            "multiply": { "math": [ "(-0.03 - (0.015 * u_val('spell_level', 'school: BIOKINETIC')))" ] }
-          }
+          { "value": "HUNGER", "multiply": { "math": [ "(-0.03 - (0.015 * u_school_level('BIOKINETIC')))" ] } },
+          { "value": "THIRST", "multiply": { "math": [ "(-0.03 - (0.015 * u_school_level('BIOKINETIC')))" ] } },
+          { "value": "METABOLISM", "multiply": { "math": [ "(-0.03 - (0.015 * u_school_level('BIOKINETIC')))" ] } }
         ]
       }
     ]
@@ -50,75 +45,71 @@
     "name": { "str": "Psionic Senses" },
     "points": 0,
     "description": "Your powers enhance your mundane senses and allow you to detect creatures from beyond.",
-    "hearing_modifier": 1.2,
     "flags": [ "ENHANCED_VISION", "WATCH" ],
     "player_display": true,
+    "valid": false,
     "purifiable": false,
     "enchantments": [
       {
         "values": [
-          { "value": "SIGHT_RANGE_NETHER", "add": { "math": [ "(2 + (1.5 * u_val('spell_level', 'school: CLAIRSENTIENT')))" ] } }
+          { "value": "HEARING_MULT", "multiply": 0.2 },
+          { "value": "SIGHT_RANGE_NETHER", "add": { "math": [ "(2 + (1.5 * u_school_level('CLAIRSENTIENT')))" ] } }
         ]
       }
     ]
   },
   {
     "type": "mutation",
-    "id": "PYROGLOW_WEAK",
-    "name": { "str": "Pyrokinetic Radiance [soft]" },
+    "id": "ELECTRO_SHIELD",
+    "name": { "str": "Galvanic Armor" },
     "points": 0,
-    "description": "You can make the air around you emit light.",
-    "active": true,
+    "description": "Your powers help protect you from electrical damage and slightly reduce the intensity of pain you feel.",
     "player_display": true,
-    "purifiable": false,
-    "cost": 0,
-    "transform": {
-      "target": "PYROGLOW_WEAK_A",
-      "msg_transform": "The air around you starts glowing softly.",
-      "active": true,
-      "moves": 10
-    }
-  },
-  {
-    "type": "mutation",
-    "id": "PYROGLOW_WEAK_A",
-    "name": { "str": "Pyrokinetic Radiance [soft] (on)" },
-    "description": "The air around you is emitting light.",
-    "copy-from": "PYROGLOW_WEAK",
     "valid": false,
-    "transform": { "target": "PYROGLOW_WEAK", "msg_transform": "The air around you loses its radiance.", "active": false, "moves": 10 },
-    "enchantments": [ { "values": [ { "value": "LUMINATION", "add": 20 } ] } ]
-  },
-  {
-    "type": "mutation",
-    "id": "PYROGLOW_STRONG",
-    "name": { "str": "Pyrokinetic Radiance [bright]" },
-    "points": 0,
-    "description": "You can make the air around you emit a strong light.",
-    "active": true,
-    "player_display": true,
     "purifiable": false,
-    "cost": 0,
-    "transform": {
-      "target": "PYROGLOW_STRONG_A",
-      "msg_transform": "The air around you starts glowing brightly.",
-      "active": true,
-      "moves": 10
-    }
-  },
-  {
-    "type": "mutation",
-    "id": "PYROGLOW_STRONG_A",
-    "name": { "str": "Pyrokinetic Radiance [bright] (on)" },
-    "description": "The air around you is emitting a bright light.",
-    "copy-from": "PYROGLOW_STRONG",
-    "valid": false,
-    "transform": { "target": "PYROGLOW_STRONG", "msg_transform": "The air around you loses its radiance.", "active": false, "moves": 10 },
     "enchantments": [
       {
-        "values": [ { "value": "LUMINATION", "add": { "math": [ "(50 + (20 * u_val('spell_level', 'school: PYROKINETIC')))" ] } } ]
+        "values": [
+          { "value": "ARMOR_ELEC", "add": { "math": [ "u_school_level('ELECTROKINETIC') / -4" ] } },
+          { "value": "PAIN", "multiply": { "math": [ "u_school_level('ELECTROKINETIC') * -0.007" ] } }
+        ]
       }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "PHOTO_EYES",
+    "name": { "str": "Photon Regulation" },
+    "points": 0,
+    "description": "Your powers passively filter the amount of photons your eyes receive.",
+    "flags": [ "FLASH_PROTECTION", "SEESLEEP", "GLARE_RESIST" ],
+    "player_display": true,
+    "valid": false,
+    "purifiable": false
+  },
+  {
+    "type": "mutation",
+    "id": "PYROKIN_ADAPTATION",
+    "name": { "str": "Internal Fire" },
+    "points": 0,
+    "description": "You naturally heat the air around you slightly, making it more comfortable in the cold.  It also helps prevent you from getting too wet.",
+    "bodytemp_modifiers": [ 250, 750 ],
+    "enchantments": [ { "values": [ { "value": "BODYTEMP_SLEEP", "add": 1 } ] } ],
+    "wet_protection": [
+      { "part": "head", "ignored": 10 },
+      { "part": "leg_l", "ignored": 10 },
+      { "part": "leg_r", "ignored": 10 },
+      { "part": "foot_l", "ignored": 10 },
+      { "part": "foot_r", "ignored": 10 },
+      { "part": "arm_l", "ignored": 10 },
+      { "part": "arm_r", "ignored": 10 },
+      { "part": "hand_l", "ignored": 10 },
+      { "part": "hand_r", "ignored": 10 },
+      { "part": "torso", "ignored": 10 }
+    ],
+    "player_display": true,
+    "valid": false,
+    "purifiable": false
   },
   {
     "type": "mutation",
@@ -456,19 +447,15 @@
     "name": { "str": "Telepathic Suggestion" },
     "points": 0,
     "description": "You are subtly influencing the minds of the people you speak to.",
-    "social_modifiers": { "lie": 15, "persuade": 15, "intimidate": 15 },
     "valid": false,
     "player_display": true,
     "purifiable": false,
     "enchantments": [
       {
         "values": [
-          { "value": "SOCIAL_INTIMIDATE", "add": { "math": [ "(5 + (1.5 * u_val('spell_level', 'school: TELEPATHIC')))" ] } },
-          { "value": "SOCIAL_LIE", "add": { "math": [ "(5 + (1.5 * u_val('spell_level', 'school: TELEPATHIC')))" ] } },
-          {
-            "value": "SOCIAL_PERSUADE",
-            "add": { "math": [ "(5 + (1.5 * u_val('spell_level', 'school: TELEPATHIC')))" ] }
-          }
+          { "value": "SOCIAL_INTIMIDATE", "add": { "math": [ "(5 + (1.5 * u_school_level('TELEPATHIC')))" ] } },
+          { "value": "SOCIAL_LIE", "add": { "math": [ "(5 + (1.5 * u_school_level('TELEPATHIC')))" ] } },
+          { "value": "SOCIAL_PERSUADE", "add": { "math": [ "(5 + (1.5 * u_school_level('TELEPATHIC')))" ] } }
         ]
       }
     ]
@@ -483,11 +470,7 @@
     "valid": false,
     "player_display": true,
     "purifiable": false,
-    "enchantments": [
-      {
-        "values": [ { "value": "EVASION", "add": { "math": [ "(0.01 + (0.005 * u_val('spell_level', 'school: TELEPORTER')))" ] } } ]
-      }
-    ]
+    "enchantments": [ { "values": [ { "value": "EVASION", "add": { "math": [ "(0.01 + (0.005 * u_school_level('TELEPORTER')))" ] } } ] } ]
   },
   {
     "type": "mutation",
@@ -503,11 +486,8 @@
     "enchantments": [
       {
         "values": [
-          { "value": "REGEN_HP", "multiply": { "math": [ "(0.1 + (0.01 * u_val('spell_level', 'school: VITAKINETIC')))" ] } },
-          {
-            "value": "MAX_HP",
-            "multiply": { "math": [ "(0.05 + (0.01 * u_val('spell_level', 'school: VITAKINETIC')))" ] }
-          }
+          { "value": "REGEN_HP", "multiply": { "math": [ "(0.1 + (0.01 * u_school_level('VITAKINETIC')))" ] } },
+          { "value": "MAX_HP", "multiply": { "math": [ "(0.05 + (0.01 * u_school_level('VITAKINETIC')))" ] } }
         ]
       }
     ]

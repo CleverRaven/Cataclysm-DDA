@@ -9,6 +9,7 @@
     "id": "test_weapon1",
     "name": { "str": "test melee weapon 1" },
     "description": "Test melee weapon 1.",
+    "material": [ "test_material" ],
     "weight": "1 kg",
     "volume": "1 L",
     "symbol": ";"
@@ -18,6 +19,7 @@
     "id": "test_weapon2",
     "name": { "str": "test melee weapon 2" },
     "description": "Test melee weapon 2.",
+    "material": [ "test_material" ],
     "weight": "1 kg",
     "volume": "1 L",
     "symbol": ";",

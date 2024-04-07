@@ -2,8 +2,7 @@
 
 #include <chrono>
 #include <exception>
-#include <functional>
-#include <ratio>
+#include <filesystem>
 #include <set>
 #include <sstream>
 #include <string>
@@ -11,10 +10,9 @@
 #include <vector>
 
 #include "cata_utility.h"
-#include "coordinate_conversions.h"
 #include "debug.h"
 #include "filesystem.h"
-#include "game_constants.h"
+#include "input.h"
 #include "json.h"
 #include "map.h"
 #include "output.h"
@@ -189,13 +187,19 @@ void mapbuffer::save_quad(
     offsets.push_back( point_south_east );
 
     bool all_uniform = true;
+    bool reverted_to_uniform = false;
+    bool const file_exists = fs::exists( filename.get_unrelative_path() );
     for( point &offsets_offset : offsets ) {
         tripoint_abs_sm submap_addr = project_to<coords::sm>( om_addr );
         submap_addr += offsets_offset;
         submap_addrs.push_back( submap_addr );
         submap *sm = submaps[submap_addr].get();
-        if( sm != nullptr && !sm->is_uniform() ) {
-            all_uniform = false;
+        if( sm != nullptr ) {
+            if( !sm->is_uniform() ) {
+                all_uniform = false;
+            } else if( sm->reverted ) {
+                reverted_to_uniform = file_exists;
+            }
         }
     }
 
@@ -209,7 +213,11 @@ void mapbuffer::save_quad(
             }
         }
 
-        return;
+        // deleting the file might fail on some platforms in some edge cases so force serialize this
+        // uniform quad
+        if( !reverted_to_uniform ) {
+            return;
+        }
     }
 
     // Don't create the directory if it would be empty
@@ -250,6 +258,10 @@ void mapbuffer::save_quad(
 
         jsout.end_array();
     } );
+
+    if( all_uniform && reverted_to_uniform ) {
+        fs::remove( filename.get_unrelative_path() );
+    }
 }
 
 // We're reading in way too many entities here to mess around with creating sub-objects and

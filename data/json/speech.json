@@ -1345,13 +1345,13 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_vocal_bigfrog" ],
     "sound": "a gurgling sound.",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_vocal_bigfrog" ],
     "sound": "a choking sound.",
     "volume": 10
   },
@@ -2199,7 +2199,7 @@
   {
     "type": "speech",
     "speaker": [ "foodperson_mask", "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"Foodplace: Don’t get caught in the web of an unsafe diet.\"",
+    "sound": "\"Foodplace: Don't get caught in the web of an unsafe diet.\"",
     "volume": 15
   },
   {
@@ -2456,80 +2456,15 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_dog", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "BARK!",
-    "volume": 40
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_dog_bull", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "BARK!",
-    "volume": 40
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_dog_pitbullmix", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "BARK!",
-    "volume": 40
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_dog_beagle", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "YAP!",
-    "volume": 30
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_dog_bcollie", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "BARK!",
-    "volume": 40
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_dog_boxer", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "BARK!",
-    "volume": 40
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_dog_chihuahua", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "YAP!",
-    "volume": 30
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_dog_dachshund", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "YAP!",
-    "volume": 30
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_dog_gshepherd", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "BARK!",
-    "volume": 40
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_dog_gpyrenees", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "WOOF!",
-    "volume": 40
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_dog_rottweiler", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "WOOF!",
-    "volume": 40
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_dog_auscattle", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
-    "sound": "BARK!",
-    "volume": 40
-  },
-  {
-    "type": "speech",
     "speaker": [
+      "mon_dog",
+      "mon_dog_bull",
+      "mon_dog_pitbullmix",
+      "mon_dog_bcollie",
+      "mon_dog_boxer",
+      "mon_dog_auscattle",
       "mon_dog_samoyed",
+      "mon_dog_howling",
       "mon_dog_mutant_mongrel",
       "mon_dog_mutant_loper",
       "mon_mi_go",
@@ -2537,6 +2472,26 @@
       "mon_mi_go_myrmidon"
     ],
     "sound": "BARK!",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": [
+      "mon_dog_beagle",
+      "mon_dog_chihuahua",
+      "mon_dog_dachshund",
+      "mon_dog_gshepherd",
+      "mon_mi_go",
+      "mon_mi_go_slaver",
+      "mon_mi_go_myrmidon"
+    ],
+    "sound": "YAP!",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_dog_gpyrenees", "mon_dog_rottweiler", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "sound": "WOOF!",
     "volume": 40
   },
   {
@@ -2716,13 +2671,25 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_zombie_brute_shocker", "mon_zombie_electric", "mon_zombie_nullfield", "mon_skeleton_electric" ],
+    "speaker": [
+      "mon_zombie_brute_shocker",
+      "mon_zombie_electric",
+      "mon_zombie_nullfield",
+      "mon_skeleton_electric",
+      "mon_frog_shocker"
+    ],
     "sound": "crackling sounds.",
     "volume": 20
   },
   {
     "type": "speech",
-    "speaker": [ "mon_zombie_brute_shocker", "mon_zombie_electric", "mon_zombie_nullfield", "mon_skeleton_electric" ],
+    "speaker": [
+      "mon_zombie_brute_shocker",
+      "mon_zombie_electric",
+      "mon_zombie_nullfield",
+      "mon_skeleton_electric",
+      "mon_frog_shocker"
+    ],
     "sound": "high-pitched hum.",
     "volume": 20
   },
@@ -2821,5 +2788,53 @@
     "speaker": [ "mon_civilian_parent" ],
     "sound": "someone calling for their child.",
     "volume": 25
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_star_vampire", "mon_vocal_frog", "mon_vocal_bigfrog" ],
+    "sound": "a high-pitched tittering.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_peeper_frog", "mon_vocal_frog", "mon_vocal_bigfrog" ],
+    "sound": "a series of rising peeps.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_peeper_frog", "mon_vocal_frog", "mon_vocal_bigfrog" ],
+    "sound": "a steady patter of light, whistling chirps.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vocal_frog" ],
+    "sound": "a long, soft squeak.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vocal_bigfrog" ],
+    "sound": "a loud and guttural wailing.",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vocal_bigfrog" ],
+    "sound": "a deep glottal shout.",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vocal_bigfrog" ],
+    "sound": "a quick, rising yell.",
+    "volume": 50
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_vocal_bigfrog" ],
+    "sound": "a reverberating, open-throated scream.",
+    "volume": 70
   }
 ]

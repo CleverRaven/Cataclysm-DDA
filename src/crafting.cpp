@@ -43,7 +43,6 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
-#include "item_pocket.h"
 #include "item_stack.h"
 #include "itype.h"
 #include "iuse.h"
@@ -60,6 +59,7 @@
 #include "output.h"
 #include "pimpl.h"
 #include "player_activity.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "proficiency.h"
 #include "recipe.h"
@@ -86,6 +86,7 @@ static const activity_id ACT_DISASSEMBLE( "ACT_DISASSEMBLE" );
 static const activity_id ACT_MULTIPLE_CRAFT( "ACT_MULTIPLE_CRAFT" );
 
 static const efftype_id effect_contacts( "contacts" );
+static const efftype_id effect_transition_contacts( "transition_contacts" );
 
 static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_plut_cell( "plut_cell" );
@@ -136,6 +137,14 @@ static bool crafting_allowed( const Character &p, const recipe &rec )
             add_msg_if_player_sees( p.pos(), m_info, _( "%s can't see to craft!" ),
                                     p.get_name() );
         }
+        return false;
+    }
+
+    if( p.is_driving() ) {
+        // One day, NPCs may be able to drive.
+        p.add_msg_player_or_npc( m_info,
+                                 _( "You can't craft while driving!" ),
+                                 _( "<npcname> refuses to violate road safety guidelines by crafting while driving!" ) );
         return false;
     }
 
@@ -273,16 +282,20 @@ float Character::workbench_crafting_speed_multiplier( const item &craft,
     }
 
     multiplier *= lerped_multiplier( craft_mass, allowed_mass, 1000_kilogram );
-    multiplier *= lerped_multiplier( craft_volume, allowed_volume, 1000_liter );
+    multiplier *= lerped_multiplier( craft_volume, allowed_volume, DEFAULT_TILE_VOLUME );
 
     return multiplier;
 }
 
 float Character::crafting_speed_multiplier( const recipe &rec ) const
 {
-    const float result = morale_crafting_speed_multiplier( rec ) *
-                         lighting_craft_speed_multiplier( rec ) *
-                         get_limb_score( limb_score_manip );
+    float crafting_speed = morale_crafting_speed_multiplier( rec ) *
+                           lighting_craft_speed_multiplier( rec ) *
+                           get_limb_score( limb_score_manip );
+
+    const float result = enchantment_cache->modify_value( enchant_vals::mod::CRAFTING_SPEED_MULTIPLIER,
+                         crafting_speed );
+
     add_msg_debug( debugmode::DF_CHARACTER, "Limb score multiplier %.1f, crafting speed multiplier %1f",
                    get_limb_score( limb_score_manip ), result );
 
@@ -305,7 +318,8 @@ float Character::crafting_speed_multiplier( const item &craft,
                                 cached_workbench_multiplier > 0.0f ) ? cached_workbench_multiplier :
                               workbench_crafting_speed_multiplier( craft, loc );
     const float morale_multi = morale_crafting_speed_multiplier( rec );
-    const float mut_multi = mutation_value( "crafting_speed_multiplier" );
+    const float mut_multi = 1.0 + enchantment_cache->get_value_multiply(
+                                enchant_vals::mod::CRAFTING_SPEED_MULTIPLIER );
 
     const float total_multi = light_multi * bench_multi * morale_multi * mut_multi *
                               get_limb_score( limb_score_manip );
@@ -326,7 +340,7 @@ float Character::crafting_speed_multiplier( const item &craft,
 
     // If we're working below 20% speed, just give up
     if( total_multi <= 0.2f ) {
-        add_msg_if_player( m_bad, _( "You are too frustrated to continue and just give up." ) );
+        add_msg_if_player( m_bad, _( "Your progress is so slow that you give up in frustration." ) );
         return 0.0f;
     }
 
@@ -356,15 +370,16 @@ void Character::craft( const std::optional<tripoint> &loc, const recipe_id &goto
                        const std::string &filterstring )
 {
     int batch_size = 0;
-    const recipe *rec = select_crafting_recipe( batch_size, goto_recipe, *this, filterstring );
+    const auto [crafter, rec] = select_crafter_and_crafting_recipe( batch_size, goto_recipe, this,
+                                filterstring );
     if( rec ) {
         std::string reason;
         if( is_npc() && !rec->npc_can_craft( reason ) ) {
             add_msg( m_info, reason );
             return;
         }
-        if( crafting_allowed( *this, *rec ) ) {
-            make_craft( rec->ident(), batch_size, loc );
+        if( crafting_allowed( *crafter, *rec ) ) {
+            crafter->make_craft( rec->ident(), batch_size, loc );
         }
     }
 }
@@ -381,10 +396,10 @@ void Character::recraft( const std::optional<tripoint> &loc )
 void Character::long_craft( const std::optional<tripoint> &loc, const recipe_id &goto_recipe )
 {
     int batch_size = 0;
-    const recipe *rec = select_crafting_recipe( batch_size, goto_recipe, *this );
+    const auto [crafter, rec] = select_crafter_and_crafting_recipe( batch_size, goto_recipe, this );
     if( rec ) {
-        if( crafting_allowed( *this, *rec ) ) {
-            make_all_craft( rec->ident(), batch_size, loc );
+        if( crafting_allowed( *crafter, *rec ) ) {
+            crafter->make_all_craft( rec->ident(), batch_size, loc );
         }
     }
 }
@@ -412,16 +427,16 @@ bool Character::making_would_work( const recipe_id &id_to_make, int batch_size )
 }
 
 int Character::available_assistant_count( const recipe &rec ) const
-// NPCs around you should assist in batch production if they have the skills
+// Characters around you should assist in batch production if they have the skills
 {
     if( rec.is_practice() ) {
         return 0;
     }
     // TODO: Cache them in activity, include them in modifier calculations
-    const auto helpers = get_crafting_helpers();
+    const std::vector<Character *> helpers = get_crafting_helpers();
     return std::count_if( helpers.begin(), helpers.end(),
-    [&]( const npc * np ) {
-        return np->get_skill_level( rec.skill_used ) >= rec.difficulty;
+    [&]( const Character * guy ) {
+        return guy->get_skill_level( rec.skill_used ) >= rec.difficulty;
     } );
 }
 
@@ -503,7 +518,7 @@ static std::vector<const item *> get_eligible_containers_recursive( const item &
     if( is_container_eligible_for_crafting( cont, allow_bucket ) ) {
         ret.push_back( &cont );
     }
-    for( const item *it : cont.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+    for( const item *it : cont.all_items_top( pocket_type::CONTAINER ) ) {
         //buckets are never allowed when inside another container
         std::vector<const item *> inside = get_eligible_containers_recursive( *it, false );
         ret.insert( ret.end(), inside.begin(), inside.end() );
@@ -558,7 +573,7 @@ bool Character::can_make( const recipe *r, int batch_size ) const
 {
     const inventory &crafting_inv = crafting_inventory();
 
-    if( !has_recipe( r, crafting_inv, get_crafting_helpers() ) ) {
+    if( !has_recipe( r, crafting_inv, get_crafting_group() ) ) {
         return false;
     }
 
@@ -602,7 +617,8 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
         && moves == crafting_cache.moves
         && radius == crafting_cache.radius
         && calendar::turn == crafting_cache.time
-        && inv_pos == crafting_cache.position ) {
+        && inv_pos == crafting_cache.position
+      ) {
         return *crafting_cache.crafting_inventory;
     }
     crafting_cache.crafting_inventory->clear();
@@ -933,9 +949,9 @@ bool Character::craft_skill_gain( const item &craft, const int &num_practice_tic
 
     const int skill_cap = making.get_skill_cap();
     const int batch_size = craft.get_making_batch_size();
-    // NPCs assisting or watching should gain experience...
-    for( npc *helper : get_crafting_helpers() ) {
-        // If the NPC can understand what you are doing, they gain more exp
+    // Characters assisting or watching should gain experience...
+    for( Character *helper : get_crafting_helpers() ) {
+        // If the Character can understand what you are doing, they gain more exp
         if( helper->get_skill_level( making.skill_used ) >= making.difficulty ) {
             helper->practice( making.skill_used, roll_remainder( num_practice_ticks / 2.0 ),
                               skill_cap );
@@ -984,8 +1000,7 @@ bool Character::craft_proficiency_gain( const item &craft, const time_duration &
         std::optional<time_duration> max_experience;
     };
 
-    const std::vector<npc *> helpers = get_crafting_helpers();
-    std::vector<Character *> all_crafters{ helpers.begin(), helpers.end() };
+    std::vector<Character *> all_crafters = get_crafting_helpers();
     all_crafters.push_back( this );
 
     bool player_gained_prof = false;
@@ -1057,7 +1072,8 @@ float Character::get_recipe_weighted_skill_average( const recipe &making ) const
     // farsightedness can impose a penalty on electronics and tailoring success
     // This should be changed to a json-defined penalty by skill (vision_penalty) in skills.json
     if( has_flag( json_flag_HYPEROPIC ) && !worn_with_flag( flag_FIX_FARSIGHT ) &&
-        !has_effect( effect_contacts ) ) {
+        !has_effect( effect_contacts ) &&
+        !has_effect( effect_transition_contacts ) ) {
         float vision_penalty = 0.0f;
         if( making.skill_used == skill_electronics ) {
             vision_penalty = 2.0f;
@@ -1105,31 +1121,31 @@ Character::craft_roll_data Character::recipe_success_roll_data( const recipe &ma
         player_weighted_skill_average *= -1;
     }
 
-    float npc_helpers_weighted_average = 0.0f;
-    for( const npc *np : get_crafting_helpers() ) {
-        // can the NPC actually craft this recipe?
-        bool has_all_skills = np->get_skill_level( making.skill_used ) >= making.difficulty;
+    float helpers_weighted_average = 0.0f;
+    for( const Character *guy : get_crafting_helpers() ) {
+        // can they actually craft this recipe?
+        bool has_all_skills = guy->get_skill_level( making.skill_used ) >= making.difficulty;
         if( has_all_skills ) {
             for( const std::pair<const skill_id, int> &secondary_skills : making.required_skills ) {
-                if( np->get_skill_level( secondary_skills.first ) < secondary_skills.second ) {
+                if( guy->get_skill_level( secondary_skills.first ) < secondary_skills.second ) {
                     has_all_skills = false;
                 }
             }
         }
-        if( has_all_skills && !making.character_has_required_proficiencies( *np ) ) {
+        if( has_all_skills && !making.character_has_required_proficiencies( *guy ) ) {
             has_all_skills = false;
         }
         if( has_all_skills ) {
-            const float helper_skill_average = std::max( np->get_recipe_weighted_skill_average( making ),
+            const float helper_skill_average = std::max( guy->get_recipe_weighted_skill_average( making ),
                                                0.0f );
-            npc_helpers_weighted_average += std::pow( helper_skill_average, 2 );
-            add_msg_if_player( m_info, _( "%s helps with crafting…" ), np->name );
+            helpers_weighted_average += std::pow( helper_skill_average, 2 );
+            add_msg_if_player( m_info, _( "%s helps with crafting…" ), guy->name );
         }
     }
 
     // Use a sum of squares to determine the final weighted average.
     negative = false;
-    float summed_skills = player_weighted_skill_average + npc_helpers_weighted_average;
+    float summed_skills = player_weighted_skill_average + helpers_weighted_average;
     if( summed_skills < 0 ) {
         negative = true;
         // Store that it was negative to reapply later, then make it positive because we need a sqrt.
@@ -1500,7 +1516,9 @@ void Character::complete_craft( item &craft, const std::optional<tripoint> &loc 
     for( const effect_on_condition_id &eoc : making.result_eocs ) {
         dialogue d( get_talker_for( *this ), nullptr );
         if( eoc->type == eoc_type::ACTIVATION ) {
-            eoc->activate( d );
+            for( int i = 0; i < batch_size; i++ ) {
+                eoc->activate( d );
+            }
         } else {
             debugmsg( "Must use an activation eoc for a recipe.  If you don't want the effect_on_condition to happen on its own, remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this recipe with its condition and effects, then have a recurring one queue it." );
         }
@@ -1706,6 +1724,10 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
         const std::function<bool( const item & )> &filter, bool player_inv, bool npc_query,
         const recipe *rec )
 {
+    std::function<bool( const item & )> preferred_component_filter = [&filter]( const item & it ) {
+        return is_preferred_component( it ) && filter( it );
+    };
+
     Character &player_character = get_player_character();
     std::vector<std::pair<item_comp, std::optional<nc_color>>> player_has;
     std::vector<std::pair<item_comp, std::optional<nc_color>>> map_has;
@@ -1718,7 +1740,7 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
         int count = ( component.count > 0 ) ? component.count * batch : std::abs( component.count );
 
         if( item::count_by_charges( type ) && count > 0 ) {
-            int map_charges = map_inv.charges_of( type, INT_MAX, filter );
+            int map_charges = map_inv.charges_of( type, INT_MAX, preferred_component_filter );
 
             // If map has infinite charges, just use them
             if( map_charges == item::INFINITE_CHARGES ) {
@@ -1727,20 +1749,39 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
                 return selected;
             }
             if( player_inv ) {
-                int player_charges = charges_of( type, INT_MAX, filter );
-                bool found = false;
+                int player_charges = charges_of( type, INT_MAX, preferred_component_filter );
                 if( player_charges >= count ) {
                     player_has.emplace_back( component, std::nullopt );
-                    found = true;
-                }
-                if( map_charges >= count ) {
+                } else if( map_charges >= count ) {
                     map_has.emplace_back( component, std::nullopt );
-                    found = true;
+                } else {
+                    if( player_charges + map_charges >= count ) {
+                        mixed.emplace_back( component, std::nullopt );
+                    } else {
+                        bool found = false;
+                        player_charges = charges_of( type, INT_MAX, filter );
+
+                        if( player_charges >= count ) {
+                            player_has.emplace_back( component, std::nullopt );
+                            found = true;
+                        } else {
+                            map_charges = map_inv.charges_of( type, INT_MAX, filter );
+
+                            if( map_charges >= count ) {
+                                map_has.emplace_back( component, std::nullopt );
+                                found = true;
+                            }
+                        }
+
+                        if( !found && player_charges + map_charges >= count ) {
+                            mixed.emplace_back( component, std::nullopt );
+                        }
+                    }
                 }
-                if( !found && player_charges + map_charges >= count ) {
-                    mixed.emplace_back( component, std::nullopt );
-                }
+
             } else {
+                map_charges = map_inv.charges_of( type, INT_MAX, filter );
+
                 if( map_charges >= count ) {
                     map_has.emplace_back( component, std::nullopt );
                 }
@@ -1749,42 +1790,23 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
 
             // Can't use pseudo items as components
             if( player_inv ) {
-                bool found = false;
                 const item item_sought( type );
                 if( ( item_sought.is_software() && count_softwares( type ) > 0 ) ||
-                    has_amount( type, count, false, filter ) ) {
-                    std::optional<nc_color> colr = std::nullopt;
-                    if( !has_amount( type, count, false, [&filter]( const item & it ) {
-                    return filter( it ) && ( it.is_container_empty() || !it.is_watertight_container() );
-                    } ) ) {
-                        colr = c_magenta;
-                    }
-                    player_has.emplace_back( component, colr );
-                    found = true;
-                }
-                if( map_inv.has_components( type, count, filter ) ) {
-                    std::optional<nc_color> colr = std::nullopt;
-                    if( !map_inv.has_components( type, count, [&filter]( const item & it ) {
-                    return filter( it ) && ( it.is_container_empty() || !it.is_watertight_container() );
-                    } ) ) {
-                        colr = c_magenta;
-                    }
-                    map_has.emplace_back( component, colr );
-                    found = true;
-                }
-                if( !found &&
-                    amount_of( type, false, std::numeric_limits<int>::max(), filter ) +
-                    map_inv.amount_of( type, false, std::numeric_limits<int>::max(), filter ) >= count ) {
-                    std::optional<nc_color> colr = std::nullopt;
-                    if( amount_of( type, false, std::numeric_limits<int>::max(), [&filter]( const item & it ) {
-                    return filter( it ) && ( it.is_container_empty() || !it.is_watertight_container() );
-                    } ) + map_inv.amount_of( type, false,
-                    std::numeric_limits<int>::max(), [&filter]( const item & it ) {
-                        return filter( it ) && ( it.is_container_empty() || !it.is_watertight_container() );
-                    } ) < count ) {
-                        colr = c_magenta;
-                    }
-                    mixed.emplace_back( component, colr );
+                    has_amount( type, count, false, preferred_component_filter ) ) {
+                    player_has.emplace_back( component, std::nullopt );
+                } else if( map_inv.has_components( type, count, preferred_component_filter ) ) {
+                    map_has.emplace_back( component, std::nullopt );
+                } else if( amount_of( type, false, std::numeric_limits<int>::max(), preferred_component_filter ) +
+                           map_inv.amount_of( type, false, std::numeric_limits<int>::max(),
+                                              preferred_component_filter ) >= count ) {
+                    mixed.emplace_back( component, std::nullopt );
+                } else if( has_amount( type, count, false, filter ) ) {
+                    player_has.emplace_back( component, c_magenta );
+                } else if( map_inv.has_components( type, count, filter ) ) {
+                    map_has.emplace_back( component, c_magenta );
+                } else if( amount_of( type, false, std::numeric_limits<int>::max(), filter ) +
+                           map_inv.amount_of( type, false, std::numeric_limits<int>::max(), filter ) >= count ) {
+                    mixed.emplace_back( component, c_magenta );
                 }
             } else {
                 if( map_inv.has_components( type, count, filter ) ) {
@@ -1982,13 +2004,7 @@ static void empty_buckets( Character &p )
 std::list<item> Character::consume_items( const comp_selection<item_comp> &is, int batch,
         const std::function<bool( const item & )> &filter, bool select_ind )
 {
-    return consume_items( get_map(), is, batch, filter, pos(), PICKUP_RANGE, select_ind );
-}
-
-std::list<item> Character::consume_items( map &m, const comp_selection<item_comp> &is, int batch,
-        const std::function<bool( const item & )> &filter, const tripoint &origin, int radius,
-        bool select_ind )
-{
+    map &m = get_map();
     std::list<item> ret;
 
     if( has_trait( trait_DEBUG_HS ) ) {
@@ -1996,7 +2012,7 @@ std::list<item> Character::consume_items( map &m, const comp_selection<item_comp
     }
     // populate a grid of spots that can be reached
     std::vector<tripoint> reachable_pts;
-    m.reachable_flood_steps( reachable_pts, origin, radius, 1, 100 );
+    m.reachable_flood_steps( reachable_pts, pos(), PICKUP_RANGE, 1, 100 );
     return consume_items( m, is, batch, filter, reachable_pts, select_ind );
 }
 
@@ -2004,6 +2020,10 @@ std::list<item> Character::consume_items( map &m, const comp_selection<item_comp
         const std::function<bool( const item & )> &filter, const std::vector<tripoint> &reachable_pts,
         bool select_ind )
 {
+    auto preferred_filter = [&filter]( const item & it ) {
+        return filter( it ) && is_preferred_component( it );
+    };
+
     std::list<item> ret;
 
     if( has_trait( trait_DEBUG_HS ) ) {
@@ -2016,28 +2036,62 @@ std::list<item> Character::consume_items( map &m, const comp_selection<item_comp
     // Count given to use_amount/use_charges, changed by those functions!
     int real_count = ( selected_comp.count > 0 ) ? selected_comp.count * batch : std::abs(
                          selected_comp.count );
-    // First try to get everything from the map, than (remaining amount) from player
+
+    // First try to get everything from the map, then (remaining amount) from player in two passes, first using preferred items and then remainder ones.
     if( is.use_from & usage_from::map ) {
         if( by_charges ) {
-            std::list<item> tmp = m.use_charges( reachable_pts, selected_comp.type, real_count, filter );
+            std::list<item> tmp = m.use_charges( reachable_pts, selected_comp.type, real_count,
+                                                 preferred_filter );
             ret.splice( ret.end(), tmp );
         } else {
-            std::list<item> tmp = m.use_amount( reachable_pts, selected_comp.type, real_count, filter,
+            std::list<item> tmp = m.use_amount( reachable_pts, selected_comp.type, real_count, preferred_filter,
                                                 select_ind );
             remove_ammo( tmp, *this );
             ret.splice( ret.end(), tmp );
         }
     }
+
     if( is.use_from & usage_from::player ) {
         if( by_charges ) {
-            std::list<item> tmp = use_charges( selected_comp.type, real_count, filter );
+            std::list<item> tmp = use_charges( selected_comp.type, real_count, preferred_filter );
+            for( const item &it : tmp ) {
+                real_count -= it.charges;  // The use_charges operation above doesn't deduct what's been used...
+            }
             ret.splice( ret.end(), tmp );
         } else {
-            std::list<item> tmp = use_amount( selected_comp.type, real_count, filter, select_ind );
+            std::list<item> tmp = use_amount( selected_comp.type, real_count, preferred_filter, select_ind );
+            real_count -= tmp.size();  // The use_amount operation above doesn't deduct what's been used...
             remove_ammo( tmp, *this );
             ret.splice( ret.end(), tmp );
         }
     }
+
+    if( real_count > 0 ) {
+        if( is.use_from & usage_from::map ) {
+            if( by_charges ) {
+                std::list<item> tmp = m.use_charges( reachable_pts, selected_comp.type, real_count, filter );
+                ret.splice( ret.end(), tmp );
+            } else {
+                std::list<item> tmp = m.use_amount( reachable_pts, selected_comp.type, real_count, filter,
+                                                    select_ind );
+                remove_ammo( tmp, *this );
+                ret.splice( ret.end(), tmp );
+            }
+        }
+        if( is.use_from & usage_from::player ) {
+            if( by_charges ) {
+                std::list<item> tmp = use_charges( selected_comp.type, real_count, filter );
+                // The use_charges operation above doesn't deduct what's been used, but we're not going to use real_count again.
+                ret.splice( ret.end(), tmp );
+            } else {
+                std::list<item> tmp = use_amount( selected_comp.type, real_count, filter, select_ind );
+                // The use_amount operation above doesn't deduct what's been used, but we're not going to use real_count again.
+                remove_ammo( tmp, *this );
+                ret.splice( ret.end(), tmp );
+            }
+        }
+    }
+
     // Merge charges for items that stack with each other
     if( by_charges && ret.size() > 1 ) {
         for( auto outer = std::begin( ret ); outer != std::end( ret ); ++outer ) {
@@ -2364,7 +2418,7 @@ void Character::consume_tools( map &m, const comp_selection<tool_comp> &tool, in
         m.use_charges( reachable_pts, tool.comp.type, quantity, return_true<item>, bcp );
         // Map::use_charges() does not handle UPS charges.
         if( quantity > 0 ) {
-            m.consume_ups( reachable_pts, units::from_kilojoule( quantity ) );
+            m.consume_ups( reachable_pts, units::from_kilojoule( static_cast<std::int64_t>( quantity ) ) );
         }
     }
 
@@ -2969,13 +3023,25 @@ void remove_ammo( item &dis_item, Character &p )
     }
 }
 
-std::vector<npc *> Character::get_crafting_helpers() const
+std::vector<Character *> Character::get_crafting_helpers() const
 {
-    return g->get_npcs_if( [this]( const npc & guy ) {
+    return g->get_characters_if( [this]( const Character & guy ) {
         // NPCs can help craft if awake, taking orders, within pickup range and have clear path
-        return getID() != guy.getID() && !guy.in_sleep_state() && guy.is_obeying( *this ) &&
-               rl_dist( guy.pos(), pos() ) < PICKUP_RANGE &&
-               get_map().clear_path( pos(), guy.pos(), PICKUP_RANGE, 1, 100 );
+        return getID() != guy.getID()
+               && guy.is_npc()
+               && !guy.in_sleep_state()
+               && guy.is_obeying( *this )
+               && rl_dist( guy.pos(), pos() ) < PICKUP_RANGE
+               && get_map().clear_path( pos(), guy.pos(), PICKUP_RANGE, 1, 100 );
+    } );
+}
+
+std::vector<Character *> Character::get_crafting_group() const
+{
+    return g->get_characters_if( [this]( const Character & guy ) {
+        return guy.is_ally( *this )
+               && rl_dist( guy.pos(), pos() ) < PICKUP_RANGE
+               && get_map().clear_path( pos(), guy.pos(), PICKUP_RANGE, 1, 100 );
     } );
 }
 

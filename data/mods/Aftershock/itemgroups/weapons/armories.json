@@ -11,6 +11,13 @@
     ]
   },
   {
+    "//": "A group for Aftershock gun vendors.",
+    "id": "afs_civilian_armory",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ { "group": "afs_civilian_energy_weapon_armory", "prob": 3 }, { "group": "afs_civilian_ballistic_armory", "prob": 3 } ]
+  },
+  {
     "id": "afs_grenade_armory",
     "type": "item_group",
     "subtype": "distribution",
@@ -35,6 +42,61 @@
       { "group": "afs_any_ballistic_mag", "prob": 2 },
       { "group": "afs_any_ballistic_ammo", "prob": 4 },
       { "group": "afs_shotgun_gunmod", "prob": 1 }
+    ]
+  },
+  {
+    "id": "afs_civilian_energy_weapon_armory",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "afs_civilian_energy_gun", "prob": 3 },
+      { "group": "afs_civilian_energy_mag", "prob": 2 },
+      { "group": "gunmod_energy", "prob": 2 }
+    ]
+  },
+  {
+    "id": "afs_civilian_ballistic_armory",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "afs_civilian_ballistic_gun", "prob": 6 },
+      { "group": "afs_any_ballistic_mag", "prob": 2 },
+      { "group": "afs_any_civilian_ballistic_ammo", "prob": 4 },
+      { "group": "afs_shotgun_gunmod", "prob": 1 }
+    ]
+  },
+  {
+    "id": "afs_augustmoon_guntrader_military_ammo",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "magazine": 100,
+    "items": [
+      [ "afs_25mm_apfsds", 10 ],
+      [ "afs_25mm_frag", 10 ],
+      [ "shot_flechette", 20 ],
+      [ "shot_he", 20 ],
+      [ "afs_4g_plasma", 20 ],
+      [ "afs_20g_plasma", 10 ],
+      [ "afs_cartridge", 10 ]
+    ]
+  },
+  {
+    "id": "afs_augustmoon_guntrader_military_gun",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "magazine": 100,
+    "items": [
+      [ "afs_Accipitermg", 20 ],
+      [ "afs_gibrifle", 40 ],
+      [ "afs_heavy_tactical_laser", 5 ],
+      [ "afs_pam-41", 10 ],
+      [ "afs_magnadrive_230k", 5 ],
+      [ "afs_marsec_t72", 2 ],
+      [ "afs_sr77", 10 ],
+      [ "afs_gibs_shotgun", 20 ],
+      [ "afs_raketa_shotgun", 20 ]
     ]
   }
 ]

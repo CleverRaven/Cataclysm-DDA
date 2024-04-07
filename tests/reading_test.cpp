@@ -6,7 +6,6 @@
 
 #include "avatar.h"
 #include "activity_actor_definitions.h"
-#include "activity_actor_definitions.h"
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
@@ -303,11 +302,11 @@ TEST_CASE( "reasons_for_not_being_able_to_read", "[reading][reasons]" )
     item_location alpha = dummy.i_add( item( "recipe_alpha" ) );
 
     SECTION( "you cannot read what is not readable" ) {
-        item_location rag = dummy.i_add( item( "rag" ) );
-        REQUIRE_FALSE( rag->is_book() );
+        item_location sheet_cotton = dummy.i_add( item( "sheet_cotton" ) );
+        REQUIRE_FALSE( sheet_cotton->is_book() );
 
-        CHECK( dummy.get_book_reader( *rag, reasons ) == nullptr );
-        expect_reasons = { "Your rag is not good reading material." };
+        CHECK( dummy.get_book_reader( *sheet_cotton, reasons ) == nullptr );
+        expect_reasons = { "Your cotton sheet is not good reading material." };
         CHECK( reasons == expect_reasons );
     }
 
@@ -402,9 +401,9 @@ TEST_CASE( "determining_book_mastery", "[reading][book][mastery]" )
     item_location alpha = dummy.i_add( item( "recipe_alpha" ) );
 
     SECTION( "you cannot determine mastery for non-book items" ) {
-        item_location rag = dummy.i_add( item( "rag" ) );
-        REQUIRE_FALSE( rag->is_book() );
-        CHECK( dummy.get_book_mastery( *rag ) == book_mastery::CANT_DETERMINE );
+        item_location sheet_cotton = dummy.i_add( item( "sheet_cotton" ) );
+        REQUIRE_FALSE( sheet_cotton->is_book() );
+        CHECK( dummy.get_book_mastery( *sheet_cotton ) == book_mastery::CANT_DETERMINE );
     }
     SECTION( "you cannot determine mastery for unidentified books" ) {
         REQUIRE( alpha->is_book() );
@@ -491,11 +490,11 @@ TEST_CASE( "reading_a_book_with_an_ebook_reader", "[reading][book][ereader]" )
         item_location ereader = dummy.i_add( item( "test_ebook_reader" ) );
 
         item book{"test_textbook_fabrication"};
-        ereader->put_in( book, item_pocket::pocket_type::EBOOK );
+        ereader->put_in( book, pocket_type::EBOOK );
 
         item battery( "test_battery_disposable" );
         battery.ammo_set( battery.ammo_default(), 100 );
-        ereader->put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
+        ereader->put_in( battery, pocket_type::MAGAZINE_WELL );
 
         THEN( "player can read the book" ) {
 
@@ -503,18 +502,27 @@ TEST_CASE( "reading_a_book_with_an_ebook_reader", "[reading][book][ereader]" )
             read_activity_actor actor( dummy.time_to_read( *booklc, dummy ), booklc, ereader, true );
             dummy.activity = player_activity( actor );
 
+            REQUIRE( ereader->ammo_remaining() == 100 );
+
             dummy.activity.start_or_resume( dummy, false );
             REQUIRE( dummy.activity.id() == ACT_READ );
+
+            CHECK( ereader->ammo_remaining() == 99 );
+
             dummy.activity.do_turn( dummy );
 
             CHECK( dummy.activity.id() == ACT_READ );
 
-            AND_THEN( "ereader runs out of battery" ) {
-                ereader->ammo_consume( 100, dummy.pos(), &dummy );
-                dummy.activity.do_turn( dummy );
+            AND_THEN( "ereader has spent a charge while reading" ) {
+                CHECK( ereader->ammo_remaining() == 98 );
 
-                THEN( "reading stops" ) {
-                    CHECK( dummy.activity.id() != ACT_READ );
+                AND_THEN( "ereader runs out of battery" ) {
+                    ereader->ammo_consume( ereader->ammo_remaining(), dummy.pos(), &dummy );
+                    dummy.activity.do_turn( dummy );
+
+                    THEN( "reading stops" ) {
+                        CHECK( dummy.activity.id() != ACT_READ );
+                    }
                 }
             }
         }

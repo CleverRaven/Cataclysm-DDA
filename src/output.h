@@ -596,7 +596,6 @@ std::string rewrite_vsnprintf( const char *msg );
 
 // TODO: move these elsewhere
 // string manipulations.
-void replace_name_tags( std::string &input );
 void replace_city_tag( std::string &input, const std::string &name );
 void replace_keybind_tag( std::string &input );
 
@@ -795,10 +794,10 @@ std::map<std::string, inclusive_rectangle<point>> draw_tabs( const catacurses::w
 // };
 // draw_tabs( w, tabs, current_tab );
 template<typename TabList, typename CurrentTab, typename = std::enable_if_t<
-             std::is_same<CurrentTab,
-                          std::remove_const_t<typename TabList::value_type::first_type>>::value>>
-std::map<CurrentTab, inclusive_rectangle<point>> draw_tabs( const catacurses::window &w,
-        const TabList &tab_list, const CurrentTab &current_tab )
+             std::is_same_v<CurrentTab,
+                            std::remove_const_t<typename TabList::value_type::first_type>>>>
+             std::map<CurrentTab, inclusive_rectangle<point>> draw_tabs( const catacurses::window &w,
+                     const TabList &tab_list, const CurrentTab &current_tab )
 {
     std::vector<std::string> tab_text;
     std::transform( tab_list.begin(), tab_list.end(), std::back_inserter( tab_text ),
@@ -827,10 +826,10 @@ std::map<CurrentTab, inclusive_rectangle<point>> draw_tabs( const catacurses::wi
 // Similar to the above, but where the order of tabs is specified separately
 // TabList is expected to be a map type.
 template<typename TabList, typename TabKeys, typename CurrentTab, typename = std::enable_if_t<
-             std::is_same<CurrentTab,
-                          std::remove_const_t<typename TabList::value_type::first_type>>::value>>
-std::map<CurrentTab, inclusive_rectangle<point>> draw_tabs( const catacurses::window &w,
-        const TabList &tab_list, const TabKeys &keys, const CurrentTab &current_tab )
+             std::is_same_v<CurrentTab,
+                            std::remove_const_t<typename TabList::value_type::first_type>>>>
+             std::map<CurrentTab, inclusive_rectangle<point>> draw_tabs( const catacurses::window &w,
+                     const TabList &tab_list, const TabKeys &keys, const CurrentTab &current_tab )
 {
     std::vector<typename TabList::value_type> ordered_tab_list;
     for( const auto &key : keys ) {
@@ -1055,7 +1054,7 @@ class scrolling_text_view
 class scrollingcombattext
 {
     public:
-        enum : int { iMaxSteps = 8 };
+        static constexpr int iMaxSteps = 8;
 
         scrollingcombattext() = default;
 
@@ -1168,6 +1167,9 @@ int get_terminal_height();
  * be a lot of switching around in the map drawing code.
  */
 bool is_draw_tiles_mode();
+
+int get_window_width();
+int get_window_height();
 
 /**
  * Make changes made to the display visible to the user immediately.

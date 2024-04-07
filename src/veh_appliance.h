@@ -2,12 +2,11 @@
 #ifndef CATA_SRC_VEH_APPLIANCE_H
 #define CATA_SRC_VEH_APPLIANCE_H
 
-#include "input.h"
+#include "input_context.h"
 #include "player_activity.h"
 
 class vehicle;
 class ui_adaptor;
-struct point;
 
 vpart_id vpart_appliance_from_item( const itype_id &item_id );
 void place_appliance( const tripoint &p, const vpart_id &vpart,
@@ -99,9 +98,9 @@ class veh_app_interact
         */
         bool can_siphon();
         /**
-         * Checks whether the current appliance has any power connections that
-         * can be disconnected by the player.
-         * @returns True if the appliance can be unplugged.
+         * Checks whether the current appliance is power storage
+         * or powergen or a cable and can thus be merged into a powergrid.
+         * @returns True if the appliance can be merged.
         */
         bool can_merge();
         /**

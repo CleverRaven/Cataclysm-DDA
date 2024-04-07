@@ -123,10 +123,10 @@ void computer::remove_value( const std::string &key )
     values.erase( key );
 }
 
-std::string computer::get_value( const std::string &key ) const
+std::optional<std::string> computer::maybe_get_value( const std::string &key ) const
 {
     auto it = values.find( key );
-    return ( it == values.end() ) ? "" : it->second;
+    return it == values.end() ? std::nullopt : std::optional<std::string> { it->second };
 }
 
 static computer_action computer_action_from_legacy_enum( int val );
@@ -339,6 +339,7 @@ std::string enum_to_string<computer_action>( const computer_action act )
         case COMPACT_GEIGER: return "geiger";
         case COMPACT_IRRADIATOR: return "irradiator";
         case COMPACT_LIST_BIONICS: return "list_bionics";
+        case COMPACT_LIST_MUTATIONS: return "list_mutations";
         case COMPACT_LOCK: return "lock";
         case COMPACT_MAP_SEWER: return "map_sewer";
         case COMPACT_MAP_SUBWAY: return "map_subway";

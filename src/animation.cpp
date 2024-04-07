@@ -800,7 +800,7 @@ void draw_sct_curses( const game &g )
             continue;
         }
 
-        const bool is_old = text.getStep() >= SCT.iMaxSteps / 2;
+        const bool is_old = text.getStep() >= scrollingcombattext::iMaxSteps / 2;
 
         nc_color const col1 = msgtype_to_color( text.getMsgType( "first" ),  is_old );
         nc_color const col2 = msgtype_to_color( text.getMsgType( "second" ), is_old );

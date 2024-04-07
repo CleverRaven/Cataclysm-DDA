@@ -3,12 +3,12 @@
     "type": "effect_on_condition",
     "id": "bio_drain",
     "recurrence": [ "30 minutes", "1 hours 30 minutes" ],
-    "condition": { "and": [ { "u_has_bionics": "bio_drain" }, { "compare_num": [ { "u_val": "power" }, ">=", { "power": "25 kJ" } ] } ] },
+    "condition": { "and": [ { "u_has_bionics": "bio_drain" }, { "math": [ "u_val('power')", ">=", "energy('25 kJ')" ] } ] },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_drain" } },
     "effect": [
       { "u_message": "Your batteries discharge slightly.", "type": "bad" },
       { "sound_effect": "elec_crackle_low", "id": "bionics", "volume": 100 },
-      { "arithmetic": [ { "u_val": "power" }, "-=", { "power": "25 kJ" } ] }
+      { "math": [ "u_val('power')", "-=", "energy('25 kJ')" ] }
     ]
   },
   {
@@ -51,15 +51,13 @@
     "type": "effect_on_condition",
     "id": "bio_shakes",
     "recurrence": [ "1 hours", "3 hours" ],
-    "condition": {
-      "and": [ { "u_has_bionics": "bio_shakes" }, { "compare_num": [ { "u_val": "power" }, ">=", { "power": "25 kJ" } ] } ]
-    },
+    "condition": { "and": [ { "u_has_bionics": "bio_shakes" }, { "math": [ "u_val('power')", ">=", "energy('25 kJ')" ] } ] },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_shakes" } },
     "effect": [
       { "u_message": "Your bionics short-circuit, causing you to tremble and shiver.", "type": "bad" },
       { "sound_effect": "elec_crackle_med", "id": "bionics", "volume": 100 },
       { "u_add_effect": "shakes", "duration": "5 minutes" },
-      { "arithmetic": [ { "u_val": "power" }, "-=", { "power": "25kJ" } ] }
+      { "math": [ "u_val('power')", "-=", "energy('25 kJ')" ] }
     ]
   },
   {
@@ -70,14 +68,14 @@
       "and": [
         { "u_has_bionics": "bio_glowy" },
         { "not": { "u_has_effect": "glowy_led" } },
-        { "compare_num": [ { "u_val": "power" }, ">=", { "power": "1 kJ" } ] }
+        { "math": [ "u_val('power')", ">=", "energy('1 kJ')" ] }
       ]
     },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_glowy" } },
     "effect": [
       { "u_message": "Your malfunctioning bionic starts to glow!", "type": "bad" },
       { "u_add_effect": "glowy_led", "duration": "5 minutes" },
-      { "arithmetic": [ { "u_val": "power" }, "-=", { "power": "1kJ" } ] }
+      { "math": [ "u_val('power')", "-=", "energy('1 kJ')" ] }
     ]
   },
   {
@@ -86,7 +84,7 @@
     "recurrence": [ "25 minutes", "1 hours 15 minutes" ],
     "condition": { "and": [ { "u_has_bionics": "bio_sleepy" }, { "not": { "u_has_effect": "sleep" } } ] },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_sleepy" } },
-    "effect": [ { "arithmetic": [ { "u_val": "fatigue" }, "++" ] } ]
+    "effect": { "math": [ "u_val('sleepiness')", "++" ] }
   },
   {
     "type": "effect_on_condition",
@@ -143,5 +141,17 @@
     "condition": { "u_has_bionics": "bio_leaky" },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_leaky" } },
     "effect": [ { "u_mod_healthy": -1, "cap": -200 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIO_SONAR_activated",
+    "condition": { "and": [ { "not": { "u_has_effect": "subaquatic_sonar" } }, { "u_has_bionics": "bio_sonar" } ] },
+    "effect": [ { "u_add_effect": "subaquatic_sonar", "duration": "PERMANENT" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIO_SONAR_deactivated",
+    "condition": { "u_has_effect": "subaquatic_sonar" },
+    "effect": [ { "u_lose_effect": "subaquatic_sonar" } ]
   }
 ]

@@ -120,18 +120,6 @@
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
-    "id": "mon_cockatrice",
-    "type": "MONSTER",
-    "copy-from": "mon_cockatrice",
-    "name": { "str": "cockatrice" },
-    "petfood": {
-      "food": [ "BIRDFOOD" ],
-      "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
-      "pet": "The %s runs around your leg."
-    },
-    "extend": { "flags": [ "CANPLAY" ] }
-  },
-  {
     "id": "mon_pigeon",
     "type": "MONSTER",
     "copy-from": "mon_pigeon",

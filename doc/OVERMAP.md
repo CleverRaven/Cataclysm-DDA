@@ -233,7 +233,7 @@ rotation for the referenced overmap terrains (e.g. the `_north` version for all)
 | `looks_like`      | Id of another overmap terrain to be used for the graphical tile, if this doesn't have one.       |
 | `connect_group`   | Specify that this overmap terrain might be graphically connected to its neighbours, should a tileset wish to.  It will connect to any other `overmap_terrain` with the same `connect_group`. |
 | `see_cost`        | Affects player vision on overmap. Higher values obstruct vision more.                            |
-| `travel_cost`     | Affects pathfinding cost. Higher values are harder to travel through (reference: Forest = 10 )   |
+| `travel_cost_type` | How to treat this location when planning a route using autotravel on the overmap. Valid values are `road`,`field`,`dirt_road`,`trail`,`forest`,`shore`,`swamp`,`water`,`air`,`impassable`,`other`. Some types are harder to travel through with different types of vehicles, or on foot. |
 | `extras`          | Reference to a named `map_extras` in region_settings, defines which map extras can be applied.   |
 | `mondensity`      | Summed with values for adjacent overmap terrains to influence density of monsters spawned here.  |
 | `spawns`          | Spawns added once at mapgen. Monster group, % chance, population range (min/max).                |
@@ -272,10 +272,11 @@ an exhaustive example...
     "mapgen_end": [ { "method": "builtin", "name": "road_end" } ],
     "mapgen_tee": [ { "method": "builtin", "name": "road_tee" } ],
     "mapgen_four_way": [ { "method": "builtin", "name": "road_four_way" } ],
+    "travel_cost_type": "field",
     "eoc": {
-      "id": "EOC_REFUGEE_CENTER_GENERATE",
-      "condition": { "compare_num": [ { "global_val": "var", "var_name": "refugee_centers", "default": 0 }, "<", { "const": 1 } ] },
-      "effect": [ { "arithmetic": [ { "global_val": "var", "var_name": "refugee_centers" }, "++" ] } ]
+      "id": "EOC_REFUGEE_CENTER_GENERATE", 
+      "condition": { "math": [ "refugee_centers", "<", "1" ] }, 
+      "effect": [ { "math": [ "refugee_centers", "++" ] } ]
     }
 }
 ```
@@ -389,6 +390,7 @@ original intersection.
 | `city_distance` | Min/max distance from a city edge that the special may be placed. Use -1 for unbounded.               |
 | `city_sizes`    | Min/max city size for a city that the special may be placed near. Use -1 for unbounded.               |
 | `occurrences`   | Min/max number of occurrences when placing the special. If UNIQUE flag is set, becomes X of Y chance. |
+| `priority`      | **Warning: Do not use this unnecessarily.** The generation process is executed in the order of specials with the highest value. Can be used when maps are difficult to generate. (large maps, maps that are or require dependencies etc) It is **strongly recommended** to set it to 1 (HIGH priority) or -1 (LOW priority) if used. (default = 0) |
 | `flags`         | See `Overmap specials` in [JSON_FLAGS.md](JSON_FLAGS.md).                                             |
 | `rotate`        | Whether the special can rotate. True if not specified.                                                |
 
@@ -437,11 +439,11 @@ Depending on the subtype, there are further relevant fields:
 
 ### Fixed special overmaps
 
-| Identifier  |                                Description                                 |
-| ----------- | -------------------------------------------------------------------------- |
-| `point`     | `[ x, y, z]` of the overmap terrain within the special.                    |
-| `overmap`   | Id of the `overmap_terrain` to place at the location.                      |
-| `locations` | List of `overmap_location` ids that this overmap terrain may be placed on. |
+| Identifier  |                                                                                      Description                                                                                           |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `point`     | `[ x, y, z]` of the overmap terrain within the special.                                                                                                                                    |
+| `overmap`   | Id of the `overmap_terrain` to place at the location. If ommited no overmap_terrain is placed but the point will still be checked for valid locations when deciding if placement is valid. |
+| `locations` | List of `overmap_location` ids that this overmap terrain may be placed on. Overrides the specials overall `locations` field.                                                               |
 
 ### Connections
 
@@ -451,7 +453,7 @@ Depending on the subtype, there are further relevant fields:
 | `terrain`    | Will go away in favor of `connection` eventually. Use `road`, `subway`, `sewer`, etc.              |
 | `connection` | Id of the `overmap_connection` to build. Optional for now, but you should specify it explicitly.   |
 | `from`       | Optional point `[ x, y, z]` within the special to treat as the origin of the connection.           |
-| `existing`   | Boolean, default false. If the special requires a preexisting terrain to spawn.				          	|
+| `existing`   | Boolean, default false. If the special requires a preexisting terrain to spawn.                    |
 
 ### Example mutable special
 

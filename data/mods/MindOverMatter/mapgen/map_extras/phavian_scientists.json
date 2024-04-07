@@ -62,7 +62,7 @@
     "subtype": "collection",
     "id": "map_extra_phavian_science_corpse",
     "container-item": "corpse_generic_human",
-    "//": "Half the time a wallet with an id card, all the time a lab coat",
+    "//": "Half the time a wallet with an id card, all the time a lab coat, small chance of psi reseach to tantalize",
     "entries": [
       { "group": "wallets_phavian", "prob": 50 },
       { "item": "coat_lab", "damage": [ 1, 3 ] },
@@ -71,7 +71,9 @@
       { "group": "socks_unisex", "damage": [ 1, 3 ] },
       { "group": "lab_shoes", "damage": [ 1, 3 ] },
       { "group": "lab_torso", "damage": [ 1, 3 ] },
-      { "group": "underwear", "damage": [ 1, 3 ] }
+      { "group": "underwear", "damage": [ 1, 3 ] },
+      { "item": "lab_postit_psi", "prob": 15 },
+      { "group": "dist_lab_file_phavian_psi_research_any", "prob": 3 }
     ]
   }
 ]

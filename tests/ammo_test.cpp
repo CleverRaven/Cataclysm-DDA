@@ -123,7 +123,7 @@ TEST_CASE( "ammo_types", "[ammo][ammo_types]" )
         CHECK( has_ammo_types( item( "m1911" ) ) );
         CHECK( has_ammo_types( item( "usp_9mm" ) ) );
         CHECK( has_ammo_types( item( "tommygun" ) ) );
-        CHECK( has_ammo_types( item( "ak74" ) ) );
+        CHECK( has_ammo_types( item( "ak74_semi" ) ) );
         CHECK( has_ammo_types( item( "ak47" ) ) );
     }
 
@@ -192,11 +192,9 @@ TEST_CASE( "ammo_default", "[ammo][ammo_default]" )
         // GUN type items with integral magazine
         item slingshot( "slingshot" );
         item colt( "colt_army" );
-        item lemat( "lemat_revolver" );
         CHECK( slingshot.ammo_default() == itype_pebble );
         // Revolver ammo is "44paper" but default ammunition type is "44army"
         CHECK( colt.ammo_default() == itype_44army );
-        CHECK( lemat.ammo_default() == itype_44army );
     }
 }
 
@@ -210,7 +208,7 @@ TEST_CASE( "barrel_test", "[ammo][weapon]" )
     SECTION( "basic ammo and mod length test" ) {
         item base_gun( "test_glock_super_long" );
         item gun_mod( "barrel_glock_short" );
-        REQUIRE( base_gun.put_in( gun_mod, item_pocket::pocket_type::MOD ).success() );
+        REQUIRE( base_gun.put_in( gun_mod, pocket_type::MOD ).success() );
         REQUIRE( base_gun.barrel_length().value() == 100 );
         CHECK( base_gun.gun_damage( itype_test_100mm_ammo ).total_damage() == 60 );
     }

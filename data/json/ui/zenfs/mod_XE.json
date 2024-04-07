@@ -1,0 +1,142 @@
+[
+  {
+    "id": "zenfs_blood",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_blood_label", "zenfs_blood_level" ]
+  },
+  {
+    "id": "zenfs_blood_B",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_blood_label_B", "zenfs_blood_level" ],
+    "padding": 0
+  },
+  {
+    "id": "zenfs_blood_label",
+    "type": "widget",
+    "style": "text",
+    "width": 5,
+    "clauses": [
+      { "id": "not_infected", "text": "     ", "color": "black", "condition": { "not": { "u_has_effect": "vampire_virus" } } },
+      { "id": "slumber", "text": "Blood", "color": "light_gray", "condition": { "u_has_effect": "vampire_virus" } }
+    ],
+    "padding": 0,
+    "flags": [ "W_NO_PADDING" ]
+  },
+  {
+    "id": "zenfs_blood_label_B",
+    "type": "widget",
+    "style": "text",
+    "width": 1,
+    "clauses": [
+      { "id": "not_infected", "text": " ", "color": "black", "condition": { "not": { "u_has_effect": "vampire_virus" } } },
+      { "id": "slumber", "text": "B", "color": "light_gray", "condition": { "u_has_effect": "vampire_virus" } }
+    ],
+    "padding": 0,
+    "flags": [ "W_NO_PADDING" ]
+  },
+  {
+    "id": "zenfs_blood_level",
+    "type": "widget",
+    "style": "text",
+    "text_align": "right",
+    "width": 20,
+    "clauses": [
+      {
+        "id": "not_infected",
+        "text": "                    ",
+        "color": "black",
+        "condition": { "not": { "u_has_effect": "vampire_virus" } }
+      },
+      {
+        "id": "slumber",
+        "text": "Eternal Slumber",
+        "color": "dark_gray_red",
+        "condition": { "and": [ { "u_has_effect": "vampire_virus" }, { "math": [ "u_vitamin('human_blood_vitamin')", "<=", "-11999" ] } ] }
+      },
+      {
+        "id": "near_death",
+        "text": "Corpse-like",
+        "color": "dark_gray",
+        "condition": {
+          "and": [
+            { "u_has_effect": "vampire_virus" },
+            { "math": [ "u_vitamin('human_blood_vitamin')", "<=", "-6401" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin')", ">", "-11999" ] }
+          ]
+        }
+      },
+      {
+        "id": "starving",
+        "text": "Hypomia",
+        "color": "yellow",
+        "condition": {
+          "and": [
+            { "u_has_effect": "vampire_virus" },
+            { "math": [ "u_vitamin('human_blood_vitamin')", "<=", "-5601" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin')", ">", "-6401" ] }
+          ]
+        }
+      },
+      {
+        "id": "hungry",
+        "text": "Sallow",
+        "color": "light_green",
+        "condition": {
+          "and": [
+            { "u_has_effect": "vampire_virus" },
+            { "math": [ "u_vitamin('human_blood_vitamin')", "<=", "-4800" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin')", ">", "-5601" ] }
+          ]
+        }
+      },
+      {
+        "id": "content",
+        "text": "Content",
+        "color": "green",
+        "condition": {
+          "and": [
+            { "u_has_effect": "vampire_virus" },
+            { "math": [ "u_vitamin('human_blood_vitamin')", "<=", "1800" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin')", ">", "-4800" ] }
+          ]
+        }
+      },
+      {
+        "id": "flush",
+        "text": "Flush",
+        "color": "light_red",
+        "condition": {
+          "and": [
+            { "u_has_effect": "vampire_virus" },
+            { "math": [ "u_vitamin('human_blood_vitamin')", "<=", "2401" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin')", ">", "1800" ] }
+          ]
+        }
+      },
+      {
+        "id": "engorged",
+        "text": "Engorged",
+        "color": "red",
+        "condition": {
+          "and": [
+            { "u_has_effect": "vampire_virus" },
+            { "math": [ "u_vitamin('human_blood_vitamin')", "<=", "4401" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin')", ">", "2401" ] }
+          ]
+        }
+      },
+      {
+        "id": "swollen",
+        "text": "Tick-like",
+        "color": "red_cyan",
+        "condition": { "and": [ { "u_has_effect": "vampire_virus" }, { "math": [ "u_vitamin('human_blood_vitamin')", ">", "4401" ] } ] }
+      }
+    ],
+    "padding": 0,
+    "flags": [ "W_LABEL_NONE" ]
+  }
+]

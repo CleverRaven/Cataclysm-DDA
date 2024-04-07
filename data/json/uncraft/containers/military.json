@@ -45,16 +45,6 @@
     "result": "ammunition_box_grenade",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "3 m",
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "scrap", 1 ] ] ]
-  },
-  {
-    "type": "uncraft",
-    "activity_level": "BRISK_EXERCISE",
-    "result": "ammunition_box_grenade",
-    "skill_used": "fabrication",
-    "difficulty": 3,
     "time": "25 m",
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "sheet_metal_small", 18 ] ], [ [ "scrap", 6 ] ] ]
@@ -62,7 +52,7 @@
   {
     "type": "uncraft",
     "activity_level": "BRISK_EXERCISE",
-    "result": "ammunition_box_carlgustav",
+    "result": "ammunition_box_carlgustav_he",
     "skill_used": "fabrication",
     "difficulty": 3,
     "time": "60 m",
@@ -71,26 +61,7 @@
   },
   {
     "type": "uncraft",
-    "activity_level": "BRISK_EXERCISE",
-    "result": "ammunition_box_308",
-    "skill_used": "fabrication",
-    "time": "30 s",
-    "components": [ [ [ "paper", 2 ] ] ]
-  },
-  {
-    "type": "uncraft",
-    "activity_level": "BRISK_EXERCISE",
-    "result": "ammunition_box_223",
-    "skill_used": "fabrication",
-    "time": "30 s",
-    "components": [ [ [ "paper", 2 ] ] ]
-  },
-  {
-    "type": "uncraft",
-    "activity_level": "BRISK_EXERCISE",
-    "result": "ammunition_box_50bmg",
-    "skill_used": "fabrication",
-    "time": "30 s",
-    "components": [ [ [ "paper", 2 ] ] ]
+    "copy-from": "ammunition_box_carlgustav_he",
+    "result": "ammunition_box_carlgustav_hedp"
   }
 ]

@@ -1,0 +1,34 @@
+[
+  {
+    "type": "snippet",
+    "category": "<mi-go_harvest>",
+    "text": [
+      "As you starts to cut through the thick outer crust of the mi-go, you note that it's even tougher than you would have expected.",
+      "The smell emanating from the mi-go as you cut it open is pungent, like a chemical factory gone horribly wrong.  You're forced to take short breaks to recover from nausea.",
+      "You note that the ichorous blood of this creature is unlike any similar stuff you've ever encountered or even heard of.  It's not only the odd color - pink like pepto bismol - but also its texture.  Somehow it is both oily and sticky, and the viscosity seems to change as you work with it.",
+      "Nothing seems right with this creature.  The texture of the muscles is off.  Are these even muscles, or are they long stringy organs of some kind?",
+      "You note that what pass for bones in this body have alien shapes and are joined up in ways unlike anything from Earth.  A few times you see intricate interlocking patterns that hold a strange beauty, though it's somewhat lessened by the incredibly terrible smell.",
+      "What should go for tendons in this creature aren't joined to the bones in any way you've seen before.  Instead of a single tendon connecting two end points, there are instead a range of smaller connections between slightly different locations.  On further study you wonder if these are indeed tendons, or perhaps some kind of nerve or signalling structure.  Later, you find similar things wrapped around what you think might be a sensory organ."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<mi-go_harvest_deeper>",
+    "text": [
+      "You cannot find a single heart in the mi-go.  Instead, there seem to be multiple copies of something that presumably acts as a heart spread out all over the body.  At least you think it acts as a heart, given how it is connected to what should be blood vessels.",
+      "Something that looks like it fills a role similar to blood vessels, assuming the pink ichor is in fact blood, form a central plexus that doesn't make much sense to you.  It's impossibly complex, a tiny road map of shockingly tough tubules in a pattern that almost looks like it spells a word in some unknowable language.",
+      "The creature contains a lot of tissue that probably are organs of one kind of another, but there is no guessing what function they are meant to perform.",
+      "You think you've found something like a lung: a lot of small orifices all over the body connecting short sections of tubing to organs of spongy tissue, so it might take in air (or water?) through one orifice, extract oxygen from the medium, and \"exhale\" it through the tubing at the other side of the organ.  Just as you feel a sense of understanding something at last, you realize that these organs aren't connected to the ichor system at all, and in fact seem to be drier and more leathery than the rest of the creature.",
+      "You think you have found the creature's voice box, but you cannot be sure, given its design which leaves you unable to figure out how it would actually work.  It reminds you a bit of an old-fashioned bellows, if a bellows were sky-blue, spongy, and smelled like rotten ammonia.",
+      "There are tough networks of fibers that could be nerves in this thing, but if so, you can't confirm that they lead to any centralized brain.  On the other hand, they could be structural, or muscular.  It's very hard to tell.",
+      "You thought you found its brain, at least until you found another one, and then yet another one, of a different size and shape.  Needless to say, the structure of these organs means nothing to you.  Also, the one in the head is one of the smaller ones.",
+      "It does not seem to have anything resembling eyes, at least not any lense based design, unless the structure would be too tiny for you to see with the naked eye while everything is covered with blood.",
+      "The mi-go's antennae seem to be of different types, but you can't determine what the purpose of any of them is."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<mi-go_harvest>",
+    "text": [ "<mi-go_harvest>", "<mi-go_harvest_deeper>", "<mi-go_harvest>  <mi-go_harvest_deeper>" ]
+  }
+]

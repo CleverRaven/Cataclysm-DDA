@@ -33,6 +33,9 @@ class building_bin
         std::vector<std::string> all;
         void clear();
         void finalize();
+        weighted_int_list<overmap_special_id> get_all_buildings() const {
+            return buildings;
+        }
 };
 
 struct city_settings {
@@ -59,6 +62,18 @@ struct city_settings {
 
     overmap_special_id pick_park() const {
         return parks.pick()->id;
+    }
+
+    weighted_int_list<overmap_special_id> get_all_houses() const {
+        return houses.get_all_buildings();
+    }
+
+    weighted_int_list<overmap_special_id> get_all_shops() const {
+        return shops.get_all_buildings();
+    }
+
+    weighted_int_list<overmap_special_id> get_all_parks() const {
+        return parks.get_all_buildings();
     }
 
     void finalize();
@@ -137,7 +152,7 @@ struct forest_biome {
 
 struct forest_mapgen_settings {
     std::map<std::string, forest_biome> unfinalized_biomes;
-    std::map<oter_id, forest_biome> biomes;
+    std::map<oter_type_id, forest_biome> biomes;
 
     void finalize();
     forest_mapgen_settings() = default;
@@ -152,12 +167,6 @@ struct forest_trail_settings {
     int random_point_size_scalar = 100;
     int trailhead_chance = 1;
     int trailhead_road_distance = 6;
-    int trail_center_variance = 3;
-    int trail_width_offset_min = 1;
-    int trail_width_offset_max = 3;
-    bool clear_trail_terrain = false;
-    std::map<std::string, int> unfinalized_trail_terrain;
-    weighted_int_list<ter_id> trail_terrain;
     building_bin trailheads;
 
     void finalize();
@@ -202,6 +211,18 @@ struct overmap_lake_settings {
     overmap_lake_settings() = default;
 };
 
+struct overmap_ocean_settings {
+    double noise_threshold_ocean = 0.25;
+    int ocean_size_min = 100;
+    int ocean_depth = -9;
+    int ocean_start_north = 0;
+    int ocean_start_east = 10;
+    int ocean_start_west = 0;
+    int ocean_start_south = 0;
+    int sandy_beach_width = 2;
+    overmap_ocean_settings() = default;
+};
+
 struct overmap_ravine_settings {
     int num_ravines = 0;
     int ravine_range = 45;
@@ -210,6 +231,18 @@ struct overmap_ravine_settings {
 
     void finalize();
     overmap_ravine_settings() = default;
+};
+
+struct overmap_connection_settings {
+    overmap_connection_id trail_connection;
+    overmap_connection_id sewer_connection;
+    overmap_connection_id subway_connection;
+    overmap_connection_id rail_connection;
+    overmap_connection_id intra_city_road_connection;
+    overmap_connection_id inter_city_road_connection;
+
+    void finalize();
+    overmap_connection_settings() = default;
 };
 
 struct map_extras {
@@ -246,14 +279,15 @@ struct regional_settings {
     shared_ptr_fast<weighted_int_list<ter_str_id>> default_groundcover_str;
 
     city_settings     city_spec;      // put what where in a city of what kind
-    groundcover_extra field_coverage;
     forest_mapgen_settings forest_composition;
     forest_trail_settings forest_trail;
     weather_generator weather;
     overmap_feature_flag_settings overmap_feature_flag;
     overmap_forest_settings overmap_forest;
     overmap_lake_settings overmap_lake;
+    overmap_ocean_settings overmap_ocean;
     overmap_ravine_settings overmap_ravine;
+    overmap_connection_settings overmap_connection;
     region_terrain_and_furniture_settings region_terrain_and_furniture;
 
     std::unordered_map<std::string, map_extras> region_extras;

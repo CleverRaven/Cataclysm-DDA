@@ -42,7 +42,7 @@ status_t character_oracle_t::needs_water_badly( const std::string_view ) const
 status_t character_oracle_t::needs_food_badly( const std::string_view ) const
 {
     // Check hunger threshold.
-    if( subject->get_hunger() >= 300 && subject->get_starvation() > 2500 ) {
+    if( subject->get_hunger() >= 300 && subject->get_starvation() > base_metabolic_rate ) {
         return status_t::running;
     }
     return status_t::success;

@@ -67,10 +67,29 @@
     "armor": [ { "encumbrance": 1, "coverage": 5, "covers": [ "head" ] } ]
   },
   {
+    "id": "silver_circlet",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "silver circlet" },
+    "description": "A wooden band with silver trimmings to be worn on the head.  Touching your temples with it on makes you feel very calm.",
+    "weight": "700 g",
+    "volume": "600ml",
+    "price": 3000,
+    "price_postapoc": 200,
+    "material": [ "silver", "wood" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "warmth": 0,
+    "material_thickness": 1,
+    "flags": [ "BELTED" ],
+    "qualities": [ [ "MANA_FOCUS", 2 ] ],
+    "armor": [ { "encumbrance": 1, "coverage": 5, "covers": [ "head" ] } ]
+  },
+  {
     "id": "potion_starter",
     "copy-from": "mixed_alcohol_strong",
     "type": "COMESTIBLE",
-    "name": "potion starter",
+    "name": { "str_sp": "potion starter" },
     "description": "Strong alcohol, infused with mana and concentrated into a liquid that can stabilize spells into liquid form.  You can still drink it, if you want."
   },
   {
@@ -78,7 +97,7 @@
     "copy-from": "chem_ethanol",
     "type": "COMESTIBLE",
     "comestible_type": "DRINK",
-    "name": "superior potion starter",
+    "name": { "str_sp": "superior potion starter" },
     "charges": 1,
     "description": "Pure ethanol saturated with magical energy.  The sheer power concentrated within causes the surface of the potion to ripple continuously."
   },
@@ -167,7 +186,7 @@
     "type": "COMESTIBLE",
     "symbol": "~",
     "color": "light_red",
-    "name": "dragon essence",
+    "name": { "str_sp": "dragon essence" },
     "description": "This is the magical essence from a dragon, distilled into a concentrated form.",
     "comestible_type": "DRINK",
     "volume": "250 ml",

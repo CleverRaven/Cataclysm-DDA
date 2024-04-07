@@ -498,7 +498,7 @@
     "id": "mon_licorice_snake",
     "type": "MONSTER",
     "name": { "str": "licorice snake" },
-    "description": "A Snake whose body is made out of licorice, at least it's the red type.",
+    "description": "A snake whose body is made out of licorice, at least it's the red type.",
     "default_faction": "licorice_snakes",
     "bodytype": "snake",
     "species": [ "LICORICE" ],

@@ -4,7 +4,6 @@
     "method": "json",
     "om_terrain": [ "basement_chem" ],
     "//": "matches house_29",
-    "weight": 250,
     "object": {
       "fill_ter": "t_soil",
       "rows": [
@@ -59,7 +58,7 @@
         "c": "f_counter",
         "h": "f_chair",
         "R": "f_rack",
-        "E": "f_water_heater",
+        "E": [ "f_water_heater", "f_water_heater_family" ],
         "W": "f_water_purifier",
         "X": [ "f_crate_c", "f_crate_o", "f_cardboard_box" ],
         "U": "f_utility_shelf",
@@ -92,7 +91,6 @@
     "method": "json",
     "om_terrain": "basement_chem2",
     "//": "matches house_30",
-    "weight": 200,
     "object": {
       "fill_ter": "t_soil",
       "rows": [
@@ -158,7 +156,7 @@
         "h": "f_chair",
         "A": "f_air_filter",
         "C": "f_air_conditioner",
-        "E": "f_water_heater",
+        "E": [ "f_water_heater", "f_water_heater_family" ],
         "W": [ "f_water_purifier", "f_home_furnace" ],
         "X": [ "f_crate_c", "f_crate_o", "f_cardboard_box" ],
         "U": "f_utility_shelf",

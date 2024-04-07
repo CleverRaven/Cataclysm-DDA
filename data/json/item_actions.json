@@ -37,6 +37,11 @@
   },
   {
     "type": "item_action",
+    "id": "deploy_appliance",
+    "name": { "str": "Deploy item" }
+  },
+  {
+    "type": "item_action",
     "id": "CROWBAR_WEAK",
     "name": { "str": "Pry crate or nails" }
   },
@@ -159,26 +164,6 @@
     "type": "item_action",
     "id": "fireweapon_on",
     "name": { "str": "Turn off" }
-  },
-  {
-    "type": "item_action",
-    "id": "CARVER_ON"
-  },
-  {
-    "type": "item_action",
-    "id": "TRIMMER_ON"
-  },
-  {
-    "type": "item_action",
-    "id": "CIRCSAW_ON"
-  },
-  {
-    "type": "item_action",
-    "id": "CHAINSAW_ON"
-  },
-  {
-    "type": "item_action",
-    "id": "ELEC_CHAINSAW_ON"
   },
   {
     "type": "item_action",
@@ -327,16 +312,6 @@
   },
   {
     "type": "item_action",
-    "id": "CARVER_OFF",
-    "name": { "str": "Turn on" }
-  },
-  {
-    "type": "item_action",
-    "id": "CHAINSAW_OFF",
-    "name": { "str": "Turn on" }
-  },
-  {
-    "type": "item_action",
     "id": "CHEW",
     "name": { "str": "Chew" }
   },
@@ -364,34 +339,6 @@
     "type": "item_action",
     "id": "COKE",
     "name": { "str": "Snort coke" }
-  },
-  {
-    "type": "item_action",
-    "id": "COMBATSAW_OFF",
-    "name": { "str": "Turn on" }
-  },
-  {
-    "type": "item_action",
-    "id": "COMBATSAW_ON"
-  },
-  {
-    "type": "item_action",
-    "id": "TOOLWEAPON_DEACTIVATE",
-    "name": { "str": "Turn off" }
-  },
-  {
-    "type": "item_action",
-    "id": "E_COMBATSAW_OFF",
-    "name": { "str": "Turn on" }
-  },
-  {
-    "type": "item_action",
-    "id": "E_COMBATSAW_ON"
-  },
-  {
-    "type": "item_action",
-    "id": "CONTACTS",
-    "name": { "str": "Put in eyes" }
   },
   {
     "type": "item_action",
@@ -441,17 +388,12 @@
   {
     "type": "item_action",
     "id": "EBOOKSAVE",
-    "name": { "str": "Store a book" }
+    "name": { "str": "Store books" }
   },
   {
     "type": "item_action",
     "id": "EBOOKREAD",
     "name": { "str": "Read stored books" }
-  },
-  {
-    "type": "item_action",
-    "id": "ELEC_CHAINSAW_OFF",
-    "name": { "str": "Turn on" }
   },
   {
     "type": "item_action",
@@ -550,11 +492,6 @@
   },
   {
     "type": "item_action",
-    "id": "HAIRKIT",
-    "name": { "str": "Trim the hair" }
-  },
-  {
-    "type": "item_action",
     "id": "HEATPACK",
     "name": { "str": "Use" }
   },
@@ -587,6 +524,11 @@
     "type": "item_action",
     "id": "MAGIC_8_BALL",
     "name": { "str": "Ask" }
+  },
+  {
+    "type": "item_action",
+    "id": "MEASURE_RESONANCE",
+    "name": { "str": "Measure artifact resonance" }
   },
   {
     "type": "item_action",
@@ -795,16 +737,6 @@
   },
   {
     "type": "item_action",
-    "id": "RM13ARMOR_OFF",
-    "name": { "str": "Turn on" }
-  },
-  {
-    "type": "item_action",
-    "id": "RM13ARMOR_ON",
-    "name": { "str": "Turn off" }
-  },
-  {
-    "type": "item_action",
     "id": "SEED",
     "name": { "str": "Consume" }
   },
@@ -812,11 +744,6 @@
     "type": "item_action",
     "id": "SEWAGE",
     "name": { "str": "Consume" }
-  },
-  {
-    "type": "item_action",
-    "id": "SHAVEKIT",
-    "name": { "str": "Shave" }
   },
   {
     "type": "item_action",
@@ -862,11 +789,6 @@
     "type": "item_action",
     "id": "TOWEL",
     "name": { "str": "Dry/clean yourself" }
-  },
-  {
-    "type": "item_action",
-    "id": "TRIMMER_OFF",
-    "name": { "str": "Turn on" }
   },
   {
     "type": "item_action",

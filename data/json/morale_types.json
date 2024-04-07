@@ -205,6 +205,11 @@
     "text": "Feeling bad"
   },
   {
+    "id": "morale_bad_protein_bar",
+    "type": "morale_type",
+    "text": "Demoralizing food"
+  },
+  {
     "id": "morale_killed_innocent",
     "type": "morale_type",
     "text": "Killed an innocent person"
@@ -418,5 +423,20 @@
     "id": "morale_impossible_shape",
     "type": "morale_type",
     "text": "Saw something that hurts to remember"
+  },
+  {
+    "id": "morale_afs_drugs",
+    "type": "morale_type",
+    "text": "Chemical enhancement moodswing"
+  },
+  {
+    "id": "morale_social",
+    "type": "morale_type",
+    "text": "Spent time around allies"
+  },
+  {
+    "id": "morale_asocial",
+    "type": "morale_type",
+    "text": "Spent time alone"
   }
 ]

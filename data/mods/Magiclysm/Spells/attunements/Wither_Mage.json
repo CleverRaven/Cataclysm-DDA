@@ -8,8 +8,8 @@
     "shape": "blast",
     "valid_targets": [ "none" ],
     "flags": [ "SILENT" ],
-    "min_range": 8,
-    "max_range": 8
+    "min_range": { "math": [ "conveyance_proficiency_bonus_calculate(8)" ] },
+    "max_range": { "math": [ "conveyance_proficiency_bonus_calculate(8)" ] }
   },
   {
     "type": "SPELL",
@@ -39,7 +39,7 @@
     "damage_increment": 13,
     "min_range": 1,
     "max_range": 1,
-    "damage_type": "biological",
+    "damage_type": "poison",
     "min_dot": 35,
     "max_dot": 490,
     "dot_increment": 13,
@@ -51,7 +51,7 @@
     "energy_source": "MANA",
     "base_energy_cost": 1200,
     "difficulty": 8,
-    "extra_effects": [ { "id": "assassin_toxic_smoke", "hit_self": true }, { "id": "assassin_teleport" } ]
+    "extra_effects": [ { "id": "assassin_toxic_smoke", "hit_self": true }, { "id": "assassin_teleport" }, { "id": "eoc_conveyance_setup" } ]
   },
   {
     "type": "SPELL",
@@ -62,13 +62,13 @@
     "shape": "blast",
     "valid_targets": [ "hostile", "ally" ],
     "flags": [ "LOUD", "VERBAL", "NO_LEGS", "NO_PROJECTILE" ],
-    "min_damage": 15,
-    "max_damage": 65,
-    "damage_increment": 1.5,
+    "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(15, 0.5)" ] },
+    "max_damage": { "math": [ "evocation_proficiency_bonus_calculate(65, 0.5)" ] },
+    "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(1.5, 0.03)" ] },
     "min_range": 4,
     "max_range": 16,
     "range_increment": 0.35,
-    "damage_type": "cold",
+    "damage_type": "necrotic",
     "max_level": 35,
     "spell_class": "WITHER_MAGE",
     "base_casting_time": 300,
@@ -77,7 +77,7 @@
     "final_energy_cost": 250,
     "energy_increment": -8.6,
     "difficulty": 7,
-    "extra_effects": [ { "id": "life_drain_stamina", "hit_self": true } ]
+    "extra_effects": [ { "id": "life_drain_stamina", "hit_self": true }, { "id": "eoc_evocation_setup" } ]
   },
   {
     "type": "SPELL",
@@ -88,9 +88,9 @@
     "effect_str": "STAMINA",
     "valid_targets": [ "self" ],
     "shape": "blast",
-    "min_damage": 500,
-    "max_damage": 2500,
-    "damage_increment": 60,
+    "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(500, 1.5)" ] },
+    "max_damage": { "math": [ "evocation_proficiency_bonus_calculate(2500, 1.5)" ] },
+    "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(60, 0.03)" ] },
     "max_level": 35,
     "energy_source": "NONE"
   }

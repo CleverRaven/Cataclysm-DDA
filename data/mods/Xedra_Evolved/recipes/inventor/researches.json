@@ -106,28 +106,5 @@
     "flags": [ "BLIND_EASY", "SECRET" ],
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_RESEARCH"
-  },
-  {
-    "id": "inventor_research_dimesnion_1",
-    "name": "advanced spaces research",
-    "description": "Research a ways to connect your own power to another dimensions.",
-    "type": "recipe",
-    "activity_level": "NO_EXERCISE",
-    "result_eocs": [ "EOC_INVENTOR_RESEARCH_DIMENSION_1" ],
-    "qualities": [ { "id": "AI_TOOL", "level": 1 } ],
-    "tools": [ [ [ "laptop", 40 ] ], [ [ "software_math", -1 ] ], [ [ "software_electronics_reference", -1 ] ] ],
-    "components": [
-      [
-        [ "small_printout_portal_storm_data", 20 ],
-        [ "medium_printout_portal_storm_data", 4 ],
-        [ "large_printout_portal_storm_data", 1 ]
-      ]
-    ],
-    "time": "5 h",
-    "skill_used": "deduction",
-    "difficulty": 9,
-    "flags": [ "BLIND_EASY", "SECRET" ],
-    "category": "CC_XEDRA",
-    "subcategory": "CSC_XEDRA_RESEARCH"
   }
 ]

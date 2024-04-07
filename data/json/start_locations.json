@@ -130,12 +130,10 @@
       "house_03",
       "house_04",
       "house_05",
-      "house_05ab",
       "house_06",
       "house_07",
       "house_08",
       "house_09",
-      "house_09b",
       "house_10",
       "house_11",
       "house_12",
@@ -352,6 +350,12 @@
   },
   {
     "type": "start_location",
+    "id": "sloc_liam_cabin",
+    "name": "Liam's Cabin",
+    "terrain": [ "cabin_liam" ]
+  },
+  {
+    "type": "start_location",
     "id": "sloc_hospital",
     "name": "Hospital",
     "terrain": [ { "om_terrain": "hospital", "om_terrain_match_type": "PREFIX" } ]
@@ -554,12 +558,6 @@
       { "om_terrain": "Cemetery", "om_terrain_match_type": "PREFIX" },
       { "om_terrain": "cemetery_small", "om_terrain_match_type": "PREFIX" }
     ]
-  },
-  {
-    "type": "start_location",
-    "id": "sloc_basement_bionic",
-    "name": "Shady Basement",
-    "terrain": [ "basement_bionic" ]
   },
   {
     "type": "start_location",
@@ -805,12 +803,26 @@
     "type": "start_location",
     "id": "sloc_middle_of_nowhere",
     "name": "Middle of Nowhere",
-    "terrain": [ "state_park_1_0", "sewage_treatment_1_0_0", "pwr_sub_s", "derelict_property", "ws_regional_dump_2_0", "waiting_area" ]
+    "terrain": [
+      "state_park_1_0",
+      "sewage_treatment_1_0_0",
+      "pwr_sub_s",
+      { "om_terrain": "derelict_property", "om_terrain_match_type": "TYPE" },
+      "ws_regional_dump_2_0",
+      "waiting_area"
+    ]
   },
   {
     "type": "start_location",
     "id": "sloc_sewer",
     "name": "Sewer",
     "terrain": [ "sewer" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_nesw_manhole",
+    "name": "Intersection",
+    "terrain": [ { "om_terrain": "road_nesw_manhole", "om_terrain_match_type": "PREFIX" } ],
+    "flags": [ "ALLOW_OUTSIDE" ]
   }
 ]

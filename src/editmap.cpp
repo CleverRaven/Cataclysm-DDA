@@ -5,11 +5,8 @@
 #include <iosfwd>
 #include <map>
 #include <memory>
-#include <new>
-#include <ostream>
 #include <set>
 #include <string>
-#include <type_traits>
 #include <typeinfo>
 #include <utility>
 #include <vector>
@@ -32,7 +29,7 @@
 #include "field_type.h"
 #include "game.h"
 #include "game_constants.h"
-#include "input.h"
+#include "input_context.h"
 #include "item.h"
 #include "level_cache.h"
 #include "line.h"
@@ -68,6 +65,8 @@ static constexpr half_open_cuboid<tripoint> editmap_boundaries(
 
 // NOLINTNEXTLINE(cata-static-int_id-constants)
 static const ter_id undefined_ter_id( -1 );
+
+static const ter_str_id ter_t_grave_new( "t_grave_new" );
 
 static std::vector<std::string> fld_string( const std::string &str, int width )
 {
@@ -828,7 +827,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
 
     if( here.has_graffiti_at( target ) ) {
         mvwprintw( w_info, point( 1, off ),
-                   here.ter( target ) == t_grave_new ? _( "Graffiti: %s" ) : _( "Inscription: %s" ),
+                   here.ter( target ) == ter_t_grave_new ? _( "Graffiti: %s" ) : _( "Inscription: %s" ),
                    here.graffiti_at( target ) );
     }
 
@@ -1661,7 +1660,7 @@ bool editmap::move_target( const std::string &action, int moveorigin )
     if( eget_direction( mp, action ) ) {
         target.x = limited_shift( target.x, mp.x, 0, MAPSIZE_X );
         target.y = limited_shift( target.y, mp.y, 0, MAPSIZE_Y );
-        target.z = limited_shift( target.z, mp.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT + 1 );
+        target.z = limited_shift( target.z, mp.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT );
         if( move_origin ) {
             origin += mp;
         }
@@ -1845,9 +1844,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
     tinymap tmpmap;
     // TODO: add a do-not-save-generated-submaps parameter
     // TODO: keep track of generated submaps to delete them properly and to avoid memory leaks
-    // TODO: fix point types
-    tmpmap.generate( tripoint( project_to<coords::sm>( omt_pos.xy() ).raw(), target.z ),
-                     calendar::turn );
+    tmpmap.generate( omt_pos, calendar::turn );
 
     gmenu.border_color = c_light_gray;
     gmenu.hilight_color = c_black_white;
@@ -1890,10 +1887,8 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
             lastsel = gmenu.selected;
             overmap_buffer.ter_set( omt_pos, oter_id( gmenu.selected ) );
             cleartmpmap( tmpmap );
-            // TODO: fix point types
-            tmpmap.generate(
-                tripoint( project_to<coords::sm>( omt_pos.xy() ).raw(), target.z ),
-                calendar::turn );
+            tmpmap.generate( omt_pos,
+                             calendar::turn );
         }
 
         if( showpreview ) {
@@ -1917,10 +1912,8 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
 
         if( gpmenu.ret == 0 ) {
             cleartmpmap( tmpmap );
-            // TODO: fix point types
-            tmpmap.generate(
-                tripoint( project_to<coords::sm>( omt_pos.xy() ).raw(), target.z ),
-                calendar::turn );
+            tmpmap.generate( omt_pos,
+                             calendar::turn );
         } else if( gpmenu.ret == 1 ) {
             tmpmap.rotate( 1 );
         } else if( gpmenu.ret == 2 ) {
@@ -2006,7 +1999,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
 vehicle *editmap::mapgen_veh_query( const tripoint_abs_omt &omt_tgt )
 {
     tinymap target_bay;
-    target_bay.load( project_to<coords::sm>( omt_tgt ), false );
+    target_bay.load( omt_tgt, false );
 
     std::vector<vehicle *> possible_vehicles;
     for( int x = 0; x < 2; x++ ) {
@@ -2045,7 +2038,7 @@ bool editmap::mapgen_veh_destroy( const tripoint_abs_omt &omt_tgt, vehicle *car_
 {
     map &here = get_map();
     tinymap target_bay;
-    target_bay.load( project_to<coords::sm>( omt_tgt ), false );
+    target_bay.load( omt_tgt, false );
     for( int x = 0; x < 2; x++ ) {
         for( int y = 0; y < 2; y++ ) {
             submap *destsm = target_bay.get_submap_at_grid( { x, y, target.z } );

@@ -128,6 +128,27 @@
     ]
   },
   {
+    "name": "GROUP_COUGARS",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_cougar", "weight": 150, "cost_multiplier": 2 },
+      {
+        "monster": "mon_cougar_kitten",
+        "weight": 25,
+        "pack_size": [ 1, 2 ],
+        "ends": "31 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_cougar_kitten",
+        "weight": 12,
+        "pack_size": [ 1, 2 ],
+        "starts": "31 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      }
+    ]
+  },
+  {
     "name": "GROUP_HORSES",
     "type": "monstergroup",
     "monsters": [
@@ -168,6 +189,7 @@
       { "group": "GROUP_PET_DOGS", "weight": 90, "cost_multiplier": 0 },
       { "monster": "mon_dog_mutant_mongrel", "weight": 7, "cost_multiplier": 0 },
       { "monster": "mon_dog_incorporeal", "weight": 1, "cost_multiplier": 0 },
+      { "monster": "mon_dog_telekenetic", "weight": 1, "cost_multiplier": 0 },
       { "monster": "mon_dog_antimemetic", "weight": 1, "cost_multiplier": 0 }
     ]
   },
@@ -232,9 +254,9 @@
     "default": "mon_cat",
     "//": "Both persian and sphynx cats are not really fit to survive without human assistance and will die off eventually. persians will overheat in the summer and have trouble breathing because of their flat faces and sphynx cats will freeze in the cold season.",
     "monsters": [
-      { "monster": "mon_cat", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_cat", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_cat_kitten", "weight": 5, "cost_multiplier": 0 },
-      { "monster": "mon_cat_tabby", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_cat_tabby", "weight": 200, "cost_multiplier": 0 },
       { "monster": "mon_cat_tabby_kitten", "weight": 5, "cost_multiplier": 0 },
       { "monster": "mon_cat_longhair", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_cat_longhair_kitten", "weight": 5, "cost_multiplier": 0 },
@@ -242,7 +264,7 @@
       { "monster": "mon_cat_siamese_kitten", "weight": 3, "cost_multiplier": 0 },
       { "monster": "mon_cat_persian", "weight": 20, "cost_multiplier": 0, "ends": "90 days" },
       { "monster": "mon_cat_persian_kitten", "weight": 2, "cost_multiplier": 0, "ends": "90 days" },
-      { "monster": "mon_cat_calico", "weight": 40, "cost_multiplier": 0 },
+      { "monster": "mon_cat_calico", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_cat_calico_kitten", "weight": 4, "cost_multiplier": 0 },
       { "monster": "mon_cat_maine_coon", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_cat_maine_coon_kitten", "weight": 5, "cost_multiplier": 0 },
@@ -254,7 +276,7 @@
       { "monster": "mon_cat_sphynx_kitten", "weight": 1, "cost_multiplier": 0, "ends": "153 days" },
       { "monster": "mon_cat_chonker", "weight": 10, "cost_multiplier": 0 },
       { "monster": "mon_cat_chonker_kitten", "weight": 1, "cost_multiplier": 0 },
-      { "monster": "mon_cat_black", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_cat_black", "weight": 80, "cost_multiplier": 0 },
       { "monster": "mon_cat_black_kitten", "weight": 5, "cost_multiplier": 0 }
     ]
   },
@@ -265,7 +287,18 @@
     "monsters": [
       { "group": "GROUP_PET_CATS", "weight": 1, "cost_multiplier": 0 },
       { "group": "GROUP_PET_DOGS", "weight": 1, "cost_multiplier": 0 },
-      { "monster": "mon_ferret", "weight": 1, "cost_multiplier": 0 }
+      { "monster": "mon_ferret", "weight": 1, "cost_multiplier": 0 },
+      { "monster": "mon_rabbit", "weight": 1, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "name": "GROUP_RABBIT_WILD",
+    "type": "monstergroup",
+    "default": "mon_wild_rabbit",
+    "monsters": [
+      { "monster": "mon_wild_rabbit", "weight": 893, "cost_multiplier": 0 },
+      { "monster": "mon_hare", "weight": 106, "cost_multiplier": 0 },
+      { "monster": "mon_rabbit", "weight": 1, "cost_multiplier": 0 }
     ]
   }
 ]

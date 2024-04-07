@@ -30,7 +30,7 @@
     "id": "cottonwood_tree_boll",
     "name": { "str": "cottonwood tree boll" },
     "category": "other",
-    "weight": "5g",
+    "weight": "5 g",
     "color": "white",
     "symbol": "%",
     "description": "A fluffy white seed.  While it looks like the common cotton, it is too weak and short to be turned into clothing.",
@@ -375,7 +375,7 @@
     "price_postapoc": 25,
     "material": [ "chitin" ],
     "flags": [ "NO_SALVAGE" ],
-    "milling": { "into": "meal_chitin_piece", "conversion_rate": 4 },
+    "milling": { "into": "meal_chitin_piece", "recipe": "meal_chitin_piece_mill_1_4" },
     "weight": "89 g",
     "volume": "250 ml",
     "to_hit": -2,
@@ -393,7 +393,7 @@
     "price": 0,
     "material": [ "chitin" ],
     "flags": [ "NO_SALVAGE" ],
-    "milling": { "into": "meal_chitin_piece", "conversion_rate": 4 },
+    "milling": { "into": "meal_chitin_piece", "recipe": "meal_chitin_piece_mill_1_4" },
     "weight": "89 g",
     "volume": "300 ml",
     "melee_damage": { "bash": 1 }
@@ -438,7 +438,6 @@
     "description": "A lump of exoskeleton that has undergone biosilicification.  It is acid-resistant but rather brittle.",
     "material": [ "acidchitin" ],
     "flags": [ "NO_SALVAGE" ],
-    "proportional": { "weight": 1.25 },
     "relative": { "melee_damage": { "bash": 2 } }
   },
   {
@@ -506,7 +505,7 @@
     "//": "Weight is 50 x 5750mg per patch",
     "weight": "287500 mg",
     "//2": "Volume is 50 x 5ml per patch",
-    "volume": "250ml",
+    "volume": "250 ml",
     "price": 0,
     "price_postapoc": 500,
     "material": [ "nylon" ],
@@ -691,7 +690,7 @@
     "price": 200000,
     "price_postapoc": 1000,
     "material": [ "stone" ],
-    "weight": "907 g",
+    "weight": "700 g",
     "volume": "250 ml",
     "to_hit": -1,
     "qualities": [ [ "HAMMER", 1 ] ],
@@ -760,6 +759,15 @@
     "copy-from": "usb_drive_nano",
     "name": { "str_sp": "laboratory shipping records" },
     "description": "Some type of advanced data storage device, filled with logistical data on subterranean train routes and schedules.",
+    "price": 10000,
+    "price_postapoc": 0
+  },
+  {
+    "type": "GENERIC",
+    "id": "lixa_data",
+    "copy-from": "usb_drive_nano",
+    "name": { "str_sp": "LIXA research archive backup" },
+    "description": "A secured USB thumbdrive, containing a copy of the LIXA facility's research archives.",
     "price": 10000,
     "price_postapoc": 0
   },
@@ -846,11 +854,12 @@
         "holster": true,
         "//1": "It's specifically not rigid because volume of candlestick and candle should be additive.",
         "max_contains_weight": "500 g",
-        "max_contains_volume": "500 ml",
-        "item_restriction": [ "candle", "candle_lit" ]
+        "max_contains_volume": "550 ml",
+        "item_restriction": [ "candle", "candle_lit" ],
+        "transparent": true
       }
     ],
-    "//2": "Based on the medium variation from https://www.amazon.com/Holders-Candlestick-Decorative-Centerpieces-Fitting/dp/B09TNCS7HL/ref=sr_1_27?crid=2NAMJT9OZJDQT&keywords=gold%2Bcandlesticks&qid=1683196194&sprefix=gold%2Bcandlest%2Caps%2C619&sr=8-27&th=1"
+    "//2": "Based on the medium variation from https://www.amazon.com/dp/B09TNCS7HL"
   },
   {
     "type": "GENERIC",
@@ -883,7 +892,9 @@
     "volume": "750 ml",
     "to_hit": -1,
     "qualities": [ [ "BUTCHER", -38 ] ],
-    "melee_damage": { "bash": 6, "cut": 8 }
+    "flags": [ "ALLOWS_BODY_BLOCK", "SHEATH_KNIFE" ],
+    "melee_damage": { "bash": 6, "cut": 8 },
+    "weapon_category": [ "SHIVS" ]
   },
   {
     "type": "GENERIC",
@@ -988,6 +999,21 @@
     "material": [ "steel" ],
     "weight": "151 g",
     "volume": "100 ml",
+    "to_hit": -2
+  },
+  {
+    "type": "GENERIC",
+    "id": "piano_wire",
+    "symbol": "l",
+    "color": "light_gray",
+    "name": { "str": "piano wire" },
+    "description": "A length of thin, relatively stretchy coiled steel wire.  Used to produce musical notes in instruments.",
+    "category": "spare_parts",
+    "price": 2000,
+    "price_postapoc": 10,
+    "material": [ "steel" ],
+    "weight": "1 g",
+    "volume": "3 ml",
     "to_hit": -2
   },
   {
@@ -1100,15 +1126,14 @@
     "id": "concrete",
     "symbol": "%",
     "color": "light_gray",
-    "name": { "str_sp": "concrete" },
-    "description": "Some concrete, ready to be used in a construction project.",
+    "name": { "str_sp": "dry concrete mix" },
+    "description": "Some mixed cement, sand and aggregates, precombined and ready to be used in a construction project.",
     "category": "spare_parts",
-    "container": "bag_canvas",
     "price": 10000,
-    "price_postapoc": 25,
-    "material": [ "powder_nonflam" ],
-    "weight": "2340 g",
-    "volume": "1 L",
+    "price_postapoc": 5,
+    "material": [ { "type": "cement", "portion": 3 }, { "type": "sand", "portion": 2 }, { "type": "stone", "portion": 1 } ],
+    "weight": "450 g",
+    "volume": "300 ml",
     "melee_damage": { "bash": 4 }
   },
   {
@@ -1124,8 +1149,16 @@
     "weight": "10 g",
     "volume": "25 ml",
     "to_hit": -5,
-    "milling": { "into": "meal_bone_tainted", "conversion_rate": 0.16 },
+    "milling": { "into": "meal_bone_tainted", "recipe": "meal_bone_tainted_mill_6_1" },
     "qualities": [ [ "COOK", 1 ] ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "drum_skin",
+    "name": { "str": "drum skin" },
+    "copy-from": "tanned_hide",
+    "weight": "10 g",
+    "description": "The tanned hide of an animal repursed to become the head on a percusssion drum."
   },
   {
     "type": "GENERIC",
@@ -1136,8 +1169,9 @@
     "description": "A torch that has consumed all its fuel; it can be recrafted into another torch.",
     "category": "other",
     "material": [ "wood" ],
-    "weight": "751 g",
-    "volume": "750 ml",
+    "weight": "510 g",
+    "volume": "1042 ml",
+    "longest_side": "122 cm",
     "flags": [ "TRADER_AVOID" ],
     "melee_damage": { "bash": 8 }
   },
@@ -1280,6 +1314,23 @@
   },
   {
     "type": "GENERIC",
+    "id": "household_water_heater_family",
+    "symbol": "0",
+    "color": "white",
+    "name": { "str": "family–sized household water heater" },
+    "description": "A large metal tank with a water faucet attached to it, primarily used to store and heat water.  Large enough for a whole family.",
+    "price": 0,
+    "price_postapoc": 20,
+    "material": [ "steel" ],
+    "//": "weight and volume assumed to be from model XG55T06EC50UO water heater <https://images.thdstatic.com/catalog/pdfImages/7e/7e7928b1-8b4f-472a-8ee8-b48eb1e7932a.pdf>",
+    "weight": "80000 g",
+    "volume": "406 L",
+    "to_hit": -5,
+    "use_action": { "type": "deploy_furn", "furn_type": "f_water_heater_family" },
+    "melee_damage": { "bash": 5 }
+  },
+  {
+    "type": "GENERIC",
     "id": "television",
     "symbol": ";",
     "color": "dark_gray",
@@ -1306,7 +1357,7 @@
     "material": [ "steel" ],
     "weight": "66 kg",
     "volume": "500 L",
-    "longest_side": "116cm",
+    "longest_side": "116 cm",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1370,7 +1421,7 @@
     "price_postapoc": 100,
     "material": [ "steel", "plastic" ],
     "weight": "5 g",
-    "volume": "1 ml"
+    "volume": "5 ml"
   },
   {
     "type": "GENERIC",
@@ -1398,6 +1449,23 @@
     "material": [ "aluminum", "plastic" ],
     "weight": "725 g",
     "volume": "750 ml"
+  },
+  {
+    "id": "broken_kord",
+    "type": "GENERIC",
+    "looks_like": "kord",
+    "symbol": "(",
+    "color": "light_gray",
+    "name": { "str": "Kord 6P67 rifle (Demilled)", "str_pl": "Kord 6P67 rifles (Demilled)" },
+    "weight": "3250 g",
+    "volume": "2418 ml",
+    "material": [ "steel", "plastic" ],
+    "longest_side": "48 cm",
+    "price": 250000,
+    "category": "other",
+    "to_hit": -2,
+    "description": "A special forces Russian rifle chambered in 5.45 that someone has taken a plasma cutter to, cutting it in three places to comply with import restrictions.  This thing would have been hard to source, and thankfully its unique complex recoil balance system remains intact, unlike the receiver and barrel.  The telltale rainbow patterns of torch cuts mar the otherwise beautiful receiver.  A well-equipped gunsmith with time and materials could probably build a new one out of this…",
+    "flags": [ "TRADER_AVOID", "NO_REPAIR", "MISSION_ITEM" ]
   },
   {
     "type": "GENERIC",
@@ -1626,7 +1694,7 @@
   {
     "type": "AMMO",
     "id": "paper",
-    "name": { "str": "paper" },
+    "name": { "str_sp": "paper" },
     "category": "spare_parts",
     "weight": "3 g",
     "color": "white",
@@ -1688,7 +1756,7 @@
     "price": 1000,
     "price_postapoc": 10,
     "material": [ "aluminum", "plastic" ],
-    "weight": "5400 g",
+    "weight": "1500 g",
     "volume": "750 ml",
     "to_hit": -3,
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
@@ -1705,25 +1773,8 @@
     "price": 9000,
     "price_postapoc": 10,
     "material": [ "aluminum", "plastic" ],
-    "weight": "4480 g",
+    "weight": "2000 g",
     "volume": "750 ml",
-    "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
-    "melee_damage": { "bash": 6, "cut": 6 }
-  },
-  {
-    "type": "GENERIC",
-    "id": "broken_mininuke_hack",
-    "symbol": ",",
-    "color": "magenta",
-    "name": { "str": "broken mininuke hack" },
-    "category": "other",
-    "description": "A broken mininuke hack.  Just looking at the wreck makes you shiver.  Could be gutted for parts.",
-    "price": 18000,
-    "price_postapoc": 10,
-    "material": [ "aluminum", "plastic" ],
-    "weight": "25000 g",
-    "volume": "18750 ml",
     "to_hit": -3,
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
     "melee_damage": { "bash": 6, "cut": 6 }
@@ -1739,7 +1790,7 @@
     "price": 9000,
     "price_postapoc": 10,
     "material": [ "aluminum", "plastic" ],
-    "weight": "5360 g",
+    "weight": "2600 g",
     "volume": "750 ml",
     "to_hit": -3,
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
@@ -1756,7 +1807,7 @@
     "price": 9000,
     "price_postapoc": 10,
     "material": [ "aluminum", "plastic" ],
-    "weight": "4700 g",
+    "weight": "2000 g",
     "volume": "750 ml",
     "to_hit": -3,
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
@@ -1773,7 +1824,7 @@
     "price": 9000,
     "price_postapoc": 10,
     "material": [ "aluminum", "plastic" ],
-    "weight": "4536 g",
+    "weight": "1750 g",
     "volume": "750 ml",
     "to_hit": -3,
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
@@ -1790,7 +1841,7 @@
     "price": 9000,
     "price_postapoc": 10,
     "material": [ "aluminum", "plastic" ],
-    "weight": "5870 g",
+    "weight": "3100 g",
     "volume": "750 ml",
     "to_hit": -3,
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
@@ -1838,9 +1889,9 @@
     "price": 9000,
     "price_postapoc": 10,
     "material": [ "plastic" ],
-    "weight": "30 g",
+    "weight": "18 g",
     "//": "A stick of DDR4 SRAM is 133.35 x 31.25 x 4.2mm, or 17.5ml. We round up a touch.",
-    "volume": "20 ml",
+    "volume": "18 ml",
     "to_hit": -1
   },
   {
@@ -1945,8 +1996,8 @@
     "price": 120000,
     "price_postapoc": 100,
     "material": [ "glass" ],
-    "weight": "30 g",
-    "volume": "10 ml",
+    "weight": "1 g",
+    "volume": "2 ml",
     "to_hit": -3,
     "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 30000, "need_sunlight": true },
     "flags": [ "FIRESTARTER" ]
@@ -1962,7 +2013,7 @@
     "price": 6000,
     "price_postapoc": 50,
     "material": [ "glass" ],
-    "weight": "15 g",
+    "weight": "1 g",
     "volume": "1 ml"
   },
   {
@@ -2116,7 +2167,7 @@
     "price": 25000,
     "price_postapoc": 50,
     "material": [ "aluminum", "plastic" ],
-    "weight": "21000 g",
+    "weight": "2100 g",
     "volume": "2 L",
     "to_hit": 1,
     "melee_damage": { "bash": 4 }
@@ -2134,15 +2185,8 @@
     "flags": [ "WATER_BREAK" ],
     "ammo": [ "battery" ],
     "charges_per_use": 4,
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
-      }
-    ],
-    "charged_qualities": [ [ "BLOW_AIR", 1 ] ],
+    "use_action": [ { "type": "link_up", "cable_length": 3, "charge_rate": "35 W" } ],
+    "charged_qualities": [ [ "WINNOW", 1 ] ],
     "weight": "2857 g",
     "volume": "1 L"
   },
@@ -2267,7 +2311,7 @@
     "id": "memory_card_science",
     "copy-from": "memory_card",
     "name": { "str": "memory card (XEDRA)", "str_pl": "memory cards (XEDRA)" },
-    "description": "A memory card, can be used to store data.  This one appears to be related to 'XEDRA'.",
+    "description": "A memory card, can be used to store data.  This one has a label on which is written 'XEDRA' followed by a long string of numbers.",
     "memory_card": {
       "data_chance": 1.0,
       "on_read_convert_to": "memory_card",
@@ -2345,10 +2389,11 @@
     "looks_like": "rice_cooked",
     "name": { "str_sp": "unfinished koji rice" },
     "description": "Some cooked rice mixed with yeast and koji mold fragments, set aside to let koji mold grow on it so that it can make a passable sake base.",
+    "material": [ "veggy", "mold", "yeast" ],
     "weight": "200 g",
     "color": "white",
     "container": "bottle_glass",
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "SOFT" ],
     "symbol": "%",
     "price": 0,
     "volume": "250 ml",
@@ -2367,6 +2412,7 @@
     "id": "sake_koji_rice",
     "looks_like": "rice_cooked",
     "name": { "str_sp": "koji rice" },
+    "material": [ "veggy", "mold", "yeast" ],
     "weight": "200 g",
     "color": "white",
     "container": "bag_plastic",
@@ -2381,6 +2427,7 @@
     "looks_like": "rice_cooked",
     "name": { "str_sp": "growing wild koji mold" },
     "description": "Some cooked rice sprinkled with ash and wrapped into a corn husk.  If left alone for a while, it will most likely grow koji mold.",
+    "material": [ "veggy", "mold", "yeast" ],
     "weight": "200 g",
     "color": "white",
     "flags": [ "TRADER_AVOID" ],
@@ -2402,6 +2449,7 @@
     "looks_like": "rice_cooked",
     "name": { "str_sp": "grown wild koji mold" },
     "description": "Some cooked rice sprinkled with ash and wrapped into a corn husk.  It has grown patches of koji mold inside; disassemble this item to extract it.",
+    "material": [ "veggy", "mold", "yeast" ],
     "weight": "200 g",
     "color": "white",
     "symbol": ",",
@@ -2526,23 +2574,10 @@
   },
   {
     "type": "GENERIC",
-    "id": "dog_tag",
-    "name": { "str_sp": "dog tag" },
-    "description": "An oval disk attached to a chain, worn by military personnel for identification.",
-    "weight": "5 g",
-    "color": "light_gray",
-    "symbol": "[",
-    "material": [ "steel" ],
-    "//": "dog tags are roughly 50mm x 28mm x 0.4mm, or 0.56 ml, but that's so small I needed to round up to 1 ml",
-    "volume": "1 ml",
-    "price": 0,
-    "price_postapoc": 0
-  },
-  {
-    "type": "GENERIC",
     "id": "dog_tag_dog",
     "name": { "str_sp": "dog tag" },
-    "description": "An identification tag for a pet, engraved with their name and their owner's address and phone number.",
+    "description": "An identification tag for a pet, engraved with their name and their owner's address and phone number.  It says \"<dog_name>\".",
+    "expand_snippets": true,
     "weight": "1 g",
     "color": "green",
     "symbol": "[",
@@ -2653,7 +2688,7 @@
     "material": [ "soil" ],
     "flags": [ "NONCONDUCTIVE" ],
     "weight": "1500 g",
-    "volume": "750 ml",
+    "volume": "2250 ml",
     "to_hit": -2,
     "price": 2000,
     "price_postapoc": 10,
@@ -2902,7 +2937,7 @@
     "color": "light_gray",
     "calories": 15,
     "description": "A pile of dry grass.  Can be used to craft a straw bed if there is nothing else to sleep on.",
-    "material": [ "veggy" ],
+    "material": [ "veggy", "dry_plant" ],
     "flags": [ "TRADER_AVOID", "INEDIBLE", "CATTLE", "TINDER", "RABBIT" ],
     "weight": "34 g",
     "volume": "250 ml",
@@ -2972,20 +3007,17 @@
       {
         "id": "bodypillow_generic",
         "name": { "str": "anime body pillow" },
-        "description": "A big, body-sized pillow with a print of an anime character on the front and their scantily-clad version on the back.",
-        "weight": 1
+        "description": "A big, body-sized pillow with a print of an anime character on the front and their scantily-clad version on the back."
       },
       {
         "id": "bodypillow_azurlane",
         "name": { "str": "ship body pillow" },
-        "description": "A big, body-sized pillow with a print of an aircraft carrier drawn on both sides.  The one on the back is stripped of its armor plating, how naughty.",
-        "weight": 1
+        "description": "A big, body-sized pillow with a print of an aircraft carrier drawn on both sides.  The one on the back is stripped of its armor plating, how naughty."
       },
       {
         "id": "bodypillow_gfl",
         "name": { "str": "gun body pillow" },
-        "description": "A big, body-sized pillow with a print of a fully-modded tacticool M4 SOPMOD II on both sides.  The rifle firing a grenade somehow looks suggestive.",
-        "weight": 1
+        "description": "A big, body-sized pillow with a print of a fully-modded tacticool M4 SOPMOD II on both sides.  The rifle firing a grenade somehow looks suggestive."
       },
       {
         "id": "bodypillow_boston",
@@ -2996,62 +3028,52 @@
       {
         "id": "bodypillow_boston_lewd",
         "name": { "str": "Boston-Chan body pillow" },
-        "description": "A big, body-sized pillow with a print of a blue-haired Boston-Chan, the mascot of Boston AnimeCon, on both sides.  It's highly unlikely the convention would officially endorse such a lewd depiction of her.",
-        "weight": 1
+        "description": "A big, body-sized pillow with a print of a blue-haired Boston-Chan, the mascot of Boston AnimeCon, on both sides.  It's highly unlikely the convention would officially endorse such a lewd depiction of her."
       },
       {
         "id": "bodypillow_survivor",
         "name": { "str": "survivor body pillow" },
-        "description": "A big, body-sized pillow with an anime-style print of Bear Grillings, Ultimate Survivor on both sides.  On one side he's holding a pneumatic air rifle, and on the other he is clad in nothing but duct tape.  The pillow is stylized to look like Kevlar.",
-        "weight": 1
+        "description": "A big, body-sized pillow with an anime-style print of Bear Grillings, Ultimate Survivor on both sides.  On one side he's holding a pneumatic air rifle, and on the other he is clad in nothing but duct tape.  The pillow is stylized to look like Kevlar."
       },
       {
         "id": "bodypillow_furry",
         "name": { "str": "fox body pillow" },
-        "description": "A big, body-sized pillow with a print of an anthropomorphic fox on the front and a scantily-clad version on the back.",
-        "weight": 1
+        "description": "A big, body-sized pillow with a print of an anthropomorphic fox on the front and a scantily-clad version on the back."
       },
       {
         "id": "bodypillow_vocaloid",
         "name": { "str": "vocaloid body pillow" },
-        "description": "A big, body-sized pillow with a print of a popular blue-twintailed virtual musician on the front and her scantily-clad version on the back.",
-        "weight": 1
+        "description": "A big, body-sized pillow with a print of a popular blue-twintailed virtual musician on the front and her scantily-clad version on the back."
       },
       {
         "id": "bodypillow_goth",
         "name": { "str": "goth body pillow" },
-        "description": "A big, body-sized pillow with a print of an anime character dressed in all black on the front and their scantily-clad version on the back.  They're surrounded by red candles and laying atop a demonic pentagram.",
-        "weight": 1
+        "description": "A big, body-sized pillow with a print of an anime character dressed in all black on the front and their scantily-clad version on the back.  They're surrounded by red candles and laying atop a demonic pentagram."
       },
       {
         "id": "bodypillow_yandere",
         "name": { "str": "yandere body pillow" },
-        "description": "A big, body-sized pillow with a print of a cute maid on the front and the same maid - covered in blood and holding a knife - on the back.",
-        "weight": 1
+        "description": "A big, body-sized pillow with a print of a cute maid on the front and the same maid - covered in blood and holding a knife - on the back."
       },
       {
         "id": "bodypillow_tomboy",
         "name": { "str": "tomboy body pillow" },
-        "description": "A big, body-sized pillow with a print of a masculine woman on the front and her scantily-clad version on the back.  It's captioned with 'TOMBOY SUPREMACY' on both sides.",
-        "weight": 1
+        "description": "A big, body-sized pillow with a print of a masculine woman on the front and her scantily-clad version on the back.  It's captioned with 'TOMBOY SUPREMACY' on both sides."
       },
       {
         "id": "bodypillow_femboy",
         "name": { "str": "femboy body pillow" },
-        "description": "A big, body-sized pillow with a print of a feminine man on the front and his scantily-clad version on the back.  It's captioned with 'FEMBOY SUPREMACY' on both sides.",
-        "weight": 1
+        "description": "A big, body-sized pillow with a print of a feminine man on the front and his scantily-clad version on the back.  It's captioned with 'FEMBOY SUPREMACY' on both sides."
       },
       {
         "id": "bodypillow_tsundere",
         "name": { "str": "tsundere body pillow" },
-        "description": "A big, body-sized pillow with a print of a pouting anime character on the front and their scantily-clad version on the back.  They don't actually like you or anything, they swear!",
-        "weight": 1
+        "description": "A big, body-sized pillow with a print of a pouting anime character on the front and their scantily-clad version on the back.  They don't actually like you or anything, they swear!"
       },
       {
         "id": "bodypillow_vtuber",
         "name": { "str": "VTuber body pillow" },
-        "description": "A big, body-sized pillow with a print of a popular anime VTuber on the front and their scantily-clad version on the back.",
-        "weight": 1
+        "description": "A big, body-sized pillow with a print of a popular anime VTuber on the front and their scantily-clad version on the back."
       },
       {
         "id": "bodypillow_makeshift",
@@ -3397,7 +3419,7 @@
     "name": { "str": "neoprene patch", "str_pl": "neoprene patches" },
     "description": "A small neoprene patch.  Can be used to repair neoprene clothing.",
     "price": 1000,
-    "price_postapoc": 100,
+    "price_postapoc": 5,
     "material": [ "neoprene" ],
     "flags": [ "NO_SALVAGE" ],
     "weight": "3 g",
@@ -3468,7 +3490,7 @@
     "type": "GENERIC",
     "category": "other",
     "name": { "str": "fluid-preserved brain" },
-    "description": "This 3L jar contains a human brain preserved in a formaldehyde solution.",
+    "description": "This 3 L jar contains a human brain preserved in a formaldehyde solution.",
     "weight": "365 g",
     "volume": "3 L",
     "price": 100,
@@ -3514,7 +3536,7 @@
     "name": { "str": "refrigerant tank" },
     "description": "A small tank containing some sort of refrigerant often used in devices such as freezers.  Hermetically sealed to prevent evaporation - cannot be opened without prior connection to a compatible valve.",
     "weight": "410 g",
-    "volume": "1L",
+    "volume": "1 L",
     "price": 3000,
     "price_postapoc": 50,
     "to_hit": -4,
@@ -3864,7 +3886,6 @@
     "material": [ "leather" ],
     "volume": "285 ml",
     "weight": "80 g",
-    "extend": { "flags": [ "FANCY" ] },
     "pocket_data": [
       {
         "//": "Folded Sleeve",
@@ -3902,8 +3923,7 @@
     "copy-from": "wallet",
     "name": { "str": "stylish wallet" },
     "description": "A stylish flat case used to carry items such as currency, identification documents, laminated cards, and other small items.",
-    "material": [ "leather" ],
-    "extend": { "flags": [ "FANCY" ] }
+    "material": [ "leather" ]
   },
   {
     "id": "wallet_travel",
@@ -3976,7 +3996,7 @@
     "price": 1000,
     "price_postapoc": 10,
     "material": [ "aluminum", "plastic" ],
-    "weight": "4 kg",
+    "weight": "1600 g",
     "volume": "600 ml",
     "to_hit": -3,
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
@@ -4102,7 +4122,7 @@
     "id": "pallet",
     "type": "GENERIC",
     "name": { "str": "wooden pallet" },
-    "description": "This is a heavy and bulky 40x48-inch palette.",
+    "description": "This is a heavy and bulky 40x48 inch palette.",
     "weight": "28 kg",
     "volume": "194400 ml",
     "material": [ "wood" ],

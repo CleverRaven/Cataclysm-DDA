@@ -23,10 +23,10 @@
 #include "item.h"
 #include "item_factory.h"
 #include "item_group.h"
-#include "item_pocket.h"
 #include "itype.h"
 #include "json.h"
 #include "output.h"
+#include "pocket_type.h"
 #include "requirements.h"
 #include "ret_val.h"
 #include "string_formatter.h"
@@ -104,6 +104,7 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "WHEEL", VPFLAG_WHEEL },
     { "ROTOR", VPFLAG_ROTOR },
     { "FLOATS", VPFLAG_FLOATS },
+    { "NO_LEAK", VPFLAG_NO_LEAK },
     { "DOME_LIGHT", VPFLAG_DOME_LIGHT },
     { "AISLE_LIGHT", VPFLAG_AISLE_LIGHT },
     { "ATOMIC_LIGHT", VPFLAG_ATOMIC_LIGHT },
@@ -116,6 +117,7 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "WINDOW", VPFLAG_WINDOW },
     { "CURTAIN", VPFLAG_CURTAIN },
     { "CARGO", VPFLAG_CARGO },
+    { "CARGO_PASSABLE", VPFLAG_CARGO_PASSABLE },
     { "INTERNAL", VPFLAG_INTERNAL },
     { "SOLAR_PANEL", VPFLAG_SOLAR_PANEL },
     { "WIND_TURBINE", VPFLAG_WIND_TURBINE },
@@ -136,7 +138,12 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "ROOF", VPFLAG_ROOF },
     { "CABLE_PORTS", VPFLAG_CABLE_PORTS },
     { "BATTERY", VPFLAG_BATTERY },
-    { "POWER_TRANSFER", VPFLAG_POWER_TRANSFER }
+    { "POWER_TRANSFER", VPFLAG_POWER_TRANSFER },
+    { "HUGE_OK", VPFLAG_HUGE_OK },
+    { "NEED_LEG", VPFLAG_NEED_LEG },
+    { "IGNORE_LEG_REQUIREMENT", VPFLAG_IGNORE_LEG_REQUIREMENT },
+    { "INOPERABLE_SMALL", VPFLAG_INOPERABLE_SMALL },
+    { "IGNORE_HEIGHT_REQUIREMENT", VPFLAG_IGNORE_HEIGHT_REQUIREMENT },
 };
 
 static std::map<vpart_id, vpart_migration> vpart_migrations;
@@ -261,6 +268,7 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
 
     assign( jo, "name", name_, strict );
     assign( jo, "item", base_item, strict );
+    assign( jo, "remove_as", removed_item, strict );
     assign( jo, "location", location, strict );
     assign( jo, "durability", durability, strict );
     assign( jo, "damage_modifier", dmg_mod, strict );
@@ -281,8 +289,12 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
     assign( jo, "color", color, strict );
     assign( jo, "broken_color", color_broken, strict );
     assign( jo, "comfort", comfort, strict );
-    assign( jo, "floor_bedding_warmth", floor_bedding_warmth, strict );
-    assign( jo, "bonus_fire_warmth_feet", bonus_fire_warmth_feet, strict );
+    int legacy_floor_bedding_warmth = units::to_legacy_bodypart_temp_delta( floor_bedding_warmth );
+    assign( jo, "floor_bedding_warmth", legacy_floor_bedding_warmth, strict );
+    floor_bedding_warmth = units::from_legacy_bodypart_temp_delta( legacy_floor_bedding_warmth );
+    int legacy_bonus_fire_warmth_feet = units::to_legacy_bodypart_temp_delta( bonus_fire_warmth_feet );
+    assign( jo, "bonus_fire_warmth_feet", legacy_bonus_fire_warmth_feet, strict );
+    bonus_fire_warmth_feet = units::from_legacy_bodypart_temp_delta( legacy_bonus_fire_warmth_feet );
 
     if( jo.has_array( "variants" ) ) {
         variants.clear();
@@ -1010,7 +1022,7 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
             } else if( !base.magazine_default().is_null() ) {
                 class::item tmp_mag( base.magazine_default() );
                 tmp_mag.ammo_set( tmp_mag.ammo_default() );
-                base.put_in( tmp_mag, item_pocket::pocket_type::MAGAZINE_WELL );
+                base.put_in( tmp_mag, pocket_type::MAGAZINE_WELL );
             }
         }
         long_descrip += string_format( _( "\nRange: %1$5d     Damage: %2$5.0f" ),
@@ -1090,8 +1102,7 @@ static time_duration scale_time( const std::map<skill_id, int> &sk, time_duratio
                                          MAX_SKILL ) - rhs.second, 0 );
     } );
     // 10% per excess level (reduced proportionally if >1 skill required) with max 50% reduction
-    // 10% reduction per assisting NPC
-    const std::vector<npc *> helpers = you.get_crafting_helpers();
+    // 10% reduction per assisting Character
     const int helpersize = you.get_num_crafting_helpers( 3 );
     return mv * ( 1.0 - std::min( static_cast<double>( lvl ) / sk.size() / 10.0,
                                   0.5 ) ) * ( 1 - ( helpersize / 10.0 ) );
@@ -1602,7 +1613,8 @@ void vehicles::finalize_prototypes()
                     blueprint.get_tools( vp ).emplace_back( it, calendar::turn );
                 }
                 if( pt.fuel ) {
-                    vp.ammo_set( pt.fuel, vp.ammo_capacity( pt.fuel->ammo->type ) );
+                    vp.ammo_set( pt.fuel,
+                                 pt.fuel->ammo ? vp.ammo_capacity( pt.fuel->ammo->type ) : vp.item_capacity( pt.fuel ) );
                 }
             }
 

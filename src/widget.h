@@ -24,7 +24,7 @@ enum class widget_var : int {
     sound,          // Current sound level, integer
     speed,          // Current speed, integer
     stamina,        // Current stamina 0-10000, greater being fuller stamina reserves
-    fatigue,        // Current fatigue, integer
+    sleepiness,        // Current sleepiness, integer
     health,         // Current hidden health value, -200 to +200
     mana,           // Current available mana, integer
     max_mana,       // Current maximum mana, integer
@@ -166,6 +166,8 @@ struct widget_clause {
 
         // Condition for using this clause
         bool has_condition = false;
+        // Whether parse tags in this clause
+        bool should_parse_tags = false;
         std::function<bool( dialogue & )> condition;
         bool meets_condition( const std::string &opt_var = "" ) const;
         bool meets_condition( const std::set<bodypart_id> &bps ) const;

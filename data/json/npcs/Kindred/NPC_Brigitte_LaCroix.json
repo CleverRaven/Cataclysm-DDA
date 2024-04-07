@@ -12,7 +12,8 @@
       { "trait": "ROBUST" },
       { "trait": "SKIN_DARK" },
       { "trait": "seer_mark" },
-      { "trait": "hair_black_mohawk" },
+      { "trait": "hair_mohawk", "variant": "black" },
+      { "trait": "natural_hair_color_black" },
       { "trait": "IGNORE_SOUND" },
       { "trait": "NO_BASH" }
     ],
@@ -109,10 +110,10 @@
         "type": "dialogue",
         "context": "song",
         "value": "yes",
-        "no": "You're back.  Have you come to listen to the song?",
+        "no": { "gendered_line": "You're back.  Have you come to listen to the song?", "relevant_genders": [ "u" ] },
         "yes": {
           "u_has_trait": "seer_mark",
-          "no": "Traveller.",
+          "no": { "gendered_line": "Traveller.", "relevant_genders": [ "u" ] },
           "yes": { "u_female": true, "yes": "Greetings, sister.", "no": "Greetings, brother." }
         }
       }
@@ -281,7 +282,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_BONE_SEER_POSITIVE",
-    "dynamic_line": "Your mind is open.  More than most.  Perhaps one day, you too will feel the power of the song and become Kindred.  For now, traveller, listen, listen and feel the song.",
+    "dynamic_line": {
+      "gendered_line": "Your mind is open.  More than most.  Perhaps one day, you too will feel the power of the song and become Kindred.  For now, traveller, listen, listen and feel the song.",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [ { "text": "I… thank you.", "topic": "TALK_BONE_SEER" } ]
   },
   {
@@ -479,7 +483,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_BONE_SEER_METCOOPER",
-    "dynamic_line": "I see.  And you live still.  Does that mean you managed to stop him?",
+    "dynamic_line": { "gendered_line": "I see.  And you live still.  Does that mean you managed to stop him?", "relevant_genders": [ "u" ] },
     "responses": [
       {
         "text": "I've confronted him.  He ended up attacking me.",
@@ -506,7 +510,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_BONE_SEER_COOPERFIGHT",
-    "dynamic_line": "It saddens me to see a talented Kindred lose his way so greatly, but I take solace in the fact that you are unscathed.",
+    "dynamic_line": {
+      "gendered_line": "It saddens me to see a talented Kindred lose his way so greatly, but I take solace in the fact that you are unscathed.",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [ { "text": "Best not to dwell on it.  Let's move on.", "topic": "TALK_BONE_SEER" } ]
   },
   {

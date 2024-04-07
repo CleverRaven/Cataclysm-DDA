@@ -1,0 +1,21 @@
+[
+  {
+    "id": "deaglemag_50",
+    "//": "Audited with ImageJ, weight is comparison.",
+    "looks_like": "glock17_17",
+    "type": "MAGAZINE",
+    "name": { "str": "Desert Eagle .50 7-round magazine" },
+    "description": "A standard 7-round steel box magazine for use with a Desert Eagle configured for .50 Action Express.",
+    "weight": "45 g",
+    "volume": "80 ml",
+    "longest_side": "128 mm",
+    "price": 6750,
+    "price_postapoc": 100,
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "50ae" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "50ae": 7 } } ]
+  }
+]

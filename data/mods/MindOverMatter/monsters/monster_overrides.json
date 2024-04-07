@@ -90,10 +90,32 @@
     "regeneration_modifiers": [ [ "effect_vitakin_hurt", -25 ] ]
   },
   {
-    "id": "mon_frog_mega",
-    "copy-from": "mon_frog_mega",
+    "id": "mon_strange_megafrog",
+    "copy-from": "mon_strange_megafrog",
     "type": "MONSTER",
-    "regeneration_modifiers": [ [ "effect_vitakin_hurt", -2 ] ]
+    "regeneration_modifiers": [ [ "effect_vitakin_hurt", -2 ] ],
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
+  },
+  {
+    "id": "mon_odd_megafrog",
+    "copy-from": "mon_odd_megafrog",
+    "type": "MONSTER",
+    "regeneration_modifiers": [ [ "effect_vitakin_hurt", -2 ] ],
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
+  },
+  {
+    "id": "mon_foul_megafrog",
+    "copy-from": "mon_foul_megafrog",
+    "type": "MONSTER",
+    "regeneration_modifiers": [ [ "effect_vitakin_hurt", -1 ] ],
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
+  },
+  {
+    "id": "mon_pigeon",
+    "copy-from": "mon_pigeon",
+    "type": "MONSTER",
+    "extend": { "flags": [ "CANPLAY" ] },
+    "upgrades": { "half_life": 30, "into_group": "GROUP_PIGEON_UPGRADE" }
   },
   {
     "id": "mon_zombie_regenerating",
@@ -199,14 +221,16 @@
     "id": "mon_hound_tindalos",
     "copy-from": "mon_hound_tindalos",
     "type": "MONSTER",
-    "extend": { "flags": [ "TEEP_IMMUNE" ] },
+    "extend": { "flags": [ "TEEP_IMMUNE", "TELEPORT_IMMUNE" ] },
+    "attack_effs": [ { "id": "effect_teleporting_lock", "duration": [ 5, 60 ], "chance": 50 } ],
     "armor": { "cut": 50, "bullet": 40, "electric": 1, "psi_telekinetic_damage": 50 }
   },
   {
     "id": "mon_hound_tindalos_afterimage",
     "copy-from": "mon_hound_tindalos_afterimage",
     "type": "MONSTER",
-    "extend": { "flags": [ "TEEP_IMMUNE" ] },
+    "extend": { "flags": [ "TEEP_IMMUNE", "TELEPORT_IMMUNE" ] },
+    "attack_effs": [ { "id": "effect_teleporting_lock", "duration": [ 5, 60 ], "chance": 50 } ],
     "armor": { "cut": 50, "bullet": 40, "electric": 1, "psi_telekinetic_damage": 50 }
   },
   {
@@ -490,5 +514,29 @@
     "copy-from": "mon_mi_go_myrmidon",
     "type": "MONSTER",
     "armor": { "bash": 19, "cut": 27, "bullet": 22, "electric": 6, "psi_telepathic_damage": 120 }
+  },
+  {
+    "id": "mon_yrax_delta",
+    "copy-from": "mon_yrax_delta",
+    "type": "MONSTER",
+    "species": [ "ROBOT", "YRAX_CONSTRUCT" ]
+  },
+  {
+    "id": "mon_yrax_trifacet",
+    "copy-from": "mon_yrax_trifacet",
+    "type": "MONSTER",
+    "species": [ "ROBOT", "YRAX_CONSTRUCT" ]
+  },
+  {
+    "id": "mon_yrax_apeirogon",
+    "copy-from": "mon_yrax_apeirogon",
+    "type": "MONSTER",
+    "species": [ "ROBOT", "YRAX_CONSTRUCT" ]
+  },
+  {
+    "id": "mon_yrax_sphenocorona",
+    "copy-from": "mon_yrax_sphenocorona",
+    "type": "MONSTER",
+    "species": [ "ROBOT", "YRAX_CONSTRUCT" ]
   }
 ]

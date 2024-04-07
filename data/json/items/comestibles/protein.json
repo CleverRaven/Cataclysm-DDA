@@ -3,9 +3,9 @@
     "id": "protein_drink",
     "type": "COMESTIBLE",
     "comestible_type": "DRINK",
-    "name": { "str": "protein drink" },
+    "name": { "str_sp": "protein drink" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "soylent green drink" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "soylent green drink" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "sapient green drink" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "perturbing %s" } }
     ],
@@ -25,7 +25,7 @@
     "calories": 100,
     "quench": 40,
     "fun": -1,
-    "vitamins": [ [ "calcium", 7 ] ],
+    "vitamins": [ [ "calcium", "73 mg" ] ],
     "flags": [ "EATEN_COLD" ]
   },
   {
@@ -34,7 +34,7 @@
     "comestible_type": "FOOD",
     "name": { "str_sp": "protein powder" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "soylent green powder" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "soylent green powder" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "sapient green powder" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "perturbing %s" } }
     ],
@@ -79,9 +79,9 @@
     "id": "protein_shake",
     "copy-from": "protein_drink",
     "type": "COMESTIBLE",
-    "name": { "str": "protein shake" },
+    "name": { "str_sp": "protein shake" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "soylent green shake" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "soylent green shake" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "sapient green shake" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "perturbing %s" } }
     ],
@@ -92,28 +92,28 @@
     "volume": "500 ml",
     "charges": 2,
     "quench": 20,
-    "relative": { "vitamins": [ [ "vitC", 20 ] ] }
+    "relative": { "vitamins": [ [ "vitC", "20 mg" ] ] }
   },
   {
     "id": "protein_shake_fortified",
     "copy-from": "protein_shake",
     "type": "COMESTIBLE",
-    "name": { "str": "fortified protein shake" },
+    "name": { "str_sp": "fortified protein shake" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "fortified soylent green shake" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "fortified soylent green shake" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "fortified sapient green shake" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "perturbing %s" } }
     ],
     "description": "A thick and tasty beverage made from pure refined protein and nutritious fruit.  It has been supplemented with extra vitamins and minerals.",
-    "relative": { "vitamins": [ [ "calcium", 5 ], [ "iron", 5 ], [ "vitC", 5 ] ] }
+    "relative": { "vitamins": [ [ "calcium", "52 mg" ], [ "iron", "940 μg" ], [ "vitC", "5 mg" ] ] }
   },
   {
     "id": "milk_fortified",
     "type": "COMESTIBLE",
     "comestible_type": "DRINK",
-    "name": { "str": "fortified milk" },
+    "name": { "str_sp": "fortified milk" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "soylent milk" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "soylent milk" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "sapient-enhanced milk" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "freaky %s" } }
     ],
@@ -140,9 +140,9 @@
     "id": "protein_smoothie",
     "copy-from": "milk_fortified",
     "type": "COMESTIBLE",
-    "name": { "str": "protein smoothie" },
+    "name": { "str_sp": "protein smoothie" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "soylent smoothie" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "soylent smoothie" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "sapient green smoothie" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "perturbing %s" } }
     ],

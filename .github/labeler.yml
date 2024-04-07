@@ -62,8 +62,8 @@
 "EOC: Effects On Condition":
   - "**/**effect_on_condition**"
   - "**/effect_on_condition**"
-  - "**/**eocs**"
-  - "**/eocs**"
+  - "**/**eoc**"
+  - "**/eoc**"
   - "**/condition**"
 
 "Fields / Furniture / Terrain / Traps":
@@ -135,13 +135,15 @@
   - "**/appliance**"
 
 "Monsters":
+  - "**/**monster**"
+  - "**/monster**"
   - "**/**monsters**"
   - "**/monsters**"
 
 "Mutations / Traits / Professions/ Hobbies":
   - "**/**profession**"
   - "**/profession**"
-  - "**/**mutations**"
+  - "**/**mutation**"
   - "**/mutation**"
   - "**/hobbies**"
 
@@ -178,6 +180,7 @@
   - "**/**overmap**"
   - "**/overmap**"
   - "**/overmap/**"
+  - "data/json/regional_map_settings.json"
 
 "Martial Arts":
   - "**/martialart**"

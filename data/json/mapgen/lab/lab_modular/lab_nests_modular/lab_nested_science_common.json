@@ -492,10 +492,18 @@
           { "item": "book_military", "chance": 33 },
           { "item": "snacks", "chance": 10 }
         ],
-        "∞": [ { "item": "ammo_milspec", "chance": 30 }, { "item": "mags_milspec", "chance": 30 } ],
+        "∞": [
+          { "item": "ammo_milspec", "chance": 30 },
+          { "item": "mags_milspec", "chance": 30 },
+          { "item": "mags_flamethrower_xedra", "chance": 15 }
+        ],
         "j": [ { "item": "gear_soldier_sidearm", "chance": 33 } ],
         "U": [ { "item": "cleaning", "chance": 33 } ],
-        "Q": [ { "item": "guns_milspec", "chance": 33, "repeat": [ 1, 3 ] }, { "item": "military", "chance": 33 } ]
+        "Q": [
+          { "item": "guns_milspec", "chance": 33, "repeat": [ 1, 3 ] },
+          { "item": "guns_launcher_flame_xedra", "chance": 50, "repeat": [ 0, 1 ] },
+          { "item": "military", "chance": 33 }
+        ]
       },
       "computers": {
         "6": {
@@ -532,10 +540,18 @@
           { "item": "book_military", "chance": 33 },
           { "item": "snacks", "chance": 10 }
         ],
-        "∞": [ { "item": "ammo_milspec", "chance": 30 }, { "item": "mags_milspec", "chance": 30 } ],
+        "∞": [
+          { "item": "ammo_milspec", "chance": 30 },
+          { "item": "mags_milspec", "chance": 30 },
+          { "item": "mags_flamethrower_xedra", "chance": 15 }
+        ],
         "j": [ { "item": "gear_soldier_sidearm", "chance": 33 } ],
         "U": [ { "item": "cleaning", "chance": 33 } ],
-        "Q": [ { "item": "guns_milspec", "chance": 33, "repeat": [ 1, 3 ] }, { "item": "military", "chance": 33 } ]
+        "Q": [
+          { "item": "guns_milspec", "chance": 33, "repeat": [ 1, 3 ] },
+          { "item": "guns_launcher_flame_xedra", "chance": 50, "repeat": [ 0, 1 ] },
+          { "item": "military", "chance": 33 }
+        ]
       },
       "computers": {
         "6": {

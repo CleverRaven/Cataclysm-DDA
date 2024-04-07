@@ -27,6 +27,8 @@
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid",
+    "weakpoint_sets": [ "wps_arthropod", "wps_arthropod_spider" ],
+    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_basic_bug", "prof_wp_spider" ],
     "fungalize_into": "mon_spider_fungus",
     "flags": [ "SEES", "SMELLS", "HEARS", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
     "armor": { "bash": 2, "cut": 6, "bullet": 5 }
@@ -35,7 +37,7 @@
     "id": "mon_shifter",
     "type": "MONSTER",
     "name": { "str": "shifter" },
-    "description": "Tall body on four legs, surrounded with a \"glitched\" aura - it constantly changes its own position.",
+    "description": "A tall body on four legs, surrounded by a \"glitched\" aura - it constantly changes its own position.",
     "default_faction": "player",
     "bodytype": "dog",
     "species": [ "NETHER" ],
@@ -107,7 +109,7 @@
       }
     ],
     "death_function": { "message": "The %s disappears.", "corpse_type": "NO_CORPSE" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "NO_BREATHE", "KEEP_DISTANCE", "PACIFIST" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "HAS_MIND", "NO_BREATHE", "KEEP_DISTANCE", "PACIFIST" ],
     "armor": { "bash": 2, "cut": 1, "bullet": 1, "electric": 2 }
   },
   {
@@ -136,7 +138,7 @@
     "dodge": 1,
     "vision_night": 18,
     "death_function": { "message": "The %s disappears.", "corpse_type": "NO_CORPSE" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "NO_BREATHE" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "HAS_MIND", "NO_BREATHE" ],
     "armor": { "bash": 2, "cut": 1, "bullet": 1, "electric": 2 }
   },
   {
@@ -197,7 +199,7 @@
     "path_settings": { "max_dist": 60, "allow_open_doors": true, "avoid_traps": true, "allow_climb_stairs": true },
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "sapient_light_damage" }, "cooldown": 5 } ],
     "death_function": { "message": "The %s disappears.", "corpse_type": "NO_CORPSE" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "NO_BREATHE", "ALL_SEEING", "KEEP_DISTANCE" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "HAS_MIND", "NO_BREATHE", "ALL_SEEING", "KEEP_DISTANCE" ],
     "armor": { "bash": 1, "electric": 1 }
   },
   {
@@ -226,5 +228,21 @@
     "families": [ "prof_intro_biology" ],
     "special_attacks": [ [ "RATKING", 3 ] ],
     "death_function": { "effect": { "id": "death_ratking" }, "message": "Rats suddenly swarm into view." }
+  },
+  {
+    "id": "mon_flaming_eye",
+    "copy-from": "mon_flaming_eye",
+    "type": "MONSTER",
+    "name": { "str": "flaming eye" },
+    "special_attacks": [
+      { "type": "spell", "id": "stare_att", "spell_data": { "id": "stare" }, "monster_message": "", "cooldown": 12 },
+      {
+        "type": "spell",
+        "id": "evil_att",
+        "spell_data": { "id": "mon_flaming_eye_evil_spell", "min_level": 1 },
+        "cooldown": 20,
+        "monster_message": "%1$s stares at you and you feel a sense of doom!"
+      }
+    ]
   }
 ]

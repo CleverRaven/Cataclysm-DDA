@@ -67,7 +67,7 @@
     "id": "notched_plank",
     "category": "spare_parts",
     "name": { "str": "notched plank" },
-    "description": "A wooden plank with notches cut into it, used with a fire drill to create embers.",
+    "description": "A quarter of a wooden plank with notches cut into it, used with a fire drill to create embers.",
     "symbol": "/",
     "color": "brown",
     "looks_like": "2x4",
@@ -265,13 +265,14 @@
     "symbol": "?",
     "material": [ "steel" ],
     "techniques": [ "DEF_DISARM", "SWEEP" ],
-    "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
+    "flags": [ "DURABLE_MELEE", "BELT_CLIP", "ALLOWS_BODY_BLOCK" ],
     "volume": "750 ml",
     "to_hit": -3,
     "price": 2000,
     "price_postapoc": 250,
     "qualities": [ [ "HAMMER", 1 ], [ "BUTCHER", -5 ] ],
-    "melee_damage": { "bash": 2, "stab": 6 }
+    "melee_damage": { "bash": 2, "stab": 6 },
+    "weapon_category": [ "SHIVS" ]
   },
   {
     "id": "hand_pump",
@@ -288,6 +289,21 @@
     "to_hit": -1,
     "qualities": [ [ "PRESSURIZATION", 1 ] ],
     "melee_damage": { "bash": 4 }
+  },
+  {
+    "id": "leather_bellow",
+    "type": "TOOL",
+    "name": { "str": "leather bellow" },
+    "description": "A bellow is a device constructed to furnish a strong blast of air",
+    "weight": "450 g",
+    "volume": "2500 ml",
+    "price": 0,
+    "price_postapoc": 100,
+    "qualities": [ [ "WINNOW", 1 ] ],
+    "to_hit": 1,
+    "material": [ "leather", "wood" ],
+    "symbol": ";",
+    "color": "brown"
   },
   {
     "id": "horn_bicycle",
@@ -447,7 +463,7 @@
     "type": "TOOL",
     "name": { "str": "permanent marker" },
     "description": "A King Size™ industrial-strength permanent marker, about halfway between a typical marker and a can of spray paint in size.  Activate it to write something down.  However, writing \"Elbereth\" probably won't help you.",
-    "weight": "113 g",
+    "weight": "28 g",
     "volume": "50 ml",
     "price": 500,
     "price_postapoc": 10,
@@ -720,17 +736,6 @@
     "flags": [ "TRADER_AVOID", "BOMB", "GRENADE", "ZERO_WEIGHT" ]
   },
   {
-    "id": "mininuke_payload",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": { "str": "mininuke payload" },
-    "description": "This is a dummy item used by mininuke hacks.  You should never see it outside of debug.",
-    "symbol": "*",
-    "color": "dark_gray",
-    "use_action": { "target": "mininuke_act", "target_timer": "20 seconds", "type": "transform" },
-    "flags": [ "TRADER_AVOID", "BOMB", "GRENADE", "ZERO_WEIGHT" ]
-  },
-  {
     "id": "tear_gas_payload",
     "type": "TOOL",
     "category": "weapons",
@@ -782,7 +787,7 @@
     "warmth": 0,
     "material_thickness": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "ALLOWS_NATURAL_ATTACKS", "BELT_CLIP", "BELTED", "FRAGILE", "OVERSIZE" ],
+    "flags": [ "ALLOWS_NATURAL_ATTACKS", "BELT_CLIP", "BELTED", "FRAGILE", "OVERSIZE", "PADDED" ],
     "armor": [
       {
         "encumbrance": 25,
@@ -1026,5 +1031,28 @@
     "flags": [ "REACH_ATTACK" ],
     "to_hit": { "grip": "solid", "length": "long", "surface": "point", "balance": "neutral" },
     "melee_damage": { "cut": 1 }
+  },
+  {
+    "type": "TOOL",
+    "id": "nm_teeth",
+    "symbol": ",",
+    "color": "light_cyan",
+    "name": { "str_sp": "monster teeth" },
+    "category": "other",
+    "description": "Impossibly-sharp teeth extracted from a giant corpse.  You could use them as a weapon, but you might want to wear gloves.",
+    "material": [ "bone" ],
+    "weight": "42 g",
+    "volume": "30 ml",
+    "use_action": {
+      "type": "place_trap",
+      "trap": "tr_teeth",
+      "moves": 150,
+      "practice": 2,
+      "done_message": "You carefully place the teeth on the ground, ready to be walked on by something passing by."
+    },
+    "flags": [ "HURT_WHEN_WIELDED", "TRADER_AVOID", "SINGLE_USE", "FRAGILE_MELEE", "ALLOWS_BODY_BLOCK" ],
+    "to_hit": -1,
+    "melee_damage": { "cut": 12 },
+    "weapon_category": [ "SHIVS" ]
   }
 ]

@@ -16,10 +16,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "vending_mutagens",
-    "entries": [
-      { "item": "syringe", "count-min": 1, "count-max": 10 },
-      { "group": "mutagens", "prob": 100, "count-min": 2, "count-max": 6 }
-    ]
+    "entries": [ { "item": "syringe", "count-min": 1, "count-max": 10 }, { "group": "mutagen_kits", "prob": 100 } ]
   },
   {
     "type": "item_group",
@@ -32,6 +29,19 @@
       { "group": "bionics_mil", "prob": 20, "count-min": 1, "count-max": 8 },
       { "group": "bionics", "prob": 15, "count-min": 1, "count-max": 6 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "vending_drink_items",
+    "copy-from": "vending_drink_items",
+    "extend": {
+      "items": [
+        { "item": "gasoline", "container-item": "bottle_glass", "prob": 25 },
+        { "item": "diesel", "container-item": "bottle_glass", "prob": 25 },
+        { "item": "lamp_oil", "container-item": "bottle_glass", "prob": 15 },
+        { "item": "motor_oil", "container-item": "bottle_plastic", "prob": 5 }
+      ]
+    }
   },
   {
     "id": "backrooms_crate",
@@ -109,7 +119,7 @@
       { "group": "guns_shotgun_improvised", "prob": 20 },
       { "group": "museum_melee", "prob": 2 },
       { "group": "museum_guns", "prob": 20 },
-      { "group": "mutagens", "prob": 2 },
+      { "group": "mutagen_kits", "prob": 1 },
       { "group": "science", "prob": 20 },
       { "group": "surgery", "prob": 40 },
       { "group": "ammo_parts", "prob": 50 },
@@ -266,7 +276,7 @@
       { "group": "guns_shotgun_milspec", "prob": 100 },
       { "group": "bionics_mil", "prob": 25 },
       { "group": "bionics", "prob": 50 },
-      { "group": "mut_iv", "prob": 25 },
+      { "group": "mutagenic_field_kit", "prob": 25 },
       { "group": "guns_energy", "prob": 15 },
       { "group": "military", "prob": 75 },
       { "group": "guns_launcher_milspec", "prob": 25 },
@@ -290,8 +300,8 @@
       { "group": "guns_shotgun_milspec", "prob": 25 },
       { "group": "bionics_mil", "prob": 15 },
       { "group": "bionics", "prob": 50 },
-      { "group": "mut_iv", "prob": 10 },
-      { "group": "mutagens", "prob": 25 },
+      { "group": "mutagenic_field_kit", "prob": 10 },
+      { "group": "mutagen_kits", "prob": 1 },
       { "group": "guns_energy", "prob": 5 },
       { "group": "military", "prob": 50 },
       { "group": "science", "prob": 100 },
@@ -354,11 +364,14 @@
       { "group": "plumbing_bulk", "prob": 50 },
       { "group": "wood_workshop", "prob": 50 },
       { "group": "supplies_hardware", "prob": 100 },
-      { "group": "supplies_reagents_lab", "prob": 15 },
-      { "group": "supplies_fuel", "prob": 15 },
+      { "group": "supplies_reagents_lab", "prob": 20 },
+      { "group": "supplies_fuel", "prob": 20 },
       { "group": "supplies_mechanics", "prob": 50 },
       { "group": "supplies_plumbing", "prob": 50 },
       { "group": "supplies_metal", "prob": 50 },
+      { "group": "supplies_farming", "prob": 10 },
+      { "group": "farm_supply_soil_and_sand", "prob": 15 },
+      { "group": "farm_supply_rocks", "prob": 5 },
       { "group": "metal_workshop", "prob": 50 },
       { "group": "steel_mill_mill", "prob": 50 },
       { "group": "recycle_paper", "prob": 20 },

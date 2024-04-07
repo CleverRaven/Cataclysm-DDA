@@ -1,0 +1,62 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_STRIDE_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_teleport_stride" } },
+    "effect": [
+      { "u_message": "Your steps are taking you further than your eyes tell you they should.", "type": "good" },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
+      { "u_add_effect": "effect_teleport_stride", "duration": "PERMANENT" },
+      {
+        "queue_eocs": "EOC_TELEPORT_STRIDE_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( (u_spell_level('teleport_stride') * 3) + 30) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          },
+          {
+            "math": [
+              "( (u_spell_level('teleport_stride') * 4) + 300) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_TELEPORT_REMOVE_STRIDE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_REMOVE_STRIDE",
+    "condition": { "u_has_effect": "effect_teleport_stride" },
+    "effect": [ { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" }, { "u_lose_effect": "effect_teleport_stride" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORT_STRIDE_DRAIN",
+    "condition": { "u_has_effect": "effect_teleport_stride" },
+    "effect": [
+      { "math": [ "u_latest_channeled_power_difficulty", "=", "3" ] },
+      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
+      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(3)" ] },
+      { "math": [ "u_spell_exp('teleport_stride')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
+      {
+        "queue_eocs": "EOC_TELEPORT_STRIDE_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( (u_spell_level('teleport_stride') * 3) + 30) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          },
+          {
+            "math": [
+              "( (u_spell_level('teleport_stride') * 4) + 300) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [  ]
+  }
+]

@@ -85,13 +85,15 @@ std::string base_camps::faction_decode( const std::string_view full_type )
     return std::string{ full_type.substr( prefix_len, size_t( last_bar - prefix_len ) ) };
 }
 
+static const time_duration work_day_hours_time = work_day_hours * 1_hours;
+
 time_duration base_camps::to_workdays( const time_duration &work_time )
 {
-    if( work_time < 11_hours ) {
+    if( work_time < ( work_day_hours + 1 ) * 1_hours ) {
         return work_time;
     }
-    int work_days = work_time / 10_hours;
-    time_duration excess_time = work_time - work_days * 10_hours;
+    int work_days = work_time / work_day_hours_time;
+    time_duration excess_time = work_time - work_days * work_day_hours_time;
     return excess_time + 24_hours * work_days;
 }
 
@@ -666,6 +668,7 @@ void basecamp::form_storage_zones( map &here, const tripoint_abs_ms &abspos )
         mgr.cache_vzones();
     }
     tripoint src_loc = here.getlocal( bb_pos ) + point_north;
+    std::vector<tripoint_abs_ms> possible_liquid_dumps;
     if( mgr.has_near( zone_type_CAMP_STORAGE, abspos, 60 ) ) {
         const std::vector<const zone_data *> zones = mgr.get_near_zones( zone_type_CAMP_STORAGE, abspos,
                 60 );
@@ -684,8 +687,20 @@ void basecamp::form_storage_zones( map &here, const tripoint_abs_ms &abspos )
             src_loc = here.getlocal( zones.front()->get_center_point() );
             set_storage_zone( zones );
         }
+        map &here = get_map();
+        for( const zone_data *zone : storage_zones ) {
+            if( zone->get_type() == zone_type_CAMP_STORAGE ) {
+                for( const tripoint_abs_ms &p : tripoint_range<tripoint_abs_ms>(
+                         zone->get_start_point(), zone->get_end_point() ) ) {
+                    if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_LIQUIDCONT, here.getlocal( p ) ) ) {
+                        possible_liquid_dumps.emplace_back( p );
+                    }
+                }
+            }
+        }
     }
     set_dumping_spot( here.getglobal( src_loc ) );
+    set_liquid_dumping_spot( possible_liquid_dumps );
 
 }
 void basecamp::form_crafting_inventory( map &target_map )
@@ -787,6 +802,23 @@ void basecamp::unload_camp_map()
     if( camp_map.map_ ) {
         camp_map.map_.reset();
     }
+}
+
+void basecamp::set_owner( faction_id new_owner )
+{
+    for( const std::pair<faction_id, faction> fac : g->faction_manager_ptr->all() ) {
+        if( fac.first == new_owner ) {
+            owner = new_owner;
+            return;
+        }
+    }
+    //Fallthrough, id must be invalid
+    debugmsg( "Could not find matching faction for new owner's faction_id!" );
+}
+
+faction_id basecamp::get_owner()
+{
+    return owner;
 }
 
 void basecamp::form_crafting_inventory()
@@ -897,7 +929,8 @@ void basecamp_action_components::consume_components()
         src.emplace_back( target_map.getlocal( p ) );
     }
     for( const comp_selection<item_comp> &sel : item_selections_ ) {
-        player_character.consume_items( target_map, sel, batch_size_, is_crafting_component, src );
+        std::list<item> empty_consumed = player_character.consume_items( target_map, sel, batch_size_,
+                                         is_crafting_component, src );
     }
     // this may consume pseudo-resources from fake items
     for( const comp_selection<tool_comp> &sel : tool_selections_ ) {

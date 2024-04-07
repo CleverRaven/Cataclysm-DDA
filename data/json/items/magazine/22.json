@@ -5,11 +5,11 @@
     "type": "MAGAZINE",
     "name": { "str": ".22 8-round speedloader" },
     "description": "This speedloader can hold 8 rounds of .22 and quickly reload a compatible revolver.",
-    "weight": "64 g",
-    "volume": "250 ml",
+    "weight": "32 g",
+    "volume": "47 ml",
     "price": 600,
     "price_postapoc": 100,
-    "material": [ "steel" ],
+    "material": [ "steel", "plastic" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "22" ],
@@ -27,12 +27,12 @@
       {
         "id": "a180mag",
         "name": { "str": "American-180 165-round magazine" },
-        "description": "An unusually-shaped pan magazine for the American-180.",
-        "weight": 1
+        "description": "An unusually-shaped pan magazine for the American-180."
       }
     ],
-    "weight": "760 g",
-    "volume": "500 ml",
+    "weight": "1039 g",
+    "volume": "892 ml",
+    "longest_side": "14 cm",
     "price": 7300,
     "price_postapoc": 250,
     "material": [ "steel" ],
@@ -54,15 +54,15 @@
       {
         "id": "a180mag1",
         "name": { "str": "American-180 polymer 165-round magazine" },
-        "description": "An unusually-shaped, polymer pan magazine for the American-180.",
-        "weight": 1
+        "description": "An unusually-shaped, polymer pan magazine for the American-180."
       }
     ],
-    "weight": "500 g",
-    "volume": "500 ml",
+    "weight": "779 g",
+    "volume": "892 ml",
+    "longest_side": "14 cm",
     "price": 7300,
     "price_postapoc": 250,
-    "material": [ "plastic" ],
+    "material": [ "plastic", "steel" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "22" ],
@@ -81,12 +81,12 @@
       {
         "id": "a180mag2",
         "name": { "str": "American-180 177-round magazine" },
-        "description": "An unusually-shaped pan magazine for the American-180.",
-        "weight": 1
+        "description": "An unusually-shaped pan magazine for the American-180."
       }
     ],
-    "weight": "600 g",
-    "volume": "500 ml",
+    "weight": "1133 g",
+    "volume": "973 ml",
+    "longest_side": "15 cm",
     "price": 7500,
     "price_postapoc": 300,
     "material": [ "steel" ],
@@ -108,15 +108,15 @@
       {
         "id": "a180mag3",
         "name": { "str": "American-180 polymer 220-round magazine" },
-        "description": "An unusually-shaped polymer pan magazine for the American-180.",
-        "weight": 1
+        "description": "An unusually-shaped polymer pan magazine for the American-180."
       }
     ],
-    "weight": "660 g",
-    "volume": "500 ml",
+    "weight": "1258 g",
+    "volume": "1081 ml",
+    "longest_side": "16 cm",
     "price": 8000,
     "price_postapoc": 400,
-    "material": [ "plastic" ],
+    "material": [ "plastic", "steel" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "22" ],
@@ -135,15 +135,15 @@
       {
         "id": "a180mag4",
         "name": { "str": "American-180 polymer 275-round magazine" },
-        "description": "An unusually-shaped polymer pan magazine for the American-180.",
-        "weight": 1
+        "description": "An unusually-shaped polymer pan magazine for the American-180."
       }
     ],
-    "weight": "770 g",
-    "volume": "600 ml",
+    "weight": "1258 g",
+    "volume": "1081 ml",
+    "longest_side": "17 cm",
     "price": 8000,
     "price_postapoc": 400,
-    "material": [ "plastic" ],
+    "material": [ "plastic", "steel" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "22" ],
@@ -155,10 +155,19 @@
     "id": "marlin_tubeloader",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": ".22 19-round tube loader" },
+    "name": { "str": "small game rifle 19-round tube loader" },
     "description": "A tube which holds 19 rounds of .22, designed for quick reloading of a compatible rifle with a tubular magazine.",
-    "weight": "180 g",
-    "volume": "250 ml",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "marlin_tubeloader",
+        "name": { "str": "Marlin 39A 19-round tube loader" },
+        "description": "A tube which holds 19 rounds of .22, designed for quick reloading of a compatible rifle with a tubular magazine."
+      }
+    ],
+    "weight": "10 g",
+    "volume": "14 ml",
+    "longest_side": "49 cm",
     "price": 1200,
     "price_postapoc": 100,
     "material": [ "steel" ],
@@ -179,12 +188,12 @@
       {
         "id": "mosquitomag",
         "name": { "str": "SIG Mosquito 10-round magazine" },
-        "description": "A factory specification 10-round magazine for the SIG Mosquito.",
-        "weight": 1
+        "description": "A factory specification 10-round magazine for the SIG Mosquito."
       }
     ],
     "weight": "60 g",
-    "volume": "250 ml",
+    "volume": "72 ml",
+    "longest_side": "9 cm",
     "price": 1700,
     "price_postapoc": 100,
     "material": [ "steel" ],
@@ -205,15 +214,15 @@
       {
         "id": "ruger1022bigmag",
         "name": { "str": "Ruger 10/22 25-round magazine" },
-        "description": "An extended 25-round stick magazine for the Ruger 10/22, known as the BX-25.",
-        "weight": 1
+        "description": "An extended 25-round stick magazine for the Ruger 10/22, known as the BX-25."
       }
     ],
-    "weight": "180 g",
-    "volume": "500 ml",
+    "weight": "245 g",
+    "volume": "159 ml",
+    "longest_side": "185 mm",
     "price": 7900,
     "price_postapoc": 200,
-    "material": [ "steel" ],
+    "material": [ "steel", "plastic" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "22" ],
@@ -231,15 +240,15 @@
       {
         "id": "ruger1022mag",
         "name": { "str": "Ruger 10/22 10-round rotary magazine" },
-        "description": "A removable 10-round rotary magazine for the Ruger 10/22 which allows the magazine to fit flush with the bottom of the stock.",
-        "weight": 1
+        "description": "A removable 10-round rotary magazine for the Ruger 10/22 which allows the magazine to fit flush with the bottom of the stock."
       }
     ],
-    "weight": "80 g",
-    "volume": "250 ml",
+    "weight": "57 g",
+    "volume": "34 ml",
+    "longest_side": "4 cm",
     "price": 1400,
     "price_postapoc": 100,
-    "material": [ "steel" ],
+    "material": [ "steel", "plastic" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "22" ],
@@ -252,18 +261,18 @@
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": { "str": ".22 10-round S&W magazine" },
-    "description": "A 10-round handgun magazine for use with Smith and Wesson’s .22 caliber pocket pistol.",
+    "description": "A 10-round handgun magazine for use with Smith and Wesson's .22 caliber pocket pistol.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "sw22mag",
         "name": { "str": "22A 10-round magazine" },
-        "description": "A standard capacity magazine for the popular S&W 22A pistol.",
-        "weight": 1
+        "description": "A standard capacity magazine for the popular S&W 22A pistol."
       }
     ],
-    "weight": "70 g",
-    "volume": "250 ml",
+    "weight": "60 g",
+    "volume": "72 ml",
+    "longest_side": "9 cm",
     "price": 2100,
     "price_postapoc": 100,
     "material": [ "steel" ],
@@ -284,12 +293,12 @@
       {
         "id": "j22mag",
         "name": { "str": "J-22 6-round magazine" },
-        "description": "A cheap 6-round steel box magazine for the Jennings J-22.",
-        "weight": 1
+        "description": "A cheap 6-round steel box magazine for the Jennings J-22."
       }
     ],
     "weight": "55 g",
     "volume": "27ml",
+    "longest_side": "7 cm",
     "price": 2800,
     "price_postapoc": 100,
     "material": [ "steel" ],
@@ -310,15 +319,15 @@
       {
         "id": "wp22mag",
         "name": { "str": "P22 10-round magazine" },
-        "description": "A 10-round box magazine for the Walther P22.",
-        "weight": 1
+        "description": "A 10-round box magazine for the Walther P22."
       }
     ],
-    "weight": "25 g",
-    "volume": "126 ml",
+    "weight": "60 g",
+    "volume": "44 ml",
+    "longest_side": "10 cm",
     "price": 3250,
     "price_postapoc": 100,
-    "material": [ "steel" ],
+    "material": [ "steel", "plastic" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "22" ],

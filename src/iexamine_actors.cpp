@@ -13,8 +13,6 @@
 #include "output.h"
 #include "veh_appliance.h"
 
-static const mon_flag_str_id mon_flag_ID_CARD_DESPAWN( "ID_CARD_DESPAWN" );
-
 static const ter_str_id ter_t_door_metal_c( "t_door_metal_c" );
 static const ter_str_id ter_t_door_metal_locked( "t_door_metal_locked" );
 
@@ -249,9 +247,11 @@ std::unique_ptr<iexamine_actor> cardreader_examine_actor::clone() const
     return std::make_unique<cardreader_examine_actor>( *this );
 }
 
-void eoc_examine_actor::call( Character &you, const tripoint & ) const
+void eoc_examine_actor::call( Character &you, const tripoint &examp ) const
 {
     dialogue d( get_talker_for( you ), nullptr );
+    d.set_value( "npctalk_var_this", get_map().furn( examp ).id().str() );
+    d.set_value( "npctalk_var_pos", get_map().getglobal( examp ).to_string() );
     for( const effect_on_condition_id &eoc : eocs ) {
         eoc->activate( d );
     }

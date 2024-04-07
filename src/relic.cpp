@@ -419,7 +419,7 @@ int relic::activate( Creature &caster, const tripoint &target )
         caster.add_msg_if_player( m_bad, _( "This artifact lacks the charges to activate." ) );
         return 0;
     }
-    caster.moves -= moves;
+    caster.mod_moves( -moves );
     for( const fake_spell &sp : active_effects ) {
         spell casting = sp.get_spell( caster, sp.level );
         casting.cast_all_effects( caster, target );
@@ -710,7 +710,7 @@ relic relic_procgen_data::generate( const relic_procgen_data::generation_rules &
                     passive_mult_procgen_values.pick();
                 if( mult != nullptr ) {
                     enchant_cache ench;
-                    float value = rng( mult->min_value, mult->max_value );
+                    float value = rng_float( mult->min_value, mult->max_value );
                     ench.add_value_mult( mult->type, value );
                     int negative_ench_attribute = power_level( ench );
                     if( negative_ench_attribute < 0 ) {

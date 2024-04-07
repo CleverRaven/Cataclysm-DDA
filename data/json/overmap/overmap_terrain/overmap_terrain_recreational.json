@@ -257,7 +257,7 @@
       "luna_park_2_1_1"
     ],
     "copy-from": "generic_city_building_no_sidewalk",
-    "name": "luna park",
+    "name": "miniature railway park",
     "sym": "P",
     "color": "light_green"
   },
@@ -322,15 +322,28 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "zoo_2_0",
+    "id": [ "zoo_2_0", "zoo_3_0" ],
     "copy-from": "generic_city_building",
-    "name": "zoo pavilion",
+    "name": "zoo entrance",
     "sym": "P",
     "color": "i_green"
   },
   {
     "type": "overmap_terrain",
-    "id": [ "zoo_0_1", "zoo_1_1", "zoo_2_1", "zoo_0_2", "zoo_1_2", "zoo_2_2" ],
+    "id": [
+      "zoo_0_1",
+      "zoo_1_1",
+      "zoo_2_1",
+      "zoo_3_1",
+      "zoo_0_2",
+      "zoo_1_2",
+      "zoo_2_2",
+      "zoo_3_2",
+      "zoo_0_3",
+      "zoo_1_3",
+      "zoo_2_3",
+      "zoo_3_3"
+    ],
     "copy-from": "generic_city_building",
     "name": "zoo",
     "sym": "Z",
@@ -338,7 +351,32 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "zoo_0_1_roof", "zoo_1_1_roof", "zoo_2_1_roof", "zoo_0_2_roof", "zoo_1_2_roof", "zoo_2_2_roof" ],
+    "id": [ "zoo_3_2_basement", "zoo_3_3_basement" ],
+    "copy-from": "generic_city_building",
+    "name": "zoo cave",
+    "sym": "Z",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "zoo_0_0_roof",
+      "zoo_1_0_roof",
+      "zoo_2_0_roof",
+      "zoo_3_0_roof",
+      "zoo_0_1_roof",
+      "zoo_1_1_roof",
+      "zoo_2_1_roof",
+      "zoo_3_1_roof",
+      "zoo_0_2_roof",
+      "zoo_1_2_roof",
+      "zoo_2_2_roof",
+      "zoo_3_2_roof",
+      "zoo_0_3_roof",
+      "zoo_1_3_roof",
+      "zoo_2_3_roof",
+      "zoo_3_3_roof"
+    ],
     "copy-from": "generic_city_building",
     "name": "zoo roof",
     "sym": "Z",

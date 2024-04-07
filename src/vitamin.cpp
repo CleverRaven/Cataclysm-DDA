@@ -3,11 +3,14 @@
 #include <cstdlib>
 #include <map>
 
+#include "assign.h"
 #include "calendar.h"
 #include "debug.h"
 #include "enum_conversions.h"
 #include "json.h"
+#include "options.h"
 #include "units.h"
+#include "units_utility.h"
 
 static std::map<vitamin_id, vitamin> vitamins_all;
 
@@ -61,6 +64,11 @@ void vitamin::load_vitamin( const JsonObject &jo )
     vit.min_ = jo.get_int( "min" );
     vit.max_ = jo.get_int( "max", 0 );
     vit.rate_ = read_from_json_string<time_duration>( jo.get_member( "rate" ), time_duration::units );
+
+    if( jo.has_string( "weight_per_unit" ) ) {
+        vit.weight_per_unit = read_from_json_string( jo.get_member( "weight_per_unit" ),
+                              vitamin_units::mass_units );
+    }
 
     if( !jo.has_string( "vit_type" ) ) {
         jo.throw_error_at( "vit_type", "vitamin must have a vitamin type" );
@@ -120,6 +128,29 @@ float vitamin::RDA_to_default( int percent ) const
         return percent;
     }
     return ( 24_hours / rate_ ) * ( static_cast<float>( percent ) / 100.0f );
+}
+
+int vitamin::units_absorption_per_day() const
+{
+    return ( 24_hours / rate_ );
+}
+
+int vitamin::units_from_mass( vitamin_units::mass val ) const
+{
+    if( !weight_per_unit.has_value() ) {
+        debugmsg( "Tried to convert vitamin in mass to units, but %s doesn't support mass for vitamins",
+                  id_.str() );
+        return 1;
+    }
+    return val / *weight_per_unit;
+}
+
+std::pair<std::string, std::string> vitamin::mass_str_from_units( int units ) const
+{
+    if( !weight_per_unit.has_value() || !get_option<bool>( "SHOW_VITAMIN_MASS" ) ) {
+        return {"", ""};
+    }
+    return weight_to_string( units * *weight_per_unit );
 }
 
 namespace io

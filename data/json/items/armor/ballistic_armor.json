@@ -3,10 +3,10 @@
     "id": "ballistic_vest_esapi",
     "type": "ARMOR",
     "category": "armor",
-    "//": "Based on US Army MTV",
+    "//": "Based on US Army SPCS. Used weight of size M cummerband configuration, data from: https://ciehub.info/ref/TM/10-8470-209-10_2013.pdf ",
     "name": { "str": "US ballistic vest" },
     "description": "A ballistic vest with specialized pockets on the front, back, and sides to hold armor plates.  While this plate carrier is still protective even without inserts, it's too soft to effectively stop high-energy projectiles on its own.",
-    "weight": "2911 g",
+    "weight": "3533 g",
     "volume": "6 L",
     "variant_type": "generic",
     "variants": [
@@ -14,7 +14,6 @@
         "id": "us_ballistic_vest",
         "name": { "str": "US ballistic vest" },
         "description": "This version is patterned in multi-environment camouflage, and was standard-issue for the US Army.",
-        "weight": 1,
         "append": true
       },
       {
@@ -22,7 +21,6 @@
         "name": { "str": "SWAT ballistic vest" },
         "description": "This version is colored black, and was once used by specialized police forces.  \"SWAT\" is emblazoned on the back.",
         "color": "dark_gray",
-        "weight": 1,
         "append": true
       }
     ],
@@ -91,7 +89,157 @@
         "coverage": 100,
         "cover_vitals": 90,
         "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ],
         "volume_encumber_modifier": 0.3
+      },
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 4.4 }
+        ],
+        "encumbrance": 0,
+        "coverage": 80,
+        "cover_vitals": 90,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_lower" ],
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
+    "id": "jacket_eod",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "name": { "str": "EOD jacket" },
+    "description": "A thick armored jacket constructed from Kevlar, Nomex, and foam padding, for use by explosive ordnance disposal technicians.  It features a central pocket for a large plate, and near complete coverage in fragmentation resistant materials.  Aside from the plate, it offers insufficient protection from ballistic threats.",
+    "//": "Based on the Med-Eng EOD 9 and EOD 10 suits.",
+    "weight": "13500 g",
+    "volume": "15 L",
+    "price": 1509000,
+    "price_postapoc": 18000,
+    "warmth": 65,
+    "material": [ "kevlar", "plastic_pad", "nomex" ],
+    "symbol": "[",
+    "color": "light_green",
+    "environmental_protection": 2,
+    "material_thickness": 15,
+    "flags": [ "STURDY", "OUTER", "RAINPROOF", "ONLY_ONE" ],
+    "use_action": [ { "type": "attach_molle", "size": 15 }, { "type": "detach_molle" } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "3000 ml",
+        "max_contains_weight": "7 kg",
+        "max_item_length": "46 cm",
+        "moves": 1100,
+        "description": "Pocket for a huge armor plate.",
+        "flag_restriction": [ "ABLATIVE_LARGE" ]
+      }
+    ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 7.4 },
+          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 2.0 }
+        ],
+        "coverage": 100,
+        "cover_vitals": 100,
+        "covers": [ "torso", "arm_l", "arm_r" ],
+        "encumbrance": [ 71, 80 ]
+      }
+    ]
+  },
+  {
+    "id": "jacket_eod_light",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "name": { "str": "tactical EOD jacket" },
+    "description": "An armored jacket constructed from Kevlar, Nomex, and foam padding, for use by explosive ordnance disposal technicians in 'non-permissive environments'.  It is lighter than normal EOD armor to allow for wearing a plate carrier beneath it.  It features two pockets in the arms covering the deltoids for additional optional protection.",
+    "weight": "7000 g",
+    "volume": "15 L",
+    "price": 410160,
+    "price_postapoc": 5900,
+    "warmth": 40,
+    "material": [ "kevlar", "plastic_pad", "nomex" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "environmental_protection": 2,
+    "material_thickness": 7,
+    "flags": [ "STURDY", "OUTER", "RAINPROOF", "ONLY_ONE" ],
+    "use_action": [ { "type": "attach_molle", "size": 15 }, { "type": "detach_molle" } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "3000 ml",
+        "max_contains_weight": "7 kg",
+        "max_item_length": "46 cm",
+        "moves": 1100,
+        "description": "Pocket for a huge armor plate.",
+        "flag_restriction": [ "ABLATIVE_LARGE" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "1558 ml",
+        "max_contains_weight": "1600 kg",
+        "max_item_length": "21 cm",
+        "min_item_length": "21 cm",
+        "//": "min. length really just a hack to avoid adding a flag.",
+        "moves": 800,
+        "description": "Pockets for deltoid armor plates.",
+        "flag_restriction": [ "ABLATIVE_MEDIUM" ]
+      }
+    ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 4.4 },
+          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 2 }
+        ],
+        "coverage": 100,
+        "cover_vitals": 100,
+        "covers": [ "torso", "arm_l", "arm_r" ],
+        "encumbrance": [ 31, 55 ]
+      }
+    ]
+  },
+  {
+    "id": "eod_plate",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "EOD fragmentation plate" },
+    "description": "A polygonal fragmentation plate with a slightly concave profile, made of thin layers of steel, UHMW polyethylene, foam, and Kevlar.  Though certified to provide protection from fragmentation, it will not provide much protection from firearms.  This is intended to be inserted into an EOD suit, and can't be worn on its own.",
+    "weight": "2800 g",
+    "volume": "2950 ml",
+    "longest_side": "46 cm",
+    "//": "Based on the plate from the MED-ENG EOD 9N.  People don't seem willing to buy the EOD 10 to shoot at and MED-ENG ain't telling us how not-bullet proof the suit is.",
+    "price": 361300,
+    "price_postapoc": 2000,
+    "material": [ "kevlar", "plastic_pad", "thermo_resin", "qt_steel" ],
+    "symbol": ",",
+    "color": "dark_gray",
+    "material_thickness": 5,
+    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 0.3 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 3.6 },
+          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 3.0 },
+          { "type": "thermo_resin", "covered_by_mat": 100, "thickness": 2.4 }
+        ],
+        "encumbrance": 0,
+        "coverage": 45,
+        "cover_vitals": 100,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper", "torso_lower" ]
       }
     ]
   },
@@ -242,6 +390,100 @@
     ]
   },
   {
+    "id": "lc_esapi_plate",
+    "type": "ARMOR",
+    "copy-from": "scrap_esapi_plate",
+    "looks_like": "scrap_esapi_plate",
+    "repairs_like": "hsurvivor_jumpsuit",
+    "name": { "str": "mild ESAPI plate" },
+    "//": "Similar to scrap plates, except made with higher quality steel. A goal for blacksmithing.",
+    "description": "Mild steel forged into a ballistic plate.  While it is more professionally done than scrap plates, it still has a fair amount of jerry-rigging.",
+    "weight": "1300 g",
+    "volume": "262 ml",
+    "longest_side": "30 cm",
+    "material": [ { "type": "lc_steel", "portion": 4 }, { "type": "nylon" } ],
+    "repairs_with": [ "lc_steel" ],
+    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "STURDY" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 2.3 },
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.2 }
+        ],
+        "encumbrance": 1,
+        "coverage": 45,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ]
+      }
+    ]
+  },
+  {
+    "id": "mc_esapi_plate",
+    "type": "ARMOR",
+    "copy-from": "lc_esapi_plate",
+    "looks_like": "scrap_esapi_plate",
+    "name": { "str": "medium ESAPI plate" },
+    "description": "Medium steel forged into a ballistic plate.  While it is more professionally done than scrap plates, it still has a fair amount of jerry-rigging.",
+    "replace_materials": { "lc_steel": "mc_steel" },
+    "repairs_with": [ "mc_steel" ]
+  },
+  {
+    "id": "hc_esapi_plate",
+    "type": "ARMOR",
+    "copy-from": "lc_esapi_plate",
+    "looks_like": "scrap_esapi_plate",
+    "name": { "str": "high ESAPI plate" },
+    "description": "High steel forged into a ballistic plate.  While it is more professionally done than most scrap plates, it still has a fair amount of jerry-rigging.",
+    "replace_materials": { "lc_steel": "hc_steel" },
+    "repairs_with": [ "hc_steel" ]
+  },
+  {
+    "id": "ch_esapi_plate",
+    "type": "ARMOR",
+    "copy-from": "lc_esapi_plate",
+    "looks_like": "scrap_esapi_plate",
+    "name": { "str": "hard ESAPI plate" },
+    "description": "Hardened steel forged into a ballistic plate.  While it is more professionally done than most scrap plates, it still has a fair amount of jerry-rigging.",
+    "replace_materials": { "lc_steel": "ch_steel" }
+  },
+  {
+    "id": "qt_esapi_plate",
+    "type": "ARMOR",
+    "copy-from": "lc_esapi_plate",
+    "looks_like": "scrap_esapi_plate",
+    "name": { "str": "tempered ESAPI plate" },
+    "description": "Tempered steel forged into a ballistic plate.  While it is more professionally done than most scrap plates, it still has a fair amount of jerry-rigging.",
+    "replace_materials": { "lc_steel": "qt_steel" },
+    "repairs_with": [ "mc_steel" ]
+  },
+  {
+    "id": "deltoid_plates",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "deltoid ballistic plates" },
+    "//": "2x 20.5cm x 13.0cm x 3.0cm",
+    "description": "A pair of NIJ Level III ballistic plates with a concave profile, made of UHMW polyethylene.  \"STRIKE FACE\" is printed on its outer surface.  These plates are designed to be worn in the shoulder pockets of suitable plate carriers or combat shirts, and can resist several high-energy rifle rounds before breaking.  Deltoid plates such as these are very infrequently worn due to their marginal utility in improving survivability.",
+    "weight": "1551 g",
+    "volume": "1599 ml",
+    "longest_side": "21 cm",
+    "price": 94400,
+    "price_postapoc": 800,
+    "material": [ "thermo_resin" ],
+    "symbol": ",",
+    "color": "light_gray",
+    "material_thickness": 14,
+    "damage_verb": "makes a crunch, something has shifted",
+    "flags": [ "ABLATIVE_MEDIUM", "CANT_WEAR" ],
+    "armor": [
+      {
+        "encumbrance": 8,
+        "coverage": 35,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
+      }
+    ]
+  },
+  {
     "id": "esbi_plate",
     "type": "ARMOR",
     "category": "armor",
@@ -295,6 +537,73 @@
     ]
   },
   {
+    "id": "lc_esbi_plate",
+    "type": "ARMOR",
+    "copy-from": "scrap_esbi_plate",
+    "looks_like": "scrap_esbi_plate",
+    "repairs_like": "hsurvivor_jumpsuit",
+    "name": { "str": "mild ESBI plate" },
+    "//": "These will probably be in higher demand since there is no steel version of ESBI plates.",
+    "description": "A hexagonal piece of mild steel forged into a side plate and padded with synthetic fabric.  While it is more professionally done than scrap plates, it still has a fair amount of jerry-rigging.",
+    "weight": "1300 g",
+    "volume": "262 ml",
+    "longest_side": "20 cm",
+    "material": [ { "type": "lc_steel", "portion": 4 }, { "type": "nylon" } ],
+    "repairs_with": [ "lc_steel" ],
+    "flags": [ "ABLATIVE_MEDIUM", "CANT_WEAR", "STURDY" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 2.3 },
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.2 }
+        ],
+        "encumbrance": 1,
+        "coverage": 35,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_lower" ]
+      }
+    ]
+  },
+  {
+    "id": "mc_esbi_plate",
+    "type": "ARMOR",
+    "copy-from": "lc_esbi_plate",
+    "looks_like": "scrap_esbi_plate",
+    "name": { "str": "medium ESBI plate" },
+    "description": "A hexagonal piece of medium steel forged into a side plate and padded with synthetic fabric.  While it is more professionally done than scrap plates, it still has a fair amount of jerry-rigging.",
+    "replace_materials": { "lc_steel": "mc_steel" },
+    "repairs_with": [ "mc_steel" ]
+  },
+  {
+    "id": "hc_esbi_plate",
+    "type": "ARMOR",
+    "copy-from": "lc_esbi_plate",
+    "looks_like": "scrap_esbi_plate",
+    "name": { "str": "high ESBI plate" },
+    "description": "A hexagonal piece of high steel forged into a side plate and padded with synthetic fabric.  While it is more professionally done than scrap plates, it still has a fair amount of jerry-rigging.",
+    "replace_materials": { "lc_steel": "hc_steel" },
+    "repairs_with": [ "hc_steel" ]
+  },
+  {
+    "id": "ch_esbi_plate",
+    "type": "ARMOR",
+    "copy-from": "lc_esbi_plate",
+    "looks_like": "scrap_esbi_plate",
+    "name": { "str": "hard ESBI plate" },
+    "description": "A hexagonal piece of hardened steel forged into a side plate and padded with synthetic fabric.  While it is more professionally done than scrap plates, it still has a fair amount of jerry-rigging.",
+    "replace_materials": { "lc_steel": "ch_steel" }
+  },
+  {
+    "id": "qt_esbi_plate",
+    "type": "ARMOR",
+    "copy-from": "lc_esbi_plate",
+    "looks_like": "scrap_esbi_plate",
+    "name": { "str": "tempered ESBI plate" },
+    "description": "A hexagonal piece of tempered steel forged into a side plate and padded with synthetic fabric.  While it is more professionally done than scrap plates, it still has a fair amount of jerry-rigging.",
+    "replace_materials": { "lc_steel": "qt_steel" },
+    "repairs_with": [ "mc_steel" ]
+  },
+  {
     "id": "destroyed_large_ceramic_plate",
     "type": "ARMOR",
     "copy-from": "esapi_plate",
@@ -319,18 +628,18 @@
   {
     "id": "ballistic_vest_heavy",
     "type": "ARMOR",
-    "copy-from": "ballistic_vest_esapi",
-    "name": { "str": "heavy ballistic vest" },
-    "description": "Heavy ballistic armor with specialized pockets on the front, back, and sides for armored plates.  This configuration adds shoulder protectors, as well as protection for the neck and groin.",
-    "weight": "7 kg",
-    "volume": "8 L",
-    "material": [ "nylon", "kevlar_layered" ],
+    "category": "armor",
+    "//": "Based on US Army IOTV. Weight from size M base piece plus lower back protector, data from: https://www.moore.army.mil/tenant/lrc/content/pdf/IOTV%20GEN%20III%20TM%2010-8470-210-10.pdf ",
+    "name": { "str": "US heavy ballistic vest" },
+    "description": "Heavier ballistic armor used by the US Army, known as the IOTV.  It has pockets on the front, back, and sides for armor plates; additional protection for the lower back; and attachment points for optional shoulder, groin, and neck protection.",
+    "weight": "4976 g",
+    "volume": "6 L",
     "variant_type": "generic",
     "variants": [
       {
         "id": "ballistic_vest_heavy_military",
         "name": { "str": "heavy ballistic vest" },
-        "description": "It's styled in a dark olive color.",
+        "description": "It's a dark olive color.",
         "color": "light_green",
         "weight": 4,
         "append": true
@@ -344,6 +653,13 @@
         "append": true
       }
     ],
+    "price": "1600 USD",
+    "price_postapoc": "10 USD",
+    "symbol": "[",
+    "material": [ "nylon", "kevlar_layered" ],
+    "color": "light_gray",
+    "warmth": 15,
+    "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY" ],
     "use_action": [ { "type": "attach_molle", "size": 10 }, { "type": "detach_molle" } ],
     "pocket_data": [
       {
@@ -355,6 +671,7 @@
         "max_item_length": "33 cm",
         "moves": 800,
         "description": "Pocket for a large armor plate.",
+        "//": "Should fit a medium ESAPI plate snugly",
         "flag_restriction": [ "ABLATIVE_LARGE" ]
       },
       {
@@ -389,6 +706,39 @@
         "moves": 800,
         "description": "Pocket for a medium armor plate.",
         "flag_restriction": [ "ABLATIVE_MEDIUM" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "1200 kg",
+        "max_item_length": "21 cm",
+        "moves": 800,
+        "description": "Attachment for shoulder protectors.",
+        "item_restriction": [ "iotv_shoulder_plate" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "800 g",
+        "max_item_length": "21 cm",
+        "moves": 800,
+        "description": "Attachment for a groin protector.",
+        "item_restriction": [ "iotv_groin_plate" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "800 g",
+        "max_item_length": "21 cm",
+        "moves": 800,
+        "description": "Attachment for a collar.",
+        "item_restriction": [ "iotv_neck_plate" ]
       }
     ],
     "armor": [
@@ -399,106 +749,21 @@
         ],
         "encumbrance": 6,
         "coverage": 100,
-        "cover_vitals": 100,
+        "cover_vitals": 90,
         "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ],
         "volume_encumber_modifier": 0.3
       },
-      {
-        "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 4.4 }
-        ],
-        "encumbrance": 5,
-        "//": "an enemy could get under the protection in melee but ranged shots should almost always be blocked",
-        "coverage": 80,
-        "cover_melee": 80,
-        "cover_ranged": 95,
-        "cover_vitals": 100,
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "arm_upper_l", "arm_upper_r" ],
-        "volume_encumber_modifier": 0
-      },
-      {
-        "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 4.4 }
-        ],
-        "encumbrance": 2,
-        "coverage": 75,
-        "cover_vitals": 100,
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
-        "volume_encumber_modifier": 0
-      }
-    ]
-  },
-  {
-    "id": "ballistic_vest_heavy_arms",
-    "type": "ARMOR",
-    "copy-from": "ballistic_vest_heavy",
-    "name": { "str": "legless heavy ballistic vest" },
-    "description": "Heavy ballistic armor with specialized pockets on the front, back, and sides for armored plates.  This configuration adds shoulder protectors as well as neck protection.",
-    "weight": "5 kg",
-    "volume": "7 L",
-    "armor": [
       {
         "material": [
           { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 4.4 }
         ],
-        "encumbrance": 6,
-        "coverage": 100,
-        "cover_vitals": 100,
+        "encumbrance": 0,
+        "coverage": 90,
+        "cover_vitals": 90,
         "covers": [ "torso" ],
-        "volume_encumber_modifier": 0.3
-      },
-      {
-        "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 4.4 }
-        ],
-        "encumbrance": 5,
-        "//": "an enemy could get under the protection in melee but ranged shots should almost always be blocked",
-        "coverage": 80,
-        "cover_melee": 80,
-        "cover_ranged": 95,
-        "cover_vitals": 100,
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "arm_upper_l", "arm_upper_r" ],
-        "volume_encumber_modifier": 0
-      }
-    ]
-  },
-  {
-    "id": "ballistic_vest_heavy_legs",
-    "type": "ARMOR",
-    "copy-from": "ballistic_vest_heavy",
-    "name": { "str": "sleeveless heavy ballistic vest" },
-    "description": "Heavy ballistic armor with specialized pockets on the front, back, and sides for armored plates.  This configuration adds groin and neck protection.",
-    "weight": "5 kg",
-    "volume": "7 L",
-    "armor": [
-      {
-        "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 4.4 }
-        ],
-        "encumbrance": 6,
-        "coverage": 100,
-        "cover_vitals": 100,
-        "covers": [ "torso" ],
-        "volume_encumber_modifier": 0.3
-      },
-      {
-        "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 4.4 }
-        ],
-        "encumbrance": 2,
-        "coverage": 75,
-        "cover_vitals": 100,
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "specifically_covers": [ "torso_lower" ],
         "volume_encumber_modifier": 0
       }
     ]
@@ -541,7 +806,6 @@
         "name": { "str": "hexagonal light ballistic vest (mag pouches)", "str_pl": "hexagonal light ballistic vests (mag pouches)" },
         "description": "It's decorated in a pattern of spiraling hexagons that screams style over substance.",
         "symbol": "O",
-        "weight": 1,
         "append": true
       },
       {
@@ -550,7 +814,6 @@
         "description": "Someone has spray-painted a large white skull on the front.",
         "symbol": "S",
         "color": "white",
-        "weight": 1,
         "append": true
       },
       {
@@ -559,14 +822,13 @@
         "description": "The original owner has decorated this thing with an excessive number of patches; inane slogans, political punch lines, and cartoon characters making bedroom eyes are plastered all over the front.",
         "symbol": "#",
         "color": "light_red",
-        "weight": 1,
         "append": true
       }
     ],
     "weight": "900 g",
     "volume": "4 L",
     "warmth": 0,
-    "material": [ "nylon" ],
+    "material": [ "nylon", "kevlar_layered" ],
     "use_action": [ { "type": "attach_molle", "size": 6 }, { "type": "detach_molle" } ],
     "pocket_data": [
       {
@@ -653,7 +915,6 @@
         "name": { "str": "hexagonal light ballistic vest (storage pouch)", "str_pl": "hexagonal light ballistic vests (storage pouch)" },
         "description": "It's decorated in a pattern of spiraling hexagons that screams style over substance.",
         "symbol": "O",
-        "weight": 1,
         "append": true
       },
       {
@@ -662,7 +923,6 @@
         "description": "Someone has spray-painted a large white skull on the front.",
         "symbol": "S",
         "color": "white",
-        "weight": 1,
         "append": true
       },
       {
@@ -671,7 +931,6 @@
         "description": "The original owner has decorated this thing with an excessive number of patches; inane slogans, political punch lines, and cartoon characters making bedroom eyes are plastered all over the front.",
         "symbol": "#",
         "color": "light_red",
-        "weight": 1,
         "append": true
       }
     ],
@@ -750,7 +1009,6 @@
         },
         "description": "It's decorated in a pattern of spiraling hexagons that screams style over substance.",
         "symbol": "O",
-        "weight": 1,
         "append": true
       },
       {
@@ -759,7 +1017,6 @@
         "description": "Someone has spray-painted a large white skull on the front.",
         "symbol": "S",
         "color": "white",
-        "weight": 1,
         "append": true
       },
       {
@@ -768,7 +1025,6 @@
         "description": "The original owner has decorated this thing with an excessive number of patches; inane slogans, political punch lines, and cartoon characters making bedroom eyes are plastered all over the front.",
         "symbol": "#",
         "color": "light_red",
-        "weight": 1,
         "append": true
       }
     ],
@@ -828,15 +1084,13 @@
       {
         "id": "security_stab_vest",
         "name": { "str": "security stab vest" },
-        "description": "A slim security vest used by mall cops.  Its protection is mostly meant to extend to knives and not actual bullets, but at least it kept insurance costs down.  It has \"SECURITY\" written on the front lapel and across the back, and features a pocket for a notebook and pen.",
-        "weight": 1
+        "description": "A slim security vest used by mall cops.  Its protection is mostly meant to extend to knives and not actual bullets, but at least it kept insurance costs down.  It has \"SECURITY\" written on the front lapel and across the back, and features a pocket for a notebook and pen."
       },
       {
         "id": "airsoft_stab_vest",
         "name": { "str": "airsoft vest" },
         "description": "A low-cost tactical vest styled in black camouflage, used in cosplay and airsoft.  It'll let you shrug off airsoft pellets like a badass, but its protection is mediocre against anything that's actually dangerous.  It sports several small pouches, and includes touch fasteners to attach identifying patches.",
-        "color": "dark_gray",
-        "weight": 1
+        "color": "dark_gray"
       }
     ],
     "description": "A simple Level II protection vest.",
@@ -899,15 +1153,13 @@
       {
         "id": "security_armor_vest",
         "name": { "str": "security ballistic vest" },
-        "description": "A lightweight black vest used by private security, covering the chest and most of the abdomen.  Soft armor plates sealed inside the fabric provide solid defense against shrapnel and small-caliber rounds.  \"SECURITY\" is emblazoned on the front lapel and across the back, and it features a pocket for a notebook and pen.",
-        "weight": 1
+        "description": "A lightweight black vest used by private security, covering the chest and most of the abdomen.  Soft armor plates sealed inside the fabric provide solid defense against shrapnel and small-caliber rounds.  \"SECURITY\" is emblazoned on the front lapel and across the back, and it features a pocket for a notebook and pen."
       },
       {
         "id": "press_armor_vest",
         "name": { "str": "press ballistic vest" },
         "description": "Colored a distinctive navy blue and with a flared collar extending up to the chin, this soft body armor was once used by news crews reporting from combat zones.  It provides good protection from shrapnel, and to a lesser degree, low-caliber bullets.  \"PRESS\" is emblazoned prominently on the front lapel and across the back, and it features a pocket for a notebook and pen.",
-        "color": "blue",
-        "weight": 1
+        "color": "blue"
       }
     ],
     "variant_type": "generic",
@@ -984,20 +1236,17 @@
         "id": "fema_armor_vest",
         "name": { "str": "humanitarian ballistic vest" },
         "description": "Bright blue in color, this slim armor vest was used by volunteers and officials from humanitarian groups during the first days of the Cataclysm before order broke down completely.  \"FEMA\" is written on the front lapel and across the back.",
-        "color": "blue",
-        "weight": 1
+        "color": "blue"
       },
       {
         "id": "police_armor_vest",
         "name": { "str": "police ballistic vest" },
-        "description": "This charcoal-colored body armor was once a common sight on police officers, and it provides adequate protection against small-caliber firearms in addition to featuring pouches to hold armor inserts.  \"POLICE\" is written on the front lapel and across the back.",
-        "weight": 1
+        "description": "This charcoal-colored body armor was once a common sight on police officers, and it provides adequate protection against small-caliber firearms in addition to featuring pouches to hold armor inserts.  \"POLICE\" is written on the front lapel and across the back."
       },
       {
         "id": "national_guard_armor_vest",
         "name": { "str": "National Guard ballistic vest" },
-        "description": "Styled in urban camo, this ballistic vest was issued to soldiers, and as things got worse, to volunteers as well.  It was designed to stand out after the chaos of the riots; \"US ARMY\" is emblazoned on the front lapel next to a patch of the United States flag, and \"NATIONAL GUARD\" is written across the back.",
-        "weight": 1
+        "description": "Styled in urban camo, this ballistic vest was issued to soldiers, and as things got worse, to volunteers as well.  It was designed to stand out after the chaos of the riots; \"US ARMY\" is emblazoned on the front lapel next to a patch of the United States flag, and \"NATIONAL GUARD\" is written across the back."
       }
     ],
     "variant_type": "generic",
@@ -1189,5 +1438,94 @@
       }
     ],
     "looks_like": "ballistic_vest_esapi"
+  },
+  {
+    "id": "iotv_shoulder_plate",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of ballistic shoulder protectors", "str_pl": "pairs of ballistic shoulder protectors" },
+    "description": "Nylon armor with soft armor inserts protecting the deltoid and upper arm.  Designed to be attached to heavy military body armor.",
+    "weight": "1034 g",
+    "volume": "812 ml",
+    "//": "Density test expects 1.275, so volume derived from this",
+    "price": 60000,
+    "price_postapoc": 100,
+    "symbol": ",",
+    "material": [ "kevlar_layered", "nylon" ],
+    "color": "dark_gray",
+    "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY", "CANT_WEAR" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 4.4 }
+        ],
+        "encumbrance": 3,
+        "coverage": 80,
+        "cover_ranged": 95,
+        "cover_vitals": 100,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "arm_upper_l", "arm_upper_r" ],
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
+    "id": "iotv_groin_plate",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "ballistic groin protector" },
+    "description": "Front and back nylon armor with soft armor inserts for groin and butt protection.  Designed to be attached to heavy military body armor.",
+    "weight": "417 g",
+    "volume": "392 ml",
+    "//": "33cm x 22cm x 5.4mm",
+    "price": 60000,
+    "price_postapoc": 100,
+    "symbol": ",",
+    "material": [ "kevlar_layered", "nylon" ],
+    "color": "dark_gray",
+    "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY", "CANT_WEAR" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 4.4 }
+        ],
+        "encumbrance": 2,
+        "coverage": 75,
+        "cover_vitals": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
+    "id": "iotv_neck_plate",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "ballistic collar" },
+    "description": "Front and back nylon collar assemblies with soft armor inserts for neck protection.  Designed to be attached to heavy military body armor.",
+    "weight": "621 g",
+    "volume": "488 ml",
+    "price": 60000,
+    "price_postapoc": 100,
+    "symbol": ",",
+    "material": [ "kevlar_layered", "nylon" ],
+    "color": "dark_gray",
+    "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY", "CANT_WEAR" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 4.4 }
+        ],
+        "encumbrance": 0,
+        "coverage": 30,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_throat", "head_nape" ],
+        "volume_encumber_modifier": 0
+      }
+    ]
   }
 ]

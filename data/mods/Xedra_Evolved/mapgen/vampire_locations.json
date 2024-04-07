@@ -2,8 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "lodge_ground1", "lodge_ground2" ] ],
-    "weight": 100,
+    "om_terrain": [ [ "lodgev_ground1", "lodgev_ground2" ] ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -34,6 +33,7 @@
       ],
       "palettes": [ "lodge_palette" ],
       "place_monsters": [ { "monster": "GROUP_VAMPIRES_MIXED", "x": [ 0, 23 ], "y": [ 0, 23 ], "density": 0.3 } ],
+      "place_zones": [ { "type": "ZONE_START_POINT", "faction": "your_followers", "x": [ 16, 17 ], "y": [ 2, 3 ] } ],
       "place_nested": [
         {
           "chunks": [ [ "lodge_pantry_15x15", 80 ], [ "lodge_cannibal_15x15", 20 ], [ "lodge_hunting_15x15", 50 ] ],
@@ -46,8 +46,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "lodge_2ndfloor1", "lodge_2ndfloor2" ] ],
-    "weight": 100,
+    "om_terrain": [ [ "lodgev_2ndfloor1", "lodgev_2ndfloor2" ] ],
     "object": {
       "fill_ter": "t_open_air",
       "rows": [
@@ -59,21 +58,21 @@
         "  W__OOOOOO_________/_/____hhh______///_W       ",
         "  #_________éFF______/_____hhh_________<#       ",
         " %########w#######wwww#############www###       ",
-        "                                  |...%         ",
-        "                       52222222222|...3         ",
-        "                       |..............3         ",
-        "                       |..............3         ",
-        "                       |..............3         ",
-        "                       |..............3         ",
-        "                       |..............3         ",
-        "                       |..............3         ",
-        "                       |3|.....3------3         ",
-        "                         |.....3                ",
-        "                         |.....3                ",
-        "       |22222222522222222|.....52223            ",
-        "       |...........................3            ",
-        "       |...........................3            ",
-        "       |........................=..3            ",
+        "                                  -...%         ",
+        "                       5-----------...-         ",
+        "                       -..............-         ",
+        "                       -..............-         ",
+        "                       -..............-         ",
+        "                       -..............-         ",
+        "                       -..............-         ",
+        "                       -..............-         ",
+        "                       ---.....--------         ",
+        "                         -.....-                ",
+        "                         -.....-                ",
+        "       ---------5---------.....5----            ",
+        "       -...........................-            ",
+        "       -...........................-            ",
+        "       -........................=..-            ",
         "       5---------------------------5            "
       ],
       "palettes": [ "lodge_2ndfloor_palette" ],
@@ -103,8 +102,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "lodge_roof1", "lodge_roof2" ] ],
-    "weight": 100,
+    "om_terrain": [ [ "lodgev_roof1", "lodgev_roof2" ] ],
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
@@ -144,8 +142,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "lodge_basement_residential1", "lodge_basement_residential2" ] ],
-    "weight": 100,
+    "om_terrain": [ [ "lodgev_basement_residential1", "lodgev_basement_residential2" ] ],
     "object": {
       "fill_ter": "t_soil",
       "rows": [

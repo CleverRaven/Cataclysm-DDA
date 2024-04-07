@@ -20,7 +20,7 @@
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
-      [ [ "paper", 1 ], [ "wax", 1 ] ],
+      [ [ "paper", 1 ], [ "wax_any", 1, "LIST" ] ],
       [ [ "gunpowder_shotgun", 2 ] ],
       [ [ "40x46mm_m118_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ]
@@ -47,7 +47,7 @@
     "//": "186 mg gunpowder rounded to 2 100 mg 'pieces', same as factory M576 load.",
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
-      [ [ "paper", 1 ], [ "wax", 1 ] ],
+      [ [ "paper", 1 ], [ "wax_any", 1, "LIST" ] ],
       [ [ "gunpowder_shotgun", 2 ] ],
       [ [ "40x46mm_m199_casing", 1 ] ],
       [ [ "lgpistol_primer", 1 ] ]
@@ -69,6 +69,44 @@
     "components": [ [ [ "22_lr", 10 ] ], [ [ "40x46mm_hornets_nest_22lr_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ] ]
   },
   {
+    "result": "40x46mm_hornets_nest_410_slug",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_SHOT",
+    "skill_used": "shotgun",
+    "difficulty": 1,
+    "skills_required": [ "launcher", 1 ],
+    "autolearn": true,
+    "time": "2 m",
+    "charges": 1,
+    "reversible": true,
+    "components": [
+      [ [ "410shot_slug", 4 ], [ "reloaded_410shot_slug", 4 ] ],
+      [ [ "40x46mm_hornets_nest_410_casing", 1 ] ],
+      [ [ "lgpistol_primer", 1 ] ]
+    ]
+  },
+  {
+    "result": "40x46mm_hornets_nest_410_bird",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_SHOT",
+    "skill_used": "shotgun",
+    "difficulty": 1,
+    "skills_required": [ "launcher", 1 ],
+    "autolearn": true,
+    "time": "2 m",
+    "charges": 1,
+    "reversible": true,
+    "components": [
+      [ [ "410shot_bird", 4 ], [ "reloaded_410shot_bird", 4 ] ],
+      [ [ "40x46mm_hornets_nest_410_casing", 1 ] ],
+      [ [ "lgpistol_primer", 1 ] ]
+    ]
+  },
+  {
     "result": "40x46mm_hornets_nest_410",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -86,6 +124,21 @@
       [ [ "40x46mm_hornets_nest_410_casing", 1 ] ],
       [ [ "lgpistol_primer", 1 ] ]
     ]
+  },
+  {
+    "result": "40x46mm_hornets_nest_410_scrap",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_SHOT",
+    "skill_used": "shotgun",
+    "difficulty": 1,
+    "skills_required": [ "launcher", 1 ],
+    "autolearn": true,
+    "time": "2 m",
+    "charges": 1,
+    "reversible": true,
+    "components": [ [ [ "410shot_scrap", 4 ] ], [ [ "40x46mm_hornets_nest_410_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ] ]
   },
   {
     "result": "40x46mm_slug_m118",
@@ -108,7 +161,7 @@
     "//": "186 mg gunpowder rounded to 2 100 mg 'pieces', same as factory M576 load.",
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
-      [ [ "paper", 1 ], [ "wax", 1 ] ],
+      [ [ "paper", 1 ], [ "wax_any", 1, "LIST" ] ],
       [ [ "gunpowder_shotgun", 2 ] ],
       [ [ "40x46mm_m118_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ]
@@ -135,7 +188,7 @@
     "//": "186 mg gunpowder rounded to 2 100 mg 'pieces', same as factory M576 load.",
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
-      [ [ "paper", 1 ], [ "wax", 1 ] ],
+      [ [ "paper", 1 ], [ "wax_any", 1, "LIST" ] ],
       [ [ "gunpowder_shotgun", 2 ] ],
       [ [ "40x46mm_m199_casing", 1 ] ],
       [ [ "lgpistol_primer", 1 ] ]
@@ -161,7 +214,7 @@
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
-      [ [ "paper", 1 ], [ "wax", 1 ] ],
+      [ [ "paper", 1 ], [ "wax_any", 1, "LIST" ] ],
       [ [ "combatnail", 10 ] ],
       [ [ "gunpowder_shotgun", 2 ] ],
       [ [ "40x46mm_m118_casing", 1 ] ],
@@ -188,7 +241,7 @@
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
-      [ [ "paper", 1 ], [ "wax", 1 ] ],
+      [ [ "paper", 1 ], [ "wax_any", 1, "LIST" ] ],
       [ [ "combatnail", 10 ] ],
       [ [ "gunpowder_shotgun", 2 ] ],
       [ [ "40x46mm_m199_casing", 1 ] ],
@@ -215,7 +268,7 @@
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
-      [ [ "paper", 1 ], [ "wax", 1 ] ],
+      [ [ "paper", 1 ], [ "wax_any", 1, "LIST" ] ],
       [ [ "chem_black_powder", 2 ] ],
       [ [ "40x46mm_m118_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ]
@@ -241,7 +294,7 @@
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
-      [ [ "paper", 1 ], [ "wax", 1 ] ],
+      [ [ "paper", 1 ], [ "wax_any", 1, "LIST" ] ],
       [ [ "chem_black_powder", 2 ] ],
       [ [ "40x46mm_m199_casing", 1 ] ],
       [ [ "lgpistol_primer", 1 ] ]
@@ -267,7 +320,7 @@
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
-      [ [ "paper", 1 ], [ "wax", 1 ] ],
+      [ [ "paper", 1 ], [ "wax_any", 1, "LIST" ] ],
       [ [ "chem_black_powder", 2 ] ],
       [ [ "40x46mm_m118_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ]
@@ -293,7 +346,7 @@
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
-      [ [ "paper", 1 ], [ "wax", 1 ] ],
+      [ [ "paper", 1 ], [ "wax_any", 1, "LIST" ] ],
       [ [ "chem_black_powder", 2 ] ],
       [ [ "40x46mm_m199_casing", 1 ] ],
       [ [ "lgpistol_primer", 1 ] ]
@@ -318,7 +371,7 @@
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
-      [ [ "paper", 1 ], [ "wax", 1 ] ],
+      [ [ "paper", 1 ], [ "wax_any", 1, "LIST" ] ],
       [ [ "combatnail", 10 ] ],
       [ [ "chem_black_powder", 2 ] ],
       [ [ "40x46mm_m118_casing", 1 ] ],
@@ -344,7 +397,7 @@
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "sheet_metal_small", 1 ] ],
-      [ [ "paper", 1 ], [ "wax", 1 ] ],
+      [ [ "paper", 1 ], [ "wax_any", 1, "LIST" ] ],
       [ [ "combatnail", 10 ] ],
       [ [ "chem_black_powder", 2 ] ],
       [ [ "40x46mm_m199_casing", 1 ] ],

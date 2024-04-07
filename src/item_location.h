@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_ITEM_LOCATION_H
 #define CATA_SRC_ITEM_LOCATION_H
 
-#include <iosfwd>
 #include <memory>
 #include <string>
 
@@ -10,7 +9,6 @@
 #include "units_fwd.h"
 
 class Character;
-class character_id;
 class JsonObject;
 class JsonOut;
 class item;
@@ -109,6 +107,9 @@ class item_location
         /** returns the parent item, or an invalid location if it has no parent */
         item_location parent_item() const;
         item_pocket *parent_pocket() const;
+
+        /** returns the character whose inventory contains this item, nullptr if none **/
+        Character *carrier() const;
 
         /** returns true if the item is in the inventory of the given character **/
         bool held_by( Character const &who ) const;

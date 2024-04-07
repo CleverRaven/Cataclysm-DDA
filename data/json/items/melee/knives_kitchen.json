@@ -43,7 +43,7 @@
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "neutral" },
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 15 ] ],
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "KNIVES" ],
+    "weapon_category": [ "SHIVS" ],
     "melee_damage": { "bash": 2, "stab": 7 }
   },
   {
@@ -63,7 +63,8 @@
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "neutral" },
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 10 ] ],
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
-    "melee_damage": { "bash": 1, "stab": 6 }
+    "melee_damage": { "bash": 1, "stab": 6 },
+    "weapon_category": [ "SHIVS" ]
   },
   {
     "id": "knife_chef",
@@ -102,7 +103,7 @@
     "to_hit": { "grip": "weapon", "length": "short", "surface": "point", "balance": "neutral" },
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 22 ] ],
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
-    "weapon_category": [ "KNIVES" ],
+    "weapon_category": [ "SHIVS" ],
     "melee_damage": { "bash": 1, "stab": 18 },
     "//": "Based on https://www.amazon.com/dp/B0195V29HG"
   },
@@ -123,7 +124,8 @@
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "neutral" },
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 8 ] ],
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
-    "melee_damage": { "bash": 4, "cut": 6 }
+    "melee_damage": { "bash": 4, "cut": 6 },
+    "weapon_category": [ "SHIVS" ]
   },
   {
     "id": "knife_vegetable_cleaver",

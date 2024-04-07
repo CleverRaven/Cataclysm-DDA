@@ -584,6 +584,12 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "plesiosaurus",
+    "base_faction": "fishing_dino",
+    "friendly": [ "plesiosaurus" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "ceratosaurus",
     "base_faction": "mixed_dino",
     "friendly": [ "ceratosaurus_juvenile", "ceratosaurus_hatchling" ],

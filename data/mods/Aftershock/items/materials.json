@@ -8,8 +8,9 @@
     "repaired_with": "afs_scrap_titanium",
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
+    "breathability": "IMPERMEABLE",
     "cut_dmg_verb": "scratched",
-    "resist": { "bash": 4, "cut": 9, "acid": 14, "heat": 4, "bullet": 7, "electric": 8 },
+    "resist": { "bash": 4, "cut": 9, "acid": 14, "heat": 4, "bullet": 7, "afs_plasma": 1, "electric": 8 },
     "repair_difficulty": 5
   },
   {
@@ -25,7 +26,7 @@
     "dmg_adj": [ "marked", "dented", "scarred", "broken" ],
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut",
-    "resist": { "bash": 3, "cut": 3, "acid": 5, "heat": 5, "bullet": 2, "electric": 0 },
+    "resist": { "bash": 3, "cut": 3, "acid": 5, "heat": 5, "bullet": 2, "afs_plasma": 1, "electric": 0 },
     "repair_difficulty": 10
   },
   {
@@ -37,8 +38,23 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "breathability": "IMPERMEABLE",
     "//": "only to be used in encumbering armors.",
-    "resist": { "bash": 8, "cut": 14, "acid": 17, "heat": 14, "bullet": 12, "electric": -4 },
+    "resist": { "bash": 8, "cut": 14, "acid": 17, "heat": 14, "bullet": 12, "afs_plasma": 5, "electric": -4 },
+    "repair_difficulty": 10
+  },
+  {
+    "type": "material",
+    "id": "carbide_thermal_weave",
+    "name": "Carbide ThermoWeave(c)",
+    "density": 18,
+    "chip_resist": 25,
+    "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
+    "bash_dmg_verb": "dented",
+    "cut_dmg_verb": "scratched",
+    "breathability": "AVERAGE",
+    "//": "mostly meant to be lightweight energy armor.",
+    "resist": { "bash": 2, "cut": 4, "acid": 4, "heat": 10, "bullet": 2, "afs_plasma": 10, "electric": 6 },
     "repair_difficulty": 10
   },
   {
@@ -50,8 +66,9 @@
     "dmg_adj": [ "marked", "dented", "scarred", "broken" ],
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut",
+    "breathability": "GOOD",
     "//": "lightweight high-protection-value armors that degrade easily.",
-    "resist": { "bash": 4, "cut": 6, "acid": 6, "heat": 2, "bullet": 8, "electric": 0 },
+    "resist": { "bash": 4, "cut": 6, "acid": 6, "heat": 2, "afs_plasma": 2, "bullet": 8, "electric": 0 },
     "repair_difficulty": 9
   },
   {
@@ -65,8 +82,9 @@
     "chip_resist": 30,
     "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
     "bash_dmg_verb": "cracked",
+    "breathability": "IMPERMEABLE",
     "cut_dmg_verb": "scratched",
-    "resist": { "bash": 10, "cut": 6, "acid": 6, "heat": 100, "bullet": 100, "electric": 10 },
+    "resist": { "bash": 10, "cut": 6, "acid": 6, "heat": 100, "bullet": 100, "afs_plasma": 0, "electric": 10 },
     "repair_difficulty": 10
   },
   {
@@ -77,8 +95,9 @@
     "chip_resist": 2,
     "dmg_adj": [ "scratched", "chipped", "cracked", "shattered" ],
     "bash_dmg_verb": "chipped",
+    "breathability": "IMPERMEABLE",
     "cut_dmg_verb": "scratched",
-    "resist": { "bash": 4, "cut": 7, "acid": 2, "heat": 4, "bullet": 6, "electric": 8 },
+    "resist": { "bash": 4, "cut": 7, "acid": 2, "heat": 4, "bullet": 6, "afs_plasma": 0, "electric": 8 },
     "repair_difficulty": 7
   }
 ]

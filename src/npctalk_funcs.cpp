@@ -500,10 +500,9 @@ void talk_function::insult_combat( npc &p )
     p.set_attitude( NPCATT_KILL );
 }
 
-void talk_function::bionic_install( npc &p )
+static void bionic_install_common( npc &p, Character &patron, Character &patient )
 {
-    avatar &player_character = get_avatar();
-    item_location bionic = game_menus::inv::install_bionic( p, player_character, true );
+    item_location bionic = game_menus::inv::install_bionic( p, patron, patient, true );
 
     if( !bionic ) {
         return;
@@ -513,7 +512,7 @@ void talk_function::bionic_install( npc &p )
     tmp->set_var( VAR_TRADE_IGNORE, 1 );
     const itype &it = *tmp->type;
 
-    signed int price = npc_trading::bionic_install_price( p, player_character, bionic );
+    signed int price = npc_trading::bionic_install_price( p, patient, bionic );
     bool const ret = npc_trading::pay_npc( p, price );
     tmp->erase_var( VAR_TRADE_IGNORE );
     if( !ret ) {
@@ -521,18 +520,32 @@ void talk_function::bionic_install( npc &p )
     }
 
     //Makes the doctor awesome at installing but not perfect
-    if( player_character.can_install_bionics( it, p, false, 20 ) ) {
+    if( patient.can_install_bionics( it, p, false, 20 ) ) {
         bionic.remove_item();
-        player_character.install_bionics( it, p, false, 20 );
+        patient.install_bionics( it, p, false, 20 );
     }
 }
 
-void talk_function::bionic_remove( npc &p )
+void talk_function::bionic_install( npc &p )
 {
-    Character &player_character = get_player_character();
-    const bionic_collection all_bio = *player_character.my_bionics;
+    Character &pc = get_player_character();
+    bionic_install_common( p, pc, pc );
+}
+
+void talk_function::bionic_install_allies( npc &p )
+{
+    npc *patient = pick_follower();
+    if( !patient ) {
+        return;
+    }
+    bionic_install_common( p, get_player_character(), *patient );
+}
+
+static void bionic_remove_common( npc &p, Character &patient )
+{
+    const bionic_collection all_bio = *patient.my_bionics;
     if( all_bio.empty() ) {
-        popup( _( "You don't have any bionics installed…" ) );
+        popup( _( "%s doesn't have any bionics installed…" ), patient.get_name() );
         return;
     }
 
@@ -572,10 +585,23 @@ void talk_function::bionic_remove( npc &p )
     }
 
     //Makes the doctor awesome at uninstalling but not perfect
-    if( player_character.can_uninstall_bionic( *bionics[bionic_index], p,
-            false, 20 ) ) {
-        player_character.uninstall_bionic( *bionics[bionic_index], p, false, 20 );
+    if( patient.can_uninstall_bionic( *bionics[bionic_index], p, false, 20 ) ) {
+        patient.uninstall_bionic( *bionics[bionic_index], p, false, 20 );
     }
+}
+
+void talk_function::bionic_remove( npc &p )
+{
+    bionic_remove_common( p, get_player_character() );
+}
+
+void talk_function::bionic_remove_allies( npc &p )
+{
+    npc *patient = pick_follower();
+    if( !patient ) {
+        return;
+    }
+    bionic_remove_common( p, *patient );
 }
 
 void talk_function::give_equipment( npc &p )
@@ -1232,15 +1258,6 @@ void talk_function::copy_npc_rules( npc &p )
 void talk_function::set_npc_pickup( npc &p )
 {
     p.rules.pickup_whitelist->show( p.name );
-}
-
-void talk_function::npc_die( npc &p )
-{
-    p.die( nullptr );
-    const shared_ptr_fast<npc> guy = overmap_buffer.find_npc( p.getID() );
-    if( guy && !guy->is_dead() ) {
-        guy->marked_for_death = true;
-    }
 }
 
 void talk_function::npc_thankful( npc &p )

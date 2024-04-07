@@ -1,0 +1,59 @@
+[
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_salamander_fire_drop",
+    "//": "There has got to be a better way to do the below",
+    "field": [
+      {
+        "result": "fd_fire",
+        "valid_field": [
+          "fd_null",
+          "fd_blood",
+          "fd_bile",
+          "fd_gibs_flesh",
+          "fd_gibs_veggy",
+          "fd_web",
+          "fd_web_nostick",
+          "fd_slime",
+          "fd_sap",
+          "fd_sludge",
+          "fd_biolum",
+          "fd_smoke",
+          "fd_pollen_triffid",
+          "fd_tear_gas",
+          "fd_gas_vent",
+          "fd_fire_vent",
+          "fd_flame_burst",
+          "fd_spotlight",
+          "fd_blood_veggy",
+          "fd_blood_insect",
+          "fd_blood_invertebrate",
+          "fd_gibs_insect",
+          "fd_gibs_invertebrate",
+          "fd_cigsmoke",
+          "fd_weedsmoke",
+          "fd_cracksmoke",
+          "fd_methsmoke",
+          "fd_relax_gas",
+          "fd_swamp_gas",
+          "fd_fog",
+          "fd_fungal_haze",
+          "fd_cold_air1",
+          "fd_cold_air2",
+          "fd_cold_air3",
+          "fd_cold_air4",
+          "fd_hot_air1",
+          "fd_hot_air2",
+          "fd_hot_air3",
+          "fd_hot_air4",
+          "fd_smoke_vent",
+          "fd_clairvoyant",
+          "fd_churned_earth",
+          "fd_blood_karma",
+          "fd_salamander_heat"
+        ],
+        "message": ""
+      }
+    ]
+  }
+]

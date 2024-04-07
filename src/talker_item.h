@@ -36,7 +36,7 @@ class talker_item_const: public talker_cloner<talker_item_const>
         tripoint_abs_ms global_pos() const override;
         tripoint_abs_omt global_omt_location() const override;
 
-        std::string get_value( const std::string &var_name ) const override;
+        std::optional<std::string> maybe_get_value( const std::string &var_name ) const override;
 
         bool has_flag( const flag_id &f ) const override;
 
@@ -45,6 +45,12 @@ class talker_item_const: public talker_cloner<talker_item_const>
 
         int get_cur_hp( const bodypart_id & ) const override;
         int get_hp_max( const bodypart_id & ) const override;
+
+        int get_count() const override;
+        int coverage_at( bodypart_id & ) const override;
+        int encumbrance_at( bodypart_id & ) const override;
+        int get_volume() const override;
+        int get_weight() const override;
     protected:
         talker_item_const() = default;
         const item_location *me_it_const;
@@ -68,6 +74,7 @@ class talker_item: public talker_cloner<talker_item, talker_item_const>
         void remove_value( const std::string & ) override;
 
         void set_all_parts_hp_cur( int ) const override;
+        void die() override;
 
     protected:
         talker_item() = default;

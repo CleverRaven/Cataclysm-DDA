@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <limits>
-#include <list>
 #include <memory>
 #include <optional>
 #include <string>
@@ -17,10 +16,10 @@
 #include "game.h"
 #include "generic_factory.h"
 #include "gun_mode.h"
+#include "input.h"
 #include "item.h"
 #include "item_factory.h"
 #include "item_pocket.h"
-#include "json.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -51,6 +50,7 @@ static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_null( "null" );
 static const efftype_id effect_poison( "poison" );
+static const efftype_id effect_psi_stunned( "psi_stunned" );
 static const efftype_id effect_run( "run" );
 static const efftype_id effect_sensor_stun( "sensor_stun" );
 static const efftype_id effect_stunned( "stunned" );
@@ -62,9 +62,7 @@ static const efftype_id effect_zombie_virus( "zombie_virus" );
 static const flag_id json_flag_GRAB( "GRAB" );
 static const flag_id json_flag_GRAB_FILTER( "GRAB_FILTER" );
 
-static const mon_flag_str_id mon_flag_DEADLY_VIRUS( "DEADLY_VIRUS" );
-static const mon_flag_str_id mon_flag_HIT_AND_RUN( "HIT_AND_RUN" );
-static const mon_flag_str_id mon_flag_VAMP_VIRUS( "VAMP_VIRUS" );
+static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
 
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_throw( "throw" );
@@ -224,7 +222,7 @@ bool leap_actor::call( monster &z ) const
         return false;    // Nowhere to leap!
     }
 
-    z.moves -= move_cost;
+    z.mod_moves( -move_cost );
     viewer &player_view = get_player_view();
     const tripoint chosen = random_entry( options );
     bool seen = player_view.sees( z ); // We can see them jump...
@@ -308,7 +306,7 @@ bool mon_spellcasting_actor::call( monster &mon ) const
                             spell_instance.name(), target_name );
 
     avatar fake_player;
-    mon.moves -= spell_instance.casting_time( fake_player, true );
+    mon.mod_moves( -spell_instance.casting_time( fake_player, true ) );
     spell_instance.cast_all_effects( mon, target );
 
     return true;
@@ -366,6 +364,7 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
     optional( obj, was_loaded, "uncanny_dodgeable", uncanny_dodgeable, dodgeable );
     optional( obj, was_loaded, "blockable", blockable, true );
     optional( obj, was_loaded, "effects_require_dmg", effects_require_dmg, true );
+    optional( obj, was_loaded, "effects_require_organic", effects_require_organic, false );
     optional( obj, was_loaded, "grab", is_grab, false );
     optional( obj, was_loaded, "range", range, 1 );
     optional( obj, was_loaded, "throw_strength", throw_strength, 0 );
@@ -498,7 +497,7 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
             const std::optional<vpart_reference> vp_seatbelt = veh_part.avail_part_with_feature( "SEATBELT" );
             if( vp_seatbelt ) {
                 if( grab_data.respect_seatbelts ) {
-                    z.moves -= move_cost * 2;
+                    z.mod_moves( -move_cost * 2 );
                     foe->add_msg_player_or_npc( msg_type, _( "%1s tries to drag you, but is stopped by your %2s!" ),
                                                 _( "%1s tries to drag <npcname>, but is stopped by their %2s!" ),
                                                 z.disp_name( false, true ), vp_seatbelt->part().name( false ) );
@@ -726,7 +725,7 @@ bool melee_actor::call( monster &z ) const
         sfx::play_variant_sound( "mon_bite", "bite_miss", sfx::get_heard_volume( z.pos() ),
                                  sfx::get_heard_angle( z.pos() ) );
         target->add_msg_player_or_npc( msg_type, miss_msg_u,
-                                       get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? miss_msg_npc : to_translation( "" ),
+                                       get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? miss_msg_npc : translation(),
                                        z.name(), body_part_name_accusative( bp_id ) );
         return true;
     }
@@ -736,7 +735,7 @@ bool melee_actor::call( monster &z ) const
             sfx::play_variant_sound( "mon_bite", "bite_miss", sfx::get_heard_volume( z.pos() ),
                                      sfx::get_heard_angle( z.pos() ) );
             target->add_msg_player_or_npc( msg_type, miss_msg_u,
-                                           get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? miss_msg_npc : to_translation( "" ),
+                                           get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? miss_msg_npc : translation(),
                                            mon_name, body_part_name_accusative( bp_id ) );
             return true;
         }
@@ -744,6 +743,7 @@ bool melee_actor::call( monster &z ) const
 
     // We need to do some calculations in the main function - we might mutate bp_hit
     // But first we need to handle exclusive grabs etc.
+    std::optional<bodypart_id> grabbed_bp_id;
     if( is_grab ) {
         int eff_grab_strength = grab_data.grab_strength == -1 ? z.get_grab_strength() :
                                 grab_data.grab_strength;
@@ -830,6 +830,7 @@ bool melee_actor::call( monster &z ) const
         } else if( result == 0 ) {
             return true;
         }
+        grabbed_bp_id = bp_id;
     }
 
     // Damage instance calculation
@@ -868,15 +869,17 @@ bool melee_actor::call( monster &z ) const
         sfx::play_variant_sound( "mon_bite", "bite_miss", sfx::get_heard_volume( z.pos() ),
                                  sfx::get_heard_angle( z.pos() ) );
         target->add_msg_player_or_npc( msg_type, no_dmg_msg_u,
-                                       get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? no_dmg_msg_npc : to_translation( "" ),
-                                       mon_name, body_part_name_accusative( bp_id ) );
+                                       get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? no_dmg_msg_npc : translation(),
+                                       mon_name, body_part_name_accusative( grabbed_bp_id.value_or( bp_id ) ) );
         if( !effects_require_dmg ) {
             for( const mon_effect_data &eff : effects ) {
                 if( x_in_y( eff.chance, 100 ) ) {
                     const bodypart_id affected_bp = eff.affect_hit_bp ? bp_id : eff.bp.id();
-                    target->add_effect( eff.id, time_duration::from_turns( rng( eff.duration.first,
-                                        eff.duration.second ) ), affected_bp, eff.permanent, rng( eff.intensity.first,
-                                                eff.intensity.second ) );
+                    if( !( effects_require_organic && affected_bp->has_flag( json_flag_BIONIC_LIMB ) ) ) {
+                        target->add_effect( eff.id, time_duration::from_turns( rng( eff.duration.first,
+                                            eff.duration.second ) ), affected_bp, eff.permanent, rng( eff.intensity.first,
+                                                    eff.intensity.second ) );
+                    }
                 }
             }
         }
@@ -885,7 +888,7 @@ bool melee_actor::call( monster &z ) const
         if( g->fling_creature( target, coord_to_angle( z.pos(), target->pos() ),
                                throw_strength ) ) {
             target->add_msg_player_or_npc( msg_type, throw_msg_u,
-                                           get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? throw_msg_npc : to_translation( "" ),
+                                           get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? throw_msg_npc : translation(),
                                            mon_name );
 
             // Items strapped to you may fall off as you hit the ground
@@ -931,15 +934,17 @@ void melee_actor::on_damage( monster &z, Creature &target, dealt_damage_instance
     const std::string mon_name = get_player_character().sees( z.pos() ) ?
                                  z.disp_name( false, true ) : _( "Something" );
     target.add_msg_player_or_npc( msg_type, hit_dmg_u,
-                                  get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? hit_dmg_npc : to_translation( "" ),
+                                  get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? hit_dmg_npc : translation(),
                                   mon_name, body_part_name_accusative( bp ) );
 
     for( const mon_effect_data &eff : effects ) {
         if( x_in_y( eff.chance, 100 ) ) {
             const bodypart_id affected_bp = eff.affect_hit_bp ? bp : eff.bp.id();
-            target.add_effect( eff.id, time_duration::from_turns( rng( eff.duration.first,
-                               eff.duration.second ) ), affected_bp, eff.permanent, rng( eff.intensity.first,
-                                       eff.intensity.second ) );
+            if( !( effects_require_organic && affected_bp->has_flag( json_flag_BIONIC_LIMB ) ) ) {
+                target.add_effect( eff.id, time_duration::from_turns( rng( eff.duration.first,
+                                   eff.duration.second ) ), affected_bp, eff.permanent, rng( eff.intensity.first,
+                                           eff.intensity.second ) );
+            }
         }
     }
 
@@ -977,33 +982,36 @@ void bite_actor::on_damage( monster &z, Creature &target, dealt_damage_instance 
 {
     melee_actor::on_damage( z, target, dealt );
     add_msg_debug( debugmode::DF_MATTACK, "Bite-type attack, infection chance %d", infection_chance );
+    const bodypart_id &hit = dealt.bp_hit;
 
-    if( x_in_y( infection_chance, 100 ) ) {
-        const bodypart_id &hit = dealt.bp_hit;
-        if( target.has_effect( effect_bite, hit.id() ) ) {
-            add_msg_debug( debugmode::DF_MATTACK, "Incrementing bitten effect on %s", hit->name );
-            target.add_effect( effect_bite, 40_minutes, hit, true );
-        } else if( target.has_effect( effect_infected, hit.id() ) ) {
-            add_msg_debug( debugmode::DF_MATTACK, "Incrementing infected effect on %s", hit->name );
-            target.add_effect( effect_infected, 25_minutes, hit, true );
-        } else {
-            add_msg_debug( debugmode::DF_MATTACK, "Added bitten effect to %s", hit->name );
-            target.add_effect( effect_bite, 1_turns, hit, true );
+    // only do bitey things if the limb is fleshy
+    if( !hit->has_flag( json_flag_BIONIC_LIMB ) ) {
+        // first, do regular zombie infections
+        if( x_in_y( infection_chance, 100 ) ) {
+            if( target.has_effect( effect_bite, hit.id() ) ) {
+                add_msg_debug( debugmode::DF_MATTACK, "Incrementing bitten effect on %s", hit->name );
+                target.add_effect( effect_bite, 40_minutes, hit, true );
+            } else if( target.has_effect( effect_infected, hit.id() ) ) {
+                add_msg_debug( debugmode::DF_MATTACK, "Incrementing infected effect on %s", hit->name );
+                target.add_effect( effect_infected, 25_minutes, hit, true );
+            } else {
+                add_msg_debug( debugmode::DF_MATTACK, "Added bitten effect to %s", hit->name );
+                target.add_effect( effect_bite, 1_turns, hit, true );
+            }
         }
-    }
-
-    // Flag only set for zombies in the deadly_bites mod
-    if( x_in_y( infection_chance, 20 ) ) {
-        if( z.has_flag( mon_flag_DEADLY_VIRUS ) && !target.has_effect( effect_zombie_virus ) ) {
-            target.add_effect( effect_zombie_virus, 1_turns, bodypart_str_id::NULL_ID(), true );
-        } else if( z.has_flag( mon_flag_VAMP_VIRUS ) && !target.has_trait( trait_VAMPIRE ) ) {
-            target.add_effect( effect_vampire_virus, 1_turns, bodypart_str_id::NULL_ID(), true );
+        // Flag only set for zombies in the deadly_bites mod
+        if( x_in_y( infection_chance, 20 ) ) {
+            if( z.has_flag( mon_flag_DEADLY_VIRUS ) && !target.has_effect( effect_zombie_virus ) ) {
+                target.add_effect( effect_zombie_virus, 1_turns, bodypart_str_id::NULL_ID(), true );
+            } else if( z.has_flag( mon_flag_VAMP_VIRUS ) && !target.has_trait( trait_VAMPIRE ) ) {
+                target.add_effect( effect_vampire_virus, 1_turns, bodypart_str_id::NULL_ID(), true );
+            }
         }
-    }
-
-    if( target.has_trait( trait_TOXICFLESH ) ) {
-        z.add_effect( effect_poison, 5_minutes );
-        z.add_effect( effect_badpoison, 5_minutes );
+        // lastly, poison it if we're yucky
+        if( target.has_trait( trait_TOXICFLESH ) ) {
+            z.add_effect( effect_poison, 5_minutes );
+            z.add_effect( effect_badpoison, 5_minutes );
+        }
     }
 }
 
@@ -1040,6 +1048,11 @@ void gun_actor::load_internal( const JsonObject &obj, const std::string & )
         }
         ranges.emplace( std::make_pair<int, int>( mode.get_int( 0 ), mode.get_int( 1 ) ),
                         gun_mode_id( mode.size() > 2 ? mode.get_string( 2 ) : "" ) );
+    }
+
+    if( obj.has_member( "condition" ) ) {
+        read_condition( obj, "condition", condition, false );
+        has_condition = true;
     }
 
     obj.read( "max_ammo", max_ammo );
@@ -1095,6 +1108,14 @@ bool gun_actor::call( monster &z ) const
     Creature *target;
     tripoint aim_at;
     bool untargeted = false;
+
+    if( has_condition ) {
+        dialogue d( get_talker_for( &z ), nullptr );
+        if( !condition( d ) ) {
+            add_msg_debug( debugmode::DF_MATTACK, "Attack conditionals failed" );
+            return false;
+        }
+    }
 
     if( z.friendly ) {
         int max_range = get_max_range();
@@ -1181,7 +1202,7 @@ bool gun_actor::try_target( monster &z, Creature &target ) const
                                       _( "You're not sure why you've got a laser dot on you…" ) );
         }
 
-        z.moves -= targeting_cost;
+        z.mod_moves( -targeting_cost );
         return false;
     }
 
@@ -1198,7 +1219,7 @@ bool gun_actor::try_target( monster &z, Creature &target ) const
 void gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mode,
                        int inital_recoil ) const
 {
-    z.moves -= move_cost;
+    z.mod_moves( -move_cost );
 
     itype_id mig_gun_type = item_controller->migrate_id( gun_type );
     item gun( mig_gun_type );
@@ -1219,11 +1240,12 @@ void gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mo
         } else {
             item mag( gun.magazine_default() );
             mag.ammo_set( ammo, z.ammo[ammo_type] );
-            gun.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
+            gun.put_in( mag, pocket_type::MAGAZINE_WELL );
         }
     }
 
-    if( z.has_effect( effect_stunned ) || z.has_effect( effect_sensor_stun ) ) {
+    if( z.has_effect( effect_stunned ) || z.has_effect( effect_psi_stunned ) ||
+        z.has_effect( effect_sensor_stun ) ) {
         return;
     }
 
@@ -1251,7 +1273,6 @@ void gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mo
     }
 
     tmp.set_wielded_item( gun );
-    tmp.i_add( item( "UPS_off", calendar::turn, 1000 ) );
 
     add_msg_if_player_sees( z, m_warning, description.translated(), z.name(),
                             tmp.get_wielded_item()->tname() );

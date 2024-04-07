@@ -31,6 +31,7 @@ class eoc_events : public event_subscriber
 {
     public:
         void notify( const cata::event &e ) override;
+        void notify( const cata::event &, std::unique_ptr<talker>, std::unique_ptr<talker> ) override;
         void clear();
 
     private:
@@ -58,7 +59,7 @@ struct effect_on_condition {
         bool has_false_effect = false;
         event_type required_event;
         duration_or_var recurrence;
-        bool activate( dialogue &d ) const;
+        bool activate( dialogue &d, bool require_callstack_check = true ) const;
         bool check_deactivate( dialogue &d ) const;
         bool test_condition( dialogue &d ) const;
         void apply_true_effects( dialogue &d ) const;

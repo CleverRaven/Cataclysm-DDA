@@ -462,6 +462,7 @@
   {
     "type": "recipe",
     "result": "dreamforged_longbow",
+    "activity_level": "ACTIVE_EXERCISE",
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 2 ] ] ],
     "proficiencies": [ { "proficiency": "prof_dreamsmithing" }, { "proficiency": "prof_dreamsmithing_weapon" } ],
@@ -475,6 +476,7 @@
   {
     "type": "recipe",
     "result": "arrow_dreamforged",
+    "activity_level": "ACTIVE_EXERCISE",
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap_dreamdross", 2 ] ] ],
     "proficiencies": [ { "proficiency": "prof_dreamsmithing" }, { "proficiency": "prof_dreamsmithing_weapon" } ],
@@ -488,6 +490,7 @@
   {
     "type": "recipe",
     "result": "dreamforged_crossbow",
+    "activity_level": "ACTIVE_EXERCISE",
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "forged_dreamstuff_ingot", 2 ] ] ],
     "proficiencies": [ { "proficiency": "prof_dreamsmithing" }, { "proficiency": "prof_dreamsmithing_weapon" } ],
@@ -501,6 +504,7 @@
   {
     "type": "recipe",
     "result": "bolt_dreamforged",
+    "activity_level": "ACTIVE_EXERCISE",
     "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap_dreamdross", 2 ] ] ],
     "proficiencies": [ { "proficiency": "prof_dreamsmithing" }, { "proficiency": "prof_dreamsmithing_weapon" } ],

@@ -5,6 +5,7 @@
     "name": "open air",
     "sym": ".",
     "color": "blue",
+    "travel_cost_type": "air",
     "flags": [ "NO_ROTATE" ]
   },
   {
@@ -17,6 +18,7 @@
     "see_cost": 2,
     "extras": "field",
     "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 },
+    "travel_cost_type": "field",
     "flags": [ "NO_ROTATE" ]
   },
   {
@@ -29,6 +31,7 @@
     "see_cost": 3,
     "extras": "forest",
     "spawns": { "group": "GROUP_FOREST", "population": [ 0, 3 ], "chance": 13 },
+    "travel_cost_type": "forest",
     "flags": [ "NO_ROTATE", "SOURCE_FORAGE" ]
   },
   {
@@ -55,6 +58,7 @@
     "extras": "forest_water",
     "spawns": { "group": "GROUP_SWAMP", "population": [ 2, 6 ], "chance": 50 },
     "mapgen": [ { "method": "builtin", "name": "forest" } ],
+    "travel_cost_type": "swamp",
     "flags": [ "NO_ROTATE", "SOURCE_FORAGE", "RISK_HIGH" ]
   },
   {
@@ -159,6 +163,7 @@
     "sym": "%",
     "color": "dark_gray",
     "see_cost": 5,
+    "travel_cost_type": "impassable",
     "flags": [ "NO_ROTATE" ]
   },
   {

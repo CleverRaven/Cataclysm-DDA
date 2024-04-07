@@ -105,7 +105,7 @@
         "type": "gun",
         "cooldown": 1,
         "move_cost": 150,
-        "gun_type": "fn_fal",
+        "gun_type": "fn_fal_semi",
         "ammo_type": "762_51",
         "fake_skills": [ [ "gun", 8 ], [ "rifle", 8 ] ],
         "fake_dex": 12,

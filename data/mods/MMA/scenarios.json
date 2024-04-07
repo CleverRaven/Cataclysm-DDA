@@ -2,7 +2,7 @@
   {
     "copy-from": "portal_dependent",
     "type": "scenario",
-    "extend": { "professions": [ "mma_battle_angel" ] },
+    "extend": { "professions": [ "mma_battle_angel", "mma_hylian_adventurer" ] },
     "id": "portal_dependent"
   }
 ]

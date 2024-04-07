@@ -28,6 +28,7 @@
 #include "line.h"
 #include "map.h"
 #include "memory_fast.h"
+#include "mod_manager.h"
 #include "mongroup.h"
 #include "monster.h"
 #include "npc.h"
@@ -44,25 +45,8 @@
 
 class map_extra;
 
-static const oter_type_str_id oter_type_bridge( "bridge" );
-static const oter_type_str_id oter_type_bridge_road( "bridge_road" );
 static const oter_type_str_id oter_type_bridgehead_ground( "bridgehead_ground" );
 static const oter_type_str_id oter_type_bridgehead_ramp( "bridgehead_ramp" );
-static const oter_type_str_id oter_type_deep_rock( "deep_rock" );
-static const oter_type_str_id oter_type_empty_rock( "empty_rock" );
-static const oter_type_str_id oter_type_field( "field" );
-static const oter_type_str_id oter_type_forest( "forest" );
-static const oter_type_str_id oter_type_forest_trail( "forest_trail" );
-static const oter_type_str_id oter_type_forest_water( "forest_water" );
-static const oter_type_str_id oter_type_lab_subway( "lab_subway" );
-static const oter_type_str_id oter_type_lake_surface( "lake_surface" );
-static const oter_type_str_id oter_type_microlab_rock_border( "microlab_rock_border" );
-static const oter_type_str_id oter_type_open_air( "open_air" );
-static const oter_type_str_id oter_type_river_center( "river_center" );
-static const oter_type_str_id oter_type_road( "road" );
-static const oter_type_str_id oter_type_road_nesw_manhole( "road_nesw_manhole" );
-static const oter_type_str_id oter_type_solid_earth( "solid_earth" );
-static const oter_type_str_id oter_type_subway( "subway" );
 
 overmapbuffer overmap_buffer;
 
@@ -401,6 +385,14 @@ const std::string &overmapbuffer::note( const tripoint_abs_omt &p )
     }
     static const std::string empty_string;
     return empty_string;
+}
+
+int overmapbuffer::note_danger_radius( const tripoint_abs_omt &p )
+{
+    if( const overmap_with_local_coords om_loc = get_existing_om_global( p ) ) {
+        return om_loc.om->note_danger_radius( om_loc.local );
+    }
+    return -1;
 }
 
 bool overmapbuffer::has_extra( const tripoint_abs_omt &p )
@@ -854,15 +846,14 @@ bool overmapbuffer::reveal( const tripoint_abs_omt &center, int radius,
 overmap_path_params overmap_path_params::for_player()
 {
     overmap_path_params ret;
-    ret.road_cost = 10;
-    ret.dirt_road_cost = 10;
-    ret.field_cost = 15;
-    ret.trail_cost = 18;
-    ret.shore_cost = 20;
-    ret.small_building_cost = 20;
-    ret.forest_cost = 30;
-    ret.swamp_cost = 100;
-    ret.other_cost = 30;
+    ret.set_cost( oter_travel_cost_type::road, 10 );
+    ret.set_cost( oter_travel_cost_type::dirt_road, 10 );
+    ret.set_cost( oter_travel_cost_type::field, 15 );
+    ret.set_cost( oter_travel_cost_type::trail, 18 );
+    ret.set_cost( oter_travel_cost_type::shore, 20 );
+    ret.set_cost( oter_travel_cost_type::forest, 30 );
+    ret.set_cost( oter_travel_cost_type::swamp, 100 );
+    ret.set_cost( oter_travel_cost_type::other, 30 );
     return ret;
 }
 
@@ -879,15 +870,16 @@ overmap_path_params overmap_path_params::for_land_vehicle( float offroad_coeff, 
 {
     const bool can_offroad = offroad_coeff >= 0.05;
     overmap_path_params ret;
-    ret.road_cost = 10;
-    ret.field_cost = can_offroad ? std::lround( 15 / std::min( 1.0f, offroad_coeff ) ) : -1;
-    ret.dirt_road_cost = ret.field_cost;
-    ret.small_building_cost = ( can_offroad && tiny ) ? ret.field_cost + 30 : -1;
-    ret.trail_cost = ( can_offroad && tiny ) ? ret.field_cost + 10 : -1;
+    ret.set_cost( oter_travel_cost_type::road, 10 );
+    const int field_cost = can_offroad ? std::lround( 15 / std::min( 1.0f, offroad_coeff ) ) : -1;
+    ret.set_cost( oter_travel_cost_type::field, field_cost );
+    ret.set_cost( oter_travel_cost_type::dirt_road, field_cost );
+    ret.set_cost( oter_travel_cost_type::trail,
+                  ( can_offroad && tiny ) ? field_cost + 10 : -1 );
     if( amphibious ) {
         const overmap_path_params boat_params = overmap_path_params::for_watercraft();
-        ret.water_cost = boat_params.water_cost;
-        ret.shore_cost = boat_params.shore_cost;
+        ret.set_cost( oter_travel_cost_type::water, boat_params.get_cost( oter_travel_cost_type::water ) );
+        ret.set_cost( oter_travel_cost_type::shore, boat_params.get_cost( oter_travel_cost_type::shore ) );
     }
     return ret;
 }
@@ -895,15 +887,15 @@ overmap_path_params overmap_path_params::for_land_vehicle( float offroad_coeff, 
 overmap_path_params overmap_path_params::for_watercraft()
 {
     overmap_path_params ret;
-    ret.water_cost = 10;
-    ret.shore_cost = 20;
+    ret.set_cost( oter_travel_cost_type::water, 10 );
+    ret.set_cost( oter_travel_cost_type::shore, 20 );
     return ret;
 }
 
 overmap_path_params overmap_path_params::for_aircraft()
 {
     overmap_path_params ret;
-    ret.air_cost = 10;
+    ret.set_cost( oter_travel_cost_type::air, 10 );
     return ret;
 }
 
@@ -916,45 +908,7 @@ static int get_terrain_cost( const tripoint_abs_omt &omt_pos, const overmap_path
         return -1;
     }
     const oter_id &oter = overmap_buffer.ter_existing( omt_pos );
-    if( ( oter->get_type_id() == oter_type_road ) ||
-        ( oter->get_type_id() == oter_type_bridge_road ) ||
-        ( oter->get_type_id() == oter_type_bridgehead_ground ) ||
-        ( oter->get_type_id() == oter_type_bridgehead_ramp ) ||
-        ( oter->get_type_id() == oter_type_road_nesw_manhole ) ) {
-        return params.road_cost;
-    } else if( oter->get_type_id() == oter_type_field ) {
-        return params.field_cost;
-    } else if( is_ot_match( "rural_road", oter, ot_match_type::prefix ) ||
-               is_ot_match( "dirt_road", oter, ot_match_type::prefix ) ||
-               ( oter->get_type_id() == oter_type_subway ) ||
-               ( oter->get_type_id() == oter_type_lab_subway ) ) {
-        return params.dirt_road_cost;
-    } else if( oter->get_type_id() == oter_type_forest_trail ) {
-        return params.trail_cost;
-    } else if( oter->get_type_id() == oter_type_forest_water ) {
-        return params.swamp_cost;
-    } else if( is_ot_match( "river", oter, ot_match_type::prefix ) ||
-               is_ot_match( "lake", oter, ot_match_type::prefix ) ) {
-        if( ( oter->get_type_id() == oter_type_river_center ) ||
-            ( oter->get_type_id() == oter_type_lake_surface ) ) {
-            return params.water_cost;
-        } else {
-            return params.shore_cost;
-        }
-    } else if( oter->get_type_id() == oter_type_bridge ) {
-        return params.water_cost;
-    } else if( oter->get_type_id() == oter_type_open_air ) {
-        return params.air_cost;
-    } else if( oter->get_type_id() == oter_type_forest ) {
-        return params.forest_cost;
-    } else if( ( oter->get_type_id() == oter_type_empty_rock ) ||
-               ( oter->get_type_id() == oter_type_deep_rock ) ||
-               ( oter->get_type_id() == oter_type_solid_earth ) ||
-               ( oter->get_type_id() == oter_type_microlab_rock_border ) ) {
-        return -1;
-    } else {
-        return params.other_cost;
-    }
+    return params.get_cost( oter->get_travel_cost_type() );
 }
 
 static bool is_ramp( const tripoint_abs_omt &omt_pos )
@@ -1586,6 +1540,13 @@ std::string overmapbuffer::get_description_at( const tripoint_abs_sm &where )
             format_string = pgettext( "terrain description", "%1$s in %3$s" );
         }
     }
+
+    // Display Origin
+    const std::string mod_src = enumerate_as_string( oter->get_type_id().obj().src,
+    []( const std::pair<oter_type_str_id, mod_id> &source ) {
+        return string_format( "'%s'", source.second->name() );
+    }, enumeration_conjunction::arrow );
+    format_string += "\n" + string_format( _( "Origin: %s" ), mod_src );
 
     return string_format( format_string, ter_name, dir_name, closest_city_name );
 }

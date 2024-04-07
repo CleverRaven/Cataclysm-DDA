@@ -38,35 +38,36 @@
   },
   {
     "type": "snippet",
-    "category": "schizo_weapon_talk_monster",
+    "category": "<schizo_weapon_talk_monster>",
+    "//": "In the future, it would be preferable for the snippet to use the monster's name, instead of a generic insult.",
     "text": [
-      "Hey, let's go kill that %1$s!",
-      "Did you see that %1$s!?  Be careful.",
-      "Look out!  That %1$s is dangerous!",
-      "I want to kill that %1$s!",
-      "That %1$s looks like it wants to party.",
-      "I think that %1$s wants to talk to you.",
-      "That %1$s wants to be your friend!",
-      "Arrest that %1$s!",
-      "That %1$s hasn't met it's quota.",
-      "That %1$s deserves a raise!",
-      "We should give that %1$s a stern talking to.",
-      "Maybe we can reason with that %1$s!",
-      "That %1$s must be pulling the strings…",
-      "Let me kill that %1$s!  Please?",
-      "I need to kill that %1$s!",
-      "I want to watch that %1$s bleed!",
-      "Wait, that %1$s needs to die!",
-      "Go kill that %1$s!  NOW!",
-      "Stop!  Look at that %1$s.",
-      "That %1$s doesn't deserve to live!"
+      "Hey, let's go kill that <name_b>!",
+      "Did you see that <name_b>!?  Be careful.",
+      "Look out!  That creature is dangerous!",
+      "I want to kill that <name_b>!",
+      "That intruder looks like it wants to party.",
+      "I think that <name_b> wants to talk to you.",
+      "That <name_b> wants to be your friend!",
+      "Arrest that <name_b>!",
+      "That <name_b> hasn't met it's quota.",
+      "That guy deserves a raise!",
+      "We should give that <name_b> a stern talking to.",
+      "Maybe we can reason with that creature!",
+      "That <name_b> must be pulling the strings…",
+      "Let me kill that <name_b>!  Please?",
+      "I need to kill that <name_b>!",
+      "I want to watch that <name_b> bleed!",
+      "Wait, that <name_b> needs to die!",
+      "Go kill that <name_b>!  NOW!",
+      "Stop!  Look at that monster.",
+      "That <name_b> doesn't deserve to live!"
     ]
   },
   {
     "type": "snippet",
-    "category": "schizo_weapon_talk_bleeding",
+    "category": "<schizo_weapon_talk_bleeding>",
     "text": [
-      "Hey, you're bleeding.",
+      "Hey, you're hurt.",
       "Your wound looks pretty bad.",
       "Shouldn't you put a bandage on that?",
       "You look hurt, did I do that?  I'm sorry.",
@@ -75,7 +76,7 @@
       "You're not going to die are you?",
       "You're bleeding you know.",
       "That's not jelly on your coat lad, that's blood!",
-      "Take out a few more before you bleed to death!",
+      "Take out a few more before you die!",
       "Oh God.  Please don't die.  Not now!",
       "'Tis but a flesh wound.",
       "Gross, you're bleeding all over me.",
@@ -85,7 +86,7 @@
   },
   {
     "type": "snippet",
-    "category": "schizo_weapon_talk_damaged",
+    "category": "<schizo_weapon_talk_damaged>",
     "text": [
       "Hey, fix me up will ya?",
       "I need healing!",
@@ -105,7 +106,7 @@
   },
   {
     "type": "snippet",
-    "category": "schizo_weapon_talk_misc",
+    "category": "<schizo_weapon_talk_misc>",
     "text": [
       "Let me kill something already!",
       "I'm bored.",
@@ -201,14 +202,23 @@
   },
   {
     "type": "snippet",
-    "category": "schizo_weapon_drop",
+    "category": "<schizo_weapon_drop>",
+    "//": "In the future, it would be preferable for the snippet to use the object's name, instead of \"Your weapon\"",
     "text": [
-      "%1$s starts burning your hands!",
-      "%1$s feels freezing cold!",
-      "An electric shock shoots into your hand from %1$s!",
-      "%1$s was working for… THEM",
-      "%1$s is running away!",
-      "%1$s is a dirty traitor!"
+      "Your weapon starts burning your hands!",
+      "Your weapon feels freezing cold!",
+      "An electric shock shoots into your hand from Your weapon!",
+      "Your weapon was working for… THEM",
+      "Your weapon is running away!",
+      "Your weapon is a dirty traitor!"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "schizo_hear_sound",
+    "text": [
+      "From the <random_direction> you hear <random_sound>",
+      "From the <random_direction> <up_or_down> you hear <random_sound>"
     ]
   },
   {

@@ -54,41 +54,20 @@
         "text": "So, have your caravans seen anything interesting out there in the wasteland?",
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS",
         "condition": {
-          "npc_compare_time_since_var": "directions_recycler",
-          "type": "timer",
-          "context": "teamster",
-          "op": ">=",
-          "time": "2 days"
+          "or": [
+            { "math": [ "!has_var(n_timer_teamster_directions_recycler)" ] },
+            { "math": [ "time_since(n_timer_teamster_directions_recycler)", ">=", "time('2 d')" ] }
+          ]
         },
         "effect": [
-          {
-            "arithmetic": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "rand": 4 } ]
-          },
-          { "npc_add_var": "directions_recycler", "type": "timer", "context": "teamster", "time": true }
+          { "math": [ "npc_randomize_dialogue_direction", "=", "rand(4)" ] },
+          { "math": [ "n_timer_teamster_directions_recycler", "=", "time('now')" ] }
         ],
         "switch": true
       },
       {
         "text": "So, have your caravans seen anything interesting out there in the wasteland?",
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS",
-        "condition": {
-          "npc_compare_time_since_var": "directions_recycler",
-          "type": "timer",
-          "context": "teamster",
-          "op": "<",
-          "time": "2 days"
-        },
-        "switch": true
-      },
-      {
-        "text": "So, have your caravans seen anything interesting out there in the wasteland?",
-        "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS",
-        "effect": [
-          {
-            "arithmetic": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "rand": 4 } ]
-          },
-          { "npc_add_var": "directions_recycler", "type": "timer", "context": "teamster", "time": true }
-        ],
         "switch": true,
         "default": true
       },
@@ -96,9 +75,7 @@
         "text": "Do you know anything about a trader near the New England Church Community, claims to be from here?",
         "condition": {
           "and": [
-            {
-              "not": { "compare_num": [ { "global_val": "var", "var_name": "godco_freemerch_representative_dead" }, "==", { "const": 0 } ] }
-            },
+            { "math": [ "godco_freemerch_representative_dead", "!=", "0" ] },
             { "u_has_var": "u_think_suspicious_price", "type": "general", "context": "trade", "value": "yes" },
             { "not": { "u_has_mission": "MISSION_INVESTIGATE_TRADER" } }
           ]
@@ -109,9 +86,7 @@
         "text": "I think I've got the evidence you were looking for.",
         "condition": {
           "and": [
-            {
-              "not": { "compare_num": [ { "global_val": "var", "var_name": "godco_freemerch_representative_dead" }, "==", { "const": 0 } ] }
-            },
+            { "math": [ "godco_freemerch_representative_dead", "!=", "0" ] },
             { "u_has_mission": "MISSION_INVESTIGATE_TRADER" },
             { "u_has_item": "godcotrader_accounting_records_dirty" }
           ]
@@ -122,9 +97,7 @@
         "text": "I think I've got the evidence you were looking for.",
         "condition": {
           "and": [
-            {
-              "not": { "compare_num": [ { "global_val": "var", "var_name": "godco_freemerch_representative_dead" }, "==", { "const": 0 } ] }
-            },
+            { "not": { "math": [ "godco_freemerch_representative_dead", "==", "0" ] } },
             { "u_has_mission": "MISSION_INVESTIGATE_TRADER" },
             { "u_has_item": "godcotrader_accounting_records_clean" }
           ]
@@ -173,19 +146,22 @@
     "type": "talk_topic",
     "id": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS",
     "dynamic_line": {
-      "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 0 } ],
+      "math": [ "npc_randomize_dialogue_direction", "==", "0" ],
       "yes": "No, sorry.  Nothin' much worth notin' out there these days, just the odd scattered survivor and they usually don't want random visitors.",
       "no": {
-        "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 1 } ],
+        "math": [ "npc_randomize_dialogue_direction", "==", "1" ],
         "yes": "Matter of fact, yeah.  Ran into a bunch of farmers.  They don't want much to do with our caravans, but someone like you they might be OK with.",
         "no": {
-          "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 2 } ],
-          "yes": "There's been rumors.  Folks talkin' about some kind of secret lab, out in the wilds, with survivors in it.  I haven't seen it myself, mind you.",
+          "math": [ "npc_randomize_dialogue_direction", "==", "2" ],
+          "yes": {
+            "gendered_line": "There's been rumors.  Folks talkin' about some kind of secret lab, out in the wilds, with survivors in it.  I haven't seen it myself, mind you.",
+            "relevant_genders": [ "npc" ]
+          },
           "no": {
-            "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 3 } ],
+            "math": [ "npc_randomize_dialogue_direction", "==", "3" ],
             "yes": "Well, a few of my caravans have come back now talkin' about this giant metal castle on top of a rock, in the middle of nowhere.  They ain't been crazy enough to check it out, but you could if you want.",
             "no": {
-              "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 4 } ],
+              "math": [ "npc_randomize_dialogue_direction", "==", "4" ],
               "yes": "A few of my people have come back now talkin' about some yuppie trying to start a bank that uses bullets for money.  Silly idea but the lad lives on a homestead with a woman who wouldn't let my guys leave without a full belly.",
               "no": "ERROR: out of bounds on randomize_directions."
             }
@@ -199,9 +175,7 @@
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS_2",
         "condition": {
           "and": [
-            {
-              "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 1 } ]
-            },
+            { "math": [ "npc_randomize_dialogue_direction", "==", "1" ] },
             { "not": { "u_has_var": "directions", "type": "teamster", "context": "mission", "value": "isherwood" } }
           ]
         },
@@ -213,9 +187,7 @@
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS_2",
         "condition": {
           "and": [
-            {
-              "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 2 } ]
-            },
+            { "math": [ "npc_randomize_dialogue_direction", "==", "2" ] },
             { "not": { "u_has_var": "directions", "type": "teamster", "context": "mission", "value": "hub01" } }
           ]
         },
@@ -227,9 +199,7 @@
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS_2",
         "condition": {
           "and": [
-            {
-              "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 3 } ]
-            },
+            { "math": [ "npc_randomize_dialogue_direction", "==", "3" ] },
             { "not": { "u_has_var": "directions", "type": "teamster", "context": "mission", "value": "exodii" } }
           ]
         },
@@ -241,9 +211,7 @@
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS_2",
         "condition": {
           "and": [
-            {
-              "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 4 } ]
-            },
+            { "math": [ "npc_randomize_dialogue_direction", "==", "4" ] },
             { "not": { "u_has_var": "directions", "type": "teamster", "context": "mission", "value": "artisans" } }
           ]
         },
@@ -290,11 +258,14 @@
   {
     "type": "talk_topic",
     "id": "TALK_FREE_MERCHANT_TEAMSTER_Boris_Mission_1",
-    "dynamic_line": "Yeah, I'll help out.  I've pretty much been waiting for someone to ask, the mess is in my way but I've been too busy to organize it myself.  Boris is the one to talk to, you say?  I'll let him know.",
+    "dynamic_line": {
+      "gendered_line": "Yeah, I'll help out.  I've pretty much been waiting for someone to ask, the mess is in my way but I've been too busy to organize it myself.  Boris is the one to talk to, you say?  I'll let him know.",
+      "relevant_genders": [ "npc" ]
+    },
     "speaker_effect": {
       "effect": [
         { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" },
-        { "u_adjust_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "adjustment": 1 }
+        { "math": [ "u_mission_cleanup_promises_Boris_mission_1", "++" ] }
       ]
     },
     "responses": [
@@ -305,7 +276,10 @@
   {
     "id": "TALK_FREE_MERCHANT_TEAMSTER_Godco_Trader",
     "type": "talk_topic",
-    "dynamic_line": "Oh yeah, they're my rookie representative.  I figured that those people wouldn't cause too much trouble for them, so I sent them over there.  What about them?",
+    "dynamic_line": {
+      "gendered_line": "Oh yeah, they're my rookie representative.  I figured that those people wouldn't cause too much trouble for them, so I sent them over there.  What about them?",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       {
         "text": "I think they're gouging the prices for the people living there.",
@@ -427,7 +401,7 @@
       {
         "text": "Glad to help.",
         "effect": [
-          { "arithmetic": [ { "global_val": "var", "var_name": "freemerch_godco_trader_investigated" }, "=", { "const": 1 } ] },
+          { "math": [ "freemerch_godco_trader_investigated", "=", "1" ] },
           { "u_lose_var": "u_think_suspicious_price", "type": "general", "context": "trade" },
           { "u_spawn_item": "FMCNote", "count": 20 },
           { "u_sell_item": "godcotrader_accounting_records_dirty" }
@@ -461,7 +435,7 @@
     "difficulty": 2,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_special": "Isherwood Farms", "om_terrain": "farm_isherwood_1", "reveal_radius": 5, "search_range": 400 },
+      "assign_mission_target": { "om_special": "Isherwood Farms", "om_terrain": "farm_isherwood_1", "reveal_radius": 5, "search_range": 1000 },
       "effect": { "u_add_var": "directions", "type": "teamster", "context": "mission", "value": "isherwood" }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -486,7 +460,7 @@
     "difficulty": 2,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_special": "hub_01", "om_terrain": "robofachq_surface_entrance", "reveal_radius": 5, "search_range": 400 },
+      "assign_mission_target": { "om_special": "hub_01", "om_terrain": "robofachq_surface_entrance", "reveal_radius": 5, "search_range": 1000 },
       "effect": { "u_add_var": "directions", "type": "teamster", "context": "mission", "value": "hub01" }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -511,7 +485,7 @@
     "difficulty": 2,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_terrain": "exodii_base_x0y3z0", "om_special": "exodii_base", "reveal_radius": 5, "search_range": 400 },
+      "assign_mission_target": { "om_terrain": "exodii_base_x0y3z0", "om_special": "exodii_base", "reveal_radius": 5, "search_range": 1000 },
       "effect": { "u_add_var": "directions", "type": "teamster", "context": "mission", "value": "exodii" }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -536,7 +510,12 @@
     "difficulty": 2,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_special": "isolated_road", "om_terrain": "isolated_house_farm_gunsmith", "reveal_radius": 2, "search_range": 400 },
+      "assign_mission_target": {
+        "om_special": "isolated_road",
+        "om_terrain": "isolated_house_farm_gunsmith",
+        "reveal_radius": 2,
+        "search_range": 1000
+      },
       "effect": { "u_add_var": "directions", "type": "teamster", "context": "mission", "value": "artisans" }
     },
     "origins": [ "ORIGIN_SECONDARY" ],

@@ -1,0 +1,254 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PYROKIN_CALL_FLAME_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_pyrokinetic_fire_tool" } },
+    "effect": [
+      { "u_message": "Flames begin dancing in the air above your hand.", "type": "good" },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
+      { "u_add_effect": "effect_pyrokinetic_fire_tool", "duration": "PERMANENT" },
+      { "u_spawn_item": "pyrokinetic_fire_tool", "suppress_message": true, "force_equip": true },
+      {
+        "queue_eocs": "EOC_PYROKIN_CALL_FLAME_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( (u_spell_level('pyrokinetic_call_flames') * 50) + 500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          },
+          {
+            "math": [
+              "( (u_spell_level('pyrokinetic_call_flames') * 160) + 1800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_PYRO_REMOVE_FIRE_TOOL" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PYRO_REMOVE_FIRE_TOOL",
+    "condition": { "u_has_effect": "effect_pyrokinetic_fire_tool" },
+    "effect": [
+      { "u_message": "The flames over your hand gutter and die out.", "type": "bad" },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" },
+      { "u_remove_item_with": "pyrokinetic_fire_tool" },
+      { "u_lose_effect": "effect_pyrokinetic_fire_tool" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PYROKIN_CALL_FLAME_DRAIN",
+    "condition": { "u_has_effect": "effect_pyrokinetic_fire_tool" },
+    "effect": [
+      { "math": [ "u_latest_channeled_power_difficulty", "=", "3" ] },
+      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
+      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(3)" ] },
+      { "math": [ "u_spell_exp('pyrokinetic_call_flames')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
+      {
+        "queue_eocs": "EOC_PYROKIN_CALL_FLAME_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( (u_spell_level('pyrokinetic_call_flames') * 50) + 500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          },
+          {
+            "math": [
+              "( (u_spell_level('pyrokinetic_call_flames') * 160) + 1800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PYROKIN_WARMTH_CLOAK_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_pyrokinetic_cloak" } },
+    "effect": [
+      { "u_message": "You heat the nearby air to a comfortable temperature.", "type": "good" },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
+      { "u_add_effect": "effect_pyrokinetic_cloak", "duration": "PERMANENT" },
+      {
+        "queue_eocs": "EOC_PYROKIN_WARMTH_CLOAK_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( (u_spell_level('pyrokinetic_cloak') * 29) + 180) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          },
+          {
+            "math": [
+              "( (u_spell_level('pyrokinetic_cloak') * 192) + 1440) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_PYRO_REMOVE_WARMTH_CLOAK" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PYRO_REMOVE_WARMTH_CLOAK",
+    "condition": { "u_has_effect": "effect_pyrokinetic_cloak" },
+    "effect": [ { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" }, { "u_lose_effect": "effect_pyrokinetic_cloak" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PYROKIN_WARMTH_CLOAK_DRAIN",
+    "condition": { "u_has_effect": "effect_pyrokinetic_cloak" },
+    "effect": [
+      { "math": [ "u_latest_channeled_power_difficulty", "=", "4" ] },
+      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
+      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(4)" ] },
+      { "math": [ "u_spell_exp('pyrokinetic_cloak')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
+      {
+        "queue_eocs": "EOC_PYROKIN_WARMTH_CLOAK_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( (u_spell_level('pyrokinetic_cloak') * 29) + 180) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          },
+          {
+            "math": [
+              "( (u_spell_level('pyrokinetic_cloak') * 192) + 1440) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PYROKIN_TORCH_WELD_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_pyrokinetic_torch_weld" } },
+    "effect": [
+      { "u_message": "A searing line of flame springs forth from your finger.", "type": "good" },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
+      { "u_add_effect": "effect_pyrokinetic_torch_weld", "duration": "PERMANENT" },
+      { "u_spawn_item": "pyrokinetic_torch_weld", "suppress_message": true, "force_equip": true },
+      {
+        "queue_eocs": "EOC_PYROKIN_TORCH_WELD_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( (u_spell_level('pyrokinetic_lance') * 114) + 205) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          },
+          {
+            "math": [
+              "( (u_spell_level('pyrokinetic_lance') * 492) + 2460) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_PYRO_REMOVE_TORCH_WELD" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PYRO_REMOVE_TORCH_WELD",
+    "condition": { "u_has_effect": "effect_pyrokinetic_torch_weld" },
+    "effect": [
+      { "u_message": "The line of fire vanishes in an instant.", "type": "bad" },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" },
+      { "u_remove_item_with": "pyrokinetic_torch_weld" },
+      { "u_lose_effect": "effect_pyrokinetic_torch_weld" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PYROKIN_TORCH_WELD_DRAIN",
+    "condition": { "u_has_item": "pyrokinetic_torch_weld" },
+    "effect": [
+      { "math": [ "u_latest_channeled_power_difficulty", "=", "5" ] },
+      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
+      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(5)" ] },
+      { "math": [ "u_spell_exp('pyrokinetic_lance')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
+      {
+        "queue_eocs": "EOC_PYROKIN_TORCH_WELD_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( (u_spell_level('pyrokinetic_lance') * 114) + 205) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          },
+          {
+            "math": [
+              "( (u_spell_level('pyrokinetic_lance') * 492) + 2460) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PYROKIN_FLAME_IMMUNITY_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_pyrokinetic_flame_immunity" } },
+    "effect": [
+      { "u_message": "The nearby air loses any heat.", "type": "good" },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
+      { "u_add_effect": "effect_pyrokinetic_flame_immunity", "duration": "PERMANENT" },
+      {
+        "queue_eocs": "EOC_PYROKIN_FLAME_IMMUNITY_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( (u_spell_level('pyrokinetic_flame_immunity') * 11) + 90) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          },
+          {
+            "math": [
+              "( (u_spell_level('pyrokinetic_flame_immunity') * 47) + 570) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_PYROKIN_REMOVE_FLAME_IMMUNITY" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PYROKIN_REMOVE_FLAME_IMMUNITY",
+    "condition": { "u_has_effect": "effect_pyrokinetic_flame_immunity" },
+    "effect": [ { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" }, { "u_lose_effect": "effect_pyrokinetic_flame_immunity" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PYROKIN_FLAME_IMMUNITY_DRAIN",
+    "condition": { "u_has_effect": "effect_pyrokinetic_flame_immunity" },
+    "effect": [
+      { "math": [ "u_latest_channeled_power_difficulty", "=", "7" ] },
+      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
+      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(7)" ] },
+      { "math": [ "u_spell_exp('pyrokinetic_flame_immunity')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
+      {
+        "queue_eocs": "EOC_PYROKIN_FLAME_IMMUNITY_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( (u_spell_level('pyrokinetic_flame_immunity') * 11) + 90) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          },
+          {
+            "math": [
+              "( (u_spell_level('pyrokinetic_flame_immunity') * 47) + 570) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [  ]
+  }
+]

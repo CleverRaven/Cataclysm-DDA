@@ -64,6 +64,7 @@
         ",": "t_door_boarded",
         "(": "t_door_metal_pickable"
       },
+      "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 1, "y": 0 } ],
       "furniture": { "!": "f_region_flower", ";": "f_console_broken", "{": "f_table", "}": "f_chair", ")": "f_locker" },
       "set": [
         { "point": "trap", "id": "tr_beartrap", "x": [ 10, 11 ], "y": 2, "repeat": [ 1, 2 ] },

@@ -9,38 +9,32 @@
       {
         "id": "mag_swimming",
         "name": { "str": "Swim Planet", "str_pl": "issues of Swim Planet" },
-        "description": "The world's leading resource about aquatic sports.",
-        "weight": 1
+        "description": "The world's leading resource about aquatic sports."
       },
       {
         "id": "mag_swimming_1",
         "name": { "str": "Men's Fitness", "str_pl": "issues of Men's Fitness" },
-        "description": "A shiny magazine about fitness, nutrition, and sports, mostly oriented towards men.",
-        "weight": 1
+        "description": "A shiny magazine about fitness, nutrition, and sports, mostly oriented towards men."
       },
       {
         "id": "mag_swimming_2",
         "name": { "str": "Iron Man", "str_pl": "issues of Iron Man" },
-        "description": "A quarterly issue about natural bodybuilding, weightlifting, and powerlifting.",
-        "weight": 1
+        "description": "A quarterly issue about natural bodybuilding, weightlifting, and powerlifting."
       },
       {
         "id": "mag_swimming_3",
         "name": { "str": "Muscle & Fitness", "str_pl": "issues of Muscle & Fitness" },
-        "description": "A magazine about mainstream fitness and simple bodybuilding, containing articles about different training techniques, nutrition tips, and doctor recommendations.",
-        "weight": 1
+        "description": "A magazine about mainstream fitness and simple bodybuilding, containing articles about different training techniques, nutrition tips, and doctor recommendations."
       },
       {
         "id": "mag_swimming_4",
         "name": { "str": "Muscular Development", "str_pl": "issues of Muscular Development" },
-        "description": "A monthly issue which covers mostly fitness and bodybuilding themes.  Lots of muscular men aggressively poke at you from the cover.",
-        "weight": 1
+        "description": "A monthly issue which covers mostly fitness and bodybuilding themes.  Lots of muscular men aggressively poke at you from the cover."
       },
       {
         "id": "mag_swimming_5",
         "name": { "str": "Bicycling", "str_pl": "issues of Bicycling" },
-        "description": "A small magazine about the bicycle scene, tips about the buying and maintenance of bikes, and different types of training you can do with them.",
-        "weight": 1
+        "description": "A small magazine about the bicycle scene, tips about the buying and maintenance of bikes, and different types of training you can do with them."
       }
     ],
     "weight": "60 g",
@@ -67,78 +61,67 @@
       {
         "id": "manual_swimming",
         "name": { "str": "Water Survival Training Field Manual", "str_pl": "copies of Water Survival Training Field Manual" },
-        "description": "A commercially produced survival guide that details swimming and deep water survival techniques tailored to emergency scenarios.",
-        "weight": 1
+        "description": "A commercially produced survival guide that details swimming and deep water survival techniques tailored to emergency scenarios."
       },
       {
         "id": "manual_swimming_1",
         "name": { "str": "Built from Broken", "str_pl": "copies of Built from Broken" },
         "description": "\"A Science-Based Guide to Healing Painful Joints, Preventing Injuries, and Rebuilding Your Body\".  This book details a way to build your body without painful and exhausting training, with a proper training program and step-by-step instructions.",
-        "//": "978-1735728506",
-        "weight": 1
+        "//": "978-1735728506"
       },
       {
         "id": "manual_swimming_2",
         "name": { "str": "Science of Running", "str_pl": "copies of Science of Running" },
         "description": "This book contains comprehensive information about how anatomy and physiology function in running, training plans, and many new exercises for new runners.",
-        "//": "978-0241394519",
-        "weight": 1
+        "//": "978-0241394519"
       },
       {
         "id": "manual_swimming_3",
         "name": { "str": "Overcoming Gravity", "str_pl": "copies of Overcoming Gravity" },
         "description": "\"A Systematic Approach to Gymnastics and Bodyweight Strength\", this thick book is a gold mine of information about strength-oriented bodyweight workout, including scientific principles, different routines, methods, detail about progression, and a huge variety of exercises and their modifications.",
-        "//": "978-0990873853",
-        "weight": 1
+        "//": "978-0990873853"
       },
       {
         "id": "manual_swimming_4",
         "name": { "str": "Calisthenics for Beginners", "str_pl": "copies of Calisthenics for Beginners" },
         "description": "A step-by-step guide about fitness and working out using only your body, with a huge variety of difficulties in exercises.",
-        "//": "978-1646111688",
-        "weight": 1
+        "//": "978-1646111688"
       },
       {
         "id": "manual_swimming_5",
         "name": { "str": "The Squat Bible", "str_pl": "copies of The Squat Bible" },
         "description": "200 pages of different squat trainings, with comprehensive info on what each of them is designed to train.",
-        "//": "978-1540395429",
-        "weight": 1
+        "//": "978-1540395429"
       },
       {
         "id": "manual_swimming_6",
         "name": { "str": "Functional Training and Beyond", "str_pl": "copies of Functional Training and Beyond" },
         "description": "The best book for someone who wants to build a better body - from the start to an advanced level.",
-        "//": "978-1642505030",
-        "weight": 1
+        "//": "978-1642505030"
       },
       {
         "id": "manual_swimming_7",
         "name": { "str": "New Functional Training for Sports", "str_pl": "copies of New Functional Training for Sports" },
         "description": "Concepts, methods, exercises and programs for athletes of different sports, with demonstrations, commentary, and analysis of key exercises.",
-        "//": "978-1492530619",
-        "weight": 1
+        "//": "978-1492530619"
       },
       {
         "id": "manual_swimming_8",
         "name": { "str": "The World's Fittest Book", "str_pl": "copies of The World's Fittest Book" },
         "description": "\"How to Train for Anything and Everything, Anywhere and Everywhere\", this book contains different types of trainings for everyone.",
-        "//": "978-0751572544",
-        "weight": 1
+        "//": "978-0751572544"
       },
       {
         "id": "manual_swimming_9",
         "name": { "str": "Blueprint", "str_pl": "copies of Blueprint" },
         "description": "The cutting-edge training program to make you stronger than ever, from zero to superhuman, in a year.",
-        "//": "978-0008487034",
-        "weight": 1
+        "//": "978-0008487034"
       },
       {
         "id": "manual_swimming_10",
         "name": { "str": "Hard Work Pays Off", "str_pl": "copies of Hard Work Pays Off" },
         "description": "A training manual for someone ready to spend lot of time and energy on training, with detailed instructions and comments.",
-        "//": "978-0593233757",
-        "weight": 1
+        "//": "978-0593233757"
       }
     ],
     "weight": "400 g",

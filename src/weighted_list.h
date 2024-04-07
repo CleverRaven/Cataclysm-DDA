@@ -266,7 +266,7 @@ template <typename T> struct weighted_int_list : public weighted_list<int, T> {
         std::vector<int> precalc_array;
 };
 
-static_assert( std::is_nothrow_move_constructible<weighted_int_list<int>>::value );
+static_assert( std::is_nothrow_move_constructible_v<weighted_int_list<int>> );
 
 template <typename T> struct weighted_float_list : public weighted_list<double, T> {
 

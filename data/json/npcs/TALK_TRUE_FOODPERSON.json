@@ -15,7 +15,7 @@
           "type": "dialogue",
           "context": "foodperson",
           "value": "yes",
-          "no": "So you're back… explain yourself!",
+          "no": { "gendered_line": "So you're back… explain yourself!", "relevant_genders": [ "u" ] },
           "yes": "Greetings friend, it's nice to see you."
         }
       },
@@ -140,7 +140,7 @@
   {
     "id": "TALK_FOODPERSON_INTRODUCTION",
     "type": "talk_topic",
-    "dynamic_line": "Indeed it is I!  The one and only FOODPERSON!",
+    "dynamic_line": { "gendered_line": "Indeed it is I!  The one and only FOODPERSON!", "relevant_genders": [ "npc" ] },
     "responses": [
       {
         "text": "Wow!  Such an honor to meet you in person!",
@@ -407,7 +407,7 @@
   {
     "id": "TALK_FOODPERSON_NOTRAINING",
     "type": "talk_topic",
-    "dynamic_line": "You're not ready for this.",
+    "dynamic_line": { "gendered_line": "You're not ready for this.", "relevant_genders": [ "u" ] },
     "speaker_effect": { "effect": { "npc_add_var": "npc_failed_training", "type": "dialogue", "context": "foodperson", "value": "yes" } },
     "responses": [ { "text": "But I am worthy!", "topic": "TALK_NONE" } ]
   },
@@ -442,7 +442,7 @@
   {
     "id": "TALK_FOODPERSON_SIDEKICK",
     "type": "talk_topic",
-    "dynamic_line": "What about: you prove your worth and join me as my sidekick?",
+    "dynamic_line": { "gendered_line": "What about: you prove your worth and join me as my sidekick?", "relevant_genders": [ "u" ] },
     "speaker_effect": { "effect": { "npc_add_var": "npc_sidekick_offer", "type": "dialogue", "context": "foodperson", "value": "yes" } },
     "responses": [
       { "condition": { "not": "has_assigned_mission" }, "text": "That sounds great!", "topic": "TALK_MISSION_LIST" },

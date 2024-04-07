@@ -2,7 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pumpkin_muffins",
-    "name": { "str_sp": "pumpkin muffin" },
+    "name": { "str": "pumpkin muffin" },
     "weight": "30 g",
     "color": "red",
     "spoils_in": "3 days 12 hours",
@@ -21,7 +21,7 @@
   {
     "type": "COMESTIBLE",
     "id": "hazelnut_cake",
-    "name": { "str_sp": "hazelnut cake" },
+    "name": { "str": "hazelnut cake" },
     "weight": "30 g",
     "color": "brown",
     "spoils_in": "7 days",
@@ -39,7 +39,7 @@
   {
     "type": "COMESTIBLE",
     "id": "baklava",
-    "name": { "str_sp": "baklava" },
+    "name": { "str": "baklava" },
     "weight": "50 g",
     "color": "brown",
     "spoils_in": "7 days",

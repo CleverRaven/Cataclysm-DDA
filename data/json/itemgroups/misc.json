@@ -70,12 +70,7 @@
               { "item": "microcentrifuge", "prob": 80 },
               { "item": "still_lab", "prob": 80 },
               { "item": "cotton_patchwork", "count": [ 3, 10 ] },
-              {
-                "distribution": [
-                  { "item": "hotplate", "prob": 80, "charges": [ 0, 500 ] },
-                  { "item": "chemistry_set", "prob": 20, "charges": [ 0, 500 ] }
-                ]
-              },
+              { "distribution": [ { "item": "hotplate", "prob": 80 }, { "item": "chemistry_set", "prob": 20 } ] },
               { "item": "vac_pump" },
               { "item": "chem_ethanol", "charges-min": 150, "prob": 80 }
             ],
@@ -140,6 +135,17 @@
       { "item": "flint", "prob": 1 },
       { "item": "rock_large", "prob": 10 },
       { "item": "pebble", "count": [ 1, 4 ], "prob": 15 }
+    ]
+  },
+  {
+    "id": "digging_topsoil_loam_50L",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      { "group": "digging_soil_loam_50L", "count": 1 },
+      { "item": "earthworm", "count": [ 0, 10 ], "prob": 75 },
+      { "item": "earthworm_handful", "count": [ 0, 3 ], "prob": 60 },
+      { "item": "earthworm_handful", "count": [ 1, 2 ], "prob": 20 }
     ]
   },
   {
@@ -315,5 +321,11 @@
       { "item": "sharpener", "prob": 50 },
       { "item": "ruler", "prob": 50 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "pillbox_any_empty",
+    "subtype": "distribution",
+    "items": [ "pillbox", "pillbox_large" ]
   }
 ]

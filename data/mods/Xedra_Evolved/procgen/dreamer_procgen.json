@@ -8,7 +8,8 @@
         "charges": { "range": [ 7, 7 ], "power": 0 },
         "charges_per_use": { "range": [ 1, 1 ], "power": 0 },
         "max_charges": { "range": [ 3, 7 ], "power": 25 },
-        "recharge_type": "none"
+        "recharge_type": "periodic",
+        "time": [ "18 h", "30 h" ]
       }
     ],
     "active_procgen_values": [

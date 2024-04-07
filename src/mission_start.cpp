@@ -19,7 +19,6 @@
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "messages.h"
-#include "name.h"
 #include "npc.h"
 #include "npc_class.h"
 #include "omdata.h"
@@ -39,7 +38,8 @@ static const itype_id itype_software_useless( "software_useless" );
 static const mission_type_id
 mission_MISSION_GET_ZOMBIE_BLOOD_ANAL( "MISSION_GET_ZOMBIE_BLOOD_ANAL" );
 
-static const mtype_id mon_zombie( "mon_zombie" );
+static const ter_str_id ter_t_floor( "t_floor" );
+static const ter_str_id ter_t_wall_metal( "t_wall_metal" );
 
 /* These functions are responsible for making changes to the game at the moment
  * the mission is accepted by the player.  They are also responsible for
@@ -50,25 +50,12 @@ void mission_start::standard( mission * )
 {
 }
 
-void mission_start::place_zombie_mom( mission *miss )
-{
-    const tripoint_abs_omt house = mission_util::random_house_in_closest_city();
-
-    miss->target = house;
-    overmap_buffer.reveal( house, 6 );
-
-    tinymap zomhouse;
-    zomhouse.load( project_to<coords::sm>( house ), false );
-    zomhouse.add_spawn( mon_zombie, 1, { SEEX, SEEY, house.z() }, false, -1, miss->uid,
-                        Name::get( nameFlags::IsFemaleName | nameFlags::IsGivenName ) );
-    zomhouse.save();
-}
-
 void mission_start::kill_nemesis( mission * )
 {
     // Pick an area for the nemesis to spawn
 
-    const tripoint_abs_omt center = get_player_character().global_omt_location();
+    // Force z = 0 for overmapbuffer::find_random. (spawning on a rooftop is valid!)
+    const tripoint_abs_omt center = { get_player_character().global_omt_location().xy(), 0 };
     tripoint_abs_omt site = overmap::invalid_tripoint;
 
     static const std::array<float, 3> attempts_multipliers {1.0f, 1.5f, 2.f};
@@ -105,7 +92,7 @@ static tripoint find_potential_computer_point( const tinymap &compmap )
     for( const tripoint &p : compmap.points_on_zlevel() ) {
         if( compmap.furn( p ) == f_console_broken ) {
             broken.emplace_back( p );
-        } else if( broken.empty() && compmap.ter( p ) == t_floor && compmap.furn( p ) == f_null ) {
+        } else if( broken.empty() && compmap.ter( p ) == ter_t_floor && compmap.furn( p ) == f_null ) {
             for( const tripoint &p2 : compmap.points_in_radius( p, 1 ) ) {
                 if( compmap.furn( p2 ) == f_bed || compmap.furn( p2 ) == f_dresser ) {
                     potential.emplace_back( p );
@@ -179,7 +166,7 @@ void mission_start::place_npc_software( mission *miss )
     overmap_buffer.reveal( place, 6 );
 
     tinymap compmap;
-    compmap.load( project_to<coords::sm>( place ), false );
+    compmap.load( place, false );
     tripoint comppoint;
 
     oter_id oter = overmap_buffer.ter( place );
@@ -221,12 +208,12 @@ void mission_start::place_deposit_box( mission *miss )
     overmap_buffer.reveal( site, 2 );
 
     tinymap compmap;
-    compmap.load( project_to<coords::sm>( site ), false );
+    compmap.load( site, false );
     std::vector<tripoint> valid;
     for( const tripoint &p : compmap.points_on_zlevel() ) {
-        if( compmap.ter( p ) == t_floor ) {
+        if( compmap.ter( p ) == ter_t_floor ) {
             for( const tripoint &p2 : compmap.points_in_radius( p, 1 ) ) {
-                if( compmap.ter( p2 ) == t_wall_metal ) {
+                if( compmap.ter( p2 ) == ter_t_wall_metal ) {
                     valid.push_back( p );
                     break;
                 }
@@ -356,7 +343,7 @@ void static create_lab_consoles(
                                         otype, -1, miss, false, 4, place );
 
         tinymap compmap;
-        compmap.load( project_to<coords::sm>( om_place ), false );
+        compmap.load( om_place, false );
 
         tripoint comppoint = find_potential_computer_point( compmap );
 

@@ -6,7 +6,7 @@
     "name": { "str": "phelloderm" },
     "description": "A pliable but hefty layer of living plant matter.",
     "weight": "2 kg",
-    "volume": "300 ml",
+    "volume": "2100 ml",
     "price": 0,
     "price_postapoc": 0,
     "material": [ "mut_wood", "veggy" ],
@@ -112,7 +112,14 @@
       },
       {
         "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 3 }, { "type": "wood", "covered_by_mat": 40, "thickness": 4 } ],
-        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r" ],
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_back_l", "hand_back_r", "hand_palm_l", "hand_palm_r", "hand_wrist_l", "hand_wrist_r" ],
+        "coverage": 100,
+        "encumbrance": 6
+      },
+      {
+        "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 3 }, { "type": "wood", "covered_by_mat": 40, "thickness": 4 } ],
+        "covers": [ "foot_l", "foot_r" ],
         "coverage": 100,
         "encumbrance": 6
       }
@@ -152,6 +159,31 @@
         "covers": [ "mouth", "eyes" ],
         "coverage": 90,
         "encumbrance": 8
+      }
+    ]
+  },
+  {
+    "id": "integrated_feathers",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "feathers" },
+    "description": "Iridescent feathers covering your entire body.  Provides some warmth and protection from the elements, but could be thicker.",
+    "weight": "640 g",
+    "volume": "800 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "mut_feather" ],
+    "symbol": "x",
+    "color": "white",
+    "warmth": 15,
+    "environmental_protection": 1,
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "material": [ { "type": "mut_feather", "covered_by_mat": 100, "thickness": 4 } ],
+        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head" ],
+        "coverage": 100,
+        "encumbrance": 0
       }
     ]
   },
@@ -261,6 +293,43 @@
     ]
   },
   {
+    "id": "integrated_ursine_fur_summer",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "scruffy fur" },
+    "description": "While still formidable, this furry hide has lost a lot of its bulk to better endure the summer months.",
+    "weight": "2 kg",
+    "volume": "2 L",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "mut_fur" ],
+    "symbol": "x",
+    "color": "black",
+    "warmth": 32,
+    "environmental_protection": 1,
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "WATER_FRIENDLY", "SOFT" ],
+    "armor": [
+      {
+        "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 10 } ],
+        "covers": [ "leg_l", "leg_r", "arm_l", "arm_r", "torso" ],
+        "coverage": 100,
+        "encumbrance": 3
+      },
+      {
+        "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 6 } ],
+        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "head" ],
+        "coverage": 100,
+        "encumbrance": 4
+      },
+      {
+        "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "mouth" ],
+        "coverage": 85,
+        "encumbrance": 0
+      }
+    ]
+  },
+  {
     "id": "integrated_lupine_fur",
     "type": "ARMOR",
     "category": "armor",
@@ -291,6 +360,43 @@
       },
       {
         "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "mouth" ],
+        "coverage": 85,
+        "encumbrance": 0
+      }
+    ]
+  },
+  {
+    "id": "integrated_lupine_fur_summer",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "summer coat" },
+    "description": "A covering of fur that has thinned out for the summer.",
+    "weight": "1 kg",
+    "volume": "1 L",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "mut_fur" ],
+    "symbol": "x",
+    "color": "dark_gray",
+    "warmth": 18,
+    "environmental_protection": 1,
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "RAINPROOF" ],
+    "armor": [
+      {
+        "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 6 } ],
+        "covers": [ "leg_l", "leg_r", "arm_l", "arm_r", "torso" ],
+        "coverage": 100,
+        "encumbrance": 2
+      },
+      {
+        "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 4 } ],
+        "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "head" ],
+        "coverage": 100,
+        "encumbrance": 1
+      },
+      {
+        "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 2 } ],
         "covers": [ "mouth" ],
         "coverage": 85,
         "encumbrance": 0
@@ -1000,7 +1106,8 @@
         "encumbrance": 30
       }
     ],
-    "melee_damage": { "bash": 12, "cut": 3 }
+    "melee_damage": { "bash": 12, "cut": 3 },
+    "weapon_category": [ "SHIVS" ]
   },
   {
     "id": "integrated_shell",
@@ -1407,7 +1514,7 @@
     ],
     "melee_damage": { "cut": 9 },
     "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ATTACK_SPEED", "add": 20 } ] } ]
+      "passive_effects": [ { "has": "WORN", "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ATTACK_SPEED", "add": -20 } ] } ]
     }
   },
   {
@@ -1436,7 +1543,7 @@
     ],
     "melee_damage": { "cut": 10 },
     "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ATTACK_SPEED", "add": 20 } ] } ]
+      "passive_effects": [ { "has": "WORN", "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ATTACK_SPEED", "add": -20 } ] } ]
     }
   },
   {
@@ -1465,7 +1572,7 @@
     ],
     "melee_damage": { "cut": 11 },
     "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ATTACK_SPEED", "add": 20 } ] } ]
+      "passive_effects": [ { "has": "WORN", "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ATTACK_SPEED", "add": -20 } ] } ]
     }
   },
   {
@@ -1494,7 +1601,59 @@
     ],
     "melee_damage": { "cut": 16 },
     "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ATTACK_SPEED", "add": 20 } ] } ]
+      "passive_effects": [ { "has": "WORN", "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ATTACK_SPEED", "add": -20 } ] } ]
     }
+  },
+  {
+    "id": "integrated_fangs",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "fangs" },
+    "description": "A pair of fangs sharp and sturdy enough to use in combat.",
+    "weight": "50 g",
+    "volume": "100 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "bone" ],
+    "symbol": ",",
+    "color": "white",
+    "warmth": 5,
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 4 ] ],
+    "techniques": [ "FANGS_BITE", "FANGS_BITE_NATURAL" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "PADDED", "PROVIDES_TECHNIQUES" ],
+    "armor": [
+      {
+        "material": [ { "type": "bone", "covered_by_mat": 100, "thickness": 3.2 } ],
+        "covers": [ "mouth" ],
+        "coverage": 0,
+        "encumbrance": 0
+      }
+    ]
+  },
+  {
+    "id": "integrated_vampire_fangs",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "vampire fangs" },
+    "description": "A wicked pair of fangs, pointed and surgically sharp.",
+    "weight": "100 g",
+    "volume": "200 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "bone" ],
+    "symbol": ",",
+    "color": "white",
+    "warmth": 5,
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 4 ] ],
+    "techniques": [ "VAMPIRE_BITE", "VAMPIRE_BITE_NATURAL" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "PADDED", "PROVIDES_TECHNIQUES" ],
+    "armor": [
+      {
+        "material": [ { "type": "bone", "covered_by_mat": 100, "thickness": 3.2 } ],
+        "covers": [ "mouth" ],
+        "coverage": 0,
+        "encumbrance": 0
+      }
+    ]
   }
 ]

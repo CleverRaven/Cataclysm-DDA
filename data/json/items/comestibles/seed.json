@@ -132,7 +132,7 @@
       "byproducts": [ "grape_leaves", "withered" ],
       "grow": "91 days"
     },
-    "milling": { "into": "paste_seed", "conversion_rate": 0.02 }
+    "milling": { "into": "paste_seed", "recipe": "paste_seed_mill_8_1" }
   },
   {
     "id": "seed_rose",
@@ -160,7 +160,8 @@
     "name": { "str_sp": "barley seeds" },
     "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] },
     "description": "This pile of dried barley is earmarked for planting.",
-    "seed_data": { "plant_name": "barley", "fruit": "barley_stalks", "seeds": false, "grow": "70 days" }
+    "seed_data": { "plant_name": "barley", "fruit": "barley_stalks", "seeds": false, "grow": "70 days" },
+    "milling": { "into": "null", "recipe": "" }
   },
   {
     "type": "COMESTIBLE",
@@ -215,7 +216,7 @@
     "weight": "5 g",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "seed_data": { "plant_name": "cotton", "fruit": "cotton_boll", "byproducts": [ "withered" ], "grow": "130 days" },
-    "milling": { "into": "paste_seed", "conversion_rate": 0.05 },
+    "milling": { "into": "paste_seed", "recipe": "paste_seed_mill_8_1" },
     "volume": "6 ml"
   },
   {
@@ -264,9 +265,55 @@
     "copy-from": "seed",
     "name": { "str_sp": "cattail seeds" },
     "color": "green",
-    "description": "Some cattail seeds.",
+    "description": "Some cattail seeds.  Must be planted in shallow water.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
-    "seed_data": { "plant_name": "cattail", "fruit": "cattail_stalk", "byproducts": [ "cattail_rhizome" ], "grow": "91 days" }
+    "seed_data": {
+      "plant_name": "cattail",
+      "fruit": "cattail_stalk",
+      "byproducts": [ "cattail_rhizome" ],
+      "grow": "91 days",
+      "required_terrain_flag": "SHALLOW_WATER"
+    }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_lotus",
+    "copy-from": "seed",
+    "name": { "str_sp": "lotus seeds" },
+    "weight": "30 g",
+    "volume": "94 ml",
+    "fun": -5,
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 27,
+    "color": "white",
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 2 ] ],
+    "description": "Some lotus seeds, which can be used for planting, or cooked and eaten after picking off the bitter internal ingredients.  Must be planted in shallow water.",
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE", "RAW" ],
+    "seed_data": {
+      "plant_name": "lotus",
+      "fruit": "lotus_rhizome",
+      "seeds": true,
+      "byproducts": [ "withered", "lotus" ],
+      "grow": "91 days",
+      "required_terrain_flag": "SHALLOW_WATER"
+    }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_lotus_boiled",
+    "name": { "str_sp": "boiled lotus seeds" },
+    "weight": "30 g",
+    "flags": [ "EATEN_HOT" ],
+    "color": "white",
+    "spoils_in": "2 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "looks_like": "lotus_rhizome",
+    "calories": 25,
+    "description": "Boiled lotus seeds, with a soft taste.",
+    "material": [ "veggy" ],
+    "volume": "100 ml"
   },
   {
     "type": "COMESTIBLE",
@@ -332,25 +379,6 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "garlic_clove",
-    "name": { "str": "garlic clove" },
-    "weight": "3 g",
-    "color": "white",
-    "spoils_in": "360 days",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": -3,
-    "calories": 4,
-    "description": "Cloves of garlic.  Useful as a seasoning, or for planting.",
-    "price": "8 cent",
-    "material": [ "garlic" ],
-    "volume": "25 ml",
-    "fun": -3,
-    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE" ],
-    "seed_data": { "plant_name": "garlic", "fruit": "garlic", "byproducts": [ "withered" ], "grow": "65 days" }
-  },
-  {
-    "type": "COMESTIBLE",
     "id": "seed_carrot",
     "copy-from": "seed",
     "price": 50,
@@ -367,7 +395,8 @@
     "name": { "str_sp": "corn seeds" },
     "description": "A pile of dried corn, designated for planting.  It could just as easily become food.",
     "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] },
-    "seed_data": { "plant_name": "corn", "fruit": "corn", "seeds": false, "byproducts": [ "withered" ], "grow": "80 days" }
+    "seed_data": { "plant_name": "corn", "fruit": "corn", "seeds": false, "byproducts": [ "withered" ], "grow": "80 days" },
+    "milling": { "into": "null", "recipe": "" }
   },
   {
     "type": "COMESTIBLE",
@@ -407,7 +436,7 @@
     "price": 0,
     "spoils_in": "1 day",
     "price_postapoc": 0,
-    "name": { "str": "seed potato", "str_pl": "seed potatoes" },
+    "name": { "str_sp": "seed potatoes" },
     "description": "Raw potato cut into pieces, separating each bud for planting.",
     "extend": { "flags": [ "INEDIBLE", "PLANTABLE_SEED", "NUTRIENT_OVERRIDE" ] },
     "seed_data": { "plant_name": "potatoes", "fruit": "potato", "seeds": false, "byproducts": [ "withered" ], "grow": "95 days" }
@@ -420,15 +449,14 @@
     "color": "green",
     "use_action": [ "SEED" ],
     "quench": -1,
-    "volume": "250 ml",
-    "calories": 750,
+    "weight": "17 g",
+    "volume": "42 ml",
     "description": "Seeds of the cannabis plant.  Filled with vitamins, they can be roasted or eaten raw.",
-    "//": "1 cup of seeds, which grows into multiple hemps per tile.",
+    "//": "Cannabis doesn't yield seeds without being fertilized, which ruins its THC output, but we don't model that yet.",
     "price": "1 cent",
-    "weight": "150 g",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "seed_data": { "plant_name": "cannabis", "fruit": "cannabis", "grow": "91 days" },
-    "milling": { "into": "paste_seed", "conversion_rate": 0.02 }
+    "milling": { "into": "paste_seed", "recipe": "paste_seed_mill_8_1" }
   },
   {
     "type": "COMESTIBLE",
@@ -486,7 +514,8 @@
     "extend": { "flags": [ "NUTRIENT_OVERRIDE", "INEDIBLE" ] },
     "description": "A pile of dry soybeans.  These are intended for planting, but there's no reason they couldn't be made into food.",
     "price": 90,
-    "seed_data": { "plant_name": "soybean", "fruit": "raw_edamame", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" }
+    "seed_data": { "plant_name": "soybean", "fruit": "raw_edamame", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" },
+    "milling": { "into": "null", "recipe": "" }
   },
   {
     "type": "COMESTIBLE",
@@ -534,34 +563,32 @@
     "id": "seed_pumpkin",
     "copy-from": "seed",
     "name": { "str_sp": "pumpkin seeds" },
-    "weight": "120 g",
-    "volume": "250 ml",
+    "weight": "17 g",
+    "volume": "42 ml",
     "color": "green",
     "use_action": [ "SEED" ],
-    "calories": 535,
-    "//": "this is 1 cup of seeds, which grows into multiple pumpkins per tile.",
-    "description": "Some raw pumpkin seeds.  Could be fried and eaten.",
+    "calories": 65,
+    "description": "Some raw pumpkin seeds with the shells on.  Could be fried and eaten.",
     "price": 100,
     "flags": [ "PLANTABLE_SEED" ],
     "seed_data": { "plant_name": "pumpkin", "fruit": "pumpkin", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" },
-    "milling": { "into": "paste_seed", "conversion_rate": 0.02 }
+    "milling": { "into": "paste_seed", "recipe": "paste_seed_mill_8_1" }
   },
   {
     "type": "COMESTIBLE",
     "id": "seed_sunflower",
     "copy-from": "seed",
     "name": { "str_sp": "sunflower seeds" },
-    "weight": "140 g",
-    "volume": "250 ml",
+    "weight": "25 g",
+    "volume": "63 ml",
     "color": "green",
     "use_action": [ "SEED" ],
-    "//": "this is 1 cup of seeds, which grows into multiple sunflowers per tile.",
-    "calories": 750,
-    "description": "Some raw sunflower seeds.  Could be pressed into oil.",
+    "calories": 165,
+    "description": "Some raw sunflower seeds with the shells on.  Could be pressed into oil.",
     "price": "1 cent",
-    "flags": [ "PLANTABLE_SEED" ],
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE" ],
     "seed_data": { "plant_name": "sunflower", "fruit": "seed_sunflower", "byproducts": [ "withered" ], "grow": "91 days" },
-    "milling": { "into": "paste_seed", "conversion_rate": 0.02 }
+    "milling": { "into": "paste_seed", "recipe": "paste_seed_mill_8_1" }
   },
   {
     "type": "COMESTIBLE",
@@ -598,13 +625,25 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "seed_spinach",
+    "copy-from": "seed",
+    "name": { "str_sp": "spinach seeds" },
+    "color": "green",
+    "description": "Some spinach seeds.",
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
+    "seed_data": { "plant_name": "spinach", "fruit": "spinach", "grow": "50 days" },
+    "volume": "2 ml"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "seed_buckwheat",
     "copy-from": "buckwheat",
     "name": { "str_sp": "buckwheat seeds" },
     "description": "A pile of buckwheat, ready to be planted.",
     "category": "seeds",
     "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] },
-    "seed_data": { "plant_name": "buckwheat", "fruit": "buckwheat_stalks", "seeds": false, "grow": "91 days" }
+    "seed_data": { "plant_name": "buckwheat", "fruit": "buckwheat_stalks", "seeds": false, "grow": "91 days" },
+    "milling": { "into": "null", "recipe": "" }
   },
   {
     "type": "COMESTIBLE",
@@ -834,7 +873,18 @@
     "description": "A pile of dried whole oats, ready for planting.",
     "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] },
     "category": "seeds",
-    "seed_data": { "plant_name": "oats", "fruit": "oat_stalks", "seeds": false, "grow": "65 days" }
+    "seed_data": { "plant_name": "oats", "fruit": "oat_stalks", "seeds": false, "grow": "65 days" },
+    "milling": { "into": "null", "recipe": "" }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_garlic_clove",
+    "copy-from": "garlic",
+    "name": { "str_sp": "seed garlic" },
+    "category": "seeds",
+    "description": "Several cloves of garlic, ready for planting.",
+    "seed_data": { "plant_name": "garlic", "fruit": "garlic", "byproducts": [ "withered" ], "grow": "65 days" },
+    "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] }
   },
   {
     "id": "seed_wheat",
@@ -844,7 +894,8 @@
     "name": { "str_sp": "wheat seeds" },
     "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] },
     "description": "A pile of dry wheatberries, designated for planting.",
-    "seed_data": { "plant_name": "wheat", "fruit": "wheat_stalks", "seeds": false, "grow": "120 days" }
+    "seed_data": { "plant_name": "wheat", "fruit": "wheat_stalks", "seeds": false, "grow": "120 days" },
+    "milling": { "into": "null", "recipe": "" }
   },
   {
     "type": "COMESTIBLE",

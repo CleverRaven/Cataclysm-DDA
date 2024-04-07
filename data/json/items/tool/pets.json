@@ -11,7 +11,7 @@
     "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "properties": [ [ "creature_size_capacity", "TINY" ] ],
+    "properties": { "creature_size_capacity": "TINY" },
     "use_action": [ "CAPTURE_MONSTER_ACT" ],
     "flags": [ "TRADER_AVOID" ],
     "melee_damage": { "bash": 1, "cut": 1 }
@@ -44,8 +44,9 @@
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "CUT", 1 ], [ "FABRIC_CUT", 1 ], [ "SHEAR", 1 ], [ "BUTCHER", 3 ] ],
-    "flags": [  ],
-    "melee_damage": { "stab": 3 }
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "melee_damage": { "stab": 3 },
+    "weapon_category": [ "SHIVS" ]
   },
   {
     "id": "forged_shears",
@@ -61,8 +62,9 @@
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "CUT", 1 ], [ "FABRIC_CUT", 1 ], [ "SHEAR", 1 ], [ "BUTCHER", 3 ] ],
-    "flags": [  ],
-    "melee_damage": { "stab": 3 }
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "melee_damage": { "stab": 3 },
+    "weapon_category": [ "SHIVS" ]
   },
   {
     "id": "bronze_shears",
@@ -79,8 +81,9 @@
     "color": "yellow",
     "looks_like": "forged_shears",
     "qualities": [ [ "CUT", 1 ], [ "FABRIC_CUT", 1 ], [ "SHEAR", 1 ], [ "BUTCHER", 3 ] ],
-    "flags": [ "FRAGILE_MELEE" ],
-    "melee_damage": { "stab": 3 }
+    "flags": [ "FRAGILE_MELEE", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "melee_damage": { "stab": 3 },
+    "weapon_category": [ "SHIVS" ]
   },
   {
     "id": "elec_shears",
@@ -97,7 +100,7 @@
     "color": "dark_gray",
     "charged_qualities": [ [ "SHEAR", 3 ] ],
     "ammo": [ "battery" ],
-    "flags": [ "WATER_BREAK" ],
+    "flags": [ "WATER_BREAK", "ALLOWS_BODY_BLOCK", "FRAGILE_MELEE" ],
     "charges_per_use": 25,
     "pocket_data": [
       {
@@ -107,7 +110,8 @@
         "default_magazine": "light_minus_battery_cell"
       }
     ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "weapon_category": [ "SHIVS" ]
   },
   {
     "id": "horse_tack",
@@ -167,7 +171,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": "#",
     "color": "light_gray",
-    "properties": [ [ "creature_size_capacity", "SMALL" ] ],
+    "properties": { "creature_size_capacity": "SMALL" },
     "use_action": [ "CAPTURE_MONSTER_ACT" ],
     "flags": [ "TRADER_AVOID" ],
     "melee_damage": { "bash": 1, "cut": 1 }
@@ -199,7 +203,7 @@
     "material": [ "glass" ],
     "symbol": "#",
     "color": "white_yellow",
-    "properties": [ [ "creature_size_capacity", "TINY" ] ],
+    "properties": { "creature_size_capacity": "TINY" },
     "looks_like": "pet_carrier",
     "use_action": [ "CAPTURE_MONSTER_ACT" ],
     "flags": [ "TRADER_AVOID" ]

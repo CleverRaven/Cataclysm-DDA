@@ -55,8 +55,13 @@
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
-#if defined(MACOSX)
+#include "cata_imgui.h"
+#if defined(MACOSX) || defined(__CYGWIN__)
 #   include <unistd.h> // getpid()
+#endif
+
+#if defined(EMSCRIPTEN)
+#include <emscripten.h>
 #endif
 
 #if defined(PREFIX)
@@ -163,6 +168,7 @@ void exit_handler( int s )
         } else
 #endif
         {
+            imclient.reset();
             exit( exit_status );
         }
     }
@@ -277,6 +283,7 @@ void process_args( const char **argv, int argc, const std::vector<arg_handler> &
 struct cli_opts {
     int seed = time( nullptr );
     bool verifyexit = false;
+    bool noverify = false;
     bool check_mods = false;
     std::vector<std::string> opts;
     std::string world; /** if set try to load first save in this world on startup */
@@ -305,7 +312,7 @@ cli_opts parse_commandline( int argc, const char **argv )
             },
             {
                 "--jsonverify", {},
-                "Checks the CDDA json files",
+                "Checks the CDDA json files and exits",
                 section_default,
                 0,
                 [&result]( int, const char ** ) -> int {
@@ -315,7 +322,7 @@ cli_opts parse_commandline( int argc, const char **argv )
             },
             {
                 "--check-mods", "[mod…]",
-                "Checks the json files belonging to given CDDA mod",
+                "Checks the json files belonging to given CDDA mod and exits",
                 section_default,
                 1,
                 [&result]( int n, const char **params ) -> int {
@@ -325,6 +332,16 @@ cli_opts parse_commandline( int argc, const char **argv )
                     {
                         result.opts.emplace_back( params[ i ] );
                     }
+                    return 0;
+                }
+            },
+            {
+                "--noverify", {},
+                "Skips JSON verification",
+                section_default,
+                0,
+                [&result]( int, const char ** ) -> int {
+                    result.noverify = true;
                     return 0;
                 }
             },
@@ -566,6 +583,47 @@ bool assure_essential_dirs_exist()
 
 }  // namespace
 
+#if defined(EMSCRIPTEN)
+EM_ASYNC_JS( void, mount_idbfs, (), {
+    console.log( "Mounting IDBFS for persistence..." );
+    FS.mkdir( '/home/web_user/.cataclysm-dda' );
+    FS.mount( IDBFS, {}, '/home/web_user/.cataclysm-dda' );
+    await new Promise( function( resolve, reject )
+    {
+        FS.syncfs( true, function( err ) {
+            if( err ) {
+                reject( err );
+            } else {
+                console.log( "Succesfully mounted IDBFS." );
+                resolve();
+            }
+        } );
+    } );
+
+    let fsNeedsSync = false;
+    window.setFsNeedsSync = function setFsNeedsSync()
+    {
+        if( !fsNeedsSync ) {
+            requestAnimationFrame( syncFs );
+        }
+        fsNeedsSync = true;
+    };
+
+    function syncFs()
+    {
+        console.log( "Persisting to IDBFS..." );
+        FS.syncfs( false, function( err ) {
+            fsNeedsSync = false;
+            if( err ) {
+                console.error( err );
+            } else {
+                console.log( "Succesfully persisted to IDBFS..." );
+            }
+        } );
+    }
+} );
+#endif
+
 #if defined(USE_WINMAIN)
 int APIENTRY WinMain( _In_ HINSTANCE /* hInstance */, _In_opt_ HINSTANCE /* hPrevInstance */,
                       _In_ LPSTR /* lpCmdLine */, _In_ int /* nCmdShow */ )
@@ -583,6 +641,10 @@ int main( int argc, const char *argv[] )
     reset_floating_point_mode();
 #if defined(FLATBUFFERS_LOCALE_INDEPENDENT) && (FLATBUFFERS_LOCALE_INDEPENDENT > 0)
     flatbuffers::ClassicLocale::Get();
+#endif
+
+#if defined(EMSCRIPTEN)
+    mount_idbfs();
 #endif
 
     on_out_of_scope json_member_reporting_guard{ [] {
@@ -624,7 +686,7 @@ int main( int argc, const char *argv[] )
 #if defined(__ANDROID__)
     PATH_INFO::init_user_dir( external_storage_path );
 #else
-#   if defined(USE_HOME_DIR) || defined(USE_XDG_DIR)
+#   if defined(USE_HOME_DIR) || defined(USE_XDG_DIR) || defined(EMSCRIPTEN)
     PATH_INFO::init_user_dir( "" );
 #   else
     PATH_INFO::init_user_dir( "." );
@@ -648,7 +710,11 @@ int main( int argc, const char *argv[] )
         exit( 1 );
     }
 
+#if defined(EMSCRIPTEN)
+    setupDebug( DebugOutput::std_err );
+#else
     setupDebug( DebugOutput::file );
+#endif
     // NOLINTNEXTLINE(cata-tests-must-restore-global-state)
     json_error_output_colors = json_error_output_colors_t::color_tags;
 
@@ -751,6 +817,10 @@ int main( int argc, const char *argv[] )
         get_options().get_option( "ENABLE_ASCII_TITLE" ).setValue( "false" );
     }
 
+    if( cli.noverify ) {
+        get_options().get_option( "SKIP_VERIFICATION" ).setValue( "true" );
+    }
+
     // Now we do the actual game.
 
 #if defined(DEBUG_CURSES_CURSOR)
@@ -769,18 +839,19 @@ int main( int argc, const char *argv[] )
     sigaction( SIGINT, &sigIntHandler, nullptr );
 #endif
 
-#if defined(LOCALIZE)
-    if( get_option<std::string>( "USE_LANG" ).empty() && !SystemLocale::Language().has_value() ) {
-        select_language();
-        set_language_from_options();
-    }
-#endif
-    replay_buffered_debugmsg_prompts();
-
     if( !assure_essential_dirs_exist() ) {
         exit_handler( -999 );
         return 0;
     }
+
+#if defined(LOCALIZE)
+    if( get_option<std::string>( "USE_LANG" ).empty() && !SystemLocale::Language().has_value() ) {
+        const std::string lang = select_language();
+        get_options().get_option( "USE_LANG" ).setValue( lang );
+        set_language_from_options();
+    }
+#endif
+    replay_buffered_debugmsg_prompts();
 
     main_menu::queued_world_to_load = std::move( cli.world );
 
@@ -794,7 +865,7 @@ int main( int argc, const char *argv[] )
 
         shared_ptr_fast<ui_adaptor> ui = g->create_or_get_main_ui_adaptor();
         get_event_bus().send<event_type::game_begin>( getVersionString() );
-        while( !do_turn() );
+        while( !do_turn() ) {}
     }
 
     exit_handler( -999 );

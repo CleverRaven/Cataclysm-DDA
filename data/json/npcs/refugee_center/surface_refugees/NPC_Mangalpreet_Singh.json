@@ -93,7 +93,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Mangalpreet_1",
-    "dynamic_line": "*is a well-kept middle aged woman with dark hair tied back in a long braid.  She looks surprised as you approach.  \"Ah!  You are new.  I'm sorry, I'm Mangalpreet.\"",
+    "dynamic_line": {
+      "gendered_line": "*is a well-kept middle aged woman with dark hair tied back in a long braid.  She looks surprised as you approach.  \"Ah!  You are new.  I'm sorry, I'm Mangalpreet.\"",
+      "relevant_genders": [ "u" ]
+    },
     "speaker_effect": {
       "effect": [
         { "u_add_var": "u_met_Mangalpreet_Singh", "type": "general", "context": "meeting", "value": "yes" },
@@ -147,21 +150,17 @@
       "concatenate": [
         "I have my family.  I have the Guru Granth Sahib",
         {
-          "u_compare_var": "refugee_happiness",
-          "type": "counter",
-          "context": "refugee_center",
-          "op": ">=",
-          "value": 7,
-          "yes": ".  For a while, I thought these might not be enough but… I am allowing myself to hope.  Still, w",
-          "no": ".  I have these things, but I do not have peace.  No one here does.  W"
+          "math": [ "u_counter_refugee_center_refugee_happiness", ">=", "7" ],
+          "yes": ".  For a while, I thought these might not be enough but… I am allowing myself to hope",
+          "no": ".  I have these things, but I do not have peace.  No one here does"
         },
         {
           "u_has_var": "Boris_mission_1",
           "type": "mission",
           "context": "completed",
           "value": "yes",
-          "yes": "e have so much work to do to make a home here.",
-          "no": "e are crowded, we are plagued by the sounds and the memories of the dead.  The situation is grim."
+          "yes": ".  Still, we have so much work to do to make a home here.",
+          "no": ".  We are crowded, we are plagued by the sounds and the memories of the dead.  The situation is grim."
         }
       ]
     },

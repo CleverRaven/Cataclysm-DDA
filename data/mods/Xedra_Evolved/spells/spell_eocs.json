@@ -2,12 +2,12 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_DREAMER_ARTIFACT_SPAWN",
-    "condition": { "math": [ "u_val('vitamin', 'name:dreamer_vit')", ">=", "300" ] },
+    "condition": { "math": [ "u_vitamin('dreamer_vit')", ">=", "600" ] },
     "effect": [
-      { "u_spawn_item": "dreamer_artifact", "use_item_group": true },
-      { "math": [ "u_val('vitamin', 'name:dreamer_vit')", "-=", "300" ] },
+      { "u_spawn_item": "dreamer_artifact", "use_item_group": true, "suppress_message": true },
+      { "math": [ "u_vitamin('dreamer_vit')", "-=", "600" ] },
       {
-        "u_message": "You pulled your powers into this world and something from outside placed an object in your hand.",
+        "u_message": "You pull your power into this world, and something outside of it places an object in your hand.",
         "type": "info"
       }
     ],
@@ -17,7 +17,7 @@
     "type": "effect_on_condition",
     "id": "EOC_DREAMER_ARTIFACT_FAIL_MESSAGE",
     "effect": {
-      "switch": { "u_val": "vitamin", "name": "dreamer_vit" },
+      "switch": { "math": [ "u_vitamin('dreamer_vit')" ] },
       "cases": [
         {
           "case": 0,
@@ -27,23 +27,23 @@
           }
         },
         {
-          "case": 75,
-          "effect": {
-            "u_message": "You try to connect the item with another dimensions, but everything went wrong from the very beginning.  You feel you need much more patience to finish it.",
-            "type": "bad"
-          }
-        },
-        {
           "case": 150,
           "effect": {
-            "u_message": "You try to connect the item with another dimensions, but something interrupted you in the middle.  You need just a bit of time to afford it.",
+            "u_message": "You try to connect the item with another dimension, but everything goes wrong from the very beginning.  You feel you need much more patience to finish this.",
             "type": "bad"
           }
         },
         {
-          "case": 225,
+          "case": 300,
           "effect": {
-            "u_message": "You try to connect the item with another dimensions, but in the end it failed.  It was close enough, so you think you need to try it again in a day.",
+            "u_message": "You try to connect the item with another dimension, but something interupts you in the middle of your attempt.  You need just a bit more time to make this work.",
+            "type": "bad"
+          }
+        },
+        {
+          "case": 450,
+          "effect": {
+            "u_message": "You try to connect the item with another dimension, but in the end it fails.  It was close though, so you think you need to try it again tomorrow.",
             "type": "bad"
           }
         }
@@ -64,5 +64,203 @@
     "type": "effect_on_condition",
     "id": "EOC_EATER_DROSS_FUN_3",
     "effect": [ { "u_add_morale": "morale_ate_dross", "bonus": 100, "max_bonus": 200, "duration": "120 h", "decay_start": "60 h" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_KARMA_ARMS_INITIATE",
+    "condition": { "not": { "u_has_trait": "karma_arms" } },
+    "effect": [
+      { "u_message": "Ethereal, transparent arms appear behind your shoulders and <color_cyan>glow</color>.", "type": "good" },
+      { "u_add_trait": "karma_arms" },
+      {
+        "queue_eocs": "EOC_KARMA_ARMS_CONTINUE",
+        "time_in_future": { "math": [ "((u_spell_level('spell_karma_arms')+1)*500)" ] }
+      }
+    ],
+    "false_effect": [
+      { "u_lose_trait": "karma_arms" },
+      { "u_message": "The cyan arms grow dim and finally disappear.", "type": "neutral" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_KARMA_ARMS_CONTINUE",
+    "condition": { "and": [ { "u_has_trait": "karma_arms" }, { "math": [ "u_val('mana')", ">=", "200" ] } ] },
+    "effect": [
+      { "math": [ "u_val('mana')", "-=", "200" ] },
+      {
+        "u_message": "The floating arms behind you slightly flicker, but they soon resume their steady glow.",
+        "type": "good"
+      },
+      {
+        "queue_eocs": "EOC_KARMA_ARMS_CONTINUE",
+        "time_in_future": { "math": [ "((u_spell_level('spell_karma_arms')+1)*500)" ] }
+      },
+      {
+        "math": [ "u_spell_exp('spell_karma_arms')", "+=", "spell_exp_diff(u_spell_level('spell_karma_arms'))/spell_train_factor(200)" ]
+      }
+    ],
+    "false_effect": [
+      { "u_lose_trait": "karma_arms" },
+      { "u_message": "The cyan arms grow dim and finally disappear.", "type": "neutral" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DEVIL_TAIL_INITIATE",
+    "condition": { "not": { "u_has_trait": "devil_tail" } },
+    "effect": [
+      { "u_message": "You feel like your spine stretched enormously.", "type": "good" },
+      { "u_add_trait": "devil_tail" },
+      {
+        "queue_eocs": "EOC_DEVIL_TAIL_CONTINUE",
+        "time_in_future": { "math": [ "((u_spell_level('spell_devil_tail')+1)*900)" ] }
+      }
+    ],
+    "false_effect": [ { "u_lose_trait": "devil_tail" }, { "u_message": "Your devil tail fades away.", "type": "neutral" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DEVIL_TAIL_CONTINUE",
+    "condition": { "and": [ { "u_has_trait": "devil_tail" }, { "math": [ "u_val('mana')", ">=", "100" ] } ] },
+    "effect": [
+      { "math": [ "u_val('mana')", "-=", "100" ] },
+      { "u_message": "Your devilish tail stretches and twists playfully.", "type": "good" },
+      {
+        "queue_eocs": "EOC_DEVIL_TAIL_CONTINUE",
+        "time_in_future": { "math": [ "((u_spell_level('spell_devil_tail')+1)*900)" ] }
+      },
+      {
+        "math": [ "u_spell_exp('spell_devil_tail')", "+=", "spell_exp_diff(u_spell_level('spell_devil_tail'))/spell_train_factor(100)" ]
+      }
+    ],
+    "false_effect": [ { "u_lose_trait": "devil_tail" }, { "u_message": "Your devil tail fades away.", "type": "neutral" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_STALKER_EYES_INITIATE",
+    "condition": { "not": { "u_has_trait": "stalker_eyes" } },
+    "effect": [
+      {
+        "u_message": "Your vision grows dark for a moment, but a second later a whole new world is revealed under your eyes.",
+        "type": "good"
+      },
+      { "u_add_trait": "stalker_eyes" },
+      {
+        "queue_eocs": "EOC_STALKER_EYES_CONTINUE",
+        "time_in_future": { "math": [ "((u_spell_level('spell_stalker_eyes')+1)*1300)" ] }
+      }
+    ],
+    "false_effect": [
+      { "u_lose_trait": "stalker_eyes" },
+      { "u_message": "The great new world visible to your eyes disappears.", "type": "neutral" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_STALKER_EYES_CONTINUE",
+    "condition": { "and": [ { "u_has_trait": "stalker_eyes" }, { "math": [ "u_val('mana')", ">=", "200" ] } ] },
+    "effect": [
+      { "math": [ "u_val('mana')", "-=", "200" ] },
+      { "u_message": "Your sight darkens for a second, but it quickly turns back.", "type": "good" },
+      {
+        "queue_eocs": "EOC_STALKER_EYES_CONTINUE",
+        "time_in_future": { "math": [ "((u_spell_level('spell_stalker_eyes')+1)*1300)" ] }
+      },
+      {
+        "math": [
+          "u_spell_exp('spell_stalker_eyes')",
+          "+=",
+          "spell_exp_diff(u_spell_level('spell_stalker_eyes'))/spell_train_factor(200)"
+        ]
+      }
+    ],
+    "false_effect": [
+      { "u_lose_trait": "stalker_eyes" },
+      { "u_message": "The great new world visible to your eyes disappears.", "type": "neutral" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LUCID_DREAM_START",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": { "compare_string": [ "effect_lucid_dream", { "context_val": "effect" } ] },
+    "effect": [
+      { "u_location_variable": { "u_val": "lucid_dream_teleport" }, "min_radius": 0, "max_radius": 0 },
+      { "math": [ "u_hp_before_lucid", "=", "u_hp('ALL') / 6" ] },
+      { "math": [ "u_pain_before_lucid", "=", "u_pain()" ] },
+      { "math": [ "u_kcal_before_lucid", "=", "u_val('stored_kcal')" ] },
+      { "math": [ "u_thirst_before_lucid", "=", "u_val('thirst')" ] },
+      { "math": [ "u_blood_before_lucid", "=", "u_vitamin('blood')" ] },
+      { "math": [ "u_redcells_before_lucid", "=", "u_vitamin('redcells')" ] },
+      { "math": [ "u_rad_before_lucid", "=", "u_val('rad')" ] },
+      { "u_add_trait": "LUCID_DREAM" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LUCID_DREAM_END",
+    "eoc_type": "EVENT",
+    "required_event": "character_loses_effect",
+    "condition": { "compare_string": [ "effect_lucid_dream", { "context_val": "effect" } ] },
+    "effect": [
+      {
+        "u_message": "You wake up.",
+        "type": "neutral",
+        "popup": true,
+        "popup_w_interrupt_query": true,
+        "interrupt_type": "eoc"
+      },
+      { "u_teleport": { "u_val": "lucid_dream_teleport" } },
+      { "math": [ "u_hp('ALL')", "=", "u_hp_before_lucid" ] },
+      { "math": [ "u_pain()", "=", "u_pain_before_lucid" ] },
+      { "math": [ "u_val('stored_kcal')", "=", "u_kcal_before_lucid" ] },
+      { "math": [ "u_val('thirst')", "=", "u_thirst_before_lucid" ] },
+      { "math": [ "u_vitamin('blood')", "=", "u_blood_before_lucid" ] },
+      { "math": [ "u_vitamin('redcells')", "=", "u_redcells_before_lucid" ] },
+      { "math": [ "u_val('rad')", "=", "u_rad_before_lucid" ] },
+      { "u_lose_effect": "bleed" },
+      { "u_lose_trait": "LUCID_DREAM" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LUCID_DREAM_SWITCH",
+    "condition": { "u_has_effect": "effect_lucid_dream" },
+    "effect": [ { "queue_eocs": "EOC_LUCID_DREAM_FORCE_END" } ],
+    "false_effect": { "queue_eocs": "EOC_LUCID_DREAM_FORCE_START" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LUCID_DREAM_FORCE_END",
+    "effect": [ { "u_lose_effect": "effect_lucid_dream" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LUCID_DREAM_FORCE_START",
+    "effect": [
+      { "u_add_effect": "effect_lucid_dream", "duration": { "math": [ "(u_spell_level('dreamer_lucid_dreams')+1)*700" ] } }
+    ]
+  },
+  {
+    "id": "EOC_LUCID_REBIRTH",
+    "type": "effect_on_condition",
+    "eoc_type": "PREVENT_DEATH",
+    "condition": { "u_has_effect": "effect_lucid_dream" },
+    "effect": [
+      { "math": [ "u_vitamin('blood')", "=", "u_blood_before_lucid" ] },
+      "u_prevent_death",
+      { "math": [ "u_hp('ALL')", "=", "1" ] },
+      { "queue_eocs": "EOC_LUCID_DREAM_FORCE_END" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RETURN_SUMMONS",
+    "effect": [
+      { "npc_location_variable": { "context_val": "pos_nearby" }, "min_radius": 1, "max_radius": 7, "passable_only": true },
+      { "u_teleport": { "context_val": "pos_nearby" } }
+    ]
   }
 ]

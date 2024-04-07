@@ -75,7 +75,7 @@ struct key_from_json_string<int_id<T>, void> {
 };
 
 template<typename Enum>
-struct key_from_json_string<Enum, std::enable_if_t<std::is_enum<Enum>::value>> {
+struct key_from_json_string<Enum, std::enable_if_t<std::is_enum_v<Enum>>> {
     Enum operator()( const std::string &s ) {
         return io::string_to_enum<Enum>( s );
     }
@@ -94,11 +94,15 @@ struct json_source_location {
     int offset = 0;
 };
 
-enum class json_error_output_colors_t {
-    unset,        // default value, will print a warning
-    no_colors,    // use when error output is a redirected pipe
-    color_tags,   // use when debugmsg will handle the errors in either SDL or curses mode
-    ansi_escapes, // use when error output will end up in stdout: in tooling, formatters or CI
+// careful when deleting values from this enum; they're used outside cdda code (in formatter tools)
+// please make sure to update or file an issue that an update is needed for:
+// * in CDDA repository; tools/format_emscripten/shell.html
+// * VS Code extension; https://github.com/cdda-toys/cdda-json-formatter-vscode-extension/issues/
+enum class json_error_output_colors_t : int32_t {
+    unset = 0,        // default value, will print a warning
+    no_colors = 1,    // use when error output is a redirected pipe
+    color_tags = 2,   // use when debugmsg will handle the errors in either SDL or curses mode
+    ansi_escapes = 3, // use when error output will end up in stdout: in tooling, formatters or CI
 };
 
 extern json_error_output_colors_t json_error_output_colors;
@@ -297,7 +301,7 @@ class TextJsonIn
         TextJsonArray get_array();
         TextJsonValue get_value(); // just returns a TextJsonValue at the current position.
 
-        template<typename E, typename = typename std::enable_if<std::is_enum<E>::value>::type>
+        template<typename E, typename = std::enable_if_t<std::is_enum_v<E>>>
         E get_enum_value() {
             const int old_offset = tell();
             try {
@@ -400,7 +404,7 @@ class TextJsonIn
             }
         }
 
-        template<typename T, std::enable_if_t<std::is_enum<T>::value, int> = 0>
+        template<typename T, std::enable_if_t<std::is_enum_v<T>, int> = 0>
         bool read( T &val, bool throw_on_error = false ) {
             int i;
             if( read( i, false ) ) {
@@ -504,8 +508,8 @@ class TextJsonIn
 
         // object ~> containers with matching key_type and value_type
         // set, unordered_set ~> object
-        template <typename T, typename std::enable_if<
-                      std::is_same<typename T::key_type, typename T::value_type>::value>::type * = nullptr
+        template <typename T, std::enable_if_t<
+                      std::is_same_v<typename T::key_type, typename T::value_type>> * = nullptr
                   >
         bool read( T &v, bool throw_on_error = false ) {
             if( !test_array() ) {
@@ -570,7 +574,7 @@ class TextJsonIn
 
         // special case for colony<item> as it supports RLE
         // see corresponding `write` for details
-        template <typename T, std::enable_if_t<std::is_same<T, item>::value> * = nullptr >
+        template <typename T, std::enable_if_t<std::is_same_v<T, item>> * = nullptr >
         bool read( cata::colony<T> &v, bool throw_on_error = false ) {
             if( !test_array() ) {
                 return error_or_false( throw_on_error, "Expected json array" );
@@ -620,7 +624,7 @@ class TextJsonIn
         // special case for colony as it uses `insert()` instead of `push_back()`
         // and therefore doesn't fit with vector/deque/list
         // for colony of items there is another specialization with RLE
-        template < typename T, std::enable_if_t < !std::is_same<T, item>::value > * = nullptr >
+        template < typename T, std::enable_if_t < !std::is_same_v<T, item> > * = nullptr >
         bool read( cata::colony<T> &v, bool throw_on_error = false ) {
             if( !test_array() ) {
                 return error_or_false( throw_on_error, "Expected json array" );
@@ -648,8 +652,8 @@ class TextJsonIn
 
         // object ~> containers with unmatching key_type and value_type
         // map, unordered_map ~> object
-        template < typename T, typename std::enable_if <
-                       !std::is_same<typename T::key_type, typename T::value_type>::value >::type * = nullptr
+        template < typename T, std::enable_if_t <
+                       !std::is_same_v<typename T::key_type, typename T::value_type> > * = nullptr
                    >
         bool read( T &m, bool throw_on_error = true ) {
             if( !test_object() ) {
@@ -768,7 +772,7 @@ class JsonOut
         // write data to the output stream as JSON
         void write_null();
 
-        template <typename T, typename std::enable_if<std::is_fundamental<T>::value, int>::type = 0>
+        template <typename T, std::enable_if_t<std::is_fundamental_v<T>, int> = 0>
         void write( T val ) {
             if( need_separator ) {
                 write_separator();
@@ -796,9 +800,9 @@ class JsonOut
             v.get().serialize( *this );
         }
 
-        template <typename T, typename std::enable_if<std::is_enum<T>::value, int>::type = 0>
+        template <typename T, std::enable_if_t<std::is_enum_v<T>, int> = 0>
         void write( T val ) {
-            write( static_cast<typename std::underlying_type<T>::type>( val ) );
+            write( static_cast<std::underlying_type_t<T>>( val ) );
         }
 
         // strings need escaping and quoting
@@ -832,7 +836,7 @@ class JsonOut
         }
 
         // enum ~> string
-        template <typename E, typename std::enable_if<std::is_enum<E>::value>::type * = nullptr>
+        template <typename E, std::enable_if_t<std::is_enum_v<E>> * = nullptr>
         void write_as_string( const E value ) {
             write( io::enum_to_string<E>( value ) );
         }
@@ -880,15 +884,15 @@ class JsonOut
 
         // containers with matching key_type and value_type ~> array
         // set, unordered_set
-        template <typename T, typename std::enable_if<
-                      std::is_same<typename T::key_type, typename T::value_type>::value>::type * = nullptr
+        template <typename T, std::enable_if_t<
+                      std::is_same_v<typename T::key_type, typename T::value_type>> * = nullptr
                   >
         void write( const T &container ) {
             write_as_array( container );
         }
 
         // special case for item colony, adds simple RLE-based compression
-        template <typename T, std::enable_if_t<std::is_same<T, item>::value> * = nullptr>
+        template <typename T, std::enable_if_t<std::is_same_v<T, item>> * = nullptr>
         void write( const cata::colony<T> &container ) {
             start_array();
             // simple RLE implementation:
@@ -917,15 +921,15 @@ class JsonOut
 
         // special case for colony, since it doesn't fit in other categories
         // for colony of items there is another specialization with RLE
-        template < typename T, std::enable_if_t < !std::is_same<T, item>::value > * = nullptr >
+        template < typename T, std::enable_if_t < !std::is_same_v<T, item> > * = nullptr >
         void write( const cata::colony<T> &container ) {
             write_as_array( container );
         }
 
         // containers with unmatching key_type and value_type ~> object
         // map, unordered_map ~> object
-        template < typename T, typename std::enable_if <
-                       !std::is_same<typename T::key_type, typename T::value_type>::value >::type * = nullptr
+        template < typename T, std::enable_if_t <
+                       !std::is_same_v<typename T::key_type, typename T::value_type> > * = nullptr
                    >
         void write( const T &map ) {
             start_object();
@@ -1099,7 +1103,7 @@ class TextJsonObject
         std::string get_string( std::string_view name ) const;
         std::string get_string( std::string_view name, const std::string &fallback ) const;
 
-        template<typename E, typename = typename std::enable_if<std::is_enum<E>::value>::type>
+        template<typename E, typename = std::enable_if_t<std::is_enum_v<E>>>
         E get_enum_value( const std::string &name, const E fallback ) const {
             if( !has_member( name ) ) {
                 return fallback;
@@ -1108,7 +1112,7 @@ class TextJsonObject
             jsin->seek( verify_position( name ) );
             return jsin->get_enum_value<E>();
         }
-        template<typename E, typename = typename std::enable_if<std::is_enum<E>::value>::type>
+        template<typename E, typename = std::enable_if_t<std::is_enum_v<E>>>
         E get_enum_value( const std::string_view name ) const {
             mark_visited( name );
             jsin->seek( verify_position( name ) );

@@ -46,6 +46,7 @@
     "sym": "#",
     "color": "brown",
     "see_cost": 5,
+    "travel_cost_type": "impassable",
     "flags": [ "NO_ROTATE" ]
   },
   {
@@ -57,6 +58,7 @@
     "sym": "%",
     "color": "dark_gray",
     "see_cost": 5,
+    "travel_cost_type": "impassable",
     "flags": [ "NO_ROTATE" ]
   },
   {
@@ -232,6 +234,17 @@
       "bandit_cabin",
       "cabin_prepper"
     ],
+    "name": "cabin",
+    "sym": "C",
+    "color": "i_green",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2,
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "cabin_liam" ],
     "name": "cabin",
     "sym": "C",
     "color": "i_green",
@@ -702,19 +715,22 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "ws_giant_sinkhole_1",
-    "name": "giant sinkhole",
-    "copy-from": "generic_city_building_no_sidewalk",
+    "abstract": "generic_giant_sinkhole",
     "sym": "O",
-    "color": "brown"
+    "color": "brown",
+    "flags": [ "REQUIRES_PREDECESSOR" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_giant_sinkhole_1",
+    "copy-from": "generic_giant_sinkhole",
+    "name": "giant sinkhole"
   },
   {
     "type": "overmap_terrain",
     "id": "ws_giant_sinkhole_2",
-    "copy-from": "generic_city_building_no_sidewalk",
-    "name": "giant sinkhole base",
-    "sym": "O",
-    "color": "brown"
+    "copy-from": "generic_giant_sinkhole",
+    "name": "giant sinkhole base"
   },
   {
     "type": "overmap_terrain",

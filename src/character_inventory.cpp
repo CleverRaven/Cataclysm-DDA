@@ -445,7 +445,7 @@ bool Character::i_drop_at( item &it, int qty )
 
 static void recur_internal_locations( item_location parent, std::vector<item_location> &list )
 {
-    for( item *it : parent->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+    for( item *it : parent->all_items_top( pocket_type::CONTAINER ) ) {
         item_location child( parent, it );
         recur_internal_locations( child, list );
     }
@@ -554,7 +554,7 @@ void Character::drop( const drop_locations &what, const tripoint &target,
     const tripoint placement = target - pos();
     std::vector<drop_or_stash_item_info> items;
     for( drop_location item_pair : what ) {
-        if( is_avatar() && item_pair.first->is_bucket_nonempty() &&
+        if( is_avatar() && vp.has_value() && item_pair.first->is_bucket_nonempty() &&
             !query_yn( _( "The %s would spill if stored there.  Remove its contents first?" ),
                        item_pair.first->tname() ) ) {
             continue;
@@ -654,7 +654,7 @@ void outfit::holster_opts( std::vector<dispose_option> &opts, item_location obj,
                 guy.item_store_cost( *obj, e, false, e.insert_cost( *obj ) ),
                 [&guy, &e, obj] {
                     item &it = *item_location( obj );
-                    guy.store( e, it, false, e.insert_cost( it ), item_pocket::pocket_type::CONTAINER, true );
+                    guy.store( e, it, false, e.insert_cost( it ), pocket_type::CONTAINER, true );
                     return !guy.has_item( it );
                 }
             } );
@@ -666,7 +666,7 @@ void outfit::holster_opts( std::vector<dispose_option> &opts, item_location obj,
                 }
                 opts.emplace_back( dispose_option{
                     string_format( "  >%s", it->tname() ), true, it->invlet,
-                    guy.item_store_cost( *obj, *it, false, it->insert_cost( *it ) ),
+                    guy.item_store_cost( *obj, *it, false, it->insert_cost( *obj ) ),
                     [&guy, it, con, obj] {
                         item &i = *item_location( obj );
                         guy.store( con, i, false, it->insert_cost( i ) );
@@ -708,7 +708,7 @@ bool Character::dispose_item( item_location &&obj, const std::string &prompt )
                 return false;
             }
 
-            moves -= item_handling_cost( *obj );
+            mod_moves( -item_handling_cost( *obj ) );
             this->i_add( *obj, true, &*obj, &*obj );
             obj.remove_item();
             return true;

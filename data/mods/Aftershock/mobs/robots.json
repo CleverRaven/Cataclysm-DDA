@@ -785,5 +785,68 @@
       "STUN_IMMUNE"
     ],
     "armor": { "bash": 12, "cut": 8, "bullet": 6 }
+  },
+  {
+    "id": "mon_mech_horse",
+    "type": "MONSTER",
+    "name": { "str": "STEED" },
+    "description": "Found on nearly every frontier planet, the ubiquitous TSKBEM STEED (Surface Traversing Equine Emulating Drone) is an incredibly rugged quadrupedal machine based on old Earth horses and mules.  Capable of crossing the roughest terrain, powered by a compact atomic reactor, generous storage capacity, light armor, and a lifetime warranty, the STEED is a priceless tool for prospectors and homesteaders.  This version has been ruggedized against Salus IV's extreme cold, but does not keep you warm while riding.",
+    "default_faction": "mech_bot",
+    "looks_like": "mon_horse",
+    "species": [ "ROBOT" ],
+    "diff": 5,
+    "volume": "600 L",
+    "weight": "800 kg",
+    "hp": 200,
+    "speed": 350,
+    "material": [ "qt_steel", "nanoprinted_alloy", "kevlar" ],
+    "symbol": "H",
+    "color": "light_gray",
+    "aggression": -50,
+    "morale": 100,
+    "melee_skill": 2,
+    "melee_dice": 2,
+    "melee_dice_sides": 4,
+    "melee_damage": [ { "damage_type": "bash", "amount": 20 } ],
+    "vision_night": 100,
+    "death_function": { "corpse_type": "BROKEN" },
+    "death_drops": { "groups": [ [ "robots", 20 ] ] },
+    "path_settings": { "max_dist": 30, "avoid_traps": true, "avoid_sharp": true },
+    "petfood": {
+      "food": [ "STEED_registry" ],
+      "feed": "The %s activates as you swipe the registry key.  A nearly inaudible hum is the only indication the STEED is active."
+    },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "CLIMBS",
+      "COLDPROOF",
+      "BASHES",
+      "PUSH_MON",
+      "ELECTRONIC",
+      "NO_BREATHE",
+      "PET_MOUNTABLE",
+      "PATH_AVOID_DANGER_2",
+      "PATH_AVOID_FALL",
+      "PATH_AVOID_FIRE",
+      "STUN_IMMUNE"
+    ],
+    "armor": { "bash": 10, "cut": 15, "bullet": 10 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_mech_horse",
+    "name": { "str": "broken STEED" },
+    "description": "A broken STEED, it looks beyond repair.  At least the atomic core shielding should be intact.",
+    "volume": "600 L",
+    "weight": "800 kg",
+    "price": 1000,
+    "price_postapoc": 10,
+    "to_hit": -3,
+    "material": [ "qt_steel", "nanoprinted_alloy", "kevlar" ],
+    "symbol": "H",
+    "color": "light_gray",
+    "flags": [ "TRADER_AVOID", "NO_REPAIR", "LEAK_DAM", "RADIOACTIVE" ],
+    "melee_damage": { "bash": 7 }
   }
 ]

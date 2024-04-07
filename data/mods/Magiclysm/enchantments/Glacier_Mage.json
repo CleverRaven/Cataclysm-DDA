@@ -22,7 +22,7 @@
     "id": "GLACIER_MAGE",
     "condition": "ALWAYS",
     "name": { "str": "Stalactite" },
-    "description": "Your Glacier Mage abilities grant you good resistance to temperature conditions.  Also your attacks may deal additional cold damage from time to time.",
+    "description": "Your Glacier Mage abilities grant you good resistance to temperature conditions, and enemies are often hurt when try to attack you in melee.",
     "//": "push attacks",
     "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 10 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 30 } ],
     "hit_you_effect": [ { "id": "glacier_mage_attack", "once_in": 14 } ]
@@ -75,7 +75,7 @@
     "name": { "str": "Frozen Pressure" },
     "points": 0,
     "active": true,
-    "description": "Your attendance is so dangerous living creatures nearby are smashed.  You suppress it now.",
+    "description": "Your presence is so dangerous living creatures nearby are smashed.  You are currently suppressing this power.",
     "transform": {
       "target": "FROZEN_PRESSURE_ON",
       "msg_transform": "Living creatures around you are crushed!",
@@ -92,7 +92,7 @@
     "active": true,
     "name": { "str": "Frozen Pressure (on)" },
     "points": 0,
-    "description": "Your attendance is so dangerous living creatures nearby are smashed.",
+    "description": "Your presence is so dangerous living creatures nearby are smashed.",
     "enchantments": [ "glacier_mage_bash_aoe" ],
     "transform": { "target": "FROZEN_PRESSURE_OFF", "msg_transform": "You suppress your frozen pressure.", "active": false, "moves": 10 }
   }

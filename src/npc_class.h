@@ -51,7 +51,7 @@ struct shopkeeper_item_group {
     item_group_id id = item_group_id( "EMPTY_GROUP" );
     int trust = 0;
     bool strict = false;
-    std::string refusal;
+    translation refusal;
     std::function<bool( dialogue & )> condition;
 
     // Rigid shopkeeper groups will be processed a single time. Default groups are not rigid, and will be processed until the shopkeeper has no more room or remaining value to populate goods with.
@@ -80,6 +80,11 @@ class npc_class
         distribution bonus_dex;
         distribution bonus_int;
         distribution bonus_per;
+
+        distribution bonus_aggression;
+        distribution bonus_bravery;
+        distribution bonus_collector;
+        distribution bonus_altruism;
 
         std::map<skill_id, distribution> skills;
         // Just for finalization
@@ -119,6 +124,11 @@ class npc_class
         int roll_dexterity() const;
         int roll_intelligence() const;
         int roll_perception() const;
+
+        int roll_aggression() const;
+        int roll_bravery() const;
+        int roll_collector() const;
+        int roll_altruism() const;
 
         int roll_skill( const skill_id & ) const;
 

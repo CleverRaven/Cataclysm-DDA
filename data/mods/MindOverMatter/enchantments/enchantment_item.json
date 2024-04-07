@@ -9,7 +9,7 @@
         "value": "STRENGTH",
         "add": {
           "math": [
-            "((((u_val('spell_level', 'spell: telekinetic_pull')) + u_val('spell_level', 'spell: telekinetic_push')) + u_val('spell_level', 'spell: telekinetic_wave')) + u_val('spell_level', 'spell: telekinetic_momentum'))"
+            "((((u_spell_level('telekinetic_pull')) + u_spell_level('telekinetic_push')) + u_spell_level('telekinetic_wave')) + u_spell_level('telekinetic_momentum'))"
           ]
         }
       },

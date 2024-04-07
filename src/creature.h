@@ -65,15 +65,15 @@ using anatomy_id = string_id<anatomy>;
 
 enum class creature_size : int {
     // Keep it starting at 1 - damage done to monsters depends on it
-    // Squirrel
+    // Squirrel, cat, human toddler
     tiny = 1,
-    // Dog
+    // Labrador, human child
     small,
-    // Human
+    // Human adult
     medium,
-    // Cow
+    // Bear, tiger
     large,
-    // TAAAANK
+    // Cow, moose, shoggoth
     huge,
     // must always be at the end, is actually number + 1 since we start counting at 1
     num_sizes
@@ -294,6 +294,9 @@ class Creature : public viewer
             return nullptr;
         }
         virtual mfaction_id get_monster_faction() const = 0;
+
+        // Witness and respond to theft of faction items
+        virtual void witness_thievery( item *it ) = 0;
         /** return the direction the creature is facing, for sdl horizontal flip **/
         FacingDirection facing = FacingDirection::RIGHT;
         /** Returns true for non-real Creatures used temporarily; i.e. fake NPC's used for turret fire. */
@@ -388,7 +391,7 @@ class Creature : public viewer
         /*@}*/
 
         /**
-         * How far the creature sees under the given light. Places outside this range can
+         * How far the creature sees under the given light. Creature cannot see places outside this range.
          * @param light_level See @ref game::light_level.
          */
         virtual int sight_range( float light_level ) const = 0;
@@ -494,9 +497,13 @@ class Creature : public viewer
         */
         void longpull( const std::string &name, const tripoint &p );
 
-        bool dodge_check( float hit_roll, bool force_try = false );
-        bool dodge_check( monster *z );
-        bool dodge_check( monster *z, bodypart_id bp, const damage_instance &dam_inst );
+        /**
+         * If training_level is anything but 0, the check will only train target's skill to that level
+        */
+        bool dodge_check( float hit_roll, bool force_try = false, float training_level = 0.0f );
+        bool dodge_check( monster *z, float training_level = 0.0f );
+        bool dodge_check( monster *z, bodypart_id bp, const damage_instance &dam_inst,
+                          float training_level = 0.0f );
 
         // Temporarily reveals an invisible player when a monster tries to enter their location
         bool stumble_invis( const Creature &player, bool stumblemsg = true );
@@ -507,7 +514,7 @@ class Creature : public viewer
          * This creature just dodged an attack - possibly special/ranged attack - from source.
          * Players should train dodge, monsters may use some special defenses.
          */
-        virtual void on_dodge( Creature *source, float difficulty ) = 0;
+        virtual void on_dodge( Creature *source, float difficulty, float training_level = 0.0f ) = 0;
         /**
          * Invoked when the creature attempts to dodge, regardless of success or failure.
          */
@@ -536,8 +543,14 @@ class Creature : public viewer
         // returns true if the creature has an electric field
         virtual bool is_electrical() const = 0;
 
-        // returns true if the creature has an electric field
+        // returns true if the creature is a faerie creature
+        virtual bool is_fae() const = 0;
+
+        // returns true if the creature is from the nether
         virtual bool is_nether() const = 0;
+
+        // returns true if the creature has a sapient mind
+        virtual bool has_mind() const = 0;
 
         // returns true if health is zero or otherwise should be dead
         virtual bool is_dead_state() const = 0;
@@ -662,6 +675,7 @@ class Creature : public viewer
         void set_value( const std::string &key, const std::string &value );
         void remove_value( const std::string &key );
         std::string get_value( const std::string &key ) const;
+        std::optional<std::string> maybe_get_value( const std::string &key ) const;
         void clear_values();
 
         virtual units::mass get_weight() const = 0;
@@ -739,8 +753,23 @@ class Creature : public viewer
         virtual bool uncanny_dodge() {
             return false;
         }
+        virtual bool check_avoid_friendly_fire() const {
+            return false;
+        }
+        void set_reachable_zone( int zone ) {
+            reachable_zone = zone;
+        }
+        int get_reachable_zone() const {
+            return reachable_zone;
+        }
 
     private:
+        /** This number establishes a partition of zones on the map that have shared
+         * reachability/visibility. In short, if you aren't in the same zone as some other monster,
+         * you can ignore them since you won't be able to reach them by any combination of
+         * regular movement and vision. **/
+        int reachable_zone = 0;
+
         /** The creature's position in absolute coordinates */
         tripoint_abs_ms location;
     protected:
@@ -803,8 +832,8 @@ class Creature : public viewer
         int get_part_damage_bandaged( const bodypart_id &id ) const;
         int get_part_drench_capacity( const bodypart_id &id ) const;
         int get_part_wetness( const bodypart_id &id ) const;
-        int get_part_temp_cur( const bodypart_id &id ) const;
-        int get_part_temp_conv( const bodypart_id &id ) const;
+        units::temperature get_part_temp_cur( const bodypart_id &id ) const;
+        units::temperature get_part_temp_conv( const bodypart_id &id ) const;
         int get_part_frostbite_timer( const bodypart_id &id )const;
 
         std::array<int, NUM_WATER_TOLERANCE> get_part_mut_drench( const bodypart_id &id ) const;
@@ -822,24 +851,24 @@ class Creature : public viewer
         void set_part_encumbrance_data( const bodypart_id &id, const encumbrance_data &set );
 
         void set_part_wetness( const bodypart_id &id, int set );
-        void set_part_temp_cur( const bodypart_id &id, int set );
-        void set_part_temp_conv( const bodypart_id &id, int set );
+        void set_part_temp_cur( const bodypart_id &id, units::temperature set );
+        void set_part_temp_conv( const bodypart_id &id, units::temperature set );
         void set_part_frostbite_timer( const bodypart_id &id, int set );
 
         void set_part_mut_drench( const bodypart_id &id, std::pair<water_tolerance, int> set );
 
-        void mod_part_hp_cur( const bodypart_id &id, int mod );
+        virtual void mod_part_hp_cur( const bodypart_id &id, int mod );
         void mod_part_hp_max( const bodypart_id &id, int mod );
         void mod_part_healed_total( const bodypart_id &id, int mod );
         void mod_part_damage_disinfected( const bodypart_id &id, int mod );
         void mod_part_damage_bandaged( const bodypart_id &id, int mod );
         void mod_part_wetness( const bodypart_id &id, int mod );
-        void mod_part_temp_cur( const bodypart_id &id, int mod );
-        void mod_part_temp_conv( const bodypart_id &id, int mod );
+        void mod_part_temp_cur( const bodypart_id &id, units::temperature_delta mod );
+        void mod_part_temp_conv( const bodypart_id &id, units::temperature_delta mod );
         void mod_part_frostbite_timer( const bodypart_id &id, int mod );
 
-        void set_all_parts_temp_cur( int set );
-        void set_all_parts_temp_conv( int set );
+        void set_all_parts_temp_cur( units::temperature set );
+        void set_all_parts_temp_conv( units::temperature set );
         void set_all_parts_wetness( int set );
         void set_all_parts_hp_cur( int set );
         void set_all_parts_hp_to_max();
@@ -905,9 +934,8 @@ class Creature : public viewer
         /** Returns settings for pathfinding. */
         virtual const pathfinding_settings &get_pathfinding_settings() const = 0;
         /** Returns a set of points we do not want to path through. */
-        virtual std::set<tripoint> get_path_avoid() const = 0;
+        virtual std::unordered_set<tripoint> get_path_avoid() const = 0;
 
-        int moves;
         bool underwater;
         void draw( const catacurses::window &w, const point &origin, bool inverted ) const;
         void draw( const catacurses::window &w, const tripoint &origin, bool inverted ) const;
@@ -1083,68 +1111,6 @@ class Creature : public viewer
                                           string_format( npc_msg, std::forward<Args>( args )... ) );
         }
 
-        virtual void add_msg_debug_if_player( debugmode::debug_filter /*type*/,
-                                              const std::string &/*msg*/ ) const {}
-        template<typename ...Args>
-        void add_msg_debug_if_player( debugmode::debug_filter type, const char *const msg,
-                                      Args &&... args ) const {
-            // expanding for string formatting can be expensive
-            if( debug_mode ) {
-                return add_msg_debug_if_player( type, string_format( msg, std::forward<Args>( args )... ) );
-            }
-        }
-        template<typename ...Args>
-        void add_msg_debug_if_player( debugmode::debug_filter type, const std::string &msg,
-                                      Args &&... args ) const {
-            if( debug_mode ) {
-                return add_msg_debug_if_player( type, string_format( msg, std::forward<Args>( args )... ) );
-            }
-        }
-
-        virtual void add_msg_debug_if_npc( debugmode::debug_filter /*type*/,
-                                           const std::string &/*msg*/ ) const {}
-        template<typename ...Args>
-        void add_msg_debug_if_npc( debugmode::debug_filter type, const char *const msg,
-                                   Args &&... args ) const {
-            // expanding for string formatting can be expensive
-            if( debug_mode ) {
-                return add_msg_debug_if_npc( type, string_format( msg, std::forward<Args>( args )... ) );
-            }
-        }
-        template<typename ...Args>
-        void add_msg_debug_if_npc( debugmode::debug_filter type, const std::string &msg,
-                                   Args &&... args ) const {
-            if( debug_mode ) {
-                return add_msg_debug_if_npc( type, string_format( msg, std::forward<Args>( args )... ) );
-            }
-        }
-
-        virtual void add_msg_debug_player_or_npc( debugmode::debug_filter /*type*/,
-                const std::string &/*player_msg*/,
-                const std::string &/*npc_msg*/ ) const {}
-        void add_msg_debug_player_or_npc( debugmode::debug_filter /*type*/,
-                                          const translation &/*player_msg*/,
-                                          const translation &/*npc_msg*/ ) const;
-        template<typename ...Args>
-        void add_msg_debug_player_or_npc( debugmode::debug_filter type, const char *const player_msg,
-                                          const char *const npc_msg, Args &&... args ) const {
-            // expanding for string formatting can be expensive
-            if( debug_mode ) {
-                return add_msg_debug_player_or_npc( type, string_format( player_msg,
-                                                    std::forward<Args>( args )... ),
-                                                    string_format( npc_msg, std::forward<Args>( args )... ) );
-            }
-        }
-        template<typename ...Args>
-        void add_msg_debug_player_or_npc( debugmode::debug_filter type, const std::string &player_msg,
-                                          const std::string &npc_msg, Args &&... args ) const {
-            if( debug_mode ) {
-                return add_msg_debug_player_or_npc( type, string_format( player_msg,
-                                                    std::forward<Args>( args )... ),
-                                                    string_format( npc_msg, std::forward<Args>( args )... ) );
-            }
-        }
-
         virtual void add_msg_player_or_say( const std::string &/*player_msg*/,
                                             const std::string &/*npc_speech*/ ) const {}
         virtual void add_msg_player_or_say( const game_message_params &/*params*/,
@@ -1217,10 +1183,16 @@ class Creature : public viewer
         void set_summon_time( const time_duration &length );
         // handles removing the creature if the timer runs out
         void decrement_summon_timer();
+        void set_summoner( Creature *summoner );
+        void set_summoner( character_id summoner );
+        Creature *get_summoner() const;
     protected:
+        // How many moves do we have to work with
+        int moves;
         Creature *killer; // whoever killed us. this should be NULL unless we are dead
         void set_killer( Creature *killer );
         std::optional<time_point> lifespan_end = std::nullopt;
+        std::optional<character_id> summoner = std::nullopt; // whoever summoned us
         /**
          * Processes one effect on the Creature.
          * Must not remove the effect, but can set it up for removal.
@@ -1280,6 +1252,8 @@ class Creature : public viewer
         // This is done this way in order to not destroy focus since `do_aim` is on a per-move basis.
         int archery_aim_counter = 0;
 
+        // Find the body part with the biggest hitsize - we will treat this as the center of mass for targeting
+        bodypart_id get_max_hitsize_bodypart() const;
         // Select a bodypart depending on the attack's hitsize/limb restrictions
         bodypart_id select_body_part( int min_hit, int max_hit, bool can_attack_high, int hit_roll ) const;
         bodypart_id select_blocking_part( bool arm, bool leg, bool nonstandard ) const;

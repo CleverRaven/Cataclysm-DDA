@@ -22,6 +22,7 @@
     "use_action": [ "POISON" ],
     "comestible_type": "FOOD",
     "symbol": "%",
+    "looks_like": "mushroom",
     "calories": 24,
     "description": "Prized by chefs and woodsmen alike, morel mushrooms are delicious but must be cooked before they are safe to eat.",
     "price": 2000,

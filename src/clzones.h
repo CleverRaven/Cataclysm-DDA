@@ -44,6 +44,7 @@ class zone_type
     private:
         translation name_;
         translation desc_;
+        field_type_str_id field_;
     public:
 
         zone_type_id id;
@@ -51,11 +52,13 @@ class zone_type
         bool was_loaded = false;
 
         zone_type() = default;
-        explicit zone_type( const translation &name, const translation &desc ) : name_( name ),
-            desc_( desc ) {}
+        explicit zone_type( const translation &name, const translation &desc,
+                            const field_type_str_id &field ) : name_( name ),
+            desc_( desc ), field_( field ) {}
 
         std::string name() const;
         std::string desc() const;
+        field_type_str_id get_field() const;
 
         bool can_be_personal = false;
         bool hidden = false;
@@ -361,6 +364,7 @@ class zone_data
         // for personal zones a cached value for the global shift to where the player was at activity start
         tripoint_abs_ms cached_shift;
         shared_ptr_fast<zone_options> options;
+        bool is_displayed;
 
     public:
         zone_data() {
@@ -374,12 +378,14 @@ class zone_data
             end = tripoint_zero;
             cached_shift = {};
             options = nullptr;
+            is_displayed = false;
         }
 
         zone_data( const std::string &_name, const zone_type_id &_type, const faction_id &_faction,
                    bool _invert, const bool _enabled,
                    const tripoint &_start, const tripoint &_end,
-                   const shared_ptr_fast<zone_options> &_options = nullptr, bool personal = false ) {
+                   const shared_ptr_fast<zone_options> &_options = nullptr, bool personal = false,
+                   bool _is_displayed = false ) {
             name = _name;
             type = _type;
             faction = _faction;
@@ -389,6 +395,7 @@ class zone_data
             is_personal = personal;
             start = _start;
             end = _end;
+            is_displayed = _is_displayed;
 
             // ensure that supplied options is of correct class
             if( _options == nullptr || !zone_options::is_valid( type, *_options ) ) {
@@ -406,6 +413,11 @@ class zone_data
                            bool update_avatar = true, bool skip_cache_update = false );
         void set_enabled( bool enabled_arg );
         void set_temporary_disabled( bool enabled_arg );
+        // Displays/removes display fields based on the current is_displayed value.
+        // Can be used to "repair" the display when an overlapping field has removed its
+        // part of the shared area, as well as for the actual setting/removal of the fields.
+        void refresh_display() const;
+        void toggle_display();
         void set_is_vehicle( bool is_vehicle_arg );
 
         static std::string make_type_hash( const zone_type_id &_type, const faction_id &_fac ) {
@@ -445,6 +457,10 @@ class zone_data
         }
         bool get_temporarily_disabled() const {
             return temporarily_disabled;
+        }
+
+        bool get_is_displayed() const {
+            return is_displayed;
         }
 
         bool get_is_vehicle() const {

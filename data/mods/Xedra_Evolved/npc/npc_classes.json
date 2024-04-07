@@ -15,6 +15,7 @@
     "id": "NC_NPC_XE_SPIDER_VICTIM",
     "name": "Spider Victim",
     "job_description": "I've been captured by these spider things.  Please rescue me!",
+    "common": false,
     "skills": [
       { "skill": "speech", "bonus": { "rng": [ -3, 3 ] } },
       { "skill": "chemistry", "bonus": { "rng": [ -3, 3 ] } },
@@ -54,6 +55,7 @@
     "id": "NC_NPC_XE_CAPTURED_DREAMER",
     "name": "Captured Dreamer",
     "job_description": "I dreamt of another world and something came and snatched me away from my home.",
+    "common": false,
     "skills": [
       { "skill": "speech", "bonus": { "rng": [ -3, 3 ] } },
       { "skill": "chemistry", "bonus": { "rng": [ -3, 3 ] } },

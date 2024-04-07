@@ -12,7 +12,7 @@
     "calories": 301,
     "fun": 6,
     "volume": "250 ml",
-    "description": "It’s cheesy and indulgent, although the mix of tender kernels of corn, veggies, fresh herbs, and a pop of heat keep it in check so it’s not too heavy for the apocalypse.",
+    "description": "It's cheesy and indulgent, although the mix of tender kernels of corn, veggies, fresh herbs, and a pop of heat keep it in check so it's not too heavy for the apocalypse.",
     "price": 50,
     "price_postapoc": 100,
     "material": [ "veggy", "milk" ],
@@ -78,7 +78,7 @@
   {
     "type": "COMESTIBLE",
     "id": "eggplant_parmigiana",
-    "name": { "str": "eggplant parmigiana" },
+    "name": { "str_sp": "eggplant parmigiana" },
     "weight": "178 g",
     "color": "brown",
     "spoils_in": "60 days",

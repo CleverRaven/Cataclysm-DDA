@@ -198,13 +198,14 @@ Acquire supplies necessary to expand the commune, help build the commune, defend
 
 ### Hub 01
 
-*"Summary"*
+*"A holdover faction of scientists connected to the ones who may have caused the Cataclysm itself."*
 
 #### Description
-
+Hub01 is one of the computer science labs set up by XEDRA. It is the housing area for Melchior, XEDRA's experimental AI system, and thanks to Melchior, the staff were able to survive the Cataclysm mostly intact. Melchior itself became briefly sentient and hyperintelligent during the portal storms, but has now been returned to being a bit smarter than chatGPT.
 
 #### Structure
-
+This section is unfinished.
+Most interaction with Hub01 will occur through the Ancillary Bar and mercenaries, a group of Hub-affiliated personnel who are not, in fact, members of the Hub.
 
 #### Goals
 
@@ -342,23 +343,30 @@ With the Blob itself, there really aren't any.  You can't convince Azathoth to g
 ### The Mycus
 
 #### Description
-The Mycus loves you, and it just wants to be together forever.
+The Mycus is the entity 'behind' the fungus.  It may or may not actually be intelligent, that should be for you to decide in game.  The presentation of the Mycus is that of a "benevolent god of dreams".  If the Blob is a mugger in an alley that hits you over the head and takes your stuff, the Mycus is a creepy guy with a candy van that tries to tempt you over to it.
 
-If the Blob is a mugger in an alley that hits you over the head and takes your stuff, the Mycus is a creepy guy with a candy van that tries to tempt you over to it.
+**Ambiguously Real**
+It is unclear in both an in-game sense and a lore sense if the Mycus is really an intelligent entity, or just a common hallucination for people infested by the interdimensional fungus. People who are infected in a certain way, the "marloss zealots", experience vague dreams and visions of an entity behind the fungus directing them. However, the kind of directions it gives are no more refined or intelligent than the sort of things a cordyceps fungus directs its host to do: spread the mycus, protect the fungus. Are these actually an indication of an intelligence directing the zealots' actions, or is it just that the fungal abscess in the brain causes a consistent pattern of hallucination, which is commonly personified as a sort of deity?
+
+It should never be clear which is the answer.  It is much more compelling for players to decide for themselves. **The entity described from here on out is not confirmed to be real, but rather, this is how the entity perceived by mycus infectees should be written to act.**
 
 **Second Fiddle**
-The Mycus, despite seeming potent to humans, is probably the least powerful of the "major player" entities.  That's a big part of why it seeks individual buy-in from entities on the player level.  While it can 'mess' with zombies on an individual level, that's no more important to the blob than you the player killing a bunch of them is.  The Mycus is aware of this weak bargaining point.
+The Mycus, despite seeming potent to humans, is probably the least powerful of the "major player" interdimensional organisms.  While it can 'mess' with zombies on an individual level, that's no more important to the blob than you the player killing a bunch of them is.  The Mycus should act as though it is aware of this power differential.
 
 #### Goals
-The Mycus' goals are actually rather similar to the Blob.  It wants our world and our people to become part of it.  Its mind, however, seems to be more suited to understanding the individual, at least somewhat.  If it can't make you part of it the easy way - by filling your body with spores and using you as soil - it will try to make you part of it another way.  Have you tried this fruit? It's delicious, and provides all the nutrients you need to live.  Try another, go ahead.  We can make all you need.  Don't you want to come with us now?
+The Mycus' goals, if it has them, are actually rather similar to the Blob.  It wants our world and our people to become part of it.  Its mind, however, seems to be more suited to understanding the individual, at least somewhat.  If it can't make you part of it the easy way - by filling your body with spores and using you as soil - it will try to make you part of it another way.  Have you tried this fruit? It's delicious, and provides all the nutrients you need to live.  Try another, go ahead.  We can make all you need.  Don't you want to come with us now?
 
 Didn't the fruit work? Hm.  Perhaps we'll need to try something else.  I know we can find a way to be together.
 
+Another way to consider this is to remember that the Mycus should also be written such that it is in fact a delusion created by the infectee's sick brain, and the fungal mass in there secreting happy juices along with it. You start having dreams about mushrooms from a hallucinated mushroom god, and those come with happy hormones. This in turn causes you to imagine a benevolent mushroom god that wants you to be together.
+
 #### Missions
-It's dangerous and tempting to think the Mycus can be reasoned with.  As interactions with NPCs become increasingly complicated it is likely the Mycus can play a big role there.  It's the sort of intelligence that would send a sleeper agent into your base and try to put spores into the water.  It's the sort of entity that is really tempting to build cults around.  After all, if you join us, we will provide for you.
+It's dangerous and tempting to think the Mycus can be reasoned with - especially since it's not clear if "the mycus" actually exists or if it's just a yeast infection turnt up to 11.  As interactions with NPCs become increasingly complicated it is likely the Mycus can play a big role there.  Marloss NPCs could slip into your base to put spores in the waters, or could come to evangelize their new mushroom god. Marloss infected players should have vague messages in their dreams and weird liminal conversations directing them to do things.
+
+It may be helpful to read accounts of what it's like to suffer delirium or psychotic hallucinations to get ideas of how to write an experience communicating with the Mycus.
 
 #### Notes 
-Philosophically speaking… is joining the Mycus all that bad? I guess it depends how much you value individuality.  One could see the Blob and the Mycus representing opposite ends of a transhuman spectrum.  The Blob is cold and uncaring, but offers freedom.  You can use it to become anything you can imagine.  The Mycus will help you, but you must give yourself up to it completely.
+Philosophically speaking, if it is actually an entity and not just a fever dream… is joining the Mycus all that bad? I guess it depends how much you value individuality.  One could see the Blob and the Mycus representing opposite ends of a transhuman spectrum.  The Blob is cold and uncaring, but offers freedom.  You can use it to become anything you can imagine.  The Mycus will help you, but you must give yourself up to it completely.
 
 Also you must like mushrooms a lot.
 

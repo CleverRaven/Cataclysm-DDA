@@ -5,6 +5,7 @@
 #include <string>
 #include <tuple>
 #include <utility>
+#include <vector>
 
 #include "cata_assert.h"
 #include "color.h"
@@ -15,7 +16,7 @@
 #include "event_statistics.h"
 #include "generic_factory.h"
 #include "json.h"
-#include "past_games_info.h"
+#include "past_achievements_info.h"
 #include "stats_tracker.h"
 #include "string_formatter.h"
 
@@ -727,18 +728,16 @@ std::string achievement_tracker::ui_text() const
     }
 
     // Note if it's been completed in other games
-    const achievement_completion_info *other_games =
-        get_past_games().achievement( achievement_->id );
-    if( other_games && !other_games->games_completed.empty() ) {
+    const std::vector<std::string> avatars_completed =
+        get_past_achievements().avatars_completed( achievement_->id );
+    if( !avatars_completed.empty() ) {
         std::string message =
-            string_format( _( "Previously completed by %s" ),
-                           other_games->games_completed.front()->avatar_name() );
-        size_t num_completions = other_games->games_completed.size();
+            string_format( _( "Previously completed by %s" ), avatars_completed.front() );
+        const size_t num_completions = avatars_completed.size();
         if( num_completions > 1 ) {
-            message +=
-                string_format(
-                    n_gettext( " and %d other", " and %d others", num_completions - 1 ),
-                    num_completions - 1 );
+            message += string_format(
+                           n_gettext( " and %d other", " and %d others", num_completions - 1 ),
+                           num_completions - 1 );
         }
         result += "  " + colorize( message, c_blue ) + "\n";
     }
@@ -840,6 +839,30 @@ bool achievements_tracker::is_hidden( const achievement *ach ) const
         }
     }
     return false;
+}
+
+void achievements_tracker::write_json_achievements(
+    std::ostream &achievement_file, const std::string &avatar_name ) const
+{
+    JsonOut jsout( achievement_file, true, 2 );
+    jsout.start_object();
+    jsout.member( "achievement_version", 1 );
+
+    std::vector<achievement_id> ach_ids;
+
+    for( const auto &kv : achievements_status_ ) {
+        if( kv.second.completion == achievement_completion::completed ) {
+            ach_ids.push_back( kv.first );
+        }
+    }
+
+    jsout.member( "achievements", ach_ids );
+    jsout.member( "avatar_name", avatar_name );
+
+    jsout.end_object();
+
+    // Clear past achievements so that it will be reloaded
+    clear_past_achievements();
 }
 
 std::string achievements_tracker::ui_text_for( const achievement *ach ) const

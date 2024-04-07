@@ -1,6 +1,85 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_ZENER_DECK",
+    "condition": { "math": [ "u_school_level('CLAIRSENTIENT')", ">=", "10" ] },
+    "effect": [
+      {
+        "switch": { "math": [ "rand(4)" ] },
+        "cases": [
+          {
+            "case": 0,
+            "effect": [
+              {
+                "u_message": "You draw the hollow circle card, just as you knew you would.  You look at it for a moment and put it back in the deck."
+              }
+            ]
+          },
+          {
+            "case": 1,
+            "effect": [
+              {
+                "u_message": "You draw the three wavy lines card, just as you knew you would.  You look at it for a moment and put it back in the deck."
+              }
+            ]
+          },
+          {
+            "case": 2,
+            "effect": [
+              {
+                "u_message": "You draw the hollow square card, just as you knew you would.  You look at it for a moment and put it back in the deck."
+              }
+            ]
+          },
+          {
+            "case": 3,
+            "effect": [
+              {
+                "u_message": "You draw the five-pointed star card, just as you knew you would.  You look at it for a moment and put it back in the deck."
+              }
+            ]
+          },
+          {
+            "case": 4,
+            "effect": [
+              {
+                "u_message": "You draw the plus symbol card, just as you knew you would.  You look at it for a moment and put it back in the deck."
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "switch": { "math": [ "rand(4)" ] },
+        "cases": [
+          {
+            "case": 0,
+            "effect": [ { "u_message": "You draw the hollow circle card, look at it for a moment, and put it back in the deck." } ]
+          },
+          {
+            "case": 1,
+            "effect": [ { "u_message": "You draw the three wavy lines card, look at it for a moment, and put it back in the deck." } ]
+          },
+          {
+            "case": 2,
+            "effect": [ { "u_message": "You draw the hollow square card, look at it for a moment, and put it back in the deck." } ]
+          },
+          {
+            "case": 3,
+            "effect": [ { "u_message": "You draw the five-pointed star card, look at it for a moment, and put it back in the deck." } ]
+          },
+          {
+            "case": 4,
+            "effect": [ { "u_message": "You draw the plus symbol card, look at it for a moment, and put it back in the deck." } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_INSTABILITY_CREAM",
     "effect": [
       {
@@ -22,10 +101,7 @@
             "effect": [
               { "u_consume_item": "matrix_crystal_drained", "count": 1 },
               { "u_message": "The matrix crystal cracks into pieces as the device activates!", "type": "mixed" },
-              {
-                "u_add_effect": "force_field_generated",
-                "duration": { "math": [ "(u_val('time: 2 s') * rng(1,6)) " ] }
-              }
+              { "u_add_effect": "force_field_generated", "duration": { "math": [ "(time(' 2 s') * rng(1,6)) " ] } }
             ],
             "false_effect": [
               { "u_message": "The device makes a whining sound and there is a sharp smell of burnt plastic!", "type": "bad" },
@@ -38,5 +114,120 @@
       }
     ],
     "false_effect": [ { "u_message": "Without a matrix crystal to power it, flipping the toggle does nothing.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSYSHIELD_PARTIAL_EFFECT_GRANTER",
+    "recurrence": [ "2 minutes", "8 minutes" ],
+    "condition": { "u_has_worn_with_flag": "PSYSHIELD_PARTIAL" },
+    "effect": [ { "u_add_effect": "effect_psyshield_protection", "duration": "8 minutes" } ],
+    "false_effect": [ { "u_lose_effect": "effect_psyshield_protection" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSI_TRANSPORTER_REMOTE_TELEPORT",
+    "condition": { "u_has_items": { "item": "psionic_transporter_remote_on", "count": 1 } },
+    "effect": [
+      { "queue_eocs": "EOC_PSI_TRANSPORTER_REMOTE_TELEPORT_BEEP", "time_in_future": [ "15 seconds", "45 seconds" ] },
+      {
+        "queue_eocs": "EOC_PSI_TRANSPORTER_REMOTE_TELEPORT_TRANSPORT",
+        "time_in_future": [ "4 minutes", "7 minutes" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSI_TRANSPORTER_REMOTE_TELEPORT_BEEP",
+    "condition": { "u_has_items": { "item": "psionic_transporter_remote_on", "count": 1 } },
+    "effect": [
+      { "u_message": "The transporter remote emits a small beep.", "type": "neutral" },
+      { "u_make_sound": "a small beep", "volume": 2, "type": "music" },
+      { "queue_eocs": "EOC_PSI_TRANSPORTER_REMOTE_TELEPORT_BEEP", "time_in_future": [ "15 seconds", "45 seconds" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSI_TRANSPORTER_REMOTE_TELEPORT_TRANSPORT",
+    "condition": { "u_has_items": { "item": "psionic_transporter_remote_on", "count": 1 } },
+    "effect": {
+      "run_eoc_selector": [ "EOC_PSI_TRANSPORTER_REMOTE_TELEPORT_TRANSPORT_YES", "EOC_PSI_TRANSPORTER_REMOTE_TELEPORT_TRANSPORT_NO" ],
+      "names": [ "Confirm the Coordinates", "Turn the remove off" ],
+      "keys": [ "1", "2" ],
+      "descriptions": [ "Activate the remote and transport yourself to your destination.", "Turn the remote off for now." ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSI_TRANSPORTER_REMOTE_TELEPORT_TRANSPORT_YES",
+    "condition": { "u_has_items": { "item": "psionic_transporter_remote_on", "count": 1 } },
+    "effect": [
+      { "u_consume_item": "psionic_transporter_remote_on" },
+      { "u_spawn_item": "psionic_transporter_remote_broken", "count": 1, "suppress_message": true },
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PSI_TRANSPORTER_REMOTE_TELEPORT_TRANSPORT_YES_2",
+            "condition": { "u_has_effect": "psi_nether_attention" },
+            "effect": [
+              { "u_cast_spell": { "id": "pure_translocate_power", "hit_self": true } },
+              {
+                "u_message": "There is a long moment of darkness and terrible cold that seems like it will freeze your heart, all the while filled with the sensation of watchful eyes, and then you are somewhere else.  When you arrive, you can't help but glance over your shoulder.",
+                "type": "neutral"
+              },
+              {
+                "run_eocs": [
+                  {
+                    "id": "EOC_PSI_TRANSPORTER_REMOTE_TELEPORT_TRANSPORT_YES_3",
+                    "condition": {
+                      "and": [
+                        { "x_in_y_chance": { "x": { "math": [ "u_effect_intensity('psi_nether_attention') * 2" ] }, "y": 100 } },
+                        { "not": { "u_has_effect": "effect_telepathic_psi_armor" } },
+                        { "not": { "u_has_trait": "TELEPATHICDAMPENER_SHIELD" } }
+                      ]
+                    },
+                    "effect": [
+                      {
+                        "u_message": "And as you look around, you notice you're not the only one who stepped out of the Nether.",
+                        "type": "bad"
+                      },
+                      {
+                        "u_spawn_monster": "GROUP_NETHER_BREACH",
+                        "group": true,
+                        "real_count": [ 1, 3 ],
+                        "min_radius": 5,
+                        "max_radius": 25
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "false_effect": [
+              { "u_cast_spell": { "id": "pure_translocate_power", "hit_self": true } },
+              {
+                "u_message": "There is a long moment of darkness and terrible cold that seems like it will freeze your heart, and then you are somewhere else.",
+                "type": "neutral"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSI_TRANSPORTER_REMOTE_TELEPORT_TRANSPORT_NO",
+    "condition": { "u_has_items": { "item": "psionic_transporter_remote_on", "count": 1 } },
+    "effect": [
+      {
+        "u_message": "Instead of confirming the destination, you press the button and turn the transporter remote off.",
+        "type": "neutral"
+      },
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "id": "psionic_transporter_remote_on" } ],
+        "true_eocs": [ { "id": "EOC_PSI_TRANSPORTER_REMOTE_TELEPORT_TRANSPORT_NO_2", "effect": { "u_activate": "transform" } } ]
+      }
+    ]
   }
 ]

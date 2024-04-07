@@ -32,34 +32,12 @@
     "components": [ [ [ "coconut_flesh", 4 ] ], [ [ "coconut_water", 1 ] ], [ [ "bowl_coconut", 2 ] ] ]
   },
   {
-    "result": "irradiated_watermelon",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "time": "1 m",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "watermelon_wedge", 16 ] ] ]
-  },
-  {
-    "result": "irradiated_melon",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "time": "1 m",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "melon_chunks", 4 ] ] ]
-  },
-  {
-    "result": "irradiated_pineapple",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "copy-from": "pineapple"
-  },
-  {
     "result": "rose_hips",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "seed_rose", 1 ] ] ]
+    "components": [ [ [ "seed_rose", 1 ] ], [ [ "rose_hips_cut", 1 ] ] ]
   },
   {
     "result": "grapes",

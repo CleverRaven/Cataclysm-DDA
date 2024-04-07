@@ -11,7 +11,7 @@
         [ "cornmeal", 1 ],
         [ "flatbread", 1 ],
         [ "flatbread_wheat_free", 1 ],
-        [ "tortilla_corn", 1 ],
+        [ "tortilla_any", 1, "LIST" ],
         [ "bread", 1 ],
         [ "bread_wheat_free", 1 ],
         [ "wastebread", 1 ],
@@ -24,20 +24,39 @@
     ]
   },
   {
+    "id": "bread_toastable",
+    "type": "requirement",
+    "//": "Bread appropriate for toast.",
+    "components": [
+      [
+        [ "bread", 1 ],
+        [ "wastebread", 1 ],
+        [ "sourdough_bread", 1 ],
+        [ "brioche", 1 ],
+        [ "brown_bread", 1 ],
+        [ "hallula", 1 ],
+        [ "snack_bread", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "bread_toastable_wheat_free",
+    "type": "requirement",
+    "//": "Wheat free bread appropriate for toast.",
+    "components": [ [ [ "bread_wheat_free", 1 ], [ "brown_bread_wheat_free", 1 ], [ "cornbread", 1 ] ] ]
+  },
+  {
     "id": "bread_sandwich",
     "type": "requirement",
     "//": "Bread appropriate for sandwiches.",
     "components": [
       [
+        [ "bread_toastable", 1, "LIST" ],
         [ "flatbread", 1 ],
-        [ "bread", 1 ],
-        [ "wastebread", 1 ],
-        [ "sourdough_bread", 1 ],
+        [ "tortilla_any", 1, "LIST" ],
         [ "biscuit", 1 ],
-        [ "brioche", 1 ],
         [ "crackers", 1 ],
-        [ "brown_bread", 1 ],
-        [ "hallula", 1 ]
+        [ "toast", 1 ]
       ]
     ]
   },
@@ -45,7 +64,14 @@
     "id": "bread_sandwich_wheat_free",
     "type": "requirement",
     "//": "Wheat free bread appropriate for sandwiches.",
-    "components": [ [ [ "cornbread", 1 ], [ "bread_wheat_free", 1 ], [ "flatbread_wheat_free", 1 ], [ "brown_bread_wheat_free", 1 ] ] ]
+    "components": [
+      [
+        [ "bread_toastable_wheat_free", 1, "LIST" ],
+        [ "flatbread_wheat_free", 1 ],
+        [ "tortilla_corn", 1 ],
+        [ "toast_wheat_free", 1 ]
+      ]
+    ]
   },
   {
     "id": "any_bread",
@@ -79,7 +105,6 @@
         [ "egg_goose_canadian", 1 ],
         [ "egg_turkey", 1 ],
         [ "egg_pheasant", 1 ],
-        [ "egg_cockatrice", 1 ],
         [ "egg_goose", 1 ],
         [ "egg_goose_golden", 1 ],
         [ "egg_hummingbird", 5 ],
@@ -210,7 +235,17 @@
         [ "egg_burbot", 1 ],
         [ "egg_sturgeon_lake", 1 ],
         [ "egg_sturgeon_shortnose", 1 ],
-        [ "egg_fallfish", 1 ]
+        [ "egg_fallfish", 1 ],
+        [ "egg_cod", 1 ],
+        [ "egg_haddock", 1 ],
+        [ "egg_bluefin_tuna", 1 ],
+        [ "egg_halibut", 1 ],
+        [ "egg_pollock", 1 ],
+        [ "egg_flounder", 1 ],
+        [ "egg_mackerel", 1 ],
+        [ "egg_bluefish", 1 ],
+        [ "egg_blackfish", 1 ],
+        [ "egg_porgy", 1 ]
       ]
     ]
   },
@@ -237,7 +272,9 @@
         [ "can_cheese", 1 ],
         [ "cheese_rehydrated", 1 ],
         [ "cottage_cheese", 1 ],
-        [ "mozzarella_cheese", 1 ]
+        [ "mozzarella_cheese", 1 ],
+        [ "mascarpone", 1 ],
+        [ "pecorino_cheese", 1 ]
       ]
     ]
   },
@@ -550,6 +587,7 @@
         [ "demihuman_cooked", 1 ],
         [ "meat_pickled", 1 ],
         [ "meat_smoked", 1 ],
+        [ "earthworm_dried", 10 ],
         [ "meat_salted", 1 ],
         [ "dry_meat", 1 ],
         [ "rehydrated_meat", 1 ],
@@ -604,9 +642,7 @@
       [
         [ "veggy_potatolike", 1, "LIST" ],
         [ "celery", 1 ],
-        [ "irradiated_celery", 1 ],
         [ "cabbage", 1 ],
-        [ "irradiated_cabbage", 1 ],
         [ "sauerkraut", 1 ],
         [ "powder_eggs", 1 ],
         [ "eggs_bird", 1, "LIST" ],
@@ -767,6 +803,7 @@
         [ "dry_meat", 1 ],
         [ "jerky", 1 ],
         [ "meat_smoked", 1 ],
+        [ "earthworm_dried", 10 ],
         [ "meat_salted", 1 ],
         [ "meat_fried", 1 ],
         [ "fish", 1 ],
@@ -1003,7 +1040,7 @@
         [ "plums", 1 ],
         [ "pomegranate", 1 ],
         [ "raspberries", 1 ],
-        [ "rose_hips", 1 ],
+        [ "rose_hips_cut", 1 ],
         [ "wintergreen_berry", 4 ],
         [ "mayapple", 2 ],
         [ "m_stellatum_berries", 2 ],
@@ -1016,44 +1053,10 @@
     ]
   },
   {
-    "id": "sweet_fruit_irradiated",
-    "type": "requirement",
-    "//": "Sweet, irradiated fruit, roughly by mass.",
-    "components": [
-      [
-        [ "irradiated_apple", 1 ],
-        [ "irradiated_apricot", 1 ],
-        [ "irradiated_banana", 1 ],
-        [ "irradiated_blackberries", 1 ],
-        [ "irradiated_blueberries", 1 ],
-        [ "irradiated_cherries", 1 ],
-        [ "irradiated_grapefruit", 1 ],
-        [ "irradiated_grapes", 1 ],
-        [ "irradiated_guayaba", 1 ],
-        [ "irradiated_kiwi", 2 ],
-        [ "irradiated_lulo", 2 ],
-        [ "irradiated_mango", 1 ],
-        [ "irradiated_maracuya", 1 ],
-        [ "irradiated_orange", 1 ],
-        [ "irradiated_papaya", 1 ],
-        [ "irradiated_peach", 1 ],
-        [ "irradiated_pear", 1 ],
-        [ "irradiated_plums", 1 ],
-        [ "irradiated_pomegranate", 1 ],
-        [ "irradiated_raspberries", 1 ],
-        [ "irradiated_rose_hips", 1 ],
-        [ "irradiated_strawberries", 1 ],
-        [ "irradiated_huckleberries", 1 ],
-        [ "irradiated_mulberries", 1 ],
-        [ "irradiated_elderberries", 1 ]
-      ]
-    ]
-  },
-  {
     "id": "sweet_fruit",
     "type": "requirement",
-    "//": "Sweet, unprocessed or irradiated, roughly by mass.",
-    "components": [ [ [ "sweet_fruit_fresh", 1, "LIST" ], [ "sweet_fruit_irradiated", 1, "LIST" ] ] ]
+    "//": "Sweet, unprocessed, roughly by mass.",
+    "components": [ [ [ "sweet_fruit_fresh", 1, "LIST" ] ] ]
   },
   {
     "id": "sweet_fruit_like",
@@ -1063,7 +1066,6 @@
       [
         [ "sweet_fruit", 1, "LIST" ],
         [ "lemon", 1 ],
-        [ "irradiated_lemon", 1 ],
         [ "apple_canned", 1 ],
         [ "apple_sugar", 1 ],
         [ "dry_fruit", 1 ],
@@ -1081,10 +1083,8 @@
     "components": [
       [
         [ "cabbage", 1 ],
-        [ "irradiated_cabbage", 1 ],
         [ "cattail_stalk", 1 ],
         [ "lettuce", 1 ],
-        [ "irradiated_lettuce", 1 ],
         [ "horseradish_greens", 1 ],
         [ "raw_dandelion", 1 ],
         [ "raw_burdock", 1 ],
@@ -1102,7 +1102,7 @@
     "id": "veggy_potatolike",
     "type": "requirement",
     "//": "Any edible tuber that can be used like potato",
-    "components": [ [ [ "potato", 1 ], [ "irradiated_potato", 1 ], [ "groundnut_prepared", 5 ] ] ]
+    "components": [ [ [ "potato", 1 ], [ "groundnut_prepared", 5 ] ] ]
   },
   {
     "id": "veggy_any_corn_uncooked",
@@ -1120,43 +1120,34 @@
     "components": [
       [
         [ "broccoli", 1 ],
-        [ "irradiated_broccoli", 1 ],
         [ "cabbage", 1 ],
-        [ "irradiated_cabbage", 1 ],
         [ "carrot", 2 ],
-        [ "irradiated_carrot", 2 ],
         [ "cattail_stalk", 1 ],
-        [ "burdock_stalk", 1 ],
+        [ "plant_stalk", 1 ],
         [ "celery", 1 ],
-        [ "irradiated_celery", 1 ],
         [ "corn_kernels", 1 ],
         [ "cucumber", 1 ],
         [ "cucumber_cut", 1 ],
-        [ "irradiated_cucumber", 1 ],
         [ "lettuce", 1 ],
-        [ "irradiated_lettuce", 1 ],
         [ "onion", 1 ],
-        [ "irradiated_onion", 1 ],
         [ "plant_sac", 1 ],
         [ "potato", 1 ],
-        [ "irradiated_potato", 1 ],
         [ "pumpkin_cut", 1 ],
         [ "raw_dandelion", 1 ],
         [ "raw_burdock", 1 ],
         [ "raw_bamboo", 1 ],
         [ "rhubarb", 1 ],
-        [ "irradiated_rhubarb", 1 ],
         [ "sugar_beet", 1 ],
         [ "tomato", 1 ],
         [ "tomato_cut", 1 ],
-        [ "irradiated_tomato", 1 ],
         [ "bell_pepper", 1 ],
         [ "bell_pepper_cut", 1 ],
         [ "veggy", 1 ],
         [ "veggy_wild", 1 ],
         [ "zucchini", 1 ],
         [ "zucchini_cut", 1 ],
-        [ "irradiated_zucchini", 1 ],
+        [ "eggplant", 1 ],
+        [ "eggplant_cut", 1 ],
         [ "carrot_wild", 1 ],
         [ "wild_garlic", 2 ],
         [ "spinach", 1 ],
@@ -1234,7 +1225,6 @@
         [ "macaroni_raw", 1 ],
         [ "noodles_fast", 1 ],
         [ "celery", 1 ],
-        [ "irradiated_celery", 1 ],
         [ "veggy_green", 1, "LIST" ],
         [ "veggy_potatolike", 1, "LIST" ],
         [ "sauerkraut", 1 ],

@@ -36,7 +36,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_RANCH_WOODCUTTER_JOB",
-    "dynamic_line": "I'm one of the migrants that got diverted to this outpost when I arrived at the refugee center.  They said I was big enough to swing an axe, so my profession became lumberjack… didn't have any say in it.  If I want to eat, then I'll be cutting wood from now till kingdom come.",
+    "dynamic_line": {
+      "gendered_line": "I'm one of the migrants that got diverted to this outpost when I arrived at the refugee center.  They said I was big enough to swing an axe, so my profession became lumberjack… didn't have any say in it.  If I want to eat, then I'll be cutting wood from now till kingdom come.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [ { "text": "Oh.", "topic": "TALK_RANCH_WOODCUTTER" } ]
   },
   {
@@ -64,7 +67,7 @@
             }
           }
         ],
-        "condition": { "npc_service": true }
+        "condition": { "npc_service": 200000 }
       },
       {
         "text": "[$12000, 7d] 100 logs",
@@ -82,7 +85,7 @@
             }
           }
         ],
-        "condition": { "npc_service": true }
+        "condition": { "npc_service": 1200000 }
       },
       { "text": "Maybe later.", "topic": "TALK_RANCH_WOODCUTTER", "condition": "npc_available" },
       { "text": "I'll be back later.", "topic": "TALK_RANCH_WOODCUTTER" }

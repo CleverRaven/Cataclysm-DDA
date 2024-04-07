@@ -33,7 +33,7 @@ MAKE_NULL_ID( map_extra, "mx_null" )
 MAKE_NULL_ID( Skill, "none" )
 MAKE_NULL_ID( SkillDisplayType, "none" )
 MAKE_NULL_ID( npc_class, "NC_NONE" )
-MAKE_NULL_ID( npc_template, "null" )
+MAKE_NULL_ID( npc_template, "" )
 MAKE_NULL_ID( faction, "NULL" )
 MAKE_NULL_ID( ammunition_type, "NULL" )
 MAKE_NULL_ID( vpart_info, "null" )
@@ -52,6 +52,7 @@ MAKE_NULL_ID( mood_face, "MOOD_FACE_NULL_ID" )
 MAKE_NULL_ID( move_mode, "null" )
 MAKE_NULL_ID( fault, "null" )
 MAKE_NULL_ID( fault_fix, "null" )
+MAKE_NULL_ID( spell_type, "null" )
 
 #define MAKE_NULL_ID2( type, ... ) \
     struct type; \

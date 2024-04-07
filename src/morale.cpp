@@ -16,12 +16,11 @@
 #include "cursesdef.h"
 #include "debug.h"
 #include "enums.h"
-#include "input.h"
+#include "input_context.h"
 #include "item.h"
 #include "localized_comparator.h"
 #include "make_static.h"
 #include "morale_types.h"
-#include "mutation.h"
 #include "output.h"
 #include "point.h"
 #include "string_formatter.h"
@@ -513,7 +512,7 @@ void player_morale::decay( const time_duration &ticks )
     invalidate();
 }
 
-void player_morale::display( int focus_eq, int pain_penalty, int fatigue_penalty )
+void player_morale::display( int focus_eq, int pain_penalty, int sleepiness_penalty )
 {
     /*calculates the percent contributions of the morale points,
      * must be done before anything else in this method
@@ -703,9 +702,9 @@ void player_morale::display( int focus_eq, int pain_penalty, int fatigue_penalty
             morale_line::line_color::green_gray_red
         );
     }
-    if( fatigue_penalty != 0 ) {
+    if( sleepiness_penalty != 0 ) {
         bottom_lines.emplace_back(
-            _( "Fatigue level:" ), -fatigue_penalty,
+            _( "Sleepiness level:" ), -sleepiness_penalty,
             morale_line::number_format::signed_or_dash,
             morale_line::line_color::green_gray_red
         );

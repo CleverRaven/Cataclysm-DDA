@@ -1,17 +1,10 @@
 [
   {
     "id": "40fmj",
-    "copy-from": "40sw",
     "type": "AMMO",
     "name": { "str_sp": ".40 S&W FMJ" },
-    "description": ".40 S&W ammunition with a 180gr FMJ bullet.  Designed to retain the 10mm Auto cartridge's power with lower recoil, the .40 S&W round became popular for law enforcement and personal defense.",
-    "relative": { "damage": { "damage_type": "bullet", "amount": -3, "armor_penetration": 6 } }
-  },
-  {
-    "id": "40sw",
-    "type": "AMMO",
-    "name": { "str_sp": ".40 S&W JHP" },
-    "description": ".40 S&W ammunition with a 135gr JHP bullet.  The .40 S&W round is descended from the 10mm Auto cartridge and maintains most of its predecessor's strengths while reducing recoil.",
+    "description": ".40 S&W ammunition with a 180gr FMJ bullet.  The .40 S&W round is descended from the 10mm Auto cartridge and maintains most of its predecessor's strengths while reducing recoil.  It was popular amongst law enforcement before the FBI switched to 9mm.",
+    "ascii_picture": "40sw",
     "weight": "15 g",
     "volume": "106 ml",
     "longest_side": "29 mm",
@@ -26,10 +19,44 @@
     "ammo_type": "40",
     "casing": "40_casing",
     "range": 14,
-    "damage": { "damage_type": "bullet", "amount": 26, "armor_penetration": 4 },
+    "//": ".400in 165gr Speer TMJ 4410, 8.59gr Hodgdon HS-6",
+    "damage": {
+      "damage_type": "bullet",
+      "amount": 27,
+      "armor_penetration": 10,
+      "barrels": [
+        { "barrel_length": "27 mm", "amount": 18 },
+        { "barrel_length": "33 mm", "amount": 19 },
+        { "barrel_length": "38 mm", "amount": 20 },
+        { "barrel_length": "44 mm", "amount": 21 },
+        { "barrel_length": "51 mm", "amount": 22 },
+        { "barrel_length": "63 mm", "amount": 23 },
+        { "barrel_length": "74 mm", "amount": 24 },
+        { "barrel_length": "88 mm", "amount": 25 },
+        { "barrel_length": "104 mm", "amount": 26 },
+        { "barrel_length": "133 mm", "amount": 27 },
+        { "barrel_length": "161 mm", "amount": 28 },
+        { "barrel_length": "198 mm", "amount": 29 },
+        { "barrel_length": "245 mm", "amount": 30 },
+        { "barrel_length": "307 mm", "amount": 31 },
+        { "barrel_length": "425 mm", "amount": 32 },
+        { "barrel_length": "554 mm", "amount": 33 },
+        { "barrel_length": "739 mm", "amount": 34 },
+        { "barrel_length": "1107 mm", "amount": 35 },
+        { "barrel_length": "1255 mm", "amount": 36 }
+      ]
+    },
     "dispersion": 50,
     "recoil": 560,
     "effects": [ "COOKOFF" ]
+  },
+  {
+    "id": "40sw",
+    "copy-from": "40fmj",
+    "type": "AMMO",
+    "name": { "str_sp": ".40 S&W JHP" },
+    "description": ".40 S&W ammunition with a 135gr JHP bullet.  The .40 S&W round is descended from the 10mm Auto cartridge and maintains most of its predecessor's strengths while reducing recoil.  It was popular amongst law enforcement before the FBI switched to 9mm.",
+    "relative": { "damage": { "damage_type": "bullet", "amount": 3, "armor_penetration": -6 } }
   },
   {
     "id": "bp_40fmj",

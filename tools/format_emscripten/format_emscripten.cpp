@@ -5,8 +5,10 @@ extern constexpr error_log_format_t error_log_format = error_log_format_t::human
 #include "format.h"
 
 extern "C" {
-    const char *json_format( const char *input )
+    const char *json_format( const char *input, int colors )
     {
+        json_error_output_colors = static_cast<json_error_output_colors_t>( colors );
+
         // we can do the malloc/free game with emscripten
         // or just leave the buffer in place and realloc
         // to make sure the strings fit

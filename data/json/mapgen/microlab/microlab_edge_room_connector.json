@@ -31,8 +31,7 @@
         " c|22||||||  ||||||c c  ",
         "     |FFFF|  |FFFF|     "
       ],
-      "palettes": [ "microlab" ],
-      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_concrete_red" }
+      "palettes": [ "microlab" ]
     }
   }
 ]

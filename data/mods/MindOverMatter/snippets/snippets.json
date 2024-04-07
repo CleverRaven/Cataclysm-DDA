@@ -18,7 +18,9 @@
       {
         "id": "general_graffiti_psi_2",
         "text": "This is a detailed drawing of a pyramid with an eye in it.  Below is written \"We see now.\""
-      }
+      },
+      { "id": "general_graffiti_psi_3", "text": "We greet the new dawn" },
+      { "id": "general_graffiti_psi_4", "text": "Dawn is breaking" }
     ]
   },
   {
@@ -59,6 +61,26 @@
       {
         "id": "note_psi_5",
         "text": "\"Using the Force is way easier than going into the houses.  Stand out in a storm.  You'll thank me later, if you survive.\""
+      },
+      {
+        "id": "note_psi_6",
+        "text": "\"This is it, the next stage in human evolution.  The sheep weren't worthy and will fall before the ascension of Homo Superior.\""
+      },
+      {
+        "id": "note_psi_7",
+        "text": "\"All this meditating has finally paid off.  You need me to get you something, leave me a note at the old gas station south of Ashland on 93.  You'll have what you need in a couple days.\""
+      },
+      {
+        "id": "note_psi_8",
+        "text": "\"Those things, the ones that sound like people, it's not just their claws.  I saw them lift another guy clear off his feet from thirty feet away and take him apart while he screamed and screamed.  All the while saying shit like \"The store is closing in fifteen minutes.\"  I don't care what they have in those towers, I'm never going anywhere near them again.\""
+      },
+      {
+        "id": "note_psi_9",
+        "text": "\"I always knew there was something off about that office building on main.  I'm not going to check it out because downtown is overrun but I saw weird lights from the top floor two lights running.  Something's still happening up there.\""
+      },
+      {
+        "id": "note_psi_10",
+        "text": "\"Met some girl living out in the wilds west of town.  She snuck up perfectly behind me and held me at gunpoint until she was sure I wouldn't try to steal from her.  Once we had that cleared up, told me to skip north and avoid 90 because some assholes had set up a roadblock.  I asked her how she knew where I was going and she said, \"It was revealed to me in a dream.\"  I should have listened to her.\""
       }
     ]
   },

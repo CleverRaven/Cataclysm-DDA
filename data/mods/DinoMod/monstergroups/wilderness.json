@@ -110,11 +110,52 @@
       { "group": "GROUP_DINOSAUR_ZAUROPODS_WILDERNESS", "weight": 25, "starts": "90 days" },
       { "monster": "mon_pteranodon", "weight": 25, "cost_multiplier": 20, "pack_size": [ 2, 4 ] },
       { "monster": "mon_quetzalcoatlus", "weight": 4, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_mosasaurus", "weight": 1, "cost_multiplier": 60, "starts": "3 days" },
-      { "monster": "mon_zosasaurus", "cost_multiplier": 100, "starts": "7 days" },
-      { "monster": "mon_zosasaurus", "cost_multiplier": 100, "starts": "14 days" },
-      { "monster": "mon_zosasaurus", "cost_multiplier": 100, "starts": "28 days" },
-      { "monster": "mon_zosasaurus", "cost_multiplier": 100, "starts": "90 days" }
+      { "monster": "mon_mosasaurus", "weight": 1, "cost_multiplier": 25, "starts": "3 days" },
+      { "monster": "mon_zosasaurus", "cost_multiplier": 25, "starts": "7 days" },
+      { "monster": "mon_zosasaurus", "cost_multiplier": 25, "starts": "14 days" },
+      { "monster": "mon_zosasaurus", "cost_multiplier": 25, "starts": "28 days" },
+      { "monster": "mon_zosasaurus", "cost_multiplier": 25, "starts": "90 days" },
+      { "monster": "mon_plesiosaurus", "weight": 1, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zlesiosaurus", "cost_multiplier": 25, "starts": "7 days" },
+      { "monster": "mon_zlesiosaurus", "cost_multiplier": 25, "starts": "14 days" },
+      { "monster": "mon_zlesiosaurus", "cost_multiplier": 25, "starts": "28 days" },
+      { "monster": "mon_zlesiosaurus", "cost_multiplier": 25, "starts": "90 days" }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_OCEAN_SHORE",
+    "default": "mon_null",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_mosasaurus", "weight": 2, "cost_multiplier": 25, "starts": "3 days" },
+      { "monster": "mon_zosasaurus", "cost_multiplier": 25, "starts": "7 days" },
+      { "monster": "mon_zosasaurus", "cost_multiplier": 25, "starts": "14 days" },
+      { "monster": "mon_zosasaurus", "cost_multiplier": 25, "starts": "28 days" },
+      { "monster": "mon_zosasaurus", "cost_multiplier": 25, "starts": "90 days" },
+      { "monster": "mon_plesiosaurus", "weight": 4, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zlesiosaurus", "cost_multiplier": 25, "starts": "7 days" },
+      { "monster": "mon_zlesiosaurus", "cost_multiplier": 25, "starts": "14 days" },
+      { "monster": "mon_zlesiosaurus", "cost_multiplier": 25, "starts": "28 days" },
+      { "monster": "mon_zlesiosaurus", "cost_multiplier": 25, "starts": "90 days" }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_OCEAN_DEEP",
+    "default": "mon_null",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_mosasaurus", "weight": 2, "cost_multiplier": 25, "starts": "3 days" },
+      { "monster": "mon_zosasaurus", "cost_multiplier": 25, "starts": "7 days" },
+      { "monster": "mon_zosasaurus", "cost_multiplier": 25, "starts": "14 days" },
+      { "monster": "mon_zosasaurus", "cost_multiplier": 25, "starts": "28 days" },
+      { "monster": "mon_zosasaurus", "cost_multiplier": 25, "starts": "90 days" },
+      { "monster": "mon_plesiosaurus", "weight": 4, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zlesiosaurus", "cost_multiplier": 25, "starts": "7 days" },
+      { "monster": "mon_zlesiosaurus", "cost_multiplier": 25, "starts": "14 days" },
+      { "monster": "mon_zlesiosaurus", "cost_multiplier": 25, "starts": "28 days" },
+      { "monster": "mon_zlesiosaurus", "cost_multiplier": 25, "starts": "90 days" }
     ]
   },
   {

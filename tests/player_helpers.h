@@ -26,7 +26,7 @@ void give_and_activate_bionic( Character &, bionic_id const & );
 
 item tool_with_ammo( const std::string &tool, int qty );
 
-void arm_shooter( npc &shooter, const std::string &gun_type,
+void arm_shooter( Character &shooter, const std::string &gun_type,
                   const std::vector<std::string> &mods = {},
                   const std::string &ammo_type = "" );
 

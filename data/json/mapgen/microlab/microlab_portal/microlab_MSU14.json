@@ -31,14 +31,8 @@
         "########################",
         "########################"
       ],
-      "palettes": [ "microlab" ],
-      "terrain": {
-        "`": "t_open_air",
-        "X": "t_region_shrub_decorative",
-        "P": "t_carpet_concrete_red",
-        "É": "t_card_science_security_black",
-        "Ú": "t_card_science_mu"
-      },
+      "palettes": [ "microlab_generic" ],
+      "terrain": { "`": "t_open_air", "É": "t_card_science_security_black", "Ú": "t_card_science_mu" },
       "items": { "Ñ": [ { "item": "guns_milspec", "chance": 10 }, { "item": "ammo_milspec", "chance": 70 } ] },
       "monster": { "T": { "monster": "mon_turret_rifle", "spawn_data": { "ammo": [ { "ammo_id": "556", "qty": [ 30, 90 ] } ] } } },
       "furniture": { "Ñ": "f_locker" }
@@ -76,7 +70,7 @@
         "#######|||    |||#######",
         "#########| YY |#########"
       ],
-      "palettes": [ "microlab" ],
+      "palettes": [ "microlab_generic" ],
       "terrain": { "P": "t_carpet_concrete_red", "É": "t_card_science_mu" },
       "furniture": { "Z": "f_server", ":": "f_xedra_antenna", "Ú": "f_melchior_unit" },
       "item": { "d": { "item": "msu14_password", "chance": 10 } },

@@ -1,7 +1,7 @@
 [
   {
     "id": "psionic_instability_remover",
-    "name": { "str": "morphic resilience cream" },
+    "name": { "str_sp": "morphic resilience cream" },
     "description": "An extremely thick cream that will \"enhance your resilience to the deleterious effects of XE037 overexposure\" if you rub it on your skin.  It smells like nail polish somehow gone rotten, and even touching it makes your fingertips itch terribly.",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
@@ -25,7 +25,7 @@
     "id": "psionic_purifier_vita",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
-    "name": { "str": "morphic reversion serum" },
+    "name": { "str_sp": "morphic reversion serum" },
     "description": "A faintly-glowing green liquid, the document you found told you that this would \"restore your morphology to baseline\", whatever that means.",
     "weight": "20 g",
     "volume": "10ml",
@@ -46,8 +46,8 @@
     "id": "psi_noetic_resilience_treatment",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
-    "name": { "str": "noetic resilience treatment" },
-    "description": "A clear liquid, designed to alleviate some of the deleterious effects of excessive psionic channeling.",
+    "name": { "str_sp": "noetic resilience treatment" },
+    "description": "A clear liquid, designed to alleviate some of the unpredictable effects of excessive psionic channeling.",
     "weight": "20 g",
     "volume": "10ml",
     "charges": 1,

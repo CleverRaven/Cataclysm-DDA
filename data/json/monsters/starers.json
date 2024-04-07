@@ -19,6 +19,7 @@
         "fake_dex": 6,
         "fake_per": 6,
         "require_targeting_player": false,
+        "condition": { "not": { "u_has_effect": "maimed_arm" } },
         "ranges": [ [ 2, 5, "DEFAULT" ] ],
         "description": "The starer throws a rock!"
       },
@@ -26,7 +27,7 @@
     ],
     "death_drops": "starer_death_drops_pipe",
     "harvest": "exempt",
-    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explodes!", "corpse_type": "NO_CORPSE" },
+    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "The %s explodes!", "corpse_type": "NO_CORPSE" },
     "flags": [
       "SEES",
       "HEARS",
@@ -38,7 +39,8 @@
       "CAN_OPEN_DOORS",
       "PATH_AVOID_DANGER_1",
       "DROPS_AMMO",
-      "NO_FUNG_DMG"
+      "NO_FUNG_DMG",
+      "WIELDED_WEAPON"
     ]
   },
   {
@@ -58,6 +60,7 @@
         "fake_dex": 6,
         "fake_per": 6,
         "require_targeting_player": false,
+        "condition": { "not": { "u_has_effect": "maimed_arm" } },
         "ranges": [ [ 2, 5, "DEFAULT" ] ],
         "description": "The starer throws a rock!"
       },

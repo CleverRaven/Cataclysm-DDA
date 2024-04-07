@@ -4,6 +4,7 @@
     "id": "cable_xlr",
     "name": { "str": "XLR cable" },
     "description": "A balanced cable used for sending audio signal.  The connectors have three prongs.",
+    "material": [ "copper", "plastic" ],
     "symbol": "o",
     "color": "dark_gray",
     "volume": "325 ml",
@@ -14,6 +15,7 @@
     "id": "cable_speaker",
     "name": { "str": "speaker cable" },
     "description": "This audio cable connects one speaker to a powered head, or one speaker to another.",
+    "material": [ "copper", "plastic" ],
     "symbol": "o",
     "color": "dark_gray",
     "volume": "400 ml",
@@ -31,6 +33,7 @@
     "id": "headphones_circumaural",
     "name": { "str_sp": "headphones" },
     "description": "A pair of headphones that cover your ears for improved sound quality and private listening.  This pair is from a well-known brand that is very high quality, with a detachable 1/8\" cable.  Comes with a 1/8\" to 1/4\" adaptor.",
+    "material": [ "plastic", "copper" ],
     "symbol": "Ω",
     "volume": "400 ml",
     "weight": "100 g"
@@ -40,6 +43,7 @@
     "id": "microphone_xlr_generic",
     "name": { "str": "XLR microphone" },
     "description": "A microphone used to record or amplify sound.  Comes with a clip.  Has a 3-pin XLR connector on the bottom in order to connect to an amp.",
+    "material": [ "plastic", "copper" ],
     "symbol": "i",
     "color": "dark_gray",
     "volume": "550 ml",
@@ -76,13 +80,14 @@
     "symbol": ",",
     "color": "red",
     "volume": "2 ml",
-    "weight": "1 g"
+    "weight": "2 g"
   },
   {
     "type": "GENERIC",
     "id": "mixer_music",
     "name": { "str": "mixer" },
     "description": "A device with faders, switches, and knobs that mixes input signal and sends it to two output XLR cables, a left one and a right one.",
+    "material": [ "steel", "copper", "plastic" ],
     "symbol": "□",
     "color": "light_gray",
     "volume": "8 L",

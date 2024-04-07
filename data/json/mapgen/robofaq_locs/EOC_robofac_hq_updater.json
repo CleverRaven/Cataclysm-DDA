@@ -14,14 +14,14 @@
       "and": [
         { "u_near_om_location": "robofachq_surface_road1", "range": 30 },
         { "not": { "u_near_om_location": "robofachq_surface_road1", "range": 4 } },
-        { "compare_num": [ { "global_val": "var", "var_name": "robofac_destroyed" }, "!=", { "const": 1 } ] }
+        { "math": [ "robofac_destroyed", "!=", "1" ] }
       ]
     },
     "effect": {
       "run_eocs": [
         {
           "id": "EOC_ROBOFAC_HQ_SURFACE_SANDBAGS",
-          "condition": { "days_since_cataclysm": 20 },
+          "condition": { "math": [ "time_since('cataclysm', 'unit':'days') >= 20" ] },
           "effect": [
             { "mapgen_update": "window_sandbags_meteorology1", "om_terrain": "robofachq_meteorology1" },
             { "mapgen_update": "window_sandbags_meteorology2", "om_terrain": "robofachq_meteorology2" },
@@ -31,19 +31,18 @@
         {
           "id": "EOC_ROBOFAC_HQ_PLACE_ANCILLA_FORTRESS",
           "condition": {
-            "and": [
-              { "compare_num": [ { "global_val": "var", "var_name": "ancilla_fortress_placed" }, "!=", { "const": 1 } ] },
-              { "days_since_cataclysm": 45 }
-            ]
+            "and": [ { "math": [ "ancilla_fortress_placed", "!=", "1" ] }, { "math": [ "time_since('cataclysm', 'unit':'days') >= 45" ] } ]
           },
           "effect": [
             { "mapgen_update": "robofachq_ancilla_fortress_basic", "om_terrain": "robofachq_meteorology2" },
-            { "arithmetic": [ { "global_val": "var", "var_name": "ancilla_fortress_placed" }, "=", { "const": 1 } ] }
+            { "math": [ "ancilla_fortress_placed", "=", "1" ] }
           ]
         },
         {
           "id": "EOC_ROBOFAC_HQ_PLACE_ANCILLA_BAR",
-          "condition": { "and": [ { "math": [ "ancilla_bar_placed", "!=", "1" ] }, { "days_since_cataclysm": 60 } ] },
+          "condition": {
+            "and": [ { "math": [ "ancilla_bar_placed", "!=", "1" ] }, { "math": [ "time_since('cataclysm', 'unit':'days') >= 60" ] } ]
+          },
           "effect": [
             { "mapgen_update": "robofachq_ancilla_bar_basic", "om_terrain": "robofachq_subcc_a2" },
             {
@@ -61,7 +60,7 @@
             "and": [
               { "math": [ "ancilla_bar_exists", "==", "1" ] },
               { "math": [ "ancilla_autodoc_placed", "!=", "1" ] },
-              { "days_since_cataclysm": 80 }
+              { "math": [ "time_since('cataclysm', 'unit':'days') >= 80" ] }
             ]
           },
           "effect": [

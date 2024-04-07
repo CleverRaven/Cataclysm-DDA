@@ -36,14 +36,21 @@
       "type": "dialogue",
       "context": "godco",
       "value": "yes",
-      "yes": "What the <swear> are you, sinner?  Get away from me.",
+      "yes": { "gendered_line": "What the <swear> are you, sinner?  Get away from me.", "relevant_genders": [ "u" ] },
       "no": {
         "npc_has_var": "u_met_godco_darryl",
         "type": "general",
         "context": "meeting",
         "value": "yes",
-        "yes": [ "Praise the Lord.", "Welcome back.", "Nice to see you again, survivor." ],
-        "no": "Well I'll be damned, a fellow survivor!  I'm Darryl, nice to meet you."
+        "yes": [
+          "Praise the Lord.",
+          "Welcome back.",
+          { "gendered_line": "Nice to see you again, survivor.", "relevant_genders": [ "u" ] }
+        ],
+        "no": {
+          "gendered_line": "Well I'll be damned, a fellow survivor!  I'm Darryl, nice to meet you.",
+          "relevant_genders": [ "u" ]
+        }
       }
     },
     "responses": [
@@ -87,7 +94,7 @@
         "text": "How are the chickens?",
         "condition": {
           "and": [
-            { "compare_num": [ { "global_val": "var", "var_name": "darryl_building_coop" }, "==", { "const": 2 } ] },
+            { "math": [ "darryl_building_coop", "==", "2" ] },
             { "npc_has_var": "u_met_godco_darryl", "type": "general", "context": "meeting", "value": "yes" }
           ]
         },
@@ -261,7 +268,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Darryl_BarterSuccess",
-    "dynamic_line": "Well, you got me there.  I sure ain't one to block a fellow farmer's right to reclaim this God-given earth.",
+    "dynamic_line": {
+      "gendered_line": "Well, you got me there.  I sure ain't one to block a fellow farmer's right to reclaim this God-given earth.",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [ { "text": "Thank you.  See you around, Darryl.", "topic": "TALK_DONE" } ]
   },
   {

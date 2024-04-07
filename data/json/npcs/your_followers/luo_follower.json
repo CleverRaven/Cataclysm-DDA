@@ -20,11 +20,8 @@
         "condition": { "and": [ "at_safe_space", { "not": "is_by_radio" } ] },
         "topic": "TALK_LUO_SOCIAL"
       },
-      {
-        "text": "I just wanted to talk for a bit.",
-        "condition": { "and": [ "at_safe_space", { "not": "is_by_radio" } ] },
-        "topic": "TALK_LUO_SOCIAL"
-      },
+      { "text": "Can you help me understand something?  (HELP/TUTORIAL)", "topic": "TALK_ALLY_TUTORIAL" },
+      { "text": "I'm going to go my own way for a while.", "topic": "TALK_LEAVE" },
       { "text": "Let's go.", "topic": "TALK_DONE" }
     ]
   },
@@ -61,7 +58,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_FRIEND_LUO_CHAT",
-    "dynamic_line": "Seen any good movies lately?",
+    "dynamic_line": { "gendered_line": "Seen any good movies lately?", "relevant_genders": [ "u" ] },
     "//": "TK: custom chat topics here that actually include small talk that expands her character, while still giving the socialize bonus.",
     "responses": [
       {
@@ -86,7 +83,7 @@
             "or": [
               { "npc_need": "thirst", "amount": 80 },
               { "npc_need": "hunger", "amount": 160 },
-              { "npc_need": "fatigue", "level": "TIRED" },
+              { "npc_need": "sleepiness", "level": "TIRED" },
               { "npc_has_effect": "asked_to_train" },
               { "npc_has_trait": "HALLUCINATION" },
               "u_driving",
@@ -106,7 +103,7 @@
             "or": [
               { "npc_need": "thirst", "amount": 80 },
               { "npc_need": "hunger", "amount": 160 },
-              { "npc_need": "fatigue", "level": "TIRED" },
+              { "npc_need": "sleepiness", "level": "TIRED" },
               { "npc_has_effect": "asked_to_train" },
               "u_driving",
               "npc_driving"
@@ -136,13 +133,6 @@
         "effect": "start_trade",
         "switch": true,
         "default": true
-      },
-      {
-        "text": "Let's trade items",
-        "topic": "TRADE_HALLU",
-        "condition": { "npc_has_trait": "HALLUCINATION" },
-        "switch": true,
-        "default": false
       },
       {
         "text": "I want you to use this item.",
@@ -180,6 +170,8 @@
         "topic": "TALK_DONE",
         "effect": "dismount"
       },
+      { "text": "Let's talk about your current activity.", "topic": "TALK_ACTIVITIES" },
+      { "text": "Let's talk about the camp.", "topic": "TALK_CAMP" },
       { "text": "Change your martial arts style.", "topic": "TALK_DONE", "effect": "pick_style" },
       { "text": "Let's go.", "topic": "TALK_DONE" }
     ]

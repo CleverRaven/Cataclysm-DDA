@@ -439,10 +439,10 @@ mission_target_params mission_util::parse_mission_om_target( const JsonObject &j
 void mission_util::set_reveal( const std::string &terrain,
                                std::vector<std::function<void( mission *miss )>> &funcs )
 {
-    const auto mission_func = [ terrain ]( mission * miss ) {
+    auto mission_func = [ terrain ]( mission * miss ) {
         reveal_target( miss, terrain );
     };
-    funcs.emplace_back( mission_func );
+    funcs.emplace_back( std::move( mission_func ) );
 }
 
 void mission_util::set_reveal_any( const JsonArray &ja,
@@ -452,23 +452,22 @@ void mission_util::set_reveal_any( const JsonArray &ja,
     for( const std::string terrain : ja ) {
         terrains.push_back( terrain );
     }
-    const auto mission_func = [ terrains ]( mission * miss ) {
+    auto mission_func = [ terrains = std::move( terrains ) ]( mission * miss ) {
         reveal_any_target( miss, terrains );
     };
-    funcs.emplace_back( mission_func );
+    funcs.emplace_back( std::move( mission_func ) );
 }
 
 void mission_util::set_assign_om_target( const JsonObject &jo,
         std::vector<std::function<void( mission *miss )>> &funcs )
 {
     mission_target_params p = parse_mission_om_target( jo );
-    const auto mission_func = [p]( mission * miss ) {
-        mission_target_params mtp = p;
-        mtp.mission_pointer = miss;
+    auto mission_func = [p = std::move( p )]( mission * miss ) mutable {
+        p.mission_pointer = miss;
         dialogue d( get_talker_for( get_avatar() ), nullptr );
-        assign_mission_target( mtp, d );
+        assign_mission_target( p, d );
     };
-    funcs.emplace_back( mission_func );
+    funcs.emplace_back( std::move( mission_func ) );
 }
 
 bool mission_util::set_update_mapgen( const JsonObject &jo,
@@ -483,17 +482,17 @@ bool mission_util::set_update_mapgen( const JsonObject &jo,
 
     if( jo.has_member( "om_terrain" ) ) {
         const std::string om_terrain = jo.get_string( "om_terrain" );
-        const auto mission_func = [update_map, om_terrain]( mission * miss ) {
+        auto mission_func = [update_map = std::move( update_map ), om_terrain]( mission * miss ) {
             tripoint_abs_omt update_pos3 = mission_util::reveal_om_ter( om_terrain, 1, false );
             update_map( update_pos3, miss );
         };
-        funcs.emplace_back( mission_func );
+        funcs.emplace_back( std::move( mission_func ) );
     } else {
-        const auto mission_func = [update_map]( mission * miss ) {
+        auto mission_func = [update_map = std::move( update_map )]( mission * miss ) {
             tripoint_abs_omt update_pos3 = miss->get_target();
             update_map( update_pos3, miss );
         };
-        funcs.emplace_back( mission_func );
+        funcs.emplace_back( std::move( mission_func ) );
     }
     return true;
 }
@@ -552,7 +551,7 @@ bool mission_type::parse_funcs( const JsonObject &jo, std::function<void( missio
     };
 
     for( talk_effect_fun_t &effect : talk_effects.effects ) {
-        auto rewards = effect.get_likely_rewards();
+        talk_effect_fun_t::likely_rewards_t rewards = effect.get_likely_rewards();
         if( !rewards.empty() ) {
             likely_rewards.insert( likely_rewards.end(), rewards.begin(), rewards.end() );
         }

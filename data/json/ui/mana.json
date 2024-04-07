@@ -1,0 +1,129 @@
+[
+  {
+    "id": "custom_mana_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Mana",
+    "description": "Shows <color_yellow>mana</color> and max mana, as well as a graph.\n\nOnly useful with <color_yellow>Magiclysm</color> mod.",
+    "arrange": "rows",
+    "widgets": [ "custom_mana_graph_layout", "custom_mana_total_num_layout" ],
+    "pad_labels": true,
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
+  },
+  {
+    "id": "custom_mana_graph_widget",
+    "type": "widget",
+    "style": "layout",
+    "label": "Mana Graph",
+    "description": "Shows <color_yellow>mana</color> and max mana as a graph.\n\nOnly useful with <color_yellow>Magiclysm</color> mod.",
+    "arrange": "rows",
+    "widgets": [ "custom_mana_graph_layout" ],
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
+  },
+  {
+    "id": "custom_mana_numbers_widget",
+    "type": "widget",
+    "style": "layout",
+    "label": "Mana Numbers",
+    "description": "Shows <color_yellow>mana</color> and max mana.\n\nOnly useful with <color_yellow>Magiclysm</color> mod.",
+    "arrange": "minimum_columns",
+    "widgets": [ "custom_mana_total_num_layout_label" ],
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
+  },
+  {
+    "id": "custom_mana_graph_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "width": 32,
+    "widgets": [ "custom_mana_graph" ]
+  },
+  {
+    "id": "custom_mana_graph",
+    "type": "widget",
+    "label": "Mana",
+    "style": "graph",
+    "var": "mana",
+    "width": 28,
+    "separator": ": ",
+    "symbols": ".\\|",
+    "fill": "bucket",
+    "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_blue" ]
+  },
+  {
+    "id": "custom_mana_num_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "custom_mana_num" ]
+  },
+  {
+    "id": "custom_mana_num",
+    "type": "widget",
+    "style": "number",
+    "var": "mana",
+    "text_align": "right",
+    "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_blue" ],
+    "padding": 6,
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "custom_max_mana_num_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "custom_max_mana_num" ]
+  },
+  {
+    "id": "custom_max_mana_num",
+    "type": "widget",
+    "style": "number",
+    "var": "max_mana",
+    "text_align": "left",
+    "padding": 1,
+    "colors": [ "c_light_blue" ]
+  },
+  {
+    "id": "custom_mana_separator",
+    "type": "widget",
+    "style": "text",
+    "string": "/",
+    "padding": 1,
+    "colors": [ "c_white" ]
+  },
+  {
+    "id": "custom_mana_padding",
+    "type": "widget",
+    "style": "text",
+    "string": "      ",
+    "padding": 1,
+    "colors": [ "c_white" ]
+  },
+  {
+    "id": "custom_mana_label",
+    "type": "widget",
+    "label": "Mana",
+    "style": "number",
+    "var": "mana",
+    "text_align": "right",
+    "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_blue" ],
+    "padding": 1
+  },
+  {
+    "id": "custom_mana_total_num_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "custom_mana_padding", "custom_mana_num", "custom_mana_separator", "custom_max_mana_num" ],
+    "flags": [ "W_NO_PADDING" ]
+  },
+  {
+    "id": "custom_mana_total_num_layout_label",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "padding": 1,
+    "widgets": [ "custom_mana_label", "custom_mana_separator", "custom_max_mana_num" ],
+    "flags": [ "W_NO_PADDING" ]
+  }
+]

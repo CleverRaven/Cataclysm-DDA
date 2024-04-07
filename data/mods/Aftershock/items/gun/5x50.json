@@ -42,7 +42,7 @@
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
@@ -53,7 +53,8 @@
     ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "afs_5x50_100_mag", "afs_5x50_50_mag" ] } ],
-    "melee_damage": { "bash": 12 }
+    "melee_damage": { "bash": 12 },
+    "weapon_category": [ "AUTOMATIC_RIFLES" ]
   },
   {
     "id": "afs_needlepistol",
@@ -79,7 +80,7 @@
     "valid_mod_locations": [
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail", 1 ],
       [ "sights", 1 ],

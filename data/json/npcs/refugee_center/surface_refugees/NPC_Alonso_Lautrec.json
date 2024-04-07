@@ -95,7 +95,7 @@
       },
       { "text": "You seem a little forward…", "topic": "TALK_REFUGEE_Alonso_Forward" },
       {
-        "text": "[PERCEPTION 10] What is up with you?  What's with the fake accent, and speaking in the third person?",
+        "text": "[PER 10] What is up with you?  What's with the fake accent, and speaking in the third person?",
         "topic": "TALK_REFUGEE_Alonso_CalledOut1",
         "condition": {
           "and": [
@@ -120,7 +120,14 @@
       {
         "text": "[PRETTY] Remember that nice thing I did for you?  Can you do something nice for me?",
         "topic": "TALK_REFUGEE_Alonso_Pretty_Action",
-        "condition": { "and": [ { "u_has_trait": "PRETTY" }, { "npc_has_effect": "Alonso_pants_restored" }, { "u_has_item": "condom" } ] }
+        "condition": {
+          "and": [
+            { "u_has_trait": "PRETTY" },
+            { "npc_has_effect": "Alonso_pants_restored" },
+            { "math": [ "u_val('age')", ">=", "18" ] },
+            { "u_has_item": "condom" }
+          ]
+        }
       },
       {
         "text": "So about those condoms.  I thought of a good use for them…",
@@ -130,6 +137,7 @@
             { "not": { "u_has_trait": "PRETTY" } },
             { "not": { "u_has_trait": "UGLY" } },
             { "npc_has_effect": "Alonso_pants_restored" },
+            { "math": [ "u_val('age')", ">=", "18" ] },
             { "u_has_item": "condom" }
           ]
         }
@@ -137,7 +145,19 @@
       {
         "text": "[UGLY] I'm desperate.  You're my only chance.",
         "topic": "TALK_REFUGEE_Alonso_Ugly_Action",
-        "condition": { "and": [ { "u_has_trait": "UGLY" }, { "npc_has_effect": "Alonso_pants_restored" }, { "u_has_item": "condom" } ] }
+        "condition": {
+          "and": [
+            { "u_has_trait": "UGLY" },
+            { "npc_has_effect": "Alonso_pants_restored" },
+            { "math": [ "u_val('age')", ">=", "18" ] },
+            { "u_has_item": "condom" }
+          ]
+        }
+      },
+      {
+        "text": "So about those condoms.  I thought of a good use for them…",
+        "topic": "TALK_REFUGEE_Alonso_Too_Young",
+        "condition": { "math": [ "u_val('age')", "<", "18" ] }
       }
     ]
   },
@@ -169,7 +189,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Alonso_1a",
-    "dynamic_line": "*leans casually against the brick wall of the shelter.  \"Hello again, gorgeous\"",
+    "dynamic_line": {
+      "gendered_line": "*leans casually against the brick wall of the shelter.  \"Hello again, gorgeous\"",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [
       { "text": "Hi, Alonso.  What's up?", "topic": "TALK_REFUGEE_Alonso_2" },
       { "text": "Hi Alonso.  I can't stay to talk.", "topic": "TALK_DONE" }
@@ -246,7 +269,7 @@
         "topic": "TALK_REFUGEE_Alonso_CalledOut3",
         "effect": [
           { "npc_add_var": "Alonso_accent", "type": "general", "context": "none", "value": "accepted" },
-          { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 1 }
+          { "math": [ "u_counter_refugee_center_refugee_happiness", "++" ] }
         ]
       },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
@@ -319,6 +342,7 @@
     "id": "MISSION_REFUGEE_Alonso_pants",
     "type": "mission_definition",
     "name": { "str": "Alonso must have his special pants" },
+    "description": "Find Alonso's leather pants in the 'toy shop' Alonso has marked on your map.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 1000,
@@ -331,7 +355,7 @@
     "end": {
       "effect": [
         { "u_add_var": "Alonso_pants", "type": "mission", "context": "flag", "value": "yes" },
-        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 2 },
+        { "math": [ "u_counter_refugee_center_refugee_happiness", "+=", "2" ] },
         { "npc_add_effect": "Alonso_pants_restored", "duration": "PERMANENT" }
       ]
     },
@@ -357,7 +381,7 @@
       "context": "none",
       "value": "asked",
       "no": "My jewel of the New England, I give to you my biggest prize.",
-      "yes": "Yo, you're crazy hot!  I'm not stupid!"
+      "yes": { "gendered_line": "Yo, you're crazy hot!  I'm not stupid!", "relevant_genders": [ "u" ] }
     },
     "speaker_effect": {
       "sentinel": "service_provided",
@@ -397,7 +421,7 @@
       "context": "none",
       "value": "asked",
       "no": "My jewel of the New England, I give to you my biggest prize.",
-      "yes": "Yo, you're crazy hot!  I'm not stupid!"
+      "yes": { "gendered_line": "Yo, you're crazy hot!  I'm not stupid!", "relevant_genders": [ "u" ] }
     },
     "speaker_effect": {
       "sentinel": "service_provided",
@@ -407,6 +431,19 @@
       { "text": "Sigh.  What were you saying before?", "topic": "TALK_NONE" },
       { "text": "Yeah, I'd better get going.", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Alonso_Too_Young",
+    "dynamic_line": {
+      "npc_has_var": "Alonso_accent",
+      "type": "general",
+      "context": "none",
+      "value": "asked",
+      "no": "Alonso thinks maybe we should wait a few years?",
+      "yes": "Sorry kid, you're younger than my little sister was.  Seems wrong."
+    },
+    "responses": [ { "text": "Sigh.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",

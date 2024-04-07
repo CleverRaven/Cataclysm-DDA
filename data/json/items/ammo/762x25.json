@@ -4,6 +4,7 @@
     "type": "AMMO",
     "name": { "str_sp": "7.62x25mm JHP" },
     "description": "A commercial version of the 7.62x25mm cartridge created for the armed forces of Soviet Russia.  It was derived from the 7.63x25mm cartridge used by the C96 pistol.",
+    "ascii_picture": "762_25",
     "weight": "10 g",
     "volume": "107 ml",
     "longest_side": "35 mm",
@@ -27,7 +28,7 @@
     "id": "762_25hot",
     "copy-from": "762_25",
     "type": "AMMO",
-    "name": { "str": "7.62x25mm FMJ hot load" },
+    "name": { "str_sp": "7.62x25mm FMJ hot load" },
     "description": "A high-pressure commercial version of the 7.62x25mm cartridge, loaded with an 85 gr. FMJ bullet.  It is more powerful than the original.",
     "relative": { "price": 500, "range": 2, "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": 3 } },
     "proportional": { "recoil": 1.4 }

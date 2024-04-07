@@ -180,6 +180,7 @@
   {
     "type": "recipe",
     "result": "test_item_with_charges",
+    "activity_level": "MODERATE_EXERCISE",
     "container": "test_backpack",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS"
@@ -187,6 +188,7 @@
   {
     "type": "recipe",
     "result": "test_item_with_charges",
+    "activity_level": "MODERATE_EXERCISE",
     "id_suffix": "custom",
     "container": "test_backpack",
     "charges": 17,

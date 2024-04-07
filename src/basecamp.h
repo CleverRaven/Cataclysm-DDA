@@ -3,7 +3,6 @@
 #define CATA_SRC_BASECAMP_H
 
 #include <cstddef>
-#include <iosfwd>
 #include <list>
 #include <map>
 #include <memory>
@@ -14,13 +13,14 @@
 
 #include "coordinates.h"
 #include "craft_command.h"
+#include "game_constants.h"
 #include "game_inventory.h"
 #include "inventory.h"
-#include "memory_fast.h"
+#include "map.h"
 #include "mission_companion.h"
 #include "point.h"
 #include "requirements.h"
-#include "translations.h"
+#include "stomach.h"
 #include "type_id.h"
 
 class JsonObject;
@@ -31,9 +31,13 @@ class time_duration;
 class zone_data;
 enum class farm_ops : int;
 class item;
-class mission_data;
 class recipe;
-class tinymap;
+
+using faction_id = string_id<faction>;
+
+const int work_day_hours = 10;
+const int work_day_rest_hours = 8;
+const int work_day_idle_hours = 6;
 
 struct expansion_data {
     std::string type;
@@ -224,6 +228,21 @@ class basecamp
         bool set_sort_points();
 
         // food utility
+        /// Changes the faction food supply by @ref change, returns the amount of kcal+vitamins consumed, a negative
+        /// total food supply hurts morale
+        /// Handles vitamin consumption when only a kcal value is supplied
+        nutrients camp_food_supply( nutrients &change );
+        /// Constructs a new nutrients struct in place and forwards it. Passed argument should be in kilocalories.
+        nutrients camp_food_supply( int change );
+        /// Calculates raw kcal cost from duration of work and exercise, then forwards it to above
+        nutrients camp_food_supply( time_duration work, float exertion_level = NO_EXERCISE );
+        /// Evenly distributes the actual consumed food from a work project to the workers assigned to it
+        void feed_workers( const std::vector<std::reference_wrapper <Character>> &workers, nutrients food,
+                           bool is_player_meal = false );
+        /// Helper, forwards to above
+        void feed_workers( Character &worker, nutrients food, bool is_player_meal = false );
+        void player_eats_meal();
+        item make_fake_food( const nutrients &to_use ) const;
         /// Takes all the food from the camp_food zone and increases the faction
         /// food_supply
         bool distribute_food();
@@ -231,6 +250,14 @@ class basecamp
         void handle_hide_mission( const point &dir );
         void handle_reveal_mission( const point &dir );
         bool has_water() const;
+        /// The number of days the current camp supplies lasts at the given exertion level.
+        int camp_food_supply_days( float exertion_level ) const;
+        /// Returns the total charges of food time_duration @ref work costs
+        int time_to_food( time_duration work, float exertion_level = NO_EXERCISE ) const;
+        /// Changes the faction respect for you by @ref change, returns respect
+        int camp_discipline( int change = 0 ) const;
+        /// Changes the faction opinion for you by @ref change, returns opinion
+        int camp_morale( int change = 0 ) const;
 
         // recipes, gathering, and craft support functions
         // from a direction
@@ -260,12 +287,26 @@ class basecamp
          * if skill is higher, an item or corpse is spawned
          */
         void hunting_results( int skill, const mission_id &miss_id, int attempts, int difficulty );
+        void make_corpse_from_group( const std::vector<MonsterGroupResult> &group );
         inline const tripoint_abs_ms &get_dumping_spot() const {
             return dumping_spot;
+        }
+        inline const std::vector<tripoint_abs_ms> &get_liquid_dumping_spot() const {
+            return liquid_dumping_spots;
         }
         // dumping spot in absolute co-ords
         inline void set_dumping_spot( const tripoint_abs_ms &spot ) {
             dumping_spot = spot;
+        }
+        inline void set_liquid_dumping_spot( const std::vector<tripoint_abs_ms> &liquid_dumps ) {
+            // Nowhere qualified to dump liquid? Dump it wherever everything else goes.
+            if( liquid_dumps.empty() ) {
+                liquid_dumping_spots.clear();
+                liquid_dumping_spots.emplace_back( dumping_spot );
+                return;
+            } //else
+            liquid_dumping_spots.clear();
+            liquid_dumping_spots = liquid_dumps;
         }
         void place_results( const item &result );
 
@@ -306,11 +347,11 @@ class basecamp
                                const std::vector<item *> &equipment, float exertion_level,
                                const std::map<skill_id, int> &required_skills = {} );
         comp_list start_multi_mission( const mission_id &miss_id,
-                                       bool must_feed, const std::string &desc, float exertion_level,
+                                       bool must_feed, const std::string &desc,
                                        // const std::vector<item*>& equipment, //  No support for extracting equipment from recipes currently..
                                        const skill_id &skill_tested, int skill_level );
         comp_list start_multi_mission( const mission_id &miss_id,
-                                       bool must_feed, const std::string &desc, float exertion_level,
+                                       bool must_feed, const std::string &desc,
                                        //  const std::vector<item*>& equipment, //  No support for extracting equipment from recipes currently..
                                        const std::map<skill_id, int> &required_skills = {} );
         void start_upgrade( const mission_id &miss_id );
@@ -319,7 +360,7 @@ class basecamp
         void start_menial_labor();
         void worker_assignment_ui();
         void job_assignment_ui();
-        void start_crafting( const std::string &type, const mission_id &miss_id, float exertion_level );
+        void start_crafting( const std::string &type, const mission_id &miss_id );
 
         /// Called when a companion is sent to cut logs
         void start_cut_logs( const mission_id &miss_id, float exertion_level );
@@ -370,6 +411,9 @@ class basecamp
         /// and @ref dir is the direction of the location to be upgraded
         bool upgrade_return( const mission_id &miss_id );
 
+        /// Choose which expansion slot to check for field conversion
+        bool survey_field_return( const mission_id &miss_id );
+
         /// Choose which expansion you should start, called when a survey mission is completed
         bool survey_return( const mission_id &miss_id );
         bool menial_return( const mission_id &miss_id );
@@ -418,9 +462,15 @@ class basecamp
         void form_storage_zones( map &here, const tripoint_abs_ms &abspos );
         map &get_camp_map();
         void unload_camp_map();
+        void set_owner( faction_id new_owner );
+        faction_id get_owner();
     private:
         friend class basecamp_action_components;
 
+        // Which faction owns this camp?
+        mutable faction_id owner = faction_id::NULL_ID();
+        // Returns the actual faction object which owns this camp
+        faction *fac() const;
         // lazy re-evaluation of available camp resources
         void reset_camp_resources( map &here );
         void add_resource( const itype_id &camp_resource );
@@ -433,6 +483,8 @@ class basecamp
         comp_list camp_workers; // NOLINT(cata-serialize)
         basecamp_map camp_map; // NOLINT(cata-serialize)
         tripoint_abs_ms dumping_spot;
+        // Tiles inside STORAGE-type zones that have LIQUIDCONT terrain
+        std::vector<tripoint_abs_ms> liquid_dumping_spots;
         std::vector<const zone_data *> storage_zones; // NOLINT(cata-serialize)
         std::unordered_set<tripoint_abs_ms> src_set; // NOLINT(cata-serialize)
         std::set<itype_id> fuel_types; // NOLINT(cata-serialize)

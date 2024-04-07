@@ -237,9 +237,63 @@
   },
   {
     "type": "item_group",
+    "id": "boxed_50ae_deaglekit",
+    "//": "a conversion kit packed along with appropriate empty magazines and miscellaneous items.",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [
+      { "item": "retool_deagle_50" },
+      { "item": "deaglemag_50", "charges": 0 },
+      { "item": "deaglemag_50", "charges": 0 },
+      { "group": "nested_retool_extras" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_44_deaglekit",
+    "//": "a conversion kit packed along with appropriate empty magazines and miscellaneous items.",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [
+      { "item": "retool_deagle_44" },
+      { "item": "deaglemag", "charges": 0 },
+      { "item": "deaglemag", "charges": 0 },
+      { "group": "nested_retool_extras" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_357_deaglekit",
+    "//": "a conversion kit packed along with appropriate empty magazines and miscellaneous items.",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "entries": [
+      { "item": "retool_deagle_357" },
+      { "item": "deaglemag_357", "charges": 0 },
+      { "item": "deaglemag_357", "charges": 0 },
+      { "group": "nested_retool_extras" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "modular_deagle_complete",
+    "//": "A pistol packaged with a complete set of conversion kits and magazines, mirroring the real-life Desert Eagle Component System.",
+    "subtype": "collection",
+    "container-item": "briefcase",
+    "entries": [
+      { "group": "modular_deagle_50" },
+      { "item": "deaglemag_50", "charges": 0 },
+      { "item": "retool_deagle_357" },
+      { "item": "deaglemag_357", "charges": 0 },
+      { "item": "retool_deagle_44" },
+      { "item": "deaglemag", "charges": 0 }
+    ]
+  },
+  {
+    "type": "item_group",
     "subtype": "collection",
     "id": "boxed_ar15kits",
-    "//": "An item group for a specific weapon platform’s possible conversion kits .",
+    "//": "An item group for a specific weapon platform's possible conversion kits .",
     "entries": [
       {
         "distribution": [
@@ -266,7 +320,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "boxed_mdrxkits",
-    "//": "An item group for a specific weapon platform’s possible conversion kits .",
+    "//": "An item group for a specific weapon platform's possible conversion kits .",
     "entries": [
       {
         "distribution": [
@@ -285,7 +339,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "boxed_axmckits",
-    "//": "An item group for a specific weapon platform’s possible conversion kits .",
+    "//": "An item group for a specific weapon platform's possible conversion kits .",
     "entries": [
       {
         "distribution": [ { "group": "boxed_300win_axmckit", "prob": 30 }, { "group": "boxed_308win_axmckit", "prob": 30 } ],
@@ -297,7 +351,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "boxed_cz600kits",
-    "//": "An item group for a specific weapon platform’s possible conversion kits .",
+    "//": "An item group for a specific weapon platform's possible conversion kits .",
     "entries": [
       {
         "distribution": [ { "group": "boxed_223rem_cz600kit", "prob": 30 }, { "group": "boxed_762_cz600kit", "prob": 25 } ],
@@ -308,30 +362,53 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "boxed_deaglekits",
+    "//": "An item group for a specific weapon platform's possible conversion kits .",
+    "entries": [
+      {
+        "distribution": [
+          { "group": "boxed_357_deaglekit", "prob": 25 },
+          { "group": "boxed_44_deaglekit", "prob": 30 },
+          { "group": "boxed_50ae_deaglekit", "prob": 30 }
+        ],
+        "prob": 100
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "nested_ar15_with_kits",
     "//": "An item group for an empty rifle to spawn alongside one of a number of compatible conversion kits. Intended for use in gun store racks and adjacent locations.",
-    "entries": [ { "group": "boxed_ar15kits" }, { "item": "modular_ar15" } ]
+    "entries": [ { "group": "boxed_ar15kits" }, { "group": "modular_ar15" } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "nested_mdrx_with_kits",
     "//": "An item group for an empty rifle to spawn alongside one of a number of compatible conversion kits. Intended for use in gun store racks and adjacent locations.",
-    "entries": [ { "group": "boxed_mdrxkits" }, { "item": "mdrx" } ]
+    "entries": [ { "group": "boxed_mdrxkits" }, { "group": "mdrx" } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "nested_axmc_with_kits",
     "//": "An item group for an empty rifle to spawn alongside one of a number of compatible conversion kits. Intended for use in gun store racks and adjacent locations.",
-    "entries": [ { "group": "boxed_axmckits" }, { "item": "axmc" } ]
+    "entries": [ { "group": "boxed_axmckits" }, { "group": "axmc" } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "nested_cz600_with_kits",
     "//": "An item group for an empty rifle to spawn alongside one of a number of compatible conversion kits. Intended for use in gun store racks and adjacent locations.",
-    "entries": [ { "group": "boxed_cz600kits" }, { "item": "cz600" } ]
+    "entries": [ { "group": "boxed_cz600kits" }, { "group": "cz600" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "nested_deagle_with_kits",
+    "//": "An item group for an empty pistol to spawn alongside one of a number of compatible conversion kits. Intended for use in gun store racks and adjacent locations.",
+    "entries": [ { "group": "boxed_deaglekits" }, { "group": "modular_deagle_50" } ]
   },
   {
     "type": "item_group",

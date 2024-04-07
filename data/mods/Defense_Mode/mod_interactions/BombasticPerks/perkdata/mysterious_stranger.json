@@ -1,0 +1,63 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "mysterious_stranger_activate",
+    "condition": { "not": { "u_has_effect": "mysterious_stranger_cooldown" } },
+    "effect": [
+      {
+        "u_spawn_npc": "mysterious_stranger",
+        "traits": [ "DEBUG_NODMG" ],
+        "lifespan": "30 seconds",
+        "real_count": 1,
+        "min_radius": 2,
+        "max_radius": 3,
+        "true_eocs": "mysterious_stranger_cooldown_setup"
+      }
+    ],
+    "false_effect": [ { "u_message": "Nobody hears you…" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "mysterious_stranger_cooldown_setup",
+    "effect": [ { "u_add_effect": "mysterious_stranger_cooldown", "duration": "2 days" } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "mysterious_stranger_cooldown",
+    "name": [ "Mysterious Stranger's Break" ],
+    "apply_message": "The stranger will be back…",
+    "desc": [ "The stranger will be back…" ],
+    "rating": "bad"
+  },
+  {
+    "type": "npc",
+    "id": "mysterious_stranger",
+    "name_unique": "Mysterious Stranger",
+    "class": "NC_MYSTERIOUS_STRANGER",
+    "attitude": 0,
+    "mission": 0,
+    "chat": "TALK_DONE",
+    "faction": "no_faction"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_MYSTERIOUS_STRANGER",
+    "name": { "str": "Mysterious Stranger" },
+    "job_description": "I'm just here for the paycheck.",
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting" ],
+    "bonus_str": { "rng": [ 2, 3 ] },
+    "bonus_dex": { "one_in": 2 },
+    "bonus_int": { "rng": [ 2, 3 ] },
+    "bonus_aggression": { "rng": [ 70, 80 ] },
+    "bonus_bravery": { "rng": [ 70, 80 ] },
+    "skills": [
+      { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -3 } ] } },
+      { "skill": "dodge", "bonus": { "rng": [ 3, 4 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 3, 4 ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 3, 4 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 5, 7 ] } },
+      { "skill": "gun", "bonus": { "rng": [ 5, 7 ] } }
+    ]
+  }
+]

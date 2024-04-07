@@ -14,7 +14,12 @@
             [ "t_wall_P", 1 ],
             [ "t_wall_r", 1 ],
             [ "t_wall_w", 6 ],
-            [ "t_wall_y", 1 ]
+            [ "t_wall_y", 1 ],
+            [ "t_wall_gray", 1 ],
+            [ "t_wall_brown", 1 ],
+            [ "t_wall_cyan", 1 ],
+            [ "t_wall_black", 1 ],
+            [ "t_wall_orange", 1 ]
           ]
         }
       }

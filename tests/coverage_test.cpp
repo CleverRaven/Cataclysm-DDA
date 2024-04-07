@@ -223,8 +223,8 @@ TEST_CASE( "Ghost_ablative_vest", "[coverage]" )
 {
     SECTION( "Ablative not covered same limb" ) {
         item full = item( "test_ghost_vest" );
-        full.force_insert_item( item( "test_plate" ), item_pocket::pocket_type::CONTAINER );
-        full.force_insert_item( item( "test_plate" ), item_pocket::pocket_type::CONTAINER );
+        full.force_insert_item( item( "test_plate" ), pocket_type::CONTAINER );
+        full.force_insert_item( item( "test_plate" ), pocket_type::CONTAINER );
         item empty = item( "test_ghost_vest" );
 
         // make sure vest only covers torso_upper when it has armor in it
@@ -241,7 +241,7 @@ TEST_CASE( "Off_Limb_Ghost_ablative_vest", "[coverage]" )
 {
     SECTION( "Ablative not covered seperate limb" ) {
         item full = item( "test_ghost_vest" );
-        full.force_insert_item( item( "test_plate_skirt_super" ), item_pocket::pocket_type::CONTAINER );
+        full.force_insert_item( item( "test_plate_skirt_super" ), pocket_type::CONTAINER );
 
         standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
         dude.wear_item( full, false );

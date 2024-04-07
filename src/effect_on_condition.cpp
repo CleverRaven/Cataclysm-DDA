@@ -145,20 +145,24 @@ void effect_on_conditions::load_new_character( Character &you )
 
 static void process_new_eocs( queued_eocs &eoc_queue,
                               std::vector<effect_on_condition_id> &eoc_vector,
-                              std::map<effect_on_condition_id, bool> &new_eocs )
+                              std::map<effect_on_condition_id, bool> &new_eocs, bool global_queue )
 {
     queued_eocs temp_queued_eocs;
     while( !eoc_queue.empty() ) {
-        if( eoc_queue.top().eoc.is_valid() ) {
-            temp_queued_eocs.push( eoc_queue.top() );
+        // Check if EoC is moved from global to local, or vice versa
+        if( global_queue == eoc_queue.top().eoc->global ) {
+            if( eoc_queue.top().eoc.is_valid() ) {
+                temp_queued_eocs.push( eoc_queue.top() );
+            }
+            new_eocs[eoc_queue.top().eoc] = false;
         }
-        new_eocs[eoc_queue.top().eoc] = false;
         eoc_queue.pop();
     }
     eoc_queue = std::move( temp_queued_eocs );
     for( auto eoc = eoc_vector.begin();
          eoc != eoc_vector.end(); ) {
-        if( !eoc->is_valid() ) {
+        // Check if EoC is moved from global to local, or vice versa
+        if( !eoc->is_valid() || global_queue != ( *eoc )->global ) {
             eoc = eoc_vector.erase( eoc );
         } else {
             new_eocs[*eoc] = false;
@@ -177,10 +181,10 @@ void effect_on_conditions::load_existing_character( Character &you )
         }
     }
     process_new_eocs( you.queued_effect_on_conditions, you.inactive_effect_on_condition_vector,
-                      new_eocs );
+                      new_eocs, false );
     if( is_avatar ) {
         process_new_eocs( g->queued_global_effect_on_conditions,
-                          g->inactive_global_effect_on_condition_vector, new_eocs );
+                          g->inactive_global_effect_on_condition_vector, new_eocs, true );
     }
 
     for( const std::pair<const effect_on_condition_id, bool> &eoc_pair : new_eocs ) {
@@ -288,10 +292,18 @@ void effect_on_conditions::process_reactivate()
                           g->queued_global_effect_on_conditions, d );
 }
 
-bool effect_on_condition::activate( dialogue &d ) const
+bool effect_on_condition::activate( dialogue &d, bool require_callstack_check ) const
 {
     bool retval = false;
-    d.amend_callstack( "EOC: " + id.str() );
+    if( require_callstack_check ) {
+        d.amend_callstack( "EOC: " + id.str() );
+        if( d.get_callstack().size() > 5000 ) {
+            if( query_yn( string_format( _( "Possible infinite loop in eoc %s.  Stop execution?" ),
+                                         id.str() ) ) ) {
+                return false;
+            }
+        }
+    }
     // each version needs a copy of the dialogue to pass down
     dialogue d_eoc( d );
     if( !has_condition || condition( d_eoc ) ) {
@@ -486,6 +498,12 @@ void eoc_events::clear()
 
 void eoc_events::notify( const cata::event &e )
 {
+    notify( e, nullptr, nullptr );
+}
+
+void eoc_events::notify( const cata::event &e, std::unique_ptr<talker> alpha,
+                         std::unique_ptr<talker> beta )
+{
     if( !has_cached ) {
 
         // initialize all events to an empty vector
@@ -506,19 +524,26 @@ void eoc_events::notify( const cata::event &e )
     }
 
     for( const effect_on_condition &eoc : event_EOCs[e.type()] ) {
-        // try to assign a character for the EOC
-        // TODO: refactor event_spec to take consistent inputs
-        npc *alpha_talker  = nullptr;
-        const std::vector<std::string> potential_alphas = { "avatar_id", "character", "attacker", "killer", "npc" };
-        for( const std::string &potential_key : potential_alphas ) {
-            cata_variant cv = e.get_variant_or_void( potential_key );
-            if( cv != cata_variant() ) {
-                character_id potential_id = cv.get<cata_variant_type::character_id>();
-                if( potential_id.is_valid() ) {
-                    alpha_talker = g->find_npc( potential_id );
-                    // if we find a successful entry exit early
-                    break;
+        if( !alpha ) {
+            // try to assign a character for the EOC
+            // TODO: refactor event_spec to take consistent inputs
+            npc *alpha_talker = nullptr;
+            const std::vector<std::string> potential_alphas = { "avatar_id", "character", "attacker", "killer", "npc" };
+            for( const std::string &potential_key : potential_alphas ) {
+                cata_variant cv = e.get_variant_or_void( potential_key );
+                if( cv != cata_variant() ) {
+                    character_id potential_id = cv.get<cata_variant_type::character_id>();
+                    if( potential_id.is_valid() ) {
+                        alpha_talker = g->find_npc( potential_id );
+                        // if we find a successful entry exit early
+                        break;
+                    }
                 }
+            }
+            if( alpha_talker ) {
+                alpha = get_talker_for( alpha_talker );
+            } else {
+                alpha = get_talker_for( get_avatar() );
             }
         }
         dialogue d;
@@ -529,12 +554,7 @@ void eoc_events::notify( const cata::event &e )
 
         // if we have an NPC to trigger this event for, do so,
         // otherwise fallback to having it effect the player
-        if( alpha_talker ) {
-            d = dialogue( get_talker_for( alpha_talker ), nullptr, {}, context );
-        } else {
-            avatar &player_character = get_avatar();
-            d = dialogue( get_talker_for( player_character ), nullptr, {}, context );
-        }
+        d = dialogue( alpha->clone(), beta ? beta->clone() : nullptr, {}, context );
 
         eoc.activate( d );
     }

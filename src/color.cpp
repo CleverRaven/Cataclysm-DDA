@@ -1,7 +1,6 @@
 #include "color.h"
 
 #include <algorithm> // for std::count
-#include <functional>
 #include <iterator>
 #include <map>
 #include <utility>
@@ -14,7 +13,7 @@
 #include "cursesdef.h"
 #include "debug.h"
 #include "filesystem.h"
-#include "input.h"
+#include "input_context.h"
 #include "json.h"
 #include "output.h"
 #include "path_info.h"
@@ -23,6 +22,9 @@
 #include "string_formatter.h"
 #include "ui.h"
 #include "ui_manager.h"
+#if !(defined(TILES) || defined(WIN32))
+#include "cata_imgui.h"
+#endif
 
 void nc_color::serialize( JsonOut &jsout ) const
 {
@@ -393,6 +395,9 @@ void color_manager::load_default()
         add_color( def_c_dark_gray_yellow, "c_dark_gray_yellow", color_pair( 78 ), def_c_yellow );
         add_color( def_c_dark_gray_magenta, "c_dark_gray_magenta", color_pair( 77 ), def_c_pink );
         add_color( def_c_dark_gray_cyan, "c_dark_gray_cyan", color_pair( 76 ), def_c_light_cyan );
+#if !(defined(TILES) || defined(WIN32))
+        imclient->set_alloced_pair_count( 79 );
+#endif
     } else {
         add_color( def_c_dark_gray, "c_dark_gray", color_pair( 30 ).bold(), def_i_dark_gray );
         add_color( def_h_dark_gray, "h_dark_gray", color_pair( 20 ).bold(), def_c_light_blue );
@@ -403,6 +408,9 @@ void color_manager::load_default()
         add_color( def_c_dark_gray_yellow, "c_dark_gray_yellow", color_pair( 48 ).bold(), def_c_yellow );
         add_color( def_c_dark_gray_magenta, "c_dark_gray_magenta", color_pair( 56 ).bold(), def_c_pink );
         add_color( def_c_dark_gray_cyan, "c_dark_gray_cyan", color_pair( 64 ).bold(), def_c_light_cyan );
+#if !(defined(TILES) || defined(WIN32))
+        imclient->set_alloced_pair_count( 71 );
+#endif
     }
 }
 

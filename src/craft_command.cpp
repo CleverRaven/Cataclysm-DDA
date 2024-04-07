@@ -254,7 +254,7 @@ bool craft_command::continue_prompt_liquids( const std::function<bool( const ite
         const std::vector<pocket_data> it_pkt = it.comp.type->pockets;
         if( ( item::count_by_charges( it.comp.type ) && it.comp.count > 0 ) ||
         !std::any_of( it_pkt.begin(), it_pkt.end(), []( const pocket_data & p ) {
-        return p.type == item_pocket::pocket_type::CONTAINER && p.watertight;
+        return p.type == pocket_type::CONTAINER && p.watertight;
     } ) ) {
             continue;
         }
@@ -346,9 +346,10 @@ static std::list<item> sane_consume_items( const comp_selection<item_comp> &it, 
     const std::vector<pocket_data> it_pkt = it.comp.type->pockets;
     if( ( item::count_by_charges( it.comp.type ) && it.comp.count > 0 ) ||
     !std::any_of( it_pkt.begin(), it_pkt.end(), []( const pocket_data & p ) {
-    return p.type == item_pocket::pocket_type::CONTAINER && p.watertight;
+    return p.type == pocket_type::CONTAINER && p.watertight;
 } ) ) {
-        return crafter->consume_items( it, batch, filter );
+        std::list<item> consumed = crafter->consume_items( it, batch, filter );
+        return consumed;
     }
 
     // Everything below only occurs for item components that are liquid containers
@@ -392,9 +393,9 @@ bool craft_command::safe_to_unload_comp( const item &it )
     const std::function<bool( const item &i )> filter = []( const item & i ) {
         return !i.has_flag( flag_ZERO_WEIGHT ) && !i.has_flag( flag_NO_DROP );
     };
-    const bool valid = it.get_contents().has_any_with( filter, item_pocket::pocket_type::CONTAINER ) ||
-                       it.get_contents().has_any_with( filter, item_pocket::pocket_type::MAGAZINE ) ||
-                       it.get_contents().has_any_with( filter, item_pocket::pocket_type::MAGAZINE_WELL );
+    const bool valid = it.get_contents().has_any_with( filter, pocket_type::CONTAINER ) ||
+                       it.get_contents().has_any_with( filter, pocket_type::MAGAZINE ) ||
+                       it.get_contents().has_any_with( filter, pocket_type::MAGAZINE_WELL );
     if( valid ) {
         return true;
     }

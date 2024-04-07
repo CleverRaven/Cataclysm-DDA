@@ -96,6 +96,7 @@
     "purifiable": false,
     "valid": false,
     "cancels": [ "BIOMANCER" ],
+    "flags": [ "TREE_COMMUNION_PLUS" ],
     "spells_learned": [ [ "create_rune_druid", 0 ] ]
   }
 ]

@@ -4,7 +4,7 @@
     "type": "GENERIC",
     "category": "other",
     "name": { "str": "deck of Zener cards", "str_pl": "decks of Zener cards" },
-    "description": "A deck of Zener cards, used pre-Catalcysm to test for psychic ability.",
+    "description": "A deck of Zener cards, used pre-Cataclysm to test for psychic ability.",
     "weight": "23 g",
     "volume": "29 ml",
     "price": 1314,

@@ -26,7 +26,7 @@
     "id": "moon_tears_fasteners",
     "type": "AMMO",
     "category": "spare_parts",
-    "name": { "str_sp": "moon tears fasteners" },
+    "name": { "str": "moon tears fastener" },
     "description": "A pin-shaped piece of moon tears and dreamdross.  It can be used to repair items made of moon tears.",
     "weight": "4 g",
     "volume": "250 ml",
@@ -50,7 +50,7 @@
     "category": "spare_parts",
     "price": 150,
     "price_postapoc": 50,
-    "name": { "str_sp": "moon tear chain links" },
+    "name": { "str": "moon tear chain link" },
     "symbol": "=",
     "color": "light_gray",
     "description": "Small metal rings, suitable for constructing chainmail, made from moon tears.",
@@ -88,8 +88,6 @@
     "type": "AMMO",
     "name": { "str_sp": "aetheric charge" },
     "description": "Charged ether pulled out of the void between all things.",
-    "weight": "1 g",
-    "volume": "12 ml",
     "price": "10 USD",
     "price_postapoc": "10 USD",
     "material": [ "forged_dreamstuff" ],
@@ -100,6 +98,19 @@
     "range": 12,
     "count": 1,
     "recoil": 900,
-    "effects": [ "INCENDIARY" ]
+    "effects": [ "INCENDIARY" ],
+    "flags": [ "ZERO_WEIGHT" ]
+  },
+  {
+    "id": "glamour_charge",
+    "type": "AMMO",
+    "name": { "str_sp": "glamour charge" },
+    "description": "Power used to fuel hedge magic.",
+    "price": "10 USD",
+    "price_postapoc": "10 USD",
+    "symbol": "=",
+    "ammo_type": "glamour_charge",
+    "color": "magenta",
+    "flags": [ "ZERO_WEIGHT" ]
   }
 ]

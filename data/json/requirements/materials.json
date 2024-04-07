@@ -12,6 +12,12 @@
     "components": [ [ [ "adhesive", 1, "LIST" ], [ "cordage", 1, "LIST" ] ] ]
   },
   {
+    "id": "concrete_materials_dry",
+    "type": "requirement",
+    "//": "Materials, that are used in making concrete.  Adjusted for 1 unit of water with 1 cement / 0.6 water ratio per one requirement, and 3 cement/2 sand/1 aggregate ratio of ingredients by volume",
+    "components": [ [ [ "material_cement", 30 ] ], [ [ "material_sand", 20 ] ], [ [ "material_gravel", 10 ], [ "pebble", 2 ] ] ]
+  },
+  {
     "id": "ammo_bullet",
     "type": "requirement",
     "//": "Materials used when forming bullets",
@@ -384,6 +390,12 @@
     "components": [ [ [ "steel_chunk", 1 ] ] ]
   },
   {
+    "id": "bronze_tiny",
+    "type": "requirement",
+    "//": "Materials for use when forging atypically small items from bronze",
+    "components": [ [ [ "scrap_bronze", 1 ] ] ]
+  },
+  {
     "id": "rock_flaking_any",
     "type": "requirement",
     "//": "Rocks that can be used for knapping.",
@@ -440,14 +452,20 @@
     "id": "paint",
     "type": "requirement",
     "//": "Materials used for painting something of any color",
-    "components": [
+    "tools": [
       [
         [ "paint_red", 1 ],
-        [ "paint_blue", 1 ],
-        [ "paint_white", 1 ],
+        [ "paint_orange", 1 ],
+        [ "paint_yellow", 1 ],
         [ "paint_green", 1 ],
+        [ "paint_cyan", 1 ],
+        [ "paint_blue", 1 ],
+        [ "paint_pink", 1 ],
         [ "paint_purple", 1 ],
-        [ "paint_yellow", 1 ]
+        [ "paint_white", 1 ],
+        [ "paint_gray", 1 ],
+        [ "paint_black", 1 ],
+        [ "paint_brown", 1 ]
       ]
     ]
   },
@@ -513,5 +531,47 @@
     "id": "any_fresh_water",
     "type": "requirement",
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "id": "nails",
+    "type": "requirement",
+    "components": [ [ [ "nail", 1 ], [ "bronze_nail", 1 ] ] ]
+  },
+  {
+    "id": "wax_any",
+    "type": "requirement",
+    "//": "Both wax types, for when the recipe doesn't really care.",
+    "components": [ [ [ "wax", 1 ], [ "wax_paraffin", 1 ] ] ]
+  },
+  {
+    "id": "plain_necklaces",
+    "type": "requirement",
+    "//": "For jewelry crafts that require a plain necklace as a base. Anything with a pendent already attached shouldn’t be considered here.",
+    "components": [ [ [ "platinum_necklace", 1 ], [ "gold_necklace", 1 ], [ "silver_necklace", 1 ], [ "copper_necklace", 1 ] ] ]
+  },
+  {
+    "id": "gemstones",
+    "type": "requirement",
+    "//": "For jewelry crafts that require gemstones.",
+    "components": [
+      [
+        [ "diamond", 1 ],
+        [ "garnet", 1 ],
+        [ "amethyst", 1 ],
+        [ "aquamarine", 1 ],
+        [ "emerald", 1 ],
+        [ "alexandrite", 1 ],
+        [ "malachite", 1 ],
+        [ "pearl", 1 ],
+        [ "ruby", 1 ],
+        [ "peridot", 1 ],
+        [ "sapphire", 1 ],
+        [ "opal", 1 ],
+        [ "tourmaline", 1 ],
+        [ "citrine", 1 ],
+        [ "blue_topaz", 1 ],
+        [ "onyx", 1 ]
+      ]
+    ]
   }
 ]

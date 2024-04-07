@@ -86,7 +86,7 @@
     "id": "mana",
     "type": "AMMO",
     "category": "chems",
-    "name": "mana core power",
+    "name": { "str_sp": "mana core power" },
     "description": "Seeing this is a bug.",
     "weight": "10 g",
     "volume": "10 ml",

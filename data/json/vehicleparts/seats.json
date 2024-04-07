@@ -1,7 +1,7 @@
 [
   {
     "entries": [
-      { "count": [ 2, 8 ], "item": "cotton_patchwork" },
+      { "count": [ 2, 8 ], "item": "nylon" },
       { "count": [ 1, 3 ], "item": "pipe" },
       { "count": [ 0, 2 ], "item": "spring" },
       { "count": [ 3, 5 ], "item": "scrap" }
@@ -13,7 +13,7 @@
   {
     "entries": [
       { "count": [ 1, 5 ], "item": "leather" },
-      { "count": [ 1, 3 ], "item": "cotton_patchwork" },
+      { "count": [ 1, 3 ], "item": "nylon" },
       { "count": [ 1, 3 ], "item": "pipe" },
       { "count": [ 0, 2 ], "item": "spring" },
       { "count": [ 3, 5 ], "item": "scrap" }
@@ -31,15 +31,15 @@
     "comfort": 2,
     "damage_modifier": 60,
     "damage_reduction": { "all": 2, "bash": 5 },
-    "description": "A place to sit, or sleep if you're desperate.",
+    "description": "A soft upholstered car seat, contoured to hold one person.",
     "durability": 300,
     "flags": [ "SEAT", "BOARDABLE", "CARGO", "BELTABLE" ],
     "floor_bedding_warmth": 200,
     "item": "seat",
     "location": "center",
     "looks_like": "reclining_seat",
-    "//": "weld repairs would mostly be the frame and springs of the seat, so low 6cm cost per quadrant",
-    "name": { "str": "seat" },
+    "//": "weld repairs would mostly be the frame and springs of the seat, so low 6 cm cost per quadrant",
+    "name": { "str": "bucket seat" },
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -49,7 +49,7 @@
         "using": [ [ "repair_welding_standard", 1 ], [ "sewing_standard", 8 ] ]
       }
     },
-    "size": "25 L",
+    "size": "85 L",
     "type": "vehicle_part",
     "variants_bases": [ { "id": "windshield", "label": "Windshield" }, { "id": "swivel_chair", "label": "Swivel Chair" } ],
     "variants": [
@@ -67,7 +67,8 @@
     "breaks_into": "ig_vp_seat_leather",
     "copy-from": "seat",
     "item": "seat_leather",
-    "name": { "str": "leather seat" },
+    "name": { "str": "leather bucket seat" },
+    "description": "A leather car seat for one.",
     "type": "vehicle_part",
     "variants_bases": [ { "id": "windshield", "label": "Windshield" } ]
   },
@@ -75,11 +76,12 @@
     "id": "reclining_seat",
     "copy-from": "seat",
     "comfort": 3,
-    "description": "A place to sit, with an adjustable backrest.",
+    "//": "reclining and bench seats are roomier than standard and are able to fit Large characters, if not comfortably",
+    "description": "A soft seat with an adjustable backrest, making it a reasonably comfortable place to sleep.",
     "durability": 100,
+    "size": "95 L",
     "floor_bedding_warmth": 350,
-    "name": { "str": "reclining seat" },
-    "size": "6250 ml",
+    "name": { "str": "reclining bucket seat" },
     "extend": { "flags": [ "BED" ] },
     "type": "vehicle_part",
     "variants_bases": [ { "id": "windshield", "label": "Windshield" } ]
@@ -90,18 +92,19 @@
     "copy-from": "reclining_seat",
     "item": "seat_leather",
     "looks_like": "seat_leather",
-    "name": { "str": "reclining leather seat" },
+    "name": { "str": "reclining leather bucket seat" },
     "type": "vehicle_part",
     "variants_bases": [ { "id": "windshield", "label": "Windshield" } ]
   },
   {
     "id": "seat_back",
     "copy-from": "seat",
-    "comfort": 4,
-    "description": "A benchlike seat.  Mostly found in the second row, also known as the back or rear seat.",
+    "comfort": 3,
+    "description": "A soft, wide seat with a high back, the kind often used in back seats or older cars.  It might be a decent place to sleep.",
     "floor_bedding_warmth": 500,
-    "name": { "str": "back seat" },
-    "size": "30 L",
+    "item": "seat_bench",
+    "size": "95 L",
+    "name": { "str": "bench seat" },
     "extend": { "flags": [ "BED" ] },
     "type": "vehicle_part"
   },
@@ -109,9 +112,9 @@
     "id": "seat_back_leather",
     "copy-from": "seat_back",
     "breaks_into": "ig_vp_seat_leather",
-    "item": "seat_leather",
+    "item": "seat_bench_leather",
     "looks_like": "seat_leather",
-    "name": { "str": "leather back seat" },
+    "name": { "str": "leather bench seat" },
     "type": "vehicle_part"
   },
   {
@@ -123,7 +126,7 @@
     "durability": 80,
     "description": "A padded wedge that you straddle, like a bicycle or motorcycle.",
     "folded_volume": "1250 ml",
-    "//": "weld repairs would mostly be the frame, so low 4cm cost per quadrant",
+    "//": "weld repairs would mostly be the frame, so low 4 cm cost per quadrant",
     "comfort": 1,
     "item": "saddle",
     "requirements": {
@@ -165,22 +168,20 @@
   },
   {
     "id": "metal_bench",
-    "copy-from": "seat",
+    "copy-from": "seat_back",
     "breaks_into": "ig_vp_prison_bench",
     "comfort": 0,
     "floor_bedding_warmth": 0,
     "description": "A steel bench with ankle and wrist restraints built in.  It looks very uncomfortable.",
     "durability": 450,
     "item": "steel_plate",
-    "//": "more metal here so bigger weld cost - 20cm weld per damage quadrant",
+    "//": "more metal here so bigger weld cost - 20 cm weld per damage quadrant",
     "name": { "str": "steel bench" },
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": "vehicle_weld_removal" },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 2 ] ] }
     },
-    "size": "0 ml",
-    "delete": { "flags": [ "CARGO" ] },
     "type": "vehicle_part"
   }
 ]

@@ -118,6 +118,7 @@ struct field_intensity_level {
     float light_emitted = 0.0f;
     float local_light_override = -1.0f;
     float translucency = 0.0f;
+    int concentration = 0;
     int convection_temperature_mod = 0;
     int scent_neutralization = 0;
     std::vector<field_effect> field_effects;
@@ -134,6 +135,7 @@ extern const field_type_str_id fd_blood_insect;
 extern const field_type_str_id fd_blood_invertebrate;
 extern const field_type_str_id fd_blood_veggy;
 extern const field_type_str_id fd_churned_earth;
+extern const field_type_str_id fd_construction_site;
 extern const field_type_str_id fd_cold_air2;
 extern const field_type_str_id fd_cold_air3;
 extern const field_type_str_id fd_cold_air4;
@@ -141,7 +143,7 @@ extern const field_type_str_id fd_dazzling;
 extern const field_type_str_id fd_electricity;
 extern const field_type_str_id fd_electricity_unlit;
 extern const field_type_str_id fd_extinguisher;
-extern const field_type_str_id fd_fatigue;
+extern const field_type_str_id fd_reality_tear;
 extern const field_type_str_id fd_fire;
 extern const field_type_str_id fd_fire_vent;
 extern const field_type_str_id fd_flame_burst;
@@ -197,7 +199,7 @@ struct field_type {
         int decay_amount_factor = 0;
         int percent_spread = 0;
         int apply_slime_factor = 0;
-        int gas_absorption_factor = 0;
+        time_duration gas_absorption_factor = 0_turns;
         bool is_splattering = false;
         bool dirty_transparency_cache = false;
         bool has_fire = false;
@@ -208,7 +210,7 @@ struct field_type {
         map_bash_info bash_info;
 
         // chance, issue, duration, speech
-        std::tuple<int, std::string, time_duration, std::string> npc_complain_data;
+        std::tuple<int, std::string, time_duration, translation> npc_complain_data;
         field_immunity_data immunity_data;
 
         std::set<mtype_id> immune_mtypes;

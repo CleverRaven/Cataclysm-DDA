@@ -2,7 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "strawberries_cooked",
-    "name": { "str": "cooked strawberry", "str_pl": "cooked strawberries" },
+    "name": { "str_sp": "cooked strawberry" },
     "copy-from": "strawberries",
     "color": "red",
     "spoils_in": "3 days 18 hours",
@@ -22,7 +22,7 @@
   {
     "type": "COMESTIBLE",
     "id": "fruit_leather",
-    "name": { "str": "fruit leather" },
+    "name": { "str_sp": "fruit leather" },
     "conditional_names": [
       { "type": "COMPONENT_ID", "condition": "apple", "name": { "str_sp": "%s, apple" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "apricot", "name": { "str_sp": "%s, apricot" } },
@@ -30,6 +30,7 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "blackberries", "name": { "str_sp": "%s, blackberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "blueberries", "name": { "str_sp": "%s, blueberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "cherries", "name": { "str_sp": "%s, cherry" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "crabapple", "name": { "str_sp": "%s, crabapple" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "elderberries", "name": { "str_sp": "%s, elderberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "grapefruit", "name": { "str_sp": "%s, grapefruit" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "grapes", "name": { "str_sp": "%s, grape" } },
@@ -53,7 +54,7 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "pomegranate", "name": { "str_sp": "%s, pomegranate" } },
       { "type": "COMPONENT_ID", "condition": "pumpkin_cut", "name": { "str_sp": "%s, pumpkin" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "raspberries", "name": { "str_sp": "%s, raspberry" } },
-      { "type": "COMPONENT_ID_SUBSTRING", "condition": "rose_hips", "name": { "str_sp": "%s, rose hip" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "rose_hips_cut", "name": { "str_sp": "%s, rose hip" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "strawberries", "name": { "str_sp": "%s, strawberry" } },
       { "type": "COMPONENT_ID", "condition": "watermelon_wedge", "name": { "str_sp": "%s, watermelon" } },
       { "type": "COMPONENT_ID", "condition": "wintergreen_berry", "name": { "str_sp": "%s, wintergreen berry" } }
@@ -78,7 +79,7 @@
   {
     "type": "COMESTIBLE",
     "id": "blueberries_cooked",
-    "name": { "str": "cooked blueberry", "str_pl": "cooked blueberries" },
+    "name": { "str_sp": "cooked blueberry" },
     "copy-from": "blueberries",
     "color": "blue",
     "spoils_in": "3 days 18 hours",
@@ -98,14 +99,14 @@
     "type": "COMESTIBLE",
     "id": "can_peach",
     "name": { "str_sp": "peaches in syrup" },
-    "weight": "244 g",
+    "weight": "251 g",
     "color": "yellow",
     "spoils_in": "1 day 6 hours",
     "container": "can_food",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 6,
-    "calories": 58,
+    "calories": 135,
     "sealed": true,
     "description": "Yellow cling peach slices packed in light syrup.",
     "price": 96,
@@ -113,12 +114,12 @@
     "material": [ "fruit" ],
     "volume": "250 ml",
     "fun": 5,
-    "vitamins": [ [ "vitC", 7 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "vitC", "6 mg" ], [ "iron", "900 μg" ], [ "calcium", "7500 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
     "id": "can_pineapple",
-    "name": { "str": "canned pineapple" },
+    "name": { "str_sp": "canned pineapple" },
     "weight": "246 g",
     "color": "yellow",
     "spoils_in": "1 day",
@@ -133,7 +134,7 @@
     "material": [ "fruit" ],
     "volume": "250 ml",
     "fun": 7,
-    "vitamins": [ [ "vitC", 21 ], [ "calcium", 2 ], [ "iron", 5 ] ]
+    "vitamins": [ [ "vitC", "18900 μg" ], [ "iron", "1 mg" ], [ "calcium", "36900 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -158,8 +159,22 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "orangeade_powder",
+    "name": { "str_sp": "orangeade drink mix" },
+    "copy-from": "lemonade_powder",
+    "description": " Can be mixed with water to make orange juice."
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "grapeade_powder",
+    "name": { "str_sp": "grapeade drink mix" },
+    "copy-from": "lemonade_powder",
+    "description": " Can be mixed with water to make grape juice."
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "fruit_cooked",
-    "name": { "str": "cooked fruit" },
+    "name": { "str_sp": "cooked fruit" },
     "conditional_names": [
       { "type": "COMPONENT_ID", "condition": "apple", "name": { "str_sp": "%s, apple" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "apricot", "name": { "str_sp": "%s, apricot" } },
@@ -168,6 +183,7 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "blueberries", "name": { "str_sp": "%s, blueberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "cherries", "name": { "str_sp": "%s, cherry" } },
       { "type": "COMPONENT_ID", "condition": "coconut_flesh", "name": { "str_sp": "%s, coconut" } },
+      { "type": "COMPONENT_ID", "condition": "crabapple", "name": { "str_sp": "%s, crabapple" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "elderberries", "name": { "str_sp": "%s, elderberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "grapefruit", "name": { "str_sp": "%s, grapefruit" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "grapes", "name": { "str_sp": "%s, grape" } },
@@ -191,7 +207,7 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "pomegranate", "name": { "str_sp": "%s, pomegranate" } },
       { "type": "COMPONENT_ID", "condition": "pumpkin_cut", "name": { "str_sp": "%s, pumpkin" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "raspberries", "name": { "str_sp": "%s, raspberry" } },
-      { "type": "COMPONENT_ID_SUBSTRING", "condition": "rose_hips", "name": { "str_sp": "%s, rose hip" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "rose_hips_cut", "name": { "str_sp": "%s, rose hip" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "strawberries", "name": { "str_sp": "%s, strawberry" } },
       { "type": "COMPONENT_ID", "condition": "watermelon_wedge", "name": { "str_sp": "%s, watermelon" } },
       { "type": "COMPONENT_ID", "condition": "wintergreen_berry", "name": { "str_sp": "%s, wintergreen berry" } }
@@ -218,7 +234,7 @@
   {
     "type": "COMESTIBLE",
     "id": "jam_fruit",
-    "name": { "str": "fruit jam" },
+    "name": { "str_sp": "fruit jam" },
     "conditional_names": [
       { "type": "COMPONENT_ID", "condition": "apple", "name": { "str_sp": "%s, apple" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "apricot", "name": { "str_sp": "%s, apricot" } },
@@ -226,6 +242,7 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "blackberries", "name": { "str_sp": "%s, blackberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "blueberries", "name": { "str_sp": "%s, blueberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "cherries", "name": { "str_sp": "%s, cherry" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "crabapple", "name": { "str_sp": "%s, crabapple" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "elderberries", "name": { "str_sp": "%s, elderberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "grapefruit", "name": { "str_sp": "%s, grapefruit" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "grapes", "name": { "str_sp": "%s, grape" } },
@@ -249,7 +266,7 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "pomegranate", "name": { "str_sp": "%s, pomegranate" } },
       { "type": "COMPONENT_ID", "condition": "pumpkin_cut", "name": { "str_sp": "%s, pumpkin" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "raspberries", "name": { "str_sp": "%s, raspberry" } },
-      { "type": "COMPONENT_ID_SUBSTRING", "condition": "rose_hips", "name": { "str_sp": "%s, rose hip" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "rose_hips_cut", "name": { "str_sp": "%s, rose hip" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "strawberries", "name": { "str_sp": "%s, strawberry" } },
       { "type": "COMPONENT_ID", "condition": "watermelon_wedge", "name": { "str_sp": "%s, watermelon" } },
       { "type": "COMPONENT_ID", "condition": "wintergreen_berry", "name": { "str_sp": "%s, wintergreen berry" } }
@@ -286,6 +303,7 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "cherries", "name": { "str_sp": "%s, cherry" } },
       { "type": "COMPONENT_ID", "condition": "cholla_bud", "name": { "str_sp": "%s, cholla bud" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "coconut", "name": { "str_sp": "%s, coconut" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "crabapple", "name": { "str_sp": "%s, crabapple" } },
       { "type": "COMPONENT_ID", "condition": "cranberries", "name": { "str_sp": "%s, cranberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "elderberries", "name": { "str_sp": "%s, elderberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "grapefruit", "name": { "str_sp": "%s, grapefruit" } },
@@ -312,7 +330,7 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "pomegranate", "name": { "str_sp": "%s, pomegranate" } },
       { "type": "COMPONENT_ID", "condition": "pumpkin_cut", "name": { "str_sp": "%s, pumpkin" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "raspberries", "name": { "str_sp": "%s, raspberry" } },
-      { "type": "COMPONENT_ID_SUBSTRING", "condition": "rose_hips", "name": { "str_sp": "%s, rose hip" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "rose_hips_cut", "name": { "str_sp": "%s, rose hip" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "strawberries", "name": { "str_sp": "%s, strawberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "watermelon", "name": { "str_sp": "%s, watermelon" } },
       { "type": "COMPONENT_ID", "condition": "wintergreen_berry", "name": { "str_sp": "%s, wintergreen berry" } }
@@ -348,6 +366,7 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "cherries", "name": { "str_sp": "%s, cherry" } },
       { "type": "COMPONENT_ID", "condition": "cholla_bud", "name": { "str_sp": "%s, cholla bud" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "coconut", "name": { "str_sp": "%s, coconut" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "crabapple", "name": { "str_sp": "%s, crabapple" } },
       { "type": "COMPONENT_ID", "condition": "cranberries", "name": { "str_sp": "%s, cranberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "elderberries", "name": { "str_sp": "%s, elderberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "grapefruit", "name": { "str_sp": "%s, grapefruit" } },
@@ -374,7 +393,7 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "pomegranate", "name": { "str_sp": "%s, pomegranate" } },
       { "type": "COMPONENT_ID", "condition": "pumpkin_cut", "name": { "str_sp": "%s, pumpkin" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "raspberries", "name": { "str_sp": "%s, raspberry" } },
-      { "type": "COMPONENT_ID_SUBSTRING", "condition": "rose_hips", "name": { "str_sp": "%s, rose hip" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "rose_hips_cut", "name": { "str_sp": "%s, rose hip" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "strawberries", "name": { "str_sp": "%s, strawberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "watermelon", "name": { "str_sp": "%s, watermelon" } },
       { "type": "COMPONENT_ID", "condition": "wintergreen_berry", "name": { "str_sp": "%s, wintergreen berry" } }
@@ -396,7 +415,7 @@
   {
     "type": "COMESTIBLE",
     "id": "apple_sugar",
-    "name": { "str": "fruit slice" },
+    "name": { "str_sp": "fruit slice" },
     "conditional_names": [
       { "type": "COMPONENT_ID", "condition": "apple", "name": { "str_sp": "%s, apple" } },
       { "type": "COMPONENT_ID", "condition": "irradiated_apple", "name": { "str_sp": "%s, apple" } },
@@ -405,6 +424,7 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "blackberries", "name": { "str_sp": "%s, blackberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "blueberries", "name": { "str_sp": "%s, blueberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "cherries", "name": { "str_sp": "%s, cherry" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "crabapple", "name": { "str_sp": "%s, crabapple" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "elderberries", "name": { "str_sp": "%s, elderberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "grapefruit", "name": { "str_sp": "%s, grapefruit" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "grapes", "name": { "str_sp": "%s, grape" } },
@@ -427,7 +447,7 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "pomegranate", "name": { "str_sp": "%s, pomegranate" } },
       { "type": "COMPONENT_ID", "condition": "pumpkin_cut", "name": { "str_sp": "%s, pumpkin" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "raspberries", "name": { "str_sp": "%s, raspberry" } },
-      { "type": "COMPONENT_ID_SUBSTRING", "condition": "rose_hips", "name": { "str_sp": "%s, rose hip" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "rose_hips_cut", "name": { "str_sp": "%s, rose hip" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "strawberries", "name": { "str_sp": "%s, strawberry" } },
       { "type": "COMPONENT_ID", "condition": "watermelon_wedge", "name": { "str_sp": "%s, watermelon" } },
       { "type": "COMPONENT_ID", "condition": "wintergreen_berry", "name": { "str_sp": "%s, wintergreen berry" } }
@@ -459,6 +479,7 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "blackberries", "name": { "str_sp": "%s, blackberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "blueberries", "name": { "str_sp": "%s, blueberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "cherries", "name": { "str_sp": "%s, cherry" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "crabapple", "name": { "str_sp": "%s, crabapple" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "elderberries", "name": { "str_sp": "%s, elderberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "grapefruit", "name": { "str_sp": "%s, grapefruit" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "grapes", "name": { "str_sp": "%s, grape" } },
@@ -481,12 +502,12 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "pomegranate", "name": { "str_sp": "%s, pomegranate" } },
       { "type": "COMPONENT_ID", "condition": "pumpkin_cut", "name": { "str_sp": "%s, pumpkin" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "raspberries", "name": { "str_sp": "%s, raspberry" } },
-      { "type": "COMPONENT_ID_SUBSTRING", "condition": "rose_hips", "name": { "str_sp": "%s, rose hip" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "rose_hips_cut", "name": { "str_sp": "%s, rose hip" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "strawberries", "name": { "str_sp": "%s, strawberry" } },
       { "type": "COMPONENT_ID", "condition": "watermelon_wedge", "name": { "str_sp": "%s, watermelon" } },
       { "type": "COMPONENT_ID", "condition": "wintergreen_berry", "name": { "str_sp": "%s, wintergreen berry" } }
     ],
-    "weight": "170 g",
+    "weight": "136 g",
     "color": "red",
     "spoils_in": "7 days 12 hours",
     "container": "can_food",
@@ -507,7 +528,7 @@
     "type": "COMESTIBLE",
     "id": "pumpkin_yeast_bread",
     "name": { "str_sp": "pumpkin yeast bread" },
-    "weight": "50 g",
+    "weight": "15 g",
     "color": "red",
     "spoils_in": "7 days 12 hours",
     "comestible_type": "FOOD",
@@ -518,7 +539,7 @@
     "price": "9 cent",
     "price_postapoc": "2 cent",
     "material": [ "fruit" ],
-    "volume": "10 ml",
+    "volume": "60 ml",
     "fun": 3,
     "vitamins": [ [ "vitC", 3 ], [ "calcium", 2 ] ]
   },
@@ -549,7 +570,7 @@
     "type": "COMESTIBLE",
     "id": "jerusalem_artichoke_fruitmash",
     "looks_like": "veggy_salad",
-    "name": { "str": "Jerusalem artichoke fruit dessert" },
+    "name": { "str_sp": "Jerusalem artichoke fruit dessert" },
     "weight": "80 g",
     "color": "yellow",
     "spoils_in": "3 days",
@@ -563,12 +584,13 @@
     "material": [ "fruit", "veggy" ],
     "volume": "80 ml",
     "flags": [ "USE_EAT_VERB", "NUTRIENT_OVERRIDE" ],
+    "fun": 4,
     "vitamins": [ [ "vitC", 2 ], [ "iron", 15 ] ]
   },
   {
     "type": "COMESTIBLE",
     "id": "brandied_fruit",
-    "name": { "str": "brandied fruit" },
+    "name": { "str_sp": "brandied fruit" },
     "conditional_names": [
       { "type": "COMPONENT_ID", "condition": "apple", "name": { "str_sp": "%s, apple" } },
       { "type": "COMPONENT_ID", "condition": "irradiated_apple", "name": { "str_sp": "%s, apple" } },
@@ -577,6 +599,7 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "blackberries", "name": { "str_sp": "%s, blackberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "blueberries", "name": { "str_sp": "%s, blueberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "cherries", "name": { "str_sp": "%s, cherry" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "crabapple", "name": { "str_sp": "%s, crabapple" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "elderberries", "name": { "str_sp": "%s, elderberry" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "grapefruit", "name": { "str_sp": "%s, grapefruit" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "grapes", "name": { "str_sp": "%s, grape" } },
@@ -599,7 +622,7 @@
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "pomegranate", "name": { "str_sp": "%s, pomegranate" } },
       { "type": "COMPONENT_ID", "condition": "pumpkin_cut", "name": { "str_sp": "%s, pumpkin" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "raspberries", "name": { "str_sp": "%s, raspberry" } },
-      { "type": "COMPONENT_ID_SUBSTRING", "condition": "rose_hips", "name": { "str_sp": "%s, rose hip" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "rose_hips_cut", "name": { "str_sp": "%s, rose hip" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "strawberries", "name": { "str_sp": "%s, strawberry" } },
       { "type": "COMPONENT_ID", "condition": "watermelon_wedge", "name": { "str_sp": "%s, watermelon" } },
       { "type": "COMPONENT_ID", "condition": "wintergreen_berry", "name": { "str_sp": "%s, wintergreen berry" } }

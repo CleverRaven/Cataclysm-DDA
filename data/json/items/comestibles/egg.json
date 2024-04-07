@@ -137,13 +137,6 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "egg_cockatrice",
-    "name": { "str": "cockatrice egg" },
-    "copy-from": "egg_chicken",
-    "rot_spawn": "GROUP_EGG_COCKATRICE"
-  },
-  {
-    "type": "COMESTIBLE",
     "id": "egg_reptile",
     "name": { "str": "reptile egg" },
     "weight": "60 g",
@@ -457,7 +450,7 @@
   {
     "type": "COMESTIBLE",
     "id": "razorclaw_roe",
-    "name": { "str": "razorclaw roe" },
+    "name": { "str_sp": "razorclaw roe" },
     "weight": "236 g",
     "color": "red",
     "spoils_in": "1 day",
@@ -477,7 +470,7 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_fish",
-    "name": { "str": "roe" },
+    "name": { "str_sp": "roe" },
     "weight": "24 g",
     "color": "red",
     "spoils_in": "7 days",
@@ -528,6 +521,76 @@
     "name": { "str_sp": "roe" },
     "copy-from": "egg_fish",
     "rot_spawn": "GROUP_EGG_SALMON"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_cod",
+    "name": { "str_sp": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_COD"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_haddock",
+    "name": { "str_sp": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_HADDOCK"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_bluefin_tuna",
+    "name": { "str_sp": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_BLUEFIN_TUNA"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_halibut",
+    "name": { "str_sp": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_HALIBUT"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_pollock",
+    "name": { "str_sp": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_POLLOCK"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_flounder",
+    "name": { "str_sp": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_FLOUNDER"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_mackerel",
+    "name": { "str_sp": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_MACKEREL"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_bluefish",
+    "name": { "str_sp": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_BLUEFISH"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_blackfish",
+    "name": { "str_sp": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_BLACKFISH"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_porgy",
+    "name": { "str_sp": "roe" },
+    "copy-from": "egg_fish",
+    "rot_spawn": "GROUP_EGG_PORGY"
   },
   {
     "type": "COMESTIBLE",
@@ -771,8 +834,35 @@
   },
   {
     "type": "COMESTIBLE",
+    "abstract": "egg_fish_mutant",
+    "name": { "str": "roe" },
+    "description": "A large half-translucent glob with a mutant fish fry inside.",
+    "volume": "330 ml",
+    "weight": "300 g",
+    "color": "red",
+    "spoils_in": "7 days",
+    "comestible_type": "FOOD",
+    "symbol": "o",
+    "calories": 425,
+    "quench": 50,
+    "price": 0,
+    "price_postapoc": 10,
+    "material": [ "egg" ],
+    "fun": -8,
+    "vitamins": [ [ "vitC", 12 ], [ "mutant_toxin", 27 ] ],
+    "flags": [ "RAW" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_mutant_salmon",
+    "name": { "str_sp": "mutant fish roe" },
+    "copy-from": "egg_fish_mutant",
+    "rot_spawn": "GROUP_EGG_MUTANT_SALMON"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "powder_eggs",
-    "name": { "str": "powdered egg" },
+    "name": { "str_sp": "powdered egg" },
     "weight": "7 g",
     "color": "yellow",
     "container": "bottle_plastic_small",
@@ -794,7 +884,7 @@
     "type": "COMESTIBLE",
     "id": "rehydrated_eggs",
     "copy-from": "egg_bird",
-    "name": { "str": "rehydrated egg" },
+    "name": { "str_sp": "rehydrated egg" },
     "weight": "50 g",
     "color": "yellow",
     "symbol": "%",
@@ -831,6 +921,14 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "seasoned_scrambled_eggs",
+    "name": { "str_sp": "seasoned scrambled eggs" },
+    "copy-from": "scrambled_eggs",
+    "fun": 5,
+    "description": "Tasty scrambled eggs, with seasoning to taste!"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "boiled_egg",
     "name": { "str": "boiled egg" },
     "copy-from": "egg_chicken",
@@ -849,7 +947,7 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_salad",
-    "name": { "str": "egg salad" },
+    "name": { "str_sp": "egg salad" },
     "copy-from": "boiled_egg",
     "color": "white",
     "symbol": "o",
@@ -875,6 +973,14 @@
     "price_postapoc": 120,
     "material": [ "egg" ],
     "flags": [ "EATEN_HOT", "FREEZERBURN" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seasoned_fried_eggs",
+    "name": { "str_sp": "seasoned fried eggs" },
+    "copy-from": "fried_eggs",
+    "fun": 5,
+    "description": "A tasty fried egg, with seasoning added to taste!"
   },
   {
     "type": "COMESTIBLE",
@@ -954,6 +1060,48 @@
     "price_postapoc": 120,
     "material": [ "egg", "veggy" ],
     "fun": 12,
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "omelet",
+    "name": { "str": "omelet" },
+    "copy-from": "scrambled_eggs",
+    "color": "yellow",
+    "symbol": "%",
+    "calories": 190,
+    "description": "A fluffy beaten egg pancaked over with cheese inside.",
+    "price": 500,
+    "price_postapoc": 70,
+    "material": [ "egg", "milk" ],
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "vegetable_omelet",
+    "name": { "str": "vegetable omelet" },
+    "copy-from": "scrambled_eggs",
+    "color": "yellow",
+    "symbol": "%",
+    "calories": 240,
+    "description": "A fluffy beaten egg pancaked over with cheese and vegetables inside.",
+    "price": 500,
+    "price_postapoc": 70,
+    "material": [ "egg", "milk", "veggy" ],
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "supreme_omelet",
+    "name": { "str": "supreme omelet" },
+    "copy-from": "scrambled_eggs",
+    "color": "yellow",
+    "symbol": "%",
+    "calories": 350,
+    "description": "A fluffy beaten egg pancaked over with cheese, vegetables, and meat all stuffed inside.  The mother of all omelets.",
+    "price": 500,
+    "price_postapoc": 70,
+    "material": [ "egg", "milk", "veggy", "flesh" ],
     "flags": [ "EATEN_HOT", "FREEZERBURN" ]
   },
   {
@@ -1257,5 +1405,55 @@
     "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
     "rot_spawn": "GROUP_EGG_SHIFT_FROG",
     "vitamins": [ [ "iron", 4 ], [ "mutant_toxin", 8 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_proxy_bigfrog",
+    "copy-from": "egg_proxy_frog",
+    "name": { "str": "cluster of giant frog's eggs", "str_pl": "clusters of giant frog's eggs" },
+    "weight": "160 g",
+    "volume": "1 L",
+    "symbol": "O",
+    "quench": 8,
+    "calories": 200,
+    "description": "A large clump of very large frog eggs.  They're gelatinous, transparent and larger than even chicken's eggs.",
+    "price": 50,
+    "price_postapoc": 100,
+    "fun": -30,
+    "vitamins": [ [ "iron", 29 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_pattern_bigfrog",
+    "copy-from": "egg_proxy_bigfrog",
+    "name": { "str": "cluster of giant frog's eggs", "str_pl": "clusters of giant frog's eggs" },
+    "description": "From a distance you could mistake it for a cluster of gigantic caviar.  It is only on close inspection that you can make out the faint translucence of these softball-sized frog eggs.",
+    "rot_spawn": "GROUP_EGG_PATTERN_BIGFROG"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_strange_bigfrog",
+    "copy-from": "egg_proxy_bigfrog",
+    "name": { "str": "cluster of giant frog's eggs", "str_pl": "clusters of giant frog's eggs" },
+    "description": "A thick flotilla of enormous frog eggs floats together atop the water in a roughly circular mass.",
+    "rot_spawn": "GROUP_EGG_STRANGE_BIGFROG"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_foul_bigfrog",
+    "copy-from": "egg_proxy_bigfrog",
+    "name": { "str": "cluster of giant frog's eggs", "str_pl": "clusters of giant frog's eggs" },
+    "description": "Looking like a submerged buoy-line, this long strand of softball-sized, gelatinous eggs floats gently in the still water.",
+    "use_action": [ "POISON" ],
+    "rot_spawn": "GROUP_EGG_FOUL_BIGFROG"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_odd_bigfrog",
+    "copy-from": "egg_proxy_bigfrog",
+    "name": { "str": "cluster of giant frog's eggs", "str_pl": "clusters of giant frog's eggs" },
+    "description": "This is a spiral strand of giant frog eggs.  Its increased weight and size nearly smothers the submerged vegetation it clings to.",
+    "use_action": [ "POISON" ],
+    "rot_spawn": "GROUP_EGG_ODD_BIGFROG"
   }
 ]

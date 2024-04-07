@@ -324,6 +324,40 @@
   },
   {
     "type": "snippet",
+    "category": "<mutation_testing>",
+    "text": [
+      {
+        "id": "mutation_testing_1",
+        "text": "Prepare subject with 800 U mutagen\nApply 500 U primer compound\nObserve for 6 hours\nResults: Subject rapidly grew feathers across whole body, including hands, arms, armpits, back and neck.  Some grew in unexpected places, including a few around subject's eyes, but were safely removed by the subject\nLong term results: subject found themselves able to split their vision."
+      },
+      {
+        "id": "mutation_testing_2",
+        "text": "Prepare subject with 300 U mutagen\nApply 300 U primer compound\nObserve for 6 hours\nResults: No observable changes.  Subject asked for more food.\nLong term results: the size of subject's stomach was increased by 50%."
+      },
+      {
+        "id": "mutation_testing_3",
+        "text": "Prepare subject with 2000 U mutagen\nApply 500 U primer compound\nObserve for 6 hours\nResults: The subject felt a painful headache\nLong-term results: the subject developed a heavy form of psychosis, including heavy hallucinations, delirium, and schizophrenia.  The subject was neutralized during an attempt to pull a sidearm from a security guard's holster."
+      },
+      {
+        "id": "mutation_testing_4",
+        "text": "Prepare subject with 500 U mutagen\nApply 2500 U primer compound\nObserve for 6 hours\nResults: Subject died shortly after injection\nLong term results: N/A."
+      },
+      {
+        "id": "mutation_testing_5",
+        "text": "Prepare subject with 2500 U mutagen\nApply 500 U primer compound\nObserve for 6 hours\nResults: Subject died after long period of pain\nLong term results: N/A."
+      },
+      {
+        "id": "mutation_testing_6",
+        "text": "Prepare subject with 1500 U mutagen\nOmit primer compound\nObserve for 6 hours\nResults: Subject showed no visual changes whatsoever.  Subject reported a nausea and chest pain\nLong term results: No long-term changes."
+      },
+      {
+        "id": "mutation_testing_7",
+        "text": "Prepare subject with 1500 U primer compound\nOmit mutagen\nObserve for 6 hours\nResults: Subject reported notable increase in strength.  Physical test revealed increase in subject's physical strength for about 25%.  No other changes\nLong term results: No long-term changes."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "lab_notes",
     "text": [
       "We've had to remind the groups that the trams that have been completed for inter-facility shipments are not for personal use, no matter how long it's been since they've seen their significant others.  Receiving says their stockrooms are a mess because of all the frivolous shipments.  Don't people know better about office romances anyways?",
@@ -353,6 +387,8 @@
       "I swear, working here is like running a preschool.  Vaughn and Kohler set up a live fire version of the new modified UGV that Davids and Amad have been working on.  Then they left it in their office, turned on, with IFF fully active.  Davids and Amad screamed like children before getting hosed down… with paintballs.  I guess they must have stayed up all night modifying the stupid thing's loadout.  On the bright side, it was funny, and really emphasized how completely terrible their IFF still is.",
       "Those ass - pardon me.  Reverse dictation and overwrite.  Our esteemed colleagues at Uncanny have pushed their version of \"deep learning heuristic AI\" public.  They're just attributing everything Melchior does to a little chip, and telling everyone it's \"deep learning and we don't fully understand it\".  Amazingly, even the comp sci experts seem to be buying it.  I guess there wasn't much chance anyone was going to guess that the central server is actually literally seeing possible futures.",
       "Today we tested weaponry against XE142 and XE157, two amorphous subprime samples.  Their form proved to be nearly invulnerable to projectile based weaponry, but they were susceptible to directed energy weapons and flagration.",
+      "Admin put in a request for additional equipment from DARPA, based on our testing with XE142 and XE157, so we can get better control some of these \"samples\".  Or at least Admin says they did, they didn't seem interested in procuring more advanced directed energy weapons (read:lasers) for just containment.",
+      "We got the replacement flamethrowers in today.  Most of the ones we'd previously received from DARPA were leftovers from the Vietnam War, you'd think the Defense Advanced Research Projects Agency wouldn't have something advanced.  The new flamethrowers work pretty much the same as the old ones, but at least they don't weigh a ton or leak.  I swear, it's like DARPA just phoned it in making these.",
       "The vivisection program has shown mixed results, revealing an incredible degree of variation in subplane lifeforms.  Certain specimens have an internal structure that is amazingly similar to that of mammals, while others seem to have no internal structure at all.",
       "We successfully induced resin expression in subject CC-09.  Once we got it expressing, we got gallons of the stuff, designated CC-09-R1.  The first few times, it hardened within a few minutes, but we managed to isolate a few samples in sealed jars to send for spectroscopy.  It seems to harden much slower in the absence of air; what exactly catalyzes the setting remains to be seen.",
       "The resin expressed by CC-09, designated CC-09-R1, was quite amenable to NMR study.  We gained some really interesting insights into how it meshes with CC-09 internal structures to form a carapace.  Siobhan thinks she can adapt the concepts to human biology, and is applying for a grant to study this further.",
@@ -423,9 +459,6 @@
       "Hendelson exposed a lab mouse to XE037 under control conditions.  I'm not sure how he got permission for the project.  The results were interesting: rapid uptake into the mouse's cellular tissue followed by what we presume to be a die-off, fitting previous observations that XE037 doesn't seem to be able to survive outside its native planar material.  XEDRA command is authorizing a biological research wing to take over XE037 property analysis.",
       "I swear they are talking to me.  No one believes me.  No one understands.  They whisper to me, at night, in the dark.  Please, please, make them stop.",
       "Today we found a solution to the contamination problem, quite by accident.  It was found that XE037 is completely removed from a revivified body following a series of extremely-high energy 4th dimensional transpositions.  Unfortunately, this invariably allows subplane life forms to pass into the prime plane.  The cure is worse than the disease.  Nonetheless, we'll be informing XEDRA-40 via Melchior.  Perhaps Dr. Sidhu can make some use of this information.",
-      "Today we applied a very small sample of XE037, suspended in water, to subject TP92, prior to necessary termination.  During the postmortem examination, the subject went through a revivification progress.  Dr. Thoreaux was surprised, to say the least.  She bludgeoned it back to death with a microscope.",
-      "We have created a new department to investigate the effects of XE037 on the human body, specifically to examine the revivification effect observed on two prior occasions.  Sadly, our human subject pool is dwindling due to the short lifespan of subjects in this program.  More will be acquired soon.",
-      "An experimental subject was accidentally terminated today, and revivification was again seen as in Dr. Thoreaux's report.  This time we were ready for it, and the specimen was kept for observation.  It displays no human intelligence, a true animated corpse.  We're all calling it a zombie, because seriously.  This is so cool.",
       "Testing XE037 on mouse and cat subjects does not appear to display the same revivifying effect, oddly enough.  Acquiring non-human subjects, sadly, is a long and costly process, and research into this area is lacking.  We'll send for some monkeys.",
       "Earlier conjecture that revivification occurred only in humans was premature.  Per earlier experiments, exposure introduces a persistent, low level infection in all mammal subjects, but quickly enters a form of stasis and seems to go dormant.  In most of our experimental subjects this has been enough to trigger mutagenicity, but not revivification.  New tests on a wider range of subjects seem to suggest that larger mammals - dogs and monkeys, thus far - are susceptible to both effects.",
       "The primary factor in determining revivification of mammalian subjects seems to be the amount of XE037 within the body at time of expiration.  Smaller mammals such as lab rats do not obtain this critical amount of XE037 before going dormant.  Larger canine subjects, however, do.",

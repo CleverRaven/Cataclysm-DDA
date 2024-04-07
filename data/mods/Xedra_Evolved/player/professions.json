@@ -36,27 +36,25 @@
     "description": "Before the Cataclysm, you used to work for the Paranormal Investigation Department of the FBI.  You got used to jokes at your expense, as well as being constantly underfunded and disregarded by your superiors.  You were returning from yet another case with nothing but a bag of suspicious candies to show, when all hell broke loose.  Oh well, at least now you can be certain that everyone still alive will believe you that the truth is out there.",
     "points": 3,
     "skills": [
-      { "level": 2, "name": "gun" },
-      { "level": 2, "name": "pistol" },
-      { "level": 1, "name": "speech" },
-      { "level": 1, "name": "deduction" }
+      { "level": 5, "name": "gun" },
+      { "level": 5, "name": "pistol" },
+      { "level": 4, "name": "speech" },
+      { "level": 5, "name": "deduction" }
     ],
-    "proficiencies": [ "prof_spotting" ],
+    "proficiencies": [ "prof_spotting", "prof_auto_pistols_familiar" ],
     "items": {
       "both": {
-        "items": [
-          "pants",
-          "dress_shirt",
-          "tie_skinny",
-          "blazer",
-          "trenchcoat",
-          "gloves_light",
-          "wristwatch",
-          "socks",
-          "dress_shoes",
-          "cig"
-        ],
         "entries": [
+          { "item": "pants" },
+          { "item": "dress_shirt" },
+          { "item": "tie_skinny" },
+          { "item": "blazer" },
+          { "item": "trenchcoat" },
+          { "item": "gloves_light" },
+          { "item": "wristwatch" },
+          { "item": "socks" },
+          { "item": "dress_shoes" },
+          { "item": "cig" },
           { "group": "charged_smart_phone" },
           { "group": "charged_two_way_radio" },
           { "group": "charged_ref_lighter" },
@@ -65,8 +63,8 @@
           { "item": "wyld_candy", "count": 10, "container-item": "null", "entry-wrapper": "wrapper_wyld" }
         ]
       },
-      "male": [ "briefs" ],
-      "female": [ "bra", "panties" ]
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     }
   },
   {
@@ -75,25 +73,23 @@
     "name": "Xedra Response Team Member",
     "description": "Before Xedra recruited you, you probably worked for the ATF or a PMC like Kroll.  It was your job to investigate any cross-pollination incidents where alternate physics regions crossed over the Nether and reached our world.  Part exterminator part investigator, you made sure that any new resources and contaminants were accounted for, including any intelligent life trying to sneak into our world.  Local law enforcement and civilians called you 'Zebras' since your identification and badges only had a barcode instead of any name/rank/number.  This job has shown you things you don't want to remember but luckily the Zebra docs seem to have an endless supply of pills.",
     "points": 6,
-    "skills": [ { "level": 3, "name": "gun" }, { "level": 3, "name": "pistol" }, { "level": 1, "name": "speech" } ],
+    "skills": [ { "level": 7, "name": "gun" }, { "level": 7, "name": "pistol" }, { "level": 5, "name": "speech" } ],
     "addictions": [ { "intensity": 10, "type": "diazepam" } ],
-    "proficiencies": [ "prof_spotting" ],
+    "proficiencies": [ "prof_spotting", "prof_auto_pistols_familiar" ],
     "items": {
       "both": {
-        "items": [
-          "pants",
-          "dress_shirt",
-          "tie_skinny",
-          "blazer",
-          "trenchcoat",
-          "badge_zebra",
-          "gloves_leather",
-          "wristwatch",
-          "socks",
-          "dress_shoes",
-          "cig"
-        ],
         "entries": [
+          { "item": "pants" },
+          { "item": "dress_shirt" },
+          { "item": "tie_skinny" },
+          { "item": "blazer" },
+          { "item": "trenchcoat" },
+          { "item": "badge_zebra" },
+          { "item": "gloves_leather" },
+          { "item": "wristwatch" },
+          { "item": "socks" },
+          { "item": "dress_shoes" },
+          { "item": "cig" },
           { "group": "charged_smart_phone" },
           { "group": "charged_two_way_radio" },
           { "group": "charged_ref_lighter" },
@@ -102,8 +98,8 @@
           { "item": "fn57_sup", "ammo-item": "57mm_ss", "charges": 20, "container-item": "shoulder_holster" }
         ]
       },
-      "male": [ "briefs" ],
-      "female": [ "bra", "panties" ]
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     }
   },
   {
@@ -113,23 +109,30 @@
     "description": "You came here from another country trying to gain access to secrets the United States had ripped from other worlds.  They probably had sent people to your homeland to do the same.  You were out performing recon when the Cataclysm struck and caught a ride with a stranger trying to find safety.  Sadly you lost your companion and vehicle, getting lost in the process and with now only a vague idea on how to get back to the safehouse, where you hope your hidden gear remains untouched.",
     "points": 4,
     "skills": [
-      { "level": 2, "name": "dodge" },
-      { "level": 2, "name": "gun" },
-      { "level": 1, "name": "pistol" },
-      { "level": 2, "name": "speech" },
-      { "level": 2, "name": "unarmed" }
+      { "level": 4, "name": "dodge" },
+      { "level": 6, "name": "gun" },
+      { "level": 6, "name": "pistol" },
+      { "level": 5, "name": "speech" },
+      { "level": 4, "name": "unarmed" }
     ],
+    "proficiencies": [ "prof_auto_pistols_familiar" ],
     "items": {
       "both": {
-        "items": [ "sneakers", "hoodie", "knit_scarf", "diving_watch", "backpack", "pants_cargo" ],
         "entries": [
+          { "item": "sneakers" },
+          { "item": "hoodie" },
+          { "item": "knit_scarf" },
+          { "item": "diving_watch" },
+          { "item": "backpack" },
+          { "item": "wristwatch" },
+          { "item": "pants_cargo" },
           { "group": "charged_smart_phone" },
           { "item": "tshirt", "variant": "generic_tshirt" },
           { "item": "light_disposable_cell", "ammo-item": "battery", "charges": 300, "container-item": "camera_pro" }
         ]
       },
-      "male": [ "briefs", "socks" ],
-      "female": [ "bra", "panties" ]
+      "male": { "entries": [ { "item": "briefs" }, { "item": "socks" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     },
     "missions": [ "MISSION_SAFEHOUSE" ]
   },
@@ -144,37 +147,36 @@
     "addictions": [ { "intensity": 20, "type": "nicotine" } ],
     "proficiencies": [ "prof_wp_cyborg" ],
     "skills": [
-      { "level": 3, "name": "gun" },
-      { "level": 2, "name": "launcher" },
-      { "level": 3, "name": "bashing" },
-      { "level": 2, "name": "dodge" },
-      { "level": 2, "name": "melee" }
+      { "level": 8, "name": "gun" },
+      { "level": 7, "name": "launcher" },
+      { "level": 6, "name": "bashing" },
+      { "level": 4, "name": "dodge" },
+      { "level": 4, "name": "melee" }
     ],
     "items": {
       "both": {
         "ammo": 100,
-        "items": [
-          "under_armor",
-          "under_armor_shorts",
-          "tac_helmet",
-          "glasses_bal",
-          "gloves_tactical",
-          "boots_combat",
-          "holster",
-          "tacvest",
-          "socks",
-          "badge_zebra",
-          "molle_pack"
-        ],
         "entries": [
+          { "item": "under_armor" },
+          { "item": "under_armor_shorts" },
+          { "item": "tac_helmet" },
+          { "item": "glasses_bal" },
+          { "item": "gloves_tactical" },
+          { "item": "boots_combat" },
+          { "item": "holster" },
+          { "item": "wristwatch" },
+          { "item": "tacvest" },
+          { "item": "socks" },
+          { "item": "badge_zebra" },
+          { "item": "molle_pack" },
           { "item": "xedra_jumpsuit", "variant": "xedra_jumpsuit_offworld" },
           { "group": "military_ballistic_vest_light" },
           { "group": "torso_grenade_bandolier_jotunn" },
           { "item": "mgl", "ammo-item": "40x46mm_m433", "charges": 3, "contents-item": "shoulder_strap" }
         ]
       },
-      "male": [ "boxer_shorts" ],
-      "female": [ "sports_bra", "boxer_shorts" ]
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
     }
   },
   {
@@ -185,46 +187,45 @@
     "traits": [ "XEDRA_CYBORG", "PROF_FED" ],
     "CBMs": [ "bio_claws", "bio_ears", "bio_cable", "bio_tattoo_led", "bio_dex_enhancer", "bio_power_storage" ],
     "points": 7,
-    "proficiencies": [ "prof_wp_skeleton" ],
+    "proficiencies": [ "prof_wp_skeleton", "prof_unarmed_familiar", "prof_claws_familiar", "prof_bionics_familiar", "prof_bionics_pro" ],
     "skills": [
-      { "level": 1, "name": "cutting" },
-      { "level": 2, "name": "dodge" },
-      { "level": 2, "name": "melee" },
-      { "level": 3, "name": "unarmed" },
-      { "level": 2, "name": "survival" }
+      { "level": 6, "name": "cutting" },
+      { "level": 6, "name": "dodge" },
+      { "level": 6, "name": "melee" },
+      { "level": 5, "name": "unarmed" },
+      { "level": 4, "name": "survival" }
     ],
     "items": {
       "both": {
         "ammo": 100,
-        "items": [
-          "under_armor",
-          "under_armor_shorts",
-          "tac_helmet",
-          "glasses_bal",
-          "gloves_tactical",
-          "boots_combat",
-          "holster",
-          "legrig",
-          "tacvest",
-          "socks",
-          "badge_zebra"
-        ],
         "entries": [
+          { "item": "under_armor" },
+          { "item": "under_armor_shorts" },
+          { "item": "tac_helmet" },
+          { "item": "glasses_bal" },
+          { "item": "gloves_tactical" },
+          { "item": "boots_combat" },
+          { "item": "holster" },
+          { "item": "wristwatch" },
+          { "item": "legrig" },
+          { "item": "tacvest" },
+          { "item": "socks" },
+          { "item": "badge_zebra" },
           { "item": "xedra_jumpsuit", "variant": "xedra_jumpsuit_offworld" },
           { "item": "water_clean", "ammo-item": "water_clean", "container-item": "canteen" },
           { "item": "signal_flare", "ammo-item": "signal_flare", "count": 5 },
           { "group": "military_ballistic_vest_light" },
           {
             "item": "rm2000_smg",
-            "ammo-item": "8mm_hvp",
+            "ammo-item": "8mm_jhp",
             "charges": 25,
             "contents-item": [ "shoulder_strap", "holo_sight" ]
           },
           { "item": "legpouch_large", "contents-group": "xedra_mags_troll" }
         ]
       },
-      "male": [ "boxer_shorts" ],
-      "female": [ "sports_bra", "boxer_shorts" ]
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
     }
   },
   {
@@ -233,35 +234,34 @@
     "name": "Xedra Offworld Team: Specter",
     "description": "Part of Xedra's Offworld Aquisitions team, you were trained to infiltrate any human compatible cultures that were discovered.  You never found any with technology worth stealing and you aren't sure what that says about humanity.",
     "traits": [ "XEDRA_CYBORG" ],
-    "proficiencies": [ "prof_wp_syn_armored" ],
+    "proficiencies": [ "prof_wp_syn_armored", "prof_auto_pistols_familiar" ],
     "points": 6,
     "CBMs": [ "bio_tattoo_led", "bio_cable", "bio_face_mask", "bio_power_storage" ],
     "skills": [
-      { "level": 2, "name": "gun" },
-      { "level": 2, "name": "stabbing" },
-      { "level": 1, "name": "traps" },
-      { "level": 1, "name": "dodge" },
-      { "level": 2, "name": "melee" },
-      { "level": 2, "name": "deduction" },
-      { "level": 2, "name": "survival" }
+      { "level": 4, "name": "gun" },
+      { "level": 3, "name": "stabbing" },
+      { "level": 4, "name": "traps" },
+      { "level": 4, "name": "dodge" },
+      { "level": 3, "name": "melee" },
+      { "level": 6, "name": "deduction" },
+      { "level": 6, "name": "survival" }
     ],
     "items": {
       "both": {
         "ammo": 100,
-        "items": [
-          "under_armor",
-          "under_armor_shorts",
-          "tac_helmet",
-          "glasses_bal",
-          "gloves_tactical",
-          "boots_combat",
-          "holster",
-          "legrig",
-          "tacvest",
-          "socks",
-          "badge_zebra"
-        ],
         "entries": [
+          { "item": "under_armor" },
+          { "item": "under_armor_shorts" },
+          { "item": "tac_helmet" },
+          { "item": "glasses_bal" },
+          { "item": "gloves_tactical" },
+          { "item": "boots_combat" },
+          { "item": "holster" },
+          { "item": "wristwatch" },
+          { "item": "legrig" },
+          { "item": "tacvest" },
+          { "item": "socks" },
+          { "item": "badge_zebra" },
           { "item": "xedra_jumpsuit", "variant": "xedra_jumpsuit_offworld" },
           { "item": "water_clean", "ammo-item": "water_clean", "container-item": "canteen" },
           { "group": "military_ballistic_vest_light" },
@@ -269,8 +269,8 @@
           { "item": "legpouch_large", "contents-group": "suppressed_fn57" }
         ]
       },
-      "male": [ "boxer_shorts" ],
-      "female": [ "sports_bra", "boxer_shorts" ]
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
     }
   },
   {
@@ -280,12 +280,13 @@
     "description": "Being part of Upsilon 4, you were always at the front of your unit, protecting other operatives from danger ahead using your eater's abilities.  This one was no different, but something went really wrong.",
     "points": 7,
     "skills": [
-      { "level": 2, "name": "gun" },
-      { "level": 2, "name": "shotgun" },
-      { "level": 1, "name": "dodge" },
-      { "level": 2, "name": "melee" },
-      { "level": 3, "name": "deduction" }
+      { "level": 4, "name": "gun" },
+      { "level": 4, "name": "shotgun" },
+      { "level": 6, "name": "dodge" },
+      { "level": 6, "name": "melee" },
+      { "level": 7, "name": "deduction" }
     ],
+    "proficiencies": [ "prof_knives_familiar", "prof_auto_pistols_familiar" ],
     "spells": [
       { "id": "spring_heeled_leap", "level": 7 },
       { "id": "spell_dodge", "level": 7 },
@@ -295,23 +296,21 @@
     "items": {
       "both": {
         "ammo": 100,
-        "items": [
-          "pants_army",
-          "undershirt",
-          "combat_shirt",
-          "tac_fullhelmet",
-          "armguard_hard",
-          "legguard_hard",
-          "mask_ski",
-          "gloves_liner",
-          "gloves_tactical",
-          "socks",
-          "boots_combat",
-          "wristwatch",
-          "molle_pack",
-          "hammer_sledge"
-        ],
         "entries": [
+          { "item": "pants_army" },
+          { "item": "undershirt" },
+          { "item": "combat_shirt" },
+          { "item": "tac_fullhelmet" },
+          { "item": "armguard_hard" },
+          { "item": "legguard_hard" },
+          { "item": "mask_ski" },
+          { "item": "wristwatch" },
+          { "item": "gloves_liner" },
+          { "item": "gloves_tactical" },
+          { "item": "socks" },
+          { "item": "boots_combat" },
+          { "item": "molle_pack" },
+          { "item": "hammer_sledge" },
           { "item": "xedra_jumpsuit", "variant": "xedra_jumpsuit_eater" },
           { "group": "charged_two_way_radio" },
           { "group": "us_ballistic_vest_pristine" },
@@ -324,8 +323,8 @@
           { "item": "m17", "ammo-item": "9mm", "charges": 17, "container-item": "holster" }
         ]
       },
-      "male": [ "boxer_shorts" ],
-      "female": [ "sports_bra", "boxer_shorts" ]
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
     }
   },
   {
@@ -335,11 +334,12 @@
     "description": "Theta 1, also known as \"kindergarten\" between other task forces, is used when missions are expected to be too dangerous to send people or when reconnaissance can't obtain any important information about the target, which is why otherworldly creatures, summoned by dreamers, are sent.  It's not the best course of action, but the unit's nearly zero fatality rate makes it worth using.",
     "points": 7,
     "skills": [
-      { "level": 2, "name": "gun" },
-      { "level": 1, "name": "dodge" },
-      { "level": 2, "name": "melee" },
-      { "level": 4, "name": "deduction" }
+      { "level": 4, "name": "gun" },
+      { "level": 3, "name": "dodge" },
+      { "level": 4, "name": "melee" },
+      { "level": 8, "name": "deduction" }
     ],
+    "proficiencies": [ "prof_auto_pistols_familiar" ],
     "spells": [
       { "id": "banish_nether_monsters", "level": 7 },
       { "id": "spell_dreamer_clairvoyance_eff", "level": 7 },
@@ -350,19 +350,18 @@
     "items": {
       "both": {
         "ammo": 100,
-        "items": [
-          "under_armor",
-          "under_armor_shorts",
-          "tac_helmet",
-          "glasses_bal",
-          "gloves_tactical",
-          "boots_combat",
-          "holster",
-          "legrig",
-          "tacvest",
-          "socks"
-        ],
         "entries": [
+          { "item": "under_armor" },
+          { "item": "under_armor_shorts" },
+          { "item": "tac_helmet" },
+          { "item": "glasses_bal" },
+          { "item": "wristwatch" },
+          { "item": "gloves_tactical" },
+          { "item": "boots_combat" },
+          { "item": "holster" },
+          { "item": "legrig" },
+          { "item": "tacvest" },
+          { "item": "socks" },
           { "item": "xedra_jumpsuit", "variant": "xedra_jumpsuit_dreamer" },
           { "item": "water_clean", "ammo-item": "water_clean", "container-item": "canteen" },
           { "group": "military_ballistic_vest_light" },
@@ -370,8 +369,8 @@
           { "item": "legpouch_large", "contents-group": "suppressed_fn57" }
         ]
       },
-      "male": [ "boxer_shorts" ],
-      "female": [ "sports_bra", "boxer_shorts" ]
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
     }
   },
   {
@@ -383,10 +382,10 @@
     "skills": [
       { "level": 1, "name": "gun" },
       { "level": 1, "name": "melee" },
-      { "level": 2, "name": "fabrication" },
-      { "level": 2, "name": "mechanics" },
-      { "level": 3, "name": "electronics" },
-      { "level": 4, "name": "deduction" }
+      { "level": 4, "name": "fabrication" },
+      { "level": 6, "name": "mechanics" },
+      { "level": 5, "name": "electronics" },
+      { "level": 8, "name": "deduction" }
     ],
     "spells": [ { "id": "firmament_driver", "level": 7 }, { "id": "cable_whip", "level": 7 } ],
     "traits": [ "INVENTOR" ],
@@ -394,19 +393,18 @@
     "items": {
       "both": {
         "ammo": 100,
-        "items": [
-          "under_armor",
-          "under_armor_shorts",
-          "tac_helmet",
-          "glasses_bal",
-          "gloves_tactical",
-          "boots_combat",
-          "holster",
-          "legrig",
-          "tacvest",
-          "socks"
-        ],
         "entries": [
+          { "item": "under_armor" },
+          { "item": "under_armor_shorts" },
+          { "item": "tac_helmet" },
+          { "item": "glasses_bal" },
+          { "item": "gloves_tactical" },
+          { "item": "wristwatch" },
+          { "item": "boots_combat" },
+          { "item": "holster" },
+          { "item": "legrig" },
+          { "item": "tacvest" },
+          { "item": "socks" },
           { "item": "xedra_jumpsuit", "variant": "xedra_jumpsuit_inventor" },
           { "item": "water_clean", "ammo-item": "water_clean", "container-item": "canteen" },
           { "group": "military_ballistic_vest_light" },
@@ -414,8 +412,8 @@
           { "item": "legpouch_large", "contents-group": "suppressed_fn57" }
         ]
       },
-      "male": [ "boxer_shorts" ],
-      "female": [ "sports_bra", "boxer_shorts" ]
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
     }
   },
   {
@@ -425,26 +423,25 @@
     "description": "Sharing the same problem with Nu 3, dreamsmiths from Tau 8 are not called on the operation very often, and their main work looks really medieval.  Despite this, they are really popular among other branches, as their tools and armor have everything a modern soldier can dream of.",
     "//": "TODO: add some recipes they could know, if possible",
     "points": 7,
-    "skills": [ { "level": 4, "name": "fabrication" }, { "level": 4, "name": "deduction" } ],
+    "skills": [ { "level": 8, "name": "fabrication" }, { "level": 3, "name": "deduction" } ],
     "spells": [ { "id": "spell_oneiric_hammer", "level": 0 } ],
     "traits": [ "DREAMSMITH" ],
     "proficiencies": [ "prof_metalworking", "prof_dreamsmithing" ],
     "items": {
       "both": {
         "ammo": 100,
-        "items": [
-          "under_armor",
-          "under_armor_shorts",
-          "tac_helmet",
-          "glasses_bal",
-          "gloves_tactical",
-          "boots_combat",
-          "holster",
-          "legrig",
-          "tacvest",
-          "socks"
-        ],
         "entries": [
+          { "item": "under_armor" },
+          { "item": "under_armor_shorts" },
+          { "item": "tac_helmet" },
+          { "item": "glasses_bal" },
+          { "item": "gloves_tactical" },
+          { "item": "wristwatch" },
+          { "item": "boots_combat" },
+          { "item": "holster" },
+          { "item": "legrig" },
+          { "item": "tacvest" },
+          { "item": "socks" },
           { "item": "xedra_jumpsuit", "variant": "xedra_jumpsuit_dreamsmith" },
           { "item": "water_clean", "ammo-item": "water_clean", "container-item": "canteen" },
           { "group": "military_ballistic_vest_light" },
@@ -452,9 +449,49 @@
           { "item": "legpouch_large", "contents-group": "suppressed_fn57" }
         ]
       },
-      "male": [ "boxer_shorts" ],
-      "female": [ "sports_bra", "boxer_shorts" ]
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
     }
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "hobby_eater",
+    "name": "Awakened Eater",
+    "description": "Ever since the Cataclysm you've been able to clearly see elements of other realities that have intruded your own.  You also think you'd be able to consume these intrusions to give you power far beyond a normal human.",
+    "points": 4,
+    "spells": [ { "id": "spring_heeled_leap", "level": 4 }, { "id": "spell_dodge", "level": 4 } ],
+    "traits": [ "EATER" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "hobby_dreamer",
+    "name": "Awakened Dreamer",
+    "description": "Ever since the Cataclysm you've become far more aware of the weakened gap between realities.  Specifically, of what is on the other side.  Surprisingly, it doesn't seem universally hostile, and you think you'd be able to bring some of these entities over if you desired.",
+    "points": 4,
+    "spells": [ { "id": "create_dream_dross", "level": 4 }, { "id": "summon_shifter", "level": 4 } ],
+    "traits": [ "DREAMER" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "hobby_inventor",
+    "name": "Awakened Inventor",
+    "description": "Ever since the Cataclysm you've begun having crazy ideas on how to create technological devices.  While conventional logic would label these designs as silly or even insane, something tells you that they'd work regardless.",
+    "points": 4,
+    "traits": [ "INVENTOR" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "hobby_dreamsmith",
+    "name": "Awakened Dreamsmith",
+    "description": "Ever since the Cataclysm you've gained an instinctive sense of how to work dreamdross into tools and armor.  It will still take some effort to put these vague ideas to proper use",
+    "//": "TODO: add some basic recipes they could know, if possible",
+    "points": 4,
+    "spells": [ { "id": "spell_oneiric_hammer", "level": 0 } ],
+    "traits": [ "DREAMSMITH" ]
   },
   {
     "type": "profession",
@@ -464,15 +501,21 @@
     "points": 5,
     "traits": [ "IERDE" ],
     "pets": [ { "name": "mon_stoneling", "amount": 1 } ],
+    "recipes": [ "mutagen_earthkin", "cthonic_poultice" ],
     "items": {
       "both": {
-        "items": [ "footrags", "loincloth", "cloak_wool", "ragpouch", "gloves_wraps", "tunic_rag" ],
         "entries": [
+          { "item": "footrags" },
+          { "item": "loincloth" },
+          { "item": "cloak_wool" },
+          { "item": "ragpouch" },
+          { "item": "gloves_wraps" },
+          { "item": "tunic_rag" },
           { "item": "knife_baselard", "container-item": "sheath" },
           { "item": "earthkin_tablet", "custom-flags": [ "auto_wield" ] }
         ]
       },
-      "female": [ "chestwrap" ]
+      "female": { "entries": [ { "item": "chestwrap" } ] }
     },
     "flags": [ "SCEN_ONLY" ]
   },
@@ -484,15 +527,21 @@
     "points": 5,
     "traits": [ "ARVORE" ],
     "pets": [ { "name": "mon_vineling", "amount": 1 } ],
+    "recipes": [ "mutagen_plantkin", "verdant_poultice" ],
     "items": {
       "both": {
-        "items": [ "footrags", "loincloth", "cloak_wool", "ragpouch", "gloves_wraps", "tunic_rag" ],
         "entries": [
+          { "item": "footrags" },
+          { "item": "loincloth" },
+          { "item": "cloak_wool" },
+          { "item": "ragpouch" },
+          { "item": "gloves_wraps" },
+          { "item": "tunic_rag" },
           { "item": "knife_baselard", "container-item": "sheath" },
           { "item": "plantkin_parchment", "custom-flags": [ "auto_wield" ] }
         ]
       },
-      "female": [ "chestwrap" ]
+      "female": { "entries": [ { "item": "chestwrap" } ] }
     },
     "flags": [ "SCEN_ONLY" ]
   },
@@ -504,15 +553,21 @@
     "points": 5,
     "traits": [ "UNDINE" ],
     "pets": [ { "name": "mon_spitting_lizard", "amount": 1 } ],
+    "recipes": [ "mutagen_waterkin", "cerulean_poultice" ],
     "items": {
       "both": {
-        "items": [ "footrags", "loincloth", "cloak_wool", "ragpouch", "gloves_wraps", "tunic_rag" ],
         "entries": [
+          { "item": "footrags" },
+          { "item": "loincloth" },
+          { "item": "cloak_wool" },
+          { "item": "ragpouch" },
+          { "item": "gloves_wraps" },
+          { "item": "tunic_rag" },
           { "item": "knife_baselard", "container-item": "sheath" },
           { "item": "waterkin_tablet", "custom-flags": [ "auto_wield" ] }
         ]
       },
-      "female": [ "chestwrap" ]
+      "female": { "entries": [ { "item": "chestwrap" } ] }
     },
     "flags": [ "SCEN_ONLY" ]
   },
@@ -524,15 +579,21 @@
     "points": 5,
     "traits": [ "SALAMANDER" ],
     "pets": [ { "name": "mon_salamander_tiny", "amount": 1 } ],
+    "recipes": [ "mutagen_flamekin", "charred_sacrifice" ],
     "items": {
       "both": {
-        "items": [ "footrags", "loincloth", "cloak_wool", "ragpouch", "gloves_wraps", "tunic_rag" ],
         "entries": [
+          { "item": "footrags" },
+          { "item": "loincloth" },
+          { "item": "cloak_wool" },
+          { "item": "ragpouch" },
+          { "item": "gloves_wraps" },
+          { "item": "tunic_rag" },
           { "item": "knife_baselard", "container-item": "sheath" },
           { "item": "flametouched_parchment", "custom-flags": [ "auto_wield" ] }
         ]
       },
-      "female": [ "chestwrap" ]
+      "female": { "entries": [ { "item": "chestwrap" } ] }
     },
     "flags": [ "SCEN_ONLY" ]
   },
@@ -542,17 +603,23 @@
     "name": { "male": "Dúln", "female": "Dúkka" },
     "description": "With the dimensional spillage that preceded the Cataclysm you are the spirit of a place that slowly gained sentience, a genius loci.  As the world reshapes itself you have decided to wander from your birthplace and determine where you will end up.",
     "points": 5,
-    "traits": [ "HOMULLUS" ],
+    "traits": [ "HOMULLUS", "HOMULLUS_MINIMIZED_MUTATIONS" ],
     "pets": [ { "name": "mon_zoomorphic_figure_small", "amount": 1 } ],
+    "recipes": [ "mutagen_dollkin", "doll_repair_paste" ],
     "items": {
       "both": {
-        "items": [ "footrags", "loincloth", "cloak_wool", "ragpouch", "gloves_wraps", "tunic_rag" ],
         "entries": [
+          { "item": "footrags" },
+          { "item": "loincloth" },
+          { "item": "cloak_wool" },
+          { "item": "ragpouch" },
+          { "item": "gloves_wraps" },
+          { "item": "tunic_rag" },
           { "item": "knife_baselard", "container-item": "sheath" },
           { "item": "dollkin_tablet", "custom-flags": [ "auto_wield" ] }
         ]
       },
-      "female": [ "chestwrap" ]
+      "female": { "entries": [ { "item": "chestwrap" } ] }
     },
     "flags": [ "SCEN_ONLY" ]
   },
@@ -564,16 +631,58 @@
     "points": 5,
     "traits": [ "SYLPH" ],
     "pets": [ { "name": "mon_dragonfly_fae", "amount": 1 } ],
+    "recipes": [ "mutagen_airkin", "ethereal_draught" ],
     "items": {
       "both": {
-        "items": [ "footrags", "loincloth", "cloak_wool", "ragpouch", "gloves_wraps", "tunic_rag" ],
         "entries": [
+          { "item": "footrags" },
+          { "item": "loincloth" },
+          { "item": "cloak_wool" },
+          { "item": "ragpouch" },
+          { "item": "gloves_wraps" },
+          { "item": "tunic_rag" },
           { "item": "knife_baselard", "container-item": "sheath" },
           { "item": "sylph_parchment", "custom-flags": [ "auto_wield" ] }
         ]
       },
-      "female": [ "chestwrap" ]
+      "female": { "entries": [ { "item": "chestwrap" } ] }
     },
     "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "type": "profession",
+    "id": "hedge_magic_knower",
+    "name": { "male": "Hedge Wizard", "female": "Hedge Witch" },
+    "description": "In the years and decades leading up to the Cataclysm, things got weirder and weirder.  The government tried their best to cover it up but they couldn't entirely stop all knowledge from leaking out.  You were one of the people who responded to the weirdness by becoming weird yourself; you spent time combing through old books and found some of the charms and spells written in them actually worked.  When you had the right ingredients and were in the right place, you could make the impossible possible.  Maybe lighting a fire without a match won't help you kill a zombie, but it's kept you warm and safe when you're sure other survivors had to shiver as the night closed in.",
+    "points": 5,
+    "traits": [ "HEDGE_MAGIC" ],
+    "skills": [ { "level": 2, "name": "cooking" }, { "level": 1, "name": "survival" }, { "level": 2, "name": "deduction" } ],
+    "proficiencies": [ "prof_food_prep" ],
+    "spells": [
+      { "id": "hedge_ward_off_rain", "level": 1 },
+      { "id": "hedge_make_plants_grow", "level": 1 },
+      { "id": "hedge_light_fire", "level": 1 }
+    ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "jeans" },
+          { "item": "longshirt" },
+          { "item": "socks" },
+          { "item": "sneakers" },
+          { "item": "backpack" },
+          { "item": "pockknife" },
+          { "item": "water_clean" },
+          { "item": "wristwatch" },
+          { "group": "charged_smart_phone" },
+          { "item": "leaves", "count": 4 },
+          { "item": "cotton_patchwork", "count": 4 },
+          { "item": "ash", "count": 48 },
+          { "item": "soybean_seed", "count": 4 }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    }
   }
 ]

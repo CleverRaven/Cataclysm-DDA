@@ -51,7 +51,7 @@
           "str": "The Miracle of Mindfulness: An Introduction to the Practice of Meditation",
           "str_pl": "copies of The Miracle of Mindfulness: An Introduction to the Practice of Meditation"
         },
-        "description": "A translation of a letter written by Thich Nhat Hanh to collegues in Viet Nam, this book focues on mindfulness and breathwork.",
+        "description": "A translation of a letter written by Thich Nhat Hanh to colleagues in Viet Nam, this book focuses on mindfulness and breathwork.",
         "weight": 1
       }
     ]
@@ -117,12 +117,29 @@
     "id": "phavian_report_psionic_drain",
     "type": "BOOK",
     "category": "manuals",
-    "name": { "str": "Report: Drain Channeling Protocol PGS38", "str_pl": "copies of Report: Drain Channeling Protocol PGS38" },
-    "description": "A formal report on a process to reduce the fatiguing effects of long-term psionic use.  It describes a special meditation technique, performed with the aid of a matrix crystal, though it does warn that the process: \"puts extreme stress on the focus object.  Further refinement is required.\"",
+    "name": { "str": "Report: Channeling Protocol PGS38", "str_pl": "copies of Report: Channeling Protocol PGS38" },
+    "description": "A formal report on a process to reduce the unpredictable effects of long-term psionic use.  It describes a special meditation technique, performed with the aid of a matrix crystal, though it does warn that the process: \"puts extreme stress on the focus object.  Further refinement is required.\"",
     "copy-from": "recipe_lab_elec",
     "skill": "metaphysics",
     "required_level": 6,
     "max_level": 6,
+    "intelligence": 12,
+    "time": "35 m",
+    "fun": -2
+  },
+  {
+    "id": "manual_psionic_ritual",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": {
+      "str": "Training Manual: Method of Loci and Dimensional Metaphysics",
+      "str_pl": "copies of Training Manual: Method of Loci and Dimensional Metaphysics"
+    },
+    "description": "A formal report on a series of training procedures to allow the practitioner to hold images and ideas in their head for long periods of time without being distracted or losing their train of thought.  The report concludes, \"While the human mind is not adept at holding static images or scenes in place, some minor variation can be allowed for without suffering any adverse effects from the flow of Netherum energy.  Method of Loci allows the mathematician to maintain their thoughts within this area of variation while still exerting effective control over the mathematics.\"",
+    "copy-from": "recipe_lab_elec",
+    "skill": "metaphysics",
+    "required_level": 4,
+    "max_level": 4,
     "intelligence": 12,
     "time": "35 m",
     "fun": -2

@@ -139,6 +139,8 @@ Helpful pages:
 
 1. [Fork](https://github.com/CleverRaven/Cataclysm-DDA/fork) this repository here on GitHub.
 
+**Note:** Fork is different from branch, branches are covered [later](#make-your-changes).
+
 2. Clone your fork locally.
 
     ```bash
@@ -324,7 +326,7 @@ You can also set the tracking information at the same time as creating the branc
 There is a suite of tests built into the source tree at tests/  
 You should run the test suite after ANY change to the game source.  
 An ordinary invocation of `make` will build the test executable at `tests/cata_test`, and it can be invoked like any ordinary executable, or via `make check`.
-Running `test/cata_test` with no arguments will run the entire test suite; running it with `--help` will print a number of invocation options you can use to adjust its operation.
+Running `tests/cata_test` with no arguments will run the entire test suite; running it with `--help` will print a number of invocation options you can use to adjust its operation.
 
 ```bash
 $ make
@@ -366,7 +368,7 @@ Bring up the keybindings menu (press `Escape` then `1`), scroll down almost to t
 └───────────────────────────────────────────────────────────────────────────┘
 ```
 
-With these commands, you should be able to recreate the proper conditions to test your changes. You can find some more information about the debug menu on [the official wiki](http://cddawiki.chezzo.com/cdda_wiki/index.php).
+With these commands, you should be able to recreate the proper conditions to test your changes.
 
 ## Frequently Asked Questions
 

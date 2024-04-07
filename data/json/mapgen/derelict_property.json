@@ -46,7 +46,8 @@
       "h": "t_floor",
       "H": "t_floor",
       "m": "t_floor",
-      "r": "t_floor",
+      "r": "t_floor_noroof",
+      ",": "t_floor_noroof",
       "{": "t_floor",
       "B": "t_floor",
       "c": "t_floor",
@@ -57,7 +58,7 @@
       "b": "t_linoleum_gray",
       "T": "t_linoleum_gray",
       "&": "t_linoleum_gray",
-      "v": "t_linoleum_gray",
+      "v": "t_linoleum_gray_no_roof",
       "=": "t_thconc_floor",
       "R": "t_thconc_floor",
       "0": [ [ "t_window_boarded_noglass", 2 ], [ "t_window_boarded", 2 ], "t_window_empty" ],
@@ -75,7 +76,8 @@
           "t_wall_half": "t_wall",
           "t_brick_wall_halfway": "t_brick_wall"
         }
-      }
+      },
+      "4": "t_gutter_downspout"
     },
     "furniture": {
       "r": "f_rubble",
@@ -99,7 +101,8 @@
     "nested": {
       "|": { "chunks": [ [ "1x1_bash", 7 ], [ "general_graffiti", 20 ], [ "null", 90 ] ] },
       "w": { "chunks": [ [ "1x1_bash", 1 ], [ "null", 6 ] ] },
-      ".": { "chunks": [ [ "1x1_bash", 1 ], [ "null", 10 ] ] }
+      ".": { "chunks": [ [ "1x1_bash", 1 ], [ "null", 10 ] ] },
+      "4": { "chunks": [ [ "1x1_bash", 1 ], [ "null", 4 ] ] }
     },
     "items": {
       "{": { "item": "homebooks", "chance": 20, "repeat": [ 1, 2 ] },
@@ -119,18 +122,86 @@
     "toilets": { "T": {  } }
   },
   {
+    "type": "palette",
+    "id": "derelict_variant_parameter_palette",
+    "parameters": {
+      "variant": {
+        "type": "nested_mapgen_id",
+        "default": {
+          "distribution": [
+            "derelict_property_1",
+            "derelict_property_2",
+            "derelict_property_3",
+            "derelict_property_4",
+            "derelict_property_5",
+            "derelict_property_6",
+            "derelict_property_7"
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "palette",
+    "id": "derelict_roof_palette",
+    "palettes": [ "roof_palette" ],
+    "nested": {
+      ".": { "chunks": [ [ "1x1_bash", 1 ], [ "null", 9 ] ] },
+      "-": { "chunks": [ [ "1x1_bash", 1 ], [ "null", 4 ] ] },
+      "5": { "chunks": [ [ "1x1_bash", 1 ], [ "null", 4 ] ] }
+    }
+  },
+  {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "derelict_property" ],
-    "weight": 100,
+    "om_terrain": "derelict_property",
     "object": {
-      "predecessor_mapgen": "forest",
+      "fallback_predecessor_mapgen": "forest",
+      "palettes": [ "derelict_variant_parameter_palette" ],
+      "place_nested": [ { "chunks": [ { "param": "variant", "fallback": "derelict_property_1" } ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "derelict_property_roof",
+    "object": {
+      "fill_ter": "t_open_air",
+      "palettes": [ "derelict_variant_parameter_palette" ],
+      "place_nested": [
+        {
+          "chunks": [
+            {
+              "switch": { "param": "variant", "fallback": "derelict_property_1" },
+              "cases": {
+                "derelict_property_1": "derelict_property_1_roof",
+                "derelict_property_2": "derelict_property_2_roof",
+                "derelict_property_3": "derelict_property_3_roof",
+                "derelict_property_4": "derelict_property_4_roof",
+                "derelict_property_5": "derelict_property_5_roof",
+                "derelict_property_6": "derelict_property_6_roof",
+                "derelict_property_7": "derelict_property_7_roof"
+              }
+            }
+          ],
+          "x": 0,
+          "y": 0
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "derelict_property_1",
+    "object": {
+      "mapgensize": [ 24, 24 ],
       "rows": [
         "                        ",
         "                        ",
         "                        ",
         "       |||00|||00|||    ",
-        "       |d....|t...@|    ",
+        "      4|d....|t...@|    ",
         "       |dh.@.+.....0    ",
         "       |d....w...r.|    ",
         "       |...r.r.rr.r|    ",
@@ -158,10 +229,45 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "derelict_property" ],
-    "weight": 100,
+    "nested_mapgen_id": "derelict_property_1_roof",
     "object": {
-      "predecessor_mapgen": "forest",
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "       -------------    ",
+        "       5...........-    ",
+        "       -...........-    ",
+        "       -..... ... .-    ",
+        "       -... . .  . -    ",
+        "       -....       -    ",
+        "       -..              ",
+        "       -..              ",
+        "       -.               ",
+        "       -..              ",
+        "       -.               ",
+        "       ---              ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "derelict_roof_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "derelict_property_2",
+    "object": {
+      "mapgensize": [ 24, 24 ],
       "rows": [
         "                        ",
         "                        ",
@@ -169,7 +275,7 @@
         "        sss             ",
         "        sss             ",
         "F$$$$F|||D||00||00|||^  ",
-        "      |@@......ccccrw   ",
+        "     4|@@......ccccrw   ",
         "      |r....rrrr..rrw^  ",
         "     ^|{..rrr^^rr||||^  ",
         "     ^|{.rr^^ ^^r|&b|   ",
@@ -195,10 +301,45 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "derelict_property" ],
-    "weight": 100,
+    "nested_mapgen_id": "derelict_property_2_roof",
     "object": {
-      "predecessor_mapgen": "forest",
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "      ---------------   ",
+        "      5............     ",
+        "      - ....    ..      ",
+        "      -...       ...-   ",
+        "      -..        ...-   ",
+        "      -..        ...-   ",
+        "      -...       ...-   ",
+        "                   .-   ",
+        "                    -   ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "      -          -      ",
+        "      -        ..-      ",
+        "      ---     ----      ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "derelict_roof_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "derelict_property_3",
+    "object": {
+      "mapgensize": [ 24, 24 ],
       "rows": [
         "                        ",
         "     sss                ",
@@ -211,7 +352,7 @@
         "  |t....rr^^ ^^rw^^     ",
         "  0c...h.rr^^^rrr^      ",
         "  0c..@.rrrr^vvvw^ ^    ",
-        "  |c.....rrr^^vv|^      ",
+        " 4|c.....rrr^^vv|^      ",
         "  ||||D|ww^^^^ww|   W   ",
         "    $ s^  ^^   ^$    WW ",
         "    $ oo oo oo  $   WW  ",
@@ -232,10 +373,45 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "derelict_property" ],
-    "weight": 100,
+    "nested_mapgen_id": "derelict_property_3_roof",
     "object": {
-      "predecessor_mapgen": "forest_water",
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "  -----      .          ",
+        "  -.....     .          ",
+        "  -.....                ",
+        "  -....                 ",
+        "  -.....        .       ",
+        "  -.....                ",
+        "  -......               ",
+        "  -.....                ",
+        "  5......       .       ",
+        "  ------        .       ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                -----   ",
+        "                -...-   ",
+        "                -...-   ",
+        "                -...-   ",
+        "                -----   ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "derelict_roof_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "derelict_property_4",
+    "object": {
+      "mapgensize": [ 24, 24 ],
       "rows": [
         "                        ",
         "                        ",
@@ -256,7 +432,7 @@
         " F W            ^^^|    ",
         "      WW       ^^rr|    ",
         "    WW        ^^rr.|    ",
-        "  W WWW        ^^r.|    ",
+        "  W WWW        ^^r.|4   ",
         " F    W       ^^||||    ",
         "                        ",
         "                        ",
@@ -270,10 +446,45 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "derelict_property",
-    "weight": 100,
+    "nested_mapgen_id": "derelict_property_4_roof",
     "object": {
-      "predecessor_mapgen": "forest",
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "             -------    ",
+        "             -.....-    ",
+        "              .... -    ",
+        "                .. -    ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                   -    ",
+        "                   -    ",
+        "                  .-    ",
+        "                  .5    ",
+        "                ----    ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "derelict_roof_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "derelict_property_5",
+    "object": {
+      "mapgensize": [ 24, 24 ],
       "rows": [
         "F                 $ $$ F",
         "$  WW                  $",
@@ -287,11 +498,11 @@
         "     |r.nn.....OO..rw^  ",
         "    ^wr..h...@.|r..rw^  ",
         "$   ^wrr..cccct|n.rr^  ^",
-        "     ^r.ww||||||H..r^^  ",
+        "     ^r,ww||||||H..r^^  ",
         "    ^^rr...|&:T|..rrw   ",
         "     ^^^r..+:::|{..rw^  ",
         "    ^w^^rr.wv:b|{.rr|   ",
-        "    ^w^^^rrwvvv|{.rr|   ",
+        "    ^w^^^rrwvvv|{.rr|4  ",
         "    ^|w^^^ww|ww|||w||   ",
         "     ^^  ^^ ^^^^ ^^     ",
         "           ^  ^         ",
@@ -307,10 +518,45 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "derelict_property",
-    "weight": 100,
+    "nested_mapgen_id": "derelict_property_5_roof",
     "object": {
-      "predecessor_mapgen": "forest",
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "     ----       -----   ",
+        "     -...      .....-   ",
+        "     -.....  .......-   ",
+        "     - ............     ",
+        "       ......... ..     ",
+        "        ..........      ",
+        "          .........     ",
+        "        ..........      ",
+        "         ..........     ",
+        "          .  .....  -   ",
+        "               ...  5   ",
+        "     .      .  --- --   ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "derelict_roof_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "derelict_property_6",
+    "object": {
+      "mapgensize": [ 24, 24 ],
       "rows": [
         "F   F$$$FsF   F   F$$$F ",
         "         s       W   W  ",
@@ -329,7 +575,7 @@
         "$      |.hnnh..r|       ",
         "F      |.hnnh...|     F ",
         "       |r.......|       ",
-        "      ^wrrr..ccc|   W   ",
+        "      ^wrrr..ccc|4  W   ",
         "       ^^w||||0||  W  W ",
         "F     ^^^^         WW F ",
         " W   W ^             W$ ",
@@ -344,10 +590,45 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "derelict_property",
-    "weight": 100,
+    "nested_mapgen_id": "derelict_property_6_roof",
     "object": {
-      "predecessor_mapgen": "forest",
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "       ---     --       ",
+        "       -..     .-       ",
+        "       -....  ..-       ",
+        "       -....... -       ",
+        "       -.......         ",
+        "       -......          ",
+        "       -.......         ",
+        "       -......          ",
+        "       -......  -       ",
+        "       -....... -       ",
+        "       -....... -       ",
+        "       -........-       ",
+        "       - .......-       ",
+        "           .....5       ",
+        "          -------       ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "derelict_roof_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "derelict_property_7",
+    "object": {
+      "mapgensize": [ 24, 24 ],
       "rows": [
         "F  F$$F  F$$F           ",
         "                    W   ",
@@ -359,7 +640,7 @@
         "  oo oo oo oo           ",
         "                        ",
         "F   ||000||             ",
-        "    |t...@|      ^      ",
+        "   4|t...@|      ^      ",
         "    |.hnh.Dsss ^ w||||  ",
         "F   |.....|     ^wvvR|  ",
         "   ^|rrrrr|^    ^vvvR|  ",
@@ -376,8 +657,44 @@
       ],
       "palettes": [ "derelict_palette" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "terrain": { "v": "t_thconc_floor" },
+      "terrain": { "v": "t_thconc_floor_no_roof" },
       "place_vehicles": [ { "vehicle": "car_chassis", "x": [ 17, 20 ], "y": [ 7, 8 ], "chance": 50, "status": 1, "rotation": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "derelict_property_7_roof",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "    -------             ",
+        "    5.....-             ",
+        "    -.....-       ----  ",
+        "    -.....-         .-  ",
+        "    -     -         .-  ",
+        "                   ..-  ",
+        "                   ---  ",
+        "                        ",
+        "    -                   ",
+        "    -   ---             ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "derelict_roof_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   }
 ]

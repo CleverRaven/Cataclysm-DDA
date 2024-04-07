@@ -19,7 +19,7 @@
   {
     "type": "COMESTIBLE",
     "id": "groundnut",
-    "name": { "str_sp": "handful of ground nuts" },
+    "name": { "str": "handful of ground nuts", "str_pl": "handfuls of ground nuts" },
     "comestible_type": "FOOD",
     "weight": "40 g",
     "volume": "40 ml",
@@ -119,7 +119,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cabbage",
-    "name": { "str": "cabbage" },
+    "name": { "str_sp": "cabbage" },
     "weight": "82 g",
     "color": "white",
     "spoils_in": "10 days",
@@ -215,6 +215,25 @@
     "fun": -12,
     "flags": [ "RAW" ],
     "vitamins": [ [ "iron", 8 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "lotus_rhizome",
+    "name": { "str": "lotus root" },
+    "weight": "200 g",
+    "color": "white",
+    "spoils_in": "3 days 8 hours",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 150,
+    "description": "The rhizome of the lotus, which has many tubular cavities inside, can be eaten both raw and cooked.",
+    "price": 0,
+    "price_postapoc": 10,
+    "material": [ "veggy" ],
+    "volume": "500 ml",
+    "flags": [ "SMOKABLE", "FREEZERBURN" ],
+    "smoking_result": "dry_veggy",
+    "vitamins": [ [ "vitC", 94 ], [ "calcium", 9 ], [ "iron", 12 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -422,7 +441,7 @@
   {
     "type": "COMESTIBLE",
     "id": "dogbane",
-    "name": { "str": "dogbane" },
+    "name": { "str_sp": "dogbane" },
     "description": "A stalk of dogbane.  It has very fibrous stems and is mildly poisonous.",
     "comestible_type": "FOOD",
     "use_action": [ "BLECH" ],
@@ -455,9 +474,28 @@
     "material": [ "garlic" ],
     "volume": "150 ml",
     "fun": -18,
-    "flags": [ "RAW" ],
+    "flags": [ "RAW", "PLANTABLE_SEED" ],
     "vitamins": [ [ "vitC", 5 ], [ "calcium", 3 ], [ "iron", 1 ] ],
     "//": "Who in their right mind would eat an entire garlic bulb raw?"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "garlic_clove",
+    "name": { "str": "garlic clove" },
+    "weight": "3 g",
+    "color": "white",
+    "spoils_in": "360 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": -3,
+    "calories": 4,
+    "description": "Cloves of garlic.  Useful as a seasoning.",
+    "price": "8 cent",
+    "material": [ "garlic" ],
+    "volume": "25 ml",
+    "fun": -3,
+    "flags": [ "NUTRIENT_OVERRIDE" ],
+    "seed_data": { "plant_name": "garlic", "fruit": "garlic", "byproducts": [ "withered" ], "grow": "65 days" }
   },
   {
     "type": "COMESTIBLE",
@@ -498,7 +536,7 @@
   {
     "type": "COMESTIBLE",
     "id": "lettuce",
-    "name": { "str": "lettuce" },
+    "name": { "str_sp": "lettuce" },
     "weight": "90 g",
     "color": "light_green",
     "spoils_in": "10 days",
@@ -518,7 +556,7 @@
   {
     "type": "COMESTIBLE",
     "id": "mugwort",
-    "name": { "str": "mugwort" },
+    "name": { "str_sp": "mugwort" },
     "description": "A stalk of mugwort.  Smells wonderful.",
     "comestible_type": "FOOD",
     "spoils_in": "10 days",
@@ -558,7 +596,7 @@
     "type": "COMESTIBLE",
     "id": "plant_sac",
     "name": { "str": "fungal fluid sac" },
-    "weight": "278 g",
+    "weight": "270 g",
     "color": "light_green",
     "spoils_in": "3 days 8 hours",
     "//": "wild vegetables as a reference",
@@ -640,7 +678,7 @@
   {
     "type": "COMESTIBLE",
     "id": "pumpkin_cut",
-    "name": { "str": "cut pumpkin" },
+    "name": { "str_sp": "cut pumpkin" },
     "copy-from": "pumpkin",
     "spoils_in": "6 days",
     "description": "A quarter section of a pumpkin.  The seeds and stringy inner pulp have been removed.",
@@ -717,7 +755,7 @@
   {
     "type": "COMESTIBLE",
     "id": "raw_bamboo",
-    "name": { "str_sp": "bamboo shoot" },
+    "name": { "str_sp": "bamboo shoots" },
     "weight": "151 g",
     "color": "green",
     "spoils_in": "1 day 6 hours",
@@ -778,10 +816,10 @@
   {
     "type": "COMESTIBLE",
     "id": "tea_raw",
-    "name": { "str": "black tea leaf", "str_pl": "black tea leaves" },
+    "name": { "str_sp": "black tea leaves" },
     "weight": "3 g",
     "color": "green",
-    "fatigue_mod": 3,
+    "sleepiness_mod": 3,
     "stim": 1,
     "container": "bag_plastic",
     "comestible_type": "FOOD",
@@ -803,7 +841,7 @@
     "name": { "str": "pile of wintergreen leaves", "str_pl": "piles of wintergreen leaves" },
     "weight": "5 g",
     "color": "green",
-    "fatigue_mod": 3,
+    "sleepiness_mod": 3,
     "stim": 1,
     "container": "bag_plastic",
     "comestible_type": "FOOD",
@@ -826,7 +864,7 @@
   {
     "type": "COMESTIBLE",
     "id": "tea_green_raw",
-    "name": { "str": "green tea leaf", "str_pl": "green tea leaves" },
+    "name": { "str_sp": "green tea leaves" },
     "copy-from": "tea_raw",
     "description": "Dried leaves of a tropical plant.  You can boil them into green tea, or you can just eat them raw.  They're pretty gross and not too filling that way, though."
   },
@@ -862,7 +900,7 @@
   {
     "type": "COMESTIBLE",
     "id": "veggy",
-    "name": { "str": "plant marrow" },
+    "name": { "str_sp": "plant marrow" },
     "weight": "119 g",
     "color": "green",
     "spoils_in": "3 days 8 hours",
@@ -1003,7 +1041,7 @@
   {
     "type": "COMESTIBLE",
     "id": "young_leaves",
-    "name": { "str_sp": "handful of young leaves" },
+    "name": { "str": "handful of young leaves", "str_pl": "handfuls of young leaves" },
     "weight": "20 g",
     "flags": [ "FREEZERBURN", "RAW" ],
     "color": "light_green",
@@ -1022,7 +1060,7 @@
   {
     "type": "COMESTIBLE",
     "id": "chicory_leaves",
-    "name": { "str_sp": "handful of chicory greens" },
+    "name": { "str": "handful of chicory greens", "str_pl": "handfuls of chicory greens" },
     "copy-from": "young_leaves",
     "description": "Some chicory greens.  They are quite bitter but high in vitamins.",
     "price_postapoc": 20,

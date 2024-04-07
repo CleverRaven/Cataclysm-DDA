@@ -13,22 +13,20 @@
     ],
     "items": {
       "both": {
-        "items": [
-          "tac_helmet",
-          "keffiyeh",
-          "sweatshirt",
-          "pants_cargo",
-          "longshirt",
-          "rucksack",
-          "glasses_bal",
-          "dump_pouch",
-          "socks",
-          "boots_combat",
-          "gloves_tactical",
-          "diving_watch",
-          "ballistic_vest_esapi"
-        ],
         "entries": [
+          { "item": "tac_helmet" },
+          { "item": "keffiyeh" },
+          { "item": "sweatshirt" },
+          { "item": "pants_cargo" },
+          { "item": "longshirt" },
+          { "item": "rucksack" },
+          { "item": "glasses_bal" },
+          { "item": "dump_pouch" },
+          { "item": "socks" },
+          { "item": "boots_combat" },
+          { "item": "gloves_tactical" },
+          { "item": "diving_watch" },
+          { "item": "ballistic_vest_esapi" },
           {
             "item": "acr_300blk",
             "ammo-item": "300blk_ss",
@@ -42,8 +40,8 @@
           { "item": "legpouch_large", "contents-group": "army_mags_1911" }
         ]
       },
-      "male": [ "boxer_shorts" ],
-      "female": [ "boy_shorts", "sports_bra" ]
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "boy_shorts" }, { "item": "sports_bra" } ] }
     }
   },
   {
@@ -55,21 +53,24 @@
     "skills": [ { "level": 2, "name": "survival" }, { "level": 4, "name": "gun" }, { "level": 4, "name": "rifle" } ],
     "items": {
       "both": {
-        "items": [
-          "hat_cotton",
-          "jacket_army",
-          "pants_army",
-          "longshirt",
-          "rucksack",
-          "knee_pads",
-          "elbow_pads",
-          "socks",
-          "boots_combat",
-          "gloves_tactical",
-          "cloak"
-        ],
         "entries": [
-          { "item": "M24", "ammo-item": "762_51", "charges": 20, "contents-item": [ "shoulder_strap", "bipod", "suppressor" ] },
+          { "item": "hat_cotton" },
+          { "item": "jacket_army" },
+          { "item": "pants_army" },
+          { "item": "longshirt" },
+          { "item": "rucksack" },
+          { "item": "knee_pads" },
+          { "item": "elbow_pads" },
+          { "item": "socks" },
+          { "item": "boots_combat" },
+          { "item": "gloves_tactical" },
+          { "item": "cloak" },
+          {
+            "item": "M24",
+            "ammo-item": "762_51",
+            "charges": 20,
+            "contents-item": [ "shoulder_strap", "bipod", "suppressor" ]
+          },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "chestrig", "contents-group": "army_mags_m14" },
           { "item": "knife_combat", "container-item": "sheath" },
@@ -77,8 +78,8 @@
           { "item": "legpouch_large", "contents-group": "army_mags_1911" }
         ]
       },
-      "male": [ "boxer_shorts" ],
-      "female": [ "boy_shorts", "sports_bra" ]
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "boy_shorts" }, { "item": "sports_bra" } ] }
     }
   },
   {
@@ -96,23 +97,21 @@
     ],
     "items": {
       "both": {
-        "items": [
-          "hat_ball",
-          "scarf",
-          "hoodie",
-          "pants_cargo",
-          "longshirt",
-          "kevlar",
-          "mbag",
-          "glasses_bal",
-          "dump_pouch",
-          "socks",
-          "boots_combat",
-          "gloves_tactical",
-          "multitool",
-          "diving_watch"
-        ],
         "entries": [
+          { "item": "hat_ball" },
+          { "item": "scarf" },
+          { "item": "hoodie" },
+          { "item": "pants_cargo" },
+          { "item": "longshirt" },
+          { "item": "kevlar" },
+          { "item": "mbag" },
+          { "item": "glasses_bal" },
+          { "item": "dump_pouch" },
+          { "item": "socks" },
+          { "item": "boots_combat" },
+          { "item": "gloves_tactical" },
+          { "item": "multitool" },
+          { "item": "diving_watch" },
           {
             "item": "hk_mp7",
             "ammo-item": "46mm",
@@ -126,8 +125,8 @@
           { "item": "legpouch_large", "contents-group": "army_mags_1911" }
         ]
       },
-      "male": [ "boxer_shorts" ],
-      "female": [ "boy_shorts", "sports_bra" ]
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "boy_shorts" }, { "item": "sports_bra" } ] }
     }
   },
   {
@@ -144,29 +143,27 @@
     ],
     "items": {
       "both": {
-        "items": [
-          "scarf",
-          "dress_shirt",
-          "jeans",
-          "longshirt",
-          "kevlar",
-          "mbag",
-          "fancy_sunglasses",
-          "socks",
-          "lowtops",
-          "pockknife",
-          "diving_watch",
-          "smart_phone"
-        ],
         "entries": [
+          { "item": "scarf" },
+          { "item": "dress_shirt" },
+          { "item": "jeans" },
+          { "item": "longshirt" },
+          { "item": "kevlar" },
+          { "item": "mbag" },
+          { "item": "fancy_sunglasses" },
+          { "item": "socks" },
+          { "item": "lowtops" },
+          { "item": "pockknife" },
+          { "item": "diving_watch" },
+          { "item": "smart_phone" },
           { "item": "holster", "contents-group": "holster_supp_57" },
           { "item": "suppressor" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "legpouch_large", "contents-group": "army_mags_57" }
         ]
       },
-      "male": [ "boxer_shorts" ],
-      "female": [ "boy_shorts", "sports_bra" ]
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "boy_shorts" }, { "item": "sports_bra" } ] }
     }
   },
   {
@@ -183,17 +180,15 @@
     ],
     "items": {
       "both": {
-        "items": [
-          "hazmat_suit",
-          "pants_cargo",
-          "longshirt",
-          "dump_pouch",
-          "socks",
-          "gloves_rubber",
-          "diving_watch",
-          "ballistic_vest_esapi"
-        ],
         "entries": [
+          { "item": "hazmat_suit" },
+          { "item": "pants_cargo" },
+          { "item": "longshirt" },
+          { "item": "dump_pouch" },
+          { "item": "socks" },
+          { "item": "gloves_rubber" },
+          { "item": "diving_watch" },
+          { "item": "ballistic_vest_esapi" },
           { "item": "hk_mp5", "ammo-item": "9mm", "charges": 30, "contents-item": [ "shoulder_strap", "suppressor" ] },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "tacvest", "contents-group": "army_mags_mp5" },
@@ -201,8 +196,8 @@
           { "item": "legpouch_large", "contents-group": "army_mags_1911" }
         ]
       },
-      "male": [ "boxer_shorts" ],
-      "female": [ "boy_shorts", "sports_bra" ]
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "boy_shorts" }, { "item": "sports_bra" } ] }
     }
   }
 ]

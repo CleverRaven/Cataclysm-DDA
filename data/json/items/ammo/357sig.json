@@ -3,7 +3,8 @@
     "id": "357sig_fmj",
     "type": "AMMO",
     "name": { "str_sp": ".357 SIG FMJ" },
-    "description": "Jacketed .357 SIG ammunition.  The .357 SIG round is a high velocity pistol cartridge, giving it a flatter trajectory than many handgun rounds.",
+    "description": "Jacketed .357 SIG ammunition.  Based on a 10mm Auto case necked down to a .355 inch bullet, the .357 SIG round is a high velocity pistol cartridge, giving it a flatter trajectory than many handgun rounds.",
+    "ascii_picture": "357sig_fmj",
     "weight": "15 g",
     "volume": "132 ml",
     "longest_side": "29 mm",
@@ -18,7 +19,32 @@
     "ammo_type": "357sig",
     "casing": "357sig_casing",
     "range": 16,
-    "damage": { "damage_type": "bullet", "amount": 29, "armor_penetration": 8 },
+    "//": ".355in, 124gr, Speer HP GD 3998, 7.3gr Alliant UNIQUE",
+    "damage": {
+      "damage_type": "bullet",
+      "amount": 29,
+      "armor_penetration": 8,
+      "barrels": [
+        { "barrel_length": "26 mm", "amount": 18 },
+        { "barrel_length": "29 mm", "amount": 19 },
+        { "barrel_length": "34 mm", "amount": 20 },
+        { "barrel_length": "39 mm", "amount": 21 },
+        { "barrel_length": "46 mm", "amount": 22 },
+        { "barrel_length": "53 mm", "amount": 23 },
+        { "barrel_length": "63 mm", "amount": 24 },
+        { "barrel_length": "71 mm", "amount": 25 },
+        { "barrel_length": "96 mm", "amount": 27 },
+        { "barrel_length": "121 mm", "amount": 28 },
+        { "barrel_length": "146 mm", "amount": 29 },
+        { "barrel_length": "196 mm", "amount": 30 },
+        { "barrel_length": "272 mm", "amount": 31 },
+        { "barrel_length": "347 mm", "amount": 32 },
+        { "barrel_length": "473 mm", "amount": 33 },
+        { "barrel_length": "674 mm", "amount": 34 },
+        { "barrel_length": "975 mm", "amount": 35 },
+        { "barrel_length": "1256 mm", "amount": 36 }
+      ]
+    },
     "dispersion": 30,
     "recoil": 600,
     "effects": [ "COOKOFF" ]
@@ -28,7 +54,7 @@
     "copy-from": "357sig_fmj",
     "type": "AMMO",
     "name": { "str_sp": ".357 SIG JHP" },
-    "description": "Jacketed hollow point .357 SIG ammunition.  The .357 SIG round is a high velocity pistol cartridge, giving it a flatter trajectory than many handgun rounds.",
+    "description": "Jacketed hollow point .357 SIG ammunition.  Based on a 10mm Auto case necked down to a .355 inch bullet, the .357 SIG round is a high velocity pistol cartridge, giving it a flatter trajectory than many handgun rounds.",
     "relative": { "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": -4 } }
   },
   {
@@ -36,7 +62,7 @@
     "copy-from": "357sig_fmj",
     "type": "AMMO",
     "name": { "str_sp": ".357 SIG FMJ, reloaded" },
-    "description": "Jacketed .357 SIG ammunition.  The .357 SIG round is a high velocity pistol cartridge, giving it a flatter trajectory than many handgun rounds.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
+    "description": "Jacketed .357 SIG ammunition.  Based on a 10mm Auto case necked down to a .355 inch bullet, the .357 SIG round is a high velocity pistol cartridge, giving it a flatter trajectory than many handgun rounds.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
@@ -46,7 +72,7 @@
     "copy-from": "357sig_jhp",
     "type": "AMMO",
     "name": { "str_sp": ".357 SIG JHP, reloaded" },
-    "description": "Jacketed hollow point .357 SIG ammunition.  The .357 SIG round is a high velocity pistol cartridge, giving it a flatter trajectory than many handgun rounds.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
+    "description": "Jacketed hollow point .357 SIG ammunition.  Based on a 10mm Auto case necked down to a .355 inch bullet, the .357 SIG round is a high velocity pistol cartridge, giving it a flatter trajectory than many handgun rounds.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
@@ -56,7 +82,7 @@
     "copy-from": "357sig_fmj",
     "type": "AMMO",
     "name": { "str_sp": ".357 SIG FMJ, black powder" },
-    "description": "Jacketed .357 SIG ammunition.  The .357 SIG round is a high velocity pistol cartridge, giving it a flatter trajectory than many handgun rounds.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
+    "description": "Jacketed .357 SIG ammunition.  Based on a 10mm Auto case necked down to a .355 inch bullet, the .357 SIG round is a high velocity pistol cartridge, giving it a flatter trajectory than many handgun rounds.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
@@ -71,7 +97,7 @@
     "copy-from": "357sig_jhp",
     "type": "AMMO",
     "name": { "str_sp": ".357 SIG JHP, black powder" },
-    "description": "Jacketed hollow point .357 SIG ammunition.  The .357 SIG round is a high velocity pistol cartridge, giving it a flatter trajectory than many handgun rounds.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
+    "description": "Jacketed hollow point .357 SIG ammunition.  Based on a 10mm Auto case necked down to a .355 inch bullet, the .357 SIG round is a high velocity pistol cartridge, giving it a flatter trajectory than many handgun rounds.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
@@ -87,7 +113,7 @@
     "type": "AMMO",
     "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
     "name": { "str_sp": ".357 SIG FMJ, matchhead powder" },
-    "description": "Jacketed .357 SIG ammunition.  The .357 SIG round is a high velocity pistol cartridge, giving it a flatter trajectory than many handgun rounds.  This one was a victim of a truly desperate survivor, being loaded with powder from ground match heads.  Red phosphorous is less energetic than even black powder, but its fast burn rate also limits the amount that can be used due to the danger of blowing up the gun from overpressure.  As a result, it's even weaker than its black powder counterpart, and the ammo is still dirty and corrosive meaning it needs to be cleaned quickly or else the gun will suffer.",
+    "description": "Jacketed .357 SIG ammunition.  Based on a 10mm Auto case necked down to a .355 inch bullet, the .357 SIG round is a high velocity pistol cartridge, giving it a flatter trajectory than many handgun rounds.  This one was a victim of a truly desperate survivor, being loaded with powder from ground match heads.  Red phosphorous is less energetic than even black powder, but its fast burn rate also limits the amount that can be used due to the danger of blowing up the gun from overpressure.  As a result, it's even weaker than its black powder counterpart, and the ammo is still dirty and corrosive meaning it needs to be cleaned quickly or else the gun will suffer.",
     "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
     "looks_like": "bp_357sig_fmj",
     "extend": { "effects": [ "MATCHHEAD" ] }
@@ -98,7 +124,7 @@
     "type": "AMMO",
     "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
     "name": { "str_sp": ".357 SIG JHP, matchhead powder" },
-    "description": "Jacketed hollow point .357 SIG ammunition.  The .357 SIG round is a high velocity pistol cartridge, giving it a flatter trajectory than many handgun rounds.  This one was a victim of a truly desperate survivor, being loaded with powder from ground match heads.  Red phosphorous is less energetic than even black powder, but its fast burn rate also limits the amount that can be used due to the danger of blowing up the gun from overpressure.  As a result, it's even weaker than its black powder counterpart, and the ammo is still dirty and corrosive meaning it needs to be cleaned quickly or else the gun will suffer.",
+    "description": "Jacketed hollow point .357 SIG ammunition.  Based on a 10mm Auto case necked down to a .355 inch bullet, the .357 SIG round is a high velocity pistol cartridge, giving it a flatter trajectory than many handgun rounds.  This one was a victim of a truly desperate survivor, being loaded with powder from ground match heads.  Red phosphorous is less energetic than even black powder, but its fast burn rate also limits the amount that can be used due to the danger of blowing up the gun from overpressure.  As a result, it's even weaker than its black powder counterpart, and the ammo is still dirty and corrosive meaning it needs to be cleaned quickly or else the gun will suffer.",
     "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
     "looks_like": "bp_357sig_jhp",
     "extend": { "effects": [ "MATCHHEAD" ] }

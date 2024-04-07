@@ -47,6 +47,7 @@
         ".ŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦ.",
         "........................"
       ],
+      "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 6, "y": 0 } ],
       "palettes": [
         { "distribution": [ [ "standard_domestic_palette", 10 ], [ "standard_domestic_abandoned_palette", 2 ] ] },
         "standard_domestic_landscaping_palette"

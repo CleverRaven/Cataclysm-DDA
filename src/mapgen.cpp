@@ -4,11 +4,8 @@
 #include <array>
 #include <cmath>
 #include <cstdlib>
-#include <functional>
-#include <list>
 #include <map>
 #include <memory>
-#include <new>
 #include <optional>
 #include <ostream>
 #include <set>
@@ -39,13 +36,11 @@
 #include "game_constants.h"
 #include "generic_factory.h"
 #include "global_vars.h"
-#include "init.h"
+#include "input.h"
 #include "item.h"
 #include "item_factory.h"
 #include "item_group.h"
-#include "item_pocket.h"
 #include "itype.h"
-#include "json.h"
 #include "level_cache.h"
 #include "line.h"
 #include "magic_ter_furn_transform.h"
@@ -65,6 +60,7 @@
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "ret_val.h"
 #include "rng.h"
@@ -155,6 +151,36 @@ static const oter_str_id oter_tower_lab_stairs( "tower_lab_stairs" );
 static const oter_type_str_id oter_type_road( "road" );
 static const oter_type_str_id oter_type_sewer( "sewer" );
 
+static const ter_str_id ter_t_bars( "t_bars" );
+static const ter_str_id ter_t_card_science( "t_card_science" );
+static const ter_str_id ter_t_concrete_wall( "t_concrete_wall" );
+static const ter_str_id ter_t_cvdbody( "t_cvdbody" );
+static const ter_str_id ter_t_cvdmachine( "t_cvdmachine" );
+static const ter_str_id ter_t_dirt( "t_dirt" );
+static const ter_str_id ter_t_door_glass_frosted_c( "t_door_glass_frosted_c" );
+static const ter_str_id ter_t_door_metal_c( "t_door_metal_c" );
+static const ter_str_id ter_t_door_metal_locked( "t_door_metal_locked" );
+static const ter_str_id ter_t_floor( "t_floor" );
+static const ter_str_id ter_t_fungus_floor_in( "t_fungus_floor_in" );
+static const ter_str_id ter_t_fungus_wall( "t_fungus_wall" );
+static const ter_str_id ter_t_grass( "t_grass" );
+static const ter_str_id ter_t_marloss( "t_marloss" );
+static const ter_str_id ter_t_radio_tower( "t_radio_tower" );
+static const ter_str_id ter_t_reinforced_door_glass_c( "t_reinforced_door_glass_c" );
+static const ter_str_id ter_t_reinforced_glass( "t_reinforced_glass" );
+static const ter_str_id ter_t_rock_floor( "t_rock_floor" );
+static const ter_str_id ter_t_sewage( "t_sewage" );
+static const ter_str_id ter_t_slime( "t_slime" );
+static const ter_str_id ter_t_slope_down( "t_slope_down" );
+static const ter_str_id ter_t_slope_up( "t_slope_up" );
+static const ter_str_id ter_t_stairs_down( "t_stairs_down" );
+static const ter_str_id ter_t_stairs_up( "t_stairs_up" );
+static const ter_str_id ter_t_strconc_floor( "t_strconc_floor" );
+static const ter_str_id ter_t_thconc_floor( "t_thconc_floor" );
+static const ter_str_id ter_t_thconc_floor_olight( "t_thconc_floor_olight" );
+static const ter_str_id ter_t_vat( "t_vat" );
+static const ter_str_id ter_t_water_sh( "t_water_sh" );
+
 static const trait_id trait_NPC_STATIC_NPC( "NPC_STATIC_NPC" );
 
 static const vproto_id vehicle_prototype_shopping_cart( "shopping_cart" );
@@ -165,15 +191,13 @@ static constexpr int MON_RADIUS = 3;
 
 static void science_room( map *m, const point &p1, const point &p2, int z, int rotate );
 
-// (x,y,z) are absolute coordinates of a submap
-// x%2 and y%2 must be 0!
-void map::generate( const tripoint &p, const time_point &when )
+void map::generate( const tripoint_abs_omt &p, const time_point &when )
 {
     dbg( D_INFO ) << "map::generate( g[" << g.get() << "], p[" << p << "], "
                   "when[" << to_string( when ) << "] )";
 
-    // TODO: fix point types
-    set_abs_sub( tripoint_abs_sm( p ) );
+    const tripoint_abs_sm p_sm = project_to<coords::sm>( p );
+    set_abs_sub( p_sm );
 
     // First we have to create new submaps and initialize them to 0 all over
     // We create all the submaps, even if we're not a tinymap, so that map
@@ -183,31 +207,28 @@ void map::generate( const tripoint &p, const time_point &when )
     //  because other submaps won't be touched.
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
-            const size_t grid_pos = get_nonant( { gridx, gridy, p.z } );
+            const size_t grid_pos = get_nonant( { gridx, gridy, p_sm.z()} );
             if( getsubmap( grid_pos ) ) {
-                debugmsg( "Submap already exists at (%d, %d, %d)", gridx, gridy, p.z );
+                debugmsg( "Submap already exists at (%d, %d, %d)", gridx, gridy, p_sm.z() );
                 continue;
             }
             setsubmap( grid_pos, new submap() );
             // TODO: memory leak if the code below throws before the submaps get stored/deleted!
         }
     }
-    // x, and y are submap coordinates, convert to overmap terrain coordinates
-    // TODO: fix point types
-    tripoint_abs_omt abs_omt( sm_to_omt_copy( p ) );
-    oter_id terrain_type = overmap_buffer.ter( abs_omt );
+    oter_id terrain_type = overmap_buffer.ter( p );
 
     // This attempts to scale density of zombies inversely with distance from the nearest city.
     // In other words, make city centers dense and perimeters sparse.
     float density = 0.0f;
     for( int i = -MON_RADIUS; i <= MON_RADIUS; i++ ) {
         for( int j = -MON_RADIUS; j <= MON_RADIUS; j++ ) {
-            density += overmap_buffer.ter( abs_omt + point( i, j ) )->get_mondensity();
+            density += overmap_buffer.ter( p + point( i, j ) )->get_mondensity();
         }
     }
     density = density / 100;
 
-    mapgendata dat( abs_omt, *this, density, when, nullptr );
+    mapgendata dat( p, *this, density, when, nullptr );
     draw_map( dat );
 
     // At some point, we should add region information so we can grab the appropriate extras
@@ -216,7 +237,7 @@ void map::generate( const tripoint &p, const time_point &when )
     if( this_ex.chance > 0 && ex.values.empty() && !this_ex.values.empty() ) {
         DebugLog( D_WARNING, D_MAP_GEN ) << "Overmap terrain " << terrain_type->get_type_id().str() <<
                                          " (extra type \"" << terrain_type->get_extras() <<
-                                         "\") zlevel = " << abs_omt.z() <<
+                                         "\") zlevel = " << p.z() <<
                                          " is out of range of all assigned map extras.  Skipping map extra generation.";
     } else if( ex.chance > 0 && one_in( ex.chance ) ) {
         map_extra_id *extra = ex.values.pick();
@@ -266,13 +287,13 @@ void map::generate( const tripoint &p, const time_point &when )
         }
     }
 
-    // Okay, we know who are neighbors are.  Let's draw!
+    // Okay, we know who our neighbors are.  Let's draw!
     // And finally save used submaps and delete the rest.
     for( int i = 0; i < my_MAPSIZE; i++ ) {
         for( int j = 0; j < my_MAPSIZE; j++ ) {
             dbg( D_INFO ) << "map::generate: submap (" << i << "," << j << ")";
 
-            const tripoint pos( i, j, p.z );
+            const tripoint pos( i, j, p_sm.z() );
             if( i <= 1 && j <= 1 ) {
                 saven( pos );
             } else {
@@ -282,12 +303,6 @@ void map::generate( const tripoint &p, const time_point &when )
             }
         }
     }
-}
-
-void map::generate( const tripoint_abs_sm &p, const time_point &when )
-{
-    // TODO: fix point types
-    generate( p.raw(), when );
 }
 
 void mapgen_function_builtin::generate( mapgendata &mgd )
@@ -377,8 +392,8 @@ class mapgen_basic_container
                 mapgen_function_ptr.obj->finalize_parameters();
             }
         }
-        void check_consistency() {
-            for( auto &mapgen_function_ptr : weights_ ) {
+        void check_consistency() const {
+            for( const auto &mapgen_function_ptr : weights_ ) {
                 mapgen_function_ptr.obj->check();
             }
         }
@@ -442,11 +457,11 @@ class mapgen_factory
                 omw.second.finalize_parameters();
             }
         }
-        void check_consistency() {
+        void check_consistency() const {
             // Cache all strings that may get looked up here so we don't have to go through
             // all the sources for them upon each loop.
             const std::set<std::string> usages = get_usages();
-            for( std::pair<const std::string, mapgen_basic_container> &omw : mapgens_ ) {
+            for( const std::pair<const std::string, mapgen_basic_container> &omw : mapgens_ ) {
                 omw.second.check_consistency();
                 if( usages.count( omw.first ) == 0 ) {
                     debugmsg( "Mapgen %s is not used by anything!", omw.first );
@@ -576,12 +591,12 @@ void calculate_mapgen_weights()   // TODO: rename as it runs jsonfunction setup 
 void check_mapgen_definitions()
 {
     oter_mapgen.check_consistency();
-    for( auto &oter_definition : nested_mapgens ) {
+    for( const auto &oter_definition : nested_mapgens ) {
         for( const auto &mapgen_function_ptr : oter_definition.second.funcs() ) {
             mapgen_function_ptr.obj->check();
         }
     }
-    for( auto &oter_definition : update_mapgens ) {
+    for( const auto &oter_definition : update_mapgens ) {
         for( const auto &mapgen_function_ptr : oter_definition.second.funcs() ) {
             mapgen_function_ptr->check();
         }
@@ -1144,7 +1159,7 @@ class mapgen_value
         using StringId = to_string_id_t<Id>;
         struct void_;
         using Id_unless_string =
-            std::conditional_t<std::is_same<Id, std::string>::value, void_, Id>;
+            std::conditional_t<std::is_same_v<Id, std::string>, void_, Id>;
 
         struct value_source {
             virtual ~value_source() = default;
@@ -1829,8 +1844,7 @@ class jmapgen_npc : public jmapgen_piece
                 return;
             }
             if( !unique_id.empty() && g->unique_npc_exists( unique_id ) ) {
-                get_avatar().add_msg_debug_if_player( debugmode::DF_NPC, "NPC with unique id %s already exists.",
-                                                      unique_id );
+                add_msg_debug( debugmode::DF_NPC, "NPC with unique id %s already exists.", unique_id );
                 return;
             }
             tripoint const dst( x.get(), y.get(), dat.m.get_abs_sub().z() );
@@ -1938,7 +1952,6 @@ class jmapgen_sign : public jmapgen_piece
         std::string apply_all_tags( std::string signtext, const std::string &cityname ) const {
             signtext = SNIPPET.expand( signtext );
             replace_city_tag( signtext, cityname );
-            replace_name_tags( signtext );
             return signtext;
         }
         bool has_vehicle_collision( const mapgendata &dat, const point &p ) const override {
@@ -1989,7 +2002,6 @@ class jmapgen_graffiti : public jmapgen_piece
         std::string apply_all_tags( std::string graffiti, const std::string &cityname ) const {
             graffiti = SNIPPET.expand( graffiti );
             replace_city_tag( graffiti, cityname );
-            replace_name_tags( graffiti );
             return graffiti;
         }
 };
@@ -2260,6 +2272,7 @@ class jmapgen_loot : public jmapgen_piece
             } else {
                 result_group.add_group_entry( group, 100 );
             }
+            result_group.finalize( itype_id::NULL_ID() );
         }
 
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
@@ -2335,7 +2348,8 @@ class jmapgen_monster : public jmapgen_piece
         jmapgen_int pack_size;
         bool one_or_none;
         bool friendly;
-        std::string name;
+        std::optional<translation> name = std::nullopt;
+        std::string random_name_str;
         bool target;
         bool use_pack_size;
         struct spawn_data data;
@@ -2346,9 +2360,19 @@ class jmapgen_monster : public jmapgen_piece
                                          !( jsi.has_member( "repeat" ) ||
                                             jsi.has_member( "pack_size" ) ) ) )
             , friendly( jsi.get_bool( "friendly", false ) )
-            , name( jsi.get_string( "name", "NONE" ) )
+            , random_name_str( jsi.get_string( "random_name", "" ) )
             , target( jsi.get_bool( "target", false ) )
             , use_pack_size( jsi.get_bool( "use_pack_size", false ) ) {
+
+            {
+                translation translated_name;
+                if( jsi.read( "name", translated_name ) ) {
+                    name.emplace( std::move( translated_name ) );
+                } else if( random_name_str == "snippet" ) {
+                    debugmsg( "Field \"name\" is missing for random name 'snippet'" );
+                }
+            }
+
             if( jsi.has_member( "group" ) ) {
                 jsi.read( "group", m_id );
             } else if( jsi.has_array( "monster" ) ) {
@@ -2356,6 +2380,11 @@ class jmapgen_monster : public jmapgen_piece
             } else {
                 mapgen_value<mtype_id> id( jsi.get_member( "monster" ) );
                 ids.add( id, 100 );
+            }
+
+            std::set<std::string> valid_random_name_strs = { "random", "female", "male", "snippet", "" };
+            if( valid_random_name_strs.count( random_name_str ) == 0 ) {
+                debugmsg( "Invalid random name '%s'", random_name_str );
             }
 
             if( jsi.has_object( "spawn_data" ) ) {
@@ -2425,6 +2454,21 @@ class jmapgen_monster : public jmapgen_piece
             }
 
             mongroup_id chosen_group = m_id.get( dat );
+            std::optional<std::string> chosen_name = std::nullopt;
+            if( !random_name_str.empty() ) {
+                if( random_name_str == "female" ) {
+                    chosen_name.emplace( SNIPPET.expand( "<female_given_name>" ) );
+                } else if( random_name_str == "male" ) {
+                    chosen_name.emplace( SNIPPET.expand( "<male_given_name>" ) );
+                } else if( random_name_str == "random" ) {
+                    chosen_name.emplace( SNIPPET.expand( "<given_name>" ) );
+                } else if( random_name_str == "snippet" && name.has_value() ) {
+                    chosen_name.emplace( SNIPPET.expand( name.value().translated() ) );
+                }
+            }
+            if( !chosen_name.has_value() && name.has_value() ) {
+                chosen_name.emplace( name.value().translated() );
+            }
             if( !chosen_group.is_null() ) {
                 std::vector<MonsterGroupResult> spawn_details =
                     MonsterGroupManager::GetResultFromGroup( chosen_group, nullptr, nullptr, false, nullptr,
@@ -2432,14 +2476,14 @@ class jmapgen_monster : public jmapgen_piece
                 for( const MonsterGroupResult &mgr : spawn_details ) {
                     dat.m.add_spawn( mgr.name, spawn_count * pack_size.get(),
                     { x.get(), y.get(), dat.m.get_abs_sub().z() },
-                    friendly, -1, mission_id, name, data );
+                    friendly, -1, mission_id, chosen_name, data );
                 }
             } else if( ids.is_valid() ) {
                 mtype_id chosen_type = ids.pick()->get( dat );
                 if( !chosen_type.is_null() ) {
                     dat.m.add_spawn( chosen_type, spawn_count * pack_size.get(),
                     { x.get(), y.get(), dat.m.get_abs_sub().z() },
-                    friendly, -1, mission_id, name, data );
+                    friendly, -1, mission_id, chosen_name, data );
                 }
             }
         }
@@ -2995,7 +3039,7 @@ class jmapgen_make_rubble : public jmapgen_piece
     public:
         mapgen_value<furn_id> rubble_type = mapgen_value<furn_id>( f_rubble );
         bool items = false;
-        mapgen_value<ter_id> floor_type = mapgen_value<ter_id>( t_dirt );
+        mapgen_value<ter_id> floor_type = mapgen_value<ter_id>( ter_t_dirt );
         bool overwrite = false;
         jmapgen_make_rubble( const JsonObject &jsi, const std::string_view/*context*/ ) {
             if( jsi.has_member( "rubble_type" ) ) {
@@ -3016,7 +3060,7 @@ class jmapgen_make_rubble : public jmapgen_piece
             }
             if( chosen_floor_type.id().is_null() ) {
                 debugmsg( "null floor type when making rubble" );
-                chosen_floor_type = t_dirt;
+                chosen_floor_type = ter_t_dirt;
             }
             dat.m.make_rubble( tripoint( x.get(), y.get(), dat.m.get_abs_sub().z() ),
                                chosen_rubble_type, items, chosen_floor_type, overwrite );
@@ -3380,7 +3424,7 @@ class jmapgen_remove_npcs : public jmapgen_piece
             for( auto const &npc : overmap_buffer.get_npcs_near_omt(
                      project_to<coords::omt>( dat.m.get_abs_sub() ), 0 ) ) {
                 if( !npc->is_dead() &&
-                    ( npc_class.empty() || npc->idz == npc_class_id( npc_class ) ) &&
+                    ( npc_class.empty() || npc->idz == string_id<npc_template>( npc_class ) ) &&
                     ( unique_id.empty() || unique_id == npc->get_unique_id() ) ) {
                     overmap_buffer.remove_npc( npc->getID() );
                     if( !unique_id.empty() ) {
@@ -3632,6 +3676,20 @@ class jmapgen_nested : public jmapgen_piece
                     return allowed_predecessors.empty();
                 }
         };
+        class correct_z_level_check
+        {
+            private:
+                std::unordered_set<int> required_z;
+            public:
+                explicit correct_z_level_check( const JsonArray &jarr ) {
+                    for( const JsonValue entry : jarr ) {
+                        required_z.emplace( entry.get_int() );
+                    }
+                }
+                bool test( const mapgendata &dat ) const {
+                    return required_z.empty() || required_z.count( dat.zlevel() ) == 1;
+                }
+        };
 
     public:
         weighted_int_list<mapgen_value<nested_mapgen_id>> entries;
@@ -3641,12 +3699,14 @@ class jmapgen_nested : public jmapgen_piece
         neighbor_flag_check neighbor_flags;
         neighbor_flag_any_check neighbor_flags_any;
         predecessor_oter_check predecessors;
+        correct_z_level_check correct_z_level;
         jmapgen_nested( const JsonObject &jsi, const std::string_view/*context*/ )
             : neighbor_oters( jsi.get_object( "neighbors" ) )
             , neighbor_joins( jsi.get_object( "joins" ) )
             , neighbor_flags( jsi.get_object( "flags" ) )
             , neighbor_flags_any( jsi.get_object( "flags_any" ) )
-            , predecessors( jsi.get_array( "predecessors" ) ) {
+            , predecessors( jsi.get_array( "predecessors" ) )
+            , correct_z_level( jsi.get_array( "z" ) ) {
             if( jsi.has_member( "chunks" ) ) {
                 load_weighted_list( jsi.get_member( "chunks" ), entries, 100 );
             }
@@ -3675,11 +3735,9 @@ class jmapgen_nested : public jmapgen_piece
                     }
                 }
             };
-
             for( const weighted_object<int, mapgen_value<nested_mapgen_id>> &name : entries ) {
                 merge_from( name.obj );
             }
-
             for( const weighted_object<int, mapgen_value<nested_mapgen_id>> &name : else_entries ) {
                 merge_from( name.obj );
             }
@@ -3687,7 +3745,7 @@ class jmapgen_nested : public jmapgen_piece
         const weighted_int_list<mapgen_value<nested_mapgen_id>> &get_entries(
         const mapgendata &dat ) const {
             if( neighbor_oters.test( dat ) && neighbor_joins.test( dat ) && neighbor_flags.test( dat ) &&
-                neighbor_flags_any.test( dat ) && predecessors.test( dat ) ) {
+                neighbor_flags_any.test( dat ) && predecessors.test( dat ) && correct_z_level.test( dat ) ) {
                 return entries;
             } else {
                 return else_entries;
@@ -4076,7 +4134,7 @@ bool string_id<mapgen_palette>::is_valid() const
     return palettes.find( *this ) != palettes.end();
 }
 
-void mapgen_palette::check()
+void mapgen_palette::check() const
 {
     std::string context = "palette " + id.str();
     jmapgen_int fake_coord( -1 );
@@ -4123,7 +4181,7 @@ const mapgen_palette &mapgen_palette::get( const palette_id &id )
 
 void mapgen_palette::check_definitions()
 {
-    for( auto &p : palettes ) {
+    for( const auto &p : palettes ) {
         p.second.check();
     }
 }
@@ -4434,25 +4492,15 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
 
     jo.read( "flags", flags_ );
 
-    // just like mapf::basic_bind("stuff",blargle("foo", etc) ), only json input and faster when applying
-    if( jo.has_array( "rows" ) ) {
-        mapgen_palette palette = mapgen_palette::load_temp( jo, "dda", context_ );
-        auto &keys_with_terrain = palette.keys_with_terrain;
-        mapgen_palette::placing_map &format_placings = palette.format_placings;
-
-        if( palette.keys_with_terrain.empty() && !fallback_terrain_exists ) {
-            return false;
-        }
-
-        parameters = palette.get_parameters();
-
-        // mandatory: mapgensize rows of mapgensize character lines, each of which must have a
-        // matching key in "terrain", unless fill_ter is set
-        // "rows:" [ "aaaajustlikeinmapgen.cpp", "this.must!be!exactly.24!", "and_must_match_terrain_", .... ]
-        point expected_dim = mapgensize + m_offset;
-        cata_assert( expected_dim.x >= 0 );
-        cata_assert( expected_dim.y >= 0 );
-
+    // mandatory: mapgensize rows of mapgensize character lines, each of which must have a
+    // matching key in "terrain", unless fill_ter is set
+    // "rows:" [ "aaaajustlikeinmapgen.cpp", "this.must!be!exactly.24!", "and_must_match_terrain_", .... ]
+    point expected_dim = mapgensize + m_offset;
+    cata_assert( expected_dim.x >= 0 );
+    cata_assert( expected_dim.y >= 0 );
+    const std::string default_row( expected_dim.x, ' ' );
+    const bool default_rows = !jo.has_array( "rows" );
+    if( !default_rows ) {
         parray = jo.get_array( "rows" );
         if( static_cast<int>( parray.size() ) < expected_dim.y ) {
             parray.throw_error( string_format( "format: rows: must have at least %d rows, not %d",
@@ -4463,64 +4511,77 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
                 string_format( "format: rows: must have %d rows, not %d; check mapgensize if applicable",
                                total_size.y, parray.size() ) );
         }
-        for( int c = m_offset.y; c < expected_dim.y; c++ ) {
-            const std::string row = parray.get_string( c );
-            std::vector<map_key> row_keys;
-            for( const std::string &key : utf8_display_split( row ) ) {
-                row_keys.emplace_back( key );
-            }
-            if( row_keys.size() < static_cast<size_t>( expected_dim.x ) ) {
-                parray.throw_error(
-                    string_format( "  format: row %d must have at least %d columns, not %d",
-                                   c + 1, expected_dim.x, row_keys.size() ) );
-            }
-            if( row_keys.size() != static_cast<size_t>( total_size.x ) ) {
-                parray.throw_error(
-                    string_format( "  format: row %d must have %d columns, not %d; check mapgensize if applicable",
-                                   c + 1, total_size.x, row_keys.size() ) );
-            }
-            for( int i = m_offset.x; i < expected_dim.x; i++ ) {
-                const point p = point( i, c ) - m_offset;
-                const map_key key = row_keys[i];
-                const auto iter_ter = keys_with_terrain.find( key );
-                const auto fpi = format_placings.find( key );
+    }
 
-                const bool has_terrain = iter_ter != keys_with_terrain.end();
-                const bool has_placing = fpi != format_placings.end();
+    // just like mapf::basic_bind("stuff",blargle("foo", etc) ), only json input and faster when applying
+    mapgen_palette palette = mapgen_palette::load_temp( jo, "dda", context_ );
+    auto &keys_with_terrain = palette.keys_with_terrain;
+    mapgen_palette::placing_map &format_placings = palette.format_placings;
 
-                if( !has_terrain && !fallback_terrain_exists ) {
-                    parray.string_error(
-                        c, i + 1,
-                        string_format( "format: rows: row %d column %d: "
-                                       "'%s' is not in 'terrain', and no 'fill_ter' is set!",
-                                       c + 1, i + 1, key.str ) );
+    if( palette.keys_with_terrain.empty() && !fallback_terrain_exists ) {
+        return false;
+    }
+
+    parameters = palette.get_parameters();
+
+    for( int c = m_offset.y; c < expected_dim.y; c++ ) {
+        const std::string row = default_rows ? default_row : parray.get_string( c );
+        static std::vector<std::string_view> row_keys;
+        row_keys.clear();
+        row_keys.reserve( total_size.x );
+        utf8_display_split_into( row, row_keys );
+        if( row_keys.size() < static_cast<size_t>( expected_dim.x ) ) {
+            cata_assert( !default_rows );
+            parray.throw_error(
+                string_format( "format: row %d must have at least %d columns, not %d",
+                               c + 1, expected_dim.x, row_keys.size() ) );
+        }
+        if( row_keys.size() != static_cast<size_t>( total_size.x ) ) {
+            cata_assert( !default_rows );
+            parray.throw_error(
+                string_format( "format: row %d must have %d columns, not %d; check mapgensize if applicable",
+                               c + 1, total_size.x, row_keys.size() ) );
+        }
+        for( int i = m_offset.x; i < expected_dim.x; i++ ) {
+            const point p = point( i, c ) - m_offset;
+            const map_key key{ std::string( row_keys[i] ) };
+            const auto iter_ter = keys_with_terrain.find( key );
+            const auto fpi = format_placings.find( key );
+
+            const bool has_terrain = iter_ter != keys_with_terrain.end();
+            const bool has_placing = fpi != format_placings.end();
+
+            if( !has_terrain && !fallback_terrain_exists ) {
+                cata_assert( !default_rows );
+                parray.string_error( c, i + 1,
+                                     string_format( "format: rows: row %d column %d: '%s' is not in 'terrain',"
+                                                    "and no 'fill_ter', 'predecessor_mapgen' or 'fallback_predecessor_mapgen' is set!",
+                                                    c + 1, i + 1, key.str ) );
+            }
+            if( !has_terrain && !has_placing && key.str != " " && key.str != "." ) {
+                try {
+                    cata_assert( !default_rows );
+                    parray.string_error( c, i + 1,
+                                         string_format( "format: rows: row %d column %d: '%s' has no terrain, furniture, or other definition",
+                                                        c + 1, i + 1, key.str ) );
+                } catch( const JsonError &e ) {
+                    debugmsg( "(json-error)\n%s", e.what() );
                 }
-                if( !has_terrain && !has_placing && key.str != " " && key.str != "." ) {
-                    try {
-                        parray.string_error(
-                            c, i + 1,
-                            string_format( "format: rows: row %d column %d: "
-                                           "'%s' has no terrain, furniture, or other definition",
-                                           c + 1, i + 1, key.str ) );
-                    } catch( const JsonError &e ) {
-                        debugmsg( "(json-error)\n%s", e.what() );
-                    }
-                }
-                if( has_placing ) {
-                    jmapgen_place where( p );
-                    for( auto &what : fpi->second ) {
-                        objects.add( where, what );
-                    }
+            }
+            if( has_placing ) {
+                jmapgen_place where( p );
+                for( auto &what : fpi->second ) {
+                    objects.add( where, what );
                 }
             }
         }
-        fallback_terrain_exists = true;
     }
+    fallback_terrain_exists = true;
 
     // No fill_ter? No format? GTFO.
     if( !fallback_terrain_exists ) {
         jo.throw_error(
-            "Need one of 'fill_terrain' or 'predecessor_mapgen' or 'rows' + 'terrain'" );
+            "Need one of 'fill_terrain', 'predecessor_mapgen', 'fallback_predecessor_mapgen', 'terrain' or a palette providing 'terrain'." );
         // TODO: write TFM.
     }
 
@@ -5252,7 +5313,7 @@ void map::draw_map( mapgendata &dat )
         // load from JSON???
         debugmsg( "Error: tried to generate map for omtype %s, \"%s\" (id_mapgen %s)",
                   terrain_type.id().c_str(), terrain_type->get_name(), function_key.c_str() );
-        fill_background( this, t_floor );
+        fill_background( this, ter_t_floor );
     }
 
     resolve_regional_terrain_and_furniture( dat );
@@ -5324,23 +5385,23 @@ void map::draw_lab( mapgendata &dat )
                     if( i <= 1 || i >= SEEX * 2 - 2 ||
                         j <= 1 || j >= SEEY * 2 - 2 ||
                         i == SEEX - 2 || i == SEEX + 1 ) {
-                        ter_set( point( i, j ), t_concrete_wall );
+                        ter_set( point( i, j ), ter_t_concrete_wall );
                     } else {
-                        ter_set( point( i, j ), t_floor );
+                        ter_set( point( i, j ), ter_t_floor );
                     }
                 }
             }
-            ter_set( point( SEEX - 1, 0 ), t_door_metal_locked );
-            ter_set( point( SEEX - 1, 1 ), t_floor );
-            ter_set( point( SEEX, 0 ), t_door_metal_locked );
-            ter_set( point( SEEX, 1 ), t_floor );
-            ter_set( point( SEEX - 2 + rng( 0, 1 ) * 3, 0 ), t_card_science );
-            ter_set( point( SEEX - 2, SEEY ), t_door_metal_c );
-            ter_set( point( SEEX + 1, SEEY ), t_door_metal_c );
-            ter_set( point( SEEX - 2, SEEY - 1 ), t_door_metal_c );
-            ter_set( point( SEEX + 1, SEEY - 1 ), t_door_metal_c );
-            ter_set( point( SEEX - 1, SEEY * 2 - 3 ), t_stairs_down );
-            ter_set( point( SEEX, SEEY * 2 - 3 ), t_stairs_down );
+            ter_set( point( SEEX - 1, 0 ), ter_t_door_metal_locked );
+            ter_set( point( SEEX - 1, 1 ), ter_t_floor );
+            ter_set( point( SEEX, 0 ), ter_t_door_metal_locked );
+            ter_set( point( SEEX, 1 ), ter_t_floor );
+            ter_set( point( SEEX - 2 + rng( 0, 1 ) * 3, 0 ), ter_t_card_science );
+            ter_set( point( SEEX - 2, SEEY ), ter_t_door_metal_c );
+            ter_set( point( SEEX + 1, SEEY ), ter_t_door_metal_c );
+            ter_set( point( SEEX - 2, SEEY - 1 ), ter_t_door_metal_c );
+            ter_set( point( SEEX + 1, SEEY - 1 ), ter_t_door_metal_c );
+            ter_set( point( SEEX - 1, SEEY * 2 - 3 ), ter_t_stairs_down );
+            ter_set( point( SEEX, SEEY * 2 - 3 ), ter_t_stairs_down );
             science_room( this, point( 2, 2 ), point( SEEX - 3, SEEY * 2 - 3 ), dat.zlevel(), 1 );
             science_room( this, point( SEEX + 2, 2 ), point( SEEX * 2 - 3, SEEY * 2 - 3 ), dat.zlevel(), 3 );
 
@@ -5356,37 +5417,41 @@ void map::draw_lab( mapgendata &dat )
         } else if( tw != 0 || rw != 0 || lw != 0 || bw != 0 ) { // Sewers!
             for( int i = 0; i < SEEX * 2; i++ ) {
                 for( int j = 0; j < SEEY * 2; j++ ) {
-                    ter_set( point( i, j ), t_thconc_floor );
+                    ter_set( point( i, j ), ter_t_thconc_floor );
                     if( ( ( i < lw || i > EAST_EDGE - rw ) && j > SEEY - 3 && j < SEEY + 2 ) ||
                         ( ( j < tw || j > SOUTH_EDGE - bw ) && i > SEEX - 3 && i < SEEX + 2 ) ) {
-                        ter_set( point( i, j ), t_sewage );
+                        ter_set( point( i, j ), ter_t_sewage );
                     }
                     if( ( i == 0 && is_ot_match( "lab", dat.east(), ot_match_type::contains ) ) || i == EAST_EDGE ) {
-                        if( ter( point( i, j ) ) == t_sewage ) {
-                            ter_set( point( i, j ), t_bars );
+                        if( ter( point( i, j ) ) == ter_t_sewage ) {
+                            ter_set( point( i, j ), ter_t_bars );
                         } else if( j == SEEY - 1 || j == SEEY ) {
-                            ter_set( point( i, j ), t_door_metal_c );
+                            ter_set( point( i, j ), ter_t_door_metal_c );
                         } else {
-                            ter_set( point( i, j ), t_concrete_wall );
+                            ter_set( point( i, j ), ter_t_concrete_wall );
                         }
                     } else if( ( j == 0 && is_ot_match( "lab", dat.north(), ot_match_type::contains ) ) ||
                                j == SOUTH_EDGE ) {
-                        if( ter( point( i, j ) ) == t_sewage ) {
-                            ter_set( point( i, j ), t_bars );
+                        if( ter( point( i, j ) ) == ter_t_sewage ) {
+                            ter_set( point( i, j ), ter_t_bars );
                         } else if( i == SEEX - 1 || i == SEEX ) {
-                            ter_set( point( i, j ), t_door_metal_c );
+                            ter_set( point( i, j ), ter_t_door_metal_c );
                         } else {
-                            ter_set( point( i, j ), t_concrete_wall );
+                            ter_set( point( i, j ), ter_t_concrete_wall );
                         }
                     }
                 }
             }
         } else { // We're below ground, and no sewers
             // Set up the boundaries of walls (connect to adjacent lab squares)
-            tw = is_ot_match( "lab", dat.north(), ot_match_type::contains ) ? 0 : 2;
-            rw = is_ot_match( "lab", dat.east(), ot_match_type::contains ) ? 1 : 2;
-            bw = is_ot_match( "lab", dat.south(), ot_match_type::contains ) ? 1 : 2;
-            lw = is_ot_match( "lab", dat.west(), ot_match_type::contains ) ? 0 : 2;
+            tw = ( is_ot_match( "lab", dat.north(), ot_match_type::contains ) &&
+                   !is_ot_match( "lab_subway", dat.north(), ot_match_type::contains ) ) ? 0 : 2;
+            rw = ( is_ot_match( "lab", dat.east(), ot_match_type::contains ) &&
+                   !is_ot_match( "lab_subway", dat.east(), ot_match_type::contains ) ) ? 1 : 2;
+            bw = ( is_ot_match( "lab", dat.south(), ot_match_type::contains ) &&
+                   !is_ot_match( "lab_subway", dat.south(), ot_match_type::contains ) ) ? 1 : 2;
+            lw = ( is_ot_match( "lab", dat.west(), ot_match_type::contains ) &&
+                   !is_ot_match( "lab_subway", dat.west(), ot_match_type::contains ) ) ? 0 : 2;
 
             int boarders = 0;
             if( tw == 0 ) {
@@ -5405,7 +5470,7 @@ void map::draw_lab( mapgendata &dat )
             const auto maybe_insert_stairs = [this]( const oter_id & terrain,  const ter_id & t_stair_type ) {
                 if( is_ot_match( "stairs", terrain, ot_match_type::contains ) ) {
                     const auto predicate = [this]( const tripoint & p ) {
-                        return ter( p ) == t_thconc_floor && furn( p ) == f_null && tr_at( p ).is_null();
+                        return ter( p ) == ter_t_thconc_floor && furn( p ) == f_null && tr_at( p ).is_null();
                     };
                     const auto range =
                     points_in_rectangle( { 0, 0, abs_sub.z() },
@@ -5433,8 +5498,8 @@ void map::draw_lab( mapgendata &dat )
                 } else {
                     debugmsg( "Error: Tried to generate 1-sided lab but no lab_1side json exists." );
                 }
-                maybe_insert_stairs( dat.above(), t_stairs_up );
-                maybe_insert_stairs( terrain_type, t_stairs_down );
+                maybe_insert_stairs( dat.above(), ter_t_stairs_up );
+                maybe_insert_stairs( terrain_type, ter_t_stairs_down );
             } else {
                 const int hardcoded_4side_map_weight = 1500; // weight of all hardcoded maps.
                 // If you remove the usage of "lab_4side" here, remove it from mapgen_factory::get_usages above as well.
@@ -5448,12 +5513,12 @@ void map::draw_lab( mapgendata &dat )
                         !has_flag_ter( ter_furn_flag::TFLAG_DOOR, east_border ) ) {
                         // TODO: create a ter_reset function that does ter_set,
                         // furn_set, and i_clear?
-                        ter_id lw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
-                        ter_id tw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
-                        ter_id rw_type = tower_lab && rw == 2 ? t_reinforced_glass :
-                                         t_concrete_wall;
-                        ter_id bw_type = tower_lab && bw == 2 ? t_reinforced_glass :
-                                         t_concrete_wall;
+                        ter_str_id lw_type = tower_lab ? ter_t_reinforced_glass : ter_t_concrete_wall;
+                        ter_str_id tw_type = tower_lab ? ter_t_reinforced_glass : ter_t_concrete_wall;
+                        ter_str_id rw_type = tower_lab && rw == 2 ? ter_t_reinforced_glass :
+                                             ter_t_concrete_wall;
+                        ter_str_id bw_type = tower_lab && bw == 2 ? ter_t_reinforced_glass :
+                                             ter_t_concrete_wall;
                         for( int i = 0; i < SEEX * 2; i++ ) {
                             ter_set( point( 23, i ), rw_type );
                             furn_set( point( 23, i ), f_null );
@@ -5475,17 +5540,17 @@ void map::draw_lab( mapgendata &dat )
                             }
                         }
                         if( rw != 2 ) {
-                            ter_set( point( 23, 11 ), t_door_metal_c );
-                            ter_set( point( 23, 12 ), t_door_metal_c );
+                            ter_set( point( 23, 11 ), ter_t_door_metal_c );
+                            ter_set( point( 23, 12 ), ter_t_door_metal_c );
                         }
                         if( bw != 2 ) {
-                            ter_set( point( 11, 23 ), t_door_metal_c );
-                            ter_set( point( 12, 23 ), t_door_metal_c );
+                            ter_set( point( 11, 23 ), ter_t_door_metal_c );
+                            ter_set( point( 12, 23 ), ter_t_door_metal_c );
                         }
                     }
 
-                    maybe_insert_stairs( dat.above(), t_stairs_up );
-                    maybe_insert_stairs( terrain_type, t_stairs_down );
+                    maybe_insert_stairs( dat.above(), ter_t_stairs_up );
+                    maybe_insert_stairs( terrain_type, ter_t_stairs_down );
                 } else { // then no json maps for lab_4side were found
                     switch( rng( 1, 3 ) ) {
                         case 1:
@@ -5498,61 +5563,61 @@ void map::draw_lab( mapgendata &dat )
                                         ( j < tw || j > SOUTH_EDGE - bw ) ||
                                         ( ( i < SEEX - 1 || i > SEEX ) &&
                                           ( j == SEEY - 2 || j == SEEY + 1 ) ) ) {
-                                        ter_set( point( i, j ), t_concrete_wall );
+                                        ter_set( point( i, j ), ter_t_concrete_wall );
                                     } else {
-                                        ter_set( point( i, j ), t_thconc_floor );
+                                        ter_set( point( i, j ), ter_t_thconc_floor );
                                     }
                                 }
                             }
                             if( is_ot_match( "stairs", dat.above(), ot_match_type::contains ) ) {
                                 ter_set( point( rng( SEEX - 1, SEEX ), rng( SEEY - 1, SEEY ) ),
-                                         t_stairs_up );
+                                         ter_t_stairs_up );
                             }
                             // Top left
                             if( one_in( 2 ) ) {
-                                ter_set( point( SEEX - 2, static_cast<int>( SEEY / 2 ) ), t_door_glass_frosted_c );
+                                ter_set( point( SEEX - 2, static_cast<int>( SEEY / 2 ) ), ter_t_door_glass_frosted_c );
                                 science_room( this, point( lw, tw ), point( SEEX - 3, SEEY - 3 ), dat.zlevel(), 1 );
                             } else {
-                                ter_set( point( SEEX / 2, SEEY - 2 ), t_door_glass_frosted_c );
+                                ter_set( point( SEEX / 2, SEEY - 2 ), ter_t_door_glass_frosted_c );
                                 science_room( this, point( lw, tw ), point( SEEX - 3, SEEY - 3 ), dat.zlevel(), 2 );
                             }
                             // Top right
                             if( one_in( 2 ) ) {
-                                ter_set( point( SEEX + 1, static_cast<int>( SEEY / 2 ) ), t_door_glass_frosted_c );
+                                ter_set( point( SEEX + 1, static_cast<int>( SEEY / 2 ) ), ter_t_door_glass_frosted_c );
                                 science_room( this, point( SEEX + 2, tw ), point( EAST_EDGE - rw, SEEY - 3 ),
                                               dat.zlevel(), 3 );
                             } else {
-                                ter_set( point( SEEX + static_cast<int>( SEEX / 2 ), SEEY - 2 ), t_door_glass_frosted_c );
+                                ter_set( point( SEEX + static_cast<int>( SEEX / 2 ), SEEY - 2 ), ter_t_door_glass_frosted_c );
                                 science_room( this, point( SEEX + 2, tw ), point( EAST_EDGE - rw, SEEY - 3 ),
                                               dat.zlevel(), 2 );
                             }
                             // Bottom left
                             if( one_in( 2 ) ) {
-                                ter_set( point( SEEX / 2, SEEY + 1 ), t_door_glass_frosted_c );
+                                ter_set( point( SEEX / 2, SEEY + 1 ), ter_t_door_glass_frosted_c );
                                 science_room( this, point( lw, SEEY + 2 ), point( SEEX - 3, SOUTH_EDGE - bw ),
                                               dat.zlevel(), 0 );
                             } else {
-                                ter_set( point( SEEX - 2, SEEY + static_cast<int>( SEEY / 2 ) ), t_door_glass_frosted_c );
+                                ter_set( point( SEEX - 2, SEEY + static_cast<int>( SEEY / 2 ) ), ter_t_door_glass_frosted_c );
                                 science_room( this, point( lw, SEEY + 2 ), point( SEEX - 3, SOUTH_EDGE - bw ),
                                               dat.zlevel(), 1 );
                             }
                             // Bottom right
                             if( one_in( 2 ) ) {
-                                ter_set( point( SEEX + static_cast<int>( SEEX / 2 ), SEEY + 1 ), t_door_glass_frosted_c );
+                                ter_set( point( SEEX + static_cast<int>( SEEX / 2 ), SEEY + 1 ), ter_t_door_glass_frosted_c );
                                 science_room( this, point( SEEX + 2, SEEY + 2 ), point( EAST_EDGE - rw, SOUTH_EDGE - bw ),
                                               dat.zlevel(), 0 );
                             } else {
-                                ter_set( point( SEEX + 1, SEEY + static_cast<int>( SEEY / 2 ) ), t_door_glass_frosted_c );
+                                ter_set( point( SEEX + 1, SEEY + static_cast<int>( SEEY / 2 ) ), ter_t_door_glass_frosted_c );
                                 science_room( this, point( SEEX + 2, SEEY + 2 ), point( EAST_EDGE - rw, SOUTH_EDGE - bw ),
                                               dat.zlevel(), 3 );
                             }
                             if( rw == 1 ) {
-                                ter_set( point( EAST_EDGE, SEEY - 1 ), t_door_metal_c );
-                                ter_set( point( EAST_EDGE, SEEY ), t_door_metal_c );
+                                ter_set( point( EAST_EDGE, SEEY - 1 ), ter_t_door_metal_c );
+                                ter_set( point( EAST_EDGE, SEEY ), ter_t_door_metal_c );
                             }
                             if( bw == 1 ) {
-                                ter_set( point( SEEX - 1, SOUTH_EDGE ), t_door_metal_c );
-                                ter_set( point( SEEX, SOUTH_EDGE ), t_door_metal_c );
+                                ter_set( point( SEEX - 1, SOUTH_EDGE ), ter_t_door_metal_c );
+                                ter_set( point( SEEX, SOUTH_EDGE ), ter_t_door_metal_c );
                             }
                             if( is_ot_match( "stairs", terrain_type, ot_match_type::contains ) ) { // Stairs going down
                                 std::vector<point> stair_points;
@@ -5589,7 +5654,7 @@ void map::draw_lab( mapgendata &dat )
                                 stair_points.emplace_back( SEEX, static_cast<int>( SEEY / 2 ) + SEEY );
                                 stair_points.emplace_back( SEEX + 2, static_cast<int>( SEEY / 2 ) + SEEY );
                                 const point p = random_entry( stair_points );
-                                ter_set( p, t_stairs_down );
+                                ter_set( p, ter_t_stairs_down );
                             }
 
                             break;
@@ -5602,30 +5667,30 @@ void map::draw_lab( mapgendata &dat )
                                         i == SEEX - 4 || i == SEEX + 3 ||
                                         j < tw || j > SOUTH_EDGE - bw ||
                                         j == SEEY - 4 || j == SEEY + 3 ) {
-                                        ter_set( point( i, j ), t_concrete_wall );
+                                        ter_set( point( i, j ), ter_t_concrete_wall );
                                     } else {
-                                        ter_set( point( i, j ), t_thconc_floor );
+                                        ter_set( point( i, j ), ter_t_thconc_floor );
                                     }
                                 }
                             }
                             if( is_ot_match( "stairs", dat.above(), ot_match_type::contains ) ) {
-                                ter_set( point( SEEX - 1, SEEY - 1 ), t_stairs_up );
-                                ter_set( point( SEEX, SEEY - 1 ), t_stairs_up );
-                                ter_set( point( SEEX - 1, SEEY ), t_stairs_up );
-                                ter_set( point( SEEX, SEEY ), t_stairs_up );
+                                ter_set( point( SEEX - 1, SEEY - 1 ), ter_t_stairs_up );
+                                ter_set( point( SEEX, SEEY - 1 ), ter_t_stairs_up );
+                                ter_set( point( SEEX - 1, SEEY ), ter_t_stairs_up );
+                                ter_set( point( SEEX, SEEY ), ter_t_stairs_up );
                             }
-                            ter_set( point( SEEX - rng( 0, 1 ), SEEY - 4 ), t_door_glass_frosted_c );
-                            ter_set( point( SEEX - rng( 0, 1 ), SEEY + 3 ), t_door_glass_frosted_c );
-                            ter_set( point( SEEX - 4, SEEY + rng( 0, 1 ) ), t_door_glass_frosted_c );
-                            ter_set( point( SEEX + 3, SEEY + rng( 0, 1 ) ), t_door_glass_frosted_c );
-                            ter_set( point( SEEX - 4, static_cast<int>( SEEY / 2 ) ), t_door_glass_frosted_c );
-                            ter_set( point( SEEX + 3, static_cast<int>( SEEY / 2 ) ), t_door_glass_frosted_c );
-                            ter_set( point( SEEX / 2, SEEY - 4 ), t_door_glass_frosted_c );
-                            ter_set( point( SEEX / 2, SEEY + 3 ), t_door_glass_frosted_c );
-                            ter_set( point( SEEX + static_cast<int>( SEEX / 2 ), SEEY - 4 ), t_door_glass_frosted_c );
-                            ter_set( point( SEEX + static_cast<int>( SEEX / 2 ), SEEY + 3 ), t_door_glass_frosted_c );
-                            ter_set( point( SEEX - 4, SEEY + static_cast<int>( SEEY / 2 ) ), t_door_glass_frosted_c );
-                            ter_set( point( SEEX + 3, SEEY + static_cast<int>( SEEY / 2 ) ), t_door_glass_frosted_c );
+                            ter_set( point( SEEX - rng( 0, 1 ), SEEY - 4 ), ter_t_door_glass_frosted_c );
+                            ter_set( point( SEEX - rng( 0, 1 ), SEEY + 3 ), ter_t_door_glass_frosted_c );
+                            ter_set( point( SEEX - 4, SEEY + rng( 0, 1 ) ), ter_t_door_glass_frosted_c );
+                            ter_set( point( SEEX + 3, SEEY + rng( 0, 1 ) ), ter_t_door_glass_frosted_c );
+                            ter_set( point( SEEX - 4, static_cast<int>( SEEY / 2 ) ), ter_t_door_glass_frosted_c );
+                            ter_set( point( SEEX + 3, static_cast<int>( SEEY / 2 ) ), ter_t_door_glass_frosted_c );
+                            ter_set( point( SEEX / 2, SEEY - 4 ), ter_t_door_glass_frosted_c );
+                            ter_set( point( SEEX / 2, SEEY + 3 ), ter_t_door_glass_frosted_c );
+                            ter_set( point( SEEX + static_cast<int>( SEEX / 2 ), SEEY - 4 ), ter_t_door_glass_frosted_c );
+                            ter_set( point( SEEX + static_cast<int>( SEEX / 2 ), SEEY + 3 ), ter_t_door_glass_frosted_c );
+                            ter_set( point( SEEX - 4, SEEY + static_cast<int>( SEEY / 2 ) ), ter_t_door_glass_frosted_c );
+                            ter_set( point( SEEX + 3, SEEY + static_cast<int>( SEEY / 2 ) ), ter_t_door_glass_frosted_c );
                             science_room( this, point( lw, tw ), point( SEEX - 5, SEEY - 5 ), dat.zlevel(),
                                           rng( 1, 2 ) );
                             science_room( this, point( SEEX - 3, tw ), point( SEEX + 2, SEEY - 5 ), dat.zlevel(), 2 );
@@ -5641,16 +5706,16 @@ void map::draw_lab( mapgendata &dat )
                             science_room( this, point( SEEX + 4, SEEX + 4 ), point( EAST_EDGE - rw, SOUTH_EDGE - bw ),
                                           dat.zlevel(), 3 * rng( 0, 1 ) );
                             if( rw == 1 ) {
-                                ter_set( point( EAST_EDGE, SEEY - 1 ), t_door_metal_c );
-                                ter_set( point( EAST_EDGE, SEEY ), t_door_metal_c );
+                                ter_set( point( EAST_EDGE, SEEY - 1 ), ter_t_door_metal_c );
+                                ter_set( point( EAST_EDGE, SEEY ), ter_t_door_metal_c );
                             }
                             if( bw == 1 ) {
-                                ter_set( point( SEEX - 1, SOUTH_EDGE ), t_door_metal_c );
-                                ter_set( point( SEEX, SOUTH_EDGE ), t_door_metal_c );
+                                ter_set( point( SEEX - 1, SOUTH_EDGE ), ter_t_door_metal_c );
+                                ter_set( point( SEEX, SOUTH_EDGE ), ter_t_door_metal_c );
                             }
                             if( is_ot_match( "stairs", terrain_type, ot_match_type::contains ) ) {
                                 ter_set( point( SEEX - 3 + 5 * rng( 0, 1 ), SEEY - 3 + 5 * rng( 0, 1 ) ),
-                                         t_stairs_down );
+                                         ter_t_stairs_down );
                             }
                             break;
 
@@ -5660,9 +5725,9 @@ void map::draw_lab( mapgendata &dat )
                                 for( int j = 0; j < SEEY * 2; j++ ) {
                                     if( i < lw || i >= EAST_EDGE - rw ||
                                         j < tw || j >= SOUTH_EDGE - bw ) {
-                                        ter_set( point( i, j ), t_concrete_wall );
+                                        ter_set( point( i, j ), ter_t_concrete_wall );
                                     } else {
-                                        ter_set( point( i, j ), t_thconc_floor );
+                                        ter_set( point( i, j ), ter_t_thconc_floor );
                                     }
                                 }
                             }
@@ -5670,15 +5735,15 @@ void map::draw_lab( mapgendata &dat )
                                           dat.zlevel(), rng( 0, 3 ) );
 
                             if( rw == 1 ) {
-                                ter_set( point( EAST_EDGE, SEEY - 1 ), t_door_metal_c );
-                                ter_set( point( EAST_EDGE, SEEY ), t_door_metal_c );
+                                ter_set( point( EAST_EDGE, SEEY - 1 ), ter_t_door_metal_c );
+                                ter_set( point( EAST_EDGE, SEEY ), ter_t_door_metal_c );
                             }
                             if( bw == 1 ) {
-                                ter_set( point( SEEX - 1, SOUTH_EDGE ), t_door_metal_c );
-                                ter_set( point( SEEX, SOUTH_EDGE ), t_door_metal_c );
+                                ter_set( point( SEEX - 1, SOUTH_EDGE ), ter_t_door_metal_c );
+                                ter_set( point( SEEX, SOUTH_EDGE ), ter_t_door_metal_c );
                             }
-                            maybe_insert_stairs( dat.above(), t_stairs_up );
-                            maybe_insert_stairs( terrain_type, t_stairs_down );
+                            maybe_insert_stairs( dat.above(), ter_t_stairs_up );
+                            maybe_insert_stairs( terrain_type, ter_t_stairs_down );
                             break;
                     }
                 } // endif use_hardcoded_4side_map
@@ -5700,7 +5765,7 @@ void map::draw_lab( mapgendata &dat )
                                 one_in( 4 ) ) {
                                 // bash and usually remove the rubble.
                                 make_rubble( { i, j, abs_sub.z() } );
-                                ter_set( point( i, j ), t_rock_floor );
+                                ter_set( point( i, j ), ter_t_rock_floor );
                                 if( !one_in( 3 ) ) {
                                     furn_set( point( i, j ), f_null );
                                 }
@@ -5711,8 +5776,9 @@ void map::draw_lab( mapgendata &dat )
                                    !has_flag_ter( ter_furn_flag::TFLAG_GOES_UP, p2 ) ) {
                             destroy( { i, j, abs_sub.z() } );
                             // bashed squares can create dirt & floors, but we want rock floors.
-                            if( t_dirt == ter( point( i, j ) ) || t_floor == ter( point( i, j ) ) ) {
-                                ter_set( point( i, j ), t_rock_floor );
+                            const ter_id &floor_to_check_ter = ter( point( i, j ) );
+                            if( floor_to_check_ter == ter_t_dirt || floor_to_check_ter == ter_t_floor ) {
+                                ter_set( point( i, j ), ter_t_rock_floor );
                             }
                         }
                     }
@@ -5732,9 +5798,9 @@ void map::draw_lab( mapgendata &dat )
                         ( ( j >= bw || i <= lw ) && i <= j && ( SOUTH_EDGE - j ) <= i ) ) {
                         if( one_in( 5 ) ) {
                             make_rubble( tripoint( i,  j, abs_sub.z() ), f_rubble_rock, true,
-                                         t_slime );
+                                         ter_t_slime );
                         } else if( !one_in( 5 ) ) {
-                            ter_set( point( i, j ), t_slime );
+                            ter_set( point( i, j ), ter_t_slime );
                         }
                     }
                 }
@@ -5754,8 +5820,9 @@ void map::draw_lab( mapgendata &dat )
             for( int i = 0; i < SEEX * 2; i++ ) {
                 for( int j = 0; j < SEEY * 2; j++ ) {
                     if( !( ( i * j ) % 2 || ( i + j ) % 4 ) && one_in( light_odds ) ) {
-                        if( t_thconc_floor == ter( point( i, j ) ) || t_strconc_floor == ter( point( i, j ) ) ) {
-                            ter_set( point( i, j ), t_thconc_floor_olight );
+                        const ter_id &nearby_ter = ter( point( i, j ) );
+                        if( nearby_ter == ter_t_thconc_floor || nearby_ter == ter_t_strconc_floor ) {
+                            ter_set( point( i, j ), ter_t_thconc_floor_olight );
                         }
                     }
                 }
@@ -5779,13 +5846,14 @@ void map::draw_lab( mapgendata &dat )
                         // liquid floors.
                         break;
                     }
-                    ter_id fluid_type = one_in( 3 ) ? t_sewage : t_water_sh;
+                    ter_id fluid_type = one_in( 3 ) ? ter_t_sewage : ter_t_water_sh;
                     for( int i = 0; i < EAST_EDGE; i++ ) {
                         for( int j = 0; j < SOUTH_EDGE; j++ ) {
                             // We spare some terrain to make it look better visually.
-                            if( !one_in( 10 ) && ( t_thconc_floor == ter( point( i, j ) ) ||
-                                                   t_strconc_floor == ter( point( i, j ) ) ||
-                                                   t_thconc_floor_olight == ter( point( i, j ) ) ) ) {
+                            const ter_id &nearby_ter = ter( point( i, j ) );
+                            if( !one_in( 10 ) && ( nearby_ter == ter_t_thconc_floor ||
+                                                   nearby_ter == ter_t_strconc_floor ||
+                                                   nearby_ter == ter_t_thconc_floor_olight ) ) {
                                 ter_set( point( i, j ), fluid_type );
                             } else if( has_flag_ter( ter_furn_flag::TFLAG_DOOR, point( i, j ) ) && !one_in( 3 ) ) {
                                 // We want the actual debris, but not the rubble marker or dirt.
@@ -5806,11 +5874,12 @@ void map::draw_lab( mapgendata &dat )
                         // liquid floors.
                         break;
                     }
-                    ter_id fluid_type = one_in( 3 ) ? t_sewage : t_water_sh;
+                    ter_id fluid_type = one_in( 3 ) ? ter_t_sewage : ter_t_water_sh;
                     for( int i = 0; i < 2; ++i ) {
                         draw_rough_circle( [this, fluid_type]( const point & p ) {
-                            if( t_thconc_floor == ter( p ) || t_strconc_floor == ter( p ) ||
-                                t_thconc_floor_olight == ter( p ) ) {
+                            const ter_id &maybe_flood_ter = ter( p );
+                            if( maybe_flood_ter == ter_t_thconc_floor || maybe_flood_ter == ter_t_strconc_floor ||
+                                maybe_flood_ter == ter_t_thconc_floor_olight ) {
                                 ter_set( p, fluid_type );
                             } else if( has_flag_ter( ter_furn_flag::TFLAG_DOOR, p ) ) {
                                 // We want the actual debris, but not the rubble marker or dirt.
@@ -5828,8 +5897,9 @@ void map::draw_lab( mapgendata &dat )
                     bool is_toxic = one_in( 3 );
                     for( int i = 0; i < SEEX * 2; i++ ) {
                         for( int j = 0; j < SEEY * 2; j++ ) {
-                            if( one_in( 200 ) && ( t_thconc_floor == ter( point( i, j ) ) ||
-                                                   t_strconc_floor == ter( point( i, j ) ) ) ) {
+                            const ter_id &nearby_ter = ter( point( i, j ) );
+                            if( one_in( 200 ) && ( nearby_ter == ter_t_thconc_floor ||
+                                                   nearby_ter == ter_t_strconc_floor ) ) {
                                 if( is_toxic ) {
                                     add_field( tripoint_bub_ms{i, j, abs_sub.z()}, fd_gas_vent, 1 );
                                 } else {
@@ -5867,7 +5937,7 @@ void map::draw_lab( mapgendata &dat )
                             return; // spare stairs and consoles.
                         }
                         make_rubble( {p, abs_sub.z() } );
-                        ter_set( p, t_thconc_floor );
+                        ter_set( p, ter_t_thconc_floor );
                     }, center->xy(), 4 );
                     furn_set( center->xy(), f_null );
                     if( !is_open_air( *center ) ) {
@@ -5882,14 +5952,14 @@ void map::draw_lab( mapgendata &dat )
                         for( int j = 0; j < SOUTH_EDGE; j++ ) {
                             // Create a mostly spread fungal area throughout entire lab.
                             if( !one_in( 5 ) && has_flag( ter_furn_flag::TFLAG_FLAT, point( i, j ) ) ) {
-                                ter_set( point( i, j ), t_fungus_floor_in );
+                                ter_set( point( i, j ), ter_t_fungus_floor_in );
                                 if( has_flag_furn( ter_furn_flag::TFLAG_ORGANIC, point( i, j ) ) ) {
                                     furn_set( point( i, j ), f_fungal_clump );
                                 }
                             } else if( has_flag_ter( ter_furn_flag::TFLAG_DOOR, point( i, j ) ) && !one_in( 5 ) ) {
-                                ter_set( point( i, j ), t_fungus_floor_in );
+                                ter_set( point( i, j ), ter_t_fungus_floor_in );
                             } else if( has_flag_ter( ter_furn_flag::TFLAG_WALL, point( i, j ) ) && one_in( 3 ) ) {
-                                ter_set( point( i, j ), t_fungus_wall );
+                                ter_set( point( i, j ), ter_t_fungus_wall );
                             }
                         }
                     }
@@ -5903,17 +5973,17 @@ void map::draw_lab( mapgendata &dat )
                             return; // spare stairs and consoles.
                         }
                         if( has_flag_ter( ter_furn_flag::TFLAG_WALL, p ) ) {
-                            ter_set( p, t_fungus_wall );
+                            ter_set( p, ter_t_fungus_wall );
                         } else {
-                            ter_set( p, t_fungus_floor_in );
+                            ter_set( p, ter_t_fungus_floor_in );
                             if( one_in( 3 ) ) {
                                 furn_set( p, f_flower_fungal );
                             } else if( one_in( 10 ) ) {
-                                ter_set( p, t_marloss );
+                                ter_set( p, ter_t_marloss );
                             }
                         }
                     }, center.xy(), 3 );
-                    ter_set( center.xy(), t_fungus_floor_in );
+                    ter_set( center.xy(), ter_t_fungus_floor_in );
                     furn_set( center.xy(), f_null );
                     trap_set( center, tr_portal );
                     place_spawns( GROUP_FUNGI_FUNGALOID, 1, center.xy() + point( -2, -2 ),
@@ -5938,10 +6008,14 @@ void map::draw_lab( mapgendata &dat )
             set_temperature_mod( p2 + point( SEEX, SEEY ), temperature_d );
         }
 
-        tw = is_ot_match( "lab", dat.north(), ot_match_type::contains ) ? 0 : 2;
-        rw = is_ot_match( "lab", dat.east(), ot_match_type::contains ) ? 1 : 2;
-        bw = is_ot_match( "lab", dat.south(), ot_match_type::contains ) ? 1 : 2;
-        lw = is_ot_match( "lab", dat.west(), ot_match_type::contains ) ? 0 : 2;
+        tw = ( is_ot_match( "lab", dat.north(), ot_match_type::contains ) &&
+               !is_ot_match( "lab_subway", dat.north(), ot_match_type::contains ) ) ? 0 : 2;
+        rw = ( is_ot_match( "lab", dat.east(), ot_match_type::contains ) &&
+               !is_ot_match( "lab_subway", dat.east(), ot_match_type::contains ) ) ? 1 : 2;
+        bw = ( is_ot_match( "lab", dat.south(), ot_match_type::contains ) &&
+               !is_ot_match( "lab_subway", dat.south(), ot_match_type::contains ) ) ? 1 : 2;
+        lw = ( is_ot_match( "lab", dat.west(), ot_match_type::contains ) &&
+               !is_ot_match( "lab_subway", dat.west(), ot_match_type::contains ) ) ? 0 : 2;
 
         const int hardcoded_finale_map_weight = 500; // weight of all hardcoded maps.
         // If you remove the usage of "lab_finale_1level" here, remove it from mapgen_factory::get_usages above as well.
@@ -5954,10 +6028,10 @@ void map::draw_lab( mapgendata &dat )
             if( !has_flag_ter( ter_furn_flag::TFLAG_WALL, east_border ) &&
                 !has_flag_ter( ter_furn_flag::TFLAG_DOOR, east_border ) ) {
                 // TODO: create a ter_reset function that does ter_set, furn_set, and i_clear?
-                ter_id lw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
-                ter_id tw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
-                ter_id rw_type = tower_lab && rw == 2 ? t_reinforced_glass : t_concrete_wall;
-                ter_id bw_type = tower_lab && bw == 2 ? t_reinforced_glass : t_concrete_wall;
+                ter_str_id lw_type = tower_lab ? ter_t_reinforced_glass : ter_t_concrete_wall;
+                ter_str_id tw_type = tower_lab ? ter_t_reinforced_glass : ter_t_concrete_wall;
+                ter_str_id rw_type = tower_lab && rw == 2 ? ter_t_reinforced_glass : ter_t_concrete_wall;
+                ter_str_id bw_type = tower_lab && bw == 2 ? ter_t_reinforced_glass : ter_t_concrete_wall;
                 for( int i = 0; i < SEEX * 2; i++ ) {
                     ter_set( point( 23, i ), rw_type );
                     furn_set( point( 23, i ), f_null );
@@ -5979,12 +6053,12 @@ void map::draw_lab( mapgendata &dat )
                     }
                 }
                 if( rw != 2 ) {
-                    ter_set( point( 23, 11 ), t_door_metal_c );
-                    ter_set( point( 23, 12 ), t_door_metal_c );
+                    ter_set( point( 23, 11 ), ter_t_door_metal_c );
+                    ter_set( point( 23, 12 ), ter_t_door_metal_c );
                 }
                 if( bw != 2 ) {
-                    ter_set( point( 11, 23 ), t_door_metal_c );
-                    ter_set( point( 12, 23 ), t_door_metal_c );
+                    ter_set( point( 11, 23 ), ter_t_door_metal_c );
+                    ter_set( point( 12, 23 ), ter_t_door_metal_c );
                 }
             }
         } else { // then no json maps for lab_finale_1level were found
@@ -5992,19 +6066,19 @@ void map::draw_lab( mapgendata &dat )
             for( int i = 0; i < SEEX * 2; i++ ) {
                 for( int j = 0; j < SEEY * 2; j++ ) {
                     if( i < lw || i > EAST_EDGE - rw || j < tw || j > SOUTH_EDGE - bw ) {
-                        ter_set( point( i, j ), t_concrete_wall );
+                        ter_set( point( i, j ), ter_t_concrete_wall );
                     } else {
-                        ter_set( point( i, j ), t_thconc_floor );
+                        ter_set( point( i, j ), ter_t_thconc_floor );
                     }
                 }
             }
             if( rw == 1 ) {
-                ter_set( point( EAST_EDGE, SEEY - 1 ), t_door_metal_c );
-                ter_set( point( EAST_EDGE, SEEY ), t_door_metal_c );
+                ter_set( point( EAST_EDGE, SEEY - 1 ), ter_t_door_metal_c );
+                ter_set( point( EAST_EDGE, SEEY ), ter_t_door_metal_c );
             }
             if( bw == 1 ) {
-                ter_set( point( SEEX - 1, SOUTH_EDGE ), t_door_metal_c );
-                ter_set( point( SEEX, SOUTH_EDGE ), t_door_metal_c );
+                ter_set( point( SEEX - 1, SOUTH_EDGE ), ter_t_door_metal_c );
+                ter_set( point( SEEX, SOUTH_EDGE ), ter_t_door_metal_c );
             }
 
             int loot_variant; //only used for weapons testing variant.
@@ -6027,11 +6101,11 @@ void map::draw_lab( mapgendata &dat )
                         mtrap_set( this, point( SEEX + 2, SEEY - 3 ), tr_dissector );
                         mtrap_set( this, point( SEEX - 3, SEEY + 2 ), tr_dissector );
                         mtrap_set( this, point( SEEX + 2, SEEY + 2 ), tr_dissector );
-                        line( this, t_reinforced_glass, point( SEEX + 1, SEEY + 1 ), point( SEEX - 2, SEEY + 1 ) );
-                        line( this, t_reinforced_glass, point( SEEX - 2, SEEY ), point( SEEX - 2, SEEY - 2 ) );
-                        line( this, t_reinforced_glass, point( SEEX - 1, SEEY - 2 ), point( SEEX + 1, SEEY - 2 ) );
-                        ter_set( point( SEEX + 1, SEEY - 1 ), t_reinforced_glass );
-                        ter_set( point( SEEX + 1, SEEY ), t_reinforced_door_glass_c );
+                        line( this, ter_t_reinforced_glass, point( SEEX + 1, SEEY + 1 ), point( SEEX - 2, SEEY + 1 ) );
+                        line( this, ter_t_reinforced_glass, point( SEEX - 2, SEEY ), point( SEEX - 2, SEEY - 2 ) );
+                        line( this, ter_t_reinforced_glass, point( SEEX - 1, SEEY - 2 ), point( SEEX + 1, SEEY - 2 ) );
+                        ter_set( point( SEEX + 1, SEEY - 1 ), ter_t_reinforced_glass );
+                        ter_set( point( SEEX + 1, SEEY ), ter_t_reinforced_door_glass_c );
                         furn_set( point( SEEX - 1, SEEY - 1 ), f_table );
                         furn_set( point( SEEX, SEEY - 1 ), f_table );
                         furn_set( point( SEEX - 1, SEEY ), f_table );
@@ -6068,12 +6142,12 @@ void map::draw_lab( mapgendata &dat )
                         furn_set( point( SEEX - 1, SEEY ), f_rack );
                         furn_set( point( SEEX, SEEY ), f_rack );
                         furn_set( point( SEEX + 1, SEEY ), f_rack );
-                        line( this, t_reinforced_door_glass_c, point( SEEX - 2, SEEY - 2 ),
+                        line( this, ter_t_reinforced_door_glass_c, point( SEEX - 2, SEEY - 2 ),
                               point( SEEX + 1, SEEY - 2 ) );
-                        line( this, t_reinforced_door_glass_c, point( SEEX - 2, SEEY + 1 ),
+                        line( this, ter_t_reinforced_door_glass_c, point( SEEX - 2, SEEY + 1 ),
                               point( SEEX + 1, SEEY + 1 ) );
-                        line( this, t_reinforced_glass, point( SEEX - 3, SEEY - 2 ), point( SEEX - 3, SEEY + 1 ) );
-                        line( this, t_reinforced_glass, point( SEEX + 2, SEEY - 2 ), point( SEEX + 2, SEEY + 1 ) );
+                        line( this, ter_t_reinforced_glass, point( SEEX - 3, SEEY - 2 ), point( SEEX - 3, SEEY + 1 ) );
+                        line( this, ter_t_reinforced_glass, point( SEEX + 2, SEEY - 2 ), point( SEEX + 2, SEEY + 1 ) );
                         place_items( Item_spawn_data_ammo_rare, 96,
                                      point( SEEX - 2, SEEY - 1 ),
                                      point( SEEX + 1, SEEY - 1 ), false,
@@ -6097,12 +6171,12 @@ void map::draw_lab( mapgendata &dat )
                             for( int j = tw; j <= bw; j++ ) {
                                 if( j == tw || j == bw ) {
                                     if( ( i - lw ) % 2 == 0 ) {
-                                        ter_set( point( i, j ), t_concrete_wall );
+                                        ter_set( point( i, j ), ter_t_concrete_wall );
                                     } else {
-                                        ter_set( point( i, j ), t_reinforced_glass );
+                                        ter_set( point( i, j ), ter_t_reinforced_glass );
                                     }
                                 } else if( ( i - lw ) % 2 == 0 || j == tw + 2 ) {
-                                    ter_set( point( i, j ), t_concrete_wall );
+                                    ter_set( point( i, j ), ter_t_concrete_wall );
                                 } else { // Empty space holds monsters!
                                     place_spawns( GROUP_NETHER, 1, point( i, j ), point( i, j ), 1, true );
                                 }
@@ -6123,10 +6197,10 @@ void map::draw_lab( mapgendata &dat )
                     tmpcomp->add_failure( COMPFAIL_SECUBOTS );
                     tmpcomp->set_access_denied_msg(
                         _( "ERROR!  Access denied!  Unauthorized access will be met with lethal force!" ) );
-                    ter_set( point( SEEX - 2, 4 ), t_radio_tower );
-                    ter_set( point( SEEX + 1, 4 ), t_radio_tower );
-                    ter_set( point( SEEX - 2, 7 ), t_radio_tower );
-                    ter_set( point( SEEX + 1, 7 ), t_radio_tower );
+                    ter_set( point( SEEX - 2, 4 ), ter_t_radio_tower );
+                    ter_set( point( SEEX + 1, 4 ), ter_t_radio_tower );
+                    ter_set( point( SEEX - 2, 7 ), ter_t_radio_tower );
+                    ter_set( point( SEEX + 1, 7 ), ter_t_radio_tower );
                 }
                 break;
 
@@ -6151,10 +6225,10 @@ void map::draw_lab( mapgendata &dat )
                                 Item_spawn_data_bionics, 75, point( SEEX - 1, SEEY - 1 ),
                                 point( SEEX, SEEY ), false, calendar::start_of_cataclysm ).size();
                     }
-                    line( this, t_reinforced_glass, point( SEEX - 2, SEEY - 2 ), point( SEEX + 1, SEEY - 2 ) );
-                    line( this, t_reinforced_glass, point( SEEX - 2, SEEY + 1 ), point( SEEX + 1, SEEY + 1 ) );
-                    line( this, t_reinforced_glass, point( SEEX - 2, SEEY - 1 ), point( SEEX - 2, SEEY ) );
-                    line( this, t_reinforced_glass, point( SEEX + 1, SEEY - 1 ), point( SEEX + 1, SEEY ) );
+                    line( this, ter_t_reinforced_glass, point( SEEX - 2, SEEY - 2 ), point( SEEX + 1, SEEY - 2 ) );
+                    line( this, ter_t_reinforced_glass, point( SEEX - 2, SEEY + 1 ), point( SEEX + 1, SEEY + 1 ) );
+                    line( this, ter_t_reinforced_glass, point( SEEX - 2, SEEY - 1 ), point( SEEX - 2, SEEY ) );
+                    line( this, ter_t_reinforced_glass, point( SEEX + 1, SEEY - 1 ), point( SEEX + 1, SEEY ) );
                     spawn_item( point( SEEX - 4, SEEY - 3 ), "id_science" );
                     furn_set( point( SEEX - 3, SEEY - 3 ), furn_f_console );
                     tmpcomp = add_computer( tripoint( SEEX - 3,  SEEY - 3, abs_sub.z() ),
@@ -6177,11 +6251,11 @@ void map::draw_lab( mapgendata &dat )
                                   point( 6, SEEY * 2 - 7 ), 1, true );
                     place_spawns( GROUP_ROBOT_SECUBOT, 1, point( SEEX * 2 - 7, SEEY * 2 - 7 ),
                                   point( SEEX * 2 - 7, SEEY * 2 - 7 ), 1, true );
-                    line( this, t_cvdbody, point( SEEX - 2, SEEY - 2 ), point( SEEX - 2, SEEY + 1 ) );
-                    line( this, t_cvdbody, point( SEEX - 1, SEEY - 2 ), point( SEEX - 1, SEEY + 1 ) );
-                    line( this, t_cvdbody, point( SEEX, SEEY - 1 ), point( SEEX, SEEY + 1 ) );
-                    line( this, t_cvdbody, point( SEEX + 1, SEEY - 2 ), point( SEEX + 1, SEEY + 1 ) );
-                    ter_set( point( SEEX, SEEY - 2 ), t_cvdmachine );
+                    line( this, ter_t_cvdbody, point( SEEX - 2, SEEY - 2 ), point( SEEX - 2, SEEY + 1 ) );
+                    line( this, ter_t_cvdbody, point( SEEX - 1, SEEY - 2 ), point( SEEX - 1, SEEY + 1 ) );
+                    line( this, ter_t_cvdbody, point( SEEX, SEEY - 1 ), point( SEEX, SEEY + 1 ) );
+                    line( this, ter_t_cvdbody, point( SEEX + 1, SEEY - 2 ), point( SEEX + 1, SEEY + 1 ) );
+                    ter_set( point( SEEX, SEEY - 2 ), ter_t_cvdmachine );
                     spawn_item( point( SEEX, SEEY - 3 ), "id_science" );
                     break;
             }
@@ -6189,10 +6263,11 @@ void map::draw_lab( mapgendata &dat )
 
         // Handle stairs in the unlikely case they are needed.
 
-        const auto maybe_insert_stairs = [this]( const oter_id & terrain,  const ter_id & t_stair_type ) {
+        const auto maybe_insert_stairs = [this]( const oter_id & terrain,
+        const ter_str_id & t_stair_type ) {
             if( is_ot_match( "stairs", terrain, ot_match_type::contains ) ) {
                 const auto predicate = [this]( const tripoint & p ) {
-                    return ter( p ) == t_thconc_floor && furn( p ) == f_null &&
+                    return ter( p ) == ter_t_thconc_floor && furn( p ) == f_null &&
                            tr_at( p ).is_null();
                 };
                 const auto range = points_in_rectangle( { 0, 0, abs_sub.z() },
@@ -6202,8 +6277,8 @@ void map::draw_lab( mapgendata &dat )
                 }
             }
         };
-        maybe_insert_stairs( dat.above(), t_stairs_up );
-        maybe_insert_stairs( terrain_type, t_stairs_down );
+        maybe_insert_stairs( dat.above(), ter_t_stairs_up );
+        maybe_insert_stairs( terrain_type, ter_t_stairs_down );
 
         int light_odds = 0;
         // central labs are always fully lit, other labs have half chance of some lights.
@@ -6216,8 +6291,9 @@ void map::draw_lab( mapgendata &dat )
             for( int i = 0; i < SEEX * 2; i++ ) {
                 for( int j = 0; j < SEEY * 2; j++ ) {
                     if( !( ( i * j ) % 2 || ( i + j ) % 4 ) && one_in( light_odds ) ) {
-                        if( t_thconc_floor == ter( point( i, j ) ) || t_strconc_floor == ter( point( i, j ) ) ) {
-                            ter_set( point( i, j ), t_thconc_floor_olight );
+                        const ter_id &nearby_ter = ter( point( i, j ) );
+                        if( nearby_ter == ter_t_thconc_floor || nearby_ter == ter_t_strconc_floor ) {
+                            ter_set( point( i, j ), ter_t_thconc_floor_olight );
                         }
                     }
                 }
@@ -6236,36 +6312,36 @@ void map::draw_slimepit( const mapgendata &dat )
                                        i < dat.w_fac * SEEX ||
                                        j > SEEY * 2 - dat.s_fac * SEEY ||
                                        i > SEEX * 2 - dat.e_fac * SEEX ) ) {
-                    ter_set( point( i, j ), ( !one_in( 10 ) ? t_slime : t_rock_floor ) );
+                    ter_set( point( i, j ), ( !one_in( 10 ) ? ter_t_slime : ter_t_rock_floor ) );
                 } else if( rng( 0, SEEX ) > std::abs( i - SEEX ) && rng( 0, SEEY ) > std::abs( j - SEEY ) ) {
-                    ter_set( point( i, j ), t_slime );
+                    ter_set( point( i, j ), ter_t_slime );
                 } else if( dat.zlevel() == 0 ) {
-                    ter_set( point( i, j ), t_dirt );
+                    ter_set( point( i, j ), ter_t_dirt );
                 } else {
-                    ter_set( point( i, j ), t_rock_floor );
+                    ter_set( point( i, j ), ter_t_rock_floor );
                 }
             }
         }
         if( terrain_type == oter_slimepit_down ) {
-            ter_set( point( rng( 3, SEEX * 2 - 4 ), rng( 3, SEEY * 2 - 4 ) ), t_slope_down );
+            ter_set( point( rng( 3, SEEX * 2 - 4 ), rng( 3, SEEY * 2 - 4 ) ), ter_t_slope_down );
         }
         if( dat.above() == oter_slimepit_down ) {
             switch( rng( 1, 4 ) ) {
                 case 1:
-                    ter_set( point( rng( 0, 2 ), rng( 0, 2 ) ), t_slope_up );
+                    ter_set( point( rng( 0, 2 ), rng( 0, 2 ) ), ter_t_slope_up );
                     break;
                 case 2:
-                    ter_set( point( rng( 0, 2 ), SEEY * 2 - rng( 1, 3 ) ), t_slope_up );
+                    ter_set( point( rng( 0, 2 ), SEEY * 2 - rng( 1, 3 ) ), ter_t_slope_up );
                     break;
                 case 3:
-                    ter_set( point( SEEX * 2 - rng( 1, 3 ), rng( 0, 2 ) ), t_slope_up );
+                    ter_set( point( SEEX * 2 - rng( 1, 3 ), rng( 0, 2 ) ), ter_t_slope_up );
                     break;
                 case 4:
-                    ter_set( point( SEEX * 2 - rng( 1, 3 ), SEEY * 2 - rng( 1, 3 ) ), t_slope_up );
+                    ter_set( point( SEEX * 2 - rng( 1, 3 ), SEEY * 2 - rng( 1, 3 ) ), ter_t_slope_up );
             }
         } else if( dat.above() == oter_slimepit_bottom ) {
             // Align the stairs
-            ter_set( point( 7, 9 ), t_slope_up );
+            ter_set( point( 7, 9 ), ter_t_slope_up );
         }
         place_spawns( GROUP_SLIME, 1, point( SEEX, SEEY ), point( SEEX, SEEY ), 0.15 );
         place_items( Item_spawn_data_sewer, 40, point_zero, point( EAST_EDGE, SOUTH_EDGE ), true,
@@ -6275,7 +6351,8 @@ void map::draw_slimepit( const mapgendata &dat )
 
 void map::place_spawns( const mongroup_id &group, const int chance,
                         const point &p1, const point &p2, const float density,
-                        const bool individual, const bool friendly, const std::string &name, const int mission_id )
+                        const bool individual, const bool friendly, const std::optional<std::string> &name,
+                        const int mission_id )
 {
     if( !group.is_valid() ) {
         const tripoint_abs_omt omt = project_to<coords::omt>( get_abs_sub() );
@@ -6484,7 +6561,7 @@ std::vector<item *> map::place_items(
         if( e->is_tool() || e->is_gun() || e->is_magazine() ) {
             if( rng( 0, 99 ) < magazine && e->magazine_default() && !e->magazine_integral() &&
                 !e->magazine_current() ) {
-                e->put_in( item( e->magazine_default(), e->birthday() ), item_pocket::pocket_type::MAGAZINE_WELL );
+                e->put_in( item( e->magazine_default(), e->birthday() ), pocket_type::MAGAZINE_WELL );
             }
             if( rng( 0, 99 ) < ammo && e->ammo_default() && e->ammo_remaining() == 0 ) {
                 e->ammo_set( e->ammo_default() );
@@ -6516,19 +6593,19 @@ std::vector<item *> map::put_items_from_loc( const item_group_id &group_id, cons
 
 void map::add_spawn( const MonsterGroupResult &spawn_details, const tripoint &p )
 {
-    add_spawn( spawn_details.name, spawn_details.pack_size, p, false, -1, -1, "NONE",
+    add_spawn( spawn_details.name, spawn_details.pack_size, p, false, -1, -1, std::nullopt,
                spawn_details.data );
 }
 
 void map::add_spawn( const mtype_id &type, int count, const tripoint &p, bool friendly,
-                     int faction_id, int mission_id, const std::string &name )
+                     int faction_id, int mission_id, const std::optional<std::string> &name )
 {
     add_spawn( type, count, p, friendly, faction_id, mission_id, name, spawn_data() );
 }
 
 void map::add_spawn(
     const mtype_id &type, int count, const tripoint &p, bool friendly, int faction_id,
-    int mission_id, const std::string &name, const spawn_data &data )
+    int mission_id, const std::optional<std::string> &name, const spawn_data &data )
 {
     if( p.x < 0 || p.x >= SEEX * my_MAPSIZE || p.y < 0 || p.y >= SEEY * my_MAPSIZE ) {
         debugmsg( "Out of bounds add_spawn(%s, %d, %d, %d)", type.c_str(), count, p.x, p.y );
@@ -6549,8 +6626,8 @@ void map::add_spawn(
     if( MonsterGroupManager::monster_is_blacklisted( type ) ) {
         return;
     }
-    spawn_point tmp( type, count, offset, faction_id, mission_id, friendly, name, data );
-    place_on_submap->spawns.push_back( tmp );
+    place_on_submap->spawns.emplace_back( type, count, offset, faction_id, mission_id, friendly, name,
+                                          data );
 }
 
 vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units::angle &dir,
@@ -7037,7 +7114,7 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
     }
     for( int i = p1.x; i <= p2.x; i++ ) {
         for( int j = p1.y; j <= p2.y; j++ ) {
-            m->ter_set( point( i, j ), t_thconc_floor );
+            m->ter_set( point( i, j ), ter_t_thconc_floor );
         }
     }
     int area = height * width;
@@ -7198,7 +7275,7 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
             for( int x = p1.x + 1; x <= p2.x - 1; x++ ) {
                 for( int y = p1.y + 1; y <= p2.y - 1; y++ ) {
                     if( x % 3 == 0 && y % 3 == 0 ) {
-                        m->ter_set( point( x, y ), t_vat );
+                        m->ter_set( point( x, y ), ter_t_vat );
                         m->place_items( Item_spawn_data_cloning_vat, 20, point( x, y ),
                                         point( x, y ), false, calendar::start_of_cataclysm );
                     }
@@ -7247,7 +7324,7 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                                             "---\n"
                                             "|c|\n"
                                             "-=-\n",
-                                            mapf::ter_bind( "- | =", t_concrete_wall, t_concrete_wall, t_reinforced_glass ),
+                                            mapf::ter_bind( "- | =", ter_t_concrete_wall, ter_t_concrete_wall, ter_t_reinforced_glass ),
                                             mapf::furn_bind( "c", f_counter ) );
                 m->place_items( Item_spawn_data_bionics_common, 70, bio,
                                 bio, false, calendar::start_of_cataclysm );
@@ -7266,7 +7343,7 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                                             "-=-\n"
                                             "|c|\n"
                                             "---\n",
-                                            mapf::ter_bind( "- | =", t_concrete_wall, t_concrete_wall, t_reinforced_glass ),
+                                            mapf::ter_bind( "- | =", ter_t_concrete_wall, ter_t_concrete_wall, ter_t_reinforced_glass ),
                                             mapf::furn_bind( "c", f_counter ) );
                 m->place_items( Item_spawn_data_bionics_common, 70, bio,
                                 bio, false, calendar::start_of_cataclysm );
@@ -7286,7 +7363,7 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                                             "|-|\n"
                                             "|c=\n"
                                             "|-|\n",
-                                            mapf::ter_bind( "- | =", t_concrete_wall, t_concrete_wall, t_reinforced_glass ),
+                                            mapf::ter_bind( "- | =", ter_t_concrete_wall, ter_t_concrete_wall, ter_t_reinforced_glass ),
                                             mapf::furn_bind( "c", f_counter ) );
                 m->place_items( Item_spawn_data_bionics_common, 70, point( biox, bioy ),
                                 point( biox, bioy ), false, calendar::start_of_cataclysm );
@@ -7305,7 +7382,7 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                                             "|-|\n"
                                             "=c|\n"
                                             "|-|\n",
-                                            mapf::ter_bind( "- | =", t_concrete_wall, t_concrete_wall, t_reinforced_glass ),
+                                            mapf::ter_bind( "- | =", ter_t_concrete_wall, ter_t_concrete_wall, ter_t_reinforced_glass ),
                                             mapf::furn_bind( "c", f_counter ) );
                 m->place_items( Item_spawn_data_bionics_common, 70, point( biox, bioy ),
                                 point( biox, bioy ), false, calendar::turn_zero );
@@ -7372,22 +7449,22 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                 int w1 = static_cast<int>( ( p1.x + p2.x ) / 2 ) - 2;
                 int w2 = static_cast<int>( ( p1.x + p2.x ) / 2 ) + 2;
                 for( int y = p1.y; y <= p2.y; y++ ) {
-                    m->ter_set( point( w1, y ), t_concrete_wall );
-                    m->ter_set( point( w2, y ), t_concrete_wall );
+                    m->ter_set( point( w1, y ), ter_t_concrete_wall );
+                    m->ter_set( point( w2, y ), ter_t_concrete_wall );
                 }
-                m->ter_set( point( w1, static_cast<int>( ( p1.y + p2.y ) / 2 ) ), t_door_glass_frosted_c );
-                m->ter_set( point( w2, static_cast<int>( ( p1.y + p2.y ) / 2 ) ), t_door_glass_frosted_c );
+                m->ter_set( point( w1, static_cast<int>( ( p1.y + p2.y ) / 2 ) ), ter_t_door_glass_frosted_c );
+                m->ter_set( point( w2, static_cast<int>( ( p1.y + p2.y ) / 2 ) ), ter_t_door_glass_frosted_c );
                 science_room( m, p1, point( w1 - 1, p2.y ), z, 1 );
                 science_room( m, point( w2 + 1, p1.y ), p2, z, 3 );
             } else {
                 int w1 = static_cast<int>( ( p1.y + p2.y ) / 2 ) - 2;
                 int w2 = static_cast<int>( ( p1.y + p2.y ) / 2 ) + 2;
                 for( int x = p1.x; x <= p2.x; x++ ) {
-                    m->ter_set( point( x, w1 ), t_concrete_wall );
-                    m->ter_set( point( x, w2 ), t_concrete_wall );
+                    m->ter_set( point( x, w1 ), ter_t_concrete_wall );
+                    m->ter_set( point( x, w2 ), ter_t_concrete_wall );
                 }
-                m->ter_set( point( ( p1.x + p2.x ) / 2, w1 ), t_door_glass_frosted_c );
-                m->ter_set( point( ( p1.x + p2.x ) / 2, w2 ), t_door_glass_frosted_c );
+                m->ter_set( point( ( p1.x + p2.x ) / 2, w1 ), ter_t_door_glass_frosted_c );
+                m->ter_set( point( ( p1.x + p2.x ) / 2, w2 ), ter_t_door_glass_frosted_c );
                 science_room( m, p1, point( p2.x, w1 - 1 ), z, 2 );
                 science_room( m, point( p1.x, w2 + 1 ), p2, z, 0 );
             }
@@ -7402,7 +7479,7 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bo
     // TODO: Z
     point c( cp.xy() );
     if( create_rubble ) {
-        rough_circle( this, t_dirt, c, 11 );
+        rough_circle( this, ter_t_dirt, c, 11 );
         rough_circle_furn( this, f_rubble, c, 5 );
         furn_set( c, f_null );
     }
@@ -7546,7 +7623,15 @@ void line( map *m, const ter_id &type, const point &p1, const point &p2 )
 {
     m->draw_line_ter( type, p1, p2 );
 }
+void line( tinymap *m, const ter_id &type, const point &p1, const point &p2 )
+{
+    m->draw_line_ter( type, p1, p2 );
+}
 void line_furn( map *m, const furn_id &type, const point &p1, const point &p2 )
+{
+    m->draw_line_furn( type, p1, p2 );
+}
+void line_furn( tinymap *m, const furn_id &type, const point &p1, const point &p2 )
 {
     m->draw_line_furn( type, p1, p2 );
 }
@@ -7563,6 +7648,10 @@ void square( map *m, const ter_id &type, const point &p1, const point &p2 )
     m->draw_square_ter( type, p1, p2 );
 }
 void square_furn( map *m, const furn_id &type, const point &p1, const point &p2 )
+{
+    m->draw_square_furn( type, p1, p2 );
+}
+void square_furn( tinymap *m, const furn_id &type, const point &p1, const point &p2 )
 {
     m->draw_square_furn( type, p1, p2 );
 }
@@ -7639,59 +7728,68 @@ bool update_mapgen_function_json::update_map(
         return false;
     }
 
-    std::unique_ptr<tinymap> p_update_tmap = std::make_unique<tinymap>();
-    tinymap &update_tmap = *p_update_tmap;
-    const tripoint_abs_sm sm_pos = project_to<coords::sm>( omt_pos );
+    std::unique_ptr<smallmap> p_update_smap = std::make_unique<smallmap>();
+    smallmap &update_smap = *p_update_smap;
 
-    update_tmap.load( sm_pos, true );
-    update_tmap.rotate( 4 - rotation );
-    update_tmap.mirror( mirror_horizontal, mirror_vertical );
+    update_smap.load( omt_pos, true );
+    update_smap.rotate( 4 - rotation );
+    update_smap.mirror( mirror_horizontal, mirror_vertical );
 
-    mapgendata md_base( omt_pos, update_tmap, 0.0f, calendar::start_of_cataclysm, miss );
+    mapgendata md_base( omt_pos, *update_smap.cast_to_map(), 0.0f, calendar::start_of_cataclysm, miss );
     mapgendata md( md_base, args );
 
     bool const u = update_map( md, offset, verify );
-    update_tmap.mirror( mirror_horizontal, mirror_vertical );
-    update_tmap.rotate( rotation );
+    update_smap.mirror( mirror_horizontal, mirror_vertical );
+    update_smap.rotate( rotation );
 
-    if( get_map().inbounds( project_to<coords::ms>( sm_pos ) ) ) {
+    if( get_map().inbounds( project_to<coords::ms>( omt_pos ) ) ) {
         // trigger main map cleanup
-        p_update_tmap.reset();
+        p_update_smap.reset();
         // trigger new traps, etc
         g->place_player( get_avatar().pos(), true );
     }
 
+    // Trigger magic to add roofs (within load) if needed.
+    if( omt_pos.z() < OVERMAP_HEIGHT ) {
+        std::unique_ptr<smallmap> p_roof_smap = std::make_unique<smallmap>();
+        smallmap &roof_smap = *p_roof_smap;
+        // The loading of the Z level above is not necessary, but looks better.
+        const tripoint_abs_omt omt_above = { omt_pos.x(), omt_pos.y(), omt_pos.z() + 1 };
+        roof_smap.load( omt_above, false );
+    }
+
     return u;
 }
+
+class rotation_guard
+{
+    public:
+        explicit rotation_guard( const mapgendata &md )
+            : md( md ), rotation( oter_get_rotation( md.terrain_type() ) ) {
+            // If the existing map is rotated, we need to rotate it back to the north
+            // orientation before applying our updates.
+            if( rotation != 0 && !md.has_flag( jmapgen_flags::no_underlying_rotate ) ) {
+                md.m.rotate( rotation, true );
+            }
+        }
+
+        ~rotation_guard() {
+            // If we rotated the map before applying updates, we now need to rotate
+            // it back to where we found it.
+            if( rotation != 0 && !md.has_flag( jmapgen_flags::no_underlying_rotate ) ) {
+                md.m.rotate( 4 - rotation, true );
+            }
+        }
+    private:
+        const mapgendata &md;
+        const int rotation;
+};
 
 bool update_mapgen_function_json::update_map( const mapgendata &md, const point &offset,
         const bool verify ) const
 {
     mapgendata md_with_params( md, get_args( md, mapgen_parameter_scope::omt ), flags_ );
 
-    class rotation_guard
-    {
-        public:
-            explicit rotation_guard( const mapgendata &md )
-                : md( md ), rotation( oter_get_rotation( md.terrain_type() ) ) {
-                // If the existing map is rotated, we need to rotate it back to the north
-                // orientation before applying our updates.
-                if( rotation != 0 && !md.has_flag( jmapgen_flags::no_underlying_rotate ) ) {
-                    md.m.rotate( rotation, true );
-                }
-            }
-
-            ~rotation_guard() {
-                // If we rotated the map before applying updates, we now need to rotate
-                // it back to where we found it.
-                if( rotation != 0 && !md.has_flag( jmapgen_flags::no_underlying_rotate ) ) {
-                    md.m.rotate( 4 - rotation, true );
-                }
-            }
-        private:
-            const mapgendata &md;
-            const int rotation;
-    };
     rotation_guard rot( md_with_params );
 
     return apply_mapgen_in_phases( md_with_params, setmap_points, objects, offset, context_,
@@ -7759,6 +7857,62 @@ void set_queued_points()
     queued_points.clear();
 }
 
+bool apply_construction_marker( const update_mapgen_id &update_mapgen_id,
+                                const tripoint_abs_omt &omt_pos,
+                                const mapgen_arguments &args, bool mirror_horizontal,
+                                bool mirror_vertical, int rotation, bool apply )
+{
+
+    const auto update_function = update_mapgens.find( update_mapgen_id );
+
+    if( update_function == update_mapgens.end() || update_function->second.funcs().empty() ) {
+        return false;
+    }
+
+    fake_map tmp_map( ter_t_grass );
+
+    mapgendata base_fake_md( *tmp_map.cast_to_map(), mapgendata::dummy_settings );
+    mapgendata fake_md( base_fake_md, args );
+    fake_md.skip = { mapgen_phase::zones };
+
+    std::unique_ptr<tinymap> p_update_tmap = std::make_unique<tinymap>();
+    tinymap &update_tmap = *p_update_tmap;
+
+    update_tmap.load( omt_pos, true );
+    update_tmap.rotate( 4 - rotation );
+    update_tmap.mirror( mirror_horizontal, mirror_vertical );
+
+    {
+        // Make sure rot goes out of scope and its destructor restores the map before the
+        // "outer scope" mirroring/rotation is undone. It's unlikely inherent map rotation will
+        // be present at the same time as construction rotation/mirroring is, but better safe than sorry.
+
+        mapgendata md_base( omt_pos, *update_tmap.cast_to_map(), 0.0f, calendar::start_of_cataclysm,
+                            nullptr );
+        mapgendata md( md_base, args );
+
+        rotation_guard rot( md );
+
+        if( update_function->second.funcs()[0]->update_map( fake_md ) ) {
+            for( const tripoint &pos : tmp_map.points_on_zlevel( fake_map::fake_map_z ) ) {
+                const tripoint level_pos = tripoint( pos.xy(), omt_pos.z() );
+                if( tmp_map.ter( pos ) != ter_t_grass || tmp_map.has_furn( level_pos ) ) {
+                    if( apply ) {
+                        update_tmap.add_field( level_pos, fd_construction_site, 1, time_duration::from_turns( 0 ), false );
+                    } else {
+                        update_tmap.delete_field( level_pos, fd_construction_site );
+                    }
+                }
+            }
+        }
+    }
+
+    update_tmap.mirror( mirror_horizontal, mirror_vertical );
+    update_tmap.rotate( rotation );
+
+    return true;
+}
+
 std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_update(
             const update_mapgen_id &update_mapgen_id,
             const mapgen_arguments &mapgen_args, ter_id const &base_ter )
@@ -7774,7 +7928,7 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
 
     fake_map tmp_map( base_ter );
 
-    mapgendata base_fake_md( tmp_map, mapgendata::dummy_settings );
+    mapgendata base_fake_md( *tmp_map.cast_to_map(), mapgendata::dummy_settings );
     mapgendata fake_md( base_fake_md, mapgen_args );
     fake_md.skip = { mapgen_phase::zones };
 

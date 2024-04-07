@@ -7,12 +7,36 @@
       {
         "id": "faction_base_modular_hub_field_0",
         "description": "Modular Field Camp version 1 (original version)",
-        "om_terrains": [ "field" ]
+        "om_terrains": [
+          "field",
+          "rural_road",
+          "dirt_road_farm_parking",
+          "farmland_straight",
+          "farmland_turn",
+          "farmland_turn_inside",
+          "farmland_U",
+          "hayfield_straight",
+          "hayfield_turnL",
+          "hayfield_turnR",
+          "hayfield_end"
+        ]
       },
       {
         "id": "faction_base_modular_hub_field_version_2_0",
         "description": "Modular Field Camp version 2 (no trenches, more beds, courtyards)",
-        "om_terrains": [ "field" ]
+        "om_terrains": [
+          "field",
+          "rural_road",
+          "dirt_road_farm_parking",
+          "farmland_straight",
+          "farmland_turn",
+          "farmland_turn_inside",
+          "farmland_U",
+          "hayfield_straight",
+          "hayfield_turnL",
+          "hayfield_turnR",
+          "hayfield_end"
+        ]
       },
       { "id": "faction_base_firestation_0", "description": "Firestation Base", "om_terrains": [ "fire_station" ] },
       {
@@ -112,63 +136,223 @@
       {
         "id": "faction_base_canteen_0",
         "description": "Canteen version 1.  Provides cooking recipes, stoves, well, cellar",
-        "om_terrains": [ "field" ]
+        "om_terrains": [
+          "field",
+          "rural_road",
+          "dirt_road_farm_parking",
+          "farmland_straight",
+          "farmland_turn",
+          "farmland_turn_inside",
+          "farmland_U",
+          "hayfield_straight",
+          "hayfield_turnL",
+          "hayfield_turnR",
+          "hayfield_end"
+        ]
       },
       {
         "id": "faction_base_canteen_2_0",
         "description": "Canteen version 2.  Version 1 plus still, windmill, and more planters",
-        "om_terrains": [ "field" ]
+        "om_terrains": [
+          "field",
+          "rural_road",
+          "dirt_road_farm_parking",
+          "farmland_straight",
+          "farmland_turn",
+          "farmland_turn_inside",
+          "farmland_U",
+          "hayfield_straight",
+          "hayfield_turnL",
+          "hayfield_turnR",
+          "hayfield_end"
+        ]
       },
       {
         "id": "faction_base_farm_0",
         "description": "Farm version 1.  Shed, plots, some farming recipes",
-        "om_terrains": [ "field" ]
+        "om_terrains": [
+          "field",
+          "rural_road",
+          "dirt_road_farm_parking",
+          "farmland_straight",
+          "farmland_turn",
+          "farmland_turn_inside",
+          "farmland_U",
+          "hayfield_straight",
+          "hayfield_turnL",
+          "hayfield_turnR",
+          "hayfield_end"
+        ]
       },
       {
         "id": "faction_base_farm_2_0",
-        "description": "Farm version 2.  Just plots, fence (optional gate for tractor), no recipes",
-        "om_terrains": [ "field" ]
+        "description": "Farm version 2.  Just plots, fence (optional gate for tractor), processing recipes",
+        "om_terrains": [
+          "field",
+          "rural_road",
+          "dirt_road_farm_parking",
+          "farmland_straight",
+          "farmland_turn",
+          "farmland_turn_inside",
+          "farmland_U",
+          "hayfield_straight",
+          "hayfield_turnL",
+          "hayfield_turnR",
+          "hayfield_end"
+        ]
       },
       {
         "id": "faction_base_garage_0",
         "description": "Garage version 1.  Fits reasonably sized vehicles, free space around it",
-        "om_terrains": [ "field" ]
+        "om_terrains": [
+          "field",
+          "rural_road",
+          "dirt_road_farm_parking",
+          "farmland_straight",
+          "farmland_turn",
+          "farmland_turn_inside",
+          "farmland_U",
+          "hayfield_straight",
+          "hayfield_turnL",
+          "hayfield_turnR",
+          "hayfield_end"
+        ]
       },
       {
         "id": "faction_base_garage_2_0",
         "description": "Garage version 2.  Maximum width, two lane size, three different lengths",
-        "om_terrains": [ "field" ]
+        "om_terrains": [
+          "field",
+          "rural_road",
+          "dirt_road_farm_parking",
+          "farmland_straight",
+          "farmland_turn",
+          "farmland_turn_inside",
+          "farmland_U",
+          "hayfield_straight",
+          "hayfield_turnL",
+          "hayfield_turnR",
+          "hayfield_end"
+        ]
       },
       {
         "id": "faction_base_livestock_0",
         "description": "Livestock Area version 1.  Layout with plenty of free space",
-        "om_terrains": [ "field" ]
+        "om_terrains": [
+          "field",
+          "rural_road",
+          "dirt_road_farm_parking",
+          "farmland_straight",
+          "farmland_turn",
+          "farmland_turn_inside",
+          "farmland_U",
+          "hayfield_straight",
+          "hayfield_turnL",
+          "hayfield_turnR",
+          "hayfield_end"
+        ]
       },
       {
         "id": "faction_base_livestock_2_0",
         "description": "Livestock Area version 2.  More stalls than version 1, less free space",
-        "om_terrains": [ "field" ]
+        "om_terrains": [
+          "field",
+          "rural_road",
+          "dirt_road_farm_parking",
+          "farmland_straight",
+          "farmland_turn",
+          "farmland_turn_inside",
+          "farmland_U",
+          "hayfield_straight",
+          "hayfield_turnL",
+          "hayfield_turnR",
+          "hayfield_end"
+        ]
       },
-      { "id": "faction_base_saltworks_0", "description": "Saltworks Area", "om_terrains": [ "field" ] },
+      {
+        "id": "faction_base_saltworks_0",
+        "description": "Saltworks Area",
+        "om_terrains": [
+          "field",
+          "rural_road",
+          "dirt_road_farm_parking",
+          "farmland_straight",
+          "farmland_turn",
+          "farmland_turn_inside",
+          "farmland_U",
+          "hayfield_straight",
+          "hayfield_turnL",
+          "hayfield_turnR",
+          "hayfield_end"
+        ]
+      },
       {
         "id": "faction_base_storehouse_0",
         "description": "Central Storage Building version 1.  Nice building with free space",
-        "om_terrains": [ "field" ]
+        "om_terrains": [
+          "field",
+          "rural_road",
+          "dirt_road_farm_parking",
+          "farmland_straight",
+          "farmland_turn",
+          "farmland_turn_inside",
+          "farmland_U",
+          "hayfield_straight",
+          "hayfield_turnL",
+          "hayfield_turnR",
+          "hayfield_end"
+        ]
       },
       {
         "id": "faction_base_storehouse_2_0",
         "description": "Central Storage Building version 2.  Focus on storage.  Place in N, E, S, W only",
-        "om_terrains": [ "field" ]
+        "om_terrains": [
+          "field",
+          "rural_road",
+          "dirt_road_farm_parking",
+          "farmland_straight",
+          "farmland_turn",
+          "farmland_turn_inside",
+          "farmland_U",
+          "hayfield_straight",
+          "hayfield_turnL",
+          "hayfield_turnR",
+          "hayfield_end"
+        ]
       },
       {
         "id": "faction_base_workshop_0",
         "description": "Fabrication Workshop version 1.  Nice workshop cottage",
-        "om_terrains": [ "field" ]
+        "om_terrains": [
+          "field",
+          "rural_road",
+          "dirt_road_farm_parking",
+          "farmland_straight",
+          "farmland_turn",
+          "farmland_turn_inside",
+          "farmland_U",
+          "hayfield_straight",
+          "hayfield_turnL",
+          "hayfield_turnR",
+          "hayfield_end"
+        ]
       },
       {
         "id": "faction_base_workshop_2_0",
         "description": "Fabrication Workshop version 2.  More detailed recipe progression",
-        "om_terrains": [ "field" ]
+        "om_terrains": [
+          "field",
+          "rural_road",
+          "dirt_road_farm_parking",
+          "farmland_straight",
+          "farmland_turn",
+          "farmland_turn_inside",
+          "farmland_U",
+          "hayfield_straight",
+          "hayfield_turnL",
+          "hayfield_turnR",
+          "hayfield_end"
+        ]
       },
       {
         "id": "faction_base_lightindustry_workshop_0",
@@ -207,6 +391,7 @@
       { "id": "veggy_cooked", "description": " Cook: Veggy, Cooked" },
       { "id": "boiled_egg", "description": " Cook: Egg, Boiled" },
       { "id": "starch", "description": " Cook: Starch" },
+      { "id": "water_clean", "description": " Boil: Water" },
       { "id": "starch_from_fibrous_stuff", "description": " Cook: Cattail Starch" },
       { "id": "flatbread", "description": " Cook: Flatbread" },
       { "id": "veggy_wild_cooked", "description": " Cook: Veggy, Cooked Wild" }
@@ -265,14 +450,13 @@
     "type": "recipe_group",
     "id": "saltworks_recipes_2",
     "building_type": "COOK",
-    "//": "You can make the recipes work by adding a container like canning but it's a huge pain because of pockets and inconsistency in liquid volumes",
     "recipes": [
-      { "id": "brew_fruit_wine", "description": " WIP Brew: Fruit Wine Must" },
-      { "id": "brew_mead", "description": " WIP Brew: Spiced Wine Must" },
-      { "id": "brew_dandelion_wine", "description": " WIP Brew: Dandelion Wine Must" },
-      { "id": "brew_burdock_wine", "description": " WIP Brew: Burdock Wine Must" },
-      { "id": "brew_pine_wine", "description": " WIP Brew: Pine Wine Must" },
-      { "id": "brew_hb_beer", "description": " WIP Brew: Beer" }
+      { "id": "brew_fruit_wine", "description": "Brew: Fruit Wine Must" },
+      { "id": "brew_mead", "description": "Brew: Spiced Wine Must" },
+      { "id": "brew_dandelion_wine", "description": "Brew: Dandelion Wine Must" },
+      { "id": "brew_burdock_wine", "description": "Brew: Burdock Wine Must" },
+      { "id": "brew_pine_wine", "description": "Brew: Pine Wine Must" },
+      { "id": "brew_hb_beer", "description": "Brew: Beer" }
     ]
   },
   {
@@ -280,10 +464,10 @@
     "id": "saltworks_recipes_3",
     "building_type": "COOK",
     "recipes": [
-      { "id": "brandy", "description": " WIP Distill: Brandy" },
-      { "id": "gin_from_mash", "description": " WIP Distill: Gin" },
-      { "id": "vodka_from_wash", "description": " WIP Distill: Vodka" },
-      { "id": "rum", "description": " WIP Distill: Rum" }
+      { "id": "brandy", "description": "Distill: Brandy" },
+      { "id": "gin_from_mash", "description": "Distill: Gin" },
+      { "id": "vodka_from_wash", "description": "Distill: Vodka" },
+      { "id": "rum", "description": "Distill: Rum" }
     ]
   },
   {
@@ -322,7 +506,7 @@
       { "id": "steel_chunk", "description": " Craft: Steel, Chunk" },
       { "id": "anvil", "description": " Craft: Anvil" },
       { "id": "steel_lump", "description": " Craft: Steel, Lump" },
-      { "id": "lc_steel_lump", "description": " Craft: Mild Carbon Steel, Lump" }
+      { "id": "lc_steel_lump", "description": " Craft: Mild Steel, Lump" }
     ]
   },
   {
@@ -342,10 +526,10 @@
       { "id": "boots_scrap", "description": " Craft: Armor, Scrap Boots" },
       { "id": "copper_ax", "description": " Craft: Axe, Copper" },
       { "id": "spear_copper", "description": " Craft: Spear, Copper" },
-      { "id": "lc_wire", "description": " Craft: Mild Carbon Steel, Wire" },
-      { "id": "lc_chain_link_fabrication", "description": " Craft: Mild Carbon Steel, Link" },
-      { "id": "lc_link_sheet", "description": " Craft: Mild Carbon Steel, Link Sheet" },
-      { "id": "mc_steel_lump", "description": " Craft: Medium Carbon Steel, Lump" }
+      { "id": "lc_wire", "description": " Craft: Mild Steel, Wire" },
+      { "id": "lc_chain_link_fabrication", "description": " Craft: Mild Steel, Link" },
+      { "id": "lc_link_sheet", "description": " Craft: Mild Steel, Link Sheet" },
+      { "id": "mc_steel_lump", "description": " Craft: Medium Steel, Lump" }
     ]
   },
   {
@@ -355,13 +539,13 @@
     "recipes": [
       { "id": "chisel", "description": " Craft: Metalworking Chisel" },
       { "id": "hammer", "description": " Craft: Hammer" },
-      { "id": "tongs", "description": " Craft: Pair of kitchen tongs" },
+      { "id": "tongs", "description": " Craft: Pair of Kitchen Tongs" },
       { "id": "nail", "description": " Craft: Nail" },
       { "id": "wire", "description": " Craft: Wire" },
       { "id": "swage", "description": " Craft: Swage and Die Set" },
-      { "id": "mc_wire", "description": " Craft: Medium Carbon Steel, Wire" },
-      { "id": "mc_chain_link_fabrication", "description": " Craft: Medium Carbon Steel, Link" },
-      { "id": "mc_link_sheet", "description": " Craft: Medium Carbon Steel, Link Sheet" }
+      { "id": "mc_wire", "description": " Craft: Medium Steel, Wire" },
+      { "id": "mc_chain_link_fabrication", "description": " Craft: Medium Steel, Link" },
+      { "id": "mc_link_sheet", "description": " Craft: Medium Steel, Link Sheet" }
     ]
   },
   {
@@ -379,10 +563,10 @@
       { "id": "welding_rod_steel", "description": " Craft: Steel Welding Rod" },
       { "id": "rebar", "description": " Craft: Rebar" },
       { "id": "gold_ring", "description": " Craft: Gold Ring" },
-      { "id": "hammer_sledge", "description": " Craft: Hammer, Sledge" },
-      { "id": "ch_wire", "description": " Craft: Case Hardened Steel, Wire" },
-      { "id": "ch_chain_link_fabrication", "description": " Craft: Case Hardened Steel, Link" },
-      { "id": "ch_link_sheet", "description": " Craft: Case Hardened Steel, Link Sheet" },
+      { "id": "hammer_sledge_from_scratch", "description": " Craft: Hammer, Sledge" },
+      { "id": "ch_wire", "description": " Craft: Hardened Steel, Wire" },
+      { "id": "ch_chain_link_fabrication", "description": " Craft: Hardened Steel, Link" },
+      { "id": "ch_link_sheet", "description": " Craft: Hardened Steel, Link Sheet" },
       { "id": "chain_link_fabrication", "description": " Craft: Steel, Link" },
       { "id": "link_sheet_fabrication", "description": " Craft: Steel, Link Sheet" }
     ]
@@ -404,10 +588,10 @@
       { "id": "crowbar", "description": " Craft: Crowbar" },
       { "id": "pot", "description": " Craft: Pot" },
       { "id": "hoe", "description": " Craft: Hoe" },
-      { "id": "hc_steel_lump", "description": " Craft: High Carbon Steel, Lump" },
-      { "id": "hc_wire", "description": " Craft: High Carbon Steel, Wire" },
-      { "id": "hc_chain_link_fabrication", "description": " Craft: High Carbon Steel, Link" },
-      { "id": "hc_link_sheet", "description": " Craft: High Carbon Steel, Link Sheet" }
+      { "id": "hc_steel_lump", "description": " Craft: High Steel, Lump" },
+      { "id": "hc_wire", "description": " Craft: High Steel, Wire" },
+      { "id": "hc_chain_link_fabrication", "description": " Craft: High Steel, Link" },
+      { "id": "hc_link_sheet", "description": " Craft: High Steel, Link Sheet" }
     ]
   },
   {
@@ -561,15 +745,15 @@
       { "id": "xl_armor_qt_heavyplate", "description": " Craft: Armor, XL Tempered Heavy Plate" },
       { "id": "xl_armor_qt_lightplate", "description": " Craft: Armor, XL Tempered Light Plate" },
       { "id": "xl_armor_qt_plate", "description": " Craft: Armor, XL Tempered Plate" },
-      { "id": "broadsword", "description": " Craft: Sword, Broadsword" },
-      { "id": "scimitar", "description": " Craft: Sword, Shamshir" },
+      { "id": "mc_broadsword", "description": " Craft: Sword, Medium Steel Broadsword" },
+      { "id": "mc_scimitar", "description": " Craft: Sword, Medium Steel Shamshir" },
       { "id": "fire_ax", "description": " Craft: Axe, Fire" },
       { "id": "hacksaw", "description": " Craft: Hacksaw" },
       { "id": "saw", "description": " Craft: Woodsaw" },
       { "id": "pike", "description": " Craft: Spear, Awl Pike" },
-      { "id": "rapier", "description": " Craft: Sword, Rapier" },
+      { "id": "mc_rapier", "description": " Craft: Sword, Medium Steel Rapier" },
       { "id": "halligan", "description": " Craft: Halligan Bar" },
-      { "id": "zweihander", "description": " Craft: Sword, Zweihander" },
+      { "id": "mc_zweihander", "description": " Craft: Sword, Medium Steel Zweihander" },
       { "id": "pickaxe", "description": " Craft: Pickaxe" },
       { "id": "qt_wire", "description": " Craft: Tempered Steel, Wire" },
       { "id": "qt_chain_link_fabrication", "description": " Craft: Tempered Steel, Link" },

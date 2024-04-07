@@ -43,8 +43,8 @@ enum dialogue_consequence : unsigned char {
     action
 };
 
-using talkfunction_ptr = std::add_pointer<void ( npc & )>::type;
-using dialogue_fun_ptr = std::add_pointer<void( npc & )>::type;
+using talkfunction_ptr = std::add_pointer_t<void ( npc & )>;
+using dialogue_fun_ptr = std::add_pointer_t<void( npc & )>;
 
 using trial_mod = std::pair<std::string, int>;
 
@@ -228,6 +228,7 @@ struct dialogue {
         void set_value( const std::string &key, const std::string &value );
         void remove_value( const std::string &key );
         std::string get_value( const std::string &key ) const;
+        std::optional<std::string> maybe_get_value( const std::string &key ) const;
 
         void set_conditional( const std::string &key, const std::function<bool( dialogue & )> &value );
         bool evaluate_conditional( const std::string &key, dialogue &d );

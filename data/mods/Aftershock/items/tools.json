@@ -143,7 +143,7 @@
     "charges_per_use": 1,
     "use_action": [ "OXYTORCH" ],
     "qualities": [ [ "WELD", 2 ] ],
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "BELT_CLIP" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -372,9 +372,29 @@
     "melee_damage": { "bash": 5 }
   },
   {
-    "id": "UPS_off",
+    "id": "UPS_OFF",
     "type": "TOOL_ARMOR",
-    "copy-from": "UPS_off",
+    "copy-from": "UPS_OFF",
+    "name": { "str": "UPS", "str_pl": "UPSes" },
+    "description": "This is a unified power supply, or UPS.  It is a device developed jointly by military and scientific interests for use in combat and the field.  The UPS is designed to power armor and some guns, but drains batteries quickly.  It can be worn strapped to either leg for ease of access, and it's been waterproofed to protect the delicate electronics.  Has its own custom battery, rechargeable and with higher capacity, but not removable",
+    "ammo": [ "battery" ],
+    "sided": true,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1500 } } ],
+    "flags": [ "RECHARGE", "BELTED", "NO_UNLOAD", "NO_RELOAD", "FRAGILE", "OVERSIZE", "WATERPROOF", "IS_UPS" ],
+    "material": [ "aluminum", "plastic" ],
+    "armor": [
+      {
+        "encumbrance": 2,
+        "coverage": 13,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ]
+      }
+    ]
+  },
+  {
+    "id": "UPS_ON",
+    "type": "TOOL_ARMOR",
+    "copy-from": "UPS_ON",
     "name": { "str": "UPS", "str_pl": "UPSes" },
     "description": "This is a unified power supply, or UPS.  It is a device developed jointly by military and scientific interests for use in combat and the field.  The UPS is designed to power armor and some guns, but drains batteries quickly.  It can be worn strapped to either leg for ease of access, and it's been waterproofed to protect the delicate electronics.  Has its own custom battery, rechargeable and with higher capacity, but not removable",
     "ammo": [ "battery" ],
@@ -503,6 +523,30 @@
     "armor": [ { "covers": [ "eyes", "torso" ] } ]
   },
   {
+    "type": "TOOL",
+    "id": "afs_shuttle_radiobeacon",
+    "name": { "str": "drone shuttle beacon" },
+    "description": "A portable high-power radiobeacon.  Signals a drone shuttle from Port Augustmoon, which will make landfall in about 30 minutes and leave 4 hours later, wether you board it or not.  Single use, all expenses paid in advance, and non refundable.",
+    "weight": "340 g",
+    "volume": "1 L",
+    "category": "tools",
+    "price": "55 kUSD",
+    "price_postapoc": "55 kUSD",
+    "to_hit": -1,
+    "material": [ "plastic", "aluminum" ],
+    "symbol": ";",
+    "color": "yellow",
+    "melee_damage": { "bash": 6 },
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Call a shuttle.",
+      "effect_on_conditions": [ "EOC_AFS_CALL_AUGUSTMOON_SHUTTLE" ]
+    },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "afs_shuttle_beacon": 1 }, "rigid": true } ],
+    "ammo": "afs_shuttle_beacon",
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ]
+  },
+  {
     "id": "vr_laptop_holosuite",
     "copy-from": "vr_laptop",
     "type": "TOOL_ARMOR",
@@ -563,6 +607,23 @@
     "melee_damage": { "bash": 9 }
   },
   {
+    "id": "syringe",
+    "type": "TOOL",
+    "name": { "str": "jet injector" },
+    "description": "A compact jet injector from a first aid kit.  A light based assistive injection system allows use without any medical training.",
+    "weight": "4240 mg",
+    "volume": "10ml",
+    "longest_side": "10 cm",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "point", "balance": "neutral" },
+    "price": "2 USD",
+    "price_postapoc": "2 USD",
+    "material": [ "plastic" ],
+    "symbol": ",",
+    "color": "white",
+    "flags": [ "FRAGILE_MELEE" ],
+    "melee_damage": { "stab": 1 }
+  },
+  {
     "id": "diamond_press",
     "type": "GENERIC",
     "category": "tools",
@@ -598,7 +659,54 @@
     "melee_damage": { "bash": 9 }
   },
   {
-    "id": "mil_mess_kit",
+    "id": "multi_cooker",
+    "copy-from": "multi_cooker",
+    "type": "TOOL",
+    "//": "Makes it look more sci-fi so it isnt out of place, not many actual changes otherwise.",
+    "name": { "str": "micro-cooker" },
+    "description": "A rugged kitchen in one tool, made for use within small spaceships or in the wilderness.  It can automatically prepare a variety of dishes while its owner focuses on other tasks.",
+    "weight": "5 kg",
+    "volume": "3 L",
+    "price": "1500 USD",
+    "price_postapoc": "1500 USD",
+    "to_hit": -3,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "red",
+    "ammo": [ "battery" ],
+    "flags": [ "ELECTRONIC", "ALLOWS_REMOTE_USE" ],
+    "power_draw": "100 W",
+    "qualities": [ [ "CONTAIN", 1 ] ],
+    "tick_action": "MULTICOOKER_TICK",
+    "use_action": [ "MULTICOOKER", { "type": "link_up", "cable_length": 2, "charge_rate": "1000 W" } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "35 cm",
+        "moves": 50
+      }
+    ]
+  },
+  {
+    "id": "multi_cooker_filled",
+    "type": "TOOL",
+    "copy-from": "multi_cooker",
+    "name": { "str": "micro-cooker - cooking", "str_pl": "micro-cookers - cooking" },
+    "description": "This micro-cooker is currently cooking a dish.",
+    "delete": { "qualities": [ "CONTAIN" ] }
+  },
+  {
+    "id": "military_mess_kit",
     "type": "TOOL",
     "name": { "str": "military mess kit" },
     "description": "A military mess kit designed for long-range reconnaissance patrols deployed behind enemy lines.  All of its parts are made from thin sheets of aluminum-superalloy composite and are insulated with ceramic coating.  Relies on a battery-operated hotplate, rather than the smoke-producing chemical-fueled hexamine stove.  Compact, durable and lightweight.",

@@ -63,6 +63,35 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "eddie_food_storage",
+    "object": {
+      "mapgensize": [ 14, 14 ],
+      "rotation": 1,
+      "rows": [
+        "||||||++||||||",
+        "|;..........;|",
+        "|;.;;..;;...;|",
+        "|;.;;..;;...;|",
+        "|;.;;..;;...;|",
+        "|;.;;..;;...;|",
+        "|;.;;..;;...;|",
+        "|;.;;..;;...;|",
+        "|;.;;..;;...;|",
+        "|;.;;..;;...;|",
+        "|;.;;..;;...;|",
+        "|;.;;..;;...;|",
+        "|;.;;..;;...;|",
+        "||||||||||||||"
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "godco_camp" ],
+      "furniture": { ";": "f_warehouse_shelf" },
+      "terrain": { ";": "t_floor" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "kostas_herb_garden",
     "object": {
       "mapgensize": [ 7, 7 ],

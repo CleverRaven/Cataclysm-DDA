@@ -5,6 +5,7 @@
     "name": { "str": "Adrenaline Pump" },
     "description": "A stimulator system has been surgically implanted alongside your adrenal glands, allowing you to trigger your body's adrenaline response at the cost of some bionic power.",
     "occupied_bodyparts": [ [ "torso", 4 ] ],
+    "activated_eocs": [ "EOC_bio_adrenaline" ],
     "act_cost": "5 J"
   },
   {
@@ -556,6 +557,7 @@
     "name": { "str": "Blood Filter" },
     "description": "A filtration system near your heart allows you to actively filter out chemical impurities, primarily drugs.  It will have limited impact on viruses.  Note that it is not a targeted filter; ALL drugs in your system will be affected.",
     "occupied_bodyparts": [ [ "torso", 5 ] ],
+    "activated_eocs": [ "EOC_bio_blood_filter" ],
     "act_cost": "600 J"
   },
   {
@@ -742,7 +744,7 @@
     "name": { "str": "Wired Reflexes" },
     "description": "Your reaction time has been greatly enhanced with bionic nerve stimulators, giving you a +2 bonus to dexterity.",
     "occupied_bodyparts": [ [ "head", 3 ], [ "torso", 6 ], [ "arm_l", 3 ], [ "arm_r", 3 ], [ "leg_l", 7 ], [ "leg_r", 7 ] ],
-    "stat_bonus": [ [ "DEX", 2 ] ],
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 2 } ] } ],
     "flags": [ "BIONIC_NPC_USABLE" ]
   },
   {
@@ -751,8 +753,8 @@
     "name": { "str": "Expanded Digestive System" },
     "description": "You have been outfitted with three synthetic stomachs and industrial-grade intestines.  Not only can you extract much more nutrition from food, but you are highly resistant to foodborne illness, and can sometimes eat rotten food.",
     "occupied_bodyparts": [ [ "torso", 20 ] ],
-    "vitamin_absorb_mod": 1.5,
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "PARAIMMUNE", "IMMUNE_SPOIL" ],
+    "enchantments": [ { "values": [ { "value": "KCAL", "multiply": 0.5 }, { "value": "VITAMIN_ABSORB_MOD", "multiply": 0.5 } ] } ],
     "cant_remove_reason": "The CBM has replaced the patient's digestive organs and cannot be removed.",
     "canceled_mutations": [
       "WEAKSTOMACH",
@@ -815,8 +817,10 @@
     "name": { "str": "Enhanced Hearing" },
     "description": "When this bionic is active, your hearing will be drastically improved, allowing you to hear ten times better than the average person.  Additionally, high-intensity sounds will be automatically dampened before they can damage your hearing.",
     "occupied_bodyparts": [ [ "head", 2 ] ],
+    "mutation_conflicts": [ "BATEARS" ],
     "flags": [ "BIONIC_TOGGLED", "IMMUNE_HEARING_DAMAGE" ],
-    "active_flags": [ "SUPER_HEARING" ],
+    "active_flags": [ "SAFECRACK_NO_TOOL" ],
+    "enchantments": [ { "condition": "ACTIVE", "values": [ { "value": "HEARING_MULT", "multiply": 2.5 } ] } ],
     "auto_deactivates": [ "bio_earplugs" ],
     "included_bionics": [ "bio_earplugs" ],
     "activated_on_install": true
@@ -880,7 +884,7 @@
     "name": { "str": "Diamond Cornea" },
     "description": "Your vision is greatly enhanced, giving you a +2 bonus to perception.",
     "occupied_bodyparts": [ [ "eyes", 1 ] ],
-    "stat_bonus": [ [ "PER", 2 ] ],
+    "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 2 } ] } ],
     "flags": [ "BIONIC_NPC_USABLE" ]
   },
   {
@@ -1095,6 +1099,13 @@
     "description": "While activated, your muscles will be greatly enhanced, increasing your strength by 20.",
     "occupied_bodyparts": [ [ "torso", 10 ], [ "arm_l", 8 ], [ "arm_r", 8 ], [ "leg_l", 10 ], [ "leg_r", 10 ] ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
+    "enchantments": [
+      {
+        "condition": "ACTIVE",
+        "ench_effects": [ { "effect": "bio_hydraulics_eff", "intensity": 1 } ],
+        "values": [ { "value": "STRENGTH", "add": 20 } ]
+      }
+    ],
     "act_cost": "10 kJ",
     "react_cost": "10 kJ",
     "time": "1 s"
@@ -1118,7 +1129,7 @@
     "description": "Your brain has been enhanced with bionic coprocessors, giving you a +2 bonus to intelligence.",
     "cant_remove_reason": "The bionic is now critical to the continued functionality of the user's brain.",
     "occupied_bodyparts": [ [ "head", 6 ] ],
-    "stat_bonus": [ [ "INT", 2 ] ],
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 2 } ] } ],
     "flags": [ "BIONIC_NPC_USABLE" ]
   },
   {
@@ -1497,7 +1508,7 @@
     "id": "bio_sleepy",
     "type": "bionic",
     "name": { "str": "Endocrine Enervator" },
-    "description": "Through a combination of psychochemical manipulation and old fashioned electrical nerve stimulation, this malfunctioning bionic alters your brain chemistry in such a way as to cause fatigue.  You will find yourself tiring a bit faster than before.",
+    "description": "Through a combination of psychochemical manipulation and old fashioned electrical nerve stimulation, this malfunctioning bionic alters your brain chemistry in such a way as to cause sleepiness.  You will find yourself tiring a bit faster than before.",
     "occupied_bodyparts": [ [ "head", 2 ] ],
     "flags": [ "BIONIC_FAULTY" ]
   },
@@ -1551,7 +1562,7 @@
     "name": { "str": "Muscle Augmentation" },
     "description": "Your muscular system has been surgically enhanced with myomer fibers, giving you a +2 bonus to strength.",
     "occupied_bodyparts": [ [ "torso", 6 ], [ "arm_l", 4 ], [ "arm_r", 4 ], [ "leg_l", 8 ], [ "leg_r", 8 ] ],
-    "stat_bonus": [ [ "STR", 2 ] ],
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 2 } ] } ],
     "flags": [ "BIONIC_NPC_USABLE" ]
   },
   {
@@ -1601,6 +1612,18 @@
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "WEAPON_DISPERSION", "multiply": -0.25 } ] } ]
   },
   {
+    "id": "bio_sonar",
+    "type": "bionic",
+    "name": { "str": "Subaquatic Navigation System" },
+    "description": "While active, a tiny device in your inner ear periodically generates ultrasonic pulses which aid in navigation, provided you are underwater and able to hear.",
+    "occupied_bodyparts": [ [ "head", 1 ] ],
+    "act_cost": "1 J",
+    "trigger_cost": "5 J",
+    "flags": [ "BIONIC_TOGGLED" ],
+    "activated_eocs": [ "EOC_BIO_SONAR_activated" ],
+    "deactivated_eocs": [ "EOC_BIO_SONAR_deactivated" ]
+  },
+  {
     "id": "bio_taser",
     "type": "bionic",
     "name": { "str": "Super Stun Gun" },
@@ -1632,6 +1655,7 @@
     "type": "bionic",
     "name": { "str": "Time Dilation" },
     "description": "At the cost of all stored bionic power, you may increase your body speed and reactions dramatically, essentially freezing time.  You are still delicate, however, and violent or rapid movements may damage you due to friction.",
+    "activated_eocs": [ "EOC_time_freeze" ],
     "occupied_bodyparts": [
       [ "torso", 12 ],
       [ "head", 3 ],
@@ -1778,7 +1802,7 @@
     "name": { "str": "Titanium Skeletal Bracing" },
     "description": "Titanium bracing has been installed onto your elbows, knees, and spine, making them far better at handling strain.  Your carrying capacity is increased by 20 kilograms, or about 44 pounds, and you receive slightly less bashing damage to your arms, legs and torso.",
     "occupied_bodyparts": [ [ "torso", 8 ], [ "arm_l", 3 ], [ "arm_r", 3 ], [ "leg_l", 3 ], [ "leg_r", 3 ] ],
-    "weight_capacity_bonus": "20 kg",
+    "enchantments": [ { "values": [ { "value": "CARRY_WEIGHT", "add": 20000 } ] } ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "protec": [
       [ "torso", { "bash": 2 } ],
@@ -1820,7 +1844,7 @@
     "id": "bio_soporific",
     "type": "bionic",
     "name": { "str": "Soporific Induction" },
-    "description": "An electrode has been implanted into your brain's ventrolateral preoptic nucleus.  It turns on whenever you're trying to fall asleep, creating an artificial but effective sensation of fatigue.",
+    "description": "An electrode has been implanted into your brain's ventrolateral preoptic nucleus.  It turns on whenever you're trying to fall asleep, creating an artificial but effective sensation of sleepiness.",
     "occupied_bodyparts": [ [ "head", 1 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
     "enchantments": [ { "condition": "ACTIVE", "values": [ { "value": "SLEEPY", "add": 30 } ] } ]
@@ -1866,16 +1890,6 @@
     "description": "For better or worse, this CBM suppresses stimuli while asleep, preventing you from waking up until the end of your natural sleep cycle.",
     "occupied_bodyparts": [ [ "head", 1 ] ],
     "flags": [ "BIONIC_FAULTY", "BIONIC_SHOCKPROOF" ]
-  },
-  {
-    "id": "bio_trickle",
-    "type": "bionic",
-    "name": { "str": "Trickle Charger" },
-    "description": "You have been equipped with a CBM that slowly recharges your power reserves at all times.  Provides extremely low power but has no cost and will last several years.",
-    "occupied_bodyparts": [ [ "torso", 7 ] ],
-    "dupes_allowed": true,
-    "power_trickle": "2 J",
-    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
     "id": "bio_pitch_perfect",

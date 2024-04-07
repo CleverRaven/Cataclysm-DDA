@@ -1571,7 +1571,7 @@
     "copy-from": "car_town_abstract",
     "name": "Budget Town Car",
     "parts": [
-      { "x": 2, "y": 1, "parts": [ "diesel_engine_v6", "alternator_car", "battery_car" ] },
+      { "x": 2, "y": 1, "parts": [ "engine_v6", "alternator_car", "battery_car" ] },
       { "x": -2, "y": -1, "parts": [ { "part": "tank", "fuel": "gasoline" } ] },
       { "x": 0, "y": 0, "parts": [ "reclining_seat#windshield_front", "seatbelt" ] },
       { "x": 0, "y": 2, "parts": [ "reclining_seat#windshield_front", "seatbelt" ] },

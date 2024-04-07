@@ -81,6 +81,7 @@
 #if defined(__ANDROID__)
 // used by android_version() function for __system_property_get().
 #include <sys/system_properties.h>
+#include "input_context.h"
 #endif
 
 #if (defined(__DragonFly__) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__)) && !defined(CATA_IS_ON_BSD)
@@ -210,7 +211,7 @@ bool debug_mode = false;
 
 namespace debugmode
 {
-std::list<debug_filter> enabled_filters;
+std::unordered_set<debug_filter> enabled_filters;
 std::string filter_name( debug_filter value )
 {
     // see debug.h for commentary
@@ -246,6 +247,9 @@ std::string filter_name( debug_filter value )
         case DF_MONSTER: return "DF_MONSTER";
         case DF_MUTATION: return "DF_MUTATION";
         case DF_NPC: return "DF_NPC";
+        case DF_NPC_COMBATAI: return "DF_NPC_COMBATAI";
+        case DF_NPC_ITEMAI: return "DF_NPC_ITEMAI";
+        case DF_NPC_MOVEAI: return "DF_NPC_MOVEAI";
         case DF_OVERMAP: return "DF_OVERMAP";
         case DF_RADIO: return "DF_RADIO";
         case DF_RANGED: return "DF_RANGED";
@@ -420,7 +424,7 @@ struct time_info {
         using char_t = typename Stream::char_type;
         using base   = std::basic_ostream<char_t>;
 
-        static_assert( std::is_base_of<base, Stream>::value );
+        static_assert( std::is_base_of_v<base, Stream> );
 
         out << std::setfill( '0' );
         out << std::setw( 2 ) << t.hours << ':' << std::setw( 2 ) << t.minutes << ':' <<
@@ -519,6 +523,19 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
     if( test_mode ) {
         return;
     }
+
+    // Enable the following to step in debug messages with a debugger
+#if 0
+    if( isDebuggerActive() ) {
+#if defined(_WIN32)
+        DebugBreak();
+        return;
+#elif defined( __linux__ )
+        raise( SIGTRAP );
+        return;
+#endif
+    }
+#endif //
 
     // Show excessive repetition prompt once per excessive set
     bool excess_repetition = rep_folder.repeat_count == repetition_folder::repetition_threshold;
@@ -1462,6 +1479,38 @@ std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
     return null_stream;
 }
 
+bool isDebuggerActive()
+{
+#if defined(_WIN32)
+    // From catch.hpp: both _MSVC_VER and __MINGW32__
+    return IsDebuggerPresent() != 0;
+#elif defined(__linux__)
+    // From catch.hpp:
+    // The standard POSIX way of detecting a debugger is to attempt to
+    // ptrace() the process, but this needs to be done from a child and not
+    // this process itself to still allow attaching to this process later
+    // if wanted, so is rather heavy. Under Linux we have the PID of the
+    // "debugger" (which doesn't need to be gdb, of course, it could also
+    // be strace, for example) in /proc/$PID/status, so just get it from
+    // there instead.
+    std::ifstream in( "/proc/self/status" );
+    for( std::string line; std::getline( in, line ); ) {
+        static const int PREFIX_LEN = 11;
+        //NOLINTNEXTLINE(cata-text-style)
+        if( line.compare( 0, PREFIX_LEN, "TracerPid:\t" ) == 0 ) {
+            // We're traced if the PID is not 0 and no other PID starts
+            // with 0 digit, so it's enough to check for just a single
+            // character.
+            return line.length() > PREFIX_LEN && line[PREFIX_LEN] != '0';
+        }
+    }
+
+    return false;
+#else
+    return false;
+#endif
+}
+
 std::string game_info::operating_system()
 {
 #if defined(__ANDROID__)
@@ -1496,7 +1545,15 @@ std::string game_info::operating_system()
 #endif
 }
 
-#if !defined(__CYGWIN__) && !defined (__ANDROID__) && ( defined (__linux__) || defined(unix) || defined(__unix__) || defined(__unix) || ( defined(__APPLE__) && defined(__MACH__) ) || defined(CATA_IS_ON_BSD) ) // linux; unix; MacOs; BSD
+#if !defined(EMSCRIPTEN) && !defined(__CYGWIN__) && !defined (__ANDROID__) && ( defined (__linux__) || defined(unix) || defined(__unix__) || defined(__unix) || ( defined(__APPLE__) && defined(__MACH__) ) || defined(CATA_IS_ON_BSD) ) // linux; unix; MacOs; BSD
+class FILEDeleter
+{
+    public:
+        void operator()( FILE *f ) const noexcept {
+            pclose( f );
+        }
+};
+
 /** Execute a command with the shell by using `popen()`.
  * @param command The full command to execute.
  * @note The output buffer is limited to 512 characters.
@@ -1507,7 +1564,7 @@ static std::string shell_exec( const std::string &command )
     std::vector<char> buffer( 512 );
     std::string output;
     try {
-        std::unique_ptr<FILE, decltype( &pclose )> pipe( popen( command.c_str(), "r" ), pclose );
+        std::unique_ptr<FILE, FILEDeleter> pipe( popen( command.c_str(), "r" ) );
         if( pipe ) {
             while( fgets( buffer.data(), buffer.size(), pipe.get() ) != nullptr ) {
                 output += buffer.data();

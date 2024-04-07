@@ -3,7 +3,7 @@
     "id": "back_holster",
     "type": "ARMOR",
     "name": { "str": "back holster" },
-    "description": "A leather holster, big enough for a rifle or other large gun.  Designed to be strapped to the back.  Whilst initially cumbersome, it becomes much easier to use with practice.  Activate to holster/draw a gun.",
+    "description": "A leather holster, big enough for a rifle or other large gun.  Designed to be strapped to the back.  Activate to holster/draw a gun.",
     "weight": "240 g",
     "volume": "1250 ml",
     "price": 10000,
@@ -708,7 +708,7 @@
         "min_item_volume": "500 ml",
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "5 kg",
-        "max_item_length": "45 cm",
+        "max_item_length": "525 mm",
         "moves": 70
       }
     ],
@@ -745,7 +745,7 @@
         "min_item_volume": "500 ml",
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "5500 g",
-        "max_item_length": "45 cm",
+        "max_item_length": "525 mm",
         "moves": 70
       }
     ],
@@ -764,9 +764,7 @@
     "id": "XS_holster",
     "type": "ARMOR",
     "copy-from": "holster",
-    "looks_like": "holster",
     "name": { "str": "XS holster" },
-    "description": "A leather strap worn on the hip for holding pistol-sized guns.  The size of the strap has been adjusted to fit someone with much smaller legs.  Activate to holster/draw a gun.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "BELTED", "BELT_CLIP", "UNDERSIZE", "PALS_MEDIUM" ]
   },
@@ -774,9 +772,7 @@
     "id": "XS_nylon_holster",
     "type": "ARMOR",
     "copy-from": "nylon_holster",
-    "looks_like": "holster",
     "name": { "str": "XS nylon holster" },
-    "description": "A nylon sheath worn on the hip for holding pistol-sized guns.  The size of the strap has been adjusted to fit someone with much smaller legs.  Activate to holster/draw a gun.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "BELTED", "BELT_CLIP", "UNDERSIZE", "PALS_MEDIUM" ]
   }

@@ -84,7 +84,6 @@ static const widget_id widget_test_compass_legend_3( "test_compass_legend_3" );
 static const widget_id widget_test_compass_legend_5( "test_compass_legend_5" );
 static const widget_id widget_test_dex_color_num( "test_dex_color_num" );
 static const widget_id widget_test_disabled_when_empty( "test_disabled_when_empty" );
-static const widget_id widget_test_fatigue_clause( "test_fatigue_clause" );
 static const widget_id widget_test_focus_num( "test_focus_num" );
 static const widget_id widget_test_health_clause( "test_health_clause" );
 static const widget_id widget_test_health_color_num( "test_health_color_num" );
@@ -109,6 +108,7 @@ static const widget_id widget_test_overmap_3x3_text( "test_overmap_3x3_text" );
 static const widget_id widget_test_per_color_num( "test_per_color_num" );
 static const widget_id widget_test_pool_graph( "test_pool_graph" );
 static const widget_id widget_test_rad_badge_text( "test_rad_badge_text" );
+static const widget_id widget_test_sleepiness_clause( "test_sleepiness_clause" );
 static const widget_id widget_test_speed_num( "test_speed_num" );
 static const widget_id widget_test_stamina_graph( "test_stamina_graph" );
 static const widget_id widget_test_stamina_num( "test_stamina_num" );
@@ -242,7 +242,7 @@ TEST_CASE( "text_widgets", "[widget][text]" )
         words._var_max = 10;
         REQUIRE( words._style == "text" );
 
-        CHECK( words.text( 0, false ) == "Zero" );
+        CHECK( words.text( false, 0 ) == "Zero" );
     }
 }
 
@@ -447,21 +447,21 @@ TEST_CASE( "widgets_showing_avatar_stats_with_color_for_normal_value", "[widget]
     }
 }
 
-TEST_CASE( "widget_showing_character_fatigue_status", "[widget]" )
+TEST_CASE( "widget_showing_character_sleepiness_status", "[widget]" )
 {
-    widget fatigue_w = widget_test_fatigue_clause.obj();
+    widget sleepiness_w = widget_test_sleepiness_clause.obj();
 
     avatar &ava = get_avatar();
     clear_avatar();
 
-    ava.set_fatigue( 0 );
-    CHECK( fatigue_w.layout( ava ) == "Rest: " );
-    ava.set_fatigue( 192 );
-    CHECK( fatigue_w.layout( ava ) == "Rest: <color_c_yellow>Tired</color>" );
-    ava.set_fatigue( 384 );
-    CHECK( fatigue_w.layout( ava ) == "Rest: <color_c_light_red>Dead Tired</color>" );
-    ava.set_fatigue( 576 );
-    CHECK( fatigue_w.layout( ava ) == "Rest: <color_c_red>Exhausted</color>" );
+    ava.set_sleepiness( 0 );
+    CHECK( sleepiness_w.layout( ava ) == "Rest: " );
+    ava.set_sleepiness( 192 );
+    CHECK( sleepiness_w.layout( ava ) == "Rest: <color_c_yellow>Tired</color>" );
+    ava.set_sleepiness( 384 );
+    CHECK( sleepiness_w.layout( ava ) == "Rest: <color_c_light_red>Dead Tired</color>" );
+    ava.set_sleepiness( 576 );
+    CHECK( sleepiness_w.layout( ava ) == "Rest: <color_c_red>Exhausted</color>" );
 }
 
 TEST_CASE( "widgets_showing_avatar_health_with_color_for_normal_value", "[widget][health][color]" )
@@ -504,44 +504,44 @@ TEST_CASE( "widgets_showing_body_temperature_and_delta", "[widget]" )
     avatar &ava = get_avatar();
     clear_avatar();
 
-    ava.set_all_parts_temp_cur( 499 );
-    ava.set_all_parts_temp_conv( 5000 );
+    ava.set_all_parts_temp_cur( 27.99_C );
+    ava.set_all_parts_temp_conv( 37_C );
     CHECK( w_temp.layout( ava ) == "Heat: <color_c_blue>Freezing!</color>" );
     CHECK( w_dtxt.layout( ava ) == "Temp change: <color_c_red>(Rising!!)</color>" );
     CHECK( w_dsym.layout( ava ) == "Temp change: <color_c_red>↑↑↑</color>" );
 
-    ava.set_all_parts_temp_cur( 1999 );
-    ava.set_all_parts_temp_conv( 5000 );
+    ava.set_all_parts_temp_cur( 30.99_C );
+    ava.set_all_parts_temp_conv( 37_C );
     CHECK( w_temp.layout( ava ) == "Heat: <color_c_cyan>Very cold!</color>" );
     CHECK( w_dtxt.layout( ava ) == "Temp change: <color_c_light_red>(Rising!)</color>" );
     CHECK( w_dsym.layout( ava ) == "Temp change: <color_c_light_red>↑↑</color>" );
 
-    ava.set_all_parts_temp_cur( 3499 );
-    ava.set_all_parts_temp_conv( 5000 );
+    ava.set_all_parts_temp_cur( 33.99_C );
+    ava.set_all_parts_temp_conv( 37_C );
     CHECK( w_temp.layout( ava ) == "Heat: <color_c_light_blue>Chilly</color>" );
     CHECK( w_dtxt.layout( ava ) == "Temp change: <color_c_yellow>(Rising)</color>" );
     CHECK( w_dsym.layout( ava ) == "Temp change: <color_c_yellow>↑</color>" );
 
-    ava.set_all_parts_temp_cur( 5000 );
-    ava.set_all_parts_temp_conv( 5000 );
+    ava.set_all_parts_temp_cur( 37_C );
+    ava.set_all_parts_temp_conv( 37_C );
     CHECK( w_temp.layout( ava ) == "Heat: <color_c_green>Comfortable</color>" );
     CHECK( w_dtxt.layout( ava ) == "Temp change: " );
     CHECK( w_dsym.layout( ava ) == "Temp change: <color_c_green>-</color>" );
 
-    ava.set_all_parts_temp_cur( 6501 );
-    ava.set_all_parts_temp_conv( 5000 );
+    ava.set_all_parts_temp_cur( 40.01_C );
+    ava.set_all_parts_temp_conv( 37_C );
     CHECK( w_temp.layout( ava ) == "Heat: <color_c_yellow>warm</color>" );
     CHECK( w_dtxt.layout( ava ) == "Temp change: <color_c_light_blue>(Falling)</color>" );
     CHECK( w_dsym.layout( ava ) == "Temp change: <color_c_light_blue>↓</color>" );
 
-    ava.set_all_parts_temp_cur( 8001 );
-    ava.set_all_parts_temp_conv( 5000 );
+    ava.set_all_parts_temp_cur( 43.01_C );
+    ava.set_all_parts_temp_conv( 37_C );
     CHECK( w_temp.layout( ava ) == "Heat: <color_c_light_red>Very hot!</color>" );
     CHECK( w_dtxt.layout( ava ) == "Temp change: <color_c_cyan>(Falling!)</color>" );
     CHECK( w_dsym.layout( ava ) == "Temp change: <color_c_cyan>↓↓</color>" );
 
-    ava.set_all_parts_temp_cur( 9501 );
-    ava.set_all_parts_temp_conv( 5000 );
+    ava.set_all_parts_temp_cur( 46.01_C );
+    ava.set_all_parts_temp_conv( 37_C );
     CHECK( w_temp.layout( ava ) == "Heat: <color_c_red>Scorching!</color>" );
     CHECK( w_dtxt.layout( ava ) == "Temp change: <color_c_blue>(Falling!!)</color>" );
     CHECK( w_dsym.layout( ava ) == "Temp change: <color_c_blue>↓↓↓</color>" );
@@ -709,15 +709,15 @@ TEST_CASE( "widgets_showing_avatar_attributes", "[widget][avatar]" )
         bodypart_id head( "head" );
         widget head_num_w = widget_test_hp_head_num.obj();
         widget head_graph_w = widget_test_hp_head_graph.obj();
-        REQUIRE( ava.get_part_hp_max( head ) == 84 );
-        REQUIRE( ava.get_part_hp_cur( head ) == 84 );
+        REQUIRE( ava.get_part_hp_max( head ) == 85 );
+        REQUIRE( ava.get_part_hp_cur( head ) == 85 );
 
         ava.set_part_hp_cur( head, 84 );
         CHECK( head_num_w.layout( ava ) == "HEAD: 84" );
-        CHECK( head_graph_w.layout( ava ) == "HEAD: |||||" );
+        CHECK( head_graph_w.layout( ava ) == "HEAD: ||||\\" );
         ava.set_part_hp_cur( head, 42 );
         CHECK( head_num_w.layout( ava ) == "HEAD: 42" );
-        CHECK( head_graph_w.layout( ava ) == "HEAD: ||\\,," );
+        CHECK( head_graph_w.layout( ava ) == "HEAD: ||,,," );
         ava.set_part_hp_cur( head, 17 );
         CHECK( head_num_w.layout( ava ) == "HEAD: 17" );
         CHECK( head_graph_w.layout( ava ) == "HEAD: |,,,," );

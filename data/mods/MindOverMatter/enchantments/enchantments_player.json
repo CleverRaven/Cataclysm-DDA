@@ -4,7 +4,7 @@
     "id": "enchant_clair_potion",
     "condition": "ALWAYS",
     "has": "HELD",
-    "values": [ { "value": "BONUS_DODGE", "add": 1 } ],
+    "values": [ { "value": "BONUS_DODGE", "add": 1 }, { "value": "HEARING_MULT", "multiply": 2.5 } ],
     "intermittent_activation": { "effects": [ { "frequency": "2 seconds", "spell_effects": [ { "id": "clair_potion_clairvoyance" } ] } ] }
   },
   {
@@ -28,6 +28,100 @@
   },
   {
     "type": "enchantment",
+    "id": "ench_clair_group_tactics",
+    "condition": "ALWAYS",
+    "has": "HELD",
+    "values": [ { "value": "BONUS_DODGE", "add": -1 } ],
+    "intermittent_activation": { "effects": [ { "frequency": "2 seconds", "spell_effects": [ { "id": "clair_group_tactics_aoe" } ] } ] }
+  },
+  {
+    "id": "clair_group_tactics_aoe",
+    "type": "SPELL",
+    "name": "[Ψ]Prescient Tactics AoE",
+    "description": "This provides the buff to your followers.  It's a bug if you have it directly.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ally" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "IGNORE_WALLS", "NO_EXPLOSION_SFX" ],
+    "effect": "attack",
+    "effect_str": "effect_clair_group_tactics_other",
+    "shape": "blast",
+    "min_aoe": 20,
+    "max_aoe": 20,
+    "//": "Range here is C conversational range",
+    "min_duration": 200,
+    "max_duration": 200
+  },
+  {
+    "type": "enchantment",
+    "id": "enchant_electrokin_zap_enemies",
+    "condition": "ALWAYS",
+    "has": "HELD",
+    "hit_me_effect": [ { "id": "electrokin_zap_attacked", "hit_self": false, "once_in": 2 } ]
+  },
+  {
+    "id": "electrokin_zap_attacked",
+    "type": "SPELL",
+    "name": "Electrokinetic aura thorns",
+    "description": "Do electrical damage to a monster that attacked you.  If you have this directly its a bug.",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "RANDOM_DAMAGE" ],
+    "shape": "blast",
+    "effect": "attack",
+    "damage_type": "electric",
+    "min_damage": {
+      "math": [
+        "( (u_spell_level('electrokinesis_zap_enemies') / 4 ) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_damage": {
+      "math": [
+        "( (u_spell_level('electrokinesis_zap_enemies') / 2 ) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "min_range": 1,
+    "max_range": 1
+  },
+  {
+    "type": "enchantment",
+    "id": "enchant_electrokin_electric_strikes",
+    "condition": "ALWAYS",
+    "has": "HELD",
+    "hit_you_effect": [ { "id": "electrokin_zap_attack", "hit_self": false, "once_in": 2 } ],
+    "values": [ { "value": "ARMOR_ELEC", "add": { "math": [ "u_spell_level('electrokinetic_melee_attacks') * -1" ] } } ]
+  },
+  {
+    "id": "electrokin_zap_attack",
+    "type": "SPELL",
+    "name": "Electrokinetic melee attacks",
+    "description": "Do electrical damage to a monster you attack.  If you have this directly its a bug.",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "RANDOM_DAMAGE", "RANDOM_AOE" ],
+    "shape": "blast",
+    "effect": "attack",
+    "damage_type": "electric",
+    "min_damage": {
+      "math": [
+        "( (u_spell_level('electrokinetic_melee_attacks') / 3 ) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_damage": {
+      "math": [
+        "( (u_spell_level('electrokinetic_melee_attacks') / 1.5 ) + 10) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "min_range": 1,
+    "max_range": 1,
+    "min_aoe": 0,
+    "max_aoe": 1,
+    "field_id": "fd_electricity",
+    "field_chance": 2,
+    "min_field_intensity": 1,
+    "max_field_intensity": 4,
+    "field_intensity_variance": 10
+  },
+  {
+    "type": "enchantment",
     "id": "enchant_pyrokin_cloak",
     "condition": "ALWAYS",
     "has": "HELD",
@@ -35,19 +129,35 @@
     "values": [
       {
         "value": "CLIMATE_CONTROL_CHILL",
-        "add": { "math": [ "( ( u_val('spell_level', 'spell: pyrokinetic_cloak') * 10) * ( ( u_val('intelligence') + 10) / 20 ) )" ] }
+        "add": {
+          "math": [
+            "(60 + ( u_spell_level('pyrokinetic_cloak') * 4) * ( ( u_val('intelligence') + 10) / 20 ) ) * u_nether_attunement_power_scaling"
+          ]
+        }
       },
       {
         "value": "CLIMATE_CONTROL_HEAT",
-        "add": { "math": [ "( ( u_val('spell_level', 'spell: pyrokinetic_cloak') * 10) * ( ( u_val('intelligence') + 10) / 20 ) )" ] }
+        "add": {
+          "math": [
+            "( ( u_spell_level('pyrokinetic_cloak') * 10) * ( ( u_val('intelligence') + 10) / 20 ) ) * u_nether_attunement_power_scaling"
+          ]
+        }
       },
       {
         "value": "ARMOR_HEAT",
-        "add": { "math": [ "( ( u_val('spell_level', 'spell: pyrokinetic_cloak') * -10) * ( ( u_val('intelligence') + 10) / 20 ) )" ] }
+        "add": {
+          "math": [
+            "( ( u_spell_level('pyrokinetic_cloak') * -1) * ( ( u_val('intelligence') + 10) / 20 ) ) * u_nether_attunement_power_scaling"
+          ]
+        }
       },
       {
         "value": "ARMOR_COLD",
-        "add": { "math": [ "( ( u_val('spell_level', 'spell: pyrokinetic_cloak') * -3) * ( ( u_val('intelligence') + 10) / 20 ) )" ] }
+        "add": {
+          "math": [
+            "( ( u_spell_level('pyrokinetic_cloak') * -3) * ( ( u_val('intelligence') + 10) / 20 ) ) * u_nether_attunement_power_scaling"
+          ]
+        }
       }
     ]
   },
@@ -57,6 +167,40 @@
     "condition": "ALWAYS",
     "has": "HELD",
     "intermittent_activation": { "effects": [ { "frequency": "10 seconds", "spell_effects": [ { "id": "clair_sense_rads_outside_spawn_item" } ] } ] }
+  },
+  {
+    "type": "enchantment",
+    "id": "enchant_photokin_blinding_glare",
+    "condition": "ALWAYS",
+    "has": "HELD",
+    "hit_you_effect": [ { "id": "photokin_blinding_glare_attack", "hit_self": false, "once_in": 3 } ],
+    "hit_me_effect": [ { "id": "photokin_blinding_glare_attack", "hit_self": false, "once_in": 3 } ],
+    "values": [ { "value": "LUMINATION", "add": 10001 } ]
+  },
+  {
+    "id": "photokin_blinding_glare_attack",
+    "type": "SPELL",
+    "name": "Photokinetic Blinding Radiance burst",
+    "description": "Blind nearby targets.",
+    "valid_targets": [ "hostile", "ally" ],
+    "flags": [ "SILENT", "RANDOM_DURATION" ],
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "shape": "blast",
+    "effect": "attack",
+    "effect_str": "blind",
+    "min_aoe": {
+      "math": [
+        "min( (( (u_spell_level('photokinetic_blinding_glare') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
+      ]
+    },
+    "max_aoe": 40,
+    "min_range": {
+      "math": [
+        "min( (( (u_spell_level('photokinetic_blinding_glare') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
+      ]
+    },
+    "min_duration": 500,
+    "max_duration": 2000
   },
   {
     "type": "enchantment",
@@ -78,8 +222,8 @@
     "shape": "blast",
     "effect": "attack",
     "damage_type": "heat",
-    "min_damage": 5,
-    "max_damage": 15,
+    "min_damage": { "math": [ "5 * u_nether_attunement_power_scaling" ] },
+    "max_damage": { "math": [ "15 * u_nether_attunement_power_scaling" ] },
     "min_range": 1,
     "max_range": 1
   },
@@ -93,8 +237,8 @@
     "shape": "blast",
     "effect": "attack",
     "damage_type": "heat",
-    "min_damage": 5,
-    "max_damage": 30,
+    "min_damage": { "math": [ "5 * u_nether_attunement_power_scaling" ] },
+    "max_damage": { "math": [ "20 * u_nether_attunement_power_scaling" ] },
     "min_range": 1,
     "max_range": 1
   },

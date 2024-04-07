@@ -15,7 +15,6 @@
         [ "t_wall_prefab_bglass", 5 ]
       ],
       "g": "t_wall_metal",
-      "h": "t_concrete_wall",
       "i": [ [ "t_door_glass_c", 5 ], "t_door_glass_o", 5 ],
       "j": [ [ "t_door_locked", 1 ], [ "t_door_c", 5 ], [ "t_door_o", 1 ] ],
       "x": [ [ "t_door_locked_interior", 1 ], [ "t_door_c", 5 ], [ "t_door_o", 5 ] ],

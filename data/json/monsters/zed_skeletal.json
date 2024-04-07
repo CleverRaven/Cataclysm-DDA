@@ -22,7 +22,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 2,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_bone_armor" ],
-    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
+    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "bleed_rate": 50,
     "vision_day": 30,
     "vision_night": 3,
@@ -32,7 +32,7 @@
     "upgrades": { "half_life": 32, "into_group": "GROUP_SKELETON_UPGRADE" },
     "death_drops": "default_zombie_clothes",
     "fungalize_into": "mon_skeleton_fungus",
-    "flags": [ "SEES", "HEARS", "GRABS", "BASHES", "GROUP_BASH", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ],
+    "flags": [ "SEES", "HEARS", "GRABS", "BASHES", "GROUP_BASH", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ],
     "armor": { "cut": 15, "stab": 30, "acid": 3, "bullet": 24, "electric": 3 }
   },
   {
@@ -44,7 +44,7 @@
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
-    "volume": "92500 ml",
+    "volume": "108500 ml",
     "weight": "120 kg",
     "hp": 175,
     "speed": 60,
@@ -59,7 +59,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 10 } ],
     "dodge": 1,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_bone_armor", "wps_humanoid_head_small" ],
-    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
+    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "bleed_rate": 0,
     "vision_day": 35,
     "vision_night": 3,
@@ -77,7 +77,7 @@
     "upgrades": { "half_life": 45, "into": "mon_skeleton_hulk" },
     "death_drops": "default_zombie_clothes",
     "fungalize_into": "mon_skeleton_brute_fungus",
-    "flags": [ "SEES", "HEARS", "GRABS", "BASHES", "GROUP_BASH", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ],
+    "flags": [ "SEES", "HEARS", "GRABS", "BASHES", "GROUP_BASH", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ],
     "armor": { "bash": 12, "cut": 30, "acid": 1, "bullet": 30, "electric": 4 }
   },
   {
@@ -105,7 +105,7 @@
     "dodge": 2,
     "luminance": 8,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_bone_armor" ],
-    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton", "prof_electromagnetics" ],
+    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton", "prof_electromagnetics" ],
     "bleed_rate": 0,
     "vision_day": 30,
     "vision_night": 3,
@@ -146,7 +146,7 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 15 } ],
     "weakpoint_sets": [ "wps_humanoid_body", "wps_bone_armor", "wps_humanoid_head_small" ],
-    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton", "prof_wp_hulk" ],
+    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton", "prof_wp_hulk" ],
     "bleed_rate": 0,
     "vision_day": 50,
     "vision_night": 4,
@@ -180,7 +180,6 @@
       "REVIVES",
       "PUSH_MON",
       "PUSH_VEH",
-      "HARDTOSHOOT",
       "FILTHY"
     ],
     "armor": { "bash": 20, "cut": 45, "bullet": 36, "electric": 8 }

@@ -7,7 +7,8 @@
       { "monster": "mon_utilibot_const", "weight": 550, "cost_multiplier": 0 },
       { "monster": "mon_utilibot_const", "weight": 250, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_utilibot_fire", "weight": 100, "cost_multiplier": 0 },
-      { "monster": "mon_hazmatbot", "weight": 100, "cost_multiplier": 0, "pack_size": [ 1, 2 ] }
+      { "monster": "mon_hazmatbot", "weight": 100, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_mech_horse", "weight": 15, "cost_multiplier": 0 }
     ]
   },
   {

@@ -387,7 +387,7 @@
         "                        "
       ],
       "terrain": {
-        ".": [ [ "t_concrete", 10 ], "t_region_groundcover_barren", 3 ],
+        ".": [ [ "t_concrete", 10 ], [ "t_region_groundcover_barren", 3 ] ],
         " ": "t_region_groundcover_urban",
         "|": "t_chainfence"
       },

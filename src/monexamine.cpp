@@ -39,8 +39,10 @@
 #include "ui.h"
 #include "units.h"
 #include "value_ptr.h"
+#include "flag.h"
 
 static const efftype_id effect_controlled( "controlled" );
+static const efftype_id effect_critter_well_fed( "critter_well_fed" );
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_has_bag( "has_bag" );
 static const efftype_id effect_leashed( "leashed" );
@@ -59,13 +61,6 @@ static const flag_id json_flag_TIE_UP( "TIE_UP" );
 
 static const itype_id itype_cash_card( "cash_card" );
 static const itype_id itype_id_military( "id_military" );
-
-static const mon_flag_str_id mon_flag_CANPLAY( "CANPLAY" );
-static const mon_flag_str_id mon_flag_CAN_BE_CULLED( "CAN_BE_CULLED" );
-static const mon_flag_str_id mon_flag_MILKABLE( "MILKABLE" );
-static const mon_flag_str_id mon_flag_PAY_BOT( "PAY_BOT" );
-static const mon_flag_str_id mon_flag_PET_MOUNTABLE( "PET_MOUNTABLE" );
-static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
 
 static const quality_id qual_CUT( "CUT" );
 static const quality_id qual_SHEAR( "SHEAR" );
@@ -118,7 +113,7 @@ void swap( monster &z )
 {
     std::string pet_name = z.get_name();
     Character &player_character = get_player_character();
-    player_character.moves -= 150;
+    player_character.mod_moves( -to_moves<int>( 1_seconds ) * 1.5 );
 
     ///\EFFECT_STR increases chance to successfully swap positions with your pet
     ///\EFFECT_DEX increases chance to successfully swap positions with your pet
@@ -143,7 +138,7 @@ void push( monster &z )
 {
     std::string pet_name = z.get_name();
     Character &player_character = get_player_character();
-    player_character.moves -= 30;
+    player_character.mod_moves( -to_moves<int>( 1_seconds ) * 0.3 );
 
     ///\EFFECT_STR increases chance to successfully push your pet
     if( one_in( player_character.str_cur ) ) {
@@ -176,7 +171,7 @@ void attach_bag_to( monster &z )
     std::string pet_name = z.get_name();
 
     auto filter = []( const item & it ) {
-        return it.is_armor() && it.get_total_capacity() > 0_ml;
+        return it.is_armor() && it.get_total_capacity() > 0_ml && !it.has_flag( flag_INTEGRATED );
     };
 
     avatar &player_character = get_avatar();
@@ -206,7 +201,7 @@ void attach_bag_to( monster &z )
     z.add_effect( effect_has_bag, 1_turns, true );
     // Update encumbrance in case we were wearing it
     player_character.flag_encumbrance();
-    player_character.moves -= 200;
+    player_character.mod_moves( -to_moves<int>( 2_seconds ) );
 }
 
 void dump_items( monster &z )
@@ -222,7 +217,7 @@ void dump_items( monster &z )
     }
     z.inv.clear();
     add_msg( _( "You dump the contents of the %s's bag on the ground." ), pet_name );
-    player_character.moves -= 200;
+    player_character.mod_moves( -to_moves<int>( 2_seconds ) );
 }
 
 void remove_bag_from( monster &z )
@@ -236,7 +231,7 @@ void remove_bag_from( monster &z )
         get_map().add_item_or_charges( player_character.pos(), *z.storage_item );
         add_msg( _( "You remove the %1$s from %2$s." ), z.storage_item->display_name(), pet_name );
         z.storage_item.reset();
-        player_character.moves -= 200;
+        player_character.mod_moves( -to_moves<int>( 2_seconds ) );
     } else {
         add_msg( m_bad, _( "Your %1$s doesn't have a bag!" ), pet_name );
     }
@@ -335,7 +330,7 @@ bool add_armor( monster &z )
     loc.remove_item();
     z.add_effect( effect_monster_armor, 1_turns, true );
     // TODO: armoring a horse takes a lot longer than 2 seconds. This should be a long action.
-    get_player_character().moves -= 200;
+    get_player_character().mod_moves( -to_moves<int>( 2_seconds ) );
     return true;
 }
 
@@ -355,7 +350,7 @@ void remove_armor( monster &z )
                  pet_name );
         z.armor_item.reset();
         // TODO: removing armor from a horse takes a lot longer than 2 seconds. This should be a long action.
-        get_player_character().moves -= 200;
+        get_player_character().mod_moves( -to_moves<int>( 2_seconds ) );
     } else {
         add_msg( m_bad, _( "Your %1$s isn't wearing armor!" ), pet_name );
     }
@@ -477,13 +472,15 @@ void stop_leading( monster &z )
  */
 void milk_source( monster &source_mon )
 {
+
     itype_id milked_item = source_mon.type->starting_ammo.begin()->first;
     auto milkable_ammo = source_mon.ammo.find( milked_item );
     if( milkable_ammo == source_mon.ammo.end() ) {
         debugmsg( "The %s has no milkable %s.", source_mon.get_name(), milked_item.str() );
         return;
     }
-    if( milkable_ammo->second > 0 ) {
+
+    else if( milkable_ammo->second > 0 ) {
         const int moves = to_moves<int>( time_duration::from_minutes( milkable_ammo->second / 2 ) );
         std::vector<tripoint> coords{};
         std::vector<std::string> str_values{};
@@ -500,6 +497,9 @@ void milk_source( monster &source_mon )
         add_msg( _( "You milk the %s." ), source_mon.get_name() );
     } else {
         add_msg( _( "The %s has no more milk." ), source_mon.get_name() );
+        if( !source_mon.has_effect( effect_critter_well_fed ) ) {
+            add_msg( _( "It might not be getting enough to eat." ) );
+        }
     }
 }
 
@@ -613,7 +613,14 @@ bool monexamine::pet_menu( monster &z )
     std::string pet_name = z.get_name();
 
     amenu.text = string_format( _( "What to do with your %s?" ), pet_name );
-
+    if( z.has_flag( mon_flag_EATS ) && ( z.amount_eaten < ( z.stomach_size / 10 ) ) ) {
+        amenu.text = string_format( _( "What to do with your %s?\n" "Hunger: Famished" ), pet_name );
+    } else if( z.has_flag( mon_flag_EATS ) && ( z.amount_eaten > ( z.stomach_size / 10 ) &&
+               z.amount_eaten < z.stomach_size ) ) {
+        amenu.text = string_format( _( "What to do with your %s?\n" "Hunger: Hungry" ), pet_name );
+    } else if( z.has_flag( mon_flag_EATS ) && z.amount_eaten >= z.stomach_size ) {
+        amenu.text = string_format( _( "What to do with your %s?\n" "Hunger: Full" ), pet_name );
+    }
     amenu.addentry( swap_pos, true, 's', _( "Swap positions" ) );
     amenu.addentry( push_monster, true, 'p', _( "Push %s" ), pet_name );
     if( z.has_effect( effect_leashed ) ) {
@@ -663,7 +670,7 @@ bool monexamine::pet_menu( monster &z )
         amenu.addentry( play_with_pet, true, 'y', _( "Play with %s" ), pet_name );
     }
     if( z.has_flag( mon_flag_CAN_BE_CULLED ) ) {
-        amenu.addentry( cull_pet, true, 'y', _( "Cull %s" ), pet_name );
+        amenu.addentry( cull_pet, true, 'k', _( "Cull %s" ), pet_name );
     }
     if( z.has_flag( mon_flag_MILKABLE ) ) {
         amenu.addentry( milk, true, 'm', _( "Milk %s" ), pet_name );
@@ -711,12 +718,12 @@ bool monexamine::pet_menu( monster &z )
         } else if( z.get_size() <= player_character.get_size() ) {
             amenu.addentry( mount, false, 'r', _( "%s is too small to carry your weight" ), pet_name );
         } else if( player_character.get_skill_level( skill_survival ) < 1 ) {
-            amenu.addentry( mount, false, 'r', _( "You have no knowledge of riding at all" ) );
+            amenu.addentry( mount, false, 'r', _( "You require survival skill 1 to ride" ) );
         } else if( player_character.get_weight() >= z.get_weight() * z.get_mountable_weight_ratio() ) {
             amenu.addentry( mount, false, 'r', _( "You are too heavy to mount %s" ), pet_name );
         } else if( !z.has_effect( effect_monster_saddled ) &&
                    player_character.get_skill_level( skill_survival ) < 4 ) {
-            amenu.addentry( mount, false, 'r', _( "You are not skilled enough to ride without a saddle" ) );
+            amenu.addentry( mount, false, 'r', _( "You require survival skill 4 to ride without a saddle" ) );
         }
     } else {
         const itype &type = *item::find_type( z.type->mech_battery );
@@ -932,7 +939,14 @@ bool monexamine::mfriend_menu( monster &z )
     const std::string pet_name = z.get_name();
 
     amenu.text = string_format( _( "What to do with your %s?" ), pet_name );
-
+    if( z.has_flag( mon_flag_EATS ) && ( z.amount_eaten < ( z.stomach_size / 10 ) ) ) {
+        amenu.text = string_format( _( "What to do with your %s?\n" "Hunger: Famished" ), pet_name );
+    } else if( z.has_flag( mon_flag_EATS ) && ( z.amount_eaten > ( z.stomach_size / 10 ) &&
+               z.amount_eaten < z.stomach_size ) ) {
+        amenu.text = string_format( _( "What to do with your %s?\n" "Hunger: Hungry" ), pet_name );
+    } else if( z.has_flag( mon_flag_EATS ) && z.amount_eaten >= z.stomach_size ) {
+        amenu.text = string_format( _( "What to do with your %s?\n" "Hunger: Full" ), pet_name );
+    }
     amenu.addentry( swap_pos, true, 's', _( "Swap positions" ) );
     amenu.addentry( push_monster, true, 'p', _( "Push %s" ), pet_name );
     amenu.addentry( rename, true, 'e', _( "Rename" ) );

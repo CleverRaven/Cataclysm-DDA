@@ -5,7 +5,26 @@
     "overlay_ordering": [
       { "id": [ "SYLPH_EYES", "UNDINE_EYES" ], "order": 250 },
       {
-        "id": [ "IERDE_SKIN_1", "ARVORE_SKIN_1", "HOMULLUS_SKIN_1", "UNDINE_SKIN_1", "SALAMANDER_SKIN_1", "SYLPH_SKIN_1" ],
+        "id": [
+          "IERDE_SKIN_1",
+          "IERDE_SKIN_2",
+          "IERDE_SKIN_3",
+          "ARVORE_SKIN_1",
+          "ARVORE_SKIN_2",
+          "ARVORE_SKIN_3",
+          "HOMULLUS_SKIN_1",
+          "HOMULLUS_SKIN_2",
+          "HOMULLUS_SKIN_3",
+          "UNDINE_SKIN_1",
+          "UNDINE_SKIN_2",
+          "UNDINE_SKIN_3",
+          "SALAMANDER_SKIN_1",
+          "SALAMANDER_SKIN_2",
+          "SALAMANDER_SKIN_3",
+          "SYLPH_SKIN_1",
+          "SYLPH_SKIN_2",
+          "SYLPH_SKIN_3"
+        ],
         "order": 1500
       },
       { "id": [ "VAMPIRE2" ], "order": 7500 }

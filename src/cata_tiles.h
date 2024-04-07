@@ -70,6 +70,24 @@ enum class TILE_CATEGORY {
     last
 };
 
+const std::unordered_map<std::string, TILE_CATEGORY> to_TILE_CATEGORY = {
+    {"none", TILE_CATEGORY::NONE},
+    {"vehicle_part", TILE_CATEGORY::VEHICLE_PART},
+    {"terrain", TILE_CATEGORY::TERRAIN},
+    {"item", TILE_CATEGORY::ITEM},
+    {"furniture", TILE_CATEGORY::FURNITURE},
+    {"trap", TILE_CATEGORY::TRAP},
+    {"field", TILE_CATEGORY::FIELD},
+    {"lighting", TILE_CATEGORY::LIGHTING},
+    {"monster", TILE_CATEGORY::MONSTER},
+    {"bullet", TILE_CATEGORY::BULLET},
+    {"hit_entity", TILE_CATEGORY::HIT_ENTITY},
+    {"weather", TILE_CATEGORY::WEATHER},
+    {"overmap_terrain", TILE_CATEGORY::OVERMAP_TERRAIN},
+    {"map_extra", TILE_CATEGORY::MAP_EXTRA},
+    {"overmap_note", TILE_CATEGORY::OVERMAP_NOTE}
+};
+
 enum class NEIGHBOUR {
     SOUTH = 1,
     EAST = 2,
@@ -411,9 +429,6 @@ class cata_tiles
         void draw( const point &dest, const tripoint &center, int width, int height,
                    std::multimap<point, formatted_text> &overlay_strings,
                    color_block_overlay_container &color_blocks );
-        // Standalone version of the ll and invisible calculations normally done when accumulating draw_points
-        // Used to determine visibility of lower z-levels in 3D vision without generating extra draw_points and overlay_strings
-        std::pair<lit_level, std::array<bool, 5>> calc_ll_invis( const tripoint &draw_loc );
         void draw_om( const point &dest, const tripoint_abs_omt &center_abs_omt, bool blink );
 
         /** Minimap functionality */
@@ -808,11 +823,8 @@ class cata_tiles
         pimpl<pixel_minimap> minimap;
 
     public:
-        // Draw caches persist data between draws to avoid unnecessary recalculations
-        // Any event that would invalidate cached data should also clear it
-        // Currently only includes ll_invis_cache
-        // Performance gain from caching draw_points, overlay_strings and color_blocks is negligible
-        void clear_draw_caches();
+        // Draw caches persist data between draws and are only recalculated when dirty
+        void set_draw_cache_dirty();
 
         std::string memory_map_mode = "color_pixel_sepia";
 };

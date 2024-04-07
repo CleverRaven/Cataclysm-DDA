@@ -78,9 +78,7 @@
           { "item": "20x66_beanbag", "prob": 60, "count": [ 1, 3 ] },
           { "item": "20x66_exp", "prob": 10, "count": [ 1, 3 ] },
           { "item": "20x66_flare", "prob": 40, "count": [ 1, 3 ] },
-          { "item": "20x66_inc", "prob": 20, "count": [ 1, 3 ] },
           { "item": "20x66_frag", "prob": 30, "count": [ 1, 3 ] },
-          { "item": "20x66_flechette", "prob": 30, "count": [ 1, 3 ] },
           { "item": "20x66_shot", "prob": 60, "count": [ 1, 3 ] },
           { "item": "20x66_slug", "prob": 60, "count": [ 1, 3 ] }
         ]
@@ -97,14 +95,7 @@
     "subtype": "collection",
     "entries": [
       {
-        "distribution": [
-          { "item": "8mm_caseless", "prob": 60, "count": [ 1, 3 ] },
-          { "item": "8mm_civilian", "prob": 70, "count": [ 1, 3 ] },
-          { "item": "8mm_fmj", "prob": 40, "count": [ 1, 3 ] },
-          { "item": "8mm_hvp", "prob": 40, "count": [ 1, 3 ] },
-          { "item": "8mm_inc", "prob": 20, "count": [ 1, 3 ] },
-          { "item": "8mm_jhp", "prob": 30, "count": [ 1, 3 ] }
-        ]
+        "distribution": [ { "item": "8mm_caseless", "prob": 40, "count": [ 1, 3 ] }, { "item": "8mm_jhp", "prob": 30, "count": [ 1, 3 ] } ]
       },
       {
         "distribution": [
@@ -120,7 +111,6 @@
         "distribution": [
           { "item": "rm103a_pistol", "prob": 80 },
           { "item": "rm11b_sniper_rifle", "prob": 10 },
-          { "item": "rm298", "prob": 30 },
           { "item": "rm51_assault_rifle", "prob": 30 },
           { "item": "rm614_lmg", "prob": 50 },
           { "item": "rm88_battle_rifle", "prob": 20 },
@@ -135,9 +125,7 @@
     "//": "This group is for rare spawns of rivetech matched sets.",
     "subtype": "collection",
     "entries": [
-      {
-        "distribution": [ { "item": "rm802", "prob": 80 }, { "item": "rm451_flamethrower", "prob": 20, "charges": [ 100, 1000 ] } ]
-      },
+      { "distribution": [ { "item": "rm451_flamethrower", "prob": 20, "charges": [ 100, 1000 ] } ] },
       {
         "distribution": [
           { "item": "40x46mm_m1006", "prob": 50, "count": [ 1, 3 ] },
@@ -156,7 +144,6 @@
     "entries": [
       { "item": "recipe_caseless", "prob": 50 },
       { "item": "rm121aux", "prob": 50 },
-      { "item": "knife_rm42", "prob": 50 },
       {
         "collection": [ { "item": "rx12_injector" }, { "item": "ampoule", "prob": 60, "count": [ 1, 3 ] } ],
         "prob": 60

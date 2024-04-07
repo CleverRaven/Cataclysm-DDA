@@ -8,7 +8,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [ [ "biokin_physical_enhance", 2 ], [ "biokin_overcome_pain", 2 ], [ "biokin_flexibility", 2 ] ]
+    "spells_learned": [ [ "biokin_physical_enhance", 2 ], [ "biokin_overcome_pain", 2 ], [ "classless_toggleable_concentration_end", 1 ] ]
   },
   {
     "type": "mutation",
@@ -19,7 +19,38 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [ [ "clair_night_vision", 2 ], [ "clair_danger_sense", 2 ], [ "clair_speed_reading", 2 ] ]
+    "spells_learned": [ [ "clair_night_vision", 2 ], [ "clair_speed_reading", 2 ], [ "classless_toggleable_concentration_end", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "ELECTROKINETIC",
+    "name": "Awakened Electrokinetic",
+    "points": 0,
+    "description": "Mental control of lightning and electricity.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "spells_learned": [
+      [ "electrokinetic_see_electric", 2 ],
+      [ "electrokinetic_shock_touch", 2 ],
+      [ "classless_toggleable_concentration_end", 1 ]
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "PHOTOKINETIC",
+    "name": "Awakened Photokinetic",
+    "points": 0,
+    "description": "Mental control of visible light and electromagnetic waves.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "flags": [ "PHOTOKINETIC" ],
+    "spells_learned": [
+      [ "photokinetic_create_light", 2 ],
+      [ "photokinetic_light_local", 2 ],
+      [ "classless_toggleable_concentration_end", 1 ]
+    ]
   },
   {
     "type": "mutation",
@@ -30,7 +61,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [ [ "pyrokinetic_eruption", 2 ], [ "pyrokinetic_flash", 2 ], [ "pyrokinetic_quell_flames", 2 ] ]
+    "spells_learned": [ [ "pyrokinetic_eruption", 2 ], [ "pyrokinetic_flash", 2 ], [ "classless_toggleable_concentration_end", 1 ] ]
   },
   {
     "type": "mutation",
@@ -41,12 +72,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [
-      [ "telepathic_concentration", 2 ],
-      [ "telepathic_shield", 2 ],
-      [ "telepathic_concentration_end", 1 ],
-      [ "telepathic_morale", 2 ]
-    ]
+    "spells_learned": [ [ "telepathic_concentration", 2 ], [ "telepathic_mind_sense", 2 ], [ "classless_toggleable_concentration_end", 1 ] ]
   },
   {
     "type": "mutation",
@@ -57,7 +83,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [ [ "telekinetic_pull", 2 ], [ "telekinetic_push", 2 ], [ "telekinetic_momentum", 2 ] ]
+    "spells_learned": [ [ "telekinetic_pull", 2 ], [ "telekinetic_push", 2 ], [ "classless_toggleable_concentration_end", 1 ] ]
   },
   {
     "type": "mutation",
@@ -68,7 +94,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [ [ "teleport_blink", 2 ], [ "teleport_slow", 2 ], [ "teleport_transpose", 2 ] ]
+    "spells_learned": [ [ "teleport_blink", 2 ], [ "teleport_slow", 2 ], [ "classless_toggleable_concentration_end", 1 ] ]
   },
   {
     "type": "mutation",
@@ -79,15 +105,86 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [ [ "vita_stop_bleeding", 2 ], [ "vita_health_power", 2 ], [ "vita_hurt_touch", 2 ] ]
+    "spells_learned": [ [ "vita_slow_bleeding", 2 ], [ "vita_health_power", 2 ], [ "classless_toggleable_concentration_end", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "FIFTH_SUN_PEOPLE",
+    "name": { "str": "Fifth Sun People" },
+    "points": 0,
+    "description": "You aren't from this universe and hopefully someday you can go home.  This is a hidden trait, used for dialogue.",
+    "valid": false,
+    "player_display": false
   },
   {
     "type": "mutation",
     "id": "KI_STRIKE",
     "name": { "str": "VERDANT HAND Combat Protocols" },
     "points": 2,
-    "description": "Who needs weapons?  Thanks to your biokinesis, you deal more melee damage while fighting barehanded and without gloves.  This damage improves as your unarmed skill increases.",
+    "description": "Who needs weapons?  Thanks to your biokinesis, you deal more melee damage while fighting with your bare hands.  This damage improves as your unarmed skill increases.",
     "starting_trait": false,
     "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "CONCENTRATION_GOOD",
+    "name": { "str": "Improved Concentration" },
+    "points": 2,
+    "description": "You can keep your mind on something even if there are plenty of distractions.  The number of psionic powers you can maintain at once is increased by 1.",
+    "starting_trait": true,
+    "valid": true,
+    "category": [ "PLANT", "TROGLOBITE", "ALPHA", "ELFA" ],
+    "cancels": [ "CONCENTRATION_BAD" ]
+  },
+  {
+    "type": "mutation",
+    "id": "CONCENTRATION_BAD",
+    "name": { "str": "Easily Distracted" },
+    "points": -2,
+    "description": "Any day now you're going to buckle down and oh hey is that a butterfly?  The number of psionic powers you can maintain at once is reduced by 1.",
+    "starting_trait": true,
+    "valid": true,
+    "category": [ "MOUSE", "LUPINE", "BIRD", "RABBIT", "FELINE", "CHIMERA", "BEAST" ],
+    "cancels": [ "CONCENTRATION_GOOD" ]
+  },
+  {
+    "type": "mutation",
+    "id": "CONCENTRATION_DEBUG",
+    "name": { "str": "Debug Concentration" },
+    "points": 99,
+    "description": "You could keep every single bug in the game in mind simultaneously with this one.",
+    "starting_trait": false,
+    "valid": false,
+    "debug": true
+  },
+  {
+    "type": "mutation",
+    "id": "PSI_EXTENDED_CHANNELING",
+    "name": { "str": "Standard Channeling" },
+    "points": 0,
+    "description": "You are channeling your powers as quickly as you can.",
+    "active": true,
+    "valid": false,
+    "transform": {
+      "target": "PSI_EXTENDED_CHANNELING_ON",
+      "msg_transform": "You start to take more care in channeling your powers.",
+      "active": true,
+      "moves": 0
+    }
+  },
+  {
+    "type": "mutation",
+    "id": "PSI_EXTENDED_CHANNELING_ON",
+    "name": { "str": "Extended Channeling" },
+    "points": 0,
+    "description": "You are taking more time and care in channeling your powers.  It takes 25x as long to evoke them, but your Focus has no effect on their chance of success.",
+    "active": true,
+    "valid": false,
+    "transform": {
+      "target": "PSI_EXTENDED_CHANNELING",
+      "msg_transform": "Your return to channeling your powers as fast as you can.",
+      "active": false,
+      "moves": 0
+    }
   }
 ]

@@ -72,6 +72,11 @@
         "type": "COMPONENT_ID_SUBSTRING",
         "condition": "mutant",
         "name": { "str": "\"deluxe\" sandwich", "str_pl": "\"deluxe\" sandwiches" }
+      },
+      {
+        "type": "COMPONENT_ID_SUBSTRING",
+        "condition": "egg",
+        "name": { "str": "deluxe breakfast sandwich", "str_pl": "deluxe breakfast sandwiches" }
       }
     ],
     "weight": "292 g",
@@ -344,7 +349,11 @@
     "id": "sandwich_t",
     "name": { "str": "meat sandwich", "str_pl": "meat sandwiches" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "slob sandwich", "str_pl": "slob sandwiches" } },
+      {
+        "type": "VITAMIN",
+        "condition": "human_flesh_vitamin",
+        "name": { "str": "slob sandwich", "str_pl": "slob sandwiches" }
+      },
       {
         "type": "FLAG",
         "condition": "STRICT_HUMANITARIANISM",
@@ -550,6 +559,11 @@
         "type": "COMPONENT_ID_SUBSTRING",
         "condition": "mutant",
         "name": { "str": "wheat-free \"deluxe\" sandwich", "str_pl": "wheat-free \"deluxe\" sandwiches" }
+      },
+      {
+        "type": "COMPONENT_ID_SUBSTRING",
+        "condition": "egg",
+        "name": { "str": "deluxe wheat-free breakfast sandwich", "str_pl": "deluxe wheat-free breakfast sandwiches" }
       }
     ],
     "weight": "292 g",
@@ -780,8 +794,8 @@
     "name": { "str": "wheat-free meat sandwich", "str_pl": "wheat-free meat sandwiches" },
     "conditional_names": [
       {
-        "type": "FLAG",
-        "condition": "CANNIBALISM",
+        "type": "VITAMIN",
+        "condition": "human_flesh_vitamin",
         "name": { "str": "wheat-free slob sandwich", "str_pl": "wheat-free slob sandwiches" }
       },
       {
@@ -829,7 +843,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sandwich_pbj_wheat_free",
-    "name": { "str": "wheat-free PB&J sandwich", "str_pl": "wheat-free PB&J cornbread sandwiches" },
+    "name": { "str": "wheat-free PB&J sandwich", "str_pl": "wheat-free PB&J sandwiches" },
     "weight": "204 g",
     "color": "brown",
     "spoils_in": "1 day 12 hours",

@@ -47,6 +47,10 @@
         "9": "t_linoleum_gray",
         "-": "t_linoleum_gray"
       },
+      "place_nested": [
+        { "chunks": [ "rolling_trash_can_1x1" ], "x": 3, "y": 1 },
+        { "chunks": [ "rolling_trash_can_1x1" ], "x": 12, "y": 1 }
+      ],
       "furniture": { "!": "f_region_flower" },
       "place_item": [
         { "item": "television", "x": 5, "y": 10 },

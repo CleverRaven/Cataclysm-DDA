@@ -1,8 +1,21 @@
 [
   {
     "type": "mutation",
-    "id": "buzzcut",
-    "name": "Hair: buzz cut",
+    "id": "hair_bald",
+    "name": { "str": "Hair: bald" },
+    "description": "You are bald.",
+    "points": 0,
+    "starting_trait": true,
+    "valid": false,
+    "purifiable": false,
+    "player_display": true,
+    "vanity": true,
+    "types": [ "hair_style" ]
+  },
+  {
+    "type": "mutation",
+    "id": "hair_buzzcut",
+    "name": { "str": "Hair: buzz cut" },
     "points": 0,
     "description": "Your hair has been shaved close to the head.",
     "starting_trait": true,
@@ -11,12 +24,6 @@
     "player_display": true,
     "vanity": true,
     "variants": [
-      {
-        "id": "blue",
-        "name": { "str": "Hair: blue, buzz cut" },
-        "description": "Your blue hair has been shaved close to the head.",
-        "weight": 1
-      },
       {
         "id": "black",
         "name": { "str": "Hair: black, buzz cut" },
@@ -30,15 +37,21 @@
         "weight": 1
       },
       {
+        "id": "blue",
+        "name": { "str": "Hair: blue, buzz cut" },
+        "description": "Your blue hair has been shaved close to the head.",
+        "weight": 1
+      },
+      {
         "id": "brown",
         "name": { "str": "Hair: brown, buzz cut" },
         "description": "Your brown hair has been shaved close to the head.",
         "weight": 1
       },
       {
-        "id": "red",
-        "name": { "str": "Hair: red, buzz cut" },
-        "description": "Your red hair has been shaved close to the head.",
+        "id": "gray",
+        "name": { "str": "Hair: gray, buzz cut" },
+        "description": "Your gray hair has been shaved close to the head.",
         "weight": 1
       },
       {
@@ -60,6 +73,12 @@
         "weight": 1
       },
       {
+        "id": "red",
+        "name": { "str": "Hair: red, buzz cut" },
+        "description": "Your red hair has been shaved close to the head.",
+        "weight": 1
+      },
+      {
         "id": "white",
         "name": { "str": "Hair: white, buzz cut" },
         "description": "Your white hair has been shaved close to the head.",
@@ -70,68 +89,63 @@
   },
   {
     "type": "mutation",
-    "id": "ponytail",
-    "name": "Hair: ponytail",
+    "id": "hair_crewcut",
+    "name": { "str": "Hair: crew-cut" },
+    "description": "Crewcut hair style.",
     "points": 0,
-    "description": "You have long hair, pulled back into a ponytail.",
     "starting_trait": true,
     "valid": false,
     "purifiable": false,
     "player_display": true,
-    "vanity": true,
     "variants": [
-      {
-        "id": "blue",
-        "name": { "str": "Hair: blue, ponytail" },
-        "description": "You have long blue hair, pulled back into a ponytail.",
-        "weight": 1
-      },
-      {
-        "id": "black",
-        "name": { "str": "Hair: black, ponytail" },
-        "description": "You have long black hair, pulled back into a ponytail.",
-        "weight": 1
-      },
+      { "id": "black", "name": { "str": "Hair: black, crew-cut" }, "description": "Crewcut black hair style.", "weight": 1 },
       {
         "id": "blond",
-        "name": { "str": "Hair: blond, ponytail" },
-        "description": "You have long blond hair, pulled back into a ponytail.",
+        "name": { "str": "Hair: blond, crew-cut" },
+        "description": "Crewcut blond hair style.",
+        "weight": 1
+      },
+      {
+        "id": "blue",
+        "name": { "str": "Hair: blue, crew-cut" },
+        "description": "Crewcut blue hair style.",
         "weight": 1
       },
       {
         "id": "brown",
-        "name": { "str": "Hair: brown, ponytail" },
-        "description": "You have long brown hair, pulled back into a ponytail.",
+        "name": { "str": "Hair: brown, crew-cut" },
+        "description": "Crewcut brown hair style.",
         "weight": 1
       },
       {
-        "id": "red",
-        "name": { "str": "Hair: red, ponytail" },
-        "description": "You have long red hair, pulled back into a ponytail.",
+        "id": "gray",
+        "name": { "str": "Hair: gray, crew-cut" },
+        "description": "Crewcut gray hair style.",
         "weight": 1
       },
       {
         "id": "green",
-        "name": { "str": "Hair: green, ponytail" },
-        "description": "You have long green hair, pulled back into a ponytail.",
+        "name": { "str": "Hair: green, crew-cut" },
+        "description": "Crewcut green hair style.",
         "weight": 1
       },
       {
         "id": "pink",
-        "name": { "str": "Hair: pink, ponytail" },
-        "description": "You have long pink hair, pulled back into a ponytail.",
+        "name": { "str": "Hair: pink, crew-cut" },
+        "description": "Crewcut pink hair style.",
         "weight": 1
       },
       {
         "id": "purple",
-        "name": { "str": "Hair: purple, ponytail" },
-        "description": "You have long purple hair, pulled back into a ponytail.",
+        "name": { "str": "Hair: purple, crew-cut" },
+        "description": "Crewcut purple hair style.",
         "weight": 1
       },
+      { "id": "red", "name": { "str": "Hair: red, crew-cut" }, "description": "Crewcut red hair style.", "weight": 1 },
       {
         "id": "white",
-        "name": { "str": "Hair: white, ponytail" },
-        "description": "You have long white hair, pulled back into a ponytail.",
+        "name": { "str": "Hair: white, crew-cut" },
+        "description": "Crewcut white hair style.",
         "weight": 1
       }
     ],
@@ -139,22 +153,74 @@
   },
   {
     "type": "mutation",
-    "id": "long_over_eye",
-    "name": "Hair: long over-eye",
+    "id": "hair_fro",
+    "name": { "str": "Hair: afro" },
+    "description": "'Fro hair style.",
     "points": 0,
-    "description": "You have long hair, swooping over one eye.",
+    "starting_trait": true,
+    "valid": false,
+    "purifiable": false,
+    "player_display": true,
+    "variants": [
+      { "id": "black", "name": { "str": "Hair: black, afro" }, "description": "'Fro black hair style.", "weight": 1 },
+      { "id": "blond", "name": { "str": "Hair: blond, afro" }, "description": "'Fro blond hair style.", "weight": 1 },
+      { "id": "blue", "name": { "str": "Hair: blue, afro" }, "description": "'Fro blue hair style.", "weight": 1 },
+      { "id": "brown", "name": { "str": "Hair: brown, afro" }, "description": "'Fro brown hair style.", "weight": 1 },
+      { "id": "gray", "name": { "str": "Hair: gray, afro" }, "description": "'Fro gray hair style.", "weight": 1 },
+      { "id": "green", "name": { "str": "Hair: green, afro" }, "description": "'Fro green hair style.", "weight": 1 },
+      { "id": "pink", "name": { "str": "Hair: pink, afro" }, "description": "'Fro pink hair style.", "weight": 1 },
+      {
+        "id": "purple",
+        "name": { "str": "Hair: purple, afro" },
+        "description": "'Fro purple hair style.",
+        "weight": 1
+      },
+      { "id": "red", "name": { "str": "Hair: red, afro" }, "description": "'Fro red hair style.", "weight": 1 },
+      { "id": "white", "name": { "str": "Hair: white, afro" }, "description": "'Fro white hair style.", "weight": 1 }
+    ],
+    "types": [ "hair_style" ]
+  },
+  {
+    "type": "mutation",
+    "id": "hair_long",
+    "name": { "str": "Hair: long" },
+    "description": "Long hair style.",
+    "points": 0,
     "starting_trait": true,
     "valid": false,
     "purifiable": false,
     "player_display": true,
     "vanity": true,
     "variants": [
+      { "id": "black", "name": { "str": "Hair: black, long" }, "description": "Long black hair style.", "weight": 1 },
+      { "id": "blond", "name": { "str": "Hair: blond, long" }, "description": "Long blond hair style.", "weight": 1 },
+      { "id": "blue", "name": { "str": "Hair: blue, long" }, "description": "Long blue hair style.", "weight": 1 },
+      { "id": "brown", "name": { "str": "Hair: brown, long" }, "description": "Long brown hair style.", "weight": 1 },
+      { "id": "gray", "name": { "str": "Hair: gray, long" }, "description": "Long gray hair style.", "weight": 1 },
+      { "id": "green", "name": { "str": "Hair: green, long" }, "description": "Long green hair style.", "weight": 1 },
+      { "id": "pink", "name": { "str": "Hair: pink, long" }, "description": "Long pink hair style.", "weight": 1 },
       {
-        "id": "blue",
-        "name": { "str": "Hair: blue, long over-eye" },
-        "description": "You have long blue hair, swooping over one eye.",
+        "id": "purple",
+        "name": { "str": "Hair: purple, long" },
+        "description": "Long purple hair style.",
         "weight": 1
       },
+      { "id": "red", "name": { "str": "Hair: red, long" }, "description": "Long red hair style.", "weight": 1 },
+      { "id": "white", "name": { "str": "Hair: white, long" }, "description": "Long white hair style.", "weight": 1 }
+    ],
+    "types": [ "hair_style" ]
+  },
+  {
+    "type": "mutation",
+    "id": "hair_long_over_eye",
+    "name": { "str": "Hair: long over-eye" },
+    "points": 0,
+    "description": "You have long hair, swooping over one eye.",
+    "starting_trait": true,
+    "valid": false,
+    "purifiable": false,
+    "player_display": true,
+    "variants": [
       {
         "id": "black",
         "name": { "str": "Hair: black, long over-eye" },
@@ -168,15 +234,21 @@
         "weight": 1
       },
       {
+        "id": "blue",
+        "name": { "str": "Hair: blue, long over-eye" },
+        "description": "You have long blue hair, swooping over one eye.",
+        "weight": 1
+      },
+      {
         "id": "brown",
         "name": { "str": "Hair: brown, long over-eye" },
         "description": "You have long brown hair, swooping over one eye.",
         "weight": 1
       },
       {
-        "id": "red",
-        "name": { "str": "Hair: red, long over-eye" },
-        "description": "You have long red hair, swooping over one eye.",
+        "id": "gray",
+        "name": { "str": "Hair: gray, long over-eye" },
+        "description": "You have long gray hair, swooping over one eye.",
         "weight": 1
       },
       {
@@ -198,6 +270,12 @@
         "weight": 1
       },
       {
+        "id": "red",
+        "name": { "str": "Hair: red, long over-eye" },
+        "description": "You have long red hair, swooping over one eye.",
+        "weight": 1
+      },
+      {
         "id": "white",
         "name": { "str": "Hair: white, long over-eye" },
         "description": "You have long white hair, swooping over one eye.",
@@ -208,22 +286,89 @@
   },
   {
     "type": "mutation",
-    "id": "messy",
-    "name": "Hair: long messy",
+    "id": "hair_medium",
+    "name": { "str": "Hair: medium-length" },
+    "description": "Medium-length hair style.",
     "points": 0,
-    "description": "You have long hair, worn loose and carefree!",
     "starting_trait": true,
     "valid": false,
     "purifiable": false,
     "player_display": true,
-    "vanity": true,
     "variants": [
       {
-        "id": "blue",
-        "name": { "str": "Hair: blue, long messy" },
-        "description": "You have long blue hair, worn loose and carefree!",
+        "id": "black",
+        "name": { "str": "Hair: black, medium-length" },
+        "description": "Medium-length black hair style.",
         "weight": 1
       },
+      {
+        "id": "blond",
+        "name": { "str": "Hair: blond, medium-length" },
+        "description": "Medium-length blond hair style.",
+        "weight": 1
+      },
+      {
+        "id": "blue",
+        "name": { "str": "Hair: blue, medium-length" },
+        "description": "Medium-length blue hair style.",
+        "weight": 1
+      },
+      {
+        "id": "brown",
+        "name": { "str": "Hair: brown, medium-length" },
+        "description": "Medium-length brown hair style.",
+        "weight": 1
+      },
+      {
+        "id": "gray",
+        "name": { "str": "Hair: gray, medium-length" },
+        "description": "Medium-length gray hair style.",
+        "weight": 1
+      },
+      {
+        "id": "green",
+        "name": { "str": "Hair: green, medium-length" },
+        "description": "Medium-length green hair style.",
+        "weight": 1
+      },
+      {
+        "id": "pink",
+        "name": { "str": "Hair: pink, medium-length" },
+        "description": "Medium-length pink hair style.",
+        "weight": 1
+      },
+      {
+        "id": "purple",
+        "name": { "str": "Hair: purple, medium-length" },
+        "description": "Medium-length purple hair style.",
+        "weight": 1
+      },
+      {
+        "id": "red",
+        "name": { "str": "Hair: red, medium-length" },
+        "description": "Medium-length red hair style.",
+        "weight": 1
+      },
+      {
+        "id": "white",
+        "name": { "str": "Hair: white, medium-length" },
+        "description": "Medium-length white hair style.",
+        "weight": 1
+      }
+    ],
+    "types": [ "hair_style" ]
+  },
+  {
+    "type": "mutation",
+    "id": "hair_messy",
+    "name": { "str": "Hair: long messy" },
+    "points": 0,
+    "description": "You have long, messy hair, worn loose and carefree!",
+    "starting_trait": true,
+    "valid": false,
+    "purifiable": false,
+    "player_display": true,
+    "variants": [
       {
         "id": "black",
         "name": { "str": "Hair: black, long messy" },
@@ -237,15 +382,21 @@
         "weight": 1
       },
       {
+        "id": "blue",
+        "name": { "str": "Hair: blue, long messy" },
+        "description": "You have long blue hair, worn loose and carefree!",
+        "weight": 1
+      },
+      {
         "id": "brown",
         "name": { "str": "Hair: brown, long messy" },
         "description": "You have long brown hair, worn loose and carefree!",
         "weight": 1
       },
       {
-        "id": "red",
-        "name": { "str": "Hair: red, long messy" },
-        "description": "You have long red hair, worn loose and carefree!",
+        "id": "gray",
+        "name": { "str": "Hair: gray, long messy" },
+        "description": "You have long gray hair, worn loose and carefree!",
         "weight": 1
       },
       {
@@ -267,6 +418,12 @@
         "weight": 1
       },
       {
+        "id": "red",
+        "name": { "str": "Hair: red, long messy" },
+        "description": "You have long red hair, worn loose and carefree!",
+        "weight": 1
+      },
+      {
         "id": "white",
         "name": { "str": "Hair: white, long messy" },
         "description": "You have long white hair, worn loose and carefree!",
@@ -277,22 +434,355 @@
   },
   {
     "type": "mutation",
-    "id": "mullet",
-    "name": "Hair: mullet",
+    "id": "hair_very_long",
+    "name": { "str": "Hair: very long" },
+    "points": 0,
+    "description": "You have very long hair, which goes down to your waist.",
+    "starting_trait": true,
+    "valid": false,
+    "purifiable": false,
+    "player_display": true,
+    "variants": [
+      {
+        "id": "black",
+        "name": { "str": "Hair: black, very long" },
+        "description": "You have very long black hair, which goes down to your waist.",
+        "weight": 1
+      },
+      {
+        "id": "blond",
+        "name": { "str": "Hair: blond, very long" },
+        "description": "You have very long blond hair, which goes down to your waist.",
+        "weight": 1
+      },
+      {
+        "id": "blue",
+        "name": { "str": "Hair: blue, very long" },
+        "description": "You have very long blue hair, which goes down to your waist.",
+        "weight": 1
+      },
+      {
+        "id": "brown",
+        "name": { "str": "Hair: brown, very long" },
+        "description": "You have very long brown hair, which goes down to your waist.",
+        "weight": 1
+      },
+      {
+        "id": "gray",
+        "name": { "str": "Hair: gray, very long" },
+        "description": "You have very long gray hair, which goes down to your waist.",
+        "weight": 1
+      },
+      {
+        "id": "green",
+        "name": { "str": "Hair: green, very long" },
+        "description": "You have very long green hair, which goes down to your waist.",
+        "weight": 1
+      },
+      {
+        "id": "pink",
+        "name": { "str": "Hair: pink, very long" },
+        "description": "You have very long pink hair, which goes down to your waist.",
+        "weight": 1
+      },
+      {
+        "id": "purple",
+        "name": { "str": "Hair: purple, very long" },
+        "description": "You have very long purple hair, which goes down to your waist.",
+        "weight": 1
+      },
+      {
+        "id": "red",
+        "name": { "str": "Hair: red, very long" },
+        "description": "You have very long red hair, which goes down to your waist.",
+        "weight": 1
+      },
+      {
+        "id": "white",
+        "name": { "str": "Hair: white, very long" },
+        "description": "You have very long white hair, which goes down to your waist.",
+        "weight": 1
+      }
+    ],
+    "types": [ "hair_style" ]
+  },
+  {
+    "type": "mutation",
+    "id": "hair_extremely_long",
+    "name": { "str": "Hair: extremely long" },
+    "points": 0,
+    "description": "You have extremely long hair, which goes down to your knees.",
+    "starting_trait": true,
+    "valid": false,
+    "purifiable": false,
+    "player_display": true,
+    "variants": [
+      {
+        "id": "black",
+        "name": { "str": "Hair: black, extremely long" },
+        "description": "You have extremely long black hair, which goes down to your knees.",
+        "weight": 1
+      },
+      {
+        "id": "blond",
+        "name": { "str": "Hair: blond, extremely long" },
+        "description": "You have extremely long blond hair, which goes down to your knees.",
+        "weight": 1
+      },
+      {
+        "id": "blue",
+        "name": { "str": "Hair: blue, extremely long" },
+        "description": "You have extremely long blue hair, which goes down to your knees.",
+        "weight": 1
+      },
+      {
+        "id": "brown",
+        "name": { "str": "Hair: brown, extremely long" },
+        "description": "You have extremely long brown hair, which goes down to your knees.",
+        "weight": 1
+      },
+      {
+        "id": "gray",
+        "name": { "str": "Hair: gray, extremely long" },
+        "description": "You have extremely long gray hair, which goes down to your knees.",
+        "weight": 1
+      },
+      {
+        "id": "green",
+        "name": { "str": "Hair: green, extremely long" },
+        "description": "You have extremely long green hair, which goes down to your knees.",
+        "weight": 1
+      },
+      {
+        "id": "pink",
+        "name": { "str": "Hair: pink, extremely long" },
+        "description": "You have extremely long pink hair, which goes down to your knees.",
+        "weight": 1
+      },
+      {
+        "id": "purple",
+        "name": { "str": "Hair: purple, extremely long" },
+        "description": "You have extremely long purple hair, which goes down to your knees.",
+        "weight": 1
+      },
+      {
+        "id": "red",
+        "name": { "str": "Hair: red, extremely long" },
+        "description": "You have extremely long red hair, which goes down to your knees.",
+        "weight": 1
+      },
+      {
+        "id": "white",
+        "name": { "str": "Hair: white, extremely long" },
+        "description": "You have extremely long white hair, which goes down to your knees.",
+        "weight": 1
+      }
+    ],
+    "types": [ "hair_style" ]
+  },
+  {
+    "type": "mutation",
+    "id": "hair_body_length",
+    "name": { "str": "Hair: body-length" },
+    "points": 0,
+    "description": "Your hair is now so long that it reaches the floor.",
+    "starting_trait": true,
+    "valid": false,
+    "purifiable": false,
+    "player_display": true,
+    "variants": [
+      {
+        "id": "black",
+        "name": { "str": "Hair: black, body-length" },
+        "description": "Your black hair is now so long that it reaches the floor.",
+        "weight": 1
+      },
+      {
+        "id": "blond",
+        "name": { "str": "Hair: blond, body-length" },
+        "description": "Your blond hair is now so long that it reaches the floor.",
+        "weight": 1
+      },
+      {
+        "id": "blue",
+        "name": { "str": "Hair: blue, body-length" },
+        "description": "Your blue hair is now so long that it reaches the floor.",
+        "weight": 1
+      },
+      {
+        "id": "brown",
+        "name": { "str": "Hair: brown, body-length" },
+        "description": "Your brown hair is now so long that it reaches the floor.",
+        "weight": 1
+      },
+      {
+        "id": "gray",
+        "name": { "str": "Hair: gray, body-length" },
+        "description": "Your gray hair is now so long that it reaches the floor.",
+        "weight": 1
+      },
+      {
+        "id": "green",
+        "name": { "str": "Hair: green, body-length" },
+        "description": "Your green hair is now so long that it reaches the floor.",
+        "weight": 1
+      },
+      {
+        "id": "pink",
+        "name": { "str": "Hair: pink, body-length" },
+        "description": "Your pink hair is now so long that it reaches the floor.",
+        "weight": 1
+      },
+      {
+        "id": "purple",
+        "name": { "str": "Hair: purple, body-length" },
+        "description": "Your purple hair is now so long that it reaches the floor.",
+        "weight": 1
+      },
+      {
+        "id": "red",
+        "name": { "str": "Hair: red, body-length" },
+        "description": "Your red hair is now so long that it reaches the floor.",
+        "weight": 1
+      },
+      {
+        "id": "white",
+        "name": { "str": "Hair: white, body-length" },
+        "description": "Your white hair is now so long that it reaches the floor.",
+        "weight": 1
+      }
+    ],
+    "types": [ "hair_style" ]
+  },
+  {
+    "type": "mutation",
+    "id": "hair_mohawk",
+    "name": { "str": "Hair: mohawk" },
+    "description": "Mohawk hair style.",
+    "points": 0,
+    "starting_trait": true,
+    "valid": false,
+    "purifiable": false,
+    "player_display": true,
+    "variants": [
+      { "id": "black", "name": { "str": "Hair: black, mohawk" }, "description": "Mohawk black hair style.", "weight": 1 },
+      {
+        "id": "blond",
+        "name": { "str": "Hair: blond, mohawk" },
+        "description": "Mohawk blond hair style.",
+        "weight": 1
+      },
+      { "id": "blue", "name": { "str": "Hair: blue, mohawk" }, "description": "Mohawk blue hair style.", "weight": 1 },
+      {
+        "id": "brown",
+        "name": { "str": "Hair: brown, mohawk" },
+        "description": "Mohawk brown hair style.",
+        "weight": 1
+      },
+      { "id": "gray", "name": { "str": "Hair: gray, mohawk" }, "description": "Mohawk gray hair style.", "weight": 1 },
+      {
+        "id": "green",
+        "name": { "str": "Hair: green, mohawk" },
+        "description": "Mohawk green hair style.",
+        "weight": 1
+      },
+      { "id": "pink", "name": { "str": "Hair: pink, mohawk" }, "description": "Mohawk pink hair style.", "weight": 1 },
+      {
+        "id": "purple",
+        "name": { "str": "Hair: purple, mohawk" },
+        "description": "Mohawk purple hair style.",
+        "weight": 1
+      },
+      { "id": "red", "name": { "str": "Hair: red, mohawk" }, "description": "Mohawk red hair style.", "weight": 1 },
+      {
+        "id": "white",
+        "name": { "str": "Hair: white, mohawk" },
+        "description": "Mohawk white hair style.",
+        "weight": 1
+      }
+    ],
+    "types": [ "hair_style" ]
+  },
+  {
+    "type": "mutation",
+    "id": "hair_long_mohawk",
+    "name": { "str": "Hair: long mohawk" },
+    "description": "You have a long mohawk.",
+    "points": 0,
+    "starting_trait": true,
+    "valid": false,
+    "purifiable": false,
+    "player_display": true,
+    "variants": [
+      { "id": "black", "name": { "str": "Hair: black, mohawk" }, "description": "You have a long black mohawk.", "weight": 1 },
+      {
+        "id": "blond",
+        "name": { "str": "Hair: blond, mohawk" },
+        "description": "You have a long blond mohawk.",
+        "weight": 1
+      },
+      {
+        "id": "blue",
+        "name": { "str": "Hair: blue, mohawk" },
+        "description": "You have a long blue mohawk.",
+        "weight": 1
+      },
+      {
+        "id": "brown",
+        "name": { "str": "Hair: brown, mohawk" },
+        "description": "You have a long brown mohawk.",
+        "weight": 1
+      },
+      {
+        "id": "gray",
+        "name": { "str": "Hair: gray, mohawk" },
+        "description": "You have a long gray mohawk.",
+        "weight": 1
+      },
+      {
+        "id": "green",
+        "name": { "str": "Hair: green, mohawk" },
+        "description": "You have a long green mohawk.",
+        "weight": 1
+      },
+      {
+        "id": "pink",
+        "name": { "str": "Hair: pink, mohawk" },
+        "description": "You have a long pink mohawk.",
+        "weight": 1
+      },
+      {
+        "id": "purple",
+        "name": { "str": "Hair: purple, mohawk" },
+        "description": "You have a long purple mohawk.",
+        "weight": 1
+      },
+      {
+        "id": "red",
+        "name": { "str": "Hair: red, mohawk" },
+        "description": "You have a long red mohawk.",
+        "weight": 1
+      },
+      {
+        "id": "white",
+        "name": { "str": "Hair: white, mohawk" },
+        "description": "You have a long white mohawk.",
+        "weight": 1
+      }
+    ],
+    "types": [ "hair_style" ]
+  },
+  {
+    "type": "mutation",
+    "id": "hair_mullet",
+    "name": { "str": "Hair: mullet" },
     "points": 0,
     "description": "Business in the front, party in the back!",
     "starting_trait": true,
     "valid": false,
     "purifiable": false,
     "player_display": true,
-    "vanity": true,
     "variants": [
-      {
-        "id": "blue",
-        "name": { "str": "Hair: blue, mullet" },
-        "description": "You have long blue hair, in the style of a mullet.",
-        "weight": 1
-      },
       {
         "id": "black",
         "name": { "str": "Hair: black, mullet" },
@@ -306,15 +796,21 @@
         "weight": 1
       },
       {
+        "id": "blue",
+        "name": { "str": "Hair: blue, mullet" },
+        "description": "You have long blue hair, in the style of a mullet.",
+        "weight": 1
+      },
+      {
         "id": "brown",
         "name": { "str": "Hair: brown, mullet" },
         "description": "You have long brown hair, in the style of a mullet.",
         "weight": 1
       },
       {
-        "id": "red",
-        "name": { "str": "Hair: red, mullet" },
-        "description": "You have long red hair, in the style of a mullet.",
+        "id": "gray",
+        "name": { "str": "Hair: gray, mullet" },
+        "description": "You have long gray hair, in the style of a mullet.",
         "weight": 1
       },
       {
@@ -336,6 +832,12 @@
         "weight": 1
       },
       {
+        "id": "red",
+        "name": { "str": "Hair: red, mullet" },
+        "description": "You have long red hair, in the style of a mullet.",
+        "weight": 1
+      },
+      {
         "id": "white",
         "name": { "str": "Hair: white, mullet" },
         "description": "You have long white hair, in the style of a mullet.",
@@ -346,10 +848,10 @@
   },
   {
     "type": "mutation",
-    "id": "short_over_eye",
-    "name": "Hair: short over-eye",
+    "id": "hair_ponytail",
+    "name": { "str": "Hair: ponytail" },
     "points": 0,
-    "description": "You have short hair, with the fringe over one eye.",
+    "description": "You have long hair, pulled back into a ponytail.",
     "starting_trait": true,
     "valid": false,
     "purifiable": false,
@@ -357,57 +859,63 @@
     "vanity": true,
     "variants": [
       {
-        "id": "blue",
-        "name": { "str": "Hair: blue, short over-eye" },
-        "description": "You have short blue hair, with the fringe over one eye.",
-        "weight": 1
-      },
-      {
         "id": "black",
-        "name": { "str": "Hair: black, short over-eye" },
-        "description": "You have short black hair, with the fringe over one eye.",
+        "name": { "str": "Hair: black, ponytail" },
+        "description": "You have long black hair, pulled back into a ponytail.",
         "weight": 1
       },
       {
         "id": "blond",
-        "name": { "str": "Hair: blond, short over-eye" },
-        "description": "You have short blond hair, with the fringe over one eye.",
+        "name": { "str": "Hair: blond, ponytail" },
+        "description": "You have long blond hair, pulled back into a ponytail.",
+        "weight": 1
+      },
+      {
+        "id": "blue",
+        "name": { "str": "Hair: blue, ponytail" },
+        "description": "You have long blue hair, pulled back into a ponytail.",
         "weight": 1
       },
       {
         "id": "brown",
-        "name": { "str": "Hair: brown, short over-eye" },
-        "description": "You have short brown hair, with the fringe over one eye.",
+        "name": { "str": "Hair: brown, ponytail" },
+        "description": "You have long brown hair, pulled back into a ponytail.",
         "weight": 1
       },
       {
-        "id": "red",
-        "name": { "str": "Hair: red, short over-eye" },
-        "description": "You have short red hair, with the fringe over one eye.",
+        "id": "gray",
+        "name": { "str": "Hair: gray, ponytail" },
+        "description": "You have long gray hair, pulled back into a ponytail.",
         "weight": 1
       },
       {
         "id": "green",
-        "name": { "str": "Hair: green, short over-eye" },
-        "description": "You have short green hair, with the fringe over one eye.",
+        "name": { "str": "Hair: green, ponytail" },
+        "description": "You have long green hair, pulled back into a ponytail.",
         "weight": 1
       },
       {
         "id": "pink",
-        "name": { "str": "Hair: pink, short over-eye" },
-        "description": "You have short pink hair, with the fringe over one eye.",
+        "name": { "str": "Hair: pink, ponytail" },
+        "description": "You have long pink hair, pulled back into a ponytail.",
         "weight": 1
       },
       {
         "id": "purple",
-        "name": { "str": "Hair: purple, short over-eye" },
-        "description": "You have short purple hair, with the fringe over one eye.",
+        "name": { "str": "Hair: purple, ponytail" },
+        "description": "You have long purple hair, pulled back into a ponytail.",
+        "weight": 1
+      },
+      {
+        "id": "red",
+        "name": { "str": "Hair: red, ponytail" },
+        "description": "You have long red hair, pulled back into a ponytail.",
         "weight": 1
       },
       {
         "id": "white",
-        "name": { "str": "Hair: white, short over-eye" },
-        "description": "You have short white hair, with the fringe over one eye.",
+        "name": { "str": "Hair: white, ponytail" },
+        "description": "You have long white hair, pulled back into a ponytail.",
         "weight": 1
       }
     ],
@@ -415,8 +923,53 @@
   },
   {
     "type": "mutation",
-    "id": "short_no_fringe",
-    "name": "Hair: short without a fringe",
+    "id": "hair_short",
+    "name": { "str": "Hair: short" },
+    "description": "Short hair style.",
+    "points": 0,
+    "starting_trait": true,
+    "valid": false,
+    "purifiable": false,
+    "player_display": true,
+    "vanity": true,
+    "variants": [
+      { "id": "black", "name": { "str": "Hair: black, short" }, "description": "Short black hair style.", "weight": 1 },
+      {
+        "id": "blond",
+        "name": { "str": "Hair: blond, short" },
+        "description": "Short blond hair style.",
+        "weight": 1
+      },
+      { "id": "blue", "name": { "str": "Hair: blue, short" }, "description": "Short blue hair style.", "weight": 1 },
+      {
+        "id": "brown",
+        "name": { "str": "Hair: brown, short" },
+        "description": "Short brown hair style.",
+        "weight": 1
+      },
+      { "id": "gray", "name": { "str": "Hair: gray, short" }, "description": "Short gray hair style.", "weight": 1 },
+      {
+        "id": "green",
+        "name": { "str": "Hair: green, short" },
+        "description": "Short green hair style.",
+        "weight": 1
+      },
+      { "id": "pink", "name": { "str": "Hair: pink, short" }, "description": "Short pink hair style.", "weight": 1 },
+      {
+        "id": "purple",
+        "name": { "str": "Hair: purple, short" },
+        "description": "Short purple hair style.",
+        "weight": 1
+      },
+      { "id": "red", "name": { "str": "Hair: red, short" }, "description": "Short red hair style", "weight": 1 },
+      { "id": "white", "name": { "str": "Hair: white, short" }, "description": "Short white hair style", "weight": 1 }
+    ],
+    "types": [ "hair_style" ]
+  },
+  {
+    "type": "mutation",
+    "id": "hair_short_no_fringe",
+    "name": { "str": "Hair: short without a fringe" },
     "points": 0,
     "description": "You have short hair, without a fringe.",
     "starting_trait": true,
@@ -425,12 +978,6 @@
     "player_display": true,
     "vanity": true,
     "variants": [
-      {
-        "id": "blue",
-        "name": { "str": "Hair: blue, short without a fringe" },
-        "description": "You have short blue hair, without a fringe.",
-        "weight": 1
-      },
       {
         "id": "black",
         "name": { "str": "Hair: black, short without a fringe" },
@@ -444,15 +991,21 @@
         "weight": 1
       },
       {
+        "id": "blue",
+        "name": { "str": "Hair: blue, short without a fringe" },
+        "description": "You have short blue hair, without a fringe.",
+        "weight": 1
+      },
+      {
         "id": "brown",
         "name": { "str": "Hair: brown, short without a fringe" },
         "description": "You have short brown hair, without a fringe.",
         "weight": 1
       },
       {
-        "id": "red",
-        "name": { "str": "Hair: red, short without a fringe" },
-        "description": "You have short red hair, without a fringe.",
+        "id": "gray",
+        "name": { "str": "Hair: gray, short without a fringe" },
+        "description": "You have short gray hair, without a fringe.",
         "weight": 1
       },
       {
@@ -474,6 +1027,12 @@
         "weight": 1
       },
       {
+        "id": "red",
+        "name": { "str": "Hair: red, short without a fringe" },
+        "description": "You have short red hair, without a fringe.",
+        "weight": 1
+      },
+      {
         "id": "white",
         "name": { "str": "Hair: white, short without a fringe" },
         "description": "You have short white hair, without a fringe.",
@@ -484,159 +1043,74 @@
   },
   {
     "type": "mutation",
-    "id": "crewcut",
-    "name": "Hair: crew cut",
+    "id": "hair_short_over_eye",
+    "name": { "str": "Hair: short over-eye" },
     "points": 0,
-    "description": "You have a crew cut.",
+    "description": "You have short hair, with the fringe over one eye.",
     "starting_trait": true,
     "valid": false,
     "purifiable": false,
     "player_display": true,
     "vanity": true,
     "variants": [
-      { "id": "blue", "name": { "str": "Hair: blue, crew cut" }, "description": "You have a blue crew cut.", "weight": 1 },
       {
-        "id": "green",
-        "name": { "str": "Hair: green, crew cut" },
-        "description": "You have a green crew cut.",
+        "id": "black",
+        "name": { "str": "Hair: black, short over-eye" },
+        "description": "You have short black hair, with the fringe over one eye.",
         "weight": 1
       },
       {
-        "id": "pink",
-        "name": { "str": "Hair: pink, crew cut" },
-        "description": "You have a pink crew cut.",
+        "id": "blond",
+        "name": { "str": "Hair: blond, short over-eye" },
+        "description": "You have short blond hair, with the fringe over one eye.",
         "weight": 1
       },
-      {
-        "id": "purple",
-        "name": { "str": "Hair: purple, crew cut" },
-        "description": "You have a purple crew cut.",
-        "weight": 1
-      }
-    ],
-    "types": [ "hair_style" ]
-  },
-  {
-    "type": "mutation",
-    "id": "mohawk",
-    "name": "Hair: mohawk",
-    "points": 0,
-    "description": "You have a mohawk.",
-    "starting_trait": true,
-    "valid": false,
-    "purifiable": false,
-    "player_display": true,
-    "vanity": true,
-    "variants": [
-      { "id": "blue", "name": { "str": "Hair: blue, mohawk" }, "description": "You have a blue mohawk.", "weight": 1 },
-      {
-        "id": "green",
-        "name": { "str": "Hair: green, mohawk" },
-        "description": "You have a green mohawk.",
-        "weight": 1
-      },
-      { "id": "pink", "name": { "str": "Hair: pink, mohawk" }, "description": "You have a pink mohawk.", "weight": 1 },
-      {
-        "id": "purple",
-        "name": { "str": "Hair: purple, mohawk" },
-        "description": "You have a purple mohawk.",
-        "weight": 1
-      }
-    ],
-    "types": [ "hair_style" ]
-  },
-  {
-    "type": "mutation",
-    "id": "fro",
-    "name": "Hair: 'fro",
-    "points": 0,
-    "description": "You have a 'fro.",
-    "starting_trait": true,
-    "valid": false,
-    "purifiable": false,
-    "player_display": true,
-    "vanity": true,
-    "variants": [
-      { "id": "blue", "name": { "str": "Hair: blue, 'fro" }, "description": "You have a blue 'fro.", "weight": 1 },
-      { "id": "green", "name": { "str": "Hair: green, 'fro" }, "description": "You have a green 'fro.", "weight": 1 },
-      { "id": "pink", "name": { "str": "Hair: pink, 'fro" }, "description": "You have a pink 'fro.", "weight": 1 },
-      {
-        "id": "purple",
-        "name": { "str": "Hair: purple, 'fro" },
-        "description": "You have a purple 'fro.",
-        "weight": 1
-      }
-    ],
-    "types": [ "hair_style" ]
-  },
-  {
-    "type": "mutation",
-    "id": "short",
-    "name": "Hair: short",
-    "points": 0,
-    "description": "You have short hair.",
-    "starting_trait": true,
-    "valid": false,
-    "purifiable": false,
-    "player_display": true,
-    "vanity": true,
-    "variants": [
-      { "id": "blue", "name": { "str": "Hair: blue, short" }, "description": "You have short blue hair.", "weight": 1 },
-      {
-        "id": "green",
-        "name": { "str": "Hair: green, short" },
-        "description": "You have short green hair.",
-        "weight": 1
-      },
-      {
-        "id": "pink",
-        "name": { "str": "Hair: pink, short" },
-        "description": "You have short pink hair.",
-        "weight": 1
-      },
-      {
-        "id": "purple",
-        "name": { "str": "Hair: purple, short" },
-        "description": "You have short purple hair.",
-        "weight": 1
-      }
-    ],
-    "types": [ "hair_style" ]
-  },
-  {
-    "type": "mutation",
-    "id": "medium",
-    "name": "Hair: medium-length",
-    "points": 0,
-    "description": "You have a head of medium-length hair.",
-    "starting_trait": true,
-    "valid": false,
-    "purifiable": false,
-    "player_display": true,
-    "vanity": true,
-    "variants": [
       {
         "id": "blue",
-        "name": { "str": "Hair: blue, medium-length" },
-        "description": "You have a head of medium-length blue hair.",
+        "name": { "str": "Hair: blue, short over-eye" },
+        "description": "You have short blue hair, with the fringe over one eye.",
+        "weight": 1
+      },
+      {
+        "id": "brown",
+        "name": { "str": "Hair: brown, short over-eye" },
+        "description": "You have short brown hair, with the fringe over one eye.",
+        "weight": 1
+      },
+      {
+        "id": "gray",
+        "name": { "str": "Hair: gray, short over-eye" },
+        "description": "You have short gray hair, with the fringe over one eye.",
         "weight": 1
       },
       {
         "id": "green",
-        "name": { "str": "Hair: green, medium-length" },
-        "description": "You have a head of medium-length green hair.",
+        "name": { "str": "Hair: green, short over-eye" },
+        "description": "You have short green hair, with the fringe over one eye.",
         "weight": 1
       },
       {
         "id": "pink",
-        "name": { "str": "Hair: pink, medium-length" },
-        "description": "You have a head of medium-length pink hair.",
+        "name": { "str": "Hair: pink, short over-eye" },
+        "description": "You have short pink hair, with the fringe over one eye.",
         "weight": 1
       },
       {
         "id": "purple",
-        "name": { "str": "Hair: purple, medium-length" },
-        "description": "You have a head of medium-length purple hair.",
+        "name": { "str": "Hair: purple, short over-eye" },
+        "description": "You have short purple hair, with the fringe over one eye.",
+        "weight": 1
+      },
+      {
+        "id": "red",
+        "name": { "str": "Hair: red, short over-eye" },
+        "description": "You have short red hair, with the fringe over one eye.",
+        "weight": 1
+      },
+      {
+        "id": "white",
+        "name": { "str": "Hair: white, short over-eye" },
+        "description": "You have short white hair, with the fringe over one eye.",
         "weight": 1
       }
     ],
@@ -644,31 +1118,98 @@
   },
   {
     "type": "mutation",
-    "id": "long",
-    "name": "Hair: long",
+    "id": "natural_hair_color_black",
+    "name": { "str": "Natural hair color: black" },
     "points": 0,
-    "description": "You have long hair.",
+    "description": "You have naturally black hair.",
     "starting_trait": true,
     "valid": false,
     "purifiable": false,
-    "player_display": true,
+    "player_display": false,
     "vanity": true,
-    "variants": [
-      { "id": "blue", "name": { "str": "Hair: blue, long" }, "description": "You have long blue hair.", "weight": 1 },
-      {
-        "id": "green",
-        "name": { "str": "Hair: green, long" },
-        "description": "You have long green hair.",
-        "weight": 1
-      },
-      { "id": "pink", "name": { "str": "Hair: pink, long" }, "description": "You have long pink hair.", "weight": 1 },
-      {
-        "id": "purple",
-        "name": { "str": "Hair: purple, long" },
-        "description": "You have long purple hair.",
-        "weight": 1
-      }
-    ],
-    "types": [ "hair_style" ]
+    "processed_eocs": [ "natural_hair_color_black" ],
+    "types": [ "hair_color" ]
+  },
+  {
+    "type": "mutation",
+    "id": "natural_hair_color_blond",
+    "name": { "str": "Natural hair color: blond" },
+    "points": 0,
+    "description": "You have naturally blond hair.",
+    "starting_trait": true,
+    "valid": false,
+    "purifiable": false,
+    "player_display": false,
+    "vanity": true,
+    "processed_eocs": [ "natural_hair_color_blond" ],
+    "types": [ "hair_color" ]
+  },
+  {
+    "type": "mutation",
+    "id": "natural_hair_color_brown",
+    "name": { "str": "Natural hair color: brown" },
+    "points": 0,
+    "description": "You have naturally brown hair.",
+    "starting_trait": true,
+    "valid": false,
+    "purifiable": false,
+    "player_display": false,
+    "vanity": true,
+    "processed_eocs": [ "natural_hair_color_brown" ],
+    "types": [ "hair_color" ]
+  },
+  {
+    "type": "mutation",
+    "id": "natural_hair_color_gray",
+    "name": { "str": "Natural hair color: gray" },
+    "points": 0,
+    "description": "You have naturally gray hair.",
+    "starting_trait": true,
+    "valid": false,
+    "purifiable": false,
+    "player_display": false,
+    "vanity": true,
+    "processed_eocs": [ "natural_hair_color_gray" ],
+    "types": [ "hair_color" ]
+  },
+  {
+    "type": "mutation",
+    "id": "natural_hair_color_red",
+    "name": { "str": "Natural hair color: red" },
+    "points": 0,
+    "description": "You have naturally red hair.",
+    "starting_trait": true,
+    "valid": false,
+    "purifiable": false,
+    "player_display": false,
+    "vanity": true,
+    "processed_eocs": [ "natural_hair_color_red" ],
+    "types": [ "hair_color" ]
+  },
+  {
+    "type": "mutation",
+    "id": "natural_hair_color_white",
+    "name": { "str": "Natural hair color: white" },
+    "points": 0,
+    "description": "You have naturally white hair.",
+    "starting_trait": true,
+    "valid": false,
+    "purifiable": false,
+    "player_display": false,
+    "vanity": true,
+    "processed_eocs": [ "natural_hair_color_white" ],
+    "types": [ "hair_color" ]
+  },
+  {
+    "type": "mutation",
+    "id": "natural_hair_growth",
+    "name": { "str": "Natural Hair Growth" },
+    "description": "Your hair will naturally grow out into various forms, getting longer over time.  Turning this off will prevent it from growing and changing.",
+    "points": 0,
+    "starting_trait": true,
+    "valid": true,
+    "purifiable": false,
+    "player_display": true,
+    "vanity": true
   }
 ]

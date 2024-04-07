@@ -1,0 +1,342 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_IN_CIVILIZATION_CHECKER_CONDITION",
+    "//": "map_in_city cannot check talker location directly, so this is a substitute for enchantment conditions until that is possible.  It does work on random roads in the middle of nowhere, but that's not such a bad thing.",
+    "condition": {
+      "or": [
+        {
+          "or": [
+            { "u_near_om_location": "FACTION_CAMP_ANY", "range": 6 },
+            { "u_near_om_location": "evac_center_18", "range": 6 },
+            { "u_near_om_location": "isolated_road_field_0", "range": 6 },
+            { "u_near_om_location": "lumbermill_0_0_ocu", "range": 6 },
+            { "u_near_om_location": "ranch_camp_41", "range": 6 },
+            { "u_near_om_location": "godco_5", "range": 6 },
+            { "u_near_om_location": "smallscrapyard_ocu", "range": 4 },
+            { "u_near_om_location": "robofachq_surface_entrance", "range": 6 }
+          ]
+        },
+        {
+          "and": [
+            {
+              "or": [
+                { "u_near_om_location": "road_curved", "range": 3 },
+                { "u_near_om_location": "road_four_way", "range": 3 },
+                { "u_near_om_location": "road_tee", "range": 3 },
+                { "u_near_om_location": "road_straight", "range": 3 },
+                { "u_near_om_location": "road_end", "range": 3 },
+                { "u_near_om_location": "road_sw", "range": 3 },
+                { "u_near_om_location": "road_ne", "range": 3 },
+                { "u_near_om_location": "road_ew", "range": 3 },
+                { "u_near_om_location": "road_ns", "range": 3 },
+                { "u_near_om_location": "road_nesw", "range": 3 },
+                { "u_near_om_location": "road", "range": 3 },
+                { "u_near_om_location": "dirt_road", "range": 3 },
+                { "u_near_om_location": "subway", "range": 3 }
+              ]
+            },
+            {
+              "and": [
+                { "not": { "u_at_om_location": "field" } },
+                { "not": { "u_at_om_location": "forest" } },
+                { "not": { "u_at_om_location": "forest_thick" } },
+                { "not": { "u_at_om_location": "forest_water" } },
+                { "not": { "u_at_om_location": "lake_surface" } },
+                { "not": { "u_at_om_location": "river_center" } }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_SELF_DECEPTION",
+    "effect": {
+      "u_add_morale": "morale_homullus_self_deception",
+      "bonus": 10,
+      "max_bonus": 30,
+      "duration": {
+        "math": [ "( 3600 + (u_spell_level('homullus_self_deception_spell') * 900) ) * scaling_factor(u_val('perception') )" ]
+      },
+      "decay_start": {
+        "math": [ "( 3600 + (u_spell_level('homullus_self_deception_spell') * 900) ) * scaling_factor(u_val('perception') ) / 2" ]
+      }
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_NO_TRACE_ON",
+    "condition": { "not": { "u_has_trait": "NO_TRACE_YET_I_WISH_active" } },
+    "effect": [ { "u_add_trait": "NO_TRACE_YET_I_WISH_active" }, { "u_message": "Your body stops producing scent.", "type": "good" } ],
+    "false_effect": [
+      { "u_lose_trait": "NO_TRACE_YET_I_WISH_active" },
+      { "u_message": "Your body begins producing scent.", "type": "neutral" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_BACKSTAGE_ON",
+    "condition": { "not": { "u_has_trait": "HOMULLUS_BACKSTAGE_active" } },
+    "effect": [
+      { "u_add_trait": "HOMULLUS_BACKSTAGE_active" },
+      { "u_message": "You seem to fade into the background.", "type": "good" }
+    ],
+    "false_effect": [ { "u_lose_trait": "HOMULLUS_BACKSTAGE_active" }, { "u_message": "You become more noticeable.", "type": "neutral" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_RUNNING_GIVE_STAMINA",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": {
+      "and": [ { "u_has_trait": "HOMULLUS_THE_HUNTER2" }, { "compare_string": [ "run", { "context_val": "movement_mode" } ] } ]
+    },
+    "effect": [ { "math": [ "u_val('stamina')", "+=", "rng(40,65)" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_INVISIBLE_TO_HUMANS",
+    "condition": {
+      "or": [
+        "u_is_npc",
+        {
+          "or": [ { "u_has_species": "FERAL" }, { "and": [ { "not": { "u_has_species": "ZOMBIE" } }, { "u_has_species": "HUMAN" } ] } ]
+        }
+      ]
+    },
+    "effect": [
+      {
+        "u_add_effect": "telepathic_ignorance",
+        "duration": {
+          "math": [ "( 6000 + (u_spell_level('homullus_invisible_to_humans_spell') * 3000) ) * scaling_factor(u_val('intelligence') )" ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_DREAMWALKER_GAIN_DREAMDROSS",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": {
+      "and": [
+        { "u_has_trait": "HOMULLUS_DREAMWALKER" },
+        { "x_in_y_chance": { "x": { "math": [ "1 + u_has_trait('THRESH_HOMULLUS')" ] }, "y": 10 } },
+        {
+          "or": [
+            { "npc_allies": 1 },
+            { "u_near_om_location": "evac_center_13", "range": 3 },
+            { "u_near_om_location": "robofachq_surface_entrance", "range": 3 },
+            { "u_near_om_location": "isolated_road_field_0", "range": 2 },
+            { "u_near_om_location": "ranch_camp_41", "range": 3 },
+            { "u_near_om_location": "godco_5", "range": 2 }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "As you awaken from the remnants of another's dreams, you find scraps of dreamdross next to you.",
+        "type": "neutral"
+      },
+      { "u_spawn_item": "scrap_dreamdross", "count": { "math": [ "rng(1,4)" ] } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_GOBLIN_FRUIT",
+    "effect": [
+      {
+        "set_string_var": { "mutator": "loc_relative_u", "target": "(0,0,0)" },
+        "target_var": { "context_val": "homullus_location" }
+      },
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_HOMULLUS_GOBLIN_FRUIT_2",
+            "//": "This EoC is required because map_in_city cannot check talker location directly.",
+            "condition": {
+              "or": [
+                { "u_near_om_location": "evac_center_13", "range": 3 },
+                { "u_near_om_location": "robofachq_surface_entrance", "range": 3 },
+                { "u_near_om_location": "isolated_road_field_0", "range": 2 },
+                { "u_near_om_location": "ranch_camp_41", "range": 3 },
+                { "u_near_om_location": "godco_5", "range": 3 },
+                { "u_at_om_location": "FACTION_CAMP_ANY" },
+                { "map_in_city": { "mutator": "loc_relative_u", "target": "(0,0,0)" } }
+              ]
+            },
+            "effect": [ { "u_cast_spell": { "id": "cultivate_goblin_fruit_real" } } ],
+            "false_effect": [ { "u_message": "You must be in the remnants of civilization to call forth a goblin fruit.", "type": "bad" } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_GAIN_BIONIC_POWER_IN_CITIES",
+    "recurrence": "30 seconds",
+    "condition": { "or": [ { "u_has_any_trait": [ "HOMULLUS_GAIN_BIONIC_POWER", "HOMULLUS_GAIN_BIONIC_POWER_AND_MANA" ] } ] },
+    "effect": [ { "math": [ "u_val('power')", "+=", "energy('1 kJ') + (energy('1 kJ') * u_has_trait('THRESH_HOMULLUS'))" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "HOMULLUS_MIGRATE_TO_MIMIMIZED_MUTATIONS",
+    "//": "For pre-existing homullus characters that don't have the mutation blocker mutation.",
+    "eoc_type": "EVENT",
+    "required_event": "game_begin",
+    "condition": {
+      "and": [
+        { "u_has_trait": "HOMULLUS" },
+        { "not": { "u_has_trait": "HOMULLUS_MINIMIZED_MUTATIONS" } },
+        { "not": { "u_has_trait": "HOMULLUS_EXPANDED_MUTATIONS" } }
+      ]
+    },
+    "effect": [ { "u_add_trait": "HOMULLUS_MINIMIZED_MUTATIONS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_DOLL_FORM_ON",
+    "condition": { "not": { "u_has_trait": "HOMULLUS_DOLL_FORM_TRAITS" } },
+    "effect": [
+      { "u_add_trait": "HOMULLUS_DOLL_FORM_TRAITS" },
+      { "run_eocs": [ "EOC_HOMULLUS_DOLL_FORM_ANGER_RELATIONS", "EOC_HOMULLUS_DOLL_FORM_MOVEMENT_RESETTER" ] },
+      { "u_message": "Your limbs stiffen and your skin takes on an even more waxen appearance.", "type": "good" }
+    ],
+    "false_effect": [
+      { "u_lose_trait": "HOMULLUS_DOLL_FORM_TRAITS" },
+      { "u_lose_trait": "HOMULLUS_DOLL_FORM_ANGER_RELATIONS" },
+      { "u_message": "A small semblance of life returns to you.", "type": "neutral" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_DOLL_FORM_MOVEMENT_COUNTER",
+    "condition": { "math": [ "u_doll_form_movement", ">", "0" ] },
+    "effect": [ { "math": [ "u_doll_form_movement", "-=", "rand(3) + 1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_DOLL_FORM_MOVEMENT_COUNTER_ZERO_CHECKER",
+    "recurrence": "1 s",
+    "condition": { "u_has_trait": "HOMULLUS_DOLL_FORM_TRAITS" },
+    "effect": [
+      {
+        "run_eocs": {
+          "id": "EOC_HOMULLUS_DOLL_FORM_MOVEMENT_COUNTER_ZERO_CHECKER_2",
+          "condition": {
+            "and": [ { "math": [ "u_doll_form_movement", "==", "0" ] }, { "u_has_trait": "HOMULLUS_DOLL_FORM_ANGER_RELATIONS_ATTACKER" } ]
+          },
+          "effect": [ { "run_eocs": "EOC_HOMULLUS_DOLL_FORM_ANGER_RELATIONS_REGAIN" } ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_DOLL_FORM_MOVEMENT_SET_TO_ZERO",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": { "u_has_trait": "HOMULLUS_DOLL_FORM_TRAITS" },
+    "effect": [ { "run_eocs": "EOC_HOMULLUS_DOLL_FORM_MOVEMENT_RESETTER" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_DOLL_FORM_MOVEMENT_RESETTER",
+    "condition": { "math": [ "u_monsters_nearby('radius': 45, 'attitude': 'both')", "==", "0" ] },
+    "effect": [ { "math": [ "u_doll_form_movement", "=", "0" ] }, { "run_eocs": "EOC_HOMULLUS_DOLL_FORM_ANGER_RELATIONS_REGAIN" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_DOLL_FORM_MOVEMENT_INCREASING",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": { "and": [ { "u_has_trait": "HOMULLUS_DOLL_FORM_TRAITS" }, { "math": [ "u_doll_form_movement", "<=", "1000" ] } ] },
+    "effect": [ { "math": [ "u_doll_form_movement", "+=", "rand(10) + 2" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_DOLL_FORM_MOVEMENT_BREAK_CHECKER",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": {
+      "and": [
+        { "u_has_trait": "HOMULLUS_DOLL_FORM_TRAITS" },
+        { "math": [ "u_doll_form_movement", ">", "0" ] },
+        { "x_in_y_chance": { "x": { "math": [ "u_doll_form_movement" ] }, "y": 1000 } }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "As you take another step, you notice hostile eyes turn toward you.  They don't see you as just a doll now.",
+        "type": "bad"
+      },
+      { "run_eocs": "EOC_HOMULLUS_DOLL_FORM_ANGER_RELATIONS_LOSE" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_DOLL_FORM_ANGER_RELATIONS",
+    "condition": { "not": { "u_has_trait": "HOMULLUS_DOLL_FORM_ANGER_RELATIONS_ATTACKER" } },
+    "effect": [ { "u_add_trait": "HOMULLUS_DOLL_FORM_ANGER_RELATIONS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MELEE_MONSTER_CANCEL_TOGGLES",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_monster",
+    "condition": { "and": [ { "u_has_trait": "HOMULLUS_DOLL_FORM_ANGER_RELATIONS" }, { "u_has_trait": "THRESH_HOMULLUS" } ] },
+    "effect": [ { "run_eocs": "EOC_HOMULLUS_DOLL_FORM_ANGER_RELATIONS_LOSE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MELEE_CHARACTER_CANCEL_TOGGLES",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_character",
+    "condition": { "and": [ { "u_has_trait": "HOMULLUS_DOLL_FORM_ANGER_RELATIONS" }, { "u_has_trait": "THRESH_HOMULLUS" } ] },
+    "effect": [ { "run_eocs": "EOC_HOMULLUS_DOLL_FORM_ANGER_RELATIONS_LOSE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RANGED_MONSTER_CANCEL_TOGGLES",
+    "eoc_type": "EVENT",
+    "required_event": "character_ranged_attacks_monster",
+    "condition": { "and": [ { "u_has_trait": "HOMULLUS_DOLL_FORM_ANGER_RELATIONS" }, { "u_has_trait": "THRESH_HOMULLUS" } ] },
+    "effect": [ { "run_eocs": "EOC_HOMULLUS_DOLL_FORM_ANGER_RELATIONS_LOSE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_RANGED_CHARACTER_CANCEL_MIEN",
+    "eoc_type": "EVENT",
+    "required_event": "character_ranged_attacks_character",
+    "condition": { "and": [ { "u_has_trait": "HOMULLUS_DOLL_FORM_ANGER_RELATIONS" }, { "u_has_trait": "THRESH_HOMULLUS" } ] },
+    "effect": [ { "run_eocs": "EOC_HOMULLUS_DOLL_FORM_ANGER_RELATIONS_LOSE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_DOLL_FORM_ANGER_RELATIONS_LOSE",
+    "condition": { "and": [ { "u_has_trait": "HOMULLUS_DOLL_FORM_ANGER_RELATIONS" }, { "u_has_trait": "HOMULLUS_DOLL_FORM_TRAITS" } ] },
+    "effect": [
+      { "u_lose_trait": "HOMULLUS_DOLL_FORM_ANGER_RELATIONS" },
+      { "u_add_trait": "HOMULLUS_DOLL_FORM_ANGER_RELATIONS_ATTACKER" },
+      { "queue_eocs": "EOC_HOMULLUS_DOLL_FORM_ANGER_RELATIONS_REGAIN", "time_in_future": [ 180, 360 ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_DOLL_FORM_ANGER_RELATIONS_REGAIN",
+    "condition": {
+      "and": [ { "u_has_trait": "HOMULLUS_DOLL_FORM_ANGER_RELATIONS_ATTACKER" }, { "u_has_trait": "HOMULLUS_DOLL_FORM_TRAITS" } ]
+    },
+    "effect": [
+      { "u_lose_trait": "HOMULLUS_DOLL_FORM_ANGER_RELATIONS_ATTACKER" },
+      { "u_add_trait": "HOMULLUS_DOLL_FORM_ANGER_RELATIONS" }
+    ],
+    "false_effect": [ { "u_lose_trait": "HOMULLUS_DOLL_FORM_ANGER_RELATIONS_ATTACKER" } ]
+  }
+]

@@ -1,0 +1,62 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_MAGIC_POTENTIAL_CONDUCTS",
+    "recurrence": [ "8 h", "16 h" ],
+    "effect": [
+      {
+        "if": { "math": [ "u_hp('ALL') / 6", "==", "u_hp_max('torso') / 2" ] },
+        "then": [
+          { "math": [ "magic_potential", "++" ] },
+          {
+            "u_message": "Got magic potential from wounds, magic_potential: <global_val:magic_potential>",
+            "type": "debug"
+          }
+        ]
+      },
+      {
+        "if": { "math": [ "u_pain()", ">", "250" ] },
+        "then": [
+          { "math": [ "magic_potential", "++" ] },
+          {
+            "u_message": "Got magic potential from pain, magic_potential: <global_val:magic_potential>",
+            "type": "debug"
+          }
+        ]
+      },
+      {
+        "if": { "math": [ "u_val('morale')", "<", "-100" ] },
+        "then": [
+          { "math": [ "magic_potential", "++" ] },
+          {
+            "u_message": "Got magic potential from depression, magic_potential: <global_val:magic_potential>",
+            "type": "debug"
+          }
+        ]
+      },
+      {
+        "if": {
+          "and": [ { "math": [ "u_counter_portal_storm_counter", ">", "0" ] }, { "math": [ "magic_potential_from_ps", "==", "0" ] } ]
+        },
+        "then": [
+          { "math": [ "magic_potential", "++" ] },
+          { "math": [ "magic_potential_from_ps", "=", "1" ] },
+          {
+            "u_message": "Got magic potential from witnessing the portal storm, magic_potential: <global_val:magic_potential>",
+            "type": "debug"
+          }
+        ]
+      },
+      {
+        "if": { "u_has_effect": "taint" },
+        "then": [
+          { "math": [ "magic_potential", "++" ] },
+          {
+            "u_message": "Got magic potential from tainted mind, magic_potential: <global_val:magic_potential>",
+            "type": "debug"
+          }
+        ]
+      }
+    ]
+  }
+]

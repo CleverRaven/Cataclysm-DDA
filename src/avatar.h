@@ -108,7 +108,6 @@ class avatar : public Character
         bool load_template( const std::string &template_name, pool_type & );
         void save_template( const std::string &name, pool_type );
         void character_to_template( const std::string &name );
-        void add_default_background();
 
         bool is_avatar() const override {
             return true;
@@ -121,6 +120,8 @@ class avatar : public Character
         }
 
         mfaction_id get_monster_faction() const override;
+
+        void witness_thievery( item * ) override {}
 
         std::string get_save_id() const {
             return save_id.empty() ? name : save_id;
@@ -190,6 +191,10 @@ class avatar : public Character
          * Check @ref mission::has_failed to see which case it is.
          */
         void on_mission_finished( mission &cur_mission );
+        /**
+         * Returns true if character has the mission in their active missions list.
+         */
+        bool has_mission_id( const mission_type_id &miss_id );
 
         void remove_active_mission( mission &cur_mission );
 
@@ -267,6 +272,9 @@ class avatar : public Character
         bionic *bionic_by_invlet( int ch );
 
         faction *get_faction() const override;
+        bool is_ally( const Character &p ) const override;
+        bool is_obeying( const Character &p ) const override;
+
         // Set in npc::talk_to_you for use in further NPC interactions
         bool dialogue_by_radio = false;
         // Preferred aim mode - ranged.cpp aim mode defaults to this if possible
@@ -298,6 +306,9 @@ class avatar : public Character
         bool wield( item_location target );
         bool wield( item &target ) override;
         bool wield( item &target, int obtain_cost );
+
+        item::reload_option select_ammo( const item_location &base, bool prompt = false,
+                                         bool empty = true ) override;
 
         /** gets the inventory from the avatar that is interactible via advanced inventory management */
         std::vector<advanced_inv_listitem> get_AIM_inventory( const advanced_inventory_pane &pane,

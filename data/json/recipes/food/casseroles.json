@@ -22,7 +22,7 @@
       [ [ "bell_pepper", 1 ], [ "bell_pepper_cut", 1 ] ],
       [ [ "onion", 1 ] ],
       [ [ "cheese", 6 ], [ "can_cheese", 6 ], [ "cheese_hard", 6 ] ],
-      [ [ "garlic_clove", 1 ] ],
+      [ [ "garlic_clove", 1 ], [ "rehydrated_garlic", 1 ] ],
       [ [ "chilly-p", 7 ], [ "curry_powder", 7 ] ]
     ]
   },
@@ -54,7 +54,7 @@
       [ [ "any_butter_or_oil", 4, "LIST" ] ],
       [ [ "onion", 1 ] ],
       [ [ "cheese_standard", 6, "LIST" ] ],
-      [ [ "garlic_clove", 1 ] ]
+      [ [ "garlic_clove", 1 ], [ "rehydrated_garlic", 1 ] ]
     ]
   },
   {
@@ -77,7 +77,7 @@
       [ [ "spaghetti_raw", 2 ], [ "macaroni_raw", 2 ], [ "noodles_fast", 2 ] ],
       [ [ "corn", 2 ], [ "dry_beans", 2 ], [ "raw_beans", 2 ] ],
       [ [ "broth", 2 ] ],
-      [ [ "carrot", 1 ], [ "irradiated_carrot", 1 ], [ "carrot_wild", 1 ] ],
+      [ [ "carrot", 1 ], [ "carrot_wild", 1 ] ],
       [ [ "milk_standard_raw", 4, "LIST" ], [ "lf_milk_standard", 4, "LIST" ] ],
       [
         [ "seasoning_italian", 7 ],

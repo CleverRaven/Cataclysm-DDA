@@ -3,11 +3,11 @@
     "id": "vitamin_psionic_drain",
     "type": "vitamin",
     "vit_type": "counter",
-    "name": { "str": "Psionic Drain" },
+    "name": { "str": "Nether-Attunement Counter" },
     "excess": "effect_disease_psionic_drain",
     "min": 0,
     "max": 250,
-    "rate": "4 h",
+    "rate": "5 m",
     "disease_excess": [
       [ 15, 34 ],
       [ 35, 54 ],
@@ -22,5 +22,36 @@
       [ 215, 234 ],
       [ 235, 250 ]
     ]
+  },
+  {
+    "id": "passenger_pigeon_aura",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Passenger Pigeon Aura" },
+    "excess": "pigeon_aura",
+    "deficiency": "pigeon_aura_prep",
+    "min": 0,
+    "max": 1000,
+    "rate": "1 m",
+    "disease": [ [ 1, 400 ] ],
+    "disease_excess": [ [ 401, 1000 ] ]
+  },
+  {
+    "id": "vitamin_maintained_powers",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Maintained Powers Counter" },
+    "min": 0,
+    "max": 100,
+    "rate": "0 h"
+  },
+  {
+    "id": "vitamin_psi_learning_counter",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Psionic Powers Learning Counter" },
+    "min": 0,
+    "max": 1,
+    "rate": "0 h"
   }
 ]

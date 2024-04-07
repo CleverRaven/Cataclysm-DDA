@@ -111,7 +111,8 @@
       "HUMAN",
       "CAN_OPEN_DOORS",
       "PATH_AVOID_DANGER_1",
-      "PRIORITIZE_TARGETS"
+      "PRIORITIZE_TARGETS",
+      "WIELDED_WEAPON"
     ],
     "armor": { "bash": 12, "cut": 12, "stab": 6, "acid": 12, "heat": 5 }
   }

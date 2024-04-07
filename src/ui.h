@@ -4,20 +4,19 @@
 
 #include <functional>
 #include <initializer_list>
-#include <iosfwd>
 #include <map>
 #include <memory>
-#include <new>
 #include <optional>
 #include <string>
 #include <type_traits>
 #include <utility>
 #include <vector>
 
+#include "cata_assert.h"
 #include "color.h"
 #include "cuboid_rectangle.h"
 #include "cursesdef.h"
-#include "input.h"
+#include "input_context.h"
 #include "memory_fast.h"
 #include "pimpl.h"
 #include "point.h"
@@ -163,9 +162,9 @@ struct uilist_entry {
     uilist_entry( int retval, bool enabled, int key, const std::string &txt,
                   const nc_color &keycolor, const nc_color &txtcolor );
     template<typename Enum, typename... Args,
-             typename = std::enable_if_t<std::is_enum<Enum>::value>>
-    explicit uilist_entry( Enum e, Args && ... args ) :
-        uilist_entry( static_cast<int>( e ), std::forward<Args>( args )... )
+             typename = std::enable_if_t<std::is_enum_v<Enum>>>
+                                         explicit uilist_entry( Enum e, Args && ... args ) :
+                                             uilist_entry( static_cast<int>( e ), std::forward<Args>( args )... )
     {}
 
     std::optional<inclusive_rectangle<point>> drawn_rect;
@@ -379,6 +378,11 @@ class uilist // NOLINT(cata-xy)
                            const std::string &desc = std::string() );
         void settext( const std::string &str );
 
+        void add_category( const std::string &key, const std::string &name );
+        void set_category( const std::string &key );
+        void set_category_filter( const std::function<bool( const uilist_entry &, const std::string & )>
+                                  &fun );
+
         void reset();
 
         // Can be called before `uilist::query` to keep the uilist on UI stack after
@@ -501,10 +505,15 @@ class uilist // NOLINT(cata-xy)
         int vmax = 0;
 
         int desc_lines = 0;
+        int category_lines = 0;
 
         bool started = false;
 
         bool recalc_start = false;
+
+        std::vector<std::pair<std::string, std::string>> categories;
+        std::function<bool( const uilist_entry &, const std::string & )> category_filter;
+        int current_category = 0;
 
         int find_entry_by_coordinate( const point &p ) const;
 
@@ -517,6 +526,46 @@ class uilist // NOLINT(cata-xy)
         int selected = 0;
 
         void set_selected( int index );
+};
+
+/**
+ *  Hack ui list to behave as a multi column menu
+ */
+class uimenu
+{
+    public:
+        explicit uimenu( int columns ) {
+            cata_assert( columns >= 1 );
+            col_count = columns;
+        }
+        /**
+        * @param retval return value of this option when selected during menu query
+        * @param enable is entry enabled. disabled entries will be grayed out and won't be selectable
+        * @param col_content each string will be displayed on the entry's respective column
+        */
+        void addentry( int retval, bool enabled, const std::vector<std::string> &col_content );
+        void set_selected( int index );
+        void set_title( const std::string &title );
+        int query();
+
+    private:
+        /**
+         * Called in query to calculate sizes for multiple columns.
+         */
+        void finalize_addentries();
+        struct col {
+            col( int i_retval, bool i_enabled, const std::vector<std::string> &i_col_content ) :
+                retval( i_retval ), enabled( i_enabled ), col_content( i_col_content )
+            {};
+            int retval;
+            bool enabled;
+            const std::vector<std::string> col_content;
+        };
+        std::vector<col> cols;
+        uilist menu;
+        int col_count;
+
+        int suggest_width = 74;  // 80 (for min size) - 6 (for edges)
 };
 
 /**
@@ -536,13 +585,14 @@ class pointmenu_cb : public uilist_callback
 };
 
 void kill_advanced_inv();
+void temp_hide_advanced_inv();
 
 /**
  * Helper for typical UI list navigation with wrap-around
  * Add delta to val. If on bounds, wrap to other bound, otherwise clamp to the range [0,size)
  */
 template<typename V, typename S>
-inline typename std::enable_if < !std::is_enum<V>::value, V >::type
+inline std::enable_if_t < !std::is_enum_v<V>, V >
 inc_clamp_wrap( V val, int delta, S size )
 {
     if( size == 0 ) {
@@ -566,7 +616,7 @@ inc_clamp_wrap( V val, int delta, S size )
  * Add 1/-1 to val, then wrap to the range [0,size)
  */
 template<typename V, typename S>
-inline typename std::enable_if < !std::is_enum<V>::value, V >::type
+inline std::enable_if_t < !std::is_enum_v<V>, V >
 inc_clamp_wrap( V val, bool inc, S size )
 {
     return inc_clamp_wrap( val, static_cast<int>( inc ? 1 : -1 ), size );
@@ -578,7 +628,7 @@ inc_clamp_wrap( V val, bool inc, S size )
  * Add 1/-1 to val, then wrap to the range [0,size)
  */
 template<typename T, typename I>
-inline typename std::enable_if<std::is_enum<T>::value, T>::type
+inline std::enable_if_t<std::is_enum_v<T>, T>
 inc_clamp_wrap( T val, I inc, T size )
 {
     return static_cast<T>( inc_clamp_wrap( static_cast<int>( val ), inc, static_cast<int>( size ) ) );
@@ -589,7 +639,7 @@ inc_clamp_wrap( T val, I inc, T size )
  * Add delta to val, then clamp to the range [min,max]
  */
 template<typename V, typename S>
-inline typename std::enable_if < !std::is_enum<V>::value, V >::type
+inline std::enable_if_t < !std::is_enum_v<V>, V >
 inc_clamp( V val, int delta, S min, S max )
 {
     // Templating of existing `unsigned int` triggers linter rules against `unsigned long`
@@ -607,7 +657,7 @@ inc_clamp( V val, int delta, S min, S max )
  * Add 1/-1 to val, then clamp to the range [0,max]
  */
 template<typename V, typename S>
-inline typename std::enable_if < !std::is_enum<V>::value, V >::type
+inline std::enable_if_t < !std::is_enum_v<V>, V >
 inc_clamp( V val, bool inc, S max )
 {
     // NOLINTNEXTLINE(cata-no-long)
@@ -619,7 +669,7 @@ inc_clamp( V val, bool inc, S max )
  * Add delta to val, then clamp to the range [0,max]
  */
 template<typename V, typename S>
-inline typename std::enable_if < !std::is_enum<V>::value, V >::type
+inline std::enable_if_t < !std::is_enum_v<V>, V >
 inc_clamp( V val, int delta, S max )
 {
     // NOLINTNEXTLINE(cata-no-long)
@@ -631,7 +681,7 @@ inc_clamp( V val, int delta, S max )
  * Add 1/-1 to val, then clamp to the range [min,max]
  */
 template<typename V, typename S>
-inline typename std::enable_if < !std::is_enum<V>::value, V >::type
+inline std::enable_if_t < !std::is_enum_v<V>, V >
 inc_clamp( V val, bool inc, S min, S max )
 {
     return inc_clamp( val, inc ? 1 : -1, min, max );
@@ -643,7 +693,7 @@ inc_clamp( V val, bool inc, S min, S max )
  * Add 1/-1 to val, then clamp to the range [0,max]
  */
 template<typename T, typename I>
-inline typename std::enable_if<std::is_enum<T>::value, T>::type
+inline std::enable_if_t<std::is_enum_v<T>, T>
 inc_clamp( T val, I inc, T size )
 {
     return static_cast<T>( inc_clamp( static_cast<int>( val ), inc, static_cast<int>( size ) ) );
@@ -656,5 +706,20 @@ inc_clamp( T val, I inc, T size )
  */
 template<typename V, typename S>
 bool navigate_ui_list( const std::string &action, V &val, int page_delta, S size, bool wrap );
+
+/**
+ * Return indexes [start, end) that should be displayed from list long `num_entries`,
+ * given that cursor is at position `cursor_pos` and we have `available_space` spaces.
+ *
+ * @param focused: if false, behave as if cursor_pos = 0,
+ * useful when other menu is displayed and this should show the beggining
+ *
+ * Example:
+ * num_entries = 6, available_space = 3, cursor_pos = 2, focused = true;
+ * so choose 3 from indexes [0, 1, 2, 3, 4, 5]
+ * return {1, 4}
+ */
+std::pair<int, int> subindex_around_cursor( int num_entries, int available_space, int cursor_pos,
+        bool focused = true );
 
 #endif // CATA_SRC_UI_H

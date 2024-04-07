@@ -10,7 +10,6 @@
 #include <cstdlib>
 #include <cstring>
 #include <map>
-#include <new>
 #include <sstream>
 #include <stack>
 #include <stdexcept>
@@ -25,9 +24,9 @@
 #include "cursesdef.h"
 #include "game_constants.h"
 #include "input.h"
+#include "input_context.h"
 #include "item.h"
 #include "line.h"
-#include "name.h"
 #include "game.h"
 #include "options.h"
 #include "point.h"
@@ -1023,27 +1022,75 @@ static const std::array<translation, 3> item_filter_rule_intros {
     to_translation( "Type part of an item's name to move nearby items to the top." )
 };
 
+namespace
+{
+struct ItemFilterPrefix {
+    char key;
+    translation example;
+    translation description;
+};
+} // namespace
+
+static const std::vector<ItemFilterPrefix> item_filter_prefixes = {
+    { 'c', to_translation( "food" ), to_translation( "<color_cyan>category</color> of item" ) },
+    { 'm', to_translation( "iron" ), to_translation( "<color_cyan>material</color> item is made of" ) },
+    { 'q', to_translation( "hammering" ), to_translation( "<color_cyan>quality</color> provided by tool" ) },
+    { 'n', to_translation( "toolshelf" ), to_translation( "<color_cyan>notes</color> written on item" ) },
+    { 'f', to_translation( "freezerburn" ), to_translation( "<color_cyan>hidden flags</color> of an item" ) },
+    { 's', to_translation( "devices" ), to_translation( "<color_cyan>skill</color> taught by books" ) },
+    { 'd', to_translation( "pipe" ), to_translation( "<color_cyan>disassembled</color> components" ) },
+    { 'v', to_translation( "hand" ), to_translation( "covers <color_cyan>body part</color>" ) },
+    { 'b', to_translation( "mre;sealed" ), to_translation( "items satisfying <color_cyan>both</color> conditions" ) }
+};
+
+static const translation item_filter_help_1 = to_translation(
+            "The default is to search item names.  Some single-character prefixes "
+            "can be used with a colon <color_red>:</color> to search in other ways.  Additional filters "
+            "are separated by commas <color_red>,</color>.\n"
+            "Example: back,flash,aid, ,band\n\n" // NOLINT(cata-text-style): literal comma
+        );
+static const translation item_filter_help_2 = to_translation(
+            "\nPlace [<color_red>--</color>] in front to include only matching items.\n"
+            // An example of how to exclude items with - when filtering items.
+            "Example: steel,-chunk,--c:spare parts"
+        );
+
 std::string item_filter_rule_string( const item_filter_type type )
 {
-    std::ostringstream str;
+    std::string description;
     const int tab_idx = static_cast<int>( type ) - static_cast<int>( item_filter_type::FIRST );
-    str << item_filter_rule_intros[tab_idx];
-    // NOLINTNEXTLINE(cata-text-style): literal comma
-    str << "\n\n" << _( "Separate multiple items with [<color_yellow>,</color>]." );
-    //~ An example of how to separate multiple items with a comma when filtering items.
-    str << "\n" << _( "Example: back,flash,aid, ,band" ); // NOLINT(cata-text-style): literal comma
-    str << "\n\n" << _( "Search [<color_yellow>c</color>]ategory, [<color_yellow>m</color>]aterial, "
-                        "[<color_yellow>q</color>]uality, [<color_yellow>n</color>]otes, "
-                        "[<color_yellow>s</color>]skill taught by books, "
-                        "[<color_yellow>d</color>]isassembled components, or "
-                        "items satisfying [<color_yellow>b</color>]oth conditions." );
-    //~ An example of how to filter items based on category or material.
-    str << "\n" << _( "Example: c:food,m:iron,q:hammering,n:toolshelf,d:pipe,s:devices,b:mre;sealed" );
-    str << "\n\n" << _( "To exclude items, place [<color_yellow>-</color>] in front.  "
-                        "Place [<color_yellow>--</color>] in front to include only matching items." );
-    //~ An example of how to exclude items with - when filtering items.
-    str << "\n" << _( "Example: steel,-chunk,--c:spare parts" );
-    return str.str();
+    description = item_filter_rule_intros[tab_idx] + "\n" + item_filter_help_1.translated();
+
+    int max_example_length = 0;
+    for( const auto &prefix : item_filter_prefixes ) {
+        max_example_length = std::max( max_example_length, utf8_width( prefix.example.translated() ) );
+    }
+    std::string spaces( max_example_length, ' ' );
+    {
+        std::string example_name = _( "shirt" );
+        int padding = max_example_length - utf8_width( example_name );
+        description += string_format(
+                           _( "  <color_white>%s</color>%.*s    %s\n" ),
+                           example_name, padding, spaces,
+                           _( "<color_cyan>name</color> of item" ) );
+
+        std::string example_exclude = _( "rotten" );
+        padding = max_example_length - utf8_width( example_exclude );
+        description += string_format(
+                           _( "  <color_yellow>-</color><color_white>%s</color>%.*s   %s\n" ),
+                           example_exclude, padding, spaces,
+                           _( "<color_cyan>names</color> to exclude" ) );
+    }
+
+    for( const auto &prefix : item_filter_prefixes ) {
+        int padding = max_example_length - utf8_width( prefix.example.translated() );
+        description += string_format(
+                           _( "  <color_yellow>%c</color><color_white>:%s</color>%.*s  %s\n" ),
+                           prefix.key, prefix.example, padding, spaces, prefix.description );
+    }
+
+    description += item_filter_help_2.translated();
+    return description;
 }
 
 void draw_item_filter_rules( const catacurses::window &win, const int starty, const int height,
@@ -1519,12 +1566,12 @@ std::map<size_t, inclusive_rectangle<point>> draw_tabs( const catacurses::window
     std::map<size_t, inclusive_rectangle<point>> tab_map;
 
     int width = getmaxx( w );
-    for( int i = 0; i < width; i++ ) {
-        mvwputch( w, point( i, 2 ), BORDER_COLOR, LINE_OXOX ); // -
+    for( int i = 1; i < width - 1; i++ ) {
+        mvwputch( w, point( i, 2 ), BORDER_COLOR, LINE_OXOX );  // ─
     }
 
-    mvwputch( w, point( 0, 2 ), BORDER_COLOR, LINE_OXXO ); // |^
-    mvwputch( w, point( width - 1, 2 ), BORDER_COLOR, LINE_OOXX ); // ^|
+    mvwputch( w, point( 0, 2 ), BORDER_COLOR, LINE_OXXO );  // ┌
+    mvwputch( w, point( width - 1, 2 ), BORDER_COLOR, LINE_OOXX );  // ┐
 
     const int tab_step = 3;
     int x = 2;
@@ -2440,27 +2487,6 @@ std::string cata::string_formatter::raw_string_format( const char *format, ... )
 }
 #endif
 
-void replace_name_tags( std::string &input )
-{
-    // these need to replace each tag with a new randomly generated name
-    while( input.find( "<full_name>" ) != std::string::npos ) {
-        replace_substring( input, "<full_name>", Name::get( nameFlags::IsFullName ),
-                           false );
-    }
-    while( input.find( "<family_name>" ) != std::string::npos ) {
-        replace_substring( input, "<family_name>", Name::get( nameFlags::IsFamilyName ),
-                           false );
-    }
-    while( input.find( "<given_name>" ) != std::string::npos ) {
-        replace_substring( input, "<given_name>", Name::get( nameFlags::IsGivenName ),
-                           false );
-    }
-    while( input.find( "<town_name>" ) != std::string::npos ) {
-        replace_substring( input, "<town_name>", Name::get( nameFlags::IsTownName ),
-                           false );
-    }
-}
-
 void replace_city_tag( std::string &input, const std::string &name )
 {
     replace_substring( input, "<city>", name, true );
@@ -3066,7 +3092,7 @@ void scrollingcombattext::advanceAllSteps()
     std::vector<cSCT>::iterator iter = vSCT.begin();
 
     while( iter != vSCT.end() ) {
-        if( iter->advanceStep() > this->iMaxSteps ) {
+        if( iter->advanceStep() > iMaxSteps ) {
             iter = vSCT.erase( iter );
         } else {
             ++iter;

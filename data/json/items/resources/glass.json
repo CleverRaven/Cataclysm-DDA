@@ -17,9 +17,10 @@
       "practice": 2,
       "done_message": "You carefully place the shards on the ground, ready to be cracked by something passing by."
     },
-    "flags": [ "HURT_WHEN_WIELDED", "TRADER_AVOID", "SINGLE_USE" ],
+    "flags": [ "HURT_WHEN_WIELDED", "TRADER_AVOID", "SINGLE_USE", "FRAGILE_MELEE", "ALLOWS_BODY_BLOCK" ],
     "to_hit": -1,
-    "melee_damage": { "cut": 6 }
+    "melee_damage": { "cut": 6 },
+    "weapon_category": [ "SHIVS" ]
   },
   {
     "type": "GENERIC",

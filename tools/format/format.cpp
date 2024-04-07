@@ -23,7 +23,7 @@ static void write_object( TextJsonIn &jsin, JsonOut &jsout, int depth, bool forc
         std::string name = jsin.get_member_name();
         jsout.member( name );
         bool override_wrap = false;
-        if( name == "rows" || name == "blueprint" ) {
+        if( name == "rows" || name == "blueprint" || name == "picture" ) {
             // Introspect into the row, if it has more than one element, force it to wrap.
             int in_start_pos = jsin.tell();
             bool ate_separator = jsin.get_ate_separator();
@@ -85,6 +85,15 @@ void formatter::format( TextJsonIn &jsin, JsonOut &jsout, int depth, bool force_
         std::string str = jsin.substr( start_pos, end_pos - start_pos );
         str = str.substr( str.find( '"' ) );
         str = str.substr( 0, str.rfind( '"' ) + 1 );
+        // Replace non-breaking space with escape sequence to avoid confusion.
+        // Since JSON cannot have an nbsp inside an escape sequence this will
+        // produce syntactically valid output as long as the input is
+        // syntactically valid, which `get_string` should have already checked.
+        static const std::string nbsp = "\u00A0";
+        for( size_t pos = str.find( nbsp ); pos != std::string::npos; pos = str.find( nbsp, pos ) ) {
+            str.replace( pos, nbsp.size(), R"(\u00A0)" );
+        }
+        // Write the string
         jsout.write_separator();
         *jsout.get_stream() << str;
         jsout.set_need_separator();

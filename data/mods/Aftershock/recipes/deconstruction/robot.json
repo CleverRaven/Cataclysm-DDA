@@ -2,6 +2,7 @@
   {
     "result": "broken_laserturret_xray",
     "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 4,
     "time": "1 h",

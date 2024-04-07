@@ -120,7 +120,7 @@ class options_manager
                 void setValue( int iSetIn );
 
                 template<typename T>
-                T value_as() const;
+                T value_as( bool convert = false ) const;
 
                 bool operator==( const cOpt &rhs ) const;
                 bool operator!=( const cOpt &rhs ) const {
@@ -191,6 +191,9 @@ class options_manager
                 float fMax = 0.0f;
                 float fDefault = 0.0f;
                 float fStep = 0.0f;
+
+                template<typename T>
+                std::optional<T> _convert() const;
         };
 
         using options_container = std::unordered_map<std::string, cOpt>;
@@ -492,9 +495,9 @@ inline bool has_option( const std::string &name )
 }
 
 template<typename T>
-inline T get_option( const std::string &name )
+inline T get_option( const std::string &name, bool convert = false )
 {
-    return get_options().get_option( name ).value_as<T>();
+    return get_options().get_option( name ).value_as<T>( convert );
 }
 
 #endif // CATA_SRC_OPTIONS_H

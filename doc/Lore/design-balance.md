@@ -23,7 +23,7 @@ Some examples:
 Combat in CDDA should always feel deadly.  In particular, the player should never feel safe being surrounded by multiple zombies, no matter how far in the game they are.  At first this means "regular" zombies; later, as the player approaches transhumanism, it may take multiple transhuman enemies to threaten the player, but at no time should a player be able to shrug off a horde. 
 
 - Zombies should have a "rend" mechanic, allowing groups of them to tear at armour and damage it more effectively than a single zombie might.  This would be enhanced if they can overwhelm and knock down a foe.
-- Almost all players should be limited heavily by fatigue and stamina as they attempt to fight off hordes.
+- Almost all players should be limited heavily by sleepiness and stamina as they attempt to fight off hordes.
 - Even with 'enhanced healing', wounds in CDDA should be severe and limiting.  We are not trying to model a power fantasy.
 - Cities should represent the primary 'dungeons' of CDDA in a roguelike sense (we are not at all near this at the time of this writing).  It should not be possible to clear a city: putting down hundreds of thousands of zombies is not a feasible task.  Even if it were, that high a concentration of pulped zombie-meat should do something: pulping it prevents regeneration, but doesn't make it inert.
 
@@ -62,7 +62,7 @@ As an apocalypse-genre game, we expect interaction with survivors to become a cr
 - As the game development progresses we should continue to remove features that were initially added as substitutes for NPC interaction, as we have been doing with various AI elements.  Examples include autodocs and vending machines.
 
 ### Monster design considerations
-It is tempting to write an ever-increasing flow of monster evolution and difficulty, with perpetually rising armour and damage numbers.  While some of this is desirable, it is important to overuse this as a gameplay principle: it just creates a pretty boring arms race.  Monsters should have tradeoffs just like the player.  This doesn't mean that every durable monster must be slow (quite the opposite) but it does mean that we do not need a heavily armoured hulk variant of every zombie type.  Rather than adding "more", particularly just bigger numbers, consider adding things that encourage new play mechanics.  Some examples of mechanics already in play that shift gameplay without just bumping numbers include:
+It is tempting to write an ever-increasing flow of monster evolution and difficulty, with perpetually rising armour and damage numbers.  While some of this is desirable, it is important not to overuse this as a gameplay principle: it just creates a pretty boring arms race.  Monsters should have tradeoffs just like the player.  This doesn't mean that every durable monster must be slow (quite the opposite) but it does mean that we do not need a heavily armoured hulk variant of every zombie type.  Rather than adding "more", particularly just bigger numbers, consider adding things that encourage new play mechanics.  Some examples of mechanics already in play that shift gameplay without just bumping numbers include:
 
 - Hounds of Tindalos multiplying and teleporting all over the place
 - Shady zombies vanishing into shadows and giving jumpscares
@@ -92,7 +92,7 @@ There are several major reasons guns dominate modern warfare.  They are very eff
 - Only a handful of poorly-performing guns and magazines are craftable by the player, and conventional gunpowder and casings are also not player craftable, though the player can reload existing cases with craftable bullets and gunpowder and primers scavenged from less desirable calibres of ammunition.
 - Guns provide massive firepower in a highly portable package, but can cause trouble by alerting enemies in a wide area to the player's presence.  One of the most vital ways of balancing guns has nothing to do with weapon stats, but instead with properly modeling the effects of **noise**, as described above.
 - Guns present a multi-tiered set of resource limitations that can be adjusted to achieve a desired play balance.  This balance should be informed as much as possible by real life availability of these things.
-- A gun can fire more or less continuously until it's current magazine is depleted of rounds.
+- A gun can fire more or less continuously until its current magazine is depleted of rounds.
 - Spare magazines allow a player to swap in more ammunition to continue firing, and additional magazines provide longer and longer continuous combat capability.
 - Magazines are reloadable, but not in a timeframe reasonable for combat, so the number of loaded magazines a player has on their person places a cap on their sustained damage output.
 - Once a player is able to cease combat, they can relatively rapidly refill magazines, ammunition stores permitting.

@@ -28,6 +28,9 @@ constexpr int EXPLOSION_MULTIPLIER = 7;
 constexpr int MAX_ITEM_IN_SQUARE = 4096;
 // no reason to differ.
 constexpr int MAX_ITEM_IN_VEHICLE_STORAGE = MAX_ITEM_IN_SQUARE;
+// Sanity checks for volume
+constexpr units::volume DEFAULT_TILE_VOLUME = units::from_liter( 1000 );
+constexpr units::volume MAX_ITEM_VOLUME = DEFAULT_TILE_VOLUME;
 // only can wear a maximum of two of any type of clothing.
 constexpr int MAX_WORN_PER_TYPE = 2;
 
@@ -143,13 +146,13 @@ constexpr int BIO_CQB_LEVEL = 5;
 constexpr int HORDE_VISIBILITY_SIZE = 3;
 
 /**
- * Average annual temperature in F used for climate, weather and temperature calculation.
+ * Average annual temperature in Kelvin used for climate, weather and temperature calculation.
  * Average New England temperature = 43F/6C rounded to int.
 */
 constexpr units::temperature AVERAGE_ANNUAL_TEMPERATURE = units::from_fahrenheit( 43 );
 
 /**
- * Base starting spring temperature in F used for climate, weather and temperature calculation.
+ * Base starting spring temperature in Kelvin used for climate, weather and temperature calculation.
  * New England base spring temperature = 65F/18C rounded to int.
 */
 constexpr units::temperature SPRING_TEMPERATURE = units::from_fahrenheit( 65 );

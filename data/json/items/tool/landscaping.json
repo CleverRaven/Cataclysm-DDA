@@ -33,7 +33,9 @@
     "symbol": "/",
     "color": "dark_gray",
     "qualities": [ [ "DIG", 1 ], [ "BUTCHER", -4 ], [ "CUT", 2 ] ],
-    "melee_damage": { "bash": 3, "cut": 5 }
+    "flags": [ "FRAGILE_MELEE", "ALLOWS_BODY_BLOCK", "SHEATH_KNIFE" ],
+    "melee_damage": { "bash": 3, "cut": 5 },
+    "weapon_category": [ "SHIVS" ]
   },
   {
     "id": "hoe",
@@ -168,17 +170,16 @@
     "color": "light_gray",
     "name": { "str": "grim reaper's scythe" },
     "description": "A long, crooked tool used to reap souls, with a skull engraved in its blade.  Let the harvest begin.",
-    "weight": "2721 g",
+    "weight": "586 g",
     "volume": "3550 ml",
     "longest_side": "150 cm",
     "price": 3000,
-    "price_postapoc": 10,
+    "price_postapoc": 5,
     "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "uneven" },
     "material": [ "plastic" ],
-    "techniques": [ "WIDE", "BRUTAL" ],
-    "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE", "POLEARM", "SHEATH_SPEAR", "REACH_ATTACK", "ALWAYS_TWOHAND" ],
+    "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE", "POLEARM", "SHEATH_SPEAR", "REACH_ATTACK" ],
     "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ],
-    "melee_damage": { "bash": 7 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "shovel",
@@ -355,7 +356,27 @@
     "ammo": [ "gasoline" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "gasoline": 600 } } ],
     "charges_per_use": 5,
-    "use_action": [ "TRIMMER_OFF" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Turn on",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_toolweapon_activate__trimmer",
+          "condition": { "math": [ "rng(0, 10) - n_damage_level()", ">", "3" ] },
+          "effect": {
+            "run_eoc_with": "EOC_toolweapon_activate",
+            "variables": {
+              "turn_cost": "0.8",
+              "transform_target": "trimmer_on",
+              "success_message": { "i18n": true, "str": "With a roar, the hedge trimmer leaps to life!" },
+              "volume": "15",
+              "failure_message": { "i18n": true, "str": "You yank the cord, but nothing happens." }
+            }
+          },
+          "false_effect": { "u_message": "You yank the cord, but nothing happens." }
+        }
+      ]
+    },
     "flags": [ "NONCONDUCTIVE" ],
     "melee_damage": { "bash": 4, "cut": 8 }
   },
@@ -368,8 +389,33 @@
     "power_draw": "500 W",
     "charges_per_use": 0,
     "revert_to": "trimmer_off",
-    "use_action": [ "TOOLWEAPON_DEACTIVATE" ],
-    "tick_action": [ "TRIMMER_ON" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Turn off",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_toolweapon_deactivate__trimmer",
+          "effect": { "run_eoc_with": "EOC_toolweapon_deactivate", "variables": { "transform_target": "trimmer_off" } }
+        }
+      ]
+    },
+    "tick_action": {
+      "type": "effect_on_conditions",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_toolweapon_running__trimmer",
+          "effect": {
+            "run_eoc_with": "EOC_toolweapon_running",
+            "variables": {
+              "sound_chance": "15",
+              "sound_message": { "i18n": true, "str": "Your hedge trimmer rumbles." },
+              "volume": "10",
+              "revert_to": "trimmer_off"
+            }
+          }
+        }
+      ]
+    },
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -60 ] ],
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ],
     "melee_damage": { "bash": 4, "cut": 40 }

@@ -1,0 +1,225 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "hallucinate_effect",
+    "global": false,
+    "recurrence": [ "2 hours", "6 hours" ],
+    "condition": {
+      "and": [
+        { "not": { "u_has_effect": "sleep" } },
+        { "not": { "u_has_effect": "took_thorazine" } },
+        { "or": [ { "u_has_trait": "SCHIZOPHRENIC" }, { "u_has_effect": "hallu" } ] }
+      ]
+    },
+    "effect": [
+      {
+        "weighted_list_eocs": [ [ "minor_hallucinations", 10 ], [ "intermediate_hallucinations", 6 ], [ "bad_hallucinations", 4 ] ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "minor_hallucinations",
+    "effect": [
+      {
+        "weighted_list_eocs": [
+          [ "paranoid", 75 ],
+          [ "grandiose", 25 ],
+          [ "self_talk", 14 ],
+          [ "weapon_talk_hallucination", 14 ],
+          [ "false_npc_talk", 12 ]
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "intermediate_hallucinations",
+    "effect": [
+      {
+        "weighted_list_eocs": [ [ "self_shout", 30 ], [ "hear_false_sound", 20 ], [ "formication", 20 ], [ "numbness", 15 ], [ "shaking", 10 ] ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "bad_hallucinations",
+    "effect": [ { "weighted_list_eocs": [ [ "creature_hallucinations", 20 ], [ "visuals", 10 ], [ "hallucination_swarm", 4 ] ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "paranoid",
+    "effect": [
+      { "u_message": "schizo_delusion_paranoid", "snippet": true },
+      {
+        "u_add_morale": "morale_feeling_bad",
+        "bonus": -20,
+        "max_bonus": -100,
+        "duration": "30 minutes",
+        "decay_start": "30 minutes"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "self_talk",
+    "effect": { "u_make_sound": "schizo_self_talk", "volume": 5, "snippet": true, "type": "speech" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "grandiose",
+    "effect": [
+      { "u_message": "schizo_delusion_grandiose", "snippet": true },
+      {
+        "u_add_morale": "morale_feeling_good",
+        "bonus": 20,
+        "max_bonus": 100,
+        "duration": "30 minutes",
+        "decay_start": "30 minutes"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "weapon_talk_hallucination",
+    "//": "Goes in this order: Weapon will fear for its life if injured, then be concerned for yours if you're injured, then alert you to monsters nearby.  Otherwise, random chit-chat.",
+    "condition": {
+      "and": [
+        { "not": { "u_has_effect": "sleep" } },
+        { "not": { "u_has_effect": "took_thorazine" } },
+        { "or": [ { "u_has_trait": "SCHIZOPHRENIC" }, { "u_has_effect": "hallu" } ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "wielded_only": true } ],
+        "true_eocs": [
+          {
+            "id": "injured_talk",
+            "condition": { "math": [ "n_hp('ALL')", "<", "n_hp_max('bp_null')" ] },
+            "effect": { "u_message": "Your <npc_name> says \"<schizo_weapon_talk_damaged>\"" },
+            "false_effect": {
+              "run_eocs": {
+                "id": "you_injured_talk",
+                "//": "Weapon will be concerned for you if you're significantly injured.",
+                "condition": { "math": [ "(u_hp('ALL') * 1.4)", "<", "u_hp_max('bp_null')" ] },
+                "effect": { "u_message": "Your <npc_name> says \"<schizo_weapon_talk_bleeding>\"" },
+                "false_effect": {
+                  "run_eocs": {
+                    "id": "monsters_nearby_talk",
+                    "condition": { "and": [ "u_can_see", { "math": [ "u_monsters_nearby('radius': 10)", ">=", "1" ] } ] },
+                    "effect": { "u_message": "Your <npc_name> says \"<schizo_weapon_talk_monster>\"" },
+                    "false_effect": { "run_eocs": { "id": "normal_talk", "effect": { "u_message": "Your <npc_name> says \"<schizo_weapon_talk_misc>\"" } } }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "run_eocs": {
+          "id": "determine_if_coversation",
+          "//": "85% chance for your weapon to make a conversation.  If not, try again some time later.",
+          "condition": { "x_in_y_chance": { "x": 85, "y": 100 } },
+          "effect": { "queue_eocs": "weapon_talk_hallucination", "time_in_future": [ "10 seconds", "15 seconds" ] },
+          "false_effect": { "queue_eocs": "weapon_talk_hallucination", "time_in_future": [ "4 hours", "6 hours" ] }
+        }
+      }
+    ],
+    "false_effect": { "run_eocs": "minor_hallucinations" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "false_npc_talk",
+    "effect": { "u_message": "<full_name> says \"<lets_talk>\"", "type": "info" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "self_shout",
+    "effect": { "u_make_sound": "schizo_self_shout", "volume": 20, "snippet": true, "type": "speech" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "hear_false_sound",
+    "effect": [ { "u_message": "schizo_hear_sound", "snippet": true, "type": "warning" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "formication",
+    "effect": [
+      { "u_message": "schizo_formication", "snippet": true, "type": "bad" },
+      { "u_add_effect": "formication", "duration": "45 minutes", "target_part": "RANDOM" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "numbness",
+    "effect": [
+      { "u_message": "You suddenly feel so numb…", "type": "mixed" },
+      { "u_add_effect": "pkill1_generic", "duration": "15 minutes" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "shaking",
+    "condition": { "not": { "u_has_effect": "valium" } },
+    "effect": [
+      { "u_message": "You begin to shake uncontrollably.", "type": "mixed" },
+      { "u_add_effect": "shakes", "duration": [ "2 minutes", "5 minutes" ] }
+    ],
+    "false_effect": { "run_eocs": "intermediate_hallucinations" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "creature_hallucinations",
+    "//TODO": "ideally checks is the tile visible, and then spawns hallu where player can't see it",
+    "//": "If monsters are nearby, 3/4 chance to spawn some hallucinations of random monsters nearby and run again half the time, 1/4 chance to spawn some of YOUR_FEARS. If not, spawns some of YOUR_FEARS",
+    "condition": { "and": [ { "math": [ "rand(3)", "<", "3" ] }, { "math": [ "u_monsters_nearby()", ">", "0" ] } ] },
+    "effect": [
+      {
+        "u_spawn_monster": "",
+        "hallucination_count": { "math": [ "1 + rand(4)" ] },
+        "target_range": 50,
+        "lifespan": [ "2 hours", "9 hours" ]
+      },
+      { "weighted_list_eocs": [ [ "creature_hallucinations", 1 ], [ "EOC_NONE", 1 ] ] }
+    ],
+    "false_effect": { "run_eocs": "creature_hallucinations_fears" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "creature_hallucinations_fears",
+    "//TODO": "ideally checks is the tile visible, and then spawns hallu where player can't see it",
+    "effect": {
+      "u_spawn_monster": "GROUP_YOUR_FEARS",
+      "group": true,
+      "hallucination_count": { "math": [ "1 + rand(2)" ] },
+      "max_radius": 40,
+      "lifespan": [ "1 hours", "4 hours" ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "visuals",
+    "effect": [
+      { "u_message": "Your vision becomes very distorted…", "type": "bad" },
+      { "u_add_effect": "visuals", "duration": [ 15, 60 ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "hallucination_swarm",
+    "condition": { "math": [ "u_monsters_nearby()", ">", "1" ] },
+    "effect": [
+      {
+        "u_spawn_monster": "",
+        "hallucination_count": [ 50, 100 ],
+        "target_range": 50,
+        "max_radius": 50,
+        "lifespan": [ "2 hours", "9 hours" ]
+      }
+    ]
+  }
+]

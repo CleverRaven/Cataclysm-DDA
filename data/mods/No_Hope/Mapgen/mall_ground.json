@@ -1,5 +1,128 @@
 [
   {
+    "type": "palette",
+    "id": "nohope_mall_palette_2",
+    "furniture": {
+      "A": "f_stool",
+      "B": "f_chair",
+      "C": "f_armchair",
+      "D": "f_camp_chair",
+      "@": "f_sofa",
+      "F": "f_bench",
+      "G": "f_lab_bench",
+      "I": "f_desk",
+      "J": "f_counter",
+      "ƃ": "f_counter_gate_c",
+      "~": "f_cupboard",
+      "K": "f_table",
+      "L": "f_tourist_table",
+      "M": "f_displaycase",
+      "N": "f_workbench",
+      "O": "f_dresser",
+      "P": "f_locker",
+      "Q": "f_rack",
+      "R": "f_bookcase",
+      "S": "f_filing_cabinet",
+      "T": "f_wardrobe",
+      "U": "f_utility_shelf",
+      "V": "f_glass_cabinet",
+      "W": "f_rack_coat",
+      "X": "f_sign",
+      "Y": "f_trashcan",
+      "Z": "f_shredder",
+      "a": "f_floor_lamp",
+      "b": "f_bigmirror",
+      "c": "f_statue",
+      "d": "f_mannequin",
+      "e": "f_pool_table",
+      "g": "f_arcade_machine",
+      "h": "f_pinball_machine",
+      "i": "f_oven",
+      "j": "f_sink",
+      "k": "f_woodstove",
+      "l": "f_fridge",
+      "m": "f_glass_fridge",
+      "n": "f_dishwasher",
+      "r": "f_wood_keg",
+      "s": "f_metal_butcher_rack",
+      "u": [ "f_vending_c", "f_vending_reinforced" ],
+      "v": "f_gun_safe_el",
+      "w": "f_safe_l",
+      "Я": "f_flower_tulip",
+      "ǝ": "f_coffee_table",
+      "Ħ": "f_rack_wood",
+      "Ʉ": "f_bed",
+      "ȣ": "f_washer",
+      "ȝ": "f_dryer",
+      "Ʃ": "f_entertainment_center",
+      "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
+      "x": [ "f_machinery_light", "f_machinery_heavy", "f_machinery_old", "f_machinery_electronic" ],
+      "?": "f_console_broken",
+      "z": [ [ "f_cardboard_box", 5 ], "f_crate_c" ]
+    },
+    "terrain": {
+      "ɔ": "t_pavement_y",
+      "Г": "t_sidewalk",
+      "˽": "t_pavement",
+      "ɱ": "t_shrub_hydrangea",
+      "ϻ": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
+      "Я": "t_region_groundcover_urban",
+      "ւ": "t_region_groundcover_urban",
+      "Ŋ": "t_elevator_control_off",
+      "ȴ": "t_gutter_downspout",
+      "ȸ": "t_gutter_drop",
+      "θ": "t_door_metal_pickable",
+      " ": "t_open_air",
+      "Ƨ": "t_open_air_rooved",
+      ".": "t_linoleum_gray",
+      ",": "t_linoleum_white",
+      "°": "t_linoleum_gray_no_roof",
+      "³": "t_linoleum_white_no_roof",
+      "_": "t_thconc_floor",
+      "^": "t_floor",
+      "E": "t_elevator",
+      "<": "t_stairs_up",
+      ">": "t_stairs_down",
+      "-": "t_brick_wall",
+      "|": "t_brick_wall",
+      "H": "t_laminated_glass",
+      "#": "t_glass_railing",
+      "+": "t_laminated_door_glass_c",
+      "=": [ "t_door_c", "t_door_locked" ],
+      "p": "t_column",
+      "2": "t_wall_g",
+      "5": "t_wall_wood",
+      "6": "t_carpet_concrete_red",
+      "7": "t_carpet_concrete_green",
+      "8": "t_carpet_concrete_purple",
+      "9": "t_carpet_concrete_yellow",
+      "§": "t_water_pool_shallow_outdoors"
+    },
+    "toilets": { "t": {  } }
+  },
+  {
+    "type": "palette",
+    "id": "mall_palette_basement",
+    "terrain": {
+      ".": "t_thconc_floor",
+      "N": "t_chainfence",
+      "T": "t_chaingate_c",
+      "0": "t_door_metal_pickable",
+      "1": "t_door_metal_locked",
+      "=": [ "t_door_c", "t_door_locked" ],
+      "|": "t_concrete_wall",
+      " ": "t_soil",
+      "3": "t_gates_control_brick",
+      "E": "t_elevator",
+      "<": "t_stairs_up",
+      ">": "t_stairs_down",
+      "Ŋ": "t_elevator_control_off",
+      "H": "t_laminated_glass",
+      "+": "t_laminated_door_glass_c"
+    },
+    "furniture": { "z": [ [ "f_cardboard_box", 5 ], "f_crate_c" ], "F": "f_bench" }
+  },
+  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "mall_a_1", "mall_a_2", "mall_a_3", "mall_a_4", "mall_a_5", "mall_a_6", "mall_a_7", "mall_a_8", "mall_a_9" ] ],
@@ -31,7 +154,7 @@
         "ւГ˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽1___________________________|J____=___zzzzz_______________|ɱււГГ˽˽˽˽˽˽˽˽˽˽ГГɔɔɔɔɔɔɔɔ˽˽˽˽˽˽˽˽˽˽˽˽ɔɔɔɔɔɔɔГГɔɔɔɔɔɔɔɔ˽˽˽˽˽˽˽˽˽˽˽˽ɔɔɔɔɔɔɔГГɔɔɔɔɔɔɔɔ˽˽˽˽˽˽˽˽˽˽˽˽ɔɔɔɔɔɔɔГւ",
         "ւГ˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽1___________________________|j____|___|||||||θθ|||||||||θθ|ւււГГ˽˽˽˽˽˽˽˽˽˽ГГ˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽ГГ˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽ГГ˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽Гւ"
       ],
-      "palettes": [ "mall_palette_2" ],
+      "palettes": [ "nohope_mall_palette_2" ],
       "terrain": { "3": "t_gates_control_brick", "1": "t_door_metal_locked" },
       "place_monsters": [
         { "monster": "GROUP_MALL", "x": [ 2, 23 ], "y": [ 2, 23 ], "density": 0.15 },
@@ -117,7 +240,7 @@
         "ւГ˽˽˽˽˽˽˽˽˽˽Гւււ|^^|_666B6B6B6B6B6B6B66_|666|||||||||||||||||||HHHHH||...,,..³³°°³³°.,,..,,..,,..,,...+.,,.+ГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГ˽˽˽˽˽ɔɔ˽˽˽˽ГւɱЯւϻւЯɱւ",
         "ւГ˽˽˽˽˽˽˽˽˽˽Гււɱ|^^|_666B6B6B6B6B6B6B666=666|^?^^|?^^^^^^^^?^^^MMMMM^|...,,..³³°°³³°.,,..,,..,,..,,...+.,,.+ГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГɱɱɱɱɱГГ˽˽˽˽ɔɔ˽˽˽˽ГւɱɱЯЯЯɱɱւ"
       ],
-      "palettes": [ "mall_palette_2" ],
+      "palettes": [ "nohope_mall_palette_2" ],
       "terrain": {
         "S": "t_thconc_floor",
         "I": "t_thconc_floor",
@@ -236,7 +359,7 @@
         "ւււււГГ˽˽˽˽˽˽˽˽˽˽˽ГГɱϻЯЯɱ#ГFKKFГГFKKFГГГГ+.,,,³4334³4334³°°°³4334³4334³,,,,%,,,°°§§§°°,,,%,,,,,,",
         "ււււււГГ˽˽˽˽˽˽˽˽˽˽˽ГГɱЯЯɱ#ГГFFГГГГFFГГГГГ+.,,,³4334³4334³°°°³4334³4334³,,,,},,°°§§§§§°°,,},,,,,,"
       ],
-      "palettes": [ "mall_palette_2" ],
+      "palettes": [ "nohope_mall_palette_2" ],
       "terrain": {
         "@": "t_carpet_concrete_red",
         "d": "t_carpet_concrete_red",
@@ -348,7 +471,7 @@
         ",,,,,,,,,,,,,F1.c.1F,,,...,,,F1.c.1F,,,,,,,,.|||||||||||||||||==|||||||||||||||||||ɱЯЯЯЯЯɱГГ˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽Гւ",
         ",,,,,,,,,,,,,F11111F,,,,.,,,,F11111F,,,,,,,,.Hd|]ɄɄȣ^ȣȣ^ȝȝ^::^^^^^$$^C^^^^^R^^V^OT|ɱЯЯϻЯЯɱГГɔɔɔɔɔɔɔ˽˽˽˽˽˽˽˽˽˽˽˽ɔɔɔɔɔɔɔГւ"
       ],
-      "palettes": [ "mall_palette_2" ],
+      "palettes": [ "nohope_mall_palette_2" ],
       "terrain": {
         "K": "t_carpet_concrete_green",
         "M": "t_carpet_concrete_green",
@@ -497,7 +620,7 @@
         "ւГ˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽ГГɱЯЯϻɱ|__|[^^^ƃ^666^;H^^^^^^^^^^^^^^^^^^^^^^^^|^^^^^^^((^MH.,,,,³³,",
         "ւГ˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽ГГɱЯЯЯɱ|__|[^^^$^666^;H^6666666666666666666^^^^|Ħ^^((^^((^MH.,,,,³³,"
       ],
-      "palettes": [ "mall_palette_2" ],
+      "palettes": [ "nohope_mall_palette_2" ],
       "terrain": {
         "Q": "t_thconc_floor",
         "z": "t_thconc_floor",
@@ -664,7 +787,7 @@
         ",,,.|H+H|H+H||HH+HH|||=|||_±±_±±_±±_±H.,,,,,...HΔ^^^^$^~|II^|I^^|Ʌ___=_t|t_=__|___|ɱЯЯϻЯЯɱГГ˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽Гւ",
         ",,,.|_______________________________±H.,,,,,...+^^^^^ƃ^^|^^^|^^^|±___|||||||__|___|ɱЯЯЯЯЯɱГГ˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽Гւ"
       ],
-      "palettes": [ "mall_palette_2" ],
+      "palettes": [ "nohope_mall_palette_2" ],
       "place_loot": [
         { "item": "television", "x": 19, "y": 20, "chance": 50 },
         { "item": "veh_tools_kitchen", "x": 27, "y": 22, "chance": 35 },
@@ -852,7 +975,7 @@
         "ւГ˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽ГГɱЯЯЯɱ|___|T^KK^KK^^^^^^^...,,,,,,.HB,,,,,?,,....BBB%BBB.*|||..,.,.",
         "ւГ˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽ГГɱЯЯϻɱ|___|T^^^^^^^^M^M^|H|.,,,,,,.HB,,,,,!!!!!,,,,,,,,,,...|.,.,.,"
       ],
-      "palettes": [ "mall_palette_2" ],
+      "palettes": [ "nohope_mall_palette_2" ],
       "terrain": {
         "±": "t_carpet_concrete_red",
         "Ŧ": "t_carpet_concrete_red",
@@ -1022,7 +1145,7 @@
         ",.,.,.,.,.,.,.,.,.,.,.,.,.,.,.|HH;;;;*.,.%;;;;HH|.,,,,,,,,.|y^$^^00^00^000^00y0|_P|ɱЯЯЯЯЯɱГГ˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽Гւ",
         ".,.,.,.,.,.,.,.,.,.,.,.,.,.,..|...,,,,,,,,,,,...|...,,,,,,.|^^$^^^^^^^^^^^^^^^^=_U|ɱЯЯϻЯЯɱГГ˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽Гւ"
       ],
-      "palettes": [ "mall_palette_2" ],
+      "palettes": [ "nohope_mall_palette_2" ],
       "place_loot": [
         { "item": "hd_tow_cable", "x": 6, "y": 9, "chance": 35 },
         { "item": "jumper_cable", "x": 7, "y": 9, "chance": 35 },
@@ -1186,7 +1309,7 @@
         "ւГ˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽ГГɱЯɱ|||__|;^^^^^^^^^J^^;|MH.,,,,.H±^^JJJƃ|Q^^±±^^±±^^±±^^±±^^^JJJƃ|__A&|6I6H6I6[I66HHHHHHH|",
         "ւГɔɔɔɔɔɔɔ˽˽˽˽˽˽˽˽˽˽˽˽ɔɔɔɔɔɔɔГГɱЯɱɱɱ|__|;^^33^333^ƃ^^;|MH.,,,,.H±^^^^^^|Q^^QQ^^QQ^^QQ^^QQ^^^J^^^=___z|666H6IIII6666666666"
       ],
-      "palettes": [ "mall_palette_2" ],
+      "palettes": [ "nohope_mall_palette_2" ],
       "terrain": {
         "w": "t_carpet_concrete_red",
         ":": "t_carpet_concrete_red",
@@ -1320,7 +1443,7 @@
         "H+H|||3_S|QQQ___|Ʌ777777=7H.,,,,,,.^^^^^^^^9RRRRRRRRRRR9^R|ɱЯЯЯЯЯɱГГ˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽Гւ",
         "666=P||||||||||||ɄɄ777ɄɄ|:H.,,,,,,.^^^^^^^^9999999999999^R|ɱЯЯЯЯЯɱГГɔɔɔɔɔɔɔ˽˽˽˽˽˽˽˽˽˽˽˽ɔɔɔɔɔɔɔГւ"
       ],
-      "palettes": [ "mall_palette_2" ],
+      "palettes": [ "nohope_mall_palette_2" ],
       "terrain": {
         "`": "t_carpet_concrete_red",
         "I": "t_carpet_concrete_red",
@@ -1464,7 +1587,7 @@
         "ւГ˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽ГГɱЯɱ|b^^KK^^Ħ^^Δ^;^^^^^^^^^^^^^^^7((((7^b|j0j0j0|.,,%|:66444664444666b|.....,,,,,,.....|Ħ^^",
         "ւГ˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽ГГɱϻɱ|Ħ^^^^^^Ħ^^^^^^^K^K^^^^^^^^^^777777^Ŧ||||||||.,,u|^66666666666666^^.,,,,,,,,,,,,,,.||||"
       ],
-      "palettes": [ "mall_palette_2" ],
+      "palettes": [ "nohope_mall_palette_2" ],
       "terrain": {
         "0": "t_thconc_floor",
         "U": "t_thconc_floor",
@@ -1601,7 +1724,7 @@
         "yĦĦĦbĦĦĦ^J^^^^~a|bb|b^|&,!,,WW,,&|@666666666666[;[666[±66V|ɱЯЯϻЯЯɱГГ˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽Гւ",
         "||||||||||||θ||||||||||&,!,,WW,,&|±±±±±66666666666666[±66V|ɱЯЯЯЯЯɱГГ˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽Гւ"
       ],
-      "palettes": [ "mall_palette_2" ],
+      "palettes": [ "nohope_mall_palette_2" ],
       "terrain": {
         "3": "t_slot_machine",
         "Δ": "t_atm",
@@ -1770,7 +1893,7 @@
         "ւГ˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽ГɱЯЯɱГ˽˽˽˽˽˽ɔ˽˽˽˽˽˽ɔ˽˽˽˽˽˽ɔ˽˽˽˽˽˽ɔ˽˽˽˽˽˽ГɱЯɱГ˽˽˽˽˽˽ɔ˽˽˽˽˽˽ɔ˽˽˽˽˽˽ɔ˽˽˽˽˽˽ГɱЯɱГ˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽Г",
         "ւГГ˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽ГɱЯϻɱГ˽˽˽˽˽˽ɔ˽˽˽˽˽˽ɔ˽˽˽˽˽˽ɔ˽˽˽˽˽˽ɔ˽˽˽˽˽˽ГɱϻɱГ˽˽˽˽˽˽ɔ˽˽˽˽˽˽ɔ˽˽˽˽˽˽ɔ˽˽˽˽˽˽ГɱϻɱГ˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽Г"
       ],
-      "palettes": [ "mall_palette_2" ],
+      "palettes": [ "nohope_mall_palette_2" ],
       "terrain": {
         "0": "t_thconc_floor",
         "w": "t_thconc_floor",
@@ -1910,7 +2033,7 @@
         "ɱЯɱГ˽˽˽˽˽˽ɔ˽˽˽˽˽˽ɔ˽˽˽˽˽˽ɔ˽˽˽˽˽ГГɱЯɱГГ˽˽˽˽˽ɔ˽˽˽˽˽˽ɔ˽˽˽˽˽˽ɔ˽˽˽˽˽˽ɔ˽˽˽˽˽˽ГɱЯЯɱГ˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽Гւ",
         "ɱϻɱГ˽˽˽˽˽˽ɔ˽˽˽˽˽˽ɔ˽˽˽˽˽˽ɔ˽˽˽˽˽˽ГɱϻɱГ˽˽˽˽˽˽ɔ˽˽˽˽˽˽ɔ˽˽˽˽˽˽ɔ˽˽˽˽˽˽ɔ˽˽˽˽˽˽ГɱЯЯɱГ˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽ГГւ"
       ],
-      "palettes": [ "mall_palette_2" ],
+      "palettes": [ "nohope_mall_palette_2" ],
       "terrain": {
         "@": "t_carpet_concrete_yellow",
         "ǝ": "t_carpet_concrete_yellow",
@@ -2023,7 +2146,7 @@
         "ււГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГ˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽ГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГГււ",
         "ւււււււււււււււււււււււււււււււււււււււււււււււււււււււււււււււււււււււււււււււււււււււււււււււГГ˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽˽ГГւււււււււււււււււււււււււււււււււււււււււււււււււււււււււււււււււււււււււււււււււււււււււււււււ"
       ],
-      "palettes": [ "mall_palette_2" ],
+      "palettes": [ "nohope_mall_palette_2" ],
       "place_monsters": [
         { "monster": "GROUP_MALL", "x": [ 0, 23 ], "y": [ 0, 23 ], "density": 0.15 },
         { "monster": "GROUP_MALL", "x": [ 24, 47 ], "y": [ 0, 23 ], "density": 0.15 },

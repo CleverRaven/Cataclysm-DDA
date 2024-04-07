@@ -1,0 +1,565 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "mut_eyestalk",
+    "recurrence": [ "2 hours 15 minutes", "10 hours 15 minutes" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "EYESTALKS1" },
+        { "not": { "or": [ { "u_has_effect": "visuals" }, { "u_has_effect": "narcosis" } ] } }
+      ]
+    },
+    "deactivate_condition": { "not": { "u_has_trait": "EYESTALKS1" } },
+    "effect": [
+      { "u_message": "Your vision inverts!", "type": "bad" },
+      { "sound_effect": "pixelated", "id": "bionics", "volume": 50 },
+      { "u_add_effect": "visuals", "duration": "10 minutes" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "chitin2_molt_timer1",
+    "recurrence": [ "24 days", "42 days" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "CHITIN2" },
+        { "not": { "u_has_effect": "molting" } },
+        { "not": { "u_has_effect": "molting_imminent" } },
+        { "not": { "u_has_trait": "CHITIN3" } },
+        { "not": { "u_has_trait": "CRUSTACEAN_CARAPACE" } }
+      ]
+    },
+    "effect": [ { "u_add_effect": "molting", "intensity": 1, "duration": "PERMANENT" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "chitin2_molt_timer2",
+    "recurrence": [ "1 days", "2 days" ],
+    "condition": {
+      "and": [
+        { "u_has_effect": "molting" },
+        { "not": { "u_has_effect": "molting_imminent" } },
+        { "not": { "u_has_trait": "CHITIN3" } },
+        { "not": { "u_has_trait": "CRUSTACEAN_CARAPACE" } }
+      ]
+    },
+    "effect": [ { "u_add_effect": "molting_imminent", "intensity": 1, "duration": "PERMANENT" }, { "u_lose_effect": "molting" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "chitin2_molt_timer_3",
+    "recurrence": [ "1 hours", "3 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_effect": "molting_imminent" },
+        { "not": { "u_has_effect": "molting" } },
+        { "not": { "u_has_trait": "CHITIN3" } },
+        { "not": { "u_has_trait": "CRUSTACEAN_CARAPACE" } }
+      ]
+    },
+    "effect": [
+      { "u_add_effect": "narcosis", "duration": "5 minutes" },
+      { "u_add_effect": "sleep", "duration": "5 minutes" },
+      {
+        "u_message": "Your exoskeleton grows steadily more rigid until you can no longer move.  You strain against it for a few minutes, and it peels and cracks away in chunks like a plaster mold, revealing a soft and tender new layer beneath.",
+        "type": "bad"
+      },
+      { "u_lose_trait": "CHITIN2" },
+      { "u_lose_trait": "CHITIN" },
+      { "u_lose_effect": "molting_imminent" },
+      { "u_spawn_item": "chitin_piece", "count": 3 },
+      { "u_add_trait": "CHITIN_MOLTED" },
+      { "u_add_trait": "CHITIN2_MOLTED" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "chitin2_molt_timer4",
+    "recurrence": [ "8 hours", "12 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "CHITIN2_MOLTED" },
+        { "not": { "u_has_effect": "molting" } },
+        { "not": { "u_has_effect": "molting_imminent" } },
+        { "not": { "u_has_trait": "CHITIN3_MOLTED" } },
+        { "not": { "u_has_trait": "CRUSTACEAN_CARAPACE_MOLTED" } }
+      ]
+    },
+    "effect": [
+      { "u_message": "Your exoskeleton has finished hardening.", "type": "good" },
+      { "u_lose_trait": "CHITIN_MOLTED" },
+      { "u_lose_trait": "CHITIN2_MOLTED" },
+      { "u_add_trait": "CHITIN" },
+      { "u_add_trait": "CHITIN2" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "chitin3_molt_timer1",
+    "recurrence": [ "24 days", "42 days" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "CHITIN2" },
+        { "or": [ { "u_has_trait": "CHITIN3" }, { "u_has_trait": "CRUSTACEAN_CARAPACE" } ] },
+        { "not": { "u_has_effect": "molting" } },
+        { "not": { "u_has_effect": "molting_imminent" } }
+      ]
+    },
+    "effect": [ { "u_add_effect": "molting", "intensity": 1, "duration": "PERMANENT" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "chitin3_molt_timer2",
+    "recurrence": [ "1 days", "2 days" ],
+    "condition": {
+      "and": [
+        { "u_has_effect": "molting" },
+        { "u_has_trait": "CHITIN2" },
+        { "or": [ { "u_has_trait": "CHITIN3" }, { "u_has_trait": "CRUSTACEAN_CARAPACE" } ] },
+        { "not": { "u_has_effect": "molting_imminent" } }
+      ]
+    },
+    "effect": [ { "u_add_effect": "molting_imminent", "intensity": 1, "duration": "PERMANENT" }, { "u_lose_effect": "molting" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "chitin3_molt_timer3",
+    "recurrence": [ "1 hours", "3 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "CHITIN2" },
+        { "u_has_trait": "CHITIN3" },
+        { "u_has_effect": "molting_imminent" },
+        { "not": { "u_has_effect": "molting" } }
+      ]
+    },
+    "effect": [
+      { "u_add_effect": "narcosis", "duration": "15 minutes" },
+      { "u_add_effect": "sleep", "duration": "15 minutes" },
+      {
+        "u_message": "Your exoskeleton locks up around you like a straitjacket, completely immobilizing you.  As you try to move, you begin to feel it painlessly rip, opening a hole through which you can slowly emerge, raw, soft, and vulnerable.",
+        "type": "bad"
+      },
+      { "u_lose_trait": "CHITIN3" },
+      { "u_lose_trait": "CHITIN2" },
+      { "u_lose_trait": "CHITIN" },
+      { "u_lose_effect": "molting_imminent" },
+      { "u_spawn_item": "chitin_piece", "count": 4 },
+      { "u_add_trait": "CHITIN_MOLTED" },
+      { "u_add_trait": "CHITIN2_MOLTED" },
+      { "u_add_trait": "CHITIN3_MOLTED" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "chitin3_molt_timer4",
+    "recurrence": [ "8 hours", "12 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "CHITIN2_MOLTED" },
+        { "u_has_trait": "CHITIN3_MOLTED" },
+        { "not": { "u_has_effect": "molting" } },
+        { "not": { "u_has_effect": "molting_imminent" } }
+      ]
+    },
+    "effect": [
+      { "u_message": "Your exoskeleton has finished hardening.", "type": "good" },
+      { "u_lose_trait": "CHITIN3_MOLTED" },
+      { "u_lose_trait": "CHITIN2_MOLTED" },
+      { "u_lose_trait": "CHITIN_MOLTED" },
+      { "u_add_trait": "CHITIN" },
+      { "u_add_trait": "CHITIN2" },
+      { "u_add_trait": "CHITIN3" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "chitin_carapace_molt_timer3",
+    "recurrence": [ "1 hours", "3 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "CHITIN2" },
+        { "u_has_trait": "CRUSTACEAN_CARAPACE" },
+        { "u_has_effect": "molting_imminent" },
+        { "not": { "u_has_effect": "molting" } }
+      ]
+    },
+    "effect": [
+      { "u_add_effect": "narcosis", "duration": "15 minutes" },
+      { "u_add_effect": "sleep", "duration": "15 minutes" },
+      {
+        "u_message": "Your exoskeleton locks up around you like a straitjacket, completely immobilizing you.  As you try to move, you begin to feel it painlessly rip, opening a hole through which you can slowly emerge, raw, soft, and vulnerable.",
+        "type": "bad"
+      },
+      { "u_lose_trait": "CRUSTACEAN_CARAPACE" },
+      { "u_lose_trait": "CHITIN2" },
+      { "u_lose_trait": "CHITIN" },
+      { "u_lose_effect": "molting_imminent" },
+      { "u_spawn_item": "chitin_piece", "count": 5 },
+      { "u_add_trait": "CHITIN_MOLTED" },
+      { "u_add_trait": "CHITIN2_MOLTED" },
+      { "u_add_trait": "CRUSTACEAN_CARAPACE_MOLTED" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "chitin_carapace_molt_timer4",
+    "recurrence": [ "8 hours", "12 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "CHITIN2_MOLTED" },
+        { "u_has_trait": "CRUSTACEAN_CARAPACE_MOLTED" },
+        { "not": { "u_has_effect": "molting" } },
+        { "not": { "u_has_effect": "molting_imminent" } }
+      ]
+    },
+    "effect": [
+      { "u_message": "Your exoskeleton has finished hardening.", "type": "good" },
+      { "u_lose_trait": "CRUSTACEAN_CARAPACE_MOLTED" },
+      { "u_lose_trait": "CHITIN2_MOLTED" },
+      { "u_lose_trait": "CHITIN_MOLTED" },
+      { "u_add_trait": "CHITIN" },
+      { "u_add_trait": "CHITIN2" },
+      { "u_add_trait": "CRUSTACEAN_CARAPACE" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "rashy_skin",
+    "recurrence": [ "2 hour", "24 hours" ],
+    "condition": { "and": [ { "u_has_trait": "SKIN_RASHY" }, { "not": { "u_has_effect": "formication" } } ] },
+    "effect": [ { "u_add_effect": "formication", "duration": "10 minutes", "target_part": "random" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "hay_fever_spring_fall",
+    "recurrence": [ "6 hours", "4 days" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "SEASONAL_ALLERGIES" },
+        { "or": [ { "is_season": "spring" }, { "is_season": "autumn" } ] },
+        { "not": { "u_has_effect": "took_flumed" } },
+        { "not": { "u_has_effect": "took_antihistamine" } },
+        { "not": { "u_has_effect": "hay_fever" } }
+      ]
+    },
+    "effect": [
+      { "u_message": "Your eyes water and your nose itches.", "type": "bad" },
+      { "u_add_effect": "hay_fever", "duration": { "math": [ "rand(28800) + 600" ] } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "hay_fever_summer",
+    "recurrence": [ "8 hours", "8 days" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "SEASONAL_ALLERGIES" },
+        { "is_season": "SUMMER" },
+        { "not": { "u_has_effect": "took_flumed" } },
+        { "not": { "u_has_effect": "took_antihistamine" } },
+        { "not": { "u_has_effect": "hay_fever" } }
+      ]
+    },
+    "effect": [
+      { "u_message": "Your eyes water and your nose itches.", "type": "bad" },
+      { "u_add_effect": "hay_fever", "duration": { "math": [ "rand(28800) + 600" ] } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "sneeze",
+    "recurrence": [ "45 seconds", "30 minutes" ],
+    "condition": {
+      "and": [
+        { "u_has_effect": "hay_fever" },
+        { "not": { "u_has_effect": "took_antihistamine" } },
+        { "not": { "u_has_effect": "narcosis" } }
+      ]
+    },
+    "effect": [
+      { "u_message": "You sneeze!", "type": "bad" },
+      { "u_add_effect": "sneezing", "duration": "1 second" },
+      { "u_make_sound": "a sneeze!", "volume": 10, "type": "speech" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "shed_summer_timer_lupine",
+    "recurrence": [ "1 days", "7 days" ],
+    "condition": { "and": [ { "is_season": "summer" }, { "u_has_trait": "LUPINE_FUR" } ] },
+    "effect": [
+      { "u_message": "You've been shedding for a while, and your coat feels noticeably lighter.", "type": "good" },
+      { "u_lose_trait": "LUPINE_FUR" },
+      { "u_add_trait": "LUPINE_FUR_SUMMER" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "regrow_timer_lupine",
+    "recurrence": [ "5 days", "15 days" ],
+    "condition": { "and": [ { "u_has_trait": "LUPINE_FUR_SUMMER" }, { "not": { "is_season": "summer" } } ] },
+    "effect": [
+      { "u_message": "It looks like your coat has grown back in for the colder seasons.", "type": "good" },
+      { "u_lose_trait": "LUPINE_FUR_SUMMER" },
+      { "u_add_trait": "LUPINE_FUR" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "shed_summer_timer_ursine",
+    "recurrence": [ "1 days", "7 days" ],
+    "condition": { "and": [ { "is_season": "summer" }, { "u_has_trait": "URSINE_FUR" } ] },
+    "effect": [
+      { "u_message": "You've been shedding for a while, and your coat feels noticeably lighter.", "type": "good" },
+      { "u_lose_trait": "URSINE_FUR" },
+      { "u_add_trait": "URSINE_FUR_SUMMER" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "regrow_timer_ursine",
+    "recurrence": [ "5 days", "15 days" ],
+    "condition": { "and": [ { "u_has_trait": "URSINE_FUR_SUMMER" }, { "not": { "is_season": "summer" } } ] },
+    "effect": [
+      { "u_message": "It looks like your coat has grown back in for the colder seasons.", "type": "good" },
+      { "u_lose_trait": "URSINE_FUR_SUMMER" },
+      { "u_add_trait": "URSINE_FUR" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "seasonal_affective_fall",
+    "recurrence": [ "5 days", "20 days" ],
+    "condition": {
+      "and": [ { "u_has_trait": "SEASONAL_AFFECTIVE" }, { "is_season": "autumn" }, { "not": { "u_has_effect": "took_prozac" } } ]
+    },
+    "effect": [
+      { "u_message": "It's only fall, but you already miss the summer sun.", "type": "bad" },
+      {
+        "u_add_morale": "morale_feeling_bad",
+        "bonus": -15,
+        "max_bonus": -15,
+        "duration": { "math": [ "rand(216000) + 86400" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "seasonal_affective_winter",
+    "recurrence": [ "3 days", "12 days" ],
+    "condition": {
+      "and": [ { "u_has_trait": "SEASONAL_AFFECTIVE" }, { "is_season": "winter" }, { "not": { "u_has_effect": "took_prozac" } } ]
+    },
+    "effect": [
+      { "u_message": "The long, cold nights really get you feeling down.", "type": "bad" },
+      {
+        "u_add_morale": "morale_feeling_bad",
+        "bonus": -15,
+        "max_bonus": -15,
+        "duration": { "math": [ "rand(432000) + 86400" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ink_grand_spray",
+    "//": "will cast 'ink_gland_spray' spell when player has stored ink charges",
+    "condition": { "math": [ "u_effect_intensity('ink_gland_ink')", ">", "1" ] },
+    "effect": [
+      { "u_cast_spell": { "id": "ink_gland_spray" } },
+      { "u_message": "Your ink glands spray some ink into your attacker's eyes!", "type": "good" },
+      {
+        "u_add_effect": "ink_gland_ink",
+        "duration": "PERMANENT",
+        "intensity": { "math": [ "u_effect_intensity('ink_gland_ink') - 1" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ink_gland_recharge_timer",
+    "//": "will regenerate ink for ink glands to spray ~3 charges per hour",
+    "recurrence": [ "18 minutes", "22 minutes" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "INK_GLANDS" },
+        { "not": { "u_has_effect": "ink_gland_ink", "intensity": 4 } },
+        { "math": [ "u_val('stored_kcal_percentage')", ">", "33" ] },
+        { "math": [ "u_val('instant_thirst')", "<", "240" ] }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_val('stored_kcal')", "-=", "47" ] },
+      { "math": [ "u_val('thirst')", "+=", "4" ] },
+      {
+        "u_add_effect": "ink_gland_ink",
+        "duration": "PERMANENT",
+        "intensity": { "math": [ "u_effect_intensity('ink_gland_ink') + 1" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ink_gland_ink_cleanup",
+    "eoc_type": "EVENT",
+    "required_event": "loses_mutation",
+    "//": "will remove ink_gland_ink effect when the mutation is lost",
+    "condition": { "and": [ { "u_has_effect": "ink_gland_ink" }, { "compare_string": [ "INK_GLANDS", { "context_val": "trait" } ] } ] },
+    "effect": [ { "u_lose_effect": "ink_gland_ink" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_insect_wings_shutoff",
+    "recurrence": [ "1 seconds", "1 seconds" ],
+    "condition": { "and": [ { "math": [ "u_val('stamina')", "<", "3000" ] }, { "u_has_trait": "WINGS_INSECT_active" } ] },
+    "effect": [
+      { "u_activate_trait": "WINGS_INSECT_active" },
+      { "u_message": "You don't have the stamina to keep buzzing.", "type": "bad" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_social1_bonus",
+    "recurrence": [ "10 minutes", "30 minutes" ],
+    "//": "Alcohol and sedatives prevent the bad effects of these EOCs.  Antidepressants prevent (but don't remove) both the good and bad effects, keeping you at a baseline state.",
+    "condition": {
+      "and": [
+        { "u_has_flag": "SOCIAL1" },
+        { "not": { "u_has_effect": "took_prozac" } },
+        { "math": [ "u_characters_nearby('radius': 30)", ">", "0" ] },
+        { "not": { "u_has_effect": "narcosis" } }
+      ]
+    },
+    "effect": [
+      { "u_lose_effect": "social_dissatisfied" },
+      { "u_lose_effect": "social_satisfied" },
+      { "u_add_effect": "social_satisfied", "duration": "2 hours" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_social2_bonus",
+    "recurrence": [ "10 minutes", "30 minutes" ],
+    "condition": {
+      "and": [
+        { "u_has_flag": "SOCIAL2" },
+        { "not": { "u_has_effect": "took_prozac" } },
+        { "math": [ "u_characters_nearby('radius': 30, 'attitude': 'allies')", ">", "0" ] },
+        { "not": { "u_has_effect": "narcosis" } }
+      ]
+    },
+    "effect": [
+      { "u_lose_effect": "social_dissatisfied" },
+      { "u_lose_effect": "social_satisfied" },
+      { "u_add_effect": "social_satisfied", "duration": "6 hours" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_social2_penalty",
+    "recurrence": [ "30 minutes", "90 minutes" ],
+    "condition": {
+      "and": [
+        { "u_has_flag": "SOCIAL2" },
+        { "math": [ "u_characters_nearby('radius': 30, 'attitude': 'allies')", "==", "0" ] },
+        { "not": { "u_has_effect": "took_prozac" } },
+        { "not": { "u_has_effect": "valium" } },
+        { "not": { "u_has_effect": "took_xanax" } },
+        { "not": { "u_has_effect": "drunk" } },
+        { "not": { "u_has_effect": "narcosis" } }
+      ]
+    },
+    "effect": [
+      { "u_lose_effect": "social_satisfied" },
+      {
+        "u_add_effect": "social_dissatisfied",
+        "duration": "PERMANENT",
+        "intensity": { "math": [ "u_effect_intensity('social_dissatisfied') + 1" ] }
+      },
+      { "u_message": "You could use some friendly company.", "type": "bad" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_asocial1_bonus",
+    "recurrence": [ "10 minutes", "30 minutes" ],
+    "condition": {
+      "and": [
+        { "u_has_flag": "ASOCIAL1" },
+        { "not": { "u_has_effect": "took_prozac" } },
+        { "math": [ "u_characters_nearby('radius': 30)", "==", "0" ] },
+        { "not": { "u_has_effect": "narcosis" } }
+      ]
+    },
+    "effect": [
+      { "u_lose_effect": "asocial_dissatisfied" },
+      { "u_lose_effect": "asocial_satisfied" },
+      { "u_add_effect": "asocial_satisfied", "duration": "2 hours" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_asocial2_bonus",
+    "recurrence": [ "10 minutes", "30 minutes" ],
+    "condition": {
+      "and": [
+        { "u_has_flag": "ASOCIAL2" },
+        { "math": [ "u_characters_nearby('radius': 30)", "==", "0" ] },
+        { "not": { "u_has_effect": "took_prozac" } },
+        { "not": { "u_has_effect": "narcosis" } }
+      ]
+    },
+    "effect": [ { "u_lose_effect": "asocial_dissatisfied" }, { "u_add_effect": "asocial_satisfied", "duration": "6 hours" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_asocial2_penalty",
+    "recurrence": [ "30 minutes", "90 minutes" ],
+    "condition": {
+      "and": [
+        { "u_has_flag": "ASOCIAL2" },
+        { "not": { "u_has_effect": "took_prozac" } },
+        { "not": { "u_has_effect": "valium" } },
+        { "not": { "u_has_effect": "took_xanax" } },
+        { "not": { "u_has_effect": "drunk" } },
+        { "math": [ "u_characters_nearby('radius': 30)", ">", "0" ] },
+        { "not": { "u_has_effect": "narcosis" } }
+      ]
+    },
+    "effect": [
+      { "u_lose_effect": "asocial_satisfied" },
+      {
+        "u_add_effect": "asocial_dissatisfied",
+        "duration": "PERMANENT",
+        "intensity": { "math": [ "u_effect_intensity('asocial_dissatisfied') + 1" ] }
+      },
+      { "u_message": "You'd really rather be by yourself.", "type": "bad" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_social_reset_sleep",
+    "recurrence": [ "30 minutes", "45 minutes" ],
+    "condition": {
+      "and": [
+        { "or": [ { "u_has_effect": "narcosis" }, { "u_has_effect": "sleep" } ] },
+        { "or": [ { "u_has_effect": "social_dissatisfied" }, { "u_has_effect": "social_dissatisfied" } ] }
+      ]
+    },
+    "effect": [ { "u_lose_effect": "asocial_dissatisfied" }, { "u_lose_effect": "social_dissatisfied" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_social_reset_drugs",
+    "recurrence": [ "1 seconds", "1 seconds" ],
+    "//": "Sedatives are effective at acutely treating social anxiety/autophobia.  Enjoy your benzo addiction, survivors.",
+    "condition": {
+      "and": [
+        { "or": [ { "u_has_effect": "valium" }, { "u_has_effect": "took_xanax" } ] },
+        { "or": [ { "u_has_effect": "social_dissatisfied" }, { "u_has_effect": "social_dissatisfied" } ] }
+      ]
+    },
+    "effect": [ { "u_lose_effect": "asocial_dissatisfied" }, { "u_lose_effect": "social_dissatisfied" } ]
+  }
+]

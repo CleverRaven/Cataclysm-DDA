@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout"
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: "Get current date"
         uses: 1466587594/get-current-time@v2
         id: current-date
@@ -33,7 +33,7 @@ jobs:
           echo "date=$( date +"%Y-%m-%d" -d $CURR_DATE )" >> $GITHUB_OUTPUT
           echo "old_date=$LAST_WEEK" >> $GITHUB_OUTPUT
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v4
+        uses: peter-evans/create-pull-request@v6
         with:
           commit-message: Weekly Changelog ${{ steps.getting-changes.outputs.old_date }} to ${{ steps.getting-changes.outputs.date }}
           committer: David Seguin <davidseguin@live.ca>

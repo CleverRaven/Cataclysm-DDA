@@ -84,7 +84,10 @@
   {
     "id": "TALK_OLD_GUARD_REP_NEW_DOWNSIDE",
     "type": "talk_topic",
-    "dynamic_line": "Well… I was like any other civilian till they conscripted me so I'll tell it to you straight.  They're the best hope we got right now.  They are stretched impossibly thin but are willing to do what is needed to maintain order.  They don't care much about looters since they understand most everyone is dead, but if you have something they need… you WILL give it to them.  Since most survivors here have nothing they want, they are welcomed as champions.",
+    "dynamic_line": {
+      "gendered_line": "Well… I was like any other civilian till they conscripted me so I'll tell it to you straight.  They're the best hope we got right now.  They are stretched impossibly thin but are willing to do what is needed to maintain order.  They don't care much about looters since they understand most everyone is dead, but if you have something they need… you WILL give it to them.  Since most survivors here have nothing they want, they are welcomed as champions.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [ { "text": "Hmmm…", "topic": "TALK_OLD_GUARD_REP" } ]
   },
   {
@@ -118,7 +121,10 @@
   {
     "id": "TALK_OLD_GUARD_REP_EXODII_1",
     "type": "talk_topic",
-    "dynamic_line": "If you want to know what our next steps are, I'm not at liberty to tell you.  Truth be told, I don't even know myself.  They don't share that sort of information with me.",
+    "dynamic_line": {
+      "gendered_line": "If you want to know what our next steps are, I'm not at liberty to tell you.  Truth be told, I don't even know myself.  They don't share that sort of information with me.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       {
         "text": "Actually, I've met them.  They seem open to trade and things.  Thought you might want to know.",
@@ -168,7 +174,7 @@
     "speaker_effect": {
       "effect": [
         { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" },
-        { "u_adjust_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "adjustment": 2 }
+        { "math": [ "u_mission_cleanup_promises_Boris_mission_1", "+=", "2" ] }
       ]
     },
     "responses": [ { "text": "Thanks, that's great news!", "topic": "TALK_OLD_GUARD_REP" } ]
@@ -242,18 +248,20 @@
     "id": "MISSION_OLD_GUARD_REP_3",
     "type": "mission_definition",
     "name": { "str": "Find Source of Robots" },
-    "description": "I don't usually hear much from command, but we got a message by radio recently.  You might be the right choice to look into it for me.  There've been reports of weird robots and things wandering around since things went south.  Dunno how, but apparently command tracked down what they think is the source.  They want someone to go check out who is making these, and if we can get any tech or assistance from them.  This is strictly recon, you understand: could be a hostile entity, so do not engage directly.",
-    "goal": "MGOAL_GO_TO",
+    "description": "Go to the supposed source of the weird robots marked on your map and report back to the Old Guard representative what you've seen.",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": { "u_has_var": "u_scouted_exodii", "type": "missions", "context": "old_guard", "value": "yes" },
     "difficulty": 2,
     "value": 10000,
     "start": {
-      "assign_mission_target": { "om_terrain": "exodii_base_x0y3z0", "om_special": "exodii_base", "reveal_radius": 5, "search_range": 400 }
+      "assign_mission_target": { "om_terrain": "exodii_base_x0y3z0", "om_special": "exodii_base", "reveal_radius": 5, "search_range": 400 },
+      "effect": [ { "math": [ "old_guard_rep_scouting", "=", "1" ] } ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_OLD_GUARD_REP_4",
     "dialogue": {
       "describe": "Got a weird one for you this time…",
-      "offer": "I don't usually hear much from command, but we got a message by radio recently.  You might be the right choice to look into it for me.  There've been reports of weird robots and things wandering around since things went south.  Dunno how, but apparently command tracked down what they think is the source.  They want someone to go check out who is making these, and if we can get any tech or assistance from them.  This is strictly recon, you understand: could be a hostile entity, so do not engage directly.",
+      "offer": "I don't usually hear much from command, but we got a message by radio recently.  You might be the right choice to look into it for me.  There've been reports of weird robots and things wandering around since things went south.  Dunno how, but apparently command tracked down what they think is the source.  They want someone to go check out who is making these, and if we can get any tech or assistance from them.  This is strictly recon, you understand: could be a hostile entity, so do not engage directly.  Report back to me when you've found out something.",
       "accepted": "Thanks, once you know who it is, report back to me and I'll pass that on.",
       "rejected": "Come back when you get a chance, if there's any chance these things are on our side, we need all the help we can get.",
       "advice": "If you see any weird machines around, do not engage.  Sneak away, I'd say.  They seem to be hostile to zombies, but that doesn't mean they can tell you aren't one.",
@@ -315,7 +323,7 @@
       },
       "update_mapgen": { "place_npcs": [ { "class": "bandit", "x": 17, "y": 9, "target": true } ] },
       "effect": [
-        { "u_spawn_item": "ruger_redhawk" },
+        { "u_spawn_item": "sw629" },
         { "u_spawn_item": "44magnum", "count": 17 },
         { "u_spawn_item": "western_holster" },
         { "u_spawn_item": "badge_marshal" },
@@ -323,6 +331,7 @@
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_OLD_GUARD_REPEATER_BEGIN",
     "dialogue": {
       "describe": "We need help…",
       "offer": "I've located a Hell's Raiders encampment in the region that appears to be coordinating operations against the Free Merchants.  We know almost nothing about the command structure in the 'gang' so I need to send someone in to decapitate the leadership.  The raid will be held under orders of the U.S. Marshals Service and by agreeing to the mission you will become a marshal, swearing to assist the federal government in regaining order.",
@@ -333,6 +342,74 @@
       "success": "Marshal, you continue to impress us.  We may have some hope of long term survival yet thanks to you.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways…"
+    }
+  },
+  {
+    "id": "MISSION_OLD_GUARD_REPEATER_BEGIN",
+    "type": "mission_definition",
+    "name": { "str": "Install radio repeater mod" },
+    "description": "The Old Guard wishes to expand their range of communications to get in touch with other survivors in the Wasteland.  Find a Radio Station and install a repeater mod via its terminal.",
+    "goal": "MGOAL_COMPUTER_TOGGLE",
+    "difficulty": 5,
+    "value": 5000,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_OLD_GUARD_REPEATER",
+    "dialogue": {
+      "describe": "I don't need anything major for now, Marshal.  Well, except…",
+      "offer": "For now, the perimeter of the Refugee Center is free of threats.  That means we can afford to divert our attention to others in need of help.  However, our communication with the wasteland is lacking at best and nonexistent at worst.  We need to broaden our reach to intercept and send radio broadcasts.  Unfortunately Radio Towers are out of the question to widen our broadcasts, as the emergency grid for them is out of action.  However, Radio Stations in towns or urban areas should still have some juice left.  I want you to install something called a \"radio repeater mod\" in these stations that can broaden their reach and allow them to pick weaker signals.  Sadly, I have neither these devices nor a manual for them at my disposal.  You'll need to find instructions and assemble them yourself.  Are you up for this task?",
+      "accepted": "As I said, I have no repeaters or manuals at my disposal.  But you might want to try you chances in Libraries or maybe other survivors.  Godspeed, Marshal.",
+      "rejected": "Come back when you get a chance Marshal.  We really need get in touch with rest of the region.",
+      "advice": "As I recommended, libraries would be a good start.  Or any place that sells books and manuals, really.",
+      "inquire": "Have you set up a repeater yet, Marshal?",
+      "success": "Thank you for the good work, Marshal.  It's not much but please accept these supplies to compensate.  Come back to me if you are willing to install more.",
+      "success_lie": "Huh; that's weird, the boys at comms say that they didn't really see an improvement.  Well, if you want to try again, come to me.  Maybe this time it'll work.",
+      "failure": "That's a damn shame…  You can come back anytime if you want to try again."
+    },
+    "end": {
+      "effect": [
+        { "u_spawn_item": "jerky", "container": "bag_plastic", "count": 5 },
+        { "u_spawn_item": "water_clean", "container": "bottle_twoliter", "count": 8 },
+        { "u_spawn_item": "bandages", "count": 5 },
+        { "u_spawn_item": "9mmP", "container": "box_small", "count": 15 },
+        { "u_spawn_item": "9mmfmj", "container": "box_small", "count": 15 },
+        { "u_spawn_item": "9mm", "container": "box_small", "count": 30 },
+        { "u_spawn_item": "556", "container": "box_small", "count": 60 },
+        { "u_spawn_item": "FMCNote", "count": 25 }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_OLD_GUARD_REPEATER",
+    "type": "mission_definition",
+    "name": { "str": "Install radio repeater mod" },
+    "description": "The Old Guard wishes to expand their range of communications to get in touch with other survivors in the Wasteland.  Find a Radio Station and install a repeater mod via its terminal.",
+    "goal": "MGOAL_COMPUTER_TOGGLE",
+    "difficulty": 5,
+    "value": 5000,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_OLD_GUARD_REPEATER",
+    "dialogue": {
+      "describe": "We need more help…",
+      "offer": "We need more repeaters to expand our range and ability of our communications.  You know the drill Marshal, find or assemble a radio repeater mod and set it up in a Radio Station.  Radio Towers are still off the table.",
+      "accepted": "Stay safe, Marshal.",
+      "rejected": "Come back when you get a chance Marshal.  We really need get in touch with rest of the region.",
+      "advice": "You can find the Radio Stations in towns or urban centers.  I still have no repeater mod available Marshal.  However you can craft one yourself, if you find the manual.  Try libraries or bookstores if you still don't have one.",
+      "inquire": "Have you set up a repeater yet, Marshal?",
+      "success": "Good work, Marshal.  Here's some supplies for your next venture.  Come back to me if you are willing to install more.",
+      "success_lie": "Huh, that's weird, the boys at comms say that they didn't really see an improvement.  Well, if you want to try again, come to me.  Maybe this time it'll work.",
+      "failure": "Oh well, you can try again anytime."
+    },
+    "end": {
+      "effect": [
+        { "u_spawn_item": "jerky", "container": "bag_plastic", "count": 5 },
+        { "u_spawn_item": "water_clean", "container": "bottle_twoliter", "count": 8 },
+        { "u_spawn_item": "bandages", "count": 5 },
+        { "u_spawn_item": "9mmP", "container": "box_small", "count": 15 },
+        { "u_spawn_item": "9mmfmj", "container": "box_small", "count": 15 },
+        { "u_spawn_item": "9mm", "container": "box_small", "count": 30 },
+        { "u_spawn_item": "556", "container": "box_small", "count": 60 },
+        { "u_spawn_item": "FMCNote", "count": 25 }
+      ]
     }
   }
 ]

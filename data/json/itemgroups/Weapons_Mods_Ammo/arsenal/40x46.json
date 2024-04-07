@@ -3,7 +3,7 @@
     "type": "item_group",
     "id": "milspec_arsenal_40x46_gun&mags&cans",
     "subtype": "collection",
-    "items": [ { "group": "milspec_arsenal_40x46_gun&ammo" }, { "item": "ammunition_can_pa120", "count": [ 1, 4 ] } ]
+    "items": [ { "group": "milspec_arsenal_40x46_gun&ammo" }, { "item": "ammunition_crate_40x46_72", "count": [ 1, 3 ] } ]
   },
   {
     "type": "item_group",
@@ -29,17 +29,5 @@
     "type": "item_group",
     "id": "milspec_arsenal_40x46",
     "items": [ { "item": "m320", "prob": 100 }, { "item": "m79", "prob": 50 }, { "item": "mgl", "prob": 5 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "ammo_can_40x46mm_m433_full",
-    "container-item": "ammunition_can_pa120",
-    "items": [ { "item": "40x46mm_m433", "count": 1, "charges-min": 32, "charges-max": 32 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "ammo_can_40x46mm_m433_part",
-    "container-item": "ammunition_can_pa120",
-    "items": [ { "item": "40x46mm_m433", "count": 1, "charges-min": 2, "charges-max": 16 } ]
   }
 ]

@@ -11,7 +11,7 @@
 template<typename E>
 class enum_bitset
 {
-        static_assert( std::is_enum<E>::value, "the template argument is not an enum." );
+        static_assert( std::is_enum_v<E>, "the template argument is not an enum." );
         static_assert( has_enum_traits<E>::value,
                        "a specialization of 'enum_traits<E>' template containing 'last' element of the enum must be defined somewhere.  "
                        "The `last` constant must be of the same type as the enum itself."
@@ -21,6 +21,7 @@ class enum_bitset
         enum_bitset() = default;
         enum_bitset( const enum_bitset & ) = default;
         enum_bitset &operator=( const enum_bitset & ) = default;
+        explicit constexpr enum_bitset( unsigned long long val ) noexcept : bits( val ) {}
 
         bool operator==( const enum_bitset &rhs ) const noexcept {
             return bits == rhs.bits;
@@ -49,6 +50,11 @@ class enum_bitset
             return *this;
         }
 
+        enum_bitset &set() noexcept {
+            bits.set();
+            return *this;
+        }
+
         enum_bitset &reset( E e ) {
             bits.reset( get_pos( e ) );
             return *this;
@@ -61,6 +67,18 @@ class enum_bitset
 
         bool test( E e ) const {
             return bits.test( get_pos( e ) );
+        }
+
+        bool any() const noexcept {
+            return bits.any();
+        }
+
+        bool all() const noexcept {
+            return bits.all();
+        }
+
+        bool none() const noexcept {
+            return bits.none();
         }
 
         static constexpr size_t size() noexcept {
@@ -81,10 +99,26 @@ class enum_bitset
         }
     private:
         static constexpr size_t get_pos( E e ) noexcept {
-            return static_cast<size_t>( static_cast<typename std::underlying_type<E>::type>( e ) );
+            return static_cast<size_t>( static_cast<std::underlying_type_t<E>>( e ) );
         }
 
         std::bitset<enum_bitset<E>::size()> bits;
 };
+
+template <typename E>
+enum_bitset<E> operator&( const enum_bitset<E> &lhs, const enum_bitset<E> &rhs ) noexcept
+{
+    enum_bitset<E> ret( lhs );
+    ret &= rhs;
+    return ret;
+}
+
+template <typename E>
+enum_bitset<E> operator|( const enum_bitset<E> &lhs, const enum_bitset<E> &rhs ) noexcept
+{
+    enum_bitset<E> ret( lhs );
+    ret |= rhs;
+    return ret;
+}
 
 #endif // CATA_SRC_ENUM_BITSET_H

@@ -61,8 +61,8 @@
         "|####||55||SS||55||####|",
         "|||||| YY      YY ||||||"
       ],
-      "palettes": [ "microlab" ],
-      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_concrete_red", "5": "t_door_metal_c" },
+      "palettes": [ "microlab_generic" ],
+      "terrain": { "5": "t_door_metal_c" },
       "furniture": { "A": "f_xedra_antenna" },
       "item": { "m": { "item": "xedra_microphone", "chance": 90 }, "s": { "item": "xedra_seismograph", "chance": 90 } },
       "items": { "ú": { "item": "SUS_evac_shelter_locker_used", "chance": 95 } },

@@ -36,12 +36,26 @@
     "dodge": 2,
     "vision_day": 30,
     "vision_night": 15,
+    "families": [ "prof_intro_biology", "prof_physiology" ],
     "harvest": "mammal_tiny",
     "dissect": "dissect_rat_sample_single",
     "path_settings": { "max_dist": 10 },
+    "stomach_size": 30,
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "special_attacks": [ [ "EAT_FOOD", 120 ] ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "KEENNOSE", "CANPLAY", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1" ]
+    "flags": [
+      "SEES",
+      "SMELLS",
+      "HEARS",
+      "KEENNOSE",
+      "CANPLAY",
+      "WARM",
+      "SWIMS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "EATS",
+      "SMALL_HIDER"
+    ]
   },
   {
     "id": "mon_big_rat",
@@ -73,16 +87,20 @@
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "fear_triggers": [ "HURT", "FIRE" ],
     "regen_morale": true,
+    "stomach_size": 60,
     "special_attacks": [
       {
         "type": "bite",
         "cooldown": 10,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 6, "armor_multiplier": 0.7 } ]
       },
-      { "id": "scratch", "max_mul": 1.5 }
+      { "id": "scratch", "max_mul": 1.5 },
+      [ "EAT_FOOD", 120 ],
+      [ "EAT_CARRION", 120 ]
     ],
     "attack_effs": [ { "id": "rat_bite_fever", "duration": 400, "chance": 10 } ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1", "EATS", "SMALL_HIDER" ],
+    "families": [ "prof_intro_biology", "prof_physiology" ],
     "harvest": "mutant_mammal_small_fur",
     "dissect": "dissect_rat_sample_single"
   },
@@ -100,8 +118,10 @@
     "melee_dice": 1,
     "melee_dice_sides": 1,
     "special_when_hit": [ "ZAPBACK", 100 ],
+    "special_attacks": [ [ "EAT_FOOD", 120 ], [ "EAT_CARRION", 120 ] ],
+    "families": [ "prof_intro_biology", "prof_physiology", "prof_electromagnetics" ],
     "upgrades": { "half_life": 42, "into_group": "GROUP_RATKIN_EVOLVED" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ELECTRIC", "ANIMAL", "PATH_AVOID_DANGER_1" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ELECTRIC", "ANIMAL", "PATH_AVOID_DANGER_1", "EATS", "SMALL_HIDER" ],
     "emit_fields": [ { "emit_id": "emit_shock_burst_rat", "delay": "5 s" } ]
   },
   {
@@ -123,6 +143,7 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 3,
+    "stomach_size": 120,
     "upgrades": { "half_life": 42, "into_group": "GROUP_RATKIN_EVOLVED" },
     "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
     "special_attacks": [
@@ -135,11 +156,13 @@
         "min_mul": 1,
         "max_mul": 2.1,
         "infection_chance": 4
-      }
+      },
+      [ "EAT_FOOD", 120 ],
+      [ "EAT_CARRION", 120 ]
     ],
     "attack_effs": [ { "id": "rat_bite_fever", "duration": 400, "chance": 20 } ],
     "zombify_into": "mon_meat_cocoon_tiny",
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "PATH_AVOID_DANGER_1", "CAN_DIG" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "PATH_AVOID_DANGER_1", "CAN_DIG", "EATS" ],
     "dissect": "dissect_rat_sample_small",
     "armor": { "bash": 5, "cut": 6, "bullet": 2 }
   },
@@ -165,6 +188,7 @@
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE", "FRIEND_ATTACKED", "STALK" ],
     "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
     "death_drops": "ratkin_death_drops_pack_rat",
+    "stomach_size": 800,
     "special_attacks": [
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 17, "armor_multiplier": 0.8 } ] },
       {
@@ -175,10 +199,12 @@
         "min_mul": 1,
         "max_mul": 2.1,
         "infection_chance": 4
-      }
+      },
+      [ "EAT_FOOD", 120 ],
+      [ "EAT_CARRION", 120 ]
     ],
     "attack_effs": [ { "id": "rat_bite_fever", "duration": 400, "chance": 20 } ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "PATH_AVOID_DANGER_1", "CAN_DIG" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "PATH_AVOID_DANGER_1", "CAN_DIG", "EATS" ],
     "armor": { "bash": 5, "cut": 6, "bullet": 2 }
   },
   {
@@ -203,13 +229,14 @@
     "melee_dice_sides": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 3,
+    "stomach_size": 800,
     "death_drops": "ratkin_death_drops_teke",
     "dissect": "dissect_alpha_sample_small",
     "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
     "special_when_hit": [ "ZAPBACK", 100 ],
-    "special_attacks": [ { "id": "teke_push" } ],
+    "special_attacks": [ { "id": "teke_push" }, [ "EAT_FOOD", 120 ], [ "EAT_CARRION", 120 ] ],
     "zombify_into": "mon_meat_cocoon_tiny",
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "RANGED_ATTACKER", "ELECTRIC", "PATH_AVOID_DANGER_1" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "RANGED_ATTACKER", "ELECTRIC", "PATH_AVOID_DANGER_1", "EATS" ],
     "armor": { "bash": 15, "cut": 3, "bullet": 26 }
   },
   {
@@ -232,13 +259,20 @@
     "aggro_character": false,
     "melee_dice": 6,
     "melee_dice_sides": 4,
+    "stomach_size": 800,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 4,
     "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
     "death_drops": "ratkin_death_drops_mausketeer",
-    "special_attacks": [ { "id": "impale" }, { "type": "bite", "cooldown": 15 }, { "id": "longswipe" } ],
+    "special_attacks": [
+      { "id": "impale" },
+      { "type": "bite", "cooldown": 15 },
+      { "id": "longswipe" },
+      [ "EAT_FOOD", 120 ],
+      [ "EAT_CARRION", 120 ]
+    ],
     "zombify_into": "mon_meat_cocoon_tiny",
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ELECTRIC", "PATH_AVOID_DANGER_1" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ELECTRIC", "PATH_AVOID_DANGER_1", "EATS" ],
     "dissect": "dissect_rat_sample_small",
     "armor": { "bash": 10, "cut": 10, "bullet": 6 }
   }

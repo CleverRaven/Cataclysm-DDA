@@ -1,9 +1,8 @@
 [
   {
-    "id": "45colt_jhp",
+    "abstract": "45colt_fmj",
     "type": "AMMO",
-    "name": { "str_sp": ".45 Colt JHP" },
-    "description": ".45 Colt ammunition with a 250gr jacketed hollow point bullet.  Originally designed for the Colt Single Action Army, and still used for modern reproduction revolvers.  Originally a black powder cartridge, modern loads can make this round competitive in the new era.",
+    "name": { "str_sp": ".45 +P Colt FMJ abstract" },
     "weight": "25 g",
     "volume": "190 ml",
     "longest_side": "41 mm",
@@ -18,18 +17,122 @@
     "ammo_type": "45colt",
     "casing": "45colt_casing",
     "range": 16,
-    "damage": { "damage_type": "bullet", "amount": 25, "armor_penetration": 2 },
+    "//": ".452in, 225gr, 5.6 grains Lovex D013.  It's hard to find non-expanding .45 LC loaded at +P pressures, so this is just an abstract for the +P JHP loadings.",
+    "damage": {
+      "damage_type": "bullet",
+      "amount": 25,
+      "armor_penetration": 2,
+      "barrels": [
+        { "barrel_length": "29 mm", "amount": 15 },
+        { "barrel_length": "33 mm", "amount": 16 },
+        { "barrel_length": "39 mm", "amount": 17 },
+        { "barrel_length": "46 mm", "amount": 18 },
+        { "barrel_length": "54 mm", "amount": 19 },
+        { "barrel_length": "64 mm", "amount": 20 },
+        { "barrel_length": "66 mm", "amount": 21 },
+        { "barrel_length": "91 mm", "amount": 22 },
+        { "barrel_length": "116 mm", "amount": 23 },
+        { "barrel_length": "141 mm", "amount": 24 },
+        { "barrel_length": "166 mm", "amount": 25 },
+        { "barrel_length": "216 mm", "amount": 26 },
+        { "barrel_length": "291 mm", "amount": 27 },
+        { "barrel_length": "390 mm", "amount": 28 },
+        { "barrel_length": "540 mm", "amount": 29 },
+        { "barrel_length": "790 mm", "amount": 30 },
+        { "barrel_length": "1165 mm", "amount": 31 },
+        { "barrel_length": "1249 mm", "amount": 32 }
+      ]
+    },
     "dispersion": 50,
     "recoil": 600,
     "effects": [ "COOKOFF" ]
   },
   {
+    "id": "45colt_cowboy",
+    "copy-from": "45colt_fmj",
+    "type": "AMMO",
+    "name": { "str_sp": ".45 Colt LFN cowboy" },
+    "description": ".45 Long Colt ammunition with a 250gr lead flat nose bullet.  Originally designed for the Colt Single Action Army, and still used for modern reproduction revolvers.  This ammunition is loaded to be safer in antiques and for cowboy action shooting, and is thus less powerful than other, hotter loads.",
+    "relative": { "range": -4, "recoil": -300 },
+    "//": ".452in, 250, 45 LC FP WMEX 2091, 4.8gr Lovex D013.  Emulating Fiocchi 250gr Cowboy action loads.",
+    "damage": {
+      "damage_type": "bullet",
+      "amount": 20,
+      "armor_penetration": 0,
+      "barrels": [
+        { "barrel_length": "29 mm", "amount": 12 },
+        { "barrel_length": "34 mm", "amount": 13 },
+        { "barrel_length": "42 mm", "amount": 14 },
+        { "barrel_length": "49 mm", "amount": 15 },
+        { "barrel_length": "58 mm", "amount": 16 },
+        { "barrel_length": "70 mm", "amount": 17 },
+        { "barrel_length": "84 mm", "amount": 18 },
+        { "barrel_length": "101 mm", "amount": 19 },
+        { "barrel_length": "105 mm", "amount": 20 },
+        { "barrel_length": "155 mm", "amount": 21 },
+        { "barrel_length": "180 mm", "amount": 22 },
+        { "barrel_length": "230 mm", "amount": 23 },
+        { "barrel_length": "329 mm", "amount": 24 },
+        { "barrel_length": "429 mm", "amount": 25 },
+        { "barrel_length": "603 mm", "amount": 26 },
+        { "barrel_length": "852 mm", "amount": 27 },
+        { "barrel_length": "1245 mm", "amount": 28 }
+      ]
+    }
+  },
+  {
+    "id": "reloaded_45colt_cowboy",
+    "copy-from": "45colt_cowboy",
+    "type": "AMMO",
+    "name": { "str_sp": ".45 Colt LFN, reloaded" },
+    "description": ".45 Long Colt ammunition with a 250gr lead flat nose bullet.  Originally designed for the Colt Single Action Army, and still used for modern reproduction revolvers.  This ammunition is loaded to be safer in antiques and for cowboy action shooting, and is thus less powerful than other, hotter loads.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
+    "proportional": { "price": 0.7, "price_postapoc": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "bp_45colt_cowboy",
+    "copy-from": "45colt_cowboy",
+    "type": "AMMO",
+    "name": { "str_sp": ".45 Colt LFN, black powder" },
+    "description": ".45 Long Colt ammunition with a 250gr lead flat nose bullet.  Originally designed for the Colt Single Action Army, and still used for modern reproduction revolvers.  This ammunition is loaded to be safer in antiques and for cowboy action shooting, and is thus less powerful than other, hotter loads.  This ammunition has been loaded with black powder, either for Cowboy Action Shooting, or the ongoing post-apocalypse.  Maybe both.",
+    "proportional": {
+      "price": 0.3,
+      "price_postapoc": 0.3,
+      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
+      "recoil": 0.76,
+      "dispersion": 1.2
+    },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "matchhead_45colt_cowboy",
+    "copy-from": "bp_45colt_cowboy",
+    "type": "AMMO",
+    "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
+    "name": { "str_sp": ".45 Colt LFN, matchhead powder" },
+    "description": "45 Long Colt ammunition with a 250gr lead flat nose bullet.  This one was a victim of a truly desperate survivor, being loaded with powder from ground match heads.  Red phosphorous is less energetic than even black powder, but its fast burn rate also limits the amount that can be used due to the danger of blowing up the gun from overpressure.  As a result, it's even weaker than its black powder counterpart, and the ammo is still dirty and corrosive meaning it needs to be cleaned quickly or else the gun will suffer.",
+    "proportional": { "price": 0.5, "price_postapoc": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
+    "extend": { "effects": [ "MATCHHEAD" ] }
+  },
+  {
+    "id": "45colt_jhp",
+    "copy-from": "45colt_fmj",
+    "type": "AMMO",
+    "name": { "str_sp": ".45 Colt +P JHP" },
+    "description": "Jacketed .45 Colt ammunition with a 225gr hollow point bullet, loaded much hotter than regular loads for this cartridge.  Hollowpoints in this venerable caliber were issued by the occasional police department looking for extra lethality before the '97 North Hollywood shootout.  Since then they were mostly used for home defense, and now by the post-apocalyptic cowboy.",
+    "//": "Winchester Silvertip.",
+    "ascii_picture": "45colt_jhp",
+    "relative": { "damage": { "damage_type": "bullet", "amount": 2, "armor_penetration": -2 } }
+  },
+  {
     "id": "reloaded_45colt_jhp",
     "copy-from": "45colt_jhp",
     "type": "AMMO",
-    "name": { "str_sp": ".45 Colt JHP, reloaded" },
-    "description": ".45 Colt ammunition with a 250gr jacketed hollow point bullet.  Originally designed for the Colt Single Action Army, and still used for modern reproduction revolvers.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
-    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
+    "name": { "str_sp": ".45 Colt +P JHP, reloaded" },
+    "description": "Jacketed .45 Colt ammunition with a 250gr hollow point bullet, loaded much hotter than regular loads for this cartridge.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
+    "proportional": { "price": 0.7, "price_postapoc": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
@@ -38,9 +141,10 @@
     "copy-from": "45colt_jhp",
     "type": "AMMO",
     "name": { "str_sp": ".45 Colt JHP, black powder" },
-    "description": ".45 Colt ammunition with a 250gr jacketed hollow point bullet.  Originally designed for the Colt Single Action Army, and still used for modern reproduction revolvers.  The resource scarcity of the Cataclysm inspired someone to hand-reload this one with black powder, bringing the round closer to its original incarnation.  It's kind of poetic, when you think about it.",
+    "description": "Jacketed .45 Colt ammunition with a 250gr hollow point bullet, loaded much hotter than regular ammunition.  The resource scarcity of the Cataclysm inspired someone to hand-reload this one with black powder, bringing the round closer to its original incarnation.  It's kind of poetic, when you think about it.",
     "proportional": {
       "price": 0.3,
+      "price_postapoc": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2
@@ -55,8 +159,44 @@
     "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
     "name": { "str_sp": ".45 Colt JHP, matchhead powder" },
     "description": ".45 Colt ammunition with a 250gr jacketed hollow point bullet.  This one was a victim of a truly desperate survivor, being loaded with powder from ground match heads.  Red phosphorous is less energetic than even black powder, but its fast burn rate also limits the amount that can be used due to the danger of blowing up the gun from overpressure.  As a result, it's even weaker than its black powder counterpart, and the ammo is still dirty and corrosive meaning it needs to be cleaned quickly or else the gun will suffer.",
-    "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
+    "proportional": { "price": 0.5, "price_postapoc": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
     "looks_like": "bp_45colt_jhp",
+    "extend": { "effects": [ "MATCHHEAD" ] }
+  },
+  {
+    "id": "reloaded_45colt_fmj",
+    "copy-from": "45colt_fmj",
+    "type": "AMMO",
+    "name": { "str_sp": ".45 Colt +P FMJ, reloaded" },
+    "description": "Jacketed .45 Long Colt ammunition with a 225gr bullet.  Originally designed for the Colt Single Action Army, and still used for modern reproduction revolvers.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
+    "proportional": { "price": 0.7, "price_postapoc": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "bp_45colt_fmj",
+    "copy-from": "45colt_fmj",
+    "type": "AMMO",
+    "name": { "str_sp": ".45 Colt FMJ, black powder" },
+    "description": "Jacketed .45 Long Colt ammunition with a 225gr bullet.  Originally designed for the Colt Single Action Army, and still used for modern reproduction revolvers.  The resource scarcity of the Cataclysm inspired someone to hand-reload this one with black powder, bringing the round closer to its original incarnation.  It's kind of poetic, when you think about it.",
+    "proportional": {
+      "price": 0.3,
+      "price_postapoc": 0.3,
+      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
+      "recoil": 0.76,
+      "dispersion": 1.2
+    },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "matchhead_45colt_fmj",
+    "copy-from": "bp_45colt_fmj",
+    "type": "AMMO",
+    "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
+    "name": { "str_sp": ".45 Colt FMJ, matchhead powder" },
+    "description": "Jacketed .45 Long Colt ammunition with a 225gr bullet.  This one was a victim of a truly desperate survivor, being loaded with powder from ground match heads.  Red phosphorous is less energetic than even black powder, but its fast burn rate also limits the amount that can be used due to the danger of blowing up the gun from overpressure.  As a result, it's even weaker than its black powder counterpart, and the ammo is still dirty and corrosive meaning it needs to be cleaned quickly or else the gun will suffer.",
+    "proportional": { "price": 0.5, "price_postapoc": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
     "extend": { "effects": [ "MATCHHEAD" ] }
   }
 ]

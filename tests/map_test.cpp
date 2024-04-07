@@ -125,7 +125,8 @@ TEST_CASE( "tinymap_bounds_checking" )
     clear_map();
     tinymap m;
     tripoint_abs_sm point_away_from_real_map( get_map().get_abs_sub() + point( MAPSIZE_X, 0 ) );
-    m.load( point_away_from_real_map, false );
+    m.load( project_to<coords::omt>( point_away_from_real_map + point_east ),
+            false ); // Add submap to ensure to OMT lies beyond the reality bubble
     for( int x = -1; x <= SEEX * 2; ++x ) {
         for( int y = -1; y <= SEEY * 2; ++y ) {
             for( int z = -OVERMAP_DEPTH - 1; z <= OVERMAP_HEIGHT + 1; ++z ) {
@@ -191,7 +192,7 @@ TEST_CASE( "inactive_container_with_active_contents", "[active_item][map]" )
     REQUIRE( disinfectant.needs_processing() );
 
     ret_val<void> const ret =
-        bottle_plastic.put_in( disinfectant, item_pocket::pocket_type::CONTAINER );
+        bottle_plastic.put_in( disinfectant, pocket_type::CONTAINER );
     REQUIRE( ret.success() );
 
     item &bp = here.add_item( test_loc, bottle_plastic );
@@ -240,7 +241,7 @@ TEST_CASE( "milk_rotting", "[active_item][map]" )
     if( in_container ) {
         sealed = GENERATE( true, false );
         item bottle_plastic( "bottle_plastic" );
-        ret_val<void> const ret = bottle_plastic.put_in( almond_milk, item_pocket::pocket_type::CONTAINER );
+        ret_val<void> const ret = bottle_plastic.put_in( almond_milk, pocket_type::CONTAINER );
         REQUIRE( ret.success() );
 
         bp = &here.add_item( test_loc, bottle_plastic );
@@ -290,7 +291,7 @@ TEST_CASE( "active_monster_drops", "[active_item][map]" )
         cookie.set_relative_rot( 10 );
         REQUIRE( cookie.has_rotten_away() );
     }
-    REQUIRE( bag_plastic.put_in( cookie, item_pocket::pocket_type::CONTAINER ).success() );
+    REQUIRE( bag_plastic.put_in( cookie, pocket_type::CONTAINER ).success() );
 
     monster &zombo = spawn_test_monster( "mon_zombie", start_loc, true );
     zombo.no_extra_death_drops = true;

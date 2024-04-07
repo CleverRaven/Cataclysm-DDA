@@ -16,7 +16,31 @@
     "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
     "autolearn": [ [ "tailor", 0 ] ],
     "using": [ [ "tailoring_wool_knitting", 40 ] ],
-    "//": "Should give a morale bonus at completion or at the very least a byproduct called knitted art that you could use to gain some morale."
+    "result_eocs": [
+      {
+        "id": "EOC_KNITTING_MORALE",
+        "condition": { "math": [ "u_skill('tailor')", ">=", "3" ] },
+        "effect": [
+          {
+            "u_message": "You admire your designs and find happiness in your advancements in the field of knitting.",
+            "type": "good"
+          },
+          {
+            "u_add_morale": "morale_feeling_good",
+            "bonus": 10,
+            "max_bonus": 20,
+            "duration": "60 minutes",
+            "decay_start": "60 minutes"
+          }
+        ],
+        "false_effect": [
+          {
+            "u_message": "You contemplate your designs but fail to see any artistic value in them.  At least you learnt something.",
+            "type": "mixed"
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "prac_closures",
@@ -32,7 +56,7 @@
     "practice_data": { "min_difficulty": 1, "max_difficulty": 2, "skill_limit": 3 },
     "autolearn": [ [ "tailor", 2 ] ],
     "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ] ],
-    "components": [ [ [ "sheet_cotton", 1 ], [ "sheet_cotton_patchwork", 1 ], [ "cotton_patchwork", 1 ], [ "scrap_cotton", 2 ] ] ],
+    "components": [ [ [ "sheet_cotton", 1 ], [ "sheet_cotton_patchwork", 1 ], [ "cotton_patchwork", 4 ], [ "scrap_cotton", 8 ] ] ],
     "using": [ [ "sewing_standard", 10 ], [ "fastener_small", 2 ] ]
   },
   {
@@ -42,7 +66,7 @@
     "category": "CC_PRACTICE",
     "subcategory": "CSC_PRACTICE_TAILORING",
     "name": "fabric waterproofing",
-    "description": "Practice the principles of sealing garments and fabric against water by making a basic waterproof layer from plastic bags duct taped together, you will need some water and a rag.",
+    "description": "Practice the principles of sealing garments and fabric against water by making a basic waterproof layer from plastic sheets duct taped together, you will need some water and a rag.",
     "skill_used": "tailor",
     "proficiencies": [ { "proficiency": "prof_closures_waterproofing", "time_multiplier": 1, "skill_penalty": 0 } ],
     "time": "1 h",
@@ -68,7 +92,16 @@
     "autolearn": [ [ "tailor", 2 ] ],
     "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ] ],
     "components": [
-      [ [ "sheet_kevlar", 1 ], [ "sheet_nomex", 1 ], [ "sheet_nomex_patchwork", 1 ], [ "nomex", 8 ], [ "scrap_nomex", 12 ] ]
+      [
+        [ "sheet_kevlar", 1 ],
+        [ "sheet_kevlar_patchwork", 1 ],
+        [ "kevlar_patch", 6 ],
+        [ "scrap_kevlar", 20 ],
+        [ "sheet_nomex", 1 ],
+        [ "sheet_nomex_patchwork", 1 ],
+        [ "nomex", 6 ],
+        [ "scrap_nomex", 20 ]
+      ]
     ],
     "using": [ [ "sewing_aramids", 20 ] ]
   },
@@ -86,9 +119,28 @@
     "practice_data": { "min_difficulty": 1, "max_difficulty": 2, "skill_limit": 3 },
     "autolearn": [ [ "tailor", 2 ] ],
     "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ] ],
-    "components": [ [ [ "sheet_lycra", 1 ], [ "sheet_lycra_patchwork", 1 ], [ "lycra_patch", 2 ] ] ],
+    "components": [ [ [ "sheet_lycra", 1 ], [ "sheet_lycra_patchwork", 1 ], [ "lycra_patch", 6 ] ] ],
     "using": [ [ "sewing_standard", 20 ] ],
     "byproducts": [ [ "scrap_lycra", 6 ] ]
+  },
+  {
+    "id": "prac_quilting",
+    "type": "practice",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_TAILORING",
+    "name": "fabric quilting",
+    "description": "Practice the beautiful art of quilting by efficiently sewing a pair of padded sheets together in different patterns.",
+    "skill_used": "tailor",
+    "proficiencies": [ { "proficiency": "prof_quilting", "time_multiplier": 1, "skill_penalty": 0 } ],
+    "time": "1 h",
+    "practice_data": { "min_difficulty": 1, "max_difficulty": 2, "skill_limit": 3 },
+    "autolearn": [ [ "tailor", 2 ] ],
+    "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ], [ "textbook_armwest", 1 ] ],
+    "qualities": [ { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
+    "components": [ [ [ "sheet_cotton", 2 ] ], [ [ "gambeson_batting", 2 ] ] ],
+    "using": [ [ "filament_canvas", 20 ] ],
+    "byproducts": [ [ "cotton_patchwork", 6 ], [ "gambeson_batting", 2 ] ]
   },
   {
     "id": "prac_leather_beg",
@@ -163,7 +215,7 @@
     "practice_data": { "min_difficulty": 3, "max_difficulty": 4, "skill_limit": 5 },
     "autolearn": [ [ "tailor", 4 ] ],
     "book_learn": [ [ "textbook_tailor", 3 ] ],
-    "components": [ [ [ "gloves_light", 1 ] ] ],
+    "components": [ [ [ "gloves_light", 1 ], [ "gloves_liner", 1 ], [ "long_glove_white", 1 ] ] ],
     "using": [ [ "tailoring_cotton_patchwork", 8 ], [ "filament", 30 ] ]
   }
 ]

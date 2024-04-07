@@ -9,29 +9,25 @@
       {
         "id": "mag_dodge",
         "name": { "str": "Dance Dance Dance!", "str_pl": "issues of Dance Dance Dance!" },
-        "description": "Learn the moves of the trendiest dances right now.",
-        "weight": 1
+        "description": "Learn the moves of the trendiest dances right now."
       },
       {
         "id": "mag_dodge_1",
         "name": { "str": "How Animals Move", "str_pl": "copies of How Animals Move" },
         "description": "In this book, zoologist Sir James Gray explores the development of different kinds of animal movement, from swimming to crawling to jumping, and then examines the mechanics of the variety of possible movements made by different creatures, illustrated with both sketches and photographs.",
-        "//": "9781013330865",
-        "weight": 1
+        "//": "9781013330865"
       },
       {
         "id": "mag_dodge_2",
         "name": { "str": "The Art of Movement", "str_pl": "copies of The Art of Movement" },
         "description": "A collection of photos of different dance movements of the world.  The images are inspiring, and the movements of the dancers are deep.",
-        "//": "978-0275934194",
-        "weight": 1
+        "//": "978-0275934194"
       },
       {
         "id": "mag_dodge_3",
         "name": { "str": "Self-Defense for Gentlemen and Ladies", "str_pl": "copies of Self-Defense for Gentlemen and Ladies" },
         "description": "An old treatise about self defense, with style.",
-        "//": "978-1583948682",
-        "weight": 1
+        "//": "978-1583948682"
       },
       {
         "id": "mag_dodge_4",
@@ -39,9 +35,8 @@
           "str": "Self-Defence for Non-Experts: A Book for People Who Can't Fight",
           "str_pl": "copies of Self-Defence for Non-Experts: A Book for People Who Can't Fight"
         },
-        "description": "A small guide on self defense for an untrained person - only simple tricks and advice like having a knife and threatening an enemy, but sometimes it contains advanced movement techniques.",
-        "//": "978-1533113221",
-        "weight": 1
+        "description": "A small guide on self defense for an untrained person - mostly simple tricks and advice like having a knife and how to threaten an enemy into backing down, but contains some more advanced and detailed descriptions of movement techniques.",
+        "//": "978-1533113221"
       }
     ],
     "weight": "60 g",
@@ -68,29 +63,25 @@
       {
         "id": "manual_dodge",
         "name": { "str": "The Book of Dances", "str_pl": "copies of The Book of Dances" },
-        "description": "This massive antique book documents dances from all around the world in great detail.  A perceptive reader could learn a lot about defensive footwork from some of the war dances.",
-        "weight": 1
+        "description": "This massive antique book documents dances from all around the world in great detail.  A perceptive reader could learn a lot about defensive footwork from some of the war dances."
       },
       {
         "id": "manual_dodge_1",
         "name": { "str": "The Complete Book about Dodgeball", "str_pl": "copies of The Complete Book about Dodgeball" },
         "description": "A small book from a Physical Education and Health teacher about the simple game of dodgeball, its rules and variations, tricks, and what it can teach students.  Sadly, the book contains surprisingly poor grammar, and the informal conversational tone makes it difficult to follow at times.",
-        "//": "978-1420875485",
-        "weight": 1
+        "//": "978-1420875485"
       },
       {
         "id": "manual_dodge_2",
         "name": { "str": "When Seconds Count", "str_pl": "copies of When Seconds Count" },
         "description": "A comprehensive guide on what to do in dangerous situations on the street and beyond - ways to improve your awareness skills, de-escalate the situation or, if it is not possible, defend yourself and your family in every possible manner, violent or not.",
-        "//": "978-0989038270",
-        "weight": 1
+        "//": "978-0989038270"
       },
       {
         "id": "manual_dodge_3",
         "name": { "str": "Born to Walk", "str_pl": "copies of Born to Walk" },
         "description": "This book explores the mechanics, mysteries, and methods of upright walking - why, how, and when.  There is a big chapter about how different martial arts utilize this movement at 120%.",
-        "//": "978-1623174439",
-        "weight": 1
+        "//": "978-1623174439"
       }
     ],
     "weight": "2330 g",
@@ -116,21 +107,18 @@
       {
         "id": "manual_dodge_kid",
         "name": { "str": "Break a Leg!", "str_pl": "copies of Break a Leg!" },
-        "description": "\"The Kids' Guide to Acting and Stagecraft\".  This book is packed with engaging outdoor games, complete with rules, strategies, and tips for mastering each activity, along with some simple drills to train skills in an easy way.",
-        "weight": 1
+        "description": "\"The Kids' Guide to Acting and Stagecraft\".  This book is packed with engaging outdoor games, complete with rules, strategies, and tips for mastering each activity, along with some simple drills to train skills in an easy way."
       },
       {
         "id": "manual_dodge_kid_1",
         "name": { "str": "Self-defense for Your Child", "str_pl": "copies of Self-defense for Your Child" },
         "description": "A fully-illustrated practical course of simple techniques to defend your child from bullies or predators.  You doubt it will help much for a real child, but you found some interesting info here.",
-        "//": "978-0874070248",
-        "weight": 1
+        "//": "978-0874070248"
       },
       {
         "id": "manual_dodge_kid_2",
         "name": { "str": "Protective Measures: A Graphic Novel", "str_pl": "copies of Protective Measures: A Graphic Novel" },
-        "description": "Modern comics about an unnamed Hero that protects people without any superpowers, using only his body and different martial arts.  The artwork is well-illustrated and shows the movement and strategy of each character, but the plot is fairly simple.",
-        "weight": 1
+        "description": "Modern comics about an unnamed Hero that protects people without any superpowers, using only his body and different martial arts.  The artwork is well-illustrated and shows the movement and strategy of each character, but the plot is fairly simple."
       }
     ],
     "copy-from": "book_nonf_hard_dodge_tpl",
@@ -148,15 +136,13 @@
       {
         "id": "book_nonf_hard_dodge_tlwd",
         "name": { "str": "Treasury of Legends about Western Dancing", "str_pl": "copies of Treasury of Legends about Western Dancing" },
-        "description": "Written by Emanuel Nogueira, a constabulario and historian of Nuevo Laredo, this massive book details the movements and cultural legacies of a variety of North American folk dances.",
-        "weight": 1
+        "description": "Written by Emanuel Nogueira, a constabulario and historian of Nuevo Laredo, this massive book details the movements and cultural legacies of a variety of North American folk dances."
       },
       {
         "id": "book_nonf_hard_dodge_tlwd_1",
         "name": { "str": "A Guide To Making Yourself A Hard Target", "str_pl": "copies of A Guide To Making Yourself A Hard Target" },
         "description": "Written by self-defense instructor Neal Martin, this book describe techniques and movesets you need to train to avoid being a victim, as well as avoid trouble with the law in the aftermath.",
-        "//": "979-8620742561",
-        "weight": 1
+        "//": "979-8620742561"
       },
       {
         "id": "book_nonf_hard_dodge_tlwd_2",
@@ -165,36 +151,31 @@
           "str_pl": "copies of The Ultimate Guide to Unarmed Self Defense"
         },
         "description": "This book contains a lot of info about awareness, prevention, and defense in unarmed fights.",
-        "//": "978-1497530201",
-        "weight": 1
+        "//": "978-1497530201"
       },
       {
         "id": "book_nonf_hard_dodge_tlwd_3",
         "name": { "str": "Knife Self-Defense for Combat", "str_pl": "copies of Knife Self-Defense for Combat" },
         "description": "A small manual about skills you need to defend yourself in armed street fights.",
-        "//": "978-0897500227",
-        "weight": 1
+        "//": "978-0897500227"
       },
       {
         "id": "book_nonf_hard_dodge_tlwd_4",
         "name": { "str": "Invincible", "str_pl": "copies of Invincible" },
         "description": "A dark book with a barbarian on the cover, this guide talks about how to obtain skills for the streets, battlefields and… playing fields?",
-        "//": "978-1941845134",
-        "weight": 1
+        "//": "978-1941845134"
       },
       {
         "id": "book_nonf_hard_dodge_tlwd_5",
         "name": { "str": "War Machine", "str_pl": "copies of War Machine" },
         "description": "\"How to Transform Yourself Into A Vicious And Deadly Street Fighter\".  This book, despite having a gladiator on the cover, describes pretty practical ways to obtain the psychology, physiology, and combat potential of a real warrior, ancient or modern.",
-        "//": "978-0981872100",
-        "weight": 1
+        "//": "978-0981872100"
       },
       {
         "id": "book_nonf_hard_dodge_tlwd_6",
         "name": { "str": "Understanding the Human Foot", "str_pl": "copies of Understanding the Human Foot" },
         "description": "A full color, updated overview of the structure of the feet, with essential info about its functions, demonstrating how the foot relates to and interacts with the rest of the body during movement.",
-        "//": "978-1623176570",
-        "weight": 1
+        "//": "978-1623176570"
       }
     ],
     "copy-from": "book_nonf_hard_dodge_tpl",

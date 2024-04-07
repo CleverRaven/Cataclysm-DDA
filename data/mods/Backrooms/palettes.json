@@ -39,7 +39,8 @@
       "x": [ "t_carpet_backrooms" ],
       "y": [ "t_carpet_backrooms" ],
       "z": [ "t_carpet_backrooms" ],
-      "A": [ "t_carpet_backrooms" ]
+      "A": [ "t_carpet_backrooms" ],
+      "U": [ "t_carpet_backrooms" ]
     },
     "furniture": {
       "a": [ [ "f_null", 5 ], [ "f_chair", 10 ] ],
@@ -62,7 +63,8 @@
       "t": [ "f_bookcase" ],
       "x": [ [ "f_rubble", 10 ], [ "f_rubble_rock", 10 ] ],
       "y": [ [ "f_ash", 10 ] ],
-      "A": [ "f_cardboard_box" ]
+      "A": [ "f_cardboard_box" ],
+      "U": [ "f_planter" ]
     },
     "liquids": { "l": { "liquid": "water_clean", "amount": [ 0, 30 ] } },
     "items": {
@@ -121,7 +123,7 @@
       "I": [ "f_locker" ],
       "J": [ "f_locker" ],
       "K": [ "f_workbench" ],
-      "L": [ "f_water_heater" ],
+      "L": [ "f_water_heater", "f_water_heater_family" ],
       "M": [ "f_standing_tank" ],
       "N": [ "f_air_conditioner" ],
       "P": [ "f_air_filter" ],

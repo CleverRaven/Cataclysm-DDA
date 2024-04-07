@@ -14,12 +14,10 @@
         "om_special": "hub_01",
         "reveal_radius": 1,
         "random": true,
-        "search_range": 500
+        "search_range": 1000
       }
     },
-    "end": {
-      "effect": { "arithmetic": [ { "global_val": "var", "var_name": "free_merchants_hub_trade_route" }, "=", { "const": 1 } ] }
-    },
+    "end": { "effect": { "math": [ "free_merchants_hub_trade_route", "=", "1" ] } },
     "goal_condition": { "u_has_var": "completed_free_merchants_hub_delivery_1", "type": "dialogue", "context": "intercom", "value": "yes" },
     "value": 5000,
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -59,7 +57,7 @@
       "effect": [
         { "u_spawn_item": "FMCNote", "count": 25 },
         { "u_add_var": "FMShopkeep_Mission1", "type": "mission", "context": "flag", "value": "yes" },
-        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 3 }
+        { "math": [ "u_counter_refugee_center_refugee_happiness", "+=", "3" ] }
       ],
       "update_mapgen": {
         "om_terrain": "evac_center_9",
@@ -224,11 +222,11 @@
     "id": "MISSION_FREE_MERCHANTS_EVAC_4",
     "type": "mission_definition",
     "name": { "str": "Solar Power" },
-    "description": "Deliver 10 solar panels to help the Free Merchants set up a renewable power grid, in exchange for a handsome reward.",
+    "description": "Deliver 10 solar panel arrays to help the Free Merchants set up a renewable power grid, in exchange for a handsome reward.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 400000,
-    "item": "solar_panel",
+    "item": "ground_solar_panel",
     "count": 10,
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_FREE_MERCHANTS_EVAC_5",
@@ -240,10 +238,10 @@
     },
     "dialogue": {
       "describe": "We need help…",
-      "offer": "We are starting to build new infrastructure here and would like to get a few new electrical systems online… unfortunately our existing system relies on an array of something called RTGs.  Running generators isn't a viable option underground, of course.  We have a big flat roof up top, and if we had a few solar panels we could use them to top up our usage.  We could pay you pretty handsomely to bring us, say, ten solar panels?",
+      "offer": "We are starting to build new infrastructure here and would like to get a few new electrical systems online… unfortunately our existing system relies on an array of something called RTGs.  Running generators isn't a viable option underground, of course.  We have a big flat roof up top, and if we had a few solar panel arrays we could use them to top up our usage.  We could pay you pretty handsomely to bring us, say, ten solar panel arrays?",
       "accepted": "If you can do this for us our survival options would vastly increase.",
       "rejected": "Come back when you get a chance, we really need to start reclaiming the region.",
-      "advice": "Solar panels are pretty common on electric cars and on rooftops.",
+      "advice": "Solar panel arrays are pretty common on solar farms and on rooftops.",
       "inquire": "How is the search going?",
       "success": "Great, I know it isn't much but we hope to continue to expand thanks to your help.",
       "success_lie": "What good does this do us?",
@@ -254,7 +252,7 @@
     "id": "MISSION_FREE_MERCHANTS_EVAC_5",
     "type": "mission_definition",
     "name": { "str": "In a Pickle" },
-    "description": "Deliver 100 0.5L glass jars to the Free Merchants to kickstart their food storage plans.",
+    "description": "Deliver 100 0.5 L glass jars to the Free Merchants to kickstart their food storage plans.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 3,
     "value": 400000,
@@ -339,7 +337,7 @@
         "text": "[5 merch] Five merch for someone sounds fair to me.",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 5 } },
         "effect": [
-          { "u_adjust_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "adjustment": 1 },
+          { "math": [ "u_mission_cleanup_promises_Boris_mission_1", "++" ] },
           { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" },
           { "u_consume_item": "FMCNote", "count": 5, "popup": true }
         ],
@@ -349,7 +347,7 @@
         "text": "[10 merch] How about ten merch to do it?",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 10 } },
         "effect": [
-          { "u_adjust_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "adjustment": 3 },
+          { "math": [ "u_mission_cleanup_promises_Boris_mission_1", "+=", "3" ] },
           { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" },
           { "u_consume_item": "FMCNote", "count": 10, "popup": true }
         ],

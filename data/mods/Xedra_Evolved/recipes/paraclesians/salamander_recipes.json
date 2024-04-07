@@ -1,0 +1,30 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "mixed_alcohol_strong",
+    "id_suffix": "from_water",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_ELEMENTAL",
+    "skill_used": "deduction",
+    "time": "1 m",
+    "flags": [ "BLIND_EASY", "SECRET" ],
+    "components": [ [ [ "water_clean", 1 ], [ "water", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "lamp_oil",
+    "id_suffix": "from_water",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_ELEMENTAL",
+    "skill_used": "deduction",
+    "difficulty": 3,
+    "time": "60 m",
+    "charges": 1800,
+    "//": "Requires three times as much water as the base recipe and no other ingredients.",
+    "byproducts": [ [ "diesel", 24 ] ],
+    "components": [ [ [ "water", 120 ], [ "water_clean", 120 ] ] ],
+    "flags": [ "SECRET" ]
+  }
+]

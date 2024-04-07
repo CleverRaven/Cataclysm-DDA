@@ -644,6 +644,22 @@
     "components": [ [ [ "plastic_chunk", 4 ] ] ]
   },
   {
+    "result": "wheel_caster_large",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "90 m",
+    "autolearn": true,
+    "//": "22cm weld",
+    "using": [ [ "welding_standard", 22 ], [ "steel_tiny", 5 ], [ "plastic_molding", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
+    "components": [ [ [ "plastic_chunk", 12 ] ] ]
+  },
+  {
     "result": "mounted_spare_tire",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -1023,7 +1039,7 @@
         [ "welder", 50 ],
         [ "welding_kit", 50 ],
         [ "welder_crude", 75 ],
-        [ "toolset", 75 ],
+        [ "integrated_welder", 75 ],
         [ "forge", 50 ],
         [ "oxy_torch", 10 ]
       ]
@@ -1049,7 +1065,7 @@
         [ "welder", 50 ],
         [ "welding_kit", 50 ],
         [ "welder_crude", 75 ],
-        [ "toolset", 75 ],
+        [ "integrated_welder", 75 ],
         [ "forge", 50 ],
         [ "oxy_torch", 10 ]
       ]
@@ -1159,7 +1175,7 @@
         [ "welder", 100 ],
         [ "welding_kit", 100 ],
         [ "welder_crude", 150 ],
-        [ "toolset", 150 ],
+        [ "integrated_welder", 150 ],
         [ "forge", 100 ],
         [ "oxy_torch", 20 ]
       ]
@@ -1185,7 +1201,7 @@
         [ "welder", 50 ],
         [ "welding_kit", 50 ],
         [ "welder_crude", 75 ],
-        [ "toolset", 75 ],
+        [ "integrated_welder", 75 ],
         [ "forge", 50 ],
         [ "oxy_torch", 10 ]
       ]
@@ -1211,7 +1227,7 @@
         [ "welder", 100 ],
         [ "welding_kit", 100 ],
         [ "welder_crude", 150 ],
-        [ "toolset", 150 ],
+        [ "integrated_welder", 150 ],
         [ "forge", 100 ],
         [ "oxy_torch", 20 ]
       ]
@@ -1237,7 +1253,7 @@
         [ "welder", 100 ],
         [ "welding_kit", 100 ],
         [ "welder_crude", 150 ],
-        [ "toolset", 150 ],
+        [ "integrated_welder", 150 ],
         [ "forge", 200 ],
         [ "oxy_torch", 20 ]
       ]
@@ -1416,7 +1432,7 @@
         [ "welder", 50 ],
         [ "welding_kit", 50 ],
         [ "welder_crude", 75 ],
-        [ "toolset", 75 ],
+        [ "integrated_welder", 75 ],
         [ "forge", 50 ],
         [ "oxy_torch", 10 ]
       ]
@@ -1440,5 +1456,44 @@
       { "proficiency": "prof_welding" }
     ],
     "components": [ [ [ "material_aluminium_ingot", 7 ], [ "scrap_aluminum", 34 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "activity_level": "NO_EXERCISE",
+    "result": "pedal_extenders_makeshift",
+    "skill_used": "fabrication",
+    "time": "1 s",
+    "components": [ [ [ "wood_block", 2 ] ] ],
+    "autolearn": true,
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "activity_level": "NO_EXERCISE",
+    "result": "pedal_extenders",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "5 m",
+    "components": [ [ [ "rubber_tire_chunk", 4 ], [ "clamp", 2 ] ] ],
+    "autolearn": true,
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "hand_controls",
+    "difficulty": 4,
+    "skill_used": "fabrication",
+    "time": "35 m",
+    "using": [ [ "welding_standard", 25 ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_welding_basic" }, { "proficiency": "prof_welding" } ],
+    "components": [ [ [ "pipe_fittings", 2 ], [ "pipe", 2 ], [ "clamp", 2 ] ] ],
+    "autolearn": true
   }
 ]

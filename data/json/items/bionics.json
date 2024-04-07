@@ -311,6 +311,18 @@
     "difficulty": 6
   },
   {
+    "id": "bio_sonar",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Subaquatic Navigation System CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "A tiny device implanted in the inner ear.  When active, it will periodically generate ultrasonic pulses which aid in navigation, provided the user is underwater and able to hear.",
+    "price": 250000,
+    "price_postapoc": 1250,
+    "weight": "50 g",
+    "difficulty": 4
+  },
+  {
     "id": "bio_emp",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
@@ -338,7 +350,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Ethanol Burner CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A reactor that burns alcohol as fuel in an extremely efficient reaction.  It can store up to 500ml and accepts ethanol, methanol and denatured alcohol as fuel.",
+    "description": "A reactor that burns alcohol as fuel in an extremely efficient reaction.  It can store up to 500 ml and accepts ethanol, methanol and denatured alcohol as fuel.",
     "price": 120000,
     "price_postapoc": 2000,
     "difficulty": 4
@@ -408,7 +420,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Fingerhack CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A miniature electrohack, surgically embedded in a finger of the user'sright hand.  This is an all-purpose hacking unit used to override control panels and the like, but not computers.  Computer proficiency is important, and a failed use may cause damage.",
+    "description": "A miniature electrohack, surgically embedded in a finger of the user's right hand.  This is an all-purpose hacking unit used to override control panels and the like, but not computers.  Computer proficiency is important, and a failed use may cause damage.",
     "price": 350000,
     "price_postapoc": 1000,
     "weight": "100 g",
@@ -1244,7 +1256,7 @@
     "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
     "name": { "str": "Endocrine Enervator CBM" },
-    "description": "A malfunctioning bionic that causes fatigue by altering the unfortunate user's brain chemistry.",
+    "description": "A malfunctioning bionic that causes sleepiness by altering the unfortunate user's brain chemistry.",
     "weight": "100 g",
     "difficulty": 11
   },
@@ -1316,7 +1328,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Oil Generator CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A CBM that generates power out of kerosene or motor oil.  It is fairly efficient and can store up to 750ml of fuel, but works somewhat slowly.",
+    "description": "A CBM that generates power out of kerosene or motor oil.  It is fairly efficient and can store up to 750 ml of fuel, but works somewhat slowly.",
     "price": 120000,
     "price_postapoc": 3500,
     "difficulty": 4
@@ -1335,7 +1347,7 @@
     "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
     "name": { "str": "Radioactive Leak CBM" },
-    "description": "A broken CBM that been leaking radiation into its user.  The danger seems to have been sealed off during the removal process, but you definitely shouldn't put it back.",
+    "description": "A broken CBM that has been leaking radiation into its user.  The danger seems to have been sealed off during the removal process, but you definitely shouldn't put it back.",
     "weight": "100 g",
     "difficulty": 9
   },
@@ -1362,23 +1374,12 @@
     "difficulty": 10
   },
   {
-    "id": "bio_trickle",
-    "copy-from": "bionic_general_npc_usable",
-    "type": "BIONIC_ITEM",
-    "name": { "str": "Trickle Charger CBM" },
-    "description": "A low-power, long-lasting bioelectric charger powered by small-scale nuclear decay.  Energy output is low but requires no fuel source, and multiple copies can be installed.",
-    "weight": "500 g",
-    "price": 120000,
-    "price_postapoc": 1500,
-    "difficulty": 3
-  },
-  {
     "id": "bio_pitch_perfect",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": { "str": "Throwing Assist CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A CBM that links the eyes to a series of nerve stimulators along the arms and hands, resulting in a significant increase to throwing accuracy.  The user enjoys a significant edge in baseball, and it turns out it works great with fragmentation grenades too.",
+    "description": "The culmination of decades of research into hominid palaeoanthropology and biomechanical modelling, the throwing assist CBM was brought to market to revolutionize Beqball tournaments, soon becoming exhibitions of cybernetic human effort and engineering.  A network of neurostimulators and sensors, mostly in the arms and hands, work in tandem with the eyes for a significant increase in throwing accuracy and precision.  When the Exodii came upon this cybernetic enhancement suite, they found it to be an economical way to ensure precise grenade placement in partial cyborgs.",
     "price": 220000,
     "weight": "1000 g",
     "difficulty": 3

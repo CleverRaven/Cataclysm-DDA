@@ -3,7 +3,7 @@
     "type": "item_group",
     "id": "milspec_arsenal_300_sniper_gun&mags&cans",
     "subtype": "collection",
-    "items": [ { "group": "milspec_arsenal_300_sniper_gun&ammo" }, { "item": "ammunition_can_30", "count": [ 1, 4 ] } ]
+    "items": [ { "group": "milspec_arsenal_300_sniper_gun&ammo" }, { "item": "ammo_can_30_300jhp_240", "count": [ 1, 4 ] } ]
   },
   {
     "type": "item_group",
@@ -30,23 +30,5 @@
     "type": "item_group",
     "subtype": "collection",
     "items": [ { "item": "m2010" }, { "item": "m2010mag", "count": [ 1, 3 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "ammo_can_300_full",
-    "container-item": "ammunition_can_30",
-    "items": [ { "group": "ammo_box_300", "count": 15 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "ammo_can_300_part",
-    "container-item": "ammunition_can_30",
-    "items": [ { "group": "ammo_box_300", "count": [ 1, 5 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "ammo_box_300",
-    "container-item": "ammunition_box_223",
-    "items": [ [ "300_winmag", 20 ] ]
   }
 ]

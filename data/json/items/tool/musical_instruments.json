@@ -1,6 +1,7 @@
 [
   {
     "id": "banjo",
+    "looks_like": "acoustic_guitar",
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "banjo" },
@@ -33,6 +34,7 @@
   },
   {
     "id": "bone_flute",
+    "looks_like": "flute",
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "bone flute" },
@@ -64,6 +66,7 @@
   },
   {
     "id": "clarinet",
+    "looks_like": "flute",
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "clarinet" },
@@ -89,6 +92,38 @@
         "You play a little tune on your clarinet.",
         "You play a moving, orchestral piece on your clarinet.",
         "You play an uplifting marching tune on your clarinet."
+      ]
+    },
+    "melee_damage": { "bash": 4 }
+  },
+  {
+    "id": "kantele",
+    "looks_like": "acoustic_guitar",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "kantele" },
+    "description": "A traditional Finnish string instrument.  According to myth the first one was fashioned from a great pike's bone.  This ordinary wooden one doesn't seem quite as special.",
+    "weight": "550 g",
+    "volume": "3000 ml",
+    "longest_side": "46 cm",
+    "price": 5500,
+    "price_postapoc": 250,
+    "to_hit": 1,
+    "material": [ "wood" ],
+    "symbol": "(",
+    "color": "brown",
+    "use_action": [ { "type": "play_instrument" } ],
+    "tick_action": {
+      "type": "musical_instrument",
+      "volume": 10,
+      "fun": -5,
+      "fun_bonus": 2,
+      "speed_penalty": 13,
+      "description_frequency": 20,
+      "player_descriptions": [
+        "You play a riveting tune on your kantele.",
+        "You play an enchanting composition on your kantele.",
+        "You play a somber piece on your kantele."
       ]
     },
     "melee_damage": { "bash": 4 }
@@ -126,6 +161,7 @@
   },
   {
     "id": "trumpet",
+    "looks_like": "flute",
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "trumpet" },
@@ -157,6 +193,7 @@
   },
   {
     "id": "ukulele",
+    "looks_like": "acoustic_guitar",
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "ukulele" },
@@ -189,6 +226,7 @@
   },
   {
     "id": "violin",
+    "looks_like": "acoustic_guitar",
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "violin" },
@@ -221,6 +259,7 @@
   },
   {
     "id": "violin_golden",
+    "looks_like": "acoustic_guitar",
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "golden fiddle" },
@@ -252,13 +291,14 @@
   },
   {
     "id": "krar_golden",
+    "looks_like": "acoustic_guitar",
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "golden krar" },
     "description": "A shiny golden krar, similar to a harp.",
     "weight": "13000 g",
-    "volume": "2500 ml",
-    "longest_side": "60 cm",
+    "volume": "12 L",
+    "longest_side": "100 cm",
     "price": 1000000,
     "price_postapoc": 1000,
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "clumsy" },
@@ -278,8 +318,83 @@
     "melee_damage": { "bash": 9 }
   },
   {
+    "id": "krar",
+    "looks_like": "krar_golden",
+    "type": "TOOL",
+    "name": { "str": "krar" },
+    "description": "A wooden krar, similar to a harp.",
+    "copy-from": "krar_golden",
+    "material": "wood",
+    "weight": "2500 g"
+  },
+  {
+    "id": "drum_percussion",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "drum, percussion", "str_pl": "drums, percussion" },
+    "description": "A standard factory-made percussion drum.  Looks to be in working condition.",
+    "weight": "2800 g",
+    "volume": "56629 ml",
+    "longest_side": "28 cm",
+    "price": 7500,
+    "price_postapoc": 500,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "clumsy" },
+    "flags": [ "FRAGILE_MELEE" ],
+    "material": [ { "type": "wood", "portion": 7 }, { "type": "steel" }, { "type": "nylon", "portion": 2 } ],
+    "symbol": "|",
+    "color": "white",
+    "use_action": [ { "type": "play_instrument" } ],
+    "tick_action": {
+      "type": "musical_instrument",
+      "volume": 28,
+      "fun": -3,
+      "fun_bonus": 2,
+      "speed_penalty": 18,
+      "description_frequency": 20,
+      "player_descriptions": [
+        "You play a beat on your drum.  Pa rum pa pum pum.",
+        "You play a fast beat on your drum.  Rat tat tat tat.",
+        "You play a march on your drums.  Brrrum brrum brrrrum."
+      ]
+    },
+    "melee_damage": { "bash": 2 }
+  },
+  {
+    "id": "drum_percussion_primitive",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "primitive drum, percussion", "str_pl": "primitive drums, percussion" },
+    "description": "A handmade primitive percussion drum.  Looks to be in working condition.",
+    "weight": "2800 g",
+    "volume": "56629 ml",
+    "longest_side": "28 cm",
+    "price": 7500,
+    "price_postapoc": 500,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "clumsy" },
+    "flags": [ "FRAGILE_MELEE" ],
+    "material": [ { "type": "wood", "portion": 7 }, { "type": "steel" }, { "type": "leather", "portion": 2 } ],
+    "symbol": "|",
+    "color": "white",
+    "use_action": [ { "type": "play_instrument" } ],
+    "tick_action": {
+      "type": "musical_instrument",
+      "volume": 28,
+      "fun": -3,
+      "fun_bonus": 2,
+      "speed_penalty": 18,
+      "description_frequency": 20,
+      "player_descriptions": [
+        "You play a beat on your drum.  Pa rum pa pum pum.",
+        "You play a fast beat on your drum.  Rat tat tat tat.",
+        "You play a march on your drums.  Brrrum brrum brrrrum."
+      ]
+    },
+    "melee_damage": { "bash": 2 }
+  },
+  {
     "type": "TOOL_ARMOR",
     "id": "harmonica_holder",
+    "looks_like": "flute",
     "name": { "str_pl": "harmonicas with holders", "str": "harmonica with a holder" },
     "category": "tools",
     "weight": "200 g",
@@ -345,6 +460,7 @@
   {
     "type": "TOOL_ARMOR",
     "id": "guitar_electric",
+    "looks_like": "acoustic_guitar",
     "name": { "str": "electric guitar" },
     "category": "tools",
     "weight": "3750 g",
@@ -386,6 +502,7 @@
   {
     "type": "TOOL_ARMOR",
     "id": "bagpipes",
+    "looks_like": "flute",
     "name": { "str_sp": "bagpipes" },
     "category": "tools",
     "weight": "2500 g",
@@ -425,6 +542,7 @@
   {
     "type": "TOOL_ARMOR",
     "id": "tuba",
+    "looks_like": "flute",
     "name": { "str": "tuba" },
     "category": "tools",
     "weight": "13600 g",
@@ -466,6 +584,7 @@
   {
     "type": "TOOL_ARMOR",
     "id": "saxophone",
+    "looks_like": "flute",
     "name": { "str": "saxophone" },
     "category": "tools",
     "weight": "2200 g",

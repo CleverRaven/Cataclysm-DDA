@@ -83,13 +83,11 @@
         "|   c|  ll|YY|ll   |c        $       $ ccc  ccc  111|811111  111118F1111 ccc$                                          |",
         "|||||||||||||||||||||||||||||||||||||||||||||||||||||81PP1111 11P18|||||||||||||||||||||||||||||||||||||||||||||||||||||"
       ],
-      "palettes": [ "microlab" ],
+      "palettes": [ "microlab_generic" ],
       "terrain": {
-        "X": "t_region_shrub_decorative",
         "G": "t_card_science",
         "W": "t_gates_mech_control_lab",
         "z": "t_strconc_floor",
-        "P": "t_carpet_concrete_red",
         "_": "t_carpet_concrete_red",
         "1": "t_nether_glass_floor",
         "8": "t_nether_glass_wall",

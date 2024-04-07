@@ -127,34 +127,6 @@
     "components": [ [ [ "u_shotgun", 1 ] ], [ [ "scrap", 3 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
-    "result": "knife_combat_mod",
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "fabrication",
-    "difficulty": 4,
-    "skills_required": [ [ "gun", 2 ], [ "melee", 1 ] ],
-    "time": "30 m",
-    "autolearn": true,
-    "tools": [ [ [ "large_repairkit", 25 ], [ "small_repairkit", 45 ] ] ],
-    "components": [ [ [ "knife_combat", 1 ] ], [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
-  },
-  {
-    "result": "sword_bayonet_mod",
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "fabrication",
-    "difficulty": 4,
-    "skills_required": [ [ "gun", 2 ], [ "melee", 2 ] ],
-    "time": "30 m",
-    "autolearn": true,
-    "tools": [ [ [ "large_repairkit", 25 ], [ "small_repairkit", 45 ] ] ],
-    "components": [ [ [ "sword_bayonet", 1 ] ], [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
-  },
-  {
     "result": "offset_sight_rail_mod",
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
@@ -596,8 +568,9 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "filter_suppressor",
+    "id_suffix": "welded_thread",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
@@ -606,24 +579,31 @@
     "time": "2 m 36 s",
     "autolearn": true,
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 } ],
-    "components": [ [ [ "filter_liquid", 1 ], [ "muffler", 1 ] ], [ [ "pipe", 1 ] ], [ [ "scrap", 2 ] ] ]
+    "using": [ [ "welding_standard", 7 ] ],
+    "//": "a2 birdcage has a 22mm diameter = 69mm circumference, so ~7cm weld",
+    "proficiencies": [ { "proficiency": "prof_welding_basic" } ],
+    "components": [ [ [ "compensator", 1 ], [ "muzzle_brake", 1 ], [ "muzzle_brake_mod", 1 ] ], [ [ "filter_liquid", 1 ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "bottle_suppressor",
+    "result": "filter_suppressor",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
-    "difficulty": 1,
-    "time": "6 m",
+    "skills_required": [ [ "mechanics", 2 ] ],
+    "difficulty": 2,
+    "time": "30 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [
-      [ [ "duct_tape", 75 ] ],
-      [ [ "bottle_twoliter", 1 ] ],
-      [ [ "bottle_plastic", 4 ], [ "bottle_bathroom", 4 ], [ "bottle_plastic_small", 4 ] ]
-    ]
+    "qualities": [
+      { "id": "DRILL", "level": 3 },
+      { "id": "FILE", "level": 2 },
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "THREAD_TAP", "level": 2 }
+    ],
+    "//": "a2 birdcage has a 22mm diameter = 69mm circumference, so ~14cm weld since the sheets are stacked",
+    "using": [ [ "welding_standard", 14 ] ],
+    "components": [ [ [ "filter_liquid", 1 ] ], [ [ "pipe", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -649,6 +629,7 @@
     "skills_required": [ [ "archery", 2 ] ],
     "difficulty": 2,
     "time": "10 m",
+    "autolearn": true,
     "book_learn": [ [ "mag_archery", 1 ], [ "manual_archery", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "fur", 1 ] ], [ [ "bone_glue", 1 ] ] ]
@@ -685,7 +666,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "shoulder_strap",
+    "result": "shoulder_strap_simple",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
@@ -694,6 +675,21 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rope_natural_short", 1, "LIST" ], [ "cotton_patchwork", 3 ], [ "cordage", 6, "LIST" ] ] ]
+  },
+  {
+    "result": "shoulder_strap",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "2 h",
+    "autolearn": true,
+    "using": [ [ "tailoring_nylon_patchwork", 3 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "//": "This should be using plastic sliders, but we don't have any.",
+    "components": [ [ [ "scrap", 2 ] ], [ [ "plastic_chunk", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -727,29 +723,91 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "crafted_suppressor",
+    "id_suffix": "welded_thread",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
-    "skill_used": "mechanics",
+    "skill_used": "fabrication",
     "skills_required": [ "gun", 1 ],
     "difficulty": 1,
-    "time": "39 s",
+    "time": "15 m",
     "autolearn": true,
+    "using": [ [ "welding_standard", 7 ] ],
+    "//": "a2 birdcage has a 22mm diameter = 69mm circumference, so ~7cm weld",
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 } ],
-    "components": [ [ [ "cotton_patchwork", 4 ], [ "plastic_chunk", 4 ], [ "felt_patch", 4 ], [ "leather", 4 ] ], [ [ "pipe", 1 ] ] ]
+    "proficiencies": [ { "proficiency": "prof_welding_basic" } ],
+    "components": [
+      [ [ "compensator", 1 ], [ "muzzle_brake", 1 ], [ "muzzle_brake_mod", 1 ] ],
+      [ [ "chunk_rubber", 24 ] ],
+      [ [ "pipe", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "suppressor",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "crafted_suppressor",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
-    "skill_used": "mechanics",
+    "skill_used": "fabrication",
+    "skills_required": [ "gun", 1 ],
+    "difficulty": 1,
+    "time": "1 h",
+    "autolearn": true,
+    "qualities": [
+      { "id": "DRILL", "level": 3 },
+      { "id": "FILE", "level": 2 },
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "THREAD_TAP", "level": 2 }
+    ],
+    "using": [ [ "welding_standard", 7 ] ],
+    "components": [ [ [ "pipe_fittings", 1 ] ], [ [ "chunk_rubber", 24 ] ], [ [ "pipe", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "suppressor_compact",
+    "id_suffix": "welded_thread",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "fabrication",
     "skills_required": [ "gun", 1 ],
     "difficulty": 8,
-    "time": "1 h",
-    "book_learn": [ [ "manual_pistol", 4 ] ],
-    "tools": [ [ [ "small_repairkit", 150 ], [ "large_repairkit", 150 ] ] ],
-    "components": [ [ [ "scrap", 1 ] ], [ [ "pipe", 2 ] ] ]
+    "time": "6 h",
+    "book_learn": [ [ "manual_pistol", 4 ], [ "manual_smg", 4 ] ],
+    "qualities": [ { "id": "DRILL", "level": 3 }, { "id": "FILE", "level": 2 }, { "id": "SAW_M_FINE", "level": 1 } ],
+    "//": "~7cm weld to join the threaded portion to can + 11x2(doubling up sheet)x11cm circumf. weld per washer",
+    "using": [ [ "welding_standard", 242 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_welding_basic" },
+      { "proficiency": "prof_toolsmithing" }
+    ],
+    "components": [
+      [ [ "compensator", 1 ], [ "muzzle_brake", 1 ], [ "muzzle_brake_mod", 1 ] ],
+      [ [ "sheet_metal_small", 11 ] ],
+      [ [ "pipe", 2 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "suppressor_compact",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "fabrication",
+    "skills_required": [ "gun", 1 ],
+    "difficulty": 8,
+    "time": "6 h",
+    "book_learn": [ [ "manual_pistol", 4 ], [ "manual_smg", 4 ] ],
+    "qualities": [
+      { "id": "DRILL", "level": 3 },
+      { "id": "FILE", "level": 2 },
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "THREAD_TAP", "level": 2 }
+    ],
+    "//": "13x2(doubling up sheet)x11cm weld per washer",
+    "using": [ [ "welding_standard", 242 ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_welding" }, { "proficiency": "prof_toolsmithing" } ],
+    "components": [ [ [ "sheet_metal_small", 13 ] ], [ [ "pipe", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -813,12 +871,12 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "barrel_ported",
+    "result": "compensator",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "mechanics",
     "skills_required": [ [ "gun", 3 ] ],
-    "difficulty": 6,
+    "difficulty": 4,
     "time": "30 m",
     "book_learn": [
       [ "textbook_mechanics", 3 ],
@@ -827,7 +885,12 @@
       [ "manual_smg", 4 ],
       [ "manual_rifle", 4 ]
     ],
-    "tools": [ [ [ "small_repairkit", 75 ], [ "large_repairkit", 75 ] ], [ [ "swage", -1 ] ] ],
+    "qualities": [
+      { "id": "DRILL", "level": 3 },
+      { "id": "FILE", "level": 2 },
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "THREAD_TAP", "level": 2 }
+    ],
     "components": [ [ [ "pipe", 1 ] ] ]
   },
   {
@@ -899,10 +962,28 @@
       { "id": "HAMMER_FINE", "level": 1 },
       { "id": "CUT", "level": 2 },
       { "id": "CUT_FINE", "level": 1 },
-      { "id": "FILE", "level": 1 }
+      { "id": "FILE", "level": 2 }
     ],
     "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5 } ],
     "components": [ [ [ "rolling_pin", 1 ] ], [ [ "nail", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "muzzle_brake",
+    "id_suffix": "welded_thread",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "mechanics",
+    "skills_required": [ [ "gun", 4 ] ],
+    "difficulty": 4,
+    "time": "1 h",
+    "book_learn": [ [ "manual_shotgun", 5 ], [ "manual_rifle", 5 ] ],
+    "//": "a2 birdcage has a 22mm diameter = 69mm circumference, so ~7cm weld",
+    "using": [ [ "welding_standard", 7 ] ],
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_welding_basic" } ],
+    "components": [ [ [ "compensator", 1 ] ], [ [ "pipe", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -912,11 +993,14 @@
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "mechanics",
     "skills_required": [ [ "gun", 4 ] ],
-    "difficulty": 8,
-    "time": "1 h",
-    "book_learn": [ [ "textbook_mechanics", 4 ], [ "manual_shotgun", 5 ], [ "manual_rifle", 5 ] ],
-    "tools": [ [ [ "small_repairkit", 150 ], [ "large_repairkit", 150 ] ], [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "pipe", 1 ] ] ]
+    "difficulty": 6,
+    "time": "3 h",
+    "book_learn": [ [ "manual_shotgun", 5 ], [ "manual_rifle", 5 ] ],
+    "//": "a2 birdcage has a 22mm diameter = 69mm circumference, so ~7cm weld",
+    "using": [ [ "welding_standard", 7 ] ],
+    "qualities": [ { "id": "FILE", "level": 2 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "THREAD_TAP", "level": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_welding_basic" } ],
+    "components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "pipe", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1009,6 +1093,27 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "rail_bayonet_lug",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "gun", 3 ] ],
+    "difficulty": 4,
+    "time": "3 h",
+    "autolearn": true,
+    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 1 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_toolsmithing" }
+    ],
+    "qualities": [ { "id": "FILE", "level": 2 }, { "id": "GRIND", "level": 1 } ],
+    "tools": [ [ [ "knife_combat", -1 ], [ "knife_combat_army", -1 ], [ "knife_combat_marine", -1 ], [ "sword_bayonet", -1 ] ] ],
+    "components": [ [ [ "nuts_bolts", 2 ] ], [ [ "scrap", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "dias",
     "category": "CC_WEAPON",
@@ -1022,20 +1127,7 @@
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "DRILL", "level": 1 } ],
     "tools": [
       [
-        [ "ar15_223long", -1 ],
         [ "modular_ar15", -1 ],
-        [ "ar15_223medium", -1 ],
-        [ "ar15_223short", -1 ],
-        [ "ar15_300", -1 ],
-        [ "ar15_300medium", -1 ],
-        [ "ar15_300short", -1 ],
-        [ "ar15_50", -1 ],
-        [ "ar15_50medium", -1 ],
-        [ "ar15_50short", -1 ],
-        [ "ar15_450", -1 ],
-        [ "ar15_450medium", -1 ],
-        [ "ar15_450short", -1 ],
-        [ "ar15_762", -1 ],
         [ "ar_pistol", -1 ],
         [ "oa93", -1 ],
         [ "modular_m27_assault_rifle", -1 ],
@@ -1063,24 +1155,7 @@
     "book_learn": [ [ "manual_rifle", 6 ], [ "textbook_anarch", 3 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "tools": [
-      [
-        [ "ar15_223long", -1 ],
-        [ "modular_ar15", -1 ],
-        [ "ar15_223medium", -1 ],
-        [ "ar15_223short", -1 ],
-        [ "ar15_300", -1 ],
-        [ "ar15_300medium", -1 ],
-        [ "ar15_300short", -1 ],
-        [ "ar15_50", -1 ],
-        [ "ar15_50medium", -1 ],
-        [ "ar15_50short", -1 ],
-        [ "ar15_450", -1 ],
-        [ "ar15_450medium", -1 ],
-        [ "ar15_450short", -1 ],
-        [ "ar15_762", -1 ],
-        [ "ar_pistol", -1 ],
-        [ "oa93", -1 ]
-      ],
+      [ [ "modular_ar15", -1 ], [ "ar_pistol", -1 ], [ "oa93", -1 ] ],
       [ [ "small_repairkit", 40 ], [ "large_repairkit", 40 ] ]
     ],
     "components": [ [ [ "sheet_metal_small", 2 ] ] ]
@@ -1224,12 +1299,17 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "mechanics",
-    "skills_required": [ "gun", 1 ],
+    "skills_required": [ [ "gun", 1 ] ],
     "difficulty": 8,
     "time": "1 h",
     "book_learn": [ [ "manual_shotgun", 4 ] ],
-    "tools": [ [ [ "small_repairkit", 150 ], [ "large_repairkit", 150 ] ] ],
-    "components": [ [ [ "scrap", 1 ] ], [ [ "pipe", 2 ] ] ]
+    "qualities": [
+      { "id": "FILE", "level": 2 },
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "THREAD_TAP", "level": 2 },
+      { "id": "HAMMER_FINE", "level": 1 }
+    ],
+    "components": [ [ [ "pipe", 1 ] ] ]
   },
   {
     "type": "recipe",

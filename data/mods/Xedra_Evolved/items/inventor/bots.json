@@ -3,7 +3,7 @@
     "id": "bot_sniperbot",
     "type": "TOOL",
     "name": { "str": "inactive sniper bot" },
-    "description": "Compressed sniper sentry.  Ludicrious, physical law violating compression allow to fit them into small metal cylinder, but the weight compression is not as effective.",
+    "description": "A compressed sniper sentry.  Ludicrious, physical law violating compression allows you to fit them into a small metal cylinder, but the weight compression is not as effective.",
     "weight": "5 kg",
     "volume": "500 ml",
     "symbol": ";",
@@ -15,13 +15,13 @@
       "moves": 100,
       "skills": [ "deduction", "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE", "INVENTOR_CRAFTED" ]
   },
   {
     "id": "bot_shotgunbot",
     "type": "TOOL",
     "name": { "str": "inactive shotgun bot" },
-    "description": "Compressed shotgun sentry.  Ludicrious, physical law violating compression allow to fit them into small metal cylinder, but the weight compression is not as effective.",
+    "description": "A compressed shotgun sentry.  Ludicrious, physical law violating compression allows you to fit them into a small metal cylinder, but the weight compression is not as effective.",
     "weight": "5 kg",
     "volume": "500 ml",
     "symbol": ";",
@@ -33,13 +33,13 @@
       "moves": 100,
       "skills": [ "deduction", "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE", "INVENTOR_CRAFTED" ]
   },
   {
     "id": "bot_meleebot",
     "type": "TOOL",
     "name": { "str": "inactive melee bot" },
-    "description": "Compressed melee sentry.  Ludicrious, physical law violating compression allow to fit them into small metal cylinder, but the weight compression is not as effective.",
+    "description": "A compressed melee sentry.  Ludicrious, physical law violating compression allows you to fit them into a small metal cylinder, but the weight compression is not as effective.",
     "weight": "5 kg",
     "volume": "500 ml",
     "symbol": ";",
@@ -51,6 +51,6 @@
       "moves": 100,
       "skills": [ "deduction", "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE", "INVENTOR_CRAFTED" ]
   }
 ]

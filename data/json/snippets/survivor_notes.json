@@ -64,7 +64,7 @@
       { "id": "note_21", "text": "\"You want my advice?  Smoke crack, it gets shit done.\"" },
       {
         "id": "note_22",
-        "text": "\"ALWAYS WITH THE EFFICIENCY GUYS; YOURE ALWAYS WORKING TO GO HOME TO PAY RENT TO SLEEP TO WAKE UP TO WORK AGAIN.  STOP\""
+        "text": "\"ALWAYS WITH THE EFFICIENCY GUYS; YOU'RE ALWAYS WORKING TO GO HOME TO PAY RENT TO SLEEP TO WAKE UP TO WORK AGAIN.  STOP\""
       },
       { "id": "note_23", "text": "\"IM OFF TO THUNDERDOME, BYE SUCKERS.\"" },
       {
@@ -338,7 +338,7 @@
         "id": "note_139",
         "text": "\"Diamond coated sword!  Diamond coated hammer!  Diamond coated clothes!  Diamond coated hands help\""
       },
-      { "id": "note_140", "text": "\"waded through 14 miles of sewage for playboy magazine, wasnt worth it\"" },
+      { "id": "note_140", "text": "\"waded through 14 miles of sewage for playboy magazine, wasn't worth it\"" },
       {
         "id": "note_141",
         "text": "\"I'm coming back for this note in twelve hours.  If I don't, take all my shit!\""
@@ -658,6 +658,27 @@
       {
         "id": "note_253",
         "text": "\"G, there's something not right with the forests here.  The ground there feels soft and is overgrown with some sort of mushrooms.  Be careful not to breathe in the dust they kick up, I accidentally took a whiff and have been coughing and vomiting since.  The map shows there's a cabin just outside town, I'll lay low there until I feel better.  I'm almost home.  I know you will be waiting for me there.\""
+      },
+      {
+        "id": "note_254",
+        "text": "\"I saw a zombie covered in shrooms emitting some strange dust.  When another zombie got close, the two tore each other apart.  I'd rather not stay here anymore.  Im packing up my stuff soon.\""
+      },
+      {
+        "id": "note_255",
+        "text": "\"I can see a large tower in the distance, And strange stalk-like creatures are around it.  I feel sick just looking at it, and fire hasn't solved it.  Those things seem to stay around it though.\""
+      },
+      {
+        "id": "note_256",
+        "text": "\"These berries are delicious!  Maybe taking these were worth it.  And the more I eat, the more of it appears!  it's like an infinite food cycle!\""
+      },
+      {
+        "id": "note_257",
+        "text": "\"I found a corpse with strange berries shoved down their gullet, seems to have choked to death on the stuff.  greedy bastard\""
+      },
+      { "id": "note_258", "text": "\"Don't trust them.  The mushrooms aren't your friends.  They're delusional\"" },
+      {
+        "id": "note_259",
+        "text": "\"trust me!  The mushrooms are your friends!  They brung her back!  they'll bring everybody back!\""
       }
     ]
   }

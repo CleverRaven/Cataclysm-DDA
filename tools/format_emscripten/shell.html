@@ -113,7 +113,11 @@
             "\n    and a modern browser.";
 
         json_formatter().then(function (module) {
-            let json_format = module.cwrap("json_format", "string", ["string"]);
+            // parameters are the unformatted input string and an int representing json_error_output_colors_t
+            // for possible values see the enum definition in json.h, return value is the formatted string or
+            // error message
+            let json_format = module.cwrap("json_format", "string", ["string", "int"]);
+            const json_error_output_colors_t_no_colors = 1;
 
             json_output.placeholder =
                 "\n\n    Formatter ready."
@@ -131,7 +135,7 @@
                     // https://stackoverflow.com/a/20392392
                     let o = JSON.parse(json_input.value);
                     if (o && typeof o === "object") {
-                        let formatted = json_format(json_input.value);
+                        let formatted = json_format(json_input.value, json_error_output_colors_t_no_colors);
                         json_error_alert.style.display =
                             (formatted.startsWith("Json error")
                                 ? "block" : "none");

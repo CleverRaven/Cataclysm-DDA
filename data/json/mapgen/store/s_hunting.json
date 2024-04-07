@@ -39,6 +39,8 @@
         { "group": "guns_shotgun_common_display", "x": 2, "y": 14, "chance": 70, "repeat": [ 3, 4 ] },
         { "group": "SUS_hunting_archery", "x": 2, "y": 15, "chance": 80, "repeat": [ 4, 5 ] },
         { "group": "archery_ammo", "x": 2, "y": 16, "chance": 80, "repeat": [ 4, 6 ] },
+        { "group": "archery_loaded_quivers", "x": 2, "y": 16, "chance": 40, "repeat": [ 2, 4 ] },
+        { "group": "archery_loaded_quivers", "x": [ 8, 9 ], "y": 11, "chance": 60 },
         { "group": "archery_mods", "x": 2, "y": 17, "chance": 70, "repeat": [ 3, 4 ] },
         { "group": "gun_cases", "x": [ 3, 9 ], "y": 6, "chance": 80, "repeat": [ 6, 7 ] },
         { "group": "archery_quivers", "x": [ 3, 9 ], "y": 6, "chance": 80 },

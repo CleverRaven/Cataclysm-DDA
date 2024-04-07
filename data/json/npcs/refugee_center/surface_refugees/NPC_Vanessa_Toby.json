@@ -28,7 +28,8 @@
     "weapon_override": "REFUGEE_Vanessa_wield",
     "traits": [
       { "trait": "SKIN_TAN" },
-      { "trait": "hair_gray_medium" },
+      { "trait": "hair_medium", "variant": "gray" },
+      { "trait": "natural_hair_color_gray" },
       { "group": "NPC_starting_traits" },
       { "trait": "NO_BASH" },
       { "trait": "RETURN_TO_START_POS" }
@@ -111,14 +112,12 @@
       },
       {
         "text": "Hmm, can we change this haircut a little please?",
-        "topic": "TALK_DONE",
-        "effect": "barber_hair",
+        "topic": "TALK_CUT_YOUR_HAIR",
         "condition": { "npc_has_effect": "vanessa_haircut_in_progress" }
       },
       {
         "text": "Hmm, can we change this shave a little please?",
-        "topic": "TALK_DONE",
-        "effect": "barber_beard",
+        "topic": "TALK_CUT_YOUR_BEARD",
         "condition": { "npc_has_effect": "vanessa_shave_in_progress" }
       },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
@@ -143,7 +142,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Vanessa_1a",
-    "dynamic_line": "*peers at you for a while before speaking.  \"Oh, you're back.\"",
+    "dynamic_line": { "gendered_line": "*peers at you for a while before speaking.  \"Oh, you're back.\"", "relevant_genders": [ "u" ] },
     "responses": [
       { "text": "Hi, Vanessa.  What's up?", "topic": "TALK_REFUGEE_Vanessa_2" },
       { "text": "Nevermind.  I'm going.", "topic": "TALK_DONE" }
@@ -177,15 +176,10 @@
     "dynamic_line": {
       "concatenate": [
         {
-          "u_compare_var": "refugee_happiness",
-          "type": "counter",
-          "context": "refugee_center",
-          "op": ">=",
-          "value": 5,
-          "yes": "Well, I",
-          "no": "You want the sarcastic version, or the really sarcastic version?  I"
+          "math": [ "u_counter_refugee_center_refugee_happiness", ">=", "5" ],
+          "yes": "Well, I'm stuck in a dank shitty brick building with two dozen strangers, the world's dead",
+          "no": "You want the sarcastic version, or the really sarcastic version?  I'm stuck in a dank shitty brick building with two dozen strangers, the world's dead"
         },
-        "'m stuck in a dank shitty brick building with two dozen strangers, the world's dead",
         {
           "u_has_var": "tacoma_started",
           "type": "knowledge",
@@ -222,35 +216,44 @@
     "responses": [
       {
         "text": "[6 merch] Please give me a haircut.",
-        "topic": "TALK_DONE",
+        "topic": "TALK_CUT_YOUR_HAIR",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 6 } },
         "effect": [
           { "u_sell_item": "FMCNote", "count": 6 },
-          "barber_hair",
           "buy_haircut",
           { "npc_add_effect": "vanessa_haircut_in_progress", "duration": 100 }
         ]
       },
       {
         "text": "[3 merch] Please give me a shave.",
-        "topic": "TALK_DONE",
+        "topic": "TALK_CUT_YOUR_BEARD",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 3 } },
         "effect": [
           { "u_sell_item": "FMCNote", "count": 3 },
-          "barber_beard",
           "buy_shave",
           { "npc_add_effect": "vanessa_shave_in_progress", "duration": 100 }
         ]
       },
       {
         "text": "Actually, you owe me a free haircut, remember?",
-        "topic": "TALK_DONE",
+        "topic": "TALK_CUT_YOUR_HAIR",
         "condition": { "npc_has_var": "owed_haircut_1", "type": "mission", "context": "services", "value": "yes" },
         "effect": [
           { "npc_add_var": "owed_haircut_1", "type": "mission", "context": "services", "value": "no" },
-          "barber_hair",
           { "npc_add_effect": "vanessa_haircut_in_progress", "duration": 100 }
         ]
+      },
+      {
+        "text": "Could you fix it to where I can grow my hair out, please?",
+        "topic": "TALK_DONE",
+        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "effect": { "u_add_trait": "natural_hair_growth" }
+      },
+      {
+        "text": "I'd like it if my hair didn't grow out anymore.  Can you help me with that?",
+        "topic": "TALK_DONE",
+        "condition": { "u_has_trait": "natural_hair_growth" },
+        "effect": { "u_lose_trait": "natural_hair_growth" }
       },
       { "text": "That's a bit rich for my blood.  What were you saying before?", "topic": "TALK_NONE" },
       { "text": "That's a bit rich for my blood.  I better head out.", "topic": "TALK_DONE" }
@@ -287,7 +290,7 @@
       "effect": [
         { "u_add_var": "Vanessa_Mission1", "type": "mission", "context": "flag", "value": "yes" },
         { "npc_add_var": "owed_haircut_1", "type": "mission", "context": "services", "value": "yes" },
-        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 2 }
+        { "math": [ "u_counter_refugee_center_refugee_happiness", "+=", "2" ] }
       ]
     }
   }

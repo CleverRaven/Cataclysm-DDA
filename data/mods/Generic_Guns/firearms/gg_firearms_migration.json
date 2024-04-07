@@ -5,7 +5,7 @@
     "replace": "black_powder_pistol"
   },
   {
-    "id": [ "colt_navy", "colt_army", "lemat_revolver" ],
+    "id": [ "colt_navy", "colt_army" ],
     "type": "MIGRATION",
     "replace": "black_powder_revolver"
   },
@@ -15,7 +15,7 @@
     "replace": "black_powder_rifle"
   },
   {
-    "id": [ "launcher_simple", "m79" ],
+    "id": [ "brogyaga", "launcher_simple", "m79" ],
     "type": "MIGRATION",
     "replace": "grenade_blooper"
   },
@@ -25,12 +25,12 @@
     "replace": "grenade_hmg"
   },
   {
-    "id": [ "m320" ],
+    "id": [ "m320", "brogyeki" ],
     "type": "MIGRATION",
     "replace": "grenade_pistol"
   },
   {
-    "id": [ "mgl", "rm802", "triple_launcher_simple", "pseudo_m203" ],
+    "id": [ "mgl", "sapra", "robofac_gun_40mm", "triple_launcher_simple", "pseudo_m203" ],
     "type": "MIGRATION",
     "replace": "grenade_revolver"
   },
@@ -56,12 +56,12 @@
     "replace": "pistol_machine"
   },
   {
-    "id": [ "deagle_44", "m1911-460", "draco" ],
+    "id": [ "deagle_44", "modular_deagle", "modular_deagle_357", "modular_deagle_44", "modular_deagle_50", "m1911-460", "draco" ],
     "type": "MIGRATION",
     "replace": "pistol_magnum_automag"
   },
   {
-    "id": [ "henry_big_boy", "bh_m89" ],
+    "id": [ "henry_big_boy" ],
     "type": "MIGRATION",
     "replace": "pistol_magnum_levergun"
   },
@@ -71,7 +71,7 @@
     "replace": "pistol_magnum_pipe"
   },
   {
-    "id": [ "sw_619", "mr73", "ruger_redhawk", "sw629", "bfr", "sw_500", "raging_bull", "raging_judge" ],
+    "id": [ "sw_619", "mr73", "sw629", "bfr", "sw_500", "raging_bull", "raging_judge" ],
     "type": "MIGRATION",
     "replace": "pistol_magnum_revolver"
   },
@@ -103,6 +103,7 @@
       "walther_p38",
       "walther_ccp",
       "makarov",
+      "STI_DS_10",
       "af2011a1_38super",
       "m1911a1_38super",
       "glock_22",
@@ -125,6 +126,7 @@
       "px4_40",
       "glock_29",
       "glock_20",
+      "glock_40",
       "glock_21",
       "m1911_10",
       "witness_10",
@@ -144,21 +146,7 @@
     "replace": "pistol_pcc"
   },
   {
-    "id": [
-      "2_shot_special",
-      "rifle_38",
-      "rifle_380",
-      "rifle_40",
-      "smg_40",
-      "surv_six_shooter",
-      "rifle_45",
-      "smg_45",
-      "surv_hand_cannon",
-      "rifle_9mm",
-      "smg_9mm",
-      "rifle_32",
-      "rifle_9x18"
-    ],
+    "id": [ "2_shot_special", "rifle_38", "smg_40", "surv_six_shooter", "smg_45", "surv_hand_cannon", "smg_9mm" ],
     "type": "MIGRATION",
     "replace": "pistol_pipe_smg"
   },
@@ -175,6 +163,10 @@
       "uzi",
       "TDI",
       "hk_ump45",
+      "modular_ump",
+      "modular_ump_9",
+      "modular_ump_40",
+      "modular_ump_45",
       "fn_p90",
       "fn_ps90",
       "needlegun",
@@ -213,7 +205,6 @@
       "nato_assault_rifle",
       "modular_m4_carbine",
       "m4_carbine",
-      "m4_cqbr",
       "modular_m27_assault_rifle",
       "m27_assault_rifle",
       "modular_m16_auto_rifle",
@@ -238,7 +229,7 @@
     "replace": "rifle_huge_amr"
   },
   {
-    "id": [ "m2browning_sawn", "bfg50", "trex_gun" ],
+    "id": [ "win70_458", "bfg50" ],
     "type": "MIGRATION",
     "replace": "rifle_huge_double"
   },
@@ -248,7 +239,7 @@
     "replace": "rifle_huge_hmg"
   },
   {
-    "id": [ "m134", "m249", "m240", "m60", "rm614_lmg", "rm298" ],
+    "id": [ "m134", "m249", "m240", "m60", "rm614_lmg" ],
     "type": "MIGRATION",
     "replace": "rifle_lmg"
   },
@@ -278,6 +269,7 @@
       "browning_blr",
       "remington_700",
       "savage_111f",
+      "steyr_scout",
       "M24",
       "sharps"
     ],
@@ -293,9 +285,13 @@
       "m14ebr",
       "smle_mk3",
       "number4_mki",
+      "type99",
+      "type99ld",
+      "type99_sniper",
       "ar10",
       "1895sbl",
       "ak74",
+      "ak74_semi",
       "vz58ts",
       "ruger_m77",
       "ruger_pr",
@@ -334,7 +330,7 @@
       "sig_assault_rifle",
       "steyr_aug",
       "iwi_tavor_x95_300blk",
-      "fn_fal",
+      "fn_fal_semi",
       "m1a",
       "sks",
       "mosin44",
@@ -411,6 +407,7 @@
       "afs_raketa_shotgun",
       "tavor_12",
       "aa_12",
+      "benelli_tsa",
       "bigun",
       "USAS_12"
     ],
@@ -420,6 +417,7 @@
   {
     "id": [
       "shotgun_410",
+      "benelli_sa",
       "ksg",
       "ksg-25",
       "mossberg_500",
