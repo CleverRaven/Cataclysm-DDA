@@ -61,14 +61,14 @@ static void on_load_test( npc &who, const time_duration &from, const time_durati
 
 static void test_needs( const npc &who, const numeric_interval<int> &hunger,
                         const numeric_interval<int> &thirst,
-                        const numeric_interval<int> &fatigue )
+                        const numeric_interval<int> &sleepiness )
 {
     CHECK( who.get_hunger() <= hunger.max );
     CHECK( who.get_hunger() >= hunger.min );
     CHECK( who.get_thirst() <= thirst.max );
     CHECK( who.get_thirst() >= thirst.min );
-    CHECK( who.get_fatigue() <= fatigue.max );
-    CHECK( who.get_fatigue() >= fatigue.min );
+    CHECK( who.get_sleepiness() <= sleepiness.max );
+    CHECK( who.get_sleepiness() >= sleepiness.min );
 }
 
 static npc create_model()
@@ -81,9 +81,9 @@ static npc create_model()
     }
     model_npc.set_hunger( 0 );
     model_npc.set_thirst( 0 );
-    model_npc.set_fatigue( 0 );
+    model_npc.set_sleepiness( 0 );
     model_npc.remove_effect( effect_sleep );
-    // An ugly hack to prevent NPC falling asleep during testing due to massive fatigue
+    // An ugly hack to prevent NPC falling asleep during testing due to massive sleepiness
     model_npc.set_mutation( trait_WEB_WEAVER );
 
     return model_npc;
@@ -112,7 +112,7 @@ static std::string get_list_of_monsters( const std::string &title )
 
 TEST_CASE( "on_load-sane-values", "[.]" )
 {
-    SECTION( "Awake for 10 minutes, gaining hunger/thirst/fatigue" ) {
+    SECTION( "Awake for 10 minutes, gaining hunger/thirst/sleepiness" ) {
         npc test_npc = create_model();
         const int five_min_ticks = 2;
         on_load_test( test_npc, 0_turns, 5_minutes * five_min_ticks );
@@ -120,12 +120,12 @@ TEST_CASE( "on_load-sane-values", "[.]" )
 
         const numeric_interval<int> hunger( five_min_ticks / 4, margin, margin );
         const numeric_interval<int> thirst( five_min_ticks / 4, margin, margin );
-        const numeric_interval<int> fatigue( five_min_ticks, margin, margin );
+        const numeric_interval<int> sleepiness( five_min_ticks, margin, margin );
 
-        test_needs( test_npc, hunger, thirst, fatigue );
+        test_needs( test_npc, hunger, thirst, sleepiness );
     }
 
-    SECTION( "Awake for 2 days, gaining hunger/thirst/fatigue" ) {
+    SECTION( "Awake for 2 days, gaining hunger/thirst/sleepiness" ) {
         npc test_npc = create_model();
         const double five_min_ticks = 2_days / 5_minutes;
         on_load_test( test_npc, 0_turns, 5_minutes * five_min_ticks );
@@ -133,19 +133,19 @@ TEST_CASE( "on_load-sane-values", "[.]" )
         const int margin = 20;
         const numeric_interval<int> hunger( five_min_ticks / 4, margin, margin );
         const numeric_interval<int> thirst( five_min_ticks / 4, margin, margin );
-        const numeric_interval<int> fatigue( five_min_ticks, margin, margin );
+        const numeric_interval<int> sleepiness( five_min_ticks, margin, margin );
 
-        test_needs( test_npc, hunger, thirst, fatigue );
+        test_needs( test_npc, hunger, thirst, sleepiness );
     }
 
-    SECTION( "Sleeping for 6 hours, gaining hunger/thirst (not testing fatigue due to lack of effects processing)" ) {
+    SECTION( "Sleeping for 6 hours, gaining hunger/thirst (not testing sleepiness due to lack of effects processing)" ) {
         npc test_npc = create_model();
         test_npc.add_effect( effect_sleep, 6_hours );
-        test_npc.set_fatigue( 1000 );
+        test_npc.set_sleepiness( 1000 );
         const double five_min_ticks = 6_hours / 5_minutes;
         /*
-        // Fatigue regeneration starts at 1 per 5min, but linearly increases to 2 per 5min at 2 hours or more
-        const int expected_fatigue_change =
+        // sleepiness regeneration starts at 1 per 5min, but linearly increases to 2 per 5min at 2 hours or more
+        const int expected_sleepiness_change =
             ((1.0f + 2.0f) / 2.0f * 2_hours / 5_minutes ) +
             (2.0f * (6_hours - 2_hours) / 5_minutes);
         */
@@ -154,15 +154,15 @@ TEST_CASE( "on_load-sane-values", "[.]" )
         const int margin = 10;
         const numeric_interval<int> hunger( five_min_ticks / 8, margin, margin );
         const numeric_interval<int> thirst( five_min_ticks / 8, margin, margin );
-        const numeric_interval<int> fatigue( test_npc.get_fatigue(), 0, 0 );
+        const numeric_interval<int> sleepiness( test_npc.get_sleepiness(), 0, 0 );
 
-        test_needs( test_npc, hunger, thirst, fatigue );
+        test_needs( test_npc, hunger, thirst, sleepiness );
     }
 }
 
 TEST_CASE( "on_load-similar-to-per-turn", "[.]" )
 {
-    SECTION( "Awake for 10 minutes, gaining hunger/thirst/fatigue" ) {
+    SECTION( "Awake for 10 minutes, gaining hunger/thirst/sleepiness" ) {
         npc on_load_npc = create_model();
         npc iterated_npc = create_model();
         const int five_min_ticks = 2;
@@ -175,12 +175,12 @@ TEST_CASE( "on_load-similar-to-per-turn", "[.]" )
         const int margin = 2;
         const numeric_interval<int> hunger( iterated_npc.get_hunger(), margin, margin );
         const numeric_interval<int> thirst( iterated_npc.get_thirst(), margin, margin );
-        const numeric_interval<int> fatigue( iterated_npc.get_fatigue(), margin, margin );
+        const numeric_interval<int> sleepiness( iterated_npc.get_sleepiness(), margin, margin );
 
-        test_needs( on_load_npc, hunger, thirst, fatigue );
+        test_needs( on_load_npc, hunger, thirst, sleepiness );
     }
 
-    SECTION( "Awake for 6 hours, gaining hunger/thirst/fatigue" ) {
+    SECTION( "Awake for 6 hours, gaining hunger/thirst/sleepiness" ) {
         npc on_load_npc = create_model();
         npc iterated_npc = create_model();
         const double five_min_ticks = 6_hours / 5_minutes;
@@ -193,9 +193,9 @@ TEST_CASE( "on_load-similar-to-per-turn", "[.]" )
         const int margin = 10;
         const numeric_interval<int> hunger( iterated_npc.get_hunger(), margin, margin );
         const numeric_interval<int> thirst( iterated_npc.get_thirst(), margin, margin );
-        const numeric_interval<int> fatigue( iterated_npc.get_fatigue(), margin, margin );
+        const numeric_interval<int> sleepiness( iterated_npc.get_sleepiness(), margin, margin );
 
-        test_needs( on_load_npc, hunger, thirst, fatigue );
+        test_needs( on_load_npc, hunger, thirst, sleepiness );
     }
 }
 

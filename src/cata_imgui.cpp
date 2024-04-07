@@ -89,6 +89,9 @@ void cataimgui::client::set_alloced_pair_count( short count )
 
 void cataimgui::client::process_input( void *input )
 {
+    if( !any_window_shown() ) {
+        return;
+    }
     if( input ) {
         input_event *curses_input = static_cast<input_event *>( input );
         ImTui::mouse_event new_mouse_event = ImTui::mouse_event();
@@ -261,7 +264,9 @@ void cataimgui::client::end_frame()
 
 void cataimgui::client::process_input( void *input )
 {
-    ImGui_ImplSDL2_ProcessEvent( static_cast<const SDL_Event *>( input ) );
+    if( any_window_shown() ) {
+        ImGui_ImplSDL2_ProcessEvent( static_cast<const SDL_Event *>( input ) );
+    }
 }
 
 #endif
@@ -274,6 +279,18 @@ bool cataimgui::client::auto_size_frame_active()
         }
     }
     return false;
+}
+
+bool cataimgui::client::any_window_shown()
+{
+    bool any_window_shown = false;
+    for( const ImGuiWindow *window : GImGui->Windows ) {
+        if( window->Active && !window->Hidden ) {
+            any_window_shown = true;
+            break;
+        }
+    }
+    return any_window_shown;
 }
 
 static ImGuiKey cata_key_to_imgui( int cata_key )
@@ -435,7 +452,7 @@ class cataimgui::window_impl
                 ImVec2 imsize = ImGui::GetWindowSize();
                 imvec2_to_point( &impos, &catapos );
                 imvec2_to_point( &imsize, &catasize );
-                window_adaptor->position( catapos, catasize );
+                window_adaptor->position_absolute( catapos, catasize );
             } );
             window_adaptor->on_screen_resize( [this]( ui_adaptor & ) {
                 is_resized = true;

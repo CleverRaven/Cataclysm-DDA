@@ -1012,7 +1012,7 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
     switch( rng( 1, 6 ) ) {
         //Mycus spreading through the portal
         case 1: {
-            m.add_field( portal_location, fd_fatigue, 3 );
+            m.add_field( portal_location, fd_reality_tear, 3 );
             fungal_effects fe;
             for( const tripoint &loc : m.points_in_radius( portal_location, 5 ) ) {
                 if( one_in( 3 ) ) {
@@ -1025,7 +1025,7 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
         }
         //Netherworld monsters spawning around the portal
         case 2: {
-            m.add_field( portal_location, fd_fatigue, 3 );
+            m.add_field( portal_location, fd_reality_tear, 3 );
             for( const tripoint &loc : m.points_in_radius( portal_location, 5 ) ) {
                 m.place_spawns( GROUP_NETHER_PORTAL, 15, loc.xy(), loc.xy(), 1, true );
             }
@@ -1033,7 +1033,7 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
         }
         //Several cracks in the ground originating from the portal
         case 3: {
-            m.add_field( portal_location, fd_fatigue, 3 );
+            m.add_field( portal_location, fd_reality_tear, 3 );
             for( int i = 0; i < rng( 1, 10 ); i++ ) {
                 tripoint end_location = { rng( 0, SEEX * 2 - 1 ), rng( 0, SEEY * 2 - 1 ), abs_sub.z };
                 std::vector<tripoint> failure = line_to( portal_location, end_location );
@@ -1045,7 +1045,7 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
         }
         //Radiation from the portal killed the vegetation
         case 4: {
-            m.add_field( portal_location, fd_fatigue, 3 );
+            m.add_field( portal_location, fd_reality_tear, 3 );
             const int rad = 5;
             for( int i = p.x - rad; i <= p.x + rad; i++ ) {
                 for( int j = p.y - rad; j <= p.y + rad; j++ ) {
@@ -1086,7 +1086,7 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
                 }
 
                 const tripoint portal_location = { p1 + tripoint( extra, abs_sub.z ) };
-                m.add_field( portal_location, fd_fatigue, 3 );
+                m.add_field( portal_location, fd_reality_tear, 3 );
 
                 std::set<point> ignited;
                 place_fumarole( m, p1, p2, ignited );
@@ -1106,7 +1106,7 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
         }
         //Anomaly caused by the portal and spawned an artifact
         case 6: {
-            m.add_field( portal_location, fd_fatigue, 3 );
+            m.add_field( portal_location, fd_reality_tear, 3 );
             artifact_natural_property prop =
                 static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) );
             m.create_anomaly( portal_location, prop );

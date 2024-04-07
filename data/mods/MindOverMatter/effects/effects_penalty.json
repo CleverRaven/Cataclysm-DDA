@@ -392,8 +392,8 @@
     "remove_message": "You don't feel as bad anymore!",
     "rating": "bad",
     "max_intensity": 10,
-    "base_mods": { "fatigue_tick": [ 300 ], "fatigue_min": [ 1 ], "health_min": [ -1 ], "health_tick": [ 400 ] },
-    "scaling_mods": { "fatigue_min": [ 1 ], "health_min": [ -1 ] },
+    "base_mods": { "sleepiness_tick": [ 300 ], "sleepiness_min": [ 1 ], "health_min": [ -1 ], "health_tick": [ 400 ] },
+    "scaling_mods": { "sleepiness_min": [ 1 ], "health_min": [ -1 ] },
     "limb_score_mods": [ { "limb_score": "breathing", "modifier": 0.8 }, { "limb_score": "manip", "modifier": 0.8 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },

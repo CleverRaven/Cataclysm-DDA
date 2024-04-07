@@ -941,20 +941,20 @@ void avatar::disp_morale()
 {
     int equilibrium = calc_focus_equilibrium();
 
-    int fatigue_penalty = 0;
-    const int fatigue_cap = focus_equilibrium_fatigue_cap( equilibrium );
+    int sleepiness_penalty = 0;
+    const int sleepiness_cap = focus_equilibrium_sleepiness_cap( equilibrium );
 
-    if( fatigue_cap < equilibrium ) {
-        fatigue_penalty = equilibrium - fatigue_cap;
-        equilibrium = fatigue_cap;
+    if( sleepiness_cap < equilibrium ) {
+        sleepiness_penalty = equilibrium - sleepiness_cap;
+        equilibrium = sleepiness_cap;
     }
 
     int pain_penalty = 0;
     if( get_perceived_pain() && !has_trait( trait_CENOBITE ) ) {
-        pain_penalty = calc_focus_equilibrium( true ) - equilibrium - fatigue_penalty;
+        pain_penalty = calc_focus_equilibrium( true ) - equilibrium - sleepiness_penalty;
     }
 
-    morale->display( equilibrium, pain_penalty, fatigue_penalty );
+    morale->display( equilibrium, pain_penalty, sleepiness_penalty );
 }
 
 void avatar::reset_stats()

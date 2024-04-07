@@ -2876,7 +2876,7 @@ void game::bury_screen() const
     sfx::fade_audio_group( sfx::group::weather, 2000 );
     sfx::fade_audio_group( sfx::group::time_of_day, 2000 );
     sfx::fade_audio_group( sfx::group::context_themes, 2000 );
-    sfx::fade_audio_group( sfx::group::fatigue, 2000 );
+    sfx::fade_audio_group( sfx::group::sleepiness, 2000 );
 
     for( size_t iY = 0; iY < vRip.size(); ++iY ) {
         size_t iX = 0;
@@ -10671,7 +10671,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
         if( !m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, dest_loc ) &&
             one_in( 80 + u.dex_cur + u.int_cur ) ) {
             add_msg( _( "Your tentacles stick to the ground, but you pull them free." ) );
-            u.mod_fatigue( 1 );
+            u.mod_sleepiness( 1 );
         }
     }
 
