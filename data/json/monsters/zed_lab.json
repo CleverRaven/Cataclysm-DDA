@@ -202,7 +202,7 @@
     "symbol": "g",
     "color": "white_red",
     "aggression": 100,
-    "morale": 100,
+    "morale": 30,
     "melee_skill": 3,
     "melee_dice": 2,
     "melee_dice_sides": 4,
@@ -213,13 +213,12 @@
     "vision_day": 50,
     "vision_night": 30,
     "harvest": "zombie_humanoid",
-    "path_settings": { "max_dist": 5 },
+    "path_settings": { "max_dist": 45, "avoid_traps": true, "avoid_sharp": true },
     "grab_strength": 20,
-    "special_attacks": [ { "id": "grab" }, { "id": "scratch_humanoid" } ],
+    "special_attacks": [ { "id": "grab" }, { "id": "scratch_humanoid" }, { "id": "bite_humanoid", "cooldown": 5 } ],
     "death_drops": "mon_ghoul_death_drops",
     "burn_into": "mon_zombie_scorched",
     "upgrades": { "half_life": 32, "into_group": "GROUP_LABGHOULBABY_UPGRADE" },
-    "flags": [ "SEES", "HEARS", "WARM", "GRABS", "BASHES", "POISON", "REVIVES", "PUSH_MON", "FILTHY" ],
-    "armor": { "electric": 1 }
+    "flags": [ "SEES", "HEARS", "WARM", "GRABS", "BASHES", "POISON", "REVIVES", "PUSH_MON", "FILTHY", "PATH_AVOID_DANGER_1" ]
   }
 ]
