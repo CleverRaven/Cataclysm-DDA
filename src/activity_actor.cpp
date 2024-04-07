@@ -7587,10 +7587,6 @@ void heat_activity_actor::start( player_activity &act, Character & )
 
 void heat_activity_actor::finish( player_activity &act, Character &p )
 {
-    const auto is_liquid_crafting_component = []( const item & it ) {
-        return is_crafting_component( it ) && ( !it.count_by_charges() || it.made_of( phase_id::LIQUID ) );
-    };
-    const inventory &crafting_inv = p.crafting_inventory();
     for( drop_location &ait : to_heat ) {
         item_location cold_item = ait.first;
         if( cold_item->count_by_charges() ) {
