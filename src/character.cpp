@@ -217,6 +217,8 @@ static const efftype_id effect_disinfected( "disinfected" );
 static const efftype_id effect_disrupted_sleep( "disrupted_sleep" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_drunk( "drunk" );
+static const efftype_id effect_fasting( "fasting" );
+static const efftype_id effect_fasting_prolonged( "fasting_prolonged" );
 static const efftype_id effect_fearparalyze( "fearparalyze" );
 static const efftype_id effect_flu( "flu" );
 static const efftype_id effect_foodpoison( "foodpoison" );
@@ -568,6 +570,7 @@ Character::Character() :
     update_type_of_scent( true );
     pkill = 0;
     fasting_days = 0;
+    fasting_bmr = 0; //tracks BMR at start of fasting period because weight changes BMR over time
     // 55 Mcal or 55k kcal
     healthy_calories = 55'000'000;
     base_cardio_acc = 1000;
@@ -4585,23 +4588,47 @@ int Character::get_fasting_days() const
     return fasting_days;
 }
 
+void Character::set_fasting_bmr( int nfasting_bmr )
+{
+    fasting_bmr = nfasting_bmr;
+}
+
+int Character::get_fasting_bmr() const
+{
+    return fasting_bmr;
+}
+
 void Character::update_fasting()
 {
-    const int current_fasting_days = get_fasting_days();
-    const int total_entries = ( as_avatar() )->get_calorie_diary_entries();
-    int fast_total_days = 0;
-    while( fast_total_days < total_entries &&
-           ( as_avatar() )->get_daily_ingested_kcal( fast_total_days ) < 100 ) {
-        fast_total_days++;
-    }
-    if( fast_total_days < current_fasting_days ) {
-        const int fast_bonus = std::clamp( ( 2 + current_fasting_days ), 2, 30 );
-        add_morale( MORALE_FASTING_BROKE, fast_bonus, fast_bonus, 60_minutes, 60_minutes, true );
-        fast_total_days = 0;
-    }
-    //fasting must occur over at least one whole day
-    if( fast_total_days != 1 ) {
-        set_fasting_days( fast_total_days );
+    if( needs_food() ) {
+        if( !has_effect( effect_fasting ) ) {
+            set_fasting_bmr( get_bmr() );
+        }
+        const int current_fasting_days = get_fasting_days();
+        const int total_entries = ( as_avatar() )->get_calorie_diary_entries();
+        int fast_total_days = 0;
+        while( fast_total_days < total_entries &&
+               ( as_avatar() )->get_daily_ingested_kcal( fast_total_days ) < ( get_fasting_bmr() / 10 ) ) {
+            fast_total_days++;
+        }
+        if( fast_total_days < current_fasting_days ) {
+            const int fast_bonus = std::clamp( ( 2 + current_fasting_days ), 2, 30 );
+            add_morale( MORALE_FASTING_BROKE, fast_bonus, fast_bonus, 60_minutes, 60_minutes, true );
+            remove_effect( effect_fasting );
+            remove_effect( effect_fasting_prolonged );
+            set_fasting_days( 0 );
+        }
+        //fasting must occur over at least one whole day
+        if( fast_total_days > 1 ) {
+            set_fasting_days( fast_total_days );
+            if( fast_total_days > 3 ) {
+                remove_effect( effect_fasting );
+                time_duration duration = 30_minutes * activity_history.average_activity();
+                add_effect( effect_fasting_prolonged, duration, true );
+            } else if( !has_effect( effect_fasting ) && !has_effect( effect_fasting_prolonged ) ) {
+                add_effect( effect_fasting, 30_minutes, true );
+            }
+        }
     }
 }
 

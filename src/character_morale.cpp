@@ -113,7 +113,7 @@ void Character::apply_persistent_morale()
 
     const int fasting_days = get_fasting_days();
     if( fasting_days > 0 ) {
-        const int fast_pen = std::clamp( ( fasting_days * 2 ), 2, 60 );
+        const int fast_pen = std::clamp( ( fasting_days * 4 ), 4, 60 );
         add_morale( MORALE_FASTING, -fast_pen, -fast_pen, 1_minutes, 1_minutes, true );
     }
 }

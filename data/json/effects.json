@@ -4484,6 +4484,61 @@
     "id": "hunger_blank"
   },
   {
+    "type": "effect_type",
+    "id": "fasting",
+    "name": [ "Fasting" ],
+    "desc": [ "You haven't eaten for a little while." ],
+    "apply_message": "You haven't eaten anything in a day.",
+    "rating": "mixed"
+  },
+  {
+    "type": "effect_type",
+    "id": "fasting_prolonged",
+    "name": [ "Prolonged Fasting", "Harmful Fasting", "Harmful Fasting", "Harmful Fasting" ],
+    "desc": [
+      "You haven't eaten for a while.",
+      "You haven't eaten for too long.",
+      "You haven't eaten for far too long.",
+      "You haven't eaten for far too long."
+    ],
+    "max_intensity": 4,
+    "int_dur_factor": "168 h",
+    "//": "1 intensity per week",
+    "base_mods": {
+      "speed_mod": [ 0 ],
+      "hunger_min": [ 1 ],
+      "hunger_chance": [ 1000 ],
+      "fatigue_min": [ 1 ],
+      "fatigue_chance": [ 1600 ],
+      "blood_pressure_min": [ -1 ],
+      "blood_pressure_chance": [ 2000 ],
+      "str_mod": [ 0 ],
+      "dex_mod": [ 0 ],
+      "per_mod": [ 0 ],
+      "int_mod": [ 0 ],
+      "h_mod_min": [ -1 ],
+      "h_mod_chance": [ 2000 ],
+      "pain_min": [ 1 ],
+      "pain_chance": [ 2000 ],
+      "vomit_chance": [ -1000 ]
+    },
+    "scaling_mods": {
+      "speed_mod": [ -10 ],
+      "hunger_chance": [ -225 ],
+      "fatigue_chance": [ -350 ],
+      "blood_pressure_chance": [ -450 ],
+      "pain_chance": [ -450 ],
+      "vomit_chance": [ 255 ],
+      "h_mod_chance": [ -400 ],
+      "str_mod": [ -1 ],
+      "dex_mod": [ -1 ],
+      "per_mod": [ -1 ],
+      "int_mod": [ -1 ]
+    },
+    "apply_message": "You're beginning to feel the effects of your fast.",
+    "rating": "bad"
+  },
+  {
     "//": "Limits the number of police bots summoned to 3 every 6 hours",
     "type": "effect_type",
     "id": "eyebot_assisted",
