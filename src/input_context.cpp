@@ -663,20 +663,7 @@ void keybindings_ui::draw_controls()
     if( last_status != status && status == kb_menu_status::filter ) {
         ImGui::SetKeyboardFocusHere( 0 );
     }
-    if( status != kb_menu_status::filter ) {
-        action_button( "FILTER", "[/] Set" );
-        ImGui::SameLine();
-        action_button( "RESET_FILTER", "[r] Clear" );
-        ImGui::SameLine();
-    } else {
-        action_button( "QUIT", "[ESC] Cancel" );
-        ImGui::SameLine();
-        action_button( "TEXT.CONFIRM", "[RET] OK" );
-        ImGui::SameLine();
-    }
-    ImGui::BeginDisabled( status != kb_menu_status::filter );
-    draw_filter_box();
-    ImGui::EndDisabled();
+    draw_filter(status == kb_menu_status::filter);
     ImGui::Separator();
 
     if( last_status != status && status == kb_menu_status::show ) {

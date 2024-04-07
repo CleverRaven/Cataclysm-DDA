@@ -607,15 +607,29 @@ cataimgui::bounds cataimgui::window::get_bounds()
     return { -1.f, -1.f, -1.f, -1.f };
 }
 
-void cataimgui::window::draw_filter_box()
+void cataimgui::window::draw_filter(bool filtering_active)
 {
     if( !filter_impl ) {
         filter_impl = std::make_unique<cataimgui::filter_box_impl>();
         filter_impl->id = 0;
         filter_impl->text[0] = '\0';
     }
+
+    if( !filtering_active ) {
+        action_button( "FILTER", "[/] Set" );
+        ImGui::SameLine();
+        action_button( "RESET_FILTER", "[r] Clear" );
+        ImGui::SameLine();
+    } else {
+        action_button( "QUIT", "[ESC] Cancel" );
+        ImGui::SameLine();
+        action_button( "TEXT.CONFIRM", "[RET] OK" );
+        ImGui::SameLine();
+    }
+    ImGui::BeginDisabled( filtering_active );
     ImGui::InputText( "##FILTERBOX", filter_impl->text,
-                      std::extent_v < decltype( filter_impl->text ) > );
+        std::extent_v < decltype(filter_impl->text) > );
+    ImGui::EndDisabled();
     if( !filter_impl->id ) {
         filter_impl->id = GImGui->LastItemData.ID;
     }

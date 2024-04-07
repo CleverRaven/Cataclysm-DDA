@@ -116,7 +116,7 @@ class window
         std::string button_action;
         virtual bounds get_bounds();
         virtual void draw_controls() = 0;
-        void draw_filter_box();
+        void draw_filter(bool filtering_active);
 };
 
 #if !(defined(TILES) || defined(WIN32))
