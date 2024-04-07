@@ -854,7 +854,7 @@ std::optional<int> iuse::meth( Character *p, item *, const tripoint & )
     if( p->has_amount( itype_apparatus, 1 ) && p->use_charges_if_avail( itype_fire, 1 ) ) {
         p->add_msg_if_player( m_neutral, _( "You smoke your meth." ) );
         p->add_msg_if_player( m_good, _( "The world seems to sharpen." ) );
-        p->mod_fatigue( -375 );
+        p->mod_sleepiness( -375 );
         if( p->has_trait( trait_TOLERANCE ) ) {
             duration *= 1.2;
         } else {
@@ -868,7 +868,7 @@ std::optional<int> iuse::meth( Character *p, item *, const tripoint & )
         }
     } else {
         p->add_msg_if_player( _( "You snort some crystal meth." ) );
-        p->mod_fatigue( -300 );
+        p->mod_sleepiness( -300 );
     }
     if( !p->has_effect( effect_meth ) ) {
         duration += 1_hours;
@@ -949,10 +949,10 @@ std::optional<int> iuse::thorazine( Character *p, item *, const tripoint & )
 {
     if( p->has_effect( effect_took_thorazine ) ) {
         p->remove_effect( effect_took_thorazine );
-        p->mod_fatigue( 15 );
+        p->mod_sleepiness( 15 );
     }
     p->add_effect( effect_took_thorazine, 12_hours );
-    p->mod_fatigue( 5 );
+    p->mod_sleepiness( 5 );
     p->remove_effect( effect_hallu );
     p->remove_effect( effect_visuals );
     p->remove_effect( effect_high );
@@ -961,7 +961,7 @@ std::optional<int> iuse::thorazine( Character *p, item *, const tripoint & )
     }
     if( one_in( 50 ) ) { // adverse reaction
         p->add_msg_if_player( m_bad, _( "You feel completely exhausted." ) );
-        p->mod_fatigue( 15 );
+        p->mod_sleepiness( 15 );
         p->add_effect( effect_took_thorazine_bad, p->get_effect_dur( effect_took_thorazine ) );
     } else {
         p->add_msg_if_player( m_warning, _( "You feel a bit wobbly." ) );
@@ -1009,7 +1009,7 @@ std::optional<int> iuse::flumed( Character *p, item *it, const tripoint & )
 std::optional<int> iuse::flusleep( Character *p, item *it, const tripoint & )
 {
     p->add_effect( effect_took_flumed, 12_hours );
-    p->mod_fatigue( 30 );
+    p->mod_sleepiness( 30 );
     p->add_msg_if_player( _( "You take some %s." ), it->tname() );
     p->add_msg_if_player( m_warning, _( "You feel very sleepy…" ) );
     return 1;
@@ -1020,7 +1020,7 @@ std::optional<int> iuse::inhaler( Character *p, item *, const tripoint & )
     p->add_msg_player_or_npc( m_neutral, _( "You take a puff from your inhaler." ),
                               _( "<npcname> takes a puff from their inhaler." ) );
     if( !p->remove_effect( effect_asthma ) ) {
-        p->mod_fatigue( -3 ); // if we don't have asthma can be used as stimulant
+        p->mod_sleepiness( -3 ); // if we don't have asthma can be used as stimulant
         if( one_in( 20 ) ) {   // with a small but significant risk of adverse reaction
             p->add_effect( effect_shakes, rng( 2_minutes, 5_minutes ) );
         }
@@ -1283,7 +1283,7 @@ static void marloss_common( Character &p, item &it, const trait_id &current_colo
         p.mod_pain( 2 * rng( 1, 5 ) );
         p.mod_stored_kcal( -87 );
         p.mod_thirst( 10 );
-        p.mod_fatigue( 5 );
+        p.mod_sleepiness( 5 );
     } else if( effect <= 6 ) { // Radiation cleanse is below
         p.add_msg_if_player( m_good, _( "You feel better all over." ) );
         p.mod_painkiller( 30 );
@@ -1501,7 +1501,7 @@ std::optional<int> iuse::mycus( Character *p, item *, const tripoint & )
             p->mutate_category( mutation_category_MYCUS, false, true );
             p->mod_stored_kcal( -87 );
             p->mod_thirst( 10 );
-            p->mod_fatigue( 5 );
+            p->mod_sleepiness( 5 );
             p->add_morale( MORALE_MARLOSS, 25, 200 ); // still covers up mutation pain
         }
     } else if( p->has_trait( trait_THRESH_MYCUS ) ) {
@@ -1515,7 +1515,7 @@ std::optional<int> iuse::mycus( Character *p, item *, const tripoint & )
         p->mod_pain( 2 * rng( 1, 5 ) );
         p->mod_stored_kcal( -87 );
         p->mod_thirst( 10 );
-        p->mod_fatigue( 5 );
+        p->mod_sleepiness( 5 );
         p->vomit(); // no hunger/quench benefit for you
         p->mod_daily_health( -8, -50 );
     }
@@ -4222,7 +4222,7 @@ std::optional<int> iuse::hand_crank( Character *p, item *it, const tripoint & )
         p->add_msg_if_player( m_info, _( "It's not waterproof enough to work underwater." ) );
         return std::nullopt;
     }
-    if( p->get_fatigue() >= fatigue_levels::DEAD_TIRED ) {
+    if( p->get_sleepiness() >= sleepiness_levels::DEAD_TIRED ) {
         p->add_msg_if_player( m_info, _( "You're too exhausted to keep cranking." ) );
         return std::nullopt;
     }
@@ -4268,7 +4268,7 @@ std::optional<int> iuse::vibe( Character *p, item *it, const tripoint & )
         p->add_msg_if_player( m_info, _( "The %s's batteries are dead." ), it->tname() );
         return std::nullopt;
     }
-    if( p->get_fatigue() >= fatigue_levels::DEAD_TIRED ) {
+    if( p->get_sleepiness() >= sleepiness_levels::DEAD_TIRED ) {
         p->add_msg_if_player( m_info, _( "*Your* batteries are dead." ) );
         return std::nullopt;
     } else {
@@ -5087,7 +5087,7 @@ std::optional<int> iuse::stimpack( Character *p, item *it, const tripoint & )
         p->add_effect( effect_stimpack, 25_minutes, false, 2 );
         p->mod_painkiller( 2 );
         p->mod_stim( 20 );
-        p->mod_fatigue( -100 );
+        p->mod_sleepiness( -100 );
         p->set_stamina( p->get_stamina_max() );
     }
     return 1;

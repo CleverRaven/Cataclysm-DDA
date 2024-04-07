@@ -3086,7 +3086,7 @@ void npc::on_load()
     };
     const auto advance_focus = [this]( const int minutes ) {
         // scale to match focus_pool magnitude
-        const int equilibrium = 1000 * focus_equilibrium_fatigue_cap( calc_focus_equilibrium() );
+        const int equilibrium = 1000 * focus_equilibrium_sleepiness_cap( calc_focus_equilibrium() );
         const double focus_ratio = std::pow( 0.99, minutes );
         // Approximate new focus pool, every minute focus_pool contributes 99%, the remainder comes from equilibrium
         // This is pretty accurate as long as the equilibrium doesn't change too much during the period

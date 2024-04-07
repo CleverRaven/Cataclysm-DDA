@@ -3926,7 +3926,7 @@ CBMs can be defined like this:
 "spoils_in" : 0,            // A time duration: how long a comestible is good for. 0 = no spoilage.
 "use_action" : [ "CRACK" ],     // What effects a comestible has when used, see special definitions below
 "stim" : 40,                // Stimulant effect
-"fatigue_mod": 3,           // How much fatigue this comestible removes. (Negative values add fatigue)
+"sleepiness_mod": 3,           // How much sleepiness this comestible removes. (Negative values add sleepiness)
 "comestible_type" : "MED",  // Comestible type, used for inventory sorting. One of 'FOOD', 'DRINK', 'MED', or 'INVALID' (consider using a different "type" than COMESTIBLE instead of using INVALID)
 "consumption_effect_on_conditions" : [ "EOC_1" ],  // Effect on conditions to run after consuming.  Inline or string id supported
 "quench" : 0,               // Thirst quenched
@@ -4327,7 +4327,7 @@ Possible values (see src/artifact.h for an up-to-date list):
 - `AEA_ADRENALINE` Adrenaline rush
 - `AEA_MAP` Maps the area around you
 - `AEA_BLOOD` Shoots blood all over
-- `AEA_FATIGUE` Creates interdimensional fatigue
+- `AEA_SLEEPINESS` Creates interdimensional sleepiness
 - `AEA_ACIDBALL` Targeted acid
 - `AEA_PULSE` Destroys adjacent terrain
 - `AEA_HEAL` Heals minor damage

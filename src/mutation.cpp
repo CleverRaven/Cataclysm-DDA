@@ -334,9 +334,9 @@ bool Character::can_power_mutation( const trait_id &mut ) const
 {
     bool hunger = mut->hunger && get_kcal_percent() < 0.5f;
     bool thirst = mut->thirst && get_thirst() >= 260;
-    bool fatigue = mut->fatigue && get_fatigue() >= fatigue_levels::EXHAUSTED;
+    bool sleepiness = mut->sleepiness && get_sleepiness() >= sleepiness_levels::EXHAUSTED;
 
-    return !hunger && !fatigue && !thirst;
+    return !hunger && !sleepiness && !thirst;
 }
 
 void Character::mutation_reflex_trigger( const trait_id &mut )
@@ -740,7 +740,7 @@ void Character::activate_mutation( const trait_id &mut )
     trait_data &tdata = my_mutations[mut];
     int cost = mdata.cost;
     // You can take yourself halfway to Near Death levels of hunger/thirst.
-    // Fatigue can go to Exhausted.
+    // Sleepiness can go to Exhausted.
     if( !can_power_mutation( mut ) ) {
         // Insufficient Foo to *maintain* operation is handled in player::suffer
         add_msg_if_player( m_warning, _( "You feel like using your %s would kill you!" ),
@@ -762,8 +762,8 @@ void Character::activate_mutation( const trait_id &mut )
         if( mdata.thirst ) {
             mod_thirst( cost );
         }
-        if( mdata.fatigue ) {
-            mod_fatigue( cost );
+        if( mdata.sleepiness ) {
+            mod_sleepiness( cost );
         }
         tdata.powered = true;
         recalc_sight_limits();
