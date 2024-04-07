@@ -701,13 +701,15 @@ void mutation_branch::check_consistency()
             }
         }
 
+        // Suppress this check for trait/prereq combos from different mod sources
         for( const mutation_category_id &cat_id : mdata.category ) {
             if( !mdata.prereqs.empty() ) {
                 bool found = false;
                 for( const trait_id &prereq_id : mdata.prereqs ) {
                     const mutation_branch &prereq = prereq_id.obj();
                     found = found ||
-                            std::find( prereq.category.begin(), prereq.category.end(), cat_id ) != prereq.category.end();
+                            std::find( prereq.category.begin(), prereq.category.end(), cat_id ) != prereq.category.end() ||
+                            mdata.src.end()->second != prereq.src.end()->second;
                 }
                 if( !found ) {
                     debugmsg( "mutation %s is in category %s but none of its slot 1 prereqs have this category",
@@ -720,7 +722,8 @@ void mutation_branch::check_consistency()
                 for( const trait_id &prereq_id : mdata.prereqs2 ) {
                     const mutation_branch &prereq = prereq_id.obj();
                     found = found ||
-                            std::find( prereq.category.begin(), prereq.category.end(), cat_id ) != prereq.category.end();
+                            std::find( prereq.category.begin(), prereq.category.end(), cat_id ) != prereq.category.end() ||
+                            mdata.src.end()->second != prereq.src.end()->second;
                 }
                 if( !found ) {
                     debugmsg( "mutation %s is in category %s but none of its slot 2 prereqs have this category",
