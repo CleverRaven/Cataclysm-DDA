@@ -864,8 +864,8 @@ static void smash()
     if( player_character.is_mounted() ) {
         mech_smash = true;
     }
-    
-    if( !mech_smash && player_character.get_strain() <= player_character.get_strain_max() * 0.25 ){
+
+    if( !mech_smash && player_character.get_strain() <= player_character.get_strain_max() * 0.25 ) {
         add_msg( m_bad, _( "Your muscles are too strained to smash!" ) );
         return;
     }

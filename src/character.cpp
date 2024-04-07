@@ -6850,8 +6850,8 @@ int Character::get_strain_max() const
 
     int max_strain = get_option<int>( player_base_strain ) + get_cardiofit() / 5;
     max_strain = enchantment_cache->modify_value( enchant_vals::mod::MAX_STRAIN, max_strain );
-    
-    // max possible strain is reduced by muscle burn, which takes longer to recover.  However, 
+
+    // max possible strain is reduced by muscle burn, which takes longer to recover.  However,
     // your muscles should never be so strained that you can't do anything at all.
     max_strain = std::max( max_strain / 4, max_strain - get_strain_burn() );
 
@@ -7132,12 +7132,13 @@ void Character::mod_strain( int mod )
         return;
     }
     strain += mod;
-    if ( mod < 0 ) {
+    if( mod < 0 ) {
         used_strain_this_turn = true;
-        add_msg_debug( debugmode::DF_CHARACTER, "<color_blue>Used strain this turn, recovery disabled</color>" );
+        add_msg_debug( debugmode::DF_CHARACTER,
+                       "<color_blue>Used strain this turn, recovery disabled</color>" );
     }
-    
-    if ( mod < 0 && strain < get_strain_max() / 2 ) {
+
+    if( mod < 0 && strain < get_strain_max() / 2 ) {
         // if strain is decreasing and getting into the higher numbers, bump burn up.
         // burn rises a little regardless, but far more if you're doing something really
         // powerful.
@@ -7161,13 +7162,13 @@ void Character::mod_strain_burn( int mod )
 
 void Character::update_strain( int turns )
 {
-    if ( used_strain_this_turn ){
+    if( used_strain_this_turn ) {
         // Don't recover strain if we used it, just flip the flag.
         // This is necessary because strain recovers so quickly that without this,
         // it's not possible to build up strain on lightweight things.
         turns -= 1;
         used_strain_this_turn = false;
-        if( turns == 0 ){
+        if( turns == 0 ) {
             return;
         }
     }
@@ -7177,9 +7178,12 @@ void Character::update_strain( int turns )
     // This allows it to scale more quickly than your strain, so that at higher fitness levels you
     // recover faster. For now we are using cardiofit as a stand-in for a dedicated fitness score
     // for strain.
-    const float effective_regen_rate = base_regen_rate * ( get_cardiofit() / get_cardio_acc_base() ) 
-                      * std::min( 1.0f, 2000.0f/weariness());
-    add_msg_debug( debugmode::DF_CHARACTER, "effective strain regen rate: %f, base rate: %f, cardio mod: %d, weary mod: %f", effective_regen_rate, base_regen_rate, get_cardiofit() / get_cardio_acc_base(), std::min( 1.0f, 2000.0f / weariness()) );
+    const float effective_regen_rate = base_regen_rate * ( get_cardiofit() / get_cardio_acc_base() )
+                                       * std::min( 1.0f, 2000.0f / weariness() );
+    add_msg_debug( debugmode::DF_CHARACTER,
+                   "effective strain regen rate: %f, base rate: %f, cardio mod: %d, weary mod: %f",
+                   effective_regen_rate, base_regen_rate, get_cardiofit() / get_cardio_acc_base(), std::min( 1.0f,
+                           2000.0f / weariness() ) );
     // Values above or below normal will increase or decrease strain regen
     const float mod_regen = enchantment_cache->modify_value( enchant_vals::mod::STRAIN_REGEN_MOD, 0 );
     const float base_multiplier = mod_regen + 1.0f;
@@ -7203,13 +7207,14 @@ void Character::update_strain( int turns )
     int recover_burn_amount = 0;
     mod_strain( recover_amount );
     if( current_strain > max_strain / 2 ) {
-        recover_burn_amount = std::max( 1, recover_amount / 50);
+        recover_burn_amount = std::max( 1, recover_amount / 50 );
         mod_strain_burn( recover_burn_amount * -1 );
     }
-    add_msg_debug( debugmode::DF_CHARACTER, "Current strain: %i, Max strain: %i, Current burn: %i", current_strain,
-                      max_strain, current_strain_burn );
+    add_msg_debug( debugmode::DF_CHARACTER, "Current strain: %i, Max strain: %i, Current burn: %i",
+                   current_strain,
+                   max_strain, current_strain_burn );
     add_msg_debug( debugmode::DF_CHARACTER, "Strain recovery: %i, burn recovery: %i", recover_amount,
-                      recover_burn_amount );
+                   recover_burn_amount );
 
     // Cap at max
     set_strain( std::min( std::max( get_strain(), 0 ), max_strain ) );
