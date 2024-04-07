@@ -835,15 +835,8 @@
     "//": "Too simple. Just mixing feces and chitin with water. Basic chemistry shall be enough for this.",
     "batch_time_factors": [ 80, 4 ],
     "flags": [ "BLIND_EASY", "ALLOW_ROTTEN" ],
-    "components": [
-      [ [ "water", 2 ], [ "water_clean", 2 ] ]
-    ],
-    "using": [
-      [
-        "organic_waste",
-        1
-      ]
-    ]
+    "components": [ [ [ "water", 2 ], [ "water_clean", 2 ] ] ],
+    "using": [ [ "organic_waste", 1 ] ]
   },
   {
     "type": "recipe",
