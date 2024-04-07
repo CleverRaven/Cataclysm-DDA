@@ -49,7 +49,6 @@ class keybindings_ui : public cataimgui::window
         const nc_color h_unbound_key = h_light_red;
         input_context *ctxt;
     public:
-        cataimgui::filter_box filter_box;
         // current status: adding/removing/reseting/executing/showing keybindings
         kb_menu_status status = kb_menu_status::show, last_status = kb_menu_status::execute;
 
@@ -664,8 +663,19 @@ void keybindings_ui::draw_controls()
     if( last_status != status && status == kb_menu_status::filter ) {
         ImGui::SetKeyboardFocusHere( 0 );
     }
+    if( status != kb_menu_status::filter ) {
+        action_button( "FILTER", "[/] Set" );
+        ImGui::SameLine();
+        action_button( "RESET_FILTER", "[r] Clear" );
+        ImGui::SameLine();
+    } else {
+        action_button( "QUIT", "[ESC] Cancel" );
+        ImGui::SameLine();
+        action_button( "TEXT.CONFIRM", "[RET] OK" );
+        ImGui::SameLine();
+    }
     ImGui::BeginDisabled( status != kb_menu_status::filter );
-    filter_box.draw();
+    draw_filter_box();
     ImGui::EndDisabled();
     ImGui::Separator();
 
@@ -1301,6 +1311,7 @@ action_id input_context::display_menu_imgui( const bool permit_execute_action )
     ctxt.register_action( "ADD_LOCAL" );
     ctxt.register_action( "ADD_GLOBAL" );
     ctxt.register_action( "TEXT.CLEAR" );
+    ctxt.register_action( "TEXT.CONFIRM" );
     ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "END" );
@@ -1361,14 +1372,14 @@ action_id input_context::display_menu_imgui( const bool permit_execute_action )
         }
 
         kb_menu.filtered_registered_actions = filter_strings_by_phrase( org_registered_actions,
-                                              kb_menu.filter_box.get_filter() );
+                                              kb_menu.get_filter() );
 
         // In addition to the modifiable hotkeys, we also check for hardcoded
         // keys, e.g. '+', '-', '=', '.' in order to prevent the user from
         // entering an unrecoverable state.
         if( kb_menu.status == kb_menu_status::filter ) {
             if( action == "QUIT" ) {
-                kb_menu.filter_box.set_filter( "" );
+                kb_menu.clear_filter( );
                 kb_menu.status = kb_menu_status::show;
             } else if( action == "TEXT.CONFIRM" ) {
                 kb_menu.status = kb_menu_status::show;
@@ -1401,7 +1412,7 @@ action_id input_context::display_menu_imgui( const bool permit_execute_action )
         } else if( action == "PAGE_UP" || action == "PAGE_DOWN" || action == "HOME" || action == "END" ) {
             continue; // do nothing - on tiles version for some reason this counts as pressing various alphabet keys
         } else if( action == "TEXT.CLEAR" ) {
-            kb_menu.filter_box.set_filter( "" );
+            kb_menu.clear_filter();
             kb_menu.filtered_registered_actions = filter_strings_by_phrase( org_registered_actions,
                                                   "" );
         } else if( !kb_menu.get_is_open() ) {
@@ -1409,7 +1420,7 @@ action_id input_context::display_menu_imgui( const bool permit_execute_action )
         } else if( action == "FILTER" ) {
             kb_menu.status = kb_menu_status::filter;
         } else if( action == "RESET_FILTER" ) {
-            kb_menu.filter_box.set_filter( "" );
+            kb_menu.clear_filter();
         } else if( action == "QUIT" ) {
             if( kb_menu.status != kb_menu_status::show ) {
                 kb_menu.status = kb_menu_status::show;
@@ -1417,7 +1428,7 @@ action_id input_context::display_menu_imgui( const bool permit_execute_action )
                 break;
             }
         } else if( action == "TEXT.INPUT_FROM_FILE" ) {
-            kb_menu.filter_box.set_filter( kb_menu.filter_box.get_filter() + get_input_string_from_file() );
+            kb_menu.set_filter( kb_menu.get_filter() + get_input_string_from_file() );
         } else if( action == "HELP_KEYBINDINGS" ) {
             // update available hotkeys in case they've changed
             kb_menu.hotkeys = ctxt.get_available_single_char_hotkeys( display_help_hotkeys );

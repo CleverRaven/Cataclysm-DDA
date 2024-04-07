@@ -461,6 +461,13 @@ class cataimgui::window_impl
         }
 };
 
+class cataimgui::filter_box_impl
+{
+    public:
+        char text[255]; // NOLINT(modernize-avoid-c-arrays)
+        ImGuiID id;
+};
+
 cataimgui::window::window( int window_flags )
 {
     p_impl = nullptr;
@@ -600,41 +607,44 @@ cataimgui::bounds cataimgui::window::get_bounds()
     return { -1.f, -1.f, -1.f, -1.f };
 }
 
-class cataimgui::filter_box_impl
+void cataimgui::window::draw_filter_box()
 {
-    public:
-        ImGuiID id;
-};
-
-cataimgui::filter_box::filter_box()
-{
-    p_impl = new cataimgui::filter_box_impl();
-    p_impl->id = 0;
-    filter_text_impl[0] = '\0';
-}
-
-cataimgui::filter_box::~filter_box()
-{
-    delete p_impl;
-}
-
-void cataimgui::filter_box::draw()
-{
-    ImGui::InputText( "##FILTERBOX", filter_text_impl, std::extent_v< decltype( filter_text_impl )> );
-    if( !p_impl->id ) {
-        p_impl->id = GImGui->LastItemData.ID;
+    if( !filter_impl ) {
+        filter_impl = std::make_unique<cataimgui::filter_box_impl>();
+        filter_impl->id = 0;
+        filter_impl->text[0] = '\0';
+    }
+    ImGui::InputText( "##FILTERBOX", filter_impl->text,
+                      std::extent_v < decltype( filter_impl->text ) > );
+    if( !filter_impl->id ) {
+        filter_impl->id = GImGui->LastItemData.ID;
     }
 }
 
-std::string cataimgui::filter_box::get_filter()
+std::string cataimgui::window::get_filter()
 {
-    return std::string( filter_text_impl );
+    if( filter_impl ) {
+        return std::string( filter_impl->text );
+    } else {
+        return std::string();
+    }
 }
 
-void cataimgui::filter_box::set_filter( const std::string &filter )
+void cataimgui::window::clear_filter()
+{
+    if( filter_impl && filter_impl->id != 0 ) {
+        ImGuiInputTextState *input_state = ImGui::GetInputTextState( filter_impl->id );
+        if( input_state ) {
+            input_state->ClearText();
+            filter_impl->text[0] = '\0';
+        }
+    }
+}
+
+void cataimgui::window::set_filter( const std::string &filter )
 {
     // doesnt currently work, relies on API only available in newer ImGUi, because I can't have nice things
-    //ImGuiInputTextState* input_state = ImGui::GetInputTextState( id );
+    //ImGuiInputTextState* input_state = ImGui::GetInputTextState( p_impl->id );
     //if( input_state ) {
     //    input_state->ReloadUserBufAndSelectAll();
     //}

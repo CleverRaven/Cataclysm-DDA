@@ -78,6 +78,7 @@ void imvec2_to_point( ImVec2 *src, point *dest );
 class window
 {
         std::unique_ptr<class window_impl> p_impl;
+        std::unique_ptr<class filter_box_impl> filter_impl;
         bounds cached_bounds;
     protected:
         explicit window( int window_flags = 0 );
@@ -102,6 +103,9 @@ class window
         size_t get_text_height( const char *text );
         size_t str_width_to_pixels( size_t len );
         size_t str_height_to_pixels( size_t len );
+        std::string get_filter();
+        void set_filter( const std::string &filter );
+        void clear_filter();
         void mark_resized();
 
     protected:
@@ -112,18 +116,7 @@ class window
         std::string button_action;
         virtual bounds get_bounds();
         virtual void draw_controls() = 0;
-};
-
-class filter_box
-{
-        class filter_box_impl *p_impl;
-        char filter_text_impl[255]; // NOLINT(modernize-avoid-c-arrays)
-    public:
-        filter_box();
-        ~filter_box();
-        void draw();
-        std::string get_filter();
-        void set_filter( const std::string &filter );
+        void draw_filter_box();
 };
 
 #if !(defined(TILES) || defined(WIN32))
