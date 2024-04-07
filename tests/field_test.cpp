@@ -23,6 +23,7 @@ static const efftype_id effect_test_rash( "test_rash" );
 static const field_type_str_id field_fd_acid( "fd_acid" );
 static const field_type_str_id field_fd_test( "fd_test" );
 
+static const ter_str_id ter_t_open_air( "t_open_air" );
 static const ter_str_id ter_t_tree_walnut( "t_tree_walnut" );
 
 static int count_fields( const field_type_str_id &field_type )
@@ -183,7 +184,7 @@ TEST_CASE( "fd_acid_falls_down", "[field]" )
     m.process_fields();
 
     // remove floor under the acid field
-    m.ter_set( p, t_open_air );
+    m.ter_set( p, ter_t_open_air );
     m.build_floor_cache( 0 );
     REQUIRE( m.valid_move( p, p + tripoint_below ) );
 

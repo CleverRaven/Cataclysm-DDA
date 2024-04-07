@@ -49,9 +49,8 @@
     "flags": [ "RELOAD_ONE", "EASY_CLEAN" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bore", 1 ],
       [ "brass catcher", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
@@ -88,9 +87,8 @@
     "flags": [ "RELOAD_ONE", "EASY_CLEAN" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bore", 1 ],
       [ "brass catcher", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "sights mount", 1 ],
       [ "sling", 1 ],
@@ -127,10 +125,9 @@
     "barrel_volume": "456 ml",
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bore", 1 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail", 1 ],
       [ "sights", 1 ],

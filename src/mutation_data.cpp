@@ -318,7 +318,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "time", cooldown, 0_turns );
     optional( jo, was_loaded, "kcal", hunger, false );
     optional( jo, was_loaded, "thirst", thirst, false );
-    optional( jo, was_loaded, "fatigue", fatigue, false );
+    optional( jo, was_loaded, "sleepiness", sleepiness, false );
     optional( jo, was_loaded, "valid", valid, true );
     optional( jo, was_loaded, "purifiable", purifiable, true );
 
@@ -366,9 +366,6 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
         bodytemp_max = units::from_legacy_bodypart_temp_delta( bodytemp_array.get_int( 1 ) );
     }
 
-    int legacy_bodytemp_sleep = units::to_legacy_bodypart_temp_delta( bodytemp_sleep );
-    optional( jo, was_loaded, "bodytemp_sleep", legacy_bodytemp_sleep, 0 );
-    bodytemp_sleep = units::from_legacy_bodypart_temp_delta( legacy_bodytemp_sleep );
     optional( jo, was_loaded, "threshold", threshold, false );
     optional( jo, was_loaded, "profession", profession, false );
     optional( jo, was_loaded, "debug", debug, false );
@@ -391,29 +388,8 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
         vitamin_absorb_multi.emplace( material_id( pair.get_string( 0 ) ), vit );
     }
 
-    optional( jo, was_loaded, "healing_awake", healing_awake, std::nullopt );
-    optional( jo, was_loaded, "healing_multiplier", healing_multiplier, std::nullopt );
-    optional( jo, was_loaded, "mending_modifier", mending_modifier, std::nullopt );
-    optional( jo, was_loaded, "noise_modifier", noise_modifier, std::nullopt );
-    optional( jo, was_loaded, "temperature_speed_modifier", temperature_speed_modifier, std::nullopt );
-    optional( jo, was_loaded, "thirst_modifier", thirst_modifier, std::nullopt );
-    optional( jo, was_loaded, "fatigue_modifier", fatigue_modifier, std::nullopt );
-    optional( jo, was_loaded, "fatigue_regen_modifier", fatigue_regen_modifier, std::nullopt );
-    optional( jo, was_loaded, "stamina_regen_modifier", stamina_regen_modifier, std::nullopt );
-    optional( jo, was_loaded, "vomit_multiplier", vomit_multiplier, std::nullopt );
-    optional( jo, was_loaded, "sweat_multiplier", sweat_multiplier, std::nullopt );
-    optional( jo, was_loaded, "overmap_sight", overmap_sight, std::nullopt );
-    optional( jo, was_loaded, "overmap_multiplier", overmap_multiplier, std::nullopt );
-    optional( jo, was_loaded, "reading_speed_multiplier", reading_speed_multiplier, std::nullopt );
-    optional( jo, was_loaded, "skill_rust_multiplier", skill_rust_multiplier, std::nullopt );
-    optional( jo, was_loaded, "consume_time_modifier", consume_time_modifier, std::nullopt );
-    optional( jo, was_loaded, "scent_modifier", scent_modifier, 1.0f );
     optional( jo, was_loaded, "scent_intensity", scent_intensity, std::nullopt );
-    optional( jo, was_loaded, "scent_mask", scent_mask, std::nullopt );
     optional( jo, was_loaded, "scent_type", scent_typeid, std::nullopt );
-    optional( jo, was_loaded, "healthy_rate", healthy_rate, 1.0f );
-    optional( jo, was_loaded, "fat_to_max_hp", fat_to_max_hp, 0.0f );
-    optional( jo, was_loaded, "weakness_to_water", weakness_to_water, 0 );
     optional( jo, was_loaded, "ignored_by", ignored_by );
     optional( jo, was_loaded, "can_only_eat", can_only_eat );
     optional( jo, was_loaded, "can_only_heal_with", can_only_heal_with );
@@ -422,12 +398,6 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "butchering_quality", butchering_quality, 0 );
 
     optional( jo, was_loaded, "allowed_category", allowed_category );
-    optional( jo, was_loaded, "crafting_speed_multiplier", crafting_speed_multiplier );
-    optional( jo, was_loaded, "mana_modifier", mana_modifier, std::nullopt );
-    optional( jo, was_loaded, "mana_multiplier", mana_multiplier, std::nullopt );
-    optional( jo, was_loaded, "mana_regen_multiplier", mana_regen_multiplier, std::nullopt );
-    optional( jo, was_loaded, "bionic_mana_penalty", bionic_mana_penalty, std::nullopt );
-    optional( jo, was_loaded, "casting_time_multiplier", casting_time_multiplier, std::nullopt );
 
     if( jo.has_object( "social_modifiers" ) ) {
         JsonObject sm = jo.get_object( "social_modifiers" );
@@ -444,7 +414,6 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "active_flags", active_flags, flag_reader{} );
     optional( jo, was_loaded, "inactive_flags", inactive_flags, flag_reader{} );
     optional( jo, was_loaded, "types", types, string_reader{} );
-    optional( jo, was_loaded, "prevented_by", prevented_by, trait_reader{} );
 
     for( JsonArray pair : jo.get_array( "moncams" ) ) {
         moncams.insert( std::pair<mtype_id, int>( mtype_id( pair.get_string( 0 ) ), pair.get_int( 1 ) ) );
@@ -732,13 +701,15 @@ void mutation_branch::check_consistency()
             }
         }
 
+        // Suppress this check for trait/prereq combos from different mod sources
         for( const mutation_category_id &cat_id : mdata.category ) {
             if( !mdata.prereqs.empty() ) {
                 bool found = false;
                 for( const trait_id &prereq_id : mdata.prereqs ) {
                     const mutation_branch &prereq = prereq_id.obj();
                     found = found ||
-                            std::find( prereq.category.begin(), prereq.category.end(), cat_id ) != prereq.category.end();
+                            std::find( prereq.category.begin(), prereq.category.end(), cat_id ) != prereq.category.end() ||
+                            mdata.src.end()->second != prereq.src.end()->second;
                 }
                 if( !found ) {
                     debugmsg( "mutation %s is in category %s but none of its slot 1 prereqs have this category",
@@ -751,7 +722,8 @@ void mutation_branch::check_consistency()
                 for( const trait_id &prereq_id : mdata.prereqs2 ) {
                     const mutation_branch &prereq = prereq_id.obj();
                     found = found ||
-                            std::find( prereq.category.begin(), prereq.category.end(), cat_id ) != prereq.category.end();
+                            std::find( prereq.category.begin(), prereq.category.end(), cat_id ) != prereq.category.end() ||
+                            mdata.src.end()->second != prereq.src.end()->second;
                 }
                 if( !found ) {
                     debugmsg( "mutation %s is in category %s but none of its slot 2 prereqs have this category",

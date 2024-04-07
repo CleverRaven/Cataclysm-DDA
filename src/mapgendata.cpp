@@ -79,14 +79,20 @@ mapgendata::mapgendata( const tripoint_abs_omt &over, map &mp, const float densi
     set_neighbour( 6, direction::SOUTHWEST );
     set_neighbour( 7, direction::NORTHWEST );
     if( std::optional<mapgen_arguments> *maybe_args = overmap_buffer.mapgen_args( over ) ) {
-        if( *maybe_args ) {
+        if( *maybe_args && !overmap_buffer.externally_set_args ) {
             mapgen_args_ = **maybe_args;
         } else {
             // We are the first omt from this overmap_special to be generated,
             // so now is the time to generate the arguments
             if( std::optional<overmap_special_id> s = overmap_buffer.overmap_special_at( over ) ) {
                 const overmap_special &special = **s;
-                *maybe_args = special.get_args( *this );
+                mapgen_arguments internally_set_args = special.get_args( *this );
+                if( overmap_buffer.externally_set_args ) {
+                    maybe_args->value().map.merge( internally_set_args.map );
+                    overmap_buffer.externally_set_args = false;
+                } else {
+                    *maybe_args = internally_set_args;
+                }
                 mapgen_args_ = **maybe_args;
             } else {
                 debugmsg( "mapgen params expected but no overmap special found for terrain %s",
@@ -241,7 +247,7 @@ bool mapgendata::has_flag( jmapgen_flags f ) const
 ter_id mapgendata::groundcover() const
 {
     const ter_id *tid = default_groundcover.pick();
-    return tid != nullptr ? *tid : t_null;
+    return tid != nullptr ? *tid : ter_str_id::NULL_ID().id();
 }
 
 const oter_id &mapgendata::neighbor_at( om_direction::type dir ) const

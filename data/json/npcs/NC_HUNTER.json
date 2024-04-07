@@ -69,7 +69,6 @@
     "subtype": "distribution",
     "entries": [
       { "item": "rifle_22", "prob": 5 },
-      { "item": "rifle_9mm", "prob": 5 },
       { "item": "ruger_1022", "prob": 10 },
       { "item": "browning_blr", "prob": 10 },
       { "item": "remington_700", "prob": 10 },

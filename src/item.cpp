@@ -204,7 +204,6 @@ static const quality_id qual_LIFT( "LIFT" );
 static const skill_id skill_cooking( "cooking" );
 static const skill_id skill_melee( "melee" );
 static const skill_id skill_survival( "survival" );
-static const skill_id skill_throw( "throw" );
 static const skill_id skill_weapon( "weapon" );
 
 static const species_id species_ROBOT( "ROBOT" );
@@ -217,6 +216,8 @@ static const trait_id trait_JITTERY( "JITTERY" );
 static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
+
+static const vitamin_id vitamin_human_flesh_vitamin( "human_flesh_vitamin" );
 
 // vitamin flags
 static const std::string flag_NO_DISPLAY( "NO_DISPLAY" );
@@ -311,7 +312,11 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
     }
 
     if( qty >= 0 ) {
-        charges = qty;
+        if( type->can_have_charges() ) {
+            charges = qty;
+        } else if( qty > 1 ) {
+            debugmsg( "Tried to set charges for item %s that could not have them!", tname() );
+        }
     } else {
         if( type->tool && type->tool->rand_charges.size() > 1 ) {
             const int charge_roll = rng( 1, type->tool->rand_charges.size() - 1 );
@@ -509,12 +514,14 @@ static void inherit_rot_from_components( item &it )
         const time_duration shortest_lifespan = get_shortest_lifespan_from_components( it );
         if( shortest_lifespan > 0_turns && shortest_lifespan < it.get_shelf_life() ) {
             it.set_rot( it.get_shelf_life() - shortest_lifespan );
+            return;
         }
-    } else {
-        const item *most_rotten = get_most_rotten_component( it );
-        if( most_rotten ) {
-            it.set_relative_rot( most_rotten->get_relative_rot() );
-        }
+        // Fallthrough: shortest_lifespan <= 0_turns (all components are rotten)
+    }
+
+    const item *most_rotten = get_most_rotten_component( it );
+    if( most_rotten ) {
+        it.set_relative_rot( most_rotten->get_relative_rot() );
     }
 }
 
@@ -2787,7 +2794,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
                            _( "* This food will cause an <bad>allergic reaction</bad>." ) );
     }
 
-    if( food_item->has_flag( flag_CANNIBALISM ) &&
+    if( food_item->has_vitamin( vitamin_human_flesh_vitamin ) &&
         parts->test( iteminfo_parts::FOOD_CANNIBALISM ) ) {
         if( !player_character.has_flag( json_flag_CANNIBAL ) &&
             !player_character.has_flag( json_flag_PSYCHOPATH ) &&
@@ -3105,6 +3112,37 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     const itype *curammo = nullptr;
     if( mod->ammo_required() && !mod->ammo_remaining() ) {
         tmp = *mod;
+        if( tmp.ammo_types().size() == 1 && *tmp.ammo_types().begin() == ammotype::NULL_ID() ) {
+            itype_id default_bore_type_id = itype_id::NULL_ID();
+            for( const itype_id &bore_type_id : type->gun->default_mods ) {
+                std::map< ammotype, std::set<itype_id> > magazine_adaptor = find_type(
+                            bore_type_id )->mod->magazine_adaptor;
+                if( !magazine_adaptor.empty() && !magazine_adaptor.begin()->second.empty() ) {
+                    default_bore_type_id = bore_type_id;
+                    item tmp_mod( bore_type_id );
+                    tmp.put_in( tmp_mod, pocket_type::MOD );
+                    item tmp_mag( *magazine_adaptor.begin()->second.begin() );
+                    tmp_mag.ammo_set( magazine_adaptor.begin()->first->default_ammotype() );
+                    tmp.put_in( tmp_mag, pocket_type::MAGAZINE_WELL );
+                    break;
+                }
+            }
+            if( parts->test( iteminfo_parts::GUN_DEFAULT_BORE ) ) {
+                insert_separation_line( info );
+                if( default_bore_type_id != itype_id::NULL_ID() ) {
+                    info.emplace_back( "GUN",
+                                       _( "Weapon is <bad>not attached a bore mod</bad>, so stats below assume the default bore mod: " ),
+                                       string_format( "<stat>%s</stat>",
+                                                      default_bore_type_id->nname( 1 ) ) );
+                } else {
+                    info.emplace_back( "GUN",
+                                       _( "Weapon is <bad>not attached a bore mod</bad>. " ) );
+                    return;
+                }
+
+            }
+
+        }
         itype_id default_ammo = mod->magazine_current() ? tmp.common_ammo_default() : tmp.ammo_default();
         if( !default_ammo.is_null() ) {
             tmp.ammo_set( default_ammo );
@@ -3295,7 +3333,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     }
 
     bool bipod = mod->has_flag( flag_BIPOD );
-
+    info.back().bNewLine = true;
     if( loaded_mod->gun_recoil( player_character ) ) {
         if( parts->test( iteminfo_parts::GUN_RECOIL ) ) {
             info.emplace_back( "GUN", _( "Effective recoil: " ), "",
@@ -3392,8 +3430,6 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
 
     if( parts->test( iteminfo_parts::GUN_AIMING_STATS ) ) {
         insert_separation_line( info );
-        info.emplace_back( "GUN", _( "<bold>Base aim speed</bold>: " ), "<num>", iteminfo::no_flags,
-                           player_character.aim_per_move( *mod, MAX_RECOIL ) );
         for( const aim_type &type : player_character.get_aim_types( *mod ) ) {
             // Nameless and immediate aim levels don't get an entry.
             if( type.name.empty() || type.threshold == static_cast<int>( MAX_RECOIL ) ) {
@@ -5403,15 +5439,6 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
     }
 
-    if( !bid->stat_bonus.empty() ) {
-        info.emplace_back( "DESCRIPTION", _( "<bold>Stat Bonus</bold>:" ),
-                           iteminfo::no_newline );
-        for( const auto &element : bid->stat_bonus ) {
-            info.emplace_back( "CBM", " " + get_stat_name( element.first ), " <num>",
-                               iteminfo::no_newline, static_cast<double>( element.second ) );
-        }
-    }
-
 }
 
 void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
@@ -5673,14 +5700,14 @@ void item::properties_info( std::vector<iteminfo> &info, const iteminfo_query *p
             } );
             if( any_encumb_increase ) {
                 info.emplace_back( "BASE",
-                                   _( "* This items pockets are <info>not rigid</info>.  Its"
+                                   _( "* This item's pockets are <info>not rigid</info>.  Its"
                                       " volume and encumbrance increase with contents." ) );
                 not_rigid = true;
             }
         }
         if( !not_rigid && !all_pockets_rigid() && !is_corpse() ) {
             info.emplace_back( "BASE",
-                               _( "* This items pockets are <info>not rigid</info>.  Its"
+                               _( "* This item's pockets are <info>not rigid</info>.  Its"
                                   " volume increases with contents." ) );
         }
     }
@@ -6513,7 +6540,7 @@ int item::on_wield_cost( const Character &you ) const
 void item::on_wield( Character &you )
 {
     int wield_cost = on_wield_cost( you );
-    you.moves -= wield_cost;
+    you.mod_moves( -wield_cost );
 
     std::string msg;
 
@@ -7552,6 +7579,27 @@ item &item::set_flag( const flag_id &flag )
         debugmsg( "Attempted to set invalid flag_id %s", flag.str() );
     }
     return *this;
+}
+
+bool item::has_vitamin( const vitamin_id &v ) const
+{
+    if( !this->is_comestible() ) {
+        return false;
+    }
+    // We need this function to get all vitamins including from inheritance.
+    // But we don't care about calories, so we can just pass a dummy.
+    npc dummy;
+    const nutrients food_item = dummy.compute_effective_nutrients( *this );
+    for( auto const& [vit_id, amount] : food_item.vitamins() ) {
+        if( vit_id == v ) {
+            if( amount > 0 ) {
+                return true;
+            } else {
+                break;
+            }
+        }
+    }
+    return false;
 }
 
 item &item::set_fault( const fault_id &fault_id )
@@ -10048,11 +10096,11 @@ ret_val<void> item::can_contain( const item &it, int &copies_remaining, const bo
                 continue;
             }
 
-            // If the current pocket has restrictions or blacklists the item,
+            // If the current pocket has restrictions or blacklists the item or is a holster,
             // try the nested pocket regardless of whether it's soft or rigid.
             const bool ignore_nested_rigidity =
                 !pkt->settings.accepts_item( it ) ||
-                !pkt->get_pocket_data()->get_flag_restrictions().empty();
+                !pkt->get_pocket_data()->get_flag_restrictions().empty() || pkt->is_holster();
             for( const item *internal_it : pkt->all_items_top() ) {
                 if( parent_it.where() != item_location::type::invalid && internal_it == parent_it.get_item() ) {
                     continue;
@@ -11917,6 +11965,13 @@ bool item::use_amount( const itype_id &it, int &quantity, std::list<item> &used,
     }
 
     for( item *removed : removed_items ) {
+        // Handle cases where items are removed but the pocket isn't emptied
+        item *parent = this->find_parent( *removed );
+        for( item_pocket *pocket : parent->get_all_standard_pockets() ) {
+            if( pocket->has_item( *removed ) ) {
+                pocket->unseal();
+            }
+        }
         this->remove_item( *removed );
     }
 
@@ -13066,7 +13121,7 @@ bool item::process_litcig( map &here, Character *carrier, const tripoint &pos )
         } else {
             carrier->add_effect( effect_weed_high, duration / 2 );
         }
-        carrier->moves -= 15;
+        carrier->mod_moves( -to_moves<int>( 1_seconds ) * 0.15 );
 
         if( ( carrier->has_effect( effect_shakes ) && one_in( 10 ) ) ||
             ( carrier->has_trait( trait_JITTERY ) && one_in( 200 ) ) ) {
@@ -13266,7 +13321,7 @@ ret_val<void> item::link_to( vehicle &veh, const point &mount, link_state link_t
         } else if( !veh.is_external_part( veh.mount_to_tripoint( mount ) ) ) {
             return ret_val<void>::make_failure( _( "You can't attach a tow-line to an internal part." ) );
         } else {
-            const int part_at = veh.part_at( mount );
+            const int part_at = veh.part_at( veh.coord_translate( mount ) );
             if( part_at != -1 && !veh.part( part_at ).carried_stack.empty() ) {
                 return ret_val<void>::make_failure( _( "You can't attach a tow-line to a racked part." ) );
             }
@@ -14389,6 +14444,11 @@ std::string item::type_name( unsigned int quantity, bool use_variant, bool use_c
                     ret_name = string_format( cname.name.translated( quantity ), ret_name );
                 }
                 break;
+            case condition_type::VITAMIN:
+                if( has_vitamin( vitamin_id( cname.condition ) ) ) {
+                    ret_name = string_format( cname.name.translated( quantity ), ret_name );
+                }
+                break;
             case condition_type::COMPONENT_ID:
                 if( component_id_equals( components ) ) {
                     ret_name = string_format( cname.name.translated( quantity ), ret_name );
@@ -14551,9 +14611,6 @@ bool item::on_drop( const tripoint &pos, map &m )
     }
 
     avatar &player_character = get_avatar();
-
-    // set variable storing information of character dropping item
-    dropped_char_stats.throwing = player_character.get_skill_level( skill_throw );
 
     return type->drop_action && type->drop_action.call( &player_character, *this, pos );
 }
@@ -15076,11 +15133,6 @@ bool is_preferred_component( const item &component )
 {
     return component.is_container_empty() && !component.has_flag( flag_HIDDEN_POISON ) &&
            !component.has_flag( flag_HIDDEN_HALLU );
-}
-
-bool is_preferred_crafting_component( const item &component )
-{
-    return is_preferred_component( component ) && is_crafting_component( component );
 }
 
 disp_mod_by_barrel::disp_mod_by_barrel() = default;

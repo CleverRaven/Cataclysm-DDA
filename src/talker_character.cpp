@@ -621,9 +621,9 @@ int talker_character_const::get_activity_level() const
     return me_chr_const->activity_level_index();
 }
 
-int talker_character_const::get_fatigue() const
+int talker_character_const::get_sleepiness() const
 {
-    return me_chr_const->get_fatigue();
+    return me_chr_const->get_sleepiness();
 }
 
 int talker_character_const::get_hunger() const
@@ -775,9 +775,9 @@ bool talker_character_const::can_see_location( const tripoint &pos ) const
     return me_chr_const->sees( pos );
 }
 
-void talker_character::set_fatigue( int amount )
+void talker_character::set_sleepiness( int amount )
 {
-    me_chr->set_fatigue( amount );
+    me_chr->set_sleepiness( amount );
 }
 
 void talker_character::mod_daily_health( int amount, int cap )
@@ -1210,4 +1210,14 @@ void talker_character::learn_martial_art( const matype_id &id ) const
 void talker_character::forget_martial_art( const matype_id &id ) const
 {
     me_chr->martial_arts_data->clear_style( id );
+}
+
+int talker_character_const::climate_control_str_heat() const
+{
+    return me_chr_const->climate_control_strength().first;
+}
+
+int talker_character_const::climate_control_str_chill() const
+{
+    return me_chr_const->climate_control_strength().second;
 }

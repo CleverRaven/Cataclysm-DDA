@@ -1376,7 +1376,15 @@
     "ammo": "battery",
     "charges_per_use": 1,
     "relic_data": { "passive_effects": [ { "id": "ench_climate_control_all" }, { "id": "ench_dampened_steps" } ] },
-    "use_action": [ "RM13ARMOR_OFF" ],
+    "use_action": {
+      "type": "transform",
+      "msg": "You activate your RM13 combat armor.\nRivtech Model 13 RivOS v2.19:   ONLINE.\nCBRN defense system:            ONLINE.\nAcoustic dampening system:      ONLINE.\nThermal regulation system:      ONLINE.\nVision enhancement system:      ONLINE.\nElectro-reactive armor system:  ONLINE.\nAll systems nominal.",
+      "target": "rm13_armor_on",
+      "active": true,
+      "need_worn": true,
+      "need_charges": 1,
+      "need_charges_msg": "The RM13 combat armor's battery is dead."
+    },
     "warmth": 30,
     "environmental_protection": 10,
     "material_thickness": 3,
@@ -1465,7 +1473,12 @@
     "material": [ "hyperweave_on", "carbide" ],
     "power_draw": "100 W",
     "revert_to": "rm13_armor",
-    "use_action": [ "RM13ARMOR_ON" ],
+    "use_action": {
+      "type": "transform",
+      "msg": "You deactivate your RM13 combat armor.\nRivOS v2.19 shutdown sequence initiated.\nShutting down.\nYour RM13 combat armor turns off.",
+      "target": "rm13_armor",
+      "need_worn": true
+    },
     "environmental_protection": 40,
     "qualities": [ [ "GLARE", 1 ] ],
     "material_thickness": 3,

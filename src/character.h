@@ -144,82 +144,82 @@ enum vision_modes {
     NUM_VISION_MODES
 };
 
-enum class fatigue_levels : int {
+enum class sleepiness_levels : int {
     TIRED = 191,
     DEAD_TIRED = 383,
     EXHAUSTED = 575,
-    MASSIVE_FATIGUE = 1000
+    MASSIVE_SLEEPINESS = 1000
 };
-const std::unordered_map<std::string, fatigue_levels> fatigue_level_strs = { {
-        { "TIRED", fatigue_levels::TIRED },
-        { "DEAD_TIRED", fatigue_levels::DEAD_TIRED },
-        { "EXHAUSTED", fatigue_levels::EXHAUSTED },
-        { "MASSIVE_FATIGUE", fatigue_levels::MASSIVE_FATIGUE }
+const std::unordered_map<std::string, sleepiness_levels> sleepiness_level_strs = { {
+        { "TIRED", sleepiness_levels::TIRED },
+        { "DEAD_TIRED", sleepiness_levels::DEAD_TIRED },
+        { "EXHAUSTED", sleepiness_levels::EXHAUSTED },
+        { "MASSIVE_SLEEPINESS", sleepiness_levels::MASSIVE_SLEEPINESS }
     }
 };
 
-constexpr inline bool operator>=( const fatigue_levels &lhs, const fatigue_levels &rhs )
+constexpr inline bool operator>=( const sleepiness_levels &lhs, const sleepiness_levels &rhs )
 {
     return static_cast<int>( lhs ) >= static_cast<int>( rhs );
 }
 
-constexpr inline bool operator<( const fatigue_levels &lhs, const fatigue_levels &rhs )
+constexpr inline bool operator<( const sleepiness_levels &lhs, const sleepiness_levels &rhs )
 {
     return static_cast<int>( lhs ) < static_cast<int>( rhs );
 }
 
 template<typename T>
-constexpr inline bool operator>=( const T &lhs, const fatigue_levels &rhs )
+constexpr inline bool operator>=( const T &lhs, const sleepiness_levels &rhs )
 {
     return lhs >= static_cast<T>( rhs );
 }
 
 template<typename T>
-constexpr inline bool operator>( const T &lhs, const fatigue_levels &rhs )
+constexpr inline bool operator>( const T &lhs, const sleepiness_levels &rhs )
 {
     return lhs > static_cast<T>( rhs );
 }
 
 template<typename T>
-constexpr inline bool operator<=( const T &lhs, const fatigue_levels &rhs )
+constexpr inline bool operator<=( const T &lhs, const sleepiness_levels &rhs )
 {
     return lhs <= static_cast<T>( rhs );
 }
 
 template<typename T>
-constexpr inline bool operator<( const T &lhs, const fatigue_levels &rhs )
+constexpr inline bool operator<( const T &lhs, const sleepiness_levels &rhs )
 {
     return lhs < static_cast<T>( rhs );
 }
 
 template<typename T>
-constexpr inline int operator/( const fatigue_levels &lhs, const T &rhs )
+constexpr inline int operator/( const sleepiness_levels &lhs, const T &rhs )
 {
     return static_cast<T>( lhs ) / rhs;
 }
 
 template<typename T>
-constexpr inline int operator+( const fatigue_levels &lhs, const T &rhs )
+constexpr inline int operator+( const sleepiness_levels &lhs, const T &rhs )
 {
     return static_cast<T>( lhs ) + rhs;
 }
 
 template<typename T>
-constexpr inline int operator-( const fatigue_levels &lhs, const T &rhs )
+constexpr inline int operator-( const sleepiness_levels &lhs, const T &rhs )
 {
     return static_cast<T>( lhs ) - rhs;
 }
 
 template<typename T>
-constexpr inline int operator-( const T &lhs, const fatigue_levels &rhs )
+constexpr inline int operator-( const T &lhs, const sleepiness_levels &rhs )
 {
     return lhs - static_cast<T>( rhs );
 }
 
 /** @brief five levels of consequences for days without sleep
-    @details Sleep deprivation, distinct from fatigue, is defined in minutes. Although most
+    @details Sleep deprivation, distinct from sleepiness, is defined in minutes. Although most
     calculations scale linearly, malus is bestowed only upon reaching the tiers defined below.
-    @note Sleep deprivation increases fatigue. Fatigue increase scales with the severity of sleep
+    @note Sleep deprivation increases sleepiness. Sleepiness increase scales with the severity of sleep
     deprivation.
     @note Sleep deprivation kicks in if lack of sleep is avoided with stimulants or otherwise for
     long periods of time
@@ -489,7 +489,7 @@ struct ret_val<crush_tool_type>::default_failure : public
 struct needs_rates {
     float thirst = 0.0f;
     float hunger = 0.0f;
-    float fatigue = 0.0f;
+    float sleepiness = 0.0f;
     float recovery = 0.0f;
     float kcal = 0.0f;
 };
@@ -693,22 +693,22 @@ class Character : public Creature, public visitable
         void mod_continuous_sleep( time_duration mod );
         void reset_continuous_sleep();
 
-        int get_fatigue() const;
+        int get_sleepiness() const;
         int get_sleep_deprivation() const;
 
         /** Modifiers for need values exclusive to characters */
         void mod_stored_kcal( int nkcal, bool ignore_weariness = false );
         void mod_hunger( int nhunger );
         void mod_thirst( int nthirst );
-        void mod_fatigue( int nfatigue );
+        void mod_sleepiness( int nsleepiness );
         void mod_sleep_deprivation( int nsleep_deprivation );
 
         /** Setters for need values exclusive to characters */
         void set_stored_kcal( int kcal );
         void set_hunger( int nhunger );
         void set_thirst( int nthirst );
-        void set_fatigue( int nfatigue );
-        void set_fatigue( fatigue_levels nfatigue );
+        void set_sleepiness( int nsleepiness );
+        void set_sleepiness( sleepiness_levels nsleepiness );
         void set_sleep_deprivation( int nsleep_deprivation );
         void set_fasting_days( int nfasting );
         void set_fasting_bmr( int nfasting_bmr );
@@ -931,7 +931,7 @@ class Character : public Creature, public visitable
         void update_enchantment_mutations();
         /** Returns true if character needs food, false if character is an NPC with NO_NPC_FOOD set */
         bool needs_food() const;
-        /** Increases hunger, thirst, fatigue and stimulants wearing off. `rate_multiplier` is for retroactive updates. */
+        /** Increases hunger, thirst, sleepiness and stimulants wearing off. `rate_multiplier` is for retroactive updates. */
         void update_needs( int rate_multiplier );
         needs_rates calc_needs_rates() const;
         void calc_sleep_recovery_rate( needs_rates &rates ) const;
@@ -952,11 +952,11 @@ class Character : public Creature, public visitable
             comfort_level level = comfort_level::neutral;
             const item *aid = nullptr;
         };
-        /** Rate point's ability to serve as a bed. Only takes certain mutations into account, and not fatigue nor stimulants. */
+        /** Rate point's ability to serve as a bed. Only takes certain mutations into account, and not sleepiness nor stimulants. */
         comfort_response_t base_comfort_value( const tripoint_bub_ms &p ) const;
 
-        /** Returns focus equilibrium cap due to fatigue **/
-        int focus_equilibrium_fatigue_cap( int equilibrium ) const;
+        /** Returns focus equilibrium cap due to sleepiness **/
+        int focus_equilibrium_sleepiness_cap( int equilibrium ) const;
         /** Uses morale and other factors to return the character's focus target goto value */
         int calc_focus_equilibrium( bool ignore_pain = false ) const;
         /** Calculates actual focus gain/loss value from focus equilibrium*/
@@ -989,7 +989,7 @@ class Character : public Creature, public visitable
         bool is_wearing_active_optcloak() const;
 
         /** Returns strength of any climate control affecting character, for heating and chilling respectively */
-        std::pair<int, int> climate_control_strength();
+        std::pair<int, int> climate_control_strength() const;
 
         /** Returns wind resistance provided by armor, etc **/
         std::map<bodypart_id, int> get_wind_resistance( const
@@ -1046,6 +1046,25 @@ class Character : public Creature, public visitable
         bool can_switch_to( const move_mode_id &mode ) const;
         steed_type get_steed_type() const;
         virtual void set_movement_mode( const move_mode_id &mode ) = 0;
+
+        /**
+        * Generates an integer based on how many times we've gained non-negative mutations.
+        * This is asked for any given tree, but counts all of our mutations in total.
+        * Different than mutation_category_level[] in many ways:
+        * - Does not count base traits, even if those are mutable, whereas mutation_category_level[] does.
+        * - Does not count negative mutations, whereas mutation_category_level[] does.
+        * - Assigns 1 point to each level of mutation in our category, and 2 for each level out of it.
+        * - Individually counts each step of a multi level mutation (it counts Strong *and* Very Strong as their own mutations).
+        * - mutation_category_level[] ignores Strong and counts Very Strong as slightly more than 1 mutation, but not 2 mutations.
+        * - Meanwhile this counts Very Strong as 2 mutations, since you had to mutate Strong and then mutate that into Very Strong.
+        * - This is to mimic the behavior of the old instability vitamin, which increased by 100 each time you mutated (so Very Strong was 200 instability).
+        * The final result is used to calculate our current instability (influences chance of a negative mutation)
+        * so each mutation we have that belongs to a different tree than the one we specified counts double.
+        * Example: you start with Trog and mutate Slimy and Night Vision. Within Trog you have 2 points.
+        * You then go to mutate Rat. Rat has Night Vision but not Slimy, so you have 1+2=3 points.
+        * Having the Robust Genetics trait lets you "negate" this penalty, and makes all traits worth just 1 instability whether in/out of tree.
+        */
+        int get_instability_per_category( const mutation_category_id &categ ) const;
 
         /**Determine if character is susceptible to dis_type and if so apply the symptoms*/
         void expose_to_disease( const diseasetype_id &dis_type );
@@ -1589,8 +1608,8 @@ class Character : public Creature, public visitable
                           const vitamin_id &mut_vit ) const;
         bool mutation_ok( const trait_id &mutation, bool allow_good, bool allow_bad,
                           bool allow_neutral ) const;
-        /** Roll, based on instability, whether next mutation should be good or bad */
-        bool roll_bad_mutation() const;
+        /** Roll, based on category and total mutations in/out of it, whether next mutation should be good or bad */
+        bool roll_bad_mutation( const mutation_category_id &categ ) const;
         /** Opens a menu which allows players to choose from a list of mutations */
         bool mutation_selector( const std::vector<trait_id> &prospective_traits,
                                 const mutation_category_id &cat, const bool &use_vitamins );
@@ -1615,7 +1634,7 @@ class Character : public Creature, public visitable
         /** Try to cross The Threshold */
         void test_crossing_threshold( const mutation_category_id &mutation_category );
         /** Returns how many steps are required to reach a mutation */
-        int mutation_height( const trait_id &mut );
+        int mutation_height( const trait_id &mut ) const;
         /** Recalculates mutation_category_level[] values for the player */
         void calc_mutation_levels();
         /** Returns a weighted list of mutation categories based on blood vitamin levels */
@@ -1628,8 +1647,6 @@ class Character : public Creature, public visitable
         */
         bool is_category_allowed( const std::vector<mutation_category_id> &category ) const;
         bool is_category_allowed( const mutation_category_id &category ) const;
-
-        bool is_weak_to_water() const;
 
         /**Check for mutation disallowing the use of an healing item*/
         bool can_use_heal_item( const item &med ) const;
@@ -1679,8 +1696,6 @@ class Character : public Creature, public visitable
         /** Returns vehicles connected to cable charger bionic */
         std::vector<vehicle *> get_cable_vehicle() const;
 
-        /**Get stat bonus from bionic*/
-        int get_mod_stat_from_bionic( const character_stat &Stat ) const;
         // route for overmap-scale traveling
         std::vector<tripoint_abs_omt> omt_path;
         // Container of OMTs to highlight as having been revealed
@@ -2425,6 +2440,8 @@ class Character : public Creature, public visitable
 
         void set_skills_from_hobbies();
 
+        void set_bionics_from_hobbies();
+
         // --------------- Proficiency Stuff ----------------
         bool has_proficiency( const proficiency_id &prof ) const;
         float get_proficiency_practice( const proficiency_id &prof ) const;
@@ -2591,12 +2608,6 @@ class Character : public Creature, public visitable
          * Average hit points healed per turn from healing effects.
          */
         float healing_rate_medicine( float at_rest_quality, const bodypart_id &bp ) const;
-
-        /**
-         * Goes over all mutations, gets min and max of a value with given name
-         * @return min( 0, lowest ) + max( 0, highest )
-         */
-        float mutation_value( const std::string &val ) const;
 
         /**
          * Goes over all mutations/bionics, returning the sum of the social modifiers
@@ -3129,8 +3140,6 @@ class Character : public Creature, public visitable
         void enchantment_wear_change();
         /** Called when an item is washed */
         void on_worn_item_washed( const item &it );
-        /** Called when an item becomes filthy */
-        void on_worn_item_soiled( const item &it );
         /** Called when an item is acquired (picked up, worn, or wielded) */
         void on_item_acquire( const item &it );
         /** Called when effect intensity has been changed */
@@ -3274,8 +3283,6 @@ class Character : public Creature, public visitable
 
         /** Correction factor of the body temperature due to traits and mutations **/
         units::temperature_delta bodytemp_modifier_traits( bool overheated ) const;
-        /** Correction factor of the body temperature due to traits and mutations for player lying on the floor **/
-        units::temperature_delta bodytemp_modifier_traits_floor() const;
         /** Value of the body temperature corrected by climate control **/
         units::temperature temp_corrected_by_climate_control( units::temperature temperature,
                 int heat_strength,
@@ -3339,9 +3346,9 @@ class Character : public Creature, public visitable
 
         /** Used to apply stimulation modifications from food and medication **/
         void modify_stimulation( const islot_comestible &comest );
-        /** Used to apply fatigue modifications from food and medication **/
+        /** Used to apply sleepiness modifications from food and medication **/
         /** Used to apply radiation from food and medication **/
-        void modify_fatigue( const islot_comestible &comest );
+        void modify_sleepiness( const islot_comestible &comest );
         void modify_radiation( const islot_comestible &comest );
         /** Used to apply addiction modifications from food and medication **/
         void modify_addiction( const islot_comestible &comest );
@@ -3628,10 +3635,8 @@ class Character : public Creature, public visitable
                                        const std::function<bool( const item & )> &filter = return_true<item>, bool select_ind = false );
         std::list<item> consume_items( map &m, const comp_selection<item_comp> &is, int batch,
                                        const std::function<bool( const item & )> &filter = return_true<item>,
-                                       const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE, bool select_ind = false );
-        std::list<item> consume_items( map &m, const comp_selection<item_comp> &is, int batch,
-                                       const std::function<bool( const item & )> &filter = return_true<item>,
                                        const std::vector<tripoint> &reachable_pts = {}, bool select_ind = false );
+        // Selects one entry in components using select_item_component and consumes those items.
         std::list<item> consume_items( const std::vector<item_comp> &components, int batch = 1,
                                        const std::function<bool( const item & )> &filter = return_true<item>,
                                        const std::function<bool( const itype_id & )> &select_ind = return_false<itype_id> );
@@ -3764,7 +3769,7 @@ class Character : public Creature, public visitable
         double vomit_mod();
         /** Checked each turn during "lying_down", returns true if the player falls asleep */
         bool can_sleep();
-        /** Rate point's ability to serve as a bed. Takes all mutations, fatigue and stimulants into account. */
+        /** Rate point's ability to serve as a bed. Takes all mutations, sleepiness and stimulants into account. */
         int sleep_spot( const tripoint_bub_ms &p ) const;
         /** Processes human-specific effects of effects before calling Creature::process_effects(). */
         void process_effects() override;
@@ -3816,7 +3821,7 @@ class Character : public Creature, public visitable
             /** Key to select the mutation in the UI. */
             char key = ' ';
             /**
-             * Time (in turns) until the mutation increase hunger/thirst/fatigue according
+             * Time (in turns) until the mutation increase hunger/thirst/sleepiness according
              * to its cost (@ref mutation_branch::cost). When those costs have been paid, this
              * is reset to @ref mutation_branch::cooldown.
              */
@@ -3996,7 +4001,7 @@ class Character : public Creature, public visitable
         // Additional vision sources, currently only used by avatars
         std::map<mtype_id, int> moncams;
 
-        /// @brief Needs (hunger, starvation, thirst, fatigue, etc.)
+        /// @brief Needs (hunger, starvation, thirst, sleepiness, etc.)
         // Stored calories is a value in 'calories' - 1/1000s of kcals (or Calories)
         int stored_calories;
         int healthy_calories;
@@ -4023,7 +4028,7 @@ class Character : public Creature, public visitable
         time_duration daily_sleep = 0_turns;
         time_duration continuous_sleep = 0_turns;
 
-        int fatigue;
+        int sleepiness;
         int sleep_deprivation;
         bool check_encumbrance = true;
         bool cache_inventory_is_valid = false;
@@ -4083,8 +4088,8 @@ class Character : public Creature, public visitable
         std::unordered_map<point_abs_omt, time_duration> overmap_time;
 
     public:
-        time_point next_climate_control_check;
-        bool last_climate_control_ret;
+        mutable time_point next_climate_control_check;
+        mutable bool last_climate_control_ret;
 
         // a cache of all active enchantment values.
         // is recalculated every turn in Character::recalculate_enchantment_cache

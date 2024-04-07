@@ -22,7 +22,8 @@
       { "group": "dishes_dining", "prob": 100 },
       { "group": "dishes_utility", "prob": 50 },
       { "group": "kitchen_appliances", "prob": 25 },
-      { "group": "SUS_cooking_bookcase", "prob": 15 }
+      { "group": "SUS_cooking_bookcase", "prob": 15 },
+      { "group": "pillbox_any_used", "prob": 5 }
     ]
   },
   {
@@ -285,7 +286,9 @@
       [ "ankle_wallet_pouch", 1 ],
       [ "joint", 1 ],
       [ "curler_hair", 10 ],
-      [ "hairbrush", 5 ]
+      [ "hairbrush", 5 ],
+      { "group": "pillbox_any_used", "prob": 10 },
+      { "item": "home_picture", "prob": 50 }
     ]
   },
   {
@@ -643,7 +646,8 @@
       { "item": "reading_light", "prob": 9, "charges": [ 0, 50 ] },
       { "item": "balloon", "prob": 5 },
       { "group": "memorial", "prob": 3 },
-      { "item": "air_launcher", "prob": 1 }
+      { "item": "air_launcher", "prob": 1 },
+      { "item": "home_picture", "prob": 75 }
     ]
   },
   {
@@ -1099,6 +1103,7 @@
       { "item": "slingpack", "prob": 15 },
       { "item": "fanny", "prob": 10 },
       { "item": "acoustic_guitar", "prob": 20 },
+      { "item": "drum_percussion", "prob": 10 },
       { "item": "saxophone", "prob": 15 },
       { "item": "clarinet", "prob": 10 },
       { "item": "flute", "prob": 10 },
@@ -1228,7 +1233,8 @@
       { "item": "teddy_bear", "prob": 2 },
       { "item": "reading_light", "prob": 8, "charges": [ 0, 50 ] },
       { "item": "condom", "prob": 50, "count": [ 1, 5 ] },
-      { "item": "air_launcher", "prob": 1 }
+      { "item": "air_launcher", "prob": 1 },
+      { "item": "home_picture", "prob": 50 }
     ]
   },
   {
@@ -1366,11 +1372,11 @@
       [ "carbine_flintlock", 1 ],
       [ "rifle_flintlock", 1 ],
       { "group": "modular_deagle_44", "prob": 25, "charges": [ 0, 8 ] },
-      { "item": "lemat_revolver", "prob": 25, "charges": [ 0, 9 ] },
       [ "fencing_foil", 20 ],
       [ "fencing_sabre", 20 ],
       [ "fencing_epee", 20 ],
-      [ "fencing_mask", 20 ]
+      [ "fencing_mask", 20 ],
+      { "item": "home_picture", "prob": 50 }
     ]
   },
   {
@@ -1422,6 +1428,7 @@
       { "group": "coat_rack", "prob": 5 },
       { "item": "hair_dryer", "prob": 3 },
       { "item": "bucket", "prob": 3 },
+      { "item": "bucket_5gal", "prob": 3 },
       { "item": "briefcase", "prob": 2 },
       { "item": "suitcase_m", "prob": 2 },
       { "item": "candle", "prob": 3, "charges": [ 5, 50 ] },

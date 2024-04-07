@@ -1,4 +1,3 @@
-#if !defined(__ANDROID__)
 #pragma once
 #include <string>
 #include <vector>
@@ -7,15 +6,18 @@
 #include <array>
 
 class nc_color;
+struct input_event;
 struct item_info_data;
 
 #if defined(WIN32) || defined(TILES)
-struct SDL_Renderer;
-struct SDL_Window;
+#include "sdl_geometry.h"
+#include "sdl_wrappers.h"
+#include "color_loader.h"
 #endif
 
 struct point;
 class ImVec2;
+class Font;
 
 namespace cataimgui
 {
@@ -44,19 +46,30 @@ enum class dialog_result {
 class client
 {
     public:
+#if !(defined(TILES) || defined(WIN32))
         client();
+#else
+        client( const SDL_Renderer_Ptr &sdl_renderer, const SDL_Window_Ptr &sdl_window,
+                const GeometryRenderer_Ptr &sdl_geometry );
+        void load_fonts( const std::unique_ptr<Font> &cata_font,
+                         const std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> &windowsPalette );
+#endif
         ~client();
 
         void new_frame();
         void end_frame();
         void process_input( void *input );
+        void process_cata_input( const input_event &event );
 #if !(defined(TILES) || defined(WIN32))
         void upload_color_pair( int p, int f, int b );
         void set_alloced_pair_count( short count );
 #else
-        static struct SDL_Renderer *sdl_renderer;
-        static struct SDL_Window *sdl_window;
+        const SDL_Renderer_Ptr &sdl_renderer;
+        const SDL_Window_Ptr &sdl_window;
+        const GeometryRenderer_Ptr &sdl_geometry;
 #endif
+        bool auto_size_frame_active();
+        bool any_window_shown();
 };
 
 void point_to_imvec2( point *src, ImVec2 *dest );
@@ -107,4 +120,3 @@ void load_colors();
 #endif
 
 } // namespace cataimgui
-#endif // #if defined(__ANDROID)

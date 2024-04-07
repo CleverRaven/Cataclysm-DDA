@@ -163,6 +163,8 @@ static const trait_id trait_VEGAN( "VEGAN" );
 static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 
+static const vitamin_id vitamin_human_flesh_vitamin( "human_flesh_vitamin" );
+
 // note: cannot use constants from flag.h (e.g. flag_ALLERGEN_VEGGY) here, as they
 // might be uninitialized at the time these const arrays are created
 static const std::array<flag_id, 6> carnivore_blacklist {{
@@ -246,14 +248,6 @@ static std::map<vitamin_id, int> compute_default_effective_vitamins(
                     }
                 }
             }
-        }
-    }
-    for( const bionic_id &bid : you.get_bionics() ) {
-        if( bid->vitamin_absorb_mod == 1.0f ) {
-            continue;
-        }
-        for( std::pair<const vitamin_id, int> &vit : res ) {
-            vit.second *= bid->vitamin_absorb_mod;
         }
     }
     for( std::pair<const vitamin_id, int> &vit : res ) {
@@ -651,8 +645,7 @@ int Character::vitamin_mod( const vitamin_id &vit, int qty )
 
 void Character::vitamins_mod( const std::map<vitamin_id, int> &vitamins )
 {
-    const bool npc_no_food = is_npc() && get_option<bool>( "NO_NPC_FOOD" );
-    if( !npc_no_food ) {
+    if( needs_food() ) {
         for( const std::pair<const vitamin_id, int> &vit : vitamins ) {
             vitamin_mod( vit.first, vit.second );
         }
@@ -942,7 +935,7 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
     }
 
     const bool carnivore = has_trait( trait_CARNIVORE );
-    const bool food_is_human_flesh = food.has_flag( flag_CANNIBALISM ) ||
+    const bool food_is_human_flesh = food.has_vitamin( vitamin_human_flesh_vitamin ) ||
                                      ( food.has_flag( flag_STRICT_HUMANITARIANISM ) &&
                                        !has_flag( json_flag_STRICT_HUMANITARIAN ) );
     if( ( food_is_human_flesh && !has_flag( STATIC( json_character_flag( "CANNIBAL" ) ) ) &&
@@ -1249,9 +1242,9 @@ void Character::modify_stimulation( const islot_comestible &comest )
     }
 }
 
-void Character::modify_fatigue( const islot_comestible &comest )
+void Character::modify_sleepiness( const islot_comestible &comest )
 {
-    mod_fatigue( -comest.fatigue_mod );
+    mod_sleepiness( -comest.sleepiness_mod );
 }
 
 void Character::modify_addiction( const islot_comestible &comest )
@@ -1314,7 +1307,7 @@ void Character::modify_morale( item &food, const int nutr )
         }
     }
 
-    const bool food_is_human_flesh = food.has_flag( flag_CANNIBALISM ) ||
+    const bool food_is_human_flesh = food.has_vitamin( vitamin_human_flesh_vitamin ) ||
                                      ( food.has_flag( flag_STRICT_HUMANITARIANISM ) &&
                                        !has_flag( json_flag_STRICT_HUMANITARIAN ) );
     if( food_is_human_flesh ) {
@@ -1560,7 +1553,7 @@ bool Character::consume_effects( item &food )
         modify_health( comest );
     }
     modify_stimulation( comest );
-    modify_fatigue( comest );
+    modify_sleepiness( comest );
     modify_addiction( comest );
     modify_morale( food, nutr );
 
@@ -1571,7 +1564,7 @@ bool Character::consume_effects( item &food )
             add_msg_if_player( _( "You gorge yourself, preparing to hibernate." ) );
             if( one_in( 2 ) ) {
                 // 50% chance of the food tiring you
-                mod_fatigue( nutr );
+                mod_sleepiness( nutr );
             }
         }
         if( ( nutr > 0 && get_hunger() < -200 ) || ( comest.quench > 0 && get_thirst() < -200 ) ) {
@@ -1579,7 +1572,7 @@ bool Character::consume_effects( item &food )
             add_msg_if_player( _( "You feel stocked for a day or two.  Got your bed all ready and secured?" ) );
             if( one_in( 2 ) ) {
                 // And another 50%, intended cumulative
-                mod_fatigue( nutr );
+                mod_sleepiness( nutr );
             }
         }
 
@@ -1588,13 +1581,13 @@ bool Character::consume_effects( item &food )
                 _( "Mmm.  You can still fit some more in… but maybe you should get comfortable and sleep." ) );
             if( !one_in( 3 ) ) {
                 // Third check, this one at 66%
-                mod_fatigue( nutr );
+                mod_sleepiness( nutr );
             }
         }
         if( ( nutr > 0 && get_hunger() < -600 ) || ( comest.quench > 0 && get_thirst() < -600 ) ) {
             add_msg_if_player( _( "That filled a hole!  Time for bed…" ) );
             // At this point, you're done.  Schlaf gut.
-            mod_fatigue( nutr );
+            mod_sleepiness( nutr );
         }
     }
     // Moved here and changed a bit - it was too complex
@@ -1711,10 +1704,12 @@ time_duration Character::get_consume_time( const item &it ) const
     const std::string comest_type = it.get_comestible() ? it.get_comestible()->comesttype : "";
     if( eat_verb || comest_type == "FOOD" ) {
         time = time_duration::from_seconds( volume / 5 ); //Eat 5 mL (1 teaspoon) per second
-        consume_time_modifier = mutation_value( "consume_time_modifier" );
+        consume_time_modifier = enchantment_cache->modify_value( enchant_vals::mod::CONSUME_TIME_MOD,
+                                consume_time_modifier );
     } else if( !eat_verb && comest_type == "DRINK" ) {
         time = time_duration::from_seconds( volume / 15 ); //Drink 15 mL (1 tablespoon) per second
-        consume_time_modifier = mutation_value( "consume_time_modifier" );
+        consume_time_modifier = enchantment_cache->modify_value( enchant_vals::mod::CONSUME_TIME_MOD,
+                                consume_time_modifier );
     } else if( use_function const *fun = it.type->get_use( "heal" ) ) {
         time = time_duration::from_moves( dynamic_cast<heal_actor const *>
                                           ( fun->get_actor_ptr() )->move_cost );
@@ -1750,7 +1745,8 @@ time_duration Character::get_consume_time( const item &it ) const
     } else if( it.get_category_shallow().get_id() == item_category_chems ) {
         time = time_duration::from_seconds( std::max( ( volume / 15 ),
                                             1 ) ); //Consume 15 mL (1 tablespoon) per second
-        consume_time_modifier = mutation_value( "consume_time_modifier" );
+        consume_time_modifier = enchantment_cache->modify_value( enchant_vals::mod::CONSUME_TIME_MOD,
+                                consume_time_modifier );
     }
 
     // Minimum consumption time, without mutations, is always 1 second.
@@ -1825,7 +1821,7 @@ static bool consume_med( item &target, Character &you )
         // Assume that parenteral meds don't spoil, so don't apply rot
         you.modify_health( comest );
         you.modify_stimulation( comest );
-        you.modify_fatigue( comest );
+        you.modify_sleepiness( comest );
         you.modify_addiction( comest );
         you.modify_morale( target );
         activate_consume_eocs( you, target );

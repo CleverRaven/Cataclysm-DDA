@@ -1,0 +1,16 @@
+[
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.I",
+    "id": [
+      "biokin_enhance_mobility_item_1",
+      "biokin_enhance_mobility_item_2",
+      "biokin_enhance_mobility_item_3",
+      "biokin_enhance_mobility_item_4",
+      "biokin_enhance_mobility_item_5",
+      "biokin_enhance_mobility_item_6",
+      "telepath_mind_shield_item"
+    ],
+    "replace": "manual_swimming"
+  }
+]

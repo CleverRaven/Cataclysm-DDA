@@ -252,7 +252,7 @@ std::string shopkeeper_item_group::get_refusal() const
         return _( "<npcname> does not trust you enough" );
     }
 
-    return refusal;
+    return refusal.translated();
 }
 
 void shopkeeper_item_group::deserialize( const JsonObject &jo )

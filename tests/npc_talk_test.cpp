@@ -87,9 +87,9 @@ static npc &create_test_talker( bool shopkeep = false )
     model_npc->name = "Beta NPC";
     model_npc->set_hunger( 0 );
     model_npc->set_thirst( 0 );
-    model_npc->set_fatigue( 0 );
+    model_npc->set_sleepiness( 0 );
     model_npc->remove_effect( effect_sleep );
-    // An ugly hack to prevent NPC falling asleep during testing due to massive fatigue
+    // An ugly hack to prevent NPC falling asleep during testing due to massive sleepiness
     model_npc->set_mutation( trait_WEB_WEAVER );
 
     return *model_npc;
@@ -436,12 +436,12 @@ TEST_CASE( "npc_talk_needs", "[npc_talk]" )
     CHECK( d.responses[0].text == "This is a basic test response." );
     talker_npc.set_thirst( 90 );
     talker_npc.set_hunger( 90 );
-    talker_npc.set_fatigue( fatigue_levels::EXHAUSTED );
+    talker_npc.set_sleepiness( sleepiness_levels::EXHAUSTED );
     gen_response_lines( d, 4 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a npc thirst test response." );
     CHECK( d.responses[2].text == "This is a npc hunger test response." );
-    CHECK( d.responses[3].text == "This is a npc fatigue test response." );
+    CHECK( d.responses[3].text == "This is a npc sleepiness test response." );
 }
 
 TEST_CASE( "npc_talk_mission_goal", "[npc_talk]" )

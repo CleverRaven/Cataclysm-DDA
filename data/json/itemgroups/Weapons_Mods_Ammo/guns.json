@@ -188,7 +188,6 @@
       { "group": "nested_bfr", "prob": 10 },
       { "group": "nested_cop_38", "prob": 10 },
       { "group": "nested_colt_saa", "prob": 8 },
-      { "group": "nested_lemat_revolver", "prob": 5 },
       { "group": "nested_mauser_c96", "prob": 15 },
       { "group": "nested_TDI_10", "prob": 4 },
       { "group": "nested_draco", "prob": 20 },
@@ -232,7 +231,6 @@
       { "item": "bfr", "prob": 10 },
       { "item": "cop_38", "prob": 45 },
       { "item": "colt_saa", "prob": 8 },
-      { "item": "lemat_revolver", "prob": 13 },
       { "item": "mauser_c96", "prob": 15 },
       { "item": "makarov", "prob": 8 },
       { "item": "tokarev", "prob": 5 },
@@ -322,11 +320,7 @@
     "type": "item_group",
     "id": "guns_pistol_improvised",
     "//": "Makeshift or otherwise poor quality pistols.",
-    "items": [
-      { "item": "ashot", "prob": 100 },
-      { "item": "surv_hand_cannon", "prob": 100, "charges-min": 0, "charges-max": 5 },
-      { "item": "surv_six_shooter", "prob": 100, "charges-min": 0, "charges-max": 6 }
-    ]
+    "items": [ { "item": "ashot", "prob": 100 } ]
   },
   {
     "type": "item_group",
@@ -643,7 +637,6 @@
     "items": [
       { "item": "colt_lightning", "prob": 10 },
       { "item": "henry_big_boy", "prob": 10 },
-      { "item": "bh_m89", "prob": 15 },
       { "item": "m1903", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "smle_mk3", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "number4_mki", "prob": 10, "charges-min": 0, "charges-max": 0 },
@@ -769,7 +762,6 @@
     "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",
     "items": [
       { "group": "nested_ak47", "prob": 100 },
-      { "group": "nested_bh_m89", "prob": 20 },
       { "group": "nested_bfg50", "prob": 5 },
       { "group": "nested_carbine_flintlock", "prob": 140 },
       { "group": "nested_famas", "prob": 1 },
@@ -835,7 +827,7 @@
     "type": "item_group",
     "id": "guns_rifle_improvised",
     "//": "Makeshift or otherwise poor quality rifles.",
-    "items": [ { "item": "rifle_22", "prob": 60 }, { "item": "remington_700", "prob": 30 }, { "item": "rifle_9mm", "prob": 60 } ]
+    "items": [ { "item": "rifle_22", "prob": 60 }, { "item": "remington_700", "prob": 30 } ]
   },
   {
     "type": "item_group",
@@ -848,6 +840,10 @@
       { "group": "nested_mossberg_500_security", "prob": 17 },
       { "group": "nested_remington_870_express", "prob": 18 },
       { "group": "nested_browning_a5", "prob": 14 },
+      { "group": "nested_benelli_m2", "prob": 17 },
+      { "group": "nested_black_eagle", "prob": 37 },
+      { "group": "nested_benelli_m2_tac", "prob": 12 },
+      { "group": "nested_slp", "prob": 6 },
       { "group": "nested_ithaca37", "prob": 6 },
       { "group": "nested_remington_1100", "prob": 17 },
       { "group": "nested_mossberg_930", "prob": 15 },
@@ -864,9 +860,27 @@
     "items": [
       { "item": "mossberg_500", "prob": 33, "charges-min": 0, "charges-max": 6 },
       { "item": "remington_870", "prob": 35, "charges-min": 0, "charges-max": 5 },
-      { "item": "mossberg_500", "variant": "mossberg_500_security", "prob": 17, "charges-min": 0, "charges-max": 6 },
+      { "item": "benelli_tsa", "variant": "mossberg_500_security", "prob": 17, "charges-min": 0, "charges-max": 6 },
       { "item": "remington_870_express", "prob": 18, "charges-min": 0, "charges-max": 6 },
       { "item": "remington_870", "variant": "browning_a5", "prob": 14, "charges-min": 0, "charges-max": 5 },
+      { "item": "benelli_sa", "variant": "m2", "prob": 17, "charges-min": 0, "charges-max": 4 },
+      { "item": "benelli_sa", "variant": "sbe", "prob": 37, "charges-min": 0, "charges-max": 4 },
+      {
+        "item": "benelli_tsa",
+        "variant": "m2_tac",
+        "contents-item": [ "rail_mount" ],
+        "prob": 12,
+        "charges-min": 0,
+        "charges-max": 6
+      },
+      {
+        "item": "mossberg_590",
+        "variant": "slp",
+        "contents-item": [ "rail_mount" ],
+        "prob": 6,
+        "charges-min": 0,
+        "charges-max": 9
+      },
       { "item": "remington_870", "variant": "ithaca37", "prob": 6, "charges-min": 0, "charges-max": 5 },
       { "item": "remington_870", "variant": "remington_1100", "prob": 17, "charges-min": 0, "charges-max": 5 },
       { "item": "mossberg_930", "prob": 15, "charges-min": 0, "charges-max": 6 },
@@ -883,9 +897,13 @@
     "items": [
       { "item": "mossberg_500", "prob": 33 },
       { "item": "remington_870", "prob": 35 },
-      { "item": "mossberg_500", "variant": "mossberg_500_security", "prob": 17 },
+      { "item": "benelli_tsa", "variant": "mossberg_500_security", "prob": 17 },
       { "item": "remington_870_express", "prob": 18 },
       { "item": "remington_870", "variant": "browning_a5", "prob": 14 },
+      { "item": "benelli_sa", "variant": "m2", "prob": 17 },
+      { "item": "benelli_sa", "variant": "sbe", "prob": 37 },
+      { "item": "benelli_tsa", "variant": "m2_tac", "contents-item": [ "rail_mount" ], "prob": 12 },
+      { "item": "mossberg_590", "variant": "slp", "contents-item": [ "rail_mount" ], "prob": 6 },
       { "item": "remington_870", "variant": "ithaca37", "prob": 6 },
       { "item": "remington_870", "variant": "remington_1100", "prob": 17 },
       { "item": "mossberg_930", "prob": 15 },
@@ -905,7 +923,7 @@
       { "group": "nested_ksg-25", "prob": 8 },
       { "group": "nested_tavor_12", "prob": 5 },
       { "group": "nested_m1014", "prob": 10 },
-      { "group": "nested_SPAS_12", "prob": 2 }
+      { "group": "nested_slp", "prob": 10 }
     ]
   },
   {
@@ -919,7 +937,14 @@
       { "item": "ksg-25", "prob": 8, "charges-min": 0, "charges-max": 12 },
       { "item": "tavor_12", "prob": 5, "charges-min": 0, "charges-max": 5 },
       { "item": "mossberg_930", "variant": "m1014", "prob": 10, "charges-min": 0, "charges-max": 8 },
-      { "item": "mossberg_590", "variant": "SPAS_12", "prob": 2, "charges-min": 0, "charges-max": 9 }
+      {
+        "item": "mossberg_590",
+        "variant": "slp",
+        "contents-item": [ "rail_mount" ],
+        "prob": 10,
+        "charges-min": 0,
+        "charges-max": 9
+      }
     ]
   },
   {
@@ -931,7 +956,7 @@
       { "item": "ksg", "prob": 25 },
       { "item": "tavor_12", "prob": 5 },
       { "item": "mossberg_930", "variant": "m1014", "prob": 10 },
-      { "item": "mossberg_590", "variant": "SPAS_12", "prob": 2 }
+      { "item": "mossberg_590", "variant": "slp", "contents-item": [ "rail_mount" ], "prob": 10 }
     ]
   },
   {
@@ -1000,8 +1025,7 @@
       { "item": "bigun", "prob": 10, "charges-min": 0, "charges-max": 6 },
       { "item": "pipe_double_shotgun", "prob": 70, "charges-min": 0, "charges-max": 2 },
       { "item": "pipe_shotgun", "prob": 100 },
-      { "item": "revolver_shotgun", "prob": 30, "charges-min": 0, "charges-max": 6 },
-      { "item": "lever_shotgun", "prob": 10, "charges-min": 0, "charges-max": 6 }
+      { "item": "revolver_shotgun", "prob": 30, "charges-min": 0, "charges-max": 6 }
     ]
   },
   {
@@ -1225,7 +1249,7 @@
         "prob": 1
       },
       {
-        "item": "mossberg_500",
+        "item": "benelli_tsa",
         "variant": "mossberg_500_security",
         "charges": [ 0, 6 ],
         "contents-item": "shoulder_strap",
@@ -1324,7 +1348,7 @@
         "prob": 1
       },
       {
-        "item": "mossberg_500",
+        "item": "benelli_tsa",
         "variant": "mossberg_500_security",
         "charges": [ 6, 6 ],
         "contents-item": "shoulder_strap",
@@ -1510,7 +1534,7 @@
       {
         "collection": [
           {
-            "item": "mossberg_500",
+            "item": "benelli_tsa",
             "variant": "mossberg_500_security",
             "charges": [ 0, 6 ],
             "contents-item": "shoulder_strap",
@@ -2112,6 +2136,16 @@
       { "item": "plr16", "prob": 1, "charges-min": 0, "charges-max": 30 },
       { "item": "mossberg_500", "prob": 10, "charges-min": 0, "charges-max": 6 },
       { "item": "remington_870", "prob": 11, "charges-min": 0, "charges-max": 5 },
+      { "item": "benelli_sa", "variant": "m2", "prob": 7, "charges-min": 0, "charges-max": 4 },
+      { "item": "benelli_sa", "variant": "sbe", "prob": 11, "charges-min": 0, "charges-max": 4 },
+      {
+        "item": "benelli_tsa",
+        "variant": "m2_tac",
+        "contents-item": [ "rail_mount" ],
+        "prob": 4,
+        "charges-min": 0,
+        "charges-max": 6
+      },
       { "item": "remington_870", "variant": "ithaca37", "prob": 4, "charges-min": 0, "charges-max": 5 },
       { "group": "cz600", "prob": 5, "charges-min": 0, "charges-max": 10 },
       { "item": "ruger_1022", "prob": 7, "charges-min": 0, "charges-max": 10 },

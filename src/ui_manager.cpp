@@ -21,9 +21,7 @@
 
 using ui_stack_t = std::vector<std::reference_wrapper<ui_adaptor>>;
 
-#if !defined(__ANDROID__)
 static bool imgui_frame_started = false;
-#endif
 static bool redraw_in_progress = false;
 static bool showing_debug_message = false;
 static bool restart_redrawing = false;
@@ -129,6 +127,15 @@ void ui_adaptor::position( const point &topleft, const point &size )
 #else
     dimensions = rectangle<point>( topleft, topleft + size );
 #endif
+    invalidated = true;
+    ui_manager::invalidate( old_dimensions, false );
+}
+
+void ui_adaptor::position_absolute( const point &topleft, const point &size )
+{
+    const rectangle<point> old_dimensions = dimensions;
+    // ensure position is updated before calling invalidate
+    dimensions = rectangle<point>( topleft, topleft + size );
     invalidated = true;
     ui_manager::invalidate( old_dimensions, false );
 }
@@ -343,13 +350,11 @@ void ui_adaptor::redraw_invalidated( )
     if( test_mode || ui_stack.empty() ) {
         return;
     }
-#if !defined(__ANDROID__)
     // This boolean is needed when a debug error is thrown inside redraw_invalidated
     if( !imgui_frame_started ) {
         imclient->new_frame();
     }
     imgui_frame_started = true;
-#endif
 
     restore_on_out_of_scope<bool> prev_redraw_in_progress( redraw_in_progress );
     restore_on_out_of_scope<bool> prev_restart_redrawing( restart_redrawing );
@@ -455,10 +460,14 @@ void ui_adaptor::redraw_invalidated( )
     emscripten_sleep( 1 );
 #endif
 
-#if !defined(__ANDROID__)
     imclient->end_frame();
     imgui_frame_started = false;
-#endif
+
+    // if any ImGui window needed to calculate the size of its contents,
+    //  it needs an extra frame to draw. We do that here.
+    if( imclient->auto_size_frame_active() ) {
+        redraw_invalidated();
+    }
 }
 
 void ui_adaptor::screen_resized()
