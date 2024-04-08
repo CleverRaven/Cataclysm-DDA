@@ -2342,6 +2342,9 @@ class Character : public Creature, public visitable
          */
         ret_val<void> can_drop( const item &it ) const;
 
+        // Standalone function to clear the inventory search cache
+        void clear_inventory_search_cache();
+
         void drop_invalid_inventory();
         // this cache is for checking if items in the character's inventory can't actually fit into other items they are inside of
         void invalidate_inventory_validity_cache();
