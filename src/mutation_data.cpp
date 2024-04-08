@@ -683,7 +683,7 @@ void mutation_branch::check_consistency()
             const mutation_branch &rdata = replacement.obj();
             bool suppressed = rdata.src.back().second != trait_source && !basegame_trait;
             for( const mutation_category_id &cat : rdata.category ) {
-                if( std::find( mdata.category.begin(), mdata.category.end(), cat ) == mdata.category.end()  &&
+                if( std::find( mdata.category.begin(), mdata.category.end(), cat ) == mdata.category.end() &&
                     !suppressed ) {
                     debugmsg( "mutation %s lacks category %s present in replacement mutation %s", mid.c_str(),
                               cat.c_str(), replacement.c_str() );
