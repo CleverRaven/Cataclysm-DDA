@@ -540,8 +540,9 @@
   },
   {
     "type": "profession_item_substitutions",
-    "group": "can_beans_can_medium_2",
-    "sub": [ { "present": [ "MEATARIAN" ], "new": [ "can_spam_can_medium_6" ] } ]
+    "item": "can_beans",
+    "//": "Gives you twice as much spam",
+    "sub": [ { "present": [ "MEATARIAN" ], "new": [ "can_spam" ] } ]
   },
   {
     "type": "profession_item_substitutions",
@@ -602,7 +603,7 @@
           { "item": "folding_poncho" },
           { "item": "knit_scarf" },
           { "item": "jug_plastic" },
-          { "group": "can_beans_can_medium_2" },
+          { "item": "can_beans", "count": 2 },
           { "item": "pockknife" },
           { "group": "charged_cell_phone" },
           { "group": "charged_matches" },
@@ -2203,7 +2204,7 @@
           { "item": "knit_scarf" },
           { "item": "ragpouch" },
           { "item": "bindle" },
-          { "group": "can_beans_can_medium_2" },
+          { "item": "can_beans", "count": 2 },
           { "item": "pockknife" },
           { "group": "charged_matches" },
           { "item": "pants", "variant": "pants_grey" }
