@@ -249,7 +249,7 @@ jobs:
         uses: mymindstorm/setup-emsdk@v13
       - name: Install runtime dependencies (mac)
         if: runner.os == 'macOS'
-        uses: BrettDong/setup-sdl2-frameworks@v1
+        uses: BrettDong/setup-sdl2-frameworks@v2
         with:
           sdl2: latest
           sdl2-ttf: latest
