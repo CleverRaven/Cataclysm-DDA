@@ -17,7 +17,7 @@ if not options.pot_diff:
 diff = json.load(open(options.pot_diff, "r"))
 errors = []
 for message in diff["added"]:
-    typos = spell_check(message)
+    typos = set(spell_check(message))
     if len(typos) == 0:
         continue
     message = message.replace('\n', "\\n")
