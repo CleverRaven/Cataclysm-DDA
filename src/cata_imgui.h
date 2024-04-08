@@ -105,7 +105,6 @@ class window
         size_t str_width_to_pixels( size_t len );
         size_t str_height_to_pixels( size_t len );
         std::string get_filter();
-        //void set_filter( const std::string &filter );
         void clear_filter();
         void mark_resized();
 

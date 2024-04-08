@@ -698,10 +698,10 @@ void keybindings_ui::draw_controls()
     for( ; legend_idx < legend.size(); legend_idx++ ) {
         draw_colored_text( legend[legend_idx], c_white );
     }
-    if( last_status != status && status == kb_menu_status::filter ) {
-        ImGui::SetKeyboardFocusHere( 0 );
-    }
     draw_filter( *ctxt, status == kb_menu_status::filter );
+    if( last_status != status && status == kb_menu_status::filter ) {
+        ImGui::SetKeyboardFocusHere( -1 );
+    }
     ImGui::Separator();
 
     if( last_status != status && status == kb_menu_status::show ) {
@@ -1452,9 +1452,6 @@ action_id input_context::display_menu_imgui( const bool permit_execute_action )
             } else {
                 break;
             }
-        } else if( action == "TEXT.INPUT_FROM_FILE" ) {
-            //kb_menu.set_filter( kb_menu.get_filter() + get_input_string_from_file() );
-            continue;
         } else if( action == "HELP_KEYBINDINGS" ) {
             // update available hotkeys in case they've changed
             kb_menu.hotkeys = ctxt.get_available_single_char_hotkeys( display_help_hotkeys );

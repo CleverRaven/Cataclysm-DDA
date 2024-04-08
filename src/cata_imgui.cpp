@@ -465,7 +465,7 @@ class cataimgui::window_impl
 class cataimgui::filter_box_impl
 {
     public:
-        char text[255]; // NOLINT(modernize-avoid-c-arrays)
+        std::array<char, 255> text;
         ImGuiID id;
 };
 
@@ -627,9 +627,9 @@ void cataimgui::window::draw_filter( const input_context &ctxt, bool filtering_a
         action_button( "TEXT.CONFIRM", ctxt.get_button_text( "TEXT.CONFIRM", _( "OK" ) ) );
         ImGui::SameLine();
     }
-    ImGui::BeginDisabled( filtering_active );
-    ImGui::InputText( "##FILTERBOX", filter_impl->text,
-                      std::extent_v < decltype( filter_impl->text ) > );
+    ImGui::BeginDisabled( !filtering_active );
+    ImGui::InputText( "##FILTERBOX", filter_impl->text.data(),
+                      filter_impl->text.size() );
     ImGui::EndDisabled();
     if( !filter_impl->id ) {
         filter_impl->id = GImGui->LastItemData.ID;
@@ -639,7 +639,7 @@ void cataimgui::window::draw_filter( const input_context &ctxt, bool filtering_a
 std::string cataimgui::window::get_filter()
 {
     if( filter_impl ) {
-        return std::string( filter_impl->text );
+        return std::string( filter_impl->text.data() );
     } else {
         return std::string();
     }
@@ -655,12 +655,3 @@ void cataimgui::window::clear_filter()
         }
     }
 }
-
-//void cataimgui::window::set_filter( const std::string &filter )
-//{
-//    // doesnt currently work, relies on API only available in newer ImGUi, because I can't have nice things
-//    //ImGuiInputTextState* input_state = ImGui::GetInputTextState( p_impl->id );
-//    //if( input_state ) {
-//    //    input_state->ReloadUserBufAndSelectAll();
-//    //}
-//}
