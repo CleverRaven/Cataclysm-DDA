@@ -110,18 +110,23 @@
       },
       "furniture": { "$": [ [ "f_grave_monument", 1 ], [ "f_statue", 4 ] ] },
       "fields": { "W": { "field": "fd_web", "intensity": 3, "age": 10 } },
-      "items": { "!": { "item": "balrog_mine_weapons", "chance": 70, "damage": 4 } },
-      "item": {
-        "!": [
-          { "item": "helmet_plate", "chance": 50, "damage": 4 },
-          { "item": "boots_plate", "chance": 75, "damage": 4 },
-          { "item": "armguard_lightplate", "chance": 60, "damage": 4 },
-          { "item": "gloves_plate", "chance": 40, "damage": 4 },
-          { "item": "legguard_lightplate", "chance": 60, "damage": 4 },
-          { "item": "armor_lc_lightplate", "chance": 70, "damage": 4 },
-          { "group": "balrog_mine_weapons", "chance": 70, "damage": 4 },
-          { "item": "bone_human", "chance": 100, "damage": 4, "count": [ 10, 20 ] }
-        ]
+      "items": {
+        "!": {
+          "item": {
+            "subtype": "collection",
+            "entries": [
+              { "item": "helmet_plate", "prob": 50, "damage": 4 },
+              { "item": "boots_plate", "prob": 75, "damage": 4 },
+              { "item": "armguard_lightplate", "prob": 60, "damage": 4 },
+              { "item": "gloves_plate", "prob": 40, "damage": 4 },
+              { "item": "legguard_lightplate", "prob": 60, "damage": 4 },
+              { "item": "armor_lc_lightplate", "prob": 70, "damage": 4 },
+              { "group": "balrog_mine_weapons", "prob": 70, "damage": 4 },
+              { "item": "bone_human", "prob": 100, "damage": 4, "count": [ 10, 20 ] }
+            ]
+          },
+          "chance": 100
+        }
       }
     }
   },
