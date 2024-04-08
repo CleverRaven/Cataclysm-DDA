@@ -2,20 +2,25 @@
 #ifndef CATA_SRC_DIARY_H
 #define CATA_SRC_DIARY_H
 
+#include <functional>
+#include <iosfwd>
+#include <map>
+#include <memory>
 #include <string>
-#include <list>
 #include <vector>
 
-#include "achievement.h"
-#include "character.h"
-#include "kill_tracker.h"
-#include "skill.h"
-#include "stats_tracker.h"
-#include "ui.h"
+#include "calendar.h"
+#include "mutation.h"
+#include "type_id.h"
 #include "units.h"
 
-enum class time_accuracy;
+class JsonOut;
 class JsonValue;
+
+namespace catacurses
+{
+class window;
+}  // namespace catacurses
 
 /// <summary>
 /// diary page, to save current character progression
