@@ -38,7 +38,7 @@
   {
     "id": "mon_zombie_soldier_no_weakpoints",
     "type": "MONSTER",
-    "name": { "str": "zombie soldier test only" },
+    "name": { "str_sp": "zombie soldier test only" },
     "description": "This zombie soldier is for testing purposes only.",
     "copy-from": "mon_zombie_soldier",
     "dodge": 1,
