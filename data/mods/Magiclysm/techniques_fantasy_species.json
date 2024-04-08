@@ -2,7 +2,7 @@
   {
     "type": "technique",
     "id": "FANGS_BITE_GOBLIN",
-    "name": "Gobin Bite",
+    "name": "Goblin Bite",
     "melee_allowed": true,
     "messages": [ "You bite %s", "<npcname> bites %s!" ],
     "description": "Bite someone with goblin's naturally-sharp teeth.",
@@ -28,7 +28,7 @@
   {
     "type": "technique",
     "id": "FANGS_BITE_GOBLIN_GRAB",
-    "name": "Gobin Bite",
+    "name": "Goblin Bite",
     "melee_allowed": true,
     "messages": [ "You bite %s", "<npcname> bites %s!" ],
     "description": "Bite someone with a goblin's naturally-sharp teeth.",

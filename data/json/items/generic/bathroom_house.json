@@ -1,7 +1,7 @@
 [
   {
     "abstract": "base_toiletries",
-    "name": { "str": "generic grooming" },
+    "name": { "str_sp": "generic grooming" },
     "type": "GENERIC",
     "description": "generic item template",
     "symbol": "+",

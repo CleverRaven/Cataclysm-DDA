@@ -535,7 +535,7 @@
     "id": "swim_cap",
     "type": "ARMOR",
     "name": { "str": "swim cap" },
-    "description": "A tightly fitted, skin-tight head garment made of lycra.  Commonly used by recreational and competitive swimmers.",
+    "description": "A tightly fitted, skin-tight head garment made of Lycra.  Commonly used by recreational and competitive swimmers.",
     "weight": "50 g",
     "volume": "250 ml",
     "price": 2500,

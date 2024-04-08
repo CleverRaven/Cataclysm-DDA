@@ -1317,7 +1317,7 @@
     "symbol": "~",
     "quench": 60,
     "calories": 66,
-    "description": "A flavoured drink consisting of a special blend of electrolytes and simple sugars.  It tastes vaguely like fruit with a slight chemical aftertaste.",
+    "description": "A flavored drink consisting of a special blend of electrolytes and simple sugars.  It tastes vaguely like fruit with a slight chemical aftertaste.",
     "price": 55,
     "price_postapoc": 50,
     "material": [ "water", "junk" ],

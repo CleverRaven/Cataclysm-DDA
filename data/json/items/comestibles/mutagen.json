@@ -28,7 +28,7 @@
     "abstract": "iv_mutagen_flavor",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str_sp": "abstract iv mutagen flavor" },
+    "name": { "str_sp": "abstract IV mutagen flavor" },
     "description": "A processed mutagenic primer.",
     "price": "3000 USD",
     "price_postapoc": "1 USD",

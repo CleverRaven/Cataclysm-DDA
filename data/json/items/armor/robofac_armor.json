@@ -915,7 +915,7 @@
     "type": "ARMOR",
     "copy-from": "robofac_helmet",
     "name": "Hub 01 turnout helmet",
-    "description": "3D printed armor for the head, made of thick polymer plates woven with metallic fibers.  This version incorporates a tight fitting nomex layer for some protection against heat.  Designed to clip to some kind of attachment point, its interior reads \"ATTACH TO MODULAR HEADGEAR\".",
+    "description": "3D printed armor for the head, made of thick polymer plates woven with metallic fibers.  This version incorporates a tight fitting Nomex layer for some protection against heat.  Designed to clip to some kind of attachment point, its interior reads \"ATTACH TO MODULAR HEADGEAR\".",
     "material": [ { "type": "plastic", "portion": 2 }, { "type": "qt_steel", "portion": 1 }, { "type": "nomex", "portion": 4 } ],
     "proportional": { "weight": 1.365 }
   },
@@ -925,7 +925,7 @@
     "type": "ARMOR",
     "copy-from": "robofac_helmet",
     "name": "Hub 01 ballistic helmet",
-    "description": "3D printed armor for the head, made of thick polymer plates woven with metallic fibers.  This one has extra kevlar and steel layering, to provide superior protection against small arms.  Designed to clip to some kind of attachment point, its interior reads \"ATTACH TO MODULAR HEADGEAR\".",
+    "description": "3D printed armor for the head, made of thick polymer plates woven with metallic fibers.  This one has extra Kevlar and steel layering, to provide superior protection against small arms.  Designed to clip to some kind of attachment point, its interior reads \"ATTACH TO MODULAR HEADGEAR\".",
     "material": [
       { "type": "plastic", "portion": 2 },
       { "type": "qt_steel", "portion": 1 },
