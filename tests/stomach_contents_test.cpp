@@ -74,7 +74,7 @@ static time_duration time_until_hungry( Character &p )
     unsigned int thirty_minutes = 0;
     do {
         p.set_sleep_deprivation( 0 );
-        p.set_fatigue( 0 );
+        p.set_sleepiness( 0 );
         pass_time( p, 30_minutes );
         thirty_minutes++;
     } while( p.get_hunger() < 40 ); // hungry
@@ -142,7 +142,7 @@ TEST_CASE( "starve_test", "[starve][slow]" )
         results.push_back( string_format( "\nday %d: %d", day, dummy.get_stored_kcal() ) );
         pass_time( dummy, 1_days );
         dummy.set_thirst( 0 );
-        dummy.set_fatigue( 0 );
+        dummy.set_sleepiness( 0 );
         set_all_vitamins( 0, dummy );
         day++;
     } while( dummy.get_stored_kcal() > 0 && day < expected_day * 2 );
@@ -317,7 +317,7 @@ TEST_CASE( "starve_test_hunger3", "[starve][slow]" )
         results.push_back( string_format( "\nday %d: %d", day, dummy.get_stored_kcal() ) );
         pass_time( dummy, 1_days );
         dummy.set_thirst( 0 );
-        dummy.set_fatigue( 0 );
+        dummy.set_sleepiness( 0 );
         set_all_vitamins( 0, dummy );
         day++;
     } while( dummy.get_stored_kcal() > 0 );
@@ -350,7 +350,7 @@ TEST_CASE( "all_nutrition_starve_test", "[starve][slow]" )
         }
         pass_time( dummy, 1_days );
         dummy.set_thirst( 0 );
-        dummy.set_fatigue( 0 );
+        dummy.set_sleepiness( 0 );
         eat_all_nutrients( dummy );
         print_stomach_contents( dummy, print_tests );
     }

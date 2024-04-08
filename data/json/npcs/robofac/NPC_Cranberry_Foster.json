@@ -30,6 +30,7 @@
       { "trait": "PACIFIST" },
       { "trait": "TRUTHTELLER" },
       { "trait": "hair_medium", "variant": "blond" },
+      { "trait": "natural_hair_color_blond" },
       { "trait": "eye_color", "variant": "blue" },
       { "trait": "SKIN_PINK" }
     ],

@@ -121,6 +121,13 @@ static const move_mode_id move_mode_walk( "walk" );
 
 static const string_id<monfaction> monfaction_player( "player" );
 
+static const ter_str_id ter_t_dirt( "t_dirt" );
+static const ter_str_id ter_t_dirtmound( "t_dirtmound" );
+static const ter_str_id ter_t_floor( "t_floor" );
+static const ter_str_id ter_t_grass( "t_grass" );
+static const ter_str_id ter_t_pit( "t_pit" );
+static const ter_str_id ter_t_pit_shallow( "t_pit_shallow" );
+
 static const trait_id trait_ARACHNID_ARMS( "ARACHNID_ARMS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
@@ -338,7 +345,8 @@ void avatar::set_active_mission( mission &cur_mission )
 {
     const auto iter = std::find( active_missions.begin(), active_missions.end(), &cur_mission );
     if( iter == active_missions.end() ) {
-        debugmsg( "new active mission %d is not in the active_missions list", cur_mission.get_id() );
+        debugmsg( "new active mission %s is not in the active_missions list",
+                  cur_mission.mission_id().c_str() );
     } else {
         active_mission = &cur_mission;
     }
@@ -366,7 +374,8 @@ void avatar::on_mission_finished( mission &cur_mission )
     }
     const auto iter = std::find( active_missions.begin(), active_missions.end(), &cur_mission );
     if( iter == active_missions.end() ) {
-        debugmsg( "completed mission %d was not in the active_missions list", cur_mission.get_id() );
+        debugmsg( "completed mission %s was not in the active_missions list",
+                  cur_mission.mission_id().c_str() );
     } else {
         active_missions.erase( iter );
     }
@@ -394,7 +403,8 @@ void avatar::remove_active_mission( mission &cur_mission )
     cur_mission.remove_active_world_mission( cur_mission );
     const auto iter = std::find( active_missions.begin(), active_missions.end(), &cur_mission );
     if( iter == active_missions.end() ) {
-        debugmsg( "removed mission %d was not in the active_missions list", cur_mission.get_id() );
+        debugmsg( "removed mission %s was not in the active_missions list",
+                  cur_mission.mission_id().c_str() );
     } else {
         active_missions.erase( iter );
     }
@@ -931,20 +941,20 @@ void avatar::disp_morale()
 {
     int equilibrium = calc_focus_equilibrium();
 
-    int fatigue_penalty = 0;
-    const int fatigue_cap = focus_equilibrium_fatigue_cap( equilibrium );
+    int sleepiness_penalty = 0;
+    const int sleepiness_cap = focus_equilibrium_sleepiness_cap( equilibrium );
 
-    if( fatigue_cap < equilibrium ) {
-        fatigue_penalty = equilibrium - fatigue_cap;
-        equilibrium = fatigue_cap;
+    if( sleepiness_cap < equilibrium ) {
+        sleepiness_penalty = equilibrium - sleepiness_cap;
+        equilibrium = sleepiness_cap;
     }
 
     int pain_penalty = 0;
     if( get_perceived_pain() && !has_trait( trait_CENOBITE ) ) {
-        pain_penalty = calc_focus_equilibrium( true ) - equilibrium - fatigue_penalty;
+        pain_penalty = calc_focus_equilibrium( true ) - equilibrium - sleepiness_penalty;
     }
 
-    morale->display( equilibrium, pain_penalty, fatigue_penalty );
+    morale->display( equilibrium, pain_penalty, sleepiness_penalty );
 }
 
 void avatar::reset_stats()
@@ -1299,6 +1309,8 @@ void avatar::set_movement_mode( const move_mode_id &new_mode )
         }
         add_msg( new_mode->change_message( true, get_steed_type() ) );
         move_mode = new_mode;
+        // Enchantments based on move modes can stack inappropriately without a recalc here
+        recalculate_enchantment_cache();
         // crouching affects visibility
         get_map().set_seen_cache_dirty( pos().z );
         recoil = MAX_RECOIL;
@@ -1420,7 +1432,7 @@ bool avatar::wield( item &target, const int obtain_cost )
     }
 
     add_msg_debug( debugmode::DF_AVATAR, "wielding took %d moves", mv );
-    moves -= mv;
+    mod_moves( -mv );
 
     if( has_item( target ) ) {
         item removed = i_rem( &target );
@@ -1523,7 +1535,7 @@ bool avatar::invoke_item( item *used, const std::string &method, const tripoint 
                           int pre_obtain_moves )
 {
     if( pre_obtain_moves == -1 ) {
-        pre_obtain_moves = moves;
+        pre_obtain_moves = get_moves();
     }
     return Character::invoke_item( used, method, pt, pre_obtain_moves );
 }
@@ -1924,10 +1936,8 @@ void avatar::try_to_sleep( const time_duration &dur )
     bool watersleep = false;
     if( has_trait( trait_CHLOROMORPH ) ) {
         plantsleep = true;
-        if( ( ter_at_pos == t_dirt || ter_at_pos == t_pit ||
-              ter_at_pos == t_dirtmound || ter_at_pos == t_pit_shallow ||
-              ter_at_pos == t_grass ) && !vp &&
-            furn_at_pos == f_null ) {
+        const std::unordered_set<ter_str_id> comfy_ters = { ter_t_dirt, ter_t_dirtmound, ter_t_grass, ter_t_pit, ter_t_pit_shallow };
+        if( comfy_ters.find( ter_at_pos.id() ) != comfy_ters.end() && !vp && furn_at_pos == f_null ) {
             add_msg_if_player( m_good, _( "You relax as your roots embrace the soil." ) );
         } else if( vp ) {
             add_msg_if_player( m_bad, _( "It's impossible to sleep in this wheeled pot!" ) );
@@ -1999,7 +2009,7 @@ void avatar::try_to_sleep( const time_duration &dur )
                          vp.part_with_feature( "BED", true ) ) ) {
         add_msg_if_player( m_good, _( "This is a comfortable place to sleep." ) );
     } else if( !plantsleep && !fungaloid_cosplay && !watersleep ) {
-        if( !vp && ter_at_pos != t_floor ) {
+        if( !vp && ter_at_pos != ter_t_floor ) {
             add_msg_if_player( ter_at_pos.obj().movecost <= 2 ?
                                _( "It's a little hard to get to sleep on this %s." ) :
                                _( "It's hard to get to sleep on this %s." ),

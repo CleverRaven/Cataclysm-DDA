@@ -844,30 +844,33 @@ input_manager::t_input_event_list &input_manager::get_or_create_event_list(
     return actions[action_descriptor].input_events;
 }
 
-void input_manager::remove_input_for_action(
+bool input_manager::remove_input_for_action(
     const std::string &action_descriptor, const std::string &context )
 {
     const t_action_contexts::iterator action_context = action_contexts.find( context );
-    if( action_context != action_contexts.end() ) {
-        t_actions &actions = action_context->second;
-        t_actions::iterator action = actions.find( action_descriptor );
-        if( action != actions.end() ) {
-            if( action->second.is_user_created ) {
-                // Since this is a user created hotkey, remove it so that the
-                // user will fallback to the hotkey in the default context.
-                actions.erase( action );
-            } else {
-                // If a context no longer has any keybindings remaining for an action but
-                // there's an attempt to remove bindings anyway, presumably the user wants
-                // to fully remove the binding from that context.
-                if( action->second.input_events.empty() ) {
-                    actions.erase( action );
-                } else {
-                    action->second.input_events.clear();
-                }
-            }
-        }
+    if( action_context == action_contexts.end() ) {
+        return false;
     }
+    t_actions &actions = action_context->second;
+    t_actions::iterator action = actions.find( action_descriptor );
+    if( action == actions.end() ) {
+        return false;
+    }
+    if( action->second.is_user_created ) {
+        // Since this is a user created hotkey, remove it so that the
+        // user will fallback to the hotkey in the default context.
+        actions.erase( action );
+        return true;
+    }
+    // If a context no longer has any keybindings remaining for an action but
+    // there's an attempt to remove bindings anyway, presumably the user wants
+    // to fully remove the binding from that context.
+    if( action->second.input_events.empty() ) {
+        actions.erase( action );
+        return true;
+    }
+    action->second.input_events.clear();
+    return false;
 }
 
 void input_manager::add_input_for_action(

@@ -26,13 +26,17 @@ class effect;
 class item;
 struct itype;
 
+extern const matec_id tec_none;
+
 class weapon_category
 {
     public:
         static void load_weapon_categories( const JsonObject &jo, const std::string &src );
+        static void verify_weapon_categories();
         static void reset();
 
         void load( const JsonObject &jo, std::string_view src );
+        void check() const;
 
         static const std::vector<weapon_category> &get_all();
 
@@ -44,12 +48,17 @@ class weapon_category
             return name_;
         }
 
+        const std::vector<proficiency_id> &category_proficiencies() const {
+            return proficiencies_;
+        }
+
     private:
         friend class generic_factory<weapon_category>;
         friend struct mod_tracker;
 
         weapon_category_id id;
         std::vector<std::pair<weapon_category_id, mod_id>> src;
+        std::vector<proficiency_id> proficiencies_;
         bool was_loaded = false;
 
         translation name_;
@@ -153,6 +162,10 @@ class ma_technique
         bool reach_tec = false; // only possible to use during a reach attack
         bool reach_ok = false; // possible to use during a reach attack
         bool attack_override = false; // The attack replaces the one it triggered off of
+
+        // performs the listed technique if this attack procs a crit. tec_none skips this behavior.
+        // requires crit_ok to be true
+        matec_id crit_tec_id = tec_none;
 
         ma_requirements reqs;
 

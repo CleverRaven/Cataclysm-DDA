@@ -393,7 +393,7 @@
         "recover_mana",
         "recover_bionic_power",
         "recover_pain",
-        "recover_fatigue",
+        "recover_sleepiness",
         "recover_stamina",
         "druid_healing",
         "convert"
@@ -1065,7 +1065,7 @@
     "id": "sense_outsiders_spellbook",
     "type": "BOOK",
     "category": "manuals",
-    "name": { "str": "A Study of Nethereum Incursions", "str_pl": "copies of A Study of Nethereum Incursions!" },
+    "name": { "str": "A Study of Nethereum Incursions", "str_pl": "copies of A Study of Nethereum Incursions" },
     "//": "1 Animist spell",
     "description": "An academic book about the history of known Nethereum incursions, including the 1908 Tunguska incident, the disappearance of the army of Cambyses, various dancing plagues, the earthquake that destroyed the kingdom of Mgarzhbag, the Week Without Sun in the 7th century, and more, along with a variety of speculation about possible other historical and pre-historical incursions.",
     "weight": "355 g",
@@ -1189,7 +1189,7 @@
     "category": "manuals",
     "name": { "str": "Intermittent Fasting Using Biomancy", "str_pl": "copies of Intermittent Fasting Using Biomancy" },
     "//": "1 Biomancy spell",
-    "description": "A guide to using biomancy to perform extreme intermittent fasting, eating an enormous amount of food only once every 2-5 days, depending on the mage's skill.  The book is filled with both glossy photos of extremely fit, beautiful people and warnings to make sure that your stomach isn't full when the spell wears off",
+    "description": "A guide to using biomancy to perform extreme intermittent fasting, eating an enormous amount of food only once every 2-5 days, depending on the mage's skill.  The book is filled with both glossy photos of extremely fit, beautiful people and warnings to make sure that your stomach isn't full when the spell wears off.",
     "weight": "284 g",
     "volume": "550 ml",
     "price": 5000,
@@ -1235,7 +1235,7 @@
     "id": "basic_pyromancy",
     "type": "BOOK",
     "category": "manuals",
-    "//": "5 Kelvinist spells",
+    "//": "6 Kelvinist spells",
     "name": { "str": "Practical Pyromancy, Seventh Edition", "str_pl": "copies of Practical Pyromancy, Seventh Edition" },
     "description": "The 2020 edition of the classic tome of fire magic, not containing any restricted battle magic but popular all the same.",
     "weight": "537 g",
@@ -1247,7 +1247,14 @@
     "color": "red",
     "use_action": {
       "type": "learn_spell",
-      "spells": [ "kelvinist_firebolt", "kelvinist_extinguish_fire_spell", "create_lighter", "kelvinist_anti_cold", "burning_hands" ]
+      "spells": [
+        "kelvinist_firebolt",
+        "kelvinist_extinguish_fire_spell",
+        "create_lighter",
+        "kelvinist_heat_food",
+        "kelvinist_anti_cold",
+        "burning_hands"
+      ]
     }
   },
   {
@@ -1358,5 +1365,27 @@
     "symbol": "?",
     "color": "red",
     "use_action": { "type": "learn_spell", "spells": [ "mana_upgrade_sensitivity_02" ] }
+  },
+  {
+    "id": "pirate_spellbook",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": {
+      "str": "Sail the High Seas with Sorcery on Your Side",
+      "str_pl": "copies of Sail the High Seas with Sorcery on Your Side"
+    },
+    "//": "3 Stormshaper spells, 1 Technomancer spell",
+    "description": "This romanticized book of dubious historical accuracy details how pirates used magic to their advantage while sailing.  From better telescopes to banks of fog to hide their approach, it seems that according to this author at least, piracy was a true terror to behold.",
+    "weight": "437 g",
+    "volume": "825 ml",
+    "price": 7000,
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "red",
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "stormshaper_cloak_of_fog", "storm_shipwrecker", "air_bubble", "technomancer_far_sight" ]
+    }
   }
 ]

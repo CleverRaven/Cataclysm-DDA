@@ -183,8 +183,12 @@
     "type": "effect_on_condition",
     "id": "EOC_run_until_test",
     "effect": [
-      { "set_condition": "to_test", "condition": { "math": [ "u_context", "<", "10" ] } },
-      { "run_eoc_until": "EOC_until_nested", "condition": "to_test" }
+      { "math": [ "u_context", "=", "0" ] },
+      {
+        "run_eoc_until": "EOC_until_nested",
+        "condition": { "math": [ "u_context", "<", "10000" ] },
+        "iteration": 10000
+      }
     ]
   },
   {
@@ -334,15 +338,15 @@
     "effect": [
       { "set_string_var": "prof_test", "target_var": { "global_val": "prof_id" } },
       { "math": [ "key_total_time_required", "=", "u_proficiency(prof_id, 'format': 'total_time_required')" ] },
-      { "math": [ "u_proficiency(prof_id)", "=", "50" ] },
+      { "math": [ "u_proficiency(prof_id, 'direct': true)", "=", "50" ] },
       { "math": [ "key_time_spent_50", "=", "u_proficiency(prof_id)" ] },
-      { "math": [ "u_proficiency(prof_id, 'format': 'percent')", "=", "50" ] },
+      { "math": [ "u_proficiency(prof_id, 'format': 'percent', 'direct': true)", "=", "50" ] },
       { "math": [ "key_percent_50", "=", "u_proficiency(prof_id, 'format': 'percent')" ] },
       { "math": [ "key_percent_50_turn", "=", "u_proficiency(prof_id)" ] },
-      { "math": [ "u_proficiency(prof_id, 'format': 'permille')", "=", "50" ] },
+      { "math": [ "u_proficiency(prof_id, 'format': 'permille', 'direct': true)", "=", "50" ] },
       { "math": [ "key_permille_50", "=", "u_proficiency(prof_id, 'format': 'permille')" ] },
       { "math": [ "key_permille_50_turn", "=", "u_proficiency(prof_id)" ] },
-      { "math": [ "u_proficiency(prof_id, 'format': 'time_left')", "=", "50" ] },
+      { "math": [ "u_proficiency(prof_id, 'format': 'time_left', 'direct': true)", "=", "50" ] },
       { "math": [ "key_time_left_50", "=", "u_proficiency(prof_id, 'format': 'time_left')" ] },
       { "math": [ "key_time_left_50_turn", "=", "u_proficiency(prof_id)" ] }
     ]
@@ -775,9 +779,18 @@
     "id": "EOC_string_var_var",
     "//": "tests copying a variable, that's in another variable",
     "effect": [
-      { "set_string_var": "key1", "target_var": { "context_val": "testing" } },
-      { "set_string_var": "Works", "target_var": { "global_val": "key1" } },
-      { "set_string_var": { "var_val": "testing" }, "target_var": { "global_val": "key2" } }
+      { "set_string_var": "Works_global", "target_var": { "global_val": "testing_global" } },
+      { "set_string_var": "Works_context", "target_var": { "context_val": "testing_context" } },
+      { "set_string_var": "Works_u", "target_var": { "u_val": "testing_u" } },
+      { "set_string_var": "Works_npc", "target_var": { "npc_val": "testing_npc" } },
+      { "set_string_var": "testing_global", "target_var": { "context_val": "testing" } },
+      { "set_string_var": { "var_val": "testing" }, "target_var": { "global_val": "key1" } },
+      { "set_string_var": "_testing_context", "target_var": { "context_val": "testing" } },
+      { "set_string_var": { "var_val": "testing" }, "target_var": { "global_val": "key2" } },
+      { "set_string_var": "u_testing_u", "target_var": { "context_val": "testing" } },
+      { "set_string_var": { "var_val": "testing" }, "target_var": { "global_val": "key3" } },
+      { "set_string_var": "n_testing_npc", "target_var": { "context_val": "testing" } },
+      { "set_string_var": { "var_val": "testing" }, "target_var": { "global_val": "key4" } }
     ]
   },
   {

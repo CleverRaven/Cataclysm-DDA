@@ -369,7 +369,7 @@
       {
         "id": "dollar_hatball",
         "name": { "str": "dollar sign cap" },
-        "description": "A snapback golden-coloured baseball cap displaying a golden dollar sign symbol at the front.  It shields your eyes from the sun and provides a little bit of warmth.  Makes you fell like a rapper.",
+        "description": "A snapback golden-colored baseball cap displaying a golden dollar sign symbol at the front.  It shields your eyes from the sun and provides a little bit of warmth.  Makes you fell like a rapper.",
         "weight": 1
       },
       {
@@ -381,13 +381,13 @@
       {
         "id": "sorcery_hatball",
         "name": { "str": "sorcery baseball cap" },
-        "description": "A snapback baseball cap displaying the phrase 'Got Sorcery?', coloured white in a cosmos black background.  It shields your eyes from the sun and provides a little bit of warmth.",
+        "description": "A snapback baseball cap displaying the phrase 'Got Sorcery?', colored white in a cosmos black background.  It shields your eyes from the sun and provides a little bit of warmth.",
         "weight": 1
       },
       {
         "id": "diamond_hatball",
         "name": { "str": "diamond cap" },
-        "description": "A snapback baseball cap displaying the white-coloured shape of a diamond in the front.  It shields your eyes from the sun and provides a little bit of warmth.",
+        "description": "A snapback baseball cap displaying the white-colored shape of a diamond in the front.  It shields your eyes from the sun and provides a little bit of warmth.",
         "weight": 1
       },
       {
@@ -399,7 +399,7 @@
       {
         "id": "fema_hatball",
         "name": { "str": "FEMA cap" },
-        "description": "A beige coloured snapback baseball cap displaying the FEMA acronym, which denotes for the Federal Emergency Management Agency, in the front, and the official seal of the Federal Emergency Management Agency in the right side.  Commonly used by the government organization employees and volunteers.  It shields your eyes from the sun and provides a little bit of warmth.",
+        "description": "A beige colored snapback baseball cap displaying the FEMA acronym, which denotes for the Federal Emergency Management Agency, in the front, and the official seal of the Federal Emergency Management Agency in the right side.  Commonly used by the government organization employees and volunteers.  It shields your eyes from the sun and provides a little bit of warmth.",
         "weight": 1
       },
       {

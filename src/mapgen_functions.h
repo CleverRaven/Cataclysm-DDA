@@ -17,6 +17,7 @@ class mission;
 struct mapgen_arguments;
 struct mapgen_parameters;
 struct point;
+class tinymap;
 struct tripoint;
 
 using mapgen_update_func = std::function<void( const tripoint_abs_omt &map_pos3, mission *miss )>;
@@ -32,8 +33,8 @@ int terrain_type_to_nesw_array( oter_id terrain_type, std::array<bool, 4> &array
 
 using building_gen_pointer = void ( * )( mapgendata & );
 building_gen_pointer get_mapgen_cfunction( const std::string &ident );
-ter_id grass_or_dirt();
-ter_id clay_or_sand();
+ter_str_id grass_or_dirt();
+ter_str_id clay_or_sand();
 
 // helper functions for mapgen.cpp, so that we can avoid having a massive switch statement (sorta)
 void mapgen_null( mapgendata &dat );
@@ -57,6 +58,7 @@ void mapgen_ravine_edge( mapgendata &dat );
 // Temporary wrappers
 void mremove_trap( map *m, const point &, trap_id type );
 void mtrap_set( map *m, const point &, trap_id type, bool avoid_creatures = false );
+void mtrap_set( tinymap *m, const point &, trap_id type, bool avoid_creatures = false );
 void madd_field( map *m, const point &, field_type_id type, int intensity );
 void mremove_fields( map *m, const point & );
 
@@ -73,10 +75,9 @@ bool apply_construction_marker( const update_mapgen_id &update_mapgen_id,
                                 const tripoint_abs_omt &omt_pos,
                                 const mapgen_arguments &args, bool mirror_horizontal,
                                 bool mirror_vertical, int rotation, bool apply );
-std::pair<std::map<ter_id, int>, std::map<furn_id, int>>
-        get_changed_ids_from_update(
+std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_update(
             const update_mapgen_id &, const mapgen_arguments &,
-            ter_id const &base_ter = t_dirt );
+            ter_id const &base_ter = ter_str_id( "t_dirt" ).id() );
 mapgen_parameters get_map_special_params( const std::string &mapgen_id );
 
 void resolve_regional_terrain_and_furniture( const mapgendata &dat );

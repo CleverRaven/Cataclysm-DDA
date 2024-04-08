@@ -138,6 +138,17 @@
     ]
   },
   {
+    "id": "digging_topsoil_loam_50L",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      { "group": "digging_soil_loam_50L", "count": 1 },
+      { "item": "earthworm", "count": [ 0, 10 ], "prob": 75 },
+      { "item": "earthworm_handful", "count": [ 0, 3 ], "prob": 60 },
+      { "item": "earthworm_handful", "count": [ 1, 2 ], "prob": 20 }
+    ]
+  },
+  {
     "id": "mining_rock",
     "type": "item_group",
     "subtype": "collection",
@@ -310,5 +321,11 @@
       { "item": "sharpener", "prob": 50 },
       { "item": "ruler", "prob": 50 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "pillbox_any_empty",
+    "subtype": "distribution",
+    "items": [ "pillbox", "pillbox_large" ]
   }
 ]

@@ -48,6 +48,7 @@
 #include "monster.h"
 #include "monstergenerator.h"
 #include "mtype.h"
+#include "mutation.h"
 #include "npc.h"
 #include "output.h"
 #include "overlay_ordering.h"
@@ -78,7 +79,9 @@
 static const efftype_id effect_ridden( "ridden" );
 
 static const itype_id itype_corpse( "corpse" );
+
 static const trait_id trait_INATTENTIVE( "INATTENTIVE" );
+
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
 static const std::string ITEM_HIGHLIGHT( "highlight_item" );
@@ -4202,28 +4205,51 @@ void cata_tiles::draw_zlevel_overlay( const tripoint &p, const lit_level ll, int
 void cata_tiles::draw_entity_with_overlays( const Character &ch, const tripoint &p, lit_level ll,
         int &height_3d )
 {
-    std::string ent_name;
-
-    if( ch.is_npc() ) {
-        ent_name = ch.male ? "npc_male" : "npc_female";
-    } else {
-        ent_name = ch.male ? "player_male" : "player_female";
-    }
+    std::vector<trait_id> override_look_muts = ch.get_mutations( true,
+    false, []( const mutation_branch & mut ) {
+        return mut.override_look.has_value();
+    } );
     // first draw the character itself(i guess this means a tileset that
     // takes this seriously needs a naked sprite)
     int prev_height_3d = height_3d;
+    if( override_look_muts.empty() ) {
+        std::string ent_name;
 
-    // depending on the toggle flip sprite left or right
-    if( ch.facing == FacingDirection::RIGHT ) {
-        draw_from_id_string( ent_name, TILE_CATEGORY::NONE, "", p, corner, 0, ll, false,
-                             height_3d );
-    } else if( ch.facing == FacingDirection::LEFT ) {
-        draw_from_id_string( ent_name, TILE_CATEGORY::NONE, "", p, corner, -1, ll, false,
-                             height_3d );
+        if( ch.is_npc() ) {
+            ent_name = ch.male ? "npc_male" : "npc_female";
+        } else {
+            ent_name = ch.male ? "player_male" : "player_female";
+        }
+        // depending on the toggle flip sprite left or right
+        if( ch.facing == FacingDirection::RIGHT ) {
+            draw_from_id_string( ent_name, TILE_CATEGORY::NONE, "", p, corner, 0, ll, false,
+                                 height_3d );
+        } else if( ch.facing == FacingDirection::LEFT ) {
+            draw_from_id_string( ent_name, TILE_CATEGORY::NONE, "", p, corner, -1, ll, false,
+                                 height_3d );
+        }
+    } else {
+        mutation_branch::OverrideLook override_look = override_look_muts.at(
+                    0 ).obj().override_look.value();
+        TILE_CATEGORY category;
+        if( to_TILE_CATEGORY.find( override_look.tile_category ) != to_TILE_CATEGORY.end() ) {
+            category = to_TILE_CATEGORY.at( override_look.tile_category );
+        } else {
+            debugmsg( "invalid tile category %s", override_look.tile_category );
+            category = TILE_CATEGORY::NONE;
+        }
+        if( ch.facing == FacingDirection::RIGHT ) {
+            draw_from_id_string( override_look.id, category, "", p, corner, 0, ll, false,
+                                 height_3d );
+        } else if( ch.facing == FacingDirection::LEFT ) {
+            draw_from_id_string( override_look.id, category, "", p, corner, -1, ll, false,
+                                 height_3d );
+        }
     }
 
     // next up, draw all the overlays
-    std::vector<std::pair<std::string, std::string>> overlays = ch.get_overlay_ids();
+    std::vector<std::pair<std::string, std::string>> overlays = override_look_muts.empty() ?
+            ch.get_overlay_ids() : ch.get_overlay_ids_when_override_look();
     for( const std::pair<std::string, std::string> &overlay : overlays ) {
         std::string draw_id = overlay.first;
         if( find_overlay_looks_like( ch.male, overlay.first, overlay.second, draw_id ) ) {
@@ -4815,15 +4841,15 @@ void cata_tiles::get_terrain_orientation( const tripoint &p, int &rota, int &sub
 {
     map &here = get_map();
     const bool overridden = ter_override.find( p ) != ter_override.end();
-    const auto ter = [&]( const tripoint & q, const bool invis ) -> ter_id {
-        const auto override = ter_override.find( q );
-        return override != ter_override.end() ? override->second :
-        ( !overridden || !invis ) ? here.ter( q ) : t_null;
+    const auto ter = [&]( const tripoint & q, const bool invis ) -> ter_str_id {
+        const auto override_it = ter_override.find( q );
+        return override_it != ter_override.end() ? override_it->second.id() :
+        ( !overridden || !invis ) ? here.ter( q ).id() : ter_str_id::NULL_ID();
     };
 
     // get terrain at x,y
     const ter_id tid = ter( p, invisible[0] );
-    if( tid == t_null ) {
+    if( tid == ter_str_id::NULL_ID() ) {
         subtile = 0;
         rota = 0;
         return;

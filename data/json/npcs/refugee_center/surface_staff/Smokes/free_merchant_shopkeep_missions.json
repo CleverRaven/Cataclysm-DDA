@@ -14,7 +14,7 @@
         "om_special": "hub_01",
         "reveal_radius": 1,
         "random": true,
-        "search_range": 500
+        "search_range": 1000
       }
     },
     "end": { "effect": { "math": [ "free_merchants_hub_trade_route", "=", "1" ] } },

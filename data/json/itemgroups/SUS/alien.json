@@ -121,7 +121,7 @@
       {
         "collection": [
           { "item": "salt", "prob": 100 },
-          { "item": "sugar", "prob": 25 },
+          { "group": "sugar_jar_glass_sealed_10_140", "prob": 25 },
           { "item": "chem_saltpetre", "prob": 10 },
           { "item": "yeast", "prob": 30 }
         ],

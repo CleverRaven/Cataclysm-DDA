@@ -21,6 +21,7 @@
 #include "rng.h"
 #include "string_formatter.h"
 
+static const flag_id json_flag_ECHOLOCATION_DETECTABLE( "ECHOLOCATION_DETECTABLE" );
 static const flag_id json_flag_SONAR_DETECTABLE( "SONAR_DETECTABLE" );
 
 static const proficiency_id proficiency_prof_spotting( "prof_spotting" );
@@ -246,9 +247,18 @@ bool trap::is_trivial_to_spot() const
     return visibility <= 0 && !is_always_invisible();
 }
 
+// SONAR refers to ground-penetrating sonar and detects traps buried in the ground
 bool trap::detected_by_ground_sonar() const
 {
     return has_flag( json_flag_SONAR_DETECTABLE );
+}
+
+// Echolocation refers to both bat-style echolocation and underwater SONAR, and
+// detects traps which are solid and unburied objects, aboveground or underwater.
+// Isn't fine enough to detect very small traps ie caltrops
+bool trap::detected_by_echolocation() const
+{
+    return has_flag( json_flag_ECHOLOCATION_DETECTABLE );
 }
 
 bool trap::detect_trap( const tripoint &pos, const Character &p ) const
@@ -291,10 +301,10 @@ bool trap::detect_trap( const tripoint &pos, const Character &p ) const
 
     // For every 1000 points of sleep deprivation, reduce your roll by 1.
     // As of this writing, sleep deprivation passively increases at the rate of 1 point per minute.
-    const float fatigue_penalty = p.get_sleep_deprivation() / 1000.0f;
+    const float sleepiness_penalty = p.get_sleep_deprivation() / 1000.0f;
 
     const float mean_roll = weighted_stat_average + ( traps_skill_level / 3.0f ) +
-                            proficiency_effect - distance_penalty - fatigue_penalty - encumbrance_penalty;
+                            proficiency_effect - distance_penalty - sleepiness_penalty - encumbrance_penalty;
 
     const int roll = std::round( normal_roll( mean_roll, 3 ) );
 

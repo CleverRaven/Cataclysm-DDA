@@ -102,6 +102,7 @@ static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_lightsnare( "lightsnare" );
 static const efftype_id effect_narcosis( "narcosis" );
+static const efftype_id effect_natural_stance( "natural_stance" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_transition_contacts( "transition_contacts" );
@@ -122,6 +123,7 @@ static const json_character_flag json_flag_HARDTOHIT( "HARDTOHIT" );
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
 static const json_character_flag json_flag_NEED_ACTIVE_TO_MELEE( "NEED_ACTIVE_TO_MELEE" );
 static const json_character_flag json_flag_NULL( "NULL" );
+static const json_character_flag json_flag_PSEUDOPOD_GRASP( "PSEUDOPOD_GRASP" );
 static const json_character_flag json_flag_UNARMED_BONUS( "UNARMED_BONUS" );
 
 static const limb_score_id limb_score_block( "block" );
@@ -132,7 +134,6 @@ static const matec_id WBLOCK_1( "WBLOCK_1" );
 static const matec_id WBLOCK_2( "WBLOCK_2" );
 static const matec_id WBLOCK_3( "WBLOCK_3" );
 static const matec_id WHIP_DISARM( "WHIP_DISARM" );
-static const matec_id tec_none( "tec_none" );
 
 static const material_id material_glass( "glass" );
 static const material_id material_steel( "steel" );
@@ -158,6 +159,8 @@ static const trait_id trait_POISONOUS2( "POISONOUS2" );
 static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
 static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
+
+static const weapon_category_id weapon_category_UNARMED( "UNARMED" );
 
 static void player_hit_message( Character *attacker, const std::string &message,
                                 Creature &t, int dam, bool crit = false, bool technique = false, const std::string &wp_hit = {} );
@@ -377,9 +380,18 @@ float Character::hit_roll() const
     }
 
     // Difficult to land a hit while prone
+    // Quadrupeds don't mind crouching as long as they're unarmed
+    // Tentacles and goo-limbs care even less
+    item_location cur_weapon = used_weapon();
+    item cur_weap = cur_weapon ? *cur_weapon : null_item_reference();
     if( is_on_ground() ) {
-        hit -= 8.0f;
-    } else if( is_crouching() ) {
+        if( has_flag( json_flag_PSEUDOPOD_GRASP ) ) {
+            hit -= 2.0f;
+        } else {
+            hit -= 8.0f;
+        }
+    } else if( is_crouching() && ( !has_flag( json_flag_PSEUDOPOD_GRASP ) &&
+                                   ( !has_effect( effect_natural_stance ) ) ) ) {
         hit -= 2.0f;
     }
 
@@ -569,6 +581,15 @@ bool Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
     return melee_attack_abstract( t, allow_special, force_technique, allow_unarmed, forced_movecost );
 }
 
+static const std::set<weapon_category_id> &wielded_weapon_categories( const Character &c )
+{
+    static const std::set<weapon_category_id> unarmed{ weapon_category_UNARMED };
+    if( c.get_wielded_item() ) {
+        return c.get_wielded_item()->typeId()->weapon_category;
+    }
+    return unarmed;
+}
+
 bool Character::melee_attack_abstract( Creature &t, bool allow_special,
                                        const matec_id &force_technique,
                                        bool allow_unarmed, int forced_movecost )
@@ -729,6 +750,9 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             technique_id = force_technique;
         } else if( allow_special ) {
             technique_id = pick_technique( t, cur_weapon, critical_hit, false, false );
+            if( critical_hit && technique_id.obj().crit_tec_id != tec_none ) {
+                technique_id = technique_id.obj().crit_tec_id;
+            }
         } else {
             technique_id = tec_none;
         }
@@ -777,9 +801,14 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             d.mult_damage( 0.7 );
         }
         // being prone affects how much leverage you can use to deal damage
-        if( is_on_ground() ) {
+        // quadrupeds don't mind as much, tentacles and goo-limbs even less
+        if( is_on_ground() )  {
+            if( has_flag( json_flag_PSEUDOPOD_GRASP ) ) {
+                d.mult_damage( 0.8 );
+            }
             d.mult_damage( 0.3 );
-        } else if( is_crouching() ) {
+        } else if( is_crouching() && ( !has_effect( effect_natural_stance ) && !unarmed_attack() ) &&
+                   !has_flag( json_flag_PSEUDOPOD_GRASP ) ) {
             d.mult_damage( 0.8 );
         }
 
@@ -921,7 +950,16 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
     /** @EFFECT_MELEE reduces stamina cost of melee attacks */
     const int deft_bonus = !hits && has_trait( trait_DEFT ) ? 50 : 0;
     const int base_stam = get_base_melee_stamina_cost();
-    const int total_stam = get_total_melee_stamina_cost();
+    const int total_stam = enchantment_cache->modify_value(
+                               enchant_vals::mod::MELEE_STAMINA_CONSUMPTION,
+                               get_total_melee_stamina_cost() );
+
+    // Train weapon proficiencies
+    for( const weapon_category_id &cat : wielded_weapon_categories( *this ) ) {
+        for( const proficiency_id &prof : cat->category_proficiencies() ) {
+            practice_proficiency( prof, 1_seconds );
+        }
+    }
 
     burn_energy_arms( std::min( -50, total_stam + deft_bonus ) );
     add_msg_debug( debugmode::DF_MELEE, "Stamina burn base/total (capped at -50): %d/%d", base_stam,
@@ -950,9 +988,28 @@ int Character::get_total_melee_stamina_cost( const item *weap ) const
 {
     const int mod_sta = get_standard_stamina_cost( weap );
     const int melee = round( get_skill_level( skill_melee ) );
-    const int stance_malus = is_on_ground() ? 50 : ( is_crouching() ? 20 : 0 );
+    // Quadrupeds don't mind crouching, squids and slimes hardly care about even being prone
+    const int stance_malus = ( is_on_ground() &&
+                               !has_flag( json_flag_PSEUDOPOD_GRASP ) ) ? 50 : ( !has_flag( json_flag_PSEUDOPOD_GRASP ) &&
+                                       ( !has_effect( effect_natural_stance ) && ( !unarmed_attack() ) ) && is_crouching() ? 20 : 0 );
 
-    return std::min( -50, mod_sta + melee - stance_malus );
+    float proficiency_multiplier = 1.f;
+    for( const weapon_category_id &cat : wielded_weapon_categories( *this ) ) {
+        float loss = 0.f;
+        for( const proficiency_id &prof : cat->category_proficiencies() ) {
+            if( !has_proficiency( prof ) ) {
+                continue;
+            }
+            std::optional<float> bonus = prof->bonus_for( "melee_attack", proficiency_bonus_type::stamina );
+            if( !bonus.has_value() ) {
+                continue;
+            }
+            loss += bonus.value();
+        }
+        proficiency_multiplier = std::clamp( 1.f - loss, 0.f, proficiency_multiplier );
+    }
+
+    return std::min<int>( -50, proficiency_multiplier * ( mod_sta + melee - stance_malus ) );
 }
 
 void Character::reach_attack( const tripoint &p, int forced_movecost )
@@ -1040,11 +1097,13 @@ int stumble( Character &u, const item_location &weap )
     if( !weap || u.has_trait( trait_DEFT ) ) {
         return 0;
     }
-
+    item cur_weap = weap ? *weap : null_item_reference();
     units::mass str_mod = u.get_arm_str() * 10_gram;
+    // Ceph and Slime mutants still need good posture to prevent stumbling
     if( u.is_on_ground() ) {
         str_mod /= 4;
-    } else if( u.is_crouching() ) {
+        // but quadrupeds fight naturally on all fours
+    } else if( u.is_crouching() && ( !u.has_effect( effect_natural_stance ) && !u.unarmed_attack() ) ) {
         str_mod /= 2;
     }
 
@@ -1295,6 +1354,8 @@ static void roll_melee_damage_internal( const Character &u, const damage_type_id
                               ( !u.natural_attack_restricted_on( sub_bodypart_id( "leg_hip_r" ) ) );
         } else if( attack_vector == "HEAD" ) {
             bp_unrestricted = !u.natural_attack_restricted_on( bodypart_id( "head" ) );
+        } else if( attack_vector == "MOUTH" ) {
+            bp_unrestricted = !u.natural_attack_restricted_on( bodypart_id( "mouth" ) );
         } else if( attack_vector == "TORSO" ) {
             bp_unrestricted = !u.natural_attack_restricted_on( bodypart_id( "torso" ) );
         } else {
@@ -1311,17 +1372,6 @@ static void roll_melee_damage_internal( const Character &u, const damage_type_id
                 float unarmed_bonus = 0.0f;
                 int bonus_dmg = 0;
                 std::pair<int, int> bonus_rand = { 0, 0 };
-                // FIXME: Hardcoded damage types
-                if( dt == damage_bash ) {
-                    bonus_dmg = mut->bash_dmg_bonus;
-                    bonus_rand = mut->rand_bash_bonus;
-                } else if( dt == damage_cut ) {
-                    bonus_dmg = mut->cut_dmg_bonus;
-                    bonus_rand = mut->rand_cut_bonus;
-                } else if( dt == damage_stab ) {
-                    bonus_dmg = mut->pierce_dmg_bonus;
-                    bonus_rand = mut->rand_cut_bonus;
-                }
                 if( mut->flags.count( json_flag_UNARMED_BONUS ) > 0 && bonus_dmg > 0 ) {
                     unarmed_bonus += std::min( u.get_skill_level( skill_unarmed ) / 2, 4.0f );
                 }
@@ -2266,6 +2316,10 @@ void Character::perform_special_attacks( Creature &t, dealt_damage_instance &dea
         if( t.is_dead_state() ) {
             break;
         }
+        //TODO: Add flags to distinct mutation attack that can be triggered by reach attack (or just use ranged_mutation to fire fake gun.)
+        if( !is_adjacent( &t, true ) ) {
+            break;
+        }
 
         // TODO: Make this hit roll use unarmed skill, not weapon skill + weapon to_hit
         int hit_spread = t.deal_melee_attack( this, hit_roll() * 0.8 );
@@ -2739,11 +2793,14 @@ int Character::attack_speed( const item &weap ) const
     move_cost *= ma_mult;
     move_cost += ma_move_cost;
 
-    move_cost *= mutation_value( "attackcost_modifier" );
-
     if( is_on_ground() ) {
-        move_cost *= 4.0;
-    } else if( is_crouching() ) {
+        if( has_flag( json_flag_PSEUDOPOD_GRASP ) ) {
+            move_cost *= 1.5;
+        } else {
+            move_cost *= 4.0;
+        }
+    } else if( is_crouching() && ( !has_flag( json_flag_PSEUDOPOD_GRASP ) &&
+                                   ( !has_effect( effect_natural_stance ) && !unarmed_attack() ) ) ) {
         move_cost *= 1.5;
     }
 

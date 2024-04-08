@@ -166,8 +166,6 @@ std::optional<int> radio_off( Character *, item *, const tripoint & );
 std::optional<int> radio_on( Character *, item *, const tripoint & );
 std::optional<int> radio_tick( Character *, item *, const tripoint & );
 std::optional<int> remove_all_mods( Character *, item *, const tripoint & );
-std::optional<int> rm13armor_off( Character *, item *, const tripoint & );
-std::optional<int> rm13armor_on( Character *, item *, const tripoint & );
 std::optional<int> robotcontrol( Character *, item *, const tripoint & );
 std::optional<int> rpgdie( Character *, item *, const tripoint & );
 std::optional<int> seed( Character *, item *, const tripoint & );

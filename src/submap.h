@@ -43,11 +43,11 @@ struct spawn_point {
     int faction_id;
     int mission_id;
     bool friendly;
-    std::string name;
+    std::optional<std::string> name;
     spawn_data data;
     explicit spawn_point( const mtype_id &T = mtype_id::NULL_ID(), int C = 0, point P = point_zero,
                           int FAC = -1, int MIS = -1, bool F = false,
-                          const std::string &N = "NONE", const spawn_data &SD = spawn_data() ) :
+                          const std::optional<std::string> &N = std::nullopt, const spawn_data &SD = spawn_data() ) :
         pos( P ), count( C ), type( T ), faction_id( FAC ),
         mission_id( MIS ), friendly( F ), name( N ), data( SD ) {}
 };
@@ -313,12 +313,9 @@ class submap
     private:
         std::map<point_sm_ms, tile_data> ephemeral_data;
         std::map<point, computer> computers;
-        std::unique_ptr<computer> legacy_computer;
         std::unique_ptr<maptile_soa> m;
         ter_id uniform_ter = t_null;
         int temperature_mod = 0; // delta in F
-
-        void update_legacy_computer();
 
         static constexpr size_t elements = SEEX * SEEY;
 };

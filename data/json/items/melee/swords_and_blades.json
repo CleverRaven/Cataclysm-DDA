@@ -277,6 +277,26 @@
     "melee_damage": { "stab": 12 }
   },
   {
+    "id": "utility_knife_folding",
+    "type": "TOOL",
+    "name": { "str": "utility folding knife", "str_pl": "utility folding knives" },
+    "description": "A 'Hideman' brand folding knife, this model includes extra utility options such as a screwdriver, awl, and small pry bar.",
+    "looks_like": "knife_folding",
+    "weight": "155 g",
+    "volume": "40 ml",
+    "longest_side": "10 cm",
+    "price": 2500,
+    "price_postapoc": 150,
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "neutral" },
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 12 ], [ "SCREW", 1 ], [ "PRYING_NAIL", 1 ], [ "LEATHER_AWL", 2 ] ],
+    "flags": [ "BELT_CLIP", "ALLOWS_BODY_BLOCK", "CONDUCTIVE" ],
+    "weapon_category": [ "KNIVES" ],
+    "melee_damage": { "stab": 12 }
+  },
+  {
     "id": "knife_combat_marine",
     "type": "TOOL",
     "category": "weapons",
@@ -299,7 +319,6 @@
       "blacklist_mod": [
         "crafted_suppressor",
         "filter_suppressor",
-        "bottle_suppressor",
         "shot_suppressor",
         "suppressor",
         "suppressor_compact",
@@ -322,7 +341,6 @@
       "install_time": "5 s"
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
-    "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 2 ], [ "SAW_W", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
     "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
     "flags": [
@@ -372,7 +390,6 @@
       "blacklist_mod": [
         "crafted_suppressor",
         "filter_suppressor",
-        "bottle_suppressor",
         "shot_suppressor",
         "suppressor",
         "suppressor_compact",
@@ -395,7 +412,6 @@
       "install_time": "5 s"
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
-    "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 2 ], [ "SAW_M", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 15 ] ],
     "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
     "flags": [
@@ -433,7 +449,6 @@
       "blacklist_mod": [
         "crafted_suppressor",
         "filter_suppressor",
-        "bottle_suppressor",
         "shot_suppressor",
         "suppressor",
         "suppressor_compact",
@@ -456,7 +471,6 @@
       "install_time": "5 s"
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
-    "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
     "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
     "flags": [
@@ -469,7 +483,7 @@
       "CONDUCTIVE"
     ],
     "weapon_category": [ "KNIVES" ],
-    "melee_damage": { "stab": 22 }
+    "melee_damage": { "stab": 21 }
   },
   {
     "id": "knife_hunting",
@@ -619,12 +633,12 @@
     "symbol": "/",
     "color": "dark_gray",
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
-    "techniques": [ "RAPID", "WBLOCK_1" ],
+    "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 16 ] ],
     "thrown_damage": [ { "damage_type": "stab", "amount": 22 } ],
     "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE" ],
     "weapon_category": [ "KNIVES" ],
-    "melee_damage": { "stab": 20 }
+    "melee_damage": { "stab": 19 }
   },
   {
     "id": "knife_swissarmy",
@@ -987,11 +1001,11 @@
     "to_hit": { "grip": "weapon", "length": "short", "surface": "point", "balance": "good" },
     "material": [ "steel" ],
     "//": "Should be split into a preexisting iron version and a craftable steel version",
-    "techniques": [ "WBLOCK_1", "RAPID" ],
+    "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 12 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "weapon_category": [ "KNIVES" ],
-    "melee_damage": { "stab": 20 }
+    "melee_damage": { "stab": 19 }
   },
   {
     "id": "kris_fake",
@@ -1040,11 +1054,11 @@
     "repairs_with": [ "mc_steel" ],
     "symbol": "/",
     "color": "dark_gray",
-    "techniques": [ "WBLOCK_1", "RAPID" ],
-    "qualities": [ [ "CUT", 2 ], [ "AXE", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 18 ] ],
+    "techniques": [ "WBLOCK_1" ],
+    "qualities": [ [ "CUT", 2 ], [ "AXE", 1 ], [ "GRASS_CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 18 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "NONCONDUCTIVE" ],
     "weapon_category": [ "KNIVES" ],
-    "melee_damage": { "cut": 21 }
+    "melee_damage": { "cut": 20 }
   },
   {
     "id": "hc_kukri",
@@ -1664,7 +1678,6 @@
       "blacklist_mod": [
         "crafted_suppressor",
         "filter_suppressor",
-        "bottle_suppressor",
         "shot_suppressor",
         "suppressor",
         "suppressor_compact",
@@ -1709,11 +1722,10 @@
     "to_hit": { "grip": "weapon", "length": "short", "surface": "point", "balance": "good" },
     "material": [ { "type": "leather", "portion": 1.1 }, { "type": "steel", "portion": 48 } ],
     "repairs_with": [ "steel" ],
-    "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 18 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ],
-    "melee_damage": { "bash": 2, "stab": 19 }
+    "melee_damage": { "bash": 2, "stab": 18 }
   },
   {
     "id": "tanto_inferior",
@@ -1722,7 +1734,7 @@
     "name": { "str_sp": "tanto" },
     "description": "Long Japanese knives like this more-modern remake were the samurai's backup weapon, before the advent of the larger wakizashi.  This one doesn't feel well-balanced.",
     "replace_materials": { "steel": "budget_steel" },
-    "proportional": { "melee_damage": { "bash": 6.5, "stab": 0.28 }, "price": 0.1, "price_postapoc": 0.1 },
+    "proportional": { "melee_damage": { "bash": 6.5, "stab": 0.15 }, "price": 0.1, "price_postapoc": 0.1 },
     "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
@@ -1732,7 +1744,7 @@
     "name": { "str_sp": "tanto" },
     "description": "A dull, cheaply-made replica of a long Japanese knife, typically used as a samurai's backup weapon.",
     "replace_materials": { "steel": "aluminum", "leather": "nylon" },
-    "proportional": { "melee_damage": { "bash": 3.5, "stab": 0.047 }, "price": 0.05, "price_postapoc": 0.05 },
+    "proportional": { "melee_damage": { "bash": 3, "stab": 0.047 }, "price": 0.05, "price_postapoc": 0.05 },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "extend": { "flags": [ "FRAGILE_MELEE" ] }
   },
@@ -1939,7 +1951,6 @@
     "material": [ "steel" ],
     "symbol": "/",
     "color": "dark_gray",
-    "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ],
@@ -1961,11 +1972,10 @@
     "repairs_with": [ "steel" ],
     "symbol": "/",
     "color": "dark_gray",
-    "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ],
-    "melee_damage": { "stab": 17 }
+    "melee_damage": { "stab": 16 }
   },
   {
     "id": "kirpan_cheap",
@@ -3099,7 +3109,6 @@
       "blacklist_mod": [
         "crafted_suppressor",
         "filter_suppressor",
-        "bottle_suppressor",
         "shot_suppressor",
         "suppressor",
         "suppressor_compact",
@@ -3122,7 +3131,7 @@
       "install_time": "5 s"
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
-    "techniques": [ "WBLOCK_1", "RAPID" ],
+    "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", 7 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "weapon_category": [ "KNIVES" ]
@@ -3132,7 +3141,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "Type 30 bayonet" },
-    "description": "An essential tool within any 20th-century Japanese soldier’s toolbox, the Type 30 is a massive, single-edged sword-style bayonet intended for use with Arisaka rifles and even light machineguns.  Possessing a J-shaped quillon guard for hooking an opponent’s weapon during combat, the bayonet, when dismounted, acts like a particularly sizable machete.",
+    "description": "An essential tool within any 20th-century Japanese soldier's toolbox, the Type 30 is a massive, single-edged sword-style bayonet intended for use with Arisaka rifles and even light machineguns.  Possessing a J-shaped quillon guard for hooking an opponent's weapon during combat, the bayonet, when dismounted, acts like a particularly sizable machete.",
     "weight": "700 g",
     "volume": "380 ml",
     "longest_side": "514 mm",
@@ -3149,7 +3158,6 @@
       "blacklist_mod": [
         "crafted_suppressor",
         "filter_suppressor",
-        "bottle_suppressor",
         "shot_suppressor",
         "suppressor",
         "suppressor_compact",

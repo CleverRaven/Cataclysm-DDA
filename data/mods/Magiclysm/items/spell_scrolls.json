@@ -328,11 +328,11 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
-    "id": "spell_scroll_recover_fatigue",
+    "id": "spell_scroll_recover_sleepiness",
     "//": "Druid spell",
     "name": { "str": "Scroll of Nature's Trance", "str_pl": "Scrolls of Nature's Trance" },
-    "description": "Your connection to living things allows you to go into a magical trance.  This allows you to recover fatigue quickly in exchange for mana.",
-    "use_action": { "type": "learn_spell", "spells": [ "recover_fatigue" ] }
+    "description": "Your connection to living things allows you to go into a magical trance.  This allows you to recover from fatigue quickly in exchange for mana.",
+    "use_action": { "type": "learn_spell", "spells": [ "recover_sleepiness" ] }
   },
   {
     "type": "BOOK",
@@ -1857,7 +1857,7 @@
     "copy-from": "spell_scroll",
     "id": "spell_scroll_animist_spirit_walking",
     "//": "Animist spell",
-    "name": { "str": "Scroll of Spirit-Walking", "str_pl": "Scrolls of Spirit-Walking" },
+    "name": { "str": "Scroll of Body of Spirit", "str_pl": "Scrolls of Body of Spirit" },
     "description": "Highly restricted before the Cataclysm, this spell allows you to turn into pure spirit and pass through the physical world unseen and insubstantial.",
     "use_action": { "type": "learn_spell", "spells": [ "animist_spirit_walking" ] }
   },
@@ -1986,5 +1986,59 @@
     "name": { "str": "Scroll of Machine Mind", "str_pl": "Scrolls of Machine Mind" },
     "description": "Gain an intuitive understanding of computers and electronics, allowing an easier time repairing or using them.",
     "use_action": { "type": "learn_spell", "spells": [ "technomancer_gain_electronics_computer_spell" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_kelvinist_heat_food",
+    "//": "Kelvinist spell",
+    "name": { "str": "Scroll of Baking Hands", "str_pl": "Scrolls of Baking Hands" },
+    "description": "Warm up your food using pure mana.",
+    "use_action": { "type": "learn_spell", "spells": [ "kelvinist_heat_food" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_magus_diamond_imbuement",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of Diamond Imbuement", "str_pl": "Scrolls of Diamond Imbuement" },
+    "description": "Enchant a weapon with the metaphysical essence of diamonds, greatly increasing its power.",
+    "use_action": { "type": "learn_spell", "spells": [ "magus_diamond_imbuement" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_animist_slow_food_rotting_spell",
+    "//": "Animist spell",
+    "name": { "str": "Scroll of Abjure Spirits of Rot", "str_pl": "Scrolls of Abjure Spirits of Rot" },
+    "description": "Banisht the decay spirits from the food you're carrying, making it last much longer before going bad.",
+    "use_action": { "type": "learn_spell", "spells": [ "animist_slow_food_rotting_spell" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_earthshaper_repair_metal_stone",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of Fault-Mending Chant", "str_pl": "Scrolls of Fault-Mending Chant" },
+    "description": "With some earth and stone and a song, repair and item made of natural stone or metal.",
+    "use_action": { "type": "learn_spell", "spells": [ "earthshaper_repair_metal_stone" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_technomancer_create_ups_connection",
+    "//": "Technomancer spell",
+    "name": { "str": "Scroll of Power Linkage", "str_pl": "Scrolls of Power Linkage" },
+    "description": "Enchant a tool to accept power wirelessly from a compatible source.",
+    "use_action": { "type": "learn_spell", "spells": [ "technomancer_create_ups_connection" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_technomancer_far_sight",
+    "//": "Technomancer spell",
+    "name": { "str": "Scroll of Zoom Lens", "str_pl": "Scrolls of Zoom Lens" },
+    "description": "Enchant a lens with the ability to see beyond the horizon.",
+    "use_action": { "type": "learn_spell", "spells": [ "technomancer_far_sight" ] }
   }
 ]

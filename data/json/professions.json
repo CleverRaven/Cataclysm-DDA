@@ -1269,7 +1269,7 @@
     "id": "sailor",
     "name": "Navy Sailor",
     "requirement": "achievement_reach_aircraft_carrier",
-    "description": "You’re a sailor of the US Navy, and spent the last few years working shipside aboard an aircraft carrier.  Though you're trained in combat, maintenance of the vessel has been your primary duty.  After some event beyond your understanding, the carrier has become a floating graveyard in the middle of nowhere.  This is going to take more than a cup of coffee and a monkey wrench to fix.",
+    "description": "You're a sailor of the US Navy, and spent the last few years working shipside aboard an aircraft carrier.  Though you're trained in combat, maintenance of the vessel has been your primary duty.  After some event beyond your understanding, the carrier has become a floating graveyard in the middle of nowhere.  This is going to take more than a cup of coffee and a monkey wrench to fix.",
     "points": 4,
     "proficiencies": [
       "prof_pneumatics",
@@ -1682,7 +1682,7 @@
     "type": "profession",
     "id": "seal_sniper",
     "name": "Navy SEAL Marksmen",
-    "description": "Recruited into the ranks of the US Navy’s Special Warfare forces as a designated sniper, your training in precision marksmanship and maritime operations was extensive.  As a proficient soldier and combative in all respects, you provided overwatch and long-range elimination services in the line of duty.  Now, with naval command imploding and your spotter MIA, your skills with a rifle and covert operations are the only things standing between you and the Cataclysm.",
+    "description": "Recruited into the ranks of the US Navy's Special Warfare forces as a designated sniper, your training in precision marksmanship and maritime operations was extensive.  As a proficient soldier and combative in all respects, you provided overwatch and long-range elimination services in the line of duty.  Now, with naval command imploding and your spotter MIA, your skills with a rifle and covert operations are the only things standing between you and the Cataclysm.",
     "points": 8,
     "proficiencies": [
       "prof_gunsmithing_basic",
@@ -1740,7 +1740,7 @@
     "id": "seal",
     "name": "Navy SEAL",
     "requirement": "achievement_reach_aircraft_carrier",
-    "description": "You were a member of the SEALs; a key component of the US Navy’s special forces and a proficient combatant in both maritime and ground operations.  'The only easy day was yesterday', and with the chain of command in ruins, you may fulfill your final mission in any way you see fit.",
+    "description": "You were a member of the SEALs; a key component of the US Navy's special forces and a proficient combatant in both maritime and ground operations.  'The only easy day was yesterday', and with the chain of command in ruins, you may fulfill your final mission in any way you see fit.",
     "points": 8,
     "proficiencies": [
       "prof_gunsmithing_basic",
@@ -5512,7 +5512,7 @@
     "type": "profession",
     "id": "urban_samurai",
     "name": "Urban Samurai",
-    "description": "You were always an inexplicable sight in town, with your funny hair and odd Japanese clothes.  Some claimed you were a visiting Shinto god.  Little of this concerned you, but last week the grocery service stopped coming and now the TV no longer turns on.  This displeases you.",
+    "description": "You were always an inexplicable sight in town, with your funny hair and odd Japanese clothes.  Little of this concerned you, but last week the grocery service stopped coming and now the TV no longer turns on.  This displeases you.",
     "points": 0,
     "skills": [ { "level": 1, "name": "melee" }, { "level": 1, "name": "cutting" } ],
     "items": {
@@ -5525,7 +5525,6 @@
           { "item": "tabi_dress" },
           { "item": "geta" },
           { "item": "bellywrap" },
-          { "group": "charged_smart_phone" },
           { "item": "bokken_inferior", "container-item": "scabbard" }
         ]
       },
@@ -6757,7 +6756,7 @@
     "type": "profession",
     "id": "prepped_patriot",
     "name": "Prepped Patriot",
-    "description": "Does the American dream still exist?  Well, recent events have put that to the test.  Does it still proudly live in your beating heart?  Yes.  Yes, it does.  A patriot to the bitter end, you’ve readied yourself to go toe to toe with the Cataclysm that would seek to do harm to your darling USA.  That is to say, you grabbed your gun… and nothing more.  God bless America, soldier.",
+    "description": "Does the American dream still exist?  Well, recent events have put that to the test.  Does it still proudly live in your beating heart?  Yes.  Yes, it does.  A patriot to the bitter end, you've readied yourself to go toe to toe with the Cataclysm that would seek to do harm to your darling USA.  That is to say, you grabbed your gun… and nothing more.  God bless America, soldier.",
     "points": 2,
     "skills": [
       { "level": 3, "name": "gun" },
@@ -7120,7 +7119,7 @@
       "both": {
         "entries": [
           { "item": "wristwatch" },
-          { "item": "jacket_army" },
+          { "item": "jacket_army", "variant": "m65_player" },
           { "item": "service_medal" },
           { "item": "boots_combat" },
           { "item": "socks" },
@@ -7128,7 +7127,6 @@
           { "item": "pipe_tobacco" },
           { "item": "tobacco" },
           { "item": "beret" },
-          { "item": "pants", "variant": "pants_british_khaki" },
           { "item": "cane", "custom-flags": [ "auto_wield" ] },
           { "group": "charged_ref_lighter" },
           { "item": "chestrig", "contents-group": "army_mags_m14" },
@@ -7325,5 +7323,32 @@
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
     }
+  },
+  {
+    "type": "profession",
+    "id": "mma_fighter",
+    "name": "Mixed Martial Artist",
+    "description": "You've spent plenty of time training to become the next big thing.  But now it looks like you will be fighting your life from now on.  At least that training won't go to waste!",
+    "points": 5,
+    "flags": [ "NO_BONUS_ITEMS" ],
+    "skills": [ { "level": 3, "name": "melee" }, { "level": 3, "name": "unarmed" } ],
+    "starting_styles_choices": [
+      "style_boxing",
+      "style_judo",
+      "style_karate",
+      "style_kickboxing",
+      "style_muay_thai",
+      "style_pankration",
+      "style_taekwondo",
+      "style_wingchun"
+    ],
+    "starting_styles_choices_amount": 3,
+    "proficiencies": [ "prof_unarmed_familiar" ],
+    "items": {
+      "both": { "entries": [ { "item": "gloves_fingerless" }, { "item": "b_shorts" }, { "item": "mouthpiece" } ] },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
+    },
+    "missions": [ "MISSION_BLACK_BELT_GOAL" ]
   }
 ]
