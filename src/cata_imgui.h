@@ -18,6 +18,7 @@ struct item_info_data;
 struct point;
 class ImVec2;
 class Font;
+class input_context;
 
 namespace cataimgui
 {
@@ -78,6 +79,7 @@ void imvec2_to_point( ImVec2 *src, point *dest );
 class window
 {
         std::unique_ptr<class window_impl> p_impl;
+        std::unique_ptr<class filter_box_impl> filter_impl;
         bounds cached_bounds;
     protected:
         explicit window( int window_flags = 0 );
@@ -102,6 +104,8 @@ class window
         size_t get_text_height( const char *text );
         size_t str_width_to_pixels( size_t len );
         size_t str_height_to_pixels( size_t len );
+        std::string get_filter();
+        void clear_filter();
         void mark_resized();
 
     protected:
@@ -112,6 +116,7 @@ class window
         std::string button_action;
         virtual bounds get_bounds();
         virtual void draw_controls() = 0;
+        void draw_filter( const input_context &ctxt, bool filtering_active );
 };
 
 #if !(defined(TILES) || defined(WIN32))
