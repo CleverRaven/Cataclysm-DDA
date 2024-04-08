@@ -36,12 +36,13 @@
     "armor": { "bash": 12, "cut": 25, "bullet": 20, "electric": 3 }
   },
   {
-    "id": "mon_zombie_soldier_dps",
+    "id": "mon_zombie_soldier_no_weakpoints",
     "type": "MONSTER",
-    "name": { "str": "zombie soldier DPS calculator" },
-    "description": "This zombie soldier exists solely for weapon DPS calculation.",
+    "name": { "str": "zombie soldier test only" },
+    "description": "This zombie soldier is for testing purposes only.",
     "copy-from": "mon_zombie_soldier",
-    "dodge": 1
+    "dodge": 1,
+    "delete": { "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ] }
   },
   {
     "id": "mon_zombie_soldier_blackops_1",
