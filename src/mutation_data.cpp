@@ -713,7 +713,7 @@ void mutation_branch::check_consistency()
                 bool suppressed = false;
                 for( const trait_id &prereq_id : mdata.prereqs ) {
                     const mutation_branch &prereq = prereq_id.obj();
-                    suppressed = suppressed || prereq.src.back().second != trait_source && !basegame_trait;
+                    suppressed = suppressed || ( prereq.src.back().second != trait_source && !basegame_trait );
                     found = found ||
                             std::find( prereq.category.begin(), prereq.category.end(), cat_id ) != prereq.category.end();
                 }
@@ -728,7 +728,7 @@ void mutation_branch::check_consistency()
                 bool suppressed = false;
                 for( const trait_id &prereq_id : mdata.prereqs2 ) {
                     const mutation_branch &prereq = prereq_id.obj();
-                    suppressed = suppressed || prereq.src.back().second != trait_source && !basegame_trait;
+                    suppressed = suppressed || ( prereq.src.back().second != trait_source && !basegame_trait );
                     found = found ||
                             std::find( prereq.category.begin(), prereq.category.end(), cat_id ) != prereq.category.end();
                 }
