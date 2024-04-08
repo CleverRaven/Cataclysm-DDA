@@ -478,9 +478,6 @@ class input_context
          */
         std::vector<std::string> filter_strings_by_phrase( const std::vector<std::string> &strings,
                 std::string_view phrase ) const;
-
-        action_id display_menu_legacy( bool permit_execute_action );
-        action_id display_menu_imgui( bool permit_execute_action );
 };
 
 class hotkey_queue
