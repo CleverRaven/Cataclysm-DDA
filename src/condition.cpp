@@ -2050,6 +2050,9 @@ std::unordered_map<std::string_view, int ( talker::* )() const> const f_get_vals
     { "stored_kcal", &talker::get_stored_kcal },
     { "strength_base", &talker::get_str_max },
     { "strength_bonus", &talker::get_str_bonus },
+    { "strain", &talker::get_strain },
+    { "strain_burn", &talker::get_strain_burn },
+    { "strain_max", &talker::get_strain_max },
     { "strength", &talker::str_cur },
     { "thirst", &talker::get_thirst },
     { "volume", &talker::get_volume },
@@ -2159,6 +2162,7 @@ std::unordered_map<std::string_view, void ( talker::* )( int )> const f_set_vals
     { "stored_kcal", &talker::set_stored_kcal },
     { "strength_base", &talker::set_str_max },
     { "strength_bonus", &talker::set_str_bonus },
+    { "strain", &talker::set_strain },
     { "thirst", &talker::set_thirst },
 };
 } // namespace

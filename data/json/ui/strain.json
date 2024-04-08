@@ -1,0 +1,251 @@
+[
+  {
+    "id": "strain_and_burn_fake_graph",
+    "type": "widget",
+    "style": "symbol",
+    "label": "Strain",
+    "label_align": "left",
+    "width": 10,
+    "clauses": [
+      {
+        "//0": "To those this may offend,",
+        "//1": "Sorry.",
+        "//2": "/* ----- BEGIN: STRAIN LISTING ----- */",
+        "condition": { "math": [ "u_val('strain') + u_val('strain_burn')", "<=", "u_val('strain_max') / 10 - 1" ] },
+        "id": "strain_1",
+        "color": "yellow",
+        "sym": "="
+      },
+      {
+        "condition": { "math": [ "u_val('strain') + u_val('strain_burn')", "<=", "u_val('strain_max') / 10 * 2 - 1" ] },
+        "id": "strain_2",
+        "color": "yellow",
+        "sym": "="
+      },
+      {
+        "condition": { "math": [ "u_val('strain') + u_val('strain_burn')", "<=", "u_val('strain_max') / 10 * 3 - 1" ] },
+        "id": "strain_3",
+        "color": "yellow",
+        "sym": "="
+      },
+      {
+        "condition": { "math": [ "u_val('strain') + u_val('strain_burn')", "<=", "u_val('strain_max') / 10 * 4 - 1" ] },
+        "id": "strain_4",
+        "color": "yellow",
+        "sym": "="
+      },
+      {
+        "condition": { "math": [ "u_val('strain') + u_val('strain_burn')", "<=", "u_val('strain_max') / 10 * 5 - 1" ] },
+        "id": "strain_5",
+        "color": "yellow",
+        "sym": "="
+      },
+      {
+        "condition": { "math": [ "u_val('strain') + u_val('strain_burn')", "<=", "u_val('strain_max') / 10 * 6 - 1" ] },
+        "id": "strain_6",
+        "color": "yellow",
+        "sym": "="
+      },
+      {
+        "condition": { "math": [ "u_val('strain') + u_val('strain_burn')", "<=", "u_val('strain_max') / 10 * 7 - 1" ] },
+        "id": "strain_7",
+        "color": "yellow",
+        "sym": "="
+      },
+      {
+        "condition": { "math": [ "u_val('strain') + u_val('strain_burn')", "<=", "u_val('strain_max') / 10 * 8 - 1" ] },
+        "id": "strain_8",
+        "color": "yellow",
+        "sym": "="
+      },
+      {
+        "condition": { "math": [ "u_val('strain') + u_val('strain_burn')", "<=", "u_val('strain_max') / 10 * 9 - 1" ] },
+        "id": "strain_9",
+        "color": "yellow",
+        "sym": "="
+      },
+      {
+        "condition": { "math": [ "u_val('strain') + u_val('strain_burn')", "<=", "u_val('strain_max') - 1" ] },
+        "id": "strain_10",
+        "color": "yellow",
+        "sym": "=",
+        "//0": "/* ----- END: STRAIN LISTING ----- */"
+      },
+      {
+        "//0": "/* ----- BEGIN: SEPERATOR LISTING ----- */",
+        "condition": {
+          "and": [
+            { "not": { "math": [ "u_val('strain') + u_val('strain_burn')", "<=", "u_val('strain_max') / 10 - 1" ] } },
+            { "not": { "math": [ "u_val('strain_burn')", ">=", "u_val('strain_max') / 10 - 1" ] } }
+          ]
+        },
+        "id": "seperator_1",
+        "color": "white",
+        "sym": "-"
+      },
+      {
+        "condition": {
+          "and": [
+            { "not": { "math": [ "u_val('strain') + u_val('strain_burn')", "<=", "u_val('strain_max') / 10 * 2 - 1" ] } },
+            { "not": { "math": [ "u_val('strain_burn')", ">=", "u_val('strain_max') / 10 * 2 - 1" ] } }
+          ]
+        },
+        "id": "seperator_2",
+        "color": "white",
+        "sym": "-"
+      },
+      {
+        "condition": {
+          "and": [
+            { "not": { "math": [ "u_val('strain') + u_val('strain_burn')", "<=", "u_val('strain_max') / 10 * 3- 1" ] } },
+            { "not": { "math": [ "u_val('strain_burn')", ">=", "u_val('strain_max') / 10 * 3 - 1" ] } }
+          ]
+        },
+        "id": "seperator_3",
+        "color": "white",
+        "sym": "-"
+      },
+      {
+        "condition": {
+          "and": [
+            { "not": { "math": [ "u_val('strain') + u_val('strain_burn')", "<=", "u_val('strain_max') / 10 * 4 - 1" ] } },
+            { "not": { "math": [ "u_val('strain_burn')", ">=", "u_val('strain_max') / 10 * 5 - 1" ] } }
+          ]
+        },
+        "id": "seperator_4",
+        "color": "white",
+        "sym": "-"
+      },
+      {
+        "condition": {
+          "and": [
+            { "not": { "math": [ "u_val('strain') + u_val('strain_burn')", "<=", "u_val('strain_max') / 10 * 5 - 1" ] } },
+            { "not": { "math": [ "u_val('strain_burn')", ">=", "u_val('strain_max') / 10 * 5 - 1" ] } }
+          ]
+        },
+        "id": "seperator_5",
+        "color": "white",
+        "sym": "-"
+      },
+      {
+        "condition": {
+          "and": [
+            { "not": { "math": [ "u_val('strain') + u_val('strain_burn')", "<=", "u_val('strain_max') / 10 * 6 - 1" ] } },
+            { "not": { "math": [ "u_val('strain_burn')", ">=", "u_val('strain_max') / 10 * 6 - 1" ] } }
+          ]
+        },
+        "id": "seperator_6",
+        "color": "white",
+        "sym": "-"
+      },
+      {
+        "condition": {
+          "and": [
+            { "not": { "math": [ "u_val('strain') + u_val('strain_burn')", "<=", "u_val('strain_max') / 10 * 7 - 1" ] } },
+            { "not": { "math": [ "u_val('strain_burn')", ">=", "u_val('strain_max') / 10 * 7 - 1" ] } }
+          ]
+        },
+        "id": "seperator_7",
+        "color": "white",
+        "sym": "-"
+      },
+      {
+        "condition": {
+          "and": [
+            { "not": { "math": [ "u_val('strain') + u_val('strain_burn')", "<=", "u_val('strain_max') / 10 * 8 - 1" ] } },
+            { "not": { "math": [ "u_val('strain_burn')", ">=", "u_val('strain_max') / 10 * 8 - 1" ] } }
+          ]
+        },
+        "id": "seperator_8",
+        "color": "white",
+        "sym": "-"
+      },
+      {
+        "condition": {
+          "and": [
+            { "not": { "math": [ "u_val('strain') + u_val('strain_burn')", "<=", "u_val('strain_max') / 10 * 9 - 1" ] } },
+            { "not": { "math": [ "u_val('strain_burn')", ">=", "u_val('strain_max') / 10 * 9 - 1" ] } }
+          ]
+        },
+        "id": "seperator_9",
+        "color": "white",
+        "sym": "-"
+      },
+      {
+        "condition": {
+          "and": [
+            { "not": { "math": [ "u_val('strain') + u_val('strain_burn')", "<=", "u_val('strain_max') - 1" ] } },
+            { "not": { "math": [ "u_val('strain_burn')", ">=", "u_val('strain_max') - 1" ] } }
+          ]
+        },
+        "id": "seperator_10",
+        "color": "white",
+        "sym": "-",
+        "//0": "/* ----- END: SEPARATOR LISTING ----- */"
+      },
+      {
+        "//0": "/* ----- BEGIN: BURN LISTING ----- */",
+        "condition": { "math": [ "u_val('strain_burn')", ">=", "u_val('strain_max') / 10 - 1" ] },
+        "id": "burn_1",
+        "color": "red",
+        "sym": "#"
+      },
+      {
+        "condition": { "math": [ "u_val('strain_burn')", ">=", "u_val('strain_max') / 10 * 2 - 1" ] },
+        "id": "burn_2",
+        "color": "red",
+        "sym": "#"
+      },
+      {
+        "condition": { "math": [ "u_val('strain_burn')", ">=", "u_val('strain_max') / 10 * 3 - 1" ] },
+        "id": "burn_3",
+        "color": "red",
+        "sym": "#"
+      },
+      {
+        "condition": { "math": [ "u_val('strain_burn')", ">=", "u_val('strain_max') / 10 * 4 - 1" ] },
+        "id": "burn_4",
+        "color": "red",
+        "sym": "#"
+      },
+      {
+        "condition": { "math": [ "u_val('strain_burn')", ">=", "u_val('strain_max') / 10 * 5 - 1" ] },
+        "id": "burn_5",
+        "color": "red",
+        "sym": "#"
+      },
+      {
+        "condition": { "math": [ "u_val('strain_burn')", ">=", "u_val('strain_max') / 10 * 6 - 1" ] },
+        "id": "burn_6",
+        "color": "red",
+        "sym": "#"
+      },
+      {
+        "condition": { "math": [ "u_val('strain_burn')", ">=", "u_val('strain_max') / 10 * 7 - 1" ] },
+        "id": "burn_7",
+        "color": "red",
+        "sym": "#"
+      },
+      {
+        "condition": { "math": [ "u_val('strain_burn')", ">=", "u_val('strain_max') / 10 * 8 - 1" ] },
+        "id": "burn_8",
+        "color": "red",
+        "sym": "#"
+      },
+      {
+        "condition": { "math": [ "u_val('strain_burn')", ">=", "u_val('strain_max') / 10 * 9 - 1" ] },
+        "id": "burn_9",
+        "color": "red",
+        "sym": "#"
+      },
+      {
+        "condition": { "math": [ "u_val('strain_burn')", ">=", "u_val('strain_max') - 1" ] },
+        "id": "burn_10",
+        "color": "red",
+        "sym": "#",
+        "//0": "/* ----- END: BURN LISTING ----- */"
+      }
+    ],
+    "default_clause": { "sym": "----------", "color": "white" }
+  }
+]

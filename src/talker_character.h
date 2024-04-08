@@ -179,6 +179,9 @@ class talker_character_const: public talker_cloner<talker_character_const>
         int get_addiction_turns( const addiction_id &add_id ) const override;
         int get_pkill() const override;
         int get_stamina() const override;
+        int get_strain() const override;
+        int get_strain_max() const override;
+        int get_strain_burn() const override;
         int get_sleep_deprivation() const override;
         int get_kill_xp() const override;
         int get_age() const override;

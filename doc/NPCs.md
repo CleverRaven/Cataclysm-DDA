@@ -1423,6 +1423,9 @@ These can be read or written to with `val()`.
 | `stim` | ✅ | Current stim level. |
 | `stored_kcal` | ✅ | Stored kcal in the character's body. 55'000 is considered healthy. |
 | `stored_kcal_percentage` | ✅ | a value of 100 represents 55'000 kcal, which is considered healthy. |
+| `strain` | ✅ | Current muscle strain. Note that this value decreases with activity, the values are the inverse of what you might expect. |
+| `strain_burn` | ❌ | Current muscle burn. |
+| `strain_max` | ❌ | Maximum muscle strain. Note that this value decreases with activity, scaling with acquired burn. |
 | `strength`<br/>`dexterity`<br/>`intelligence`<br/>`pereception` | ✅ | Current attributes |
 | `strength_base`<br/>`dexterity_base`<br/>`intelligence_base`<br/>`perception_base` | ✅ | Base attributes |
 | `strength_bonus`<br/>`dexterity_bonus`<br/>`intelligence_bonus`<br/>`pereception_bonus` | ✅ | Bonus attributes |

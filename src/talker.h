@@ -622,6 +622,16 @@ class talker
             return 0;
         }
         virtual void set_stamina( int ) {}
+        virtual int get_strain_burn() const {
+            return 0;
+        }
+        virtual int get_strain_max() const {
+            return 0;
+        }
+        virtual int get_strain() const {
+            return 0;
+        }
+        virtual void set_strain( int ) {}
         virtual int get_sleep_deprivation() const {
             return 0;
         }

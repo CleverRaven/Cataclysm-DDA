@@ -865,6 +865,21 @@ void talker_character::set_pkill( int amount )
     me_chr->set_painkiller( amount );
 }
 
+int talker_character_const::get_strain() const
+{
+    return me_chr_const->get_strain();
+}
+
+int talker_character_const::get_strain_max() const
+{
+    return me_chr_const->get_strain_max();
+}
+
+int talker_character_const::get_strain_burn() const
+{
+    return me_chr_const->get_strain_burn();
+}
+
 int talker_character_const::get_stamina() const
 {
     return me_chr_const->get_stamina();
