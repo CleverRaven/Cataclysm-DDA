@@ -244,6 +244,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
 		case debug_menu::debug_menu_index::NORMALIZE_BODY_STAT: return "NORMALIZE_BODY_STAT";
 		case debug_menu::debug_menu_index::SIX_MILLION_DOLLAR_SURVIVOR: return "SIX_MILLION_DOLLAR_SURVIVOR";
 		case debug_menu::debug_menu_index::EDIT_FACTION: return "EDIT_FACTION";
+		case debug_menu::debug_menu_index::WRITE_CITY_LIST: return "WRITE_CITY_LIST";
         // *INDENT-ON*
         case debug_menu::debug_menu_index::last:
             break;
@@ -491,6 +492,7 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( debug_menu_index::EDIT_GLOBAL_VARS, true, 'a', _( "Edit global v(a)rs" ) ) },
             { uilist_entry( debug_menu_index::TEST_MAP_EXTRA_DISTRIBUTION, true, 'e', _( "Test map extra list" ) ) },
             { uilist_entry( debug_menu_index::GENERATE_EFFECT_LIST, true, 'L', _( "Generate effect list" ) ) },
+            { uilist_entry( debug_menu_index::WRITE_CITY_LIST, true, 'C', _( "Write city list to cities.output" ) ) },
         };
         uilist_initializer.insert( uilist_initializer.begin(), debug_only_options.begin(),
                                    debug_only_options.end() );
@@ -3733,6 +3735,22 @@ void debug()
         case debug_menu_index::EDIT_FACTION:
             faction_edit_menu();
             break;
+
+        case debug_menu_index::WRITE_CITY_LIST: {
+            write_to_file( "cities.output", [&]( std::ostream & testfile ) {
+                overmap &cur_om = g->get_cur_om();
+                testfile << "name;size;pos_om;pos" << std::endl;
+                for( const city &c : cur_om.cities ) {
+                    testfile << c.name << ";"
+                             << c.size << ";"
+                             << c.pos_om.to_string() << ";"
+                             << c.pos.to_string()
+                             << std::endl;
+                }
+
+            }, "city_list" );
+            popup( string_format( _( "city list written to cities.output" ) ) );
+        }
 
         case debug_menu_index::last:
             return;
