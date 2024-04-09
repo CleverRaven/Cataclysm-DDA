@@ -54,7 +54,7 @@
       "str_max": 700,
       "sound": "boom!",
       "sound_fail": "whack!",
-      "ter_set": "t_null",
+      "ter_set": "t_floor_resin",
       "items": [ { "item": "resin_chunk", "count": [ 10, 40 ] } ]
     }
   },
