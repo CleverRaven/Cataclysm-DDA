@@ -107,7 +107,6 @@ static const ter_str_id ter_t_open_air( "t_open_air" );
 static const ter_str_id ter_t_pit( "t_pit" );
 static const ter_str_id ter_t_ramp_down_high( "t_ramp_down_high" );
 static const ter_str_id ter_t_ramp_down_low( "t_ramp_down_low" );
-static const ter_str_id ter_t_region_soil( "t_region_soil" );
 static const ter_str_id ter_t_rock_floor( "t_rock_floor" );
 static const ter_str_id ter_t_sand( "t_sand" );
 static const ter_str_id ter_t_stairs_down( "t_stairs_down" );
