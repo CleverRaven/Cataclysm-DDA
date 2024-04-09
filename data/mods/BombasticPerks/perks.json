@@ -234,6 +234,17 @@
   },
   {
     "type": "mutation",
+    "id": "perk_grit_your_teeth",
+    "name": { "str": "Grit Your Teeth" },
+    "points": 0,
+    "description": "When you have to you can wipe the blood off your chin, grit your teeth, and get it done.  Use to reduce your pain by 30 or half (whichever is greater) for 3 minutes.\n\nThe cooldown on this perk scales based on your pain at the time you used it.",
+    "category": [ "perk" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_PERK_GRIT_YOUR_TEETH" ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_surgical_strikes",
     "name": { "str": "Surgical Strikes" },
     "points": 0,

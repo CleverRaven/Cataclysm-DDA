@@ -522,6 +522,30 @@
         "topic": "TALK_PERK_MENU_SELECT"
       },
       {
+        "condition": { "not": { "u_has_trait": "perk_grit_your_teeth" } },
+        "text": "Gain [<trait_name:perk_grit_your_teeth>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_grit_your_teeth>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_grit_your_teeth>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_grit_your_teeth", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must have the Built Tough perk./n/nMust not have the Pain Sensitive, Hyperalgesia, or Extreme Hyperalgesia Traits",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": {
+              "and": [ { "u_has_trait": "perk_built_tough" }, { "not": { "u_has_any_trait": [ "MORE_PAIN", "MORE_PAIN2", "MORE_PAIN3" ] } } ]
+            }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
         "condition": { "not": { "u_has_trait": "perk_recycler" } },
         "text": "Gain [<trait_name:perk_recycler>]",
         "effect": [
