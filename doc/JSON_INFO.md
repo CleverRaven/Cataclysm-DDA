@@ -5846,10 +5846,11 @@ String here contains the id of an overmap terrain type (see overmap_terrain.json
 
 If it is an object - it has following attributes:
 
- Identifier            | Description
----                    | ---
-`om_terrain`           | ID of overmap terrain which will be selected as the target. Mandatory.
-`om_terrain_match_type`| Matching rule to use with `om_terrain`. Defaults to TYPE. Details are below.
+     Identifier        |                                   Description                                           |
+---------------------- | --------------------------------------------------------------------------------------- |
+`om_terrain`           | ID of overmap terrain which will be selected as the target. Mandatory.                  |
+`om_terrain_match_type`| Optional. Matching rule to use with `om_terrain`. Defaults to TYPE. Details are below.  |
+`parameters`           | Optional. Parameter key/value pairs to set. Details are below.                          |
 
 
 `om_terrain_match_type` defaults to TYPE if unspecified, and has the following possible values:
@@ -5873,6 +5874,31 @@ If it is an object - it has following attributes:
 * `CONTAINS` - The provided string must be contained within the overmap terrain
   id, but may occur at the beginning, end, or middle and does not have any rules
   about underscore delimiting.
+
+`parameters` is an object containing one or more keys to set to a specific value provided, say to pick a safe variant of a map.
+The keys and values must be valid for the overmap terrains in question.
+This can also be used with 0 weight values to provide unique starting map variations that don't spawn normally.
+
+### Examples
+
+Any overmap terrain that is either `"shelter"` or begins with `shelter_`
+
+```json
+{
+    "om_terrain": "shelter",
+    "om_terrain_match_type": "PREFIX"
+}
+```
+
+Any overmap terrain that is either `"mansion"` or begins with `mansion_`, and forces the parameter `mansion_variant` to be set to `haunted_scenario_only`
+
+```json
+{
+    "om_terrain": "mansion",
+    "om_terrain_match_type": "PREFIX",
+    "parameters": { "mansion_variant": "haunted_scenario_only" }
+}
+```
 
 ## `city_sizes`
 (array of two integers)
