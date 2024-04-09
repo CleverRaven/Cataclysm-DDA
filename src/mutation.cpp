@@ -179,9 +179,7 @@ int Character::get_instability_per_category( const mutation_category_id &categ )
     for( const trait_id &mut : get_mutations() ) {
         // only count muts that have 0 or more points, aren't a threshold, are valid, and aren't a base trait.
         // OR if the mutation transforms from another mutation and the mutation it transformed from is valid, (even if it itself is not valid) and either it or the mutation it transformed from has a nonzero point value
-        if( ( mut.obj().points > -1 && !mut.obj().threshold && mut.obj().valid &&
-              !has_base_trait( mut ) ) || ( mut.obj().transform && mut.obj().transform.obj().valid &&
-                                            ( mut.obj().points > -1 || mut.obj().transform.obj().points > -1 ) ) ) {
+        if( ( mut.obj().points > -1 && !mut.obj().threshold && mut.obj().valid && !has_base_trait( mut ) ) || ( mut.obj().transform && mut.obj().transform->target && mut.obj().transform->target.obj().valid && ( mut.obj().points > -1 || mut.obj().transform->target.obj().points > -1 ) ) ) {
             bool in_categ = false;
             // If among all allowed categories the mutation has, the input category is one of them.
             for( const mutation_category_id &Ch_cat : mut.obj().category ) {
