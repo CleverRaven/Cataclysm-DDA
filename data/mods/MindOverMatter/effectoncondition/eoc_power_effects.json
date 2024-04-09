@@ -117,44 +117,6 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_PSI_EXTENDED_CHANNELING_ATTUNEMENT",
-    "eoc_type": "EVENT",
-    "required_event": "spellcasting_finish",
-    "condition": {
-      "and": [
-        {
-          "u_has_any_trait": [
-            "BIOKINETIC",
-            "CLAIRSENTIENT",
-            "ELECTROKINETIC",
-            "PHOTOKINETIC",
-            "PYROKINETIC",
-            "TELEKINETIC",
-            "TELEPATH",
-            "TELEPORTER",
-            "VITAKINETIC"
-          ]
-        },
-        {
-          "or": [
-            { "compare_string": [ "BIOKINETIC", { "context_val": "school" } ] },
-            { "compare_string": [ "CLAIRSENTIENT", { "context_val": "school" } ] },
-            { "compare_string": [ "ELECTROKINETIC", { "context_val": "school" } ] },
-            { "compare_string": [ "PHOTOKINETIC", { "context_val": "school" } ] },
-            { "compare_string": [ "PYROKINETIC", { "context_val": "school" } ] },
-            { "compare_string": [ "TELEKINETIC", { "context_val": "school" } ] },
-            { "compare_string": [ "TELEPATH", { "context_val": "school" } ] },
-            { "compare_string": [ "TELEPORTER", { "context_val": "school" } ] },
-            { "compare_string": [ "VITAKINETIC", { "context_val": "school" } ] }
-          ]
-        },
-        { "u_has_trait": "PSI_EXTENDED_CHANNELING_ON" }
-      ]
-    },
-    "effect": [ { "u_cast_spell": { "id": "psionic_drained_difficulty_five", "hit_self": true } } ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_NETHER_ATTUNEMENT_BOOST",
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",

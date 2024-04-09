@@ -99,6 +99,7 @@
 #include "trap.h"
 #include "ui.h"
 #include "ui_manager.h"
+#include "uistate.h"
 #include "units.h"
 #include "value_ptr.h"
 #include "veh_type.h"
@@ -3770,6 +3771,8 @@ void Character::reset_stats()
         update_mental_focus();
     }
 
+    mod_dodge_bonus( enchantment_cache->modify_value( enchant_vals::mod::DODGE_CHANCE, 0 ) );
+
     /** @EFFECT_STR_MAX above 15 decreases Dodge bonus by 1 (NEGATIVE) */
     if( str_max >= 16 ) {
         mod_dodge_bonus( -1 );   // Penalty if we're huge
@@ -6143,6 +6146,7 @@ float Character::rest_quality() const
     map &here = get_map();
     const tripoint your_pos = pos();
     float rest = 0.0f;
+    const float ur_act_level = instantaneous_activity_level();
     // Negative morales are penalties
     int cold_penalty = -has_morale( morale_cold );
     int heat_penalty = -has_morale( morale_hot );
@@ -6160,7 +6164,7 @@ float Character::rest_quality() const
     }
     const optional_vpart_position veh_part = here.veh_at( your_pos );
     bool has_vehicle_seat = !!veh_part.part_with_feature( "SEAT", true );
-    if( activity_level() <= LIGHT_EXERCISE ) {
+    if( ur_act_level <= LIGHT_EXERCISE ) {
         rest += 0.1f;
         if( here.has_flag_ter_or_furn( "CAN_SIT", your_pos.xy() ) || has_vehicle_seat ) {
             // If not performing any real exercise (not even moving around), chairs allow you to rest a little bit.
@@ -6169,20 +6173,21 @@ float Character::rest_quality() const
             // Any comfortable bed can substitute for a chair, but only if you don't have one.
             rest += 0.2f * ( units::to_celsius_delta( floor_bedding_warmth( your_pos ) ) / 2.0f );
         }
-        if( activity_level() <= NO_EXERCISE ) {
+        if( ur_act_level <= NO_EXERCISE ) {
             rest += 0.2f;
         }
     }
     // These stack!
-    if( activity_level() >= BRISK_EXERCISE ) {
+    if( ur_act_level >= BRISK_EXERCISE ) {
         rest -= 0.1f;
     }
-    if( activity_level() >= ACTIVE_EXERCISE ) {
+    if( ur_act_level >= ACTIVE_EXERCISE ) {
         rest -= 0.2f;
     }
-    if( activity_level() >= EXTRA_EXERCISE ) {
+    if( ur_act_level >= EXTRA_EXERCISE ) {
         rest -= 0.3f;
     }
+    add_msg_debug( debugmode::DF_CHAR_HEALTH, "%s resting quality: %.6f", get_name(), rest );
     return rest;
 }
 
@@ -6321,7 +6326,8 @@ float Character::healing_rate_medicine( float at_rest_quality, const bodypart_id
 
     rate_medicine = enchantment_cache->modify_value( enchant_vals::mod::REGEN_HP,
                     rate_medicine );
-    rate_medicine *= 1.0f + clamp( at_rest_quality, 0.0f, 1.0f );
+    // Sufficiently negative rest quality can completely eliminate your healing, but never turn it negative.
+    rate_medicine *= 1.0f + std::max( at_rest_quality, -1.0f );
 
     // increase healing if character has both effects
     if( has_effect( effect_bandaged ) && has_effect( effect_disinfected ) ) {
@@ -12838,7 +12844,8 @@ void Character::process_items()
     // Load all items that use the UPS and have their own battery to their minimal functional charge,
     // The tool is not really useful if its charges are below charges_to_use
     std::vector<item *> inv_use_ups = cache_get_items_with( flag_USE_UPS, []( item & it ) {
-        return !!it.ammo_data();
+        return ( it.ammo_capacity( ammo_battery ) > it.ammo_remaining() ||
+                 ( it.type->battery && it.type->battery->max_capacity > it.energy_remaining( nullptr ) ) );
     } );
     if( !inv_use_ups.empty() ) {
         const units::energy available_charges = available_ups();

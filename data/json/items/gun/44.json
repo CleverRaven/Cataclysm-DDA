@@ -77,6 +77,7 @@
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
+    "flags": [ "NO_TURRET" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "44": 10 } } ],
     "melee_damage": { "bash": 12 }
   },

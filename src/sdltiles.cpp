@@ -70,6 +70,7 @@
 #include "sdl_gamepad.h"
 #include "sdlsound.h"
 #include "string_formatter.h"
+#include "uistate.h"
 #include "ui_manager.h"
 #include "wcwidth.h"
 #include "cata_imgui.h"

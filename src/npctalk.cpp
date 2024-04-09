@@ -173,6 +173,7 @@ struct item_search_data {
     itype_id id;
     item_category_id category;
     material_id material;
+    int calories = 0;
     std::vector<flag_id> flags;
     std::vector<flag_id> excluded_flags;
     bool worn_only;
@@ -182,6 +183,9 @@ struct item_search_data {
         id = itype_id( jo.get_string( "id", "" ) );
         category = item_category_id( jo.get_string( "category", "" ) );
         material = material_id( jo.get_string( "material", "" ) );
+        if( jo.has_int( "calories" ) ) {
+            calories = jo.get_int( "calories" );
+        }
         for( std::string flag : jo.get_string_array( "flags" ) ) {
             flags.emplace_back( flag );
         }
@@ -201,6 +205,13 @@ struct item_search_data {
         }
         if( !material.is_empty() && loc->made_of( material ) == 0 ) {
             return false;
+        }
+        if( calories > 0 ) {
+            // This is very stupid but we need a dummy to calculate nutrients
+            npc dummy;
+            if( dummy.compute_effective_nutrients( *loc.get_item() ).kcal() < calories ) {
+                return false;
+            }
         }
         for( flag_id flag : flags ) {
             if( !loc->has_flag( flag ) ) {

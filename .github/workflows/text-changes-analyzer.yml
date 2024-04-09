@@ -68,15 +68,15 @@ jobs:
           wc -c spell_check_output | grep -o '[0-9]*' > spell_check_retcode
           echo "length=$(cat spell_check_retcode)" >> $GITHUB_OUTPUT
       - run: echo ${{ github.event.number }} > pull_request_id
-      - uses: actions/upload-artifact@v3.1.2
+      - uses: actions/upload-artifact@v4
         with:
           name: pull_request_id
           path: pull_request_id
-      - uses: actions/upload-artifact@v3.1.2
+      - uses: actions/upload-artifact@v4
         with:
           name: spell_check_retcode
           path: spell_check_retcode
-      - uses: actions/upload-artifact@v3.1.2
+      - uses: actions/upload-artifact@v4
         if: steps.get_length.outputs.length >= 1
         with:
           name: spell_check_output
