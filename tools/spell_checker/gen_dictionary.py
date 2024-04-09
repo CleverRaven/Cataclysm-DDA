@@ -24,5 +24,5 @@ def gen_dictionary():
                     dictionary.add(norm)
     dict_path = os.path.join(os.path.dirname(__file__), "dictionary.txt")
     with open(dict_path, "w", encoding="utf-8") as fp:
-        for word in sorted(dictionary):
+        for word in sorted(dictionary, key=lambda v: (v.lower(), v)):
             print(word, file=fp)
