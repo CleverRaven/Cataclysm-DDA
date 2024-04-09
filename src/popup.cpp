@@ -54,7 +54,7 @@ void query_popup_impl::draw_controls()
     }
 
     if( !parent->buttons.empty() ) {
-        size_t current_line = 0;
+        int current_line = 0;
         for( size_t ind = 0; ind < parent->buttons.size(); ++ind ) {
             ImGui::SetCursorPosX( float( parent->buttons[ind].pos.x ) );
             ImGui::Button( remove_color_tags( parent->buttons[ind].text ).c_str() );
@@ -77,7 +77,6 @@ void query_popup_impl::on_resized()
 {
     size_t frame_padding = size_t( ImGui::GetStyle().FramePadding.x * 2 );
     size_t item_padding = size_t( ImGui::GetStyle().ItemSpacing.x );
-    size_t window_padding = size_t( ImGui::GetStyle().WindowPadding.x * 2 );
     // constexpr size_t vert_padding = 1;
     size_t max_line_width = str_width_to_pixels( FULL_SCREEN_WIDTH - 1 * 2 );
 
