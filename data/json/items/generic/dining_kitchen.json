@@ -1312,12 +1312,15 @@
     "copy-from": "base_cookpot",
     "material": [ "steel" ],
     "color": "light_gray",
-    "weight": "728 g",
-    "volume": "1575 ml",
-    "longest_side": "21 cm",
+    "weight": "508 g",
+    "volume": "3205 ml",
+    "//1": "Calculated as a cylinder of 7.44in diameter and 4.5in height. Calculating it from package dimensions of the amazon listing would give ridiculous volume.",
+    "longest_side": "19 cm",
+    "price": "13 USD",
     "pocket_data": [ { "max_contains_volume": "1500 ml", "max_contains_weight": "2 kg", "watertight": true, "rigid": true } ],
     "delete": { "qualities": [ "COOK" ] },
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "//2": "Based on https://www.amazon.com/dp/B0858VCYTB"
   },
   {
     "type": "GENERIC",
