@@ -46,7 +46,7 @@
     "name": "PLAYER_BASE_STRAIN",
     "info": "Sets the base max strain value of the player, before cardio modifiers.",
     "stype": "int",
-    "value": 4000
+    "value": 3000
   },
   {
     "type": "EXTERNAL_OPTION",

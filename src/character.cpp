@@ -7132,21 +7132,24 @@ void Character::mod_strain( int mod )
         return;
     }
     strain += mod;
+    int max_strain = get_strain_max();
+
     if( mod < 0 ) {
         used_strain_this_turn = true;
         add_msg_debug( debugmode::DF_CHARACTER,
                        "<color_blue>Used strain this turn, recovery disabled</color>" );
     }
 
-    if( mod < 0 && strain < get_strain_max() / 2 ) {
+    if( mod < 0 && strain < max_strain / 2 ) {
         // if strain is decreasing and getting into the higher numbers, bump burn up.
         // burn rises a little regardless, but far more if you're doing something really
         // powerful.
-        int burn = mod * -2;
+        int burn_denominator = -18 + clamp( max_strain / ( strain + 1 ), 2, 8 );
+        int burn = mod / burn_denominator;
         add_msg_debug( debugmode::DF_CHARACTER, "Burn increased by %i", burn );
         mod_strain_burn( burn );
     }
-    strain = clamp( strain, 0, get_strain_max() );
+    strain = clamp( strain, 0, max_strain );
 }
 
 void Character::mod_strain_burn( int mod )
@@ -7207,7 +7210,17 @@ void Character::update_strain( int turns )
     int recover_burn_amount = 0;
     mod_strain( recover_amount );
     if( current_strain > max_strain / 2 ) {
-        recover_burn_amount = std::max( 1, recover_amount / 50 );
+        // this should get a bonus if we're sleeping or resting.
+        recover_burn_amount = recover_amount / 100;
+        if( recover_burn_amount <= 0 ) {
+            if( recover_burn_ticker <= 0 ) {
+                // make sure that we never completely stop recovering burn
+                recover_burn_amount = 1;
+                recover_burn_ticker = 4;
+            } else {
+                recover_burn_ticker -= 1;
+            }
+        }
         mod_strain_burn( recover_burn_amount * -1 );
     }
     add_msg_debug( debugmode::DF_CHARACTER, "Current strain: %i, Max strain: %i, Current burn: %i",
