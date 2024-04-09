@@ -331,7 +331,7 @@
     "volume": "4200 ml",
     "//": "There's currently only pistol versions of this gun for sale in the US.  This would be a good candidate for a pistol brace item that the survivor can replace with a real stock.",
     "longest_side": "76 cm",
-    "barrel_length": "280 mm",
+    "barrel_length": "279 mm",
     "price": 215500,
     "price_postapoc": 3000,
     "to_hit": -1,
