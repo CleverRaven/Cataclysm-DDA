@@ -8559,8 +8559,7 @@ void map::cut_down_tree( tripoint_bub_ms p, point dir )
         return;
     }
 
-    const bool has_treetop = ter( p ).obj().roof &&
-                             ter( p + tripoint_above ).id() == ter( p ).obj().roof;
+    const bool has_treetop = ter( p + tripoint_above ).id() == ter( p ).obj().roof;
 
     tripoint_bub_ms to = p + 3 * dir + point( rng( -1, 1 ), rng( -1, 1 ) );
 
