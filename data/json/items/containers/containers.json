@@ -454,12 +454,13 @@
     "looks_like": "bottle_plastic",
     "description": "A watertight glass bottle, holds 750 ml of liquid.",
     "ascii_picture": "bottle_glass",
-    "weight": "450 g",
-    "volume": "953 ml",
-    "longest_side": "276 mm",
-    "price": 0,
+    "weight": "511 g",
+    "volume": "1082 ml",
+    "//1": "Calculated as a cylinder of 2.9in diameter and 10in height, to account for it getting thinner near the top.",
+    "longest_side": "29 cm",
+    "price": "2 USD",
     "price_postapoc": 10,
-    "to_hit": 1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "glass" ],
     "symbol": ")",
     "color": "cyan",
@@ -476,7 +477,8 @@
     ],
     "qualities": [ [ "BOIL", 1 ] ],
     "flags": [ "COLLAPSE_CONTENTS" ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "//2": "Based on https://www.amazon.com/dp/B09K2VQLZV"
   },
   {
     "id": "bottle_plastic",

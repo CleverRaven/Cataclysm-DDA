@@ -432,7 +432,7 @@
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "forge", 75 ] ]
     ],
-    "components": [ [ [ "glass_shard", 3 ], [ "pipe_glass", 1 ], [ "flask_glass", 3 ], [ "test_tube", 6 ], [ "marble", 75 ] ] ]
+    "components": [ [ [ "glass_shard", 7 ], [ "pipe_glass", 4 ], [ "flask_glass", 11 ], [ "test_tube", 47 ], [ "marble", 171 ] ] ]
   },
   {
     "type": "recipe",
