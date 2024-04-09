@@ -1915,7 +1915,7 @@ std::optional<tripoint> spell::random_valid_target( const Creature &caster,
 
 known_magic::known_magic()
 {
-    mana_base = 1000;
+    mana_base = 3500;
     mana = mana_base;
 }
 
@@ -2102,15 +2102,17 @@ void known_magic::set_spell_exp( const spell_id &sp, int new_exp, const Characte
 
 bool known_magic::can_learn_spell( const Character &guy, const spell_id &sp ) const
 {
-    const spell_type &sp_t = sp.obj();
-    if( sp_t.spell_class == trait_NONE ) {
-        return true;
-    }
-    if( sp_t.spell_tags[spell_flag::MUST_HAVE_CLASS_TO_LEARN] ) {
-        return guy.has_trait( sp_t.spell_class );
-    } else {
-        return !guy.has_opposite_trait( sp_t.spell_class );
-    }
+    return true;
+
+    //const spell_type &sp_t = sp.obj();
+    //if( sp_t.spell_class == trait_NONE ) {
+    //    return true;
+    //}
+    //if( sp_t.spell_tags[spell_flag::MUST_HAVE_CLASS_TO_LEARN] ) {
+    //    return guy.has_trait( sp_t.spell_class );
+    //} else {
+    //    return !guy.has_opposite_trait( sp_t.spell_class );
+    //}
 }
 
 spell &known_magic::get_spell( const spell_id &sp )
@@ -2741,10 +2743,10 @@ int known_magic::select_spell( Character &guy )
 
     uilist spell_menu;
     spell_menu.w_height_setup = [&]() -> int {
-        return clamp( static_cast<int>( known_spells.size() ), 24, TERMY * 9 / 10 );
+        return clamp( static_cast<int>( known_spells.size() ), 38, TERMY * 9 / 5 );
     };
     const auto calc_width = []() -> int {
-        return std::max( 80, TERMX * 3 / 8 );
+        return std::max( 80, TERMX * 3 / 4 );
     };
     spell_menu.w_width_setup = calc_width;
     spell_menu.pad_right_setup = [&]() -> int {
