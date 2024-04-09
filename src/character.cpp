@@ -9558,6 +9558,11 @@ void Character::add_to_inv_search_caches( item &it ) const
     }
 }
 
+void Character::clear_inventory_search_cache()
+{
+    inv_search_caches.clear();
+}
+
 bool Character::has_charges( const itype_id &it, int quantity,
                              const std::function<bool( const item & )> &filter ) const
 {
