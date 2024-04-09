@@ -28,7 +28,7 @@
       {
         "run_eocs": [
           {
-            "id": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2",
+            "id": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_SCALING_CHECK",
             "condition": { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "15" ] },
             "effect": [
               {
@@ -108,6 +108,94 @@
     ],
     "false_effect": [
       { "u_message": "As you unleash your powers, you feel a strange tingling sensation.", "type": "mixed" },
+      {
+        "math": [
+          "u_vitamin('vitamin_psionic_drain')",
+          "+=",
+          "(rand(u_latest_channeled_power_difficulty) * u_nether_attunement_power_scaling) + rand(u_vitamin('vitamin_maintained_powers'))"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2",
+    "//": "This is the EoC called by concentration checks. Name is to avoid JSON churn",
+    "condition": { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "15" ] },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_RAISE_ATTUNEMENT_BELOW_THRESHOLD_CHECKER_MAINTENANCE",
+            "condition": {
+              "x_in_y_chance": {
+                "x": {
+                  "math": [
+                    "(u_latest_channeled_power_difficulty * u_latest_channeled_power_difficulty) + (u_nether_conduit_repeated_channeling_value / 3) + (u_vitamin('vitamin_maintained_powers') * 3)"
+                  ]
+                },
+                "y": 100
+              }
+            },
+            "effect": [ { "run_eocs": "EOC_RAISE_ATTUNEMENT_BELOW_THRESHOLD_MAINTENANCE" } ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_RAISE_ATTUNEMENT_ABOVE_THRESHOLD_CHECKER_MAINTENANCE",
+            "condition": {
+              "x_in_y_chance": {
+                "x": {
+                  "math": [
+                    "(u_latest_channeled_power_difficulty * u_latest_channeled_power_difficulty) + u_nether_conduit_repeated_channeling_value  + (u_vitamin('vitamin_maintained_powers') * 3)"
+                  ]
+                },
+                "y": 100
+              }
+            },
+            "effect": [ { "run_eocs": "EOC_RAISE_ATTUNEMENT_ABOVE_THRESHOLD_MAINTENANCE" } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RAISE_ATTUNEMENT_BELOW_THRESHOLD_MAINTENANCE",
+    "condition": { "u_has_effect": "effect_noetic_resilience" },
+    "effect": [
+      { "u_message": "As you concentrate on your powers, you feel a strange tingling sensation.", "type": "mixed" },
+      {
+        "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(1) + (rand(u_vitamin('vitamin_maintained_powers')) / 2)" ]
+      }
+    ],
+    "false_effect": [
+      { "u_message": "As you concentrate on your powers, you feel a strange tingling sensation.", "type": "mixed" },
+      {
+        "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(3) + (rand(u_vitamin('vitamin_maintained_powers')) / 2)" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RAISE_ATTUNEMENT_ABOVE_THRESHOLD_MAINTENANCE",
+    "condition": { "u_has_effect": "effect_noetic_resilience" },
+    "effect": [
+      { "u_message": "As you concentrate on your powers, you feel a strange tingling sensation.", "type": "mixed" },
+      {
+        "math": [
+          "u_vitamin('vitamin_psionic_drain')",
+          "+=",
+          "rand((u_latest_channeled_power_difficulty) / 2) + rand(u_vitamin('vitamin_maintained_powers'))"
+        ]
+      }
+    ],
+    "false_effect": [
+      { "u_message": "As you concentrate on your powers, you feel a strange tingling sensation.", "type": "mixed" },
       {
         "math": [
           "u_vitamin('vitamin_psionic_drain')",
