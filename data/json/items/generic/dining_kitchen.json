@@ -1333,7 +1333,7 @@
   {
     "id": "colander_steel",
     "name": { "str": "mesh colander" },
-    "category": "other",
+    "category": "tools",
     "description": "A stainless steel mesh colander, for washing rice and vegetables, or straining liquid off from noodles or other foods.",
     "type": "GENERIC",
     "volume": "500 ml",
