@@ -1,3 +1,4 @@
+
 #include "font_loader.h"
 
 #if defined( TILES )
@@ -10,6 +11,15 @@ void ensure_unifont_loaded( std::vector<std::string> &font_list )
     const std::string unifont = PATH_INFO::fontdir() + "unifont.ttf";
     if( std::find( font_list.begin(), font_list.end(), unifont ) == font_list.end() ) {
         font_list.emplace_back( unifont );
+    }
+}
+
+// Fix for Android not loading Terminus, same as above but for Terminus
+void validate_terminus_path( std::vector<std::string> &font_list )
+{
+    const std::string terminus = PATH_INFO::fontdir() + "Terminus.ttf";
+    if( std::find( font_list.begin(), font_list.end(), terminus ) == font_list.end() ) {
+        font_list.emplace_back( terminus );
     }
 }
 
@@ -34,6 +44,9 @@ void font_loader::load_throws( const cata_path &path )
             config.read( "overmap_typeface", overmap_typeface );
         }
 
+        validate_terminus_path( typeface );
+        validate_terminus_path( map_typeface );
+        validate_terminus_path( overmap_typeface );
         ensure_unifont_loaded( typeface );
         ensure_unifont_loaded( map_typeface );
         ensure_unifont_loaded( overmap_typeface );
