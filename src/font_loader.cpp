@@ -15,7 +15,7 @@ void ensure_unifont_loaded( std::vector<std::string> &font_list )
 }
 
 // Fix for Android not loading Terminus, same as above but for Terminus
-void validate_terminus_path( std::vector<std::string> &font_list )
+static void validate_terminus_path( std::vector<std::string> &font_list )
 {
     const std::string terminus = PATH_INFO::fontdir() + "Terminus.ttf";
     if( std::find( font_list.begin(), font_list.end(), terminus ) == font_list.end() ) {
