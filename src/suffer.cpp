@@ -59,6 +59,7 @@
 #include "text_snippets.h"
 #include "translations.h"
 #include "type_id.h"
+#include "uistate.h"
 #include "units.h"
 #include "weather.h"
 #include "weather_type.h"

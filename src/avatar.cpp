@@ -2,9 +2,9 @@
 
 #include <algorithm>
 #include <array>
-#include <climits>
 #include <cmath>
-#include <cstdlib>
+#include <cstddef>
+#include <functional>
 #include <iterator>
 #include <list>
 #include <map>
@@ -15,18 +15,17 @@
 #include <utility>
 
 #include "action.h"
-#include "activity_type.h"
 #include "activity_actor_definitions.h"
-#include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_assert.h"
+#include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
-#include "clzones.h"
 #include "color.h"
+#include "creature.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "diary.h"
@@ -36,19 +35,22 @@
 #include "event_bus.h"
 #include "faction.h"
 #include "field_type.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "game.h"
 #include "game_constants.h"
+#include "game_inventory.h"
 #include "help.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
 #include "iuse.h"
-#include "kill_tracker.h"
-#include "make_static.h"
-#include "magic_enchantment.h"
+#include "json.h"
+#include "line.h"
 #include "map.h"
 #include "map_memory.h"
+#include "mapdata.h"
 #include "martialarts.h"
 #include "messages.h"
 #include "mission.h"
@@ -57,15 +59,14 @@
 #include "move_mode.h"
 #include "mutation.h"
 #include "npc.h"
-#include "options.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "pathfinding.h"
 #include "pimpl.h"
-#include "player_activity.h"
 #include "profession.h"
 #include "ranged.h"
+#include "recipe.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "scenario.h"
@@ -74,8 +75,8 @@
 #include "string_formatter.h"
 #include "talker.h"
 #include "talker_avatar.h"
-#include "translations.h"
 #include "timed_event.h"
+#include "translations.h"
 #include "trap.h"
 #include "type_id.h"
 #include "ui.h"
@@ -84,6 +85,8 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+
+class monfaction;
 
 static const bionic_id bio_cloak( "bio_cloak" );
 static const bionic_id bio_soporific( "bio_soporific" );

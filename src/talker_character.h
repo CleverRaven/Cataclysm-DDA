@@ -238,6 +238,7 @@ class talker_character: public talker_cloner<talker_character, talker_character_
         void set_spell_level( const spell_id &, int ) override;
         void set_spell_exp( const spell_id &, int ) override;
         void set_proficiency_practiced_time( const proficiency_id &prof, int turns ) override;
+        void train_proficiency_for( const proficiency_id &prof, int turns ) override;
         void mutate( const int &highest_cat_chance, const bool &use_vitamins ) override;
         void mutate_category( const mutation_category_id &mut_cat, const bool &use_vitamins ) override;
         void mutate_towards( const trait_id &trait, const mutation_category_id &mut_cat,

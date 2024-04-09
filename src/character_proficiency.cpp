@@ -108,7 +108,7 @@ void Character::set_proficiency_practice( const proficiency_id &id, const time_d
         return;
     }
 
-    _proficiencies->practice( id, amount, 0.f, std::nullopt );
+    _proficiencies->set_time_practiced( id, amount );
 }
 
 std::vector<proficiency_id> Character::proficiencies_offered_to( const Character *guy ) const

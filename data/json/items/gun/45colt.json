@@ -31,7 +31,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT", "EASY_CLEAN" ],
+    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT", "EASY_CLEAN", "NO_TURRET" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45colt": 2, "410shot": 2 } } ],
     "melee_damage": { "bash": 2 }
   },
@@ -96,6 +96,7 @@
     "clip_size": 6,
     "blackpowder_tolerance": 56,
     "//proportional": { "reload": 1.5 },
+    "flags": [ "NO_TURRET" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45colt": 6 } } ],
     "melee_damage": { "bash": 8 }
   }

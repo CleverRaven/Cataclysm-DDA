@@ -36,6 +36,7 @@
       [ "underbarrel mount", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
+    "flags": [ "NO_TURRET" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "blrmag" ] } ],
     "melee_damage": { "bash": 12 }
   },
@@ -116,7 +117,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "RELOAD_ONE", "EASY_CLEAN" ],
+    "flags": [ "RELOAD_ONE", "EASY_CLEAN", "NO_TURRET" ],
     "pocket_data": [
       { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "3006": 5 }, "allowed_speedloaders": [ "3006_clip" ] }
     ],
@@ -188,7 +189,7 @@
     "blackpowder_tolerance": 24,
     "clip_size": 4,
     "barrel_volume": "750 ml",
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "EASY_CLEAN" ],
+    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "EASY_CLEAN", "NO_TURRET" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "3006": 4 } } ],
     "melee_damage": { "bash": 12 }
   },
@@ -232,7 +233,7 @@
       [ "stock accessory", 2 ],
       [ "stock", 1 ]
     ],
-    "flags": "RELOAD_ONE",
+    "flags": [ "RELOAD_ONE", "NO_TURRET" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "3006": 4 } } ],
     "melee_damage": { "bash": 12 }
   }
