@@ -565,8 +565,10 @@
     "symbol": "u",
     "description": "A piece of plastic tupperware with a matching watertight lid.  Holds 750 ml of liquid.",
     "copy-from": "base_plastic_dish",
-    "volume": "787 ml",
-    "longest_side": "17 cm",
+    "volume": "1463 ml",
+    "weight": "57 g",
+    "longest_side": "20 cm",
+    "price": "132 cent",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -576,7 +578,9 @@
         "max_contains_weight": "1 kg"
       }
     ],
-    "qualities": [ [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "CONTAIN", 1 ] ],
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "//": "Based on https://www.amazon.co.uk/dp/B097HTDRNZ"
   },
   {
     "id": "plastic_bowl_kids",
