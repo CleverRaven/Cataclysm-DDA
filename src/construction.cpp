@@ -107,6 +107,7 @@ static const ter_str_id ter_t_open_air( "t_open_air" );
 static const ter_str_id ter_t_pit( "t_pit" );
 static const ter_str_id ter_t_ramp_down_high( "t_ramp_down_high" );
 static const ter_str_id ter_t_ramp_down_low( "t_ramp_down_low" );
+static const ter_str_id ter_t_region_soil( "t_region_soil" );
 static const ter_str_id ter_t_rock_floor( "t_rock_floor" );
 static const ter_str_id ter_t_sand( "t_sand" );
 static const ter_str_id ter_t_stairs_down( "t_stairs_down" );
@@ -1138,6 +1139,35 @@ void complete_construction( Character *you )
                     const tripoint_bub_ms top = terp + tripoint_above;
                     if( here.ter( top ) == ter_t_open_air ) {
                         here.ter_set( top, ter_id( post_terrain->roof ) );
+                    }
+                }
+            }
+
+            if( ter_id( built.post_terrain ).id() == ter_t_open_air ) {
+                const tripoint_bub_ms below = terp + tripoint_below;
+                if( below.z() > -OVERMAP_DEPTH && here.ter( below ).obj().has_flag( "SUPPORTS_ROOF" ) ) {
+                    const map_bash_info bash_info = here.ter( below ).obj().bash;
+                    // ter_set_bashed_from_above should default to ter_set
+                    if( bash_info.ter_set_bashed_from_above.id() == t_null ) {
+                        if( below.z() >= -1 ) {
+                            // Stupid to set soil at above the ground level, but if they haven't defined
+                            // anything for the terrain that's what you'll get.
+                            // Trying to get the regional version of soil. There ought to be a sane way to do this...
+                            ter_id converted_terrain = ter_t_dirt;
+                            regional_settings settings = g->get_cur_om().get_settings();
+                            std::map<std::string, int> soil_map =
+                                settings.region_terrain_and_furniture.unfinalized_terrain.find( "t_region_soil" )->second;
+                            if( !soil_map.empty() ) {
+                                converted_terrain = ter_id(
+                                                        settings.region_terrain_and_furniture.unfinalized_terrain.find( "t_region_soil" )->second.begin()->first );
+                            }
+                            here.ter_set( below, converted_terrain );
+                        } else {
+                            // At the time of writing there doesn't seem to be any regional definition of "rock" (which would have to be smashed to get a floor).
+                            here.ter_set( below, ter_t_rock_floor );
+                        }
+                    } else {
+                        here.ter_set( below, bash_info.ter_set_bashed_from_above.id() );
                     }
                 }
             }
