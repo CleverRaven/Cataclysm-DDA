@@ -392,12 +392,12 @@ void mapgen_subway( mapgendata &dat )
                                                 ter_t_railroad_track_d,
                                                 ter_t_railroad_track ),
                                         mapf::furn_bind( ". # ^ / D X",
-                                                f_null,
-                                                f_null,
-                                                f_null,
-                                                f_null,
-                                                f_null,
-                                                f_null ) );
+                                                furn_str_id::NULL_ID(),
+                                                furn_str_id::NULL_ID(),
+                                                furn_str_id::NULL_ID(),
+                                                furn_str_id::NULL_ID(),
+                                                furn_str_id::NULL_ID(),
+                                                furn_str_id::NULL_ID() ) );
             break;
         case 3:
             // tee
@@ -436,14 +436,14 @@ void mapgen_subway( mapgendata &dat )
                                                 ter_t_railroad_tie_d,
                                                 ter_t_railroad_track_d ),
                                         mapf::furn_bind( ". # ^ | X x / D",
-                                                f_null,
-                                                f_null,
-                                                f_null,
-                                                f_null,
-                                                f_null,
-                                                f_null,
-                                                f_null,
-                                                f_null ) );
+                                                furn_str_id::NULL_ID(),
+                                                furn_str_id::NULL_ID(),
+                                                furn_str_id::NULL_ID(),
+                                                furn_str_id::NULL_ID(),
+                                                furn_str_id::NULL_ID(),
+                                                furn_str_id::NULL_ID(),
+                                                furn_str_id::NULL_ID(),
+                                                furn_str_id::NULL_ID() ) );
             break;
         case 2:
             // straight or diagonal
@@ -479,10 +479,10 @@ void mapgen_subway( mapgendata &dat )
                                                     ter_t_railroad_rubble,
                                                     ter_t_railroad_track_d ),
                                             mapf::furn_bind( ". # ^ D",
-                                                    f_null,
-                                                    f_null,
-                                                    f_null,
-                                                    f_null ) );
+                                                    furn_str_id::NULL_ID(),
+                                                    furn_str_id::NULL_ID(),
+                                                    furn_str_id::NULL_ID(),
+                                                    furn_str_id::NULL_ID() ) );
             } else { // normal subway drawing
                 mapf::formatted_set_simple( m, point_zero,
                                             "...^X^^^X^....^X^^^X^...\n"
@@ -517,12 +517,12 @@ void mapgen_subway( mapgendata &dat )
                                                     ter_t_railroad_track,
                                                     ter_t_railroad_track_on_tie ),
                                             mapf::furn_bind( ". # ^ - X x",
-                                                    f_null,
-                                                    f_null,
-                                                    f_null,
-                                                    f_null,
-                                                    f_null,
-                                                    f_null ) );
+                                                    furn_str_id::NULL_ID(),
+                                                    furn_str_id::NULL_ID(),
+                                                    furn_str_id::NULL_ID(),
+                                                    furn_str_id::NULL_ID(),
+                                                    furn_str_id::NULL_ID(),
+                                                    furn_str_id::NULL_ID() ) );
             }
             break;
         case 1:
@@ -563,15 +563,15 @@ void mapgen_subway( mapgendata &dat )
                                                 ter_t_railroad_track,
                                                 ter_t_railroad_track_on_tie ),
                                         mapf::furn_bind( ". # S ^ - / D X x",
-                                                f_null,
-                                                f_null,
-                                                f_null,
-                                                f_null,
-                                                f_null,
-                                                f_null,
-                                                f_null,
-                                                f_null,
-                                                f_null ) );
+                                                furn_str_id::NULL_ID(),
+                                                furn_str_id::NULL_ID(),
+                                                furn_str_id::NULL_ID(),
+                                                furn_str_id::NULL_ID(),
+                                                furn_str_id::NULL_ID(),
+                                                furn_str_id::NULL_ID(),
+                                                furn_str_id::NULL_ID(),
+                                                furn_str_id::NULL_ID(),
+                                                furn_str_id::NULL_ID() ) );
             VehicleSpawn::apply( VehicleSpawn_default_subway_deadend, *m, "subway" );
             break;
     }
@@ -1713,7 +1713,7 @@ void mapgen_lake_shore( mapgendata &dat )
                 // Use t_null for now instead of t_water_sh, because sometimes our extended terrain
                 // has put down a t_water_sh, and we need to be able to flood-fill over that.
                 m->ter_set( bp, ter_str_id::NULL_ID() );
-                m->furn_set( bp, f_null );
+                m->furn_set( bp, furn_str_id::NULL_ID() );
             }
         }
     };
@@ -1758,7 +1758,7 @@ void mapgen_lake_shore( mapgendata &dat )
                                           should_fill );
         for( point &wp : water_points ) {
             m->ter_set( wp, ter_t_water_dp );
-            m->furn_set( wp, f_null );
+            m->furn_set( wp, furn_str_id::NULL_ID() );
         }
     };
 
@@ -2149,7 +2149,7 @@ void mapgen_ocean_shore( mapgendata &dat )
                     continue;
                 }
                 m->ter_set( bp, ter_t_swater_sh );
-                m->furn_set( bp, f_null );
+                m->furn_set( bp, furn_str_id::NULL_ID() );
             }
         }
     };
@@ -2164,7 +2164,7 @@ void mapgen_ocean_shore( mapgendata &dat )
                 // Use t_null for now instead of t_sand, because sometimes our extended terrain
                 // has put down a t_sand, and we need to be able to flood-fill over that.
                 m->ter_set( bp, ter_str_id::NULL_ID() );
-                m->furn_set( bp, f_null );
+                m->furn_set( bp, furn_str_id::NULL_ID() );
             }
             for( const point &bp : closest_points_first( p, sand_margin + 1 ) ) {
                 if( !map_boundaries.contains( bp ) ) {
@@ -2224,7 +2224,7 @@ void mapgen_ocean_shore( mapgendata &dat )
                                           should_fill );
         for( point &wp : water_points ) {
             m->ter_set( wp, ter_t_swater_dp );
-            m->furn_set( wp, f_null );
+            m->furn_set( wp, furn_str_id::NULL_ID() );
         }
     };
 

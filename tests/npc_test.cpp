@@ -435,7 +435,6 @@ TEST_CASE( "npc-movement" )
     const ter_id t_wall_metal( "t_wall_metal" );
     const ter_id t_floor( "t_floor" );
     const furn_id f_rubble( "f_rubble" );
-    const furn_id f_null( "f_null" );
 
     g->place_player( tripoint( 60, 60, 0 ) );
 
@@ -469,7 +468,7 @@ TEST_CASE( "npc-movement" )
             if( type == 'R' ) {
                 here.furn_set( p, f_rubble );
             } else {
-                here.furn_set( p, f_null );
+                here.furn_set( p, furn_str_id::NULL_ID() );
             }
             // create vehicles
             if( type == 'V' || type == 'W' || type == 'M' ) {
