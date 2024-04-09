@@ -811,6 +811,14 @@ std::function<double( dialogue & )> pain_eval( char scope,
     };
 }
 
+std::function<double( dialogue & )> perceived_pain_eval( char scope,
+        std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
+{
+    return [beta = is_beta( scope )]( dialogue const & d ) {
+        return d.actor( beta )->perceived_pain_cur();
+    };
+}
+
 std::function<void( dialogue &, double )> pain_ass( char scope,
         std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
 {
@@ -1467,6 +1475,7 @@ std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "moon_phase", { "g", 0, moon_phase_eval } },
     { "num_input", { "g", 2, num_input_eval } },
     { "pain", { "un", 0, pain_eval } },
+    { "perceived_pain", { "un", 0, perceived_pain_eval } },
     { "school_level", { "un", 1, school_level_eval}},
     { "school_level_adjustment", { "un", 1, school_level_adjustment_eval } },
     { "skill", { "un", 1, skill_eval } },

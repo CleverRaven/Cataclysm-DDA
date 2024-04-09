@@ -563,6 +563,9 @@ class talker
         virtual int pain_cur() const {
             return 0;
         }
+        virtual int perceived_pain_cur() const {
+            return 0;
+        }
         virtual void attack_target( Creature &, bool, const matec_id &,
                                     bool, int ) {}
 

@@ -23,7 +23,7 @@
         { "not": { "u_has_effect": "effect_psi_too_much_pain_cant_channel" } },
         {
           "math": [
-            "u_pain()",
+            "u_perceived_pain()",
             ">=",
             "40 + ( 15 * ((u_has_trait('CONCENTRATION_GOOD')) + (u_has_trait('CONCENTRATION_BAD') ? -1 : 0) + (u_has_trait('INT_ALPHA')) + (u_has_trait('CONCENTRATION_DEBUG') ? 50 : 0) + (u_has_proficiency('prof_concentration_basic') ? 1 : 0) + (u_has_proficiency('prof_concentration_intermediate') ? 2 : 0) + (u_has_proficiency('prof_concentration_master') ? 3 : 0)))"
           ]
