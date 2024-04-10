@@ -40,7 +40,8 @@ status_t monster_oracle_t::items_available( const std::string_view ) const
             bool found = false;
             for( item &it : get_map().i_at( subject->pos() ) ) {
                 for( const material_type *mat_type : it.made_of_types() ) {
-                    if( !( std::find( no_absorb_material.begin(), no_absorb_material.end(), mat_type->id ) != no_absorb_material.end() ) ) {
+                    if( !( std::find( no_absorb_material.begin(), no_absorb_material.end(),
+                                      mat_type->id ) != no_absorb_material.end() ) ) {
                         //we found something that wasn't on the blacklist
                         found = true;
                     }
@@ -56,7 +57,8 @@ status_t monster_oracle_t::items_available( const std::string_view ) const
         if( !absorb_material.empty() && no_absorb_material.empty() ) {
             for( item &it : get_map().i_at( subject->pos() ) ) {
                 for( const material_type *mat_type : it.made_of_types() ) {
-                    if( std::find( absorb_material.begin(), absorb_material.end(), mat_type->id ) != absorb_material.end() ) {
+                    if( std::find( absorb_material.begin(), absorb_material.end(),
+                                   mat_type->id ) != absorb_material.end() ) {
                         return status_t::running;
                     }
                 }
@@ -66,9 +68,11 @@ status_t monster_oracle_t::items_available( const std::string_view ) const
         if( !absorb_material.empty() && !no_absorb_material.empty() ) {
             for( item &it : get_map().i_at( subject->pos() ) ) {
                 for( const material_type *mat_type : it.made_of_types() ) {
-                    if( !( std::find( no_absorb_material.begin(), no_absorb_material.end(), mat_type->id ) != no_absorb_material.end() ) ) {
+                    if( !( std::find( no_absorb_material.begin(), no_absorb_material.end(),
+                                      mat_type->id ) != no_absorb_material.end() ) ) {
                         //we found something that wasn't on the blacklist, so now check the whitelist
-                        if( std::find( absorb_material.begin(), absorb_material.end(), mat_type->id ) != absorb_material.end() ) {
+                        if( std::find( absorb_material.begin(), absorb_material.end(),
+                                       mat_type->id ) != absorb_material.end() ) {
                             return status_t::running;
                         }
                     }

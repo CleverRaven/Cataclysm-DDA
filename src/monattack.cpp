@@ -430,7 +430,7 @@ bool mattack::absorb_items( monster *z )
         // there is no whitelist or blacklist so allow anything.
         if( absorb_material.empty() && no_absorb_material.empty() ) {
             any_materials_match = true;
-        // there is a whitelist but no blacklist
+            // there is a whitelist but no blacklist
         } else if( !absorb_material.empty() && no_absorb_material.empty() ) {
             for( const material_type *mat_type : elem.made_of_types() ) {
                 if( std::find( absorb_material.begin(), absorb_material.end(),
@@ -438,11 +438,12 @@ bool mattack::absorb_items( monster *z )
                     any_materials_match = true;
                 }
             }
-        // there is no whitelist but there is a blacklist
+            // there is no whitelist but there is a blacklist
         } else if( absorb_material.empty() && !no_absorb_material.empty() ) {
             bool found = false;
             for( const material_type *mat_type : elem.made_of_types() ) {
-                if( std::find( no_absorb_material.begin(), no_absorb_material.end(), mat_type->id ) != no_absorb_material.end() ) {
+                if( std::find( no_absorb_material.begin(), no_absorb_material.end(),
+                               mat_type->id ) != no_absorb_material.end() ) {
                     found = true;
                 }
             }
@@ -450,10 +451,11 @@ bool mattack::absorb_items( monster *z )
             if( !found ) {
                 any_materials_match = true;
             }
-        // there is a whitelist and a blacklist
+            // there is a whitelist and a blacklist
         } else if( !absorb_material.empty() && !no_absorb_material.empty() ) {
             for( const material_type *mat_type : elem.made_of_types() ) {
-                if( !( std::find( no_absorb_material.begin(), no_absorb_material.end(), mat_type->id ) != no_absorb_material.end() ) ) {
+                if( !( std::find( no_absorb_material.begin(), no_absorb_material.end(),
+                                  mat_type->id ) != no_absorb_material.end() ) ) {
                     // the item wasn't found on the blacklist so check the whitelist
                     if( std::find( absorb_material.begin(), absorb_material.end(),
                                    mat_type->id ) != absorb_material.end() ) {
