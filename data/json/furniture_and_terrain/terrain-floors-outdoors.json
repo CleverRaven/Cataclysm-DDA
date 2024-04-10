@@ -646,5 +646,45 @@
     "flags": [ "FLAT", "ROAD", "TRANSPARENT" ],
     "symbol": ".",
     "color": "white"
+  },
+  {
+    "type": "terrain",
+    "id": "t_brick_floor_noroof",
+    "name": "brick floor",
+    "description": "A relatively flat area made of tightly placed bricks with no ceiling above it.",
+    "symbol": ".",
+    "color": "light_red",
+    "connect_groups": "BRICKFLOOR",
+    "connects_to": "BRICKFLOOR",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
+    "bash": { "ter_set": "t_null", "str_min": 75, "str_max": 400, "str_min_supported": 100 }
+  },
+  {
+    "type": "terrain",
+    "id": "t_marble_floor_noroof",
+    "name": "marble floor",
+    "description": "A smooth and flat flooring made of marble tiles.  Beautiful and expensive, with no ceiling above.",
+    "looks_like": "t_rock_floor",
+    "symbol": ".",
+    "color": "light_gray",
+    "connect_groups": "MARBLEFLOOR",
+    "connects_to": "MARBLEFLOOR",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
+    "bash": { "ter_set": "t_null", "str_min": 75, "str_max": 400, "str_min_supported": 100 }
+  },
+  {
+    "type": "terrain",
+    "id": "t_floor_warped_noroof",
+    "name": "warped stone floor",
+    "description": "A rough stone floor.  Its patterns constantly shift as if your mind can't quite understand what it's really seeing  The ceiling is missing.",
+    "symbol": ".",
+    "color": "magenta",
+    "connect_groups": "ROCKFLOOR",
+    "connects_to": "ROCKFLOOR",
+    "move_cost": 2,
+    "roof": "t_warped_roof",
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ]
   }
 ]
