@@ -175,6 +175,8 @@ static const flag_id json_flag_ALWAYS_AIMED( "ALWAYS_AIMED" );
 static const flag_id json_flag_NO_RELOAD( "NO_RELOAD" );
 
 static const furn_str_id furn_f_gunsafe_mj( "f_gunsafe_mj" );
+static const furn_str_id furn_f_gunsafe_ml( "f_gunsafe_ml" );
+static const furn_str_id furn_f_safe_c( "f_safe_c" );
 static const furn_str_id furn_f_safe_o( "f_safe_o" );
 
 static const gun_mode_id gun_mode_DEFAULT( "DEFAULT" );
@@ -2792,7 +2794,7 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
             here.ter_set( target, new_ter_type );
         }
         who.add_msg_if_player( m_good, open_message );
-    } else if( furn_type == f_gunsafe_ml && lock_roll > ( 3 * pick_roll ) ) {
+    } else if( furn_type == furn_f_gunsafe_ml && lock_roll > ( 3 * pick_roll ) ) {
         who.add_msg_if_player( m_bad, _( "Your clumsy attempt jams the lock!" ) );
         here.furn_set( target, furn_f_gunsafe_mj );
     } else if( lock_roll > ( 1.5 * pick_roll ) ) {
@@ -3415,7 +3417,7 @@ void safecracking_activity_actor::do_turn( player_activity &act, Character &who 
 void safecracking_activity_actor::finish( player_activity &act, Character &who )
 {
     who.add_msg_if_player( m_good, _( "With a satisfying click, the lock on the safe opens!" ) );
-    get_map().furn_set( safe, f_safe_c );
+    get_map().furn_set( safe, furn_f_safe_c );
     act.set_to_null();
 }
 
@@ -3796,7 +3798,7 @@ std::unique_ptr<activity_actor> craft_activity_actor::deserialize( JsonValue &js
 
 void workout_activity_actor::start( player_activity &act, Character &who )
 {
-    if( who.get_fatigue() > fatigue_levels::DEAD_TIRED ) {
+    if( who.get_sleepiness() > sleepiness_levels::DEAD_TIRED ) {
         who.add_msg_if_player( _( "You are too tired to exercise." ) );
         act_id = activity_id::NULL_ID();
         act.set_to_null();
@@ -3894,16 +3896,16 @@ void workout_activity_actor::start( player_activity &act, Character &who )
     act.moves_total = to_moves<int>( duration );
     act.moves_left = act.moves_total;
     if( who.male ) {
-        sfx::play_activity_sound( "plmove", "fatigue_m_med", sfx::get_heard_volume( location ) );
+        sfx::play_activity_sound( "plmove", "sleepiness_m_med", sfx::get_heard_volume( location ) );
     } else {
-        sfx::play_activity_sound( "plmove", "fatigue_f_med", sfx::get_heard_volume( location ) );
+        sfx::play_activity_sound( "plmove", "sleepiness_f_med", sfx::get_heard_volume( location ) );
     }
     who.add_msg_if_player( _( "You start your workout session." ) );
 }
 
 void workout_activity_actor::do_turn( player_activity &act, Character &who )
 {
-    if( who.get_fatigue() > fatigue_levels::DEAD_TIRED ) {
+    if( who.get_sleepiness() > sleepiness_levels::DEAD_TIRED ) {
         who.add_msg_if_player( _( "You are exhausted so you finish your workout early." ) );
         act.set_to_null();
         return;
@@ -3916,7 +3918,7 @@ void workout_activity_actor::do_turn( player_activity &act, Character &who )
     if( !rest_mode && who.get_stamina() > who.get_stamina_max() / 3 ) {
         who.mod_stamina( -25 - intensity_modifier );
         if( one_in( 180 / intensity_modifier ) ) {
-            who.mod_fatigue( 1 );
+            who.mod_sleepiness( 1 );
             who.mod_thirst( 1 );
         }
         if( calendar::once_every( 16_minutes / intensity_modifier ) ) {
@@ -4254,7 +4256,7 @@ void harvest_activity_actor::finish( player_activity &act, Character &who )
     }
 
     if( exam_furn ) {
-        here.furn_set( target, f_null );
+        here.furn_set( target, furn_str_id::NULL_ID() );
     } else {
         here.ter_set( target, here.get_ter_transforms_into( target ) );
     }
@@ -5476,7 +5478,7 @@ void tent_deconstruct_activity_actor::finish( player_activity &act, Character & 
 {
     map &here = get_map();
     for( const tripoint &pt : here.points_in_radius( target, radius ) ) {
-        here.furn_set( pt, f_null );
+        here.furn_set( pt, furn_str_id::NULL_ID() );
     }
     here.add_item_or_charges( target, item( tent, calendar::turn ) );
     act.set_to_null();
@@ -6494,7 +6496,7 @@ void clear_rubble_activity_actor::finish( player_activity &act, Character &who )
     map &here = get_map();
     const tripoint_bub_ms &pos = here.bub_from_abs( act.placement );
     who.add_msg_if_player( m_info, _( "You clear up the %s." ), here.furnname( pos ) );
-    here.furn_set( pos, f_null );
+    here.furn_set( pos, furn_str_id::NULL_ID() );
 
     act.set_to_null();
 

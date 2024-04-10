@@ -62,7 +62,7 @@
   {
     "id": "mon_yrax_sphenocorona",
     "type": "MONSTER",
-    "name": { "str": "Yrax sphenocorona" },
+    "name": { "str": "Yrax sphenocorona", "str_pl": "Yrax sphenocoronae" },
     "description": "Manipulator arrays seamlessly protract from asymmetric facets, their testing spaces undisturbed by the forces affixing it to the sky.",
     "default_faction": "yrax",
     "volume": "930 L",
@@ -181,7 +181,7 @@
   {
     "id": "mon_yrax_apeirogon",
     "type": "MONSTER",
-    "name": { "str": "Yrax apeirohedra" },
+    "name": { "str": "Yrax apeirohedron", "str_pl": "Yrax apeirohedra" },
     "description": "Its uncountable surfaces flow against each other in a dazzling sea of gold.",
     "default_faction": "yrax",
     "volume": "50 L",

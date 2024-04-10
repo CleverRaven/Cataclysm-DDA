@@ -256,7 +256,7 @@
     "qualities": [ [ "CUT", 1 ], [ "GRASS_CUT", 1 ], [ "BUTCHER", 2 ] ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE" ],
-    "weapon_category": [ "BSHORT_SWORDS" ],
+    "weapon_category": [ "SHORT_SWORDS" ],
     "melee_damage": { "bash": 3, "cut": 10 }
   },
   {

@@ -8,7 +8,7 @@
     "name": { "str_sp": "battery" },
     "symbol": "=",
     "color": "yellow",
-    "description": "Some free-floating battery charge.  It can be reloaded into rechargable battery cells, but can never be unloaded.",
+    "description": "Some free-floating battery charge.  It can be reloaded into rechargeable battery cells, but can never be unloaded.",
     "flags": [ "TRADER_AVOID", "ZERO_WEIGHT" ],
     "material": [ "battery" ],
     "effects": [ "COOKOFF" ],

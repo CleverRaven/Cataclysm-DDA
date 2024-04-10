@@ -3,7 +3,7 @@
     "id": "pyrokinetic_flashlight",
     "type": "TOOL",
     "name": { "str": "everglow matrix flashlight (off)", "str_pl": "everglow matrix flashlights (off)" },
-    "description": "A household flashlight enhanced with matrix technology.  It is slighly dimmer but will last significantly longer.",
+    "description": "A household flashlight enhanced with matrix technology.  It is slightly dimmer but will last significantly longer.",
     "material": [ "plastic", "aluminum", "nether_crystal" ],
     "symbol": ";",
     "color": "blue",

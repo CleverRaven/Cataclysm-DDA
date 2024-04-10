@@ -19,6 +19,7 @@ class query_popup_impl : public cataimgui::window
         short mouse_selected_option;
         size_t msg_width;
         query_popup *parent;
+        short last_keyboard_selected_option;
     public:
         short keyboard_selected_option;
 
@@ -27,6 +28,7 @@ class query_popup_impl : public cataimgui::window
             msg_width = 400;
             this->parent = parent;
             keyboard_selected_option = 0;
+            last_keyboard_selected_option = -1;
             mouse_selected_option = -1;
         }
 
@@ -38,7 +40,7 @@ class query_popup_impl : public cataimgui::window
     protected:
         void draw_controls() override;
         cataimgui::bounds get_bounds() override {
-            return { -1.f, parent->ontop ? 0 : -1.f, -1.f, -1.f };
+            return { -1.f, parent->ontop ? 0 : -1.f, -1.f, -1.f};
         }
 };
 
@@ -52,29 +54,29 @@ void query_popup_impl::draw_controls()
     }
 
     if( !parent->buttons.empty() ) {
-        float x_pos = msg_width;
-        for( const query_popup::button &btn : parent->buttons ) {
-            x_pos -= ( str_width_to_pixels( remove_color_tags( btn.text ).length() ) +
-                       ( ImGui::GetStyle().FramePadding.x * 2 ) + ( ImGui::GetStyle().ItemSpacing.x ) );
-        }
-        ImGui::SetCursorPosX( x_pos );
+        int current_line = 0;
         for( size_t ind = 0; ind < parent->buttons.size(); ++ind ) {
+            ImGui::SetCursorPosX( float( parent->buttons[ind].pos.x ) );
             ImGui::Button( remove_color_tags( parent->buttons[ind].text ).c_str() );
             if( ImGui::IsItemHovered() ) {
                 mouse_selected_option = ind;
             }
-            if( keyboard_selected_option == short( ind ) && ImGui::IsWindowFocused() ) {
+            if( keyboard_selected_option != last_keyboard_selected_option &&
+                keyboard_selected_option == short( ind ) && ImGui::IsWindowFocused() ) {
                 ImGui::SetKeyboardFocusHere( -1 );
             }
-            ImGui::SameLine();
+            if( current_line == parent->buttons[ind].pos.y ) {
+                ImGui::SameLine();
+            }
+            current_line = parent->buttons[ind].pos.y;
         }
-
     }
 }
 
 void query_popup_impl::on_resized()
 {
-    constexpr size_t horz_padding = 2;
+    size_t frame_padding = size_t( ImGui::GetStyle().FramePadding.x * 2 );
+    size_t item_padding = size_t( ImGui::GetStyle().ItemSpacing.x );
     // constexpr size_t vert_padding = 1;
     size_t max_line_width = str_width_to_pixels( FULL_SCREEN_WIDTH - 1 * 2 );
 
@@ -84,45 +86,50 @@ void query_popup_impl::on_resized()
     // Fold query buttons
     const auto &folded_query = query_popup::fold_query( parent->category, parent->pref_kbd_mode,
                                parent->options, max_line_width,
-                               horz_padding );
+                               frame_padding + item_padding );
 
     // Calculate size of message part
     msg_width = 0;
     for( const auto &line : parent->folded_msg ) {
-        msg_width = std::max( msg_width, get_text_width( line ) ); //utf8_width( line, true ) );
+        msg_width = std::max( msg_width,
+                              get_text_width( remove_color_tags( line ) ) ); //utf8_width( line, true ) );
     }
-
+    auto btn_padding = [&frame_padding, &item_padding]( size_t num_buttons ) {
+        return ( frame_padding * ( num_buttons - 1 ) ) + ( item_padding * ( num_buttons - 1 ) );
+    };
     // Calculate width with query buttons
     for( const auto &line : folded_query ) {
         if( !line.empty() ) {
             int button_width = 0;
             for( const auto &opt : line ) {
-                button_width += get_text_width( opt );
+                button_width += get_text_width( remove_color_tags( opt ) );
             }
-            msg_width = std::max( msg_width, button_width +
-                                  horz_padding * ( line.size() - 1 ) );
+            // extra item padding needed here to account for space left at the beginning of the window by ImGui
+            msg_width = std::max( msg_width, button_width + btn_padding( line.size() ) + item_padding );
         }
     }
-    msg_width = std::min( msg_width, max_line_width ) * 1.1; // add some margin
+    msg_width = std::min( msg_width, max_line_width );
 
     // Calculate height with query buttons & button positions
     parent->buttons.clear();
+    size_t line_idx = 0;
     if( !folded_query.empty() ) {
         for( const auto &line : folded_query ) {
             if( !line.empty() ) {
                 int button_width = 0;
                 for( const auto &opt : line ) {
-                    button_width += get_text_width( opt );
+                    button_width += get_text_width( remove_color_tags( opt ) );
                 }
                 // Right align.
                 // TODO: multi-line buttons
-                size_t button_x = std::max( size_t( 0 ), size_t( msg_width - button_width -
-                                            horz_padding * ( line.size() - 1 ) ) );
+                size_t button_x = std::max( size_t( 0 ),
+                                            size_t( msg_width - button_width - btn_padding( line.size() ) ) );
                 for( const auto &opt : line ) {
-                    parent->buttons.emplace_back( opt, point( button_x, 0 ) );
-                    button_x += get_text_width( opt ) + horz_padding;
+                    parent->buttons.emplace_back( opt, point( button_x, line_idx ) );
+                    button_x += get_text_width( remove_color_tags( opt ) ) + frame_padding + item_padding;
                 }
             }
+            line_idx++;
         }
     }
 }

@@ -2102,23 +2102,46 @@
   },
   {
     "type": "MONSTER",
-    "id": "mon_hadrosaurus",
-    "name": { "str_sp": "hadrosaurus" },
+    "id": "mon_iguanodon",
+    "name": { "str": "iguanodon" },
     "copy-from": "mon_camptosaurus",
     "volume": "1000 L",
     "weight": "1000 kg",
     "default_faction": "hadrosaur",
+    "//": "When large weights and volumes are fixed this should be 4500 L and 4500 kg",
+    "bodytype": "bear",
+    "stomach_size": 90000,
+    "speed": 130,
+    "attack_cost": 130,
+    "melee_dice": 2,
+    "melee_dice_sides": 6,
+    "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
+    "hp": 320,
+    "zombify_into": "mon_ziguanodon",
+    "fungalize_into": "mon_hadrosaurus_mutant1",
+    "description": "A bulky, beaked dinosaur with four strong legs.  Spiked thumbs look like they could do some harm.",
+    "special_attacks": [
+      { "type": "leap", "cooldown": 20, "max_range": 2, "allow_no_target": true },
+      { "id": "stomp_DinoMod", "cooldown": 20, "damage_max_instance": [ { "damage_type": "bash", "amount": 8 } ] },
+      [ "EAT_CROP", 40 ],
+      [ "BROWSE", 60 ]
+    ],
+    "reproduction": { "baby_egg": "egg_iguanodon", "baby_count": 30, "baby_timer": 60 },
+    "armor": { "bash": 4, "cut": 4, "bullet": 3 }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_hadrosaurus",
+    "name": { "str_sp": "hadrosaurus" },
+    "copy-from": "mon_iguanodon",
     "//": "When large weights and volumes are fixed this should be 3000 L and 3000 kg",
     "bodytype": "bear",
     "stomach_size": 60000,
     "speed": 80,
     "attack_cost": 80,
-    "melee_dice": 2,
-    "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
     "hp": 250,
     "zombify_into": "mon_zadrosaurus",
-    "fungalize_into": "mon_hadrosaurus_mutant1",
     "description": "A bulky, beaked dinosaur with hooved front legs and strong clawed back legs.",
     "special_attacks": [
       { "type": "leap", "cooldown": 10, "max_range": 2, "allow_no_target": true },
@@ -2126,8 +2149,7 @@
       [ "EAT_CROP", 40 ],
       [ "BROWSE", 60 ]
     ],
-    "reproduction": { "baby_egg": "egg_hadrosaurus", "baby_count": 30, "baby_timer": 60 },
-    "armor": { "bash": 4, "cut": 4, "bullet": 3 }
+    "reproduction": { "baby_egg": "egg_hadrosaurus", "baby_count": 30, "baby_timer": 60 }
   },
   {
     "type": "MONSTER",

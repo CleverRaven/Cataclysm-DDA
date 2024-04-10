@@ -881,7 +881,7 @@
     },
     "responses": [
       {
-        "text": "[INT or PER 7] How come you speak English, or uh, 'anglic' like that?",
+        "text": "[INT or PER 7] How come you speak English, or uh, 'Anglic' like that?",
         "condition": { "or": [ { "u_has_intelligence": 7 }, { "u_has_perception": 7 } ] },
         "topic": "TALK_EXODII_MERCHANT_Dialect_Anglic"
       },

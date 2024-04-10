@@ -474,7 +474,7 @@
     "looks_like": "hk_mp5",
     "type": "GUN",
     "name": { "str": "MP 40 submachine gun" },
-    "description": "An antique German-issued submachine gun from the Second World War, likely having entered the United States as a personal holdover by a veteran.  Chambered in 9x19mm and utilising proprietary box magazines, the firearm has an integrated under folding wire stock.",
+    "description": "An antique German-issued submachine gun from the Second World War, likely having entered the United States as a personal holdover by a veteran.  Chambered in 9x19mm and utilizing proprietary box magazines, the firearm has an integrated under folding wire stock.",
     "variant_type": "gun",
     "variants": [
       {

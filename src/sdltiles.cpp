@@ -70,6 +70,7 @@
 #include "sdl_gamepad.h"
 #include "sdlsound.h"
 #include "string_formatter.h"
+#include "uistate.h"
 #include "ui_manager.h"
 #include "wcwidth.h"
 #include "cata_imgui.h"
@@ -2780,7 +2781,7 @@ static void CheckMessages()
                 }
 
                 // Check if we're dead tired - if so, add sleep
-                if( player_character.get_fatigue() > fatigue_levels::DEAD_TIRED ) {
+                if( player_character.get_sleepiness() > sleepiness_levels::DEAD_TIRED ) {
                     actions.insert( ACTION_SLEEP );
                 }
 
@@ -3788,13 +3789,11 @@ input_event input_manager::get_input_event( const keyboard_mode preferred_keyboa
     // we can skip screen update if `needupdate` is false to improve performance during mouse
     // move events.
     wnoutrefresh( catacurses::stdscr );
-    // This statement is required when the screen is made very small
-    if( ui_adaptor::has_imgui() ) {
-        needupdate = true;
-    }
 
     if( needupdate ) {
         refresh_display();
+    } else if( ui_adaptor::has_imgui() ) {
+        try_sdl_update();
     }
 
     if( inputdelay < 0 ) {

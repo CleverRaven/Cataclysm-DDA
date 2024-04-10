@@ -90,7 +90,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Maria_Story",
-    "dynamic_line": "I arrived a bit later than everyone else, I was at my studio when <the_cataclysm> came.  Had to dodge a big horde of <zombies> on my way out of town, totaled ny car, and hiked the rest of the way.",
+    "dynamic_line": "I arrived a bit later than everyone else, I was at my studio when <the_cataclysm> came.  Had to dodge a big horde of <zombies> on my way out of town, totaled my car, and hiked the rest of the way.",
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Maria_2" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }

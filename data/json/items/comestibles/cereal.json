@@ -36,7 +36,7 @@
     "fun": 11,
     "addiction_potential": 5,
     "addiction_type": "caffeine",
-    "fatigue_mod": 25,
+    "sleepiness_mod": 25,
     "stim": 10,
     "copy-from": "cereal_tpl",
     "volume": "41 ml"

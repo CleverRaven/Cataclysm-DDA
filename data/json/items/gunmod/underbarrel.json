@@ -565,7 +565,7 @@
     "id": "m26_mass_mod",
     "copy-from": "m26_mass",
     "type": "GUNMOD",
-    "name": { "str": "modified M26-MASS", "str_pl": "M26-MASSes" },
+    "name": { "str": "modified M26-MASS", "str_pl": "modified M26-MASSes" },
     "description": "The Modular Accessory Shotgun System is an underbarrel bolt-action shotgun that was inspired by the \"Masterkey\" and fixed most of its predecessor's problems.  This one was modified and customized to mount on pretty much any weapon other than pistols and pump-action guns.",
     "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ]
   },
@@ -686,7 +686,7 @@
   {
     "id": "arisaka_monopod",
     "type": "GUNMOD",
-    "name": { "str": "wire monopod, collapsed" },
+    "name": { "str": "wire monopod, collapsed", "str_pl": "wire monopods, collapsed" },
     "description": "A folding wire monopod designed to attach to a Type 99 Arisaka's front barrel band, intended to give soldiers a stabler platform from which to shoot while prone.  Less effective than an actual bipod and ungainly long, it was largely cut from active issue relatively soon into the Second World War.  This one is currently stowed in the folded position and cannot aid you while firing.",
     "weight": "120 g",
     "volume": "250 ml",
@@ -714,7 +714,7 @@
   {
     "id": "arisaka_monopod_deployed",
     "type": "GUNMOD",
-    "name": { "str": "wire monopod, deployed" },
+    "name": { "str": "wire monopod, deployed", "str_pl": "wire monopods, deployed" },
     "description": "A folding wire monopod designed to attach to a Type 99 Arisaka's front barrel band, intended to give soldiers a stabler platform from which to shoot while prone.  Less effective than an actual bipod and ungainly long, it was largely cut from active issue relatively soon into the Second World War.  This one is currently locked in the unfolded position and will provide a measure of stability while firing.",
     "copy-from": "arisaka_monopod",
     "integral_volume": "250 ml",

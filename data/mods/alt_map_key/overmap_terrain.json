@@ -1638,7 +1638,7 @@
     "type": "overmap_terrain",
     "id": "fema_entrance",
     "copy-from": "fema_entrance",
-    "name": "fema camp",
+    "name": "FEMA camp",
     "sym": "F",
     "color": "i_red"
   },
@@ -1646,7 +1646,7 @@
     "type": "overmap_terrain",
     "id": "fema",
     "copy-from": "fema",
-    "name": "fema camp",
+    "name": "FEMA camp",
     "sym": "f",
     "color": "i_red"
   },

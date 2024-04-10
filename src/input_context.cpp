@@ -35,7 +35,7 @@
 #include "imgui/imgui.h"
 
 enum class kb_menu_status {
-    remove, reset, add, add_global, execute, show
+    remove, reset, add, add_global, execute, show, filter
 };
 
 class keybindings_ui : public cataimgui::window
@@ -48,7 +48,6 @@ class keybindings_ui : public cataimgui::window
         const nc_color unbound_key = c_light_red;
         const nc_color h_unbound_key = h_light_red;
         input_context *ctxt;
-        char filter_text_impl[255]; // NOLINT(modernize-avoid-c-arrays)
     public:
         // current status: adding/removing/reseting/executing/showing keybindings
         kb_menu_status status = kb_menu_status::show, last_status = kb_menu_status::execute;
@@ -61,7 +60,7 @@ class keybindings_ui : public cataimgui::window
         std::string hotkeys;
         int highlight_row_index = -1;
         size_t scroll_offset = 0;
-        std::string filter_text;
+        //std::string filter_text;
         keybindings_ui( bool permit_execute_action, input_context *parent );
         void init();
 
@@ -319,6 +318,44 @@ std::string input_context::get_desc( const std::string &action_descriptor,
         }
     }
     return rval;
+}
+
+
+std::string input_context::get_button_text( const std::string &action_descriptor ) const
+{
+    std::string action_name = get_action_name( action_descriptor );
+    if( action_name.empty() ) {
+        action_name = action_descriptor;
+    }
+    return get_button_text( action_descriptor, action_name );
+}
+
+std::string input_context::get_button_text( const std::string &action_descriptor,
+        const std::string &action_text ) const
+{
+    if( action_descriptor == "ANY_INPUT" ) {
+        return ""; // what sort of crazy button would this be?
+    }
+
+    bool is_local = false;
+    const std::vector<input_event> &events = inp_mngr.get_input_for_action( action_descriptor,
+            category, &is_local );
+    if( events.empty() ) {
+        return action_text;
+    }
+
+    std::vector<input_event> inputs_to_show;
+    for( const input_event &event : events ) {
+        if( is_event_type_enabled( event.type ) ) {
+            inputs_to_show.push_back( event );
+        }
+    }
+
+    if( inputs_to_show.empty() ) {
+        return action_text;
+    } else {
+        return string_format( "[%s] %s", inputs_to_show[0].long_description(), action_text );
+    }
 }
 
 std::string input_context::get_desc(
@@ -608,7 +645,6 @@ static const std::map<fallback_action, int> fallback_keys = {
 keybindings_ui::keybindings_ui( bool permit_execute_action,
                                 input_context *parent ) : cataimgui::window( "KEYBINDINGS", ImGuiWindowFlags_NoNav )
 {
-    filter_text_impl[0] = '\0';
     this->ctxt = parent;
 
     legend.push_back( colorize( _( "Unbound keys" ), unbound_key ) );
@@ -655,23 +691,24 @@ void keybindings_ui::draw_controls()
         ImGui::SetCursorPosX( str_width_to_pixels( width ) - ( get_text_width(
                                   button_text_no_color ) +
                               ( ImGui::GetStyle().FramePadding.x * 2 ) + ImGui::GetStyle().ItemSpacing.x ) );
+        ImGui::BeginDisabled( status == kb_menu_status::filter );
         action_button( buttons[legend_idx].first, button_text_no_color );
+        ImGui::EndDisabled();
     }
     for( ; legend_idx < legend.size(); legend_idx++ ) {
         draw_colored_text( legend[legend_idx], c_white );
     }
-    if( last_status != status && status == kb_menu_status::show ) {
-        ImGui::SetKeyboardFocusHere( 0 );
+    draw_filter( *ctxt, status == kb_menu_status::filter );
+    if( last_status != status && status == kb_menu_status::filter ) {
+        ImGui::SetKeyboardFocusHere( -1 );
     }
-    strncpy( filter_text_impl, filter_text.c_str(), filter_text.length() );
-    ImGui::InputText( "##NOLABEL", filter_text_impl, std::extent_v< decltype( filter_text_impl )>,
-                      status == kb_menu_status::show ? ImGuiInputTextFlags_None : ImGuiInputTextFlags_ReadOnly );
-    filter_text.assign( filter_text_impl );
     ImGui::Separator();
+
+    if( last_status != status && status == kb_menu_status::show ) {
+        ImGui::SetNextWindowFocus();
+    }
     if( ImGui::BeginTable( "KB_KEYS", 2, ImGuiTableFlags_ScrollY ) ) {
-        if( last_status != status && status != kb_menu_status::show ) {
-            ImGui::SetKeyboardFocusHere( 0 );
-        }
+
         ImGui::TableSetupColumn( "Action Name",
                                  ImGuiTableColumnFlags_WidthStretch | ImGuiTableColumnFlags_NoSort );
         float keys_col_width = str_width_to_pixels( width ) - str_width_to_pixels( TERMX >= 100 ? 62 : 52 );
@@ -1299,10 +1336,13 @@ action_id input_context::display_menu_imgui( const bool permit_execute_action )
     ctxt.register_action( "ADD_LOCAL" );
     ctxt.register_action( "ADD_GLOBAL" );
     ctxt.register_action( "TEXT.CLEAR" );
+    ctxt.register_action( "TEXT.CONFIRM" );
     ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "END" );
     ctxt.register_action( "HOME" );
+    ctxt.register_action( "FILTER" );
+    ctxt.register_action( "RESET_FILTER" );
     ctxt.register_action( "TEXT.INPUT_FROM_FILE" );
     if( permit_execute_action ) {
         ctxt.register_action( "EXECUTE" );
@@ -1357,13 +1397,19 @@ action_id input_context::display_menu_imgui( const bool permit_execute_action )
         }
 
         kb_menu.filtered_registered_actions = filter_strings_by_phrase( org_registered_actions,
-                                              kb_menu.filter_text );
+                                              kb_menu.get_filter() );
 
         // In addition to the modifiable hotkeys, we also check for hardcoded
         // keys, e.g. '+', '-', '=', '.' in order to prevent the user from
         // entering an unrecoverable state.
-        if( action == "ADD_LOCAL"
-            || raw_input_char == fallback_keys.at( fallback_action::add_local ) ) {
+        if( kb_menu.status == kb_menu_status::filter ) {
+            if( action == "QUIT" ) {
+                kb_menu.clear_filter( );
+                kb_menu.status = kb_menu_status::show;
+            } else if( action == "TEXT.CONFIRM" ) {
+                kb_menu.status = kb_menu_status::show;
+            }
+        } else if( action == "ADD_LOCAL" ) {
             if( !kb_menu.filtered_registered_actions.empty() ) {
                 kb_menu.status = kb_menu_status::add;
             }
@@ -1391,19 +1437,21 @@ action_id input_context::display_menu_imgui( const bool permit_execute_action )
         } else if( action == "PAGE_UP" || action == "PAGE_DOWN" || action == "HOME" || action == "END" ) {
             continue; // do nothing - on tiles version for some reason this counts as pressing various alphabet keys
         } else if( action == "TEXT.CLEAR" ) {
-            kb_menu.filter_text.assign( "" );
+            kb_menu.clear_filter();
             kb_menu.filtered_registered_actions = filter_strings_by_phrase( org_registered_actions,
                                                   "" );
         } else if( !kb_menu.get_is_open() ) {
             break;
+        } else if( action == "FILTER" ) {
+            kb_menu.status = kb_menu_status::filter;
+        } else if( action == "RESET_FILTER" ) {
+            kb_menu.clear_filter();
         } else if( action == "QUIT" ) {
             if( kb_menu.status != kb_menu_status::show ) {
                 kb_menu.status = kb_menu_status::show;
             } else {
                 break;
             }
-        } else if( action == "TEXT.INPUT_FROM_FILE" ) {
-            kb_menu.filter_text += get_input_string_from_file();
         } else if( action == "HELP_KEYBINDINGS" ) {
             // update available hotkeys in case they've changed
             kb_menu.hotkeys = ctxt.get_available_single_char_hotkeys( display_help_hotkeys );

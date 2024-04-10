@@ -772,7 +772,7 @@
     "type": "TOOL",
     "name": { "str": "soda can stove kit" },
     "//": "Should be 20 but currently recipes do not utilize this value",
-    "description": "An ultra-light alcohol-burning stove with a simmer ring, crafted by hand from a couple of aluminum soda cans.  It comes with a 500 ml plastic bottle to hold concentrated alcohol fuel.",
+    "description": "An ultra-light alcohol-burning stove with a simmer ring, crafted by hand from a couple of aluminum soda cans.  It comes with a 500 mL plastic bottle to hold concentrated alcohol fuel.",
     "weight": "45 g",
     "volume": "750 ml",
     "price": 250,

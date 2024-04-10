@@ -76,6 +76,9 @@ static const construction_str_id construction_constr_veh( "constr_veh" );
 static const flag_id json_flag_FILTHY( "FILTHY" );
 static const flag_id json_flag_PIT( "PIT" );
 
+static const furn_str_id furn_f_coffin_c( "f_coffin_c" );
+static const furn_str_id furn_f_coffin_o( "f_coffin_o" );
+
 static const item_group_id Item_spawn_data_allclothes( "allclothes" );
 static const item_group_id Item_spawn_data_grave( "grave" );
 static const item_group_id Item_spawn_data_jewelry_front( "jewelry_front" );
@@ -928,7 +931,7 @@ bool player_can_see_to_build( Character &you, const construction_group_str_id &g
 bool can_construct_furn_ter( const construction &con, furn_id const &f, ter_id const &t )
 {
     return std::all_of( con.pre_flags.begin(), con.pre_flags.end(), [&f, &t]( auto const & flag ) {
-        const bool use_ter = flag.second || f == f_null;
+        const bool use_ter = flag.second || f == furn_str_id::NULL_ID();
         return ( use_ter || f->has_flag( flag.first ) ) &&
                ( !use_ter || t->has_flag( flag.first ) );
     } );
@@ -1480,7 +1483,7 @@ void construct::done_deconstruct( const tripoint_bub_ms &p, Character &player_ch
             return;
         }
         if( f.deconstruct.furn_set.str().empty() ) {
-            here.furn_set( p, f_null );
+            here.furn_set( p, furn_str_id::NULL_ID() );
         } else {
             here.furn_set( p, f.deconstruct.furn_set );
         }
@@ -1561,7 +1564,7 @@ void construct::done_digormine_stair( const tripoint_bub_ms &p, bool dig,
     int mine_penalty = dig ? 0 : 10;
     player_character.mod_stored_kcal( -43 - 9 * mine_penalty - 9 * no_mut_penalty );
     player_character.mod_thirst( 5 + mine_penalty + no_mut_penalty );
-    player_character.mod_fatigue( 10 + mine_penalty + no_mut_penalty );
+    player_character.mod_sleepiness( 10 + mine_penalty + no_mut_penalty );
 
     if( tmpmap.ter( local_tmp ) == ter_t_lava ) {
         if( !query_yn( _( "The rock feels much warmer than normal.  Proceed?" ) ) ) {
@@ -1602,12 +1605,12 @@ void construct::done_dig_grave( const tripoint_bub_ms &p, Character &who )
 
         // TODO: fix point types
         g->place_critter_at( random_entry( monids ), p.raw() );
-        here.furn_set( p, f_coffin_o );
+        here.furn_set( p, furn_f_coffin_o );
         who.add_msg_if_player( m_warning, _( "Something crawls out of the coffin!" ) );
     } else {
         // TODO: fix point types
         here.spawn_item( p.raw(), itype_bone_human, rng( 5, 15 ) );
-        here.furn_set( p, f_coffin_c );
+        here.furn_set( p, furn_f_coffin_c );
     }
     std::vector<item *> dropped =
         here.place_items( Item_spawn_data_allclothes, 50, p, p, false, calendar::turn );
@@ -1625,7 +1628,7 @@ void construct::done_dig_grave( const tripoint_bub_ms &p, Character &who )
 
 void construct::done_dig_grave_nospawn( const tripoint_bub_ms &p, Character &who )
 {
-    get_map().furn_set( p, f_coffin_c );
+    get_map().furn_set( p, furn_f_coffin_c );
     get_event_bus().send<event_type::exhumes_grave>( who.getID() );
 }
 
@@ -1669,7 +1672,7 @@ void construct::done_mine_upstair( const tripoint_bub_ms &p, Character &player_c
     int no_mut_penalty = dig_muts ? 15 : 0;
     player_character.mod_stored_kcal( -174 - 9 * no_mut_penalty );
     player_character.mod_thirst( 20 + no_mut_penalty );
-    player_character.mod_fatigue( 25 + no_mut_penalty );
+    player_character.mod_sleepiness( 25 + no_mut_penalty );
 
     add_msg( _( "You drill out a passage, heading for the surface." ) );
     here.ter_set( p.xy(), ter_t_stairs_up ); // There's the bottom half
