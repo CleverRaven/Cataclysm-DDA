@@ -27,6 +27,8 @@
 static const construction_str_id construction_constr_ground_cable( "constr_ground_cable" );
 static const construction_str_id construction_constr_rack_coat( "constr_rack_coat" );
 
+static const furn_str_id furn_test_f_migration_new_id( "test_f_migration_new_id" );
+
 static const ter_str_id ter_t_dirt( "t_dirt" );
 static const ter_str_id ter_t_floor( "t_floor" );
 static const ter_str_id ter_t_floor_blue( "t_floor_blue" );
@@ -34,8 +36,6 @@ static const ter_str_id ter_t_floor_green( "t_floor_green" );
 static const ter_str_id ter_t_floor_red( "t_floor_red" );
 static const ter_str_id ter_t_rock_floor( "t_rock_floor" );
 static const ter_str_id ter_test_t_migration_new_id( "test_t_migration_new_id" );
-
-static const furn_str_id furn_test_f_migration_new_id( "test_f_migration_new_id" );
 
 // NOLINTNEXTLINE(cata-static-declarations)
 extern const int savegame_version;
@@ -783,7 +783,7 @@ static std::string submap_pre_migration_ss(
     "  \"coordinates\": [ 0, 0, 0 ],\n"
     "  \"turn_last_touched\": 0,\n"
     "  \"temperature\": 0,\n"
-    "  \"terrain\": [ [ \"test_t_migration_old_id\", 1, \"t_dirt\", 10, \"test_t_migration_old_id\", 1, \"t_dirt\", 132 ] ],\n"
+    "  \"terrain\": [ [ \"test_t_migration_old_id\", 1 ], [ \"t_dirt\", 10 ], [ \"test_t_migration_old_id\", 1 ], [ \"t_dirt\", 132 ] ],\n"
     "  \"radiation\": [ 0, 144 ],\n"
     "  \"furniture\": [\n"
     "    [ 0, 0, \"f_bookcase\" ],\n"
