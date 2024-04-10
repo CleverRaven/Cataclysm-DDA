@@ -21,7 +21,7 @@
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": { "str": "MarSec 14-round magazine" },
-    "description": "A magazine for the MarsSec handguns.  It holds 14 rounds.",
+    "description": "A magazine for the MarSec handguns.  It holds 14 rounds.",
     "weight": "70 g",
     "volume": "103 ml",
     "longest_side": "114 mm",

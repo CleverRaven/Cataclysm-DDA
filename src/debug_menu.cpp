@@ -1488,26 +1488,26 @@ static void character_edit_needs_menu( Character &you )
     data << string_format( _( "Weariness: %d  %s" ), you.weariness(), colorize( weariness_pair.first,
                            weariness_pair.second ) ) << std::endl;
     data << std::endl;
-    data << _( "Stored kCal: " ) << you.get_stored_kcal() << std::endl;
-    data << _( "Total kCal: " ) << you.get_stored_kcal() + you.stomach.get_calories() +
+    data << _( "Stored kcal: " ) << you.get_stored_kcal() << std::endl;
+    data << _( "Total kcal: " ) << you.get_stored_kcal() + you.stomach.get_calories() +
          you.guts.get_calories() << std::endl;
     data << std::endl;
     data << _( "Stomach contents" ) << std::endl;
     data << _( "  Total volume: " ) << vol_to_string( you.stomach.contains() ) << std::endl;
     data << _( "  Water volume: " ) << vol_to_string( you.stomach.get_water() ) << std::endl;
-    data << string_format( _( "  kCal: %d" ), you.stomach.get_calories() ) << std::endl;
+    data << string_format( _( "  kcal: %d" ), you.stomach.get_calories() ) << std::endl;
     data << std::endl;
     data << _( "Gut contents" ) << std::endl;
     data << _( "  Total volume: " ) << vol_to_string( you.guts.contains() ) << std::endl;
     data << _( "  Water volume: " ) << vol_to_string( you.guts.get_water() ) << std::endl;
-    data << string_format( _( "  kCal: %d" ), you.guts.get_calories() ) << std::endl;
+    data << string_format( _( "  kcal: %d" ), you.guts.get_calories() ) << std::endl;
 
     uilist smenu;
     smenu.text = data.str();
     smenu.addentry( 0, true, 'h', "%s: %d", _( "Hunger" ), you.get_hunger() );
-    smenu.addentry( 1, true, 's', "%s: %d", _( "Stored kCal" ), you.get_stored_kcal() );
-    smenu.addentry( 2, true, 'S', "%s: %d", _( "Stomach kCal" ), you.stomach.get_calories() );
-    smenu.addentry( 3, true, 'G', "%s: %d", _( "Gut kCal" ), you.guts.get_calories() );
+    smenu.addentry( 1, true, 's', "%s: %d", _( "Stored kcal" ), you.get_stored_kcal() );
+    smenu.addentry( 2, true, 'S', "%s: %d", _( "Stomach kcal" ), you.stomach.get_calories() );
+    smenu.addentry( 3, true, 'G', "%s: %d", _( "Gut kcal" ), you.guts.get_calories() );
     smenu.addentry( 4, true, 't', "%s: %d", _( "Thirst" ), you.get_thirst() );
     smenu.addentry( 5, true, 'f', "%s: %d", _( "Sleepiness" ), you.get_sleepiness() );
     smenu.addentry( 6, true, 'd', "%s: %d", _( "Sleep Deprivation" ), you.get_sleep_deprivation() );
@@ -1531,19 +1531,19 @@ static void character_edit_needs_menu( Character &you )
             break;
 
         case 1:
-            if( query_int( value, _( "Set stored kCal to?  Currently: %d" ), you.get_stored_kcal() ) ) {
+            if( query_int( value, _( "Set stored kcal to?  Currently: %d" ), you.get_stored_kcal() ) ) {
                 you.set_stored_kcal( value );
             }
             break;
 
         case 2:
-            if( query_int( value, _( "Set stomach kCal to?  Currently: %d" ), you.stomach.get_calories() ) ) {
+            if( query_int( value, _( "Set stomach kcal to?  Currently: %d" ), you.stomach.get_calories() ) ) {
                 you.stomach.mod_calories( value - you.stomach.get_calories() );
             }
             break;
 
         case 3:
-            if( query_int( value, _( "Set gut kCal to?  Currently: %d" ), you.guts.get_calories() ) ) {
+            if( query_int( value, _( "Set gut kcal to?  Currently: %d" ), you.guts.get_calories() ) ) {
                 you.guts.mod_calories( value - you.guts.get_calories() );
             }
             break;
@@ -1876,7 +1876,7 @@ static void character_edit_menu()
         if( !np->get_unique_id().empty() ) {
             data << string_format( _( "Unique Id: %s" ), np->get_unique_id() ) << std::endl;
         }
-        data << string_format( _( "Faction: %s (api v%d)" ), np->get_faction()->id.str(),
+        data << string_format( _( "Faction: %s (API v%d)" ), np->get_faction()->id.str(),
                                np->get_faction_ver() ) << "; "
              << string_format( _( "Attitude: %s" ), npc_attitude_name( np->get_attitude() ) ) << std::endl;
         if( np->has_destination() ) {
@@ -2659,12 +2659,12 @@ static void debug_menu_game_state()
 
     add_msg( m_info, _( "(you: %d:%d)" ), player_character.posx(), player_character.posy() );
     std::string stom =
-        _( "Stomach Contents: %d ml / %d ml kCal: %d, Water: %d ml" );
+        _( "Stomach Contents: %d mL / %d mL kcal: %d, Water: %d mL" );
     add_msg( m_info, stom.c_str(), units::to_milliliter( player_character.stomach.contains() ),
              units::to_milliliter( player_character.stomach.capacity( player_character ) ),
              player_character.stomach.get_calories(),
              units::to_milliliter( player_character.stomach.get_water() ), player_character.get_hunger() );
-    stom = _( "Guts Contents: %d ml / %d ml kCal: %d, Water: %d ml\nHunger: %d, Thirst: %d, kCal: %d / %d" );
+    stom = _( "Guts Contents: %d mL / %d mL kcal: %d, Water: %d mL\nHunger: %d, Thirst: %d, kcal: %d / %d" );
     add_msg( m_info, stom.c_str(), units::to_milliliter( player_character.guts.contains() ),
              units::to_milliliter( player_character.guts.capacity( player_character ) ),
              player_character.guts.get_calories(), units::to_milliliter( player_character.guts.get_water() ),
@@ -2932,7 +2932,7 @@ void debug()
 
         case debug_menu_index::SPAWN_OM_NPC: {
             int num_of_npcs = 1;
-            if( query_int( num_of_npcs, _( "How many npcs to try spawning?" ), num_of_npcs ) ) {
+            if( query_int( num_of_npcs, _( "How many NPCs to try spawning?" ), num_of_npcs ) ) {
                 for( int i = 0; i < num_of_npcs; i++ ) {
                     g->perhaps_add_random_npc( true );
                 }
@@ -3184,7 +3184,7 @@ void debug()
             if( smenu.ret >= 0 && static_cast<std::size_t>( smenu.ret ) <= parts.size() ) {
                 part = parts[smenu.ret];
             }
-            if( query_int( dbg_damage, _( "Damage self for how much?  hp: %s" ), part.id().c_str() ) ) {
+            if( query_int( dbg_damage, _( "Damage self for how much?  HP: %s" ), part.id().c_str() ) ) {
                 player_character.apply_damage( nullptr, part, dbg_damage );
                 if( player_character.is_dead_state() ) {
                     player_character.die( nullptr );

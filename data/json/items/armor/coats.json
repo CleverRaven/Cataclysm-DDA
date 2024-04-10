@@ -792,7 +792,7 @@
   {
     "id": "hakama_gi",
     "type": "ARMOR",
-    "name": { "str": "hakama" },
+    "name": { "str_sp": "hakama" },
     "description": "Plain black hakama for use in kendo and other martial arts.",
     "weight": "350 g",
     "volume": "1 L",
@@ -818,7 +818,7 @@
   {
     "id": "hakama",
     "type": "ARMOR",
-    "name": { "str": "hakama" },
+    "name": { "str_sp": "hakama" },
     "description": "A flowing, pleated garment which can be worn over a kimono.",
     "weight": "500 g",
     "volume": "1500 ml",
@@ -1020,7 +1020,7 @@
       {
         "id": "m65_ocean",
         "name": { "str": "ocean-camouflage combat jacket" },
-        "description": "This jacket's exterior shell is dyed a mix of blue and grey hues, with extra patches and disruptive striations, flipping between black and dark grey, covering the garment from collar to hem.  Crome buttons, zips, and other fixtures glint from their home upon the coat.",
+        "description": "This jacket's exterior shell is dyed a mix of blue and grey hues, with extra patches and disruptive striations, flipping between black and dark grey, covering the garment from collar to hem.  Chrome buttons, zips, and other fixtures glint from their home upon the coat.",
         "color": "blue",
         "weight": 10,
         "append": true
@@ -1046,7 +1046,7 @@
         "id": "m65_swedish",
         "//": "Intended to be Swedish M90 camo. This is a civilian variant, and, yes, for some reason, out of all camo patterns, this exists: https://www.epicmilitaria.com/brandit-m65-giant-jacket-swedish-camo.html",
         "name": { "str": "splinter-camo combat jacket" },
-        "description": "This particular jacket is sown from fabric dyed a base colour of stoney grey with notes of brown, sprinkled through with large, splinter-like geometric shapes of green, grey, and hues of deep naval blue.",
+        "description": "This particular jacket is sown from fabric dyed a base color of stoney grey with notes of brown, sprinkled through with large, splinter-like geometric shapes of green, grey, and hues of deep naval blue.",
         "color": "dark_gray",
         "weight": 10,
         "append": true
@@ -1765,7 +1765,7 @@
       {
         "id": "red_beige_varsity_jacket",
         "name": { "str": "red and beige varsity jacket" },
-        "description": "This one has a red torso and beige looking arms.  \"'93\" is embedded on both its arms, and there is a crest you can't recognise on its front right.",
+        "description": "This one has a red torso and beige looking arms.  \"'93\" is embedded on both its arms, and there is a crest you can't recognize on its front right.",
         "color": "red",
         "weight": 10,
         "append": true
@@ -1789,7 +1789,7 @@
       {
         "id": "black_red_varsity_jacket",
         "name": { "str": "Crimson Bulls varsity jacket" },
-        "description": "This one's torso is black and its arms are red.  It has an angry looking red bull ready to charge on its back.  Accross the front writes \"BULLS\".",
+        "description": "This one's torso is black and its arms are red.  It has an angry looking red bull ready to charge on its back.  Across the front writes \"BULLS\".",
         "color": "black",
         "weight": 10,
         "append": true
@@ -1813,7 +1813,7 @@
       {
         "id": "pink_white_varsity_jacket",
         "name": { "str": "pink and white varsity jacket" },
-        "description": "This one has a pink torso and white arms.  Somone has sewn an equally pink heart on its front right.",
+        "description": "This one has a pink torso and white arms.  Someone has sewn an equally pink heart on its front right.",
         "color": "pink",
         "weight": 10,
         "append": true
@@ -1823,7 +1823,7 @@
   {
     "id": "judo_gi",
     "type": "ARMOR",
-    "name": { "str": "judo gi" },
+    "name": { "str_sp": "judo gi" },
     "description": "Plain white judo gi.",
     "weight": "1000 g",
     "volume": "1500 ml",
@@ -1846,7 +1846,7 @@
   {
     "id": "karate_gi",
     "type": "ARMOR",
-    "name": { "str": "karate gi" },
+    "name": { "str_sp": "karate gi" },
     "description": "Plain white karate gi.  Made from loose and flowing cotton.",
     "weight": "400 g",
     "volume": "1500 ml",
@@ -1869,7 +1869,7 @@
   {
     "id": "kariginu",
     "type": "ARMOR",
-    "name": { "str": "kariginu" },
+    "name": { "str_sp": "kariginu" },
     "description": "A traditional, ankle-length Shinto robe with several layers and very wide sleeves.",
     "weight": "1400 g",
     "volume": "5500 ml",
@@ -1917,7 +1917,7 @@
   {
     "id": "keikogi",
     "type": "ARMOR",
-    "name": { "str": "keikogi" },
+    "name": { "str_sp": "keikogi" },
     "description": "Plain white keikogi for use in martial arts.",
     "weight": "250 g",
     "volume": "750 ml",
@@ -1983,7 +1983,7 @@
   {
     "id": "yukata",
     "type": "ARMOR",
-    "name": { "str": "yukata" },
+    "name": { "str_sp": "yukata" },
     "description": "An easy-to-wear, breezy robe secured with a sash.  Essentially Japanese pajamas.  Great for summer nights.",
     "weight": "900 g",
     "volume": "3 L",
@@ -2022,7 +2022,7 @@
   {
     "id": "haori",
     "type": "ARMOR",
-    "name": { "str": "haori" },
+    "name": { "str_sp": "haori" },
     "description": "A loose coat with wide sleeves that is worn unfastened over a kimono.  It is jet black with sparse, tasteful golden embroidery.",
     "weight": "800 g",
     "volume": "2 L",
@@ -2529,7 +2529,7 @@
   {
     "id": "santa_jacket",
     "type": "ARMOR",
-    "name": { "str": "santa jacket" },
+    "name": { "str": "Santa jacket" },
     "description": "A red jacket, trimmed with white faux fur, commonly used by bearded men on Christmas.  Warm and has a couple of small pockets.",
     "weight": "1500 g",
     "volume": "4500 ml",
@@ -2589,7 +2589,7 @@
   {
     "id": "santa_jacket_short",
     "type": "ARMOR",
-    "name": { "str": "short santa jacket" },
+    "name": { "str": "short Santa jacket" },
     "description": "A short red jacket with white faux fur as trim, similar to a Santa jacket but sleeveless, for a more revealing look on Christmas.",
     "weight": "1200 g",
     "volume": "2000 ml",
@@ -3757,7 +3757,7 @@
       {
         "id": "tacjacket_desert",
         "name": { "str": "arid tactical jacket" },
-        "description": "If you were traipsing off to the Sonoran desert, this pocket-layden jacket, with its sand-tan hues, streaks of beige and black, and ventilated interior, would have been your friend.  Now, all it is is a reminder of a part of the world that may as well be the crust of Mars, for how remote and unreachable it is.",
+        "description": "If you were traipsing off to the Sonoran desert, this pocket-laden jacket, with its sand-tan hues, streaks of beige and black, and ventilated interior, would have been your friend.  Now, all it is is a reminder of a part of the world that may as well be the crust of Mars, for how remote and unreachable it is.",
         "color": "brown",
         "weight": 10,
         "append": true
@@ -3773,7 +3773,7 @@
       {
         "id": "tacjacket_urban",
         "name": { "str": "urban-camo tactical jacket" },
-        "description": "This particular pattern of jacket proved a relatively common sight among preppers during the end of days, printed in industrial colours — blacks, greys, and dirty whites — to offer better concealment within New England's man-made battle grounds.  Needless to say, a simple camo pattern proved of little help when push came to actual shove.",
+        "description": "This particular pattern of jacket proved a relatively common sight among preppers during the end of days, printed in industrial colors — blacks, greys, and dirty whites — to offer better concealment within New England's man-made battle grounds.  Needless to say, a simple camo pattern proved of little help when push came to actual shove.",
         "color": "dark_gray",
         "weight": 20,
         "append": true

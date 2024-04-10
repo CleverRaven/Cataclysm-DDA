@@ -1,7 +1,7 @@
 [
   {
     "abstract": "base_silverware",
-    "name": { "str": "generic silverware" },
+    "name": { "str_sp": "generic silverware" },
     "type": "GENERIC",
     "description": "generic item template",
     "symbol": ";",
@@ -31,7 +31,7 @@
   },
   {
     "abstract": "base_plastic_silverware",
-    "name": { "str": "generic silverware" },
+    "name": { "str_sp": "generic silverware" },
     "type": "GENERIC",
     "description": "generic item template",
     "symbol": ";",
@@ -438,7 +438,7 @@
     "category": "container",
     "id": "bowl_pewter",
     "name": { "str": "pewter bowl" },
-    "description": "A small pewter serving bowl without a lid.  Holds 250 ml of liquid.",
+    "description": "A small pewter serving bowl without a lid.  Holds 250 mL of liquid.",
     "copy-from": "base_tin_dish",
     "symbol": "u",
     "pocket_data": [
@@ -563,7 +563,7 @@
     "category": "container",
     "name": { "str": "plastic tupperware" },
     "symbol": "u",
-    "description": "A piece of plastic tupperware with a matching watertight lid.  Holds 750 ml of liquid.",
+    "description": "A piece of plastic tupperware with a matching watertight lid.  Holds 750 mL of liquid.",
     "copy-from": "base_plastic_dish",
     "volume": "1463 ml",
     "weight": "57 g",

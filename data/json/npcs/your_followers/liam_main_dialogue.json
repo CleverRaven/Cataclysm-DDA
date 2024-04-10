@@ -197,7 +197,7 @@
   {
     "id": "TALK_TRAIN_SEMINAR_PERSUADE_Liam",
     "type": "talk_topic",
-    "dynamic_line": "A… seminar?  About what, how not to burn yourself on the frier at FoodPlace?",
+    "dynamic_line": "A… seminar?  About what, how not to burn yourself on the frier at Foodplace?",
     "responses": [
       {
         "text": "Y'know, you have more useful skills than you think.",
@@ -223,7 +223,7 @@
   {
     "type": "talk_topic",
     "id": "BGSS_Liam2",
-    "dynamic_line": "*shrugs.  \"Same as I was when we used to hang out more, mostly.  I quit my job at FoodPlace a while back, got tired of the stupid outfits.  Worked doing labor in construction for a bit, but I didn't like my boss so I ditched it.  Got a job doing deliveries for Amazon, which was absolutely shitty, but I managed to jump from that to a bit of a better delivery job for a smaller company.  It was actually going pretty good before everything happened.\"",
+    "dynamic_line": "*shrugs.  \"Same as I was when we used to hang out more, mostly.  I quit my job at Foodplace a while back, got tired of the stupid outfits.  Worked doing labor in construction for a bit, but I didn't like my boss so I ditched it.  Got a job doing deliveries for Amazon, which was absolutely shitty, but I managed to jump from that to a bit of a better delivery job for a smaller company.  It was actually going pretty good before everything happened.\"",
     "responses": [
       { "text": "How did you make it through the cataclysm?", "topic": "BGSS_Liam3" },
       { "text": "You picked up a lot of useful skills over the years, hey.", "topic": "BGSS_Liam_Expertise" },

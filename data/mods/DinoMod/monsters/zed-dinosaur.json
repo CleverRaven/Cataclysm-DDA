@@ -1294,7 +1294,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zrosaurolophus",
-    "name": { "str": "prosaurulophus zombie" },
+    "name": { "str": "prosaurolophus zombie" },
     "copy-from": "mon_zedmontosaurus",
     "//": "When large weights and volumes are fixed this should be 3000 L and 3000 kg",
     "hp": 300,

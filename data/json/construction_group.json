@@ -982,7 +982,7 @@
   {
     "type": "construction_group",
     "id": "dig_downstair",
-    "name": "Dig Downstair"
+    "name": "Dig Downstairs"
   },
   {
     "type": "construction_group",
@@ -1107,7 +1107,7 @@
   {
     "type": "construction_group",
     "id": "mine_downstair",
-    "name": "Mine Downstair"
+    "name": "Mine Downstairs"
   },
   {
     "type": "construction_group",
@@ -1117,7 +1117,7 @@
   {
     "type": "construction_group",
     "id": "mine_upstair",
-    "name": "Mine Upstair"
+    "name": "Mine Upstairs"
   },
   {
     "type": "construction_group",

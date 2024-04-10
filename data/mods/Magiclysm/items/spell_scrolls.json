@@ -89,7 +89,7 @@
     "id": "spell_scroll_recover_mana",
     "//": "Animist spell",
     "name": { "str": "Scroll of Life Conversion", "str_pl": "Scrolls of Life Conversion" },
-    "description": "You channel your life force itself into your spiritual energy.  You spend hp to regain mana.",
+    "description": "You channel your life force itself into your spiritual energy.  You spend HP to regain mana.",
     "use_action": { "type": "learn_spell", "spells": [ "recover_mana" ] }
   },
   {
@@ -492,7 +492,7 @@
     "copy-from": "spell_scroll",
     "id": "spell_scroll_reactive_armor",
     "//": "Earthshaper spell",
-    "name": { "str": "Scroll of Reactive Armour", "str_pl": "Scrolls of Reactive Armour" },
+    "name": { "str": "Scroll of Reactive Armor", "str_pl": "Scrolls of Reactive Armor" },
     "description": "Explode your stone skin, to deal massive damage to all enemies around.",
     "use_action": { "type": "learn_spell", "spells": [ "reactive_armor" ] }
   },
@@ -853,7 +853,7 @@
     "id": "spell_scroll_explosive_decompression",
     "//": "Stormshaper spell",
     "name": { "str": "Scroll of Explosive Decompression", "str_pl": "Scrolls of Explosive Decompression" },
-    "description": "Create a high-pressure zone originating from the selected point.  Shortly after, a massive pressure wave will crush everything inside, inflicting barotrarumatic injuries on everyone affected.",
+    "description": "Create a high-pressure zone originating from the selected point.  Shortly after, a massive pressure wave will crush everything inside, inflicting barotraumatic injuries on everyone affected.",
     "use_action": { "type": "learn_spell", "spells": [ "explosive_decompression" ] }
   },
   {
@@ -862,7 +862,7 @@
     "id": "spell_scroll_vacuum_decompression",
     "//": "Stormshaper spell",
     "name": { "str": "Scroll of Vacuum Decompression", "str_pl": "Scrolls of Vacuum Decompression" },
-    "description": "Create a high-pressure zone originating from the selected point.  Shortly after, a massive pressure wave will crush everything inside, inflicting barotrarumatic injuries on everyone affected.  The pressure differential will also pull unprepared creatures inside the zone before collapsing.",
+    "description": "Create a high-pressure zone originating from the selected point.  Shortly after, a massive pressure wave will crush everything inside, inflicting barotraumatic injuries on everyone affected.  The pressure differential will also pull unprepared creatures inside the zone before collapsing.",
     "use_action": { "type": "learn_spell", "spells": [ "vacuum_decompression" ] }
   },
   {
@@ -2011,7 +2011,7 @@
     "id": "spell_scroll_animist_slow_food_rotting_spell",
     "//": "Animist spell",
     "name": { "str": "Scroll of Abjure Spirits of Rot", "str_pl": "Scrolls of Abjure Spirits of Rot" },
-    "description": "Banisht the decay spirits from the food you're carrying, making it last much longer before going bad.",
+    "description": "Banish the decay spirits from the food you're carrying, making it last much longer before going bad.",
     "use_action": { "type": "learn_spell", "spells": [ "animist_slow_food_rotting_spell" ] }
   },
   {

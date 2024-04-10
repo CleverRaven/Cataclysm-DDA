@@ -2753,7 +2753,7 @@ void player_hit_message( Character *attacker, const std::string &message,
                      direction_from( point_zero, point( t.posx() - attacker->posx(), t.posy() - attacker->posy() ) ),
                      get_hp_bar( t.get_hp(), t.get_hp_max(), true ).first, m_good,
                      //~ "hit points", used in scrolling combat text
-                     _( "hp" ), m_neutral,
+                     _( "HP" ), m_neutral,
                      "hp" );
         } else {
             SCT.removeCreatureHP();

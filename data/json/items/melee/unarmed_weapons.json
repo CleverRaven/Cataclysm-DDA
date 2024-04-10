@@ -5,7 +5,7 @@
     "symbol": "3",
     "color": "light_gray",
     "name": { "str": "cestus", "str_pl": "cesti" },
-    "description": "A leather hand and arm wrap incorporating metal plates over the knuckles to improve punching power and defence.",
+    "description": "A leather hand and arm wrap incorporating metal plates over the knuckles to improve punching power and defense.",
     "material": [ "leather", "steel" ],
     "volume": "100 ml",
     "weight": "300 g",

@@ -136,7 +136,7 @@
     "id": "charm_of_marzanna",
     "copy-from": "garnet_silver_pendant_necklace",
     "type": "ARMOR",
-    "name": { "str": "charm of Marzanna" },
+    "name": { "str": "charm of Marzanna", "str_pl": "charms of Marzanna" },
     "description": "A tiny effigy of a woman with singed extremities and a waterlogged face.",
     "color": "light_blue",
     "relic_data": { "passive_effects": [ { "id": "ench_climate_control_marzanna" } ] }

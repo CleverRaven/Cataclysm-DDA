@@ -416,7 +416,7 @@
     "type": "GENERIC",
     "category": "drugs",
     "name": { "str": "small saline infusion kit" },
-    "description": "A small, sealed plastic bag for liquids used in intravenous therapy, with rubber tube and cannula - all you need to perform an infusion.  Holds 250 ml of completely sterile saline, therefore it is safe to put it inside your veins, if you know how.",
+    "description": "A small, sealed plastic bag for liquids used in intravenous therapy, with rubber tube and cannula - all you need to perform an infusion.  Holds 250 mL of completely sterile saline, therefore it is safe to put it inside your veins, if you know how.",
     "looks_like": "bag_iv",
     "material": [
       { "type": "water", "portion": 991 },
@@ -452,7 +452,7 @@
     "copy-from": "saline_bag_250",
     "type": "GENERIC",
     "name": { "str": "medium saline infusion kit" },
-    "description": "A sealed plastic bag for liquids used in intravenous therapy, with rubber tube and cannula - all you need to perform an infusion.  Holds 500 ml of completely sterile saline, therefore it is safe to put it inside your veins, if you know how.",
+    "description": "A sealed plastic bag for liquids used in intravenous therapy, with rubber tube and cannula - all you need to perform an infusion.  Holds 500 mL of completely sterile saline, therefore it is safe to put it inside your veins, if you know how.",
     "weight": "518 g",
     "volume": "590 ml",
     "price": 749,

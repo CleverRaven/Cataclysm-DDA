@@ -271,7 +271,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zianzhousaurus_brute",
-    "name": { "str": "Qianzhousaurus chéngqiáng" },
+    "name": { "str_sp": "Qianzhousaurus chéngqiáng" },
     "copy-from": "mon_zianzhousaurus",
     "looks_like": "mon_zyrannosaurus",
     "description": "Massive jaws on a long snout lifted by an undead body bulging with distended muscles and swollen, festering wounds.",
@@ -544,7 +544,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zanchisaurus_brute",
-    "name": { "str": "American Ammo" },
+    "name": { "str_sp": "American Ammo" },
     "copy-from": "mon_zanchisaurus",
     "description": "Long-necked, four-legged dinosaur corpse.  Its entire body bulges with distended muscles and swollen, festering wounds.",
     "diff": 2,
@@ -4969,7 +4969,7 @@
   {
     "type": "MONSTER",
     "id": "mon_sallosaurus_brute",
-    "name": { "str": "skeletal allosaurusid brute" },
+    "name": { "str": "skeletal allosaurid brute" },
     "copy-from": "mon_sallosaurus",
     "description": "Distorted outgrowths of calcified bone plates cover this dinosaur's rotten flesh and toothy jaws.  Joints and cracks around its body ooze with black goo.",
     "proportional": { "hp": 5 },

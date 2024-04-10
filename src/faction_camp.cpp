@@ -1427,7 +1427,7 @@ void basecamp::get_available_missions( mission_data &mission_key, map &here )
                                           "> If the expansion direction selected is eligible for conversion into "
                                           "a field this mission will perform that conversion.  If it is not eligible "
                                           "you are told as much, and would have to make it suitable for conversion "
-                                          "by removing everything that isn' grass or soil.  Mining zones are useful to "
+                                          "by removing everything that isn't grass or soil.  Mining zones are useful to "
                                           "remove pavement, for instance.  Note that removal of buildings is dangerous, "
                                           "laborious, and may still fail to get rid of everything if e.g. a basement or "
                                           "an opening to underground areas (such as a manhole) remains.\n\n"
@@ -2364,7 +2364,7 @@ void basecamp::job_assignment_ui()
         draw_border( w_jobs );
         mvwprintz( w_jobs, point( 46, 1 ), c_white, _( "Job/Priority" ) );
         const nc_color col = c_white;
-        const std::string no_npcs = _( "There are no npcs stationed here" );
+        const std::string no_npcs = _( "There are no NPCs stationed here" );
         if( !stationed_npcs.empty() ) {
             draw_scrollbar( w_jobs, selection, entries_per_page, stationed_npcs.size(),
                             point( 0, 3 ) );

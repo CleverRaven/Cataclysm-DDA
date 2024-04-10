@@ -56,7 +56,7 @@
     "id": "laptop_xedra_lit",
     "copy-from": "laptop_xedra",
     "type": "TOOL",
-    "name": { "str": "xedra laptop - lit screen", "str_pl": "xedra laptops - lit screen" },
+    "name": { "str": "XEDRA laptop - lit screen", "str_pl": "XEDRA laptops - lit screen" },
     "power_draw": "1 W",
     "revert_to": "laptop_xedra",
     "use_action": [

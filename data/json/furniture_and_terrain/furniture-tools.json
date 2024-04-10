@@ -600,7 +600,7 @@
     "id": "f_scutch_breaker",
     "name": "stationary scutcher",
     "looks_like": "f_rack",
-    "description": "A bulky, simple-hinged wooden device to break up the hard parts of fibre plants, with nail combs on the back for separating them out.",
+    "description": "A bulky, simple-hinged wooden device to break up the hard parts of fiber plants, with nail combs on the back for separating them out.",
     "symbol": "=",
     "bgcolor": "brown",
     "move_cost_mod": 2,

@@ -4,7 +4,7 @@
     "type": "TOOL_ARMOR",
     "category": "exosuit",
     "name": { "str": "exosuit power supply unit" },
-    "description": "Designed to attach to an exosuit's back, this is a large rechargable battery with an integrated UPS.",
+    "description": "Designed to attach to an exosuit's back, this is a large rechargeable battery with an integrated UPS.",
     "weight": "15 kg",
     "volume": "20 L",
     "material": [ "plastic", "qt_steel" ],
@@ -248,7 +248,7 @@
   {
     "id": "exo_lense_module",
     "type": "TOOL",
-    "name": { "str": "exosuit multi lense zoom module" },
+    "name": { "str": "exosuit multi-lens zoom module" },
     "description": "A series of strangely shaped hexagonal lenses that flutter about inside your helmet.  As the lenses shift things around you stay perfectly in focus no matter your eyesight or distance.  It can be mounted to an exosuit helmet.",
     "weight": "500 g",
     "volume": "250 ml",

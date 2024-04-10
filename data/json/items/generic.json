@@ -145,14 +145,14 @@
     "type": "GENERIC",
     "id": "report_t_substrate",
     "copy-from": "log_immersion27",
-    "name": { "str": "MATERIAL: T-SUBSTRATE" },
+    "name": { "str_sp": "MATERIAL: T-SUBSTRATE" },
     "snippet_category": "t-substrate"
   },
   {
     "type": "GENERIC",
     "id": "HAADF_t_substrate",
     "copy-from": "log_immersion27",
-    "name": { "str": "HAADF MICROGRAPH: T-SUBSTRATE" },
+    "name": { "str_sp": "HAADF MICROGRAPH: T-SUBSTRATE" },
     "snippet_category": "HAADF_t-substrate"
   },
   {
@@ -166,7 +166,7 @@
     "type": "GENERIC",
     "id": "artifact_scp_doc",
     "copy-from": "log_immersion27",
-    "name": { "str": "ANOMALOUS ARTIFACT REPORT" },
+    "name": { "str_sp": "ANOMALOUS ARTIFACT REPORT" },
     "snippet_category": "artifact_scp"
   },
   {
@@ -767,7 +767,7 @@
     "id": "lixa_data",
     "copy-from": "usb_drive_nano",
     "name": { "str_sp": "LIXA research archive backup" },
-    "description": "A secured USB thumbdrive, containing a copy of the LIXA facility's research archives.",
+    "description": "A secured USB thumb drive, containing a copy of the LIXA facility's research archives.",
     "price": 10000,
     "price_postapoc": 0
   },
@@ -1158,7 +1158,7 @@
     "name": { "str": "drum skin" },
     "copy-from": "tanned_hide",
     "weight": "10 g",
-    "description": "The tanned hide of an animal repursed to become the head on a percusssion drum."
+    "description": "The tanned hide of an animal repurposed to become the head on a percussion drum."
   },
   {
     "type": "GENERIC",
@@ -3990,9 +3990,9 @@
     "id": "broken_tazer_hack",
     "symbol": ",",
     "color": "green",
-    "name": { "str": "broken tazer hack" },
+    "name": { "str": "broken taser hack" },
     "category": "other",
-    "description": "A broken tazer hack, with its propellers still and tazer inert.  Could be gutted for parts.",
+    "description": "A broken taser hack, with its propellers still and taser inert.  Could be gutted for parts.",
     "price": 1000,
     "price_postapoc": 10,
     "material": [ "aluminum", "plastic" ],
