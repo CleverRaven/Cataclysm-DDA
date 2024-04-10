@@ -7598,11 +7598,21 @@ void heat_activity_actor::finish( player_activity &act, Character &p )
             if( cold_item->charges <= 0 ) {
                 cold_item.remove_item();
             }
-            p.i_add_or_drop( copy );
+            // newit.made_of( phase_id::LIQUID )
+            if( copy.made_of( phase_id::LIQUID ) ) {
+                liquid_handler::handle_all_liquid( copy, PICKUP_RANGE );
+            } else {
+                p.i_add_or_drop( copy );
+            }
         } else {
             cold_item->unset_flag( flag_FROZEN );
             cold_item->set_flag( flag_HOT );
             p.i_add_or_drop( *cold_item );
+            if( cold_item.get_item()->made_of( phase_id::LIQUID ) ) {
+                liquid_handler::handle_all_liquid( *cold_item, PICKUP_RANGE );
+            } else {
+                p.i_add_or_drop( *cold_item );
+            }
         }
     }
 
@@ -7618,7 +7628,6 @@ void heat_activity_actor::serialize( JsonOut &jsout ) const
     jsout.start_object();
     jsout.member( "to_heat", to_heat );
     jsout.member( "time", requirements.time );
-    jsout.member( "volume", requirements.volume );
     jsout.member( "ammo", requirements.ammo );
     jsout.end_object();
 }
@@ -7629,7 +7638,6 @@ std::unique_ptr<activity_actor> heat_activity_actor::deserialize( JsonValue &jsi
     JsonObject data = jsin.get_object();
     data.read( "to_heat", actor.to_heat );
     data.read( "time", actor.requirements.time );
-    data.read( "volume", actor.requirements.volume );
     data.read( "ammo", actor.requirements.ammo );
     return actor.clone();
 }

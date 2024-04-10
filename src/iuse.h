@@ -252,12 +252,11 @@ struct washing_requirements {
 washing_requirements washing_requirements_for_volume( const units::volume & );
 
 struct heating_requirements {
-    units::volume volume;
     int ammo;
     int time;
 };
-heating_requirements heating_requirements_for_volume( const units::volume &,
-        const units::volume & );
+heating_requirements heating_requirements_for_weight( const units::mass &,
+        const units::mass & );
 
 using use_function_pointer = std::optional<int> ( * )( Character *, item *,
                              const tripoint & );
