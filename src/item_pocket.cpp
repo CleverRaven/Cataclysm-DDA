@@ -411,14 +411,14 @@ bool item_pocket::better_pocket( const item_pocket &rhs, const item &it, bool ne
         return false;
     }
 
-    if( rhs.data->extra_encumbrance < data->extra_encumbrance ) {
+    if( rhs.data->extra_encumbrance != data->extra_encumbrance ) {
         // pockets with less extra encumbrance should be prioritized
-        return true;
+        return rhs.data->extra_encumbrance < data->extra_encumbrance;
     }
 
-    if( data->ripoff > rhs.data->ripoff ) {
+    if( data->ripoff != rhs.data->ripoff ) {
         // pockets without ripoff chance should be prioritized
-        return true;
+        return rhs.data->ripoff < data->ripoff;
     }
 
     if( data->rigid != rhs.data->rigid ) {
