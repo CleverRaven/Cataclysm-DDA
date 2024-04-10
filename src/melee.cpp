@@ -2413,7 +2413,7 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
         weap.spill_contents( pos() );
         // Take damage
         damage_instance di = damage_instance();
-        di.add_damage( damage_cut, rng( 0, vol * 2 ) );
+        di.add_damage( damage_cut, std::clamp( rng( 0, vol * 2 ), 0, 7 ) );
         deal_damage( nullptr, bodypart_id( "arm_r" ), di );
         if( weap.is_two_handed( *this ) ) { // Hurt left arm too, if it was big
             //redeclare shatter_dam because deal_damage mutates it
