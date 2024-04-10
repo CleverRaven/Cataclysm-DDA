@@ -403,7 +403,7 @@
     "type": "GENERIC",
     "copy-from": "art_tube",
     "name": { "str": "self-crossing flask" },
-    "description": "A transparent flask with a neck that connects directly to its bottom without overlapping itself, even though it clearly does.  You can put things in it, but attempting to follow their path through the neck is impossible. It is the only one of its kind.\nIt may have unknown powers; try activating them.",
+    "description": "A transparent flask with a neck that connects directly to its bottom without overlapping itself, even though it clearly does.  You can put things in it, but attempting to follow their path through the neck is impossible.  It is the only one of its kind.\nIt may have unknown powers; try activating them.",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -428,7 +428,7 @@
     "type": "GENERIC",
     "copy-from": "art_lamp",
     "name": { "str": "four-dimensional cube" },
-    "description": "It's a cube that constantly shrinks and grows in size. It's two cubes linked by the vertices, with ever-shifting sides folding onto eachother, over and over. It's four cubes in the exact same position. It's a cube fading to ash then reverting to pristine form repeatedly. It's all of these at once, and none of them at all.  It is the only one of its kind.\nIt may have unknown powers; try activating them.",
+    "description": "It's a cube that constantly shrinks and grows in size.  It's two cubes linked by the vertices, with ever-shifting sides folding onto eachother, over and over.  It's four cubes in the exact same position.  It's a cube fading to ash then reverting to pristine form repeatedly.  It's all of these at once, and none of them at all.  It is the only one of its kind.\nIt may have unknown powers; try activating them.",
     "volume": "1 L",
     "weight": "8 kg"
   },
