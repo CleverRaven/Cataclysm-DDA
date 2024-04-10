@@ -447,7 +447,8 @@
       { "item": "ar_glasses_advanced", "prob": 1, "charges-min": 0 },
       [ "light_snare_kit", 5 ],
       [ "camping_multitool", 5 ],
-      [ "utility_knife_folding", 5 ]
+      [ "utility_knife_folding", 5 ],
+      { "group": "pillbox_any_used", "prob": 5 }
     ]
   },
   {
@@ -567,7 +568,8 @@
       [ "cloak_wool", 5 ],
       [ "whistle_multitool", 5 ],
       [ "esbit_stove", 10 ],
-      [ "bottle_folding", 10 ]
+      [ "bottle_folding", 10 ],
+      { "group": "pillbox_any_used", "prob": 1 }
     ]
   },
   {

@@ -261,7 +261,8 @@
       [ "bubblewrap", 3 ],
       [ "survnote", 1 ],
       { "item": "lighter", "prob": 3, "charges-min": 0, "charges-max": 10 },
-      [ "flyer", 3 ]
+      [ "flyer", 3 ],
+      { "group": "pillbox_any_empty", "prob": 1 }
     ]
   },
   {

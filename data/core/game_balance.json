@@ -57,8 +57,8 @@
   },
   {
     "type": "EXTERNAL_OPTION",
-    "name": "PLAYER_FATIGUE_RATE",
-    "info": "Set base fatigue rate per 5 minutes.  Default: 1.0",
+    "name": "PLAYER_SLEEPINESS_RATE",
+    "info": "Set base sleepiness rate per 5 minutes.  Default: 1.0",
     "stype": "float",
     "value": 1.0
   },

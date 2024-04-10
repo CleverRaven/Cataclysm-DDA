@@ -320,11 +320,7 @@
     "type": "item_group",
     "id": "guns_pistol_improvised",
     "//": "Makeshift or otherwise poor quality pistols.",
-    "items": [
-      { "item": "ashot", "prob": 100 },
-      { "item": "surv_hand_cannon", "prob": 100, "charges-min": 0, "charges-max": 5 },
-      { "item": "surv_six_shooter", "prob": 100, "charges-min": 0, "charges-max": 6 }
-    ]
+    "items": [ { "item": "ashot", "prob": 100 } ]
   },
   {
     "type": "item_group",
@@ -768,7 +764,6 @@
       { "group": "nested_ak47", "prob": 100 },
       { "group": "nested_bfg50", "prob": 5 },
       { "group": "nested_carbine_flintlock", "prob": 140 },
-      { "group": "nested_famas", "prob": 1 },
       { "group": "nested_m60_semi", "prob": 10 },
       { "group": "nested_rifle_flintlock", "prob": 180 },
       { "group": "nested_oa93", "prob": 3 },
@@ -807,7 +802,6 @@
         "charges-max": 0
       },
       { "item": "type99_sniper", "contents-item": "arisaka_monopod", "prob": 2, "charges-min": 0, "charges-max": 0 },
-      { "item": "famas", "prob": 5 },
       { "item": "m60_semi", "prob": 5 },
       { "item": "oa93", "prob": 3 },
       { "item": "steyr_aug", "prob": 5 },

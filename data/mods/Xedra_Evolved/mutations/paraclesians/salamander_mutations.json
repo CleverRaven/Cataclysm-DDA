@@ -136,7 +136,7 @@
     "ugliness": 0,
     "description": "Upon gaining this ability the Salamander gains the ability to increase their own or an ally's speed.",
     "prereqs": [ "SALAMANDER_ECTOTHERM" ],
-    "prereqs2": [ "SALAMANDER_HEAT_HEAL", "SALAMANDER_HEAT_HEAL_ON" ],
+    "prereqs2": [ "SALAMANDER_HEAT_HEAL" ],
     "category": [ "SALAMANDER" ],
     "spells_learned": [ [ "salamander_increase_speed_spell", 1 ] ]
   },
@@ -173,7 +173,7 @@
     "visibility": 0,
     "ugliness": 0,
     "description": "Upon gaining this ability the Salamander gains the ability to cure deleterious conditions at the cost of damage.",
-    "prereqs": [ "SALAMANDER_HEAT_HEAL", "SALAMANDER_HEAT_HEAL_ON" ],
+    "prereqs": [ "SALAMANDER_HEAT_HEAL" ],
     "category": [ "SALAMANDER" ],
     "spells_learned": [ [ "salamander_cure_conditions", 1 ] ]
   },
@@ -296,7 +296,7 @@
     "points": 8,
     "visibility": 0,
     "ugliness": 0,
-    "prereqs": [ "SALAMANDER_ECTOTHERM", "SALAMANDER_HEAT_HEAL", "SALAMANDER_HEAT_HEAL_ON" ],
+    "prereqs": [ "SALAMANDER_ECTOTHERM", "SALAMANDER_HEAT_HEAL" ],
     "description": "As fae spirits of fire, Salamanders also partake of the heat of the forge and the glow of white-hot iron.  Your crafting speed will increase while standing in fire or hot air.",
     "category": [ "SALAMANDER" ],
     "enchantments": [ "ench_salamander_heat_crafting" ]
@@ -380,8 +380,8 @@
       {
         "values": [
           { "value": "STAMINA_REGEN_MOD", "add": 0.1 },
-          { "value": "FATIGUE_REGEN", "multiply": 0.25 },
-          { "value": "FATIGUE", "multiply": -0.25 },
+          { "value": "SLEEPINESS_REGEN", "multiply": 0.25 },
+          { "value": "SLEEPINESS", "multiply": -0.25 },
           { "value": "METABOLISM", "multiply": 0.33 }
         ]
       }
@@ -401,8 +401,8 @@
       {
         "values": [
           { "value": "STAMINA_REGEN_MOD", "add": 0.2 },
-          { "value": "FATIGUE_REGEN", "multiply": 0.5 },
-          { "value": "FATIGUE", "multiply": -0.5 },
+          { "value": "SLEEPINESS_REGEN", "multiply": 0.5 },
+          { "value": "SLEEPINESS", "multiply": -0.5 },
           { "value": "METABOLISM", "multiply": 0.66 }
         ]
       }
@@ -424,8 +424,8 @@
       {
         "values": [
           { "value": "STAMINA_REGEN_MOD", "add": 0.3 },
-          { "value": "FATIGUE_REGEN", "multiply": 0.5 },
-          { "value": "FATIGUE", "multiply": -0.5 },
+          { "value": "SLEEPINESS_REGEN", "multiply": 0.5 },
+          { "value": "SLEEPINESS", "multiply": -0.5 },
           { "value": "METABOLISM", "multiply": 1 }
         ]
       }

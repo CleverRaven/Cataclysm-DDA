@@ -353,7 +353,7 @@
     "category": [ "SPECIES_ELF" ],
     "threshreq": [ "THRESH_SPECIES_ELF" ],
     "flags": [ "SEESLEEP" ],
-    "enchantments": [ { "values": [ { "value": "FATIGUE_REGEN", "multiply": 1 }, { "value": "FATIGUE", "multiply": -0.166667 } ] } ]
+    "enchantments": [ { "values": [ { "value": "SLEEPINESS_REGEN", "multiply": 1 }, { "value": "SLEEPINESS", "multiply": -0.166667 } ] } ]
   },
   {
     "type": "mutation",
@@ -502,7 +502,7 @@
     "enchantments": [
       {
         "values": [
-          { "value": "BONUS_DODGE", "add": 2 },
+          { "value": "DODGE_CHANCE", "add": 2 },
           { "value": "MAX_HP", "multiply": -0.25 },
           { "value": "STRENGTH", "add": -3 },
           { "value": "DEXTERITY", "add": 2 },

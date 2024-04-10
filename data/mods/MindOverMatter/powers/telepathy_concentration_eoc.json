@@ -68,7 +68,6 @@
       { "u_message": "You begin shielding your thoughts.", "type": "good" },
       { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
       { "u_add_effect": "effect_telepathic_psi_armor", "duration": "PERMANENT" },
-      { "u_spawn_item": "telepath_mind_shield_item", "suppress_message": true, "force_equip": true },
       {
         "queue_eocs": "EOC_TELEPATH_SHIELD_DRAIN",
         "time_in_future": [
@@ -91,11 +90,7 @@
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_REMOVE_TELEPATHIC_SHIELD",
     "condition": { "u_has_effect": "effect_telepathic_psi_armor" },
-    "effect": [
-      { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" },
-      { "u_lose_effect": "effect_telepathic_psi_armor" },
-      { "u_remove_item_with": "telepath_mind_shield_item" }
-    ]
+    "effect": [ { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" }, { "u_lose_effect": "effect_telepathic_psi_armor" } ]
   },
   {
     "type": "effect_on_condition",

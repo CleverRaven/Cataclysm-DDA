@@ -1,0 +1,118 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "refund_power",
+    "effect": { "math": [ "u_val('power')", "+=", "_act_cost" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bio_adrenaline",
+    "condition": { "u_has_effect": "adrenaline" },
+    "effect": [
+      { "u_message": "Safeguards kicks in, and the bionic refuses to activate!", "type": "bad" },
+      { "run_eocs": "refund_power" }
+    ],
+    "false_effect": [ { "u_add_effect": "adrenaline", "duration": "20 minutes" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_time_freeze",
+    "condition": { "u_has_effect": "riding" },
+    "effect": [ { "u_message": "You cannot activate Time Dilation while mounted.", "type": "info" }, { "run_eocs": "refund_power" } ],
+    "false_effect": [
+      { "u_message": "You activate your Time Dilation.", "type": "info" },
+      { "turn_cost": { "math": [ "u_val('power') / -energy('100 kJ')" ] } },
+      { "math": [ "u_val('power')", "=", "0" ] },
+      { "u_message": "Your speed suddenly increases!", "type": "good" },
+      {
+        "if": { "one_in_chance": 3 },
+        "then": [
+          { "u_message": "Your muscles tear with the strain!", "type": "good" },
+          { "math": [ "u_hp('arm_l')", "-=", "rng(5, 10)" ] },
+          { "math": [ "u_hp('arm_r')", "-=", "rng(5, 10)" ] },
+          { "math": [ "u_hp('leg_l')", "-=", "rng(7, 12)" ] },
+          { "math": [ "u_hp('leg_r')", "-=", "rng(7, 12)" ] },
+          { "math": [ "u_hp('torso')", "-=", "rng(5, 15)" ] }
+        ]
+      },
+      {
+        "if": { "one_in_chance": 5 },
+        "then": [ { "u_add_effect": "teleglow", "duration": [ "5 minutes", "40 minutes" ] } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bio_hydraulics",
+    "//": "Sound of hissing hydraulic muscle! (not quite as loud as a car horn)",
+    "effect": [
+      { "u_message": "Your muscles hiss as hydraulic strength fills them!", "type": "good" },
+      { "u_make_sound": "HISISSS!", "volume": 19, "type": "activity" },
+      { "queue_eocs": "EOC_bio_hydraulics_act", "time_in_future": 1 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bio_hydraulics_act",
+    "condition": { "u_has_effect": "bio_hydraulics_eff" },
+    "//": "Sound of hissing hydraulic muscle! (not quite as loud as a car horn)",
+    "effect": [
+      { "u_make_sound": "HISISSS!", "volume": 19, "type": "activity" },
+      { "queue_eocs": "EOC_bio_hydraulics_act", "time_in_future": 1 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bio_blood_filter",
+    "//": "todo: make EoC able to assing length to effects, and read int_dur_factor, to replicate now removed force_comedown() instead of this if-then",
+    "//2": "or just force_comedown boolean for u_lose_effect, i failed to do any",
+    "effect": [
+      {
+        "if": { "u_has_effect": "adrenaline" },
+        "then": [ { "u_lose_effect": "adrenaline" }, { "u_add_effect": "adrenaline", "duration": "150 s" } ]
+      },
+      {
+        "if": { "u_has_effect": "meth" },
+        "then": [ { "u_lose_effect": "meth" }, { "u_add_effect": "meth", "duration": "200 s" } ]
+      },
+      {
+        "foreach": "array",
+        "var": { "context_val": "effect_id" },
+        "target": [
+          "fungus",
+          "dermatik",
+          "bloodworms",
+          "tetanus",
+          "poison",
+          "badpoison",
+          "pkill1_generic",
+          "pkill1_acetaminophen",
+          "pkill1_nsaid",
+          "pkill2",
+          "pkill3",
+          "pkill_l",
+          "drunk",
+          "cig",
+          "high",
+          "hallu",
+          "visuals",
+          "pblue",
+          "iodine",
+          "datura",
+          "took_xanax",
+          "took_prozac",
+          "took_prozac_bad",
+          "took_flumed",
+          "antifungal",
+          "venom_weaken",
+          "venom_dmg",
+          "paralyzepoison"
+        ],
+        "effect": { "u_lose_effect": { "context_val": "effect_id" } }
+      },
+      { "math": [ "u_val('pkill')", "=", "0" ] },
+      { "math": [ "u_val('stim')", "=", "0" ] },
+      { "turn_cost": 1 }
+    ]
+  }
+]

@@ -541,7 +541,7 @@
     "id": "mon_pattern_frog",
     "type": "MONSTER",
     "copy-from": "mon_leo_frog",
-    "description": "This large frog is covered in chaotic markings like a fractal river map over a background of tv static.  While most lose their gills during metamorphosis, this frog seems to have retained them, or something like them.",
+    "description": "This large frog is covered in chaotic markings like a fractal river map over a background of TV static.  While most lose their gills during metamorphosis, this frog seems to have retained them, or something like them.",
     "name": { "str": "strangely-patterned frog" },
     "categories": [ "NULL" ],
     "harvest": "mutant_tiny",
@@ -580,7 +580,7 @@
     "type": "MONSTER",
     "copy-from": "mon_proxy_frog",
     "description": "Fowler's toads secrete a harmful and distasteful compound from their backs.  This helps safeguard them from predators and also gives them a distinctive odor like boiled peanuts.",
-    "name": { "str": "fowler's toad" },
+    "name": { "str": "Fowler's toad" },
     "reproduction": { "baby_egg": "egg_fowler_toad", "baby_count": 8, "baby_timer": 36 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "extend": { "flags": [ "POISON" ] }
@@ -602,7 +602,7 @@
     "type": "MONSTER",
     "copy-from": "mon_proxy_frog",
     "description": "American toads can vary greatly in appearance.  Individual toads will shift their coloration and patterning throughout the seasons to better camouflage.",
-    "name": { "str": "american toad" },
+    "name": { "str": "American toad" },
     "reproduction": { "baby_egg": "egg_freedom_toad", "baby_count": 8, "baby_timer": 36 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "extend": { "flags": [ "POISON" ] }

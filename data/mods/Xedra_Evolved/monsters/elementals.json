@@ -709,7 +709,7 @@
   {
     "id": "mon_venus_doll",
     "type": "MONSTER",
-    "name": { "str": "venus figurine" },
+    "name": { "str": "Venus figurine" },
     "description": "Resembling most of all the ancient art form of the Venus figurines, this rounded female body sinously moves side to side as it steps.  It's eyes flash yellow and green as they scan the area surrounding them.",
     "default_faction": "homullus",
     "bodytype": "human",

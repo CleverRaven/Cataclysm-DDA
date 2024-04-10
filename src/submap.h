@@ -79,7 +79,7 @@ class submap
             if( is_uniform() ) {
                 m = std::make_unique<maptile_soa>();
                 std::uninitialized_fill_n( &m->ter[0][0], elements, uniform_ter );
-                std::uninitialized_fill_n( &m->frn[0][0], elements, f_null );
+                std::uninitialized_fill_n( &m->frn[0][0], elements, furn_str_id::NULL_ID() );
                 std::uninitialized_fill_n( &m->lum[0][0], elements, 0 );
                 std::uninitialized_fill_n( &m->trp[0][0], elements, tr_null );
                 std::uninitialized_fill_n( &m->rad[0][0], elements, 0 );
@@ -109,7 +109,7 @@ class submap
 
         furn_id get_furn( const point &p ) const {
             if( is_uniform() ) {
-                return f_null;
+                return furn_str_id::NULL_ID();
             }
             return m->frn[p.x][p.y];
         }
@@ -313,12 +313,9 @@ class submap
     private:
         std::map<point_sm_ms, tile_data> ephemeral_data;
         std::map<point, computer> computers;
-        std::unique_ptr<computer> legacy_computer;
         std::unique_ptr<maptile_soa> m;
         ter_id uniform_ter = t_null;
         int temperature_mod = 0; // delta in F
-
-        void update_legacy_computer();
 
         static constexpr size_t elements = SEEX * SEEY;
 };

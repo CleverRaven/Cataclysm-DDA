@@ -836,7 +836,8 @@
     "description": "You have been a vegetarian for so long that eating meat makes you feel sick.  You like to supplement your diet with wild plants and mushrooms foraged in the woods.",
     "points": -1,
     "traits": [ "VEGETARIAN" ],
-    "skills": [ { "level": 2, "name": "cooking" }, { "level": 2, "name": "survival" } ]
+    "skills": [ { "level": 2, "name": "cooking" }, { "level": 2, "name": "survival" } ],
+    "proficiencies": [ "prof_food_prep", "prof_forage_cooking" ]
   },
   {
     "type": "profession",
@@ -1101,6 +1102,16 @@
     "description": "With enough time and materials, you could make a boat from scratch.  These undead can't swim, right?",
     "skills": [ { "level": 3, "name": "fabrication" } ],
     "proficiencies": [ "prof_carving", "prof_carpentry_basic" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "luthier",
+    "name": "Woodworking - Luthier",
+    "description": "You've learned woodworking in the field of making musical instruments.  You'll be able to create musical instruments in the Cataclysm.",
+    "points": 3,
+    "skills": [ { "level": 3, "name": "fabrication" } ],
+    "proficiencies": [ "prof_luthier_basic" ]
   },
   {
     "type": "profession",

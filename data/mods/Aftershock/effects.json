@@ -219,7 +219,7 @@
     "type": "effect_type",
     "id": "afs_medigel_eff",
     "rating": "good",
-    "name": [ "Medigel" ],
+    "name": [ "MediGel" ],
     "desc": [ "The medical gel applied to your wounds is slowly healing them." ],
     "main_parts_only": true,
     "part_descs": true,

@@ -16,7 +16,7 @@
     "id": "sr1vektor_9x21mm",
     "copy-from": "pistol_base",
     "type": "GUN",
-    "name": { "str": "SR-1 Vektor Gyurza" },
+    "name": { "str_sp": "SR-1 Vektor Gyurza" },
     "description": "The SR-1 Vektor also known as the Gyurza (Гюрза, Russian for 'blunt-nosed viper') or Serdyukov SPS is a 9×21mm Gyurza semi-automatic pistol designed for the Russian military.  It fires 9x21mm ammunition, which is rare in the States.",
     "weight": "950 g",
     "volume": "505 ml",
@@ -56,7 +56,7 @@
     "valid_mod_locations": [
       [ "sling", 1 ],
       [ "stock mount", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
       [ "grip mount", 1 ],

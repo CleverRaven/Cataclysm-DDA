@@ -370,7 +370,7 @@
   {
     "abstract": "mre_dessert",
     "type": "COMESTIBLE",
-    "name": { "str": "mre dessert" },
+    "name": { "str": "MRE dessert" },
     "weight": "52 g",
     "color": "brown",
     "spoils_in": "3 days 8 hours",
