@@ -1576,7 +1576,7 @@
     "container-item": "bag_canvas",
     "entries": [
       { "item": "potato", "prob": 6, "container-item": "null", "count": [ 1, 40 ] },
-      { "item": "carrot", "prob": 4, "container-item": "null", "count": [ 1, 116 ] },
+      { "item": "carrot", "prob": 4, "container-item": "null", "count": [ 1, 102 ] },
       { "item": "onion", "prob": 4, "container-item": "null", "count": [ 1, 60 ] }
     ]
   },
