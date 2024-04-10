@@ -1291,7 +1291,7 @@
       },
       {
         "material": [
-          { "type": "canvas", "covered_by_mat": 100, "thickness": 1.5 },
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 1.5 }
         ],
         "covers": [ "hand_l", "hand_r" ],
         "specifically_covers": [ "hand_palm_l", "hand_palm_r" ],
