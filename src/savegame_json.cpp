@@ -4659,18 +4659,18 @@ void ter_furn_migrations::check()
     const std::string & context ) {
         if( !to_ids.first.is_valid() ) {
             debugmsg( "ter_furn_migration from '%s' specifies invalid to_ter id '%s'", context,
-                      to_ids.first.str() );
+                      to_ids.first.cstr() );
         }
         if( !to_ids.second.is_valid() ) {
             debugmsg( "ter_furn_migration from '%s' specifies invalid to_furn id '%s'", context,
-                      to_ids.second.str() );
+                      to_ids.second.cstr() );
         }
     };
     for( const auto &migration : ter_migrations ) {
-        check_to_ids_valid( migration.second, migration.first.str() );
+        check_to_ids_valid( migration.second, migration.first.cstr() );
     }
     for( const auto &migration : furn_migrations ) {
-        check_to_ids_valid( migration.second, migration.first.str() );
+        check_to_ids_valid( migration.second, migration.first.cstr() );
     }
 }
 
@@ -4954,7 +4954,7 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
                             if( terstr.is_valid() ) {
                                 iid_ter = terstr.id();
                             } else {
-                                debugmsg( "invalid ter_str_id '%s'", terstr.str() );
+                                debugmsg( "invalid ter_str_id '%s'", terstr.cstr() );
                                 iid_ter = ter_t_dirt;
                             }
                         };
@@ -5013,7 +5013,7 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
             if( furnstr.is_valid() ) {
                 iid_furn = furnstr.id();
             } else {
-                debugmsg( "invalid furn_str_id '%s'", furnstr.str() );
+                debugmsg( "invalid furn_str_id '%s'", furnstr.cstr() );
                 iid_furn = furn_str_id::NULL_ID().id();
             }
             m->frn[i][j] = iid_furn;
