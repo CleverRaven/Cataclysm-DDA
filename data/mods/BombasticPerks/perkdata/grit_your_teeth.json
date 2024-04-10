@@ -42,7 +42,7 @@
           ],
           "false_effect": [
             { "math": [ "u_grit_your_teeth_pain_value_removed", "=", "u_pain()" ] },
-            { "math": [ "u_pain()", "==", "0" ] },
+            { "math": [ "u_pain()", "=", "0" ] },
             { "queue_eocs": "EOC_PERK_GRIT_YOUR_TEETH_DEACTIVATE", "time_in_future": 180 }
           ]
         }
@@ -54,5 +54,14 @@
     "id": "EOC_PERK_GRIT_YOUR_TEETH_DEACTIVATE",
     "condition": { "u_has_effect": "effect_perk_grit_your_teeth_cooldown" },
     "effect": [ { "math": [ "u_pain()", "+=", "u_grit_your_teeth_pain_value_removed" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PERK_GRIT_YOUR_TEETH_BACKUP_REMOVE",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "//": "A backup to remove the cooldown in case the character ends up with a million pain or something.",
+    "condition": { "u_has_effect": "effect_perk_grit_your_teeth_cooldown" },
+    "effect": [ { "u_lose_effect": "effect_perk_grit_your_teeth_cooldown" } ]
   }
 ]
