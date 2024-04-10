@@ -29,7 +29,7 @@ status_t monster_oracle_t::items_available( const std::string_view ) const
     if( !get_map().has_flag( ter_furn_flag::TFLAG_SEALED, subject->pos() ) &&
         get_map().has_items( subject->pos() ) ) {
         std::vector<material_id> absorb_material = subject->get_absorb_material();
-        std::vector<material_id> no_absorb_material = subject->no_get_absorb_material();
+        std::vector<material_id> no_absorb_material = subject->get_no_absorb_material();
 
         // base case: there are no specified conditions for what it can eat
         if( absorb_material.empty() && no_absorb_material.empty() ) {
