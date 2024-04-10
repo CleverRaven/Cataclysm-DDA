@@ -1472,7 +1472,7 @@ TEST_CASE( "submap_ter_furn_migration", "[submap][load]" )
     REQUIRE( ter_ne == ter_test_t_migration_new_id );
     // West one should still have a f_bookcase as it overrides the test_f_migration_new_id placed by migration
     INFO( string_format( "furn nw: %s", furn_nw.id().str() ) );
-    REQUIRE( furn_nw == furn_test_f_migration_new_id );
+    REQUIRE( furn_nw == furn_f_bookcase );
     // East one should now have test_f_migration_new_id as per the migration
     INFO( string_format( "furn ne: %s", furn_ne.id().str() ) );
     REQUIRE( furn_ne == furn_test_f_migration_new_id );
