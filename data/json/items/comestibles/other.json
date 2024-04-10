@@ -649,15 +649,17 @@
     "id": "napkin",
     "name": { "str": "napkin" },
     "category": "spare_parts",
-    "weight": "3 g",
+    "weight": "1360 mg",
+    "//1": "Calculated from cocktail napkins with roughly average (13lb/500sheets) thickness. 100in^2 * 13lb / 864in^2 = 1.5lb => 1.5lb / 500 = 0.003lb per napkin.",
     "color": "white",
     "symbol": "`",
     "description": "A napkin.  Can be used for fires.",
     "price": 0,
     "price_postapoc": 0,
     "material": [ "paper" ],
-    "volume": "5 ml",
-    "flags": [ "TINDER" ]
+    "volume": "3 ml",
+    "flags": [ "TINDER" ],
+    "//2": "Based on https://www.sizes.com/home/napkins.htm"
   },
   {
     "type": "GENERIC",

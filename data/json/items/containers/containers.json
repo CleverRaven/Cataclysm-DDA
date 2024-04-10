@@ -454,12 +454,13 @@
     "looks_like": "bottle_plastic",
     "description": "A watertight glass bottle, holds 750 ml of liquid.",
     "ascii_picture": "bottle_glass",
-    "weight": "450 g",
-    "volume": "953 ml",
-    "longest_side": "276 mm",
-    "price": 0,
+    "weight": "511 g",
+    "volume": "1082 ml",
+    "//1": "Calculated as a cylinder of 2.9in diameter and 10in height, to account for it getting thinner near the top.",
+    "longest_side": "29 cm",
+    "price": "2 USD",
     "price_postapoc": 10,
-    "to_hit": 1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "glass" ],
     "symbol": ")",
     "color": "cyan",
@@ -476,7 +477,8 @@
     ],
     "qualities": [ [ "BOIL", 1 ] ],
     "flags": [ "COLLAPSE_CONTENTS" ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 2 },
+    "//2": "Based on https://www.amazon.com/dp/B09K2VQLZV"
   },
   {
     "id": "bottle_plastic",
@@ -2197,12 +2199,13 @@
     "looks_like": "bottle_plastic",
     "description": "A standard plastic jug used for milk and household cleaning chemicals.  Some may be factory-sealed to increase shelf life.",
     "ascii_picture": "jug_plastic",
-    "weight": "190 g",
-    "volume": "3825 ml",
+    "weight": "160 g",
+    "volume": "4402 ml",
+    "//1": "Calculated as a cylinder of 6in diameter and 9.5in height, to account for it getting thinner near the top.",
     "longest_side": "28 cm",
-    "price": 0,
+    "price": "10 USD",
     "price_postapoc": 10,
-    "to_hit": 1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "light_cyan",
@@ -2217,7 +2220,8 @@
         "sealed_data": { "spoil_multiplier": 0.5 }
       }
     ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "//2": "Based on https://www.amazon.com/dp/B07GC1VJ9T"
   },
   {
     "id": "fuel_tin",
