@@ -2115,22 +2115,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "rift",
-    "copy-from": "rift",
-    "name": "rift",
-    "sym": "^",
-    "color": "red"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hellmouth",
-    "copy-from": "hellmouth",
-    "name": "hellmouth",
-    "sym": "^",
-    "color": "light_red"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "sewer_sub_station",
     "copy-from": "sewer_sub_station",
     "name": "subway station (underground level)",
