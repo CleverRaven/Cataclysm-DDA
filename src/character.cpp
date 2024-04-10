@@ -3186,7 +3186,8 @@ units::mass Character::weight_capacity() const
     // Get base capacity from creature,
     // then apply enchantment.
     units::mass ret = Creature::weight_capacity();
-    // Not using get_str() so pain won't decrease carrying capacity
+    // Not using get_str() so pain and other temporary effects won't decrease carrying capacity;
+    // transiently reducing carry weight is unlikely to have any play impact besides being very annoying.
     /** @EFFECT_STR increases carrying capacity */
     ret += ( get_str_base() + get_str_bonus() ) * 4_kilogram;
 
