@@ -3186,8 +3186,9 @@ units::mass Character::weight_capacity() const
     // Get base capacity from creature,
     // then apply enchantment.
     units::mass ret = Creature::weight_capacity();
+    // Not using get_str() so pain won't decrease carrying capacity
     /** @EFFECT_STR increases carrying capacity */
-    ret += get_str() * 4_kilogram;
+    ret += ( get_str_base() + get_str_bonus() ) * 4_kilogram;
 
     ret = enchantment_cache->modify_value( enchant_vals::mod::CARRY_WEIGHT, ret );
 
@@ -12398,13 +12399,14 @@ stat_mod Character::get_pain_penalty() const
 {
     stat_mod ret;
     int pain = get_perceived_pain();
-    if( pain <= 0 ) {
+    // if less than 10 pain, do not apply any penalties
+    if( pain <= 10 ) {
         return ret;
     }
 
     // Int and per are penalized more, 100 pain to drop stat to zero vs 140-ish for str and dex
     float penalty_mod = pain * 0.01f;
-    float lesser_penalty_mod = pain * 0.007f;
+    float lesser_penalty_mod = pain * 0.005f;
 
 
     ret.strength = enchantment_cache->modify_value( enchant_vals::mod::PAIN_PENALTY_MOD_STR,
@@ -12421,10 +12423,11 @@ stat_mod Character::get_pain_penalty() const
 
 
     // Prevent negative penalties, there is better ways to give bonuses for pain
-    ret.strength = std::max( ret.strength, 0 );
-    ret.dexterity = std::max( ret.dexterity, 0 );
-    ret.intelligence = std::max( ret.intelligence, 0 );
-    ret.perception = std::max( ret.perception, 0 );
+    // Also not make character has 0 stats
+    ret.strength = std::max( ret.strength, 1 );
+    ret.dexterity = std::max( ret.dexterity, 1 );
+    ret.intelligence = std::max( ret.intelligence, 1 );
+    ret.perception = std::max( ret.perception, 1 );
 
 
     int speed_penalty = std::pow( pain, 0.7f );
