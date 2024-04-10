@@ -6000,7 +6000,7 @@ void map::draw_lab( mapgendata &dat )
                             }
                         }
                     }, center.xy().raw(), 3 );
-                    ter_set( center.xy(), t_fungus_floor_in );
+                    ter_set( center.xy(), ter_t_fungus_floor_in );
                     furn_set( center.xy(), furn_str_id::NULL_ID() );
                     trap_set( center, tr_portal );
                     place_spawns( GROUP_FUNGI_FUNGALOID, 1, center.xy() + point( -2, -2 ),
@@ -6268,11 +6268,11 @@ void map::draw_lab( mapgendata &dat )
                                   point_bub_ms( 6, SEEY * 2 - 7 ), 1, true );
                     place_spawns( GROUP_ROBOT_SECUBOT, 1, point_bub_ms( SEEX * 2 - 7, SEEY * 2 - 7 ),
                                   point_bub_ms( SEEX * 2 - 7, SEEY * 2 - 7 ), 1, true );
-                    line( this, t_cvdbody, point( SEEX - 2, SEEY - 2 ), point( SEEX - 2, SEEY + 1 ) );
-                    line( this, t_cvdbody, point( SEEX - 1, SEEY - 2 ), point( SEEX - 1, SEEY + 1 ) );
-                    line( this, t_cvdbody, point( SEEX, SEEY - 1 ), point( SEEX, SEEY + 1 ) );
-                    line( this, t_cvdbody, point( SEEX + 1, SEEY - 2 ), point( SEEX + 1, SEEY + 1 ) );
-                    ter_set( point( SEEX, SEEY - 2 ), t_cvdmachine );
+                    line( this, ter_t_cvdbody, point( SEEX - 2, SEEY - 2 ), point( SEEX - 2, SEEY + 1 ) );
+                    line( this, ter_t_cvdbody, point( SEEX - 1, SEEY - 2 ), point( SEEX - 1, SEEY + 1 ) );
+                    line( this, ter_t_cvdbody, point( SEEX, SEEY - 1 ), point( SEEX, SEEY + 1 ) );
+                    line( this, ter_t_cvdbody, point( SEEX + 1, SEEY - 2 ), point( SEEX + 1, SEEY + 1 ) );
+                    ter_set( point( SEEX, SEEY - 2 ), ter_t_cvdmachine );
                     spawn_item( point( SEEX, SEEY - 3 ), "id_science" );
                     break;
             }

@@ -1045,7 +1045,7 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
         //Netherworld monsters spawning around the portal
         case 2: {
             m.add_field( portal_location, fd_reality_tear, 3 );
-            for( const tripoint &loc : m.points_in_radius( portal_location, 5 ) ) {
+            for( const tripoint_bub_ms &loc : m.points_in_radius( portal_location, 5 ) ) {
                 m.place_spawns( GROUP_NETHER_PORTAL, 15, loc.xy(), loc.xy(), 1, true );
             }
             break;
@@ -1057,7 +1057,7 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
                 tripoint_bub_ms end_location = { rng( 0, SEEX * 2 - 1 ), rng( 0, SEEY * 2 - 1 ), abs_sub.z };
                 std::vector<tripoint_bub_ms> failure = line_to( portal_location, end_location );
                 for( tripoint_bub_ms &i : failure ) {
-                    m.ter_set( tripoint_bub_ms{ i.xy(), abs_sub.z }, t_pit );
+                    m.ter_set( tripoint_bub_ms{ i.xy(), abs_sub.z }, ter_t_pit );
                 }
             }
             break;
