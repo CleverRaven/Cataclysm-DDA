@@ -64,7 +64,6 @@ static const ter_str_id ter_t_railroad_track_on_tie( "t_railroad_track_on_tie" )
 static const ter_str_id ter_t_rock( "t_rock" );
 static const ter_str_id ter_t_rock_floor( "t_rock_floor" );
 static const ter_str_id ter_t_sand( "t_sand" );
-static const ter_str_id ter_t_slope_down( "t_slope_down" );
 static const ter_str_id ter_t_swater_dp( "t_swater_dp" );
 static const ter_str_id ter_t_swater_sh( "t_swater_sh" );
 static const ter_str_id ter_t_swater_surf( "t_swater_surf" );
