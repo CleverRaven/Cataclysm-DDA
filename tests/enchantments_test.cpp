@@ -20,7 +20,7 @@ static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_debug_no_staggered( "debug_no_staggered" );
 static const efftype_id effect_invisibility( "invisibility" );
 
-static const mtype_id debug_mon( "debug_mon" );
+static const mtype_id pseudo_debug_mon( "pseudo_debug_mon" );
 
 static const skill_id skill_melee( "melee" );
 
@@ -231,7 +231,7 @@ TEST_CASE( "Enchantment_ATTACK_SPEED_test", "[magic][enchantments]" )
     clear_map();
     Character &guy = get_player_character();
     clear_avatar();
-    g->place_critter_at( debug_mon, tripoint_south );
+    g->place_critter_at( pseudo_debug_mon, tripoint_south );
     int moves_spent_on_attacks = 0;
 
 
@@ -288,7 +288,7 @@ TEST_CASE( "Enchantment_MELEE_STAMINA_CONSUMPTION_test", "[magic][enchantments]"
     clear_map();
     Character &guy = get_player_character();
     clear_avatar();
-    g->place_critter_at( debug_mon, tripoint_south );
+    g->place_critter_at( pseudo_debug_mon, tripoint_south );
     int stamina_init = 0;
     int stamina_current = 0;
     int stamina_spent = 0;
