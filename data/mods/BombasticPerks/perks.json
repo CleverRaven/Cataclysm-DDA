@@ -331,6 +331,56 @@
   },
   {
     "type": "mutation",
+    "id": "perk_non_combatant",
+    "name": { "str": "Non-Combatant" },
+    "points": 0,
+    "description": "Hey, that's against the Geneva Convention!  When not wielding a weapon, or object that could be used as an improvised weapon, you take -15% reduced damage.",
+    "category": [ "perk" ],
+    "//": "u_has_weapon checks if you're wielding ANYTHNG, not a weapon specifically, hence the long condition below.",
+    "enchantments": [
+      {
+        "condition": {
+          "and": [
+            { "not": { "u_has_wielded_with_weapon_category": "AUTOMATIC_PISTOLS" } },
+            { "not": { "u_has_wielded_with_weapon_category": "SHIVS" } },
+            { "not": { "u_has_wielded_with_weapon_category": "QUARTERSTAVES" } },
+            { "not": { "u_has_wielded_with_weapon_category": "HOOKING_WEAPONRY" } },
+            { "not": { "u_has_wielded_with_weapon_category": "AUTOMATIC_RIFLES" } },
+            { "not": { "u_has_wielded_with_weapon_category": "KNIVES" } },
+            { "not": { "u_has_wielded_with_weapon_category": "MEDIUM_SWORDS" } },
+            { "not": { "u_has_wielded_with_weapon_category": "GREAT_HAMMERS" } },
+            { "not": { "u_has_wielded_with_weapon_category": "GREAT_AXES" } },
+            { "not": { "u_has_wielded_with_weapon_category": "MACES" } },
+            { "not": { "u_has_wielded_with_weapon_category": "SPEARS" } },
+            { "not": { "u_has_wielded_with_weapon_category": "FENCING_WEAPONRY" } },
+            { "not": { "u_has_wielded_with_weapon_category": "LONG_SWORDS" } },
+            { "not": { "u_has_wielded_with_weapon_category": "GREAT_SWORDS" } },
+            { "not": { "u_has_wielded_with_weapon_category": "BIONIC_WEAPONRY" } },
+            { "not": { "u_has_wielded_with_weapon_category": "SHORT_SWORDS" } },
+            { "not": { "u_has_wielded_with_weapon_category": "HAND_AXES" } },
+            { "not": { "u_has_wielded_with_weapon_category": "BATONS" } },
+            { "not": { "u_has_wielded_with_weapon_category": "FLAILS" } },
+            { "not": { "u_has_wielded_with_weapon_category": "POLEARMS" } },
+            { "not": { "u_has_wielded_with_weapon_category": "LONG_THRUSTING_SWORDS" } },
+            { "not": { "u_has_wielded_with_weapon_category": "BIONIC_SWORDS" } },
+            { "not": { "u_has_wielded_with_flag": "OLD_GUN" } },
+            { "not": { "u_has_wielded_with_flag": "NEVER_JAMS" } },
+            { "not": { "u_has_wielded_with_flag": "NON_FOULING" } },
+            { "not": { "u_has_wielded_with_flag": "RELOAD_AND_SHOOT" } },
+            { "not": { "u_has_wielded_with_flag": "RELOAD_EJECT" } },
+            { "not": { "u_has_wielded_with_flag": "RELOAD_ONE" } },
+            { "not": { "u_has_wielded_with_flag": "STR_DRAW" } },
+            { "not": { "u_has_wielded_with_flag": "DURABLE_MELEE" } },
+            { "not": { "u_has_wielded_with_flag": "BIONIC_WEAPON" } },
+            { "not": { "u_has_wielded_with_flag": "POLEARM" } }
+          ]
+        },
+        "values": [ { "value": "ARMOR_ALL", "multiply": -0.15 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_recycler",
     "name": { "str": "Recycler" },
     "points": 0,
