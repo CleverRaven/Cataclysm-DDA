@@ -1358,7 +1358,12 @@ class npc : public Character
         // Player orders a friendly NPC to move to this position
         std::optional<tripoint_abs_ms> goto_to_this_pos;
         int last_seen_player_turn = 0; // Timeout to forgetting
-        const item *wanted_item = nullptr;
+
+        //Safe reference to an item at a specific location which can be checked for subsequent invalidation
+        //in case the object is destroyed or more than one creature goes for it.
+        //const item *wanted_item = nullptr;
+        item_location wanted_item = {};
+
         tripoint wanted_item_pos; // The square containing an item we want
         // These are the coordinates that a guard will return to inside of their goal tripoint
         std::optional<tripoint_abs_ms> guard_pos;
