@@ -152,7 +152,7 @@ struct forest_biome {
 
 struct forest_mapgen_settings {
     std::map<std::string, forest_biome> unfinalized_biomes;
-    std::map<oter_id, forest_biome> biomes;
+    std::map<oter_type_id, forest_biome> biomes;
 
     void finalize();
     forest_mapgen_settings() = default;

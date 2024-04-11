@@ -298,7 +298,7 @@ bool effect_on_condition::activate( dialogue &d, bool require_callstack_check ) 
     if( require_callstack_check ) {
         d.amend_callstack( "EOC: " + id.str() );
         if( d.get_callstack().size() > 5000 ) {
-            if( query_yn( string_format( _( "Possible infinite loop in eoc %s.  Stop execution?" ),
+            if( query_yn( string_format( _( "Possible infinite loop in EOC %s.  Stop execution?" ),
                                          id.str() ) ) ) {
                 return false;
             }

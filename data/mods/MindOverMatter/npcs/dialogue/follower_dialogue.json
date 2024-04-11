@@ -94,7 +94,7 @@
             "or": [
               { "npc_need": "thirst", "amount": 80 },
               { "npc_need": "hunger", "amount": 160 },
-              { "npc_need": "fatigue", "level": "TIRED" },
+              { "npc_need": "sleepiness", "level": "TIRED" },
               "u_driving",
               "npc_driving",
               { "npc_has_effect": "asked_to_vitakinetic_heal" }
@@ -120,7 +120,7 @@
             "npc_need": "hunger",
             "amount": 160,
             "no": {
-              "npc_need": "fatigue",
+              "npc_need": "sleepiness",
               "level": "TIRED",
               "no": {
                 "npc_has_effect": "asked_to_vitakinetic_heal",
@@ -156,7 +156,7 @@
             "or": [
               { "npc_need": "thirst", "amount": 80 },
               { "npc_need": "hunger", "amount": 160 },
-              { "npc_need": "fatigue", "level": "TIRED" },
+              { "npc_need": "sleepiness", "level": "TIRED" },
               "u_driving",
               "npc_driving",
               { "npc_has_effect": "asked_to_vitakinetic_heal" }
@@ -187,7 +187,7 @@
             "or": [
               { "npc_need": "thirst", "amount": 80 },
               { "npc_need": "hunger", "amount": 160 },
-              { "npc_need": "fatigue", "level": "TIRED" },
+              { "npc_need": "sleepiness", "level": "TIRED" },
               "u_driving",
               "npc_driving",
               { "npc_has_effect": "asked_to_vitakinetic_heal" }

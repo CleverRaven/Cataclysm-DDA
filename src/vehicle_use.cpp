@@ -72,6 +72,9 @@ static const fault_id fault_engine_starter( "fault_engine_starter" );
 
 static const flag_id json_flag_FILTHY( "FILTHY" );
 
+static const furn_str_id furn_f_plant_harvest( "f_plant_harvest" );
+static const furn_str_id furn_f_plant_seed( "f_plant_seed" );
+
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id fuel_type_none( "null" );
@@ -96,6 +99,9 @@ static const itype_id itype_welding_kit( "welding_kit" );
 static const quality_id qual_SCREW( "SCREW" );
 
 static const skill_id skill_mechanics( "mechanics" );
+
+static const ter_str_id ter_t_dirt( "t_dirt" );
+static const ter_str_id ter_t_dirtmound( "t_dirtmound" );
 
 static const vpart_id vpart_horn_bicycle( "horn_bicycle" );
 
@@ -998,11 +1004,11 @@ void vehicle::transform_terrain()
         }
         if( prereq_fulfilled ) {
             const ter_id new_ter = ter_id( ttd.post_terrain );
-            if( new_ter != t_null ) {
+            if( new_ter != ter_str_id::NULL_ID() ) {
                 here.ter_set( start_pos, new_ter );
             }
             const furn_id new_furn = furn_id( ttd.post_furniture );
-            if( new_furn != f_null ) {
+            if( new_furn != furn_str_id::NULL_ID() ) {
                 here.furn_set( start_pos, new_furn );
             }
             const field_type_id new_field = field_type_id( ttd.post_field );
@@ -1027,7 +1033,7 @@ void vehicle::operate_reaper()
         const int plant_produced = rng( 1, vp.info().bonus );
         const int seed_produced = rng( 1, 3 );
         const units::volume max_pickup_volume = vp.info().size / 20;
-        if( here.furn( reaper_pos ) != f_plant_harvest ) {
+        if( here.furn( reaper_pos ) != furn_f_plant_harvest ) {
             continue;
         }
         // Can't use item_stack::only_item() since there might be fertilizer
@@ -1040,7 +1046,7 @@ void vehicle::operate_reaper()
             // Otherworldly plants, the earth-made reaper can not handle those.
             continue;
         }
-        here.furn_set( reaper_pos, f_null );
+        here.furn_set( reaper_pos, furn_str_id::NULL_ID() );
         // Secure the seed type before i_clear destroys the item.
         const itype &seed_type = *seed->type;
         here.i_clear( reaper_pos );
@@ -1073,11 +1079,11 @@ void vehicle::operate_planter()
         for( auto i = v.begin(); i != v.end(); i++ ) {
             if( i->is_seed() ) {
                 // If it is an "advanced model" then it will avoid damaging itself or becoming damaged. It's a real feature.
-                if( here.ter( loc ) != t_dirtmound && vp.has_feature( "ADVANCED_PLANTER" ) ) {
+                if( here.ter( loc ) != ter_t_dirtmound && vp.has_feature( "ADVANCED_PLANTER" ) ) {
                     //then don't put the item there.
                     break;
-                } else if( here.ter( loc ) == t_dirtmound ) {
-                    here.set( loc, t_dirt, f_plant_seed );
+                } else if( here.ter( loc ) == ter_t_dirtmound ) {
+                    here.set( loc, ter_t_dirt, furn_f_plant_seed );
                 } else if( !here.has_flag( ter_furn_flag::TFLAG_PLOWABLE, loc ) ) {
                     //If it isn't plowable terrain, then it will most likely be damaged.
                     damage( here, planter_id, rng( 1, 10 ), damage_bash, false );

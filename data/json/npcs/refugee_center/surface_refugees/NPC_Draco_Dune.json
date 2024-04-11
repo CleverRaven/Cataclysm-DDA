@@ -451,7 +451,7 @@
     "id": "TALK_REFUGEE_Draco_Dance",
     "dynamic_line": { "gendered_line": "Sure thing, friend!  Let's see how you can move to this one.", "relevant_genders": [ "u" ] },
     "responses": [
-      { "text": "Just a sec, got somethig I need to do first.", "topic": "TALK_DONE" },
+      { "text": "Just a sec, got something I need to do first.", "topic": "TALK_DONE" },
       {
         "text": "[Shuffle back and forth a little]",
         "topic": "TALK_REFUGEE_Draco_Dance_1",
@@ -555,7 +555,7 @@
       "describe": "Yeah, sure, imagine how things would be if we had some live music around here?  I don't know how much I could thank you, though, if you're looking for payment.  You'd sure be improving the mood, though.",
       "offer": "I just want a functional acoustic guitar.  Preferably one that hasn't been used to cave in any zombie skulls.",
       "accepted": "Great!  We'll be makin' music in no time!",
-      "rejected": "Oh well.  I understand your reluctancy… I guess.",
+      "rejected": "Oh well.  I understand your reluctance… I guess.",
       "advice": "Well, I'll let you in on a little secret.  Guitars COULD be found at a music store.  Let that one sink in a bit.",
       "inquire": "How's my guitar comin', friend?",
       "success": "Hell yeah, bud!  You just made a lot of people really happy!  In thanks, I'll have enough cash to offer you more recompense for our little dealings.",

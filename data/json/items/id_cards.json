@@ -322,7 +322,7 @@
     "id": "warehouse_rebooter",
     "color": "blue",
     "symbol": "%",
-    "name": { "str": "exodii comm rebooter" },
+    "name": { "str": "Exodii comm rebooter" },
     "description": "A small rectangular device that Rubik gave you.  It is meant to be plugged in a locator antenna to reactivate it.",
     "price": 0,
     "volume": "250 ml",

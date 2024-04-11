@@ -73,7 +73,7 @@
     "id": "leather_armor_horse",
     "copy-from": "horse_armor",
     "color": "green",
-    "name": { "str": "boiled leather horse barding with caprison", "str_pl": "boiled leather horse bardings with caprison" },
+    "name": { "str": "boiled leather horse barding with caparison", "str_pl": "boiled leather horse bardings with caparison" },
     "description": "A full barding for horses consisting of boiled leather and cloth undercovering.  This caparison depicts a battle between a monstrous dragon and regal griffin.  You could put this on a friendly horse.",
     "price": 30000,
     "price_postapoc": 3000,

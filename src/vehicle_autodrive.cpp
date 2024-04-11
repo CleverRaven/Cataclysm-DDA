@@ -137,6 +137,8 @@
  * coordinates.
  */
 
+static const ter_str_id ter_t_open_air( "t_open_air" );
+
 static constexpr int OMT_SIZE = coords::map_squares_per( coords::omt );
 static constexpr int NAV_MAP_NUM_OMT = 2;
 static constexpr int NAV_MAP_SIZE_X = NAV_MAP_NUM_OMT * OMT_SIZE;
@@ -723,7 +725,7 @@ bool vehicle::autodrive_controller::check_drivable( const tripoint_bub_ms &pt ) 
             if( avatar.get_memorized_tile( pt_abs ) == mm_submap::default_tile ) {
                 // apparently open air doesn't get memorized, so pretend it is or else
                 // we can't fly helicopters due to the many unseen tiles behind the driver
-                if( !( data.air_ok && here.ter( pt ) == t_open_air ) ) {
+                if( !( data.air_ok && here.ter( pt ) == ter_t_open_air ) ) {
                     return false;
                 }
             }
@@ -745,17 +747,17 @@ bool vehicle::autodrive_controller::check_drivable( const tripoint_bub_ms &pt ) 
     // check for furniture that hinders movement; furniture with 0 move cost
     // can be driven on
     const furn_id furniture = here.furn( pt );
-    if( furniture != f_null && furniture.obj().movecost != 0 ) {
+    if( furniture != furn_str_id::NULL_ID() && furniture.obj().movecost != 0 ) {
         return false;
     }
 
     const ter_id terrain = here.ter( pt );
-    if( terrain == t_null ) {
+    if( terrain == ter_str_id::NULL_ID() ) {
         return false;
     }
     // open air is an obstacle to non-flying vehicles; it is drivable
     // for flying vehicles
-    if( terrain == t_open_air ) {
+    if( terrain == ter_t_open_air ) {
         return data.air_ok;
     }
     const ter_t &terrain_type = terrain.obj();

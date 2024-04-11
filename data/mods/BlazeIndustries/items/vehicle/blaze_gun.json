@@ -43,7 +43,7 @@
     "looks_like": "ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "modified SKS" },
+    "name": { "str_sp": "modified SKS" },
     "description": "An SKS, modified to be suitable for use in a vehicle turret.",
     "weight": "3850 g",
     "volume": "2838 ml",

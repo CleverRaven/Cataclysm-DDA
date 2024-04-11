@@ -289,7 +289,7 @@
     "blackpowder_tolerance": 24,
     "clip_size": 3,
     "barrel_volume": "750 ml",
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "EASY_CLEAN" ],
+    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "EASY_CLEAN", "NO_TURRET" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "308": 3 } } ],
     "melee_damage": { "bash": 12 }
   },
@@ -351,7 +351,7 @@
       [ "rail mount", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "EASY_CLEAN" ],
+    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "EASY_CLEAN", "NO_TURRET" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "308": 5 } } ],
     "melee_damage": { "bash": 12 }
   },
@@ -566,7 +566,7 @@
       [ "underbarrel", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "NEVER_JAMS", "EASY_CLEAN" ],
+    "flags": [ "NEVER_JAMS", "EASY_CLEAN", "NO_TURRET" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "steyr_scout_mag", "steyr_scout_mag_makeshift" ] } ],
     "melee_damage": { "bash": 10 }
   }

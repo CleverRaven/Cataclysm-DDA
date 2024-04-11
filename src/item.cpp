@@ -191,11 +191,11 @@ static const material_id material_wool( "wool" );
 
 static const morale_type morale_null( "morale_null" );
 
-static const mtype_id debug_mon( "debug_mon" );
 static const mtype_id mon_human( "mon_human" );
 static const mtype_id mon_zombie_smoker( "mon_zombie_smoker" );
-static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
+static const mtype_id mon_zombie_soldier_no_weakpoints( "mon_zombie_soldier_no_weakpoints" );
 static const mtype_id mon_zombie_survivor( "mon_zombie_survivor" );
+static const mtype_id pseudo_debug_mon( "pseudo_debug_mon" );
 
 static const quality_id qual_BOIL( "BOIL" );
 static const quality_id qual_JACK( "JACK" );
@@ -312,7 +312,11 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
     }
 
     if( qty >= 0 ) {
-        charges = qty;
+        if( type->can_have_charges() ) {
+            charges = qty;
+        } else if( qty > 1 ) {
+            debugmsg( "Tried to set charges for item %s that could not have them!", tname() );
+        }
     } else {
         if( type->tool && type->tool->rand_charges.size() > 1 ) {
             const int charge_roll = rng( 1, type->tool->rand_charges.size() - 1 );
@@ -510,12 +514,14 @@ static void inherit_rot_from_components( item &it )
         const time_duration shortest_lifespan = get_shortest_lifespan_from_components( it );
         if( shortest_lifespan > 0_turns && shortest_lifespan < it.get_shelf_life() ) {
             it.set_rot( it.get_shelf_life() - shortest_lifespan );
+            return;
         }
-    } else {
-        const item *most_rotten = get_most_rotten_component( it );
-        if( most_rotten ) {
-            it.set_relative_rot( most_rotten->get_relative_rot() );
-        }
+        // Fallthrough: shortest_lifespan <= 0_turns (all components are rotten)
+    }
+
+    const item *most_rotten = get_most_rotten_component( it );
+    if( most_rotten ) {
+        it.set_relative_rot( most_rotten->get_relative_rot() );
     }
 }
 
@@ -2341,9 +2347,9 @@ struct dps_comp_data {
 };
 
 static const std::vector<std::pair<translation, dps_comp_data>> dps_comp_monsters = {
-    { to_translation( "Best" ), { debug_mon, true, false } },
+    { to_translation( "Best" ), { pseudo_debug_mon, true, false } },
     { to_translation( "Vs. Agile" ), { mon_zombie_smoker, true, true } },
-    { to_translation( "Vs. Armored" ), { mon_zombie_soldier, true, true } },
+    { to_translation( "Vs. Armored" ), { mon_zombie_soldier_no_weakpoints, true, true } },
     { to_translation( "Vs. Mixed" ), { mon_zombie_survivor, false, true } },
 };
 

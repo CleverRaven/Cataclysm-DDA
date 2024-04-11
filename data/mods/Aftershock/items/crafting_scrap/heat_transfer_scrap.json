@@ -48,7 +48,7 @@
     "type": "GENERIC",
     "id": "afs_heat_5",
     "copy-from": "afs_scrap_5",
-    "name": { "str": "maxwellian entropic chirality generator" },
+    "name": { "str": "Maxwellian entropic chirality generator" },
     "description": "A nondescript square piece of metal about the size of a computer chip.  One side is cold to the touch, while the other is uncomfortably hot.  Hermetically sealed and devoid of any identifying feature, this peculiar device gives off an unexplainable, sinister aura.",
     "looks_like": "scrap"
   },
