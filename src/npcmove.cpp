@@ -3536,6 +3536,7 @@ void npc::find_item()
         } else {
             return false;
         }
+        }
     };
 
     map &here = get_map();
