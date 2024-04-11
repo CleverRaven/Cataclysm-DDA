@@ -377,7 +377,7 @@ TEST_CASE( "Enchantment_PAIN_PENALTY_MOD_test", "[magic][enchantments]" )
     advance_turn( guy );
     INFO( "Stats are: 4 str, 7 dex, 7 int, 0 per, 89 speed" );
     REQUIRE( guy.get_str() == 4 );
-    REQUIRE( guy.get_dex() == 8 );
+    REQUIRE( guy.get_dex() == 7 );
     REQUIRE( guy.get_int() == 7 );
     REQUIRE( guy.get_per() == 0 );
     REQUIRE( guy.get_speed() == 89 );
