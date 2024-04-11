@@ -3735,7 +3735,6 @@ void npc::pick_up_item()
             add_msg_debug( debugmode::DF_NPC, "Canceling pickup - no items or new zone" );
             return;
         }
-    }
 
     add_msg_debug( debugmode::DF_NPC, "%s::pick_up_item(); [ % d, % d, % d] => [ % d, % d, % d]",
                    get_name(),
