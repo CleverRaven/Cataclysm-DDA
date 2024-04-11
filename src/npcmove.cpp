@@ -3536,8 +3536,7 @@ void npc::find_item()
         } else {
             return false;
         }
-    }
-};
+    };
 
     map &here = get_map();
     // Harvest item doesn't exist, so we'll be checking by its name
@@ -3580,37 +3579,8 @@ void npc::find_item()
                 num_items += vp_cargo->items().size();
             }
         }
-    }
-}
-if( prev_num_items == num_items )
-{
-    continue;
-}
-auto cache_tile = [this, &abs_p, num_items]()
-{
-    if( wanted_item.get_item() == nullptr ) {
-        ai_cache.searched_tiles.insert( 1000, abs_p, num_items );
-    }
-};
-bool can_see = false;
-if( here.sees_some_items( p, *this ) && sees( p ) )
-{
-    can_see = true;
-    for( item &it : m_stack ) {
-        if( consider_item( it, p ) )
-            wanted_item = item_location{ map_cursor{p}, &it };
-    }
-    auto cache_tile = [this, &abs_p, num_items]() {
-        if( wanted_item.get_item() == nullptr ) {
-            ai_cache.searched_tiles.insert( 1000, abs_p, num_items );
-        }
-    };
-    bool can_see = false;
-    if( here.sees_some_items( p, *this ) && sees( p ) ) {
-        can_see = true;
-        for( item &it : m_stack ) {
-            if( consider_item( it, p ) )
-                wanted_item = item_location{ map_cursor{p}, &it };
+        if( prev_num_items == num_items ) {
+            continue;
         }
         auto cache_tile = [this, &abs_p, num_items]() {
             if( wanted_item.get_item() == nullptr ) {
@@ -3624,6 +3594,7 @@ if( here.sees_some_items( p, *this ) && sees( p ) )
                 if( consider_item( it, p ) )
                     wanted_item = item_location{ map_cursor{p}, &it };
             }
+        }
 
         // Not cached because it gets checked once and isn't expected to change.
         if( can_see || sees( p ) ) {
@@ -3646,26 +3617,18 @@ if( here.sees_some_items( p, *this ) && sees( p ) )
         static const std::string cargo_locking_string( "CARGO_LOCKING" );
         if( vp.part_with_feature( cargo_locking_string, true ) ) {
             cache_tile();
+            continue;
         }
 
-        if( wanted_item.get_item() != nullptr ) {
-            wanted_name = wanted_item->tname();
+        for( item &it : cargo->items() ) {
+            if( consider_item( it, p ) )
+                wanted_item = {  vehicle_cursor{ cargo->vehicle(), static_cast<ptrdiff_t>( cargo->part_index() ) }, &it };
         }
         cache_tile();
-        continue;
-        continue;
-        continue;
-        continue;
-        continue;
-        continue;
-        continue;
-        continue;
     }
 
-    static const std::string cargo_locking_string( "CARGO_LOCKING" );
-    if( vp.part_with_feature( cargo_locking_string, true ) ) {
-        cache_tile();
-        continue;
+    if( wanted_item.get_item() != nullptr ) {
+        wanted_name = wanted_item->tname();
     }
 
     if( wanted_name.empty() ) {
@@ -3732,14 +3695,9 @@ void npc::pick_up_item()
             fetching_item = false;
             wanted_item = {};
             move_pause();
-            add_msg_debug( debugmode::DF_NPC, "Canceling pickup - no items or new zone" );
-            add_msg_debug( debugmode::DF_NPC, "Canceling pickup - no items or new zone" );
-            add_msg_debug( debugmode::DF_NPC, "Canceling pickup - no items or new zone" );
-            add_msg_debug( debugmode::DF_NPC, "Canceling pickup - no items or new zone" );
-            add_msg_debug( debugmode::DF_NPC, "Canceling pickup - no items or new zone" );
-            add_msg_debug( debugmode::DF_NPC, "Canceling pickup - no items or new zone" );
             return;
         }
+    }
 
     add_msg_debug( debugmode::DF_NPC, "%s::pick_up_item(); [ % d, % d, % d] => [ % d, % d, % d]",
                    get_name(),
@@ -3779,8 +3737,6 @@ void npc::pick_up_item()
             // but we want the item picker to find new items
             fetching_item = false;
             wanted_item = {};
-            move_pause();
-            move_pause();
             return;
         }
     }
