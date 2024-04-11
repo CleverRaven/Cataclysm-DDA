@@ -50,6 +50,19 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_OBSERVED_SIDE_EFFECTS",
+    "effect": {
+      "switch": { "math": [ "u_effect_intensity('psi_nether_attention')" ] },
+      "cases": [ { "case": 1, "effect": { "weighted_list_eocs": [ [ "EOC_OBSERVED_EFFECT_HEARING_SOUNDS", 1 ] ] } } ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_OBSERVED_EFFECT_HEARING_SOUNDS",
+    "effect": { "u_message": "observed_effect_hearing_sounds", "snippet": true }
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_CHECK_NEAR_NETHER_CRYSTAL_RECURRING",
     "recurrence": [ "2 hours", "16 hours" ],
     "effect": [
@@ -84,7 +97,7 @@
     "type": "effect_on_condition",
     "id": "EOC_CHECK_NEAR_NETHER_CRYSTAL_EFFECTS",
     "condition": { "u_has_effect": "psi_nether_attention" },
-    "effect": [  ],
+    "effect": [ { "run_eocs": "EOC_OBSERVED_SIDE_EFFECTS" } ],
     "false_effect": { "run_eocs": "EOC_PSIONICS_NETHER_AREA_ATTENTION_CHECK" }
   },
   {
