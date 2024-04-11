@@ -10,9 +10,9 @@
     "effect": "attack",
     "shape": "blast",
     "damage_type": "heat",
-    "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(20)" ] },
-    "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(8.0)" ] },
-    "max_damage": { "math": [ "evocation_proficiency_bonus_calculate(300)" ] },
+    "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(20, 0.5)" ] },
+    "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(8.0, 0.03)" ] },
+    "max_damage": { "math": [ "evocation_proficiency_bonus_calculate(300, 0.5)" ] },
     "min_range": 1,
     "max_range": 1,
     "base_energy_cost": 120,
@@ -38,7 +38,7 @@
     "shape": "blast",
     "min_damage": 1,
     "max_damage": 1,
-    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(300)" ] },
+    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(300, 2)" ] },
     "spell_class": "FIRE_ELEMENTAL",
     "difficulty": 7,
     "max_level": 35,
@@ -46,8 +46,8 @@
     "sound_description": "whoosh",
     "sound_id": "fire_spell",
     "energy_source": "MANA",
-    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(90000)" ] },
-    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(6000)" ] },
-    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(300000)" ] }
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(90000, 400)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(6000, 0.03)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(300000, 400)" ] }
   }
 ]

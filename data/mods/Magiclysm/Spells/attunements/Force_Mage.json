@@ -15,9 +15,9 @@
     "base_energy_cost": 350,
     "difficulty": 4,
     "max_level": 35,
-    "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(60)" ] },
-    "max_damage": { "math": [ "evocation_proficiency_bonus_calculate(410)" ] },
-    "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(10)" ] },
+    "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(60, 0.5)" ] },
+    "max_damage": { "math": [ "evocation_proficiency_bonus_calculate(410, 0.5)" ] },
+    "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(10, 0.03)" ] },
     "damage_type": "cut",
     "min_aoe": 1,
     "max_aoe": 1,
@@ -83,12 +83,12 @@
     "spell_class": "FORCE_MAGE",
     "energy_source": "MANA",
     "base_casting_time": 500,
-    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(500)" ] },
+    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(500, 3)" ] },
     "max_level": 35,
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(360000)" ] },
-    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(1440000)" ] },
-    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(40115)" ] }
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(360000, 400)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(1440000, 400)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(40115, 0.04)" ] }
   }
 ]
