@@ -3636,6 +3636,7 @@ void npc::find_item()
             wanted_name = wanted_item->tname();
         }
         cache_tile();
+        continue;
     }
 
     if( wanted_item.get_item() != nullptr ) {
