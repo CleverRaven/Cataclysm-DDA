@@ -375,7 +375,7 @@
             { "not": { "u_has_wielded_with_flag": "POLEARM" } }
           ]
         },
-        "values": [ { "value": "ARMOR_ALL", "multiply": -0.15 } ]
+        "values": [ { "value": "ARMOR_ALL", "multiply": -0.25 } ]
       }
     ]
   },
