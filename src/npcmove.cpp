@@ -3654,6 +3654,7 @@ if( here.sees_some_items( p, *this ) && sees( p ) )
         cache_tile();
         continue;
         continue;
+        continue;
     }
 
     static const std::string cargo_locking_string( "CARGO_LOCKING" );
