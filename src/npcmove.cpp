@@ -3619,9 +3619,8 @@ void npc::find_item()
             cache_tile();
         }
 
-        for( item &it : cargo->items() ) {
-            if( consider_item( it, p ) )
-                wanted_item = {  vehicle_cursor{ cargo->vehicle(), static_cast<ptrdiff_t>( cargo->part_index() ) }, &it };
+        if( wanted_item.get_item() != nullptr ) {
+            wanted_name = wanted_item->tname();
         }
         cache_tile();
     }
