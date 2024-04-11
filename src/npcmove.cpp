@@ -3530,7 +3530,7 @@ void npc::find_item()
         if( ::good_for_pickup( it, *this, p ) ) {
             wanted_item_pos = p;
             //wanted_item = &it;
-            //wanted = wanted_item;            
+            //wanted = wanted_item;
             best_value = has_item_whitelist() ? 1000 : value( it );
             return true;
         }
