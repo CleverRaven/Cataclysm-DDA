@@ -4018,7 +4018,7 @@ class Character : public Creature, public visitable
         int strain;
         int strain_burn;
         bool used_strain_this_turn = false;
-        bool recover_burn_ticker = 4;
+        int recover_burn_ticker = 4;
 
         int cardio_acc;
         int base_cardio_acc;
