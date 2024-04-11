@@ -3580,8 +3580,21 @@ void npc::find_item()
                 num_items += vp_cargo->items().size();
             }
         }
-        if( prev_num_items == num_items ) {
-            continue;
+    }
+    if( prev_num_items == num_items ) {
+        continue;
+    }
+    auto cache_tile = [this, &abs_p, num_items]() {
+        if( wanted_item.get_item() == nullptr ) {
+            ai_cache.searched_tiles.insert( 1000, abs_p, num_items );
+        }
+    };
+    bool can_see = false;
+    if( here.sees_some_items( p, *this ) && sees( p ) ) {
+        can_see = true;
+        for( item &it : m_stack ) {
+            if( consider_item( it, p ) )
+                wanted_item = item_location{ map_cursor{p}, &it };
         }
         auto cache_tile = [this, &abs_p, num_items]() {
             if( wanted_item.get_item() == nullptr ) {
