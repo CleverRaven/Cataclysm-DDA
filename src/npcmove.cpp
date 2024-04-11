@@ -3533,8 +3533,7 @@ void npc::find_item()
             //wanted = wanted_item;
             best_value = has_item_whitelist() ? 1000 : value( it );
             return true;
-        }
-        else
+        } else {
             return false;
     };
 
