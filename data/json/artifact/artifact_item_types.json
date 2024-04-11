@@ -387,7 +387,7 @@
     "type": "TOOL",
     "copy-from": "art_spear",
     "name": { "str": "impossible trident" },
-    "description": "A large trident made entirely out of an indiscernible material.  The prong in the middle seems to fade away into nothingness when looked at from the top, but you can clearly see the shaft connecting the tip of the weapon from the bottom. It's giving you a headache.  It is the only one of its kind.\nIt may have unknown powers; try activating them.",
+    "description": "A large trident made entirely out of an indiscernible material.  The prong in the middle seems to fade away into nothingness when looked at from the top, but you can clearly see the shaft connecting the tip of the weapon from the bottom.  It's giving you a headache.  It is the only one of its kind.\nIt may have unknown powers; try activating them.",
     "looks_like": "pitchfork",
     "color": "dark_gray",
     "material": [ "anomaly" ],
