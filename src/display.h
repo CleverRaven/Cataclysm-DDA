@@ -123,7 +123,7 @@ std::pair<std::string, nc_color> thirst_text_color( const Character &u );
 std::pair<std::string, nc_color> hunger_text_color( const Character &u );
 std::pair<std::string, nc_color> weight_text_color( const Character &u );
 std::pair<std::string, nc_color> health_text_color( const Character &u );
-std::pair<std::string, nc_color> fatigue_text_color( const Character &u );
+std::pair<std::string, nc_color> sleepiness_text_color( const Character &u );
 std::pair<std::string, nc_color> pain_text_color( const Creature &c );
 std::pair<std::string, nc_color> pain_text_color( const Character &u );
 // Character morale, as a color-coded ascii emoticon face

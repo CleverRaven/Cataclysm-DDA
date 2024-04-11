@@ -1,6 +1,5 @@
 #include "game.h"
 
-#include <functional>
 #include <algorithm>
 #include <bitset>
 #include <chrono>
@@ -12,10 +11,13 @@
 #include <ctime>
 #include <cwctype>
 #include <exception>
+#include <functional>
 #include <iomanip>
 #include <iostream>
 #include <iterator>
 #include <limits>
+#include <list>
+#include <locale>
 #include <map>
 #include <memory>
 #include <numeric>
@@ -45,21 +47,25 @@
 #include "avatar_action.h"
 #include "basecamp.h"
 #include "bionics.h"
+#include "body_part_set.h"
 #include "bodygraph.h"
 #include "bodypart.h"
 #include "butchery_requirements.h"
 #include "cached_options.h"
+#include "cata_path.h"
 #include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "cata_variant.h"
 #include "catacharset.h"
 #include "character.h"
+#include "character_attire.h"
 #include "character_martial_arts.h"
 #include "city.h"
 #include "climbing.h"
 #include "clzones.h"
 #include "colony.h"
 #include "color.h"
+#include "computer.h"
 #include "computer_session.h"
 #include "construction.h"
 #include "construction_group.h"
@@ -72,10 +78,12 @@
 #include "damage.h"
 #include "debug.h"
 #include "dependency_tree.h"
+#include "dialogue.h"
 #include "dialogue_chatbin.h"
 #include "diary.h"
 #include "distraction_manager.h"
 #include "editmap.h"
+#include "effect.h"
 #include "effect_on_condition.h"
 #include "enums.h"
 #include "event.h"
@@ -86,6 +94,8 @@
 #include "field_type.h"
 #include "filesystem.h"
 #include "flag.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "game_ui.h"
@@ -93,11 +103,11 @@
 #include "gates.h"
 #include "get_version.h"
 #include "harvest.h"
-#include "help.h"
 #include "iexamine.h"
 #include "init.h"
 #include "input.h"
 #include "input_context.h"
+#include "input_enums.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_category.h"
@@ -116,8 +126,9 @@
 #include "line.h"
 #include "live_view.h"
 #include "loading_ui.h"
-#include "main_menu.h"
 #include "magic.h"
+#include "magic_enchantment.h"
+#include "main_menu.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_item_stack.h"
@@ -126,17 +137,20 @@
 #include "mapbuffer.h"
 #include "mapdata.h"
 #include "mapsharing.h"
+#include "maptile_fwd.h"
 #include "memorial_logger.h"
 #include "messages.h"
 #include "mission.h"
 #include "mod_manager.h"
 #include "monexamine.h"
+#include "mongroup.h"
+#include "monster.h"
 #include "monstergenerator.h"
 #include "move_mode.h"
 #include "mtype.h"
 #include "npc.h"
-#include "npctrade.h"
 #include "npc_class.h"
+#include "npctrade.h"
 #include "omdata.h"
 #include "options.h"
 #include "output.h"
@@ -144,7 +158,6 @@
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "panels.h"
-#include "past_games_info.h"
 #include "past_achievements_info.h"
 #include "path_info.h"
 #include "pathfinding.h"
@@ -152,6 +165,7 @@
 #include "player_activity.h"
 #include "popup.h"
 #include "profession.h"
+#include "proficiency.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "ret_val.h"
@@ -170,6 +184,8 @@
 #include "text_snippets.h"
 #include "tileray.h"
 #include "timed_event.h"
+#include "translation.h"
+#include "translation_cache.h"
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
@@ -182,8 +198,11 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "viewer.h"
+#include "visitable.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
+#include "wcwidth.h"
+#include "weakpoint.h"
 #include "weather.h"
 #include "weather_type.h"
 #include "worldfactory.h"
@@ -307,6 +326,14 @@ static const skill_id skill_survival( "survival" );
 static const species_id species_PLANT( "PLANT" );
 
 static const string_id<npc_template> npc_template_cyborg_rescued( "cyborg_rescued" );
+
+static const ter_str_id ter_t_elevator( "t_elevator" );
+static const ter_str_id ter_t_grave_new( "t_grave_new" );
+static const ter_str_id ter_t_lava( "t_lava" );
+static const ter_str_id ter_t_manhole( "t_manhole" );
+static const ter_str_id ter_t_manhole_cover( "t_manhole_cover" );
+static const ter_str_id ter_t_pit( "t_pit" );
+static const ter_str_id ter_t_pit_shallow( "t_pit_shallow" );
 
 static const trait_id trait_BADKNEES( "BADKNEES" );
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
@@ -852,6 +879,7 @@ bool game::start_game()
     const start_location &start_loc = u.random_start_location ? scen->random_start_location().obj() :
                                       u.start_location.obj();
     tripoint_abs_omt omtstart = overmap::invalid_tripoint;
+    std::unordered_map<std::string, std::string> associated_parameters;
     const bool select_starting_city = get_option<bool>( "SELECT_STARTING_CITY" );
     do {
         if( select_starting_city ) {
@@ -859,9 +887,13 @@ bool game::start_game()
                 u.starting_city = random_entry( city::get_all() );
                 u.world_origin = u.starting_city->pos_om;
             }
-            omtstart = start_loc.find_player_initial_location( u.starting_city.value() );
+            auto ret = start_loc.find_player_initial_location( u.starting_city.value() );
+            omtstart = ret.first;
+            associated_parameters = ret.second;
         } else {
-            omtstart = start_loc.find_player_initial_location( u.world_origin.value_or( point_abs_om() ) );
+            auto ret = start_loc.find_player_initial_location( u.world_origin.value_or( point_abs_om() ) );
+            omtstart = ret.first;
+            associated_parameters = ret.second;
         }
         if( omtstart == overmap::invalid_tripoint ) {
 
@@ -874,6 +906,9 @@ bool game::start_game()
             }
         }
     } while( omtstart == overmap::invalid_tripoint );
+
+    // Set parameter(s) if specified in chosen start_loc
+    start_loc.set_parameters( omtstart, associated_parameters );
 
     start_loc.prepare_map( omtstart );
 
@@ -2860,7 +2895,7 @@ void game::bury_screen() const
     sfx::fade_audio_group( sfx::group::weather, 2000 );
     sfx::fade_audio_group( sfx::group::time_of_day, 2000 );
     sfx::fade_audio_group( sfx::group::context_themes, 2000 );
-    sfx::fade_audio_group( sfx::group::fatigue, 2000 );
+    sfx::fade_audio_group( sfx::group::sleepiness, 2000 );
 
     for( size_t iY = 0; iY < vRip.size(); ++iY ) {
         size_t iX = 0;
@@ -6564,7 +6599,7 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
     print_furniture_info( lp, w_look, column, line );
 
     // Cover percentage from terrain and furniture next.
-    fold_and_print( w_look, point( column, ++line ), max_width, c_light_gray, _( "Cover: %d%%" ),
+    fold_and_print( w_look, point( column, ++line ), max_width, c_light_gray, _( "Concealment: %d%%" ),
                     m.coverage( lp ) );
 
     if( m.has_flag( ter_furn_flag::TFLAG_TREE, lp ) ) {
@@ -6675,7 +6710,7 @@ void game::print_fields_info( const tripoint &lp, const catacurses::window &w_lo
     for( const auto &fld : tmpfield ) {
         const field_entry &cur = fld.second;
         if( fld.first.obj().has_fire && ( m.has_flag( ter_furn_flag::TFLAG_FIRE_CONTAINER, lp ) ||
-                                          m.ter( lp ) == t_pit_shallow || m.ter( lp ) == t_pit ) ) {
+                                          m.ter( lp ) == ter_t_pit_shallow || m.ter( lp ) == ter_t_pit ) ) {
             const int max_width = getmaxx( w_look ) - column - 2;
             int lines = fold_and_print( w_look, point( column, ++line ), max_width, cur.color(),
                                         get_fire_fuel_string( lp ) ) - 1;
@@ -6803,7 +6838,7 @@ void game::print_graffiti_info( const tripoint &lp, const catacurses::window &w_
     const int max_width = getmaxx( w_look ) - column - 2;
     if( m.has_graffiti_at( lp ) ) {
         const int lines = fold_and_print( w_look, point( column, ++line ), max_width, c_light_gray,
-                                          m.ter( lp ) == t_grave_new ? _( "Graffiti: %s" ) : _( "Inscription: %s" ),
+                                          m.ter( lp ) == ter_t_grave_new ? _( "Graffiti: %s" ) : _( "Inscription: %s" ),
                                           m.graffiti_at( lp ) );
         line += lines - 1;
     }
@@ -10655,7 +10690,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
         if( !m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, dest_loc ) &&
             one_in( 80 + u.dex_cur + u.int_cur ) ) {
             add_msg( _( "Your tentacles stick to the ground, but you pull them free." ) );
-            u.mod_fatigue( 1 );
+            u.mod_sleepiness( 1 );
         }
     }
 
@@ -11437,7 +11472,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
 
     // Actually move the furniture.
     m.furn_set( fdest, m.furn( fpos ) );
-    m.furn_set( fpos, f_null, true );
+    m.furn_set( fpos, furn_str_id::NULL_ID(), true );
 
     if( fire_intensity == 1 && !pulling_furniture ) {
         m.remove_field( fpos, fd_fire );
@@ -12188,9 +12223,9 @@ void game::vertical_move( int movez, bool force, bool peeking )
         }
     }
 
-    if( here.ter( stairs ) == t_manhole_cover ) {
+    if( here.ter( stairs ) == ter_t_manhole_cover ) {
         here.spawn_item( stairs + point( rng( -1, 1 ), rng( -1, 1 ) ), itype_manhole_cover );
-        here.ter_set( stairs, t_manhole );
+        here.ter_set( stairs, ter_t_manhole );
     }
 
     if( u.is_hauling() ) {
@@ -12286,8 +12321,8 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
             if( rl_dist( u.pos(), dest ) <= best &&
                 ( ( going_down_1 && mp.has_flag( ter_furn_flag::TFLAG_GOES_UP, dest ) ) ||
                   ( going_up_1 && ( mp.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, dest ) ||
-                                    mp.ter( dest ) == t_manhole_cover ) ) ||
-                  ( ( movez == 2 || movez == -2 ) && mp.ter( dest ) == t_elevator ) ) ) {
+                                    mp.ter( dest ) == ter_t_manhole_cover ) ) ||
+                  ( ( movez == 2 || movez == -2 ) && mp.ter( dest ) == ter_t_elevator ) ) ) {
                 stairs.emplace( dest );
                 best = rl_dist( u.pos(), dest );
             }
@@ -12332,7 +12367,7 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
     stairs.emplace( pos );
     stairs->z = z_after;
     // Check the destination area for lava.
-    if( mp.ter( *stairs ) == t_lava ) {
+    if( mp.ter( *stairs ) == ter_t_lava ) {
         if( movez < 0 &&
             !query_yn(
                 _( "There is a LOT of heat coming out of there, even the stairs have melted away.  Jump down?  You won't be able to get back up." ) ) ) {

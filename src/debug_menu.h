@@ -104,6 +104,7 @@ enum class debug_menu_index : int {
     NORMALIZE_BODY_STAT,
     SIX_MILLION_DOLLAR_SURVIVOR,
     EDIT_FACTION,
+    WRITE_CITY_LIST,
     last
 };
 

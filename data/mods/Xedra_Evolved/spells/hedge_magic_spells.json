@@ -242,7 +242,7 @@
     "id": "hedge_clairvoyance_cone_real",
     "type": "SPELL",
     "name": "To See Beyond the Barriers Real",
-    "description": "The actual spell that causes the effec for To See Beyond the Barriers.  It's a bug if you have it.",
+    "description": "The actual spell that causes the effect for To See Beyond the Barriers.  It's a bug if you have it.",
     "message": "",
     "valid_targets": [ "hostile", "ground", "ally" ],
     "flags": [ "IGNORE_WALLS" ],

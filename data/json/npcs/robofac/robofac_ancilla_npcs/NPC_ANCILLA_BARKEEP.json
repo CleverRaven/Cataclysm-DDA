@@ -120,14 +120,14 @@
         "condition": { "math": [ "u_counter_BEM_BEM_human_sample_reward_owed", ">=", "1" ] },
         "topic": "TALK_ANCILLA_BEM_HUMAN_SAMPLE_REWARD"
       },
-      { "text": "Any good rumours?", "topic": "TALK_ANCILLA_BARKEEP_INFORMATION" },
+      { "text": "Any good rumors?", "topic": "TALK_ANCILLA_BARKEEP_INFORMATION" },
       { "text": "I'll be going…", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_ANCILLA_BARKEEP_INFORMATION",
-    "dynamic_line": "If what you want are jobs and opportunities, you'll probably be better off asking to my other patrons.  Have regulars from well across the state, im sure some can offer what you want.\"\n\n \"Really, I just tend the bar and don't ask many questions.  Things tend work out better that way.",
+    "dynamic_line": "If what you want are jobs and opportunities, you'll probably be better off asking to my other patrons.  Have regulars from well across the state, I'm sure some can offer what you want.\"\n\n \"Really, I just tend the bar and don't ask many questions.  Things tend work out better that way.",
     "responses": [ { "text": "I'll ask around, thank you.", "topic": "TALK_ANCILLA_BARKEEP" } ]
   },
   {

@@ -66,6 +66,8 @@ static constexpr half_open_cuboid<tripoint> editmap_boundaries(
 // NOLINTNEXTLINE(cata-static-int_id-constants)
 static const ter_id undefined_ter_id( -1 );
 
+static const ter_str_id ter_t_grave_new( "t_grave_new" );
+
 static std::vector<std::string> fld_string( const std::string &str, int width )
 {
     std::vector<std::string> lines;
@@ -825,7 +827,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
 
     if( here.has_graffiti_at( target ) ) {
         mvwprintw( w_info, point( 1, off ),
-                   here.ter( target ) == t_grave_new ? _( "Graffiti: %s" ) : _( "Inscription: %s" ),
+                   here.ter( target ) == ter_t_grave_new ? _( "Graffiti: %s" ) : _( "Inscription: %s" ),
                    here.graffiti_at( target ) );
     }
 

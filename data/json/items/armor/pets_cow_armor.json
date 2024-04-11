@@ -73,7 +73,7 @@
     "id": "leather_armor_cow",
     "copy-from": "cow_armor",
     "color": "green",
-    "name": { "str": "boiled leather cow barding with caprison", "str_pl": "boiled leather cow bardings with caprison" },
+    "name": { "str": "boiled leather cow barding with caparison", "str_pl": "boiled leather cow bardings with caparison" },
     "description": "A full barding for cows consisting of boiled leather and cloth undercovering.  This caparison depicts a battle between a monstrous dragon and regal griffin.  You could put this on a friendly cow.",
     "price": 35000,
     "price_postapoc": 3500,

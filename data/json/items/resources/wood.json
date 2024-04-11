@@ -136,7 +136,7 @@
     "type": "GENERIC",
     "id": "tonewood",
     "name": { "str": "tonewood", "str_pl": "blocks of tonewood" },
-    "description": "A block of tonally appropriate wood that has been air dryed for a year in preparation for being turned into a musical instrument.",
+    "description": "A block of tonally appropriate wood that has been air dried for a year in preparation for being turned into a musical instrument.",
     "category": "spare_parts",
     "weight": "1830 g",
     "color": "brown",

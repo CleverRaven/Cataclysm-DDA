@@ -225,7 +225,7 @@
     "id": "mon_zombie_tear_gasbag",
     "type": "MONSTER",
     "name": { "str": "swollen tearjerker" },
-    "description": "A bloated corpse, its ballooning skin blistered and rashy and its face caked in mucus.  The off-colour orange gas that occasionally leaks from it makes your eyes water and smells faintly of pepper.",
+    "description": "A bloated corpse, its ballooning skin blistered and rashy and its face caked in mucus.  The off-color orange gas that occasionally leaks from it makes your eyes water and smells faintly of pepper.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],

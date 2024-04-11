@@ -783,8 +783,8 @@
     "items": [
       { "group": "salty_snacks", "prob": 121 },
       [ "sandwich_t", 22 ],
-      [ "tea_raw", 50 ],
-      [ "tea_green_raw", 25 ],
+      { "group": "tea_raw_bag_plastic_33", "prob": 50 },
+      { "group": "tea_green_raw_bag_plastic_33", "prob": 25 },
       [ "cookies", 25 ],
       [ "brownie", 25 ],
       [ "coffee_raw", 90 ],

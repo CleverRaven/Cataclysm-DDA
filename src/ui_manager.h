@@ -128,6 +128,11 @@ class ui_adaptor
          **/
         void position( const point &topleft, const point &size );
         /**
+         * like 'position', except topleft and size are given as
+         * pixels in tiled builds and console cells on curses builds
+         **/
+        void position_absolute( const point &topleft, const point &size );
+        /**
          * Set redraw and resize callbacks. The resize callback should
          * call `position` or `position_from_window` to set the size of the UI,
          * and (re-)calculate any UI data that is related to the screen size,

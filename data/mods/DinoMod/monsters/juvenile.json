@@ -509,7 +509,7 @@
     "id": "mon_stegosaurus_juvenile",
     "type": "MONSTER",
     "name": "green and magenta four-legged juvenile",
-    "description": "A small four-legged plant-eating dinosaur juvenile, it could be from a number of different species.",
+    "description": "A four-legged plant-eating dinosaur juvenile larger than a cow, it could be from a number of different species.",
     "copy-from": "mon_gallimimus_juvenile",
     "hp": 200,
     "volume": "1000 L",
@@ -609,13 +609,19 @@
     "extend": { "flags": [ "SWIMS", "CAN_BE_CULLED" ] }
   },
   {
-    "id": "mon_hadrosaurus_juvenile",
+    "id": "mon_iguanodon_juvenile",
     "type": "MONSTER",
     "name": "gray and magenta two-legged juvenile",
-    "description": "A small two-legged plant-eating dinosaur juvenile, it could be from a number of different species.",
     "copy-from": "mon_camptosaurus_juvenile",
+    "description": "A two-legged plant-eating dinosaur juvenile larger than a cow, it could be from a number of different species.",
     "color": "yellow",
     "petfood": { "food": [ "DINOFOOD_C" ] },
+    "upgrades": { "age_grow": 365, "into": "mon_iguanodon" }
+  },
+  {
+    "id": "mon_hadrosaurus_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_iguanodon_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_hadrosaurus" }
   },
   {

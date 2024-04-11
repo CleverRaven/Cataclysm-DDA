@@ -82,7 +82,7 @@
     "id": "BEM_JABBERWOCK_3",
     "type": "talk_topic",
     "dynamic_line": {
-      "gendered_line": "&Continued prodding manages to extract a baffling response from your interlocutor \"I- I-ve seen it, the god of our new world, a god of flesh and bone.\" <mypronoun> says with a maddened glare, as though this were some sort of shocking revelation.",
+      "gendered_line": "&Continued prodding manages to extract a baffling response from your interlocutor \"I- I've seen it, the god of our new world, a god of flesh and bone.\" <mypronoun> says with a maddened glare, as though this were some sort of shocking revelation.",
       "relevant_genders": [ "npc" ]
     },
     "responses": [

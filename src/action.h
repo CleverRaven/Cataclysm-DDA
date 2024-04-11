@@ -13,6 +13,7 @@
 
 struct input_event;
 struct point;
+struct tripoint;
 
 /**
  * Enumerates all discrete actions that can be performed by player

@@ -2,25 +2,30 @@
 #ifndef CATA_SRC_AVATAR_H
 #define CATA_SRC_AVATAR_H
 
-#include <cstddef>
-#include <iosfwd>
+#include <array>
 #include <list>
 #include <map>
 #include <memory>
+#include <set>
 #include <string>
+#include <string_view>
 #include <unordered_set>
+#include <utility>
 #include <vector>
 
+#include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
+#include "character_id.h"
 #include "coordinates.h"
 #include "enums.h"
 #include "game_constants.h"
+#include "item.h"
 #include "magic_teleporter_list.h"
 #include "mdarray.h"
-#include "memory_fast.h"
 #include "point.h"
 #include "type_id.h"
+#include "units.h"
 
 class advanced_inv_area;
 class advanced_inv_listitem;
@@ -28,30 +33,27 @@ class advanced_inventory_pane;
 class cata_path;
 class diary;
 class faction;
-class item;
 class item_location;
 class JsonObject;
 class JsonOut;
+class map_memory;
+class memorized_tile;
 class mission;
 class monster;
 class nc_color;
 class npc;
 class talker;
 struct bionic;
+struct mtype;
 
 namespace catacurses
 {
 class window;
 } // namespace catacurses
-enum class character_type : int;
-class map_memory;
-class memorized_tile;
-
 namespace debug_menu
 {
 class mission_debug;
 }  // namespace debug_menu
-struct mtype;
 enum class pool_type;
 
 // Monster visible in different directions (safe mode & compass)
