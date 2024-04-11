@@ -34,6 +34,17 @@
   },
   {
     "type": "proficiency",
+    "id": "prof_wp_ghoul",
+    "category": "prof_weakpoint",
+    "name": { "str": "Analysis of Post-Zombies" },
+    "description": "There seems to be some kind of living second-stage zombie creatures, or 'ghouls' for short.  They bleed and die at least.",
+    "can_learn": true,
+    "time_to_learn": "6 h",
+    "default_weakpoint_bonus": 2,
+    "default_weakpoint_penalty": 0
+  },
+  {
+    "type": "proficiency",
     "id": "prof_wp_demihuman",
     "category": "prof_weakpoint",
     "name": { "str": "Principles of Near Human Biology" },
