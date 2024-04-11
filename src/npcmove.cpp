@@ -3774,6 +3774,7 @@ void npc::pick_up_item()
             fetching_item = false;
             wanted_item = {};
             move_pause();
+            move_pause();
             return;
         }
     }
