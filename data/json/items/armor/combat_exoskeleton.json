@@ -11,7 +11,6 @@
     "price_postapoc": 100000,
     "volume": "36000 ml",
     "weight": "13000 g",
-    "flags": [ "STURDY", "PADDED", "WATERPROOF", "RAINPROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "SUN_GLASSES" ],
     "environmental_protection": 20,
     "warmth": 40,
     "relic_data": { "passive_effects": [ { "id": "combat_exoskeleton_inactive" } ] },
