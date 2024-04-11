@@ -488,11 +488,13 @@ cataimgui::window::window( const std::string &id_, int window_flags ) : window( 
 
 cataimgui::window::~window()
 {
-    ImGui::ClearWindowSettings( id.c_str() );
     p_impl.reset();
-    if( !ui_adaptor::has_imgui() ) {
-        ImGui::GetIO().ClearInputKeys();
-        GImGui->InputEventsQueue.resize( 0 );
+    if( GImGui ) {
+        ImGui::ClearWindowSettings( id.c_str() );
+        if( !ui_adaptor::has_imgui() ) {
+            ImGui::GetIO().ClearInputKeys();
+            GImGui->InputEventsQueue.resize( 0 );
+        }
     }
 }
 
