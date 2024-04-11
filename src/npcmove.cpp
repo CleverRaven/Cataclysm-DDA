@@ -3639,8 +3639,10 @@ void npc::find_item()
         continue;
     }
 
-    if( wanted_item.get_item() != nullptr ) {
-        wanted_name = wanted_item->tname();
+    static const std::string cargo_locking_string( "CARGO_LOCKING" );
+    if( vp.part_with_feature( cargo_locking_string, true ) ) {
+        cache_tile();
+        continue;
     }
 
     if( wanted_name.empty() ) {
