@@ -3537,7 +3537,7 @@ void npc::find_item()
             return false;
         }
         }
-    };
+        };
 
     map &here = get_map();
     // Harvest item doesn't exist, so we'll be checking by its name
