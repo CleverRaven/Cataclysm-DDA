@@ -2,31 +2,32 @@
 
 #include <algorithm>
 #include <cmath>
-#include <cstddef>
 #include <cstdlib>
-#include <iosfwd>
 #include <list>
 #include <memory>
 #include <optional>
 #include <set>
 #include <string>
 #include <tuple>
-#include <type_traits>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
+#include "activity_actor_definitions.h"
 #include "activity_type.h"
 #include "avatar.h"
 #include "calendar.h"
+#include "cata_utility.h"
 #include "character.h"
 #include "clzones.h"
 #include "colony.h"
 #include "construction.h"
-#include "contents_change_handler.h"
+#include "craft_command.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "debug.h"
 #include "enums.h"
+#include "faction.h"
 #include "field.h"
 #include "field_type.h"
 #include "fire.h"
@@ -36,11 +37,12 @@
 #include "iexamine.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_components.h"
+#include "item_contents.h"
 #include "item_location.h"
+#include "item_pocket.h"
+#include "item_stack.h"
 #include "itype.h"
-#include "iuse.h"
-#include "line.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_selector.h"
@@ -52,7 +54,10 @@
 #include "overmapbuffer.h"
 #include "pickup.h"
 #include "player_activity.h"
+#include "pocket_type.h"
 #include "point.h"
+#include "recipe.h"
+#include "recipe_dictionary.h"
 #include "requirements.h"
 #include "ret_val.h"
 #include "rng.h"
@@ -65,10 +70,11 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
+#include "visitable.h"
 #include "vpart_position.h"
 #include "weather.h"
-#include "recipe_dictionary.h"
-#include "activity_actor_definitions.h"
+
+struct use_function;
 
 static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_BUTCHER_FULL( "ACT_BUTCHER_FULL" );

@@ -1,10 +1,14 @@
 #include "distribution.h"
 
-#include <random>
+#include <algorithm>
 #include <climits>
+#include <random>
 
-#include "json.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
+#include "memory_fast.h"
 #include "rng.h"
+#include "string_formatter.h"
 
 struct int_distribution_impl {
     virtual ~int_distribution_impl() = default;

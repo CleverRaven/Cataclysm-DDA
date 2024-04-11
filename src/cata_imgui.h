@@ -1,13 +1,10 @@
 #pragma once
-#include <string>
-#include <vector>
-#include <functional>
+#include <cstddef>
 #include <memory>
-#include <array>
+#include <string>
 
 class nc_color;
 struct input_event;
-struct item_info_data;
 
 #if defined(WIN32) || defined(TILES)
 #include "sdl_geometry.h"
