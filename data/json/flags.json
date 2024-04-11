@@ -35,30 +35,6 @@
     "restriction": "Item must be a chainmail compatible armor piece"
   },
   {
-    "id": "ABLATIVE_EXOSKELETON_HEAD",
-    "type": "json_flag",
-    "info": "This armor will attach to the head of a <info>combat exoskeleton</info>.",
-    "restriction": "Item must be a combat exoskeleton armor"
-  },
-  {
-    "id": "ABLATIVE_EXOSKELETON_TORSO",
-    "type": "json_flag",
-    "info": "This armor will attach to the torso of a <info>combat exoskeleton</info>.",
-    "restriction": "Item must be a combat exoskeleton armor"
-  },
-  {
-    "id": "ABLATIVE_EXOSKELETON_ARMS",
-    "type": "json_flag",
-    "info": "This armor will attach to the arms of a <info>combat exoskeleton</info>.",
-    "restriction": "Item must be a combat exoskeleton armor"
-  },
-  {
-    "id": "ABLATIVE_EXOSKELETON_LEGS",
-    "type": "json_flag",
-    "info": "This armor will attach to the legs of a <info>combat exoskeleton</info>.",
-    "restriction": "Item must be a combat exoskeleton armor"
-  },
-  {
     "id": "ABLATIVE_LARGE",
     "type": "json_flag",
     "info": "This plate will fit in <info>large</info> armor pockets.",

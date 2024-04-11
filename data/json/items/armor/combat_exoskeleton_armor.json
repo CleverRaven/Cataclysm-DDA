@@ -10,7 +10,7 @@
     "price_postapoc": 10000,
     "volume": "3300 ml",
     "weight": "3500 g",
-    "flags": [ "ABLATIVE_EXOSKELETON_HEAD", "STURDY", "CANT_WEAR" ],
+    "flags": [ "EXO_HELMET_PLATE", "STURDY", "CANT_WEAR" ],
     "armor": [
       {
         "layers": [ "OUTER" ],
@@ -68,7 +68,7 @@
     "price_postapoc": 10000,
     "volume": "12000 ml",
     "weight": "12700 g",
-    "flags": [ "ABLATIVE_EXOSKELETON_TORSO", "STURDY", "CANT_WEAR" ],
+    "flags": [ "EXO_TORSO_PLATE", "STURDY", "CANT_WEAR" ],
     "armor": [
       {
         "layers": [ "OUTER" ],
@@ -96,7 +96,7 @@
     "price_postapoc": 10000,
     "volume": "9700 ml",
     "weight": "10300 g",
-    "flags": [ "ABLATIVE_EXOSKELETON_ARMS", "STURDY", "CANT_WEAR" ],
+    "flags": [ "EXO_ARM_PLATE", "STURDY", "CANT_WEAR" ],
     "armor": [
       {
         "layers": [ "OUTER" ],
@@ -148,7 +148,7 @@
     "price_postapoc": 10000,
     "volume": "10000 ml",
     "weight": "10600 g",
-    "flags": [ "ABLATIVE_EXOSKELETON_LEGS", "STURDY", "CANT_WEAR" ],
+    "flags": [ "EXO_LEG_PLATE", "STURDY", "CANT_WEAR" ],
     "armor": [
       {
         "layers": [ "OUTER" ],

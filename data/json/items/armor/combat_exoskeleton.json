@@ -90,8 +90,8 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "volume_encumber_modifier": 0,
         "holster": true,
+        "rigid": true,
         "description": "Compartment for a heavy battery.",
         "flag_restriction": [ "BATTERY_HEAVY" ],
         "max_contains_volume": "2000 ml",
@@ -101,10 +101,10 @@
       {
         "pocket_type": "CONTAINER",
         "holster": true,
-        "volume_encumber_modifier": 0,
+        "rigid": true,
         "ablative": true,
         "description": "Attachment points for exoskeleton head armor.",
-        "flag_restriction": [ "ABLATIVE_EXOSKELETON_HEAD" ],
+        "flag_restriction": [ "EXO_HELMET_PLATE" ],
         "max_contains_volume": "20000 ml",
         "max_contains_weight": "20000 g",
         "moves": 1000
@@ -112,10 +112,10 @@
       {
         "pocket_type": "CONTAINER",
         "holster": true,
-        "volume_encumber_modifier": 0,
+        "rigid": true,
         "ablative": true,
         "description": "Attachment points for exoskeleton torso armor.",
-        "flag_restriction": [ "ABLATIVE_EXOSKELETON_TORSO" ],
+        "flag_restriction": [ "EXO_TORSO_PLATE" ],
         "max_contains_volume": "20000 ml",
         "max_contains_weight": "20000 g",
         "moves": 1000
@@ -123,10 +123,10 @@
       {
         "pocket_type": "CONTAINER",
         "holster": true,
-        "volume_encumber_modifier": 0,
+        "rigid": true,
         "ablative": true,
         "description": "Attachment points for exoskeleton arm armor.",
-        "flag_restriction": [ "ABLATIVE_EXOSKELETON_ARMS" ],
+        "flag_restriction": [ "EXO_ARM_PLATE" ],
         "max_contains_volume": "20000 ml",
         "max_contains_weight": "20000 g",
         "moves": 1000
@@ -134,10 +134,10 @@
       {
         "pocket_type": "CONTAINER",
         "holster": true,
-        "volume_encumber_modifier": 0,
+        "rigid": true,
         "ablative": true,
         "description": "Attachment points for exoskeleton leg armor.",
-        "flag_restriction": [ "ABLATIVE_EXOSKELETON_LEGS" ],
+        "flag_restriction": [ "EXO_LEG_PLATE" ],
         "max_contains_volume": "20000 ml",
         "max_contains_weight": "20000 g",
         "moves": 1000
@@ -155,14 +155,17 @@
     "price_postapoc": 100000,
     "extend": { "flags": [ "COMBAT_TOGGLEABLE" ] },
     "ammo": "battery",
-    "use_action": {
-      "type": "transform",
-      "msg": "You turn the exoskeleton on.\n>>Initiating boot sequence…\n//Loading DoubleOS v1.39…\n//Loading calibration profile…\n//Activating atmospheric filtration…\n//Activating liquid cooling…\n//Activating sound dampeners…\n>>Boot successful.",
-      "target": "combat_exoskeleton_heavy_on",
-      "active": true,
-      "need_charges": 1,
-      "need_charges_msg": "The exoskeleton batteries are empty."
-    },
+    "use_action": [
+      "MANAGE_EXOSUIT",
+      {
+        "type": "transform",
+        "msg": "You turn the exoskeleton on.\n>>Initiating boot sequence…\n//Loading DoubleOS v1.39…\n//Loading calibration profile…\n//Activating atmospheric filtration…\n//Activating liquid cooling…\n//Activating sound dampeners…\n>>Boot successful.",
+        "target": "combat_exoskeleton_heavy_on",
+        "active": true,
+        "need_charges": 1,
+        "need_charges_msg": "The exoskeleton batteries are empty."
+      }
+    ],
     "relic_data": { "passive_effects": [ { "id": "combat_exoskeleton_heavy_active" } ] }
   },
   {
@@ -263,14 +266,17 @@
     "price_postapoc": 100000,
     "extend": { "flags": [ "COMBAT_TOGGLEABLE" ] },
     "ammo": "battery",
-    "use_action": {
-      "type": "transform",
-      "msg": "You turn the exoskeleton on.\n>>Initiating boot sequence…\n//Loading DoubleOS v3.11…\n//Loading calibration profile…\n//Activating atmospheric filtration…\n//Activating liquid cooling…\n//Activating sound dampeners…\n>>Boot successful.",
-      "target": "combat_exoskeleton_medium_on",
-      "active": true,
-      "need_charges": 1,
-      "need_charges_msg": "The exoskeleton batteries are empty."
-    },
+    "use_action": [
+      "MANAGE_EXOSUIT",
+      {
+        "type": "transform",
+        "msg": "You turn the exoskeleton on.\n>>Initiating boot sequence…\n//Loading DoubleOS v3.11…\n//Loading calibration profile…\n//Activating atmospheric filtration…\n//Activating liquid cooling…\n//Activating sound dampeners…\n>>Boot successful.",
+        "target": "combat_exoskeleton_medium_on",
+        "active": true,
+        "need_charges": 1,
+        "need_charges_msg": "The exoskeleton batteries are empty."
+      }
+    ],
     "relic_data": { "passive_effects": [ { "id": "combat_exoskeleton_medium_active" } ] }
   },
   {
@@ -371,14 +377,17 @@
     "price_postapoc": 100000,
     "extend": { "flags": [ "COMBAT_TOGGLEABLE" ] },
     "ammo": "battery",
-    "use_action": {
-      "type": "transform",
-      "msg": "You turn the exoskeleton on.\n>>Initiating boot sequence…\n//Loading DoubleOS v3.28…\n//Loading calibration profile…\n//Activating atmospheric filtration…\n//Activating liquid cooling…\n//Activating sound dampeners…\n>>Boot successful.",
-      "target": "combat_exoskeleton_light_on",
-      "active": true,
-      "need_charges": 1,
-      "need_charges_msg": "The exoskeleton batteries are empty."
-    },
+    "use_action": [
+      "MANAGE_EXOSUIT",
+      {
+        "type": "transform",
+        "msg": "You turn the exoskeleton on.\n>>Initiating boot sequence…\n//Loading DoubleOS v3.28…\n//Loading calibration profile…\n//Activating atmospheric filtration…\n//Activating liquid cooling…\n//Activating sound dampeners…\n>>Boot successful.",
+        "target": "combat_exoskeleton_light_on",
+        "active": true,
+        "need_charges": 1,
+        "need_charges_msg": "The exoskeleton batteries are empty."
+      }
+    ],
     "relic_data": { "passive_effects": [ { "id": "combat_exoskeleton_light_active" } ] }
   },
   {
