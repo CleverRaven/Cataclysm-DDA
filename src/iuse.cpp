@@ -8335,7 +8335,7 @@ std::optional<int> iuse::heat_items( Character *p, item *it, bool liquid_items, 
                                    make_raw_stats, /*allow_select_contained=*/true );
     inv_s.add_character_items( *p );
     inv_s.add_nearby_items( PICKUP_RANGE );
-    inv_s.set_title( _( "Multiheat" ) );
+    inv_s.set_title( _( "heat menu" ) );
     inv_s.set_hint( _( "To heat x items, type a number before selecting." ) );
     if( inv_s.empty() ) {
         popup( std::string( _( "You have nothing to heat." ) ), PF_GET_KEY );
