@@ -8327,7 +8327,7 @@ std::optional<int> iuse::heat_items( Character *p, item *it, bool liquid_items, 
         using stats = inventory_selector::stats;
         return stats{{
                 {{ _( "Container" ), volume }},
-                {{ _( "Fule" ), ammo }},
+                {{ _( "Fuel" ), ammo }},
                 {{ _( "Estimated time" ), time }}
             }};
     };
