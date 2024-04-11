@@ -236,7 +236,7 @@
     "description": "When you have to you can wipe the blood off your chin, grit your teeth, and get it done.  Use to reduce your pain by 30 or half (whichever is greater) for 3 minutes.\n\nThe cooldown on this perk scales based on your pain at the time you used it.",
     "category": [ "perk" ],
     "active": true,
-    "activated_is_setup": true,
+    "activated_is_setup": false,
     "activated_eocs": [ "EOC_PERK_GRIT_YOUR_TEETH" ]
   },
   {
@@ -422,7 +422,7 @@
     "id": "perk_frakenstein",
     "name": { "str": "Playing God" },
     "points": 0,
-    "description": "You've been dissecting critters since high school.  Last night a voice gave you an idea for how to bring them back to life activate the perk to gain insight into the nature of life itself!",
+    "description": "You've been dissecting critters since high school.  Last night a voice gave you an idea for how to bring them back to life.  Activate the perk to gain insight into the nature of life itself!",
     "category": [ "perk" ],
     "active": true,
     "activated_eocs": [ "EOC_frankenstein_insight" ]
