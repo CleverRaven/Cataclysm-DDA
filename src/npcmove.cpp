@@ -3591,8 +3591,9 @@ void npc::find_item()
         if( here.sees_some_items( p, *this ) && sees( p ) ) {
             can_see = true;
             for( item &it : m_stack ) {
-                if( consider_item( it, p ) )
+                if( consider_item( it, p ) ){
                     wanted_item = item_location{ map_cursor{p}, &it };
+                }
             }
         }
 
