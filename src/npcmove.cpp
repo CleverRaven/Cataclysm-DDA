@@ -3736,6 +3736,7 @@ void npc::pick_up_item()
             // but we want the item picker to find new items
             fetching_item = false;
             wanted_item = {};
+            move_pause();
             return;
         }
     }
