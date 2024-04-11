@@ -982,7 +982,7 @@
           },
           { "set_string_var": "perk_portal_storm_mutator_bird", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Must not have another Stormwrought trait.",
+            "set_string_var": "Must not have another Stormwrought perk.",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
@@ -1002,7 +1002,7 @@
             }
           }
         ],
-        "topic": "TALK_PERK_MENU_PLAYSTYLE_STORMWROUGHT"
+        "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
       },
       {
         "condition": { "not": { "u_has_trait": "perk_portal_storm_mutator_feline" } },
@@ -1015,7 +1015,7 @@
           },
           { "set_string_var": "perk_portal_storm_mutator_feline", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Must not have another Stormwrought trait.",
+            "set_string_var": "Must not have another Stormwrought perk.",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
@@ -1035,11 +1035,11 @@
             }
           }
         ],
-        "topic": "TALK_PERK_MENU_PLAYSTYLE_STORMWROUGHT"
+        "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
       },
       {
         "condition": { "not": { "u_has_trait": "perk_portal_storm_mutator_insect" } },
-        "text": "Gain [<trait_name:perk_portal_storm_mutator_bird>]",
+        "text": "Gain [<trait_name:perk_portal_storm_mutator_insect>]",
         "effect": [
           { "set_string_var": "<trait_name:perk_portal_storm_mutator_insect>", "target_var": { "context_val": "trait_name" } },
           {
@@ -1048,7 +1048,7 @@
           },
           { "set_string_var": "perk_portal_storm_mutator_insect", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Must not have another Stormwrought trait.",
+            "set_string_var": "Must not have another Stormwrought perk.",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
@@ -1068,7 +1068,7 @@
             }
           }
         ],
-        "topic": "TALK_PERK_MENU_PLAYSTYLE_STORMWROUGHT"
+        "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
       },
       {
         "condition": { "not": { "u_has_trait": "perk_portal_storm_mutator_lupine" } },
@@ -1081,7 +1081,7 @@
           },
           { "set_string_var": "perk_portal_storm_mutator_lupine", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Must not have another Stormwrought trait.",
+            "set_string_var": "Must not have another Stormwrought perk.",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
@@ -1101,7 +1101,7 @@
             }
           }
         ],
-        "topic": "TALK_PERK_MENU_PLAYSTYLE_STORMWROUGHT"
+        "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
       },
       {
         "condition": { "not": { "u_has_trait": "perk_portal_storm_mutator_plant" } },
@@ -1114,7 +1114,7 @@
           },
           { "set_string_var": "perk_portal_storm_mutator_plant", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Must not have another Stormwrought trait.",
+            "set_string_var": "Must not have another Stormwrought perk.",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
@@ -1134,7 +1134,7 @@
             }
           }
         ],
-        "topic": "TALK_PERK_MENU_PLAYSTYLE_STORMWROUGHT"
+        "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
       },
       {
         "condition": { "not": { "u_has_trait": "perk_portal_storm_mutator_spider" } },
@@ -1147,7 +1147,7 @@
           },
           { "set_string_var": "perk_portal_storm_mutator_spider", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Must not have another Stormwrought trait.",
+            "set_string_var": "Must not have another Stormwrought perk.",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
@@ -1167,9 +1167,9 @@
             }
           }
         ],
-        "topic": "TALK_PERK_MENU_PLAYSTYLE_STORMWROUGHT"
+        "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
       },
-      { "text": "Playstyle Perks", "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE" },
+      { "text": "Playstyle Perks", "topic": "TALK_PERK_MENU_PLAYSTYLE" },
       { "text": "Lifestyle Perks", "topic": "TALK_PERK_MENU_MAIN" },
       { "text": "Settings", "topic": "TALK_PERK_MENU_CONFIG" },
       { "text": "Quit.", "topic": "TALK_DONE" }

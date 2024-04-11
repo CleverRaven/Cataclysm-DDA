@@ -17,7 +17,8 @@
     "deactivate_condition": { "not": { "u_has_trait": "perk_portal_storm_mutator_bird" } },
     "effect": [
       { "u_message": "Your whole body pulses in time with the raging storm.", "type": "info" },
-      { "u_mutate_category": "BIRD", "use_vitamins": false }
+      { "math": [ "u_vitamin('mutagen_bird')", "+=", "450" ] },
+      { "math": [ "u_vitamin('mutagen')", "+=", "550" ] }
     ]
   },
   {
@@ -38,7 +39,8 @@
     "deactivate_condition": { "not": { "u_has_trait": "perk_portal_storm_mutator_feline" } },
     "effect": [
       { "u_message": "Your whole body pulses in time with the raging storm.", "type": "info" },
-      { "u_mutate_category": "FELINE", "use_vitamins": false }
+      { "math": [ "u_vitamin('mutagen_feline')", "+=", "450" ] },
+      { "math": [ "u_vitamin('mutagen')", "+=", "550" ] }
     ]
   },
   {
@@ -59,7 +61,8 @@
     "deactivate_condition": { "not": { "u_has_trait": "perk_portal_storm_mutator_insect" } },
     "effect": [
       { "u_message": "Your whole body pulses in time with the raging storm.", "type": "info" },
-      { "u_mutate_category": "INSECT", "use_vitamins": false }
+      { "math": [ "u_vitamin('mutagen_insect')", "+=", "450" ] },
+      { "math": [ "u_vitamin('mutagen')", "+=", "550" ] }
     ]
   },
   {
@@ -80,7 +83,8 @@
     "deactivate_condition": { "not": { "u_has_trait": "perk_portal_storm_mutator_lupine" } },
     "effect": [
       { "u_message": "Your whole body pulses in time with the raging storm.", "type": "info" },
-      { "u_mutate_category": "LUPINE", "use_vitamins": false }
+      { "math": [ "u_vitamin('mutagen_lupine')", "+=", "450" ] },
+      { "math": [ "u_vitamin('mutagen')", "+=", "550" ] }
     ]
   },
   {
@@ -101,7 +105,8 @@
     "deactivate_condition": { "not": { "u_has_trait": "perk_portal_storm_mutator_plant" } },
     "effect": [
       { "u_message": "Your whole body pulses in time with the raging storm.", "type": "info" },
-      { "u_mutate_category": "PLANT", "use_vitamins": false }
+      { "math": [ "u_vitamin('mutagen_plant')", "+=", "450" ] },
+      { "math": [ "u_vitamin('mutagen')", "+=", "550" ] }
     ]
   },
   {
@@ -122,7 +127,8 @@
     "deactivate_condition": { "not": { "u_has_trait": "perk_portal_storm_mutator_spider" } },
     "effect": [
       { "u_message": "Your whole body pulses in time with the raging storm.", "type": "info" },
-      { "u_mutate_category": "SPIDER", "use_vitamins": false }
+      { "math": [ "u_vitamin('mutagen_spider')", "+=", "450" ] },
+      { "math": [ "u_vitamin('mutagen')", "+=", "550" ] }
     ]
   }
 ]
