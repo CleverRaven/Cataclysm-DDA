@@ -4,7 +4,7 @@
     "category": "armor",
     "type": "ARMOR",
     "name": { "str": "salvaged combat exoskeleton" },
-    "description": "This used to be a powered exoskeleton, but the power part has been render non functional: as one might expect, it's a lot harder to wear.  The exoskeleton itself is strapped on an environmental suit with an integrated life-support system.  A variety of of webbing, magnets, and clips allows the attachment of special armor plating onto the frame.",
+    "description": "This used to be a powered exoskeleton, but the 'power' part has been rendered non-functional: as one might expect, this makes it a lot harder to wear.  The exoskeleton itself includes an environmental suit with an integrated life-support system.  A variety of of webbing, magnets, and clips allows the attachment of special armor plating onto the frame.",
     "looks_like": "power_armor_heavy",
     "symbol": "[",
     "price": 500000,
