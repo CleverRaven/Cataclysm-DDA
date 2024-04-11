@@ -12405,22 +12405,23 @@ stat_mod Character::get_pain_penalty() const
         return ret;
     }
 
-    // Int and per are penalized more, 100 pain to drop stat to zero vs 140-ish for str and dex
-    float penalty_mod = pain * 0.01f;
-    float lesser_penalty_mod = pain * 0.005f;
+    float penalty_str = pain * get_option<float>( "PAIN_PENALTY_MOD_STR" );
+    float penalty_dex = pain * get_option<float>( "PAIN_PENALTY_MOD_DEX" );
+    float penalty_int = pain * get_option<float>( "PAIN_PENALTY_MOD_INT" );
+    float penalty_per = pain * get_option<float>( "PAIN_PENALTY_MOD_PER" );
 
 
     ret.strength = enchantment_cache->modify_value( enchant_vals::mod::PAIN_PENALTY_MOD_STR,
-                   get_str() * lesser_penalty_mod );
+                   get_str() * penalty_str );
 
     ret.dexterity = enchantment_cache->modify_value( enchant_vals::mod::PAIN_PENALTY_MOD_DEX,
-                    get_dex() * lesser_penalty_mod );
+                    get_dex() * penalty_dex );
 
     ret.intelligence = enchantment_cache->modify_value( enchant_vals::mod::PAIN_PENALTY_MOD_INT,
-                       get_int() * penalty_mod );
+                       get_int() * penalty_int );
 
     ret.perception = enchantment_cache->modify_value( enchant_vals::mod::PAIN_PENALTY_MOD_PER,
-                     get_per() * penalty_mod );
+                     get_per() * penalty_per );
 
 
     // Prevent negative penalties, there is better ways to give bonuses for pain
