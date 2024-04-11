@@ -15,7 +15,7 @@
       { "item": "combat_exoskeleton_armor_torso_medium", "count": [ 0, 1 ], "prob": 20 },
       { "item": "combat_exoskeleton_armor_arm_medium", "count": [ 0, 1 ], "prob": 20 },
       { "item": "combat_exoskeleton_armor_leg_medium", "count": [ 0, 1 ], "prob": 20 },
-      { "item": "combat_exoskeleton_salvaged", "count": [ 0, 1 ], "prob": 20 }
+      { "item": "combat_exoskeleton_light_salvaged", "count": [ 0, 1 ], "prob": 20 }
     ]
   },
   {

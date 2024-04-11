@@ -3508,7 +3508,7 @@
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
     "components": [
-      [ [ "combat_exoskeleton_salvaged", 1 ] ],
+      [ [ "combat_exoskeleton_light_salvaged", 1 ] ],
       [ [ "power_supply", 6 ] ],
       [ [ "element", 2 ] ],
       [ [ "cable", 12 ] ],

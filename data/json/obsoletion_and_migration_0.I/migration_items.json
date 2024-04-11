@@ -2,7 +2,7 @@
   {
     "id": "depowered_armor",
     "type": "MIGRATION",
-    "replace": "combat_exoskeleton_salvaged"
+    "replace": "combat_exoskeleton_light_salvaged"
   },
   {
     "id": "depowered_helmet",

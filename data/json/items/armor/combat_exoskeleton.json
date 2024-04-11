@@ -80,7 +80,7 @@
       {
         "layers": [ "NORMAL" ],
         "covers": [ "mouth" ],
-        "encumbrance": 10,
+        "encumbrance": 30,
         "coverage": 100,
         "material": [ { "type": "thermo_resin", "thickness": 1 } ]
       },
@@ -249,7 +249,7 @@
   },
   {
     "id": "combat_exoskeleton_medium",
-    "copy-from": "combat_exoskeleton_salvaged",
+    "copy-from": "combat_exoskeleton_abstract",
     "type": "TOOL_ARMOR",
     "name": { "str": "combat exoskeleton mk2" },
     "description": "These were the second wave of military combat exoskeleton, and got a lot of media attention, with popular Navy commercials featuring them heavily.  The exoskeleton itself is strapped on an environmental suit with an integrated life-support system.  A variety of of webbing, magnets, and clips allows the attachment of special armor plating onto the frame.",
@@ -354,7 +354,7 @@
   },
   {
     "id": "combat_exoskeleton_light",
-    "copy-from": "combat_exoskeleton_salvaged",
+    "copy-from": "combat_exoskeleton_abstract",
     "type": "TOOL_ARMOR",
     "name": { "str": "combat exoskeleton mk3" },
     "description": "The final iteration of military power armor before the fall of civilization, this type was designed for actual widespread combat use and was seen on the front lines during the last days of the Cataclysm, unfortunately, the world ended before it could roll out in significant numbers.  The exoskeleton itself is strapped on an environmental suit with an integrated life-support system.  A variety of of webbing, magnets, and clips allows the attachment of special armor plating onto the frame.",
@@ -458,11 +458,11 @@
     ]
   },
   {
-    "id": "combat_exoskeleton_salvaged",
-    "copy-from": "combat_exoskeleton_abstract",
+    "id": "combat_exoskeleton_light_salvaged",
+    "copy-from": "combat_exoskeleton_light",
     "type": "ARMOR",
     "name": { "str": "salvaged combat exoskeleton" },
-    "description": "This used to be a powered exoskeleton, but the 'power' part has been rendered non-functional: as one might expect, this makes it a lot harder to wear.  The exoskeleton itself includes an environmental suit with an integrated life-support system.  A variety of of webbing, magnets, and clips allows the attachment of special armor plating onto the frame.",
+    "description": "This used to be a combat exoskeleton of third generation but it has been rendered non-functional: as one might expect, this makes it a lot harder to wear.  A variety of of webbing, magnets, and clips allows the attachment of special armor plating onto the frame.",
     "relative": { "environmental_protection": 0, "warmth": 0 },
     "proportional": { "volume": 0.25, "weight": 0.5, "price": 0.1, "price_postapoc": 0.1 },
     "delete": {
