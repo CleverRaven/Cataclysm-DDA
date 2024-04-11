@@ -3727,6 +3727,7 @@ void npc::pick_up_item()
             move_pause();
             add_msg_debug( debugmode::DF_NPC, "Canceling pickup - no items or new zone" );
             add_msg_debug( debugmode::DF_NPC, "Canceling pickup - no items or new zone" );
+            add_msg_debug( debugmode::DF_NPC, "Canceling pickup - no items or new zone" );
             return;
         }
     }
