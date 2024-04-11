@@ -2133,7 +2133,7 @@
     "price": 750,
     "price_postapoc": 100,
     "parasites": 0,
-    "calories": 300,
+    "calories": 365,
     "flags": [ "EATEN_HOT" ]
   },
   {
@@ -2158,7 +2158,7 @@
     "price_postapoc": 150,
     "fun": 2,
     "parasites": 0,
-    "calories": 300,
+    "calories": 365,
     "flags": [ "EATEN_HOT" ]
   },
   {
