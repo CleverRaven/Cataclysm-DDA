@@ -288,13 +288,26 @@
         "coverage_mult": { "melee": 0 },
         "//": "Note that most bullet hits on an armour plate probably shatter it, but not all of them shatter it enough to matter for future attacks.",
         "effects": [
-          { "effect": "shattered", "chance": 25, "message": "The armor is shattered!", "damage_required": [ 1, 10 ] },
-          { "effect": "shattered", "chance": 50, "message": "The armor is shattered!", "damage_required": [ 11, 30 ] },
+          {
+            "effect": "shattered",
+            "chance": 25,
+            "message": "The armor is shattered!",
+            "damage_required": [ 1, 10 ],
+            "permanent": true
+          },
+          {
+            "effect": "shattered",
+            "chance": 50,
+            "message": "The armor is shattered!",
+            "damage_required": [ 11, 30 ],
+            "permanent": true
+          },
           {
             "effect": "shattered",
             "chance": 75,
             "message": "The armor is shattered!",
-            "damage_required": [ 31, 200 ]
+            "damage_required": [ 31, 200 ],
+            "permanent": true
           }
         ],
         "coverage": 8
@@ -307,13 +320,26 @@
         "coverage_mult": { "ranged": 0 },
         "//": "Note that most bullet hits on an armour plate probably shatter it, but not all of them shatter it enough to matter for future attacks.",
         "effects": [
-          { "effect": "shattered", "chance": 15, "message": "The armor is shattered!", "damage_required": [ 5, 20 ] },
-          { "effect": "shattered", "chance": 40, "message": "The armor is shattered!", "damage_required": [ 21, 40 ] },
+          {
+            "effect": "shattered",
+            "chance": 15,
+            "message": "The armor is shattered!",
+            "damage_required": [ 5, 20 ],
+            "permanent": true
+          },
+          {
+            "effect": "shattered",
+            "chance": 40,
+            "message": "The armor is shattered!",
+            "damage_required": [ 21, 40 ],
+            "permanent": true
+          },
           {
             "effect": "shattered",
             "chance": 60,
             "message": "The armor is shattered!",
-            "damage_required": [ 41, 200 ]
+            "damage_required": [ 41, 200 ],
+            "permanent": true
           }
         ],
         "coverage": 8
