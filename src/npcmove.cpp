@@ -3620,8 +3620,8 @@ void npc::find_item()
         }
 
         for( item &it : cargo->items() ) {
-            if( consider_item(it, p) )
-                wanted_item = {  vehicle_cursor{ cargo->vehicle(), static_cast<ptrdiff_t>(cargo->part_index()) }, &it };
+            if( consider_item( it, p ) )
+                wanted_item = {  vehicle_cursor{ cargo->vehicle(), static_cast<ptrdiff_t>( cargo->part_index() ) }, &it };
         }
         cache_tile();
     }
