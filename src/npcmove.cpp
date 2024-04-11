@@ -3617,7 +3617,6 @@ void npc::find_item()
         static const std::string cargo_locking_string( "CARGO_LOCKING" );
         if( vp.part_with_feature( cargo_locking_string, true ) ) {
             cache_tile();
-            continue;
         }
 
         for( item &it : cargo->items() ) {
