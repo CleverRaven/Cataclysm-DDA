@@ -166,6 +166,15 @@
   },
   {
     "type": "SPECIES",
+    "id": "GHOUL",
+    "description": "a ghoul",
+    "footsteps": "scratching.",
+    "fear_triggers": [ "HURT", "FIRE" ],
+    "anger_triggers": [ "FRIEND_DIED" ],
+    "bleeds": "fd_blood"
+  },
+  {
+    "type": "SPECIES",
     "id": "FERAL",
     "description": "a feral",
     "footsteps": "shuffling.",
