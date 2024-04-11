@@ -1937,7 +1937,7 @@
     "container": "box_small",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "calories": 485,
+    "calories": 500,
     "description": "Brined in buttermilk, seasoned and breaded to perfection, and fried until crispy and golden.  This fried chicken is so good you can almost forget about the end of the world.  Vinegar leg is on the right!",
     "fun": 25,
     "vitamins": [ [ "calcium", "24 mg" ], [ "iron", "2 mg" ] ]
@@ -1954,7 +1954,7 @@
     "calories": 380,
     "description": "Originating from Punjabi cuisine, this deep-red and spicy baked chicken is marinated with a yogurt-based sauce and is traditionally baked directly on the walls of a wood-fired clay oven.",
     "price": 1000,
-    "price_postapoc": 250,
+    "price_postapoc": 340,
     "material": [ "flesh", "milk" ],
     "primary_material": "flesh",
     "volume": "250 ml",
