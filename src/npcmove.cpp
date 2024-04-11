@@ -3595,7 +3595,6 @@ void npc::find_item()
                 if( consider_item( it, p ) )
                     wanted_item = item_location{ map_cursor{p}, &it };
             }
-        }
 
         // Not cached because it gets checked once and isn't expected to change.
         if( can_see || sees( p ) ) {
