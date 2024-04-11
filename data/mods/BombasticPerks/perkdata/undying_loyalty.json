@@ -27,7 +27,7 @@
     "id": "perk_undying_loyalty_spell",
     "type": "SPELL",
     "name": "Undying Loyalty Spell",
-    "description": "The spell to activate the Undying Loyalty effect. It's a bug if you have it.",
+    "description": "The spell to activate the Undying Loyalty effect.  It's a bug if you have it.",
     "valid_targets": [ "ally" ],
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "effect": "attack",
@@ -54,7 +54,7 @@
     "desc": [ "You'll protect your allies no matter the cost." ],
     "apply_message": "",
     "rating": "good",
-    "show_in_info": "true",
+    "show_in_info": true,
     "max_duration": "1 minutes",
     "enchantments": [ { "values": [ { "value": "ARMOR_ALL", "multiply": -0.15 } ] } ]
   }

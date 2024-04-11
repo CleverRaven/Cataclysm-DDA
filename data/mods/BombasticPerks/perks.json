@@ -634,6 +634,14 @@
   },
   {
     "type": "mutation",
+    "id": "perk_moonstruck",
+    "name": { "str": "Moonstruck" },
+    "points": 0,
+    "description": "You've always been greatly affected by the phases of the moon.  During a full moon, you gain a +3 bonus to all stats.  During a waxing moon, you gain a +1 bonus to all stats, and during a new moon, you suffer a -2 penalty to all stats.",
+    "category": [ "perk" ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_ascetic_empowerment",
     "name": { "str": "Ascetic Empowerment" },
     "points": 0,
