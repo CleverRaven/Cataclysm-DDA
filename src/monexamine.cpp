@@ -386,7 +386,8 @@ void add_leash( monster &z )
         return;
     }
     int i = 0;
-    uilist selection_menu( string_format( _( "Select an item to leash your %s with." ), z.get_name() ) );
+    uilist selection_menu;
+    selection_menu.text = string_format( _( "Select an item to leash your %s with." ), z.get_name() );
     selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Cancel" ) );
     for( const item *iter : rope_inv ) {
         selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Use %s" ), iter->tname() );
@@ -538,8 +539,9 @@ void insert_battery( monster &z )
         return;
     }
     int i = 0;
-    uilist selection_menu( string_format( _( "Select an battery to insert into your %s." ),
-                                          z.get_name() ) );
+    uilist selection_menu;
+    selection_menu.text = string_format( _( "Select an battery to insert into your %s." ),
+                                         z.get_name() );
     selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Cancel" ) );
     for( const item *iter : bat_inv ) {
         selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Use %s" ), iter->tname() );
@@ -607,16 +609,17 @@ bool monexamine::pet_menu( monster &z )
         talk_to
     };
 
+    uilist amenu;
     std::string pet_name = z.get_name();
 
-    uilist amenu( string_format( _( "What to do with your %s?" ), pet_name ) );
+    amenu.text = string_format( _( "What to do with your %s?" ), pet_name );
     if( z.has_flag( mon_flag_EATS ) && ( z.amount_eaten < ( z.stomach_size / 10 ) ) ) {
-        amenu.help_text = _( "Hunger: Famished" );
+        amenu.text = string_format( _( "What to do with your %s?\n" "Hunger: Famished" ), pet_name );
     } else if( z.has_flag( mon_flag_EATS ) && ( z.amount_eaten > ( z.stomach_size / 10 ) &&
                z.amount_eaten < z.stomach_size ) ) {
-        amenu.help_text = _( "Hunger: Hungry" );
+        amenu.text = string_format( _( "What to do with your %s?\n" "Hunger: Hungry" ), pet_name );
     } else if( z.has_flag( mon_flag_EATS ) && z.amount_eaten >= z.stomach_size ) {
-        amenu.help_text = _( "Hunger: Full" );
+        amenu.text = string_format( _( "What to do with your %s?\n" "Hunger: Full" ), pet_name );
     }
     amenu.addentry( swap_pos, true, 's', _( "Swap positions" ) );
     amenu.addentry( push_monster, true, 'p', _( "Push %s" ), pet_name );
@@ -888,9 +891,10 @@ bool monexamine::pay_bot( monster &z )
     const int charge_count = player_character.charges_of( itype_cash_card );
 
     int amount = 0;
-    uilist bot_menu( string_format(
-                                   _( "Welcome to the %s Friendship Interface.  What would you like to do?\n"
-                                      "Your current friendship will last: %s" ), z.get_name(), to_string( friend_time ) ) );
+    uilist bot_menu;
+    bot_menu.text = string_format(
+                        _( "Welcome to the %s Friendship Interface.  What would you like to do?\n"
+                           "Your current friendship will last: %s" ), z.get_name(), to_string( friend_time ) );
     if( charge_count > 0 ) {
         bot_menu.addentry( 1, true, 'b', _( "Get more friendship.  10 cents/min" ) );
     } else {
@@ -931,16 +935,17 @@ bool monexamine::mfriend_menu( monster &z )
         talk_to
     };
 
+    uilist amenu;
     const std::string pet_name = z.get_name();
 
-    uilist amenu( string_format( _( "What to do with your %s?" ), pet_name ) );
+    amenu.text = string_format( _( "What to do with your %s?" ), pet_name );
     if( z.has_flag( mon_flag_EATS ) && ( z.amount_eaten < ( z.stomach_size / 10 ) ) ) {
-        amenu.help_text = _( "Hunger: Famished" );
+        amenu.text = string_format( _( "What to do with your %s?\n" "Hunger: Famished" ), pet_name );
     } else if( z.has_flag( mon_flag_EATS ) && ( z.amount_eaten > ( z.stomach_size / 10 ) &&
                z.amount_eaten < z.stomach_size ) ) {
-        amenu.help_text = _( "Hunger: Hungry" );
+        amenu.text = string_format( _( "What to do with your %s?\n" "Hunger: Hungry" ), pet_name );
     } else if( z.has_flag( mon_flag_EATS ) && z.amount_eaten >= z.stomach_size ) {
-        amenu.help_text = _( "Hunger: Full" );
+        amenu.text = string_format( _( "What to do with your %s?\n" "Hunger: Full" ), pet_name );
     }
     amenu.addentry( swap_pos, true, 's', _( "Swap positions" ) );
     amenu.addentry( push_monster, true, 'p', _( "Push %s" ), pet_name );

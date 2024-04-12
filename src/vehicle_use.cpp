@@ -1451,7 +1451,8 @@ void vehicle::use_washing_machine( int p )
     } else if( cbms ) {
         add_msg( m_bad, _( "CBMs can't be cleaned in a washing machine.  You need to remove them." ) );
     } else {
-        uilist detergent_selector( _( "Use what detergent?" ) );
+        uilist detergent_selector;
+        detergent_selector.text = _( "Use what detergent?" );
 
         std::vector<itype_id> det_types;
         for( const item *it : detergents ) {

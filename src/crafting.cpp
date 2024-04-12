@@ -844,8 +844,9 @@ static item_location place_craft_or_disassembly(
                 DROP
             };
 
-            uilist amenu( string_format( pgettext( "in progress craft", "What to do with the %s?" ),
-                                         craft.display_name() ) );
+            uilist amenu;
+            amenu.text = string_format( pgettext( "in progress craft", "What to do with the %s?" ),
+                                        craft.display_name() );
 
             amenu.addentry( WIELD_CRAFT, ch.can_unwield( *ch.get_wielded_item() ).success(),
                             '1', _( "Dispose of your wielded %s and start working." ), ch.get_wielded_item()->tname() );
@@ -3146,7 +3147,8 @@ void npc::do_npc_craft( const std::optional<tripoint> &loc, const recipe_id &got
     if( craft_item_list.empty() ) {
         craft( loc, goto_recipe );
     } else {
-        uilist menu( "Craft what?" );
+        uilist menu;
+        menu.text = "Craft what?";
         menu.addentry( 0, true, MENU_AUTOASSIGN, _( "Craft new item" ) );
         menu.addentry( 1, true, MENU_AUTOASSIGN, _( "Work on craft" ) );
         menu.query();
@@ -3158,7 +3160,7 @@ void npc::do_npc_craft( const std::optional<tripoint> &loc, const recipe_id &got
             uilist item_selection;
             do {
                 item_selection.init();
-                item_selection.set_title( "Craft what?" );
+                item_selection.text = "Craft what?";
                 item_selection.selected = selected;
                 item_selection.addentry( 0, true, MENU_AUTOASSIGN, "Start crafting" );
                 item_selection.addentry( 1, true, MENU_AUTOASSIGN, "Select all" );

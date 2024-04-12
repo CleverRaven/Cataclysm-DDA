@@ -709,9 +709,6 @@ bool main_menu::opening_screen()
 
     while( !start ) {
         ui_manager::redraw();
-// #if !(defined(TILES) || defined(WIN32))
-//         ui_adaptor::redraw_all_invalidated( true );
-// #endif
         std::string action = ctxt.handle_input();
         input_event sInput = ctxt.get_raw_input();
 
