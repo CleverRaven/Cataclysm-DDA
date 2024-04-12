@@ -977,7 +977,7 @@
     "id": "animist_spirit_walking",
     "type": "SPELL",
     "name": { "str": "Spirit-Walking" },
-    "description": "Tranform your body to pure spirit, making you invisible and intangible.  You can move incredibly quickly while the spell is in effect and can pass by enemies unseen, but you will be unable to affect the physical world or cast spells.",
+    "description": "Transform your body to pure spirit, making you invisible and intangible.  You can move incredibly quickly while the spell is in effect and can pass by enemies unseen, but you will be unable to affect the physical world or cast spells.",
     "flags": [ "SOMATIC", "CONCENTRATE", "VERBAL" ],
     "spell_class": "ANIMIST",
     "effect": "effect_on_condition",

@@ -116,7 +116,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "Rising Sun" },
-    "description": "This is a katana with a nozzle just behind the cutting edge of the blade.  People love fire, and people love katanas, so why not put them together?  The gas burners attached to this blade can really turn up the heat on your foes.  Use to ignite.",
+    "description": "This is a katana with a nozzle just behind the cutting edge of the blade.  People love fire, and people love katana, so why not put them together?  The gas burners attached to this blade can really turn up the heat on your foes.  Use to ignite.",
     "weight": "1400 g",
     "volume": "2250 ml",
     "price": 98000,

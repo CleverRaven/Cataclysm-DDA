@@ -81,8 +81,22 @@
 #include "weighted_list.h"
 #include "creature_tracker.h"
 
+static const furn_str_id furn_f_bed( "f_bed" );
 static const furn_str_id furn_f_console( "f_console" );
+static const furn_str_id furn_f_counter( "f_counter" );
+static const furn_str_id furn_f_dresser( "f_dresser" );
+static const furn_str_id furn_f_flower_fungal( "f_flower_fungal" );
+static const furn_str_id furn_f_fridge( "f_fridge" );
+static const furn_str_id furn_f_fungal_clump( "f_fungal_clump" );
+static const furn_str_id furn_f_rack( "f_rack" );
+static const furn_str_id furn_f_rubble( "f_rubble" );
+static const furn_str_id furn_f_rubble_rock( "f_rubble_rock" );
 static const furn_str_id furn_f_sign( "f_sign" );
+static const furn_str_id furn_f_table( "f_table" );
+static const furn_str_id furn_f_toilet( "f_toilet" );
+static const furn_str_id furn_f_vending_c( "f_vending_c" );
+static const furn_str_id furn_f_vending_o( "f_vending_o" );
+static const furn_str_id furn_f_vending_reinforced( "f_vending_reinforced" );
 
 static const item_group_id Item_spawn_data_ammo_rare( "ammo_rare" );
 static const item_group_id Item_spawn_data_bed( "bed" );
@@ -1926,7 +1940,7 @@ class jmapgen_sign : public jmapgen_piece
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const std::string &/*context*/ ) const override {
             const point r( x.get(), y.get() );
-            dat.m.furn_set( r, f_null );
+            dat.m.furn_set( r, furn_str_id::NULL_ID() );
             dat.m.furn_set( r, sign_furniture );
 
             std::string signtext;
@@ -2027,7 +2041,7 @@ class jmapgen_vending_machine : public jmapgen_piece
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const std::string &/*context*/ ) const override {
             const point r( x.get(), y.get() );
-            dat.m.furn_set( r, f_null );
+            dat.m.furn_set( r, furn_str_id::NULL_ID() );
             item_group_id chosen_id = group_id.get( dat );
             if( chosen_id.is_null() ) {
                 return;
@@ -2062,7 +2076,7 @@ class jmapgen_toilet : public jmapgen_piece
                     const std::string &/*context*/ ) const override {
             const point r( x.get(), y.get() );
             const int charges = amount.get();
-            dat.m.furn_set( r, f_null );
+            dat.m.furn_set( r, furn_str_id::NULL_ID() );
             if( charges == 0 ) {
                 dat.m.place_toilet( r ); // Use the default charges supplied as default values
             } else {
@@ -2108,7 +2122,7 @@ class jmapgen_gaspump : public jmapgen_piece
                     const std::string &/*context*/ ) const override {
             const point r( x.get(), y.get() );
             int charges = amount.get();
-            dat.m.furn_set( r, f_null );
+            dat.m.furn_set( r, furn_str_id::NULL_ID() );
             if( charges == 0 ) {
                 charges = rng( 10000, 50000 );
             }
@@ -2928,7 +2942,8 @@ class jmapgen_terrain : public jmapgen_piece
                 dat.m.delete_signage( tp );
             } else if( act_furn == apply_action::act_dismantle ) {
                 int max_recurse = 10; // insurance against infinite looping
-                std::string initial_furn = dat.m.furn( p ) != f_null ? dat.m.furn( p ).id().str() : "";
+                std::string initial_furn = dat.m.furn( p ) != furn_str_id::NULL_ID() ? dat.m.furn(
+                                               p ).id().str() : "";
                 while( dat.m.has_furn( p ) && max_recurse-- > 0 ) {
                     const furn_t &f = dat.m.furn( p ).obj();
                     if( f.deconstruct.can_do ) {
@@ -2970,7 +2985,7 @@ class jmapgen_terrain : public jmapgen_piece
             if( chosen_id != terrain_here ) {
                 std::string error;
                 trap_str_id trap_here = dat.m.tr_at( tp ).id;
-                if( act_furn != apply_action::act_ignore && dat.m.furn( p ) != f_null ) {
+                if( act_furn != apply_action::act_ignore && dat.m.furn( p ) != furn_str_id::NULL_ID() ) {
                     // NOLINTNEXTLINE(cata-translate-string-literal)
                     error = string_format( "furniture was %s", dat.m.furn( p ).id().str() );
                 } else if( act_trap != apply_action::act_ignore && !trap_here.is_null() &&
@@ -3037,7 +3052,7 @@ class jmapgen_ter_furn_transform: public jmapgen_piece
 class jmapgen_make_rubble : public jmapgen_piece
 {
     public:
-        mapgen_value<furn_id> rubble_type = mapgen_value<furn_id>( f_rubble );
+        mapgen_value<furn_id> rubble_type = mapgen_value<furn_id>( furn_f_rubble );
         bool items = false;
         mapgen_value<ter_id> floor_type = mapgen_value<ter_id>( ter_t_dirt );
         bool overwrite = false;
@@ -3269,7 +3284,7 @@ class jmapgen_sealed_item : public jmapgen_piece
                 return;
             }
 
-            dat.m.furn_set( point( x.get(), y.get() ), f_null );
+            dat.m.furn_set( point( x.get(), y.get() ), furn_str_id::NULL_ID() );
             if( item_spawner ) {
                 item_spawner->apply( dat, x, y, context );
             }
@@ -5470,7 +5485,8 @@ void map::draw_lab( mapgendata &dat )
             const auto maybe_insert_stairs = [this]( const oter_id & terrain,  const ter_id & t_stair_type ) {
                 if( is_ot_match( "stairs", terrain, ot_match_type::contains ) ) {
                     const auto predicate = [this]( const tripoint & p ) {
-                        return ter( p ) == ter_t_thconc_floor && furn( p ) == f_null && tr_at( p ).is_null();
+                        return ter( p ) == ter_t_thconc_floor && furn( p ) == furn_str_id::NULL_ID() &&
+                               tr_at( p ).is_null();
                     };
                     const auto range =
                     points_in_rectangle( { 0, 0, abs_sub.z() },
@@ -5521,21 +5537,21 @@ void map::draw_lab( mapgendata &dat )
                                              ter_t_concrete_wall;
                         for( int i = 0; i < SEEX * 2; i++ ) {
                             ter_set( point( 23, i ), rw_type );
-                            furn_set( point( 23, i ), f_null );
+                            furn_set( point( 23, i ), furn_str_id::NULL_ID() );
                             i_clear( tripoint( 23, i, get_abs_sub().z() ) );
 
                             ter_set( point( i, 23 ), bw_type );
-                            furn_set( point( i, 23 ), f_null );
+                            furn_set( point( i, 23 ), furn_str_id::NULL_ID() );
                             i_clear( tripoint( i, 23, get_abs_sub().z() ) );
 
                             if( lw == 2 ) {
                                 ter_set( point( 0, i ), lw_type );
-                                furn_set( point( 0, i ), f_null );
+                                furn_set( point( 0, i ), furn_str_id::NULL_ID() );
                                 i_clear( tripoint( 0, i, get_abs_sub().z() ) );
                             }
                             if( tw == 2 ) {
                                 ter_set( point( i, 0 ), tw_type );
-                                furn_set( point( i, 0 ), f_null );
+                                furn_set( point( i, 0 ), furn_str_id::NULL_ID() );
                                 i_clear( tripoint( i, 0, get_abs_sub().z() ) );
                             }
                         }
@@ -5767,7 +5783,7 @@ void map::draw_lab( mapgendata &dat )
                                 make_rubble( { i, j, abs_sub.z() } );
                                 ter_set( point( i, j ), ter_t_rock_floor );
                                 if( !one_in( 3 ) ) {
-                                    furn_set( point( i, j ), f_null );
+                                    furn_set( point( i, j ), furn_str_id::NULL_ID() );
                                 }
                             }
                             // and then randomly destroy 5% of the remaining nonstairs.
@@ -5797,7 +5813,7 @@ void map::draw_lab( mapgendata &dat )
                     if( ( ( j <= tw || i >= rw ) && i >= j && ( EAST_EDGE - i ) <= j ) ||
                         ( ( j >= bw || i <= lw ) && i <= j && ( SOUTH_EDGE - j ) <= i ) ) {
                         if( one_in( 5 ) ) {
-                            make_rubble( tripoint( i,  j, abs_sub.z() ), f_rubble_rock, true,
+                            make_rubble( tripoint( i,  j, abs_sub.z() ), furn_f_rubble_rock, true,
                                          ter_t_slime );
                         } else if( !one_in( 5 ) ) {
                             ter_set( point( i, j ), ter_t_slime );
@@ -5859,7 +5875,7 @@ void map::draw_lab( mapgendata &dat )
                                 // We want the actual debris, but not the rubble marker or dirt.
                                 make_rubble( { i, j, abs_sub.z() } );
                                 ter_set( point( i, j ), fluid_type );
-                                furn_set( point( i, j ), f_null );
+                                furn_set( point( i, j ), furn_str_id::NULL_ID() );
                             }
                         }
                     }
@@ -5885,7 +5901,7 @@ void map::draw_lab( mapgendata &dat )
                                 // We want the actual debris, but not the rubble marker or dirt.
                                 make_rubble( { p, abs_sub.z() } );
                                 ter_set( p, fluid_type );
-                                furn_set( p, f_null );
+                                furn_set( p, furn_str_id::NULL_ID() );
                             }
                         }, point( rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ) ), rng( 3, 6 ) );
                     }
@@ -5939,7 +5955,7 @@ void map::draw_lab( mapgendata &dat )
                         make_rubble( {p, abs_sub.z() } );
                         ter_set( p, ter_t_thconc_floor );
                     }, center->xy(), 4 );
-                    furn_set( center->xy(), f_null );
+                    furn_set( center->xy(), furn_str_id::NULL_ID() );
                     if( !is_open_air( *center ) ) {
                         trap_set( *center, tr_portal );
                         create_anomaly( *center, random_entry( valid_props ), false );
@@ -5954,7 +5970,7 @@ void map::draw_lab( mapgendata &dat )
                             if( !one_in( 5 ) && has_flag( ter_furn_flag::TFLAG_FLAT, point( i, j ) ) ) {
                                 ter_set( point( i, j ), ter_t_fungus_floor_in );
                                 if( has_flag_furn( ter_furn_flag::TFLAG_ORGANIC, point( i, j ) ) ) {
-                                    furn_set( point( i, j ), f_fungal_clump );
+                                    furn_set( point( i, j ), furn_f_fungal_clump );
                                 }
                             } else if( has_flag_ter( ter_furn_flag::TFLAG_DOOR, point( i, j ) ) && !one_in( 5 ) ) {
                                 ter_set( point( i, j ), ter_t_fungus_floor_in );
@@ -5977,14 +5993,14 @@ void map::draw_lab( mapgendata &dat )
                         } else {
                             ter_set( p, ter_t_fungus_floor_in );
                             if( one_in( 3 ) ) {
-                                furn_set( p, f_flower_fungal );
+                                furn_set( p, furn_f_flower_fungal );
                             } else if( one_in( 10 ) ) {
                                 ter_set( p, ter_t_marloss );
                             }
                         }
                     }, center.xy(), 3 );
                     ter_set( center.xy(), ter_t_fungus_floor_in );
-                    furn_set( center.xy(), f_null );
+                    furn_set( center.xy(), furn_str_id::NULL_ID() );
                     trap_set( center, tr_portal );
                     place_spawns( GROUP_FUNGI_FUNGALOID, 1, center.xy() + point( -2, -2 ),
                                   center.xy() + point( 2, 2 ), 1, true );
@@ -6034,21 +6050,21 @@ void map::draw_lab( mapgendata &dat )
                 ter_str_id bw_type = tower_lab && bw == 2 ? ter_t_reinforced_glass : ter_t_concrete_wall;
                 for( int i = 0; i < SEEX * 2; i++ ) {
                     ter_set( point( 23, i ), rw_type );
-                    furn_set( point( 23, i ), f_null );
+                    furn_set( point( 23, i ), furn_str_id::NULL_ID() );
                     i_clear( tripoint( 23, i, get_abs_sub().z() ) );
 
                     ter_set( point( i, 23 ), bw_type );
-                    furn_set( point( i, 23 ), f_null );
+                    furn_set( point( i, 23 ), furn_str_id::NULL_ID() );
                     i_clear( tripoint( i, 23, get_abs_sub().z() ) );
 
                     if( lw == 2 ) {
                         ter_set( point( 0, i ), lw_type );
-                        furn_set( point( 0, i ), f_null );
+                        furn_set( point( 0, i ), furn_str_id::NULL_ID() );
                         i_clear( tripoint( 0, i, get_abs_sub().z() ) );
                     }
                     if( tw == 2 ) {
                         ter_set( point( i, 0 ), tw_type );
-                        furn_set( point( i, 0 ), f_null );
+                        furn_set( point( i, 0 ), furn_str_id::NULL_ID() );
                         i_clear( tripoint( i, 0, get_abs_sub().z() ) );
                     }
                 }
@@ -6106,10 +6122,10 @@ void map::draw_lab( mapgendata &dat )
                         line( this, ter_t_reinforced_glass, point( SEEX - 1, SEEY - 2 ), point( SEEX + 1, SEEY - 2 ) );
                         ter_set( point( SEEX + 1, SEEY - 1 ), ter_t_reinforced_glass );
                         ter_set( point( SEEX + 1, SEEY ), ter_t_reinforced_door_glass_c );
-                        furn_set( point( SEEX - 1, SEEY - 1 ), f_table );
-                        furn_set( point( SEEX, SEEY - 1 ), f_table );
-                        furn_set( point( SEEX - 1, SEEY ), f_table );
-                        furn_set( point( SEEX, SEEY ), f_table );
+                        furn_set( point( SEEX - 1, SEEY - 1 ), furn_f_table );
+                        furn_set( point( SEEX, SEEY - 1 ), furn_f_table );
+                        furn_set( point( SEEX - 1, SEEY ), furn_f_table );
+                        furn_set( point( SEEX, SEEY ), furn_f_table );
                         if( loot_variant <= 67 ) {
                             spawn_item( point( SEEX, SEEY - 1 ), "UPS_off" );
                             spawn_item( point( SEEX, SEEY - 1 ), "heavy_battery_cell" );
@@ -6134,14 +6150,14 @@ void map::draw_lab( mapgendata &dat )
                         mtrap_set( this, point( SEEX - 4, SEEY + 2 ), tr_dissector );
                         mtrap_set( this, point( SEEX + 3, SEEY + 2 ), tr_dissector );
 
-                        furn_set( point( SEEX - 2, SEEY - 1 ), f_rack );
-                        furn_set( point( SEEX - 1, SEEY - 1 ), f_rack );
-                        furn_set( point( SEEX, SEEY - 1 ), f_rack );
-                        furn_set( point( SEEX + 1, SEEY - 1 ), f_rack );
-                        furn_set( point( SEEX - 2, SEEY ), f_rack );
-                        furn_set( point( SEEX - 1, SEEY ), f_rack );
-                        furn_set( point( SEEX, SEEY ), f_rack );
-                        furn_set( point( SEEX + 1, SEEY ), f_rack );
+                        furn_set( point( SEEX - 2, SEEY - 1 ), furn_f_rack );
+                        furn_set( point( SEEX - 1, SEEY - 1 ), furn_f_rack );
+                        furn_set( point( SEEX, SEEY - 1 ), furn_f_rack );
+                        furn_set( point( SEEX + 1, SEEY - 1 ), furn_f_rack );
+                        furn_set( point( SEEX - 2, SEEY ), furn_f_rack );
+                        furn_set( point( SEEX - 1, SEEY ), furn_f_rack );
+                        furn_set( point( SEEX, SEEY ), furn_f_rack );
+                        furn_set( point( SEEX + 1, SEEY ), furn_f_rack );
                         line( this, ter_t_reinforced_door_glass_c, point( SEEX - 2, SEEY - 2 ),
                               point( SEEX + 1, SEEY - 2 ) );
                         line( this, ter_t_reinforced_door_glass_c, point( SEEX - 2, SEEY + 1 ),
@@ -6217,7 +6233,7 @@ void map::draw_lab( mapgendata &dat )
                     mtrap_set( this, point( SEEX + 1, SEEY - 2 ), tr_dissector );
                     mtrap_set( this, point( SEEX - 2, SEEY + 1 ), tr_dissector );
                     mtrap_set( this, point( SEEX + 1, SEEY + 1 ), tr_dissector );
-                    square_furn( this, f_counter, point( SEEX - 1, SEEY - 1 ), point( SEEX, SEEY ) );
+                    square_furn( this, furn_f_counter, point( SEEX - 1, SEEY - 1 ), point( SEEX, SEEY ) );
                     int item_count = 0;
                     while( item_count < 5 ) {
                         item_count +=
@@ -6267,7 +6283,7 @@ void map::draw_lab( mapgendata &dat )
         const ter_str_id & t_stair_type ) {
             if( is_ot_match( "stairs", terrain, ot_match_type::contains ) ) {
                 const auto predicate = [this]( const tripoint & p ) {
-                    return ter( p ) == ter_t_thconc_floor && furn( p ) == f_null &&
+                    return ter( p ) == ter_t_thconc_floor && furn( p ) == furn_str_id::NULL_ID() &&
                            tr_at( p ).is_null();
                 };
                 const auto range = points_in_rectangle( { 0, 0, abs_sub.z() },
@@ -6419,27 +6435,27 @@ void map::place_toilet( const point &p, int charges )
     item water( "water", calendar::start_of_cataclysm );
     water.charges = charges;
     add_item( p, water );
-    furn_set( p, f_toilet );
+    furn_set( p, furn_f_toilet );
 }
 
 void map::place_vending( const point &p, const item_group_id &type, bool reinforced, bool lootable )
 {
     if( reinforced ) {
-        furn_set( p, f_vending_reinforced );
+        furn_set( p, furn_f_vending_reinforced );
         place_items( type, 100, p, p, false, calendar::start_of_cataclysm );
     } else {
         // The chance to find a non-ransacked vending machine reduces greatly with every day after the Cataclysm,
         // unless it's hidden somewhere far away from everyone's eyes (e.g. deep in the lab)
         if( lootable &&
             !one_in( std::max( to_days<int>( calendar::turn - calendar::start_of_cataclysm ), 0 ) + 4 ) ) {
-            furn_set( p, f_vending_o );
+            furn_set( p, furn_f_vending_o );
             for( const tripoint &loc : points_in_radius( { p, abs_sub.z() }, 1 ) ) {
                 if( one_in( 4 ) ) {
                     spawn_item( loc, "glass_shard", rng( 1, 25 ) );
                 }
             }
         } else {
-            furn_set( p, f_vending_c );
+            furn_set( p, furn_f_vending_c );
             place_items( type, 100, p, p, false, calendar::start_of_cataclysm );
         }
     }
@@ -7159,7 +7175,7 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                 int desk = p1.y + rng( static_cast<int>( height / 2 ) - static_cast<int>( height / 4 ),
                                        static_cast<int>( height / 2 ) + 1 );
                 for( int x = p1.x + static_cast<int>( width / 4 ); x < p2.x - static_cast<int>( width / 4 ); x++ ) {
-                    m->furn_set( point( x, desk ), f_counter );
+                    m->furn_set( point( x, desk ), furn_f_counter );
                 }
                 computer *tmpcomp = m->add_computer( tripoint( p2.x - static_cast<int>( width / 4 ), desk, z ),
                                                      _( "Log Console" ), 3 );
@@ -7175,7 +7191,7 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                 int desk = p1.x + rng( static_cast<int>( height / 2 ) - static_cast<int>( height / 4 ),
                                        static_cast<int>( height / 2 ) + 1 );
                 for( int y = p1.y + static_cast<int>( width / 4 ); y < p2.y - static_cast<int>( width / 4 ); y++ ) {
-                    m->furn_set( point( desk, y ), f_counter );
+                    m->furn_set( point( desk, y ), furn_f_counter );
                 }
                 computer *tmpcomp = m->add_computer( tripoint( desk, p2.y - static_cast<int>( width / 4 ), z ),
                                                      _( "Log Console" ), 3 );
@@ -7194,7 +7210,7 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                 for( int x = p1.x; x <= p2.x; x++ ) {
                     if( x % 3 == 0 ) {
                         for( int y = p1.y + 1; y <= p2.y - 1; y++ ) {
-                            m->furn_set( point( x, y ), f_counter );
+                            m->furn_set( point( x, y ), furn_f_counter );
                         }
                         if( one_in( 3 ) ) {
                             m->place_items( Item_spawn_data_mut_lab, 35, point( x, p1.y + 1 ),
@@ -7211,7 +7227,7 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                 for( int y = p1.y; y <= p2.y; y++ ) {
                     if( y % 3 == 0 ) {
                         for( int x = p1.x + 1; x <= p2.x - 1; x++ ) {
-                            m->furn_set( point( x, y ), f_counter );
+                            m->furn_set( point( x, y ), furn_f_counter );
                         }
                         if( one_in( 3 ) ) {
                             m->place_items( Item_spawn_data_mut_lab, 35, point( p1.x + 1, y ),
@@ -7227,15 +7243,16 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
             }
             break;
         case room_teleport:
-            m->furn_set( point( ( p1.x + p2.x ) / 2, static_cast<int>( ( p1.y + p2.y ) / 2 ) ), f_counter );
+            m->furn_set( point( ( p1.x + p2.x ) / 2, static_cast<int>( ( p1.y + p2.y ) / 2 ) ),
+                         furn_f_counter );
             m->furn_set( point( static_cast<int>( ( p1.x + p2.x ) / 2 ) + 1,
                                 static_cast<int>( ( p1.y + p2.y ) / 2 ) ),
-                         f_counter );
+                         furn_f_counter );
             m->furn_set( point( ( p1.x + p2.x ) / 2, static_cast<int>( ( p1.y + p2.y ) / 2 ) + 1 ),
-                         f_counter );
+                         furn_f_counter );
             m->furn_set( point( static_cast<int>( ( p1.x + p2.x ) / 2 ) + 1,
                                 static_cast<int>( ( p1.y + p2.y ) / 2 ) + 1 ),
-                         f_counter );
+                         furn_f_counter );
             mtrap_set( m, trap, tr_telepad );
             m->place_items( Item_spawn_data_teleport, 70, point( ( p1.x + p2.x ) / 2,
                             static_cast<int>( ( p1.y + p2.y ) / 2 ) ),
@@ -7251,22 +7268,22 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
             } while( !one_in( 5 ) );
             if( rotate == 0 ) {
                 mremove_trap( m, point( p1.x, p2.y ), tr_null );
-                m->furn_set( point( p1.x, p2.y ), f_fridge );
+                m->furn_set( point( p1.x, p2.y ), furn_f_fridge );
                 m->place_items( Item_spawn_data_goo, 60, point( p1.x, p2.y ), point( p1.x, p2.y ),
                                 false, calendar::start_of_cataclysm );
             } else if( rotate == 1 ) {
                 mremove_trap( m, p1, tr_null );
-                m->furn_set( p1, f_fridge );
+                m->furn_set( p1, furn_f_fridge );
                 m->place_items( Item_spawn_data_goo, 60, p1, p1, false,
                                 calendar::start_of_cataclysm );
             } else if( rotate == 2 ) {
                 mremove_trap( m, point( p2.x, p1.y ), tr_null );
-                m->furn_set( point( p2.x, p1.y ), f_fridge );
+                m->furn_set( point( p2.x, p1.y ), furn_f_fridge );
                 m->place_items( Item_spawn_data_goo, 60, point( p2.x, p1.y ), point( p2.x, p1.y ),
                                 false, calendar::start_of_cataclysm );
             } else {
                 mremove_trap( m, p2, tr_null );
-                m->furn_set( p2, f_fridge );
+                m->furn_set( p2, furn_f_fridge );
                 m->place_items( Item_spawn_data_goo, 60, p2, p2, false,
                                 calendar::start_of_cataclysm );
             }
@@ -7285,25 +7302,25 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
         case room_vivisect:
             if( rotate == 0 ) {
                 for( int x = p1.x; x <= p2.x; x++ ) {
-                    m->furn_set( point( x, p2.y - 1 ), f_counter );
+                    m->furn_set( point( x, p2.y - 1 ), furn_f_counter );
                 }
                 m->place_items( Item_spawn_data_dissection, 80, point( p1.x, p2.y - 1 ),
                                 p2 + point_north, false, calendar::start_of_cataclysm );
             } else if( rotate == 1 ) {
                 for( int y = p1.y; y <= p2.y; y++ ) {
-                    m->furn_set( point( p1.x + 1, y ), f_counter );
+                    m->furn_set( point( p1.x + 1, y ), furn_f_counter );
                 }
                 m->place_items( Item_spawn_data_dissection, 80, p1 + point_east,
                                 point( p1.x + 1, p2.y ), false, calendar::start_of_cataclysm );
             } else if( rotate == 2 ) {
                 for( int x = p1.x; x <= p2.x; x++ ) {
-                    m->furn_set( point( x, p1.y + 1 ), f_counter );
+                    m->furn_set( point( x, p1.y + 1 ), furn_f_counter );
                 }
                 m->place_items( Item_spawn_data_dissection, 80, p1 + point_south,
                                 point( p2.x, p1.y + 1 ), false, calendar::start_of_cataclysm );
             } else if( rotate == 3 ) {
                 for( int y = p1.y; y <= p2.y; y++ ) {
-                    m->furn_set( point( p2.x - 1, y ), f_counter );
+                    m->furn_set( point( p2.x - 1, y ), furn_f_counter );
                 }
                 m->place_items( Item_spawn_data_dissection, 80, point( p2.x - 1, p1.y ),
                                 p2 + point_west, false, calendar::start_of_cataclysm );
@@ -7325,7 +7342,7 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                                             "|c|\n"
                                             "-=-\n",
                                             mapf::ter_bind( "- | =", ter_t_concrete_wall, ter_t_concrete_wall, ter_t_reinforced_glass ),
-                                            mapf::furn_bind( "c", f_counter ) );
+                                            mapf::furn_bind( "c", furn_f_counter ) );
                 m->place_items( Item_spawn_data_bionics_common, 70, bio,
                                 bio, false, calendar::start_of_cataclysm );
 
@@ -7344,7 +7361,7 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                                             "|c|\n"
                                             "---\n",
                                             mapf::ter_bind( "- | =", ter_t_concrete_wall, ter_t_concrete_wall, ter_t_reinforced_glass ),
-                                            mapf::furn_bind( "c", f_counter ) );
+                                            mapf::furn_bind( "c", furn_f_counter ) );
                 m->place_items( Item_spawn_data_bionics_common, 70, bio,
                                 bio, false, calendar::start_of_cataclysm );
 
@@ -7364,7 +7381,7 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                                             "|c=\n"
                                             "|-|\n",
                                             mapf::ter_bind( "- | =", ter_t_concrete_wall, ter_t_concrete_wall, ter_t_reinforced_glass ),
-                                            mapf::furn_bind( "c", f_counter ) );
+                                            mapf::furn_bind( "c", furn_f_counter ) );
                 m->place_items( Item_spawn_data_bionics_common, 70, point( biox, bioy ),
                                 point( biox, bioy ), false, calendar::start_of_cataclysm );
 
@@ -7383,7 +7400,7 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                                             "=c|\n"
                                             "|-|\n",
                                             mapf::ter_bind( "- | =", ter_t_concrete_wall, ter_t_concrete_wall, ter_t_reinforced_glass ),
-                                            mapf::furn_bind( "c", f_counter ) );
+                                            mapf::furn_bind( "c", furn_f_counter ) );
                 m->place_items( Item_spawn_data_bionics_common, 70, point( biox, bioy ),
                                 point( biox, bioy ), false, calendar::turn_zero );
 
@@ -7400,20 +7417,20 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
         case room_dorm:
             if( rotate % 2 == 0 ) {
                 for( int y = p1.y + 1; y <= p2.y - 1; y += 3 ) {
-                    m->furn_set( point( p1.x, y ), f_bed );
+                    m->furn_set( point( p1.x, y ), furn_f_bed );
                     m->place_items( Item_spawn_data_bed, 60, point( p1.x, y ), point( p1.x, y ),
                                     false, calendar::start_of_cataclysm );
-                    m->furn_set( point( p1.x + 1, y ), f_bed );
+                    m->furn_set( point( p1.x + 1, y ), furn_f_bed );
                     m->place_items( Item_spawn_data_bed, 60, point( p1.x + 1, y ),
                                     point( p1.x + 1, y ), false, calendar::start_of_cataclysm );
-                    m->furn_set( point( p2.x, y ), f_bed );
+                    m->furn_set( point( p2.x, y ), furn_f_bed );
                     m->place_items( Item_spawn_data_bed, 60, point( p2.x, y ), point( p2.x, y ),
                                     false, calendar::start_of_cataclysm );
-                    m->furn_set( point( p2.x - 1, y ), f_bed );
+                    m->furn_set( point( p2.x - 1, y ), furn_f_bed );
                     m->place_items( Item_spawn_data_bed, 60, point( p2.x - 1, y ),
                                     point( p2.x - 1, y ), false, calendar::start_of_cataclysm );
-                    m->furn_set( point( p1.x, y + 1 ), f_dresser );
-                    m->furn_set( point( p2.x, y + 1 ), f_dresser );
+                    m->furn_set( point( p1.x, y + 1 ), furn_f_dresser );
+                    m->furn_set( point( p2.x, y + 1 ), furn_f_dresser );
                     m->place_items( Item_spawn_data_dresser, 70, point( p1.x, y + 1 ),
                                     point( p1.x, y + 1 ), false, calendar::start_of_cataclysm );
                     m->place_items( Item_spawn_data_dresser, 70, point( p2.x, y + 1 ),
@@ -7421,20 +7438,20 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                 }
             } else if( rotate % 2 == 1 ) {
                 for( int x = p1.x + 1; x <= p2.x - 1; x += 3 ) {
-                    m->furn_set( point( x, p1.y ), f_bed );
+                    m->furn_set( point( x, p1.y ), furn_f_bed );
                     m->place_items( Item_spawn_data_bed, 60, point( x, p1.y ), point( x, p1.y ),
                                     false, calendar::start_of_cataclysm );
-                    m->furn_set( point( x, p1.y + 1 ), f_bed );
+                    m->furn_set( point( x, p1.y + 1 ), furn_f_bed );
                     m->place_items( Item_spawn_data_bed, 60, point( x, p1.y + 1 ),
                                     point( x, p1.y + 1 ), false, calendar::start_of_cataclysm );
-                    m->furn_set( point( x, p2.y ), f_bed );
+                    m->furn_set( point( x, p2.y ), furn_f_bed );
                     m->place_items( Item_spawn_data_bed, 60, point( x, p2.y ), point( x, p2.y ),
                                     false, calendar::start_of_cataclysm );
-                    m->furn_set( point( x, p2.y - 1 ), f_bed );
+                    m->furn_set( point( x, p2.y - 1 ), furn_f_bed );
                     m->place_items( Item_spawn_data_bed, 60, point( x, p2.y - 1 ),
                                     point( x, p2.y - 1 ), false, calendar::start_of_cataclysm );
-                    m->furn_set( point( x + 1, p1.y ), f_dresser );
-                    m->furn_set( point( x + 1, p2.y ), f_dresser );
+                    m->furn_set( point( x + 1, p1.y ), furn_f_dresser );
+                    m->furn_set( point( x + 1, p2.y ), furn_f_dresser );
                     m->place_items( Item_spawn_data_dresser, 70, point( x + 1, p1.y ),
                                     point( x + 1, p1.y ), false, calendar::start_of_cataclysm );
                     m->place_items( Item_spawn_data_dresser, 70, point( x + 1, p2.y ),
@@ -7480,15 +7497,15 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bo
     point c( cp.xy() );
     if( create_rubble ) {
         rough_circle( this, ter_t_dirt, c, 11 );
-        rough_circle_furn( this, f_rubble, c, 5 );
-        furn_set( c, f_null );
+        rough_circle_furn( this, furn_f_rubble, c, 5 );
+        furn_set( c, furn_str_id::NULL_ID() );
     }
     switch( prop ) {
         case ARTPROP_WRIGGLING:
         case ARTPROP_MOVING:
             for( int i = c.x - 5; i <= c.x + 5; i++ ) {
                 for( int j = c.y - 5; j <= c.y + 5; j++ ) {
-                    if( furn( point( i, j ) ) == f_rubble ) {
+                    if( furn( point( i, j ) ) == furn_f_rubble ) {
                         add_field( tripoint_bub_ms{i, j, abs_sub.z()}, fd_push_items, 1 );
                         if( one_in( 3 ) ) {
                             spawn_item( point( i, j ), "rock" );
@@ -7502,7 +7519,7 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bo
         case ARTPROP_GLITTERING:
             for( int i = c.x - 5; i <= c.x + 5; i++ ) {
                 for( int j = c.y - 5; j <= c.y + 5; j++ ) {
-                    if( furn( point( i, j ) ) == f_rubble && one_in( 2 ) ) {
+                    if( furn( point( i, j ) ) == furn_f_rubble && one_in( 2 ) ) {
                         mtrap_set( this, point( i, j ), tr_glow );
                     }
                 }
@@ -7513,7 +7530,7 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bo
         case ARTPROP_RATTLING:
             for( int i = c.x - 5; i <= c.x + 5; i++ ) {
                 for( int j = c.y - 5; j <= c.y + 5; j++ ) {
-                    if( furn( point( i, j ) ) == f_rubble && one_in( 2 ) ) {
+                    if( furn( point( i, j ) ) == furn_f_rubble && one_in( 2 ) ) {
                         mtrap_set( this, point( i, j ), tr_hum );
                     }
                 }
@@ -7524,7 +7541,7 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bo
         case ARTPROP_ENGRAVED:
             for( int i = c.x - 5; i <= c.x + 5; i++ ) {
                 for( int j = c.y - 5; j <= c.y + 5; j++ ) {
-                    if( furn( point( i, j ) ) == f_rubble && one_in( 3 ) ) {
+                    if( furn( point( i, j ) ) == furn_f_rubble && one_in( 3 ) ) {
                         mtrap_set( this, point( i, j ), tr_shadow );
                     }
                 }
@@ -7547,7 +7564,7 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bo
         case ARTPROP_DEAD:
             for( int i = c.x - 5; i <= c.x + 5; i++ ) {
                 for( int j = c.y - 5; j <= c.y + 5; j++ ) {
-                    if( furn( point( i, j ) ) == f_rubble ) {
+                    if( furn( point( i, j ) ) == furn_f_rubble ) {
                         mtrap_set( this, point( i, j ), tr_drain );
                     }
                 }
@@ -7557,7 +7574,7 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bo
         case ARTPROP_ITCHY:
             for( int i = c.x - 5; i <= c.x + 5; i++ ) {
                 for( int j = c.y - 5; j <= c.y + 5; j++ ) {
-                    if( furn( point( i, j ) ) == f_rubble ) {
+                    if( furn( point( i, j ) ) == furn_f_rubble ) {
                         set_radiation( point( i, j ), rng( 0, 10 ) );
                     }
                 }
@@ -7576,7 +7593,7 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bo
         case ARTPROP_WARM:
             for( int i = c.x - 5; i <= c.x + 5; i++ ) {
                 for( int j = c.y - 5; j <= c.y + 5; j++ ) {
-                    if( furn( point( i, j ) ) == f_rubble ) {
+                    if( furn( point( i, j ) ) == furn_f_rubble ) {
                         add_field( tripoint_bub_ms{i, j, abs_sub.z()}, fd_fire_vent,
                                    1 + ( rl_dist( c, point( i, j ) ) % 3 ) );
                     }
@@ -7587,7 +7604,7 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bo
         case ARTPROP_SCALED:
             for( int i = c.x - 5; i <= c.x + 5; i++ ) {
                 for( int j = c.y - 5; j <= c.y + 5; j++ ) {
-                    if( furn( point( i, j ) ) == f_rubble ) {
+                    if( furn( point( i, j ) ) == furn_f_rubble ) {
                         mtrap_set( this, point( i, j ), tr_snake );
                     }
                 }

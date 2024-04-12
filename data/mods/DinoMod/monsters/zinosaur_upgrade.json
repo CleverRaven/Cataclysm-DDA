@@ -271,7 +271,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zianzhousaurus_brute",
-    "name": { "str": "Qianzhousaurus chéngqiáng" },
+    "name": { "str_sp": "Qianzhousaurus chéngqiáng" },
     "copy-from": "mon_zianzhousaurus",
     "looks_like": "mon_zyrannosaurus",
     "description": "Massive jaws on a long snout lifted by an undead body bulging with distended muscles and swollen, festering wounds.",
@@ -544,7 +544,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zanchisaurus_brute",
-    "name": { "str": "American Ammo" },
+    "name": { "str_sp": "American Ammo" },
     "copy-from": "mon_zanchisaurus",
     "description": "Long-necked, four-legged dinosaur corpse.  Its entire body bulges with distended muscles and swollen, festering wounds.",
     "diff": 2,
@@ -1119,6 +1119,28 @@
     "name": { "str": "Crusher Camp" },
     "copy-from": "mon_zamptosaurus",
     "description": "The shuffling corpse of a large, feathered, bipedal dinosaur with grossly-bulging legs, massive hulking shoulders, and a vicious pointed beak.  Its tattered feathers are stained with black, sticky liquid.",
+    "diff": 2,
+    "color": "red",
+    "proportional": { "hp": 1.5, "speed": 1.5 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
+    },
+    "bleed_rate": 50,
+    "upgrades": false,
+    "special_attacks": [ [ "SMASH", 30 ] ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_ziguanodon_brute",
+    "name": { "str": "Inevitable Iguanodon" },
+    "copy-from": "mon_ziguanodon",
+    "description": "A bulky, four-legged dinosaur with a beak and spiked thumbs, dead but walking, eyes vacant and swollen.  Its entire body bulges with distended muscles and swollen, festering wounds.",
     "diff": 2,
     "color": "red",
     "proportional": { "hp": 1.5, "speed": 1.5 },
@@ -3951,6 +3973,30 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_siguanodon",
+    "name": { "str": "armored iguanodon" },
+    "copy-from": "mon_ziguanodon",
+    "color": "white",
+    "material": [ "bone" ],
+    "description": "This bulky, four-legged dinosaur corpse with a beak and spiked thumbs has grown dense bone armor.",
+    "proportional": { "hp": 0.4, "speed": 0.875 },
+    "relative": {
+      "melee_dice": 9,
+      "melee_dice_sides": 5,
+      "melee_damage": [ { "damage_type": "bash", "amount": 7 } ],
+      "vision_day": -20,
+      "armor": { "cut": 22, "stab": 30, "acid": 3, "bullet": 30 }
+    },
+    "bleed_rate": 50,
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
+    "upgrades": false,
+    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "harvest": "mr_bones",
+    "categories": [ "DINOSAUR" ],
+    "armor": { "cut": 7, "bullet": 4, "bash": 0 }
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_sadrosaurus",
     "name": { "str_sp": "armored hadrosaurus" },
     "copy-from": "mon_zadrosaurus",
@@ -4923,7 +4969,7 @@
   {
     "type": "MONSTER",
     "id": "mon_sallosaurus_brute",
-    "name": { "str": "skeletal allosaurusid brute" },
+    "name": { "str": "skeletal allosaurid brute" },
     "copy-from": "mon_sallosaurus",
     "description": "Distorted outgrowths of calcified bone plates cover this dinosaur's rotten flesh and toothy jaws.  Joints and cracks around its body ooze with black goo.",
     "proportional": { "hp": 5 },

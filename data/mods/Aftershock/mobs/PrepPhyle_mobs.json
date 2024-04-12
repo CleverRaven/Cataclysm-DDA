@@ -4,7 +4,7 @@
     "copy-from": "mon_dog",
     "default_faction": "PrepNet",
     "type": "MONSTER",
-    "name": { "str": "Cyber Mastiff", "str_pl": "Cyber Mastifs" },
+    "name": { "str": "Cyber Mastiff" },
     "//": "Rare, location specific only",
     "description": "A mix of Great Pyrenees and Ovcharka breeds outfitted with bionic enhancements.  These hounds defend Prep Phyle lands from all comers undead and otherwise.",
     "volume": "57500 ml",

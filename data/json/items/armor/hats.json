@@ -221,7 +221,7 @@
   {
     "id": "eboshi",
     "type": "ARMOR",
-    "name": { "str": "eboshi" },
+    "name": { "str_sp": "eboshi" },
     "description": "A high, black cap with a very narrow top.  Traditionally worn by Shinto priests.",
     "weight": "120 g",
     "volume": "500 ml",
@@ -393,7 +393,7 @@
       {
         "id": "blood_hatball",
         "name": { "str": "blood donor cap" },
-        "description": "A snapback baseball cap displaying the image of bloodpack connected to a drop of blood in the front, and under that image, a text that reads: 'Donating Blood', in white, and 'Save Lifes' in red.  It shields your eyes from the sun and provides a little bit of warmth.",
+        "description": "A snapback baseball cap displaying the image of bloodpack connected to a drop of blood in the front, and under that image, a text that reads: 'Donating Blood', in white, and 'Save Lives' in red.  It shields your eyes from the sun and provides a little bit of warmth.",
         "weight": 1
       },
       {
@@ -1280,7 +1280,7 @@
   {
     "id": "santa_hat",
     "type": "ARMOR",
-    "name": { "str": "santa hat" },
+    "name": { "str": "Santa hat" },
     "description": "A red hat with white faux fur trim, commonly used by bearded men on Christmas.",
     "weight": "200 g",
     "volume": "500 ml",

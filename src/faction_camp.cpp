@@ -85,6 +85,9 @@ class character_id;
 
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 
+static const furn_str_id furn_f_plant_harvest( "f_plant_harvest" );
+static const furn_str_id furn_f_plant_seed( "f_plant_seed" );
+
 static const item_group_id
 Item_spawn_data_foraging_faction_camp_autumn( "foraging_faction_camp_autumn" );
 static const item_group_id
@@ -701,9 +704,9 @@ void talk_function::start_camp( npc &p )
 {
     const tripoint_abs_omt omt_pos = p.global_omt_location();
     const oter_id &omt_ref = overmap_buffer.ter( omt_pos );
-
-    const auto &pos_camps = recipe_group::get_recipes_by_id( "all_faction_base_types",
-                            omt_ref.id().c_str() );
+    const std::optional<mapgen_arguments> *maybe_args = overmap_buffer.mapgen_args( omt_pos );
+    const auto &pos_camps = recipe_group::get_recipes_by_id( "all_faction_base_types", omt_ref,
+                            maybe_args );
     if( pos_camps.empty() ) {
         popup( _( "You cannot build a camp here." ) );
         return;
@@ -1424,7 +1427,7 @@ void basecamp::get_available_missions( mission_data &mission_key, map &here )
                                           "> If the expansion direction selected is eligible for conversion into "
                                           "a field this mission will perform that conversion.  If it is not eligible "
                                           "you are told as much, and would have to make it suitable for conversion "
-                                          "by removing everything that isn' grass or soil.  Mining zones are useful to "
+                                          "by removing everything that isn't grass or soil.  Mining zones are useful to "
                                           "remove pavement, for instance.  Note that removal of buildings is dangerous, "
                                           "laborious, and may still fail to get rid of everything if e.g. a basement or "
                                           "an opening to underground areas (such as a manhole) remains.\n\n"
@@ -1447,8 +1450,10 @@ void basecamp::get_available_missions( mission_data &mission_key, map &here )
             for( const auto &dir : base_camps::all_directions ) {
                 if( dir.first != base_camps::base_dir && expansions.find( dir.first ) == expansions.end() ) {
                     const oter_id &omt_ref = overmap_buffer.ter( omt_pos + dir.first );
+                    const std::optional<mapgen_arguments> *maybe_args = overmap_buffer.mapgen_args(
+                                omt_pos + dir.first );
                     const auto &pos_expansions = recipe_group::get_recipes_by_id( "all_faction_base_expansions",
-                                                 omt_ref.id().c_str() );
+                                                 omt_ref, maybe_args );
                     if( !pos_expansions.empty() ) {
                         possible_expansion_found = true;
                         break;
@@ -2187,7 +2192,7 @@ void basecamp::scan_pseudo_items()
         tripoint mapmin = tripoint( 0, 0, omt_pos.z() );
         tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, omt_pos.z() );
         for( const tripoint &pos : expansion_map.points_in_rectangle( mapmin, mapmax ) ) {
-            if( expansion_map.furn( pos ) != f_null &&
+            if( expansion_map.furn( pos ) != furn_str_id::NULL_ID() &&
                 expansion_map.furn( pos ).obj().crafting_pseudo_item.is_valid() &&
                 expansion_map.furn( pos ).obj().crafting_pseudo_item.obj().has_flag( flag_ALLOWS_REMOTE_USE ) ) {
                 bool found = false;
@@ -2359,7 +2364,7 @@ void basecamp::job_assignment_ui()
         draw_border( w_jobs );
         mvwprintz( w_jobs, point( 46, 1 ), c_white, _( "Job/Priority" ) );
         const nc_color col = c_white;
-        const std::string no_npcs = _( "There are no npcs stationed here" );
+        const std::string no_npcs = _( "There are no NPCs stationed here" );
         if( !stationed_npcs.empty() ) {
             draw_scrollbar( w_jobs, selection, entries_per_page, stationed_npcs.size(),
                             point( 0, 3 ) );
@@ -3613,7 +3618,7 @@ static std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_t
                         }
                         used_seed.front().set_age( 0_turns );
                         farm_map.add_item_or_charges( pos, used_seed.front() );
-                        farm_map.set( pos, ter_t_dirt, f_plant_seed );
+                        farm_map.set( pos, ter_t_dirt, furn_f_plant_seed );
                         if( !tmp_seed->count_by_charges() ) {
                             comp->companion_mission_inv.remove_item( tmp_seed );
                         }
@@ -3621,7 +3626,7 @@ static std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_t
                 }
                 break;
             case farm_ops::harvest:
-                if( farm_map.furn( pos ) == f_plant_harvest ) {
+                if( farm_map.furn( pos ) == furn_f_plant_harvest ) {
                     // Can't use item_stack::only_item() since there might be fertilizer
                     map_stack items = farm_map.i_at( pos );
                     const map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
@@ -3641,7 +3646,7 @@ static std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_t
                                 here.add_item_or_charges( player_character.pos(), i );
                             }
                             farm_map.i_clear( pos );
-                            farm_map.furn_set( pos, f_null );
+                            farm_map.furn_set( pos, furn_str_id::NULL_ID() );
                             farm_map.ter_set( pos, ter_t_dirt );
                         } else {
                             plant_names.insert( item::nname( itype_id( seed->type->seed->fruit_id ) ) );
@@ -4530,8 +4535,9 @@ bool basecamp::survey_return( const mission_id &miss_id )
     }
 
     const oter_id &omt_ref = overmap_buffer.ter( where );
+    const std::optional<mapgen_arguments> *maybe_args = overmap_buffer.mapgen_args( where );
     const auto &pos_expansions = recipe_group::get_recipes_by_id( "all_faction_base_expansions",
-                                 omt_ref.id().c_str() );
+                                 omt_ref, maybe_args );
     if( pos_expansions.empty() ) {
         popup( _( "You can't build any expansions in a %s." ), omt_ref.id().c_str() );
         if( query_yn(

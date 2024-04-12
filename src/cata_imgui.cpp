@@ -10,6 +10,7 @@
 #include "input.h"
 #include "output.h"
 #include "ui_manager.h"
+#include "input_context.h"
 
 static ImGuiKey cata_key_to_imgui( int cata_key );
 
@@ -274,7 +275,8 @@ void cataimgui::client::process_input( void *input )
 bool cataimgui::client::auto_size_frame_active()
 {
     for( const ImGuiWindow *window : GImGui->Windows ) {
-        if( window->AutoFitFramesX > 0 || window->AutoFitFramesY > 0 ) {
+        if( ( window->ContentSize.x == 0 || window->ContentSize.y == 0 ) && ( window->AutoFitFramesX > 0 ||
+                window->AutoFitFramesY > 0 ) ) {
             return true;
         }
     }
@@ -461,6 +463,13 @@ class cataimgui::window_impl
         }
 };
 
+class cataimgui::filter_box_impl
+{
+    public:
+        std::array<char, 255> text;
+        ImGuiID id;
+};
+
 cataimgui::window::window( int window_flags )
 {
     p_impl = nullptr;
@@ -477,8 +486,17 @@ cataimgui::window::window( const std::string &id_, int window_flags ) : window( 
     is_open = true;
 }
 
-
-cataimgui::window::~window() = default;
+cataimgui::window::~window()
+{
+    p_impl.reset();
+    if( GImGui ) {
+        ImGui::ClearWindowSettings( id.c_str() );
+        if( !ui_adaptor::has_imgui() ) {
+            ImGui::GetIO().ClearInputKeys();
+            GImGui->InputEventsQueue.resize( 0 );
+        }
+    }
+}
 
 bool cataimgui::window::is_bounds_changed()
 {
@@ -598,4 +616,52 @@ std::string cataimgui::window::get_button_action()
 cataimgui::bounds cataimgui::window::get_bounds()
 {
     return { -1.f, -1.f, -1.f, -1.f };
+}
+
+void cataimgui::window::draw_filter( const input_context &ctxt, bool filtering_active )
+{
+    if( !filter_impl ) {
+        filter_impl = std::make_unique<cataimgui::filter_box_impl>();
+        filter_impl->id = 0;
+        filter_impl->text[0] = '\0';
+    }
+
+    if( !filtering_active ) {
+        action_button( "FILTER", ctxt.get_button_text( "FILTER" ) );
+        ImGui::SameLine();
+        action_button( "RESET_FILTER", ctxt.get_button_text( "RESET_FILTER" ) );
+        ImGui::SameLine();
+    } else {
+        action_button( "QUIT", ctxt.get_button_text( "QUIT", _( "Cancel" ) ) );
+        ImGui::SameLine();
+        action_button( "TEXT.CONFIRM", ctxt.get_button_text( "TEXT.CONFIRM", _( "OK" ) ) );
+        ImGui::SameLine();
+    }
+    ImGui::BeginDisabled( !filtering_active );
+    ImGui::InputText( "##FILTERBOX", filter_impl->text.data(),
+                      filter_impl->text.size() );
+    ImGui::EndDisabled();
+    if( !filter_impl->id ) {
+        filter_impl->id = GImGui->LastItemData.ID;
+    }
+}
+
+std::string cataimgui::window::get_filter()
+{
+    if( filter_impl ) {
+        return std::string( filter_impl->text.data() );
+    } else {
+        return std::string();
+    }
+}
+
+void cataimgui::window::clear_filter()
+{
+    if( filter_impl && filter_impl->id != 0 ) {
+        ImGuiInputTextState *input_state = ImGui::GetInputTextState( filter_impl->id );
+        if( input_state ) {
+            input_state->ClearText();
+            filter_impl->text[0] = '\0';
+        }
+    }
 }

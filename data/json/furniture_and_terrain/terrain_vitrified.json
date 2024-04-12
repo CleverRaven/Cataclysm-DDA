@@ -214,7 +214,7 @@
   {
     "type": "terrain",
     "id": "t_vitrified_chickenwire_fence",
-    "name": "black fibreglass fence",
+    "name": "black fiberglass fence",
     "description": "A network of delicate glass threads strung between thicker posts.  The wind blowing across them produces a faint, eerie whine.",
     "symbol": "LINE_OXOX",
     "color": "dark_gray",

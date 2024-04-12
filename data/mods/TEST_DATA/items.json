@@ -3613,7 +3613,7 @@
   {
     "id": "test_exo_lense_module",
     "type": "TOOL",
-    "name": { "str": "exosuit multi lense zoom module" },
+    "name": { "str": "exosuit multi-lens zoom module" },
     "description": "A series of strangely shaped hexagonal lenses that flutter about inside your helmet.  As the lenses shift things around you stay perfectly in focus no matter your eyesight or distance.  It can be mounted to an exosuit helmet.",
     "weight": "500 g",
     "volume": "250 ml",
@@ -4845,6 +4845,130 @@
       }
     ],
     "melee_damage": { "bash": 8 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_item_ench",
+    "name": "test_item_ench",
+    "description": "item, that applies enchantments, duh",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "material": [ "steel" ],
+    "color": "red",
+    "symbol": "*"
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_SPEED_ench_item",
+    "copy-from": "test_item_ench",
+    "name": "test_SPEED_ench_item",
+    "relic_data": { "passive_effects": [ { "values": [ { "value": "SPEED", "add": 25, "multiply": -0.5 } ] } ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_ATTACK_NOISE_ench_item",
+    "copy-from": "test_item_ench",
+    "name": "test_ATTACK_NOISE_ench_item",
+    "relic_data": { "passive_effects": [ { "values": [ { "value": "ATTACK_NOISE", "add": 9999 } ] } ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_ATTACK_SPEED_ench_item",
+    "copy-from": "test_item_ench",
+    "name": "test_ATTACK_SPEED_ench_item",
+    "relic_data": { "passive_effects": [ { "values": [ { "value": "ATTACK_SPEED", "multiply": -0.5 } ] } ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_ATTACK_SPEED_ench_item_2",
+    "copy-from": "test_item_ench",
+    "name": "test_ATTACK_SPEED_ench_item_2",
+    "relic_data": { "passive_effects": [ { "values": [ { "value": "ATTACK_SPEED", "add": 62 } ] } ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_PAIN_PENALTY_MOD_ench_item_1",
+    "copy-from": "test_item_ench",
+    "name": "test_PAIN_PENALTY_MOD_ench_item_1",
+    "relic_data": {
+      "passive_effects": [
+        {
+          "values": [
+            { "value": "PAIN_PENALTY_MOD_STR", "add": 2 },
+            { "value": "PAIN_PENALTY_MOD_DEX", "multiply": -3 },
+            { "value": "PAIN_PENALTY_MOD_INT", "add": -3 },
+            { "value": "PAIN_PENALTY_MOD_PER", "multiply": 1 },
+            { "value": "PAIN_PENALTY_MOD_SPEED", "add": -10, "multiply": 1.2 }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_MELEE_STAMINA_CONSUMPTION_ench_item_0",
+    "copy-from": "test_item_ench",
+    "weight": "2000 g",
+    "volume": "2000 ml",
+    "description": "Intentionally has no enchantment",
+    "name": "test_MELEE_STAMINA_CONSUMPTION_ench_item_0"
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_MELEE_STAMINA_CONSUMPTION_ench_item_1",
+    "copy-from": "test_item_ench",
+    "weight": "2000 g",
+    "volume": "2000 ml",
+    "name": "test_MELEE_STAMINA_CONSUMPTION_ench_item_1",
+    "relic_data": { "passive_effects": [ { "values": [ { "value": "MELEE_STAMINA_CONSUMPTION", "add": 100 } ] } ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_MELEE_STAMINA_CONSUMPTION_ench_item_2",
+    "copy-from": "test_item_ench",
+    "weight": "2000 g",
+    "volume": "2000 ml",
+    "name": "test_MELEE_STAMINA_CONSUMPTION_ench_item_2",
+    "relic_data": { "passive_effects": [ { "values": [ { "value": "MELEE_STAMINA_CONSUMPTION", "multiply": 1 } ] } ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_BONUS_DODGE_ench_item_1",
+    "copy-from": "test_item_ench",
+    "name": "test_BONUS_DODGE_ench_item_1",
+    "relic_data": { "passive_effects": [ { "values": [ { "value": "BONUS_DODGE", "add": 3 } ] } ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_BONUS_DODGE_ench_item_2",
+    "name": "test_BONUS_DODGE_ench_item_2",
+    "copy-from": "test_item_ench",
+    "relic_data": { "passive_effects": [ { "values": [ { "value": "BONUS_DODGE", "add": 4, "multiply": -0.5 } ] } ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_SPEED_ench_item_1",
+    "copy-from": "test_item_ench",
+    "name": "test_item_ench",
+    "relic_data": { "passive_effects": [ { "has": "HELD", "values": [ { "value": "SPEED", "add": 25, "multiply": -0.5 } ] } ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_STAT_ench_item_1",
+    "copy-from": "test_item_ench",
+    "name": "test_STAT_ench_item_1",
+    "relic_data": {
+      "passive_effects": [
+        {
+          "values": [
+            { "value": "STRENGTH", "add": 3, "multiply": 1 },
+            { "value": "DEXTERITY", "add": -2 },
+            { "value": "INTELLIGENCE", "add": 1, "multiply": -0.5 },
+            { "value": "PERCEPTION", "add": -7 }
+          ]
+        }
+      ]
+    }
   },
   {
     "type": "GENERIC",

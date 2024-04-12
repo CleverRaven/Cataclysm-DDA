@@ -1210,17 +1210,22 @@
       {
         "text": "Sets Test Proficiency learning done to 12 hours total.",
         "topic": "TALK_DONE",
-        "effect": { "math": [ "u_proficiency('prof_test', 'format': 'time_spent')", "=", "time('12h')" ] }
+        "effect": { "math": [ "u_proficiency('prof_test', 'format': 'time_spent', 'direct': true)", "=", "time('12h')" ] }
       },
       {
         "text": "Sets Test Proficiency learning done to -1.",
         "topic": "TALK_DONE",
-        "effect": { "math": [ "u_proficiency('prof_test', 'format': 'time_spent')", "=", "-1" ] }
+        "effect": { "math": [ "u_proficiency('prof_test', 'format': 'time_spent', 'direct': true)", "=", "-1" ] }
       },
       {
         "text": "Sets Test Proficiency learning done to 24h.",
         "topic": "TALK_DONE",
-        "effect": { "math": [ "u_proficiency('prof_test', 'format': 'time_spent')", "=", "time('24h')" ] }
+        "effect": { "math": [ "u_proficiency('prof_test', 'format': 'time_spent', 'direct': true)", "=", "time('24h')" ] }
+      },
+      {
+        "text": "Learns Test Proficiency for 1h",
+        "topic": "TALK_DONE",
+        "effect": { "math": [ "u_proficiency('prof_test', 'format': 'time_spent')", "+=", "time('1h')" ] }
       }
     ]
   },

@@ -349,7 +349,7 @@
   {
     "id": "book_fict_soft_west_gore",
     "type": "BOOK",
-    "name": { "str": "Gore Longtitude", "str_pl": "copies of Gore Longitude" },
+    "name": { "str": "Gore Longitude", "str_pl": "copies of Gore Longitude" },
     "description": "Award-winning author Cornac McCaffordy weaves a chilling tale of horror and strife, following the compellingly lucrative, seductively dangerous bounty hunting and scalping trade across the western frontier.",
     "copy-from": "book_fict_soft_tpl",
     "intelligence": 6,
@@ -558,8 +558,8 @@
   {
     "id": "book_fict_soft_swash_searovers",
     "type": "BOOK",
-    "name": { "str": "Captain Gosgold and the Sea Rovers of Buzzards Bay", "str_pl": "copies of The Sea Rovers" },
-    "description": "This lengthy paperback novel describes the ocean exploits of Captain Gosgold.  The British consider him an outlaw, but in America he is a patriot.",
+    "name": { "str": "Captain Gosnold and the Sea Rovers of Buzzards Bay", "str_pl": "copies of The Sea Rovers" },
+    "description": "This lengthy paperback novel describes the ocean exploits of Captain Gosnold.  The British consider him an outlaw, but in America he is a patriot.",
     "copy-from": "book_fict_soft_tpl",
     "time": "12 m",
     "relative": { "weight": "186 g", "price": 250, "chapters": 8 }
@@ -1181,8 +1181,8 @@
       {
         "id": "book_judaica_hardcover_5",
         "name": {
-          "str": "The Observent Life: The Wisdom of Contemporary Judaism for Contemporary Jews",
-          "str_pl": "copies of The Observent Life: The Wisdom of Contemporary Judaism for Contemporary Jews"
+          "str": "The Observant Life: The Wisdom of Contemporary Judaism for Contemporary Jews",
+          "str_pl": "copies of The Observant Life: The Wisdom of Contemporary Judaism for Contemporary Jews"
         },
         "description": "A long discussion of the ways in which Judaism's ancient rituals, traditions, and ethical practices are still relevant and meaningful in the modern world.  Unfortunately, there's no discussion of post-apocalyptic Judaism."
       },
@@ -1378,7 +1378,7 @@
           "str": "On Repentance And Repair: Making Amends in an Unapologetic World",
           "str_pl": "copies of On Repentance And Repair: Making Amends in an Unapologetic World"
         },
-        "description": "Rabbi Danya Ruttenberg's commentary on the great Jewish philosopher Maimonides ideas about \"Tikkum Olam\", often translated as \"Repairing the World,\" and how while popular ideas of forgiveness often involve moving on after the apology, the Hebrew word \"teshuvah\" means something closer to \"return.\"  True repentance, then, involves making restitution for error and harm and attempting to return the world to the way it was before the damage was done."
+        "description": "Rabbi Danya Ruttenberg's commentary on the great Jewish philosopher Maimonides ideas about \"Tikkun Olam\", often translated as \"Repairing the World,\" and how while popular ideas of forgiveness often involve moving on after the apology, the Hebrew word \"teshuvah\" means something closer to \"return.\"  True repentance, then, involves making restitution for error and harm and attempting to return the world to the way it was before the damage was done."
       },
       {
         "id": "book_judaica_softcover_11",
@@ -1415,7 +1415,7 @@
       {
         "id": "book_judaica_softcover_15",
         "name": { "str": "When Bad Things Happen to Good People", "str_pl": "copies of When Bad Things Happen to Good People" },
-        "description": "A meditation on meaningless tragedy and why the disaster and sorrow in the world is unevenly distributed.  Written decades before the Catalcysm, but the author was obviously on to something."
+        "description": "A meditation on meaningless tragedy and why the disaster and sorrow in the world is unevenly distributed.  Written decades before the Cataclysm, but the author was obviously on to something."
       },
       {
         "id": "book_judaica_softcover_16",

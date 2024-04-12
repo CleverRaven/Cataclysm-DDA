@@ -26,6 +26,8 @@
 #include "trap.h"
 #include "type_id.h"
 
+static furn_id f_null;
+
 static const item_group_id Item_spawn_data_EMPTY_GROUP( "EMPTY_GROUP" );
 
 namespace
@@ -764,173 +766,9 @@ void reset_furn_ter()
     furniture_data.reset();
 }
 
-furn_id f_null, f_clear,
-        f_hay,
-        f_rubble, f_rubble_rock, f_wreckage, f_ash,
-        f_barricade_road, f_sandbag_half, f_sandbag_wall,
-        f_bulletin,
-        f_indoor_plant,
-        f_bed, f_toilet, f_makeshift_bed, f_straw_bed,
-        f_sink, f_oven, f_woodstove, f_fireplace, f_bathtub,
-        f_chair, f_armchair, f_sofa, f_cupboard, f_trashcan, f_desk, f_exercise,
-        f_bench, f_table, f_pool_table,
-        f_counter,
-        f_fridge, f_glass_fridge, f_dresser, f_locker,
-        f_rack, f_bookcase,
-        f_washer, f_dryer,
-        f_vending_c, f_vending_o, f_dumpster, f_dive_block,
-        f_crate_c, f_crate_o, f_coffin_c, f_coffin_o,
-        f_gunsafe_ml, f_gunsafe_mj, f_gun_safe_el,
-        f_large_canvas_wall, f_canvas_wall, f_canvas_door, f_canvas_door_o, f_groundsheet,
-        f_fema_groundsheet, f_large_groundsheet,
-        f_large_canvas_door, f_large_canvas_door_o, f_center_groundsheet, f_skin_wall, f_skin_door,
-        f_skin_door_o, f_skin_groundsheet,
-        f_mutpoppy, f_flower_fungal, f_fungal_mass, f_fungal_clump,
-        f_cattails, f_lotus, f_lilypad,
-        f_safe_c, f_safe_l, f_safe_o,
-        f_plant_seed, f_plant_seedling, f_plant_mature, f_plant_harvest,
-        f_fvat_empty, f_fvat_full, f_fvat_wood_empty, f_fvat_wood_full,
-        f_wood_keg,
-        f_standing_tank,
-        f_egg_sackbw, f_egg_sackcs, f_egg_sackws, f_egg_sacke,
-        f_flower_marloss,
-        f_tatami,
-        f_kiln_empty, f_kiln_full, f_kiln_metal_empty, f_kiln_metal_full,
-        f_arcfurnace_empty, f_arcfurnace_full,
-        f_smoking_rack, f_smoking_rack_active, f_metal_smoking_rack, f_metal_smoking_rack_active,
-        f_water_mill, f_water_mill_active,
-        f_wind_mill, f_wind_mill_active,
-        f_robotic_arm, f_vending_reinforced,
-        f_brazier,
-        f_firering,
-        f_tourist_table,
-        f_camp_chair,
-        f_sign,
-        f_stook_empty, f_stook_full,
-        f_street_light, f_traffic_light, f_flagpole, f_wooden_flagpole,
-        f_console, f_console_broken;
-
 void set_furn_ids()
 {
     f_null = furn_id( "f_null" );
-    f_clear = furn_id( "f_clear" );
-    f_hay = furn_id( "f_hay" );
-    f_rubble = furn_id( "f_rubble" );
-    f_rubble_rock = furn_id( "f_rubble_rock" );
-    f_wreckage = furn_id( "f_wreckage" );
-    f_ash = furn_id( "f_ash" );
-    f_barricade_road = furn_id( "f_barricade_road" );
-    f_sandbag_half = furn_id( "f_sandbag_half" );
-    f_sandbag_wall = furn_id( "f_sandbag_wall" );
-    f_stook_empty = furn_id( "f_stook_empty" );
-    f_stook_full = furn_id( "f_stook_full" );
-    f_bulletin = furn_id( "f_bulletin" );
-    f_indoor_plant = furn_id( "f_indoor_plant" );
-    f_bed = furn_id( "f_bed" );
-    f_toilet = furn_id( "f_toilet" );
-    f_makeshift_bed = furn_id( "f_makeshift_bed" );
-    f_straw_bed = furn_id( "f_straw_bed" );
-    f_sink = furn_id( "f_sink" );
-    f_oven = furn_id( "f_oven" );
-    f_woodstove = furn_id( "f_woodstove" );
-    f_fireplace = furn_id( "f_fireplace" );
-    f_bathtub = furn_id( "f_bathtub" );
-    f_chair = furn_id( "f_chair" );
-    f_armchair = furn_id( "f_armchair" );
-    f_sofa = furn_id( "f_sofa" );
-    f_cupboard = furn_id( "f_cupboard" );
-    f_trashcan = furn_id( "f_trashcan" );
-    f_desk = furn_id( "f_desk" );
-    f_exercise = furn_id( "f_exercise" );
-    f_bench = furn_id( "f_bench" );
-    f_table = furn_id( "f_table" );
-    f_pool_table = furn_id( "f_pool_table" );
-    f_counter = furn_id( "f_counter" );
-    f_fridge = furn_id( "f_fridge" );
-    f_glass_fridge = furn_id( "f_glass_fridge" );
-    f_dresser = furn_id( "f_dresser" );
-    f_locker = furn_id( "f_locker" );
-    f_rack = furn_id( "f_rack" );
-    f_bookcase = furn_id( "f_bookcase" );
-    f_washer = furn_id( "f_washer" );
-    f_dryer = furn_id( "f_dryer" );
-    f_vending_c = furn_id( "f_vending_c" );
-    f_vending_o = furn_id( "f_vending_o" );
-    f_vending_reinforced = furn_id( "f_vending_reinforced" );
-    f_dumpster = furn_id( "f_dumpster" );
-    f_dive_block = furn_id( "f_dive_block" );
-    f_crate_c = furn_id( "f_crate_c" );
-    f_crate_o = furn_id( "f_crate_o" );
-    f_coffin_c = furn_id( "f_coffin_c" );
-    f_coffin_o = furn_id( "f_coffin_o" );
-    f_canvas_wall = furn_id( "f_canvas_wall" );
-    f_large_canvas_wall = furn_id( "f_large_canvas_wall" );
-    f_canvas_door = furn_id( "f_canvas_door" );
-    f_large_canvas_door = furn_id( "f_large_canvas_door" );
-    f_canvas_door_o = furn_id( "f_canvas_door_o" );
-    f_large_canvas_door_o = furn_id( "f_large_canvas_door_o" );
-    f_groundsheet = furn_id( "f_groundsheet" );
-    f_large_groundsheet = furn_id( "f_large_groundsheet" );
-    f_center_groundsheet = furn_id( "f_center_groundsheet" );
-    f_fema_groundsheet = furn_id( "f_fema_groundsheet" );
-    f_skin_wall = furn_id( "f_skin_wall" );
-    f_skin_door = furn_id( "f_skin_door" );
-    f_skin_door_o = furn_id( "f_skin_door_o" );
-    f_skin_groundsheet = furn_id( "f_skin_groundsheet" );
-    f_mutpoppy = furn_id( "f_mutpoppy" );
-    f_fungal_mass = furn_id( "f_fungal_mass" );
-    f_fungal_clump = furn_id( "f_fungal_clump" );
-    f_flower_fungal = furn_id( "f_flower_fungal" );
-    f_cattails = furn_id( "f_cattails" );
-    f_lilypad = furn_id( "f_lilypad" );
-    f_lotus = furn_id( "f_lotus" );
-    f_safe_c = furn_id( "f_safe_c" );
-    f_safe_l = furn_id( "f_safe_l" );
-    f_safe_o = furn_id( "f_safe_o" );
-    f_plant_seed = furn_id( "f_plant_seed" );
-    f_plant_seedling = furn_id( "f_plant_seedling" );
-    f_plant_mature = furn_id( "f_plant_mature" );
-    f_plant_harvest = furn_id( "f_plant_harvest" );
-    f_fvat_empty = furn_id( "f_fvat_empty" );
-    f_fvat_full = furn_id( "f_fvat_full" );
-    f_fvat_wood_empty = furn_id( "f_fvat_wood_empty" );
-    f_fvat_wood_full = furn_id( "f_fvat_wood_full" );
-    f_wood_keg = furn_id( "f_wood_keg" );
-    f_standing_tank = furn_id( "f_standing_tank" );
-    f_egg_sackbw = furn_id( "f_egg_sackbw" );
-    f_egg_sackcs = furn_id( "f_egg_sackcs" );
-    f_egg_sackws = furn_id( "f_egg_sackws" );
-    f_egg_sacke = furn_id( "f_egg_sacke" );
-    f_flower_marloss = furn_id( "f_flower_marloss" );
-    f_kiln_empty = furn_id( "f_kiln_empty" );
-    f_kiln_full = furn_id( "f_kiln_full" );
-    f_kiln_metal_empty = furn_id( "f_kiln_metal_empty" );
-    f_kiln_metal_full = furn_id( "f_kiln_metal_full" );
-    f_arcfurnace_empty = furn_id( "f_arcfurnace_empty" );
-    f_arcfurnace_full = furn_id( "f_arcfurnace_full" );
-    f_smoking_rack = furn_id( "f_smoking_rack" );
-    f_smoking_rack_active = furn_id( "f_smoking_rack_active" );
-    f_metal_smoking_rack = furn_id( "f_metal_smoking_rack" );
-    f_metal_smoking_rack_active = furn_id( "f_metal_smoking_rack_active" );
-    f_water_mill = furn_id( "f_water_mill" );
-    f_water_mill_active = furn_id( "f_water_mill_active" );
-    f_wind_mill = furn_id( "f_wind_mill" );
-    f_wind_mill_active = furn_id( "f_wind_mill_active" );
-    f_robotic_arm = furn_id( "f_robotic_arm" );
-    f_brazier = furn_id( "f_brazier" );
-    f_firering = furn_id( "f_firering" );
-    f_tourist_table = furn_id( "f_tourist_table" );
-    f_camp_chair = furn_id( "f_camp_chair" );
-    f_sign = furn_id( "f_sign" );
-    f_gunsafe_ml = furn_id( "f_gunsafe_ml" );
-    f_gunsafe_mj = furn_id( "f_gunsafe_mj" );
-    f_gun_safe_el = furn_id( "f_gun_safe_el" );
-    f_street_light = furn_id( "f_street_light" );
-    f_traffic_light = furn_id( "f_traffic_light" );
-    f_flagpole = furn_id( "f_flagpole" );
-    f_wooden_flagpole = furn_id( "f_wooden_flagpole" );
-    f_console_broken = furn_id( "f_console_broken" );
-    f_console = furn_id( "f_console" );
 }
 
 size_t ter_t::count()
@@ -1375,7 +1213,7 @@ void activity_data_ter::load( const JsonObject &jo )
 
 void activity_data_furn::load( const JsonObject &jo )
 {
-    optional( jo, was_loaded, "result", result_, f_null.id() );
+    optional( jo, was_loaded, "result", result_, furn_str_id::NULL_ID() );
     activity_data_common::load( jo );
     valid_ = true;
 }
