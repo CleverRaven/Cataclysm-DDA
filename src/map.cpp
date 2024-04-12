@@ -8546,7 +8546,6 @@ void map::produce_sap( const tripoint &p, const time_duration &time_since_last_a
     }
 }
 
-// This operation assumes trees have zero or one tree tops above. If that changes the logic has to change.
 void map::cut_down_tree( tripoint_bub_ms p, point dir )
 {
     if( !zlevels ) {
@@ -8559,8 +8558,6 @@ void map::cut_down_tree( tripoint_bub_ms p, point dir )
         return;
     }
 
-    const bool has_treetop = ter( p + tripoint_above ).id() == ter( p ).obj().roof;
-
     tripoint_bub_ms to = p + 3 * dir + point( rng( -1, 1 ), rng( -1, 1 ) );
 
     // TODO: make line_to type aware.
@@ -8570,10 +8567,6 @@ void map::cut_down_tree( tripoint_bub_ms p, point dir )
         ter_set( elem, ter_t_trunk );
     }
     ter_set( p, ter_t_stump );
-
-    if( has_treetop ) {
-        ter_set( p + tripoint_above, ter_t_open_air );
-    }
 }
 
 void map::rad_scorch( const tripoint &p, const time_duration &time_since_last_actualize )

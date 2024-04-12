@@ -4830,6 +4830,7 @@ int om_cutdown_trees( const tripoint_abs_omt &omt_tgt, int chance, bool estimate
             point dir( 3 * ( 2 * rng( 0, 1 ) - 1 ) + rng( -1, 1 ), 3 * rng( -1, 1 ) + rng( -1, 1 ) );
 
             target_bay.cut_down_tree( tripoint_omt_ms( p ), dir );
+            target_bay.collapse_at( p, true, true, false );
             harvested++;
         }
     }
