@@ -45,30 +45,30 @@
         "M.bbbbbbbbb..bbbbbbbbb.MM.MCCM.MCCM..MCCM.MCCM.MM.........J..J..F..F...M",
         "M.ttttttttt..ttttttttt.MM.MCCM.MCCM..MCCM.MCCM.MM.........j..j.........M",
         "M.bbbbbbbbb..bbbbbbbbb.MM.MddM.MddM..MddM.MddM.MM.........j..j.........M",
-        "M.....*..........*.....MM......................MMH.H.H.H.HJ..JH.H.H.H.HM",
+        "M.....*..........*.....MM......................MMh.h.h.h.hJ..JH.H.H.H.HM",
         "MMMMMMMMMMMDDMMMMMMMMMMMMddddddddddddddddddddddMMMMMMMMMMM#ddMMMMMMMMMMM",
         "MPPpv................................................................pPM",
         "Mpppv.*.....*.....*.....*.....*....**....*.....*.....*.....*.....*...pPM",
         "MPPPpv...............................................................pPM",
         "MPPpMMMMMMMMMMMMMMMMMMMMMddddddddddddddddddddddMMMMMMMMMMMMDDMMMMMMMMMMM",
-        "MPPPv................*....*..................*.MM.....cx...............M",
-        "MPvYYYYYYYYYYYYYYYYYY..................pp......MM.MMM..x..........(YYY.M",
-        "M.....................................ppPp.....MM.MFDxx*x.......*..YYY.M",
-        "M....................................pppPpp....MM.MMM(x............YYY.M",
-        "M....................................pPPpp.....MM..xcx.................M",
-        "M.....................................ppp......MM.YYY.............(YYY.M",
-        "M..............................................MM.YYY..*........*..YYY.M",
-        "M..YYYYYYYYYYYYYYYYYY..........................MM.YYY(.............YYY.M",
-        "M..............................................MM.................pPPppM",
-        "M.*..................*....*..................*.MM.YYY.............(YYY.M",
-        "M..............................................MM.YYY..*........*..YYY.M",
-        "M..YYYYYYYYYYYYYYYYYY..........................MM.YYY(.............YYY.M",
-        "M................p.............................MM......................M",
-        "M...............ppp............................MM.YYY.............^MMM.M",
-        "M..............ppPpp...........................MM.YYY..*........*..dzM.M",
-        "M...............ppp............................MM.YYY(.............MMM.M",
-        "M................p.............................MM......................M",
-        "M..YYYYYYYYYYYYYYYYYY..........................MMMMMMMMMMMMMDDMMMMMMMMMM",
+        "MPPPv................*....*..................*.MMMMMMMcx..........MMMMMM",
+        "MPvYYYYYYYYYYYYYYYYYY..................pp......MM.MMMM(x.........(MYYY.M",
+        "M.....................................ppPp.....MM.MFDxx*x.......*.dYYY.M",
+        "M....................................pppPpp....MM.MMMMMxx........MMYYY.M",
+        "M....................................pPPpp.....MMMMMMMMxc........MMMMMMM",
+        "M.....................................ppp......MM.YYYM(x.x.......(MYYY.M",
+        "M..............................................MM.YYYd.*........*.dYYY.M",
+        "M..YYYYYYYYYYYYYYYYYY..........................MM.YYYMM..........MMYYY.M",
+        "M..............................................MMMMMMMM..........MMMMMMM",
+        "M.*..................*....*..................*.MM.YYYM(..........(MYYY.M",
+        "M..............................................MM.YYYd.*........*.dYYY.M",
+        "M..YYYYYYYYYYYYYYYYYY..........................MM.YYYMM..........MMYYY.M",
+        "M................p.............................MMMMMMMM..........MMMMMMM",
+        "M...............ppp............................MM.YYYM(..........^MMZM.M",
+        "M..............ppPpp...........................MM.YYYd.*........* ddzM.M",
+        "M...............ppp............................MM.YYYMM..........MMMMM.M",
+        "M................p.............................MMMMMMMM..........MMMMMMM",
+        "M..YYYYYYYYYYYYYYYYYY..........................MMMMMMMMMMMMDDMMMMMMMMMMM",
         "M..............................................MME....................EM",
         "M.*..................*....*......pp..........*.MME....................EM",
         "M...............................ppPp...........MM.*Y....Y......Y....Y*.M",
@@ -118,6 +118,7 @@
         "9": "f_heavy_lathe",
         "K": "f_beverly_shear",
         "H": "f_exo_gantry",
+        "h": "f_exo_gantry",
         "5": "f_machinery_electronic",
         "6": "f_machinery_light",
         "7": "f_machinery_heavy",
@@ -148,15 +149,14 @@
         "J": "t_chainfence",
         "j": "t_chaingate_l",
         "W": "t_reinforced_glass_shutter",
+        "Z": "t_afs_escapepod_g_shipboard",
         "P": "t_foamcrete_wall_seal",
         "p": "t_foamcrete_floor_seal",
         "z": "t_escape_pod_floor"
       },
       "place_zones": [ { "type": "ZONE_START_POINT", "faction": "your_followers", "x": 19, "y": 14 } ],
-      "set": [ { "point": "trap", "id": "tr_escape_pod", "x": 68, "y": 42 } ],
       "mapping": {
         "e": { "items": [ { "item": "afs_ballistic_armory", "chance": 20 } ] },
-        "z": { "traps": [ "tr_escape_pod", 1 ] },
         "L": {
           "items": [
             { "item": "gear_soldier_sidearm", "chance": 33 },
@@ -190,7 +190,8 @@
         "w": { "items": [ { "item": "office_mess", "chance": 75 } ] },
         "t": { "items": [ { "item": "afs_mess_hall", "chance": 80 } ] },
         "V": { "items": [ { "item": "afs_vending_false_meals", "chance": 100 } ] },
-        "H": { "items": [ { "item": "afs_exosuit_worker", "chance": 75 } ] }
+        "H": { "items": [ { "item": "afs_exosuit_worker", "chance": 75 } ] },
+        "h": { "items": [ { "item": "afs_exosuit_light_worker", "chance": 75 } ] }
       },
       "place_loot": [
         { "item": "crashing_ship_locker_card", "x": [ 16, 22 ], "y": [ 9, 15 ], "chance": 100 },
@@ -215,7 +216,7 @@
         { "text": "Escape Pods & Vehicle Bay", "x": 61, "y": 27 }
       ],
       "fields": { "F": { "field": "fd_fire", "intensity": 3, "age": 1 }, "x": { "field": "fd_blood", "intensity": 3 } },
-      "computers": { "^": { "name": "Escape Pod", "security": 0, "options": [ { "name": "Ready Escape Pod", "action": "unlock" } ] } }
+      "computers": { "^": { "name": "Escape Pod", "eocs": [ "EOC_ESPOD_CONTROL" ], "chat_topics": [ "ESPOD_CONTROL_START" ] } }
     }
   }
 ]

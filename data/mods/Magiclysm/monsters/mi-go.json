@@ -140,7 +140,7 @@
         "type": "spell",
         "spell_data": { "id": "dispel_magic_monster", "min_level": 8 },
         "cooldown": 30,
-        "monster_message": "%1$s numerous antennae point directlty at %3$s."
+        "monster_message": "%1$s numerous antennae point directly at %3$s."
       }
     ],
     "flags": [

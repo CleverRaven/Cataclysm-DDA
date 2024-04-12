@@ -12,23 +12,6 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": false, "ammo_restriction": { "223": 500 } } ]
   },
   {
-    "id": "famasmag",
-    "looks_like": "stanag30",
-    "type": "MAGAZINE",
-    "name": { "str": "MAS 25-round magazine" },
-    "description": "A 25-round magazine for the MAS .223.  It resembles a STANAG magazine but is not compatible nor interchangeable.",
-    "copy-from": "stanag30",
-    "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE",
-        "rigid": true,
-        "allowed_speedloaders": [ "clip223_10rd" ],
-        "ammo_restriction": { "223": 25 }
-      }
-    ]
-  },
-  {
     "id": "ruger5",
     "looks_like": "stanag30",
     "type": "MAGAZINE",

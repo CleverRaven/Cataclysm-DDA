@@ -23,6 +23,14 @@
   },
   {
     "type": "mutation",
+    "id": "DREAMLESS",
+    "name": { "str": "Dreamless" },
+    "points": 0,
+    "valid": false,
+    "description": "You live firmly in reality and never experience extremely vivid dreams about choices that have real world consequences.  ( You will be unable to gain Dream magicks from sleeping after strange events)"
+  },
+  {
+    "type": "mutation",
     "id": "MANIFEST_DESTINY_GOBLIN",
     "name": { "str": "Transforming into Goblin" },
     "points": 0,
@@ -188,8 +196,8 @@
     "flags": [ "CANNIBAL", "ALBINO" ],
     "attacks": [
       {
-        "attack_text_u": "You sink your fangs into %s",
-        "attack_text_npc": "%1$s sinks their fangs into %2$s",
+        "attack_text_u": "You sink your fangs into %s!",
+        "attack_text_npc": "%1$s sinks their fangs into %2$s!",
         "blocker_mutations": [ "MUZZLE", "MUZZLE_LONG", "MUZZLE_RAT" ],
         "body_part": "mouth",
         "chance": 20,
@@ -233,8 +241,7 @@
     "vitamins_absorb_multi": [ [ "all", [ [ "human_blood_vitamin", 1.25 ] ] ] ],
     "vitamin_rates": [ [ "human_blood_vitamin", 180 ] ],
     "flags": [ "CANNIBAL", "ALBINO", "DAYFEAR" ],
-    "metabolism_modifier": 0.8,
-    "stamina_regen_modifier": 0.1
+    "enchantments": [ { "values": [ { "value": "STAMINA_REGEN_MOD", "add": 0.1 }, { "value": "METABOLISM", "multiply": 0.8 } ] } ]
   },
   {
     "type": "mutation",
@@ -270,8 +277,7 @@
     "purifiable": false,
     "valid": false,
     "flags": [ "CANNIBAL", "SUNBURN", "DAYFEAR" ],
-    "metabolism_modifier": 5,
-    "stamina_regen_modifier": 0.1
+    "enchantments": [ { "values": [ { "value": "STAMINA_REGEN_MOD", "add": 0.1 }, { "value": "METABOLISM", "multiply": 5 } ] } ]
   },
   {
     "type": "mutation",
@@ -283,8 +289,7 @@
     "purifiable": false,
     "valid": false,
     "flags": [ "CANNIBAL", "SUNBURN", "DAYFEAR" ],
-    "metabolism_modifier": 5,
-    "stamina_regen_modifier": 0.1
+    "enchantments": [ { "values": [ { "value": "STAMINA_REGEN_MOD", "add": 0.1 }, { "value": "METABOLISM", "multiply": 5 } ] } ]
   },
   {
     "type": "mutation",

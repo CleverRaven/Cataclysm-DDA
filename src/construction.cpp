@@ -76,6 +76,9 @@ static const construction_str_id construction_constr_veh( "constr_veh" );
 static const flag_id json_flag_FILTHY( "FILTHY" );
 static const flag_id json_flag_PIT( "PIT" );
 
+static const furn_str_id furn_f_coffin_c( "f_coffin_c" );
+static const furn_str_id furn_f_coffin_o( "f_coffin_o" );
+
 static const item_group_id Item_spawn_data_allclothes( "allclothes" );
 static const item_group_id Item_spawn_data_grave( "grave" );
 static const item_group_id Item_spawn_data_jewelry_front( "jewelry_front" );
@@ -97,6 +100,21 @@ static const mtype_id mon_zombie_rot( "mon_zombie_rot" );
 static const quality_id qual_CUT( "CUT" );
 
 static const skill_id skill_fabrication( "fabrication" );
+
+static const ter_str_id ter_t_clay( "t_clay" );
+static const ter_str_id ter_t_dirt( "t_dirt" );
+static const ter_str_id ter_t_hole( "t_hole" );
+static const ter_str_id ter_t_ladder_up( "t_ladder_up" );
+static const ter_str_id ter_t_lava( "t_lava" );
+static const ter_str_id ter_t_open_air( "t_open_air" );
+static const ter_str_id ter_t_pit( "t_pit" );
+static const ter_str_id ter_t_ramp_down_high( "t_ramp_down_high" );
+static const ter_str_id ter_t_ramp_down_low( "t_ramp_down_low" );
+static const ter_str_id ter_t_rock_floor( "t_rock_floor" );
+static const ter_str_id ter_t_sand( "t_sand" );
+static const ter_str_id ter_t_stairs_down( "t_stairs_down" );
+static const ter_str_id ter_t_stairs_up( "t_stairs_up" );
+static const ter_str_id ter_t_wood_stairs_down( "t_wood_stairs_down" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_EATDEAD( "EATDEAD" );
@@ -913,7 +931,7 @@ bool player_can_see_to_build( Character &you, const construction_group_str_id &g
 bool can_construct_furn_ter( const construction &con, furn_id const &f, ter_id const &t )
 {
     return std::all_of( con.pre_flags.begin(), con.pre_flags.end(), [&f, &t]( auto const & flag ) {
-        const bool use_ter = flag.second || f == f_null;
+        const bool use_ter = flag.second || f == furn_str_id::NULL_ID();
         return ( use_ter || f->has_flag( flag.first ) ) &&
                ( !use_ter || t->has_flag( flag.first ) );
     } );
@@ -1023,35 +1041,8 @@ void place_construction( std::vector<construction_group_str_id> const &groups )
     } else {
         // Use up the components
         for( const std::vector<item_comp> &it : con.requirements->get_components() ) {
-            for( const item_comp &comp : it ) {
-                comp_selection<item_comp> sel;
-                sel.use_from = usage_from::both;
-                sel.comp = comp;
-                std::list<item> empty_consumed = player_character.consume_items( sel, 1,
-                                                 is_preferred_crafting_component );
-
-                int left_to_consume = 0;
-
-                if( !empty_consumed.empty() && empty_consumed.front().count_by_charges() ) {
-                    int consumed = 0;
-                    for( item &itm : empty_consumed ) {
-                        consumed += itm.charges;
-                    }
-                    left_to_consume = comp.count - consumed;
-                } else if( empty_consumed.size() < static_cast<size_t>( comp.count ) ) {
-                    left_to_consume = comp.count - empty_consumed.size();
-                }
-
-                if( left_to_consume > 0 ) {
-                    comp_selection<item_comp> remainder = sel;
-                    remainder.comp.count = 1;
-                    std::list<item>used_consumed = player_character.consume_items( remainder,
-                                                   left_to_consume, is_crafting_component );
-                    empty_consumed.splice( empty_consumed.end(), used_consumed );
-                }
-
-                used.splice( used.end(), empty_consumed );
-            }
+            std::list<item> tmp = player_character.consume_items( it, 1, is_crafting_component );
+            used.splice( used.end(), tmp );
         }
     }
     pc.components = used;
@@ -1148,7 +1139,7 @@ void complete_construction( Character *you )
                 const int_id<ter_t> post_terrain = ter_id( built.post_terrain );
                 if( post_terrain->roof ) {
                     const tripoint_bub_ms top = terp + tripoint_above;
-                    if( here.ter( top ) == t_open_air ) {
+                    if( here.ter( top ) == ter_t_open_air ) {
                         here.ter_set( top, ter_id( post_terrain->roof ) );
                     }
                 }
@@ -1492,7 +1483,7 @@ void construct::done_deconstruct( const tripoint_bub_ms &p, Character &player_ch
             return;
         }
         if( f.deconstruct.furn_set.str().empty() ) {
-            here.furn_set( p, f_null );
+            here.furn_set( p, furn_str_id::NULL_ID() );
         } else {
             here.furn_set( p, f.deconstruct.furn_set );
         }
@@ -1561,9 +1552,9 @@ void construct::done_digormine_stair( const tripoint_bub_ms &p, bool dig,
 {
     map &here = get_map();
     const tripoint_abs_ms abs_pos = here.getglobal( p );
-    const tripoint_abs_sm pos_sm = project_to<coords::sm>( abs_pos );
+    const tripoint_abs_omt pos_omt = project_to<coords::omt>( abs_pos );
     tinymap tmpmap;
-    tmpmap.load( pos_sm + tripoint_below, false );
+    tmpmap.load( pos_omt + tripoint_below, false );
     const tripoint local_tmp = tmpmap.getlocal( abs_pos );
 
     bool dig_muts = player_character.has_trait( trait_PAINRESIST_TROGLO ) ||
@@ -1573,16 +1564,16 @@ void construct::done_digormine_stair( const tripoint_bub_ms &p, bool dig,
     int mine_penalty = dig ? 0 : 10;
     player_character.mod_stored_kcal( -43 - 9 * mine_penalty - 9 * no_mut_penalty );
     player_character.mod_thirst( 5 + mine_penalty + no_mut_penalty );
-    player_character.mod_fatigue( 10 + mine_penalty + no_mut_penalty );
+    player_character.mod_sleepiness( 10 + mine_penalty + no_mut_penalty );
 
-    if( tmpmap.ter( local_tmp ) == t_lava ) {
+    if( tmpmap.ter( local_tmp ) == ter_t_lava ) {
         if( !query_yn( _( "The rock feels much warmer than normal.  Proceed?" ) ) ) {
-            here.ter_set( p, t_pit ); // You dug down a bit before detecting the problem
+            here.ter_set( p, ter_t_pit ); // You dug down a bit before detecting the problem
             unroll_digging( dig ? 8 : 12 );
         } else {
             add_msg( m_warning, _( "You just tunneled into lava!" ) );
             get_event_bus().send<event_type::digs_into_lava>();
-            here.ter_set( p, t_hole );
+            here.ter_set( p, ter_t_hole );
         }
 
         return;
@@ -1596,9 +1587,10 @@ void construct::done_digormine_stair( const tripoint_bub_ms &p, bool dig,
     } else {
         add_msg( _( "You drill out a passage, heading deeper underground." ) );
     }
-    here.ter_set( p, t_stairs_down ); // There's the top half
+    here.ter_set( p, ter_t_stairs_down ); // There's the top half
     // Again, need to use submap-local coordinates.
-    tmpmap.ter_set( local_tmp, impassable ? t_stairs_up : t_ladder_up ); // and there's the bottom half.
+    tmpmap.ter_set( local_tmp, impassable ? ter_t_stairs_up :
+                    ter_t_ladder_up ); // and there's the bottom half.
     // And save to the center coordinate of the current active map.
     tmpmap.save();
 }
@@ -1613,12 +1605,12 @@ void construct::done_dig_grave( const tripoint_bub_ms &p, Character &who )
 
         // TODO: fix point types
         g->place_critter_at( random_entry( monids ), p.raw() );
-        here.furn_set( p, f_coffin_o );
+        here.furn_set( p, furn_f_coffin_o );
         who.add_msg_if_player( m_warning, _( "Something crawls out of the coffin!" ) );
     } else {
         // TODO: fix point types
         here.spawn_item( p.raw(), itype_bone_human, rng( 5, 15 ) );
-        here.furn_set( p, f_coffin_c );
+        here.furn_set( p, furn_f_coffin_c );
     }
     std::vector<item *> dropped =
         here.place_items( Item_spawn_data_allclothes, 50, p, p, false, calendar::turn );
@@ -1636,7 +1628,7 @@ void construct::done_dig_grave( const tripoint_bub_ms &p, Character &who )
 
 void construct::done_dig_grave_nospawn( const tripoint_bub_ms &p, Character &who )
 {
-    get_map().furn_set( p, f_coffin_c );
+    get_map().furn_set( p, furn_f_coffin_c );
     get_event_bus().send<event_type::exhumes_grave>( who.getID() );
 }
 
@@ -1654,13 +1646,13 @@ void construct::done_mine_upstair( const tripoint_bub_ms &p, Character &player_c
 {
     map &here = get_map();
     const tripoint_abs_ms abs_pos = here.getglobal( p );
-    const tripoint_abs_sm pos_sm = project_to<coords::sm>( abs_pos );
+    const tripoint_abs_omt pos_omt = project_to<coords::omt>( abs_pos );
     tinymap tmpmap;
-    tmpmap.load( pos_sm + tripoint_above, false );
+    tmpmap.load( pos_omt + tripoint_above, false );
     const tripoint local_tmp = tmpmap.getlocal( abs_pos );
 
-    if( tmpmap.ter( local_tmp ) == t_lava ) {
-        here.ter_set( p.xy(), t_rock_floor ); // You dug a bit before discovering the problem
+    if( tmpmap.ter( local_tmp ) == ter_t_lava ) {
+        here.ter_set( p.xy(), ter_t_rock_floor ); // You dug a bit before discovering the problem
         add_msg( m_warning, _( "The rock overhead feels hot.  You decide *not* to mine magma." ) );
         unroll_digging( 12 );
         return;
@@ -1668,7 +1660,7 @@ void construct::done_mine_upstair( const tripoint_bub_ms &p, Character &player_c
 
     if( tmpmap.has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, local_tmp ) ||
         tmpmap.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, local_tmp ) ) {
-        here.ter_set( p.xy(), t_rock_floor ); // You dug a bit before discovering the problem
+        here.ter_set( p.xy(), ter_t_rock_floor ); // You dug a bit before discovering the problem
         add_msg( m_warning, _( "The rock above is rather damp.  You decide *not* to mine water." ) );
         unroll_digging( 12 );
         return;
@@ -1680,19 +1672,19 @@ void construct::done_mine_upstair( const tripoint_bub_ms &p, Character &player_c
     int no_mut_penalty = dig_muts ? 15 : 0;
     player_character.mod_stored_kcal( -174 - 9 * no_mut_penalty );
     player_character.mod_thirst( 20 + no_mut_penalty );
-    player_character.mod_fatigue( 25 + no_mut_penalty );
+    player_character.mod_sleepiness( 25 + no_mut_penalty );
 
     add_msg( _( "You drill out a passage, heading for the surface." ) );
-    here.ter_set( p.xy(), t_stairs_up ); // There's the bottom half
+    here.ter_set( p.xy(), ter_t_stairs_up ); // There's the bottom half
     // We need to write to submap-local coordinates.
-    tmpmap.ter_set( local_tmp, t_stairs_down ); // and there's the top half.
+    tmpmap.ter_set( local_tmp, ter_t_stairs_down ); // and there's the top half.
     tmpmap.save();
 }
 
 void construct::done_wood_stairs( const tripoint_bub_ms &p, Character &/*who*/ )
 {
     const tripoint_bub_ms top = p + tripoint_above;
-    get_map().ter_set( top, ter_id( "t_wood_stairs_down" ) );
+    get_map().ter_set( top, ter_t_wood_stairs_down );
 }
 
 void construct::done_window_curtains( const tripoint_bub_ms &, Character &who )
@@ -1711,12 +1703,12 @@ void construct::done_extract_maybe_revert_to_dirt( const tripoint_bub_ms &p, Cha
 {
     map &here = get_map();
     if( one_in( 10 ) ) {
-        here.ter_set( p, t_dirt );
+        here.ter_set( p, ter_t_dirt );
     }
 
-    if( here.ter( p ) == t_clay ) {
+    if( here.ter( p ) == ter_t_clay ) {
         add_msg( _( "You gather some clay." ) );
-    } else if( here.ter( p ) == t_sand ) {
+    } else if( here.ter( p ) == ter_t_sand ) {
         add_msg( _( "You gather some sand." ) );
     } else {
         // Fall through to an undefined material.
@@ -1737,13 +1729,13 @@ void construct::done_mark_practice_target( const tripoint_bub_ms &p, Character &
 void construct::done_ramp_low( const tripoint_bub_ms &p, Character &/*who*/ )
 {
     const tripoint_bub_ms top = p + tripoint_above;
-    get_map().ter_set( top, ter_id( "t_ramp_down_low" ) );
+    get_map().ter_set( top, ter_t_ramp_down_low );
 }
 
 void construct::done_ramp_high( const tripoint_bub_ms &p, Character &/*who*/ )
 {
     const tripoint_bub_ms top = p + tripoint_above;
-    get_map().ter_set( top, ter_id( "t_ramp_down_high" ) );
+    get_map().ter_set( top, ter_t_ramp_down_high );
 }
 
 void construct::do_turn_shovel( const tripoint_bub_ms &p, Character &who )

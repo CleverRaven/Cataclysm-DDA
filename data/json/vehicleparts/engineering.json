@@ -88,7 +88,7 @@
   {
     "id": "forklift_fork",
     "type": "vehicle_part",
-    "name": { "str": "forklift arm" },
+    "name": { "str": "forklift arms" },
     "item": "frame",
     "location": "structure",
     "categories": [ "utility" ],

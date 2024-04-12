@@ -1,41 +1,98 @@
 [
   {
     "type": "palette",
-    "id": "standard_building_palette",
+    "id": "standard_building_general_and_variant_palette",
+    "//": "Palette used to randomize the state of the building",
+    "parameters": {
+      "building_variant_palette": {
+        "type": "palette_id",
+        "scope": "overmap_special",
+        "//": "null_palette represents normal building here",
+        "default": { "distribution": [ [ "null_palette", 400 ], [ "standard_building_vandalized_palette", 600 ] ] }
+      }
+    },
+    "palettes": [ "standard_building_shared_palette", { "param": "building_variant_palette" } ]
+  },
+  {
+    "type": "palette",
+    "id": "standard_building_shared_palette",
+    "parameters": {
+      "interior_wall_type": {
+        "type": "ter_str_id",
+        "default": {
+          "distribution": [
+            [ "t_wall_b", 1 ],
+            [ "t_wall_g", 1 ],
+            [ "t_wall_p", 1 ],
+            [ "t_wall_P", 1 ],
+            [ "t_wall_r", 1 ],
+            [ "t_wall_w", 6 ],
+            [ "t_wall_y", 1 ],
+            [ "t_wall_gray", 1 ],
+            [ "t_wall_brown", 1 ],
+            [ "t_wall_cyan", 1 ],
+            [ "t_wall_black", 1 ],
+            [ "t_wall_orange", 1 ]
+          ]
+        }
+      },
+      "exterior_wall_type": {
+        "type": "ter_str_id",
+        "default": {
+          "distribution": [
+            [ "t_brick_wall", 6 ],
+            [ "t_rock_wall", 3 ],
+            [ "t_wall_wood", 3 ],
+            [ "t_concrete_wall", 4 ],
+            [ "t_adobe_brick_wall", 1 ]
+          ]
+        }
+      }
+    },
     "furniture": { "S": "f_sink" },
     "terrain": {
       ".": [ [ "t_region_groundcover_urban", 20 ], "t_region_shrub_decorative" ],
-      " ": "t_floor",
-      "+": "t_door_c",
-      "*": "t_door_glass_c",
       "4": "t_gutter_downspout",
-      "|": "t_wall",
-      "#": "t_brick_wall",
-      ":": "t_wall_glass",
+      "|": { "param": "interior_wall_type", "fallback": "t_wall_w" },
+      "#": { "param": "exterior_wall_type", "fallback": "t_brick_wall" },
       "-": "t_sidewalk",
-      "o": "t_window",
       "<": "t_stairs_up",
-      ">": "t_stairs_down"
+      ">": "t_stairs_down",
+      "+": [ [ "t_door_c", 5 ], [ "t_door_o", 5 ], [ "t_door_locked_interior", 1 ] ],
+      "*": [
+        [ "t_door_locked_peep", 2 ],
+        "t_door_locked_alarm",
+        [ "t_door_locked", 10 ],
+        [ "t_door_elocked_peep", 4 ],
+        "t_door_elocked_alarm",
+        [ "t_door_elocked", 15 ],
+        "t_door_c",
+        [ "t_door_o", 2 ]
+      ],
+      ":": "t_wall_glass",
+      "o": "t_window"
     },
     "toilets": { "t": {  } }
   },
   {
     "type": "palette",
-    "id": "standard_building_palette_vandalized",
-    "furniture": { "S": "f_sink" },
-    "terrain": {
-      ".": [ [ "t_region_groundcover_urban", 20 ], "t_region_shrub_decorative" ],
-      " ": "t_floor",
-      "+": "t_door_c",
-      "*": "t_door_glass_c",
-      "4": "t_gutter_downspout",
-      "|": "t_wall",
-      "#": "t_brick_wall",
-      ":": "t_wall_glass",
-      "-": "t_sidewalk",
-      "o": [ "t_window", "t_window_frame" ],
-      "<": "t_stairs_up",
-      ">": "t_stairs_down"
+    "id": "standard_building_vandalized_palette",
+    "nested": {
+      "+": { "chunks": [ [ "damaged_door_nested", 1 ], [ "destroyed_door_nested", 3 ], [ "null", 4 ] ] },
+      "*": { "chunks": [ [ "damaged_door_nested", 1 ], [ "destroyed_door_nested", 3 ], [ "null", 4 ] ] },
+      "o": { "chunks": [ [ "damaged_window_nested", 1 ], [ "destroyed_window_nested", 1 ], [ "null", 2 ] ] },
+      ":": { "chunks": [ [ "destroyed_glass_door_wall", 1 ], [ "null", 2 ] ] },
+      "|": { "chunks": [ [ "bile_field", 1 ], [ "shelter_graffiti", 2 ], [ "general_graffiti", 2 ], [ "null", 245 ] ] },
+      "#": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 1 ], [ "null", 248 ] ] },
+      " ": {
+        "chunks": [
+          [ "corpse_blood_1x1", 3 ],
+          [ "corpse_blood_casings_1x1", 1 ],
+          [ "blood_field", 8 ],
+          [ "bile_field", 1 ],
+          [ "null", 387 ]
+        ]
+      }
     },
     "toilets": { "t": {  } }
   }

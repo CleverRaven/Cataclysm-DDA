@@ -1605,6 +1605,13 @@ void mtype::remove_regeneration_modifiers( const JsonObject &jo, const std::stri
 void MonsterGenerator::check_monster_definitions() const
 {
     for( const mtype &mon : mon_templates->get_all() ) {
+        if( !mon.src.empty() && mon.src.back().second.str() == "dda" ) {
+            std::string mon_id = mon.id.str();
+            std::string suffix_id = mon_id.substr( 0, mon_id.find( '_' ) );
+            if( suffix_id != "mon" && suffix_id != "pseudo" ) {
+                debugmsg( "monster %s is missing mon_ (or pseudo_) prefix from id", mon.id.c_str() );
+            }
+        }
         if( mon.harvest.is_null() && !mon.has_flag( mon_flag_ELECTRONIC ) && !mon.id.is_null() ) {
             debugmsg( "monster %s has no harvest entry", mon.id.c_str(), mon.harvest.c_str() );
         }

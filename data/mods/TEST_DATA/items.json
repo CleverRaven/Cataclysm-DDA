@@ -2985,7 +2985,7 @@
     "weight": "100 g",
     "color": "brown",
     "spoils_in": "2 days",
-    "vitamins": [ [ "mutagen", 60 ] ],
+    "vitamins": [ [ "mutagen", 60 ], [ "human_flesh_vitamin", 100 ] ],
     "flags": [ "TRADER_AVOID", "NUTRIENT_OVERRIDE" ],
     "comestible_type": "FOOD",
     "symbol": "%",
@@ -3613,7 +3613,7 @@
   {
     "id": "test_exo_lense_module",
     "type": "TOOL",
-    "name": { "str": "exosuit multi lense zoom module" },
+    "name": { "str": "exosuit multi-lens zoom module" },
     "description": "A series of strangely shaped hexagonal lenses that flutter about inside your helmet.  As the lenses shift things around you stay perfectly in focus no matter your eyesight or distance.  It can be mounted to an exosuit helmet.",
     "weight": "500 g",
     "volume": "250 ml",
@@ -4107,6 +4107,60 @@
     "material_thickness": 0.2
   },
   {
+    "id": "test_shackles",
+    "//": "Only for the test wing body parts",
+    "type": "ARMOR",
+    "name": { "str": "pair of shackles", "str_pl": "pairs of shackles" },
+    "description": "A pair of big, red, 8 oz. gauntlets.  These are made from thick leather.",
+    "weight": "453 g",
+    "volume": "1 L",
+    "price": 4000,
+    "price_postapoc": 10,
+    "to_hit": 1,
+    "symbol": "[",
+    "looks_like": "gloves_leather",
+    "color": "red",
+    "warmth": 20,
+    "material_thickness": 3,
+    "environmental_protection": 3,
+    "flags": [ "VARSIZE", "OVERSIZE", "STURDY" ],
+    "armor": [
+      {
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "encumbrance": 70,
+        "coverage": 100,
+        "covers": [ "test_arm_l", "test_arm_r" ]
+      }
+    ]
+  },
+  {
+    "id": "test_bird_boots",
+    "type": "ARMOR",
+    "name": { "str": "pair of bird boots", "str_pl": "pairs of bird boots" },
+    "description": "What is this, a boot for birds?!",
+    "weight": "453 g",
+    "volume": "1 L",
+    "price": 4000,
+    "price_postapoc": 10,
+    "to_hit": 1,
+    "symbol": "[",
+    "looks_like": "gloves_leather",
+    "color": "red",
+    "warmth": 20,
+    "material_thickness": 3,
+    "environmental_protection": 3,
+    "flags": [ "VARSIZE", "OVERSIZE", "STURDY" ],
+    "armor": [
+      {
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "encumbrance": 70,
+        "coverage": 100,
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "test_foot_l", "test_foot_r" ]
+      }
+    ]
+  },
+  {
     "id": "test_winglets",
     "//": "Only for the test wing body parts",
     "type": "ARMOR",
@@ -4125,7 +4179,14 @@
     "material_thickness": 3,
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "OVERSIZE", "STURDY" ],
-    "armor": [ { "encumbrance": 70, "coverage": 100, "covers": [ "test_bird_wing_l", "test_bird_wing_r" ] } ]
+    "armor": [
+      {
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "encumbrance": 70,
+        "coverage": 100,
+        "covers": [ "test_bird_wing_l", "test_bird_wing_r" ]
+      }
+    ]
   },
   {
     "id": "test_winglets_left",
@@ -4787,6 +4848,130 @@
   },
   {
     "type": "GENERIC",
+    "id": "test_item_ench",
+    "name": "test_item_ench",
+    "description": "item, that applies enchantments, duh",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "material": [ "steel" ],
+    "color": "red",
+    "symbol": "*"
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_SPEED_ench_item",
+    "copy-from": "test_item_ench",
+    "name": "test_SPEED_ench_item",
+    "relic_data": { "passive_effects": [ { "values": [ { "value": "SPEED", "add": 25, "multiply": -0.5 } ] } ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_ATTACK_NOISE_ench_item",
+    "copy-from": "test_item_ench",
+    "name": "test_ATTACK_NOISE_ench_item",
+    "relic_data": { "passive_effects": [ { "values": [ { "value": "ATTACK_NOISE", "add": 9999 } ] } ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_ATTACK_SPEED_ench_item",
+    "copy-from": "test_item_ench",
+    "name": "test_ATTACK_SPEED_ench_item",
+    "relic_data": { "passive_effects": [ { "values": [ { "value": "ATTACK_SPEED", "multiply": -0.5 } ] } ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_ATTACK_SPEED_ench_item_2",
+    "copy-from": "test_item_ench",
+    "name": "test_ATTACK_SPEED_ench_item_2",
+    "relic_data": { "passive_effects": [ { "values": [ { "value": "ATTACK_SPEED", "add": 62 } ] } ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_PAIN_PENALTY_MOD_ench_item_1",
+    "copy-from": "test_item_ench",
+    "name": "test_PAIN_PENALTY_MOD_ench_item_1",
+    "relic_data": {
+      "passive_effects": [
+        {
+          "values": [
+            { "value": "PAIN_PENALTY_MOD_STR", "add": 2 },
+            { "value": "PAIN_PENALTY_MOD_DEX", "multiply": -3 },
+            { "value": "PAIN_PENALTY_MOD_INT", "add": -3 },
+            { "value": "PAIN_PENALTY_MOD_PER", "multiply": 1 },
+            { "value": "PAIN_PENALTY_MOD_SPEED", "add": -10, "multiply": 1.2 }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_MELEE_STAMINA_CONSUMPTION_ench_item_0",
+    "copy-from": "test_item_ench",
+    "weight": "2000 g",
+    "volume": "2000 ml",
+    "description": "Intentionally has no enchantment",
+    "name": "test_MELEE_STAMINA_CONSUMPTION_ench_item_0"
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_MELEE_STAMINA_CONSUMPTION_ench_item_1",
+    "copy-from": "test_item_ench",
+    "weight": "2000 g",
+    "volume": "2000 ml",
+    "name": "test_MELEE_STAMINA_CONSUMPTION_ench_item_1",
+    "relic_data": { "passive_effects": [ { "values": [ { "value": "MELEE_STAMINA_CONSUMPTION", "add": 100 } ] } ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_MELEE_STAMINA_CONSUMPTION_ench_item_2",
+    "copy-from": "test_item_ench",
+    "weight": "2000 g",
+    "volume": "2000 ml",
+    "name": "test_MELEE_STAMINA_CONSUMPTION_ench_item_2",
+    "relic_data": { "passive_effects": [ { "values": [ { "value": "MELEE_STAMINA_CONSUMPTION", "multiply": 1 } ] } ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_BONUS_DODGE_ench_item_1",
+    "copy-from": "test_item_ench",
+    "name": "test_BONUS_DODGE_ench_item_1",
+    "relic_data": { "passive_effects": [ { "values": [ { "value": "BONUS_DODGE", "add": 3 } ] } ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_BONUS_DODGE_ench_item_2",
+    "name": "test_BONUS_DODGE_ench_item_2",
+    "copy-from": "test_item_ench",
+    "relic_data": { "passive_effects": [ { "values": [ { "value": "BONUS_DODGE", "add": 4, "multiply": -0.5 } ] } ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_SPEED_ench_item_1",
+    "copy-from": "test_item_ench",
+    "name": "test_item_ench",
+    "relic_data": { "passive_effects": [ { "has": "HELD", "values": [ { "value": "SPEED", "add": 25, "multiply": -0.5 } ] } ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_STAT_ench_item_1",
+    "copy-from": "test_item_ench",
+    "name": "test_STAT_ench_item_1",
+    "relic_data": {
+      "passive_effects": [
+        {
+          "values": [
+            { "value": "STRENGTH", "add": 3, "multiply": 1 },
+            { "value": "DEXTERITY", "add": -2 },
+            { "value": "INTELLIGENCE", "add": 1, "multiply": -0.5 },
+            { "value": "PERCEPTION", "add": -7 }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "GENERIC",
     "id": "test_rock_cheese",
     "category": "spare_parts",
     "symbol": ",",
@@ -4858,5 +5043,15 @@
     "//": "Do not use calcium, iron or vitamin C! Those are calculated as RDAs, and you only get 96% of the listed value! No, that doesn't make any sense! But that's how it is. So use a normal vitamin. This is for a camp test, not a vitamin test...",
     "vitamins": [ [ "mutant_toxin", 100 ], [ "mutagen", 200 ] ],
     "melee_damage": { "bash": 1 }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "toastem_test",
+    "name": { "str": "toast-em" },
+    "copy-from": "toastem",
+    "//": "toastem copy with a different material + manual values so monotony penalty is sure to apply",
+    "material": [ "foodplace_foodstuff" ],
+    "fun": 20,
+    "monotony_penalty": 4
   }
 ]

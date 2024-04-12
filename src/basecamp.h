@@ -33,6 +33,8 @@ enum class farm_ops : int;
 class item;
 class recipe;
 
+using faction_id = string_id<faction>;
+
 const int work_day_hours = 10;
 const int work_day_rest_hours = 8;
 const int work_day_idle_hours = 6;
@@ -240,6 +242,7 @@ class basecamp
         /// Helper, forwards to above
         void feed_workers( Character &worker, nutrients food, bool is_player_meal = false );
         void player_eats_meal();
+        item make_fake_food( const nutrients &to_use ) const;
         /// Takes all the food from the camp_food zone and increases the faction
         /// food_supply
         bool distribute_food();
@@ -247,6 +250,14 @@ class basecamp
         void handle_hide_mission( const point &dir );
         void handle_reveal_mission( const point &dir );
         bool has_water() const;
+        /// The number of days the current camp supplies lasts at the given exertion level.
+        int camp_food_supply_days( float exertion_level ) const;
+        /// Returns the total charges of food time_duration @ref work costs
+        int time_to_food( time_duration work, float exertion_level = NO_EXERCISE ) const;
+        /// Changes the faction respect for you by @ref change, returns respect
+        int camp_discipline( int change = 0 ) const;
+        /// Changes the faction opinion for you by @ref change, returns opinion
+        int camp_morale( int change = 0 ) const;
 
         // recipes, gathering, and craft support functions
         // from a direction
@@ -276,6 +287,7 @@ class basecamp
          * if skill is higher, an item or corpse is spawned
          */
         void hunting_results( int skill, const mission_id &miss_id, int attempts, int difficulty );
+        void make_corpse_from_group( const std::vector<MonsterGroupResult> &group );
         inline const tripoint_abs_ms &get_dumping_spot() const {
             return dumping_spot;
         }
@@ -450,9 +462,15 @@ class basecamp
         void form_storage_zones( map &here, const tripoint_abs_ms &abspos );
         map &get_camp_map();
         void unload_camp_map();
+        void set_owner( faction_id new_owner );
+        faction_id get_owner();
     private:
         friend class basecamp_action_components;
 
+        // Which faction owns this camp?
+        mutable faction_id owner = faction_id::NULL_ID();
+        // Returns the actual faction object which owns this camp
+        faction *fac() const;
         // lazy re-evaluation of available camp resources
         void reset_camp_resources( map &here );
         void add_resource( const itype_id &camp_resource );

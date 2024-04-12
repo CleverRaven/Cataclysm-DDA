@@ -66,6 +66,11 @@ bool is_beta( char scope )
     }
 }
 
+constexpr bool is_true( double dbl )
+{
+    return dbl >= 1 || float_equals( dbl, 1 );
+}
+
 template<typename T>
 constexpr std::string_view _str_type_of()
 {
@@ -945,6 +950,14 @@ std::function<double( dialogue & )> spell_exp_eval( char scope,
     };
 }
 
+std::function<double( dialogue & )> spell_exp_for_level_eval( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return[level = params[0]]( dialogue const & d ) -> double {
+        return spell::exp_for_level( level.dbl( d ) );
+    };
+}
+
 std::function<void( dialogue &, double )> spell_exp_ass( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
@@ -1094,10 +1107,42 @@ std::function<double( dialogue & )> time_since_eval( char /* scope */,
             ret = to_turns<double>( calendar::turn - calendar::start_of_cataclysm );
         } else if( val_str == "midnight" ) {
             ret = to_turns<double>( time_past_midnight( calendar::turn ) );
+        } else if( val_str == "noon" ) {
+            ret = to_turns<double>( calendar::turn - noon( calendar::turn ) );
         } else if( val.is_var() && !maybe_read_var_value( val.var(), d ).has_value() ) {
             return -1.0;
         } else {
             ret = to_turn<double>( calendar::turn ) - val.dbl( d );
+        }
+        return _time_in_unit( ret, unit_val.str( d ) );
+    };
+}
+
+std::function<double( dialogue & )> time_until_eval( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
+{
+    diag_value unit_val( std::string{} );
+    if( kwargs.count( "unit" ) != 0 ) {
+        unit_val = *kwargs.at( "unit" );
+    }
+
+    return [val = params[0], unit_val]( dialogue const & d ) {
+        double ret{};
+        std::string const val_str = val.str( d );
+        if( val_str == "night_time" ) {
+            ret = to_turns<double>( night_time( calendar::turn ) - calendar::turn );
+        } else if( val_str == "daylight_time" ) {
+            ret = to_turns<double>( daylight_time( calendar::turn ) - calendar::turn );
+        } else if( val_str == "sunset" ) {
+            ret = to_turns<double>( sunset( calendar::turn ) - calendar::turn );
+        } else if( val_str == "sunrise" ) {
+            ret = to_turns<double>( sunrise( calendar::turn ) - calendar::turn );
+        } else if( val_str == "noon" ) {
+            ret = to_turns<double>( noon( calendar::turn ) - calendar::turn );
+        } else if( val.is_var() && !maybe_read_var_value( val.var(), d ).has_value() ) {
+            return -1.0;
+        } else {
+            ret = val.dbl( d ) - to_turn<double>( calendar::turn );
         }
         return _time_in_unit( ret, unit_val.str( d ) );
     };
@@ -1155,13 +1200,18 @@ std::function<void( dialogue &, double )> proficiency_ass( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &kwargs )
 {
     diag_value fmt_val( std::string{"time_spent"} );
+    diag_value direct_val( 0.0 );
     if( kwargs.count( "format" ) != 0 ) {
         fmt_val = *kwargs.at( "format" );
     }
-    return [prof_value = params[0], fmt_val, beta = is_beta( scope )]( dialogue const & d,
+    if( kwargs.count( "direct" ) != 0 ) {
+        direct_val = *kwargs.at( "direct" );
+    }
+    return [prof_value = params[0], fmt_val, direct_val, beta = is_beta( scope )]( dialogue const & d,
     double val ) {
         proficiency_id prof( prof_value.str( d ) );
         std::string const format = fmt_val.str( d );
+        bool const direct = is_true( direct_val.dbl( d ) );
         int to_write = 0;
         if( format == "percent" ) {
             to_write = to_turns<int>( prof->time_to_learn() * val ) / 100;
@@ -1175,7 +1225,17 @@ std::function<void( dialogue &, double )> proficiency_ass( char scope,
             }
             to_write = val;
         }
-        d.actor( beta )->set_proficiency_practiced_time( prof, to_write );
+        int before = to_turns<int>( d.actor( beta )->proficiency_practiced_time( prof ) );
+        int learned = to_write - before;
+        if( !direct && learned < 0 ) {
+            debugmsg( "For proficiency %s in dialogue, trying to learn negative without direct", prof.str() );
+            return 0;
+        }
+        if( !direct ) {
+            d.actor( beta )->train_proficiency_for( prof, learned );
+        } else {
+            d.actor( beta )->set_proficiency_practiced_time( prof, to_write );
+        }
         return 0;
     };
 }
@@ -1352,6 +1412,22 @@ std::function<void( dialogue &, double )> weather_ass( char /* scope */,
     throw std::invalid_argument( string_format( "Unknown weather aspect %s", params[0].str() ) );
 }
 
+std::function<double( dialogue & )> climate_control_str_heat_eval( char scope,
+        std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
+{
+    return [beta = is_beta( scope )]( dialogue const & d ) {
+        return static_cast<talker const *>( d.actor( beta ) )->climate_control_str_heat();
+    };
+}
+
+std::function<double( dialogue & )> climate_control_str_chill_eval( char scope,
+        std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
+{
+    return[beta = is_beta( scope )]( dialogue const & d ) {
+        return static_cast<talker const *>( d.actor( beta ) )->climate_control_str_chill();
+    };
+}
+
 // { "name", { "scopes", num_args, function } }
 // kwargs are not included in num_args
 std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
@@ -1397,10 +1473,12 @@ std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "skill_exp", { "un", 1, skill_exp_eval } },
     { "spell_count", { "un", 0, spell_count_eval}},
     { "spell_exp", { "un", 1, spell_exp_eval}},
+    { "spell_exp_for_level", { "g", 1, spell_exp_for_level_eval}},
     { "spell_level", { "un", 1, spell_level_eval}},
     { "spell_level_adjustment", { "un", 1, spell_level_adjustment_eval } },
     { "time", { "g", 1, time_eval } },
     { "time_since", { "g", 1, time_since_eval } },
+    { "time_until", { "g", 1, time_until_eval } },
     { "time_until_eoc", { "g", 1, time_until_eoc_eval } },
     { "proficiency", { "un", 1, proficiency_eval } },
     { "val", { "un", 1, u_val } },
@@ -1409,6 +1487,8 @@ std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "vitamin", { "un", 1, vitamin_eval } },
     { "warmth", { "un", 1, warmth_eval } },
     { "weather", { "g", 1, weather_eval } },
+    { "climate_control_str_heat", { "un", 0, climate_control_str_heat_eval } },
+    { "climate_control_str_chill", { "un", 0, climate_control_str_chill_eval } },
 };
 
 std::map<std::string_view, dialogue_func_ass> const dialogue_assign_f{

@@ -66,7 +66,6 @@ extern const flag_id flag_BYPRODUCT;
 extern const flag_id flag_CABLE_SPOOL;
 extern const flag_id flag_CAMERA_PRO;
 extern const flag_id flag_CANNIBAL;
-extern const flag_id flag_CANNIBALISM;
 extern const flag_id flag_CANT_HEAL_EVERYONE;
 extern const flag_id flag_CANT_WEAR;
 extern const flag_id flag_CARNIVORE_OK;
@@ -105,6 +104,7 @@ extern const flag_id flag_EATEN_COLD;
 extern const flag_id flag_EATEN_HOT;
 extern const flag_id flag_EDIBLE_FROZEN;
 extern const flag_id flag_EFFECT_IMPEDING;
+extern const flag_id flag_EFFECT_LIMB_DISABLE_CONDITIONAL_FLAGS;
 extern const flag_id flag_EFFECT_LIMB_SCORE_MOD;
 extern const flag_id flag_EFFECT_LIMB_SCORE_MOD_LOCAL;
 extern const flag_id flag_ELECTRIC_IMMUNE;
@@ -309,7 +309,6 @@ extern const flag_id flag_SLEEP_AID;
 extern const flag_id flag_SLEEP_AID_CONTAINER;
 extern const flag_id flag_SLEEP_IGNORE;
 extern const flag_id flag_SLOWS_MOVEMENT;
-extern const flag_id flag_SLOWS_THIRST;
 extern const flag_id flag_SLOW_WIELD;
 extern const flag_id flag_SMOKABLE;
 extern const flag_id flag_SMOKED;
@@ -344,7 +343,6 @@ extern const flag_id flag_TOW_CABLE;
 extern const flag_id flag_TRADER_AVOID;
 extern const flag_id flag_TRADER_KEEP;
 extern const flag_id flag_TRADER_KEEP_EQUIPPED;
-extern const flag_id flag_TRANSPARENT;
 extern const flag_id flag_TWO_WAY_RADIO;
 extern const flag_id flag_UNBREAKABLE;
 extern const flag_id flag_UNBREAKABLE_MELEE;
@@ -426,6 +424,16 @@ class json_flag
             return name_.translated();
         }
 
+        /** Custom prefix that is added to item name. */
+        const translation &item_prefix() const {
+            return item_prefix_;
+        }
+
+        /** Custom suffix that is added to item name. */
+        const translation &item_suffix() const {
+            return item_suffix_;
+        }
+
         /** Is flag inherited by base items from any attached items? */
         bool inherit() const {
             return inherit_;
@@ -460,6 +468,8 @@ class json_flag
         translation info_;
         translation restriction_;
         translation name_;
+        translation item_prefix_;
+        translation item_suffix_;
         std::set<std::string> conflicts_;
         bool inherit_ = true;
         bool craft_inherit_ = false;

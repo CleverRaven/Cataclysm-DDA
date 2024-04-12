@@ -308,9 +308,25 @@
         [ "knife_steak", 1 ],
         [ "knife_butter", 1 ],
         [ "knife_paring", 1 ],
-        [ "fork", 1 ]
+        [ "fork", 1 ],
+        [ "lc_wire", 1 ],
+        [ "hc_wire", 1 ],
+        [ "ch_wire", 1 ],
+        [ "lc_wire", 1 ],
+        [ "mc_wire", 1 ],
+        [ "qt_wire", 1 ]
       ],
-      [ [ "wire", 1 ], [ "hairpin", 1 ], [ "cable", 1 ] ]
+      [
+        [ "wire", 1 ],
+        [ "hairpin", 1 ],
+        [ "cable", 1 ],
+        [ "lc_wire", 1 ],
+        [ "hc_wire", 1 ],
+        [ "ch_wire", 1 ],
+        [ "lc_wire", 1 ],
+        [ "mc_wire", 1 ],
+        [ "qt_wire", 1 ]
+      ]
     ]
   },
   {
@@ -1628,5 +1644,17 @@
     "using": [ [ "sewing_aramids", 50 ], [ "adhesive", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_polymerworking", "required": false, "time_multiplier": 1.5 } ],
     "components": [ [ [ "rock_wool_bat", 22 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "hair_dye_kit",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "time": "5 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "hairbrush", 1 ] ], [ [ "box_small", 1 ] ], [ [ "comb_pocket", 1 ] ], [ [ "gloves_medical", 1 ] ] ]
   }
 ]

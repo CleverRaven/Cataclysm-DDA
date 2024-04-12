@@ -146,8 +146,8 @@ struct islot_comestible {
         /** stimulant effect */
         int stim = 0;
 
-        /**fatigue altering effect*/
-        int fatigue_mod = 0;
+        /**sleepiness altering effect*/
+        int sleepiness_mod = 0;
 
         /** Reference to other item that replaces this one as a component in recipe results */
         itype_id cooks_like;
@@ -385,14 +385,6 @@ struct islot_armor {
          * How much warmth this item provides.
          */
         int warmth = 0;
-        /**
-        * Factor modifying weight capacity
-        */
-        float weight_capacity_modifier = 1.0f;
-        /**
-        * Bonus to weight capacity
-        */
-        units::mass weight_capacity_bonus = 0_gram;
         /**
          * Whether this is a power armor item.
          */
@@ -1118,6 +1110,7 @@ struct islot_seed {
 
 enum condition_type {
     FLAG,
+    VITAMIN,
     COMPONENT_ID,
     COMPONENT_ID_SUBSTRING,
     VAR,

@@ -84,6 +84,22 @@
     ]
   },
   {
+    "id": "mansion_safe_nogun",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      [ "diamond", 20 ],
+      { "item": "money_bundle_twenty", "prob": 50, "count": [ 1, 5 ] },
+      { "item": "money_bundle_fifty", "prob": 50, "count": [ 1, 5 ] },
+      { "item": "money_bundle_hundred", "prob": 20, "count": [ 1, 2 ] },
+      { "group": "stash_drugs", "prob": 5 },
+      [ "file", 70 ],
+      { "group": "jewelry_front", "prob": 40 },
+      { "group": "costume_jewelry_vampire", "prob": 5 },
+      { "group": "costume_jewelry_dark", "prob": 5 }
+    ]
+  },
+  {
     "id": "mansion_gunsafe",
     "type": "item_group",
     "subtype": "collection",
@@ -650,12 +666,11 @@
       [ "speedo", 10 ],
       { "item": "cooking_oil", "prob": 20, "container-item": "bottle_plastic", "sealed": false },
       { "group": "stash_drugs", "prob": 20 },
-      [ "bikini_top_leather", 10 ],
-      [ "bikini_top_fur", 10 ],
-      [ "bikini_top_short", 10 ],
-      [ "bikini_bottom_short", 10 ],
-      { "item": "bikini_top", "variant": "maid_bikini_top", "prob": 15 },
-      { "item": "bikini_bottom", "variant": "maid_bikini_bottom", "prob": 15 },
+      { "group": "bikini", "prob": 30 },
+      {
+        "collection": [ { "item": "bikini_top", "variant": "maid_bikini_top" }, { "item": "bikini_bottom", "variant": "maid_bikini_bottom" } ],
+        "prob": 15
+      },
       [ "skirt_leather", 20 ],
       [ "honey_bottled", 20 ],
       [ "nanoskirt", 20 ],
@@ -1121,10 +1136,7 @@
       [ "briefs", 60 ],
       [ "swim_briefs", 10 ],
       [ "speedo", 15 ],
-      [ "bikini_top", 10 ],
-      [ "bikini_top_short", 5 ],
-      [ "bikini_bottom", 10 ],
-      [ "bikini_bottom_short", 5 ],
+      { "group": "bikini", "prob": 15 },
       { "prob": 10, "group": "vitamins_bottle_plastic_pill_supplement_1_10" },
       { "prob": 10, "group": "bottle_otc_painkiller_1_20" },
       [ "karate_gi", 10 ],
@@ -1616,6 +1628,7 @@
       [ "scythe", 1 ],
       [ "straw_hat", 50 ],
       [ "bucket", 40 ],
+      [ "bucket_5gal", 40 ],
       [ "shovel", 40 ],
       [ "clay_pot_flower", 40 ],
       [ "plastic_pot_flower", 60 ],

@@ -245,32 +245,39 @@
     "//2": "Based on https://www.amazon.com/dp/B000A24RCA"
   },
   {
-    "id": "con_mix",
+    "id": "con_mix_foldable",
     "type": "TOOL",
     "name": { "str": "concrete mixer" },
-    "description": "A portable concrete mixer.  It is still large and heavy, but it can be operated solo, and runs on batteries.  It also has a heater built in.",
-    "weight": "9071 g",
-    "volume": "5 L",
-    "price": 50000,
+    "description": "A portable concrete mixer.  It is large and heavy, but it can be operated solo.  Unfold to use.",
+    "looks_like": "con_mix",
+    "weight": "40823 g",
+    "volume": "250 L",
+    "longest_side": "118 cm",
+    "//1": "Calculated by assuming a cylinder with dimensions taken from the drum opening (14.5in) and product length (46.5in) and then doubling it. Calculating volume from the product dimensions inflated it artifically as it counted all the free space inbetween the handles, wheels, etc resulting in 600+l of volume (a portable concrete mixer that can't be transported in a vehicle lmao).",
+    "price": "400 USD",
     "price_postapoc": 500,
-    "to_hit": -6,
-    "material": [ "steel" ],
-    "symbol": "$",
-    "color": "dark_gray",
-    "ammo": [ "battery" ],
-    "charges_per_use": 20,
-    "qualities": [ [ "CONTAIN", 1 ] ],
-    "flags": [ "ALLOWS_REMOTE_USE" ],
-    "use_action": [ "HOTPLATE", { "type": "link_up", "cable_length": 15, "charge_rate": "1500 W" } ],
+    "to_hit": { "grip": "bad", "length": "long", "surface": "line", "balance": "clumsy" },
+    "material": [ "plastic", "steel" ],
     "pocket_data": [
       {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
+        "max_contains_volume": "100 L",
+        "max_contains_weight": "300 kg",
+        "watertight": true,
+        "open_container": true,
+        "rigid": true
       }
     ],
-    "melee_damage": { "bash": 15 }
+    "symbol": "$",
+    "color": "dark_gray",
+    "qualities": [ [ "CONTAIN", 1 ] ],
+    "flags": [ "NO_SALVAGE" ],
+    "use_action": [ "UNFOLD_GENERIC" ],
+    "variables": {
+      "vehicle_name": "Concrete mixer",
+      "folded_parts": "[{\"id\": \"frame_concrete_mix\",\"base\":{\"typeid\":\"frame_concrete_mix\",\"item_tags\":[\"VEHICLE\"]},\"mount_dx\":0,\"mount_dy\":0},{\"id\":\"wheel_mount_concrete_mix\",\"base\":{\"typeid\":\"wheel_mount_concrete_mix\",\"item_tags\":[\"VEHICLE\"]},\"mount_dx\": 0,\"mount_dy\": 0},{\"id\":\"wheel_set_concrete_mix\",\"base\":{\"typeid\":\"wheel_set_concrete_mix\",\"item_tags\":[\"VEHICLE\"]},\"mount_dx\": 0,\"mount_dy\":0},{\"id\":\"drum_concrete_mix\",\"base\":{\"typeid\":\"30gal_barrel\",\"item_tags\":[\"VEHICLE\"]},\"mount_dx\":0,\"mount_dy\":0},{\"id\":\"engine_electric_small\",\"base\":{\"typeid\":\"motor_small\",\"item_tags\":[\"VEHICLE\"]},\"mount_dx\":0,\"mount_dy\":0},{\"id\":\"small_storage_battery\",\"base\":{\"typeid\":\"small_storage_battery\",\"item_tags\":[\"VEHICLE\"]},\"mount_dx\":0,\"mount_dy\":0}]"
+    },
+    "melee_damage": { "bash": 15 },
+    "//2": "Based on https://www.amazon.com/dp/B01EGB6TJ4 - save for the numbers that the Amazon arcticle got straight up wrong (weight and drum opening) which were taken from the owner's manual - https://assets.northerntool.com/products/494/documents/manuals/49413.pdf"
   },
   {
     "id": "cordless_drill",

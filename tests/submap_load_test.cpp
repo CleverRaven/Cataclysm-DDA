@@ -27,6 +27,18 @@
 static const construction_str_id construction_constr_ground_cable( "constr_ground_cable" );
 static const construction_str_id construction_constr_rack_coat( "constr_rack_coat" );
 
+static const furn_str_id furn_f_bookcase( "f_bookcase" );
+static const furn_str_id furn_f_coffin_c( "f_coffin_c" );
+static const furn_str_id furn_f_crate_o( "f_crate_o" );
+static const furn_str_id furn_f_dresser( "f_dresser" );
+
+static const ter_str_id ter_t_dirt( "t_dirt" );
+static const ter_str_id ter_t_floor( "t_floor" );
+static const ter_str_id ter_t_floor_blue( "t_floor_blue" );
+static const ter_str_id ter_t_floor_green( "t_floor_green" );
+static const ter_str_id ter_t_floor_red( "t_floor_red" );
+static const ter_str_id ter_t_rock_floor( "t_rock_floor" );
+
 // NOLINTNEXTLINE(cata-static-declarations)
 extern const int savegame_version;
 
@@ -459,9 +471,9 @@ static std::string submap_vehicle_ss(
     "          \"ammo_pref\": \"null\"\n"
     "        },\n"
     "        {\n"
-    "          \"id\": \"wheel_caster\",\n"
+    "          \"id\": \"wheel_caster_large\",\n"
     "          \"base\": {\n"
-    "            \"typeid\": \"wheel_caster\",\n"
+    "            \"typeid\": \"wheel_caster_large\",\n"
     "            \"damaged\": 3372,\n"
     "            \"item_tags\": [ \"VEHICLE\" ],\n"
     "            \"relic_data\": null,\n"
@@ -837,10 +849,10 @@ static bool is_normal_submap( const submap &sm, submap_checks checks = {} )
     // For every point on the submap
     for( int y = 0; y < SEEY; ++y ) {
         for( int x = 0; x < SEEX; ++x ) {
-            if( terrain && sm.get_ter( { x, y } ) != t_dirt ) {
+            if( terrain && sm.get_ter( { x, y } ) != ter_t_dirt ) {
                 return false;
             }
-            if( furniture && sm.get_furn( { x, y } ) != f_null ) {
+            if( furniture && sm.get_furn( { x, y } ) != furn_str_id::NULL_ID() ) {
                 return false;
             }
             if( traps && sm.get_trap( {x, y} ) != tr_null ) {
@@ -905,28 +917,28 @@ TEST_CASE( "submap_terrain_rle_load", "[submap][load]" )
     INFO( string_format( "sw: %s", ter_sw.id().str() ) );
     INFO( string_format( "se: %s", ter_se.id().str() ) );
     // Require to prevent the lower CHECK from being spammy
-    REQUIRE( ter_nw == t_floor_green );
-    REQUIRE( ter_ne == t_floor_red );
-    REQUIRE( ter_sw == t_floor );
-    REQUIRE( ter_se == t_floor_blue );
+    REQUIRE( ter_nw == ter_t_floor_green );
+    REQUIRE( ter_ne == ter_t_floor_red );
+    REQUIRE( ter_sw == ter_t_floor );
+    REQUIRE( ter_se == ter_t_floor_blue );
 
     // And for the rest of the map, half of it is t_dirt, the other half t_rock_floor
     for( int x = 1; x < SEEX - 2; ++x ) {
-        CHECK( sm.get_ter( { x, 0 } ) == t_dirt );
+        CHECK( sm.get_ter( { x, 0 } ) == ter_t_dirt );
     }
     for( int y = 1; y < SEEY / 2; ++y ) {
         for( int x = 0; x < SEEX; ++x ) {
-            CHECK( sm.get_ter( { x, y } ) == t_dirt );
+            CHECK( sm.get_ter( { x, y } ) == ter_t_dirt );
         }
     }
     for( int y = SEEY / 2; y < SEEY - 1; ++y ) {
         for( int x = 0; x < SEEX; ++x ) {
-            CHECK( sm.get_ter( { x, y } ) == t_rock_floor );
+            CHECK( sm.get_ter( { x, y } ) == ter_t_rock_floor );
         }
 
     }
     for( int x = 1; x < SEEX - 2; ++x ) {
-        CHECK( sm.get_ter( { x, SEEY - 1 } ) == t_rock_floor );
+        CHECK( sm.get_ter( { x, SEEY - 1 } ) == ter_t_rock_floor );
     }
 }
 
@@ -942,12 +954,11 @@ TEST_CASE( "submap_terrain_load_invalid_ter_ids_as_t_dirt", "[submap][load]" )
     REQUIRE( error == "invalid ter_str_id 't_this_ter_id_does_not_exist'" );
 
     //capture_debugmsg_during
-    const ter_id t_dirt( "t_dirt" );
     for( int x = 0; x < SEEX; x++ ) {
         for( int y = 0; y < SEEY; y++ ) {
             CAPTURE( x, y );
             // expect t_rock_floor patch in a corner
-            const ter_id expected = ( ( x == 11 ) && ( y == 11 ) ) ? t_rock_floor : t_dirt;
+            const ter_id expected = ( ( x == 11 ) && ( y == 11 ) ) ? ter_t_rock_floor : ter_t_dirt;
             CHECK( sm.get_ter( {x, y} ) == expected );
         }
     }
@@ -975,10 +986,10 @@ TEST_CASE( "submap_furniture_load", "[submap][load]" )
     INFO( string_format( "se: %s", furn_se.id().str() ) );
     INFO( string_format( "ra: %s", furn_ra.id().str() ) );
     // Require to prevent the lower CHECK from being spammy
-    REQUIRE( furn_nw == f_coffin_c );
-    REQUIRE( furn_ne == f_bookcase );
-    REQUIRE( furn_sw == f_dresser );
-    REQUIRE( furn_se == f_crate_o );
+    REQUIRE( furn_nw == furn_f_coffin_c );
+    REQUIRE( furn_ne == furn_f_bookcase );
+    REQUIRE( furn_sw == furn_f_dresser );
+    REQUIRE( furn_se == furn_f_crate_o );
     REQUIRE( furn_ra == STATIC( furn_str_id( "f_gas_tank" ) ) );
 
     // Also, check we have no other furniture
@@ -989,7 +1000,7 @@ TEST_CASE( "submap_furniture_load", "[submap][load]" )
                 tested == random_pt ) {
                 continue;
             }
-            CHECK( sm.get_furn( tested ) == f_null );
+            CHECK( sm.get_furn( tested ) == furn_str_id::NULL_ID() );
         }
     }
 }

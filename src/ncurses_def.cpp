@@ -5,6 +5,7 @@
 #include "input.h"
 #include "point.h"
 #include "translations.h"
+#include "cata_imgui.h"
 
 // ncurses can define some functions as macros, but we need those identifiers
 // to be unchanged by the preprocessor, as we use them as function names.
@@ -35,11 +36,23 @@
 #include "output.h"
 #include "ui_manager.h"
 
+std::unique_ptr<cataimgui::client> imclient;
+
 static void curses_check_result( const int result, const int expected, const char *const /*name*/ )
 {
     if( result != expected ) {
         // TODO: debug message
     }
+}
+
+int get_window_width()
+{
+    return TERMX;
+}
+
+int get_window_height()
+{
+    return TERMY;
 }
 
 catacurses::window catacurses::newwin( const int nlines, const int ncols, const point &begin )
@@ -282,6 +295,9 @@ static_assert( catacurses::white == COLOR_WHITE,
 
 void catacurses::init_pair( const short pair, const base_color f, const base_color b )
 {
+    if( imclient ) {
+        imclient->upload_color_pair( pair, static_cast<int>( f ), static_cast<int>( b ) );
+    }
     return curses_check_result( ::init_pair( pair, static_cast<short>( f ), static_cast<short>( b ) ),
                                 OK, "init_pair" );
 }
@@ -299,7 +315,6 @@ void catacurses::resizeterm()
         catacurses::doupdate();
     }
 }
-
 // init_interface is defined in another cpp file, depending on build type:
 // wincurse.cpp for Windows builds without SDL and sdltiles.cpp for SDL builds.
 void catacurses::init_interface()
@@ -313,10 +328,6 @@ void catacurses::init_interface()
     if( !newscr ) {
         throw std::runtime_error( "null newscr" );
     }
-#if !defined(__CYGWIN__)
-    // ncurses mouse registration
-    mousemask( ALL_MOUSE_EVENTS | REPORT_MOUSE_POSITION, nullptr );
-#endif
     // our curses wrapper does not support changing this behavior, ncurses must
     // behave exactly like the wrapper, therefore:
     noecho();  // Don't echo keypresses
@@ -325,7 +336,16 @@ void catacurses::init_interface()
     set_escdelay( 10 ); // Make Escape actually responsive
     // TODO: error checking
     start_color();
+    imclient = std::make_unique<cataimgui::client>();
     init_colors();
+#if !defined(__CYGWIN__)
+    // ncurses mouse registration
+    mouseinterval( 0 );
+    mousemask( ALL_MOUSE_EVENTS | REPORT_MOUSE_POSITION, nullptr );
+    // Sometimes the TERM variable is not set properly and mousemask won't turn on mouse pointer events.
+    // The below line tries to force the mouse pointer events to be turned on anyway. ImTui misbehaves without them.
+    printf( "\033[?1003h\n" );
+#endif
 }
 
 bool catacurses::supports_256_colors()
@@ -380,7 +400,7 @@ input_event input_manager::get_input_event( const keyboard_mode /*preferred_keyb
             const int prev_timeout = input_timeout;
             set_timeout( 0 );
             do {
-                newch = getch();
+                newch = wgetch( stdscr );
             } while( newch != ERR && newch == key );
             set_timeout( prev_timeout );
             // If we read a different character than the one we're going to act on, re-queue it.
@@ -403,11 +423,11 @@ input_event input_manager::get_input_event( const keyboard_mode /*preferred_keyb
             if( getmouse( &event ) == OK ) {
                 rval.type = input_event_t::mouse;
                 rval.mouse_pos = point( event.x, event.y );
-                if( event.bstate & BUTTON1_CLICKED ) {
+                if( event.bstate & BUTTON1_CLICKED || event.bstate & BUTTON1_RELEASED ) {
                     rval.add_input( MouseInput::LeftButtonReleased );
                 } else if( event.bstate & BUTTON1_PRESSED ) {
                     rval.add_input( MouseInput::LeftButtonPressed );
-                } else if( event.bstate & BUTTON3_CLICKED ) {
+                } else if( event.bstate & BUTTON3_CLICKED || event.bstate & BUTTON3_RELEASED ) {
                     rval.add_input( MouseInput::RightButtonReleased );
                     // If curses version is prepared for a 5-button mouse, enable mousewheel
 #if defined(BUTTON5_PRESSED)
@@ -449,7 +469,9 @@ input_event input_manager::get_input_event( const keyboard_mode /*preferred_keyb
                 // Other control character, etc. - no text at all, return an event
                 // without the text property
                 previously_pressed_key = key;
-                return input_event( key, input_event_t::keyboard_char );
+                input_event tmp_event( key, input_event_t::keyboard_char );
+                imclient->process_input( &tmp_event );
+                return tmp_event;
             }
             // Now we have loaded an UTF-8 sequence (possibly several bytes)
             // but we should only return *one* key, so return the code point of it.
@@ -465,6 +487,7 @@ input_event input_manager::get_input_event( const keyboard_mode /*preferred_keyb
             // as it would  conflict with the special keys defined by ncurses
             rval.add_input( key );
         }
+        imclient->process_input( &rval );
     } while( key == KEY_RESIZE );
 
     return rval;
@@ -479,17 +502,17 @@ void input_manager::set_timeout( const int delay )
 
 nc_color nc_color::from_color_pair_index( const int index )
 {
-    return nc_color( COLOR_PAIR( index ) );
+    return nc_color( COLOR_PAIR( index ), index );
 }
 
 int nc_color::to_color_pair_index() const
 {
-    return PAIR_NUMBER( attribute_value );
+    return ( attribute_value & 0x03fe0000 ) >> 17;
 }
 
 nc_color nc_color::bold() const
 {
-    return nc_color( attribute_value | A_BOLD );
+    return nc_color( attribute_value | A_BOLD, index );
 }
 
 bool nc_color::is_bold() const
@@ -499,7 +522,7 @@ bool nc_color::is_bold() const
 
 nc_color nc_color::blink() const
 {
-    return nc_color( attribute_value | A_BLINK );
+    return nc_color( attribute_value | A_BLINK, index );
 }
 
 bool nc_color::is_blink() const

@@ -24,8 +24,8 @@ Note that this is a change to the lore implemented around 2021 or so. There are 
 #### Prosthetics
 Prosthetic limbs available to civilians are not markedly above the level available on our Earth.  Note that the level available on our Earth has gotten quite impressive, so this is a pretty high bar.
 
-### Robots and AI
-Proto-AI evolved from dimensional heuristics (the secrets of which are completely black box and explained away as a kind of deep learning) has made civilian level robots conceivable, albeit extremely rare.  The first public release of robots was police eyebots six years before the Cataclysm.  Most non-police civilian level applications are medical.  These AIs do well in constrained environments with very specific tasks.  They are, however, deeply stupid, especially without their central controllers and human supervision. These are not science fiction robots that can adapt to a situation and respond appropriately. They're not really anything more than you'd expect from slapping a processor and some algorithms onto a drone nowadays.  Some of these have guns and have foolishly been activated to use those guns without supervision.
+### AI
+Proto-AI evolved from dimensional heuristics (the secrets of which are completely black box and explained away as a kind of deep learning) has made convincing general AI a reality in the context of supercomputer clusters capable of human level problem solving, but with special abilities that differentiate them greatly from human cognition. See [Hub 02](lore-factions.md#hub-02) for more details.
 
 ### Energy Storage
 Energy storage among civilians is basically the same as real life earth, with a couple exceptions:

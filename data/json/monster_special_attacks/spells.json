@@ -578,7 +578,7 @@
     "id": "EOC_shifting_mass_attack",
     "condition": { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } },
     "effect": [
-      { "math": [ "u_val('fatigue')", "=", "min(u_val('fatigue') + ps_str + 20, 1200)" ] },
+      { "math": [ "u_val('sleepiness')", "=", "min(u_val('sleepiness') + ps_str + 20, 1200)" ] },
       { "math": [ "u_val('stamina')", "*=", "ps_str + 50" ] },
       { "math": [ "u_sleep_deprivation", "+=", "time('1 minutes')" ] }
     ]
@@ -797,7 +797,9 @@
           "case": 0,
           "effect": [
             { "u_message": "Your reflection feasts directly on your essence." },
-            { "math": [ "u_val('fatigue')", "=", "min(u_val('fatigue') + portal_dungeon_reflect_strength, 1200)" ] },
+            {
+              "math": [ "u_val('sleepiness')", "=", "min(u_val('sleepiness') + portal_dungeon_reflect_strength, 1200)" ]
+            },
             { "math": [ "portal_dungeon_reflect_strength", "+=", "3" ] }
           ]
         },
@@ -805,7 +807,9 @@
           "case": 2,
           "effect": [
             { "u_message": "Your reflection uses your bond to feast on your essence." },
-            { "math": [ "u_val('fatigue')", "=", "min(u_val('fatigue') + portal_dungeon_reflect_strength, 1200)" ] },
+            {
+              "math": [ "u_val('sleepiness')", "=", "min(u_val('sleepiness') + portal_dungeon_reflect_strength, 1200)" ]
+            },
             { "math": [ "portal_dungeon_reflect_strength", "++" ] }
           ]
         },
@@ -1118,35 +1122,6 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_STARE2",
-    "condition": {
-      "and": [
-        { "u_has_trait": "SCHIZOPHRENIC" },
-        { "not": { "u_has_effect": "took_thorazine" } },
-        { "x_in_y_chance": { "x": 2, "y": 3 } }
-      ]
-    },
-    "effect": [
-      {
-        "if": "player_see_u",
-        "then": { "u_message": "The <npc_name> quickly looks away from you.", "type": "warning" },
-        "else": { "u_message": "A chorus of whispers chatter raucously around you.", "type": "warning" }
-      }
-    ],
-    "false_effect": { "run_eocs": [ "EOC_STARE3" ] }
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_STARE3",
-    "condition": { "math": [ "rand(6) < u_effect_intensity('drunk')" ] },
-    "effect": [
-      { "u_message": "The world lurches drunkenly around you.", "type": "warning" },
-      { "u_add_effect": "stunned", "duration": 4 }
-    ],
-    "false_effect": { "run_eocs": [ "EOC_STARE4" ] }
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_STARE4",
     "condition": "player_see_npc",
     "effect": [
       { "u_message": "The <npc_name> stares at you, and you shudder.", "type": "bad" },

@@ -45,14 +45,16 @@
     "name": { "str": "Psionic Senses" },
     "points": 0,
     "description": "Your powers enhance your mundane senses and allow you to detect creatures from beyond.",
-    "hearing_modifier": 1.2,
     "flags": [ "ENHANCED_VISION", "WATCH" ],
     "player_display": true,
     "valid": false,
     "purifiable": false,
     "enchantments": [
       {
-        "values": [ { "value": "SIGHT_RANGE_NETHER", "add": { "math": [ "(2 + (1.5 * u_school_level('CLAIRSENTIENT')))" ] } } ]
+        "values": [
+          { "value": "HEARING_MULT", "multiply": 0.2 },
+          { "value": "SIGHT_RANGE_NETHER", "add": { "math": [ "(2 + (1.5 * u_school_level('CLAIRSENTIENT')))" ] } }
+        ]
       }
     ]
   },
@@ -81,6 +83,7 @@
     "points": 0,
     "description": "Your powers passively filter the amount of photons your eyes receive.",
     "flags": [ "FLASH_PROTECTION", "SEESLEEP", "GLARE_RESIST" ],
+    "integrated_armor": [ "integrated_photo_eyes" ],
     "player_display": true,
     "valid": false,
     "purifiable": false
@@ -92,7 +95,7 @@
     "points": 0,
     "description": "You naturally heat the air around you slightly, making it more comfortable in the cold.  It also helps prevent you from getting too wet.",
     "bodytemp_modifiers": [ 250, 750 ],
-    "bodytemp_sleep": 500,
+    "enchantments": [ { "values": [ { "value": "BODYTEMP_SLEEP", "add": 1 } ] } ],
     "wet_protection": [
       { "part": "head", "ignored": 10 },
       { "part": "leg_l", "ignored": 10 },

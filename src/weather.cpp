@@ -43,6 +43,7 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "trap.h"
+#include "uistate.h"
 #include "units.h"
 #include "weather_gen.h"
 
@@ -417,12 +418,12 @@ void weather_sound( const translation &sound_message, const std::string &sound_e
                 sfx::play_variant_sound( "environment", sound_effect, 80, random_direction() );
             }
         } else if( one_in( std::max( roll_remainder( 2.0f * here.get_abs_sub().z() /
-                                     player_character.mutation_value( "hearing_modifier" ) ), 1 ) ) ) {
+                                     player_character.hearing_ability() ), 1 ) ) ) {
             add_msg( sound_message );
             if( !sound_effect.empty() ) {
                 sfx::play_variant_sound(
                     "environment", sound_effect,
-                    ( 80 * player_character.mutation_value( "hearing_modifier" ) ),
+                    ( 80 * player_character.hearing_ability() ),
                     random_direction() );
             }
         }
