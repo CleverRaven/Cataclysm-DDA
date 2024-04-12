@@ -1,0 +1,19 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_QUEST_STARTER_NOTE_FIFTH_SUN_CUACHIC",
+    "condition": { "u_has_trait": "FIFTH_SUN_PEOPLE" },
+    "effect": [
+      {
+        "u_message": "You take a closer look at the note and, with mounting excitement, realize its written in the Clear Speech!  The blocky Imperial-military-standard characters read, \"I do not know if there are any who will read this, but I am still alive.  I survived the disaster of the Texopapalotl and awakened in a scientific facility filled with demons.  I fought my way out and found a place of some safety.  If you can read this, find me.\nXiuhcozcatl, Squad Leader, Eighth Band\"  Below it is a map of a small building by a lake, though you don't recognize the nearby terrain.",
+        "type": "neutral"
+      }
+    ],
+    "false_effect": [
+      {
+        "u_message": "The note is written in another language with some kind of pictographic characters.  They look vaguely…Mayan?  Regardless, you can't read them.  There is a crude map drawn below the characters, however, showing a house or similiar structure by a lake.",
+        "type": "neutral"
+      }
+    ]
+  }
+]

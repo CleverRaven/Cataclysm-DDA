@@ -66,6 +66,22 @@
   },
   {
     "type": "GENERIC",
+    "id": "lab_file_pyrokinesis_item",
+    "name": { "str": "report (pyrokinesis)", "str_pl": "copies of report (pyrokinesis)" },
+    "category": "books",
+    "description": "A folder full of what appear to be transcripts of experimental results or reports.  Most of it is rather trivial, but certain passages catch your eye…",
+    "snippet_category": "lab_file_pyrokinesis",
+    "weight": "15 g",
+    "to_hit": -3,
+    "color": "white",
+    "symbol": ",",
+    "material": [ "paper" ],
+    "volume": "50 ml",
+    "flags": [ "TRADER_AVOID" ],
+    "copy-from": "file"
+  },
+  {
+    "type": "GENERIC",
     "id": "lab_file_telekinesis_item",
     "name": { "str": "report (telekinesis)", "str_pl": "copies of report (telekinesis)" },
     "category": "books",
@@ -127,6 +143,24 @@
     "volume": "50 ml",
     "flags": [ "TRADER_AVOID" ],
     "copy-from": "file"
+  },
+  {
+    "type": "GENERIC",
+    "id": "quest_starter_note_fifth_sun_cuachic",
+    "name": { "str": "note with strange writing", "str_pl": "notes with strange writing" },
+    "category": "books",
+    "description": "A piece of half-crumpled paper with writing on it.  You'd need to take a closer look to figure out what it says.",
+    "to_hit": -3,
+    "color": "white",
+    "symbol": ",",
+    "material": [ "paper" ],
+    "flags": [ "TRADER_AVOID" ],
+    "copy-from": "paper",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Examine the note.",
+      "effect_on_conditions": [ "EOC_QUEST_STARTER_NOTE_FIFTH_SUN_CUACHIC" ]
+    }
   },
   {
     "type": "GENERIC",
@@ -224,7 +258,19 @@
         "psi_phavian_lab_blockE3",
         "psi_phavian_lab_blockE4",
         "office_cubical_phavian",
-        "office_cubical_phavian_basement"
+        "office_cubical_phavian_basement",
+        "phavan_office_skyscraper_lab_lower_nw",
+        "phavan_office_skyscraper_lab_lower_ne",
+        "phavan_office_skyscraper_lab_lower_sw",
+        "phavan_office_skyscraper_lab_lower_se",
+        "phavan_office_skyscraper_lab_middle_nw",
+        "phavan_office_skyscraper_lab_middle_ne",
+        "phavan_office_skyscraper_lab_middle_sw",
+        "phavan_office_skyscraper_lab_middle_se",
+        "phavan_office_skyscraper_lab_upper_nw",
+        "phavan_office_skyscraper_lab_upper_ne",
+        "phavan_office_skyscraper_lab_upper_sw",
+        "phavan_office_skyscraper_lab_upper_se"
       ]
     }
   }
