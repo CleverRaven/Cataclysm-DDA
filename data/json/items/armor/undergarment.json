@@ -233,8 +233,8 @@
       },
       {
         "id": "binder_top_american",
-        "name": { "str": "american binder" },
-        "description": "This one is painted with the star spangled banner, the red white and blue, old glory, the american flag.",
+        "name": { "str": "American binder" },
+        "description": "This one is painted with the star spangled banner, the red white and blue, old glory, the American flag.",
         "append": true
       },
       {

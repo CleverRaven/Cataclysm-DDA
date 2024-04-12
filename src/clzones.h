@@ -67,7 +67,7 @@ class zone_type
         static void reset();
         void load( const JsonObject &jo, std::string_view );
         /**
-         * All spells in the game.
+         * All zone types in the game.
          */
         static const std::vector<zone_type> &get_all();
         bool is_valid() const;

@@ -512,7 +512,7 @@ void player_morale::decay( const time_duration &ticks )
     invalidate();
 }
 
-void player_morale::display( int focus_eq, int pain_penalty, int fatigue_penalty )
+void player_morale::display( int focus_eq, int pain_penalty, int sleepiness_penalty )
 {
     /*calculates the percent contributions of the morale points,
      * must be done before anything else in this method
@@ -702,9 +702,9 @@ void player_morale::display( int focus_eq, int pain_penalty, int fatigue_penalty
             morale_line::line_color::green_gray_red
         );
     }
-    if( fatigue_penalty != 0 ) {
+    if( sleepiness_penalty != 0 ) {
         bottom_lines.emplace_back(
-            _( "Fatigue level:" ), -fatigue_penalty,
+            _( "Sleepiness level:" ), -sleepiness_penalty,
             morale_line::number_format::signed_or_dash,
             morale_line::line_color::green_gray_red
         );
@@ -944,27 +944,6 @@ void player_morale::on_worn_item_washed( const item &it )
 {
     const auto update_body_part = [&]( body_part_data & bp_data ) {
         bp_data.filthy -= 1;
-    };
-
-    const body_part_set covered( it.get_covered_body_parts() );
-
-    if( covered.any() ) {
-        for( const bodypart_id &bp : get_player_character().get_all_body_parts() ) {
-            if( covered.test( bp.id() ) ) {
-                update_body_part( body_parts[bp] );
-            }
-        }
-    } else {
-        update_body_part( no_body_part );
-    }
-
-    update_squeamish_penalty();
-}
-
-void player_morale::on_worn_item_soiled( const item &it )
-{
-    const auto update_body_part = [&]( body_part_data & bp_data ) {
-        bp_data.filthy += 1;
     };
 
     const body_part_set covered( it.get_covered_body_parts() );

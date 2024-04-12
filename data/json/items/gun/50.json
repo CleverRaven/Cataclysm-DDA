@@ -50,11 +50,10 @@
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bore", 1 ],
       [ "brass catcher", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
@@ -115,7 +114,7 @@
     "reload": 450,
     "barrel_volume": "1250 ml",
     "default_mods": [ "recoil_stock", "bipod", "rifle_scope", "muzzle_brake" ],
-    "flags": [ "NEVER_JAMS", "EASY_CLEAN" ],
+    "flags": [ "NEVER_JAMS", "EASY_CLEAN", "NO_TURRET" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "tac50mag" ] } ],
     "melee_damage": { "bash": 12 }
   },
@@ -143,9 +142,8 @@
     "barrel_volume": "1250 ml",
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bore", 1 ],
       [ "grip", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
@@ -156,7 +154,7 @@
     ],
     "default_mods": [ "bipod", "rifle_scope", "muzzle_brake" ],
     "clip_size": 1,
-    "flags": [ "NEVER_JAMS", "RELOAD_EJECT", "EASY_CLEAN" ],
+    "flags": [ "NEVER_JAMS", "RELOAD_EJECT", "EASY_CLEAN", "NO_TURRET" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "50": 1 } } ],
     "melee_damage": { "bash": 12 }
   }

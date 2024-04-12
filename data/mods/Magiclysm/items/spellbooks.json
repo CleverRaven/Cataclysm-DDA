@@ -393,7 +393,7 @@
         "recover_mana",
         "recover_bionic_power",
         "recover_pain",
-        "recover_fatigue",
+        "recover_sleepiness",
         "recover_stamina",
         "druid_healing",
         "convert"
@@ -776,7 +776,7 @@
     "id": "plant_spellbook",
     "name": { "ctxt": "spellbook", "str": "The Elven Path", "str_pl": "copies of The Elven Path" },
     "//": "7 Druid spells",
-    "description": "Writen by the elven archdruid Tylindel Melithilarahd over 500 years ago, this weighty tome was considered *the* most important book of the Harmonist druidic movement up until just before the Cataclysm.  Archdruid Melithilarahd's death in 2016 ended his overt patronage of his own works, allowing other writers to attempt to make their mark, especially younger elves who did not have such a strident anti-modern attitude.  In addition to all the philosopical essays about the importance of living in harmony with nature and allowing plants to grow where they will are several plant-based druidic spells.",
+    "description": "Written by the elven archdruid Tylindel Melithilarahd over 500 years ago, this weighty tome was considered *the* most important book of the Harmonist druidic movement up until just before the Cataclysm.  Archdruid Melithilarahd's death in 2016 ended his overt patronage of his own works, allowing other writers to attempt to make their mark, especially younger elves who did not have such a strident anti-modern attitude.  In addition to all the philosophical essays about the importance of living in harmony with nature and allowing plants to grow where they will are several plant-based druidic spells.",
     "price": 15000,
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
@@ -1365,5 +1365,27 @@
     "symbol": "?",
     "color": "red",
     "use_action": { "type": "learn_spell", "spells": [ "mana_upgrade_sensitivity_02" ] }
+  },
+  {
+    "id": "pirate_spellbook",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": {
+      "str": "Sail the High Seas with Sorcery on Your Side",
+      "str_pl": "copies of Sail the High Seas with Sorcery on Your Side"
+    },
+    "//": "3 Stormshaper spells, 1 Technomancer spell",
+    "description": "This romanticized book of dubious historical accuracy details how pirates used magic to their advantage while sailing.  From better telescopes to banks of fog to hide their approach, it seems that according to this author at least, piracy was a true terror to behold.",
+    "weight": "437 g",
+    "volume": "825 ml",
+    "price": 7000,
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "red",
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "stormshaper_cloak_of_fog", "storm_shipwrecker", "air_bubble", "technomancer_far_sight" ]
+    }
   }
 ]

@@ -232,7 +232,7 @@
       {
         "id": "toy_plush_tik",
         "name": { "str": "tiktaalik plushie" },
-        "description": "A large plushie of your ancestor, the tiktaalik!  It has a soft, huggable fish-like body, stubby legs, and paddle-like soft fins.  Its colour is a mix of blue-gray soft scales pattern on the back and a plush beige belly.  It has large eyes and a friendly expression.",
+        "description": "A large plushie of your ancestor, the tiktaalik!  It has a soft, huggable fish-like body, stubby legs, and paddle-like soft fins.  Its color is a mix of blue-gray soft scales pattern on the back and a plush beige belly.  It has large eyes and a friendly expression.",
         "weight": 1
       },
       {
@@ -548,7 +548,7 @@
       {
         "id": "toy_plush_jmonkey",
         "name": { "str": "Japanese macaque plushie" },
-        "description": "This japanese macaque plushie features a soft, brown grayish fur, with a reddish-brown face and hands.",
+        "description": "This Japanese macaque plushie features a soft, brown grayish fur, with a reddish-brown face and hands.",
         "weight": 1
       },
       {
@@ -572,7 +572,7 @@
       {
         "id": "toy_plush_howlerm",
         "name": { "str": "howler monkey plushie" },
-        "description": "This cute and cuddling howler monkeu plushie has soft, brown fur, and produces a sound that mimics the howler monkey's signature hooting noise when hugged properly.",
+        "description": "This cute and cuddling howler monkey plushie has soft, brown fur, and produces a sound that mimics the howler monkey's signature hooting noise when hugged properly.",
         "weight": 1
       },
       {

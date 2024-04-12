@@ -282,7 +282,7 @@
     "id": "corn_on_cob",
     "name": { "str_sp": "corn on the cob" },
     "comestible_type": "FOOD",
-    "weight": "178 g",
+    "weight": "130 g",
     "color": "yellow",
     "symbol": "%",
     "material": [ "veggy" ],
@@ -290,7 +290,7 @@
     "spoils_in": "2 days",
     "quench": -2,
     "calories": 370,
-    "volume": "250 ml",
+    "volume": "195 ml",
     "description": "An ear of corn cooked in foil.",
     "price": 50,
     "price_postapoc": 100,
@@ -337,7 +337,7 @@
     "type": "COMESTIBLE",
     "id": "cornmeal",
     "name": { "str_sp": "cornmeal" },
-    "weight": "60 g",
+    "weight": "12500 mg",
     "color": "yellow",
     "spoils_in": "360 days",
     "container": "box_small",
@@ -350,7 +350,7 @@
     "price": "45 cent",
     "price_postapoc": "2 cent",
     "material": [ "veggy", "powder" ],
-    "volume": "107 ml",
+    "volume": "24 ml",
     "flags": [ "EDIBLE_FROZEN" ],
     "fun": -5
   },
@@ -826,7 +826,7 @@
       {
         "type": "COMPONENT_ID",
         "condition": "japanese_knotweed_stem",
-        "name": { "str_sp": "%s, japanese knotweed stem" }
+        "name": { "str_sp": "%s, Japanese knotweed stem" }
       },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "lettuce", "name": { "str_sp": "%s, lettuce" } },
       { "type": "COMPONENT_ID", "condition": "mushroom", "name": { "str_sp": "%s, mushroom" } },
@@ -891,7 +891,7 @@
       {
         "type": "COMPONENT_ID",
         "condition": "japanese_knotweed_stem",
-        "name": { "str_sp": "%s, japanese knotweed stem" }
+        "name": { "str_sp": "%s, Japanese knotweed stem" }
       },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "lettuce", "name": { "str_sp": "%s, lettuce" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "onion", "name": { "str_sp": "%s, onion" } },
@@ -965,7 +965,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sauerkraut_onions",
-    "name": { "str_sp": "sauerkraut w/ sautee'd onions" },
+    "name": { "str_sp": "sauerkraut w/ sauteed onions" },
     "weight": "424 g",
     "color": "light_gray",
     "spoils_in": "5 days",
@@ -1036,7 +1036,7 @@
       {
         "type": "COMPONENT_ID",
         "condition": "japanese_knotweed_stem",
-        "name": { "str_sp": "%s, japanese knotweed stem" }
+        "name": { "str_sp": "%s, Japanese knotweed stem" }
       },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "lettuce", "name": { "str_sp": "%s, lettuce" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "onion", "name": { "str_sp": "%s, onion" } },
@@ -1116,7 +1116,7 @@
     "type": "COMESTIBLE",
     "id": "dry_corn",
     "name": { "str_sp": "dehydrated corn kernels" },
-    "weight": "180 g",
+    "weight": "45 g",
     "color": "yellow",
     "comestible_type": "FOOD",
     "symbol": "%",
@@ -1127,7 +1127,7 @@
     "price_postapoc": 50,
     "material": [ "veggy" ],
     "milling": { "into": "cornmeal", "recipe": "cornmeal_mill_1_3" },
-    "volume": "255 ml",
+    "volume": "83 ml",
     "vitamins": [ [ "vitC", 12 ], [ "iron", 4 ] ],
     "petfood": [ "CATTLEFOOD" ],
     "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED" ],
@@ -1158,7 +1158,7 @@
       {
         "type": "COMPONENT_ID",
         "condition": "japanese_knotweed_stem",
-        "name": { "str_sp": "%s, japanese knotweed stem" }
+        "name": { "str_sp": "%s, Japanese knotweed stem" }
       },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "lettuce", "name": { "str_sp": "%s, lettuce" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "onion", "name": { "str_sp": "%s, onion" } },
@@ -1233,14 +1233,14 @@
     "id": "rehydrated_corn_kernels",
     "name": { "str_sp": "rehydrated corn kernels" },
     "copy-from": "veggy",
-    "weight": "70 g",
+    "weight": "60 g",
     "color": "yellow",
     "spoils_in": "1 day",
     "description": "Reconstituted corn kernels, much more enjoyable to eat now that they have been rehydrated.",
     "price": 900,
     "price_postapoc": 50,
     "smoking_result": "dry_corn",
-    "volume": "95 ml",
+    "volume": "83 ml",
     "delete": { "flags": [ "RAW" ] },
     "vitamins": [ [ "vitC", 12 ], [ "iron", 4 ] ],
     "fun": 2
@@ -1360,7 +1360,7 @@
     "type": "COMESTIBLE",
     "id": "sushi_veggyroll",
     "name": { "str_sp": "vegetable hosomaki" },
-    "weight": "312 g",
+    "weight": "275 g",
     "color": "green",
     "spoils_in": "1 day 12 hours",
     "comestible_type": "FOOD",
@@ -1559,7 +1559,7 @@
     "comestible_type": "FOOD",
     "symbol": "m",
     "calories": 155,
-    "description": "A greek eggplant dip.  The eggplants are baked until almost falling apart and seasoned with a big help of garlic, then mixed with some oil and acid.",
+    "description": "A Greek eggplant dip.  The eggplants are baked until almost falling apart and seasoned with a big help of garlic, then mixed with some oil and acid.",
     "price": 75,
     "price_postapoc": 125,
     "material": [ "veggy" ],

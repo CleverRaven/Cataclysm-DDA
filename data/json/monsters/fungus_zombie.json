@@ -449,7 +449,7 @@
     "special_attacks": [ { "id": "bite_humanoid", "cooldown": 5, "min_mul": 0.7 }, { "id": "scratch_humanoid" }, [ "FUNGUS", 170 ] ],
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_scorched",
-    "flags": [ "SEES", "HEARS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ],
+    "flags": [ "SEES", "HEARS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "PUSH_MON", "FILTHY" ],
     "armor": { "bash": 5, "cut": 2, "bullet": 1, "electric": 2 }
   },
   {
@@ -495,7 +495,6 @@
       "GROUP_BASH",
       "POISON",
       "NO_BREATHE",
-      "REVIVES",
       "PUSH_MON",
       "FILTHY",
       "ATTACK_LOWER"
@@ -532,7 +531,7 @@
     "special_attacks": [ [ "FUNGUS", 200 ], { "id": "bite_humanoid", "cooldown": 5 }, { "id": "scratch_humanoid" } ],
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_scorched",
-    "flags": [ "SEES", "HEARS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ],
+    "flags": [ "SEES", "HEARS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "PUSH_MON", "FILTHY" ],
     "armor": { "bash": 5, "cut": 3, "bullet": 2, "electric": 2 }
   },
   {
@@ -569,7 +568,7 @@
       "//": "cloth as any other zombie (always), additional items from group hive (sometimes)"
     },
     "burn_into": "mon_zombie_scorched",
-    "flags": [ "SEES", "HEARS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ],
+    "flags": [ "SEES", "HEARS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "PUSH_MON", "FILTHY" ],
     "armor": { "bash": 6, "cut": 8, "bullet": 6, "electric": 1 }
   },
   {
@@ -658,7 +657,7 @@
     "harvest": "zombie_animal_mushroom",
     "special_attacks": [ [ "FUNGUS", 230 ], { "id": "bite_humanoid", "cooldown": 5 }, { "id": "scratch_humanoid" } ],
     "death_drops": "mon_dog_death_drops",
-    "flags": [ "SEES", "HEARS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON" ],
+    "flags": [ "SEES", "HEARS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "PUSH_MON" ],
     "armor": { "electric": 1 }
   },
   {
@@ -690,14 +689,14 @@
     "bleed_rate": 0,
     "harvest": "zombie_animal_mushroom",
     "special_attacks": [ [ "FUNGUS", 160 ] ],
-    "flags": [ "SEES", "HEARS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ],
+    "flags": [ "SEES", "HEARS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "PUSH_MON", "FILTHY" ],
     "armor": { "bash": 6, "cut": 4, "bullet": 3, "electric": 2 }
   },
   {
     "id": "mon_zougar_fungus",
     "type": "MONSTER",
     "name": { "str": "fungal pouncer" },
-    "description": "This four legged, oversized cat seems to spew spores from its pawpads with each clusmy landing, as if constantly gaining and losing balance in air.",
+    "description": "This four legged, oversized cat seems to spew spores from its pawpads with each clumsy landing, as if constantly gaining and losing balance in air.",
     "default_faction": "fungus",
     "bodytype": "dog",
     "species": [ "FUNGUS" ],
@@ -723,7 +722,7 @@
     "bleed_rate": 0,
     "harvest": "zombie_animal_mushroom",
     "special_attacks": [ [ "FUNGUS", 190 ], { "type": "leap", "cooldown": 20, "max_range": 5 } ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "FILTHY" ],
     "armor": { "bash": 1, "electric": 1 }
   },
   {
@@ -755,7 +754,7 @@
     "bleed_rate": 0,
     "harvest": "zombie_animal_mushroom",
     "special_attacks": [ [ "FUNGUS", 160 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "BASHES", "NO_BREATHE", "REVIVES" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "BASHES", "NO_BREATHE" ],
     "armor": { "bash": 5, "cut": 1, "electric": 2 }
   },
   {
@@ -808,13 +807,13 @@
     "bleed_rate": 0,
     "harvest": "zombie_animal_mushroom",
     "special_attacks": [ [ "FUNGUS", 210 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "FILTHY" ],
     "armor": { "bash": 1, "cut": 3, "electric": 1 }
   },
   {
     "id": "mon_zeindeer_fungus",
     "type": "MONSTER",
-    "name": { "str": "fungideer" },
+    "name": { "str_sp": "fungideer" },
     "looks_like": "mon_zeer",
     "description": "This bumpy, discolored reindeer resembles a malformed Rudolph, its nose having a faintly glowing red fungal sprout.  It'd look almost comical if it wasn't mutilating bodies with its innate strength.",
     "default_faction": "fungus",
@@ -841,7 +840,7 @@
     "bleed_rate": 0,
     "harvest": "zombie_animal_mushroom",
     "special_attacks": [ [ "FUNGUS", 180 ] ],
-    "flags": [ "SEES", "HEARS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ],
+    "flags": [ "SEES", "HEARS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "PUSH_MON", "FILTHY" ],
     "armor": { "bash": 5, "cut": 4, "electric": 1 }
   }
 ]

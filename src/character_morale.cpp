@@ -170,7 +170,7 @@ void Character::check_and_recover_morale()
 
     test_morale.on_stat_change( "hunger", get_hunger() );
     test_morale.on_stat_change( "thirst", get_thirst() );
-    test_morale.on_stat_change( "fatigue", get_fatigue() );
+    test_morale.on_stat_change( "sleepiness", get_sleepiness() );
     test_morale.on_stat_change( "pain", get_pain() );
     test_morale.on_stat_change( "pkill", get_painkiller() );
     test_morale.on_stat_change( "perceived_pain", get_perceived_pain() );

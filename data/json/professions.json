@@ -2288,7 +2288,7 @@
     "id": "horse_cop",
     "name": "Mounted Police Officer",
     "requirement": "achievement_reach_police_station",
-    "description": "You have spent many long years forging a bond with your equine companion, from running down common thugs, to entertaining kids when you ride on by.  The cataclysm is upon you, but at least you have eachother.",
+    "description": "You have spent many long years forging a bond with your equine companion, from running down common thugs, to entertaining kids when you ride on by.  The cataclysm is upon you, but at least you have each other.",
     "points": 5,
     "skills": [
       { "level": 5, "name": "survival" },
@@ -3733,7 +3733,7 @@
     "type": "profession",
     "id": "jeweler",
     "name": "Jeweler",
-    "description": "You were an independent artisan, who made gorgeous rings and pendants for the people who afforded your services.  You doubt the market for your work has faired well after the end of the world, but perhaps your proficiency with fine tools and metals will come in handy somehow.",
+    "description": "You were an independent artisan, who made gorgeous rings and pendants for the people who afforded your services.  You doubt the market for your work has fared well after the end of the world, but perhaps your proficiency with fine tools and metals will come in handy somehow.",
     "points": 2,
     "skills": [ { "level": 6, "name": "fabrication" }, { "level": 2, "name": "swimming" } ],
     "proficiencies": [ "prof_metalworking", "prof_redsmithing", "prof_fine_metalsmithing", "prof_gem_setting" ],
@@ -5512,7 +5512,7 @@
     "type": "profession",
     "id": "urban_samurai",
     "name": "Urban Samurai",
-    "description": "You were always an inexplicable sight in town, with your funny hair and odd Japanese clothes.  Some claimed you were a visiting Shinto god.  Little of this concerned you, but last week the grocery service stopped coming and now the TV no longer turns on.  This displeases you.",
+    "description": "You were always an inexplicable sight in town, with your funny hair and odd Japanese clothes.  Little of this concerned you, but last week the grocery service stopped coming and now the TV no longer turns on.  This displeases you.",
     "points": 0,
     "skills": [ { "level": 1, "name": "melee" }, { "level": 1, "name": "cutting" } ],
     "items": {
@@ -5525,7 +5525,6 @@
           { "item": "tabi_dress" },
           { "item": "geta" },
           { "item": "bellywrap" },
-          { "group": "charged_smart_phone" },
           { "item": "bokken_inferior", "container-item": "scabbard" }
         ]
       },
@@ -7120,7 +7119,7 @@
       "both": {
         "entries": [
           { "item": "wristwatch" },
-          { "item": "jacket_army" },
+          { "item": "jacket_army", "variant": "m65_player" },
           { "item": "service_medal" },
           { "item": "boots_combat" },
           { "item": "socks" },
@@ -7128,7 +7127,6 @@
           { "item": "pipe_tobacco" },
           { "item": "tobacco" },
           { "item": "beret" },
-          { "item": "pants", "variant": "pants_british_khaki" },
           { "item": "cane", "custom-flags": [ "auto_wield" ] },
           { "group": "charged_ref_lighter" },
           { "item": "chestrig", "contents-group": "army_mags_m14" },
@@ -7325,5 +7323,32 @@
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
     }
+  },
+  {
+    "type": "profession",
+    "id": "mma_fighter",
+    "name": "Mixed Martial Artist",
+    "description": "You've spent plenty of time training to become the next big thing.  But now it looks like you will be fighting your life from now on.  At least that training won't go to waste!",
+    "points": 5,
+    "flags": [ "NO_BONUS_ITEMS" ],
+    "skills": [ { "level": 3, "name": "melee" }, { "level": 3, "name": "unarmed" } ],
+    "starting_styles_choices": [
+      "style_boxing",
+      "style_judo",
+      "style_karate",
+      "style_kickboxing",
+      "style_muay_thai",
+      "style_pankration",
+      "style_taekwondo",
+      "style_wingchun"
+    ],
+    "starting_styles_choices_amount": 3,
+    "proficiencies": [ "prof_unarmed_familiar" ],
+    "items": {
+      "both": { "entries": [ { "item": "gloves_fingerless" }, { "item": "b_shorts" }, { "item": "mouthpiece" } ] },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
+    },
+    "missions": [ "MISSION_BLACK_BELT_GOAL" ]
   }
 ]

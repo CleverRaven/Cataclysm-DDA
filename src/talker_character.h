@@ -154,7 +154,7 @@ class talker_character_const: public talker_cloner<talker_character_const>
         bool has_activity() const override;
         bool is_mounted() const override;
         int get_activity_level() const override;
-        int get_fatigue() const override;
+        int get_sleepiness() const override;
         int get_hunger() const override;
         int get_thirst() const override;
         int get_instant_thirst() const override;
@@ -192,6 +192,8 @@ class talker_character_const: public talker_cloner<talker_character_const>
         units::temperature_delta get_body_temp_delta() const override;
         bool knows_martial_art( const matype_id &id ) const override;
         bool using_martial_art( const matype_id &id ) const override;
+        int climate_control_str_heat() const override;
+        int climate_control_str_chill() const override;
     protected:
         talker_character_const() = default;
         const Character *me_chr_const;
@@ -236,6 +238,7 @@ class talker_character: public talker_cloner<talker_character, talker_character_
         void set_spell_level( const spell_id &, int ) override;
         void set_spell_exp( const spell_id &, int ) override;
         void set_proficiency_practiced_time( const proficiency_id &prof, int turns ) override;
+        void train_proficiency_for( const proficiency_id &prof, int turns ) override;
         void mutate( const int &highest_cat_chance, const bool &use_vitamins ) override;
         void mutate_category( const mutation_category_id &mut_cat, const bool &use_vitamins ) override;
         void mutate_towards( const trait_id &trait, const mutation_category_id &mut_cat,
@@ -270,7 +273,7 @@ class talker_character: public talker_cloner<talker_character, talker_character_
         // speaking
         void shout( const std::string &speech = "", bool order = false ) override;
 
-        void set_fatigue( int amount ) override;
+        void set_sleepiness( int amount ) override;
         void mod_pain( int amount ) override;
         void set_pain( int amount ) override;
         void mod_daily_health( int, int ) override;

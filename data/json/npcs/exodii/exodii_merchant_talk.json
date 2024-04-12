@@ -853,7 +853,9 @@
     "responses": [
       {
         "text": "Sounds like you're saying a job?  That's what I'm looking for.  Tell me more.",
-        "condition": { "and": [ { "not": { "u_has_mission": "EXODII_MISSION_CONTACT_HUB" } } ] },
+        "condition": {
+          "and": [ { "not": { "u_has_mission": "EXODII_MISSION_CONTACT_HUB" } }, { "math": [ "exodii_knows_hub01", "!=", "1" ] } ]
+        },
         "topic": "TALK_EXODII_MERCHANT_mission_1_intro"
       },
       {
@@ -879,7 +881,7 @@
     },
     "responses": [
       {
-        "text": "[INT or PER 7] How come you speak English, or uh, 'anglic' like that?",
+        "text": "[INT or PER 7] How come you speak English, or uh, 'Anglic' like that?",
         "condition": { "or": [ { "u_has_intelligence": 7 }, { "u_has_perception": 7 } ] },
         "topic": "TALK_EXODII_MERCHANT_Dialect_Anglic"
       },
