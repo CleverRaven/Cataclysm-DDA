@@ -184,7 +184,7 @@
   {
     "id": "afs_titanium_tooth",
     "type": "GENERIC",
-    "name": { "str": "titanium tooth" },
+    "name": { "str": "titanium tooth", "str_pl": "titanium teeth" },
     "description": "A dental implant made of pure titanium, used to replace teeth due to its biocompatibility and durability.",
     "price": 5000,
     "price_postapoc": 50,

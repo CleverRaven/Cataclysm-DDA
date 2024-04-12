@@ -261,7 +261,7 @@
     "id": "robot_disabler",
     "type": "SPELL",
     "name": "Surge mod moves",
-    "description": "Substract some moves from targeted_monster_ids monsters.  Subspell; you aren't allowed to see it except in debug mode.",
+    "description": "Subtract some moves from targeted_monster_ids monsters.  Subspell; you aren't allowed to see it except in debug mode.",
     "valid_targets": [ "hostile" ],
     "targeted_monster_species": [ "ROBOT", "CYBORG" ],
     "effect": "mod_moves",

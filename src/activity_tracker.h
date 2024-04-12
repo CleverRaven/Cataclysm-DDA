@@ -40,7 +40,7 @@ class activity_tracker
         float instantaneous_activity_level() const;
 
         int weariness() const;
-        void try_reduce_weariness( int bmr, float fatigue_mod, float fatigue_regen_mod );
+        void try_reduce_weariness( int bmr, float sleepiness_mod, float sleepiness_regen_mod );
         void calorie_adjust( int ncal );
         void weary_clear();
         void set_intake( int ncal );

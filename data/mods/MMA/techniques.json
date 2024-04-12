@@ -562,7 +562,7 @@
   {
     "type": "technique",
     "id": "mma_tec_stone_dragon_strike",
-    "name": "Irrestistible Mountain Strike",
+    "name": "Irresistible Mountain Strike",
     "messages": [ "You smash down on %s with a Mountain Strike!", "<npcname> smashes down on %s with a Mountain Strike!" ],
     "skill_requirements": [ { "name": "melee", "level": 3 } ],
     "melee_allowed": true,

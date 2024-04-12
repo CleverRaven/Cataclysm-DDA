@@ -39,5 +39,13 @@
     "desc": [ "" ],
     "removes_effects": [ "psi_blind", "psi_deaf", "effect_telepathic_primal_terror", "psi_dazed" ],
     "flags": [ "PSYSHIELD_PROTECT" ]
+  },
+  {
+    "id": "effect_shield_belt_telekin_protection",
+    "type": "effect_type",
+    "//": "Blank to hide effect",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "TELEKIN_SHIELD" ]
   }
 ]

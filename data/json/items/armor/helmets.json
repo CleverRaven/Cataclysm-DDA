@@ -970,7 +970,7 @@
     "id": "xl_helmet_kabuto",
     "type": "ARMOR",
     "copy-from": "helmet_kabuto",
-    "name": { "str": "XL kabuto" },
+    "name": { "str_sp": "XL kabuto" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -979,7 +979,7 @@
     "type": "ARMOR",
     "copy-from": "helmet_kabuto",
     "looks_like": "helmet_kabuto",
-    "name": { "str": "XS kabuto" },
+    "name": { "str_sp": "XS kabuto" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "STURDY", "UNDERSIZE" ]
   },

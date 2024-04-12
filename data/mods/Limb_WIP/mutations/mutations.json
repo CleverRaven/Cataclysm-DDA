@@ -69,7 +69,7 @@
     "prereqs": [ "EYEBULGE", "PRE_EYES_INSECT" ],
     "prereqs2": [ "CHITIN2", "CHITIN2_MOLTED" ],
     "points": -2,
-    "description": "Your eyes have turned into iridiscent spheres bulging out of their original sockets.  Your detail vision suffered terribly, and the expanded field of view is dizzying.  <color_red>You can still go back to how you used to be.  If you continue changing in this direction you will be permanently changed.  Progress from this state will need the matching threshold.</color>",
+    "description": "Your eyes have turned into iridescent spheres bulging out of their original sockets.  Your detail vision suffered terribly, and the expanded field of view is dizzying.  <color_red>You can still go back to how you used to be.  If you continue changing in this direction you will be permanently changed.  Progress from this state will need the matching threshold.</color>",
     "category": [ "INSECT" ],
     "cancels": [ "PRE_EYES_INSECT" ],
     "changes_to": [ "EYES_INSECT_2" ],

@@ -75,7 +75,7 @@
     "copy-from": "tie_skinny",
     "looks_like": "tie_skinny",
     "name": { "str": "worker's tie" },
-    "description": "Calling this thin strip of dark fabric a tie would do it a favour."
+    "description": "Calling this thin strip of dark fabric a tie would do it a favor."
   },
   {
     "id": "spacer_jumpsuit",

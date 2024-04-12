@@ -57,7 +57,7 @@
   {
     "id": "afs_military_vestxl",
     "type": "ARMOR",
-    "name": { "str": "IPAV armor XL" },
+    "name": { "str_sp": "IPAV armor XL" },
     "copy-from": "afs_military_vest",
     "description": "Multipurpose military armor for the torso and upper arms, intended to protect against a wide variety of ballistic or direct energy attacks.  Made from a single piece of ablative carbide that keeps it relatively lightweight and completely disposable.  Made to fit the uplifted, the heavily augmented, or similarly sized individuals.",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
