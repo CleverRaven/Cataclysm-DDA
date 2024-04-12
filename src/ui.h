@@ -13,7 +13,6 @@
 #include <vector>
 
 #include "cata_assert.h"
-#include "cata_imgui.h"
 #include "color.h"
 #include "cuboid_rectangle.h"
 #include "cursesdef.h"
@@ -229,7 +228,7 @@ class uilist_callback
  * uilist: scrolling vertical list menu
  */
 
-class uilist : public cataimgui::window // NOLINT(cata-xy)
+class uilist // NOLINT(cata-xy)
 {
     public:
         class size_scalar
