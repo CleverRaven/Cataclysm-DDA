@@ -90,7 +90,7 @@
       "relevant_genders": [ "u" ]
     },
     "responses": [
-      { "text": "I'm sorry for your loss.  Mabey we should talk about something else.", "topic": "TALK_GODCO_chloe" },
+      { "text": "I'm sorry for your loss.  Maybe we should talk about something else.", "topic": "TALK_GODCO_chloe" },
       { "text": "Yeah, that's enough for me.", "topic": "TALK_DONE" }
     ]
   },

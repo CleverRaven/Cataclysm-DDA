@@ -38,7 +38,7 @@
     "base_casting_time": 50,
     "final_casting_time": 10,
     "casting_time_increment": -4,
-    "ignored_monster_species": [ "PSI_NULL" ]
+    "ignored_monster_species": [ "PSI_NULL", "TELEKIN_PUSHPULL_NULL" ]
   },
   {
     "id": "telekinetic_push",
@@ -79,7 +79,48 @@
     "base_casting_time": 50,
     "final_casting_time": 10,
     "casting_time_increment": -4,
-    "ignored_monster_species": [ "PSI_NULL" ]
+    "ignored_monster_species": [ "PSI_NULL", "TELEKIN_PUSHPULL_NULL" ]
+  },
+  {
+    "id": "telekinetic_noise",
+    "type": "SPELL",
+    "name": "[Ψ]Noisemaker",
+    "description": "Using a focused burst of telekinesis, slam two objects together, or an object into the ground, or simply hit the ground with your powers, causing a loud noise.",
+    "message": "You lash out at the ground with your powers.",
+    "teachable": false,
+    "valid_targets": [ "ground" ],
+    "spell_class": "TELEKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "RANDOM_DAMAGE", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 2,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "noise",
+    "shape": "blast",
+    "min_damage": {
+      "math": [
+        "( (u_spell_level('telekinetic_noise') * 0.5) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_damage": {
+      "math": [
+        "( (u_spell_level('telekinetic_noise') * 1.5) + 8) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "min_range": {
+      "math": [
+        "min( (( (u_spell_level('telekinetic_noise') * 0.9) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 60)"
+      ]
+    },
+    "max_range": 60,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 1750,
+    "final_energy_cost": 450,
+    "energy_increment": -85,
+    "base_casting_time": 65,
+    "final_casting_time": 15,
+    "casting_time_increment": -4,
+    "sound_type": "combat",
+    "sound_description": "a loud thump"
   },
   {
     "id": "telekinetic_slam_down",
@@ -131,7 +172,7 @@
     "base_casting_time": 75,
     "final_casting_time": 30,
     "casting_time_increment": -3,
-    "ignored_monster_species": [ "PSI_NULL" ]
+    "ignored_monster_species": [ "PSI_NULL", "TELEKIN_PUSHPULL_NULL" ]
   },
   {
     "id": "telekinetic_momentum",
@@ -272,7 +313,7 @@
     },
     "min_range": 1,
     "max_range": 1,
-    "ignored_monster_species": [ "PSI_NULL" ]
+    "ignored_monster_species": [ "PSI_NULL", "TELEKIN_PUSHPULL_NULL" ]
   },
   {
     "id": "telekinetic_strength",

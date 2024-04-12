@@ -2255,6 +2255,15 @@
     ]
   },
   {
+    "id": "dog_small_with_skull_mutant",
+    "type": "harvest",
+    "entries": [
+      { "drop": "skull_canis_medium", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
+      { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.5 },
+      { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 }
+    ]
+  },
+  {
     "id": "cat_small_with_skull",
     "type": "harvest",
     "entries": [
@@ -2533,6 +2542,23 @@
     ]
   },
   {
+    "id": "dog_with_skull_fur_mutant",
+    "type": "harvest",
+    "entries": [
+      { "drop": "skull_canis", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
+      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.28 },
+      { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.05 },
+      { "drop": "mutant_lung", "type": "flesh", "mass_ratio": 0.0035 },
+      { "drop": "mutant_liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "mutant_brain", "type": "flesh", "mass_ratio": 0.005 },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "raw_fur", "type": "skin", "mass_ratio": 0.02 },
+      { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.07 }
+    ]
+  },
+  {
     "id": "dog_with_skull_leather",
     "type": "harvest",
     "entries": [
@@ -2632,6 +2658,23 @@
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
       { "drop": "raw_fur", "type": "skin", "mass_ratio": 0.02 },
       { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 }
+    ]
+  },
+  {
+    "id": "raccoon_with_skull_mutant",
+    "type": "harvest",
+    "entries": [
+      { "drop": "skull_raccoon", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
+      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.28 },
+      { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.05 },
+      { "drop": "mutant_lung", "type": "flesh", "mass_ratio": 0.0035 },
+      { "drop": "mutant_liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "mutant_brain", "type": "flesh", "mass_ratio": 0.005 },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "raw_fur", "type": "skin", "mass_ratio": 0.02 },
+      { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.07 }
     ]
   },
   {

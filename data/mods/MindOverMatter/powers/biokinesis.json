@@ -116,7 +116,7 @@
     "type": "SPELL",
     "name": "[Ψ]Flexibility",
     "description": "You can make your limbs move far beyond the normal human range of motion, allowing you to twist out of others' grasp and reduce fall damage.",
-    "message": "You body begins twisting in unbelivable ways.",
+    "message": "You body begins twisting in unbelievable ways.",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",

@@ -12,7 +12,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "FOOD",
     "name": { "str_sp": "spiced chops" },
-    "description": "Kibble made for humans.  A heavy dressing of spices makes it impossible to discern the original flavours it might have had.",
+    "description": "Kibble made for humans.  A heavy dressing of spices makes it impossible to discern the original flavors it might have had.",
     "weight": "223 g",
     "spoils_in": "1 day",
     "volume": "125 ml",

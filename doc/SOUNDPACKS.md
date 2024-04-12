@@ -225,7 +225,7 @@ Example: if `plmove|t_grass_long` is defined it will be played before default `p
 
 ### Fatigue
 
-* `plmove fatigue_m_low|fatigue_m_med|fatigue_m_high|fatigue_f_low|fatigue_f_med|fatigue_f_high`
+* `plmove sleepiness_m_low|sleepiness_m_med|sleepiness_m_high|sleepiness_f_low|sleepiness_f_med|sleepiness_f_high`
 
 ### Player hurt
 

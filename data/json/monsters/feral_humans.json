@@ -265,6 +265,7 @@
   },
   {
     "id": "mon_feral_maid_broom",
+    "//": "Nonsense feral for the mansion escape challenge scenario, shouldn't be used for general spawns",
     "type": "MONSTER",
     "name": { "str": "feral servant" },
     "description": "Once a fancy servant of some rich family, this maniac walks around with a broom in hand, searching for a victim to sweep off this mortal coil.",

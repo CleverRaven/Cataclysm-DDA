@@ -4,36 +4,7 @@
     "id": "EOC_NETHER_CONDUIT_VALUE_INCREASER",
     "eoc_type": "EVENT",
     "required_event": "spellcasting_finish",
-    "condition": {
-      "and": [
-        {
-          "u_has_any_trait": [
-            "BIOKINETIC",
-            "CLAIRSENTIENT",
-            "ELECTROKINETIC",
-            "PHOTOKINETIC",
-            "PYROKINETIC",
-            "TELEKINETIC",
-            "TELEPATH",
-            "TELEPORTER",
-            "VITAKINETIC"
-          ]
-        },
-        {
-          "or": [
-            { "compare_string": [ "BIOKINETIC", { "context_val": "school" } ] },
-            { "compare_string": [ "CLAIRSENTIENT", { "context_val": "school" } ] },
-            { "compare_string": [ "ELECTROKINETIC", { "context_val": "school" } ] },
-            { "compare_string": [ "PHOTOKINETIC", { "context_val": "school" } ] },
-            { "compare_string": [ "PYROKINETIC", { "context_val": "school" } ] },
-            { "compare_string": [ "TELEKINETIC", { "context_val": "school" } ] },
-            { "compare_string": [ "TELEPATH", { "context_val": "school" } ] },
-            { "compare_string": [ "TELEPORTER", { "context_val": "school" } ] },
-            { "compare_string": [ "VITAKINETIC", { "context_val": "school" } ] }
-          ]
-        }
-      ]
-    },
+    "condition": { "test_eoc": "EOC_CONDITION_SPELLCASTING_FINISH_TRAIT_AND_SCHOOL_LIST" },
     "effect": [
       {
         "run_eocs": [
@@ -51,42 +22,13 @@
     "id": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT",
     "eoc_type": "EVENT",
     "required_event": "spellcasting_finish",
-    "condition": {
-      "and": [
-        {
-          "u_has_any_trait": [
-            "BIOKINETIC",
-            "CLAIRSENTIENT",
-            "ELECTROKINETIC",
-            "PHOTOKINETIC",
-            "PYROKINETIC",
-            "TELEKINETIC",
-            "TELEPATH",
-            "TELEPORTER",
-            "VITAKINETIC"
-          ]
-        },
-        {
-          "or": [
-            { "compare_string": [ "BIOKINETIC", { "context_val": "school" } ] },
-            { "compare_string": [ "CLAIRSENTIENT", { "context_val": "school" } ] },
-            { "compare_string": [ "ELECTROKINETIC", { "context_val": "school" } ] },
-            { "compare_string": [ "PHOTOKINETIC", { "context_val": "school" } ] },
-            { "compare_string": [ "PYROKINETIC", { "context_val": "school" } ] },
-            { "compare_string": [ "TELEKINETIC", { "context_val": "school" } ] },
-            { "compare_string": [ "TELEPATH", { "context_val": "school" } ] },
-            { "compare_string": [ "TELEPORTER", { "context_val": "school" } ] },
-            { "compare_string": [ "VITAKINETIC", { "context_val": "school" } ] }
-          ]
-        }
-      ]
-    },
+    "condition": { "test_eoc": "EOC_CONDITION_SPELLCASTING_FINISH_TRAIT_AND_SCHOOL_LIST" },
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty", "=", "_difficulty" ] },
       {
         "run_eocs": [
           {
-            "id": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2",
+            "id": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_SCALING_CHECK",
             "condition": { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "15" ] },
             "effect": [
               {
@@ -177,6 +119,94 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2",
+    "//": "This is the EoC called by concentration checks. Name is to avoid JSON churn",
+    "condition": { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "15" ] },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_RAISE_ATTUNEMENT_BELOW_THRESHOLD_CHECKER_MAINTENANCE",
+            "condition": {
+              "x_in_y_chance": {
+                "x": {
+                  "math": [
+                    "(u_latest_channeled_power_difficulty * u_latest_channeled_power_difficulty) + (u_nether_conduit_repeated_channeling_value / 3) + (u_vitamin('vitamin_maintained_powers') * 3)"
+                  ]
+                },
+                "y": 100
+              }
+            },
+            "effect": [ { "run_eocs": "EOC_RAISE_ATTUNEMENT_BELOW_THRESHOLD_MAINTENANCE" } ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_RAISE_ATTUNEMENT_ABOVE_THRESHOLD_CHECKER_MAINTENANCE",
+            "condition": {
+              "x_in_y_chance": {
+                "x": {
+                  "math": [
+                    "(u_latest_channeled_power_difficulty * u_latest_channeled_power_difficulty) + u_nether_conduit_repeated_channeling_value  + (u_vitamin('vitamin_maintained_powers') * 3)"
+                  ]
+                },
+                "y": 100
+              }
+            },
+            "effect": [ { "run_eocs": "EOC_RAISE_ATTUNEMENT_ABOVE_THRESHOLD_MAINTENANCE" } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RAISE_ATTUNEMENT_BELOW_THRESHOLD_MAINTENANCE",
+    "condition": { "u_has_effect": "effect_noetic_resilience" },
+    "effect": [
+      { "u_message": "As you concentrate on your powers, you feel a strange tingling sensation.", "type": "mixed" },
+      {
+        "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(1) + (rand(u_vitamin('vitamin_maintained_powers')) / 2)" ]
+      }
+    ],
+    "false_effect": [
+      { "u_message": "As you concentrate on your powers, you feel a strange tingling sensation.", "type": "mixed" },
+      {
+        "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(3) + (rand(u_vitamin('vitamin_maintained_powers')) / 2)" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RAISE_ATTUNEMENT_ABOVE_THRESHOLD_MAINTENANCE",
+    "condition": { "u_has_effect": "effect_noetic_resilience" },
+    "effect": [
+      { "u_message": "As you concentrate on your powers, you feel a strange tingling sensation.", "type": "mixed" },
+      {
+        "math": [
+          "u_vitamin('vitamin_psionic_drain')",
+          "+=",
+          "rand((u_latest_channeled_power_difficulty) / 2) + rand(u_vitamin('vitamin_maintained_powers'))"
+        ]
+      }
+    ],
+    "false_effect": [
+      { "u_message": "As you concentrate on your powers, you feel a strange tingling sensation.", "type": "mixed" },
+      {
+        "math": [
+          "u_vitamin('vitamin_psionic_drain')",
+          "+=",
+          "(rand(u_latest_channeled_power_difficulty) * u_nether_attunement_power_scaling) + rand(u_vitamin('vitamin_maintained_powers'))"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_NETHER_CONDUIT_VALUE_DECREASER",
     "recurrence": [ "3 seconds", "15 seconds" ],
     "global": true,
@@ -217,32 +247,7 @@
     "required_event": "spellcasting_finish",
     "condition": {
       "and": [
-        {
-          "u_has_any_trait": [
-            "BIOKINETIC",
-            "CLAIRSENTIENT",
-            "ELECTROKINETIC",
-            "PHOTOKINETIC",
-            "PYROKINETIC",
-            "TELEKINETIC",
-            "TELEPATH",
-            "TELEPORTER",
-            "VITAKINETIC"
-          ]
-        },
-        {
-          "or": [
-            { "compare_string": [ "BIOKINETIC", { "context_val": "school" } ] },
-            { "compare_string": [ "CLAIRSENTIENT", { "context_val": "school" } ] },
-            { "compare_string": [ "ELECTROKINETIC", { "context_val": "school" } ] },
-            { "compare_string": [ "PHOTOKINETIC", { "context_val": "school" } ] },
-            { "compare_string": [ "PYROKINETIC", { "context_val": "school" } ] },
-            { "compare_string": [ "TELEKINETIC", { "context_val": "school" } ] },
-            { "compare_string": [ "TELEPATH", { "context_val": "school" } ] },
-            { "compare_string": [ "TELEPORTER", { "context_val": "school" } ] },
-            { "compare_string": [ "VITAKINETIC", { "context_val": "school" } ] }
-          ]
-        },
+        { "test_eoc": "EOC_CONDITION_SPELLCASTING_FINISH_TRAIT_AND_SCHOOL_LIST" },
         { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "15" ] }
       ]
     },
@@ -297,7 +302,7 @@
                 [ "EOC_DRAIN_EFFECT_CHECK_HEALTH_CHANGE", 4 ],
                 [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 8 ],
                 [ "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS", 5 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_FATIGUE", 3 ],
+                [ "EOC_DRAIN_EFFECT_CHECK_SLEEPINESS", 3 ],
                 [ "EOC_NETHER_EFFECT_CHECK_ATTUNEMENT_RAISING_EFFECT", 7 ]
               ]
             }
@@ -313,7 +318,7 @@
                 [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 8 ],
                 [ "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS", 5 ],
                 [ "EOC_DRAIN_EFFECT_CHECK_POWER_SURGE", 3 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_FATIGUE", 3 ],
+                [ "EOC_DRAIN_EFFECT_CHECK_SLEEPINESS", 3 ],
                 [ "EOC_NETHER_EFFECT_CHECK_ATTUNEMENT_RAISING_EFFECT", 7 ],
                 [ "EOC_DRAIN_EFFECT_CHECK_TELEPORT_LOCK", 3 ]
               ]
@@ -330,7 +335,7 @@
                 [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 8 ],
                 [ "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS", 5 ],
                 [ "EOC_DRAIN_EFFECT_CHECK_POWER_SURGE", 3 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_FATIGUE", 3 ],
+                [ "EOC_DRAIN_EFFECT_CHECK_SLEEPINESS", 3 ],
                 [ "EOC_NETHER_EFFECT_CHECK_ATTUNEMENT_RAISING_EFFECT", 7 ],
                 [ "EOC_NETHER_EFFECT_CHECK_FEEDBACK", 5 ],
                 [ "EOC_DRAIN_EFFECT_CHECK_TELEPORT_LOCK", 3 ],
@@ -350,7 +355,7 @@
                 [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 8 ],
                 [ "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS", 5 ],
                 [ "EOC_DRAIN_EFFECT_CHECK_POWER_SURGE", 3 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_FATIGUE", 3 ],
+                [ "EOC_DRAIN_EFFECT_CHECK_SLEEPINESS", 3 ],
                 [ "EOC_NETHER_EFFECT_CHECK_ATTUNEMENT_RAISING_EFFECT", 7 ],
                 [ "EOC_NETHER_EFFECT_CHECK_FEEDBACK", 5 ],
                 [ "EOC_DRAIN_EFFECT_CHECK_TELEPORT_LOCK", 3 ],
@@ -373,7 +378,7 @@
                 [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 8 ],
                 [ "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS", 5 ],
                 [ "EOC_DRAIN_EFFECT_CHECK_POWER_SURGE", 3 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_FATIGUE", 3 ],
+                [ "EOC_DRAIN_EFFECT_CHECK_SLEEPINESS", 3 ],
                 [ "EOC_NETHER_EFFECT_CHECK_ATTUNEMENT_RAISING_EFFECT", 7 ],
                 [ "EOC_NETHER_EFFECT_CHECK_FEEDBACK", 5 ],
                 [ "EOC_DRAIN_EFFECT_CHECK_TELEPORT_LOCK", 3 ],
@@ -397,7 +402,7 @@
                 [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 8 ],
                 [ "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS", 5 ],
                 [ "EOC_DRAIN_EFFECT_CHECK_POWER_SURGE", 3 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_FATIGUE", 3 ],
+                [ "EOC_DRAIN_EFFECT_CHECK_SLEEPINESS", 3 ],
                 [ "EOC_NETHER_EFFECT_CHECK_ATTUNEMENT_RAISING_EFFECT", 7 ],
                 [ "EOC_NETHER_EFFECT_CHECK_FEEDBACK", 5 ],
                 [ "EOC_DRAIN_EFFECT_CHECK_TELEPORT_LOCK", 3 ],
@@ -422,7 +427,7 @@
                 [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 8 ],
                 [ "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS", 5 ],
                 [ "EOC_DRAIN_EFFECT_CHECK_POWER_SURGE", 3 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_FATIGUE", 3 ],
+                [ "EOC_DRAIN_EFFECT_CHECK_SLEEPINESS", 3 ],
                 [ "EOC_NETHER_EFFECT_CHECK_ATTUNEMENT_RAISING_EFFECT", 7 ],
                 [ "EOC_NETHER_EFFECT_CHECK_FEEDBACK", 5 ],
                 [ "EOC_DRAIN_EFFECT_CHECK_TELEPORT_LOCK", 3 ],
@@ -447,7 +452,7 @@
                 [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 12 ],
                 [ "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS", 8 ],
                 [ "EOC_DRAIN_EFFECT_CHECK_POWER_SURGE", 5 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_FATIGUE", 5 ],
+                [ "EOC_DRAIN_EFFECT_CHECK_SLEEPINESS", 5 ],
                 [ "EOC_NETHER_EFFECT_CHECK_ATTUNEMENT_RAISING_EFFECT", 11 ],
                 [ "EOC_NETHER_EFFECT_CHECK_FEEDBACK", 8 ],
                 [ "EOC_DRAIN_EFFECT_CHECK_TELEPORT_LOCK", 5 ],
@@ -633,7 +638,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_DRAIN_EFFECT_CHECK_FATIGUE",
+    "id": "EOC_DRAIN_EFFECT_CHECK_SLEEPINESS",
     "//": "Base is 2% chance from 70 attunement to 125 attunement, then scaling up 0.15% per attunement up to 9.5% chance at 175 attunement, then scaling up 0.45% chance per attunement up to 32% chance at 225 attunement, then scaling up 0.3% to 39.5% chance at max, plus 1/10th the Difficulty squared.",
     "condition": {
       "and": [
@@ -652,7 +657,7 @@
     },
     "effect": [
       { "u_message": "As you unleash your powers, you feel tired.", "type": "bad" },
-      { "math": [ "u_val('fatigue')", "+=", "rng(30,90)" ] }
+      { "math": [ "u_val('sleepiness')", "+=", "rng(30,90)" ] }
     ]
   },
   {
@@ -1056,7 +1061,7 @@
       ]
     },
     "effect": [
-      { "u_set_field": "fd_fatigue", "radius": 0, "intensity": 3, "hit_player": false },
+      { "u_set_field": "fd_reality_tear", "radius": 0, "intensity": 3, "hit_player": false },
       { "u_message": "As you unleash your powers, the air around you twists and warps in on itself.", "type": "bad" }
     ]
   },
@@ -1067,32 +1072,7 @@
     "required_event": "spellcasting_finish",
     "condition": {
       "and": [
-        {
-          "u_has_any_trait": [
-            "BIOKINETIC",
-            "CLAIRSENTIENT",
-            "ELECTROKINETIC",
-            "PHOTOKINETIC",
-            "PYROKINETIC",
-            "TELEKINETIC",
-            "TELEPATH",
-            "TELEPORTER",
-            "VITAKINETIC"
-          ]
-        },
-        {
-          "or": [
-            { "compare_string": [ "BIOKINETIC", { "context_val": "school" } ] },
-            { "compare_string": [ "CLAIRSENTIENT", { "context_val": "school" } ] },
-            { "compare_string": [ "ELECTROKINETIC", { "context_val": "school" } ] },
-            { "compare_string": [ "PHOTOKINETIC", { "context_val": "school" } ] },
-            { "compare_string": [ "PYROKINETIC", { "context_val": "school" } ] },
-            { "compare_string": [ "TELEKINETIC", { "context_val": "school" } ] },
-            { "compare_string": [ "TELEPATH", { "context_val": "school" } ] },
-            { "compare_string": [ "TELEPORTER", { "context_val": "school" } ] },
-            { "compare_string": [ "VITAKINETIC", { "context_val": "school" } ] }
-          ]
-        },
+        { "test_eoc": "EOC_CONDITION_SPELLCASTING_FINISH_TRAIT_AND_SCHOOL_LIST" },
         { "u_has_effect": "effect_nether_attunement_feedback" },
         { "x_in_y_chance": { "x": { "math": [ "u_vitamin('vitamin_psionic_drain')" ] }, "y": 250 } }
       ]
@@ -1144,101 +1124,11 @@
     "required_event": "spellcasting_finish",
     "condition": {
       "and": [
-        {
-          "u_has_any_trait": [
-            "BIOKINETIC",
-            "CLAIRSENTIENT",
-            "ELECTROKINETIC",
-            "PHOTOKINETIC",
-            "PYROKINETIC",
-            "TELEKINETIC",
-            "TELEPATH",
-            "TELEPORTER",
-            "VITAKINETIC"
-          ]
-        },
+        { "test_eoc": "EOC_CONDITION_SPELLCASTING_FINISH_TRAIT_AND_SCHOOL_LIST" },
         {
           "or": [
-            { "compare_string": [ "BIOKINETIC", { "context_val": "school" } ] },
-            { "compare_string": [ "CLAIRSENTIENT", { "context_val": "school" } ] },
-            { "compare_string": [ "ELECTROKINETIC", { "context_val": "school" } ] },
-            { "compare_string": [ "PHOTOKINETIC", { "context_val": "school" } ] },
-            { "compare_string": [ "PYROKINETIC", { "context_val": "school" } ] },
-            { "compare_string": [ "TELEKINETIC", { "context_val": "school" } ] },
-            { "compare_string": [ "TELEPATH", { "context_val": "school" } ] },
-            { "compare_string": [ "TELEPORTER", { "context_val": "school" } ] },
-            { "compare_string": [ "VITAKINETIC", { "context_val": "school" } ] }
-          ]
-        },
-        {
-          "or": [
-            { "is_weather": "distant_portal_storm" },
-            { "is_weather": "portal_storm" },
-            { "is_weather": "close_portal_storm" },
-            { "u_near_om_location": "unvitrified_farm_0", "range": 2 },
-            { "u_near_om_location": "unvitrified_farm_1", "range": 2 },
-            { "u_near_om_location": "unvitrified_farm_neg_1", "range": 2 },
-            { "u_near_om_location": "unvitrified_farm_2", "range": 2 },
-            { "u_near_om_location": "vitrified_farm_0", "range": 2 },
-            { "u_near_om_location": "vitrified_farm_1", "range": 2 },
-            { "u_near_om_location": "vitrified_farm_neg_1", "range": 2 },
-            { "u_near_om_location": "vitrified_farm_2", "range": 2 },
-            { "u_near_om_location": "microlab_portal_elevator_physics_glass", "range": 2 },
-            { "u_near_om_location": "microlab_distorted_hallway", "range": 2 },
-            { "u_near_om_location": "microlab_distorted", "range": 2 },
-            { "u_near_om_location": "microlab_distorted_edge", "range": 2 },
-            { "u_near_om_location": "microlab_portal_elevator_physics_glass", "range": 2 },
-            { "u_near_om_location": "corpse_surface", "range": 0 },
-            { "u_near_om_location": "corpse_bowels_neck_right", "range": 2 },
-            { "u_near_om_location": "corpse_bowels_neck_left", "range": 2 },
-            { "u_near_om_location": "corpse_bowels_neck_edge_center", "range": 2 },
-            { "u_near_om_location": "corpse_bowels_rcorner", "range": 2 },
-            { "u_near_om_location": "corpse_bowels_lcorner", "range": 2 },
-            { "u_near_om_location": "corpse_bowels_empty_edge", "range": 2 },
-            { "u_near_om_location": "corpse_bowels_mid", "range": 2 },
-            { "u_near_om_location": "corpse_tentacle", "range": 2 },
-            { "u_near_om_location": "corpse_tentacle_entry", "range": 2 },
-            { "u_near_om_location": "corpse_tentacle_surface_entry", "range": 0 },
-            { "u_near_om_location": "corpse_bowels_tentacle_edge", "range": 2 },
-            { "u_near_om_location": "corpse_bowels_empty_edge", "range": 2 },
-            { "u_near_om_location": "corpse_head", "range": 2 },
-            { "u_near_om_location": "corpse_brain", "range": 2 },
-            { "u_near_om_location": "corpse_under_brain", "range": 2 },
-            { "u_near_om_location": "corpse_head_edge", "range": 2 },
-            { "u_near_om_location": "corpse_head_fin", "range": 2 },
-            { "u_near_om_location": "corpse_head_lcorner", "range": 2 },
-            { "u_near_om_location": "corpse_head_rcorner", "range": 2 },
-            { "u_near_om_location": "corpse_head_neck_l", "range": 2 },
-            { "u_near_om_location": "corpse_head_neck_r", "range": 2 },
-            { "u_near_om_location": "corpse_head_neck_center", "range": 2 },
-            { "u_near_om_location": "corpse_head_neck_l_decap", "range": 2 },
-            { "u_near_om_location": "corpse_head_neck_r", "range": 2 },
-            { "u_near_om_location": "corpse_head_neck_r_decap", "range": 2 },
-            { "u_near_om_location": "corpse_head_neck_center_decap", "range": 2 },
-            { "u_near_om_location": "nether_crystal_field", "range": 1 },
-            { "u_near_om_location": "psi_phavian_lab_blockB1", "range": 2 },
-            { "u_near_om_location": "psi_phavian_lab_blockD1", "range": 2 },
-            { "u_near_om_location": "psi_phavian_lab_blockB3", "range": 2 },
-            { "u_near_om_location": "psi_phavian_lab_blockD3", "range": 2 },
-            { "u_near_om_location": "psi_phavian_lab_block2B1", "range": 2 },
-            { "u_near_om_location": "psi_phavian_lab_block2D1", "range": 2 },
-            { "u_near_om_location": "psi_phavian_lab_block2B3", "range": 2 },
-            { "u_near_om_location": "psi_phavian_lab_block2D3", "range": 2 },
-            { "u_near_om_location": "psi_phavian_lab_block3B1", "range": 2 },
-            { "u_near_om_location": "psi_phavian_lab_block3D1", "range": 2 },
-            { "u_near_om_location": "psi_phavian_lab_block3B3", "range": 2 },
-            { "u_near_om_location": "psi_phavian_lab_block3D3", "range": 2 },
-            { "u_near_om_location": "psi_phavian_lab_block4B1", "range": 2 },
-            { "u_near_om_location": "psi_phavian_lab_block4D1", "range": 2 },
-            { "u_near_om_location": "psi_phavian_lab_block4B3", "range": 2 },
-            { "u_near_om_location": "psi_phavian_lab_block4D3", "range": 2 },
-            { "u_near_om_location": "psi_phavian_lab_block5B1", "range": 2 },
-            { "u_near_om_location": "psi_phavian_lab_block5D1", "range": 2 },
-            { "u_near_om_location": "psi_phavian_lab_block5B3", "range": 2 },
-            { "u_near_om_location": "psi_phavian_lab_block5D3", "range": 2 },
-            { "u_near_om_location": "void_spider_lair_entrance", "range": 2 },
-            { "u_near_om_location": "void_spider_lair_a1", "range": 2 },
-            { "u_near_om_location": "void_spider_lair_a2", "range": 2 }
+            { "test_eoc": "EOC_CONDITION_CAUGHT_IN_NETHER_WEATHER" },
+            { "test_eoc": "EOC_CONDITION_NEAR_NETHER_RELATED_LOCATION" }
           ]
         }
       ]

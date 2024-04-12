@@ -828,7 +828,7 @@
     "id": "chili",
     "name": { "str_sp": "chili con carne" },
     "conditional_names": [
-      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "chili con cabron" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "chili con Cabron" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "chili con Sindar" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "chili con chupacabra" } }
     ],
@@ -1765,7 +1765,7 @@
   {
     "type": "COMESTIBLE",
     "id": "paella_valenciana",
-    "name": { "str_sp": "valencian paella" },
+    "name": { "str_sp": "Valencian paella" },
     "conditional_names": [ { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "\"deluxe\" beans and rice" } } ],
     "weight": "110 g",
     "color": "brown",

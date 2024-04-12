@@ -2,7 +2,7 @@
   {
     "type": "overmap_terrain",
     "id": "fema_entrance",
-    "name": "fema camp",
+    "name": "FEMA camp",
     "sym": "+",
     "color": "blue",
     "see_cost": 5,
@@ -12,7 +12,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "fema", "fema_1_3", "fema_2_1", "fema_2_2", "fema_2_3", "fema_3_1", "fema_3_2", "fema_3_3" ],
-    "name": "fema camp",
+    "name": "FEMA camp",
     "sym": "F",
     "color": "i_blue",
     "see_cost": 5,

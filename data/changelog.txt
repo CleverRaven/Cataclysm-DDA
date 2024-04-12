@@ -380,6 +380,11 @@ Fix Brackenwight special attack message
 [Magiclysm] Last Mage on Earth start
 Tamable Wildlife: add Cougars to list of tameables
 [Magiclysm] Add spellcasting proficiencies.
+[MoM] High levels of weariness turn off your powers
+More specific messages for being unable to use supernatural powers
+Tune channeling spells with scale modifier.
+[MoM] Edit portal storm conditions to support moddability, use that for Telepathic Shield in MoM
+XE: Trait to avoid learning dream magick
 
 
 ## Balance:
@@ -438,6 +443,8 @@ Bring ice axe in line with reality
 Audit remaining magazines (.223, 9mm, .308)
 Update books.json to rebalance religious book spawning
 Retuned frag grenades to be less effective against ballistic armor and lose power over distance faster
+Instability no longer accumulates or decreases; it depends on how many mutations you have, and how many are outside of your current tree
+Pain is painful
 
 
 ## Bugfixes:
@@ -566,6 +573,8 @@ Fix assignment ID's with NECC mapgen EOCs.
 Allows Infrared vision to see through smoke
 [Magiclysm] Fix Peaceful Rest hobby
 NPCs can overeat, starve, and dehydrate to death
+Rotten food doesn't become fresh when crafted with
+fixes issue where NPCs could take an item like canned corn as a donation and would remove the corn from the can and give you the can back.
 
 
 ## Performance:
@@ -639,6 +648,7 @@ Effect enchantments can now apply to monsters
 Make JSON formatter replace nbsp with escape sequence
 Update houses to utilize palettes
 Added SMALL_HIDER flag to various monsters.
+Rename 'fatigue' to 'sleepiness', mostly on the back end, to avoid confusing different ways of being knackered
 
 
 ## Build:
@@ -655,6 +665,7 @@ Report game's RNG seed during testing
 Added WebAssembly build via Emscripten
 CMake: Add LLVM build for Windows and other linker fixes
 Use one precompiled header
+Fix zlib old-style-cast build breakage
 
 
 ## I18N and A11Y:

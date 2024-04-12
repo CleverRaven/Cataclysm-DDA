@@ -8,6 +8,7 @@
     "dummy": true,
     "category": [ "HUMAN" ],
     "cancels": [
+      "TEST_CONSISTENCY_CHECK",
       "TEST_ENCH_MUTATION",
       "TEST_GOOD1",
       "TEST_GOOD2",
@@ -36,6 +37,15 @@
     "description": "A mutation to test enchantments.",
     "enchantments": [ "TEST_ENCH" ],
     "category": [ "CEPHALOPOD" ]
+  },
+  {
+    "type": "mutation",
+    "id": "TEST_CONSISTENCY_CHECK",
+    "name": "Dummy Test Trait",
+    "points": 0,
+    "description": "Test trait to trip the consistency check: it shouldn't cause a load error since it overwrites a basegame trait.",
+    "prereqs": [ "WINGS_STUB" ],
+    "category": [ "INST_TEST" ]
   },
   {
     "type": "mutation",

@@ -739,6 +739,15 @@ Powers causing telekinetic damage have a 40% chance to stagger the target for 2 
 *Effects*: The psion shoves a single target away, moving it 2 to 4 squares plus 0.5 to 1 squares per power level.<br />
 *Prerequisites*: Starting power<br />
 
+## Noisemaker
+*Difficulty*: 2<br />
+*Target*: One target within to 2 squares away plus 0.9 squares per power level<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 1750, minus 85 per level to a minimum of 450<br />
+*Channeling Time*: 64 moves, minus 4 moves per level to a minimum of 15<br />
+*Effects*: Thump the ground with telekinetic force, causing 3 to 8 noise plus 0.5 to 1.5 noise per power level.<br />
+*Prerequisites*: None<br />
+
 ## Knockdown
 *Difficulty*: 2<br />
 *Target*: One target within to 2 squares away plus 0.5 squares per power level<br />
@@ -1052,7 +1061,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Duration*: Instant<br />
 *Stamina Cost*: 7500, minus 170 per level to a minimum of 4600<br />
 *Channeling Time*: 150 moves, minus 5.5 moves per level to a minimum of 75<br />
-*Effects*: Teleports a single monster somewhere *else*, removing them and anything they might drop. The monster must have HP lower than 15 to 350, plus 15 to 35 per power level, randomly determined when the power is used.  Oubliette cannot currently affect NPCs.<br />
+*Effects*: Teleports a single target somewhere *else*, removing them and anything they might drop. The target must have HP lower than 15 to 350, plus 15 to 35 per power level, randomly determined when the power is used.  For this purpose, NPC health is calculated as the sum total of their limb health, divided by 3.<br />
 *Prerequisites*: Displacement 10, Farstep 6 *or* Transposition 8 *or * Spacial Vortex 8<br />
 
 ## Gateway 

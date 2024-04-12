@@ -322,7 +322,7 @@
     "weight": "110 g",
     "color": "brown",
     "addiction_type": "caffeine",
-    "fatigue_mod": 24,
+    "sleepiness_mod": 24,
     "stim": 8,
     "container": "bottle_plastic",
     "sealed": false,
