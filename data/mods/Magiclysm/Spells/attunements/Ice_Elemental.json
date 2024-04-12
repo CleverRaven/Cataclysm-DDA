@@ -17,12 +17,12 @@
     "difficulty": 7,
     "max_level": 35,
     "base_casting_time": 400,
-    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(400)" ] },
+    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(400, 2)" ] },
     "energy_increment": -10,
     "final_energy_cost": 250,
-    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(18000)" ] },
-    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(120000)" ] },
-    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(4500)" ] }
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(18000, 600)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(120000, 600)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(4500, 0.045)" ] }
   },
   {
     "id": "cold_heart",

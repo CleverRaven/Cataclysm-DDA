@@ -122,7 +122,7 @@
     "difficulty": 6,
     "max_level": 15,
     "base_casting_time": 450,
-    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(475)" ] },
+    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(475, 2)" ] },
     "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(24000, 200)" ] },
     "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(360000, 200)" ] },
     "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(24000, 0.04)" ] },
