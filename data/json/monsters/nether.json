@@ -2025,6 +2025,7 @@
     "symbol": "v",
     "color": "light_gray",
     "bodytype": "blob",
+    "harvest": "flesh_plant",
     "flags": [ "GRABS", "HEARS" ]
   },
   {
@@ -2045,6 +2046,7 @@
     "symbol": "e",
     "color": "blue",
     "bodytype": "kangaroo",
+    "harvest": "mutant_animal_noskin",
     "special_attacks": [ { "id": "mutant_hoof" } ],
     "zombify_into": "mon_meat_cocoon_med",
     "flags": [ "BASHES", "HEARS", "SEES", "LOUDMOVES" ]
@@ -2071,6 +2073,7 @@
     "symbol": "a",
     "color": "pink",
     "bodytype": "insect",
+    "harvest": "arachnid_beetle",
     "special_attacks": [ { "type": "bite", "attack_upper": false } ],
     "zombify_into": "mon_meat_cocoon_tiny",
     "flags": [ "SEES", "HEARS" ]
@@ -2096,6 +2099,7 @@
     "morale": 100,
     "aggression": 20,
     "bodytype": "blob",
+    "harvest": "mutant_tiny",
     "zombify_into": "mon_meat_cocoon_tiny",
     "flags": [ "WARM", "HEARS", "GRABS", "IMMOBILE" ]
   }
