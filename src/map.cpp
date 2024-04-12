@@ -8336,7 +8336,7 @@ void map::rotten_item_spawn( const item &item, const tripoint &pnt )
         return;
     }
 
-    if( rng( 0, 100 ) < comest->rot_spawn_chance ) {
+    if( rng( 0, 100 ) < comest->rot_spawn_chance ) { 
         std::vector<MonsterGroupResult> spawn_details = MonsterGroupManager::GetResultFromGroup( mgroup );
         for( const MonsterGroupResult &mgr : spawn_details ) {
             add_spawn( mgr, tripoint_bub_ms( pnt ) );
