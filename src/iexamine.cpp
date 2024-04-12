@@ -3905,7 +3905,7 @@ void iexamine::compost_full( Character &you, const tripoint &examp )
             int days = to_days<int>( compost_time - progress );
             if( hours < 1 ) {
                 add_msg( _( "It will finish fermenting in less than an hour." ) );
-            } else if ( days < 1 ) {
+            } else if( days < 1 ) {
                 add_msg( n_gettext( "It will finish fermenting in about %d hour.",
                                     "It will finish fermenting in about %d hours.",
                                     hours ), hours );
@@ -3914,12 +3914,12 @@ void iexamine::compost_full( Character &you, const tripoint &examp )
                                     "It will finish fermenting in about %d days.",
                                     days ), days );
             }
-            if ( to_days<int>( progress ) >= 30 && gas_gatherable >= 1 ) {
+            if( to_days<int>( progress ) >= 30 && gas_gatherable >= 1 ) {
                 if( query_yn( _( "Gather biogas? Can't stop once releasing started." ) ) ) {
                     const std::map<itype_id, int> results = compost_i.composting_results();
                     const int count = compost_i.count();
                     const time_point gas_birthday = compost_i.birthday();
-                    if ( !max_gas_gatherable ) {
+                    if( !max_gas_gatherable ) {
                         add_msg( _( "No biogass gathered." ) );
                     } else {
                         for( const std::pair<const itype_id, int> &result : results ) {
@@ -3957,7 +3957,7 @@ void iexamine::compost_full( Character &you, const tripoint &examp )
                     here.add_item( examp, compost );
                     add_msg( _( "The %s is now ready for use." ), result.first->nname( amount ) );
                 } else if( result.first->phase == phase_id::GAS ) {
-                    if ( !max_gas_gatherable ) {
+                    if( !max_gas_gatherable ) {
                         add_msg( _( "You released gas in the tank." ) );
                     } else {
                         int gas_amount = result.second * count * max_gas_gatherable * 80 / 30;
@@ -3966,7 +3966,7 @@ void iexamine::compost_full( Character &you, const tripoint &examp )
                     }
                 } else {
                     you.i_add_or_drop( compost, amount );
-                    add_msg( _( "You removed the %s from the tank."), result.first->nname( amount ) );
+                    add_msg( _( "You removed the %s from the tank." ), result.first->nname( amount ) );
                 }
             }
 

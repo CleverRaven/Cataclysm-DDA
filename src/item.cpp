@@ -313,7 +313,7 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
 
     if( qty >= 0 ) {
         if( type->can_have_charges() ) {
-        charges = qty;
+            charges = qty;
         } else if( qty > 1 ) {
             debugmsg( "Tried to set charges for item %s that could not have them!", tname() );
         }
@@ -519,11 +519,11 @@ static void inherit_rot_from_components( item &it )
         // Fallthrough: shortest_lifespan <= 0_turns (all components are rotten)
     }
 
-        const item *most_rotten = get_most_rotten_component( it );
-        if( most_rotten ) {
-            it.set_relative_rot( most_rotten->get_relative_rot() );
-        }
+    const item *most_rotten = get_most_rotten_component( it );
+    if( most_rotten ) {
+        it.set_relative_rot( most_rotten->get_relative_rot() );
     }
+}
 
 item::item( const recipe *rec, int qty, item_components items, std::vector<item_comp> selections )
     : item( "craft", calendar::turn )
