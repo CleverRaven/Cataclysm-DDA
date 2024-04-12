@@ -193,6 +193,8 @@ static const efftype_id effect_under_operation( "under_operation" );
 static const furn_str_id furn_f_fvat_empty( "f_fvat_empty" );
 static const furn_str_id furn_f_fvat_wood_empty( "f_fvat_wood_empty" );
 static const furn_str_id furn_f_fvat_wood_full( "f_fvat_wood_full" );
+static const furn_str_id furn_f_compost_empty( "f_compost_empty" );
+static const furn_str_id furn_f_compost_full( "f_compost_full" );
 static const furn_str_id furn_f_plant_seed( "f_plant_seed" );
 
 static const harvest_drop_type_id harvest_drop_blood( "blood" );
@@ -1568,6 +1570,15 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
                                 here.furn_set( source_pos, furn_f_fvat_wood_empty );
                             } else {
                                 here.furn_set( source_pos, furn_f_fvat_empty );
+                            }
+                        }
+                    } else if( here.furn( source_pos )->has_examine( iexamine::compost_full ) ) {
+                        add_msg( _( "You squeeze the last drops of %s from the tank." ),
+                                 liquid.type_name( 1 ) );
+                        map_stack items_here = here.i_at( source_pos );
+                        if( items_here.empty() ) {
+                            if( here.furn( source_pos ) == furn_f_compost_full ) {
+                                here.furn_set( source_pos, furn_f_compost_empty );
                             }
                         }
                     }
