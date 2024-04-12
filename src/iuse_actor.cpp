@@ -1832,7 +1832,8 @@ bool inscribe_actor::item_inscription( item &tool, item &cut ) const
         INSCRIPTION_NOTE,
     };
 
-    uilist menu( string_format( _( "%s meaning?" ), verb ) );
+    uilist menu;
+    menu.text = string_format( _( "%s meaning?" ), verb );
     menu.addentry( INSCRIPTION_LABEL, true, -1, _( "It's a label" ) );
     menu.addentry( INSCRIPTION_NOTE, true, -1, _( "It's a note" ) );
     menu.query();
@@ -1891,7 +1892,8 @@ std::optional<int> inscribe_actor::use( Character *p, item &it, const tripoint &
 
     int choice = INT_MAX;
     if( on_terrain && on_items ) {
-        uilist imenu( string_format( _( "%s on what?" ), verb ) );
+        uilist imenu;
+        imenu.text = string_format( _( "%s on what?" ), verb );
         imenu.addentry( 0, true, MENU_AUTOASSIGN, _( "The terrain" ) );
         imenu.addentry( 1, true, MENU_AUTOASSIGN, _( "An item" ) );
         imenu.query();
@@ -4159,7 +4161,8 @@ std::optional<int> molle_detach_actor::use( Character *p, item &it,
 {
 
     std::vector<const item *> items_attached = it.get_contents().get_added_pockets();
-    uilist prompt( _( "Remove which accessory?" ) );
+    uilist prompt;
+    prompt.text = _( "Remove which accessory?" );
 
     for( size_t i = 0; i != items_attached.size(); ++i ) {
         prompt.addentry( i, true, -1, items_attached[i]->tname() );
@@ -4362,7 +4365,8 @@ std::optional<int> modify_gunmods_actor::use( Character *p, item &it,
         }
     }
 
-    uilist prompt( _( "Modify which part" ) );
+    uilist prompt;
+    prompt.text = _( "Modify which part" );
 
     for( size_t i = 0; i != mods.size(); ++i ) {
         prompt.addentry( i, true, -1, string_format( "%s: %s", mods[i]->tname(),
@@ -4537,8 +4541,8 @@ std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint &p
     uilist link_menu;
     if( !is_cable_item || it.has_no_links() ) {
         // This is either a device or a cable item without any connections.
-        link_menu.set_title( string_format( _( "What to do with the %s?" ), it.link_name() ) );
-        link_menu.help_text = t_veh ? string_format( _( "\nAttached to: %s" ), t_veh->name ) : "";
+        link_menu.text = string_format( _( "What to do with the %s?%s" ), it.link_name(), t_veh ?
+                                        string_format( _( "\nAttached to: %s" ), t_veh->name ) : "" );
         if( targets.count( link_state::vehicle_port ) > 0 ) {
             link_menu.addentry( 0, has_loose_end, -1, _( "Attach to vehicle controls or appliance" ) );
         }
@@ -4581,9 +4585,8 @@ std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint &p
 
     } else if( it.link_has_state( link_state::vehicle_tow ) ) {
         // Cables that started a tow can finish one or detach; nothing else.
-        link_menu.text = string_format( _( "What to do with the %s?%s" ), it.link_name(), it.link->t_veh_safe ?
-        link_menu.set_title( string_format( _( "What to do with the %s?" ), cable_name ) );
-        link_menu.help_text = t_veh ? string_format( _( "\nAttached to: %s" ), t_veh->name ) : "";
+        link_menu.text = string_format( _( "What to do with the %s?%s" ), it.link_name(), t_veh ?
+                                        string_format( _( "\nAttached to: %s" ), t_veh->name ) : "" );
 
         link_menu.addentry( 10, has_loose_end && it.link().target == link_state::vehicle_tow, -1,
                             _( "Attach loose end to towing vehicle" ) );
@@ -4627,8 +4630,8 @@ std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint &p
                 state_desc_rhs = _( "Cable Charger System" );
             }
         }
-        link_menu.set_title( string_format( _( "What to do with the %s?%s%s" ), it.link_name(),
-                                            state_desc_lhs, state_desc_rhs ) );
+        link_menu.text = string_format( _( "What to do with the %s?%s%s" ), it.link_name(),
+                                        state_desc_lhs, state_desc_rhs );
 
         // TODO: Allow plugging UPSes and Solar Packs into more than just bionics.
         // There is already code to support setting up a link, but none for actual functionality.
@@ -5358,7 +5361,8 @@ std::optional<int> sew_advanced_actor::use( Character *p, item &it, const tripoi
                                              c_red );
     };
 
-    uilist tmenu( _( "How do you want to modify it?" ) );
+    uilist tmenu;
+    tmenu.text = _( "How do you want to modify it?" );
 
     int index = 0;
     for( const clothing_mod_id &cm : clothing_mods ) {

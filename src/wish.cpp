@@ -360,12 +360,13 @@ void debug_menu::wishbionics( Character *you )
         bool can_uninstall = num_installed > 0;
         bool can_uninstall_all = can_uninstall || power_max > 0_J;
 
-        uilist smenu( _( "Edit Bionics" ) );
-        smenu.help_text += string_format(
-                                         _( "Current power level: %s\nMax power: %s\nBionics installed: %d" ),
-                                         units::display( power_level ),
-                                         units::display( power_max ),
-                                         num_installed );
+        uilist smenu;
+        smenu.text += string_format(
+                          _( "Current power level: %s\nMax power: %s\nBionics installed: %d" ),
+                          units::display( power_level ),
+                          units::display( power_max ),
+                          num_installed
+                      );
         smenu.addentry( 0, true, 'i', _( "Install from CBM…" ) );
         smenu.addentry( 1, can_uninstall, 'u', _( "Uninstall…" ) );
         smenu.addentry( 2, can_uninstall_all, 'U', _( "Uninstall all" ) );
@@ -891,7 +892,8 @@ class wish_item_callback: public uilist_callback
                         std::vector<std::pair<snippet_id, std::string>> snippes = SNIPPET.get_snippets_by_category( cat,
                                 true );
                         if( !snippes.empty() ) {
-                            uilist snipp_query( _( "Choose snippet type." ) );
+                            uilist snipp_query;
+                            snipp_query.text = _( "Choose snippet type." );
                             snipp_query.desc_lines_hint = 2;
                             snipp_query.desc_enabled = true;
                             int cnt = 0;
@@ -1142,8 +1144,9 @@ void debug_menu::wishitem( Character *you, const tripoint_bub_ms &pos )
 void debug_menu::wishskill( Character *you, bool change_theory )
 {
     const int skoffset = 1;
-    uilist skmenu( change_theory ?
-                   _( "Select a skill to modify its theory level" ) : _( "Select a skill to modify" ) );
+    uilist skmenu;
+    skmenu.text = change_theory ?
+                  _( "Select a skill to modify its theory level" ) : _( "Select a skill to modify" );
     skmenu.allow_anykey = true;
     skmenu.additional_actions = {
         { "LEFT", to_translation( "Decrease skill" ) },
@@ -1170,6 +1173,8 @@ void debug_menu::wishskill( Character *you, bool change_theory )
         origskills.push_back( level );
     }
 
+    shared_ptr_fast<ui_adaptor> skmenu_ui = skmenu.create_or_get_ui_adaptor();
+
     do {
         skmenu.query();
         int skill_id = -1;
@@ -1186,7 +1191,7 @@ void debug_menu::wishskill( Character *you, bool change_theory )
                    sksel < static_cast<int>( sorted_skills.size() ) ) {
             skill_id = sksel;
             const Skill &skill = *sorted_skills[skill_id];
-            uilist sksetmenu( string_format( _( "Set '%s' to…" ), skill.name() ) );
+            uilist sksetmenu;
             sksetmenu.w_height_setup = MAX_SKILL + 5;
             sksetmenu.w_x_setup = [&]( int ) -> int {
                 return skmenu.w_x + skmenu.w_width + 1;
@@ -1194,6 +1199,7 @@ void debug_menu::wishskill( Character *you, bool change_theory )
             sksetmenu.w_y_setup = [&]( const int height ) {
                 return std::max( 0, skmenu.w_y + ( skmenu.w_height - height ) / 2 );
             };
+            sksetmenu.settext( string_format( _( "Set '%s' to…" ), skill.name() ) );
             const int skcur = get_level( skill );
             sksetmenu.selected = skcur;
             for( int i = 0; i <= MAX_SKILL; i++ ) {
@@ -1210,9 +1216,9 @@ void debug_menu::wishskill( Character *you, bool change_theory )
             } else {
                 you->set_skill_level( skill.ident(), skset );
             }
-            skmenu.help_text = string_format( _( "%s set to %d             " ),
-                                              skill.name(),
-                                              get_level( skill ) ).substr( 0, skmenu.w_width - 4 );
+            skmenu.textformatted[0] = string_format( _( "%s set to %d             " ),
+                                      skill.name(),
+                                      get_level( skill ) ).substr( 0, skmenu.w_width - 4 );
             skmenu.entries[skill_id + skoffset].txt = string_format( _( "@ %d: %s  " ),
                     get_level( skill ),
                     skill.name() );
@@ -1261,7 +1267,8 @@ void debug_menu::wishproficiency( Character *you )
     bool know_all = true;
     const int proffset = 1;
 
-    uilist prmenu( _( "Select proficiency to toggle" ) );
+    uilist prmenu;
+    prmenu.text = _( "Select proficiency to toggle" );
     prmenu.allow_anykey = true;
     prmenu.addentry( 0, true, '1', _( "Toggle all proficiencies" ) );
 

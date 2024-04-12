@@ -266,7 +266,6 @@ class uilist // NOLINT(cata-xy)
         };
 
         uilist();
-        uilist( const std::string &msg );
         // query() will be called at the end of these convenience constructors
         uilist( const std::string &msg, const std::vector<uilist_entry> &opts );
         uilist( const std::string &msg, const std::vector<std::string> &opts );
@@ -377,6 +376,7 @@ class uilist // NOLINT(cata-xy)
         void addentry_col( int retval, bool enabled, const std::optional<input_event> &key,
                            const std::string &txt, const std::string &column,
                            const std::string &desc = std::string() );
+        void settext( const std::string &str );
 
         void add_category( const std::string &key, const std::string &name );
         void set_category( const std::string &key );
@@ -385,12 +385,19 @@ class uilist // NOLINT(cata-xy)
 
         void reset();
 
+        // Can be called before `uilist::query` to keep the uilist on UI stack after
+        // `uilist::query` returns. The returned `ui_adaptor` is cleared when the
+        // `uilist` is deconstructed.
+        //
+        // Example:
+        //     shared_ptr_fast<ui_adaptor> ui = menu.create_or_get_ui_adaptor();
+        //     menu.query()
+        //     // before `ui` or `menu` is deconstructed, the menu will always be
+        //     // displayed on screen.
+        shared_ptr_fast<ui_adaptor> create_or_get_ui_adaptor();
         // NOLINTNEXTLINE(google-explicit-constructor)
         operator int() const;
 
-    protected:
-        cataimgui::bounds get_bounds() override;
-        void draw_controls() override;
     private:
         int scroll_amount_from_action( const std::string &action );
         std::unique_ptr<scrollbar> uilist_scrollbar;
@@ -409,7 +416,7 @@ class uilist // NOLINT(cata-xy)
         // Parameters
         // TODO change to setters
         std::string title;
-        std::string help_text;
+        std::string text;
         // basically the same as desc, except it doesn't change based on selection
         std::string footer_text;
         std::vector<uilist_entry> entries;
@@ -480,12 +487,14 @@ class uilist // NOLINT(cata-xy)
 
         int vshift = 0;
 
-        size_t fselected = 0; // -1 as sentinel value for no filtered entries to select from
+        int fselected = 0; // -1 as sentinel value for no filtered entries to select from
 
     private:
         std::vector<int> fentries;
         std::map<input_event, int, std::function<bool( const input_event &, const input_event & )>>
         keymap { input_event::compare_type_mod_code };
+
+        weak_ptr_fast<ui_adaptor> ui;
 
         std::unique_ptr<string_input_popup> filter_popup;
         std::string filter;
@@ -514,9 +523,9 @@ class uilist // NOLINT(cata-xy)
         std::string ret_act;
         input_event ret_evt;
         int ret = 0;
-        size_t selected = 0;
+        int selected = 0;
 
-        void set_selected( size_t index );
+        void set_selected( int index );
 };
 
 /**

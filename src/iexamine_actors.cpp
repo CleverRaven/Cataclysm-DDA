@@ -83,7 +83,8 @@ void cardreader_examine_actor::consume_card( const std::vector<item_location> &c
         return;
     }
 
-    uilist query( _( "Use which item?" ) );
+    uilist query;
+    query.text = _( "Use which item?" );
     query.allow_cancel = false;
     for( size_t i = 0; i < opts.size(); ++i ) {
         query.entries.emplace_back( static_cast<int>( i ), true, -1, opts[i]->tname() );

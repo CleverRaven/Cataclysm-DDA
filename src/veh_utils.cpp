@@ -421,7 +421,7 @@ bool veh_menu::query()
         return false;
     }
 
-    uilist menu( title );
+    uilist menu;
 
     menu.input_category = "VEHICLE";
     for( const veh_menu_item &it : items ) {
@@ -430,6 +430,7 @@ bool veh_menu::query()
         }
     }
 
+    menu.title = title;
     menu.entries = get_uilist_entries();
     menu.desc_lines_hint = desc_lines_hint;
     menu.desc_enabled = std::any_of( menu.entries.begin(), menu.entries.end(),

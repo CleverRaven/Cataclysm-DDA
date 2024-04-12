@@ -832,7 +832,7 @@ const mutation_variant *mutation_branch::pick_variant_menu() const
     uilist menu;
     menu.allow_cancel = false;
     menu.desc_enabled = true;
-    menu.set_title( string_format( _( "Pick variant for: %s" ), name() ) );
+    menu.text = string_format( _( "Pick variant for: %s" ), name() );
     std::vector<const mutation_variant *> options;
     options.reserve( variants.size() );
     for( const std::pair<const std::string, mutation_variant> &var : variants ) {

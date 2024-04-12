@@ -2160,7 +2160,7 @@ std::string peek_related_recipe( const recipe *current, const recipe_subset &ava
         return "";
     }
 
-    uilist rel_menu( _( "Related recipes:" ) );
+    uilist rel_menu;
     int np_last = -1;
     if( !related_components.empty() ) {
         rel_menu.addentry( ++np_last, false, -1, _( "COMPONENTS" ) );
@@ -2172,6 +2172,7 @@ std::string peek_related_recipe( const recipe *current, const recipe_subset &ava
 
     related_menu_fill( rel_menu, related_results, available );
 
+    rel_menu.settext( _( "Related recipes:" ) );
     rel_menu.query();
     if( rel_menu.ret != UILIST_CANCEL ) {
 

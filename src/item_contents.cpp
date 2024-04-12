@@ -73,7 +73,7 @@ void pocket_favorite_callback::refresh( uilist *menu )
     }
 
     item_pocket *selected_pocket = nullptr;
-    size_t i = 0;
+    int i = 0;
     int pocket_num = 0;
     for( std::tuple<item_pocket *, int, uilist_entry *> &pocket_val : saved_pockets ) {
         item_pocket *pocket = std::get<0>( pocket_val );
@@ -216,7 +216,7 @@ void pocket_favorite_callback::move_item( uilist *menu, item_pocket *selected_po
         }
 
         if( item_to_move.first != nullptr ) {
-            menu->set_title( string_format( "%s: %s", _( "Moving" ), item_to_move.first->display_name() ) );
+            menu->settext( string_format( "%s: %s", _( "Moving" ), item_to_move.first->display_name() ) );
             refresh_columns( menu );
 
             // if we have an item already selected for moving update some info
@@ -260,7 +260,7 @@ void pocket_favorite_callback::move_item( uilist *menu, item_pocket *selected_po
         // reset the moved item
         item_to_move = { nullptr, nullptr };
 
-        menu->set_title( uilist_text );
+        menu->settext( uilist_text );
 
         refresh_columns( menu );
     }
@@ -270,7 +270,7 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
                                     uilist *menu )
 {
     item_pocket *selected_pocket = nullptr;
-    size_t i = 0;
+    int i = 0;
     int pocket_num = 0;
     for( std::tuple<item_pocket *, int, uilist_entry *> &pocket_val : saved_pockets ) {
         item_pocket *pocket = std::get<0>( pocket_val );
@@ -2726,8 +2726,8 @@ void pocket_management_menu( const std::string &title, const std::vector<item *>
                                         ctxt.get_desc( "FAV_CONTEXT_MENU", 1 ) );
     uilist pocket_selector;
     pocket_favorite_callback cb( uilist_text, to_organize, pocket_selector );
-    pocket_selector.set_title( title );
-    pocket_selector.help_text = uilist_text;
+    pocket_selector.title = title;
+    pocket_selector.text = uilist_text;
     pocket_selector.callback = &cb;
     pocket_selector.w_x_setup = 0;
     pocket_selector.w_width_setup = []() {

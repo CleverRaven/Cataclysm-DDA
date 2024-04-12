@@ -132,8 +132,9 @@ static bool check_water_affect_items( avatar &you )
         return query_yn( _( "Dive into the water?" ) );
     }
 
-    uilist menu( _( "Diving will destroy the following items.  Proceed?" ) );
-    menu.help_text = _( "These items are not inside a waterproof container." );
+    uilist menu;
+    menu.title = _( "Diving will destroy the following items.  Proceed?" );
+    menu.text = _( "These items are not inside a waterproof container." );
 
     menu.addentry( 0, true, 'N', _( "No" ) );
     menu.addentry( 1, true, 'Y', _( "Yes" ) );

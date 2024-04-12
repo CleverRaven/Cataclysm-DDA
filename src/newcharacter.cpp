@@ -391,14 +391,15 @@ static matype_id choose_ma_style( const character_type type, const std::vector<m
     input_context ctxt( "MELEE_STYLE_PICKER", keyboard_mode::keycode );
     ctxt.register_action( "SHOW_DESCRIPTION" );
 
-    uilist menu( _( "Select a style.\n"
+    uilist menu;
+    menu.allow_cancel = false;
+    menu.text = string_format( _( "Select a style.\n"
                                   "\n"
                                   "STR: <color_white>%d</color>, DEX: <color_white>%d</color>, "
                                   "PER: <color_white>%d</color>, INT: <color_white>%d</color>\n"
                                   "Press [<color_yellow>%s</color>] for technique details and compatible weapons.\n" ),
                                u.get_str(), u.get_dex(), u.get_per(), u.get_int(),
                                ctxt.get_desc( "SHOW_DESCRIPTION" ) );
-    menu.allow_cancel = false;
     ma_style_callback callback( 0, styles );
     menu.callback = &callback;
     menu.input_category = "MELEE_STYLE_PICKER";
@@ -4014,7 +4015,8 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
     ctxt.register_action( "CHOOSE_LOCATION" );
     ctxt.register_action( "CONFIRM" );
 
-    uilist select_location( _( "Select a starting location." ) );
+    uilist select_location;
+    select_location.text = _( "Select a starting location." );
     int offset = 1;
     const std::string random_start_location_text = string_format( n_gettext(
                 "<color_red>* Random location *</color> (<color_white>%d</color> variant)",
@@ -4625,7 +4627,8 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
                     break;
                 }
                 case char_creation::BLOOD: {
-                    uilist btype( _( "Select blood type" ) );
+                    uilist btype;
+                    btype.text = _( "Select blood type" );
                     btype.addentry( static_cast<int>( blood_type::blood_O ), true, '1', "O" );
                     btype.addentry( static_cast<int>( blood_type::blood_A ), true, '2', "A" );
                     btype.addentry( static_cast<int>( blood_type::blood_B ), true, '3', "B" );
@@ -4635,7 +4638,8 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
                         break;
                     }
 
-                    uilist bfac( _( "Select Rh factor" ) );
+                    uilist bfac;
+                    bfac.text = _( "Select Rh factor" );
                     bfac.addentry( 0, true, '-', _( "negative" ) );
                     bfac.addentry( 1, true, '+', _( "positive" ) );
                     bfac.query();
@@ -4647,7 +4651,8 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
                     break;
                 }
                 case char_creation::GENDER: {
-                    uilist gselect( _( "Select gender" ) );
+                    uilist gselect;
+                    gselect.text = _( "Select gender" );
                     gselect.addentry( 0, true, '1', _( "Female" ) );
                     gselect.addentry( 1, true, '2', _( "Male" ) );
                     gselect.query();

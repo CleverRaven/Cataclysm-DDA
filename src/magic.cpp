@@ -2335,7 +2335,7 @@ static void reflesh_favorite( uilist *menu, std::vector<spell *> known_spells )
 class spellcasting_callback : public uilist_callback
 {
     private:
-        size_t selected_sp = 0;
+        int selected_sp = 0;
         int scroll_pos = 0;
         std::vector<std::string> info_txt;
         std::vector<spell *> known_spells;
@@ -2397,7 +2397,7 @@ class spellcasting_callback : public uilist_callback
             const std::string assign_letter = _( "Assign Hotkey [=]" );
             mvwprintz( menu->window, point( menu->w_width - assign_letter.length() - 1, 0 ), c_yellow,
                        assign_letter );
-            if( menu->selected >= 0 && menu->selected < known_spells.size() ) {
+            if( menu->selected >= 0 && static_cast<size_t>( menu->selected ) < known_spells.size() ) {
                 if( info_txt.empty() || selected_sp != menu->selected ) {
                     info_txt.clear();
                     spell_info_text( *known_spells[menu->selected], menu->pad_right - 4 );

@@ -135,7 +135,8 @@ sorted_bionics filtered_bionics( bionic_collection &all_bionics,
 
 bionic_ui_sort_mode pick_sort_mode()
 {
-    uilist tmenu( _( "Sort bionics by:" ) );
+    uilist tmenu;
+    tmenu.text = _( "Sort bionics by:" );
     tmenu.addentry( 1, true, 'p', sort_mode_str( bionic_ui_sort_mode::POWER ) );
     tmenu.addentry( 2, true, 'n', sort_mode_str( bionic_ui_sort_mode::NAME ) );
     tmenu.addentry( 3, true, 'i', sort_mode_str( bionic_ui_sort_mode::INVLET ) );

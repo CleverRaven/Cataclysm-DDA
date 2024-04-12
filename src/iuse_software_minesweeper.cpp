@@ -46,7 +46,7 @@ void minesweeper_game::new_level()
 
     uilist difficulty;
     difficulty.allow_cancel = false;
-    difficulty.set_title( _( "Game Difficulty" ) );
+    difficulty.text = _( "Game Difficulty" );
     difficulty.entries.emplace_back( 0, true, 'b', _( "Beginner" ) );
     difficulty.entries.emplace_back( 1, true, 'i', _( "Intermediate" ) );
     difficulty.entries.emplace_back( 2, true, 'e', _( "Expert" ) );

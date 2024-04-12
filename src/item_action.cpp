@@ -277,8 +277,9 @@ void game::item_action_menu( item_location loc )
         popup( _( "You don't have any items with registered uses" ) );
     }
 
-    uilist kmenu( _( "Execute which action?" ) );
+    uilist kmenu;
     kmenu.desc_enabled = true;
+    kmenu.text = _( "Execute which action?" );
     kmenu.input_category = "ITEM_ACTIONS";
     input_context ctxt( "ITEM_ACTIONS", keyboard_mode::keycode );
     for( const std::pair<const item_action_id, item_action> &id : item_actions ) {

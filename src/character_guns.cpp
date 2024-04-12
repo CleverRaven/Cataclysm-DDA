@@ -216,8 +216,9 @@ void Character::gunmod_add( item &gun, item &mod )
 
     // if chance of success <100% prompt user to continue
     if( roll < 100 ) {
-        uilist prompt( string_format( _( "Attach your %1$s to your %2$s?" ), moved_mod.tname(),
-                                      wielded_gun->tname() ) );
+        uilist prompt;
+        prompt.text = string_format( _( "Attach your %1$s to your %2$s?" ), moved_mod.tname(),
+                                     wielded_gun->tname() );
 
         std::vector<std::function<void()>> actions;
 

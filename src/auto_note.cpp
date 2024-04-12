@@ -528,7 +528,8 @@ void auto_note_manager_gui::show()
 
                     ( bCharacter ? char_custom_symbol_cache : global_custom_symbol_cache ).erase( currentItem );
                 } else {
-                    uilist ui_colors( _( "Pick a color:" ) );
+                    uilist ui_colors;
+                    ui_colors.text = _( "Pick a color:" );
                     int i = 0;
                     const std::unordered_map<std::string, note_color> &note_color_names = get_note_color_names();
                     for( const std::pair<const std::string, note_color> &color_pair : note_color_names ) {

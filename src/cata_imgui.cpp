@@ -494,8 +494,7 @@ class cataimgui::window_impl
         bool is_resized;
         std::unique_ptr<ui_adaptor> window_adaptor;
     public:
-        explicit window_impl(cataimgui::window *win) {
-            is_imgui = true;
+        explicit window_impl( cataimgui::window *win ) {
             win_base = win;
             is_resized = true;
             window_adaptor = std::make_unique<ui_adaptor>();

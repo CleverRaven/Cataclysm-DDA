@@ -5363,7 +5363,8 @@ std::vector<item_group_id> Item_factory::get_all_group_names()
 void item_group::debug_spawn()
 {
     std::vector<item_group_id> groups = item_controller->get_all_group_names();
-    uilist menu( _( "Test which group?" ) );
+    uilist menu;
+    menu.text = _( "Test which group?" );
     for( size_t i = 0; i < groups.size(); i++ ) {
         menu.entries.emplace_back( static_cast<int>( i ), true, -2, groups[i].str() );
     }
@@ -5386,7 +5387,8 @@ void item_group::debug_spawn()
         for( const auto &e : itemnames ) {
             itemnames2.insert( std::pair<int, std::string>( e.second, e.first ) );
         }
-        uilist menu2( _( "Result of 100 spawns:" ) );
+        uilist menu2;
+        menu2.text = _( "Result of 100 spawns:" );
         for( const auto &e : itemnames2 ) {
             menu2.entries.emplace_back( static_cast<int>( menu2.entries.size() ), true, -2,
                                         string_format( _( "%d x %s" ), e.first, e.second ) );
