@@ -351,6 +351,33 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "fermentable_liquid_mixture",
+    "name": { "str_sp": "fermentable liquid mixture" },
+    "volume": "500 ml",
+    "weight": "500 g",
+    "description": "A mixture of various organic wastes and water.  Wait about two months for them to be fermented in a tank.",
+    "copy-from": "fertilizer_liquid",
+    "price": 0,
+    "price_postapoc": 0,
+    "flags": [ "NUTRIENT_OVERRIDE", "TRADER_AVOID" ],
+    "compostable": { "time": "60 days", "results": [ "fermented_fertilizer_liquid", "biogas" ] },
+    "charges": 1
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "fermented_fertilizer_liquid",
+    "name": { "str_sp": "fermented fertilizer liquid" },
+    "volume": "500 ml",
+    "weight": "400 g",
+    "description": "A mixture of fermented biomass, will become liquid fertilizer after simple treatment.",
+    "copy-from": "fertilizer_liquid",
+    "price": 0,
+    "price_postapoc": 0,
+    "flags": [ "NUTRIENT_OVERRIDE", "TRADER_AVOID" ],
+    "charges": 1
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "fertilizer_commercial",
     "name": { "str_sp": "commercial fertilizer" },
     "weight": "27 g",

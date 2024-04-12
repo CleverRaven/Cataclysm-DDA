@@ -1051,6 +1051,25 @@
     "melee_damage": { "bash": 4 }
   },
   {
+    "id": "biogas_cooker",
+    "type": "TOOL",
+    "name": { "str": "biogas cooker" },
+    "description": "A simple heater powered by biogas.  It is designed for cooking food.",
+    "copy-from": "propane_cooker",
+    "ammo": [ "biogas" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "airtight": true,
+        "watertight": true,
+        "rigid": true,
+        "ammo_restriction": { "biogas": 3000 }
+      }
+    ],
+    "charges_per_use": 8,
+    "use_action": [ "HOTPLATE", "HEAT_FOOD", { "type": "firestarter", "moves": 100, "moves_slow": 1000 } ]
+  },
+  {
     "id": "acetylene_cooker",
     "type": "TOOL",
     "name": { "str": "acetylene cooker" },
