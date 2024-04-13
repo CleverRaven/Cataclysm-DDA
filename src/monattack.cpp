@@ -1321,6 +1321,49 @@ void mattack::smash_specific( monster *z, Creature *target )
     smash( z );
 }
 
+// this has been jsonified and isn't used by brutes any longer
+bool mattack::smash( monster *z )
+{
+    if( !z->can_act() ) {
+        return false;
+    }
+
+    Creature *target = z->attack_target();
+    if( target == nullptr || !z->is_adjacent( target, false ) ) {
+        return false;
+    }
+
+    //Don't try to smash immobile targets
+    if( target->has_flag( mon_flag_IMMOBILE ) ) {
+        return false;
+    }
+
+    // Costs lots of moves to give you a little bit of a chance to get away.
+    z->mod_moves( -to_moves<int>( 4_seconds ) );
+
+    // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
+    if( target->dodge_check( z ) ) {
+        target->add_msg_player_or_npc( _( "The %s takes a powerful swing at you, but you dodge it!" ),
+                                       _( "The %s takes a powerful swing at <npcname>, who dodges it!" ),
+                                       z->name() );
+        target->on_dodge( z, z->type->melee_skill );
+        return true;
+    }
+
+    target->add_msg_player_or_npc( _( "A blow from the %1$s sends %2$s flying!" ),
+                                   _( "A blow from the %s sends <npcname> flying!" ),
+                                   z->name(), target->disp_name() );
+
+    // Release the grabbed creature right before the fling
+    z->remove_effect( effect_grabbing );
+
+    // TODO: Make this parabolic
+    g->fling_creature( target, coord_to_angle( z->pos(), target->pos() ),
+                       z->type->melee_sides * z->type->melee_dice * 3 );
+
+    return true;
+}
+
 //--------------------------------------------------------------------------------------------------
 // TODO: move elsewhere
 //--------------------------------------------------------------------------------------------------
