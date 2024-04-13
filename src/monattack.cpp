@@ -2746,62 +2746,6 @@ bool mattack::dogthing( monster *z )
     return false;
 }
 
-bool mattack::tentacle( monster *z )
-{
-    if( z->friendly ) {
-        // TODO: handle friendly monsters
-        return false;
-    }
-    Creature *target = z->attack_target();
-
-    // Can't see/reach target, no attack
-    if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 3 || !z->sees( *target ) ||
-        !get_map().clear_path( z->pos(), target->pos(), 3, 1, 100 ) ) {
-        return false;
-    }
-    game_message_type msg_type = target->is_avatar() ? m_bad : m_info;
-    target->add_msg_player_or_npc( msg_type,
-                                   _( "The %s lashes its tentacle at you!" ),
-                                   _( "The %s lashes its tentacle at <npcname>!" ),
-                                   z->name() );
-    z->mod_moves( -to_moves<int>( 1_seconds ) );
-
-    bodypart_id hit = target->get_random_body_part();
-    damage_instance dam_inst = damage_instance( damage_bash, rng( 10, 20 ) );
-
-    // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-    if( target->dodge_check( z, hit, dam_inst ) ) {
-        target->add_msg_player_or_npc( _( "You dodge it!" ),
-                                       _( "<npcname> dodges it!" ) );
-        target->on_dodge( z, z->type->melee_skill );
-        return true;
-    }
-
-    target->block_hit( z, hit, dam_inst );
-
-    int dam = target->deal_damage( z, hit, dam_inst ).total_damage();
-    if( dam > 0 ) {
-        target->add_msg_player_or_npc( msg_type,
-                                       //~ 1$s is bodypart name, 2$d is damage value.
-                                       _( "Your %1$s is hit for %2$d damage!" ),
-                                       //~ 1$s is bodypart name, 2$d is damage value.
-                                       _( "<npcname>'s %1$s is hit for %2$d damage!" ),
-                                       body_part_name( hit ),
-                                       dam );
-    } else {
-        target->add_msg_player_or_npc(
-            _( "The %1$s lashes its tentacle at your %2$s, but glances off your armor!" ),
-            _( "The %1$s lashes its tentacle at <npcname>'s %2$s, but glances off their armor!" ),
-            z->name(),
-            body_part_name_accusative( hit ) );
-    }
-
-    target->on_hit( z, hit,  z->type->melee_skill );
-    target->check_dead_state();
-
-    return true;
-}
-
 bool mattack::gene_sting( monster *z )
 {
     const float range = 7.0f;

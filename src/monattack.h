@@ -56,7 +56,6 @@ bool callblobs( monster *z );
 bool jackson( monster *z );
 bool dance( monster *z );
 bool dogthing( monster *z );
-bool tentacle( monster *z );
 bool vortex( monster *z );
 bool gene_sting( monster *z );
 bool para_sting( monster *z );
