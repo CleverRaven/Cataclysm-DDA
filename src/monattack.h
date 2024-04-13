@@ -45,7 +45,6 @@ bool fungus_bristle( monster *z );    // Fungal hedgerow rake & inject
 bool fungus_growth( monster *z );     // Sporeling -> fungal creature
 bool fungus_sprout( monster *z );     // Grow fungal walls
 bool fungus_fortify( monster *z );    // Grow fungal hedgerows
-bool impale( monster *z );
 bool dermatik( monster *z );
 bool dermatik_growth( monster *z );
 bool fungal_trail( monster *z );
@@ -94,7 +93,6 @@ bool mon_leech_evolution( monster *z );
 bool tindalos_teleport( monster *z );
 bool flesh_tendril( monster *z );
 bool bio_op_random_biojutsu( monster *z );
-bool bio_op_impale( monster *z );
 bool bio_op_disarm( monster *z );
 bool suicide( monster *z );
 bool riotbot( monster *z );
