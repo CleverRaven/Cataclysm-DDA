@@ -802,11 +802,25 @@
         "       ..........       "
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "terrain": { ".": [ [ "t_region_groundcover", 20 ], "t_dirtmound" ], "x": [ [ "t_region_groundcover", 20 ], "t_dirtmound" ] },
+      "nested": {
+        ".": { "chunks": [ [ "null", 20 ], [ "1x1_upturn_earth", 1 ] ] },
+        "x": { "chunks": [ [ "null", 20 ], [ "1x1_upturn_earth", 1 ] ] }
+      },
       "monsters": {
         ".": { "monster": "GROUP_WORM", "chance": 2, "density": 0.0001 },
         "x": { "monster": "GROUP_WORM", "chance": 100, "density": 0.0001 }
       }
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_upturn_earth",
+    "object": { "mapgensize": [ 1, 1 ], "place_ter_furn_transforms": [ { "transform": "upturn_earth", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "upturn_earth",
+    "terrain": [ { "result": "t_dirtmound", "valid_flags": [ "DIGGABLE" ] } ]
   }
 ]
