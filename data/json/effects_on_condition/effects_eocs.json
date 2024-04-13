@@ -67,6 +67,8 @@
   {
     "type": "effect_on_condition",
     "id": "dermatik_pregnancy_early",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
     "condition": { "u_has_effect": "dermatik" },
     "effect": [
       { "u_add_effect": "formication", "duration": "15 minutes", "target_part": "RANDOM" },
@@ -76,7 +78,6 @@
   {
     "type": "effect_on_condition",
     "id": "dermatik_pregnancy",
-    "condition": { "u_has_effect": "dermatik" },
     "effect": [
       { "u_message": "Your flesh crawls…  A larva tears through your flesh and begins to emerge!", "type": "bad" },
       { "u_spawn_monster": "mon_dermatik_larva", "real_count": 1, "min_radius": 1, "max_radius": 4 },
