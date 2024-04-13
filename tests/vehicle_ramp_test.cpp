@@ -25,7 +25,7 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 
-static const mtype_id debug_mon( "debug_mon" );
+static const mtype_id pseudo_debug_mon( "pseudo_debug_mon" );
 
 static void clear_game_and_set_ramp( const int transit_x, bool use_ramp, bool up )
 {
@@ -292,7 +292,7 @@ static void level_out( const vproto_id &veh_id, const bool drop_pos )
         CAPTURE( existing_creature->is_monster() );
         REQUIRE( !existing_creature );
     }
-    monster *dmon_p = g->place_critter_at( debug_mon, map_starting_point );
+    monster *dmon_p = g->place_critter_at( pseudo_debug_mon, map_starting_point );
     REQUIRE( dmon_p );
     monster &dmon = *dmon_p;
 

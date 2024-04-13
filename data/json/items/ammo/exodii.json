@@ -37,7 +37,7 @@
   {
     "abstract": "273x110abstract",
     "type": "AMMO",
-    "name": "base exodii shotshell",
+    "name": "base Exodii shotshell",
     "weight": "226 g",
     "volume": "284 ml",
     "longest_side": "119 mm",
@@ -121,7 +121,7 @@
   {
     "abstract": "273x44abstract",
     "type": "AMMO",
-    "name": "base exodii grenade",
+    "name": "base Exodii grenade",
     "weight": "195 g",
     "volume": "176 ml",
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],

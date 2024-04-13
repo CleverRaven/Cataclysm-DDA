@@ -130,7 +130,7 @@
     "type": "BOOK",
     "category": "manuals",
     "name": { "str": "Physicians' Desk Reference", "str_pl": "copies of Physicians' Desk Reference" },
-    "description": "This hefty volume contains all the legally mandated information relevant to physicians for writing prescriptions, generously supported by the efforts and contributions of major pharmaceutical companies.  For the most part, it provides information identical to what is available on that of medication packaging inserts, and cannot match the completeness of digital pharmaceutical references like Medisoft.  At least it doesn't need power to be used.",
+    "description": "This hefty volume contains all the legally mandated information relevant to physicians for writing prescriptions, generously supported by the efforts and contributions of major pharmaceutical companies.  For the most part, it provides information identical to what is available on that of medication packaging inserts, and cannot match the completeness of digital pharmaceutical references like MediSoft.  At least it doesn't need power to be used.",
     "weight": "2268 g",
     "volume": "2500 ml",
     "price": 10000,

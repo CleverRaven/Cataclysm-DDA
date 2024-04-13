@@ -20,7 +20,7 @@
     "abstract": "bionic_general_npc_usable",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
-    "name": { "str": "abstract bionic module (npc usable)", "str_pl": "abstract bionic modules (npc usable)" },
+    "name": { "str": "abstract bionic module (NPC usable)", "str_pl": "abstract bionic modules (NPC usable)" },
     "extend": { "flags": [ "BIONIC_NPC_USABLE" ] }
   },
   {
@@ -350,7 +350,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Ethanol Burner CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A reactor that burns alcohol as fuel in an extremely efficient reaction.  It can store up to 500 ml and accepts ethanol, methanol and denatured alcohol as fuel.",
+    "description": "A reactor that burns alcohol as fuel in an extremely efficient reaction.  It can store up to 500 mL and accepts ethanol, methanol and denatured alcohol as fuel.",
     "price": 120000,
     "price_postapoc": 2000,
     "difficulty": 4
@@ -823,7 +823,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Gasoline Fuel Cell CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A small gasoline fuel cell able to convert gasoline to bionic power.  It's connected to a diffuse network of bio-plastic bladders able to hold up to 500 ml of gasoline.",
+    "description": "A small gasoline fuel cell able to convert gasoline to bionic power.  It's connected to a diffuse network of bio-plastic bladders able to hold up to 500 mL of gasoline.",
     "price": 450000,
     "price_postapoc": 2000,
     "weight": "600 g",
@@ -1328,7 +1328,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Oil Generator CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A CBM that generates power out of kerosene or motor oil.  It is fairly efficient and can store up to 750 ml of fuel, but works somewhat slowly.",
+    "description": "A CBM that generates power out of kerosene or motor oil.  It is fairly efficient and can store up to 750 mL of fuel, but works somewhat slowly.",
     "price": 120000,
     "price_postapoc": 3500,
     "difficulty": 4

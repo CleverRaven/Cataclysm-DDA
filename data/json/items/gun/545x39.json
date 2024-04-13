@@ -5,7 +5,7 @@
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "Russian AK rifle" },
-    "description": "Flaunting classically iconic lines and a profile instantly recognisable to any viewer, this American semi-automatic weapon is a replica of the AK-47 rifle's technological descendant, the AK-74, a weapon with more notable differences from its elder sibling than simply flipping the order of its name's numbers.  Firing the rare, at least for the United States, 5.45x39mm Soviet cartridge, this clone makes use of original 5.45mm banana magazines.  Considering the scarcity of its munitions, you might be obliged to resort to hand-loading your own ammunition.",
+    "description": "Flaunting classically iconic lines and a profile instantly recognizable to any viewer, this American semi-automatic weapon is a replica of the AK-47 rifle's technological descendant, the AK-74, a weapon with more notable differences from its elder sibling than simply flipping the order of its name's numbers.  Firing the rare, at least for the United States, 5.45x39mm Soviet cartridge, this clone makes use of original 5.45mm banana magazines.  Considering the scarcity of its munitions, you might be obliged to resort to hand-loading your own ammunition.",
     "variant_type": "gun",
     "variants": [
       {

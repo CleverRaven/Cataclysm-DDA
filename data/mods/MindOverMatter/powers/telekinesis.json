@@ -38,7 +38,7 @@
     "base_casting_time": 50,
     "final_casting_time": 10,
     "casting_time_increment": -4,
-    "ignored_monster_species": [ "PSI_NULL" ]
+    "ignored_monster_species": [ "PSI_NULL", "TELEKIN_PUSHPULL_NULL" ]
   },
   {
     "id": "telekinetic_push",
@@ -79,7 +79,7 @@
     "base_casting_time": 50,
     "final_casting_time": 10,
     "casting_time_increment": -4,
-    "ignored_monster_species": [ "PSI_NULL" ]
+    "ignored_monster_species": [ "PSI_NULL", "TELEKIN_PUSHPULL_NULL" ]
   },
   {
     "id": "telekinetic_noise",
@@ -91,7 +91,7 @@
     "valid_targets": [ "ground" ],
     "spell_class": "TELEKINETIC",
     "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "RANDOM_DAMAGE", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 2,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "noise",
@@ -172,7 +172,7 @@
     "base_casting_time": 75,
     "final_casting_time": 30,
     "casting_time_increment": -3,
-    "ignored_monster_species": [ "PSI_NULL" ]
+    "ignored_monster_species": [ "PSI_NULL", "TELEKIN_PUSHPULL_NULL" ]
   },
   {
     "id": "telekinetic_momentum",
@@ -313,7 +313,7 @@
     },
     "min_range": 1,
     "max_range": 1,
-    "ignored_monster_species": [ "PSI_NULL" ]
+    "ignored_monster_species": [ "PSI_NULL", "TELEKIN_PUSHPULL_NULL" ]
   },
   {
     "id": "telekinetic_strength",

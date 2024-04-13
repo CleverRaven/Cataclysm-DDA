@@ -1213,6 +1213,16 @@
     "replace": "remington_870"
   },
   {
+    "id": "famas",
+    "type": "MIGRATION",
+    "replace": "rdb_223"
+  },
+  {
+    "id": "famasmag",
+    "type": "MIGRATION",
+    "replace": "stanag30"
+  },
+  {
     "id": "mossberg_500",
     "type": "MIGRATION",
     "from_variant": "mossberg_500_security",

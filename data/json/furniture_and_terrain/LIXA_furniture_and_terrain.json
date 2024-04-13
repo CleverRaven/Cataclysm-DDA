@@ -347,7 +347,7 @@
     "type": "furniture",
     "id": "f_lixa_whiteboard",
     "name": "whiteboard",
-    "description": "A wide space of whiteboard, for writing on with washable markers.  No one has washed it in a long time, though; it is covered in dense scrawls of equations and waveform diagarams.",
+    "description": "A wide space of whiteboard, for writing on with washable markers.  No one has washed it in a long time, though; it is covered in dense scrawls of equations and waveform diagrams.",
     "symbol": "6",
     "color": "blue",
     "looks_like": "f_bulletin",

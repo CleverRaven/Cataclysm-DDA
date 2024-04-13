@@ -222,7 +222,7 @@
     "id": "mon_jellyfish_giant",
     "type": "MONSTER",
     "name": { "str": "sky phantom" },
-    "description": "A huge alien creature brought by the portal storms.  It resembles a portuguese man'o'war fused to a zeppelin.",
+    "description": "A huge alien creature brought by the portal storms.  It resembles a Portuguese man-o'-war fused to a zeppelin.",
     "default_faction": "nether",
     "categories": [ "WILDLIFE" ],
     "species": [ "NETHER" ],

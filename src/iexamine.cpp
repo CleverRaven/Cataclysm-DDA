@@ -131,11 +131,27 @@ static const efftype_id effect_teleglow( "teleglow" );
 static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 
+static const furn_str_id furn_f_arcfurnace_empty( "f_arcfurnace_empty" );
+static const furn_str_id furn_f_arcfurnace_full( "f_arcfurnace_full" );
 static const furn_str_id furn_f_diesel_tank( "f_diesel_tank" );
+static const furn_str_id furn_f_flower_fungal( "f_flower_fungal" );
+static const furn_str_id furn_f_flower_marloss( "f_flower_marloss" );
+static const furn_str_id furn_f_fvat_empty( "f_fvat_empty" );
+static const furn_str_id furn_f_fvat_full( "f_fvat_full" );
+static const furn_str_id furn_f_fvat_wood_empty( "f_fvat_wood_empty" );
+static const furn_str_id furn_f_fvat_wood_full( "f_fvat_wood_full" );
 static const furn_str_id furn_f_gas_tank( "f_gas_tank" );
+static const furn_str_id furn_f_kiln_empty( "f_kiln_empty" );
+static const furn_str_id furn_f_kiln_full( "f_kiln_full" );
+static const furn_str_id furn_f_kiln_metal_empty( "f_kiln_metal_empty" );
+static const furn_str_id furn_f_kiln_metal_full( "f_kiln_metal_full" );
 static const furn_str_id furn_f_metal_smoking_rack( "f_metal_smoking_rack" );
 static const furn_str_id furn_f_metal_smoking_rack_active( "f_metal_smoking_rack_active" );
+static const furn_str_id furn_f_safe_o( "f_safe_o" );
+static const furn_str_id furn_f_smoking_rack( "f_smoking_rack" );
 static const furn_str_id furn_f_smoking_rack_active( "f_smoking_rack_active" );
+static const furn_str_id furn_f_stook_empty( "f_stook_empty" );
+static const furn_str_id furn_f_stook_full( "f_stook_full" );
 static const furn_str_id furn_f_water_mill( "f_water_mill" );
 static const furn_str_id furn_f_water_mill_active( "f_water_mill_active" );
 static const furn_str_id furn_f_wind_mill( "f_wind_mill" );
@@ -1625,7 +1641,7 @@ void iexamine::deployed_furniture( Character &you, const tripoint &pos )
 
     const itype_id furn_item = here.furn( pos ).obj().deployed_item;
     here.add_item_or_charges( drop_pos, item( furn_item, calendar::turn ) );
-    here.furn_set( pos, f_null );
+    here.furn_set( pos, furn_str_id::NULL_ID() );
 }
 
 static std::pair<itype_id, const deploy_tent_actor *> find_tent_itype( const furn_str_id &id )
@@ -1771,7 +1787,7 @@ void iexamine::safe( Character &you, const tripoint &examp )
         // "safe recognition" to mitigate or eliminate this 2x and 5x factor.
         if( one_in( 80000 ) ) {
             you.add_msg_if_player( m_good, _( "You mess with the dial for a little bit… and it opens!" ) );
-            get_map().furn_set( examp, f_safe_o );
+            get_map().furn_set( examp, furn_f_safe_o );
             return;
         } else {
             you.add_msg_if_player( m_info, _( "You mess with the dial for a little bit." ) );
@@ -2257,7 +2273,7 @@ void iexamine::flower_poppy( Character &you, const tripoint &examp )
         you.mod_moves( -to_moves<int>( 1_seconds ) * 0.5 );
     }
 
-    here.furn_set( examp, f_null );
+    here.furn_set( examp, furn_str_id::NULL_ID() );
 
     iexamine_helper::handle_harvest( you, "poppy_bud", false );
     iexamine_helper::handle_harvest( you, "withered", false );
@@ -2284,7 +2300,7 @@ void iexamine::flower_cactus( Character &you, const tripoint &examp )
         you.apply_damage( nullptr, bodypart_id( "arm_r" ), 4 );
     }
 
-    here.furn_set( examp, f_null );
+    here.furn_set( examp, furn_str_id::NULL_ID() );
 
     iexamine_helper::handle_harvest( you, "cactus_pad", false );
     iexamine_helper::handle_harvest( you, "seed_cactus", false );
@@ -2319,7 +2335,7 @@ void iexamine::flower_dahlia( Character &you, const tripoint &examp )
         }
     }
 
-    here.furn_set( examp, f_null );
+    here.furn_set( examp, furn_str_id::NULL_ID() );
 
     if( can_get_root ) {
         iexamine_helper::handle_harvest( you, "dahlia_root", false );
@@ -2433,7 +2449,7 @@ void iexamine::flower_marloss( Character &you, const tripoint &examp )
         none( you, examp );
         return;
     }
-    here.furn_set( examp, f_null );
+    here.furn_set( examp, furn_str_id::NULL_ID() );
     here.spawn_item( you.pos(), itype_marloss_seed, 1, 3, calendar::turn );
     iexamine_helper::handle_harvest( you, "withered", false );
 }
@@ -2446,7 +2462,7 @@ void iexamine::fungus( Character &you, const tripoint &examp )
     map &here = get_map();
     add_msg( _( "The %s crumbles into spores!" ), here.furnname( examp ) );
     fungal_effects().create_spores( examp, &you );
-    here.furn_set( examp, f_null );
+    here.furn_set( examp, furn_str_id::NULL_ID() );
     you.mod_moves( -to_moves<int>( 1_seconds ) * 0.5 );
 }
 
@@ -2623,7 +2639,7 @@ void iexamine::harvest_plant_ex( Character &you, const tripoint &examp )
     if( seed == items.end() ) {
         debugmsg( "Missing seed for plant at (%d, %d, %d)", examp.x, examp.y, examp.z );
         here.i_clear( examp );
-        here.furn_set( examp, f_null );
+        here.furn_set( examp, furn_str_id::NULL_ID() );
         return;
     }
 
@@ -2647,7 +2663,7 @@ void iexamine::harvest_plant( Character &you, const tripoint &examp, bool from_a
     if( seed == items.end() ) {
         debugmsg( "Missing seed for plant at (%d, %d, %d)", examp.x, examp.y, examp.z );
         here.i_clear( examp );
-        here.furn_set( examp, f_null );
+        here.furn_set( examp, furn_str_id::NULL_ID() );
         return;
     }
 
@@ -2669,10 +2685,10 @@ void iexamine::harvest_plant( Character &you, const tripoint &examp, bool from_a
             g->place_critter_at( mon_fungal_blossom, examp );
             add_msg( m_info, _( "The seed blooms forth!  We have brought true beauty to this world." ) );
         } else if( you.has_trait( trait_THRESH_MYCUS ) || one_in( 4 ) ) {
-            here.furn_set( examp, f_flower_marloss );
+            here.furn_set( examp, furn_f_flower_marloss );
             add_msg( m_info, _( "The seed blossoms rather rapidly…" ) );
         } else {
-            here.furn_set( examp, f_flower_fungal );
+            here.furn_set( examp, furn_f_flower_fungal );
             add_msg( m_info, _( "The seed blossoms into a flower-looking fungus." ) );
         }
     } else { // Generic seed, use the seed item data
@@ -2753,7 +2769,7 @@ void iexamine::fertilize_plant( Character &you, const tripoint &tile,
     if( seed == items.end() ) {
         debugmsg( "Missing seed for plant at (%d, %d, %d)", tile.x, tile.y, tile.z );
         here.i_clear( tile );
-        here.furn_set( tile, f_null );
+        here.furn_set( tile, furn_str_id::NULL_ID() );
         return;
     }
 
@@ -2763,7 +2779,7 @@ void iexamine::fertilize_plant( Character &you, const tripoint &tile,
     // spawned items are moved to an adjacent field instead, but the fertilizer token
     // must be on the square of the plant, therefore this hack:
     const furn_id old_furn = here.furn( tile );
-    here.furn_set( tile, f_null );
+    here.furn_set( tile, furn_str_id::NULL_ID() );
     here.spawn_item( tile, itype_fertilizer, 1, 1, calendar::turn );
     here.furn_set( tile, old_furn );
     you.mod_moves( -to_moves<int>( 10_seconds ) );
@@ -2819,7 +2835,7 @@ void iexamine::aggie_plant( Character &you, const tripoint &examp )
     if( seed == items.end() ) {
         debugmsg( "Missing seed for plant at (%d, %d, %d)", examp.x, examp.y, examp.z );
         here.i_clear( examp );
-        here.furn_set( examp, f_null );
+        here.furn_set( examp, furn_str_id::NULL_ID() );
         return;
     }
 
@@ -2846,11 +2862,11 @@ void iexamine::kiln_empty( Character &you, const tripoint &examp )
 {
     map &here = get_map();
     furn_id cur_kiln_type = here.furn( examp );
-    furn_id next_kiln_type = f_null;
-    if( cur_kiln_type == f_kiln_empty ) {
-        next_kiln_type = f_kiln_full;
-    } else if( cur_kiln_type == f_kiln_metal_empty ) {
-        next_kiln_type = f_kiln_metal_full;
+    furn_id next_kiln_type = furn_str_id::NULL_ID();
+    if( cur_kiln_type == furn_f_kiln_empty ) {
+        next_kiln_type = furn_f_kiln_full;
+    } else if( cur_kiln_type == furn_f_kiln_metal_empty ) {
+        next_kiln_type = furn_f_kiln_metal_full;
     } else {
         debugmsg( "Examined furniture has action kiln_empty, but is of type %s",
                   here.furn( examp ).id().c_str() );
@@ -2889,7 +2905,7 @@ void iexamine::kiln_empty( Character &you, const tripoint &examp )
     const float skill = you.get_skill_level( skill_fabrication );
     int loss = 0;
     // if the current kiln is a metal one, use a more efficient conversion rate otherwise default to assuming it is a rock pit kiln
-    if( cur_kiln_type == f_kiln_metal_empty ) {
+    if( cur_kiln_type == furn_f_kiln_metal_empty ) {
         loss = 20 - 2 * skill;
     } else {
         loss = 60 - 2 * skill;
@@ -2939,11 +2955,11 @@ void iexamine::kiln_full( Character &, const tripoint &examp )
 {
     map &here = get_map();
     furn_id cur_kiln_type = here.furn( examp );
-    furn_id next_kiln_type = f_null;
-    if( cur_kiln_type == f_kiln_full ) {
-        next_kiln_type = f_kiln_empty;
-    } else if( cur_kiln_type == f_kiln_metal_full ) {
-        next_kiln_type = f_kiln_metal_empty;
+    furn_id next_kiln_type = furn_str_id::NULL_ID();
+    if( cur_kiln_type == furn_f_kiln_full ) {
+        next_kiln_type = furn_f_kiln_empty;
+    } else if( cur_kiln_type == furn_f_kiln_metal_full ) {
+        next_kiln_type = furn_f_kiln_metal_empty;
     } else {
         debugmsg( "Examined furniture has action kiln_full, but is of type %s",
                   here.furn( examp ).id().c_str() );
@@ -2999,9 +3015,9 @@ void iexamine::arcfurnace_empty( Character &you, const tripoint &examp )
 {
     map &here = get_map();
     furn_id cur_arcfurnace_type = here.furn( examp );
-    furn_id next_arcfurnace_type = f_null;
-    if( cur_arcfurnace_type == f_arcfurnace_empty ) {
-        next_arcfurnace_type = f_arcfurnace_full;
+    furn_id next_arcfurnace_type = furn_str_id::NULL_ID();
+    if( cur_arcfurnace_type == furn_f_arcfurnace_empty ) {
+        next_arcfurnace_type = furn_f_arcfurnace_full;
     } else {
         debugmsg( "Examined furniture has action arcfurnace_empty, but is of type %s",
                   here.furn( examp ).id().c_str() );
@@ -3072,9 +3088,9 @@ void iexamine::arcfurnace_full( Character &, const tripoint &examp )
 {
     map &here = get_map();
     furn_id cur_arcfurnace_type = here.furn( examp );
-    furn_id next_arcfurnace_type = f_null;
-    if( cur_arcfurnace_type == f_arcfurnace_full ) {
-        next_arcfurnace_type = f_arcfurnace_empty;
+    furn_id next_arcfurnace_type = furn_str_id::NULL_ID();
+    if( cur_arcfurnace_type == furn_f_arcfurnace_full ) {
+        next_arcfurnace_type = furn_f_arcfurnace_empty;
     } else {
         debugmsg( "Examined furniture has action arcfurnace_full, but is of type %s",
                   here.furn( examp ).id().c_str() );
@@ -3131,9 +3147,9 @@ void iexamine::stook_empty( Character &, const tripoint &examp )
 {
     map &here = get_map();
     furn_id cur_stook_type = here.furn( examp );
-    furn_id next_stook_type = f_null;
-    if( cur_stook_type == f_stook_empty ) {
-        next_stook_type = f_stook_full;
+    furn_id next_stook_type = furn_str_id::NULL_ID();
+    if( cur_stook_type == furn_f_stook_empty ) {
+        next_stook_type = furn_f_stook_full;
     } else {
         debugmsg( "Examined furniture has action stook_empty, but is of type %s",
                   here.furn( examp ).id().c_str() );
@@ -3173,9 +3189,9 @@ void iexamine::stook_full( Character &, const tripoint &examp )
 {
     map &here = get_map();
     furn_id cur_stook_type = here.furn( examp );
-    furn_id next_stook_type = f_null;
-    if( cur_stook_type == f_stook_full ) {
-        next_stook_type = f_null;
+    furn_id next_stook_type = furn_str_id::NULL_ID();
+    if( cur_stook_type == furn_f_stook_full ) {
+        next_stook_type = furn_str_id::NULL_ID();
     } else {
         debugmsg( "Examined furniture has action stook_full, but is of type %s",
                   here.furn( examp ).id().c_str() );
@@ -3220,7 +3236,7 @@ void iexamine::autoclave_empty( Character &you, const tripoint &examp )
 {
     map &here = get_map();
     furn_id cur_autoclave_type = here.furn( examp );
-    furn_id next_autoclave_type = f_null;
+    furn_id next_autoclave_type = furn_str_id::NULL_ID();
     if( cur_autoclave_type == furn_id( "f_autoclave" ) ) {
         next_autoclave_type = furn_id( "f_autoclave_full" );
     } else {
@@ -3280,7 +3296,7 @@ void iexamine::autoclave_full( Character &, const tripoint &examp )
 {
     map &here = get_map();
     furn_id cur_autoclave_type = here.furn( examp );
-    furn_id next_autoclave_type = f_null;
+    furn_id next_autoclave_type = furn_str_id::NULL_ID();
     if( cur_autoclave_type == furn_id( "f_autoclave_full" ) ) {
         next_autoclave_type = furn_id( "f_autoclave" );
     } else {
@@ -3450,7 +3466,7 @@ void iexamine::fireplace( Character &you, const tripoint &examp )
                                    here.furnname( examp ) );
             const itype_id furn_item = here.furn( examp ).obj().deployed_item;
             here.add_item_or_charges( examp, item( furn_item, calendar::turn ) );
-            here.furn_set( examp, f_null );
+            here.furn_set( examp, furn_str_id::NULL_ID() );
             return;
         }
         case 4: {
@@ -3470,10 +3486,10 @@ static void fvat_set_empty( const tripoint &pos )
 {
     map &here = get_map();
     furn_id furn = here.furn( pos );
-    if( furn == f_fvat_wood_empty || furn == f_fvat_wood_full ) {
-        here.furn_set( pos, f_fvat_wood_empty );
+    if( furn == furn_f_fvat_wood_empty || furn == furn_f_fvat_wood_full ) {
+        here.furn_set( pos, furn_f_fvat_wood_empty );
     } else {
-        here.furn_set( pos, f_fvat_empty );
+        here.furn_set( pos, furn_f_fvat_empty );
     }
 }
 
@@ -3481,10 +3497,10 @@ static void fvat_set_full( const tripoint &pos )
 {
     map &here = get_map();
     furn_id furn = here.furn( pos );
-    if( furn == f_fvat_wood_empty || furn == f_fvat_wood_full ) {
-        here.furn_set( pos, f_fvat_wood_full );
+    if( furn == furn_f_fvat_wood_empty || furn == furn_f_fvat_wood_full ) {
+        here.furn_set( pos, furn_f_fvat_wood_full );
     } else {
-        here.furn_set( pos, f_fvat_full );
+        here.furn_set( pos, furn_f_fvat_full );
     }
 }
 
@@ -5791,11 +5807,11 @@ static void mill_activate( Character &you, const tripoint &examp )
 {
     map &here = get_map();
     const furn_id cur_mill_type = here.furn( examp );
-    furn_id next_mill_type = f_null;
-    if( cur_mill_type == f_wind_mill ) {
-        next_mill_type = f_wind_mill_active;
-    } else if( cur_mill_type == f_water_mill ) {
-        next_mill_type = f_water_mill_active;
+    furn_id next_mill_type = furn_str_id::NULL_ID();
+    if( cur_mill_type == furn_f_wind_mill ) {
+        next_mill_type = furn_f_wind_mill_active;
+    } else if( cur_mill_type == furn_f_water_mill ) {
+        next_mill_type = furn_f_water_mill_active;
     } else {
         debugmsg( "Examined furniture has action mill_activate, but is of type %s",
                   here.furn( examp ).id().c_str() );
@@ -5958,13 +5974,13 @@ static void smoker_activate( Character &you, const tripoint &examp )
 {
     map &here = get_map();
     furn_id cur_smoker_type = here.furn( examp );
-    furn_id next_smoker_type = f_null;
+    furn_id next_smoker_type = furn_str_id::NULL_ID();
     const bool portable = here.furn( examp ) == furn_f_metal_smoking_rack ||
                           here.furn( examp ) == furn_f_metal_smoking_rack_active;
-    if( cur_smoker_type == f_smoking_rack ) {
-        next_smoker_type = f_smoking_rack_active;
-    } else if( cur_smoker_type == f_metal_smoking_rack ) {
-        next_smoker_type = f_metal_smoking_rack_active;
+    if( cur_smoker_type == furn_f_smoking_rack ) {
+        next_smoker_type = furn_f_smoking_rack_active;
+    } else if( cur_smoker_type == furn_f_metal_smoking_rack ) {
+        next_smoker_type = furn_f_metal_smoking_rack_active;
     } else {
         debugmsg( "Examined furniture has action smoker_activate, but is of type %s",
                   here.furn( examp ).id().c_str() );
@@ -6072,11 +6088,11 @@ void iexamine::mill_finalize( Character &, const tripoint &examp )
 {
     map &here = get_map();
     const furn_id cur_mill_type = here.furn( examp );
-    furn_id next_mill_type = f_null;
-    if( cur_mill_type == f_wind_mill_active ) {
-        next_mill_type = f_wind_mill;
-    } else if( cur_mill_type == f_water_mill_active ) {
-        next_mill_type = f_water_mill;
+    furn_id next_mill_type = furn_str_id::NULL_ID();
+    if( cur_mill_type == furn_f_wind_mill_active ) {
+        next_mill_type = furn_f_wind_mill;
+    } else if( cur_mill_type == furn_f_water_mill_active ) {
+        next_mill_type = furn_f_water_mill;
     } else {
         debugmsg( "Furniture executed action mill_finalize, but is of type %s",
                   here.furn( examp ).id().c_str() );
@@ -6188,11 +6204,11 @@ static void smoker_finalize( Character &, const tripoint &examp, const time_poin
 {
     map &here = get_map();
     furn_id cur_smoker_type = here.furn( examp );
-    furn_id next_smoker_type = f_null;
-    if( cur_smoker_type == f_smoking_rack_active ) {
-        next_smoker_type = f_smoking_rack;
-    } else if( cur_smoker_type == f_metal_smoking_rack_active ) {
-        next_smoker_type = f_metal_smoking_rack;
+    furn_id next_smoker_type = furn_str_id::NULL_ID();
+    if( cur_smoker_type == furn_f_smoking_rack_active ) {
+        next_smoker_type = furn_f_smoking_rack;
+    } else if( cur_smoker_type == furn_f_metal_smoking_rack_active ) {
+        next_smoker_type = furn_f_metal_smoking_rack;
     } else {
         debugmsg( "Furniture executed action smoker_finalize, but is of type %s",
                   here.furn( examp ).id().c_str() );
@@ -6458,9 +6474,9 @@ void iexamine::quern_examine( Character &you, const tripoint &examp )
     if( items_here.empty() && active ) {
         debugmsg( "active mill was empty!" );
         if( here.furn( examp ) == furn_f_water_mill_active ) {
-            here.furn_set( examp, f_water_mill );
+            here.furn_set( examp, furn_f_water_mill );
         } else if( here.furn( examp ) == furn_f_wind_mill_active ) {
-            here.furn_set( examp, f_wind_mill );
+            here.furn_set( examp, furn_f_wind_mill );
         }
         return;
     }
@@ -6468,9 +6484,9 @@ void iexamine::quern_examine( Character &you, const tripoint &examp )
     if( items_here.size() == 1 && items_here.begin()->typeId() == itype_fake_milling_item ) {
         debugmsg( "f_mill_active was empty, and had fake_milling_item!" );
         if( here.furn( examp ) == furn_f_water_mill_active ) {
-            here.furn_set( examp, f_water_mill );
+            here.furn_set( examp, furn_f_water_mill );
         } else if( here.furn( examp ) == furn_f_wind_mill_active ) {
-            here.furn_set( examp, f_wind_mill );
+            here.furn_set( examp, furn_f_wind_mill );
         }
         items_here.erase( items_here.begin() );
         return;
@@ -6582,9 +6598,9 @@ void iexamine::quern_examine( Character &you, const tripoint &examp )
             }
             if( active ) {
                 if( here.furn( examp ) == furn_f_water_mill_active ) {
-                    here.furn_set( examp, f_water_mill );
+                    here.furn_set( examp, furn_f_water_mill );
                 } else if( here.furn( examp ) == furn_f_wind_mill_active ) {
-                    here.furn_set( examp, f_wind_mill );
+                    here.furn_set( examp, furn_f_wind_mill );
                 }
                 add_msg( m_info, _( "You stop the milling process." ) );
             }
@@ -6594,9 +6610,9 @@ void iexamine::quern_examine( Character &you, const tripoint &examp )
             break;
         case 4:
             if( here.furn( examp ) == furn_f_water_mill_active ) {
-                here.furn_set( examp, f_water_mill );
+                here.furn_set( examp, furn_f_water_mill );
             } else if( here.furn( examp ) == furn_f_wind_mill_active ) {
-                here.furn_set( examp, f_wind_mill );
+                here.furn_set( examp, furn_f_wind_mill );
             }
             for( map_stack::iterator it = items_here.begin(); it != items_here.end(); ) {
                 if( it->typeId() == itype_fake_milling_item ) {
@@ -6621,21 +6637,21 @@ void iexamine::smoker_options( Character &you, const tripoint &examp )
 
     if( portable && items_here.empty() && active ) {
         debugmsg( "f_metal_smoking_rack_active was empty!" );
-        here.furn_set( examp, f_metal_smoking_rack );
+        here.furn_set( examp, furn_f_metal_smoking_rack );
         return;
     } else if( items_here.empty() && active ) {
         debugmsg( "f_smoking_rack_active was empty!" );
-        here.furn_set( examp, f_smoking_rack );
+        here.furn_set( examp, furn_f_smoking_rack );
         return;
     }
     if( portable && items_here.size() == 1 && items_here.begin()->typeId() == itype_fake_smoke_plume ) {
         debugmsg( "f_metal_smoking_rack_active was empty, and had fake_smoke_plume!" );
-        here.furn_set( examp, f_metal_smoking_rack );
+        here.furn_set( examp, furn_f_metal_smoking_rack );
         items_here.erase( items_here.begin() );
         return;
     } else if( items_here.size() == 1 && items_here.begin()->typeId() == itype_fake_smoke_plume ) {
         debugmsg( "f_smoking_rack_active was empty, and had fake_smoke_plume!" );
-        here.furn_set( examp, f_smoking_rack );
+        here.furn_set( examp, furn_f_smoking_rack );
         items_here.erase( items_here.begin() );
         return;
     }
@@ -6812,10 +6828,10 @@ void iexamine::smoker_options( Character &you, const tripoint &examp )
                 }
             }
             if( portable && active && rem_f_opt ) {
-                here.furn_set( examp, f_metal_smoking_rack );
+                here.furn_set( examp, furn_f_metal_smoking_rack );
                 add_msg( m_info, _( "You stop the smoking process." ) );
             } else if( active && rem_f_opt ) {
-                here.furn_set( examp, f_smoking_rack );
+                here.furn_set( examp, furn_f_smoking_rack );
                 add_msg( m_info, _( "You stop the smoking process." ) );
             }
         }
@@ -6825,15 +6841,15 @@ void iexamine::smoker_options( Character &you, const tripoint &examp )
             break;
         case 7:
             if( portable ) {
-                here.furn_set( examp, f_metal_smoking_rack );
+                here.furn_set( examp, furn_f_metal_smoking_rack );
                 add_msg( m_info, _( "You stop the smoking process." ) );
             } else {
-                here.furn_set( examp, f_smoking_rack );
+                here.furn_set( examp, furn_f_smoking_rack );
                 add_msg( m_info, _( "You stop the smoking process." ) );
             }
             break;
         case 8:
-            here.furn_set( examp, f_metal_smoking_rack );
+            here.furn_set( examp, furn_f_metal_smoking_rack );
             deployed_furniture( you, examp );
             break;
     }
@@ -6842,7 +6858,7 @@ void iexamine::smoker_options( Character &you, const tripoint &examp )
 void iexamine::open_safe( Character &, const tripoint &examp )
 {
     add_msg( m_info, _( "You open the unlocked safe." ) );
-    get_map().furn_set( examp, f_safe_o );
+    get_map().furn_set( examp, furn_f_safe_o );
 }
 
 void iexamine::workbench( Character &you, const tripoint &examp )

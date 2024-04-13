@@ -185,6 +185,11 @@
   },
   {
     "type": "oter_id_migration",
+    "//": "migrated in 0.I, were stopped from spawning in 2019 but never obsoleted/migrated so just adding this to be safe",
+    "oter_ids": { "hellmouth": "empty_rock", "rift": "empty_rock" }
+  },
+  {
+    "type": "oter_id_migration",
     "//": "migrated in 0.I",
     "oter_ids": {
       "house_05ab": "house_05",

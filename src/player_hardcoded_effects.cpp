@@ -101,6 +101,8 @@ static const efftype_id effect_visuals( "visuals" );
 static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 static const efftype_id effect_winded( "winded" );
 
+static const furn_str_id furn_f_rubble_rock( "f_rubble_rock" );
+
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
 static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
 static const json_character_flag json_flag_BLEEDSLOW( "BLEEDSLOW" );
@@ -652,7 +654,7 @@ static void eff_fun_teleglow( Character &u, effect &it )
             } while( creatures.creature_at( dest ) );
             if( tries < 10 ) {
                 if( here.impassable( dest ) ) {
-                    here.make_rubble( dest, f_rubble_rock, true );
+                    here.make_rubble( dest, furn_f_rubble_rock, true );
                 }
                 std::vector<MonsterGroupResult> spawn_details =
                     MonsterGroupManager::GetResultFromGroup( GROUP_NETHER );
@@ -1348,7 +1350,7 @@ void Character::hardcoded_effects( effect &it )
             } while( creatures.creature_at( dest ) && tries < 10 );
             if( tries < 10 ) {
                 if( here.impassable( dest ) ) {
-                    here.make_rubble( dest, f_rubble_rock, true );
+                    here.make_rubble( dest, furn_f_rubble_rock, true );
                 }
                 std::vector<MonsterGroupResult> spawn_details =
                     MonsterGroupManager::GetResultFromGroup( GROUP_NETHER );
