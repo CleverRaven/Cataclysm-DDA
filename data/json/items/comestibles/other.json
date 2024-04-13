@@ -62,7 +62,7 @@
       {
         "id": "gum_mixedberry",
         "name": { "str_sp": "chewing gum, mixed-berry flavored" },
-        "description": "This flavour is a combination of different berries that provides a fruity, sweet, and tart taste.",
+        "description": "This flavor is a combination of different berries that provides a fruity, sweet, and tart taste.",
         "weight": 50
       },
       {
@@ -92,7 +92,7 @@
       {
         "id": "gum_watermelon",
         "name": { "str_sp": "chewing gum, watermelon flavored" },
-        "description": "This watermelon-flavoured chewing gum has a sweet and fruity flavor, perfect for summertime.",
+        "description": "This watermelon-flavored chewing gum has a sweet and fruity flavor, perfect for summertime.",
         "weight": 50
       },
       {
@@ -116,7 +116,7 @@
       {
         "id": "gum_greenapple",
         "name": { "str_sp": "chewing gum, green apple flavored" },
-        "description": "This green apple-flavored gum is crisp and refreshing, with a slightly sour and sweet taste, more sour and sweet than the regular apple-flavoured one.",
+        "description": "This green apple-flavored gum is crisp and refreshing, with a slightly sour and sweet taste, more sour and sweet than the regular apple-flavored one.",
         "weight": 30
       },
       {
@@ -146,7 +146,7 @@
       {
         "id": "gum_coconut",
         "name": { "str_sp": "chewing gum, coconut flavored" },
-        "description": "This coconut-flavoured chewing gum offers a tropical and slightly sweet flavor that's popular during summertime.",
+        "description": "This coconut-flavored chewing gum offers a tropical and slightly sweet flavor that's popular during summertime.",
         "weight": 40
       },
       {
@@ -170,7 +170,7 @@
       {
         "id": "gum_pomegranate",
         "name": { "str_sp": "chewing gum, pomegranate flavored" },
-        "description": "This pomegranate-flavored chewing gum has a blend of tart and sweet taste for a unique, fruity flavour.",
+        "description": "This pomegranate-flavored chewing gum has a blend of tart and sweet taste for a unique, fruity flavor.",
         "weight": 30
       },
       {
@@ -649,15 +649,17 @@
     "id": "napkin",
     "name": { "str": "napkin" },
     "category": "spare_parts",
-    "weight": "3 g",
+    "weight": "1360 mg",
+    "//1": "Calculated from cocktail napkins with roughly average (13lb/500sheets) thickness. 100in^2 * 13lb / 864in^2 = 1.5lb => 1.5lb / 500 = 0.003lb per napkin.",
     "color": "white",
     "symbol": "`",
     "description": "A napkin.  Can be used for fires.",
     "price": 0,
     "price_postapoc": 0,
     "material": [ "paper" ],
-    "volume": "5 ml",
-    "flags": [ "TINDER" ]
+    "volume": "3 ml",
+    "flags": [ "TINDER" ],
+    "//2": "Based on https://www.sizes.com/home/napkins.htm"
   },
   {
     "type": "GENERIC",

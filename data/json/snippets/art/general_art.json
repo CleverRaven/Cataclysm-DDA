@@ -20,7 +20,7 @@
     "text": [
       { "id": "painting_type_0001", "text": "painted using water colors" },
       { "id": "painting_type_0002", "text": "painted using oil-based pigments" },
-      { "id": "painting_type_0003", "text": "created using gouche coloring" },
+      { "id": "painting_type_0003", "text": "created using gouache coloring" },
       { "id": "painting_type_0004", "text": "created with a spray-painting technique" },
       { "id": "painting_type_0005", "text": "created using pastels" },
       { "id": "painting_type_0006", "text": "created using digital technology" }
@@ -52,7 +52,7 @@
       { "id": "artist_identifying_info_0002", "text": "The artist's name is written nearby, \"<full_name>\"" },
       {
         "id": "artist_identifying_info_0003",
-        "text": "This work was once signed, but the name has been smuged to illegibility"
+        "text": "This work was once signed, but the name has been smudged to illegibility"
       },
       { "id": "artist_identifying_info_0004", "text": "The artist's name is signed in ink, \"<given_name>\"" }
     ]

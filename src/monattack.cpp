@@ -422,17 +422,45 @@ bool mattack::absorb_items( monster *z )
 
     std::vector<item *> consumed_items;
     std::vector<material_id> absorb_material = z->get_absorb_material();
+    std::vector<material_id> no_absorb_material = z->get_no_absorb_material();
 
     for( item &elem : here.i_at( z->pos() ) ) {
         bool any_materials_match = false;
 
-        if( absorb_material.empty() ) {
+        // there is no whitelist or blacklist so allow anything.
+        if( absorb_material.empty() && no_absorb_material.empty() ) {
             any_materials_match = true;
-        } else {
+            // there is a whitelist but no blacklist
+        } else if( !absorb_material.empty() && no_absorb_material.empty() ) {
             for( const material_type *mat_type : elem.made_of_types() ) {
                 if( std::find( absorb_material.begin(), absorb_material.end(),
                                mat_type->id ) != absorb_material.end() ) {
                     any_materials_match = true;
+                }
+            }
+            // there is no whitelist but there is a blacklist
+        } else if( absorb_material.empty() && !no_absorb_material.empty() ) {
+            bool found = false;
+            for( const material_type *mat_type : elem.made_of_types() ) {
+                if( std::find( no_absorb_material.begin(), no_absorb_material.end(),
+                               mat_type->id ) != no_absorb_material.end() ) {
+                    found = true;
+                }
+            }
+            // if the item wasn't on the blacklist, it's allowed
+            if( !found ) {
+                any_materials_match = true;
+            }
+            // there is a whitelist and a blacklist
+        } else if( !absorb_material.empty() && !no_absorb_material.empty() ) {
+            for( const material_type *mat_type : elem.made_of_types() ) {
+                if( !( std::find( no_absorb_material.begin(), no_absorb_material.end(),
+                                  mat_type->id ) != no_absorb_material.end() ) ) {
+                    // the item wasn't found on the blacklist so check the whitelist
+                    if( std::find( absorb_material.begin(), absorb_material.end(),
+                                   mat_type->id ) != absorb_material.end() ) {
+                        any_materials_match = true;
+                    }
                 }
             }
         }
@@ -554,7 +582,7 @@ bool mattack::graze( monster *z )
         if( here.has_flag( ter_furn_flag::TFLAG_FLOWER, p ) &&
             !here.has_flag( ter_furn_flag::TFLAG_GRAZER_INEDIBLE, p ) &&
             ( z->amount_eaten <= z->stomach_size ) ) {
-            here.furn_set( p, f_null );
+            here.furn_set( p, furn_str_id::NULL_ID() );
             z->amount_eaten += 50;
             //Calorie amount is based on the "small_plant" dummy item, as with the grazer mutation.
             return true;

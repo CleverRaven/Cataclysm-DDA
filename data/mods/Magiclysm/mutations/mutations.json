@@ -497,7 +497,7 @@
     "prereqs": [ "WINGS_STUB" ],
     "category": [ "DRAGON_BLACK" ],
     "threshreq": [ "THRESH_DRAGON_BLACK" ],
-    "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": -3 } ] } ],
+    "enchantments": [ { "values": [ { "value": "DODGE_CHANCE", "add": -3 } ] } ],
     "attacks": {
       "attack_text_u": "You bash %s with your powerful wings!",
       "attack_text_npc": "%1$s bashes %2$s with their powerful wings!",

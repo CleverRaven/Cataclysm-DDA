@@ -341,6 +341,8 @@ struct mtype {
 
         // The type of material this monster can absorb. Leave unspecified for all materials.
         std::vector<material_id> absorb_material;
+        // The type of material this monster cannot absorb. Leave unspecified for no materials (blacklist none).
+        std::vector<material_id> no_absorb_material;
         damage_instance melee_damage; // Basic melee attack damage
         std::vector<std::string> special_attacks_names; // names of attacks, in json load order
         std::vector<std::string> chat_topics; // What it has to say.

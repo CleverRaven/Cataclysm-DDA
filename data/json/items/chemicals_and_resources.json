@@ -845,7 +845,7 @@
   {
     "type": "GENERIC",
     "id": "plutonium",
-    "name": { "str": "plutonium" },
+    "name": { "str_sp": "plutonium" },
     "category": "chems",
     "//0": "Plutonium is about 5000 USD/gram",
     "price": 495000000,
@@ -861,7 +861,7 @@
   {
     "type": "GENERIC",
     "id": "uranium",
-    "name": { "str": "uranium" },
+    "name": { "str_sp": "uranium" },
     "category": "chems",
     "//0": "Uranium is about 40 USD/kg",
     "price": 3812,
@@ -1143,7 +1143,7 @@
     "use_action": [ "WATER_PURIFIER" ],
     "comestible_type": "MED",
     "symbol": "!",
-    "description": "Intended for the clarification and disinfection of unsafe drinking water, this halazone-based purification tablet removes dangerous contaminants using powerful chemicals.  The label says to use one tablet per unit of water (250 ml).",
+    "description": "Intended for the clarification and disinfection of unsafe drinking water, this halazone-based purification tablet removes dangerous contaminants using powerful chemicals.  The label says to use one tablet per unit of water (250 mL).",
     "price": "9 cent",
     "price_postapoc": "20 cent",
     "volume": "2 ml",

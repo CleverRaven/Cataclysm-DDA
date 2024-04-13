@@ -105,7 +105,7 @@
       {
         "id": "intersex_pride_flag",
         "name": { "str": "intersex flag" },
-        "description": "A large yellow, and purple intersex flag.  It displays a purple circle on a yellow field.  Yellow and purple were chosen as colours as they were viewed as free from gender associations and were historically used to represent intersex people.  The circle is described as \"unbroken and unornamented, symbolizing wholeness and completeness, and our potentialities\".",
+        "description": "A large yellow, and purple intersex flag.  It displays a purple circle on a yellow field.  Yellow and purple were chosen as colors as they were viewed as free from gender associations and were historically used to represent intersex people.  The circle is described as \"unbroken and unornamented, symbolizing wholeness and completeness, and our potentialities\".",
         "weight": 2
       },
       {
@@ -140,7 +140,7 @@
       {
         "id": "bear_pride_flag",
         "name": { "str": "bear flag" },
-        "description": "A large black and orange international bear brotherhood flag.  The flag displays seven horizontal stripes of colors ranging from black to brown representing the colours of different bear species, you can see a black bear paw in the upper right corner."
+        "description": "A large black and orange international bear brotherhood flag.  The flag displays seven horizontal stripes of colors ranging from black to brown representing the colors of different bear species, you can see a black bear paw in the upper right corner."
       }
     ]
   },
@@ -1039,7 +1039,7 @@
       {
         "id": "macedonian_flag",
         "name": { "str": "Macedonian flag" },
-        "description": "A flag that features a stylised yellow sun on a red field, with eight broadening rays extending from the center to the edge of the field.",
+        "description": "A flag that features a stylized yellow sun on a red field, with eight broadening rays extending from the center to the edge of the field.",
         "weight": 10,
         "append": true
       },
@@ -1122,7 +1122,7 @@
       },
       {
         "id": "portugese_flag",
-        "name": { "str": "Portugese flag" },
+        "name": { "str": "Portuguese flag" },
         "description": "A flag that features a vertically striped bicolor of green and red, with the lesser coat of arms of centered over the color boundary.",
         "weight": 10,
         "append": true
@@ -1291,7 +1291,7 @@
       {
         "id": "spanish_flag",
         "name": { "str": "Spanish flag" },
-        "description": "A flag that has a horizontal triband flag of red, yellow and red charged with the spanish coat of arms off centered toward the hoist.",
+        "description": "A flag that has a horizontal triband flag of red, yellow and red charged with the Spanish coat of arms off centered toward the hoist.",
         "weight": 10,
         "append": true
       },
@@ -1319,7 +1319,7 @@
       {
         "id": "swedish_flag",
         "name": { "str": "Swedish flag" },
-        "description": "A flag that features a blue field charged with a yellow nordic cross that extends to the edges, the vertical part of the cross is shifted to the hoist side.",
+        "description": "A flag that features a blue field charged with a yellow Nordic cross that extends to the edges, the vertical part of the cross is shifted to the hoist side.",
         "weight": 10,
         "append": true
       },
@@ -2030,7 +2030,7 @@
     "symbol": "[",
     "color": "yellow",
     "name": { "str": "rain poncho" },
-    "description": "A lightweigh plastic rain poncho with a hood.  It folds into a very compact form when not in use.",
+    "description": "A lightweight plastic rain poncho with a hood.  It folds into a very compact form when not in use.",
     "price": 5000,
     "price_postapoc": 50,
     "material": [ "vinyl" ],

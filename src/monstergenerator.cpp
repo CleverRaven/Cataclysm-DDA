@@ -944,6 +944,17 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         }
     }
 
+    if( jo.has_member( "no_absorb_material" ) ) {
+        no_absorb_material.clear();
+        if( jo.has_array( "no_absorb_material" ) ) {
+            for( std::string mat : jo.get_string_array( "no_absorb_material" ) ) {
+                no_absorb_material.emplace_back( mat );
+            }
+        } else {
+            no_absorb_material.emplace_back( jo.get_string( "no_absorb_material" ) );
+        }
+    }
+
     optional( jo, was_loaded, "bleed_rate", bleed_rate, 100 );
 
     optional( jo, was_loaded, "petfood", petfood );
@@ -1605,6 +1616,13 @@ void mtype::remove_regeneration_modifiers( const JsonObject &jo, const std::stri
 void MonsterGenerator::check_monster_definitions() const
 {
     for( const mtype &mon : mon_templates->get_all() ) {
+        if( !mon.src.empty() && mon.src.back().second.str() == "dda" ) {
+            std::string mon_id = mon.id.str();
+            std::string suffix_id = mon_id.substr( 0, mon_id.find( '_' ) );
+            if( suffix_id != "mon" && suffix_id != "pseudo" ) {
+                debugmsg( "monster %s is missing mon_ (or pseudo_) prefix from id", mon.id.c_str() );
+            }
+        }
         if( mon.harvest.is_null() && !mon.has_flag( mon_flag_ELECTRONIC ) && !mon.id.is_null() ) {
             debugmsg( "monster %s has no harvest entry", mon.id.c_str(), mon.harvest.c_str() );
         }

@@ -1061,7 +1061,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Duration*: Instant<br />
 *Stamina Cost*: 7500, minus 170 per level to a minimum of 4600<br />
 *Channeling Time*: 150 moves, minus 5.5 moves per level to a minimum of 75<br />
-*Effects*: Teleports a single monster somewhere *else*, removing them and anything they might drop. The monster must have HP lower than 15 to 350, plus 15 to 35 per power level, randomly determined when the power is used.  Oubliette cannot currently affect NPCs.<br />
+*Effects*: Teleports a single target somewhere *else*, removing them and anything they might drop. The target must have HP lower than 15 to 350, plus 15 to 35 per power level, randomly determined when the power is used.  For this purpose, NPC health is calculated as the sum total of their limb health, divided by 3.<br />
 *Prerequisites*: Displacement 10, Farstep 6 *or* Transposition 8 *or * Spacial Vortex 8<br />
 
 ## Gateway 

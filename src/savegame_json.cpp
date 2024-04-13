@@ -735,12 +735,12 @@ void Character::load( const JsonObject &data )
     data.read( "healthy_mod", daily_health );
     data.read( "health_tally", health_tally );
 
-    // Remove check after 0.F
-    if( savegame_loading_version >= 30 ) {
-        if( data.has_array( "proficiencies" ) ) {
-            _proficiencies->deserialize_legacy( data.get_array( "proficiencies" ) );
-        } else {
-            data.read( "proficiencies", _proficiencies );
+    data.read( "proficiencies", _proficiencies );
+
+    // If the proficiency XP required has changed such that a proficiency is now known
+    for( const proficiency_id &prof : _proficiencies->learning_profs() ) {
+        if( _proficiencies->pct_practiced_time( prof ) >= prof->time_to_learn() ) {
+            _proficiencies->learn( prof );
         }
     }
 

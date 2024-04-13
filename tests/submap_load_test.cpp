@@ -27,6 +27,11 @@
 static const construction_str_id construction_constr_ground_cable( "constr_ground_cable" );
 static const construction_str_id construction_constr_rack_coat( "constr_rack_coat" );
 
+static const furn_str_id furn_f_bookcase( "f_bookcase" );
+static const furn_str_id furn_f_coffin_c( "f_coffin_c" );
+static const furn_str_id furn_f_crate_o( "f_crate_o" );
+static const furn_str_id furn_f_dresser( "f_dresser" );
+
 static const ter_str_id ter_t_dirt( "t_dirt" );
 static const ter_str_id ter_t_floor( "t_floor" );
 static const ter_str_id ter_t_floor_blue( "t_floor_blue" );
@@ -847,7 +852,7 @@ static bool is_normal_submap( const submap &sm, submap_checks checks = {} )
             if( terrain && sm.get_ter( { x, y } ) != ter_t_dirt ) {
                 return false;
             }
-            if( furniture && sm.get_furn( { x, y } ) != f_null ) {
+            if( furniture && sm.get_furn( { x, y } ) != furn_str_id::NULL_ID() ) {
                 return false;
             }
             if( traps && sm.get_trap( {x, y} ) != tr_null ) {
@@ -981,10 +986,10 @@ TEST_CASE( "submap_furniture_load", "[submap][load]" )
     INFO( string_format( "se: %s", furn_se.id().str() ) );
     INFO( string_format( "ra: %s", furn_ra.id().str() ) );
     // Require to prevent the lower CHECK from being spammy
-    REQUIRE( furn_nw == f_coffin_c );
-    REQUIRE( furn_ne == f_bookcase );
-    REQUIRE( furn_sw == f_dresser );
-    REQUIRE( furn_se == f_crate_o );
+    REQUIRE( furn_nw == furn_f_coffin_c );
+    REQUIRE( furn_ne == furn_f_bookcase );
+    REQUIRE( furn_sw == furn_f_dresser );
+    REQUIRE( furn_se == furn_f_crate_o );
     REQUIRE( furn_ra == STATIC( furn_str_id( "f_gas_tank" ) ) );
 
     // Also, check we have no other furniture
@@ -995,7 +1000,7 @@ TEST_CASE( "submap_furniture_load", "[submap][load]" )
                 tested == random_pt ) {
                 continue;
             }
-            CHECK( sm.get_furn( tested ) == f_null );
+            CHECK( sm.get_furn( tested ) == furn_str_id::NULL_ID() );
         }
     }
 }

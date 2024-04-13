@@ -5816,7 +5816,7 @@ static std::string colorized_feature_description_at( const tripoint &center_poin
     item_found = false;
     map &here = get_map();
     const furn_id furn = here.furn( center_point );
-    if( furn != f_null && furn.is_valid() ) {
+    if( furn != furn_str_id::NULL_ID() && furn.is_valid() ) {
         std::string furn_str = colorize( furn->name(), c_yellow );
         std::string sign_message = here.get_signage( center_point );
         if( !sign_message.empty() ) {

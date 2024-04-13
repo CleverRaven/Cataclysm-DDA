@@ -300,6 +300,28 @@
     ]
   },
   {
+    "id": "integrated_photo_eyes",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "photon regulation" },
+    "description": "With a little concentration, you can control the light your eyes accept.  Protects you from glare and welding arcs.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "material": [ "light" ],
+    "symbol": "[",
+    "color": "yellow",
+    "qualities": [ [ "GLARE", 1 ] ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "SKINTIGHT", "SOFT", "WATER_FRIENDLY", "SUN_GLASSES", "NO_REPAIR", "NO_SALVAGE", "AURA" ],
+    "armor": [
+      {
+        "material": [ { "type": "light", "covered_by_mat": 100, "thickness": 0.1 } ],
+        "covers": [ "eyes" ],
+        "coverage": 100,
+        "encumbrance": 0
+      }
+    ]
+  },
+  {
     "id": "pyrokinetic_torch_weld",
     "type": "TOOL_ARMOR",
     "name": { "str": "[Ψ]incandescent lance" },

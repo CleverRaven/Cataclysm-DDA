@@ -83,19 +83,6 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "jug_plastic",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_CONTAINERS",
-    "skill_used": "fabrication",
-    "difficulty": 1,
-    "time": "30 m",
-    "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "duct_tape", 10 ] ], [ [ "bottle_plastic", 8 ], [ "bottle_bathroom", 8 ], [ "bottle_plastic_small", 16 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
     "result": "jerrycan",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -160,7 +147,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "plastic_chunk", 3 ] ] ]
+    "components": [ [ [ "plastic_chunk", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -445,7 +432,7 @@
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "forge", 75 ] ]
     ],
-    "components": [ [ [ "glass_shard", 3 ], [ "pipe_glass", 1 ], [ "flask_glass", 3 ], [ "test_tube", 6 ], [ "marble", 75 ] ] ]
+    "components": [ [ [ "glass_shard", 7 ], [ "pipe_glass", 4 ], [ "flask_glass", 11 ], [ "test_tube", 47 ], [ "marble", 171 ] ] ]
   },
   {
     "type": "recipe",
@@ -683,9 +670,9 @@
     "autolearn": true,
     "book_learn": [ [ "plastics_book", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
-    "tools": [ [ [ "surface_heat", 15, "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ],
     "using": [ [ "plastic_molding", 1 ] ],
-    "components": [ [ [ "plastic_chunk", 15 ] ] ]
+    "components": [ [ [ "plastic_chunk", 4 ] ] ]
   },
   {
     "type": "recipe",

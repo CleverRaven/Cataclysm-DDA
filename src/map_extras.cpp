@@ -66,7 +66,26 @@
 
 static const flag_id json_flag_FILTHY( "FILTHY" );
 
+static const furn_str_id furn_f_ash( "f_ash" );
+static const furn_str_id furn_f_barricade_road( "f_barricade_road" );
+static const furn_str_id furn_f_bench( "f_bench" );
+static const furn_str_id furn_f_camp_chair( "f_camp_chair" );
+static const furn_str_id furn_f_canvas_door( "f_canvas_door" );
+static const furn_str_id furn_f_canvas_wall( "f_canvas_wall" );
+static const furn_str_id furn_f_cattails( "f_cattails" );
+static const furn_str_id furn_f_chair( "f_chair" );
+static const furn_str_id furn_f_crate_c( "f_crate_c" );
+static const furn_str_id furn_f_crate_o( "f_crate_o" );
+static const furn_str_id furn_f_desk( "f_desk" );
+static const furn_str_id furn_f_fema_groundsheet( "f_fema_groundsheet" );
+static const furn_str_id furn_f_firering( "f_firering" );
+static const furn_str_id furn_f_lilypad( "f_lilypad" );
+static const furn_str_id furn_f_lotus( "f_lotus" );
+static const furn_str_id furn_f_makeshift_bed( "f_makeshift_bed" );
+static const furn_str_id furn_f_sandbag_half( "f_sandbag_half" );
 static const furn_str_id furn_f_sign_warning( "f_sign_warning" );
+static const furn_str_id furn_f_tourist_table( "f_tourist_table" );
+static const furn_str_id furn_f_wreckage( "f_wreckage" );
 
 static const item_group_id Item_spawn_data_ammo_casings( "ammo_casings" );
 static const item_group_id Item_spawn_data_army_bed( "army_bed" );
@@ -249,7 +268,7 @@ static void dead_vegetation_parser( map &m, const tripoint &loc )
     if( fid.has_flag( ter_furn_flag::TFLAG_PLANT ) || fid.has_flag( ter_furn_flag::TFLAG_FLOWER ) ||
         fid.has_flag( ter_furn_flag::TFLAG_ORGANIC ) ) {
         m.i_clear( loc );
-        m.furn_set( loc, f_null );
+        m.furn_set( loc, furn_str_id::NULL_ID() );
         m.spawn_item( loc, itype_withered );
     }
     // terrain specific conversions
@@ -323,7 +342,7 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
                 if( x >= c.x - dice( 1, 6 ) && x <= c.x + dice( 1, 6 ) && y >= c.y - dice( 1, 6 ) &&
                     y <= c.y + dice( 1, 6 ) ) {
                     if( !one_in( 5 ) ) {
-                        m.make_rubble( tripoint( x,  y, abs_sub.z ), f_wreckage, true );
+                        m.make_rubble( tripoint( x,  y, abs_sub.z ), furn_f_wreckage, true );
                         if( m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( ter_furn_flag::TFLAG_DIGGABLE ) ) {
                             m.ter_set( tripoint( x, y, abs_sub.z ), ter_t_dirtmound );
                         }
@@ -336,7 +355,7 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
 
                 } else if( one_in( 4 + ( std::abs( x - c.x ) + std::abs( y -
                                          c.y ) ) ) ) { // 1 in 10 chance of being wreckage anyway
-                    m.make_rubble( tripoint( x,  y, abs_sub.z ), f_wreckage, true );
+                    m.make_rubble( tripoint( x,  y, abs_sub.z ), furn_f_wreckage, true );
                     if( !one_in( 3 ) ) {
                         if( m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( ter_furn_flag::TFLAG_DIGGABLE ) ) {
                             m.ter_set( tripoint( x, y, abs_sub.z ), ter_t_dirtmound );
@@ -479,9 +498,9 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         m.load( abs_omt + point_south, false );
 
         //Sandbag block at the left edge
-        line_furn( &m, f_sandbag_half, point( 3, 4 ), point( 3, 7 ) );
-        line_furn( &m, f_sandbag_half, point( 3, 7 ), point( 9, 7 ) );
-        line_furn( &m, f_sandbag_half, point( 9, 4 ), point( 9, 7 ) );
+        line_furn( &m, furn_f_sandbag_half, point( 3, 4 ), point( 3, 7 ) );
+        line_furn( &m, furn_f_sandbag_half, point( 3, 7 ), point( 9, 7 ) );
+        line_furn( &m, furn_f_sandbag_half, point( 9, 4 ), point( 9, 7 ) );
 
         //7.62x51mm casings left from m60 of the humvee
         for( const tripoint &loc : m.points_in_radius( tripoint{ 6, 4, abs_sub.z }, 3, 0 ) ) {
@@ -496,9 +515,9 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         }
 
         //Sandbag block at the right edge
-        line_furn( &m, f_sandbag_half, point( 15, 3 ), point( 15, 6 ) );
-        line_furn( &m, f_sandbag_half, point( 15, 6 ), point( 20, 6 ) );
-        line_furn( &m, f_sandbag_half, point( 20, 3 ), point( 20, 6 ) );
+        line_furn( &m, furn_f_sandbag_half, point( 15, 3 ), point( 15, 6 ) );
+        line_furn( &m, furn_f_sandbag_half, point( 15, 6 ), point( 20, 6 ) );
+        line_furn( &m, furn_f_sandbag_half, point( 20, 3 ), point( 20, 6 ) );
 
         //5.56x45mm casings left from a soldier
         for( const tripoint &loc : m.points_in_radius( tripoint{ 17, 4, abs_sub.z }, 2, 0 ) ) {
@@ -579,8 +598,8 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
     if( bridge_at_south && road_at_north ) {
         m.load( abs_omt + point_north, false );
         //Two horizontal lines of sandbags
-        line_furn( &m, f_sandbag_half, point( 5, 15 ), point( 10, 15 ) );
-        line_furn( &m, f_sandbag_half, point( 13, 15 ), point( 18, 15 ) );
+        line_furn( &m, furn_f_sandbag_half, point( 5, 15 ), point( 10, 15 ) );
+        line_furn( &m, furn_f_sandbag_half, point( 13, 15 ), point( 18, 15 ) );
 
         //Section of barbed wire fence
         line( &m, ter_t_fence_barbed, point( 3, 13 ), point( SEEX * 2 - 4, 13 ) );
@@ -682,23 +701,23 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
     if( bridge_at_west && road_at_east ) {
         m.load( abs_omt + point_east, false );
         //Draw walls of first tent
-        square_furn( &m, f_canvas_wall, point( 0, 3 ), point( 4, 13 ) );
+        square_furn( &m, furn_f_canvas_wall, point( 0, 3 ), point( 4, 13 ) );
 
         //Add first tent doors
-        m.furn_set( tripoint{ 4, 5, abs_sub.z }, f_canvas_door );
-        m.furn_set( tripoint{ 4, 11, abs_sub.z }, f_canvas_door );
+        m.furn_set( tripoint{ 4, 5, abs_sub.z }, furn_f_canvas_door );
+        m.furn_set( tripoint{ 4, 11, abs_sub.z }, furn_f_canvas_door );
 
         //Fill empty space with groundsheets
-        square_furn( &m, f_fema_groundsheet, point( 1, 4 ), point( 3, 12 ) );
+        square_furn( &m, furn_f_fema_groundsheet, point( 1, 4 ), point( 3, 12 ) );
 
         //Place makeshift beds in the first tent and place loot
-        m.furn_set( tripoint{ 1, 4, abs_sub.z }, f_makeshift_bed );
+        m.furn_set( tripoint{ 1, 4, abs_sub.z }, furn_f_makeshift_bed );
         m.put_items_from_loc( Item_spawn_data_army_bed, { 1, 4, abs_sub.z } );
-        m.furn_set( tripoint{ 1, 6, abs_sub.z }, f_makeshift_bed );
-        m.furn_set( tripoint{ 1, 8, abs_sub.z }, f_makeshift_bed );
-        m.furn_set( tripoint{ 1, 10, abs_sub.z }, f_makeshift_bed );
+        m.furn_set( tripoint{ 1, 6, abs_sub.z }, furn_f_makeshift_bed );
+        m.furn_set( tripoint{ 1, 8, abs_sub.z }, furn_f_makeshift_bed );
+        m.furn_set( tripoint{ 1, 10, abs_sub.z }, furn_f_makeshift_bed );
         m.put_items_from_loc( Item_spawn_data_army_bed, { 1, 10, abs_sub.z } );
-        m.furn_set( tripoint{ 1, 12, abs_sub.z }, f_makeshift_bed );
+        m.furn_set( tripoint{ 1, 12, abs_sub.z }, furn_f_makeshift_bed );
         m.put_items_from_loc( Item_spawn_data_army_bed, { 1, 12, abs_sub.z } );
 
         //33% chance for a crazy maniac ramming the tent with some unfortunate inside
@@ -714,11 +733,11 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
             m.add_vehicle( vehicle_prototype_car_fbi, tripoint( 7, 7, abs_sub.z ), 0_degrees, 70, 1 );
 
             //Remove tent parts after drive-through
-            square_furn( &m, f_null, point( 0, 6 ), point( 8, 9 ) );
+            square_furn( &m, furn_str_id::NULL_ID(), point( 0, 6 ), point( 8, 9 ) );
 
             //Add sandbag barricade and then destroy few sections where car smashed it
-            line_furn( &m, f_sandbag_half, point( 10, 3 ), point( 10, 13 ) );
-            line_furn( &m, f_null, point( 10, 7 ), point( 10, 8 ) );
+            line_furn( &m, furn_f_sandbag_half, point( 10, 3 ), point( 10, 13 ) );
+            line_furn( &m, furn_str_id::NULL_ID(), point( 10, 7 ), point( 10, 8 ) );
 
             //Spill sand from damaged sandbags
             std::vector<point> sandbag_positions = squares_in_direction( point( 10, 7 ), point( 11, 8 ) );
@@ -745,22 +764,22 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
                 }
             }
             //Intact sandbag barricade
-            line_furn( &m, f_sandbag_half, point( 10, 3 ), point( 10, 13 ) );
+            line_furn( &m, furn_f_sandbag_half, point( 10, 3 ), point( 10, 13 ) );
         }
 
         //Add sandbags and barbed wire fence barricades
         line( &m, ter_t_fence_barbed, point( 12, 3 ), point( 12, 13 ) );
-        line_furn( &m, f_sandbag_half, point( 10, 16 ), point( 10, 20 ) );
+        line_furn( &m, furn_f_sandbag_half, point( 10, 16 ), point( 10, 20 ) );
         line( &m, ter_t_fence_barbed, point( 12, 16 ), point( 12, 20 ) );
 
         //Place second tent
-        square_furn( &m, f_canvas_wall, point( 0, 16 ), point( 4, 20 ) );
-        square_furn( &m, f_fema_groundsheet, point( 1, 17 ), point( 3, 19 ) );
-        m.furn_set( tripoint{ 4, 18, abs_sub.z }, f_canvas_door );
+        square_furn( &m, furn_f_canvas_wall, point( 0, 16 ), point( 4, 20 ) );
+        square_furn( &m, furn_f_fema_groundsheet, point( 1, 17 ), point( 3, 19 ) );
+        m.furn_set( tripoint{ 4, 18, abs_sub.z }, furn_f_canvas_door );
 
         //Place desk and chair in the second tent
-        line_furn( &m, f_desk, point( 1, 17 ), point( 2, 17 ) );
-        m.furn_set( tripoint{ 1, 18, abs_sub.z }, f_chair );
+        line_furn( &m, furn_f_desk, point( 1, 17 ), point( 2, 17 ) );
+        m.furn_set( tripoint{ 1, 18, abs_sub.z }, furn_f_chair );
 
         //5.56x45mm casings left from another soldier
         for( const tripoint &loc : m.points_in_radius( tripoint{ 9, 18, abs_sub.z }, 2, 0 ) ) {
@@ -833,8 +852,8 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
                        270_degrees, 70, 1 );
 
         //Spawn sandbag barricades around the truck
-        line_furn( &m, f_sandbag_half, point( 14, 3 ), point( 14, 8 ) );
-        line_furn( &m, f_sandbag_half, point( 14, 17 ), point( 14, 20 ) );
+        line_furn( &m, furn_f_sandbag_half, point( 14, 3 ), point( 14, 8 ) );
+        line_furn( &m, furn_f_sandbag_half, point( 14, 17 ), point( 14, 20 ) );
 
         //50% chance to spawn a soldier killed by gunfire, and a trail of blood
         if( one_in( 2 ) ) {
@@ -861,20 +880,20 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         }
 
         //Add some crates near the truck...
-        m.furn_set( tripoint{ 16, 18, abs_sub.z }, f_crate_c );
-        m.furn_set( tripoint{ 16, 19, abs_sub.z }, f_crate_c );
-        m.furn_set( tripoint{ 17, 18, abs_sub.z }, f_crate_o );
+        m.furn_set( tripoint{ 16, 18, abs_sub.z }, furn_f_crate_c );
+        m.furn_set( tripoint{ 16, 19, abs_sub.z }, furn_f_crate_c );
+        m.furn_set( tripoint{ 17, 18, abs_sub.z }, furn_f_crate_o );
 
         //...and fill them with mines
         m.spawn_item( { 16, 18, abs_sub.z }, itype_landmine, rng( 0, 5 ) );
         m.spawn_item( { 16, 19, abs_sub.z }, itype_landmine, rng( 0, 5 ) );
 
         // Set some resting place with fire ring, camp chairs, folding table, and benches.
-        m.furn_set( tripoint{ 20, 12, abs_sub.z }, f_crate_o );
-        m.furn_set( tripoint{ 21, 12, abs_sub.z }, f_firering );
-        m.furn_set( tripoint{ 22, 12, abs_sub.z }, f_tourist_table );
-        line_furn( &m, f_bench, point( 23, 11 ), point( 23, 13 ) );
-        line_furn( &m, f_camp_chair, point( 20, 14 ), point( 21, 14 ) );
+        m.furn_set( tripoint{ 20, 12, abs_sub.z }, furn_f_crate_o );
+        m.furn_set( tripoint{ 21, 12, abs_sub.z }, furn_f_firering );
+        m.furn_set( tripoint{ 22, 12, abs_sub.z }, furn_f_tourist_table );
+        line_furn( &m, furn_f_bench, point( 23, 11 ), point( 23, 13 ) );
+        line_furn( &m, furn_f_camp_chair, point( 20, 14 ), point( 21, 14 ) );
 
         m.spawn_item( { 21, 12, abs_sub.z }, itype_splinter, rng( 5, 10 ) );
 
@@ -891,7 +910,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
             m.add_field( tripoint{ 23, 12, abs_sub.z }, fd_gibs_flesh, rng( 1, 3 ) );
 
             //Spawn broken bench and splintered wood
-            m.furn_set( tripoint{ 23, 13, abs_sub.z }, f_null );
+            m.furn_set( tripoint{ 23, 13, abs_sub.z }, furn_str_id::NULL_ID() );
             m.spawn_item( { 23, 13, abs_sub.z }, itype_splinter, rng( 5, 10 ) );
 
             //Spawn blood
@@ -914,15 +933,15 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         }
 
         //Place a tent
-        square_furn( &m, f_canvas_wall, point( 20, 4 ), point( 23, 7 ) );
-        square_furn( &m, f_fema_groundsheet, point( 21, 5 ), point( 22, 6 ) );
-        m.furn_set( tripoint{ 21, 7, abs_sub.z }, f_canvas_door );
+        square_furn( &m, furn_f_canvas_wall, point( 20, 4 ), point( 23, 7 ) );
+        square_furn( &m, furn_f_fema_groundsheet, point( 21, 5 ), point( 22, 6 ) );
+        m.furn_set( tripoint{ 21, 7, abs_sub.z }, furn_f_canvas_door );
 
         //Place beds in a tent
-        m.furn_set( tripoint{ 21, 5, abs_sub.z }, f_makeshift_bed );
+        m.furn_set( tripoint{ 21, 5, abs_sub.z }, furn_f_makeshift_bed );
         m.put_items_from_loc( Item_spawn_data_army_bed, { 21, 5, abs_sub.z },
                               calendar::turn_zero );
-        m.furn_set( tripoint{ 22, 6, abs_sub.z }, f_makeshift_bed );
+        m.furn_set( tripoint{ 22, 6, abs_sub.z }, furn_f_makeshift_bed );
         m.put_items_from_loc( Item_spawn_data_army_bed, { 22, 6, abs_sub.z },
                               calendar::turn_zero );
 
@@ -1228,7 +1247,7 @@ static bool mx_pond( map &m, const tripoint &abs_sub )
         for( int j = 0; j < height; j++ ) {
             if( current[i][j] == 1 ) {
                 const tripoint location( i, j, abs_sub.z );
-                m.furn_set( location, f_null );
+                m.furn_set( location, furn_str_id::NULL_ID() );
 
                 switch( lake_type ) {
                     case 1:
@@ -1286,7 +1305,7 @@ static bool mx_clay_deposit( map &m, const tripoint &abs_sub )
             for( int j = 0; j < height; j++ ) {
                 if( current[i][j] == 1 ) {
                     const tripoint location( i, j, abs_sub.z );
-                    m.furn_set( location, f_null );
+                    m.furn_set( location, furn_str_id::NULL_ID() );
                     m.ter_set( location, ter_t_clay );
                 }
             }
@@ -1376,7 +1395,7 @@ static void burned_ground_parser( map &m, const tripoint &loc )
         m.destroy_vehicle( vrem );
     }
     for( const tripoint &tri : points ) {
-        m.furn_set( tri, f_wreckage );
+        m.furn_set( tri, furn_f_wreckage );
     }
 
     // grass is converted separately
@@ -1407,7 +1426,7 @@ static void burned_ground_parser( map &m, const tripoint &loc )
     // fungus cannot be destroyed by map::destroy so ths method is employed
     if( fid.has_flag( ter_furn_flag::TFLAG_FUNGUS ) ) {
         if( one_in( 5 ) ) {
-            m.furn_set( loc, f_ash );
+            m.furn_set( loc, furn_f_ash );
         }
     }
     if( tr.has_flag( ter_furn_flag::TFLAG_FUNGUS ) ) {
@@ -1427,7 +1446,7 @@ static void burned_ground_parser( map &m, const tripoint &loc )
         } else {
             m.ter_set( loc, ter_t_dirt );
             if( one_in( 4 ) ) {
-                m.furn_set( loc, f_ash );
+                m.furn_set( loc, furn_f_ash );
             } else {
                 m.furn_set( loc, furn_id( "f_fireweed" ) );
             }
@@ -1448,7 +1467,7 @@ static void burned_ground_parser( map &m, const tripoint &loc )
             m.destroy( loc, true );
         }
         if( !m.is_open_air( loc ) ) {
-            m.furn_set( loc, f_ash );
+            m.furn_set( loc, furn_f_ash );
             if( !tr.has_flag( ter_furn_flag::TFLAG_LIQUID ) ) {
                 m.spawn_item( loc, itype_ash, 1, rng( 10, 1000 ) );
             }
@@ -1518,7 +1537,7 @@ static bool mx_burned_ground( map &m, const tripoint &abs_sub )
         m.destroy_vehicle( vrem );
     }
     for( const tripoint &tri : points ) {
-        m.furn_set( tri, f_wreckage );
+        m.furn_set( tri, furn_f_wreckage );
     }
 
     return true;
@@ -1549,10 +1568,10 @@ static bool mx_reed( map &m, const tripoint &abs_sub )
     };
 
     weighted_int_list<furn_id> vegetation;
-    vegetation.add( f_cattails, 15 );
-    vegetation.add( f_lotus, 5 );
+    vegetation.add( furn_f_cattails, 15 );
+    vegetation.add( furn_f_lotus, 5 );
     vegetation.add( furn_id( "f_purple_loosestrife" ), 1 );
-    vegetation.add( f_lilypad, 1 );
+    vegetation.add( furn_f_lilypad, 1 );
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
             const tripoint loc( i, j, abs_sub.z );
@@ -1609,9 +1628,9 @@ static bool mx_roadworks( map &m, const tripoint &abs_sub )
     if( road_at_north && road_at_south && !road_at_east && !road_at_west ) {
         if( one_in( 2 ) ) { // west side of the NS road
             // road barricade
-            line_furn( &m, f_barricade_road, point( 4, 0 ), point( 11, 7 ) );
-            line_furn( &m, f_barricade_road, point( 11, 8 ), point( 11, 15 ) );
-            line_furn( &m, f_barricade_road, point( 11, 16 ), point( 4, 23 ) );
+            line_furn( &m, furn_f_barricade_road, point( 4, 0 ), point( 11, 7 ) );
+            line_furn( &m, furn_f_barricade_road, point( 11, 8 ), point( 11, 15 ) );
+            line_furn( &m, furn_f_barricade_road, point( 11, 16 ), point( 4, 23 ) );
             // road defects
             defects_from = { 9, 7 };
             defects_to = { 4, 16 };
@@ -1629,9 +1648,9 @@ static bool mx_roadworks( map &m, const tripoint &abs_sub )
             }
         } else { // east side of the NS road
             // road barricade
-            line_furn( &m, f_barricade_road, point( 19, 0 ), point( 12, 7 ) );
-            line_furn( &m, f_barricade_road, point( 12, 8 ), point( 12, 15 ) );
-            line_furn( &m, f_barricade_road, point( 12, 16 ), point( 19, 23 ) );
+            line_furn( &m, furn_f_barricade_road, point( 19, 0 ), point( 12, 7 ) );
+            line_furn( &m, furn_f_barricade_road, point( 12, 8 ), point( 12, 15 ) );
+            line_furn( &m, furn_f_barricade_road, point( 12, 16 ), point( 19, 23 ) );
             // road defects
             defects_from = { 13, 7 };
             defects_to = { 19, 16 };
@@ -1651,9 +1670,9 @@ static bool mx_roadworks( map &m, const tripoint &abs_sub )
     } else if( road_at_west && road_at_east && !road_at_north && !road_at_south ) {
         if( one_in( 2 ) ) { // north side of the EW road
             // road barricade
-            line_furn( &m, f_barricade_road, point( 0, 4 ), point( 7, 11 ) );
-            line_furn( &m, f_barricade_road, point( 8, 11 ), point( 15, 11 ) );
-            line_furn( &m, f_barricade_road, point( 16, 11 ), point( 23, 4 ) );
+            line_furn( &m, furn_f_barricade_road, point( 0, 4 ), point( 7, 11 ) );
+            line_furn( &m, furn_f_barricade_road, point( 8, 11 ), point( 15, 11 ) );
+            line_furn( &m, furn_f_barricade_road, point( 16, 11 ), point( 23, 4 ) );
             // road defects
             defects_from = { 7, 9 };
             defects_to = { 16, 4 };
@@ -1671,9 +1690,9 @@ static bool mx_roadworks( map &m, const tripoint &abs_sub )
             }
         } else { // south side of the EW road
             // road barricade
-            line_furn( &m, f_barricade_road, point( 0, 19 ), point( 7, 12 ) );
-            line_furn( &m, f_barricade_road, point( 8, 12 ), point( 15, 12 ) );
-            line_furn( &m, f_barricade_road, point( 16, 12 ), point( 23, 19 ) );
+            line_furn( &m, furn_f_barricade_road, point( 0, 19 ), point( 7, 12 ) );
+            line_furn( &m, furn_f_barricade_road, point( 8, 12 ), point( 15, 12 ) );
+            line_furn( &m, furn_f_barricade_road, point( 16, 12 ), point( 23, 19 ) );
             // road defects
             defects_from = { 7, 13 };
             defects_to = { 16, 19 };
@@ -1694,9 +1713,9 @@ static bool mx_roadworks( map &m, const tripoint &abs_sub )
         // SW side of the N-E road curve
         // road barricade
         // NOLINTNEXTLINE(cata-use-named-point-constants)
-        line_furn( &m, f_barricade_road, point( 1, 0 ), point( 11, 0 ) );
-        line_furn( &m, f_barricade_road, point( 12, 0 ), point( 23, 10 ) );
-        line_furn( &m, f_barricade_road, point( 23, 22 ), point( 23, 11 ) );
+        line_furn( &m, furn_f_barricade_road, point( 1, 0 ), point( 11, 0 ) );
+        line_furn( &m, furn_f_barricade_road, point( 12, 0 ), point( 23, 10 ) );
+        line_furn( &m, furn_f_barricade_road, point( 23, 22 ), point( 23, 11 ) );
         // road defects
         switch( rng( 1, 3 ) ) {
             case 1:
@@ -1727,9 +1746,9 @@ static bool mx_roadworks( map &m, const tripoint &abs_sub )
     } else if( road_at_south && road_at_west && !road_at_east && !road_at_north ) {
         // NE side of the S-W road curve
         // road barricade
-        line_furn( &m, f_barricade_road, point( 0, 4 ), point( 0, 12 ) );
-        line_furn( &m, f_barricade_road, point( 1, 13 ), point( 11, 23 ) );
-        line_furn( &m, f_barricade_road, point( 12, 23 ), point( 19, 23 ) );
+        line_furn( &m, furn_f_barricade_road, point( 0, 4 ), point( 0, 12 ) );
+        line_furn( &m, furn_f_barricade_road, point( 1, 13 ), point( 11, 23 ) );
+        line_furn( &m, furn_f_barricade_road, point( 12, 23 ), point( 19, 23 ) );
         // road defects
         switch( rng( 1, 3 ) ) {
             case 1:
@@ -1760,9 +1779,9 @@ static bool mx_roadworks( map &m, const tripoint &abs_sub )
     } else if( road_at_north && road_at_west && !road_at_east && !road_at_south ) {
         // SE side of the W-N road curve
         // road barricade
-        line_furn( &m, f_barricade_road, point( 0, 12 ), point( 0, 19 ) );
-        line_furn( &m, f_barricade_road, point( 1, 11 ), point( 12, 0 ) );
-        line_furn( &m, f_barricade_road, point( 13, 0 ), point( 19, 0 ) );
+        line_furn( &m, furn_f_barricade_road, point( 0, 12 ), point( 0, 19 ) );
+        line_furn( &m, furn_f_barricade_road, point( 1, 11 ), point( 12, 0 ) );
+        line_furn( &m, furn_f_barricade_road, point( 13, 0 ), point( 19, 0 ) );
         // road defects
         switch( rng( 1, 3 ) ) {
             case 1:
@@ -1794,9 +1813,9 @@ static bool mx_roadworks( map &m, const tripoint &abs_sub )
     } else if( road_at_south && road_at_east && !road_at_west && !road_at_north ) {
         // NW side of the S-E road curve
         // road barricade
-        line_furn( &m, f_barricade_road, point( 4, 23 ), point( 12, 23 ) );
-        line_furn( &m, f_barricade_road, point( 13, 22 ), point( 22, 13 ) );
-        line_furn( &m, f_barricade_road, point( 23, 4 ), point( 23, 12 ) );
+        line_furn( &m, furn_f_barricade_road, point( 4, 23 ), point( 12, 23 ) );
+        line_furn( &m, furn_f_barricade_road, point( 13, 22 ), point( 22, 13 ) );
+        line_furn( &m, furn_f_barricade_road, point( 23, 4 ), point( 23, 12 ) );
         // road defects
         switch( rng( 1, 3 ) ) {
             case 1:
@@ -1869,7 +1888,7 @@ static bool mx_roadworks( map &m, const tripoint &abs_sub )
     }
     // equipment placer
     if( one_in( 3 ) ) {
-        m.furn_set( equipment, f_crate_c );
+        m.furn_set( equipment, furn_f_crate_c );
         m.place_items( Item_spawn_data_mine_equipment, 100, tripoint( equipment, 0 ),
                        tripoint( equipment, 0 ), true, calendar::start_of_cataclysm, 100 );
     }
@@ -2125,7 +2144,7 @@ static bool mx_city_trap( map &/*m*/, const tripoint &abs_sub )
     for( const tripoint &p : points_in_radius( trap_center, 1 ) ) {
         if( ( compmap.ter( p ) == ter_t_pavement || compmap.ter( p ) == ter_t_pavement_y ) &&
             compmap.tr_at( p ).is_null() &&
-            compmap.furn( p ) == f_null &&
+            compmap.furn( p ) == furn_str_id::NULL_ID() &&
             !compmap.veh_at( p ) ) {
             empty_3x3_square = true;
             break;

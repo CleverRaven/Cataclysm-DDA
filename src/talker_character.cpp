@@ -417,6 +417,11 @@ void talker_character::set_proficiency_practiced_time( const proficiency_id &pro
     me_chr->set_proficiency_practiced_time( prof, turns );
 }
 
+void talker_character::train_proficiency_for( const proficiency_id &prof, int turns )
+{
+    me_chr->practice_proficiency( prof, time_duration::from_seconds<int>( turns ) );
+}
+
 bool talker_character_const::has_effect( const efftype_id &effect_id, const bodypart_id &bp ) const
 {
     return me_chr_const->has_effect( effect_id, bp );

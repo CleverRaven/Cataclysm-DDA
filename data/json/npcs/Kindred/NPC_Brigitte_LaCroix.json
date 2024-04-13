@@ -246,7 +246,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_BONE_SEER_COOPER2",
-    "dynamic_line": "He began killing others to get their bones as fresh as possible.  Later, he… he started carving the bones of the living.  Thought the anguish alone would empower the song.  The goal of the Kindred is to banish the shadow of the Cataclysm, not to cast it.  Such heinous acts will likely twist the song of the world, but I don't think Cooper realises it.  To him, the end justifies any means.",
+    "dynamic_line": "He began killing others to get their bones as fresh as possible.  Later, he… he started carving the bones of the living.  Thought the anguish alone would empower the song.  The goal of the Kindred is to banish the shadow of the Cataclysm, not to cast it.  Such heinous acts will likely twist the song of the world, but I don't think Cooper realizes it.  To him, the end justifies any means.",
     "speaker_effect": { "effect": { "u_add_var": "knows_cooper_kill", "type": "dialogue", "context": "kindred_cooper", "value": "yes" } },
     "responses": [
       { "text": "Well… shit.  Maybe we should talk about something else.", "topic": "TALK_BONE_SEER" },
@@ -355,7 +355,7 @@
       "describe": "There is always work to be done, song to be woven.",
       "offer": "If you wish to be set on the path to enlightenment, first you must learn to listen and hear the song.  Go out, butcher an untainted creature and feel the power between your fingertips.  Then bring me the bones and I shall carve them for you.",
       "accepted": "Excellent.  Now be on your way.",
-      "rejected": "I understand your reluctancy.  Feel free to return when you see the way.",
+      "rejected": "I understand your reluctance.  Feel free to return when you see the way.",
       "advice": "The shambling corpses we see all around move in discord.  Their song can be used, but for an Acolyte, this would be needlessly hard.  Be sure to carve an unspoiled living creature.",
       "inquire": "Have you felt the song in your hands yet?",
       "success": "And so, another cycle ends.  You have done well.  I will now bestow my mark upon you, so that others may know the path you walk and aid you.",
@@ -464,7 +464,7 @@
   {
     "id": "TALK_MISSION_REJECTED_SEER",
     "type": "talk_topic",
-    "dynamic_line": "I understand your reluctancy.  Feel free to return when you see the way.",
+    "dynamic_line": "I understand your reluctance.  Feel free to return when you see the way.",
     "responses": [
       { "text": "Maybe some other time.  Changing the topic…", "topic": "TALK_NONE" },
       { "text": "Alright, but I have to go now.", "topic": "TALK_DONE" }
