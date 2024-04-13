@@ -34,7 +34,6 @@ static const vproto_id vehicle_prototype_none( "none" );
 
 static const std::string flag_APPLIANCE( "APPLIANCE" );
 static const std::string flag_WALL_MOUNTED( "WALL_MOUNTED" );
-static const std::string flag_CANT_DRAG( "CANT_DRAG" );
 static const std::string flag_WIRING( "WIRING" );
 static const std::string flag_HALF_CIRCLE_LIGHT( "HALF_CIRCLE_LIGHT" );
 
@@ -81,10 +80,6 @@ void place_appliance( const tripoint &p, const vpart_id &vpart, const std::optio
 
     if( vpinfo.base_item == itype_wall_wiring ) {
         veh->add_tag( flag_WIRING );
-    }
-
-    if( veh->is_powergrid() || vpinfo.has_flag( flag_WALL_MOUNTED ) ) {
-        veh->add_tag( flag_CANT_DRAG );
     }
 
     // Update the vehicle cache immediately,
