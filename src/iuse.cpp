@@ -8252,8 +8252,8 @@ std::optional<int> iuse::heat_items( Character *p, item *it, bool liquid_items, 
     //Hotplate can only use it self as heat source
     if( get_map().has_nearby_fire( p->pos() ) && !it->has_quality( qual_HOTPLATE ) ) {
         p->add_msg_if_player( m_info, _( "You put %1$s on fire to start heating." ), it->tname() );
-        available_heater = 10000;
-        heating_effect = 1;
+        available_heater = 1;
+        heating_effect = 0;
         fire_flag = 1;
     } else if( it->has_quality( qual_HOTPLATE ) ) {
         if( it->ammo_remaining() >= it->type->charges_to_use() ) {
