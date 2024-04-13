@@ -1342,6 +1342,7 @@
     "required_str": -1,
     "flags": [ "NOITEM", "SEALED", "TRANSPARENT", "FLAMMABLE", "CONTAINER", "DONT_REMOVE_ROTTEN" ],
     "examine_action": "compost_empty",
+    "crafting_pseudo_item": "fake_digester_tank",
     "deconstruct": {
       "items": [
         { "item": "brick", "count": 60 },
@@ -1372,6 +1373,7 @@
     "required_str": -1,
     "flags": [ "NOITEM", "SEALED", "TRANSPARENT", "FLAMMABLE", "CONTAINER", "DONT_REMOVE_ROTTEN" ],
     "examine_action": "compost_full",
+    "crafting_pseudo_item": "fake_digester_tank",
     "deconstruct": {
       "items": [
         { "item": "brick", "count": 60 },

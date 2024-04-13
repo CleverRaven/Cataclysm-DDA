@@ -833,6 +833,7 @@
     "autolearn": true,
     "batch_time_factors": [ 90, 4 ],
     "flags": [ "BLIND_EASY", "ALLOW_ROTTEN" ],
+    "tools": [ [ "fake_digester_tank" ] ],
     "components": [ [ [ "water", 3 ], [ "water_clean", 3 ] ] ],
     "using": [ [ "organic_waste", 1 ] ]
   },
@@ -851,6 +852,7 @@
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "batch_time_factors": [ 70, 4 ],
     "flags": [ "BLIND_HARD", "ALLOW_ROTTEN" ],
+    "tools": [ [ "fake_digester_tank" ] ],
     "components": [ [ [ "ruined_chunks", 20 ] ], [ [ "water", 5 ], [ "water_clean", 5 ] ] ]
   },
   {
@@ -869,7 +871,7 @@
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "batch_time_factors": [ 80, 4 ],
     "flags": [ "BLIND_HARD", "ALLOW_ROTTEN" ],
-    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "fermented_fertilizer_liquid", 1 ] ] ]
   },
