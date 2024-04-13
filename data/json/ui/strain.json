@@ -65,7 +65,7 @@
         "condition": { "math": [ "u_val('strain') + u_val('strain_burn')", "<=", "u_val('strain_max') - 1" ] },
         "id": "strain_10",
         "color": "yellow",
-        "sym": "=",
+        "sym": "="
       },
       {
         "condition": {
@@ -175,7 +175,7 @@
         },
         "id": "seperator_10",
         "color": "white",
-        "sym": "-",
+        "sym": "-"
       },
       {
         "condition": { "math": [ "u_val('strain_burn')", ">=", "u_val('strain_max') / 10 - 1" ] },
@@ -235,7 +235,7 @@
         "condition": { "math": [ "u_val('strain_burn')", ">=", "u_val('strain_max') - 1" ] },
         "id": "burn_10",
         "color": "red",
-        "sym": "#",
+        "sym": "#"
       }
     ],
     "default_clause": { "sym": "----------", "color": "white" }
