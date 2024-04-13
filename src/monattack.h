@@ -94,7 +94,6 @@ bool mon_leech_evolution( monster *z );
 bool tindalos_teleport( monster *z );
 bool flesh_tendril( monster *z );
 bool bio_op_random_biojutsu( monster *z );
-bool bio_op_takedown( monster *z );
 bool bio_op_impale( monster *z );
 bool bio_op_disarm( monster *z );
 bool suicide( monster *z );
