@@ -4350,9 +4350,10 @@
       {
         "pocket_type": "CONTAINER",
         "airtight": true,
-        "watertight": true,
         "rigid": true,
-        "ammo_restriction": { "biogas": 3000 }
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "1 kg",
+        "item_restriction": [ "biogas" ]
       }
     ]
   },
@@ -4367,9 +4368,10 @@
       {
         "pocket_type": "CONTAINER",
         "airtight": true,
-        "watertight": true,
         "rigid": true,
-        "ammo_restriction": { "biogas": 15000 }
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "10 kg",
+        "item_restriction": [ "biogas" ]
       }
     ]
   },
@@ -4384,9 +4386,10 @@
       {
         "pocket_type": "CONTAINER",
         "airtight": true,
-        "watertight": true,
         "rigid": true,
-        "ammo_restriction": { "biogas": 60000 }
+        "max_contains_volume": "75 L",
+        "max_contains_weight": "25 kg",
+        "item_restriction": [ "biogas" ]
       }
     ]
   },
@@ -4401,9 +4404,10 @@
       {
         "pocket_type": "CONTAINER",
         "airtight": true,
-        "watertight": true,
         "rigid": true,
-        "ammo_restriction": { "biogas": 300000 }
+        "max_contains_volume": "350 L",
+        "max_contains_weight": "50 kg",
+        "item_restriction": [ "biogas" ]
       }
     ]
   },
