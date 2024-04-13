@@ -133,6 +133,8 @@ static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 
 static const furn_str_id furn_f_arcfurnace_empty( "f_arcfurnace_empty" );
 static const furn_str_id furn_f_arcfurnace_full( "f_arcfurnace_full" );
+static const furn_str_id furn_f_compost_empty( "f_compost_empty" );
+static const furn_str_id furn_f_compost_full( "f_compost_full" );
 static const furn_str_id furn_f_diesel_tank( "f_diesel_tank" );
 static const furn_str_id furn_f_flower_fungal( "f_flower_fungal" );
 static const furn_str_id furn_f_flower_marloss( "f_flower_marloss" );
@@ -140,8 +142,6 @@ static const furn_str_id furn_f_fvat_empty( "f_fvat_empty" );
 static const furn_str_id furn_f_fvat_full( "f_fvat_full" );
 static const furn_str_id furn_f_fvat_wood_empty( "f_fvat_wood_empty" );
 static const furn_str_id furn_f_fvat_wood_full( "f_fvat_wood_full" );
-static const furn_str_id furn_f_compost_empty( "f_compost_empty" );
-static const furn_str_id furn_f_compost_full( "f_compost_full" );
 static const furn_str_id furn_f_gas_tank( "f_gas_tank" );
 static const furn_str_id furn_f_kiln_empty( "f_kiln_empty" );
 static const furn_str_id furn_f_kiln_full( "f_kiln_full" );
@@ -3915,7 +3915,7 @@ void iexamine::compost_full( Character &you, const tripoint &examp )
                                     days ), days );
             }
             if( to_days<int>( progress ) >= 30 && gas_gatherable >= 1 ) {
-                if( query_yn( _( "Gather biogas? Can't stop once releasing started." ) ) ) {
+                if( query_yn( _( "Gather biogas?  Can't stop once releasing started." ) ) ) {
                     const std::map<itype_id, int> results = compost_i.composting_results();
                     const int count = compost_i.count();
                     const time_point gas_birthday = compost_i.birthday();
