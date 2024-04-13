@@ -629,6 +629,8 @@ bioelectricity
 bioforms
 biofuel
 biofuels
+biogas
+biogases
 biohacker
 biohazard
 biohazardous
