@@ -226,7 +226,7 @@ static int test_melee_attack_attack_speed( Character &guy )
     return guy.get_moves();
 }
 
-TEST_CASE( "Enchantment_ATTACK_SPEED_test", "[magic][enchantments][!mayfail]" )
+TEST_CASE( "Enchantment_ATTACK_SPEED_test", "[magic][enchantments]" )
 {
     clear_map();
     Character &guy = get_player_character();
