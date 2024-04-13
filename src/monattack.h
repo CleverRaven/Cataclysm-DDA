@@ -95,7 +95,6 @@ bool bio_op_random_biojutsu( monster *z );
 bool bio_op_disarm( monster *z );
 bool suicide( monster *z );
 bool riotbot( monster *z );
-bool stretch_attack( monster *z );
 bool kamikaze( monster *z );
 bool grenadier( monster *z );
 bool grenadier_elite( monster *z );
