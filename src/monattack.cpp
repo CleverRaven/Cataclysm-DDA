@@ -2311,61 +2311,6 @@ bool mattack::fungus_fortify( monster *z )
     return true;
 }
 
-bool mattack::impale( monster *z )
-{
-    if( !z->can_act() ) {
-        return false;
-    }
-    Creature *target = z->attack_target();
-    if( target == nullptr || !z->is_adjacent( target, false ) ) {
-        return false;
-    }
-
-    z->mod_moves( -to_moves<int>( 1_seconds ) * 0.8 );
-
-    bodypart_id hit = bodypart_id( "torso" );
-    damage_instance dam_inst = damage_instance( damage_stab, rng( 10, 20 ), rng( 5, 15 ), .5 );
-
-    if( target->dodge_check( z, hit, dam_inst ) ) {
-        game_message_type msg_type = target->is_avatar() ? m_warning : m_info;
-        target->add_msg_player_or_npc( msg_type, _( "The %s lunges at you, but you dodge!" ),
-                                       _( "The %s lunges at <npcname>, but they dodge!" ),
-                                       z->name() );
-
-        target->on_dodge( z, z->type->melee_skill * 2 );
-        return true;
-    }
-
-    target->block_hit( z, hit, dam_inst );
-
-    int dam = target->deal_damage( z, hit, dam_inst ).total_damage();
-    if( dam > 0 ) {
-        game_message_type msg_type = target->is_avatar() ? m_bad : m_info;
-        target->add_msg_player_or_npc( msg_type,
-                                       //~ 1$s is monster name, 2$s bodypart in accusative
-                                       _( "The %1$s impales your torso!" ),
-                                       //~ 1$s is monster name, 2$s bodypart in accusative
-                                       _( "The %1$s impales <npcname>'s torso!" ),
-                                       z->name() );
-
-        target->on_hit( z, bodypart_id( "torso" ),  z->type->melee_skill );
-        if( rng( 0, 200 + dam ) > 100 ) {
-            target->add_effect( effect_downed, 3_turns );
-        }
-        z->mod_moves( -to_moves<int>( 1_seconds ) *
-                      0.8 ); //Takes extra time for the creature to pull out the protrusion
-    } else {
-        target->add_msg_player_or_npc(
-            _( "The %1$s tries to impale your torso, but fails to penetrate your armor!" ),
-            _( "The %1$s tries to impale <npcname>'s torso, but fails to penetrate their armor!" ),
-            z->name() );
-    }
-
-    target->check_dead_state();
-
-    return true;
-}
-
 bool mattack::dermatik( monster *z )
 {
     if( !z->can_act() ) {
