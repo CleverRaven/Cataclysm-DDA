@@ -2163,9 +2163,9 @@ static bool mx_fungal_zone( map &m, const tripoint &abs_sub )
     const tripoint suitable_location = random_entry( suitable_locations, submap_center );
     m.add_spawn( mon_fungaloid_queen, 1, suitable_location );
     m.place_spawns( GROUP_FUNGI_FUNGALOID, 1,
-                             suitable_location.xy() + point_north_west,
-                             suitable_location.xy() + point_south_east,
-                             3, true );
+                    suitable_location.xy() + point_north_west,
+                    suitable_location.xy() + point_south_east,
+                    3, true );
     return true;
 }
 
