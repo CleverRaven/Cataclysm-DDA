@@ -299,6 +299,7 @@ static const itype_id itype_weather_reader( "weather_reader" );
 
 static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
+static const json_character_flag json_flag_NO_GASMASK( "NO_GASMASK" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
@@ -3958,7 +3959,10 @@ std::optional<int> iuse::solarpack_off( Character *p, item *it, const tripoint &
 
 std::optional<int> iuse::gasmask_activate( Character *p, item *it, const tripoint & )
 {
-    if( it->ammo_remaining() == 0 ) {
+    if( p->has_trait_flag( json_flag_NO_GASMASK ) ) {
+        p->add_msg_if_player( _( "Your facial hair prevents you from sealing the %s to your face." ),
+                              it->tname() );
+    } else if( it->ammo_remaining() == 0 ) {
         p->add_msg_if_player( _( "Your %s doesn't have a filter." ), it->tname() );
     } else {
         p->add_msg_if_player( _( "You prepare your %s." ), it->tname() );

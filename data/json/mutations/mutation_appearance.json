@@ -137,7 +137,8 @@
     "starting_trait": true,
     "player_display": true,
     "vanity": true,
-    "types": [ "facial_hair" ]
+    "types": [ "facial_hair" ],
+    "flags": [ "NO_GASMASK" ]
   },
   {
     "id": "FACIAL_HAIR_SHORTBOXED",
@@ -149,7 +150,8 @@
     "starting_trait": true,
     "player_display": true,
     "vanity": true,
-    "types": [ "facial_hair" ]
+    "types": [ "facial_hair" ],
+    "flags": [ "NO_GASMASK" ]
   },
   {
     "id": "FACIAL_HAIR_CHEVRON",
@@ -173,7 +175,8 @@
     "starting_trait": true,
     "player_display": true,
     "vanity": true,
-    "types": [ "facial_hair" ]
+    "types": [ "facial_hair" ],
+    "flags": [ "NO_GASMASK" ]
   },
   {
     "id": "FACIAL_HAIR_HORSESHOE",
@@ -209,7 +212,8 @@
     "starting_trait": true,
     "player_display": true,
     "vanity": true,
-    "types": [ "facial_hair" ]
+    "types": [ "facial_hair" ],
+    "flags": [ "NO_GASMASK" ]
   },
   {
     "id": "FACIAL_HAIR_GUNSLINGER",
@@ -221,7 +225,8 @@
     "starting_trait": true,
     "player_display": true,
     "vanity": true,
-    "types": [ "facial_hair" ]
+    "types": [ "facial_hair" ],
+    "flags": [ "NO_GASMASK" ]
   },
   {
     "id": "FACIAL_HAIR_CHIN_STRIP",
@@ -245,7 +250,8 @@
     "starting_trait": true,
     "player_display": true,
     "vanity": true,
-    "types": [ "facial_hair" ]
+    "types": [ "facial_hair" ],
+    "flags": [ "NO_GASMASK" ]
   },
   {
     "id": "FACIAL_HAIR_CHIN_STRAP",
@@ -257,7 +263,8 @@
     "starting_trait": true,
     "player_display": true,
     "vanity": true,
-    "types": [ "facial_hair" ]
+    "types": [ "facial_hair" ],
+    "flags": [ "NO_GASMASK" ]
   },
   {
     "id": "FACIAL_HAIR_BEARD",
@@ -269,7 +276,8 @@
     "starting_trait": true,
     "player_display": true,
     "vanity": true,
-    "types": [ "facial_hair" ]
+    "types": [ "facial_hair" ],
+    "flags": [ "NO_GASMASK" ]
   },
   {
     "id": "FACIAL_HAIR_HANDLEBAR",
@@ -293,7 +301,8 @@
     "starting_trait": true,
     "player_display": true,
     "vanity": true,
-    "types": [ "facial_hair" ]
+    "types": [ "facial_hair" ],
+    "flags": [ "NO_GASMASK" ]
   },
   {
     "id": "FACIAL_HAIR_PENCIL",
@@ -317,7 +326,8 @@
     "starting_trait": true,
     "player_display": true,
     "vanity": true,
-    "types": [ "facial_hair" ]
+    "types": [ "facial_hair" ],
+    "flags": [ "NO_GASMASK" ]
   },
   {
     "id": "FACIAL_HAIR_SIDEBURNS",
@@ -329,7 +339,8 @@
     "starting_trait": true,
     "player_display": true,
     "vanity": true,
-    "types": [ "facial_hair" ]
+    "types": [ "facial_hair" ],
+    "flags": [ "NO_GASMASK" ]
   },
   {
     "id": "FACIAL_HAIR_SOUL_PATCH",
@@ -401,7 +412,8 @@
     "starting_trait": true,
     "player_display": true,
     "vanity": true,
-    "types": [ "facial_hair" ]
+    "types": [ "facial_hair" ],
+    "flags": [ "NO_GASMASK" ]
   },
   {
     "id": "FACIAL_HAIR_BEARD_VERY_LONG",
@@ -413,6 +425,7 @@
     "starting_trait": true,
     "player_display": true,
     "vanity": true,
-    "types": [ "facial_hair" ]
+    "types": [ "facial_hair" ],
+    "flags": [ "NO_GASMASK" ]
   }
 ]
