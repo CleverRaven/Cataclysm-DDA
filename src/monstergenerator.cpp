@@ -655,6 +655,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "TINDALOS_TELEPORT", mattack::tindalos_teleport );
     add_hardcoded_attack( "FLESH_TENDRIL", mattack::flesh_tendril );
     add_hardcoded_attack( "BIO_OP_BIOJUTSU", mattack::bio_op_random_biojutsu );
+    add_hardcoded_attack( "BIO_OP_TAKEDOWN", mattack::bio_op_takedown );
     add_hardcoded_attack( "BIO_OP_DISARM", mattack::bio_op_disarm );
     add_hardcoded_attack( "SUICIDE", mattack::suicide );
     add_hardcoded_attack( "KAMIKAZE", mattack::kamikaze );
