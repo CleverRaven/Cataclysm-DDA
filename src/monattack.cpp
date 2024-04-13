@@ -5397,6 +5397,81 @@ bool mattack::grenadier_elite( monster *const z )
     return true;
 }
 
+bool mattack::stretch_attack( monster *z )
+{
+    if( !z->can_act() ) {
+        return false;
+    }
+
+    Creature *target = z->attack_target();
+    if( target == nullptr ) {
+        return false;
+    }
+
+    int distance = rl_dist( z->pos(), target->pos() );
+    // Hack, only allow attacking above or below if the target is adjacent.
+    if( z->pos().z != target->pos().z ) {
+        distance += 2;
+    }
+    if( distance < 2 || distance > 3 || !z->sees( *target ) ) {
+        return false;
+    }
+
+    z->mod_moves( -to_moves<int>( 1_seconds ) );
+    map &here = get_map();
+    for( tripoint &pnt : here.find_clear_path( z->pos(), target->pos() ) ) {
+        if( here.impassable( pnt ) ) {
+            target->add_msg_player_or_npc( _( "The %1$s thrusts its arm at you, but bounces off the %2$s." ),
+                                           _( "The %1$s thrusts its arm at <npcname>, but bounces off the %2$s." ),
+                                           z->name(), here.obstacle_name( pnt ) );
+            return true;
+        }
+    }
+
+    game_message_type msg_type = target->is_avatar() ? m_warning : m_info;
+    target->add_msg_player_or_npc( msg_type,
+                                   _( "The %s thrusts its arm at you, stretching to reach you from afar." ),
+                                   _( "The %s thrusts its arm at <npcname>." ),
+                                   z->name() );
+
+    bodypart_id hit = target->get_random_body_part();
+    damage_instance dam_inst = damage_instance( damage_stab, rng( 5, 10 ) );
+
+    if( target->dodge_check( z, hit, dam_inst ) ) {
+        target->add_msg_player_or_npc( msg_type, _( "You evade the stretched arm and it sails past you!" ),
+                                       _( "<npcname> evades the stretched arm!" ) );
+        target->on_dodge( z, z->type->melee_skill );
+        //takes some time to retract the arm
+        z->mod_moves( -to_moves<int>( 1_seconds ) * 1.5 );
+        return true;
+    }
+
+    target->block_hit( z, hit, dam_inst );
+
+    int dam = target->deal_damage( z, hit, dam_inst ).total_damage();
+    if( dam > 0 ) {
+        game_message_type msg_type = target->is_avatar() ? m_bad : m_info;
+        target->add_msg_player_or_npc( msg_type,
+                                       //~ 1$s is monster name, 2$s bodypart in accusative
+                                       _( "The %1$s's arm pierces your %2$s!" ),
+                                       //~ 1$s is monster name, 2$s bodypart in accusative
+                                       _( "The %1$s arm pierces <npcname>'s %2$s!" ),
+                                       z->name(),
+                                       body_part_name_accusative( hit ) );
+
+        target->check_dead_state();
+    } else {
+        target->add_msg_player_or_npc( _( "The %1$s arm hits your %2$s, but glances off your armor!" ),
+                                       _( "The %1$s hits <npcname>'s %2$s, but glances off armor!" ),
+                                       z->name(),
+                                       body_part_name_accusative( hit ) );
+    }
+
+    target->on_hit( z, hit,  z->type->melee_skill );
+
+    return true;
+}
+
 bool mattack::zombie_fuse( monster *z )
 {
     monster *critter = nullptr;
