@@ -1470,9 +1470,9 @@ TEST_CASE( "submap_ter_furn_migration", "[submap][load]" )
     INFO( string_format( "ter ne: %s", ter_ne.id().str() ) );
     REQUIRE( ter_nw == ter_test_t_migration_new_id );
     REQUIRE( ter_ne == ter_test_t_migration_new_id );
-    // West one should still have a f_bookcase as it overrides the test_f_migration_new_id placed by migration
+    // West one could still have a f_bookcase as it may override the test_f_migration_new_id placed by migration, as the load order for the json members isn't defined
     INFO( string_format( "furn nw: %s", furn_nw.id().str() ) );
-    REQUIRE( furn_nw == furn_f_bookcase );
+    REQUIRE( furn_nw == furn_f_bookcase || furn_nw == test_f_migration_new_id );
     // East one should now have test_f_migration_new_id as per the migration
     INFO( string_format( "furn ne: %s", furn_ne.id().str() ) );
     REQUIRE( furn_ne == furn_test_f_migration_new_id );
