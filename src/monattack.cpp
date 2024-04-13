@@ -125,7 +125,6 @@ static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_grabbing( "grabbing" );
 static const efftype_id effect_grown_of_fuse( "grown_of_fuse" );
 static const efftype_id effect_has_bag( "has_bag" );
-static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_operating( "operating" );
