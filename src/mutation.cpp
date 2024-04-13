@@ -1643,7 +1643,7 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
                                subst.c_str() );
                 if( mdata.strict_threshreq ) {
                     add_msg_debug( debugmode::DF_MUTATION,
-                                   "mutate_towards: ...but no threshold substitutions allowed for trait %s",
+                                   "mutate_towards: …but no threshold substitutions allowed for trait %s",
                                    subst.c_str(), mdata.name() );
                     continue;
                 }
