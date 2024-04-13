@@ -608,7 +608,11 @@
     "name": { "str": "Fungal infestation" },
     "description": "Fungal-infested location.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_fungal_zone" },
-    "min_max_zlevel": [ 0, 0 ]
+    "sym": "F",
+    "color": "yellow",
+    "autonote": true,
+    "min_max_zlevel": [ 0, 0 ],
+    "flags": [ "FUNGAL" ]
   },
   {
     "id": "mx_reed",
