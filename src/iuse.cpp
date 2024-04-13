@@ -8186,27 +8186,37 @@ std::optional<int> iuse::heat_single_item( Character *p, item *it )
     p->inv->restack( *p );
     item_location heater = item_location( *p, it );
     int fire_flag = 0;
-    p->add_msg_if_player( m_info, _( "You put %1$s on fire to start heating." ), it->tname() );
-    if( get_map().has_nearby_fire( p->pos() ) ) {
+    //Hotplate can only use it self as heat source
+    if( get_map().has_nearby_fire( p->pos() ) && !it->has_quality( qual_HOTPLATE ) ) {
+        p->add_msg_if_player( m_info, _( "You put %1$s on fire to start heating." ), it->tname() );
         fire_flag = 1;
-    } else if( it->has_quality( qual_HOTPLATE ) &&
-               ( it->ammo_remaining() > it->type->charges_to_use() ||
-                 ( !it->has_no_links() ? it->link().t_veh->connected_battery_power_level().first >
-                   it->type->charges_to_use() : false ) ) ) {
-        if( it->ammo_remaining() > it->type->charges_to_use() ) {
+    } else if( it->has_quality( qual_HOTPLATE ) ) {
+        if( it->ammo_remaining() >= it->type->charges_to_use() ) {
             heater = item_location( *p, it );
             p->add_msg_if_player( m_info, _( "You use %1$s to start heating." ), heater->tname() );
         } else if( !it->has_no_links() ) {
             heater = item_location( *p, it );
             p->add_msg_if_player( m_info, _( "You use %1$s to start heating." ), heater->tname() );
+        } else if( it->has_flag( flag_USE_UPS ) &&
+                   units::to_kilojoule( p->available_ups() ) >= it->type->charges_to_use() ) {
+            heater = item_location( *p, it );
+            p->add_msg_if_player( m_info, _( "You use %1$s to start heating." ), heater->tname() );
+        } else {
+            p->add_msg_if_player( m_info, _( "The %s's batteries are dead." ), it->tname() );
+            return std::nullopt;
         }
-    } else {
-        auto filter = []( const item & e ) {
-            if( e.has_quality( qual_HOTPLATE, 2 ) && e.ammo_remaining() > e.type->charges_to_use() ) {
+    } else if( !it->has_quality( qual_HOTPLATE ) ) {
+        auto filter = [p]( const item & e ) {
+            if( e.has_quality( qual_HOTPLATE, 2 ) && e.ammo_remaining() >= e.type->charges_to_use() ) {
                 return true;
             }
             if( e.has_quality( qual_HOTPLATE, 2 ) && ( !e.has_no_links() ) ) {
-                if( e.link().t_veh->connected_battery_power_level().first > e.type->charges_to_use() ) {
+                if( e.link().t_veh->connected_battery_power_level().first >= e.type->charges_to_use() ) {
+                    return true;
+                }
+            }
+            if( e.has_quality( qual_HOTPLATE, 2 ) && e.has_flag( flag_USE_UPS ) ) {
+                if( units::to_kilojoule( p->available_ups() ) >= e.type->charges_to_use() ) {
                     return true;
                 }
             }
@@ -8239,16 +8249,14 @@ std::optional<int> iuse::heat_items( Character *p, item *it, bool liquid_items, 
     int available_heater = 0;
     int heating_effect = 0;
     int fire_flag = 0;
-    if( get_map().has_nearby_fire( p->pos() ) ) {
+    //Hotplate can only use it self as heat source
+    if( get_map().has_nearby_fire( p->pos() ) && !it->has_quality( qual_HOTPLATE ) ) {
+        p->add_msg_if_player( m_info, _( "You put %1$s on fire to start heating." ), it->tname() );
         available_heater = 10000;
         heating_effect = 1;
         fire_flag = 1;
-        //Check if it is HOTPLATE tool with at least one charge.
-    } else if( it->has_quality( qual_HOTPLATE ) &&
-               ( it->ammo_remaining() > it->type->charges_to_use() ||
-                 ( !it->has_no_links() ? it->link().t_veh->connected_battery_power_level().first >
-                   it->type->charges_to_use() : false ) ) ) {
-        if( it->ammo_remaining() > it->type->charges_to_use() ) {
+    } else if( it->has_quality( qual_HOTPLATE ) ) {
+        if( it->ammo_remaining() >= it->type->charges_to_use() ) {
             heater = item_location( *p, it );
             available_heater = it->ammo_remaining();
             heating_effect = it->type->charges_to_use();
@@ -8258,14 +8266,28 @@ std::optional<int> iuse::heat_items( Character *p, item *it, bool liquid_items, 
             available_heater = it->link().t_veh->connected_battery_power_level().first;
             heating_effect = it->type->charges_to_use();
             p->add_msg_if_player( m_info, _( "You use %1$s to start heating." ), heater->tname() );
+        } else if( it->has_flag( flag_USE_UPS ) &&
+                   units::to_kilojoule( p->available_ups() ) >= it->type->charges_to_use() ) {
+            heater = item_location( *p, it );
+            available_heater = units::to_kilojoule( p->available_ups() );
+            heating_effect = it->type->charges_to_use();
+        } else {
+            // You can't put hotplate on other hotplate to heat items.
+            p->add_msg_if_player( m_info, _( "The %s's batteries are dead." ), it->tname() );
+            return std::nullopt;
         }
-    } else {
-        auto filter = []( const item & e ) {
-            if( e.has_quality( qual_HOTPLATE, 2 ) && e.ammo_remaining() > e.type->charges_to_use() ) {
+    } else if( !it->has_quality( qual_HOTPLATE ) ) {
+        auto filter = [p]( const item & e ) {
+            if( e.has_quality( qual_HOTPLATE, 2 ) && e.ammo_remaining() >= e.type->charges_to_use() ) {
                 return true;
             }
             if( e.has_quality( qual_HOTPLATE, 2 ) && ( !e.has_no_links() ) ) {
-                if( e.link().t_veh->connected_battery_power_level().first > e.type->charges_to_use() ) {
+                if( e.link().t_veh->connected_battery_power_level().first >= e.type->charges_to_use() ) {
+                    return true;
+                }
+            }
+            if( e.has_quality( qual_HOTPLATE, 2 ) && e.has_flag( flag_USE_UPS ) ) {
+                if( units::to_kilojoule( p->available_ups() ) >= e.type->charges_to_use() ) {
                     return true;
                 }
             }
@@ -8279,11 +8301,15 @@ std::optional<int> iuse::heat_items( Character *p, item *it, bool liquid_items, 
         }
         p->add_msg_if_player( m_info, _( "You put %1$s on %2$s to start heating." ), it->tname(),
                               heater->tname() );
-        if( heater->has_no_links() ) {
+        if( !heater->has_no_links() ) {
+            available_heater = heater->link().t_veh->connected_battery_power_level().first;
+            heating_effect = heater->type->charges_to_use();
+        } else if( !heater->has_flag( flag_USE_UPS ) ) {
             available_heater = heater->ammo_remaining();
             heating_effect = heater->type->charges_to_use();
-        } else {
-            available_heater = heater->link().t_veh->connected_battery_power_level().first;
+        } else if( heater->has_flag( flag_USE_UPS ) ) {
+            add_msg( m_info, _( "%1$i" ), units::to_kilojoule( p->available_ups() ) );
+            available_heater = units::to_kilojoule( p->available_ups() );
             heating_effect = heater->type->charges_to_use();
         }
     }
@@ -8327,7 +8353,7 @@ std::optional<int> iuse::heat_items( Character *p, item *it, bool liquid_items, 
         using stats = inventory_selector::stats;
         return stats{{
                 {{ _( "Container" ), volume }},
-                {{ _( "Fuel" ), ammo }},
+                {{ _( "Fule" ), ammo }},
                 {{ _( "Estimated time" ), time }}
             }};
     };
@@ -8335,7 +8361,7 @@ std::optional<int> iuse::heat_items( Character *p, item *it, bool liquid_items, 
                                    make_raw_stats, /*allow_select_contained=*/true );
     inv_s.add_character_items( *p );
     inv_s.add_nearby_items( PICKUP_RANGE );
-    inv_s.set_title( _( "heat menu" ) );
+    inv_s.set_title( _( "Multiheat" ) );
     inv_s.set_hint( _( "To heat x items, type a number before selecting." ) );
     if( inv_s.empty() ) {
         popup( std::string( _( "You have nothing to heat." ) ), PF_GET_KEY );

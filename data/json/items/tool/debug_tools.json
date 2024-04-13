@@ -30,7 +30,7 @@
     "ammo": [ "battery" ],
     "charges_per_use": 35,
     "qualities": [ [ "HOTPLATE", 2 ] ],
-    "use_action": [ "HOTPLATE", { "type": "link_up", "cable_length": 3, "charge_rate": "1 kW" } ],
+    "use_action": [ "HEAT_SOLID_ITEMS", { "type": "link_up", "cable_length": 3, "charge_rate": "1 kW" } ],
     "melee_damage": { "bash": 4 }
   },
   {
