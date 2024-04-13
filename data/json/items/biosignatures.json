@@ -26,7 +26,7 @@
     "name": { "str": "cow pie" },
     "copy-from": "feces_bird",
     "weight": "750 g",
-    "volume": "750 ml",
+    "volume": "250 ml",
     "description": "A fresh cow pie; this could probably be used to make some great fertilizer."
   },
   {
@@ -42,7 +42,7 @@
     "name": { "str_sp": "manure" },
     "copy-from": "feces_bird",
     "weight": "250 g",
-    "volume": "250 ml",
+    "volume": "125 ml",
     "description": "Common manure, could probably be used to make some great fertilizer."
   },
   {
