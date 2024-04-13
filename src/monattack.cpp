@@ -4917,6 +4917,84 @@ bool mattack::bio_op_takedown( monster *z )
     return true;
 }
 
+bool mattack::bio_op_impale( monster *z )
+{
+    if( !z->can_act() ) {
+        return false;
+    }
+
+    Creature *target = z->attack_target();
+    if( target == nullptr ||
+        !z->is_adjacent( target, false ) ||
+        !z->sees( *target ) ) {
+        return false;
+    }
+
+    const bool seen = get_player_view().sees( *z );
+    Character *foe = dynamic_cast< Character * >( target );
+    if( seen ) {
+        add_msg( _( "The %1$s mechanically lunges at %2$s!" ), z->name(),
+                 target->disp_name() );
+    }
+    z->mod_moves( -to_moves<int>( 1_seconds ) );
+
+    // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
+    if( target->dodge_check( z ) ) {
+        target->add_msg_player_or_npc( _( "You dodge it!" ),
+                                       _( "<npcname> dodges it!" ) );
+        target->on_dodge( z, z->type->melee_skill );
+        return true;
+    }
+
+    // Yes, it has the CQC bionic.
+    int dam = rng( 8, 24 );
+    bool do_bleed = false;
+    int t_dam;
+
+    if( one_in( 4 ) ) {
+        dam = rng( 12, 36 ); // 50% damage buff for the crit.
+        do_bleed = true;
+    }
+
+    if( foe == nullptr ) {
+        // Handle mons earlier - less to check for
+        target->deal_damage( z, bodypart_id( "torso" ), damage_instance( damage_stab, dam ) );
+        if( do_bleed ) {
+            target->add_effect( effect_source( z ), effect_bleed, rng( 3_minutes, 10_minutes ),
+                                target->get_random_body_part_of_type( body_part_type::type::torso ) );
+        }
+        if( seen ) {
+            add_msg( _( "The %1$s impales %2$s!" ), z->name(), target->disp_name() );
+        }
+        target->check_dead_state();
+        return true;
+    }
+
+    const bodypart_id hit = target->get_random_body_part( true );
+
+    t_dam = foe->deal_damage( z, hit, damage_instance( damage_stab, dam ) ).total_damage();
+
+    target->add_msg_player_or_npc( _( "The %1$s tries to impale your %2$s…" ),
+                                   _( "The %1$s tries to impale <npcname>'s %2$s…" ),
+                                   z->name(), body_part_name_accusative( hit ) );
+
+    if( t_dam > 0 ) {
+        target->add_msg_if_player( m_bad, _( "and deals %d damage!" ), t_dam );
+
+        if( do_bleed ) {
+            target->add_effect( effect_source( z ), effect_bleed, rng( 75_turns, 125_turns ), hit );
+        }
+    } else {
+        target->add_msg_player_or_npc( _( "but fails to penetrate your armor!" ),
+                                       _( "but fails to penetrate <npcname>'s armor!" ) );
+    }
+
+    target->on_hit( z, hit, z->type->melee_skill );
+    foe->check_dead_state();
+
+    return true;
+}
+
 bool mattack::bio_op_disarm( monster *z )
 {
     if( !z->can_act() ) {
