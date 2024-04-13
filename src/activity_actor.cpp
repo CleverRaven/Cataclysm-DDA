@@ -7727,6 +7727,7 @@ std::unique_ptr<activity_actor> wash_activity_actor::deserialize( JsonValue &jsi
     data.read( "cleanser", actor.requirements.cleanser );
     return actor.clone();
 }
+
 namespace activity_actors
 {
 

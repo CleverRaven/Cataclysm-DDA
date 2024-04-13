@@ -8317,8 +8317,8 @@ std::optional<int> iuse::heat_items( Character *p, item *it, bool liquid_items, 
     const inventory_filter_preset preset( [liquid_items,
     solid_items]( const item_location & location ) {
         return location->has_temperature() && !location->has_own_flag( flag_HOT ) &&
-               ( ( liquid_items && location->made_of_from_type( phase_id::LIQUID ) ) || ( solid_items &&
-                       !location->made_of_from_type( phase_id::LIQUID ) ) );
+               ( ( liquid_items && location->made_of_from_type( phase_id::LIQUID ) && location.has_parent() ) ||
+                 ( solid_items && !location->made_of_from_type( phase_id::LIQUID ) ) );
     } );
     auto make_raw_stats = [available_volume,
                            available_heater, heating_effect]( const std::vector<std::pair<item_location, int>> &locs

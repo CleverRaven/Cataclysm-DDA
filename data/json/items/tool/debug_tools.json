@@ -73,34 +73,6 @@
     "melee_damage": { "bash": 10 }
   },
   {
-    "id": "debug_con_mix",
-    "type": "TOOL",
-    "name": { "str": "debug concrete mixer" },
-    "description": "A portable concrete mixer.  It is still large and heavy, but it can be operated solo, and runs on batteries.  It also has a heater built in.",
-    "weight": "9071 g",
-    "volume": "5 L",
-    "price": 50000,
-    "price_postapoc": 500,
-    "to_hit": -6,
-    "material": [ "steel" ],
-    "symbol": "$",
-    "color": "dark_gray",
-    "ammo": [ "battery" ],
-    "charges_per_use": 20,
-    "qualities": [ [ "CONTAIN", 1 ], [ "HOTPLATE", 1 ] ],
-    "flags": [ "ALLOWS_REMOTE_USE" ],
-    "use_action": [ "HOTPLATE", { "type": "link_up", "cable_length": 15, "charge_rate": "1500 W" }, "HEAT_SOLID_ITEMS" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
-      }
-    ],
-    "melee_damage": { "bash": 15 }
-  },
-  {
     "id": "debug_coffeemaker",
     "type": "TOOL",
     "name": { "str": "debug coffeemaker" },
@@ -118,7 +90,7 @@
     "flags": [ "WATER_BREAK", "ALLOWS_REMOTE_USE" ],
     "charges_per_use": 25,
     "qualities": [ [ "BOIL", 1 ], [ "HOTPLATE", 1 ] ],
-    "use_action": [ "HOTPLATE", { "type": "link_up", "cable_length": 2, "charge_rate": "1 kW" }, "HEAT_LIQUID_ITEMS" ],
+    "use_action": [ "HEAT_LIQUID_ITEMS", { "type": "link_up", "cable_length": 2, "charge_rate": "1 kW" } ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
