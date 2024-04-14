@@ -708,9 +708,9 @@
     "base_energy_cost": 500,
     "final_energy_cost": 250,
     "energy_increment": -20,
-    "base_casting_time": 1500,
-    "final_casting_time": 150,
-    "casting_time_increment": -75
+    "base_casting_time": 12000,
+    "final_casting_time": 1500,
+    "casting_time_increment": -150
   },
   {
     "id": "arvore_roots_spell",
