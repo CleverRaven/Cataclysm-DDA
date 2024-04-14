@@ -690,7 +690,7 @@
   {
     "type": "SPELL",
     "id": "arvore_create_living_tent_spell",
-    "name": "Concealing Thicket",
+    "name": "Den of Brambles",
     "description": "When outside on diggable ground, create a small structure of wood near the Arvore, offering shelter against the elements.",
     "flags": [ "SOMATIC", "VERBAL", "NO_FAIL" ],
     "valid_targets": [ "ground" ],
