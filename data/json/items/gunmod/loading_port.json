@@ -16,7 +16,14 @@
     "location": "loading port",
     "mod_targets": [ "pistol", "shotgun" ],
     "acceptable_ammo": [ "shot" ],
-    "magazine_adaptor": [ [ "shot", [ "shot_speedloader6", "shot_speedloader8" ] ] ],
+    "pocket_mods": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "ammo_restriction": { "shot": 8 },
+        "allowed_speedloaders": [ "shot_speedloader6", "shot_speedloader8" ]
+      }
+    ],
     "min_skills": [ [ "weapon", 2 ], [ "mechanics", 1 ] ]
   }
 ]
