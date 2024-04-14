@@ -262,6 +262,9 @@ TEST_CASE( "Enchantment_ATTACK_SPEED_test", "[magic][enchantments]" )
 }
 
 
+/* STRAIN TESTING: These stamina values are currently in flux.
+This test will need to be reactivated once strain costs stabilize, and a version for strain added.
+
 static int test_melee_attack_attack_stamina( Character &guy )
 {
     int i = 0;
@@ -283,9 +286,6 @@ static int test_melee_attack_attack_stamina( Character &guy )
 
     return guy.get_stamina();
 }
-
-/* STRAIN TESTING: These stamina values are currently in flux.
-This test will need to be reactivated once strain costs stabilize, and a version for strain added.
 
 TEST_CASE( "Enchantment_MELEE_STAMINA_CONSUMPTION_test", "[magic][enchantments]" )
 {
