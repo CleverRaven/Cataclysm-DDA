@@ -109,22 +109,7 @@
     "points": 0,
     "description": "You're like a walking tank!  Take 5% less damage from all sources.",
     "category": [ "perk" ],
-    "enchantments": [
-      {
-        "condition": "ALWAYS",
-        "values": [
-          { "value": "ARMOR_ACID", "multiply": -0.05 },
-          { "value": "ARMOR_BASH", "multiply": -0.05 },
-          { "value": "ARMOR_BIO", "multiply": -0.05 },
-          { "value": "ARMOR_BULLET", "multiply": -0.05 },
-          { "value": "ARMOR_COLD", "multiply": -0.05 },
-          { "value": "ARMOR_CUT", "multiply": -0.05 },
-          { "value": "ARMOR_ELEC", "multiply": -0.05 },
-          { "value": "ARMOR_HEAT", "multiply": -0.05 },
-          { "value": "ARMOR_STAB", "multiply": -0.05 }
-        ]
-      }
-    ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "ARMOR_ALL", "multiply": -0.05 } ] } ]
   },
   {
     "type": "mutation",
@@ -225,12 +210,34 @@
   },
   {
     "type": "mutation",
+    "id": "perk_undying_loyalty",
+    "name": {
+      "//~": "This is a pun, based on undying literally meaning 'does not die' but also the figurative meaning of an emotion that lasts forever.",
+      "str": "Undying Loyalty"
+    },
+    "points": 0,
+    "description": "You inspire your allies to protect you when you're seriously injured.  If attacked when your head or torso health are at 50% or lower, all allies within 15 meters will take 20% reduced damage for one minute.  This effect can only trigger once every five minutes.",
+    "category": [ "perk" ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_tuck_and_roll",
     "name": { "str": "Tuck and Roll" },
     "points": 0,
     "description": "At some point you got really good at falling off rooftops.  Take 40% less fall damage.",
     "category": [ "perk" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "FALL_DAMAGE", "multiply": -0.4 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_grit_your_teeth",
+    "name": { "str": "Grit Your Teeth" },
+    "points": 0,
+    "description": "When you have to you can wipe the blood off your chin, grit your teeth, and get it done.  Use to reduce your pain by 30 or half (whichever is greater) for 3 minutes.\n\nThe cooldown on this perk scales based on your pain at the time you used it.",
+    "category": [ "perk" ],
+    "active": true,
+    "activated_is_setup": false,
+    "activated_eocs": [ "EOC_PERK_GRIT_YOUR_TEETH" ]
   },
   {
     "type": "mutation",
@@ -324,6 +331,56 @@
   },
   {
     "type": "mutation",
+    "id": "perk_non_combatant",
+    "name": { "str": "Non-Combatant" },
+    "points": 0,
+    "description": "Hey, that's against the Geneva Convention!  When not wielding a weapon, or object that could be used as an improvised weapon, you take -15% reduced damage.",
+    "category": [ "perk" ],
+    "//": "u_has_weapon checks if you're wielding ANYTHNG, not a weapon specifically, hence the long condition below.",
+    "enchantments": [
+      {
+        "condition": {
+          "and": [
+            { "not": { "u_has_wielded_with_weapon_category": "AUTOMATIC_PISTOLS" } },
+            { "not": { "u_has_wielded_with_weapon_category": "SHIVS" } },
+            { "not": { "u_has_wielded_with_weapon_category": "QUARTERSTAVES" } },
+            { "not": { "u_has_wielded_with_weapon_category": "HOOKING_WEAPONRY" } },
+            { "not": { "u_has_wielded_with_weapon_category": "AUTOMATIC_RIFLES" } },
+            { "not": { "u_has_wielded_with_weapon_category": "KNIVES" } },
+            { "not": { "u_has_wielded_with_weapon_category": "MEDIUM_SWORDS" } },
+            { "not": { "u_has_wielded_with_weapon_category": "GREAT_HAMMERS" } },
+            { "not": { "u_has_wielded_with_weapon_category": "GREAT_AXES" } },
+            { "not": { "u_has_wielded_with_weapon_category": "MACES" } },
+            { "not": { "u_has_wielded_with_weapon_category": "SPEARS" } },
+            { "not": { "u_has_wielded_with_weapon_category": "FENCING_WEAPONRY" } },
+            { "not": { "u_has_wielded_with_weapon_category": "LONG_SWORDS" } },
+            { "not": { "u_has_wielded_with_weapon_category": "GREAT_SWORDS" } },
+            { "not": { "u_has_wielded_with_weapon_category": "BIONIC_WEAPONRY" } },
+            { "not": { "u_has_wielded_with_weapon_category": "SHORT_SWORDS" } },
+            { "not": { "u_has_wielded_with_weapon_category": "HAND_AXES" } },
+            { "not": { "u_has_wielded_with_weapon_category": "BATONS" } },
+            { "not": { "u_has_wielded_with_weapon_category": "FLAILS" } },
+            { "not": { "u_has_wielded_with_weapon_category": "POLEARMS" } },
+            { "not": { "u_has_wielded_with_weapon_category": "LONG_THRUSTING_SWORDS" } },
+            { "not": { "u_has_wielded_with_weapon_category": "BIONIC_SWORDS" } },
+            { "not": { "u_has_wielded_with_flag": "OLD_GUN" } },
+            { "not": { "u_has_wielded_with_flag": "NEVER_JAMS" } },
+            { "not": { "u_has_wielded_with_flag": "NON_FOULING" } },
+            { "not": { "u_has_wielded_with_flag": "RELOAD_AND_SHOOT" } },
+            { "not": { "u_has_wielded_with_flag": "RELOAD_EJECT" } },
+            { "not": { "u_has_wielded_with_flag": "RELOAD_ONE" } },
+            { "not": { "u_has_wielded_with_flag": "STR_DRAW" } },
+            { "not": { "u_has_wielded_with_flag": "DURABLE_MELEE" } },
+            { "not": { "u_has_wielded_with_flag": "BIONIC_WEAPON" } },
+            { "not": { "u_has_wielded_with_flag": "POLEARM" } }
+          ]
+        },
+        "values": [ { "value": "ARMOR_ALL", "multiply": -0.25 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_recycler",
     "name": { "str": "Recycler" },
     "points": 0,
@@ -365,7 +422,7 @@
     "id": "perk_frakenstein",
     "name": { "str": "Playing God" },
     "points": 0,
-    "description": "You've been dissecting critters since high school.  Last night a voice gave you an idea for how to bring them back to life activate the perk to gain insight into the nature of life itself!",
+    "description": "You've been dissecting critters since high school.  Last night a voice gave you an idea for how to bring them back to life.  Activate the perk to gain insight into the nature of life itself!",
     "category": [ "perk" ],
     "active": true,
     "activated_eocs": [ "EOC_frankenstein_insight" ]
@@ -574,6 +631,14 @@
     "enchantments": [
       { "condition": { "u_has_wielded_with_flag": "OLD_GUN" }, "values": [ { "value": "RANGED_DAMAGE", "multiply": 0.25 } ] }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_moonstruck",
+    "name": { "str": "Moonstruck" },
+    "points": 0,
+    "description": "You've always been greatly affected by the phases of the moon.  During a full moon, you gain a +3 bonus to all stats.  During a waxing moon, you gain a +1 bonus to all stats, and during a new moon, you suffer a -2 penalty to all stats.",
+    "category": [ "perk" ]
   },
   {
     "type": "mutation",

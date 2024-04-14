@@ -944,6 +944,17 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         }
     }
 
+    if( jo.has_member( "no_absorb_material" ) ) {
+        no_absorb_material.clear();
+        if( jo.has_array( "no_absorb_material" ) ) {
+            for( std::string mat : jo.get_string_array( "no_absorb_material" ) ) {
+                no_absorb_material.emplace_back( mat );
+            }
+        } else {
+            no_absorb_material.emplace_back( jo.get_string( "no_absorb_material" ) );
+        }
+    }
+
     optional( jo, was_loaded, "bleed_rate", bleed_rate, 100 );
 
     optional( jo, was_loaded, "petfood", petfood );

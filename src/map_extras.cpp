@@ -2163,35 +2163,9 @@ static bool mx_city_trap( map &/*m*/, const tripoint &abs_sub )
     return true;
 }
 
-static bool mx_fungal_zone( map &/*m*/, const tripoint &abs_sub )
+static bool mx_fungal_zone( map &m, const tripoint &abs_sub )
 {
-    //First, find a city
-    // TODO: fix point types
-    const city_reference c = overmap_buffer.closest_city( tripoint_abs_sm( abs_sub ) );
-    const tripoint_abs_omt city_center_omt = project_to<coords::omt>( c.abs_sm_pos );
-
-    //Then find out which types of parks (defined in regional settings) exist in this city
-    std::vector<tripoint_abs_omt> valid_omt;
-    const auto &parks = g->get_cur_om().get_settings().city_spec.get_all_parks();
-    for( const auto &elem : parks ) {
-        for( const tripoint_abs_omt &p : points_in_radius( city_center_omt, c.city->size ) ) {
-            if( overmap_buffer.check_overmap_special_type( elem.obj, p ) ) {
-                valid_omt.push_back( p );
-            }
-        }
-    }
-
-    // If there's no parks in the city, bail out
-    if( valid_omt.empty() ) {
-        return false;
-    }
-
-    const tripoint_abs_omt &park_omt = random_entry( valid_omt, city_center_omt );
-
-    tinymap fungal_map;
-    fungal_map.load( park_omt, false );
-
-    // Then find suitable location for fungal spire to spawn (grass, dirt etc)
+    // Find suitable location for fungal spire to spawn (grass, dirt etc)
     const tripoint_omt_ms omt_center = { SEEX, SEEY, abs_sub.z };
     std::vector<tripoint_omt_ms> suitable_locations;
     for( const tripoint_omt_ms &loc : fungal_map.points_in_radius( omt_center, 10 ) ) {

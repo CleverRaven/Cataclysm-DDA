@@ -20,7 +20,7 @@ static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_debug_no_staggered( "debug_no_staggered" );
 static const efftype_id effect_invisibility( "invisibility" );
 
-static const mtype_id debug_mon( "debug_mon" );
+static const mtype_id pseudo_debug_mon( "pseudo_debug_mon" );
 
 static const skill_id skill_melee( "melee" );
 
@@ -231,7 +231,7 @@ TEST_CASE( "Enchantment_ATTACK_SPEED_test", "[magic][enchantments]" )
     clear_map();
     Character &guy = get_player_character();
     clear_avatar();
-    g->place_critter_at( debug_mon, tripoint_south );
+    g->place_critter_at( pseudo_debug_mon, tripoint_south );
     int moves_spent_on_attacks = 0;
 
 
@@ -288,7 +288,7 @@ TEST_CASE( "Enchantment_MELEE_STAMINA_CONSUMPTION_test", "[magic][enchantments]"
     clear_map();
     Character &guy = get_player_character();
     clear_avatar();
-    g->place_critter_at( debug_mon, tripoint_south );
+    g->place_critter_at( pseudo_debug_mon, tripoint_south );
     int stamina_init = 0;
     int stamina_current = 0;
     int stamina_spent = 0;
@@ -363,9 +363,9 @@ TEST_CASE( "Enchantment_PAIN_PENALTY_MOD_test", "[magic][enchantments]" )
     INFO( "Character has 50 pain, not affected by enchantments" );
     guy.set_pain( 50 );
     advance_turn( guy );
-    INFO( "Stats are: 6 str, 6 dex, 3 int, 3 per, 85 speed" );
+    INFO( "Stats are: 6 str, 5 dex, 3 int, 3 per, 85 speed" );
     REQUIRE( guy.get_str() == 6 );
-    REQUIRE( guy.get_dex() == 6 );
+    REQUIRE( guy.get_dex() == 5 );
     REQUIRE( guy.get_int() == 4 );
     REQUIRE( guy.get_per() == 4 );
     REQUIRE( guy.get_speed() == 85 );
@@ -375,9 +375,9 @@ TEST_CASE( "Enchantment_PAIN_PENALTY_MOD_test", "[magic][enchantments]" )
     guy.i_add( item( "test_PAIN_PENALTY_MOD_ench_item_1" ) );
     guy.recalculate_enchantment_cache();
     advance_turn( guy );
-    INFO( "Stats are: 4 str, 8 dex, 7 int, 0 per, 89 speed" );
+    INFO( "Stats are: 4 str, 7 dex, 7 int, 0 per, 89 speed" );
     REQUIRE( guy.get_str() == 4 );
-    REQUIRE( guy.get_dex() == 8 );
+    REQUIRE( guy.get_dex() == 7 );
     REQUIRE( guy.get_int() == 7 );
     REQUIRE( guy.get_per() == 0 );
     REQUIRE( guy.get_speed() == 89 );

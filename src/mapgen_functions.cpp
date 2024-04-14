@@ -37,8 +37,6 @@
 #include "weighted_list.h"
 #include "creature_tracker.h"
 
-static const oter_str_id oter_hellmouth( "hellmouth" );
-static const oter_str_id oter_rift( "rift" );
 static const oter_str_id oter_river_c_not_nw( "river_c_not_nw" );
 static const oter_str_id oter_river_c_not_se( "river_c_not_se" );
 static const oter_str_id oter_river_c_not_sw( "river_c_not_sw" );
@@ -56,7 +54,6 @@ static const ter_str_id ter_t_buffer_stop( "t_buffer_stop" );
 static const ter_str_id ter_t_clay( "t_clay" );
 static const ter_str_id ter_t_dirt( "t_dirt" );
 static const ter_str_id ter_t_grass( "t_grass" );
-static const ter_str_id ter_t_lava( "t_lava" );
 static const ter_str_id ter_t_open_air( "t_open_air" );
 static const ter_str_id ter_t_railroad_rubble( "t_railroad_rubble" );
 static const ter_str_id ter_t_railroad_tie( "t_railroad_tie" );
@@ -67,7 +64,6 @@ static const ter_str_id ter_t_railroad_track_on_tie( "t_railroad_track_on_tie" )
 static const ter_str_id ter_t_rock( "t_rock" );
 static const ter_str_id ter_t_rock_floor( "t_rock_floor" );
 static const ter_str_id ter_t_sand( "t_sand" );
-static const ter_str_id ter_t_slope_down( "t_slope_down" );
 static const ter_str_id ter_t_swater_dp( "t_swater_dp" );
 static const ter_str_id ter_t_swater_sh( "t_swater_sh" );
 static const ter_str_id ter_t_swater_surf( "t_swater_surf" );
@@ -115,18 +111,12 @@ tripoint rotate_point( const tripoint &p, int rotations )
 building_gen_pointer get_mapgen_cfunction( const std::string &ident )
 {
     static const std::map<std::string, building_gen_pointer> pointers = { {
-            { "null",             &mapgen_null },
             { "forest",           &mapgen_forest },
             { "river_center", &mapgen_river_center },
             { "river_curved_not", &mapgen_river_curved_not },
             { "river_straight",   &mapgen_river_straight },
             { "river_curved",     &mapgen_river_curved },
-            { "open_air", &mapgen_open_air },
-            { "rift", &mapgen_rift },
-            { "hellmouth", &mapgen_hellmouth },
-            // New rock function - should be default, but isn't yet for compatibility reasons (old overmaps)
-            { "empty_rock", &mapgen_rock },
-            // Old rock behavior, for compatibility and near caverns and slime pits
+            // Old rock behavior, only used around slime pits
             { "rock", &mapgen_rock_partial },
 
             { "subway_straight",    &mapgen_subway },
@@ -159,21 +149,6 @@ ter_str_id clay_or_sand()
         return ter_t_sand;
     }
     return ter_t_clay;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-///// builtin terrain-specific mapgen functions. big multi-overmap-tile terrains are located in
-///// mapgen_functions_big.cpp
-
-void mapgen_null( mapgendata &dat )
-{
-    debugmsg( "Generating null terrain, please report this as a bug" );
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            dat.m.ter_set( point( i, j ), ter_str_id::NULL_ID() );
-            dat.m.set_radiation( point( i, j ), 0 );
-        }
-    }
 }
 
 int terrain_type_to_nesw_array( oter_id terrain_type, std::array<bool, 4> &array )
@@ -215,6 +190,9 @@ void nesw_array_rotate( std::array<T, N> &array, size_t dist )
         }
     }
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+///// builtin terrain-specific mapgen functions.
 
 void mapgen_subway( mapgendata &dat )
 {
@@ -700,173 +678,6 @@ void mapgen_rock_partial( mapgendata &dat )
             }
         }
     }
-}
-
-void mapgen_rock( mapgendata &dat )
-{
-    fill_background( &dat.m, ter_t_rock );
-}
-
-void mapgen_open_air( mapgendata &dat )
-{
-    fill_background( &dat.m, ter_t_open_air );
-}
-
-void mapgen_rift( mapgendata &dat )
-{
-    map *const m = &dat.m;
-
-    if( dat.north() != oter_rift && dat.north() != oter_hellmouth ) {
-        if( connects_to( dat.north(), 2 ) ) {
-            dat.n_fac = rng( -6, -2 );
-        } else {
-            dat.n_fac = rng( 2, 6 );
-        }
-    }
-    if( dat.east() != oter_rift && dat.east() != oter_hellmouth ) {
-        if( connects_to( dat.east(), 3 ) ) {
-            dat.e_fac = rng( -6, -2 );
-        } else {
-            dat.e_fac = rng( 2, 6 );
-        }
-    }
-    if( dat.south() != oter_rift && dat.south() != oter_hellmouth ) {
-        if( connects_to( dat.south(), 0 ) ) {
-            dat.s_fac = rng( -6, -2 );
-        } else {
-            dat.s_fac = rng( 2, 6 );
-        }
-    }
-    if( dat.west() != oter_rift && dat.west() != oter_hellmouth ) {
-        if( connects_to( dat.west(), 1 ) ) {
-            dat.w_fac = rng( -6, -2 );
-        } else {
-            dat.w_fac = rng( 2, 6 );
-        }
-    }
-    // Negative *_fac values indicate rock floor connection, otherwise solid rock
-    // Of course, if we connect to a rift, *_fac = 0, and thus lava extends all the
-    //  way.
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            if( ( dat.n_fac < 0 && j < dat.n_fac * -1 ) || ( dat.s_fac < 0 && j >= SEEY * 2 - dat.s_fac ) ||
-                ( dat.w_fac < 0 && i < dat.w_fac * -1 ) || ( dat.e_fac < 0 && i >= SEEX * 2 - dat.e_fac ) ) {
-                m->ter_set( point( i, j ), ter_t_rock_floor );
-            } else if( j < dat.n_fac || j >= SEEY * 2 - dat.s_fac ||
-                       i < dat.w_fac || i >= SEEX * 2 - dat.e_fac ) {
-                m->ter_set( point( i, j ), ter_t_rock );
-            } else {
-                m->ter_set( point( i, j ), ter_t_lava );
-            }
-        }
-    }
-
-}
-
-void mapgen_hellmouth( mapgendata &dat )
-{
-    map *const m = &dat.m;
-    // what is this, doom?
-    // .. seriously, though...
-    for( int i = 0; i < 4; i++ ) {
-        if( dat.t_nesw[i] != oter_rift && dat.t_nesw[i] != oter_hellmouth ) {
-            dat.dir( i ) = 6;
-        }
-    }
-
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            if( j < dat.n_fac || j >= SEEY * 2 - dat.s_fac || i < dat.w_fac || i >= SEEX * 2 - dat.e_fac ||
-                ( i >= 6 && i < SEEX * 2 - 6 && j >= 6 && j < SEEY * 2 - 6 ) ) {
-                m->ter_set( point( i, j ), ter_t_rock_floor );
-            } else {
-                m->ter_set( point( i, j ), ter_t_lava );
-            }
-            if( i >= SEEX - 1 && i <= SEEX && j >= SEEY - 1 && j <= SEEY ) {
-                m->ter_set( point( i, j ), ter_t_slope_down );
-            }
-        }
-    }
-    switch( rng( 0, 4 ) ) { // Randomly chosen "altar" design
-        case 0:
-            for( int i = 7; i <= 16; i += 3 ) {
-                m->ter_set( point( i, 6 ), ter_t_rock );
-                m->ter_set( point( i, 17 ), ter_t_rock );
-                m->ter_set( point( 6, i ), ter_t_rock );
-                m->ter_set( point( 17, i ), ter_t_rock );
-                if( i > 7 && i < 16 ) {
-                    m->ter_set( point( i, 10 ), ter_t_rock );
-                    m->ter_set( point( i, 13 ), ter_t_rock );
-                } else {
-                    m->ter_set( point( i - 1, 6 ), ter_t_rock );
-                    m->ter_set( point( i - 1, 10 ), ter_t_rock );
-                    m->ter_set( point( i - 1, 13 ), ter_t_rock );
-                    m->ter_set( point( i - 1, 17 ), ter_t_rock );
-                }
-            }
-            break;
-        case 1:
-            for( int i = 6; i < 11; i++ ) {
-                m->ter_set( point( i, i ), ter_t_lava );
-                m->ter_set( point( SEEX * 2 - 1 - i, i ), ter_t_lava );
-                m->ter_set( point( i, SEEY * 2 - 1 - i ), ter_t_lava );
-                m->ter_set( point( SEEX * 2 - 1 - i, SEEY * 2 - 1 - i ), ter_t_lava );
-                if( i < 10 ) {
-                    m->ter_set( point( i + 1, i ), ter_t_lava );
-                    m->ter_set( point( SEEX * 2 - i, i ), ter_t_lava );
-                    m->ter_set( point( i + 1, SEEY * 2 - 1 - i ), ter_t_lava );
-                    m->ter_set( point( SEEX * 2 - i, SEEY * 2 - 1 - i ), ter_t_lava );
-
-                    m->ter_set( point( i, i + 1 ), ter_t_lava );
-                    m->ter_set( point( SEEX * 2 - 1 - i, i + 1 ), ter_t_lava );
-                    m->ter_set( point( i, SEEY * 2 - i ), ter_t_lava );
-                    m->ter_set( point( SEEX * 2 - 1 - i, SEEY * 2 - i ), ter_t_lava );
-                }
-                if( i < 9 ) {
-                    m->ter_set( point( i + 2, i ), ter_t_rock );
-                    m->ter_set( point( SEEX * 2 - i + 1, i ), ter_t_rock );
-                    m->ter_set( point( i + 2, SEEY * 2 - 1 - i ), ter_t_rock );
-                    m->ter_set( point( SEEX * 2 - i + 1, SEEY * 2 - 1 - i ), ter_t_rock );
-
-                    m->ter_set( point( i, i + 2 ), ter_t_rock );
-                    m->ter_set( point( SEEX * 2 - 1 - i, i + 2 ), ter_t_rock );
-                    m->ter_set( point( i, SEEY * 2 - i + 1 ), ter_t_rock );
-                    m->ter_set( point( SEEX * 2 - 1 - i, SEEY * 2 - i + 1 ), ter_t_rock );
-                }
-            }
-            break;
-        case 2:
-            for( int i = 7; i < 17; i++ ) {
-                m->ter_set( point( i, 6 ), ter_t_rock );
-                m->ter_set( point( 6, i ), ter_t_rock );
-                m->ter_set( point( i, 17 ), ter_t_rock );
-                m->ter_set( point( 17, i ), ter_t_rock );
-                if( i != 7 && i != 16 && i != 11 && i != 12 ) {
-                    m->ter_set( point( i, 8 ), ter_t_rock );
-                    m->ter_set( point( 8, i ), ter_t_rock );
-                    m->ter_set( point( i, 15 ), ter_t_rock );
-                    m->ter_set( point( 15, i ), ter_t_rock );
-                }
-                if( i == 11 || i == 12 ) {
-                    m->ter_set( point( i, 10 ), ter_t_rock );
-                    m->ter_set( point( 10, i ), ter_t_rock );
-                    m->ter_set( point( i, 13 ), ter_t_rock );
-                    m->ter_set( point( 13, i ), ter_t_rock );
-                }
-            }
-            break;
-        case 3:
-            for( int i = 6; i < 11; i++ ) {
-                for( int j = 6; j < 11; j++ ) {
-                    m->ter_set( point( i, j ), ter_t_lava );
-                    m->ter_set( point( SEEX * 2 - 1 - i, j ), ter_t_lava );
-                    m->ter_set( point( i, SEEY * 2 - 1 - j ), ter_t_lava );
-                    m->ter_set( point( SEEX * 2 - 1 - i, SEEY * 2 - 1 - j ), ter_t_lava );
-                }
-            }
-            break;
-    }
-
 }
 
 void mapgen_forest( mapgendata &dat )
