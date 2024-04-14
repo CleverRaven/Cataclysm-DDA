@@ -250,7 +250,6 @@ TEST_CASE( "Enchantment_ATTACK_SPEED_test", "[magic][enchantments]" )
     guy.i_add( item( "test_ATTACK_SPEED_ench_item" ) );
     // 25 moves per attack
     INFO( "10 attacks cost only 250 moves" );
-    
     moves_spent_on_attacks = test_melee_attack_attack_speed( guy, mon );
     REQUIRE( moves_spent_on_attacks == -250 );
     clear_avatar();
