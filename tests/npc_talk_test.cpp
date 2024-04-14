@@ -87,9 +87,9 @@ static npc &create_test_talker( bool shopkeep = false )
     model_npc->name = "Beta NPC";
     model_npc->set_hunger( 0 );
     model_npc->set_thirst( 0 );
-    model_npc->set_fatigue( 0 );
+    model_npc->set_sleepiness( 0 );
     model_npc->remove_effect( effect_sleep );
-    // An ugly hack to prevent NPC falling asleep during testing due to massive fatigue
+    // An ugly hack to prevent NPC falling asleep during testing due to massive sleepiness
     model_npc->set_mutation( trait_WEB_WEAVER );
 
     return *model_npc;
@@ -436,12 +436,12 @@ TEST_CASE( "npc_talk_needs", "[npc_talk]" )
     CHECK( d.responses[0].text == "This is a basic test response." );
     talker_npc.set_thirst( 90 );
     talker_npc.set_hunger( 90 );
-    talker_npc.set_fatigue( fatigue_levels::EXHAUSTED );
+    talker_npc.set_sleepiness( sleepiness_levels::EXHAUSTED );
     gen_response_lines( d, 4 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a npc thirst test response." );
     CHECK( d.responses[2].text == "This is a npc hunger test response." );
-    CHECK( d.responses[3].text == "This is a npc fatigue test response." );
+    CHECK( d.responses[3].text == "This is a npc sleepiness test response." );
 }
 
 TEST_CASE( "npc_talk_mission_goal", "[npc_talk]" )
@@ -1266,7 +1266,7 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     Character &player_character = get_avatar();
 
     d.add_topic( "TALK_TEST_ARITHMETIC" );
-    gen_response_lines( d, 31 );
+    gen_response_lines( d, 32 );
 
     calendar::turn = calendar::turn_zero;
     REQUIRE( calendar::turn == time_point( 0 ) );
@@ -1468,6 +1468,8 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     // "Sets Test Proficiency learning done to 24h."
     effects = d.responses[30].success;
     effects.apply( d );
+    add_msg( m_bad, "%s: %g", proficiency_prof_test.str(),
+             player_character.get_proficiency_practice( proficiency_prof_test ) );
     CHECK( player_character.has_proficiency( proficiency_prof_test ) == true );
     proficiencies_vector = player_character.learning_proficiencies();
     CHECK( std::count( proficiencies_vector.begin(),
@@ -1491,6 +1493,54 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     CHECK( std::count( proficiencies_vector.begin(),
                        proficiencies_vector.end(),
                        proficiency_prof_test ) == 0 );
+
+
+    // Proficency learning without 'direct': true is impacted by focus
+    const auto prof_xp = [&player_character]() {
+        return to_seconds<int>( player_character.get_proficiency_practiced_time( proficiency_prof_test ) );
+    };
+
+    // For 100 focus
+    player_character.set_focus( 100 );
+    // No starting XP
+    REQUIRE( prof_xp() == 0 );
+
+    // "Learns Test Proficiency for 1h"
+    effects = d.responses[31].success;
+    effects.apply( d );
+
+    int amt_100 = prof_xp();
+    CAPTURE( amt_100 );
+
+    CHECK( player_character.has_proficiency( proficiency_prof_test ) == false );
+    proficiencies_vector = player_character.learning_proficiencies();
+    CHECK( std::count( proficiencies_vector.begin(),
+                       proficiencies_vector.end(),
+                       proficiency_prof_test ) == 1 );
+
+    // Reset progress
+    player_character.set_proficiency_practice( proficiency_prof_test, 0_seconds );
+    REQUIRE( prof_xp() == 0 );
+
+    // For 5 focus
+    player_character.set_focus( 5 );
+
+    // "Learns Test Proficiency for 1h"
+    effects = d.responses[31].success;
+    effects.apply( d );
+
+    int amt_5 = prof_xp();
+    CAPTURE( amt_5 );
+
+    CHECK( player_character.has_proficiency( proficiency_prof_test ) == false );
+    proficiencies_vector = player_character.learning_proficiencies();
+    CHECK( std::count( proficiencies_vector.begin(),
+                       proficiencies_vector.end(),
+                       proficiency_prof_test ) == 1 );
+
+    // Simply check that they're less, don't need to get any fancier
+    CHECK( amt_5 < amt_100 );
+
 
     // Teardown
     player_character.remove_value( var_name );

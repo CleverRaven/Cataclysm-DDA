@@ -46,9 +46,12 @@ def parse_use_action(json, origin, item_name):
                 write_text(json[msg_key], origin,
                            comment="\"{0}\" action message of item \"{1}\""
                            .format(msg_key, item_name))
-        for json_key in json:
-            parse_use_action(json[json_key], origin, item_name)
-        if "effect_on_conditions" in json:
+        if json["type"] == "place_trap" and "bury" in json:
+            write_text(json["bury"]["done_message"], origin,
+                       comment="bury trap message of item \"{}\""
+                       .format(item_name))
+        if (json["type"] == "effect_on_conditions" and
+                "effect_on_conditions" in json):
             for e in json["effect_on_conditions"]:
                 if type(e) is dict:
                     parse_effect_on_condition(e, origin,

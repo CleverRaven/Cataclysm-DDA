@@ -3,9 +3,9 @@
     "type": "effect_on_condition",
     "id": "EOC_selector_test",
     "effect": [
-      { "set_string_var": "EOC Selector Test", "target_var": { "context_val": "title" } },
+      { "set_string_var": "EOC Selector Test", "target_var": { "context_val": "title" }, "i18n": true },
       { "set_string_var": "name_3", "target_var": { "context_val": "name" } },
-      { "set_string_var": "option 3", "target_var": { "context_val": "description" } },
+      { "set_string_var": "option 3", "target_var": { "context_val": "description" }, "i18n": true },
       {
         "run_eoc_selector": [ "EOC_selector_test_1", "EOC_selector_test_2", "EOC_selector_test_3", "EOC_selector_test_4" ],
         "names": [ "name_1", "name_2", "<context_val:name>", "should_fail" ],
@@ -139,7 +139,7 @@
             "if": { "not": { "u_has_var": "test", "type": "eoc_sample", "context": "if_else", "value": "yes" } },
             "then": [
               { "u_add_var": "test", "type": "eoc_sample", "context": "if_else", "value": "yes" },
-              { "u_message": "Vriable added." }
+              { "u_message": "Variable added." }
             ]
           }
         ]

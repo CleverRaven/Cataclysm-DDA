@@ -1,5 +1,30 @@
 [
   {
+    "type": "enchantment",
+    "id": "sylph_extra_dodges",
+    "condition": "ALWAYS",
+    "values": [ { "value": "BONUS_DODGE", "add": { "math": [ "1 + u_has_trait('THRESH_SYLPH')" ] } } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "sylph_wind_weapons",
+    "condition": "ALWAYS",
+    "values": [ { "value": "RANGE", "multiply": { "math": [ "0.1 + (u_has_trait('THRESH_SYLPH') * 0.1)" ] } } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "sylph_fast_cast",
+    "condition": "u_is_outside",
+    "values": [ { "value": "CASTING_TIME_MULTIPLIER", "multiply": -0.15 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "sylph_fast_cast2",
+    "condition": "u_is_outside",
+    "values": [ { "value": "CASTING_TIME_MULTIPLIER", "multiply": -0.15 } ],
+    "ench_effects": [ { "effect": "effect_subtle_spell_flag", "intensity": 1 } ]
+  },
+  {
     "id": "zap_electrical_emission",
     "type": "SPELL",
     "name": "Zap",
@@ -267,6 +292,33 @@
     "base_casting_time": 100,
     "final_casting_time": 50,
     "casting_time_increment": -4
+  },
+  {
+    "id": "sylph_increase_ally_speed_spell",
+    "type": "SPELL",
+    "name": "Favonian Murmuration",
+    "description": "With a burst of fae magick, you infuse the speed of the west wind into one of your allies, allowing them to move much more quickly for a time.",
+    "valid_targets": [ "ally" ],
+    "skill": "deduction",
+    "effect": "attack",
+    "effect_str": "effect_sylph_increase_ally_speed",
+    "shape": "blast",
+    "spell_class": "SYLPH",
+    "teachable": false,
+    "flags": [ "SOMATIC", "VERBAL", "NO_PROJECTILE", "NO_LEGS", "NO_HANDS" ],
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "difficulty": 5,
+    "min_range": 1,
+    "max_range": 20,
+    "range_increment": 0.4,
+    "base_casting_time": 450,
+    "energy_source": "MANA",
+    "base_energy_cost": 500,
+    "final_energy_cost": 300,
+    "energy_increment": -10,
+    "min_duration": 30000,
+    "max_duration": 1080000,
+    "duration_increment": 16500
   },
   {
     "id": "sylph_cultivate_goblin_fruit",

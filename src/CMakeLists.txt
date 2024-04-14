@@ -48,13 +48,25 @@ if (TILES)
                 ${MESSAGES_CPP}
                 ${RESOURCE_RC})
         if(MSYS2)
-            # /MANIFESTINPUT not supported by GNU linker
-            # Defaul embed via `windres.exe` compiling `resource.rc` -> `resource.rc.obj`
+            set(_KEEP $<$<CONFIG:RelWithDebInfo,Debug>:objcopy
+            --only-keep-debug
+            $<TARGET_FILE:cataclysm-tiles>
+            $<TARGET_FILE:cataclysm-tiles>.debug
+            >)
+            set(_STRIP $<$<CONFIG:RelWithDebInfo,Debug>:objcopy
+            --strip-unneeded
+            --add-gnu-debuglink=$<TARGET_FILE:cataclysm-tiles>.debug
+            $<TARGET_FILE:cataclysm-tiles>
+            >)
+            add_custom_command(TARGET cataclysm-tiles POST_BUILD
+                COMMAND "${_KEEP}"
+                COMMAND "${_STRIP}"
+                COMMAND_EXPAND_LISTS
+            )
         else()
-            # Embed manifest directly to avoid:
-            # "fatal error CVT1100: duplicate resource.  type:MANIFEST, name:1, language:0x0409"
+            # Use only our RT_MANIFEST from resource.rc
             target_link_options(cataclysm-tiles PRIVATE
-                "LINKER:/MANIFESTINPUT:${CMAKE_SOURCE_DIR}/data/application_manifest.xml"
+                "LINKER:/MANIFEST:NO"
             )
         endif()
     else ()

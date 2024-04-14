@@ -70,10 +70,10 @@ struct gate_data {
     void load( const JsonObject &jo, std::string_view src );
     void check() const;
 
-    bool is_suitable_wall( const tripoint &pos ) const;
+    bool is_suitable_wall( const tripoint_bub_ms &pos ) const;
 };
 
-gate_id get_gate_id( const tripoint &pos )
+gate_id get_gate_id( const tripoint_bub_ms &pos )
 {
     return gate_id( get_map().ter( pos ).id().str() );
 }
@@ -129,7 +129,7 @@ void gate_data::check() const
     }
 }
 
-bool gate_data::is_suitable_wall( const tripoint &pos ) const
+bool gate_data::is_suitable_wall( const tripoint_bub_ms &pos ) const
 {
     const ter_id wid = get_map().ter( pos );
     const auto iter = std::find_if( walls.begin(), walls.end(), [ wid ]( const ter_str_id & wall ) {
@@ -165,7 +165,7 @@ void gates::reset()
 //  !|   |!        !   |
 //
 
-void gates::open_gate( const tripoint &pos )
+void gates::open_gate( const tripoint_bub_ms &pos )
 {
     const gate_id gid = get_gate_id( pos );
 
@@ -181,21 +181,21 @@ void gates::open_gate( const tripoint &pos )
 
     map &here = get_map();
     for( const point &wall_offset : four_adjacent_offsets ) {
-        const tripoint wall_pos = pos + wall_offset;
+        const tripoint_bub_ms wall_pos = pos + wall_offset;
 
         if( !gate.is_suitable_wall( wall_pos ) ) {
             continue;
         }
 
         for( const point &gate_offset : four_adjacent_offsets ) {
-            const tripoint gate_pos = wall_pos + gate_offset;
+            const tripoint_bub_ms gate_pos = wall_pos + gate_offset;
 
             if( gate_pos == pos ) {
                 continue; // Never comes back
             }
 
             if( !open ) { // Closing the gate...
-                tripoint cur_pos = gate_pos;
+                tripoint_bub_ms cur_pos = gate_pos;
                 while( here.ter( cur_pos ) == gate.floor.id() ) {
                     fail = !g->forced_door_closing( cur_pos, gate.door.id(), gate.bash_dmg ) || fail;
                     close = !fail;
@@ -204,7 +204,7 @@ void gates::open_gate( const tripoint &pos )
             }
 
             if( !close ) { // Opening the gate...
-                tripoint cur_pos = gate_pos;
+                tripoint_bub_ms cur_pos = gate_pos;
                 while( true ) {
                     const ter_id ter = here.ter( cur_pos );
 
@@ -233,7 +233,7 @@ void gates::open_gate( const tripoint &pos )
     }
 }
 
-void gates::open_gate( const tripoint &pos, Character &p )
+void gates::open_gate( const tripoint_bub_ms &pos, Character &p )
 {
     const gate_id gid = get_gate_id( pos );
 
@@ -251,7 +251,7 @@ void gates::open_gate( const tripoint &pos, Character &p )
 // Doors namespace
 // TODO: move door functions from maps namespace here, or vice versa.
 
-void doors::close_door( map &m, Creature &who, const tripoint &closep )
+void doors::close_door( map &m, Creature &who, const tripoint_bub_ms &closep )
 {
     bool didit = false;
     const bool inside = !m.is_outside( who.pos() );
@@ -353,7 +353,7 @@ void doors::close_door( map &m, Creature &who, const tripoint &closep )
 }
 
 // If you update this, look at doors::can_lock_door too.
-bool doors::lock_door( map &m, Creature &who, const tripoint &lockp )
+bool doors::lock_door( map &m, Creature &who, const tripoint_bub_ms &lockp )
 {
     bool didit = false;
 
@@ -392,7 +392,7 @@ bool doors::lock_door( map &m, Creature &who, const tripoint &lockp )
     return didit;
 }
 
-bool doors::can_lock_door( const map &m, const Creature &who, const tripoint &lockp )
+bool doors::can_lock_door( const map &m, const Creature &who, const tripoint_bub_ms &lockp )
 {
     int lockable = -1;
     if( const optional_vpart_position vp = m.veh_at( lockp ) ) {
@@ -406,7 +406,7 @@ bool doors::can_lock_door( const map &m, const Creature &who, const tripoint &lo
 }
 
 // If you update this, look at doors::can_unlock_door too.
-bool doors::unlock_door( map &m, Creature &who, const tripoint &lockp )
+bool doors::unlock_door( map &m, Creature &who, const tripoint_bub_ms &lockp )
 {
     bool didit = false;
 
@@ -446,7 +446,7 @@ bool doors::unlock_door( map &m, Creature &who, const tripoint &lockp )
     return didit;
 }
 
-bool doors::can_unlock_door( const map &m, const Creature &who, const tripoint &lockp )
+bool doors::can_unlock_door( const map &m, const Creature &who, const tripoint_bub_ms &lockp )
 {
     int unlockable = -1;
     if( const optional_vpart_position vp = m.veh_at( lockp ) ) {

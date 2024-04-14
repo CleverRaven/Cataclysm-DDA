@@ -95,9 +95,9 @@
             "variables": {
               "turn_cost": "0.8",
               "transform_target": "carver_on",
-              "success_message": "The electric carver's serrated blades start buzzing!",
+              "success_message": { "i18n": true, "str": "The electric carver's serrated blades start buzzing!" },
               "volume": "20",
-              "failure_message": "You pull the trigger, but nothing happens."
+              "failure_message": { "i18n": true, "str": "You pull the trigger, but nothing happens." }
             }
           }
         }
@@ -142,7 +142,12 @@
           "id": "EOC_toolweapon_running__carver",
           "effect": {
             "run_eoc_with": "EOC_toolweapon_running",
-            "variables": { "sound_chance": "10", "sound_message": "Your electric carver buzzes.", "volume": "8", "revert_to": "carver_off" }
+            "variables": {
+              "sound_chance": "10",
+              "sound_message": { "i18n": true, "str": "Your electric carver buzzes." },
+              "volume": "8",
+              "revert_to": "carver_off"
+            }
           }
         }
       ]
@@ -767,7 +772,7 @@
     "type": "TOOL",
     "name": { "str": "soda can stove kit" },
     "//": "Should be 20 but currently recipes do not utilize this value",
-    "description": "An ultra-light alcohol-burning stove with a simmer ring, crafted by hand from a couple of aluminum soda cans.  It comes with a 500 ml plastic bottle to hold concentrated alcohol fuel.",
+    "description": "An ultra-light alcohol-burning stove with a simmer ring, crafted by hand from a couple of aluminum soda cans.  It comes with a 500 mL plastic bottle to hold concentrated alcohol fuel.",
     "weight": "45 g",
     "volume": "750 ml",
     "price": 250,

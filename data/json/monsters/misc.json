@@ -1,6 +1,6 @@
 [
   {
-    "id": "debug_mon",
+    "id": "pseudo_debug_mon",
     "type": "MONSTER",
     "name": { "str": "debug monster" },
     "description": "This monster exists only for testing purposes.",
@@ -136,7 +136,7 @@
     ]
   },
   {
-    "id": "weakpoint_mon",
+    "id": "pseudo_weakpoint_mon",
     "type": "MONSTER",
     "name": { "str": "weakpoint monster" },
     "description": "This monster exists only for weakpoint testing purposes.",
@@ -220,7 +220,7 @@
     "description": "Your precious generator, noisily humming away.  Defend it at all costs!",
     "default_faction": "player",
     "species": [ "UNKNOWN" ],
-    "volume": "92500 ml",
+    "volume": "108500 ml",
     "weight": "120 kg",
     "hp": 500,
     "speed": 100,

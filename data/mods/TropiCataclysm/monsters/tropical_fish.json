@@ -121,7 +121,7 @@
     "type": "MONSTER",
     "copy-from": "mon_fish_large",
     "name": { "str": "electric eel" },
-    "description": "An electric eel.  A strange elongated fish known for its hability to use electricity to hunt prey, despite their name they are not actually eels.",
+    "description": "An electric eel.  A strange elongated fish known for its ability to use electricity to hunt prey, despite their name they are not actually eels.",
     "special_when_hit": [ "ZAPBACK", 100 ],
     "reproduction": { "baby_egg": "egg_eel_electric", "baby_count": 2, "baby_timer": 17 },
     "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE", "ELECTRIC" ]
@@ -383,7 +383,7 @@
     "id": "mon_fish_koi",
     "type": "MONSTER",
     "copy-from": "mon_fish_medium",
-    "name": { "str": "koi" },
+    "name": { "str_sp": "koi" },
     "reproduction": { "baby_egg": "egg_koi", "baby_count": 2, "baby_timer": 17 },
     "description": "A domestic variant of the Amur carp originally bred in Japan for its color variations.  These fishes are known to devolve quickly to feral status if left to escape."
   },

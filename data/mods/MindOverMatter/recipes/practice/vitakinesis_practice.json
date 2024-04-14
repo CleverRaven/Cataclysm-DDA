@@ -849,7 +849,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: lacerating touch",
     "id": "practice_vita_attack_touch",
-    "description": "Contemplate your powers and improve your ability to trigger an adrenaline surge at will.",
+    "description": "Contemplate your powers and improve your ability to cause wounds with a touch.",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "metaphysics",

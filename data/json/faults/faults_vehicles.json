@@ -5,6 +5,7 @@
     "name": { "str": "Worn drive belt" },
     "description": "Required for operation of an attached alternator.",
     "item_prefix": "faulty",
+    "price_modifier": 0.7,
     "flags": [ "NO_ALTERNATOR_CHARGE" ]
   },
   {
@@ -13,6 +14,7 @@
     "name": { "str": "Faulty glow plugs" },
     "description": "Help when starting an engine in low ambient temperatures.",
     "item_prefix": "faulty",
+    "price_modifier": 0.7,
     "flags": [ "BAD_COLD_START" ]
   },
   {
@@ -21,14 +23,16 @@
     "name": { "str": "Active immobiliser" },
     "description": "An immobiliser device prevents starting of the vehicle without the appropriate key.",
     "item_prefix": "faulty",
+    "price_modifier": 0.25,
     "flags": [ "IMMOBILIZER" ]
   },
   {
     "id": "fault_engine_pump_diesel",
     "type": "fault",
     "name": { "str": "Faulty diesel pump" },
-    "description": "Required to pump and pressurize diesel from a vehicles tank.",
+    "description": "Required to pump and pressurize diesel from a vehicle's tank.",
     "item_prefix": "faulty",
+    "price_modifier": 0.7,
     "flags": [ "BAD_FUEL_PUMP" ]
   },
   {
@@ -37,6 +41,7 @@
     "name": { "str": "Expired air filter" },
     "description": "An expired filter reduces fuel efficiency and increases smoke production.",
     "item_prefix": "faulty",
+    "price_modifier": 0.9,
     "flags": [ "DOUBLE_FUEL_CONSUMPTION", "EXTRA_EXHAUST" ]
   },
   {
@@ -45,14 +50,16 @@
     "name": { "str": "Expired fuel filter" },
     "description": "An expired filter reduces performance and increases the chance of backfires.",
     "item_prefix": "faulty",
+    "price_modifier": 0.7,
     "flags": [ "REDUCE_ENG_POWER", "ENG_BACKFIRE" ]
   },
   {
     "id": "fault_engine_pump_fuel",
     "type": "fault",
     "name": { "str": "Faulty fuel pump" },
-    "description": "Required to pump gasoline from a vehicles tank.",
+    "description": "Required to pump gasoline from a vehicle's tank.",
     "item_prefix": "faulty",
+    "price_modifier": 0.7,
     "flags": [ "BAD_FUEL_PUMP" ]
   },
   {
@@ -61,6 +68,7 @@
     "name": { "str": "Faulty starter motor" },
     "description": "Required to initially start the engine.",
     "item_prefix": "faulty",
+    "price_modifier": 0.5,
     "flags": [ "BAD_STARTER" ]
   }
 ]

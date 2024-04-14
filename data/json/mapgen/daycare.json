@@ -88,7 +88,7 @@
         "&": { "item": "SUS_toilet", "chance": 100 },
         "J": { "item": "SUS_oven", "chance": 100 },
         "A": { "item": "SUS_janitors_closet", "chance": 80 },
-        "B": [ { "item": "games", "chance": 75, "repeat": [ 1, 4 ] }, { "item": "toy_store", "chance": 75, "repeat": [ 1, 4 ] } ],
+        "B": [ { "item": "games", "chance": 75, "repeat": [ 1, 4 ] }, { "item": "toy_box", "chance": 75, "repeat": [ 1, 4 ] } ],
         "#": { "item": "child_items", "chance": 30 },
         ",": { "item": "child_items", "chance": 15 },
         ".": { "item": "child_items", "chance": 5 },

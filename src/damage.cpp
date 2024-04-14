@@ -418,8 +418,9 @@ void damage_instance::ondamage_effects( Creature *source, Creature *target,
         if( predamageunit != premitigated.end() ) {
             premit = predamageunit->amount;
         }
-
-        du.type->ondamage_effects( source, target, bp, premit, du.amount );
+        if( !target->is_immune_damage( du.type ) ) {
+            du.type->ondamage_effects( source, target, bp, premit, du.amount );
+        }
     }
 }
 

@@ -299,7 +299,8 @@
       { "monster": "mon_dog_zombie_rot", "weight": 10, "cost_multiplier": 2 },
       { "monster": "mon_zombie_swimmer_base", "weight": 20, "cost_multiplier": 2 },
       { "monster": "mon_zombie_static", "weight": 30, "cost_multiplier": 5 },
-      { "monster": "mon_feral_prepper", "weight": 1, "cost_multiplier": 2, "starts": "10 days" },
+      { "monster": "mon_feral_prepper_knife", "weight": 1, "cost_multiplier": 2, "starts": "10 days" },
+      { "monster": "mon_feral_prepper_mace", "weight": 1, "cost_multiplier": 2, "starts": "10 days" },
       { "monster": "mon_feral_survivalist", "weight": 1, "cost_multiplier": 2, "starts": "29 days" },
       { "monster": "mon_zombie_paramilitary", "weight": 1, "cost_multiplier": 25 },
       { "monster": "mon_zombie_survivor", "weight": 1, "cost_multiplier": 25, "starts": "30 days" },
@@ -316,7 +317,8 @@
       { "monster": "mon_civilian_stationary", "weight": 5, "cost_multiplier": 0, "ends": "3 days" },
       { "monster": "mon_civilian_zombiefighter", "weight": 40, "cost_multiplier": 0, "ends": "3 days" },
       { "monster": "mon_civilian_panic", "weight": 20, "cost_multiplier": 0, "ends": "5 days" },
-      { "monster": "mon_feral_prepper", "weight": 180, "cost_multiplier": 5 },
+      { "monster": "mon_feral_prepper_knife", "weight": 180, "cost_multiplier": 5 },
+      { "monster": "mon_feral_prepper_mace", "weight": 180, "cost_multiplier": 5 },
       { "monster": "mon_feral_survivalist", "weight": 180, "cost_multiplier": 10 },
       { "monster": "mon_feral_militia", "weight": 150, "cost_multiplier": 10, "starts": "540 hours" },
       {
@@ -537,102 +539,30 @@
     ]
   },
   {
-    "name": "GROUP_MANSION",
-    "type": "monstergroup",
-    "monsters": [
-      { "monster": "mon_zombie", "weight": 760 },
-      { "monster": "mon_zombie", "weight": 100, "cost_multiplier": 2, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_zombie_crawler", "weight": 30 },
-      { "monster": "mon_zombie_fat", "weight": 30 },
-      { "monster": "mon_zombie_tough", "weight": 30 },
-      { "monster": "mon_zombie_child", "weight": 10 },
-      { "monster": "mon_zombie_dog", "weight": 10 },
-      { "monster": "mon_dog_zombie_rot", "weight": 5, "cost_multiplier": 4 },
-      { "monster": "mon_zombie_static", "weight": 5, "cost_multiplier": 5 },
-      { "monster": "mon_zombie_runner", "weight": 10, "cost_multiplier": 5, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_feral_maid_broom", "weight": 10 },
-      { "monster": "mon_feral_maid_candlestick", "weight": 10 },
-      { "monster": "mon_feral_maid_knife", "weight": 10 },
-      { "monster": "mon_feral_fancy_rapier", "weight": 5, "cost_multiplier": 5 },
-      { "monster": "mon_feral_fancy_rapier_fake", "weight": 10 },
-      { "monster": "mon_feral_fancy_crossbow", "weight": 5, "cost_multiplier": 5 },
-      { "monster": "mon_feral_armored_mace", "weight": 1, "cost_multiplier": 10 },
-      { "monster": "mon_feral_armored_battleaxe", "weight": 1, "cost_multiplier": 10 }
-    ]
-  },
-  {
-    "name": "GROUP_MANSION_ESCAPE",
-    "type": "monstergroup",
-    "monsters": [
-      { "group": "GROUP_MANSION", "weight": 500 },
-      { "monster": "mon_feral_maid_broom", "weight": 100 },
-      { "monster": "mon_feral_maid_candlestick", "weight": 100 },
-      { "monster": "mon_feral_maid_knife", "weight": 100 },
-      { "monster": "mon_feral_fancy_rapier", "weight": 50, "cost_multiplier": 5 },
-      { "monster": "mon_feral_fancy_rapier_fake", "weight": 100 },
-      { "monster": "mon_feral_fancy_crossbow", "weight": 50, "cost_multiplier": 5 },
-      { "monster": "mon_feral_armored_mace", "weight": 3, "cost_multiplier": 10 },
-      { "monster": "mon_feral_armored_battleaxe", "weight": 3, "cost_multiplier": 10 }
-    ]
-  },
-  {
-    "name": "GROUP_PANICROOM",
-    "type": "monstergroup",
-    "monsters": [
-      { "monster": "mon_zombie_child", "weight": 350 },
-      { "monster": "mon_zombie", "weight": 20, "cost_multiplier": 2 },
-      { "monster": "mon_feral_maid_broom", "weight": 20 },
-      { "monster": "mon_feral_maid_candlestick", "weight": 20 },
-      { "monster": "mon_feral_maid_knife", "weight": 20 },
-      { "monster": "mon_feral_fancy_rapier", "weight": 140, "cost_multiplier": 5 },
-      { "monster": "mon_feral_fancy_rapier_fake", "weight": 120, "cost_multiplier": 3 },
-      { "monster": "mon_feral_fancy_crossbow", "weight": 100, "cost_multiplier": 5 },
-      { "monster": "mon_dog_rottweiler", "weight": 100, "cost_multiplier": 2 },
-      { "monster": "mon_dog_gpyrenees", "weight": 100, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_dog", "weight": 20 }
-    ]
-  },
-  {
-    "type": "monstergroup",
-    "name": "GROUP_MANSION_SEX_LAIR",
-    "monsters": [
-      { "monster": "mon_zombie_resort_dancer", "weight": 650, "cost_multiplier": 0 },
-      { "monster": "mon_feral_maid_candlestick", "weight": 100 },
-      { "monster": "mon_feral_maid_broom", "weight": 85 },
-      { "monster": "mon_feral_fancy_rapier", "weight": 10, "cost_multiplier": 2 },
-      { "monster": "mon_feral_fancy_rapier_fake", "weight": 20, "cost_multiplier": 2 },
-      { "monster": "mon_feral_fancy_crossbow", "weight": 5, "cost_multiplier": 3 }
-    ]
-  },
-  {
     "type": "monstergroup",
     "name": "GROUP_ZOMBULL_FROG_UPGRADE",
     "monsters": [
+      { "monster": "mon_zombullfrog", "weight": 100, "cost_multiplier": 3 },
       { "monster": "mon_frog_dad", "weight": 75, "cost_multiplier": 3 },
       { "monster": "mon_frog_mother", "weight": 25, "cost_multiplier": 1 }
     ]
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_MANSION_POOL",
+    "name": "GROUP_DEADTOAD_UPGRADE",
     "monsters": [
-      { "monster": "mon_zombie_swimmer_base", "weight": 850 },
-      { "monster": "mon_zombie_swimmer_base", "weight": 250, "cost_multiplier": 10, "pack_size": [ 2, 3 ] },
-      {
-        "monster": "mon_feral_swimmer_kickboard",
-        "weight": 10,
-        "ends": "165 days",
-        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      { "monster": "mon_zombie_child", "weight": 250 },
-      { "monster": "mon_zombie", "weight": 100 },
-      { "monster": "mon_zombie_tough", "weight": 100 },
-      { "monster": "mon_feral_maid_broom", "weight": 10 },
-      { "monster": "mon_feral_maid_candlestick", "weight": 10 },
-      { "monster": "mon_feral_maid_knife", "weight": 10 },
-      { "monster": "mon_feral_fancy_rapier", "weight": 5, "cost_multiplier": 5 },
-      { "monster": "mon_feral_fancy_rapier_fake", "weight": 10 },
-      { "monster": "mon_feral_fancy_crossbow", "weight": 5, "cost_multiplier": 5 }
+      { "monster": "mon_toad_bloat", "weight": 25, "cost_multiplier": 1 },
+      { "monster": "mon_toad_wart", "weight": 25, "cost_multiplier": 1 },
+      { "monster": "mon_toad_bone", "weight": 25, "cost_multiplier": 1 },
+      { "monster": "mon_gastro_bufo", "weight": 25, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBTREEFROG_UPGRADE",
+    "monsters": [
+      { "monster": "mon_zombtreefrog", "weight": 75, "cost_multiplier": 3 },
+      { "monster": "mon_frog_shadow", "weight": 25, "cost_multiplier": 3 }
     ]
   },
   {
@@ -756,7 +686,8 @@
     "name": "FERAL_HUMANS",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_feral_prepper", "weight": 14, "cost_multiplier": 2, "starts": "29 days" },
+      { "monster": "mon_feral_prepper_knife", "weight": 14, "cost_multiplier": 2, "starts": "29 days" },
+      { "monster": "mon_feral_prepper_mace", "weight": 14, "cost_multiplier": 2, "starts": "29 days" },
       { "monster": "mon_feral_survivalist", "weight": 14, "cost_multiplier": 2, "starts": "29 days" },
       { "monster": "mon_feral_militia", "weight": 14, "cost_multiplier": 2, "starts": "60 days" },
       { "monster": "mon_feral_human_pipe", "weight": 840 },

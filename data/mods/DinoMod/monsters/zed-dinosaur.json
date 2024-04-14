@@ -328,7 +328,7 @@
       { "id": "teeth_zino_mid", "cooldown": 5 },
       [ "scratch", 20 ],
       [ "LUNGE", 5 ],
-      [ "LONGSWIPE", 25 ]
+      { "id": "longswipe", "cooldown": 25 }
     ],
     "description": "Massive jaws drooling black liquid, lifted over grasping claws by a huge shuffling dinosaur corpse.",
     "burn_into": "mon_zalbertosaurus_scorched",
@@ -539,7 +539,7 @@
       { "id": "grab" },
       { "id": "scratch_humanoid", "cooldown": 10 },
       { "type": "bite", "cooldown": 10 },
-      [ "LONGSWIPE", 20 ]
+      { "id": "longswipe", "cooldown": 20 }
     ],
     "description": "The shuffling corpse of a huge bipedal dinosaur covered with tattered feathers and black putrid liquid.  Long claws protrude from its hands.",
     "burn_into": "mon_zerizinosaurus_scorched",
@@ -566,7 +566,7 @@
       { "id": "grab" },
       { "id": "scratch_humanoid", "cooldown": 10 },
       { "type": "bite", "cooldown": 10 },
-      [ "LONGSWIPE", 30 ]
+      { "id": "longswipe", "cooldown": 30 }
     ],
     "description": "The shuffling corpse of a large-sized bipedal dinosaur covered with tattered feathers and black putrid liquid.  Sharp curved claws protrude from its hands.",
     "burn_into": "mon_zothronychus_scorched",
@@ -592,7 +592,7 @@
       { "id": "grab" },
       { "id": "scratch_humanoid", "cooldown": 10 },
       { "type": "bite", "cooldown": 20 },
-      [ "LONGSWIPE", 30 ]
+      { "id": "longswipe", "cooldown": 30 }
     ],
     "description": "The shuffling corpse of a large bipedal dinosaur covered with tattered feathers and black putrid liquid.  Long claws protrude from its hands.",
     "burn_into": "mon_zanzu_scorched",
@@ -1224,21 +1224,21 @@
   },
   {
     "type": "MONSTER",
-    "id": "mon_zadrosaurus",
-    "name": { "str": "hadrosaurus zombie" },
+    "id": "mon_ziguanodon",
+    "name": { "str": "iguanodon zombie" },
     "copy-from": "mon_zamptosaurus",
     "looks_like": "mon_parasaurolophus",
     "volume": "1000 L",
     "weight": "1000 kg",
     "//": "When large weights and volumes are fixed this should be 3000 L and 3000 kg",
-    "speed": 65,
-    "attack_cost": 65,
+    "speed": 100,
+    "attack_cost": 100,
     "melee_dice": 2,
     "melee_dice_sides": 6,
-    "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "weakpoint_sets": [ "wps_dinosaur_body" ],
-    "hp": 300,
+    "hp": 330,
     "grab_strength": 50,
     "special_attacks": [
       { "id": "bite_grab" },
@@ -1246,11 +1246,26 @@
       { "type": "bite", "cooldown": 5 },
       { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] }
     ],
+    "description": "A bulky, beaked dinosaur with spiky thumbs, dead but walking, eyes vacant and swollen.",
+    "burn_into": "mon_ziguanodon_scorched",
+    "fungalize_into": "mon_ziguanodon_fungus",
+    "upgrades": { "half_life": 30, "into_group": "GROUP_ziguanodon_UPGRADE" },
+    "armor": { "bash": 5, "cut": 7, "bullet": 4 }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zadrosaurus",
+    "name": { "str": "hadrosaurus zombie" },
+    "copy-from": "mon_ziguanodon",
+    "//": "When large weights and volumes are fixed this should be 3000 L and 3000 kg",
+    "speed": 65,
+    "attack_cost": 65,
+    "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+    "hp": 300,
     "description": "A bulky, beaked dinosaur, dead but walking, eyes vacant and swollen.",
     "burn_into": "mon_zadrosaurus_scorched",
     "fungalize_into": "mon_zadrosaurus_fungus",
-    "upgrades": { "half_life": 30, "into_group": "GROUP_zadrosaurus_UPGRADE" },
-    "armor": { "bash": 5, "cut": 7, "bullet": 4 }
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zadrosaurus_UPGRADE" }
   },
   {
     "type": "MONSTER",
@@ -1279,7 +1294,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zrosaurolophus",
-    "name": { "str": "prosaurulophus zombie" },
+    "name": { "str": "prosaurolophus zombie" },
     "copy-from": "mon_zedmontosaurus",
     "//": "When large weights and volumes are fixed this should be 3000 L and 3000 kg",
     "hp": 300,

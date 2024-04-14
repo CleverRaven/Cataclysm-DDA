@@ -1,9 +1,0 @@
-[
-  {
-    "type": "enchantment",
-    "id": "enchant_electrokin_overload",
-    "condition": "ALWAYS",
-    "has": "HELD",
-    "emitter": "emit_shock_burst_electrokin_overload"
-  }
-]

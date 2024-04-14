@@ -1,11 +1,13 @@
 #include "game.h" // IWYU pragma: associated
 
 #include <algorithm>
+#include <initializer_list>
 #include <map>
 #include <string>
 #include <utility>
 #include <vector>
 
+#include "catacharset.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "diary.h"
@@ -273,7 +275,7 @@ void diary::show_diary_ui( diary *c_diary )
         werase( w_desc );
 
         draw_border( w_desc );
-        center_print( w_desc, 0, c_light_gray, string_format( _( "%s’s Diary" ), c_diary->owner ) );
+        center_print( w_desc, 0, c_light_gray, string_format( _( "%s's Diary" ), c_diary->owner ) );
         std::string desc = string_format( _( "%s, %s, %s, %s" ),
                                           ctxt.get_desc( "NEW_PAGE", _( "New page" ), input_context::allow_all_keys ),
                                           ctxt.get_desc( "CONFIRM", _( "Edit text" ), input_context::allow_all_keys ),

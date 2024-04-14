@@ -297,8 +297,8 @@
     "name": { "str": "golden krar" },
     "description": "A shiny golden krar, similar to a harp.",
     "weight": "13000 g",
-    "volume": "2500 ml",
-    "longest_side": "60 cm",
+    "volume": "12 L",
+    "longest_side": "100 cm",
     "price": 1000000,
     "price_postapoc": 1000,
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "clumsy" },
@@ -316,6 +316,80 @@
       "player_descriptions": [ "You play a relaxed, folksy tune on your krar." ]
     },
     "melee_damage": { "bash": 9 }
+  },
+  {
+    "id": "krar",
+    "looks_like": "krar_golden",
+    "type": "TOOL",
+    "name": { "str": "krar" },
+    "description": "A wooden krar, similar to a harp.",
+    "copy-from": "krar_golden",
+    "material": "wood",
+    "weight": "2500 g"
+  },
+  {
+    "id": "drum_percussion",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "drum, percussion", "str_pl": "drums, percussion" },
+    "description": "A standard factory-made percussion drum.  Looks to be in working condition.",
+    "weight": "2800 g",
+    "volume": "56629 ml",
+    "longest_side": "28 cm",
+    "price": 7500,
+    "price_postapoc": 500,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "clumsy" },
+    "flags": [ "FRAGILE_MELEE" ],
+    "material": [ { "type": "wood", "portion": 7 }, { "type": "steel" }, { "type": "nylon", "portion": 2 } ],
+    "symbol": "|",
+    "color": "white",
+    "use_action": [ { "type": "play_instrument" } ],
+    "tick_action": {
+      "type": "musical_instrument",
+      "volume": 28,
+      "fun": -3,
+      "fun_bonus": 2,
+      "speed_penalty": 18,
+      "description_frequency": 20,
+      "player_descriptions": [
+        "You play a beat on your drum.  Pa rum pa pum pum.",
+        "You play a fast beat on your drum.  Rat tat tat tat.",
+        "You play a march on your drums.  Brrrum brrum brrrrum."
+      ]
+    },
+    "melee_damage": { "bash": 2 }
+  },
+  {
+    "id": "drum_percussion_primitive",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "primitive drum, percussion", "str_pl": "primitive drums, percussion" },
+    "description": "A handmade primitive percussion drum.  Looks to be in working condition.",
+    "weight": "2800 g",
+    "volume": "56629 ml",
+    "longest_side": "28 cm",
+    "price": 7500,
+    "price_postapoc": 500,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "clumsy" },
+    "flags": [ "FRAGILE_MELEE" ],
+    "material": [ { "type": "wood", "portion": 7 }, { "type": "steel" }, { "type": "leather", "portion": 2 } ],
+    "symbol": "|",
+    "color": "white",
+    "use_action": [ { "type": "play_instrument" } ],
+    "tick_action": {
+      "type": "musical_instrument",
+      "volume": 28,
+      "fun": -3,
+      "fun_bonus": 2,
+      "speed_penalty": 18,
+      "description_frequency": 20,
+      "player_descriptions": [
+        "You play a beat on your drum.  Pa rum pa pum pum.",
+        "You play a fast beat on your drum.  Rat tat tat tat.",
+        "You play a march on your drums.  Brrrum brrum brrrrum."
+      ]
+    },
+    "melee_damage": { "bash": 2 }
   },
   {
     "type": "TOOL_ARMOR",

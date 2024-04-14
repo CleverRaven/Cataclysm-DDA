@@ -22,7 +22,6 @@
 #include "type_id.h"
 #include "subbodypart.h"
 #include "localized_comparator.h"
-#include "type_id.h"
 #include "weather.h"
 
 class JsonObject;
@@ -313,14 +312,17 @@ struct body_part_type {
         units::temperature_delta temp_max = 0_C_delta;
         int drench_max = 0;
         int drench_increment = 2;
-        int drying_chance = 1;
-        int drying_increment = 1;
+        float drying_rate = 1.0f;
         // Wetness morale bonus/malus of the limb
         int wet_morale = 0;
         int technique_enc_limit = 50;
 
         // this is the number of millijoules used per stamina point
         int power_efficiency = 0;
+
+        // These limbs should be covered by armor covering this limb (1:1 coverage)
+        // TODO: Coverage/Encumbrance multiplier
+        std::vector<bodypart_str_id> similar_bodyparts;
 
     private:
         int bionic_slots_ = 0;

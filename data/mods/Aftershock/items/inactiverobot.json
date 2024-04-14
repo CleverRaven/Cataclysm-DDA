@@ -178,7 +178,7 @@
     "id": "bot_wraitheon_kaburaya",
     "type": "TOOL",
     "name": { "str": "inactive Kabura-ya drone" },
-    "description": "An inactive Karuba-ya hunter drone, folded for ease of storage.  If deployed, it will seek and fly to the closest enemy before detonating.  Unlike most robots, its activation depends on a successful throw, and not on your computer skill.",
+    "description": "An inactive Kabura-ya hunter drone, folded for ease of storage.  If deployed, it will seek and fly to the closest enemy before detonating.  Unlike most robots, its activation depends on a successful throw, and not on your computer skill.",
     "weight": "550 g",
     "volume": "250 ml",
     "price": 5000,

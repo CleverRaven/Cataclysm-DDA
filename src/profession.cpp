@@ -42,7 +42,7 @@ static class json_item_substitution
     public:
         void reset();
         void load( const JsonObject &jo );
-        void check_consistency();
+        void check_consistency() const;
 
     private:
         struct trait_requirements {
@@ -111,7 +111,7 @@ void profession_blacklist::load( const JsonObject &jo, const std::string_view )
     mandatory( jo, false, "professions", professions );
 }
 
-void profession_blacklist::finalize()
+void profession_blacklist::check_consistency() const
 {
     for( const string_id<profession> &p : professions ) {
         if( !p.is_valid() ) {
@@ -370,7 +370,7 @@ void profession::check_definitions()
     for( const profession &prof : all_profs.get_all() ) {
         prof.check_definition();
     }
-    prof_blacklist.finalize();
+    prof_blacklist.check_consistency();
 }
 
 void profession::check_item_definitions( const itypedecvec &items ) const
@@ -801,7 +801,7 @@ void json_item_substitution::load( const JsonObject &jo )
     }
 }
 
-void json_item_substitution::check_consistency()
+void json_item_substitution::check_consistency() const
 {
     auto check_if_trait = []( const trait_id & t ) {
         if( !t.is_valid() ) {

@@ -30,7 +30,7 @@
     "id": "afs_shotgun_magnastorm",
     "copy-from": "mossberg_590",
     "type": "GUN",
-    "name": { "str": "Accipiter Magnastorm-12" },
+    "name": { "str_sp": "Accipiter Magnastorm-12" },
     "description": "An advanced shotgun that combines chemical and electromagnetic propulsion systems to accelerate and focus a cloud of steel flechettes.  Resulting in a longer effective range and greater penetration than whats conventionally possible.  Most often deployed during low-intensity corporate conflicts.",
     "built_in_mods": [ "afs_magnetic_choke", "afs_shotgun_gauss" ]
   },
@@ -57,11 +57,10 @@
     "barrel_volume": "500 ml",
     "valid_mod_locations": [
       [ "sling", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "brass catcher", 1 ],
       [ "grip mount", 1 ],
       [ "rail mount", 1 ],
-      [ "bore", 1 ],
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
@@ -87,15 +86,7 @@
     "dispersion": 350,
     "durability": 8,
     "clip_size": 8,
-    "valid_mod_locations": [
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "rail", 1 ],
-      [ "bore", 1 ],
-      [ "sights", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
+    "valid_mod_locations": [ [ "grip", 1 ], [ "mechanism", 2 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock mount", 1 ], [ "underbarrel mount", 1 ] ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
@@ -106,5 +97,23 @@
     ],
     "melee_damage": { "bash": 16 },
     "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ]
+  },
+  {
+    "id": "afs_marsec_t72_shotgun",
+    "copy-from": "underbarrel_base",
+    "type": "GUNMOD",
+    "name": { "str": "MarSec. T72 shotgun" },
+    "description": "The single round 00 bore barrel built at the center of the T72 revolver.  Can function as a backup in case the power pack of the main weapon is depleted.",
+    "volume": "250 ml",
+    "integral_volume": "0 ml",
+    "install_time": "0 s",
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "light_red",
+    "location": "underbarrel",
+    "mod_targets": [ "pistol" ],
+    "gun_data": { "ammo": "shot", "skill": "shotgun", "range": -6, "dispersion": 600, "durability": 10, "reload": 150, "clip_size": 1 },
+    "flags": [ "RELOAD_ONE", "NO_UNLOAD", "IRREMOVABLE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 1 } } ]
   }
 ]

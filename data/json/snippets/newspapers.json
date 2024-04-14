@@ -84,7 +84,7 @@
       {
         "id": "many_years_old_news_20",
         "text": {
-          "str": "FORMER RCI DIVISION PURCHASED BY FOREIGN INVESTORS.  A former division of Rivet and Crimp Industries, a major subcontractor for national defense manufacturers, has recently been purchased by Taiwanese American tech billionaire Henry Gau.  CEO of Formosa OptoTech, Gau is known for his close relationship with Chinese suppliers and manufacturers. Branding the company RivTech, the company will focus on competing in the US Next Generation Squad Weapons trial.  Rivet and Crimp Industries's former weapons manufactory division is previously known for manufacturing a pump-action grenade launcher entrant in the M32 Multiple Grenade Launcher Trial, embroiling RCI and tech partner Javelin Systems in a bitter, expensive legal battle.",
+          "str": "FORMER RCI DIVISION PURCHASED BY FOREIGN INVESTORS.  A former division of Rivet and Crimp Industries, a major subcontractor for national defense manufacturers, has recently been purchased by Taiwanese American tech billionaire Henry Gau.  CEO of Formosa OptoTech, Gau is known for his close relationship with Chinese suppliers and manufacturers. Branding the company Rivtech, the company will focus on competing in the US Next Generation Squad Weapons trial.  Rivet and Crimp Industries's former weapons manufactory division is previously known for manufacturing a pump-action grenade launcher entrant in the M32 Multiple Grenade Launcher Trial, embroiling RCI and tech partner Javelin Systems in a bitter, expensive legal battle.",
           "//NOLINT(cata-text-style)": "intentional format"
         }
       }
@@ -186,7 +186,7 @@
       },
       {
         "id": "one_year_old_news_16",
-        "text": "MAN EATING FLOWERS?  Italian biologist Dr. Flavio Bianchi responded to an ethics board denial of his work with an unusual announcement last Tuesday.  \"I do not need your permission to do my work,\" stated Dr. Bianchi in a letter to the University of Milan.  \"I will do my research in private, and when I am done, you will rue the day you defied me.\"  Dr. Bianchi's work?  Engineering venus fly traps large enough to keep the local stray cat population at bay.  His tenure with the university is reported to have been suspended."
+        "text": "MAN EATING FLOWERS?  Italian biologist Dr. Flavio Bianchi responded to an ethics board denial of his work with an unusual announcement last Tuesday.  \"I do not need your permission to do my work,\" stated Dr. Bianchi in a letter to the University of Milan.  \"I will do my research in private, and when I am done, you will rue the day you defied me.\"  Dr. Bianchi's work?  Engineering Venus fly traps large enough to keep the local stray cat population at bay.  His tenure with the university is reported to have been suspended."
       },
       {
         "id": "one_year_old_news_17",
@@ -252,7 +252,7 @@
       },
       {
         "id": "months_old_news_10",
-        "text": "FOODPLACE PANTS FEUD.  An ongoing legal battle between popular fast food megalith Foodplace and the non-profit Concerned Consumers of Foodpeople has ended with the determination that the Foodperson costume will remain a gender-neutral, nonrevealing unitard.  \"Superheroes are meant to have exaggerated anatomy and revealing costumes,\" a spokesperson from CCF said in a press release.  \"This is a sad day not just for fans of Foodplace, but for consumers of the fast-food superhero genre overall.\"  A spokesperson from rival food company NourishMart sent out a press release just minutes after the ruling: \"NOURISHMART INFORMS THE PUBLIC THAT NOURISHMATIC DOES NOT WEAR ANY CLOTHES.  NOURISHMATIC IS SOFTWARE.  NOURISHMATIC CAN PRESENT AN AVATAR OF WHATEVER APPEALING MEAT-FORM IS DESIRED BY THE PUBLIC.  EAT AT NOURISHMART.  OUR PRODUCTS CONTAIN A MIX OF FAT, SALT, AND PROTEIN THAT IS HIGHLY DESIRABLE TO HUMAN PALATES.\""
+        "text": "FOODPLACE PANTS FEUD.  An ongoing legal battle between popular fast food megalith Foodplace and the non-profit Concerned Consumers of Foodpeople has ended with the determination that the Foodperson costume will remain a gender-neutral, nonrevealing unitard.  \"Superheroes are meant to have exaggerated anatomy and revealing costumes,\" a spokesperson from CCF said in a press release.  \"This is a sad day not just for fans of Foodplace, but for consumers of the fast-food superhero genre overall.\"  A spokesperson from rival food company NourishMart sent out a press release just minutes after the ruling: \"NOURISHMART INFORMS THE PUBLIC THAT NOURISHMARTIC DOES NOT WEAR ANY CLOTHES.  NOURISHMARTIC IS SOFTWARE.  NOURISHMARTIC CAN PRESENT AN AVATAR OF WHATEVER APPEALING MEAT-FORM IS DESIRED BY THE PUBLIC.  EAT AT NOURISHMART.  OUR PRODUCTS CONTAIN A MIX OF FAT, SALT, AND PROTEIN THAT IS HIGHLY DESIRABLE TO HUMAN PALATES.\""
       },
       {
         "id": "months_old_news_11",
@@ -303,6 +303,7 @@
   {
     "type": "snippet",
     "category": "weeks_old_news",
+    "//": "Around the start of April",
     "text": [
       {
         "id": "weeks_old_news_1",
@@ -383,12 +384,17 @@
       {
         "id": "weeks_old_news_20",
         "text": "ISS MUTINIES, ABANDONS STATION.  Making their demands known through amateur radio communications, all astronauts and cosmonauts aboard the International Space Station have demanded that NASA and ROSCOSMOS allow them to rejoin their families amidst the recent riots and instability.  Claims have been made that the agencies have shut them out of most controls aboard the station, endangering the lives of all aboard when they were unable to respond to a near-miss with orbital debris.  NASA officials have continued to make no public statements regarding the demands, or the unconfirmed reports that the docked spacecraft have been launched, *without* aid from ground control."
+      },
+      {
+        "id": "weeks_old_news_21",
+        "text": "RHODE ISLAND DECLARES SECESSION!  In the midst of a nation-wide disaster, the governor of Rhode Island has declared unilateral secession and war with the government of the US.  \"My loyal Rhodians are withdrawing to Aquidneck and Conanicut Islands,\" said governor Alex Ackerwith in a public announcement this morning.  \"The US government has failed us.  Any attempt by the US to intervene in our affairs will result in military action from the Narragansett Government.  Frankly, I don't think they can get their shit together enough to challenge us.\""
       }
     ]
   },
   {
     "type": "snippet",
     "category": "newest_news",
+    "//": "Around April 15/16",
     "text": [
       {
         "id": "newest_news_1",
@@ -405,10 +411,6 @@
       {
         "id": "newest_news_4",
         "text": "RIOTERS MUTATING?  Eyewitnesses from the New England Disaster Area have claimed that the allegedly psychotic rioters are displaying inhuman qualities.  \"I swear to God, one of them was the size of a tree!\", said one panicked survivor.  There are also reports of afflicted individuals with acidic or electric properties.  CDC officials could not be reached for comment."
-      },
-      {
-        "id": "newest_news_5",
-        "text": "RHODE ISLAND DECLARES SECESSION!  In the midst of a nation-wide disaster, the governor of Rhode Island has declared unilateral secession and war with the government of the US.  \"My loyal Rhodians are withdrawing to Aquidneck and Conanicut Islands,\" said governor Alex Ackerwith in a public announcement this morning.  \"The US government has failed us.  Any attempt by the US to intervene in our affairs will result in military action from the Narragansett Government.  Frankly, I don't think they can get their shit together enough to challenge us.\""
       },
       {
         "id": "newest_news_6",

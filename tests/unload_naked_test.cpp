@@ -26,7 +26,7 @@ TEST_CASE( "unload_revolver_naked_one_bullet", "[unload][nonmagzine]" )
     avatar &player_character = get_avatar();
 
     // revolver with only one of six bullets
-    item revolver( "ruger_redhawk" );
+    item revolver( "sw629" );
     revolver.ammo_set( revolver.ammo_default(), 1 );
 
     // wield the revolver
@@ -38,7 +38,7 @@ TEST_CASE( "unload_revolver_naked_one_bullet", "[unload][nonmagzine]" )
 
     // Unload weapon
     item_location revo_loc = player_character.get_wielded_item();
-    player_character.moves = 100;
+    player_character.set_moves( 100 );
     REQUIRE( player_character.unload( revo_loc ) );
     player_character.activity.do_turn( player_character );
 
@@ -61,7 +61,7 @@ TEST_CASE( "unload_revolver_naked_fully_loaded", "[unload][nonmagzine]" )
     avatar &player_character = get_avatar();
 
     // revolver fully loaded
-    item revolver( "ruger_redhawk" );
+    item revolver( "sw629" );
     revolver.ammo_set( revolver.ammo_default(), revolver.remaining_ammo_capacity() );
 
     // wield the revolver
@@ -73,9 +73,12 @@ TEST_CASE( "unload_revolver_naked_fully_loaded", "[unload][nonmagzine]" )
 
     // Unload weapon
     item_location revo_loc = player_character.get_wielded_item();
-    player_character.moves = 100;
+    player_character.set_moves( 100 );
     REQUIRE( player_character.unload( revo_loc ) );
-    player_character.activity.do_turn( player_character );
+    while( player_character.activity ) {
+        player_character.set_moves( 100 );
+        player_character.activity.do_turn( player_character );
+    }
 
     // No bullets in wielded gun
     CHECK( player_character.get_wielded_item()->ammo_remaining() == 0 );

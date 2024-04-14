@@ -355,7 +355,7 @@
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "electronic halo" },
-    "description": "A compact crown boasting a built-in processor and several tiny projectors that beam information directly onto your eye.  It’s equipped with enough internal storage and RAM to support a basic AI.  Along with multiple cameras providing 360-degree coverage, this setup enables you to tackle tasks far more efficiently than before.  Plus, there's a battle mode that activates an energy-intensive radiation detector.",
+    "description": "A compact crown boasting a built-in processor and several tiny projectors that beam information directly onto your eye.  It's equipped with enough internal storage and RAM to support a basic AI.  Along with multiple cameras providing 360-degree coverage, this setup enables you to tackle tasks far more efficiently than before.  Plus, there's a battle mode that activates an energy-intensive radiation detector.",
     "weight": "155 g",
     "volume": "490 ml",
     "material": [ "aluminum", "copper" ],
@@ -639,7 +639,7 @@
     "type": "ARMOR",
     "name": { "str": "magnetic holster" },
     "looks_like": "shoulder_strap",
-    "description": "A long strap with small, powerful gravity pullers on the surface.  Allows one to strap and carry almost anything.",
+    "description": "A long strap with small, powerful gravity field emitters on the surface.  Allows one to strap and carry almost anything.",
     "weight": "250 g",
     "volume": "250 ml",
     "material": [ "plastic", "aluminum" ],
@@ -651,14 +651,15 @@
       {
         "pocket_type": "CONTAINER",
         "holster": true,
-        "max_contains_volume": "3 L",
-        "max_contains_weight": "5 kg",
-        "max_item_length": "200 cm",
+        "rigid": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "15 kg",
+        "max_item_length": "300 cm",
         "moves": 50
       }
     ],
     "use_action": { "type": "holster" },
-    "flags": [ "BELTED", "OVERSIZE", "MUNDANE", "INVENTOR_CRAFTED" ],
+    "flags": [ "BELTED", "OVERSIZE", "MUNDANE", "INVENTOR_CRAFTED", "TARDIS" ],
     "armor": [ { "encumbrance": 1, "coverage": 5, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   }
 ]

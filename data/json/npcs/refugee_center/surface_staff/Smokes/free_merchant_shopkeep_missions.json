@@ -14,7 +14,7 @@
         "om_special": "hub_01",
         "reveal_radius": 1,
         "random": true,
-        "search_range": 500
+        "search_range": 1000
       }
     },
     "end": { "effect": { "math": [ "free_merchants_hub_trade_route", "=", "1" ] } },
@@ -252,7 +252,7 @@
     "id": "MISSION_FREE_MERCHANTS_EVAC_5",
     "type": "mission_definition",
     "name": { "str": "In a Pickle" },
-    "description": "Deliver 100 0.5L glass jars to the Free Merchants to kickstart their food storage plans.",
+    "description": "Deliver 100 0.5 L glass jars to the Free Merchants to kickstart their food storage plans.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 3,
     "value": 400000,
