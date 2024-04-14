@@ -262,7 +262,6 @@
     "volume": "1750 ml",
     "longest_side": "140 cm",
     "qualities": [ [ "COOK", 1 ] ],
-    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
     "price": 7500,
     "price_postapoc": 1200,
