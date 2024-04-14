@@ -125,7 +125,6 @@ static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_grabbing( "grabbing" );
 static const efftype_id effect_grown_of_fuse( "grown_of_fuse" );
 static const efftype_id effect_has_bag( "has_bag" );
-static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_operating( "operating" );
@@ -2311,61 +2310,6 @@ bool mattack::fungus_fortify( monster *z )
     return true;
 }
 
-bool mattack::impale( monster *z )
-{
-    if( !z->can_act() ) {
-        return false;
-    }
-    Creature *target = z->attack_target();
-    if( target == nullptr || !z->is_adjacent( target, false ) ) {
-        return false;
-    }
-
-    z->mod_moves( -to_moves<int>( 1_seconds ) * 0.8 );
-
-    bodypart_id hit = bodypart_id( "torso" );
-    damage_instance dam_inst = damage_instance( damage_stab, rng( 10, 20 ), rng( 5, 15 ), .5 );
-
-    if( target->dodge_check( z, hit, dam_inst ) ) {
-        game_message_type msg_type = target->is_avatar() ? m_warning : m_info;
-        target->add_msg_player_or_npc( msg_type, _( "The %s lunges at you, but you dodge!" ),
-                                       _( "The %s lunges at <npcname>, but they dodge!" ),
-                                       z->name() );
-
-        target->on_dodge( z, z->type->melee_skill * 2 );
-        return true;
-    }
-
-    target->block_hit( z, hit, dam_inst );
-
-    int dam = target->deal_damage( z, hit, dam_inst ).total_damage();
-    if( dam > 0 ) {
-        game_message_type msg_type = target->is_avatar() ? m_bad : m_info;
-        target->add_msg_player_or_npc( msg_type,
-                                       //~ 1$s is monster name, 2$s bodypart in accusative
-                                       _( "The %1$s impales your torso!" ),
-                                       //~ 1$s is monster name, 2$s bodypart in accusative
-                                       _( "The %1$s impales <npcname>'s torso!" ),
-                                       z->name() );
-
-        target->on_hit( z, bodypart_id( "torso" ),  z->type->melee_skill );
-        if( rng( 0, 200 + dam ) > 100 ) {
-            target->add_effect( effect_downed, 3_turns );
-        }
-        z->mod_moves( -to_moves<int>( 1_seconds ) *
-                      0.8 ); //Takes extra time for the creature to pull out the protrusion
-    } else {
-        target->add_msg_player_or_npc(
-            _( "The %1$s tries to impale your torso, but fails to penetrate your armor!" ),
-            _( "The %1$s tries to impale <npcname>'s torso, but fails to penetrate their armor!" ),
-            z->name() );
-    }
-
-    target->check_dead_state();
-
-    return true;
-}
-
 bool mattack::dermatik( monster *z )
 {
     if( !z->can_act() ) {
@@ -2799,62 +2743,6 @@ bool mattack::dogthing( monster *z )
     z->poly( mon_headless_dog_thing );
 
     return false;
-}
-
-bool mattack::tentacle( monster *z )
-{
-    if( z->friendly ) {
-        // TODO: handle friendly monsters
-        return false;
-    }
-    Creature *target = z->attack_target();
-
-    // Can't see/reach target, no attack
-    if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 3 || !z->sees( *target ) ||
-        !get_map().clear_path( z->pos(), target->pos(), 3, 1, 100 ) ) {
-        return false;
-    }
-    game_message_type msg_type = target->is_avatar() ? m_bad : m_info;
-    target->add_msg_player_or_npc( msg_type,
-                                   _( "The %s lashes its tentacle at you!" ),
-                                   _( "The %s lashes its tentacle at <npcname>!" ),
-                                   z->name() );
-    z->mod_moves( -to_moves<int>( 1_seconds ) );
-
-    bodypart_id hit = target->get_random_body_part();
-    damage_instance dam_inst = damage_instance( damage_bash, rng( 10, 20 ) );
-
-    // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-    if( target->dodge_check( z, hit, dam_inst ) ) {
-        target->add_msg_player_or_npc( _( "You dodge it!" ),
-                                       _( "<npcname> dodges it!" ) );
-        target->on_dodge( z, z->type->melee_skill );
-        return true;
-    }
-
-    target->block_hit( z, hit, dam_inst );
-
-    int dam = target->deal_damage( z, hit, dam_inst ).total_damage();
-    if( dam > 0 ) {
-        target->add_msg_player_or_npc( msg_type,
-                                       //~ 1$s is bodypart name, 2$d is damage value.
-                                       _( "Your %1$s is hit for %2$d damage!" ),
-                                       //~ 1$s is bodypart name, 2$d is damage value.
-                                       _( "<npcname>'s %1$s is hit for %2$d damage!" ),
-                                       body_part_name( hit ),
-                                       dam );
-    } else {
-        target->add_msg_player_or_npc(
-            _( "The %1$s lashes its tentacle at your %2$s, but glances off your armor!" ),
-            _( "The %1$s lashes its tentacle at <npcname>'s %2$s, but glances off their armor!" ),
-            z->name(),
-            body_part_name_accusative( hit ) );
-    }
-
-    target->on_hit( z, hit,  z->type->melee_skill );
-    target->check_dead_state();
-
-    return true;
 }
 
 bool mattack::gene_sting( monster *z )
@@ -4125,91 +4013,6 @@ bool mattack::breathe( monster *z )
     return true;
 }
 
-bool mattack::stretch_bite( monster *z )
-{
-    if( !z->can_act() ) {
-        return false;
-    }
-
-    // Let it be used on non-player creatures
-    // can be used at close range too!
-    Creature *target = z->attack_target();
-    if( target == nullptr ) {
-        return false;
-    }
-    int distance = rl_dist( z->pos(), target->pos() );
-    // Hack, only allow attacking above or below if the target is adjacent.
-    if( z->pos().z != target->pos().z ) {
-        distance += 2;
-    }
-    if( distance > 3 || !z->sees( *target ) ) {
-        return false;
-    }
-
-    z->mod_moves( -to_moves<int>( 1_seconds ) * 1.5 );
-
-    map &here = get_map();
-    for( tripoint &pnt : here.find_clear_path( z->pos(), target->pos() ) ) {
-        if( here.impassable( pnt ) ) {
-            z->add_effect( effect_stunned, 6_turns );
-            target->add_msg_player_or_npc( _( "The %1$s stretches its head at you, but bounces off the %2$s" ),
-                                           _( "The %1$s stretches its head at <npcname>, but bounces off the %2$s" ),
-                                           z->name(), here.obstacle_name( pnt ) );
-            return true;
-        }
-    }
-
-    bodypart_id hit = target->get_random_body_part();
-    damage_instance dam_inst = damage_instance( damage_stab, rng( 5, 15 ) );
-
-    // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-    if( target->dodge_check( z, hit, dam_inst ) ) {
-        z->mod_moves( -to_moves<int>( 1_seconds ) * 1.5 );
-        z->add_effect( effect_stunned, 3_turns );
-        game_message_type msg_type = target->is_avatar() ? m_warning : m_info;
-        target->add_msg_player_or_npc( msg_type,
-                                       _( "The %s's head extends to bite you, but you dodge and the head sails past!" ),
-                                       _( "The %s's head extends to bite <npcname>, but they dodge and the head sails past!" ),
-                                       z->name() );
-
-        target->on_dodge( z, z->type->melee_skill * 2 );
-        return true;
-    }
-
-    target->block_hit( z, hit, dam_inst );
-
-    int dam = target->deal_damage( z, hit, dam_inst ).total_damage();
-    if( dam > 0 ) {
-        game_message_type msg_type = target->is_avatar() ? m_bad : m_info;
-        target->add_msg_player_or_npc( msg_type,
-                                       //~ 1$s is monster name, 2$s bodypart in accusative
-                                       _( "The %1$s's teeth sink into your %2$s!" ),
-                                       //~ 1$s is monster name, 2$s bodypart in accusative
-                                       _( "The %1$s's teeth sink into <npcname>'s %2$s!" ),
-                                       z->name(),
-                                       body_part_name_accusative( hit ) );
-
-        if( !hit->has_flag( json_flag_BIONIC_LIMB ) && one_in( 16 - dam ) ) {
-            if( target->has_effect( effect_bite, hit.id() ) ) {
-                target->add_effect( effect_bite, 40_minutes, hit, true );
-            } else if( target->has_effect( effect_infected, hit.id() ) ) {
-                target->add_effect( effect_infected, 25_minutes, hit, true );
-            } else {
-                target->add_effect( effect_bite, 1_turns, hit, true );
-            }
-        }
-    } else {
-        target->add_msg_player_or_npc( _( "The %1$s's head hits your %2$s, but glances off your armor!" ),
-                                       _( "The %1$s's head hits <npcname>'s %2$s, but glances off armor!" ),
-                                       z->name(),
-                                       body_part_name_accusative( hit ) );
-    }
-
-    target->on_hit( z, hit,  z->type->melee_skill );
-
-    return true;
-}
-
 bool mattack::brandish( monster *z )
 {
     if( z->friendly ) {
@@ -4414,117 +4217,6 @@ bool mattack::lunge( monster *z )
     }
     target->on_hit( z, hit,  z->type->melee_skill );
     target->check_dead_state();
-    return true;
-}
-
-bool mattack::longswipe( monster *z )
-{
-    if( z->friendly ) {
-        // TODO: handle friendly monsters
-        return false;
-    }
-    Creature *target = z->attack_target();
-    if( target == nullptr ) {
-        return false;
-    }
-    // Out of range
-    int distance = rl_dist( z->pos(), target->pos() );
-    // Hack, only allow attacking above or below if the target is adjacent.
-    if( z->pos().z != target->pos().z ) {
-        distance += 2;
-    }
-    if( distance > 3 || !z->sees( *target ) ) {
-        return false;
-    }
-    map &here = get_map();
-    //Is there something impassable blocking the claw?
-    for( const tripoint &pnt : here.find_clear_path( z->pos(), target->pos() ) ) {
-        if( here.impassable( pnt ) ) {
-            //If we're here, it's an nonadjacent attack, which is only attempted 1/5 of the time.
-            if( !one_in( 5 ) ) {
-                return false;
-            }
-            target->add_msg_player_or_npc( _( "The %1$s thrusts a claw at you, but it bounces off the %2$s!" ),
-                                           _( "The %1$s thrusts a claw at <npcname>, but it bounces off the %2$s!" ),
-                                           z->name(), here.obstacle_name( pnt ) );
-            z->mod_moves( -150 );
-            return true;
-        }
-    }
-
-    if( !z->is_adjacent( target, true ) ) {
-        if( one_in( 5 ) ) {
-
-            z->mod_moves( -to_moves<int>( 1_seconds ) * 1.5 );
-
-            bodypart_id hit = target->get_random_body_part();
-            damage_instance dam_inst = damage_instance( damage_cut, rng( 3, 7 ) );
-
-            // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-            if( target->dodge_check( z, hit, dam_inst ) ) {
-                target->add_msg_player_or_npc( _( "The %s thrusts a claw at you, but you evade it!" ),
-                                               _( "The %s thrusts a claw at <npcname>, but they evade it!" ),
-                                               z->name() );
-                target->on_dodge( z, z->type->melee_skill );
-                return true;
-            }
-
-            target->block_hit( z, hit, dam_inst );
-
-            int dam = target->deal_damage( z, hit, dam_inst ).total_damage();
-            if( dam > 0 ) {
-                game_message_type msg_type = target->is_avatar() ? m_bad : m_warning;
-                target->add_msg_player_or_npc( msg_type,
-                                               //~ 1$s is bodypart name, 2$d is damage value.
-                                               _( "The %1$s thrusts a claw at your %2$s, slashing it for %3$d damage!" ),
-                                               //~ 1$s is bodypart name, 2$d is damage value.
-                                               _( "The %1$s thrusts a claw at <npcname>'s %2$s, slashing it for %3$d damage!" ),
-                                               z->name(), body_part_name( hit ), dam );
-            } else {
-                target->add_msg_player_or_npc(
-                    _( "The %1$s thrusts a claw at your %2$s, but glances off your armor!" ),
-                    _( "The %1$s thrusts a claw at <npcname>'s %2$s, but glances off armor!" ),
-                    z->name(),
-                    body_part_name_accusative( hit ) );
-            }
-            target->on_hit( z, hit,  z->type->melee_skill );
-            return true;
-        }
-        return false;
-    }
-    z->mod_moves( -to_moves<int>( 1_seconds ) );
-
-    bodypart_id hit = bodypart_id( "head" );
-    damage_instance dam_inst = damage_instance( damage_cut, rng( 6, 10 ) );
-
-    // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
-    if( target->dodge_check( z, hit, dam_inst ) ) {
-        target->add_msg_player_or_npc( _( "The %s slashes at your neck!  You duck!" ),
-                                       _( "The %s slashes at <npcname>'s neck!  They duck!" ), z->name() );
-        target->on_dodge( z, z->type->melee_skill );
-        return true;
-    }
-
-    target->block_hit( z, hit, dam_inst );
-
-    int dam = target->deal_damage( z, hit, dam_inst ).total_damage();
-    if( dam > 0 ) {
-        game_message_type msg_type = target->is_avatar() ? m_bad : m_warning;
-        target->add_msg_player_or_npc( msg_type,
-                                       _( "The %1$s slashes at your neck, cutting your throat for %2$d damage!" ),
-                                       _( "The %1$s slashes at <npcname>'s neck, cutting their throat for %2$d damage!" ),
-                                       z->name(), dam );
-        target->add_effect( effect_source( z ), effect_bleed, 15_minutes,
-                            target->get_random_body_part_of_type( body_part_type::type::head ) );
-    } else {
-        target->add_msg_player_or_npc( _( "The %1$s slashes at your %2$s, but glances off your armor!" ),
-                                       _( "The %1$s slashes at <npcname>'s %2$s, but glances off armor!" ),
-                                       z->name(),
-                                       body_part_name_accusative( bodypart_id( "head" ) ) );
-    }
-    target->on_hit( z, bodypart_id( "head" ),  z->type->melee_skill );
-    target->check_dead_state();
-
     return true;
 }
 
