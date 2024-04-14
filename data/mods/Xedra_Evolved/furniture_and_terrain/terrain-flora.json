@@ -402,7 +402,7 @@
   {
     "type": "terrain",
     "id": "t_arvore_living_tent",
-    "name": "concealing thicket",
+    "name": "den of brambles",
     "description": "A structure made from quickly-grown vines and brambles, almost-entirely concealing the hollow inside.",
     "symbol": "#",
     "color": "brown_green",
