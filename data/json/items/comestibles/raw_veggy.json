@@ -1230,7 +1230,7 @@
     "calories": 137,
     "spoils_in": "20 days",
     "description": "A normal and healthy purple eggplant.  Needs to be disassembled before being useful for cooking.",
-    "healthy": -2,
+    "healthy": -1,
     "symbol": "e",
     "flags": [ "RAW" ],
     "vitamins": [ [ "vitC", "12100 μg" ], [ "iron", "1300 μg" ], [ "calcium", "49300 μg" ] ],
