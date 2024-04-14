@@ -914,7 +914,7 @@
     "name": { "str": "The Body Mechanical" },
     "description": "With a word of power, you spur your body to function as a machine would, partially ignoring the effects of pain for a brief moment.",
     "valid_targets": [ "self" ],
-    "flags": [ "VERBAL", "NO_LEGS", "NO_HANDS"],
+    "flags": [ "VERBAL", "NO_LEGS", "NO_HANDS" ],
     "extra_effects": [ { "id": "eoc_enhancement_setup" } ],
     "effect": "attack",
     "effect_str": "effect_technomancer_pain_ignore",

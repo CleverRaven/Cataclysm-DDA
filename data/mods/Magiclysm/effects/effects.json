@@ -557,11 +557,26 @@
     "enchantments": [
       {
         "values": [
-          { "value": "PAIN_PENALTY_MOD_STR", "multiply": { "math": [ "((u_spell_level('technomancer_pain_ignore') * -0.02) - 0.7)" ] } },
-          { "value": "PAIN_PENALTY_MOD_DEX", "multiply": { "math": [ "((u_spell_level('technomancer_pain_ignore') * -0.02) - 0.7)" ] } },
-          { "value": "PAIN_PENALTY_MOD_INT", "multiply": { "math": [ "((u_spell_level('technomancer_pain_ignore') * -0.02) - 0.7)" ] } },
-          { "value": "PAIN_PENALTY_MOD_PER", "multiply": { "math": [ "((u_spell_level('technomancer_pain_ignore') * -0.02) - 0.7)" ] } },
-          { "value": "PAIN_PENALTY_MOD_SPEED", "multiply": { "math": [ "((u_spell_level('technomancer_pain_ignore') * -0.02) - 0.7)" ] } }
+          {
+            "value": "PAIN_PENALTY_MOD_STR",
+            "multiply": { "math": [ "((u_spell_level('technomancer_pain_ignore') * -0.02) - 0.7)" ] }
+          },
+          {
+            "value": "PAIN_PENALTY_MOD_DEX",
+            "multiply": { "math": [ "((u_spell_level('technomancer_pain_ignore') * -0.02) - 0.7)" ] }
+          },
+          {
+            "value": "PAIN_PENALTY_MOD_INT",
+            "multiply": { "math": [ "((u_spell_level('technomancer_pain_ignore') * -0.02) - 0.7)" ] }
+          },
+          {
+            "value": "PAIN_PENALTY_MOD_PER",
+            "multiply": { "math": [ "((u_spell_level('technomancer_pain_ignore') * -0.02) - 0.7)" ] }
+          },
+          {
+            "value": "PAIN_PENALTY_MOD_SPEED",
+            "multiply": { "math": [ "((u_spell_level('technomancer_pain_ignore') * -0.02) - 0.7)" ] }
+          }
         ]
       }
     ]
