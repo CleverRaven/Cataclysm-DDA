@@ -126,16 +126,7 @@
       "and": [
         { "u_has_trait": "HOMULLUS_DREAMWALKER" },
         { "x_in_y_chance": { "x": { "math": [ "1 + u_has_trait('THRESH_HOMULLUS')" ] }, "y": 10 } },
-        {
-          "or": [
-            { "npc_allies": 1 },
-            { "u_near_om_location": "evac_center_13", "range": 3 },
-            { "u_near_om_location": "robofachq_surface_entrance", "range": 3 },
-            { "u_near_om_location": "isolated_road_field_0", "range": 2 },
-            { "u_near_om_location": "ranch_camp_41", "range": 3 },
-            { "u_near_om_location": "godco_5", "range": 2 }
-          ]
-        }
+        { "math": [ "u_characters_nearby('radius': 30, 'attitude': 'any')", ">", "0" ] }
       ]
     },
     "effect": [
