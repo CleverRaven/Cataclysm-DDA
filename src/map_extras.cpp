@@ -2166,10 +2166,10 @@ static bool mx_city_trap( map &/*m*/, const tripoint &abs_sub )
 static bool mx_fungal_zone( map &m, const tripoint &abs_sub )
 {
     // Find suitable location for fungal spire to spawn (grass, dirt etc)
-    const tripoint_omt_ms omt_center = { SEEX, SEEY, abs_sub.z };
-    std::vector<tripoint_omt_ms> suitable_locations;
-    for( const tripoint_omt_ms &loc : fungal_map.points_in_radius( omt_center, 10 ) ) {
-        if( fungal_map.has_flag_ter( ter_furn_flag::TFLAG_DIGGABLE, loc ) ) {
+    const tripoint_bub_ms omt_center = { SEEX, SEEY, abs_sub.z };
+    std::vector<tripoint_bub_ms> suitable_locations;
+    for( const tripoint_bub_ms &loc : m.points_in_radius( omt_center, 10 ) ) {
+        if( m.has_flag_ter( ter_furn_flag::TFLAG_DIGGABLE, loc ) ) {
             suitable_locations.push_back( loc );
         }
     }
@@ -2179,12 +2179,12 @@ static bool mx_fungal_zone( map &m, const tripoint &abs_sub )
         return false;
     }
 
-    const tripoint_omt_ms suitable_location = random_entry( suitable_locations, omt_center );
-    fungal_map.add_spawn( mon_fungaloid_queen, 1, suitable_location );
-    fungal_map.place_spawns( GROUP_FUNGI_FUNGALOID, 1,
-                             suitable_location.xy() + point_north_west,
-                             suitable_location.xy() + point_south_east,
-                             3, true );
+    const tripoint_bub_ms suitable_location = random_entry( suitable_locations, omt_center );
+    m.add_spawn( mon_fungaloid_queen, 1, suitable_location );
+    m.place_spawns( GROUP_FUNGI_FUNGALOID, 1,
+                    suitable_location.xy() + point_north_west,
+                    suitable_location.xy() + point_south_east,
+                    3, true );
     return true;
 }
 
