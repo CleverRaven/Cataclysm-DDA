@@ -1145,6 +1145,7 @@ TEST_CASE( "EOC_combat_event_test", "[eoc]" )
     npc &npc_dst_melee = spawn_npc( get_avatar().pos().xy() + point_south, "thug" );
     item weapon_item( itype_test_knife_combat );
     get_avatar().wield( weapon_item );
+    get_avatar().set_strain( 10000 );
     get_avatar().melee_attack( npc_dst_melee, false );
 
     CHECK( get_avatar().get_value( "npctalk_var_test_event_last_event" ) ==
@@ -1157,6 +1158,7 @@ TEST_CASE( "EOC_combat_event_test", "[eoc]" )
     // character_melee_attacks_monster
     clear_map();
     monster &mon_dst_melee = spawn_test_monster( "mon_zombie", get_avatar().pos() + tripoint_east );
+    get_avatar().set_strain( 10000 );
     get_avatar().melee_attack( mon_dst_melee, false );
 
     CHECK( get_avatar().get_value( "npctalk_var_test_event_last_event" ) ==
