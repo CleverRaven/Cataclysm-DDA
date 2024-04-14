@@ -1,0 +1,123 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "micolab_meat_nest",
+    "//": "There should be about a 95% chance of this nest being empty.  Please adjust the weight of this chunk  if you add more nest mapgen variants.",
+    "weight": 95,
+    "object": { "mapgensize": [ 24, 24 ], "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "micolab_meat_nest",
+    "weight": 1,
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "       ||||             ",
+        "       |..|||           ",
+        "       ||...|wwww       ",
+        "        ||.||  ww|||    ",
+        "         ...wwww|...|   ",
+        "   ||   ..w|||||.. .|   ",
+        " |||.  ww|||.....|..|ww ",
+        " |.... |||...|||||.||ww ",
+        " |..||||...|||ww ||.||  ",
+        " ||......||| wwww |..|  ",
+        "  ||||..||||wwwwww   |  ",
+        "     |.....||||w        ",
+        "     ||||......|. ww    ",
+        "   wwwww||..0..||  ww   ",
+        "   wwww  ||.....||||www ",
+        "     |  ||||..||...||w  ",
+        "     ||......||||||.|    ",
+        "      ||||||||w  ||.||  ",
+        "           www |||...|  ",
+        "      wwwwwww||.....||  ",
+        "        wwwwww..||||    ",
+        "           ww||||       ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "w": "t_ghoul_nest_floor", "|": "t_wall_ghoul_nest", ".": "t_ghoul_nest_floor" },
+      "furniture": { "w": "f_cartilage_strands" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "micolab_meat_nest",
+    "weight": 1,
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "         ||||ww         ",
+        "       ||www....        ",
+        "      ...........       ",
+        "     ww...o.oo.....     ",
+        "     ||..ooo........    ",
+        "    ||w.oo....ww.ooo    ",
+        "    ..w.o....www..ooo   ",
+        "    o...o o.www||..oo   ",
+        "    ow....o.o..w||..    ",
+        "    oww.....o.....oo    ",
+        "     ||...........o.    ",
+        "     | o...........     ",
+        "       ooo.....w..      ",
+        "         ooo.w||w       ",
+        "               w        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "w": "t_ghoul_nest_floor", "|": "t_wall_ghoul_nest", ".": "t_ghoul_nest_floor" },
+      "furniture": { "w": "f_cartilage_strands" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tunnel_natural_feature_large",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "            ...         ",
+        "        ..........      ",
+        "           ..|..|...    ",
+        "           ..ww||...    ",
+        "       ...www||||..     ",
+        "      ..ww||| ||..      ",
+        "     ..||||0 ||||..     ",
+        "      ..|||||w....      ",
+        "    .....www... o  .    ",
+        "     ....ww...o   ...   ",
+        "   www.wwwww..oo.       ",
+        "    wwww.w..o.. .....   ",
+        "   ..w|||o..........    ",
+        "   . ||0|..........     ",
+        "   |||||ww..o......     ",
+        "   .| w.wo.w||.o.       ",
+        "  ....owwww||.||..      ",
+        "  ..  .. o||0.|...      ",
+        "       oo..||||..       ",
+        "          ||..||        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "terrain": { "w": "t_ghoul_nest_floor", "|": "t_wall_ghoul_nest", ".": "t_ghoul_nest_floor" },
+      "furniture": { "w": "f_cartilage_strands" }
+    }
+  }
+]

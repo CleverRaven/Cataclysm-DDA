@@ -1,0 +1,15 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_cartilage_strands",
+    "name": "cartilaginous strands",
+    "description": "Thin cartilage webbing stretches between the overgrowth, forming a sticky, elastic barrier.",
+    "symbol": "#",
+    "color": "white",
+    "move_cost": -1,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "BLOCK_WIND", "NOITEM", "PERMEABLE", "CLIMB_SIMPLE" ],
+    "looks_like": "fd_web",
+    "bash": { "sound": "Riiiiip!", "str_min": 5, "str_max": 10 }
+  }
+]
