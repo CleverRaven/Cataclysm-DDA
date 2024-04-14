@@ -462,7 +462,7 @@
   {
     "type": "COMESTIBLE",
     "id": "chicory_raw",
-    "name": { "str_sp": "chicory root" },
+    "name": { "str": "chicory root" },
     "weight": "60 g",
     "color": "cyan",
     "spoils_in": "30 days",
@@ -860,7 +860,7 @@
     "symbol": "%",
     "quench": 3,
     "calories": 36,
-    "description": "Sour stalk of the rhubarb plant, often used in baking pies.",
+    "description": "A sour stalk of the rhubarb plant, often used in baking pies.",
     "price": "29 cent",
     "price_postapoc": "50 cent",
     "material": [ "veggy" ],
