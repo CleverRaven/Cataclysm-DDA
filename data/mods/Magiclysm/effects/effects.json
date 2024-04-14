@@ -1297,7 +1297,7 @@
       "effect_thorns_electric",
       "effect_stormshaper_loud_voice",
       "effect_technomancer_gain_electronics_computer",
-	  "effect_technomancer_pain_ignore"
+      "effect_technomancer_pain_ignore"
     ]
   },
   {
@@ -1423,7 +1423,7 @@
       "effect_spirit_walking",
       "effect_stormshaper_loud_voice",
       "effect_technomancer_gain_electronics_computer",
-	  "effect_technomancer_pain_ignore",
+      "effect_technomancer_pain_ignore",
       "haste",
       "synaptic_stim",
       "slow_freeze_effect",
