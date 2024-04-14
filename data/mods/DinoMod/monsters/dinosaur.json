@@ -816,7 +816,7 @@
     "reproduction": { "baby_egg": "egg_therizinosaurus", "baby_count": 3, "baby_timer": 9 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 1 },
-    "special_attacks": [ [ "EAT_CROP", 20 ], [ "BROWSE", 50 ], [ "LONGSWIPE", 20 ] ],
+    "special_attacks": [ [ "EAT_CROP", 20 ], [ "BROWSE", 50 ], { "id": "longswipe", "cooldown": 20 } ],
     "petfood": { "food": [ "DINOFOOD_C" ] },
     "flags": [
       "SEES",
@@ -870,7 +870,7 @@
     "reproduction": { "baby_egg": "egg_nothronychus", "baby_count": 3, "baby_timer": 9 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 1 },
-    "special_attacks": [ [ "EAT_CROP", 30 ], [ "BROWSE", 50 ], [ "LONGSWIPE", 25 ] ],
+    "special_attacks": [ [ "EAT_CROP", 30 ], [ "BROWSE", 50 ], { "id": "longswipe", "cooldown": 25 } ],
     "petfood": { "food": [ "DINOFOOD_C" ] },
     "flags": [
       "SEES",
@@ -923,7 +923,7 @@
     "reproduction": { "baby_egg": "egg_anzu", "baby_count": 3, "baby_timer": 9 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 4 },
-    "special_attacks": [ [ "EAT_CROP", 30 ], [ "BROWSE", 50 ], [ "LONGSWIPE", 25 ] ],
+    "special_attacks": [ [ "EAT_CROP", 30 ], [ "BROWSE", 50 ], { "id": "longswipe", "cooldown": 25 } ],
     "flags": [
       "SEES",
       "SMELLS",

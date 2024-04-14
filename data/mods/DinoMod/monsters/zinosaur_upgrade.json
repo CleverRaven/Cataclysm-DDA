@@ -2014,7 +2014,7 @@
       { "id": "bite_grab", "cooldown": 7 },
       [ "scratch", 20 ],
       [ "LUNGE", 5 ],
-      [ "LONGSWIPE", 25 ]
+      { "id": "longswipe", "cooldown": 25 }
     ],
     "burn_into": "mon_zalbertosaurus_scorched",
     "fungalize_into": "mon_zalbertosaurus_fungus",
@@ -2218,7 +2218,7 @@
     "melee_dice": 3,
     "melee_dice_sides": 6,
     "hp": 320,
-    "special_attacks": [ [ "scratch", 10 ], { "id": "bite_grab" }, { "type": "bite", "cooldown": 10 }, [ "LONGSWIPE", 20 ] ],
+    "special_attacks": [ [ "scratch", 10 ], { "id": "bite_grab" }, { "type": "bite", "cooldown": 10 }, { "id": "longswipe", "cooldown": 20 } ],
     "burn_into": "mon_zerizinosaurus_scorched",
     "fungalize_into": "mon_zerizinosaurus_fungus",
     "categories": [ "DINOSAUR" ]
@@ -2238,7 +2238,7 @@
     "melee_dice": 4,
     "melee_dice_sides": 4,
     "hp": 160,
-    "special_attacks": [ [ "scratch", 10 ], { "id": "bite_grab" }, { "type": "bite", "cooldown": 5 }, [ "LONGSWIPE", 30 ] ],
+    "special_attacks": [ [ "scratch", 10 ], { "id": "bite_grab" }, { "type": "bite", "cooldown": 5 }, { "id": "longswipe", "cooldown": 30 } ],
     "burn_into": "mon_zothronychus_scorched",
     "fungalize_into": "mon_zothronychus_fungus",
     "categories": [ "DINOSAUR" ],
@@ -2258,7 +2258,7 @@
     "melee_dice": 4,
     "melee_dice_sides": 4,
     "hp": 120,
-    "special_attacks": [ [ "scratch", 10 ], { "id": "bite_grab" }, { "type": "bite", "cooldown": 5 }, [ "LONGSWIPE", 30 ] ],
+    "special_attacks": [ [ "scratch", 10 ], { "id": "bite_grab" }, { "type": "bite", "cooldown": 5 }, { "id": "longswipe", "cooldown": 30 } ],
     "burn_into": "mon_zanzu_scorched",
     "fungalize_into": "mon_zanzu_fungus",
     "categories": [ "DINOSAUR" ],
@@ -3172,7 +3172,7 @@
       { "id": "bite_grab", "cooldown": 7 },
       [ "scratch", 20 ],
       [ "LUNGE", 5 ],
-      [ "LONGSWIPE", 25 ]
+      { "id": "longswipe", "cooldown": 25 }
     ]
   },
   {

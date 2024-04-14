@@ -626,7 +626,6 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "JACKSON", mattack::jackson );
     add_hardcoded_attack( "DANCE", mattack::dance );
     add_hardcoded_attack( "DOGTHING", mattack::dogthing );
-    add_hardcoded_attack( "TENTACLE", mattack::tentacle );
     add_hardcoded_attack( "GENE_STING", mattack::gene_sting );
     add_hardcoded_attack( "PARA_STING", mattack::para_sting );
     add_hardcoded_attack( "TRIFFID_GROWTH", mattack::triffid_growth );
@@ -642,12 +641,10 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "GENERATOR", mattack::generator );
     add_hardcoded_attack( "UPGRADE", mattack::upgrade );
     add_hardcoded_attack( "BREATHE", mattack::breathe );
-    add_hardcoded_attack( "IMPALE", mattack::impale );
     add_hardcoded_attack( "BRANDISH", mattack::brandish );
     add_hardcoded_attack( "FLESH_GOLEM", mattack::flesh_golem );
     add_hardcoded_attack( "ABSORB_MEAT", mattack::absorb_meat );
     add_hardcoded_attack( "LUNGE", mattack::lunge );
-    add_hardcoded_attack( "LONGSWIPE", mattack::longswipe );
     add_hardcoded_attack( "PARROT", mattack::parrot );
     add_hardcoded_attack( "PARROT_AT_DANGER", mattack::parrot_at_danger );
     add_hardcoded_attack( "BLOW_WHISTLE", mattack::blow_whistle );
@@ -668,7 +665,6 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "GRENADIER_ELITE", mattack::grenadier_elite );
     add_hardcoded_attack( "RIOTBOT", mattack::riotbot );
     add_hardcoded_attack( "STRETCH_ATTACK", mattack::stretch_attack );
-    add_hardcoded_attack( "STRETCH_BITE", mattack::stretch_bite );
     add_hardcoded_attack( "DOOT", mattack::doot );
     add_hardcoded_attack( "DSA_DRONE_SCAN", mattack::dsa_drone_scan );
     add_hardcoded_attack( "ZOMBIE_FUSE", mattack::zombie_fuse );

@@ -1546,7 +1546,7 @@
     "speed": 75,
     "bleed_rate": 0,
     "special_attacks": [
-      [ "TENTACLE", 2 ],
+      { "id": "tentacle", "cooldown": 2 },
       {
         "type": "spell",
         "spell_data": { "id": "create_noise", "hit_self": true },
