@@ -376,7 +376,7 @@
       {
         "result": "t_arvore_living_tent",
         "valid_flags": [ "DIGGABLE" ],
-        "message": "Vines and brabmles rapidly grow from the ground into a small shelter."
+        "message": "Vines and brambles rapidly grow from the ground into a small shelter."
       }
     ]
   }
