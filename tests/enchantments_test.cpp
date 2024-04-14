@@ -219,6 +219,7 @@ static int test_melee_attack_attack_speed( Character &guy, Creature &mon )
         guy.melee_attack_abstract( mon, false, matec_id( "" ) );
         add_msg( "attack %i: attack cost: %i, total amount of moves: %i", i, prev_attack - guy.get_moves(),
                  guy.get_moves() );
+        guy.set_strain( 10000 );
         guy.set_stamina( guy.get_stamina_max() ); //Reset reset!
         guy.set_sleepiness( 0 );
         i++;
@@ -251,9 +252,7 @@ TEST_CASE( "Enchantment_ATTACK_SPEED_test", "[magic][enchantments]" )
     INFO( "10 attacks cost only 250 moves" );
     
     moves_spent_on_attacks = test_melee_attack_attack_speed( guy, mon );
-    // STRAIN TESTING This test has been made more wobbly while strain mechanics are being balanced
-    REQUIRE( moves_spent_on_attacks <= -250 );
-    // REQUIRE( moves_spent_on_attacks == -250 );
+    REQUIRE( moves_spent_on_attacks == -250 );
     clear_avatar();
 
 
