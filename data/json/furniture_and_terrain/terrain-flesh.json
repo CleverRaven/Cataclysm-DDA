@@ -35,7 +35,7 @@
       "str_max": 30,
       "sound": "crash!",
       "sound_fail": "whump!",
-      "ter_set": "t_nm_floor_flesh",
+      "ter_set": "t_ghoul_nest_floor",
       "items": [ { "item": "meat_tainted", "count": [ 50, 140 ] } ]
     }
   },
@@ -43,7 +43,7 @@
     "type": "terrain",
     "id": "t_ghoul_nest_floor",
     "name": "nest floor",
-    "description": "A thick bed of spongy flesh, saturated with pink lymph.",
+    "description": "A thick bed of spongy flesh.",
     "symbol": ".",
     "color": "magenta",
     "move_cost": 1,
