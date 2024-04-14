@@ -3920,7 +3920,7 @@ void iexamine::compost_full( Character &you, const tripoint &examp )
                     const int count = compost_i.count();
                     const time_point gas_birthday = compost_i.birthday();
                     if( !max_gas_gatherable ) {
-                        add_msg( _( "No biogass gathered." ) );
+                        add_msg( _( "No biogas gathered." ) );
                     } else {
                         for( const std::pair<const itype_id, int> &result : results ) {
                             item biogas( result.first, gas_birthday );
