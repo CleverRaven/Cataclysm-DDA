@@ -106,6 +106,7 @@ void place_appliance( const tripoint &p, const vpart_id &vpart, const std::optio
             }
         }
     }
+    veh->part_removal_cleanup();
 
     // Make some lighting appliances directed
     if( vpinfo.has_flag( flag_HALF_CIRCLE_LIGHT ) && partnum != -1 ) {

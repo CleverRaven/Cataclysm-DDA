@@ -4871,6 +4871,7 @@ std::optional<int> link_up_actor::link_to_veh_app( Character *p, item &it,
                                    it.link().t_abs_pos ).xy().raw();
             if( selection.xy().distance( prev_pos ) <= 1.5f &&
                 it.link().t_veh->merge_appliance_into_grid( sel_vp->vehicle() ) ) {
+                it.link().t_veh->part_removal_cleanup();
                 p->add_msg_if_player( _( "You merge the two power grids." ) );
                 return 1;
             }
