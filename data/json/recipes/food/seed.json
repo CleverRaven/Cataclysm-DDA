@@ -76,7 +76,7 @@
     "id_suffix": "with_cutting_tool",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
-    "byproducts": [ [ "eggplant_cut", 1 ] ],
+    "byproducts": [ [ "eggplant_cut", 2 ] ],
     "components": [ [ [ "eggplant", 1 ] ] ],
     "charges": 2
   },
