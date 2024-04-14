@@ -2198,12 +2198,6 @@ void Item_factory::check_definitions() const
             }
         }
 
-        for( const auto &e : type->emits ) {
-            if( !e.is_valid() ) {
-                msg += string_format( "item %s has unknown emit source %s\n", type->id.c_str(), e.c_str() );
-            }
-        }
-
         for( const auto &f : type->faults ) {
             if( !f.is_valid() ) {
                 msg += string_format( "invalid item fault %s\n", f.c_str() );
