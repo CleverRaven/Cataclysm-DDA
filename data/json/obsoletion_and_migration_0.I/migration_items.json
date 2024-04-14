@@ -1254,5 +1254,10 @@
     "type": "MIGRATION",
     "replace": "con_mix_foldable",
     "reset_item_vars": true
+  },
+  {
+    "id": "raw_lentils",
+    "type": "MIGRATION",
+    "replace": "dry_lentils"
   }
 ]
