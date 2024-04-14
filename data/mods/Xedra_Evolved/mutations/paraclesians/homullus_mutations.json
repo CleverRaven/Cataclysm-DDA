@@ -182,7 +182,7 @@
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
-    "description": "Upon gaining this ability the Homullus gains the ability to focus their mind to increase their learning abilty.",
+    "description": "Upon gaining this ability the Homullus gains the ability to focus their mind to increase their learning ability.",
     "category": [ "HOMULLUS" ],
     "prereqs": [ "INT_UP_2" ],
     "spells_learned": [ [ "homullus_add_learning_focus_spell", 1 ] ]

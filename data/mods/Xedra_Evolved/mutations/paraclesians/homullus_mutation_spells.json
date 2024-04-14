@@ -190,8 +190,12 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "recharge_vehicle",
     "shape": "blast",
-    "min_damage": { "math": [ "(u_spell_level('homullus_restore_power_spell') * 350) + 400) * scaling_factor(u_val('intelligence')" ] },
-    "max_damage": { "math": [ "(u_spell_level('homullus_restore_power_spell') * 850) + 1500) * scaling_factor(u_val('intelligence')" ] },
+    "min_damage": {
+      "math": [ "( (u_spell_level('homullus_restore_power_spell') * 350) + 400) * scaling_factor(u_val('intelligence') )" ]
+    },
+    "max_damage": {
+      "math": [ "( (u_spell_level('homullus_restore_power_spell') * 850) + 1500) * scaling_factor(u_val('intelligence') )" ]
+    },
     "min_range": 1,
     "energy_source": "MANA",
     "base_energy_cost": 750,
