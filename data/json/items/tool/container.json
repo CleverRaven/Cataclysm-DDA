@@ -23,6 +23,7 @@
       }
     ],
     "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "melee_damage": { "bash": 4 }
   },
   {

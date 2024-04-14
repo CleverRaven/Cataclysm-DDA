@@ -1153,6 +1153,7 @@
     "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "uneven" },
     "price_postapoc": 10000,
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "category": "weapons",
     "melee_damage": { "bash": 44, "stab": 33 }
   },

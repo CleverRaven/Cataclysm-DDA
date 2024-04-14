@@ -14,6 +14,7 @@
     "longest_side": "140 cm",
     "to_hit": { "grip": "solid", "length": "long", "surface": "point", "balance": "neutral" },
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "price": 2000,
@@ -36,6 +37,7 @@
     "flags": [ "SPEAR" ],
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 5, "stab": 9 }
   },
   {
@@ -56,6 +58,7 @@
     "flags": [ "SPEAR", "REACH_ATTACK", "NPC_THROWN", "SHEATH_SPEAR" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 5, "stab": 9 }
   },
   {
@@ -76,6 +79,7 @@
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "price": 400,
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 4, "stab": 18 }
   },
   {
@@ -104,6 +108,7 @@
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "price": 4000,
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 4, "stab": 18 }
   },
   {
@@ -176,6 +181,7 @@
     "looks_like": "spear_steel",
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "FRAGILE_MELEE", "SHEATH_SPEAR" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "melee_damage": { "bash": 4, "stab": 24 }
@@ -189,6 +195,7 @@
     "price": 700,
     "price_postapoc": 150,
     "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", -42 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "extend": { "flags": [ "FRAGILE_MELEE" ] }
   },
   {
@@ -209,6 +216,7 @@
     "looks_like": "spear_steel",
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", -28 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "melee_damage": { "bash": 4, "stab": 26 }
@@ -232,6 +240,7 @@
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "price": 16000,
     "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", -28 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 4, "stab": 26 }
   },
   {
@@ -252,6 +261,7 @@
     "looks_like": "spear_steel",
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "melee_damage": { "bash": 4, "stab": 24 }
@@ -275,6 +285,7 @@
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "price": 16000,
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 4, "stab": 24 }
   },
   {
@@ -296,6 +307,7 @@
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "price": 4900,
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 6, "stab": 18 }
   },
   {
@@ -316,6 +328,7 @@
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "price": 1400,
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 4, "stab": 28 }
   },
   {
@@ -336,6 +349,7 @@
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "price": 16000,
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 6, "stab": 30 }
   },
   {
@@ -356,6 +370,7 @@
     "weapon_category": [ "FENCING_WEAPONRY" ],
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 3, "stab": 13 }
   },
   {
@@ -377,6 +392,7 @@
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "price": 8000,
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 6, "stab": 18 }
   },
   {
@@ -397,6 +413,7 @@
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "price": 8000,
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 7, "stab": 24 }
   },
   {
@@ -417,6 +434,7 @@
     "flags": [ "SPEAR", "FRAGILE_MELEE" ],
     "weapon_category": [ "POLEARMS" ],
     "qualities": [ [ "COOK", 1 ], [ "HAMMER", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 9, "stab": 4 }
   },
   {
@@ -437,6 +455,7 @@
     "flags": [ "SPEAR", "FRAGILE_MELEE" ],
     "weapon_category": [ "POLEARMS" ],
     "qualities": [ [ "COOK", 1 ], [ "HAMMER", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 6, "stab": 13 }
   },
   {
@@ -457,6 +476,7 @@
     "flags": [ "SPEAR", "REACH_ATTACK", "FRAGILE_MELEE", "SHEATH_SPEAR" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "qualities": [ [ "COOK", 1 ], [ "HAMMER", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 5, "stab": 16 }
   },
   {
@@ -478,6 +498,7 @@
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "price": 80000,
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 8, "stab": 43 }
   },
   {
@@ -499,6 +520,7 @@
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "price_postapoc": 10000,
     "qualities": [ [ "COOK", 1 ], [ "BUTCHER", -70 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "category": "weapons",
     "melee_damage": { "bash": 15, "cut": 49 }
   },
@@ -604,6 +626,7 @@
     "price": 8000,
     "price_postapoc": 4500,
     "qualities": [ [ "COOK", 1 ], [ "CUT", 1 ], [ "BUTCHER", -24 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 4, "cut": 36 }
   },
   {
@@ -625,6 +648,7 @@
     "price": 4000,
     "price_postapoc": 250,
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "stab": 11 }
   },
   {
@@ -646,6 +670,7 @@
     "price": 9000,
     "price_postapoc": 500,
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 5, "stab": 19 }
   },
   {
@@ -666,6 +691,7 @@
     "looks_like": "pike",
     "techniques": [ "IMPALE", "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "flags": [ "DURABLE_MELEE", "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
     "weapon_category": [ "POLEARMS" ],
     "melee_damage": { "bash": 9, "stab": 16 }
@@ -688,6 +714,7 @@
     "looks_like": "pike",
     "techniques": [ "IMPALE", "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "flags": [ "DURABLE_MELEE", "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
     "weapon_category": [ "POLEARMS" ],
     "melee_damage": { "bash": 9, "stab": 23 }
@@ -708,6 +735,7 @@
     "color": "brown",
     "techniques": [ "IMPALE", "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "flags": [ "DURABLE_MELEE", "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
     "weapon_category": [ "POLEARMS" ],
     "category": "weapons",
@@ -776,6 +804,7 @@
     "color": "yellow",
     "techniques": [ "WBLOCK_1", "IMPALE" ],
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "flags": [ "SPEAR", "REACH_ATTACK", "DURABLE_MELEE", "SHEATH_SPEAR", "NONCONDUCTIVE", "POLEARM" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "melee_damage": { "bash": 8, "stab": 39 }
@@ -797,6 +826,7 @@
     "looks_like": "spear_dory",
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "flags": [ "SPEAR", "REACH_ATTACK", "DURABLE_MELEE", "SHEATH_SPEAR", "NONCONDUCTIVE" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "melee_damage": { "bash": 5, "stab": 29 }
@@ -820,6 +850,7 @@
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "price_postapoc": 5000,
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 28, "cut": 31 }
   },
   {
@@ -859,6 +890,7 @@
     "color": "light_gray",
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "flags": [ "SPEAR", "REACH_ATTACK", "SHEATH_SPEAR" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "melee_damage": { "bash": 8, "stab": 20 }
@@ -881,6 +913,7 @@
     "looks_like": "spear_stone",
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "flags": [ "SPEAR", "REACH_ATTACK", "SHEATH_SPEAR" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "melee_damage": { "bash": 8, "stab": 20 }
