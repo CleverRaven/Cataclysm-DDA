@@ -85,6 +85,7 @@ static void test_monster_attack( const tripoint &target_offset, bool expect_atta
     Character &you = get_player_character();
     clear_avatar();
     you.setpos( target_location );
+    you.set_strain( 10000 ); // ensure strain not running out
     monster &test_monster = spawn_test_monster( monster_type, attacker_location );
     test_monster.set_dest( you.get_location() );
     reset_caches( a_zlev, t_zlev );
@@ -104,6 +105,7 @@ static void test_monster_attack( const tripoint &target_offset, bool expect_atta
     monster &target_monster = spawn_test_monster( monster_type, target_location );
     reset_caches( a_zlev, t_zlev );
     CHECK( you.sees( target_monster ) == expect_vision );
+    you.set_strain( 10000 ); // ensure strain not running out
     if( special_attack == nullptr ) {
         CHECK( you.melee_attack( target_monster, false ) == expect_attack );
     }
