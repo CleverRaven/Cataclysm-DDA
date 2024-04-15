@@ -594,7 +594,7 @@ bool _friend_match_filter_character( Character const &beta, Character const &guy
     return false;
 }
 
-bool _filter_character(Character const* beta, Character const& guy, int radius,
+bool _filter_character( Character const *beta, Character const &guy, int radius,
                         tripoint_abs_ms const &loc, character_filter filter, bool allow_hallucinations )
 {
     if ((!guy.is_hallucination() || allow_hallucinations) &&
