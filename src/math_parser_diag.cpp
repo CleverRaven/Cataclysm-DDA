@@ -659,8 +659,8 @@ std::function<double( dialogue & )> _characters_nearby_eval( char scope,
 
         std::vector<Character *> const targets = g->get_characters_if( [ &beta, &d, &radius,
                &loc, filter, allow_hallucinations ]( const Character & guy ) {
-                talker const* const tk = d.actor(beta);
-                return _filter_character(tk->get_character(), guy, radius, loc, filter,
+            talker const *const tk = d.actor( beta );
+            return _filter_character( tk->get_character(), guy, radius, loc, filter,
                                       allow_hallucinations );
         } );
         return static_cast<double>( targets.size() );
