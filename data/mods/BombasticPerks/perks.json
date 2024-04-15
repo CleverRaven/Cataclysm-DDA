@@ -325,7 +325,7 @@
     "id": "perk_duck_and_weave",
     "name": { "str": "Duck and Weave" },
     "points": 0,
-    "description": "Run without rhythm.  While running, you gain 5 effective dodge and +1 bonus dodge attempt.",
+    "description": "Run without rhythm.  After a short wind-up period, you gain 5 effective dodge and +1 bonus dodge attempt as long as you keep running.",
     "category": [ "perk" ]
   },
   {
@@ -342,7 +342,7 @@
     "id": "perk_non_combatant",
     "name": { "str": "Non-Combatant" },
     "points": 0,
-    "description": "Hey, that's against the Geneva Convention!  When not wielding a weapon, or object that could be used as an improvised weapon, you take -15% reduced damage.",
+    "description": "Hey, that's against the Geneva Convention!  When not wielding a weapon, or object that could be used as an improvised weapon, you take -25% reduced damage.",
     "category": [ "perk" ],
     "//": "u_has_weapon checks if you're wielding ANYTHNG, not a weapon specifically, hence the long condition below.",
     "enchantments": [
