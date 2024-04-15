@@ -29,8 +29,8 @@
     "type": "emit",
     "//": "Periodic leaking of smoke.",
     "field": "fd_smoke",
-    "intensity": 3
-	"qty": 8
+    "intensity": 3,
+    "qty": 8
   },
   {
     "id": "emit_smoke_blast",
