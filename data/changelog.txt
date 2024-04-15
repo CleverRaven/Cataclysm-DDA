@@ -104,6 +104,7 @@ EoCs support mutate_towards directly
 make `u_spawn_item` to support the item group whose subtype is `collection`
 Add u_wants_to_talk/npc_wants_to_talk EOC effects
 Player can eat from camp larder(always). Workers receive spent food from it when being assigned to work (requires NPC needs enabled).
+Implement IME pre-edit text for CJK text
 
 
 ## Content:
@@ -385,6 +386,11 @@ More specific messages for being unable to use supernatural powers
 Tune channeling spells with scale modifier.
 [MoM] Edit portal storm conditions to support moddability, use that for Telepathic Shield in MoM
 XE: Trait to avoid learning dream magick
+[MoM] Oubliette works on NPCs now
+[MoM] Utilise test_eoc functionality to reduce duplicate conditions
+[MoM] Power maintenance message change
+[DinoMod] Iguanodon
+[Bombastic Perks] Add more perks
 
 
 ## Balance:
@@ -445,6 +451,8 @@ Update books.json to rebalance religious book spawning
 Retuned frag grenades to be less effective against ballistic armor and lose power over distance faster
 Instability no longer accumulates or decreases; it depends on how many mutations you have, and how many are outside of your current tree
 Pain is painful
+Pain was a bit too painful
+shoggoths cannot eat artifacts
 
 
 ## Bugfixes:
@@ -575,6 +583,20 @@ Allows Infrared vision to see through smoke
 NPCs can overeat, starve, and dehydrate to death
 Rotten food doesn't become fresh when crafted with
 fixes issue where NPCs could take an item like canned corn as a donation and would remove the corn from the can and give you the can back.
+Rest quality is not always positive, negative rest quality will slow your bandaged healing 
+Fixes ImGui keybindings UI not allowing the user to scroll
+Fixed UPS not charging items with empty integrated batteries
+Keeps swag-bag limits to canvas bag
+electronic fault fixes properly uses soldering_standard
+Fixed standalone UPS being stuck on after first activation
+Fixed out of bounds transparency cache access
+fixing issues where ImGui popup changes size sporadically. Fix issue where keybindings filter box deactivates unexpectedly
+fixes item_pocket::better_pocket not returning consistent values on pockets with different encumbrance and ripoff values
+Removes damage modifier on some guns
+[MoM] Account for painkiller in pain disabling powers
+fixes issue where all ImGui windows display wrong when the window scaling is not 1
+Fixed issue where new ImGui popup does not obey the default option requested by user
+Fixed issue where the keybindings UI doesn't let you press the plus key to add a local keybinding
 
 
 ## Performance:
@@ -649,6 +671,9 @@ Make JSON formatter replace nbsp with escape sequence
 Update houses to utilize palettes
 Added SMALL_HIDER flag to various monsters.
 Rename 'fatigue' to 'sleepiness', mostly on the back end, to avoid confusing different ways of being knackered
+EOC proficiency adjustments use normal training route by default
+Improve spell checker tokenization and reporting
+Deleted the ImGui enable/disable toggle, turns on ImGui globally in CDDA
 
 
 ## Build:
@@ -666,6 +691,7 @@ Added WebAssembly build via Emscripten
 CMake: Add LLVM build for Windows and other linker fixes
 Use one precompiled header
 Fix zlib old-style-cast build breakage
+Fix crash with imgui and CMake
 
 
 ## I18N and A11Y:
