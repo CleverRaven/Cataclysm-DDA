@@ -292,7 +292,7 @@
     "shape": "blast",
     "energy_source": "MANA",
     "base_energy_cost": 0,
-    "base_casting_time": { "math": [ "2880000 - max(( u_spell_level('homullus_road_translocate') * 108000), 180000)" ] }
+    "base_casting_time": { "math": [ "1440000 - max(( u_spell_level('homullus_road_translocate') * 108000), 90000)" ] }
   },
   {
     "id": "homullus_civilization_translocate_attune_real",
