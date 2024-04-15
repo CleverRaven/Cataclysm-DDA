@@ -1237,6 +1237,14 @@
     "bleed_rate": 50,
     "vision_day": 50,
     "emit_fields": [ { "emit_id": "emit_smoke_leak", "delay": "1 s" } ],
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "smoker_stream_increase" },
+        "cooldown": 100,
+        "monster_message": "smoke starts billowing out of the %s at a rapid rate!"
+      }
+    ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "The %s explodes!" },
     "fungalize_into": "mon_zombie_smoker_fungus",
     "upgrades": { "half_life": 30, "into": "mon_smoker_brute" },
@@ -1266,7 +1274,13 @@
       { "id": "scratch_humanoid", "cooldown": 15 },
       { "id": "ranged_pull", "cooldown": 20, "grab_data": { "pull_weight_ratio": 1.2 } },
       { "id": "grab_drag" },
-      { "id": "drag_followup" }
+      { "id": "drag_followup" },
+      {
+        "type": "spell",
+        "spell_data": { "id": "smoker_stream_increase" },
+        "cooldown": 100,
+        "monster_message": "smoke starts billowing out of the %s at a rapid rate!"
+      }
     ],
     "upgrades": false,
     "armor": { "bash": 2, "cut": 8, "stab": 8, "heat": 5, "bullet": 10, "electric": 2 },

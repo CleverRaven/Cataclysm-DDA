@@ -250,6 +250,18 @@
   },
   {
     "type": "SPELL",
+    "id": "smoker_stream_increase",
+    "name": { "str": "smoke billow" },
+    "description": "The monster produces large amounts of smoke for a short duration",
+    "flags": [ "NO_EXPLOSION_SFX" ],
+    "valid_targets": [ "self" ],
+    "effect": "emit",
+    "effect_str": "emit_smoke_stream",
+    "min_duration": 700,
+    "max_duration": 700
+  },
+  {
+    "type": "SPELL",
     "id": "phase_skulker_teleport",
     "name": { "str": "Phase Skulker Teleport" },
     "description": "Teleports the monster.",
