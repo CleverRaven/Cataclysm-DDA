@@ -58,7 +58,6 @@ void uilist_impl::on_resized()
 
 void uilist_impl::draw_controls()
 {
-
     if(!parent.started)
     {
         parent.setup();
@@ -76,8 +75,8 @@ void uilist_impl::draw_controls()
     if(!parent.categories.empty())
     {
         draw_colored_text(parent.categories[parent.current_category].second, c_yellow);
-        mvwprintz(window, point(1, estart), c_yellow, "<< %s >>", parent.categories[parent.current_category].second);
-        print_line(estart + parent.category_lines);
+        //mvwprintz(window, point(1, estart), c_yellow, "<< %s >>", parent.categories[parent.current_category].second);
+        //print_line(estart + parent.category_lines);
         estart += parent.category_lines + 1;
     }
 
@@ -430,10 +429,10 @@ uilist::uilist( const std::string &msg, std::initializer_list<const char *const>
 
 uilist::~uilist()
 {
-    shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
-    if( current_ui ) {
-        current_ui->reset();
-    }
+    //shared_ptr_fast<uilist_impl> current_ui = ui.lock();
+    //if( current_ui ) {
+    //    current_ui->reset();
+    //}
 }
 
 void uilist::color_error( const bool report )
@@ -1180,18 +1179,19 @@ bool uilist::scrollby( const int scrollby )
     return true;
 }
 
-shared_ptr_fast<ui_adaptor> uilist::create_or_get_ui_adaptor()
+shared_ptr_fast<uilist_impl> uilist::create_or_get_ui()
 {
-    shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
+    shared_ptr_fast<uilist_impl> current_ui = ui.lock();
     if( !current_ui ) {
-        ui = current_ui = make_shared_fast<ui_adaptor>();
-        current_ui->on_redraw( [this]( ui_adaptor & ui ) {
-            show( ui );
-        } );
-        current_ui->on_screen_resize( [this]( ui_adaptor & ui ) {
-            reposition( ui );
-        } );
-        current_ui->mark_resize();
+        ui = current_ui = make_shared_fast<uilist_impl>(*this);
+        //current_ui->on_redraw( [this]( ui_adaptor & ui ) {
+        //    show( ui );
+        //} );
+        //current_ui->on_screen_resize( [this]( ui_adaptor & ui ) {
+        //    reposition( ui );
+        //} );
+        //current_ui->mark_resize();
+        current_ui->on_resized();
     }
     return current_ui;
 }
@@ -1321,7 +1321,7 @@ void uilist::query( bool loop, int timeout, bool allow_unfiltered_hotkeys )
 
     input_context ctxt = create_main_input_context();
 
-    shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
+    shared_ptr_fast<uilist_impl> ui = create_or_get_ui();
 
     ui_manager::redraw();
 
