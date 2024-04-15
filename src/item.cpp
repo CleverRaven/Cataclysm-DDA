@@ -11277,8 +11277,8 @@ ret_val<void> item::is_gunmod_compatible( const item &mod ) const
     } else if( mod.typeId() == itype_arredondo_chute ) {
         return ret_val<void>::make_failure( _( "chute needs modification before attaching" ) );
 
-    // Acceptable_ammo check is kinda weird now, if it is passed, checks after it will be ignored.
-    // Moved it here as a workaround.
+        // Acceptable_ammo check is kinda weird now, if it is passed, checks after it will be ignored.
+        // Moved it here as a workaround.
     } else if( !mod.type->mod->acceptable_ammo.empty() ) {
         bool compat_ammo = false;
         for( const ammotype &at : mod.type->mod->acceptable_ammo ) {
