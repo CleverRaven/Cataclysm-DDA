@@ -45,7 +45,16 @@ public:
 
     cataimgui::bounds get_bounds()
     {
-        return { -1.f, -1.f, -1.f, -1.f };
+        if(!parent.started)
+        {
+            parent.setup();
+        }
+
+        return { static_cast<float>(parent.w_x * fontwidth),
+                 static_cast<float>(parent.w_y * fontheight),
+                 static_cast<float>(clamp(parent.w_width * fontwidth, 0, get_window_width())),
+            -1.f
+        };
     }
     void draw_controls() override;
     void on_resized() override;
@@ -58,26 +67,54 @@ void uilist_impl::on_resized()
 
 void uilist_impl::draw_controls()
 {
-    if(!parent.started)
+    if(!parent.text.empty())
     {
-        parent.setup();
+        ImGui::PushTextWrapPos(float(parent.w_width * fontwidth));
+        ImGui::TextWrapped("%s", parent.text.c_str());
+        ImGui::PopTextWrapPos();
+        ImGui::Separator();
     }
-    const int text_lines = parent.textformatted.size();
-    int estart = 1;
-    if(!parent.textformatted.empty())
+
+    // It would be natural to make the entries into buttons, or
+    // combos, or other pre–built ui elements. For now I am mostly
+    // going to copy the style of the original textual ui elements.
+    for(size_t i = 0; i < parent.fentries.size(); i++)
     {
-        for(int i = 0; i < text_lines; i++)
+        auto entry = parent.entries[parent.fentries[i]];
+        ImGui::PushID(&entry);
+        auto flags = entry.enabled ? ImGuiSelectableFlags_Disabled : ImGuiSelectableFlags_None;
+        ImGui::Selectable("", i == parent.fselected, flags);
+        ImGui::SameLine(0, 0);
+        if(i == parent.fselected)
         {
-            draw_colored_text(parent.textformatted[i], parent.text_color, parent.textwidth);
+            ImGui::SetItemDefaultFocus();
         }
-        estart += text_lines + 1; // +1 for the horizontal line.
+
+        if(entry.hotkey.has_value())
+        {
+            ImGui::Text("%c", '[');
+            ImGui::SameLine(0, 0);
+            auto color = i == parent.fselected ? parent.hilight_color : parent.hotkey_color;
+            draw_colored_text(entry.hotkey.value().short_description(),
+                color);
+            ImGui::SameLine(0, 0);
+            ImGui::Text("%c", ']');
+            ImGui::SameLine();
+        }
+        nc_color color = (i == parent.fselected ?
+            parent.hilight_color :
+            (entry.enabled || entry.force_color ?
+            entry.text_color :
+            parent.disabled_color));
+        draw_colored_text(entry.txt,
+            color);
+        ImGui::PopID();
     }
-    if(!parent.categories.empty())
+
+    if(parent.desc_enabled)
     {
-        draw_colored_text(parent.categories[parent.current_category].second, c_yellow);
-        //mvwprintz(window, point(1, estart), c_yellow, "<< %s >>", parent.categories[parent.current_category].second);
-        //print_line(estart + parent.category_lines);
-        estart += parent.category_lines + 1;
+        ImGui::Separator();
+        ImGui::TextWrapped("%s", parent.footer_text.empty() ? parent.entries[parent.selected].desc.c_str() : parent.footer_text.c_str());
     }
 
     //werase(window);
