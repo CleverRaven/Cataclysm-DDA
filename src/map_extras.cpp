@@ -121,7 +121,6 @@ static const map_extra_id map_extra_mx_casings( "mx_casings" );
 static const map_extra_id map_extra_mx_city_trap( "mx_city_trap" );
 static const map_extra_id map_extra_mx_clay_deposit( "mx_clay_deposit" );
 static const map_extra_id map_extra_mx_corpses( "mx_corpses" );
-static const map_extra_id map_extra_mx_dead_vegetation( "mx_dead_vegetation" );
 static const map_extra_id map_extra_mx_fungal_zone( "mx_fungal_zone" );
 static const map_extra_id map_extra_mx_grove( "mx_grove" );
 static const map_extra_id map_extra_mx_helicopter( "mx_helicopter" );
@@ -130,7 +129,6 @@ static const map_extra_id map_extra_mx_looters( "mx_looters" );
 static const map_extra_id map_extra_mx_minefield( "mx_minefield" );
 static const map_extra_id map_extra_mx_null( "mx_null" );
 static const map_extra_id map_extra_mx_point_burned_ground( "mx_point_burned_ground" );
-static const map_extra_id map_extra_mx_point_dead_vegetation( "mx_point_dead_vegetation" );
 static const map_extra_id map_extra_mx_pond( "mx_pond" );
 static const map_extra_id map_extra_mx_portal_in( "mx_portal_in" );
 static const map_extra_id map_extra_mx_reed( "mx_reed" );
@@ -1319,47 +1317,6 @@ static bool mx_clay_deposit( map &m, const tripoint &abs_sub )
     return false;
 }
 
-static bool mx_dead_vegetation( map &m, const tripoint &abs_sub )
-{
-    // This map extra kills all plant life, creating area of desolation.
-    // Possible result of acid rain / radiation / etc.,
-    // but reason is not exposed (no rads, acid pools, etc.)
-
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            const tripoint loc( i, j, abs_sub.z );
-
-            dead_vegetation_parser( m, loc );
-        }
-    }
-
-    return true;
-}
-
-static bool mx_point_dead_vegetation( map &m, const tripoint &abs_sub )
-{
-    // This map extra creates patch of dead vegetation using a simple cellular automaton.
-    // Lesser version of mx_dead_vegetation
-
-    constexpr int width = SEEX * 2;
-    constexpr int height = SEEY * 2;
-
-    // Generate the cells for dead vegetation.
-    std::vector<std::vector<int>> current = CellularAutomata::generate_cellular_automaton( width,
-                                            height, 55, 5, 4, 3 );
-
-    for( int i = 0; i < width; i++ ) {
-        for( int j = 0; j < height; j++ ) {
-            if( current[i][j] == 1 ) {
-                const tripoint loc( i, j, abs_sub.z );
-                dead_vegetation_parser( m, loc );
-            }
-        }
-    }
-
-    return true;
-}
-
 static void burned_ground_parser( map &m, const tripoint &loc )
 {
     const furn_t &fid = m.furn( loc ).obj();
@@ -2199,8 +2156,6 @@ static FunctionMap builtin_functions = {
     { map_extra_mx_shrubbery, mx_shrubbery },
     { map_extra_mx_pond, mx_pond },
     { map_extra_mx_clay_deposit, mx_clay_deposit },
-    { map_extra_mx_dead_vegetation, mx_dead_vegetation },
-    { map_extra_mx_point_dead_vegetation, mx_point_dead_vegetation },
     { map_extra_mx_burned_ground, mx_burned_ground },
     { map_extra_mx_point_burned_ground, mx_point_burned_ground },
     { map_extra_mx_casings, mx_casings },
