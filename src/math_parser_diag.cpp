@@ -12,6 +12,7 @@
 #include "magic.h"
 #include "map.h"
 #include "math_parser_diag_value.h"
+#include "mongroup.h"
 #include "mtype.h"
 #include "options.h"
 #include "string_input_popup.h"
