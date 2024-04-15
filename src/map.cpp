@@ -3724,6 +3724,13 @@ int map::collapse_check( const tripoint &p ) const
     const bool collapses = has_flag( ter_furn_flag::TFLAG_COLLAPSES, p );
     const bool supports_roof = has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p );
 
+    if( has_flag( ter_furn_flag::TFLAG_SINGLE_SUPPORT, p ) ) {
+        // We should definitely collapse if there's no support below, and
+        // given that a single wall as a support below isn't sufficient, a tree
+        // is deemed not to be sufficient either.
+        return 0;
+    }
+
     int num_supports = p.z == OVERMAP_DEPTH ? 0 : -5;
     // if there's support below, things are less likely to collapse
     if( p.z > -OVERMAP_DEPTH ) {
@@ -3736,9 +3743,6 @@ int map::collapse_check( const tripoint &p ) const
                 }
                 if( tbelow == pbelow ) {
                     num_supports += 2;
-                }
-                if( has_flag( ter_furn_flag::TFLAG_SINGLE_SUPPORT, p ) ) {
-                    num_supports = 0;
                 }
             }
         }
@@ -3763,9 +3767,6 @@ int map::collapse_check( const tripoint &p ) const
                     num_supports += 3;
                 }
             }
-        }
-        if( has_flag( ter_furn_flag::TFLAG_SINGLE_SUPPORT, p ) ) {
-            num_supports = 0;
         }
     }
 

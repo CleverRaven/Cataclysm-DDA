@@ -311,7 +311,18 @@
     "symbol": "[",
     "color": "yellow",
     "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "SKINTIGHT", "SOFT", "WATER_FRIENDLY", "SUN_GLASSES", "NO_REPAIR", "NO_SALVAGE", "AURA" ],
+    "flags": [
+      "INTEGRATED",
+      "UNBREAKABLE",
+      "SKINTIGHT",
+      "SOFT",
+      "WATER_FRIENDLY",
+      "SUN_GLASSES",
+      "NO_REPAIR",
+      "NO_SALVAGE",
+      "AURA",
+      "SEMITANGIBLE"
+    ],
     "armor": [
       {
         "material": [ { "type": "light", "covered_by_mat": 100, "thickness": 0.1 } ],
