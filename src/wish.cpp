@@ -1168,7 +1168,7 @@ void debug_menu::wishskill( Character *you, bool change_theory )
         origskills.push_back( level );
     }
 
-    shared_ptr_fast<ui_adaptor> skmenu_ui = skmenu.create_or_get_ui_adaptor();
+    shared_ptr_fast<uilist_impl> skmenu_ui = skmenu.create_or_get_ui();
 
     do {
         skmenu.query();
