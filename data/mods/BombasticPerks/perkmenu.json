@@ -643,30 +643,7 @@
           },
           {
             "set_condition": "perk_condition",
-            "condition": {
-              "or": [
-                { "math": [ "u_val('dexterity_base')", ">=", "10" ] },
-                {
-                  "and": [
-                    { "math": [ "u_val('dexterity')", ">=", "10" ] },
-                    {
-                      "u_has_any_trait": [
-                        "perk_DEX_UP",
-                        "perk_DEX_UP_2",
-                        "DEX_UP",
-                        "DEX_UP_2",
-                        "DEX_UP_3",
-                        "DEX_UP_4",
-                        "DEX_ALPHA",
-                        "BENDY1",
-                        "BENDY2",
-                        "BENDY3"
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
+            "condition": { "math": [ "u_val('dexterity_base') + u_val('dexterity_bonus')", ">=", "10" ] }
           }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
@@ -745,29 +722,7 @@
           },
           {
             "set_condition": "perk_condition",
-            "condition": {
-              "or": [
-                { "math": [ "u_val('perception_base')", ">=", "10" ] },
-                {
-                  "and": [
-                    { "math": [ "u_val('perception')", ">=", "10" ] },
-                    {
-                      "u_has_any_trait": [
-                        "perk_PER_UP",
-                        "perk_PER_UP_2",
-                        "PER_UP",
-                        "PER_UP_2",
-                        "PER_UP_3",
-                        "PER_UP_4",
-                        "PER_ALPHA",
-                        "BIRD_EYE",
-                        "PER_SLIME_OK"
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
+            "condition": { "math": [ "u_val('perception_base') + u_val('perception_bonus')", ">=", "10" ] }
           }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
@@ -846,30 +801,7 @@
           },
           {
             "set_condition": "perk_condition",
-            "condition": {
-              "or": [
-                { "math": [ "u_val('dexterity_base')", ">=", "12" ] },
-                {
-                  "and": [
-                    { "math": [ "u_val('dexterity')", ">=", "12" ] },
-                    {
-                      "u_has_any_trait": [
-                        "perk_DEX_UP",
-                        "perk_DEX_UP_2",
-                        "DEX_UP",
-                        "DEX_UP_2",
-                        "DEX_UP_3",
-                        "DEX_UP_4",
-                        "DEX_ALPHA",
-                        "BENDY1",
-                        "BENDY2",
-                        "BENDY3"
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
+            "condition": { "math": [ "u_val('dexterity_base') + u_val('dexterity_bonus')", ">=", "12" ] }
           }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
