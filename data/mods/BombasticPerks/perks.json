@@ -316,9 +316,17 @@
     "id": "perk_sleepy",
     "name": { "str": "Easy Sleeper" },
     "points": 0,
-    "description": "You've always been able to fall asleep within a few minutes of closing your eyes, no matter what else is going on around you.  You have a much easier time falling asleep.'",
+    "description": "You've always been able to fall asleep within a few minutes of closing your eyes, no matter what else is going on around you.  You have a much easier time falling asleep.",
     "category": [ "perk" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SLEEPY", "add": 15 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_duck_and_weave",
+    "name": { "str": "Duck and Weave" },
+    "points": 0,
+    "description": "Run without rhythm.  While running, you gain 5 effective dodge and +1 bonus dodge attempt.",
+    "category": [ "perk" ]
   },
   {
     "type": "mutation",
