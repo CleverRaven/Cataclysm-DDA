@@ -106,6 +106,7 @@
         { "math": [ "u_spell_level('arvore_summon_briars')", "<", "int_to_level(1)" ] },
         { "math": [ "u_spell_level('arvore_traverse_the_wilds')", "<", "per_to_level(1)" ] },
         { "math": [ "u_spell_level('arvore_cause_decay')", "<", "per_to_level(1)" ] },
+        { "math": [ "u_spell_level('arvore_create_living_tent_spell')", "<", "int_to_level(1)" ] },
         { "math": [ "u_spell_level('arvore_summon_preservation_container')", "<", "per_to_level(1)" ] },
         { "math": [ "u_spell_level('arvore_summon_wood_spirit')", "<", "35" ] },
         { "math": [ "u_spell_level('arvore_roots_crack_the_foundation')", "<", "per_to_level(1)" ] },
