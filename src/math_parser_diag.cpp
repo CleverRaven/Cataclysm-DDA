@@ -597,11 +597,11 @@ bool _friend_match_filter_character( Character const &beta, Character const &guy
 bool _filter_character( Character const *beta, Character const &guy, int radius,
                         tripoint_abs_ms const &loc, character_filter filter, bool allow_hallucinations )
 {
-    if ((!guy.is_hallucination() || allow_hallucinations) &&
-        (beta == nullptr || beta->getID() != guy.getID())) {
-        return beta == nullptr || 
-            (_friend_match_filter_character(*beta, guy, filter) &&
-                radius >= rl_dist(guy.get_location(), loc));
+    if( ( !guy.is_hallucination() || allow_hallucinations ) &&
+        ( beta == nullptr || beta->getID() != guy.getID() ) ) {
+        return beta == nullptr ||
+               ( _friend_match_filter_character( *beta, guy, filter ) &&
+                 radius >= rl_dist( guy.get_location(), loc ) );
     }
     return false;
 }
