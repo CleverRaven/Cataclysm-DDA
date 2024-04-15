@@ -4164,6 +4164,7 @@
     "category": [ "CHIROPTERAN" ],
     "threshreq": [ "THRESH_CHIROPTERAN" ],
     "flags": [ "WALL_CLING" ],
+    "strict_threshreq": true,
     "restricts_gear": [ "foot_l", "foot_r" ],
     "destroys_gear": true
   },
@@ -5182,6 +5183,7 @@
     "types": [ "PREDATION" ],
     "prereqs": [ "CARNIVORE" ],
     "prereqs2": [ "PRED3" ],
+    "strict_threshreq": true,
     "threshreq": [ "THRESH_LUPINE" ],
     "category": [ "LUPINE" ],
     "flags": [ "PRED3" ]
@@ -6385,6 +6387,7 @@
     "flags": [ "WING_GLIDE", "WINGS_2", "ARM_WINGS" ],
     "encumbrance_always": [ [ "arm_r", 20 ], [ "arm_l", 20 ], [ "hand_r", 40 ], [ "hand_l", 40 ] ],
     "prereqs": [ "WEBBED" ],
+    "strict_threshreq": true,
     "category": [ "CHIROPTERAN" ],
     "restricts_gear": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
     "threshreq": [ "THRESH_CHIROPTERAN" ]
@@ -6926,6 +6929,7 @@
     "description": "Your body gets everything it needs from the food that you eat!  You no longer need hydration from fluids.",
     "types": [ "THIRST" ],
     "threshreq": [ "THRESH_MOUSE" ],
+    "strict_threshreq": true,
     "category": [ "MOUSE" ],
     "flags": [ "NO_THIRST" ],
     "purifiable": false
@@ -8334,7 +8338,7 @@
     "id": "THRESH_CHIMERA",
     "name": { "str": "Chaos" },
     "points": 1,
-    "description": "You can't tell what you are anymore.  Everything and yet nothing, like you weren't meant to exist.  But you do, and you're a force, no matter what happens.",
+    "description": "You can't tell what you are anymore.  Everything and yet nothing, like you weren't meant to exist.  But you do, and you're a force, no matter what happens.  Unlocks gaining post-threshold traits from most other mutation categories.",
     "//": "Acceptable substitute for all lines except the human-based ones and slime - the former are more controlled, the latter will diverge too much in anatomy.",
     "valid": false,
     "purifiable": false,
