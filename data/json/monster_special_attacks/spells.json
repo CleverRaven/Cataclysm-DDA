@@ -257,6 +257,7 @@
     "valid_targets": [ "self" ],
     "effect": "emit",
     "effect_str": "emit_smoke_stream",
+    "shape": "blast",
     "min_duration": 700,
     "max_duration": 700
   },
