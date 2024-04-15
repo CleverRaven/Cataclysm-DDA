@@ -389,7 +389,6 @@
     "visibility": 0,
     "ugliness": 0,
     "description": "You are at home in the artificial environments constructed by humanity.  You move slightly faster within.",
-    "types": [ "RUNNING" ],
     "category": [ "HOMULLUS" ],
     "enchantments": [
       {
