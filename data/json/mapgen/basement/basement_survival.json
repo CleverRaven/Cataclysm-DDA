@@ -120,7 +120,7 @@
         { "group": "gear_survival", "x": 13, "y": 14, "chance": 75 },
         { "group": "gear_survival", "x": 13, "y": 15, "chance": 75 },
         {
-          "group": "guns_survival",
+          "group": "guns_common",
           "x": 19,
           "y": [ 3, 4 ],
           "chance": 100,
@@ -129,8 +129,8 @@
           "magazine": 100
         },
         { "group": "ammo_reloaded", "x": 19, "y": 5, "chance": 100, "repeat": [ 1, 3 ], "magazine": 100 },
-        { "group": "guns_pistol_common", "x": 15, "y": 10, "chance": 30, "ammo": 75, "magazine": 100 },
-        { "group": "guns_pistol_common", "x": 21, "y": 10, "chance": 30, "ammo": 75, "magazine": 100 },
+        { "group": "guns_common", "x": 15, "y": 10, "chance": 30, "ammo": 75, "magazine": 100 },
+        { "group": "guns_common", "x": 21, "y": 10, "chance": 30, "ammo": 75, "magazine": 100 },
         { "group": "clothing_outdoor_set", "x": 15, "y": 10, "chance": 30 },
         { "group": "clothing_outdoor_set", "x": 21, "y": 10, "chance": 30 },
         { "item": "blanket", "x": 16, "y": 10, "chance": 30 },
