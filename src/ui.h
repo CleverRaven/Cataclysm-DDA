@@ -15,7 +15,6 @@
 #include "cata_assert.h"
 #include "color.h"
 #include "cuboid_rectangle.h"
-#include "cursesdef.h"
 #include "input_context.h"
 #include "memory_fast.h"
 #include "pimpl.h"
@@ -287,7 +286,6 @@ class uilist // NOLINT(cata-xy)
         void setup();
         // initialize the window or reposition it after screen size change.
         void reposition( ui_adaptor &ui );
-        void show( ui_adaptor &ui );
         bool scrollby( int scrollby );
         void query( bool loop = true, int timeout = -1, bool allow_unfiltered_hotkeys = false );
         void filterlist();
@@ -403,8 +401,6 @@ class uilist // NOLINT(cata-xy)
 
     private:
         int scroll_amount_from_action( const std::string &action );
-        std::unique_ptr<scrollbar> uilist_scrollbar;
-        void apply_scrollbar();
         // This function assumes it's being called from `query` and should
         // not be made public.
         void inputfilter();
@@ -479,7 +475,6 @@ class uilist // NOLINT(cata-xy)
         // TODO make private
         std::vector<std::string> textformatted;
 
-        catacurses::window window;
         int w_x = 0;
         int w_y = 0;
         int w_width = 0;
