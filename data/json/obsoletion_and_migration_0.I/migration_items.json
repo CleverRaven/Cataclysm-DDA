@@ -6,6 +6,16 @@
     "contents": [ { "id": "steel_lump", "count": 6 } ]
   },
   {
+    "id": "fridge",
+    "type": "MIGRATION",
+    "replace": "apartment_fridge"
+  },
+  {
+    "id": "freezer",
+    "type": "MIGRATION",
+    "replace": "apartment_freezer"
+  },
+  {
     "id": "mold_plastic",
     "type": "MIGRATION",
     "replace": "vac_mold"

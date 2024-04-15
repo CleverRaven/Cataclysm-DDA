@@ -169,7 +169,7 @@
     "coverage": 90,
     "required_str": 10,
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "NO_SELF_CONNECT", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
-    "deconstruct": { "items": [ { "item": "fridge", "count": 1 } ] },
+    "deconstruct": { "items": [ { "item": "fridge", "count": 1 }, { "item": "apartment_freezer", "count": 1 } ] },
     "max_volume": "500 L",
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "fridge" },
     "bash": {
