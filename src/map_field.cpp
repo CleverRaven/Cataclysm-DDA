@@ -2099,6 +2099,10 @@ std::tuple<maptile, maptile, maptile> map::get_wind_blockers( const int &winddir
 
 void map::emit_field( const tripoint &pos, const emit_id &src, float mul )
 {
+    if( !src.is_valid() ) {
+        return;
+    }
+
     dialogue d( get_talker_for( get_avatar() ), nullptr );
     const float chance = src->chance( d ) * mul;
     if( x_in_y( chance, 100 ) ) {

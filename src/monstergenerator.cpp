@@ -1719,6 +1719,13 @@ void MonsterGenerator::check_monster_definitions() const
             }
         }
 
+        for( const std::pair<const emit_id, time_duration> &e : mon.emit_fields ) {
+            const emit_id emid = e.first;
+            if( !emid.is_valid() ) {
+                debugmsg( "monster %s has invalid emit source %s", mon.id.c_str(), emid.c_str() );
+            }
+        }
+
         if( mon.upgrades ) {
             if( mon.half_life < 0 && mon.age_grow < 0 ) {
                 debugmsg( "half_life %d and age_grow %d (<0) of monster %s is invalid",

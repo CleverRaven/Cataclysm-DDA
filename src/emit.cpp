@@ -23,6 +23,14 @@ const emit &string_id<emit>::obj() const
     return found->second;
 }
 
+/** @relates string_id */
+template<>
+bool string_id<emit>::is_valid() const
+{
+    const auto found = emits_all.find( *this );
+    return found != emits_all.end();
+}
+
 emit::emit() : id_( emit_id::NULL_ID() ) {}
 
 bool emit::is_null() const

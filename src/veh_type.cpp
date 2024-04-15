@@ -885,6 +885,17 @@ void vpart_info::check() const
         debugmsg( "vehicle part %s has the TURRET flag, but is not made from a gun item", id.str() );
     }
 
+    for( const emit_id &e : emissions ) {
+        if( !e.is_valid() ) {
+            debugmsg( "vehicle part %s has invalid emission %s was set", id.str(), e.str() );
+        }
+    }
+    for( const emit_id &e : exhaust ) {
+        if( !e.is_valid() ) {
+            debugmsg( "vehicle part %s has invalid exhaust %s was set", id.str(), e.str() );
+        }
+    }
+
     if( has_flag( "WHEEL" ) && !base_item->wheel ) {
         debugmsg( "vehicle part %s has the WHEEL flag, but base item %s is not a wheel.  "
                   "THIS WILL CRASH!", id.str(), base_item.str() );

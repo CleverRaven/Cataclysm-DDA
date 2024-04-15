@@ -1021,6 +1021,12 @@ void ter_t::check() const
     if( transforms_into && transforms_into == id ) {
         debugmsg( "%s transforms_into itself", id.c_str() );
     }
+
+    for( const emit_id &e : emissions ) {
+        if( !e.is_valid() ) {
+            debugmsg( "ter %s has invalid emission %s set", id.c_str(), e.str().c_str() );
+        }
+    }
 }
 
 furn_t::furn_t() : open( furn_str_id::NULL_ID() ), close( furn_str_id::NULL_ID() ) {}
@@ -1132,6 +1138,12 @@ void furn_t::check() const
     }
     if( !close.is_valid() ) {
         debugmsg( "invalid furniture %s for closing %s", close.c_str(), id.c_str() );
+    }
+    for( const emit_id &e : emissions ) {
+        if( !e.is_valid() ) {
+            debugmsg( "furn %s has invalid emission %s set", id.c_str(),
+                      e.str().c_str() );
+        }
     }
 }
 

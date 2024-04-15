@@ -1486,9 +1486,10 @@ void Character::heat_emission( const bionic &bio, units::energy fuel_energy )
     const int heat_level = std::min( heat_prod / 10, 4 );
     const emit_id hotness = emit_id( "emit_hot_air" + std::to_string( heat_level ) + "_cbm" );
     map &here = get_map();
-    const int heat_spread = std::max( heat_prod / 10 - heat_level, 1 );
-    here.emit_field( pos(), hotness, heat_spread );
-
+    if( hotness.is_valid() ) {
+        const int heat_spread = std::max( heat_prod / 10 - heat_level, 1 );
+        here.emit_field( pos(), hotness, heat_spread );
+    }
     for( const std::pair<const bodypart_str_id, size_t> &bp : bio.info().occupied_bodyparts ) {
         add_effect( effect_heating_bionic, 2_seconds, bp.first.id(), false, heat_prod );
     }
