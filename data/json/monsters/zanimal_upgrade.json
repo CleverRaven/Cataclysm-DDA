@@ -442,7 +442,7 @@
     "hp": 75,
     "color": "blue_white",
     "dodge": 3,
-    "emit_fields": [ { "emit_id": "emit_smoke_stream", "delay": "1 s" } ],
+    "emit_fields": [ { "emit_id": "emit_smoke_leak", "delay": "1 s" } ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "The %s explodes!" },
     "flags": [ "SEES", "HEARS", "SMELLS", "BASHES", "POISON", "HARDTOSHOOT", "NO_BREATHE", "REVIVES" ]
   },
