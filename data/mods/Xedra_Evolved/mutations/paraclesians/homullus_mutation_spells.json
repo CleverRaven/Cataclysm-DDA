@@ -260,7 +260,7 @@
     "id": "homullus_road_translocate_spell",
     "type": "SPELL",
     "name": "All Roads Lead to Rome",
-    "description": "Humanity crisscrossed the Earth with roads, first small tracks, then earthen projects, and finally mighty asphalt webs upon which billions of people traveled every day. The Homullus can stand on the remnants of that web and return to any remaining locus of civilization that they have attuned to.",
+    "description": "Humanity crisscrossed the Earth with roads, first small tracks, then earthen projects, and finally mighty asphalt webs upon which billions of people traveled every day.  The Homullus can stand on the remnants of that web and return to any remaining locus of civilization that they have attuned to.",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "HOMULLUS",

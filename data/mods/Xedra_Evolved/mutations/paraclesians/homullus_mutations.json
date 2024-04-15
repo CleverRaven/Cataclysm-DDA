@@ -196,7 +196,8 @@
     "ugliness": 0,
     "description": "Upon gaining this ability the Homullus gains the ability to travel along a road to any bastion of civilization they have attuned to.",
     "category": [ "HOMULLUS" ],
-    "prereqs": [ "INT_UP_2" ],
+    "prereqs": [ "HOMULLUS_CITY_STRIDER" ],
+    "prereqs2": [ "HOMULLUS_GAIN_BIONIC_POWER_AND_MANA" ],
     "spells_learned": [ [ "homullus_road_translocate_spell", 1 ], [ "homullus_road_translocate_attune", 1 ] ]
   },
   {
@@ -432,29 +433,6 @@
     "changes_to": [ "HOMULLUS_THE_HUNTER2" ],
     "category": [ "HOMULLUS" ],
     "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "multiply": 0.33 } ] } ]
-  },
-  {
-    "type": "mutation",
-    "id": "HOMULLUS_REGEN_STAMINA",
-    "name": { "str": "Take the Line" },
-    "points": 2,
-    "description": "By standing together, humanity was able to overcome all threats, and it was only when they turned on each other that the Cataclysm grew out of control.  The Homullus regains Stamina 5% faster per ally within 30 meters (10% faster per ally if they have the Homullus trait).",
-    "prereqs": [ "HOMULLUS_THE_HUNTER", "HOMULLUS_THE_HUNTER2" ],
-    "category": [ "HOMULLUS" ],
-    "enchantments": [
-      {
-        "values": [
-          {
-            "value": "REGEN_STAMINA",
-            "multiply": {
-              "math": [
-                "(u_characters_nearby('radius': 30, 'attitude': 'any') + u_monsters_nearby('mon_feral_cop', 'mon_feral_human_pipe', 'mon_feral_human_crowbar', 'mon_feral_jackboot', 'mon_feral_marine_bayonet', 'mon_feral_soldier', 'mon_feral_prepper_knife', 'mon_feral_sailor_axe', 'mon_feral_maid_knife', 'mon_feral_maid_candlestick', 'mon_feral_officer', 'mon_feral_sailor_lug_wrench', 'mon_feral_sailor_mop', 'mon_feral_maid_broom', 'mon_feral_sailor_wrench', 'mon_feral_swimmer_kickboard', 'mon_feral_armored_battleaxe', 'mon_feral_sapien_spear', 'mon_feral_armored_mace', 'mon_feral_human_tool', 'mon_feral_militia', 'mon_feral_fancy_rapier_fake', 'mon_feral_fancy_rapier', 'mon_feral_human_archaeologist', 'mon_feral_human_axe', 'mon_feral_labsecurity_flashlight', 'mon_feral_labsecurity_9mm',  'mon_feral_survivalist', 'mon_feral_scientist_scalpel', 'mon_feral_zebra_agent', 'mon_renfield', 'mon_renfield_9mm', 'mon_renfield_shotgun', 'mon_renfield_flamethrower', 'radius': 30, 'attitude': 'both')) * (0.05 * paraclesian_post_threshold_doubler(1))"
-              ]
-            }
-          }
-        ]
-      }
-    ]
   },
   {
     "type": "mutation",
