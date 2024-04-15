@@ -806,7 +806,7 @@
     "melee_dice": 2,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-    "families": [ "prof_intro_biology", "prof_wp_dino" ],
+    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_dino" ],
     "weakpoint_sets": [ "wps_dinosaur_body" ],
     "dodge": 6,
     "hp": 100,
