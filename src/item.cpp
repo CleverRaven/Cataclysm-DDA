@@ -157,6 +157,7 @@ static const item_category_id item_category_spare_parts( "spare_parts" );
 static const item_category_id item_category_tools( "tools" );
 static const item_category_id item_category_weapons( "weapons" );
 
+static const itype_id itype_arredondo_chute( "arredondo_chute" );
 static const itype_id itype_barrel_small( "barrel_small" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_blood( "blood" );
@@ -11272,6 +11273,9 @@ ret_val<void> item::is_gunmod_compatible( const item &mod ) const
     } else if( gunmod_find( itype_stock_none ) &&
                mod.type->gunmod->location.name() == "stock accessory" ) {
         return ret_val<void>::make_failure( _( "doesn't have a stock to attach this mod" ) );
+
+    } else if( mod.typeId() == itype_arredondo_chute ) {
+        return ret_val<void>::make_failure( _( "chute needs modification before attaching" ) );
 
     // Acceptable_ammo check is kinda weird now, if it is passed, checks after it will be ignored.
     // Moved it here as a workaround.
