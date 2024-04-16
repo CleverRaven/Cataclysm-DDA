@@ -48,7 +48,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_MILITIA_GUARD1_Introduction",
-    "dynamic_line": "I'm on watch duty. Talk to the Boss.  He's inside.",
+    "dynamic_line": "I'm on watch duty.  Talk to the Boss.  He's inside.",
     "responses": [ { "text": "…", "topic": "TALK_NONE" } ]
   },
   {

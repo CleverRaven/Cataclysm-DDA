@@ -168,7 +168,7 @@
       "context": "first_meeting",
       "value": "yes",
       "yes": "Hello again.",
-      "no": "Welcome to our camp.  Behave yourself while you are here. What can I do for you?"
+      "no": "Welcome to our camp.  Behave yourself while you are here.  What can I do for you?"
     },
     "speaker_effect": { "effect": { "u_add_var": "talked_to_MILITIAMAIN", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
     "responses": [
