@@ -180,6 +180,7 @@ static const ter_str_id ter_t_rock_floor( "t_rock_floor" );
 static const ter_str_id ter_t_rootcellar( "t_rootcellar" );
 static const ter_str_id ter_t_sewage( "t_sewage" );
 static const ter_str_id ter_t_soil( "t_soil" );
+static const ter_str_id ter_t_stump( "t_stump" );
 static const ter_str_id ter_t_tree_birch( "t_tree_birch" );
 static const ter_str_id ter_t_tree_birch_harvested( "t_tree_birch_harvested" );
 static const ter_str_id ter_t_tree_dead( "t_tree_dead" );
@@ -192,6 +193,7 @@ static const ter_str_id ter_t_tree_pine( "t_tree_pine" );
 static const ter_str_id ter_t_tree_willow( "t_tree_willow" );
 static const ter_str_id ter_t_tree_willow_harvested( "t_tree_willow_harvested" );
 static const ter_str_id ter_t_tree_young( "t_tree_young" );
+static const ter_str_id ter_t_trunk( "t_trunk" );
 static const ter_str_id ter_t_vat( "t_vat" );
 static const ter_str_id ter_t_wall_glass( "t_wall_glass" );
 static const ter_str_id ter_t_wall_glass_alarm( "t_wall_glass_alarm" );
@@ -8550,6 +8552,29 @@ void map::produce_sap( const tripoint &p, const time_duration &time_since_last_a
             break;
         }
     }
+}
+
+void map::cut_down_tree( tripoint_bub_ms p, point dir )
+{
+    if( !zlevels ) {
+        debugmsg( "Call to cut_down_tree from a map that doesn't support zlevels." );
+        return;
+    }
+
+    if( !ter( p ).obj().has_flag( ter_furn_flag::TFLAG_TREE ) ) {
+        debugmsg( "Call to cut_down_tree on a tile that doesn't contain a tree." );
+        return;
+    }
+
+    tripoint_bub_ms to = p + 3 * dir + point( rng( -1, 1 ), rng( -1, 1 ) );
+
+    // TODO: make line_to type aware.
+    std::vector<tripoint> tree = line_to( p.raw(), to.raw(), rng( 1, 8 ) );
+    for( tripoint &elem : tree ) {
+        batter( elem, 300, 5 );
+        ter_set( elem, ter_t_trunk );
+    }
+    ter_set( p, ter_t_stump );
 }
 
 void map::rad_scorch( const tripoint &p, const time_duration &time_since_last_actualize )
