@@ -594,12 +594,14 @@ bool _friend_match_filter_character( Character const &beta, Character const &guy
     return false;
 }
 
-bool _filter_character( Character const &beta, Character const &guy, int radius,
+bool _filter_character( Character const *beta, Character const &guy, int radius,
                         tripoint_abs_ms const &loc, character_filter filter, bool allow_hallucinations )
 {
-    if( ( !guy.is_hallucination() || allow_hallucinations ) && ( beta.getID() != guy.getID() ) ) {
-        return _friend_match_filter_character( beta, guy, filter ) &&
-               radius >= rl_dist( guy.get_location(), loc );
+    if( ( !guy.is_hallucination() || allow_hallucinations ) &&
+        ( beta == nullptr || beta->getID() != guy.getID() ) ) {
+        return beta == nullptr ||
+               ( _friend_match_filter_character( *beta, guy, filter ) &&
+                 radius >= rl_dist( guy.get_location(), loc ) );
     }
     return false;
 }
@@ -657,7 +659,8 @@ std::function<double( dialogue & )> _characters_nearby_eval( char scope,
 
         std::vector<Character *> const targets = g->get_characters_if( [ &beta, &d, &radius,
                &loc, filter, allow_hallucinations ]( const Character & guy ) {
-            return _filter_character( *d.actor( beta )->get_character(), guy, radius, loc, filter,
+            talker const *const tk = d.actor( beta );
+            return _filter_character( tk->get_character(), guy, radius, loc, filter,
                                       allow_hallucinations );
         } );
         return static_cast<double>( targets.size() );
