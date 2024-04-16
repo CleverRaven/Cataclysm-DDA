@@ -95,7 +95,7 @@
   {
     "id": "l_bp_HD",
     "width": 3,
-    "style": "symbol",
+    "style": "text",
     "bodypart": "head",
     "clauses": [
       { "id": "healthy", "text": "HD:", "color": "c_light_gray", "condition": { "not": { "u_has_effect": "infected" } } },
@@ -106,7 +106,7 @@
   {
     "id": "l_bp_CT",
     "width": 3,
-    "style": "symbol",
+    "style": "text",
     "bodypart": "torso",
     "clauses": [
       { "id": "healthy", "text": "CT:", "color": "c_light_gray", "condition": { "not": { "u_has_effect": "infected" } } },
@@ -117,7 +117,7 @@
   {
     "id": "l_bp_LA",
     "width": 3,
-    "style": "symbol",
+    "style": "text",
     "bodypart": "arm_l",
     "clauses": [
       { "id": "healthy", "text": "LA:", "color": "c_light_gray", "condition": { "not": { "u_has_effect": "infected" } } },
@@ -128,7 +128,7 @@
   {
     "id": "l_bp_RA",
     "width": 3,
-    "style": "symbol",
+    "style": "text",
     "bodypart": "arm_r",
     "clauses": [
       { "id": "healthy", "text": "RA:", "color": "c_light_gray", "condition": { "not": { "u_has_effect": "infected" } } },
@@ -139,7 +139,7 @@
   {
     "id": "l_bp_LL",
     "width": 3,
-    "style": "symbol",
+    "style": "text",
     "bodypart": "leg_l",
     "clauses": [
       { "id": "healthy", "text": "LL:", "color": "c_light_gray", "condition": { "not": { "u_has_effect": "infected" } } },
@@ -150,7 +150,7 @@
   {
     "id": "l_bp_RL",
     "width": 3,
-    "style": "symbol",
+    "style": "text",
     "bodypart": "leg_r",
     "clauses": [
       { "id": "healthy", "text": "RL:", "color": "c_light_gray", "condition": { "not": { "u_has_effect": "infected" } } },
