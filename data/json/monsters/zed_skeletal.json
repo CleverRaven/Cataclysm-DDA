@@ -32,7 +32,6 @@
     "material": [ "bone" ],
     "color": "white",
     "melee_dice": 2,
-    "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 10 } ],
     "bleed_rate": 0,
     "vision_day": 35,
@@ -89,7 +88,6 @@
     "name": { "str": "skeletal juggernaut" },
     "description": "This hideous golem of plated bones and misshapen flesh drags its heavy, pointed limbs behind it like an unwanted burden.  Formerly soft and vulnerable, bones grew around its form to protect it - only, they kept growing.  And growing.  And growing.",
     "copy-from": "mon_zombie_hulk",
-    "diff": 5,
     "speed": 60,
     "material": [ "bone" ],
     "color": "white",
@@ -98,7 +96,6 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 15 } ],
     "vision_day": 50,
     "harvest": "big_mr_bones",
-    "grab_strength": 50,
     "special_attacks": [
       { "id": "grab" },
       { "id": "bite_humanoid" },
