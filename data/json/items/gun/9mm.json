@@ -50,61 +50,6 @@
     "melee_damage": { "bash": 9 }
   },
   {
-    "id": "cx4",
-    "looks_like": "modular_ar15",
-    "type": "GUN",
-    "reload_noise_volume": 10,
-    "name": { "str": "9x19mm pistol-caliber carbine" },
-    "description": "Designed to be a companion rifle with provided M9 handguns, this compact and light weight pistol-caliber carbine makes use of the same 9x19mm magazines.  Originally intended for use by law enforcement units, this style of small caliber, semi-automatic carbine failed to achieve the same level of popularity as regular and more potent rifles.  However, despite being inadequate for their original purpose, before the Cataclysm these modestly sized weapons still found a home in sport shooting and self-defense civilian roles.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "cx4",
-        "name": { "str": "Cx4 Storm carbine" },
-        "description": "A small pistol caliber carbine designed for police use and civilian self-defense, the Cx4 Storm uses magazines that are interchangeable with other Beretta 9x19mm handguns."
-      }
-    ],
-    "weight": "2575 g",
-    "volume": "4458 ml",
-    "longest_side": "762 mm",
-    "barrel_length": "423 mm",
-    "price": "900 USD",
-    "price_postapoc": "40 USD",
-    "to_hit": -1,
-    "material": [ "steel", "plastic" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": [ "9mm" ],
-    "skill": "rifle",
-    "range": 6,
-    "ranged_damage": { "damage_type": "bullet", "amount": 2 },
-    "dispersion": 180,
-    "durability": 10,
-    "min_cycle_recoil": 450,
-    "barrel_volume": "250 ml",
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 2 ],
-      [ "muzzle", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "stock accessory", 1 ],
-      [ "underbarrel", 1 ]
-    ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "m9bigmag", "m9mag_10rd", "m9mag", "m9mag_17rd", "m9mag_18rd", "m9mag_20rd", "m9mag_32rd", "m9mag_35rd" ]
-      }
-    ],
-    "melee_damage": { "bash": 8 }
-  },
-  {
     "id": "glock_19",
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
@@ -546,6 +491,13 @@
     "reload_noise_volume": 10,
     "name": { "str": "Kel-Tec SUB-2000 carbine" },
     "description": "With its claim to fame being its ease of portability when compared to other conventional rifles and carbines, the Kel-Tec SUB-2000 is a uniquely-designed pistol caliber carbine sporting an integral folding mechanism and chambered for 9x19mm cartridges, making use of regular Glock compatible magazines.  With its mechanism engaged, the barrel assembly swings rearwards and causes the firearm to fold to half its regular length, packing up into a very compact package with ergonomics unfortunately having to take a backseat to allow for the weapon's extreme portability.  With a mainly polymer constructed receiver, the carbine is relatively light and incredibly transportable when fully folded.",
+    "variants": [
+      {
+        "id": "ksub2000",
+        "name": { "str": "Kel-Tec SUB-2000 carbine (Glock)" },
+        "description": "With its claim to fame being its ease of portability when compared to other conventional rifles and carbines, the Kel-Tec SUB-2000 is a uniquely-designed pistol caliber carbine sporting an integral folding mechanism and chambered for 9x19mm cartridges, making use of regular Glock compatible magazines.  With its mechanism engaged, the barrel assembly swings rearwards and causes the firearm to fold to half its regular length, packing up into a very compact package with ergonomics unfortunately having to take a backseat to allow for the weapon's extreme portability.  With a mainly polymer constructed receiver, the carbine is relatively light and incredibly transportable when fully folded."
+      }
+    ],
     "weight": "1930 g",
     "volume": "1240 ml",
     "longest_side": "410 mm",
@@ -660,6 +612,58 @@
         "magazine_well": "250 ml",
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [ "px4mag", "px4mag_10rd", "px4mag_15rd", "px4mag_20rd" ]
+      }
+    ],
+    "melee_damage": { "bash": 8 }
+  },
+  {
+    "id": "ruger_pcc",
+    "looks_like": "garand",
+    "type": "GUN",
+    "reload_noise_volume": 10,
+    "name": { "str": "pistol caliber carbine (Glock)" },
+    "description": "This Pistol Caliber Carbine is a semi-automatic pistol-caliber carbine chambered in 9mm Parabellum, designed as a companion to certain semi-automatic pistols, using the same cartridges and magazines.",
+    "variants": [
+      {
+        "id": "ruger_pcc",
+        "name": { "str": "Ruger pistol caliber carbine" },
+        "description": "The Ruger PC-9 Pistol Caliber Carbine is a semi-automatic pistol-caliber carbine chambered in 9mm Parabellum, designed as a companion to certain Ruger P series semi-automatic pistols, using the same cartridges and magazines of the P-Series pistols."
+      }
+    ],
+    "weight": "3200 g",
+    "volume": "1240 ml",
+    "longest_side": "860 mm",
+    "barrel_length": "412 mm",
+    "price": 75000,
+    "price_postapoc": 3000,
+    "to_hit": -1,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": [ "9mm" ],
+    "skill": "rifle",
+    "range": 6,
+    "ranged_damage": { "damage_type": "bullet", "amount": 3 },
+    "dispersion": 180,
+    "durability": 7,
+    "min_cycle_recoil": 450,
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ]
+    ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "pocket_data": [
+      {
+        "magazine_well": "250 ml",
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ]
       }
     ],
     "melee_damage": { "bash": 8 }

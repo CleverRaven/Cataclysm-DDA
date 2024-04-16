@@ -127,7 +127,6 @@
       { "item": "glock_19", "prob": 15 },
       { "item": "usp_9mm", "prob": 10 },
       { "item": "m9", "prob": 35 },
-      { "item": "cx4", "prob": 1 },
       { "item": "usp_45", "prob": 10 },
       { "item": "m1911", "prob": 10 },
       { "group": "modular_ar15", "prob": 10 },

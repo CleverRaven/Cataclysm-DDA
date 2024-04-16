@@ -1373,15 +1373,15 @@
     ]
   },
   {
-    "id": "nested_cx4",
+    "id": "nested_ruger_pcc",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
     "entries": [
-      { "item": "cx4", "charges-min": 0, "charges-max": 15 },
-      { "item": "m9mag" },
-      { "item": "m9mag", "prob": 50 },
+      { "item": "ruger_pcc", "charges-min": 0, "charges-max": 17 },
+      { "item": "glockmag" },
+      { "item": "glockmag", "prob": 50 },
       { "group": "on_hand_9mm" }
     ]
   },

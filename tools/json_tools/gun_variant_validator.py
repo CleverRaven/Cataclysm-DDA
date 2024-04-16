@@ -125,7 +125,6 @@ IDENTIFIER_CHECK_BLACKLIST = {
     "mp18",
     "mauser_c96",
     "mauser_m714",
-    "ksub2000",
     "smg_9mm",
     "colt_ro635",
     "arx160",
@@ -160,7 +159,7 @@ IDENTIFIER_CHECK_BLACKLIST = {
     "rm228",
     "needlegun",
     "needlepistol",
-    "rm298",
+    "rm298"
 }
 NAME_CHECK_BLACKLIST = {
     # FIXME: fix and remove these
