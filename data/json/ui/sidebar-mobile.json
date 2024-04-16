@@ -2001,7 +2001,7 @@
     "id": "l_weary",
     "width": 2,
     "copy-from": "t_label",
-    "string": "W:",
+    "string": { "ctxt": "label_weary", "str": "W:" },
     "type": "widget"
   },
   {
@@ -2024,7 +2024,7 @@
     "id": "l_wtrns",
     "width": 2,
     "copy-from": "t_label",
-    "string": "W:",
+    "string": { "ctxt": "label_weary_transition_level", "str": "W:" },
     "type": "widget"
   },
   {
