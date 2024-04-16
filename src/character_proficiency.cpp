@@ -1,7 +1,20 @@
+#include <algorithm>
+#include <cmath>
+#include <memory>
+#include <optional>
+#include <string>
+#include <vector>
+
 #include "cached_options.h"
+#include "calendar.h"
 #include "character.h"
+#include "enums.h"
+#include "event.h"
 #include "event_bus.h"
+#include "pimpl.h"
 #include "proficiency.h"
+#include "translations.h"
+#include "type_id.h"
 
 bool Character::has_proficiency( const proficiency_id &prof ) const
 {

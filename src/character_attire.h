@@ -2,18 +2,41 @@
 #ifndef CATA_SRC_CHARACTER_ATTIRE_H
 #define CATA_SRC_CHARACTER_ATTIRE_H
 
-#include "advanced_inv_listitem.h"
+#include <cstddef>
+#include <functional>
+#include <iosfwd>
+#include <list>
+#include <map>
+#include <optional>
+#include <set>
+#include <string>
+#include <unordered_set>
+#include <utility>
+#include <vector>
+
+#include "body_part_set.h"
 #include "bodypart.h"
 #include "color.h"
 #include "item.h"
+#include "item_location.h"
+#include "ret_val.h"
+#include "subbodypart.h"
+#include "type_id.h"
 #include "units.h"
+#include "visitable.h"
 
-class advanced_inventory_pane;
+class Character;
+class JsonObject;
+class JsonOut;
 class advanced_inv_area;
+class advanced_inv_listitem;
+class advanced_inventory_pane;
 class avatar;
+class item_pocket;
 class npc;
 class player_morale;
 struct bodygraph_info;
+struct damage_unit;
 
 using drop_location = std::pair<item_location, int>;
 using drop_locations = std::list<drop_location>;

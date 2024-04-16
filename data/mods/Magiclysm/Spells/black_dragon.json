@@ -93,10 +93,10 @@
     "difficulty": 1,
     "max_level": 15,
     "base_casting_time": 200,
-    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(250)" ] },
-    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(1000)" ] },
-    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(5000)" ] },
-    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(1000)" ] }
+    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(250, 2)" ] },
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(1000, 30)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(5000, 30)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(1000, 0.25)" ] }
   },
   {
     "id": "dragon_shell_retaliation_black",

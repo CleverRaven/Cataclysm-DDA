@@ -12,6 +12,7 @@
 #include "character.h"
 #include "character_martial_arts.h"
 #include "color.h"
+#include "condition.h"
 #include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"

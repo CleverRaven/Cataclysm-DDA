@@ -695,5 +695,53 @@
         ]
       }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_portal_storm_mutator_bird",
+    "name": { "str": "Stormwrought: Bird" },
+    "points": 0,
+    "description": "Exposure to portal storms and related phenomena causes your body change along predictable lines.  When out in a portal storm without any protection, you periodically have a chance to mutate.",
+    "category": [ "perk" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_portal_storm_mutator_feline",
+    "name": { "str": "Stormwrought: Feline" },
+    "points": 0,
+    "description": "Exposure to portal storms and related phenomena causes your body change along predictable lines.  When out in a portal storm without any protection, you periodically have a chance to mutate.",
+    "category": [ "perk" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_portal_storm_mutator_insect",
+    "name": { "str": "Stormwrought: Insect" },
+    "points": 0,
+    "description": "Exposure to portal storms and related phenomena causes your body change along predictable lines.  When out in a portal storm without any protection, you periodically have a chance to mutate.",
+    "category": [ "perk" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_portal_storm_mutator_lupine",
+    "name": { "str": "Stormwrought: Lupine" },
+    "points": 0,
+    "description": "Exposure to portal storms and related phenomena causes your body change along predictable lines.  When out in a portal storm without any protection, you periodically have a chance to mutate.",
+    "category": [ "perk" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_portal_storm_mutator_plant",
+    "name": { "str": "Stormwrought: Plant" },
+    "points": 0,
+    "description": "Exposure to portal storms and related phenomena causes your body change along predictable lines.  When out in a portal storm without any protection, you periodically have a chance to mutate.",
+    "category": [ "perk" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_portal_storm_mutator_spider",
+    "name": { "str": "Stormwrought: Spider" },
+    "points": 0,
+    "description": "Exposure to portal storms and related phenomena causes your body change along predictable lines.  When out in a portal storm without any protection, you periodically have a chance to mutate.",
+    "category": [ "perk" ]
   }
 ]
