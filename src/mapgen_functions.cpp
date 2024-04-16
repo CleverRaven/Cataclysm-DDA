@@ -1520,7 +1520,7 @@ void mapgen_lake_shore( mapgendata &dat )
     // It buffers the points a bit for a thicker line. It also clears any furniture that might
     // be in the location as a result of our extending adjacent mapgen.
     const auto draw_shallow_water = [&]( const point & from, const point & to ) {
-        line_to_2( from, to, [&m]( std::vector<point> & new_line ) {
+        line_to_2( from, to, [&m]( std::vector<point> &new_line ) {
             for( const point &bp : closest_points_first( new_line.back(), 1 ) ) {
                 if( !map_boundaries.contains( bp ) ) {
                     continue;
@@ -1958,7 +1958,7 @@ void mapgen_ocean_shore( mapgendata &dat )
         if( to.y != 0 && to.y != SEEX * 2 - 1 ) {
             to_mod.y += ns_direction_adjust;
         }
-        line_to_2( from_mod, to_mod, [&m, &sand_margin]( std::vector<point> & new_line ) {
+        line_to_2( from_mod, to_mod, [&m, &sand_margin]( std::vector<point> &new_line ) {
             for( const point &bp : closest_points_first( new_line.back(), sand_margin ) ) {
                 if( !map_boundaries.contains( bp ) ) {
                     continue;
@@ -1971,7 +1971,7 @@ void mapgen_ocean_shore( mapgendata &dat )
     };
     // This will draw our sandy beach coastline from the "from" point to the "to" point.
     const auto draw_sand = [&]( const point & from, const point & to ) {
-        line_to_2( from, to, [&m, &sand_margin]( std::vector<point> & new_line ) {
+        line_to_2( from, to, [&m, &sand_margin]( std::vector<point> &new_line ) {
             for( const point &bp : closest_points_first( new_line.back(), sand_margin ) ) {
                 if( !map_boundaries.contains( bp ) ) {
                     continue;

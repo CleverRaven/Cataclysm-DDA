@@ -609,7 +609,8 @@ static std::optional<std::pair<tripoint_abs_omt, std::string>> get_mission_arrow
     }
 
     tripoint arr_pos = center.raw();
-    const std::vector<tripoint> traj = line_to_2( center.raw(), tripoint( mission_target.raw().xy(), center.raw().z ), [&overmap_area, &arr_pos]( std::vector<tripoint> & new_line ) {
+    const std::vector<tripoint> traj = line_to_2( center.raw(), tripoint( mission_target.raw().xy(),
+    center.raw().z ), [&overmap_area, &arr_pos]( std::vector<tripoint> &new_line ) {
         if( overmap_area.contains( new_line.back() ) ) {
             arr_pos = new_line.back();
             return false;

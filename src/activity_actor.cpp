@@ -6415,7 +6415,7 @@ void chop_tree_activity_actor::finish( player_activity &act, Character &who )
             bool can_use = true;
 
             tripoint proposed_to = pos + point( 3 * direc.x, 3 * direc.y );
-            line_to_2( pos, proposed_to, [&creatures, &can_use]( std::vector<tripoint> & new_line ) {
+            line_to_2( pos, proposed_to, [&creatures, &can_use]( std::vector<tripoint> &new_line ) {
                 if( creatures.creature_at( new_line.back() ) ) {
                     can_use = false;
                     return false;

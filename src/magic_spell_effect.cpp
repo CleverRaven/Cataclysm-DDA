@@ -214,8 +214,7 @@ static bool in_spell_aoe( const tripoint &start, const tripoint &end, const int 
     }
     map &here = get_map();
     bool return_value = true;
-    line_to_2( start, end,
-        [&here, &return_value]( std::vector<tripoint> & new_line ) {
+    line_to_2( start, end, [&here, &return_value]( std::vector<tripoint> &new_line ) {
         if( here.impassable( new_line.back() ) ) {
             return_value = false;
             return false;
@@ -263,8 +262,7 @@ static std::set<tripoint> spell_effect_cone_range_override( const spell_effect::
     if( !params.ignore_walls ) {
         map &here = get_map();
         for( const tripoint &ep : end_points ) {
-            line_to_2( source, ep,
-                [&here, &targets]( std::vector<tripoint> & new_line ) {
+            line_to_2( source, ep, [&here, &targets]( std::vector<tripoint> &new_line ) {
                 if( here.passable( new_line.back() ) ) {
                     targets.emplace( new_line.back() );
                     return true;
@@ -345,7 +343,7 @@ std::set<tripoint> spell_effect::spell_effect_line( const override_parameters &p
     if( delta_side == 0 ) { // delta is already axis aligned, only need straight lines
         // cw leg
         line_to_2( point_zero, unit_cw_perp_axis * cw_len,
-            [&base_line, &source, &delta, &delta_perp, &test, &result]( std::vector<point> & new_line ) {
+        [&base_line, &source, &delta, &delta_perp, &test, &result]( std::vector<point> &new_line ) {
             base_line.reset( new_line.back() );
             if( !test( source + new_line.back() ) ) {
                 return false;
@@ -355,7 +353,7 @@ std::set<tripoint> spell_effect::spell_effect_line( const override_parameters &p
         } );
         // ccw leg
         line_to_2( point_zero, unit_cw_perp_axis * -ccw_len,
-            [&base_line, &source, &delta, &delta_perp, &test, &result]( std::vector<point> & new_line ) {
+        [&base_line, &source, &delta, &delta_perp, &test, &result]( std::vector<point> &new_line ) {
             base_line.reset( new_line.back() );
             if( !test( source + new_line.back() ) ) {
                 return false;
@@ -366,7 +364,7 @@ std::set<tripoint> spell_effect::spell_effect_line( const override_parameters &p
     } else if( delta_side == 1 ) { // delta is cw of primary axis
         // ccw leg is behind perp axis
         line_to_2( point_zero, unit_cw_perp_axis * -ccw_len,
-            [&base_line, &source, &delta, &delta_perp, &test, &result]( std::vector<point> & new_line ) {
+        [&base_line, &source, &delta, &delta_perp, &test, &result]( std::vector<point> &new_line ) {
             base_line.reset( new_line.back() );
             
             // forward until in
@@ -381,7 +379,7 @@ std::set<tripoint> spell_effect::spell_effect_line( const override_parameters &p
         } );
         // cw leg is before perp axis
         line_to_2( point_zero, unit_cw_perp_axis * cw_len,
-            [&base_line, &source, &delta, &delta_perp, &test, &result]( std::vector<point> & new_line ) {
+        [&base_line, &source, &delta, &delta_perp, &test, &result]( std::vector<point> &new_line ) {
             base_line.reset( new_line.back() );
             
             // move back
@@ -398,7 +396,7 @@ std::set<tripoint> spell_effect::spell_effect_line( const override_parameters &p
     } else if( delta_side == -1 ) { // delta is ccw of primary axis
         // ccw leg is before perp axis
         line_to_2( point_zero, unit_cw_perp_axis * -ccw_len,
-            [&base_line, &source, &delta, &delta_perp, &test, &result]( std::vector<point> & new_line ) {
+        [&base_line, &source, &delta, &delta_perp, &test, &result]( std::vector<point> &new_line ) {
             base_line.reset( new_line.back() );
             
             // move back
@@ -414,7 +412,7 @@ std::set<tripoint> spell_effect::spell_effect_line( const override_parameters &p
         } );
         // cw leg is behind perp axis
         line_to_2( point_zero, unit_cw_perp_axis * cw_len,
-            [&base_line, &source, &delta, &delta_perp, &test, &result]( std::vector<point> & new_line ) {
+        [&base_line, &source, &delta, &delta_perp, &test, &result]( std::vector<point> &new_line ) {
             base_line.reset( new_line.back() );
             
             // forward until in
@@ -443,8 +441,7 @@ std::set<tripoint> calculate_spell_effect_area( const spell &sp, const tripoint 
 
     // stop short if we hit a wall, if the spell has a projectile
     if( sp.shape() == spell_shape::blast && !sp.has_flag( spell_flag::NO_PROJECTILE ) ) {
-        line_to_2( caster.pos(), target,
-            [&epicenter]( std::vector<tripoint> & new_line ) {
+        line_to_2( caster.pos(), target, [&epicenter]( std::vector<tripoint> &new_line ) {
             if( get_map().impassable( new_line.back() ) ) {
                 if( new_line.front() != new_line.back() ) {
                     new_line.pop_back();
@@ -1678,7 +1675,7 @@ void spell_effect::dash( const spell &sp, Creature &caster, const tripoint &targ
     const tripoint source = caster.pos();
     ::map &here = get_map();
     std::vector<tripoint> trajectory = line_to_2( source, target,
-        [&here]( std::vector<tripoint> & new_line ) {
+    [&here]( std::vector<tripoint> &new_line ) {
         new_line.back() = here.getabs( new_line.back() );
         return true;
     } );

@@ -1745,7 +1745,7 @@ int monster::group_bash_skill( const tripoint &target )
         bool connected = true;
         monster *mon = nullptr;
         // Drawing this line backwards excludes the target and includes the candidate.
-        line_to_2( target, candidate, [&mon, &creatures, &connected]( std::vector<tripoint> & new_line ) {
+        line_to_2( target, candidate, [&mon, &creatures, &connected]( std::vector<tripoint> &new_line ) {
             // If any point in the line from zombie to target is not a cooperating zombie,
             // it can't contribute.
             mon = creatures.creature_at<monster>( new_line.back() );

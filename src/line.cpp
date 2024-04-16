@@ -263,14 +263,14 @@ std::vector<tripoint> line_to( const tripoint &loc1, const tripoint &loc2, int t
 // better line_to
 // Returns a line from source to target that includes the tile the interact fails on.
 std::vector<point> line_to_2( const point &source, const point &target,
-                const std::function<bool( std::vector<point> & )> &interact, const int offset )
+                              const std::function<bool( std::vector<point> & )> &interact, const int offset )
 {
     std::vector<point> new_line;
     // Preallocate the max number of tiles we might need instead of allocating them piecewise.
     const int max_tiles = square_dist( source, target );
     if( max_tiles != 0 ) {
         new_line.reserve( max_tiles );
-        bresenham( source, target, offset, [&new_line, &interact]( const point &new_point ) {
+        bresenham( source, target, offset, [&new_line, &interact]( const point & new_point ) {
             new_line.push_back( new_point );
             return interact( new_line );
         } );
@@ -279,15 +279,15 @@ std::vector<point> line_to_2( const point &source, const point &target,
 }
 
 std::vector<tripoint> line_to_2( const tripoint &source, const tripoint &target,
-                const std::function<bool( std::vector<tripoint> & )> &interact,
-                const int offset1, const int offset2 )
+                                 const std::function<bool( std::vector<tripoint> & )> &interact,
+                                 const int offset1, const int offset2 )
 {
     std::vector<tripoint> new_line;
     // Preallocate the max number of tiles we might need instead of allocating them piecewise.
     const int max_tiles = square_dist( source, target );
     if( max_tiles != 0 ) {
         new_line.reserve( max_tiles );
-        bresenham( source, target, offset1, offset2, [&new_line, &interact]( const tripoint &new_point ) {
+        bresenham( source, target, offset1, offset2, [&new_line, &interact]( const tripoint & new_point ) {
             new_line.push_back( new_point );
             return interact( new_line );
         } );
@@ -297,7 +297,7 @@ std::vector<tripoint> line_to_2( const tripoint &source, const tripoint &target,
 
 // Returns a line from source to target that includes the start and the tile the interact fails on.
 std::vector<point> line_through_2( const point &source, const point &target,
-                const std::function<bool( std::vector<point> & )> &interact, const int offset )
+                                   const std::function<bool( std::vector<point> & )> &interact, const int offset )
 {
     std::vector<point> new_line;
     // Preallocate the max number of tiles we might need instead of allocating them piecewise.
@@ -306,7 +306,7 @@ std::vector<point> line_through_2( const point &source, const point &target,
     if( !interact( new_line ) ) {
         return new_line;
     }
-    bresenham( source, target, offset, [&new_line, &interact]( const point &new_point ) {
+    bresenham( source, target, offset, [&new_line, &interact]( const point & new_point ) {
         new_line.push_back( new_point );
         return interact( new_line );
     } );
@@ -314,8 +314,8 @@ std::vector<point> line_through_2( const point &source, const point &target,
 }
 
 std::vector<tripoint> line_through_2( const tripoint &source, const tripoint &target,
-                const std::function<bool( std::vector<tripoint> & )> &interact,
-                const int offset1, const int offset2 )
+                                      const std::function<bool( std::vector<tripoint> & )> &interact,
+                                      const int offset1, const int offset2 )
 {
     std::vector<tripoint> new_line;
     // Preallocate the max number of tiles we might need instead of allocating them piecewise.
@@ -324,7 +324,7 @@ std::vector<tripoint> line_through_2( const tripoint &source, const tripoint &ta
     if( !interact( new_line ) ) {
         return new_line;
     }
-    bresenham( source, target, offset1, offset2, [&new_line, &interact]( const tripoint &new_point ) {
+    bresenham( source, target, offset1, offset2, [&new_line, &interact]( const tripoint & new_point ) {
         new_line.push_back( new_point );
         return interact( new_line );
     } );
@@ -334,7 +334,7 @@ std::vector<tripoint> line_through_2( const tripoint &source, const tripoint &ta
 // Tries every line offset between target and source and returns the centermost one.
 // If there is no complete line, returns the closest one.
 std::vector<tripoint> find_line_to_2( const tripoint &source, const tripoint &target,
-                const std::function<bool( std::vector<tripoint> & )> &interact )
+                                      const std::function<bool( std::vector<tripoint> & )> &interact )
 {
     const int range = rl_dist( source, target );
     const tripoint a = ( target - source ).abs();
@@ -353,39 +353,39 @@ std::vector<tripoint> find_line_to_2( const tripoint &source, const tripoint &ta
     // but if it's even we start on the positive side of the two centers.
     for( int offset = maximum % 2 == 0 ; offset < maximum; offset += gcd ) {
 
-        debugmsg( "major: %s, minor: %s, offset: %s", major, minor, offset );
+        //debugmsg( "major: %s, minor: %s, offset: %s", major, minor, offset );
 
         // Try this offset on the positive side...
         line = line_to_2( source, target, interact, offset );
         if( line.back() == target ) {
-            debugmsg("forwards!");
+            //debugmsg( "forwards!" );
             //debugmsg( "%s %s %s", line.back().x, line.back().y, line.back().z );
             return line;
         } else {
             line_dist = rl_dist( line.back(), target );
             if( line_dist < closest_line_dist ) {
-                closest_line_dist = line_dist; 
+                closest_line_dist = line_dist;
                 closest_line = line;
-                debugmsg("new closer line! ending at %s %s %s", closest_line.back().x, closest_line.back().y, closest_line.back().z);
+                //debugmsg("new closer line! ending at %s %s %s", closest_line.back().x, closest_line.back().y, closest_line.back().z);
             }
             // ...and then on the negitve side. Unless we are at the odd center which has no negative side.
-            if ( offset != 0 ) {
+            if( offset != 0 ) {
                 line = line_to_2( source, target, interact, -offset );
                 if( line.back() == target ) {
-                    debugmsg("backwards!");
+                    //debugmsg("backwards!");
                     return line;
                 } else {
                     line_dist = rl_dist( line.back(), target );
                     if( line_dist < closest_line_dist ) {
-                        closest_line_dist = line_dist; 
+                        closest_line_dist = line_dist;
                         closest_line = line;
-                        debugmsg("new closer line! ending at %s %s %s", closest_line.back().x, closest_line.back().y, closest_line.back().z);
+                        //debugmsg("new closer line! ending at %s %s %s", closest_line.back().x, closest_line.back().y, closest_line.back().z);
                     }
                 }
             }
         }
     }
-    debugmsg("defaulted u-u");
+    //debugmsg("defaulted u-u");
     // If we couldn't find a clear line, return the one that got us the closest.
     return closest_line;
 }

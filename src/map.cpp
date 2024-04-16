@@ -8546,9 +8546,9 @@ void map::cut_down_tree( tripoint_bub_ms p, point dir )
     // TODO: make line_to type aware.
     const tripoint a = ( to.raw() - p.raw() ).abs() * 2;
     const int major = std::max( a.x, a.y );
-    line_to_2( p.raw(), to.raw(), [this]( std::vector<tripoint> & new_line ) {
-            batter( new_line.back(), 300, 5 );
-            ter_set( new_line.back(), ter_t_trunk );
+    line_to_2( p.raw(), to.raw(), [this]( std::vector<tripoint> &new_line ) {
+        batter( new_line.back(), 300, 5 );
+        ter_set( new_line.back(), ter_t_trunk );
         return true;
     }, rng( major - 1, -major ) );
     ter_set( p, ter_t_stump );

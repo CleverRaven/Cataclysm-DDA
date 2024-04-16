@@ -195,9 +195,8 @@ bool leap_actor::call( monster &z ) const
             continue;
         }
         // check if monster has a clear path to the proposed point
-        // TODO: see if this has to be target_handler::trajectory ?
         std::vector<tripoint> line = find_line_to_2( z.pos(), dest,
-                                                     [&here, &z]( std::vector<tripoint> & new_line ) {
+        [&here, &z]( std::vector<tripoint> &new_line ) {
             if( here.impassable( new_line.back() ) ) {
                 add_msg_debug( debugmode::DF_MATTACK, "Path blocked, candidate offset discarded" );
                 return false;
@@ -208,7 +207,9 @@ bool leap_actor::call( monster &z ) const
             }
             return true;
         } );
-        if( line.back() != dest ) continue;
+        if( line.back() != dest ) {
+            continue;
+        }
 
         options.push_back( dest );
         best = cur_dist;

@@ -688,7 +688,7 @@ std::set<point> vehicle::immediate_path( const units::angle &rotate )
     point top_left_actual = global_pos3().xy() + coord_translate( front_left );
     point top_right_actual = global_pos3().xy() + coord_translate( front_right );
     line_to_2( here.getabs( top_left_actual ), here.getabs( top_right_actual ),
-               [&distance_to_check, &collision_vector, &points_to_check]( std::vector<point> & new_line ) {
+    [&distance_to_check, &collision_vector, &points_to_check]( std::vector<point> &new_line ) {
         for( int i = 0; i < distance_to_check; ++i ) {
             collision_vector.advance( i );
             point point_to_add = new_line.back() + point( collision_vector.dx(), collision_vector.dy() );

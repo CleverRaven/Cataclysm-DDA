@@ -927,8 +927,7 @@ std::vector<tripoint> spell::targetable_locations( const Character &source ) con
     // TODO: put this in a namespace for reuse
     const auto has_obstruction = [&]( const tripoint & at ) {
         bool return_value = false;
-        line_to_2( char_pos, at,
-            [&here, &return_value]( std::vector<tripoint> & new_line ) {
+        line_to_2( char_pos, at, [&here, &return_value]( std::vector<tripoint> &new_line ) {
             if( here.impassable( new_line.back() ) ) {
                 return_value = true;
                 return false;

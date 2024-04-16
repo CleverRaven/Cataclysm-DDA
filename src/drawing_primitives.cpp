@@ -10,8 +10,7 @@
 
 void draw_line( const std::function<void( const point & )> &set, const point &p1, const point &p2 )
 {
-    line_through_2( p1, p2,
-        [&set]( std::vector<point> & new_line ) {
+    line_through_2( p1, p2, [&set]( std::vector<point> &new_line ) {
         set( new_line.back() );
         return true;
     } );

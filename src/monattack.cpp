@@ -927,12 +927,12 @@ bool mattack::shockstorm( monster *z )
     bool seen = player_character.sees( *z );
     map &here = get_map();
 
-    if ( !(z->sees( *target ) && rl_dist( z->pos(), target->pos() ) <= 12) ) {
+    if( !(z->sees( *target ) && rl_dist( z->pos(), target->pos() ) <= 12) ) {
         return false;
     }
 
     std::vector<tripoint> path = find_line_to_2( z->pos(), target->pos(),
-        [&here, &z]( std::vector<tripoint> &new_line ) {
+    [&here, &z]( std::vector<tripoint> &new_line ) {
         if( here.impassable( new_line.back() ) &&
             !( here.has_flag( ter_furn_flag::TFLAG_THIN_OBSTACLE, new_line.back() ) ||
                here.has_flag( ter_furn_flag::TFLAG_PERMEABLE, new_line.back() ) ) ) {
@@ -940,7 +940,7 @@ bool mattack::shockstorm( monster *z )
         }
         return true;
     } );
-    if ( path.back() != target->pos() ) {
+    if( path.back() != target->pos() ) {
         return false;
     }
 
@@ -958,7 +958,7 @@ bool mattack::shockstorm( monster *z )
                    target->posy() + rng( -1, 1 ) + rng( -1, 1 ),
                    target->posz() );
     // Fill the LOS with electricity
-    line_to_2( z->pos(), tarp, [&here]( std::vector<tripoint> & new_line ) {
+    line_to_2( z->pos(), tarp, [&here]( std::vector<tripoint> &new_line ) {
         if( !one_in( 4 ) ) {
             here.add_field( new_line.back(), fd_electricity, rng( 1, 3 ) );
         }
@@ -1090,7 +1090,7 @@ bool mattack::boomer( monster *z )
 
     map &here = get_map();
     std::vector<tripoint> line = find_line_to_2( z->pos(), target->pos(),
-                                                 [&here, &z]( std::vector<tripoint> & new_line ) {
+    [&here, &z]( std::vector<tripoint> &new_line ) {
         if( here.impassable( new_line.back() ) ) {
             return false;
         }
@@ -1101,14 +1101,14 @@ bool mattack::boomer( monster *z )
     if( line.back() != target->pos() ) {
         here.add_field( line.back(), fd_bile, 3 );
         add_msg_if_player_sees( line.back(),  _( "Bile splatters on the %s!" ),
-            here.tername( line.back() ) );
+                                here.tername( line.back() ) );
         return true;
     }
 
     if( target->dodge_check( z, 1.0f ) ) {
         target->on_dodge( z, 5, 1 );
         here.add_field( line.back(), fd_bile, 3 );
-        if ( player_character.sees( *target ) ) {
+        if( player_character.sees( *target ) ) {
             target->add_msg_player_or_npc( _( "You dodge it!" ),
                                            _( "<npcname> dodges it!" ) );
         }
@@ -1142,7 +1142,7 @@ bool mattack::boomer_glow( monster *z )
 
     map &here = get_map();
     std::vector<tripoint> line = find_line_to_2( z->pos(), target->pos(),
-                                                 [&here, &z]( std::vector<tripoint> & new_line ) {
+    [&here, &z]( std::vector<tripoint> &new_line ) {
         if( here.impassable( new_line.back() ) ) {
             return false;
         }
@@ -1153,19 +1153,19 @@ bool mattack::boomer_glow( monster *z )
     if( line.back() != target->pos() ) {
         here.add_field( line.back(), fd_bile, 3 );
         add_msg_if_player_sees( line.back(),  _( "Bile splatters on the %s!" ),
-            here.tername( line.back() ) );
+                                here.tername( line.back() ) );
         return true;
     }
 
     if( target->dodge_check( z, 1.0f ) ) {
         target->on_dodge( z, 5, 1 );
         here.add_field( line.back(), fd_bile, 3 );
-        if ( player_character.sees( *target ) ) {
+        if( player_character.sees( *target ) ) {
             target->add_msg_player_or_npc( _( "You dodge it!" ),
                                            _( "<npcname> dodges it!" ) );
         }
         add_msg_if_player_sees( line.back(),  _( "Bile splatters on the %s!" ),
-            here.tername( line.back() ) );
+                                here.tername( line.back() ) );
     } else {
         target->add_env_effect( effect_boomered, bodypart_id( "eyes" ), 5, 25_turns );
         for( int i = 0; i < rng( 2, 4 ); i++ ) {
@@ -3655,7 +3655,7 @@ void mattack::flame( monster *z, Creature *target )
         }
 
         std::vector<tripoint> traj = find_line_to_2( z->pos(), target->pos(),
-                                                     [&here, &z]( std::vector<tripoint> &new_line ) {
+        [&here, &z]( std::vector<tripoint> &new_line ) {
             if( here.hit_with_fire( new_line.back() ) ) {
                 return false;
             }
@@ -3684,7 +3684,7 @@ void mattack::flame( monster *z, Creature *target )
     }
     
     std::vector<tripoint> traj = find_line_to_2( z->pos(), target->pos(),
-                                                 [&here, &z]( std::vector<tripoint> &new_line ) {
+    [&here, &z]( std::vector<tripoint> &new_line ) {
         if( here.hit_with_fire( new_line.back() ) ) {
             return false;
         }
@@ -4610,7 +4610,7 @@ bool mattack::riotbot( monster *z )
         //~ Sound of a riot control bot using its blinding flash
         sounds::sound( z->pos(), 3, sounds::sound_t::combat, _( "fzzzzzt" ), false, "misc", "flash" );
 
-        line_to_2( z->pos(), dest, [&here]( std::vector<tripoint> & new_line ) {
+        line_to_2( z->pos(), dest, [&here]( std::vector<tripoint> &new_line ) {
             if( !here.is_transparent( new_line.back() ) ) {
                 return false;
             }
@@ -5459,7 +5459,7 @@ bool mattack::stretch_attack( monster *z )
 
     map &here = get_map();
     std::vector<tripoint> traj = find_line_to_2( z->pos(), target->pos(),
-                                                 [&here, &z]( std::vector<tripoint> &new_line ) {
+    [&here, &z]( std::vector<tripoint> &new_line ) {
         if( here.impassable( new_line.back() ) ) {
             return false;
         }
@@ -5467,7 +5467,7 @@ bool mattack::stretch_attack( monster *z )
     } );
 
     if( traj.back() != target->pos() ) {
-        if( player_character.sees( traj.back() )) {
+        if( player_character.sees( traj.back() ) ) {
             target->add_msg_player_or_npc( _( "The %1$s thrusts its arm at you, but bounces off the %2$s." ),
                                            _( "The %1$s thrusts its arm at <npcname>, but bounces off the %2$s." ),
                                            z->name(), here.obstacle_name( traj.back() ) );

@@ -3442,7 +3442,7 @@ std::optional<int> iuse::grenade_inc_act( Character *p, item *, const tripoint &
     int num_flames = rng( 3, 5 );
     for( int current_flame = 0; current_flame < num_flames; current_flame++ ) {
         tripoint dest( pos + point( rng( -5, 5 ), rng( -5, 5 ) ) );
-        line_to_2( pos, dest, [&here]( std::vector<tripoint> & new_line ) {
+        line_to_2( pos, dest, [&here]( std::vector<tripoint> &new_line ) {
             here.add_field( new_line.back(), fd_fire, rng( 0, 2 ) );
             return true;
         } );
@@ -6575,7 +6575,7 @@ std::optional<int> iuse::camera( Character *p, item *it, const tripoint & )
         /*
         // TODO: The whole camera for loop is SO janky
         std::vector<tripoint> trajectory = line_to_2( p->pos(), aim_point,
-            [&here, &p]( std::vector<tripoint> & new_line ) {
+            [&here, &p]( std::vector<tripoint> &new_line ) {
             // TODO: It would be nice to give the cameras unique vision stats
             // so that they see things independent of the player's vision.
             if( !p->sees( new_line.back() ) ) {

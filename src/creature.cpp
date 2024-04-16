@@ -1339,7 +1339,7 @@ void Creature::longpull( const std::string &name, const tripoint &p )
     }
 
     Creature *c = nullptr;
-    std::vector<tripoint> path = line_to_2( pos(), p, [this, &c]( std::vector<tripoint> & new_line ) {
+    std::vector<tripoint> path = line_to_2( pos(), p, [this, &c]( std::vector<tripoint> &new_line ) {
         c = get_creature_tracker().creature_at( new_line.back() );
         if( c == nullptr && get_map().impassable( new_line.back() )
             || c != nullptr ) {

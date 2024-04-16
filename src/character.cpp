@@ -10523,7 +10523,7 @@ std::vector<Creature *> Character::get_targetable_creatures( const int range, bo
         if( can_see && melee )  //handles the case where we can see something with glass in the way for melee attacks
         {
             std::vector<tripoint> path = find_line_to_2( pos(), critter.pos(),
-                                                         [this, &here, &can_see]( std::vector<tripoint> & new_line ) {
+            [this, &here ]( std::vector<tripoint> &new_line ) {
                 if( here.impassable( new_line.back() ) && 
                     !( weapon.has_flag( flag_SPEAR ) && // Fences etc. Spears can stab through those
                        here.has_flag( ter_furn_flag::TFLAG_THIN_OBSTACLE,

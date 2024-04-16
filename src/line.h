@@ -154,22 +154,22 @@ std::vector<point> line_to( const point &p1, const point &p2, int t = 0 );
 std::vector<tripoint> line_to( const tripoint &loc1, const tripoint &loc2, int t = 0, int t2 = 0 );
 
 std::vector<point> line_to_2( const point &start, const point &target,
-                const std::function<bool( std::vector<point> & )> &interact = []( std::vector<point> & ) {
-                    return true;
-                }, int offset = 0 );
+                              const std::function<bool( std::vector<point> & )> &interact = []( std::vector<point> & ) {
+    return true;
+}, int offset = 0 );
 std::vector<tripoint> line_to_2( const tripoint &start, const tripoint &target,
-                const std::function<bool( std::vector<tripoint> & )> &interact = []( std::vector<tripoint> & ) {
-                    return true;
-                }, int offset1 = 0, int offset2 = 0 );
+                                 const std::function<bool( std::vector<tripoint> & )> &interact = []( std::vector<tripoint> & ) {
+    return true;
+}, int offset1 = 0, int offset2 = 0 );
 
 std::vector<point> line_through_2( const point &start, const point &target,
-                const std::function<bool( std::vector<point> & )> &interact = []( std::vector<point> & ) {
-                    return true;
-                }, int offset = 0 );
+                                   const std::function<bool( std::vector<point> & )> &interact = []( std::vector<point> & ) {
+    return true;
+}, int offset = 0 );
 std::vector<tripoint> line_through_2( const tripoint &start, const tripoint &target,
-                const std::function<bool( std::vector<tripoint> & )> &interact = []( std::vector<tripoint> & ) {
-                    return true;
-                }, int offset1 = 0, int offset2 = 0 );
+                                      const std::function<bool( std::vector<tripoint> & )> &interact = []( std::vector<tripoint> & ) {
+    return true;
+}, int offset1 = 0, int offset2 = 0 );
 
 /**
  * TODO: reword this
@@ -178,9 +178,9 @@ std::vector<tripoint> line_through_2( const tripoint &start, const tripoint &tar
  * Returns the line found, which may be the straight line, but blocked.
  */
 std::vector<tripoint> find_line_to_2( const tripoint &start, const tripoint &target,
-                const std::function<bool( std::vector<tripoint> & )> &interact = []( std::vector<tripoint> & ) {
-                    return true;
-                } );
+                                      const std::function<bool( std::vector<tripoint> & )> &interact = []( std::vector<tripoint> & ) {
+    return true;
+} );
 
 // sqrt(dX^2 + dY^2)
 inline float trig_dist( const tripoint &loc1, const tripoint &loc2 )
