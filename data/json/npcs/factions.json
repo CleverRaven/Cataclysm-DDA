@@ -989,5 +989,24 @@
       { "power_min": 150, "id": "epilogue_faction_the_great_library_150" }
     ],
     "description": "A group of academics and other survivors that stand together to preserve and spread knowledge of the world."
+  },
+  {
+    "type": "faction",
+    "id": "GM_militia_faction",
+    "name": "Grey Moose Militia Community",
+    "likes_u": 0,
+    "respects_u": 0,
+    "known_by_u": false,
+    "size": 3,
+    "power": 3,
+    "fac_food_supply": { "calories": 115200, "vitamins": {  } },
+    "wealth": 20000,
+    "relations": {
+      "free_merchants": { "knows your voice": true },
+      "old_guard": { "knows your voice": true },
+      "your_followers": { "knows your voice": true },
+      "no_faction": { "knows your voice": true }
+    },
+    "description": "A small community of survivors who retreated to a remote lodge."
   }
 ]
