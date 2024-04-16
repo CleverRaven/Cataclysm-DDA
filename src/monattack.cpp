@@ -932,7 +932,7 @@ bool mattack::shockstorm( monster *z )
     }
 
     std::vector<tripoint> path = find_line_to_2( z->pos(), target->pos(),
-    [&here, &z]( std::vector<tripoint> &new_line ) {
+    [&here]( std::vector<tripoint> &new_line ) {
         if( here.impassable( new_line.back() ) &&
             !( here.has_flag( ter_furn_flag::TFLAG_THIN_OBSTACLE, new_line.back() ) ||
                here.has_flag( ter_furn_flag::TFLAG_PERMEABLE, new_line.back() ) ) ) {
@@ -1090,7 +1090,7 @@ bool mattack::boomer( monster *z )
 
     map &here = get_map();
     std::vector<tripoint> line = find_line_to_2( z->pos(), target->pos(),
-    [&here, &z]( std::vector<tripoint> &new_line ) {
+    [&here]( std::vector<tripoint> &new_line ) {
         if( here.impassable( new_line.back() ) ) {
             return false;
         }
@@ -1142,7 +1142,7 @@ bool mattack::boomer_glow( monster *z )
 
     map &here = get_map();
     std::vector<tripoint> line = find_line_to_2( z->pos(), target->pos(),
-    [&here, &z]( std::vector<tripoint> &new_line ) {
+    [&here]( std::vector<tripoint> &new_line ) {
         if( here.impassable( new_line.back() ) ) {
             return false;
         }
@@ -3655,7 +3655,7 @@ void mattack::flame( monster *z, Creature *target )
         }
 
         std::vector<tripoint> traj = find_line_to_2( z->pos(), target->pos(),
-        [&here, &z]( std::vector<tripoint> &new_line ) {
+        [&here]( std::vector<tripoint> &new_line ) {
             if( here.hit_with_fire( new_line.back() ) ) {
                 return false;
             }
@@ -3684,7 +3684,7 @@ void mattack::flame( monster *z, Creature *target )
     }
 
     std::vector<tripoint> traj = find_line_to_2( z->pos(), target->pos(),
-    [&here, &z]( std::vector<tripoint> &new_line ) {
+    [&here]( std::vector<tripoint> &new_line ) {
         if( here.hit_with_fire( new_line.back() ) ) {
             return false;
         }
@@ -5459,7 +5459,7 @@ bool mattack::stretch_attack( monster *z )
 
     map &here = get_map();
     std::vector<tripoint> traj = find_line_to_2( z->pos(), target->pos(),
-    [&here, &z]( std::vector<tripoint> &new_line ) {
+    [&here]( std::vector<tripoint> &new_line ) {
         if( here.impassable( new_line.back() ) ) {
             return false;
         }
