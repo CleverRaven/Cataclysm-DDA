@@ -2,23 +2,24 @@
 #ifndef CATA_SRC_ACTIVITY_HANDLERS_H
 #define CATA_SRC_ACTIVITY_HANDLERS_H
 
+#include <algorithm>
 #include <functional>
 #include <list>
 #include <map>
-#include <new>
 #include <optional>
+#include <string>
 #include <unordered_set>
 #include <vector>
 
 #include "coordinates.h"
-#include "item_location.h"
-#include "type_id.h"
 #include "requirements.h"
+#include "type_id.h"
+#include "units_fwd.h"
 
 class Character;
 class item;
+class item_location;
 class player_activity;
-struct tripoint;
 
 template<typename Point, typename Container>
 std::vector<Point> get_sorted_tiles_by_distance( const Point &center, const Container &tiles )

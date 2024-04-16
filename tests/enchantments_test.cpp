@@ -12,6 +12,7 @@
 #include "npc.h"
 #include "player_helpers.h"
 #include "point.h"
+#include "talker.h"
 #include "type_id.h"
 #include "units.h"
 
