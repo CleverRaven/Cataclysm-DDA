@@ -10524,7 +10524,7 @@ std::vector<Creature *> Character::get_targetable_creatures( const int range, bo
         {
             std::vector<tripoint> path = find_line_to_2( pos(), critter.pos(),
             [this, &here ]( std::vector<tripoint> &new_line ) {
-                if( here.impassable( new_line.back() ) && 
+                if( here.impassable( new_line.back() ) &&
                     !( weapon.has_flag( flag_SPEAR ) && // Fences etc. Spears can stab through those
                        here.has_flag( ter_furn_flag::TFLAG_THIN_OBSTACLE,
                                       new_line.back() ) ) ) { //this mirrors melee.cpp function reach_attack

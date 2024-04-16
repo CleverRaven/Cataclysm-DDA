@@ -927,7 +927,7 @@ bool mattack::shockstorm( monster *z )
     bool seen = player_character.sees( *z );
     map &here = get_map();
 
-    if( !(z->sees( *target ) && rl_dist( z->pos(), target->pos() ) <= 12) ) {
+    if( !( z->sees( *target ) && rl_dist( z->pos(), target->pos() ) <= 12 ) ) {
         return false;
     }
 
@@ -1113,7 +1113,7 @@ bool mattack::boomer( monster *z )
                                            _( "<npcname> dodges it!" ) );
         }
         add_msg_if_player_sees( line.back(),  _( "Bile splatters on the %s!" ),
-            here.tername( line.back() ) );
+                                here.tername( line.back() ) );
     } else {
         target->add_env_effect( effect_boomered, bodypart_id( "eyes" ), 3, 12_turns );
     }
@@ -3682,7 +3682,7 @@ void mattack::flame( monster *z, Creature *target )
         // shouldn't happen
         debugmsg( "mattack::flame invoked on invisible target" );
     }
-    
+
     std::vector<tripoint> traj = find_line_to_2( z->pos(), target->pos(),
     [&here, &z]( std::vector<tripoint> &new_line ) {
         if( here.hit_with_fire( new_line.back() ) ) {

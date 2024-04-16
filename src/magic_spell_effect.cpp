@@ -366,7 +366,7 @@ std::set<tripoint> spell_effect::spell_effect_line( const override_parameters &p
         line_to_2( point_zero, unit_cw_perp_axis * -ccw_len,
         [&base_line, &source, &delta, &delta_perp, &test, &result]( std::vector<point> &new_line ) {
             base_line.reset( new_line.back() );
-            
+
             // forward until in
             while( spell_detail::side_of( point_zero, delta_perp, base_line.get() ) == 1 ) {
                 base_line.next();
@@ -381,7 +381,7 @@ std::set<tripoint> spell_effect::spell_effect_line( const override_parameters &p
         line_to_2( point_zero, unit_cw_perp_axis * cw_len,
         [&base_line, &source, &delta, &delta_perp, &test, &result]( std::vector<point> &new_line ) {
             base_line.reset( new_line.back() );
-            
+
             // move back
             while( spell_detail::side_of( point_zero, delta_perp, base_line.get() ) != 1 ) {
                 base_line.prev();
@@ -398,7 +398,7 @@ std::set<tripoint> spell_effect::spell_effect_line( const override_parameters &p
         line_to_2( point_zero, unit_cw_perp_axis * -ccw_len,
         [&base_line, &source, &delta, &delta_perp, &test, &result]( std::vector<point> &new_line ) {
             base_line.reset( new_line.back() );
-            
+
             // move back
             while( spell_detail::side_of( point_zero, delta_perp, base_line.get() ) != 1 ) {
                 base_line.prev();
@@ -414,7 +414,7 @@ std::set<tripoint> spell_effect::spell_effect_line( const override_parameters &p
         line_to_2( point_zero, unit_cw_perp_axis * cw_len,
         [&base_line, &source, &delta, &delta_perp, &test, &result]( std::vector<point> &new_line ) {
             base_line.reset( new_line.back() );
-            
+
             // forward until in
             while( spell_detail::side_of( point_zero, delta_perp, base_line.get() ) != 1 ) {
                 base_line.next();
