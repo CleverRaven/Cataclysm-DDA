@@ -194,7 +194,7 @@ static const morale_type morale_null( "morale_null" );
 static const mtype_id mon_human( "mon_human" );
 static const mtype_id mon_zombie_smoker( "mon_zombie_smoker" );
 static const mtype_id mon_zombie_soldier_no_weakpoints( "mon_zombie_soldier_no_weakpoints" );
-static const mtype_id mon_zombie_survivor( "mon_zombie_survivor" );
+static const mtype_id mon_zombie_survivor_no_weakpoints( "mon_zombie_survivor_no_weakpoints" );
 static const mtype_id pseudo_debug_mon( "pseudo_debug_mon" );
 
 static const quality_id qual_BOIL( "BOIL" );
@@ -2350,7 +2350,7 @@ static const std::vector<std::pair<translation, dps_comp_data>> dps_comp_monster
     { to_translation( "Best" ), { pseudo_debug_mon, true, false } },
     { to_translation( "Vs. Agile" ), { mon_zombie_smoker, true, true } },
     { to_translation( "Vs. Armored" ), { mon_zombie_soldier_no_weakpoints, true, true } },
-    { to_translation( "Vs. Mixed" ), { mon_zombie_survivor, false, true } },
+    { to_translation( "Vs. Mixed" ), { mon_zombie_survivor_no_weakpoints, false, true } },
 };
 
 std::map<std::string, double> item::dps( const bool for_display, const bool for_calc,

@@ -33,6 +33,17 @@
     "armor": { "bash": 7, "cut": 7, "stab": 5, "acid": 4, "bullet": 6, "electric": 2 }
   },
   {
+    "id": "mon_zombie_survivor_no_weakpoints",
+    "type": "MONSTER",
+    "name": { "str": "zombie survivor test only" },
+    "description": "This zombie survivor is for testing purposes only.",
+    "copy-from": "mon_zombie_survivor",
+    "speed": 90,
+    "dodge": 3,
+    "special_attacks": [ [ "SHRIEK", 20 ], { "id": "bite_humanoid", "cooldown": 5, "min_mul": 1 }, { "id": "grab", "cooldown": 7 } ],
+    "delete": { "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_light_armor", "wps_humanoid_open_helmet" ] }
+  },
+  {
     "id": "mon_zombie_paramilitary",
     "type": "MONSTER",
     "name": { "str": "paramilitary zombie" },
