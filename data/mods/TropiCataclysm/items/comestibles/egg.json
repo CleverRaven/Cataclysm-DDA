@@ -317,7 +317,7 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_tucunare",
-    "name": { "str_sp": "tucunare roe" },
+    "name": { "str_sp": "tucunaré roe" },
     "copy-from": "egg_fish",
     "rot_spawn": "GROUP_EGG_TUCUNARE"
   },

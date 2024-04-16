@@ -19,7 +19,7 @@
     "dispersion": 90,
     "durability": 8,
     "barrel_volume": "500 ml",
-    "flags": [ "NEVER_JAMS", "EASY_CLEAN" ],
+    "flags": [ "NEVER_JAMS", "EASY_CLEAN", "NO_TURRET" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m2010mag" ] } ],
     "melee_damage": { "bash": 12 }
   },
@@ -46,12 +46,11 @@
     "blackpowder_tolerance": 24,
     "clip_size": 3,
     "barrel_volume": "750 ml",
-    "flags": [ "RELOAD_ONE", "EASY_CLEAN" ],
+    "flags": [ "RELOAD_ONE", "EASY_CLEAN", "NO_TURRET" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bore", 1 ],
       [ "brass catcher", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
@@ -85,12 +84,11 @@
     "blackpowder_tolerance": 24,
     "clip_size": 3,
     "barrel_volume": "750 ml",
-    "flags": [ "RELOAD_ONE", "EASY_CLEAN" ],
+    "flags": [ "RELOAD_ONE", "EASY_CLEAN", "NO_TURRET" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bore", 1 ],
       [ "brass catcher", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "sights mount", 1 ],
       [ "sling", 1 ],
@@ -127,10 +125,9 @@
     "barrel_volume": "456 ml",
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bore", 1 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
@@ -139,7 +136,7 @@
       [ "stock accessory", 2 ],
       [ "stock", 1 ]
     ],
-    "flags": [ "EASY_CLEAN" ],
+    "flags": [ "EASY_CLEAN", "NO_TURRET" ],
     "pocket_data": [
       {
         "magazine_well": "300 ml",

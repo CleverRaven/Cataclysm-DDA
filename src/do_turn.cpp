@@ -4,38 +4,75 @@
 #include <emscripten.h>
 #endif
 
+#include <algorithm>
+#include <chrono>
+#include <map>
+#include <memory>
+#include <optional>
+#include <ostream>
+#include <set>
+#include <string>
+#include <type_traits>
+#include <unordered_map>
+#include <utility>
+#include <vector>
+
 #include "action.h"
+#include "activity_type.h"
 #include "avatar.h"
 #include "bionics.h"
 #include "cached_options.h"
 #include "calendar.h"
+#include "cata_variant.h"
+#include "clzones.h"
+#include "coordinates.h"
+#include "debug.h"
+#include "enums.h"
+#include "event.h"
 #include "event_bus.h"
 #include "explosion.h"
 #include "game.h"
+#include "game_constants.h"
 #include "gamemode.h"
 #include "help.h"
 #include "input.h"
 #include "input_context.h"
+#include "line.h"
 #include "make_static.h"
 #include "map.h"
+#include "map_iterator.h"
 #include "mapbuffer.h"
+#include "mapdata.h"
 #include "memorial_logger.h"
 #include "messages.h"
 #include "mission.h"
+#include "monster.h"
 #include "mtype.h"
 #include "music.h"
 #include "npc.h"
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
+#include "pimpl.h"
+#include "player_activity.h"
+#include "point.h"
 #include "popup.h"
+#include "rng.h"
 #include "scent_map.h"
 #include "sdlsound.h"
+#include "sounds.h"
 #include "stats_tracker.h"
+#include "string_formatter.h"
 #include "timed_event.h"
+#include "translations.h"
+#include "type_id.h"
+#include "ui.h"
 #include "ui_manager.h"
+#include "units.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "weather.h"
+#include "weather_type.h"
 #include "worldfactory.h"
 
 static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
@@ -170,7 +207,7 @@ bool cleanup_at_end()
     sfx::fade_audio_group( sfx::group::weather, 300 );
     sfx::fade_audio_group( sfx::group::time_of_day, 300 );
     sfx::fade_audio_group( sfx::group::context_themes, 300 );
-    sfx::fade_audio_group( sfx::group::fatigue, 300 );
+    sfx::fade_audio_group( sfx::group::sleepiness, 300 );
 
     zone_manager::get_manager().clear();
 
@@ -712,7 +749,7 @@ bool do_turn()
     sfx::do_danger_music();
     sfx::do_vehicle_engine_sfx();
     sfx::do_vehicle_exterior_engine_sfx();
-    sfx::do_fatigue();
+    sfx::do_sleepiness();
 
     // reset player noise
     u.volume = 0;

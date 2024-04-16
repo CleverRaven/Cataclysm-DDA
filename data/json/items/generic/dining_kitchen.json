@@ -1,7 +1,7 @@
 [
   {
     "abstract": "base_silverware",
-    "name": { "str": "generic silverware" },
+    "name": { "str_sp": "generic silverware" },
     "type": "GENERIC",
     "description": "generic item template",
     "symbol": ";",
@@ -31,7 +31,7 @@
   },
   {
     "abstract": "base_plastic_silverware",
-    "name": { "str": "generic silverware" },
+    "name": { "str_sp": "generic silverware" },
     "type": "GENERIC",
     "description": "generic item template",
     "symbol": ";",
@@ -438,7 +438,7 @@
     "category": "container",
     "id": "bowl_pewter",
     "name": { "str": "pewter bowl" },
-    "description": "A small pewter serving bowl without a lid.  Holds 250 ml of liquid.",
+    "description": "A small pewter serving bowl without a lid.  Holds 250 mL of liquid.",
     "copy-from": "base_tin_dish",
     "symbol": "u",
     "pocket_data": [
@@ -563,10 +563,12 @@
     "category": "container",
     "name": { "str": "plastic tupperware" },
     "symbol": "u",
-    "description": "A piece of plastic tupperware with a matching watertight lid.  Holds 750 ml of liquid.",
+    "description": "A piece of plastic tupperware with a matching watertight lid.  Holds 750 mL of liquid.",
     "copy-from": "base_plastic_dish",
-    "volume": "787 ml",
-    "longest_side": "17 cm",
+    "volume": "1463 ml",
+    "weight": "57 g",
+    "longest_side": "20 cm",
+    "price": "132 cent",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -576,7 +578,9 @@
         "max_contains_weight": "1 kg"
       }
     ],
-    "qualities": [ [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "CONTAIN", 1 ] ],
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "//": "Based on https://www.amazon.co.uk/dp/B097HTDRNZ"
   },
   {
     "id": "plastic_bowl_kids",
@@ -1308,12 +1312,15 @@
     "copy-from": "base_cookpot",
     "material": [ "steel" ],
     "color": "light_gray",
-    "weight": "728 g",
-    "volume": "1575 ml",
-    "longest_side": "21 cm",
+    "weight": "508 g",
+    "volume": "3205 ml",
+    "//1": "Calculated as a cylinder of 7.44in diameter and 4.5in height. Calculating it from package dimensions of the amazon listing would give ridiculous volume.",
+    "longest_side": "19 cm",
+    "price": "13 USD",
     "pocket_data": [ { "max_contains_volume": "1500 ml", "max_contains_weight": "2 kg", "watertight": true, "rigid": true } ],
     "delete": { "qualities": [ "COOK" ] },
-    "melee_damage": { "bash": 5 }
+    "melee_damage": { "bash": 5 },
+    "//2": "Based on https://www.amazon.com/dp/B0858VCYTB"
   },
   {
     "type": "GENERIC",
@@ -1333,7 +1340,7 @@
   {
     "id": "colander_steel",
     "name": { "str": "mesh colander" },
-    "category": "other",
+    "category": "tools",
     "description": "A stainless steel mesh colander, for washing rice and vegetables, or straining liquid off from noodles or other foods.",
     "type": "GENERIC",
     "volume": "500 ml",

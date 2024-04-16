@@ -550,7 +550,7 @@
     "id": "vr_laptop_holosuite",
     "copy-from": "vr_laptop",
     "type": "TOOL_ARMOR",
-    "name": { "str": "vr rig - holosuite deployed", "str_pl": "vr rigs - holosuite deployed" },
+    "name": { "str": "VR rig - holosuite deployed", "str_pl": "VR rigs - holosuite deployed" },
     "power_draw": "1 W",
     "revert_to": "vr_laptop",
     "use_action": { "target": "vr_laptop", "msg": "You power down the virtual overlay.", "menu_text": "Turn off", "type": "transform" },

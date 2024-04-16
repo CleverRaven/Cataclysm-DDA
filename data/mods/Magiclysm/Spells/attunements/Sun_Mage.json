@@ -11,9 +11,9 @@
     "shape": "line",
     "effect_str": "blind",
     "damage_type": "light",
-    "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(20)" ] },
-    "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(7.5)" ] },
-    "max_damage": { "math": [ "evocation_proficiency_bonus_calculate(280)" ] },
+    "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(20, 0.5)" ] },
+    "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(7.5, 0.03)" ] },
+    "max_damage": { "math": [ "evocation_proficiency_bonus_calculate(280, 0.5)" ] },
     "min_range": 12,
     "max_range": 12,
     "min_aoe": 3,
@@ -49,9 +49,9 @@
     "difficulty": 6,
     "max_level": 40,
     "base_casting_time": 150,
-    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(300)" ] },
-    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(1000000)" ] },
-    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(50000000)" ] },
-    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(1250000)" ] }
+    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(300, 3)" ] },
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(1000000, 4000)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(50000000, 4000)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(1250000, 0.003)" ] }
   }
 ]

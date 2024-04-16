@@ -19,6 +19,7 @@
     "price": 176000,
     "price_postapoc": 5000,
     "ammo": [ "458wm" ],
+    "flags": [ "NO_TURRET" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "458wm": 3 } } ]
   }
 ]

@@ -132,14 +132,14 @@
     "dynamic_line": "We are all under God's protection here.  Our community, like all moral civilizations, has a set of rules.  Obey the Decalogue, have respect for your neighbors and we'll get along just fine, okay?",
     "responses": [
       { "text": "Got it.", "topic": "TALK_GODCO_Gemma_Joinee" },
-      { "text": "What is the Decalouge?", "topic": "TALK_GODCO_Gemma_Decalouge" },
+      { "text": "What is the Decalogue?", "topic": "TALK_GODCO_Gemma_Decalouge" },
       { "text": "Actually, I had better go.", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Gemma_Decalouge",
-    "dynamic_line": "Its also called the Ten Commandments, if you've heard it by that.  A long time ago, Moses lead the Isrealites out of slavery in Egypt, towards the Promised Land.  They broke their Covenant with God, and were cursed to wander the desert for forty years, as opposed to the nineteen days it would normally take.  On the way there, Moses went atop Mount Sinai to speak with God.  He saw a burning bush, and heard the voice of the Lord; who engraved the Decalouge on two tablets of stone.",
+    "dynamic_line": "Its also called the Ten Commandments, if you've heard it by that.  A long time ago, Moses lead the Israelites out of slavery in Egypt, towards the Promised Land.  They broke their Covenant with God, and were cursed to wander the desert for forty years, as opposed to the nineteen days it would normally take.  On the way there, Moses went atop Mount Sinai to speak with God.  He saw a burning bush, and heard the voice of the Lord; who engraved the Decalogue on two tablets of stone.",
     "responses": [ { "text": "…", "topic": "TALK_GODCO_Gemma_Decalouge2" } ]
   },
   {

@@ -135,7 +135,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_IERDE_NO_SLEEP_MEDITATE",
-    "condition": { "or": [ { "math": [ "u_val('fatigue') + u_val('sleep_deprivation')", ">=", "0" ] } ] },
+    "condition": { "or": [ { "math": [ "u_val('sleepiness') + u_val('sleep_deprivation')", ">=", "0" ] } ] },
     "effect": [ { "u_assign_activity": "ACT_IERDE_NO_SLEEP_MEDITATE", "duration": "510 minutes" } ],
     "false_effect": [ { "u_message": "You're feeling refreshed and have no need to begin a vigil.", "type": "mixed" } ]
   },
@@ -152,8 +152,8 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_IERDE_NO_SLEEP_MEDITATE_TURN",
-    "condition": { "math": [ "u_val('fatigue') + u_val('sleep_deprivation')", ">=", "0" ] },
-    "effect": [ { "run_eocs": [ "EOC_IERDE_SLEEP_FATIGUE", "EOC_IERDE_SLEEP_DEPRIVATION" ] } ],
+    "condition": { "math": [ "u_val('sleepiness') + u_val('sleep_deprivation')", ">=", "0" ] },
+    "effect": [ { "run_eocs": [ "EOC_IERDE_SLEEP_SLEEPINESS", "EOC_IERDE_SLEEP_DEPRIVATION" ] } ],
     "false_effect": [
       {
         "u_message": "You are fully refreshed, and can end your vigil now.",
@@ -165,9 +165,9 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_IERDE_SLEEP_FATIGUE",
-    "condition": { "and": [ { "math": [ "u_val('fatigue')", ">=", "0" ] }, { "x_in_y_chance": { "x": 1, "y": 35 } } ] },
-    "effect": [ { "math": [ "u_val('fatigue')", "-=", "1" ] } ]
+    "id": "EOC_IERDE_SLEEP_SLEEPINESS",
+    "condition": { "and": [ { "math": [ "u_val('sleepiness')", ">=", "0" ] }, { "x_in_y_chance": { "x": 1, "y": 35 } } ] },
+    "effect": [ { "math": [ "u_val('sleepiness')", "-=", "1" ] } ]
   },
   {
     "type": "effect_on_condition",

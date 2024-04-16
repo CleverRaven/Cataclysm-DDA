@@ -345,6 +345,8 @@ void iuse_transform::do_transform( Character *p, item &it, const std::string &va
             p->on_worn_item_transform( obj_copy, *obj );
         }
     }
+
+    p->clear_inventory_search_cache();
 }
 
 ret_val<void> iuse_transform::can_use( const Character &p, const item &it,
@@ -976,7 +978,7 @@ std::optional<int> place_npc_iuse::use( Character *p, item &, const tripoint & )
     map &here = get_map();
     const tripoint_range<tripoint> target_range = place_randomly ?
             points_in_radius( p->pos(), radius ) :
-            points_in_radius( choose_adjacent( _( "Place npc where?" ) ).value_or( p->pos() ), 0 );
+            points_in_radius( choose_adjacent( _( "Place NPC where?" ) ).value_or( p->pos() ), 0 );
 
     const std::optional<tripoint> target_pos =
     random_point( target_range, [&here]( const tripoint & t ) {
@@ -985,7 +987,7 @@ std::optional<int> place_npc_iuse::use( Character *p, item &, const tripoint & )
     } );
 
     if( !target_pos.has_value() ) {
-        p->add_msg_if_player( m_info, _( "There is no square to spawn npc in!" ) );
+        p->add_msg_if_player( m_info, _( "There is no square to spawn NPC in!" ) );
         return std::nullopt;
     }
 
@@ -2842,7 +2844,7 @@ static std::pair<int, bool> find_repair_difficulty( const itype &it )
 
     if( !it.materials.empty() ) {
         for( const auto &mats : it.materials ) {
-            if( mats.first->repair_difficulty() && difficulty < mats.first->repair_difficulty() ) {
+            if( difficulty < mats.first->repair_difficulty() ) {
                 difficulty = mats.first->repair_difficulty();
                 difficulty_defined = true;
             }
@@ -5546,7 +5548,7 @@ std::optional<int> effect_on_conditons_actor::use( Character *p, item &it,
 
     item_location loc( *p->as_character(), &it );
     dialogue d( get_talker_for( char_ptr ), get_talker_for( loc ) );
-    write_var_value( var_type::context, "npctalk_var_id", nullptr, &d, it.typeId().str() );
+    write_var_value( var_type::context, "npctalk_var_id", &d, it.typeId().str() );
     for( const effect_on_condition_id &eoc : eocs ) {
         if( eoc->type == eoc_type::ACTIVATION ) {
             eoc->activate( d );

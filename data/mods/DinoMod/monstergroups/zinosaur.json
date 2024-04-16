@@ -517,6 +517,11 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_ziguanodon_UPGRADE",
+    "monsters": [ { "monster": "mon_siguanodon", "weight": 600 }, { "monster": "mon_ziguanodon_brute", "weight": 400 } ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_zadrosaurus_UPGRADE",
     "monsters": [ { "monster": "mon_sadrosaurus", "weight": 600 }, { "monster": "mon_zadrosaurus_brute", "weight": 400 } ]
   },

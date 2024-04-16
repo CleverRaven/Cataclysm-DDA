@@ -183,7 +183,7 @@
     "id": "book_fict_hard_scifi_zamwe",
     "type": "BOOK",
     "name": { "str": "We", "str_pl": "copies of We" },
-    "description": "This hardback book is titled \"The Annotated We: A New Translation of Yevgeny Zamyatin's Novel.\"\n\nIt is Vladimir Wozniuk's 2015 translation of \"We,\" originally published in 1924 and generally seen as the first modern dystopian novel.  The commentary examines the profusive allusions and highlights the poetic nature of Zamiatin's language.",
+    "description": "This hardback book is titled \"The Annotated We: A New Translation of Yevgeny Zamyatin's Novel.\"\n\nIt is Vladimir Wozniuk's 2015 translation of \"We,\" originally published in 1924 and generally seen as the first modern dystopian novel.  The commentary examines the profusive allusions and highlights the poetic nature of Zamyatin's language.",
     "//isbn13": 9781611461787,
     "//": "this variant is intentional",
     "price": 8799,

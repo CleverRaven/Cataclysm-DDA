@@ -463,9 +463,17 @@ void veh_app_interact::rename()
 
 void veh_app_interact::remove()
 {
-    int const part = veh->part_at( a_point );
-    vehicle_part &vp = veh->part( part >= 0 ? part : 0 );
-    const vpart_info &vpinfo = vp.info();
+    map &here = get_map();
+    const tripoint a_point_bub( veh->mount_to_tripoint( a_point ) );
+
+    vehicle_part *vp;
+    if( auto sel_part = here.veh_at( a_point_bub ).part_with_feature( VPFLAG_APPLIANCE, false ) ) {
+        vp = &sel_part->part();
+    } else {
+        int const part = veh->part_at( veh->coord_translate( a_point ) );
+        vp = &veh->part( part >= 0 ? part : 0 );
+    }
+    const vpart_info &vpinfo = vp->info();
     const requirement_data reqs = vpinfo.removal_requirements();
     Character &you = get_player_character();
     const inventory &inv = you.crafting_inventory();
@@ -488,24 +496,23 @@ void veh_app_interact::remove()
     } else if( query_yn( _( "Are you sure you want to take down the %s?" ), veh->name ) ) {
         act = player_activity( ACT_VEHICLE, to_moves<int>( time ), static_cast<int>( 'O' ) );
         act.str_values.push_back( vpinfo.id.str() );
-        const point q = veh->coord_translate( vp.mount );
-        map &here = get_map();
         for( const tripoint &p : veh->get_points( true ) ) {
             act.coord_set.insert( here.getabs( p ) );
         }
-        act.values.push_back( here.getabs( veh->global_pos3() ).x + q.x );
-        act.values.push_back( here.getabs( veh->global_pos3() ).y + q.y );
+        const tripoint a_point_abs( here.getabs( a_point_bub ) );
+        act.values.push_back( a_point_abs.x );
+        act.values.push_back( a_point_abs.y );
         act.values.push_back( a_point.x );
         act.values.push_back( a_point.y );
         act.values.push_back( -a_point.x );
         act.values.push_back( -a_point.y );
-        act.values.push_back( veh->index_of_part( &vp ) );
+        act.values.push_back( veh->index_of_part( vp ) );
     }
 }
 
 void veh_app_interact::plug()
 {
-    const int part = veh->part_at( a_point );
+    const int part = veh->part_at( veh->coord_translate( a_point ) );
     const tripoint pos = veh->global_part_pos3( part );
     item cord( "power_cord" );
     cord.link_to( *veh, a_point, link_state::automatic );
@@ -551,9 +558,15 @@ void veh_app_interact::merge()
 
 void veh_app_interact::populate_app_actions()
 {
-
-    int const part = veh->part_at( a_point );
-    const vehicle_part &vp = veh->part( part >= 0 ? part : 0 );
+    map &here = get_map();
+    vehicle_part *vp;
+    const tripoint a_point_bub( veh->mount_to_tripoint( a_point ) );
+    if( auto sel_part = here.veh_at( a_point_bub ).part_with_feature( VPFLAG_APPLIANCE, false ) ) {
+        vp = &sel_part->part();
+    } else {
+        const int part = veh->part_at( veh->coord_translate( a_point ) );
+        vp = &veh->part( part >= 0 ? part : 0 );
+    }
 
     const std::string ctxt_letters = ctxt.get_available_single_char_hotkeys();
     imenu.entries.clear();
@@ -582,7 +595,7 @@ void veh_app_interact::populate_app_actions()
     app_actions.emplace_back( [this]() {
         remove();
     } );
-    imenu.addentry( -1, veh->can_unmount( vp ).success(), ctxt.keys_bound_to( "REMOVE" ).front(),
+    imenu.addentry( -1, veh->can_unmount( *vp, true ).success(), ctxt.keys_bound_to( "REMOVE" ).front(),
                     ctxt.get_action_name( "REMOVE" ) );
     // Plug
     app_actions.emplace_back( [this]() {

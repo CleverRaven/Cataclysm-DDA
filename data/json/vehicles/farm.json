@@ -12,7 +12,7 @@
       { "x": 0, "y": 0, "parts": [ "frame#vertical", "seat", "controls" ] },
       { "x": 1, "y": 0, "parts": [ "frame#vertical", "halfboard#vertical" ] },
       { "x": 2, "y": 0, "parts": [ "frame#horizontal_front", "halfboard#vertical" ] },
-      { "x": -1, "y": 0, "parts": [ "frame#horizontal_rear", "plow" ] },
+      { "x": -1, "y": 0, "parts": [ "plow" ] },
       { "x": 2, "y": -1, "parts": [ "frame#vertical_T_left", "wheel_mount_medium_steerable" ] },
       { "x": 2, "y": 1, "parts": [ "frame#vertical_T_right", "wheel_mount_medium_steerable" ] },
       { "x": -1, "y": -1, "parts": [ "frame#vertical_T_left", "wheel_mount_medium" ] },
@@ -39,7 +39,7 @@
       [ "O-+-O" ]
     ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "frame#cross", "reaper_advanced", "roof" ] },
+      { "x": 0, "y": 0, "parts": [ "reaper_advanced", "roof" ] },
       { "x": 0, "y": -1, "parts": [ "frame#vertical_left", "board#vertical_left" ] },
       { "x": 0, "y": 1, "parts": [ "frame#vertical_right", "door_opaque#full_right" ] },
       { "x": 1, "y": -1, "parts": [ "frame#vertical_left", "board#vertical_left" ] },
@@ -53,7 +53,7 @@
       { "x": 2, "y": 1, "parts": [ "wheel_mount_medium_steerable", "wheel_wide_or" ] },
       { "x": -1, "y": -1, "parts": [ "frame#cross", "storage_battery_mount" ] },
       { "x": -1, "y": -1, "parts": [ "storage_battery_removable", "board#sw" ] },
-      { "x": -1, "y": 0, "parts": [ "frame#horizontal_2", "plow", "board#horizontal_rear" ] },
+      { "x": -1, "y": 0, "parts": [ "plow", "board#horizontal_rear" ] },
       { "x": -1, "y": 1, "parts": [ "frame#cross", "storage_battery_mount" ] },
       { "x": -1, "y": 1, "parts": [ "storage_battery_removable", "board#se" ] },
       { "x": -2, "y": -1, "parts": [ "frame#sw", "engine_electric", "storage_battery_mount" ] },
@@ -71,70 +71,70 @@
     "type": "vehicle",
     "name": "Plow Tractor",
     "blueprint": [
-      [ "&    " ],
-      [ "+O  O" ],
+      [ "&+   " ],
+      [ " O  O" ],
       [ "&=#==" ],
-      [ "+O  O" ],
-      [ "&    " ]
+      [ " O  O" ],
+      [ "&+   " ]
     ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "frame#vertical", "seat", "controls" ] },
-      { "x": 1, "y": 0, "parts": [ "frame#horizontal", "halfboard#vertical" ] },
+      { "x": 0, "y": 0, "parts": [ "frame#vertical", "seat", "controls", "dashboard" ] },
+      {
+        "x": 1,
+        "y": 0,
+        "parts": [ "frame", "halfboard#vertical", "battery_car", "diesel_engine_v6", "alternator_truck" ]
+      },
       { "x": 2, "y": 0, "parts": [ "frame#horizontal_front", "halfboard#vertical" ] },
-      { "x": 2, "y": -1, "parts": [ "frame#vertical_T_left", "wheel_mount_medium_steerable" ] },
-      { "x": 2, "y": 1, "parts": [ "frame#vertical_T_right", "wheel_mount_medium_steerable" ] },
-      { "x": -1, "y": 0, "parts": [ "frame#cross", { "part": "tank", "fuel": "diesel" } ] },
-      { "x": -1, "y": -1, "parts": [ "frame#vertical_T_left", "wheel_mount_medium" ] },
-      { "x": -1, "y": 1, "parts": [ "frame#vertical_T_right", "wheel_mount_medium" ] },
-      { "x": -2, "y": 0, "parts": [ "frame#cross", "plow" ] },
-      { "x": -2, "y": -1, "parts": [ "frame#cross" ] },
-      { "x": -2, "y": -2, "parts": [ "frame#cross", "plow" ] },
-      { "x": -2, "y": 1, "parts": [ "frame#cross" ] },
-      { "x": -2, "y": 2, "parts": [ "frame#cross", "plow" ] },
-      { "x": 0, "y": 0, "parts": [ "dashboard" ] },
-      { "x": 1, "y": 0, "parts": [ "battery_car", "diesel_engine_v6", "alternator_truck" ] },
-      { "x": 2, "y": -1, "parts": [ "wheel_wide_or" ] },
-      { "x": 2, "y": 1, "parts": [ "wheel_wide_or" ] },
-      { "x": -1, "y": -1, "parts": [ "wheel_wide_or" ] },
-      { "x": -1, "y": 0, "parts": [ "halfboard#vertical" ] },
-      { "x": -1, "y": 1, "parts": [ "wheel_wide_or" ] }
+      { "x": 2, "y": -1, "parts": [ "frame#vertical_T_left", "wheel_mount_medium_steerable", "wheel_wide_or" ] },
+      { "x": 2, "y": 1, "parts": [ "frame#vertical_T_right", "wheel_mount_medium_steerable", "wheel_wide_or" ] },
+      { "x": -1, "y": 0, "parts": [ "frame#cross", { "part": "tank", "fuel": "diesel" }, "halfboard#vertical" ] },
+      { "x": -1, "y": 1, "parts": [ "frame#vertical_T_right", "wheel_mount_medium", "wheel_wide_or" ] },
+      { "x": -1, "y": 2, "parts": [ "frame#cross" ] },
+      { "x": -1, "y": -1, "parts": [ "frame#vertical_T_left", "wheel_mount_medium", "wheel_wide_or" ] },
+      { "x": -1, "y": -2, "parts": [ "frame#cross" ] },
+      { "x": -2, "y": 0, "parts": [ "plow" ] },
+      { "x": -2, "y": 2, "parts": [ "plow" ] },
+      { "x": -2, "y": -2, "parts": [ "plow" ] }
     ],
-    "items": [  ]
+    "items": [
+      { "x": 0, "y": 0, "chance": 60, "item_groups": [ "tools_tractor" ] },
+      { "x": 0, "y": 0, "chance": 40, "item_groups": [ "softdrinks_bottled" ] }
+    ]
   },
   {
     "id": "tractor_reaper",
     "type": "vehicle",
     "name": "Reaper Tractor",
     "blueprint": [
-      [ "&    " ],
-      [ "+O  O" ],
-      [ "&=#==" ],
-      [ "+O  O" ],
-      [ "&    " ]
+      [ "    &" ],
+      [ "O  O+" ],
+      [ "=#==&" ],
+      [ "O  O+" ],
+      [ "    &" ]
     ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "frame#vertical", "seat", "controls" ] },
-      { "x": 0, "y": 0, "parts": [ "dashboard" ] },
-      { "x": 1, "y": 0, "parts": [ "frame#horizontal", "halfboard#vertical" ] },
-      { "x": 1, "y": 0, "parts": [ "battery_car", "diesel_engine_v6", "alternator_truck" ] },
+      { "x": 0, "y": 0, "parts": [ "frame#vertical", "seat", "controls", "dashboard" ] },
+      {
+        "x": 1,
+        "y": 0,
+        "parts": [ "frame", "halfboard#vertical", "battery_car", "diesel_engine_v6", "alternator_truck" ]
+      },
+      { "x": -1, "y": 0, "parts": [ "frame#cross", { "part": "tank", "fuel": "diesel" }, "halfboard#vertical" ] },
+      { "x": -1, "y": 1, "parts": [ "frame#vertical_T_right", "wheel_mount_medium", "wheel_wide_or" ] },
+      { "x": -1, "y": -1, "parts": [ "frame#vertical_T_left", "wheel_mount_medium", "wheel_wide_or" ] },
       { "x": 2, "y": 0, "parts": [ "frame#horizontal_front", "halfboard#vertical" ] },
-      { "x": 2, "y": -1, "parts": [ "frame#vertical_T_left", "wheel_mount_medium_steerable" ] },
-      { "x": 2, "y": -1, "parts": [ "wheel_wide_or" ] },
-      { "x": 2, "y": 1, "parts": [ "frame#vertical_T_right", "wheel_mount_medium_steerable" ] },
-      { "x": 2, "y": 1, "parts": [ "wheel_wide_or" ] },
-      { "x": -1, "y": 0, "parts": [ "frame#cross", { "part": "tank", "fuel": "diesel" } ] },
-      { "x": -1, "y": -1, "parts": [ "frame#vertical_T_left", "wheel_mount_medium" ] },
-      { "x": -1, "y": -1, "parts": [ "wheel_wide_or" ] },
-      { "x": -1, "y": 0, "parts": [ "halfboard#vertical" ] },
-      { "x": -1, "y": 1, "parts": [ "frame#vertical_T_right", "wheel_mount_medium" ] },
-      { "x": -1, "y": 1, "parts": [ "wheel_wide_or" ] },
-      { "x": -2, "y": -1, "parts": [ "frame#cross" ] },
-      { "x": -2, "y": -2, "parts": [ "reaper" ] },
-      { "x": -2, "y": 0, "parts": [ "reaper" ] },
-      { "x": -2, "y": 1, "parts": [ "frame#cross" ] },
-      { "x": -2, "y": 2, "parts": [ "reaper" ] }
+      { "x": 2, "y": 1, "parts": [ "frame#vertical_T_right", "wheel_mount_medium_steerable", "wheel_wide_or" ] },
+      { "x": 2, "y": 2, "parts": [ "frame#cross" ] },
+      { "x": 2, "y": -1, "parts": [ "frame#vertical_T_left", "wheel_mount_medium_steerable", "wheel_wide_or" ] },
+      { "x": 2, "y": -2, "parts": [ "frame#cross" ] },
+      { "x": 3, "y": 0, "parts": [ "reaper" ] },
+      { "x": 3, "y": -2, "parts": [ "reaper" ] },
+      { "x": 3, "y": 2, "parts": [ "reaper" ] }
     ],
-    "items": [  ]
+    "items": [
+      { "x": 0, "y": 0, "chance": 60, "item_groups": [ "tools_tractor" ] },
+      { "x": 0, "y": 0, "chance": 40, "item_groups": [ "softdrinks_bottled" ] }
+    ]
   },
   {
     "id": "tractor_seed",
@@ -169,7 +169,10 @@
       { "x": -2, "y": 1, "parts": [ "frame#cross" ] },
       { "x": -2, "y": 2, "parts": [ "seed_drill" ] }
     ],
-    "items": [  ]
+    "items": [
+      { "x": 0, "y": 0, "chance": 60, "item_groups": [ "tools_tractor" ] },
+      { "x": 0, "y": 0, "chance": 40, "item_groups": [ "softdrinks_bottled" ] }
+    ]
   },
   {
     "id": "uncovered_wagon",
@@ -389,7 +392,7 @@
   {
     "id": "disconnected_floodlight",
     "type": "vehicle",
-    "name": "Disconencted directed floodlight",
+    "name": "Disconnected directed floodlight",
     "blueprint": [ [ "o" ] ],
     "parts": [ { "x": 0, "y": 0, "parts": [ "frame#cross", "directed_floodlight", "controls_electronic" ] } ]
   }

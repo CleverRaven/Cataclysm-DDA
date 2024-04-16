@@ -26,7 +26,7 @@
     "valid_mod_locations": [
       [ "grip", 1 ],
       [ "stock mount", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "sights mount", 1 ],
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
@@ -62,44 +62,6 @@
     "melee_damage": { "bash": 9 }
   },
   {
-    "id": "lever_shotgun",
-    "copy-from": "shotgun_base",
-    "looks_like": "remington_870",
-    "type": "GUN",
-    "name": { "str": "handmade lever shotgun" },
-    "description": "A short, homemade lever-action shotgun with a small internal tube magazine.  While still a primitive design - made from a pipe and a plank - it is a formidable shotgun in its own right with room for improvement.",
-    "weight": "2311 g",
-    "volume": "2 L",
-    "longest_side": "85 cm",
-    "barrel_length": "356 mm",
-    "//": "length of a 6 round shotshell tube",
-    "price": 10000,
-    "price_postapoc": 2250,
-    "to_hit": -1,
-    "material": [ "steel", "wood" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
-    "dispersion": 550,
-    "durability": 6,
-    "barrel_volume": "500 ml",
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "brass catcher", 1 ],
-      [ "muzzle", 1 ],
-      [ "stock mount", 1 ],
-      [ "mechanism", 4 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
-    "clip_size": 6,
-    "extend": { "flags": [ "RELOAD_ONE", "EASY_CLEAN" ] },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 6 } } ],
-    "melee_damage": { "bash": 10 }
-  },
-  {
     "id": "ksg",
     "copy-from": "shotgun_pump",
     "looks_like": "remington_870",
@@ -130,10 +92,9 @@
     "built_in_mods": [ "ksg_aux_shotgun" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bore", 1 ],
       [ "brass catcher", 1 ],
       [ "grip mount", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail mount", 1 ],
       [ "sights", 1 ],
@@ -175,10 +136,9 @@
     "built_in_mods": [ "ksg25_aux_shotgun" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bore", 1 ],
       [ "brass catcher", 1 ],
       [ "grip mount", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail mount", 1 ],
       [ "sights", 1 ],
@@ -238,7 +198,7 @@
       {
         "id": "slp",
         "name": { "str": "FN SLP MK I shotgun" },
-        "description": "An eminently practical semi-automatic shotgun, Fabrique Nationale's Mk I iteration of their Self-Loading Police brings together an 8-round magazine tube, accessory-ready picatinny rail, and comfortably rubber-padded grip surfaces.  Per the company's claims, it can dispense 8 servings of 12-gauge-diameter medicine in under a second, and, while you're not sure if that's true or even a good thing, the gun's certain to serve as a good educational tool for disciplining the dead."
+        "description": "An eminently practical semi-automatic shotgun, Fabrique Nationale's Mk I iteration of their Self-Loading Police brings together an 8-round magazine tube, accessory-ready Picatinny rail, and comfortably rubber-padded grip surfaces.  Per the company's claims, it can dispense 8 servings of 12-gauge-diameter medicine in under a second, and, while you're not sure if that's true or even a good thing, the gun's certain to serve as a good educational tool for disciplining the dead."
       }
     ],
     "ascii_picture": "mossberg590",
@@ -254,11 +214,10 @@
     "barrel_volume": "0 ml",
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bore", 1 ],
       [ "bayonet lug", 1 ],
       [ "brass catcher", 1 ],
       [ "grip mount", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "loading port", 1 ],
       [ "rail mount", 1 ],
@@ -311,7 +270,7 @@
       [ "rail mount", 1 ],
       [ "loading port", 1 ],
       [ "brass catcher", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "sights", 1 ],
       [ "underbarrel mount", 1 ]
     ],
@@ -458,11 +417,10 @@
     "built_in_mods": [ "breacher_grip" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bore", 1 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
       [ "loading port", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "rail mount", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
@@ -476,7 +434,7 @@
     "copy-from": "remington_870",
     "type": "GUN",
     "name": { "str": "7-round riot shotgun" },
-    "description": "A brother of more typical hunting style shotguns, this particular model was most often seen utilised for self-defence or law-enforcement purposes.  Featuring a shortened 18.5 inch barrel and extended 7-round magazine tube, it's a very versatile and reliable weapon.",
+    "description": "A brother of more typical hunting style shotguns, this particular model was most often seen utilized for self-defense or law-enforcement purposes.  Featuring a shortened 18.5 inch barrel and extended 7-round magazine tube, it's a very versatile and reliable weapon.",
     "variant_type": "gun",
     "variants": [
       {
@@ -562,7 +520,7 @@
     "valid_mod_locations": [
       [ "sling", 1 ],
       [ "stock mount", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
       [ "grip mount", 1 ],
@@ -592,7 +550,6 @@
     "barrel_volume": "494 ml",
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bore", 1 ],
       [ "sights mount", 1 ],
       [ "sling", 1 ],
       [ "mechanism", 2 ],
@@ -626,7 +583,6 @@
     "barrel_volume": "670 ml",
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bore", 1 ],
       [ "muzzle", 1 ],
       [ "mechanism", 1 ],
       [ "sights mount", 1 ],
@@ -672,10 +628,9 @@
     "built_in_mods": [ "wire_stock" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bore", 1 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "rail mount", 1 ],
       [ "sights mount", 1 ],
       [ "sling", 1 ],
@@ -716,10 +671,9 @@
     "sight_dispersion": 500,
     "built_in_mods": [ "ts12_aux_shotgun", "ts12_aux_shotgun2" ],
     "valid_mod_locations": [
-      [ "bore", 1 ],
       [ "brass catcher", 1 ],
       [ "grip mount", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "underbarrel", 2 ],
       [ "rail mount", 1 ],
@@ -769,7 +723,7 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "RELOAD_ONE" ],
+    "flags": [ "RELOAD_ONE", "NO_TURRET" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 6 } } ],
     "melee_damage": { "bash": 8 }
   },
@@ -828,7 +782,7 @@
       {
         "id": "m2",
         "name": { "str": "Benelli M2 shotgun" },
-        "description": "Workhorse, companion, and Italian hole-puncher: the M2 forms the backbone of the Benelli's venerable line of Super 90 shotguns, utilising the company's signature inertia-driven system to snap out 12-gauge shells with alacrity.  Though possessing a 3-round magazine tube, the shotgun's dimpled, synthetic furniture, cryogenically treated barrel, and robust action capable of withstanding magnum loads make it a hardy option, even for the post-cataclysm survivor."
+        "description": "Workhorse, companion, and Italian hole-puncher: the M2 forms the backbone of the Benelli's venerable line of Super 90 shotguns, utilizing the company's signature inertia-driven system to snap out 12-gauge shells with alacrity.  Though possessing a 3-round magazine tube, the shotgun's dimpled, synthetic furniture, cryogenically treated barrel, and robust action capable of withstanding magnum loads make it a hardy option, even for the post-cataclysm survivor."
       },
       {
         "id": "sbe",
@@ -865,6 +819,7 @@
       [ "stock accessory", 2 ],
       [ "underbarrel mount", 1 ]
     ],
+    "flags": [ "NO_TURRET" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 4 } } ]
   },
   {
@@ -923,7 +878,7 @@
     "reload": 600,
     "modes": [ [ "DEFAULT", "single", 1 ] ],
     "valid_mod_locations": [ [ "sling", 1 ], [ "sights mount", 1 ], [ "underbarrel mount", 1 ] ],
-    "flags": [ "RELOAD_EJECT", "EASY_CLEAN" ],
+    "flags": [ "RELOAD_EJECT", "EASY_CLEAN", "NO_TURRET" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 1 } } ],
     "melee_damage": { "bash": 8 }
   },
