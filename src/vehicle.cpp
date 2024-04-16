@@ -2338,7 +2338,7 @@ bool vehicle::split_vehicles( map &here,
                 for( size_t sp = 0; sp < split_parts.size(); sp++ ) {
                     const vpart_info &vpi_split = parts[split_parts[sp]].info();
                     if( vpi_split.location == part_location_structure && !vpi_split.has_flag( "PROTRUSION" ) ) {
-                        split_part0 = sp;
+                        split_part0 = split_parts[ sp ];
                         break;
                     }
                 }
