@@ -66,7 +66,6 @@ static const mongroup_id GROUP_OCEAN_SHORE( "GROUP_OCEAN_SHORE" );
 static const mongroup_id GROUP_RIVER( "GROUP_RIVER" );
 static const mongroup_id GROUP_SUBWAY_CITY( "GROUP_SUBWAY_CITY" );
 static const mongroup_id GROUP_SWAMP( "GROUP_SWAMP" );
-static const mongroup_id GROUP_WORM( "GROUP_WORM" );
 static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 
 static const oter_str_id oter_central_lab( "central_lab" );
@@ -7119,19 +7118,6 @@ void overmap::place_mongroups()
                                   pop ), 3 );
                 }
             }
-        }
-    }
-
-    // Place the "put me anywhere" groups
-    int numgroups = rng( 0, 3 );
-    for( int i = 0; i < numgroups; i++ ) {
-        float norm_factor = std::abs( GROUP_WORM->freq_total / 1000.0f );
-        tripoint_om_sm p( rng( 0, OMAPX * 2 - 1 ), rng( 0, OMAPY * 2 - 1 ), 0 );
-        unsigned int pop = std::round( norm_factor * rng( 30, 50 ) );
-        // ensure GROUP WORM doesn't get placed in ocean or lake.
-        if( !is_water_body( ter( {p.x(), p.y(), 0} ) ) ) {
-            spawn_mon_group(
-                mongroup( GROUP_WORM, project_combine( pos(), p ), pop ), rng( 20, 40 ) );
         }
     }
 }
