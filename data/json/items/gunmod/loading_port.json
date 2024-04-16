@@ -70,7 +70,7 @@
     "id": "arredondo_chute_mossberg_590",
     "type": "GUNMOD",
     "name": { "str": "speedloader chute, 9-round combat shotgun" },
-    "description": "A metal ramp that is installed near a shotgun's feeding port to index speedloader tubes.  This one is for on 9-round combat shotgun.",
+    "description": "A metal ramp that is installed near a shotgun's feeding port to index speedloader tubes.  This one is for 9-round combat shotgun.",
     "copy-from": "arredondo_chute",
     "mod_targets": [ "mossberg_590" ],
     "pocket_mods": [
