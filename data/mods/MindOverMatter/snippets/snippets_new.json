@@ -252,9 +252,9 @@
         "text": "Are we still supposed to be doing experiments?  Alright, sure, whatever.  I figured throwing things at the wall would be a good way to let off steam, so I got A̶n̶n̶a̶ ̶a̶n̶ H84 and X90 and had them toss increasingly heavier things at the wall.  Weirdest thing, size and speed don't relate.  X90 can left 10 kg and H84 can only lift 4 kg, but if they're both throwing pencils, H84 can move them faster.  X90 can even lift himself up, though he can't move except up or down.  On the other hand, H84 can rotate a ball at something-something RPM, it was faster than X90 anyway.  I heard a scream from the labs so I didn't have all my equipment, so I just counted them until I lost count.  So we spent a couple hours doing that and we all felt better.  Maybe someone in the ruins of civilization can use this for something."
       },
       {
-        "name": "I believe I can fly",
+        "name": "Notes on the inside of a manila folder",
         "id": "lab_file_telekinesis_06",
-        "text": "The benefit of being out here is that despite the lockdown we can still go outside as long as we don't leave the grounds."
+        "text": "The benefit of being out here is that despite the lockdown we can still go outside as long as we don't leave the grounds.  It used to be hard enough to pick up a baseball and move it the length of a room, but now I can throw it fast enough that I could play baseball if I wanted, still need some practice hitting a target though.  But the best thing is the floating.  I can hover off the ground, maybe a few inches, and move slowly.  I haven't shown this to the testers yet because with how things are getting they'd probably demand I take a walk off the third floor and time how far I got before I dropped.  But maybe I can use this to get over the fence, if I can practice it enough when they're not watching.  I have to get out of here."
       }
     ]
   },
@@ -358,7 +358,11 @@
         "id": "lab_file_vitakinesis_04",
         "text": "Gentlemen, can we cure death?\n\nSorry, I had to.  Anyway, the answer is no.  We had multiple SMOKE USHER mathematicians try everything they could against a properly-restrained zombie and no luck.  The furthest we got was D93 managed to discover some way to kill zombies faster; her attempt to restart the normal biological processes caused accelerated decay and resulted in the zombie returning to an inert state after approximately thirty minutes from initial contact.  Subsequent revivication was delayed for an additional six hours.\n\nFurther testing on lab rats indicate that this ability functions on living subject as well.  I plan to start human testing once the lockdown ends and I can acquire suitable volunteers."
       },
-      { "name": "Come One, Come All!", "id": "lab_file_vitakinesis_05", "text": "" }
+      { 
+        "name": "incident report: 667493", 
+        "id": "lab_file_vitakinesis_05", 
+        "text": "At 1804 this evening during a SMOKE USHER experiment into immune system function, mathematician N85 suddenly went into anaphylaxis.  Despite the attending physician administering epinephrine and immediate transport to the medical facility, N85 was pronounced dead of cardiac arrest at 2042 that same evening.  While investigation is ongoing, Dr. Walsh suggests some unknown stress mechanism caused by a full day of SMOKE USHER testing might have exacerbated a previously-unknown allergic sensitivity.  However, the physical before induction turned up no such sensitivity.  Further conclusions await the autopsy report." 
+      }
     ]
   },
   {
@@ -368,7 +372,7 @@
       {
         "name": "OS647-P Response",
         "id": "lab_file_item_OS647_P_01",
-        "text": "Dr. Zweidler, I understand your excitement at your breakthroughs in matrix technology, but I hope you understand there is no way I can approve OS647-P for general usage.  You write here that the effect field has a \"94% effectiveness rate\" but this is not comparable to ballistic performance standards because it has no ablative properties.  What if the first shot fired is part of that 6%?  How can an operative trust their life to your device when every possible shot might be the one to penetrate?  That fact that your data shows it provides complete protection against rifle rounds, grenades, and even anti-tank weapons is immaterial in the face of the effect field's failure rate.\n\nSecond, you write that currently OS647-P has a 2.67% device failure rate, over and above the chance of the effect field failing!  You want me to recommend this for general usage when our field operatives could end up not only with a bullet in the chest, but also a box full of burnt plastic while some horror is charging at them on an immersion dive?n\nFurthermore, the active time is simply unacceptable.  Ballistic protection works because it provides passive protection with no additional effort necessary.  When in danger, an operative would need to insert the matrix crystal, flip the toggle, and then hope that the attack occurs within the \"5.65 second median protection time\" in order to gain any benefit at all!  You've read those immersion dive reports too, Matthew.  If an operative is face to face with XE157, what happens on the sixth second?\n\nI'll be frank with you.  I'm amazed that you asked me to approve this given its current device specs.  Matrix crystals--even depleted ones--are extremely valuable, and given their already unacceptably-high failure rate in training new mathematicians, Dr. Liu is not going to accept anything less than 100% effectiveness from an alternative use case.  You're simply going to have to refine OS647-P until it's more reliable.\n\nYours,\nAnna Stephenson\nDirector of Research"
+        "text": "Dr. Zweidler, I understand your excitement at your breakthroughs in matrix technology, but I hope you understand there is no way I can approve OS647-P for general usage.  You write here that the effect field has a \"94% effectiveness rate\" but this is not comparable to ballistic performance standards because it has no ablative properties.  What if the first shot fired is part of that 6%?  How can an operative trust their life to your device when every possible shot might be the one to penetrate?  That fact that your data shows it provides complete protection against rifle rounds, grenades, and even anti-tank weapons is immaterial in the face of the effect field's failure rate.\n\nSecond, you write that currently OS647-P has a 2.67% device failure rate, over and above the chance of the effect field failing!  You want me to recommend this for general usage when our field operatives could end up not only with a bullet in the chest, but also a box full of burnt plastic while some horror is charging at them on an immersion dive?n\nFurthermore, the active time is simply unacceptable.  Ballistic protection works because it provides passive protection with no additional effort necessary.  When in danger, an operative would need to insert the matrix crystal, flip the toggle, and then hope that the attack occurs within the \"5.65 second median protection time\" in order to gain any benefit at all!  You've read those immersion dive reports too, Matthew.  If an operative is face to face with XE157, what happens on the sixth second?\n\nI'll be frank with you.  I'm amazed that you asked me to approve this given its current device specs.  Matrix crystals--even depleted ones--are extremely valuable, and given their already unacceptably-high failure rate in training new mathematicians, Dr. Liu is not going to accept anything less than 100% effectiveness from an alternative use case.  You're simply going to have to refine OS647-P until it's more reliable.\n\nYours,\nAnna Richardson\nDirector of Research"
       }
     ]
   },
@@ -379,7 +383,7 @@
       {
         "name": "Response to Proposal 96255-R",
         "id": "lab_file_matrix_research_01",
-        "text": "Yes, I saw your design specs for the \"Everglow Lamp\" and I understand that it provides a greatly-increased efficiency over standard off-the-shelf lighting.  But may I remind you that off-the-shelf lighting literally comes from a shelf and you can go down to the hardware store and buy a dozen LED bulbs for $50 and they'll last you ten years.  There is no use case for a matrix-powered lightbulb that makes any sort of sense, even in hostile or in-phase environments.  Until you can achieve a similar cost-benefit ratio using matrix technology--check the budget for a single immersion dive if you need the data--I strongly advise you to take your research in a different direction.\n\nYours,\nAnna Stephenson\nDirector of Research"
+        "text": "Yes, I saw your design specs for the \"Everglow Lamp\" and I understand that it provides a greatly-increased efficiency over standard off-the-shelf lighting.  But may I remind you that off-the-shelf lighting literally comes from a shelf and you can go down to the hardware store and buy a dozen LED bulbs for $50 and they'll last you ten years.  There is no use case for a matrix-powered lightbulb that makes any sort of sense, even in hostile or in-phase environments.  Until you can achieve a similar cost-benefit ratio using matrix technology--check the budget for a single immersion dive if you need the data--I strongly advise you to take your research in a different direction.\n\nYours,\nAnna Richardson\nDirector of Research"
       },
       {
         "name": "Preliminary report: OBSIDIAN RING",
@@ -447,6 +451,11 @@
         "name": "Something is seriously wrong",
         "id": "lab_file_phavian_memo_05",
         "text": "Dr. Liu,\nSorry for the inflammatory title but, well, something is seriously wrong.  The LOST RAIN mathematicians are universally reporting that something strange is happening to space itself.  You've seen the testing data about them being able to change effective distance between two points and they're reporting that ALL distances are being affected to a very small degree.  I don't know if this has anything to do with the erratic behavior from the staff or XE037 contamination but coupled with all the BURNT NOVEMBER reports of impending doom, plus all the news filtering from the outside, I think we need to prepare for the worst.\n\nJohn Goldberg\nResearcher"
+      },
+      {
+        "name": "Maintaining proper decorum",
+        "id": "lab_file_phavian_memo_06",
+        "text": "It is important to remember that we are scientists and this is a scientific endeavor.  Regardless of the phenomena we are studying, we must maintain a proper skeptical mindset in the spirit of scientific inquiry.  Dimensional metaphysics has its own laws that we are slowly discovering.  This is not \"witchcraft\", these are not \"wizards,\" they are people capable of tapping in to a previously-unknown source of energy.  There are many previous fields of science which once carried their own stigma.  Continental drift was not accepted for decades after its initial proposal, Dr. Semmelweis died in an asylum, and quantum  mechanics to this day requires accepting behaviors that are counter to our natural understanding of how the world works.  That does not make any of those fields supernatural either.  By definition, if it is studiable and reproducible, it is scientific.\nAnna Richardson\nDirector of Research"
       }
     ]
   },
@@ -480,6 +489,11 @@
         "name": "Notes on the back of a presentation printout",
         "id": "lab_file_phavian_private_05",
         "text": "They say there's nothing to worry about, that our powers follow natural laws that can be tested and measured, but it's obvious they're lying.  I heard what happened to Amelia when she was doing some experiment and had that asthma attack.  A tragic accident, they said?  Yeah, not after I saw the aftermath of that lab test with the telekinetic.  What happens if they lose control in a crowded hallway, or if a telepath does in the lunchroom? Are we all going to end up vegetables?\n\nI haven't used any psi since I heard, but it's so hard.  I went from getting sick 4-5 times a year to feeling like a million bucks every single day and I'm just supposed to give it up?  But what if my heart just stops?  What if someone else's heart stops because of me?  The scientists spent a year testing and measuring and now apparently none of it matters because who knows what will happen.\n\nI never shoul dhave gone through with the treatment."
+      },
+      {
+        "name": "You've heard the rumor, right?",
+        "id": "lab_file_phavian_private_06",
+        "text": "C,\nJust talked to ███████ on our lunch break and he confirmed what I heard--Gaspar is real.  We all know people who have just disappeared, right?  They say they're transferred to other sites, to keep up the variety in experiments or whatever, but do they ever get transferred back?  You heard of Project Empty Mother?  Sapphire Horizon?  You know about the magi, right?  There's always three and where's the third?  They can't turn us all into meat but they're going to do it to some of us and I don't want to be one of them.  We have to get out of here.\n-A"
       }
     ]
   }
