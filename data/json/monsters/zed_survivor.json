@@ -35,7 +35,7 @@
   {
     "id": "mon_zombie_survivor_no_weakpoints",
     "type": "MONSTER",
-    "name": { "str": "zombie survivor test only" },
+    "name": { "str_sp": "zombie survivor test only" },
     "description": "This zombie survivor is for testing purposes only.",
     "copy-from": "mon_zombie_survivor",
     "speed": 90,
