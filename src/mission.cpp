@@ -507,6 +507,9 @@ bool mission::is_complete( const character_id &_npc_id ) const
             if( npc_id.is_valid() && npc_id != _npc_id ) {
                 return false;
             }
+            if( player_character.activity ) {
+                return false;
+            }
             item item_sought( type->item_id );
             map &here = get_map();
             int found_quantity = 0;

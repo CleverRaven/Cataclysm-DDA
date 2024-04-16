@@ -65,10 +65,9 @@ static std::optional<tripoint> find_valid_teleporters_omt( const tripoint_abs_om
 {
     // this is the top left hand square of the global absolute coordinate
     // of the overmap terrain we want to try to teleport to.
-    // an OMT is SEEX * SEEY in size
-    const tripoint_abs_sm sm_pt = project_to<coords::sm>( omt_pt );
+    // an OMT is (2 * SEEX) * (2 * SEEY) in size
     tinymap checker;
-    checker.load( sm_pt, true );
+    checker.load( omt_pt, true );
     for( const tripoint &p : checker.points_on_zlevel() ) {
         if( checker.has_flag_furn( ter_furn_flag::TFLAG_TRANSLOCATOR, p ) ) {
             return checker.getabs( p );
@@ -80,8 +79,7 @@ static std::optional<tripoint> find_valid_teleporters_omt( const tripoint_abs_om
 bool teleporter_list::place_avatar_overmap( Character &you, const tripoint_abs_omt &omt_pt ) const
 {
     tinymap omt_dest;
-    tripoint_abs_sm sm_dest = project_to<coords::sm>( omt_pt );
-    omt_dest.load( sm_dest, true );
+    omt_dest.load( omt_pt, true );
     std::optional<tripoint> global_dest = find_valid_teleporters_omt( omt_pt );
     if( !global_dest ) {
         return false;

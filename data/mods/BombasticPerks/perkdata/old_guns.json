@@ -24,7 +24,7 @@
     "id": "garand",
     "type": "GUN",
     "copy-from": "garand",
-    "name": { "str": "M1 Garand" },
+    "name": { "str_sp": "M1 Garand" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
@@ -115,7 +115,7 @@
     "id": "1895sbl",
     "type": "GUN",
     "copy-from": "1895sbl",
-    "name": { "str": "Marlin 1895 SBL" },
+    "name": { "str_sp": "Marlin 1895 SBL" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
@@ -256,13 +256,6 @@
     "type": "GUN",
     "copy-from": "m2browning",
     "name": { "str": "M2HB Browning HMG" },
-    "extend": { "flags": [ "OLD_GUN" ] }
-  },
-  {
-    "id": "m2browning_sawn",
-    "type": "GUN",
-    "copy-from": "m2browning_sawn",
-    "name": { "str": ".50 caliber rifle" },
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {

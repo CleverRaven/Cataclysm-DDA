@@ -1,19 +1,15 @@
-#include <cstddef>
-#include <iterator>
-#include <list>
-#include <map>
+#include "advanced_inv_area.h"
+
 #include <memory>
-#include <new>
 #include <optional>
 #include <set>
 #include <unordered_map>
 #include <utility>
 
-#include "advanced_inv_area.h"
-#include "advanced_inv_listitem.h"
 #include "avatar.h"
-#include "cata_assert.h"
 #include "character.h"
+#include "character_attire.h"
+#include "debug.h"
 #include "enums.h"
 #include "field.h"
 #include "field_type.h"
@@ -21,8 +17,8 @@
 #include "inventory.h"
 #include "item.h"
 #include "map.h"
-#include "map_selector.h"
 #include "mapdata.h"
+#include "mdarray.h"
 #include "pimpl.h"
 #include "translations.h"
 #include "trap.h"
@@ -31,7 +27,6 @@
 #include "units.h"
 #include "veh_type.h"
 #include "vehicle.h"
-#include "vehicle_selector.h"
 #include "vpart_position.h"
 
 int advanced_inv_area::get_item_count() const

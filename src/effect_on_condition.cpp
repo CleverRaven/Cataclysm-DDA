@@ -1,14 +1,33 @@
 #include "effect_on_condition.h"
 
+#include <algorithm>
+#include <cstddef>
+#include <list>
+#include <ostream>
+#include <queue>
+#include <set>
+
 #include "avatar.h"
+#include "calendar.h"
 #include "cata_utility.h"
+#include "cata_variant.h"
 #include "character.h"
+#include "character_id.h"
 #include "condition.h"
+#include "creature.h"
+#include "debug.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "game.h"
 #include "generic_factory.h"
-#include "npctalk.h"
+#include "init.h"
+#include "mod_tracker.h"
+#include "npc.h"
+#include "output.h"
 #include "scenario.h"
+#include "string_formatter.h"
 #include "talker.h"
+#include "translations.h"
 #include "type_id.h"
 
 namespace io
@@ -292,14 +311,16 @@ void effect_on_conditions::process_reactivate()
                           g->queued_global_effect_on_conditions, d );
 }
 
-bool effect_on_condition::activate( dialogue &d ) const
+bool effect_on_condition::activate( dialogue &d, bool require_callstack_check ) const
 {
     bool retval = false;
-    d.amend_callstack( "EOC: " + id.str() );
-    if( d.get_callstack().size() > 5000 ) {
-        if( query_yn( string_format( _( "Possible infinite loop in eoc %s.  Stop execution?" ),
-                                     id.str() ) ) ) {
-            return false;
+    if( require_callstack_check ) {
+        d.amend_callstack( "EOC: " + id.str() );
+        if( d.get_callstack().size() > 5000 ) {
+            if( query_yn( string_format( _( "Possible infinite loop in EOC %s.  Stop execution?" ),
+                                         id.str() ) ) ) {
+                return false;
+            }
         }
     }
     // each version needs a copy of the dialogue to pass down

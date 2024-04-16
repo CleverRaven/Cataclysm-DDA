@@ -245,6 +245,7 @@ class overmap
         void add_note( const tripoint_om_omt &p, std::string message );
         void delete_note( const tripoint_om_omt &p );
         void mark_note_dangerous( const tripoint_om_omt &p, int radius, bool is_dangerous );
+        int note_danger_radius( const tripoint_om_omt &p ) const;
 
         bool has_extra( const tripoint_om_omt &p ) const;
         const map_extra_id &extra( const tripoint_om_omt &p ) const;
@@ -449,7 +450,7 @@ class overmap
                 const overmap *south, const overmap *west );
 
         // City Building
-        overmap_special_id pick_random_building_to_place( int town_dist ) const;
+        overmap_special_id pick_random_building_to_place( int town_dist, int town_size ) const;
 
         // urbanity and forestosity are biome stats that can be used to trigger changes in biome.
         // NOLINTNEXTLINE(cata-serialize)

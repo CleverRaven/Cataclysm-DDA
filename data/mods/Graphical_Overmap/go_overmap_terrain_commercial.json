@@ -963,13 +963,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "megastore_parking",
-    "copy-from": "megastore_parking",
-    "sym": "\u00F4",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "megastore_0_0_0",
     "copy-from": "megastore_0_0_0",
     "sym": "\u00C1"

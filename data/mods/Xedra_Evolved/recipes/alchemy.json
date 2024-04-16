@@ -159,6 +159,42 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "charm_of_marzanna",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_ALCHEMY",
+    "skill_used": "chemistry",
+    "skills_required": [ "deduction", 1 ],
+    "difficulty": 2,
+    "time": "24 m",
+    "flags": [ "SECRET" ],
+    "proficiencies": [ { "proficiency": "prof_fine_metalsmithing", "required": false, "time_multiplier": 3 } ],
+    "tools": [ [ [ "metal_file", -1 ] ], [ [ "surface_heat", 50, "LIST" ] ] ],
+    "components": [
+      [ [ "silver_necklace", 1 ] ],
+      [ [ "scrap_dreamdross", 5 ] ],
+      [ [ "water_clean", 1 ] ],
+      [ [ "chem_ethanol", 100 ] ],
+      [ [ "charcoal", 50 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "spiritshow_dust",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_ALCHEMY",
+    "skill_used": "chemistry",
+    "skills_required": [ "deduction", 2 ],
+    "difficulty": 2,
+    "time": "24 m",
+    "flags": [ "SECRET" ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
+    "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
+    "components": [ [ [ "faewild", 1 ] ], [ [ "scrap_dreamdross", 2 ] ], [ [ "bone", 1 ] ], [ [ "corpse_ash", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "feline_periapta",
     "category": "CC_XEDRA",
     "subcategory": "CSC_XEDRA_ALCHEMY",
@@ -185,6 +221,21 @@
     "proficiencies": [ { "proficiency": "prof_fine_metalsmithing", "required": false, "time_multiplier": 3 } ],
     "tools": [ [ [ "metal_file", -1 ] ] ],
     "components": [ [ [ "gold_necklace", 1 ] ], [ [ "scrap_dreamdross", 3 ] ], [ [ "lupine_sample", 1 ] ], [ [ "diamond", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "väinämöinens_kantele_imitation",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_ALCHEMY",
+    "skill_used": "fabrication",
+    "skills_required": [ "deduction", 3 ],
+    "difficulty": 3,
+    "time": "67 m",
+    "flags": [ "SECRET" ],
+    "proficiencies": [ { "proficiency": "prof_luthier_basic", "required": false, "time_multiplier": 3 } ],
+    "tools": [ [ [ "luthier_toolset", -1 ] ] ],
+    "components": [ [ [ "kantele", 1 ] ], [ [ "scrap_dreamdross", 5 ] ], [ [ "fish_sample", 3 ] ] ]
   },
   {
     "type": "recipe",

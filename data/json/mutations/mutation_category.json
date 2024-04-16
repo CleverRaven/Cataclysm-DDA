@@ -288,6 +288,17 @@
   },
   {
     "type": "mutation_category",
+    "id": "CHIROPTERAN",
+    "name": "Chiropteran",
+    "threshold_mut": "THRESH_CHIROPTERAN",
+    "mutagen_message": "Your ears ring and you taste iron.",
+    "memorial_message": "Became the night.",
+    "vitamin": "mutagen_chiropteran",
+    "base_removal_chance": 33,
+    "base_removal_cost_mul": 2.5
+  },
+  {
+    "type": "mutation_category",
     "id": "MYCUS",
     "//": "Mycus has special logic and doesn't function like a normal mutation category, so some of the vars here only exist to prevent errors",
     "name": "Mycus",

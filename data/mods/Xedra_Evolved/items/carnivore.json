@@ -116,7 +116,7 @@
     "type": "COMESTIBLE",
     "name": { "str_sp": "smoked meat" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "smoked sucker" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "smoked sucker" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "smoked Narnian" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "%s, mutant" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "fae", "name": { "str_sp": "smoked fae" } }

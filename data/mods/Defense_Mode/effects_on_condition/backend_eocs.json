@@ -88,7 +88,7 @@
       { "math": [ "u_val('pkill')", "=", "u_val('pkill')" ] },
       { "math": [ "u_val('stim')", "=", "u_val('stim')" ] },
       { "math": [ "u_pain()", "=", "0" ] },
-      { "math": [ "u_val('fatigue')", "=", "0" ] },
+      { "math": [ "u_val('sleepiness')", "=", "0" ] },
       { "math": [ "u_val('stamina')", "=", "8500" ] },
       { "math": [ "revivication_counter", "--" ] },
       { "u_cast_spell": { "id": "remove_opponents" } },

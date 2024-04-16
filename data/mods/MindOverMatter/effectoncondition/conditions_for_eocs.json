@@ -1,0 +1,198 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_SPELLCASTING_FINISH_TRAIT_AND_SCHOOL_LIST",
+    "condition": {
+      "and": [
+        {
+          "u_has_any_trait": [
+            "BIOKINETIC",
+            "CLAIRSENTIENT",
+            "ELECTROKINETIC",
+            "PHOTOKINETIC",
+            "PYROKINETIC",
+            "TELEKINETIC",
+            "TELEPATH",
+            "TELEPORTER",
+            "VITAKINETIC"
+          ]
+        },
+        {
+          "or": [
+            { "compare_string": [ "BIOKINETIC", { "context_val": "school" } ] },
+            { "compare_string": [ "CLAIRSENTIENT", { "context_val": "school" } ] },
+            { "compare_string": [ "ELECTROKINETIC", { "context_val": "school" } ] },
+            { "compare_string": [ "PHOTOKINETIC", { "context_val": "school" } ] },
+            { "compare_string": [ "PYROKINETIC", { "context_val": "school" } ] },
+            { "compare_string": [ "TELEKINETIC", { "context_val": "school" } ] },
+            { "compare_string": [ "TELEPATH", { "context_val": "school" } ] },
+            { "compare_string": [ "TELEPORTER", { "context_val": "school" } ] },
+            { "compare_string": [ "VITAKINETIC", { "context_val": "school" } ] }
+          ]
+        }
+      ]
+    },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_CAUGHT_IN_NETHER_WEATHER",
+    "condition": {
+      "or": [ { "is_weather": "distant_portal_storm" }, { "is_weather": "portal_storm" }, { "is_weather": "close_portal_storm" } ]
+    },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_NEAR_NETHER_RELATED_LOCATION",
+    "condition": {
+      "or": [
+        { "u_near_om_location": "unvitrified_farm_0", "range": 2 },
+        { "u_near_om_location": "unvitrified_farm_1", "range": 2 },
+        { "u_near_om_location": "unvitrified_farm_neg_1", "range": 2 },
+        { "u_near_om_location": "unvitrified_farm_2", "range": 2 },
+        { "u_near_om_location": "vitrified_farm_0", "range": 2 },
+        { "u_near_om_location": "vitrified_farm_1", "range": 2 },
+        { "u_near_om_location": "vitrified_farm_neg_1", "range": 2 },
+        { "u_near_om_location": "vitrified_farm_2", "range": 2 },
+        { "u_near_om_location": "microlab_portal_elevator_physics_glass", "range": 2 },
+        { "u_near_om_location": "microlab_distorted_hallway", "range": 2 },
+        { "u_near_om_location": "microlab_distorted", "range": 2 },
+        { "u_near_om_location": "microlab_distorted_edge", "range": 2 },
+        { "u_near_om_location": "microlab_portal_elevator_physics_glass", "range": 2 },
+        { "u_near_om_location": "corpse_surface", "range": 0 },
+        { "u_near_om_location": "corpse_bowels_neck_right", "range": 2 },
+        { "u_near_om_location": "corpse_bowels_neck_left", "range": 2 },
+        { "u_near_om_location": "corpse_bowels_neck_edge_center", "range": 2 },
+        { "u_near_om_location": "corpse_bowels_rcorner", "range": 2 },
+        { "u_near_om_location": "corpse_bowels_lcorner", "range": 2 },
+        { "u_near_om_location": "corpse_bowels_empty_edge", "range": 2 },
+        { "u_near_om_location": "corpse_bowels_mid", "range": 2 },
+        { "u_near_om_location": "corpse_tentacle", "range": 2 },
+        { "u_near_om_location": "corpse_tentacle_entry", "range": 2 },
+        { "u_near_om_location": "corpse_tentacle_surface_entry", "range": 0 },
+        { "u_near_om_location": "corpse_bowels_tentacle_edge", "range": 2 },
+        { "u_near_om_location": "corpse_bowels_empty_edge", "range": 2 },
+        { "u_near_om_location": "corpse_head", "range": 2 },
+        { "u_near_om_location": "corpse_brain", "range": 2 },
+        { "u_near_om_location": "corpse_under_brain", "range": 2 },
+        { "u_near_om_location": "corpse_head_edge", "range": 2 },
+        { "u_near_om_location": "corpse_head_fin", "range": 2 },
+        { "u_near_om_location": "corpse_head_lcorner", "range": 2 },
+        { "u_near_om_location": "corpse_head_rcorner", "range": 2 },
+        { "u_near_om_location": "corpse_head_neck_l", "range": 2 },
+        { "u_near_om_location": "corpse_head_neck_r", "range": 2 },
+        { "u_near_om_location": "corpse_head_neck_center", "range": 2 },
+        { "u_near_om_location": "corpse_head_neck_l_decap", "range": 2 },
+        { "u_near_om_location": "corpse_head_neck_r", "range": 2 },
+        { "u_near_om_location": "corpse_head_neck_r_decap", "range": 2 },
+        { "u_near_om_location": "corpse_head_neck_center_decap", "range": 2 },
+        { "u_near_om_location": "nether_crystal_field", "range": 1 },
+        { "u_near_om_location": "psi_phavian_lab_blockB1", "range": 2 },
+        { "u_near_om_location": "psi_phavian_lab_blockD1", "range": 2 },
+        { "u_near_om_location": "psi_phavian_lab_blockB3", "range": 2 },
+        { "u_near_om_location": "psi_phavian_lab_blockD3", "range": 2 },
+        { "u_near_om_location": "psi_phavian_lab_block2B1", "range": 2 },
+        { "u_near_om_location": "psi_phavian_lab_block2D1", "range": 2 },
+        { "u_near_om_location": "psi_phavian_lab_block2B3", "range": 2 },
+        { "u_near_om_location": "psi_phavian_lab_block2D3", "range": 2 },
+        { "u_near_om_location": "psi_phavian_lab_block3B1", "range": 2 },
+        { "u_near_om_location": "psi_phavian_lab_block3D1", "range": 2 },
+        { "u_near_om_location": "psi_phavian_lab_block3B3", "range": 2 },
+        { "u_near_om_location": "psi_phavian_lab_block3D3", "range": 2 },
+        { "u_near_om_location": "psi_phavian_lab_block4B1", "range": 2 },
+        { "u_near_om_location": "psi_phavian_lab_block4D1", "range": 2 },
+        { "u_near_om_location": "psi_phavian_lab_block4B3", "range": 2 },
+        { "u_near_om_location": "psi_phavian_lab_block4D3", "range": 2 },
+        { "u_near_om_location": "psi_phavian_lab_block5B1", "range": 2 },
+        { "u_near_om_location": "psi_phavian_lab_block5D1", "range": 2 },
+        { "u_near_om_location": "psi_phavian_lab_block5B3", "range": 2 },
+        { "u_near_om_location": "psi_phavian_lab_block5D3", "range": 2 },
+        { "u_near_om_location": "void_spider_lair_entrance", "range": 2 },
+        { "u_near_om_location": "void_spider_lair_a1", "range": 2 },
+        { "u_near_om_location": "void_spider_lair_a2", "range": 2 },
+        { "u_near_om_location": "LIXA_surface_1b_north", "range": 2 },
+        { "u_near_om_location": "LIXA_roof_1a_north", "range": 2 },
+        { "u_near_om_location": "LIXA_stairshaft_1a_north", "range": 2 },
+        { "u_near_om_location": "LIXA_stairshaft_2a_north", "range": 2 },
+        { "u_near_om_location": "LIXA_device_2_north", "range": 2 },
+        { "u_near_om_location": "LIXA_device_unfolded_noaccess_north", "range": 2 },
+        { "u_near_om_location": "LIXA_entry_2_north", "range": 2 },
+        { "u_near_om_location": "LIXA_road_north", "range": 2 },
+        { "u_near_om_location": "LIXA_road_guard_north", "range": 2 }
+      ]
+    },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_LIST_OF_POWERS_CANCELLED_BY_COMBAT",
+    "condition": {
+      "or": [
+        { "u_has_trait": "CLAIR_SPEED_READ" },
+        { "u_has_effect": "effect_clair_speed_reader" },
+        { "u_has_effect": "effect_clair_see_auras" },
+        { "u_has_effect": "effect_clair_craft_bonus" },
+        { "u_has_effect": "effect_clair_perfect_shot" },
+        { "u_has_effect": "effect_photokin_light_local" },
+        { "u_has_item": "pyrokinetic_fire_tool" },
+        { "u_has_item": "pyrokinetic_torch_weld" },
+        { "u_has_effect": "effect_telekinetic_strength" },
+        { "u_has_item": "telekin_lifting_jack_1" },
+        { "u_has_item": "telekin_lifting_jack_2" },
+        { "u_has_item": "telekin_lifting_jack_3" },
+        { "u_has_item": "telekin_lifting_jack_4" },
+        { "u_has_item": "telekin_lifting_jack_5" },
+        { "u_has_item": "telekin_lifting_jack_6" },
+        { "u_has_item": "telekin_lifting_jack_7" },
+        { "u_has_item": "telekin_lifting_jack_8" },
+        { "u_has_item": "telekin_lifting_jack_9" },
+        { "u_has_item": "telekin_lifting_jack_10" },
+        { "u_has_item": "telekin_lifting_jack_11" },
+        { "u_has_item": "telekin_lifting_jack_12" },
+        { "u_has_item": "telekin_lifting_jack_13" },
+        { "u_has_item": "telekin_lifting_jack_14" },
+        { "u_has_item": "telekin_lifting_jack_15" },
+        { "u_has_item": "telekin_lifting_jack_16" },
+        { "u_has_item": "telekin_lifting_jack_17" },
+        { "u_has_item": "telekin_lifting_jack_18" },
+        { "u_has_item": "telekin_lifting_jack_19" },
+        { "u_has_item": "telekin_lifting_jack_20" },
+        { "u_has_effect": "effect_telekinetic_levitation" },
+        { "u_has_effect": "effect_telepathic_learning_bonus" },
+        { "u_has_effect": "telepathic_ignorance_self" }
+      ]
+    },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_AWAKENING_X_IN_Y_CHANCE",
+    "condition": { "x_in_y_chance": { "x": { "math": [ "100 - u_awakening_reducer" ] }, "y": 100 } },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF",
+    "condition": {
+      "and": [
+        { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } },
+        {
+          "not": {
+            "and": [
+              { "u_has_effect": "effect_telepathic_psi_armor" },
+              {
+                "math": [
+                  "u_spell_level('telepathic_shield')",
+                  ">=",
+                  "(u_vitamin('vitamin_psionic_drain') / 10) + (max(u_school_level('BIOKINETIC'), u_school_level('CLAIRSENTIENT'), u_school_level('ELECTROKINETIC'), u_school_level('PHOTOKINETIC'), u_school_level('PYROKINETIC'), u_school_level('TELEPATH'), u_school_level('TELEKINETIC'), u_school_level('TELEPORTER'), u_school_level('VITAKINETIC')) / 3) + (u_awakening_countup / 3)"
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "effect": [  ]
+  }
+]

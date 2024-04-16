@@ -6,12 +6,13 @@
     "description": "A candle burns the most brightly at both ends, and yet it burns twice as fast.",
     "valid_targets": [ "hostile" ],
     "flags": [ "CONCENTRATE", "SOMATIC", "NO_PROJECTILE", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "extra_effects": [ { "id": "eoc_evocation_setup" } ],
     "effect": "attack",
     "shape": "blast",
     "damage_type": "heat",
-    "min_damage": 30,
-    "damage_increment": 10.0,
-    "max_damage": 380,
+    "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(30, 0.5)" ] },
+    "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(10.0, 0.03)" ] },
+    "max_damage": { "math": [ "evocation_proficiency_bonus_calculate(380, 0.5)" ] },
     "min_range": 3,
     "range_increment": 0.1,
     "max_range": 6,
@@ -42,9 +43,9 @@
     "max_damage": 0,
     "valid_targets": [ "self" ],
     "max_level": 35,
-    "min_duration": 1080000,
-    "max_duration": 540000,
-    "duration_increment": -30000
+    "min_duration": { "math": [ "enhancement_proficiency_negate_calculate(1080000)" ] },
+    "max_duration": { "math": [ "enhancement_proficiency_negate_calculate(540000)" ] },
+    "duration_increment": { "math": [ "enhancement_proficiency_negate_calculate(-30000)" ] }
   },
   {
     "id": "soul_burn",
@@ -72,6 +73,6 @@
     "max_level": 35,
     "difficulty": 6,
     "spell_class": "SOULFIRE",
-    "extra_effects": [ { "id": "soul_afterburner_effect_1", "hit_self": true } ]
+    "extra_effects": [ { "id": "soul_afterburner_effect_1", "hit_self": true }, { "id": "eoc_enhancement_setup" } ]
   }
 ]

@@ -21,9 +21,8 @@
     "flags": [ "NEVER_JAMS", "EASY_CLEAN" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bore", 1 ],
       [ "brass catcher", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],

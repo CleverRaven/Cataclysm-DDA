@@ -138,6 +138,24 @@
     "type": "recipe",
     "copy-from": "cestus_plus_one",
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
+    "time": "9 h",
+    "id_suffix": "direct_enchanted",
+    "result": "butchering_kit_plus_one",
+    "components": [ [ [ "butchering_kit", 1 ] ], [ [ "mana_dust", 60 ] ], [ [ "mercury", 30 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "copy-from": "cestus_plus_one",
+    "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
+    "time": "9 h",
+    "id_suffix": "direct_enchanted",
+    "result": "butchering_kit_plus_two",
+    "components": [ [ [ "butchering_kit_plus_one", 1 ] ], [ [ "mana_dust", 60 ] ], [ [ "mercury", 30 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "copy-from": "cestus_plus_one",
+    "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
     "result": "cudgel_plus_one",
     "components": [ [ [ "cudgel", 1 ] ], [ [ "mana_dust", 20 ] ] ]
   },

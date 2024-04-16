@@ -289,7 +289,7 @@
     "addiction_potential": 3,
     "addiction_type": "caffeine",
     "use_action": { "type": "consume_drug", "activation_message": "You take a caffeine pill." },
-    "fatigue_mod": 9
+    "sleepiness_mod": 9
   },
   {
     "id": "chaw",
@@ -448,7 +448,7 @@
     "weight": "61 g",
     "color": "brown",
     "addiction_type": "amphetamine",
-    "fatigue_mod": 60,
+    "sleepiness_mod": 60,
     "stim": 20,
     "container": "bottle_glass",
     "comestible_type": "DRINK",
@@ -1383,7 +1383,7 @@
     "comestible_type": "MED",
     "name": { "str_sp": "antihistamine pill" },
     "description": "Over-the-counter allergy medication.  These are meant to be taken once a day and can cause drowsiness.",
-    "//": "Diphenhydramine HCl. Many flu meds including nyquil contain this drug, so the overlap with cough syrup is intentional.",
+    "//": "Flu meds contain antihistamines among other things, so it's intended that there's some overlap between this and cough syrup.",
     "material": [ "drug_filler" ],
     "weight": "1 g",
     "volume": "1 ml",

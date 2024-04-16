@@ -108,7 +108,7 @@
     "copy-from": "32_acp_jhp",
     "type": "AMMO",
     "name": { "str_sp": ".32 ACP JHP, reloaded" },
-    "description": "Jacketed .32 ACP ammunition with a 71gr hollow point bullet, intended for use in self-defense..  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
+    "description": "Jacketed .32 ACP ammunition with a 71gr hollow point bullet, intended for use in self-defense.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }

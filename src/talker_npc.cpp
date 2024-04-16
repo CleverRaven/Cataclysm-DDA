@@ -171,7 +171,7 @@ std::vector<std::string> talker_npc::get_topics( bool radio_contact )
     if( add_topics.back() == "TALK_NONE" ) {
         add_topics.back() = me_npc->pick_talk_topic( player_character );
     }
-    me_npc->moves -= 100;
+    me_npc->mod_moves( -to_moves<int>( 1_seconds ) );
 
     if( player_character.is_deaf() ) {
         if( add_topics.back() == me_npc->chatbin.talk_mug ||
@@ -346,7 +346,7 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
     }
 
     if( !p.will_accept_from_player( it ) ) {
-        reason = _( p.chatbin.snip_consume_cant_accept );
+        reason = p.chat_snippets().snip_consume_cant_accept.translated();
         return REFUSED;
     }
 
@@ -354,19 +354,19 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
     int amount_used = 1;
     if( to_eat.is_food() ) {
         if( !p.can_consume_as_is( to_eat ) ) {
-            reason = _( p.chatbin.snip_consume_cant_consume );
+            reason = p.chat_snippets().snip_consume_cant_consume.translated();
             return REFUSED;
         } else {
             if( to_eat.rotten() && !p.as_character()->has_trait( trait_SAPROVORE ) ) {
                 //TODO: once npc needs are operational again check npc hunger state and allow eating if desperate
-                reason = _( p.chatbin.snip_consume_rotten );
+                reason = p.chat_snippets().snip_consume_rotten.translated();
                 return REFUSED;
             }
 
             const time_duration &consume_time = p.get_consume_time( to_eat );
-            p.moves -= to_moves<int>( consume_time );
+            p.mod_moves( -to_moves<int>( consume_time ) );
             p.consume( to_eat );
-            reason = _( p.chatbin.snip_consume_eat );
+            reason = p.chat_snippets().snip_consume_eat.translated();
         }
 
     } else if( to_eat.is_medication() ) {
@@ -376,26 +376,26 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
                 has = p.has_charges( comest->tool, 1 );
             }
             if( !has ) {
-                std::string talktag = p.chatbin.snip_consume_need_item;
+                std::string talktag = p.chat_snippets().snip_consume_need_item.translated();
                 parse_tags( talktag, get_player_character(), p );
                 reason = string_format( _( talktag ), item::nname( comest->tool ) );
                 return REFUSED;
             }
             p.use_charges( comest->tool, 1 );
-            reason = _( p.chatbin.snip_consume_med );
+            reason = p.chat_snippets().snip_consume_med.translated();
         }
         if( to_eat.type->has_use() ) {
             amount_used = to_eat.type->invoke( &p, to_eat, p.pos() ).value_or( 0 );
             if( amount_used <= 0 ) {
-                reason = _( p.chatbin.snip_consume_nocharge );
+                reason = p.chat_snippets().snip_consume_nocharge.translated();
                 return REFUSED;
             }
-            reason = _( p.chatbin.snip_consume_use_med );
+            reason = p.chat_snippets().snip_consume_use_med.translated();
         }
 
         p.consume_effects( to_eat );
         to_eat.charges -= amount_used;
-        p.moves -= 250;
+        p.mod_moves( -to_moves<int>( 1_seconds ) * 2.5 );
     } else {
         debugmsg( "Unknown comestible type of item: %s\n", to_eat.tname() );
     }
@@ -412,12 +412,12 @@ std::string talker_npc::give_item_to( const bool to_use )
 {
     avatar &player_character = get_avatar();
     if( me_npc->is_hallucination() ) {
-        return _( me_npc->chatbin.snip_give_to_hallucination );
+        return me_npc->chat_snippets().snip_give_to_hallucination.translated();
     }
     item_location loc = game_menus::inv::titled_menu( player_character, _( "Offer what?" ),
                         _( "You have no items to offer." ) );
     if( !loc ) {
-        return _( me_npc->chatbin.snip_give_cancel );
+        return me_npc->chat_snippets().snip_give_cancel.translated();
     }
     item &given = *loc;
 
@@ -431,11 +431,11 @@ std::string talker_npc::give_item_to( const bool to_use )
     }
 
     if( given.is_dangerous() && !player_character.has_trait( trait_DEBUG_MIND_CONTROL ) ) {
-        return _( me_npc->chatbin.snip_give_dangerous );
+        return me_npc->chat_snippets().snip_give_dangerous.translated();
     }
 
     bool taken = false;
-    std::string reason = _( me_npc->chatbin.snip_give_nope );
+    std::string reason = me_npc->chat_snippets().snip_give_nope.translated();
     const item_location weapon = me_npc->get_wielded_item();
     int our_ammo = me_npc->ammo_count_for( weapon );
     int new_ammo = me_npc->ammo_count_for( loc );
@@ -450,7 +450,7 @@ std::string talker_npc::give_item_to( const bool to_use )
         // Eating first, to avoid evaluating bread as a weapon
         const consumption_result consume_res = try_consume( *me_npc, given, reason );
         if( consume_res != REFUSED ) {
-            player_character.moves -= 100;
+            player_character.mod_moves( -to_moves<int>( 1_seconds ) );
             if( consume_res == CONSUMED_ALL ) {
                 player_character.i_rem( &given );
             } else if( given.is_container() ) {
@@ -459,7 +459,7 @@ std::string talker_npc::give_item_to( const bool to_use )
         }// wield it if its a weapon
         else if( new_weapon_value > cur_weapon_value ) {
             me_npc->wield( given );
-            reason = _( me_npc->chatbin.snip_give_wield );
+            reason = me_npc->chat_snippets().snip_give_wield.translated();
             taken = true;
         }// HACK: is_gun here is a hack to prevent NPCs wearing guns if they don't want to use them
         else if( !given.is_gun() && given.is_armor() ) {
@@ -479,12 +479,12 @@ std::string talker_npc::give_item_to( const bool to_use )
                 }
             }
         } else {
-            reason += " " + string_format( _( me_npc->chatbin.snip_give_weapon_weak +
-                                              "(new weapon value: %.1f vs %.1f)." ), new_weapon_value, cur_weapon_value );
+            reason += " " + string_format( me_npc->chat_snippets().snip_give_weapon_weak.translated() +
+                                           _( "(new weapon value: %.1f vs %.1f)." ), new_weapon_value, cur_weapon_value );
         }
     } else {//allow_use is false so try to carry instead
         if( me_npc->can_pickVolume( given ) && me_npc->can_pickWeight( given ) ) {
-            reason = _( me_npc->chatbin.snip_give_carry );
+            reason = me_npc->chat_snippets().snip_give_carry.translated();
             // set the item given to be favorited so it's not dropped automatically
             given.set_favorite( true );
             taken = true;
@@ -493,24 +493,24 @@ std::string talker_npc::give_item_to( const bool to_use )
             if( !me_npc->can_pickVolume( given ) ) {
                 const units::volume free_space = me_npc->volume_capacity() -
                                                  me_npc->volume_carried();
-                reason += " " + std::string( _( me_npc->chatbin.snip_give_carry_cant ) ) + " ";
+                reason += " " + std::string( me_npc->chat_snippets().snip_give_carry_cant.translated() ) + " ";
                 if( free_space > 0_ml ) {
-                    std::string talktag = me_npc->chatbin.snip_give_carry_cant_few_space;
+                    std::string talktag = me_npc->chat_snippets().snip_give_carry_cant_few_space.translated();
                     parse_tags( talktag, get_player_character(), *me_npc );
                     reason += string_format( _( talktag ), format_volume( free_space ), volume_units_long() );
                 } else {
-                    reason += _( me_npc->chatbin.snip_give_carry_cant_no_space );
+                    reason += me_npc->chat_snippets().snip_give_carry_cant_no_space.translated();
                 }
             }
             if( !me_npc->can_pickWeight( given ) ) {
-                reason += std::string( " " ) + _( me_npc->chatbin.snip_give_carry_too_heavy );
+                reason += std::string( " " ) + me_npc->chat_snippets().snip_give_carry_too_heavy.translated();
             }
         }
     }
 
     if( taken ) {
         player_character.i_rem( &given );
-        player_character.moves -= 100;
+        player_character.mod_moves( -to_moves<int>( 1_seconds ) );
         me_npc->has_new_items = true;
     }
 
@@ -773,19 +773,19 @@ std::string talker_npc::evaluation_by( const talker &alpha ) const
         info += string_format( _( "  Per %d - %d" ), per_min, per_min + per_range );
     }
     needs_rates rates = me_npc->calc_needs_rates();
-    if( ability >= 100 - ( get_fatigue() / 10 ) ) {
+    if( ability >= 100 - ( get_sleepiness() / 10 ) ) {
         std::string how_tired;
-        if( get_fatigue() > fatigue_levels::EXHAUSTED ) {
+        if( get_sleepiness() > sleepiness_levels::EXHAUSTED ) {
             how_tired = _( "Exhausted" );
-        } else if( get_fatigue() > fatigue_levels::DEAD_TIRED ) {
+        } else if( get_sleepiness() > sleepiness_levels::DEAD_TIRED ) {
             how_tired = _( "Dead tired" );
-        } else if( get_fatigue() > fatigue_levels::TIRED ) {
+        } else if( get_sleepiness() > sleepiness_levels::TIRED ) {
             how_tired = _( "Tired" );
         } else {
             how_tired = _( "Not tired" );
             if( ability >= 100 ) {
-                time_duration sleep_at = 5_minutes * ( fatigue_levels::TIRED -
-                                                       get_fatigue() ) / rates.fatigue;
+                time_duration sleep_at = 5_minutes * ( sleepiness_levels::TIRED -
+                                                       get_sleepiness() ) / rates.sleepiness;
                 how_tired += _( ".  Will need sleep in " ) + to_string_approx( sleep_at );
             }
         }

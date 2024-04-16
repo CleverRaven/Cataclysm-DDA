@@ -1,33 +1,38 @@
 #include "cata_utility.h"
 
-#include <cctype>
+#include <zconf.h>
+#include <algorithm>
 #include <cerrno>
 #include <charconv>
-#include <clocale>
-#include <cstdlib>
-#include <cwctype>
-#include <algorithm>
 #include <cmath>
+#include <cstddef>
 #include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <cwctype>
 #include <exception>
-#include <iterator>
+#include <fstream>
+#include <iosfwd>
+#include <ostream>
 #include <sstream>
 #include <stdexcept>
 #include <string>
 
 #include "cached_options.h"
+#include "cata_path.h"
 #include "catacharset.h"
 #include "debug.h"
-#include "enum_conversions.h"
 #include "filesystem.h"
+#include "flexbuffer_json.h"
 #include "json.h"
 #include "json_loader.h"
 #include "ofstream_wrapper.h"
 #include "options.h"
 #include "output.h"
-#include "path_info.h"
 #include "pinyin.h"
 #include "rng.h"
+#include "string_formatter.h"
+#include "translation.h"
 #include "translations.h"
 #include "unicode.h"
 #include "zlib.h"
@@ -399,7 +404,10 @@ std::string read_compressed_file_to_string( std::istream &fin )
     z_stream zs;
     memset( &zs, 0, sizeof( zs ) );
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wold-style-cast"
     if( inflateInit2( &zs, MAX_WBITS | 16 ) != Z_OK ) {
+#pragma GCC diagnostic pop
         throw std::runtime_error( "inflateInit failed while decompressing." );
     }
 

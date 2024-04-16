@@ -82,7 +82,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_PORTAL_STORM_WHAT_DO_YOU_GET",
-    "dynamic_line": "There is no me.  I don't exist yet, but time is a lie.  The barriers are weak and your presence is potent enough to reflect.  I am the you that said yes.",
+    "dynamic_line": {
+      "gendered_line": "There is no me.  I don't exist yet, but time is a lie.  The barriers are weak and your presence is potent enough to reflect.  I am the you that said yes.",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [
       { "text": "What do I need to do?", "topic": "TALK_PORTAL_STORM_I_NEED_TO_DO" },
       { "text": "Leave me alone.", "topic": "TALK_PORTAL_STORM_IGNORE" }

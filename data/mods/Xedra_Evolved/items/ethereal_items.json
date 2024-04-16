@@ -19,8 +19,7 @@
       "NO_TAKEOFF",
       "NONCONDUCTIVE",
       "UNBREAKABLE",
-      "ALLOWS_NATURAL_ATTACKS",
-      "TRANSPARENT"
+      "ALLOWS_NATURAL_ATTACKS"
     ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ] },
     "armor": [
@@ -52,8 +51,7 @@
       "NO_TAKEOFF",
       "NONCONDUCTIVE",
       "UNBREAKABLE",
-      "ALLOWS_NATURAL_ATTACKS",
-      "TRANSPARENT"
+      "ALLOWS_NATURAL_ATTACKS"
     ],
     "relic_data": {
       "passive_effects": [
@@ -123,7 +121,7 @@
     "id": "armor_dreamdross",
     "type": "ARMOR",
     "category": "armor",
-    "copy-from": "armor_lightplate",
+    "copy-from": "armor_lc_lightplate",
     "name": { "str_sp": "dream armor" },
     "description": "A summoned medieval armor made from dreamdross.  It shimmers in the light and provides some protection.",
     "material": [ "dreamstuff" ],

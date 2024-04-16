@@ -109,7 +109,12 @@
           "id": "EOC_toolweapon_running__chainsaw",
           "effect": {
             "run_eoc_with": "EOC_toolweapon_running",
-            "variables": { "sound_chance": "15", "sound_message": "Your chainsaw rumbles.", "volume": "12", "revert_to": "chainsaw_off" }
+            "variables": {
+              "sound_chance": "15",
+              "sound_message": { "i18n": true, "str": "Your chainsaw rumbles." },
+              "volume": "12",
+              "revert_to": "chainsaw_off"
+            }
           }
         }
       ]
@@ -147,9 +152,9 @@
             "variables": {
               "turn_cost": "0.8",
               "transform_target": "polesaw_on",
-              "success_message": "With a roar, the pole saw screams to life!",
+              "success_message": { "i18n": true, "str": "With a roar, the pole saw screams to life!" },
               "volume": "15",
-              "failure_message": "You yank the cord, but nothing happens."
+              "failure_message": { "i18n": true, "str": "You yank the cord, but nothing happens." }
             }
           }
         }
@@ -187,7 +192,12 @@
           "id": "EOC_toolweapon_running__polesaw",
           "effect": {
             "run_eoc_with": "EOC_toolweapon_running",
-            "variables": { "sound_chance": "15", "sound_message": "Your pole saw rumbles.", "volume": "12", "revert_to": "polesaw_off" }
+            "variables": {
+              "sound_chance": "15",
+              "sound_message": { "i18n": true, "str": "Your pole saw rumbles." },
+              "volume": "12",
+              "revert_to": "polesaw_off"
+            }
           }
         }
       ]
@@ -222,9 +232,9 @@
             "variables": {
               "turn_cost": "0.6",
               "transform_target": "circsaw_on",
-              "success_message": "With a loud buzz, the <npc_name> roars to life!",
+              "success_message": { "i18n": true, "str": "With a loud buzz, the <npc_name> roars to life!" },
               "volume": "15",
-              "failure_message": "You flip the switch, but nothing happens."
+              "failure_message": { "i18n": true, "str": "You flip the switch, but nothing happens." }
             }
           }
         }
@@ -269,7 +279,12 @@
           "id": "EOC_toolweapon_running__circsaw",
           "effect": {
             "run_eoc_with": "EOC_toolweapon_running",
-            "variables": { "sound_chance": "15", "sound_message": "Your circular saw buzzes.", "volume": "7", "revert_to": "circsaw_off" }
+            "variables": {
+              "sound_chance": "15",
+              "sound_message": { "i18n": true, "str": "Your circular saw buzzes." },
+              "volume": "7",
+              "revert_to": "circsaw_off"
+            }
           }
         }
       ]
@@ -339,6 +354,25 @@
     "melee_damage": { "bash": 10, "cut": 20 }
   },
   {
+    "id": "luthier_toolset",
+    "type": "TOOL",
+    "name": { "str": "luthier toolset" },
+    "description": "A set of luthier tools in several sizes and types.  Guaranteed to have the right tools for creating musical instruments from wood.",
+    "looks_like": "screwdriver_set",
+    "weight": "1600 g",
+    "volume": "1500 ml",
+    "longest_side": "28 cm",
+    "price": 20000,
+    "price_postapoc": 250,
+    "to_hit": -2,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "yellow",
+    "qualities": [ [ "LUTHIER", 1 ] ],
+    "flags": [ "BELT_CLIP", "NO_SALVAGE" ],
+    "melee_damage": { "bash": 2 }
+  },
+  {
     "id": "elec_chainsaw_off",
     "type": "TOOL",
     "name": { "str": "electric chainsaw (off)", "str_pl": "electric chainsaws (off)" },
@@ -367,9 +401,9 @@
             "variables": {
               "turn_cost": "0.6",
               "transform_target": "elec_chainsaw_on",
-              "success_message": "With a roar, the electric chainsaw screams to life!",
+              "success_message": { "i18n": true, "str": "With a roar, the electric chainsaw screams to life!" },
               "volume": "20",
-              "failure_message": "You flip the switch, but nothing happens."
+              "failure_message": { "i18n": true, "str": "You flip the switch, but nothing happens." }
             }
           },
           "false_effect": { "u_message": "You flip the switch, but nothing happens." }
@@ -417,7 +451,7 @@
             "run_eoc_with": "EOC_toolweapon_running",
             "variables": {
               "sound_chance": "5",
-              "sound_message": "Your electric chainsaw rumbles.",
+              "sound_message": { "i18n": true, "str": "Your electric chainsaw rumbles." },
               "volume": "12",
               "revert_to": "elec_chainsaw_off"
             }
@@ -449,9 +483,9 @@
               "variables": {
                 "turn_cost": "0.6",
                 "transform_target": "elec_chainsaw_cord_on",
-                "success_message": "With a roar, the corded electric chainsaw screams to life!",
+                "success_message": { "i18n": true, "str": "With a roar, the corded electric chainsaw screams to life!" },
                 "volume": "20",
-                "failure_message": "You flip the switch, but nothing happens."
+                "failure_message": { "i18n": true, "str": "You flip the switch, but nothing happens." }
               }
             },
             "false_effect": { "u_message": "You flip the switch, but nothing happens." }
@@ -490,7 +524,7 @@
             "run_eoc_with": "EOC_toolweapon_running",
             "variables": {
               "sound_chance": "5",
-              "sound_message": "Your corded electric chainsaw rumbles.",
+              "sound_message": { "i18n": true, "str": "Your corded electric chainsaw rumbles." },
               "volume": "12",
               "revert_to": "elec_chainsaw_cord_off"
             }

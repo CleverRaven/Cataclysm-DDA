@@ -24,6 +24,7 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "ui.h"
+#include "uistate.h"
 #include "units.h"
 #include "value_ptr.h"
 
@@ -265,17 +266,17 @@ void player_activity::do_turn( Character &you )
     if( type->based_on() == based_on_type::TIME ) {
         if( moves_left >= 100 ) {
             moves_left -= 100 * activity_mult;
-            you.moves = 0;
+            you.set_moves( 0 );
         } else {
-            you.moves -= you.moves * moves_left / 100;
+            you.mod_moves( -you.get_moves() * moves_left / 100 );
             moves_left = 0;
         }
     } else if( type->based_on() == based_on_type::SPEED ) {
-        if( you.moves <= moves_left ) {
-            moves_left -= you.moves * activity_mult;
-            you.moves = 0;
+        if( you.get_moves() <= moves_left ) {
+            moves_left -= you.get_moves() * activity_mult;
+            you.set_moves( 0 );
         } else {
-            you.moves -= moves_left;
+            you.mod_moves( -moves_left );
             moves_left = 0;
         }
     }

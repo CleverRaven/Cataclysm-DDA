@@ -139,6 +139,9 @@ class talker
         virtual int get_hp_max( const bodypart_id & ) const {
             return 0;
         }
+        virtual int get_count() const {
+            return 0;
+        }
         virtual units::temperature get_cur_part_temp( const bodypart_id & ) const {
             return 0_K;
         }
@@ -231,7 +234,7 @@ class talker
         virtual void unset_mutation( const trait_id & ) {}
         virtual void activate_mutation( const trait_id & ) {}
         virtual void deactivate_mutation( const trait_id & ) {}
-        virtual void set_fatigue( int ) {};
+        virtual void set_sleepiness( int ) {};
         virtual bool has_flag( const json_character_flag & ) const {
             return false;
         }
@@ -266,6 +269,7 @@ class talker
             return 0_seconds;
         }
         virtual void set_proficiency_practiced_time( const proficiency_id &, int ) {}
+        virtual void train_proficiency_for( const proficiency_id &, int ) {}
         virtual std::vector<skill_id> skills_offered_to( const talker & ) const {
             return {};
         }
@@ -500,7 +504,7 @@ class talker
         virtual int get_activity_level() const {
             return 0;
         }
-        virtual int get_fatigue() const {
+        virtual int get_sleepiness() const {
             return 0;
         }
         virtual int get_hunger() const {
@@ -713,6 +717,12 @@ class talker
         }
         virtual bool using_martial_art( const matype_id & ) const {
             return false;
+        }
+        virtual int climate_control_str_heat() const {
+            return 0;
+        }
+        virtual int climate_control_str_chill() const {
+            return 0;
         }
 };
 template <class T, class B = talker>

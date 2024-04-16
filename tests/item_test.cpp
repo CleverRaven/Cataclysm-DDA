@@ -72,7 +72,7 @@ TEST_CASE( "simple_item_layers", "[item]" )
     CHECK( item( "arm_warmers" ).get_layer().front() == layer_level::SKINTIGHT );
     CHECK( item( "10gal_hat" ).get_layer().front() == layer_level::NORMAL );
     // intentionally no waist layer check since it is obsoleted
-    CHECK( item( "armor_lightplate" ).get_layer().front() == layer_level::OUTER );
+    CHECK( item( "armor_mc_lightplate" ).get_layer().front() == layer_level::OUTER );
     CHECK( item( "legrig" ).get_layer().front() == layer_level::BELTED );
 }
 
@@ -434,10 +434,13 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
             item smart_phone( itype_test_smart_phone );
 
             REQUIRE( guy.wield( smart_phone ) );
+            item *test_item = guy.get_wielded_item().get_item();
 
             THEN( "should be broken by water" ) {
                 g->water_affect_items( guy );
-                CHECK( guy.has_item_with_flag( flag_ITEM_BROKEN ) );
+
+                CHECK_FALSE( test_item->faults.empty() );
+                CHECK( test_item->is_broken() );
             }
         }
 
@@ -451,10 +454,12 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
             backpack.put_in( smart_phone, pocket_type::CONTAINER );
 
             REQUIRE( guy.wield( backpack ) );
+            item *test_item = &guy.get_wielded_item()->only_item();
 
             THEN( "should be broken by water" ) {
                 g->water_affect_items( guy );
-                CHECK( guy.has_item_with_flag( flag_ITEM_BROKEN ) );
+                CHECK_FALSE( test_item->faults.empty() );
+                CHECK( test_item->is_broken() );
             }
         }
 
@@ -468,10 +473,12 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
             body_bag.put_in( smart_phone, pocket_type::CONTAINER );
 
             REQUIRE( guy.wield( body_bag ) );
+            item *test_item = &guy.get_wielded_item()->only_item();
 
             THEN( "should not be broken by water" ) {
                 g->water_affect_items( guy );
-                CHECK_FALSE( guy.has_item_with_flag( flag_ITEM_BROKEN ) );
+                CHECK( test_item->faults.empty() );
+                CHECK_FALSE( test_item->is_broken() );
             }
         }
 
@@ -487,10 +494,12 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
             duffelbag.put_in( backpack, pocket_type::CONTAINER );
 
             REQUIRE( guy.wield( duffelbag ) );
+            item *test_item = &guy.get_wielded_item()->only_item().only_item();
 
             THEN( "should be broken by water" ) {
                 g->water_affect_items( guy );
-                CHECK( guy.has_item_with_flag( flag_ITEM_BROKEN ) );
+                CHECK_FALSE( test_item->faults.empty() );
+                CHECK( test_item->is_broken() );
             }
         }
 
@@ -506,10 +515,12 @@ TEST_CASE( "water_affect_items_while_swimming_check", "[item][water][swimming]" 
             body_bag.put_in( backpack, pocket_type::CONTAINER );
 
             REQUIRE( guy.wield( body_bag ) );
+            item *test_item = &guy.get_wielded_item()->only_item().only_item();
 
             THEN( "should not be broken by water" ) {
                 g->water_affect_items( guy );
-                CHECK_FALSE( guy.has_item_with_flag( flag_ITEM_BROKEN ) );
+                CHECK( test_item->faults.empty() );
+                CHECK_FALSE( test_item->is_broken() );
             }
         }
     }

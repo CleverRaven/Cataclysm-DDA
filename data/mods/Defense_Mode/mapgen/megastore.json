@@ -1,15 +1,6 @@
 [
   {
     "type": "overmap_terrain",
-    "id": "megastore_parking",
-    "name": "megastore parking lot",
-    "sym": "O",
-    "color": "dark_gray",
-    "extras": "build",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
     "id": [
       "megastore_0_0_0",
       "megastore_1_0_0",

@@ -2,10 +2,10 @@
 #ifndef CATA_SRC_DIALOGUE_CHATBIN_H
 #define CATA_SRC_DIALOGUE_CHATBIN_H
 
-#include <iosfwd>
+#include <string>
 #include <vector>
 
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 
 class JsonObject;
@@ -56,6 +56,13 @@ struct dialogue_chatbin {
     void store_chosen_training( const skill_id &c_skill, const matype_id &c_style,
                                 const spell_id &c_spell, const proficiency_id &c_proficiency );
     void clear_training();
+
+    dialogue_chatbin() = default;
+
+    void clear_all();
+    void serialize( JsonOut &json ) const;
+    void deserialize( const JsonObject &data );
+
     std::string first_topic = "TALK_NONE";
     std::string talk_radio = "TALK_RADIO";
     std::string talk_leader = "TALK_LEADER";
@@ -69,91 +76,91 @@ struct dialogue_chatbin {
     std::string talk_stranger_friendly = "TALK_STRANGER_FRIENDLY";
     std::string talk_stranger_neutral = "TALK_STRANGER_NEUTRAL";
     std::string talk_friend_guard = "TALK_FRIEND_GUARD";
+};
 
+struct dialogue_chatbin_snippets {
     // talk from npcmove.cpp(can use snippets in json)
-    std::string snip_camp_food_thanks = "<camp_food_thanks>";
-    std::string snip_camp_larder_empty = "<camp_larder_empty>";
-    std::string snip_camp_water_thanks = "<camp_water_thanks>";
-    std::string snip_cant_flee = "<cant_flee>";
-    std::string snip_close_distance = "<close_distance>";
-    std::string snip_combat_noise_warning = "<combat_noise_warning>";
-    std::string snip_danger_close_distance = "<danger_close_distance>";
-    std::string snip_done_mugging = "<done_mugging>";
-    std::string snip_far_distance = "<far_distance>";
-    std::string snip_fire_bad = "<fire_bad>";
-    std::string snip_fire_in_the_hole_h = "<fire_in_the_hole_h>";
-    std::string snip_fire_in_the_hole = "<fire_in_the_hole>";
-    std::string snip_general_danger_h = "<general_danger_h>";
-    std::string snip_general_danger = "<general_danger>";
-    std::string snip_heal_self = "<heal_self>";
-    std::string snip_hungry = "<hungry>";
-    std::string snip_im_leaving_you = "<im_leaving_you>";
-    std::string snip_its_safe_h = "<its_safe_h>";
-    std::string snip_its_safe = "<its_safe>";
-    std::string snip_keep_up = "<keep_up>";
-    std::string snip_kill_npc_h = "<kill_npc_h>";
-    std::string snip_kill_npc = "<kill_npc>";
-    std::string snip_kill_player_h = "<kill_player_h>";
-    std::string snip_let_me_pass = "<let_me_pass>";
-    std::string snip_lets_talk = "<lets_talk>";
-    std::string snip_medium_distance = "<medium_distance>";
-    std::string snip_monster_warning_h = "<monster_warning_h>";
-    std::string snip_monster_warning = "<monster_warning>";
-    std::string snip_movement_noise_warning = "<movement_noise_warning>";
-    std::string snip_need_batteries = "<need_batteries>";
-    std::string snip_need_booze = "<need_booze>";
-    std::string snip_need_fuel = "<need_fuel>";
-    std::string snip_no_to_thorazine = "<no_to_thorazine>";
-    std::string snip_run_away = "<run_away>";
-    std::string snip_speech_warning = "<speech_warning>";
-    std::string snip_thirsty = "<thirsty>";
-    std::string snip_wait = "<wait>";
-    std::string snip_warn_sleep = "<warn_sleep>";
-    std::string snip_yawn = "<yawn>";
-    std::string snip_yes_to_lsd = "<yes_to_lsd>";
-    std::string snip_mug_dontmove = _( "Don't move a <swear> muscle…" );
-    std::string snip_lost_blood = _( "I've lost lot of blood." );
-    std::string snip_pulp_zombie = _( "Hold on, I want to pulp that %s." );
-    std::string snip_heal_player = _( "Hold still %s, I'm coming to help you." );
-    std::string snip_wound_infected = _( "My %s wound is infected…" );
-    std::string snip_wound_bite = _( "The bite wound on my %s looks bad." );
-    std::string snip_bleeding = _( "My %s is bleeding!" );
-    std::string snip_bleeding_badly = _( "My %s is bleeding badly!" );
-    std::string snip_radiation_sickness = _( "I'm suffering from radiation sickness…" );
+    translation snip_camp_food_thanks = no_translation( "<camp_food_thanks>" );
+    translation snip_camp_larder_empty = no_translation( "<camp_larder_empty>" );
+    translation snip_camp_water_thanks = no_translation( "<camp_water_thanks>" );
+    translation snip_cant_flee = no_translation( "<cant_flee>" );
+    translation snip_close_distance = no_translation( "<close_distance>" );
+    translation snip_combat_noise_warning = no_translation( "<combat_noise_warning>" );
+    translation snip_danger_close_distance = no_translation( "<danger_close_distance>" );
+    translation snip_done_mugging = no_translation( "<done_mugging>" );
+    translation snip_far_distance = no_translation( "<far_distance>" );
+    translation snip_fire_bad = no_translation( "<fire_bad>" );
+    translation snip_fire_in_the_hole_h = no_translation( "<fire_in_the_hole_h>" );
+    translation snip_fire_in_the_hole = no_translation( "<fire_in_the_hole>" );
+    translation snip_general_danger_h = no_translation( "<general_danger_h>" );
+    translation snip_general_danger = no_translation( "<general_danger>" );
+    translation snip_heal_self = no_translation( "<heal_self>" );
+    translation snip_hungry = no_translation( "<hungry>" );
+    translation snip_im_leaving_you = no_translation( "<im_leaving_you>" );
+    translation snip_its_safe_h = no_translation( "<its_safe_h>" );
+    translation snip_its_safe = no_translation( "<its_safe>" );
+    translation snip_keep_up = no_translation( "<keep_up>" );
+    translation snip_kill_npc_h = no_translation( "<kill_npc_h>" );
+    translation snip_kill_npc = no_translation( "<kill_npc>" );
+    translation snip_kill_player_h = no_translation( "<kill_player_h>" );
+    translation snip_let_me_pass = no_translation( "<let_me_pass>" );
+    translation snip_lets_talk = no_translation( "<lets_talk>" );
+    translation snip_medium_distance = no_translation( "<medium_distance>" );
+    translation snip_monster_warning_h = no_translation( "<monster_warning_h>" );
+    translation snip_monster_warning = no_translation( "<monster_warning>" );
+    translation snip_movement_noise_warning = no_translation( "<movement_noise_warning>" );
+    translation snip_need_batteries = no_translation( "<need_batteries>" );
+    translation snip_need_booze = no_translation( "<need_booze>" );
+    translation snip_need_fuel = no_translation( "<need_fuel>" );
+    translation snip_no_to_thorazine = no_translation( "<no_to_thorazine>" );
+    translation snip_run_away = no_translation( "<run_away>" );
+    translation snip_speech_warning = no_translation( "<speech_warning>" );
+    translation snip_thirsty = no_translation( "<thirsty>" );
+    translation snip_wait = no_translation( "<wait>" );
+    translation snip_warn_sleep = no_translation( "<warn_sleep>" );
+    translation snip_yawn = no_translation( "<yawn>" );
+    translation snip_yes_to_lsd = no_translation( "<yes_to_lsd>" );
+    translation snip_mug_dontmove = to_translation( "Don't move a <swear> muscle…" );
+    translation snip_lost_blood = to_translation( "I've lost lot of blood." );
+    translation snip_pulp_zombie = to_translation( "Hold on, I want to pulp that %s." );
+    translation snip_heal_player = to_translation( "Hold still %s, I'm coming to help you." );
+    translation snip_wound_infected = to_translation( "My %s wound is infected…" );
+    translation snip_wound_bite = to_translation( "The bite wound on my %s looks bad." );
+    translation snip_bleeding = to_translation( "My %s is bleeding!" );
+    translation snip_bleeding_badly = to_translation( "My %s is bleeding badly!" );
+    translation snip_radiation_sickness = to_translation( "I'm suffering from radiation sickness…" );
 
     // talk from npctalk.cpp(can use snippets in json)
-    std::string snip_acknowledged = "<acknowledged>";
-    std::string snip_bye = _( "Bye." );
+    translation snip_acknowledged = no_translation( "<acknowledged>" );
+    translation snip_bye = to_translation( "Bye." );
 
     // talk from talker_npc.cpp(can use snippets in json)
-    std::string snip_consume_cant_accept = _( "I don't <swear> trust you enough to eat THIS…" );
-    std::string snip_consume_cant_consume = _( "It doesn't look like a good idea to consume this…" );
-    std::string snip_consume_rotten = _( "This is rotten!  I won't eat that." );
-    std::string snip_consume_eat = _( "Thanks, that hit the spot." );
-    std::string snip_consume_need_item = _( "I need a %s to consume that!" );
-    std::string snip_consume_med = _( "Thanks, I feel better already." );
-    std::string snip_consume_nocharge = _( "It doesn't look like a good idea to consume this…" );
-    std::string snip_consume_use_med = _( "Thanks, I used it." );
-    std::string snip_give_nope = _( "Nope." );
-    std::string snip_give_to_hallucination = _( "No thanks, I'm good." );
-    std::string snip_give_cancel = _( "Changed your mind?" );
-    std::string snip_give_dangerous = _( "Are you <swear> insane!?" );
-    std::string snip_give_wield = _( "Thanks, I'll wield that now." );
-    std::string snip_give_weapon_weak = _( "My current weapon is better than this.\n" );
-    std::string snip_give_carry = _( "Thanks, I'll carry that now." );
-    std::string snip_give_carry_cant = _( "I have no space to store it." );
-    std::string snip_give_carry_cant_few_space = _( "I can only store %s %s more." );
-    std::string snip_give_carry_cant_no_space = _( "…or to store anything else for that matter." );
-    std::string snip_give_carry_too_heavy = _( "It is too heavy for me to carry." );
+    translation snip_consume_cant_accept =
+        to_translation( "I don't <swear> trust you enough to eat THIS…" );
+    translation snip_consume_cant_consume =
+        to_translation( "It doesn't look like a good idea to consume this…" );
+    translation snip_consume_rotten = to_translation( "This is rotten!  I won't eat that." );
+    translation snip_consume_eat = to_translation( "Thanks, that hit the spot." );
+    translation snip_consume_need_item = to_translation( "I need a %s to consume that!" );
+    translation snip_consume_med = to_translation( "Thanks, I feel better already." );
+    translation snip_consume_nocharge =
+        to_translation( "It doesn't look like a good idea to consume this…" );
+    translation snip_consume_use_med = to_translation( "Thanks, I used it." );
+    translation snip_give_nope = to_translation( "Nope." );
+    translation snip_give_to_hallucination = to_translation( "No thanks, I'm good." );
+    translation snip_give_cancel = to_translation( "Changed your mind?" );
+    translation snip_give_dangerous = to_translation( "Are you <swear> insane!?" );
+    translation snip_give_wield = to_translation( "Thanks, I'll wield that now." );
+    translation snip_give_weapon_weak = to_translation( "My current weapon is better than this.\n" );
+    translation snip_give_carry = to_translation( "Thanks, I'll carry that now." );
+    translation snip_give_carry_cant = to_translation( "I have no space to store it." );
+    translation snip_give_carry_cant_few_space = to_translation( "I can only store %s %s more." );
+    translation snip_give_carry_cant_no_space =
+        to_translation( "…or to store anything else for that matter." );
+    translation snip_give_carry_too_heavy = to_translation( "It is too heavy for me to carry." );
 
     // talk from npc.cpp(can use snippets in json)
-    std::string snip_wear = _( "Thanks, I'll wear that now." );
-
-    dialogue_chatbin() = default;
-
-    void clear_all();
-    void serialize( JsonOut &json ) const;
-    void deserialize( const JsonObject &data );
+    translation snip_wear = to_translation( "Thanks, I'll wear that now." );
 };
 
 #endif // CATA_SRC_DIALOGUE_CHATBIN_H

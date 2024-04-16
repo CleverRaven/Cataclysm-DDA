@@ -122,6 +122,7 @@ class monster : public Creature
         void spawn( const tripoint &p );
         void spawn( const tripoint_abs_ms &loc );
         std::vector<material_id> get_absorb_material() const;
+        std::vector<material_id> get_no_absorb_material() const;
         creature_size get_size() const override;
         units::mass get_weight() const override;
         units::mass weight_capacity() const override;
@@ -572,6 +573,8 @@ class monster : public Creature
 
         std::optional<time_point> lastseen_turn;
 
+        pimpl<enchant_cache> enchantment_cache;
+
         // Stair data.
         int staircount = 0;
 
@@ -590,7 +593,6 @@ class monster : public Creature
          * and to reviving monsters that spawn from a corpse.
          */
         void init_from_item( item &itm );
-
         /**
          * Do some cleanup and caching as monster is being unloaded from map.
          */
@@ -605,6 +607,8 @@ class monster : public Creature
 
         const pathfinding_settings &get_pathfinding_settings() const override;
         std::unordered_set<tripoint> get_path_avoid() const override;
+        double calculate_by_enchantment( double modify, enchant_vals::mod value,
+                                         bool round_output = false ) const;
     private:
         void process_trigger( mon_trigger trig, int amount );
         void process_trigger( mon_trigger trig, const std::function<int()> &amount_func );

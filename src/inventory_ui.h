@@ -72,6 +72,7 @@ class inventory_entry
         std::string *cached_name = nullptr;
         std::string *cached_name_full = nullptr;
         unsigned int contents_count = 0;
+        size_t cached_denial_space = 0;
 
         inventory_entry() = default;
 

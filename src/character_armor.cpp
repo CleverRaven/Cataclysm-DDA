@@ -1,13 +1,42 @@
+#include <algorithm>
+#include <list>
+#include <map>
+#include <memory>
+#include <string>
+#include <utility>
+#include <vector>
+
 #include "bionics.h"
+#include "bodypart.h"
 #include "character.h"
+#include "character_attire.h"
+#include "damage.h"
+#include "enums.h"
 #include "flag.h"
+#include "item.h"
+#include "item_pocket.h"
 #include "itype.h"
+#include "line.h"
+#include "magic_enchantment.h"
 #include "make_static.h"
 #include "map.h"
+#include "material.h"
 #include "memorial_logger.h"
 #include "mutation.h"
+#include "npc.h"
 #include "output.h"
-#include "weakpoint.h"
+#include "pimpl.h"
+#include "point.h"
+#include "rng.h"
+#include "subbodypart.h"
+#include "translation.h"
+#include "translations.h"
+#include "type_id.h"
+#include "units.h"
+#include "viewer.h"
+
+struct weakpoint;
+struct weakpoint_attack;
 
 static const bionic_id bio_ads( "bio_ads" );
 
@@ -95,6 +124,10 @@ int Character::get_env_resist( bodypart_id bp ) const
 // the ITEM_ enchantments only affect the damage resistance for that one item, while the others affect all of them
 static void armor_enchantment_adjust( Character &guy, damage_unit &du )
 {
+    //If we're not dealing any damage of the given type, don't even bother.
+    if( du.amount < 0.1f ) {
+        return;
+    }
     // FIXME: hardcoded damage types -> enchantments
     if( du.type == STATIC( damage_type_id( "acid" ) ) ) {
         du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_ACID );
@@ -114,6 +147,9 @@ static void armor_enchantment_adjust( Character &guy, damage_unit &du )
         du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_STAB );
     } else if( du.type == STATIC( damage_type_id( "bullet" ) ) ) {
         du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_BULLET );
+    }
+    if( du.type != STATIC( damage_type_id( "pure" ) ) ) {
+        du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_ALL );
     }
     du.amount = std::max( 0.0f, du.amount );
 }

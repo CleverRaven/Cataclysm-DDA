@@ -34,6 +34,7 @@ set(CataAnalyzerSrc
         TranslationsInDebugMessagesCheck.cpp
         TranslatorCommentsCheck.cpp
         U8PathCheck.cpp
+        UnitOverflowCheck.cpp
         UnsequencedCallsCheck.cpp
         UnusedStaticsCheck.cpp
         UseLocalizedSortingCheck.cpp
@@ -54,7 +55,9 @@ if (CATA_CLANG_TIDY_EXECUTABLE)
 else ()
     set(CataAnalyzerName CataAnalyzerPlugin)
     add_library(${CataAnalyzerName} MODULE ${CataAnalyzerSrc})
-    target_link_libraries(${CataAnalyzerName} PRIVATE clangTidy)
+    if ("${CMAKE_SYSTEM_NAME}" MATCHES "Darwin")
+        target_link_options(${CataAnalyzerName} PRIVATE -undefined dynamic_lookup)
+    endif ()
 endif ()
 
 target_include_directories(${CataAnalyzerName} SYSTEM PRIVATE

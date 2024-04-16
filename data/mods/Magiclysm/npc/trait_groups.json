@@ -172,7 +172,6 @@
       { "trait": "WILDWALKER" },
       { "trait": "ANTIJUNK" },
       { "trait": "WEAKSTOMACH" },
-      { "trait": "PALE" },
       { "trait": "DISIMMUNE" },
       { "trait": "PICKYEATER" }
     ]
@@ -221,7 +220,6 @@
       { "trait": "EATPOISON" },
       { "trait": "TUNNEL_FIGHTER" },
       { "trait": "NOCTURNAL" },
-      { "trait": "NOCTURNAL_DAY" },
       { "trait": "TROGLO2" },
       { "trait": "MOODSWINGS" }
     ]

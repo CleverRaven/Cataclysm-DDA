@@ -1,21 +1,56 @@
+#include <algorithm>
+#include <cmath>
+#include <cstdlib>
+#include <map>
+#include <memory>
+#include <optional>
+#include <string>
+#include <utility>
+#include <vector>
+
+#include "activity_tracker.h"
 #include "avatar.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "cata_utility.h"
+#include "catacharset.h"
 #include "character.h"
+#include "character_attire.h"
+#include "color.h"
+#include "creature.h"
 #include "display.h"
+#include "effect.h"
+#include "enums.h"
 #include "flag.h"
 #include "game.h"
+#include "game_constants.h"
+#include "magic.h"
+#include "magic_enchantment.h"
 #include "make_static.h"
 #include "map.h"
+#include "mapdata.h"
 #include "messages.h"
 #include "morale_types.h"
-#include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
+#include "pimpl.h"
+#include "rng.h"
+#include "stomach.h"
+#include "string_formatter.h"
+#include "translation.h"
+#include "translations.h"
 #include "type_id.h"
-#include "vitamin.h"
+#include "ui.h"
+#include "units.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vitamin.h"
 #include "vpart_position.h"
 #include "weather.h"
+#include "weather_gen.h"
+
+class item;
+struct mutation_branch;
 
 static const bionic_id bio_sleep_shutdown( "bio_sleep_shutdown" );
 
@@ -134,15 +169,11 @@ void Character::update_body_wetness( const w_point &weather )
             }
 
             // Make clothing slow down drying
-            const float base_clothing_mult = worn.clothing_wetness_mult( bp );
-            // always some evaporation even if completely covered
-            // doesn't handle things that would be "air tight"
-            const float clothing_mult = std::max( base_clothing_mult, .1f );
-
-            const time_duration drying = bp->drying_increment * average_drying * trait_mult * weather_mult *
+            const float clothing_mult = worn.clothing_wetness_mult( bp );
+            const float drying_rate = bp->drying_rate;
+            const time_duration drying = average_drying * trait_mult * weather_mult *
                                          temp_mult / clothing_mult;
-            const float turns_to_dry = to_turns<float>( drying );
-
+            const float turns_to_dry = to_turns<float>( drying ) / drying_rate;
             const int drench_cap = get_part_drench_capacity( bp );
             const float dry_per_turn = static_cast<float>( drench_cap ) / turns_to_dry;
             mod_part_wetness( bp, roll_remainder( dry_per_turn ) * -1 );
@@ -220,11 +251,11 @@ void Character::update_body( const time_point &from, const time_point &to )
     }
     const int five_mins = ticks_between( from, to, 5_minutes );
     if( five_mins > 0 ) {
-        static const std::string fatigue_modifier( "fatigue_modifier" );
-        static const std::string fatigue_regen_modifier( "fatigue_regen_modifier" );
-        activity_history.try_reduce_weariness( base_bmr(),
-                                               1.0f + mutation_value( fatigue_modifier ),
-                                               1.0f + mutation_value( fatigue_regen_modifier ) );
+        float sleepiness_mod = enchantment_cache->modify_value( enchant_vals::mod::SLEEPINESS, 1 );
+        float sleepiness_regen_mod = enchantment_cache->modify_value( enchant_vals::mod::SLEEPINESS_REGEN,
+                                     1 );
+        activity_history.try_reduce_weariness( base_bmr(), sleepiness_mod, sleepiness_regen_mod );
+
         check_needs_extremes();
         update_needs( five_mins );
         regen( five_mins );
@@ -237,8 +268,8 @@ void Character::update_body( const time_point &from, const time_point &to )
     if( in_sleep_state() && was_sleeping ) {
         needs_rates tmp_rates;
         calc_sleep_recovery_rate( tmp_rates );
-        const int fatigue_regen_rate = tmp_rates.recovery;
-        const time_duration effective_time_slept = ( to - from ) * fatigue_regen_rate;
+        const int sleepiness_regen_rate = tmp_rates.recovery;
+        const time_duration effective_time_slept = ( to - from ) * sleepiness_regen_rate;
         mod_daily_sleep( effective_time_slept );
         mod_continuous_sleep( effective_time_slept );
     }
@@ -455,12 +486,12 @@ void Character::update_bodytemp()
     const units::temperature_delta hunger_warmth = 4_C_delta * std::min( met_rate, 1.0f ) - 4_C_delta;
     // Give SOME bonus to those living furnaces with extreme metabolism
     const units::temperature_delta metabolism_warmth = std::max( 0.0f, met_rate - 1.0f ) * 2_C_delta;
-    // Fatigue
-    // -1.725C when exhausted, scaled up and capped at 900 fatigue.
-    const float scaled_fatigue = clamp( get_fatigue(), 0,
-                                        900 ) / static_cast<float>( fatigue_levels::EXHAUSTED );
-    const units::temperature_delta fatigue_warmth = has_sleep ? 0_C_delta : -1.725_C_delta *
-            scaled_fatigue;
+    // Sleepiness
+    // -1.725C when exhausted, scaled up and capped at 900 sleepiness.
+    const float scaled_sleepiness = clamp( get_sleepiness(), 0,
+                                           900 ) / static_cast<float>( sleepiness_levels::EXHAUSTED );
+    const units::temperature_delta sleepiness_warmth = has_sleep ? 0_C_delta : -1.725_C_delta *
+            scaled_sleepiness;
 
     // Sunlight
     const float scaled_sun_irradiance = incident_sun_irradiance( get_weather().weather_id,
@@ -565,8 +596,8 @@ void Character::update_bodytemp()
         set_part_temp_conv( bp, temp );
         // HUNGER / STARVATION
         mod_part_temp_conv( bp, hunger_warmth );
-        // FATIGUE
-        mod_part_temp_conv( bp, fatigue_warmth );
+        // SLEEPINESS
+        mod_part_temp_conv( bp, sleepiness_warmth );
         // Mutations
         mod_part_temp_conv( bp, mutation_heat_low );
         // BMI
@@ -626,7 +657,7 @@ void Character::update_bodytemp()
         if( !has_sleep_state && best_fire > 0 ) {
             // Warming up over a fire
             if( bp == body_part_foot_l || bp == body_part_foot_r ) {
-                if( furn_at_pos != f_null ) {
+                if( furn_at_pos != furn_str_id::NULL_ID() ) {
                     // Can sit on something to lift feet up to the fire
                     bonus_fire_warmth = best_fire * furn_at_pos.obj().bonus_fire_warmth_feet;
                 } else if( boardable ) {
@@ -775,7 +806,7 @@ void Character::update_bodytemp()
                 add_msg( m_warning, _( "You feel cold and shiver." ) );
             }
             if( temp_after <= BODYTEMP_VERY_COLD &&
-                get_fatigue() <= fatigue_levels::DEAD_TIRED && !has_bionic( bio_sleep_shutdown ) ) {
+                get_sleepiness() <= sleepiness_levels::DEAD_TIRED && !has_bionic( bio_sleep_shutdown ) ) {
                 if( bp == body_part_torso ) {
                     add_msg( m_warning, _( "Your shivering prevents you from sleeping." ) );
                     wake_up();
@@ -921,11 +952,9 @@ void Character::update_frostbite( const bodypart_id &bp, const int FBwindPower,
 void Character::update_stomach( const time_point &from, const time_point &to )
 {
     const needs_rates rates = calc_needs_rates();
-    // No food/thirst/fatigue clock at all
+    // No food/thirst/sleepiness clock at all
     const bool debug_ls = has_trait( trait_DEBUG_LS );
-    // No food/thirst, capped fatigue clock (only up to tired)
-    const bool npc_no_food = !needs_food();
-    const bool foodless = debug_ls || npc_no_food;
+    const bool foodless = debug_ls || !needs_food();
     const bool no_thirst = has_flag( json_flag_NO_THIRST );
     const bool mycus = has_trait( trait_M_DEPENDENT );
     const float kcal_per_time = get_bmr() / ( 12.0f * 24.0f );
@@ -965,8 +994,8 @@ void Character::update_stomach( const time_point &from, const time_point &to )
             mod_stored_calories( -std::floor( five_mins * kcal_per_time * 1000 ) );
         }
     }
-    // if npc_no_food no need to calc hunger, and set hunger_effect
-    if( npc_no_food ) {
+    // if foodless no need to calc hunger, and set hunger_effect
+    if( foodless ) {
         return;
     }
     if( stomach.time_since_ate() > 10_minutes ) {

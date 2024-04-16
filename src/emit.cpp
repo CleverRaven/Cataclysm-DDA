@@ -5,7 +5,8 @@
 #include <utility>
 
 #include "debug.h"
-#include "json.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 
 static std::map<emit_id, emit> emits_all;
 
@@ -63,11 +64,6 @@ void emit::finalize()
 {
     for( auto &e : emits_all ) {
         e.second.field_ = field_type_id( e.second.field_name );
-    }
-}
-void emit::check_consistency()
-{
-    for( auto &e : emits_all ) {
         const int max_intensity = e.second.field_.obj().get_max_intensity();
         if( e.second.intensity_ > max_intensity || e.second.intensity_ < 1 ) {
             debugmsg( "emission intensity of %s out of range (%d of max %d)", e.second.id_.c_str(),
@@ -83,6 +79,9 @@ void emit::check_consistency()
             e.second.chance_ = std::max( std::min( e.second.chance_, 100 ), 1 );
         }
     }
+}
+void emit::check_consistency()
+{
 }
 
 void emit::reset()

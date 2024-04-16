@@ -44,5 +44,21 @@
     "symbol": "@",
     "color": "brown",
     "melee_damage": { "bash": 8 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "druid_chair_item",
+    "name": { "str": "gnarled chair" },
+    "description": "A simple wooden chair with four legs, a seat, and a back, all seemingly grown out of a single solid piece of wood.  Despite the twisted lines, it still looks extremely comfortable.",
+    "symbol": "#",
+    "color": "green",
+    "flags": [ "NO_SALVAGE", "FRAGILE_MELEE" ],
+    "price": 3000,
+    "price_postapoc": 250,
+    "longest_side": "95 cm",
+    "volume": "30 L",
+    "weight": "12 kg",
+    "material": [ "wood" ],
+    "to_hit": -3
   }
 ]

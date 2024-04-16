@@ -32,7 +32,7 @@
     "dynamic_line": "How much more experience should be required to get to each additional level?",
     "responses": [
       {
-        "text": "Default (300 xp)",
+        "text": "Default (300 XP)",
         "effect": [ { "math": [ "u_exp_per_level", "=", "300" ] } ],
         "topic": "TALK_PERK_MENU_WELCOME_REQUIREMENTS"
       },

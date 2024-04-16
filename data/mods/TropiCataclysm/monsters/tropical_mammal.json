@@ -346,15 +346,15 @@
   {
     "id": "mon_peccari_piglet",
     "type": "MONSTER",
-    "name": { "str": "peccari piglet" },
+    "name": { "str": "peccary piglet" },
     "copy-from": "mon_boar_wild_piglet",
-    "description": "The small offspring of a peccari.  Much like true boar piglets, this one has a mottled fur as camouflage.",
+    "description": "The small offspring of a peccary.  Much like true boar piglets, this one has a mottled fur as camouflage.",
     "upgrades": { "age_grow": 38, "into": "mon_peccari" }
   },
   {
     "id": "mon_peccari",
     "type": "MONSTER",
-    "name": "peccari",
+    "name": { "str": "peccary", "str_pl": "peccaries" },
     "description": "A small furred omnivore native to the American continent.  Despite looking like a boar it is not directly related to them or their domestic brethren.",
     "default_faction": "pig",
     "bodytype": "pig",

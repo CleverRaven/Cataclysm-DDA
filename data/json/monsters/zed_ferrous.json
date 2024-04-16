@@ -9,10 +9,10 @@
     "species": [ "ZOMBIE", "HUMAN" ],
     "looks_like": "mon_zombie",
     "volume": "62500 ml",
-    "weight": "81500 g",
+    "weight": "90 kg",
     "hp": 80,
     "speed": 65,
-    "material": [ "flesh" ],
+    "material": [ "flesh", "steel" ],
     "symbol": "Z",
     "color": "brown",
     "aggression": 100,
@@ -24,12 +24,12 @@
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_zombie" ],
     "vision_night": 3,
-    "harvest": "zombie_humanoid",
+    "harvest": "zombie_rust",
     "grab_strength": 20,
     "special_attacks": [ { "id": "bite_humanoid", "cooldown": 5 }, { "id": "grab", "cooldown": 7 }, { "id": "scratch_humanoid" } ],
     "attack_effs": [ { "id": "tetanus", "duration": 300, "chance": 10 } ],
     "death_drops": "default_zombie_death_drops",
-    "burn_into": "mon_zombie_scorched",
+    "burn_into": "mon_zombie_scorched_rust",
     "upgrades": { "half_life": 30, "into_group": "GROUP_FERROUS_UPGRADE" },
     "flags": [
       "SEES",
@@ -44,7 +44,8 @@
       "REVIVES",
       "PUSH_MON",
       "FILTHY"
-    ]
+    ],
+    "armor": { "bash": 1, "cut": 2, "stab": 1 }
   },
   {
     "id": "mon_zombie_shell",
@@ -55,13 +56,12 @@
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
     "volume": "62500 ml",
-    "weight": "83500 g",
-    "hp": 200,
+    "weight": "90 kg",
+    "hp": 100,
     "speed": 50,
-    "material": [ "flesh" ],
+    "material": [ "flesh", "steel" ],
     "symbol": "Z",
     "color": "brown",
-    "scents_tracked": [ "sc_human", "sc_fetid" ],
     "aggression": 100,
     "morale": 100,
     "melee_skill": 4,
@@ -72,16 +72,15 @@
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_nat_armored" ],
     "bleed_rate": 50,
     "vision_night": 3,
-    "harvest": "zombie_humanoid",
+    "harvest": "zombie_rust",
     "grab_strength": 20,
     "special_attacks": [ { "id": "bite_humanoid", "cooldown": 5 }, { "id": "grab", "cooldown": 7 }, { "id": "scratch_humanoid" } ],
     "attack_effs": [ { "id": "tetanus", "duration": 300, "chance": 10 } ],
     "death_drops": "default_zombie_death_drops",
-    "burn_into": "mon_zombie_scorched",
+    "burn_into": "mon_zombie_scorched_rust",
     "flags": [
       "SEES",
       "HEARS",
-      "SMELLS",
       "STUMBLES",
       "WARM",
       "GRABS",
@@ -93,7 +92,7 @@
       "PUSH_MON",
       "FILTHY"
     ],
-    "armor": { "bash": 8, "cut": 8, "stab": 8, "bullet": 8 }
+    "armor": { "bash": 14, "cut": 14, "stab": 14, "bullet": 14 }
   },
   {
     "id": "mon_zombie_plated",
@@ -104,11 +103,11 @@
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
     "looks_like": "mon_zombie",
-    "volume": "92500 ml",
+    "volume": "108500 ml",
     "weight": "120 kg",
-    "hp": 170,
+    "hp": 145,
     "speed": 60,
-    "material": [ "flesh" ],
+    "material": [ "flesh", "steel" ],
     "symbol": "Z",
     "color": "brown",
     "scents_tracked": [ "sc_human", "sc_fetid" ],
@@ -122,13 +121,12 @@
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_nat_armored" ],
     "bleed_rate": 0,
     "vision_night": 3,
-    "luminance": 0,
-    "harvest": "zombie_humanoid",
+    "harvest": "zombie_rust",
     "grab_strength": 30,
     "special_attacks": [ { "id": "bite_humanoid", "cooldown": 5 }, { "id": "grab", "cooldown": 7 }, { "id": "scratch_humanoid" } ],
     "attack_effs": [ { "id": "tetanus", "duration": 300, "chance": 10 } ],
     "death_drops": "default_zombie_death_drops",
-    "burn_into": "mon_zombie_scorched",
+    "burn_into": "mon_zombie_scorched_rust",
     "flags": [
       "SEES",
       "HEARS",
@@ -144,7 +142,7 @@
       "PUSH_MON",
       "FILTHY"
     ],
-    "armor": { "bash": 15, "cut": 15, "stab": 15, "bullet": 15 }
+    "armor": { "bash": 18, "cut": 18, "stab": 18, "bullet": 18 }
   },
   {
     "id": "mon_zombie_urchin",
@@ -155,10 +153,10 @@
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
     "volume": "62500 ml",
-    "weight": "81500 g",
+    "weight": "90 kg",
     "hp": 100,
     "speed": 60,
-    "material": [ "flesh" ],
+    "material": [ "flesh", "steel" ],
     "symbol": "Z",
     "color": "brown",
     "scents_tracked": [ "sc_human", "sc_fetid" ],
@@ -170,10 +168,9 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_zombie" ],
-    "dodge": 1,
     "bleed_rate": 0,
     "vision_night": 3,
-    "harvest": "zombie_humanoid",
+    "harvest": "zombie_rust",
     "grab_strength": 35,
     "special_attacks": [
       { "id": "bite_humanoid", "cooldown": 5 },
@@ -183,7 +180,7 @@
     ],
     "attack_effs": [ { "id": "tetanus", "duration": 300, "chance": 20 } ],
     "death_drops": "default_zombie_death_drops",
-    "burn_into": "mon_zombie_scorched",
+    "burn_into": "mon_zombie_scorched_rust",
     "flags": [
       "SEES",
       "HEARS",
@@ -194,13 +191,12 @@
       "BASHES",
       "GROUP_BASH",
       "POISON",
-      "ACIDPROOF",
-      "ACID_BLOOD",
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
       "FILTHY"
-    ]
+    ],
+    "armor": { "bash": 5, "cut": 5, "stab": 5, "bullet": 5 }
   },
   {
     "id": "mon_zombie_hammer_hands",
@@ -211,11 +207,10 @@
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
     "volume": "62500 ml",
-    "//": "Higher weight from attached junks.",
-    "weight": "84500 g",
-    "hp": 100,
-    "speed": 100,
-    "material": [ "flesh" ],
+    "weight": "90 kg",
+    "hp": 120,
+    "speed": 75,
+    "material": [ "flesh", "steel" ],
     "symbol": "Z",
     "looks_like": "mon_zombie_brute",
     "color": "brown",
@@ -230,19 +225,26 @@
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_zombie" ],
     "bleed_rate": 0,
     "vision_day": 14,
-    "harvest": "zombie_humanoid",
+    "harvest": "zombie_rust",
     "grab_strength": 20,
-    "special_attacks": [ { "id": "bite_humanoid", "cooldown": 5 }, { "id": "grab", "cooldown": 7 }, { "id": "scratch_humanoid" } ],
+    "special_attacks": [
+      { "id": "bite_humanoid", "cooldown": 5 },
+      {
+        "id": "smash",
+        "damage_max_instance": [ { "damage_type": "bash", "amount": 10 } ],
+        "throw_strength": 35,
+        "cooldown": 10
+      }
+    ],
     "death_drops": "default_zombie_death_drops",
     "attack_effs": [ { "id": "tetanus", "duration": 300, "chance": 10 } ],
-    "burn_into": "mon_zombie_scorched",
+    "burn_into": "mon_zombie_fiend_rust",
     "flags": [
       "SEES",
       "HEARS",
       "SMELLS",
       "STUMBLES",
       "WARM",
-      "GRABS",
       "BASHES",
       "GROUP_BASH",
       "POISON",
@@ -251,6 +253,7 @@
       "PUSH_MON",
       "PUSH_VEH",
       "FILTHY"
-    ]
+    ],
+    "armor": { "bash": 8, "cut": 8, "stab": 8, "bullet": 8 }
   }
 ]

@@ -25,11 +25,12 @@
     "name": { "str": "feral elf", "str_pl": "feral elves" },
     "description": "Fair folk no longer, this elf's pupils are dilated and what can be seen of the iris and sclera are bloodshot.  They clutch a pipe in one delicate hand as they gracefully walk unbothered amidst the zombies.",
     "symbol": "E",
-    "proportional": { "hp": 0.75, "speed": 1.03, "weight": 0.85 },
+    "proportional": { "hp": 0.82, "speed": 1.03, "weight": 0.85 },
     "dodge": 3,
     "vision_night": 8,
     "harvest": "demihuman",
-    "families": [ "prof_intro_biology", "prof_wp_demihuman" ]
+    "families": [ "prof_intro_biology", "prof_wp_demihuman" ],
+    "extend": { "flags": [ "QUIETMOVES" ] }
   },
   {
     "id": "mon_feral_dwarf_pipe",
@@ -89,11 +90,12 @@
     "name": { "str": "feral elf", "str_pl": "feral elves" },
     "description": "Fair folk no longer, this elf's pupils are dilated and what can be seen of the iris and sclera are bloodshot.  They clutch a crowbar in one delicate hand as they gracefully walk unbothered amidst the zombies.",
     "symbol": "E",
-    "proportional": { "hp": 0.75, "speed": 1.03, "weight": 0.85 },
+    "proportional": { "hp": 0.82, "speed": 1.03, "weight": 0.85 },
     "dodge": 3,
     "vision_night": 8,
     "harvest": "demihuman",
-    "families": [ "prof_intro_biology", "prof_wp_demihuman" ]
+    "families": [ "prof_intro_biology", "prof_wp_demihuman" ],
+    "extend": { "flags": [ "QUIETMOVES" ] }
   },
   {
     "id": "mon_feral_dwarf_crowbar",
@@ -134,11 +136,12 @@
     "name": { "str": "feral axe-elf", "str_pl": "feral axe-elves" },
     "description": "Dragging a large axe along the ground, this elf's expression is one of twisted glee.  Their movements are more fluid than those of the feral humans, but no less unsettling.",
     "symbol": "E",
-    "proportional": { "hp": 0.75, "speed": 1.03, "weight": 0.85 },
+    "proportional": { "hp": 0.82, "speed": 1.03, "weight": 0.85 },
     "dodge": 3,
     "vision_night": 8,
     "harvest": "demihuman",
-    "families": [ "prof_intro_biology", "prof_wp_demihuman" ]
+    "families": [ "prof_intro_biology", "prof_wp_demihuman" ],
+    "extend": { "flags": [ "QUIETMOVES" ] }
   },
   {
     "id": "mon_feral_dwarf_axe",
