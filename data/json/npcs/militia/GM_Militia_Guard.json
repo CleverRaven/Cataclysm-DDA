@@ -10,7 +10,7 @@
     "chat": "TALK_MILITIA_Guard1",
     "faction": "GM_militia_faction"
   },
-{
+  {
     "type": "npc_class",
     "id": "MILITIA_GUARD1",
     "name": { "str": "Guard" },
@@ -29,7 +29,7 @@
       { "skill": "speech", "bonus": { "rng": [ 3, 5 ] } }
     ]
   },
- {
+  {
     "type": "talk_topic",
     "id": "TALK_MILITIA_Guard1",
     "dynamic_line": {
@@ -38,34 +38,23 @@
       "context": "first_meeting",
       "value": "yes",
       "yes": "Hello again.",
-      "no": "I'm busy on watch duty. Talk to the Boss inside. "
+      "no": "I'm busy on watch duty.  Talk to the Boss inside."
     },
-   
     "responses": [
-    {
-        "text": "What are you doing?",
-        "topic": "TALK_MILITIA_GUARD1_Introduction"
-      },
-      {
-        "text": "Well I've got to go.",
-        "topic": "TALK_MILITIA_GUARD1_BYE"
-      }
-     ]
- },
-
-   {
+      { "text": "What are you doing?", "topic": "TALK_MILITIA_GUARD1_Introduction" },
+      { "text": "Well I've got to go.", "topic": "TALK_MILITIA_GUARD1_BYE" }
+    ]
+  },
+  {
     "type": "talk_topic",
     "id": "TALK_MILITIA_GUARD1_Introduction",
-    "dynamic_line": "I'm on watch duty. Talk to the Boss. He's inside.",
+    "dynamic_line": "I'm on watch duty. Talk to the Boss.  He's inside.",
     "responses": [ { "text": "…", "topic": "TALK_NONE" } ]
   },
-   {
+  {
     "type": "talk_topic",
     "id": "TALK_MILITIA_GUARD1_BYE",
     "dynamic_line": "Stay safe out there.  Hate to have to kill you after you've already died.",
     "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
   }
 ]
-
-
-

@@ -3,7 +3,7 @@
     "type": "npc",
     "id": "MILITIA_MERCHANT",
     "//": "A member of the Gray Moose Militia, trying to safe in their isolated location",
-	"name_unique": "Darby Sutton",
+    "name_unique": "Darby Sutton",
     "class": "MILITIA_MERCHANT",
     "attitude": 0,
     "name_suffix": "Survivor",
@@ -11,7 +11,7 @@
     "chat": "TALK_MILITIA_MAIN",
     "faction": "GM_militia_faction"
   },
-{
+  {
     "type": "npc_class",
     "id": "MILITIA_MERCHANT",
     "name": { "str": "Merchant" },
@@ -32,7 +32,7 @@
       { "skill": "speech", "bonus": { "rng": [ 3, 5 ] } }
     ]
   },
-{
+  {
     "type": "item_group",
     "id": "MILITIA_MERCHANT_misc",
     "subtype": "collection",
@@ -158,7 +158,7 @@
       [ "bolt_steel", 10 ],
       [ "ashot", 5 ]
     ]
-    },
+  },
   {
     "type": "talk_topic",
     "id": "TALK_MILITIA_MAIN",
@@ -168,7 +168,7 @@
       "context": "first_meeting",
       "value": "yes",
       "yes": "Hello again.",
-      "no": "Welcome to our camp. Behave yourself while you are here. What can I do for you?"
+      "no": "Welcome to our camp.  Behave yourself while you are here. What can I do for you?"
     },
     "speaker_effect": { "effect": { "u_add_var": "talked_to_MILITIAMAIN", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
     "responses": [
@@ -187,10 +187,7 @@
         "topic": "TALK_MILITIA_HELP",
         "condition": { "u_has_var": "talked_to_MILITIAMAIN", "type": "dialogue", "context": "first_meeting", "value": "yes" }
       },
-      {
-        "text": "Do you have anything to trade?",
-        "topic": "TALK_MILITIA_TRADE"       
-      },
+      { "text": "Do you have anything to trade?", "topic": "TALK_MILITIA_TRADE" },
       {
         "text": "Time for me to leave",
         "topic": "TALK_MILITIA_BYE",
@@ -201,35 +198,31 @@
   {
     "type": "talk_topic",
     "id": "TALK_MILITIA_INTRODUCTION",
-    "dynamic_line": "I'm the most senior member at this point so I'm what passes for the leader here now.  I'm just trying to make plans to keep us alive since everything fell apart.  ",
+    "dynamic_line": "I'm the most senior member at this point so I'm what passes for the leader here now.  I'm just trying to make plans to keep us alive since everything fell apart.",
     "responses": [ { "text": "I see.", "topic": "TALK_NONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_MILITIA_BACKGROUND",
-    "dynamic_line": "Well, that's a long story.  We are whats left of the Grey Moose militia.  We had plans for when things went south cause of crazy politicians or war, but we didn't expect people to go crazy then turn zombie.  Only a handful of our members actually made it through all that madness.  What's worse is that we lost so much of our supplies and gear due to military checkpoints and trigger happy soldiers.  It didn't matter that half of us were former military the checkpoint guards just saw weapons, panicked and then confiscated everything but the clothes on our back.  So here we are at our planned escape location with not even a fraction of our manpower or supplies.  ",
+    "dynamic_line": "Well, that's a long story.  We are whats left of the Grey Moose militia.  We had plans for when things went south cause of crazy politicians or war, but we didn't expect people to go crazy then turn zombie.  Only a handful of our members actually made it through all that madness.  What's worse is that we lost so much of our supplies and gear due to military checkpoints and trigger happy soldiers.  It didn't matter that half of us were former military the checkpoint guards just saw weapons, panicked and then confiscated everything but the clothes on our back.  So here we are at our planned escape location with not even a fraction of our manpower or supplies.",
     "responses": [ { "text": "I see.", "topic": "TALK_NONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_MILITIA_HELP",
-    "dynamic_line": "I can't say I can think of anything at the moment. Our remoteness is our defense. We want to keep a low profile and try to keep out of any trouble in this isolated location. We are willing to buy weapons and ammo though. Keeping the nearby area clear and hunting is always eating away at our supplies. ",
-    "responses": [
-      { "text": "Keeping a low profile is good.", "topic": "TALK_NONE" }
-    ]
+    "dynamic_line": "I can't say I can think of anything at the moment.  Our remoteness is our defense.  We want to keep a low profile and try to keep out of any trouble in this isolated location.  We are willing to buy weapons and ammo though.  Keeping the nearby area clear and hunting is always eating away at our supplies.",
+    "responses": [ { "text": "Keeping a low profile is good.", "topic": "TALK_NONE" } ]
   },
-   {
+  {
     "type": "talk_topic",
     "id": "TALK_MILITIA_TRADE",
     "dynamic_line": "Let's trade then.",
     "responses": [ { "text": "…", "effect": "start_trade", "topic": "TALK_NONE" } ]
-    
   },
-   {
+  {
     "type": "talk_topic",
     "id": "TALK_MILITIA_BYE",
-    "dynamic_line": "Stay safe out there. Not enough of us are around anymore.",
+    "dynamic_line": "Stay safe out there.  Not enough of us are around anymore.",
     "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
-    
   }
 ]
