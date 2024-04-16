@@ -102,32 +102,25 @@ static void scatter_chunks( const itype_id &chunk_name, int chunk_amt, monster &
     for( int i = 0; i < chunk_amt; i += pile_size ) {
         bool drop_chunks = true;
         tripoint tarp( z.pos() + point( rng( -distance, distance ), rng( -distance, distance ) ) );
-        const auto traj = line_to( z.pos(), tarp );
-
-        for( size_t j = 0; j < traj.size(); j++ ) {
-            tarp = traj[j];
+        const std::vector<tripoint> traj = line_through_2( z.pos(), tarp, [&here, &z, &distance, &drop_chunks]( std::vector<tripoint> & new_line ) {
             if( one_in( 2 ) && z.bloodType().id() ) {
-                here.add_splatter( z.bloodType(), tarp );
+                here.add_splatter( z.bloodType(), new_line.back() );
             } else {
-                here.add_splatter( z.gibType(), tarp, rng( 1, j + 1 ) );
+                here.add_splatter( z.gibType(), new_line.back(), rng( 1, distance - new_line.size() ) );
             }
-            if( here.impassable( tarp ) ) {
-                here.bash( tarp, distance );
-                if( here.impassable( tarp ) ) {
-                    // Target is obstacle, not destroyed by bashing,
-                    // stop trajectory in front of it, if this is the first
-                    // point (e.g. wall adjacent to monster), don't drop anything on it
-                    if( j > 0 ) {
-                        tarp = traj[j - 1];
-                    } else {
-                        drop_chunks = false;
-                    }
-                    break;
+            if( here.impassable( new_line.back() ) ) {
+                here.bash( new_line.back(), distance );
+                if( here.impassable( new_line.back() ) ) {
+                    return false;
                 }
             }
-        }
-        if( drop_chunks ) {
-            here.add_item_or_charges( tarp, chunk );
+            return true;
+        } );
+        if( traj.back() == tarp ) {
+            here.add_item_or_charges( traj.back(), chunk );
+        } else {
+            // Target was obstructed, so drop chunks just before it.
+            here.add_item_or_charges( traj.at( traj.size() - 2 ), chunk );
         }
     }
 }

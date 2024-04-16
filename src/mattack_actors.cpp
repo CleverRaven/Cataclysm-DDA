@@ -195,27 +195,15 @@ bool leap_actor::call( monster &z ) const
             continue;
         }
         // check if monster has a clear path to the proposed point
-        /*std::vector<tripoint> line = here.find_clear_path( z.pos(), dest );
-        for( tripoint &i : line ) {
-            if( here.impassable( i ) ) {
-                add_msg_debug( debugmode::DF_MATTACK, "Path blocked, candidate discarded" );
-                blocked_path = true;
-                break;
-            } else if( here.has_flag_ter( ter_furn_flag::TFLAG_SMALL_PASSAGE, i ) &&
-                       z.get_size() > creature_size::medium ) {
-                add_msg_debug( debugmode::DF_MATTACK, "Small passage can't pass, candidate discarded" );
-                blocked_path = true;
-                break;
-            }
-        }*/
+        // TODO: see if this has to be target_handler::trajectory ?
         std::vector<tripoint> line = find_line_to_2( z.pos(), dest,
-                                                     [&here, &z]( target_handler::trajectory & new_line ) {
+                                                     [&here, &z]( std::vector<tripoint> & new_line ) {
             if( here.impassable( new_line.back() ) ) {
-                add_msg_debug( debugmode::DF_MATTACK, "Path blocked, candidate discarded" );
+                add_msg_debug( debugmode::DF_MATTACK, "Path blocked, candidate offset discarded" );
                 return false;
             } else if( here.has_flag_ter( ter_furn_flag::TFLAG_SMALL_PASSAGE, new_line.back() ) &&
                        z.get_size() > creature_size::medium ) {
-                add_msg_debug( debugmode::DF_MATTACK, "Small passage can't pass, candidate discarded" );
+                add_msg_debug( debugmode::DF_MATTACK, "Small passage can't pass, candidate offset discarded" );
                 return false;
             }
             return true;

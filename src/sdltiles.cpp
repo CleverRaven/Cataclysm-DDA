@@ -608,21 +608,21 @@ static std::optional<std::pair<tripoint_abs_omt, std::string>> get_mission_arrow
         return std::make_pair( tripoint_abs_omt( mission_target.xy(), area_z ), mission_arrow_variant );
     }
 
-    const std::vector<tripoint> traj = line_to( center.raw(),
-                                       tripoint( mission_target.raw().xy(), center.raw().z ) );
-
+    tripoint arr_pos = center.raw();
+    const std::vector<tripoint> traj = line_to_2( center.raw(), tripoint( mission_target.raw().xy(), center.raw().z ), [&overmap_area, &arr_pos]( std::vector<tripoint> & new_line ) {
+        if( overmap_area.contains( new_line.back() ) ) {
+            arr_pos = new_line.back();
+            return false;
+        }
+        return true;
+    } );
     if( traj.empty() ) {
         debugmsg( "Failed to gen overmap mission trajectory %s %s",
                   center.to_string(), mission_target.to_string() );
         return std::nullopt;
     }
-
-    tripoint arr_pos = traj[0];
-    for( auto it = traj.rbegin(); it != traj.rend(); it++ ) {
-        if( overmap_area.contains( *it ) ) {
-            arr_pos = *it;
-            break;
-        }
+    if( arr_pos == center.raw() ) {
+        arr_pos = traj.front();
     }
 
     const int north_border_y = ( overmap_area.p_max.y - overmap_area.p_min.y ) / 3;

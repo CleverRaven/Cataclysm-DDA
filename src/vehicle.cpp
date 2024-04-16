@@ -687,15 +687,15 @@ std::set<point> vehicle::immediate_path( const units::angle &rotate )
     map &here = get_map();
     point top_left_actual = global_pos3().xy() + coord_translate( front_left );
     point top_right_actual = global_pos3().xy() + coord_translate( front_right );
-    std::vector<point> front_row = line_to( here.getabs( top_left_actual ),
-                                            here.getabs( top_right_actual ) );
-    for( const point &elem : front_row ) {
+    line_to_2( here.getabs( top_left_actual ), here.getabs( top_right_actual ),
+               [&distance_to_check, &collision_vector, &points_to_check]( std::vector<point> & new_line ) {
         for( int i = 0; i < distance_to_check; ++i ) {
             collision_vector.advance( i );
-            point point_to_add = elem + point( collision_vector.dx(), collision_vector.dy() );
+            point point_to_add = new_line.back() + point( collision_vector.dx(), collision_vector.dy() );
             points_to_check.emplace( point_to_add );
         }
-    }
+        return true;
+    } );
     collision_check_points = points_to_check;
     return points_to_check;
 }
@@ -6635,21 +6635,18 @@ void vehicle::do_towing_move()
         towed_veh->selfdrive( point( turn_x, accel_y ) );
     } else {
         towed_veh->skidding = true;
-        std::vector<tripoint> lineto = line_to( here.getlocal( towed_tow_point ),
-                                                here.getlocal( tower_tow_point ) );
-        tripoint nearby_destination;
-        if( lineto.size() >= 2 ) {
-            nearby_destination = lineto[1];
+        tripoint delta( here.getlocal( tower_tow_point ) - here.getlocal( towed_tow_point ) );
+        tripoint move_direction;
+        if( delta.abs().x >= delta.abs().y * 2 ) {
+            move_direction = { clamp( delta.x, -1, 1 ), 0, 0 };
+        } else if( delta.abs().y >= delta.abs().x * 2 ) {
+            move_direction = { 0, clamp( delta.y, -1, 1 ), 0 };
         } else {
-            nearby_destination = tower_tow_point;
+            move_direction = { clamp( delta.x, -1, 1 ), clamp( delta.y, -1, 1 ), 0 };
         }
-        const tripoint destination_delta( here.getlocal( tower_tow_point ).xy() - nearby_destination.xy() +
-                                          tripoint( 0, 0, towed_veh->global_pos3().z ) );
-        const tripoint move_destination( clamp( destination_delta.x, -1, 1 ),
-                                         clamp( destination_delta.y, -1, 1 ),
-                                         clamp( destination_delta.z, -1, 1 ) );
-        here.move_vehicle( *towed_veh, move_destination, towed_veh->face );
-        towed_veh->move = tileray( destination_delta.xy() );
+
+        here.move_vehicle( *towed_veh, move_direction, towed_veh->face );
+        towed_veh->move = tileray( move_direction.xy() );
     }
 
 }

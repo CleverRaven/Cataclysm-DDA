@@ -926,12 +926,16 @@ std::vector<tripoint> spell::targetable_locations( const Character &source ) con
 
     // TODO: put this in a namespace for reuse
     const auto has_obstruction = [&]( const tripoint & at ) {
-        for( const tripoint &line_point : line_to( char_pos, at ) ) {
-            if( here.impassable( line_point ) ) {
-                return true;
+        bool return_value = false;
+        line_to_2( char_pos, at,
+            [&here, &return_value]( std::vector<tripoint> & new_line ) {
+            if( here.impassable( new_line.back() ) ) {
+                return_value = true;
+                return false;
             }
-        }
-        return false;
+            return true;
+        } );
+        return return_value;
     };
 
     std::vector<tripoint> selectable_targets;

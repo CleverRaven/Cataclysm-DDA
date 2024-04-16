@@ -153,17 +153,32 @@ std::vector<point> line_to( const point &p1, const point &p2, int t = 0 );
 // t and t2 decide which Bresenham line is used.
 std::vector<tripoint> line_to( const tripoint &loc1, const tripoint &loc2, int t = 0, int t2 = 0 );
 
-std::vector<point> line_to_2( const point &p1, const point &p2,
-                const std::function<bool( std::vector<point> & )> &interact = []( std::vector<point> &new_line ) {
+std::vector<point> line_to_2( const point &start, const point &target,
+                const std::function<bool( std::vector<point> & )> &interact = []( std::vector<point> & ) {
                     return true;
-                }, const int o = 0 );
-std::vector<tripoint> line_to_2( const tripoint &loc1, const tripoint &loc2,
-                const std::function<bool( std::vector<tripoint> & )> &interact = []( std::vector<tripoint> &new_line ) {
+                }, int offset = 0 );
+std::vector<tripoint> line_to_2( const tripoint &start, const tripoint &target,
+                const std::function<bool( std::vector<tripoint> & )> &interact = []( std::vector<tripoint> & ) {
                     return true;
-                }, const int o = 0, const int o2 = 0 );
+                }, int offset1 = 0, int offset2 = 0 );
 
+std::vector<point> line_through_2( const point &start, const point &target,
+                const std::function<bool( std::vector<point> & )> &interact = []( std::vector<point> & ) {
+                    return true;
+                }, int offset = 0 );
+std::vector<tripoint> line_through_2( const tripoint &start, const tripoint &target,
+                const std::function<bool( std::vector<tripoint> & )> &interact = []( std::vector<tripoint> & ) {
+                    return true;
+                }, int offset1 = 0, int offset2 = 0 );
+
+/**
+ * TODO: reword this
+ * Iteratively tries Bresenham lines with different offsets
+ * until it finds a clear line or decides there isn't one.
+ * Returns the line found, which may be the straight line, but blocked.
+ */
 std::vector<tripoint> find_line_to_2( const tripoint &start, const tripoint &target,
-                const std::function<bool( std::vector<tripoint> & )> &interact = []( std::vector<tripoint> &new_line ) {
+                const std::function<bool( std::vector<tripoint> & )> &interact = []( std::vector<tripoint> & ) {
                     return true;
                 } );
 

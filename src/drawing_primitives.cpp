@@ -10,11 +10,11 @@
 
 void draw_line( const std::function<void( const point & )> &set, const point &p1, const point &p2 )
 {
-    std::vector<point> line = line_to( p1, p2, 0 );
-    for( point &i : line ) {
-        set( i );
-    }
-    set( p1 );
+    line_through_2( p1, p2,
+        [&set]( std::vector<point> & new_line ) {
+        set( new_line.back() );
+        return true;
+    } );
 }
 
 void draw_square( const std::function<void( const point & )> &set, point p1, point p2 )

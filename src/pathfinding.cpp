@@ -176,7 +176,7 @@ std::vector<tripoint> map::straight_route( const tripoint &f, const tripoint &t 
         return straight_route( f, clipped );
     }
     if( f.z == t.z ) {
-        ret = line_to( f, t );
+        ret = line_to_2( f, t );
         const pathfinding_cache &pf_cache = get_pathfinding_cache_ref( f.z );
         // Check all points for any special case (including just hard terrain)
         if( std::any_of( ret.begin(), ret.end(), [&pf_cache]( const tripoint & p ) {

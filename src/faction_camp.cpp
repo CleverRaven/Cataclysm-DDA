@@ -2830,7 +2830,7 @@ void basecamp::start_fortifications( const mission_id &miss_id, float exertion_l
             return;
         }
         if( miss_id.parameters == faction_wall_level_n_1_string ) {
-            std::vector<tripoint_abs_omt> tmp_line = line_to( stop, start );
+            std::vector<tripoint_abs_omt> tmp_line = line_to_omt( stop, start );
             int line_count = tmp_line.size();
             int yes_count = 0;
             for( tripoint_abs_omt &elem : tmp_line ) {
@@ -2847,11 +2847,11 @@ void basecamp::start_fortifications( const mission_id &miss_id, float exertion_l
         if( ( change_x && stop.x() < start.x() ) || ( change_y && stop.y() < start.y() ) ) {
             //line_to doesn't include the origin point
             fortify_om.push_back( stop );
-            std::vector<tripoint_abs_omt> tmp_line = line_to( stop, start );
+            std::vector<tripoint_abs_omt> tmp_line = line_to_omt( stop, start );
             fortify_om.insert( fortify_om.end(), tmp_line.begin(), tmp_line.end() );
         } else {
             fortify_om.push_back( start );
-            std::vector<tripoint_abs_omt> tmp_line = line_to( start, stop );
+            std::vector<tripoint_abs_omt> tmp_line = line_to_omt( start, stop );
             fortify_om.insert( fortify_om.end(), tmp_line.begin(), tmp_line.end() );
         }
         int trips = 0;
@@ -5019,7 +5019,7 @@ void om_range_mark( const tripoint_abs_omt &origin, int range, bool add_notes,
 void om_line_mark( const tripoint_abs_omt &origin, const tripoint_abs_omt &dest, bool add_notes,
                    const std::string &message )
 {
-    std::vector<tripoint_abs_omt> note_pts = line_to( origin, dest );
+    std::vector<tripoint_abs_omt> note_pts = line_to_omt( origin, dest );
 
     for( tripoint_abs_omt &pt : note_pts ) {
         if( add_notes ) {
@@ -5087,7 +5087,7 @@ bool om_set_hide_site( npc &comp, const tripoint_abs_omt &omt_tgt,
 time_duration companion_travel_time_calc( const tripoint_abs_omt &omt_pos,
         const tripoint_abs_omt &omt_tgt, time_duration work, int trips, int haulage )
 {
-    std::vector<tripoint_abs_omt> journey = line_to( omt_pos, omt_tgt );
+    std::vector<tripoint_abs_omt> journey = line_to_omt( omt_pos, omt_tgt );
     return companion_travel_time_calc( journey, work, trips, haulage );
 }
 
@@ -5154,7 +5154,7 @@ std::vector<tripoint_abs_omt> om_companion_path( const tripoint_abs_omt &start, 
         if( last == spt ) {
             break;
         }
-        std::vector<tripoint_abs_omt> note_pts = line_to( last, spt );
+        std::vector<tripoint_abs_omt> note_pts = line_to_omt( last, spt );
         scout_points.insert( scout_points.end(), note_pts.begin(), note_pts.end() );
         om_line_mark( last, spt );
         range -= rl_dist( spt.xy(), last.xy() );

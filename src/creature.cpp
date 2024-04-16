@@ -607,8 +607,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
                 // Hack: trying yo avoid turret LOS blocking by frames bug by trying to see target from vehicle boundary
                 // Or turret wallhack for turret's car
                 // TODO: to visibility checking another way, probably using 3D FOV
-                std::vector<tripoint> path_to_target = line_to( pos(), m->pos() );
-                path_to_target.insert( path_to_target.begin(), pos() );
+                std::vector<tripoint> path_to_target = line_through_2( pos(), m->pos() );
 
                 // Getting point on vehicle boundaries and on line between target and turret
                 bool continueFlag = true;
@@ -1339,17 +1338,18 @@ void Creature::longpull( const std::string &name, const tripoint &p )
         return;
     }
 
-    std::vector<tripoint> path = line_to( pos(), p, 0, 0 );
     Creature *c = nullptr;
-    for( const tripoint &path_p : path ) {
-        c = get_creature_tracker().creature_at( path_p );
-        if( c == nullptr && get_map().impassable( path_p ) ) {
-            add_msg_if_player( m_warning, _( "There's an obstacle in the way!" ) );
-            return;
+    std::vector<tripoint> path = line_to_2( pos(), p, [this, &c]( std::vector<tripoint> & new_line ) {
+        c = get_creature_tracker().creature_at( new_line.back() );
+        if( c == nullptr && get_map().impassable( new_line.back() )
+            || c != nullptr ) {
+            return false;
         }
-        if( c != nullptr ) {
-            break;
-        }
+        return true;
+    } );
+    if( c == nullptr && get_map().impassable( path.back() ) ) {
+        add_msg_if_player( m_warning, _( "There's an obstacle in the way!" ) );
+        return;
     }
     if( c == nullptr || !sees( *c ) ) {
         // TODO: Latch onto objects?
@@ -1369,8 +1369,7 @@ void Creature::longpull( const std::string &name, const tripoint &p )
         if( c->is_avatar() ) {
             add_msg( m_warning, _( "%1$s pulls you in with their %2$s!" ), disp_name( false, true ), name );
         }
-        c->move_to( tripoint_abs_ms( line_to( get_location().raw(), c->get_location().raw(), 0,
-                                              0 ).front() ) );
+        c->move_to( tripoint_abs_ms( line_to_2( get_location().raw(), c->get_location().raw() ).front() ) );
         c->add_effect( effect_stunned, 1_seconds );
         sounds::sound( c->pos(), 5, sounds::sound_t::combat, _( "Shhhk!" ) );
     } else {

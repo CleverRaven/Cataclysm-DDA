@@ -457,7 +457,7 @@ TEST_CASE( "coord_point_line_to_consistency", "[point][coords][line]" )
     point_abs_ms cp1( p1 );
 
     std::vector<point> raw_line = line_to( p0, p1 );
-    std::vector<point_abs_ms> coord_line = line_to( cp0, cp1 );
+    std::vector<point_abs_ms> coord_line = line_to_omt( cp0, cp1 );
 
     REQUIRE( raw_line.size() == coord_line.size() );
     for( size_t i = 0; i < raw_line.size(); ++i ) {

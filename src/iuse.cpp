@@ -3442,10 +3442,10 @@ std::optional<int> iuse::grenade_inc_act( Character *p, item *, const tripoint &
     int num_flames = rng( 3, 5 );
     for( int current_flame = 0; current_flame < num_flames; current_flame++ ) {
         tripoint dest( pos + point( rng( -5, 5 ), rng( -5, 5 ) ) );
-        std::vector<tripoint> flames = line_to( pos, dest, 0, 0 );
-        for( tripoint &flame : flames ) {
-            here.add_field( flame, fd_fire, rng( 0, 2 ) );
-        }
+        line_to_2( pos, dest, [&here]( std::vector<tripoint> & new_line ) {
+            here.add_field( new_line.back(), fd_fire, rng( 0, 2 ) );
+            return true;
+        } );
     }
     explosion_handler::explosion( p, pos, 8, 0.8, true );
     for( const tripoint &dest : here.points_in_radius( pos, 2 ) ) {
@@ -6565,12 +6565,26 @@ std::optional<int> iuse::camera( Character *p, item *it, const tripoint & )
         bool incorrect_focus = false;
         tripoint_range<tripoint> aim_bounds = here.points_in_radius( aim_point, 2 );
 
-        std::vector<tripoint> trajectory = line_to( p->pos(), aim_point, 0, 0 );
+        std::vector<tripoint> trajectory = line_to_2( p->pos(), aim_point );
         trajectory.push_back( aim_point );
 
         p->mod_moves( -to_moves<int>( 1_seconds ) * 0.5 );
         sounds::sound( p->pos(), 8, sounds::sound_t::activity, _( "Click." ), true, "tool",
                        "camera_shutter" );
+
+        /*
+        // TODO: The whole camera for loop is SO janky
+        std::vector<tripoint> trajectory = line_to_2( p->pos(), aim_point,
+            [&here, &p]( std::vector<tripoint> & new_line ) {
+            // TODO: It would be nice to give the cameras unique vision stats
+            // so that they see things independent of the player's vision.
+            if( !p->sees( new_line.back() ) ) {
+                return false;
+            }
+            return true;
+        } );
+        trajectory.pop_back(); // This tile isn't visible
+        */
 
         for( std::vector<tripoint>::iterator point_it = trajectory.begin();
              point_it != trajectory.end();

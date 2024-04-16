@@ -1650,12 +1650,9 @@ int monster::calc_climb_cost( const tripoint &f, const tripoint &t ) const
 static std::vector<tripoint> get_bashing_zone( const tripoint &bashee, const tripoint &basher,
         int maxdepth )
 {
-    std::vector<tripoint> direction;
-    direction.push_back( bashee );
-    direction.push_back( basher );
-    // Draw a line from the target through the attacker.
-    std::vector<tripoint> path = continue_line( direction, maxdepth );
-    // Remove the target.
+    // Draw a line behind the attacker in the oppisite direction of the target.
+    std::vector<tripoint> path = continue_line( { bashee, basher }, maxdepth );
+    // Add the attacker back in.
     path.insert( path.begin(), basher );
     std::vector<tripoint> zone;
     // Go ahead and reserve enough room for all the points since
@@ -1745,24 +1742,24 @@ int monster::group_bash_skill( const tripoint &target )
 
     creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &candidate : bzone ) {
-        // Drawing this line backwards excludes the target and includes the candidate.
-        std::vector<tripoint> path_to_target = line_to( target, candidate, 0, 0 );
         bool connected = true;
         monster *mon = nullptr;
-        for( const tripoint &in_path : path_to_target ) {
+        // Drawing this line backwards excludes the target and includes the candidate.
+        line_to_2( target, candidate, [&mon, &creatures, &connected]( std::vector<tripoint> & new_line ) {
             // If any point in the line from zombie to target is not a cooperating zombie,
             // it can't contribute.
-            mon = creatures.creature_at<monster>( in_path );
+            mon = creatures.creature_at<monster>( new_line.back() );
             if( !mon ) {
                 connected = false;
-                break;
+                return false;
             }
             monster &helpermon = *mon;
             if( !helpermon.has_flag( mon_flag_GROUP_BASH ) || helpermon.is_hallucination() ) {
                 connected = false;
-                break;
+                return false;
             }
-        }
+            return true;
+        } );
         if( !connected || !mon ) {
             continue;
         }

@@ -4919,57 +4919,58 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
             }
             break;
             case JMAPGEN_SETMAP_LINE_TRAP: {
-                const std::vector<point> line = line_to( point( x_get(), y_get() ), point( x2_get(), y2_get() ),
-                                                0 );
-                for( const point &i : line ) {
+                line_to_2( point( x_get(), y_get() ), point( x2_get(), y2_get() ),
+                                  [&m, this, &dat]( std::vector<point> & new_line ) {
                     // TODO: the trap_id should be stored separately and not be wrapped in an jmapgen_int
-                    mtrap_set( &m, i, trap_id( val.get() ), dat.has_flag( jmapgen_flags::avoid_creatures ) );
-                }
+                    mtrap_set( &m, new_line.back(), trap_id( val.get() ), dat.has_flag( jmapgen_flags::avoid_creatures ) );
+                    return true;
+                } );
             }
             break;
             case JMAPGEN_SETMAP_LINE_TRAP_REMOVE: {
-                const std::vector<point> line = line_to( point( x_get(), y_get() ), point( x2_get(), y2_get() ),
-                                                0 );
-                for( const point &i : line ) {
+                line_to_2( point( x_get(), y_get() ), point( x2_get(), y2_get() ),
+                                  [&m, this]( std::vector<point> & new_line ) {
                     // TODO: the trap_id should be stored separately and not be wrapped in an jmapgen_int
-                    mremove_trap( &m, i, trap_id( val.get() ).id() );
-                }
+                    mremove_trap( &m, new_line.back(), trap_id( val.get() ).id() );
+                    return true;
+                } );
             }
             break;
             case JMAPGEN_SETMAP_LINE_CREATURE_REMOVE: {
-                const std::vector<point> line = line_to( point( x_get(), y_get() ), point( x2_get(), y2_get() ),
-                                                0 );
-                for( const point &i : line ) {
-                    Creature *tmp_critter = get_creature_tracker().creature_at( tripoint_abs_ms( m.getabs( tripoint( i,
+                line_to_2( point( x_get(), y_get() ), point( x2_get(), y2_get() ),
+                                  [&m]( std::vector<point> & new_line ) {
+                    Creature *tmp_critter = get_creature_tracker().creature_at( tripoint_abs_ms( m.getabs( tripoint( new_line.back(),
                                             m.get_abs_sub().z() ) ) ), true );
                     if( tmp_critter && !tmp_critter->is_avatar() ) {
                         tmp_critter->die( nullptr );
                     }
-                }
+                    return true;
+                } );
+                
             }
             break;
             case JMAPGEN_SETMAP_LINE_ITEM_REMOVE: {
-                const std::vector<point> line = line_to( point( x_get(), y_get() ), point( x2_get(), y2_get() ),
-                                                0 );
-                for( const point &i : line ) {
-                    m.i_clear( i );
-                }
+                line_to_2( point( x_get(), y_get() ), point( x2_get(), y2_get() ),
+                                  [&m]( std::vector<point> & new_line ) {
+                    m.i_clear( new_line.back() );
+                    return true;
+                } );
             }
             break;
             case JMAPGEN_SETMAP_LINE_FIELD_REMOVE: {
-                const std::vector<point> line = line_to( point( x_get(), y_get() ), point( x2_get(), y2_get() ),
-                                                0 );
-                for( const point &i : line ) {
-                    mremove_fields( &m, i );
-                }
+                line_to_2( point( x_get(), y_get() ), point( x2_get(), y2_get() ),
+                                  [&m]( std::vector<point> & new_line ) {
+                    mremove_fields( &m, new_line.back() );
+                    return true;
+                } );
             }
             break;
             case JMAPGEN_SETMAP_LINE_RADIATION: {
-                const std::vector<point> line = line_to( point( x_get(), y_get() ), point( x2_get(), y2_get() ),
-                                                0 );
-                for( const point &i : line ) {
-                    m.set_radiation( i, static_cast<int>( val.get() ) );
-                }
+                line_to_2( point( x_get(), y_get() ), point( x2_get(), y2_get() ),
+                                  [&m, this]( std::vector<point> & new_line ) {
+                    m.set_radiation( new_line.back(), static_cast<int>( val.get() ) );
+                    return true;
+                } );
             }
             break;
             case JMAPGEN_SETMAP_SQUARE_TER: {

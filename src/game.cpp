@@ -4854,10 +4854,8 @@ void game::knockback( const tripoint &s, const tripoint &t, int force, int stun,
 {
     std::vector<tripoint> traj;
     traj.clear();
-    traj = line_to( s, t, 0, 0 );
-    traj.insert( traj.begin(), s ); // how annoying, line_to() doesn't include the originating point!
-    traj = continue_line( traj, force );
-    traj.insert( traj.begin(), t ); // how annoying, continue_line() doesn't either!
+    traj = continue_line( line_through_2( s, t ), force );
+    traj.insert( traj.begin(), t ); // continue_line() doesn't include the originating point
 
     knockback( traj, stun, dam_mult );
 }
@@ -8069,7 +8067,7 @@ void draw_trail( const tripoint &start, const tripoint &end, const bool bDrawX )
     tripoint center = player_character.pos() + player_character.view_offset;
     if( start != end ) {
         //Draw trail
-        pts = line_to( start, end, 0, 0 );
+        pts = line_to_2( start, end );
     } else {
         //Draw point
         pts.emplace_back( start );
@@ -12639,7 +12637,7 @@ void game::update_overmap_seen()
         point abs_delta = delta.raw().abs();
         int max_delta = std::max( abs_delta.x, abs_delta.y );
         const float multiplier = trigdist ? std::sqrt( h_squared ) / max_delta : 1;
-        const std::vector<tripoint_abs_omt> line = line_to( ompos, p );
+        const std::vector<tripoint_abs_omt> line = line_to_omt( ompos, p );
         float sight_points = dist;
         for( auto it = line.begin();
              it != line.end() && sight_points >= 0; ++it ) {

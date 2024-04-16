@@ -492,7 +492,7 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
                 if( refresh_mplans ) {
                     monster *mon = dynamic_cast<monster *>( critter );
                     if( mon != nullptr && mon->has_dest() ) {
-                        for( auto &location : line_to( mon->get_location(), mon->get_dest() ) ) {
+                        for( auto &location : line_to_omt( mon->get_location(), mon->get_dest() ) ) {
                             hilights["mplan"].points[m->getlocal( location )] = 1;
                         }
                     }
@@ -1633,7 +1633,7 @@ void editmap::recalc_target( shapetype shape )
         }
         break;
         case editmap_line:
-            target_list = line_to( origin, target, 0, 0 );
+            target_list = line_to_2( origin, target );
             break;
     }
 }

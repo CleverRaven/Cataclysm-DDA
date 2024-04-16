@@ -6412,16 +6412,18 @@ void chop_tree_activity_actor::finish( player_activity &act, Character &who )
                        circle[( circle_center + 3 ) % circle_size]
                      };              // Fall towards to the right
         for( const point &direc : candidates ) {
-            bool cantuse = false;
+            bool can_use = true;
+
             tripoint proposed_to = pos + point( 3 * direc.x, 3 * direc.y );
-            std::vector<tripoint> rough_tree_line = line_to( pos, proposed_to );
-            for( const tripoint &elem : rough_tree_line ) {
-                if( creatures.creature_at( elem ) ) {
-                    cantuse = true;
-                    break;
+            line_to_2( pos, proposed_to, [&creatures, &can_use]( std::vector<tripoint> & new_line ) {
+                if( creatures.creature_at( new_line.back() ) ) {
+                    can_use = false;
+                    return false;
                 }
-            }
-            if( !cantuse ) {
+                return true;
+            } );
+
+            if( can_use ) {
                 direction = tripoint( direc, pos.z );
                 break;
             }

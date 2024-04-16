@@ -534,24 +534,23 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         }
 
         //33% chance to spawn empty magazines used by soldiers
-        std::vector<point> empty_magazines_locations = line_to( point( 15, 5 ), point( 20, 5 ) );
-        for( point &i : empty_magazines_locations ) {
+        line_through_2( point( 15, 5 ), point( 20, 5 ), [&m, &abs_sub]( std::vector<point> & new_line ) {
             if( one_in( 3 ) ) {
-                m.spawn_item( { i, abs_sub.z }, itype_stanag30 );
+                m.spawn_item( { new_line.back(), abs_sub.z }, itype_stanag30 );
             }
-        }
+            return true;
+        } );
 
         //Horizontal line of barbed wire fence
-        line( &m, ter_t_fence_barbed, point( 3, 9 ), point( SEEX * 2 - 4, 9 ) );
-
-        std::vector<point> barbed_wire = line_to( point( 3, 9 ), point( SEEX * 2 - 4, 9 ) );
-        for( point &i : barbed_wire ) {
+        line_through_2( point( 3, 9 ), point( SEEX * 2 - 4, 9 ), [&m, &abs_sub]( std::vector<point> & new_line ) {
+            m.ter_set( new_line.back(), ter_t_fence_barbed );
             //10% chance to spawn corpses of bloody people/zombies on every tile of barbed wire fence
             if( one_in( 10 ) ) {
-                m.add_corpse( { i, abs_sub.z } );
-                m.add_field( { i, abs_sub.z }, fd_blood, rng( 1, 3 ) );
+                m.add_corpse( { new_line.back(), abs_sub.z } );
+                m.add_field( { new_line.back(), abs_sub.z }, fd_blood, rng( 1, 3 ) );
             }
-        }
+            return true;
+        } );
 
         //Spawn 6-20 mines in the lower submap.
         //Spawn ordinary mine on asphalt, otherwise spawn buried mine
@@ -600,16 +599,15 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         line_furn( &m, furn_f_sandbag_half, point( 13, 15 ), point( 18, 15 ) );
 
         //Section of barbed wire fence
-        line( &m, ter_t_fence_barbed, point( 3, 13 ), point( SEEX * 2 - 4, 13 ) );
-
-        std::vector<point> barbed_wire = line_to( point( 3, 13 ), point( SEEX * 2 - 4, 13 ) );
-        for( point &i : barbed_wire ) {
+        line_through_2( point( 3, 13 ), point( SEEX * 2 - 4, 13 ), [&m, &abs_sub]( std::vector<point> & new_line ) {
+            m.ter_set( new_line.back(), ter_t_fence_barbed );
             //10% chance to spawn corpses of bloody people/zombies on every tile of barbed wire fence
             if( one_in( 10 ) ) {
-                m.add_corpse( { i, abs_sub.z } );
-                m.add_field( { i, abs_sub.z }, fd_blood, rng( 1, 3 ) );
+                m.add_corpse( { new_line.back(), abs_sub.z } );
+                m.add_field( { new_line.back(), abs_sub.z }, fd_blood, rng( 1, 3 ) );
             }
-        }
+            return true;
+        } );
 
         //50% chance to spawn a blood trail of wounded soldier trying to escape,
         //but eventually died out of blood loss and wounds and got devoured by zombies
@@ -643,12 +641,12 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         }
 
         //33% chance to spawn empty magazines used by soldiers
-        std::vector<point> empty_magazines_locations = line_to( point( 5, 16 ), point( 18, 16 ) );
-        for( point &i : empty_magazines_locations ) {
+        line_through_2( point( 5, 16 ), point( 18, 16 ), [&m, &abs_sub]( std::vector<point> & new_line ) {
             if( one_in( 3 ) ) {
-                m.spawn_item( { i, abs_sub.z }, itype_stanag30 );
+                m.spawn_item( { new_line.back(), abs_sub.z }, itype_stanag30 );
             }
-        }
+            return true;
+        } );
 
         //50% chance to spawn two humvees blocking the road
         if( one_in( 2 ) ) {
@@ -721,10 +719,10 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         //33% chance for a crazy maniac ramming the tent with some unfortunate inside
         if( one_in( 3 ) ) {
             //Blood and gore
-            std::vector<point> blood_track = line_to( point( 1, 6 ), point( 8, 6 ) );
-            for( point &i : blood_track ) {
-                m.add_field( { i, abs_sub.z }, fd_blood, 1 );
-            }
+            line_through_2( point( 1, 6 ), point( 8, 6 ), [&m, &abs_sub]( std::vector<point> & new_line ) {
+                m.add_field( { new_line.back(), abs_sub.z }, fd_blood, 1 );
+                return true;
+            } );
             m.add_field( tripoint { 1, 6, abs_sub.z }, fd_gibs_flesh, 1 );
 
             //Add the culprit
@@ -755,20 +753,19 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
             }
 
             //33% chance to spawn empty magazines used by soldiers
-            std::vector<point> empty_magazines_locations = line_to( point( 9, 3 ), point( 9, 13 ) );
-            for( point &i : empty_magazines_locations ) {
+            line_through_2( point( 9, 3 ), point( 9, 13 ), [&m, &abs_sub]( std::vector<point> & new_line ) {
                 if( one_in( 3 ) ) {
-                    m.spawn_item( { i, abs_sub.z }, itype_stanag30 );
+                    m.spawn_item( { new_line.back(), abs_sub.z }, itype_stanag30 );
                 }
-            }
+                return true;
+            } );
+
             //Intact sandbag barricade
             line_furn( &m, furn_f_sandbag_half, point( 10, 3 ), point( 10, 13 ) );
         }
 
-        //Add sandbags and barbed wire fence barricades
-        line( &m, ter_t_fence_barbed, point( 12, 3 ), point( 12, 13 ) );
+        //Add sandbags barricades
         line_furn( &m, furn_f_sandbag_half, point( 10, 16 ), point( 10, 20 ) );
-        line( &m, ter_t_fence_barbed, point( 12, 16 ), point( 12, 20 ) );
 
         //Place second tent
         square_furn( &m, furn_f_canvas_wall, point( 0, 16 ), point( 4, 20 ) );
@@ -787,21 +784,32 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         }
 
         //33% chance to spawn empty magazines used by soldiers
-        std::vector<point> empty_magazines_locations = line_to( point( 9, 16 ), point( 9, 20 ) );
-        for( point &i : empty_magazines_locations ) {
+        line_through_2( point( 9, 16 ), point( 9, 20 ), [&m, &abs_sub]( std::vector<point> & new_line ) {
             if( one_in( 3 ) ) {
-                m.spawn_item( { i, abs_sub.z }, itype_stanag30 );
+                m.spawn_item( { new_line.back(), abs_sub.z }, itype_stanag30 );
             }
-        }
+            return true;
+        } );
 
-        std::vector<point> barbed_wire = line_to( point( 12, 3 ), point( 12, 20 ) );
-        for( point &i : barbed_wire ) {
+        //Sections of barbed wire fence
+        line_through_2( point( 12, 3 ), point( 12, 13 ), [&m, &abs_sub]( std::vector<point> & new_line ) {
+            m.ter_set( new_line.back(), ter_t_fence_barbed );
             //10% chance to spawn corpses of bloody people/zombies on every tile of barbed wire fence
             if( one_in( 10 ) ) {
-                m.add_corpse( { i, abs_sub.z } );
-                m.add_field( { i, abs_sub.z }, fd_blood, rng( 1, 3 ) );
+                m.add_corpse( { new_line.back(), abs_sub.z } );
+                m.add_field( { new_line.back(), abs_sub.z }, fd_blood, rng( 1, 3 ) );
             }
-        }
+            return true;
+        } );
+        line_through_2( point( 12, 16 ), point( 12, 20 ), [&m, &abs_sub]( std::vector<point> & new_line ) {
+            m.ter_set( new_line.back(), ter_t_fence_barbed );
+            //10% chance to spawn corpses of bloody people/zombies on every tile of barbed wire fence
+            if( one_in( 10 ) ) {
+                m.add_corpse( { new_line.back(), abs_sub.z } );
+                m.add_field( { new_line.back(), abs_sub.z }, fd_blood, rng( 1, 3 ) );
+            }
+            return true;
+        } );
 
         //Spawn 6-20 mines in the rightmost submap.
         //Spawn ordinary mine on asphalt, otherwise spawn buried mine
@@ -870,12 +878,12 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         }
 
         //33% chance to spawn empty magazines used by soldiers
-        std::vector<point> empty_magazines_locations = line_to( point( 15, 2 ), point( 15, 8 ) );
-        for( point &i : empty_magazines_locations ) {
+        line_through_2( point( 15, 2 ), point( 15, 8 ), [&m, &abs_sub]( std::vector<point> & new_line ) {
             if( one_in( 3 ) ) {
-                m.spawn_item( { i, abs_sub.z }, itype_stanag30 );
+                m.spawn_item( { new_line.back(), abs_sub.z }, itype_stanag30 );
             }
-        }
+            return true;
+        } );
 
         //Add some crates near the truck...
         m.furn_set( tripoint{ 16, 18, abs_sub.z }, furn_f_crate_c );
@@ -991,26 +999,25 @@ static void place_fumarole( map &m, const point &p1, const point &p2, std::set<p
     // Tracks points nearby for ignition after the lava is placed
     //std::set<point> ignited;
 
-    std::vector<point> fumarole = line_to( p1, p2, 0 );
-    for( point &i : fumarole ) {
-        m.ter_set( i, ter_t_lava );
+    line_through_2( p1, p2, [&m, &ignited]( std::vector<point> & new_line ) {
+        m.ter_set( new_line.back(), ter_t_lava );
 
         // Add all adjacent tiles (even on diagonals) for possible ignition
         // Since they're being added to a set, duplicates won't occur
-        ignited.insert( i + point_north_west );
-        ignited.insert( i + point_north );
-        ignited.insert( i + point_north_east );
-        ignited.insert( i + point_west );
-        ignited.insert( i + point_east );
-        ignited.insert( i + point_south_west );
-        ignited.insert( i + point_south );
-        ignited.insert( i + point_south_east );
+        ignited.insert( new_line.back() + point_north_west );
+        ignited.insert( new_line.back() + point_north );
+        ignited.insert( new_line.back() + point_north_east );
+        ignited.insert( new_line.back() + point_west );
+        ignited.insert( new_line.back() + point_east );
+        ignited.insert( new_line.back() + point_south_west );
+        ignited.insert( new_line.back() + point_south );
+        ignited.insert( new_line.back() + point_south_east );
 
         if( one_in( 6 ) ) {
-            m.spawn_item( i + point_north_west, itype_chunk_sulfur );
+            m.spawn_item( new_line.back() + point_north_west, itype_chunk_sulfur );
         }
-    }
-
+        return true;
+    } );
 }
 
 static bool mx_portal_in( map &m, const tripoint &abs_sub )
@@ -1053,10 +1060,10 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
             m.add_field( portal_location, fd_reality_tear, 3 );
             for( int i = 0; i < rng( 1, 10 ); i++ ) {
                 tripoint end_location = { rng( 0, SEEX * 2 - 1 ), rng( 0, SEEY * 2 - 1 ), abs_sub.z };
-                std::vector<tripoint> failure = line_to( portal_location, end_location );
-                for( tripoint &i : failure ) {
-                    m.ter_set( { i.xy(), abs_sub.z }, ter_t_pit );
-                }
+                line_through_2( portal_location, end_location, [&m, &abs_sub]( std::vector<tripoint> & new_line ) {
+                    m.ter_set( { new_line.back().xy(), abs_sub.z }, ter_t_pit );
+                    return true;
+                } );
             }
             break;
         }
@@ -1925,15 +1932,15 @@ static bool mx_casings( map &m, const tripoint &abs_sub )
             //Spawn casings and blood trail along the direction of movement
             const tripoint from = { rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ), abs_sub.z };
             const tripoint to = { rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ), abs_sub.z };
-            std::vector<tripoint> casings = line_to( from, to );
-            for( tripoint &i : casings ) {
+            line_through_2( from, to, [&m, &abs_sub, &items]( std::vector<tripoint> & new_line ) {
                 if( one_in( 2 ) ) {
-                    m.spawn_items( { i.xy(), abs_sub.z }, items );
+                    m.spawn_items( { new_line.back().xy(), abs_sub.z }, items );
                     if( one_in( 2 ) ) {
-                        m.add_field( { i.xy(), abs_sub.z }, fd_blood, rng( 1, 3 ) );
+                        m.add_field( { new_line.back().xy(), abs_sub.z }, fd_blood, rng( 1, 3 ) );
                     }
                 }
-            }
+                return true;
+            } );
             //Spawn random trash in random place
             for( int i = 0; i < rng( 1, 3 ); i++ ) {
                 const std::vector<item> trash =

@@ -4784,7 +4784,7 @@ void map::transform_line( const ter_furn_transform_id &transform, const tripoint
     if( !inbounds( first ) || !inbounds( second ) ) {
         debugmsg( "transform_line called for line out of bounds" );
     }
-    for( const tripoint_abs_ms &t : line_to( first, second ) ) {
+    for( const tripoint_abs_ms &t : line_to_omt( first, second ) ) {
         transform->transform( *this, bub_from_abs( t ) );
     }
 }
@@ -6675,7 +6675,7 @@ void map::add_splatter_trail( const field_type_id &type, const tripoint &from,
     if( !type.id() ) {
         return;
     }
-    const auto trail = line_to( from, to );
+    const auto trail = line_to_2( from, to );
     int remainder = trail.size();
     for( const tripoint &elem : trail ) {
         add_splatter( type, elem );
@@ -7570,34 +7570,6 @@ int map::coverage( const tripoint &p ) const
     return ter( p )->coverage;
 }
 
-// This method tries a bunch of initial offsets for the line to try and find a clear one.
-// Basically it does, "Find a line from any point in the source that ends up in the target square".
-std::vector<tripoint> map::find_clear_path( const tripoint &source,
-        const tripoint &destination ) const
-{
-    return find_line_to_2(source, destination);
-    /*
-    // TODO: Push this junk down into the Bresenham method, it's already doing it.
-    const point d( destination.xy() - source.xy() );
-    const point a( std::abs( d.x ) * 2, std::abs( d.y ) * 2 );
-    const int dominant = std::max( a.x, a.y );
-    const int minor = std::min( a.x, a.y );
-    // This seems to be the method for finding the ideal start value for the error value.
-    const int ideal_start_offset = minor - dominant / 2;
-    const int start_sign = ( ideal_start_offset > 0 ) - ( ideal_start_offset < 0 );
-    // Not totally sure of the derivation.
-    const int max_start_offset = std::abs( ideal_start_offset ) * 2 + 1;
-    for( int horizontal_offset = -1; horizontal_offset <= max_start_offset; ++horizontal_offset ) {
-        int candidate_offset = horizontal_offset * start_sign;
-        if( sees( source, destination, rl_dist( source, destination ), candidate_offset ) ) {
-            return line_to( source, destination, candidate_offset, 0 );
-        }
-    }
-    // If we couldn't find a clear LoS, just return the ideal one.
-    return line_to( source, destination, ideal_start_offset, 0 );
-    */
-}
-
 void map::reachable_flood_steps( std::vector<tripoint> &reachable_pts, const tripoint &f,
                                  int range, const int cost_min, const int cost_max ) const
 {
@@ -7810,7 +7782,7 @@ std::vector<tripoint> map::get_dir_circle( const tripoint &f, const tripoint &t 
     circle.resize( 8 );
 
     // The line below can be crazy expensive - we only take the FIRST point of it
-    const std::vector<tripoint> line = line_to( f, t, 0, 0 );
+    const std::vector<tripoint> line = line_to_2( f, t );
     const std::vector<tripoint> spiral = closest_points_first( f, 1 );
     const std::vector<int> pos_index {1, 2, 4, 6, 8, 7, 5, 3};
 
@@ -8572,11 +8544,13 @@ void map::cut_down_tree( tripoint_bub_ms p, point dir )
     tripoint_bub_ms to = p + 3 * dir + point( rng( -1, 1 ), rng( -1, 1 ) );
 
     // TODO: make line_to type aware.
-    std::vector<tripoint> tree = line_to( p.raw(), to.raw(), rng( 1, 8 ) );
-    for( tripoint &elem : tree ) {
-        batter( elem, 300, 5 );
-        ter_set( elem, ter_t_trunk );
-    }
+    const tripoint a = ( to.raw() - p.raw() ).abs() * 2;
+    const int major = std::max( a.x, a.y );
+    line_to_2( p.raw(), to.raw(), [this]( std::vector<tripoint> & new_line ) {
+            batter( new_line.back(), 300, 5 );
+            ter_set( new_line.back(), ter_t_trunk );
+        return true;
+    }, rng( major - 1, -major ) );
     ter_set( p, ter_t_stump );
 }
 

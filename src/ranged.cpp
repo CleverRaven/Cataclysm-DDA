@@ -2867,7 +2867,9 @@ bool target_ui::set_cursor_pos( const tripoint &new_pos )
         // Or current view range
         valid_pos.z = clamp( valid_pos.z - src.z, -fov_3d_z_range, fov_3d_z_range ) + src.z;
 
-        // TODO: account for what is being aimed
+        // TODO: account for what is being aimed,
+        // since some things can pass through tiles that others can't.
+        // ATM we don't check for occlusions or anything.
         new_traj = find_line_to_2( src, valid_pos, [this]( std::vector<tripoint> &new_line ) {
             // Return the path from just before we get out of range
             if( trigdist && dist_fn( new_line.back() ) > range
@@ -2877,7 +2879,7 @@ bool target_ui::set_cursor_pos( const tripoint &new_pos )
             }
             return true;
         } );
-        valid_pos = new_traj[ new_traj.size() - 1 ];
+        valid_pos = new_traj.back();
     } else {
         new_traj.push_back( src );
     }
@@ -3214,7 +3216,7 @@ void target_ui::update_turrets_in_range()
         turret_data td = veh->turret_query( *t );
         if( td.in_range( dst ) ) {
             tripoint src = veh->global_part_pos3( *t );
-            turrets_in_range.push_back( {t, line_to( src, dst )} );
+            turrets_in_range.push_back( {t, line_to_2( src, dst )} );
         }
     }
 }

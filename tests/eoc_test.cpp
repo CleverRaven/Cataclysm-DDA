@@ -171,7 +171,7 @@ void check_ter_in_line( tripoint_abs_ms const &first, tripoint_abs_ms const &sec
     map tm;
     tripoint_abs_ms const orig = coord_min( first, second );
     tm.load( project_to<coords::sm>( orig ), false, false );
-    for( tripoint_abs_ms p : line_to( first, second ) ) {
+    for( tripoint_abs_ms p : line_to_omt( first, second ) ) {
         REQUIRE( tm.ter( tm.getlocal( p ) ) == ter );
     }
 }

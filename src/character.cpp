@@ -1276,7 +1276,7 @@ bool Character::overmap_los( const tripoint_abs_omt &omt, int sight_points ) con
         return false;
     }
 
-    const std::vector<tripoint_abs_omt> line = line_to( ompos, omt );
+    const std::vector<tripoint_abs_omt> line = line_to_omt( ompos, omt );
     for( size_t i = 0; i < line.size() && sight_points >= 0; i++ ) {
         const tripoint_abs_omt &pt = line[i];
         const oter_id &ter = overmap_buffer.ter( pt );

@@ -213,13 +213,16 @@ static bool in_spell_aoe( const tripoint &start, const tripoint &end, const int 
         return true;
     }
     map &here = get_map();
-    const std::vector<tripoint> trajectory = line_to( start, end );
-    for( const tripoint &pt : trajectory ) {
-        if( here.impassable( pt ) ) {
+    bool return_value = true;
+    line_to_2( start, end,
+        [&here, &return_value]( std::vector<tripoint> & new_line ) {
+        if( here.impassable( new_line.back() ) ) {
+            return_value = false;
             return false;
         }
-    }
-    return true;
+        return true;
+    } );
+    return return_value;
 }
 
 std::set<tripoint> spell_effect::spell_effect_blast( const override_parameters &params,
@@ -260,14 +263,14 @@ static std::set<tripoint> spell_effect_cone_range_override( const spell_effect::
     if( !params.ignore_walls ) {
         map &here = get_map();
         for( const tripoint &ep : end_points ) {
-            std::vector<tripoint> trajectory = line_to( source, ep );
-            for( const tripoint &tp : trajectory ) {
-                if( here.passable( tp ) ) {
-                    targets.emplace( tp );
-                } else {
-                    break;
+            line_to_2( source, ep,
+                [&here, &targets]( std::vector<tripoint> & new_line ) {
+                if( here.passable( new_line.back() ) ) {
+                    targets.emplace( new_line.back() );
+                    return true;
                 }
-            }
+                return false;
+            } );
         }
     }
     // we don't want to hit ourselves in the blast!
@@ -326,11 +329,10 @@ std::set<tripoint> spell_effect::spell_effect_line( const override_parameters &p
     bool ( *test )( const tripoint & ) = params.ignore_walls ? test_always_true : test_passable;
 
     // Canonical path from source to target, offset to local space
-    std::vector<point> path_to_target = line_to( point_zero, delta );
-    // Remove endpoint,
+    std::vector<point> path_to_target = line_through_2( point_zero, delta );
+    // Remove endpoint
     path_to_target.pop_back();
-    // and insert startpoint. Path is now prepared for wrapped iteration
-    path_to_target.insert( path_to_target.begin(), point_zero );
+    // Path is now prepared for wrapped iteration
 
     spell_detail::line_iterable base_line( point_zero, delta, path_to_target );
 
@@ -342,79 +344,89 @@ std::set<tripoint> spell_effect::spell_effect_line( const override_parameters &p
     // Add cw and ccw legs
     if( delta_side == 0 ) { // delta is already axis aligned, only need straight lines
         // cw leg
-        for( const point &p : line_to( point_zero, unit_cw_perp_axis * cw_len ) ) {
-            base_line.reset( p );
-            if( !test( source + p ) ) {
-                break;
+        line_to_2( point_zero, unit_cw_perp_axis * cw_len,
+            [&base_line, &source, &delta, &delta_perp, &test, &result]( std::vector<point> & new_line ) {
+            base_line.reset( new_line.back() );
+            if( !test( source + new_line.back() ) ) {
+                return false;
             }
-
             spell_detail::build_line( base_line, source, delta, delta_perp, test, result );
-        }
+            return true;
+        } );
         // ccw leg
-        for( const point &p : line_to( point_zero, unit_cw_perp_axis * -ccw_len ) ) {
-            base_line.reset( p );
-            if( !test( source + p ) ) {
-                break;
+        line_to_2( point_zero, unit_cw_perp_axis * -ccw_len,
+            [&base_line, &source, &delta, &delta_perp, &test, &result]( std::vector<point> & new_line ) {
+            base_line.reset( new_line.back() );
+            if( !test( source + new_line.back() ) ) {
+                return false;
             }
-
             spell_detail::build_line( base_line, source, delta, delta_perp, test, result );
-        }
+            return true;
+        } );
     } else if( delta_side == 1 ) { // delta is cw of primary axis
         // ccw leg is behind perp axis
-        for( const point &p : line_to( point_zero, unit_cw_perp_axis * -ccw_len ) ) {
-            base_line.reset( p );
-
+        line_to_2( point_zero, unit_cw_perp_axis * -ccw_len,
+            [&base_line, &source, &delta, &delta_perp, &test, &result]( std::vector<point> & new_line ) {
+            base_line.reset( new_line.back() );
+            
             // forward until in
             while( spell_detail::side_of( point_zero, delta_perp, base_line.get() ) == 1 ) {
                 base_line.next();
             }
-            if( !test( source + p ) ) {
-                break;
+            if( !test( source + new_line.back() ) ) {
+                return false;
             }
             spell_detail::build_line( base_line, source, delta, delta_perp, test, result );
-        }
+            return true;
+        } );
         // cw leg is before perp axis
-        for( const point &p : line_to( point_zero, unit_cw_perp_axis * cw_len ) ) {
-            base_line.reset( p );
-
+        line_to_2( point_zero, unit_cw_perp_axis * cw_len,
+            [&base_line, &source, &delta, &delta_perp, &test, &result]( std::vector<point> & new_line ) {
+            base_line.reset( new_line.back() );
+            
             // move back
             while( spell_detail::side_of( point_zero, delta_perp, base_line.get() ) != 1 ) {
                 base_line.prev();
             }
             base_line.next();
-            if( !test( source + p ) ) {
-                break;
+            if( !test( source + new_line.back() ) ) {
+                return false;
             }
             spell_detail::build_line( base_line, source, delta, delta_perp, test, result );
-        }
+            return true;
+        } );
     } else if( delta_side == -1 ) { // delta is ccw of primary axis
         // ccw leg is before perp axis
-        for( const point &p : line_to( point_zero, unit_cw_perp_axis * -ccw_len ) ) {
-            base_line.reset( p );
-
+        line_to_2( point_zero, unit_cw_perp_axis * -ccw_len,
+            [&base_line, &source, &delta, &delta_perp, &test, &result]( std::vector<point> & new_line ) {
+            base_line.reset( new_line.back() );
+            
             // move back
             while( spell_detail::side_of( point_zero, delta_perp, base_line.get() ) != 1 ) {
                 base_line.prev();
             }
             base_line.next();
-            if( !test( source + p ) ) {
-                break;
+            if( !test( source + new_line.back() ) ) {
+                return false;
             }
             spell_detail::build_line( base_line, source, delta, delta_perp, test, result );
-        }
+            return true;
+        } );
         // cw leg is behind perp axis
-        for( const point &p : line_to( point_zero, unit_cw_perp_axis * cw_len ) ) {
-            base_line.reset( p );
-
+        line_to_2( point_zero, unit_cw_perp_axis * cw_len,
+            [&base_line, &source, &delta, &delta_perp, &test, &result]( std::vector<point> & new_line ) {
+            base_line.reset( new_line.back() );
+            
             // forward until in
-            while( spell_detail::side_of( point_zero, delta_perp, base_line.get() ) == 1 ) {
+            while( spell_detail::side_of( point_zero, delta_perp, base_line.get() ) != 1 ) {
                 base_line.next();
             }
-            if( !test( source + p ) ) {
-                break;
+            if( !test( source + new_line.back() ) ) {
+                return false;
             }
             spell_detail::build_line( base_line, source, delta, delta_perp, test, result );
-        }
+            return true;
+        } );
     }
 
     result.erase( source );
@@ -431,17 +443,17 @@ std::set<tripoint> calculate_spell_effect_area( const spell &sp, const tripoint 
 
     // stop short if we hit a wall, if the spell has a projectile
     if( sp.shape() == spell_shape::blast && !sp.has_flag( spell_flag::NO_PROJECTILE ) ) {
-        std::vector<tripoint> trajectory = line_to( caster.pos(), target );
-        for( std::vector<tripoint>::iterator iter = trajectory.begin(); iter != trajectory.end(); iter++ ) {
-            if( get_map().impassable( *iter ) ) {
-                if( iter != trajectory.begin() ) {
-                    epicenter = *( iter - 1 );
-                } else {
-                    epicenter = *iter;
+        line_to_2( caster.pos(), target,
+            [&epicenter]( std::vector<tripoint> & new_line ) {
+            if( get_map().impassable( new_line.back() ) ) {
+                if( new_line.front() != new_line.back() ) {
+                    new_line.pop_back();
                 }
-                break;
+                epicenter = new_line.back();
+                return false;
             }
-        }
+            return true;
+        } );
     }
 
     std::set<tripoint> targets = { epicenter }; // initialize with epicenter
@@ -1015,7 +1027,7 @@ void spell_effect::directed_push( const spell &sp, Creature &caster, const tripo
 
         tripoint push_dest;
         calc_ray_end( angle, push_distance, push_point, push_dest );
-        const std::vector<tripoint> push_vec = line_to( push_point, push_dest );
+        const std::vector<tripoint> push_vec = line_to_2( push_point, push_dest );
 
         const Creature *critter = creatures.creature_at<Creature>( push_point );
         if( critter != nullptr ) {
@@ -1664,14 +1676,12 @@ void spell_effect::bash( const spell &sp, Creature &caster, const tripoint &targ
 void spell_effect::dash( const spell &sp, Creature &caster, const tripoint &target )
 {
     const tripoint source = caster.pos();
-    const std::vector<tripoint> trajectory_local = line_to( source, target );
     ::map &here = get_map();
-    // uses abs() coordinates
-    std::vector<tripoint> trajectory;
-    trajectory.reserve( trajectory_local.size() );
-    for( const tripoint &local_point : trajectory_local ) {
-        trajectory.push_back( here.getabs( local_point ) );
-    }
+    std::vector<tripoint> trajectory = line_to_2( source, target,
+        [&here]( std::vector<tripoint> & new_line ) {
+        new_line.back() = here.getabs( new_line.back() );
+        return true;
+    } );
     avatar *caster_you = caster.as_avatar();
     auto walk_point = trajectory.begin();
     if( here.getlocal( *walk_point ) == source ) {

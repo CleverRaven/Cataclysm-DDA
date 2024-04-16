@@ -669,13 +669,6 @@ class map
                                     int cost_min, int cost_max ) const;
 
         /**
-         * Iteratively tries Bresenham lines with different biases
-         * until it finds a clear line or decides there isn't one.
-         * returns the line found, which may be the straight line, but blocked.
-         */
-        std::vector<tripoint> find_clear_path( const tripoint &source, const tripoint &destination ) const;
-
-        /**
          * Check whether the player can access the items located @p. Certain furniture/terrain
          * may prevent that (e.g. a locked safe).
          */
@@ -2449,6 +2442,9 @@ class tinymap : private map
         bool ter_set( const tripoint &p, const ter_id &new_terrain, bool avoid_creatures = false ) {
             return map::ter_set( p, new_terrain, avoid_creatures );    // TODO: Make it typed
         }
+        bool ter_set( const point &p, const ter_id &new_terrain, bool avoid_creatures = false ) {
+            return map::ter_set( p, new_terrain, avoid_creatures );    // TODO: Make it typed
+        }
         bool has_flag_ter( ter_furn_flag flag, const tripoint &p ) const {
             return map::has_flag_ter( flag, p );
         }
@@ -2578,6 +2574,9 @@ class tinymap : private map
         }
         bool has_flag( ter_furn_flag flag, const point &p ) const { // TODO: Make it typed
             return map::has_flag( flag, p );
+        }
+        void batter( const tripoint &p, int power, int tries = 1, bool silent = false ) {
+            return map::batter( p, power, tries, silent );  // TODO: Make it typed
         }
         void destroy( const tripoint &p, bool silent = false ) {
             return map::destroy( p, silent );    // TODO: Make it typed

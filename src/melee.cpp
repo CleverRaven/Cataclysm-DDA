@@ -1038,9 +1038,8 @@ void Character::reach_attack( const tripoint &p, int forced_movecost )
     const float weary_mult = 1.0f / exertion_adjusted_move_multiplier( EXTRA_EXERCISE );
     int move_cost = attack_speed( weapon ) * weary_mult;
     float skill = std::min( 10.0f, get_skill_level( skill_melee ) );
-    int t = 0;
     map &here = get_map();
-    std::vector<tripoint> path = line_to( pos(), p, t, 0 );
+    std::vector<tripoint> path = line_to_2( pos(), p );
     path.pop_back(); // Last point is our critter
     for( const tripoint &path_point : path ) {
         // Possibly hit some unintended target instead

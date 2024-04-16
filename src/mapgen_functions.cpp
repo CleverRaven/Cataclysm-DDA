@@ -1520,9 +1520,8 @@ void mapgen_lake_shore( mapgendata &dat )
     // It buffers the points a bit for a thicker line. It also clears any furniture that might
     // be in the location as a result of our extending adjacent mapgen.
     const auto draw_shallow_water = [&]( const point & from, const point & to ) {
-        std::vector<point> points = line_to( from, to );
-        for( point &p : points ) {
-            for( const point &bp : closest_points_first( p, 1 ) ) {
+        line_to_2( from, to, [&m]( std::vector<point> & new_line ) {
+            for( const point &bp : closest_points_first( new_line.back(), 1 ) ) {
                 if( !map_boundaries.contains( bp ) ) {
                     continue;
                 }
@@ -1531,7 +1530,8 @@ void mapgen_lake_shore( mapgendata &dat )
                 m->ter_set( bp, ter_str_id::NULL_ID() );
                 m->furn_set( bp, furn_str_id::NULL_ID() );
             }
-        }
+            return true;
+        } );
     };
 
     // Given two points, return a point that is midway between the two points and then
@@ -1958,22 +1958,21 @@ void mapgen_ocean_shore( mapgendata &dat )
         if( to.y != 0 && to.y != SEEX * 2 - 1 ) {
             to_mod.y += ns_direction_adjust;
         }
-        std::vector<point> points = line_to( from_mod, to_mod );
-        for( point &p : points ) {
-            for( const point &bp : closest_points_first( p, sand_margin ) ) {
+        line_to_2( from_mod, to_mod, [&m, &sand_margin]( std::vector<point> & new_line ) {
+            for( const point &bp : closest_points_first( new_line.back(), sand_margin ) ) {
                 if( !map_boundaries.contains( bp ) ) {
                     continue;
                 }
                 m->ter_set( bp, ter_t_swater_sh );
                 m->furn_set( bp, furn_str_id::NULL_ID() );
             }
-        }
+            return true;
+        } );
     };
     // This will draw our sandy beach coastline from the "from" point to the "to" point.
     const auto draw_sand = [&]( const point & from, const point & to ) {
-        std::vector<point> points = line_to( from, to );
-        for( point &p : points ) {
-            for( const point &bp : closest_points_first( p, sand_margin ) ) {
+        line_to_2( from, to, [&m, &sand_margin]( std::vector<point> & new_line ) {
+            for( const point &bp : closest_points_first( new_line.back(), sand_margin ) ) {
                 if( !map_boundaries.contains( bp ) ) {
                     continue;
                 }
@@ -1982,7 +1981,7 @@ void mapgen_ocean_shore( mapgendata &dat )
                 m->ter_set( bp, ter_str_id::NULL_ID() );
                 m->furn_set( bp, furn_str_id::NULL_ID() );
             }
-            for( const point &bp : closest_points_first( p, sand_margin + 1 ) ) {
+            for( const point &bp : closest_points_first( new_line.back(), sand_margin + 1 ) ) {
                 if( !map_boundaries.contains( bp ) ) {
                     continue;
                 }
@@ -1990,7 +1989,8 @@ void mapgen_ocean_shore( mapgendata &dat )
                     m->ter_set( bp, ter_t_swater_surf );
                 }
             }
-        }
+            return true;
+        } );
     };
 
     // Given two points, return a point that is midway between the two points and then

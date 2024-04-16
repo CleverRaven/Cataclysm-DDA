@@ -1141,7 +1141,7 @@ std::pair<std::string, nc_color> display::overmap_tile_symbol_color( const avata
             ter_color = red_background( ter_color );
             found_mi = true;
         } else if( edge_tile ) {
-            std::vector<tripoint_abs_omt> plist = line_to( u_loc, target );
+            std::vector<tripoint_abs_omt> plist = line_to_omt( u_loc, target );
             if( std::find( plist.begin(), plist.end(), omt ) != plist.end() ) {
                 ter_color = c_red;
                 ter_sym = "*";

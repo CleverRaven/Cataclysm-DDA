@@ -240,7 +240,7 @@ bool compare_sound_alert( const dangerous_sound &sound_a, const dangerous_sound 
 
 static bool clear_shot_reach( const tripoint &from, const tripoint &to, bool check_ally = true )
 {
-    std::vector<tripoint> path = line_to( from, to );
+    std::vector<tripoint> path = line_to_2( from, to );
     path.pop_back();
     creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &p : path ) {

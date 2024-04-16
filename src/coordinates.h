@@ -778,10 +778,10 @@ direction direction_from( const coords::coord_point<Point, Origin, Scale, LhsInB
 
 template<typename Point, coords::origin Origin, coords::scale Scale, bool LhsInBounds, bool RhsInBounds>
 std::vector < coords::coord_point < Point, Origin, Scale, LhsInBounds &&RhsInBounds >>
-        line_to( const coords::coord_point<Point, Origin, Scale, LhsInBounds> &loc1,
+        line_to_omt( const coords::coord_point<Point, Origin, Scale, LhsInBounds> &loc1,
                  const coords::coord_point<Point, Origin, Scale, RhsInBounds> &loc2 )
 {
-    std::vector<Point> raw_result = line_to( loc1.raw(), loc2.raw() );
+    std::vector<Point> raw_result = line_to_2( loc1.raw(), loc2.raw() );
     std::vector < coords::coord_point < Point, Origin, Scale, LhsInBounds &&RhsInBounds >> result;
     std::transform( raw_result.begin(), raw_result.end(), std::back_inserter( result ),
     []( const Point & p ) {

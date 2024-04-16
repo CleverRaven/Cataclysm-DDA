@@ -38,7 +38,7 @@ static const int base_throw_now = 10'000;
 // TODO: put this in a namespace for reuse
 static bool has_obstruction( const tripoint &from, const tripoint &to, bool check_ally = false )
 {
-    std::vector<tripoint> line = line_to( from, to );
+    std::vector<tripoint> line = line_to_2( from, to );
     // @to is what we want to hit. we don't need to check for obstruction there.
     line.pop_back();
     const map &here = get_map();
@@ -248,7 +248,7 @@ void npc_attack_melee::use( npc &source, const tripoint &location ) const
             add_msg_debug( debugmode::debug_filter::DF_NPC, "%s is attempting a reach attack",
                            source.disp_name() );
             // check for friendlies in the line of fire
-            std::vector<tripoint> path = line_to( source.pos(), location );
+            std::vector<tripoint> path = line_to_2( source.pos(), location );
             path.pop_back(); // Last point is the target
             bool can_attack = true;
             for( const tripoint &path_point : path ) {
