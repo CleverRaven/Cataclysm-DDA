@@ -2860,7 +2860,6 @@ bool target_ui::set_cursor_pos( const tripoint &new_pos )
     // Make sure new position is valid or find a closest valid position
     std::vector<tripoint> new_traj;
     tripoint valid_pos = new_pos;
-    map &here = get_map();
     if( new_pos != src ) {
         // On Z axis, make sure we do not exceed map boundaries
         valid_pos.z = clamp( valid_pos.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT - 1 );
@@ -2872,8 +2871,8 @@ bool target_ui::set_cursor_pos( const tripoint &new_pos )
         // ATM we don't check for occlusions or anything.
         new_traj = find_line_to_2( src, valid_pos, [this]( std::vector<tripoint> &new_line ) {
             // Return the path from just before we get out of range
-            if( trigdist && dist_fn( new_line.back() ) > range
-                || !trigdist && square_dist( src, new_line.back() ) > range ) {
+            if( ( trigdist && dist_fn( new_line.back() ) > range )
+                || ( !trigdist && square_dist( src, new_line.back() ) ) > range ) {
                 new_line.pop_back();
                 return false;
             }
