@@ -15,7 +15,7 @@
 #include "point.h"
 #include "rng.h"
 
-#define SGN(a) ( a == 0 ? 0 : ( a < 0 ? -1 : 1 ) )
+#define SGN(a) ( ( a ) == 0 ? 0 : ( ( a ) < 0 ? -1 : 1 ) )
 // Compare all future line_to implementations to the canonical one.
 static std::vector<point> canonical_line_to( const point &p1, const point &p2, int o )
 {
