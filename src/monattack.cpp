@@ -225,7 +225,6 @@ static const ter_str_id ter_t_tree( "t_tree" );
 static const ter_str_id ter_t_tree_young( "t_tree_young" );
 static const ter_str_id ter_t_underbrush( "t_underbrush" );
 
-static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_MARLOSS( "MARLOSS" );
 static const trait_id trait_MARLOSS_BLUE( "MARLOSS_BLUE" );
 static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
