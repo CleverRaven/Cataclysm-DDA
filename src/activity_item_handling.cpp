@@ -1296,6 +1296,10 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
             const plot_options &options = dynamic_cast<const plot_options &>( zone.get_options() );
             const itype_id seed = options.get_seed();
 
+            if( here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_OVERGROWN, src_loc ) ) {
+                return activity_reason_info::ok( do_activity_reason::NEEDS_CLEARING );
+            }
+
             if( here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_HARVEST, src_loc ) ) {
                 map_stack items = here.i_at( src_loc );
                 const map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
@@ -2976,6 +2980,9 @@ static bool generic_multi_activity_do(
         here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_HARVEST, src_loc ) ) {
         // TODO: fix point types
         iexamine::harvest_plant( you, src_loc.raw(), true );
+    } else if( ( reason == do_activity_reason::NEEDS_CLEARING ) &&
+               here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_OVERGROWN, src_loc ) ) {
+        iexamine::clear_overgrown( you, src_loc.raw() );
     } else if( reason == do_activity_reason::NEEDS_TILLING &&
                here.has_flag( ter_furn_flag::TFLAG_PLOWABLE, src_loc ) &&
                you.has_quality( qual_DIG, 1 ) && !here.has_furn( src_loc ) ) {
