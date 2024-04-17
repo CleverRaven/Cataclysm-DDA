@@ -382,7 +382,7 @@
     "weight": "20 kg",
     "zombify_into": "mon_meat_cocoon_tiny",
     "fungalize_into": "mon_bee_small_fungus",
-    "upgrades": { "half_life": 30, "into": "mon_bee" }
+    "upgrades": { "age_grow": 30, "into": "mon_bee" }
   },
   {
     "id": "mon_bee",
@@ -418,7 +418,7 @@
     "dissect": "dissect_insect_sample_single",
     "anger_triggers": [ "HURT", "FRIEND_DIED", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FIRE" ],
-    "upgrades": { "half_life": 42, "into": "mon_bee_mega" },
+    "upgrades": { "age_grow": 42, "into": "mon_bee_mega" },
     "zombify_into": "mon_meat_cocoon_small",
     "fungalize_into": "mon_bee_fungus",
     "flags": [ "SEES", "SMELLS", "FLIES", "STUMBLES", "SWARMS", "GROUP_MORALE", "CANPLAY", "PATH_AVOID_FIRE" ],
@@ -889,7 +889,7 @@
     "volume": "15 L",
     "weight": "20 kg",
     "zombify_into": "mon_meat_cocoon_tiny",
-    "upgrades": { "half_life": 30, "into": "mon_fly" },
+    "upgrades": { "age_grow": 30, "into": "mon_fly" },
     "stomach_size": 100,
     "delete": {
       "reproduction": { "baby_egg": "egg_fly", "baby_count": 3, "baby_timer": 15 },
@@ -929,7 +929,7 @@
     "special_attacks": [ [ "EAT_CARRION", 100 ] ],
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "fear_triggers": [ "PLAYER_CLOSE", "HURT", "FIRE" ],
-    "upgrades": { "half_life": 42, "into": "mon_fly_mega" },
+    "upgrades": { "age_grow": 42, "into": "mon_fly_mega" },
     "zombify_into": "mon_meat_cocoon_small",
     "flags": [ "SEES", "SMELLS", "FLIES", "STUMBLES", "HIT_AND_RUN", "CANPLAY", "PATH_AVOID_FIRE", "EATS" ]
   },
@@ -979,7 +979,7 @@
     "volume": "15 L",
     "weight": "20 kg",
     "zombify_into": "mon_meat_cocoon_tiny",
-    "upgrades": { "half_life": 30, "into": "mon_mosquito_giant" },
+    "upgrades": { "age_grow": 30, "into": "mon_mosquito_giant" },
     "delete": {
       "reproduction": { "baby_egg": "egg_mosquito", "baby_count": 3, "baby_timer": 15 },
       "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ]
@@ -1017,7 +1017,7 @@
     "reproduction": { "baby_egg": "egg_mosquito", "baby_count": 3, "baby_timer": 15 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "fear_triggers": [ "HURT", "FIRE" ],
-    "upgrades": { "half_life": 42, "into": "mon_mosquito_mega" },
+    "upgrades": { "age_grow": 42, "into": "mon_mosquito_mega" },
     "zombify_into": "mon_meat_cocoon_small",
     "flags": [ "SEES", "SMELLS", "STUMBLES", "VENOM", "FLIES", "HIT_AND_RUN", "PATH_AVOID_FIRE" ]
   },
@@ -1301,7 +1301,7 @@
     "volume": "15 L",
     "weight": "20 kg",
     "zombify_into": "mon_meat_cocoon_tiny",
-    "upgrades": { "half_life": 30, "into": "mon_spider_jumping_giant" },
+    "upgrades": { "age_grow": 30, "into": "mon_spider_jumping_giant" },
     "delete": {
       "reproduction": { "baby_egg": "egg_spider_jumping", "baby_count": 3, "baby_timer": 15 },
       "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ]
@@ -1352,7 +1352,7 @@
     ],
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "fungalize_into": "mon_spider_fungus",
-    "upgrades": { "half_life": 42, "into": "mon_spider_jumping_mega" },
+    "upgrades": { "age_grow": 42, "into": "mon_spider_jumping_mega" },
     "zombify_into": "mon_meat_cocoon_small",
     "flags": [ "SEES", "SMELLS", "HEARS", "HIT_AND_RUN", "CLIMBS", "PATH_AVOID_DANGER_1" ],
     "armor": { "cut": 3, "bullet": 2 }
@@ -1404,7 +1404,7 @@
     "volume": "30 L",
     "weight": "40 kg",
     "zombify_into": "mon_meat_cocoon_small",
-    "upgrades": { "half_life": 30, "into": "mon_spider_trapdoor_giant" },
+    "upgrades": { "age_grow": 30, "into": "mon_spider_trapdoor_giant" },
     "delete": {
       "reproduction": { "baby_egg": "egg_spider_trapdoor", "baby_count": 3, "baby_timer": 15 },
       "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ]
@@ -1444,7 +1444,7 @@
     "reproduction": { "baby_egg": "egg_spider_trapdoor", "baby_count": 3, "baby_timer": 15 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "fungalize_into": "mon_spider_fungus",
-    "upgrades": { "half_life": 42, "into": "mon_spider_trapdoor_mega" },
+    "upgrades": { "age_grow": 42, "into": "mon_spider_trapdoor_mega" },
     "zombify_into": "mon_meat_cocoon_small",
     "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "GRABS", "CAN_DIG", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE" ],
     "armor": { "bash": 4, "cut": 8, "bullet": 6 }
@@ -1493,7 +1493,7 @@
     "volume": "30 L",
     "weight": "40 kg",
     "zombify_into": "mon_meat_cocoon_small",
-    "upgrades": { "half_life": 30, "into": "mon_spider_web" },
+    "upgrades": { "age_grow": 30, "into": "mon_spider_web" },
     "delete": {
       "reproduction": { "baby_egg": "egg_spider_web", "baby_count": 3, "baby_timer": 15 },
       "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ]
@@ -1536,7 +1536,7 @@
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "fungalize_into": "mon_spider_fungus",
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
-    "upgrades": { "half_life": 42, "into": "mon_spider_web_mega" },
+    "upgrades": { "age_grow": 42, "into": "mon_spider_web_mega" },
     "zombify_into": "mon_meat_cocoon_small",
     "trap_avoids": [ "tr_sinkhole" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
@@ -1589,7 +1589,7 @@
     "volume": "15 L",
     "weight": "20 kg",
     "zombify_into": "mon_meat_cocoon_tiny",
-    "upgrades": { "half_life": 30, "into": "mon_spider_widow_giant" },
+    "upgrades": { "age_grow": 30, "into": "mon_spider_widow_giant" },
     "delete": {
       "reproduction": { "baby_egg": "egg_spider_widow", "baby_count": 3, "baby_timer": 15 },
       "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ]
@@ -1629,7 +1629,7 @@
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "fungalize_into": "mon_spider_fungus",
-    "upgrades": { "half_life": 42, "into": "mon_spider_widow_mega" },
+    "upgrades": { "age_grow": 42, "into": "mon_spider_widow_mega" },
     "zombify_into": "mon_meat_cocoon_small",
     "flags": [ "SEES", "SMELLS", "HEARS", "BADVENOM", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE" ],
     "armor": { "bash": 2, "cut": 4, "bullet": 3 }
@@ -1680,7 +1680,7 @@
     "volume": "30 L",
     "weight": "40 kg",
     "zombify_into": "mon_meat_cocoon_small",
-    "upgrades": { "half_life": 30, "into": "mon_spider_wolf_giant" },
+    "upgrades": { "age_grow": 30, "into": "mon_spider_wolf_giant" },
     "delete": {
       "reproduction": { "baby_egg": "egg_spider_wolf", "baby_count": 3, "baby_timer": 15 },
       "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ]
@@ -1722,7 +1722,7 @@
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE" ],
     "fungalize_into": "mon_spider_fungus",
-    "upgrades": { "half_life": 42, "into": "mon_spider_wolf_mega" },
+    "upgrades": { "age_grow": 42, "into": "mon_spider_wolf_mega" },
     "zombify_into": "mon_meat_cocoon_small",
     "flags": [ "SEES", "SMELLS", "HEARS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
     "armor": { "bash": 4, "cut": 8, "bullet": 6 }
@@ -1853,7 +1853,7 @@
     "dissect": "dissect_insect_sample_single",
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_CLOSE", "PLAYER_WEAK", "HOSTILE_SEEN" ],
     "fear_triggers": [ "HURT", "FIRE" ],
-    "upgrades": { "half_life": 30, "into": "mon_wasp" },
+    "upgrades": { "age_grow": 30, "into": "mon_wasp" },
     "zombify_into": "mon_meat_cocoon_tiny",
     "fungalize_into": "mon_wasp_small_fungus",
     "flags": [
@@ -1882,7 +1882,7 @@
     "stomach_size": 180,
     "extend": { "anger_triggers": [ "HURT", "FIRE", "STALK" ] },
     "delete": { "fear_triggers": [ "HURT", "FIRE" ] },
-    "upgrades": { "half_life": 30, "into": "mon_wasp_guard" },
+    "upgrades": { "age_grow": 30, "into": "mon_wasp_guard" },
     "fungalize_into": "mon_wasp_small_guard_fungus"
   },
   {
@@ -1895,7 +1895,7 @@
     "dissect": "dissect_insect_sample_large",
     "stomach_size": 800,
     "reproduction": { "baby_egg": "egg_wasp", "baby_count": 2, "baby_timer": 5 },
-    "upgrades": { "half_life": 30, "into": "mon_wasp_mega" },
+    "upgrades": { "age_grow": 30, "into": "mon_wasp_mega" },
     "fungalize_into": "mon_wasp_queen_fungus",
     "armor": { "bash": 5, "cut": 14, "stab": 12, "bullet": 12, "electric": 3 }
   },
@@ -2167,7 +2167,7 @@
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
     "volume": "30 L",
     "weight": "40 kg",
-    "upgrades": { "half_life": 30, "into": "mon_ant" },
+    "upgrades": { "age_grow": 30, "into": "mon_ant" },
     "zombify_into": "mon_meat_cocoon_small"
   },
   {
@@ -2202,7 +2202,7 @@
     "harvest": "arachnid",
     "stomach_size": 300,
     "dissect": "dissect_insect_sample_single",
-    "upgrades": { "half_life": 30, "into": "mon_ant_soldier" },
+    "upgrades": { "age_grow": 30, "into": "mon_ant_soldier" },
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_WEAK" ],
     "special_attacks": [ [ "EAT_FOOD", 30 ], [ "BROWSE", 90 ], [ "EAT_CARRION", 90 ] ],
     "fungalize_into": "mon_ant_fungus",
@@ -2220,7 +2220,7 @@
     "volume": "30 L",
     "weight": "40 kg",
     "zombify_into": "mon_meat_cocoon_small",
-    "upgrades": { "half_life": 30, "into": "mon_ant_acid" }
+    "upgrades": { "age_grow": 30, "into": "mon_ant_acid" }
   },
   {
     "id": "mon_ant_acid",
@@ -2253,7 +2253,7 @@
     "vision_day": 10,
     "vision_night": 5,
     "stomach_size": 300,
-    "upgrades": { "half_life": 30, "into": "mon_ant_acid_soldier" },
+    "upgrades": { "age_grow": 30, "into": "mon_ant_acid_soldier" },
     "special_attacks": [ [ "ACID", 23 ], [ "EAT_FOOD", 30 ], [ "BROWSE", 90 ], [ "EAT_CARRION", 90 ] ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
     "death_function": { "message": "The %s's body leaks acid.", "effect": { "id": "death_acid", "hit_self": true } },
@@ -2357,7 +2357,7 @@
     "harvest": "arachnid_acid",
     "dissect": "dissect_insect_sample_single",
     "zombify_into": "mon_meat_cocoon_small",
-    "upgrades": { "half_life": 42, "into": "mon_ant_acid_soldier_mega" },
+    "upgrades": { "age_grow": 42, "into": "mon_ant_acid_soldier_mega" },
     "flags": [ "ACIDPROOF", "SHORTACIDTRAIL", "CLIMBS", "HEARS", "POISON", "SEES", "SMELLS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
     "armor": { "bash": 12, "cut": 14, "bullet": 11, "electric": 1 }
   },
@@ -2479,7 +2479,7 @@
     "dissect": "dissect_insect_sample_single",
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
     "fungalize_into": "mon_ant_fungus",
-    "upgrades": { "half_life": 42, "into": "mon_ant_soldier_mega" },
+    "upgrades": { "age_grow": 42, "into": "mon_ant_soldier_mega" },
     "zombify_into": "mon_meat_cocoon_small",
     "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
     "armor": { "bash": 10, "cut": 12, "bullet": 10, "electric": 2 }
@@ -2533,7 +2533,7 @@
     "weight": "20 kg",
     "stomach_size": 200,
     "zombify_into": "mon_meat_cocoon_tiny",
-    "upgrades": { "half_life": 30, "into": "mon_locust" }
+    "upgrades": { "age_grow": 30, "into": "mon_locust" }
   },
   {
     "id": "mon_locust",
@@ -2568,7 +2568,7 @@
     "biosignature": { "biosig_item": "feces_roach", "biosig_timer": 3 },
     "anger_triggers": [ "FRIEND_ATTACKED" ],
     "fear_triggers": [ "HURT", "FIRE" ],
-    "upgrades": { "half_life": 42, "into": "mon_locust_mega" },
+    "upgrades": { "age_grow": 42, "into": "mon_locust_mega" },
     "special_attacks": [
       {
         "type": "leap",
@@ -2656,7 +2656,7 @@
       "baby_flags": [ "SPRING", "SUMMER" ]
     },
     "biosignature": { "biosig_item": "honeydew", "biosig_timer": 7000 },
-    "upgrades": { "half_life": 30, "into": "mon_aphid" }
+    "upgrades": { "age_grow": 30, "into": "mon_aphid" }
   },
   {
     "id": "mon_aphid",
@@ -2712,7 +2712,7 @@
       "reproduction": { "baby_egg": "egg_mantis", "baby_count": 1, "baby_timer": 30 },
       "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ]
     },
-    "upgrades": { "half_life": 42, "into": "mon_mantis_giant" },
+    "upgrades": { "age_grow": 42, "into": "mon_mantis_giant" },
     "zombify_into": "mon_meat_cocoon_small",
     "armor": { "bash": 10, "cut": 16, "bullet": 13, "electric": 1 }
   },
@@ -2760,7 +2760,7 @@
         "condition": { "not": { "u_has_effect": "maimed_leg" } }
       }
     ],
-    "upgrades": { "half_life": 42, "into": "mon_mantis_mega" },
+    "upgrades": { "age_grow": 42, "into": "mon_mantis_mega" },
     "zombify_into": "mon_meat_cocoon_med",
     "flags": [ "SEES", "HEARS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
     "armor": { "bash": 10, "cut": 16, "bullet": 13, "electric": 2 }
@@ -2829,13 +2829,7 @@
     ],
     "zombify_into": "mon_meat_cocoon_large",
     "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH" ] },
-    "delete": {
-      "type": "leap",
-      "cooldown": 8,
-      "max_range": 5,
-      "allow_no_target": false,
-      "upgrades": { "half_life": 42, "into": "mon_mantis_mega" }
-    },
+    "delete": { "special_attacks": [ { "type": "leap", "cooldown": 8, "max_range": 5, "allow_no_target": false } ] },
     "armor": { "bash": 10, "cut": 16, "bullet": 13, "electric": 3 }
   },
   {
@@ -3027,7 +3021,7 @@
       "reproduction": { "baby_egg": "egg_grasshopper", "baby_count": 3, "baby_timer": 15 },
       "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ]
     },
-    "upgrades": { "half_life": 35, "into": "mon_grasshopper_giant" },
+    "upgrades": { "age_grow": 35, "into": "mon_grasshopper_giant" },
     "extend": { "flags": [ "SMALL_HIDER" ] }
   },
   {
@@ -3151,7 +3145,7 @@
       }
     ],
     "dissect": "dissect_insect_sample_small",
-    "upgrades": { "half_life": 60, "into": "mon_stag_beetle_giant" },
+    "upgrades": { "age_grow": 60, "into": "mon_stag_beetle_giant" },
     "zombify_into": "mon_meat_cocoon_large",
     "extend": { "flags": [ "NO_BREED" ] },
     "delete": { "flags": [ "DESTROYS", "PUSH_VEH" ] },
@@ -3210,7 +3204,7 @@
       [ "EAT_FOOD", 30 ],
       [ "BROWSE", 60 ]
     ],
-    "upgrades": { "half_life": 60, "into": "mon_stag_beetle_mega" },
+    "upgrades": { "age_grow": 60, "into": "mon_stag_beetle_mega" },
     "reproduction": { "baby_egg": "egg_stag_beetle", "baby_count": 1, "baby_timer": 32 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ],
     "zombify_into": "mon_meat_cocoon_large",
@@ -3387,7 +3381,7 @@
       "reproduction": { "baby_egg": "egg_strider", "baby_count": 3, "baby_timer": 10 },
       "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ]
     },
-    "upgrades": { "half_life": 40, "into": "mon_strider_giant" }
+    "upgrades": { "age_grow": 40, "into": "mon_strider_giant" }
   },
   {
     "id": "mon_strider_giant",
@@ -3870,7 +3864,7 @@
     "symbol": "w",
     "volume": "10 L",
     "weight": "15 kg",
-    "upgrades": { "half_life": 14, "into": "mon_water_scorpion" },
+    "upgrades": { "age_grow": 14, "into": "mon_water_scorpion" },
     "delete": { "reproduction": { "baby_egg": "egg_water_bug", "baby_count": 3, "baby_timer": 10 } }
   }
 ]
