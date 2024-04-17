@@ -93,7 +93,7 @@
     ],
     "examine_action": "harvest_plant_ex",
     "bash": { "str_min": 4, "str_max": 10, "sound": "crunch.", "sound_fail": "whish." },
-    "plant_data": { "transform": "f_null", "base": "f_null" }
+    "plant_data": { "transform": "f_plant_harvest", "base": "f_null" }
   },
   {
     "type": "furniture",
