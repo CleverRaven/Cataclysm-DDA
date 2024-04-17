@@ -69,10 +69,18 @@
     "id": "dermatik_pregnancy_early",
     "eoc_type": "EVENT",
     "required_event": "character_gains_effect",
-    "condition": { "u_has_effect": "dermatik" },
+    "condition": { "compare_string": [ "dermatik", { "context_val": "effect" } ] },
     "effect": [
-      { "u_add_effect": "formication", "duration": "15 minutes", "target_part": "RANDOM" },
+      { "queue_eocs": "dermatik_formication", "duration": "15 minutes", "target_part": "RANDOM" },
       { "queue_eocs": "dermatik_pregnancy", "time_in_future": "1 days" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "dermatik_formication",
+    "effect": [
+      { "u_add_effect": "formication", "duration": "15 minutes", "target_part": { "context_val": "bodypart" } },
+      { "queue_eocs": "dermatik_formication", "time_in_future": [ "20 seconds", "3 days" ] }
     ]
   },
   {
