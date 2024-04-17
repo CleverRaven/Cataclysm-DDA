@@ -7779,8 +7779,13 @@ std::vector<tripoint> map::get_dir_circle( const tripoint &f, const tripoint &t 
     std::vector<tripoint> circle;
     circle.resize( 8 );
 
-    // The line below can be crazy expensive - we only take the FIRST point of it
-    const std::vector<tripoint> line = line_to( f, t );
+    std::vector<tripoint> line = { f };
+    if( f != t ) {
+        // We only need the first point
+        line = line_to_2( f, t, []( std::vector<tripoint> & ) {
+            return false;
+        } );
+    }
     const std::vector<tripoint> spiral = closest_points_first( f, 1 );
     const std::vector<int> pos_index {1, 2, 4, 6, 8, 7, 5, 3};
 
