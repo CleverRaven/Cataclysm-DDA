@@ -56,9 +56,9 @@ void bresenham( const point &p1, const point &p2, int o,
             }
         }
     } else {
-        const int h = a.y / 2 - a.x;
+        const int t = a.y / 2 - a.x;
         while( cur.y != p2.y ) {
-            if( o > h ) {
+            if( o > t ) {
                 cur.x += s.x;
                 o -= a.y;
             }
@@ -107,9 +107,9 @@ void bresenham( const tripoint &loc1, const tripoint &loc2, int o, int o2,
                 }
             }
         } else {
-            const int h = a.y / 2 - a.x;
+            const int t = a.y / 2 - a.x;
             while( cur.y != loc2.y ) {
-                if( o > h ) {
+                if( o > t ) {
                     cur.x += s.x;
                     o -= a.y;
                 }
@@ -120,7 +120,7 @@ void bresenham( const tripoint &loc1, const tripoint &loc2, int o, int o2,
                 }
             }
         }
-    } else {
+    } else { // TODO: the 3d case should iterate over faces, lines, and a point (just project the two minor axis and take the shape they make together, usually a whole face)
         if( a.x == a.y && a.y == a.z ) {
             while( cur.x != loc2.x ) {
                 cur.z += s.z;
@@ -336,7 +336,6 @@ std::vector<tripoint> line_through_2( const tripoint &source, const tripoint &ta
 std::vector<tripoint> find_line_to_2( const tripoint &source, const tripoint &target,
                                       const std::function<bool( std::vector<tripoint> & )> &interact )
 {
-    const int range = rl_dist( source, target );
     const tripoint a = ( target - source ).abs();
     const int major = std::max( a.x, a.y ) * 2;
     const int minor = std::min( a.x, a.y ) * 2;
@@ -346,27 +345,21 @@ std::vector<tripoint> find_line_to_2( const tripoint &source, const tripoint &ta
     std::vector<tripoint> line;
     std::vector<tripoint> closest_line;
     int line_dist;
-    int closest_line_dist = range;
+    int closest_line_dist = rl_dist( source, target );
 
     // Iterate over each relevant offset without going out of bounds and into the next tile.
     // If the major axis is odd we start on the exact center,
     // but if it's even we start on the positive side of the two centers.
     for( int offset = maximum % 2 == 0 ; offset < maximum; offset += gcd ) {
-
-        //debugmsg( "major: %s, minor: %s, offset: %s", major, minor, offset );
-
         // Try this offset on the positive side...
         line = line_to_2( source, target, interact, offset );
         if( line.back() == target ) {
-            //debugmsg( "forwards!" );
-            //debugmsg( "%s %s %s", line.back().x, line.back().y, line.back().z );
             return line;
         } else {
             line_dist = rl_dist( line.back(), target );
             if( line_dist < closest_line_dist ) {
                 closest_line_dist = line_dist;
                 closest_line = line;
-                //debugmsg("new closer line! ending at %s %s %s", closest_line.back().x, closest_line.back().y, closest_line.back().z);
             }
             // ...and then on the negitve side. Unless we are at the odd center which has no negative side.
             if( offset != 0 ) {
@@ -379,13 +372,11 @@ std::vector<tripoint> find_line_to_2( const tripoint &source, const tripoint &ta
                     if( line_dist < closest_line_dist ) {
                         closest_line_dist = line_dist;
                         closest_line = line;
-                        //debugmsg("new closer line! ending at %s %s %s", closest_line.back().x, closest_line.back().y, closest_line.back().z);
                     }
                 }
             }
         }
     }
-    //debugmsg("defaulted u-u");
     // If we couldn't find a clear line, return the one that got us the closest.
     return closest_line;
 }

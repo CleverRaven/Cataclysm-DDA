@@ -15,20 +15,14 @@
 #include "point.h"
 #include "rng.h"
 
-#define SGN(a) (((a)<0) ? -1 : 1)
+#define SGN(a) a == 0 ? 0 : ( a < 0 ? -1 : 1 )
 // Compare all future line_to implementations to the canonical one.
-static std::vector <point> canonical_line_to( const point &p1, const point &p2, int t )
+static std::vector<point> canonical_line_to( const point &p1, const point &p2, int o )
 {
     std::vector<point> ret;
     const point d( -p1 + p2 );
     const point a( std::abs( d.x ) << 1, std::abs( d.y ) << 1 );
-    point s( SGN( d.x ), SGN( d.y ) );
-    if( d.y == 0 ) {
-        s.y = 0;
-    }
-    if( d.x == 0 ) {
-        s.x = 0;
-    }
+    const point s( SGN( d.x ), SGN( d.y ) );
     point cur;
     cur.x = p1.x;
     cur.y = p1.y;
@@ -50,24 +44,26 @@ static std::vector <point> canonical_line_to( const point &p1, const point &p2, 
         } while( ( cur.x != p2.x || cur.y != p2.y ) &&
                  ( cur.x >= min.x && cur.x <= xmax && cur.y >= min.y && cur.y <= ymax ) );
     } else if( a.x > a.y ) {
+        const int t = ( a.x << 1 ) - a.y;
         do {
-            if( t > 0 ) {
+            if( o > t ) {
                 cur.y += s.y;
-                t -= a.x;
+                o -= a.x;
             }
             cur.x += s.x;
-            t += a.y;
+            o += a.y;
             ret.push_back( cur );
         } while( ( cur.x != p2.x || cur.y != p2.y ) &&
                  ( cur.x >= min.x && cur.x <= xmax && cur.y >= min.y && cur.y <= ymax ) );
     } else {
+        const int t = ( a.y << 1 ) - a.x;
         do {
-            if( t > 0 ) {
+            if( o > t ) {
                 cur.x += s.x;
-                t -= a.y;
+                o -= a.y;
             }
             cur.y += s.y;
-            t += a.x;
+            o += a.x;
             ret.push_back( cur );
         } while( ( cur.x != p2.x || cur.y != p2.y ) &&
                  ( cur.x >= min.x && cur.x <= xmax && cur.y >= min.y && cur.y <= ymax ) );
@@ -363,21 +359,21 @@ static void line_to_comparison( const int iterations )
     REQUIRE( trig_dist( point_zero, point_east ) == 1 );
 
     for( int i = 0; i < RANDOM_TEST_NUM; ++i ) {
-        const point p1( rng( -COORDINATE_RANGE, COORDINATE_RANGE ), rng( -COORDINATE_RANGE,
-                        COORDINATE_RANGE ) );
-        const point p2( rng( -COORDINATE_RANGE, COORDINATE_RANGE ), rng( -COORDINATE_RANGE,
-                        COORDINATE_RANGE ) );
-        int t1 = 0;
-        int t2 = 0;
-        REQUIRE( line_to( p1, p2, t1 ) == canonical_line_to( p1,
-                 p2,
-                 t2 ) );
+        const point pa1( rng( -COORDINATE_RANGE, COORDINATE_RANGE ), rng( -COORDINATE_RANGE,
+                         COORDINATE_RANGE ) );
+        const point pa2( rng( -COORDINATE_RANGE, COORDINATE_RANGE ), rng( -COORDINATE_RANGE,
+                         COORDINATE_RANGE ) );
+        int o1 = 0;
+        int o2 = 0;
+        REQUIRE( line_to_2( pa1, pa2, []( std::vector<point> & ) {
+            return true;
+        }, o1 ) == canonical_line_to( pa1, pa2, o2 ) );
     }
 
     {
-        const point p12( rng( -COORDINATE_RANGE, COORDINATE_RANGE ), rng( -COORDINATE_RANGE,
+        const point pb1( rng( -COORDINATE_RANGE, COORDINATE_RANGE ), rng( -COORDINATE_RANGE,
                          COORDINATE_RANGE ) );
-        const point p22( rng( -COORDINATE_RANGE, COORDINATE_RANGE ), rng( -COORDINATE_RANGE,
+        const point pb2( rng( -COORDINATE_RANGE, COORDINATE_RANGE ), rng( -COORDINATE_RANGE,
                          COORDINATE_RANGE ) );
         const int t1 = 0;
         const int t2 = 0;
@@ -385,7 +381,9 @@ static void line_to_comparison( const int iterations )
         const std::chrono::high_resolution_clock::time_point start1 =
             std::chrono::high_resolution_clock::now();
         while( count1 < iterations ) {
-            line_to( p12, p22, t1 );
+            line_to_2( pb1, pb2, []( std::vector<point> & ) {
+                return true;
+            }, t1 );
             count1++;
         }
         const std::chrono::high_resolution_clock::time_point end1 =
@@ -394,7 +392,7 @@ static void line_to_comparison( const int iterations )
         const std::chrono::high_resolution_clock::time_point start2 =
             std::chrono::high_resolution_clock::now();
         while( count2 < iterations ) {
-            canonical_line_to( p12, p22, t2 );
+            canonical_line_to( pb1, pb2, t2 );
             count2++;
         }
         const std::chrono::high_resolution_clock::time_point end2 =
@@ -420,19 +418,33 @@ TEST_CASE( "line_to_boundaries", "[line]" )
     for( int i = -60; i < 60; ++i ) {
         for( int j = -60; j < 60; ++j ) {
             const point a( std::abs( i ) * 2, std::abs( j ) * 2 );
-            const int dominant = std::max( a.x, a.y );
+            const int major = std::max( a.x, a.y );
             const int minor = std::min( a.x, a.y );
-            const int ideal_start_offset = minor - ( dominant / 2 );
-            // get the sign of the start offset.
-            const int st( ( ideal_start_offset > 0 ) - ( ideal_start_offset < 0 ) );
-            const int max_start_offset = std::abs( ideal_start_offset ) * 2 + 1;
-            for( int k = -1; k <= max_start_offset; ++k ) {
-                auto line = line_to( point_zero, point( i, j ), k * st );
+            const int gcd = std::gcd( major, minor );
+            const int max = major / 2;
+
+            for( int o = max % 2 == 0 ; o < max; o += gcd ) {
+                // Once for the positive side,
+                auto line = line_to_2( point_zero, point( i, j ), []( std::vector<point> & ) {
+                    return true;
+                }, o );
                 if( line.back() != point( i, j ) ) {
                     WARN( "Expected (" << i << "," << j << ") but got (" <<
-                          line.back().x << "," << line.back().y << ") with t == " << k );
+                          line.back().x << "," << line.back().y << ") with t == " << o );
                 }
                 CHECK( line.back() == point( i, j ) );
+
+                // ...and again for the negative side, if there is one.
+                if( o != 0 ) {
+                    auto line = line_to_2( point_zero, point( i, j ), []( std::vector<point> & ) {
+                        return true;
+                    }, -o );
+                    if( line.back() != point( i, j ) ) {
+                        WARN( "Expected (" << i << "," << j << ") but got (" <<
+                              line.back().x << "," << line.back().y << ") with t == " << o );
+                    }
+                    CHECK( line.back() == point( i, j ) );
+                }
             }
         }
     }
@@ -450,14 +462,14 @@ TEST_CASE( "line_to_performance", "[.]" )
 
 TEST_CASE( "coord_point_line_to_consistency", "[point][coords][line]" )
 {
-    point p0 = GENERATE( take( 5, random_points() ) );
     point p1 = GENERATE( take( 5, random_points() ) );
-    CAPTURE( p0, p1 );
-    point_abs_ms cp0( p0 );
+    point p2 = GENERATE( take( 5, random_points() ) );
+    CAPTURE( p1, p2 );
     point_abs_ms cp1( p1 );
+    point_abs_ms cp2( p2 );
 
-    std::vector<point> raw_line = line_to( p0, p1 );
-    std::vector<point_abs_ms> coord_line = line_to_omt( cp0, cp1 );
+    std::vector<point> raw_line = line_to_2( p1, p2 );
+    std::vector<point_abs_ms> coord_line = line_to_omt( cp1, cp2 );
 
     REQUIRE( raw_line.size() == coord_line.size() );
     for( size_t i = 0; i < raw_line.size(); ++i ) {
