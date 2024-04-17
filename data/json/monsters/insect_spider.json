@@ -26,7 +26,7 @@
     "vision_night": 3,
     "harvest": "arachnid",
     "fear_triggers": [ "HURT", "FIRE" ],
-    "flags": [ "SEES", "HEARS", "CLIMBS", "STUMBLES", "PATH_AVOID_FIRE", "NO_BREED" ]
+    "flags": [ "SEES", "HEARS", "CLIMBS", "STUMBLES", "PATH_AVOID_FIRE", "NO_BREED", "SMALL_HIDER" ]
   },
   {
     "id": "mon_dark_wyrm",
@@ -261,7 +261,7 @@
     "harvest": "arachnid_tainted",
     "upgrades": { "age_grow": 30, "into": "mon_skittering_plague" },
     "fear_triggers": [ "BRIGHT_LIGHT" ],
-    "extend": { "flags": [ "EATS", "SMALL_HIDER" ] },
+    "extend": { "flags": [ "EATS" ] },
     "special_attacks": [ [ "EAT_FOOD", 120 ], [ "EAT_CARRION", 120 ] ]
   },
   {
@@ -352,7 +352,7 @@
     "stomach_size": 80,
     "fear_triggers": [ "BRIGHT_LIGHT" ],
     "upgrades": { "age_grow": 30, "into": "mon_giant_cockroach" },
-    "extend": { "flags": [ "EATS", "SMALL_HIDER" ] },
+    "extend": { "flags": [ "EATS" ] },
     "special_attacks": [ [ "EAT_FOOD", 120 ], [ "EAT_CARRION", 120 ] ]
   },
   {
@@ -577,8 +577,7 @@
       }
     ],
     "anger_triggers": [ "PLAYER_CLOSE" ],
-    "armor": { "bash": 1, "cut": 2 },
-    "extend": { "flags": [ "SMALL_HIDER" ] }
+    "armor": { "bash": 1, "cut": 2 }
   },
   {
     "id": "mon_centipede_mom",
@@ -877,7 +876,7 @@
     "dissect": "dissect_insect_sample_single",
     "upgrades": { "age_grow": 30, "into": "mon_firefly" },
     "armor": { "bash": 1, "cut": 2, "stab": 1 },
-    "extend": { "flags": [ "EATS", "SMALL_HIDER" ] }
+    "extend": { "flags": [ "EATS" ] }
   },
   {
     "id": "mon_fly_small",
@@ -945,7 +944,7 @@
     "color": "light_green",
     "special_attacks": [ [ "EAT_CARRION", 100 ] ],
     "dissect": "dissect_insect_sample_single",
-    "extend": { "flags": [ "EATS", "SMALL_HIDER" ] },
+    "extend": { "flags": [ "EATS" ] },
     "upgrades": { "age_grow": 30, "into": "mon_fly" }
   },
   {
@@ -1029,7 +1028,7 @@
     "vision_day": 15,
     "upgrades": { "age_grow": 30, "into": "mon_mosquito_giant" },
     "fear_triggers": [ "HURT", "PLAYER_CLOSE", "SOUND" ],
-    "extend": { "flags": [ "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE", "SMALL_HIDER" ] }
+    "extend": { "flags": [ "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ] }
   },
   {
     "id": "mon_mosquito_mega",
@@ -1139,7 +1138,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "upgrades": { "age_grow": 30, "into": "mon_spider_cellar_giant" },
-    "extend": { "flags": [ "WEBWALK", "SMALL_HIDER" ] }
+    "extend": { "flags": [ "WEBWALK" ] }
   },
   {
     "id": "mon_spider_cellar_mom",
@@ -1362,8 +1361,7 @@
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_basic_bug", "prof_wp_spider" ],
     "vision_day": 5,
     "vision_night": 5,
-    "upgrades": { "age_grow": 30, "into": "mon_spider_jumping_giant" },
-    "extend": { "flags": [ "SMALL_HIDER" ] }
+    "upgrades": { "age_grow": 30, "into": "mon_spider_jumping_giant" }
   },
   {
     "id": "mon_spider_jumping_mega",
@@ -1452,7 +1450,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "upgrades": { "age_grow": 30, "into": "mon_spider_trapdoor_giant" },
-    "extend": { "flags": [ "CAN_DIG", "WEBWALK", "SMALL_HIDER" ] }
+    "extend": { "flags": [ "CAN_DIG", "WEBWALK" ] }
   },
   {
     "id": "mon_spider_trapdoor_mega",
@@ -1647,7 +1645,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "upgrades": { "age_grow": 30, "into": "mon_spider_widow_giant" },
-    "extend": { "flags": [ "WEBWALK", "SMALL_HIDER" ] },
+    "extend": { "flags": [ "WEBWALK" ] },
     "armor": { "bash": 2, "cut": 4, "bullet": 3 }
   },
   {
@@ -1720,8 +1718,7 @@
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_basic_bug", "prof_wp_spider" ],
     "vision_day": 5,
     "vision_night": 5,
-    "upgrades": { "age_grow": 30, "into": "mon_spider_wolf_giant" },
-    "extend": { "flags": [ "SMALL_HIDER" ] }
+    "upgrades": { "age_grow": 30, "into": "mon_spider_wolf_giant" }
   },
   {
     "id": "mon_spider_wolf_mega",
@@ -2019,7 +2016,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 1,
     "upgrades": { "age_grow": 61, "into": "mon_dermatik" },
-    "extend": { "flags": [ "CAN_DIG", "SMALL_HIDER" ] }
+    "extend": { "flags": [ "CAN_DIG" ] }
   },
   {
     "id": "mon_dermatik",
@@ -2614,8 +2611,7 @@
       [ "EAT_CROP", 60 ],
       [ "BROWSE", 60 ],
       [ "GRAZE", 800 ]
-    ],
-    "extend": { "flags": [ "SMALL_HIDER" ] }
+    ]
   },
   {
     "id": "mon_aphid_small",
@@ -2769,8 +2765,7 @@
       }
     ],
     "anger_triggers": [ "PLAYER_CLOSE" ],
-    "armor": { "bash": 1, "cut": 2, "bullet": 1 },
-    "extend": { "flags": [ "SMALL_HIDER" ] }
+    "armor": { "bash": 1, "cut": 2, "bullet": 1 }
   },
   {
     "id": "mon_mantis_mega",
@@ -2987,9 +2982,8 @@
     "volume": "750 ml",
     "weight": "1 kg",
     "stomach_size": 30,
-    "extend": { "flags": [ "NO_BREED" ] },
     "upgrades": { "age_grow": 35, "into": "mon_grasshopper_giant" },
-    "extend": { "flags": [ "SMALL_HIDER" ] }
+    "extend": { "flags": [ "SMALL_HIDER", "NO_BREED" ] }
   },
   {
     "id": "mon_grasshopper_giant",
@@ -3060,8 +3054,7 @@
       [ "EAT_CROP", 100 ],
       [ "GRAZE", 133 ],
       [ "BROWSE", 133 ]
-    ],
-    "extend": { "flags": [ "SMALL_HIDER" ] }
+    ]
   },
   {
     "id": "mon_stag_beetle_larva",
@@ -3394,7 +3387,7 @@
     "symbol": "s",
     "color": "light_gray",
     "upgrades": { "age_grow": 30, "into": "mon_strider_giant" },
-    "extend": { "flags": [ "SWIMS", "SMALL_HIDER" ] }
+    "extend": { "flags": [ "SWIMS" ] }
   },
   {
     "id": "mon_butterfly",
@@ -3714,8 +3707,7 @@
     "stomach_size": 60,
     "color": "white",
     "harvest": "mutant_shellfish",
-    "upgrades": { "age_grow": 21, "into": "mon_woodlouse" },
-    "extend": { "flags": [ "SMALL_HIDER" ] }
+    "upgrades": { "age_grow": 21, "into": "mon_woodlouse" }
   },
   {
     "id": "mon_diving_larva",
@@ -3746,8 +3738,7 @@
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "fear_triggers": [ "HURT" ],
     "flags": [ "AQUATIC", "SEES", "WATER_CAMOUFLAGE" ],
-    "upgrades": { "age_grow": 21, "into": "mon_diving_beetle_small" },
-    "extend": { "flags": [ "SMALL_HIDER" ] }
+    "upgrades": { "age_grow": 21, "into": "mon_diving_beetle_small" }
   },
   {
     "id": "mon_diving_beetle_small",
