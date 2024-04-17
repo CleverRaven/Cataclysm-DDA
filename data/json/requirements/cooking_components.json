@@ -102,6 +102,8 @@
         [ "egg_robin", 7 ],
         [ "egg_pigeon", 3 ],
         [ "egg_sparrow", 20 ],
+        [ "egg_waxwing", 20 ],
+        [ "egg_chickadee", 50 ],
         [ "egg_duck", 1 ],
         [ "egg_goose_canadian", 1 ],
         [ "egg_turkey", 1 ],

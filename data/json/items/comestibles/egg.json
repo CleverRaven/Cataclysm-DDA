@@ -56,7 +56,7 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_crow",
-    "name": { "str": "crow egg" },
+    "name": { "str": "American crow egg" },
     "copy-from": "egg_chicken",
     "proportional": { "volume": 0.31, "weight": 0.31, "calories": 0.31 },
     "rot_spawn": "GROUP_EGG_CROW"
@@ -87,7 +87,7 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_robin",
-    "name": { "str": "robin egg" },
+    "name": { "str": "American robin egg" },
     "copy-from": "egg_chicken",
     "description": "A nutritious egg laid by a robin.  The shell is colored a distinctive light blue.",
     "color": "light_blue",
@@ -101,6 +101,22 @@
     "copy-from": "egg_chicken",
     "proportional": { "volume": 0.05, "weight": 0.05, "calories": 0.05 },
     "rot_spawn": "GROUP_EGG_SPARROW"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_chickadee",
+    "name": { "str": "black-capped chickadee egg" },
+    "copy-from": "egg_chicken",
+    "proportional": { "volume": 0.02, "weight": 0.02, "calories": 0.02 },
+    "rot_spawn": "GROUP_EGG_CHICKADEE"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_waxwing",
+    "name": { "str": "cedar waxwing egg" },
+    "copy-from": "egg_chicken",
+    "proportional": { "volume": 0.05, "weight": 0.05, "calories": 0.05 },
+    "rot_spawn": "GROUP_EGG_WAXWING"
   },
   {
     "type": "COMESTIBLE",

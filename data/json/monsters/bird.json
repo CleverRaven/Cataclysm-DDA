@@ -159,7 +159,7 @@
   {
     "id": "mon_robin",
     "type": "MONSTER",
-    "name": { "str": "american robin" },
+    "name": { "str": "American robin" },
     "description": "A brown songbird with a reddish-orange breast.  Their eggs are a distinctive shade of blue.",
     "copy-from": "mon_bird_flying_base",
     "volume": "103 ml",
@@ -176,6 +176,38 @@
     "volume": "40 ml",
     "weight": "30 g",
     "reproduction": { "baby_egg": "egg_sparrow", "baby_count": 5, "baby_timer": 16 }
+  },
+  {
+    "id": "mon_chickadee",
+    "type": "MONSTER",
+    "name": { "str": "black-capped chickadee" },
+    "description": "A tiny species of tit native to North America, with a distinctive black cap on its head.",
+    "copy-from": "mon_bird_flying_base",
+    "volume": "16 ml",
+    "weight": "12 g",
+    "reproduction": { "baby_egg": "egg_chickadee", "baby_count": 8, "baby_timer": 14 }
+  },
+  {
+    "id": "mon_chickadee_chick",
+    "type": "MONSTER",
+    "copy-from": "mon_generic_chick_tiny",
+    "upgrades": { "age_grow": 7, "into": "mon_chickadee" }
+  },
+  {
+    "id": "mon_waxwing",
+    "type": "MONSTER",
+    "name": { "str": "cedar waxwing" },
+    "description": "A small species of waxwing with a distinctive feathered crest and a black mask pattern on its face.",
+    "copy-from": "mon_bird_flying_base",
+    "volume": "40 ml",
+    "weight": "30 g",
+    "reproduction": { "baby_egg": "egg_waxwing", "baby_count": 5, "baby_timer": 16 }
+  },
+  {
+    "id": "mon_waxwing_chick",
+    "type": "MONSTER",
+    "copy-from": "mon_generic_chick_tiny",
+    "upgrades": { "age_grow": 8, "into": "mon_waxwing" }
   },
   {
     "id": "mon_duck",
