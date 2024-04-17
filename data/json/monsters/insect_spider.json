@@ -196,7 +196,7 @@
   {
     "id": "mon_large_cockroach",
     "type": "MONSTER",
-    "name": { "str": "cockroach", "str_pl": "cockroaches" },
+    "name": { "str": "oversized cockroach", "str_pl": "oversized cockroaches" },
     "description": "An aggressive mutant cockroach the size of a small dog.",
     "copy-from": "mon_giant_cockroach",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
@@ -373,7 +373,7 @@
   {
     "id": "mon_bee_small",
     "type": "MONSTER",
-    "name": { "str": "bee" },
+    "name": { "str": "oversized bee" },
     "description": "A mutant bee the size of a small dog.",
     "copy-from": "mon_bee",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
@@ -445,7 +445,7 @@
   {
     "id": "mon_centipede_small",
     "type": "MONSTER",
-    "name": { "str": "centipede" },
+    "name": { "str": "oversized centipede" },
     "description": "A brightly-colored mutant centipede the size of a small dog, skittering quickly in the underbrush.  Probably won't think you're suitable prey, but beware its venom.",
     "symbol": "a",
     "color": "light_green",
@@ -840,7 +840,7 @@
   {
     "id": "mon_firefly",
     "type": "MONSTER",
-    "name": { "str": "firefly", "str_pl": "fireflies" },
+    "name": { "str": "oversized firefly", "str_pl": "oversized fireflies" },
     "description": "A mutated firefly grown to the size of a large housecat, brightly glowing abdomen bobbing up and down as it tries to impress its unseen mate.  It looks strangely uninterested in you and everything else.",
     "bodytype": "flying insect",
     "species": [ "INSECT_FLYING" ],
@@ -882,7 +882,7 @@
   {
     "id": "mon_fly_small",
     "type": "MONSTER",
-    "name": { "str": "fly", "str_pl": "flies" },
+    "name": { "str": "oversized fly", "str_pl": "oversized flies" },
     "description": "A mutant housefly the size of a small dog.  Its buzzing is high-pitched and somehow sad.",
     "copy-from": "mon_fly",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
@@ -969,7 +969,7 @@
   {
     "id": "mon_mosquito_small",
     "type": "MONSTER",
-    "name": { "str": "mosquito" },
+    "name": { "str": "oversized mosquito" },
     "description": "A mutant mosquito the size of a small dog, buzzing and fluttering erratically.",
     "copy-from": "mon_mosquito_giant",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
@@ -1050,7 +1050,7 @@
   {
     "id": "mon_spider_cellar_small",
     "type": "MONSTER",
-    "name": { "str": "cellar spider" },
+    "name": { "str": "oversized cellar spider" },
     "description": "A cellar spider - also known as \"daddy long-legs\" - grown to distressing size.  Its body is about the size of your head, with the long, spindly legs raising it up to your knee.  It tries getting away from you with an unnervingly fluid run.",
     "copy-from": "mon_spider_cellar_giant",
     "proportional": { "hp": 0.5, "melee_dice_sides": 0.67 },
@@ -1287,7 +1287,7 @@
   {
     "id": "mon_spider_jumping_small",
     "type": "MONSTER",
-    "name": { "str": "jumping spider" },
+    "name": { "str": "oversized jumping spider" },
     "description": "A mutant spider the size of a small dog with long forelegs, big eyes, and oversized fangs.",
     "copy-from": "mon_spider_jumping_giant",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
@@ -1387,7 +1387,7 @@
   {
     "id": "mon_spider_trapdoor_small",
     "type": "MONSTER",
-    "name": { "str": "trapdoor spider" },
+    "name": { "str": "oversized trapdoor spider" },
     "description": "A dark brown mutant spider the size of a dog with a bulbous thorax, big eyes, and oversized fangs.",
     "copy-from": "mon_spider_trapdoor_giant",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
@@ -1473,7 +1473,7 @@
   {
     "id": "mon_spider_web_small",
     "type": "MONSTER",
-    "name": { "str": "web spinning spider" },
+    "name": { "str": "oversized web spinning spider" },
     "description": "A light gray mutant spider the size of a dog with a long legs, big eyes, and oversized fangs.",
     "copy-from": "mon_spider_web",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
@@ -1566,7 +1566,7 @@
   {
     "id": "mon_spider_widow_small",
     "type": "MONSTER",
-    "name": { "str": "black widow spider" },
+    "name": { "str": "oversized black widow spider" },
     "description": "A black mutant spider the size of a small dog with a long legs, big eyes, and oversized fangs.  There is a red hourglass shape on its thorax.",
     "copy-from": "mon_spider_widow_giant",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
@@ -1654,7 +1654,7 @@
   {
     "id": "mon_spider_wolf_small",
     "type": "MONSTER",
-    "name": { "str": "wolf spider" },
+    "name": { "str": "oversized wolf spider" },
     "description": "A shaggy brown mutant spider the size of a dog with eight long legs, two especially big eyes, and oversized fangs.",
     "copy-from": "mon_spider_wolf_giant",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
@@ -1782,7 +1782,7 @@
   {
     "id": "mon_wasp_small",
     "type": "MONSTER",
-    "name": { "str": "wasp" },
+    "name": { "str": "oversized wasp" },
     "description": "A huge wasp the size of a large cat with bright yellow markings on her jet-black carapace and a threatening stinger.  She flies around erratically, searching for smaller prey.",
     "default_faction": "wasp",
     "bodytype": "flying insect",
@@ -1852,7 +1852,7 @@
   {
     "id": "mon_wasp_small_guard",
     "type": "MONSTER",
-    "name": { "str": "wasp guard" },
+    "name": { "str": "oversized wasp guard" },
     "description": "A mutated wasp worker, buzzing around the nest.  While her foraging sisters are relatively content to leave you be, this one won't hesitate to attack anything she considers a threat to the nest.  Don't linger.",
     "copy-from": "mon_wasp_small",
     "aggression": 0,
@@ -1866,7 +1866,7 @@
   {
     "id": "mon_wasp_queen",
     "type": "MONSTER",
-    "name": { "str": "wasp queen" },
+    "name": { "str": "oversized wasp queen" },
     "description": "A mutated wasp queen grown to the size of a person, laying a single white egg in each empty cell she comes across while scurrying around on the paper walls of her home.  She struggles to fit into some of them, but the newer cells seem to be getting larger…",
     "copy-from": "mon_wasp_guard",
     "harvest": "arachnid_wasp_queen",
@@ -2139,7 +2139,7 @@
   {
     "id": "mon_ant_small",
     "type": "MONSTER",
-    "name": { "str": "ant" },
+    "name": { "str": "oversized ant" },
     "description": "A mutant red ant the size of a dog, covered in chitinous plates.  She possesses a pair of wriggling antennae and vicious-looking mandibles.",
     "copy-from": "mon_ant",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
@@ -2191,7 +2191,7 @@
   {
     "id": "mon_ant_acid_small",
     "type": "MONSTER",
-    "name": { "str": "acidic ant" },
+    "name": { "str": "oversized acidic ant" },
     "description": "A dog-sized mutant brown ant with a swollen abdomen that ends with a small orifice at the tip.  Glistening liquid drips out periodically.",
     "copy-from": "mon_ant_acid",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
@@ -2302,7 +2302,7 @@
   {
     "id": "mon_ant_acid_soldier",
     "type": "MONSTER",
-    "name": { "str": "acidic soldier ant" },
+    "name": { "str": "oversized acidic soldier ant" },
     "description": "A massive woolly brown ant that towers over the worker ants with a giant head crest.  Along with her huge mandibles, a corrosive liquid seeps from the end of her bloated abdomen.",
     "default_faction": "acid_ant",
     "bodytype": "insect",
@@ -2392,7 +2392,7 @@
   {
     "id": "mon_ant_queen",
     "type": "MONSTER",
-    "name": { "str": "queen ant" },
+    "name": { "str": "oversized queen ant" },
     "description": "A colossal red ant with a bulging, bloated thorax.  She moves slowly and deliberately, tending to nearby eggs and continually laying more.",
     "default_faction": "ant",
     "bodytype": "insect",
@@ -2425,7 +2425,7 @@
   {
     "id": "mon_ant_soldier",
     "type": "MONSTER",
-    "name": { "str": "soldier ant" },
+    "name": { "str": "oversized soldier ant" },
     "description": "A huge and hairy red ant almost twice the size of other giant ants.  Bulging pincers extend from her jaws.",
     "default_faction": "ant",
     "bodytype": "insect",
@@ -2503,7 +2503,7 @@
   {
     "id": "mon_locust_small",
     "type": "MONSTER",
-    "name": { "str": "locust" },
+    "name": { "str": "oversized locust" },
     "description": "A yellow and brown mutated locust the size of a small dog, with big eyes and long, powerful legs.",
     "copy-from": "mon_locust",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
@@ -2621,7 +2621,7 @@
   {
     "id": "mon_aphid_small",
     "type": "MONSTER",
-    "name": { "str": "aphid" },
+    "name": { "str": "oversized aphid" },
     "description": "This huge aphid is as big as a hamster.  It's not as thirsty as bigger ones, but a herd of these could eat your crops easily.",
     "copy-from": "mon_aphid",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.5 },
@@ -2675,7 +2675,7 @@
   {
     "id": "mon_mantis_small",
     "type": "MONSTER",
-    "name": { "str": "praying mantis", "str_pl": "praying mantises" },
+    "name": { "str": "oversized praying mantis", "str_pl": "oversized praying mantises" },
     "description": "A green mutant insect with sharp grappling spikes on its front legs.  It's a little smaller than an adult person.",
     "copy-from": "mon_mantis_giant",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67, "melee_skill": 0.625 },
@@ -2870,7 +2870,7 @@
   {
     "id": "mon_lady_bug",
     "type": "MONSTER",
-    "name": { "str": "lady bug" },
+    "name": { "str": "oversized lady bug" },
     "description": "This is a mutated lady bug the size of a big dog.  While not as dangerous as her giant sisters, she's still troublesome to deal with.",
     "default_faction": "ladybug",
     "bodytype": "insect",
@@ -2982,7 +2982,7 @@
   {
     "id": "mon_grasshopper_small",
     "type": "MONSTER",
-    "name": { "str": "grasshopper" },
+    "name": { "str": "oversized grasshopper" },
     "description": "A large grasshopper a few times bigger than a regular one.",
     "copy-from": "mon_grasshopper_giant",
     "proportional": { "hp": 0.5, "speed": 1.1 },
@@ -3339,7 +3339,7 @@
   {
     "id": "mon_strider_small",
     "type": "MONSTER",
-    "name": { "str": "water strider" },
+    "name": { "str": "oversized water strider" },
     "description": "This water bug is several times larger than a regular one.  Its movements are fast and fluid.",
     "copy-from": "mon_strider_giant",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.5 },
@@ -3401,7 +3401,7 @@
   {
     "id": "mon_butterfly",
     "type": "MONSTER",
-    "name": { "str": "mutated butterfly", "str_pl": "mutated butterflies" },
+    "name": { "str": "oversized butterfly", "str_pl": "oversized butterflies" },
     "description": "An oversized butterfly with vibrant colored markings.  Unlike the other big insects of the Cataclysm this is a very peaceful nectivore.",
     "bodytype": "flying insect",
     "species": [ "INSECT_FLYING" ],
@@ -3467,7 +3467,7 @@
   {
     "id": "mon_moth",
     "type": "MONSTER",
-    "name": { "str": "mutated moth" },
+    "name": { "str": "oversized moth" },
     "description": "An oversized moth with its typical wood-like motifs.  It is as peaceful as the mutated butterflies found during the day.",
     "bodytype": "flying insect",
     "species": [ "INSECT_FLYING" ],

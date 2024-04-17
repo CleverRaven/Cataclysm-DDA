@@ -30,7 +30,7 @@
   {
     "id": "mon_snail_forest",
     "type": "MONSTER",
-    "name": { "str": "big snail" },
+    "name": { "str": "oversized snail" },
     "description": "A shelled gastropod either of native or introduced stock.  This one looks larger than usual.",
     "default_faction": "slug",
     "bodytype": "blob",
@@ -130,7 +130,7 @@
   {
     "id": "mon_slug_forest",
     "type": "MONSTER",
-    "name": { "str": "big slug" },
+    "name": { "str": "oversized slug" },
     "description": "A gastropod either of native or introduced stock.  This one looks larger than usual.",
     "default_faction": "slug",
     "bodytype": "snake",
