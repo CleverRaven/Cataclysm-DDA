@@ -675,7 +675,7 @@
     "id": "dermatik_impale",
     "condition": {
       "and": [
-        { "and": [ { "u_has_flag": "GRAB_FILTER" }, { "npc_has_flag": "GRAB" } ] },
+        { "and": [ { "u_has_flag": "GRAB_FILTER" } } ] },
         {
           "not": { "or": [ { "u_has_flag": "ACIDBLOOD" }, { "u_has_flag": "PARAIMMUNE" }, { "u_has_effect": "dermatik" } ] }
         }
