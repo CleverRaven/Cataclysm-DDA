@@ -26,7 +26,7 @@
     "vision_night": 3,
     "harvest": "arachnid",
     "fear_triggers": [ "HURT", "FIRE" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "STUMBLES", "PATH_AVOID_FIRE" ]
+    "flags": [ "SEES", "HEARS", "CLIMBS", "STUMBLES", "PATH_AVOID_FIRE", "NO_BREED" ]
   },
   {
     "id": "mon_dark_wyrm",
@@ -203,7 +203,7 @@
     "volume": "15 L",
     "weight": "20 kg",
     "zombify_into": "mon_meat_cocoon_tiny",
-    "upgrades": { "half_life": 42, "into": "mon_giant_cockroach" }
+    "upgrades": { "age_grow": 42, "into": "mon_giant_cockroach" }
   },
   {
     "id": "mon_skittering_plague",
@@ -215,7 +215,7 @@
     "species": [ "INSECT" ],
     "diff": 2,
     "volume": "20 L",
-    "weight": "25000 g",
+    "weight": "25 kg",
     "hp": 30,
     "speed": 120,
     "material": [ "iflesh" ],
@@ -236,7 +236,7 @@
     "reproduction": { "baby_egg": "egg_roach_plague", "baby_count": 1, "baby_timer": 6 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "biosignature": { "biosig_item": "feces_roach", "biosig_timer": 3 },
-    "upgrades": { "half_life": 42, "into": "mon_plague_vector" },
+    "upgrades": { "age_grow": 42, "into": "mon_plague_vector" },
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE" ],
     "fear_triggers": [ "BRIGHT_LIGHT" ],
     "special_attacks": [ [ "EAT_FOOD", 60 ], [ "EAT_CARRION", 60 ] ],
@@ -891,10 +891,7 @@
     "zombify_into": "mon_meat_cocoon_tiny",
     "upgrades": { "age_grow": 30, "into": "mon_fly" },
     "stomach_size": 100,
-    "delete": {
-      "reproduction": { "baby_egg": "egg_fly", "baby_count": 3, "baby_timer": 15 },
-      "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ]
-    }
+    "extend": { "flags": [ "NO_BREED" ] }
   },
   {
     "id": "mon_fly",
@@ -980,10 +977,7 @@
     "weight": "20 kg",
     "zombify_into": "mon_meat_cocoon_tiny",
     "upgrades": { "age_grow": 30, "into": "mon_mosquito_giant" },
-    "delete": {
-      "reproduction": { "baby_egg": "egg_mosquito", "baby_count": 3, "baby_timer": 15 },
-      "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ]
-    }
+    "extend": { "flags": [ "NO_BREED" ] }
   },
   {
     "id": "mon_mosquito_giant",
@@ -1070,12 +1064,11 @@
     "dissect": "dissect_spider_sample_single",
     "zombify_into": "mon_meat_cocoon_tiny",
     "upgrades": { "age_grow": 14, "into_group": "GROUP_SPIDER_CELLAR" },
+    "extend": { "flags": [ "NO_BREED" ] },
     "delete": {
       "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK", "HOSTILE_SEEN" ],
       "flags": [ "GRABS" ],
-      "special_attacks": [ "grab" ],
-      "reproduction": { "baby_egg": "egg_spider_cellar", "baby_count": 3, "baby_timer": 15 },
-      "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ]
+      "special_attacks": [ "grab" ]
     }
   },
   {
@@ -1302,10 +1295,7 @@
     "weight": "20 kg",
     "zombify_into": "mon_meat_cocoon_tiny",
     "upgrades": { "age_grow": 30, "into": "mon_spider_jumping_giant" },
-    "delete": {
-      "reproduction": { "baby_egg": "egg_spider_jumping", "baby_count": 3, "baby_timer": 15 },
-      "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ]
-    }
+    "extend": { "flags": [ "NO_BREED" ] }
   },
   {
     "id": "mon_spider_jumping_giant",
@@ -1405,10 +1395,7 @@
     "weight": "40 kg",
     "zombify_into": "mon_meat_cocoon_small",
     "upgrades": { "age_grow": 30, "into": "mon_spider_trapdoor_giant" },
-    "delete": {
-      "reproduction": { "baby_egg": "egg_spider_trapdoor", "baby_count": 3, "baby_timer": 15 },
-      "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ]
-    }
+    "extend": { "flags": [ "NO_BREED" ] }
   },
   {
     "id": "mon_spider_trapdoor_giant",
@@ -1494,10 +1481,7 @@
     "weight": "40 kg",
     "zombify_into": "mon_meat_cocoon_small",
     "upgrades": { "age_grow": 30, "into": "mon_spider_web" },
-    "delete": {
-      "reproduction": { "baby_egg": "egg_spider_web", "baby_count": 3, "baby_timer": 15 },
-      "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ]
-    },
+    "extend": { "flags": [ "NO_BREED" ] },
     "trap_avoids": [ "tr_sinkhole" ]
   },
   {
@@ -1590,10 +1574,7 @@
     "weight": "20 kg",
     "zombify_into": "mon_meat_cocoon_tiny",
     "upgrades": { "age_grow": 30, "into": "mon_spider_widow_giant" },
-    "delete": {
-      "reproduction": { "baby_egg": "egg_spider_widow", "baby_count": 3, "baby_timer": 15 },
-      "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ]
-    }
+    "extend": { "flags": [ "NO_BREED" ] }
   },
   {
     "id": "mon_spider_widow_giant",
@@ -1681,10 +1662,7 @@
     "weight": "40 kg",
     "zombify_into": "mon_meat_cocoon_small",
     "upgrades": { "age_grow": 30, "into": "mon_spider_wolf_giant" },
-    "delete": {
-      "reproduction": { "baby_egg": "egg_spider_wolf", "baby_count": 3, "baby_timer": 15 },
-      "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ]
-    }
+    "extend": { "flags": [ "NO_BREED" ] }
   },
   {
     "id": "mon_spider_wolf_giant",
@@ -2651,10 +2629,7 @@
     "weight": "96 g",
     "stomach_size": 50,
     "special_attacks": [ [ "EAT_CROP", 80 ], [ "GRAZE", 800 ] ],
-    "delete": {
-      "reproduction": { "baby_monster": "mon_aphid", "baby_count": 1, "baby_timer": 20 },
-      "baby_flags": [ "SPRING", "SUMMER" ]
-    },
+    "extend": { "flags": [ "NO_BREED" ] },
     "biosignature": { "biosig_item": "honeydew", "biosig_timer": 7000 },
     "upgrades": { "age_grow": 30, "into": "mon_aphid" }
   },
@@ -2708,10 +2683,7 @@
     "weight": "80 kg",
     "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
     "dissect": "dissect_insect_sample_single",
-    "delete": {
-      "reproduction": { "baby_egg": "egg_mantis", "baby_count": 1, "baby_timer": 30 },
-      "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ]
-    },
+    "extend": { "flags": [ "NO_BREED" ] },
     "upgrades": { "age_grow": 42, "into": "mon_mantis_giant" },
     "zombify_into": "mon_meat_cocoon_small",
     "armor": { "bash": 10, "cut": 16, "bullet": 13, "electric": 1 }
@@ -3017,10 +2989,7 @@
     "volume": "750 ml",
     "weight": "1 kg",
     "stomach_size": 30,
-    "delete": {
-      "reproduction": { "baby_egg": "egg_grasshopper", "baby_count": 3, "baby_timer": 15 },
-      "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ]
-    },
+    "extend": { "flags": [ "NO_BREED" ] },
     "upgrades": { "age_grow": 35, "into": "mon_grasshopper_giant" },
     "extend": { "flags": [ "SMALL_HIDER" ] }
   },
@@ -3377,10 +3346,7 @@
     "volume": "3 L",
     "weight": "4 kg",
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
-    "delete": {
-      "reproduction": { "baby_egg": "egg_strider", "baby_count": 3, "baby_timer": 10 },
-      "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ]
-    },
+    "extend": { "flags": [ "NO_BREED" ] },
     "upgrades": { "age_grow": 40, "into": "mon_strider_giant" }
   },
   {
@@ -3864,7 +3830,6 @@
     "symbol": "w",
     "volume": "10 L",
     "weight": "15 kg",
-    "upgrades": { "age_grow": 14, "into": "mon_water_scorpion" },
-    "delete": { "reproduction": { "baby_egg": "egg_water_bug", "baby_count": 3, "baby_timer": 10 } }
+    "upgrades": { "age_grow": 14, "into": "mon_water_scorpion" }
   }
 ]
