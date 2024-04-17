@@ -44,7 +44,7 @@ static std::vector<point> canonical_line_to( const point &p1, const point &p2, i
         } while( ( cur.x != p2.x || cur.y != p2.y ) &&
                  ( cur.x >= min.x && cur.x <= xmax && cur.y >= min.y && cur.y <= ymax ) );
     } else if( a.x > a.y ) {
-        const int t = ( a.x << 1 ) - a.y;
+        const int t = ( a.x >> 1 ) - a.y;
         do {
             if( o > t ) {
                 cur.y += s.y;
@@ -56,7 +56,7 @@ static std::vector<point> canonical_line_to( const point &p1, const point &p2, i
         } while( ( cur.x != p2.x || cur.y != p2.y ) &&
                  ( cur.x >= min.x && cur.x <= xmax && cur.y >= min.y && cur.y <= ymax ) );
     } else {
-        const int t = ( a.y << 1 ) - a.x;
+        const int t = ( a.y >> 1 ) - a.x;
         do {
             if( o > t ) {
                 cur.x += s.x;
