@@ -58,14 +58,14 @@
     "id": "egg_crow",
     "name": { "str": "crow egg" },
     "copy-from": "egg_chicken",
-    "weight": "17 g",
+    "proportional": { "volume": 0.31, "weight": 0.31, "calories": 0.31 },
     "rot_spawn": "GROUP_EGG_CROW"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_raven",
     "name": { "str": "raven egg" },
-    "copy-from": "egg_chicken",
+    "copy-from": "egg_crow",
     "rot_spawn": "GROUP_EGG_RAVEN"
   },
   {
@@ -73,7 +73,7 @@
     "id": "egg_bluejay",
     "name": { "str": "blue jay egg" },
     "copy-from": "egg_chicken",
-    "weight": "6 g",
+    "proportional": { "volume": 0.15, "weight": 0.15, "calories": 0.15 },
     "rot_spawn": "GROUP_EGG_BLUEJAY"
   },
   {
@@ -81,7 +81,7 @@
     "id": "egg_cardinal",
     "name": { "str": "cardinal egg" },
     "copy-from": "egg_chicken",
-    "weight": "5 g",
+    "proportional": { "volume": 0.08, "weight": 0.08, "calories": 0.08 },
     "rot_spawn": "GROUP_EGG_CARDINAL"
   },
   {
@@ -90,8 +90,8 @@
     "name": { "str": "robin egg" },
     "copy-from": "egg_chicken",
     "description": "A nutritious egg laid by a robin.  The shell is colored a distinctive light blue.",
-    "weight": "7 g",
     "color": "light_blue",
+    "proportional": { "volume": 0.14, "weight": 0.14, "calories": 0.14 },
     "rot_spawn": "GROUP_EGG_ROBIN"
   },
   {
@@ -99,8 +99,7 @@
     "id": "egg_sparrow",
     "name": { "str": "sparrow egg" },
     "copy-from": "egg_chicken",
-    "calories": 54,
-    "weight": "3 g",
+    "proportional": { "volume": 0.05, "weight": 0.05, "calories": 0.05 },
     "rot_spawn": "GROUP_EGG_SPARROW"
   },
   {
