@@ -3087,7 +3087,7 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
             }
         }
     }
-    if( ammo.ammo_effects.count( "INCENDIARY" ) &&
+    if( ( ammo.ammo_effects.count( "INCENDIARY" ) || ammo.ammo_effects.count( "IGNITE" ) ) &&
         parts->test( iteminfo_parts::AMMO_FX_INCENDIARY ) ) {
         fx.emplace_back( _( "This ammo <neutral>may start fires</neutral>." ) );
     }

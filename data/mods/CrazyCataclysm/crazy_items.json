@@ -81,7 +81,7 @@
     "durability": 10,
     "loudness": 50,
     "reload": 0,
-    "ammo_effects": [ "PLASMA", "EXPLOSIVE_HUGE", "STREAM_BIG", "INCENDIARY", "WIDE" ],
+    "ammo_effects": [ "PLASMA", "EXPLOSIVE_HUGE", "STREAM_BIG", "IGNITE", "WIDE" ],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD", "TRADER_AVOID", "BIONIC_WEAPON", "USES_BIONIC_POWER" ],
     "melee_damage": { "bash": 12 }
   },

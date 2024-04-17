@@ -92,7 +92,8 @@
   {
     "id": "IGNITE",
     "type": "ammo_effect",
-    "//": "Same as INCENDIARY, creature that got hit with this projectile, would be ignited for a short duration, up to 6 seconds, (10 if creature is made out of flammable material or made out of veggy). Hardcoded"
+    "//": "Same as INCENDIARY, creature that got hit with this projectile, would be ignited for a short duration, up to 6 seconds, (10 if creature is made out of flammable material or made out of veggy). Hardcoded",
+    "//2": "Guaranteed to start fires on flammable (has flag FLAMMABLE_ASH) furniture/terrain **with defined shoot data**, hardcoded in map::shoot"
   },
   {
     "id": "JET",
@@ -412,7 +413,7 @@
     "id": "PYROTECHNIC_DISPLAY",
     "type": "ammo_effect",
     "//": "Looks like huge fires, but doesn't actually burn stuff.",
-    "trail": { "field_type": "fd_fire_FAKE", "intensity_min": 2, "intensity_max": 3, "chance": 85 }
+    "trail": { "field_type": "fd_fire_FAKE", "intensity_min": 1, "intensity_max": 3, "chance": 85 }
   },
   {
     "id": "STREAM_GAS_FUNGICIDAL",
