@@ -309,7 +309,7 @@
             "permanent": true
           }
         ],
-        "coverage": 8
+        "coverage": 40
       },
       {
         "id": "armour_plate_melee",
@@ -340,7 +340,7 @@
             "permanent": true
           }
         ],
-        "coverage": 8
+        "coverage": 40
       },
       {
         "id": "armour_shattered",
@@ -348,7 +348,7 @@
         "armor_mult": { "all": 0.25 },
         "difficulty": { "broad": 3, "point": 2 },
         "coverage_mult": { "ranged": 0.8 },
-        "coverage": 8,
+        "coverage": 40,
         "required_effects": [ "shattered" ]
       },
       {
