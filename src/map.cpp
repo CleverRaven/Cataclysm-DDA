@@ -7433,10 +7433,8 @@ int map::obstacle_coverage( const tripoint &loc1, const tripoint &loc2 ) const
                                    !has_flag_ter( ter_furn_flag::TFLAG_FLAT, loc2 ) ) ) {
         return 0;
     }
-    const point a( std::abs( loc1.x - loc2.x ) * 2, std::abs( loc1.y - loc2.y ) * 2 );
-    int offset = std::min( a.x, a.y ) - ( std::max( a.x, a.y ) / 2 );
     tripoint obstaclepos;
-    bresenham( loc2, loc1, offset, 0, [&obstaclepos]( const tripoint & new_point ) {
+    bresenham( loc2, loc1, 0, 0, [&obstaclepos]( const tripoint & new_point ) {
         // Only adjacent tile between you and enemy is checked for cover.
         obstaclepos = new_point;
         return false;
