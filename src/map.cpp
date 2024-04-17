@@ -4499,6 +4499,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         dam = vp->vehicle().damage( *this, vp->part_index(), dam, main_damage_type, hit_items );
     }
 
+    // This lambda is only called if the furniture/terrain has shoot data!
     const auto shoot_furn_ter = [&]( const map_data_common_t &data ) {
         const map_shoot_info &shoot = *data.shoot;
         bool destroyed = false;
@@ -4527,7 +4528,9 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
             }
             // only very flammable furn/ter can be set alight with incendiary rounds
             if( incendiary && data.has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH ) ) {
-                add_field( p, fd_fire, 1 );
+                if( x_in_y( 1, 10 ) ) { // 10% chance
+                    add_field( p, fd_fire, 1 );
+                }
             }
             // bash_ter_furn already triggers the alarm
             // TODO: fix alarm event weirdness (not just here, also in bash, hack, etc)
@@ -4545,9 +4548,9 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
     bool hit_something = false;
 
     // shoot through furniture or terrain and see if we hit something
-    if( furniture->shoot ) {
+    if( furniture->shoot ) { // Shoot data is optional, most furniture will never trigger this
         hit_something |= shoot_furn_ter( furniture.obj() );
-    } else if( terrain->shoot ) {
+    } else if( terrain->shoot ) { // Shoot data is optional, most terrain will never trigger this
         hit_something |= shoot_furn_ter( terrain.obj() );
         // fall back to just bashing when shoot data is not defined
     } else if( impassable( p ) && !is_transparent( p ) ) {

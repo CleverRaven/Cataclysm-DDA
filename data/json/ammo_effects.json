@@ -86,7 +86,8 @@
   {
     "id": "INCENDIARY",
     "type": "ammo_effect",
-    "//": "Creature, that got hit with this projectile, would be ignited for a short duration, up to 4 seconds, (6 if creature is made out of flammable material or made out of veggy). Hardcoded"
+    "//": "Creature, that got hit with this projectile, would be ignited for a short duration, up to 4 seconds, (6 if creature is made out of flammable material or made out of veggy). Hardcoded in projectile::apply_effects_damage"
+    "//2": "10% chance to start fires on flammable (has flag FLAMMABLE_ASH) furniture/terrain **with defined shoot data**, hardcoded in map::shoot"
   },
   {
     "id": "IGNITE",
