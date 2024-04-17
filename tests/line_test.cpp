@@ -21,8 +21,8 @@ static std::vector<point> canonical_line_to( const point &p1, const point &p2, i
 {
     std::vector<point> ret;
     const point d( -p1 + p2 );
-    const point a( std::abs( d.x ) << 1, std::abs( d.y ) << 1 );
     const point s( SGN( d.x ), SGN( d.y ) );
+    const point a( std::abs( d.x ) << 1, std::abs( d.y ) << 1 );
     point cur;
     cur.x = p1.x;
     cur.y = p1.y;
@@ -53,8 +53,7 @@ static std::vector<point> canonical_line_to( const point &p1, const point &p2, i
             cur.x += s.x;
             o += a.y;
             ret.push_back( cur );
-        } while( ( cur.x != p2.x || cur.y != p2.y ) &&
-                 ( cur.x >= min.x && cur.x <= xmax && cur.y >= min.y && cur.y <= ymax ) );
+        } while( ( cur.x != p2.x && cur.x >= min.x && cur.x <= xmax && cur.y >= min.y && cur.y <= ymax ) );
     } else {
         const int t = ( a.y >> 1 ) - a.x;
         do {
@@ -65,8 +64,7 @@ static std::vector<point> canonical_line_to( const point &p1, const point &p2, i
             cur.y += s.y;
             o += a.x;
             ret.push_back( cur );
-        } while( ( cur.x != p2.x || cur.y != p2.y ) &&
-                 ( cur.x >= min.x && cur.x <= xmax && cur.y >= min.y && cur.y <= ymax ) );
+        } while( ( cur.y != p2.y && cur.x >= min.x && cur.x <= xmax && cur.y >= min.y && cur.y <= ymax ) );
     }
     return ret;
 }
