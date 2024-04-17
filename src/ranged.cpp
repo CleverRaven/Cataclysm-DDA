@@ -955,6 +955,9 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
         bool multishot = proj.count > 1;
         std::map< Creature *, std::pair < int, int >> targets_hit;
         for( int projectile_number = 0; projectile_number < proj.count; ++projectile_number ) {
+            if( !first && !proj.multi_projectile_effects ) {
+                proj.proj_effects.erase( proj.proj_effects.begin(), proj.proj_effects.end() );
+            }
             dealt_projectile_attack shot = projectile_attack( proj, pos(), aim,
                                            dispersion, this, in_veh, wp_attack, first );
             first = false;
@@ -2080,6 +2083,7 @@ static projectile make_gun_projectile( const item &gun )
         const auto &ammo = gun.ammo_data()->ammo;
         proj.critical_multiplier = ammo->critical_multiplier;
         proj.count = ammo->count;
+        proj.multi_projectile_effects = ammo->multi_projectile_effects;
         proj.shot_spread = ammo->shot_spread * gun.gun_shot_spread_multiplier();
         if( !ammo->drop.is_null() && x_in_y( ammo->drop_chance, 1.0 ) ) {
             item drop( ammo->drop );
