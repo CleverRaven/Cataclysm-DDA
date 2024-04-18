@@ -536,7 +536,7 @@ class pickup_inventory_preset : public inventory_selector_preset
                         return std::string();
                     } else if( !can_crush.success() ) {
                         return can_crush.str();
-                    } else if( !you.can_pickVolume_partial( *loc, false, nullptr, false ) ) {
+                    } else if( !you.can_pickVolume_partial( *loc, false, nullptr, false, true ) ) {
                         item item_copy( *loc );
                         item_copy.charges = 1;
                         item_copy.set_flag( flag_SHREDDED );
@@ -553,7 +553,7 @@ class pickup_inventory_preset : public inventory_selector_preset
                     } else {
                         return std::string();
                     }
-                } else if( !you.can_pickVolume_partial( *loc, false, nullptr, false ) &&
+                } else if( !you.can_pickVolume_partial( *loc, false, nullptr, false, true ) &&
                            ( skip_wield_check || you.has_wield_conflicts( *loc ) ) ) {
                     return _( "Does not fit in any pocket!" );
                 } else if( !you.can_pickWeight_partial( *loc, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {

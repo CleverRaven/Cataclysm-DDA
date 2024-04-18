@@ -1450,20 +1450,20 @@ ret_val<item_pocket::contain_code> item_pocket::is_compatible( const item &it ) 
 }
 
 ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it,
-        int &copies_remaining, bool ignore_contents ) const
+        int &copies_remaining, bool ignore_contents, bool is_pick_up_inv ) const
 {
-    return _can_contain( it, copies_remaining, ignore_contents );
+    return _can_contain( it, copies_remaining, ignore_contents, is_pick_up_inv );
 }
 
 ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it,
-        bool ignore_contents ) const
+        bool ignore_contents, bool is_pick_up_inv ) const
 {
     int copies = 1;
-    return _can_contain( it, copies, ignore_contents );
+    return _can_contain( it, copies, ignore_contents, is_pick_up_inv );
 }
 
 ret_val<item_pocket::contain_code> item_pocket::_can_contain( const item &it,
-        int &copies_remaining, const bool ignore_contents ) const
+        int &copies_remaining, const bool ignore_contents, const bool is_pick_up_inv ) const
 {
     ret_val<item_pocket::contain_code> compatible = is_compatible( it );
 
@@ -1478,6 +1478,13 @@ ret_val<item_pocket::contain_code> item_pocket::_can_contain( const item &it,
 
     if( !compatible.success() ) {
         return compatible;
+    }
+    // Only count container in pickup_inventory_preset.
+    if( is_pick_up_inv ) {
+        if( get_pocket_data()->type == pocket_type::CONTAINER ) {
+            copies_remaining = 0;
+            return ret_val<item_pocket::contain_code>::make_success();
+        }
     }
     if( !is_standard_type() ) {
         copies_remaining = 0;

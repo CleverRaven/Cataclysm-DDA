@@ -1055,14 +1055,14 @@ ret_val<void> item_contents::is_compatible( const item &it ) const
 }
 
 ret_val<void> item_contents::can_contain_rigid( const item &it,
-        const bool ignore_pkt_settings ) const
+        const bool ignore_pkt_settings, const bool is_pick_up_inv ) const
 {
     int copies = 1;
-    return can_contain_rigid( it, copies, ignore_pkt_settings );
+    return can_contain_rigid( it, copies, ignore_pkt_settings, is_pick_up_inv );
 }
 
 ret_val<void> item_contents::can_contain_rigid( const item &it, int &copies_remaining,
-        const bool ignore_pkt_settings ) const
+        const bool ignore_pkt_settings, const bool is_pick_up_inv ) const
 {
     ret_val<void> ret = ret_val<void>::make_failure( _( "is not a container" ) );
     for( const item_pocket &pocket : contents ) {
@@ -1080,7 +1080,7 @@ ret_val<void> item_contents::can_contain_rigid( const item &it, int &copies_rema
             continue;
         }
         const ret_val<item_pocket::contain_code> pocket_contain_code = pocket.can_contain( it,
-                copies_remaining );
+                copies_remaining, false, is_pick_up_inv );
         if( copies_remaining <= 0 || pocket_contain_code.success() ) {
             return ret_val<void>::make_success();
         }
@@ -1090,14 +1090,15 @@ ret_val<void> item_contents::can_contain_rigid( const item &it, int &copies_rema
 }
 
 ret_val<void> item_contents::can_contain( const item &it, const bool ignore_pkt_settings,
-        units::volume remaining_parent_volume ) const
+        const bool is_pick_up_inv, units::volume remaining_parent_volume ) const
 {
     int copies = 1;
-    return can_contain( it, copies, ignore_pkt_settings, remaining_parent_volume );
+    return can_contain( it, copies, ignore_pkt_settings, is_pick_up_inv, remaining_parent_volume );
 }
 
 ret_val<void> item_contents::can_contain( const item &it, int &copies_remaining,
-        const bool ignore_pkt_settings, units::volume remaining_parent_volume ) const
+        const bool ignore_pkt_settings, const bool is_pick_up_inv,
+        units::volume remaining_parent_volume ) const
 {
     ret_val<void> ret = ret_val<void>::make_failure( _( "is not a container" ) );
 
@@ -1107,6 +1108,12 @@ ret_val<void> item_contents::can_contain( const item &it, int &copies_remaining,
     for( const item_pocket &pocket : contents ) {
         if( pocket.is_forbidden() ) {
             continue;
+        }
+        // Only count container in pickup_inventory_preset.
+        if( is_pick_up_inv ) {
+            if( !pocket.is_type( pocket_type::CONTAINER ) ) {
+                continue;
+            }
         }
         // mod, migration, corpse, and software aren't regular pockets.
         if( !pocket.is_standard_type() ) {
