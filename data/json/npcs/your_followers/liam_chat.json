@@ -6,6 +6,7 @@
     "responses": [
       { "text": "Can I ask you a bit about yourself?", "topic": "BGSS_Liam1" },
       { "text": "You picked up a lot of useful skills over the years, hey.", "topic": "BGSS_Liam_Expertise" },
+      { "text": "I'd like your opinion on something.", "topic": "TALK_Liam_Opinions" },
       {
         "text": "I just wanted to chat, you know.  To relax.",
         "topic": "TALK_FRIEND_Liam_CHAT",
@@ -18,7 +19,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_FRIEND_Liam_CHAT",
-    "dynamic_line": [ "Sure.  Can I tell you about this idea I had for a comic I'm never gonna make?",
+    "dynamic_line": [
+      "Sure.  Can I tell you about this idea I had for a comic I'm never gonna make?",
+      "Lately I've been thinking about my Steam library and all those games I was putting off for a bad time.  Now it's a bad time and I can't play 'em.  Tragedy of our era, right?"
+    ],
     "//": "TK: custom chat topics here that actually include small talk that expands Liam's character, while still giving the socialize bonus.",
     "responses": [
       {
@@ -78,6 +82,30 @@
     "responses": [
       { "text": "Can we talk about something else?", "topic": "TALK_Liam_SOCIAL" },
       { "text": "Harsh, but I hear you.  <end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions",
+    "dynamic_line": "My opinion?  Sure, my friend, hit me up, what's eating you?",
+    "responses": [
+      {
+        "text": "Any ideas about this job to clear out the back bay for Smokes?",
+        "topic": "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_1",
+        "condition": { "u_has_assigned_mission": "MISSION_FREE_MERCHANTS_EVAC_1" }
+      },
+      { "text": "Can we chat about something else?", "topic": "TALK_Liam_SOCIAL" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_1",
+    "dynamic_line": "*rubs his chin thoughtfully.  \"Maybe we can set up a bottleneck in the hallway?  First we drag a few lockers or something to funnel them, then one of us hangs close to the barricade and the other stands back and fires arrows or something?\"  He shrugs.  \"I'm not great at tactics, and I'm a bit nervous about what's back there.\"",
+    "responses": [
+      { "text": "Thanks man.  I'd like your opinion on something else, actually.", "topic": "TALK_Liam_Opinions" },
+      { "text": "Can we chat about something else?", "topic": "TALK_Liam_SOCIAL" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   }
 ]
