@@ -37,16 +37,13 @@
         }
       ]
     },
-    "effect": [
-      { "math": [ "u_duck_and_weave_counter", "=", "0" ] },
-      { "u_lose_effect": "effect_perk_duck_and_weave", "duration": 1 }
-    ]
+    "effect": [ { "math": [ "u_duck_and_weave_counter", "=", "0" ] }, { "u_lose_effect": "effect_perk_duck_and_weave" } ]
   },
   {
     "type": "effect_type",
     "id": "effect_perk_duck_and_weave",
     "name": [ "Running without Rhythm" ],
-    "desc": [ "You definitely won't attract the worm.  +25% dodge chance, +1 dodge attempt." ],
+    "desc": [ "You definitely won't attract the worm.  +5 effective dodge, +1 dodge attempt." ],
     "rating": "good",
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 1 }, { "value": "DODGE_CHANCE", "add": 5 } ] } ]
   }

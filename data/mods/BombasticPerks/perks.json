@@ -221,6 +221,20 @@
   },
   {
     "type": "mutation",
+    "id": "perk_ghost_stealth",
+    "name": { "str": "Ghost" },
+    "points": 0,
+    "description": "You've gotten pretty good at sneaking up on people.  When you have no allies within 20 squares, enemies' vision detection range is reduced by 15%.",
+    "category": [ "perk" ],
+    "enchantments": [
+      {
+        "condition": { "math": [ "u_characters_nearby('radius': 20, 'attitude': 'ally')", "==", "0" ] },
+        "values": [ { "value": "STEALTH_MODIFIER", "add": 15 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_tuck_and_roll",
     "name": { "str": "Tuck and Roll" },
     "points": 0,
