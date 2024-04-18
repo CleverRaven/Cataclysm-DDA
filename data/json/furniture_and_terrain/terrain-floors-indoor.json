@@ -223,7 +223,7 @@
     "move_cost": 2,
     "light_emitted": 120,
     "roof": "t_metal_roof",
-    "flags": [ "TRANSPARENT", "INDOORS", "FLAT", "ROAD" ],
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
     "bash": {
       "str_min": 4,
       "str_max": 12,
@@ -509,7 +509,7 @@
     "connects_to": "METALFLOOR",
     "move_cost": 2,
     "roof": "t_metal_roof",
-    "flags": [ "TRANSPARENT", "INDOORS", "FLAT", "ROAD" ],
+    "flags": [ "TRANSPARENT", "INDOORS", "COLLAPSES", "SUPPORTS_ROOF", "FLAT", "ROAD" ],
     "bash": {
       "sound": "thump",
       "ter_set": "t_null",
@@ -562,7 +562,7 @@
     "bash": {
       "sound": "SMASH!",
       "ter_set": "t_null",
-      "ter_set_bashed_from_above": "t_floor_no_roof",
+      "ter_set_bashed_from_above": "t_floor_noroof",
       "str_min": 50,
       "str_max": 400,
       "str_min_supported": 100,
@@ -630,7 +630,7 @@
     "bash": {
       "sound": "SMASH!",
       "ter_set": "t_null",
-      "ter_set_bashed_from_above": "t_floor_no_roof",
+      "ter_set_bashed_from_above": "t_floor_noroof",
       "str_min": 50,
       "str_max": 400,
       "str_min_supported": 100,
@@ -708,7 +708,7 @@
     "bash": {
       "sound": "SMASH!",
       "ter_set": "t_null",
-      "ter_set_bashed_from_above": "t_null",
+      "ter_set_bashed_from_above": "t_floor_noroof",
       "str_min": 50,
       "str_max": 400,
       "str_min_supported": 100,
@@ -780,7 +780,7 @@
     "bash": {
       "sound": "SMASH!",
       "ter_set": "t_floor",
-      "ter_set_bashed_from_above": "t_floor_no_roof",
+      "ter_set_bashed_from_above": "t_floor_noroof",
       "str_min": 5,
       "str_max": 15,
       "str_min_supported": 100,
@@ -857,7 +857,7 @@
     "bash": {
       "sound": "SMASH!",
       "ter_set": "t_floor",
-      "ter_set_bashed_from_above": "t_floor_no_roof",
+      "ter_set_bashed_from_above": "t_floor_noroof",
       "str_min": 5,
       "str_max": 15,
       "str_min_supported": 100,
