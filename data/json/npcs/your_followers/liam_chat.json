@@ -21,7 +21,17 @@
     "id": "TALK_FRIEND_Liam_CHAT",
     "dynamic_line": [
       "Sure.  Can I tell you about this idea I had for a comic I'm never gonna make?",
-      "Lately I've been thinking about my Steam library and all those games I was putting off for a bad time.  Now it's a bad time and I can't play 'em.  Tragedy of our era, right?"
+      "Lately I've been thinking about my Steam library and all those games I was putting off for a bad time.  Now it's a bad time and I can't play 'em.  Tragedy of our era, right?",
+      "You remember that girl from high school I had that huge crush on?  Emily?  I wonder if she's still alive.  I shoulda asked her out.",
+      "Aw dude.  I was just remembering about this crowdfunded board game I backed right before things went to hell.  It'd be fulfilling right about now, I bet.",
+      "Does it ever seem to you like the stars are in different places from where they used to be?  I can find all the old constellations, but they look different now.",
+      "Since everything went down, I keep having this recurring dream where I'm at Foodplace again, and Luke Skywalker is there, demanding an EB3 combo with extra Beverage, and he's being a real Karen about it.  Do you think it means something?",
+      "Maybe it's weird but this whole thing sorta feels like an extended camping trip.  With zombies.",
+      "I slept weird last night.  Got this awful crick in my neck.",
+      "Do you think the internet is still out there somewhere, floating around in some still-functional servers somehow?  It's weird to think about what happened to all that data.",
+      "Remember that guy Daren in elementary who used to tell all those weird-ass creepy stories?  Chris hated him but I thought he was interesting.  I wonder if he's alive, he'd have loved this.",
+      "You know what I could really use right now?  A hot bath.",
+      "Next time we hit a library, I'm gonna see if they've got a copy of Gideon the Ninth.  I read that book a while ago, but I was super high and I don't remember much of it."
     ],
     "//": "TK: custom chat topics here that actually include small talk that expands Liam's character, while still giving the socialize bonus.",
     "responses": [
