@@ -2626,6 +2626,24 @@ std::list<item> iexamine::get_harvest_items( const itype &type, const int plant_
     return result;
 }
 
+// Cleaning up plants that have decayed and overgrown
+void iexamine::clear_overgrown( Character &you, const tripoint &examp )
+{
+    map &here = get_map();
+
+    if( !here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_OVERGROWN, examp ) ) {
+        debugmsg( "clear_overgrown called on tile which is not an overgrown crop!" );
+        return;
+    }
+
+    player_activity act( ACT_HARVEST, to_moves<int>( 60_seconds ) );
+    you.assign_activity( act );
+    here.i_clear( examp );
+    here.furn_set( examp, here.furn( examp )->plant->base );
+    you.add_msg_if_player( m_neutral,
+                           _( "You pull up what's left of the planted crop and trample the rest." ) );
+}
+
 // Only harvest, used for autoforaging
 void iexamine::harvest_plant_ex( Character &you, const tripoint &examp )
 {
@@ -2714,7 +2732,7 @@ void iexamine::harvest_plant( Character &you, const tripoint &examp, bool from_a
                 }
                 here.add_item_or_charges( you.pos(), i );
             }
-            here.furn_set( examp, furn_str_id( here.furn( examp )->plant->transform ) );
+            here.furn_set( examp, furn_str_id( here.furn( examp )->plant->base ) );
             you.add_msg_if_player( m_neutral, _( "You harvest the plant." ) );
         }
     }
@@ -7083,6 +7101,7 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
             { "harvest_furn", &iexamine::harvest_furn },
             { "harvest_ter_nectar", &iexamine::harvest_ter_nectar },
             { "harvest_ter", &iexamine::harvest_ter },
+            { "clear_overgrown", &iexamine::clear_overgrown },
             { "harvest_plant_ex", &iexamine::harvest_plant_ex },
             { "harvested_plant", &iexamine::harvested_plant },
             { "shrub_marloss", &iexamine::shrub_marloss },

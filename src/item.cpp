@@ -14145,7 +14145,7 @@ bool item::is_seed() const
     return !!type->seed;
 }
 
-time_duration item::get_plant_epoch() const
+time_duration item::get_plant_epoch( int num_epochs ) const
 {
     if( !type->seed ) {
         return 0_turns;
@@ -14154,9 +14154,9 @@ time_duration item::get_plant_epoch() const
     // the default in-game season length to give
     // more accuracy for longer season lengths
     // Also note that seed->grow is the time it takes from seeding to harvest, this is
-    // divided by 3 to get the time it takes from one plant state to the next.
+    // divided by number of growth stages (usually 3) to get the time it takes from one plant state to the next.
     // TODO: move this into the islot_seed
-    return type->seed->grow * calendar::season_ratio() / 3;
+    return type->seed->grow * calendar::season_ratio() / num_epochs;
 }
 
 std::string item::get_plant_name() const
