@@ -129,12 +129,13 @@
       {
         "run_eocs": [
           {
+            "id": "EOC_NULL_BREAK_CONCENTRATION_2",
             "condition": { "math": [ "u_vitamin('vitamin_maintained_powers')", ">=", "1" ] },
             "effect": [
               {
                 "run_eocs": [
                   {
-                    "id": "EOC_NULL_BREAK_CONCENTRATION_2",
+                    "id": "EOC_NULL_BREAK_CONCENTRATION_3",
                     "condition": {
                       "x_in_y_chance": {
                         "x": {
