@@ -446,7 +446,7 @@
     "special_attacks": [
       {
         "type": "spell",
-        "spell_data": { "id": "smoker_stream_increase", "min_level": 1, "hit_self": true  },
+        "spell_data": { "id": "smoker_stream_increase", "min_level": 1, "hit_self": true },
         "cooldown": 100,
         "monster_message": "smoke starts billowing out of the %s at a rapid rate!"
       }
