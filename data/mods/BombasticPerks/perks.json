@@ -156,6 +156,14 @@
   },
   {
     "type": "mutation",
+    "id": "perk_bellringer",
+    "name": { "//~": " 'To have your bell rung' means to be hit on the head.", "str": "Bellringer" },
+    "points": 0,
+    "description": "You're very good at the follow-through when your enemies are reeling.  When in melee combat with an enemy that is dazed or stunned, you do +33% extra bash damage.",
+    "category": [ "perk" ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_thick_skull",
     "name": { "str": "Thick Skull" },
     "points": 0,
