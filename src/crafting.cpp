@@ -578,7 +578,7 @@ bool Character::can_make( const recipe *r, int batch_size ) const
 {
     const inventory &crafting_inv = crafting_inventory();
 
-    if( !has_recipe( r, crafting_inv, get_crafting_group() ) ) {
+    if( !has_recipe( r ) ) {
         return false;
     }
 
