@@ -25,46 +25,36 @@
       "You remember that girl from high school I had that huge crush on?  Emily?  I wonder if she's still alive.  I shoulda asked her out.",
       "Aw dude.  I was just remembering about this crowdfunded board game I backed right before things went to hell.  It'd be fulfilling right about now, I bet.",
       "Does it ever seem to you like the stars are in different places from where they used to be?  I can find all the old constellations, but they look different now.",
-      "Since everything went down, I keep having this recurring dream where I'm at Foodplace again, and Luke Skywalker is there, demanding an EB3 combo with extra Beverage, and he's being a real Karen about it.  Do you think it means something?",
+      "Since everything went down, I keep having this recurring dream where I'm at Foodplace again, and Luke Skywalker is there, demanding an EB2 combo with extra Beverage, and he's being a real Karen about it.  Do you think it means something?",
       "Maybe it's weird but this whole thing sorta feels like an extended camping trip.  With zombies.",
       "I slept weird last night.  Got this awful crick in my neck.",
       "Do you think the internet is still out there somewhere, floating around in some still-functional servers somehow?  It's weird to think about what happened to all that data.",
       "Remember that guy Daren in elementary who used to tell all those weird-ass creepy stories?  Chris hated him but I thought he was interesting.  I wonder if he's alive, he'd have loved this.",
       "You know what I could really use right now?  A hot bath.",
-      "Next time we hit a library, I'm gonna see if they've got a copy of Gideon the Ninth.  I read that book a while ago, but I was super high and I don't remember much of it."
+      "Next time we hit a library, I'm gonna see if they've got a copy of Gideon the Ninth.  I read that book a while ago, but I was super high and I don't remember much of it.",
+      "Do you remember what day of the week it is?",
+      "Next time I get a chance, I'm gonna make a nice big bowl of mac and cheese.",
+      "Y'know, these shoes are surprisingly comfy.  You wouldn't think it to look at 'em.",
+      "Do you think zombies know what's going on?  Like, are the original people still in there watching all this happen?  I sure hope not.",
+      "It's funny how fast all this weird shit starts to feel normal, don't you think?"
     ],
-    "//": "TK: custom chat topics here that actually include small talk that expands Liam's character, while still giving the socialize bonus.",
+    "speaker_effect": { "effect": [ "morale_chat_activity", { "npc_add_effect": "asked_to_socialize", "duration": 7000 } ] },
     "responses": [
       {
         "text": "We're always gonna be friends, right?  Even with the apocalypse… changing us?",
-        "topic": "TALK_FRIEND_Liam_CHAT_Friends4ever",
-        "effect": [ "morale_chat_activity", { "npc_add_effect": "asked_to_socialize", "duration": 7000 } ]
+        "topic": "TALK_FRIEND_Liam_CHAT_Friends4ever"
       },
-      {
-        "text": "What do you miss most about the internet?",
-        "topic": "TALK_FRIEND_Liam_CHAT_Internet",
-        "effect": [ "morale_chat_activity", { "npc_add_effect": "asked_to_socialize", "duration": 7000 } ]
-      },
+      { "text": "What do you miss most about the internet?", "topic": "TALK_FRIEND_Liam_CHAT_Internet" },
       {
         "text": "Now that we've got no responsibilities, is there anything you'd like to see or do?",
-        "topic": "TALK_FRIEND_Liam_CHAT_Goals",
-        "effect": [ "morale_chat_activity", { "npc_add_effect": "asked_to_socialize", "duration": 7000 } ]
+        "topic": "TALK_FRIEND_Liam_CHAT_Goals"
       },
       {
         "text": "What do you think the rest of the world is like these days?",
-        "topic": "TALK_FRIEND_Liam_CHAT_World",
-        "effect": [ "morale_chat_activity", { "npc_add_effect": "asked_to_socialize", "duration": 7000 } ]
+        "topic": "TALK_FRIEND_Liam_CHAT_World"
       },
-      {
-        "text": "Do you miss any food from the old days?",
-        "topic": "TALK_FRIEND_Liam_CHAT_Food",
-        "effect": [ "morale_chat_activity", { "npc_add_effect": "asked_to_socialize", "duration": 7000 } ]
-      },
-      {
-        "text": "<chitchat_player_responses>",
-        "topic": "TALK_DONE",
-        "effect": [ "morale_chat_activity", { "npc_add_effect": "asked_to_socialize", "duration": 7000 } ]
-      }
+      { "text": "Do you miss any food from the old days?", "topic": "TALK_FRIEND_Liam_CHAT_Food" },
+      { "text": "<chitchat_player_responses>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -94,7 +84,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_FRIEND_Liam_CHAT_Food",
-    "dynamic_line": "I never thought I'd hear myself say this, but I kinda miss the EdiBurger3 from FoodPlace.  I worked there so long, I hated everything, but as soon as you tell me I'm *never* gonna have a fresh, greasy EB3 again, suddenly it's all my stomach wants.  Don't try to track one down or anything though.  I'm pretty sure I miss the *idea* more than the actual *thing*.  And I don't think we could cook up a copy, it'd be pretty hard to get the right blend of animal product and sawdust for the MeatCylinder.\"  He stares whistfully into space for a moment.  \"How about you, what were you thinking of when you asked?",
+    "dynamic_line": "I never thought I'd hear myself say this, but I kinda miss the Ediburger3 from Foodplace.  I worked there so long, I hated everything, but as soon as you tell me I'm *never* gonna have a fresh, greasy EB3 again, suddenly it's all my stomach wants.  Don't try to track one down or anything though.  I'm pretty sure I miss the *idea* more than the actual *thing*.  And I don't think we could cook up a copy, it'd be pretty hard to get the right blend of animal product and sawdust for the Meatcylinder.\"  He stares whistfully into space for a moment.  \"How about you, what were you thinking of when you asked?",
     "responses": [ { "text": "(Continue chatting)", "topic": "TALK_DONE" } ]
   },
   {
@@ -217,12 +207,12 @@
         }
       },
       {
-        "text": "Secure trade route kill monster?",
+        "text": "Do you think it's really a monster hitting those trade caravans?  Any ideas how we should deal with it?",
         "topic": "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_4",
         "condition": { "u_has_assigned_mission": "MISSION_OLD_GUARD_REP_4" }
       },
       {
-        "text": "Assassinate raider leader?",
+        "text": "So, we're officially assassins for hire now.  How do you feel about that?",
         "topic": "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_5",
         "condition": { "u_has_assigned_mission": "MISSION_OLD_GUARD_REP_5" }
       },
@@ -392,6 +382,41 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_3-NotMet",
+    "dynamic_line": "I dunno, but compared to the last two missions for that guy, I gotta admit I'm kinda stoked.  Robots?  This sounds *wicked*.  Do you think we're talking more Terminator, or Wall-E?  Doesn't matter.  Robots!",
+    "responses": [ { "text": "Thanks man.  I'd like your opinion on something else, actually.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_3-HasMet",
+    "dynamic_line": "Uh, well, we *did* meet that weird cyborg guy in the castle full of giant robot dogs matching this exact description, right?  Tell me you remember that.  Damn, it's worse saying it out loud.  I still can't really believe all this stuff has really happened.",
+    "responses": [
+      {
+        "text": "Oh, right, I remember that.  I'd like your opinion on something else, though.",
+        "topic": "TALK_Liam_Opinions"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_4",
+    "dynamic_line": "You know me my friend,\" he shrugs and grins at you.  \"I'd have said it was some kinda cryptid or something *before* the world got flooded with monsters and mutants.  Nowadays, I think I'd be more surprised if it was bandits again.  As for how to deal with it, well, I guess we're getting pretty good at dealing with this kind of thing now.  Let's handle it how we usually do: with style.",
+    "responses": [ { "text": "Damn straight.  I'd like your opinion on something else, though.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_5",
+    "dynamic_line": "I dunno,\" he points to your Marshal badge.  \"I guess if they give you a shiny bit of metal you're not really an assassin for hire anymore, you're the law.  Judge, jury, and executioner.\"  He scratches his neck and looks away for a moment.  \"You know how I feel about all these high risk missions, but we've gotten this far.  It's different now than when we started out.  I don't think you need my advice, you know I'll have your back whatever happens.",
+    "responses": [ { "text": "I might not need it, but I still like to hear it.  I'd like your opinion on something else, anyway.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_OLD_GUARD_REPEATER_BEGIN",
+    "dynamic_line": "Honestly my friend, this is the kinda stuff I hoped we'd be doing when we offered to help these guys out.  Fresh air, great views, climbing on things we'd have gotten in trouble for in the old days, maybe pushing a zombie off the edge of a maintenance platform to see how big a splat it leaves at the bottom.  Sounds wicked.  Let's bring a couple cold ones up to the top and crack a brew while we survey the wasteland, hey?",
+    "responses": [ { "text": "Sounds like a great idea.  I'd like your opinion on something else, though.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_Liam_Opinions_RUBIK_ANUS_FETICK",
     "dynamic_line": "I just like, wanna back up a second.  We're trying to score drugs for a cyborg so it can do surgery on you?  That's really where life's taking us, now?",
     "responses": [
@@ -430,6 +455,11 @@
       "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_1-Fortunecookie",
       "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_1-Psycho",
       "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_2",
+      "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_3-NotMet",
+      "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_3-HasMet",
+      "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_4",
+      "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_5",
+      "TALK_Liam_Opinions_MISSION_OLD_GUARD_REPEATER_BEGIN",
       "TALK_Liam_Opinions_MISSION_REFUGEE_Boris_CLEANUP",
       "TALK_Liam_Opinions_RUBIK_ANUS_FETICK-1",
       "TALK_Liam_Opinions_EXODII_MISSION_CONTACT_HUB",
