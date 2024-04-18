@@ -94,6 +94,31 @@
         "topic": "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_1",
         "condition": { "u_has_assigned_mission": "MISSION_FREE_MERCHANTS_EVAC_1" }
       },
+      {
+        "text": "What do you think about taking down this bandit camp?",
+        "topic": "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_2",
+        "condition": { "u_has_assigned_mission": "MISSION_FREE_MERCHANTS_EVAC_2" }
+      },
+      {
+        "text": "Any thoughts about bringing this prospectus out to the ranch?",
+        "topic": "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_3",
+        "condition": { "u_has_assigned_mission": "MISSION_FREE_MERCHANTS_EVAC_3" }
+      },
+      {
+        "text": "Where do you think we can get some anesthetic for that robot guy?",
+        "topic": "TALK_Liam_Opinions_RUBIK_ANUS_FETICK",
+        "condition": { "u_has_assigned_mission": "RUBIK_ANUS_FETICK" }
+      },
+      {
+        "text": "Any thoughts on this scouting mission, checking out this bunker thing?",
+        "topic": "TALK_Liam_Opinions_EXODII_MISSION_CONTACT_HUB",
+        "condition": { "u_has_assigned_mission": "EXODII_MISSION_CONTACT_HUB" }
+      },
+      {
+        "text": "How do you think we should start looking for this lost interdimensional building?",
+        "topic": "TALK_Liam_Opinions_EXODII_MISSION_WAREHOUSE",
+        "condition": { "u_has_assigned_mission": "EXODII_MISSION_WAREHOUSE" }
+      },
       { "text": "Can we chat about something else?", "topic": "TALK_Liam_SOCIAL" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
