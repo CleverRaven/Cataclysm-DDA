@@ -97,9 +97,10 @@ static void scatter_chunks( const itype_id &chunk_name, int chunk_amt, monster &
     // can't have more items in a pile than total items
     pile_size = std::min( chunk_amt, pile_size );
     distance = std::abs( distance );
-    const item chunk( chunk_name, calendar::turn, pile_size );
+    const item chunk( chunk_name, calendar::turn );
     map &here = get_map();
-    for( int i = 0; i < chunk_amt; i += pile_size ) {
+    int placed_chunks = 0;
+    while( placed_chunks < chunk_amt ) {
         bool drop_chunks = true;
         tripoint tarp( z.pos() + point( rng( -distance, distance ), rng( -distance, distance ) ) );
         const auto traj = line_to( z.pos(), tarp );
@@ -127,8 +128,11 @@ static void scatter_chunks( const itype_id &chunk_name, int chunk_amt, monster &
             }
         }
         if( drop_chunks ) {
-            here.add_item_or_charges( tarp, chunk );
+            for( int i = placed_chunks; i < chunk_amt && i < placed_chunks + pile_size; i++ ) {
+                here.add_item_or_charges( tarp, chunk );
+            }
         }
+        placed_chunks += pile_size;
     }
 }
 
