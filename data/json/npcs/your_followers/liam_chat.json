@@ -84,7 +84,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_FRIEND_Liam_CHAT_Food",
-    "dynamic_line": "I never thought I'd hear myself say this, but I kinda miss the Ediburger3 from Foodplace.  I worked there so long, I hated everything, but as soon as you tell me I'm *never* gonna have a fresh, greasy EB3 again, suddenly it's all my stomach wants.  Don't try to track one down or anything though.  I'm pretty sure I miss the *idea* more than the actual *thing*.  And I don't think we could cook up a copy, it'd be pretty hard to get the right blend of animal product and sawdust for the Meatcylinder.\"  He stares whistfully into space for a moment.  \"How about you, what were you thinking of when you asked?",
+    "dynamic_line": "I never thought I'd hear myself say this, but I kinda miss the Ediburger3 from Foodplace.  I worked there so long, I hated everything, but as soon as you tell me I'm *never* gonna have a fresh, greasy EB3 again, suddenly it's all my stomach wants.  Don't try to track one down or anything though.  I'm pretty sure I miss the *idea* more than the actual *thing*.  And I don't think we could cook up a copy, it'd be pretty hard to get the right blend of animal product and sawdust for the Meatcylinder.\"  He stares wistfully into space for a moment.  \"How about you, what were you thinking of when you asked?",
     "responses": [ { "text": "(Continue chatting)", "topic": "TALK_DONE" } ]
   },
   {
@@ -360,7 +360,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_1-Psycho",
-    "dynamic_line": "*gives you some serious sideye.  \"You okay?  This is serious shit, you're making me kinda worried getting so gung-ho about it.\"",
+    "dynamic_line": "*gives you some serious side-eye.  \"You okay?  This is serious shit, you're making me kinda worried getting so gung-ho about it.\"",
     "responses": [
       {
         "text": "Don't worry, man.  Trust me, it'll be great.  Anyway, I'd like your opinion on something else.",
@@ -435,7 +435,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_Liam_Opinions_RUBIK_ANUS_FETICK-1",
-    "dynamic_line": "*grins.  \"Okay, just wanted to clear that up.  I thought maybe I was having some kind of psychotic break, glad it's at least mutual.  Anyway, first place that comes to mind for that kinda stuff would be a hospital, but that's suicide.  Maybe a pharmacy?  Would they have the right stuff?  Seems like a stretch.  Maybe like, a vet clinic or a private surgery clinic might be safer?  I'll level with you, I never got into anything harder than Mary Jane, this is past my paygrade.\"",
+    "dynamic_line": "*grins.  \"Okay, just wanted to clear that up.  I thought maybe I was having some kind of psychotic break, glad it's at least mutual.  Anyway, first place that comes to mind for that kinda stuff would be a hospital, but that's suicide.  Maybe a pharmacy?  Would they have the right stuff?  Seems like a stretch.  Maybe like, a vet clinic or a private surgery clinic might be safer?  I'll level with you, I never got into anything harder than Mary Jane, this is past my pay grade.\"",
     "responses": [ { "text": "Thanks man.  I'd like your opinion on something else, actually.", "topic": "TALK_Liam_Opinions" } ]
   },
   {
