@@ -10112,7 +10112,7 @@ ret_val<void> item::can_contain( const item &it, const bool nested, const bool i
 
 ret_val<void> item::can_contain( const item &it, int &copies_remaining, const bool nested,
                                  const bool ignore_rigidity, const bool ignore_pkt_settings,
-                                 const bool is_pick_up_inv, const item_location &parent_it, 
+                                 const bool is_pick_up_inv, const item_location &parent_it,
                                  units::volume remaining_parent_volume,
                                  const bool allow_nested ) const
 {
@@ -10168,7 +10168,8 @@ ret_val<void> item::can_contain( const item &it, int &copies_remaining, const bo
 
     return nested && !ignore_rigidity ?
            contents.can_contain_rigid( it, copies_remaining, ignore_pkt_settings, is_pick_up_inv ) :
-           contents.can_contain( it, copies_remaining, ignore_pkt_settings, is_pick_up_inv, remaining_parent_volume );
+           contents.can_contain( it, copies_remaining, ignore_pkt_settings, is_pick_up_inv,
+                                 remaining_parent_volume );
 }
 
 ret_val<void> item::can_contain( const itype &tp ) const
