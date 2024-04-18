@@ -182,14 +182,29 @@
         "condition": { "u_has_assigned_mission": "MISSION_OLD_GUARD_REP_1" }
       },
       {
-        "text": "Deal with Informant?",
+        "text": "How do you think we should track down this enemy informant?",
         "topic": "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_2",
         "condition": { "u_has_assigned_mission": "MISSION_OLD_GUARD_REP_2" }
       },
       {
-        "text": "Find exodii?",
-        "topic": "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_3",
-        "condition": { "u_has_assigned_mission": "MISSION_OLD_GUARD_REP_3" }
+        "text": "What do you think about these robots?  Crazy stuff, hey?",
+        "topic": "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_3-NotMet",
+        "condition": {
+          "and": [
+            { "u_has_assigned_mission": "MISSION_OLD_GUARD_REP_3" },
+            { "not": { "u_has_var": "u_met_Rubik", "type": "general", "context": "meeting", "value": "yes" } }
+          ]
+        }
+      },
+      {
+        "text": "What do you think about these robots?  Crazy stuff, hey?",
+        "topic": "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_3-HasMet",
+        "condition": {
+          "and": [
+            { "u_has_assigned_mission": "MISSION_OLD_GUARD_REP_3" },
+            { "u_has_var": "u_met_Rubik", "type": "general", "context": "meeting", "value": "yes" }
+          ]
+        }
       },
       {
         "text": "Secure trade route kill monster?",
@@ -323,23 +338,13 @@
     "type": "talk_topic",
     "id": "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_1-Reassure",
     "dynamic_line": "Thanks.  You're right.  Okay, I can do this.\"  He shakes his shoulders and limbers up, like a boxer preparing for a match.  \"Let's go.",
-    "responses": [
-      {
-        "text": "Hold up Balboa, I'd like your opinion on something else, actually.",
-        "topic": "TALK_Liam_Opinions"
-      }
-    ]
+    "responses": [ { "text": "Hold up Balboa, I'd like your opinion on something else, actually.", "topic": "TALK_Liam_Opinions" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_1-Bravado",
     "dynamic_line": "Oh, oh yeah that makes sense.  Okay, well, that's something I can do.  I'll cover your back like it's never been covered before.  You and me like Calvin and Hobbes baby.",
-    "responses": [
-      {
-        "text": "Thanks, Hooch.  I'd like your opinion on something else, actually.",
-        "topic": "TALK_Liam_Opinions"
-      }
-    ]
+    "responses": [ { "text": "Thanks, Hooch.  I'd like your opinion on something else, actually.", "topic": "TALK_Liam_Opinions" } ]
   },
   {
     "type": "talk_topic",
@@ -359,6 +364,18 @@
     "responses": [
       {
         "text": "Don't worry, man.  Trust me, it'll be great.  Anyway, I'd like your opinion on something else.",
+        "topic": "TALK_Liam_Opinions"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_2",
+    "dynamic_line": "You know, this sounds like it's gonna be some big exciting mystery whodunnit, but I have this feeling if we just look around for someone who is acting obviously and extremely suspicious it'll all fall apart at once.",
+    "//": "I really need to touch up the informant quest :(",
+    "responses": [
+      {
+        "text": "That's optimistic, thanks man.  I'd like your opinion on something else, actually.",
         "topic": "TALK_Liam_Opinions"
       }
     ]
@@ -398,6 +415,11 @@
       "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_2",
       "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_2-1",
       "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_3",
+      "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_1-Reassure",
+      "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_1-Bravado",
+      "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_1-Fortunecookie",
+      "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_1-Psycho",
+      "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_2",
       "TALK_Liam_Opinions_MISSION_REFUGEE_Boris_CLEANUP",
       "TALK_Liam_Opinions_RUBIK_ANUS_FETICK-1",
       "TALK_Liam_Opinions_EXODII_MISSION_CONTACT_HUB",
