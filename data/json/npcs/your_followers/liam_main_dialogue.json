@@ -3,7 +3,7 @@
     "id": [ "TALK_FRIEND_Liam", "TALK_FRIEND_Liam_Abilities", "TALK_Liam_Callsigns" ],
     "type": "talk_topic",
     "dynamic_line": {
-      "is_by_radio": " *pshhhttt* This big turtle, I read you loud and clear, red burrito.",
+      "is_by_radio": " *pshhhttt* This is big turtle, I read you loud and clear, red burrito.",
       "no": { "has_reason": { "use_reason": true }, "no": "So, here we are.  What's up?" }
     },
     "responses": [
@@ -15,6 +15,7 @@
         "effect": "reveal_stats"
       },
       { "text": "There's something I want you to do.", "topic": "TALK_Liam_ORDERS" },
+      { "text": "I'd like your opinion on a job we're doing.", "topic": "TALK_Liam_Opinions" },
       {
         "text": "I just wanted to talk for a bit.",
         "condition": { "and": [ "at_safe_space", { "not": "is_by_radio" } ] },
