@@ -15,7 +15,7 @@
 #include "point.h"
 #include "rng.h"
 
-/*TODO:
+/* TODO:
 check bressenham more throughly: correct default offset
 include interact function in canonical_line_to: start == end, compounding interact
 add canonical_line_through testing: start == end, compounding interact
