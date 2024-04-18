@@ -410,6 +410,28 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zalcarius_brute",
+    "name": { "str_sp": "Fatal Falcarius" },
+    "copy-from": "mon_zalcarius",
+    "description": "The shuffling corpse of a bipedal dinosaur covered with tattered feathers and black, putrid liquid.  Long claws protrude from its hands.  Its entire body bulges with distended muscles and swollen, festering wounds.",
+    "diff": 2,
+    "color": "red",
+    "proportional": { "hp": 1.5, "speed": 1.5 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
+    },
+    "bleed_rate": 50,
+    "upgrades": false,
+    "special_attacks": [ [ "SMASH", 30 ] ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zerizinosaurus_brute",
     "name": { "str_sp": "Thundering Therizinosaurus" },
     "copy-from": "mon_zerizinosaurus",
@@ -2204,6 +2226,26 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zalcarius_shady",
+    "name": { "str": "shady falcarius zombie" },
+    "copy-from": "mon_zeinonychus_shady",
+    "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bipedal dinosaur with feathery edges.  Long claws protrude from its hands.",
+    "upgrades": { "half_life": 15, "into": "mon_zalcarius_nightstalker" },
+    "volume": "100 L",
+    "weight": "100 kg",
+    "speed": 100,
+    "attack_cost": 100,
+    "melee_skill": 3,
+    "melee_dice": 2,
+    "melee_dice_sides": 6,
+    "hp": 120,
+    "special_attacks": [ [ "scratch", 10 ], { "id": "bite_grab" }, { "type": "bite", "cooldown": 10 }, { "id": "longswipe", "cooldown": 40 } ],
+    "burn_into": "mon_zalcarius_scorched",
+    "fungalize_into": "mon_zalcarius_fungus",
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zerizinosaurus_shady",
     "name": { "str": "shady therizinosaurus zombie" },
     "copy-from": "mon_zeinonychus_shady",
@@ -2822,10 +2864,10 @@
   },
   {
     "type": "MONSTER",
-    "id": "mon_zerizinosaurus_nightstalker",
-    "name": { "str_sp": "therizinosaurus nightstalker" },
-    "copy-from": "mon_zerizinosaurus_shady",
-    "looks_like": "mon_zerizinosaurus_shady",
+    "id": "mon_zalcarius_nightstalker",
+    "name": { "str_sp": "falcarius nightstalker" },
+    "copy-from": "mon_zalcarius_shady",
+    "looks_like": "mon_zalcarius_shady",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bulky bipedal dinosaur with feathery edges.  Long  claws protrude from its hands.",
     "diff": 2,
     "proportional": { "hp": 1.5, "speed": 1.5 },
@@ -3264,6 +3306,21 @@
     "speed": 109,
     "attack_cost": 109,
     "extend": { "flags": [ "CLIMBS" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_salcarius",
+    "name": { "str_sp": "skeletal falcarius" },
+    "copy-from": "mon_sallimimus",
+    "description": "Monstrous columns of dense bone lifting a twisted bony beak dripping with black goo.  Long, sharp claws extend from its hands",
+    "volume": "100 L",
+    "weight": "100 kg",
+    "speed": 80,
+    "melee_skill": 3,
+    "melee_dice": 2,
+    "melee_dice_sides": 6,
+    "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
+    "upgrades": { "half_life": 15, "into": "mon_salcarius_brute" }
   },
   {
     "type": "MONSTER",
@@ -5082,6 +5139,52 @@
     "relative": {
       "melee_dice": 1,
       "melee_damage": [ { "damage_type": "stab", "amount": 5 } ],
+      "armor": { "bash": 8, "cut": 15, "bullet": 6 }
+    },
+    "bleed_rate": 0,
+    "special_attacks": [
+      { "id": "smash", "throw_strength": 54 },
+      { "id": "stretch_attack" },
+      { "id": "longswipe" },
+      { "id": "cut_throat" },
+      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 23, "armor_multiplier": 0.8 } ] }
+    ],
+    "volume": "1000 L",
+    "weight": "1000 kg"
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_salcarius_brute",
+    "name": { "str": "skeletal falcarius brute" },
+    "copy-from": "mon_salcarius",
+    "description": "Distorted outgrowths of calcified bone plates cover this dinosaur's rotting flesh, long neck and claws.  Joints and cracks around its body ooze with black goo.",
+    "proportional": { "hp": 5 },
+    "relative": {
+      "melee_dice": -1,
+      "melee_dice_sides": 2,
+      "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
+      "vision_day": 35,
+      "vision_night": 3,
+      "armor": { "bash": 12, "cut": 15, "bullet": 6 }
+    },
+    "bleed_rate": 0,
+    "upgrades": { "half_life": 12, "into": "mon_salcarius_hulk" },
+    "special_attacks": [
+      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
+      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
+    ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_salcarius_hulk",
+    "name": { "str_sp": "skeletal theropod juggernaut" },
+    "copy-from": "mon_salcarius_brute",
+    "description": "This hideous colossus of plated bones and misshapen flesh drags its heavy, pointed limbs behind it.  Already strong and dangerous, bones grew around its form to protect it - only, they kept growing.  The shape and twisting clawed arms suggest some kind of two legged dinosaur.",
+    "diff": 5,
+    "proportional": { "hp": 2.5 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
       "armor": { "bash": 8, "cut": 15, "bullet": 6 }
     },
     "bleed_rate": 0,
