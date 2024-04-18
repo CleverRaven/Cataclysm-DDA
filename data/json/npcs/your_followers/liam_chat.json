@@ -159,39 +159,39 @@
       {
         "text": "Any ideas about this job to clear out the back bay for Smokes?",
         "topic": "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_1",
-        "condition": { "u_has_assigned_mission": "MISSION_FREE_MERCHANTS_EVAC_1" }
+        "condition": { "u_has_mission": "MISSION_FREE_MERCHANTS_EVAC_1" }
       },
       {
         "text": "What do you think about taking down this bandit camp?",
         "topic": "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_2",
-        "condition": { "u_has_assigned_mission": "MISSION_FREE_MERCHANTS_EVAC_2" }
+        "condition": { "u_has_mission": "MISSION_FREE_MERCHANTS_EVAC_2" }
       },
       {
         "text": "Any thoughts about bringing this prospectus out to the ranch?",
         "topic": "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_3",
-        "condition": { "u_has_assigned_mission": "MISSION_FREE_MERCHANTS_EVAC_3" }
+        "condition": { "u_has_mission": "MISSION_FREE_MERCHANTS_EVAC_3" }
       },
       {
         "text": "What do you think about helping these guys clean up all that dead zombie mess?",
         "topic": "TALK_Liam_Opinions_MISSION_REFUGEE_Boris_CLEANUP",
-        "condition": { "u_has_assigned_mission": "MISSION_REFUGEE_Boris_CLEANUP" }
+        "condition": { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" }
       },
       {
         "text": "What're your thoughts on this mission to kill bandits for the old guard?",
         "topic": "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_1",
-        "condition": { "u_has_assigned_mission": "MISSION_OLD_GUARD_REP_1" }
+        "condition": { "u_has_mission": "MISSION_OLD_GUARD_REP_1" }
       },
       {
         "text": "How do you think we should track down this enemy informant?",
         "topic": "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_2",
-        "condition": { "u_has_assigned_mission": "MISSION_OLD_GUARD_REP_2" }
+        "condition": { "u_has_mission": "MISSION_OLD_GUARD_REP_2" }
       },
       {
         "text": "What do you think about these robots?  Crazy stuff, hey?",
         "topic": "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_3-NotMet",
         "condition": {
           "and": [
-            { "u_has_assigned_mission": "MISSION_OLD_GUARD_REP_3" },
+            { "u_has_mission": "MISSION_OLD_GUARD_REP_3" },
             { "not": { "u_has_var": "u_met_Rubik", "type": "general", "context": "meeting", "value": "yes" } }
           ]
         }
@@ -201,7 +201,7 @@
         "topic": "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_3-HasMet",
         "condition": {
           "and": [
-            { "u_has_assigned_mission": "MISSION_OLD_GUARD_REP_3" },
+            { "u_has_mission": "MISSION_OLD_GUARD_REP_3" },
             { "u_has_var": "u_met_Rubik", "type": "general", "context": "meeting", "value": "yes" }
           ]
         }
@@ -209,32 +209,32 @@
       {
         "text": "Do you think it's really a monster hitting those trade caravans?  Any ideas how we should deal with it?",
         "topic": "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_4",
-        "condition": { "u_has_assigned_mission": "MISSION_OLD_GUARD_REP_4" }
+        "condition": { "u_has_mission": "MISSION_OLD_GUARD_REP_4" }
       },
       {
         "text": "So, we're officially assassins for hire now.  How do you feel about that?",
         "topic": "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_5",
-        "condition": { "u_has_assigned_mission": "MISSION_OLD_GUARD_REP_5" }
+        "condition": { "u_has_mission": "MISSION_OLD_GUARD_REP_5" }
       },
       {
         "text": "install repeater in radio tower?",
         "topic": "TALK_Liam_Opinions_MISSION_OLD_GUARD_REPEATER_BEGIN",
-        "condition": { "u_has_assigned_mission": "MISSION_OLD_GUARD_REPEATER_BEGIN" }
+        "condition": { "u_has_mission": "MISSION_OLD_GUARD_REPEATER_BEGIN" }
       },
       {
         "text": "Where do you think we can get some anesthetic for that robot guy?",
         "topic": "TALK_Liam_Opinions_RUBIK_ANUS_FETICK",
-        "condition": { "u_has_assigned_mission": "RUBIK_ANUS_FETICK" }
+        "condition": { "u_has_mission": "RUBIK_ANUS_FETICK" }
       },
       {
         "text": "Any thoughts on this scouting mission, checking out this bunker thing?",
         "topic": "TALK_Liam_Opinions_EXODII_MISSION_CONTACT_HUB",
-        "condition": { "u_has_assigned_mission": "EXODII_MISSION_CONTACT_HUB" }
+        "condition": { "u_has_mission": "EXODII_MISSION_CONTACT_HUB" }
       },
       {
         "text": "How do you think we should start looking for this lost interdimensional building?",
         "topic": "TALK_Liam_Opinions_EXODII_MISSION_WAREHOUSE",
-        "condition": { "u_has_assigned_mission": "EXODII_MISSION_WAREHOUSE" }
+        "condition": { "u_has_mission": "EXODII_MISSION_WAREHOUSE" }
       },
       { "text": "Can we talk about something else?", "topic": "TALK_FRIEND_Liam" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
