@@ -2084,6 +2084,9 @@ static projectile make_gun_projectile( const item &gun )
         proj.critical_multiplier = ammo->critical_multiplier;
         proj.count = ammo->count;
         proj.multi_projectile_effects = ammo->multi_projectile_effects;
+        if( fx.count( "MULTI_EFFECTS" ) ) {
+            proj.multi_projectile_effects = true;
+        }
         proj.shot_spread = ammo->shot_spread * gun.gun_shot_spread_multiplier();
         if( !ammo->drop.is_null() && x_in_y( ammo->drop_chance, 1.0 ) ) {
             item drop( ammo->drop );
