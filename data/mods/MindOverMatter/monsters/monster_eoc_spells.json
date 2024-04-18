@@ -103,8 +103,8 @@
   {
     "id": "null_break_concentration_spell",
     "type": "SPELL",
-    "name": "[Ψ]Disjoiner end powers",
-    "description": "Disjoiner's power that ends concentration.  It's a bug if you have it.",
+    "name": "[Ψ]Breaker end powers",
+    "description": "Breaker's power that ends concentration.  It's a bug if you have it.",
     "valid_targets": [ "self" ],
     "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "effect": "effect_on_condition",
