@@ -15,6 +15,13 @@
 #include "point.h"
 #include "rng.h"
 
+/* TODO:
+check bressenham more throughly: correct default offset
+include interact function in canonical_line_to: start == end, compounding interact
+add canonical_line_through testing: start == end, compounding interact
+add find_line_to testing: odd and even == line_to, compounding interact, offset variations, in bounds, full S-T T-S symetry
+*/
+
 #define SGN(a) ( ( a ) == 0 ? 0 : ( ( a ) < 0 ? -1 : 1 ) )
 // Compare all future line_to implementations to the canonical one.
 static std::vector<point> canonical_line_to( const point &p1, const point &p2, int o )

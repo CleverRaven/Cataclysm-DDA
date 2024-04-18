@@ -141,9 +141,9 @@ std::string direction_suffix( const tripoint &p, const tripoint &q );
  * The actual Bresenham algorithm in 2D and 3D, everything else should call these
  * and pass in an interact functor to iterate across a line between two points.
  */
-void bresenham( const point &p1, const point &p2, int o,
+void bresenham( const point &start, const point &target, int offset,
                 const std::function<bool( const point & )> &interact );
-void bresenham( const tripoint &loc1, const tripoint &loc2, int o, int o2,
+void bresenham( const tripoint &start, const tripoint &target, int offset_middle, int offset_minor,
                 const std::function<bool( const tripoint & )> &interact );
 
 tripoint move_along_line( const tripoint &loc, const std::vector<tripoint> &line,
@@ -162,7 +162,7 @@ std::vector<tripoint> line_to_2( const tripoint &start, const tripoint &target,
                                  const std::function<bool( std::vector<tripoint> & )> &interact = []( std::vector<tripoint> & )
 {
     return true;
-}, int offset1 = 0, int offset2 = 0 );
+}, int offset_middle = 0, int offset_minor = 0 );
 
 std::vector<point> line_through_2( const point &start, const point &target,
                                    const std::function<bool( std::vector<point> & )> &interact = []( std::vector<point> & )
@@ -173,7 +173,7 @@ std::vector<tripoint> line_through_2( const tripoint &start, const tripoint &tar
                                       const std::function<bool( std::vector<tripoint> & )> &interact = []( std::vector<tripoint> & )
 {
     return true;
-}, int offset1 = 0, int offset2 = 0 );
+}, int offset_middle = 0, int offset_minor = 0 );
 
 /**
  * TODO: reword this

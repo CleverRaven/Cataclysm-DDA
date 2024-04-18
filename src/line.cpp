@@ -22,202 +22,487 @@ double iso_tangent( double distance, const units::angle &vertex )
     return tan( vertex / 2 )  * distance * 2;
 }
 
-void bresenham( const point &p1, const point &p2, int o,
+void bresenham( const point &start, const point &target, int offset,
                 const std::function<bool( const point & )> &interact )
 {
-    // The slope components.
-    const point d = p2 - p1;
-    // Signs of slope values.
-    const point s( ( d.x == 0 ) ? 0 : sgn( d.x ), ( d.y == 0 ) ? 0 : sgn( d.y ) );
-    // Absolute values of slopes x2 to avoid rounding errors.
-    const point a = d.abs() * 2;
+    // Relative distances and directions to the target
+    const point delta = target - start;
+    // Single steps towards the target
+    const point s( sgn( delta.x ), sgn( delta.y ) );
+    // Absolute distances to the target. Scaled by 2 since we can't divide odd numbers in half
+    const point a = delta.abs() * 2;
 
-    point cur = p1;
+    const int major = std::max( a.x, a.y );
+    const int minor = std::min( a.x, a.y );
 
-    if( a.x == a.y ) {
-        while( cur.x != p2.x ) {
-            cur.y += s.y;
-            cur.x += s.x;
-            if( !interact( cur ) ) {
-                break;
-            }
-        }
-    } else if( a.x > a.y ) {
-        const int t = a.x / 2 - a.y;
-        while( cur.x != p2.x ) {
-            if( o > t ) {
-                cur.y += s.y;
-                o -= a.x;
-            }
-            cur.x += s.x;
-            o += a.y;
-            if( !interact( cur ) ) {
-                break;
-            }
-        }
-    } else {
-        const int t = a.y / 2 - a.x;
-        while( cur.y != p2.y ) {
-            if( o > t ) {
+    point cur = start;
+
+    if( minor == 0 ) {
+        // One axis
+        if( major == a.x ) {
+            while( cur.x != target.x ) {
                 cur.x += s.x;
-                o -= a.y;
-            }
-            cur.y += s.y;
-            o += a.x;
-            if( !interact( cur ) ) {
-                break;
-            }
-        }
-    }
-}
-
-void bresenham( const tripoint &loc1, const tripoint &loc2, int o, int o2,
-                const std::function<bool( const tripoint & )> &interact )
-{
-    // The slope components.
-    const tripoint d = loc2 - loc1;
-    // The signs of the slopes.
-    const tripoint s( ( d.x == 0 ? 0 : sgn( d.x ) ), ( d.y == 0 ? 0 : sgn( d.y ) ),
-                      ( d.z == 0 ? 0 : sgn( d.z ) ) );
-    // Absolute values of slope components, x2 to avoid rounding errors.
-    const tripoint a = d.abs() * 2;
-
-    tripoint cur = loc1;
-
-    if( a.z == 0 ) {
-        if( a.x == a.y ) {
-            while( cur.x != loc2.x ) {
-                cur.y += s.y;
-                cur.x += s.x;
-                if( !interact( cur ) ) {
-                    break;
-                }
-            }
-        } else if( a.x > a.y ) {
-            const int t = a.x / 2 - a.y;
-            while( cur.x != loc2.x ) {
-                if( o > t ) {
-                    cur.y += s.y;
-                    o -= a.x;
-                }
-                cur.x += s.x;
-                o += a.y;
                 if( !interact( cur ) ) {
                     break;
                 }
             }
         } else {
-            const int t = a.y / 2 - a.x;
-            while( cur.y != loc2.y ) {
-                if( o > t ) {
-                    cur.x += s.x;
-                    o -= a.y;
-                }
+            while( cur.y != target.y ) {
                 cur.y += s.y;
-                o += a.x;
                 if( !interact( cur ) ) {
                     break;
                 }
             }
         }
-    } else { // TODO: the 3d case should iterate over faces, lines, and a point (just project the two minor axis and take the shape they make together, usually a whole face)
-        if( a.x == a.y && a.y == a.z ) {
-            while( cur.x != loc2.x ) {
-                cur.z += s.z;
-                cur.y += s.y;
+    } else {
+        // Two axes
+        if( major == minor ) {
+            // Diagonal
+            while( cur.x != target.x ) {
                 cur.x += s.x;
+                cur.y += s.y;
                 if( !interact( cur ) ) {
                     break;
                 }
             }
-        } else if( ( a.z > a.x ) && ( a.z > a.y ) ) {
-            while( cur.z != loc2.z ) {
-                if( o > 0 ) {
+        } else {
+            // Sloped
+            if( major == a.x ) {
+                const int threshold = a.x / 2 - a.y;
+                while( cur.x != target.x ) {
+                    if( offset > threshold ) {
+                        cur.y += s.y;
+                        offset -= a.x;
+                    }
                     cur.x += s.x;
-                    o -= a.z;
+                    offset += a.y;
+                    if( !interact( cur ) ) {
+                        break;
+                    }
                 }
-                if( o2 > 0 ) {
+            } else {
+                const int threshold = a.y / 2 - a.x;
+                while( cur.y != target.y ) {
+                    if( offset > threshold ) {
+                        cur.x += s.x;
+                        offset -= a.y;
+                    }
                     cur.y += s.y;
-                    o2 -= a.z;
-                }
-                cur.z += s.z;
-                o += a.x;
-                o2 += a.y;
-                if( !interact( cur ) ) {
-                    break;
+                    offset += a.x;
+                    if( !interact( cur ) ) {
+                        break;
+                    }
                 }
             }
-        } else if( a.x == a.y ) {
-            while( cur.x != loc2.x ) {
-                if( o > 0 ) {
-                    cur.z += s.z;
-                    o -= a.x;
-                }
-                cur.y += s.y;
-                cur.x += s.x;
-                o += a.z;
-                if( !interact( cur ) ) {
-                    break;
-                }
-            }
-        } else if( a.x == a.z ) {
-            while( cur.x != loc2.x ) {
-                if( o > 0 ) {
-                    cur.y += s.y;
-                    o -= a.x;
-                }
-                cur.z += s.z;
-                cur.x += s.x;
-                o += a.y;
-                if( !interact( cur ) ) {
-                    break;
-                }
-            }
-        } else if( a.y == a.z ) {
-            while( cur.y != loc2.y ) {
-                if( o > 0 ) {
+        }
+    }
+}
+
+void bresenham( const tripoint &start, const tripoint &target, int offset_middle, int offset_minor,
+                const std::function<bool( const tripoint & )> &interact )
+{
+    // Relative distances and directions to the target
+    const tripoint delta = target - start;
+    // Single steps towards the target
+    const tripoint s( sgn( delta.x ), sgn( delta.y ), sgn( delta.z ) );
+    // Absolute distances to the target. Scaled by 2 since we can't divide odd numbers in half
+    const tripoint a = delta.abs() * 2;
+
+    const int major = std::max( std::max( a.x, a.y ), a.z );
+    const int middle = std::max( std::min( a.x, a.y ), a.z );
+    const int minor = std::min( std::min( a.x, a.y ), a.z );
+
+    tripoint cur = start;
+
+    if( minor == 0 ) {
+        // Two or fewer axes
+        if( middle == 0 ) {
+            // One axis
+            if( major == a.x ) {
+                while( cur.x != target.x ) {
                     cur.x += s.x;
-                    o -= a.z;
+                    if( !interact( cur ) ) {
+                        break;
+                    }
                 }
-                cur.y += s.y;
-                cur.z += s.z;
-                o += a.x;
-                if( !interact( cur ) ) {
-                    break;
-                }
-            }
-        } else if( a.x > a.y ) {
-            while( cur.x != loc2.x ) {
-                if( o > 0 ) {
+            } else if( major == a.y ) {
+                while( cur.y != target.y ) {
                     cur.y += s.y;
-                    o -= a.x;
+                    if( !interact( cur ) ) {
+                        break;
+                    }
                 }
-                if( o2 > 0 ) {
+            } else {
+                while( cur.z != target.z ) {
                     cur.z += s.z;
-                    o2 -= a.x;
-                }
-                cur.x += s.x;
-                o += a.y;
-                o2 += a.z;
-                if( !interact( cur ) ) {
-                    break;
+                    if( !interact( cur ) ) {
+                        break;
+                    }
                 }
             }
-        } else { //dy > dx >= dz
-            while( cur.y != loc2.y ) {
-                if( o > 0 ) {
+        } else {
+            // Two axes
+            if( major == middle ) {
+                // Diagonal on the one plane
+                if( minor == a.x ) {
+                    while( cur.y != target.y ) {
+                        cur.y += s.y;
+                        cur.z += s.z;
+                        if( !interact( cur ) ) {
+                            break;
+                        }
+                    }
+                } else if( minor == a.y ) {
+                    while( cur.z != target.z ) {
+                        cur.z += s.z;
+                        cur.x += s.x;
+                        if( !interact( cur ) ) {
+                            break;
+                        }
+                    }
+                } else {
+                    while( cur.x != target.x ) {
+                        cur.x += s.x;
+                        cur.y += s.y;
+                        if( !interact( cur ) ) {
+                            break;
+                        }
+                    }
+                }
+            } else {
+                // Sloped on the one plane
+                if( minor == a.x ) {
+                    if( major == a.y ) {
+                        const int threshold = a.y / 2 - a.z;
+                        while( cur.y != target.y ) {
+                            if( offset_middle > threshold ) {
+                                cur.z += s.z;
+                                offset_middle -= a.y;
+                            }
+                            cur.y += s.y;
+                            offset_middle += a.z;
+                            if( !interact( cur ) ) {
+                                break;
+                            }
+                        }
+                    } else {
+                        const int threshold = a.z / 2 - a.y;
+                        while( cur.z != target.z ) {
+                            if( offset_middle > threshold ) {
+                                cur.y += s.y;
+                                offset_middle -= a.z;
+                            }
+                            cur.z += s.z;
+                            offset_middle += a.y;
+                            if( !interact( cur ) ) {
+                                break;
+                            }
+                        }
+                    }
+                } else if( minor == a.y ) {
+                    if( major == a.z ) {
+                        const int threshold = a.z / 2 - a.x;
+                        while( cur.z != target.z ) {
+                            if( offset_middle > threshold ) {
+                                cur.x += s.x;
+                                offset_middle -= a.z;
+                            }
+                            cur.z += s.z;
+                            offset_middle += a.x;
+                            if( !interact( cur ) ) {
+                                break;
+                            }
+                        }
+                    } else {
+                        const int threshold = a.x / 2 - a.z;
+                        while( cur.x != target.x ) {
+                            if( offset_middle > threshold ) {
+                                cur.z += s.z;
+                                offset_middle -= a.x;
+                            }
+                            cur.x += s.x;
+                            offset_middle += a.z;
+                            if( !interact( cur ) ) {
+                                break;
+                            }
+                        }
+                    }
+                } else {
+                    if( major == a.x ) {
+                        const int threshold = a.x / 2 - a.y;
+                        while( cur.x != target.x ) {
+                            if( offset_middle > threshold ) {
+                                cur.y += s.y;
+                                offset_middle -= a.x;
+                            }
+                            cur.x += s.x;
+                            offset_middle += a.y;
+                            if( !interact( cur ) ) {
+                                break;
+                            }
+                        }
+                    } else {
+                        const int threshold = a.y / 2 - a.x;
+                        while( cur.y != target.y ) {
+                            if( offset_middle > threshold ) {
+                                cur.x += s.x;
+                                offset_middle -= a.y;
+                            }
+                            cur.y += s.y;
+                            offset_middle += a.x;
+                            if( !interact( cur ) ) {
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    } else {
+        // Three axes
+        if( major == middle ) {
+            // Diagonal on at least the minor-orthogonal plane
+            if( middle == minor ) {
+                // Diagonal on all three planes
+                while( cur.x != target.x ) {
                     cur.x += s.x;
-                    o -= a.y;
-                }
-                if( o2 > 0 ) {
+                    cur.y += s.y;
                     cur.z += s.z;
-                    o2 -= a.y;
+                    if( !interact( cur ) ) {
+                        break;
+                    }
                 }
-                cur.y += s.y;
-                o += a.x;
-                o2 += a.z;
-                if( !interact( cur ) ) {
-                    break;
+            } else {
+                // Diagonal on the minor-orthogonal plane and sloped on the other two
+                if( minor == a.x ) {
+                    const int threshold = a.y / 2 - a.x;
+                    while( cur.y != target.y ) {
+                        if( offset_minor > threshold ) {
+                            cur.x += s.x;
+                            offset_minor -= a.y;
+                        }
+                        cur.y += s.y;
+                        cur.z += s.z;
+                        offset_minor += a.x;
+                        if( !interact( cur ) ) {
+                            break;
+                        }
+                    }
+                } else if( minor == a.y ) {
+                    const int threshold = a.z / 2 - a.y;
+                    while( cur.z != target.z ) {
+                        if( offset_minor > threshold ) {
+                            cur.y += s.y;
+                            offset_minor -= a.z;
+                        }
+                        cur.z += s.z;
+                        cur.x += s.x;
+                        offset_minor += a.y;
+                        if( !interact( cur ) ) {
+                            break;
+                        }
+                    }
+                } else {
+                    const int threshold = a.x / 2 - a.z;
+                    while( cur.x != target.x ) {
+                        if( offset_minor > threshold ) {
+                            cur.z += s.z;
+                            offset_minor -= a.x;
+                        }
+                        cur.x += s.x;
+                        cur.y += s.y;
+                        offset_minor += a.z;
+                        if( !interact( cur ) ) {
+                            break;
+                        }
+                    }
+                }
+            }
+        } else {
+            // Sloped on at least the minor-orthogonal plane
+            if( middle == minor ) {
+                // Diagonal on the major-orthogonal plane and sloped on the other two
+                // These are equivalent to the sloped on all planes ones but I'm including them for completeness
+                if( major == a.x ) {
+                    const int threshold_middle = a.x / 2 - a.y;
+                    const int threshold_minor = a.x / 2 - a.z;
+                    while( cur.x != target.x ) {
+                        if( offset_middle > threshold_middle ) {
+                            cur.y += s.y;
+                            offset_middle -= a.x;
+                        }
+                        if( offset_minor > threshold_minor ) {
+                            cur.z += s.z;
+                            offset_minor -= a.x;
+                        }
+                        cur.x += s.x;
+                        offset_middle += a.y;
+                        offset_minor += a.z;
+                        if( !interact( cur ) ) {
+                            break;
+                        }
+                    }
+                } else if( major == a.y ) {
+                    const int threshold_middle = a.y / 2 - a.z;
+                    const int threshold_minor = a.y / 2 - a.x;
+                    while( cur.y != target.y ) {
+                        if( offset_middle > threshold_middle ) {
+                            cur.z += s.z;
+                            offset_middle -= a.y;
+                        }
+                        if( offset_minor > threshold_minor ) {
+                            cur.x += s.x;
+                            offset_minor -= a.y;
+                        }
+                        cur.y += s.y;
+                        offset_middle += a.z;
+                        offset_minor += a.x;
+                        if( !interact( cur ) ) {
+                            break;
+                        }
+                    }
+                } else {
+                    const int threshold_middle = a.z / 2 - a.x;
+                    const int threshold_minor = a.z / 2 - a.y;
+                    while( cur.z != target.z ) {
+                        if( offset_middle > threshold_middle ) {
+                            cur.x += s.x;
+                            offset_middle -= a.z;
+                        }
+                        if( offset_minor > threshold_middle ) {
+                            cur.y += s.y;
+                            offset_minor -= a.z;
+                        }
+                        cur.z += s.z;
+                        offset_middle += a.x;
+                        offset_minor += a.y;
+                        if( !interact( cur ) ) {
+                            break;
+                        }
+                    }
+                }
+            } else {
+                // Sloped on all three planes
+                if( major == a.x ) {
+                    if( middle == a.y ) {
+                        const int threshold_middle = a.x / 2 - a.y;
+                        const int threshold_minor = a.x / 2 - a.z;
+                        while( cur.x != target.x ) {
+                            if( offset_middle > threshold_middle ) {
+                                cur.y += s.y;
+                                offset_middle -= a.x;
+                            }
+                            if( offset_minor > threshold_minor ) {
+                                cur.z += s.z;
+                                offset_minor -= a.x;
+                            }
+                            cur.x += s.x;
+                            offset_middle += a.y;
+                            offset_minor += a.z;
+                            if( !interact( cur ) ) {
+                                break;
+                            }
+                        }
+                    } else {
+                        const int threshold_middle = a.x / 2 - a.z;
+                        const int threshold_minor = a.x / 2 - a.y;
+                        while( cur.x != target.x ) {
+                            if( offset_middle > threshold_middle ) {
+                                cur.z += s.z;
+                                offset_middle -= a.x;
+                            }
+                            if( offset_minor > threshold_minor ) {
+                                cur.y += s.y;
+                                offset_minor -= a.x;
+                            }
+                            cur.x += s.x;
+                            offset_middle += a.z;
+                            offset_minor += a.y;
+                            if( !interact( cur ) ) {
+                                break;
+                            }
+                        }
+                    }
+                } else if( major == a.y ) {
+                    if( middle == a.z ) {
+                        const int threshold_middle = a.y / 2 - a.z;
+                        const int threshold_minor = a.y / 2 - a.x;
+                        while( cur.y != target.y ) {
+                            if( offset_middle > threshold_middle ) {
+                                cur.z += s.z;
+                                offset_middle -= a.y;
+                            }
+                            if( offset_minor > threshold_minor ) {
+                                cur.x += s.x;
+                                offset_minor -= a.y;
+                            }
+                            cur.y += s.y;
+                            offset_middle += a.z;
+                            offset_minor += a.x;
+                            if( !interact( cur ) ) {
+                                break;
+                            }
+                        }
+                    } else {
+                        const int threshold_middle = a.y / 2 - a.x;
+                        const int threshold_minor = a.y / 2 - a.z;
+                        while( cur.y != target.y ) {
+                            if( offset_middle > threshold_middle ) {
+                                cur.x += s.x;
+                                offset_middle -= a.y;
+                            }
+                            if( offset_minor > threshold_minor ) {
+                                cur.z += s.z;
+                                offset_minor -= a.y;
+                            }
+                            cur.y += s.y;
+                            offset_middle += a.x;
+                            offset_minor += a.z;
+                            if( !interact( cur ) ) {
+                                break;
+                            }
+                        }
+                    }
+                } else {
+                    if( middle == a.x ) {
+                        const int threshold_middle = a.z / 2 - a.x;
+                        const int threshold_minor = a.z / 2 - a.y;
+                        while( cur.z != target.z ) {
+                            if( offset_middle > threshold_middle ) {
+                                cur.x += s.x;
+                                offset_middle -= a.z;
+                            }
+                            if( offset_minor > threshold_middle ) {
+                                cur.y += s.y;
+                                offset_minor -= a.z;
+                            }
+                            cur.z += s.z;
+                            offset_middle += a.x;
+                            offset_minor += a.y;
+                            if( !interact( cur ) ) {
+                                break;
+                            }
+                        }
+                    } else {
+                        const int threshold_middle = a.z / 2 - a.y;
+                        const int threshold_minor = a.z / 2 - a.x;
+                        while( cur.z != target.z ) {
+                            if( offset_middle > threshold_middle ) {
+                                cur.y += s.y;
+                                offset_middle -= a.z;
+                            }
+                            if( offset_minor > threshold_middle ) {
+                                cur.x += s.x;
+                                offset_minor -= a.z;
+                            }
+                            cur.z += s.z;
+                            offset_middle += a.y;
+                            offset_minor += a.x;
+                            if( !interact( cur ) ) {
+                                break;
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -280,14 +565,15 @@ std::vector<point> line_to_2( const point &start, const point &target,
 
 std::vector<tripoint> line_to_2( const tripoint &start, const tripoint &target,
                                  const std::function<bool( std::vector<tripoint> & )> &interact,
-                                 const int offset1, const int offset2 )
+                                 const int offset_middle, const int offset_minor )
 {
     std::vector<tripoint> new_line;
     // Preallocate the max number of tiles we might need instead of allocating them piecewise.
     const int max_tiles = square_dist( start, target );
     if( max_tiles != 0 ) {
         new_line.reserve( max_tiles );
-        bresenham( start, target, offset1, offset2, [&new_line, &interact]( const tripoint & new_point ) {
+        bresenham( start, target, offset_middle, offset_minor,
+        [&new_line, &interact]( const tripoint & new_point ) {
             new_line.push_back( new_point );
             return interact( new_line );
         } );
@@ -315,7 +601,7 @@ std::vector<point> line_through_2( const point &start, const point &target,
 
 std::vector<tripoint> line_through_2( const tripoint &start, const tripoint &target,
                                       const std::function<bool( std::vector<tripoint> & )> &interact,
-                                      const int offset1, const int offset2 )
+                                      const int offset_middle, const int offset_minor )
 {
     std::vector<tripoint> new_line;
     // Preallocate the max number of tiles we might need instead of allocating them piecewise.
@@ -324,7 +610,8 @@ std::vector<tripoint> line_through_2( const tripoint &start, const tripoint &tar
     if( !interact( new_line ) ) {
         return new_line;
     }
-    bresenham( start, target, offset1, offset2, [&new_line, &interact]( const tripoint & new_point ) {
+    bresenham( start, target, offset_middle, offset_minor,
+    [&new_line, &interact]( const tripoint & new_point ) {
         new_line.push_back( new_point );
         return interact( new_line );
     } );
