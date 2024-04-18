@@ -49,6 +49,7 @@
 #include "npc.h"
 #include "options.h"
 #include "output.h"
+#include "overmap.h"
 #include "player_activity.h"
 #include "point.h"
 #include "requirements.h"
