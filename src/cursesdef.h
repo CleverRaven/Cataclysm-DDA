@@ -41,6 +41,8 @@ namespace catacurses
 /// and abort the program. Only continue the program when this returned normally.
 void init_interface();
 
+class mission_ui;
+
 /**
  * A wrapper over a pointer to a curses window.
  * All curses functions here receive/return and operate on such a @ref window.
@@ -53,6 +55,7 @@ void init_interface();
  */
 class window
 {
+        friend class mission_ui;
     private:
         std::shared_ptr<void> native_window;
 

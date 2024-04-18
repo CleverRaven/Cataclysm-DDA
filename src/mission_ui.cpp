@@ -17,9 +17,164 @@
 #include "translations.h"
 #include "ui.h"
 #include "ui_manager.h"
+#include "cata_imgui.h"
+#include "imgui/imgui.h"
+
+class mission_ui;
+
+class mission_ui
+{
+        friend class mission_ui_impl;
+    public:
+        void draw_mission_ui();
+};
+
+class mission_ui_impl : public cataimgui::window
+{
+        mission_ui &parent;
+    public:
+        std::string last_action;
+        explicit mission_ui_impl( mission_ui &parent ) : cataimgui::window( _( "Your missions" ),
+                    ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoNav ),
+            parent( parent ) {
+        }
+
+    private:
+        void draw_mission_names( std::vector<mission *> missions, int &selected_mission );
+        void draw_selected_description( std::vector<mission *> missions, int &selected_mission );
+
+    protected:
+        void draw_controls() override;
+};
+
+void mission_ui::draw_mission_ui()
+{
+    input_context ctxt;
+    mission_ui_impl p_impl( *this );
+
+    ctxt.register_navigate_ui_list();
+    ctxt.register_leftright();
+    ctxt.register_action( "NEXT_TAB" );
+    ctxt.register_action( "PREV_TAB" );
+    ctxt.register_action( "SELECT" );
+    ctxt.register_action( "MOUSE_MOVE" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "QUIT" );
+
+    while( true ) {
+        ui_manager::redraw_invalidated();
+
+
+        p_impl.last_action = ctxt.handle_input();
+
+        if( p_impl.last_action == "QUIT" ) {
+            break;
+        }
+    }
+}
+
+void mission_ui_impl::draw_controls()
+{
+    std::vector<mission *> umissions;
+
+    static int selected_mission = 0;
+
+    if( last_action == "QUIT" ) {
+        return;
+    } else if( last_action == "UP" ) {
+        ImGui::SetKeyboardFocusHere( -1 );
+        selected_mission--;
+    } else if( last_action == "DOWN" ) {
+        ImGui::SetKeyboardFocusHere( 1 );
+        selected_mission++;
+    } else if( last_action == "NEXT_TAB" || last_action == "RIGHT" ) {
+        selected_mission = 0;
+        //tab++
+    } else if( last_action == "PREV_TAB" || last_action == "LEFT" ) {
+        selected_mission = 0;
+        //switch_tab--;
+    }
+
+    if( ImGui::BeginTabBar( "##TAB_BAR" ) ) {
+        if( ImGui::BeginTabItem( _( "ACTIVE" ) ) ) {
+            umissions = get_avatar().get_active_missions();
+            ImGui::EndTabItem();
+        }
+        if( ImGui::BeginTabItem( _( "COMPLETED" ) ) ) {
+            umissions = get_avatar().get_completed_missions();
+            ImGui::EndTabItem();
+        }
+        if( ImGui::BeginTabItem( _( "FAILED" ) ) ) {
+            umissions = get_avatar().get_failed_missions();
+            ImGui::EndTabItem();
+        }
+        ImGui::Separator();
+        ImGui::EndTabBar();
+    }
+
+    if( selected_mission < 0 ) {
+        selected_mission = 0;
+    }
+
+    if( selected_mission > umissions.size() - 1 ) {
+        selected_mission = umissions.size() - 1;
+    }
+
+    if( umissions.empty() ) {
+        ImGui::Text( _( "No missions!" ) );
+        return;
+    }
+
+    // All window sizes are currently static values until I've finished building the thing.
+    if( ImGui::BeginTable( "##MISSION_TABLE", 2, ImGuiTableFlags_None, ImVec2( 900.0f, 500.f ) ) ) {
+        ImGui::TableSetupColumn( _( "Missions" ), ImGuiTableColumnFlags_WidthFixed, 300.0f );
+        ImGui::TableSetupColumn( _( "Description" ), ImGuiTableColumnFlags_WidthFixed, 600.0f );
+        ImGui::TableHeadersRow();
+        ImGui::TableNextColumn();
+        draw_mission_names( umissions, selected_mission );
+        ImGui::TableNextColumn();
+        draw_selected_description( umissions, selected_mission );
+        ImGui::EndTable();
+    }
+}
+
+void mission_ui_impl::draw_mission_names( std::vector<mission *> missions, int &selected_mission )
+{
+    const int num_missions = missions.size();
+    if( ImGui::BeginListBox( "##LISTBOX", ImVec2( 300.0f, 300.0f ) ) ) {
+        for( int i = 0; i < num_missions; i++ ) {
+            const bool is_selected = ( selected_mission == i );
+            if( ImGui::Selectable( missions[i]->name().c_str(), is_selected ) ) {
+                selected_mission = i;
+            }
+
+            if( is_selected ) {
+                ImGui::SetScrollHereY();
+                ImGui::SetItemDefaultFocus();
+            }
+        }
+        ImGui::EndListBox();
+    }
+}
+
+void mission_ui_impl::draw_selected_description( std::vector<mission *> missions,
+        int &selected_mission )
+{
+    ImGui::Text( _( "Mission:" ) );
+    ImGui::SameLine();
+    ImGui::TextWrapped( missions[selected_mission]->name().c_str() );
+    ImGui::Separator();
+    ImGui::TextWrapped( missions[selected_mission]->get_description().c_str() );
+}
 
 void game::list_missions()
 {
+
+    mission_ui new_instance;
+
+    new_instance.draw_mission_ui();
+    return;
+
     constexpr int MAX_CHARS_PER_MISSION_ROW_NAME{ 38 };
 
     catacurses::window w_missions;
