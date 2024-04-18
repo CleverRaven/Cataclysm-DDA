@@ -407,13 +407,20 @@
     "type": "talk_topic",
     "id": "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_5",
     "dynamic_line": "I dunno,\" he points to your Marshal badge.  \"I guess if they give you a shiny bit of metal you're not really an assassin for hire anymore, you're the law.  Judge, jury, and executioner.\"  He scratches his neck and looks away for a moment.  \"You know how I feel about all these high risk missions, but we've gotten this far.  It's different now than when we started out.  I don't think you need my advice, you know I'll have your back whatever happens.",
-    "responses": [ { "text": "I might not need it, but I still like to hear it.  I'd like your opinion on something else, anyway.", "topic": "TALK_Liam_Opinions" } ]
+    "responses": [
+      {
+        "text": "I might not need it, but I still like to hear it.  I'd like your opinion on something else, anyway.",
+        "topic": "TALK_Liam_Opinions"
+      }
+    ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_Liam_Opinions_MISSION_OLD_GUARD_REPEATER_BEGIN",
     "dynamic_line": "Honestly my friend, this is the kinda stuff I hoped we'd be doing when we offered to help these guys out.  Fresh air, great views, climbing on things we'd have gotten in trouble for in the old days, maybe pushing a zombie off the edge of a maintenance platform to see how big a splat it leaves at the bottom.  Sounds wicked.  Let's bring a couple cold ones up to the top and crack a brew while we survey the wasteland, hey?",
-    "responses": [ { "text": "Sounds like a great idea.  I'd like your opinion on something else, though.", "topic": "TALK_Liam_Opinions" } ]
+    "responses": [
+      { "text": "Sounds like a great idea.  I'd like your opinion on something else, though.", "topic": "TALK_Liam_Opinions" }
+    ]
   },
   {
     "type": "talk_topic",
