@@ -5894,6 +5894,36 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
     }
 
+    if( is_compostable() ) {
+        const item &composted = *this;
+        if( parts->test( iteminfo_parts::DESCRIPTION_COMPOSTABLE_DURATION ) ) {
+            const time_duration btime = composted.composting_time();
+            int btime_i = to_days<int>( btime );
+            if( btime <= 2_days ) {
+                btime_i = to_hours<int>( btime );
+                info.emplace_back( "DESCRIPTION",
+                                   string_format( n_gettext( "* Once set in an anaerobic digester, this "
+                                                  "will ferment in around %d hour.",
+                                                  "* Once set in an anaerobic digester, this will ferment in "
+                                                  "around %d hours.", btime_i ), btime_i ) );
+            } else {
+                info.emplace_back( "DESCRIPTION",
+                                   string_format( n_gettext( "* Once set in an anaerobic digester, this "
+                                                  "will ferment in around %d day.",
+                                                  "* Once set in an anaerobic digester, this will ferment in "
+                                                  "around %d days.", btime_i ), btime_i ) );
+            }
+        }
+        if( parts->test( iteminfo_parts::DESCRIPTION_COMPOSTABLE_PRODUCTS ) ) {
+            for( const std::pair<const itype_id, int> &res : composted.composting_results() ) {
+                info.emplace_back( "DESCRIPTION",
+                                   string_format( _( "* Fermenting this will produce "
+                                                     "<neutral>%s</neutral>." ),
+                                                  res.first->nname( res.second ) ) );
+            }
+        }
+    }
+
     if( parts->test( iteminfo_parts::DESCRIPTION_FAULTS ) ) {
         for( const fault_id &e : faults ) {
             //~ %1$s is the name of a fault and %2$s is the description of the fault
@@ -8481,6 +8511,17 @@ const std::map<itype_id, int> &item::brewing_results() const
     return is_brewable() ? type->brewable->results : nulresult;
 }
 
+time_duration item::composting_time() const
+{
+    return is_compostable() ? type->compostable->time * calendar::season_from_default_ratio() : 0_turns;
+}
+
+const std::map<itype_id, int> &item::composting_results() const
+{
+    static const std::map<itype_id, int> nulresult{};
+    return is_compostable() ? type->compostable->results : nulresult;
+}
+
 bool item::can_revive() const
 {
     return is_corpse() && ( corpse->has_flag( mon_flag_REVIVES ) || has_var( "zombie_form" ) ) &&
@@ -9462,6 +9503,11 @@ bool item::is_medical_tool() const
 bool item::is_brewable() const
 {
     return !!type->brewable;
+}
+
+bool item::is_compostable() const
+{
+    return !!type->compostable;
 }
 
 bool item::is_food_container() const

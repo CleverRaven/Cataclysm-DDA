@@ -1147,6 +1147,11 @@ class item : public visitable
         /** The results of fermenting this item. */
         const std::map<itype_id, int> &brewing_results() const;
 
+        /** Time for this item to be fully fermented. */
+        time_duration composting_time() const;
+        /** The results of fermenting this item. */
+        const std::map<itype_id, int> &composting_results() const;
+
         /**
          * Detonates the item and adds remains (if any) to drops.
          * Returns true if the item actually detonated,
@@ -1626,6 +1631,7 @@ class item : public visitable
         bool is_bucket_nonempty() const;
 
         bool is_brewable() const;
+        bool is_compostable() const;
         bool is_engine() const;
         bool is_wheel() const;
         bool is_fuel() const;

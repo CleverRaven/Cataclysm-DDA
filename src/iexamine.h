@@ -122,6 +122,8 @@ void autoclave_full( Character &, const tripoint &examp );
 void fireplace( Character &you, const tripoint &examp );
 void fvat_empty( Character &you, const tripoint &examp );
 void fvat_full( Character &you, const tripoint &examp );
+void compost_empty( Character &you, const tripoint &examp );
+void compost_full( Character &you, const tripoint &examp );
 void keg( Character &you, const tripoint &examp );
 void reload_furniture( Character &you, const tripoint &examp );
 void curtains( Character &you, const tripoint &examp );
