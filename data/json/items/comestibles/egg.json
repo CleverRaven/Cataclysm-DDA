@@ -3,13 +3,13 @@
     "type": "COMESTIBLE",
     "id": "egg_bird",
     "name": { "str": "bird egg" },
-    "weight": "55 g",
+    "weight": "50 g",
     "color": "brown",
     "spoils_in": "7 days",
     "comestible_type": "FOOD",
     "symbol": "o",
     "quench": 4,
-    "calories": 80,
+    "calories": 71,
     "description": "A nutritious egg laid by a bird.",
     "price": 44,
     "price_postapoc": 50,
@@ -18,7 +18,7 @@
     "fun": -8,
     "flags": [ "FREEZERBURN", "RAW" ],
     "rot_spawn": "GROUP_EGG_BIRD_WILD",
-    "vitamins": [ [ "calcium", 3 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "iron", "900 μg" ], [ "calcium", "28 mg" ] ],
     "rot_spawn_chance": 50
   },
   {
@@ -50,7 +50,7 @@
     "id": "egg_pigeon",
     "name": { "str": "pigeon egg" },
     "copy-from": "egg_chicken",
-    "proportional": { "volume": 0.27, "weight": 0.27, "calories": 0.27 },
+    "proportional": { "volume": 0.3, "weight": 0.3, "calories": 0.3 },
     "rot_spawn": "GROUP_EGG_PIGEON"
   },
   {
@@ -58,7 +58,7 @@
     "id": "egg_crow",
     "name": { "str": "American crow egg" },
     "copy-from": "egg_chicken",
-    "proportional": { "volume": 0.31, "weight": 0.31, "calories": 0.31 },
+    "proportional": { "volume": 0.34, "weight": 0.34, "calories": 0.34 },
     "rot_spawn": "GROUP_EGG_CROW"
   },
   {
@@ -73,7 +73,7 @@
     "id": "egg_bluejay",
     "name": { "str": "blue jay egg" },
     "copy-from": "egg_chicken",
-    "proportional": { "volume": 0.15, "weight": 0.15, "calories": 0.15 },
+    "proportional": { "volume": 0.18, "weight": 0.18, "calories": 0.18 },
     "rot_spawn": "GROUP_EGG_BLUEJAY"
   },
   {
@@ -81,7 +81,7 @@
     "id": "egg_cardinal",
     "name": { "str": "cardinal egg" },
     "copy-from": "egg_chicken",
-    "proportional": { "volume": 0.08, "weight": 0.08, "calories": 0.08 },
+    "proportional": { "volume": 0.09, "weight": 0.09, "calories": 0.09 },
     "rot_spawn": "GROUP_EGG_CARDINAL"
   },
   {
@@ -91,7 +91,7 @@
     "copy-from": "egg_chicken",
     "description": "A nutritious egg laid by a robin.  The shell is colored a distinctive light blue.",
     "color": "light_blue",
-    "proportional": { "volume": 0.14, "weight": 0.14, "calories": 0.14 },
+    "proportional": { "volume": 0.15, "weight": 0.15, "calories": 0.15 },
     "rot_spawn": "GROUP_EGG_ROBIN"
   },
   {
@@ -99,7 +99,7 @@
     "id": "egg_sparrow",
     "name": { "str": "sparrow egg" },
     "copy-from": "egg_chicken",
-    "proportional": { "volume": 0.05, "weight": 0.05, "calories": 0.05 },
+    "proportional": { "volume": 0.06, "weight": 0.06, "calories": 0.06 },
     "rot_spawn": "GROUP_EGG_SPARROW"
   },
   {
@@ -107,7 +107,7 @@
     "id": "egg_chickadee",
     "name": { "str": "black-capped chickadee egg" },
     "copy-from": "egg_chicken",
-    "proportional": { "volume": 0.02, "weight": 0.02, "calories": 0.02 },
+    "proportional": { "volume": 0.03, "weight": 0.03, "calories": 0.03 },
     "rot_spawn": "GROUP_EGG_CHICKADEE"
   },
   {
@@ -115,7 +115,7 @@
     "id": "egg_waxwing",
     "name": { "str": "cedar waxwing egg" },
     "copy-from": "egg_chicken",
-    "proportional": { "volume": 0.05, "weight": 0.05, "calories": 0.05 },
+    "proportional": { "volume": 0.06, "weight": 0.06, "calories": 0.06 },
     "rot_spawn": "GROUP_EGG_WAXWING"
   },
   {
