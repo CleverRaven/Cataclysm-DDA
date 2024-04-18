@@ -259,7 +259,8 @@
     "effect_str": "emit_smoke_stream",
     "shape": "blast",
     "min_duration": 700,
-    "max_duration": 700
+    "max_duration": 700,
+    "extra_effects": [ { "min_level": 1, "hit_self": true } ]
   },
   {
     "type": "SPELL",
