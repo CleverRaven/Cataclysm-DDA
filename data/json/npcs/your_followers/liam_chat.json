@@ -172,6 +172,11 @@
         "condition": { "u_has_assigned_mission": "MISSION_FREE_MERCHANTS_EVAC_3" }
       },
       {
+        "text": "What do you think about helping these guys clean up all that dead zombie mess?",
+        "topic": "TALK_Liam_Opinions_MISSION_REFUGEE_Boris_CLEANUP",
+        "condition": { "u_has_assigned_mission": "MISSION_REFUGEE_Boris_CLEANUP" }
+      },
+      {
         "text": "Where do you think we can get some anesthetic for that robot guy?",
         "topic": "TALK_Liam_Opinions_RUBIK_ANUS_FETICK",
         "condition": { "u_has_assigned_mission": "RUBIK_ANUS_FETICK" }
@@ -235,6 +240,18 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_REFUGEE_Boris_CLEANUP",
+    "dynamic_line": ""I guess I get why the one Boris guy can't do it but I don't quite see why we have to go around asking everyone for him.  He lives here!  Anyway, you know I'm okay with getting my hands dirty, if you want to go offer to help him out I'll get busy with a scrubby.  I've cleaned worse things out of the Foodplace washroom.  Hell, I've cleaned worse things out of the back of my van when I was running for Amazon.\"  He gets a thousand-yard-stare for a moment.  \"Let's not discuss this any more.",
+    "responses": [
+      {
+        "//": "Liam can't really count as a volunteer for this job but we could consider having the job go faster if you can't find enough local helpers and Liam is with you.",
+        "text": "Thanks Liam, I knew I could count on you.",
+        "topic": "TALK_Liam_Opinions"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_Liam_Opinions_RUBIK_ANUS_FETICK",
     "dynamic_line": "I just like, wanna back up a second.  We're trying to score drugs for a cyborg so it can do surgery on you?  That's really where life's taking us, now?",
     "responses": [
@@ -268,6 +285,7 @@
       "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_2",
       "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_2-1",
       "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_3",
+      "TALK_Liam_Opinions_MISSION_REFUGEE_Boris_CLEANUP",
       "TALK_Liam_Opinions_RUBIK_ANUS_FETICK-1",
       "TALK_Liam_Opinions_EXODII_MISSION_CONTACT_HUB",
       "TALK_Liam_Opinions_EXODII_MISSION_WAREHOUSE"
