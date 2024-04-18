@@ -177,6 +177,36 @@
         "condition": { "u_has_assigned_mission": "MISSION_REFUGEE_Boris_CLEANUP" }
       },
       {
+        "text": "What're your thoughts on this mission to kill bandits for the old guard?",
+        "topic": "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_1",
+        "condition": { "u_has_assigned_mission": "MISSION_OLD_GUARD_REP_1" }
+      },
+      {
+        "text": "Deal with Informant?",
+        "topic": "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_2",
+        "condition": { "u_has_assigned_mission": "MISSION_OLD_GUARD_REP_2" }
+      },
+      {
+        "text": "Find exodii?",
+        "topic": "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_3",
+        "condition": { "u_has_assigned_mission": "MISSION_OLD_GUARD_REP_3" }
+      },
+      {
+        "text": "Secure trade route kill monster?",
+        "topic": "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_4",
+        "condition": { "u_has_assigned_mission": "MISSION_OLD_GUARD_REP_4" }
+      },
+      {
+        "text": "Assassinate raider leader?",
+        "topic": "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_5",
+        "condition": { "u_has_assigned_mission": "MISSION_OLD_GUARD_REP_5" }
+      },
+      {
+        "text": "install repeater in radio tower?",
+        "topic": "TALK_Liam_Opinions_MISSION_OLD_GUARD_REPEATER_BEGIN",
+        "condition": { "u_has_assigned_mission": "MISSION_OLD_GUARD_REPEATER_BEGIN" }
+      },
+      {
         "text": "Where do you think we can get some anesthetic for that robot guy?",
         "topic": "TALK_Liam_Opinions_RUBIK_ANUS_FETICK",
         "condition": { "u_has_assigned_mission": "RUBIK_ANUS_FETICK" }
@@ -242,10 +272,93 @@
     "type": "talk_topic",
     "id": "TALK_Liam_Opinions_MISSION_REFUGEE_Boris_CLEANUP",
     "dynamic_line": "I guess I get why the one Boris guy can't do it but I don't quite see why we have to go around asking everyone for him.  He lives here!  Anyway, you know I'm okay with getting my hands dirty, if you want to go offer to help him out I'll get busy with a scrubby.  I've cleaned worse things out of the Foodplace washroom.  Hell, I've cleaned worse things out of the back of my van when I was running for Amazon.\"  He gets a thousand-yard-stare for a moment.  \"Let's not discuss this any more.",
+    "speaker_effect": {
+      "effect": [
+        { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" },
+        { "math": [ "u_mission_cleanup_promises_Boris_mission_1", "+=", "1" ] }
+      ]
+    },
     "responses": [
       {
-        "//": "Liam can't really count as a volunteer for this job but we could consider having the job go faster if you can't find enough local helpers and Liam is with you.",
+        "//": "It's a bit weird that Liam doesn't leave your party, if you ask four other people and he goes to help, but no big deal I think.  Ideally this should be coded so that he only helps out if you also do, and he shortens the time, but I'm trying to make some quick improvements here, not write a bunch of EoC.",
         "text": "Thanks Liam, I knew I could count on you.",
+        "topic": "TALK_Liam_Opinions",
+        "effect": [
+          { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" },
+          { "math": [ "u_mission_cleanup_promises_Boris_mission_1", "+=", "1" ] }
+        ],
+        "condition": { "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" } }
+      },
+      {
+        "text": "Thanks Liam, I knew I could count on you.",
+        "topic": "TALK_Liam_Opinions",
+        "condition": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_1",
+    "dynamic_line": "*blows out a long breath.  \"Well, my friend, I do think it's good to help clean out some of the mess that's going on.  I'll be with you for it.  I'm just not sure why you figure I'm the right guy for this job.  Shouldn't you have, like, a cop or a soldier or something?  I'm a delivery driver.\"",
+    "responses": [
+      {
+        "text": "Don't sell yourself short, Liam.  You've got my back.",
+        "topic": "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_1-Reassure"
+      },
+      {
+        "text": "I'll handle the tough parts, Liam.  You're there to cover my back, that's all.",
+        "topic": "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_1-Bravado"
+      },
+      {
+        "text": "In troubled times, we learn what sort of people we really are.",
+        "topic": "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_1-Fortunecookie"
+      },
+      {
+        "text": "Meh.  What's a few bandits?  We'll flatten 'em.",
+        "topic": "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_1-Psycho"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_1-Reassure",
+    "dynamic_line": "Thanks.  You're right.  Okay, I can do this.\"  He shakes his shoulders and limbers up, like a boxer preparing for a match.  \"Let's go.",
+    "responses": [
+      {
+        "text": "Hold up Balboa, I'd like your opinion on something else, actually.",
+        "topic": "TALK_Liam_Opinions"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_1-Bravado",
+    "dynamic_line": "Oh, oh yeah that makes sense.  Okay, well, that's something I can do.  I'll cover your back like it's never been covered before.  You and me like Calvin and Hobbes baby.",
+    "responses": [
+      {
+        "text": "Thanks, Hooch.  I'd like your opinion on something else, actually.",
+        "topic": "TALK_Liam_Opinions"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_1-Fortunecookie",
+    "dynamic_line": "*sniffs the air around your head.  \"You been getting in the ganja?  No judgment if so, but maybe you shouldn't be taking mercenary jobs while you're high, y'know?\"",
+    "responses": [
+      {
+        "text": "Shut up, you're not my dad!  Anyway, I'd like your opinion on something else, actually.",
+        "topic": "TALK_Liam_Opinions"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_1-Psycho",
+    "dynamic_line": "*gives you some serious sideye.  \"You okay?  This is serious shit, you're making me kinda worried getting so gung-ho about it.\"",
+    "responses": [
+      {
+        "text": "Don't worry, man.  Trust me, it'll be great.  Anyway, I'd like your opinion on something else.",
         "topic": "TALK_Liam_Opinions"
       }
     ]
