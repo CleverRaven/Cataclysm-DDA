@@ -153,6 +153,28 @@
         "topic": "TALK_PERK_MENU_SELECT"
       },
       {
+        "condition": { "not": { "u_has_trait": "perk_sight_beyond_sight" } },
+        "text": "Gain [<trait_name:perk_sight_beyond_sight>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_sight_beyond_sight>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_sight_beyond_sight>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_sight_beyond_sight", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires perception 13",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": { "math": [ "u_val('perception_base') + u_val('perception_bonus')", ">=", "13" ] }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
         "condition": { "not": { "u_has_trait": "perk_holdout_pocket" } },
         "text": "Gain [<trait_name:perk_holdout_pocket>]",
         "effect": [
