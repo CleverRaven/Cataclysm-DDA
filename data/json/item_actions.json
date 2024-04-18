@@ -503,7 +503,7 @@
   {
     "type": "item_action",
     "id": "HEAT_LIQUID_ITEMS",
-    "name": { "str": "Heat up liquid" }
+    "name": { "str": "Heat up liquid items" }
   },
   {
     "type": "item_action",
