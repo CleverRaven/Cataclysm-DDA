@@ -30,6 +30,7 @@
     "special_attacks": [ { "id": "grab", "cooldown": 21 }, { "id": "scratch_humanoid" }, { "id": "bite_humanoid", "cooldown": 5 } ],
     "upgrades": { "half_life": 32, "into_group": "GROUP_SKELETON_UPGRADE" },
     "death_drops": "default_zombie_clothes",
+    "burn_into": "mon_zombie_scorched",
     "fungalize_into": "mon_skeleton_fungus",
     "flags": [ "SEES", "HEARS", "GRABS", "BASHES", "GROUP_BASH", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ],
     "armor": { "cut": 15, "stab": 30, "acid": 3, "bullet": 24, "electric": 3 }
@@ -74,8 +75,9 @@
     ],
     "upgrades": { "half_life": 45, "into": "mon_skeleton_hulk" },
     "death_drops": "default_zombie_clothes",
+    "burn_into": "mon_zombie_fiend",
     "fungalize_into": "mon_skeleton_brute_fungus",
-    "flags": [ "SEES", "HEARS", "GRABS", "BASHES", "GROUP_BASH", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "GRABS", "BASHES", "GROUP_BASH", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ],
     "armor": { "bash": 12, "cut": 30, "acid": 1, "bullet": 30, "electric": 4 }
   },
   {
@@ -116,6 +118,7 @@
       [ "SHOCKSTORM", 25 ]
     ],
     "death_drops": "default_zombie_clothes",
+    "burn_into": "mon_zombie_scorched",
     "fungalize_into": "mon_skeleton_fungus",
     "flags": [ "SEES", "HEARS", "GRABS", "BASHES", "GROUP_BASH", "ELECTRIC", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ],
     "armor": { "cut": 15, "stab": 30, "acid": 3, "bullet": 30 }
@@ -167,6 +170,7 @@
     "flags": [
       "SEES",
       "HEARS",
+      "SMELLS",
       "STUMBLES",
       "WARM",
       "GRABS",

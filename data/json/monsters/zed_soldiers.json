@@ -255,7 +255,7 @@
     ],
     "death_drops": "mon_zombie_kevlar_death_drops",
     "upgrades": { "half_life": 42, "into": "mon_zombie_kevlar_2" },
-    "burn_into": "mon_zombie_scorched",
+    "burn_into": "mon_zombie_fiend",
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ],
     "armor": { "bash": 20, "cut": 30, "bullet": 24, "electric": 3 }
   },
@@ -268,7 +268,7 @@
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
-    "volume": "625000 ml",
+    "volume": "875 L",
     "weight": "200 kg",
     "hp": 300,
     "speed": 75,
@@ -282,7 +282,7 @@
     "melee_dice": 3,
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "weakpoint_sets": [ "wps_humanoid_body", "wps_natural_armor", "wps_humanoid_open_helmet" ],
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_natural_armor", "wps_humanoid_open_helmet", "wps_humanoid_head_small" ],
     "families": [
       "prof_intro_biology",
       "prof_physiology",
@@ -302,7 +302,7 @@
       { "id": "smash", "throw_strength": 72 }
     ],
     "death_drops": "mon_zombie_kevlar_death_drops",
-    "burn_into": "mon_zombie_scorched",
+    "burn_into": "mon_zombie_fiend",
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ],
     "armor": { "bash": 30, "cut": 50, "bullet": 40, "electric": 6 }
   },
@@ -331,7 +331,7 @@
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_full_helmet" ],
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_zombie" ],
     "vision_day": 30,
-    "vision_night": 5,
+    "vision_night": 3,
     "harvest": "zombie_humanoid",
     "grab_strength": 20,
     "special_attacks": [ { "id": "grab", "cooldown": 7 }, { "id": "scratch_humanoid" }, { "id": "bite_humanoid", "cooldown": 5 } ],
@@ -450,7 +450,7 @@
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 120,
-    "speed": 70,
+    "speed": 50,
     "material": [ "flesh" ],
     "symbol": "Z",
     "color": "white_red",
