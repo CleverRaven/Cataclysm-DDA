@@ -4,9 +4,9 @@
     "id": [ "TALK_Liam_SOCIAL" ],
     "dynamic_line": "Any time, what's on your mind?",
     "responses": [
+      { "text": "I'd like your opinion on a job we're doing.", "topic": "TALK_Liam_Opinions" },
       { "text": "Can I ask you a bit about yourself?", "topic": "BGSS_Liam1" },
       { "text": "You picked up a lot of useful skills over the years, hey.", "topic": "BGSS_Liam_Expertise" },
-      { "text": "I'd like your opinion on something.", "topic": "TALK_Liam_Opinions" },
       {
         "text": "I just wanted to chat, you know.  To relax.",
         "topic": "TALK_FRIEND_Liam_CHAT",
