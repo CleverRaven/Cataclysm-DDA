@@ -532,9 +532,11 @@ class pickup_inventory_preset : public inventory_selector_preset
                 } else if( loc->is_frozen_liquid() ) {
                     ret_val<crush_tool_type> can_crush = you.can_crush_frozen_liquid( loc );
 
-                    if( loc->has_flag( flag_SHREDDED ) ) { // NOLINT(bugprone-branch-clone)
+                    if( loc->has_flag( flag_SHREDDED ) && // NOLINT(bugprone-branch-clone)
+                        you.can_pickVolume_partial( *loc, false, nullptr, false, true ) ) {
                         return std::string();
-                    } else if( !can_crush.success() ) {
+                    } else if( !can_crush.success() &&
+                               you.can_pickVolume_partial( *loc, false, nullptr, false, true ) ) {
                         return can_crush.str();
                     } else if( !you.can_pickVolume_partial( *loc, false, nullptr, false, true ) ) {
                         item item_copy( *loc );
