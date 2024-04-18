@@ -1637,6 +1637,19 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
                            threshreq[i].c_str() );
             c_has_threshreq = true;
         }
+        for( const trait_id &subst : threshreq[i]->threshold_substitutes ) {
+            if( has_trait( subst ) ) {
+                add_msg_debug( debugmode::DF_MUTATION, "mutate_towards: substitute threshold %s found",
+                               subst.c_str() );
+                if( mdata.strict_threshreq ) {
+                    add_msg_debug( debugmode::DF_MUTATION,
+                                   "mutate_towards: …but no threshold substitutions allowed for trait %s",
+                                   subst.c_str(), mdata.name() );
+                    continue;
+                }
+                c_has_threshreq = true;
+            }
+        }
     }
 
     // No crossing The Threshold by simply not having it

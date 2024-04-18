@@ -105,7 +105,9 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "profession": true,                         // Trait is a starting profession special trait (default: false).
   "debug": false,                             // Trait is for debug purposes (default: false).
   "dummy": false,                             // Dummy mutations are special; they're not gained through normal mutating, and will instead be targeted for the purposes of removing conflicting mutations
-  "threshold": false                          //True if it's a threshold itself, and shouldn't be obtained *easily*.
+  "threshold": false,                         //True if it's a threshold itself, and shouldn't be obtained *easily*.  Disallows mutating this trait directly
+  "threshold_substitutes": [ "FOO", "BAR" ],   // The listed traits are accepted in place of this threshold trait for the purposes of gaining post-threshold mutations
+  "strict_thresreq": false,                   // This trait needs an *exact* threshold match (ie. ignores threshold substitutions)
   "player_display": true,                     // Trait is displayed in the `@` player display menu and mutations screen.
   "vanity": false,                            // Trait can be changed any time with no cost, like hair, eye color and skin color.
   "variants": [                               // Cosmetic variants of this mutation.
