@@ -280,7 +280,7 @@
           },
           { "set_string_var": "perk_bellringer", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Requires unarmred 4 or bashing weapons 4",
+            "set_string_var": "Requires unarmed 4 or bashing weapons 4",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
