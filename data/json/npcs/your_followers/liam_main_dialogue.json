@@ -1,6 +1,6 @@
 [
   {
-    "id": [ "TALK_FRIEND_Liam", "TALK_FRIEND_Liam_Abilities" ],
+    "id": [ "TALK_FRIEND_Liam", "TALK_FRIEND_Liam_Abilities", "TALK_Liam_Callsigns" ],
     "type": "talk_topic",
     "dynamic_line": {
       "is_by_radio": " *pshhhttt* This big turtle, I read you loud and clear, red burrito.",
@@ -178,5 +178,10 @@
       { "text": "Never mind then.", "topic": "TALK_NONE" },
       { "text": "Forget it, let's get going.", "topic": "TALK_DONE" }
     ]
-  }
+  },
+  {
+    "id": "TALK_Liam_Callsigns",
+    "type": "talk_topic",
+    "dynamic_line": "Roger that red burrito, that's a ten-forward on the callsigns.  Glad you like 'em."
+  },
 ]
