@@ -27,32 +27,32 @@
     "responses": [
       {
         "text": "We're always gonna be friends, right?  Even with the apocalypse… changing us?",
-        "topic": "TALK_FRIEND_Liam_CHAT_Friends4ever"
+        "topic": "TALK_FRIEND_Liam_CHAT_Friends4ever",
         "effect": [ "morale_chat_activity", { "npc_add_effect": "asked_to_socialize", "duration": 7000 } ]
       },
       {
         "text": "What do you miss most about the internet?",
-        "topic": "TALK_FRIEND_Liam_CHAT_Internet"
+        "topic": "TALK_FRIEND_Liam_CHAT_Internet",
         "effect": [ "morale_chat_activity", { "npc_add_effect": "asked_to_socialize", "duration": 7000 } ]
       },
       {
         "text": "Now that we've got no responsibilities, is there anything you'd like to see or do?",
-        "topic": "TALK_FRIEND_Liam_CHAT_Goals"
+        "topic": "TALK_FRIEND_Liam_CHAT_Goals",
         "effect": [ "morale_chat_activity", { "npc_add_effect": "asked_to_socialize", "duration": 7000 } ]
       },
       {
         "text": "What do you think the rest of the world is like these days?",
-        "topic": "TALK_FRIEND_Liam_CHAT_World"
+        "topic": "TALK_FRIEND_Liam_CHAT_World",
         "effect": [ "morale_chat_activity", { "npc_add_effect": "asked_to_socialize", "duration": 7000 } ]
       },
       {
         "text": "Do you miss any food from the old days?",
-        "topic": "TALK_FRIEND_Liam_CHAT_Food"
+        "topic": "TALK_FRIEND_Liam_CHAT_Food",
         "effect": [ "morale_chat_activity", { "npc_add_effect": "asked_to_socialize", "duration": 7000 } ]
       },
       {
         "text": "<chitchat_player_responses>",
-        "topic": "TALK_DONE"
+        "topic": "TALK_DONE",
         "effect": [ "morale_chat_activity", { "npc_add_effect": "asked_to_socialize", "duration": 7000 } ]
       }
     ]
@@ -60,52 +60,32 @@
   {
     "type": "talk_topic",
     "id": "TALK_FRIEND_Liam_CHAT_Friends4ever",
-    "dynamic_line": "Aww, of course.  No matter what happens, you're always you and I'm always me, right?  We've been through worse than this./"  He pauses, his brow furrowed.  /"Well, okay, maybe we haven't.  But we've stuck through it all for so many years, what's a little apocalypse gonna change?  Or a little mutation, or grievous bodily harm, or zombies, or interdimensional monster attacks and serious life-altering PTSD, or whatever.  Who cares.  You're my family, more than my birth family ever was.",
-    "responses": [
-      {
-        "text": "(Continue chatting)", "topic": "TALK_DONE"
-      }
-    ]
+    "dynamic_line": "Aww, of course.  No matter what happens, you're always you and I'm always me, right?  We've been through worse than this.\"  He pauses, his brow furrowed.  \"Well, okay, maybe we haven't.  But we've stuck through it all for so many years, what's a little apocalypse gonna change?  Or a little mutation, or grievous bodily harm, or zombies, or interdimensional monster attacks and serious life-altering PTSD, or whatever.  Who cares.  You're my family, more than my birth family ever was.",
+    "responses": [ { "text": "(Continue chatting)", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_FRIEND_Liam_CHAT_Internet",
     "dynamic_line": "OK, I know you're leading me up to say something dirty, and yeah I miss that, but you know what?  Really the thing I miss most is social media.  No seriously!  Stop looking at me like that!  I liked being able to just talk to people no matter where they were, any time.  I had friends in Sweden, and Brazil, and the West Coast.  I'm never gonna know what happened to them, and that busts me up bad.  They mattered to me, you know?\"  His voice catches a bit, and he coughs.  \"You're here though, and that helps a lot.  Can't imagine trying to do this lone-wolf.  How about you, what were you thinking of when you asked?",
-    "responses": [
-      {
-        "text": "(Continue chatting)", "topic": "TALK_DONE"
-      }
-    ]
+    "responses": [ { "text": "(Continue chatting)", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_FRIEND_Liam_CHAT_Goals",
     "dynamic_line": "*laughs.  \"You know me, I was never high on the ambition front.  Honestly, if you weren't around I'd probably clean up my dad's old cabin, try to learn how to set up a power supply, and scavenge for parts until I'd built the best damn gaming rig the world will ever see.  Then I'd load up whatever games I could find.\"  He pauses.  \"Or maybe it'd be easier to set up a console, I dunno.  Most consoles aren't gonna like the no-internet thing right?  There's probably a way to crack 'em but without the internet where would we even check?\"  He rubs his chin.  \"Still.  I'd have maybe found a way.  How about you, what's the big overarching plan for all this?\"",
-    "responses": [
-      {
-        "text": "(Continue chatting)", "topic": "TALK_DONE"
-      }
-    ]
+    "responses": [ { "text": "(Continue chatting)", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_FRIEND_Liam_CHAT_World",
     "dynamic_line": "Oh dude, good question.  The news reports made it sound like this is everywhere, you know?  Still, somewhere out there's gotta be better than this, right?  Maybe like, up in the Yukon or Siberia or something it's all kinda normal?  I think most places are like this though, just one big fucked up mess.  Maybe they've got different monsters though, like, carnivorous rocks or some shit.  How 'bout you, what do you think is out there?",
-    "responses": [
-      {
-        "text": "(Continue chatting)", "topic": "TALK_DONE"
-      }
-    ]
+    "responses": [ { "text": "(Continue chatting)", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_FRIEND_Liam_CHAT_Food",
     "dynamic_line": "I never thought I'd hear myself say this, but I kinda miss the EdiBurger3 from FoodPlace.  I worked there so long, I hated everything, but as soon as you tell me I'm *never* gonna have a fresh, greasy EB3 again, suddenly it's all my stomach wants.  Don't try to track one down or anything though.  I'm pretty sure I miss the *idea* more than the actual *thing*.  And I don't think we could cook up a copy, it'd be pretty hard to get the right blend of animal product and sawdust for the MeatCylinder.\"  He stares whistfully into space for a moment.  \"How about you, what were you thinking of when you asked?",
-    "responses": [
-      {
-        "text": "(Continue chatting)", "topic": "TALK_DONE"
-      }
-    ]
+    "responses": [ { "text": "(Continue chatting)", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
