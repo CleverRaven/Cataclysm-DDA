@@ -118,36 +118,51 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_NULL_BREAK_CONCENTRATION",
-    "condition": { "math": [ "u_vitamin('vitamin_maintained_powers')", ">=", "1" ] },
-    "effect": [
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_telepathic_psi_armor" },
+        { "x_in_y_chance": { "x": { "math": [ "u_spell_level('telepathic_shield')" ] }, "y": 12 } }
+      ]
+    },
+    "effect": [ { "u_message": "Icy fingers crawl across the surface of your mind, but your powers repel them.", "type": "bad" } ],
+    "false_effect": [
       {
         "run_eocs": [
           {
-            "id": "EOC_NULL_BREAK_CONCENTRATION_2",
-            "condition": {
-              "x_in_y_chance": {
-                "x": {
-                  "math": [
-                    "5 - u_has_proficiency('prof_concentration_basic')) - (u_has_proficiency('prof_concentration_intermediate')) - (u_has_proficiency('prof_concentration_master')"
-                  ]
-                },
-                "y": 5
-              }
-            },
+            "condition": { "math": [ "u_vitamin('vitamin_maintained_powers')", ">=", "1" ] },
             "effect": [
-              { "u_message": "An icy dagger seems to stab into your brain.", "type": "bad" },
-              { "math": [ "u_pain()", "+=", "rand(3) + 1" ] },
-              { "run_eocs": "EOC_END_PSI_POWERS_MAINTAINED" }
-            ],
-            "false_effect": [
-              { "u_message": "Icy fingers crawl across your brain for a moment.", "type": "bad" },
-              { "math": [ "u_pain()", "+=", "1" ] }
+              {
+                "run_eocs": [
+                  {
+                    "id": "EOC_NULL_BREAK_CONCENTRATION_2",
+                    "condition": {
+                      "x_in_y_chance": {
+                        "x": {
+                          "math": [
+                            "5 - u_has_proficiency('prof_concentration_basic')) - (u_has_proficiency('prof_concentration_intermediate')) - (u_has_proficiency('prof_concentration_master')"
+                          ]
+                        },
+                        "y": 5
+                      }
+                    },
+                    "effect": [
+                      { "u_message": "An icy dagger seems to stab into your brain.", "type": "bad" },
+                      { "math": [ "u_pain()", "+=", "rand(3) + 1" ] },
+                      { "run_eocs": "EOC_END_PSI_POWERS_MAINTAINED" }
+                    ],
+                    "false_effect": [
+                      { "u_message": "Icy fingers crawl across your brain for a moment.", "type": "bad" },
+                      { "math": [ "u_pain()", "+=", "1" ] }
+                    ]
+                  }
+                ],
+                "false_effect": [
+                  { "u_message": "Icy fingers crawl across your brain for a moment.", "type": "bad" },
+                  { "math": [ "u_pain()", "+=", "1" ] }
+                ]
+              }
             ]
           }
-        ],
-        "false_effect": [
-          { "u_message": "Icy fingers crawl across your brain for a moment.", "type": "bad" },
-          { "math": [ "u_pain()", "+=", "1" ] }
         ]
       }
     ]
