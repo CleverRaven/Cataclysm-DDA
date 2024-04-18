@@ -5012,5 +5012,13 @@
     "rating": "bad",
     "remove_message": "The wriggling under your skin stops.",
     "blood_analysis_description": "Unknown parasitic infection"
+  },
+  {
+    "type": "effect_type",
+    "id": "formication",
+    "name": [ "PLACEHOLDER" ],
+    "desc": [ "PLACEHOLDER" ],
+    "main_parts_only": true,
+    "rating": "bad"
   }
 ]
