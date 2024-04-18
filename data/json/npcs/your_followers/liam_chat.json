@@ -134,6 +134,19 @@
     "id": "BGSS_Liam_Father",
     "dynamic_line": "*snorts.  \"I was pretty low-contact with him the last couple years.  He got me that job in construction and when I left it, he tried to hit me, found out I'm not so much of a pushover as when I was fifteen.  Asshole.  I was still texting my mom a bit, apparently when things went to shit, he tried to join the riots.  I hope he got gunned down.\"",
     "responses": [
+      {
+        "text": "I remember your mom as kind of a quiet lady, she seemed all right.  Should we be trying to find her?",
+        "topic": "BGSS_Liam_Mother"
+      },
+      { "text": "Can we talk about something else?", "topic": "TALK_Liam_SOCIAL" },
+      { "text": "Harsh, but I hear you.  <end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "BGSS_Liam_Mother",
+    "dynamic_line": "Well, things with her weren't as bad as with my dad, but I don't know if I'd go trying to hunt for her in a zombified city or anything.  Like, sure she didn't beat me up, but she didn't ever lift a finger to help me either.  She was still with him right up until the end, even when it was obvious that she was choosing him over me.  I don't wanna judge her for the life she led, but - \" he trails off for a moment, then twitches his shoulders and resumes.  \"Well, it's like I said.  I hope she's okay but I'm not gonna go risk my neck trying to find her.  You and Chris were my real family, you got me through those years.",
+    "responses": [
       { "text": "Can we talk about something else?", "topic": "TALK_Liam_SOCIAL" },
       { "text": "Harsh, but I hear you.  <end_talking>", "topic": "TALK_DONE" }
     ]
@@ -222,12 +235,40 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_RUBIK_ANUS_FETICK",
+    "dynamic_line": "I just like, wanna back up a second.  We're trying to score drugs for a cyborg so it can do surgery on you?  That's really where life's taking us, now?",
+    "responses": [
+      { "text": "…Yes.", "topic": "TALK_Liam_Opinions_RUBIK_ANUS_FETICK-1" },
+      { "text": "Yes?", "topic": "TALK_Liam_Opinions_RUBIK_ANUS_FETICK-1" },
+      { "text": "Yes!", "topic": "TALK_Liam_Opinions_RUBIK_ANUS_FETICK-1" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_RUBIK_ANUS_FETICK-1",
+    "dynamic_line": "*grins.  \"Okay, just wanted to clear that up.  I thought maybe I was having some kind of psychotic break, glad it's at least mutual.  Anyway, first place that comes to mind for that kinda stuff would be a hospital, but that's suicide.  Maybe a pharmacy?  Would they have the right stuff?  Seems like a stretch.  Maybe like, a vet clinic or a private surgery clinic might be safer?  I'll level with you, I never got into anything harder than Mary Jane, this is past my paygrade.\"",
+    "responses": [ { "text": "Thanks man.  I'd like your opinion on something else, actually.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_EXODII_MISSION_CONTACT_HUB",
+    "dynamic_line": "Something about this kinda rubs me the wrong way, my friend.  I don't know what it is.  That Rubik guy seems nice enough but I feel like we're not getting the whole story.  Just tread carefully okay?",
+    "responses": [ { "text": "Thanks man.  I'd like your opinion on something else, actually.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_EXODII_MISSION_WAREHOUSE",
+    "dynamic_line": "Seems to me we could be wandering the area forever just looking for this thing, to be honest.  I guess we could go up somewhere high like a radio tower, maybe with some binoculars, and see if we can spot it?  Our best bet might be to ask a few folks that have been around though, pool our resources.",
+    "responses": [ { "text": "Thanks man.  I'd like your opinion on something else, actually.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
     "id": [
       "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_1",
       "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_2",
       "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_2-1",
       "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_3",
-      "TALK_Liam_Opinions_RUBIK_ANUS_FETICK",
+      "TALK_Liam_Opinions_RUBIK_ANUS_FETICK-1",
       "TALK_Liam_Opinions_EXODII_MISSION_CONTACT_HUB",
       "TALK_Liam_Opinions_EXODII_MISSION_WAREHOUSE"
     ],
