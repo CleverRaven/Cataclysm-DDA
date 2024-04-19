@@ -1317,6 +1317,44 @@ std::function<double( dialogue & )> vision_range_eval( char scope,
     };
 }
 
+std::function<double( dialogue & )> calories_eval( char scope,
+        std::vector<diag_value> const &/* params */, diag_kwargs const &kwargs )
+{
+    diag_value format_value( std::string( "raw" ) );
+    if( kwargs.count( "format" ) != 0 ) {
+        format_value = *kwargs.at( "format" );
+    }
+
+    return[ format_value, beta = is_beta( scope )]( dialogue const & d ) {
+        std::string format = format_value.str( d );
+        if( format != "raw" && format != "percent" ) {
+            debugmsg( R"(Unknown format type "%s" for calories, assumning "raw")", format );
+            format = "raw";
+        }
+
+        if( format == "percent" ) {
+            if( d.actor( beta )->get_character() ) {
+                int divisor = d.actor( beta )->get_healthy_kcal() / 100;
+                //if no data, default to default height of 175cm
+                if( divisor == 0 ) {
+                    divisor = 118169 / 100;
+                }
+                return d.actor( beta )->get_stored_kcal() / divisor;
+            } else {
+                debugmsg( R"(Can't use percent with anything but character)" );
+            }
+        } else if( format == "raw" ) {
+            if( d.actor( beta )->get_character() ) {
+                return d.actor( beta )->get_stored_kcal();
+            }
+            item_location *it = d.actor( beta )->get_item();
+            if( it && *it ) {
+                npc dummy;
+                return dummy.compute_effective_nutrients( *it->get_item() ).kcal();
+            }
+        }
+    };
+}
 
 std::function<double( dialogue & )> vitamin_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
@@ -1485,6 +1523,7 @@ std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "value_or", { "g", 2, value_or_eval } },
     { "vision_range", { "un", 0, vision_range_eval } },
     { "vitamin", { "un", 1, vitamin_eval } },
+    { "calories", { "un", 0, calories_eval } },
     { "warmth", { "un", 1, warmth_eval } },
     { "weather", { "g", 1, weather_eval } },
     { "climate_control_str_heat", { "un", 0, climate_control_str_heat_eval } },
