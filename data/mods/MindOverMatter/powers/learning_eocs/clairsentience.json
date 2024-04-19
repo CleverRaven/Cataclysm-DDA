@@ -392,7 +392,7 @@
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_clair_astral_projection" },
       {
-        "u_message": "Use of your powers has led to an insight.  You could cast your spirit free from your body, wandering as a ghost and spying out your surroundings,  if you can figure out the technique.",
+        "u_message": "Use of your powers has led to an insight.  You could cast your spirit free from your body, wandering as a ghost and spying out your surroundings, if you can figure out the technique.",
         "popup": true
       }
     ]

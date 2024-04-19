@@ -857,7 +857,15 @@
     "apply_message": "",
     "remove_message": "",
     "rating": "good",
-    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": -0.9 }, { "value": "EVASION", "add": 1 } ] } ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MOVE_COST", "multiply": -0.96 },
+          { "value": "EVASION", "add": 1 },
+          { "value": "REGEN_STAMINA", "multiply": -1 }
+        ]
+      }
+    ],
     "flags": [ "ETHEREAL", "INVISIBLE", "NO_PSIONICS" ]
   },
   {
