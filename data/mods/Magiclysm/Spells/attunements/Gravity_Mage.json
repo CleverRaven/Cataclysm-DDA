@@ -112,16 +112,16 @@
     "spell_class": "GRAVITY_MAGE",
     "energy_source": "MANA",
     "difficulty": 7,
-    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(500)" ] },
-    "final_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(150)" ] },
-    "casting_time_increment": { "math": [ "enhancement_proficiency_negate_calculate(-10)" ] },
+    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(500, 30)" ] },
+    "final_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(150, 30)" ] },
+    "casting_time_increment": { "math": [ "enhancement_proficiency_negate_calculate(-10, 0.03)" ] },
     "base_energy_cost": 500,
     "final_energy_cost": 150,
     "energy_increment": -10,
     "max_level": 35,
-    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(20000)" ] },
-    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(720000)" ] },
-    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(20000)" ] }
+    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(20000, 2300)" ] },
+    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(720000, 2300)" ] },
+    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(20000, 0.03)" ] }
   },
   {
     "id": "gravity_mage_melee",
