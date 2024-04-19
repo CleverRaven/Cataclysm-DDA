@@ -695,7 +695,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_Liam_Opinions_MISSION_BUILD_CAMP_4",
-    "dynamic_line": "Okay, wait, what?  One wood saw?  Why are you agreeing to this?  I like deliveries as much as the next guy, but it's a *single wood saw*.  It's starting to feel like you'll just agree to do anything anyone asks.\"  He sighs.  \"No worries though I guess.  One time I delivered a single cold soda to a guy living out in the Appalachians.  People are weird.",
+    "dynamic_line": "Okay, wait, what?  One wood saw?  Why are you agreeing to this?  I like deliveries as much as the next guy, but it's a *single wood saw*.  It's starting to feel like you'll just agree to do anything anyone asks.\"  He sighs.  \"No worries though I guess.  One time I delivered a single cold soda to a guy living way out in the back woods.  Cost him seventy bucks.  People are weird.",
     "responses": [ { "text": "I'd like your opinion on something else, actually.", "topic": "TALK_Liam_Opinions" } ]
   },
   {
@@ -719,7 +719,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_Liam_Opinions_MISSION_BUILD_CAMP_5-3",
-    "dynamic_line": "At the shovel store, I guess.",
+    "dynamic_line": "*stares at you for a few seconds.  \"At the shovel store, I guess.\"",
     "responses": [ { "text": "Thanks.", "topic": "TALK_Liam_Opinions" } ]
   },
   {
@@ -731,6 +731,7 @@
   {
     "type": "talk_topic",
     "id": [
+      "TALK_Liam_Opinions_MISSION_REACH_REFUGEE_CENTER",
       "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_1",
       "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_2",
       "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_2-1",
