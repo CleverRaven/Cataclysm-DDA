@@ -167,7 +167,7 @@ std::string itype::extended_description() const
     if( !description_append.empty() ) {
         ret = string_format( "%s  %s", ret, description_append.translated() );
     }
-    return ret;
+    return _( ret );
 }
 
 // Members of iuse struct, which is slowly morphing into a class.

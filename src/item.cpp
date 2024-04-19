@@ -9337,7 +9337,8 @@ void item::set_itype_variant( const std::string &variant )
     debugmsg( "item '%s' has no variant '%s'!", typeId().str(), variant );
 }
 
-std::string item::variant_description() const
+std::string item::variant_description()
+const // TODO: Fallback to type->extended_description() if variant description untranslated
 {
     if( !has_itype_variant() ) {
         return ""; // Shouldn't this throw an error?
@@ -9347,7 +9348,7 @@ std::string item::variant_description() const
     if( variant.alt_description.empty() ) {
         ret = type->extended_description();
     } else {
-        ret = variant.alt_description.translated();
+        ret = variant.alt_description.translated(); // Just return?
     }
     if( !variant.alt_description_prepend.empty() ) {
         ret = string_format( "%s  %s", variant.alt_description_prepend.translated(),
@@ -9357,7 +9358,7 @@ std::string item::variant_description() const
         ret = string_format( "%s  %s", ret,
                              variant.alt_description_append.translated() );
     }
-    return ret;
+    return _( ret );
 }
 
 void item::clear_itype_variant()
