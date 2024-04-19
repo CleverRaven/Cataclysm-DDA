@@ -268,6 +268,15 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Effects*: The psion prevents anything from interfering with their senses, becoming immune to being Dazed, Stunned (either physically or psionically), blinded, made to hallucinate, deafened, Blinding Venom, and also cannot get high or drunk.<br />
 *Prerequisites*: Night Eyes 10, Speed Reader 8 *or* Aura Sight 8 *or* Combat Sense 5<br />
 
+## Astral Projection
+*Difficulty*: 8<br />
+*Target*: Self<br />
+*Duration*: Indefinite<br />
+*Stamina Cost*: 5000, minus 125 per level to a minimum of 2000<br />
+*Channeling Time*: 60 seconds<br />
+*Effects*: The psion prevents anything from interfering with their senses, becoming immune to being Dazed, Stunned (either physically or psionically), blinded, made to hallucinate, deafened, Blinding Venom, and also cannot get high or drunk.<br />
+*Prerequisites*: Clarity 6 and Clairvoyance 9 *or* Satellite View 8 and Clairvoyance 9<br />
+
 ## Prescient Tactician (C)
 *Difficulty*: 9<br />
 *Target*: All allies within 20 squares<br />
