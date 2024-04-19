@@ -2886,6 +2886,28 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zerizinosaurus_nightstalker",
+    "name": { "str_sp": "therizinosaurus nightstalker" },
+    "copy-from": "mon_zerizinosaurus_shady",
+    "looks_like": "mon_zerizinosaurus_shady",
+    "description": "An uncanny shadow envelops this creature.  You can make out the outline of a bulky bipedal dinosaur with feathery edges.  Long curved claws protrude from its hands.",
+    "diff": 2,
+    "proportional": { "hp": 1.5, "speed": 1.5 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_damage": [ { "damage_type": "stab", "amount": 2 } ],
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
+    },
+    "bleed_rate": 50,
+    "special_attacks": [ [ "SMASH", 30 ] ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "upgrades": false,
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zothronychus_nightstalker",
     "name": { "str_sp": "nothronychus nightstalker" },
     "copy-from": "mon_zothronychus_shady",
