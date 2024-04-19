@@ -1450,20 +1450,20 @@ ret_val<item_pocket::contain_code> item_pocket::is_compatible( const item &it ) 
 }
 
 ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it,
-        int &copies_remaining, bool ignore_contents, bool is_pick_up_inv ) const
+        int &copies_remaining, bool ignore_contents ) const
 {
-    return _can_contain( it, copies_remaining, ignore_contents, is_pick_up_inv );
+    return _can_contain( it, copies_remaining, ignore_contents );
 }
 
 ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it,
-        bool ignore_contents, bool is_pick_up_inv ) const
+        bool ignore_contents ) const
 {
     int copies = 1;
-    return _can_contain( it, copies, ignore_contents, is_pick_up_inv );
+    return _can_contain( it, copies, ignore_contents );
 }
 
 ret_val<item_pocket::contain_code> item_pocket::_can_contain( const item &it,
-        int &copies_remaining, const bool ignore_contents, const bool is_pick_up_inv ) const
+        int &copies_remaining, const bool ignore_contents ) const
 {
     ret_val<item_pocket::contain_code> compatible = is_compatible( it );
 

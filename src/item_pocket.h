@@ -188,11 +188,9 @@ class item_pocket
          * @param ignore_contents If true, only check for compatible phase, size, and weight, skipping the more CPU-intensive checks against other contents. Optional, default false.
          * @param copies_remaining An optional integer reference that will be set to the number of item copies that won't fit
          */
-        ret_val<contain_code> can_contain( const item &it, bool ignore_contents = false,
-                                           bool is_pick_up_inv = false ) const;
+        ret_val<contain_code> can_contain( const item &it, bool ignore_contents = false ) const;
         ret_val<contain_code> can_contain( const item &it, int &copies_remaining,
-                                           bool ignore_contents = false,
-                                           bool is_pick_up_inv = false ) const;
+                                           bool ignore_contents = false ) const;
 
         bool can_contain_liquid( bool held_or_ground ) const;
         bool contains_phase( phase_id phase ) const;
@@ -416,8 +414,7 @@ class item_pocket
         std::set<sub_bodypart_id> no_rigid;
 
         ret_val<contain_code> _can_contain( const item &it, int &copies_remaining,
-                                            bool ignore_contents,
-                                            bool is_pick_up_inv = false ) const;
+                                            bool ignore_contents ) const;
 };
 
 /**
