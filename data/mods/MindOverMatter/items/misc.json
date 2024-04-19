@@ -55,5 +55,14 @@
     ],
     "symbol": "[",
     "color": "dark_gray"
+  },
+  {
+    "type": "GENERIC",
+    "id": "body_astral_projection",
+    "copy-from": "corpse",
+    "name": { "str": "your body" },
+    "description": "Your body, lying on the ground while your spirit walks free.  Hopefully nothing happens to it while you're gone.",
+    "looks_like": "corpse_generic_human",
+    "material": [ "hflesh" ]
   }
 ]

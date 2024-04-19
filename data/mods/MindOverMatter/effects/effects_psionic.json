@@ -851,6 +851,17 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_clair_astral_projection",
+    "name": [ "Astrally Projecting" ],
+    "desc": [ "Your spirit wanders the world." ],
+    "apply_message": "",
+    "remove_message": "",
+    "rating": "good",
+    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": -0.9 }, { "value": "EVASION", "add": 1 } ] } ],
+    "flags": [ "ETHEREAL", "INVISIBLE" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_clair_group_tactics_other",
     "name": [ "Prescient Tactics" ],
     "desc": [ "You're being informed of the best way to fight." ],

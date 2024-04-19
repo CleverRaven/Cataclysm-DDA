@@ -518,6 +518,28 @@
     }
   },
   {
+    "id": "clair_astral_projection",
+    "type": "SPELL",
+    "name": "[Ψ]Astral Projection",
+    "description": "After a short period of concentration and meditation, cast your spirit forth from your body, wandering the world disembodied.  You will move at the speed of thought but cannot use further powers or interact with the world while your spirit is wandering.  Follow your silver cord to return back to your body.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "CLAIRSENTIENT",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 8,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CLAIR_ASTRAL_PROJECTION_INITIATE",
+    "shape": "blast",
+    "energy_source": "STAMINA",
+    "base_energy_cost": 5000,
+    "final_energy_cost": 2000,
+    "energy_increment": -125,
+    "base_casting_time": 6000
+  },
+  {
     "id": "clair_group_tactics",
     "type": "SPELL",
     "name": "[Ψ]Prescient Tactician (C)",
