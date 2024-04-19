@@ -858,7 +858,7 @@
     "remove_message": "",
     "rating": "good",
     "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": -0.9 }, { "value": "EVASION", "add": 1 } ] } ],
-    "flags": [ "ETHEREAL", "INVISIBLE" ]
+    "flags": [ "ETHEREAL", "INVISIBLE", "NO_PSIONICS" ]
   },
   {
     "type": "effect_type",
