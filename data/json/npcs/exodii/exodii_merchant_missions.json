@@ -4,7 +4,6 @@
     "type": "mission_definition",
     "name": { "str": "Bring 1000 units of anesthetic to Rubik" },
     "goal": "MGOAL_CONDITION",
-    "goal_condition": { "npc_has_var": "-", "type": "-", "context": "-", "value": "-" },
     "difficulty": 2,
     "value": 240,
     "origins": [ "ORIGIN_SECONDARY" ],

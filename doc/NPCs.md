@@ -1128,16 +1128,16 @@ Condition | Type | Description
 {
   "text": "Didn't you say you knew where the Vault was?",
   "topic": "TALK_VAULT_INFO",
-  "condition": { "not": { "u_has_var": "asked_about_vault", "value": "yes", "type": "sentinel", "context": "old_guard_rep" } },
+  "condition": { "not": { "u_has_var": "sentinel_old_guard_rep_asked_about_vault", "value": "yes" } },
   "effect": [
-    { "u_add_var": "asked_about_vault", "value": "yes", "type": "sentinel", "context": "old_guard" },
+    { "u_add_var": "sentinel_old_guard_asked_about_vault", "value": "yes" },
     { "mapgen_update": "hulk_hairstyling", "om_terrain": "necropolis_a_13", "om_special": "Necropolis", "om_terrain_replace": "field", "z": 0 }
   ]
 },
 {
   "text": "Why do zombies keep attacking every time I talk to you?",
   "topic": "TALK_RUN_AWAY_MORE_ZOMBIES",
-  "condition": { "u_has_var": "even_more_zombies", "value": "yes", "type": "trigger", "context": "learning_experience" },
+  "condition": { "u_has_var": "trigger_learning_experience_even_more_zombies", "value": "yes" },
   "effect": [
     { "mapgen_update": [ "even_more_zombies", "more zombies" ], "origin_npc": true },
     { "mapgen_update": "more zombies", "origin_npc": true, "offset_x": 1 },
