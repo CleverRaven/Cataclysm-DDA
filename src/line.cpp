@@ -109,7 +109,8 @@ void bresenham( const tripoint &start, const tripoint &target, int offset_middle
     const tripoint a = delta.abs() * 2;
 
     const int major = std::max( std::max( a.x, a.y ), a.z );
-    const int middle = a.x > a.y ? ( a.y > a.z ? a.y : ( a.x > a.z ? a.z : a.x ) ) : ( a.x > a.z ? a.x : ( a.y > a.z ? a.z : a.y ) );
+    const int middle = a.x > a.y ? ( a.y > a.z ? a.y : ( a.x > a.z ? a.z : a.x ) ) :
+                       ( a.x > a.z ? a.x : ( a.y > a.z ? a.z : a.y ) );
     const int minor = std::min( std::min( a.x, a.y ), a.z );
 
     tripoint cur = start;
