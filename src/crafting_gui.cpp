@@ -1171,19 +1171,13 @@ static void nested_toggle( recipe_id rec, bool &recalc, bool &keepline )
 static bool selection_ok( const std::vector<const recipe *> &list, const int current_line,
                           const bool nested_acceptable )
 {
-    std::string error_message;
     if( list.empty() ) {
-        error_message = _( "Nothing selected!" );
+        popup( _( "Nothing selected!" ) );
     } else if( list[current_line]->is_nested() && !nested_acceptable ) {
-        error_message = _( "Select a recipe within this group" );
+        popup( _( "Select a recipe within this group" ) );
     } else {
         return true;
     }
-
-    query_popup()
-    .message( "%s", error_message )
-    .option( "QUIT" )
-    .query();
     return false;
 }
 
@@ -1819,15 +1813,13 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
             line = -1;
             user_moved_line = highlight_unread_recipes;
         } else if( action == "CONFIRM" ) {
-            if( available.empty() || ( ( !available[line].can_craft ||
-                                         !available[line].crafter_has_primary_skill )
-                                       && !current[line]->is_nested() ) ) {
-                query_popup()
-                .message( "%s", _( "Crafter can't craft that!" ) )
-                .option( "QUIT" )
-                .query();
+            if( available.empty() ) {
+                popup( _( "Nothing selected!" ) );
             } else if( current[line]->is_nested() ) {
                 nested_toggle( current[line]->ident(), recalc, keepline );
+            } else if( !available[line].can_craft ||
+                       !available[line].crafter_has_primary_skill ) {
+                popup( _( "Crafter can't craft that!" ) );
             } else if( !crafter->check_eligible_containers_for_crafting( *current[line],
                        batch ? line + 1 : 1 ) ) {
                 // popup is already inside check
