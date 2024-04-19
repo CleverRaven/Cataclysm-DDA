@@ -7647,7 +7647,6 @@ void heat_activity_actor::finish( player_activity &act, Character &p )
         } else {
             cold_item->unset_flag( flag_FROZEN );
             cold_item->set_flag( flag_HOT );
-            p.i_add_or_drop( *cold_item );
             if( cold_item.get_item()->made_of( phase_id::LIQUID ) ) {
                 liquid_handler::handle_all_liquid( *cold_item, PICKUP_RANGE );
             } else {
@@ -7655,7 +7654,7 @@ void heat_activity_actor::finish( player_activity &act, Character &p )
             }
         }
     }
-    if( h.consume_flag == 1 ) {
+    if( h.consume_flag == true ) {
         h.loc->activation_consume( requirements.ammo, h.loc.position(), &p );
     }
     p.add_msg_if_player( m_good, _( "You heated your items." ) );
@@ -7669,6 +7668,9 @@ void heat_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
     jsout.member( "to_heat", to_heat );
+    jsout.member( "heating_effect", h.heating_effect );
+    jsout.member( "loc", h.loc );
+    jsout.member( "consume_flag", h.consume_flag );
     jsout.member( "time", requirements.time );
     jsout.member( "ammo", requirements.ammo );
     jsout.end_object();
@@ -7679,6 +7681,9 @@ std::unique_ptr<activity_actor> heat_activity_actor::deserialize( JsonValue &jsi
     heat_activity_actor actor;
     JsonObject data = jsin.get_object();
     data.read( "to_heat", actor.to_heat );
+    data.read( "heating_effect", actor.h.heating_effect );
+    data.read( "loc", actor.h.loc );
+    data.read( "consume_flag", actor.h.consume_flag );
     data.read( "time", actor.requirements.time );
     data.read( "ammo", actor.requirements.ammo );
     return actor.clone();

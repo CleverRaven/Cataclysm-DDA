@@ -8097,13 +8097,13 @@ heating_requirements heating_requirements_for_weight( const units::mass &frozen,
 
 heater find_heater( Character *p, item *it )
 {
-    bool consume_flag = 1;
+    bool consume_flag = true;
     int available_heater = 1;
     int heating_effect = 0;
     item_location loc = item_location( *p, it );
     if( get_map().has_nearby_fire( p->pos() ) && !it->has_quality( qual_HOTPLATE ) ) {
         p->add_msg_if_player( m_info, _( "You put %1$s on fire to start heating." ), it->tname() );
-        return {loc, 0, 1, 0};
+        return {loc, false, 1, 0};
     } else if( it->has_quality( qual_HOTPLATE ) ) {
         if( it->ammo_remaining() >= it->type->charges_to_use() ) {
             p->add_msg_if_player( m_info, _( "You use %1$s to start heating." ), loc->tname() );
@@ -8114,7 +8114,7 @@ heater find_heater( Character *p, item *it )
             p->add_msg_if_player( m_info, _( "You use %1$s to start heating." ), loc->tname() );
         } else {
             p->add_msg_if_player( m_info, _( "The %s has been used up." ), it->tname() );
-            return {loc, 1, -1, 0};
+            return {loc, true, -1, 0};
         }
     } else if( !it->has_quality( qual_HOTPLATE ) ) {
         auto filter = [p]( const item & e ) {
@@ -8136,7 +8136,7 @@ heater find_heater( Character *p, item *it )
         loc = g->inv_map_splice( filter, _( "Select a tool to heat:" ), 1,
                                  _( "You don't have proper heating source." ) );
         if( !loc ) {
-            return {loc, 1, -1, 0};
+            return {loc, true, -1, 0};
         }
         p->add_msg_if_player( m_info, _( "You put %1$s on %2$s to start heating." ), it->tname(),
                               loc->tname() );
