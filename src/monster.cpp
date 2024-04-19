@@ -599,8 +599,8 @@ void monster::try_reproduce()
             if( type->baby_monster ) {
                 here.add_spawn( type->baby_monster, spawn_cnt, pos() );
             } else {
-                for (int i = 0; i < spawn_cnt;i++) {
-                    here.add_item_or_charges(pos(), item(type->baby_egg, *baby_timer), true);
+                for( int i = 0; i < spawn_cnt; i++ ) {
+                    here.add_item_or_charges( pos(), item( type->baby_egg, *baby_timer ), true );
                 }
             }
         }
