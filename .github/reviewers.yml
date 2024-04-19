@@ -36,6 +36,8 @@ files:
     - Termineitor244
   'data/mods/Limb_WIP/**':
     - Venera3
+  'tools/json_tools/gun_variant_validator.py':
+    - anothersimulacrum
 
   '**/.clang-tidy':
     - jbytheway
