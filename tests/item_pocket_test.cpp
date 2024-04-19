@@ -56,6 +56,7 @@ static const item_group_id Item_spawn_data_wallet_stylish_full( "wallet_stylish_
 static const itype_id itype_test_backpack( "test_backpack" );
 static const itype_id itype_test_jug_plastic( "test_jug_plastic" );
 static const itype_id itype_test_socks( "test_socks" );
+static const itype_id itype_test_waterproof_bag( "test_waterproof_bag" );
 static const itype_id
 itype_test_watertight_open_sealed_container_1L( "test_watertight_open_sealed_container_1L" );
 
@@ -2607,7 +2608,7 @@ TEST_CASE( "best_pocket_for_pocket-holster_mix", "[pocket][item]" )
 
 TEST_CASE( "item_cannot_contain_contents_it_already_has", "[item][pocket]" )
 {
-    item backpack( "test_backpack" );
+    item bag( "test_waterproof_bag" );
     item bottle( "bottle_plastic" );
     item water( "water" );
 
@@ -2615,16 +2616,16 @@ TEST_CASE( "item_cannot_contain_contents_it_already_has", "[item][pocket]" )
     bottle.fill_with( water, 1 );
     REQUIRE( !bottle.is_container_empty() );
     REQUIRE( bottle.only_item().typeId() == water.typeId() );
-    backpack.put_in( bottle, pocket_type::CONTAINER );
-    REQUIRE( !backpack.is_container_empty() );
-    REQUIRE( backpack.only_item().typeId() == bottle.typeId() );
+    bag.put_in( bottle, pocket_type::CONTAINER );
+    REQUIRE( !bag.is_container_empty() );
+    REQUIRE( bag.only_item().typeId() == bottle.typeId() );
 
     const tripoint ipos = get_player_character().pos();
     map &m = get_map();
     clear_map();
 
-    item_location backpack_loc( map_cursor( ipos ), &m.add_item( ipos, backpack ) );
-    item_location bottle_loc( backpack_loc, &backpack_loc->only_item() );
+    item_location bag_loc( map_cursor( ipos ), &m.add_item( ipos, bag ) );
+    item_location bottle_loc( bag_loc, &bag_loc->only_item() );
     item_location water_loc( bottle_loc, &bottle_loc->only_item() );
 
     REQUIRE( water_loc->count() == 1 );
@@ -2642,16 +2643,16 @@ TEST_CASE( "item_cannot_contain_contents_it_already_has", "[item][pocket]" )
     CHECK( bottle_loc->can_contain( water_item ).success() );
     CHECK( !bottle_loc->can_contain( water_item, false, false, true, false, bottle_loc ).success() );
 
-    // Check backpack containing bottle containing water
+    // Check bag containing bottle containing water
     in_top = false;
-    for( const item *contained : backpack_loc->all_items_top() ) {
+    for( const item *contained : bag_loc->all_items_top() ) {
         if( contained == water_loc.get_item() ) {
             in_top = true;
         }
     }
     CHECK( !in_top );
-    CHECK( backpack_loc->can_contain( water_item ).success() );
-    CHECK( !backpack_loc->can_contain( water_item, false, false, true, false, bottle_loc ).success() );
+    CHECK( bag_loc->can_contain( water_item ).success() );
+    CHECK( !bag_loc->can_contain( water_item, false, false, true, false, bottle_loc ).success() );
 }
 
 TEST_CASE( "Sawed_off_fits_in_large_holster", "[item][pocket]" )
