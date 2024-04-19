@@ -86,9 +86,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            {
-              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
-            }
+            { "not": { "npc_has_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" } }
           ]
         },
         "topic": "TALK_REFUGEE_Alonso_Refuse_Boris_Mission_1"
@@ -100,20 +98,20 @@
         "condition": {
           "and": [
             { "u_has_perception": 10 },
-            { "not": { "npc_has_var": "Alonso_accent", "type": "general", "context": "none", "value": "asked" } },
-            { "not": { "npc_has_var": "Alonso_accent", "type": "general", "context": "none", "value": "accepted" } }
+            { "not": { "npc_has_var": "general_none_Alonso_accent", "value": "asked" } },
+            { "not": { "npc_has_var": "general_none_Alonso_accent", "value": "accepted" } }
           ]
         }
       },
       {
         "text": "Why aren't you wearing any pants?",
         "topic": "TALK_REFUGEE_Alonso_Pants1",
-        "condition": { "not": { "u_has_var": "Alonso_pants", "type": "mission", "context": "flag", "value": "yes" } }
+        "condition": { "not": { "u_has_var": "mission_flag_Alonso_pants", "value": "yes" } }
       },
       {
         "text": "About those special pants a sexy clown hid in a shop for mysterious reasons…",
         "topic": "TALK_MISSION_INQUIRE",
-        "condition": { "u_has_var": "Alonso_pants", "type": "mission", "context": "flag", "value": "in_progress" }
+        "condition": { "u_has_var": "mission_flag_Alonso_pants", "value": "in_progress" }
       },
       { "text": "What's your story?", "topic": "TALK_REFUGEE_Alonso_Background" },
       { "text": "How are things here?", "topic": "TALK_REFUGEE_Alonso_Situation" },
@@ -177,7 +175,7 @@
     },
     "speaker_effect": {
       "effect": [
-        { "u_add_var": "u_met_Alonso_Lautrec", "type": "general", "context": "meeting", "value": "yes" },
+        { "u_add_var": "general_meeting_u_met_Alonso_Lautrec", "value": "yes" },
         { "npc_first_topic": "TALK_REFUGEE_Alonso_1a" }
       ]
     },
@@ -262,13 +260,13 @@
       {
         "text": "Just stop talking like that around me, maybe?  It's really obnoxious.",
         "topic": "TALK_REFUGEE_Alonso_CalledOut3",
-        "effect": { "npc_add_var": "Alonso_accent", "type": "general", "context": "none", "value": "asked" }
+        "effect": { "npc_add_var": "general_none_Alonso_accent", "value": "asked" }
       },
       {
         "text": "You know what?  You do you.  It's all good.",
         "topic": "TALK_REFUGEE_Alonso_CalledOut3",
         "effect": [
-          { "npc_add_var": "Alonso_accent", "type": "general", "context": "none", "value": "accepted" },
+          { "npc_add_var": "general_none_Alonso_accent", "value": "accepted" },
           { "math": [ "u_counter_refugee_center_refugee_happiness", "++" ] }
         ]
       },
@@ -350,11 +348,11 @@
     "start": {
       "assign_mission_target": { "om_terrain": "cs_sex_shop", "reveal_radius": 1, "random": true, "search_range": 120 },
       "update_mapgen": { "om_terrain": "cs_sex_shop", "place_item": [ { "item": "pants_leather", "x": 19, "y": 20 } ] },
-      "effect": { "u_add_var": "Alonso_pants", "type": "mission", "context": "flag", "value": "in_progress" }
+      "effect": { "u_add_var": "mission_flag_Alonso_pants", "value": "in_progress" }
     },
     "end": {
       "effect": [
-        { "u_add_var": "Alonso_pants", "type": "mission", "context": "flag", "value": "yes" },
+        { "u_add_var": "mission_flag_Alonso_pants", "value": "yes" },
         { "math": [ "u_counter_refugee_center_refugee_happiness", "+=", "2" ] },
         { "npc_add_effect": "Alonso_pants_restored", "duration": "PERMANENT" }
       ]
@@ -456,7 +454,7 @@
       "no": "Alonso, alas, is sorry, but he cannot sully his hands with blood.  It is not that he does not wish to prove his strength, but he… he is not strong enough.",
       "yes": "I'm sorry.  I… saw things back there, when it all went sideways.  I can't go back, not for anything."
     },
-    "speaker_effect": { "effect": { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" } },
+    "speaker_effect": { "effect": { "npc_add_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" } },
     "responses": [
       { "text": "Thanks anyway.  What were you saying before?", "topic": "TALK_NONE" },
       { "text": "Well, thanks anyway.", "topic": "TALK_DONE" }

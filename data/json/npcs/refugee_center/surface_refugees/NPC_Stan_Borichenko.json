@@ -80,9 +80,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            {
-              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
-            }
+            { "not": { "npc_has_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" } }
           ]
         },
         "topic": "TALK_REFUGEE_Refuse_Boris_Mission_1"
@@ -97,7 +95,7 @@
     "dynamic_line": "*seems to look past you for a while before realizing you are there.  \"Hello.  I'm sorry, if we've met before, I don't really remember.  I'm… I'm Stan.\"",
     "speaker_effect": {
       "effect": [
-        { "u_add_var": "u_met_Stan_Borichenko", "type": "general", "context": "meeting", "value": "yes" },
+        { "u_add_var": "general_meeting_u_met_Stan_Borichenko", "value": "yes" },
         { "npc_first_topic": "TALK_REFUGEE_Stan_1a" }
       ]
     },

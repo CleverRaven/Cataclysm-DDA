@@ -75,7 +75,7 @@
         { "u_spawn_item": "casket74mag", "count": 1 },
         { "u_spawn_item": "545_ap", "count": 200 },
         { "u_spawn_item": "kord", "count": 1 },
-        { "u_add_var": "artisans_made_up", "type": "dialogue", "context": "artisans", "value": "yes" }
+        { "u_add_var": "dialogue_artisans_artisans_made_up", "value": "yes" }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],

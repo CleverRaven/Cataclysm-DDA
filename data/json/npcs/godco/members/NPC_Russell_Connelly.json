@@ -60,11 +60,11 @@
     "responses": [
       {
         "text": "Russell, hey?  Nice to meet you.",
-        "effect": { "npc_add_var": "u_met_godco_russell", "type": "general", "context": "meeting", "value": "yes" },
+        "effect": { "npc_add_var": "general_meeting_u_met_godco_russell", "value": "yes" },
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "u_met_godco_russell", "type": "general", "context": "meeting", "value": "yes" } },
-            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+            { "not": { "npc_has_var": "general_meeting_u_met_godco_russell", "value": "yes" } },
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
         "topic": "TALK_GODCO_Russell_Firstmeet"
@@ -73,20 +73,20 @@
         "text": "Hi, Russell.  Got a minute?",
         "condition": {
           "and": [
-            { "npc_has_var": "u_met_godco_russell", "type": "general", "context": "meeting", "value": "yes" },
-            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+            { "npc_has_var": "general_meeting_u_met_godco_russell", "value": "yes" },
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
         "topic": "TALK_GODCO_Russell_2"
       },
       {
         "text": "Hey, Russell.  I can't stay to talk.",
-        "condition": { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } },
+        "condition": { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } },
         "topic": "TALK_DONE"
       },
       {
         "text": "Chill out man, I'll leave you alone.",
-        "condition": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" },
+        "condition": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" },
         "topic": "TALK_DONE"
       }
     ]
@@ -98,12 +98,12 @@
     "responses": [
       {
         "text": "I'm just a curious traveler.  What's up with you?",
-        "condition": { "not": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" } },
+        "condition": { "not": { "u_has_var": "general_meeting_godco_joinee", "value": "yes" } },
         "topic": "TALK_GODCO_Russell_Story"
       },
       {
         "text": "I'm seeking asylum here.  What's up with you?",
-        "condition": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "u_has_var": "general_meeting_godco_joinee", "value": "yes" },
         "topic": "TALK_GODCO_Russell_Story"
       },
       { "text": "Actually I'm just heading out.", "topic": "TALK_GODCO_Russell_StoryB" }
@@ -198,7 +198,7 @@
       {
         "text": "I hate to break it to you, but I came here because I don't want to see the world.",
         "topic": "TALK_GODCO_Russell_Joinee",
-        "condition": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" }
+        "condition": { "u_has_var": "general_meeting_godco_joinee", "value": "yes" }
       },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'm humbled by your words.  Well, bye.", "topic": "TALK_DONE" }

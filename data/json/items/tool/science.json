@@ -1367,9 +1367,9 @@
         },
         {
           "id": "EOC_MIGO_BIO_TECH_SETUP",
-          "condition": { "not": { "npc_has_var": "function_set", "type": "mbt", "context": "f", "value": "yes" } },
+          "condition": { "not": { "npc_has_var": "mbt_f_function_set", "value": "yes" } },
           "effect": [
-            { "npc_add_var": "function_set", "type": "mbt", "context": "f", "value": "yes" },
+            { "npc_add_var": "mbt_f_function_set", "value": "yes" },
             {
               "npc_add_var": "function",
               "type": "mbt",
@@ -1380,7 +1380,7 @@
         },
         {
           "id": "EOC_MIGO_BIO_TECH_MORALE",
-          "condition": { "npc_has_var": "function", "type": "mbt", "context": "f", "value": "morale" },
+          "condition": { "npc_has_var": "mbt_f_function", "value": "morale" },
           "effect": [
             { "u_message": "You feel amazing!" },
             {
@@ -1394,7 +1394,7 @@
         },
         {
           "id": "EOC_MIGO_BIO_TECH_FOCUS",
-          "condition": { "npc_has_var": "function", "type": "mbt", "context": "f", "value": "focus" },
+          "condition": { "npc_has_var": "mbt_f_function", "value": "focus" },
           "effect": [
             { "u_message": "You feel incredibly focused!" },
             { "math": [ "u_val('focus')", "+=", "min( u_val('focus') + 30, 130)" ] }
@@ -1402,12 +1402,12 @@
         },
         {
           "id": "EOC_MIGO_BIO_TECH_PAIN",
-          "condition": { "npc_has_var": "function", "type": "mbt", "context": "f", "value": "pain" },
+          "condition": { "npc_has_var": "mbt_f_function", "value": "pain" },
           "effect": [ { "u_message": "You feel your aches and pains fade away!" }, { "math": [ "u_pain()", "-=", "30" ] } ]
         },
         {
           "id": "EOC_MIGO_BIO_TECH_SLEEPINESS",
-          "condition": { "npc_has_var": "function", "type": "mbt", "context": "f", "value": "sleepiness" },
+          "condition": { "npc_has_var": "mbt_f_function", "value": "sleepiness" },
           "effect": [ { "u_message": "You instantly feel more awake!" }, { "math": [ "u_val('sleepiness')", "-=", "30" ] } ]
         }
       ]

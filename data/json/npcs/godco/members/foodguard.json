@@ -21,11 +21,11 @@
     "responses": [
       {
         "text": "Who are you?",
-        "effect": { "npc_add_var": "u_met_food_guard", "type": "general", "context": "meeting", "value": "yes" },
+        "effect": { "npc_add_var": "general_meeting_u_met_food_guard", "value": "yes" },
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "u_met_food_guard", "type": "general", "context": "meeting", "value": "yes" } },
-            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+            { "not": { "npc_has_var": "general_meeting_u_met_food_guard", "value": "yes" } },
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
         "topic": "TALK_GODCO_guard_food_who"
@@ -34,8 +34,8 @@
         "text": "Just stopping by for a moment.  See ya.",
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "u_met_food_guard", "type": "general", "context": "meeting", "value": "yes" } },
-            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+            { "not": { "npc_has_var": "general_meeting_u_met_food_guard", "value": "yes" } },
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
         "topic": "TALK_DONE"
@@ -44,8 +44,8 @@
         "text": "Who are you again?",
         "condition": {
           "and": [
-            { "npc_has_var": "u_met_food_guard", "type": "general", "context": "meeting", "value": "yes" },
-            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+            { "npc_has_var": "general_meeting_u_met_food_guard", "value": "yes" },
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
         "topic": "TALK_GODCO_guard_food_who"
@@ -54,8 +54,8 @@
         "text": "Care to talk for a bit?",
         "condition": {
           "and": [
-            { "npc_has_var": "u_met_food_guard", "type": "general", "context": "meeting", "value": "yes" },
-            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+            { "npc_has_var": "general_meeting_u_met_food_guard", "value": "yes" },
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
         "topic": "TALK_GODCO_guard_food_idlechat"
@@ -64,15 +64,15 @@
         "text": "I'll see you around.",
         "condition": {
           "and": [
-            { "npc_has_var": "u_met_food_guard", "type": "general", "context": "meeting", "value": "yes" },
-            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+            { "npc_has_var": "general_meeting_u_met_food_guard", "value": "yes" },
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
         "topic": "TALK_DONE"
       },
       {
         "text": "Alright then, fuck you <name_b>.",
-        "condition": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" },
+        "condition": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" },
         "topic": "TALK_DONE"
       }
     ]

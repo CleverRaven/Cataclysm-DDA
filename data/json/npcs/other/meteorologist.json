@@ -77,7 +77,7 @@
     },
     "speaker_effect": {
       "sentinel": "u_met_meteorologist",
-      "effect": [ { "npc_add_var": "u_met_meteorologist", "type": "general", "context": "meeting", "value": "yes" } ]
+      "effect": [ { "npc_add_var": "general_meeting_u_met_meteorologist", "value": "yes" } ]
     },
     "responses": [
       { "text": "About that job…", "condition": "has_assigned_mission", "topic": "TALK_MISSION_INQUIRE" },
@@ -85,7 +85,7 @@
       {
         "text": "Maybe I can help you with your problem?",
         "topic": "TALK_meteorologist_safety",
-        "condition": { "npc_has_var": "u_helped_meteorologist", "type": "flag", "context": "mission", "value": "yes" },
+        "condition": { "npc_has_var": "flag_mission_u_helped_meteorologist", "value": "yes" },
         "switch": true
       },
       {
@@ -298,10 +298,7 @@
         "place_monster": [ { "monster": "mon_mi_go", "x": [ 5, 15 ], "y": [ 5, 15 ], "repeat": [ 2, 5 ] } ]
       }
     },
-    "end": {
-      "effect": [ { "npc_add_var": "u_helped_meteorologist", "type": "flag", "context": "mission", "value": "yes" } ],
-      "opinion": { "trust": 4 }
-    },
+    "end": { "effect": [ { "npc_add_var": "flag_mission_u_helped_meteorologist", "value": "yes" } ], "opinion": { "trust": 4 } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "I've lost the drone, we should find out what happened…",

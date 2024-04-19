@@ -63,7 +63,7 @@ Format:
     { "group": "example_shopkeeper_itemgroup3", "trust": 40, "strict": true },
     {
       "group": "example_shopkeeper_itemgroup4",
-      "condition": { "u_has_var": "VIP", "type": "general", "context": "examples", "value": "yes" }
+      "condition": { "u_has_var": "general_examples_VIP", "value": "yes" }
     }
   ],
   "shopkeeper_consumption_rates": "basic_shop_rates",
@@ -106,7 +106,7 @@ Controls consumption of shopkeeper's stock of items (simulates purchase by other
     {
       "item": "hammer",
       "rate": 10,
-      "condition": { "npc_has_var": "hammer_eater", "type": "bool", "context": "dinner", "value": "yes" }
+      "condition": { "npc_has_var": "bool_dinner_hammer_eater", "value": "yes" }
     },
     { "category": "ammo", "rate": 10 },
     { "group": "EXODII_basic_trade", "rate": 100 }
@@ -124,7 +124,7 @@ Specifies blacklist of items that shopkeeper will not accept for trade.  Format 
   "entries": [
     {
       "item": "hammer",
-      "condition": { "npc_has_var": "hammer_hater", "type": "bool", "context": "test", "value": "yes" },
+      "condition": { "npc_has_var": "bool_test_hammer_hater", "value": "yes" },
       "message": "<npcname> hates this item"
     },
     { "category": "ammo" },

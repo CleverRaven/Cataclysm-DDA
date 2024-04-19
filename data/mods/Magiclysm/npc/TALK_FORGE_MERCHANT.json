@@ -142,8 +142,8 @@
     "responses": [
       {
         "text": "Good day, sir.",
-        "effect": { "u_add_var": "u_met_FORGE_LORD", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "u_has_var": "u_met_FORGE_LORD", "type": "general", "context": "meeting", "value": "yes" } },
+        "effect": { "u_add_var": "general_meeting_u_met_FORGE_LORD", "value": "yes" },
+        "condition": { "not": { "u_has_var": "general_meeting_u_met_FORGE_LORD", "value": "yes" } },
         "topic": "TALK_FORGE_LORD"
       }
     ]

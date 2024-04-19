@@ -476,7 +476,7 @@ alpha talker has bodytype `migo` , and beta has bodytype `human`
 #### Examples
 Checks do alpha talker has `u_met_sadie` variable
 ```json
-{ "u_has_var": "u_met_sadie", "type": "general", "context": "meeting", "value": "yes" }
+{ "u_has_var": "general_meeting_u_met_sadie", "value": "yes" }
 ```
 
 ### `expects_vars`
@@ -1836,14 +1836,14 @@ Set effects to be executed when conditions are met and when conditions are not m
 Displays a different message the first time it is run and the second time onwards
 ```json
 {
-  "if": { "u_has_var": "test", "type": "eoc_sample", "context": "if_else", "value": "yes" },
+  "if": { "u_has_var": "eoc_sample_if_else_test", "value": "yes" },
   "then": { "u_message": "You have variable." },
   "else": [
     { "u_message": "You don't have variable." },
     {
-      "if": { "not": { "u_has_var": "test", "type": "eoc_sample", "context": "if_else", "value": "yes" } },
+      "if": { "not": { "u_has_var": "eoc_sample_if_else_test", "value": "yes" } },
       "then": [
-        { "u_add_var": "test", "type": "eoc_sample", "context": "if_else", "value": "yes" },
+        { "u_add_var": "eoc_sample_if_else_test", "value": "yes" },
         { "u_message": "Vriable added." }
       ]
     }
@@ -2656,7 +2656,7 @@ Note: numeric vars can be set (and check) to monsters via `math` functions.  See
 ##### Examples
 Saves personal variable `u_met_godco_jeremiah` with `general` type, `meeting` context, and value `yes
 ```json
-{ "u_add_var": "u_met_godco_jeremiah", "type": "general", "context": "meeting", "value": "yes" }
+{ "u_add_var": "general_meeting_u_met_godco_jeremiah", "value": "yes" }
 ```
 
 Saves personal variable `time_of_last_succession` with value of current time:
@@ -2677,7 +2677,7 @@ NPC (in this case it's actually item, see Beta Talkers) saves a personal variabl
 Old variables, that was created in this way, could be migrated into `math`, using `u_`/`npc_`+`type`+`_`+`context`+`_`+`var`, for the sake of save compatibility between stable releases
 For example:
 ```json
-{ "u_add_var": "gunsmith_ammo_ammount", "type": "number", "context": "artisans", "value": "800" }
+{ "u_add_var": "number_artisans_gunsmith_ammo_ammount", "value": "800" }
 ```
 could be moved to:
 ```json  

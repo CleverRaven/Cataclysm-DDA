@@ -57,7 +57,7 @@
         }
       }
     },
-    "speaker_effect": { "effect": [ { "u_add_var": "barkeep", "type": "bool", "context": "ancilla", "value": "yes" } ] },
+    "speaker_effect": { "effect": [ { "u_add_var": "bool_ancilla_barkeep", "value": "yes" } ] },
     "responses": [
       {
         "text": "What are you doing here?",

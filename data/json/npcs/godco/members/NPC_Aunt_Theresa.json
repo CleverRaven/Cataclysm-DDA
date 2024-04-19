@@ -44,11 +44,11 @@
     "responses": [
       {
         "text": "Nice to meet you, Theresa.  I'm <u_name>.",
-        "effect": { "npc_add_var": "u_met_godco_theresa", "type": "general", "context": "meeting", "value": "yes" },
+        "effect": { "npc_add_var": "general_meeting_u_met_godco_theresa", "value": "yes" },
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "u_met_godco_theresa", "type": "general", "context": "meeting", "value": "yes" } },
-            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+            { "not": { "npc_has_var": "general_meeting_u_met_godco_theresa", "value": "yes" } },
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
         "topic": "TALK_GODCO_Theresa_Firstmeet"
@@ -57,25 +57,25 @@
         "text": "Hello, Theresa.  How are you doing?",
         "condition": {
           "and": [
-            { "npc_has_var": "u_met_godco_theresa", "type": "general", "context": "meeting", "value": "yes" },
-            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+            { "npc_has_var": "general_meeting_u_met_godco_theresa", "value": "yes" },
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
         "topic": "TALK_GODCO_Theresa_2"
       },
       {
         "text": "I'm afraid I can't talk right now.",
-        "condition": { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } },
+        "condition": { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } },
         "topic": "TALK_DONE"
       },
       {
         "text": "What's the insults for?",
-        "condition": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" },
+        "condition": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" },
         "topic": "TALK_GODCO_Theresa_You_Mutant"
       },
       {
         "text": "Fuck you then, I'm leaving.",
-        "condition": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" },
+        "condition": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" },
         "topic": "TALK_DONE"
       }
     ]
@@ -98,7 +98,7 @@
         "text": "I'm here about the scarf.",
         "condition": {
           "and": [
-            { "npc_has_var": "u_want_scarf", "type": "general", "context": "trade", "value": "yes" },
+            { "npc_has_var": "general_trade_u_want_scarf", "value": "yes" },
             { "math": [ "time_since(n_timer_trade_knitting)", ">=", "time('1 d')" ] }
           ]
         },
@@ -109,7 +109,7 @@
         "text": "I'm here about the blanket.",
         "condition": {
           "and": [
-            { "npc_has_var": "u_want_blanket", "type": "general", "context": "trade", "value": "yes" },
+            { "npc_has_var": "general_trade_u_want_blanket", "value": "yes" },
             { "math": [ "time_since(n_timer_trade_knitting)", ">=", "time('2 d')" ] }
           ]
         },
@@ -120,7 +120,7 @@
         "text": "I'm here about the quilt.",
         "condition": {
           "and": [
-            { "npc_has_var": "u_want_quilt", "type": "general", "context": "trade", "value": "yes" },
+            { "npc_has_var": "general_trade_u_want_quilt", "value": "yes" },
             { "math": [ "time_since(n_timer_trade_knitting)", ">=", "time('7 d')" ] }
           ]
         },
@@ -197,7 +197,7 @@
         "text": "I'll have a scarf.",
         "condition": { "u_has_items": { "item": "icon", "count": 5 } },
         "effect": [
-          { "npc_add_var": "u_want_scarf", "type": "general", "context": "trade", "value": "yes" },
+          { "npc_add_var": "general_trade_u_want_scarf", "value": "yes" },
           { "math": [ "n_timer_trade_knitting", "=", "time('now')" ] },
           { "u_sell_item": "icon", "count": 5 }
         ],
@@ -207,7 +207,7 @@
         "text": "I'll have a blanket.",
         "condition": { "u_has_items": { "item": "icon", "count": 10 } },
         "effect": [
-          { "npc_add_var": "u_want_blanket", "type": "general", "context": "trade", "value": "yes" },
+          { "npc_add_var": "general_trade_u_want_blanket", "value": "yes" },
           { "math": [ "n_timer_knitting", "=", "time('now')" ] },
           { "u_sell_item": "icon", "count": 10 }
         ],
@@ -217,7 +217,7 @@
         "text": "I'll have a quilt.",
         "condition": { "u_has_items": { "item": "icon", "count": 30 } },
         "effect": [
-          { "npc_add_var": "u_want_quilt", "type": "general", "context": "trade", "value": "yes" },
+          { "npc_add_var": "general_trade_u_want_quilt", "value": "yes" },
           { "math": [ "n_timer_trade_knitting", "=", "time('now')" ] },
           { "u_sell_item": "icon", "count": 30 }
         ],

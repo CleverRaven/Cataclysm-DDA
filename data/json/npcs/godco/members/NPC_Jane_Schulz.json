@@ -48,13 +48,13 @@
     "responses": [
       {
         "text": "Nice to meet you too, Jane.",
-        "effect": { "npc_add_var": "u_met_godco_jane", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "npc_has_var": "u_met_godco_jane", "type": "general", "context": "meeting", "value": "yes" } },
+        "effect": { "npc_add_var": "general_meeting_u_met_godco_jane", "value": "yes" },
+        "condition": { "not": { "npc_has_var": "general_meeting_u_met_godco_jane", "value": "yes" } },
         "topic": "TALK_GODCO_Jane_Firstmeet"
       },
       {
         "text": "Hi, Jane.  Got a minute?",
-        "condition": { "npc_has_var": "u_met_godco_jane", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "npc_has_var": "general_meeting_u_met_godco_jane", "value": "yes" },
         "topic": "TALK_GODCO_Jane_2"
       },
       { "text": "I'm afraid I can't talk right now.", "topic": "TALK_DONE" }
@@ -171,12 +171,12 @@
     "responses": [
       {
         "text": "Alright.  Wanna chat?",
-        "condition": { "not": { "npc_has_var": "jane_willing_to_follow", "type": "mission", "context": "meeting", "value": "yes" } },
+        "condition": { "not": { "npc_has_var": "mission_meeting_jane_willing_to_follow", "value": "yes" } },
         "topic": "TALK_GODCO_Jane_2"
       },
       {
         "text": "Let's go.",
-        "condition": { "npc_has_var": "jane_willing_to_follow", "type": "mission", "context": "meeting", "value": "yes" },
+        "condition": { "npc_has_var": "mission_meeting_jane_willing_to_follow", "value": "yes" },
         "effect": "follow",
         "topic": "TALK_DONE"
       }

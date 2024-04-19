@@ -107,8 +107,8 @@
     },
     "speaker_effect": {
       "effect": [
-        { "u_add_var": "first_meet", "type": "dialogue", "context": "ancilla_barkeep", "value": "yes" },
-        { "npc_add_var": "barkeep", "type": "bool", "context": "ancilla", "value": "yes" }
+        { "u_add_var": "dialogue_ancilla_barkeep_first_meet", "value": "yes" },
+        { "npc_add_var": "bool_ancilla_barkeep", "value": "yes" }
       ],
       "sentinel": "bar_meet"
     },

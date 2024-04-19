@@ -21,24 +21,24 @@
       "yes": "Yeah?",
       "no": "Oh.  Hey there."
     },
-    "speaker_effect": { "effect": { "u_add_var": "talked_to_cowboyn", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
+    "speaker_effect": { "effect": { "u_add_var": "dialogue_first_meeting_talked_to_cowboyn", "value": "yes" } },
     "responses": [
       {
         "text": "Thought I heard someone.  What are you doing here?",
         "topic": "TALK_COWBOYN_INTRODUCTION1",
-        "condition": { "not": { "u_has_var": "talked_to_cowboyn", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+        "condition": { "not": { "u_has_var": "dialogue_first_meeting_talked_to_cowboyn", "value": "yes" } }
       },
       {
         "text": "How did you get here?",
         "topic": "TALK_COWBOYN_BACKGROUND",
         "condition": {
           "and": [
-            { "u_has_var": "talked_to_cowboyn", "type": "dialogue", "context": "first_meeting", "value": "yes" },
+            { "u_has_var": "dialogue_first_meeting_talked_to_cowboyn", "value": "yes" },
             {
               "not": {
                 "or": [
-                  { "u_has_var": "cowboynmota", "type": "dialogue", "context": "cowboyn", "value": "yes" },
-                  { "u_has_var": "cowboynmots", "type": "dialogue", "context": "cowboyn", "value": "yes" }
+                  { "u_has_var": "dialogue_cowboyn_cowboynmota", "value": "yes" },
+                  { "u_has_var": "dialogue_cowboyn_cowboynmots", "value": "yes" }
                 ]
               }
             }
@@ -50,15 +50,15 @@
         "topic": "TALK_COWBOYN_FOLLOW",
         "condition": {
           "or": [
-            { "u_has_var": "cowboynmota", "type": "dialogue", "context": "cowboyn", "value": "yes" },
-            { "u_has_var": "cowboynmots", "type": "dialogue", "context": "cowboyn", "value": "yes" }
+            { "u_has_var": "dialogue_cowboyn_cowboynmota", "value": "yes" },
+            { "u_has_var": "dialogue_cowboyn_cowboynmots", "value": "yes" }
           ]
         }
       },
       {
         "text": "See you around.",
         "topic": "TALK_DONE",
-        "condition": { "u_has_var": "talked_to_cowboyn", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+        "condition": { "u_has_var": "dialogue_first_meeting_talked_to_cowboyn", "value": "yes" }
       }
     ]
   },
@@ -82,8 +82,8 @@
         "topic": "TALK_COWBOYN_PARTNER",
         "condition": {
           "or": [
-            { "not": { "u_has_var": "cowboynmota", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
-            { "not": { "u_has_var": "cowboynmots", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+            { "not": { "u_has_var": "dialogue_first_meeting_cowboynmota", "value": "yes" } },
+            { "not": { "u_has_var": "dialogue_first_meeting_cowboynmots", "value": "yes" } }
           ]
         }
       },
@@ -92,8 +92,8 @@
         "topic": "TALK_COWBOYN_MAIN",
         "condition": {
           "or": [
-            { "u_has_var": "cowboynmota", "type": "dialogue", "context": "first_meeting", "value": "yes" },
-            { "u_has_var": "cowboynmots", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+            { "u_has_var": "dialogue_first_meeting_cowboynmota", "value": "yes" },
+            { "u_has_var": "dialogue_first_meeting_cowboynmots", "value": "yes" }
           ]
         }
       }
@@ -124,14 +124,14 @@
     "type": "talk_topic",
     "id": "TALK_COWBOYN_MOTIVATES",
     "dynamic_line": "I… I mean… huh.  I guess.",
-    "speaker_effect": { "effect": { "u_add_var": "cowboynmots", "type": "dialogue", "context": "cowboyn", "value": "yes" } },
+    "speaker_effect": { "effect": { "u_add_var": "dialogue_cowboyn_cowboynmots", "value": "yes" } },
     "responses": [ { "text": "Good.  Take care.", "topic": "TALK_DONE" }, { "text": "That's a start.", "topic": "TALK_COWBOYN_MAIN" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_COWBOYN_MOTIVATEF",
     "dynamic_line": "Just leave me alone.",
-    "speaker_effect": { "effect": { "u_add_var": "cowboynmota", "type": "dialogue", "context": "cowboyn", "value": "yes" } },
+    "speaker_effect": { "effect": { "u_add_var": "dialogue_cowboyn_cowboynmota", "value": "yes" } },
     "responses": [ { "text": "Alright.  Take care.", "topic": "TALK_DONE" }, { "text": "Fine.", "topic": "TALK_DONE" } ]
   },
   {
@@ -179,18 +179,18 @@
       {
         "text": "It will.  Let's get going.",
         "topic": "TALK_DONE",
-        "condition": { "u_has_var": "cowboynmots", "type": "dialogue", "context": "cowboyn", "value": "yes" },
+        "condition": { "u_has_var": "dialogue_cowboyn_cowboynmots", "value": "yes" },
         "effect": "follow"
       },
       {
         "text": "On a second thought, wait here a while.",
         "topic": "TALK_DONE",
-        "condition": { "u_has_var": "cowboynmots", "type": "dialogue", "context": "cowboyn", "value": "yes" }
+        "condition": { "u_has_var": "dialogue_cowboyn_cowboynmots", "value": "yes" }
       },
       {
         "text": "Alright.  Goodbye.",
         "topic": "TALK_DONE",
-        "condition": { "not": { "u_has_var": "cowboynmots", "type": "dialogue", "context": "cowboyn", "value": "yes" } }
+        "condition": { "not": { "u_has_var": "dialogue_cowboyn_cowboynmots", "value": "yes" } }
       }
     ]
   }

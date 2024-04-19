@@ -118,11 +118,11 @@
         "text": "Any chance you could point the way to that cabin for me?",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "hospital_2_started_quest", "type": "mission", "context": "BGSS", "value": "yes" } },
+            { "not": { "u_has_var": "mission_BGSS_hospital_2_started_quest", "value": "yes" } },
             {
               "not": {
                 "and": [
-                  { "u_has_var": "hospital_2_asked_about_quest", "type": "general", "context": "BGSS", "value": "yes" },
+                  { "u_has_var": "general_BGSS_hospital_2_asked_about_quest", "value": "yes" },
                   { "math": [ "time_since(u_timer_timers_hospital_2_asked_about_quest)", "<", "time('8 h')" ] }
                 ]
               }
@@ -142,7 +142,7 @@
           "opinion": { "trust": -1 },
           "effect": [
             { "math": [ "u_timer_timers_hospital_2_asked_about_quest", "=", "time('now')" ] },
-            { "u_add_var": "hospital_2_asked_about_quest", "type": "general", "context": "BGSS", "value": "yes" }
+            { "u_add_var": "general_BGSS_hospital_2_asked_about_quest", "value": "yes" }
           ]
         }
       },
@@ -191,7 +191,7 @@
     "value": 0,
     "start": {
       "assign_mission_target": { "om_special": "Cabin_2", "om_terrain": "cabin_2", "reveal_radius": 3, "search_range": 400 },
-      "effect": { "u_add_var": "hospital_2_started_quest", "type": "mission", "context": "BGSS", "value": "yes" }
+      "effect": { "u_add_var": "mission_BGSS_hospital_2_started_quest", "value": "yes" }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
