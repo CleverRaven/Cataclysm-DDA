@@ -857,6 +857,7 @@
     "apply_message": "",
     "remove_message": "",
     "rating": "good",
+    "base_mods": { "stamina_min": [ -50 ], "stamina_chance": [ 1 ] },
     "enchantments": [
       {
         "values": [
@@ -866,7 +867,7 @@
         ]
       }
     ],
-    "flags": [ "ETHEREAL", "INVISIBLE", "NO_PSIONICS" ]
+    "flags": [ "ETHEREAL", "INVISIBLE", "FEATHER_FALL", "CLIMB_NO_LADDER", "LEVITATION", "NO_PSIONICS" ]
   },
   {
     "type": "effect_type",
