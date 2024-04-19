@@ -222,6 +222,11 @@
         "condition": { "u_has_mission": "MISSION_OLD_GUARD_REPEATER_BEGIN" }
       },
       {
+        "text": "What do you make of these weird pictographs?  I think they're directions somewhere.",
+        "topic": "TALK_Liam_Opinions_directions_exodii_signpost",
+        "condition": { "u_has_mission": "directions_exodii_signpost" }
+      },
+      {
         "text": "Where do you think we can get some anesthetic for that robot guy?",
         "topic": "TALK_Liam_Opinions_RUBIK_ANUS_FETICK",
         "condition": { "u_has_mission": "RUBIK_ANUS_FETICK" }
@@ -235,6 +240,26 @@
         "text": "How do you think we should start looking for this lost interdimensional building?",
         "topic": "TALK_Liam_Opinions_EXODII_MISSION_WAREHOUSE",
         "condition": { "u_has_mission": "EXODII_MISSION_WAREHOUSE" }
+      },
+      {
+        "text": "You ready to go burn some shit down?",
+        "topic": "TALK_Liam_Opinions_MISSION_pizzaiolo_1",
+        "condition": { "u_has_mission": "MISSION_pizzaiolo_1" }
+      },
+      {
+        "text": "It's not gonna be a problem that we're hunting down Foodperson, is it?",
+        "topic": "TALK_Liam_Opinions_MISSION_pizzaiolo_2",
+        "condition": { "u_has_mission": "MISSION_pizzaiolo_2" }
+      },
+      {
+        "text": "What do you think about clearing out these pizzeria squatters?",
+        "topic": "TALK_Liam_Opinions_MISSION_pizzaiolo_3",
+        "condition": { "u_has_mission": "MISSION_pizzaiolo_3" }
+      },
+      {
+        "text": "So, cake and a party.  Think it was all worth it?",
+        "topic": "TALK_Liam_Opinions_MISSION_pizzaiolo_4",
+        "condition": { "u_has_mission": "MISSION_pizzaiolo_4" }
       },
       { "text": "Can we talk about something else?", "topic": "TALK_FRIEND_Liam" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
@@ -424,6 +449,12 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_directions_exodii_signpost",
+    "dynamic_line": "Yeah, I'm with you there, it's some kind of weird map.  The smart thing to do is probably avoid it, this is some really weird shit.  I've never been one to do the smart thing though, myself.  Probably gonna have troubles sleeping until I know what that thing is trying to lead us to",
+    "responses": [ { "text": "I know what you mean.  I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_Liam_Opinions_RUBIK_ANUS_FETICK",
     "dynamic_line": "I just like, wanna back up a second.  We're trying to score drugs for a cyborg so it can do surgery on you?  That's really where life's taking us, now?",
     "responses": [
@@ -452,6 +483,74 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_pizzaiolo_1",
+    "dynamic_line": "*leans in close, speaking softly, clearly trying to avoid notice from the pizzaiolo.  \"Are you sure we should be hanging with this guy?  He's not exactly all there, is he?  He reminds me a bit of Chris before things went all chompy-chompy.\"",
+    "responses": [
+      {
+        "text": "Chill, man.  It's just a little light arson, it'll be fine.",
+        "topic": "TALK_Liam_Opinions_MISSION_pizzaiolo_1-chill"
+      },
+      {
+        "text": "I hear you, but he's following us now and I don't know how else to get rid of him.",
+        "topic": "TALK_Liam_Opinions_MISSION_pizzaiolo_1-yeah"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_pizzaiolo_1-chill",
+    "dynamic_line": "I guess everything else is wrecked already anyway, what's one more burning building?  And like, it *does* sound fun.  Let's just keep an eye on this guy, he's a slice short of a full pie, if you catch my drift.",
+    "responses": [
+      {
+        "text": "I knew you'd come around.  I'd like your opinion on something else, actually.",
+        "topic": "TALK_Liam_Opinions"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_pizzaiolo_1-yeah",
+    "dynamic_line": "True enough, and I don't wanna like, just *kill* him.  Well, I don't have anything against a bonfire this season I suppose.  Let's just make sure neither of us ends up lying face-down in a wood-fired oven, y'know?",
+    "responses": [
+      { "text": "We're on the same page.  I'd like your opinion on something else, actually.", "topic": "TALK_Liam_Opinions" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_pizzaiolo_2",
+    "dynamic_line": "No.\"  He stares at you, his eyes wild.  For a moment, you barely know the man in front of you.  \"The things I've seen when I wore that mask… it changes you.  It's a burden you can't truly understand unless you've borne it.\"  He shudders, and becomes again the Liam you know.  \"Anyone who chooses to keep wearing it after the end of the world… putting them down would be a kindness, believe me.",
+    "//": "Be nice to have some different reply if the player is true foodperson here",
+    "responses": [ { "text": "Uh… okay.  I'd like your opinion on something else, anyway.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_pizzaiolo_3",
+    "dynamic_line": "*shrugs.  \"My thoughts on Murder Mario haven't changed much, but he hasn't killed us yet.  I don't love the idea of just killing some other survivors for him.  Foodperson doesn't count.\"  He shudders and takes a quick breath.  \"I have a funny feeling they won't let us talk them out of there, though.",
+    "responses": [ { "text": "Thanks man.  I'd like your opinion on something else, actually.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_pizzaiolo_4",
+    "dynamic_line": "What if the cake is a lie?  Also do you really want to follow this guy back to his house?  We both know that's not tomato sauce on his apron.  Don't eat anything he cooks.\"  He shrugs, giving a nonplussed look.  \"Still, we've committed actual murder for him multiple times now, so I guess I'm being a bit of a hypocrite.  Let's party.",
+    "responses": [
+      {
+        "text": "You didn't have fun?  I think this whole adventure has been a…",
+        "topic": "TALK_Liam_Opinions_MISSION_pizzaiolo_4-slice"
+      },
+      {
+        "text": "I think it's worth it all, for the cake.  I'd like your opinion on something else, actually.",
+        "topic": "TALK_Liam_Opinions"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_pizzaiolo_4-slice",
+    "dynamic_line": "…SLICE!\"  Liam shouts along with you, then gives you a leaping high five before dissolving into belly laughter.  \"OK fine, that makes all the murder and arson worth it, you mad bastard.",
+    "responses": [ { "text": "That, and the cake.  I'd like your opinion on something else, actually.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
     "id": [
       "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_1",
       "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_2",
@@ -468,9 +567,16 @@
       "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_5",
       "TALK_Liam_Opinions_MISSION_OLD_GUARD_REPEATER_BEGIN",
       "TALK_Liam_Opinions_MISSION_REFUGEE_Boris_CLEANUP",
+      "TALK_Liam_Opinions_directions_exodii_signpost",
       "TALK_Liam_Opinions_RUBIK_ANUS_FETICK-1",
       "TALK_Liam_Opinions_EXODII_MISSION_CONTACT_HUB",
-      "TALK_Liam_Opinions_EXODII_MISSION_WAREHOUSE"
+      "TALK_Liam_Opinions_EXODII_MISSION_WAREHOUSE",
+      "TALK_Liam_Opinions_MISSION_pizzaiolo_1-chill",
+      "TALK_Liam_Opinions_MISSION_pizzaiolo_1-yeah",
+      "TALK_Liam_Opinions_MISSION_pizzaiolo_2",
+      "TALK_Liam_Opinions_MISSION_pizzaiolo_3",
+      "TALK_Liam_Opinions_MISSION_pizzaiolo_4",
+      "TALK_Liam_Opinions_MISSION_pizzaiolo_4-slice"
     ],
     "responses": [
       { "text": "I want to talk about something a bit more fundamental now.", "topic": "TALK_FRIEND_Liam" },
