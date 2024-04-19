@@ -58,7 +58,7 @@
     "shape": "blast",
     "min_range": {
       "math": [
-        "min( ( ( (u_spell_level('telekinetic_push') * 0.9) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
+        "min( ( ( (u_spell_level('telekinetic_push') * 0.9) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
       ]
     },
     "max_range": 40,
