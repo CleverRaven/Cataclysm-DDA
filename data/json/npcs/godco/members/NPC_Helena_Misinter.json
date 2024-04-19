@@ -117,7 +117,7 @@
       { "text": "About that job…", "topic": "TALK_MISSION_INQUIRE", "condition": "has_assigned_mission" },
       {
         "text": "Corrie and I have finished that solar cart.",
-        "condition": { "u_has_var": "godco_corrie_machine", "type": "mission", "context": "completed", "value": "in-progress" },
+        "condition": { "u_has_var": "mission_completed_godco_corrie_machine", "value": "in-progress" },
         "topic": "TALK_GODCO_Helena_Negotiate"
       },
       {
@@ -200,12 +200,12 @@
     "responses": [
       {
         "text": "I'll have some icons.",
-        "condition": { "u_has_var": "godco_corrie_machine", "type": "mission", "context": "completed", "value": "in-progress" },
+        "condition": { "u_has_var": "mission_completed_godco_corrie_machine", "value": "in-progress" },
         "topic": "TALK_GODCO_Helena_machineIcon"
       },
       {
         "text": "I want Corrie to have some extra rations.",
-        "condition": { "u_has_var": "godco_corrie_machine", "type": "mission", "context": "completed", "value": "in-progress" },
+        "condition": { "u_has_var": "mission_completed_godco_corrie_machine", "value": "in-progress" },
         "topic": "TALK_GODCO_Helena_machineFood"
       },
       { "text": "Let's negotiate some other time.", "topic": "TALK_DONE" }

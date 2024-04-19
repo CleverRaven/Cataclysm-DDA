@@ -36,12 +36,7 @@
         "condition": {
           "or": [
             { "u_has_mission": "MISSION_OLD_GUARD_REP_3" },
-            {
-              "u_has_var": "oldguard-exodii",
-              "type": "factional_questline",
-              "context": "mission",
-              "value": "encountered_base"
-            }
+            { "u_has_var": "factional_questline_mission_oldguard-exodii", "value": "encountered_base" }
           ]
         }
       },
@@ -265,9 +260,7 @@
       "success_lie": "That's a shame, a damn shame.  Wish you could have learned more.  Thanks for trying.",
       "failure": "Damn… let's hope we can try again sometime."
     },
-    "end": {
-      "effect": [ { "u_add_var": "oldguard-exodii", "type": "factional_questline", "context": "mission", "value": "encountered_base" } ]
-    }
+    "end": { "effect": [ { "u_add_var": "factional_questline_mission_oldguard-exodii", "value": "encountered_base" } ] }
   },
   {
     "id": "MISSION_OLD_GUARD_REP_4",

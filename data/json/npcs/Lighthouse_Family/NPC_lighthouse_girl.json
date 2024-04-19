@@ -92,7 +92,6 @@
     "name": { "str": "Protect fisherman's daughter" },
     "description": "She looks like a nice girl.  Maybe you should not let her die?",
     "goal": "MGOAL_CONDITION",
-    "goal_condition": { "npc_has_var": "-", "type": "-", "context": "-", "value": "-" },
     "difficulty": 0,
     "value": 0,
     "origins": [ "ORIGIN_SECONDARY" ],

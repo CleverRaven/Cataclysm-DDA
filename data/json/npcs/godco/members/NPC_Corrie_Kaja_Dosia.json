@@ -24,7 +24,7 @@
         "topic": "TALK_GODCO_Corrie_Mission",
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "godco_corrie_machine", "type": "mission", "context": "completed", "value": "in-progress" } },
+            { "not": { "npc_has_var": "mission_completed_godco_corrie_machine", "value": "in-progress" } },
             { "not": { "npc_has_var": "mission_completed_godco_corrie_machine", "value": "yes" } }
           ]
         }

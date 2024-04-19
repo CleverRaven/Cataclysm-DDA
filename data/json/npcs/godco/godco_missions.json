@@ -233,7 +233,7 @@
     },
     "end": {
       "effect": [
-        { "npc_add_var": "godco_darryl_mission1", "type": "mission", "context": "completed", "value": "in-progress" },
+        { "npc_add_var": "mission_completed_godco_darryl_mission1", "value": "in-progress" },
         { "u_spawn_item": "icon", "count": 3 }
       ],
       "update_mapgen": {
@@ -746,7 +746,7 @@
     },
     "end": {
       "effect": [
-        { "u_add_var": "godco_corrie_machine", "type": "mission", "context": "completed", "value": "in-progress" },
+        { "u_add_var": "mission_completed_godco_corrie_machine", "value": "in-progress" },
         { "mapgen_update": "place_solar_farm", "om_terrain": "godco_1" }
       ]
     }

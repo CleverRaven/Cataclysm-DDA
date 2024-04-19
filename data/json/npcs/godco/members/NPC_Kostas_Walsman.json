@@ -22,7 +22,7 @@
         "topic": "TALK_GODCO_Kostas_Tea_2",
         "condition": {
           "and": [
-            { "npc_has_var": "godco_kostas_tea", "type": "knowledge", "context": "completed", "value": "in-progress" },
+            { "npc_has_var": "knowledge_completed_godco_kostas_tea", "value": "in-progress" },
             { "u_has_items": { "item": "pine_bough", "count": 12 } }
           ]
         },
@@ -188,7 +188,7 @@
         "text": "Can I try your pine needle tea?",
         "topic": "TALK_GODCO_Kostas_Tea",
         "condition": { "not": { "npc_has_var": "knowledge_completed_godco_kostas_tea", "value": "yes" } },
-        "effect": { "npc_add_var": "godco_kostas_tea", "type": "knowledge", "context": "completed", "value": "in-progress" }
+        "effect": { "npc_add_var": "knowledge_completed_godco_kostas_tea", "value": "in-progress" }
       },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }

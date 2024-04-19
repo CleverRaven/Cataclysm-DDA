@@ -19,7 +19,7 @@
     "responses": [
       {
         "text": "About that well…",
-        "condition": { "npc_has_var": "godco_darryl_mission1", "type": "mission", "context": "completed", "value": "in-progress" },
+        "condition": { "npc_has_var": "mission_completed_godco_darryl_mission1", "value": "in-progress" },
         "topic": "TALK_MISSION_LIST"
       },
       { "text": "What's your story?", "topic": "TALK_GODCO_Darryl_Story" },
@@ -52,7 +52,7 @@
     "responses": [
       {
         "text": "About that well…",
-        "condition": { "npc_has_var": "godco_darryl_mission1", "type": "mission", "context": "completed", "value": "in-progress" },
+        "condition": { "npc_has_var": "mission_completed_godco_darryl_mission1", "value": "in-progress" },
         "topic": "TALK_MISSION_LIST"
       },
       {
