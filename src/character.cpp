@@ -6,7 +6,9 @@
 #include <cmath>
 #include <cstddef>
 #include <cstdlib>
+#include <cwctype>
 #include <functional>
+#include <initializer_list>
 #include <memory>
 #include <numeric>
 #include <tuple>
@@ -22,24 +24,29 @@
 #include "avatar_action.h"
 #include "bionics.h"
 #include "cached_options.h"
+#include "cata_assert.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character_attire.h"
 #include "character_martial_arts.h"
+#include "city.h"
 #include "colony.h"
 #include "color.h"
 #include "construction.h"
 #include "coordinates.h"
 #include "creature_tracker.h"
 #include "cursesdef.h"
+#include "debug.h"
 #include "disease.h"
 #include "display.h"
 #include "effect.h"
 #include "effect_on_condition.h"
 #include "effect_source.h"
+#include "enum_traits.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
+#include "faction.h"
 #include "fault.h"
 #include "field.h"
 #include "field_type.h"
@@ -50,15 +57,18 @@
 #include "gun_mode.h"
 #include "handle_liquid.h"
 #include "input_context.h"
+#include "input_enums.h"
 #include "inventory.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "item_stack.h"
+#include "item_tname.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "lightmap.h"
 #include "line.h"
+#include "localized_comparator.h"
 #include "magic.h"
 #include "magic_enchantment.h"
 #include "make_static.h"
@@ -66,6 +76,8 @@
 #include "map_iterator.h"
 #include "map_selector.h"
 #include "mapdata.h"
+#include "maptile_fwd.h"
+#include "martialarts.h"
 #include "math_defines.h"
 #include "memorial_logger.h"
 #include "messages.h"
@@ -80,11 +92,13 @@
 #include "options.h"
 #include "output.h"
 #include "overlay_ordering.h"
+#include "overmap_types.h"
 #include "overmapbuffer.h"
 #include "pathfinding.h"
 #include "profession.h"
 #include "proficiency.h"
 #include "recipe_dictionary.h"
+#include "requirements.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "scent_map.h"
@@ -93,8 +107,9 @@
 #include "sounds.h"
 #include "stomach.h"
 #include "string_formatter.h"
-#include "submap.h"
+#include "submap.h"  // IWYU pragma: keep
 #include "text_snippets.h"
+#include "translation.h"
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
@@ -112,6 +127,7 @@
 #include "weather.h"
 #include "weather_type.h"
 
+class activity_actor;
 struct dealt_projectile_attack;
 
 static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );

@@ -180,6 +180,7 @@ static const ter_str_id ter_t_rock_floor( "t_rock_floor" );
 static const ter_str_id ter_t_rootcellar( "t_rootcellar" );
 static const ter_str_id ter_t_sewage( "t_sewage" );
 static const ter_str_id ter_t_soil( "t_soil" );
+static const ter_str_id ter_t_stump( "t_stump" );
 static const ter_str_id ter_t_tree_birch( "t_tree_birch" );
 static const ter_str_id ter_t_tree_birch_harvested( "t_tree_birch_harvested" );
 static const ter_str_id ter_t_tree_dead( "t_tree_dead" );
@@ -192,6 +193,7 @@ static const ter_str_id ter_t_tree_pine( "t_tree_pine" );
 static const ter_str_id ter_t_tree_willow( "t_tree_willow" );
 static const ter_str_id ter_t_tree_willow_harvested( "t_tree_willow_harvested" );
 static const ter_str_id ter_t_tree_young( "t_tree_young" );
+static const ter_str_id ter_t_trunk( "t_trunk" );
 static const ter_str_id ter_t_vat( "t_vat" );
 static const ter_str_id ter_t_wall_glass( "t_wall_glass" );
 static const ter_str_id ter_t_wall_glass_alarm( "t_wall_glass_alarm" );
@@ -8388,58 +8390,40 @@ void map::grow_plant( const tripoint &p )
         furn_set( p, furn_str_id::NULL_ID() );
         return;
     }
-    const time_duration plantEpoch = seed->get_plant_epoch();
-    if( seed->age() >= plantEpoch * furn.plant->growth_multiplier &&
-        !furn.has_flag( ter_furn_flag::TFLAG_GROWTH_HARVEST ) ) {
-        if( seed->age() < plantEpoch * 2 ) {
-            if( has_flag_furn( ter_furn_flag::TFLAG_GROWTH_SEEDLING, p ) ) {
-                return;
-            }
+    // TODO: this should probably be read from the seed's data. But for now, everything uses exactly this many growth stages.
+    std::map<ter_furn_flag, int> plant_epochs;
+    plant_epochs[ter_furn_flag::TFLAG_GROWTH_SEEDLING] = 1;
+    plant_epochs[ter_furn_flag::TFLAG_GROWTH_MATURE] = 2;
+    plant_epochs[ter_furn_flag::TFLAG_GROWTH_HARVEST] = 3;
 
-            // Remove fertilizer if any
-            map_stack::iterator fertilizer = std::find_if( items.begin(), items.end(), []( const item & it ) {
-                return it.has_flag( flag_FERTILIZER );
-            } );
-            if( fertilizer != items.end() ) {
-                items.erase( fertilizer );
+    const time_duration base_epoch_duration = seed->get_plant_epoch( plant_epochs.size() );
+    const time_duration epoch_duration = base_epoch_duration * furn.plant->growth_multiplier;
+    if( seed->age() >= epoch_duration ) {
+        const int epoch_age = seed->age() / epoch_duration;
+        int current_epoch = 0;
+        for( std::pair<const ter_furn_flag, int> pair : plant_epochs ) {
+            if( has_flag_furn( pair.first, p ) ) {
+                current_epoch = pair.second;
+                break;
             }
-
-            rotten_item_spawn( *seed, p );
-            furn_set( p, furn_str_id( furn.plant->transform ) );
-        } else if( seed->age() < plantEpoch * 3 * furn.plant->growth_multiplier ) {
-            if( has_flag_furn( ter_furn_flag::TFLAG_GROWTH_MATURE, p ) ) {
-                return;
-            }
-            // Remove fertilizer if any
-            map_stack::iterator fertilizer = std::find_if( items.begin(), items.end(), []( const item & it ) {
-                return it.has_flag( flag_FERTILIZER );
-            } );
-            if( fertilizer != items.end() ) {
-                items.erase( fertilizer );
-            }
-            rotten_item_spawn( *seed, p );
-            //You've skipped the seedling stage so roll monsters twice
-            if( !has_flag_furn( ter_furn_flag::TFLAG_GROWTH_SEEDLING, p ) ) {
-                rotten_item_spawn( *seed, p );
-            }
-            furn_set( p, furn_str_id( furn.plant->transform ) );
-
-        } else {
-            //You've skipped two stages so roll monsters two times
-            if( has_flag_furn( ter_furn_flag::TFLAG_GROWTH_SEEDLING, p ) ) {
-                rotten_item_spawn( *seed, p );
-                rotten_item_spawn( *seed, p );
-                //One stage change
-            } else if( has_flag_furn( ter_furn_flag::TFLAG_GROWTH_MATURE, p ) ) {
-                rotten_item_spawn( *seed, p );
-                //Goes from seed to harvest in one check
-            } else {
-                rotten_item_spawn( *seed, p );
-                rotten_item_spawn( *seed, p );
-                rotten_item_spawn( *seed, p );
-            }
-            furn_set( p, furn_str_id( furn.plant->transform ) );
         }
+        const int epochs_to_advance = epoch_age - current_epoch;
+
+        for( int i = 0; i < epochs_to_advance; i++ ) {
+            // Remove fertilizer if any
+            map_stack::iterator fertilizer = std::find_if( items.begin(), items.end(), []( const item & it ) {
+                return it.has_flag( flag_FERTILIZER );
+            } );
+            if( fertilizer != items.end() ) {
+                items.erase( fertilizer );
+            }
+            // spawn appropriate amount of rot_spawn, equivalent to number of times we iterate this loop
+            rotten_item_spawn( *seed, p );
+            // Get an updated reference to the furniture each time we go through this loop, to make sure we transform each step in turn
+            const furn_t &current_furn = this->furn( p ).obj();
+            furn_set( p, furn_str_id( current_furn.plant->transform ) );
+        }
+
     }
 }
 
@@ -8550,6 +8534,29 @@ void map::produce_sap( const tripoint &p, const time_duration &time_since_last_a
             break;
         }
     }
+}
+
+void map::cut_down_tree( tripoint_bub_ms p, point dir )
+{
+    if( !zlevels ) {
+        debugmsg( "Call to cut_down_tree from a map that doesn't support zlevels." );
+        return;
+    }
+
+    if( !ter( p ).obj().has_flag( ter_furn_flag::TFLAG_TREE ) ) {
+        debugmsg( "Call to cut_down_tree on a tile that doesn't contain a tree." );
+        return;
+    }
+
+    tripoint_bub_ms to = p + 3 * dir + point( rng( -1, 1 ), rng( -1, 1 ) );
+
+    // TODO: make line_to type aware.
+    std::vector<tripoint> tree = line_to( p.raw(), to.raw(), rng( 1, 8 ) );
+    for( tripoint &elem : tree ) {
+        batter( elem, 300, 5 );
+        ter_set( elem, ter_t_trunk );
+    }
+    ter_set( p, ter_t_stump );
 }
 
 void map::rad_scorch( const tripoint &p, const time_duration &time_since_last_actualize )

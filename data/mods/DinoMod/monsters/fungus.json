@@ -387,7 +387,7 @@
     "bleed_rate": 0,
     "vision_day": 5,
     "vision_night": 5,
-    "special_attacks": [ [ "FUNGUS", 200 ], [ "LONGSWIPE", 20 ] ],
+    "special_attacks": [ [ "FUNGUS", 200 ], { "id": "longswipe", "cooldown": 20 } ],
     "upgrades": false,
     "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "BASHES", "DESTROYS" ]
   },
@@ -406,7 +406,7 @@
     "bleed_rate": 0,
     "vision_day": 5,
     "vision_night": 5,
-    "special_attacks": [ [ "FUNGUS", 200 ], [ "LONGSWIPE", 30 ] ],
+    "special_attacks": [ [ "FUNGUS", 200 ], { "id": "longswipe", "cooldown": 30 } ],
     "upgrades": false,
     "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "BASHES" ]
   },
@@ -425,7 +425,7 @@
     "bleed_rate": 0,
     "vision_day": 5,
     "vision_night": 5,
-    "special_attacks": [ [ "FUNGUS", 200 ], [ "LONGSWIPE", 30 ] ],
+    "special_attacks": [ [ "FUNGUS", 200 ], { "id": "longswipe", "cooldown": 30 } ],
     "upgrades": false,
     "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "BASHES" ]
   },

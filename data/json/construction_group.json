@@ -311,6 +311,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_compost_tank",
+    "name": "Build Small Scale Anaerobic Digestion System"
+  },
+  {
+    "type": "construction_group",
     "id": "build_fire_ring",
     "name": "Build Fire Ring"
   },

@@ -199,6 +199,10 @@ query_popup &query_popup::cursor( size_t pos )
 {
     // Change does not affect cache, do not invalidate window
     cur = pos;
+    std::shared_ptr<query_popup_impl> impl = p_impl.lock();
+    if( impl ) {
+        impl->keyboard_selected_option = short( cur );
+    }
     return *this;
 }
 
@@ -384,6 +388,7 @@ std::shared_ptr<query_popup_impl> query_popup::create_or_get_impl()
         p_impl = impl = std::make_shared<query_popup_impl>( this );
         if( impl ) {
             impl->mark_resized();
+            impl->keyboard_selected_option = short( cur );
         }
     }
     return impl;
