@@ -1479,13 +1479,6 @@ ret_val<item_pocket::contain_code> item_pocket::_can_contain( const item &it,
     if( !compatible.success() ) {
         return compatible;
     }
-    // Only count container in pickup_inventory_preset.
-    if( is_pick_up_inv ) {
-        if( get_pocket_data()->type == pocket_type::CONTAINER ) {
-            copies_remaining = 0;
-            return ret_val<item_pocket::contain_code>::make_success();
-        }
-    }
     if( !is_standard_type() ) {
         copies_remaining = 0;
         return ret_val<item_pocket::contain_code>::make_success();
