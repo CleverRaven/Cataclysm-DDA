@@ -1356,6 +1356,14 @@ std::function<double( dialogue & )> calories_eval( char scope,
     };
 }
 
+std::function<void( dialogue &, double )> calories_ass( char scope,
+        std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
+{
+    return[beta = is_beta( scope ) ]( dialogue const & d, double val ) {
+        return d.actor( beta )->set_stored_kcal( val );
+    };
+}
+
 std::function<double( dialogue & )> vitamin_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
@@ -1547,6 +1555,7 @@ std::map<std::string_view, dialogue_func_ass> const dialogue_assign_f{
     { "time", { "g", 1, time_ass } },
     { "proficiency", { "un", 1, proficiency_ass } },
     { "val", { "un", 1, u_val_ass } },
+    { "calories", { "un", 0, calories_ass } },
     { "vitamin", { "un", 1, vitamin_ass } },
     { "weather", { "g", 1, weather_ass } },
 };
