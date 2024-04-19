@@ -7,7 +7,7 @@
   {
     "id": "eoc_bio_superheater_off",
     "type": "effect_on_condition",
-    "effect": { "u_lose_var": "on", "type": "bio", "context": "superheater" }
+    "effect": { "u_lose_var": "bio_superheater_on" }
   },
   {
     "id": "eoc_bio_blade_electric_on",
@@ -17,7 +17,7 @@
   {
     "id": "eoc_bio_blade_electric_off",
     "type": "effect_on_condition",
-    "effect": { "u_lose_var": "on", "type": "bio", "context": "blade_electric" }
+    "effect": { "u_lose_var": "bio_blade_electric_on" }
   },
   {
     "type": "effect_on_condition",

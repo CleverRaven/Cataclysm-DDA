@@ -130,10 +130,7 @@
     "responses": [
       {
         "text": "Wonderful.  Please don't inject me with anything else unless I ask for it in the future.",
-        "effect": [
-          { "u_lose_var": "sadie_injection", "type": "general", "context": "injection" },
-          { "u_add_var": "general_heart_sadie_heart", "value": "yes" }
-        ],
+        "effect": [ { "u_lose_var": "general_injection_sadie_injection" }, { "u_add_var": "general_heart_sadie_heart", "value": "yes" } ],
         "topic": "TALK_Sadie_1"
       }
     ]

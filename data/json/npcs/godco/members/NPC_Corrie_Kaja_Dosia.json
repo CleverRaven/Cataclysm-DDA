@@ -170,7 +170,7 @@
         "effect": [
           { "npc_add_var": "mission_completed_godco_corrie_machine", "value": "yes" },
           { "u_add_var": "mission_completed_godco_corrie_machine", "value": "yes" },
-          { "u_lose_var": "unclaimed_machine_reward", "type": "mission", "context": "reward" }
+          { "u_lose_var": "mission_reward_unclaimed_machine_reward" }
         ],
         "topic": "TALK_NONE"
       },
@@ -179,7 +179,7 @@
         "effect": [
           { "npc_add_var": "mission_completed_godco_corrie_machine", "value": "yes" },
           { "u_add_var": "mission_completed_godco_corrie_machine", "value": "yes" },
-          { "u_lose_var": "unclaimed_machine_reward", "type": "mission", "context": "reward" }
+          { "u_lose_var": "mission_reward_unclaimed_machine_reward" }
         ],
         "topic": "TALK_DONE"
       }
@@ -196,7 +196,7 @@
         "effect": [
           { "npc_add_var": "mission_completed_godco_corrie_machine", "value": "yes" },
           { "u_add_var": "mission_completed_godco_corrie_machine", "value": "yes" },
-          { "u_lose_var": "unclaimed_machine_reward", "type": "mission", "context": "reward" }
+          { "u_lose_var": "mission_reward_unclaimed_machine_reward" }
         ]
       },
       {
@@ -206,7 +206,7 @@
         "effect": [
           { "npc_add_var": "mission_completed_godco_corrie_machine", "value": "yes" },
           { "u_add_var": "mission_completed_godco_corrie_machine", "value": "yes" },
-          { "u_lose_var": "unclaimed_machine_reward", "type": "mission", "context": "reward" }
+          { "u_lose_var": "mission_reward_unclaimed_machine_reward" }
         ]
       },
       {

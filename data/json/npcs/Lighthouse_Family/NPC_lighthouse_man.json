@@ -366,7 +366,7 @@
       "effect": [
         "stop_following",
         { "npc_first_topic": "TALK_lighthouse_man_1" },
-        { "npc_lose_var": "lighthouse_man", "type": "count", "context": "cleaning" }
+        { "npc_lose_var": "count_cleaning_lighthouse_man" }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],

@@ -400,7 +400,7 @@
         "text": "Glad to help.",
         "effect": [
           { "math": [ "freemerch_godco_trader_investigated", "=", "1" ] },
-          { "u_lose_var": "u_think_suspicious_price", "type": "general", "context": "trade" },
+          { "u_lose_var": "general_trade_u_think_suspicious_price" },
           { "u_spawn_item": "FMCNote", "count": 20 },
           { "u_sell_item": "godcotrader_accounting_records_dirty" }
         ],
@@ -416,7 +416,7 @@
       {
         "text": "Alright then, <name_b>.  I guess that's what I get for my troubles.",
         "effect": [
-          { "u_lose_var": "u_think_suspicious_price", "type": "general", "context": "trade" },
+          { "u_lose_var": "general_trade_u_think_suspicious_price" },
           { "finish_mission": "MISSION_INVESTIGATE_TRADER", "success": false },
           { "u_sell_item": "godcotrader_accounting_records_clean" }
         ],

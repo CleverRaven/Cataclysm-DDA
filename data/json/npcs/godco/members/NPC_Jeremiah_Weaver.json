@@ -168,7 +168,7 @@
         "text": "You're welcome.",
         "effect": [
           { "u_spawn_item": "icon", "count": 4 },
-          { "u_lose_var": "kostas_teach_jeremiah", "type": "general", "context": "mission" },
+          { "u_lose_var": "general_mission_kostas_teach_jeremiah" },
           { "npc_add_var": "general_mission_jeremiah_apprentice", "value": "yes" }
         ],
         "topic": "TALK_DONE"

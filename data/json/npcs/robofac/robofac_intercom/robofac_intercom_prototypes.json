@@ -810,7 +810,7 @@
         "effect": [
           { "u_add_var": "dialogue_hub_rnd_u_has_researched_gun", "value": "yes" },
           { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "no" },
-          { "u_lose_var": "u_waiting_on_gun", "type": "timer", "context": "hub_rnd" },
+          { "u_lose_var": "timer_hub_rnd_u_waiting_on_gun" },
           { "u_spawn_item": "robofac_gun" },
           { "u_spawn_item": "robofac_gun_ar" },
           { "u_spawn_item": "robofac_gun_smg" },

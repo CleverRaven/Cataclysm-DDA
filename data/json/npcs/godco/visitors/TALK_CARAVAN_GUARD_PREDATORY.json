@@ -51,10 +51,7 @@
       {
         "text": "I'm back for your records.",
         "condition": { "math": [ "time_since(n_timer_trade_fixing_records)", ">=", "time('2 d')" ] },
-        "effect": [
-          { "u_spawn_item": "godcotrader_accounting_records_clean" },
-          { "npc_lose_var": "fixing_records", "type": "timer", "context": "trade" }
-        ],
+        "effect": [ { "u_spawn_item": "godcotrader_accounting_records_clean" }, { "npc_lose_var": "timer_trade_fixing_records" } ],
         "topic": "TALK_DONE"
       }
     ]
@@ -281,9 +278,9 @@
     "id": "EOC_BRIBE_LATER_TRUE_EFFECT",
     "global": false,
     "effect": [
-      { "npc_lose_var": "u_owe_20", "type": "general", "context": "trade" },
-      { "npc_lose_var": "u_owe_50", "type": "general", "context": "trade" },
-      { "npc_lose_var": "u_owe_150", "type": "general", "context": "trade" },
+      { "npc_lose_var": "general_trade_u_owe_20" },
+      { "npc_lose_var": "general_trade_u_owe_50" },
+      { "npc_lose_var": "general_trade_u_owe_150" },
       { "npc_make_sound": "A pleasure doin' business with you.", "volume": 1, "type": "speech" }
     ]
   }

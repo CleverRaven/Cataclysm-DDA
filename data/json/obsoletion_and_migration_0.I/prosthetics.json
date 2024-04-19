@@ -1068,10 +1068,10 @@
       { "u_add_trait": "HAS_RIGHT_ARM" },
       { "u_add_trait": "HAS_LEFT_LEG" },
       { "u_add_trait": "HAS_RIGHT_LEG" },
-      { "u_lose_var": "missing_left_arm", "type": "traits", "context": "limbs" },
-      { "u_lose_var": "missing_left_leg", "type": "traits", "context": "limbs" },
-      { "u_lose_var": "missing_right_arm", "type": "traits", "context": "limbs" },
-      { "u_lose_var": "missing_right_leg", "type": "traits", "context": "limbs" },
+      { "u_lose_var": "traits_limbs_missing_left_arm" },
+      { "u_lose_var": "traits_limbs_missing_left_leg" },
+      { "u_lose_var": "traits_limbs_missing_right_arm" },
+      { "u_lose_var": "traits_limbs_missing_right_leg" },
       { "u_add_var": "traits_limbs_amputee_reset", "value": "yes" }
     ]
   },

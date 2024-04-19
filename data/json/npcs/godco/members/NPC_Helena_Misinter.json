@@ -223,7 +223,7 @@
       {
         "text": "Thank you.",
         "effect": [
-          { "u_lose_var": "godco_corrie_machine", "type": "mission", "context": "completed" },
+          { "u_lose_var": "mission_completed_godco_corrie_machine" },
           { "u_add_var": "mission_reward_godco_machine_reward", "value": "icon" },
           { "u_add_var": "mission_reward_unclaimed_machine_reward", "value": "yes" },
           { "u_spawn_item": "icon", "count": 25 }
@@ -240,7 +240,7 @@
       {
         "text": "Thank you.",
         "effect": [
-          { "u_lose_var": "godco_corrie_machine", "type": "mission", "context": "completed" },
+          { "u_lose_var": "mission_completed_godco_corrie_machine" },
           { "u_add_var": "mission_reward_godco_machine_reward", "value": "ration" },
           { "u_add_var": "mission_reward_unclaimed_machine_reward", "value": "yes" }
         ],

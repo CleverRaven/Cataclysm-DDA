@@ -2750,9 +2750,9 @@ Character remove variable `time_of_last_succession`
 { "u_lose_var": "time_of_last_succession" }
 ```
 
-Character remove variable `on` of type `bio` and context `blade_electric`
+Character remove variable `bio_blade_electric_on`
 ```json
-{ "u_lose_var": "on", "type": "bio", "context": "blade_electric" }
+{ "u_lose_var": "bio_blade_electric_on" }
 ```
 
 #### `set_string_var`

@@ -183,19 +183,13 @@
       {
         "text": "I paid a visit to the bunker.",
         "condition": { "and": [ { "u_has_var": "mission_completed_u_scouted_bunker", "value": "yes" } ] },
-        "effect": [
-          { "u_lose_var": "u_scouted_bunker", "type": "mission", "context": "completed" },
-          { "math": [ "exodii_knows_hub01", "=", "1" ] }
-        ],
+        "effect": [ { "u_lose_var": "mission_completed_u_scouted_bunker" }, { "math": [ "exodii_knows_hub01", "=", "1" ] } ],
         "topic": "TALK_EXODII_MERCHANT_mission_1_complete"
       },
       {
         "text": "I found the warehouse.",
         "condition": { "and": [ { "u_has_var": "mission_completed_u_found_warehouse", "value": "yes" } ] },
-        "effect": [
-          { "u_lose_var": "u_found_warehouse", "type": "mission", "context": "completed" },
-          { "math": [ "warehouse_was_found", "=", "1" ] }
-        ],
+        "effect": [ { "u_lose_var": "mission_completed_u_found_warehouse" }, { "math": [ "warehouse_was_found", "=", "1" ] } ],
         "topic": "TALK_EXODII_MERCHANT_mission_2_complete"
       },
       {

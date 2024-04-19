@@ -257,7 +257,7 @@
         "text": "Thank you.  See you around, Kostas.",
         "effect": [
           { "u_add_var": "general_mission_kostas_teach_jeremiah", "value": "yes" },
-          { "u_lose_var": "convince_kostas", "type": "general", "context": "mission" }
+          { "u_lose_var": "general_mission_convince_kostas" }
         ],
         "topic": "TALK_DONE"
       }

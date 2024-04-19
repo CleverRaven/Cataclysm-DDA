@@ -127,7 +127,7 @@
             { "npc_has_var": "general_recruit_beggars_reward_agreed", "value": "yes" }
           ]
         },
-        "effect": { "npc_lose_var": "beggars_reward_agreed", "type": "general", "context": "recruit" },
+        "effect": { "npc_lose_var": "general_recruit_beggars_reward_agreed" },
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_BeggarsRecruited"
       },
       { "text": "Who's in charge here?", "topic": "TALK_FREE_MERCHANTS_MERCHANT_WhosInCharge" },

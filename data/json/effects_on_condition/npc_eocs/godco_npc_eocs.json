@@ -52,7 +52,7 @@
     "deactivate_condition": { "u_has_var": "general_completed_theresa_gone", "value": "yes" },
     "effect": [
       { "mapgen_update": "theresa_remove", "om_terrain": "godco_3" },
-      { "u_lose_var": "theresa_going_away", "type": "general", "context": "completed" },
+      { "u_lose_var": "general_completed_theresa_going_away" },
       { "u_add_var": "general_completed_theresa_gone", "value": "yes" }
     ]
   },
@@ -99,7 +99,7 @@
     "eoc_type": "NPC_DEATH",
     "effect": [
       { "math": [ "godco_freemerch_representative_dead", "=", "0" ] },
-      { "u_lose_var": "u_think_suspicious_price", "type": "general", "context": "trade" },
+      { "u_lose_var": "general_trade_u_think_suspicious_price" },
       { "finish_mission": "MISSION_INVESTIGATE_TRADER", "success": false }
     ]
   },
