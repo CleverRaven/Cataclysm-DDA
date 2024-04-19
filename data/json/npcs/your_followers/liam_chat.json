@@ -157,6 +157,11 @@
     "dynamic_line": "My opinion?  Sure, my friend, hit me up, what's eating you?",
     "responses": [
       {
+        "text": "Check this out, I found an address of some kind of central refugee management facility.  Should we check it out?  Maybe they'll have answers?",
+        "topic": "TALK_Liam_Opinions_MISSION_REACH_REFUGEE_CENTER",
+        "condition": { "u_has_mission": "MISSION_REACH_REFUGEE_CENTER" }
+      },
+      {
         "text": "Any ideas about this job to clear out the back bay for Smokes?",
         "topic": "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_1",
         "condition": { "u_has_mission": "MISSION_FREE_MERCHANTS_EVAC_1" }
@@ -170,6 +175,31 @@
         "text": "Any thoughts about bringing this prospectus out to the ranch?",
         "topic": "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_3",
         "condition": { "u_has_mission": "MISSION_FREE_MERCHANTS_EVAC_3" }
+      },
+      {
+        "text": "Do you know how to build a still?",
+        "topic": "TALK_Liam_Opinions_MISSION_RANCH_BARTENDER_1",
+        "condition": { "u_has_mission": "MISSION_RANCH_BARTENDER_1" }
+      },
+      {
+        "text": "How long does brewer's yeast last in the package?  Can we just find it at a supermarket?",
+        "topic": "TALK_Liam_Opinions_MISSION_RANCH_BARTENDER_2",
+        "condition": { "u_has_mission": "MISSION_RANCH_BARTENDER_2" }
+      },
+      {
+        "text": "Any idea where we could find sugar beet seeds for the bartender?",
+        "topic": "TALK_Liam_Opinions_MISSION_RANCH_BARTENDER_3",
+        "condition": { "u_has_mission": "MISSION_RANCH_BARTENDER_3" }
+      },
+      {
+        "text": "Do you like big jugs, Liam?",
+        "topic": "TALK_Liam_Opinions_MISSION_RANCH_BARTENDER_4",
+        "condition": { "u_has_mission": "MISSION_RANCH_BARTENDER_4" }
+      },
+      {
+        "text": "How are we gonna transport two giant drums?",
+        "topic": "TALK_Liam_Opinions_MISSION_RANCH_BARTENDER_5",
+        "condition": { "u_has_mission": "MISSION_RANCH_BARTENDER_5" }
       },
       {
         "text": "What do you think about helping these guys clean up all that dead zombie mess?",
@@ -307,6 +337,12 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_REACH_REFUGEE_CENTER",
+    "dynamic_line": "Sweet, road trip!  That sounds like as good a plan as any, my friend.  Gives me some first season Walking Dead vibes, you know?  Maybe the place will be run by sinister G-men, or a lone crazy scientist who thinks he can cure zombies if he can just get his hands on one super-rare ingredient.  Road trip!",
+    "responses": [ { "text": "Road trip!.  I'd like your opinion on something else, actually.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_1",
     "dynamic_line": "*rubs his chin thoughtfully.  \"Maybe we can set up a bottleneck in the hallway?  First we drag a few lockers or something to funnel them, then one of us hangs close to the barricade and the other stands back and fires arrows or something?\"  He shrugs.  \"I'm not great at tactics, and I'm a bit nervous about what's back there.\"",
     "responses": [ { "text": "Thanks man.  I'd like your opinion on something else, actually.", "topic": "TALK_Liam_Opinions" } ]
@@ -346,6 +382,43 @@
         "text": "That's optimistic, thanks man.  I'd like your opinion on something else, actually.",
         "topic": "TALK_Liam_Opinions"
       }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_RANCH_BARTENDER_1",
+    "dynamic_line": "I mean, I have a basic understanding of the principles.  We could also see if we could just find a couple stills though, we're not far from the mountains.  I bet every second farm's gonna have a moonshine still set up in one of the sheds.",
+    "responses": [
+      {
+        "text": "Good point, although really, how hard can it be to make one?  I'd like your opinion on something else, too.",
+        "topic": "TALK_Liam_Opinions"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_RANCH_BARTENDER_2",
+    "dynamic_line": "I think a supermarket might be the *yeast* likely place to find it!\"  He watches your expression for a moment, then shrugs.  \"Worth a shot.  Anyway, as far as I know, dry yeast lasts practically forever.  Should be able to find some of it anywhere people did baking or brewing.",
+    "responses": [ { "text": "Thanks, man.  I'd like your opinion on something else, actually.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_RANCH_BARTENDER_3",
+    "dynamic_line": "Those Tacoma folks really think about sustainability, hey?  I like that.  Buy local, you know?  I got no idea where to find sugar beet seeds though.  I don't remember having any stocked at the cabin.  Maybe a farm or farm supply store would have them?",
+    "responses": [ { "text": "Thanks, man.  I'd like your opinion on something else, actually.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_RANCH_BARTENDER_4",
+    "dynamic_line": "*laughs.  \"If we track these things down for the bartender, I hope we get a nice, sincere 'tanks' at the end.\"",
+    "responses": [ { "text": "Me too.  I'd like your opinion on something else, actually.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_RANCH_BARTENDER_5",
+    "dynamic_line": "There's only one way for two folks like us to transport two huge liquid storage drums.  We bundle ourselves in them and roll them down the hill.  First one to the bar buys the other one a drink.",
+    "responses": [
+      { "text": "You know it'd be me.  I'd like your opinion on something else, actually.", "topic": "TALK_Liam_Opinions" }
     ]
   },
   {
@@ -662,6 +735,11 @@
       "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_2",
       "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_2-1",
       "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_3",
+      "TALK_Liam_Opinions_MISSION_RANCH_BARTENDER_1",
+      "TALK_Liam_Opinions_MISSION_RANCH_BARTENDER_2",
+      "TALK_Liam_Opinions_MISSION_RANCH_BARTENDER_3",
+      "TALK_Liam_Opinions_MISSION_RANCH_BARTENDER_4",
+      "TALK_Liam_Opinions_MISSION_RANCH_BARTENDER_5",
       "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_1-Reassure",
       "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_1-Bravado",
       "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_1-Fortunecookie",
