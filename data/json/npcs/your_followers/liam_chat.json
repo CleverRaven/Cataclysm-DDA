@@ -331,6 +331,11 @@
         "topic": "TALK_Liam_Opinions_MISSION_BUILD_CAMP_6",
         "condition": { "u_has_mission": "MISSION_BUILD_CAMP_6" }
       },
+      {
+        "text": "How do you feel about checking out a zombie-infested farm?",
+        "topic": "TALK_Liam_Opinions_directions_rural_1_FARM",
+        "condition": { "u_has_mission": "directions_rural_1_FARM" }
+      },
       { "text": "Can we talk about something else?", "topic": "TALK_FRIEND_Liam" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
@@ -730,6 +735,12 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_directions_rural_1_FARM",
+    "dynamic_line": "Normally I'd say something about needing to be careful, blah blah, and that's all true, but we're doing this for a friend, so I'm way more keen.  Let's help out our new pal.  The three of us can handle this, right?",
+    "responses": [ { "text": "Right on.  I'd like your opinion on something else, actually.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
     "id": [
       "TALK_Liam_Opinions_MISSION_REACH_REFUGEE_CENTER",
       "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_1",
@@ -769,7 +780,8 @@
       "TALK_Liam_Opinions_MISSION_BUILD_CAMP_3",
       "TALK_Liam_Opinions_MISSION_BUILD_CAMP_4",
       "TALK_Liam_Opinions_MISSION_BUILD_CAMP_5-3",
-      "TALK_Liam_Opinions_MISSION_BUILD_CAMP_6"
+      "TALK_Liam_Opinions_MISSION_BUILD_CAMP_6",
+      "TALK_Liam_Opinions_directions_rural_1_FARM"
     ],
     "responses": [
       { "text": "I want to talk about something a bit more fundamental now.", "topic": "TALK_FRIEND_Liam" },
