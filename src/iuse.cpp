@@ -8098,8 +8098,8 @@ heating_requirements heating_requirements_for_weight( const units::mass &frozen,
 heater find_heater( Character *p, item *it )
 {
     bool consume_flag = 1;
-    int heating_effect;
-    int available_heater;
+    int available_heater = 1;
+    int heating_effect = 0;
     item_location loc = item_location( *p, it );
     if( get_map().has_nearby_fire( p->pos() ) && !it->has_quality( qual_HOTPLATE ) ) {
         p->add_msg_if_player( m_info, _( "You put %1$s on fire to start heating." ), it->tname() );

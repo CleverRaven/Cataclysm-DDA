@@ -7601,7 +7601,7 @@ std::unique_ptr<activity_actor> vehicle_unfolding_activity_actor::deserialize( J
 
 int heat_activity_actor::get_aviliable_heater( Character &p, item_location &loc ) const
 {
-    int available_heater;
+    int available_heater = 1;
     if( !loc->has_no_links() ) {
         available_heater = loc->link().t_veh->connected_battery_power_level().first;
     } else if( !loc->has_flag( flag_USE_UPS ) ) {
@@ -7655,7 +7655,7 @@ void heat_activity_actor::finish( player_activity &act, Character &p )
             }
         }
     }
-    if( h.consume_flag = 1 ) {
+    if( h.consume_flag == 1 ) {
         h.loc->activation_consume( requirements.ammo, h.loc.position(), &p );
     }
     p.add_msg_if_player( m_good, _( "You heated your items." ) );
