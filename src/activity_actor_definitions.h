@@ -1702,18 +1702,19 @@ class heat_activity_actor : public activity_actor
 {
     private:
         heat_activity_actor() = default;
+        int get_aviliable_heater( Character &p, item_location &loc ) const;
     public:
         heat_activity_actor( drop_locations to_heat,
-                             heating_requirements &requirements ) :
-            to_heat( std::move( to_heat ) ),
-            requirements( requirements ) {};
+                             heating_requirements &requirements,
+                             heater h ) :
+            to_heat( std::move( to_heat ) ), requirements( requirements ), h( std::move( h ) ) {};
 
         activity_id get_type() const override {
             return activity_id( "ACT_HEAT" );
         }
 
         void start( player_activity &act, Character & ) override;
-        void do_turn( player_activity &, Character & ) override {};
+        void do_turn( player_activity &act, Character &p ) override;
         void finish( player_activity &act, Character &p ) override;
 
         std::unique_ptr<activity_actor> clone() const override {
@@ -1726,6 +1727,7 @@ class heat_activity_actor : public activity_actor
     private:
         drop_locations to_heat;
         heating_requirements requirements;
+        heater h;
 };
 
 class wear_activity_actor : public activity_actor

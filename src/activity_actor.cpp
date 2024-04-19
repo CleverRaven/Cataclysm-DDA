@@ -7581,10 +7581,31 @@ std::unique_ptr<activity_actor> vehicle_unfolding_activity_actor::deserialize( J
     return actor.clone();
 }
 
+int heat_activity_actor::get_aviliable_heater( Character &p, item_location &loc ) const
+{
+    int available_heater;
+    if( !loc->has_no_links() ) {
+        available_heater = loc->link().t_veh->connected_battery_power_level().first;
+    } else if( !loc->has_flag( flag_USE_UPS ) ) {
+        available_heater = loc->ammo_remaining();
+    } else if( loc->has_flag( flag_USE_UPS ) ) {
+        available_heater = units::to_kilojoule( p.available_ups() );
+    }
+    return available_heater;
+}
+
 void heat_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = requirements.time;
     act.moves_left = requirements.time;
+}
+
+void heat_activity_actor::do_turn( player_activity &act, Character &p )
+{
+    if( get_aviliable_heater( p, h.loc ) < requirements.ammo * h.heating_effect ) {
+        p.add_msg_if_player( _( "You need more energy to heat these items." ) );
+        act.set_to_null();
+    }
 }
 
 void heat_activity_actor::finish( player_activity &act, Character &p )
@@ -7600,7 +7621,6 @@ void heat_activity_actor::finish( player_activity &act, Character &p )
             if( cold_item->charges <= 0 ) {
                 cold_item.remove_item();
             }
-            // newit.made_of( phase_id::LIQUID )
             if( copy.made_of( phase_id::LIQUID ) ) {
                 liquid_handler::handle_all_liquid( copy, PICKUP_RANGE );
             } else {
@@ -7617,7 +7637,9 @@ void heat_activity_actor::finish( player_activity &act, Character &p )
             }
         }
     }
-
+    if( h.consume_flag = 1 ) {
+        h.loc->activation_consume( requirements.ammo, h.loc.position(), &p );
+    }
     p.add_msg_if_player( m_good, _( "You heated your items." ) );
 
     p.invalidate_crafting_inventory();
@@ -7643,6 +7665,7 @@ std::unique_ptr<activity_actor> heat_activity_actor::deserialize( JsonValue &jsi
     data.read( "ammo", actor.requirements.ammo );
     return actor.clone();
 }
+
 void wash_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = requirements.time;

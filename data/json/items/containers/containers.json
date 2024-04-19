@@ -1349,7 +1349,7 @@
         "max_contains_weight": "20 kg"
       }
     ],
-    "use_action": [ "HEAT_LIQUID_ITEMS" ],
+    "use_action": [ "HEAT_ALL_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
