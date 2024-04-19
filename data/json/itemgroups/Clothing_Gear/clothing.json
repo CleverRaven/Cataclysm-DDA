@@ -3386,7 +3386,7 @@
       [ "throw_extinguisher", 2 ],
       { "item": "small_repairkit", "prob": 14, "charges": [ 0, 500 ] },
       [ "grapnel", 6 ],
-      { "item": "misc_repairkit", "prob": 8, "charges": [ 0, -1 ] },
+      { "item": "misc_repairkit", "prob": 8 },
       { "distribution": [ { "group": "full_survival_kit" }, { "group": "used_survival_kit" } ], "prob": 3 },
       { "group": "tools_toolbox", "prob": 1 },
       [ "survivor_belt_notools", 2 ],

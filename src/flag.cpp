@@ -349,6 +349,7 @@ const flag_id flag_UNRECOVERABLE( "UNRECOVERABLE" );
 const flag_id flag_UNRESTRICTED( "UNRESTRICTED" );
 const flag_id flag_URSINE_HONEY( "URSINE_HONEY" );
 const flag_id flag_USES_BIONIC_POWER( "USES_BIONIC_POWER" );
+const flag_id flag_USES_NEARBY_AMMO( "USES_NEARBY_AMMO" );
 const flag_id flag_USE_EAT_VERB( "USE_EAT_VERB" );
 const flag_id flag_USE_PLAYER_ENERGY( "USE_PLAYER_ENERGY" );
 const flag_id flag_USE_POWER_WHEN_HIT( "USE_POWER_WHEN_HIT" );

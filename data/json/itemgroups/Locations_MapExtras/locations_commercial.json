@@ -1196,7 +1196,7 @@
       { "item": "manual_fabrication", "prob": 20 },
       { "item": "duct_tape", "prob": 70, "charges": [ 50, 200 ] },
       { "item": "superglue", "prob": 25 },
-      { "item": "misc_repairkit", "prob": 15, "charges": [ 0, -1 ] },
+      { "item": "misc_repairkit", "prob": 15 },
       { "group": "tools_toolbox", "prob": 2 }
     ]
   },
@@ -1257,7 +1257,7 @@
           { "item": "socket_screwdriver_set", "prob": 20 },
           { "item": "duct_tape", "prob": 50 },
           { "item": "superglue", "prob": 10 },
-          { "item": "misc_repairkit", "prob": 25, "charges": 200 },
+          { "item": "misc_repairkit", "prob": 25 },
           { "group": "tools_toolbox", "prob": 2 }
         ]
       }

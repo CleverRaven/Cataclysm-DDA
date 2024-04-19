@@ -6889,7 +6889,9 @@ std::string item::display_name( unsigned int quantity ) const
             max_amount = mag->ammo_capacity( item_controller->find_template(
                                                  mag->ammo_default() )->ammo->type );
         }
-
+    } else if( is_tool() && has_flag( flag_USES_NEARBY_AMMO ) ) {
+        show_amt = true;
+        amount = ammo_remaining( player_character.as_character() );
     } else if( !ammo_types().empty() ) {
         // anything that can be reloaded including tools, magazines, guns and auxiliary gunmods
         // but excluding bows etc., which have ammo, but can't be reloaded
@@ -10680,6 +10682,14 @@ int item::shots_remaining( const Character *carrier ) const
 int item::ammo_remaining( const std::set<ammotype> &ammo, const Character *carrier,
                           const bool include_linked ) const
 {
+    const bool is_tool_with_carrier = carrier != nullptr && is_tool();
+
+    if( is_tool_with_carrier && has_flag( flag_USES_NEARBY_AMMO ) && !ammo.empty() ) {
+        const inventory &crafting_inventory = carrier->crafting_inventory();
+        const ammotype &a = *ammo.begin();
+        return crafting_inventory.charges_of( a->default_ammotype(), INT_MAX );
+    }
+
     int ret = 0;
 
     // Magazine in the item
@@ -10725,7 +10735,7 @@ int item::ammo_remaining( const std::set<ammotype> &ammo, const Character *carri
 
     // UPS/bionic power can replace ammo requirement.
     // Only for tools. Guns should always use energy_drain for electricity use.
-    if( carrier != nullptr && type->tool ) {
+    if( is_tool_with_carrier ) {
         if( has_flag( flag_USES_BIONIC_POWER ) ) {
             ret += units::to_kilojoule( carrier->get_power_level() );
         }
@@ -10882,6 +10892,23 @@ int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
         return 0;
     }
     const int wanted_qty = qty;
+    const bool is_tool_with_carrier = carrier != nullptr && is_tool();
+
+    if( is_tool_with_carrier && has_flag( flag_USES_NEARBY_AMMO ) ) {
+        const ammotype ammo = ammo_type();
+        if( !ammo.is_null() ) {
+            const inventory &carrier_inventory = carrier->crafting_inventory();
+            itype_id ammo_type = ammo->default_ammotype();
+            const int charges_avalable = carrier_inventory.charges_of( ammo_type, INT_MAX );
+
+            qty = std::min( wanted_qty, charges_avalable );
+
+            std::vector<item_comp> components;
+            components.emplace_back( ammo_type, qty );
+            carrier->consume_items( components, 1 );
+            return wanted_qty - qty;
+        }
+    }
 
     // Consume power from appliances/vehicles connected with cables
     if( has_link_data() ) {
@@ -10917,10 +10944,11 @@ int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
         qty -= charg_used;
     }
 
+    bool is_off_grid_powered = has_flag( flag_USE_UPS ) || has_flag( flag_USES_BIONIC_POWER );
+
     // Modded tools can consume UPS/bionic energy instead of ammo.
     // Guns handle energy in energy_consume()
-    if( carrier != nullptr && type->tool &&
-        ( has_flag( flag_USE_UPS ) || has_flag( flag_USES_BIONIC_POWER ) ) ) {
+    if( is_tool_with_carrier && is_off_grid_powered ) {
         units::energy wanted_energy = units::from_kilojoule( static_cast<std::int64_t>( qty ) );
 
         if( has_flag( flag_USE_UPS ) ) {
@@ -11024,6 +11052,9 @@ itype_id item::ammo_current() const
     if( ammo ) {
         return ammo->get_id();
     }
+    if( is_tool() && has_flag( flag_USES_NEARBY_AMMO ) ) {
+        return ammo_default();
+    }
 
     return itype_id::NULL_ID();
 }
@@ -11067,6 +11098,11 @@ std::set<ammotype> item::ammo_types( bool conversion ) const
     if( is_gun() ) {
         return type->gun->ammo;
     }
+
+    if( is_tool() && has_flag( flag_USES_NEARBY_AMMO ) ) {
+        return type->tool->ammo_id;
+    }
+
     return contents.ammo_types();
 }
 
@@ -11075,6 +11111,14 @@ ammotype item::ammo_type() const
     if( is_ammo() ) {
         return type->ammo->type;
     }
+
+    if( is_tool() && has_flag( flag_USES_NEARBY_AMMO ) ) {
+        const std::set<ammotype> ammo_type_choices = ammo_types();
+        if( !ammo_type_choices.empty() ) {
+            return *ammo_type_choices.begin();
+        }
+    }
+
     return ammotype::NULL_ID();
 }
 

@@ -1889,6 +1889,10 @@
     "type": "json_flag"
   },
   {
+    "id": "USES_NEARBY_AMMO",
+    "type": "json_flag"
+  },
+  {
     "id": "USE_EAT_VERB",
     "type": "json_flag"
   },

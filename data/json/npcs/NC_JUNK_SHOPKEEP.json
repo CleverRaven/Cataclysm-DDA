@@ -101,7 +101,7 @@
       { "prob": 15, "group": "diazepam_bottle_plastic_pill_prescription_10" },
       { "item": "small_repairkit", "prob": 20 },
       { "item": "grapnel", "prob": 5 },
-      { "item": "misc_repairkit", "prob": 15, "charges": [ 0, -1 ] },
+      { "item": "misc_repairkit", "prob": 15 },
       { "group": "tools_toolbox", "prob": 20 },
       { "item": "crowbar", "prob": 25 },
       { "item": "machete", "prob": 25 },

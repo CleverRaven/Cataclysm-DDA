@@ -1025,10 +1025,10 @@
     "items": [
       { "item": "rebreather", "prob": 3, "ammo-item": "rebreather_cartridge_o2" },
       { "item": "UPS_off", "prob": 5, "charges": [ 0, 1000 ] },
-      { "item": "misc_repairkit", "prob": 20, "charges": [ 25, -1 ] },
       { "item": "bbgun", "prob": 15, "charges": [ 100, -1 ] },
       { "item": "bb", "prob": 10, "charges": [ 100, -1 ] },
       { "item": "tailors_kit", "prob": 15, "charges": [ 0, -1 ] },
+      { "item": "misc_repairkit", "prob": 20 },
       { "item": "heavy_flashlight", "prob": 20, "charges": [ 100, 300 ] },
       { "item": "glowstick", "prob": 50, "charges": 1400 },
       { "item": "handflare", "prob": 50, "charges": 300 },
