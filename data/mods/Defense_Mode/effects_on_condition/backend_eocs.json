@@ -84,7 +84,7 @@
       { "u_lose_effect": "staggered" },
       { "u_lose_effect": "bite" },
       { "u_lose_effect": "bleed" },
-      { "math": [ "u_val('stored_kcal')", "=", "u_val('stored_kcal')" ] },
+      { "math": [ "u_calories()", "=", "u_calories()" ] },
       { "math": [ "u_val('pkill')", "=", "u_val('pkill')" ] },
       { "math": [ "u_val('stim')", "=", "u_val('stim')" ] },
       { "math": [ "u_pain()", "=", "0" ] },
