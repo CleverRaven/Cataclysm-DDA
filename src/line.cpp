@@ -109,7 +109,7 @@ void bresenham( const tripoint &start, const tripoint &target, int offset_middle
     const tripoint a = delta.abs() * 2;
 
     const int major = std::max( std::max( a.x, a.y ), a.z );
-    const int middle = std::max( std::min( a.x, a.y ), a.z );
+    const int middle = a.x > a.y ? ( a.y > a.z ? a.y : ( a.x > a.z ? a.z : a.x ) ) : ( a.x > a.z ? a.x : ( a.y > a.z ? a.z : a.y ) );
     const int minor = std::min( std::min( a.x, a.y ), a.z );
 
     tripoint cur = start;
@@ -369,7 +369,7 @@ void bresenham( const tripoint &start, const tripoint &target, int offset_middle
                             cur.x += s.x;
                             offset_middle -= a.z;
                         }
-                        if( offset_minor > threshold_middle ) {
+                        if( offset_minor > threshold_minor ) {
                             cur.y += s.y;
                             offset_minor -= a.z;
                         }
@@ -472,7 +472,7 @@ void bresenham( const tripoint &start, const tripoint &target, int offset_middle
                                 cur.x += s.x;
                                 offset_middle -= a.z;
                             }
-                            if( offset_minor > threshold_middle ) {
+                            if( offset_minor > threshold_minor ) {
                                 cur.y += s.y;
                                 offset_minor -= a.z;
                             }
@@ -491,7 +491,7 @@ void bresenham( const tripoint &start, const tripoint &target, int offset_middle
                                 cur.y += s.y;
                                 offset_middle -= a.z;
                             }
-                            if( offset_minor > threshold_middle ) {
+                            if( offset_minor > threshold_minor ) {
                                 cur.x += s.x;
                                 offset_minor -= a.z;
                             }
