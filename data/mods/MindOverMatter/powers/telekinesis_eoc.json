@@ -14,10 +14,14 @@
         ]
       },
       { "math": [ "u_telekinesis_shove_spell_level", "=", "clamp(((u_weight_ratio - 1) * 2), 0, 20)" ] },
+      { "u_location_variable": { "context_val": "loc" } },
       {
         "if": { "math": [ "u_telekinesis_shove_spell_level", "==", "0" ] },
         "then": { "u_add_effect": "downed", "duration": 2 },
-        "else": { "npc_cast_spell": { "id": "telekinetic_push_real", "min_level": { "math": [ "u_telekinesis_shove_spell_level" ] } } }
+        "else": {
+          "npc_cast_spell": { "id": "telekinetic_push_real", "min_level": { "math": [ "u_telekinesis_shove_spell_level" ] } },
+          "loc": { "context_val": "loc" }
+        }
       }
     ]
   },
