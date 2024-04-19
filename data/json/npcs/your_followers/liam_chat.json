@@ -261,6 +261,46 @@
         "topic": "TALK_Liam_Opinions_MISSION_pizzaiolo_4",
         "condition": { "u_has_mission": "MISSION_pizzaiolo_4" }
       },
+      {
+        "text": "What do you think, you in the mood to hunt some slimes?",
+        "topic": "TALK_Liam_Opinions_MISSION_KILL_SLIMES",
+        "condition": { "u_has_mission": "MISSION_KILL_SLIMES" }
+      },
+      {
+        "text": "Hey Liam!  Liam!  Bughunt!",
+        "topic": "TALK_Liam_Opinions_MISSION_HUNT_ANTS",
+        "condition": { "u_has_mission": "MISSION_HUNT_ANTS" }
+      },
+      {
+        "text": "Looks like I've got you doing deliveries again.  Where should we look for all this lumber?",
+        "topic": "TALK_Liam_Opinions_MISSION_BUILD_CAMP_1",
+        "condition": { "u_has_mission": "MISSION_BUILD_CAMP_1" }
+      },
+      {
+        "text": "I dunno if you heard, but guess what we're gonna deliver now?  More lumber!",
+        "topic": "TALK_Liam_Opinions_MISSION_BUILD_CAMP_2",
+        "condition": { "u_has_mission": "MISSION_BUILD_CAMP_2" }
+      },
+      {
+        "text": "Any idea where we can find some ropes?",
+        "topic": "TALK_Liam_Opinions_MISSION_BUILD_CAMP_3",
+        "condition": { "u_has_mission": "MISSION_BUILD_CAMP_3" }
+      },
+      {
+        "text": "These guys need a wood saw.  You carrying one?",
+        "topic": "TALK_Liam_Opinions_MISSION_BUILD_CAMP_4",
+        "condition": { "u_has_mission": "MISSION_BUILD_CAMP_4" }
+      },
+      {
+        "text": "Where could we find a shovel?",
+        "topic": "TALK_Liam_Opinions_MISSION_BUILD_CAMP_5",
+        "condition": { "u_has_mission": "MISSION_BUILD_CAMP_5" }
+      },
+      {
+        "text": "We're looking for a charcoal smoker now.  You seen one?",
+        "topic": "TALK_Liam_Opinions_MISSION_BUILD_CAMP_6",
+        "condition": { "u_has_mission": "MISSION_BUILD_CAMP_6" }
+      },
       { "text": "Can we talk about something else?", "topic": "TALK_FRIEND_Liam" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
@@ -551,6 +591,72 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_KILL_SLIMES",
+    "dynamic_line": "I feel like at some point we must have switched to playing Stardew Valley, and I'm not quite sure when that happened.\"  He scratches his head.  \"Oh well, let's just be sure to wear gumboots.",
+    "responses": [ { "text": "And aprons.  I'd like your opinion on something else, actually.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_HUNT_ANTS",
+    "dynamic_line": "BUGHUNT!\"  Liam raises his arms over his head and grins.  \"BUUUG HUUUNT!\"  He mimes stomping on ants.  \"I'm doing my part!",
+    "responses": [ { "text": "I did actually want your opinion on something though.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_BUILD_CAMP_1",
+    "dynamic_line": "It's all good, I never minded doing deliveries, especially with a friend for company.  I guess we could try to find lumber in a lumberyard, right?  Probably not a lot of zombies hanging out in lumber yards.  Or maybe we could find an old barn and knock it down and take all the pieces.\"  He laughs.  \"Or saw it ourselves from scratch, if you're feeling like a mad lad.  Make sure we've got a vehicle that can fit it though, that much lumber ain't gonna fit in a hatchback.",
+    "responses": [ { "text": "I'd like your opinion on something else, actually.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_BUILD_CAMP_2",
+    "dynamic_line": "Something, something, wood pun, something something.  This is starting to feel like Settlers of Catan, think they'll give us some sheep in return?",
+    "responses": [ { "text": "I'd like your opinion on something else, actually.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_BUILD_CAMP_3",
+    "dynamic_line": "Six ropes?  I find it hard to believe these guys can't just get 'em themselves, but, uh, OK I guess.  Maybe we could take some old seatbelts and tie them together, or something.  It shouldn't be hard to find a few ropes laying around.",
+    "responses": [ { "text": "I'd like your opinion on something else, actually.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_BUILD_CAMP_4",
+    "dynamic_line": "Okay, wait, what?  One wood saw?  Why are you agreeing to this?  I like deliveries as much as the next guy, but it's a *single wood saw*.  It's starting to feel like you'll just agree to do anything anyone asks.\"  He sighs.  \"No worries though I guess.  One time I delivered a single cold soda to a guy living out in the Appalachians.  People are weird.",
+    "responses": [ { "text": "I'd like your opinion on something else, actually.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_BUILD_CAMP_5",
+    "dynamic_line": "A shovel?",
+    "responses": [ { "text": "Yeah, a shovel.", "topic": "TALK_Liam_Opinions_MISSION_BUILD_CAMP_5-1" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_BUILD_CAMP_5-1",
+    "dynamic_line": "A shovel.",
+    "responses": [ { "text": "That's right.", "topic": "TALK_Liam_Opinions_MISSION_BUILD_CAMP_5-2" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_BUILD_CAMP_5-2",
+    "dynamic_line": "You're not joking.",
+    "responses": [ { "text": "No.", "topic": "TALK_Liam_Opinions_MISSION_BUILD_CAMP_5-3" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_BUILD_CAMP_5-3",
+    "dynamic_line": "At the shovel store, I guess.",
+    "responses": [ { "text": "Thanks.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_BUILD_CAMP_6",
+    "dynamic_line": "What now, a vegetable peele… oh, a smoker?  That's actually kinda legit I guess.  Maybe we should hunt through peoples' backyards.  We could jump over fences like in Shaun of the Dead!",
+    "responses": [ { "text": "I'd like your opinion on something else, actually.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
     "id": [
       "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_1",
       "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_2",
@@ -576,7 +682,15 @@
       "TALK_Liam_Opinions_MISSION_pizzaiolo_2",
       "TALK_Liam_Opinions_MISSION_pizzaiolo_3",
       "TALK_Liam_Opinions_MISSION_pizzaiolo_4",
-      "TALK_Liam_Opinions_MISSION_pizzaiolo_4-slice"
+      "TALK_Liam_Opinions_MISSION_pizzaiolo_4-slice",
+      "TALK_Liam_Opinions_MISSION_KILL_SLIMES",
+      "TALK_Liam_Opinions_MISSION_HUNT_ANTS",
+      "TALK_Liam_Opinions_MISSION_BUILD_CAMP_1",
+      "TALK_Liam_Opinions_MISSION_BUILD_CAMP_2",
+      "TALK_Liam_Opinions_MISSION_BUILD_CAMP_3",
+      "TALK_Liam_Opinions_MISSION_BUILD_CAMP_4",
+      "TALK_Liam_Opinions_MISSION_BUILD_CAMP_5-3",
+      "TALK_Liam_Opinions_MISSION_BUILD_CAMP_6"
     ],
     "responses": [
       { "text": "I want to talk about something a bit more fundamental now.", "topic": "TALK_FRIEND_Liam" },
