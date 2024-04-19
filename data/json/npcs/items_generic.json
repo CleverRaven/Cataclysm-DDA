@@ -807,7 +807,7 @@
       [ "milk_powder", 3 ],
       [ "minispeargun", 1 ],
       [ "mintpatties", 3 ],
-      { "item": "misc_repairkit", "prob": 5, "charges-min": 0 },
+      { "item": "misc_repairkit", "prob": 5 },
       [ "ballistic_vest_esapi", 1 ],
       [ "molasses", 3 ],
       [ "money_strap_one", 10 ],
