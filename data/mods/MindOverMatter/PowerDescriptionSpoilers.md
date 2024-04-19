@@ -274,7 +274,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: Indefinite<br />
 *Stamina Cost*: 5000, minus 125 per level to a minimum of 2000<br />
 *Channeling Time*: 60 seconds<br />
-*Effects*: The psion casts their spirit forth, wandering disembodied. While in spirit form they are invisible and intangible, move extremely quickly, and can pass through walls. However, they do not regenerate stamina and every step costs 100 stamina (minus 3 times the power level). When stamina reaches 0, or at any time by using the appropriate power, the psion may return to their body.<br />
+*Effects*: The psion casts their spirit forth, wandering disembodied. While in spirit form they are invisible and intangible, move extremely quickly, and can pass through walls. However, they do not regenerate stamina and every step costs 75 stamina (minus 3 times the power level, to a minimum of 25). When stamina reaches 0, or at any time by using the appropriate power, the psion may return to their body.<br />
 *Prerequisites*: Clarity 6 and Clairvoyance 9 *or* Satellite View 8 and Clairvoyance 9<br />
 
 ## Prescient Tactician (C)

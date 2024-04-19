@@ -549,7 +549,7 @@
     "valid_targets": [ "ground" ],
     "spell_class": "CLAIRSENTIENT",
     "skill": "metaphysics",
-    "flags": [ "NO_FAIL", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "flags": [ "NO_FAIL", "SILENT", "NO_HANDS", "TARGET_TELEPORT", "IGNORE_WALLS", "NO_PROJECTILE", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "effect": "short_range_teleport",
     "shape": "blast",
     "min_range": 2,

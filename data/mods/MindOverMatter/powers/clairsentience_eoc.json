@@ -140,6 +140,8 @@
     "id": "EOC_CLAIR_ASTRAL_PROJECTION_DEACTIVATE",
     "effect": [
       { "u_remove_item_with": "item_clair_astral_projection_cord" },
+      { "u_lose_effect": "effect_clair_astral_projection" },
+      { "u_lose_effect": "incorporeal" },
       { "math": [ "u_spell_level('clair_astral_projection_passwall')", "=", "-1" ] },
       { "math": [ "u_spell_level('clair_astral_projection_return')", "=", "-1" ] },
       {
@@ -161,11 +163,11 @@
     "eoc_type": "EVENT",
     "required_event": "avatar_moves",
     "condition": { "u_has_effect": "effect_clair_astral_projection" },
-    "effect": [ { "math": [ "u_val('stamina')", "-=", "max((100 - (u_spell_level('clair_astral_projection') * 3)), 25)" ] } ]
+    "effect": [ { "math": [ "u_val('stamina')", "-=", "max((75 - (u_spell_level('clair_astral_projection') * 3)), 25)" ] } ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_CLAIR_ASTRAL_PROJECTION_MOVEMENT_STAMINA",
+    "id": "EOC_CLAIR_ASTRAL_PROJECTION_NO_STAMINA_RETURN",
     "eoc_type": "EVENT",
     "required_event": "avatar_moves",
     "condition": {
