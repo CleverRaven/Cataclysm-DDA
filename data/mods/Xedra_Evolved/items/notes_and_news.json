@@ -2,7 +2,7 @@
   {
     "type": "GENERIC",
     "id": "report_march_lord",
-    "name": { "str": "Report CO001141" },
+    "name": { "str": "Report CO001141", "str_pl": "copies of Report CO001141" },
     "description": "A page from a report.",
     "copy-from": "survnote",
     "snippet_category": "changeling_march_lord_report"

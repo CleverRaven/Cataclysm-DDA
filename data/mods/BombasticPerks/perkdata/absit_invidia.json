@@ -36,7 +36,7 @@
     "id": "salt",
     "type": "COMESTIBLE",
     "copy-from": "salt",
-    "name": { "str": "salt" },
+    "name": { "str_sp": "salt" },
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Throw some salt over your shoulder.",
