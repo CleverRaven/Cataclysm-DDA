@@ -293,12 +293,7 @@
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_Robofac_Start",
         "effect": [
           { "add_mission": "MISSION_FREE_MERCHANTS_HUB_DELIVERY_1" },
-          {
-            "u_add_var": "u_hub01_breadcrumb_accepted",
-            "type": "general",
-            "context": "free_merchants",
-            "value": "yes"
-          }
+          { "u_add_var": "general_free_merchants_u_hub01_breadcrumb_accepted", "value": "yes" }
         ]
       },
       {

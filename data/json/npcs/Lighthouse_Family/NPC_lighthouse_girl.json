@@ -43,21 +43,12 @@
     "dynamic_line": {
       "u_has_mission": "MISSION_lighthouse_man_3",
       "yes": {
-        "u_has_var": "lighthouse_woman_dead",
-        "type": "flag",
-        "context": "death",
+        "u_has_var": "flag_death_lighthouse_woman_dead",
         "value": "yes",
         "yes": "Thank you for saving me.  It's a shame my mother didn't make it… you did everything you could, and I don't blame you for it…",
         "no": "Thank you!"
       },
-      "no": {
-        "u_has_var": "lighthouse_woman_dead",
-        "type": "flag",
-        "context": "death",
-        "value": "yes",
-        "yes": "Poor, poor mama…",
-        "no": "Hello."
-      }
+      "no": { "u_has_var": "flag_death_lighthouse_woman_dead", "value": "yes", "yes": "Poor, poor mama…", "no": "Hello." }
     },
     "responses": [
       {

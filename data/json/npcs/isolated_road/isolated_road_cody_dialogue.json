@@ -117,9 +117,7 @@
             { "not": { "u_has_var": "dialogue_artisans_blacksmith_crafting", "value": "yes" } },
             {
               "//": "this variable means that you have completed quest 1 for Cody and shown Jay",
-              "u_has_var": "gunsmith_mentioned_quest",
-              "type": "dialogue",
-              "context": "artisans",
+              "u_has_var": "dialogue_artisans_gunsmith_mentioned_quest",
               "value": "yes"
             }
           ]

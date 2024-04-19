@@ -258,12 +258,7 @@
         "condition": {
           "and": [
             { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", "<", "time('1 d')" ] },
-            {
-              "u_has_var": "u_current_project",
-              "type": "dialogue",
-              "context": "hub_rnd",
-              "value": "phase_immersion_suit"
-            }
+            { "u_has_var": "dialogue_hub_rnd_u_current_project", "value": "phase_immersion_suit" }
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_ONGOING"
@@ -273,12 +268,7 @@
         "condition": {
           "and": [
             { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_hub)", ">", "time('1 d')" ] },
-            {
-              "u_has_var": "u_current_project",
-              "type": "dialogue",
-              "context": "hub_rnd",
-              "value": "phase_immersion_suit"
-            }
+            { "u_has_var": "dialogue_hub_rnd_u_current_project", "value": "phase_immersion_suit" }
           ]
         },
         "topic": "TALK_ROBOFAC_INTERCOM_PHASE_REPAIR_COMPLETE"
@@ -534,12 +524,7 @@
         "condition": {
           "and": [
             { "u_has_items": { "item": "RobofacCoin", "count": 3 } },
-            {
-              "u_has_var": "u_armor_type",
-              "type": "dialogue",
-              "context": "hub_rnd",
-              "value": "robofac_armor_pieces_rig"
-            }
+            { "u_has_var": "dialogue_hub_rnd_u_armor_type", "value": "robofac_armor_pieces_rig" }
           ]
         },
         "effect": [
@@ -556,12 +541,7 @@
         "condition": {
           "and": [
             { "u_has_items": { "item": "RobofacCoin", "count": 2 } },
-            {
-              "u_has_var": "u_armor_type",
-              "type": "dialogue",
-              "context": "hub_rnd",
-              "value": "robofac_armor_pieces_basic"
-            }
+            { "u_has_var": "dialogue_hub_rnd_u_armor_type", "value": "robofac_armor_pieces_basic" }
           ]
         },
         "effect": [
@@ -578,12 +558,7 @@
         "condition": {
           "and": [
             { "u_has_items": { "item": "RobofacCoin", "count": 4 } },
-            {
-              "u_has_var": "u_armor_type",
-              "type": "dialogue",
-              "context": "hub_rnd",
-              "value": "robofac_armor_pieces_nomex"
-            }
+            { "u_has_var": "dialogue_hub_rnd_u_armor_type", "value": "robofac_armor_pieces_nomex" }
           ]
         },
         "effect": [
@@ -600,12 +575,7 @@
         "condition": {
           "and": [
             { "u_has_items": { "item": "RobofacCoin", "count": 4 } },
-            {
-              "u_has_var": "u_armor_type",
-              "type": "dialogue",
-              "context": "hub_rnd",
-              "value": "robofac_armor_pieces_kevlar"
-            }
+            { "u_has_var": "dialogue_hub_rnd_u_armor_type", "value": "robofac_armor_pieces_kevlar" }
           ]
         },
         "effect": [
@@ -622,12 +592,7 @@
         "condition": {
           "and": [
             { "u_has_items": { "item": "RobofacCoin", "count": 4 } },
-            {
-              "u_has_var": "u_armor_type",
-              "type": "dialogue",
-              "context": "hub_rnd",
-              "value": "robofac_armor_pieces_rubber"
-            }
+            { "u_has_var": "dialogue_hub_rnd_u_armor_type", "value": "robofac_armor_pieces_rubber" }
           ]
         },
         "effect": [
@@ -644,12 +609,7 @@
         "condition": {
           "and": [
             { "u_has_items": { "item": "RobofacCoin", "count": 12 } },
-            {
-              "u_has_var": "u_armor_type",
-              "type": "dialogue",
-              "context": "hub_rnd",
-              "value": "robofac_armor_pieces_military"
-            }
+            { "u_has_var": "dialogue_hub_rnd_u_armor_type", "value": "robofac_armor_pieces_military" }
           ]
         },
         "effect": [
@@ -841,12 +801,7 @@
           { "u_add_faction_trust": 1 },
           { "math": [ "u_timer_hub_rnd_u_waiting_on_hub", "=", "time('now')" ] },
           { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" },
-          {
-            "u_add_var": "u_current_project",
-            "type": "dialogue",
-            "context": "hub_rnd",
-            "value": "phase_immersion_suit"
-          }
+          { "u_add_var": "dialogue_hub_rnd_u_current_project", "value": "phase_immersion_suit" }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_REPAIR_STARTED"
       },

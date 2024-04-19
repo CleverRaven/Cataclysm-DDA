@@ -338,9 +338,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Boris_Work1",
     "dynamic_line": {
-      "u_has_var": "FMShopkeep_Mission1",
-      "type": "mission",
-      "context": "flag",
+      "u_has_var": "mission_flag_FMShopkeep_Mission1",
       "value": "yes",
       "yes": "Well, now that you mention it, with the back bay cleared I could probably set up back there and start work.  I don't know if I can handle it.  The last time I was back there was the last time I saw… if… if someone were to clean up back there, wipe away some memories, then I could start renovating it into a better living space.",
       "no": "There isn't much to do with a hammer and a saw here indoors, and working outside is too dangerous.  If we had enough space for me to do some shuffling around, I could build some privacy walls in here.  I tried to set up a bit of a shop in the garage space, but I had to keep taking everything down for caravan loading and unloading and couldn't get anything done.  The caravans bring food, so they get priority, I can't argue with that."
@@ -404,18 +402,14 @@
       "concatenate": [
         "Everyone agrees this is bad.  Sleeping on a cot on the floor, crowded in with strangers",
         {
-          "u_has_var": "Boris_mission_1",
-          "type": "mission",
-          "context": "completed",
+          "u_has_var": "mission_completed_Boris_mission_1",
           "value": "yes",
           "yes": ", but it is a bit better since we cleaned up our dead",
           "no": ", woken by zombies in the night"
         },
         ".  To me, though, that is all just a drop in the bucket",
         {
-          "u_has_var": "Boris_mission_3",
-          "type": "mission",
-          "context": "completed",
+          "u_has_var": "mission_completed_Boris_mission_3",
           "value": "yes",
           "yes": ".  What is killing me is being forced to sit with nothing but my thoughts of what I've lost.",
           "no": ".  I have spent so much time, just regretting what I have lost.  Thank you for bringing back what little you could."

@@ -211,9 +211,7 @@
     "type": "talk_topic",
     "id": "TALK_NPC_SCRAP_TRADER",
     "dynamic_line": {
-      "npc_has_var": "knows_u",
-      "type": "dialogue",
-      "context": "first_meeting",
+      "npc_has_var": "dialogue_first_meeting_knows_u",
       "value": "yes",
       "yes": "Hello there.  Nice to see you, <name_g>.",
       "no": "Haven't seen another face in quite a while.  Not a living one, at least.  State your business.  Maybe you got some use for some of this scrap metal?"

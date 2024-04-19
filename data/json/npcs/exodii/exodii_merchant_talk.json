@@ -126,9 +126,7 @@
         "Ah, a returnin', an I'm ken."
       ],
       "no": {
-        "u_has_var": "u_met_Rubik",
-        "type": "general",
-        "context": "meeting",
+        "u_has_var": "general_meeting_u_met_Rubik",
         "value": "yes",
         "yes": [
           "And a fine return, matey.",
@@ -346,9 +344,7 @@
     "id": "TALK_EXODII_MERCHANT_Talk",
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_var": "rubik_intro",
-      "type": "dialogue",
-      "context": "started",
+      "u_has_var": "dialogue_started_rubik_intro",
       "value": "yes",
       "yes": {
         "//~": "You can surely try.  I'm not the greatest speaker, and I won't just chat forever for free, you know.",

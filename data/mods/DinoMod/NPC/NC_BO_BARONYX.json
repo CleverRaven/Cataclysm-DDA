@@ -37,15 +37,11 @@
     "type": "talk_topic",
     "id": "TALK_SWAMPER",
     "dynamic_line": {
-      "u_has_var": "talked_to_swamper",
-      "type": "dialogue",
-      "context": "first_meeting",
+      "u_has_var": "dialogue_first_meeting_talked_to_swamper",
       "value": "yes",
       "no": "You look hungry friend.  So much hunger in this world.  This is the time of the eaters.",
       "yes": {
-        "u_has_var": "asked_about_eating",
-        "type": "dialogue",
-        "context": "eating",
+        "u_has_var": "dialogue_eating_asked_about_eating",
         "value": "yes",
         "no": "Welcome.  Are you hungry friend?",
         "yes": "The eaters will be fed."

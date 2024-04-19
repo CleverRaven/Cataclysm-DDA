@@ -44,9 +44,7 @@
     "type": "talk_topic",
     "id": "TALK_Yoshimi_1",
     "dynamic_line": {
-      "u_has_var": "u_met_yoshimi",
-      "type": "general",
-      "context": "meeting",
+      "u_has_var": "general_meeting_u_met_yoshimi",
       "value": "yes",
       "yes": [
         "How can I help you, survivor?",

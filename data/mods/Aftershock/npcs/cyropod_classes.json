@@ -65,9 +65,7 @@
     "id": "TALK_THAWED_1",
     "type": "talk_topic",
     "dynamic_line": {
-      "npc_has_var": "thawed_has_talked",
-      "type": "dialogue",
-      "context": "thawed",
+      "npc_has_var": "dialogue_thawed_thawed_has_talked",
       "value": "yes",
       "no": "What year is it?  How long have I been asleep?",
       "yes": "Anymore bad news?"

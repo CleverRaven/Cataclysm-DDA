@@ -1035,11 +1035,11 @@ Condition | Type | Description
   "topic": "TALK_NONE",
   "condition": {
     "not": {
-      "npc_has_var": "has_met_PC", "type": "general", "context": "examples", "value": "yes"
+      "npc_has_var": "general_examples_has_met_PC", "value": "yes"
     }
   },
   "effect": {
-    "npc_add_var": "has_met_PC", "type": "general", "context": "examples", "value": "yes"
+    "npc_add_var": "general_examples_has_met_PC", "value": "yes"
   }
 },
 {

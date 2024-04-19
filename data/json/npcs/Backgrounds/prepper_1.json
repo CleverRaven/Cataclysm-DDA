@@ -66,9 +66,7 @@
     "id": "BGSS_PREPPER_1_LMOE",
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_var": "prepper_1_started_quest",
-      "type": "mission",
-      "context": "BGSS",
+      "u_has_var": "mission_BGSS_prepper_1_started_quest",
       "value": "yes",
       "no": {
         "gendered_line": "I never made it there and can't imagine I ever will.  Every time I've tried I've been headed off by the <zombies>.",

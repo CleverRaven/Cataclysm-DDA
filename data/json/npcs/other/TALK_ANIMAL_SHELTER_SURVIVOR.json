@@ -7,9 +7,7 @@
     "type": "talk_topic",
     "id": "TALK_NPC_ANIMAL_SHELTER_SURVIVOR",
     "dynamic_line": {
-      "npc_has_var": "knows_u",
-      "type": "dialogue",
-      "context": "first_meeting",
+      "npc_has_var": "dialogue_first_meeting_knows_u",
       "value": "yes",
       "yes": "<greet>",
       "no": "Finally, someone who isn't part of those <zombies>."

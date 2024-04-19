@@ -105,21 +105,15 @@
     "id": "TALK_ROBOFAC_MERC_1",
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_var": "u_met_Cranberry",
-      "type": "general",
-      "context": "meeting",
+      "u_has_var": "general_meeting_u_met_Cranberry",
       "value": "yes",
       "no": "&There's a person reclined on the sofa here.  They're very tall, with their legs reaching to the other armrest, and they're wearing a set of Hub 01's modular armor.  An environmental suit in blue-and-brown is crumpled in a misshapen heap on the floor near the table, and leaning against the far armrest is a rifle looking like nothing you've seen before.\n\nThey look up towards you as you come through the door and wave a hand.  \"Placeholder text.\"",
       "yes": {
-        "u_has_var": "robofac_merc_1_stay",
-        "type": "dialogue",
-        "context": "robofac_merc_1",
+        "u_has_var": "dialogue_robofac_merc_1_robofac_merc_1_stay",
         "value": "yes",
         "no": [ "Did I scare you off the first time?", "Hi again, other person.", "*waves." ],
         "yes": {
-          "npc_has_var": "temporal_follower",
-          "type": "general",
-          "context": "robofac_merc_1",
+          "npc_has_var": "general_robofac_merc_1_temporal_follower",
           "value": "yes",
           "yes": [
             "Better keep our eyes on the road.",

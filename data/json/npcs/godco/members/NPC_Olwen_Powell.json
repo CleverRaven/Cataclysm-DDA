@@ -13,9 +13,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Olwen_1",
     "dynamic_line": {
-      "npc_has_var": "u_met_godco_olwen",
-      "type": "general",
-      "context": "meeting",
+      "npc_has_var": "general_meeting_u_met_godco_olwen",
       "value": "yes",
       "yes": [ "Hey, <name_g>.", "Good to see you again.", "What can I do for you?", "You don't look too shabby, <u_name>." ],
       "no": "I definitely haven't met you yet.  Nice to meet you, I'm Olwen."

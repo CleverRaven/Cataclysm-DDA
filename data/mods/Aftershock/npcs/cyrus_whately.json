@@ -7,9 +7,7 @@
     "type": "talk_topic",
     "id": "TALK_CYRUS_1",
     "dynamic_line": {
-      "u_has_var": "u_met_cyrus",
-      "type": "general",
-      "context": "meeting",
+      "u_has_var": "general_meeting_u_met_cyrus",
       "value": "yes",
       "yes": [ "What brings you here today?", "Hello.", "How are you?", "Welcome!", "Are you ready to leave this marble?" ],
       "no": "You look like one of my niece's lab assistants."

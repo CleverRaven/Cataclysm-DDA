@@ -42,9 +42,7 @@
       "u_has_mission": "BEM_jabberwock_mission",
       "yes": "&You see one more traumatized face, all too many and too frequent for any help to be worthwhile.",
       "no": {
-        "u_has_var": "completed_bem_jabberwock",
-        "type": "dialogue",
-        "context": "bem",
+        "u_has_var": "dialogue_bem_completed_bem_jabberwock",
         "value": "yes",
         "yes": "&You see one more traumatized face, all too many and too frequent for any help to be worthwhile.",
         "no": {

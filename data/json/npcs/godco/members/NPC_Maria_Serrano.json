@@ -20,15 +20,11 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Maria",
     "dynamic_line": {
-      "u_has_var": "godco_notalk_to_u",
-      "type": "dialogue",
-      "context": "godco",
+      "u_has_var": "dialogue_godco_godco_notalk_to_u",
       "value": "yes",
       "yes": "Ahh!  What the <swear> are you?  Get the <swear> away from me!",
       "no": {
-        "npc_has_var": "u_met_godco_maria",
-        "type": "general",
-        "context": "meeting",
+        "npc_has_var": "general_meeting_u_met_godco_maria",
         "value": "yes",
         "yes": [ "Hey <name_g>!  Nice to see you again!", "Hey <u_name>!  Nice to see you again!" ],
         "no": "I don't think I've met you before, have I?  I'm Maria Serrano, it's nice to see an new face."

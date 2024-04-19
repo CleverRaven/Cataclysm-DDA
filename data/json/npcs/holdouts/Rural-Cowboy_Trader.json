@@ -15,9 +15,7 @@
     "type": "talk_topic",
     "id": "TALK_COWBOYT_MAIN",
     "dynamic_line": {
-      "u_has_var": "talked_to_cowboyt",
-      "type": "dialogue",
-      "context": "first_meeting",
+      "u_has_var": "dialogue_first_meeting_talked_to_cowboyt",
       "value": "yes",
       "yes": "Hey there.",
       "no": "Hey!  Who goes there?"

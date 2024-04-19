@@ -14,9 +14,7 @@
     "type": "talk_topic",
     "id": "TALK_RANCH_DOCTOR",
     "dynamic_line": {
-      "npc_has_var": "provides_aid",
-      "type": "dialogue",
-      "context": "tacoma_ranch",
+      "npc_has_var": "dialogue_tacoma_ranch_provides_aid",
       "value": "yes",
       "yes": "How can I help you today?",
       "no": "I'm sorry, I don't have time to help you at the moment."
@@ -66,9 +64,7 @@
     "id": "TALK_RANCH_DOCTOR_AID",
     "type": "talk_topic",
     "dynamic_line": {
-      "npc_has_var": "provides_aid",
-      "type": "dialogue",
-      "context": "tacoma_ranch",
+      "npc_has_var": "dialogue_tacoma_ranch_provides_aid",
       "value": "yes",
       "yes": {
         "npc_has_effect": "currently_busy",
@@ -104,9 +100,7 @@
     "id": "TALK_RANCH_DOCTOR_BIONICS",
     "type": "talk_topic",
     "dynamic_line": {
-      "npc_has_var": "provides_bionics",
-      "type": "dialogue",
-      "context": "tacoma_ranch",
+      "npc_has_var": "dialogue_tacoma_ranch_provides_bionics",
       "value": "yes",
       "yes": "What can I help you with?",
       "no": "We don't have the medical equipment to do that right now."
@@ -266,18 +260,8 @@
     "goal_condition": {
       "and": [
         { "u_has_items": { "item": "anesthetic", "count": 3000 } },
-        {
-          "u_has_var": "doctor_anesthetic_scavengers_helped",
-          "type": "mission",
-          "context": "tacoma_ranch",
-          "value": "yes"
-        },
-        {
-          "u_has_var": "doctor_anesthetic_scrappers_helped",
-          "type": "mission",
-          "context": "tacoma_ranch",
-          "value": "yes"
-        }
+        { "u_has_var": "mission_tacoma_ranch_doctor_anesthetic_scavengers_helped", "value": "yes" },
+        { "u_has_var": "mission_tacoma_ranch_doctor_anesthetic_scrappers_helped", "value": "yes" }
       ]
     },
     "difficulty": 5,

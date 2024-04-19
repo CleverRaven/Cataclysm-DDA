@@ -28,15 +28,11 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Tom_1",
     "dynamic_line": {
-      "u_has_var": "godco_notalk_to_u",
-      "type": "dialogue",
-      "context": "godco",
+      "u_has_var": "dialogue_godco_godco_notalk_to_u",
       "value": "yes",
       "yes": "What the <swear> are you?  Get the <swear> away from me!",
       "no": {
-        "npc_has_var": "u_met_godco_tom",
-        "type": "general",
-        "context": "meeting",
+        "npc_has_var": "general_meeting_u_met_godco_tom",
         "value": "yes",
         "yes": "Hey, it's you again <u_name>!  Any news from the outside world?",
         "no": {

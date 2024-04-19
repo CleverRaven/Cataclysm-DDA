@@ -3,9 +3,7 @@
     "id": "TALK_GREAT_LIBRARY_LIBRARIAN",
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_var": "u_met_Elvira",
-      "type": "general",
-      "context": "meeting",
+      "u_has_var": "general_meeting_u_met_Elvira",
       "value": "yes",
       "yes": [
         "*whispering.  \"Welcome back to the Library.\"",

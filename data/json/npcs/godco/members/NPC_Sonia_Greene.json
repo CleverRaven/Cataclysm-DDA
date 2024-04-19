@@ -28,9 +28,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Sonia",
     "dynamic_line": {
-      "npc_has_var": "u_met_godco_sonia",
-      "type": "general",
-      "context": "meeting",
+      "npc_has_var": "general_meeting_u_met_godco_sonia",
       "value": "yes",
       "yes": [
         { "gendered_line": "Well now, good to see you again, friend.", "relevant_genders": [ "u" ] },
@@ -58,9 +56,7 @@
     "id": "TALK_GODCO_Sonia_Tunes",
     "dynamic_line": [
       {
-        "npc_has_var": "sonia_guitar_fixed",
-        "type": "mission",
-        "context": "completed",
+        "npc_has_var": "mission_completed_sonia_guitar_fixed",
         "value": "yes",
         "yes": "Just playing some good ol' tunes.  There's so much negativity around here, someone's gotta cheer people up, ya know?",
         "no": "Nothin' much, just sitting around and biding my time,, getting any work I can.  I might play something to cheer everyone up, if my guitar wasn't busted."

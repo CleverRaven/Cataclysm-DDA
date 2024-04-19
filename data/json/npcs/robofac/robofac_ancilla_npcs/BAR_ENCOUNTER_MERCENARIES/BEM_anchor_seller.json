@@ -3,9 +3,7 @@
     "id": [ "BEM_ANCHOR_SELLER_1", "BEM_ANCHOR_SELLER_ASK" ],
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_var": "ANCHOR_SELLER_paranormal",
-      "type": "dialogue",
-      "context": "BEM_ANCHOR_SELLER",
+      "u_has_var": "dialogue_BEM_ANCHOR_SELLER_ANCHOR_SELLER_paranormal",
       "value": "yes",
       "yes": { "gendered_line": "Sorry I'd rather be left alone right now.", "relevant_genders": [ "npc" ] },
       "no": {

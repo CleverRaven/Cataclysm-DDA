@@ -151,9 +151,7 @@
     "id": "TALK_ROBOFAC_INTERCOM",
     "type": "talk_topic",
     "dynamic_line": {
-      "npc_has_var": "npc_intercom_trade",
-      "type": "dialogue",
-      "context": "intercom",
+      "npc_has_var": "dialogue_intercom_npc_intercom_trade",
       "value": "yes",
       "yes": [
         "&The intercom is silent.",
@@ -162,9 +160,7 @@
         "&The intercom says something unintelligible."
       ],
       "no": {
-        "u_has_var": "u_discovered_robofac_intercom",
-        "type": "dialogue",
-        "context": "intercom",
+        "u_has_var": "dialogue_intercom_u_discovered_robofac_intercom",
         "value": "yes",
         "yes": "&The intercom is silent.",
         "no": "&An intercom is embedded into the wall here, just next to the card reader.  It's a metal box about as big as a dinner plate, with a speaker shaped like a downwards curve and a large camera prominently featured in the center.  You see a single metal button with a dark LED next to it.  The intercom is silent."
@@ -404,9 +400,7 @@
     "id": "TALK_ROBOFAC_INTERCOM_INTRO",
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_var": "u_met_robofac_intercom",
-      "type": "dialogue",
-      "context": "intercom",
+      "u_has_var": "dialogue_intercom_u_met_robofac_intercom",
       "value": "yes",
       "yes": "&The intercom is silent.",
       "no": "&The intercom crackles with static as it turns on.  The LED next to the button lights up a bright red, and the camera lens whirrs as it focuses on you.  There is no immediate response."
@@ -448,12 +442,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_var": "dialogue_intercom_completed_robofac_intercom_1", "value": "yes" } },
-            {
-              "u_has_var": "completed_free_merchants_hub_delivery_1",
-              "type": "dialogue",
-              "context": "intercom",
-              "value": "yes"
-            }
+            { "u_has_var": "dialogue_intercom_completed_free_merchants_hub_delivery_1", "value": "yes" }
           ]
         },
         "trial": { "type": "LIE", "difficulty": 1 },
@@ -580,9 +569,7 @@
     ],
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_var": "u_started_robofac_hdd_trade",
-      "type": "dialogue",
-      "context": "intercom",
+      "u_has_var": "dialogue_intercom_u_started_robofac_hdd_trade",
       "value": "yes",
       "yes": "&The intercom's tray wordlessly slides open.",
       "no": "&The intercom erupts into static.  Then, it resolves into a voice.  It clears its throat, then speaks slowly and carefully.  \"Understood.  There is a tray embedded beneath the intercom.  Please place the drive into it.\"  On cue, a small portion of the wall beneath the intercom slides out along rails, revealing a large tray several inches deep.  \"You are welcome to leave afterwards.\""

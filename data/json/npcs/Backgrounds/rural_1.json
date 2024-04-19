@@ -32,9 +32,7 @@
     "id": "BGSS_RURAL_1_STORY3",
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_var": "rural_1_started_quest",
-      "type": "mission",
-      "context": "BGSS",
+      "u_has_var": "mission_BGSS_rural_1_started_quest",
       "value": "yes",
       "no": {
         "gendered_line": "That was the first thing to really shake me out of it.  I didn't really have any very close friends, but there were people back in town I cared about a bit.  I had sent some texts, but I hadn't really twigged that they hadn't replied for days.  I got in my truck and tried to get back to town.  Didn't get far before I hit a <zombie> infested pileup blocking the highway, and that's when I started to put it all together.  Never did get to town.  Unfortunately I led the <zombies> back to my farm, and had to bug out of there.  Might go back and clear it out, someday.",

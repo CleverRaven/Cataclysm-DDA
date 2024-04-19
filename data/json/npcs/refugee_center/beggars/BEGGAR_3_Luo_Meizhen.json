@@ -94,20 +94,14 @@
       "npc_has_effect": "insulted_luo",
       "yes": { "gendered_line": "Fuck off, dickwaddle.", "relevant_genders": [ "u" ] },
       "no": {
-        "u_has_var": "luo_recruited",
-        "type": "general",
-        "context": "recruit",
+        "u_has_var": "general_recruit_luo_recruited",
         "value": "yes",
         "yes": "Yo.  Anyone else keen on moving from this bus stop to your tent city?",
         "no": {
-          "npc_has_var": "dont_insult_luo",
-          "type": "general",
-          "context": "conversation",
+          "npc_has_var": "general_conversation_dont_insult_luo",
           "value": "yes",
           "yes": {
-            "npc_has_var": "apology_luo",
-            "type": "general",
-            "context": "conversation",
+            "npc_has_var": "general_conversation_apology_luo",
             "value": "yes",
             "yes": {
               "npc_has_effect": "beggar_has_eaten",
@@ -568,9 +562,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_3_MYCUS3",
     "dynamic_line": {
-      "npc_has_var": "luo_attempt_recruit",
-      "type": "general",
-      "context": "recruit",
+      "npc_has_var": "general_recruit_luo_attempt_recruit",
       "value": "yes",
       "yes": "If you get me a sample, I'll join your crazy camp expedition.  Hell, if you bring me a sample maybe I'll help you set up a lab to study this stuff.  Almost anything could work, but if this stuff is as dangerous as you make it sound, maybe make sure it's not a sporulating body.",
       "no": "I dunno, scientific interest?  If you don't bring me anything, no worries.  I'm positively swimming in entertainment here, as you can see."

@@ -29,15 +29,11 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Greenwood_1",
     "dynamic_line": {
-      "u_has_var": "godco_notalk_to_u",
-      "type": "dialogue",
-      "context": "godco",
+      "u_has_var": "dialogue_godco_godco_notalk_to_u",
       "value": "yes",
       "yes": "The Lord be with you…  You don't seem all too well, I pray for you.",
       "no": {
-        "npc_has_var": "u_met_godco_greenwood",
-        "type": "general",
-        "context": "meeting",
+        "npc_has_var": "general_meeting_u_met_godco_greenwood",
         "value": "yes",
         "yes": {
           "u_male": true,

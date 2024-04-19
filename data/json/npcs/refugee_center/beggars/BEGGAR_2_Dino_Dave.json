@@ -213,9 +213,7 @@
       "concatenate": [
         "Well… I had it all pretty together,\u0020",
         {
-          "u_has_var": "beggars_recruited",
-          "type": "general",
-          "context": "recruit",
+          "u_has_var": "general_recruit_beggars_recruited",
           "value": "yes",
           "yes": "but the others have left, and\u0020",
           "no": "and I feel bad with all the help you've given me already, but\u0020"

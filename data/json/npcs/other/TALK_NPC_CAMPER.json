@@ -3,9 +3,7 @@
     "type": "talk_topic",
     "id": "TALK_NPC_CAMPER_SURVIVOR",
     "dynamic_line": {
-      "npc_has_var": "knows_u",
-      "type": "dialogue",
-      "context": "first_meeting",
+      "npc_has_var": "dialogue_first_meeting_knows_u",
       "value": "yes",
       "yes": "<greet>.",
       "no": { "gendered_line": "Hey, stranger.  Glad to see a new face around here.", "relevant_genders": [ "npc", "u" ] }

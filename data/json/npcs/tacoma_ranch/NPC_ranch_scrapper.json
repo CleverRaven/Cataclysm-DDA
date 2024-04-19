@@ -87,12 +87,7 @@
       "effect": [
         { "u_consume_item": "angle_grinder" },
         { "u_consume_item": "hacksaw" },
-        {
-          "u_add_var": "doctor_anesthetic_scrappers_helped",
-          "type": "mission",
-          "context": "tacoma_ranch",
-          "value": "yes"
-        }
+        { "u_add_var": "mission_tacoma_ranch_doctor_anesthetic_scrappers_helped", "value": "yes" }
       ]
     }
   }

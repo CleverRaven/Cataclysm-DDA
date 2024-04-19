@@ -96,9 +96,7 @@
     "type": "talk_topic",
     "id": "TALK_NPC_CAMPER_VAN_TRAVELER",
     "dynamic_line": {
-      "npc_has_var": "knows_u",
-      "type": "dialogue",
-      "context": "first_meeting",
+      "npc_has_var": "dialogue_first_meeting_knows_u",
       "value": "yes",
       "yes": "<greet>",
       "no": {
@@ -132,33 +130,25 @@
     "type": "talk_topic",
     "id": "TALK_NPC_CAMPER_VAN_TRAVELER_DESTINATION",
     "dynamic_line": {
-      "npc_has_var": "travel_direction",
-      "type": "dialogue",
-      "context": "travel_direction",
+      "npc_has_var": "dialogue_travel_direction_travel_direction",
       "value": "north",
       "yes": {
         "gendered_line": "I'm going north, up towards the border and the big wide wilderness.  I heard that there's some sort of safe spot up there, where people didn't go crazy and try to kill each other.  I don't know whether or not that's true, but at the very least, the colder climate might help keep the <zombies> down.",
         "relevant_genders": [ "npc" ]
       },
       "no": {
-        "npc_has_var": "travel_direction",
-        "type": "dialogue",
-        "context": "travel_direction",
+        "npc_has_var": "dialogue_travel_direction_travel_direction",
         "value": "south",
         "yes": "I'm going south.  Hopefully somebody down there fared better than the people I knew up here.  Besides, I won't have to worry about freezing my <swear> butt off when winter comes.",
         "no": {
-          "npc_has_var": "travel_direction",
-          "type": "dialogue",
-          "context": "travel_direction",
+          "npc_has_var": "dialogue_travel_direction_travel_direction",
           "value": "east",
           "yes": {
             "gendered_line": "I'm going east, towards the coastline.  I heard some rumors that Rhode Island was still holding itself together, so I'm going to go and check that out.  Heck, I might just go out to sea myself, live on an old oil rig or something like that.",
             "relevant_genders": [ "npc" ]
           },
           "no": {
-            "npc_has_var": "travel_direction",
-            "type": "dialogue",
-            "context": "travel_direction",
+            "npc_has_var": "dialogue_travel_direction_travel_direction",
             "value": "west",
             "yes": "I'm going west, see how things are out there in tumbleweed territory.  You see, the Midwest didn't have a whole lot of people in it compared the the East Coast, so there logically shouldn't be as many <zombies> as there are here.  I just hope that everything hasn't <swear> collapsed, that someone's still holding on.",
             "no": "ERROR: DIRECTION PARAMETERS EITHER NOT PICKED OR OUT OF BOUNDS"

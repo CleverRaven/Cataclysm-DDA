@@ -35,9 +35,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Felicity_1",
     "dynamic_line": {
-      "npc_has_var": "u_met_godco_felicity",
-      "type": "general",
-      "context": "meeting",
+      "npc_has_var": "general_meeting_u_met_godco_felicity",
       "value": "yes",
       "yes": [ "Oh, hi.", "Hey, good to see you're still around.", "Hey <u_name>, nice to see you." ],
       "no": "Oh, hi there.  My name's Felicity, nice to see a new face."

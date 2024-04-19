@@ -36,18 +36,14 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Gemma_1",
     "dynamic_line": {
-      "u_has_var": "godco_notalk_to_u",
-      "type": "dialogue",
-      "context": "godco",
+      "u_has_var": "dialogue_godco_godco_notalk_to_u",
       "value": "yes",
       "yes": {
         "gendered_line": "The Lord isn't with you, and that's obvious.  Get out of my sight, sinner.",
         "relevant_genders": [ "u" ]
       },
       "no": {
-        "npc_has_var": "u_met_godco_gemma",
-        "type": "general",
-        "context": "meeting",
+        "npc_has_var": "general_meeting_u_met_godco_gemma",
         "value": "yes",
         "yes": [ "Praise the Lord.", "Good to see you're still around, <granny_name_g>.", "Hey <u_name>.  How can I help you?" ],
         "no": "Great to see a new face.  I'm Gemma.  Will you be staying here with us?"
@@ -178,9 +174,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Gemma_Mood",
     "dynamic_line": {
-      "npc_has_var": "gemma_got_supplements",
-      "type": "mission",
-      "context": "meeting",
+      "npc_has_var": "mission_meeting_gemma_got_supplements",
       "value": "yes",
       "yes": "I'm feeling great!  Even if the world's over, I always have myself and God above.",
       "no": "I'm feeling alright, just working away."

@@ -645,12 +645,7 @@
     "required_event": "character_melee_attacks_character",
     "effect": [
       { "u_add_var": "test_event_last_event", "value": "character_melee_attacks_character" },
-      {
-        "npc_add_var": "last_event",
-        "type": "test",
-        "context": "event",
-        "value": "character_melee_attacks_character"
-      },
+      { "npc_add_var": "test_event_last_event", "value": "character_melee_attacks_character" },
       { "set_string_var": { "context_val": "weapon" }, "target_var": { "global_val": "weapon" } },
       { "set_string_var": { "context_val": "victim_name" }, "target_var": { "global_val": "victim_name" } }
     ]
@@ -674,12 +669,7 @@
     "required_event": "character_ranged_attacks_character",
     "effect": [
       { "u_add_var": "test_event_last_event", "value": "character_ranged_attacks_character" },
-      {
-        "npc_add_var": "last_event",
-        "type": "test",
-        "context": "event",
-        "value": "character_ranged_attacks_character"
-      },
+      { "npc_add_var": "test_event_last_event", "value": "character_ranged_attacks_character" },
       { "set_string_var": { "context_val": "weapon" }, "target_var": { "global_val": "weapon" } },
       { "set_string_var": { "context_val": "victim_name" }, "target_var": { "global_val": "victim_name" } }
     ]

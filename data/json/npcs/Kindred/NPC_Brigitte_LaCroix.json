@@ -100,15 +100,11 @@
     "type": "talk_topic",
     "id": "TALK_BONE_SEER",
     "dynamic_line": {
-      "u_has_var": "talked_to_seer",
-      "type": "dialogue",
-      "context": "first_meeting",
+      "u_has_var": "dialogue_first_meeting_talked_to_seer",
       "value": "yes",
       "no": "You there.  Quiet down.  Can you hear it?  The song?",
       "yes": {
-        "u_has_var": "asked_about_song",
-        "type": "dialogue",
-        "context": "song",
+        "u_has_var": "dialogue_song_asked_about_song",
         "value": "yes",
         "no": { "gendered_line": "You're back.  Have you come to listen to the song?", "relevant_genders": [ "u" ] },
         "yes": {

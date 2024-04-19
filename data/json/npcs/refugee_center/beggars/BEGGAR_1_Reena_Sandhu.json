@@ -68,9 +68,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_1",
     "dynamic_line": {
-      "u_has_var": "reena_recruited",
-      "type": "general",
-      "context": "recruit",
+      "u_has_var": "general_recruit_reena_recruited",
       "value": "yes",
       "yes": {
         "npc_has_effect": "beggar_has_eaten",

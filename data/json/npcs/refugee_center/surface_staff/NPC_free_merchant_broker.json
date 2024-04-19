@@ -170,9 +170,7 @@
     "type": "talk_topic",
     "id": "TALK_FREE_MERCHANT_STOCKS_BEGGARS",
     "dynamic_line": {
-      "u_has_var": "beggars_recruited",
-      "type": "general",
-      "context": "recruit",
+      "u_has_var": "general_recruit_beggars_recruited",
       "value": "yes",
       "yes": "I do.  I don't know what you did to convince them to move out, but our supply chain and I both thank you.  I hope it wasn't too unseemly.",
       "no": "Even once we got things sorted out, there weren't enough beds for everyone, and definitely not enough supplies.  These are harsh times.  We're doing what we can for those folks… at least they've got shelter."

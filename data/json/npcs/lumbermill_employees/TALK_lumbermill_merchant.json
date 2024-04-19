@@ -3,9 +3,7 @@
     "type": "talk_topic",
     "id": "TALK_NPC_LUMBERMILL_MERCHANT",
     "dynamic_line": {
-      "npc_has_var": "talked_to_merchant",
-      "type": "dialogue",
-      "context": "first_meeting",
+      "npc_has_var": "dialogue_first_meeting_talked_to_merchant",
       "value": "yes",
       "yes": "Hello there.  Nice to see you again.",
       "no": "A new face at the mill?  Who might you be?"

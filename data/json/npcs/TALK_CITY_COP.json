@@ -3,9 +3,7 @@
     "type": "talk_topic",
     "id": "TALK_CITY_COP",
     "dynamic_line": {
-      "u_has_var": "talked_to_survivor_cop",
-      "type": "dialogue",
-      "context": "survivor_cop",
+      "u_has_var": "dialogue_survivor_cop_talked_to_survivor_cop",
       "value": "yes",
       "no": {
         "gendered_line": "STOP, Put your hands in the air!  Ha, startled you didn't I… there is no law anymore…",

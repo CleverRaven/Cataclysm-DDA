@@ -94,9 +94,7 @@
     "type": "talk_topic",
     "id": "TALK_KINDRED_COOPER",
     "dynamic_line": {
-      "u_has_var": "talked_to_cooper",
-      "type": "dialogue",
-      "context": "first_meeting",
+      "u_has_var": "dialogue_first_meeting_talked_to_cooper",
       "value": "yes",
       "no": {
         "u_has_trait": "seer_mark",
@@ -108,18 +106,9 @@
       },
       "yes": {
         "u_has_trait": "seer_mark",
-        "no": {
-          "u_has_var": "cooper_friendly",
-          "type": "dialogue",
-          "context": "cooper",
-          "value": "yes",
-          "yes": "Hello again, traveller.",
-          "no": "Yes?"
-        },
+        "no": { "u_has_var": "dialogue_cooper_cooper_friendly", "value": "yes", "yes": "Hello again, traveller.", "no": "Yes?" },
         "yes": {
-          "u_has_var": "cooper_friendly",
-          "type": "dialogue",
-          "context": "cooper",
+          "u_has_var": "dialogue_cooper_cooper_friendly",
           "value": "yes",
           "no": "What do you want, Kindred?",
           "yes": "Kindred.  What can I do for you?"
@@ -555,9 +544,7 @@
     "type": "talk_topic",
     "id": "TALK_COOPER_ABOUT",
     "dynamic_line": {
-      "u_has_var": "cooper_friendly",
-      "type": "dialogue",
-      "context": "cooper",
+      "u_has_var": "dialogue_cooper_cooper_friendly",
       "value": "yes",
       "no": "Sorry, but I don't know you that well and I'd rather not go into that.",
       "yes": "I was born here in New England, lived here all my life.  Was an accountant before the Collapse, if you can believe that.  There wasn't really anything special about my life before I learned about the Song, so there isn't much to say."

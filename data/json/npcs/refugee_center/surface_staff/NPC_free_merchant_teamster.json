@@ -114,9 +114,7 @@
     "id": "TALK_FREE_MERCHANT_TEAMSTER",
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_var": "u_met_teamster",
-      "type": "general",
-      "context": "meeting",
+      "u_has_var": "general_meeting_u_met_teamster",
       "value": "yes",
       "yes": "What can I help you with?",
       "no": "Well now, a new face.  Nice ta meet ya.  I'm the one sendin' out these here caravans far and wide.  What can I do ya for?"

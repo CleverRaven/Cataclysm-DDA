@@ -329,9 +329,7 @@
     "dynamic_line": {
       "npc_has_effect": "dana_baking_sold",
       "no": {
-        "u_has_var": "Dana_Bread_Sales",
-        "type": "knowledge",
-        "context": "trade",
+        "u_has_var": "knowledge_trade_Dana_Bread_Sales",
         "value": "yes",
         "yes": "I sure do, if you've got the flour or the merch for me, I'd be happy to trade you another loaf.",
         "no": "I do a bit.  I got a sourdough starter going almost as soon as I arrived, and it's making passable bread already.  I cooked some up yesterday actually, I could probably trade a loaf of fresh bread for, say, about eight cups of flour, or two merch."
@@ -409,9 +407,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Dana_Background_baking2",
     "dynamic_line": {
-      "u_has_var": "Dana_Sourdough",
-      "type": "mission",
-      "context": "flag",
+      "u_has_var": "mission_flag_Dana_Sourdough",
       "value": "yes",
       "yes": [
         "Great, here's a loaf of the best damn sourdough bread in the world.  I used to make that claim as a joke, but I feel like now there's a fighting chance nobody else can beat me.",
@@ -498,9 +494,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Dana_Tacoma",
     "dynamic_line": {
-      "u_has_var": "Nunez_Tacoma",
-      "type": "recruit",
-      "context": "general",
+      "u_has_var": "recruit_general_Nunez_Tacoma",
       "value": "phase_1",
       "no": "Huh.  I've made a few friends here, but not so much as I'd stick around here with no future prospects, hoping someone downstairs dies to make room for me.  It does sound nice, if they're looking for more workers.",
       "yes": { "gendered_line": "Have you heard anything back from the ranch about jobs yet?", "relevant_genders": [ "u" ] }

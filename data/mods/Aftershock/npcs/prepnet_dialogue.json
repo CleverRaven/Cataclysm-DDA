@@ -7,9 +7,7 @@
     "type": "talk_topic",
     "id": "TALK_PrepNet_gardener_1",
     "dynamic_line": {
-      "u_has_var": "u_met_prepnet_gardener",
-      "type": "general",
-      "context": "meeting",
+      "u_has_var": "general_meeting_u_met_prepnet_gardener",
       "value": "yes",
       "yes": [ "Hey there.", "Hello.", "How are you?", "Welcome!", "How's the weather?" ],
       "no": "Howdy!  You seem new, what brings you here?"

@@ -20,9 +20,7 @@
     "type": "talk_topic",
     "id": "TALK_Sadie_1",
     "dynamic_line": {
-      "u_has_var": "u_met_sadie",
-      "type": "general",
-      "context": "meeting",
+      "u_has_var": "general_meeting_u_met_sadie",
       "value": "yes",
       "yes": [
         "Are we meeting again or did we already do that part?",
@@ -151,9 +149,7 @@
     "id": "TALK_sadie_follow",
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_var": "u_freed_sadie",
-      "type": "general",
-      "context": "free",
+      "u_has_var": "general_free_u_freed_sadie",
       "value": "yes",
       "no": [
         "I can't wait to see how wonderful the world must be.  I've heard the shrieking and moaning and cries for help and I just know it's going to be perfect if everyone out there is as sweet and loving as you and Billy."

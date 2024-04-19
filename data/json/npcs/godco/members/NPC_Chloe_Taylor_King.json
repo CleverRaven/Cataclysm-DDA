@@ -3,9 +3,7 @@
     "id": "TALK_GODCO_chloe",
     "type": "talk_topic",
     "dynamic_line": {
-      "npc_has_var": "u_met_chloe",
-      "type": "general",
-      "context": "meeting",
+      "npc_has_var": "general_meeting_u_met_chloe",
       "value": "yes",
       "yes": "Aw hey, it's you again, <u_name>.",
       "no": "Oh… hi.  I don't know you.  My name's Chloe."

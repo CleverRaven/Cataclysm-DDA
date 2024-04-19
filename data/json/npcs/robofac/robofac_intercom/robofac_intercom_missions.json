@@ -125,12 +125,7 @@
             {
               "or": [
                 { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1" },
-                {
-                  "u_has_var": "completed_robofac_intercom_portal_sm_1",
-                  "type": "dialogue",
-                  "context": "intercom",
-                  "value": "yes"
-                }
+                { "u_has_var": "dialogue_intercom_completed_robofac_intercom_portal_sm_1", "value": "yes" }
               ]
             }
           ]
@@ -144,22 +139,12 @@
             { "u_has_var": "dialogue_intercom_completed_robofac_intercom_2", "value": "yes" },
             { "u_has_var": "dialogue_intercom_completed_robofac_intercom_2", "value": "yes" },
             { "u_has_var": "dialogue_intercom_completed_robofac_intercom_3", "value": "yes" },
-            {
-              "u_has_var": "completed_robofac_intercom_portal_sm_1",
-              "type": "dialogue",
-              "context": "intercom",
-              "value": "yes"
-            },
+            { "u_has_var": "dialogue_intercom_completed_robofac_intercom_portal_sm_1", "value": "yes" },
             { "u_has_var": "dialogue_intercom_completed_robofac_lixa_sm_1", "value": "yes" },
             {
               "or": [
                 { "u_has_var": "dialogue_intercom_completed_robofac_intercom_robot_sm_1", "value": "yes" },
-                {
-                  "u_has_var": "completed_robofac_intercom_robot_sm_1",
-                  "type": "dialogue",
-                  "context": "intercom",
-                  "value": "no"
-                }
+                { "u_has_var": "dialogue_intercom_completed_robofac_intercom_robot_sm_1", "value": "no" }
               ]
             }
           ]

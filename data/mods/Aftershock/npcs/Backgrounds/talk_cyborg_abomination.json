@@ -3,9 +3,7 @@
     "id": "TALK_CYBORG_Abomination_1",
     "type": "talk_topic",
     "dynamic_line": {
-      "npc_has_var": "cyborg_abomination_has_talked",
-      "type": "dialogue",
-      "context": "cyborg_abomination",
+      "npc_has_var": "dialogue_cyborg_abomination_cyborg_abomination_has_talked",
       "value": "yes",
       "no": "I… can move again.  I have a real body!  Is this a body?",
       "yes": "Hey again.  *kzzz*"

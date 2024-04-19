@@ -53,9 +53,7 @@
     "type": "talk_topic",
     "id": "TALK_LULIYA",
     "dynamic_line": {
-      "u_has_var": "u_met_luliya",
-      "type": "general",
-      "context": "meeting",
+      "u_has_var": "general_meeting_u_met_luliya",
       "value": "yes",
       "yes": [ "Inikwani dehina metahi tegwazhi." ],
       "no": "&You see a tall golden figure with female features.  Strapped to the back of the head with copper wire is a glass cylinder containing long frizzy black hair.  The body stands still and emits an unpleasant beeping sound.  On the back there is a large red button with strange markings.  There is a golden harp of some kind in their hand."

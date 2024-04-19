@@ -14,9 +14,7 @@
     "type": "talk_topic",
     "id": "TALK_GLOOSCAP",
     "dynamic_line": {
-      "u_has_var": "u_met_glooscap",
-      "type": "general",
-      "context": "meeting",
+      "u_has_var": "general_meeting_u_met_glooscap",
       "value": "yes",
       "yes": [
         "Good to see you again, how can I help you?",

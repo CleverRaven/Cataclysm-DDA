@@ -76,9 +76,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Draco_1",
     "dynamic_line": {
-      "u_has_var": "u_met_Draco_Dune",
-      "type": "general",
-      "context": "meeting",
+      "u_has_var": "general_meeting_u_met_Draco_Dune",
       "value": "yes",
       "yes": { "gendered_line": "Always good to see you, friend.", "relevant_genders": [ "u" ] },
       "no": "Well now, good to see another new face!  Welcome to the center, friend, I'm Draco."
@@ -251,9 +249,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Draco_7",
     "dynamic_line": {
-      "u_has_var": "NC_REFUGEE_Draco_has_guitar",
-      "type": "general",
-      "context": "mission",
+      "u_has_var": "general_mission_NC_REFUGEE_Draco_has_guitar",
       "value": "yes",
       "yes": {
         "gendered_line": "My savior!  My patron of the arts!  You're always welcome here, friend.",

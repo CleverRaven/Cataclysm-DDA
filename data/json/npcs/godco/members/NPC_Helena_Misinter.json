@@ -33,15 +33,11 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Helena_1",
     "dynamic_line": {
-      "u_has_var": "godco_notalk_to_u",
-      "type": "dialogue",
-      "context": "godco",
+      "u_has_var": "dialogue_godco_godco_notalk_to_u",
       "value": "yes",
       "yes": { "gendered_line": "Get away from here, sinner, we don't want your kind here.", "relevant_genders": [ "u" ] },
       "no": {
-        "npc_has_var": "u_met_godco_helena",
-        "type": "general",
-        "context": "meeting",
+        "npc_has_var": "general_meeting_u_met_godco_helena",
         "value": "yes",
         "yes": [ "Praise the Lord.", "Blessings to you.", "Bless you, <u_name>." ],
         "no": "Stranger, what brings you to our holy home?"

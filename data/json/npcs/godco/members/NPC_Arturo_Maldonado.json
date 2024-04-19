@@ -21,9 +21,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Arturo_1",
     "dynamic_line": {
-      "u_has_var": "godco_notalk_to_u",
-      "type": "dialogue",
-      "context": "godco",
+      "u_has_var": "dialogue_godco_godco_notalk_to_u",
       "value": "yes",
       "yes": "I must be seeing things again!  Stay away from me!",
       "no": "Hi, <name_g>.  Could I pat you on the shoulder?  I wanna be sure you're here."

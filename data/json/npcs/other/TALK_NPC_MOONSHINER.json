@@ -3,9 +3,7 @@
     "type": "talk_topic",
     "id": "TALK_NPC_MOONSHINER",
     "dynamic_line": {
-      "npc_has_var": "knows_u",
-      "type": "dialogue",
-      "context": "first_meeting",
+      "npc_has_var": "dialogue_first_meeting_knows_u",
       "value": "yes",
       "yes": "Hey <name_g>.",
       "no": { "gendered_line": "Haven't seen someone new in a while.  What brings you around here?", "relevant_genders": [ "npc" ] }

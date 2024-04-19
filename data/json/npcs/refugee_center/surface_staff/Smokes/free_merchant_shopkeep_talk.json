@@ -3,9 +3,7 @@
     "id": "TALK_FREE_MERCHANTS_MERCHANT",
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_var": "u_met_Gavin",
-      "type": "general",
-      "context": "meeting",
+      "u_has_var": "general_meeting_u_met_Gavin",
       "value": "yes",
       "yes": [ "Welcome back.", "Hello again.  What do you need?", "*looks up.  \"Hey.\"" ],
       "no": "*waves you over.  \"I haven't seen you before.  Welcome to our little homely house.\""

@@ -7,9 +7,7 @@
     "type": "talk_topic",
     "id": "TALK_WHATELY_1",
     "dynamic_line": {
-      "u_has_var": "u_met_whately",
-      "type": "general",
-      "context": "meeting",
+      "u_has_var": "general_meeting_u_met_whately",
       "value": "yes",
       "yes": [ "Outsider.", "Hello.", "Hospitality rites are civilization.", "Guest.", "How's the madness outside?" ],
       "no": "We don't get outsiders around here all that much."

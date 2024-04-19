@@ -50,9 +50,7 @@
       "u_has_mission": "MISSION_GODCO_ZACHARY_KILL_NIGHTMARE",
       "yes": "I ain't leaving, <name_g>.  Not until you or someone else has checked out that nightmare for me.",
       "no": {
-        "u_has_var": "zachary_willing_to_follow",
-        "type": "mission",
-        "context": "meeting",
+        "u_has_var": "mission_meeting_zachary_willing_to_follow",
         "value": "yes",
         "yes": "Thanks, <name_g>.  I sure owe you one.",
         "no": "I ain't leaving, <name_g>.  Not until that eldritch screeching nightmare is dead 'n buried."
@@ -153,9 +151,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Zachary_Follow",
     "dynamic_line": {
-      "u_has_var": "zachary_willing_to_follow",
-      "type": "mission",
-      "context": "meeting",
+      "u_has_var": "mission_meeting_zachary_willing_to_follow",
       "value": "yes",
       "yes": {
         "gendered_line": "After what you did for me, I'll follow you to the ends of the Earth!  No one around here's stood up for me like that, I owe ya one.",

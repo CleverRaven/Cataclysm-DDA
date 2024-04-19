@@ -66,9 +66,7 @@
     "type": "talk_topic",
     "id": "TALK_RANCH_CROP_OVERSEER_FIELD",
     "dynamic_line": {
-      "npc_has_var": "purchased_field_1",
-      "type": "dialogue",
-      "context": "tacoma_ranch",
+      "npc_has_var": "dialogue_tacoma_ranch_purchased_field_1",
       "value": "yes",
       "yes": "Back to check on your field?  What can I help you with?",
       "no": {

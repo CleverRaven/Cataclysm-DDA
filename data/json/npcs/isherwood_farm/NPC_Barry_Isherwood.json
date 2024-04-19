@@ -39,9 +39,7 @@
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_BARRY",
     "dynamic_line": {
-      "u_has_var": "u_saved_barry",
-      "type": "general",
-      "context": "meeting",
+      "u_has_var": "general_meeting_u_saved_barry",
       "value": "yes",
       "no": "I can't believe my eyes.  Please get me outta here…",
       "yes": "Hey, <name_g>."

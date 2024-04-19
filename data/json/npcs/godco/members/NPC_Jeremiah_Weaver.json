@@ -20,9 +20,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Jeremiah_1",
     "dynamic_line": {
-      "u_has_var": "u_met_godco_jeremiah",
-      "type": "general",
-      "context": "meeting",
+      "u_has_var": "general_meeting_u_met_godco_jeremiah",
       "value": "yes",
       "yes": [ "Hey, look who's back.", "Hey again.", "Hey again <u_name>.", "Oh, hey, it's you again." ],
       "no": "Oh, uh… you look new.  Didn't think we'd see new people here.  Hey."
@@ -123,9 +121,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Jeremiah_Plans",
     "dynamic_line": {
-      "npc_has_var": "jeremiah_apprentice",
-      "type": "general",
-      "context": "mission",
+      "npc_has_var": "general_mission_jeremiah_apprentice",
       "value": "yes",
       "yes": "I don't know, exactly.  I think I'll stay here and do what I can for the community.",
       "no": "I'd like to study herbology with Kostas, it seems like a useful skill these days.  I do feel bad for Jane though, she's a skilled doctor and nobody here cares, they all just think any illness can be prayed away."
