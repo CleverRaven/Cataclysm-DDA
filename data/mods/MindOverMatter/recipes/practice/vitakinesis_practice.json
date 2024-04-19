@@ -44,7 +44,9 @@
     "time": "30 m",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
-    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ] ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
+    ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
@@ -73,7 +75,9 @@
     "time": "30 m",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
-    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ] ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
+    ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
@@ -102,7 +106,9 @@
     "time": "30 m",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
-    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ] ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
+    ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
@@ -182,7 +188,9 @@
     "time": "30 m",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
-    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ] ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
+    ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
@@ -262,7 +270,9 @@
     "time": "30 m",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
-    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ] ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
+    ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
@@ -342,7 +352,9 @@
     "time": "30 m",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
-    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ] ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
+    ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
@@ -422,7 +434,9 @@
     "time": "30 m",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
-    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ] ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
+    ],
     "components": [ [ [ "matrix_crystal_vitakin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
@@ -503,7 +517,9 @@
     "time": "30 m",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
-    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ] ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
+    ],
     "components": [ [ [ "matrix_crystal_vitakin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
@@ -584,7 +600,9 @@
     "time": "30 m",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
-    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ] ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
+    ],
     "components": [ [ [ "matrix_crystal_vitakin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
@@ -665,7 +683,9 @@
     "time": "30 m",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
-    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ] ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
+    ],
     "components": [ [ [ "matrix_crystal_vitakin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
@@ -746,7 +766,9 @@
     "time": "30 m",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
-    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ] ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
+    ],
     "components": [ [ [ "matrix_crystal_vitakin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
@@ -827,7 +849,9 @@
     "time": "30 m",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
-    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ] ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
+    ],
     "components": [ [ [ "matrix_crystal_vitakin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
@@ -857,7 +881,9 @@
     "time": "30 m",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
-    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ] ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
+    ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
@@ -937,7 +963,9 @@
     "time": "30 m",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
-    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ] ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
+    ],
     "components": [ [ [ "matrix_crystal_vitakin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
@@ -1018,7 +1046,9 @@
     "time": "30 m",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
-    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ] ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
+    ],
     "components": [ [ [ "matrix_crystal_vitakin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
@@ -1099,7 +1129,9 @@
     "time": "30 m",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
-    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ] ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
+    ],
     "components": [ [ [ "matrix_crystal_vitakin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
@@ -1180,7 +1212,9 @@
     "time": "30 m",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
-    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ] ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
+    ],
     "components": [ [ [ "matrix_crystal_vitakin_dust", 2 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
@@ -1210,7 +1244,9 @@
     "time": "30 m",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_vitakinesis", "required": false } ],
-    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ] ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_vitakinesis", -1 ] ]
+    ],
     "components": [ [ [ "matrix_crystal_vitakin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [

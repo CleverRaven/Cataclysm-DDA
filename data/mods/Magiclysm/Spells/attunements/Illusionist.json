@@ -51,13 +51,13 @@
     "base_casting_time": 400,
     "final_casting_time": 100,
     "casting_time_increment": -10,
-    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(400)" ] },
-    "final_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(200)" ] },
-    "energy_increment": { "math": [ "summoning_proficiency_negate_calculate(-6)" ] },
+    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(400, 2)" ] },
+    "final_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(200, 2)" ] },
+    "energy_increment": { "math": [ "summoning_proficiency_negate_calculate(-6, 0.03)" ] },
     "max_level": 35,
-    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(3500)" ] },
-    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(126000)" ] },
-    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(3500)" ] }
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(3500, 10)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(126000, 10)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(3500, 0.4)" ] }
   },
   {
     "id": "illusionist_transposition",

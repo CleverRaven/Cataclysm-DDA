@@ -4079,7 +4079,6 @@
           { "item": "dry_bag", "prob": 25 },
           { "item": "dry_duffelbag", "prob": 25 },
           { "item": "dry_bag_large", "prob": 15 },
-          { "item": "petpack", "prob": 50 },
           { "item": "chestrig", "variant": "flag_chestrig", "prob": 70, "event": "independence_day" }
         ],
         "prob": 30

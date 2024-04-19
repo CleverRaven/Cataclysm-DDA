@@ -793,7 +793,7 @@
         }
       ]
     },
-    "effect": [ { "u_cast_spell": { "id": "arvore_forest_translocate_real" } } ],
+    "effect": [ { "u_cast_spell": { "id": "paraclesian_translocate" } } ],
     "false_effect": [ { "u_message": "You must be outdoors and within the depths of the forest to cast this spell.", "type": "mixed" } ]
   },
   {

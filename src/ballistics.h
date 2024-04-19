@@ -2,6 +2,13 @@
 #ifndef CATA_SRC_BALLISTICS_H
 #define CATA_SRC_BALLISTICS_H
 
+#include <cstddef>
+#include <list>
+#include <map>
+#include <set>
+#include <utility>
+#include <vector>
+
 #include "weakpoint.h"
 #include "weighted_list.h"
 

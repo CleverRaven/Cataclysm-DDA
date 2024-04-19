@@ -66,13 +66,11 @@ static const mongroup_id GROUP_OCEAN_SHORE( "GROUP_OCEAN_SHORE" );
 static const mongroup_id GROUP_RIVER( "GROUP_RIVER" );
 static const mongroup_id GROUP_SUBWAY_CITY( "GROUP_SUBWAY_CITY" );
 static const mongroup_id GROUP_SWAMP( "GROUP_SWAMP" );
-static const mongroup_id GROUP_WORM( "GROUP_WORM" );
 static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 
 static const oter_str_id oter_central_lab( "central_lab" );
 static const oter_str_id oter_central_lab_core( "central_lab_core" );
 static const oter_str_id oter_central_lab_train_depot( "central_lab_train_depot" );
-static const oter_str_id oter_city_center( "city_center" );
 static const oter_str_id oter_empty_rock( "empty_rock" );
 static const oter_str_id oter_field( "field" );
 static const oter_str_id oter_forest( "forest" );
@@ -975,7 +973,7 @@ bool oter_t::type_is( const oter_type_t &type ) const
 bool oter_t::has_connection( om_direction::type dir ) const
 {
     // TODO: It's a DAMN UGLY hack. Remove it as soon as possible.
-    if( id == oter_road_nesw_manhole || id == oter_city_center ) {
+    if( id == oter_road_nesw_manhole ) {
         return true;
     }
     return om_lines::has_segment( line, dir );
@@ -2811,10 +2809,10 @@ void overmap_special::load( const JsonObject &jo, const std::string &src )
                                            io::enum_to_string( subtype_ ) ) );
     }
 
+    assign( jo, "city_sizes", constraints_.city_size, strict );
+
     if( is_special ) {
         mandatory( jo, was_loaded, "occurrences", constraints_.occurrences );
-
-        assign( jo, "city_sizes", constraints_.city_size, strict );
         assign( jo, "city_distance", constraints_.city_distance, strict );
         assign( jo, "priority", priority_, strict );
     }
@@ -5542,15 +5540,11 @@ void overmap::place_cities()
             do {
                 build_city_street( local_road, tmp.pos, tmp.size, cur_dir, tmp );
             } while( ( cur_dir = om_direction::turn_right( cur_dir ) ) != start_dir );
-
-            // Replace city's original intersection OMT with a dedicated 'city_center' OMT
-            // This allows setting map extras specifically to cities (or their centers)
-            ter_set( tripoint_om_omt( tmp.pos, 0 ), oter_city_center );
         }
     }
 }
 
-overmap_special_id overmap::pick_random_building_to_place( int town_dist ) const
+overmap_special_id overmap::pick_random_building_to_place( int town_dist, int town_size ) const
 {
     const city_settings &city_spec = settings->city_spec;
     int shop_radius = city_spec.shop_radius;
@@ -5570,14 +5564,21 @@ overmap_special_id overmap::pick_random_building_to_place( int town_dist ) const
     if( park_sigma > 0 ) {
         park_normal = std::max( park_normal, static_cast<int>( normal_roll( park_radius, park_sigma ) ) );
     }
-
-    if( shop_normal > town_dist ) {
-        return city_spec.pick_shop();
-    } else if( park_normal > town_dist ) {
-        return city_spec.pick_park();
-    } else {
-        return city_spec.pick_house();
-    }
+    auto building_type_to_pick = [&]() {
+        if( shop_normal > town_dist ) {
+            return std::mem_fn( &city_settings::pick_shop );
+        } else if( park_normal > town_dist ) {
+            return std::mem_fn( &city_settings::pick_park );
+        } else {
+            return std::mem_fn( &city_settings::pick_house );
+        }
+    };
+    auto pick_building = building_type_to_pick();
+    overmap_special_id ret;
+    do {
+        ret = pick_building( city_spec );
+    } while( !ret->get_constraints().city_size.contains( town_size ) );
+    return ret;
 }
 
 void overmap::place_building( const tripoint_om_omt &p, om_direction::type dir,
@@ -5589,8 +5590,7 @@ void overmap::place_building( const tripoint_om_omt &p, om_direction::type dir,
     const int town_dist = ( trig_dist( building_pos.xy(), town.pos ) * 100 ) / std::max( town.size, 1 );
 
     for( size_t retries = 10; retries > 0; --retries ) {
-        const overmap_special_id building_tid = pick_random_building_to_place( town_dist );
-
+        const overmap_special_id building_tid = pick_random_building_to_place( town_dist, town.size );
         if( can_place_special( *building_tid, building_pos, building_dir, false ) ) {
             place_special( *building_tid, building_pos, building_dir, town, false, false );
             break;
@@ -7124,19 +7124,6 @@ void overmap::place_mongroups()
                                   pop ), 3 );
                 }
             }
-        }
-    }
-
-    // Place the "put me anywhere" groups
-    int numgroups = rng( 0, 3 );
-    for( int i = 0; i < numgroups; i++ ) {
-        float norm_factor = std::abs( GROUP_WORM->freq_total / 1000.0f );
-        tripoint_om_sm p( rng( 0, OMAPX * 2 - 1 ), rng( 0, OMAPY * 2 - 1 ), 0 );
-        unsigned int pop = std::round( norm_factor * rng( 30, 50 ) );
-        // ensure GROUP WORM doesn't get placed in ocean or lake.
-        if( !is_water_body( ter( {p.x(), p.y(), 0} ) ) ) {
-            spawn_mon_group(
-                mongroup( GROUP_WORM, project_combine( pos(), p ), pop ), rng( 20, 40 ) );
         }
     }
 }
