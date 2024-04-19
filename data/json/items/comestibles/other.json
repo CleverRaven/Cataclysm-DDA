@@ -1010,7 +1010,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 3,
-    "calories": 30,
+    "calories": 26,
     "description": "Canned tomato.  A staple in many pantries, and useful for many recipes.",
     "price": "175 cent",
     "price_postapoc": "50 cent",
