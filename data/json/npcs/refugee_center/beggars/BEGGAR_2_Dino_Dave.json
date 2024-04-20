@@ -84,10 +84,7 @@
       },
       {
         "condition": {
-          "and": [
-            { "u_has_mission": "MISSION_BEGGAR_2_PERMISSION" },
-            { "u_has_var": "Dave_Permission", "type": "mission", "value": "yes" }
-          ]
+          "and": [ { "u_has_mission": "MISSION_BEGGAR_2_PERMISSION" }, { "u_has_var": "mission_Dave_Permission", "value": "yes" } ]
         },
         "text": "We've done it, Dave!  Smokes says you can build yourself a house up on the roof if you want.  You've got to keep it nice and clean, and help out the people down here by looking out for zombies, but you can still use the washrooms and things downstairs when you need to.  What do you say?",
         "topic": "TALK_REFUGEE_BEGGAR_2_PERMISSION"
@@ -384,7 +381,7 @@
     "difficulty": 1,
     "value": 0,
     "goal": "MGOAL_CONDITION",
-    "goal_condition": { "u_has_var": "Dave_Permission", "type": "mission", "value": "yes" },
+    "goal_condition": { "u_has_var": "mission_Dave_Permission", "value": "yes" },
     "count": 5,
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {

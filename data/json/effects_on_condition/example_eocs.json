@@ -68,7 +68,7 @@
     "type": "effect_on_condition",
     "id": "EOC_item_transporter_test_1",
     "effect": [
-      { "u_location_variable": { "u_val": "loc", "type": "eoc_sample", "context": "item_transporter" } },
+      { "u_location_variable": { "u_val": "eoc_item_transporter_sample_loc" } },
       { "u_add_var": "eoc_sample_item_transporter_set_coordinates", "value": "yes" },
       { "u_message": "Set coordinates: <u_val:eoc_sample_item_transporter_loc>" }
     ]
@@ -84,10 +84,7 @@
         "true_eocs": [
           {
             "id": "EOC_item_transporter_test_2_run",
-            "effect": [
-              { "u_message": "Transported: <npc_name>" },
-              { "npc_teleport": { "u_val": "loc", "type": "eoc_sample", "context": "item_transporter" } }
-            ]
+            "effect": [ { "u_message": "Transported: <npc_name>" }, { "npc_teleport": { "u_val": "eoc_sample_item_transporter_loc" } } ]
           }
         ]
       }

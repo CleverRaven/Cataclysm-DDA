@@ -21,7 +21,7 @@
       {
         "text": "[350 merch, 1.2mm] I'd prefer to just have chainmail.",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 350 } },
-        "effect": [ { "u_add_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "1.2" } ],
+        "effect": [ { "math": [ "u_number_artisans_blacksmith_thickness", "=", "1.2" ] } ],
         "topic": "TALK_BLACKSMITH_FABRICATE_TYPE"
       },
       {
@@ -104,7 +104,7 @@
         "condition": {
           "and": [
             { "u_has_items": { "item": "FMCNote", "count": 350 } },
-            { "u_has_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "1.2" }
+            { "u_has_var": "number_artisans_blacksmith_thickness", "value": "1.2" }
           ]
         },
         "effect": [ { "u_sell_item": "FMCNote", "count": 350, "true_eocs": "EOC_blacksmith_crafting_armor" } ],
@@ -156,7 +156,7 @@
         "condition": {
           "and": [
             { "u_has_var": "number_artisans_blacksmith_wait", "value": "3" },
-            { "u_has_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "1.2" }
+            { "u_has_var": "number_artisans_blacksmith_thickness", "value": "1.2" }
           ]
         },
         "effect": [
@@ -171,7 +171,7 @@
         "condition": {
           "and": [
             { "u_has_var": "number_artisans_blacksmith_wait", "value": "4" },
-            { "u_has_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "1.2" }
+            { "u_has_var": "number_artisans_blacksmith_thickness", "value": "1.2" }
           ]
         },
         "effect": [
@@ -186,7 +186,7 @@
         "condition": {
           "and": [
             { "u_has_var": "number_artisans_blacksmith_wait", "value": "5" },
-            { "u_has_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "1.2" }
+            { "u_has_var": "number_artisans_blacksmith_thickness", "value": "1.2" }
           ]
         },
         "effect": [

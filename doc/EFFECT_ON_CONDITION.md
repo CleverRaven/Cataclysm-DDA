@@ -2351,7 +2351,7 @@ Mutate towards Tail Stub (removing any incompatibilities) using the category set
 ```json
       {
         "u_mutate_towards": "TAIL_STUB",
-        "category": { "u_val": "mutation_category", "type": "upcoming", "context": "mutation" },
+        "category": { "u_val": "upcoming_mutation_category", },
         "use_vitamins": true
       },
 ```
@@ -2642,8 +2642,8 @@ Save a personal variable, that you can check later using `u_has_var`, `npc_has_v
 | "u_add_var" / "npc_add_var" | **mandatory** | string | name of variable, where the value would be stored |
 | "value" | **mandatory** | string | value, that would be stored in variable; **incompatible with "possible_values" and "time"** | 
 | "possible_values" | **mandatory** | string array | array of values, that could be picked to be stored in variable; **incompatible with "value" and "time"** | 
-| "time" | **mandatory** | boolean | default false; if true, the current time would be saved in variable; **incompatible with "value" and "possible_values"** | 
-| "type", "context" | optional | string | additional text to describe your variable, can be used in `u_lose_var` or in `math` syntax, as `type`\_`context`\_`variable_name` |  
+| "time" | **mandatory** | boolean | **DEPRECATED. use time() math syntax instead**. default false; if true, the current time would be saved in variable; **incompatible with "value" and "possible_values"** | 
+| "type", "context" | optional | string | **DEPRECATED. JUST USE _add_var to give the name of the variable**. additional text to describe your variable, can be used in `u_lose_var` or in `math` syntax, as `type`\_`context`\_`variable_name` |  
 
 ##### Valid talkers:
 
@@ -2659,17 +2659,10 @@ Saves personal variable `u_met_godco_jeremiah` with `general` type, `meeting` co
 { "u_add_var": "general_meeting_u_met_godco_jeremiah", "value": "yes" }
 ```
 
-Saves personal variable `time_of_last_succession` with value of current time:
-```json
-{ "u_add_var": "time_of_last_succession", "type": "timer", "time": true }
-```
-
 NPC (in this case it's actually item, see Beta Talkers) saves a personal variable `function` with one of four values: `morale`, `focus`, `pain`, or `sleepiness` (used in mi-go bio tech to create four different versions of the same item, with different effects, that would be revealed upon activation)
 ```json
 {
-  "npc_add_var": "function",
-  "type": "mbt",
-  "context": "f",
+  "npc_add_var": "mbt_f_function",
   "possible_values": [ "morale", "focus", "pain", "sleepiness" ]
 }
 ```

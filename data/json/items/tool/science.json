@@ -1370,12 +1370,7 @@
           "condition": { "not": { "npc_has_var": "mbt_f_function_set", "value": "yes" } },
           "effect": [
             { "npc_add_var": "mbt_f_function_set", "value": "yes" },
-            {
-              "npc_add_var": "function",
-              "type": "mbt",
-              "context": "f",
-              "possible_values": [ "morale", "focus", "pain", "sleepiness" ]
-            }
+            { "npc_add_var": "mbt_f_function", "possible_values": [ "morale", "focus", "pain", "sleepiness" ] }
           ]
         },
         {
