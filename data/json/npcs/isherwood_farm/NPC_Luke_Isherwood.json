@@ -48,7 +48,7 @@
         "*is a young man in his late teens, wearing threadbare but clean work trousers and a plain shirt with a few holes in it.  He looks you up and down as you approach",
         {
           "u_is_wearing": "badge_marshal",
-          "yes": ", then scowls as he spots the Old Guard Marshal badge gleaming on your chest.  \"I see that badge.  You should leave before my father does.\"",
+          "yes": ", then scowls as he spots the Old Guard Marshal badge gleaming on your chest.  \"I see that badge.  You should leave before my father spots it.\"",
           "no": {
             "u_has_var": "isherwood_luke_marshal_badge",
             "value": "seen",
