@@ -1066,6 +1066,12 @@ ret_val<void> item_contents::can_contain_rigid( const item &it, int &copies_rema
 {
     ret_val<void> ret = ret_val<void>::make_failure( _( "is not a container" ) );
     for( const item_pocket &pocket : contents ) {
+        // Only count container in pickup_inventory_preset.
+        if( is_pick_up_inv ) {
+            if( !pocket.is_type( pocket_type::CONTAINER ) ) {
+                continue;
+            }
+        }
         if( pocket.is_type( pocket_type::MOD ) ||
             pocket.is_type( pocket_type::CORPSE ) ||
             pocket.is_type( pocket_type::MIGRATION ) ) {
