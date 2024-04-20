@@ -360,9 +360,9 @@ TEST_CASE( "caffeine_and_atomic_caffeine", "[iuse][caff][atomic_caff]" )
     avatar dummy;
     dummy.normalize();
 
-    // Baseline fatigue level before caffeinating
-    int fatigue_before = 200;
-    dummy.set_fatigue( fatigue_before );
+    // Baseline sleepiness level before caffeinating
+    int sleepiness_before = 200;
+    dummy.set_sleepiness( sleepiness_before );
 
     // No stimulants or radiation
     dummy.set_stim( 0 );
@@ -370,17 +370,18 @@ TEST_CASE( "caffeine_and_atomic_caffeine", "[iuse][caff][atomic_caff]" )
     REQUIRE( dummy.get_stim() == 0 );
     REQUIRE( dummy.get_rad() == 0 );
 
-    SECTION( "coffee reduces fatigue, but does not give stimulant effect" ) {
+    SECTION( "coffee reduces sleepiness, but does not give stimulant effect" ) {
         item coffee( "coffee", calendar::turn_zero, item::default_charges_tag{} );
         dummy.consume( coffee );
-        CHECK( dummy.get_fatigue() == fatigue_before - coffee.get_comestible()->fatigue_mod );
+        CHECK( dummy.get_sleepiness() == sleepiness_before - coffee.get_comestible()->sleepiness_mod );
         CHECK( dummy.get_stim() == coffee.get_comestible()->stim );
     }
 
-    SECTION( "atomic caffeine greatly reduces fatigue, and increases stimulant effect" ) {
+    SECTION( "atomic caffeine greatly reduces sleepiness, and increases stimulant effect" ) {
         item atomic_coffee( "atomic_coffee", calendar::turn_zero, item::default_charges_tag{} );
         dummy.consume( atomic_coffee );
-        CHECK( dummy.get_fatigue() == fatigue_before - atomic_coffee.get_comestible()->fatigue_mod );
+        CHECK( dummy.get_sleepiness() == sleepiness_before -
+               atomic_coffee.get_comestible()->sleepiness_mod );
         CHECK( dummy.get_stim() == atomic_coffee.get_comestible()->stim );
     }
 }
@@ -515,7 +516,7 @@ TEST_CASE( "thorazine", "[iuse][thorazine]" )
     REQUIRE( dummy.has_item_with( []( const item & it ) {
         return it.typeId() == itype_thorazine;
     } ) );
-    dummy.set_fatigue( 0 );
+    dummy.set_sleepiness( 0 );
 
     GIVEN( "avatar has hallucination, visuals, and high effects" ) {
         dummy.add_effect( effect_hallu, 1_hours );
@@ -536,8 +537,8 @@ TEST_CASE( "thorazine", "[iuse][thorazine]" )
                 REQUIRE_FALSE( dummy.has_effect( effect_visuals ) );
                 REQUIRE_FALSE( dummy.has_effect( effect_high ) );
 
-                AND_THEN( "it causes some fatigue" ) {
-                    CHECK( dummy.get_fatigue() >= 5 );
+                AND_THEN( "it causes some sleepiness" ) {
+                    CHECK( dummy.get_sleepiness() >= 5 );
                 }
             }
         }
@@ -556,11 +557,11 @@ TEST_CASE( "thorazine", "[iuse][thorazine]" )
         WHEN( "they take more thorazine" ) {
             dummy.consume( thorazine );
 
-            THEN( "it only causes more fatigue" ) {
+            THEN( "it only causes more sleepiness" ) {
                 CHECK_FALSE( dummy.has_item_with( []( const item & it ) {
                     return it.typeId() == itype_thorazine;
                 } ) );
-                CHECK( dummy.get_fatigue() >= 20 );
+                CHECK( dummy.get_sleepiness() >= 20 );
             }
         }
     }
@@ -626,10 +627,10 @@ TEST_CASE( "inhaler", "[iuse][inhaler]" )
     GIVEN( "avatar is not suffering from asthma" ) {
         REQUIRE_FALSE( dummy.has_effect( effect_asthma ) );
 
-        THEN( "inhaler reduces fatigue" ) {
-            dummy.set_fatigue( 10 );
+        THEN( "inhaler reduces sleepiness" ) {
+            dummy.set_sleepiness( 10 );
             dummy.use( inhaler_loc );
-            CHECK( dummy.get_fatigue() < 10 );
+            CHECK( dummy.get_sleepiness() < 10 );
         }
     }
 }

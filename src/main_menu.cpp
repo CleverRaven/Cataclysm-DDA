@@ -571,9 +571,7 @@ void main_menu::init_strings()
     vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "A<u|U>topickup" ) );
     vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "Sa<f|F>emode" ) );
     vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "Colo<r|R>s" ) );
-    if( get_options().has_option( "USE_IMGUI" ) && get_option<bool>( "USE_IMGUI" ) ) {
-        vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "<I|i>mGui Demo Screen" ) );
-    }
+    vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "<I|i>mGui Demo Screen" ) );
 
     vSettingsHotkeys.clear();
     for( const std::string &item : vSettingsSubItems ) {
@@ -920,10 +918,8 @@ bool main_menu::opening_screen()
                     } else if( sel2 == 4 ) { /// Colors
                         all_colors.show_gui();
                     } else if( sel2 == 5 ) { /// ImGui demo
-                        if( get_options().has_option( "USE_IMGUI" ) && get_option<bool>( "USE_IMGUI" ) ) {
-                            demo_ui demo;
-                            demo.run();
-                        }
+                        demo_ui demo;
+                        demo.run();
                     }
                     break;
                 case main_menu_opts::WORLD:

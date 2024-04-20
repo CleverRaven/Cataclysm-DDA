@@ -1,12 +1,18 @@
 #include "advanced_inv.h"
 
 #include <algorithm>
+#include <climits>
+#include <cmath>
 #include <cstddef>
+#include <cstdlib>
 #include <initializer_list>
+#include <iterator>
 #include <list>
 #include <memory>
 #include <optional>
 #include <string>
+#include <tuple>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
@@ -16,23 +22,25 @@
 #include "advanced_inv_pagination.h"
 #include "auto_pickup.h"
 #include "avatar.h"
-#include "cached_options.h"
 #include "calendar.h"
 #include "cata_assert.h"
 #include "cata_scope_helpers.h"
 #include "catacharset.h"
 #include "character.h"
 #include "color.h"
+#include "coordinates.h"
 #include "debug.h"
 #include "enums.h"
 #include "game.h"
 #include "game_constants.h"
 #include "input.h"
 #include "input_context.h"
+#include "input_enums.h"
 #include "inventory.h"
 #include "inventory_ui.h"
 #include "item.h"
 #include "item_category.h"
+#include "item_contents.h"
 #include "item_location.h"
 #include "localized_comparator.h"
 #include "map.h"

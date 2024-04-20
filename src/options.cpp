@@ -1753,10 +1753,6 @@ void options_manager::add_options_interface()
         this->add_empty_line( "interface" );
     };
 
-    add( "USE_IMGUI", "interface", to_translation( "Use ImGui UI" ),
-         to_translation( "Use new ImGui-based user interface (WARNING: EXPERIMENTAL)." ),
-         false );
-
     add_empty_line();
 
     add( "USE_LANG", "interface", to_translation( "Language" ),

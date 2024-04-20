@@ -30,6 +30,7 @@
       [ "memory_card_unread", 50 ],
       [ "memory_card_science", 5 ],
       [ "standard_template_construct", 5 ],
+      [ "standard_template_construct_combat_exoskeleton", 5 ],
       { "item": "camera", "prob": 2, "charges": [ 0, 150 ] },
       { "item": "camera", "container-item": "camera_bag", "prob": 1, "charges": [ 0, 150 ] },
       { "item": "camera_pro", "prob": 1, "charges": [ 0, 150 ] },

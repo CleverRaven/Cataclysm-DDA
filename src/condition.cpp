@@ -1,39 +1,54 @@
 #include "condition.h"
 
+#include <algorithm>
+#include <array>
 #include <climits>
+#include <cmath>
 #include <cstddef>
 #include <functional>
 #include <map>
 #include <memory>
 #include <optional>
+#include <queue>
 #include <set>
+#include <stdexcept>
 #include <string>
+#include <type_traits>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
+#include <variant>
 #include <vector>
 
 #include "action.h"
 #include "avatar.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "coordinates.h"
-#include "dialogue.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "dialogue_helpers.h"
+#include "effect.h"
+#include "effect_on_condition.h"
 #include "enum_conversions.h"
+#include "enum_traits.h"
+#include "faction.h"
 #include "field.h"
 #include "flag.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "game.h"
 #include "generic_factory.h"
 #include "global_vars.h"
 #include "item.h"
 #include "item_category.h"
-#include "json.h"
-#include "kill_tracker.h"
+#include "item_location.h"
+#include "json_error.h"
 #include "line.h"
 #include "map.h"
+#include "map_iterator.h"
 #include "mapdata.h"
 #include "martialarts.h"
 #include "math_parser.h"
@@ -41,6 +56,8 @@
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
+#include "options.h"
+#include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "point.h"
@@ -48,16 +65,24 @@
 #include "profession.h"
 #include "ranged.h"
 #include "recipe_groups.h"
+#include "rng.h"
+#include "string_formatter.h"
 #include "talker.h"
+#include "translation.h"
+#include "translations.h"
 #include "type_id.h"
 #include "units.h"
 #include "vehicle.h"
+#include "viewer.h"
 #include "vpart_position.h"
+#include "weather.h"
 #include "widget.h"
 #include "worldfactory.h"
 
+class Creature;
 class basecamp;
 class recipe;
+struct mapgen_arguments;
 
 static const efftype_id effect_currently_busy( "currently_busy" );
 
@@ -942,15 +967,15 @@ conditional_t::func f_need( const JsonObject &jo, std::string_view member, bool 
         dov = get_dbl_or_var( jo, "amount" );
     } else if( jo.has_string( "level" ) ) {
         const std::string &level = jo.get_string( "level" );
-        auto flevel = fatigue_level_strs.find( level );
-        if( flevel != fatigue_level_strs.end() ) {
+        auto flevel = sleepiness_level_strs.find( level );
+        if( flevel != sleepiness_level_strs.end() ) {
             dov.min.dbl_val = static_cast<int>( flevel->second );
         }
     }
     return [need, dov, is_npc]( dialogue & d ) {
         const talker *actor = d.actor( is_npc );
         int amount = dov.evaluate( d );
-        return ( actor->get_fatigue() > amount && need.evaluate( d ) == "fatigue" ) ||
+        return ( actor->get_sleepiness() > amount && need.evaluate( d ) == "sleepiness" ) ||
                ( actor->get_hunger() > amount && need.evaluate( d ) == "hunger" ) ||
                ( actor->get_thirst() > amount && need.evaluate( d ) == "thirst" );
     };
@@ -974,7 +999,8 @@ conditional_t::func f_at_om_location( const JsonObject &jo, std::string_view mem
             // TODO: legacy check to be removed once primitive field camp OMTs have been purged
             return omt_str.find( "faction_base_camp" ) != std::string::npos;
         } else if( location_value == "FACTION_CAMP_START" ) {
-            return !recipe_group::get_recipes_by_id( "all_faction_base_types", omt_str ).empty();
+            const std::optional<mapgen_arguments> *maybe_args = overmap_buffer.mapgen_args( omt_pos );
+            return !recipe_group::get_recipes_by_id( "all_faction_base_types", omt_ter, maybe_args ).empty();
         } else {
             return oter_no_dir( omt_ter ) == location_value;
         }
@@ -991,6 +1017,7 @@ conditional_t::func f_near_om_location( const JsonObject &jo, std::string_view m
         for( const tripoint_abs_omt &curr_pos : points_in_radius( omt_pos,
                 range.evaluate( d ) ) ) {
             const oter_id &omt_ter = overmap_buffer.ter( curr_pos );
+            const std::optional<mapgen_arguments> *maybe_args = overmap_buffer.mapgen_args( omt_pos );
             const std::string &omt_str = omt_ter.id().str();
             std::string location_value = location.evaluate( d );
 
@@ -1004,7 +1031,7 @@ conditional_t::func f_near_om_location( const JsonObject &jo, std::string_view m
                     return true;
                 }
             } else if( location_value  == "FACTION_CAMP_START" &&
-                       !recipe_group::get_recipes_by_id( "all_faction_base_types", omt_str ).empty() ) {
+                       !recipe_group::get_recipes_by_id( "all_faction_base_types", omt_ter, maybe_args ).empty() ) {
                 return true;
             } else {
                 if( oter_no_dir( omt_ter ) == location_value ) {
@@ -2014,7 +2041,7 @@ std::unordered_map<std::string_view, int ( talker::* )() const> const f_get_vals
     { "dexterity_bonus", &talker::get_dex_bonus },
     { "dexterity", &talker::dex_cur },
     { "exp", &talker::get_kill_xp },
-    { "fatigue", &talker::get_fatigue },
+    { "sleepiness", &talker::get_sleepiness },
     { "fine_detail_vision_mod", &talker::get_fine_detail_vision_mod },
     { "focus", &talker::focus_cur },
     { "friendly", &talker::get_friendly },
@@ -2138,7 +2165,7 @@ std::unordered_map<std::string_view, void ( talker::* )( int )> const f_set_vals
     { "dexterity_base", &talker::set_dex_max },
     { "dexterity_bonus", &talker::set_dex_bonus },
     { "exp", &talker::set_kill_xp },
-    { "fatigue", &talker::set_fatigue },
+    { "sleepiness", &talker::set_sleepiness },
     { "friendly", &talker::set_friendly },
     { "height", &talker::set_height },
     { "intelligence_base", &talker::set_int_max },

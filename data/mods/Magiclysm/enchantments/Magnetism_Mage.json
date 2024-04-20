@@ -3,7 +3,7 @@
     "type": "enchantment",
     "id": "MAGNETISM_MAGE",
     "name": { "str": "Power" },
-    "description": "Your Magnetism Mage abilities grant you a good defence against firearms, perfect electric immunity, and the ability to see electric creatures from any distance.",
+    "description": "Your Magnetism Mage abilities grant you a good defense against firearms, perfect electric immunity, and the ability to see electric creatures from any distance.",
     "values": [ { "value": "ARMOR_BULLET", "add": -50 }, { "value": "SIGHT_RANGE_ELECTRIC", "add": 1000 } ]
   }
 ]

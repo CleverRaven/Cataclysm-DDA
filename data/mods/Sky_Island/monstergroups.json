@@ -155,7 +155,6 @@
       { "monster": "mon_zombie_hulk", "weight": 100 },
       { "monster": "mon_skeleton_hulk", "weight": 75 },
       { "monster": "mon_zombie_kevlar_2", "weight": 50 },
-      { "monster": "mon_zombie_bio_op2", "weight": 15 },
       { "monster": "mon_jabberwock", "weight": 25 },
       { "monster": "mon_zombie_brute_shocker", "weight": 10 },
       { "monster": "mon_zoose_brute", "weight": 20 },
@@ -168,7 +167,6 @@
     "//": "Boss tier encounters for enemies that show up in bunches.  Extreme danger level.",
     "monsters": [
       { "monster": "mon_zombie_hulk", "weight": 10 },
-      { "monster": "mon_zombie_bio_op2", "weight": 50 },
       { "monster": "mon_dog_zombie_hulk", "weight": 100 },
       { "monster": "mon_feral_militia", "weight": 100 },
       { "monster": "mon_skeleton_electric", "weight": 100 },

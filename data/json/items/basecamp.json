@@ -3,11 +3,10 @@
     "id": "fake_char_kiln",
     "//": "The stationary object needs a larger capacity than the portable base object",
     "type": "TOOL",
-    "copy-from": "fake_item",
+    "copy-from": "fake_crafting_tool",
     "name": { "str": "basecamp kiln" },
     "description": "A fake kiln used for basecamps.",
     "sub": "char_kiln",
-    "extend": { "flags": [ "ALLOWS_REMOTE_USE" ] },
     "ammo": [ "charcoal" ],
     "//1": "250 liters of materials can produce 100 liters of charcoal.",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 20000 } } ]
@@ -16,11 +15,10 @@
     "id": "fake_char_smoker",
     "//": "The stationary object needs a larger capacity than the portable base object",
     "type": "TOOL",
-    "copy-from": "fake_item",
+    "copy-from": "fake_crafting_tool",
     "name": { "str": "basecamp charcoal smoker" },
     "description": "A fake charcoal smoker used for basecamps.",
     "sub": "char_smoker",
-    "extend": { "flags": [ "ALLOWS_REMOTE_USE" ] },
     "ammo": [ "charcoal" ],
     "//1": "holds 450 liters of charcoal. a full smoking rack cycle of 20L of stuff would consume 15,000 charcoal (75 liters, 15.6kg of charcoal)",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 90000 } } ]
@@ -32,29 +30,27 @@
     "name": { "str": "basecamp forge" },
     "copy-from": "char_forge",
     "description": "A fake charcoal forge used for basecamps.",
-    "extend": { "flags": [ "ALLOWS_REMOTE_USE", "ZERO_WEIGHT" ] },
+    "extend": { "flags": [ "ALLOWS_REMOTE_USE", "ZERO_WEIGHT", "PSEUDO" ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 2000, "coal": 10000 } } ]
   },
   {
     "id": "fake_clay_kiln",
     "//": "The stationary object needs a larger capacity than the portable base object",
     "type": "TOOL",
-    "copy-from": "fake_item",
+    "copy-from": "fake_crafting_tool",
     "name": { "str": "basecamp clay kiln" },
     "description": "A fake clay kiln used for basecamps.",
     "sub": "brick_kiln",
-    "extend": { "flags": [ "ALLOWS_REMOTE_USE" ] },
     "ammo": [ "charcoal", "coal" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 2000, "coal": 10000 } } ]
   },
   {
     "id": "fake_fireplace",
     "type": "TOOL",
-    "copy-from": "fake_item",
+    "copy-from": "fake_crafting_tool",
     "name": { "str": "basecamp fireplace" },
     "description": "A fake fireplace used for basecamps.",
     "sub": "hotplate",
-    "extend": { "flags": [ "ALLOWS_REMOTE_USE" ] },
     "ammo": [ "tinder" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "tinder": 50000 } } ],
     "charge_factor": 25
@@ -62,11 +58,10 @@
   {
     "id": "fake_woodstove",
     "type": "TOOL",
-    "copy-from": "fake_item",
+    "copy-from": "fake_crafting_tool",
     "name": { "str": "basecamp stove" },
     "description": "A fake stove used for basecamps.",
     "sub": "hotplate",
-    "extend": { "flags": [ "ALLOWS_REMOTE_USE" ] },
     "ammo": [ "tinder" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "tinder": 50000 } } ],
     "charge_factor": 10
@@ -85,5 +80,12 @@
     "copy-from": "fake_item",
     "name": { "str": "basecamp parkour gym" },
     "description": "A fake parkour gym used for parkour training in basecamps."
+  },
+  {
+    "id": "fake_digester_tank",
+    "type": "TOOL",
+    "copy-from": "fake_item",
+    "name": { "str": "small anaerobic digester tank" },
+    "description": "A fake tank for mixing biomass and water."
   }
 ]

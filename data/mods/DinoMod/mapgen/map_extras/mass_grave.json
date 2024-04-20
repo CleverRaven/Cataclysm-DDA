@@ -5,32 +5,6 @@
     "//": "This is the 'base' mass grave, and doesn't actually contain anything. Variants are generated via the place_nested field.",
     "update_mapgen_id": "mx_mass_grave_dino",
     "object": {
-      "rows": [
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        "
-      ],
       "place_nested": [
         {
           "chunks": [

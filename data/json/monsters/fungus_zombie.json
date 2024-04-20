@@ -696,7 +696,7 @@
     "id": "mon_zougar_fungus",
     "type": "MONSTER",
     "name": { "str": "fungal pouncer" },
-    "description": "This four legged, oversized cat seems to spew spores from its pawpads with each clusmy landing, as if constantly gaining and losing balance in air.",
+    "description": "This four legged, oversized cat seems to spew spores from its pawpads with each clumsy landing, as if constantly gaining and losing balance in air.",
     "default_faction": "fungus",
     "bodytype": "dog",
     "species": [ "FUNGUS" ],
@@ -813,7 +813,7 @@
   {
     "id": "mon_zeindeer_fungus",
     "type": "MONSTER",
-    "name": { "str": "fungideer" },
+    "name": { "str_sp": "fungideer" },
     "looks_like": "mon_zeer",
     "description": "This bumpy, discolored reindeer resembles a malformed Rudolph, its nose having a faintly glowing red fungal sprout.  It'd look almost comical if it wasn't mutilating bodies with its innate strength.",
     "default_faction": "fungus",

@@ -499,7 +499,7 @@
       { "item": "hydrogen_tank", "prob": 8, "charges": [ 12, 24 ] },
       { "item": "polycarbonate_sheet", "prob": 7, "count": [ 1, 30 ] },
       { "prob": 10, "group": "salt_bag_plastic_100" },
-      { "prob": 10, "group": "sugar_box_small_71" },
+      { "prob": 10, "group": "sugar_packed" },
       { "item": "chem_ethanol", "prob": 10, "charges-min": 250 },
       [ "oxygen_cylinder", 8 ],
       { "prob": 16, "group": "chem_citric_acid_bottle_glass_100_inf" },

@@ -48,7 +48,7 @@
         "id": "ammunition_can_30_300jhp_240",
         "name": { "str": "240 .300 win mag ammo can" },
         "weight": 0,
-        "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>1305-01-018-1547 A191\n240 CARTRIDGES .300 WM\nMATCH GRAGE\n220 GRAIN BULLET\nMk 248 Mod 1\"</color>"
+        "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>1305-01-018-1547 A191\n240 CARTRIDGES .300 WM\nMATCH GRADE\n220 GRAIN BULLET\nMk 248 Mod 1\"</color>"
       },
       {
         "id": "ammunition_can_30_300AAC_otmss_720",
@@ -125,7 +125,7 @@
         "id": "ammunition_can_50_556tracer_820",
         "name": { "str": "820 5.56mm ammo can" },
         "weight": 0,
-        "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>1305-01-155-5457 A063\n820 CTGS 5.56MM\nTRACER M856</color>"
+        "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>1305-01-155-5457 A063\n820 CRTGS 5.56MM\nTRACER M856</color>"
       },
       {
         "id": "ammunition_can_50_50bmg_4fmj1tracer_100",
@@ -579,7 +579,7 @@
     "id": "ammo_box_army_10_338",
     "type": "GENERIC",
     "copy-from": "ammo_box_3",
-    "name": { "str": "10 .338 lapua ammo box", "str_pl": "10 .338 lapua ammo boxes" },
+    "name": { "str": "10 .338 Lapua ammo box", "str_pl": "10 .338 Lapua ammo boxes" },
     "description": "Small, painted in white ammo box.  Black text, printed on the front, says:\n10 CARTRIDGES\n.338 LAPUA MAG.\nSWISS P TARGET\nHPBT",
     "color": "brown",
     "symbol": "#",
@@ -681,7 +681,7 @@
     "id": "ammo_box_army_20_338",
     "type": "GENERIC",
     "copy-from": "ammo_box_4",
-    "name": { "str": "20 .338 lapua ammo box", "str_pl": "20 .338 lapua ammo boxes" },
+    "name": { "str": "20 .338 Lapua ammo box", "str_pl": "20 .338 Lapua ammo boxes" },
     "description": "Small, painted in white ammo box.  Black text, printed on the front, says \"20 CARTRIDGES\n.338 LAPUA MAG.\nSWISS P TARGET\nHPBT\"",
     "color": "brown",
     "symbol": "#",

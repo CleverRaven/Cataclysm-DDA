@@ -7,8 +7,18 @@
       "and": [
         {
           "and": [
-            { "or": [ { "not": { "u_has_trait": "EATER" } }, { "not": { "u_has_trait": "DREAMER" } } ] },
-            { "or": [ { "not": { "u_has_trait": "INVENTOR" } }, { "not": { "u_has_trait": "DREAMSMITH" } } ] }
+            {
+              "and": [
+                { "or": [ { "not": { "u_has_trait": "EATER" } }, { "not": { "u_has_trait": "DREAMER" } } ] },
+                { "not": { "u_has_trait": "DREAMLESS" } }
+              ]
+            },
+            {
+              "and": [
+                { "or": [ { "not": { "u_has_trait": "INVENTOR" } }, { "not": { "u_has_trait": "DREAMSMITH" } } ] },
+                { "not": { "u_has_trait": "DREAMLESS" } }
+              ]
+            }
           ]
         },
         { "math": [ "magic_potential", ">", "0" ] }

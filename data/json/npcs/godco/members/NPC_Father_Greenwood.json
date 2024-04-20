@@ -160,7 +160,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Greenwood_NECC",
-    "dynamic_line": "The full name is the New England Community Church.  Helenas father started it about twenty years ago.  The flock may be small, but we've always helped each other when times were tough; we're like a family now.",
+    "dynamic_line": "The full name is the New England Community Church.  Helena's father started it about twenty years ago.  The flock may be small, but we've always helped each other when times were tough; we're like a family now.",
     "responses": [
       { "text": "Could I ask you a few more questions?", "topic": "TALK_GODCO_Greenwood_2" },
       { "text": "What do you think about Helena?", "topic": "TALK_GODCO_Greenwood_Helena" },

@@ -395,6 +395,12 @@ Fixes spellcasting proficiencies adding when they should be subtracting
 [MoM] High levels of weariness turn off your powers
 More specific messages for being unable to use supernatural powers
 [Xedra Evolved] New Arvore spell--Verdant Imprisonment
+[MoM] High levels of weariness turn off your powers
+More specific messages for being unable to use supernatural powers
+Tune channeling spells with scale modifier.
+[MoM] Edit portal storm conditions to support moddability, use that for Telepathic Shield in MoM
+XE: Trait to avoid learning dream magick
+
 
 
 ## Balance:
@@ -456,6 +462,8 @@ Retuned frag grenades to be less effective against ballistic armor and lose powe
 Damage from dropped items scales with kinetic energy
 Remove rapid strike from knives
 Hub MDS fix and material update
+Instability no longer accumulates or decreases; it depends on how many mutations you have, and how many are outside of your current tree
+Pain is painful
 
 
 ## Bugfixes:
@@ -585,19 +593,14 @@ Allows Infrared vision to see through smoke
 [Magiclysm] Fix Peaceful Rest hobby
 NPCs can overeat, starve, and dehydrate to death
 Fixed issue where user could only change the selected option in the ImGui popup using the arrow keys or tab key
-fixed incorrect disassembly recipe for the backup generator item
-[MoM] Add PSIONIC flag to Levitation
-Aftershock: Organ/Meat Related Recipes Are No Longer Overridden
-Correct Density for Some Brewing Fluids
 Allow trap-avoiding monsters to step on traps if there's no other path
-Remove Survivor Revolvers
 Implemented drawing of non-English characters in ImGui screens
 Fixed monsters which regenerate in the dark regenerating in daylight
 Crafting will unseal containers when contents are removed
-[MoM] Awakening  > u_awakening
 Fix migrating from item variants when the variant has been deleted
 NPCs can develop vitamin diseases
-Fixing issue where popup doesn't size to fit its contents properly, and doesnt wrap the button selection navigation properly
+Rotten food doesn't become fresh when crafted with
+fixes issue where NPCs could take an item like canned corn as a donation and would remove the corn from the can and give you the can back.
 
 
 ## Performance:
@@ -671,9 +674,8 @@ Effect enchantments can now apply to monsters
 Make JSON formatter replace nbsp with escape sequence
 Update houses to utilize palettes
 Added SMALL_HIDER flag to various monsters.
-Added MOVEMENT_EXERTION_MODIFIER as an enchantment
 Test case: NPCs prefer to use guns
-Pop out incompatible tools from workstations
+Rename 'fatigue' to 'sleepiness', mostly on the back end, to avoid confusing different ways of being knackered
 
 
 ## Build:
@@ -690,6 +692,7 @@ Report game's RNG seed during testing
 Added WebAssembly build via Emscripten
 CMake: Add LLVM build for Windows and other linker fixes
 Use one precompiled header
+Fix zlib old-style-cast build breakage
 
 
 ## I18N and A11Y:

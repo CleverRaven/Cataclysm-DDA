@@ -1689,7 +1689,7 @@
     "id": "armrig",
     "type": "ARMOR",
     "name": { "str": "armband pouch", "str_pl": "armband pouches" },
-    "description": "A small pouch that can be worn on the upper arm using buckled straps.  This is a favoured item among sports & camping enthusiasts.  Use it to adjust it to fit your leg.",
+    "description": "A small pouch that can be worn on the upper arm using buckled straps.  This is a favored item among sports & camping enthusiasts.  Use it to adjust it to fit your leg.",
     "weight": "205 g",
     "volume": "550 ml",
     "price": 3000,
@@ -2637,8 +2637,8 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "25 L",
-        "max_contains_weight": "30 kg",
+        "max_contains_volume": "15 L",
+        "max_contains_weight": "15 kg",
         "max_item_length": "60 cm",
         "moves": 300
       }

@@ -105,7 +105,9 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "profession": true,                         // Trait is a starting profession special trait (default: false).
   "debug": false,                             // Trait is for debug purposes (default: false).
   "dummy": false,                             // Dummy mutations are special; they're not gained through normal mutating, and will instead be targeted for the purposes of removing conflicting mutations
-  "threshold": false                          //True if it's a threshold itself, and shouldn't be obtained *easily*.
+  "threshold": false,                         //True if it's a threshold itself, and shouldn't be obtained *easily*.  Disallows mutating this trait directly
+  "threshold_substitutes": [ "FOO", "BAR" ],   // The listed traits are accepted in place of this threshold trait for the purposes of gaining post-threshold mutations
+  "strict_thresreq": false,                   // This trait needs an *exact* threshold match (ie. ignores threshold substitutions)
   "player_display": true,                     // Trait is displayed in the `@` player display menu and mutations screen.
   "vanity": false,                            // Trait can be changed any time with no cost, like hair, eye color and skin color.
   "variants": [                               // Cosmetic variants of this mutation.
@@ -176,11 +178,11 @@ Note that **all new traits that can be obtained through mutation must be purifia
   ],
   "active": true,                             // When set the mutation is an active mutation that the player needs to activate (default: false).
   "starts_active": true,                      // When true, this 'active' mutation starts active (default: false, requires 'active').
-  "cost": 8,                                  // Cost to activate this mutation.  Needs one of the hunger, thirst, or fatigue values set to true (default: 0).
+  "cost": 8,                                  // Cost to activate this mutation.  Needs one of the hunger, thirst, or sleepiness values set to true (default: 0).
   "time": 100,                                // Sets the amount of (turns * current player speed ) time units that need to pass before the cost is to be paid again.  Needs to be higher than one to have any effect (default: 0).
   "kcal": true,                               // If true, activated mutation consumes `cost` kcal. (default: false).
   "thirst": true,                             // If true, activated mutation increases thirst by cost (default: false).
-  "fatigue": true,                            // If true, activated mutation increases fatigue by cost (default: false).
+  "sleepiness": true,                            // If true, activated mutation increases sleepiness by cost (default: false).
   "active_flags": [ "BLIND" ],                // activation of the mutation apply this flag on your character
   "allowed_items": [ "ALLOWS_TAIL" ],         // you can wear items with this flag with this mutation, bypassing restricts_gear restriction
   "integrated_armor": [ "integrated_fur" ],   // this item is worn on your character forever, until you get rid of this mutation
@@ -284,7 +286,7 @@ These fields are optional, but are very frequently used in mutations and their c
 | `cost`            | 0       | For active mutations, this value is the cost to activate them. At least one of the following three values will need to be `true` for this to function.      |
 | `kcal`            | false   | If true, this active mutation will consume `cost` kcal during activation or upkeep.                                                                         |
 | `thirst`          | false   | If true, this active mutation will consume `cost` thirst during activation or upkeep.                                                                       |
-| `fatigue`         | false   | If true, this active mutation will consume `cost` fatigue during activation or upkeep.                                                                      |
+| `sleepiness`         | false   | If true, this active mutation will consume `cost` sleepiness during activation or upkeep.                                                                      |
 | `enchantments`    | Nothing | A list of enchantments granted by this mutation. Can either be string IDs of a defined enchantment, or an inline definition.                                |
 
 ### Optional Fields

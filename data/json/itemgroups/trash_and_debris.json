@@ -168,6 +168,11 @@
   },
   {
     "type": "item_group",
+    "id": "dead_vegetation",
+    "items": [ { "item": "twig", "prob": 15, "count": [ 5, 20 ] }, [ "withered", 60 ], [ "stick_long", 15 ], [ "stick", 30 ] ]
+  },
+  {
+    "type": "item_group",
     "id": "trash",
     "ammo": 20,
     "magazine": 50,
