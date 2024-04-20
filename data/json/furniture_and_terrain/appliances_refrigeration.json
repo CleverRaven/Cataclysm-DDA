@@ -23,19 +23,7 @@
       }
     },
     "flags": [ "CARGO", "OBSTACLE", "FRIDGE", "COVERED", "ENABLED_DRAINS_EPOWER", "APPLIANCE", "CTRL_ELECTRONIC" ],
-    "breaks_into": [
-      { "item": "sheet_metal", "count": [ 1, 4 ] },
-      { "item": "sheet_metal_small", "count": [ 8, 12 ] },
-      { "item": "steel_chunk", "count": [ 0, 3 ] },
-      { "item": "scrap", "count": [ 2, 8 ] },
-      { "item": "plastic_chunk", "count": [ 9, 14 ] },
-      { "item": "cable", "charges": [ 1, 2 ] },
-      { "item": "pipe_fittings", "count": [ 1, 3 ] },
-      { "item": "hose", "count": 1 },
-      { "item": "cu_pipe", "count": [ 2, 4 ] },
-      { "item": "scrap_copper", "count": [ 1, 2 ] },
-      { "item": "motor_tiny", "prob": 25 }
-    ],
+    "breaks_into": [ { "group": "apartment_fridge_destroyed" } ],
     "damage_reduction": { "all": 32 },
     "variants": [ { "symbols": "H", "symbols_broken": "#" } ]
   },
@@ -63,14 +51,7 @@
       }
     },
     "flags": [ "CARGO", "OBSTACLE", "FRIDGE", "COVERED", "ENABLED_DRAINS_EPOWER", "APPLIANCE", "CTRL_ELECTRONIC" ],
-    "breaks_into": [
-      { "item": "steel_lump", "count": [ 8, 13 ] },
-      { "item": "steel_chunk", "count": [ 8, 13 ] },
-      { "item": "scrap", "count": [ 8, 13 ] },
-      { "item": "plastic_chunk", "count": [ 3, 6 ] },
-      { "item": "hose", "prob": 50 },
-      { "item": "motor_tiny", "prob": 25 }
-    ],
+    "breaks_into": [ { "group": "minifridge_destroyed" } ],
     "damage_reduction": { "all": 32 },
     "variants": [ { "symbols": "H", "symbols_broken": "#" } ]
   },
@@ -85,6 +66,7 @@
     "//": "34 kwh, but since you open it and use it, and because it's upright, 1.5 as much",
     "size": "250 L",
     "item": "big_portable_fridge",
+    "breaks_into": [ { "group": "big_portable_fridge_destroyed" } ],
     "flags": [ "CARGO", "OBSTACLE", "FRIDGE", "COVERED", "ENABLED_DRAINS_EPOWER", "APPLIANCE", "CTRL_ELECTRONIC" ],
     "variants": [ { "symbols": "H", "symbols_broken": "#" } ]
   },
@@ -102,19 +84,7 @@
     "size": "347 L",
     "item": "glass_fridge",
     "flags": [ "CARGO", "OBSTACLE", "FRIDGE", "COVERED", "ENABLED_DRAINS_EPOWER", "APPLIANCE", "CTRL_ELECTRONIC" ],
-    "breaks_into": [
-      { "item": "sheet_metal", "count": [ 2, 5 ] },
-      { "item": "sheet_metal_small", "count": [ 0, 3 ] },
-      { "item": "steel_chunk", "count": [ 2, 3 ] },
-      { "item": "scrap", "count": [ 2, 6 ] },
-      { "item": "cable", "charges": [ 1, 3 ] },
-      { "item": "hose", "count": 1 },
-      { "item": "glass_sheet", "count": 1 },
-      { "item": "cu_pipe", "count": [ 3, 6 ] },
-      { "item": "pipe_fittings", "count": [ 2, 6 ] },
-      { "item": "refrigerant_tank", "count": 1 },
-      { "item": "motor_tiny", "count": 1 }
-    ],
+    "breaks_into": [ { "group": "glass_fridge_destroyed" } ],
     "damage_reduction": { "all": 16 }
   },
   {
@@ -139,19 +109,7 @@
       }
     },
     "flags": [ "CARGO", "OBSTACLE", "FRIDGE", "COVERED", "ENABLED_DRAINS_EPOWER", "APPLIANCE", "CTRL_ELECTRONIC" ],
-    "breaks_into": [
-      { "item": "sheet_metal", "count": [ 2, 5 ] },
-      { "item": "sheet_metal_small", "count": [ 0, 3 ] },
-      { "item": "steel_chunk", "count": [ 2, 3 ] },
-      { "item": "scrap", "count": [ 2, 6 ] },
-      { "item": "cable", "charges": [ 1, 3 ] },
-      { "item": "hose", "count": 1 },
-      { "item": "glass_sheet", "count": 1 },
-      { "item": "cu_pipe", "count": [ 3, 6 ] },
-      { "item": "pipe_fittings", "count": [ 2, 6 ] },
-      { "item": "refrigerant_tank", "count": 1 },
-      { "item": "motor_tiny", "count": 1 }
-    ],
+    "breaks_into": [ { "group": "glass_fridge_double_destroyed" } ],
     "damage_reduction": { "all": 16 }
   },
   {
@@ -175,19 +133,7 @@
       }
     },
     "flags": [ "CARGO", "OBSTACLE", "FRIDGE", "COVERED", "ENABLED_DRAINS_EPOWER", "APPLIANCE", "CTRL_ELECTRONIC" ],
-    "breaks_into": [
-      { "item": "sheet_metal", "count": [ 1, 4 ] },
-      { "item": "sheet_metal_small", "count": [ 8, 12 ] },
-      { "item": "steel_chunk", "count": [ 0, 3 ] },
-      { "item": "scrap", "count": [ 2, 8 ] },
-      { "item": "plastic_chunk", "count": [ 9, 14 ] },
-      { "item": "cable", "charges": [ 1, 2 ] },
-      { "item": "pipe_fittings", "count": [ 1, 3 ] },
-      { "item": "hose", "count": 1 },
-      { "item": "cu_pipe", "count": [ 2, 4 ] },
-      { "item": "scrap_copper", "count": [ 1, 2 ] },
-      { "item": "motor_tiny", "prob": 25 }
-    ],
+    "breaks_into": [ { "group": "heavy_duty_fridge_destroyed" } ],
     "damage_reduction": { "all": 32 }
   },
   {
@@ -210,20 +156,8 @@
         "using": [ [ "repair_welding_standard", 3 ], [ "soldering_standard", 5 ] ]
       }
     },
-    "flags": [ "CARGO", "OBSTACLE", "FRIDGE", "COVERED", "ENABLED_DRAINS_EPOWER", "APPLIANCE", "CTRL_ELECTRONIC" ],
-    "breaks_into": [
-      { "item": "sheet_metal", "count": [ 1, 4 ] },
-      { "item": "sheet_metal_small", "count": [ 8, 12 ] },
-      { "item": "steel_chunk", "count": [ 0, 3 ] },
-      { "item": "scrap", "count": [ 2, 8 ] },
-      { "item": "plastic_chunk", "count": [ 9, 14 ] },
-      { "item": "cable", "charges": [ 1, 2 ] },
-      { "item": "pipe_fittings", "count": [ 1, 3 ] },
-      { "item": "hose", "count": 1 },
-      { "item": "cu_pipe", "count": [ 2, 4 ] },
-      { "item": "scrap_copper", "count": [ 1, 2 ] },
-      { "item": "motor_tiny", "prob": 25 }
-    ]
+    "breaks_into": [ { "group": "heavy_duty_fridge_destroyed" } ],
+    "flags": [ "CARGO", "OBSTACLE", "FRIDGE", "COVERED", "ENABLED_DRAINS_EPOWER", "APPLIANCE", "CTRL_ELECTRONIC" ]
   },
   {
     "type": "vehicle_part",
@@ -245,19 +179,8 @@
         "using": [ [ "repair_welding_standard", 3 ], [ "soldering_standard", 5 ] ]
       }
     },
-    "flags": [ "CARGO", "OBSTACLE", "FREEZER", "COVERED", "ENABLED_DRAINS_EPOWER", "APPLIANCE", "CTRL_ELECTRONIC" ],
-    "breaks_into": [
-      { "item": "sheet_metal", "count": [ 1, 4 ] },
-      { "item": "sheet_metal_small", "count": [ 8, 12 ] },
-      { "item": "steel_chunk", "count": [ 0, 3 ] },
-      { "item": "scrap", "count": [ 2, 8 ] },
-      { "item": "plastic_chunk", "count": [ 13, 18 ] },
-      { "item": "cable", "charges": [ 1, 2 ] },
-      { "item": "pipe_fittings", "count": [ 1, 3 ] },
-      { "item": "hose", "count": 1 },
-      { "item": "cu_pipe", "count": [ 2, 4 ] },
-      { "item": "scrap_copper", "count": [ 1, 2 ] }
-    ]
+    "breaks_into": [ { "group": "apartment_freezer_destroyed" } ],
+    "flags": [ "CARGO", "OBSTACLE", "FREEZER", "COVERED", "ENABLED_DRAINS_EPOWER", "APPLIANCE", "CTRL_ELECTRONIC" ]
   },
   {
     "type": "vehicle_part",
@@ -281,15 +204,8 @@
         "using": [ [ "repair_welding_standard", 4 ], [ "soldering_standard", 5 ] ]
       }
     },
-    "flags": [ "CARGO", "OBSTACLE", "FREEZER", "COVERED", "ENABLED_DRAINS_EPOWER", "APPLIANCE", "CTRL_ELECTRONIC" ],
-    "breaks_into": [
-      { "item": "steel_lump", "count": [ 8, 13 ] },
-      { "item": "steel_chunk", "count": [ 8, 13 ] },
-      { "item": "scrap", "count": [ 8, 13 ] },
-      { "item": "plastic_chunk", "count": [ 5, 8 ] },
-      { "item": "hose", "prob": 50 },
-      { "item": "motor_tiny", "prob": 25 }
-    ]
+    "breaks_into": [ { "group": "minifreezer_destroyed" } ],
+    "flags": [ "CARGO", "OBSTACLE", "FREEZER", "COVERED", "ENABLED_DRAINS_EPOWER", "APPLIANCE", "CTRL_ELECTRONIC" ]
   },
   {
     "type": "vehicle_part",
@@ -303,6 +219,7 @@
     "//2": "listed capacity is 99L, but internal dimensions are 117L. 100 L for round number.",
     "item": "chest_minifreezer",
     "size": "99 L",
+    "breaks_into": [ { "group": "chest_minifreezer_destroyed" } ],
     "flags": [ "CARGO", "OBSTACLE", "FREEZER", "COVERED", "ENABLED_DRAINS_EPOWER", "APPLIANCE", "CTRL_ELECTRONIC" ],
     "variants": [ { "symbols": "H", "symbols_broken": "#" } ]
   },
@@ -317,6 +234,7 @@
     "//": "141 kwh, but since you open it and use it, and because it's upright, 1.5 as much",
     "size": "250 L",
     "item": "big_portable_freezer",
+    "breaks_into": [ { "group": "big_portable_freezer_destroyed" } ],
     "flags": [ "CARGO", "OBSTACLE", "FREEZER", "COVERED", "ENABLED_DRAINS_EPOWER", "APPLIANCE", "CTRL_ELECTRONIC" ],
     "variants": [ { "symbols": "H", "symbols_broken": "#" } ]
   },
@@ -331,6 +249,7 @@
     "//": "30 kwh, but since you open it and use it, 1.2 as much",
     "size": "350 L",
     "item": "chest_freezer",
+    "breaks_into": [ { "group": "chest_freezer_destroyed" } ],
     "flags": [ "CARGO", "OBSTACLE", "FREEZER", "COVERED", "ENABLED_DRAINS_EPOWER", "APPLIANCE", "CTRL_ELECTRONIC" ],
     "variants": [ { "symbols": "H", "symbols_broken": "#" } ]
   },
@@ -345,6 +264,7 @@
     "//": "384 kwh, but since you open it and use it, and because it's upright, 1.5 as much",
     "size": "745 L",
     "item": "heavy_duty_freezer",
+    "breaks_into": [ { "group": "heavy_duty_freezer_destroyed" } ],
     "flags": [ "CARGO", "OBSTACLE", "FREEZER", "COVERED", "ENABLED_DRAINS_EPOWER", "APPLIANCE", "CTRL_ELECTRONIC" ],
     "variants": [ { "symbols": "H", "symbols_broken": "#" } ]
   },
@@ -359,6 +279,7 @@
     "//": "304 kwh, but since you open it and use it, and because it's upright, 1.5 as much",
     "size": "400 L",
     "item": "glass_freezer",
+    "breaks_into": [ { "group": "glass_freezer_destroyed" } ],
     "flags": [ "CARGO", "OBSTACLE", "FREEZER", "COVERED", "ENABLED_DRAINS_EPOWER", "APPLIANCE", "CTRL_ELECTRONIC" ],
     "variants": [ { "symbols": "H", "symbols_broken": "#" } ]
   },
@@ -373,6 +294,7 @@
     "//": "23 kwh, but since you open it and use it, 1.2 as much",
     "size": "320 L",
     "item": "display_freezer",
+    "breaks_into": [ { "group": "display_freezer_destroyed" } ],
     "flags": [ "CARGO", "OBSTACLE", "FREEZER", "COVERED", "ENABLED_DRAINS_EPOWER", "APPLIANCE", "CTRL_ELECTRONIC" ],
     "variants": [ { "symbols": "H", "symbols_broken": "#" } ]
   }
