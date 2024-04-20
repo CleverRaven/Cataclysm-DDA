@@ -92,8 +92,8 @@
         "topic": "TALK_ISHERWOOD_LUKE_BOOKS2",
         "condition": {
           "and": [
-            { "math": [ "time_since(u_timer_luke_isherwood_books)", "<=", "time('7 days')" ] },
-            { "u_has_var": "u_have_barry_escape", "type": "general", "context": "meeting", "value": "yes" }
+            { "math": [ "time_since(u_timer_luke_isherwood_books)", "<=", "time('7 d')" ] },
+            { "math": [ "u_timer_barry_rescue", "<=", "time('5 d')" ] }
           ]
         }
       },
@@ -102,8 +102,8 @@
         "topic": "TALK_ISHERWOOD_LUKE_BOOKS3",
         "condition": {
           "and": [
-            { "math": [ "time_since(u_timer_luke_isherwood_books)", ">", "time('7 days')" ] },
-            { "u_has_var": "u_have_barry_escape", "type": "general", "context": "meeting", "value": "yes" }
+            { "math": [ "time_since(u_timer_luke_isherwood_books)", ">", "time('7 d')" ] },
+            { "math": [ "u_timer_barry_rescue", ">", "time('5 d')" ] }
           ]
         }
       },

@@ -104,15 +104,58 @@
     "id": "TALK_ISHERWOOD_BARRY",
     "dynamic_line": "*lights up as you approach, but also looks wary.  \"Hey, <name_g>.\"",
     "responses": [
-      { "text": "Hey buddy, feel like talking about what you saw in that tower?", "topic": "TALK_ISHERWOOD_BARRY_TOWER" },
+      {
+        "text": "Hey buddy, feel like talking about what you saw in that tower?",
+        "topic": "TALK_ISHERWOOD_BARRY_TOWER_no",
+        "condition": { "math": [ "u_timer_barry_rescue", "<", "time('5 d')" ] }
+      },
+      {
+        "text": "Hey buddy, feel like talking about what you saw in that tower?",
+        "topic": "TALK_ISHERWOOD_BARRY_TOWER_fresh1",
+        "condition": { "math": [ "u_timer_barry_rescue", ">", "time('5 d')" ] }
+      },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
-    "id": "TALK_ISHERWOOD_BARRY_TOWER",
+    "id": "TALK_ISHERWOOD_BARRY_TOWER_no",
     "dynamic_line": "Yeah, I think we need to talk about it, but I'm not ready yet.  Let me reclaim my life for a while.",
     "responses": [ { "text": "Sounds good, Barry.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_BARRY_TOWER_fresh1",
+    "dynamic_line": "It's still a bit fresh, but okay.  Yeah.  Let me sit down first.\"  Barry takes a seat, his hands shaking even at the prospect of discussing the tower and the things he saw.  \"What should we talk about?",
+    "responses": [
+      { "text": "What happened to you in there?", "topic": "TALK_ISHERWOOD_BARRY_TOWER_fresh2" },
+      { "text": "On second thought, I think you should recover more.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_BARRY_TOWER_fresh2",
+    "dynamic_line": "*shivers, though the room is warm, and moves his mouth wordlessly for a few seconds.  \"It's hard to remember details.  The air in that place messes with your brain, makes it all feel like some kind of dream.  Makes it so you can't fight back.  Not that I could have anyway.\"  He stares into space for a moment, then swallows hard.  \"They cut into me, over and over.  I don't think they took anything out.  They just opened me up, poked around.  I was awake for all of it, as awake as for anything else.  Sometimes I felt pain, other times they did something to me so I could feel it but it didn't hurt.  There were big, pale ones that did the cutting.\"  His voice gets increasingly detached as he speaks, and his shaking grows worse.  You're not sure it would be wise for him to go further.",
+    "responses": [
+      {
+        "text": "(Let him continue)",
+        "topic": "TALK_ISHERWOOD_BARRY_TOWER_fresh3"
+      },
+      { "text": "That's enough for now, Barry.", "topic": "TALK_ISHERWOOD_BARRY_TOWER_fresh_stop" },
+      { "text": "On second thought, I think you should recover more.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_BARRY_TOWER_fresh3",
+    "dynamic_line": "*shudders, looking like he might vomit.  \"What did they want?  Why me?  Every time, they'd put me back together again, seal it up and make it look almost like nothing happened.\"  He yanks up his shirt to show the scars.  \"But I know what happened, it was REAL, goddamit!\"  He drops the shirt, bends forward, and dry heaves for a few seconds.  Wordless, he hides his face in his hands, and stops responding.",
+    "responses": [ { "text": "(Leave)", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_BARRY_TOWER_fresh_stop",
+    "dynamic_line": "Yeah.  Yeah.\"  He takes a long, shaky breath.  \"Yeah, you're right.  This isn't going anywhere good.  Claire's been talking about making some dandelion wine,\" he says with a hollow smile.  \"Maybe I'll go see if she needs help.",
+    "responses": [ { "text": "Good idea.", "topic": "TALK_DONE" } ]
   },
   {
     "id": "MISSION_ISHERWOOD_BARRY_1",
@@ -125,6 +168,7 @@
     "start": {
       "effect": [
         { "u_add_var": "u_have_barry_escape", "type": "general", "context": "meeting", "value": "yes" },
+        { "math": [ "u_timer_barry_rescue", "=", "time('now')" ] },
         { "npc_first_topic": "TALK_ISHERWOOD_BARRY" }
       ],
       "assign_mission_target": { "om_terrain": "dairy_farm_isherwood_W", "om_special": "Isherwood Farms", "reveal_radius": 3, "search_range": 240 }
