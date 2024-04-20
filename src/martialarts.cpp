@@ -10,6 +10,7 @@
 
 #include "bodypart.h"
 #include "character.h"
+#include "character_attire.h"
 #include "character_martial_arts.h"
 #include "color.h"
 #include "condition.h"
@@ -51,6 +52,8 @@ static const limb_score_id limb_score_block( "block" );
 
 static const skill_id skill_unarmed( "unarmed" );
 
+static const sub_bodypart_str_id sub_body_part_sub_limb_debug( "sub_limb_debug" );
+
 static const weapon_category_id weapon_category_OTHER_INVALID_WEAP_CAT( "OTHER_INVALID_WEAP_CAT" );
 
 
@@ -89,13 +92,16 @@ void wip_attack_vector::reset()
 void wip_attack_vector::load( const JsonObject &jo, const std::string_view )
 {
     mandatory( jo, was_loaded, "id", id );
+    mandatory( jo, was_loaded, "name", name );
     optional( jo, was_loaded, "weapon", weapon, false );
     optional( jo, was_loaded, "limbs", limbs );
-    optional( jo, was_loaded, "sub_limbs", sub_limbs );
-    optional( jo, was_loaded, "limb_types", limb_types );
-    optional( jo, was_loaded, "encumbrance_limit", encumbrance_limit );
-    optional( jo, was_loaded, "bp_hp_limit", bp_hp_limit );
-
+    optional( jo, was_loaded, "strict_limb_definition", strict_limb_definition, false );
+    optional( jo, was_loaded, "contact_area", contact_area );
+    optional( jo, was_loaded, "armor_bonus", armor_bonus, true );
+    optional( jo, was_loaded, "encumbrance_limit", encumbrance_limit, 100 );
+    optional( jo, was_loaded, "bp_hp_limit", bp_hp_limit, 0 );
+    optional( jo, was_loaded, "required_limb_flags", required_limb_flags );
+    optional( jo, was_loaded, "forbidden_limb_flags", forbidden_limb_flags );
 }
 
 template<>
@@ -272,7 +278,6 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "crit_tec", crit_tec, false );
     optional( jo, was_loaded, "crit_ok", crit_ok, false );
-    optional( jo, was_loaded, "crit_tec_id", crit_tec_id, tec_none );
     optional( jo, was_loaded, "attack_override", attack_override, false );
     optional( jo, was_loaded, "wall_adjacent", wall_adjacent, false );
     optional( jo, was_loaded, "reach_tec", reach_tec, false );
@@ -608,6 +613,39 @@ void finalize_martial_arts()
         // bother us because ma_buff_effect_type does not have any members that can be sliced.
         effect_type::register_ma_buff_effect( new_eff );
     }
+    // Iterate through every attack vector and substitute similar limbs (as long as they have similar sublimbs
+    for( wip_attack_vector vector : attack_vector_factory.get_all() ) {
+        // Check if this vector allows substitutions in the first place
+        if( vector.strict_limb_definition ) {
+            continue;
+        }
+
+        // Begin by substituting similar subparts to ease filtering in the next step
+        std::vector<sub_bodypart_str_id> similar_sbp;
+        for( const sub_bodypart_str_id &sbp : vector.contact_area ) {
+            for( const sub_bodypart_str_id &similar : sbp->similar_bodyparts ) {
+                similar_sbp.emplace_back( similar );
+            }
+        }
+
+        vector.contact_area.insert( vector.contact_area.end(), similar_sbp.begin(), similar_sbp.end() );
+
+        // We now have the actually-hitting sublimbs, substitute the main parts
+        // But discard any part where we'd be similar without a similar contact subpart
+        std::vector<bodypart_str_id> similar_bp;
+        for( const bodypart_str_id &bp : vector.limbs ) {
+            for( const bodypart_str_id &similar : bp->similar_bodyparts ) {
+                std::vector<sub_bodypart_str_id> intersect;
+                std::set_intersection( similar->sub_parts.begin(), similar->sub_parts.end(),
+                                       vector.contact_area.begin(), vector.contact_area.end(), std::back_inserter( intersect ) );
+                if( intersect.size() > 0 ) {
+                    // We have a common element in our sublimb list and the contact area list
+                    similar_bp.emplace_back( similar );
+                }
+            }
+        }
+        vector.limbs.insert( vector.limbs.end(), similar_bp.begin(), similar_bp.end() );
+    }
 }
 
 std::string martialart_difficulty( const matype_id &mstyle )
@@ -870,7 +908,6 @@ ma_technique::ma_technique()
 {
     crit_tec = false;
     crit_ok = false;
-    crit_tec_id = tec_none; // if not tec_none, use this tech instead when a crit procs
     defensive = false;
     side_switch = false; // moves the target behind user
     dummy = false;
@@ -1427,109 +1464,149 @@ std::string character_martial_arts::get_valid_attack_vector( const Character &us
     return "NONE";
 }
 
-attack_vector_id character_martial_arts::choose_attack_vector( const Character &user,
-        const matec_id &tech ) const
+std::optional<std::pair<attack_vector_id, sub_bodypart_str_id>>
+        character_martial_arts::choose_attack_vector( const Character &user,
+                const matec_id &tech ) const
 {
-    // Handle choosing the attack vector
-    // Deal with hard filters - DONE
-    // Consider expected damage?
-    // Weighted list based on damage? Hard priority?
-    // Return explicit bodypart id for unarmed stuff?
-    //
-    const std::vector<bodypart_id> anat = user.get_all_body_parts();
+    // Use the simple weighted list to handle picking semi-randomly
+    attack_vector_id ret;
     weighted_float_list<attack_vector_id> list;
+    std::pair<attack_vector_id, sub_bodypart_str_id> return_set;
+    std::vector<std::pair<attack_vector_id, sub_bodypart_str_id>> storage;
+    const std::vector<bodypart_id> anat = user.get_all_body_parts();
+    const bool armed = user.is_armed();
+    martialart ma = style_selected.obj();
+    bool valid_weapon = ma.weapon_valid( user.get_wielded_item() );
     for( const attack_vector_id &vec : tech.obj().wip_attack_vectors ) {
-        wip_attack_vector tmp = vec.obj();
-        bool found = false;
+        add_msg_debug( debugmode::DF_MELEE, "Evaluating vector %s for tech %s", vec->name, tech.c_str() );
         float weight = 0.0f;
         // Early break for armed vectors
-        if( tmp.weapon && user.is_armed() ) {
+        if( vec->weapon && armed && valid_weapon ) {
             item *weapon = user.get_wielded_item().get_item();
-            weight = weapon->average_dps( user );
-            if( tmp.primary ) {
-                return vec;
-            } else {
-                list.add_or_replace( vec, weight );
-            }
+            // Calculate weapon damage for weighting
+            // Store a dummy sublimb to show we're attacking with a weapon
+            weight = weapon->base_damage_melee().total_damage();
+            list.add_or_replace( vec, weight );
+            storage.emplace_back( std::make_pair( vec, sub_body_part_sub_limb_debug ) );
             add_msg_debug( debugmode::DF_MELEE, "Weapon %s eligable for attack vector %s with weight %.1f",
                            weapon->display_name(),
                            vec.c_str(), weight );
-            found = true;
-            break;
-        }
-        if( found ) {
             continue;
         }
-        // If we defined explicit bodyparts
-        for( const bodypart_id &bp : vec.obj().limbs ) {
+        // Smilar bodyparts get appended to the vector limb list in the finalization step
+        // So we just need to check if we have a limb, a contact area sublimb and tally up the damages
+        std::vector<std::pair<sub_bodypart_str_id, float>> calc_vector;
+        for( const bodypart_id &bp : vec->limbs ) {
             if( std::find( anat.begin(), anat.end(), bp ) != anat.end() ) {
-                const bodypart &part = *user.get_part( bp );
-                if( ( 100 * part.get_hp_cur() / part.get_hp_max() ) > tmp.bp_hp_limit &&
-                    part.get_encumbrance_data().encumbrance < tmp.encumbrance_limit ) {
-                    // Use the BP unarmed damage as the weight
-                    weight = bp.obj().total_unarmed_damage();
-                    if( tmp.primary ) {
-                        return vec;
-                    } else {
-                        list.add_or_replace( vec, weight );
+                add_msg_debug( debugmode::DF_MELEE, "Evaluating limb %s for vector %s", bp->name, vec->name );
+                // Filter on limb flags early
+                bool allowed = true;
+                for( const json_character_flag &req : vec->required_limb_flags ) {
+                    if( !bp->has_flag( req ) ) {
+                        add_msg_debug( debugmode::DF_MELEE, "Required limb flag %s not found on limb %s", req.c_str(),
+                                       bp->name );
+                        allowed = false;
+                        break;
                     }
-                    add_msg_debug( debugmode::DF_MELEE, "Bodypart %s eligable for attack vector %s with weight %.1f",
-                                   bp.id().c_str(),
-                                   vec.c_str(), weight );
-                    found = true;
-                    break;
                 }
-            }
-        }
-        if( found ) {
-            continue;
-        }
-        // Sublimb check
-        for( const sub_bodypart_str_id &sbp : tmp.sub_limbs ) {
-            for( const bodypart_id &bp : anat ) {
-                if( std::find( bp.obj().sub_parts.begin(), bp.obj().sub_parts.end(),
-                               sbp ) != bp.obj().sub_parts.end() ) {
-                    list.add_or_replace( vec, weight );
-                    add_msg_debug( debugmode::DF_MELEE,
-                                   "Sub-bodypart %s eligable for attack vector %s with weight %.1f", sbp.c_str(),
-                                   vec.c_str(), weight );
-                    found = true;
-                    break;
+                for( const json_character_flag &forb : vec->forbidden_limb_flags ) {
+                    if( bp->has_flag( forb ) ) {
+                        add_msg_debug( debugmode::DF_MELEE, "Forbidden limb flag %s found on limb %s", forb.c_str(),
+                                       bp->name );
+                        allowed = false;
+                        break;
+                    }
                 }
-            }
-            if( found ) {
-                break;
-            }
-        }
-        if( found ) {
-            continue;
-        }
-        // More flexible search for limb types
-        for( const body_part_type::type &type : tmp.limb_types ) {
-            std::vector<bodypart_id> limbs = user.get_all_body_parts_of_type( type );
-            for( const bodypart_id &bp : limbs ) {
+                if( !allowed ) {
+                    add_msg_debug( debugmode::DF_MELEE, "Limb %s disqualified for vector %s", bp->name, vec->name );
+                    continue;
+                }
                 const bodypart &part = *user.get_part( bp );
-                if( ( 100 * part.get_hp_cur() / part.get_hp_max() ) > tmp.bp_hp_limit &&
-                    part.get_encumbrance_data().encumbrance < tmp.encumbrance_limit ) {
-                    list.add_or_replace( vec, weight );
+                if( ( 100 * part.get_hp_cur() / part.get_hp_max() ) > vec->bp_hp_limit &&
+                    part.get_encumbrance_data().encumbrance < vec->encumbrance_limit ) {
+                    sub_bodypart_str_id current_contact;
+                    for( const sub_bodypart_str_id &sbp : bp->sub_parts ) {
+                        if( std::find( vec->contact_area.begin(), vec->contact_area.end(),
+                                       sbp ) != vec->contact_area.end() ) {
+                            add_msg_debug( debugmode::DF_MELEE, "Contact area sbp %s on bodypart %s found", sbp->name,
+                                           bp->name );
+                            current_contact = sbp;
+                            break;
+                        }
+                    }
+                    // Go through the common function
+                    float unarmed_damage = calculate_vector_damage( user, vec, current_contact ).total_damage();
+                    calc_vector.emplace_back( std::make_pair( current_contact, unarmed_damage ) );
                     add_msg_debug( debugmode::DF_MELEE,
-                                   "Bodypart %s eligable for attack vector %s (limb type filter) with weight %.1f",
+                                   "Bodypart %s eligable for attack vector %s weight %.1f (contact area %s)",
                                    bp.id().c_str(),
-                                   vec.c_str(), weight );
-                    found = true;
-                    break;
-
+                                   vec->name, weight, current_contact->name );
                 }
             }
-            if( found ) {
+        }
+        if( calc_vector.size() == 0 ) {
+            add_msg_debug( debugmode::DF_MELEE, "Vector %s found no eligable bodyparts, discarding",
+                           vec->name );
+            continue;
+        }
+        // Sort our calc_vector of sublimb/damage pairs
+        std::sort( calc_vector.begin(),
+                   calc_vector.end(), []( const std::pair<sub_bodypart_str_id, float> &a,
+        const std::pair<sub_bodypart_str_id, float> &b ) {
+            return a.second < b.second;
+        } );
+        int i = 0;
+        list.add( vec, calc_vector.rbegin()->second );
+        storage.emplace_back( std::make_pair( vec, calc_vector.rbegin()->first ) );
+        add_msg_debug( debugmode::DF_MELEE,
+                       "Chose contact sublimb %s for vector %s with weight %.1f;  %d stored vectors",
+                       calc_vector.rbegin()->first->name, vec->name, calc_vector.rbegin()->second, storage.size() );
+    }
+    if( !list.empty() ) {
+        ret = *list.pick();
+        add_msg_debug( debugmode::DF_MELEE, "Picked vector %s for technique %s", ret.c_str(),
+                       tech.c_str() );
+        // Now find the contact data matching the winning vector
+        for( auto iterate = storage.begin(); iterate != storage.end(); ++iterate ) {
+            if( iterate->first == ret ) {
+                return_set = *iterate;
+                add_msg_debug( debugmode::DF_MELEE, "Return vector %s found in storage", return_set.first->name );
                 break;
             }
         }
-        if( found ) {
-            continue;
+        return return_set;
+    }
+    return std::nullopt;
+}
+
+damage_instance character_martial_arts::calculate_vector_damage( const Character &user,
+        const attack_vector_id &vec, const sub_bodypart_str_id &contact_area ) const
+{
+    // Calculate unarmed damage for the given sublimb(s)
+    damage_instance ret;
+    // If we got this far the limb is not overencumbered
+    ret.add( contact_area->parent->unarmed_damage_instance() );
+    add_msg_debug( debugmode::DF_MELEE,
+                   "Unarmed damage of bodypart %s %.1f", contact_area->parent->name,
+                   ret.total_damage() );
+    ret.add( contact_area->unarmed_damage );
+    add_msg_debug( debugmode::DF_MELEE,
+                   "Unarmed damage of subpart %s %.1f, total damage %.1f", contact_area->parent->name,
+                   contact_area->unarmed_damage.total_damage(),
+                   ret.total_damage() );
+    // Add any bonus from worn armor if the vector allows it
+    if( vec->armor_bonus ) {
+        outfit current_worn = user.worn;
+        item *unarmed_weapon = current_worn.current_unarmed_weapon( contact_area );
+        if( unarmed_weapon != nullptr ) {
+            ret.add( unarmed_weapon->base_damage_melee() );
+            add_msg_debug( debugmode::DF_MELEE,
+                           "Unarmed weapon %s found, melee damage %.1f, new total damage %.1f",
+                           unarmed_weapon->display_name(), unarmed_weapon->base_damage_melee().total_damage(),
+                           ret.total_damage() );
         }
     }
-    return *list.pick();
+    return ret;
 }
 
 bool character_martial_arts::can_use_attack_vector( const Character &user,

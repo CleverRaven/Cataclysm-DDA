@@ -81,7 +81,11 @@ class character_martial_arts
         void ma_onkill_effects( Character &owner );
 
         // Selects a valid attack vector
-        attack_vector_id choose_attack_vector( const Character &user, const matec_id &tech ) const;
+        std::optional<std::pair<attack_vector_id, sub_bodypart_str_id>> choose_attack_vector(
+                    const Character &user, const matec_id &tech ) const;
+        // Calculate and return the damage of the given contact area for a given vector
+        damage_instance calculate_vector_damage( const Character &user, const attack_vector_id &vec,
+                const sub_bodypart_str_id &contact_area ) const;
         /** Returns an attack vector that the player can use */
         std::string get_valid_attack_vector( const Character &user,
                                              const std::vector<std::string> &attack_vectors ) const;

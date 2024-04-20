@@ -367,6 +367,7 @@ struct body_part_type {
             return bionic_slots_;
         }
 
+        damage_instance unarmed_damage_instance() const;
         float unarmed_damage( const damage_type_id &dt ) const;
         // return the total amount of unarmed damage this limb would do
         float total_unarmed_damage() const;

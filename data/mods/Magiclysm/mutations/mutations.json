@@ -768,14 +768,7 @@
     "points": 2,
     "visibility": 4,
     "ugliness": 3,
-    "enchantments": [
-      {
-        "condition": { "not": "u_has_weapon" },
-        "values": [ { "value": "ITEM_DAMAGE_CUT", "add": 5 }, { "value": "ITEM_DAMAGE_STAB", "add": 5 } ]
-      }
-    ],
-    "butchering_quality": 4,
-    "flags": [ "UNARMED_BONUS" ],
+    "integrated_armor": [ "integrated_scaled_hands" ],
     "mixed_effect": true,
     "restricts_gear": [ "hand_l", "hand_r" ],
     "destroys_gear": true,
@@ -793,14 +786,6 @@
     "points": 2,
     "visibility": 4,
     "ugliness": 3,
-    "enchantments": [
-      {
-        "condition": { "not": "u_has_weapon" },
-        "values": [ { "value": "ITEM_DAMAGE_CUT", "add": 10 }, { "value": "ITEM_DAMAGE_STAB", "add": 10 } ]
-      }
-    ],
-    "butchering_quality": 4,
-    "flags": [ "UNARMED_BONUS" ],
     "mixed_effect": true,
     "restricts_gear": [ "hand_l", "hand_r" ],
     "destroys_gear": true,

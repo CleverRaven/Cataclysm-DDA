@@ -602,6 +602,11 @@ bool body_part_type::has_limb_score( const limb_score_id &id ) const
     return limb_scores.count( id );
 }
 
+damage_instance body_part_type::unarmed_damage_instance() const
+{
+    return damage;
+}
+
 float body_part_type::unarmed_damage( const damage_type_id &dt ) const
 {
     return damage.type_damage( dt );

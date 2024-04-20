@@ -10,6 +10,7 @@
 #include <utility>
 #include <vector>
 
+#include "damage.h"
 #include "enums.h"
 #include "flat_set.h"
 #include "int_id.h"
@@ -75,6 +76,8 @@ struct sub_body_part_type {
     // These subparts act like this limb for armor coverage
     // TODO: Coverage/Encumbrance multiplier
     std::vector<sub_bodypart_str_id> similar_bodyparts;
+    // Unarmed damage when this subpart is our contact area
+    damage_instance unarmed_damage;
 
     static void load_bp( const JsonObject &jo, const std::string &src );
 

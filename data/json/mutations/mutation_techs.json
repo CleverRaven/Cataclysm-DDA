@@ -31,14 +31,5 @@
     ],
     "wip_attack_vectors": [ "test_test" ],
     "attack_vectors": [ "HAND" ]
-  },
-  {
-    "type": "attack_vector",
-    "id": "test_test", 
-    "limbs": [ "debug_tail" ],
-    "limb_types": [ "sensor" ],
-    "sub_limbs": [ "sub_limb_debug_tail"],
-    "encumbrance_limit": 33,
-    "bp_hp_limit": 75
   }
 ]

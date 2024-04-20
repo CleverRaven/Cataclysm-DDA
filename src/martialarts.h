@@ -69,16 +69,21 @@ matype_id martial_art_learned_from( const itype & );
 struct wip_attack_vector {
     attack_vector_id id;
     translation name;
-    // Used with a weapon, precludes most other checks
+
+    // Used with a weapon, otherwise use unarmed damage calc
     bool weapon = false;
-    // If true the vector will always be preferentially used when eligable
-    bool primary = false;
+
     // Explicit bodypart definitions
     std::vector<bodypart_str_id> limbs;
-    // Flexible bodypart type definition
-    std::vector<body_part_type::type> limb_types;
-    // Explicit sublimb requirement
-    std::vector<sub_bodypart_str_id> sub_limbs;
+    // If true no limb substitution step happens
+    bool strict_limb_definition = false;
+    // The actual contact area for unarmed damage calcs
+    std::vector<sub_bodypart_str_id> contact_area;
+    // Do we care about armor damage bonuses
+    bool armor_bonus = true;
+
+    cata::flat_set<flag_id> required_limb_flags;
+    cata::flat_set<flag_id> forbidden_limb_flags;
 
     // Encumbrance limit in absolute encumbrance
     int encumbrance_limit = 100;
@@ -186,10 +191,6 @@ class ma_technique
         bool reach_tec = false; // only possible to use during a reach attack
         bool reach_ok = false; // possible to use during a reach attack
         bool attack_override = false; // The attack replaces the one it triggered off of
-
-        // performs the listed technique if this attack procs a crit. tec_none skips this behavior.
-        // requires crit_ok to be true
-        matec_id crit_tec_id = tec_none;
 
         ma_requirements reqs;
 

@@ -2251,6 +2251,21 @@ item *outfit::current_unarmed_weapon( const std::string &attack_vector )
     return cur_weapon;
 }
 
+item *outfit::current_unarmed_weapon( const sub_bodypart_str_id &contact_area )
+{
+    item *cur_weapon = &null_item_reference();
+    for( item &worn_item : worn ) {
+        bool covers = worn_item.covers( contact_area );
+        // Uses enum layer_level to make distinction for top layer.
+        if( covers ) {
+            if( cur_weapon->is_null() || ( worn_item.get_layer() >= cur_weapon->get_layer() ) ) {
+                cur_weapon = &worn_item;
+            }
+        }
+    }
+    return cur_weapon;
+}
+
 void outfit::prepare_bodymap_info( bodygraph_info &info, const bodypart_id &bp,
                                    const std::set<sub_bodypart_id> &sub_parts, const Character &person ) const
 {
