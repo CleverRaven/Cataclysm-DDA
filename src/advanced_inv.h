@@ -3,18 +3,20 @@
 #define CATA_SRC_ADVANCED_INV_H
 
 #include <array>
-#include <iosfwd>
+#include <memory>
+#include <string>
+#include <vector>
 
-#include "activity_actor_definitions.h"
 #include "advanced_inv_area.h"
 #include "advanced_inv_pane.h"
 #include "cursesdef.h"
-#include "string_input_popup.h"
-#include "ui_manager.h"
 
+class Character;
 class advanced_inv_listitem;
+class drop_or_stash_item_info;
 class input_context;
-class item;
+class string_input_popup;
+class ui_adaptor;
 struct advanced_inv_save_state;
 
 void create_advanced_inv();

@@ -19,9 +19,9 @@
     "base_casting_time": 45000,
     "final_casting_time": 4500,
     "casting_time_increment": -1250,
-    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(300)" ] },
-    "final_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(100)" ] },
-    "energy_increment": { "math": [ "summoning_proficiency_negate_calculate(-6)" ] },
+    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(300, 1)" ] },
+    "final_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(100, 1)" ] },
+    "energy_increment": { "math": [ "summoning_proficiency_negate_calculate(-6, 0.03)" ] },
     "energy_source": "MANA",
     "difficulty": 5
   },
@@ -46,9 +46,9 @@
     "base_casting_time": 180000,
     "final_casting_time": 12000,
     "casting_time_increment": -5000,
-    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(400)" ] },
-    "final_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(800)" ] },
-    "energy_increment": { "math": [ "summoning_proficiency_negate_calculate(12)" ] },
+    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(400, 2)" ] },
+    "final_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(800, 2)" ] },
+    "energy_increment": { "math": [ "summoning_proficiency_negate_calculate(12, 0.03)" ] },
     "difficulty": 5
   },
   {
@@ -73,9 +73,9 @@
     "base_casting_time": 18000,
     "final_casting_time": 1200,
     "casting_time_increment": -500,
-    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(400)" ] },
-    "final_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(800)" ] },
-    "energy_increment": { "math": [ "summoning_proficiency_negate_calculate(12)" ] },
+    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(400, 2)" ] },
+    "final_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(800, 2)" ] },
+    "energy_increment": { "math": [ "summoning_proficiency_negate_calculate(12, 0.03)" ] },
     "difficulty": 6
   }
 ]

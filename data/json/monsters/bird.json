@@ -1,5 +1,50 @@
 [
   {
+    "abstract": "mon_bird_flying_base",
+    "type": "MONSTER",
+    "name": { "str": "flying bird abstract" },
+    "description": "This is an abstract monsters for other wild flying birds to copy from, so that we have some common foundation to work with.  If it appears in the game that's a bug.",
+    "bodytype": "bird",
+    "default_faction": "small_animal",
+    "categories": [ "WILDLIFE" ],
+    "species": [ "BIRD" ],
+    "volume": "600 ml",
+    "weight": "450 g",
+    "//": "0.75g/ml density for most wild flying birds",
+    "hp": 4,
+    "speed": 200,
+    "material": [ "flesh" ],
+    "symbol": "v",
+    "color": "dark_gray",
+    "aggression": -99,
+    "morale": 5,
+    "melee_dice": 1,
+    "melee_dice_sides": 1,
+    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
+    "dodge": 4,
+    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_flying", "prof_wp_basic_bird" ],
+    "weakpoint_sets": [ "wps_bird_body" ],
+    "harvest": "bird_tiny",
+    "dissect": "dissect_bird_sample_single",
+    "baby_flags": [ "SPRING", "SUMMER" ],
+    "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED", "FRIEND_DIED", "FIRE", "HURT" ],
+    "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 4 },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_FIRE",
+      "WARM",
+      "FLIES",
+      "SWARMS",
+      "CANPLAY",
+      "CAN_BE_CULLED",
+      "PET_WONT_FOLLOW",
+      "SMALL_HIDER"
+    ]
+  },
+  {
     "id": "mon_chicken",
     "type": "MONSTER",
     "name": { "str": "chicken" },
@@ -394,7 +439,7 @@
     "bodytype": "bird",
     "categories": [ "WILDLIFE" ],
     "species": [ "BIRD" ],
-    "volume": "750 ml",
+    "volume": "80 ml",
     "weight": "60 g",
     "hp": 1,
     "speed": 40,
@@ -407,13 +452,25 @@
     "melee_skill": 1,
     "melee_dice": 1,
     "melee_dice_sides": 1,
-    "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
+    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 1,
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_basic_bird" ],
     "harvest": "bird_tiny",
     "upgrades": { "age_grow": 14, "into": "mon_chicken" },
     "//": "Grows up into a standard chicken as a fallback",
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "SWARMS", "CAN_BE_CULLED", "SMALL_HIDER" ]
+    "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED", "FRIEND_DIED", "FIRE", "HURT" ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_FIRE",
+      "WARM",
+      "SWARMS",
+      "CAN_BE_CULLED",
+      "CANPLAY",
+      "SMALL_HIDER"
+    ]
   },
   {
     "id": "mon_chicken_chick",
@@ -426,8 +483,7 @@
       "food": [ "BIRDFOOD" ],
       "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
       "pet": "The %s runs around your leg."
-    },
-    "extend": { "flags": [ "CANPLAY" ] }
+    }
   },
   {
     "id": "mon_grouse_chick",
@@ -445,7 +501,6 @@
       "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
       "pet": "The %s runs around your leg."
     },
-    "extend": { "flags": [ "CANPLAY" ] },
     "volume": "250 ml",
     "weight": "50 g",
     "upgrades": { "age_grow": 36, "into": "mon_crow" }
@@ -499,7 +554,6 @@
       "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
       "pet": "The %s runs around your leg."
     },
-    "extend": { "flags": [ "CANPLAY" ] },
     "upgrades": { "age_grow": 18, "into": "mon_turkey" }
   },
   {
@@ -511,7 +565,6 @@
       "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
       "pet": "The %s runs around your leg."
     },
-    "extend": { "flags": [ "CANPLAY" ] },
     "upgrades": { "age_grow": 14, "into": "mon_pheasant" }
   },
   {
@@ -525,8 +578,7 @@
       "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
       "pet": "The %s runs around your leg."
     },
-    "upgrades": { "age_grow": 12, "into": "mon_duck" },
-    "extend": { "flags": [ "CANPLAY" ] }
+    "upgrades": { "age_grow": 12, "into": "mon_duck" }
   },
   {
     "id": "mon_goose_canadian_chick",
@@ -610,49 +662,28 @@
   {
     "id": "mon_pigeon",
     "type": "MONSTER",
-    "name": { "str": "pigeon" },
+    "name": { "str": "feral pigeon" },
     "description": "A gentle, plump, small-billed bird with a skin saddle, or cere, between its bill and forehead.  On the ground, it struts about with a characteristic bobbing of the head.  It is a strong, swift flier thanks to its long wings and powerful flight muscles.",
-    "bodytype": "bird",
-    "default_faction": "small_animal",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "BIRD" ],
-    "volume": "1 L",
-    "weight": "360 g",
-    "hp": 4,
-    "speed": 150,
-    "material": [ "flesh" ],
-    "symbol": "v",
-    "color": "dark_gray",
-    "aggression": -99,
-    "morale": 5,
-    "melee_dice": 1,
-    "melee_dice_sides": 1,
-    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "dodge": 4,
-    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_flying", "prof_wp_basic_bird" ],
-    "weakpoint_sets": [ "wps_bird_body" ],
-    "harvest": "bird_tiny",
-    "dissect": "dissect_bird_sample_single",
-    "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED", "FRIEND_DIED", "FIRE", "HURT" ],
-    "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 4 },
+    "copy-from": "mon_bird_flying_base",
+    "volume": "467 ml",
+    "weight": "350 g",
+    "reproduction": { "baby_egg": "egg_pigeon", "baby_count": 3, "baby_timer": 32 },
     "petfood": {
       "food": [ "BIRDFOOD" ],
       "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
       "pet": "The %s runs around your leg."
-    },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "WARM",
-      "FLIES",
-      "SWARMS",
-      "CANPLAY",
-      "CAN_BE_CULLED",
-      "SMALL_HIDER"
-    ]
+    }
+  },
+  {
+    "id": "mon_pigeon_chick",
+    "type": "MONSTER",
+    "copy-from": "mon_generic_chick",
+    "upgrades": { "age_grow": 16, "into": "mon_pigeon" },
+    "petfood": {
+      "food": [ "BIRDFOOD" ],
+      "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
+      "pet": "The %s runs around your leg."
+    }
   },
   {
     "id": "mon_goose",
@@ -775,7 +806,6 @@
     "id": "mon_hummingbird_chick",
     "type": "MONSTER",
     "copy-from": "mon_generic_chick",
-    "volume": "80 ml",
     "weight": "7 g",
     "upgrades": { "age_grow": 11, "into": "mon_hummingbird" }
   },

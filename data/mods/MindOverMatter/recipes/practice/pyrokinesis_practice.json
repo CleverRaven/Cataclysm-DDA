@@ -40,7 +40,9 @@
     "time": "30 m",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
-    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_pyrokinesis", -1 ] ] ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_pyrokinesis", -1 ] ]
+    ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
@@ -69,7 +71,9 @@
     "time": "30 m",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
-    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_pyrokinesis", -1 ] ] ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_pyrokinesis", -1 ] ]
+    ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
@@ -98,7 +102,9 @@
     "time": "30 m",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
-    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_pyrokinesis", -1 ] ] ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_pyrokinesis", -1 ] ]
+    ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
@@ -178,7 +184,9 @@
     "time": "30 m",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
-    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_pyrokinesis", -1 ] ] ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_pyrokinesis", -1 ] ]
+    ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
@@ -258,7 +266,9 @@
     "time": "30 m",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
-    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_pyrokinesis", -1 ] ] ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_pyrokinesis", -1 ] ]
+    ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
@@ -338,7 +348,9 @@
     "time": "30 m",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
-    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_pyrokinesis", -1 ] ] ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_pyrokinesis", -1 ] ]
+    ],
     "components": [ [ [ "matrix_crystal_pyrokin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
@@ -419,7 +431,9 @@
     "time": "30 m",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
-    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_pyrokinesis", -1 ] ] ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_pyrokinesis", -1 ] ]
+    ],
     "components": [ [ [ "matrix_crystal_pyrokin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
@@ -500,7 +514,9 @@
     "time": "30 m",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
-    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_pyrokinesis", -1 ] ] ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_pyrokinesis", -1 ] ]
+    ],
     "components": [ [ [ "matrix_crystal_pyrokin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
@@ -581,7 +597,9 @@
     "time": "30 m",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
-    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_pyrokinesis", -1 ] ] ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_pyrokinesis", -1 ] ]
+    ],
     "components": [ [ [ "matrix_crystal_pyrokin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
@@ -662,7 +680,9 @@
     "time": "30 m",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
-    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_pyrokinesis", -1 ] ] ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_pyrokinesis", -1 ] ]
+    ],
     "components": [ [ [ "matrix_crystal_pyrokin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
@@ -743,7 +763,9 @@
     "time": "30 m",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
-    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_pyrokinesis", -1 ] ] ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_pyrokinesis", -1 ] ]
+    ],
     "components": [ [ [ "matrix_crystal_pyrokin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
@@ -824,7 +846,9 @@
     "time": "30 m",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
-    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_pyrokinesis", -1 ] ] ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_pyrokinesis", -1 ] ]
+    ],
     "components": [ [ [ "matrix_crystal_pyrokin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
@@ -905,7 +929,9 @@
     "time": "30 m",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
-    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_pyrokinesis", -1 ] ] ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_pyrokinesis", -1 ] ]
+    ],
     "components": [ [ [ "matrix_crystal_pyrokin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
@@ -986,7 +1012,9 @@
     "time": "30 m",
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_pyrokinesis", "required": false } ],
-    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_pyrokinesis", -1 ] ] ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_pyrokinesis", -1 ] ]
+    ],
     "components": [ [ [ "matrix_crystal_pyrokin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [

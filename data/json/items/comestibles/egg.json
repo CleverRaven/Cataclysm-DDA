@@ -47,6 +47,14 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_pigeon",
+    "name": { "str": "pigeon egg" },
+    "copy-from": "egg_chicken",
+    "proportional": { "volume": 0.27, "weight": 0.27, "calories": 0.27 },
+    "rot_spawn": "GROUP_EGG_PIGEON"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_crow",
     "name": { "str": "crow egg" },
     "copy-from": "egg_chicken",
