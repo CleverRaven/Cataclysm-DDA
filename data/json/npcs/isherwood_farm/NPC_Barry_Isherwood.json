@@ -47,8 +47,24 @@
       "yes": "Hey, <name_g>."
     },
     "responses": [
-      { "text": "Are you Barry Isherwood?", "topic": "TALK_ISHERWOOD_BARRY_ID", "effect": "follow" },
+      { "text": "Are you Barry Isherwood?", "topic": "TALK_ISHERWOOD_BARRY_ID" },
+      { "text": "I'm Luke Skywalker, I'm here to rescue you.", "topic": "TALK_ISHERWOOD_BARRY_BADJOKE" },
       { "text": "You just hold tight here for a second.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_BARRY_BADJOKE",
+    "dynamic_line": "What?\"  The naked, traumatized man stares at you blankly, as though he'd never seen Star Wars, which is clearly ridiculous.  \"Rescue me?  Yes, oh please yes!",
+    "responses": [
+      { "text": "Are you Barry Isherwood?", "topic": "TALK_ISHERWOOD_BARRY_ID" },
+      {
+        "text": "Let's go.",
+        "effect": [ "follow", { "assign_mission": "MISSION_ISHERWOOD_BARRY_1" } ],
+        "topic": "TALK_DONE"
+      },
+      { "text": "Hang on.  I've got questions.", "topic": "TALK_ISHERWOOD_BARRY_ID2" },
+      { "text": "Just hold on a little longer, okay?", "topic": "TALK_DONE" }
     ]
   },
   {
