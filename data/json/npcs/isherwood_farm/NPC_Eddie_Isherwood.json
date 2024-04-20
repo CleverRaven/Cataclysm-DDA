@@ -272,7 +272,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_EDDIE2",
-    "dynamic_line": "Barry and Carlos went to hunt down something that killed our livestock, they tracked it into the forest.  It grabbed Barry and ran off, you might be able to get Carlos to tell you the story, if he can bring himself to share what happened.",
+    "dynamic_line": "*speaks in a quiet monotone, like he's reading off a page.  \"Barry and Carlos went to hunt down something that killed our livestock, they tracked it into the forest.  It grabbed Barry and ran off, you might be able to get Carlos to tell you the story, if he can bring himself to share what happened.\"",
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_EDDIE_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }

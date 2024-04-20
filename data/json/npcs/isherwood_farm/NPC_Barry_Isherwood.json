@@ -8,7 +8,7 @@
     "gender": "male",
     "attitude": 0,
     "mission": 7,
-    "chat": "TALK_ISHERWOOD_BARRY",
+    "chat": "TALK_ISHERWOOD_BARRY_RESCUE",
     "mission_offered": "MISSION_ISHERWOOD_BARRY_1",
     "faction": "isherwood_family"
   },
@@ -37,27 +37,58 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_ISHERWOOD_BARRY",
+    "id": "TALK_ISHERWOOD_BARRY_RESCUE",
     "dynamic_line": {
       "u_has_var": "u_saved_barry",
       "type": "general",
       "context": "meeting",
       "value": "yes",
-      "no": "I can't believe my eyes.  Please get me outta here…",
+      "no": "*crouches on the bottom of his cell, shivering, then looks up as you approach.  He blinks a few times, then stands up.  He's totally nude, and his tanned body is covered in tiny, precise-looking scars of varying ages.  \"I can't believe my eyes.  Please get me outta here…\"",
       "yes": "Hey, <name_g>."
     },
     "responses": [
+      { "text": "Are you Barry Isherwood?", "topic": "TALK_ISHERWOOD_BARRY_ID", "effect": "follow" },
+      { "text": "You just hold tight here for a second.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_BARRY_ID",
+    "dynamic_line": "*gulps.  \"I sure as hell am.  Did my family send you?  Please, we gotta go.  There are more of those things.  They're everywhere.\"",
+    "responses": [
       {
-        "text": "I've come to take you home, let's go.",
-        "condition": { "not": { "u_has_var": "u_saved_barry", "type": "general", "context": "meeting", "value": "yes" } },
-        "topic": "TALK_MISSION_OFFER",
-        "effect": "follow"
+        "text": "Yeah, they did.  let's go.",
+        "effect": [ "follow", { "assign_mission": "MISSION_ISHERWOOD_BARRY_1" } ],
+        "topic": "TALK_DONE"
+      },
+      { "text": "Hang on.  I've got questions.", "topic": "TALK_ISHERWOOD_BARRY_ID2" },
+      { "text": "Just hold on a little longer, okay?", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_BARRY_ID2",
+    "dynamic_line": "*switches, abruptly, to pure white-hot rage.  \"DOES THIS LOOK LIKE A TIME FOR FUCKING QUESTIONS?\"  He stops, shaking, and returns to how he was before.  \"I'm sorry.  I'm so sorry.  Oh god, I'm sorry.  I need to get out of here.\"",
+    "responses": [
+      {
+        "text": "Okay, me too.  Let's go.",
+        "effect": [ "follow", { "assign_mission": "MISSION_ISHERWOOD_BARRY_1" } ],
+        "topic": "TALK_DONE"
       },
       {
-        "text": "Hey buddy, feel like talking about what you saw in that tower?",
-        "topic": "TALK_ISHERWOOD_BARRY_TOWER",
-        "condition": { "u_has_var": "u_saved_barry", "type": "general", "context": "meeting", "value": "yes" }
+        "text": "All right, we're leaving, but you better not test me again.",
+        "effect": [ "follow", { "assign_mission": "MISSION_ISHERWOOD_BARRY_1" } ],
+        "topic": "TALK_DONE"
       },
+      { "text": "Pff.  If you're gonna treat me like that, you can stay here.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_BARRY",
+    "dynamic_line": "*lights up as you approach, but also looks wary.  \"Hey, <name_g>.\"",
+    "responses": [
+      { "text": "Hey buddy, feel like talking about what you saw in that tower?", "topic": "TALK_ISHERWOOD_BARRY_TOWER" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
@@ -76,7 +107,10 @@
     "value": 20000,
     "destination": "dairy_farm_isherwood_W",
     "start": {
-      "effect": [ { "u_add_var": "u_have_barry_escape", "type": "general", "context": "meeting", "value": "yes" } ],
+      "effect": [
+        { "u_add_var": "u_have_barry_escape", "type": "general", "context": "meeting", "value": "yes" },
+        { "npc_first_topic": "TALK_ISHERWOOD_BARRY" }
+      ],
       "assign_mission_target": { "om_terrain": "dairy_farm_isherwood_W", "om_special": "Isherwood Farms", "reveal_radius": 3, "search_range": 240 }
     },
     "end": {
