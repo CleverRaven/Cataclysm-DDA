@@ -48,7 +48,7 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_pigeon",
-    "name": { "str": "pigeon egg" },
+    "name": { "str": "feral pigeon egg" },
     "copy-from": "egg_chicken",
     "proportional": { "volume": 0.3, "weight": 0.3, "calories": 0.3 },
     "rot_spawn": "GROUP_EGG_PIGEON"
