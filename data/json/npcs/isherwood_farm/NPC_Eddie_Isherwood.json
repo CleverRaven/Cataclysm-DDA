@@ -59,19 +59,14 @@
     "id": "TALK_ISHERWOOD_EDDIE",
     "dynamic_line": {
       "concatenate": [
-        "*is a sun-worn, middle aged man with crows feet and graying hair.  He looks up as you approach, ",
+        "*is a sun-worn, middle-aged man with crows feet and graying hair.  He looks up as you approach, ",
         {
           "u_is_wearing": "badge_marshal",
           "yes": "then sneers as he spots the Old Guard Marshal badge gleaming on your chest.  \"I already told your kind not to come around here.  You need to keep on walking, straight off this property.\"",
           "no": {
-            "u_has_var": "isherwood_eddie_marshal_badge",
-            "value": "seen",
-            "yes": "glancing at where your marshal badge would have been, and shaking his head.  \"Nice try.  You can take off the badge, but I know what you are, I'm not some country rube.  Get out.\"",
-            "no": {
-              "u_male": true,
-              "yes": "then gives you a little greeting wave.  \"Hello Sir, what brings you here?\"",
-              "no": "then gives you a little greeting wave.  \"Hello Ma'am, what brings you here?\""
-            }
+            "u_male": true,
+            "yes": "then gives you a little greeting wave.  \"Hello Sir, what brings you here?\"",
+            "no": "then gives you a little greeting wave.  \"Hello Ma'am, what brings you here?\""
           }
         }
       ]
@@ -88,29 +83,8 @@
         "text": "… (Leave)",
         "topic": "TALK_DONE",
         "opinion": { "trust": -20, "value": -20 },
+        "effect": { "npc_first_topic": "TALK_ISHERWOOD_EDDIE_SawMarshal" },
         "condition": { "u_is_wearing": "badge_marshal" }
-      },
-      {
-        "text": "<color_green>(SOCIAL)</color> I swear, I'm not here to cause trouble.  I just volunteer with those guys to help travellers, things like that.  I don't speak for them.",
-        "topic": "TALK_ISHERWOOD_EDDIE_MarshalOff_Convince",
-        "condition": {
-          "and": [
-            { "u_has_var": "isherwood_eddie_marshal_badge", "value": "seen" },
-            { "not": { "u_is_wearing": "badge_marshal" } },
-            { "math": [ "u_skill('speech')", ">=", "3" ] }
-          ]
-        }
-      },
-      {
-        "text": "<color_yellow>(SOCIAL TOO LOW)</color> I took it off man, what more do you want from me?",
-        "topic": "TALK_ISHERWOOD_EDDIE_MarshalOff_GoAway",
-        "condition": {
-          "and": [
-            { "u_has_var": "isherwood_eddie_marshal_badge", "value": "seen" },
-            { "not": { "u_is_wearing": "badge_marshal" } },
-            { "math": [ "u_skill('speech')", "<", "3" ] }
-          ]
-        }
       },
       {
         "text": "Luke said you guys have some issues with the Old Guard.  What's up with that?",
@@ -121,40 +95,29 @@
             { "not": { "u_is_wearing": "badge_marshal" } }
           ]
         }
-      },
-      {
-        "text": "Nice dairy, must be tough keeping it running.",
-        "topic": "TALK_ISHERWOOD_EDDIE_TALK1",
-        "effect": { "u_add_var": "u_met_Eddie_Isherwood", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "u_is_wearing": "badge_marshal" } }
-      },
-      {
-        "text": "Hi, Jack and Claire suggested I come down here and meet you.",
-        "topic": "TALK_JACK_CLAIRE",
-        "condition": {
-          "and": [
-            { "not": { "u_is_wearing": "badge_marshal" } },
-            { "u_has_var": "u_met_Jack_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
-          ]
-        }
-      },
-      {
-        "text": "Can I do anything for you?",
-        "topic": "TALK_MISSION_LIST",
-        "condition": { "not": { "u_is_wearing": "badge_marshal" } }
-      },
-      {
-        "text": "Have anything to trade?",
-        "topic": "TALK_ISHERWOOD_EDDIE",
-        "effect": "start_trade",
-        "condition": { "not": { "u_is_wearing": "badge_marshal" } }
-      },
-      { "text": "When will your cows produce again?", "topic": "TALK_ISHERWOOD_EDDIE_RESTOCK" },
-      {
-        "text": "I'd better get going.",
-        "topic": "TALK_DONE",
-        "condition": { "not": { "u_is_wearing": "badge_marshal" } }
       }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_EDDIE_SawMarshal",
+    "dynamic_line": {
+      "u_is_wearing": "badge_marshal",
+      "yes": "*glares at your marshal badge.  \"I said, keep *walking*, G-man.\"",
+      "no": "*spits on the ground, glancing at where your marshal badge would have been, and shaking his head.  \"Nice try.  You can take off the badge, but I know what you are, I'm not some country rube.  Get out.\""
+    },
+    "responses": [
+      {
+        "text": "<color_green>[SOCIAL]</color> I swear, I'm not here to cause trouble.  I just volunteer with those guys to help travellers, things like that.  I don't speak for them.",
+        "topic": "TALK_ISHERWOOD_EDDIE_MarshalOff_Convince",
+        "condition": { "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "math": [ "u_skill('speech')", ">=", "3" ] } ] }
+      },
+      {
+        "text": "<color_yellow>[SOCIAL]</color> I took it off man, what more do you want from me?",
+        "topic": "TALK_ISHERWOOD_EDDIE_MarshalOff_GoAway",
+        "condition": { "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "math": [ "u_skill('speech')", "<", "3" ] } ] }
+      },
+      { "text": "Fine, I'm gone.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -174,9 +137,20 @@
       {
         "text": "… (Leave)",
         "topic": "TALK_DONE",
-        "opinion": { "trust": -20, "value": -20 },
+        "opinion": { "trust": -10, "value": -10 },
         "condition": { "u_is_wearing": "badge_marshal" }
       },
+      {
+        "text": "What's the deal with you and the Old Guard, anyway?",
+        "topic": "TALK_ISHERWOOD_EDDIE_Marshal",
+        "condition": { "not": { "u_is_wearing": "badge_marshal" } }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": [ "TALK_ISHERWOOD_EDDIE", "TALK_ISHERWOOD_EDDIE_ConvincedMarshal" ],
+    "responses": [
       {
         "text": "Nice dairy, must be tough keeping it running.",
         "topic": "TALK_ISHERWOOD_EDDIE_TALK1",
