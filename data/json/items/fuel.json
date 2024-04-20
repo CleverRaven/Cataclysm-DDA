@@ -270,6 +270,18 @@
     "ammo_type": "propane"
   },
   {
+    "id": "biogas",
+    "type": "AMMO",
+    "name": { "str_sp": "biogas" },
+    "copy-from": "propane",
+    "description": "Biogas gathered from anaerobic digester system, can be used in biogas cooker.",
+    "price": 0,
+    "price_postapoc": 0,
+    "container": "small_biogas_tank",
+    "material": [ "hydrocarbons" ],
+    "ammo_type": "biogas"
+  },
+  {
     "id": "chem_turpentine",
     "type": "AMMO",
     "name": { "str_sp": "turpentine" },

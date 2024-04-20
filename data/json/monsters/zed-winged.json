@@ -37,7 +37,7 @@
       }
     ],
     "harvest": "zombie_humanoid",
-    "grab_strength": 20,
+    "grab_strength": 15,
     "special_attacks": [
       { "id": "bite_humanoid", "cooldown": 5 },
       { "id": "grab", "cooldown": 12 },
@@ -90,7 +90,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
     "bleed_rate": 0,
     "vision_night": 7,
-    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_head_small" ],
+    "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_flying" ],
     "weakpoints": [
       {
@@ -104,7 +104,7 @@
       }
     ],
     "harvest": "zombie_humanoid",
-    "grab_strength": 30,
+    "grab_strength": 15,
     "special_attacks": [
       { "id": "bite_humanoid", "damage_max_instance": [ { "damage_type": "stab", "amount": 12, "armor_multiplier": 0.7 } ] },
       { "id": "grab", "cooldown": 12 },
@@ -112,7 +112,7 @@
       { "type": "leap", "cooldown": 2, "max_range": 8 }
     ],
     "death_drops": "default_zombie_death_drops",
-    "burn_into": "mon_zombie_fiend",
+    "burn_into": "mon_zombie_scorched",
     "flags": [
       "SEES",
       "HEARS",

@@ -222,5 +222,18 @@
       "sound_fail": "whump.",
       "items": [ { "item": "scrap_dreamdross", "count": [ 50, 80 ] } ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_homullus_translocator_location",
+    "name": "civilization",
+    "symbol": "+",
+    "description": "A part of one of the last bastions of civilization.  You could travel here in moments from any road you found yourself on.",
+    "color": "brown",
+    "required_str": -1,
+    "move_cost_mod": 0,
+    "flags": [ "TRANSLOCATOR", "MOUNTABLE", "TRANSPARENT", "ALLOW_FIELD_EFFECT", "EASY_DECONSTRUCT" ],
+    "examine_action": "translocator",
+    "deconstruct": { "items": [  ] }
   }
 ]

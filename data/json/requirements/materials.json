@@ -522,6 +522,21 @@
     ]
   },
   {
+    "id": "organic_waste",
+    "type": "requirement",
+    "//": "Materials for anaerobic digestion",
+    "components": [
+      [
+        [ "feces_roach", 20 ],
+        [ "feces_bird", 20 ],
+        [ "feces_manure", 3 ],
+        [ "feces_dog", 3 ],
+        [ "water_sewage", 3 ],
+        [ "feces_cow", 1 ]
+      ]
+    ]
+  },
+  {
     "id": "carbon",
     "type": "requirement",
     "//": "Carbon resources, used for case hardening.",
