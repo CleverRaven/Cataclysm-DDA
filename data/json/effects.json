@@ -296,6 +296,14 @@
   },
   {
     "type": "effect_type",
+    "id": "billow",
+    "name": [ "Billowing Smoke" ],
+    "desc": [ "Monster effect used by smoker zombies.  This is a bug if you have it." ],
+    "max_duration": 700,
+    "enchantments": [ { "emitter": "emit_smoke_stream" } ]
+  },
+  {
+    "type": "effect_type",
     "id": "pushed",
     "name": [ "Pushed" ],
     "desc": [ "AI tag used for monsters pushing each other.  This is a bug if you have it." ]
