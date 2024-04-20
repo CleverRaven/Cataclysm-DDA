@@ -5,6 +5,7 @@
     "dynamic_line": "Any time, what's on your mind?",
     "responses": [
       { "text": "I'd like your opinion on a job we're doing.", "topic": "TALK_Liam_Opinions" },
+      { "text": "(Raise your hand for a high-five)", "topic": "TALK_Liam_HighFive" },
       { "text": "Can I ask you a bit about yourself?", "topic": "BGSS_Liam1" },
       { "text": "You picked up a lot of useful skills over the years, hey.", "topic": "BGSS_Liam_Expertise" },
       {
@@ -14,6 +15,21 @@
       },
       { "text": "I changed my mind, wanted to ask you something else.", "topic": "TALK_NONE" },
       { "text": "Let's go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_HighFive",
+    "dynamic_line": [
+      "*high fives you back enthusiastically.",
+      "*returns the high five with a flourish",
+      "*leaps into the air and gives you a spinning high five.",
+      "*smacks your hand with a resounding clap.",
+      "*pretends to fake you out for a moment, then grins and returns the high five"
+    ],
+    "responses": [
+      { "text": "(Nod and continue talking)", "topic": "TALK_NONE" },
+      { "text": "(Nod and head on out)", "topic": "TALK_DONE" }
     ]
   },
   {
