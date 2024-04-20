@@ -385,7 +385,7 @@
       "and": [
         { "u_has_trait": "INK_GLANDS" },
         { "not": { "u_has_effect": "ink_gland_ink", "intensity": 4 } },
-        { "math": [ "u_val('stored_kcal_percentage')", ">", "33" ] },
+        { "math": [ "calories('format': 'percent')", ">", "33" ] },
         { "math": [ "u_val('instant_thirst')", "<", "240" ] }
       ]
     },

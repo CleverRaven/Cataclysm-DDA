@@ -1406,7 +1406,7 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     effects.apply( d );
     CHECK( player_character.get_stored_kcal() == 23 );
 
-    // "Sets stored_kcal_percentage to 50."
+    // "Sets calories to 50% of healthy."
     effects = d.responses[ 23 ].success;
     effects.apply( d );
     // this should be player_character.get_healthy_kcal() instead of 550000 but for whatever reason it is hardcoded to that value??
