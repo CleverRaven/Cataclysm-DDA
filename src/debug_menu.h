@@ -5,13 +5,12 @@
 #include <cstddef>
 #include <functional>
 #include <optional>
-#include <iosfwd>
-#include <string> // IWYU pragma: keep
-
-struct tripoint;
-template <typename E> struct enum_traits;
+#include <string>
+#include <string_view>
 
 class Character;
+struct tripoint;
+template <typename E> struct enum_traits;
 
 namespace debug_menu
 {

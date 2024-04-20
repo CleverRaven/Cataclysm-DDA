@@ -639,6 +639,7 @@
           "mx_collegekids": 30,
           "mx_drugdeal": 30,
           "mx_corpses": 30,
+          "mx_worm_sign": 20,
           "mx_toxic_waste": 10,
           "mx_portal": 10,
           "mx_portal_in": 10,

@@ -17,6 +17,7 @@
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "messages.h"
 #include "point.h"
 #include "rng.h"
 #include "string_formatter.h"

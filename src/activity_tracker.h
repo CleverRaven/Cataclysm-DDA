@@ -2,6 +2,8 @@
 #ifndef CATA_SRC_ACTIVITY_TRACKER_H
 #define CATA_SRC_ACTIVITY_TRACKER_H
 
+#include <string>
+
 #include "calendar.h"
 
 class JsonObject;

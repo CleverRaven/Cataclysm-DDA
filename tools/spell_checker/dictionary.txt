@@ -629,6 +629,8 @@ bioelectricity
 bioforms
 biofuel
 biofuels
+biogas
+biogases
 biohacker
 biohazard
 biohazardous
@@ -3916,6 +3918,7 @@ Monegasque
 Mongolian
 Monica
 Monoco
+monocrop
 monocrystalline
 monogyna
 monometal

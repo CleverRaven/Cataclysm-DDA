@@ -10,6 +10,7 @@
 #include "creature.h"
 #include "creature_tracker.h"
 #include "debug.h"
+#include "effect.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"

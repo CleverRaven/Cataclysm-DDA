@@ -1,22 +1,48 @@
+#include "display.h"
+
+#include <algorithm>
+#include <array>
+#include <cmath>
+#include <cstdlib>
+#include <memory>
+#include <tuple>
+#include <type_traits>
+#include <vector>
+
 #include "avatar.h"
 #include "bodygraph.h"
+#include "calendar.h"
+#include "cata_utility.h"
 #include "character.h"
-#include "display.h"
+#include "creature.h"
+#include "debug.h"
+#include "effect.h"
 #include "game.h"
-#include "options.h"
-#include "overmap.h"
-#include "overmapbuffer.h"
+#include "game_constants.h"
 #include "make_static.h"
 #include "map.h"
 #include "mood_face.h"
 #include "move_mode.h"
 #include "mtype.h"
 #include "npc.h"
+#include "omdata.h"
+#include "options.h"
+#include "output.h"
+#include "overmap.h"
+#include "overmapbuffer.h"
+#include "string_formatter.h"
+#include "subbodypart.h"
+#include "tileray.h"
 #include "timed_event.h"
+#include "translation.h"
+#include "translations.h"
+#include "type_id.h"
+#include "units.h"
 #include "units_utility.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
+#include "weather_type.h"
 
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );

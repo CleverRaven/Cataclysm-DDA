@@ -2,21 +2,17 @@
 #ifndef CATA_SRC_DIALOGUE_WIN_H
 #define CATA_SRC_DIALOGUE_WIN_H
 
-#include <chrono>
-#include <cstddef>
-#include <iosfwd>
+#include <memory>
+#include <string>
+#include <tuple>
 #include <vector>
 
 #include "color.h"
-#include "cuboid_rectangle.h"
 #include "cursesdef.h"
+#include "output.h"
 
 class input_context;
-class multiline_list;
-class scrolling_text_view;
 class ui_adaptor;
-
-struct multiline_list_entry;
 
 struct talk_data {
     nc_color color;

@@ -2525,6 +2525,27 @@
   },
   {
     "type": "construction",
+    "id": "constr_compost_empty",
+    "group": "build_compost_tank",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 5 ], [ "mechanics", 2 ] ],
+    "time": "2880 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ], [ { "id": "SMOOTH", "level": 1 } ] ],
+    "using": [ [ "welding_standard", 10 ] ],
+    "components": [
+      [ [ "brick", 600 ] ],
+      [ [ "pipe", 8 ] ],
+      [ [ "pipe_fittings", 8 ] ],
+      [ [ "metal_tank", 1 ] ],
+      [ [ "hose", 2 ], [ "makeshift_hose", 2 ] ],
+      [ [ "mortar_build", 10 ], [ "mortar_lime", 10 ] ],
+      [ [ "water", 80 ], [ "water_clean", 80 ] ]
+    ],
+    "pre_terrain": "t_pit",
+    "post_terrain": "f_compost_empty"
+  },
+  {
+    "type": "construction",
     "id": "constr_wood_keg",
     "group": "build_wooden_keg",
     "category": "FURN",

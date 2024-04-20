@@ -31,6 +31,7 @@
 #include "item.h"
 #include "json.h"
 #include "line.h"
+#include "localized_comparator.h"
 #include "magic_enchantment.h"
 #include "map.h"
 #include "map_iterator.h"

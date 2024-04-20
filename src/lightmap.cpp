@@ -12,6 +12,7 @@
 #include <utility>
 #include <vector>
 
+#include "avatar.h"
 #include "cached_options.h"
 #include "calendar.h"
 #include "cata_utility.h"
