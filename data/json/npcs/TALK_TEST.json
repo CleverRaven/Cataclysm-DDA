@@ -1181,7 +1181,7 @@
       {
         "text": "Sets calories to 50% of healthy.",
         "topic": "TALK_DONE",
-        "effect": { "math": [ "calories()", "=", "55000 / 2" ] }
+        "effect": { "math": [ "calories()", "=", "550000 / 2" ] }
       },
       {
         "text": "Sets pew pew's level to -1.",
