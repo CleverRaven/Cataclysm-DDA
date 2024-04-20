@@ -2335,8 +2335,8 @@ bool vehicle::split_vehicles( map &here,
         if( new_vehicle == nullptr ) {
             // make sure the split_part0 is a legal 0,0 part
             if( split_parts.size() > 1 ) {
-                for( size_t sp = 0; sp < split_parts.size(); sp++ ) {
-                    const vpart_info &vpi_split = parts[split_parts[sp]].info();
+                for( int sp : split_parts ) {
+                    const vpart_info &vpi_split = parts[sp].info();
                     if( vpi_split.location == part_location_structure && !vpi_split.has_flag( "PROTRUSION" ) ) {
                         split_part0 = sp;
                         break;
