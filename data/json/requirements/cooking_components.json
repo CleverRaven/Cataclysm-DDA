@@ -688,7 +688,13 @@
         [ "oats", 1 ],
         [ "oatmeal", 1 ]
       ],
-      [ [ "meat_red", 1, "LIST" ], [ "dry_meat", 1 ], [ "canned_chicken", 1 ], [ "poultry_raw_any", 1, "LIST" ], [ "dry_poultry", 1 ] ]
+      [
+        [ "meat_red", 1, "LIST" ],
+        [ "dry_meat", 1 ],
+        [ "canned_chicken", 1 ],
+        [ "poultry_raw_any", 1, "LIST" ],
+        [ "dry_poultry", 1 ]
+      ]
     ]
   },
   {
