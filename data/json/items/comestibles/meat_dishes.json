@@ -1577,7 +1577,7 @@
   {
     "type": "COMESTIBLE",
     "id": "rehydrated_poultry",
-    "name": { "str": "rehydrated chicken" },
+    "name": { "str_sp": "rehydrated chicken" },
     "copy-from": "poultry_cooked",
     "color": "light_red",
     "description": "Reconstituted bird meat, which are much more enjoyable to eat now that they have been rehydrated.",
