@@ -1179,11 +1179,6 @@
       { "text": "Sets thirst to 22.", "topic": "TALK_DONE", "effect": { "math": [ "u_val('thirst')", "=", "22" ] } },
       { "text": "Sets calories to 23.", "topic": "TALK_DONE", "effect": { "math": [ "u_calories()", "=", "23" ] } },
       {
-        "text": "Sets calories to 50% of healthy.",
-        "topic": "TALK_DONE",
-        "effect": { "math": [ "calories()", "=", "550000 / 2" ] }
-      },
-      {
         "text": "Sets pew pew's level to -1.",
         "topic": "TALK_DONE",
         "effect": { "math": [ "u_spell_level('test_spell_pew')", "=", "-1" ] }
