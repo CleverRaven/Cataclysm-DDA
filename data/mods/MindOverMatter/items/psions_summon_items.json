@@ -76,6 +76,31 @@
     "flags": [ "RAD_DETECT", "PERSONAL", "ZERO_WEIGHT" ]
   },
   {
+    "id": "item_clair_astral_projection_cord",
+    "type": "TOOL_ARMOR",
+    "name": { "str_sp": "[Ψ]silver cord" },
+    "description": "A thin silver cord, stretching off into the distance, connecting you to your body.  You could follow it back to return.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "price": 1,
+    "price_postapoc": 1,
+    "symbol": "[",
+    "color": "light_gray",
+    "flags": [
+      "PERSONAL",
+      "UNBREAKABLE",
+      "ZERO_WEIGHT",
+      "ALLOWS_NATURAL_ATTACKS",
+      "INTEGRATED",
+      "PADDED",
+      "SEMITANGIBLE",
+      "WATER_FRIENDLY",
+      "ONLY_ONE",
+      "NO_DROP"
+    ],
+    "environmental_protection": 0
+  },
+  {
     "id": "electro_robot_interface",
     "type": "GENERIC",
     "name": { "str": "[Ψ]Robotic Interface" },
