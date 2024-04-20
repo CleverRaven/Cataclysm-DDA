@@ -30,6 +30,11 @@
     "monsters": [ { "monster": "mon_grouse_chick" } ]
   },
   {
+    "name": "GROUP_EGG_PIGEON",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_pigeon_chick" } ]
+  },
+  {
     "name": "GROUP_EGG_CROW",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_crow_chick" } ]

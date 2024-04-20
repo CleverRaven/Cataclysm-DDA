@@ -254,6 +254,7 @@ struct monster_death_effect {
     bool was_loaded = false;
     bool has_effect = false;
     fake_spell sp;
+    std::optional<effect_on_condition_id> eoc;
     translation death_message;
     mdeath_type corpse_type = mdeath_type::NORMAL;
 

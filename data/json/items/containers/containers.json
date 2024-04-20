@@ -4340,6 +4340,78 @@
     "melee_damage": { "bash": 10 }
   },
   {
+    "id": "small_biogas_tank",
+    "type": "TOOL",
+    "category": "container",
+    "name": { "str": "small biogas tank" },
+    "description": "A small tank of biogas, commonly used for camping stoves and torches.",
+    "copy-from": "small_propane_tank",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "airtight": true,
+        "rigid": true,
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "1 kg",
+        "item_restriction": [ "biogas" ]
+      }
+    ]
+  },
+  {
+    "id": "medium_biogas_tank",
+    "type": "TOOL",
+    "category": "container",
+    "name": { "str": "medium biogas tank" },
+    "description": "A medium-sized tank of biogas, commonly used for barbeques.",
+    "copy-from": "medium_propane_tank",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "airtight": true,
+        "rigid": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "10 kg",
+        "item_restriction": [ "biogas" ]
+      }
+    ]
+  },
+  {
+    "id": "large_biogas_tank",
+    "type": "TOOL",
+    "category": "container",
+    "name": { "str": "large biogas tank" },
+    "description": "A large tank of biogas, commonly used for heating.",
+    "copy-from": "large_propane_tank",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "airtight": true,
+        "rigid": true,
+        "max_contains_volume": "75 L",
+        "max_contains_weight": "25 kg",
+        "item_restriction": [ "biogas" ]
+      }
+    ]
+  },
+  {
+    "id": "xl_biogas_tank",
+    "type": "TOOL",
+    "category": "container",
+    "name": { "str": "extra large biogas tank" },
+    "description": "A massive tank of biogas, commonly used for heating a home or vehicle.",
+    "copy-from": "xl_propane_tank",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "airtight": true,
+        "rigid": true,
+        "max_contains_volume": "350 L",
+        "max_contains_weight": "50 kg",
+        "item_restriction": [ "biogas" ]
+      }
+    ]
+  },
+  {
     "id": "shot_glass",
     "type": "GENERIC",
     "category": "container",

@@ -2,13 +2,12 @@
 #ifndef CATA_SRC_AVATAR_ACTION_H
 #define CATA_SRC_AVATAR_ACTION_H
 
-#include <iosfwd>
 #include <optional>
+#include <string>
 #include <vector>
 
 #include "activity_type.h"
 #include "point.h"
-#include "units_fwd.h"
 
 class Character;
 class avatar;

@@ -2,27 +2,28 @@
 #ifndef CATA_SRC_DAMAGE_H
 #define CATA_SRC_DAMAGE_H
 
-#include <array>
-#include <iosfwd>
 #include <map>
-#include <unordered_map>
 #include <set>
+#include <string>
+#include <string_view>
+#include <unordered_map>
+#include <utility>
 #include <vector>
 
 #include "calendar.h"
 #include "color.h"
 #include "flat_set.h"
+#include "translation.h"
 #include "type_id.h"
 #include "units.h"
 
+class Creature;
 class JsonArray;
 class JsonObject;
 class JsonOut;
 class JsonValue;
-class Creature;
 class item;
 class monster;
-template<typename T> struct enum_traits;
 
 struct damage_type {
     damage_type_id id;

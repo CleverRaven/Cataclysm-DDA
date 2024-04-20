@@ -2,8 +2,8 @@
 #ifndef CATA_SRC_CRAFTING_GUI_H
 #define CATA_SRC_CRAFTING_GUI_H
 
-#include <iosfwd>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "type_id.h"

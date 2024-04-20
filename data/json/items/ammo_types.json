@@ -529,6 +529,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "biogas",
+    "name": "biogas",
+    "default": "biogas"
+  },
+  {
+    "type": "ammunition_type",
     "id": "conc_alcohol",
     "name": "concentrated alcohol",
     "default": "denat_alcohol"

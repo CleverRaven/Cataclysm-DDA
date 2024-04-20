@@ -1815,6 +1815,7 @@ void monster_death_effect::load( const JsonObject &jo )
     optional( jo, was_loaded, "effect", sp );
     has_effect = sp.is_valid();
     optional( jo, was_loaded, "corpse_type", corpse_type, mdeath_type::NORMAL );
+    optional( jo, was_loaded, "eoc", eoc );
 }
 
 void monster_death_effect::deserialize( const JsonObject &data )

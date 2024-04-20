@@ -1,14 +1,12 @@
 #include "debug_menu.h"
 
-#include <cstdint>
-// IWYU pragma: no_include <sys/signal.h>
-// IWYU pragma: no_include <cxxabi.h>
-
 #include <algorithm>
 #include <chrono>
 #include <csignal>
+#include <cstdint>
+#include <exception>
+#include <filesystem>
 #include <functional>
-#include <iomanip> // IWYU pragma: keep
 #include <iostream>
 #include <iterator>
 #include <list>
@@ -16,8 +14,10 @@
 #include <map>
 #include <memory>
 #include <optional>
+#include <set>
 #include <sstream>
 #include <string>
+#include <tuple>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
@@ -25,25 +25,32 @@
 
 #include "achievement.h"
 #include "action.h"
+#include "activity_tracker.h"
 #include "avatar.h"
 #include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "calendar_ui.h"
+#include "cata_assert.h"
 #include "cata_path.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
+#include "character_attire.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
 #include "city.h"
 #include "clzones.h"
 #include "color.h"
+#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
+#include "cursesdef.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "dialogue_chatbin.h"
+#include "dialogue_helpers.h"
 #include "display.h"
 #include "effect.h"
 #include "effect_on_condition.h"
@@ -52,7 +59,7 @@
 #include "event.h"
 #include "event_bus.h"
 #include "faction.h"
-#include "filesystem.h" // IWYU pragma: keep
+#include "filesystem.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
@@ -64,16 +71,19 @@
 #include "item_group.h"
 #include "item_location.h"
 #include "itype.h"
+#include "json.h"
 #include "localized_comparator.h"
 #include "magic.h"
 #include "map.h"
 #include "map_extras.h"
+#include "map_iterator.h"
 #include "mapgen.h"
 #include "mapgendata.h"
 #include "martialarts.h"
 #include "memory_fast.h"
 #include "messages.h"
 #include "mission.h"
+#include "mongroup.h"
 #include "monster.h"
 #include "morale_types.h"
 #include "mtype.h"
@@ -86,19 +96,24 @@
 #include "overmap.h"
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
-#include "path_info.h" // IWYU pragma: keep
+#include "path_info.h"
 #include "pimpl.h"
 #include "point.h"
 #include "popup.h"
 #include "recipe_dictionary.h"
 #include "relic.h"
+#include "requirements.h"
+#include "ret_val.h"
 #include "skill.h"
 #include "sounds.h"
 #include "stomach.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "talker.h"
 #include "tgz_archiver.h"
+#include "timed_event.h"
 #include "trait_group.h"
+#include "translation.h"
 #include "translations.h"
 #include "try_parse_integer.h"
 #include "type_id.h"
@@ -145,7 +160,6 @@ static const trait_id trait_NONE( "NONE" );
 #if defined(TILES)
 #include "sdl_wrappers.h"
 #endif
-#include "timed_event.h"
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 

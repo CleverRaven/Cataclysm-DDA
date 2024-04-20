@@ -281,6 +281,77 @@
         "coverage": 1
       },
       {
+        "id": "armour_plate_bullet",
+        "name": "the body armor",
+        "armor_mult": { "cut": 1.5, "stab": 1.5, "bash": 1.5 },
+        "coverage_mult": { "melee": 0 },
+        "//": "Note that most bullet hits on an armour plate probably shatter it, but not all of them shatter it enough to matter for future attacks.",
+        "effects": [
+          {
+            "effect": "shattered",
+            "chance": 25,
+            "message": "The armor is shattered!",
+            "damage_required": [ 1, 10 ],
+            "permanent": true
+          },
+          {
+            "effect": "shattered",
+            "chance": 50,
+            "message": "The armor is shattered!",
+            "damage_required": [ 11, 30 ],
+            "permanent": true
+          },
+          {
+            "effect": "shattered",
+            "chance": 75,
+            "message": "The armor is shattered!",
+            "damage_required": [ 31, 200 ],
+            "permanent": true
+          }
+        ],
+        "coverage": 40
+      },
+      {
+        "id": "armour_plate_melee",
+        "name": "the body armor",
+        "armor_mult": { "cut": 1.3, "stab": 1.15, "bash": 1.15 },
+        "coverage_mult": { "ranged": 0 },
+        "//": "Note that most bullet hits on an armour plate probably shatter it, but not all of them shatter it enough to matter for future attacks.",
+        "effects": [
+          {
+            "effect": "shattered",
+            "chance": 15,
+            "message": "The armor is shattered!",
+            "damage_required": [ 5, 20 ],
+            "permanent": true
+          },
+          {
+            "effect": "shattered",
+            "chance": 40,
+            "message": "The armor is shattered!",
+            "damage_required": [ 21, 40 ],
+            "permanent": true
+          },
+          {
+            "effect": "shattered",
+            "chance": 60,
+            "message": "The armor is shattered!",
+            "damage_required": [ 41, 200 ],
+            "permanent": true
+          }
+        ],
+        "coverage": 40
+      },
+      {
+        "id": "armour_shattered",
+        "name": "the shattered armor plating",
+        "armor_mult": { "all": 0.25 },
+        "difficulty": { "broad": 3, "point": 2 },
+        "coverage_mult": { "ranged": 0.8 },
+        "coverage": 40,
+        "required_effects": [ "shattered" ]
+      },
+      {
         "id": "side_armour",
         "name": "the weak armor on the side",
         "armor_mult": { "bullet": 0.3, "cut": 0.3, "stab": 0.15, "bash": 0.15 },
