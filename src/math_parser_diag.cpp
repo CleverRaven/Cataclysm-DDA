@@ -1353,10 +1353,10 @@ std::function<double( dialogue & )> calories_eval( char scope,
                 npc dummy;
                 return dummy.compute_effective_nutrients( *it->get_item() ).kcal();
             }
-        } else {
-            debugmsg( "For calories(), talker is not character nor item" );
-            return 0;
-        };
+        }
+        
+        debugmsg( "For calories(), talker is not character nor item" );
+        return 0;
     };
 }
 
