@@ -53,8 +53,7 @@
         "text": "What do you think the rest of the world is like these days?",
         "topic": "TALK_FRIEND_Liam_CHAT_World"
       },
-      { "text": "Do you miss any food from the old days?", "topic": "TALK_FRIEND_Liam_CHAT_Food" },
-      { "text": "<chitchat_player_responses>", "topic": "TALK_DONE" }
+      { "text": "Do you miss any food from the old days?", "topic": "TALK_FRIEND_Liam_CHAT_Food" }
     ]
   },
   {
@@ -75,26 +74,37 @@
     "dynamic_line": [
       "OK, I know you're leading me up to say something dirty, and yeah I miss that, but you know what?  Really the thing I miss most is social media.  No seriously!  Stop looking at me like that!  I liked being able to just talk to people no matter where they were, any time.  I had friends in Sweden, and Brazil, and the West Coast.  I'm never gonna know what happened to them, and that busts me up bad.  They mattered to me, you know?\"  His voice catches a bit, and he coughs.  \"You're here though, and that helps a lot.  Can't imagine trying to do this lone-wolf.  How about you, what were you thinking of when you asked?",
       "Well, I mean, there's the obvious stuff like, uh, video streaming,\" he winks at you, \"but I think lately I'm missing Wikipedia.  I have all these random questions about things, and I can't answer them.  I feel like I'm living in a box.  How did we survive for thousands of years like this?",
-      "Online restaurant reviews.\"  He sttares at you without a shred of irony.  \"I'm serious, I used to love browsing looking for the funniest or weirdest reviews.  I guess I could broaden it, I miss pointless doom scrolling.  It's harder to find things to keep my mind off things now, and I've got more I wish I could keep my mind off.  What about you?"
+      "Online restaurant reviews.\"  He stares at you without a shred of irony.  \"I'm serious, I used to love browsing looking for the funniest or weirdest reviews.  I guess I could broaden it, I miss pointless doom scrolling.  It's harder to find things to keep my mind off things now, and I've got more I wish I could keep my mind off.  What about you?"
     ],
     "responses": [ { "text": "(Continue chatting)", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_FRIEND_Liam_CHAT_Goals",
-    "dynamic_line": "*laughs.  \"You know me, I was never high on the ambition front.  Honestly, if you weren't around I'd probably clean up my dad's old cabin, try to learn how to set up a power supply, and scavenge for parts until I'd built the best damn gaming rig the world will ever see.  Then I'd load up whatever games I could find.\"  He pauses.  \"Or maybe it'd be easier to set up a console, I dunno.  Most consoles aren't gonna like the no-internet thing right?  There's probably a way to crack 'em but without the internet where would we even check?\"  He rubs his chin.  \"Still.  I'd have maybe found a way.  How about you, what's the big overarching plan for all this?\"",
+    "dynamic_line": [
+      "*laughs.  \"You know me, I was never high on the ambition front.  Honestly, if you weren't around I'd probably clean up my dad's old cabin, try to learn how to set up a power supply, and scavenge for parts until I'd built the best damn gaming rig the world will ever see.  Then I'd load up whatever games I could find.\"  He pauses.  \"Or maybe it'd be easier to set up a console, I dunno.  Most consoles aren't gonna like the no-internet thing right?  There's probably a way to crack 'em but without the internet where would we even check?\"  He rubs his chin.  \"Still.  I'd have maybe found a way.  How about you, what's the big overarching plan for all this?\"",
+      "Oh, well.  I don't really think of life that way, you know?  I guess I'm pretty happy to just hang out with you, doing the shit we're doing, seeing what life brings.  Still, I guess I could see settling down somewhere nice, somewhere quiet, somewhere zombie-free.  I bet it wouldn't take long to get enough food and supplies to live on forever, and then I'd just let myself turn into some kinda wild bush man, with a big crazy long beard.  I'd smell like weed and B.O. and I'd have this giant stack of books to read.  Other survivors would come find me, like a guru on a mountaintop, to ask me questions about Batman.  In time, as the old world was forgotten, I'd convince them that he was a real person.\"  He grins.  \"How 'bout you?"
+    ],
     "responses": [ { "text": "(Continue chatting)", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_FRIEND_Liam_CHAT_World",
-    "dynamic_line": "Oh dude, good question.  The news reports made it sound like this is everywhere, you know?  Still, somewhere out there's gotta be better than this, right?  Maybe like, up in the Yukon or Siberia or something it's all kinda normal?  I think most places are like this though, just one big fucked up mess.  Maybe they've got different monsters though, like, carnivorous rocks or some shit.  How 'bout you, what do you think is out there?",
+    "dynamic_line": [
+      "Oh dude, good question.  The news reports made it sound like this is everywhere, you know?  Still, somewhere out there's gotta be better than this, right?  Maybe like, up in the Yukon or Siberia or something it's all kinda normal?  I think most places are like this though, just one big fucked up mess.  Maybe they've got different monsters though, like, carnivorous rocks or some shit.  How 'bout you, what do you think is out there?",
+      "See, I like that about you.  Here we are just trying to keep alive and you're thinking all these big thoughts about the rest of the world.  I got no clue how they're doing out there, so I'm just gonna imagine that things are kinda like here, but maybe a bit better.  There's a few places where folks have settled in and they're figuring stuff out.  Those folks are gonna last a long time, maybe they're how we start rebuilding."
+    ],
     "responses": [ { "text": "(Continue chatting)", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_FRIEND_Liam_CHAT_Food",
-    "dynamic_line": "I never thought I'd hear myself say this, but I kinda miss the Ediburger3 from Foodplace.  I worked there so long, I hated everything, but as soon as you tell me I'm *never* gonna have a fresh, greasy EB3 again, suddenly it's all my stomach wants.  Don't try to track one down or anything though.  I'm pretty sure I miss the *idea* more than the actual *thing*.  And I don't think we could cook up a copy, it'd be pretty hard to get the right blend of animal product and sawdust for the Meatcylinder.\"  He stares wistfully into space for a moment.  \"How about you, what were you thinking of when you asked?",
+    "dynamic_line": [
+      "I never thought I'd hear myself say this, but I kinda miss the Ediburger3 from Foodplace.  I worked there so long, I hated everything, but as soon as you tell me I'm *never* gonna have a fresh, greasy EB3 again, suddenly it's all my stomach wants.  Don't try to track one down or anything though.  I'm pretty sure I miss the *idea* more than the actual *thing*.  And I don't think we could cook up a copy, it'd be pretty hard to get the right blend of animal product and sawdust for the Meatcylinder.\"  He stares wistfully into space for a moment.  \"How about you, what were you thinking of when you asked?",
+      "Delivery pizza.  It's not the quality of the pizza I miss, it's the delivery.  Having someone just show up at the door with a god damn pizza, ready for you to eat.  We lived in paradise and we knew it not.  How about you?",
+      "You know, my friend, I could really go for an egg salad sandwich right now.  Nice, fresh eggs, some cheap-ass white bread, bit of pickle on there, hint of mustard.  Egg salad gets a bad rap because it sucks if you get it from the store, but you make a good homemade one?  That's something else, I tell you.  What's your poison?",
+      "You know, I'm kinda in the mood for some pub nachos right now.  The whole pub ambience would be good too, but I like how they'd put 'em on wax paper that'd be so soaked with cheese grease you could see right through it.  Those little black olive wheels that tasted like rubber, they were only ever good with pub nachos, you know?  Any other time, garbage.  I'd love to have a big tray of pub nachos, go to a karaoke night, and just sing fuckin' Abba songs until my throat hurt.  You in?"
+    ],
     "responses": [ { "text": "(Continue chatting)", "topic": "TALK_DONE" } ]
   },
   {
@@ -901,7 +911,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_Liam_Opinions_MISSION_ISHERWOOD_CARLOS_1",
-    "dynamic_line": "An anvil?  Where do you come up with this stuff?  Yeah, I met this guy, Wile-E Coyote,  he had a bunch of 'em.",
+    "dynamic_line": "An anvil?  Where do you come up with this stuff?  Yeah, I met this guy, Wile-E Coyote, he had a bunch of 'em.",
     "responses": [
       { "text": "I'll track him down.  I'd like your opinion on something else, actually.", "topic": "TALK_Liam_Opinions" }
     ]
@@ -1045,7 +1055,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_Liam_Opinions_MISSION_ISHERWOOD_BARRY_1-help2",
-    "dynamic_line": "*looks abruptly uncomfortable.  \"You know a bit about me and my dad, right?  I went to counselling for a few years after I got out.  Since what went down with Chris, I've been thinking about it more too.\"  He shakes his head.  \"We could all use a decent counsellor, honestly.  Even before the world ended.\"",
+    "dynamic_line": "*looks abruptly uncomfortable.  \"You know a bit about me and my dad, right?  I went to counseling for a few years after I got out.  Since what went down with Chris, I've been thinking about it more too.\"  He shakes his head.  \"We could all use a decent counsellor, honestly.  Even before the world ended.\"",
     "responses": [
       { "text": "Thanks, man.  You have layers.  I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" }
     ]
