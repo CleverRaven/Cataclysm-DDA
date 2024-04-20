@@ -58,9 +58,23 @@
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_EDDIE",
     "dynamic_line": {
-      "u_is_wearing": "badge_marshal",
-      "yes": "I see that badge, I think you need to keep on walking, straight off this property.",
-      "no": { "u_male": true, "yes": "Hello Sir, what brings you here?", "no": "Hello Ma'am, what brings you here?" }
+      "concatenate": [
+        "*is a sun-worn, middle aged man with crows feet and graying hair.  He looks up as you approach, ",
+        {
+          "u_is_wearing": "badge_marshal",
+          "yes": "then sneers as he spots the Old Guard Marshal badge gleaming on your chest.  \"I already told your kind not to come around here.  You need to keep on walking, straight off this property.\"",
+          "no": {
+            "u_has_var": "isherwood_eddie_marshal_badge",
+            "value": "seen",
+            "yes": "glancing at where your marshal badge would have been, and shaking his head.  \"Nice try.  You can take off the badge, but I know what you are, I'm not some country rube.  Get out.\"",
+            "no": {
+              "u_male": true,
+              "yes": "then gives you a little greeting wave.  \"Hello Sir, what brings you here?\"",
+              "no": "then gives you a little greeting wave.  \"Hello Ma'am, what brings you here?\""
+            }
+          }
+        }
+      ]
     },
     "responses": [
       {
@@ -71,15 +85,48 @@
         "condition": { "u_is_wearing": "badge_marshal" }
       },
       {
-        "text": "…",
-        "topic": "TALK_LEAVE_NOW_MARSHAL",
+        "text": "… (Leave)",
+        "topic": "TALK_DONE",
         "opinion": { "trust": -20, "value": -20 },
         "condition": { "u_is_wearing": "badge_marshal" }
       },
       {
+        "text": "<color_green>(SOCIAL)</color> I swear, I'm not here to cause trouble.  I just volunteer with those guys to help travellers, things like that.  I don't speak for them.",
+        "topic": "TALK_ISHERWOOD_EDDIE_MarshalOff_Convince",
+        "condition": {
+          "and": [
+            { "u_has_var": "isherwood_eddie_marshal_badge", "value": "seen" },
+            { "not": { "u_is_wearing": "badge_marshal" } },
+            { "math": [ "u_skill('speech')", ">=", "3" ] }
+          ]
+        }
+      },
+      {
+        "text": "<color_yellow>(SOCIAL TOO LOW)</color> I took it off man, what more do you want from me?",
+        "topic": "TALK_ISHERWOOD_EDDIE_MarshalOff_GoAway",
+        "condition": {
+          "and": [
+            { "u_has_var": "isherwood_eddie_marshal_badge", "value": "seen" },
+            { "not": { "u_is_wearing": "badge_marshal" } },
+            { "math": [ "u_skill('speech')", "<", "3" ] }
+          ]
+        }
+      },
+      {
+        "text": "Luke said you guys have some issues with the Old Guard.  What's up with that?",
+        "topic": "TALK_ISHERWOOD_EDDIE_Marshal",
+        "condition": {
+          "and": [
+            { "u_has_var": "isherwood_luke_marshal_questions", "value": "known" },
+            { "not": { "u_is_wearing": "badge_marshal" } }
+          ]
+        }
+      },
+      {
         "text": "Nice dairy, must be tough keeping it running.",
         "topic": "TALK_ISHERWOOD_EDDIE_TALK1",
-        "effect": { "u_add_var": "u_met_Eddie_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
+        "effect": { "u_add_var": "u_met_Eddie_Isherwood", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "not": { "u_is_wearing": "badge_marshal" } }
       },
       {
         "text": "Hi, Jack and Claire suggested I come down here and meet you.",
@@ -108,6 +155,93 @@
         "topic": "TALK_DONE",
         "condition": { "not": { "u_is_wearing": "badge_marshal" } }
       }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_EDDIE_ConvincedMarshal",
+    "dynamic_line": {
+      "concatenate": [
+        "*looks up warily as you approach",
+        {
+          "u_is_wearing": "badge_marshal",
+          "yes": ", looking at your marshal badge immediately.  \"Nope.  Agreement or not, I'm not talking to you while you're wearing their sign, and I don't appreciate the disrespect.\"",
+          "no": ", his eyes darting to the spot where your marshal badge would be.  \"What now?\""
+        }
+      ]
+    },
+    "responses": [
+      {
+        "text": "… (Leave)",
+        "topic": "TALK_DONE",
+        "opinion": { "trust": -20, "value": -20 },
+        "condition": { "u_is_wearing": "badge_marshal" }
+      },
+      {
+        "text": "Nice dairy, must be tough keeping it running.",
+        "topic": "TALK_ISHERWOOD_EDDIE_TALK1",
+        "effect": { "u_add_var": "u_met_Eddie_Isherwood", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "not": { "u_is_wearing": "badge_marshal" } }
+      },
+      {
+        "text": "Can I do anything for you?",
+        "topic": "TALK_MISSION_LIST",
+        "condition": { "not": { "u_is_wearing": "badge_marshal" } }
+      },
+      {
+        "text": "Have anything to trade?",
+        "topic": "TALK_ISHERWOOD_EDDIE",
+        "effect": "start_trade",
+        "condition": { "not": { "u_is_wearing": "badge_marshal" } }
+      },
+      { "text": "When will your cows produce again?", "topic": "TALK_ISHERWOOD_EDDIE_RESTOCK" },
+      {
+        "text": "I'd better get going.",
+        "topic": "TALK_DONE",
+        "condition": { "not": { "u_is_wearing": "badge_marshal" } }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_EDDIE_Marshal",
+    "dynamic_line": "*spits on the ground.  \"Didn't much care for the government and the cops before everything happened, care for them quite a bit less now.  We've had a run-in or two with the folks calling themselves the 'Old Guard'.  That's all I care to say about it.  They'll never be welcome on my land and I don't believe for a second that they didn't cause all this in the first place.\"",
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_EDDIE_TOPICS" },
+      { "text": "Thanks for telling me.  Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_EDDIE_MarshalOff_Convince",
+    "dynamic_line": "*grimaces.  \"Fine, I'll give you a chance, but you don't mess with me or my family, you understand?  This is our land, not yours.  Or theirs.\"",
+    "speaker_effect": { "effect": { "npc_first_topic": "TALK_ISHERWOOD_EDDIE_ConvincedMarshal" } },
+    "responses": [
+      { "text": "Thanks for hearing me out.", "topic": "TALK_ISHERWOOD_EDDIE_TOPICS" },
+      { "text": "Thanks.  I'll give you space for now.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_EDDIE_MarshalOff_GoAway",
+    "dynamic_line": "I feel like maybe you didn't hear me right.  Get.  Off.  My.  Land.",
+    "responses": [
+      {
+        "text": "You can't make me.",
+        "topic": "TALK_LEAVE_NOW_MARSHAL",
+        "effect": "hostile",
+        "opinion": { "trust": -20, "value": -20 }
+      },
+      { "text": "… (Leave)", "topic": "TALK_DONE", "opinion": { "trust": -20, "value": -20 } }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_EDDIE_Marshal",
+    "dynamic_line": "*spits on the ground.  \"Didn't much care for the government and the cops before everything happened, care for them quite a bit less now.  We've had a run-in or two with the folks calling themselves the 'Old Guard'.  That's all I care to say about it.  They'll never be welcome on my land and I don't believe for a second that they didn't cause all this in the first place.\"",
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_EDDIE_TOPICS" },
+      { "text": "Thanks for telling me.  Bye.", "topic": "TALK_DONE" }
     ]
   },
   {

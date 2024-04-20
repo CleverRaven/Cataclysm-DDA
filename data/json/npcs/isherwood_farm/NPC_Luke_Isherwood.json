@@ -44,16 +44,38 @@
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_LUKE",
     "dynamic_line": {
-      "u_is_wearing": "badge_marshal",
-      "yes": "I see that badge, you should leave before my father sees you.",
-      "no": { "u_male": true, "yes": "Hello.", "no": "Hello." }
+      "concatenate": [
+        "*is a young man in his late teens, wearing threadbare but clean work trousers and a plain shirt with a few holes in it.  He looks you up and down as you approach",
+        {
+          "u_is_wearing": "badge_marshal",
+          "yes": ", then scowls as he spots the Old Guard Marshal badge gleaming on your chest.  \"I see that badge.  You should leave before my father does.\"",
+          "no": {
+            "u_has_var": "isherwood_luke_marshal_badge",
+            "value": "seen",
+            "yes": ", and nods once when he sees you've taken off your marshal badge.  \"Tread carefully around here, we don't have a lot of respect for your type of lawman.\"",
+            "no": {
+              "u_male": true,
+              "yes": ", then raises a hand to greet you.  \"Hello.\"",
+              "no": ", then raises his hand to his forehead in an old fashioned hat-tipping sort of gesture.  \"Hello.\""
+            }
+          }
+        }
+      ]
     },
     "responses": [
       {
         "text": "…",
         "topic": "TALK_LEAVE_NOW_LUKE",
         "opinion": { "trust": -20, "value": -20 },
-        "condition": { "u_is_wearing": "badge_marshal" }
+        "condition": { "u_is_wearing": "badge_marshal" },
+        "effect": { "u_add_var": "isherwood_luke_marshal_badge", "value": "seen" }
+      },
+      {
+        "text": "What's wrong with me being a marshal?",
+        "topic": "TALK_ISHERWOOD_LUKE_Marshal",
+        "condition": {
+          "and": [ { "u_has_var": "isherwood_luke_marshal_badge", "value": "seen" }, { "not": { "u_is_wearing": "badge_marshal" } } ]
+        }
       },
       {
         "text": "Your dad said you were out here fixing up this place.",
@@ -71,6 +93,16 @@
         "topic": "TALK_DONE",
         "condition": { "not": { "u_is_wearing": "badge_marshal" } }
       }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_LUKE_Marshal",
+    "dynamic_line": "I don't see how it's much of your business what our story is.  You can try asking my dad, Eddie, if you really want.  Just don't start acting like some little piece of tin in your pocket means you can come in like you own the place.",
+    "speaker_effect": { "effect": { "u_add_var": "isherwood_luke_marshal_questions", "value": "known" } },
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
   {
