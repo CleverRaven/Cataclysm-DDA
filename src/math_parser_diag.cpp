@@ -1325,7 +1325,7 @@ std::function<double( dialogue & )> calories_eval( char scope,
         format_value = *kwargs.at( "format" );
     }
 
-    return[ format_value, beta = is_beta( scope )]( dialogue const & d ) {
+    return[format_value, beta = is_beta( scope )]( dialogue const & d ) {
         std::string format = format_value.str( d );
         if( format != "raw" && format != "percent" ) {
             debugmsg( R"(Unknown format type "%s" for calories, assumning "raw")", format );
@@ -1341,7 +1341,8 @@ std::function<double( dialogue & )> calories_eval( char scope,
                 }
                 return d.actor( beta )->get_stored_kcal() / divisor;
             } else {
-                debugmsg( R"(Can't use percent with anything but character)" );
+                debugmsg( "Percent can be used only with character" );
+                return 0;
             }
         } else if( format == "raw" ) {
             if( d.actor( beta )->get_character() ) {
@@ -1352,7 +1353,10 @@ std::function<double( dialogue & )> calories_eval( char scope,
                 npc dummy;
                 return dummy.compute_effective_nutrients( *it->get_item() ).kcal();
             }
-        }
+        } else {
+            debugmsg( "For calories(), talker is not character nor item" );
+            return 0;
+        };
     };
 }
 
