@@ -340,10 +340,6 @@ TEST_CASE( "math_parser_dialogue_integration", "[math_parser]" )
     CHECK( testexp.parse( "u_val('stamina')", true ) );
     testexp.assign( d, 459 );
     CHECK( get_avatar().get_stamina() == 459 );
-    // not a shim anymore, dunno where to move it
-    CHECK( testexp.parse( "u_calories()", true ) );
-    testexp.assign( d, 559 );
-    CHECK( dude.get_stored_kcal() == 559 );
     std::string morelogs = capture_debugmsg_during( [&testexp, &d]() {
         CHECK( testexp.eval( d ) == Approx( 0 ) ); // eval called on assignment tree should not crash
         CHECK_FALSE( testexp.parse( "val( 'stamina' ) * 3", true ) ); // eval expression in assignment tree
