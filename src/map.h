@@ -1139,17 +1139,17 @@ class map
         point random_outdoor_tile() const;
         // mapgen
 
-        void draw_line_ter( const ter_id &type, const point &p1, const point &p2, const int z,
+        void draw_line_ter( const ter_id &type, const point &p1, const point &p2, int z,
                             bool avoid_creature = false );
-        void draw_line_furn( const furn_id &type, const point &p1, const point &p2, const int z,
+        void draw_line_furn( const furn_id &type, const point &p1, const point &p2, int z,
                              bool avoid_creatures = false );
         void draw_fill_background( const ter_id &type );
         void draw_fill_background( ter_id( *f )() );
         void draw_fill_background( const weighted_int_list<ter_id> &f );
 
-        void draw_square_ter( const ter_id &type, const point &p1, const point &p2, const int z,
+        void draw_square_ter( const ter_id &type, const point &p1, const point &p2, int z,
                               bool avoid_creature = false );
-        void draw_square_furn( const furn_id &type, const point &p1, const point &p2, const int z,
+        void draw_square_furn( const furn_id &type, const point &p1, const point &p2, int z,
                                bool avoid_creatures = false );
         void draw_square_ter( ter_id( *f )(), const point &p1, const point &p2,
                               bool avoid_creatures = false );
@@ -1770,7 +1770,7 @@ class map
         // tripoint_abs_omt coordinate guarantees this will be fulfilled.
         void generate( const tripoint_abs_omt &p, const time_point &when );
         void place_spawns( const mongroup_id &group, int chance,
-                           const point &p1, const point &p2, const int z_level, float density,
+                           const point &p1, const point &p2, int z_level, float density,
                            bool individual = false, bool friendly = false,
                            const std::optional<std::string> &name = std::nullopt,
                            int mission_id = -1 );

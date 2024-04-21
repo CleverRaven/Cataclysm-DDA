@@ -1044,7 +1044,7 @@ void mapgen_function_json_base::setup_setmap( const JsonArray &parray )
         pjo.read( "rotation", tmp_rotation );
         pjo.read( "fuel", tmp_fuel );
         pjo.read( "status", tmp_status );
-        jmapgen_setmap tmp( tmp_x, tmp_y, tmp_x2, tmp_y2, tmp_z,
+        jmapgen_setmap tmp( tmp_x, tmp_y, tmp_z, tmp_x2, tmp_y2,
                             static_cast<jmapgen_setmap_op>( tmpop + setmap_optype ), tmp_i,
                             tmp_chance, tmp_repeat, tmp_rotation, tmp_fuel, tmp_status, string_val );
 
