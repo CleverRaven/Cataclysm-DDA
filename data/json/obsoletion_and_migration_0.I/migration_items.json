@@ -1,5 +1,85 @@
 [
   {
+    "id": "depowered_armor",
+    "type": "MIGRATION",
+    "replace": "combat_exoskeleton_light_salvaged"
+  },
+  {
+    "id": "depowered_helmet",
+    "type": "MIGRATION",
+    "replace": "combat_exoskeleton_armor_head_light"
+  },
+  {
+    "id": "power_armor_frame",
+    "type": "MIGRATION",
+    "replace": "qt_steel_chunk"
+  },
+  {
+    "id": "power_armor_generator",
+    "type": "MIGRATION",
+    "replace": "qt_steel_chunk"
+  },
+  {
+    "id": "power_armor_helmet_basic",
+    "type": "MIGRATION",
+    "replace": "combat_exoskeleton_armor_head_medium"
+  },
+  {
+    "id": "power_armor_helmet_basic_on",
+    "type": "MIGRATION",
+    "replace": "combat_exoskeleton_armor_head_medium"
+  },
+  {
+    "id": "power_armor_helmet_light",
+    "type": "MIGRATION",
+    "replace": "combat_exoskeleton_armor_head_light"
+  },
+  {
+    "id": "power_armor_helmet_light_on",
+    "type": "MIGRATION",
+    "replace": "combat_exoskeleton_armor_head_light"
+  },
+  {
+    "id": "power_armor_helmet_heavy",
+    "type": "MIGRATION",
+    "replace": "combat_exoskeleton_armor_head_heavy"
+  },
+  {
+    "id": "power_armor_helmet_heavy_on",
+    "type": "MIGRATION",
+    "replace": "combat_exoskeleton_armor_head_heavy"
+  },
+  {
+    "id": "power_armor_basic",
+    "type": "MIGRATION",
+    "replace": "combat_exoskeleton_medium"
+  },
+  {
+    "id": "power_armor_basic_on",
+    "type": "MIGRATION",
+    "replace": "combat_exoskeleton_medium_on"
+  },
+  {
+    "id": "power_armor_light",
+    "type": "MIGRATION",
+    "replace": "combat_exoskeleton_light"
+  },
+  {
+    "id": "power_armor_light_on",
+    "type": "MIGRATION",
+    "replace": "combat_exoskeleton_light_on"
+  },
+  {
+    "id": "power_armor_heavy",
+    "type": "MIGRATION",
+    "replace": "combat_exoskeleton_heavy"
+  },
+  {
+    "id": "power_armor_heavy_on",
+    "type": "MIGRATION",
+    "replace": "combat_exoskeleton_heavy_on"
+  },
+  {
     "id": "lobotomizer",
     "type": "MIGRATION",
     "replace": "box_medium_wood",

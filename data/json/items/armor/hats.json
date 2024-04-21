@@ -1226,6 +1226,22 @@
     ]
   },
   {
+    "id": "maid_hat_xl",
+    "copy-from": "maid_hat",
+    "type": "ARMOR",
+    "name": { "str": "XL French maid hat" },
+    "extend": { "flags": [ "OVERSIZE" ] },
+    "proportional": { "weight": 1.5, "volume": 1.5 }
+  },
+  {
+    "id": "maid_hat_xs",
+    "copy-from": "maid_hat",
+    "type": "ARMOR",
+    "name": { "str": "XS French maid hat" },
+    "extend": { "flags": [ "UNDERSIZE" ] },
+    "proportional": { "weight": 0.5, "volume": 0.5 }
+  },
+  {
     "id": "porkpie",
     "type": "ARMOR",
     "name": { "str": "porkpie hat" },
