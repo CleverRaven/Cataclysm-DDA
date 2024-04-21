@@ -65,7 +65,7 @@
       {
         "text": "Hi, looks like you are building a forge setup.",
         "topic": "TALK_ISHERWOOD_CARLOS_TALK1",
-        "effect": { "u_add_var": "u_met_carlos_isherwood", "type": "general", "context": "meeting", "value": "yes" }
+        "effect": { "u_add_var": "general_meeting_u_met_carlos_isherwood", "value": "yes" }
       },
       {
         "text": "Hi, Jack and Claire suggested I come talk to you about a job.",
@@ -73,7 +73,7 @@
         "condition": {
           "and": [
             { "not": { "u_is_wearing": "badge_marshal" } },
-            { "u_has_var": "u_met_Jack_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
+            { "u_has_var": "general_meeting_u_met_Jack_Isherwood", "value": "yes" }
           ]
         }
       },
@@ -101,7 +101,7 @@
         "condition": {
           "and": [
             { "not": { "u_is_wearing": "badge_marshal" } },
-            { "u_has_var": "u_learned_about_barry", "type": "general", "context": "meeting", "value": "yes" }
+            { "u_has_var": "general_meeting_u_learned_about_barry", "value": "yes" }
           ]
         }
       },
@@ -156,7 +156,7 @@
         "topic": "TALK_CARLOS_BARRY",
         "condition": {
           "and": [
-            { "u_has_var": "u_learned_about_barry", "type": "general", "context": "meeting", "value": "yes" },
+            { "u_has_var": "general_meeting_u_learned_about_barry", "value": "yes" },
             { "not": { "u_is_wearing": "badge_marshal" } }
           ]
         }
@@ -219,7 +219,7 @@
       "opinion": { "trust": 1, "value": 1 },
       "effect": [
         { "u_spawn_item": "chainmail_armor_horse", "count": 1 },
-        { "u_add_var": "u_did_carlos_missions", "type": "general", "context": "recruit", "value": "yes" }
+        { "u_add_var": "general_recruit_u_did_carlos_missions", "value": "yes" }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],

@@ -175,8 +175,7 @@
     "dynamic_line": {
       "concatenate": [
         {
-          "u_has_var": "John_Bailey_Convo",
-          "context": "RC_John_Bailey_2",
+          "u_has_var": "RC_John_Bailey_2_John_Bailey_Convo",
           "value": "seen",
           "yes": "Like I said,\" John shrugs.  \"I'm just checking ",
           "no": "Same as you, I imagine,\" John shrugs.  \"Checking "
@@ -184,7 +183,7 @@
         "the place out, doing a little shopping.  Then I'll be on my way again.  Might see if they have any work that needs done first, if the price is right."
       ]
     },
-    "speaker_effect": { "effect": { "u_add_var": "John_Bailey_Convo", "context": "RC_John_Bailey_2", "value": "seen" } },
+    "speaker_effect": { "effect": { "u_add_var": "RC_John_Bailey_2_John_Bailey_Convo", "value": "seen" } },
     "responses": [
       { "text": "What are you shopping for?", "topic": "TALK_RC_John_Bailey_Shopping" },
       { "text": "What do you know about this place?", "topic": "TALK_RC_John_Bailey_RefCenter" },
