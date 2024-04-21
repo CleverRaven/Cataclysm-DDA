@@ -615,7 +615,7 @@
     "max_level": 20,
     "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(90000, 6000)" ] },
     "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(990000, 6000)" ] },
-    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(45000, 0.05" ] },
+    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(45000, 0.05)" ] },
     "energy_source": "MANA",
     "base_energy_cost": 350,
     "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(500, 2)" ] }

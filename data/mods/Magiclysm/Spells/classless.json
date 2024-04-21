@@ -255,7 +255,7 @@
     "flags": [ "NO_LEGS", "NO_FAIL" ],
     "difficulty": 7,
     "max_level": 25,
-    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(500)" ] },
+    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(500, 3.33)" ] },
     "final_casting_time": 150,
     "casting_time_increment": -14,
     "base_energy_cost": 600,
