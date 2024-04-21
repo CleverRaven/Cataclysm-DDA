@@ -2110,7 +2110,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
             std::vector<item> &stored_tools = vp_toolstation->part().tools;
             std::vector<item> tools_to_remove;
             // Tool is incompatible if it's not in allowed types and isn't a pseudo tool
-            for( const auto &tool_item : stored_tools ) {
+            for( const item &tool_item : stored_tools ) {
                 const itype_id &tool_type = tool_item.typeId();
                 if( builtin_tool_types.find( tool_type ) != builtin_tool_types.end() ) {
                     continue;
