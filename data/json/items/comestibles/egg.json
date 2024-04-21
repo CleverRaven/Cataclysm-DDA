@@ -3,13 +3,13 @@
     "type": "COMESTIBLE",
     "id": "egg_bird",
     "name": { "str": "bird egg" },
-    "weight": "55 g",
+    "weight": "50 g",
     "color": "brown",
     "spoils_in": "7 days",
     "comestible_type": "FOOD",
     "symbol": "o",
     "quench": 4,
-    "calories": 80,
+    "calories": 71,
     "description": "A nutritious egg laid by a bird.",
     "price": 44,
     "price_postapoc": 50,
@@ -18,7 +18,7 @@
     "fun": -8,
     "flags": [ "FREEZERBURN", "RAW" ],
     "rot_spawn": "GROUP_EGG_BIRD_WILD",
-    "vitamins": [ [ "calcium", 3 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "iron", "900 μg" ], [ "calcium", "28 mg" ] ],
     "rot_spawn_chance": 50
   },
   {
@@ -48,24 +48,24 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_pigeon",
-    "name": { "str": "pigeon egg" },
+    "name": { "str": "feral pigeon egg" },
     "copy-from": "egg_chicken",
-    "proportional": { "volume": 0.27, "weight": 0.27, "calories": 0.27 },
+    "proportional": { "volume": 0.3, "weight": 0.3, "calories": 0.3 },
     "rot_spawn": "GROUP_EGG_PIGEON"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_crow",
-    "name": { "str": "crow egg" },
+    "name": { "str": "American crow egg" },
     "copy-from": "egg_chicken",
-    "weight": "17 g",
+    "proportional": { "volume": 0.34, "weight": 0.34, "calories": 0.34 },
     "rot_spawn": "GROUP_EGG_CROW"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_raven",
     "name": { "str": "raven egg" },
-    "copy-from": "egg_chicken",
+    "copy-from": "egg_crow",
     "rot_spawn": "GROUP_EGG_RAVEN"
   },
   {
@@ -73,7 +73,7 @@
     "id": "egg_bluejay",
     "name": { "str": "blue jay egg" },
     "copy-from": "egg_chicken",
-    "weight": "6 g",
+    "proportional": { "volume": 0.18, "weight": 0.18, "calories": 0.18 },
     "rot_spawn": "GROUP_EGG_BLUEJAY"
   },
   {
@@ -81,17 +81,17 @@
     "id": "egg_cardinal",
     "name": { "str": "cardinal egg" },
     "copy-from": "egg_chicken",
-    "weight": "5 g",
+    "proportional": { "volume": 0.09, "weight": 0.09, "calories": 0.09 },
     "rot_spawn": "GROUP_EGG_CARDINAL"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_robin",
-    "name": { "str": "robin egg" },
+    "name": { "str": "American robin egg" },
     "copy-from": "egg_chicken",
     "description": "A nutritious egg laid by a robin.  The shell is colored a distinctive light blue.",
-    "weight": "7 g",
     "color": "light_blue",
+    "proportional": { "volume": 0.15, "weight": 0.15, "calories": 0.15 },
     "rot_spawn": "GROUP_EGG_ROBIN"
   },
   {
@@ -99,9 +99,24 @@
     "id": "egg_sparrow",
     "name": { "str": "sparrow egg" },
     "copy-from": "egg_chicken",
-    "calories": 54,
-    "weight": "3 g",
+    "proportional": { "volume": 0.06, "weight": 0.06, "calories": 0.06 },
     "rot_spawn": "GROUP_EGG_SPARROW"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_chickadee",
+    "name": { "str": "black-capped chickadee egg" },
+    "copy-from": "egg_chicken",
+    "proportional": { "volume": 0.03, "weight": 0.03, "calories": 0.03 },
+    "rot_spawn": "GROUP_EGG_CHICKADEE"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_waxwing",
+    "name": { "str": "cedar waxwing egg" },
+    "copy-from": "egg_chicken",
+    "proportional": { "volume": 0.06, "weight": 0.06, "calories": 0.06 },
+    "rot_spawn": "GROUP_EGG_WAXWING"
   },
   {
     "type": "COMESTIBLE",
@@ -893,17 +908,13 @@
     "id": "rehydrated_eggs",
     "copy-from": "egg_bird",
     "name": { "str_sp": "rehydrated egg" },
-    "weight": "50 g",
     "color": "yellow",
     "symbol": "%",
     "looks_like": "powder_egg",
     "quench": 2,
-    "calories": 80,
     "description": "Rehydrated eggs.  You can use them instead of eggs when cooking, provided you don't care that they have lost their complete shape.",
     "price": 22,
     "price_postapoc": 25,
-    "material": [ "egg" ],
-    "volume": "50 ml",
     "flags": [  ],
     "fun": -2,
     "rot_spawn": "GROUP_NULL",
