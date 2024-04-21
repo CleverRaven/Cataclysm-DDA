@@ -15,6 +15,7 @@
 #include "cata_assert.h"
 #include "color.h"
 #include "cuboid_rectangle.h"
+#include "cursesdef.h"
 #include "input_context.h"
 #include "memory_fast.h"
 #include "pimpl.h"
@@ -230,7 +231,7 @@ class uilist_callback
 
 class uilist // NOLINT(cata-xy)
 {
-    friend class uilist_impl;
+        friend class uilist_impl;
     public:
         class size_scalar
         {
@@ -285,7 +286,7 @@ class uilist // NOLINT(cata-xy)
         // Calls calc_data() and initialize the window
         void setup();
         // initialize the window or reposition it after screen size change.
-        void reposition( ui_adaptor &ui );
+        void reposition();
         bool scrollby( int scrollby );
         void query( bool loop = true, int timeout = -1, bool allow_unfiltered_hotkeys = false );
         void filterlist();
@@ -475,6 +476,7 @@ class uilist // NOLINT(cata-xy)
         // TODO make private
         std::vector<std::string> textformatted;
 
+        catacurses::window window;
         int w_x = 0;
         int w_y = 0;
         int w_width = 0;

@@ -47,14 +47,14 @@ void loading_ui::init()
     if( menu != nullptr && ui == nullptr ) {
         ui_background = std::make_unique<background_pane>();
 
-        ui = std::make_unique<ui_adaptor>();
-        ui->on_screen_resize( [this]( ui_adaptor & ui ) {
-            menu->reposition( ui );
-        } );
-        menu->reposition( *ui );
-        ui->on_redraw( [this]( ui_adaptor & ui ) {
-            menu->show( ui );
-        } );
+        // ui = std::make_unique<ui_adaptor>();
+        // ui->on_screen_resize( [this]( ui_adaptor & ui ) {
+        //     menu->reposition( ui );
+        // } );
+        // menu->reposition( *ui );
+        // ui->on_redraw( [this]( ui_adaptor & ui ) {
+        //     menu->show( ui );
+        // } );
     }
 }
 
