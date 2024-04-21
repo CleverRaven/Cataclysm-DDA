@@ -8719,7 +8719,7 @@ void map::add_roofs( const tripoint &grid )
     for( int x = 0; x < SEEX; x++ ) {
         for( int y = 0; y < SEEY; y++ ) {
             const ter_id ter_here = sub_here->get_ter( { x, y } );
-            if( !ter_here.id()->has_flag( "EMPTY_SPACE" ) ) {
+            if( !ter_here->has_flag( "EMPTY_SPACE" ) ) {
                 continue;
             }
 
