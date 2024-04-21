@@ -1026,11 +1026,6 @@
         "condition": { "math": [ "u_calories()", "==", "118169" ] }
       },
       {
-        "text": "Stored kcal is at 100% of healthy.",
-        "topic": "TALK_DONE",
-        "condition": { "math": [ "round( calories('format': 'percent') )", "==", "100" ] }
-      },
-      {
         "text": "Has 3 glass bottles.",
         "topic": "TALK_DONE",
         "condition": { "math": [ "u_item_count('bottle_glass')", "==", "3" ] }
