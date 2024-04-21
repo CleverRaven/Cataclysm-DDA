@@ -1911,7 +1911,8 @@ class jmapgen_faction : public jmapgen_piece
         mapgen_phase phase() const override {
             return mapgen_phase::faction_ownership;
         }
-        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const jmapgen_int &/*z*/,
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                    const jmapgen_int &/*z*/,
                     const std::string &/*context*/ ) const override {
             faction_id chosen_id = id.get( dat );
             if( chosen_id.is_null() ) {
