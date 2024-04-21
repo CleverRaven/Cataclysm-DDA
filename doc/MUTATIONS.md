@@ -96,7 +96,7 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "mixed_effect": false,                      // Whether the trait has both positive and negative effects.  This is purely declarative and is only used for the user interface (default: false).
   "description": "Nothing gets you down!",    // In-game description.
   "starting_trait": true,                     // Can be selected at character creation (default: false).
-  "valid": false,                             // Can be mutated ingame (default: true).
+  "valid": false,                             // Can be mutated ingame (default: true).  Note that prerequisites can even mutate invalid mutations.
   "purifiable": false,                        // Sets if the mutation be purified (default: true).
   "profession": true,                         // Trait is a starting profession special trait (default: false).
   "debug": false,                             // Trait is for debug purposes (default: false).
@@ -260,7 +260,7 @@ These fields are optional, but are very frequently used in mutations and their c
 |    Identifier     | Default |                                                                          Description                                                                        |
 | ----------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `category`        | Nothing | An array of string IDs representing mutation categories. This defines which categories the trait is considered part of (such as `ALPHA`, `BEAST`, `CEPHALOPOD`, and so on) and so it determines which primers must be used for the player to mutate them. |
-| `types`           | Nothing | A list of types that this mutation can be classified under. Each mutation with a certain type is mutually exclusive with other mutations that also have that type; if a trait has the `EXAMPLE` type defined, then no other trait with that type can exist on a character, and mutating towards such a trait would remove the existing one if it could.  |
+| `types`           | Nothing | A list of types that this mutation can be classified under. Each mutation with a certain type is mutually exclusive with other mutations that also have that type; if a trait has the `EXAMPLE` type defined, then no other trait with that type can exist on a character, and mutating towards such a trait would remove the existing one if it could.  An exception is made for same-typed prerequisite traits, these will not get removed.|
 | `prereqs`         | Nothing | An array of mutation IDs that are possible requirements for this trait to be obtained. Only a single option from this list needs to be present.             |
 | `prereqs2`        | Nothing | Identical to `prereqs`, and will throw errors if `prereqs` isn't defined. This is used to have multiple traits required to obtain another trait; one option must be present on the character from both `prereqs` and `prereqs2` for a trait to be obtainable. |
 | `threshreq`       | Nothing | This is a dedicated prerequisite slot for threshold mutations, and functions identically to `prereq` and `prereq2`.                                         |
