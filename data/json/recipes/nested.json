@@ -4234,6 +4234,22 @@
     ]
   },
   {
+    "id": "nested_funnels",
+    "type": "nested_category",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "name": "funnels",
+    "description": "Recipes related to creating funnels for catching rainwater.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "birchbark_funnel",
+      "makeshift_funnel",
+      "leather_funnel",
+      "funnel",
+      "metal_funnel"
+    ]
+  },
+  {
     "id": "nested_sewing_tools",
     "type": "nested_category",
     "activity_level": "MODERATE_EXERCISE",
