@@ -7,6 +7,24 @@
   },
   "configurePresets": [
     {
+      "name": "windows-x64-msvc",
+      "binaryDir": "${sourceDir}/out/build/${presetName}",
+      "displayName": "Windows x64 MSVC",
+      "description": "Target Windows (64-bit) with the Visual Studio development environment.",
+      "generator": "Visual Studio 16 2019",
+      "environment": {
+        "VCPKG_ROOT": "C:/vcpkg"
+      },
+      "cacheVariables": {
+        "DYNAMIC_LINKING": "False",
+        "CURSES": "True", "LOCALIZE": "True", "TILES": "False", "SOUND": "False", "TESTS": "True",
+        "CMAKE_PROJECT_INCLUDE_BEFORE": "${sourceDir}/build-scripts/windows-tiles-sounds-x64-msvc.cmake",
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/build-scripts/MSVC.cmake",
+        "VCPKG_TARGET_TRIPLET": "x64-windows-static",
+        "CMAKE_INSTALL_MESSAGE": "NEVER"
+      }
+    },
+    {
       "name": "windows-tiles-sounds-x64",
       "binaryDir": "${sourceDir}/out/build/${presetName}",
       "displayName": "Windows Tiles Sounds x64 MSYS2 (MinGW)",
@@ -80,6 +98,11 @@
     }
   ],
   "buildPresets": [
+    {
+      "name": "windows-x64-msvc",
+      "configurePreset": "windows-x64-msvc",
+      "configuration": "RelWithDebInfo"
+    },
     {
       "name": "windows-tiles-sounds-x64",
       "configurePreset": "windows-tiles-sounds-x64"
