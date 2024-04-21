@@ -1418,7 +1418,7 @@
     "phase": "liquid",
     "charges": 6,
     "flags": [ "EATEN_COLD", "EDIBLE_FROZEN", "NO_AUTO_CONSUME" ],
-    "fun": 12,
+    "fun": 2,
     "vitamins": [ [ "vitC", 20 ] ],
     "freezing_point": -30
   },
