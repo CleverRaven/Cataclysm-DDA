@@ -1,6 +1,7 @@
 #include "computer_session.h"
 
 #include <algorithm>
+#include <cmath>
 #include <cstdlib>
 #include <functional>
 #include <memory>
@@ -12,9 +13,9 @@
 #include "calendar.h"
 #include "character.h"
 #include "character_id.h"
-#include "computer.h"
 #include "colony.h"
 #include "color.h"
+#include "computer.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature.h"
@@ -31,9 +32,11 @@
 #include "game_inventory.h"
 #include "input.h"
 #include "input_context.h"
+#include "input_enums.h"
 #include "item.h"
 #include "item_location.h"
 #include "line.h"
+#include "localized_comparator.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -42,6 +45,8 @@
 #include "monster.h"
 #include "mtype.h"
 #include "mutation.h"
+#include "npc.h"
+#include "omdata.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
@@ -55,6 +60,7 @@
 #include "string_formatter.h"
 #include "text_snippets.h"
 #include "timed_event.h"
+#include "translation.h"
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"
@@ -65,6 +71,7 @@ static const efftype_id effect_amigara( "amigara" );
 
 static const furn_str_id furn_f_centrifuge( "f_centrifuge" );
 static const furn_str_id furn_f_console_broken( "f_console_broken" );
+static const furn_str_id furn_f_counter( "f_counter" );
 static const furn_str_id furn_f_rubble_rock( "f_rubble_rock" );
 
 static const itype_id itype_black_box( "black_box" );
@@ -502,7 +509,7 @@ void computer_session::action_sample()
             continue;
         }
         for( const tripoint &n : here.points_in_radius( p, 1 ) ) {
-            if( here.furn( n ) != f_counter ) {
+            if( here.furn( n ) != furn_f_counter ) {
                 continue;
             }
             bool found_item = false;

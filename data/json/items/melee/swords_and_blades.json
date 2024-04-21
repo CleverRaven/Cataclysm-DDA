@@ -319,7 +319,6 @@
       "blacklist_mod": [
         "crafted_suppressor",
         "filter_suppressor",
-        "bottle_suppressor",
         "shot_suppressor",
         "suppressor",
         "suppressor_compact",
@@ -391,7 +390,6 @@
       "blacklist_mod": [
         "crafted_suppressor",
         "filter_suppressor",
-        "bottle_suppressor",
         "shot_suppressor",
         "suppressor",
         "suppressor_compact",
@@ -451,7 +449,6 @@
       "blacklist_mod": [
         "crafted_suppressor",
         "filter_suppressor",
-        "bottle_suppressor",
         "shot_suppressor",
         "suppressor",
         "suppressor_compact",
@@ -474,7 +471,6 @@
       "install_time": "5 s"
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
-    "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
     "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
     "flags": [
@@ -487,7 +483,7 @@
       "CONDUCTIVE"
     ],
     "weapon_category": [ "KNIVES" ],
-    "melee_damage": { "stab": 22 }
+    "melee_damage": { "stab": 21 }
   },
   {
     "id": "knife_hunting",
@@ -1682,7 +1678,6 @@
       "blacklist_mod": [
         "crafted_suppressor",
         "filter_suppressor",
-        "bottle_suppressor",
         "shot_suppressor",
         "suppressor",
         "suppressor_compact",
@@ -2569,7 +2564,7 @@
     "type": "TOOL",
     "copy-from": "qt_katana",
     "name": { "str_sp": "jade nagamaki" },
-    "description": "A master smith painstaikingly flaked its flowing blade from meteoric sea-green stone.  The hilt's cordage is speckled by gold flakes from the tummultous waters where the blade was whet, and the chosen tsuba depicts an all-devouring snake.",
+    "description": "A master smith painstakingly flaked its flowing blade from meteoric sea-green stone.  The hilt's cordage is speckled by gold flakes from the tumultuous waters where the blade was whet, and the chosen tsuba depicts an all-devouring snake.",
     "weight": "3258 g",
     "volume": "3250 ml",
     "longest_side": "140 cm",
@@ -3114,7 +3109,6 @@
       "blacklist_mod": [
         "crafted_suppressor",
         "filter_suppressor",
-        "bottle_suppressor",
         "shot_suppressor",
         "suppressor",
         "suppressor_compact",
@@ -3164,7 +3158,6 @@
       "blacklist_mod": [
         "crafted_suppressor",
         "filter_suppressor",
-        "bottle_suppressor",
         "shot_suppressor",
         "suppressor",
         "suppressor_compact",

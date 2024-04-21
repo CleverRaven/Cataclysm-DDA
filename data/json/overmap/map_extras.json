@@ -446,7 +446,7 @@
     "type": "map_extra",
     "name": { "str": "Dead Vegetation" },
     "description": "Dead vegetation is here.",
-    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_dead_vegetation" },
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_dead_vegetation" },
     "min_max_zlevel": [ 0, 0 ],
     "sym": ".",
     "color": "brown",
@@ -457,7 +457,7 @@
     "type": "map_extra",
     "name": { "str": "Dead Vegetation (Point)" },
     "description": "Dead vegetation is here.",
-    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_point_dead_vegetation" },
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_point_dead_vegetation" },
     "min_max_zlevel": [ 0, 0 ],
     "sym": ".",
     "color": "brown",
@@ -608,7 +608,11 @@
     "name": { "str": "Fungal infestation" },
     "description": "Fungal-infested location.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_fungal_zone" },
-    "min_max_zlevel": [ 0, 0 ]
+    "sym": "F",
+    "color": "yellow",
+    "autonote": true,
+    "min_max_zlevel": [ 0, 0 ],
+    "flags": [ "FUNGAL" ]
   },
   {
     "id": "mx_reed",
@@ -654,5 +658,16 @@
     "description": "An ordinary beehive.",
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_beehive_natural" },
     "min_max_zlevel": [ 0, 0 ]
+  },
+  {
+    "id": "mx_worm_sign",
+    "type": "map_extra",
+    "name": { "str": "Upturned Earth" },
+    "description": "There is a lot of upturned earth here.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_worm_sign" },
+    "min_max_zlevel": [ 0, 0 ],
+    "sym": "o",
+    "color": "red",
+    "autonote": true
   }
 ]

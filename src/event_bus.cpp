@@ -1,11 +1,19 @@
 #include "event_bus.h"
 
 #include <algorithm>
+#include <array>
+#include <cstddef>
+#include <map>
+#include <memory>
+#include <string>
 
+#include "calendar.h"
+#include "cata_variant.h"
 #include "creature.h"
 #include "debug.h"
 #include "event_subscriber.h"
-#include "talker.h"
+#include "item_location.h"
+#include "talker.h"  // IWYU pragma: keep
 
 event_subscriber::~event_subscriber()
 {

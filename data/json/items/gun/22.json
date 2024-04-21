@@ -5,7 +5,7 @@
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": ".22 caliber submachine gun" },
-    "description": "A dramatically uncommon automatic weapon, making use of high-capacity pan magazines and firing the low power .22 calibre cartridge: an unusual ammunition choice for a submachine gun.  With negligible recoil on account of its modest cartridge and a suppressively high rate of fire, a burst of .22 LR rounds from this little machine gun can be best likened with a swarm of hornets… an incredibly angry swarm of hornets.",
+    "description": "A dramatically uncommon automatic weapon, making use of high-capacity pan magazines and firing the low power .22 caliber cartridge: an unusual ammunition choice for a submachine gun.  With negligible recoil on account of its modest cartridge and a suppressively high rate of fire, a burst of .22 LR rounds from this little machine gun can be best likened with a swarm of hornets… an incredibly angry swarm of hornets.",
     "variant_type": "gun",
     "variants": [
       {
@@ -100,7 +100,7 @@
       [ "underbarrel mount", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "flags": [ "RELOAD_ONE" ],
+    "flags": [ "RELOAD_ONE", "NO_TURRET" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
@@ -116,7 +116,7 @@
     "looks_like": "glock_17",
     "copy-from": "pistol_base",
     "type": "GUN",
-    "name": { "str": ".22 deringer pistol" },
+    "name": { "str": ".22 derringer pistol" },
     "description": "A four barreled, adorably tiny pocket pistol, firing the equally minuscule .22 LR cartridge.  Produced in the early 20th century for trappers, its combat effectiveness is questionable to say the least.",
     "variant_type": "gun",
     "variants": [

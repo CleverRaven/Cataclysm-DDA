@@ -40,6 +40,7 @@
 #include "make_static.h"
 #include "mapsharing.h"
 #include "martialarts.h"
+#include "mission.h"
 #include "mod_manager.h"
 #include "monster.h"
 #include "mutation.h"

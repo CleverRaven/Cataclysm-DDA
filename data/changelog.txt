@@ -217,6 +217,7 @@ Crafting Musical Instruments
 Additional Achievements
 
 
+
 ## Interface:
 Show crafting failure chances in the crafting interface
 Show addictions from hobbies in newcharacter tab
@@ -270,6 +271,7 @@ High characters now see fancy smiley faces and exclamations in their message log
 Can't accidentally select full deconstruction if simple deconstruction is available
 Set priority for containers that have auto whitelisting.
 Tile cover is now named concealment, because that's all it actually does.
+When opening spellcasting menu, go to favorite spells tab if player has favorited spells
 
 
 ## Mods:
@@ -386,10 +388,12 @@ Fix Brackenwight special attack message
 [Magiclysm] Last Mage on Earth start
 Tamable Wildlife: add Cougars to list of tameables
 [Magiclysm] Add spellcasting proficiencies.
-Edit spell UI word choice when using psionics
-More specific messages for being unable to use supernatural powers
 XE: Trait to avoid learning dream magick
 Too much pain shuts down your powers
+Edit spell UI word choice when using psionics
+[MoM] High levels of weariness turn off your powers
+More specific messages for being unable to use supernatural powers
+[MoM] Edit portal storm conditions to support moddability, use that for Telepathic Shield in MoM
 
 
 ## Balance:
@@ -677,6 +681,7 @@ Report game's RNG seed during testing
 Added WebAssembly build via Emscripten
 CMake: Add LLVM build for Windows and other linker fixes
 Use one precompiled header
+Fix zlib old-style-cast build breakage
 
 
 ## I18N and A11Y:

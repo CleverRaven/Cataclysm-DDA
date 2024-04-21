@@ -772,7 +772,7 @@
     "type": "TOOL",
     "name": { "str": "soda can stove kit" },
     "//": "Should be 20 but currently recipes do not utilize this value",
-    "description": "An ultra-light alcohol-burning stove with a simmer ring, crafted by hand from a couple of aluminum soda cans.  It comes with a 500 ml plastic bottle to hold concentrated alcohol fuel.",
+    "description": "An ultra-light alcohol-burning stove with a simmer ring, crafted by hand from a couple of aluminum soda cans.  It comes with a 500 mL plastic bottle to hold concentrated alcohol fuel.",
     "weight": "45 g",
     "volume": "750 ml",
     "price": 250,
@@ -1049,6 +1049,25 @@
     "use_action": [ "HOTPLATE", "HEAT_FOOD", { "type": "firestarter", "moves": 100, "moves_slow": 1000 } ],
     "flags": [ "FIRESTARTER" ],
     "melee_damage": { "bash": 4 }
+  },
+  {
+    "id": "biogas_cooker",
+    "type": "TOOL",
+    "name": { "str": "biogas cooker" },
+    "description": "A simple heater powered by biogas.  It is designed for cooking food.",
+    "copy-from": "propane_cooker",
+    "ammo": [ "biogas" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "airtight": true,
+        "watertight": true,
+        "rigid": true,
+        "ammo_restriction": { "biogas": 3000 }
+      }
+    ],
+    "charges_per_use": 8,
+    "use_action": [ "HOTPLATE", "HEAT_FOOD", { "type": "firestarter", "moves": 100, "moves_slow": 1000 } ]
   },
   {
     "id": "acetylene_cooker",

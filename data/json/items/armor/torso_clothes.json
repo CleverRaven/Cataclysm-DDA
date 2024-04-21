@@ -101,6 +101,38 @@
     ]
   },
   {
+    "id": "waist_apron_long_xl",
+    "copy-from": "waist_apron_long",
+    "type": "ARMOR",
+    "name": { "str": "XL long waist apron" },
+    "extend": { "flags": [ "OVERSIZE" ] },
+    "proportional": { "weight": 1.5, "volume": 1.5 },
+    "variants": [
+      {
+        "id": "maid_apron_xl",
+        "name": { "str": "XL maid long waist apron" },
+        "description": "It's colored white with black frilly decorations, commonly used with a maid dress or alone for nighttime activities.",
+        "append": true
+      }
+    ]
+  },
+  {
+    "id": "waist_apron_long_xs",
+    "copy-from": "waist_apron_long",
+    "type": "ARMOR",
+    "name": { "str": "XS long waist apron" },
+    "extend": { "flags": [ "UNDERSIZE" ] },
+    "proportional": { "weight": 0.5, "volume": 0.5 },
+    "variants": [
+      {
+        "id": "maid_apron_xs",
+        "name": { "str": "XS maid long waist apron" },
+        "description": "It's colored white with black frilly decorations, commonly used with a maid dress or alone for nighttime activities.",
+        "append": true
+      }
+    ]
+  },
+  {
     "id": "waist_apron_short",
     "type": "ARMOR",
     "name": { "str": "short waist apron" },
@@ -202,6 +234,38 @@
     ]
   },
   {
+    "id": "waist_apron_short_xl",
+    "copy-from": "waist_apron_short",
+    "type": "ARMOR",
+    "name": { "str": "XL short waist apron" },
+    "extend": { "flags": [ "OVERSIZE" ] },
+    "proportional": { "weight": 1.5, "volume": 1.5 },
+    "variants": [
+      {
+        "id": "maid_apron_xl",
+        "name": { "str": "XL maid short waist apron" },
+        "description": "It's colored white with black frilly decorations, commonly used with a maid dress or alone for nighttime activities.",
+        "append": true
+      }
+    ]
+  },
+  {
+    "id": "waist_apron_short_xs",
+    "copy-from": "waist_apron_short",
+    "type": "ARMOR",
+    "name": { "str": "XS short waist apron" },
+    "extend": { "flags": [ "UNDERSIZE" ] },
+    "proportional": { "weight": 0.5, "volume": 0.5 },
+    "variants": [
+      {
+        "id": "maid_apron_xs",
+        "name": { "str": "XS maid short waist apron" },
+        "description": "It's colored white with black frilly decorations, commonly used with a maid dress or alone for nighttime activities.",
+        "append": true
+      }
+    ]
+  },
+  {
     "id": "apron_cotton",
     "type": "ARMOR",
     "name": { "str": "cotton apron" },
@@ -289,6 +353,38 @@
         "name": { "str": "gothic apron" },
         "description": "It has a jet-black color with dark red decorations, perfect for cosplay or an adventurous gourmet.",
         "color": "light_red",
+        "append": true
+      }
+    ]
+  },
+  {
+    "id": "apron_cotton_xl",
+    "copy-from": "apron_cotton",
+    "type": "ARMOR",
+    "name": { "str": "XL cotton apron" },
+    "extend": { "flags": [ "OVERSIZE" ] },
+    "proportional": { "weight": 1.5, "volume": 1.5 },
+    "variants": [
+      {
+        "id": "maid_apron_xl",
+        "name": { "str": "XL maid apron" },
+        "description": "It's colored white with black frilly decorations, commonly used with a maid dress or alone for nighttime activities.",
+        "append": true
+      }
+    ]
+  },
+  {
+    "id": "apron_cotton_xs",
+    "copy-from": "apron_cotton",
+    "type": "ARMOR",
+    "name": { "str": "XS cotton apron" },
+    "extend": { "flags": [ "UNDERSIZE" ] },
+    "proportional": { "weight": 0.5, "volume": 0.5 },
+    "variants": [
+      {
+        "id": "maid_apron_xs",
+        "name": { "str": "XS maid apron" },
+        "description": "It's colored white with black frilly decorations, commonly used with a maid dress or alone for nighttime activities.",
         "append": true
       }
     ]
@@ -1038,6 +1134,22 @@
     "flags": [ "VARSIZE" ]
   },
   {
+    "id": "maid_dress_xl",
+    "copy-from": "maid_dress",
+    "type": "ARMOR",
+    "name": { "str_sp": "XL French maid clothes" },
+    "extend": { "flags": [ "OVERSIZE" ] },
+    "proportional": { "weight": 1.5, "volume": 1.5 }
+  },
+  {
+    "id": "maid_dress_xs",
+    "copy-from": "maid_dress",
+    "type": "ARMOR",
+    "name": { "str_sp": "XS French maid clothes" },
+    "extend": { "flags": [ "UNDERSIZE" ] },
+    "proportional": { "weight": 0.5, "volume": 0.5 }
+  },
+  {
     "id": "maid_dress_short",
     "type": "ARMOR",
     "name": { "str_sp": "short French maid clothes" },
@@ -1080,6 +1192,22 @@
     "warmth": 2,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE" ]
+  },
+  {
+    "id": "maid_dress_short_xl",
+    "copy-from": "maid_dress_short",
+    "type": "ARMOR",
+    "name": { "str_sp": "XL short French maid clothes" },
+    "extend": { "flags": [ "OVERSIZE" ] },
+    "proportional": { "weight": 1.5, "volume": 1.5 }
+  },
+  {
+    "id": "maid_dress_short_xs",
+    "copy-from": "maid_dress_short",
+    "type": "ARMOR",
+    "name": { "str_sp": "XS short French maid clothes" },
+    "extend": { "flags": [ "UNDERSIZE" ] },
+    "proportional": { "weight": 0.5, "volume": 0.5 }
   },
   {
     "id": "mummy_dress",
@@ -1243,7 +1371,7 @@
   {
     "id": "santa_dress",
     "type": "ARMOR",
-    "name": { "str": "santa dress", "str_pl": "santa dresses" },
+    "name": { "str": "Santa dress", "str_pl": "Santa dresses" },
     "description": {
       "//NOLINT(cata-text-style)": "The dot after Mrs is not a period",
       "str": "A sleeved red dress with white faux fur trim.  For when you want to be Mrs. Claus on Christmas, or perhaps Santa going clubbing."
@@ -1275,7 +1403,7 @@
   {
     "id": "santa_dress_long",
     "type": "ARMOR",
-    "name": { "str": "luxury santa dress", "str_pl": "luxury santa dresses" },
+    "name": { "str": "luxury Santa dress", "str_pl": "luxury Santa dresses" },
     "description": "A long red dress with full sleeves and white faux fur trim.  A dress for a queen of the north pole.",
     "weight": "1200 g",
     "volume": "3850 ml",
@@ -1298,7 +1426,7 @@
   {
     "id": "santa_dress_short",
     "type": "ARMOR",
-    "name": { "str": "short santa dress", "str_pl": "short santa dresses" },
+    "name": { "str": "short Santa dress", "str_pl": "short Santa dresses" },
     "description": {
       "//NOLINT(cata-text-style)": "The dot after Mrs is not a period",
       "str": "A short red dress with white faux fur trim.  Looks like something Mrs. Claus might wear on Christmas night."
@@ -1746,7 +1874,7 @@
         "text": "A light blue t-shirt with yellow block letters that say 'FDA Approved to treat all diseases'."
       },
       { "id": "anxiety_superpower", "text": "A t-shirt with the text 'Anxiety is my super power'." },
-      { "id": "visitryleh", "text": "A t-shirt with the text 'Greetings from R'YLEH home of Cthulhu'." },
+      { "id": "visitryleh", "text": "A t-shirt with the text 'Greetings from R'lyeh home of Cthulhu'." },
       { "id": "robot_finds_kitten", "text": "A t-shirt with the text 'Play robotfindskitten today'." },
       {
         "id": "survived_apocalypse",

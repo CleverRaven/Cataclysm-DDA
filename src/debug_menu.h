@@ -5,13 +5,12 @@
 #include <cstddef>
 #include <functional>
 #include <optional>
-#include <iosfwd>
-#include <string> // IWYU pragma: keep
-
-struct tripoint;
-template <typename E> struct enum_traits;
+#include <string>
+#include <string_view>
 
 class Character;
+struct tripoint;
+template <typename E> struct enum_traits;
 
 namespace debug_menu
 {
@@ -104,6 +103,7 @@ enum class debug_menu_index : int {
     NORMALIZE_BODY_STAT,
     SIX_MILLION_DOLLAR_SURVIVOR,
     EDIT_FACTION,
+    WRITE_CITY_LIST,
     last
 };
 

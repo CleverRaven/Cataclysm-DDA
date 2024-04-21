@@ -119,5 +119,14 @@
       "sleepiness_min": [ 1 ],
       "stamina_min": [ 1 ]
     }
+  },
+  {
+    "type": "effect_type",
+    "id": "debug_no_staggered",
+    "name": [ "Debug No Staggered" ],
+    "desc": [ "You can't be staggered." ],
+    "blocks_effects": [ "staggered_character", "bouldering" ],
+    "rating": "good",
+    "max_duration": 99999999
   }
 ]

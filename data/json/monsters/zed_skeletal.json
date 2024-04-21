@@ -9,7 +9,7 @@
     "species": [ "ZOMBIE", "HUMAN" ],
     "volume": "62500 ml",
     "weight": "81500 g",
-    "hp": 30,
+    "hp": 80,
     "speed": 60,
     "material": [ "bone" ],
     "symbol": "Z",
@@ -20,7 +20,6 @@
     "melee_dice": 3,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
-    "dodge": 2,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_bone_armor" ],
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "bleed_rate": 50,
@@ -31,6 +30,7 @@
     "special_attacks": [ { "id": "grab", "cooldown": 21 }, { "id": "scratch_humanoid" }, { "id": "bite_humanoid", "cooldown": 5 } ],
     "upgrades": { "half_life": 32, "into_group": "GROUP_SKELETON_UPGRADE" },
     "death_drops": "default_zombie_clothes",
+    "burn_into": "mon_zombie_scorched",
     "fungalize_into": "mon_skeleton_fungus",
     "flags": [ "SEES", "HEARS", "GRABS", "BASHES", "GROUP_BASH", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ],
     "armor": { "cut": 15, "stab": 30, "acid": 3, "bullet": 24, "electric": 3 }
@@ -57,7 +57,6 @@
     "melee_dice": 2,
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 10 } ],
-    "dodge": 1,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_bone_armor", "wps_humanoid_head_small" ],
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "bleed_rate": 0,
@@ -76,8 +75,9 @@
     ],
     "upgrades": { "half_life": 45, "into": "mon_skeleton_hulk" },
     "death_drops": "default_zombie_clothes",
+    "burn_into": "mon_zombie_fiend",
     "fungalize_into": "mon_skeleton_brute_fungus",
-    "flags": [ "SEES", "HEARS", "GRABS", "BASHES", "GROUP_BASH", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "GRABS", "BASHES", "GROUP_BASH", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ],
     "armor": { "bash": 12, "cut": 30, "acid": 1, "bullet": 30, "electric": 4 }
   },
   {
@@ -92,7 +92,7 @@
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 105,
-    "speed": 90,
+    "speed": 60,
     "material": [ "bone" ],
     "symbol": "Z",
     "color": "blue_white",
@@ -102,7 +102,6 @@
     "melee_dice": 2,
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
-    "dodge": 2,
     "luminance": 8,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_bone_armor" ],
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton", "prof_electromagnetics" ],
@@ -119,6 +118,7 @@
       [ "SHOCKSTORM", 25 ]
     ],
     "death_drops": "default_zombie_clothes",
+    "burn_into": "mon_zombie_scorched",
     "fungalize_into": "mon_skeleton_fungus",
     "flags": [ "SEES", "HEARS", "GRABS", "BASHES", "GROUP_BASH", "ELECTRIC", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ],
     "armor": { "cut": 15, "stab": 30, "acid": 3, "bullet": 30 }
@@ -170,6 +170,7 @@
     "flags": [
       "SEES",
       "HEARS",
+      "SMELLS",
       "STUMBLES",
       "WARM",
       "GRABS",

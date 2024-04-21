@@ -2288,7 +2288,7 @@
     "id": "horse_cop",
     "name": "Mounted Police Officer",
     "requirement": "achievement_reach_police_station",
-    "description": "You have spent many long years forging a bond with your equine companion, from running down common thugs, to entertaining kids when you ride on by.  The cataclysm is upon you, but at least you have eachother.",
+    "description": "You have spent many long years forging a bond with your equine companion, from running down common thugs, to entertaining kids when you ride on by.  The cataclysm is upon you, but at least you have each other.",
     "points": 5,
     "skills": [
       { "level": 5, "name": "survival" },
@@ -3733,7 +3733,7 @@
     "type": "profession",
     "id": "jeweler",
     "name": "Jeweler",
-    "description": "You were an independent artisan, who made gorgeous rings and pendants for the people who afforded your services.  You doubt the market for your work has faired well after the end of the world, but perhaps your proficiency with fine tools and metals will come in handy somehow.",
+    "description": "You were an independent artisan, who made gorgeous rings and pendants for the people who afforded your services.  You doubt the market for your work has fared well after the end of the world, but perhaps your proficiency with fine tools and metals will come in handy somehow.",
     "points": 2,
     "skills": [ { "level": 6, "name": "fabrication" }, { "level": 2, "name": "swimming" } ],
     "proficiencies": [ "prof_metalworking", "prof_redsmithing", "prof_fine_metalsmithing", "prof_gem_setting" ],

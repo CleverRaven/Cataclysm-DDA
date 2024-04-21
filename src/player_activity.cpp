@@ -24,6 +24,7 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "ui.h"
+#include "uistate.h"
 #include "units.h"
 #include "value_ptr.h"
 

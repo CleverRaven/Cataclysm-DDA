@@ -76,6 +76,31 @@
     "flags": [ "RAD_DETECT", "PERSONAL", "ZERO_WEIGHT" ]
   },
   {
+    "id": "item_clair_astral_projection_cord",
+    "type": "TOOL_ARMOR",
+    "name": { "str_sp": "[Ψ]silver cord" },
+    "description": "A thin silver cord, stretching off into the distance, connecting you to your body.  You could follow it back to return.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "price": 1,
+    "price_postapoc": 1,
+    "symbol": "[",
+    "color": "light_gray",
+    "flags": [
+      "PERSONAL",
+      "UNBREAKABLE",
+      "ZERO_WEIGHT",
+      "ALLOWS_NATURAL_ATTACKS",
+      "INTEGRATED",
+      "PADDED",
+      "SEMITANGIBLE",
+      "WATER_FRIENDLY",
+      "ONLY_ONE",
+      "NO_DROP"
+    ],
+    "environmental_protection": 0
+  },
+  {
     "id": "electro_robot_interface",
     "type": "GENERIC",
     "name": { "str": "[Ψ]Robotic Interface" },
@@ -297,6 +322,39 @@
       "NO_DROP",
       "INTEGRATED",
       "PADDED"
+    ]
+  },
+  {
+    "id": "integrated_photo_eyes",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "photon regulation" },
+    "description": "With a little concentration, you can control the light your eyes accept.  Protects you from glare and welding arcs.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "material": [ "light" ],
+    "symbol": "[",
+    "color": "yellow",
+    "qualities": [ [ "GLARE", 1 ] ],
+    "flags": [
+      "INTEGRATED",
+      "UNBREAKABLE",
+      "SKINTIGHT",
+      "SOFT",
+      "WATER_FRIENDLY",
+      "SUN_GLASSES",
+      "NO_REPAIR",
+      "NO_SALVAGE",
+      "AURA",
+      "SEMITANGIBLE"
+    ],
+    "armor": [
+      {
+        "material": [ { "type": "light", "covered_by_mat": 100, "thickness": 0.1 } ],
+        "covers": [ "eyes" ],
+        "coverage": 100,
+        "encumbrance": 0
+      }
     ]
   },
   {

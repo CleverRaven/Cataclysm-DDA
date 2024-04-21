@@ -83,7 +83,7 @@
     "id": "broken_forgeborn",
     "symbol": "x",
     "color": "dark_gray",
-    "name": "broken forge born",
+    "name": { "str_sp": "broken forge born" },
     "category": "other",
     "description": "A broken forge born, with all orichalcum you would possibly ever need.  Could be smashed for orichalcum.",
     "price": 100000,

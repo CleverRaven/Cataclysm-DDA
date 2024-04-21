@@ -83,6 +83,7 @@
     "points": 0,
     "description": "Your powers passively filter the amount of photons your eyes receive.",
     "flags": [ "FLASH_PROTECTION", "SEESLEEP", "GLARE_RESIST" ],
+    "integrated_armor": [ "integrated_photo_eyes" ],
     "player_display": true,
     "valid": false,
     "purifiable": false

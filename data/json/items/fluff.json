@@ -306,7 +306,7 @@
       {
         "id": "jigsaw_26",
         "name": { "str": "Northern Lights jigsaw puzzle" },
-        "description": "A jigsaw puzzle cardboard box containing 1000 cardboard pieces that when connected together properly forms the otherworldly beautiful view of the Northern Lights (Aurora Borealis) which occur most often in the Artic Circle and polar regions.",
+        "description": "A jigsaw puzzle cardboard box containing 1000 cardboard pieces that when connected together properly forms the otherworldly beautiful view of the Northern Lights (Aurora Borealis) which occur most often in the Arctic Circle and polar regions.",
         "color": "blue",
         "weight": 20
       },
@@ -1630,7 +1630,7 @@
       {
         "id": "sketch_dark_doodles",
         "name": { "str": "disturbing sketch", "str_pl": "disturbing sketches" },
-        "description": "This one is a collection of assorted doodles, many have dark imagery and shadowy figures.  It's kind of distrubing.",
+        "description": "This one is a collection of assorted doodles, many have dark imagery and shadowy figures.  It's kind of disturbing.",
         "append": true,
         "weight": 2
       },
@@ -1722,16 +1722,16 @@
       },
       {
         "id": "sculpture_releif",
-        "name": { "str": "stone releif" },
-        "description": "This releif depicts a <sketch_concept_description> <random_character_pose_statue>.",
+        "name": { "str": "stone relief" },
+        "description": "This relief depicts a <sketch_concept_description> <random_character_pose_statue>.",
         "append": true,
         "expand_snippets": true,
         "weight": 8
       },
       {
         "id": "sculpture_releif",
-        "name": { "str": "stone landscape releif" },
-        "description": "This releif depicts a <landscape_description>.",
+        "name": { "str": "stone landscape relief" },
+        "description": "This relief depicts a <landscape_description>.",
         "append": true,
         "expand_snippets": true,
         "weight": 8
@@ -1773,16 +1773,16 @@
       },
       {
         "id": "sculpture_releif",
-        "name": { "str": "clay releif" },
-        "description": "This releif depicts a <sketch_concept_description> <random_character_pose_statue>.",
+        "name": { "str": "clay relief" },
+        "description": "This relief depicts a <sketch_concept_description> <random_character_pose_statue>.",
         "append": true,
         "expand_snippets": true,
         "weight": 8
       },
       {
         "id": "sculpture_releif",
-        "name": { "str": "clay landscape releif" },
-        "description": "This releif depicts a <landscape_description>.",
+        "name": { "str": "clay landscape relief" },
+        "description": "This relief depicts a <landscape_description>.",
         "append": true,
         "expand_snippets": true,
         "weight": 8

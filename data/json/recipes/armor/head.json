@@ -380,6 +380,18 @@
     "using": [ [ "tailoring_cotton_small", 2 ] ]
   },
   {
+    "copy-from": "maid_hat",
+    "result": "maid_hat_xl",
+    "type": "recipe",
+    "using": [ [ "tailoring_cotton_small", 3 ] ]
+  },
+  {
+    "copy-from": "maid_hat",
+    "result": "maid_hat_xs",
+    "type": "recipe",
+    "using": [ [ "tailoring_cotton_small", 1 ] ]
+  },
+  {
     "result": "hat_fur",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",

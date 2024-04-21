@@ -5,8 +5,8 @@
 #include <array>
 #include <cmath>
 #include <cstddef>
-#include <iosfwd>
-#include <limits>
+#include <cstdint>
+#include <list>
 #include <map>
 #include <memory>
 #include <optional>
@@ -21,7 +21,6 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
-#include "colony.h"
 #include "color.h"
 #include "creature.h"
 #include "creature_tracker.h"
@@ -31,18 +30,21 @@
 #include "fault.h"
 #include "field_type.h"
 #include "flag.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "game.h"
 #include "game_constants.h"
 #include "item.h"
 #include "item_factory.h"
+#include "item_location.h"
 #include "itype.h"
-#include "json.h"
 #include "line.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "math_defines.h"
+#include "mdarray.h"
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
@@ -54,11 +56,11 @@
 #include "rng.h"
 #include "shadowcasting.h"
 #include "sounds.h"
-#include "string_formatter.h"
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"
 #include "units.h"
+#include "value_ptr.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 
