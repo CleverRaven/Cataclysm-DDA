@@ -86,7 +86,7 @@
       {
         "text": "How are those books doing for you?",
         "topic": "TALK_ISHERWOOD_LUKE_BOOKS1",
-        "condition": { "not": { "u_has_var": "u_have_barry_escape", "type": "general", "context": "meeting", "value": "yes" } }
+        "condition": { "not": { "u_has_var": "u_saved_barry", "type": "general", "context": "meeting", "value": "yes" } }
       },
       {
         "text": "How are those books doing for you?",
@@ -197,7 +197,7 @@
       "concatenate": [
         "*gestures around at the worn down shed surrounding you.  \"I've been cleaning up this old building to make it into a workshop.  I want to put up a pottery kiln and forge.  My dad doesn't want me leaving the farm to find some things",
         {
-          "u_add_var": "u_have_barry_escape",
+          "u_add_var": "u_saved_barry",
           "type": "general",
           "context": "meeting",
           "value": "yes",
