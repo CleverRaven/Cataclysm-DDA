@@ -32,6 +32,7 @@
 #include "item_location.h"
 #include "item_stack.h"
 #include "line.h"
+#include "map.h"
 #include "point.h"
 #include "tileray.h"
 #include "type_id.h"

@@ -1,0 +1,115 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSIONICS_NETHER_AREA_CHECK",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        { "test_eoc": "EOC_CONDITION_SPELLCASTING_FINISH_TRAIT_AND_SCHOOL_LIST" },
+        {
+          "or": [
+            { "test_eoc": "EOC_CONDITION_CAUGHT_IN_NETHER_WEATHER" },
+            { "test_eoc": "EOC_CONDITION_NEAR_NETHER_RELATED_LOCATION" }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand( 1 )" ] },
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PSIONICS_NETHER_AREA_ATTENTION_CHECK",
+            "condition": {
+              "and": [
+                { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" },
+                {
+                  "x_in_y_chance": {
+                    "x": {
+                      "math": [
+                        "rand(50 * (1 +  (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) - ( u_skill('metaphysics') / 2 ) ) )"
+                      ]
+                    },
+                    "y": 1000
+                  }
+                }
+              ]
+            },
+            "effect": [
+              {
+                "u_message": "The hairs stand up on the back of your neck.  You have a strong feeling that you're being watched.",
+                "type": "bad"
+              },
+              { "u_add_effect": "psi_nether_attention", "duration": "7 days" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_OBSERVED_SIDE_EFFECTS",
+    "effect": {
+      "switch": { "math": [ "u_effect_intensity('psi_nether_attention')" ] },
+      "cases": [ { "case": 1, "effect": { "weighted_list_eocs": [ [ "EOC_OBSERVED_EFFECT_HEARING_SOUNDS", 1 ] ] } } ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_OBSERVED_EFFECT_HEARING_SOUNDS",
+    "effect": { "u_message": "observed_effect_hearing_sounds", "snippet": true }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_NEAR_NETHER_CRYSTAL_RECURRING",
+    "recurrence": [ "2 hours", "16 hours" ],
+    "effect": [
+      {
+        "u_location_variable": { "u_val": "near_nether_crystal_coordinate_check" },
+        "target_min_radius": 0,
+        "target_max_radius": 6,
+        "furniture": "f_nether_crystal_structure",
+        "true_eocs": [
+          {
+            "id": "EOC_CHECK_NEAR_NETHER_CRYSTAL_FOLLOWUP",
+            "effect": [ { "queue_eocs": "EOC_CHECK_NEAR_NETHER_CRYSTAL_FOLLOWUP_2", "time_in_future": "30 minutes" } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_NEAR_NETHER_CRYSTAL_FOLLOWUP_2",
+    "effect": [
+      {
+        "u_location_variable": { "u_val": "near_nether_crystal_coordinate_check" },
+        "target_min_radius": 0,
+        "target_max_radius": 6,
+        "furniture": "f_nether_crystal_structure",
+        "true_eocs": "EOC_CHECK_NEAR_NETHER_CRYSTAL_EFFECTS"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_NEAR_NETHER_CRYSTAL_EFFECTS",
+    "condition": { "u_has_effect": "psi_nether_attention" },
+    "effect": [ { "run_eocs": "EOC_OBSERVED_SIDE_EFFECTS" } ],
+    "false_effect": { "run_eocs": "EOC_PSIONICS_NETHER_AREA_ATTENTION_CHECK" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NETHER_ATTENTION_NIGHTMARES",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": { "and": [ { "u_has_effect": "psi_nether_attention" }, { "x_in_y_chance": { "x": 1, "y": 3 } } ] },
+    "effect": [
+      { "u_message": "psi_nether_attention_nightmares", "snippet": true, "type": "bad" },
+      { "u_add_morale": "morale_nightmare", "bonus": [ -15, -30 ], "max_bonus": -30 },
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(7) + 3" ] }
+    ]
+  }
+]

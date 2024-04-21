@@ -2,15 +2,14 @@
 
 #include <algorithm>
 #include <cmath>
-#include <cstddef>
-#include <functional>
-#include <iosfwd>
 #include <memory>
 #include <optional>
 #include <set>
+#include <utility>
 #include <vector>
 
 #include "calendar.h"
+#include "character.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "damage.h"
@@ -24,6 +23,7 @@
 #include "line.h"
 #include "make_static.h"
 #include "map.h"
+#include "mapdata.h"
 #include "messages.h"
 #include "monster.h"
 #include "npc.h"
@@ -36,9 +36,7 @@
 #include "trap.h"
 #include "type_id.h"
 #include "units.h"
-#include "visitable.h"
 #include "vpart_position.h"
-#include "weakpoint.h"
 
 static const efftype_id effect_bounced( "bounced" );
 

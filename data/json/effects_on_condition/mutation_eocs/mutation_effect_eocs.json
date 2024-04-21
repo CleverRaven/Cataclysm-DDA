@@ -1,6 +1,11 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "eoc_debug_mutate",
+    "effect": [ { "u_mutate": 0 } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "mut_eyestalk",
     "recurrence": [ "2 hours 15 minutes", "10 hours 15 minutes" ],
     "condition": {
