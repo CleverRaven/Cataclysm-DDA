@@ -4207,6 +4207,21 @@
     "difficulty": 3
   },
   {
+    "id": "nested_adjustable_wrenches",
+    "type": "nested_category",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "name": "adjustable wrenches",
+    "description": "Recipes related to creating adjustable wrenches.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "wrench",
+      "wrench_large",
+      "wrench_small"
+    ]
+  },
+  {
     "id": "nested_sewing_tools",
     "type": "nested_category",
     "activity_level": "MODERATE_EXERCISE",
