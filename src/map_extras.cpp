@@ -1267,7 +1267,7 @@ static bool mx_pond( map &m, const tripoint &abs_sub )
         }
     }
 
-    m.place_spawns( GROUP_FISH, 1, point_zero, point( width, height ), 0.15f );
+    m.place_spawns( GROUP_FISH, 1, point_zero, point( width, height ), abs_sub.z, 0.15f );
 
     return true;
 }
@@ -1585,9 +1585,9 @@ static bool mx_roadworks( map &m, const tripoint &abs_sub )
     if( road_at_north && road_at_south && !road_at_east && !road_at_west ) {
         if( one_in( 2 ) ) { // west side of the NS road
             // road barricade
-            line_furn( &m, furn_f_barricade_road, point( 4, 0 ), point( 11, 7 ) );
-            line_furn( &m, furn_f_barricade_road, point( 11, 8 ), point( 11, 15 ) );
-            line_furn( &m, furn_f_barricade_road, point( 11, 16 ), point( 4, 23 ) );
+            line_furn( &m, furn_f_barricade_road, point( 4, 0 ), point( 11, 7 ), abs_sub.z );
+            line_furn( &m, furn_f_barricade_road, point( 11, 8 ), point( 11, 15 ), abs_sub.z );
+            line_furn( &m, furn_f_barricade_road, point( 11, 16 ), point( 4, 23 ), abs_sub.z );
             // road defects
             defects_from = { 9, 7 };
             defects_to = { 4, 16 };
@@ -1605,9 +1605,9 @@ static bool mx_roadworks( map &m, const tripoint &abs_sub )
             }
         } else { // east side of the NS road
             // road barricade
-            line_furn( &m, furn_f_barricade_road, point( 19, 0 ), point( 12, 7 ) );
-            line_furn( &m, furn_f_barricade_road, point( 12, 8 ), point( 12, 15 ) );
-            line_furn( &m, furn_f_barricade_road, point( 12, 16 ), point( 19, 23 ) );
+            line_furn( &m, furn_f_barricade_road, point( 19, 0 ), point( 12, 7 ), abs_sub.z );
+            line_furn( &m, furn_f_barricade_road, point( 12, 8 ), point( 12, 15 ), abs_sub.z );
+            line_furn( &m, furn_f_barricade_road, point( 12, 16 ), point( 19, 23 ), abs_sub.z );
             // road defects
             defects_from = { 13, 7 };
             defects_to = { 19, 16 };
@@ -1627,9 +1627,9 @@ static bool mx_roadworks( map &m, const tripoint &abs_sub )
     } else if( road_at_west && road_at_east && !road_at_north && !road_at_south ) {
         if( one_in( 2 ) ) { // north side of the EW road
             // road barricade
-            line_furn( &m, furn_f_barricade_road, point( 0, 4 ), point( 7, 11 ) );
-            line_furn( &m, furn_f_barricade_road, point( 8, 11 ), point( 15, 11 ) );
-            line_furn( &m, furn_f_barricade_road, point( 16, 11 ), point( 23, 4 ) );
+            line_furn( &m, furn_f_barricade_road, point( 0, 4 ), point( 7, 11 ), abs_sub.z );
+            line_furn( &m, furn_f_barricade_road, point( 8, 11 ), point( 15, 11 ), abs_sub.z );
+            line_furn( &m, furn_f_barricade_road, point( 16, 11 ), point( 23, 4 ), abs_sub.z );
             // road defects
             defects_from = { 7, 9 };
             defects_to = { 16, 4 };
@@ -1647,9 +1647,9 @@ static bool mx_roadworks( map &m, const tripoint &abs_sub )
             }
         } else { // south side of the EW road
             // road barricade
-            line_furn( &m, furn_f_barricade_road, point( 0, 19 ), point( 7, 12 ) );
-            line_furn( &m, furn_f_barricade_road, point( 8, 12 ), point( 15, 12 ) );
-            line_furn( &m, furn_f_barricade_road, point( 16, 12 ), point( 23, 19 ) );
+            line_furn( &m, furn_f_barricade_road, point( 0, 19 ), point( 7, 12 ), abs_sub.z );
+            line_furn( &m, furn_f_barricade_road, point( 8, 12 ), point( 15, 12 ), abs_sub.z );
+            line_furn( &m, furn_f_barricade_road, point( 16, 12 ), point( 23, 19 ), abs_sub.z );
             // road defects
             defects_from = { 7, 13 };
             defects_to = { 16, 19 };
@@ -1670,9 +1670,9 @@ static bool mx_roadworks( map &m, const tripoint &abs_sub )
         // SW side of the N-E road curve
         // road barricade
         // NOLINTNEXTLINE(cata-use-named-point-constants)
-        line_furn( &m, furn_f_barricade_road, point( 1, 0 ), point( 11, 0 ) );
-        line_furn( &m, furn_f_barricade_road, point( 12, 0 ), point( 23, 10 ) );
-        line_furn( &m, furn_f_barricade_road, point( 23, 22 ), point( 23, 11 ) );
+        line_furn( &m, furn_f_barricade_road, point( 1, 0 ), point( 11, 0 ), abs_sub.z );
+        line_furn( &m, furn_f_barricade_road, point( 12, 0 ), point( 23, 10 ), abs_sub.z );
+        line_furn( &m, furn_f_barricade_road, point( 23, 22 ), point( 23, 11 ), abs_sub.z );
         // road defects
         switch( rng( 1, 3 ) ) {
             case 1:
@@ -1703,9 +1703,9 @@ static bool mx_roadworks( map &m, const tripoint &abs_sub )
     } else if( road_at_south && road_at_west && !road_at_east && !road_at_north ) {
         // NE side of the S-W road curve
         // road barricade
-        line_furn( &m, furn_f_barricade_road, point( 0, 4 ), point( 0, 12 ) );
-        line_furn( &m, furn_f_barricade_road, point( 1, 13 ), point( 11, 23 ) );
-        line_furn( &m, furn_f_barricade_road, point( 12, 23 ), point( 19, 23 ) );
+        line_furn( &m, furn_f_barricade_road, point( 0, 4 ), point( 0, 12 ), abs_sub.z );
+        line_furn( &m, furn_f_barricade_road, point( 1, 13 ), point( 11, 23 ), abs_sub.z );
+        line_furn( &m, furn_f_barricade_road, point( 12, 23 ), point( 19, 23 ), abs_sub.z );
         // road defects
         switch( rng( 1, 3 ) ) {
             case 1:
@@ -1736,9 +1736,9 @@ static bool mx_roadworks( map &m, const tripoint &abs_sub )
     } else if( road_at_north && road_at_west && !road_at_east && !road_at_south ) {
         // SE side of the W-N road curve
         // road barricade
-        line_furn( &m, furn_f_barricade_road, point( 0, 12 ), point( 0, 19 ) );
-        line_furn( &m, furn_f_barricade_road, point( 1, 11 ), point( 12, 0 ) );
-        line_furn( &m, furn_f_barricade_road, point( 13, 0 ), point( 19, 0 ) );
+        line_furn( &m, furn_f_barricade_road, point( 0, 12 ), point( 0, 19 ), abs_sub.z );
+        line_furn( &m, furn_f_barricade_road, point( 1, 11 ), point( 12, 0 ), abs_sub.z );
+        line_furn( &m, furn_f_barricade_road, point( 13, 0 ), point( 19, 0 ), abs_sub.z );
         // road defects
         switch( rng( 1, 3 ) ) {
             case 1:
@@ -1770,9 +1770,9 @@ static bool mx_roadworks( map &m, const tripoint &abs_sub )
     } else if( road_at_south && road_at_east && !road_at_west && !road_at_north ) {
         // NW side of the S-E road curve
         // road barricade
-        line_furn( &m, furn_f_barricade_road, point( 4, 23 ), point( 12, 23 ) );
-        line_furn( &m, furn_f_barricade_road, point( 13, 22 ), point( 22, 13 ) );
-        line_furn( &m, furn_f_barricade_road, point( 23, 4 ), point( 23, 12 ) );
+        line_furn( &m, furn_f_barricade_road, point( 4, 23 ), point( 12, 23 ), abs_sub.z );
+        line_furn( &m, furn_f_barricade_road, point( 13, 22 ), point( 22, 13 ), abs_sub.z );
+        line_furn( &m, furn_f_barricade_road, point( 23, 4 ), point( 23, 12 ), abs_sub.z );
         // road defects
         switch( rng( 1, 3 ) ) {
             case 1:

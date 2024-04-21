@@ -354,7 +354,6 @@ class map
         friend void field_processor_wandering_field( const tripoint &, field_entry &, field_proc_data & );
         friend void field_processor_fd_fire_vent( const tripoint &, field_entry &, field_proc_data & );
         friend void field_processor_fd_flame_burst( const tripoint &, field_entry &, field_proc_data & );
-        friend void field_processor_fd_bees( const tripoint &, field_entry &, field_proc_data & );
         friend void field_processor_fd_incendiary( const tripoint &, field_entry &, field_proc_data & );
 
         // for testing
@@ -1140,17 +1139,17 @@ class map
         point random_outdoor_tile() const;
         // mapgen
 
-        void draw_line_ter( const ter_id &type, const point &p1, const point &p2,
+        void draw_line_ter( const ter_id &type, const point &p1, const point &p2, const int z,
                             bool avoid_creature = false );
-        void draw_line_furn( const furn_id &type, const point &p1, const point &p2,
+        void draw_line_furn( const furn_id &type, const point &p1, const point &p2, const int z,
                              bool avoid_creatures = false );
         void draw_fill_background( const ter_id &type );
         void draw_fill_background( ter_id( *f )() );
         void draw_fill_background( const weighted_int_list<ter_id> &f );
 
-        void draw_square_ter( const ter_id &type, const point &p1, const point &p2,
+        void draw_square_ter( const ter_id &type, const point &p1, const point &p2, const int z,
                               bool avoid_creature = false );
-        void draw_square_furn( const furn_id &type, const point &p1, const point &p2,
+        void draw_square_furn( const furn_id &type, const point &p1, const point &p2, const int z,
                                bool avoid_creatures = false );
         void draw_square_ter( ter_id( *f )(), const point &p1, const point &p2,
                               bool avoid_creatures = false );
@@ -1465,7 +1464,7 @@ class map
             bool ongrass, const time_point &turn, int magazine = 0, int ammo = 0,
             const std::string &faction = "" );
         std::vector<item *> place_items(
-            const item_group_id &group_id, int chance, const point &p1, const point &p2,
+            const item_group_id &group_id, int chance, const point &p1, const point &p2, const int z_level,
             bool ongrass, const time_point &turn, int magazine = 0, int ammo = 0,
             const std::string &faction = "" ) {
             return place_items( group_id, chance, tripoint( p1, abs_sub.z() ),
@@ -1771,15 +1770,15 @@ class map
         // tripoint_abs_omt coordinate guarantees this will be fulfilled.
         void generate( const tripoint_abs_omt &p, const time_point &when );
         void place_spawns( const mongroup_id &group, int chance,
-                           const point &p1, const point &p2, float density,
+                           const point &p1, const point &p2, const int z_level, float density,
                            bool individual = false, bool friendly = false,
                            const std::optional<std::string> &name = std::nullopt,
                            int mission_id = -1 );
-        void place_gas_pump( const point &p, int charges, const itype_id &fuel_type );
-        void place_gas_pump( const point &p, int charges );
+        void place_gas_pump( const tripoint_bub_ms &p, int charges, const itype_id &fuel_type );
+        void place_gas_pump( const tripoint_bub_ms &p, int charges );
         // 6 liters at 250 ml per charge
-        void place_toilet( const point &p, int charges = 6 * 4 );
-        void place_vending( const point &p, const item_group_id &type, bool reinforced = false,
+        void place_toilet( const tripoint_bub_ms &p, int charges = 6 * 4 );
+        void place_vending( const tripoint_bub_ms &p, const item_group_id &type, bool reinforced = false,
                             bool lootable = false );
         // places an NPC, if static NPCs are enabled or if force is true
         character_id place_npc( const point &p, const string_id<npc_template> &type );
@@ -2310,6 +2309,9 @@ class map
         std::optional<bool> _main_cleanup_override = std::nullopt;
 
     public:
+        int supports_zlevels() const {
+            return zlevels;
+        }
         void queue_main_cleanup();
         bool is_main_cleanup_queued() const;
         void main_cleanup_override( bool over );
@@ -2430,11 +2432,12 @@ class tinymap : private map
         using map::main_cleanup_override;
         using map::generate;
         void place_spawns( const mongroup_id &group, int chance, // TODO: Convert to typed
-                           const point &p1, const point &p2, float density,
+                           const point &p1, const point &p2, int z_level, float density,
                            bool individual = false, bool friendly = false,
                            const std::optional<std::string> &name = std::nullopt,
                            int mission_id = -1 ) {
-            map::place_spawns( group, chance, p1, p2, density, individual, friendly, name, mission_id );
+            map::place_spawns( group, chance, p1, p2, z_level, density, individual, friendly, name,
+                               mission_id );
         }
         void add_spawn( const mtype_id &type, int count, const tripoint &p, // TODO: Make it typed
                         bool friendly = false, int faction_id = -1, int mission_id = -1,
