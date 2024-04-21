@@ -3045,21 +3045,14 @@
     "flags": [ "WATER_FRIENDLY", "BELTED" ],
     "symbol": "[",
     "use_action": {
-      "type": "effect_on_conditions",
-      "menu_text": "Make some noise",
-      "effect_on_conditions": [ {
-          "id": "EOC_make_some_noise__whistle",
-          "effect": {
-            "run_eoc_with": "EOC_make_some_noise",
-            "variables": {
-              "use_message": "You blow the whistle.",
-              "sound_message": "FWEEEET!",
-              "volume": "38",
-              "sound_type": "activity",
-              "turn_cost": "1 s"
-            }
-          }
-        } ]
+      "type": "manualnoise",
+      "use_message": "You blow the whistle.",
+      "//": "Use of %s not currently supported.",
+      "noise_message": "FWEEEET!",
+      "noise_id": "misc",
+      "noise_variant": "whistle",
+      "noise": 38,
+      "moves": 100
     },
     "armor": [ { "coverage": 1, "covers": [ "torso" ], "specifically_covers": [ "torso_neck" ] } ]
   },
