@@ -396,6 +396,7 @@
     "type": "MONSTER",
     "id": "mon_zyrannosaurus",
     "name": { "str": "Z-Rex", "str_pl": "Z-Rexes" },
+    "looks_like": "mon_tyrannosaurus",
     "species": [ "ZOMBIE" ],
     "default_faction": "zombie",
     "symbol": "Z",
