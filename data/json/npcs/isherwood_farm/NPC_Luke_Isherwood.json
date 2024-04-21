@@ -86,7 +86,7 @@
       {
         "text": "How are those books doing for you?",
         "topic": "TALK_ISHERWOOD_LUKE_BOOKS1",
-        "condition": { "not": { "u_has_var": "u_saved_barry", "type": "general", "context": "meeting", "value": "yes" } }
+        "condition": { "not": { "u_has_var": "u_saved_barry_isherwood", "value": "yes" } }
       },
       {
         "text": "How are those books doing for you?",
@@ -197,9 +197,7 @@
       "concatenate": [
         "*gestures around at the worn down shed surrounding you.  \"I've been cleaning up this old building to make it into a workshop.  I want to put up a pottery kiln and forge.  My dad doesn't want me leaving the farm to find some things",
         {
-          "u_add_var": "u_saved_barry",
-          "type": "general",
-          "context": "meeting",
+          "u_has_var": "u_saved_barry_isherwood",
           "value": "yes",
           "yes": ", says it is too dangerous.  After what happened with Barry, well, I tend to agree with him.\"  He smiles thinly.  \"Don't want you to have to run out saving another one of us, right?\"",
           "no": ", says it's too dangerous.  I used to think he was being a pain in the butt, but lately…\" he stops abruptly, and says nothing more."
@@ -306,7 +304,7 @@
         "condition": {
           "and": [
             { "u_has_var": "u_met_Eddie_Isherwood", "type": "general", "context": "meeting", "value": "yes" },
-            { "not": { "u_has_var": "u_saved_barry", "type": "general", "context": "meeting", "value": "yes" } }
+            { "not": { "u_has_var": "u_saved_barry_isherwood", "value": "yes" } }
           ]
         }
       },
@@ -316,7 +314,7 @@
         "condition": {
           "and": [
             { "u_has_var": "u_met_Eddie_Isherwood", "type": "general", "context": "meeting", "value": "yes" },
-            { "u_has_var": "u_saved_barry", "type": "general", "context": "meeting", "value": "yes" }
+            { "u_has_var": "u_saved_barry_isherwood", "value": "yes" }
           ]
         }
       },

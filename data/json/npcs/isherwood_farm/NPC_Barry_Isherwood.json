@@ -39,14 +39,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_BARRY_RESCUE",
-    "dynamic_line": {
-      "u_has_var": "u_saved_barry",
-      "type": "general",
-      "context": "meeting",
-      "value": "yes",
-      "no": "*crouches on the bottom of his cell, shivering, then looks up as you approach.  He blinks a few times, then stands up.  He's totally nude, and his tanned body is covered in tiny, precise-looking scars of varying ages.  \"I can't believe my eyes.  Please get me outta here…\"",
-      "yes": "Hey, <name_g>."
-    },
+    "dynamic_line": "*crouches on the bottom of his cell, shivering, then looks up as you approach.  He blinks a few times, then stands up.  He's totally nude, and his tanned body is covered in tiny, precise-looking scars of varying ages.  \"I can't believe my eyes.  Please get me outta here…\"",
     "responses": [
       { "text": "Are you Barry Isherwood?", "topic": "TALK_ISHERWOOD_BARRY_ID" },
       {
@@ -260,7 +253,7 @@
     "destination": "dairy_farm_isherwood_W",
     "start": {
       "effect": [
-        { "u_add_var": "u_have_barry_escape", "type": "general", "context": "meeting", "value": "yes" },
+        { "u_add_var": "u_saved_barry_isherwood", "value": "in-progress" },
         { "npc_first_topic": "TALK_ISHERWOOD_BARRY_Escaping" }
       ],
       "assign_mission_target": { "om_terrain": "dairy_farm_isherwood_W", "om_special": "Isherwood Farms", "reveal_radius": 3, "search_range": 240 }
@@ -269,7 +262,7 @@
       "opinion": { "trust": 5, "value": 5 },
       "effect": [
         "leave",
-        { "u_add_var": "u_saved_barry", "type": "general", "context": "meeting", "value": "yes" },
+        { "u_add_var": "u_saved_barry_isherwood", "value": "yes" },
         { "math": [ "barry_PTSD_freakouts", "=", "0" ] },
         { "math": [ "u_timer_barry_rescue", "=", "time('now')" ] },
         { "npc_first_topic": "TALK_ISHERWOOD_BARRY" },
