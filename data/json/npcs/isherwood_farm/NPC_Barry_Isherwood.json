@@ -106,6 +106,12 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_BARRY_Escaping",
+    "dynamic_line": "Let's get back to the farm, as fast as possible.",
+    "responses": [ { "text": "Okay.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_ISHERWOOD_BARRY",
     "dynamic_line": {
       "concatenate": [
@@ -254,7 +260,8 @@
     "destination": "dairy_farm_isherwood_W",
     "start": {
       "effect": [
-        { "u_add_var": "u_have_barry_escape", "type": "general", "context": "meeting", "value": "yes" }
+        { "u_add_var": "u_have_barry_escape", "type": "general", "context": "meeting", "value": "yes" },
+        { "npc_first_topic": "TALK_ISHERWOOD_BARRY_Escaping" }
       ],
       "assign_mission_target": { "om_terrain": "dairy_farm_isherwood_W", "om_special": "Isherwood Farms", "reveal_radius": 3, "search_range": 240 }
     },
