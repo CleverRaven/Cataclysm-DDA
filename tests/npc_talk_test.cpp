@@ -1195,7 +1195,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     player_character.per_cur = 8;
     player_character.magic->set_mana( 25 );
 
-    expected_answers = 51;
+    expected_answers = 50;
     gen_response_lines( d, expected_answers );
     CHECK( d.responses[ 0 ].text == "This is a math test response that increments by 1." );
     CHECK( d.responses[ 1 ].text == "This is an math test response that increments by 2." );
@@ -1413,29 +1413,29 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     CHECK( player_character.magic->knows_spell( spell_test_spell_pew ) == false );
 
     // "Sets pew pew's level to -1."
-    effects = d.responses[24].success;
+    effects = d.responses[23].success;
     effects.apply( d );
     CHECK( player_character.magic->knows_spell( spell_test_spell_pew ) == false );
 
     // "Sets pew pew's level to 4."
-    effects = d.responses[25].success;
+    effects = d.responses[24].success;
     effects.apply( d );
     CHECK( player_character.magic->knows_spell( spell_test_spell_pew ) == true );
     CHECK( player_character.magic->get_spell( spell_test_spell_pew ).get_level() == 4 );
 
     // "Sets pew pew's level to -1."
-    effects = d.responses[24].success;
+    effects = d.responses[23].success;
     effects.apply( d );
     CHECK( player_character.magic->knows_spell( spell_test_spell_pew ) == false );
 
     // "Sets pew pew's exp to 11006."
-    effects = d.responses[27].success;
+    effects = d.responses[26].success;
     effects.apply( d );
     CHECK( player_character.magic->knows_spell( spell_test_spell_pew ) == true );
     CHECK( player_character.magic->get_spell( spell_test_spell_pew ).get_level() == 4 );
 
     // "Sets pew pew's exp to -1."
-    effects = d.responses[26].success;
+    effects = d.responses[25].success;
     effects.apply( d );
     CHECK( player_character.magic->knows_spell( spell_test_spell_pew ) == false );
 
@@ -1451,7 +1451,7 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     }
 
     // "Sets Test Proficiency learning done to -1."
-    effects = d.responses[29].success;
+    effects = d.responses[28].success;
     effects.apply( d );
     CHECK( player_character.has_proficiency( proficiency_prof_test ) == false );
     proficiencies_vector = player_character.learning_proficiencies();
@@ -1460,7 +1460,7 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
                        proficiency_prof_test ) == 0 );
 
     // "Sets Test Proficiency learning done to 24h."
-    effects = d.responses[30].success;
+    effects = d.responses[29].success;
     effects.apply( d );
     add_msg( m_bad, "%s: %g", proficiency_prof_test.str(),
              player_character.get_proficiency_practice( proficiency_prof_test ) );
@@ -1471,7 +1471,7 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
                        proficiency_prof_test ) == 0 );
 
     // "Sets Test Proficiency learning done to 12 hours total."
-    effects = d.responses[28].success;
+    effects = d.responses[27].success;
     effects.apply( d );
     CHECK( player_character.has_proficiency( proficiency_prof_test ) == false );
     proficiencies_vector = player_character.learning_proficiencies();
@@ -1480,7 +1480,7 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
                        proficiency_prof_test ) != 0 );
 
     // "Sets Test Proficiency learning done to -1."
-    effects = d.responses[29].success;
+    effects = d.responses[28].success;
     effects.apply( d );
     CHECK( player_character.has_proficiency( proficiency_prof_test ) == false );
     proficiencies_vector = player_character.learning_proficiencies();
@@ -1500,7 +1500,7 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     REQUIRE( prof_xp() == 0 );
 
     // "Learns Test Proficiency for 1h"
-    effects = d.responses[31].success;
+    effects = d.responses[30].success;
     effects.apply( d );
 
     int amt_100 = prof_xp();
@@ -1520,7 +1520,7 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     player_character.set_focus( 5 );
 
     // "Learns Test Proficiency for 1h"
-    effects = d.responses[31].success;
+    effects = d.responses[30].success;
     effects.apply( d );
 
     int amt_5 = prof_xp();
