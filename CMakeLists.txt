@@ -314,8 +314,12 @@ if (CURSES)
     message(STATUS "Searching for Curses library --")
     set(CURSES_NEED_NCURSES TRUE)
     set(CURSES_NEED_WIDE TRUE)
-    find_package(Curses)
-    if (NOT CURSES_FOUND)
+    if (WIN32 AND VCPKG_MANIFEST_MODE)
+        find_package(unofficial-pdcurses CONFIG REQUIRED)
+    else ()
+        find_package(Curses)
+    endif ()
+    if (NOT (CURSES_FOUND OR TARGET unofficial::pdcurses::pdcurses))
         message(FATAL_ERROR
                 "This project requires ncurses to be installed to be compiled in text-only mode. \
                  Please install the ncurses development libraries, \

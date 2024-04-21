@@ -189,7 +189,9 @@ if (CURSES)
                 ${ICONV_LIBRARIES})
     endif ()
 
-    target_include_directories(cataclysm-common PUBLIC ${CURSES_INCLUDE_DIR} ${ZLIB_INCLUDE_DIRS})
+    target_include_directories(cataclysm-common PUBLIC
+        ${CURSES_INCLUDE_DIR} ${NCURSES_INCLUDE_DIRS} ${ZLIB_INCLUDE_DIRS}
+    )
     target_link_libraries(cataclysm-common PUBLIC ${CURSES_LIBRARIES} ${ZLIB_LIBRARIES})
 
     if (CMAKE_USE_PTHREADS_INIT)
