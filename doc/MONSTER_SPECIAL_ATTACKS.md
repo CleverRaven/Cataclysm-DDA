@@ -8,6 +8,7 @@
     - [Hardcoded special attacks](#hardcoded-special-attacks)
     - [JSON special attacks](#json-special-attacks)
         - [`bite`](#bite)
+        - [`grab`](#grab-attacks)
     - [Non-melee special attacks](#non-melee-special-attacks)
         - [`gun`](#gun)
         - [`spell`](#spell)
@@ -73,7 +74,7 @@ In the case of separately defined attacks the object has to contain at least an 
     { "id": "impale", "cooldown": 5, "min_mul": 1, "max_mul": 3 }
 ]
 ```
-This monster can attempt a grab every ten turns, a leap with a maximum range of 4 every eight and an impale attack with 1-3x damage multiplier every five turns.
+This monster can attempt an acid attack every ten turns, a leap with a maximum range of 4 every eight and an impale attack with 1-3x damage multiplier every five turns.
 
 
 ## Hardcoded special attacks

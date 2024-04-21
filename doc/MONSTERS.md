@@ -323,9 +323,7 @@ Lower and upper bound of limb sizes the monster's melee attack can target - see 
 ## "grab_strength"
 (integer, optional)
 
-Intensity of the grab effect applied by this monster. Defaults to 1, is only useful for monster with a GRAB special attack and the GRABS flag. A player with `max(Str,Dex)<=n` has no chance of breaking that grab.
-
-A default zombie has a grab strength of 20. An extremely strong zombie (e.g hulk or grabber) has 50.
+Base intensity of the grab effect applied by this monster as used by a `grab`-type special attack unless overwritten by the `grab_data` of the attack itself, default 1, range 1-100. See [Grab attacks](MONSTER_SPECIAL_ATTACKS.md#grab_attacks) for more information.
 
 ## "armor"
 (object, optional)
