@@ -160,7 +160,7 @@
     "aggression": -30,
     "upgrades": { "age_grow": 365, "into": "mon_rattlesnake_big" },
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
-    "harvest": "mammal_tiny",
+    "harvest": "mutant_tiny",
     "biosignature": { "biosig_item": "shed_snakeskin", "biosig_timer": 180 },
     "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "KEENNOSE", "CLIMBS", "PATH_AVOID_DANGER_1", "ANIMAL", "SWIMS" ]
   },
