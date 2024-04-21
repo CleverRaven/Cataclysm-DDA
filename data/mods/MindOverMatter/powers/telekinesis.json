@@ -112,7 +112,7 @@
     "difficulty": 1,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
-    "effect_str": "EOC_TELEKINETIC_PUSH_CHECKER",
+    "effect_str": "EOC_TELEKINETIC_FORCE_SHOVE_SELECTOR",
     "shape": "blast",
     "max_range": 40,
     "energy_source": "STAMINA",
@@ -137,7 +137,7 @@
     "difficulty": 1,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
-    "effect_str": "EOC_TELEKINETIC_PUSH_CHECKER",
+    "effect_str": "EOC_TELEKINETIC_FORCE_SHOVE_PUSH_CHECKER",
     "shape": "blast",
     "min_range": {
       "math": [
@@ -161,7 +161,7 @@
     "difficulty": 1,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
-    "effect_str": "EOC_TELEKINETIC_PULL_CHECKER",
+    "effect_str": "EOC_TELEKINETIC_FORCE_SHOVE_PULL_CHECKER",
     "shape": "blast",
     "min_range": {
       "math": [
@@ -196,7 +196,7 @@
     "id": "telekinetic_force_shove_toward",
     "type": "SPELL",
     "name": "[Ψ]Force Shove Pull Real",
-    "description": "The actual effect that causes the force shove away toward.  It's a bug if you have it.",
+    "description": "The actual effect that causes the force shove toward.  It's a bug if you have it.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "ally", "hostile" ],
