@@ -1153,7 +1153,7 @@ void complete_construction( Character *you )
                 }
             }
 
-            if( ter_id( built.post_terrain ).id()->has_flag( "EMPTY_SPACE" ) ) {
+            if( ter_id( built.post_terrain )->has_flag( "EMPTY_SPACE" ) ) {
                 const tripoint_bub_ms below = terp + tripoint_below;
                 if( below.z() > -OVERMAP_DEPTH && here.ter( below ).obj().has_flag( "SUPPORTS_ROOF" ) ) {
                     const map_bash_info bash_info = here.ter( below ).obj().bash;
