@@ -1467,8 +1467,8 @@ class map
             const item_group_id &group_id, int chance, const point &p1, const point &p2, const int z_level,
             bool ongrass, const time_point &turn, int magazine = 0, int ammo = 0,
             const std::string &faction = "" ) {
-            return place_items( group_id, chance, tripoint( p1, abs_sub.z() ),
-                                tripoint( p2, abs_sub.z() ), ongrass, turn, magazine, ammo, faction );
+            return place_items( group_id, chance, tripoint( p1, z_level ),
+                                tripoint( p2, z_level ), ongrass, turn, magazine, ammo, faction );
         }
         /**
         * Place items from an item group at p. Places as much items as the item group says.
