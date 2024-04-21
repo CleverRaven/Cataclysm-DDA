@@ -1,6 +1,26 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_TELEKINETIC_FAR_HAND_SELECTOR",
+    "effect": {
+      "run_eoc_selector": [ "EOC_TELEKINETIC_FAR_HAND_SELECTOR_PULL", "EOC_TELEKINETIC_FAR_HAND_SELECTOR_PUSH" ],
+      "names": [ "Pull", "Push" ],
+      "keys": [ "1", "2" ],
+      "descriptions": [ "Pull a set of items to you.", "Push a set of items away from you." ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKINETIC_FAR_HAND_SELECTOR_PULL",
+    "effect": { "u_cast_spell": { "id": "telekinetic_item_pull_real" }, "targeted": true }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEKINETIC_FAR_HAND_SELECTOR_PUSH",
+    "effect": { "u_cast_spell": { "id": "telekinetic_item_push_real" }, "targeted": true }
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_TELEKINETIC_PUSH_CHECKER",
     "effect": [
       { "math": [ "u_telekinesis_intelligence", "=", "( ( n_val('intelligence') + 10) / 20 )" ] },
