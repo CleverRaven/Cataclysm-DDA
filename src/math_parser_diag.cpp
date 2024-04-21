@@ -1340,7 +1340,7 @@ std::function<double( dialogue & )> calories_eval( char scope,
         if( format == "percent" )
         {
             if( d.actor( beta )->get_character() ) {
-                int divisor = d.actor( beta )->get_healthy_kcal() / 100.0;
+                double divisor = d.actor( beta )->get_healthy_kcal() / 100.0;
                 //if no data, default to default height of 175cm
                 if( divisor == 0 ) {
                     debugmsg( "Can't get healthy amount of calories, return raw calories instead" );
