@@ -8,7 +8,7 @@
 
 #ifdef _WIN32
 #define NCURSES_MOUSE_VERSION
-#include <pdcurses.h>
+#include <curses.h>
 #define set_escdelay(X)
 
 #define KEY_OFFSET 0xec00

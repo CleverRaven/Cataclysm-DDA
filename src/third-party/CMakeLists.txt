@@ -153,6 +153,7 @@ if (CURSES)
                 PUBLIC
                 ${THIRD_PARTY_SOURCE_DIR}
                 ${CURSES_INCLUDE_DIR}
+                ${NCURSES_INCLUDE_DIRS}
                 )
         if (CURSES_NEED_WIDE)
                 target_include_directories(
@@ -181,4 +182,12 @@ if (CURSES)
                 INTERFACE
                 imtui
                 )
+
+        if (TARGET unofficial::pdcurses::pdcurses)
+            target_link_libraries(
+                    imtui
+                    PUBLIC
+                    unofficial::pdcurses::pdcurses
+            )
+        endif()
 endif ()
