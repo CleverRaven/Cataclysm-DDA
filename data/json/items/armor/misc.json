@@ -28,6 +28,22 @@
     "price": 800,
     "price_postapoc": 10,
     "material": [ "plastic" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Honk nose",
+      "effect_on_conditions": [ {
+          "id": "EOC_make_some_noise__clown_nose",
+          "effect": {
+            "run_eoc_with": "EOC_make_some_noise",
+            "variables": {
+              "use_message": "You honk the clown nose.",
+              "sound_message": "honk!",
+              "volume": "10",
+              "turn_cost": "1 s"
+            }
+          }
+        } ]
+    },
     "symbol": ".",
     "color": "red"
   },

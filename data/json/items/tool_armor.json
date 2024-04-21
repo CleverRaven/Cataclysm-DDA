@@ -3055,7 +3055,6 @@
               "use_message": "You blow the whistle.",
               "sound_message": "FWEEEET!",
               "volume": "38",
-              "sound_type": "activity",
               "turn_cost": "1 s"
             }
           }
