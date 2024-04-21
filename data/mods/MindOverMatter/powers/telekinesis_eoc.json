@@ -53,10 +53,10 @@
           "(((u_telekinesis_power_level * 25) * u_telekinesis_intelligence * u_nether_attunement_telekinesis_scaling) + 10) / (u_val('weight') / 1000000)"
         ]
       },
-      { "math": [ "u_telekinesis_shove_spell_level", "=", "clamp(((u_weight_ratio - 1) * 2), 0, 20)" ] },
+      { "math": [ "u_telekinesis_shove_spell_level", "=", "clamp(((u_weight_ratio - 1) * 2), 0, 30)" ] },
       { "u_location_variable": { "context_val": "loc" } },
       {
-        "if": { "math": [ "u_telekinesis_shove_spell_level", "==", "0" ] },
+        "if": { "math": [ "u_telekinesis_pull_spell_level", "<", "1" ] },
         "then": { "run_eocs": "EOC_TELEKINETIC_PUSH_DOWN_CHECKER" },
         "else": [
           {
@@ -75,7 +75,8 @@
     "effect": [
       { "u_add_effect": "downed", "duration": 2 },
       { "npc_message": "You shove your target off their feet.", "type": "good" }
-    ]
+    ],
+    "false_effect": [ { "npc_message": "You attempt to shove your target but they are too heavy!", "type": "bad" } ]
   },
   {
     "type": "effect_on_condition",
@@ -91,10 +92,10 @@
           "(((u_telekinesis_power_level * 25) * u_telekinesis_intelligence * u_nether_attunement_telekinesis_scaling) + 10) / (u_val('weight') / 1000000)"
         ]
       },
-      { "math": [ "u_telekinesis_pull_spell_level", "=", "clamp(((u_weight_ratio - 1) * 2), 0, 20)" ] },
+      { "math": [ "u_telekinesis_pull_spell_level", "=", "clamp(((u_weight_ratio - 1) * 2), 0, 30)" ] },
       { "u_location_variable": { "context_val": "loc" } },
       {
-        "if": { "math": [ "u_telekinesis_pull_spell_level", "==", "0" ] },
+        "if": { "math": [ "u_telekinesis_pull_spell_level", "<", "1" ] },
         "then": { "run_eocs": "EOC_TELEKINETIC_PUSH_DOWN_CHECKER" },
         "else": [
           {
