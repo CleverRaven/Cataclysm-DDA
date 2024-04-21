@@ -412,7 +412,7 @@ void Character::long_craft( const std::optional<tripoint> &loc, const recipe_id 
 bool Character::making_would_work( const recipe_id &id_to_make, int batch_size ) const
 {
     const recipe &making = *id_to_make;
-    if( !( making && crafting_allowed( *this, making ) ) ) {
+    if( !making || !crafting_allowed( *this, making ) ) {
         return false;
     }
 
