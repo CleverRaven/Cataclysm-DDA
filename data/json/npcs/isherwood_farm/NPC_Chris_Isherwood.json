@@ -2,7 +2,8 @@
   {
     "type": "npc",
     "id": "isherwood_chris",
-    "//": "Part of the Isherwood family.",
+    "//": "Part of the Isherwood family.  Does not spawn until you get a mission from Carlos to track him down.",
+    "//2": "Son of Carlos and Jesse, nephew of Eddie.  Brother of Lisa, cousin of Luke.  Grandson of Claire and Jack, great-nephew of Barry.",
     "name_unique": "Chris Isherwood",
     "gender": "male",
     "class": "NC_ISHERWOOD_CHRIS",

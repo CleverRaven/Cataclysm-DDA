@@ -3,6 +3,7 @@
     "type": "npc",
     "id": "isherwood_barry",
     "//": "A naked prisoner, from the isherwood faction trapped in a horrifying cage, watching horrible things happen.",
+    "//2": "Uncle of Eddie and Carlos; uncle-in-law of Jesse.  Great-uncle of Lisa, Chris, and Luke.  Son of Claire and Jack.",
     "class": "NC_ISHERWOOD_BARRY",
     "name_unique": "Barry Isherwood",
     "gender": "male",

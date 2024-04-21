@@ -3,6 +3,7 @@
     "type": "npc",
     "id": "isherwood_eddie",
     "//": "Dairy farmer of the Isherwood family.",
+    "//2": "Brother of Carlos, BIL of Jesse.  Uncle of Lisa and Chris, father of Luke.  Son of Claire and Jack, nephew of Barry.",
     "name_unique": "Eddie Isherwood",
     "gender": "male",
     "class": "NC_ISHERWOOD_EDDIE",

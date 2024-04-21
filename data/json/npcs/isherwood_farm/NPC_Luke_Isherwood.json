@@ -3,6 +3,7 @@
     "type": "npc",
     "id": "isherwood_luke",
     "//": "Dairy farmer's son in the Isherwood family.",
+    "//2": "Son of Eddie, nephew of Carlos and Jesse.  Cousin of Lisa and Chris.  Grandson of Claire and Jack, great-nephew of Barry.",
     "name_unique": "Luke Isherwood",
     "gender": "male",
     "class": "NC_ISHERWOOD_LUKE",
