@@ -418,7 +418,7 @@
   {
     "id": "reactive_armor",
     "type": "SPELL",
-    "name": "Reactive Armour",
+    "name": "Reactive Armor",
     "description": "Explode your stone skin, to deal massive damage to all enemies around.",
     "effect": "attack",
     "effect_str": "downed",

@@ -42,7 +42,7 @@
     "id": "terra_armor",
     "type": "SPELL",
     "name": "Terra Armor",
-    "description": "Cover yourself in dense, invisible energy of Earth.  Higher level increase your defence abilities.",
+    "description": "Cover yourself in dense, invisible energy of Earth.  Higher level increase your defense abilities.",
     "valid_targets": [ "self" ],
     "effect": "attack",
     "effect_str": "effect_terra_armor",
