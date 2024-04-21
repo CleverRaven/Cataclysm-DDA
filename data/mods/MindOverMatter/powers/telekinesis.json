@@ -102,7 +102,7 @@
     "//": "power ID exists for legacy reasons",
     "type": "SPELL",
     "name": "[Ψ]Force Shove",
-    "description": "Shove a target away or pull it towards you with a burst of psionic force.  The distance the target can be moved depends on its weight versus your power level; heavier things will not go as far, and if your target is too heavy , you may not be able to move it at all.",
+    "description": "Shove a target away or pull it towards you with a burst of psionic force.  The distance the target can be moved depends on its weight versus your power level; heavier things will not go as far, and if your target is too heavy, you may not be able to move it at all.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
