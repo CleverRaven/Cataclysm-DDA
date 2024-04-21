@@ -1341,7 +1341,8 @@ std::function<double( dialogue & )> calories_eval( char scope,
                 double divisor = d.actor( beta )->get_healthy_kcal() / 100.0;
                 //if no data, default to default height of 175cm
                 if( divisor == 0 ) {
-                    divisor = 118169 / 100;
+                    debugmsg( "Can't get healthy amount of calories, return raw calories instead" );
+                    return d.actor( beta )->get_stored_kcal();
                 }
                 return d.actor( beta )->get_stored_kcal() / divisor;
             } else {
