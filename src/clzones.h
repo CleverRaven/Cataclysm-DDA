@@ -2,25 +2,24 @@
 #ifndef CATA_SRC_CLZONES_H
 #define CATA_SRC_CLZONES_H
 
-#include <functional>
 #include <cstddef>
-#include <iosfwd>
+#include <functional>
 #include <map>
 #include <memory>
 #include <optional>
 #include <set>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
 #include <vector>
 
-#include "memory_fast.h"
+#include "coordinates.h"
+#include "cuboid_rectangle.h"
 #include "point.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
-#include "avatar.h"
-#include "map.h"
 
 class JsonObject;
 class JsonOut;

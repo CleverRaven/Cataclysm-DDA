@@ -2,6 +2,8 @@
 
 #include <string>
 
+#include "debug.h"
+
 namespace io
 {
 

@@ -7140,5 +7140,40 @@
     "description": "Recipes pertaining to the production of necklaces, bracelets, and other forms of jewelry formed from spent munitions.",
     "skill_used": "fabrication",
     "nested_category_data": [ "nested_bullet_necklaces" ]
+  },
+  {
+    "id": "nested_combat_exoskeleton_armor_reinforcement",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "exoskeleton armors reinforcements",
+    "description": "Recipes related to the reinforcement of standard exoskeleton armors.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "combat_exoskeleton_armor_head_heavy_reinforced",
+      "combat_exoskeleton_armor_torso_heavy_reinforced",
+      "combat_exoskeleton_armor_arm_heavy_reinforced",
+      "combat_exoskeleton_armor_leg_heavy_reinforced",
+      "combat_exoskeleton_armor_head_medium_reinforced",
+      "combat_exoskeleton_armor_torso_medium_reinforced",
+      "combat_exoskeleton_armor_arm_medium_reinforced",
+      "combat_exoskeleton_armor_leg_medium_reinforced",
+      "combat_exoskeleton_armor_head_light_reinforced",
+      "combat_exoskeleton_armor_torso_light_reinforced",
+      "combat_exoskeleton_armor_arm_light_reinforced",
+      "combat_exoskeleton_armor_leg_light_reinforced"
+    ]
+  },
+  {
+    "id": "nested_combat_exoskeleton_armor",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "name": "exoskeleton armors",
+    "description": "Recipes related to the production of custom exoskeleton armors.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "nested_combat_exoskeleton_armor_reinforcement" ]
   }
 ]

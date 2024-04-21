@@ -21,6 +21,7 @@
 #include "cursesdef.h"
 #include "debug.h"
 #include "effect.h"
+#include "effect_on_condition.h"
 #include "effect_source.h"
 #include "event.h"
 #include "event_bus.h"
@@ -598,7 +599,10 @@ void monster::try_reproduce()
             if( type->baby_monster ) {
                 here.add_spawn( type->baby_monster, spawn_cnt, pos() );
             } else {
-                here.add_item_or_charges( pos(), item( type->baby_egg, *baby_timer, spawn_cnt ), true );
+                const item egg( type->baby_egg, *baby_timer );
+                for( int i = 0; i < spawn_cnt; i++ ) {
+                    here.add_item_or_charges( pos(), egg, true );
+                }
             }
         }
         *baby_timer += *type->baby_timer;
@@ -2838,6 +2842,16 @@ void monster::die( Creature *nkiller )
             death_spell.cast_all_effects( *this, killer->pos() );
         } else if( type->mdeath_effect.sp.self ) {
             death_spell.cast_all_effects( *this, pos() );
+        }
+    }
+
+    if( type->mdeath_effect.eoc.has_value() ) {
+        //Not a hallucination, go process the death effects.
+        if( type->mdeath_effect.eoc.value().is_valid() ) {
+            dialogue d( get_talker_for( *this ), nullptr );
+            type->mdeath_effect.eoc.value()->activate( d );
+        } else {
+            debugmsg( "eoc id %s is not valid", type->mdeath_effect.eoc.value().str() );
         }
     }
 
