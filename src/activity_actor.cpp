@@ -432,6 +432,7 @@ void aim_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "aif_duration", aif_duration );
     jsout.member( "aiming_at_critter", aiming_at_critter );
     jsout.member( "snap_to_target", snap_to_target );
+    jsout.member( "loaded_RAS_weapon", loaded_RAS_weapon );
     jsout.member( "shifting_view", shifting_view );
     jsout.member( "initial_view_offset", initial_view_offset );
     jsout.member( "aborted", aborted );
@@ -454,6 +455,7 @@ std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonValue &jsin
     data.read( "aif_duration", actor.aif_duration );
     data.read( "aiming_at_critter", actor.aiming_at_critter );
     data.read( "snap_to_target", actor.snap_to_target );
+    data.read( "loaded_RAS_weapon", actor.loaded_RAS_weapon );
     data.read( "shifting_view", actor.shifting_view );
     data.read( "initial_view_offset", actor.initial_view_offset );
     data.read( "aborted", actor.aborted );
@@ -531,6 +533,7 @@ bool aim_activity_actor::load_RAS_weapon()
     reload_time += ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;
 
     you.mod_moves( -reload_time );
+    loaded_RAS_weapon = true;
     return true;
 }
 
@@ -539,7 +542,7 @@ void aim_activity_actor::unload_RAS_weapon()
     // Unload reload-and-shoot weapons to avoid leaving bows pre-loaded with arrows
     avatar &you = get_avatar();
     item_location weapon = get_weapon();
-    if( !weapon ) {
+    if( !weapon || !loaded_RAS_weapon ) {
         return;
     }
 
@@ -556,6 +559,7 @@ void aim_activity_actor::unload_RAS_weapon()
             you.set_moves( moves_before_unload );
         }
     }
+    loaded_RAS_weapon = false;
 }
 
 void autodrive_activity_actor::update_player_vehicle( Character &who )

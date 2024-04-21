@@ -851,6 +851,26 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_clair_astral_projection",
+    "name": [ "Astrally Projecting" ],
+    "desc": [ "Your spirit wanders the world." ],
+    "apply_message": "",
+    "remove_message": "",
+    "rating": "good",
+    "base_mods": { "stamina_min": [ -50 ], "stamina_chance": [ 1 ] },
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MOVE_COST", "multiply": -0.96 },
+          { "value": "EVASION", "add": 1 },
+          { "value": "REGEN_STAMINA", "multiply": -1 }
+        ]
+      }
+    ],
+    "flags": [ "ETHEREAL", "INVISIBLE", "FEATHER_FALL", "CLIMB_NO_LADDER", "LEVITATION", "NO_PSIONICS" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_clair_group_tactics_other",
     "name": [ "Prescient Tactics" ],
     "desc": [ "You're being informed of the best way to fight." ],
