@@ -1147,7 +1147,7 @@ void complete_construction( Character *you )
                 const int_id<ter_t> post_terrain = ter_id( built.post_terrain );
                 if( post_terrain->roof ) {
                     const tripoint_bub_ms top = terp + tripoint_above;
-                    if( here.ter( top ).id()->has_flag( "EMPTY_SPACE" ) ) {
+                    if( here.ter( top )->has_flag( "EMPTY_SPACE" ) ) {
                         here.ter_set( top, ter_id( post_terrain->roof ) );
                     }
                 }
