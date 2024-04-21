@@ -83,9 +83,10 @@ void uilist_impl::draw_controls()
         auto entry = parent.entries[parent.fentries[i]];
         ImGui::PushID(&entry);
         auto flags = entry.enabled ? ImGuiSelectableFlags_Disabled : ImGuiSelectableFlags_None;
-        ImGui::Selectable("", i == parent.fselected, flags);
+        bool is_selected = static_cast<int>(i) == parent.fselected;
+        ImGui::Selectable("", is_selected, flags);
         ImGui::SameLine(0, 0);
-        if(i == parent.fselected)
+        if(is_selected)
         {
             ImGui::SetItemDefaultFocus();
         }
@@ -94,14 +95,14 @@ void uilist_impl::draw_controls()
         {
             ImGui::Text("%c", '[');
             ImGui::SameLine(0, 0);
-            auto color = i == parent.fselected ? parent.hilight_color : parent.hotkey_color;
+            auto color = is_selected ? parent.hilight_color : parent.hotkey_color;
             draw_colored_text(entry.hotkey.value().short_description(),
                 color);
             ImGui::SameLine(0, 0);
             ImGui::Text("%c", ']');
             ImGui::SameLine();
         }
-        nc_color color = (i == parent.fselected ?
+        nc_color color = (is_selected ?
             parent.hilight_color :
             (entry.enabled || entry.force_color ?
             entry.text_color :
@@ -682,8 +683,8 @@ void uilist::inputfilter()
     input_context ctxt = create_filter_input_context();
     filter_popup = std::make_unique<string_input_popup>();
     filter_popup->context( ctxt ).text( filter )
-    .max_length( 256 )
-    .window( window, point( 4, w_height - 1 ), w_width - 4 );
+      .max_length( 256 );
+    // .window( window, point( 4, w_height - 1 ), w_width - 4 );
     bool loop = true;
     do {
         ui_manager::redraw();
@@ -949,7 +950,7 @@ void uilist::setup()
     recalc_start = true;
 }
 
-void uilist::reposition( ui_adaptor &ui )
+void uilist::reposition()
 {
     setup();
 }
@@ -1059,13 +1060,13 @@ uilist::handle_mouse_result_t uilist::handle_mouse( const input_context &ctxt,
         const bool loop )
 {
     handle_mouse_result_t result = handle_mouse_result_t::unhandled;
-    int temp_pos = vshift;
-    if( uilist_scrollbar->handle_dragging( ret_act, ctxt.get_coordinates_text( catacurses::stdscr ),
-                                           temp_pos ) ) {
-        scrollby( temp_pos - vshift );
-        vshift = temp_pos;
-        return handle_mouse_result_t::handled;
-    }
+    // int temp_pos = vshift;
+    // if( uilist_scrollbar->handle_dragging( ret_act, ctxt.get_coordinates_text( catacurses::stdscr ),
+    //                                        temp_pos ) ) {
+    //     scrollby( temp_pos - vshift );
+    //     vshift = temp_pos;
+    //     return handle_mouse_result_t::handled;
+    // }
 
     // Only check MOUSE_MOVE when looping internally
     if( !fentries.empty() && ( ret_act == "SELECT" || ( loop && ret_act == "MOUSE_MOVE" ) ) ) {
