@@ -3896,6 +3896,18 @@
     "nested_category_data": [ "nested_cardboard_boxes", "nested_cardboard_boxes_assembly", "nested_wooden_boxes", "nested_metal_boxes" ]
   },
   {
+    "id": "nested_can_food",
+    "type": "nested_category",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "name": "cans",
+    "description": "Recipes related to creating tin cans for conserving food.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "can_medium", "can_food_big", "can_food" ], 
+    "difficulty": 6
+  },
+  {
     "id": "nested_sheet_patchwork",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
