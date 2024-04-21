@@ -82,7 +82,7 @@
     "id": "EOC_TELEKINETIC_FORCE_SHOVE_PULL_CHECKER",
     "effect": [
       { "math": [ "u_telekinesis_intelligence", "=", "( ( n_val('intelligence') + 10) / 20 )" ] },
-      { "math": [ "u_telekinesis_power_level", "=", "n_spell_level('telekinetic_large_push')" ] },
+      { "math": [ "u_telekinesis_power_level", "=", "n_spell_level('telekinetic_push')" ] },
       { "math": [ "u_nether_attunement_telekinesis_scaling", "=", "n_nether_attunement_power_scaling" ] },
       {
         "math": [
