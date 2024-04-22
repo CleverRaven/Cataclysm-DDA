@@ -1702,7 +1702,7 @@ class heat_activity_actor : public activity_actor
 {
     private:
         heat_activity_actor() = default;
-        int get_aviliable_heater( Character &p, item_location &loc ) const;
+        int get_available_heater( Character &p, item_location &loc ) const;
     public:
         heat_activity_actor( drop_locations to_heat,
                              heating_requirements &requirements,
