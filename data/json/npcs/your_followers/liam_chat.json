@@ -278,32 +278,32 @@
         "condition": { "u_has_mission": "directions_artisans" }
       },
       {
-        "text": "",
+        "text": "What do you think about helping out this Dave guy?",
         "topic": "TALK_Liam_Opinions_MISSION_BEGGAR_2_BOX_SMALL",
         "condition": { "u_has_mission": "MISSION_BEGGAR_2_BOX_SMALL" }
       },
       {
-        "text": "",
+        "text": "At least Dave has some practicality, and isn't just asking for more trash, right?",
         "topic": "TALK_Liam_Opinions_MISSION_BEGGAR_2_DUCT_TAPE",
         "condition": { "u_has_mission": "MISSION_BEGGAR_2_DUCT_TAPE" }
       },
       {
-        "text": "",
+        "text": "Any thougths on Dave's cardboard needs?",
         "topic": "TALK_Liam_Opinions_MISSION_BEGGAR_2_BOX_MEDIUM",
         "condition": { "u_has_mission": "MISSION_BEGGAR_2_BOX_MEDIUM" }
       },
       {
-        "text": "",
+        "text": "Looks like we might be done with cardboard for Dave, it's plastic now.",
         "topic": "TALK_Liam_Opinions_MISSION_BEGGAR_2_PLASTIC_SHEET",
         "condition": { "u_has_mission": "MISSION_BEGGAR_2_PLASTIC_SHEET" }
       },
       {
-        "text": "",
+        "text": "I have a feeling this is the last of the cardboard for Dave.",
         "topic": "TALK_Liam_Opinions_MISSION_BEGGAR_2_BOX_LARGE",
         "condition": { "u_has_mission": "MISSION_BEGGAR_2_BOX_LARGE" }
       },
       {
-        "text": "",
+        "text": "Hey, this is a different direction for Dave, don't you think?",
         "topic": "TALK_Liam_Opinions_MISSION_BEGGAR_2_PERMISSION",
         "condition": { "u_has_mission": "MISSION_BEGGAR_2_PERMISSION" }
       },
@@ -819,44 +819,70 @@
   {
     "type": "talk_topic",
     "id": "TALK_Liam_Opinions_directions_artisans",
-    "dynamic_line": "",
+    "dynamic_line": {
+      "u_has_var": "u_met_isolated_road_artisans",
+      "value": "yes",
+      "yes": {
+        "concatenate": [
+          "We've been there, remember",
+          {
+            "u_has_var": "u_met_isolated_road_cody",
+            "value": "yes",
+            "yes": "?  Cody, the blacksmith, she's the food lady",
+            "no": "?  I'm guessing the blacksmith we didn't talk to is the one who would have fed us"
+          },
+          {
+            "u_has_var": "u_met_isolated_road_jay",
+            "value": "yes",
+            "yes": ", and Jay is the one with the weird bullet bank.",
+            "no": ", and the other guy there must be the one with the bullet bank."
+          }
+        ]
+      },
+      "no": "I'm open to anything if it means getting fed.  Ugh, unless it's unidentified meat.  I guess we have to be more careful of strangers than we used to.  Still, let's find out."
+    },
     "responses": [ { "text": "I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_Liam_Opinions_MISSION_BEGGAR_2_BOX_SMALL",
-    "dynamic_line": "",
-    "responses": [ { "text": "I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+    "dynamic_line": "Well, I like his fashion choices, but he, um.  Well, you know.  You met him.  I don't mind helping him out, in theory, but I don't know if bringing him piles of trash is really going to do anyone any good.  The Merchants might think it's a fire hazard.",
+    "responses": [ { "text": "Let's try it out anyway.  I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_Liam_Opinions_MISSION_BEGGAR_2_DUCT_TAPE",
-    "dynamic_line": "",
-    "responses": [ { "text": "I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+    "dynamic_line": "Right, I guess.  I don't quite get why you're doing this stuff for him, he's probably just going to keep piling up the stuff and not doing anything with it.\"  He shrugs.  \"On the other hand, maybe he'll make a kick-ass box fort, I'd be all about that.",
+    "responses": [ { "text": "That's my hope.  I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_Liam_Opinions_MISSION_BEGGAR_2_BOX_MEDIUM",
-    "dynamic_line": "",
-    "responses": [ { "text": "I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+    "dynamic_line": "I'm telling you, this is just going to go on and on forever.\"  He looks sad.  \"I'd really love to see him get a cool box fort and feel better, but I think we're just enabling his delusions, my friend.",
+    "responses": [
+      {
+        "text": "Let's see this through a bit longer.  I'd like your opinion on something else.",
+        "topic": "TALK_Liam_Opinions"
+      }
+    ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_Liam_Opinions_MISSION_BEGGAR_2_PLASTIC_SHEET",
-    "dynamic_line": "",
-    "responses": [ { "text": "I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+    "dynamic_line": "I gotta admit, this one surprised me.  I take back some of what I said earlier, I'm just confused now.  Let's see where it goes.",
+    "responses": [ { "text": "Right?  I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_Liam_Opinions_MISSION_BEGGAR_2_BOX_LARGE",
-    "dynamic_line": "",
-    "responses": [ { "text": "I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+    "dynamic_line": "It had better be!  I'm not sure why you're doing this, but I do think it's good you're trying to help him.  Maybe we should stop eventually though?\"  He sighs.  \"I don't know what to make of Dave.  I worked with a guy with schizophrenia back at Foodplace, and Dave is nothing like that.  I don't know if he's actually got some kind of mental illness or if it's a stress reaction or something.  He doesn't act like any real person I've ever met, and we got all kinds of strung-out types there.",
+    "responses": [ { "text": "That's good insight.  I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_Liam_Opinions_MISSION_BEGGAR_2_PERMISSION",
-    "dynamic_line": "",
-    "responses": [ { "text": "I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+    "dynamic_line": "Well, I'm definitely interested to see where it goes.  I hope it helps Dave somehow.  I don't know what's going on with him except that it's nothing like any schizophrenia or anything like that I've ever seen, and I've seen practically anything you can imagine, working service.",
+    "responses": [ { "text": "I have a good feeling.  I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
   },
   {
     "type": "talk_topic",
