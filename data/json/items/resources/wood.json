@@ -7,7 +7,7 @@
     "name": { "str": "log" },
     "description": "A large log of wood, cut from a tree.  (a)ctivate a wood axe or wood saw to cut it into planks.",
     "category": "other",
-    "price": 10000,
+    "price": "100 USD",
     "price_postapoc": 10,
     "material": [ "wood" ],
     "weight": "30 kg",
@@ -87,7 +87,7 @@
     "longest_side": "305 cm",
     "flags": [ "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
     "weapon_category": [ "POLEARMS" ],
-    "price": 4000,
+    "price": "40 USD",
     "price_postapoc": 50,
     "qualities": [ [ "HAMMER", 1 ] ],
     "melee_damage": { "bash": 19 }
@@ -100,7 +100,7 @@
     "name": { "str_sp": "spear shaft" },
     "looks_like": "q_staff",
     "description": "A long stick, sanded and treated with oil for integrity and carved into a smooth staff with a slight taper, for use in making spears.  It can also be used as a makeshift quarterstaff as-is, but is too thin to be very effective for just hitting people.",
-    "price": 4000,
+    "price": "40 USD",
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_2", "RAPID" ],
     "flags": [ "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
@@ -110,7 +110,7 @@
     "longest_side": "180 cm",
     "category": "weapons",
     "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "good" },
-    "price_postapoc": 1000,
+    "price_postapoc": "10 USD",
     "melee_damage": { "bash": 12 }
   },
   {
@@ -127,7 +127,7 @@
     "volume": "4130 ml",
     "longest_side": "122 cm",
     "to_hit": { "grip": "none", "length": "long", "surface": "any", "balance": "uneven" },
-    "price": 1000,
+    "price": "10 USD",
     "price_postapoc": 10,
     "flags": [ "FRAGILE_MELEE", "FIREWOOD" ],
     "melee_damage": { "bash": 16 }
@@ -145,8 +145,8 @@
     "volume": "3099 ml",
     "longest_side": "61 cm",
     "to_hit": { "grip": "none", "length": "long", "surface": "any", "balance": "uneven" },
-    "price": 5000,
-    "price_postapoc": 100,
+    "price": "50 USD",
+    "price_postapoc": "1 USD",
     "flags": [ "FIREWOOD" ],
     "melee_damage": { "bash": 6 }
   },
@@ -180,7 +180,7 @@
     "volume": "2066 ml",
     "longest_side": "61 cm",
     "to_hit": { "grip": "none", "length": "long", "surface": "any", "balance": "uneven" },
-    "price": 500,
+    "price": "5 USD",
     "price_postapoc": 10,
     "flags": [ "FIREWOOD" ],
     "melee_damage": { "bash": 6 }
@@ -199,7 +199,7 @@
     "volume": "8264 ml",
     "longest_side": "244 cm",
     "to_hit": { "grip": "none", "length": "long", "surface": "any", "balance": "uneven" },
-    "price": 1500,
+    "price": "15 USD",
     "price_postapoc": 15,
     "flags": [ "FRAGILE_MELEE", "FIREWOOD" ],
     "melee_damage": { "bash": 26 }
@@ -217,7 +217,7 @@
     "color": "brown",
     "symbol": "/",
     "material": [ "wood" ],
-    "price": 40000,
+    "price": "400 USD",
     "price_postapoc": 50,
     "flags": [ "FIREWOOD" ],
     "melee_damage": { "bash": 16 }
@@ -236,7 +236,7 @@
     "volume": "9642 ml",
     "longest_side": "122 cm",
     "to_hit": { "grip": "none", "length": "long", "surface": "any", "balance": "uneven" },
-    "price": 1000,
+    "price": "10 USD",
     "price_postapoc": 10,
     "flags": [ "FIREWOOD" ],
     "melee_damage": { "bash": 26 }
@@ -254,7 +254,7 @@
     "volume": "4821 ml",
     "longest_side": "61 cm",
     "to_hit": { "grip": "none", "length": "long", "surface": "any", "balance": "uneven" },
-    "price": 500,
+    "price": "5 USD",
     "price_postapoc": 10,
     "flags": [ "FIREWOOD" ],
     "melee_damage": { "bash": 6 }
@@ -273,7 +273,7 @@
     "volume": "19248 ml",
     "longest_side": "244 cm",
     "to_hit": { "grip": "none", "length": "long", "surface": "any", "balance": "uneven" },
-    "price": 1000,
+    "price": "10 USD",
     "price_postapoc": 10,
     "flags": [ "FRAGILE_MELEE", "FIREWOOD" ],
     "melee_damage": { "bash": 26 }
@@ -291,7 +291,7 @@
     "volume": "328 ml",
     "longest_side": "13 cm",
     "to_hit": -2,
-    "price": 1000,
+    "price": "10 USD",
     "price_postapoc": 10,
     "flags": [ "FIREWOOD" ],
     "melee_damage": { "bash": 1 }
@@ -312,7 +312,7 @@
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_1" ],
     "volume": "19 L",
-    "price": 8000,
+    "price": "80 USD",
     "price_postapoc": 10,
     "flags": [ "FIREWOOD" ],
     "melee_damage": { "bash": 8 }
@@ -332,7 +332,7 @@
     "techniques": [ "WBLOCK_1" ],
     "volume": "38 L",
     "longest_side": "244 cm",
-    "price": 20000,
+    "price": "200 USD",
     "price_postapoc": 10,
     "flags": [ "FIREWOOD" ],
     "melee_damage": { "bash": 8 }
@@ -351,7 +351,7 @@
     "color": "brown",
     "symbol": "§",
     "material": [ "wood" ],
-    "price": 30000,
+    "price": "300 USD",
     "price_postapoc": 20,
     "flags": [ "FIREWOOD" ],
     "melee_damage": { "bash": 12 }

@@ -9,7 +9,7 @@
     "//": "Density 21.45g/cm³ ~ 5.4kg/250ml @ stack 1000 = 5g/unit",
     "volume": "10ml",
     "price": "1 kUSD",
-    "price_postapoc": 100,
+    "price_postapoc": "1 USD",
     "count": 100,
     "stack_size": 40,
     "material": [ "platinum" ],

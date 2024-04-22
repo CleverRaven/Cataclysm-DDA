@@ -7,7 +7,7 @@
     "description": "A small hardcover book describing a quite preposterous version of string theory.",
     "weight": "77 g",
     "volume": "334 ml",
-    "price": 1000,
+    "price": "10 USD",
     "price_postapoc": 10,
     "material": [ "forged_dreamstuff" ],
     "symbol": "*",

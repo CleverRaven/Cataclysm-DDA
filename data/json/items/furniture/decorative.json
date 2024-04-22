@@ -26,7 +26,7 @@
     "material": [ "wood" ],
     "volume": "1000 L",
     "price": "5 kUSD",
-    "price_postapoc": 1500,
+    "price_postapoc": "15 USD",
     "symbol": "P",
     "color": "i_black"
   }

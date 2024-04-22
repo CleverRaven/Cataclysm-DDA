@@ -28,7 +28,7 @@
     "calories": 400,
     "healthy": 3,
     "description": "Nutriment that has been dissolved in water to dilute its taste.  Unnervingly resembles spoiled milk.",
-    "price": 10000,
+    "price": "100 USD",
     "looks_like": "bleach",
     "fun": -2,
     "vitamins": [ [ "calcium", 24, 48 ], [ "iron", 24, 48 ], [ "vitC", 24, 48 ], [ "bad_food", 10 ] ]
@@ -53,7 +53,7 @@
     "healthy": -6,
     "addiction_potential": 6,
     "description": "Spite Soda, the only soda native to the Salus system.  'Stay Frosty, Drink Spite'.  Visitors to the Salus system who have drank Spite Soda have described it as the taste of transhumanist dialectical materialism.",
-    "price": 1000,
+    "price": "10 USD",
     "looks_like": "diesel",
     "container": "can_drink",
     "material": [ "alcohol" ],

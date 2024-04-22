@@ -22,8 +22,8 @@
     "volume": "250 ml",
     "charges": 1,
     "phase": "liquid",
-    "price": 5000,
-    "price_postapoc": 10000,
+    "price": "50 USD",
+    "price_postapoc": "100 USD",
     "quench": -120,
     "healthy": -60,
     "fun": -40

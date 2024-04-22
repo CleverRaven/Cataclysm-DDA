@@ -888,7 +888,7 @@
     "weight": "12 g",
     "volume": "10ml",
     "price": "12 kUSD",
-    "price_postapoc": 3000,
+    "price_postapoc": "30 USD",
     "material": [ "plastic" ],
     "symbol": "!",
     "color": "magenta",

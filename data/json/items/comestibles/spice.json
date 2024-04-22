@@ -140,7 +140,7 @@
     "color": "brown",
     "name": { "str_sp": "soy sauce" },
     "description": "Salty fermented soybean sauce.",
-    "price": 190,
+    "price": "1 USD 90 cent",
     "price_postapoc": 25,
     "weight": "24 g",
     "volume": "250 ml",

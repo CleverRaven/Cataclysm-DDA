@@ -42,7 +42,7 @@
     "shopkeeper_blacklist": "test_blacklist",
     "shopkeeper_price_rules": [
       { "item": "test_pants_fur", "markup": -100, "condition": { "npc_has_var": "bool_preference_vegan", "value": "yes" } },
-      { "item": "battery", "price": 100 }
+      { "item": "battery", "price": "1 USD" }
     ],
     "restock_interval": "99 days"
   },

@@ -569,7 +569,7 @@
     "use_action": [ "SEED" ],
     "calories": 65,
     "description": "Some raw pumpkin seeds with the shells on.  Could be fried and eaten.",
-    "price": 100,
+    "price": "1 USD",
     "flags": [ "PLANTABLE_SEED" ],
     "seed_data": { "plant_name": "pumpkin", "fruit": "pumpkin", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" },
     "milling": { "into": "paste_seed", "recipe": "paste_seed_mill_8_1" }

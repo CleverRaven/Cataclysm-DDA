@@ -7,7 +7,7 @@
     "description": "A pressurized 5L canister designed to feed an industrial foam gun.",
     "weight": "500 g",
     "volume": "5 L",
-    "price": 5000,
+    "price": "50 USD",
     "price_postapoc": 50,
     "material": [ "steel" ],
     "symbol": "#",

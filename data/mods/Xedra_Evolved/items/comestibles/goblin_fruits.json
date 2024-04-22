@@ -13,7 +13,7 @@
     "quench": 3,
     "calories": 75,
     "price": 40,
-    "price_postapoc": 100,
+    "price_postapoc": "1 USD",
     "material": [ "fruit" ],
     "fun": 1,
     "flags": [ "FREEZERBURN", "NO_AUTO_CONSUME" ],
@@ -31,7 +31,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "price": 40,
-    "price_postapoc": 100,
+    "price_postapoc": "1 USD",
     "material": [ "fruit" ],
     "flags": [ "INEDIBLE", "NO_AUTO_CONSUME", "SINGLE_USE" ],
     "use_action": {

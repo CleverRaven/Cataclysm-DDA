@@ -20,8 +20,8 @@
         "condition": { "npc_has_var": "bool_allnighter_thirsty", "value": "yes" }
       },
       { "item": "test_multitool", "premium": 25, "markup": 1.1 },
-      { "item": "log", "price": 10000000 },
-      { "item": "scrap", "price": 10000000 }
+      { "item": "log", "price": "100000 USD" },
+      { "item": "scrap", "price": "100000 USD" }
     ],
     "description": "They debug so you don't have to."
   }

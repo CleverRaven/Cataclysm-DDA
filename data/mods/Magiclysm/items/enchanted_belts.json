@@ -6,7 +6,7 @@
     "description": "A leather belt.  Useful for making your pair of pants fit.",
     "weight": "102 g",
     "volume": "250 ml",
-    "price": 90000,
+    "price": "900 USD",
     "material": [ "leather", "steel" ],
     "symbol": "[",
     "color": "brown",

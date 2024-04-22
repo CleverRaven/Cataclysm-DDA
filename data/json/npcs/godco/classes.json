@@ -576,7 +576,7 @@
     "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "shopkeeper_item_group": [ { "group": "NC_EVAC_SHOPKEEP_misc", "rigid": true } ],
     "shopkeeper_price_rules": [
-      { "item": "icon", "price": 100 },
+      { "item": "icon", "price": "1 USD" },
       {
         "group": "NC_EVAC_SHOPKEEP_misc",
         "condition": { "not": { "npc_has_var": "general_meeting_u_paidoff", "value": "yes" } },

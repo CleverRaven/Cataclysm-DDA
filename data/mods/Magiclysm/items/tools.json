@@ -7,7 +7,7 @@
     "description": "This cauldron made of demon spider chitin seems to absorb the light.  It will hold 16 liters of material and will absorb poisons from it.  It may have other properties that require discovery.",
     "weight": "1424 g",
     "volume": "20 L",
-    "price": 2000,
+    "price": "20 USD",
     "to_hit": -1,
     "looks_like": "clay_hydria",
     "material": [ "demon_chitin" ],
