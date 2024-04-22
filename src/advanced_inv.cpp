@@ -1652,6 +1652,7 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
         exit = true;
     } else if( srcarea == AIM_INVENTORY ||
                ( srcarea == AIM_WORN && sitem->items.front() != player_character.get_wielded_item() ) ) {
+        cata_assert( destarea != AIM_WIELD );
 
         // make sure advanced inventory is reopened after activity completion
         do_return_entry();
@@ -2139,9 +2140,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     // valid item is obviously required
     cata_assert( !sitem.items.empty() );
     const item &it = *sitem.items.front();
-    advanced_inv_area &p = squares[destarea];
     const bool by_charges = it.count_by_charges();
-    const units::volume free_volume = panes[dest].free_volume( p );
     // default to move all, unless if being equipped
     const int input_amount = by_charges ? it.charges : action == "MOVE_SINGLE_ITEM" ? 1 : sitem.stacks;
     // there has to be something to begin with
@@ -2159,8 +2158,9 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     }
 
     // Check volume, this should work the same for inventory, map and vehicles, but not for worn
-    const int room_for = it.charges_per_volume( free_volume );
-    if( amount > room_for && destarea != AIM_WORN && destarea != AIM_WIELD ) {
+    if( destarea != AIM_WORN && destarea != AIM_WIELD ) {
+        const units::volume free_volume = panes[dest].free_volume( squares[destarea] );
+        const int room_for = it.charges_per_volume( free_volume );
         if( room_for <= 0 ) {
             if( destarea == AIM_INVENTORY ) {
                 popup_getkey( _( "You have no space for the %s." ), it.tname() );
@@ -2175,7 +2175,9 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     if( destarea != AIM_INVENTORY &&
         destarea != AIM_WORN &&
         destarea != AIM_WIELD &&
-        destarea != AIM_CONTAINER ) {
+        destarea != AIM_CONTAINER
+      ) {
+        advanced_inv_area &p = squares[destarea];
         const int cntmax = p.max_size - p.get_item_count();
         // For items counted by charges, adding it adds 0 items if something there stacks with it.
         const bool adds0 = by_charges && std::any_of( panes[dest].items.begin(), panes[dest].items.end(),
