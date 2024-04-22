@@ -823,6 +823,18 @@
     "grab_strength": 2,
     "special_attacks": [
       {
+        "id": "ranged_pull",
+        "cooldown": 10,
+        "range": 3,
+        "condition": { "and": [ { "not": { "u_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "maimed_tongue" } } ] },
+        "hit_dmg_u": "%s catches you with its tongue and pulls you in!",
+        "hit_dmg_npc": "%s catches <npcname> with its tongue and pulls them in!",
+        "miss_msg_u": "%s's tongue lashes out at you, but you dodge!",
+        "miss_msg_npc": "%s's tongue lashes out at <npcname>, but they dodge!",
+        "no_dmg_msg_u": "%s catches you with its tongue and pulls you in!",
+        "no_dmg_msg_npc": "%s catches <npcname> with its tongue and pulls them in!"
+      },
+      {
         "type": "leap",
         "cooldown": 10,
         "move_cost": 0,
@@ -900,6 +912,18 @@
     "emit_fields": [ { "emit_id": "emit_tear_gas_toad", "delay": "1 s" } ],
     "special_attacks": [
       {
+        "id": "ranged_pull",
+        "cooldown": 10,
+        "range": 3,
+        "condition": { "and": [ { "not": { "u_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "maimed_tongue" } } ] },
+        "hit_dmg_u": "%s catches you with its tongue and pulls you in!",
+        "hit_dmg_npc": "%s catches <npcname> with its tongue and pulls them in!",
+        "miss_msg_u": "%s's tongue lashes out at you, but you dodge!",
+        "miss_msg_npc": "%s's tongue lashes out at <npcname>, but they dodge!",
+        "no_dmg_msg_u": "%s catches you with its tongue and pulls you in!",
+        "no_dmg_msg_npc": "%s catches <npcname> with its tongue and pulls them in!"
+      },
+      {
         "type": "leap",
         "cooldown": 5,
         "move_cost": 0,
@@ -931,6 +955,18 @@
     "grab_strength": 1,
     "special_attacks": [
       {
+        "id": "ranged_pull",
+        "cooldown": 10,
+        "range": 3,
+        "condition": { "and": [ { "not": { "u_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "maimed_tongue" } } ] },
+        "hit_dmg_u": "%s catches you with its tongue and pulls you in!",
+        "hit_dmg_npc": "%s catches <npcname> with its tongue and pulls them in!",
+        "miss_msg_u": "%s's tongue lashes out at you, but you dodge!",
+        "miss_msg_npc": "%s's tongue lashes out at <npcname>, but they dodge!",
+        "no_dmg_msg_u": "%s catches you with its tongue and pulls you in!",
+        "no_dmg_msg_npc": "%s catches <npcname> with its tongue and pulls them in!"
+      },
+      {
         "type": "leap",
         "cooldown": 8,
         "move_cost": 0,
@@ -955,6 +991,18 @@
     "copy-from": "mon_jumbo_bigfrog",
     "special_attacks": [
       [ "PARROT", 30 ],
+      {
+        "id": "ranged_pull",
+        "cooldown": 10,
+        "range": 3,
+        "condition": { "and": [ { "not": { "u_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "maimed_tongue" } } ] },
+        "hit_dmg_u": "%s catches you with its tongue and pulls you in!",
+        "hit_dmg_npc": "%s catches <npcname> with its tongue and pulls them in!",
+        "miss_msg_u": "%s's tongue lashes out at you, but you dodge!",
+        "miss_msg_npc": "%s's tongue lashes out at <npcname>, but they dodge!",
+        "no_dmg_msg_u": "%s catches you with its tongue and pulls you in!",
+        "no_dmg_msg_npc": "%s catches <npcname> with its tongue and pulls them in!"
+      },
       {
         "type": "leap",
         "cooldown": 8,
