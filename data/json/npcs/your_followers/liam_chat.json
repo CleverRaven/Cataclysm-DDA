@@ -358,6 +358,11 @@
         "condition": { "u_has_mission": "MISSION_RANCH_BARTENDER_5" }
       },
       {
+        "text": "Bringing a professional arsonist some commercial fertilizer seems like a normal thing to do.",
+        "topic": "TALK_Liam_Opinions_MISSION_ARSONIST_1_AMMONIUM_NITRATE",
+        "condition": { "u_has_mission": "MISSION_ARSONIST_1_AMMONIUM_NITRATE" }
+      },
+      {
         "text": "So, uh.  Alonso's pants, hey.",
         "topic": "TALK_Liam_Opinions_MISSION_REFUGEE_Alonso_pants",
         "condition": { "u_has_mission": "MISSION_REFUGEE_Alonso_pants" }
@@ -1163,6 +1168,17 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_ARSONIST_1_AMMONIUM_NITRATE",
+    "dynamic_line": "*laughs.  \"Look, Makayla is a trained professional, she knows what she's doing with several kilograms of improvised explosives, doesn't she?\"  He shrugs.  \"If not, let's just stay far away when she tests it.\"",
+    "responses": [
+      {
+        "text": "That's my optimistic Liam.  I'd like your opinion on a different thing, though.",
+        "topic": "TALK_Liam_Opinions"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_1",
     "dynamic_line": "*blows out a long breath.  \"Well, my friend, I do think it's good to help clean out some of the mess that's going on.  I'll be with you for it.  I'm just not sure why you figure I'm the right guy for this job.  Shouldn't you have, like, a cop or a soldier or something?  I'm a delivery driver.\"",
     "responses": [
@@ -1718,6 +1734,7 @@
       "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_4",
       "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_5",
       "TALK_Liam_Opinions_MISSION_OLD_GUARD_REPEATER_BEGIN",
+      "TALK_Liam_Opinions_MISSION_ARSONIST_1_AMMONIUM_NITRATE",
       "TALK_Liam_Opinions_MISSION_REFUGEE_Alonso_pants",
       "TALK_Liam_Opinions_MISSION_REFUGEE_Boris_CLEANUP",
       "TALK_Liam_Opinions_MISSION_REFUGEE_Boris_WORKSPACE",
