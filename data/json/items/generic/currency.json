@@ -39,7 +39,7 @@
     "id": "FlatCoin",
     "name": { "str": "FlatCoin" },
     "description": "A coin that has been flattened in a novelty coin flattening machine.  The machine has been somewhat crudely altered so that the design - which appears to once have been Mickey Mouse - is overlaid with a hand-drawn emblem of a book.  There is some text that faintly reads 'Campus Exchange Token'.",
-    "price": 5,
+    "price": "5 cent",
     "price_postapoc": "2 USD 50 cent",
     "weight": "18 g",
     "volume": "1 ml",
@@ -55,7 +55,7 @@
     "id": "signed_chit",
     "name": { "str": "chit" },
     "description": "A slip of paper signed by the issuer.",
-    "price": 5,
+    "price": "5 cent",
     "price_postapoc": "2 USD 50 cent",
     "weight": "1 g",
     "volume": "1 ml",
@@ -89,8 +89,8 @@
     "description": "A one-cent coin, featuring a portrait of Abraham Lincoln.  You could flip it.",
     "weight": "3 g",
     "volume": "1 ml",
-    "price": 1,
-    "price_postapoc": 1,
+    "price": "1 cent",
+    "price_postapoc": "1 cent",
     "material": [ "copper" ],
     "symbol": "o",
     "color": "brown",
@@ -105,8 +105,8 @@
     "description": "A five-cent coin, featuring a portrait of Thomas Jefferson.  You could flip it.",
     "weight": "5 g",
     "volume": "1 ml",
-    "price": 5,
-    "price_postapoc": 1,
+    "price": "5 cent",
+    "price_postapoc": "1 cent",
     "material": [ "copper" ],
     "symbol": "o",
     "color": "light_gray",
@@ -121,8 +121,8 @@
     "description": "A ten-cent coin, featuring a portrait of Franklin D Roosevelt.  You could flip it.",
     "weight": "2 g",
     "volume": "1 ml",
-    "price": 10,
-    "price_postapoc": 1,
+    "price": "10 cent",
+    "price_postapoc": "1 cent",
     "material": [ "copper" ],
     "symbol": "o",
     "color": "light_gray",
@@ -137,8 +137,8 @@
     "description": "A twenty-five-cent coin, featuring a portrait of George Washington.  You could flip it.",
     "weight": "6 g",
     "volume": "1 ml",
-    "price": 25,
-    "price_postapoc": 1,
+    "price": "25 cent",
+    "price_postapoc": "1 cent",
     "material": [ "copper" ],
     "symbol": "o",
     "color": "light_gray",
@@ -153,8 +153,8 @@
     "description": "A fifty-cent coin, featuring a portrait of John F Kennedy.  You could flip it.",
     "weight": "11 g",
     "volume": "1 ml",
-    "price": 50,
-    "price_postapoc": 1,
+    "price": "50 cent",
+    "price_postapoc": "1 cent",
     "material": [ "copper" ],
     "symbol": "o",
     "color": "light_gray",
@@ -170,7 +170,7 @@
     "weight": "8 g",
     "volume": "1 ml",
     "price": "1 USD",
-    "price_postapoc": 1,
+    "price_postapoc": "1 cent",
     "material": [ "copper" ],
     "symbol": "o",
     "color": "light_gray",
@@ -217,8 +217,8 @@
     "description": "A coin wrapper capable of holding between twenty and fifty coins, depending on denomination, in accordance with American Banking Standards.",
     "weight": "1 g",
     "volume": "1 ml",
-    "price": 1,
-    "price_postapoc": 0,
+    "price": "1 cent",
+    "price_postapoc": "0 cent",
     "material": [ "paper" ],
     "symbol": "$",
     "color": "dark_gray",
@@ -240,7 +240,7 @@
     "weight": "1 g",
     "volume": "1 ml",
     "price": "1 USD",
-    "price_postapoc": 0,
+    "price_postapoc": "0 cent",
     "material": [ "paper" ],
     "symbol": "$",
     "color": "green",
@@ -257,7 +257,7 @@
     "color": "green",
     "symbol": "$",
     "price": "2 USD",
-    "price_postapoc": 0,
+    "price_postapoc": "0 cent",
     "flags": [ "OLD_CURRENCY", "BANK_NOTE_SHAPED" ]
   },
   {
@@ -270,7 +270,7 @@
     "color": "green",
     "symbol": "$",
     "price": "5 USD",
-    "price_postapoc": 0,
+    "price_postapoc": "0 cent",
     "flags": [ "OLD_CURRENCY", "BANK_NOTE_SHAPED" ]
   },
   {
@@ -283,7 +283,7 @@
     "color": "green",
     "symbol": "$",
     "price": "10 USD",
-    "price_postapoc": 0,
+    "price_postapoc": "0 cent",
     "flags": [ "OLD_CURRENCY", "BANK_NOTE_SHAPED" ]
   },
   {
@@ -296,7 +296,7 @@
     "color": "green",
     "symbol": "$",
     "price": "20 USD",
-    "price_postapoc": 0,
+    "price_postapoc": "0 cent",
     "flags": [ "OLD_CURRENCY", "BANK_NOTE_SHAPED" ]
   },
   {
@@ -309,7 +309,7 @@
     "color": "green",
     "symbol": "$",
     "price": "50 USD",
-    "price_postapoc": 1,
+    "price_postapoc": "1 cent",
     "flags": [ "OLD_CURRENCY", "BANK_NOTE_SHAPED" ]
   },
   {
@@ -322,7 +322,7 @@
     "color": "green",
     "symbol": "$",
     "price": "100 USD",
-    "price_postapoc": 1,
+    "price_postapoc": "1 cent",
     "flags": [ "OLD_CURRENCY", "BANK_NOTE_SHAPED" ]
   },
   {
@@ -339,7 +339,7 @@
     "symbol": "$",
     "material": [ "paper" ],
     "price": "100 USD",
-    "price_postapoc": 0,
+    "price_postapoc": "0 cent",
     "flags": [ "OLD_CURRENCY", "BANK_NOTE_STRAP_SHAPED" ]
   },
   {
@@ -352,7 +352,7 @@
     "color": "green",
     "symbol": "$",
     "price": "200 USD",
-    "price_postapoc": 0
+    "price_postapoc": "0 cent"
   },
   {
     "type": "GENERIC",
@@ -364,7 +364,7 @@
     "color": "green",
     "symbol": "$",
     "price": "500 USD",
-    "price_postapoc": 0
+    "price_postapoc": "0 cent"
   },
   {
     "type": "GENERIC",
@@ -376,7 +376,7 @@
     "color": "green",
     "symbol": "$",
     "price": "1 kUSD",
-    "price_postapoc": 0
+    "price_postapoc": "0 cent"
   },
   {
     "type": "GENERIC",
@@ -388,7 +388,7 @@
     "color": "green",
     "symbol": "$",
     "price": "2 kUSD",
-    "price_postapoc": 0
+    "price_postapoc": "0 cent"
   },
   {
     "type": "GENERIC",
@@ -442,7 +442,7 @@
     "symbol": "$",
     "material": [ "paper" ],
     "price": "1 kUSD",
-    "price_postapoc": 0,
+    "price_postapoc": "0 cent",
     "flags": [ "OLD_CURRENCY" ]
   },
   {
@@ -455,7 +455,7 @@
     "color": "green",
     "symbol": "$",
     "price": "2 kUSD",
-    "price_postapoc": 0
+    "price_postapoc": "0 cent"
   },
   {
     "type": "GENERIC",
@@ -467,7 +467,7 @@
     "color": "green",
     "symbol": "$",
     "price": "5 kUSD",
-    "price_postapoc": 0
+    "price_postapoc": "0 cent"
   },
   {
     "type": "GENERIC",
@@ -479,7 +479,7 @@
     "color": "green",
     "symbol": "$",
     "price": "10 kUSD",
-    "price_postapoc": 0
+    "price_postapoc": "0 cent"
   },
   {
     "type": "GENERIC",
@@ -491,7 +491,7 @@
     "color": "green",
     "symbol": "$",
     "price": "20 kUSD",
-    "price_postapoc": 0
+    "price_postapoc": "0 cent"
   },
   {
     "type": "GENERIC",
@@ -536,8 +536,8 @@
     "id": "tacoma_drink_token",
     "name": { "str": "Tacoma drink token" },
     "description": "A ordinary-looking bottle cap with a stamped logo of the Tacoma ranch on the inside.  You can take it back to the bartender with your glass for a small refund.",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "//": "Dimensions of a bottle cap",
     "weight": "2 g",
     "volume": "6 ml",

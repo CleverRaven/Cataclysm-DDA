@@ -80,7 +80,7 @@
       { "item": "lc_steel_lump", "price": "12 USD", "fixed_adj": 0 },
       { "item": "mc_steel_lump", "price": "16 USD", "fixed_adj": 0 },
       { "item": "hc_steel_lump", "price": "20 USD", "fixed_adj": 0 },
-      { "item": "scrap_aluminum", "price": 30, "fixed_adj": 0 },
+    "price": "30 cent", "fixed_adj": 0 },
       { "item": "scrap_bronze", "price": "5 USD", "fixed_adj": 0 },
       { "item": "bismuth", "price": "20 USD", "fixed_adj": 0 },
       { "item": "zinc_metal", "price": "20 USD", "fixed_adj": 0 },

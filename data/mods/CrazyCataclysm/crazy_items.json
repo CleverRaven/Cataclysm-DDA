@@ -29,7 +29,7 @@
     "description": "Attached to this grenade is a name tag with the name Kevin written on it.  Does not seem to work like a grenade, handle with care.  Better throw it!",
     "weight": "180 g",
     "volume": "250 ml",
-    "price": 0,
+    "price": "0 cent",
     "to_hit": -1,
     "material": [ "steel", "plastic" ],
     "symbol": "*",
@@ -331,7 +331,7 @@
     "name": { "str": "blurry picture of a scowling cartoon ape" },
     "description": "Allegedly very important.",
     "price": "20000 kUSD",
-    "price_postapoc": 0
+    "price_postapoc": "0 cent"
   },
   {
     "id": "old_key",

@@ -119,7 +119,7 @@
     "name": { "str_sp": ".308 Winchester, black powder" },
     "description": ".308 Winchester ammunition with a 168gr hollow point bullet.  The .308 round is one of the most popular hunting cartridges in the world due to its accuracy and power.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": {
-      "price": 0.3,
+    "price": "0 cent".3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2
@@ -134,7 +134,7 @@
     "name": { "str_sp": "7.62x51mm, black powder" },
     "description": "A 7.62x51mm NATO round with a 147gr FMJ bullet.  It is a powerful rifle cartridge commonly used by hunters and military snipers because of its high accuracy and long range.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": {
-      "price": 0.3,
+    "price": "0 cent".3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2
@@ -149,7 +149,7 @@
     "name": { "str_sp": "7.62x51mm tracer, black powder" },
     "description": "An M62 tracer round.  Traditional practice is to load one of these for every four normal rounds to help keep the weapon they are fired from on target.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": {
-      "price": 0.3,
+    "price": "0 cent".3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2

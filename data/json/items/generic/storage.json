@@ -7,7 +7,7 @@
     "weight": "100 g",
     "volume": "150 ml",
     "price": "1 USD",
-    "price_postapoc": 0,
+    "price_postapoc": "0 cent",
     "material": [ "plastic", "steel" ],
     "symbol": ";",
     "color": "brown"

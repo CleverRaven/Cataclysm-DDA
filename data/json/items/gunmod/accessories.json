@@ -124,7 +124,7 @@
     "volume": "250 ml",
     "integral_volume": "0 ml",
     "price": "20 USD",
-    "price_postapoc": 50,
+    "price_postapoc": "50 cent",
     "install_time": "10 s",
     "material": [ "steel" ],
     "symbol": ":",

@@ -609,8 +609,8 @@
     "copy-from": "esapi_plate",
     "name": { "str": "compromised ceramic front plate" },
     "description": "A large ballistic plate that has been cracked by damage.  It no longer provides reliable protection, but it's still just as heavy.",
-    "price": 0,
-    "price_postapoc": 1,
+    "price": "0 cent",
+    "price_postapoc": "1 cent",
     "looks_like": "esapi_plate",
     "material": [ "damaged_ceramic" ]
   },
@@ -620,8 +620,8 @@
     "copy-from": "esbi_plate",
     "name": { "str": "compromised ceramic side plate" },
     "description": "A medium-sized ballistic plate that has been cracked by damage.  It no longer provides reliable protection, but it's still just as heavy.",
-    "price": 0,
-    "price_postapoc": 1,
+    "price": "0 cent",
+    "price_postapoc": "1 cent",
     "looks_like": "esbi_plate",
     "material": [ "damaged_ceramic" ]
   },

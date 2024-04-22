@@ -7,7 +7,7 @@
     "weight": "114 g",
     "volume": "250 ml",
     "price": "20 USD",
-    "price_postapoc": 50,
+    "price_postapoc": "50 cent",
     "install_time": "30 s",
     "material": [ "cotton" ],
     "symbol": ":",

@@ -34,7 +34,7 @@
     "volume": "20 ml",
     "material": [ "superalloy" ],
     "price": "100 USD",
-    "price_postapoc": 1,
+    "price_postapoc": "1 cent",
     "symbol": "#",
     "color": "red",
     "ammo_type": [ "mom_fusion_ammo" ],

@@ -134,7 +134,7 @@
     "name": { "str_sp": ".38 Special FMJ, black powder" },
     "description": ".38 Special ammunition with a brass jacketed 130gr bullet.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": {
-      "price": 0.3,
+    "price": "0 cent".3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2
@@ -149,7 +149,7 @@
     "name": { "str_sp": ".38 Special JHP, black powder" },
     "description": ".38 Special ammunition with a 130gr FMJ bullet.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": {
-      "price": 0.3,
+    "price": "0 cent".3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2

@@ -54,7 +54,7 @@
     "name": { "str_sp": "9x18mm, black powder" },
     "description": "9x18mm Makarov ammunition with a 93gr steel core FMJ bullet.  The 9x18mm round was very common in the Eastern Bloc during the 20th century, and remained in Russian military service into the 21st.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": {
-      "price": 0.3,
+    "price": "0 cent".3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2
@@ -69,7 +69,7 @@
     "name": { "str_sp": "9x18mm FMJ, black powder" },
     "description": "9x18mm Makarov RG028 ammunition.  The RG028 round uses a bullet with a hardened steel core to improve armor penetration.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": {
-      "price": 0.3,
+    "price": "0 cent".3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2

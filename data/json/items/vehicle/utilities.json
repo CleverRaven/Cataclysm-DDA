@@ -7,8 +7,8 @@
     "description": "An aircraft's black box, seemingly pulled from some sort of military vehicle wreckage.  If you can find a system to analyze this, you may find something of interest.",
     "weight": "4535 g",
     "volume": "2 L",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "to_hit": -1,
     "material": [ "steel" ],
     "symbol": ";",
@@ -102,7 +102,7 @@
     "volume": "2500 ml",
     "category": "veh_parts",
     "price": "30 USD",
-    "price_postapoc": 10,
+    "price_postapoc": "10 cent",
     "melee_damage": { "bash": 4 }
   },
   {
@@ -247,7 +247,7 @@
     "volume": "750 ml",
     "category": "veh_parts",
     "price": "30 USD",
-    "price_postapoc": 50,
+    "price_postapoc": "50 cent",
     "melee_damage": { "bash": 2 }
   },
   {

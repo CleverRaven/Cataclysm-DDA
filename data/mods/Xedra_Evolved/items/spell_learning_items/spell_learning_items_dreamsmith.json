@@ -9,7 +9,7 @@
     "weight": "50 g",
     "volume": "10 ml",
     "price": "20 USD",
-    "price_postapoc": 10,
+    "price_postapoc": "10 cent",
     "material": [ "forged_dreamstuff" ],
     "symbol": "U",
     "color": "magenta_yellow",

@@ -18,7 +18,7 @@
     "calories": 157,
     "description": "An incredibly alcoholic and caffeinated drink.  This probably isn't healthy.",
     "price": "1 USD 70 cent",
-    "price_postapoc": 50,
+    "price_postapoc": "50 cent",
     "material": [ "alcohol" ],
     "primary_material": "water",
     "volume": "250 ml",

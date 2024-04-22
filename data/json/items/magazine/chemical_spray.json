@@ -8,7 +8,7 @@
     "weight": "800 g",
     "volume": "2 L",
     "price": "50 USD",
-    "price_postapoc": 50,
+    "price_postapoc": "50 cent",
     "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",

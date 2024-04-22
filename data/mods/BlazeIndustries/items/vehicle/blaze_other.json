@@ -54,7 +54,7 @@
     "weight": "66 kg",
     "volume": "500 L",
     "longest_side": "116cm",
-    "price": 0,
-    "price_postapoc": 10
+    "price": "0 cent",
+    "price_postapoc": "10 cent"
   }
 ]

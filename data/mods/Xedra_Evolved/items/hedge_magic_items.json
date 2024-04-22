@@ -6,7 +6,7 @@
     "description": "Thanks to the words of the charm you spoke, you won't get wet.",
     "weight": "0 g",
     "volume": "0 ml",
-    "price": 0,
+    "price": "0 cent",
     "symbol": "x",
     "color": "white",
     "flags": [
@@ -39,7 +39,7 @@
     "description": "A bobbing ball of blueish-green light, just bright enough to read by.",
     "weight": "0 g",
     "volume": "0 ml",
-    "price": 0,
+    "price": "0 cent",
     "symbol": "x",
     "color": "yellow",
     "flags": [
@@ -109,7 +109,7 @@
     "weight": "100 g",
     "volume": "50 ml",
     "price": "50 USD",
-    "price_postapoc": 50,
+    "price_postapoc": "50 cent",
     "material": [ "leather", "veggy" ],
     "color": "green",
     "symbol": ",",

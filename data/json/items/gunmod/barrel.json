@@ -57,7 +57,7 @@
     "weight": "450 g",
     "volume": "500 ml",
     "price": "200 USD",
-    "price_postapoc": 0,
+    "price_postapoc": "0 cent",
     "install_time": "0 s",
     "material": [ "steel" ],
     "symbol": ":",

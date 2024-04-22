@@ -841,7 +841,7 @@
     "volume": "600 L",
     "weight": "800 kg",
     "price": "10 USD",
-    "price_postapoc": 10,
+    "price_postapoc": "10 cent",
     "to_hit": -3,
     "material": [ "qt_steel", "nanoprinted_alloy", "kevlar" ],
     "symbol": "H",

@@ -30,7 +30,7 @@
     "weight": "1250 g",
     "volume": "750 ml",
     "price": "2 USD",
-    "price_postapoc": 50
+    "price_postapoc": "50 cent"
   },
   {
     "id": "five-point_harness",
@@ -66,7 +66,7 @@
     "weight": "480 g",
     "volume": "750 ml",
     "price": "2 USD",
-    "price_postapoc": 50
+    "price_postapoc": "50 cent"
   },
   {
     "id": "filter_liquid",
@@ -91,7 +91,7 @@
     "weight": "690 g",
     "volume": "750 ml",
     "price": "2 USD",
-    "price_postapoc": 50
+    "price_postapoc": "50 cent"
   },
   {
     "id": "glowplug",
@@ -167,7 +167,7 @@
     "weight": "180 g",
     "volume": "25 ml",
     "price": "5 USD",
-    "price_postapoc": 10,
+    "price_postapoc": "10 cent",
     "material": [ "iron" ],
     "symbol": ",",
     "color": "light_gray",
@@ -282,7 +282,7 @@
     "weight": "500 g",
     "volume": "1 L",
     "price": "18 USD",
-    "price_postapoc": 25
+    "price_postapoc": "25 cent"
   },
   {
     "id": "simple_crank",

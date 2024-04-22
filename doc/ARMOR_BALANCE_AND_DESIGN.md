@@ -57,7 +57,7 @@ here is an example armor to look at:
   "weight": "250 g",
   "volume": "750 ml",
   "price": "15 USD",
-  "price_postapoc": 50,
+    "price_postapoc": "50 cent",
   "material": [ "cotton" ],
   "symbol": "[",
   "looks_like": "longshirt",

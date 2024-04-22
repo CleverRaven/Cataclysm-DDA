@@ -29,7 +29,7 @@
     "copy-from": "whiskey",
     "//": "Normal whiskey has been greatly devalued in the apocalypse by the disproportionate quantity of endless whiskey flasks in comparison to the number of survivors.",
     "price": "2 USD 50 cent",
-    "price_postapoc": 1
+    "price_postapoc": "1 cent"
   },
   {
     "type": "COMESTIBLE",
@@ -55,7 +55,7 @@
     "symbol": "0",
     "name": { "str": "hairball" },
     "description": "A big, ugly ball of animal spit and licked-off hairs.  Don't swallow it.",
-    "price": 0,
+    "price": "0 cent",
     "flags": [ "TRADER_AVOID", "EDIBLE_FROZEN" ],
     "fun": -20
   },
@@ -81,7 +81,7 @@
     "copy-from": "tea_green",
     "name": { "str_sp": "green tea" },
     "//": "Same reason as whiskey",
-    "price_postapoc": 1
+    "price_postapoc": "1 cent"
   },
   {
     "id": "purified_meat",

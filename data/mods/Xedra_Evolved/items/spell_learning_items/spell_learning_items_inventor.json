@@ -8,7 +8,7 @@
     "weight": "77 g",
     "volume": "334 ml",
     "price": "10 USD",
-    "price_postapoc": 10,
+    "price_postapoc": "10 cent",
     "material": [ "forged_dreamstuff" ],
     "symbol": "*",
     "color": "black",

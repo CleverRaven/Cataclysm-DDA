@@ -217,7 +217,7 @@
     "weight": "187 g",
     "volume": "500 ml",
     "price": "7 USD 50 cent",
-    "price_postapoc": 50,
+    "price_postapoc": "50 cent",
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_blue",

@@ -49,7 +49,7 @@
     "name": { "str_sp": ".32 ACP, black powder" },
     "description": "A jacketed .32 ACP cartridge loaded with a 71 grain bullet.  .32 ACP was once a popular handgun cartridge in the 20th century.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": {
-      "price": 0.3,
+    "price": "0 cent".3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2
@@ -95,7 +95,7 @@
     "name": { "str_sp": ".32 ACP JHP, black powder" },
     "description": "Jacketed .32 ACP ammunition with a 71gr hollow point bullet, intended for use in self-defense.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": {
-      "price": 0.3,
+    "price": "0 cent".3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2

@@ -9,7 +9,7 @@
     "looks_like": "power_supply",
     "description": "A bundle of cables around an iron core.  Useful for controlling voltage.",
     "price": "1 USD 70 cent",
-    "price_postapoc": 15,
+    "price_postapoc": "15 cent",
     "material": [ "iron", "copper" ],
     "weight": "113 g",
     "volume": "1 L",

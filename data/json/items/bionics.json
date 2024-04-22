@@ -28,8 +28,8 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": { "str": "abstract faulty bionic module" },
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "weight": "500 g",
     "description": "A CBM that is broken beyond repair; you can't do anything with it."
   },

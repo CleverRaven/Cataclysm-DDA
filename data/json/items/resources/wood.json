@@ -8,7 +8,7 @@
     "description": "A large log of wood, cut from a tree.  (a)ctivate a wood axe or wood saw to cut it into planks.",
     "category": "other",
     "price": "100 USD",
-    "price_postapoc": 10,
+    "price_postapoc": "10 cent",
     "material": [ "wood" ],
     "weight": "30 kg",
     "volume": "50 L",
@@ -88,7 +88,7 @@
     "flags": [ "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
     "weapon_category": [ "POLEARMS" ],
     "price": "40 USD",
-    "price_postapoc": 50,
+    "price_postapoc": "50 cent",
     "qualities": [ [ "HAMMER", 1 ] ],
     "melee_damage": { "bash": 19 }
   },
@@ -128,7 +128,7 @@
     "longest_side": "122 cm",
     "to_hit": { "grip": "none", "length": "long", "surface": "any", "balance": "uneven" },
     "price": "10 USD",
-    "price_postapoc": 10,
+    "price_postapoc": "10 cent",
     "flags": [ "FRAGILE_MELEE", "FIREWOOD" ],
     "melee_damage": { "bash": 16 }
   },
@@ -163,8 +163,8 @@
     "volume": "1 ml",
     "longest_side": "1 cm",
     "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "uneven" },
-    "price": 50,
-    "price_postapoc": 1,
+    "price": "50 cent",
+    "price_postapoc": "1 cent",
     "flags": [ "FIREWOOD" ]
   },
   {
@@ -181,7 +181,7 @@
     "longest_side": "61 cm",
     "to_hit": { "grip": "none", "length": "long", "surface": "any", "balance": "uneven" },
     "price": "5 USD",
-    "price_postapoc": 10,
+    "price_postapoc": "10 cent",
     "flags": [ "FIREWOOD" ],
     "melee_damage": { "bash": 6 }
   },
@@ -200,7 +200,7 @@
     "longest_side": "244 cm",
     "to_hit": { "grip": "none", "length": "long", "surface": "any", "balance": "uneven" },
     "price": "15 USD",
-    "price_postapoc": 15,
+    "price_postapoc": "15 cent",
     "flags": [ "FRAGILE_MELEE", "FIREWOOD" ],
     "melee_damage": { "bash": 26 }
   },
@@ -218,7 +218,7 @@
     "symbol": "/",
     "material": [ "wood" ],
     "price": "400 USD",
-    "price_postapoc": 50,
+    "price_postapoc": "50 cent",
     "flags": [ "FIREWOOD" ],
     "melee_damage": { "bash": 16 }
   },
@@ -237,7 +237,7 @@
     "longest_side": "122 cm",
     "to_hit": { "grip": "none", "length": "long", "surface": "any", "balance": "uneven" },
     "price": "10 USD",
-    "price_postapoc": 10,
+    "price_postapoc": "10 cent",
     "flags": [ "FIREWOOD" ],
     "melee_damage": { "bash": 26 }
   },
@@ -255,7 +255,7 @@
     "longest_side": "61 cm",
     "to_hit": { "grip": "none", "length": "long", "surface": "any", "balance": "uneven" },
     "price": "5 USD",
-    "price_postapoc": 10,
+    "price_postapoc": "10 cent",
     "flags": [ "FIREWOOD" ],
     "melee_damage": { "bash": 6 }
   },
@@ -274,7 +274,7 @@
     "longest_side": "244 cm",
     "to_hit": { "grip": "none", "length": "long", "surface": "any", "balance": "uneven" },
     "price": "10 USD",
-    "price_postapoc": 10,
+    "price_postapoc": "10 cent",
     "flags": [ "FRAGILE_MELEE", "FIREWOOD" ],
     "melee_damage": { "bash": 26 }
   },
@@ -292,7 +292,7 @@
     "longest_side": "13 cm",
     "to_hit": -2,
     "price": "10 USD",
-    "price_postapoc": 10,
+    "price_postapoc": "10 cent",
     "flags": [ "FIREWOOD" ],
     "melee_damage": { "bash": 1 }
   },
@@ -313,7 +313,7 @@
     "techniques": [ "WBLOCK_1" ],
     "volume": "19 L",
     "price": "80 USD",
-    "price_postapoc": 10,
+    "price_postapoc": "10 cent",
     "flags": [ "FIREWOOD" ],
     "melee_damage": { "bash": 8 }
   },
@@ -333,7 +333,7 @@
     "volume": "38 L",
     "longest_side": "244 cm",
     "price": "200 USD",
-    "price_postapoc": 10,
+    "price_postapoc": "10 cent",
     "flags": [ "FIREWOOD" ],
     "melee_damage": { "bash": 8 }
   },
@@ -352,7 +352,7 @@
     "symbol": "§",
     "material": [ "wood" ],
     "price": "300 USD",
-    "price_postapoc": 20,
+    "price_postapoc": "20 cent",
     "flags": [ "FIREWOOD" ],
     "melee_damage": { "bash": 12 }
   }

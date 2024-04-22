@@ -7,8 +7,8 @@
     "category": "other",
     "weight": "1 g",
     "volume": "1 ml",
-    "price": 1,
-    "price_postapoc": 5,
+    "price": "1 cent",
+    "price_postapoc": "5 cent",
     "material": [ "cotton" ],
     "symbol": "=",
     "color": "dark_gray",
@@ -22,8 +22,8 @@
     "category": "other",
     "weight": "1 g",
     "volume": "1 ml",
-    "price": 1,
-    "price_postapoc": 5,
+    "price": "1 cent",
+    "price_postapoc": "5 cent",
     "material": [ "cotton" ],
     "symbol": "=",
     "color": "dark_gray",
@@ -37,7 +37,7 @@
     "name": { "str": "grass yarn" },
     "category": "spare_parts",
     "description": "Primitive yarn made from coarse plant fibers like straw or grass.  Too thick to sew with, but could be woven into a crude sheet of fabric.",
-    "price": 10,
+    "price": "10 cent",
     "material": [ "dry_plant" ],
     "weight": "100 g",
     "volume": "250 ml"
@@ -61,8 +61,8 @@
     "description": "A handful of oddly-shaped smallish bits of faux fur, waste material from tailoring projects.  Not useful for much and usually disposed of.",
     "weight": "3 g",
     "volume": "7 ml",
-    "price": 0,
-    "price_postapoc": 5,
+    "price": "0 cent",
+    "price_postapoc": "5 cent",
     "material": [ "faux_fur" ]
   },
   {
@@ -80,7 +80,7 @@
     "type": "GENERIC",
     "name": { "str_sp": "fur scraps" },
     "description": "A handful of oddly-shaped smallish bits of fur, waste material from tailoring projects.  Not useful for much and usually disposed of.",
-    "price": 0,
+    "price": "0 cent",
     "weight": "3 g",
     "volume": "15 ml",
     "material": [ "fur" ]
@@ -93,8 +93,8 @@
     "description": "A handful of oddly-shaped smallish bits of Kevlar fabric, waste material from tailoring projects.  Normally it would be disposed of, but since Kevlar is very difficult to make in a post-apocalyptic world, it might be worth recycling it for Kevlar thread.",
     "volume": "2 ml",
     "weight": "810 mg",
-    "price": 1,
-    "price_postapoc": 10,
+    "price": "1 cent",
+    "price_postapoc": "10 cent",
     "material": [ "kevlar" ]
   },
   {
@@ -103,7 +103,7 @@
     "type": "GENERIC",
     "name": { "str_sp": "leather scraps" },
     "description": "A handful of oddly-shaped smallish bits of leather, waste material from tailoring projects.  Not useful for much and usually disposed of.",
-    "price": 0,
+    "price": "0 cent",
     "volume": "6 ml",
     "material": [ "leather" ]
   },
@@ -113,7 +113,7 @@
     "type": "GENERIC",
     "name": { "str_sp": "Lycra scraps" },
     "description": "A handful of oddly-shaped smallish bits of Lycra, waste material from tailoring projects.  Not useful for much and usually disposed of.",
-    "price": 0,
+    "price": "0 cent",
     "volume": "4 ml",
     "material": [ "lycra" ]
   },
@@ -123,7 +123,7 @@
     "type": "GENERIC",
     "name": { "str_sp": "neoprene scraps" },
     "description": "A handful of oddly-shaped smallish bits of neoprene, waste material from tailoring projects.  Not useful for much and usually disposed of.",
-    "price": 0,
+    "price": "0 cent",
     "volume": "6 ml",
     "material": [ "neoprene" ]
   },
@@ -133,7 +133,7 @@
     "type": "GENERIC",
     "name": { "str_sp": "synthetic fabric scraps" },
     "description": "A handful of oddly-shaped smallish bits of synthetic fabric, waste material from tailoring projects.  Not useful for much and usually disposed of.",
-    "price": 0,
+    "price": "0 cent",
     "volume": "3 ml",
     "material": [ "nylon" ]
   },
@@ -143,9 +143,9 @@
     "type": "GENERIC",
     "name": { "str_sp": "Nomex scraps" },
     "description": "A handful of oddly-shaped smallish bits of heat-resistant Nomex fabric, waste material from tailoring projects.  Normally it would be disposed of, but since Nomex is very difficult to make in a post-apocalyptic world, it might be worth recycling it for Nomex thread.",
-    "price": 5,
+    "price": "5 cent",
     "volume": "2 ml",
-    "price_postapoc": 8,
+    "price_postapoc": "8 cent",
     "material": [ "nomex" ]
   },
   {
@@ -168,7 +168,7 @@
     "name": { "str": "fur patch", "str_pl": "fur patches" },
     "description": "A small bolt of fur from an animal, roughly six inches square.  Can be made into patchwork fur sheets or used to repair fur fabric.",
     "price": "10 USD",
-    "price_postapoc": 10,
+    "price_postapoc": "10 cent",
     "material": [ "fur", "leather" ],
     "flags": [ "NO_SALVAGE" ],
     "weight": "46 g",
@@ -181,7 +181,7 @@
     "copy-from": "fur",
     "color": "pink",
     "name": { "str": "faux fur patch", "str_pl": "faux fur patches" },
-    "price_postapoc": 10,
+    "price_postapoc": "10 cent",
     "description": "A small bolt of garishly-colored faux fur, roughly six inches square.  Can be made into patchwork faux fur sheets or used to repair faux fur fabric.",
     "flags": [ "NO_SALVAGE" ],
     "material": [ "faux_fur" ]
@@ -194,7 +194,7 @@
     "name": { "str": "leather patch", "str_pl": "leather patches" },
     "description": "A roughly six-inch square patch of leather, could be used to repair clothing and make smaller leather crafts.",
     "price": "20 USD",
-    "price_postapoc": 25,
+    "price_postapoc": "25 cent",
     "material": [ "leather" ],
     "flags": [ "NO_SALVAGE" ],
     "weight": "25 g",
@@ -209,7 +209,7 @@
     "name": { "str": "felt patch", "str_pl": "felt patches" },
     "description": "A small, six-inch square patch of felt.",
     "price": "20 USD",
-    "price_postapoc": 10,
+    "price_postapoc": "10 cent",
     "material": [ "wool" ],
     "flags": [ "NO_SALVAGE" ],
     "weight": "3 g",
@@ -225,7 +225,7 @@
     "name": { "str": "Nomex patch", "str_pl": "Nomex patches" },
     "description": "A six-inch square patch of Nomex fire-resistant fabric.",
     "price": "40 USD",
-    "price_postapoc": 20,
+    "price_postapoc": "20 cent",
     "material": [ "nomex" ],
     "flags": [ "NO_SALVAGE" ],
     "weight": "4 g",
@@ -338,7 +338,7 @@
     "flags": [ "SINGLE_USE" ],
     "use_action": { "type": "heal", "bandages_power": 2, "bleed": 10, "move_cost": 6000 },
     "price": "10 USD",
-    "price_postapoc": 10,
+    "price_postapoc": "10 cent",
     "material": [ "cotton" ],
     "symbol": "=",
     "color": "dark_gray"
@@ -351,7 +351,7 @@
     "description": "A 12-inch by 24-inch sheet of cotton sewn together from patches of various clothing parts.  Suitable for making clothing if you lack proper material sheets.",
     "//density": ".80 grams per mL, 203 GSM",
     "price": "2 USD",
-    "price_postapoc": 20
+    "price_postapoc": "20 cent"
   },
   {
     "id": "sheet_faux_fur",
@@ -363,7 +363,7 @@
     "volume": "465 ml",
     "//": "Based on 2000gsm faux fur",
     "price": "50 USD",
-    "price_postapoc": 20,
+    "price_postapoc": "20 cent",
     "material": [ "faux_fur" ],
     "symbol": "=",
     "color": "dark_gray"
@@ -376,7 +376,7 @@
     "description": "A 12-inch by 24-inch sheet of faux fur sewn together from mismatched patches.  Suitable for making clothing if you lack proper material sheets, but the bright, clashing colors might end up making you look like a diseased Muppet.",
     "//": "12 inches by 24 inches with GSM of 2000",
     "price": "10 USD",
-    "price_postapoc": 50
+    "price_postapoc": "50 cent"
   },
   {
     "id": "sheet_felt",
@@ -388,7 +388,7 @@
     "volume": "145 ml",
     "//": "based on 150GSM felt",
     "price": "25 USD",
-    "price_postapoc": 20,
+    "price_postapoc": "20 cent",
     "material": [ "wool" ],
     "symbol": "=",
     "color": "dark_gray"
@@ -401,7 +401,7 @@
     "description": "A 12-inch by 24-inch sheet of felt sewn together from patches.  Suitable for making clothing if you lack proper material sheets.",
     "//": "150GSM felt",
     "price": "5 USD",
-    "price_postapoc": 50
+    "price_postapoc": "50 cent"
   },
   {
     "id": "sheet_kevlar",
@@ -413,7 +413,7 @@
     "volume": "51 ml",
     "//": "values taken from Duponts chemical reference. 144 GSM",
     "price": "9 USD",
-    "price_postapoc": 50,
+    "price_postapoc": "50 cent",
     "material": [ "kevlar" ],
     "symbol": "=",
     "color": "dark_gray"
@@ -428,7 +428,7 @@
     "volume": "51 ml",
     "//": "values taken from Duponts chemical reference. 144 GSM",
     "price": "9 USD",
-    "price_postapoc": 50,
+    "price_postapoc": "50 cent",
     "material": [ "kevlar" ],
     "looks_like": "sheet_kevlar",
     "symbol": "=",
@@ -444,7 +444,7 @@
     "volume": "5 ml",
     "//": "values taken from Duponts chemical reference. 144 GSM",
     "price": "1 USD",
-    "price_postapoc": 5,
+    "price_postapoc": "5 cent",
     "material": [ "kevlar" ],
     "symbol": ",",
     "color": "dark_gray"
@@ -459,7 +459,7 @@
     "volume": "117 ml",
     "//": "180 GSM fabric",
     "price": "50 USD",
-    "price_postapoc": 25,
+    "price_postapoc": "25 cent",
     "material": [ "lycra" ],
     "symbol": "=",
     "color": "dark_gray"
@@ -504,7 +504,7 @@
     "description": "A 12-inch by 24-inch sheet of fabric sewn together from Lycra patches.  Suitable for making flexible, yet strong clothing if you lack proper material sheets.",
     "//": "180GSM",
     "price": "10 USD",
-    "price_postapoc": 50
+    "price_postapoc": "50 cent"
   },
   {
     "id": "sheet_neoprene",
@@ -516,7 +516,7 @@
     "volume": "186 ml",
     "//": "110GSM, 1mm thick neoprene",
     "price": "50 USD",
-    "price_postapoc": 35,
+    "price_postapoc": "35 cent",
     "material": [ "neoprene" ],
     "symbol": "=",
     "color": "dark_gray"
@@ -529,7 +529,7 @@
     "description": "A sheet of neoprene sewn together from patches, with waterproofed seams.  Suitable for making underwater gear if you lack proper material sheets.",
     "//": "Density of 1.23 grams per mL",
     "price": "10 USD",
-    "price_postapoc": 60
+    "price_postapoc": "60 cent"
   },
   {
     "id": "sheet_nomex",
@@ -541,7 +541,7 @@
     "volume": "75 ml",
     "//": "Taken from duponts chemical reference sheets. 170GSM",
     "price": "150 USD",
-    "price_postapoc": 40,
+    "price_postapoc": "40 cent",
     "material": [ "nomex" ],
     "symbol": "=",
     "color": "dark_gray"
@@ -554,7 +554,7 @@
     "description": "A sheet of Nomex synthetic fabric, sewn together from patches using Nomex thread.  Suitable for making heat-resistant clothing if you lack proper material sheets.",
     "//": "Taken from duponts chemical reference sheets. 170GSM",
     "price": "30 USD",
-    "price_postapoc": 80
+    "price_postapoc": "80 cent"
   },
   {
     "id": "sheet_nylon",
@@ -567,7 +567,7 @@
     "//": ".25mm thick, 288 GSM (nylon 6,6 ranges 250-300 gsm)",
     "//1": "1x2' sheet is 1858 cm^2 and at 288 gsm gives listed weight; density of 1.14g/cm^3 suggests about .25 mm thickness per sheet",
     "price": "50 USD",
-    "price_postapoc": 20,
+    "price_postapoc": "20 cent",
     "material": [ "nylon" ],
     "symbol": "=",
     "color": "dark_gray"
@@ -581,7 +581,7 @@
     "//": ".25mm thick, 288 GSM (nylon 6,6 ranges 250-300 gsm)",
     "//1": "1x2' sheet is 1858 cm^2 and at 288 gsm gives listed weight; density of 1.14g/cm^3 suggests about .25 mm thickness per sheet",
     "price": "10 USD",
-    "price_postapoc": 40
+    "price_postapoc": "40 cent"
   },
   {
     "id": "gambeson_batting",
@@ -591,8 +591,8 @@
     "description": "A pile of shredded fabric, dry grass, hair or other cheap materials which could be used to stuff the fabric layers of a gambeson to create armor more cheaply and easily than properly layering and quilting the entire product.",
     "weight": "50 g",
     "volume": "50 ml",
-    "price": 0,
-    "price_postapoc": 8,
+    "price": "0 cent",
+    "price_postapoc": "8 cent",
     "symbol": ",",
     "color": "white",
     "flags": [ "NO_SALVAGE" ]
@@ -647,7 +647,7 @@
     "volume": "95 ml",
     "//": "Usually lightweight 10-12 oz denim.",
     "price": "12 USD 50 cent",
-    "price_postapoc": 50,
+    "price_postapoc": "50 cent",
     "material": [ "denim" ],
     "symbol": "=",
     "color": "dark_gray"
@@ -660,8 +660,8 @@
     "description": "Oddly-shaped smallish denim patches, waste material from tailoring projects.",
     "weight": "2 g",
     "volume": "2 ml",
-    "price": 1,
-    "price_postapoc": 5,
+    "price": "1 cent",
+    "price_postapoc": "5 cent",
     "material": [ "denim" ],
     "symbol": "=",
     "color": "dark_gray"
@@ -674,7 +674,7 @@
     "name": { "str": "denim patch", "str_pl": "denim patches" },
     "description": "A small, 6 inch square patch of blue denim.  It could be used to repair items made of denim or stitched into patchwork sheets for tailoring projects.",
     "price": "4 USD",
-    "price_postapoc": 12,
+    "price_postapoc": "12 cent",
     "material": [ "denim" ],
     "flags": [ "NO_SALVAGE" ],
     "weight": "11 g",
@@ -689,7 +689,7 @@
     "description": "A selection of various sections of denim, sewn together in a patchwork fashion.  Suitable for tailoring, though it's much less time-efficient than if using proper material sheets.",
     "weight": "80 g",
     "volume": "95 ml",
-    "price_postapoc": 50,
+    "price_postapoc": "50 cent",
     "material": [ "denim" ],
     "symbol": "=",
     "color": "dark_gray"
@@ -705,7 +705,7 @@
     "//": "heavyweight cotton canvas with a GSM of 406",
     "//1": "1x2' sheet is 1858 cm^2 and at 406 gsm gives listed weight; density of 1.6g/cm^3 suggests about .254 mm thickness per sheet - rounded down to .250",
     "price": "12 USD 50 cent",
-    "price_postapoc": 50,
+    "price_postapoc": "50 cent",
     "material": [ "canvas" ],
     "symbol": "=",
     "color": "dark_gray"
@@ -738,8 +738,8 @@
     "description": "Oddly-shaped smallish bits of canvas, waste material from tailoring projects.  Not useful for much and usually disposed of, but can be recycled into some tough thread.",
     "weight": "2375 mg",
     "volume": "2 ml",
-    "price": 1,
-    "price_postapoc": 5,
+    "price": "1 cent",
+    "price_postapoc": "5 cent",
     "material": [ "canvas" ],
     "symbol": "=",
     "color": "dark_gray"
@@ -752,7 +752,7 @@
     "name": { "str": "canvas patch", "str_pl": "canvas patches" },
     "description": "A small, 6 inch square patch of tough canvas.  It could be used to repair items made of canvas or stitched into patchwork sheets for tailoring projects.",
     "price": "4 USD",
-    "price_postapoc": 12,
+    "price_postapoc": "12 cent",
     "//": "Roughly 406 GSM cotton, with a size of 6 inches square",
     "material": [ "canvas" ],
     "flags": [ "NO_SALVAGE" ],
@@ -770,7 +770,7 @@
     "//1": "1x2' sheet is 1858 cm^2 and at 406 gsm gives listed weight; density of 1.6g/cm^3 suggests about .254 mm thickness per sheet - rounded down to .250",
     "weight": "76 g",
     "volume": "48 ml",
-    "price_postapoc": 50,
+    "price_postapoc": "50 cent",
     "material": [ "canvas" ],
     "symbol": "=",
     "color": "dark_gray"

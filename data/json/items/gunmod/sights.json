@@ -268,7 +268,7 @@
     "description": "An integral component of the RM11B rifle system, the RS1219 Accipiter digital scope provides auto-adjusting focal length, a user-selectable reticle, and an offset reflex sight for close objectives.",
     "weight": "0 g",
     "volume": "0 ml",
-    "price": 0,
+    "price": "0 cent",
     "material": [ "superalloy", "ceramic" ],
     "aim_speed_modifier": 0,
     "flags": [ "ZOOM", "IRREMOVABLE" ]

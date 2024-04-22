@@ -111,7 +111,7 @@
     "weight": "500 g",
     "volume": "300 ml",
     "price": "30 USD",
-    "price_postapoc": 72
+    "price_postapoc": "72 cent"
   },
   {
     "type": "vehicle_part",

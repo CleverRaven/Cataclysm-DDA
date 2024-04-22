@@ -42,7 +42,7 @@
     "ammo": [ "pebble" ],
     "weight": "254 g",
     "volume": "250 ml",
-    "price_postapoc": 50,
+    "price_postapoc": "50 cent",
     "to_hit": -2,
     "ranged_damage": { "damage_type": "bullet", "amount": 3 },
     "range": 5,

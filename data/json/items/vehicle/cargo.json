@@ -13,7 +13,7 @@
     "volume": "22500 ml",
     "category": "veh_parts",
     "price": "100 USD",
-    "price_postapoc": 50,
+    "price_postapoc": "50 cent",
     "qualities": [ [ "COOK", 1 ] ],
     "melee_damage": { "bash": 20 }
   },
@@ -25,7 +25,7 @@
     "weight": "4000 g",
     "volume": "6250 ml",
     "price": "160 USD",
-    "price_postapoc": 50,
+    "price_postapoc": "50 cent",
     "category": "veh_parts",
     "material": [ "steel", "plastic" ],
     "symbol": "]",
@@ -45,7 +45,7 @@
     "weight": "500 g",
     "volume": "250 ml",
     "price": "8 USD",
-    "price_postapoc": 50
+    "price_postapoc": "50 cent"
   },
   {
     "type": "GENERIC",
@@ -63,7 +63,7 @@
     "weight": "1200 g",
     "volume": "5 L",
     "price": "35 USD",
-    "price_postapoc": 50,
+    "price_postapoc": "50 cent",
     "copy-from": "basket"
   },
   {

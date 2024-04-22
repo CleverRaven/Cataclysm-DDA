@@ -8,7 +8,7 @@
     "weight": "23 g",
     "volume": "29 ml",
     "price": "13 USD 14 cent",
-    "price_postapoc": 2,
+    "price_postapoc": "2 cent",
     "material": [ "cardboard" ],
     "symbol": ",",
     "color": "magenta",

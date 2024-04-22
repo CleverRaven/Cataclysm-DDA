@@ -115,7 +115,7 @@
     "weight": "60 g",
     "volume": "250 ml",
     "price": "4 USD 80 cent",
-    "price_postapoc": 50,
+    "price_postapoc": "50 cent",
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "pocket_firstaid",

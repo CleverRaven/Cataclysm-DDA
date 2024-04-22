@@ -49,7 +49,7 @@
     "id": "moon_tear_chain_link",
     "category": "spare_parts",
     "price": "1 USD 50 cent",
-    "price_postapoc": 50,
+    "price_postapoc": "50 cent",
     "name": { "str": "moon tear chain link" },
     "symbol": "=",
     "color": "light_gray",

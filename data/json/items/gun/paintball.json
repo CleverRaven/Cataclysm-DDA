@@ -9,7 +9,7 @@
     "name": { "str": "paintball gun" },
     "description": "A fairly harmless gun that shoots small paintballs.",
     "price": "80 USD",
-    "price_postapoc": 50,
+    "price_postapoc": "50 cent",
     "material": [ "aluminum", "plastic" ],
     "flags": [ "NEVER_JAMS", "NON_FOULING" ],
     "skill": "smg",

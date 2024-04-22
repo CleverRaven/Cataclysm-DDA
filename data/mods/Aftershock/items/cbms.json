@@ -140,8 +140,8 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Cranium Bomb CBM" },
     "description": "A bomb installed where your spine meets your brain stem.  It's on a timer from installation and you don't have the codes to reset the timer.",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "difficulty": 8
   },
   {

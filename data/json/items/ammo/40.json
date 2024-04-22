@@ -65,7 +65,7 @@
     "name": { "str_sp": ".40 S&W FMJ, black powder" },
     "description": ".40 S&W ammunition with a 180gr FMJ bullet.  Designed to retain the 10mm Auto cartridge's power with lower recoil, the .40 S&W round became popular for law enforcement and personal defense.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": {
-      "price": 0.3,
+    "price": "0 cent".3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2
@@ -80,7 +80,7 @@
     "name": { "str_sp": ".40 S&W JHP, black powder" },
     "description": ".40 S&W ammunition with a 135gr JHP bullet.  The .40 S&W round is descended from the 10mm Auto cartridge and maintains most of its predecessor's strengths while reducing recoil.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": {
-      "price": 0.3,
+    "price": "0 cent".3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2

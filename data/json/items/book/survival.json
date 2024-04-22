@@ -55,7 +55,7 @@
     "weight": "180 g",
     "volume": "500 ml",
     "price": "4 USD 50 cent",
-    "price_postapoc": 50,
+    "price_postapoc": "50 cent",
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "mag_glam",

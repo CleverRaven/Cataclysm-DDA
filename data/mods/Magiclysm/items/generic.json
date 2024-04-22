@@ -19,8 +19,8 @@
     "type": "AMMO",
     "id": "parabolan_yarn",
     "category": "spare_parts",
-    "price": 0,
-    "price_postapoc": 25,
+    "price": "0 cent",
+    "price_postapoc": "25 cent",
     "name": { "str_sp": "parabolan yarn" },
     "symbol": "=",
     "color": "dark_gray",
@@ -43,7 +43,7 @@
     "volume": "2500 ml",
     "color": "green",
     "symbol": "%",
-    "price_postapoc": 0,
+    "price_postapoc": "0 cent",
     "material": [ "veggy" ],
     "flags": [ "TRADER_AVOID" ]
   }

@@ -174,7 +174,7 @@
     "id": "m14_makeshiftmag",
     "copy-from": "fal_makeshiftmag",
     "type": "MAGAZINE",
-    "price_postapoc": 50,
+    "price_postapoc": "50 cent",
     "name": { "str": "M14 5-round makeshift magazine" },
     "description": "An improvised 5-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with M14 pattern rifles."
   },
@@ -267,7 +267,7 @@
     "id": "scarh_makeshiftmag",
     "copy-from": "fal_makeshiftmag",
     "type": "MAGAZINE",
-    "price_postapoc": 50,
+    "price_postapoc": "50 cent",
     "name": { "str": "SCAR-H 5-round makeshift magazine" },
     "description": "An improvised 5-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with the FN SCAR-H rifle."
   },
@@ -313,7 +313,7 @@
     "id": "hk417_makeshiftmag",
     "copy-from": "fal_makeshiftmag",
     "type": "MAGAZINE",
-    "price_postapoc": 50,
+    "price_postapoc": "50 cent",
     "name": { "str": "HK417 5-round makeshift magazine" },
     "description": "An improvised 5-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with the HK417 rifle."
   },
@@ -401,7 +401,7 @@
     "id": "ar10_makeshiftmag",
     "copy-from": "fal_makeshiftmag",
     "type": "MAGAZINE",
-    "price_postapoc": 50,
+    "price_postapoc": "50 cent",
     "name": { "str": "AR-10 5-round makeshift magazine" },
     "description": "An improvised 5-round straight single-stack box magazine consisting of little more than a bent sheet of steel held together by duct tape and hope, for use with the AR-10 rifle."
   },
@@ -468,8 +468,8 @@
     "weight": "50 g",
     "volume": "90 ml",
     "longest_side": "79 mm",
-    "price": 50,
-    "price_postapoc": 50,
+    "price": "50 cent",
+    "price_postapoc": "50 cent",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "308": 3 } } ]
   }
 ]

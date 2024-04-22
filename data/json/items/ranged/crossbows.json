@@ -8,8 +8,8 @@
     "description": "A crude pointed wooden crossbow bolt with a notch at the back.",
     "copy-from": "bolt_wood_bodkin",
     "relative": { "dispersion": 150 },
-    "price": 0,
-    "price_postapoc": 20,
+    "price": "0 cent",
+    "price_postapoc": "20 cent",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 0.75 },
     "effects": [ "RECOVER_2" ]
   },
@@ -24,7 +24,7 @@
     "copy-from": "bolt_wood_bodkin",
     "relative": { "dispersion": 80 },
     "price": "5 USD",
-    "price_postapoc": 25,
+    "price_postapoc": "25 cent",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 0.75 },
     "effects": [ "RECOVER_6" ]
   },
@@ -39,7 +39,7 @@
     "copy-from": "bolt_wood_bodkin",
     "relative": { "dispersion": 110 },
     "price": "6 USD 50 cent",
-    "price_postapoc": 25,
+    "price_postapoc": "25 cent",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 0.5 },
     "effects": [ "RECOVER_10", "NOGIB" ]
   },
@@ -54,7 +54,7 @@
     "copy-from": "bolt_wood_bodkin",
     "relative": { "dispersion": 80 },
     "price": "7 USD",
-    "price_postapoc": 30,
+    "price_postapoc": "30 cent",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 1.25 },
     "show_stats": true,
     "effects": [ "RECOVER_8" ]
@@ -82,7 +82,7 @@
     "volume": "85 ml",
     "longest_side": "300 mm",
     "price": "11 USD 20 cent",
-    "price_postapoc": 40,
+    "price_postapoc": "40 cent",
     "weight": "27 g",
     "ammo_type": "bolt",
     "damage": { "damage_type": "stab", "armor_penetration": 3 },
@@ -128,7 +128,7 @@
     "copy-from": "bolt_wood_bodkin",
     "relative": { "dispersion": -30 },
     "price": "4 USD 50 cent",
-    "price_postapoc": 50,
+    "price_postapoc": "50 cent",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 1.5, "armor_penetration": 2 },
     "range": 2,
     "effects": [ "RECOVER_35" ]
@@ -144,7 +144,7 @@
     "copy-from": "bolt_wood_bodkin",
     "relative": { "dispersion": -35 },
     "price": "4 USD 50 cent",
-    "price_postapoc": 50,
+    "price_postapoc": "50 cent",
     "damage": { "damage_type": "stab", "armor_penetration": 4 },
     "range": 2,
     "effects": [ "RECOVER_40" ]
@@ -174,7 +174,7 @@
     "copy-from": "bolt_wood_bodkin",
     "relative": { "dispersion": -40 },
     "price": "23 USD 80 cent",
-    "price_postapoc": 60,
+    "price_postapoc": "60 cent",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 1.75 },
     "range": 4,
     "effects": [ "RECOVER_30" ]

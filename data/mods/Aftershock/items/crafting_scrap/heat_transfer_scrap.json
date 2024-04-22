@@ -60,8 +60,8 @@
     "name": { "str": "salvaged coolant system" },
     "description": "Rusty fluid reservoirs and decomposing high-pressure tubing containing still usable supercritical coolant.  You could disassemble it to separate the liquid coolant from the rest of the scrap.",
     "looks_like": "scrap",
-    "price": 1,
-    "price_postapoc": 1,
+    "price": "1 cent",
+    "price_postapoc": "1 cent",
     "weight": "4500 g",
     "volume": "3200 ml"
   }

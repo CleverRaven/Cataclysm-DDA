@@ -17,7 +17,7 @@
     "weight": "155 g",
     "volume": "2625 ml",
     "price": "10 USD",
-    "price_postapoc": 50,
+    "price_postapoc": "50 cent",
     "to_hit": -1,
     "melee_damage": { "bash": 1 },
     "material": [ "moon_tears" ],

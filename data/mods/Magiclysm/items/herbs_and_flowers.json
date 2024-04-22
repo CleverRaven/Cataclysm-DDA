@@ -182,7 +182,7 @@
     "use_action": { "type": "cast_spell", "spell_id": "funnelcap_spell", "no_fail": true, "level": 0 },
     "comestible_type": "FOOD",
     "description": "Large chunks of funnelcap meat, still leaking fine amounts of clear sap.",
-    "price_postapoc": 60,
+    "price_postapoc": "60 cent",
     "vitamins": [ [ "vitC", 5 ], [ "iron", 3 ], [ "redcells", 2 ] ]
   },
   {

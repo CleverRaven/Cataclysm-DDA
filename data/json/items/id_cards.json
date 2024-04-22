@@ -324,12 +324,12 @@
     "symbol": "%",
     "name": { "str": "Exodii comm rebooter" },
     "description": "A small rectangular device that Rubik gave you.  It is meant to be plugged in a locator antenna to reactivate it.",
-    "price": 0,
+    "price": "0 cent",
     "volume": "250 ml",
     "weight": "500 g",
     "material": [ "plastic", "steel" ],
     "flags": [ "TRADER_AVOID" ],
-    "price_postapoc": 0,
+    "price_postapoc": "0 cent",
     "category": "keys"
   }
 ]

@@ -23,7 +23,7 @@
     "name": { "str": "raft boat hull" },
     "description": "Logs tied together to make a vehicle float.  Add boat hulls to a vehicle until it floats, then attach oars or a motor to get the boat to move.",
     "price": "1 USD",
-    "price_postapoc": 10,
+    "price_postapoc": "10 cent",
     "material": [ "wood" ],
     "weight": "6000 g",
     "volume": "12500 ml",

@@ -13,7 +13,7 @@
     "fun": 6,
     "volume": "250 ml",
     "description": "It's cheesy and indulgent, although the mix of tender kernels of corn, veggies, fresh herbs, and a pop of heat keep it in check so it's not too heavy for the apocalypse.",
-    "price": 50,
+    "price": "50 cent",
     "price_postapoc": "1 USD",
     "material": [ "veggy", "milk" ],
     "flags": [ "EATEN_HOT" ]
@@ -32,7 +32,7 @@
     "fun": 4,
     "volume": "250 ml",
     "description": "This cheesy spinach casserole is cheesy, packed with hearty spinach, and totally delicious.",
-    "price": 50,
+    "price": "50 cent",
     "price_postapoc": "1 USD",
     "material": [ "veggy", "milk", "egg" ],
     "flags": [ "EATEN_HOT" ]
@@ -51,7 +51,7 @@
     "fun": 6,
     "volume": "250 ml",
     "description": "Fish noodle casserole is a casserole primarily made with pasta and canned tuna, with canned peas and corn sometimes added.",
-    "price": 50,
+    "price": "50 cent",
     "price_postapoc": "1 USD",
     "material": [ "flesh", "wheat", "veggy" ],
     "flags": [ "EATEN_HOT" ]
@@ -70,7 +70,7 @@
     "fun": 10,
     "volume": "250 ml",
     "description": "A classic New England casserole made with butter, lobster, and crackers, in roughly that order.",
-    "price": 60,
+    "price": "60 cent",
     "price_postapoc": "1 USD 50 cent",
     "material": [ "flesh", "wheat", "milk" ],
     "flags": [ "EATEN_HOT" ]

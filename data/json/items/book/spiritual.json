@@ -1112,7 +1112,7 @@
     "weight": "130 g",
     "volume": "250 ml",
     "price": "5 USD 50 cent",
-    "price_postapoc": 50,
+    "price_postapoc": "50 cent",
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "story_book",

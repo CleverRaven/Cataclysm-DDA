@@ -162,7 +162,7 @@
     "volume": "740 ml",
     "category": "veh_parts",
     "price": "400 USD",
-    "price_postapoc": 40,
+    "price_postapoc": "40 cent",
     "melee_damage": { "bash": 3 }
   },
   {
@@ -178,7 +178,7 @@
     "volume": "740 ml",
     "category": "veh_parts",
     "price": "100 USD",
-    "price_postapoc": 40,
+    "price_postapoc": "40 cent",
     "melee_damage": { "bash": 3 }
   },
   {
@@ -194,7 +194,7 @@
     "volume": "656 ml",
     "category": "veh_parts",
     "price": "20 USD",
-    "price_postapoc": 20,
+    "price_postapoc": "20 cent",
     "melee_damage": { "bash": 1 }
   }
 ]

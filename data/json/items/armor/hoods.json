@@ -250,7 +250,7 @@
     "weight": "80 g",
     "volume": "1000 ml",
     "price": "35 USD",
-    "price_postapoc": 20,
+    "price_postapoc": "20 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "balclava",

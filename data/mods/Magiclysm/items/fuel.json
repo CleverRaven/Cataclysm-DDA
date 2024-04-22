@@ -49,7 +49,7 @@
     "weight": "265 g",
     "volume": "250 ml",
     "charges": 1,
-    "price": 0,
+    "price": "0 cent",
     "symbol": "~",
     "color": "light_blue",
     "phase": "liquid",

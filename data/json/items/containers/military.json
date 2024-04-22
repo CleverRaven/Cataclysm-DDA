@@ -14,7 +14,7 @@
     "//2": "External: 29.85 x 9.53 x 17.78 cm, Internal: 25.4 x 8.9 x 16.5 cm",
     "flags": [ "COLLAPSE_CONTENTS" ],
     "price": "19 USD 30 cent",
-    "price_postapoc": 10,
+    "price_postapoc": "10 cent",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",

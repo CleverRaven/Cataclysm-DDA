@@ -1415,7 +1415,7 @@
     "weight": "157 g",
     "volume": "800 ml",
     "price": "25 USD",
-    "price_postapoc": 50,
+    "price_postapoc": "50 cent",
     "to_hit": 1,
     "material": [ "lc_steel" ],
     "symbol": "[",

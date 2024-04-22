@@ -8,7 +8,7 @@
     "volume": "250 ml",
     "integral_volume": "250 ml",
     "price": "4 USD 80 cent",
-    "price_postapoc": 10,
+    "price_postapoc": "10 cent",
     "install_time": "20 s",
     "material": [ "cotton" ],
     "symbol": ":",
@@ -35,7 +35,7 @@
     "description": "An adjustable strap that allows the rifle to be worn over your shoulders like a piece of clothing.  However, it offers no protection.",
     "copy-from": "shoulder_strap_simple",
     "price": "35 USD",
-    "price_postapoc": 20,
+    "price_postapoc": "20 cent",
     "material": [ "nylon" ],
     "use_action": {
       "type": "transform",

@@ -132,7 +132,7 @@
     "weight": "5 g",
     "volume": "6 ml",
     "price": "2 USD",
-    "price_postapoc": 2,
+    "price_postapoc": "2 cent",
     "material": [ "fibercloth" ],
     "symbol": ",",
     "color": "green",
