@@ -4,6 +4,7 @@
 #include "itype.h"
 #include "map_iterator.h"
 #include "action.h"
+#include "messages.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "player_activity.h"
@@ -33,7 +34,6 @@ static const vpart_id vpart_ap_standing_lamp( "ap_standing_lamp" );
 static const vproto_id vehicle_prototype_none( "none" );
 
 static const std::string flag_APPLIANCE( "APPLIANCE" );
-static const std::string flag_WALL_MOUNTED( "WALL_MOUNTED" );
 static const std::string flag_WIRING( "WIRING" );
 static const std::string flag_HALF_CIRCLE_LIGHT( "HALF_CIRCLE_LIGHT" );
 
