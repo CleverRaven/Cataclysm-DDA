@@ -46,7 +46,10 @@
         "id": "EOC_PRACTICE_TELEPATH_CONCENTRATION",
         "condition": { "math": [ "u_spell_level('telepathic_concentration')", ">=", "1" ] },
         "effect": [
-          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
+            "type": "good"
+          },
           { "math": [ "u_spell_exp('telepathic_concentration')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(1)" ] },
@@ -75,7 +78,10 @@
         "id": "EOC_PRACTICE_TELEPATH_MIND_SENSE",
         "condition": { "math": [ "u_spell_level('telepathic_mind_sense')", ">=", "1" ] },
         "effect": [
-          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
+            "type": "good"
+          },
           { "math": [ "u_spell_exp('telepathic_mind_sense')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(2)" ] },
@@ -104,7 +110,10 @@
         "id": "EOC_PRACTICE_TELEPATH_SHIELD",
         "condition": { "math": [ "u_spell_level('telepathic_shield')", ">=", "1" ] },
         "effect": [
-          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
+            "type": "good"
+          },
           { "math": [ "u_spell_exp('telepathic_shield')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(2)" ] },
@@ -180,7 +189,10 @@
         "id": "EOC_PRACTICE_TELEPATH_MORALE",
         "condition": { "math": [ "u_spell_level('telepathic_morale')", ">=", "1" ] },
         "effect": [
-          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
+            "type": "good"
+          },
           { "math": [ "u_spell_exp('telepathic_morale')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(3)" ] },
@@ -257,7 +269,10 @@
         "id": "EOC_PRACTICE_TELEPATHIC_BLAST",
         "condition": { "math": [ "u_spell_level('telepathic_blast')", ">=", "1" ] },
         "effect": [
-          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
+            "type": "good"
+          },
           { "math": [ "u_spell_exp('telepathic_blast')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(4)" ] },
@@ -334,7 +349,10 @@
         "id": "EOC_PRACTICE_TELEPATHIC_ANIMAL_MIND_CONTROL",
         "condition": { "math": [ "u_spell_level('telepathic_animal_mind_control')", ">=", "1" ] },
         "effect": [
-          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
+            "type": "good"
+          },
           { "math": [ "u_spell_exp('telepathic_animal_mind_control')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(4)" ] },
@@ -411,7 +429,10 @@
         "id": "EOC_PRACTICE_TELEPATH_CONFUSION",
         "condition": { "math": [ "u_spell_level('telepathic_confusion')", ">=", "1" ] },
         "effect": [
-          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
+            "type": "good"
+          },
           { "math": [ "u_spell_exp('telepathic_confusion')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(5)" ] },
@@ -488,7 +509,10 @@
         "id": "EOC_PRACTICE_TELEPATH_OBSCURITY",
         "condition": { "math": [ "u_spell_level('telepathic_invisibility')", ">=", "1" ] },
         "effect": [
-          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
+            "type": "good"
+          },
           { "math": [ "u_spell_exp('telepathic_invisibility')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(6)" ] },
@@ -565,7 +589,10 @@
         "id": "EOC_PRACTICE_TELEPATH_PRIMAL_FEAR",
         "condition": { "math": [ "u_spell_level('telepathic_fear')", ">=", "1" ] },
         "effect": [
-          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
+            "type": "good"
+          },
           { "math": [ "u_spell_exp('telepathic_fear')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(6)" ] },
@@ -642,7 +669,10 @@
         "id": "EOC_PRACTICE_TELEPATH_SCREAM_RADIUS",
         "condition": { "math": [ "u_spell_level('telepathic_blast_radius')", ">=", "1" ] },
         "effect": [
-          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
+            "type": "good"
+          },
           { "math": [ "u_spell_exp('telepathic_blast_radius')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(7)" ] },
@@ -719,7 +749,10 @@
         "id": "EOC_PRACTICE_TELEPATH_BEAST_TAMING",
         "condition": { "math": [ "u_spell_level('telepathic_beast_taming')", ">=", "1" ] },
         "effect": [
-          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
+            "type": "good"
+          },
           { "math": [ "u_spell_exp('telepathic_beast_taming')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(7)" ] },
@@ -796,7 +829,10 @@
         "id": "EOC_PRACTICE_TELEPATH_MIND_CONTROL",
         "condition": { "math": [ "u_spell_level('telepathic_mind_control')", ">=", "1" ] },
         "effect": [
-          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
+            "type": "good"
+          },
           { "math": [ "u_spell_exp('telepathic_mind_control')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(8)" ] },
@@ -873,7 +909,10 @@
         "id": "EOC_PRACTICE_TELEPATH_NETWORK_EFFECT",
         "condition": { "math": [ "u_spell_level('telepathic_network')", ">=", "1" ] },
         "effect": [
-          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
+            "type": "good"
+          },
           { "math": [ "u_spell_exp('telepathic_network')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_val('stored_kcal')", "-=", "psionics_contemplation_kcal_cost(9)" ] },

@@ -81,7 +81,7 @@
       {
         "text": "Your dad said you were out here fixing up this place.",
         "topic": "TALK_ISHERWOOD_LUKE_TALK1",
-        "condition": { "u_has_var": "u_met_Eddie_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
+        "condition": { "u_has_var": "u_met_Eddie_Isherwood", "value": "yes" }
       },
       {
         "text": "How are those books doing for you?",
@@ -268,7 +268,7 @@
     "type": "talk_topic",
     "id": "TALK_LUKE_CHRIS",
     "dynamic_line": "Chris is a little older than me, he's up at the horse farm with his parents and sister, Lisa.",
-    "speaker_effect": { "effect": { "u_add_var": "u_heard_about_chris", "type": "general", "context": "meeting", "value": "yes" } },
+    "speaker_effect": { "effect": { "u_add_var": "u_heard_about_chris", "value": "yes" } },
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -303,7 +303,7 @@
         "topic": "TALK_LUKE_EDDIE_NoBarry",
         "condition": {
           "and": [
-            { "u_has_var": "u_met_Eddie_Isherwood", "type": "general", "context": "meeting", "value": "yes" },
+            { "u_has_var": "u_met_Eddie_Isherwood", "value": "yes" },
             { "not": { "u_has_var": "u_saved_barry_isherwood", "value": "yes" } }
           ]
         }
@@ -313,7 +313,7 @@
         "topic": "TALK_LUKE_EDDIE_YesBarry",
         "condition": {
           "and": [
-            { "u_has_var": "u_met_Eddie_Isherwood", "type": "general", "context": "meeting", "value": "yes" },
+            { "u_has_var": "u_met_Eddie_Isherwood", "value": "yes" },
             { "u_has_var": "u_saved_barry_isherwood", "value": "yes" }
           ]
         }
@@ -356,7 +356,7 @@
     "end": {
       "opinion": { "trust": 2, "value": 2 },
       "effect": [
-        { "u_add_var": "u_did_luke_missions", "type": "general", "context": "recruit", "value": "yes" },
+        { "u_add_var": "u_did_luke_missions", "value": "yes" },
         { "math": [ "u_timer_luke_isherwood_books", "=", "time('now')" ] }
       ]
     },

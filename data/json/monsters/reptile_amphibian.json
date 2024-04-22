@@ -160,7 +160,7 @@
     "aggression": -30,
     "upgrades": { "age_grow": 365, "into": "mon_rattlesnake_big" },
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
-    "harvest": "mammal_tiny",
+    "harvest": "mutant_tiny",
     "biosignature": { "biosig_item": "shed_snakeskin", "biosig_timer": 180 },
     "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "KEENNOSE", "CLIMBS", "PATH_AVOID_DANGER_1", "ANIMAL", "SWIMS" ]
   },
@@ -546,6 +546,7 @@
     "categories": [ "NULL" ],
     "harvest": "mutant_tiny",
     "upgrades": { "age_grow": 15, "into": "mon_pattern_bigfrog" },
+    "reproduction": { "baby_egg": "egg_pattern_frog", "baby_count": 6, "baby_timer": 20 },
     "//": "When possible, add effect for rare flicker of very low luminance."
   },
   {
@@ -760,7 +761,7 @@
     "special_when_hit": [ "ZAPBACK", 100 ],
     "upgrades": { "age_grow": 30, "into_group": "GROUP_FROGS_UPGRADE_PATTERN" },
     "zombify_into": "mon_frog_shocker",
-    "reproduction": { "baby_egg": "egg_pattern_frog", "baby_count": 12, "baby_timer": 20 }
+    "reproduction": { "baby_egg": "egg_pattern_bigfrog", "baby_count": 12, "baby_timer": 20 }
   },
   {
     "id": "mon_foul_bigfrog",
@@ -985,7 +986,7 @@
     "special_when_hit": [ "ZAPBACK", 100 ],
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE", "MATING_SEASON", "FRIEND_ATTACKED" ],
     "zombify_into": "mon_frog_shocker",
-    "reproduction": { "baby_egg": "egg_pattern_frog", "baby_count": 18, "baby_timer": 20 },
+    "reproduction": { "baby_egg": "egg_pattern_bigfrog", "baby_count": 18, "baby_timer": 20 },
     "extend": { "flags": [ "SWARMS" ] }
   },
   {

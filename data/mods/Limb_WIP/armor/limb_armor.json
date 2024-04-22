@@ -49,6 +49,35 @@
     ]
   },
   {
+    "type": "ARMOR",
+    "id": "integrated_feathers",
+    "copy-from": "integrated_feathers",
+    "name": { "str_sp": "feathers" },
+    "armor": [
+      {
+        "material": [ { "type": "mut_feather", "covered_by_mat": 100, "thickness": 4 } ],
+        "covers": [
+          "hand_l",
+          "hand_r",
+          "foot_l",
+          "foot_r",
+          "leg_l",
+          "leg_r",
+          "arm_l",
+          "arm_r",
+          "torso",
+          "head",
+          "arm_feathers_l",
+          "arm_feathers_r",
+          "arm_wing_bird_l",
+          "arm_wing_bird_r"
+        ],
+        "coverage": 100,
+        "encumbrance": 0
+      }
+    ]
+  },
+  {
     "id": "armor_bio_arms_basic",
     "type": "ARMOR",
     "category": "armor",

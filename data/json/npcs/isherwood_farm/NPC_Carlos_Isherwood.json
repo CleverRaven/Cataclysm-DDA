@@ -129,7 +129,7 @@
         "condition": {
           "and": [
             { "not": { "u_is_wearing": "badge_marshal" } },
-            { "u_add_var": "u_met_carlos_isherwood", "type": "general", "context": "meeting", "value": "yes" }
+            { "u_add_var": "u_met_carlos_isherwood", "value": "yes" }
           ]
         }
       },
@@ -139,7 +139,7 @@
         "condition": {
           "and": [
             { "not": { "u_is_wearing": "badge_marshal" } },
-            { "u_has_var": "u_met_Jack_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
+            { "u_has_var": "u_met_Jack_Isherwood", "value": "yes" }
           ]
         }
       },
@@ -187,7 +187,7 @@
         "condition": {
           "and": [
             { "not": { "u_is_wearing": "badge_marshal" } },
-            { "u_has_var": "u_learned_about_barry", "type": "general", "context": "meeting", "value": "yes" }
+            { "u_has_var": "u_learned_about_barry", "value": "yes" }
           ]
         }
       },
@@ -279,7 +279,7 @@
         "topic": "TALK_CARLOS_BARRY",
         "condition": {
           "and": [
-            { "u_has_var": "u_learned_about_barry", "type": "general", "context": "meeting", "value": "yes" },
+            { "u_has_var": "u_learned_about_barry", "value": "yes" },
             { "not": { "u_is_wearing": "badge_marshal" } }
           ]
         }
@@ -287,7 +287,7 @@
       {
         "text": "Is your forge operational?",
         "topic": "TALK_CARLOS_FORGE1",
-        "condition": { "not": { "u_has_var": "carlos_has_anvil", "value": "yes" } }
+        "condition": { "not": { "npc_has_var": "carlos_has_anvil", "value": "yes" } }
       },
       {
         "text": "Is your forge operational?",
@@ -340,7 +340,7 @@
       "opinion": { "trust": 1, "value": 1 },
       "effect": [
         { "u_spawn_item": "leather_armor_horse", "count": 1 },
-        { "u_add_var": "carlos_has_anvil", "value": "yes" },
+        { "npc_add_var": "carlos_has_anvil", "value": "yes" },
         { "math": [ "time_since(carlos_has_anvil)", "=", "time('now')" ] }
       ],
       "update_mapgen": [ { "om_terrain": "horse_farm_isherwood_4", "set": [ { "point": "furniture", "id": "f_anvil", "x": 6, "y": 12 } ] } ]
@@ -369,7 +369,7 @@
       "opinion": { "trust": 1, "value": 1 },
       "effect": [
         { "u_spawn_item": "chainmail_armor_horse", "count": 1 },
-        { "u_add_var": "u_did_carlos_missions", "type": "general", "context": "recruit", "value": "yes" }
+        { "u_add_var": "u_did_carlos_missions", "value": "yes" }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],

@@ -50,7 +50,7 @@
     "effect": [
       { "u_message": "Your right leg has been restored.", "type": "good" },
       { "u_lose_trait": "NO_RIGHT_LEG" },
-      { "u_lose_var": "missing_right_leg", "type": "traits", "context": "limbs" },
+      { "u_lose_var": "traits_limbs_missing_right_leg" },
       { "u_add_trait": "HAS_RIGHT_LEG" },
       { "run_eocs": "EOC_VITA_RESTORE_LIMB_DRAIN" },
       { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
@@ -87,7 +87,7 @@
     "effect": [
       { "u_message": "Your left leg has been restored.", "type": "good" },
       { "u_lose_trait": "NO_LEFT_LEG" },
-      { "u_lose_var": "missing_left_leg", "type": "traits", "context": "limbs" },
+      { "u_lose_var": "traits_limbs_missing_left_leg" },
       { "u_add_trait": "HAS_LEFT_LEG" },
       { "run_eocs": "EOC_VITA_RESTORE_LIMB_DRAIN" },
       { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
@@ -124,7 +124,7 @@
     "effect": [
       { "u_message": "Your right arm had been restored.", "type": "good" },
       { "u_lose_trait": "NO_RIGHT_ARM" },
-      { "u_lose_var": "missing_right_arm", "type": "traits", "context": "limbs" },
+      { "u_lose_var": "traits_limbs_missing_right_arm" },
       { "u_add_trait": "HAS_RIGHT_ARM" },
       { "run_eocs": "EOC_VITA_RESTORE_LIMB_DRAIN" },
       { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
@@ -161,7 +161,7 @@
     "effect": [
       { "u_message": "Your left arm had been restored.", "type": "good" },
       { "u_lose_trait": "NO_LEFT_ARM" },
-      { "u_lose_var": "missing_left_arm", "type": "traits", "context": "limbs" },
+      { "u_lose_var": "traits_limbs_missing_left_arm" },
       { "u_add_trait": "HAS_LEFT_ARM" },
       { "run_eocs": "EOC_VITA_RESTORE_LIMB_DRAIN" },
       { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
