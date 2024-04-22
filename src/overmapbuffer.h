@@ -155,6 +155,12 @@ class overmapbuffer
          */
         overmap &get( const point_abs_om & );
         void save();
+        /**
+         * Just drop the generated overmaps without resetting
+         * the members tracking which specials we've placed.
+         * Should only be used in tests.
+         */
+        void reset();
         void clear();
         void create_custom_overmap( const point_abs_om &, overmap_special_batch &specials );
 
