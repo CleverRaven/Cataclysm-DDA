@@ -288,7 +288,7 @@
         "condition": { "u_has_mission": "MISSION_BEGGAR_2_DUCT_TAPE" }
       },
       {
-        "text": "Any thougths on Dave's cardboard needs?",
+        "text": "Any thoughts on Dave's cardboard needs?",
         "topic": "TALK_Liam_Opinions_MISSION_BEGGAR_2_BOX_MEDIUM",
         "condition": { "u_has_mission": "MISSION_BEGGAR_2_BOX_MEDIUM" }
       },
@@ -313,7 +313,7 @@
         "condition": { "u_has_mission": "MISSION_SCIENCE_REP_1" }
       },
       {
-        "text": "Sneaking into a lab to run some data anlysis can't be bad right?",
+        "text": "Sneaking into a lab to run some data analysis can't be bad right?",
         "topic": "TALK_Liam_Opinions_MISSION_SCIENCE_REP_2",
         "condition": { "u_has_mission": "MISSION_SCIENCE_REP_2" }
       },
