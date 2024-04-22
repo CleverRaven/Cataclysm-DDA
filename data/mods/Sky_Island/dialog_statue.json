@@ -584,6 +584,57 @@
         "effect": [ { "assign_mission": "SKYISLAND_BUILD_westroom4" } ],
         "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE"
       },
+      {
+        "text": "Construct: East Room 1",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_BUILD_eastroom1" } },
+            { "math": [ "skyisland_build_bigroom", ">=", "1" ] },
+            { "math": [ "skyisland_build_eastroom", "==", "0" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_BUILD_eastroom1" } ],
+        "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE"
+      },
+      {
+        "text": "Construct: East Room 2",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_BUILD_eastroom2" } },
+            { "math": [ "skyisland_build_eastroom", "==", "1" ] },
+            { "math": [ "skyisland_build_bigroom", ">=", "1" ] },
+            { "math": [ "islandrank", ">=", "2" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_BUILD_eastroom2" } ],
+        "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE"
+      },
+      {
+        "text": "Construct: East Room 3",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_BUILD_eastroom3" } },
+            { "math": [ "skyisland_build_eastroom", "==", "2" ] },
+            { "math": [ "skyisland_build_bigroom", ">=", "2" ] },
+            { "math": [ "islandrank", ">=", "3" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_BUILD_eastroom3" } ],
+        "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE"
+      },
+      {
+        "text": "Construct: East Room Gallery",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_BUILD_eastroom4" } },
+            { "math": [ "skyisland_build_eastroom", "==", "3" ] },
+            { "math": [ "skyisland_build_bigroom", ">=", "3" ] },
+            { "math": [ "islandrank", ">=", "3" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_BUILD_eastroom4" } ],
+        "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE"
+      },
       { "text": "Nevermind.", "topic": "SKYISLAND_UPGRADE" }
     ]
   }
