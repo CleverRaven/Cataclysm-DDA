@@ -3853,7 +3853,7 @@
     "proportional": {
       "weight": 1.125,
       "volume": 1.13,
-    "price": "1 cent".25,
+      "price": 1.25,
       "material_thickness": 1.2,
       "environmental_protection": 1.2,
       "environmental_protection_with_filter": 1.2
@@ -3868,7 +3868,7 @@
     "proportional": {
       "weight": 1.125,
       "volume": 1.13,
-    "price": "1 cent".25,
+      "price": 1.25,
       "material_thickness": 1.2,
       "environmental_protection": 1.2,
       "environmental_protection_with_filter": 1.2
