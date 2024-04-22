@@ -217,7 +217,7 @@
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_BARRY_TOWER_family2",
     "dynamic_line": "Fair enough, you asked for it.\"  He stretches his arms out.  \"Jack and I stayed close, even after my old man and I fell out, so when it looked like he was going to be saddled with the entire farm to run, I took a good long look at my life and realized I hated it.  It was never the farm I was trying to get away from, you know?  I packed up my things, quit my job, and came out to help Jack.  Never looked back.\"  He chuckles.  \"Damn hard finding a partner for a guy like me out here though.  I was in a long-term relationship when I left, but that fell apart.  I haven't been too lonely though, I've got my people.",
-    "speaker_effect": { "effect": { "u_add_var": "knows_barry_family_story", "value": "yes" } },
+    "speaker_effect": { "effect": { "u_add_var": "u_knows_barry_family_story", "value": "yes" } },
     "responses": [
       {
         "text": "[PERCEPTION] Was your choice in partners part of the problem with your father?",
@@ -235,7 +235,7 @@
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_BARRY_TOWER_family3",
     "dynamic_line": "&His eyebrows shoot up, briefly surprised, then he smiles.  \"You nailed it in one.  Yeah, we're talking about a rural farmer in the nineties, here.  My dad never understood me, even before he knew, and he did find out, although I tried to keep the closet door closed.  Jack, though, he always saw me for me.  Never let it change our relationship.  That's real love, and that's what made me come back when he needed me.  Meanwhile, the man I thought I'd marry, back in Bunyan, he couldn't be assed even to come out and see the family farm, let alone think about moving here.  He was dead weight, and I've never doubted that decision.\"  He shrugs.  \"There's folks like me wherever you go, I've had a few relationships since then.  Just nothing that stuck, and I'm okay with that.  If nothing else, it proved what I already knew: aside from my old man, none of my family treated me or them any different for it.  They're good people.\"",
-    "speaker_effect": { "effect": { "u_add_var": "knows_barry_is_gay", "value": "yes" } },
+    "speaker_effect": { "effect": { "u_add_var": "u_knows_barry_is_gay", "value": "yes" } },
     "responses": [
       {
         "text": "Thanks for taking the time to talk to me.  I had some other questions.",
@@ -264,6 +264,7 @@
       "effect": [
         "leave",
         { "u_add_var": "u_saved_barry_isherwood", "value": "yes" },
+        { "npc_add_var": "barry_isherwood_saved", "value": "yes" },
         { "math": [ "barry_PTSD_freakouts", "=", "0" ] },
         { "math": [ "u_timer_barry_rescue", "=", "time('now')" ] },
         { "npc_first_topic": "TALK_ISHERWOOD_BARRY" },
