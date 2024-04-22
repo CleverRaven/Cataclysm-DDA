@@ -977,7 +977,7 @@ void mapgen_function_json_base::setup_setmap( const JsonArray &parray )
 
         const jmapgen_int tmp_x( pjo, "x" );
         const jmapgen_int tmp_y( pjo, "y" );
-        const jmapgen_int tmp_z( pjo, "Z", 0, 0 );
+        const jmapgen_int tmp_z( pjo, "z", 0, 0 );
         if( !check_inbounds( tmp_x, tmp_y, tmp_z, pjo ) ) {
             pjo.allow_omitted_members();
             continue;
@@ -1068,7 +1068,7 @@ mapgen_arguments mapgen_function_json_base::get_args(
 jmapgen_place::jmapgen_place( const JsonObject &jsi )
     : x( jsi, "x" )
     , y( jsi, "y" )
-    , z( jsi, "Z", 0, 0 )
+    , z( jsi, "z", 0, 0 )
     , repeat( jsi, "repeat", 1, 1 )
 {
 }
@@ -3740,7 +3740,7 @@ class jmapgen_nested : public jmapgen_piece
             , neighbor_flags( jsi.get_object( "flags" ) )
             , neighbor_flags_any( jsi.get_object( "flags_any" ) )
             , predecessors( jsi.get_array( "predecessors" ) )
-            , correct_z_level( jsi.get_array( "z" ) ) {
+            , correct_z_level( jsi.get_array( "check_z" ) ) {
             if( jsi.has_member( "chunks" ) ) {
                 load_weighted_list( jsi.get_member( "chunks" ), entries, 100 );
             }
