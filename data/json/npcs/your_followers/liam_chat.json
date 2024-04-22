@@ -308,6 +308,31 @@
         "condition": { "u_has_mission": "MISSION_BEGGAR_2_PERMISSION" }
       },
       {
+        "text": "Do you think it's dangerous to get zombie blood, besides the obvious?",
+        "topic": "TALK_Liam_Opinions_MISSION_SCIENCE_REP_1",
+        "condition": { "u_has_mission": "MISSION_SCIENCE_REP_1" }
+      },
+      {
+        "text": "Sneaking into a lab to run some data anlysis can't be bad right?",
+        "topic": "TALK_Liam_Opinions_MISSION_SCIENCE_REP_2",
+        "condition": { "u_has_mission": "MISSION_SCIENCE_REP_2" }
+      },
+      {
+        "text": "Who could have guessed there'd be some further complications to our stolen data analysis?",
+        "topic": "TALK_Liam_Opinions_MISSION_SCIENCE_REP_3",
+        "condition": { "u_has_mission": "MISSION_SCIENCE_REP_3" }
+      },
+      {
+        "text": "What do you think about checking out this freezing portal lab?",
+        "topic": "TALK_Liam_Opinions_MISSION_SCIENCE_REP_4",
+        "condition": { "u_has_mission": "MISSION_SCIENCE_REP_4" }
+      },
+      {
+        "text": "If you were tired of underground labs, now we're gonna check out secret underground lab tunnels!",
+        "topic": "TALK_Liam_Opinions_MISSION_SCIENCE_REP_5",
+        "condition": { "u_has_mission": "MISSION_SCIENCE_REP_5" }
+      },
+      {
         "text": "Do you know how to build a still?",
         "topic": "TALK_Liam_Opinions_MISSION_RANCH_BARTENDER_1",
         "condition": { "u_has_mission": "MISSION_RANCH_BARTENDER_1" }
@@ -883,6 +908,45 @@
     "id": "TALK_Liam_Opinions_MISSION_BEGGAR_2_PERMISSION",
     "dynamic_line": "Well, I'm definitely interested to see where it goes.  I hope it helps Dave somehow.  I don't know what's going on with him except that it's nothing like any schizophrenia or anything like that I've ever seen, and I've seen practically anything you can imagine, working service.",
     "responses": [ { "text": "I have a good feeling.  I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_SCIENCE_REP_1",
+    "dynamic_line": "Well, it probably isn't going to come back alive.  They ooze blood everywhere, when we fight 'em.  It's kinda thicker and goopier than human blood, but I guess not so bad it'd be hard to draw?",
+    "responses": [ { "text": "Thanks.  I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_SCIENCE_REP_2",
+    "dynamic_line": "This sounds *nuts* man.  How are we going to get in and out alive?  A place like that is going to be crawling with zombies and who knows what else.\"  He shudders.  \"Let's be careful, right?",
+    "responses": [ { "text": "Okay.  I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_SCIENCE_REP_3",
+    "dynamic_line": "This was a total surprise to everyone,\" he grumbles.  \"Still, this can't be any worse than getting the first analysis done, right?",
+    "responses": [ { "text": "Let's hope not.  I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_SCIENCE_REP_4",
+    "dynamic_line": {
+      "concatenate": [
+        "&He grins.  \"I'm gonna level with you, this sounds incredibly *cool*.\"  He laughs at his own joke.  \"Seriously though, it's probably going to be a really tricky one",
+        {
+          "u_has_trait": "CBM_Interface",
+          "yes": ".  It'd be good to maybe try cybernetics to help us with the cold, they won't be as bulky and confining to fight in as winter gear.",
+          "no": ".  We'll need to bundle up extra toasty, that'll make fighting tough."
+        }
+      ]
+    },
+    "responses": [ { "text": "Good thoughts.  I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_SCIENCE_REP_5",
+    "dynamic_line": "Compared to what we've done, this doesn't sound so bad.  Creepy as heck though.  We should tell ghost stories on the way.",
+    "responses": [ { "text": "I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
   },
   {
     "type": "talk_topic",
@@ -1634,6 +1698,11 @@
       "TALK_Liam_Opinions_MISSION_BEGGAR_2_PLASTIC_SHEET",
       "TALK_Liam_Opinions_MISSION_BEGGAR_2_BOX_LARGE",
       "TALK_Liam_Opinions_MISSION_BEGGAR_2_PERMISSION",
+      "TALK_Liam_Opinions_MISSION_SCIENCE_REP_1",
+      "TALK_Liam_Opinions_MISSION_SCIENCE_REP_2",
+      "TALK_Liam_Opinions_MISSION_SCIENCE_REP_3",
+      "TALK_Liam_Opinions_MISSION_SCIENCE_REP_4",
+      "TALK_Liam_Opinions_MISSION_SCIENCE_REP_5",
       "TALK_Liam_Opinions_MISSION_RANCH_BARTENDER_1",
       "TALK_Liam_Opinions_MISSION_RANCH_BARTENDER_2",
       "TALK_Liam_Opinions_MISSION_RANCH_BARTENDER_3",
