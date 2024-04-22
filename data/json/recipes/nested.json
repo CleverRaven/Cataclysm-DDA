@@ -3904,7 +3904,7 @@
     "name": "cans",
     "description": "Recipes related to creating tin cans for conserving food.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "can_medium", "can_food_big", "can_food" ], 
+    "nested_category_data": [ "can_medium", "can_food_big", "can_food" ],
     "difficulty": 6
   },
   {
