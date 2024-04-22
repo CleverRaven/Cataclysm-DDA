@@ -105,26 +105,6 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_ISHERWOOD_BARRY",
-    "dynamic_line": {
-      "concatenate": [
-        "*lights up as you approach, but also looks wary.  \"",
-        {
-          "u_has_var": "too_short_to_be_a_stormtrooper",
-          "value": "unclear",
-          "yes": "Hey, Jedi.\"",
-          "no": "Hey, <name_g>.\""
-        }
-      ]
-    }
-  },
-  {
-    "type": "talk_topic",
-    "id": "TALK_ISHERWOOD_BARRY_askback",
-    "dynamic_line": "*nods.  \"Of course, what'd you want to ask?\""
-  },
-  {
-    "type": "talk_topic",
     "id": [ "TALK_ISHERWOOD_BARRY", "TALK_ISHERWOOD_BARRY_askback" ],
     "responses": [
       {
@@ -149,6 +129,26 @@
       },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_BARRY",
+    "dynamic_line": {
+      "concatenate": [
+        "*lights up as you approach, but also looks wary.  \"",
+        {
+          "u_has_var": "too_short_to_be_a_stormtrooper",
+          "value": "unclear",
+          "yes": "Hey, Jedi.\"",
+          "no": "Hey, <name_g>.\""
+        }
+      ]
+    }
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_BARRY_askback",
+    "dynamic_line": "*nods.  \"Of course, what'd you want to ask?\""
   },
   {
     "type": "talk_topic",
