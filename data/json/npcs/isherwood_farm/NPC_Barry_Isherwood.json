@@ -217,6 +217,7 @@
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_BARRY_TOWER_family2",
     "dynamic_line": "Fair enough, you asked for it.\"  He stretches his arms out.  \"Jack and I stayed close, even after my old man and I fell out, so when it looked like he was going to be saddled with the entire farm to run, I took a good long look at my life and realized I hated it.  It was never the farm I was trying to get away from, you know?  I packed up my things, quit my job, and came out to help Jack.  Never looked back.\"  He chuckles.  \"Damn hard finding a partner for a guy like me out here though.  I was in a long-term relationship when I left, but that fell apart.  I haven't been too lonely though, I've got my people.",
+    "speaker_effect": { "effect": { "u_add_var": "knows_barry_family_story", "value": "yes" } },
     "responses": [
       {
         "text": "[PERCEPTION] Was your choice in partners part of the problem with your father?",

@@ -326,10 +326,7 @@
         "text": "Tell me about your dad.",
         "topic": "TALK_LUKE_EDDIE_YesBarry",
         "condition": {
-          "and": [
-            { "u_has_var": "u_met_Eddie_Isherwood", "value": "yes" },
-            { "u_has_var": "u_saved_barry_isherwood", "value": "yes" }
-          ]
+          "and": [ { "u_has_var": "u_met_Eddie_Isherwood", "value": "yes" }, { "u_has_var": "u_saved_barry_isherwood", "value": "yes" } ]
         }
       },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }

@@ -61,22 +61,12 @@
       {
         "text": "Hi, I'm looking for Jesse.",
         "topic": "TALK_LISA_JESSE",
-        "condition": {
-          "and": [
-            { "not": { "u_is_wearing": "badge_marshal" } },
-            { "u_has_var": "u_learned_about_jesse", "value": "yes" }
-          ]
-        }
+        "condition": { "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "u_has_var": "u_learned_about_jesse", "value": "yes" } ] }
       },
       {
         "text": "Hi, I'm looking for Chris.",
         "topic": "TALK_LISA_CHRIS",
-        "condition": {
-          "and": [
-            { "not": { "u_is_wearing": "badge_marshal" } },
-            { "u_has_var": "u_heard_about_chris", "value": "yes" }
-          ]
-        }
+        "condition": { "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "u_has_var": "u_heard_about_chris", "value": "yes" } ] }
       },
       {
         "text": "I'd better get going.",

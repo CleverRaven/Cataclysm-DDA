@@ -36,7 +36,6 @@
       { "skill": "archery", "bonus": { "rng": [ 8, 10 ] } }
     ]
   },
-  },
   {
     "type": "talk_topic",
     "id": [ "TALK_ISHERWOOD_CHRIS" ],
@@ -49,12 +48,7 @@
       {
         "text": "I was talking to Luke earlier, said you had some interesting ideas about the world ending.  Is it tied to Barry's abduction?",
         "topic": "TALK_CHRIS_THEORIES",
-        "condition": {
-          "and": [
-            { "not": { "u_is_wearing": "badge_marshal" } },
-            { "u_has_var": "u_heard_about_chris", "value": "yes" }
-          ]
-        }
+        "condition": { "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "u_has_var": "u_heard_about_chris", "value": "yes" } ] }
       },
       {
         "text": "I'd better get going.",
@@ -90,6 +84,7 @@
         "condition": { "u_is_wearing": "badge_marshal" }
       }
     ]
+  },
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CHRIS_TALK1",
@@ -100,12 +95,7 @@
       {
         "text": "I was talking to Luke earlier, said you had some interesting ideas about the world ending.",
         "topic": "TALK_CHRIS_THEORIES",
-        "condition": {
-          "and": [
-            { "not": { "u_is_wearing": "badge_marshal" } },
-            { "u_has_var": "u_heard_about_chris", "value": "yes" }
-          ]
-        }
+        "condition": { "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "u_has_var": "u_heard_about_chris", "value": "yes" } ] }
       },
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }

@@ -48,22 +48,12 @@
       {
         "text": "Hi, looks like you are building a forge setup.",
         "topic": "TALK_ISHERWOOD_CARLOS_TALK1",
-        "condition": {
-          "and": [
-            { "not": { "u_is_wearing": "badge_marshal" } },
-            { "u_add_var": "u_met_carlos_isherwood", "value": "yes" }
-          ]
-        }
+        "condition": { "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "u_add_var": "u_met_carlos_isherwood", "value": "yes" } ] }
       },
       {
         "text": "Hi, Jack and Claire suggested I come talk to you about a job.",
         "topic": "TALK_CARLOS_FORGE",
-        "condition": {
-          "and": [
-            { "not": { "u_is_wearing": "badge_marshal" } },
-            { "u_has_var": "u_met_Jack_Isherwood", "value": "yes" }
-          ]
-        }
+        "condition": { "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "u_has_var": "u_met_Jack_Isherwood", "value": "yes" } ] }
       },
       {
         "text": "Can I do anything for you?",
@@ -124,10 +114,7 @@
         "text": "Look, I took it off to show I'm not here as a marshal.  I'm just here as a traveler, someone who can maybe help you out.  I know you've got problems bigger than you can handle right now.",
         "topic": "TALK_ISHERWOOD_CARLOS_MarshalSaveBarry",
         "condition": {
-          "and": [
-            { "u_has_var": "u_learned_barry_missing", "value": "yes" },
-            { "not": { "u_is_wearing": "badge_marshal" } }
-          ]
+          "and": [ { "u_has_var": "u_learned_barry_missing", "value": "yes" }, { "not": { "u_is_wearing": "badge_marshal" } } ]
         }
       },
       { "text": "… (Leave)", "topic": "TALK_DONE", "condition": { "u_is_wearing": "badge_marshal" } }
@@ -165,10 +152,7 @@
         "text": "Fine.  Thanks.  Tell me more about what happened to Barry.",
         "topic": "TALK_CARLOS_BARRY",
         "condition": {
-          "and": [
-            { "not": { "u_is_wearing": "badge_marshal" } },
-            { "u_has_var": "u_learned_barry_missing", "value": "yes" }
-          ]
+          "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "u_has_var": "u_learned_barry_missing", "value": "yes" } ]
         }
       },
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
@@ -185,10 +169,7 @@
         "text": "I heard about Barry, can you tell me what captured him?",
         "topic": "TALK_CARLOS_BARRY",
         "condition": {
-          "and": [
-            { "not": { "u_is_wearing": "badge_marshal" } },
-            { "u_has_var": "u_learned_barry_missing", "value": "yes" }
-          ]
+          "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "u_has_var": "u_learned_barry_missing", "value": "yes" } ]
         }
       },
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CARLOS_TOPICS" },
@@ -278,10 +259,7 @@
         "text": "I heard about Barry, can you tell me what captured him?",
         "topic": "TALK_CARLOS_BARRY",
         "condition": {
-          "and": [
-            { "u_has_var": "u_learned_barry_missing", "value": "yes" },
-            { "not": { "u_is_wearing": "badge_marshal" } }
-          ]
+          "and": [ { "u_has_var": "u_learned_barry_missing", "value": "yes" }, { "not": { "u_is_wearing": "badge_marshal" } } ]
         }
       },
       {
@@ -367,10 +345,7 @@
     },
     "end": {
       "opinion": { "trust": 1, "value": 1 },
-      "effect": [
-        { "u_spawn_item": "chainmail_armor_horse", "count": 1 },
-        { "u_add_var": "u_found_chris_for_carlos", "value": "yes" }
-      ]
+      "effect": [ { "u_spawn_item": "chainmail_armor_horse", "count": 1 }, { "u_add_var": "u_found_chris_for_carlos", "value": "yes" } ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,

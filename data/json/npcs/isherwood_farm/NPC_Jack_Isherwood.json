@@ -169,10 +169,7 @@
         "text": "I'm here to deliver some resources.",
         "topic": "TALK_ISHERWOOD_JACK_RESOURCES",
         "condition": {
-          "and": [
-            { "not": { "u_is_wearing": "badge_marshal" } },
-            { "u_has_var": "u_scavenge_for_Jack_Isherwood", "value": "yes" }
-          ]
+          "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "u_has_var": "u_scavenge_for_Jack_Isherwood", "value": "yes" } ]
         }
       },
       {
@@ -183,12 +180,7 @@
       {
         "text": "Hey, good to see you again.",
         "topic": "TALK_ISHERWOOD_JACK_TOPICS",
-        "condition": {
-          "and": [
-            { "not": { "u_is_wearing": "badge_marshal" } },
-            { "u_has_var": "u_met_Jack_Isherwood", "value": "yes" }
-          ]
-        }
+        "condition": { "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "u_has_var": "u_met_Jack_Isherwood", "value": "yes" } ] }
       },
       {
         "text": "Can I do anything for you?",
@@ -302,10 +294,7 @@
         "text": "I'm here to deliver some resources.",
         "topic": "TALK_ISHERWOOD_JACK_RESOURCES",
         "condition": {
-          "and": [
-            { "not": { "u_is_wearing": "badge_marshal" } },
-            { "u_has_var": "u_scavenge_for_Jack_Isherwood", "value": "yes" }
-          ]
+          "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "u_has_var": "u_scavenge_for_Jack_Isherwood", "value": "yes" } ]
         }
       },
       { "text": "A farm must be a pretty safe place these days.", "topic": "TALK_JACK_FARM" },
