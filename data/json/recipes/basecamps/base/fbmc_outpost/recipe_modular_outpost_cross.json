@@ -15,6 +15,7 @@
       { "id": "tool_storage" },
       { "id": "gathering" },
       { "id": "firewood" },
+      { "id": "foraging" },
       { "id": "sorting" },
       { "id": "logging" },
       { "id": "kitchen" },
