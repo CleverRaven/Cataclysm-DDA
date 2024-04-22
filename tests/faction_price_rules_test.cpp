@@ -108,7 +108,7 @@ TEST_CASE( "faction_price_rules", "[npc][factions][trade]" )
     WHEN( "faction has a custom price for this item (price=10000000)" ) {
         item const log = GENERATE( item( "log" ), item( "scrap" ) );
         clear_character( guy );
-        double price = *fac.get_price_rules( log, guy )->price;
+        double price = units::to_cent( *fac.get_price_rules( log, guy )->price );
         REQUIRE( price == 10000000 );
         if( log.count_by_charges() ) {
             price /= log.type->stack_size;
@@ -148,7 +148,7 @@ TEST_CASE( "faction_price_rules", "[npc][factions][trade]" )
         clear_character( guy );
         item const battery( "battery" );
         item tbd( "test_battery_disposable" );
-        int const battery_price = *guy.get_price_rules( battery )->price;
+        int const battery_price = units::to_cent( *guy.get_price_rules( battery )->price );
         REQUIRE( battery.price( true ) != battery_price );
         trade_selector::entry_t tbd_entry{
             item_location{ map_cursor( tripoint_zero ), &tbd }, 1 };

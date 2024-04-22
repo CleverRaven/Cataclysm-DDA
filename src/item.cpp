@@ -7035,20 +7035,21 @@ int item::price( bool practical ) const
     int res = 0;
 
     visit_items( [&res, practical]( const item * e, item * ) {
-        res += e->price_no_contents( practical );
+        res += e->price_no_contents( practical, std::nullopt );
         return VisitResponse::NEXT;
     } );
 
     return res;
 }
 
-int item::price_no_contents( bool practical, std::optional<int> price_override ) const
+int item::price_no_contents( bool practical, std::optional<units::money> price_override ) const
 {
     if( rotten() ) {
         return 0;
     }
-    int price = price_override ? *price_override
-                : units::to_cent( practical ? type->price_post : type->price );
+    units::money price_money = price_override ? *price_override
+                               : practical ? type->price_post : type->price;
+    int price = units::to_cent( price_money );
     if( damage() > 0 ) {
         // maximal damage level is 5, maximal reduction is 80% of the value.
         price -= price * static_cast<double>( std::max( 0, damage_level() - 1 ) ) / 5;
