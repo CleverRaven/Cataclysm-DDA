@@ -48,18 +48,21 @@
       {
         "text": "Hi, looks like you are building a forge setup.",
         "topic": "TALK_ISHERWOOD_CARLOS_TALK1",
-        "condition": {
-          "and": [
-            { "not": { "u_is_wearing": "badge_marshal" } },
+        "effect": [
             { "u_add_var": "u_met_Carlos_Isherwood", "value": "yes" },
             { "u_add_var": "u_met_an_isherwood", "value": "yes" }
+        ],
+        "condition": {
+          "and": [
+            { "not": { "u_is_wearing": "badge_marshal" } }
           ]
         }
       },
       {
         "text": "Hi, Jack and Claire suggested I come talk to you about a job.",
         "topic": "TALK_CARLOS_FORGE",
-        "condition": { "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "u_has_var": "u_met_Jack_Isherwood", "value": "yes" } ] }
+        "effect": [ { "u_add_var": "u_met_Carlos_Isherwood", "value": "yes" } ],
+        "condition": { "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "u_has_var": "u_learned_about_jesse", "value": "yes" } ] }
       },
       {
         "text": "Can I do anything for you?",
