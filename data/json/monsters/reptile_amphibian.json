@@ -436,6 +436,72 @@
     "upgrades": { "age_grow": 15, "into": "mon_shift_frog" }
   },
   {
+    "id": "mon_mink_tadpole",
+    "type": "MONSTER",
+    "copy-from": "mon_proxy_tadpole",
+    "description": "broad bodies and tails, brown and speckled",
+    "name": { "str": "tadpole" },
+    "upgrades": { "age_grow": 91, "into": "mon_mink_frog" }
+  },
+  {
+    "id": "mon_tail_tadpole",
+    "type": "MONSTER",
+    "copy-from": "mon_mink_tadpole",
+    "description": "a description goes here.",
+    "name": { "str": "tadpole" },
+    "categories": [ "NULL" ],
+    "speed": 80,
+    "harvest": "mutant_tiny",
+    "upgrades": { "age_grow": 22, "into": "mon_tail_frog" },
+    "delete": { "flags": [ "AQUATIC" ] }
+  },
+  {
+    "id": "mon_pickerel_tadpole",
+    "type": "MONSTER",
+    "copy-from": "mon_proxy_tadpole",
+    "description": "yellow to yellow-brown, cream underbelly, pointed nose, close eyes.",
+    "name": { "str": "tadpole" },
+    "color": "yellow",
+    "upgrades": { "age_grow": 22, "into": "mon_pickerel_frog" },
+    "extend": { "flags": [ "POISON" ] }
+  },
+  {
+    "id": "mon_palette_tadpole",
+    "type": "MONSTER",
+    "copy-from": "mon_pickerel_tadpole",
+    "name": { "str": "tadpole" },
+    "categories": [ "NULL" ],
+    "harvest": "mutant_tiny",
+    "upgrades": { "age_grow": 22, "into": "mon_palette_frog" },
+    "extend": { "flags": [ "POISON" ] }
+  },
+  {
+    "id": "mon_green_tadpole",
+    "type": "MONSTER",
+    "copy-from": "mon_proxy_tadpole",
+    "description": "corpulent, light green and speckled.",
+    "name": { "str": "tadpole" },
+    "color": "green",
+    "upgrades": { "age_grow": 22, "into": "mon_green_frog" }
+  },
+  {
+    "id": "mon_wood_tadpole",
+    "type": "MONSTER",
+    "copy-from": "mon_proxy_tadpole",
+    "description": "high, peaked mouth and low round belly.",
+    "name": { "str": "tadpole" },
+    "upgrades": { "age_grow": 15, "into": "mon_wood_frog" }
+  },
+  {
+    "id": "mon_spade_tadpole",
+    "type": "MONSTER",
+    "copy-from": "mon_proxy_tadpole",
+    "description": "a description goes here.",
+    "name": { "str": "tadpole" },
+    "upgrades": { "age_grow": 8, "into": "mon_spade_frog" },
+    "extend": { "flags": [ "POISON" ] }
+  },
+  {
     "abstract": "mon_proxy_bigtad",
     "type": "MONSTER",
     "description": "A tadpole the size of a bass.  It could win awards if it hadn't been debugged.",
