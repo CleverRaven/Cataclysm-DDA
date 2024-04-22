@@ -36,33 +36,6 @@
       { "skill": "archery", "bonus": { "rng": [ 8, 10 ] } }
     ]
   },
-  {
-    "type": "talk_topic",
-    "id": "TALK_ISHERWOOD_CHRIS",
-    "dynamic_line": {
-      "concatenate": [
-        "*is a young man, perhaps in his early twenties or late teens.  He eyes you up and down.  \"",
-        {
-          "u_is_wearing": "badge_marshal",
-          "yes": "I see that badge.  You need to leave our land, my relatives have no fondness for Marshals.\"",
-          "no": {
-            "u_has_var": "isherwood_chris_marshal_badge",
-            "value": "seen",
-            "yes": "I see you took the badge off.  Fine, then, but you'd better not let anyone here know you've got ties to the Marshals.\"",
-            "no": "Hi, what's up?\""
-          }
-        }
-      ]
-    },
-    "responses": [
-      {
-        "text": "… (Leave)",
-        "topic": "TALK_LEAVE_NOW_MARSHAL_CHRIS",
-        "effect": { "u_add_var": "isherwood_chris_marshal_badge", "value": "seen" },
-        "opinion": { "trust": -5, "value": -5 },
-        "condition": { "u_is_wearing": "badge_marshal" }
-      }
-    ]
   },
   {
     "type": "talk_topic",
@@ -90,6 +63,33 @@
       }
     ]
   },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_CHRIS",
+    "dynamic_line": {
+      "concatenate": [
+        "*is a young man, perhaps in his early twenties or late teens.  He eyes you up and down.  \"",
+        {
+          "u_is_wearing": "badge_marshal",
+          "yes": "I see that badge.  You need to leave our land, my relatives have no fondness for Marshals.\"",
+          "no": {
+            "u_has_var": "isherwood_chris_marshal_badge",
+            "value": "seen",
+            "yes": "I see you took the badge off.  Fine, then, but you'd better not let anyone here know you've got ties to the Marshals.\"",
+            "no": "Hi, what's up?\""
+          }
+        }
+      ]
+    },
+    "responses": [
+      {
+        "text": "… (Leave)",
+        "topic": "TALK_LEAVE_NOW_MARSHAL_CHRIS",
+        "effect": { "u_add_var": "isherwood_chris_marshal_badge", "value": "seen" },
+        "opinion": { "trust": -5, "value": -5 },
+        "condition": { "u_is_wearing": "badge_marshal" }
+      }
+    ]
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CHRIS_TALK1",

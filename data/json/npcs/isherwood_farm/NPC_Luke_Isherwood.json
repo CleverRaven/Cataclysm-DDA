@@ -157,7 +157,7 @@
       {
         "text": "Because of Barry?",
         "topic": "TALK_ISHERWOOD_LUKE_BOOKS_BARRY",
-        "condition": { "u_has_var": "u_learned_about_barry", "type": "general", "context": "meeting", "value": "yes" }
+        "condition": { "u_has_var": "u_learned_barry_missing", "value": "yes" }
       },
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -225,7 +225,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_LUKE_EDDIE_NoBarry",
-    "dynamic_line": "Things have been tough for my dad since Barry was captured.  He works till he falls asleep most nights…",
+    "dynamic_line": "&His shoulders slump a little at the question.  \"Things have been tough for my dad since Barry was captured.  He works till he falls asleep most nights…\"",
     "responses": [
       { "text": "What happened to Barry?", "topic": "TALK_LUKE_BARRY" },
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
@@ -249,7 +249,12 @@
       {
         "text": "I already know Barry got captured.  I just wanted to know a bit more about it.  Maybe I can help.",
         "topic": "TALK_LUKE_BARRY2",
-        "condition": { "u_has_var": "u_learned_about_barry", "type": "general", "context": "meeting", "value": "yes" }
+        "condition": { "u_has_var": "u_learned_barry_missing", "value": "yes" }
+      },
+      {
+        "text": "I might be able to help, though.",
+        "topic": "TALK_LUKE_BARRYhelp",
+        "condition": { "not": { "u_has_var": "u_learned_barry_missing", "value": "yes" } }
       },
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -259,6 +264,15 @@
     "type": "talk_topic",
     "id": "TALK_LUKE_BARRY2",
     "dynamic_line": "*frowns.  \"I don't know how much I can tell you.  Your best bet is to talk to Uncle Carlos.\"",
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_LUKE_BARRYhelp",
+    "dynamic_line": "I really… okay.  Maybe ask my grandma, Claire.  She'll know if it's okay to talk about.",
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }

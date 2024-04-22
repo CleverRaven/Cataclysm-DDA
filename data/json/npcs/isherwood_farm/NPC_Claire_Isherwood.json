@@ -216,12 +216,12 @@
       {
         "text": "I'd like to ask you something else…",
         "topic": "TALK_ISHERWOOD_CLAIRE_TOPICS",
-        "effect": { "u_add_var": "u_learned_about_barry", "value": "yes" }
+        "effect": { "u_add_var": "u_learned_barry_missing", "value": "yes" }
       },
       {
         "text": "I'd better get going.",
         "topic": "TALK_DONE",
-        "effect": { "u_add_var": "u_learned_about_barry", "value": "yes" }
+        "effect": { "u_add_var": "u_learned_barry_missing", "value": "yes" }
       }
     ]
   },

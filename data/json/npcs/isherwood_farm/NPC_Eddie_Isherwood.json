@@ -57,6 +57,35 @@
   },
   {
     "type": "talk_topic",
+    "id": [ "TALK_ISHERWOOD_EDDIE", "TALK_ISHERWOOD_EDDIE_ConvincedMarshal" ],
+    "responses": [
+      {
+        "text": "Nice dairy, must be tough keeping it running.",
+        "topic": "TALK_ISHERWOOD_EDDIE_TALK1",
+        "effect": { "u_add_var": "u_met_Eddie_Isherwood", "value": "yes" },
+        "condition": { "not": { "u_is_wearing": "badge_marshal" } }
+      },
+      {
+        "text": "Can I do anything for you?",
+        "topic": "TALK_MISSION_LIST",
+        "condition": { "not": { "u_is_wearing": "badge_marshal" } }
+      },
+      {
+        "text": "Have anything to trade?",
+        "topic": "TALK_ISHERWOOD_EDDIE",
+        "effect": "start_trade",
+        "condition": { "not": { "u_is_wearing": "badge_marshal" } }
+      },
+      { "text": "When will your cows produce again?", "topic": "TALK_ISHERWOOD_EDDIE_RESTOCK" },
+      {
+        "text": "I'd better get going.",
+        "topic": "TALK_DONE",
+        "condition": { "not": { "u_is_wearing": "badge_marshal" } }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_ISHERWOOD_EDDIE",
     "dynamic_line": {
       "concatenate": [
@@ -150,35 +179,6 @@
   },
   {
     "type": "talk_topic",
-    "id": [ "TALK_ISHERWOOD_EDDIE", "TALK_ISHERWOOD_EDDIE_ConvincedMarshal" ],
-    "responses": [
-      {
-        "text": "Nice dairy, must be tough keeping it running.",
-        "topic": "TALK_ISHERWOOD_EDDIE_TALK1",
-        "effect": { "u_add_var": "u_met_Eddie_Isherwood", "value": "yes" },
-        "condition": { "not": { "u_is_wearing": "badge_marshal" } }
-      },
-      {
-        "text": "Can I do anything for you?",
-        "topic": "TALK_MISSION_LIST",
-        "condition": { "not": { "u_is_wearing": "badge_marshal" } }
-      },
-      {
-        "text": "Have anything to trade?",
-        "topic": "TALK_ISHERWOOD_EDDIE",
-        "effect": "start_trade",
-        "condition": { "not": { "u_is_wearing": "badge_marshal" } }
-      },
-      { "text": "When will your cows produce again?", "topic": "TALK_ISHERWOOD_EDDIE_RESTOCK" },
-      {
-        "text": "I'd better get going.",
-        "topic": "TALK_DONE",
-        "condition": { "not": { "u_is_wearing": "badge_marshal" } }
-      }
-    ]
-  },
-  {
-    "type": "talk_topic",
     "id": "TALK_ISHERWOOD_EDDIE_Marshal",
     "dynamic_line": "*spits on the ground.  \"Didn't much care for the government and the cops before everything happened, care for them quite a bit less now.  We've had a run-in or two with the folks calling themselves the 'Old Guard'.  That's all I care to say about it.  They'll never be welcome on my land and I don't believe for a second that they didn't cause all this in the first place.\"",
     "responses": [
@@ -236,7 +236,7 @@
         "condition": {
           "and": [
             { "not": { "u_is_wearing": "badge_marshal" } },
-            { "u_has_var": "u_learned_about_barry", "value": "yes" }
+            { "u_has_var": "u_learned_barry_missing", "value": "yes" }
           ]
         }
       },
