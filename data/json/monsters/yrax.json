@@ -296,7 +296,7 @@
     "armor": { "bash": 1000, "cut": 2000, "acid": 100, "heat": 500, "electric": 100, "bullet": 1000 },
     "death_function": {
       "corpse_type": "BROKEN",
-      "message": "The quadraphract stumbles as one of its legs looses coherence and collapsed.",
+      "message": "The quadraphract stumbles as one of its legs looses coherence and collapses.",
       "eoc": "EOC_QUADRAPHRACT_HURT"
     },
     "weakpoint_sets": [ "wps_yrax_quadraphract_leg" ],
