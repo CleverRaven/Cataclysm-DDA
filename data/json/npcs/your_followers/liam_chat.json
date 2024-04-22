@@ -218,6 +218,11 @@
         "condition": { "u_has_mission": "MISSION_REACH_REFUGEE_CENTER" }
       },
       {
+        "text": "You thinking what I'm thinking about this mystery dropoff for Smokes?",
+        "topic": "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_HUB_DELIVERY_1",
+        "condition": { "u_has_mission": "MISSION_FREE_MERCHANTS_HUB_DELIVERY_1" }
+      },
+      {
         "text": "Any ideas about this job to clear out the back bay for Smokes?",
         "topic": "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_1",
         "condition": { "u_has_mission": "MISSION_FREE_MERCHANTS_EVAC_1" }
@@ -231,6 +236,76 @@
         "text": "Any thoughts about bringing this prospectus out to the ranch?",
         "topic": "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_3",
         "condition": { "u_has_mission": "MISSION_FREE_MERCHANTS_EVAC_3" }
+      },
+      {
+        "text": "What's the fastest way to find these guys some solar panels?",
+        "topic": "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_4",
+        "condition": { "u_has_mission": "MISSION_FREE_MERCHANTS_EVAC_4" }
+      },
+      {
+        "text": "Liam, I need a lot of jars.  A shocking amount of jars.",
+        "topic": "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_5",
+        "condition": { "u_has_mission": "MISSION_FREE_MERCHANTS_EVAC_5" }
+      },
+      {
+        "text": "Liam, we need bigger jars.",
+        "topic": "TALK_Liam_Opinions_MISSION_BROKER_1",
+        "condition": { "u_has_mission": "MISSION_BROKER_1" }
+      },
+      {
+        "text": "How about finding this guy some cigarettes?",
+        "topic": "TALK_Liam_Opinions_MISSION_EVAC_SMOKER_GET_CIGARETTES",
+        "condition": { "u_has_mission": "MISSION_EVAC_SMOKER_GET_CIGARETTES" }
+      },
+      {
+        "text": "Should we go check out those farmers the teamster mentioned?",
+        "topic": "TALK_Liam_Opinions_directions_isherwood",
+        "condition": { "u_has_mission": "directions_isherwood" }
+      },
+      {
+        "text": "A secret lab in the wilds, with survivors in it, Liam.  You heard the teamster.",
+        "topic": "TALK_Liam_Opinions_directions_hub01",
+        "condition": { "u_has_mission": "directions_hub01" }
+      },
+      {
+        "text": "This 'scrap metal castle' sounds far fetched to me.",
+        "topic": "TALK_Liam_Opinions_directions_exodii",
+        "condition": { "u_has_mission": "directions_exodii" }
+      },
+      {
+        "text": "What sounds better to you, a 'bullet bank' or a woman who feeds visitors?",
+        "topic": "TALK_Liam_Opinions_directions_artisans",
+        "condition": { "u_has_mission": "directions_artisans" }
+      },
+      {
+        "text": "",
+        "topic": "TALK_Liam_Opinions_MISSION_BEGGAR_2_BOX_SMALL",
+        "condition": { "u_has_mission": "MISSION_BEGGAR_2_BOX_SMALL" }
+      },
+      {
+        "text": "",
+        "topic": "TALK_Liam_Opinions_MISSION_BEGGAR_2_DUCT_TAPE",
+        "condition": { "u_has_mission": "MISSION_BEGGAR_2_DUCT_TAPE" }
+      },
+      {
+        "text": "",
+        "topic": "TALK_Liam_Opinions_MISSION_BEGGAR_2_BOX_MEDIUM",
+        "condition": { "u_has_mission": "MISSION_BEGGAR_2_BOX_MEDIUM" }
+      },
+      {
+        "text": "",
+        "topic": "TALK_Liam_Opinions_MISSION_BEGGAR_2_PLASTIC_SHEET",
+        "condition": { "u_has_mission": "MISSION_BEGGAR_2_PLASTIC_SHEET" }
+      },
+      {
+        "text": "",
+        "topic": "TALK_Liam_Opinions_MISSION_BEGGAR_2_BOX_LARGE",
+        "condition": { "u_has_mission": "MISSION_BEGGAR_2_BOX_LARGE" }
+      },
+      {
+        "text": "",
+        "topic": "TALK_Liam_Opinions_MISSION_BEGGAR_2_PERMISSION",
+        "condition": { "u_has_mission": "MISSION_BEGGAR_2_PERMISSION" }
       },
       {
         "text": "Do you know how to build a still?",
@@ -262,12 +337,6 @@
         "topic": "TALK_Liam_Opinions_MISSION_REFUGEE_Alonso_pants",
         "condition": { "u_has_mission": "MISSION_REFUGEE_Alonso_pants" }
       },
-      { "text": "", "topic": "TALK_Liam_Opinions_", "condition": { "u_has_mission": "" } },
-      { "text": "", "topic": "TALK_Liam_Opinions_", "condition": { "u_has_mission": "" } },
-      { "text": "", "topic": "TALK_Liam_Opinions_", "condition": { "u_has_mission": "" } },
-      { "text": "", "topic": "TALK_Liam_Opinions_", "condition": { "u_has_mission": "" } },
-      { "text": "", "topic": "TALK_Liam_Opinions_", "condition": { "u_has_mission": "" } },
-      { "text": "", "topic": "TALK_Liam_Opinions_", "condition": { "u_has_mission": "" } },
       {
         "text": "What do you think about helping these guys clean up all that dead zombie mess?",
         "topic": "TALK_Liam_Opinions_MISSION_REFUGEE_Boris_CLEANUP",
@@ -625,6 +694,16 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_HUB_DELIVERY_1",
+    "dynamic_line": {
+      "math": [ "u_hub01_completed_missions", ">=", "1" ],
+      "yes": "I'm thinking this kinda sounds like that intercom and their vague-yet-menacing government agency.\"  He pauses.  \"That might be a deep cut, if you never listened to Night Vale.  Anyway, I bet that's where we're going.",
+      "no": "I'm thinking this sounds *awesome*, and also possibly we're gonna die.  At least we'll die investigating a vague-yet-menacing government agency.\"  He pauses.  \"That might be a deep cut, if you never listened to Night Vale."
+    },
+    "responses": [ { "text": "Yep, same page.  I'd like your opinion on something else, actually.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_1",
     "dynamic_line": "*rubs his chin thoughtfully.  \"Maybe we can set up a bottleneck in the hallway?  First we drag a few lockers or something to funnel them, then one of us hangs close to the barricade and the other stands back and fires arrows or something?\"  He shrugs.  \"I'm not great at tactics, and I'm a bit nervous about what's back there.\"",
     "responses": [ { "text": "Thanks man.  I'd like your opinion on something else, actually.", "topic": "TALK_Liam_Opinions" } ]
@@ -665,6 +744,103 @@
         "topic": "TALK_Liam_Opinions"
       }
     ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_4",
+    "dynamic_line": "You know, I read an article about how those stupid FEMA evac shelters all had solar power for emergencies.  I bet nobody's looting those, let's track some down and unbolt 'em.",
+    "responses": [ { "text": "Not a bad thought.  I'd like your opinion on something else, actually.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_5",
+    "dynamic_line": "Look, you're the one that agreed to this.  I don't know why you keep agreeing to this stuff.  Maybe we can check hardware stores?  Or just eat a lot of jarred food, and keep the empties?  A hundred jars.  That's a lot, my friend.\"  He shakes his head.  \"You don't have to agree to do *everything* people ask you to do, you know?",
+    "speaker_effect": {
+      "effect": { "u_add_var": "u_liam_opinion_liam_MISSION_FREE_MERCHANTS_EVAC_5", "value": "yes" },
+      "sentinel": "liam_opinion_liam_MISSION_FREE_MERCHANTS_EVAC_5"
+    },
+    "responses": [
+      { "text": "Your objection is noted.  I'd like your opinion on something else, though.", "topic": "TALK_Liam_Opinions" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_BROKER_1",
+    "dynamic_line": {
+      "u_has_var": "u_liam_opinion_liam_MISSION_FREE_MERCHANTS_EVAC_5",
+      "value": "yes",
+      "yes": "*shakes his head at you.  \"Look, you asked last time, and I told you you didn't have to keep taking jobs like this.  Now you're asking again?  *I dunno, stop offering to bring a billion jars to people if you don't know where to find them.*\"  He laughs.  \"I'm just messing with you.\"  His eyes narrow.  \"Or am I?\"",
+      "no": "Look, you're the one that agreed to this.  I don't know why you keep agreeing to this stuff.  Maybe we can check hardware stores?  Or just eat a lot of jarred food, and keep the empties?  A hundred jars.  That's a lot, my friend.\"  He shakes his head.  \"You don't have to agree to do *everything* people ask you to do, you know?"
+    },
+    "responses": [
+      { "text": "Your objection is noted.  I'd like your opinion on something else, though.", "topic": "TALK_Liam_Opinions" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_EVAC_SMOKER_GET_CIGARETTES",
+    "dynamic_line": "",
+    "responses": [ { "text": "I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_directions_isherwood",
+    "dynamic_line": "",
+    "responses": [ { "text": "I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_directions_hub01",
+    "dynamic_line": "",
+    "responses": [ { "text": "I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_directions_exodii",
+    "dynamic_line": "",
+    "responses": [ { "text": "I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_directions_artisans",
+    "dynamic_line": "",
+    "responses": [ { "text": "I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_BEGGAR_2_BOX_SMALL",
+    "dynamic_line": "",
+    "responses": [ { "text": "I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_BEGGAR_2_DUCT_TAPE",
+    "dynamic_line": "",
+    "responses": [ { "text": "I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_BEGGAR_2_BOX_MEDIUM",
+    "dynamic_line": "",
+    "responses": [ { "text": "I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_BEGGAR_2_PLASTIC_SHEET",
+    "dynamic_line": "",
+    "responses": [ { "text": "I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_BEGGAR_2_BOX_LARGE",
+    "dynamic_line": "",
+    "responses": [ { "text": "I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_BEGGAR_2_PERMISSION",
+    "dynamic_line": "",
+    "responses": [ { "text": "I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
   },
   {
     "type": "talk_topic",
@@ -1411,10 +1587,25 @@
     "type": "talk_topic",
     "id": [
       "TALK_Liam_Opinions_MISSION_REACH_REFUGEE_CENTER",
+      "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_HUB_DELIVERY_1",
       "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_1",
       "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_2",
       "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_2-1",
       "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_3",
+      "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_4",
+      "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_5",
+      "TALK_Liam_Opinions_MISSION_BROKER_1",
+      "TALK_Liam_Opinions_MISSION_EVAC_SMOKER_GET_CIGARETTES",
+      "TALK_Liam_Opinions_directions_isherwood",
+      "TALK_Liam_Opinions_directions_hub01",
+      "TALK_Liam_Opinions_directions_exodii",
+      "TALK_Liam_Opinions_directions_artisans",
+      "TALK_Liam_Opinions_MISSION_BEGGAR_2_BOX_SMALL",
+      "TALK_Liam_Opinions_MISSION_BEGGAR_2_DUCT_TAPE",
+      "TALK_Liam_Opinions_MISSION_BEGGAR_2_BOX_MEDIUM",
+      "TALK_Liam_Opinions_MISSION_BEGGAR_2_PLASTIC_SHEET",
+      "TALK_Liam_Opinions_MISSION_BEGGAR_2_BOX_LARGE",
+      "TALK_Liam_Opinions_MISSION_BEGGAR_2_PERMISSION",
       "TALK_Liam_Opinions_MISSION_RANCH_BARTENDER_1",
       "TALK_Liam_Opinions_MISSION_RANCH_BARTENDER_2",
       "TALK_Liam_Opinions_MISSION_RANCH_BARTENDER_3",
