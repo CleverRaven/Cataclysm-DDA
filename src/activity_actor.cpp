@@ -7620,7 +7620,7 @@ void heat_activity_actor::start( player_activity &act, Character & )
 
 void heat_activity_actor::do_turn( player_activity &act, Character &p )
 {
-    if( get_aviliable_heater( p, h.loc ) < requirements.ammo * h.heating_effect ) {
+    if( get_available_heater( p, h.loc ) < requirements.ammo * h.heating_effect ) {
         p.add_msg_if_player( _( "You need more energy to heat these items." ) );
         act.set_to_null();
     }
