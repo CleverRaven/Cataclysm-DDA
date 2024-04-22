@@ -482,8 +482,8 @@
     "//": "Empty LMOE shelter that has been looted or used.",
     "//2": "This is a 4 bed shelter done in a realistic style. The secret room was intended to be a science lab but construction was never completed.",
     "object": {
-     "fill_ter": "t_metal_floor",
-     "rows": [
+       "fill_ter": "t_metal_floor",
+       "rows": [
         "########################",
         "||||||||||||||||||######",
         "|A,BdBd|AA|V,ee,A|######",
@@ -508,8 +508,8 @@
         "#######|__|#############",
         "#######|<<|#############",
         "#######||||#############"
-     ],
-     "palettes": [ "bunker", "empty_bunker_items" ]
+      ],
+      "palettes": [ "bunker", "empty_bunker_items" ]
     }
   }
 ]
