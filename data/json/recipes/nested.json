@@ -4237,13 +4237,7 @@
     "name": "funnels",
     "description": "Recipes related to creating funnels for catching rainwater.",
     "skill_used": "fabrication",
-    "nested_category_data": [
-      "birchbark_funnel",
-      "makeshift_funnel",
-      "leather_funnel",
-      "funnel",
-      "metal_funnel"
-    ]
+    "nested_category_data": [ "birchbark_funnel", "makeshift_funnel", "leather_funnel", "funnel", "metal_funnel" ]
   },
   {
     "id": "nested_sewing_tools",
