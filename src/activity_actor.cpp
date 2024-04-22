@@ -7601,7 +7601,7 @@ std::unique_ptr<activity_actor> vehicle_unfolding_activity_actor::deserialize( J
 
 int heat_activity_actor::get_aviliable_heater( Character &p, item_location &loc ) const
 {
-    int available_heater = 1;
+    int available_heater = 0;
     if( !loc->has_no_links() ) {
         available_heater = loc->link().t_veh->connected_battery_power_level().first;
     } else if( !loc->has_flag( flag_USE_UPS ) ) {
