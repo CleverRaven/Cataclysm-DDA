@@ -81,6 +81,7 @@
       {
         "text": "Your dad said you were out here fixing up this place.",
         "topic": "TALK_ISHERWOOD_LUKE_TALK1",
+        "effect": [ { "u_add_var": "u_met_Luke_Isherwood", "value": "yes" }, { "u_add_var": "u_met_an_isherwood", "value": "yes" } ],
         "condition": { "u_has_var": "u_met_Eddie_Isherwood", "value": "yes" }
       },
       {

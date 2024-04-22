@@ -62,7 +62,7 @@
       {
         "text": "Nice dairy, must be tough keeping it running.",
         "topic": "TALK_ISHERWOOD_EDDIE_TALK1",
-        "effect": { "u_add_var": "u_met_Eddie_Isherwood", "value": "yes" },
+        "effect": [ { "u_add_var": "u_met_Eddie_Isherwood", "value": "yes" }, { "u_add_var": "u_met_an_isherwood", "value": "yes" } ],
         "condition": { "not": { "u_is_wearing": "badge_marshal" } }
       },
       {

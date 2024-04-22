@@ -175,7 +175,7 @@
       {
         "text": "This is a lot of land, you been here since the collapse?",
         "topic": "TALK_ISHERWOOD_JACK_TALK1",
-        "effect": { "u_add_var": "u_met_Jack_Isherwood", "value": "yes" }
+        "effect": [ { "u_add_var": "u_met_Jack_Isherwood", "value": "yes" }, { "u_add_var": "u_met_an_isherwood", "value": "yes" } ]
       },
       {
         "text": "Hey, good to see you again.",

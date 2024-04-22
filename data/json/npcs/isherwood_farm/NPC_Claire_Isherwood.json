@@ -131,11 +131,13 @@
       {
         "text": "Hi, nice farm you have here.",
         "topic": "TALK_ISHERWOOD_CLAIRE_TALK1",
+        "effect": [ { "u_add_var": "u_met_Claire_Isherwood", "value": "yes" }, { "u_add_var": "u_met_an_isherwood", "value": "yes" } ],
         "condition": { "not": { "u_is_wearing": "badge_marshal" } }
       },
       {
         "text": "Hi, Jack suggested I stop by and say hello.",
         "topic": "TALK_ISHERWOOD_CLAIRE_TALK3",
+        "effect": [ { "u_add_var": "u_met_Claire_Isherwood", "value": "yes" } ],
         "condition": { "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "u_has_var": "u_met_Jack_Isherwood", "value": "yes" } ] }
       },
       {
