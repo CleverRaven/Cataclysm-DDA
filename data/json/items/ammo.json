@@ -453,7 +453,7 @@
     "type": "AMMO",
     "id": "plut_cell",
     "category": "spare_parts",
-    "price": 150000,
+    "price": "1 kUSD 500 USD",
     "price_postapoc": 1250,
     "name": { "str": "plutonium fuel cell" },
     "symbol": "=",
@@ -705,7 +705,7 @@
   {
     "type": "AMMO",
     "id": "120mm_HEAT",
-    "price": 999999,
+    "price": "9 kUSD 999 USD 99 cent",
     "price_postapoc": 1000,
     "name": { "str_sp": "120mm HEAT" },
     "symbol": "=",

@@ -48,7 +48,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Ionic Overload Generator CBM" },
     "description": "A powerful ion energy generator is implanted on your chest.  Fires a powerful, ever-expanding energy blast.  The resulting blast ignites oxygen creating fires as it moves and an explosion on impact.  Close range use is highly discouraged.",
-    "price": 220000,
+    "price": "2 kUSD 200 USD",
     "difficulty": 8
   },
   {
@@ -67,7 +67,7 @@
     "description": "A powerful ion energy generator is implanted on your chest.  Fires a powerful, ever-expanding energy blast that goes through various targets.  The energy shot ignites oxygen creating fires as it moves and an explosion on impact.",
     "weight": "2950 g",
     "volume": "3 L",
-    "price": 1600000,
+    "price": "16 kUSD",
     "to_hit": -1,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
@@ -180,7 +180,7 @@
     "description": "Ein großes zweihändiges Schwert aus Deutschland, an dessen Klinge sich, unter Zuführung von Benzin, eine anhaltende Flamme erzeugen lässt.  Es ist eine sehr mächtige Waffe.",
     "weight": "3400 g",
     "volume": "3750 ml",
-    "price": 160000,
+    "price": "1 kUSD 600 USD",
     "material": [ "steel" ],
     "symbol": "/",
     "color": "light_gray",
@@ -208,7 +208,7 @@
     "description": "Ein großes zweihändiges Schwert aus Deutschland, an dessen Klinge sich, unter Zuführung von Benzin, eine anhaltende Flamme erzeugen lässt.  Es ist eine sehr mächtige Waffe.",
     "weight": "3400 g",
     "volume": "3750 ml",
-    "price": 160000,
+    "price": "1 kUSD 600 USD",
     "material": [ "steel" ],
     "symbol": "/",
     "color": "red",
@@ -330,7 +330,7 @@
     "category": "other",
     "name": { "str": "blurry picture of a scowling cartoon ape" },
     "description": "Allegedly very important.",
-    "price": 2000000000,
+    "price": "20000 kUSD",
     "price_postapoc": 0
   },
   {

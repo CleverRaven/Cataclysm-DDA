@@ -137,7 +137,7 @@
     "color": "green",
     "name": { "str": "demon chitin horse armor" },
     "description": "A makeshift assembly of criniere, peytral and croupiere made from demon chitin fitted to a thin mesh.  You could put this on a friendly horse.",
-    "price": 120000,
+    "price": "1 kUSD 200 USD",
     "price_postapoc": 12000,
     "material": [ "demon_chitin", "steel" ],
     "weight": "31500 g",

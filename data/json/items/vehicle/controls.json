@@ -117,7 +117,7 @@
     "weight": "3000 g",
     "color": "red",
     "volume": "3750 ml",
-    "price": 200000,
+    "price": "2 kUSD",
     "price_postapoc": 1500,
     "copy-from": "vehicle_controls",
     "melee_damage": { "bash": 1 }
@@ -145,7 +145,7 @@
     "color": "white",
     "symbol": "&",
     "volume": "9 L",
-    "price": 500000,
+    "price": "5 kUSD",
     "price_postapoc": 3000,
     "copy-from": "vehicle_controls"
   },

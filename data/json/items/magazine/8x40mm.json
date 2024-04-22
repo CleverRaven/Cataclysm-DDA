@@ -78,7 +78,7 @@
     "description": "A 500-round drum magazine for use with Rivtech 8x40mm caseless firearms.  Designated as RMGD500.",
     "weight": "1400 g",
     "volume": "4 L",
-    "price": 100000,
+    "price": "1 kUSD",
     "price_postapoc": 1000,
     "material": [ "superalloy", "plastic" ],
     "symbol": "#",

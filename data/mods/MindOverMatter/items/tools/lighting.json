@@ -55,7 +55,7 @@
     "description": "Powered by matrix technology, this lamp will shed a reddish light for far longer than a standard battery-powered lamp.  Activate to open the lid.",
     "weight": "1438 g",
     "volume": "1 L",
-    "price": 175000,
+    "price": "1 kUSD 750 USD",
     "price_postapoc": 4000,
     "to_hit": -2,
     "melee_damage": { "bash": 8 },

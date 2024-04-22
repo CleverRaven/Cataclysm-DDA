@@ -11,7 +11,7 @@
     "volume": "1775 ml",
     "longest_side": "428 mm",
     "barrel_length": "212 mm",
-    "price": 850000,
+    "price": "8 kUSD 500 USD",
     "price_postapoc": 2800,
     "variant_type": "gun",
     "variants": [
@@ -54,7 +54,7 @@
     "weight": "7700 g",
     "volume": "2980 ml",
     "longest_side": "110 cm",
-    "price": 660000,
+    "price": "6 kUSD 600 USD",
     "price_postapoc": 3000,
     "variant_type": "gun",
     "variants": [
@@ -91,7 +91,7 @@
     "weight": "5900 g",
     "volume": "1930 ml",
     "longest_side": "980 mm",
-    "price": 1320000,
+    "price": "13 kUSD 200 USD",
     "price_postapoc": 10000,
     "variant_type": "gun",
     "variants": [
@@ -138,7 +138,7 @@
     "//": "barrel should be a bit shorter than the pamd71z as it's less accurate",
     "longest_side": "1000 mm",
     "barrel_length": "508 mm",
-    "price": 350000,
+    "price": "3 kUSD 500 USD",
     "price_postapoc": 4000,
     "variant_type": "gun",
     "variants": [

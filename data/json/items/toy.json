@@ -902,7 +902,7 @@
     "category": "other",
     "material": [ "cotton" ],
     "price": 0,
-    "price_postapoc": 10000000,
+    "price_postapoc": "100 kUSD",
     "symbol": "@",
     "color": "white",
     "looks_like": "talking_doll",

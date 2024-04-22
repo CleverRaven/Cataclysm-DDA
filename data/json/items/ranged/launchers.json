@@ -7,7 +7,7 @@
     "color": "green",
     "name": { "str_sp": "M72 LAW" },
     "description": "A disposable light anti-tank rocket launcher.  Once fired, it cannot be reloaded and must be disposed of.",
-    "price": 200000,
+    "price": "2 kUSD",
     "//": "A tube with a lever.  Unsurprisingly, dirt cheap (at least for a rocket launcher).",
     "material": [ "aluminum" ],
     "flags": [ "NO_UNLOAD", "NO_RELOAD", "BACKBLAST", "NEVER_JAMS", "TRADER_AVOID" ],

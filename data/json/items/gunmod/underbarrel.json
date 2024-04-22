@@ -631,7 +631,7 @@
     "weight": "1140 g",
     "volume": "750 ml",
     "longest_side": "380 mm",
-    "price": 120000,
+    "price": "1 kUSD 200 USD",
     "price_postapoc": 5000,
     "install_time": "5 m",
     "material": [ "superalloy", "ceramic" ],

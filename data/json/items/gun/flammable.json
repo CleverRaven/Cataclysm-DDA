@@ -53,7 +53,7 @@
     "description": "A modernized flamethrower, using alloy components and composite pressure tanks.  Despite having been replaced by the M202 FLASH, due to the questionable effectiveness of the flamethrower in modern combat, it appears that someone, somewhere, needed a flamethrower for the modern age, as the date code on many of the components is within the past five years.  While this resembles the Vietnam War era M9-7, the wand ignition system has been improved with a piezoelectric one, in addition to the material improvements of the system overall.",
     "//": "It's not very advanced because it was made very quickly to provide working flamethrowers to a certain agency",
     "proportional": { "weight": 0.66 },
-    "price": 970000,
+    "price": "9 kUSD 700 USD",
     "price_postapoc": 10000,
     "material": [ "aluminum", "carbonfiber" ],
     "range": 10,

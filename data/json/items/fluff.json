@@ -1700,7 +1700,7 @@
     "weight": "7884 g",
     "volume": "20813 ml",
     "longest_side": "30 cm",
-    "price": 100000,
+    "price": "1 kUSD",
     "price_postapoc": 30000,
     "to_hit": -2,
     "variants": [

@@ -55,7 +55,7 @@
     "name": "broken iron golem",
     "category": "other",
     "description": "A broken iron golem, with all iron you would possibly ever need.  Could be smashed for iron.",
-    "price": 100000,
+    "price": "1 kUSD",
     "material": [ "iron" ],
     "weight": "875 kg",
     "volume": "120 L",

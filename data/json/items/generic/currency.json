@@ -201,7 +201,7 @@
     "description": "The official 24-karat bullion coin of the United States, it has a nominal face value of fifty dollars and is guaranteed to contain one troy ounce of 99.99% pure gold.",
     "weight": "31 g",
     "volume": "1 ml",
-    "price": 175000,
+    "price": "1 kUSD 750 USD",
     "price_postapoc": 600,
     "material": [ "gold" ],
     "symbol": "o",
@@ -375,7 +375,7 @@
     "copy-from": "money_strap_one",
     "color": "green",
     "symbol": "$",
-    "price": 100000,
+    "price": "1 kUSD",
     "price_postapoc": 0
   },
   {
@@ -387,7 +387,7 @@
     "copy-from": "money_strap_one",
     "color": "green",
     "symbol": "$",
-    "price": 200000,
+    "price": "2 kUSD",
     "price_postapoc": 0
   },
   {
@@ -399,7 +399,7 @@
     "copy-from": "money_strap_one",
     "color": "green",
     "symbol": "$",
-    "price": 500000,
+    "price": "5 kUSD",
     "price_postapoc": 100
   },
   {
@@ -411,7 +411,7 @@
     "copy-from": "money_strap_one",
     "color": "green",
     "symbol": "$",
-    "price": 1000000,
+    "price": "10 kUSD",
     "price_postapoc": 100
   },
   {
@@ -422,7 +422,7 @@
     "looks_like": "money_strap_one",
     "copy-from": "FMCNote",
     "color": "white",
-    "price": 500000,
+    "price": "5 kUSD",
     "price_postapoc": 25000,
     "weight": "100 g",
     "volume": "113 ml",
@@ -441,7 +441,7 @@
     "color": "green",
     "symbol": "$",
     "material": [ "paper" ],
-    "price": 100000,
+    "price": "1 kUSD",
     "price_postapoc": 0,
     "flags": [ "OLD_CURRENCY" ]
   },
@@ -454,7 +454,7 @@
     "copy-from": "money_bundle_one",
     "color": "green",
     "symbol": "$",
-    "price": 200000,
+    "price": "2 kUSD",
     "price_postapoc": 0
   },
   {
@@ -466,7 +466,7 @@
     "copy-from": "money_bundle_one",
     "color": "green",
     "symbol": "$",
-    "price": 500000,
+    "price": "5 kUSD",
     "price_postapoc": 0
   },
   {
@@ -478,7 +478,7 @@
     "copy-from": "money_bundle_one",
     "color": "green",
     "symbol": "$",
-    "price": 1000000,
+    "price": "10 kUSD",
     "price_postapoc": 0
   },
   {
@@ -490,7 +490,7 @@
     "copy-from": "money_bundle_one",
     "color": "green",
     "symbol": "$",
-    "price": 2000000,
+    "price": "20 kUSD",
     "price_postapoc": 0
   },
   {
@@ -502,7 +502,7 @@
     "copy-from": "money_bundle_one",
     "color": "green",
     "symbol": "$",
-    "price": 5000000,
+    "price": "50 kUSD",
     "price_postapoc": 1000
   },
   {
@@ -514,7 +514,7 @@
     "copy-from": "money_bundle_one",
     "color": "green",
     "symbol": "$",
-    "price": 10000000,
+    "price": "100 kUSD",
     "price_postapoc": 1000
   },
   {
@@ -525,8 +525,8 @@
     "looks_like": "money_bundle_one",
     "copy-from": "money_strap_FMCNote",
     "color": "green",
-    "price": 5000000,
-    "price_postapoc": 250000,
+    "price": "50 kUSD",
+    "price_postapoc": "2 kUSD 500 USD",
     "weight": "1000 g",
     "volume": "1129 ml"
   },

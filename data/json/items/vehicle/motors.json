@@ -85,7 +85,7 @@
     "description": "A 1,300 horsepower 3-phase 60 Hz electric engine.  Normally used in trains.",
     "weight": "2000 kg",
     "volume": "250 L",
-    "price": 120000,
+    "price": "1 kUSD 200 USD",
     "price_postapoc": 8000,
     "copy-from": "motor"
   }

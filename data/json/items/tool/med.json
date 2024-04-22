@@ -236,7 +236,7 @@
     "category": "drugs",
     "weight": "316 g",
     "volume": "500 ml",
-    "price": 100000,
+    "price": "1 kUSD",
     "price_postapoc": 1500,
     "material": [ "ceramic", "superalloy" ],
     "symbol": ",",

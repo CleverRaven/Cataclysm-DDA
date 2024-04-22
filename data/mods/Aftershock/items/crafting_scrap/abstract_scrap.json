@@ -36,14 +36,14 @@
     "name": { "str": "ur-scrap" },
     "copy-from": "afs_scrap_1",
     "price": 50000,
-    "price_postapoc": 100000
+    "price_postapoc": "1 kUSD"
   },
   {
     "type": "GENERIC",
     "abstract": "afs_scrap_5",
     "name": { "str": "ur-scrap" },
     "copy-from": "afs_scrap_1",
-    "price": 500000,
-    "price_postapoc": 1000000
+    "price": "5 kUSD",
+    "price_postapoc": "10 kUSD"
   }
 ]

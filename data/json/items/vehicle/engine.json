@@ -228,7 +228,7 @@
     "description": "A small, primitive steam engine.  An integrated boiler burns coal to heat water into steam, driving a reciprocating shaft.  A condenser recaptures the water, making this a closed-cycle system.",
     "weight": "225000 g",
     "volume": "62500 ml",
-    "price": 225000,
+    "price": "2 kUSD 250 USD",
     "price_postapoc": 5000
   },
   {
@@ -239,7 +239,7 @@
     "description": "A small steam engine.  An integrated boiler burns coal to heat water into steam, driving a reciprocating shaft.  A condenser recaptures the water, making this a closed-cycle system.",
     "weight": "180000 g",
     "volume": "37500 ml",
-    "price": 555000,
+    "price": "5 kUSD 550 USD",
     "price_postapoc": 8000
   },
   {
@@ -250,7 +250,7 @@
     "description": "A medium-sized steam engine.  An integrated boiler burns coal to heat water into steam, driving a reciprocating shaft.  A condenser recaptures the water, making this a closed-cycle system.",
     "weight": "280000 g",
     "volume": "57500 ml",
-    "price": 870000,
+    "price": "8 kUSD 700 USD",
     "price_postapoc": 10000
   },
   {
@@ -334,7 +334,7 @@
     "//": "Based on T700 turboshaft engine. Much lighter weight than the 1,350 HP small gas turbine.  Doubled the published weight to account for a transmission.",
     "weight": "400 kg",
     "volume": "400 L",
-    "price": 192000,
+    "price": "1 kUSD 920 USD",
     "price_postapoc": 5000
   },
   {
@@ -346,7 +346,7 @@
     "//": "Based on Rolls-Royce T406.",
     "weight": "900 kg",
     "volume": "900 L",
-    "price": 960000,
+    "price": "9 kUSD 600 USD",
     "price_postapoc": 7500
   }
 ]

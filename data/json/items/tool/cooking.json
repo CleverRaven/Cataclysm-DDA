@@ -9,7 +9,7 @@
     "weight": "6102 g",
     "volume": "1500 ml",
     "longest_side": "20 cm",
-    "price": 100000,
+    "price": "1 kUSD",
     "price_postapoc": 3000,
     "to_hit": -2,
     "material": [ "plastic", "aluminum", "lead", "steel" ],

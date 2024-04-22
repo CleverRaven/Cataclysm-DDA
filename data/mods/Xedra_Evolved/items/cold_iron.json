@@ -26,7 +26,7 @@
     "weight": "1360 g",
     "volume": "2 L",
     "longest_side": "90 cm",
-    "price": 100000,
+    "price": "1 kUSD",
     "price_postapoc": 4500,
     "material": [ "iron" ],
     "repairs_with": [ "iron" ],

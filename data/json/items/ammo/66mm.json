@@ -2,7 +2,7 @@
   {
     "type": "AMMO",
     "id": "m235tpa",
-    "price": 200000,
+    "price": "2 kUSD",
     "//": "$500 per.  Cheap!",
     "name": { "str": "M74 rocket" },
     "symbol": "=",
@@ -26,7 +26,7 @@
   {
     "type": "AMMO",
     "id": "66mm_HEAT",
-    "price": 200000,
+    "price": "2 kUSD",
     "name": { "str_sp": "66mm HEAT" },
     "symbol": "=",
     "color": "dark_gray",

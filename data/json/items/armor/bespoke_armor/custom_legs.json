@@ -182,7 +182,7 @@
     "//": "weight is currently an estimation could be better",
     "weight": "3000 g",
     "volume": "7500 ml",
-    "price": 180000,
+    "price": "1 kUSD 800 USD",
     "price_postapoc": 2000,
     "to_hit": -3,
     "material": [ "kevlar_layered", "canvas" ],

@@ -107,7 +107,7 @@
     "color": "light_blue",
     "material": [ "glass", "steel" ],
     "volume": "6500 ml",
-    "price": 120000,
+    "price": "1 kUSD 200 USD",
     "price_postapoc": 1500,
     "copy-from": "solar_panel"
   },
@@ -117,7 +117,7 @@
     "id": "solar_panel_v2",
     "name": { "str": "advanced solar panel" },
     "description": "An electronic device that can convert solar radiation into electric power.  This one is a high-performance type made with monocrystalline silicon cells.",
-    "price": 190000,
+    "price": "1 kUSD 900 USD",
     "price_postapoc": 3000,
     "copy-from": "solar_panel"
   },
@@ -135,7 +135,7 @@
     "id": "reinforced_solar_panel_v2",
     "name": { "str": "advanced reinforced solar panel" },
     "description": "An advanced solar panel that has been covered with a pane of reinforced glass to protect the delicate solar cells from zombies or errant baseballs.  The glass causes this panel to produce slightly less power than a normal advanced panel.",
-    "price": 240000,
+    "price": "2 kUSD 400 USD",
     "price_postapoc": 3500,
     "copy-from": "reinforced_solar_panel"
   },

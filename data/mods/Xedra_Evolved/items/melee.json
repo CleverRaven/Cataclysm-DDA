@@ -28,7 +28,7 @@
     "color": "light_gray",
     "name": { "str": "mirrored estoc" },
     "description": "A thin piercing sword no wider than two fingers side by side, it's mirrored surface reflects the world back at it's wielders opponents and is difficult to see to parry.  You've never felt a sword like this before.",
-    "price": 135000,
+    "price": "1 kUSD 350 USD",
     "price_postapoc": 50000,
     "material": [ "moon_tears" ],
     "techniques": [ "WBLOCK_2", "PRECISE" ],

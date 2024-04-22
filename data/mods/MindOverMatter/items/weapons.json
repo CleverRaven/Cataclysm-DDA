@@ -61,7 +61,7 @@
     "weight": "4350 g",
     "volume": "3 L",
     "longest_side": "965 mm",
-    "price": 1600000,
+    "price": "16 kUSD",
     "price_postapoc": 6500,
     "to_hit": -1,
     "melee_damage": { "bash": 12 },

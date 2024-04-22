@@ -30,7 +30,7 @@
     "description": "this a pseudo item",
     "weight": "2950 g",
     "volume": "2 L",
-    "price": 1600000,
+    "price": "16 kUSD",
     "to_hit": -1,
     "material": [ "steel", "plastic" ],
     "symbol": "(",

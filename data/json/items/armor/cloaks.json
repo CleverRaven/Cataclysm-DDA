@@ -1919,7 +1919,7 @@
     "description": "A plastic cloak embedded with cameras and LEDs that will render you fully invisible to normal vision when powered and worn.  You must be carrying a unified power supply, or UPS, to use it.  Activate to toggle visibility.",
     "weight": "1552 g",
     "volume": "3500 ml",
-    "price": 5500000,
+    "price": "55 kUSD",
     "price_postapoc": 25000,
     "to_hit": -1,
     "material": [ "plastic" ],
