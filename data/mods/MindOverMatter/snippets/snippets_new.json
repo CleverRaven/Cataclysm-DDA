@@ -421,6 +421,17 @@
   },
   {
     "type": "snippet",
+    "category": "lab_file_obsidian_ring",
+    "text": [
+      {
+        "name": "Candidate Introduction",
+        "id": "lab_file_obsidian_ring_01",
+        "text": "Colleague,\nGreetings.  \nAlexandra da Silva\nLead Researcher, OBSIDIAN RING"
+      }
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "lab_file_phavian_memo",
     "text": [
       {
