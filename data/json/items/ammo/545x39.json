@@ -107,7 +107,7 @@
     "name": { "str_sp": "5.45x39mm, black powder" },
     "description": "5.45x39mm ammunition with a 56gr FMJ bullet.  The 5.45x39mm round was introduced along with the AK-74 in 1974.  It has superior wounding potential to the older 7.62x39mm round and quickly replaced it in Soviet military use.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": {
-    "price": "0 cent".3,
+      "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.56, "armor_penetration": 0.5 },
       "recoil": 0.56,
       "dispersion": 1.2
@@ -122,7 +122,7 @@
     "name": { "str_sp": "5.45x39mm AP, black powder" },
     "description": "5.45x39mm ammunition with a 57gr bullet containing a mild steel penetrator, which penetrates armor marginally better than lead core projectiles.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": {
-    "price": "0 cent".3,
+      "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.56, "armor_penetration": 0.5 },
       "recoil": 0.56,
       "dispersion": 1.2

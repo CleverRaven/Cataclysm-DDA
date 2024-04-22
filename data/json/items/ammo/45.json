@@ -75,7 +75,7 @@
     "name": { "str_sp": ".45 ACP FMJ, black powder" },
     "description": ".45 ACP ammunition with a 230gr FMJ bullet.  Due to a reputation for effectiveness, the .45 ACP round has been common for over a century.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": {
-    "price": "0 cent".3,
+      "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2
@@ -90,7 +90,7 @@
     "name": { "str_sp": ".45 ACP JHP, black powder" },
     "description": ".45 ACP ammunition with a 185gr JHP bullet.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": {
-    "price": "0 cent".3,
+      "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2

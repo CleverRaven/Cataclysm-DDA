@@ -78,7 +78,7 @@
     "name": { "str": ".300 AAC Blackout, black powder", "str_pl": ".300 AAC Blackouts, black powder" },
     "description": "A .300 AAC Blackout round with a 125gr bullet.  .300 BLK is an intermediate cartridge necked up from 5.56x45mm, designed to achieve similar ballistics to 7.62x39mm.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": {
-    "price": "0 cent".3,
+      "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2
@@ -103,7 +103,7 @@
     "name": { "str": ".300 AAC Blackout subsonic, black powder", "str_pl": ".300 AAC Blackouts subsonic, black powder" },
     "description": "A subsonic .300 AAC Blackout round with a 220gr open tip match bullet.  When fired with a suppressor, it only emits low noise, making it ideal for silently eliminating your enemies.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": {
-    "price": "0 cent".3,
+      "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2

@@ -148,7 +148,7 @@
     "description": "An improvised 40x46mm buckshot load somewhat resembling M576, loaded into a M199 canister.  Due to the limitations of weapons built to fire 40x46mm grenades, it's much less powerful than you'd expect.  The use of black powder instead of smokeless doesn't help either - expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "ascii_picture": "40x46mm_improvised",
     "proportional": {
-    "price": "0 cent".3,
+      "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2
