@@ -1175,7 +1175,7 @@
     "energy_source": "MANA",
     "base_energy_cost": 200,
     "extra_effects": [ { "id": "eoc_enhancement_setup" } ],
-    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(6000, )" ] }
+    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(6000, 40)" ] }
   },
   {
     "id": "druid_breathing_underwater",
