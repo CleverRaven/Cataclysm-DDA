@@ -188,7 +188,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_BARRY_TOWER_fresh3",
-    "dynamic_line": "*shudders, looking like he might vomit.  \"What did they want?  Why me?  Every time, they'd put me back together again, seal it up and make it look almost like nothing happened.\"  He yanks up his shirt to show the scars.  \"But I know what happened, it was REAL, goddamit!\"  He drops the shirt, bends forward, and dry heaves for a few seconds.  Wordless, he hides his face in his hands, and stops responding.",
+    "dynamic_line": "*shudders, looking like he might vomit.  \"What did they want?  Why me?  Every time, they'd put me back together again, seal it up and make it look almost like nothing happened.\"  He yanks up his shirt to show the scars.  \"But I know what happened, it was REAL, goddammit!\"  He drops the shirt, bends forward, and dry heaves for a few seconds.  Wordless, he hides his face in his hands, and stops responding.",
     "responses": [ { "text": "(Leave)", "topic": "TALK_DONE" } ]
   },
   {
