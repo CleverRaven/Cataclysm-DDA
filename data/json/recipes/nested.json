@@ -4227,11 +4227,7 @@
     "name": "adjustable wrenches",
     "description": "Recipes related to creating adjustable wrenches.",
     "skill_used": "fabrication",
-    "nested_category_data": [
-      "wrench",
-      "wrench_large",
-      "wrench_small"
-    ]
+    "nested_category_data": [ "wrench", "wrench_large", "wrench_small" ]
   },
   {
     "id": "nested_funnels",
