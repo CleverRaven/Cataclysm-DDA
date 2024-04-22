@@ -1184,7 +1184,7 @@
     "variants": [
       {
         "id": "lutheran_necklace",
-        "name": { "str": "Lutherian Seal necklace" },
+        "name": { "str": "Lutheran Seal necklace" },
         "description": "A necklace made of a fine gold chain with the Luther Seal symbol as a pendant.  It is a symbol of the Lutheran Christian faith: The cross mean that humanity was saved from sin because Jesus died on the cross, the heart means that humanity lives because Jesus shed his blood for it, and the flower means that humanity has peace from its faith, and the background means that they have hope that they will be with Jesus in heaven one day.",
         "color": "yellow",
         "weight": 30
@@ -1388,7 +1388,7 @@
       {
         "id": "odin_necklace2",
         "name": { "str": "Valknut necklace" },
-        "description": "A necklace made of a fine gold chain with the Valknut symbol as a pendant.  It is a symbol of the Asatru faith.  Also known as Hrungnir's Heart, the Valknot or 'knot of the slain' is an old Norse symbol that often represented the afterlife in carvings and designs.  It is often considered a symbol of the Norse god Odin.",
+        "description": "A necklace made of a fine gold chain with the Valknut symbol as a pendant.  It is a symbol of the Asatru faith.  Also known as Hrungnir's Heart, the Valknut or 'knot of the slain' is an old Norse symbol that often represented the afterlife in carvings and designs.  It is often considered a symbol of the Norse god Odin.",
         "color": "yellow",
         "weight": 6
       },
@@ -1507,7 +1507,7 @@
       {
         "id": "eckankar_necklace",
         "name": { "str": "Eckankar necklace" },
-        "description": "A necklace made of a fine gold chain with the Eckhankar symbol as a pendant.  It is a symbol of the Eckankar faith.  Eckankar teaches that 'spiritual liberation' in one's lifetime is available to all and that it is possible to achieve Self-Realization (the realization of oneself as Soul) and God-Realization (the realization of oneself as a spark of God) in one's lifetime though a series of Eckankar teachings.",
+        "description": "A necklace made of a fine gold chain with the Eckankar symbol as a pendant.  It is a symbol of the Eckankar faith.  Eckankar teaches that 'spiritual liberation' in one's lifetime is available to all and that it is possible to achieve Self-Realization (the realization of oneself as Soul) and God-Realization (the realization of oneself as a spark of God) in one's lifetime though a series of Eckankar teachings.",
         "color": "yellow",
         "weight": 5
       },
@@ -4073,7 +4073,7 @@
     "copy-from": "garnet_gold_tiara",
     "type": "ARMOR",
     "name": { "str": "gold hair beads", "str_pl": "sets of gold hair beads" },
-    "description": "an assortment of gold beads used to decorate locs or braids.",
+    "description": "An assortment of gold beads used to decorate locs or braids.",
     "weight": "15 g",
     "volume": "25 ml",
     "material": [ "gold" ],
@@ -4243,10 +4243,10 @@
       { "type": "COMPONENT_ID", "condition": "38_casing", "name": { "str": "revolver-cartridge necklace" } },
       { "type": "COMPONENT_ID", "condition": "46mm_casing", "name": { "str": "automatic-cartridge necklace" } },
       { "type": "COMPONENT_ID", "condition": "57mm_casing", "name": { "str": "automatic-cartridge necklace" } },
-      { "type": "COMPONENT_ID", "condition": "45colt_casing", "name": { "str": "rivolver-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "45colt_casing", "name": { "str": "revolver-cartridge necklace" } },
       { "type": "COMPONENT_ID", "condition": "357mag_casing", "name": { "str": "magnum-cartridge necklace" } },
       { "type": "COMPONENT_ID", "condition": "44_casing", "name": { "str": "magnum-cartridge necklace" } },
-      { "type": "COMPONENT_ID", "condition": "454_casing", "name": { "str": "rivolver-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "454_casing", "name": { "str": "revolver-cartridge necklace" } },
       { "type": "COMPONENT_ID", "condition": "500_casing", "name": { "str": "magnum-cartridge necklace" } }
     ],
     "description": "A simple, if rather crude, piece of post-Cataclysm jewelry: a solitary bullet casing from a handgun cartridge or other such form of ammunition strung upon a length of string, cord, or twine to form a makeshift pendant.",
@@ -4312,7 +4312,7 @@
     "id": "simple_ordnance_cartridge_necklace",
     "copy-from": "simple_pistol_cartridge_necklace",
     "type": "ARMOR",
-    "name": { "str": "ordinance-cartridge necklace" },
+    "name": { "str": "ordnance-cartridge necklace" },
     "conditional_names": [
       { "type": "COMPONENT_ID", "condition": "40x46mm_m212_casing", "name": { "str": "grenade-cartridge necklace" } },
       { "type": "COMPONENT_ID", "condition": "40x46mm_m118_casing", "name": { "str": "grenade-cartridge necklace" } },
@@ -4331,8 +4331,8 @@
       { "type": "COMPONENT_ID", "condition": "40x53mm_m169_casing", "name": { "str": "grenade-cartridge necklace" } },
       { "type": "COMPONENT_ID", "condition": "shot_hull", "name": { "str": "shotgun-cartridge necklace" } },
       { "type": "COMPONENT_ID", "condition": "410shot_hull", "name": { "str": "shotgun-cartridge necklace" } },
-      { "type": "COMPONENT_ID", "condition": "273x110casing", "name": { "str": "alien-ordinance necklace" } },
-      { "type": "COMPONENT_ID", "condition": "273x44casing", "name": { "str": "alien-ordinance necklace" } }
+      { "type": "COMPONENT_ID", "condition": "273x110casing", "name": { "str": "alien-ordnance necklace" } },
+      { "type": "COMPONENT_ID", "condition": "273x44casing", "name": { "str": "alien-ordnance necklace" } }
     ],
     "description": "An expedient means of flaunting one's gunnery prowess, or a crude attempt at overcompensating for matters best left undescribed, this article of craft-produced jewelry is, essentially, one part cordage and three parts mammoth bullet casing: the giant cartridge, either from a grenade round or some other form of heavy munitions, strung to hang upon the chest as a pendent.",
     "snippet_category": [
@@ -4342,7 +4342,7 @@
       },
       {
         "id": "ordinance_pendent2",
-        "text": "An expedient means of flaunting one's gunnery prowess, or a crude attempt at overcompensating for matters best left undescribed, this article of craft-produced jewelry is, essentially, one part cordage and three parts mammoth bullet casing: the giant cartridge, either from a grenade round or some other form of heavy munitions, strung to hang upon the chest as a pendent.  The centre of the shell's struck primer has been punched out, and a second hole has been drilled shy of the rim, with a section of tied-off cordage stringing through both entry points to form a makeshift neck chain."
+        "text": "An expedient means of flaunting one's gunnery prowess, or a crude attempt at overcompensating for matters best left undescribed, this article of craft-produced jewelry is, essentially, one part cordage and three parts mammoth bullet casing: the giant cartridge, either from a grenade round or some other form of heavy munitions, strung to hang upon the chest as a pendent.  The center of the shell's struck primer has been punched out, and a second hole has been drilled shy of the rim, with a section of tied-off cordage stringing through both entry points to form a makeshift neck chain."
       },
       {
         "id": "ordinance_pendent3",
@@ -4373,8 +4373,8 @@
       { "type": "COMPONENT_ID", "condition": "45colt_casing", "name": { "str_sp": "Peacemaker's" } },
       { "type": "COMPONENT_ID", "condition": "454_casing", "name": { "str_sp": "Judge's Wrath" } },
       { "type": "COMPONENT_ID", "condition": "45_casing", "name": { "str_sp": "God's Caliber" } },
-      { "type": "COMPONENT_ID", "condition": "46mm_casing", "name": { "str_sp": "Hekler's Screamer" } },
-      { "type": "COMPONENT_ID", "condition": "57mm_casing", "name": { "str_sp": "Needel Rain" } },
+      { "type": "COMPONENT_ID", "condition": "46mm_casing", "name": { "str_sp": "Heckler's Screamer" } },
+      { "type": "COMPONENT_ID", "condition": "57mm_casing", "name": { "str_sp": "Needle Rain" } },
       { "type": "COMPONENT_ID", "condition": "460_casing", "name": { "str_sp": "God's Magnum" } },
       { "type": "COMPONENT_ID", "condition": "500_casing", "name": { "str_sp": "Recoil-Rider" } },
       { "type": "COMPONENT_ID", "condition": "762_25_casing", "name": { "str_sp": "Revolutionary's" } },
@@ -4486,7 +4486,7 @@
     "id": "fancy_ordinance_cartridge_necklace",
     "type": "ARMOR",
     "copy-from": "fancy_pistol_cartridge_necklace",
-    "name": { "str": "refined ordinance-cartridge necklace" },
+    "name": { "str": "refined ordnance-cartridge necklace" },
     "conditional_names": [
       { "type": "COMPONENT_ID", "condition": "40x46mm_m118_casing", "name": { "str_sp": "Grenadier's" } },
       { "type": "COMPONENT_ID", "condition": "40x46mm_m199_casing", "name": { "str_sp": "God's Boomstick" } },

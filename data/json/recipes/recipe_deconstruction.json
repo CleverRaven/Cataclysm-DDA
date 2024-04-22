@@ -2668,7 +2668,7 @@
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "1 s",
-    "components": [ [ [ "glass_shard", 3 ] ] ]
+    "components": [ [ [ "glass_shard", 6 ] ] ]
   },
   {
     "result": "flask_glass",
@@ -3052,11 +3052,9 @@
     "result": "kettle",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "fabrication",
-    "difficulty": 1,
     "time": "2 m",
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "sheet_metal_small", 3 ] ] ]
+    "qualities": [ { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "sheet_metal_small", 2 ] ] ]
   },
   {
     "result": "kiln_done",
@@ -7704,7 +7702,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "45 m",
     "qualities": [ { "id": "WRENCH", "level": 2 } ],
-    "components": [ [ [ "generator_7500w", 1 ] ], [ [ "i4_diesel", 1 ] ], [ [ "frame", 1 ] ], [ [ "jerrycan_big", 1 ] ] ]
+    "components": [ [ [ "generator_7500w", 1 ] ], [ [ "engine_1cyl_diesel_large", 1 ] ], [ [ "frame", 1 ] ], [ [ "jerrycan_big", 1 ] ] ]
   },
   {
     "result": "apron_cut_resistant",

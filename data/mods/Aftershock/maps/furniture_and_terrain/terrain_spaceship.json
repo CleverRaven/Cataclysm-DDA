@@ -251,7 +251,7 @@
     "type": "terrain",
     "id": "t_augustmoon_shuttle_console",
     "name": "Shuttle Guidance Console",
-    "description": "Thie simplifed guidance interface of a drone shuttle.  Activating it will transport you to Port Augustmoon.",
+    "description": "The simplified guidance interface of a drone shuttle.  Activating it will transport you to Port Augustmoon.",
     "symbol": "6",
     "looks_like": "t_afs_shuttlepod_g",
     "color": "light_blue",

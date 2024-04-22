@@ -2,6 +2,7 @@
 #include <vector>
 
 #include "activity_handlers.h"
+#include "avatar.h"
 #include "avatar_action.h"
 #include "cata_catch.h"
 #include "activity_type.h"
@@ -14,7 +15,15 @@
 #include "player_helpers.h"
 
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
+
 static const faction_id faction_free_merchants( "free_merchants" );
+
+static const ter_str_id ter_t_dirt( "t_dirt" );
+static const ter_str_id ter_t_metal_grate_window( "t_metal_grate_window" );
+static const ter_str_id ter_t_railroad_rubble( "t_railroad_rubble" );
+static const ter_str_id ter_t_window_boarded_noglass( "t_window_boarded_noglass" );
+static const ter_str_id ter_t_window_empty( "t_window_empty" );
+
 static const zone_type_id zone_type_CONSTRUCTION_BLUEPRINT( "CONSTRUCTION_BLUEPRINT" );
 static const zone_type_id zone_type_LOOT_UNSORTED( "LOOT_UNSORTED" );
 
@@ -156,11 +165,11 @@ void run_test_case( Character &u )
         construction const build =
             setup_testcase( u, "test_constr_remove_gravel", tri_gravel, tripoint_bub_ms() );
         // first check that we don't get stuck in a loop
-        here.ter_set( tri_gravel, t_dirt );
+        here.ter_set( tri_gravel, ter_t_dirt );
         run_activities( u, 1 );
         REQUIRE( here.partial_con_at( tri_gravel ) == nullptr );
 
-        here.ter_set( tri_gravel, t_railroad_rubble );
+        here.ter_set( tri_gravel, ter_t_railroad_rubble );
         run_activities( u, build.time * 10 );
         REQUIRE( here.ter( tri_gravel ) == ter_id( build.post_terrain ) );
     }
@@ -171,10 +180,10 @@ void run_test_case( Character &u )
         tripoint_bub_ms const tri_window( tripoint_south );
         construction const build =
             setup_testcase( u, "test_constr_window_boarded", tri_window, tripoint_bub_ms() );
-        here.ter_set( tri_window, t_window_empty );
+        here.ter_set( tri_window, ter_t_window_empty );
         REQUIRE( build.pre_terrain != "t_window_empty" );
         run_activities( u, build.time * 10 );
-        REQUIRE( here.ter( tri_window ) == t_window_boarded_noglass );
+        REQUIRE( here.ter( tri_window ) == ter_t_window_boarded_noglass );
     }
 
     SECTION( "1-step construction activity with existing partial" ) {
@@ -200,7 +209,7 @@ void run_test_case( Character &u )
         pc.id = get_construction( "test_constr_window_boarded_noglass_empty" ).id;
         here.partial_con_set( tri_window, pc );
         run_activities( u, build.time * 10 );
-        REQUIRE( here.ter( tri_window ) == t_window_boarded_noglass );
+        REQUIRE( here.ter( tri_window ) == ter_t_window_boarded_noglass );
     }
 
     SECTION( "1-step construction activity with mismatched partial" ) {
@@ -223,7 +232,7 @@ void run_test_case( Character &u )
         here.build_map_cache( u.pos().z );
         tripoint_bub_ms const tri_window = { 0, 5, 0 };
         for( tripoint_bub_ms const &it : here.points_in_radius( tri_window, 1 ) ) {
-            here.ter_set( it, t_metal_grate_window );
+            here.ter_set( it, ter_t_metal_grate_window );
         }
         construction const build =
             setup_testcase( u, "test_constr_door", tri_window, tripoint_bub_ms() );

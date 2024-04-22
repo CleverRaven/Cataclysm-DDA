@@ -498,82 +498,103 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_UNFOLD_ENTRY_SETUP_1",
-    "effect": [ { "math": [ "u_LIXA_entry", "=", "1" ] }, { "run_eocs": "EOC_LIXA_UNFOLD_ENTRY" } ]
+    "effect": [ { "math": [ "u_LIXA_entry", "=", "1" ] }, { "run_eocs": [ "EOC_LIXA_UNFOLD_ENTRY", "capture_generic_nre_anomaly" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_UNFOLD_ENTRY_SETUP_2",
-    "effect": [ { "math": [ "u_LIXA_entry", "=", "2" ] }, { "run_eocs": "EOC_LIXA_UNFOLD_ENTRY" } ]
+    "effect": [ { "math": [ "u_LIXA_entry", "=", "2" ] }, { "run_eocs": [ "EOC_LIXA_UNFOLD_ENTRY", "capture_generic_nre_anomaly" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_UNFOLD_ENTRY_SETUP_3",
-    "effect": [ { "math": [ "u_LIXA_entry", "=", "3" ] }, { "run_eocs": "EOC_LIXA_UNFOLD_ENTRY" } ]
+    "effect": [ { "math": [ "u_LIXA_entry", "=", "3" ] }, { "run_eocs": [ "EOC_LIXA_UNFOLD_ENTRY", "capture_generic_nre_anomaly" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_UNFOLD_ENTRY_SETUP_4",
-    "effect": [ { "math": [ "u_LIXA_entry", "=", "4" ] }, { "run_eocs": "EOC_LIXA_UNFOLD_ENTRY" } ]
+    "effect": [ { "math": [ "u_LIXA_entry", "=", "4" ] }, { "run_eocs": [ "EOC_LIXA_UNFOLD_ENTRY", "capture_generic_nre_anomaly" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_UNFOLD_ENTRY_SETUP_5",
-    "effect": [ { "math": [ "u_LIXA_entry", "=", "5" ] }, { "run_eocs": "EOC_LIXA_UNFOLD_ENTRY" } ]
+    "effect": [ { "math": [ "u_LIXA_entry", "=", "5" ] }, { "run_eocs": [ "EOC_LIXA_UNFOLD_ENTRY", "capture_generic_nre_anomaly" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_UNFOLD_ENTRY_SETUP_6",
-    "effect": [ { "math": [ "u_LIXA_entry", "=", "6" ] }, { "run_eocs": "EOC_LIXA_UNFOLD_ENTRY" } ]
+    "effect": [ { "math": [ "u_LIXA_entry", "=", "6" ] }, { "run_eocs": [ "EOC_LIXA_UNFOLD_ENTRY", "capture_generic_nre_anomaly" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_UNFOLD_ENTRY_SETUP_7",
-    "effect": [ { "math": [ "u_LIXA_entry", "=", "7" ] }, { "run_eocs": "EOC_LIXA_UNFOLD_ENTRY" } ]
+    "effect": [ { "math": [ "u_LIXA_entry", "=", "7" ] }, { "run_eocs": [ "EOC_LIXA_UNFOLD_ENTRY", "capture_generic_nre_anomaly" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_UNFOLD_ENTRY_SETUP_8",
-    "effect": [ { "math": [ "u_LIXA_entry", "=", "8" ] }, { "run_eocs": "EOC_LIXA_UNFOLD_ENTRY" } ]
+    "effect": [ { "math": [ "u_LIXA_entry", "=", "8" ] }, { "run_eocs": [ "EOC_LIXA_UNFOLD_ENTRY", "capture_generic_nre_anomaly" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_UNFOLD_ENTRY_SETUP_9",
-    "effect": [ { "math": [ "u_LIXA_entry", "=", "9" ] }, { "run_eocs": "EOC_LIXA_UNFOLD_ENTRY" } ]
+    "effect": [ { "math": [ "u_LIXA_entry", "=", "9" ] }, { "run_eocs": [ "EOC_LIXA_UNFOLD_ENTRY", "capture_generic_nre_anomaly" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_UNFOLD_ENTRY_SETUP_10",
-    "effect": [ { "math": [ "u_LIXA_entry", "=", "10" ] }, { "run_eocs": "EOC_LIXA_UNFOLD_ENTRY" } ]
+    "effect": [
+      { "math": [ "u_LIXA_entry", "=", "10" ] },
+      { "run_eocs": [ "EOC_LIXA_UNFOLD_ENTRY", "capture_generic_nre_anomaly" ] }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_UNFOLD_ENTRY_SETUP_11",
-    "effect": [ { "math": [ "u_LIXA_entry", "=", "11" ] }, { "run_eocs": "EOC_LIXA_UNFOLD_ENTRY" } ]
+    "effect": [
+      { "math": [ "u_LIXA_entry", "=", "11" ] },
+      { "run_eocs": [ "EOC_LIXA_UNFOLD_ENTRY", "capture_generic_nre_anomaly" ] }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_UNFOLD_ENTRY_SETUP_12",
-    "effect": [ { "math": [ "u_LIXA_entry", "=", "12" ] }, { "run_eocs": "EOC_LIXA_UNFOLD_ENTRY" } ]
+    "effect": [
+      { "math": [ "u_LIXA_entry", "=", "12" ] },
+      { "run_eocs": [ "EOC_LIXA_UNFOLD_ENTRY", "capture_generic_nre_anomaly" ] }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_UNFOLD_ENTRY_SETUP_13",
-    "effect": [ { "math": [ "u_LIXA_entry", "=", "13" ] }, { "run_eocs": "EOC_LIXA_UNFOLD_ENTRY" } ]
+    "effect": [
+      { "math": [ "u_LIXA_entry", "=", "13" ] },
+      { "run_eocs": [ "EOC_LIXA_UNFOLD_ENTRY", "capture_generic_nre_anomaly" ] }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_UNFOLD_ENTRY_SETUP_14",
-    "effect": [ { "math": [ "u_LIXA_entry", "=", "14" ] }, { "run_eocs": "EOC_LIXA_UNFOLD_ENTRY" } ]
+    "effect": [
+      { "math": [ "u_LIXA_entry", "=", "14" ] },
+      { "run_eocs": [ "EOC_LIXA_UNFOLD_ENTRY", "capture_generic_nre_anomaly" ] }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_UNFOLD_ENTRY_SETUP_15",
-    "effect": [ { "math": [ "u_LIXA_entry", "=", "15" ] }, { "run_eocs": "EOC_LIXA_UNFOLD_ENTRY" } ]
+    "effect": [
+      { "math": [ "u_LIXA_entry", "=", "15" ] },
+      { "run_eocs": [ "EOC_LIXA_UNFOLD_ENTRY", "capture_generic_nre_anomaly" ] }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_UNFOLD_ENTRY_SETUP_16",
-    "effect": [ { "math": [ "u_LIXA_entry", "=", "16" ] }, { "run_eocs": "EOC_LIXA_UNFOLD_ENTRY" } ]
+    "effect": [
+      { "math": [ "u_LIXA_entry", "=", "16" ] },
+      { "run_eocs": [ "EOC_LIXA_UNFOLD_ENTRY", "capture_generic_nre_anomaly" ] }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -2045,7 +2066,7 @@
       { "mapgen_update": "turn_off_LIXA", "target_var": { "global_val": "LIXA_surface_2a" } },
       { "mapgen_update": "turn_off_LIXA", "target_var": { "global_val": "LIXA_surface_2b" } },
       {
-        "u_message": "There is a soft sound, like a champaigne cork popping in an empty concert hall.  The world is as it was again.  The LIXA device still hums quietly as it finishes powering down.",
+        "u_message": "There is a soft sound, like a champagne cork popping in an empty concert hall.  The world is as it was again.  The LIXA device still hums quietly as it finishes powering down.",
         "popup": true
       },
       { "u_teleport": { "global_val": "LIXA_return_tp" }, "force": true }

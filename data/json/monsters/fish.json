@@ -330,7 +330,7 @@
     "id": "mon_fish_salmon",
     "type": "MONSTER",
     "copy-from": "mon_fish_large",
-    "name": { "str_sp": "atlantic salmon" },
+    "name": { "str_sp": "Atlantic salmon" },
     "description": "An Atlantic salmon.  A very fatty, nutritious fish.  Tastes great smoked.",
     "volume": "10600 ml",
     "weight": "4 kg",

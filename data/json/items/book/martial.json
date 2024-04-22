@@ -111,9 +111,9 @@
     "id": "manual_bojutsu",
     "copy-from": "book_martial",
     "type": "BOOK",
-    "name": { "str": "Bojutsu The Matsumoto System", "str_pl": "copies of Bojutsu The Matsumoto System" },
+    "name": { "str": "Bōjutsu The Matsumoto System", "str_pl": "copies of Bōjutsu The Matsumoto System" },
     "price_postapoc": 2000,
-    "description": "A complete guide to Bojutsu.",
+    "description": "A complete guide to Bōjutsu.",
     "martial_art": "style_bojutsu"
   },
   {

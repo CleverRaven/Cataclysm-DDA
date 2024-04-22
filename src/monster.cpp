@@ -1093,7 +1093,7 @@ std::string monster::extended_description() const
         ss += string_format( _( "Friendly: %1$d" ), friendly ) + "\n";
         ss += string_format( _( "Morale: %1$d" ), morale ) + "\n";
         if( aggro_character ) {
-            ss += string_format( _( "<color_red>Agressive towards characters</color>" ) ) + "\n";
+            ss += string_format( _( "<color_red>Aggressive towards characters</color>" ) ) + "\n";
         }
 
         const time_duration current_time = calendar::turn - calendar::turn_zero;
@@ -1340,6 +1340,11 @@ bool monster::has_intelligence() const
 std::vector<material_id> monster::get_absorb_material() const
 {
     return type->absorb_material;
+}
+
+std::vector<material_id> monster::get_no_absorb_material() const
+{
+    return type->no_absorb_material;
 }
 
 void monster::set_patrol_route( const std::vector<point> &patrol_pts_rel_ms )
@@ -3225,7 +3230,7 @@ void monster::process_effects()
         add_msg_if_player_sees( *this, m_warning, healing_format_string, name() );
     }
 
-    if( type->regenerates_in_dark ) {
+    if( type->regenerates_in_dark && !g->is_in_sunlight( pos() ) ) {
         const float light = get_map().ambient_light_at( pos() );
         // Magic number 10000 was chosen so that a floodlight prevents regeneration in a range of 20 tiles
         const float dHP = 50.0 * std::exp( - light * light / 10000 );

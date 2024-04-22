@@ -3,12 +3,12 @@
 #define CATA_SRC_BEHAVIOR_H
 
 #include <functional>
-#include <iosfwd>
 #include <string>
+#include <string_view>
+#include <tuple>
 #include <utility>
 #include <vector>
 
-#include "string_id.h"
 #include "type_id.h"
 
 class JsonObject;

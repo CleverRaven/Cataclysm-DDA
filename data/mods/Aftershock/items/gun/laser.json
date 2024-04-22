@@ -22,7 +22,7 @@
     "type": "GUN",
     "copy-from": "afs_sentinel_stunner",
     "name": { "str": "wrist-trilaser" },
-    "description": "A powerful tri-barreled laser weapon, still mounted to the robotic hand of the wraitheon drone it originally belonged to.  Can still be fired when connected to an UPS.",
+    "description": "A powerful tri-barreled laser weapon, still mounted to the robotic hand of the Wraitheon drone it originally belonged to.  Can still be fired when connected to an UPS.",
     "color": "red",
     "range": 10,
     "ranged_damage": { "damage_type": "heat", "amount": 25, "armor_penetration": 4 },

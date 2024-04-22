@@ -536,6 +536,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_iguanodon",
+    "name": "iguanodon egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": "GROUP_EGG_iguanodon"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_hadrosaurus",
     "name": "hadrosaurus egg",
     "copy-from": "egg_dino",

@@ -7,12 +7,12 @@
 #include <ctime>
 #include <functional>
 #include <iosfwd>
-#include <list>
+#include <map>
 #include <memory>
-#include <queue>
-#include <new>
 #include <optional>
 #include <set>
+#include <string>
+#include <unordered_map>
 #include <unordered_set>
 #include <utility>
 #include <vector>
@@ -20,6 +20,7 @@
 #include "calendar.h"
 #include "character.h"
 #include "character_id.h"
+#include "color.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "cursesdef.h"
@@ -28,22 +29,11 @@
 #include "global_vars.h"
 #include "item_location.h"
 #include "memory_fast.h"
-#include "monster.h"
 #include "pimpl.h"
 #include "point.h"
 #include "type_id.h"
-#include "uistate.h"
 #include "units_fwd.h"
 #include "weather.h"
-
-class Character;
-class creature_tracker;
-class JsonValue;
-class item;
-class location;
-class eoc_events;
-class spell_events;
-class viewer;
 
 constexpr int DEFAULT_TILESET_ZOOM = 16;
 
@@ -76,32 +66,40 @@ enum safe_mode_type {
 
 enum action_id : int;
 
+class JsonValue;
 class achievements_tracker;
 class avatar;
+class cata_path;
+class creature_tracker;
+class eoc_events;
 class event_bus;
 class faction_manager;
+class field_entry;
+class item;
 class kill_tracker;
+class live_view;
+class loading_ui;
 class map;
 class map_item_stack;
 class memorial_logger;
+class monster;
 class npc;
+class npc_template;
+class overmap;
 class save_t;
 class scenario;
-class stats_tracker;
-class vehicle;
-struct WORLD;
-struct special_game;
-template<typename Tripoint>
-class tripoint_range;
-class exosuit_interact;
-class live_view;
-class loading_ui;
-class overmap;
 class scent_map;
+class spell_events;
 class static_popup;
+class stats_tracker;
 class timed_event_manager;
 class ui_adaptor;
+class uilist;
+class vehicle;
+class viewer;
+struct special_game;
 struct visibility_variables;
+template <typename Tripoint> class tripoint_range;
 
 using item_filter = std::function<bool ( const item & )>;
 using item_location_filter = std::function<bool ( const item_location & )>;

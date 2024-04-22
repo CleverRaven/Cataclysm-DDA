@@ -4,10 +4,12 @@
 
 #include <string>
 #include <string_view>
+#include <utility>
 #include <variant>
 #include <vector>
 
 #include "dialogue_helpers.h"
+#include "math_parser.h"
 
 class math_exp;
 struct dialogue;

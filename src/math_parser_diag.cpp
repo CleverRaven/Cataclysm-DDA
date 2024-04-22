@@ -12,6 +12,7 @@
 #include "magic.h"
 #include "map.h"
 #include "math_parser_diag_value.h"
+#include "mongroup.h"
 #include "mtype.h"
 #include "options.h"
 #include "string_input_popup.h"
@@ -64,6 +65,11 @@ bool is_beta( char scope )
         default:
             return false;
     }
+}
+
+constexpr bool is_true( double dbl )
+{
+    return dbl >= 1 || float_equals( dbl, 1 );
 }
 
 template<typename T>
@@ -589,12 +595,14 @@ bool _friend_match_filter_character( Character const &beta, Character const &guy
     return false;
 }
 
-bool _filter_character( Character const &beta, Character const &guy, int radius,
+bool _filter_character( Character const *beta, Character const &guy, int radius,
                         tripoint_abs_ms const &loc, character_filter filter, bool allow_hallucinations )
 {
-    if( ( !guy.is_hallucination() || allow_hallucinations ) && ( beta.getID() != guy.getID() ) ) {
-        return _friend_match_filter_character( beta, guy, filter ) &&
-               radius >= rl_dist( guy.get_location(), loc );
+    if( ( !guy.is_hallucination() || allow_hallucinations ) &&
+        ( beta == nullptr || beta->getID() != guy.getID() ) ) {
+        return beta == nullptr ||
+               ( _friend_match_filter_character( *beta, guy, filter ) &&
+                 radius >= rl_dist( guy.get_location(), loc ) );
     }
     return false;
 }
@@ -652,7 +660,8 @@ std::function<double( dialogue & )> _characters_nearby_eval( char scope,
 
         std::vector<Character *> const targets = g->get_characters_if( [ &beta, &d, &radius,
                &loc, filter, allow_hallucinations ]( const Character & guy ) {
-            return _filter_character( *d.actor( beta )->get_character(), guy, radius, loc, filter,
+            talker const *const tk = d.actor( beta );
+            return _filter_character( tk->get_character(), guy, radius, loc, filter,
                                       allow_hallucinations );
         } );
         return static_cast<double>( targets.size() );
@@ -1195,13 +1204,18 @@ std::function<void( dialogue &, double )> proficiency_ass( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &kwargs )
 {
     diag_value fmt_val( std::string{"time_spent"} );
+    diag_value direct_val( 0.0 );
     if( kwargs.count( "format" ) != 0 ) {
         fmt_val = *kwargs.at( "format" );
     }
-    return [prof_value = params[0], fmt_val, beta = is_beta( scope )]( dialogue const & d,
+    if( kwargs.count( "direct" ) != 0 ) {
+        direct_val = *kwargs.at( "direct" );
+    }
+    return [prof_value = params[0], fmt_val, direct_val, beta = is_beta( scope )]( dialogue const & d,
     double val ) {
         proficiency_id prof( prof_value.str( d ) );
         std::string const format = fmt_val.str( d );
+        bool const direct = is_true( direct_val.dbl( d ) );
         int to_write = 0;
         if( format == "percent" ) {
             to_write = to_turns<int>( prof->time_to_learn() * val ) / 100;
@@ -1215,7 +1229,17 @@ std::function<void( dialogue &, double )> proficiency_ass( char scope,
             }
             to_write = val;
         }
-        d.actor( beta )->set_proficiency_practiced_time( prof, to_write );
+        int before = to_turns<int>( d.actor( beta )->proficiency_practiced_time( prof ) );
+        int learned = to_write - before;
+        if( !direct && learned < 0 ) {
+            debugmsg( "For proficiency %s in dialogue, trying to learn negative without direct", prof.str() );
+            return 0;
+        }
+        if( !direct ) {
+            d.actor( beta )->train_proficiency_for( prof, learned );
+        } else {
+            d.actor( beta )->set_proficiency_practiced_time( prof, to_write );
+        }
         return 0;
     };
 }

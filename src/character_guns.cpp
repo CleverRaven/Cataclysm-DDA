@@ -1,10 +1,33 @@
+#include <algorithm>
+#include <cstddef>
+#include <functional>
+#include <iterator>
+#include <map>
+#include <memory>
+#include <set>
+#include <string>
+#include <utility>
+#include <vector>
+
 #include "activity_actor_definitions.h"
 #include "character.h"
+#include "color.h"
+#include "debug.h"
+#include "enums.h"
 #include "flag.h"
 #include "item.h"
+#include "item_location.h"
 #include "itype.h"
 #include "map_selector.h"
+#include "player_activity.h"
+#include "ret_val.h"
+#include "string_formatter.h"
+#include "translations.h"
+#include "type_id.h"
+#include "ui.h"
+#include "value_ptr.h"
 #include "vehicle_selector.h"
+#include "visitable.h"
 
 static const itype_id itype_large_repairkit( "large_repairkit" );
 static const itype_id itype_small_repairkit( "small_repairkit" );

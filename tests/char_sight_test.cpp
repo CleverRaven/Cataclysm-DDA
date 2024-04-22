@@ -86,12 +86,10 @@ TEST_CASE( "light_and_fine_detail_vision_mod", "[character][sight][light][vision
 
     SECTION( "midnight with a new moon" ) {
         // yes, surprisingly, we need to test for this
-        tripoint const z_shift = GENERATE( tripoint_above, tripoint_zero );
-        dummy.setpos( dummy.pos() + z_shift );
-        CAPTURE( z_shift );
-
         calendar::turn = calendar::turn_zero;
-        here.build_map_cache( 0, false );
+        tripoint const z_shift = GENERATE( tripoint_above, tripoint_zero );
+        dummy.setpos( dummy.pos() + z_shift ); // This implicitly rebuilds the light map.
+        CAPTURE( z_shift );
         REQUIRE_FALSE( g->is_in_sunlight( dummy.pos() ) );
         REQUIRE( here.ambient_light_at( dummy.pos() ) == Approx( LIGHT_AMBIENT_MINIMAL ) );
 

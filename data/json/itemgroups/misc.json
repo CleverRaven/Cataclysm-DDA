@@ -321,5 +321,11 @@
       { "item": "sharpener", "prob": 50 },
       { "item": "ruler", "prob": 50 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "pillbox_any_empty",
+    "subtype": "distribution",
+    "items": [ "pillbox", "pillbox_large" ]
   }
 ]

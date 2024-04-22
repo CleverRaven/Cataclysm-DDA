@@ -13,11 +13,15 @@
 #include <tuple>
 
 #include "anatomy.h"
-#include "avatar.h"
+#include "body_part_set.h"
 #include "cached_options.h"
 #include "calendar.h"
 #include "cata_assert.h"
+#include "cata_utility.h"
+#include "cata_variant.h"
 #include "character.h"
+#include "character_attire.h"
+#include "character_id.h"
 #include "color.h"
 #include "creature_tracker.h"
 #include "cursesdef.h"
@@ -28,20 +32,26 @@
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
+#include "explosion.h"
 #include "field.h"
 #include "flat_set.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "game.h"
 #include "game_constants.h"
 #include "item.h"
-#include "json.h"
+#include "item_location.h"
+#include "json_error.h"
 #include "level_cache.h"
 #include "lightmap.h"
 #include "line.h"
 #include "localized_comparator.h"
+#include "magic_enchantment.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "mattack_common.h"
+#include "mdarray.h"
 #include "messages.h"
 #include "monster.h"
 #include "morale_types.h"
@@ -52,11 +62,13 @@
 #include "point.h"
 #include "projectile.h"
 #include "rng.h"
+#include "sounds.h"
 #include "talker.h"
 #include "talker_avatar.h"
 #include "talker_character.h"
-#include "talker_npc.h"
 #include "talker_monster.h"
+#include "talker_npc.h"
+#include "translation.h"
 #include "translations.h"
 #include "units.h"
 #include "value_ptr.h"
@@ -1067,7 +1079,7 @@ void Creature::messaging_projectile_attack( const Creature *source,
                              direction_from( point_zero, point( posx() - source->posx(), posy() - source->posy() ) ),
                              get_hp_bar( get_hp(), get_hp_max(), true ).first, m_good,
                              //~ "hit points", used in scrolling combat text
-                             _( "hp" ), m_neutral, "hp" );
+                             _( "HP" ), m_neutral, "hp" );
                 } else {
                     SCT.removeCreatureHP();
                 }
