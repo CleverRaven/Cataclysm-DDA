@@ -210,23 +210,9 @@
     "type": "item_group",
     "id": "pawn_guns",
     "items": [
-      [ "win70_458", 1 ],
-      [ "combination_gun", 1 ],
-      [ "458wm", 1 ],
-      [ "sw629", 3 ],
-      { "group": "modular_deagle_44", "prob": 2 },
-      [ "m1911", 5 ],
-      [ "mosin91_30", 1 ],
-      [ "match_trigger", 3 ],
-      [ "remington_870", 9 ],
-      [ "browning_blr", 8 ],
-      [ "remington_700", 14 ],
-      [ "m1903", 1 ],
-      [ "garand", 2 ],
-      [ "moss_brownie", 5 ],
-      [ "cop_38", 5 ],
-      [ "rifle_flintlock", 1 ],
-      [ "pistol_flintlock", 1 ]
+      { "group": "guns_common", "prob": 100 },
+      { "group": "guns_rare", "prob": 10 },
+      { "group": "guns_obscure", "prob": 1 }
     ]
   },
   {

@@ -1897,6 +1897,7 @@ Fairbairn
 Fairhaven
 FAL
 Fala
+falcarius
 falcata
 Falmouth
 falx
@@ -4121,10 +4122,14 @@ Nazirite
 Nazirites
 Nazis
 NBC
+ncrease
+nd
 NDA
+ndo
 Neal
 Nebraska
 NECC
+nearsightedness
 necco
 neccos
 neckbeard
@@ -4156,6 +4161,8 @@ Neptune
 nerf
 nerfs
 Nero
+nestmate
+nestmates
 netherium
 nethermancer
 nethermancers

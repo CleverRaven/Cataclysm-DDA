@@ -14,7 +14,7 @@
           "and": [
             { "math": [ "npc_randomize_dialogue_direction", "==", "1" ] },
             { "npc_has_trait": "BOSS_NC_SURVIVOR_CHEF_01" },
-            { "not": { "u_has_var": "directions", "type": "BOSS", "context": "mission", "value": "chef" } }
+            { "not": { "u_has_var": "BOSS_mission_directions", "value": "chef" } }
           ]
         },
         "effect": { "assign_mission": "directions_chef" },
@@ -40,7 +40,7 @@
     "value": 0,
     "start": {
       "assign_mission_target": { "om_terrain": "s_restaurant", "om_special": "restraunt", "reveal_radius": 5, "search_range": 400 },
-      "effect": { "u_add_var": "directions", "type": "BOSS", "context": "mission", "value": "chef" }
+      "effect": { "u_add_var": "BOSS_mission_directions", "value": "chef" }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {

@@ -346,7 +346,7 @@ TEST_CASE( "crafting_with_a_companion", "[.]" )
 
         REQUIRE( std::find( helpers.begin(), helpers.end(), &who ) != helpers.end() );
         dummy.invalidate_crafting_inventory();
-        REQUIRE_FALSE( dummy.get_available_recipes( dummy.crafting_inventory(), &helpers ).contains( r ) );
+        REQUIRE_FALSE( dummy.get_group_available_recipes().contains( r ) );
         REQUIRE_FALSE( who.knows_recipe( r ) );
 
         WHEN( "you have the required skill" ) {
@@ -357,7 +357,7 @@ TEST_CASE( "crafting_with_a_companion", "[.]" )
 
                 THEN( "he helps you" ) {
                     dummy.invalidate_crafting_inventory();
-                    CHECK( dummy.get_available_recipes( dummy.crafting_inventory(), &helpers ).contains( r ) );
+                    CHECK( dummy.get_group_available_recipes().contains( r ) );
                 }
             }
             AND_WHEN( "he has the cookbook in his inventory" ) {
@@ -368,7 +368,7 @@ TEST_CASE( "crafting_with_a_companion", "[.]" )
 
                 THEN( "he shows it to you" ) {
                     dummy.invalidate_crafting_inventory();
-                    CHECK( dummy.get_available_recipes( dummy.crafting_inventory(), &helpers ).contains( r ) );
+                    CHECK( dummy.get_group_available_recipes().contains( r ) );
                 }
             }
         }
@@ -481,8 +481,7 @@ static void setup_test_craft( const recipe_id &rid )
 
     // This really shouldn't be needed, but for some reason the tests fail for mingw builds without it
     player_character.learn_recipe( &rec );
-    const inventory &inv = player_character.crafting_inventory();
-    REQUIRE( player_character.has_recipe( &rec, inv, player_character.get_crafting_helpers() ) );
+    REQUIRE( player_character.has_recipe( &rec ) );
     player_character.remove_weapon();
     REQUIRE( !player_character.is_armed() );
     player_character.make_craft( rid, 1 );

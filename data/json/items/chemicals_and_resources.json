@@ -1174,7 +1174,7 @@
     "price": "9 cent",
     "price_postapoc": "20 cent",
     "volume": "2 ml",
-    "flags": [ "NO_INGEST" ]
+    "flags": [ "NO_INGEST", "WATER_DISSOLVE" ]
   },
   {
     "type": "GENERIC",

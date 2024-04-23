@@ -1206,18 +1206,33 @@
   },
   {
     "type": "construction_group",
-    "id": "place_fridge",
-    "name": "Place Fridge"
+    "id": "place_apartment_fridge",
+    "name": "Place Household Fridge"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_big_portable_fridge",
+    "name": "Place Food Truck Fridge"
   },
   {
     "type": "construction_group",
     "id": "place_glass_fridge",
-    "name": "Place Glass Door Fridge"
+    "name": "Place Single Glass Door Fridge"
   },
   {
     "type": "construction_group",
-    "id": "place_stereo",
-    "name": "Place Stereo System"
+    "id": "place_glass_fridge_double",
+    "name": "Place Double Glass Door Fridge"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_heavy_duty_fridge",
+    "name": "Place Heavy-Duty Fridge"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_display_fridge",
+    "name": "Place Display Fridge"
   },
   {
     "type": "construction_group",
@@ -1226,13 +1241,43 @@
   },
   {
     "type": "construction_group",
-    "id": "place_freezer",
-    "name": "Place Freezer"
+    "id": "place_apartment_freezer",
+    "name": "Place Home Freezer"
   },
   {
     "type": "construction_group",
     "id": "place_minifreezer",
     "name": "Place Minifreezer"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_big_portable_freezer",
+    "name": "Place Food Truck Freezer"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_chest_freezer",
+    "name": "Place Chest Freezer"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_heavy_duty_freezer",
+    "name": "Place Heavy Duty Freezer"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_glass_freezer",
+    "name": "Place Glass Door Freezer"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_display_freezer",
+    "name": "Place Display Freezer"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_stereo",
+    "name": "Place Stereo System"
   },
   {
     "type": "construction_group",
