@@ -732,7 +732,7 @@ Powers causing telekinetic damage have a 40% chance to stagger the target for 2 
 
 ## Far Hand 
 *Difficulty*: 1<br />
-*Target*: One the items in a space up to 3 squares away plus 0.9 squares per power level<br />
+*Target*: The items in a space up to 3 squares away plus 0.9 squares per power level<br />
 *Duration*: Instant<br />
 *Stamina Cost*: 1250, minus 80 per level to a minimum of 500<br />
 *Channeling Time*: 50 moves, minus 4 moves per level to a minimum of 10<br />
@@ -849,7 +849,7 @@ Powers causing telekinetic damage have a 40% chance to stagger the target for 2 
 
 # Megakinesis 
 *Difficulty*: 8<br />
-*Target*: One enemy, ally, or the items in a space up to 2 squares away plus 0.9 squares per power level<br />
+*Target*: One target in a space up to 2 squares away plus 0.9 squares per power level<br />
 *Duration*: Instant<br />
 *Stamina Cost*: 9500, minus 175 per level to a minimum of 5000<br />
 *Channeling Time*: 80 moves, minus 5 moves per level to a minimum of 25<br />/>
