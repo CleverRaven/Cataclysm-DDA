@@ -1147,13 +1147,13 @@ void complete_construction( Character *you )
                 const int_id<ter_t> post_terrain = ter_id( built.post_terrain );
                 if( post_terrain->roof ) {
                     const tripoint_bub_ms top = terp + tripoint_above;
-                    if( here.ter( top ).id()->has_flag( "EMPTY_SPACE" ) ) {
+                    if( here.ter( top )->has_flag( "EMPTY_SPACE" ) ) {
                         here.ter_set( top, ter_id( post_terrain->roof ) );
                     }
                 }
             }
 
-            if( ter_id( built.post_terrain ).id()->has_flag( "EMPTY_SPACE" ) ) {
+            if( ter_id( built.post_terrain )->has_flag( "EMPTY_SPACE" ) ) {
                 const tripoint_bub_ms below = terp + tripoint_below;
                 if( below.z() > -OVERMAP_DEPTH && here.ter( below ).obj().has_flag( "SUPPORTS_ROOF" ) ) {
                     const map_bash_info bash_info = here.ter( below ).obj().bash;
