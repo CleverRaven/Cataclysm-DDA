@@ -732,11 +732,11 @@ Powers causing telekinetic damage have a 40% chance to stagger the target for 2 
 
 ## Far Hand 
 *Difficulty*: 1<br />
-*Target*: One enemy, ally, or the items in a space up to 3 squares away plus 0.9 squares per power level<br />
+*Target*: One the items in a space up to 3 squares away plus 0.9 squares per power level<br />
 *Duration*: Instant<br />
-*Stamina Cost*: 1750, minus 80 per level to a minimum of 750<br />
+*Stamina Cost*: 1250, minus 80 per level to a minimum of 500<br />
 *Channeling Time*: 50 moves, minus 4 moves per level to a minimum of 10<br />
-*Effects*: The psion reaches out and pulls the target toward them, moving it 1 to 6 squares closer plus 0.5 to 1.5 squares per power level.<br />
+*Effects*: The psion reaches out and pulls a set of items toward or away from them, moving it 1 to 4 squares plus 0.4 to 0.9 squares per power level.<br />
 *Prerequisites*: Starting power<br />
 
 ## Force Shove 
@@ -745,7 +745,7 @@ Powers causing telekinetic damage have a 40% chance to stagger the target for 2 
 *Duration*: Instant<br />
 *Stamina Cost*: 1750, minus 80 per level to a minimum of 750<br />
 *Channeling Time*: 50 moves, minus 4 moves per level to a minimum of 10<br />
-*Effects*: The psion attempts to shove a single target away. The distance is based on the ratio of the target's weight to the psion's power level (modified by Intelligence and Nether Attunement as usual).  By default, the formula is (power level * 25 kg) * Intelligence modifier * Nether Attunement modifier, divided by the target's weight in kg. If this is 1 or higher, the target is hurled back 1 square for everyone 0.5 above 1 the ratio is. If it is below one, there is still a chance to knock the target over (chance is weight ratio * 100 in percentage; a weight ratio of 0.9 has a 90% chance of causing knockdown).<br />
+*Effects*: The psion attempts to shove a single target either toward or away from them. The distance is based on the ratio of the target's weight to the psion's power level (modified by Intelligence and Nether Attunement as usual).  By default, the formula is (power level * 25 kg) * Intelligence modifier * Nether Attunement modifier, divided by the target's weight in kg. If this is 1 or higher, the target is hurled back 1 square for everyone 0.5 above 1 the ratio is. If it is below one, there is still a chance to knock the target over (chance is weight ratio * 100 in percentage; a weight ratio of 0.9 has a 90% chance of causing knockdown).<br />
 *Prerequisites*: Starting power<br />
 
 ## Noisemaker
