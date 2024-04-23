@@ -3141,8 +3141,9 @@
   {
     "type": "keybinding",
     "id": "cast_spell",
-    "name": "Spellcasting",
-    "category": "DEFAULTMODE"
+    "name": "Supernatural Abilities",
+    "category": "DEFAULTMODE",
+    "bindings": [ { "input_method": "keyboard_any", "key": "]" } ]
   },
   {
     "type": "keybinding",
