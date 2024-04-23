@@ -17,11 +17,14 @@ struct item_info_data;
 
 struct point;
 class ImVec2;
+class ImVec4;
 class Font;
 class input_context;
 
 namespace cataimgui
 {
+ImVec4 imvec4_from_color( nc_color &color );
+
 struct bounds {
     float x;
     float y;

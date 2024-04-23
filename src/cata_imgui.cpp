@@ -35,6 +35,21 @@ struct pairs {
 std::array<RGBTuple, color_loader<RGBTuple>::COLOR_NAMES_COUNT> rgbPalette;
 std::array<pairs, 100> colorpairs;   //storage for pair'ed colored
 
+ImVec4 cataimgui::imvec4_from_color( nc_color color ) {
+    int pair_id = color.get_index();
+    pairs &pair = colorpairs[pair_id];
+
+    int palette_index = pair.FG != 0 ? pair.FG : pair.BG;
+    if( color.is_bold() ) {
+        palette_index += color_loader<RGBTuple>::COLOR_NAMES_COUNT / 2;
+    }
+    RGBTuple &rgbCol = rgbPalette[palette_index];
+    return { static_cast<float>( rgbCol.Red / 255. ),
+             static_cast<float>( rgbCol.Green / 255. ),
+             static_cast<float>( rgbCol.Blue / 255. ),
+             static_cast<float>( 255. ) };
+}
+
 ImTui::TScreen *imtui_screen = nullptr;
 std::vector<std::pair<int, ImTui::mouse_event>> imtui_events;
 
@@ -167,6 +182,14 @@ RGBTuple color_loader<RGBTuple>::from_rgb( const int r, const int g, const int b
 #include "wcwidth.h"
 #include <imgui/imgui_impl_sdl2.h>
 #include <imgui/imgui_impl_sdlrenderer2.h>
+
+ImVec4 cataimgui::imvec4_from_color( nc_color &color ) {
+    SDL_Color c = curses_color_to_SDL( color );
+    return { static_cast<float>( c.r / 255. ),
+             static_cast<float>( c.g / 255. ),
+             static_cast<float>( c.b / 255. ),
+             static_cast<float>( c.a / 255. ) };
+}
 
 struct CataImFont : public ImFont {
     std::unordered_map<ImU32, unsigned char> sdlColorsToCata;
@@ -397,24 +420,7 @@ void cataimgui::window::draw_colored_text( std::string const &text, nc_color &co
             if( i++ != 0 ) {
                 ImGui::SameLine( 0, 0 );
             }
-#if !(defined(TILES) || defined(WIN32))
-            int pair_id = color.get_index();
-            pairs &pair = colorpairs[pair_id];
-
-            int palette_index = pair.FG != 0 ? pair.FG : pair.BG;
-            if( color.is_bold() ) {
-                palette_index += color_loader<RGBTuple>::COLOR_NAMES_COUNT / 2;
-            }
-            RGBTuple &rgbCol = rgbPalette[palette_index];
-            ImGui::TextColored( { static_cast<float>( rgbCol.Red / 255. ), static_cast<float>( rgbCol.Green / 255. ),
-                                  static_cast<float>( rgbCol.Blue / 255. ), static_cast<float>( 255. ) },
-                                "%s", seg.c_str() );
-#else
-            SDL_Color c = curses_color_to_SDL( color );
-            ImGui::TextColored( { static_cast<float>( c.r / 255. ), static_cast<float>( c.g / 255. ),
-                                  static_cast<float>( c.b / 255. ), static_cast<float>( c.a / 255. ) },
-                                "%s", seg.c_str() );
-#endif
+            ImGui::TextColored( imvec4_from_color( color ), "%s", seg.c_str() );
             GImGui->LastItemData.ID = itemId;
             if( is_focused && !*is_focused ) {
                 *is_focused = ImGui::IsItemFocused();
