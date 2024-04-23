@@ -255,6 +255,7 @@ Use the `Home` key to return to the top.
 - [Starting locations](#starting-locations)
   - [`name`](#name-2)
   - [`terrain`](#terrain)
+    - [Examples](#examples)
   - [`city_sizes`](#city_sizes)
   - [`city_distance`](#city_distance)
   - [`allowed_z_levels`](#allowed_z_levels)
