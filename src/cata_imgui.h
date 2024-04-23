@@ -15,6 +15,7 @@ struct input_event;
 
 struct point;
 struct ImVec2;
+struct ImVec4;
 class Font;
 class input_context;
 
@@ -77,6 +78,8 @@ class client
 
 void point_to_imvec2( point *src, ImVec2 *dest );
 void imvec2_to_point( ImVec2 *src, point *dest );
+
+ImVec4 imvec4_from_color( nc_color &color );
 
 class window
 {
