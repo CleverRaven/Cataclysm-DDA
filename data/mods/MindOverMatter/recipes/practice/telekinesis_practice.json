@@ -1015,7 +1015,10 @@
         "id": "EOC_PRACTICE_MOVE_LARGE_WEIGHT",
         "condition": { "math": [ "u_spell_level('telekinetic_move_large_weight')", ">=", "1" ] },
         "effect": [
-          { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
+          {
+            "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge.",
+            "type": "good"
+          },
           { "math": [ "u_spell_exp('telekinetic_move_large_weight')", "+=", "(contemplation_factor(1))" ] },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 1,10 )" ] },
           { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(8)" ] },
