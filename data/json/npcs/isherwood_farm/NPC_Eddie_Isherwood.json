@@ -110,7 +110,7 @@
         "condition": { "u_is_wearing": "badge_marshal" }
       },
       {
-        "text": "… (Leave)",
+        "text": "…(Leave)",
         "topic": "TALK_DONE",
         "opinion": { "trust": -20, "value": -20 },
         "effect": { "npc_first_topic": "TALK_ISHERWOOD_EDDIE_SawMarshal" },
@@ -165,7 +165,7 @@
     },
     "responses": [
       {
-        "text": "… (Leave)",
+        "text": "…(Leave)",
         "topic": "TALK_DONE",
         "opinion": { "trust": -10, "value": -10 },
         "condition": { "u_is_wearing": "badge_marshal" }
@@ -207,7 +207,7 @@
         "effect": "hostile",
         "opinion": { "trust": -20, "value": -20 }
       },
-      { "text": "… (Leave)", "topic": "TALK_DONE", "opinion": { "trust": -20, "value": -20 } }
+      { "text": "…(Leave)", "topic": "TALK_DONE", "opinion": { "trust": -20, "value": -20 } }
     ]
   },
   {
