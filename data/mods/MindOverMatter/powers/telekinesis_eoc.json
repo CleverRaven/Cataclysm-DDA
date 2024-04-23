@@ -154,7 +154,7 @@
       { "math": [ "u_telekinesis_shove_spell_level", "=", "clamp(((u_weight_ratio - 1) * 2), 0, 20)" ] },
       { "u_location_variable": { "context_val": "loc" } },
       {
-        "if": { "math": [ "u_telekinesis_shove_spell_level", "==", "0" ] },
+        "if": { "math": [ "u_telekinesis_shove_spell_level", "<", "1" ] },
         "then": { "run_eocs": "EOC_TELEKINETIC_PUSH_DOWN_CHECKER" },
         "else": [
           {
@@ -183,7 +183,7 @@
       { "math": [ "u_telekinesis_pull_spell_level", "=", "clamp(((u_weight_ratio - 1) * 2), 0, 20)" ] },
       { "u_location_variable": { "context_val": "loc" } },
       {
-        "if": { "math": [ "u_telekinesis_pull_spell_level", "==", "0" ] },
+        "if": { "math": [ "u_telekinesis_pull_spell_level", "<", "1" ] },
         "then": { "run_eocs": "EOC_TELEKINETIC_PUSH_DOWN_CHECKER" },
         "else": [
           {
