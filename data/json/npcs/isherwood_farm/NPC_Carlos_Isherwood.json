@@ -119,7 +119,7 @@
           "and": [ { "u_has_var": "u_learned_barry_missing", "value": "yes" }, { "not": { "u_is_wearing": "badge_marshal" } } ]
         }
       },
-      { "text": "… (Leave)", "topic": "TALK_DONE", "condition": { "u_is_wearing": "badge_marshal" } }
+      { "text": "… (Leave)", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -272,12 +272,12 @@
       {
         "text": "Is your forge operational?",
         "topic": "TALK_CARLOS_FORGE2",
-        "condition": { "math": [ "time_since(carlos_has_anvil)", "<=", "time('5d')" ] }
+        "condition": { "math": [ "time_since(timer_carlos_has_anvil)", "<=", "time('5 d')" ] }
       },
       {
         "text": "Is your forge operational?",
         "topic": "TALK_CARLOS_FORGE3",
-        "condition": { "math": [ "time_since(carlos_has_anvil)", ">", "time('5d')" ] }
+        "condition": { "math": [ "time_since(timer_carlos_has_anvil)", ">", "time('5 d')" ] }
       },
       {
         "text": "Where can I find Chris?",
@@ -321,7 +321,7 @@
       "effect": [
         { "u_spawn_item": "leather_armor_horse", "count": 1 },
         { "npc_add_var": "carlos_has_anvil", "value": "yes" },
-        { "math": [ "time_since(carlos_has_anvil)", "=", "time('now')" ] }
+        { "math": [ "timer_carlos_has_anvil", "=", "time('now')" ] }
       ],
       "update_mapgen": [ { "om_terrain": "horse_farm_isherwood_4", "set": [ { "point": "furniture", "id": "f_anvil", "x": 6, "y": 12 } ] } ]
     }
