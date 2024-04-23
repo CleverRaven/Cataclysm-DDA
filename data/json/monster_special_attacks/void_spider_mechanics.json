@@ -372,10 +372,7 @@
     "type": "effect_on_condition",
     "id": "EOC_VOID_SPIDER_KILLED",
     "global": true,
-    "effect": [
-      { "math": [ "void_spider_killed", "=", "1" ] },
-      { "u_add_var": "killed_a_void_spider", "type": "general", "context": "talk", "value": "yes" }
-    ]
+    "effect": [ { "math": [ "void_spider_killed", "=", "1" ] }, { "u_add_var": "general_talk_killed_a_void_spider", "value": "yes" } ]
   },
   {
     "type": "effect_on_condition",

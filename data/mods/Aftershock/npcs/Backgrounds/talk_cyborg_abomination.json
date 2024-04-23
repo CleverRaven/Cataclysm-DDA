@@ -3,20 +3,16 @@
     "id": "TALK_CYBORG_Abomination_1",
     "type": "talk_topic",
     "dynamic_line": {
-      "npc_has_var": "cyborg_abomination_has_talked",
-      "type": "dialogue",
-      "context": "cyborg_abomination",
+      "npc_has_var": "dialogue_cyborg_abomination_cyborg_abomination_has_talked",
       "value": "yes",
       "no": "I… can move again.  I have a real body!  Is this a body?",
       "yes": "Hey again.  *kzzz*"
     },
-    "speaker_effect": {
-      "effect": { "npc_add_var": "cyborg_abomination_has_talked", "type": "dialogue", "context": "cyborg_abomination", "value": "yes" }
-    },
+    "speaker_effect": { "effect": { "npc_add_var": "dialogue_cyborg_abomination_cyborg_abomination_has_talked", "value": "yes" } },
     "responses": [
       {
         "switch": true,
-        "condition": { "npc_has_var": "cyborg_abomination_has_talked", "type": "dialogue", "context": "cyborg_abomination", "value": "yes" },
+        "condition": { "npc_has_var": "dialogue_cyborg_abomination_cyborg_abomination_has_talked", "value": "yes" },
         "text": "So you must have seen some weird stuff?",
         "topic": "TALK_STRANGER_NEUTRAL"
       },

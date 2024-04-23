@@ -6,7 +6,9 @@
 #include <cmath>
 #include <cstddef>
 #include <cstdlib>
+#include <cwctype>
 #include <functional>
+#include <initializer_list>
 #include <memory>
 #include <numeric>
 #include <tuple>
@@ -22,24 +24,29 @@
 #include "avatar_action.h"
 #include "bionics.h"
 #include "cached_options.h"
+#include "cata_assert.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character_attire.h"
 #include "character_martial_arts.h"
+#include "city.h"
 #include "colony.h"
 #include "color.h"
 #include "construction.h"
 #include "coordinates.h"
 #include "creature_tracker.h"
 #include "cursesdef.h"
+#include "debug.h"
 #include "disease.h"
 #include "display.h"
 #include "effect.h"
 #include "effect_on_condition.h"
 #include "effect_source.h"
+#include "enum_traits.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
+#include "faction.h"
 #include "fault.h"
 #include "field.h"
 #include "field_type.h"
@@ -50,15 +57,18 @@
 #include "gun_mode.h"
 #include "handle_liquid.h"
 #include "input_context.h"
+#include "input_enums.h"
 #include "inventory.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "item_stack.h"
+#include "item_tname.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "lightmap.h"
 #include "line.h"
+#include "localized_comparator.h"
 #include "magic.h"
 #include "magic_enchantment.h"
 #include "make_static.h"
@@ -66,6 +76,8 @@
 #include "map_iterator.h"
 #include "map_selector.h"
 #include "mapdata.h"
+#include "maptile_fwd.h"
+#include "martialarts.h"
 #include "math_defines.h"
 #include "memorial_logger.h"
 #include "messages.h"
@@ -80,11 +92,13 @@
 #include "options.h"
 #include "output.h"
 #include "overlay_ordering.h"
+#include "overmap_types.h"
 #include "overmapbuffer.h"
 #include "pathfinding.h"
 #include "profession.h"
 #include "proficiency.h"
 #include "recipe_dictionary.h"
+#include "requirements.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "scent_map.h"
@@ -93,8 +107,9 @@
 #include "sounds.h"
 #include "stomach.h"
 #include "string_formatter.h"
-#include "submap.h"
+#include "submap.h"  // IWYU pragma: keep
 #include "text_snippets.h"
+#include "translation.h"
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
@@ -112,6 +127,7 @@
 #include "weather.h"
 #include "weather_type.h"
 
+class activity_actor;
 struct dealt_projectile_attack;
 
 static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
@@ -223,7 +239,6 @@ static const efftype_id effect_foodpoison( "foodpoison" );
 static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_glowing( "glowing" );
 static const efftype_id effect_glowy_led( "glowy_led" );
-static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_heavysnare( "heavysnare" );
 static const efftype_id effect_in_pit( "in_pit" );
@@ -325,7 +340,6 @@ static const json_character_flag json_flag_WALK_UNDERWATER( "WALK_UNDERWATER" );
 static const json_character_flag json_flag_WATCH( "WATCH" );
 static const json_character_flag json_flag_WEBBED_FEET( "WEBBED_FEET" );
 static const json_character_flag json_flag_WEBBED_HANDS( "WEBBED_HANDS" );
-static const json_character_flag json_flag_WINGS_1( "WINGS_1" );
 static const json_character_flag json_flag_WINGS_2( "WINGS_2" );
 static const json_character_flag json_flag_WING_ARMS( "WING_ARMS" );
 static const json_character_flag json_flag_WING_GLIDE( "WING_GLIDE" );
@@ -3220,7 +3234,7 @@ bool Character::can_pickVolume( const item &it, bool, const item *avoid,
 }
 
 bool Character::can_pickVolume_partial( const item &it, bool, const item *avoid,
-                                        const bool ignore_pkt_settings ) const
+                                        const bool ignore_pkt_settings, const bool is_pick_up_inv ) const
 {
     item copy = it;
     if( it.count_by_charges() ) {
@@ -3228,11 +3242,11 @@ bool Character::can_pickVolume_partial( const item &it, bool, const item *avoid,
     }
 
     if( ( avoid == nullptr || &weapon != avoid ) &&
-        weapon.can_contain( copy, false, false, ignore_pkt_settings ).success() ) {
+        weapon.can_contain( copy, false, false, ignore_pkt_settings, is_pick_up_inv ).success() ) {
         return true;
     }
 
-    return worn.can_pickVolume( copy, ignore_pkt_settings );
+    return worn.can_pickVolume( copy, ignore_pkt_settings, is_pick_up_inv );
 }
 
 bool Character::can_pickWeight( const item &it, bool safe ) const
@@ -12694,25 +12708,23 @@ int Character::impact( const int force, const tripoint &p )
 
 bool Character::can_fly()
 {
-    if( has_effect( effect_stunned ) || has_effect( effect_narcosis ) ||
-        ( has_effect( effect_grabbed ) && !try_remove_grab() ) || movement_mode_is( move_mode_prone ) ||
-        has_effect( effect_downed ) ) {
+    if( !move_effects( false ) || has_effect( effect_stunned ) ) {
         return false;
     }
     // GLIDE is for artifacts or things like jetpacks that don't care if you're tired or hurt.
-    if( has_trait_flag( json_flag_GLIDE ) ) {
+    if( has_flag( json_flag_GLIDE ) ) {
         return true;
     }
-    if( ( has_trait_flag( json_flag_WINGS_1 ) || has_trait_flag( json_flag_WINGS_2 ) ||
-          has_trait_flag( json_flag_WING_GLIDE ) ) &&
-        ( 100 * weight_carried() / weight_capacity() > 50 || get_str() < 4 ||
-          has_effect( effect_winded ) ) ) {
-        return false;
+    // TODO: Remove grandfathering traits in after Limb Stuff
+    if( has_flag( json_flag_WINGS_2 ) ||
+        has_flag( json_flag_WING_GLIDE ) || count_flag( json_flag_WING_ARMS ) >= 2 ) {
+
+        if( 100 * weight_carried() / weight_capacity() > 50 || !has_two_arms_lifting() ) {
+            return false;
+        }
+        return true;
     }
-    if( has_trait_flag( json_flag_WING_ARMS ) && get_working_arm_count() < 2 ) {
-        return false;
-    }
-    return true;
+    return false;
 }
 
 // FIXME: Relies on hardcoded bash damage type

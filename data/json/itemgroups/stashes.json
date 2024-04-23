@@ -162,8 +162,8 @@
     "on_overflow": "spill",
     "entries": [
       { "group": "bugout_first_aid", "count": 1, "prob": 90 },
-      { "group": "bugout_small_gun", "prob": 50 },
-      { "group": "bugout_long_gun", "prob": 40 },
+      { "group": "bugout_small_gun", "prob": 70 },
+      { "group": "bugout_long_gun", "prob": 20 },
       { "group": "bugout_food", "prob": 50, "count": [ 1, 3 ] },
       { "group": "bugout_water", "prob": 50, "count": [ 1, 3 ] },
       { "group": "bugout_extras", "prob": 100, "count": [ 2, 6 ] },
@@ -190,11 +190,7 @@
     "id": "bugout_small_gun",
     "subtype": "distribution",
     "//": "a handgun of some kind.",
-    "entries": [
-      { "group": "guns_pistol_common", "prob": 100 },
-      { "group": "guns_pistol_rare", "prob": 20 },
-      { "group": "guns_pistol_obscure", "prob": 5 }
-    ]
+    "entries": [ { "group": "guns_pistol_common", "prob": 100 }, { "group": "guns_pistol_rare", "prob": 10 } ]
   },
   {
     "type": "item_group",
@@ -202,15 +198,12 @@
     "subtype": "distribution",
     "//": "a long weapon of some kind.",
     "entries": [
-      { "group": "guns_smg_common", "prob": 100 },
-      { "group": "guns_smg_rare", "prob": 20 },
-      { "group": "guns_smg_obscure", "prob": 5 },
+      { "group": "guns_smg_common", "prob": 10 },
+      { "group": "guns_smg_rare", "prob": 2 },
       { "group": "guns_rifle_common", "prob": 100 },
       { "group": "guns_rifle_rare", "prob": 20 },
-      { "group": "guns_rifle_obscure", "prob": 5 },
-      { "group": "guns_shotgun_common", "prob": 100 },
-      { "group": "guns_shotgun_rare", "prob": 20 },
-      { "group": "guns_shotgun_obscure", "prob": 5 }
+      { "group": "guns_shotgun_common", "prob": 2 },
+      { "group": "guns_shotgun_rare", "prob": 1 }
     ]
   },
   {
@@ -218,7 +211,7 @@
     "id": "bugout_gun",
     "subtype": "distribution",
     "//": "a gun or two of some kind.",
-    "entries": [ { "group": "bugout_small_gun", "prob": 100 }, { "group": "bugout_long_gun", "prob": 80 } ]
+    "entries": [ { "group": "bugout_small_gun", "prob": 100 }, { "group": "bugout_long_gun", "prob": 20 } ]
   },
   {
     "type": "item_group",

@@ -1407,7 +1407,7 @@
     "comestible_type": "DRINK",
     "symbol": "~",
     "quench": 15,
-    "addiction_potential": 18,
+    "addiction_potential": 6,
     "calories": 82,
     "description": "This fermented blueberry mixture is surprisingly hearty, though the soup-like consistency is slightly unsettling no matter how much you drink.",
     "price": 1400,
@@ -1418,7 +1418,7 @@
     "phase": "liquid",
     "charges": 6,
     "flags": [ "EATEN_COLD", "EDIBLE_FROZEN", "NO_AUTO_CONSUME" ],
-    "fun": -12,
+    "fun": 2,
     "vitamins": [ [ "vitC", 20 ] ],
     "freezing_point": -30
   },

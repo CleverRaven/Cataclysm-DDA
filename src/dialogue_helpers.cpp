@@ -3,6 +3,8 @@
 #include <string>
 
 #include "dialogue.h"
+#include "rng.h"
+#include "talker.h"
 
 template<class T>
 std::optional<std::string> maybe_read_var_value(

@@ -122,6 +122,7 @@ class monster : public Creature
         void spawn( const tripoint &p );
         void spawn( const tripoint_abs_ms &loc );
         std::vector<material_id> get_absorb_material() const;
+        std::vector<material_id> get_no_absorb_material() const;
         creature_size get_size() const override;
         units::mass get_weight() const override;
         units::mass weight_capacity() const override;

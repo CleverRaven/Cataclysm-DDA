@@ -1,10 +1,10 @@
 #include "catacharset.h"
 
+#include <algorithm>
 #include <array>
 #include <cstdlib>
-#include <cstring>
 
-#include "options.h"
+#include "cata_assert.h"
 #include "output.h"
 #include "wcwidth.h"
 

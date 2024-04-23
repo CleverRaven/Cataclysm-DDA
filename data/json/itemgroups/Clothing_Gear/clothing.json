@@ -4079,7 +4079,6 @@
           { "item": "dry_bag", "prob": 25 },
           { "item": "dry_duffelbag", "prob": 25 },
           { "item": "dry_bag_large", "prob": 15 },
-          { "item": "petpack", "prob": 50 },
           { "item": "chestrig", "variant": "flag_chestrig", "prob": 70, "event": "independence_day" }
         ],
         "prob": 30
@@ -4271,10 +4270,7 @@
         ],
         "prob": 60
       },
-      {
-        "distribution": [ { "item": "house_coat", "prob": 80 }, { "item": "kimono", "prob": 20 }, { "item": "robe", "prob": 10 } ],
-        "prob": 30
-      },
+      { "distribution": [ { "item": "kimono", "prob": 20 }, { "item": "robe", "prob": 10 } ], "prob": 5 },
       {
         "distribution": [
           { "item": "vest", "prob": 80 },

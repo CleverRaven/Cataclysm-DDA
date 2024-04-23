@@ -11,8 +11,8 @@
     "locations": [ "forest_without_trail", "land", "wilderness" ],
     "city_distance": [ 0, 30 ],
     "city_sizes": [ 0, 16 ],
-    "occurrences": [ 0, 1 ],
-    "flags": [ "EXODII", "CBM" ]
+    "occurrences": [ 2, 100 ],
+    "flags": [ "EXODII", "CBM", "UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -25,8 +25,8 @@
     "locations": [ "forest_without_trail", "land", "wilderness" ],
     "city_distance": [ 40, 90 ],
     "city_sizes": [ 0, 16 ],
-    "occurrences": [ 0, 1 ],
-    "flags": [ "EXODII", "CBM" ]
+    "occurrences": [ 2, 100 ],
+    "flags": [ "EXODII", "CBM", "UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -118,6 +118,6 @@
     "city_sizes": [ 1, 12 ],
     "//": "Occurrences should drop a lot once we have some breadcrumbs leading to the base, but until then this is going to be the only way to get CBMs.",
     "occurrences": [ 1, 12 ],
-    "flags": [ "UNIQUE", "EXODII" ]
+    "flags": [ "GLOBALLY_UNIQUE", "EXODII" ]
   }
 ]

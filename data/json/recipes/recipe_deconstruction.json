@@ -3496,7 +3496,7 @@
     "components": [ [ [ "scrap_copper", 3 ] ] ]
   },
   {
-    "result": "power_armor_basic",
+    "result": "combat_exoskeleton_medium",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "skill_used": "fabrication",
@@ -3506,31 +3506,12 @@
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
     "components": [
-      [ [ "depowered_armor", 1 ] ],
+      [ [ "combat_exoskeleton_light_salvaged", 1 ] ],
       [ [ "power_supply", 6 ] ],
       [ [ "element", 2 ] ],
       [ [ "cable", 12 ] ],
       [ [ "circuit", 6 ] ],
       [ [ "transponder", 1 ] ]
-    ]
-  },
-  {
-    "result": "power_armor_helmet_basic",
-    "type": "uncraft",
-    "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "fabrication",
-    "difficulty": 8,
-    "skills_required": [ "electronics", 4 ],
-    "time": "45 m",
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
-    "components": [
-      [ [ "depowered_helmet", 1 ] ],
-      [ [ "power_supply", 1 ] ],
-      [ [ "element", 1 ] ],
-      [ [ "small_lcd_screen", 2 ] ],
-      [ [ "circuit", 2 ] ],
-      [ [ "RAM", 1 ] ]
     ]
   },
   {

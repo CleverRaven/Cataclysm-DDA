@@ -1843,13 +1843,11 @@ static hint_rating rate_action_disassemble( avatar &you, const item &it )
 
 static hint_rating rate_action_view_recipe( avatar &you, const item &it )
 {
-    const inventory &inven = you.crafting_inventory();
-    const std::vector<Character *> helpers = you.get_crafting_group();
     if( it.is_craft() ) {
         const recipe &craft_recipe = it.get_making();
         if( craft_recipe.is_null() || !craft_recipe.ident().is_valid() ) {
             return hint_rating::cant;
-        } else if( you.get_available_recipes( inven, &helpers ).contains( &craft_recipe ) ) {
+        } else if( you.get_group_available_recipes().contains( &craft_recipe ) ) {
             return hint_rating::good;
         }
     } else {
@@ -1860,8 +1858,8 @@ static hint_rating rate_action_view_recipe( avatar &you, const item &it )
         for( const auto& [_, r] : recipe_dict ) {
             if( !r.obsolete && ( item == r.result() || r.in_byproducts( item ) ) ) {
                 is_byproduct = true;
-                // If if exists, do I know it?
-                if( you.get_available_recipes( inven, &helpers ).contains( &r ) ) {
+                // If a recipe exists, does my group know it?
+                if( you.get_group_available_recipes().contains( &r ) ) {
                     can_craft = true;
                     break;
                 }
@@ -9843,6 +9841,26 @@ void game::butcher()
     }
 }
 
+static item::reload_option favorite_ammo_or_select( avatar &u, item_location &loc, bool empty,
+        bool prompt )
+{
+    if( u.ammo_location ) {
+        std::vector<item::reload_option> ammo_list;
+        if( u.list_ammo( loc, ammo_list, false ) ) {
+            const auto is_favorite_and_compatible = [&loc, &u]( const item::reload_option & opt ) {
+                return opt.ammo == u.ammo_location && loc->can_reload_with( *u.ammo_location.get_item(), false );
+            };
+            auto it = std::find_if( ammo_list.begin(), ammo_list.end(), is_favorite_and_compatible );
+            if( it != ammo_list.end() ) {
+                return *it;
+            }
+        }
+    } else {
+        const_cast<item_location &>( u.ammo_location ) = item_location();
+    }
+    return u.select_ammo( loc, prompt, empty );
+}
+
 void game::reload( item_location &loc, bool prompt, bool empty )
 {
     // bows etc. do not need to reload. select favorite ammo for them instead
@@ -9851,9 +9869,13 @@ void game::reload( item_location &loc, bool prompt, bool empty )
         if( !opt ) {
             return;
         } else if( u.ammo_location && opt.ammo == u.ammo_location ) {
+            u.add_msg_if_player( _( "Cleared ammo preferences for %s." ), loc->tname() );
             u.ammo_location = item_location();
-        } else {
+        } else if( u.has_item( *opt.ammo ) ) {
+            u.add_msg_if_player( _( "Selected %s as default ammo for %s." ), opt.ammo->tname(), loc->tname() );
             u.ammo_location = opt.ammo;
+        } else {
+            u.add_msg_if_player( _( "You need to keep that ammo on you to select it as default ammo." ) );
         }
         return;
     }
@@ -9901,10 +9923,7 @@ void game::reload( item_location &loc, bool prompt, bool empty )
         loc = item_location( loc, &loc->only_item() );
     }
 
-    item::reload_option opt = u.ammo_location &&
-                              loc->can_reload_with( *u.ammo_location.get_item(), false ) ?
-                              item::reload_option( &u, loc, u.ammo_location ) :
-                              u.select_ammo( loc, prompt, empty );
+    item::reload_option opt = favorite_ammo_or_select( u, loc, empty, prompt );
 
     if( opt.ammo.get_item() == nullptr || ( opt.ammo.get_item()->is_frozen_liquid() &&
                                             !u.crush_frozen_liquid( opt.ammo ) ) ) {
