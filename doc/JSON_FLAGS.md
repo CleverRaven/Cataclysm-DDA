@@ -602,7 +602,6 @@ List of known flags, used in both `furniture` and `terrain`.  Some work for both
 - ```CLIMBABLE``` You can climb on this obstacle.
 - ```CLIMB_SIMPLE``` You never fail climbing on this obstacle.
 - ```COLLAPSES``` Has a roof that can collapse.
-- ```CONNECT_WITH_WALL``` (only for terrain) This flag has been superseded by the JSON entries `connect_group` and `connects_to`, but is retained for backward compatibility.
 - ```CONSOLE``` Used as a computer.
 - ```CONTAINER``` Items on this square are hidden until looted by the player.
 - ```CURRENT``` This water is flowing.
@@ -694,7 +693,7 @@ List of known flags, used in both `furniture` and `terrain`.  Some work for both
 - ```TRANSPARENT``` Players and monsters can see through/past it.  Also sets ter_t.transparent.
 - ```UNSTABLE``` Walking here cause the bouldering effect on the character.
 - ```USABLE_FIRE``` This terrain or furniture counts as a nearby fire for crafting.
-- ```WALL``` This terrain is an upright obstacle.  Used for fungal conversion, and also implies `CONNECT_WITH_WALL`.
+- ```WALL``` This terrain is an upright obstacle.  Used for fungal conversion.
 - ```WATER_CUBE``` This tile is water, used to check can you go up or down using additional flags.
 - ```WINDOW``` This terrain is a window, though it may be closed, broken, or covered up.  Used by the tiles code to align furniture sprites away from the window.
 - ```WIRED_WALL``` This terrain is a wall with electric wires inside.  Allows the `Reveal wall wirings` construction.
