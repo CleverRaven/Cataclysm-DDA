@@ -95,7 +95,7 @@
     "description": "A thick wax candle.  It doesn't provide very much light, but it can burn for quite a long time.  You'll need a lighter or matches to light it.",
     "//": "Based on this: https://www.amazon.com/dp/B0843HQMZ1",
     "weight": "400 g",
-    "volume": "465 ml",
+    "volume": "460 ml",
     "longest_side": "102 mm",
     "price": 100,
     "price_postapoc": 50,
