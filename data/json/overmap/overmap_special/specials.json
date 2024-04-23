@@ -7533,8 +7533,8 @@
       { "point": [ 2, 2, 2 ], "overmap": "GMLODGE3_roof_3" }
     ],
     "locations": [ "forest" ],
-    "city_distance": [ 2, 10 ],
-    "occurrences": [ 80, 100 ],
+    "city_distance": [ 12, 20 ],
+    "occurrences": [ 50, 100 ],
     "connections": [ { "point": [ 2, 4, 0 ], "terrain": "forest_trail", "connection": "forest_trail", "from": [ 2, 0, 0 ] } ],
     "rotate": false,
     "flags": [ "WILDERNESS", "GLOBALLY_UNIQUE", "MAN_MADE" ]
