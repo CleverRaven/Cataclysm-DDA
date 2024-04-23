@@ -919,14 +919,14 @@
     "effect": "attack",
     "effect_str": "effect_technomancer_pain_ignore",
     "shape": "blast",
-    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(50)" ] },
+    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(50, 0.33)" ] },
     "base_energy_cost": 25,
     "energy_source": "BIONIC",
     "spell_class": "TECHNOMANCER",
     "difficulty": 4,
     "max_level": 15,
-    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(1000)" ] },
-    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(2500)" ] },
-    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(100)" ] }
+    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(1000, 10)" ] },
+    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(2500, 10)" ] },
+    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(100, 0.07)" ] }
   }
 ]
