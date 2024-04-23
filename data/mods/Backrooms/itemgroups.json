@@ -700,6 +700,19 @@
   },
   {
     "type": "item_group",
+    "subtype": "collection",
+    "id": "vending_ammo",
+    "entries": [
+      { "group": "ammo_pistol_common", "count-min": 3, "count-max": 8 },
+      { "group": "ammo_rifle_common", "prob": 50, "count-min": 2, "count-max": 6 },
+      { "group": "ammo_shotgun_common", "prob": 50, "count-min": 2, "count-max": 6 },
+      { "group": "ammo_pistol_rare", "prob": 20, "count-min": 1, "count-max": 2 },
+      { "group": "ammo_rifle_rare", "prob": 20, "count-min": 1, "count-max": 2 },
+      { "group": "ammo_shotgun_rare", "prob": 20, "count-min": 1, "count-max": 2 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "backrooms_master_vending",
     "//": "Any generic vending machine, for food, drinks, or rarely other things.",
     "subtype": "distribution",

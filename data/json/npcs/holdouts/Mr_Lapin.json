@@ -241,7 +241,7 @@
     "start": {
       "assign_mission_target": { "om_terrain": "farm_isherwood_2", "om_special": "Isherwood Farms", "reveal_radius": 3, "search_range": 360 }
     },
-    "goal_condition": { "u_has_var": "u_met_carlos_isherwood", "type": "general", "context": "meeting", "value": "yes" },
+    "goal_condition": { "u_has_var": "general_meeting_u_met_carlos_isherwood", "value": "yes" },
     "value": 5000,
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {

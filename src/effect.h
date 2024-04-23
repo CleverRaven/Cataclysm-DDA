@@ -2,11 +2,14 @@
 #ifndef CATA_SRC_EFFECT_H
 #define CATA_SRC_EFFECT_H
 
-#include <iosfwd>
+#include <array>
+#include <cstddef>
+#include <cstdint>
 #include <map>
+#include <optional>
 #include <set>
 #include <string>
-#include <tuple>
+#include <string_view>
 #include <unordered_map>
 #include <utility>
 #include <vector>
@@ -14,17 +17,16 @@
 #include "calendar.h"
 #include "color.h"
 #include "effect_source.h"
+#include "enums.h"
+#include "event.h"
 #include "flat_set.h"
-#include "hash_utils.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 
-class effect_type;
-
-enum game_message_type : int;
-enum class event_type : int;
+class Character;
 class JsonObject;
 class JsonOut;
+class effect_type;
 
 /** Handles the large variety of weed messages. */
 void weed_msg( Character &p );

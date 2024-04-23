@@ -2,12 +2,12 @@
 #ifndef CATA_SRC_BUTCHERY_REQUIREMENTS_H
 #define CATA_SRC_BUTCHERY_REQUIREMENTS_H
 
-#include <iosfwd>
 #include <map>
+#include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
-#include "creature.h"
 #include "type_id.h"
 
 class JsonObject;

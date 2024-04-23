@@ -4,62 +4,64 @@
 
 #include <array>
 #include <climits>
-#include <iosfwd>
+#include <functional>
+#include <list>
 #include <map>
+#include <memory>
+#include <optional>
+#include <queue>
 #include <set>
+#include <string>
 #include <type_traits>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 #include <vector>
-#include <queue>
 
 #include "bodypart.h"
+#include "calendar.h"
 #include "compatibility.h"
+#include "coordinates.h"
 #include "damage.h"
 #include "debug.h"
 #include "effect_source.h"
 #include "enums.h"
-#include "field_type.h"
 #include "pimpl.h"
+#include "point.h"
 #include "string_formatter.h"
-#include "talker.h"
 #include "type_id.h"
 #include "units_fwd.h"
 #include "viewer.h"
 #include "weakpoint.h"
 
-class monster;
-class translation;
-template <typename T> struct enum_traits;
-
-enum game_message_type : int;
-class effect;
-class effects_map;
-class nc_color;
-
-namespace catacurses
-{
-class window;
-} // namespace catacurses
-class body_part_set;
 class Character;
 class JsonObject;
 class JsonOut;
 class anatomy;
 class avatar;
+class body_part_set;
+class character_id;
+class effect;
+class effects_map;
 class field;
 class field_entry;
+class item;
+class monster;
+class nc_color;
 class npc;
-class time_duration;
-struct point;
-struct tripoint;
-
-struct mon_flag;
+class talker;
+class translation;
+namespace catacurses
+{
+class window;
+}  // namespace catacurses
 struct dealt_projectile_attack;
+struct field_immunity_data;
 struct pathfinding_settings;
 struct projectile;
 struct projectile_attack_results;
 struct trap;
+template <typename T> struct enum_traits;
 
 using anatomy_id = string_id<anatomy>;
 

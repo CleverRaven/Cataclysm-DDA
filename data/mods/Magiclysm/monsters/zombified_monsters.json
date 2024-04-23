@@ -189,7 +189,7 @@
     "id": "mon_yulecat_zombie_brute",
     "copy-from": "mon_yulecat_zombie",
     "name": "Tod cat",
-    "description": "Once used to its decomposed body, this nightmarish cat with thick teeth and razorshap claws seems to be looking around for things to \"play\" with.  Though its head is of a feline, it grins at you sadistically with a glint in its cold demonic eyes.",
+    "description": "Once used to its decomposed body, this nightmarish cat with thick teeth and razor-sharp claws seems to be looking around for things to \"play\" with.  Though its head is of a feline, it grins at you sadistically with a glint in its cold demonic eyes.",
     "path_settings": { "max_dist": 17 },
     "relative": {
       "hp": 65,

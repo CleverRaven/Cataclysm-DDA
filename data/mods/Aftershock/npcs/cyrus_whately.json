@@ -7,9 +7,7 @@
     "type": "talk_topic",
     "id": "TALK_CYRUS_1",
     "dynamic_line": {
-      "u_has_var": "u_met_cyrus",
-      "type": "general",
-      "context": "meeting",
+      "u_has_var": "general_meeting_u_met_cyrus",
       "value": "yes",
       "yes": [ "What brings you here today?", "Hello.", "How are you?", "Welcome!", "Are you ready to leave this marble?" ],
       "no": "You look like one of my niece's lab assistants."
@@ -17,28 +15,28 @@
     "responses": [
       {
         "text": "Who are you?",
-        "effect": { "u_add_var": "u_met_cyrus", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "u_has_var": "u_met_cyrus", "type": "general", "context": "meeting", "value": "yes" } },
+        "effect": { "u_add_var": "general_meeting_u_met_cyrus", "value": "yes" },
+        "condition": { "not": { "u_has_var": "general_meeting_u_met_cyrus", "value": "yes" } },
         "topic": "TALK_CYRUS_firstmeet"
       },
       {
         "text": "What is this place?",
-        "condition": { "u_has_var": "u_met_cyrus", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "u_has_var": "general_meeting_u_met_cyrus", "value": "yes" },
         "topic": "TALK_CYRUS_place"
       },
       {
         "text": "How did you get here?",
-        "condition": { "u_has_var": "u_met_cyrus", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "u_has_var": "general_meeting_u_met_cyrus", "value": "yes" },
         "topic": "TALK_CYRUS_ask_past"
       },
       {
         "text": "How are things here?",
-        "condition": { "u_has_var": "u_met_cyrus", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "u_has_var": "general_meeting_u_met_cyrus", "value": "yes" },
         "topic": "TALK_CYRUS_ask_mood"
       },
       {
         "text": "Can I do anything for you?  Are you as crazy as your niece?",
-        "condition": { "u_has_var": "u_met_cyrus", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "u_has_var": "general_meeting_u_met_cyrus", "value": "yes" },
         "topic": "TALK_MISSION_LIST"
       },
       { "text": "I'm going on my way now.", "topic": "TALK_DONE" }

@@ -168,18 +168,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "rift",
-    "copy-from": "rift",
-    "sym": "\u00A1"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hellmouth",
-    "copy-from": "hellmouth",
-    "sym": "\u00A1"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "ants",
     "copy-from": "ants",
     "sym": "\u00DC"

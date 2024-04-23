@@ -2,6 +2,7 @@
 #include <vector>
 
 #include "activity_handlers.h"
+#include "avatar.h"
 #include "avatar_action.h"
 #include "cata_catch.h"
 #include "activity_type.h"

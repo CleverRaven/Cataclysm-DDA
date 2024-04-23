@@ -1127,10 +1127,10 @@
     "active": true,
     "cost": 90,
     "time": "10 s",
-    "fatigue": true,
+    "sleepiness": true,
     "kcal": true,
     "thirst": true,
-    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": -0.1 }, { "value": "BONUS_DODGE", "add": 2 } ] } ]
+    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": -0.1 }, { "value": "DODGE_CHANCE", "add": 2 } ] } ]
   },
   {
     "type": "mutation",
@@ -1142,7 +1142,7 @@
     "types": [ "SLEEP" ],
     "starting_trait": true,
     "category": [ "ALPHA", "ELFA", "PLANT", "BATRACHIAN" ],
-    "enchantments": [ { "values": [ { "value": "FATIGUE", "multiply": -0.15 } ] } ]
+    "enchantments": [ { "values": [ { "value": "SLEEPINESS", "multiply": -0.15 } ] } ]
   },
   {
     "type": "mutation",
@@ -1517,7 +1517,7 @@
     "starting_trait": true,
     "types": [ "SLEEP" ],
     "category": [ "BEAST", "CHIMERA", "MOUSE", "RABBIT", "FELINE", "RAT" ],
-    "enchantments": [ { "values": [ { "value": "FATIGUE_REGEN", "multiply": 0.333 }, { "value": "FATIGUE", "multiply": 0.333 } ] } ]
+    "enchantments": [ { "values": [ { "value": "SLEEPINESS_REGEN", "multiply": 0.333 }, { "value": "SLEEPINESS", "multiply": 0.333 } ] } ]
   },
   {
     "type": "mutation",
@@ -2435,7 +2435,7 @@
     "changes_to": [ "WAKEFUL3" ],
     "threshreq": [ "THRESH_ALPHA", "THRESH_ELFA", "THRESH_BATRACHIAN" ],
     "category": [ "ALPHA", "ELFA", "BATRACHIAN" ],
-    "enchantments": [ { "values": [ { "value": "FATIGUE", "multiply": -0.25 } ] } ]
+    "enchantments": [ { "values": [ { "value": "SLEEPINESS", "multiply": -0.25 } ] } ]
   },
   {
     "type": "mutation",
@@ -2448,7 +2448,7 @@
     "prereqs": [ "WAKEFUL2" ],
     "threshreq": [ "THRESH_ELFA" ],
     "category": [ "ELFA" ],
-    "enchantments": [ { "values": [ { "value": "FATIGUE_REGEN", "multiply": 0.5 }, { "value": "FATIGUE", "multiply": -0.5 } ] } ]
+    "enchantments": [ { "values": [ { "value": "SLEEPINESS_REGEN", "multiply": 0.5 }, { "value": "SLEEPINESS", "multiply": -0.5 } ] } ]
   },
   {
     "type": "mutation",
@@ -3557,7 +3557,7 @@
     "cost": 90,
     "kcal": true,
     "thirst": true,
-    "fatigue": true
+    "sleepiness": true
   },
   {
     "type": "mutation",
@@ -3575,7 +3575,7 @@
     "cost": 90,
     "kcal": true,
     "thirst": true,
-    "fatigue": true
+    "sleepiness": true
   },
   {
     "type": "mutation",
@@ -4164,6 +4164,7 @@
     "category": [ "CHIROPTERAN" ],
     "threshreq": [ "THRESH_CHIROPTERAN" ],
     "flags": [ "WALL_CLING" ],
+    "strict_threshreq": true,
     "restricts_gear": [ "foot_l", "foot_r" ],
     "destroys_gear": true
   },
@@ -4705,7 +4706,7 @@
     "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
     "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
-    "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ]
+    "enchantments": [ { "values": [ { "value": "DODGE_CHANCE", "add": 2 } ] } ]
   },
   {
     "type": "mutation",
@@ -4721,7 +4722,7 @@
     "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
     "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
-    "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": 1 } ] } ]
+    "enchantments": [ { "values": [ { "value": "DODGE_CHANCE", "add": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -4737,7 +4738,7 @@
     "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
     "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
-    "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ]
+    "enchantments": [ { "values": [ { "value": "DODGE_CHANCE", "add": 2 } ] } ]
   },
   {
     "type": "mutation",
@@ -4760,7 +4761,7 @@
       "chance": 20,
       "base_damage": { "damage_type": "bash", "amount": 8 }
     },
-    "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": 1 } ] } ]
+    "enchantments": [ { "values": [ { "value": "DODGE_CHANCE", "add": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -4799,7 +4800,7 @@
     "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
     "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
-    "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": 3 } ] } ]
+    "enchantments": [ { "values": [ { "value": "DODGE_CHANCE", "add": 3 } ] } ]
   },
   {
     "type": "mutation",
@@ -4815,7 +4816,7 @@
     "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
     "social_modifiers": { "lie": -20, "persuade": 10 },
-    "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": 4 } ] } ]
+    "enchantments": [ { "values": [ { "value": "DODGE_CHANCE", "add": 4 } ] } ]
   },
   {
     "type": "mutation",
@@ -5182,6 +5183,7 @@
     "types": [ "PREDATION" ],
     "prereqs": [ "CARNIVORE" ],
     "prereqs2": [ "PRED3" ],
+    "strict_threshreq": true,
     "threshreq": [ "THRESH_LUPINE" ],
     "category": [ "LUPINE" ],
     "flags": [ "PRED3" ]
@@ -5211,9 +5213,10 @@
     "prereqs": [ "WINGS_STUB" ],
     "prereqs2": [ "HOLLOW_BONES" ],
     "threshreq": [ "THRESH_BIRD" ],
+    "strict_threshreq": true,
     "category": [ "BIRD" ],
     "restricts_gear": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
-    "flags": [ "WINGS_2", "WING_GLIDE", "ARM_WINGS" ]
+    "flags": [ "WINGS_2", "WING_GLIDE" ]
   },
   {
     "type": "mutation",
@@ -5658,7 +5661,7 @@
         "values": [
           { "value": "MAX_HP", "add": -6 },
           { "value": "STRENGTH", "add": 4 },
-          { "value": "FATIGUE", "multiply": 0.15 },
+          { "value": "SLEEPINESS", "multiply": 0.15 },
           { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 1 },
           { "value": "CARRY_WEIGHT", "multiply": 0.1 }
         ]
@@ -6129,7 +6132,7 @@
     "enchantments": [
       {
         "values": [
-          { "value": "BONUS_DODGE", "add": 1 },
+          { "value": "DODGE_CHANCE", "add": 1 },
           { "value": "MAX_HP", "multiply": -0.05 },
           { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": -0.5 },
           { "value": "CARRY_WEIGHT", "multiply": -0.2 }
@@ -6153,7 +6156,7 @@
     "enchantments": [
       {
         "values": [
-          { "value": "BONUS_DODGE", "add": 2 },
+          { "value": "DODGE_CHANCE", "add": 2 },
           { "value": "MAX_HP", "multiply": -0.3 },
           { "value": "FOOTSTEP_NOISE", "multiply": -1 },
           { "value": "CARRY_WEIGHT", "multiply": -0.5 },
@@ -6179,7 +6182,7 @@
     "enchantments": [
       {
         "values": [
-          { "value": "BONUS_DODGE", "add": 2 },
+          { "value": "DODGE_CHANCE", "add": 2 },
           { "value": "MAX_HP", "multiply": -0.25 },
           { "value": "FOOTSTEP_NOISE", "multiply": -1 },
           { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": -0.5 },
@@ -6381,9 +6384,10 @@
     "mixed_effect": true,
     "description": "Most of your fingers have grown to tremendous length, becoming a broad pair of leathery wings.  This allows you to arrest a fall or glide from a ledge if you aren't too weighed down, but naturally impedes your fine motor skills.  They even keep you warm when you sleep.",
     "types": [ "ARMS", "HANDS" ],
-    "flags": [ "WING_GLIDE", "WINGS_2", "ARM_WINGS" ],
+    "flags": [ "WING_GLIDE", "WINGS_2" ],
     "encumbrance_always": [ [ "arm_r", 20 ], [ "arm_l", 20 ], [ "hand_r", 40 ], [ "hand_l", 40 ] ],
     "prereqs": [ "WEBBED" ],
+    "strict_threshreq": true,
     "category": [ "CHIROPTERAN" ],
     "restricts_gear": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
     "threshreq": [ "THRESH_CHIROPTERAN" ]
@@ -6404,7 +6408,7 @@
     "category": [ "INSECT" ],
     "restricts_gear": [ "torso" ],
     "social_modifiers": { "lie": 15, "persuade": 5, "intimidate": -20 },
-    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": -0.1 }, { "value": "BONUS_DODGE", "add": -4 } ] } ],
+    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": -0.1 }, { "value": "DODGE_CHANCE", "add": -4 } ] } ],
     "flags": [ "WINGS_1" ]
   },
   {
@@ -6742,7 +6746,7 @@
           { "value": "ATTACK_SPEED", "multiply": 0.05 },
           { "value": "MAX_HP", "add": 4 },
           { "value": "MOVECOST_SWIM_MOD", "multiply": 0.2 },
-          { "value": "BONUS_DODGE", "add": -1 },
+          { "value": "DODGE_CHANCE", "add": -1 },
           { "value": "CARRY_WEIGHT", "multiply": 0.15 }
         ]
       }
@@ -6809,7 +6813,7 @@
     "types": [ "METABOLISM" ],
     "changes_to": [ "PERSISTENCE_HUNTER2" ],
     "category": [ "LUPINE" ],
-    "enchantments": [ { "values": [ { "value": "STAMINA_REGEN_MOD", "add": 0.1 }, { "value": "FATIGUE", "multiply": -0.1 } ] } ]
+    "enchantments": [ { "values": [ { "value": "STAMINA_REGEN_MOD", "add": 0.1 }, { "value": "SLEEPINESS", "multiply": -0.1 } ] } ]
   },
   {
     "type": "mutation",
@@ -6821,7 +6825,7 @@
     "prereqs": [ "PERSISTENCE_HUNTER" ],
     "threshreq": [ "THRESH_LUPINE" ],
     "category": [ "LUPINE" ],
-    "enchantments": [ { "values": [ { "value": "STAMINA_REGEN_MOD", "add": 0.2 }, { "value": "FATIGUE", "multiply": -0.2 } ] } ]
+    "enchantments": [ { "values": [ { "value": "STAMINA_REGEN_MOD", "add": 0.2 }, { "value": "SLEEPINESS", "multiply": -0.2 } ] } ]
   },
   {
     "type": "mutation",
@@ -6848,8 +6852,8 @@
     "enchantments": [
       {
         "values": [
-          { "value": "FATIGUE_REGEN", "multiply": 0.333 },
-          { "value": "FATIGUE", "multiply": 0.5 },
+          { "value": "SLEEPINESS_REGEN", "multiply": 0.333 },
+          { "value": "SLEEPINESS", "multiply": 0.5 },
           { "value": "METABOLISM", "multiply": 0.333 },
           { "value": "REGEN_HP", "multiply": 0.5 },
           { "value": "REGEN_HP_AWAKE", "multiply": 0.133 }
@@ -6925,6 +6929,7 @@
     "description": "Your body gets everything it needs from the food that you eat!  You no longer need hydration from fluids.",
     "types": [ "THIRST" ],
     "threshreq": [ "THRESH_MOUSE" ],
+    "strict_threshreq": true,
     "category": [ "MOUSE" ],
     "flags": [ "NO_THIRST" ],
     "purifiable": false
@@ -6947,7 +6952,7 @@
     "prereqs": [ "SLEEPY" ],
     "types": [ "SLEEP" ],
     "category": [ "FELINE" ],
-    "enchantments": [ { "values": [ { "value": "FATIGUE", "multiply": 1 } ] } ]
+    "enchantments": [ { "values": [ { "value": "SLEEPINESS", "multiply": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -7811,7 +7816,6 @@
     "mixed_effect": true,
     "description": "Your arms have sprouted feathers, and you find you can no longer fully extend your elbows.  This gets in the way a bit, but the feathers offer minor protection from damage and the elements.",
     "category": [ "RAPTOR", "BIRD" ],
-    "flags": [ "WINGS_1", "ARM_WINGS" ],
     "changes_to": [ "WINGS_BIRD" ],
     "wet_protection": [
       { "part": "arm_l", "neutral": 50 },
@@ -8126,7 +8130,8 @@
     "description": "You sometimes look back on your days before your tail came in.  But you're better now.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "threshold_substitutes": [ "THRESH_CHIMERA" ]
   },
   {
     "type": "mutation",
@@ -8137,7 +8142,8 @@
     "flags": [ "INVERTEBRATEBLOOD" ],
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "threshold_substitutes": [ "THRESH_CHIMERA" ]
   },
   {
     "type": "mutation",
@@ -8147,7 +8153,8 @@
     "description": "You're sure you'll fly someday.  In the meantime, there are still nests to build.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "threshold_substitutes": [ "THRESH_CHIMERA" ]
   },
   {
     "type": "mutation",
@@ -8157,7 +8164,8 @@
     "description": "Ninety percent of the planet, and it's yours to explore.  And colonize.  And enjoy.  What was that about a surface?",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "threshold_substitutes": [ "THRESH_CHIMERA" ]
   },
   {
     "type": "mutation",
@@ -8167,7 +8175,8 @@
     "description": "It's about time you grew out.  Now that you've matured, it is time to make something of yourself.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "threshold_substitutes": [ "THRESH_CHIMERA" ]
   },
   {
     "type": "mutation",
@@ -8177,7 +8186,8 @@
     "description": "Stalking prey, eating well, and lying in the sun.  Mmm, all you could ever desire.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "threshold_substitutes": [ "THRESH_CHIMERA" ]
   },
   {
     "type": "mutation",
@@ -8187,7 +8197,8 @@
     "description": "You're the perfect candidate to lead a pack.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "threshold_substitutes": [ "THRESH_CHIMERA" ]
   },
   {
     "type": "mutation",
@@ -8197,7 +8208,8 @@
     "description": "So the humans died; what's the worry?  Now they won't ruin the woods.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "threshold_substitutes": [ "THRESH_CHIMERA" ]
   },
   {
     "type": "mutation",
@@ -8207,7 +8219,8 @@
     "description": "Civilization collapsed?  Great!  You and your kin will never have to worry about a slaughterhouse again.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "threshold_substitutes": [ "THRESH_CHIMERA" ]
   },
   {
     "type": "mutation",
@@ -8218,7 +8231,8 @@
     "flags": [ "INSECTBLOOD" ],
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "threshold_substitutes": [ "THRESH_CHIMERA" ]
   },
   {
     "type": "mutation",
@@ -8229,7 +8243,8 @@
     "flags": [ "PLANTBLOOD" ],
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "threshold_substitutes": [ "THRESH_CHIMERA" ]
   },
   {
     "type": "mutation",
@@ -8249,7 +8264,8 @@
     "description": "Not much point to rebuilding up in that horribly bright, roofless wasteland.  Now that you've become accustomed to your new digs, there's the beginning of a great empire right here, underground.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "threshold_substitutes": [ "THRESH_CHIMERA" ]
   },
   {
     "type": "mutation",
@@ -8260,7 +8276,8 @@
     "flags": [ "INVERTEBRATEBLOOD" ],
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "threshold_substitutes": [ "THRESH_CHIMERA" ]
   },
   {
     "type": "mutation",
@@ -8271,7 +8288,8 @@
     "flags": [ "INSECTBLOOD" ],
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "threshold_substitutes": [ "THRESH_CHIMERA" ]
   },
   {
     "type": "mutation",
@@ -8281,7 +8299,8 @@
     "description": "Hey.  Civilization fell.  You're still around.  'Rat' just isn't respectful.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "threshold_substitutes": [ "THRESH_CHIMERA" ]
   },
   {
     "type": "mutation",
@@ -8318,7 +8337,8 @@
     "id": "THRESH_CHIMERA",
     "name": { "str": "Chaos" },
     "points": 1,
-    "description": "You can't tell what you are anymore.  Everything and yet nothing, like you weren't meant to exist.  But you do, and you're a force, no matter what happens.",
+    "description": "You can't tell what you are anymore.  Everything and yet nothing, like you weren't meant to exist.  But you do, and you're a force, no matter what happens.  Unlocks gaining post-threshold traits from most other mutation categories.",
+    "//": "Acceptable substitute for all lines except the human-based ones and slime - the former are more controlled, the latter will diverge too much in anatomy.",
     "valid": false,
     "purifiable": false,
     "threshold": true
@@ -8331,7 +8351,8 @@
     "description": "The chance to undo not one but TWO extinction events.  You're confident you'll do fine.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "threshold_substitutes": [ "THRESH_CHIMERA" ]
   },
   {
     "type": "mutation",
@@ -8341,7 +8362,8 @@
     "description": "A perfect ambush predator, if only there were less competition.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "threshold_substitutes": [ "THRESH_CHIMERA" ]
   },
   {
     "type": "mutation",
@@ -8351,7 +8373,8 @@
     "description": "So much food, everywhere!  And nobody's even guarding it anymore!  These are good times.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "threshold_substitutes": [ "THRESH_CHIMERA" ]
   },
   {
     "type": "mutation",
@@ -8386,7 +8409,8 @@
     "flags": [ "INVERTEBRATEBLOOD" ],
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "threshold_substitutes": [ "THRESH_CHIMERA" ]
   },
   {
     "type": "mutation",
@@ -8396,7 +8420,8 @@
     "description": "You long for a colony, the cover of darkness, and a meal on the wing.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "threshold_substitutes": [ "THRESH_CHIMERA" ]
   },
   {
     "type": "mutation",
@@ -8845,7 +8870,7 @@
   {
     "id": "GETS_RANDOM_MISSION_NOMOVE",
     "type": "mutation",
-    "name": { "str": "Assign Random Nomove Mission" },
+    "name": { "str": "Assign Random No-move Mission" },
     "description": "This is an AI tag to give a static NPC a random mission that doesn't involve them following you.  If you see this, it's a bug.",
     "points": 0,
     "valid": false,
@@ -8883,6 +8908,17 @@
     "description": "They said college what make me smart, this is a lot to lug around!",
     "enchantments": [ "ENCH_DEBUG_BIG_HEAD" ],
     "debug": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_MUTATE",
+    "name": { "str": "Debug Genetic Instability" },
+    "points": 99,
+    "valid": false,
+    "description": "You just can't wait to turn into a bug!  Triggers a mutation using the normal mutation rules (requiring primer but no catalyst) every five seconds.",
+    "debug": true,
+    "processed_eocs": [ "eoc_debug_mutate" ],
+    "time": "5 s"
   },
   {
     "type": "mutation",
@@ -8928,7 +8964,7 @@
     "name": { "str": "Debug Life Support" },
     "points": 99,
     "valid": false,
-    "description": "Holds hunger, thirst, and fatigue stable.  You can debug all year long with this one!",
+    "description": "Holds hunger, thirst, and sleepiness stable.  You can debug all year long with this one!",
     "debug": true
   },
   {
@@ -9186,7 +9222,7 @@
     "points": 2,
     "description": "You have fast reflexes, allowing you to dodge attacks more easily.",
     "starting_trait": true,
-    "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": 3 } ] } ],
+    "enchantments": [ { "values": [ { "value": "DODGE_CHANCE", "add": 3 } ] } ],
     "category": [ "FELINE" ]
   },
   {

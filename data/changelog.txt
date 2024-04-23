@@ -104,6 +104,8 @@ EoCs support mutate_towards directly
 make `u_spawn_item` to support the item group whose subtype is `collection`
 Add u_wants_to_talk/npc_wants_to_talk EOC effects
 Player can eat from camp larder(always). Workers receive spent food from it when being assigned to work (requires NPC needs enabled).
+Implement IME pre-edit text for CJK text
+Allow effects disabling (conditional) limb flags
 
 
 ## Content:
@@ -210,6 +212,12 @@ Simulate hair growth over time.
 Add earthworms to the game, as a food source
 Add cougar kittens and fix cougar taming in mods
 Boomers now leave fleshy gibs on detonation```
+Removed Magazine & Bore gunmod location from guns that don't use it
+Pictures for House fluff
+Added Hub 01 mission signposting LIXA
+Crafting Musical Instruments
+Additional Achievements
+Adds ASCII Art to 619
 
 
 ## Interface:
@@ -264,6 +272,7 @@ Keep displaying selected outfit throughout chargen
 High characters now see fancy smiley faces and exclamations in their message log.
 Can't accidentally select full deconstruction if simple deconstruction is available
 Set priority for containers that have auto whitelisting.
+When opening spellcasting menu, go to favorite spells tab if player has favorited spells
 
 
 ## Mods:
@@ -380,6 +389,24 @@ Fix Brackenwight special attack message
 [Magiclysm] Last Mage on Earth start
 Tamable Wildlife: add Cougars to list of tameables
 [Magiclysm] Add spellcasting proficiencies.
+[MoM] More nether attunement effects
+[MoM] Channeling powers costs focus
+Edit spell UI word choice when using psionics
+Fixes spellcasting proficiencies adding when they should be subtracting
+[MoM] High levels of weariness turn off your powers
+More specific messages for being unable to use supernatural powers
+[Xedra Evolved] New Arvore spell--Verdant Imprisonment
+[MoM] High levels of weariness turn off your powers
+More specific messages for being unable to use supernatural powers
+Tune channeling spells with scale modifier.
+[MoM] Edit portal storm conditions to support moddability, use that for Telepathic Shield in MoM
+XE: Trait to avoid learning dream magick
+[MoM] Oubliette works on NPCs now
+[MoM] Utilise test_eoc functionality to reduce duplicate conditions
+[MoM] Power maintenance message change
+[DinoMod] Iguanodon
+[Bombastic Perks] Add more perks
+
 
 
 ## Balance:
@@ -438,6 +465,13 @@ Bring ice axe in line with reality
 Audit remaining magazines (.223, 9mm, .308)
 Update books.json to rebalance religious book spawning
 Retuned frag grenades to be less effective against ballistic armor and lose power over distance faster
+Damage from dropped items scales with kinetic energy
+Remove rapid strike from knives
+Hub MDS fix and material update
+Instability no longer accumulates or decreases; it depends on how many mutations you have, and how many are outside of your current tree
+Pain is painful
+Pain was a bit too painful
+shoggoths cannot eat artifacts
 
 
 ## Bugfixes:
@@ -566,6 +600,21 @@ Fix assignment ID's with NECC mapgen EOCs.
 Allows Infrared vision to see through smoke
 [Magiclysm] Fix Peaceful Rest hobby
 NPCs can overeat, starve, and dehydrate to death
+Fixed issue where user could only change the selected option in the ImGui popup using the arrow keys or tab key
+Allow trap-avoiding monsters to step on traps if there's no other path
+Implemented drawing of non-English characters in ImGui screens
+Fixed monsters which regenerate in the dark regenerating in daylight
+Crafting will unseal containers when contents are removed
+Fix migrating from item variants when the variant has been deleted
+NPCs can develop vitamin diseases
+Rotten food doesn't become fresh when crafted with
+fixes issue where NPCs could take an item like canned corn as a donation and would remove the corn from the can and give you the can back.
+Rest quality is not always positive, negative rest quality will slow your bandaged healing 
+Fixes ImGui keybindings UI not allowing the user to scroll
+fixing issues where ImGui popup changes size sporadically. Fix issue where keybindings filter box deactivates unexpectedly
+fixes issue where all ImGui windows display wrong when the window scaling is not 1
+Fixed issue where new ImGui popup does not obey the default option requested by user
+Fixed issue where the keybindings UI doesn't let you press the plus key to add a local keybinding
 
 
 ## Performance:
@@ -639,6 +688,11 @@ Effect enchantments can now apply to monsters
 Make JSON formatter replace nbsp with escape sequence
 Update houses to utilize palettes
 Added SMALL_HIDER flag to various monsters.
+Test case: NPCs prefer to use guns
+Rename 'fatigue' to 'sleepiness', mostly on the back end, to avoid confusing different ways of being knackered
+EOC proficiency adjustments use normal training route by default
+Improve spell checker tokenization and reporting
+Deleted the ImGui enable/disable toggle, turns on ImGui globally in CDDA
 
 
 ## Build:
@@ -655,6 +709,8 @@ Report game's RNG seed during testing
 Added WebAssembly build via Emscripten
 CMake: Add LLVM build for Windows and other linker fixes
 Use one precompiled header
+Fix zlib old-style-cast build breakage
+Fix crash with imgui and CMake
 
 
 ## I18N and A11Y:

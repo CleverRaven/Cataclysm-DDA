@@ -20,21 +20,25 @@
 #include "construction_category.h"
 #include "construction_group.h"
 #include "coordinates.h"
+#include "creature.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "game.h"
 #include "game_constants.h"
 #include "input.h"
 #include "input_context.h"
 #include "inventory.h"
 #include "item.h"
-#include "iteminfo_query.h"
 #include "item_group.h"
 #include "item_stack.h"
+#include "iteminfo_query.h"
 #include "iuse.h"
+#include "json_error.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -45,14 +49,19 @@
 #include "npc.h"
 #include "options.h"
 #include "output.h"
+#include "overmap.h"
 #include "player_activity.h"
 #include "point.h"
 #include "requirements.h"
 #include "rng.h"
 #include "skill.h"
+#include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "translation_cache.h"
+#include "translations.h"
 #include "trap.h"
+#include "ui.h"
 #include "ui_manager.h"
 #include "uistate.h"
 #include "units.h"
@@ -75,6 +84,9 @@ static const construction_str_id construction_constr_veh( "constr_veh" );
 
 static const flag_id json_flag_FILTHY( "FILTHY" );
 static const flag_id json_flag_PIT( "PIT" );
+
+static const furn_str_id furn_f_coffin_c( "f_coffin_c" );
+static const furn_str_id furn_f_coffin_o( "f_coffin_o" );
 
 static const item_group_id Item_spawn_data_allclothes( "allclothes" );
 static const item_group_id Item_spawn_data_grave( "grave" );
@@ -928,7 +940,7 @@ bool player_can_see_to_build( Character &you, const construction_group_str_id &g
 bool can_construct_furn_ter( const construction &con, furn_id const &f, ter_id const &t )
 {
     return std::all_of( con.pre_flags.begin(), con.pre_flags.end(), [&f, &t]( auto const & flag ) {
-        const bool use_ter = flag.second || f == f_null;
+        const bool use_ter = flag.second || f == furn_str_id::NULL_ID();
         return ( use_ter || f->has_flag( flag.first ) ) &&
                ( !use_ter || t->has_flag( flag.first ) );
     } );
@@ -1138,6 +1150,35 @@ void complete_construction( Character *you )
                     const tripoint_bub_ms top = terp + tripoint_above;
                     if( here.ter( top ) == ter_t_open_air ) {
                         here.ter_set( top, ter_id( post_terrain->roof ) );
+                    }
+                }
+            }
+
+            if( ter_id( built.post_terrain ).id() == ter_t_open_air ) {
+                const tripoint_bub_ms below = terp + tripoint_below;
+                if( below.z() > -OVERMAP_DEPTH && here.ter( below ).obj().has_flag( "SUPPORTS_ROOF" ) ) {
+                    const map_bash_info bash_info = here.ter( below ).obj().bash;
+                    // ter_set_bashed_from_above should default to ter_set
+                    if( bash_info.ter_set_bashed_from_above.id() == t_null ) {
+                        if( below.z() >= -1 ) {
+                            // Stupid to set soil at above the ground level, but if they haven't defined
+                            // anything for the terrain that's what you'll get.
+                            // Trying to get the regional version of soil. There ought to be a sane way to do this...
+                            ter_id converted_terrain = ter_t_dirt;
+                            regional_settings settings = g->get_cur_om().get_settings();
+                            std::map<std::string, int> soil_map =
+                                settings.region_terrain_and_furniture.unfinalized_terrain.find( "t_region_soil" )->second;
+                            if( !soil_map.empty() ) {
+                                converted_terrain = ter_id(
+                                                        settings.region_terrain_and_furniture.unfinalized_terrain.find( "t_region_soil" )->second.begin()->first );
+                            }
+                            here.ter_set( below, converted_terrain );
+                        } else {
+                            // At the time of writing there doesn't seem to be any regional definition of "rock" (which would have to be smashed to get a floor).
+                            here.ter_set( below, ter_t_rock_floor );
+                        }
+                    } else {
+                        here.ter_set( below, bash_info.ter_set_bashed_from_above.id() );
                     }
                 }
             }
@@ -1480,7 +1521,7 @@ void construct::done_deconstruct( const tripoint_bub_ms &p, Character &player_ch
             return;
         }
         if( f.deconstruct.furn_set.str().empty() ) {
-            here.furn_set( p, f_null );
+            here.furn_set( p, furn_str_id::NULL_ID() );
         } else {
             here.furn_set( p, f.deconstruct.furn_set );
         }
@@ -1561,7 +1602,7 @@ void construct::done_digormine_stair( const tripoint_bub_ms &p, bool dig,
     int mine_penalty = dig ? 0 : 10;
     player_character.mod_stored_kcal( -43 - 9 * mine_penalty - 9 * no_mut_penalty );
     player_character.mod_thirst( 5 + mine_penalty + no_mut_penalty );
-    player_character.mod_fatigue( 10 + mine_penalty + no_mut_penalty );
+    player_character.mod_sleepiness( 10 + mine_penalty + no_mut_penalty );
 
     if( tmpmap.ter( local_tmp ) == ter_t_lava ) {
         if( !query_yn( _( "The rock feels much warmer than normal.  Proceed?" ) ) ) {
@@ -1602,12 +1643,12 @@ void construct::done_dig_grave( const tripoint_bub_ms &p, Character &who )
 
         // TODO: fix point types
         g->place_critter_at( random_entry( monids ), p.raw() );
-        here.furn_set( p, f_coffin_o );
+        here.furn_set( p, furn_f_coffin_o );
         who.add_msg_if_player( m_warning, _( "Something crawls out of the coffin!" ) );
     } else {
         // TODO: fix point types
         here.spawn_item( p.raw(), itype_bone_human, rng( 5, 15 ) );
-        here.furn_set( p, f_coffin_c );
+        here.furn_set( p, furn_f_coffin_c );
     }
     std::vector<item *> dropped =
         here.place_items( Item_spawn_data_allclothes, 50, p, p, false, calendar::turn );
@@ -1625,7 +1666,7 @@ void construct::done_dig_grave( const tripoint_bub_ms &p, Character &who )
 
 void construct::done_dig_grave_nospawn( const tripoint_bub_ms &p, Character &who )
 {
-    get_map().furn_set( p, f_coffin_c );
+    get_map().furn_set( p, furn_f_coffin_c );
     get_event_bus().send<event_type::exhumes_grave>( who.getID() );
 }
 
@@ -1669,7 +1710,7 @@ void construct::done_mine_upstair( const tripoint_bub_ms &p, Character &player_c
     int no_mut_penalty = dig_muts ? 15 : 0;
     player_character.mod_stored_kcal( -174 - 9 * no_mut_penalty );
     player_character.mod_thirst( 20 + no_mut_penalty );
-    player_character.mod_fatigue( 25 + no_mut_penalty );
+    player_character.mod_sleepiness( 25 + no_mut_penalty );
 
     add_msg( _( "You drill out a passage, heading for the surface." ) );
     here.ter_set( p.xy(), ter_t_stairs_up ); // There's the bottom half

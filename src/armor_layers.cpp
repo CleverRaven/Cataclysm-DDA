@@ -2,16 +2,24 @@
 #include <climits>
 #include <cstddef>
 #include <iterator>
+#include <list>
 #include <memory>
+#include <optional>
+#include <set>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "activity_type.h"
+#include "body_part_set.h"
 #include "bodypart.h"
-#include "catacharset.h" // used for utf8_width()
+#include "catacharset.h"
 #include "character.h"
+#include "character_attire.h"
 #include "color.h"
+#include "creature.h"
 #include "cursesdef.h"
+#include "damage.h"
 #include "debug.h"
 #include "enums.h"
 #include "flag.h"
@@ -20,14 +28,21 @@
 #include "input_context.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_location.h"
 #include "itype.h"
 #include "line.h"
 #include "output.h"
 #include "pimpl.h"
 #include "player_activity.h"
+#include "point.h"
 #include "string_formatter.h"
+#include "subbodypart.h"
+#include "translation.h"
 #include "translations.h"
+#include "type_id.h"
+#include "ui.h"
 #include "ui_manager.h"
+#include "units.h"
 #include "units_utility.h"
 
 static const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );

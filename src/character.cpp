@@ -6,7 +6,9 @@
 #include <cmath>
 #include <cstddef>
 #include <cstdlib>
+#include <cwctype>
 #include <functional>
+#include <initializer_list>
 #include <memory>
 #include <numeric>
 #include <tuple>
@@ -22,24 +24,29 @@
 #include "avatar_action.h"
 #include "bionics.h"
 #include "cached_options.h"
+#include "cata_assert.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character_attire.h"
 #include "character_martial_arts.h"
+#include "city.h"
 #include "colony.h"
 #include "color.h"
 #include "construction.h"
 #include "coordinates.h"
 #include "creature_tracker.h"
 #include "cursesdef.h"
+#include "debug.h"
 #include "disease.h"
 #include "display.h"
 #include "effect.h"
 #include "effect_on_condition.h"
 #include "effect_source.h"
+#include "enum_traits.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
+#include "faction.h"
 #include "fault.h"
 #include "field.h"
 #include "field_type.h"
@@ -50,15 +57,18 @@
 #include "gun_mode.h"
 #include "handle_liquid.h"
 #include "input_context.h"
+#include "input_enums.h"
 #include "inventory.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "item_stack.h"
+#include "item_tname.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "lightmap.h"
 #include "line.h"
+#include "localized_comparator.h"
 #include "magic.h"
 #include "magic_enchantment.h"
 #include "make_static.h"
@@ -66,6 +76,8 @@
 #include "map_iterator.h"
 #include "map_selector.h"
 #include "mapdata.h"
+#include "maptile_fwd.h"
+#include "martialarts.h"
 #include "math_defines.h"
 #include "memorial_logger.h"
 #include "messages.h"
@@ -80,11 +92,13 @@
 #include "options.h"
 #include "output.h"
 #include "overlay_ordering.h"
+#include "overmap_types.h"
 #include "overmapbuffer.h"
 #include "pathfinding.h"
 #include "profession.h"
 #include "proficiency.h"
 #include "recipe_dictionary.h"
+#include "requirements.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "scent_map.h"
@@ -93,12 +107,14 @@
 #include "sounds.h"
 #include "stomach.h"
 #include "string_formatter.h"
-#include "submap.h"
+#include "submap.h"  // IWYU pragma: keep
 #include "text_snippets.h"
+#include "translation.h"
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
 #include "ui_manager.h"
+#include "uistate.h"
 #include "units.h"
 #include "value_ptr.h"
 #include "veh_type.h"
@@ -111,6 +127,7 @@
 #include "weather.h"
 #include "weather_type.h"
 
+class activity_actor;
 struct dealt_projectile_attack;
 
 static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
@@ -222,7 +239,6 @@ static const efftype_id effect_foodpoison( "foodpoison" );
 static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_glowing( "glowing" );
 static const efftype_id effect_glowy_led( "glowy_led" );
-static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_heavysnare( "heavysnare" );
 static const efftype_id effect_in_pit( "in_pit" );
@@ -266,8 +282,6 @@ static const faction_id faction_no_faction( "no_faction" );
 static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
 
 static const field_type_str_id field_fd_clairvoyant( "fd_clairvoyant" );
-
-static const furn_str_id furn_f_null( "f_null" );
 
 static const itype_id fuel_type_animal( "animal" );
 static const itype_id fuel_type_muscle( "muscle" );
@@ -326,7 +340,6 @@ static const json_character_flag json_flag_WALK_UNDERWATER( "WALK_UNDERWATER" );
 static const json_character_flag json_flag_WATCH( "WATCH" );
 static const json_character_flag json_flag_WEBBED_FEET( "WEBBED_FEET" );
 static const json_character_flag json_flag_WEBBED_HANDS( "WEBBED_HANDS" );
-static const json_character_flag json_flag_WINGS_1( "WINGS_1" );
 static const json_character_flag json_flag_WINGS_2( "WINGS_2" );
 static const json_character_flag json_flag_WING_ARMS( "WING_ARMS" );
 static const json_character_flag json_flag_WING_GLIDE( "WING_GLIDE" );
@@ -554,7 +567,7 @@ Character::Character() :
     health_tally = 0;
     hunger = 0;
     thirst = 0;
-    fatigue = 0;
+    sleepiness = 0;
     sleep_deprivation = 0;
     daily_sleep = 0_turns;
     continuous_sleep = 0_turns;
@@ -779,8 +792,8 @@ void Character::mod_stat( const std::string &stat, float modifier )
 {
     if( stat == "thirst" ) {
         mod_thirst( modifier );
-    } else if( stat == "fatigue" ) {
-        mod_fatigue( modifier );
+    } else if( stat == "sleepiness" ) {
+        mod_sleepiness( modifier );
     } else if( stat == "oxygen" ) {
         oxygen += modifier;
     } else if( stat == "stamina" ) {
@@ -3060,6 +3073,13 @@ void Character::remove_mission_items( int mission_id )
 void Character::on_move( const tripoint_abs_ms &old_pos )
 {
     Creature::on_move( old_pos );
+    // Ugly to compare a tripoint_bub_ms with a tripoint_abs_ms, but the 'z' component
+    // is the same regardless of the x/y reference point.
+    if( this->pos_bub().z() != old_pos.z() ) {
+        // Make sure caches are rebuilt in a timely manner to ensure companions aren't
+        // caught in the "dark" because the caches aren't updated on their next move.
+        get_map().build_map_cache( this->pos_bub().z() );
+    }
     // In case we've moved out of range of lifting assist.
     if( using_lifting_assist ) {
         invalidate_weight_carried_cache();
@@ -3180,8 +3200,10 @@ units::mass Character::weight_capacity() const
     // Get base capacity from creature,
     // then apply enchantment.
     units::mass ret = Creature::weight_capacity();
+    // Not using get_str() so pain and other temporary effects won't decrease carrying capacity;
+    // transiently reducing carry weight is unlikely to have any play impact besides being very annoying.
     /** @EFFECT_STR increases carrying capacity */
-    ret += get_str() * 4_kilogram;
+    ret += ( get_str_base() + get_str_bonus() ) * 4_kilogram;
 
     ret = enchantment_cache->modify_value( enchant_vals::mod::CARRY_WEIGHT, ret );
 
@@ -3212,7 +3234,7 @@ bool Character::can_pickVolume( const item &it, bool, const item *avoid,
 }
 
 bool Character::can_pickVolume_partial( const item &it, bool, const item *avoid,
-                                        const bool ignore_pkt_settings ) const
+                                        const bool ignore_pkt_settings, const bool is_pick_up_inv ) const
 {
     item copy = it;
     if( it.count_by_charges() ) {
@@ -3220,11 +3242,11 @@ bool Character::can_pickVolume_partial( const item &it, bool, const item *avoid,
     }
 
     if( ( avoid == nullptr || &weapon != avoid ) &&
-        weapon.can_contain( copy, false, false, ignore_pkt_settings ).success() ) {
+        weapon.can_contain( copy, false, false, ignore_pkt_settings, is_pick_up_inv ).success() ) {
         return true;
     }
 
-    return worn.can_pickVolume( copy, ignore_pkt_settings );
+    return worn.can_pickVolume( copy, ignore_pkt_settings, is_pick_up_inv );
 }
 
 bool Character::can_pickWeight( const item &it, bool safe ) const
@@ -3666,15 +3688,15 @@ void Character::do_skill_rust()
     }
 }
 
-int Character::focus_equilibrium_fatigue_cap( int equilibrium ) const
+int Character::focus_equilibrium_sleepiness_cap( int equilibrium ) const
 {
-    if( get_fatigue() >= fatigue_levels::MASSIVE_FATIGUE && equilibrium > 20 ) {
+    if( get_sleepiness() >= sleepiness_levels::MASSIVE_SLEEPINESS && equilibrium > 20 ) {
         return 20;
-    } else if( get_fatigue() >= fatigue_levels::EXHAUSTED && equilibrium > 40 ) {
+    } else if( get_sleepiness() >= sleepiness_levels::EXHAUSTED && equilibrium > 40 ) {
         return 40;
-    } else if( get_fatigue() >= fatigue_levels::DEAD_TIRED && equilibrium > 60 ) {
+    } else if( get_sleepiness() >= sleepiness_levels::DEAD_TIRED && equilibrium > 60 ) {
         return 60;
-    } else if( get_fatigue() >= fatigue_levels::TIRED && equilibrium > 80 ) {
+    } else if( get_sleepiness() >= sleepiness_levels::TIRED && equilibrium > 80 ) {
         return 80;
     }
     return equilibrium;
@@ -3754,7 +3776,7 @@ int Character::calc_focus_equilibrium( bool ignore_pain ) const
 
 int Character::calc_focus_change() const
 {
-    return focus_equilibrium_fatigue_cap( calc_focus_equilibrium() ) - get_focus();
+    return focus_equilibrium_sleepiness_cap( calc_focus_equilibrium() ) - get_focus();
 }
 
 void Character::update_mental_focus()
@@ -3769,6 +3791,8 @@ void Character::reset_stats()
     if( calendar::once_every( 1_minutes ) ) {
         update_mental_focus();
     }
+
+    mod_dodge_bonus( enchantment_cache->modify_value( enchant_vals::mod::DODGE_CHANCE, 0 ) );
 
     /** @EFFECT_STR_MAX above 15 decreases Dodge bonus by 1 (NEGATIVE) */
     if( str_max >= 16 ) {
@@ -4395,9 +4419,9 @@ std::string Character::debug_weary_info() const
     int weight = units::to_gram<int>( bodyweight() );
     float bmi = get_bmi();
 
-    return string_format( "Weariness: %s Max Full Exert: %s Mult: %g\n BMR: %d CARDIO FITNESS: %d\n %s Thresh: %d At: %d\n Kcal: %d/%d Fatigue: %d Morale: %d Wgt: %d (BMI %.1f)",
+    return string_format( "Weariness: %s Max Full Exert: %s Mult: %g\n BMR: %d CARDIO FITNESS: %d\n %s Thresh: %d At: %d\n Kcal: %d/%d Sleepiness: %d Morale: %d Wgt: %d (BMI %.1f)",
                           amt, max_act, move_mult, bmr, cardio_mult, weary_internals, thresh, current,
-                          get_stored_kcal(), get_healthy_kcal(), fatigue, morale, weight, bmi );
+                          get_stored_kcal(), get_healthy_kcal(), sleepiness, morale, weight, bmi );
 }
 
 void Character::mod_stored_kcal( int nkcal, const bool ignore_weariness )
@@ -4518,9 +4542,9 @@ void Character::set_thirst( int nthirst )
     }
 }
 
-void Character::mod_fatigue( int nfatigue )
+void Character::mod_sleepiness( int nsleepiness )
 {
-    set_fatigue( fatigue + nfatigue );
+    set_sleepiness( sleepiness + nsleepiness );
 }
 
 void Character::mod_sleep_deprivation( int nsleep_deprivation )
@@ -4528,18 +4552,18 @@ void Character::mod_sleep_deprivation( int nsleep_deprivation )
     set_sleep_deprivation( sleep_deprivation + nsleep_deprivation );
 }
 
-void Character::set_fatigue( int nfatigue )
+void Character::set_sleepiness( int nsleepiness )
 {
-    nfatigue = std::max( nfatigue, -1000 );
-    if( fatigue != nfatigue ) {
-        fatigue = nfatigue;
-        on_stat_change( "fatigue", fatigue );
+    nsleepiness = std::max( nsleepiness, -1000 );
+    if( sleepiness != nsleepiness ) {
+        sleepiness = nsleepiness;
+        on_stat_change( "sleepiness", sleepiness );
     }
 }
 
-void Character::set_fatigue( fatigue_levels nfatigue )
+void Character::set_sleepiness( sleepiness_levels nsleepiness )
 {
-    set_fatigue( static_cast<int>( nfatigue ) );
+    set_sleepiness( static_cast<int>( nsleepiness ) );
 }
 
 void Character::set_sleep_deprivation( int nsleep_deprivation )
@@ -4578,9 +4602,9 @@ void Character::reset_continuous_sleep()
     continuous_sleep = 0_turns;
 }
 
-int Character::get_fatigue() const
+int Character::get_sleepiness() const
 {
-    return fatigue;
+    return sleepiness;
 }
 
 int Character::get_sleep_deprivation() const
@@ -4831,8 +4855,8 @@ int Character::weary_threshold() const
 {
     const int bmr = base_bmr();
     int threshold = bmr * get_option<float>( "WEARY_BMR_MULT" );
-    // reduce by 1% per 14 points of fatigue after 150 points
-    threshold *= 1.0f - ( ( std::max( fatigue, -20 ) - 150 ) / 1400.0f );
+    // reduce by 1% per 14 points of sleepiness after 150 points
+    threshold *= 1.0f - ( ( std::max( sleepiness, -20 ) - 150 ) / 1400.0f );
     // Each 2 points of morale increase or decrease by 1%
     threshold *= 1.0f + ( get_morale_level() / 200.0f );
     // TODO: Hunger effects this
@@ -4969,51 +4993,51 @@ bool Character::needs_food() const
 void Character::update_needs( int rate_multiplier )
 {
     const int current_stim = get_stim();
-    // Hunger, thirst, & fatigue up every 5 minutes
+    // Hunger, thirst, & sleepiness up every 5 minutes
     effect &sleep = get_effect( effect_sleep );
-    // No food/thirst/fatigue clock at all
+    // No food/thirst/sleepiness clock at all
     const bool debug_ls = has_trait( trait_DEBUG_LS );
-    // No food/thirst, capped fatigue clock (only up to tired)
+    // No food/thirst, capped sleepiness clock (only up to tired)
     const bool asleep = !sleep.is_null();
     const bool lying = asleep || has_effect( effect_lying_down ) ||
                        activity.id() == ACT_TRY_SLEEP;
 
     needs_rates rates = calc_needs_rates();
 
-    const bool wasnt_fatigued = get_fatigue() <= fatigue_levels::DEAD_TIRED;
-    // Don't increase fatigue if sleeping or trying to sleep or if we're at the cap.
-    if( get_fatigue() < 1050 && !asleep && !debug_ls ) {
-        if( rates.fatigue > 0.0f ) {
-            int fatigue_roll = roll_remainder( rates.fatigue * rate_multiplier );
-            mod_fatigue( fatigue_roll );
+    const bool wasnt_sleepinessd = get_sleepiness() <= sleepiness_levels::DEAD_TIRED;
+    // Don't increase sleepiness if sleeping or trying to sleep or if we're at the cap.
+    if( get_sleepiness() < 1050 && !asleep && !debug_ls ) {
+        if( rates.sleepiness > 0.0f ) {
+            int sleepiness_roll = roll_remainder( rates.sleepiness * rate_multiplier );
+            mod_sleepiness( sleepiness_roll );
 
             // Synaptic regen bionic stops SD while awake and boosts it while sleeping
             if( !has_flag( json_flag_STOP_SLEEP_DEPRIVATION ) ) {
-                // fatigue_roll should be around 1 - so the counter increases by 1 every minute on average,
+                // sleepiness_roll should be around 1 - so the counter increases by 1 every minute on average,
                 // but characters who need less sleep will also get less sleep deprived, and vice-versa.
 
                 // Note: Since needs are updated in 5-minute increments, we have to multiply the roll again by
-                // 5. If rate_multiplier is > 1, fatigue_roll will be higher and this will work out.
-                mod_sleep_deprivation( fatigue_roll * 5 );
+                // 5. If rate_multiplier is > 1, sleepiness_roll will be higher and this will work out.
+                mod_sleep_deprivation( sleepiness_roll * 5 );
             }
 
-            if( !needs_food() && get_fatigue() > fatigue_levels::TIRED ) {
-                set_fatigue( fatigue_levels::TIRED );
+            if( !needs_food() && get_sleepiness() > sleepiness_levels::TIRED ) {
+                set_sleepiness( sleepiness_levels::TIRED );
                 set_sleep_deprivation( 0 );
             }
         }
     } else if( asleep ) {
         if( rates.recovery > 0.0f ) {
             int recovered = roll_remainder( rates.recovery * rate_multiplier );
-            if( get_fatigue() - recovered < -20 ) {
+            if( get_sleepiness() - recovered < -20 ) {
                 // Should be wake up, but that could prevent some retroactive regeneration
                 sleep.set_duration( 1_turns );
-                mod_fatigue( -25 );
+                mod_sleepiness( -25 );
             } else {
                 if( has_effect( effect_disrupted_sleep ) || has_effect( effect_recently_coughed ) ) {
                     recovered *= .5;
                 }
-                mod_fatigue( -recovered );
+                mod_sleepiness( -recovered );
 
                 // Sleeping on the ground, no bionic = 1x rest_modifier
                 // Sleeping on a bed, no bionic      = 2x rest_modifier
@@ -5040,9 +5064,9 @@ void Character::update_needs( int rate_multiplier )
 
                 // If we're just tired, we'll get a decent boost to our sleep quality.
                 // The opposite is true for very tired characters.
-                if( get_fatigue() < fatigue_levels::DEAD_TIRED ) {
+                if( get_sleepiness() < sleepiness_levels::DEAD_TIRED ) {
                     rest_modifier += 2;
-                } else if( get_fatigue() >= fatigue_levels::EXHAUSTED ) {
+                } else if( get_sleepiness() >= sleepiness_levels::EXHAUSTED ) {
                     rest_modifier = ( rest_modifier > 2 ) ? rest_modifier - 2 : 1;
                 }
 
@@ -5053,10 +5077,11 @@ void Character::update_needs( int rate_multiplier )
         }
         if( calendar::once_every( 10_minutes ) &&
             ( has_trait( trait_WATERSLEEP ) || has_trait( trait_UNDINE_SLEEP_WATER ) ) ) {
-            mod_fatigue( -3 ); // Fish sleep less in water
+            mod_sleepiness( -3 ); // Fish sleep less in water
         }
     }
-    if( is_avatar() && wasnt_fatigued && get_fatigue() > fatigue_levels::DEAD_TIRED && !lying ) {
+    if( is_avatar() && wasnt_sleepinessd && get_sleepiness() > sleepiness_levels::DEAD_TIRED &&
+        !lying ) {
         if( !activity ) {
             add_msg_if_player( m_warning, _( "You're feeling tired.  %s to lie down for sleep." ),
                                press_x( ACTION_SLEEP ) );
@@ -5110,8 +5135,8 @@ needs_rates Character::calc_needs_rates() const
     static const std::string player_thirst_rate( "PLAYER_THIRST_RATE" );
     rates.thirst = get_option< float >( player_thirst_rate );
 
-    static const std::string player_fatigue_rate( "PLAYER_FATIGUE_RATE" );
-    rates.fatigue = get_option< float >( player_fatigue_rate );
+    static const std::string player_sleepiness_rate( "PLAYER_SLEEPINESS_RATE" );
+    rates.sleepiness = get_option< float >( player_sleepiness_rate );
 
     if( asleep ) {
         calc_sleep_recovery_rate( rates );
@@ -5125,7 +5150,7 @@ needs_rates Character::calc_needs_rates() const
         if( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) || has_trait( trait_CHLOROMORPH ) ) {
             rates.hunger *= 0.5f;
             rates.thirst *= 0.5f;
-            rates.fatigue *= 0.5f;
+            rates.sleepiness *= 0.5f;
         }
     }
 
@@ -5136,7 +5161,8 @@ needs_rates Character::calc_needs_rates() const
     }
 
     rates.hunger = enchantment_cache->modify_value( enchant_vals::mod::HUNGER, rates.hunger );
-    rates.fatigue = enchantment_cache->modify_value( enchant_vals::mod::FATIGUE, rates.fatigue );
+    rates.sleepiness = enchantment_cache->modify_value( enchant_vals::mod::SLEEPINESS,
+                       rates.sleepiness );
     rates.thirst = enchantment_cache->modify_value( enchant_vals::mod::THIRST, rates.thirst );
 
     return rates;
@@ -5145,7 +5171,7 @@ needs_rates Character::calc_needs_rates() const
 void Character::calc_sleep_recovery_rate( needs_rates &rates ) const
 {
     const effect &sleep = get_effect( effect_sleep );
-    rates.recovery = enchantment_cache->modify_value( enchant_vals::mod::FATIGUE_REGEN, 1 );
+    rates.recovery = enchantment_cache->modify_value( enchant_vals::mod::SLEEPINESS_REGEN, 1 );
 
     // -5% sleep recovery rate for every main part below cold
     float temp_mod = 0.0f;
@@ -5300,13 +5326,13 @@ void Character::check_needs_extremes()
     }
 
     // Check if we're falling asleep, unless we're sleeping
-    if( get_fatigue() >= fatigue_levels::EXHAUSTED + 25 && !in_sleep_state() ) {
-        if( get_fatigue() >= fatigue_levels::MASSIVE_FATIGUE ) {
+    if( get_sleepiness() >= sleepiness_levels::EXHAUSTED + 25 && !in_sleep_state() ) {
+        if( get_sleepiness() >= sleepiness_levels::MASSIVE_SLEEPINESS ) {
             add_msg_if_player( m_bad, _( "Survivor sleep now." ) );
             get_event_bus().send<event_type::falls_asleep_from_exhaustion>( getID() );
-            mod_fatigue( -10 );
+            mod_sleepiness( -10 );
             fall_asleep();
-        } else if( get_fatigue() >= 800 && calendar::once_every( 30_minutes ) ) {
+        } else if( get_sleepiness() >= 800 && calendar::once_every( 30_minutes ) ) {
             add_msg_if_player( m_warning, _( "Anywhere would be a good place to sleep…" ) );
         } else if( calendar::once_every( 30_minutes ) ) {
             add_msg_if_player( m_warning, _( "You feel like you haven't slept in days." ) );
@@ -5315,8 +5341,8 @@ void Character::check_needs_extremes()
 
     // Even if we're not Exhausted, we really should be feeling lack/sleep earlier
     // Penalties start at Dead Tired and go from there
-    if( get_fatigue() >= fatigue_levels::DEAD_TIRED && !in_sleep_state() ) {
-        if( get_fatigue() >= 700 ) {
+    if( get_sleepiness() >= sleepiness_levels::DEAD_TIRED && !in_sleep_state() ) {
+        if( get_sleepiness() >= 700 ) {
             if( calendar::once_every( 30_minutes ) ) {
                 add_msg_if_player( m_warning, _( "You're too physically tired to stop yawning." ) );
                 add_effect( effect_lack_sleep, 30_minutes + 1_turns );
@@ -5326,7 +5352,7 @@ void Character::check_needs_extremes()
                 // Rivet's idea: look out for microsleeps!
                 fall_asleep( 30_seconds );
             }
-        } else if( get_fatigue() >= fatigue_levels::EXHAUSTED ) {
+        } else if( get_sleepiness() >= sleepiness_levels::EXHAUSTED ) {
             if( calendar::once_every( 30_minutes ) ) {
                 add_msg_if_player( m_warning, _( "How much longer until bedtime?" ) );
                 add_effect( effect_lack_sleep, 30_minutes + 1_turns );
@@ -5335,7 +5361,8 @@ void Character::check_needs_extremes()
             if( one_in( 100 + int_cur ) ) {
                 fall_asleep( 30_seconds );
             }
-        } else if( get_fatigue() >= fatigue_levels::DEAD_TIRED && calendar::once_every( 30_minutes ) ) {
+        } else if( get_sleepiness() >= sleepiness_levels::DEAD_TIRED &&
+                   calendar::once_every( 30_minutes ) ) {
             add_msg_if_player( m_warning, _( "*yawn* You should really get some sleep." ) );
             add_effect( effect_lack_sleep, 30_minutes + 1_turns );
         }
@@ -5350,11 +5377,11 @@ void Character::check_needs_extremes()
             if( sleep_deprivation < SLEEP_DEPRIVATION_MINOR ) {
                 add_msg_if_player( m_warning,
                                    _( "Your mind feels tired.  It's been a while since you've slept well." ) );
-                mod_fatigue( 1 );
+                mod_sleepiness( 1 );
             } else if( sleep_deprivation < SLEEP_DEPRIVATION_SERIOUS ) {
                 add_msg_if_player( m_bad,
                                    _( "Your mind feels foggy from a lack of good sleep, and your eyes keep trying to close against your will." ) );
-                mod_fatigue( 5 );
+                mod_sleepiness( 5 );
 
                 if( one_in( 10 ) ) {
                     mod_daily_health( -1, -10 );
@@ -5362,7 +5389,7 @@ void Character::check_needs_extremes()
             } else if( sleep_deprivation < SLEEP_DEPRIVATION_MAJOR ) {
                 add_msg_if_player( m_bad,
                                    _( "Your mind feels weary, and you dread every wakeful minute that passes.  You crave sleep, and feel like you're about to collapse." ) );
-                mod_fatigue( 10 );
+                mod_sleepiness( 10 );
 
                 if( one_in( 5 ) ) {
                     mod_daily_health( -2, -10 );
@@ -5370,14 +5397,14 @@ void Character::check_needs_extremes()
             } else if( sleep_deprivation < SLEEP_DEPRIVATION_MASSIVE ) {
                 add_msg_if_player( m_bad,
                                    _( "You haven't slept decently for so long that your whole body is screaming for mercy.  It's a miracle that you're still awake, but it feels more like a curse now." ) );
-                mod_fatigue( 40 );
+                mod_sleepiness( 40 );
 
                 mod_daily_health( -5, -10 );
             }
             // else you pass out for 20 hours, guaranteed
 
             // Microsleeps are slightly worse if you're sleep deprived, but not by much. (chance: 1 in (75 + int_cur) at lethal sleep deprivation)
-            // Note: these can coexist with fatigue-related microsleeps
+            // Note: these can coexist with sleepiness-related microsleeps
             /** @EFFECT_INT slightly decreases occurrence of short naps when sleep deprived */
             if( one_in( static_cast<int>( sleep_deprivation_pct * 75 ) + int_cur ) ) {
                 fall_asleep( 30_seconds );
@@ -5394,8 +5421,8 @@ void Character::check_needs_extremes()
                     add_msg_player_or_npc( m_bad,
                                            _( "Your body collapses due to sleep deprivation, your neglected fatigue rushing back all at once, and you pass out on the spot." )
                                            , _( "<npcname> collapses to the ground from exhaustion." ) );
-                    if( get_fatigue() < fatigue_levels::EXHAUSTED ) {
-                        set_fatigue( fatigue_levels::EXHAUSTED );
+                    if( get_sleepiness() < sleepiness_levels::EXHAUSTED ) {
+                        set_sleepiness( sleepiness_levels::EXHAUSTED );
                     }
 
                     if( sleep_deprivation >= SLEEP_DEPRIVATION_MAJOR ) {
@@ -5474,7 +5501,7 @@ bool Character::is_hibernating() const
 {
     // Hibernating only kicks in whilst Engorged; separate tracking for hunger/thirst here
     // as a safety catch.  One test subject managed to get two Colds during hibernation;
-    // since those add fatigue and dry out the character, the subject went for the full 10 days plus
+    // since those add sleepiness and dry out the character, the subject went for the full 10 days plus
     // a little, and came out of it well into Parched.  Hibernating shouldn't endanger your
     // life like that--but since there's much less fluid reserve than food reserve,
     // simply using the same numbers won't work.
@@ -5517,7 +5544,7 @@ void Character::temp_equalizer( const bodypart_id &bp1, const bodypart_id &bp2 )
 Character::comfort_response_t Character::base_comfort_value( const tripoint_bub_ms &p ) const
 {
     // Comfort of sleeping spots is "objective", while sleep_spot( p ) is "subjective"
-    // As in the latter also checks for fatigue and other variables while this function
+    // As in the latter also checks for sleepiness and other variables while this function
     // only looks at the base comfyness of something. It's still subjective, in a sense,
     // as arachnids who sleep in webs will find most places comfortable for instance.
     int comfort = 0;
@@ -5597,7 +5624,7 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint_bub_
             }
         }
         // Not in a vehicle, start checking furniture/terrain/traps at this point in decreasing order
-        else if( furn_at_pos != f_null ) {
+        else if( furn_at_pos != furn_str_id::NULL_ID() ) {
             comfort += 0 + furn_at_pos.obj().comfort;
         }
         // Web sleepers can use their webs if better furniture isn't available
@@ -5648,7 +5675,7 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint_bub_
             comfort += static_cast<int>( comfort_level::very_comfortable );
         }
     } else if( plantsleep ) {
-        if( vp || furn_at_pos != f_null ) {
+        if( vp || furn_at_pos != furn_str_id::NULL_ID() ) {
             // Sleep ain't happening in a vehicle or on furniture
             comfort = static_cast<int>( comfort_level::impossible );
         } else {
@@ -6140,6 +6167,7 @@ float Character::rest_quality() const
     map &here = get_map();
     const tripoint your_pos = pos();
     float rest = 0.0f;
+    const float ur_act_level = instantaneous_activity_level();
     // Negative morales are penalties
     int cold_penalty = -has_morale( morale_cold );
     int heat_penalty = -has_morale( morale_hot );
@@ -6157,7 +6185,7 @@ float Character::rest_quality() const
     }
     const optional_vpart_position veh_part = here.veh_at( your_pos );
     bool has_vehicle_seat = !!veh_part.part_with_feature( "SEAT", true );
-    if( activity_level() <= LIGHT_EXERCISE ) {
+    if( ur_act_level <= LIGHT_EXERCISE ) {
         rest += 0.1f;
         if( here.has_flag_ter_or_furn( "CAN_SIT", your_pos.xy() ) || has_vehicle_seat ) {
             // If not performing any real exercise (not even moving around), chairs allow you to rest a little bit.
@@ -6166,20 +6194,21 @@ float Character::rest_quality() const
             // Any comfortable bed can substitute for a chair, but only if you don't have one.
             rest += 0.2f * ( units::to_celsius_delta( floor_bedding_warmth( your_pos ) ) / 2.0f );
         }
-        if( activity_level() <= NO_EXERCISE ) {
+        if( ur_act_level <= NO_EXERCISE ) {
             rest += 0.2f;
         }
     }
     // These stack!
-    if( activity_level() >= BRISK_EXERCISE ) {
+    if( ur_act_level >= BRISK_EXERCISE ) {
         rest -= 0.1f;
     }
-    if( activity_level() >= ACTIVE_EXERCISE ) {
+    if( ur_act_level >= ACTIVE_EXERCISE ) {
         rest -= 0.2f;
     }
-    if( activity_level() >= EXTRA_EXERCISE ) {
+    if( ur_act_level >= EXTRA_EXERCISE ) {
         rest -= 0.3f;
     }
+    add_msg_debug( debugmode::DF_CHAR_HEALTH, "%s resting quality: %.6f", get_name(), rest );
     return rest;
 }
 
@@ -6318,7 +6347,8 @@ float Character::healing_rate_medicine( float at_rest_quality, const bodypart_id
 
     rate_medicine = enchantment_cache->modify_value( enchant_vals::mod::REGEN_HP,
                     rate_medicine );
-    rate_medicine *= 1.0f + clamp( at_rest_quality, 0.0f, 1.0f );
+    // Sufficiently negative rest quality can completely eliminate your healing, but never turn it negative.
+    rate_medicine *= 1.0f + std::max( at_rest_quality, -1.0f );
 
     // increase healing if character has both effects
     if( has_effect( effect_bandaged ) && has_effect( effect_disinfected ) ) {
@@ -7017,7 +7047,7 @@ void Character::update_stamina( int turns )
     if( !has_bionic( bio_synlungs ) ) {
         stamina_recovery = enchantment_cache->modify_value( enchant_vals::mod::REGEN_STAMINA,
                            stamina_recovery );
-        // TODO: recovering stamina causes hunger/thirst/fatigue.
+        // TODO: recovering stamina causes hunger/thirst/sleepiness.
         // TODO: Tiredness slowing recovery
 
         // stim recovers stamina (or impairs recovery)
@@ -9025,8 +9055,8 @@ void Character::fall_asleep()
         }
         // some days worth of round-the-clock Snooze.  Cata seasons default to 91 days.
         fall_asleep( 10_days );
-        // If you're not fatigued enough for 10 days, you won't sleep the whole thing.
-        // In practice, the fatigue from filling the tank from (no msg) to Time For Bed
+        // If you're not sleepinessd enough for 10 days, you won't sleep the whole thing.
+        // In practice, the sleepiness from filling the tank from (no msg) to Time For Bed
         // will last about 8 days.
     } else {
         fall_asleep( 10_hours );    // default max sleep time.
@@ -9194,7 +9224,7 @@ units::temperature_delta Character::floor_bedding_warmth( const tripoint &pos )
     const optional_vpart_position vp = here.veh_at( pos );
     const std::optional<vpart_reference> boardable = vp.part_with_feature( "BOARDABLE", true );
     // Search the floor for bedding
-    if( furn_at_pos != f_null ) {
+    if( furn_at_pos != furn_str_id::NULL_ID() ) {
         return furn_at_pos.obj().floor_bedding_warmth;
     } else if( !trap_at_pos.is_null() ) {
         return trap_at_pos.floor_bedding_warmth;
@@ -9547,6 +9577,11 @@ void Character::add_to_inv_search_caches( item &it ) const
 
         cache.second.items.push_back( it.get_safe_reference() );
     }
+}
+
+void Character::clear_inventory_search_cache()
+{
+    inv_search_caches.clear();
 }
 
 bool Character::has_charges( const itype_id &it, int quantity,
@@ -10425,11 +10460,10 @@ void Character::place_corpse( const tripoint_abs_omt &om_target )
     // and essentially select the last one that has no furniture.
     // Q: Why check for furniture? (Check for passable or can-place-items seems more useful.) A: Furniture blocks revival?
     // Q: Why not grep a random point out of all the possible points (e.g. via random_entry)?
-    // Q: Why use furn_str_id instead of f_null?
     // TODO: fix it, see above.
-    if( bay.furn( fin ) != furn_f_null ) {
+    if( bay.furn( fin ) != furn_str_id::NULL_ID() ) {
         for( const tripoint &p : bay.points_on_zlevel() ) {
-            if( bay.furn( p ) == furn_f_null ) {
+            if( bay.furn( p ) == furn_str_id::NULL_ID() ) {
                 fin.x = p.x;
                 fin.y = p.y;
             }
@@ -10854,15 +10888,15 @@ void Character::process_one_effect( effect &it, bool is_new )
         }
     }
 
-    // Handle fatigue
-    val = get_effect( "FATIGUE", reduced );
-    // Prevent ongoing fatigue effects while asleep.
+    // Handle sleepiness
+    val = get_effect( "SLEEPINESS", reduced );
+    // Prevent ongoing sleepiness effects while asleep.
     // These are meant to change how fast you get tired, not how long you sleep.
     if( val != 0 && !in_sleep_state() ) {
         mod = 1;
-        if( is_new || it.activated( calendar::turn, "FATIGUE", val, reduced, mod ) ) {
-            mod_fatigue( bound_mod_to_vals( get_fatigue(), val, it.get_max_val( "FATIGUE", reduced ),
-                                            it.get_min_val( "FATIGUE", reduced ) ) );
+        if( is_new || it.activated( calendar::turn, "SLEEPINESS", val, reduced, mod ) ) {
+            mod_sleepiness( bound_mod_to_vals( get_sleepiness(), val, it.get_max_val( "SLEEPINESS", reduced ),
+                                               it.get_min_val( "SLEEPINESS", reduced ) ) );
         }
     }
 
@@ -11238,10 +11272,10 @@ int Character::sleep_spot( const tripoint_bub_ms &p ) const
         sleepy += 10; //comfy water!
     }
 
-    if( get_fatigue() < fatigue_levels::TIRED + 1 ) {
-        sleepy -= static_cast<int>( ( fatigue_levels::TIRED + 1 - get_fatigue() ) / 4 );
+    if( get_sleepiness() < sleepiness_levels::TIRED + 1 ) {
+        sleepy -= static_cast<int>( ( sleepiness_levels::TIRED + 1 - get_sleepiness() ) / 4 );
     } else {
-        sleepy += static_cast<int>( ( get_fatigue() - fatigue_levels::TIRED + 1 ) / 16 );
+        sleepy += static_cast<int>( ( get_sleepiness() - sleepiness_levels::TIRED + 1 ) / 16 );
     }
 
     if( current_stim > 0 || !has_trait( trait_INSOMNIA ) ) {
@@ -12380,23 +12414,37 @@ stat_mod Character::get_pain_penalty() const
 {
     stat_mod ret;
     int pain = get_perceived_pain();
-    if( pain <= 0 ) {
+    // if less than 10 pain, do not apply any penalties
+    if( pain <= 10 ) {
         return ret;
     }
 
-    int stat_penalty = std::floor( std::pow( pain, 0.8f ) / 10.0f );
+    float penalty_str = pain * get_option<float>( "PAIN_PENALTY_MOD_STR" );
+    float penalty_dex = pain * get_option<float>( "PAIN_PENALTY_MOD_DEX" );
+    float penalty_int = pain * get_option<float>( "PAIN_PENALTY_MOD_INT" );
+    float penalty_per = pain * get_option<float>( "PAIN_PENALTY_MOD_PER" );
+
+
+    ret.strength = enchantment_cache->modify_value( enchant_vals::mod::PAIN_PENALTY_MOD_STR,
+                   get_str() * penalty_str );
+
+    ret.dexterity = enchantment_cache->modify_value( enchant_vals::mod::PAIN_PENALTY_MOD_DEX,
+                    get_dex() * penalty_dex );
+
+    ret.intelligence = enchantment_cache->modify_value( enchant_vals::mod::PAIN_PENALTY_MOD_INT,
+                       get_int() * penalty_int );
+
+    ret.perception = enchantment_cache->modify_value( enchant_vals::mod::PAIN_PENALTY_MOD_PER,
+                     get_per() * penalty_per );
+
 
     // Prevent negative penalties, there is better ways to give bonuses for pain
-    // Venera says int and per should be penalized more (and per is penalized less, for legacy reasons, duh)
-    // TODO change the formula to pain/10?
-    ret.strength = std::max( enchantment_cache->modify_value( enchant_vals::mod::PAIN_PENALTY_MOD_STR,
-                             stat_penalty ), 0.0 );
-    ret.dexterity = std::max( enchantment_cache->modify_value( enchant_vals::mod::PAIN_PENALTY_MOD_DEX,
-                              stat_penalty ), 0.0 );
-    ret.intelligence = std::max( enchantment_cache->modify_value(
-                                     enchant_vals::mod::PAIN_PENALTY_MOD_INT, stat_penalty ), 0.0 );
-    ret.perception = std::max( enchantment_cache->modify_value( enchant_vals::mod::PAIN_PENALTY_MOD_PER,
-                               stat_penalty * 0.666f ), 0.0 );
+    // Also not make character has 0 stats
+    ret.strength = std::max( ret.strength, 1 );
+    ret.dexterity = std::max( ret.dexterity, 1 );
+    ret.intelligence = std::max( ret.intelligence, 1 );
+    ret.perception = std::max( ret.perception, 1 );
+
 
     int speed_penalty = std::pow( pain, 0.7f );
 
@@ -12660,25 +12708,23 @@ int Character::impact( const int force, const tripoint &p )
 
 bool Character::can_fly()
 {
-    if( has_effect( effect_stunned ) || has_effect( effect_narcosis ) ||
-        ( has_effect( effect_grabbed ) && !try_remove_grab() ) || movement_mode_is( move_mode_prone ) ||
-        has_effect( effect_downed ) ) {
+    if( !move_effects( false ) || has_effect( effect_stunned ) ) {
         return false;
     }
     // GLIDE is for artifacts or things like jetpacks that don't care if you're tired or hurt.
-    if( has_trait_flag( json_flag_GLIDE ) ) {
+    if( has_flag( json_flag_GLIDE ) ) {
         return true;
     }
-    if( ( has_trait_flag( json_flag_WINGS_1 ) || has_trait_flag( json_flag_WINGS_2 ) ||
-          has_trait_flag( json_flag_WING_GLIDE ) ) &&
-        ( 100 * weight_carried() / weight_capacity() > 50 || get_str() < 4 ||
-          has_effect( effect_winded ) ) ) {
-        return false;
+    // TODO: Remove grandfathering traits in after Limb Stuff
+    if( has_flag( json_flag_WINGS_2 ) ||
+        has_flag( json_flag_WING_GLIDE ) || count_flag( json_flag_WING_ARMS ) >= 2 ) {
+
+        if( 100 * weight_carried() / weight_capacity() > 50 || !has_two_arms_lifting() ) {
+            return false;
+        }
+        return true;
     }
-    if( has_trait_flag( json_flag_WING_ARMS ) && get_working_arm_count() < 2 ) {
-        return false;
-    }
-    return true;
+    return false;
 }
 
 // FIXME: Relies on hardcoded bash damage type
@@ -12824,7 +12870,8 @@ void Character::process_items()
     // Load all items that use the UPS and have their own battery to their minimal functional charge,
     // The tool is not really useful if its charges are below charges_to_use
     std::vector<item *> inv_use_ups = cache_get_items_with( flag_USE_UPS, []( item & it ) {
-        return !!it.ammo_data();
+        return ( it.ammo_capacity( ammo_battery ) > it.ammo_remaining() ||
+                 ( it.type->battery && it.type->battery->max_capacity > it.energy_remaining( nullptr ) ) );
     } );
     if( !inv_use_ups.empty() ) {
         const units::energy available_charges = available_ups();
@@ -13107,7 +13154,7 @@ void Character::environmental_revert_effect()
     set_all_parts_hp_to_max();
     set_hunger( 0 );
     set_thirst( 0 );
-    set_fatigue( 0 );
+    set_sleepiness( 0 );
     set_lifestyle( 0 );
     set_daily_health( 0 );
     set_stim( 0 );

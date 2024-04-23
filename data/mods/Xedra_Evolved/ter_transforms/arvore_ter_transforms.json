@@ -368,5 +368,16 @@
         "message": "The target's limbs begin stretching and spreading toward the sky as their body elongates, and in moments, a tree that could have stood for a hundred years stands in their place."
       }
     ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_arvore_living_tent",
+    "terrain": [
+      {
+        "result": "t_arvore_living_tent",
+        "valid_flags": [ "DIGGABLE" ],
+        "message": "Vines and brambles rapidly grow from the ground into a small shelter."
+      }
+    ]
   }
 ]
