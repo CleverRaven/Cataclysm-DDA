@@ -81,8 +81,7 @@
     "method": "json",
     "object": {
       "place_nested": [
-        { "chunks": [ "fbml_2_coop_construction" ], "x": 13, "y": 0 },
-        { "chunks": [ "fbml_2_coop_roof_construction" ], "x": 13, "y": 0, "z": 1 }
+        { "chunks": [ "fbml_2_coop_construction" ], "x": 13, "y": 0 }
       ]
     }
   },
