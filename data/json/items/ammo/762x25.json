@@ -8,8 +8,8 @@
     "weight": "10 g",
     "volume": "107 ml",
     "longest_side": "35 mm",
-    "price": 100,
-    "price_postapoc": 800,
+    "price": "1 USD",
+    "price_postapoc": "8 USD",
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "material": [ "brass", "lead", "powder" ],
     "symbol": "=",
@@ -30,7 +30,7 @@
     "type": "AMMO",
     "name": { "str_sp": "7.62x25mm FMJ hot load" },
     "description": "A high-pressure commercial version of the 7.62x25mm cartridge, loaded with an 85 gr. FMJ bullet.  It is more powerful than the original.",
-    "relative": { "price": 500, "range": 2, "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": 3 } },
+    "relative": { "price": "5 USD", "range": 2, "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": 3 } },
     "proportional": { "recoil": 1.4 }
   },
   {
@@ -43,7 +43,7 @@
     "weight": "12 g",
     "count": 50,
     "relative": {
-      "price": 2000,
+      "price": "20 USD",
       "range": -1,
       "damage": { "damage_type": "bullet", "amount": -9, "armor_penetration": 2 },
       "recoil": -270

@@ -68,7 +68,7 @@ Format:
   ],
   "shopkeeper_consumption_rates": "basic_shop_rates",
   "shopkeeper_price_rules": [
-    { "item": "scrap", "price": 10000 },
+    "price": 10000 },
   ],
   "shopkeeper_blacklist": "test_blacklist",
   "restock_interval": "6 days",
