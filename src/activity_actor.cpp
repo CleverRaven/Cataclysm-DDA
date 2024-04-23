@@ -6,34 +6,47 @@
 #include <cstddef>
 #include <cstdint>
 #include <functional>
+#include <initializer_list>
 #include <iterator>
 #include <list>
 #include <map>
-#include <new>
 #include <optional>
+#include <set>
+#include <sstream>
 #include <string>
+#include <string_view>
 #include <type_traits>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
 #include "action.h"
 #include "activity_actor_definitions.h"
-#include "activity_handlers.h" // put_into_vehicle_or_drop and drop_on_map
+#include "activity_handlers.h"
 #include "advanced_inv.h"
 #include "avatar.h"
 #include "avatar_action.h"
 #include "bodypart.h"
+#include "calendar.h"
+#include "cata_assert.h"
+#include "cata_utility.h"
 #include "character.h"
-#include "coordinates.h"
+#include "character_id.h"
+#include "clzones.h"
 #include "contents_change_handler.h"
+#include "coordinates.h"
 #include "craft_command.h"
+#include "creature.h"
 #include "creature_tracker.h"
 #include "debug.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
+#include "faction.h"
 #include "field_type.h"
 #include "flag.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
@@ -42,17 +55,22 @@
 #include "handle_liquid.h"
 #include "harvest.h"
 #include "iexamine.h"
+#include "inventory.h"
 #include "item.h"
-#include "item_group.h"
+#include "item_components.h"
+#include "item_contents.h"
 #include "item_location.h"
 #include "itype.h"
+#include "iuse.h"
 #include "iuse_actor.h"
 #include "json.h"
+#include "json_error.h"
 #include "line.h"
+#include "magic_enchantment.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_selector.h"
 #include "mapdata.h"
-#include "memory_fast.h"
 #include "martialarts.h"
 #include "messages.h"
 #include "monster.h"
@@ -64,6 +82,7 @@
 #include "pickup.h"
 #include "pimpl.h"
 #include "player_activity.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "ranged.h"
 #include "recipe.h"
@@ -72,19 +91,21 @@
 #include "ret_val.h"
 #include "rng.h"
 #include "shearing.h"
+#include "skill.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "skill.h"
-#include "timed_event.h"
+#include "translation.h"
 #include "translations.h"
+#include "trap.h"
 #include "try_parse_integer.h"
 #include "ui.h"
 #include "uistate.h"
 #include "units.h"
 #include "value_ptr.h"
+#include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "veh_type.h"
+#include "vpart_range.h"
 
 static const activity_id ACT_AIM( "ACT_AIM" );
 static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
@@ -411,6 +432,7 @@ void aim_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "aif_duration", aif_duration );
     jsout.member( "aiming_at_critter", aiming_at_critter );
     jsout.member( "snap_to_target", snap_to_target );
+    jsout.member( "loaded_RAS_weapon", loaded_RAS_weapon );
     jsout.member( "shifting_view", shifting_view );
     jsout.member( "initial_view_offset", initial_view_offset );
     jsout.member( "aborted", aborted );
@@ -433,6 +455,7 @@ std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonValue &jsin
     data.read( "aif_duration", actor.aif_duration );
     data.read( "aiming_at_critter", actor.aiming_at_critter );
     data.read( "snap_to_target", actor.snap_to_target );
+    data.read( "loaded_RAS_weapon", actor.loaded_RAS_weapon );
     data.read( "shifting_view", actor.shifting_view );
     data.read( "initial_view_offset", actor.initial_view_offset );
     data.read( "aborted", actor.aborted );
@@ -510,6 +533,7 @@ bool aim_activity_actor::load_RAS_weapon()
     reload_time += ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;
 
     you.mod_moves( -reload_time );
+    loaded_RAS_weapon = true;
     return true;
 }
 
@@ -518,7 +542,7 @@ void aim_activity_actor::unload_RAS_weapon()
     // Unload reload-and-shoot weapons to avoid leaving bows pre-loaded with arrows
     avatar &you = get_avatar();
     item_location weapon = get_weapon();
-    if( !weapon ) {
+    if( !weapon || !loaded_RAS_weapon ) {
         return;
     }
 
@@ -535,6 +559,7 @@ void aim_activity_actor::unload_RAS_weapon()
             you.set_moves( moves_before_unload );
         }
     }
+    loaded_RAS_weapon = false;
 }
 
 void autodrive_activity_actor::update_player_vehicle( Character &who )
@@ -4768,6 +4793,7 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
     const std::string ammo_name = ammo.tname();
     const bool ammo_is_filthy = ammo.is_filthy();
     const bool ammo_uses_speedloader = ammo.has_flag( flag_SPEEDLOADER );
+    const bool ammo_uses_speedloader_clip = ammo.has_flag( flag_SPEEDLOADER_CLIP );
 
     if( !reloadable.reload( who, std::move( ammo_loc ), quantity ) ) {
         add_msg( m_info, _( "Can't reload the %s." ), reloadable_name );
@@ -4785,7 +4811,8 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
     }
 
     if( reloadable.is_gun() ) {
-        if( reloadable.has_flag( flag_RELOAD_ONE ) && !ammo_uses_speedloader ) {
+        if( reloadable.has_flag( flag_RELOAD_ONE ) && !ammo_uses_speedloader &&
+            !ammo_uses_speedloader_clip ) {
             add_msg( m_neutral, _( "You insert %dx %s into the %s." ), quantity, ammo_name, reloadable_name );
         }
         make_reload_sound( who, reloadable );
@@ -6406,14 +6433,9 @@ void chop_tree_activity_actor::finish( player_activity &act, Character &who )
             }
         }
     }
-    const tripoint to = pos + 3 * direction.xy() + point( rng( -1, 1 ), rng( -1, 1 ) );
-    std::vector<tripoint> tree = line_to( pos, to, rng( 1, 8 ) );
-    for( const tripoint &elem : tree ) {
-        here.batter( elem, 300, 5 );
-        here.ter_set( elem, ter_t_trunk );
-    }
 
-    here.ter_set( pos, ter_t_stump );
+    here.cut_down_tree( tripoint_bub_ms( pos ), direction.xy() );
+
     who.add_msg_if_player( m_good, _( "You finish chopping down a tree." ) );
     // sound of falling tree
     here.collapse_at( pos, false, true, false );

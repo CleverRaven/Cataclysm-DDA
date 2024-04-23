@@ -9,6 +9,7 @@
 #include <vector>
 
 #include "activity_actor_definitions.h"
+#include "avatar.h"
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
@@ -2639,7 +2640,7 @@ TEST_CASE( "item_cannot_contain_contents_it_already_has", "[item][pocket]" )
     }
     CHECK( in_top );
     CHECK( bottle_loc->can_contain( water_item ).success() );
-    CHECK( !bottle_loc->can_contain( water_item, false, false, true, bottle_loc ).success() );
+    CHECK( !bottle_loc->can_contain( water_item, false, false, true, false, bottle_loc ).success() );
 
     // Check backpack containing bottle containing water
     in_top = false;
@@ -2650,7 +2651,7 @@ TEST_CASE( "item_cannot_contain_contents_it_already_has", "[item][pocket]" )
     }
     CHECK( !in_top );
     CHECK( backpack_loc->can_contain( water_item ).success() );
-    CHECK( !backpack_loc->can_contain( water_item, false, false, true, bottle_loc ).success() );
+    CHECK( !backpack_loc->can_contain( water_item, false, false, true, false, bottle_loc ).success() );
 }
 
 TEST_CASE( "Sawed_off_fits_in_large_holster", "[item][pocket]" )

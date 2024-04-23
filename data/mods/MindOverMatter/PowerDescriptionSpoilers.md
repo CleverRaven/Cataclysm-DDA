@@ -268,6 +268,15 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Effects*: The psion prevents anything from interfering with their senses, becoming immune to being Dazed, Stunned (either physically or psionically), blinded, made to hallucinate, deafened, Blinding Venom, and also cannot get high or drunk.<br />
 *Prerequisites*: Night Eyes 10, Speed Reader 8 *or* Aura Sight 8 *or* Combat Sense 5<br />
 
+## Astral Projection
+*Difficulty*: 8<br />
+*Target*: Self<br />
+*Duration*: Indefinite<br />
+*Stamina Cost*: 5000, minus 125 per level to a minimum of 2000<br />
+*Channeling Time*: 60 seconds<br />
+*Effects*: The psion casts their spirit forth, wandering disembodied. While in spirit form they are invisible and intangible, move extremely quickly, and can pass through walls. However, they do not regenerate stamina and every step costs 75 stamina (minus 3 times the power level, to a minimum of 25). When stamina reaches 0, or at any time by using the appropriate power, the psion may return to their body.<br />
+*Prerequisites*: Clarity 6 and Clairvoyance 9 *or* Satellite View 8 and Clairvoyance 9<br />
+
 ## Prescient Tactician (C)
 *Difficulty*: 9<br />
 *Target*: All allies within 20 squares<br />
@@ -723,20 +732,20 @@ Powers causing telekinetic damage have a 40% chance to stagger the target for 2 
 
 ## Far Hand 
 *Difficulty*: 1<br />
-*Target*: One enemy, ally, or the items in a space up to 3 squares away plus 0.9 squares per power level<br />
+*Target*: One the items in a space up to 3 squares away plus 0.9 squares per power level<br />
 *Duration*: Instant<br />
-*Stamina Cost*: 1750, minus 80 per level to a minimum of 750<br />
+*Stamina Cost*: 1250, minus 80 per level to a minimum of 500<br />
 *Channeling Time*: 50 moves, minus 4 moves per level to a minimum of 10<br />
-*Effects*: The psion reaches out and pulls the target toward them, moving it 1 to 6 squares closer plus 0.5 to 1.5 squares per power level.<br />
+*Effects*: The psion reaches out and pulls a set of items toward or away from them, moving it 1 to 4 squares plus 0.4 to 0.9 squares per power level.<br />
 *Prerequisites*: Starting power<br />
 
 ## Force Shove 
 *Difficulty*: 1<br />
-*Target*: One enemy, ally, or the items in a space up to 1 square away plus 0.9 squares per power level<br />
+*Target*: One enemy, ally, or the items in a space up to 2 squares away plus 0.9 squares per power level<br />
 *Duration*: Instant<br />
 *Stamina Cost*: 1750, minus 80 per level to a minimum of 750<br />
 *Channeling Time*: 50 moves, minus 4 moves per level to a minimum of 10<br />
-*Effects*: The psion shoves a single target away, moving it 2 to 4 squares plus 0.5 to 1 squares per power level.<br />
+*Effects*: The psion attempts to shove a single target either toward or away from them. The distance is based on the ratio of the target's weight to the psion's power level (modified by Intelligence and Nether Attunement as usual).  By default, the formula is (power level * 25 kg) * Intelligence modifier * Nether Attunement modifier, divided by the target's weight in kg. If this is 1 or higher, the target is hurled back 1 square for everyone 0.5 above 1 the ratio is. If it is below one, there is still a chance to knock the target over (chance is weight ratio * 100 in percentage; a weight ratio of 0.9 has a 90% chance of causing knockdown).<br />
 *Prerequisites*: Starting power<br />
 
 ## Noisemaker

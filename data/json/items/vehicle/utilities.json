@@ -182,25 +182,6 @@
   },
   {
     "type": "GENERIC",
-    "copy-from": "washing_machine",
-    "id": "minifridge",
-    "name": { "str": "minifridge" },
-    "volume": "150 L",
-    "description": "A very small refrigerator for keeping food cool.  Provides some insulation from outside weather.",
-    "insulation": 2
-  },
-  {
-    "type": "GENERIC",
-    "id": "minifreezer",
-    "name": { "str": "minifreezer" },
-    "description": "A compact version of a chest freezer, designed as a mobile solution for freezing food.  Provides insulation from the elements.",
-    "price": 70000,
-    "price_postapoc": 4000,
-    "insulation": 4,
-    "copy-from": "minifridge"
-  },
-  {
-    "type": "GENERIC",
     "id": "dishwasher",
     "name": { "str": "portable dishwasher" },
     "description": "A very small dishwasher designed for use in vehicles.",

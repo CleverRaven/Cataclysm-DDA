@@ -4164,6 +4164,7 @@
     "category": [ "CHIROPTERAN" ],
     "threshreq": [ "THRESH_CHIROPTERAN" ],
     "flags": [ "WALL_CLING" ],
+    "strict_threshreq": true,
     "restricts_gear": [ "foot_l", "foot_r" ],
     "destroys_gear": true
   },
@@ -5182,6 +5183,7 @@
     "types": [ "PREDATION" ],
     "prereqs": [ "CARNIVORE" ],
     "prereqs2": [ "PRED3" ],
+    "strict_threshreq": true,
     "threshreq": [ "THRESH_LUPINE" ],
     "category": [ "LUPINE" ],
     "flags": [ "PRED3" ]
@@ -5211,9 +5213,10 @@
     "prereqs": [ "WINGS_STUB" ],
     "prereqs2": [ "HOLLOW_BONES" ],
     "threshreq": [ "THRESH_BIRD" ],
+    "strict_threshreq": true,
     "category": [ "BIRD" ],
     "restricts_gear": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
-    "flags": [ "WINGS_2", "WING_GLIDE", "ARM_WINGS" ]
+    "flags": [ "WINGS_2", "WING_GLIDE" ]
   },
   {
     "type": "mutation",
@@ -6381,9 +6384,10 @@
     "mixed_effect": true,
     "description": "Most of your fingers have grown to tremendous length, becoming a broad pair of leathery wings.  This allows you to arrest a fall or glide from a ledge if you aren't too weighed down, but naturally impedes your fine motor skills.  They even keep you warm when you sleep.",
     "types": [ "ARMS", "HANDS" ],
-    "flags": [ "WING_GLIDE", "WINGS_2", "ARM_WINGS" ],
+    "flags": [ "WING_GLIDE", "WINGS_2" ],
     "encumbrance_always": [ [ "arm_r", 20 ], [ "arm_l", 20 ], [ "hand_r", 40 ], [ "hand_l", 40 ] ],
     "prereqs": [ "WEBBED" ],
+    "strict_threshreq": true,
     "category": [ "CHIROPTERAN" ],
     "restricts_gear": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
     "threshreq": [ "THRESH_CHIROPTERAN" ]
@@ -6925,6 +6929,7 @@
     "description": "Your body gets everything it needs from the food that you eat!  You no longer need hydration from fluids.",
     "types": [ "THIRST" ],
     "threshreq": [ "THRESH_MOUSE" ],
+    "strict_threshreq": true,
     "category": [ "MOUSE" ],
     "flags": [ "NO_THIRST" ],
     "purifiable": false
@@ -7811,7 +7816,6 @@
     "mixed_effect": true,
     "description": "Your arms have sprouted feathers, and you find you can no longer fully extend your elbows.  This gets in the way a bit, but the feathers offer minor protection from damage and the elements.",
     "category": [ "RAPTOR", "BIRD" ],
-    "flags": [ "WINGS_1", "ARM_WINGS" ],
     "changes_to": [ "WINGS_BIRD" ],
     "wet_protection": [
       { "part": "arm_l", "neutral": 50 },
@@ -8126,7 +8130,8 @@
     "description": "You sometimes look back on your days before your tail came in.  But you're better now.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "threshold_substitutes": [ "THRESH_CHIMERA" ]
   },
   {
     "type": "mutation",
@@ -8137,7 +8142,8 @@
     "flags": [ "INVERTEBRATEBLOOD" ],
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "threshold_substitutes": [ "THRESH_CHIMERA" ]
   },
   {
     "type": "mutation",
@@ -8147,7 +8153,8 @@
     "description": "You're sure you'll fly someday.  In the meantime, there are still nests to build.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "threshold_substitutes": [ "THRESH_CHIMERA" ]
   },
   {
     "type": "mutation",
@@ -8157,7 +8164,8 @@
     "description": "Ninety percent of the planet, and it's yours to explore.  And colonize.  And enjoy.  What was that about a surface?",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "threshold_substitutes": [ "THRESH_CHIMERA" ]
   },
   {
     "type": "mutation",
@@ -8167,7 +8175,8 @@
     "description": "It's about time you grew out.  Now that you've matured, it is time to make something of yourself.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "threshold_substitutes": [ "THRESH_CHIMERA" ]
   },
   {
     "type": "mutation",
@@ -8177,7 +8186,8 @@
     "description": "Stalking prey, eating well, and lying in the sun.  Mmm, all you could ever desire.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "threshold_substitutes": [ "THRESH_CHIMERA" ]
   },
   {
     "type": "mutation",
@@ -8187,7 +8197,8 @@
     "description": "You're the perfect candidate to lead a pack.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "threshold_substitutes": [ "THRESH_CHIMERA" ]
   },
   {
     "type": "mutation",
@@ -8197,7 +8208,8 @@
     "description": "So the humans died; what's the worry?  Now they won't ruin the woods.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "threshold_substitutes": [ "THRESH_CHIMERA" ]
   },
   {
     "type": "mutation",
@@ -8207,7 +8219,8 @@
     "description": "Civilization collapsed?  Great!  You and your kin will never have to worry about a slaughterhouse again.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "threshold_substitutes": [ "THRESH_CHIMERA" ]
   },
   {
     "type": "mutation",
@@ -8218,7 +8231,8 @@
     "flags": [ "INSECTBLOOD" ],
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "threshold_substitutes": [ "THRESH_CHIMERA" ]
   },
   {
     "type": "mutation",
@@ -8229,7 +8243,8 @@
     "flags": [ "PLANTBLOOD" ],
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "threshold_substitutes": [ "THRESH_CHIMERA" ]
   },
   {
     "type": "mutation",
@@ -8249,7 +8264,8 @@
     "description": "Not much point to rebuilding up in that horribly bright, roofless wasteland.  Now that you've become accustomed to your new digs, there's the beginning of a great empire right here, underground.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "threshold_substitutes": [ "THRESH_CHIMERA" ]
   },
   {
     "type": "mutation",
@@ -8260,7 +8276,8 @@
     "flags": [ "INVERTEBRATEBLOOD" ],
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "threshold_substitutes": [ "THRESH_CHIMERA" ]
   },
   {
     "type": "mutation",
@@ -8271,7 +8288,8 @@
     "flags": [ "INSECTBLOOD" ],
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "threshold_substitutes": [ "THRESH_CHIMERA" ]
   },
   {
     "type": "mutation",
@@ -8281,7 +8299,8 @@
     "description": "Hey.  Civilization fell.  You're still around.  'Rat' just isn't respectful.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "threshold_substitutes": [ "THRESH_CHIMERA" ]
   },
   {
     "type": "mutation",
@@ -8318,7 +8337,8 @@
     "id": "THRESH_CHIMERA",
     "name": { "str": "Chaos" },
     "points": 1,
-    "description": "You can't tell what you are anymore.  Everything and yet nothing, like you weren't meant to exist.  But you do, and you're a force, no matter what happens.",
+    "description": "You can't tell what you are anymore.  Everything and yet nothing, like you weren't meant to exist.  But you do, and you're a force, no matter what happens.  Unlocks gaining post-threshold traits from most other mutation categories.",
+    "//": "Acceptable substitute for all lines except the human-based ones and slime - the former are more controlled, the latter will diverge too much in anatomy.",
     "valid": false,
     "purifiable": false,
     "threshold": true
@@ -8331,7 +8351,8 @@
     "description": "The chance to undo not one but TWO extinction events.  You're confident you'll do fine.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "threshold_substitutes": [ "THRESH_CHIMERA" ]
   },
   {
     "type": "mutation",
@@ -8341,7 +8362,8 @@
     "description": "A perfect ambush predator, if only there were less competition.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "threshold_substitutes": [ "THRESH_CHIMERA" ]
   },
   {
     "type": "mutation",
@@ -8351,7 +8373,8 @@
     "description": "So much food, everywhere!  And nobody's even guarding it anymore!  These are good times.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "threshold_substitutes": [ "THRESH_CHIMERA" ]
   },
   {
     "type": "mutation",
@@ -8386,7 +8409,8 @@
     "flags": [ "INVERTEBRATEBLOOD" ],
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "threshold_substitutes": [ "THRESH_CHIMERA" ]
   },
   {
     "type": "mutation",
@@ -8396,7 +8420,8 @@
     "description": "You long for a colony, the cover of darkness, and a meal on the wing.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "threshold_substitutes": [ "THRESH_CHIMERA" ]
   },
   {
     "type": "mutation",
@@ -8883,6 +8908,17 @@
     "description": "They said college what make me smart, this is a lot to lug around!",
     "enchantments": [ "ENCH_DEBUG_BIG_HEAD" ],
     "debug": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_MUTATE",
+    "name": { "str": "Debug Genetic Instability" },
+    "points": 99,
+    "valid": false,
+    "description": "You just can't wait to turn into a bug!  Triggers a mutation using the normal mutation rules (requiring primer but no catalyst) every five seconds.",
+    "debug": true,
+    "processed_eocs": [ "eoc_debug_mutate" ],
+    "time": "5 s"
   },
   {
     "type": "mutation",

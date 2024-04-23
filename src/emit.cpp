@@ -5,7 +5,8 @@
 #include <utility>
 
 #include "debug.h"
-#include "json.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 
 static std::map<emit_id, emit> emits_all;
 

@@ -333,6 +333,16 @@
   },
   {
     "type": "effect_type",
+    "id": "shattered",
+    "name": [ "shattered" ],
+    "//": "Intended for monsters, has no effect except to create a new weak point.",
+    "desc": [ "Your armor has been shattered by a heavy attack." ],
+    "apply_message": "Your armor has been shattered.",
+    "rating": "bad",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
     "id": "staggered",
     "name": [ "Staggered" ],
     "//": "Mainly for monsters",

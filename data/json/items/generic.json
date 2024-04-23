@@ -2067,6 +2067,14 @@
   },
   {
     "type": "GENERIC",
+    "id": "standard_template_construct_combat_exoskeleton",
+    "copy-from": "standard_template_construct",
+    "name": { "str": "nanofabricator exoskeleton template" },
+    "description": "A state-of-the-art optical storage system.  This small slate of transparent glass holds, inscribed as a miniature pattern, the instructions required to create an item through a nanofabricator.  A small text at the bottom indicates that this one is specifically used to create combat exoskeletons.",
+    "nanofab_template_group": "nanofab_recipes_combat_exoskeletons"
+  },
+  {
+    "type": "GENERIC",
     "id": "debug_template",
     "copy-from": "standard_template_construct",
     "color": "yellow",

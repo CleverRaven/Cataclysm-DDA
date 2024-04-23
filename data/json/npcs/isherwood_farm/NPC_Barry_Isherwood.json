@@ -39,9 +39,7 @@
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_BARRY",
     "dynamic_line": {
-      "u_has_var": "u_saved_barry",
-      "type": "general",
-      "context": "meeting",
+      "u_has_var": "general_meeting_u_saved_barry",
       "value": "yes",
       "no": "I can't believe my eyes.  Please get me outta here…",
       "yes": "Hey, <name_g>."
@@ -49,14 +47,14 @@
     "responses": [
       {
         "text": "I've come to take you home, let's go.",
-        "condition": { "not": { "u_has_var": "u_saved_barry", "type": "general", "context": "meeting", "value": "yes" } },
+        "condition": { "not": { "u_has_var": "general_meeting_u_saved_barry", "value": "yes" } },
         "topic": "TALK_MISSION_OFFER",
         "effect": "follow"
       },
       {
         "text": "Hey buddy, feel like talking about what you saw in that tower?",
         "topic": "TALK_ISHERWOOD_BARRY_TOWER",
-        "condition": { "u_has_var": "u_saved_barry", "type": "general", "context": "meeting", "value": "yes" }
+        "condition": { "u_has_var": "general_meeting_u_saved_barry", "value": "yes" }
       },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
@@ -76,14 +74,14 @@
     "value": 20000,
     "destination": "dairy_farm_isherwood_W",
     "start": {
-      "effect": [ { "u_add_var": "u_have_barry_escape", "type": "general", "context": "meeting", "value": "yes" } ],
+      "effect": [ { "u_add_var": "general_meeting_u_have_barry_escape", "value": "yes" } ],
       "assign_mission_target": { "om_terrain": "dairy_farm_isherwood_W", "om_special": "Isherwood Farms", "reveal_radius": 3, "search_range": 240 }
     },
     "end": {
       "opinion": { "trust": 5, "value": 5 },
       "effect": [
         "leave",
-        { "u_add_var": "u_saved_barry", "type": "general", "context": "meeting", "value": "yes" },
+        { "u_add_var": "general_meeting_u_saved_barry", "value": "yes" },
         { "u_spawn_item": "hsurvivor_jumpsuit", "count": 1 }
       ]
     },

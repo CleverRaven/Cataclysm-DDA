@@ -6,15 +6,13 @@
     "condition": {
       "and": [
         { "u_has_trait": "SOULFIRE" },
-        {
-          "not": { "u_has_var": "u_got_soulfire_attunement", "type": "attunement", "context": "attunement", "value": "yes" }
-        }
+        { "not": { "u_has_var": "attunement_attunement_u_got_soulfire_attunement", "value": "yes" } }
       ]
     },
     "deactivate_condition": { "not": { "u_has_trait": "SOULFIRE" } },
     "effect": [
       { "u_add_trait": "SOUL_PRESSURE_OFF" },
-      { "u_add_var": "u_got_soulfire_attunement", "type": "attunement", "context": "attunement", "value": "yes" }
+      { "u_add_var": "attunement_attunement_u_got_soulfire_attunement", "value": "yes" }
     ]
   },
   {
