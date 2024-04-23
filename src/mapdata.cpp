@@ -297,30 +297,6 @@ void connect_group::load( const JsonObject &jo )
         return;
     }
 
-    if( jo.has_string( "group_flags" ) || jo.has_array( "group_flags" ) ) {
-        const std::vector<std::string> str_flags = jo.get_as_string_array( "group_flags" );
-        for( const std::string &flag : str_flags ) {
-            const ter_furn_flag f = io::string_to_enum<ter_furn_flag>( flag );
-            result.group_flags.insert( f );
-        }
-    }
-
-    if( jo.has_string( "connects_to_flags" ) || jo.has_array( "connects_to_flags" ) ) {
-        const std::vector<std::string> str_flags = jo.get_as_string_array( "connects_to_flags" );
-        for( const std::string &flag : str_flags ) {
-            const ter_furn_flag f = io::string_to_enum<ter_furn_flag>( flag );
-            result.connects_to_flags.insert( f );
-        }
-    }
-
-    if( jo.has_string( "rotates_to_flags" ) || jo.has_array( "rotates_to_flags" ) ) {
-        const std::vector<std::string> str_flags = jo.get_as_string_array( "rotates_to_flags" );
-        for( const std::string &flag : str_flags ) {
-            const ter_furn_flag f = io::string_to_enum<ter_furn_flag>( flag );
-            result.rotates_to_flags.insert( f );
-        }
-    }
-
     ter_connects_map[ result.id.str() ] = result;
 }
 
@@ -598,16 +574,18 @@ void map_data_common_t::load_symbol( const JsonObject &jo, const std::string &co
     }
     jo.read( "looks_like", looks_like );
 
-    load_season_array( jo, "symbol", context, symbol_, [&jo]( const std::string & str ) {
-        if( str == "LINE_XOXO" ) {
-            return LINE_XOXO;
-        } else if( str == "LINE_OXOX" ) {
-            return LINE_OXOX;
-        } else if( str.length() != 1 ) {
-            jo.throw_error_at( "symbol", "Symbol string must be exactly 1 character long." );
-        }
-        return static_cast<int>( str[0] );
-    } );
+    if( jo.has_member( "symbol" ) || !was_loaded ) {
+        load_season_array( jo, "symbol", context, symbol_, [&jo]( const std::string & str ) {
+            if( str == "LINE_XOXO" ) {
+                return LINE_XOXO;
+            } else if( str == "LINE_OXOX" ) {
+                return LINE_OXOX;
+            } else if( str.length() != 1 ) {
+                jo.throw_error_at( "symbol", "Symbol string must be exactly 1 character long." );
+            }
+            return static_cast<int>( str[0] );
+        } );
+    }
 
     const bool has_color = jo.has_member( "color" );
     const bool has_bgcolor = jo.has_member( "bgcolor" );
@@ -620,7 +598,7 @@ void map_data_common_t::load_symbol( const JsonObject &jo, const std::string &co
         } );
     } else if( has_bgcolor ) {
         load_season_array( jo, "bgcolor", context, color_, bgcolor_from_string );
-    } else {
+    } else if( !was_loaded ) {
         jo.throw_error( R"(Missing member: one of: "color", "bgcolor" must exist.)" );
     }
 }
@@ -663,32 +641,13 @@ void load_terrain( const JsonObject &jo, const std::string &src )
     terrain_data.load( jo, src );
 }
 
-void map_data_common_t::extraprocess_flags( const ter_furn_flag flag )
-{
-    if( !transparent && flag == ter_furn_flag::TFLAG_TRANSPARENT ) {
-        transparent = true;
-    }
-
-    for( std::pair<const std::string, connect_group> &item : ter_connects_map ) {
-        if( item.second.group_flags.find( flag ) != item.second.group_flags.end() ) {
-            set_connect_groups( { item.second.id.str() } );
-        }
-        if( item.second.connects_to_flags.find( flag ) != item.second.connects_to_flags.end() ) {
-            set_connects_to( { item.second.id.str() } );
-        }
-        if( item.second.rotates_to_flags.find( flag ) != item.second.rotates_to_flags.end() ) {
-            set_rotates_to( { item.second.id.str() } );
-        }
-    }
-}
-
 void map_data_common_t::set_flag( const std::string &flag )
 {
     flags.insert( flag );
     std::optional<ter_furn_flag> f = io::string_to_enum_optional<ter_furn_flag>( flag );
     if( f.has_value() ) {
         bitflags.set( f.value() );
-        extraprocess_flags( f.value() );
+        transparent |= f.value() == ter_furn_flag::TFLAG_TRANSPARENT;
     }
 }
 
@@ -696,7 +655,28 @@ void map_data_common_t::set_flag( const ter_furn_flag flag )
 {
     flags.insert( io::enum_to_string<ter_furn_flag>( flag ) );
     bitflags.set( flag );
-    extraprocess_flags( flag );
+    transparent |= flag == ter_furn_flag::TFLAG_TRANSPARENT;
+}
+
+void map_data_common_t::unset_flag( const std::string &flag )
+{
+    if( auto it_flag = flags.find( flag ); it_flag != flags.end() ) {
+        flags.erase( it_flag );
+    } //else return false?
+    std::optional<ter_furn_flag> f = io::string_to_enum_optional<ter_furn_flag>( flag );
+    if( f.has_value() ) {
+        bitflags.reset( f.value() );
+        if( transparent ) {
+            transparent = f.value() != ter_furn_flag::TFLAG_TRANSPARENT;
+        }
+    }
+}
+
+void map_data_common_t::unset_flags()
+{
+    flags.clear();
+    bitflags.reset();
+    transparent = false; //?
 }
 
 void map_data_common_t::set_connect_groups( const std::vector<std::string>
@@ -1016,7 +996,7 @@ void map_data_common_t::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "description", description );
     optional( jo, was_loaded, "curtain_transform", curtain_transform );
 
-    if( jo.has_object( "shoot" ) ) {
+    if( jo.has_object( "shoot" ) ) { //TODO: Does this support copy-from?
         shoot = cata::make_value<map_shoot_info>();
         shoot->load( jo, "shoot", was_loaded );
     }
@@ -1030,39 +1010,43 @@ bool ter_t::is_null() const
 void ter_t::load( const JsonObject &jo, const std::string &src )
 {
     map_data_common_t::load( jo, src );
-    mandatory( jo, was_loaded, "name", name_ );
+    mandatory( jo, was_loaded, "name", name_ ); //TODO: Should be in map_data_common_t::load?
     mandatory( jo, was_loaded, "move_cost", movecost );
-    optional( jo, was_loaded, "coverage", coverage );
-    assign( jo, "max_volume", max_volume, src == "dda" );
+    optional( jo, was_loaded, "coverage", coverage ); //TODO: Should be in map_data_common_t::load?
+    assign( jo, "max_volume", max_volume, src == "dda" ); //TODO: Does this support copy-from?
     optional( jo, was_loaded, "trap", trap_id_str );
     optional( jo, was_loaded, "heat_radiation", heat_radiation );
     optional( jo, was_loaded, "light_emitted", light_emitted );
-    int legacy_floor_bedding_warmth = units::to_legacy_bodypart_temp_delta( floor_bedding_warmth );
+    int legacy_floor_bedding_warmth = units::to_legacy_bodypart_temp_delta( floor_bedding_warmth ); //TODO: Should be in map_data_common_t::load?
     optional( jo, was_loaded, "floor_bedding_warmth", legacy_floor_bedding_warmth, 0 );
     floor_bedding_warmth = units::from_legacy_bodypart_temp_delta( legacy_floor_bedding_warmth );
     optional( jo, was_loaded, "comfort", comfort, 0 );
 
     load_symbol( jo, "terrain " + id.str() );
 
-    trap = tr_null;
-    transparent = false;
-    connect_groups.reset();
-    connect_to_groups.reset();
-    rotate_to_groups.reset();
+    trap = tr_null; //Should just be a default value?
 
+    if( !was_loaded ) { //TODO: Should be in map_data_common_t::load?
+        transparent = false;
+    }
+
+    if( was_loaded && jo.has_member( "flags" ) ) {
+        unset_flags();
+    }
     for( auto &flag : jo.get_string_array( "flags" ) ) {
         set_flag( flag );
     }
-    // connect_to_groups is initialized to none, then terrain flags are set, then finally
-    // connections from JSON are set. This is so that wall flags can set wall connections
-    // but can be overridden by explicit connections in JSON.
-    if( jo.has_member( "connect_groups" ) ) {
+
+    if( jo.has_member( "connect_groups" ) ) { //TODO: Should be in map_data_common_t::load?
+        connect_groups.reset();
         set_connect_groups( jo.get_as_string_array( "connect_groups" ) );
     }
     if( jo.has_member( "connects_to" ) ) {
+        connect_to_groups.reset();
         set_connects_to( jo.get_as_string_array( "connects_to" ) );
     }
     if( jo.has_member( "rotates_to" ) ) {
+        rotate_to_groups.reset();
         set_rotates_to( jo.get_as_string_array( "rotates_to" ) );
     }
 
@@ -1077,7 +1061,7 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "lockpick_message", lockpick_message, translation() );
 
     oxytorch = cata::make_value<activity_data_ter>();
-    if( jo.has_object( "oxytorch" ) ) {
+    if( jo.has_object( "oxytorch" ) ) { //TODO: Does these support copy-from?
         oxytorch->load( jo.get_object( "oxytorch" ) );
     }
 
@@ -1098,8 +1082,21 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "emissions", emissions );
 
-    bash.load( jo, "bash", map_bash_info::terrain, "terrain " + id.str() );
-    deconstruct.load( jo, "deconstruct", false, "terrain " + id.str() );
+    bash.load( jo, "bash", map_bash_info::terrain, "terrain " + id.str() ); //TODO: Does this support copy-from?
+    deconstruct.load( jo, "deconstruct", false, "terrain " + id.str() ); //TODO: Does this support copy-from?
+
+    if( was_loaded && jo.has_member( "extend" ) ) {
+        JsonObject joe = jo.get_object( "extend" );
+        for( auto &flag : joe.get_string_array( "flags" ) ) {
+            set_flag( flag );
+        }
+    }
+    if( was_loaded && jo.has_member( "delete" ) ) {
+        JsonObject jod = jo.get_object( "delete" );
+        for( auto &flag : jod.get_string_array( "flags" ) ) {
+            unset_flag( flag );
+        }
+    }
 }
 
 static void check_bash_items( const map_bash_info &mbi, const std::string &id, bool is_terrain )
@@ -1206,11 +1203,11 @@ bool furn_t::is_movable() const
 void furn_t::load( const JsonObject &jo, const std::string &src )
 {
     map_data_common_t::load( jo, src );
-    mandatory( jo, was_loaded, "name", name_ );
+    mandatory( jo, was_loaded, "name", name_ ); //TODO: Should be in map_data_common_t::load?
     mandatory( jo, was_loaded, "move_cost_mod", movecost );
-    optional( jo, was_loaded, "coverage", coverage );
+    optional( jo, was_loaded, "coverage", coverage ); //TODO: Should be in map_data_common_t::load?
     optional( jo, was_loaded, "comfort", comfort, 0 );
-    int legacy_floor_bedding_warmth = units::to_legacy_bodypart_temp_delta( floor_bedding_warmth );
+    int legacy_floor_bedding_warmth = units::to_legacy_bodypart_temp_delta( floor_bedding_warmth ); //TODO: Should be in map_data_common_t::load?
     optional( jo, was_loaded, "floor_bedding_warmth", legacy_floor_bedding_warmth, 0 );
     floor_bedding_warmth = units::from_legacy_bodypart_temp_delta( legacy_floor_bedding_warmth );
     optional( jo, was_loaded, "emissions", emissions );
@@ -1223,26 +1220,30 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "crafting_pseudo_item", crafting_pseudo_item, itype_id() );
     optional( jo, was_loaded, "deployed_item", deployed_item );
     load_symbol( jo, "furniture " + id.str() );
-    transparent = false;
 
     optional( jo, was_loaded, "light_emitted", light_emitted );
 
-    // see the comment in ter_id::load for connect_group handling
-    connect_groups.reset();
-    connect_to_groups.reset();
-    rotate_to_groups.reset();
+    if( !was_loaded ) { //TODO: Should be in map_data_common_t::load?
+        transparent = false;
+    }
 
+    if( was_loaded && jo.has_member( "flags" ) ) {
+        unset_flags();
+    }
     for( auto &flag : jo.get_string_array( "flags" ) ) {
         set_flag( flag );
     }
 
-    if( jo.has_member( "connect_groups" ) ) {
+    if( jo.has_member( "connect_groups" ) ) { //TODO: Should be in map_data_common_t::load?
+        connect_groups.reset();
         set_connect_groups( jo.get_as_string_array( "connect_groups" ) );
     }
     if( jo.has_member( "connects_to" ) ) {
+        connect_to_groups.reset();
         set_connects_to( jo.get_as_string_array( "connects_to" ) );
     }
     if( jo.has_member( "rotates_to" ) ) {
+        rotate_to_groups.reset();
         set_rotates_to( jo.get_as_string_array( "rotates_to" ) );
     }
 
@@ -1254,7 +1255,7 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "lockpick_message", lockpick_message, translation() );
 
     oxytorch = cata::make_value<activity_data_furn>();
-    if( jo.has_object( "oxytorch" ) ) {
+    if( jo.has_object( "oxytorch" ) ) { //TODO: Do these support copy-from?
         oxytorch->load( jo.get_object( "oxytorch" ) );
     }
 
@@ -1273,14 +1274,14 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
         prying->load( jo.get_object( "prying" ) );
     }
 
-    bash.load( jo, "bash", map_bash_info::furniture, "furniture " + id.str() );
-    deconstruct.load( jo, "deconstruct", true, "furniture " + id.str() );
+    bash.load( jo, "bash", map_bash_info::furniture, "furniture " + id.str() ); //TODO: Does this support copy-from?
+    deconstruct.load( jo, "deconstruct", true, "furniture " + id.str() ); //TODO: Does this support copy-from?
 
-    if( jo.has_object( "workbench" ) ) {
+    if( jo.has_object( "workbench" ) ) { //TODO: Does this support copy-from?
         workbench = cata::make_value<furn_workbench_info>();
         workbench->load( jo, "workbench" );
     }
-    if( jo.has_object( "plant_data" ) ) {
+    if( jo.has_object( "plant_data" ) ) { //TODO: Does this support copy-from?
         plant = cata::make_value<plant_data>();
         plant->load( jo, "plant_data" );
     }

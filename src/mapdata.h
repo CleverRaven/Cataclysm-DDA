@@ -337,9 +337,6 @@ struct connect_group {
     public:
         connect_group_id id;
         int index;
-        std::set<ter_furn_flag> group_flags;
-        std::set<ter_furn_flag> connects_to_flags;
-        std::set<ter_furn_flag> rotates_to_flags;
 
         static void load( const JsonObject &jo );
         static void reset();
@@ -538,11 +535,13 @@ struct map_data_common_t {
             return bitflags[flag];
         }
 
-        void extraprocess_flags( ter_furn_flag flag );
-
         void set_flag( const std::string &flag );
 
         void set_flag( ter_furn_flag flag );
+
+        void unset_flag( const std::string &flag );
+
+        void unset_flags();
 
         // Terrain groups of this type, for others to connect or rotate to; not symmetric, passive part
         std::bitset<NUM_TERCONN> connect_groups;
