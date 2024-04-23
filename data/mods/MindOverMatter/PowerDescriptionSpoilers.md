@@ -838,6 +838,15 @@ Powers causing telekinetic damage have a 40% chance to stagger the target for 2 
 *Effects*: The psion can lift themselves with telekinesis. While not true flight since they are incapable of ascent, they can travel horizontally as long as they want and descend in complete safety. This power requires more intense concentration and cannot be sustained in combat.<br />
 *Prerequisites*: Slowfall 9, Force Push 12 *or* Lift Vehicle 5<br />
 
+# Megakinesis 
+*Difficulty*: 8<br />
+*Target*: One enemy, ally, or the items in a space up to 2 squares away plus 0.9 squares per power level<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 9500, minus 175 per level to a minimum of 5000<br />
+*Channeling Time*: 80 moves, minus 5 moves per level to a minimum of 25<br />/>
+*Effects*: The psion attempts to push or pull a single target away, similarly to Force Shove or Far Hand (chosen at time of channeling). The distance is based on the ratio of the target's weight to the psion's power level (modified by Intelligence and Nether Attunement as usual).  By default, the formula is (power level * 150 kg) * Intelligence modifier * Nether Attunement modifier, plus 100 kg, divided by the target's weight in kg. If this is 1 or higher, the target is hurled back 1 square for everyone 0.5 above 1 the ratio is. If it is below one, there is still a chance to knock the target over (chance is weight ratio * 100 in percentage; a weight ratio of 0.95 has a 95% chance of causing knockdown).<br />
+*Prerequisites*: Force Shove 15 *or* Far Hand 15, Momentum Alteration 10, Lift Vehicle 6<br />
+
 ## Aegis
 *Difficulty*: 9<br />
 *Target*: Self<br />
@@ -854,7 +863,7 @@ Powers causing telekinetic damage have a 40% chance to stagger the target for 2 
 *Stamina Cost*: 11500, minus 200 per level to a minimum of 7000<br />
 *Channeling Time*: 150 moves, minus 6 moves per level to a minimum of 45<br />
 *Effects*: Grab the ground and *wrench* it with telekinesis, knocking everyone nearby off their feet and doing 30 to 80 plus 2.5 to 7 bash damage to the entirety of the terrain in the area of effect. Terrain in the area also has a 10% chance of cracking, becoming rubble or a pit.<br />
-*Prerequisites*: Wrecking Ball 8 *or* Wave of Force 13, Mindhammer 10 *or* Enhance Strength 12 <br />
+*Prerequisites*: Wrecking Ball 8 *or* Wave of Force 13, Mindhammer 10 *or* Megakinesis 5 <br />
 
 # Telepathy
 
