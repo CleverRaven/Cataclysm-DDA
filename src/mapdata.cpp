@@ -1017,7 +1017,8 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "trap", trap_id_str );
     optional( jo, was_loaded, "heat_radiation", heat_radiation );
     optional( jo, was_loaded, "light_emitted", light_emitted );
-    int legacy_floor_bedding_warmth = units::to_legacy_bodypart_temp_delta( floor_bedding_warmth ); //TODO: Should be in map_data_common_t::load?
+    int legacy_floor_bedding_warmth = units::to_legacy_bodypart_temp_delta(
+                                          floor_bedding_warmth ); //TODO: Should be in map_data_common_t::load?
     optional( jo, was_loaded, "floor_bedding_warmth", legacy_floor_bedding_warmth, 0 );
     floor_bedding_warmth = units::from_legacy_bodypart_temp_delta( legacy_floor_bedding_warmth );
     optional( jo, was_loaded, "comfort", comfort, 0 );
@@ -1082,8 +1083,10 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "emissions", emissions );
 
-    bash.load( jo, "bash", map_bash_info::terrain, "terrain " + id.str() ); //TODO: Does this support copy-from?
-    deconstruct.load( jo, "deconstruct", false, "terrain " + id.str() ); //TODO: Does this support copy-from?
+    bash.load( jo, "bash", map_bash_info::terrain,
+               "terrain " + id.str() ); //TODO: Does this support copy-from?
+    deconstruct.load( jo, "deconstruct", false,
+                      "terrain " + id.str() ); //TODO: Does this support copy-from?
 
     if( was_loaded && jo.has_member( "extend" ) ) {
         JsonObject joe = jo.get_object( "extend" );
@@ -1207,7 +1210,8 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     mandatory( jo, was_loaded, "move_cost_mod", movecost );
     optional( jo, was_loaded, "coverage", coverage ); //TODO: Should be in map_data_common_t::load?
     optional( jo, was_loaded, "comfort", comfort, 0 );
-    int legacy_floor_bedding_warmth = units::to_legacy_bodypart_temp_delta( floor_bedding_warmth ); //TODO: Should be in map_data_common_t::load?
+    int legacy_floor_bedding_warmth = units::to_legacy_bodypart_temp_delta(
+                                          floor_bedding_warmth ); //TODO: Should be in map_data_common_t::load?
     optional( jo, was_loaded, "floor_bedding_warmth", legacy_floor_bedding_warmth, 0 );
     floor_bedding_warmth = units::from_legacy_bodypart_temp_delta( legacy_floor_bedding_warmth );
     optional( jo, was_loaded, "emissions", emissions );
@@ -1274,8 +1278,10 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
         prying->load( jo.get_object( "prying" ) );
     }
 
-    bash.load( jo, "bash", map_bash_info::furniture, "furniture " + id.str() ); //TODO: Does this support copy-from?
-    deconstruct.load( jo, "deconstruct", true, "furniture " + id.str() ); //TODO: Does this support copy-from?
+    bash.load( jo, "bash", map_bash_info::furniture,
+               "furniture " + id.str() ); //TODO: Does this support copy-from?
+    deconstruct.load( jo, "deconstruct", true,
+                      "furniture " + id.str() ); //TODO: Does this support copy-from?
 
     if( jo.has_object( "workbench" ) ) { //TODO: Does this support copy-from?
         workbench = cata::make_value<furn_workbench_info>();
