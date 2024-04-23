@@ -37,7 +37,7 @@
     "comestible_type": "MED",
     "flags": [ "EATEN_COLD" ],
     "phase": "solid",
-    "price": 2500
+    "price": "25 USD"
   },
   {
     "id": "cream_greater_prot_cold",
@@ -54,7 +54,7 @@
     "comestible_type": "MED",
     "flags": [ "EATEN_COLD" ],
     "phase": "solid",
-    "price": 5000
+    "price": "50 USD"
   },
   {
     "type": "COMESTIBLE",
