@@ -75,13 +75,24 @@ void uilist_impl::draw_controls()
         ImGui::Separator();
     }
 
+    // An invisible table with three columns. Center column is for the
+    // menu, left and right are usually invisible. Caller may use
+    // left/right column to add additional content to the
+    // window. There should only ever be one row.
+    ImGui::BeginTable("table", 3);
+    ImGui::TableSetupColumn("left");
+    ImGui::TableSetupColumn("menu");
+    ImGui::TableSetupColumn("right");
+    ImGui::TableNextRow();
+    ImGui::TableSetColumnIndex(1);
+
     // It would be natural to make the entries into buttons, or
     // combos, or other pre-built ui elements. For now I am mostly
     // going to copy the style of the original textual ui elements.
     for(size_t i = 0; i < parent.fentries.size(); i++)
     {
         auto entry = parent.entries[parent.fentries[i]];
-        ImGui::PushID(&entry);
+        ImGui::PushID(i);
         auto flags = entry.enabled ? ImGuiSelectableFlags_Disabled : ImGuiSelectableFlags_None;
         bool is_selected = static_cast<int>(i) == parent.fselected;
         ImGui::Selectable("", is_selected, flags);
@@ -111,6 +122,13 @@ void uilist_impl::draw_controls()
             color);
         ImGui::PopID();
     }
+
+    if(parent.callback != nullptr)
+    {
+       parent.callback->refresh(&parent);
+    }
+
+    ImGui::EndTable();
 
     if(parent.desc_enabled)
     {
@@ -274,10 +292,6 @@ void uilist_impl::draw_controls()
     //apply_scrollbar();
 
     //wnoutrefresh(window);
-    //if(callback != nullptr)
-    //{
-    //    callback->refresh(this);
-    //}
 }
 
 catacurses::window new_centered_win( int nlines, int ncols )
