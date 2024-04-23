@@ -9344,22 +9344,12 @@ const // TODO: Fallback to type->extended_description() if variant description u
         return ""; // Shouldn't this throw an error?
     }
     auto variant = itype_variant();
-    if( !variant.alt_description.empty() ) {
-        return variant.alt_description.translated();
+    if( get_option<std::string>( "USE_LANG" ).empty() &&
+        to_translation( variant.alt_description.translated() ) == variant.alt_description ) {
+        // No translation found for variant description so fallback to base item description
+        return type->description.translated();
     }
-    translation ret( type->extended_description() );
-    if( !variant.alt_description_prepend.empty() ) {
-        ret = string_format( "%s  %s", variant.alt_description_prepend.translated(),
-                             ret );
-    }
-    if( !variant.alt_description_append.empty() ) {
-        ret = string_format( "%s  %s", ret,
-                             variant.alt_description_append.translated() );
-    }
-    if( get_option<std::string>( "USE_LANG" ).empty() && _( ret.translated() ) == ret ) { // No translation
-        return type->extended_description();
-    }
-    return _( ret );
+    return variant.alt_description.translated();
 }
 
 void item::clear_itype_variant()

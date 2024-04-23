@@ -2775,15 +2775,28 @@ void itype_variant_data::load( const JsonObject &jo )
     mandatory( jo, false, "id", id );
     mandatory( jo, false, "name", alt_name );
 
+    std::string alt_description_s;
+    std::string alt_description_prepend;
+    std::string alt_description_append;
     if( jo.has_member( "description" ) ) {
-        if( jo.has_bool( "append" ) && jo.get_bool( "append" ) ) { // Legacy behaviour
+        if( jo.has_bool( "append" ) &&
+            jo.get_bool( "append" ) ) { // Legacy behaviour, remove once existing uses are converted to "description_append"
             jo.read( "description", alt_description_append );
+            alt_description_s = extended_description + "  " + alt_description_append;
+            alt_description = to_translation( alt_description_s );
         } else {
             jo.read( "description", alt_description );
         }
+    } else {
+        alt_description_s = extended_description;
+        if( jo.read( "description_prepend", alt_description_prepend ) ) {
+            alt_description_s = alt_description_prepend + "  " + alt_description_s;
+        }
+        if( jo.read( "description_append", alt_description_append ) ) {
+            alt_description_s = alt_description_s + "  " + alt_description_append;
+        }
+        alt_description = to_translation( alt_description_s );
     }
-    jo.read( "description_prepend", alt_description_prepend );
-    jo.read( "description_append", alt_description_append );
 
     optional( jo, false, "symbol", alt_sym, std::nullopt );
     if( jo.has_string( "color" ) ) {
@@ -4216,26 +4229,23 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     if( !jo.read( "name", def.name ) ) {
         jo.throw_error( "name unspecified for item type" );
     }
-
-    if( !jo.read( "description", def.description ) && ( !def.description_prepend.empty() ||
-            !def.description_append.empty() ) ) {
-        if( !jo.read( "inherit_extended_description", def.inherit_extended_description ) ) {
-            def.inherit_extended_description = true;
-        }
+    if( !jo.read( "description", def.unextended_description ) &&
+        def.unextended_description != def.extended_description ) {
+        jo.read( "inherit_extended_description", def.inherit_extended_description );
         if( def.inherit_extended_description ) {
-            def.description = no_translation( def.extended_description() );
+            def.unextended_description = def.extended_description;
         }
     }
-    def.description_prepend = no_translation( "" );
-    def.description_append = no_translation( "" );
-    def.extend_description = false;
-    if( jo.read( "description_prepend", def.description_prepend ) ) {
-        def.extend_description = true;
+    std::string description_prepend;
+    std::string description_append;
+    def.extended_description = def.unextended_description;
+    if( jo.read( "description_prepend", description_prepend ) ) {
+        def.extended_description = description_prepend + "  " + def.extended_description;
     }
-    if( jo.read( "description_append", def.description_append ) ) {
-        def.extend_description = true;
+    if( jo.read( "description_append", description_append ) ) {
+        def.extended_description = def.extended_description + "  " + description_append;
     }
-
+    def.description = to_translation( def.extended_description );
     if( jo.has_string( "symbol" ) ) {
         def.sym = jo.get_string( "symbol" );
     }

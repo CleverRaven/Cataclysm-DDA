@@ -1332,19 +1332,14 @@ struct itype {
         cata::value_ptr<memory_card_info> memory_card_data;
         // How should the item explode
         explosion_data explosion;
-
         // Flavor text
         translation description;
-        // Flavor text to add to the front of the description
-        translation description_prepend;
-        // Flavor text to add to the end of the description
-        translation description_append;
-        // Whether the desciption needs appending/prepending/both
-        bool extend_description = false;
+        // Extended description that may be inherited
+        std::string extended_description;
+        // Partial description that may be inherited
+        std::string unextended_description;
         // Whether the inherited item should use the base item's extended_desciption()
         bool inherit_extended_description = true;
-        // Extended description after prepending/appending/both
-        std::string extended_description() const;
 
     protected:
         // private because is should only be accessed through itype::nname!
