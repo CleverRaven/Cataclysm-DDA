@@ -79,11 +79,7 @@
     "type": "mapgen",
     "update_mapgen_id": "fbml_2_coop_construction",
     "method": "json",
-    "object": {
-      "place_nested": [
-        { "chunks": [ "fbml_2_coop_construction" ], "x": 13, "y": 0 }
-      ]
-    }
+    "object": { "place_nested": [ { "chunks": [ "fbml_2_coop_construction" ], "x": 13, "y": 0 } ] }
   },
   {
     "type": "mapgen",
