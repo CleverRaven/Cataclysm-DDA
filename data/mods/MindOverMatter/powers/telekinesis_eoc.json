@@ -142,7 +142,7 @@
     "id": "EOC_TELEKINETIC_MOVE_LARGE_WEIGHT_PUSH_CHECKER",
     "effect": [
       { "math": [ "u_telekinesis_intelligence", "=", "( ( n_val('intelligence') + 10) / 20 )" ] },
-      { "math": [ "u_telekinesis_power_level", "=", "n_spell_level('telekinetic_large_push')" ] },
+      { "math": [ "u_telekinesis_power_level", "=", "n_spell_level('telekinetic_move_large_weight')" ] },
       { "math": [ "u_nether_attunement_telekinesis_scaling", "=", "n_nether_attunement_power_scaling" ] },
       {
         "math": [
@@ -158,7 +158,7 @@
         "then": { "run_eocs": "EOC_TELEKINETIC_PUSH_DOWN_CHECKER" },
         "else": [
           {
-            "npc_cast_spell": { "id": "telekinetic_push_real", "min_level": { "math": [ "u_telekinesis_shove_spell_level" ] } },
+            "npc_cast_spell": { "id": "telekinetic_force_shove_away", "min_level": { "math": [ "u_telekinesis_shove_spell_level" ] } },
             "loc": { "context_val": "loc" }
           },
           { "npc_message": "You hurl your target away.", "type": "good" }
@@ -171,7 +171,7 @@
     "id": "EOC_TELEKINETIC_MOVE_LARGE_WEIGHT_PULL_CHECKER",
     "effect": [
       { "math": [ "u_telekinesis_intelligence", "=", "( ( n_val('intelligence') + 10) / 20 )" ] },
-      { "math": [ "u_telekinesis_power_level", "=", "n_spell_level('telekinetic_large_push')" ] },
+      { "math": [ "u_telekinesis_power_level", "=", "n_spell_level('telekinetic_move_large_weight')" ] },
       { "math": [ "u_nether_attunement_telekinesis_scaling", "=", "n_nether_attunement_power_scaling" ] },
       {
         "math": [
@@ -187,7 +187,7 @@
         "then": { "run_eocs": "EOC_TELEKINETIC_PUSH_DOWN_CHECKER" },
         "else": [
           {
-            "npc_cast_spell": { "id": "telekinetic_pull_real", "min_level": { "math": [ "u_telekinesis_shove_spell_level" ] } },
+            "npc_cast_spell": { "id": "telekinetic_force_shove_toward", "min_level": { "math": [ "u_telekinesis_shove_spell_level" ] } },
             "loc": { "context_val": "loc" }
           },
           { "npc_message": "You pull your target towards you.", "type": "good" }
