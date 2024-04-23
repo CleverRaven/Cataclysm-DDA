@@ -19,6 +19,7 @@
 #include "stomach.h"
 #include "translation.h"
 #include "type_id.h"
+#include "units_fwd.h"
 #include "vitamin.h"
 
 namespace catacurses
