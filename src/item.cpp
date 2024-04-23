@@ -7035,7 +7035,7 @@ int item::price( bool practical ) const
     int res = 0;
 
     visit_items( [&res, practical]( const item * e, item * ) {
-        res += e->price_no_contents( practical, std::nullopt );
+        res += e->price_no_contents( practical );
         return VisitResponse::NEXT;
     } );
 

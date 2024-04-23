@@ -16,8 +16,7 @@ TEST_CASE( "npc_shop_cons_rates", "[npc][trade]" )
     }
     WHEN( "item is matched by junk threshold" ) {
         item const glass_shard( "glass_shard" );
-        REQUIRE( glass_shard.price_no_contents( true,
-                                                std::nullopt ) < units::to_cent( myrates.junk_threshold ) );
+        REQUIRE( glass_shard.price_no_contents( true ) < units::to_cent( myrates.junk_threshold ) );
         REQUIRE( myrates.get_rate( glass_shard, guy ) == -1 );
     }
     WHEN( "item is matched by typeid" ) {
