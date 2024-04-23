@@ -132,72 +132,14 @@ struct plant_data {
 };
 
 /*
- * List of known flags, used in both terrain.json and furniture.json.
- * TRANSPARENT - Players and monsters can see through/past it. Also sets ter_t.transparent
- * FLAT - Player can build and move furniture on
- * CONTAINER - Items on this square are hidden until looted by the player
- * PLACE_ITEM - Valid terrain for place_item() to put items on
- * DOOR - Can be opened (used for NPC pathfinding)
- * FLAMMABLE - Can be lit on fire
- * FLAMMABLE_HARD - Harder to light on fire, but still possible
- * DIGGABLE - Digging monsters, seeding monsters, digging with shovel, etc
- * LIQUID - Blocks movement, but isn't a wall (lava, water, etc)
- * SWIMMABLE - Player and monsters can swim through it
- * SHARP - May do minor damage to players/monsters passing through it
- * ROUGH - May hurt the player's feet
- * SEALED - Can't use 'e' to retrieve items, must smash open first
- * NOITEM - Items 'fall off' this space
- * NO_SIGHT - When on this tile sight is reduced to 1
- * NO_SCENT - Scent on this tile (and thus scent diffusing through it) is reduced to 0. This acts like a wall for scent
- * MOUNTABLE - Player can fire mounted weapons from here (e.g. M2 Browning)
- * DESTROY_ITEM - Items that land here are destroyed
- * GOES_DOWN - Can use '>' to go down a level
- * GOES_UP - Can use '<' to go up a level
- * CONSOLE - Used as a computer
- * ALARMED - Sets off an alarm if smashed
- * SUPPORTS_ROOF - Used as a boundary for roof construction
- * MINEABLE - Able to broken with the jackhammer/pickaxe, but does not necessarily support a roof
- * INDOORS - Has roof over it; blocks rain, sunlight, etc.
- * COLLAPSES - Has a roof that can collapse
- * FLAMMABLE_ASH - Burns to ash rather than rubble.
- * REDUCE_SCENT - Reduces scent even more, only works if also bashable
- * FIRE_CONTAINER - Stops fire from spreading (brazier, wood stove, etc)
- * SUPPRESS_SMOKE - Prevents smoke from fires, used by ventilated wood stoves etc
- * PLANT - A "furniture" that grows and fruits
- * LIQUIDCONT - Furniture that contains liquid, allows for contents to be accessed in some checks even if SEALED
- * OPENCLOSE_INSIDE - If it's a door (with an 'open' or 'close' field), it can only be opened or closed if you're inside.
- * PERMEABLE - Allows gases to flow through unimpeded.
- * RAMP - Higher z-levels can be accessed from this tile
- * EASY_DECONSTRUCT - Player can deconstruct this without tools
- * HIDE_PLACE - Creature on this tile can't be seen by other creature not standing on adjacent tiles
- * BLOCK_WIND - This tile will partially block wind
- * FLAT_SURF - Furniture or terrain or vehicle part with flat hard surface (ex. table, but not chair; tree stump, etc.).
- * ROAD - Mainly affects the speed of rollerblades
- *
- * Currently only used for Fungal conversions
- * WALL - This terrain is an upright obstacle
- * THIN_OBSTACLE - This terrain is a thin obstacle, i.e. fence
- * ORGANIC - This furniture is partly organic
- * FLOWER - This furniture is a flower
- * SHRUB - This terrain is a shrub
- * TREE - This terrain is a tree
- * HARVESTED - This terrain has been harvested so it won't bear any fruit
- * YOUNG - This terrain is a young tree
- * FUNGUS - Fungal covered
- *
- * Furniture only:
- * BLOCKSDOOR - This will boost map terrain's resistance to bashing if str_*_blocked is set (see map_bash_info)
- * WORKBENCH1/WORKBENCH2/WORKBENCH3 - This is an adequate/good/great workbench for crafting.  Must be paired with a workbench iexamine.
- */
-
-/*
  * Note; All flags are defined as strings dynamically in data/json/terrain.json and furniture.json. The list above
  * represent the common builtins. The enum below is an alternative means of fast-access, for those flags that are checked
  * so much that strings produce a significant performance penalty. The following are equivalent:
- *  m->has_flag("FLAMMABLE");     //
+ *  m->has_flag("FLAMMABLE");
  *  m->has_flag(ter_furn_flag::TFLAG_FLAMMABLE); // ~ 20 x faster than the above, ( 2.5 x faster if the above uses static const std::string str_flammable("FLAMMABLE");
  * To add a new ter_bitflag, add below and in mapdata.cpp
  * Order does not matter.
+ * For descriptions see /docs/JSON_FLAGS.md
  */
 enum class ter_furn_flag : int {
     TFLAG_TRANSPARENT,
