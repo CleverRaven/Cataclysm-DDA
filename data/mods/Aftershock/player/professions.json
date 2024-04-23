@@ -16,7 +16,7 @@
           { "item": "boots" },
           { "item": "afs_herc_rig" },
           { "item": "afs_foamgun", "ammo-item": "afs_foamcrete", "charges": 30 },
-          { "item": "cash_card", "charges": 1120000 },
+          { "group": "cash_card", "charges": 1120000 },
           { "item": "afs_foam_tank", "ammo-item": "afs_foamcrete", "charges": 30 }
         ]
       },
@@ -251,7 +251,7 @@
           { "item": "boots" },
           { "item": "backpack" },
           { "item": "jeans" },
-          { "item": "cash_card", "charges": 1120000 },
+          { "group": "cash_card", "charges": 1120000 },
           { "item": "mask_dust", "variant": "white_mask_dust" }
         ]
       },
@@ -278,8 +278,8 @@
           { "item": "gold_watch" },
           { "item": "undershirt" },
           { "item": "afs_10mm_smart_template" },
-          { "item": "cash_card", "charges": 200000000 },
-          { "item": "cash_card", "charges": 200000000 },
+          { "group": "cash_card", "charges": 200000000 },
+          { "group": "cash_card", "charges": 200000000 },
           {
             "item": "afs_silvergram_pistol",
             "ammo-item": "afs_10mm_smart",
@@ -331,7 +331,7 @@
           { "item": "afs_holo_flare_caster" },
           { "item": "afs_holo_cloak_mk2" },
           { "item": "kukri", "container-item": "sheath" },
-          { "item": "cash_card", "charges": 2600000 },
+          { "group": "cash_card", "charges": 2600000 },
           { "item": "afs_cam_spy", "ammo-item": "light_minus_atomic_battery_cell", "charges": 500 },
           { "item": "radiocontrol", "ammo-item": "light_atomic_battery_cell", "charges": 1000 },
           { "item": "afs_eidolon_derringer", "ammo-item": "afs_5x50heavy", "charges": 4, "container-item": "holster" },
@@ -355,7 +355,7 @@
           { "item": "gold_watch" },
           { "item": "undershirt" },
           { "item": "gasdiscount_platinum" },
-          { "item": "cash_card", "charges": 200000000 },
+          { "group": "cash_card", "charges": 200000000 },
           { "group": "charged_smart_phone" }
         ]
       },
@@ -508,7 +508,7 @@
           { "item": "wristwatch" },
           { "item": "bot_manhack", "count": 2 },
           { "group": "charged_smart_phone" },
-          { "item": "cash_card", "charges": 1120000 },
+          { "group": "cash_card", "charges": 1120000 },
           { "item": "afs_cartridge", "ammo-item": "battery", "charges": 1500 },
           {
             "item": "afs_cartridge",
@@ -546,7 +546,7 @@
           { "item": "dress_shoes" },
           { "item": "dress_shirt" },
           { "item": "wristwatch" },
-          { "item": "cash_card", "charges": 1120000 },
+          { "group": "cash_card", "charges": 1120000 },
           {
             "item": "afs_voltaic_cartridge",
             "ammo-item": "battery",
@@ -582,7 +582,7 @@
           { "item": "socks" },
           { "item": "boots_combat" },
           { "item": "wristwatch" },
-          { "item": "cash_card", "charges": 1120000 },
+          { "group": "cash_card", "charges": 1120000 },
           { "group": "charged_smart_phone" }
         ]
       },
@@ -621,7 +621,7 @@
           { "item": "ammonia_liquid" },
           { "item": "afs_cartridge", "ammo-item": "battery", "charges": 1500 },
           { "item": "afs_cartridge", "ammo-item": "battery", "charges": 1500, "container-item": "afs_v29" },
-          { "item": "cash_card", "charges": 1120000 },
+          { "group": "cash_card", "charges": 1120000 },
           {
             "item": "afs_40g_plasma_civ",
             "ammo-item": "afs_shydrogen",

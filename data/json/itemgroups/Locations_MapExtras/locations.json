@@ -701,7 +701,7 @@
       [ "bubblewrap", 30 ],
       [ "syringe", 35 ],
       [ "glowstick_dead", 15 ],
-      { "item": "cash_card", "prob": 5, "charges-min": 5, "charges-max": 5000 },
+      { "group": "cash_card", "prob": 5, "charges-min": 5, "charges-max": 5000 },
       [ "id_science", 3 ],
       [ "sandbox_kit", 5 ],
       [ "ear_spool", 15 ],

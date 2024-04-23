@@ -150,8 +150,8 @@
     "//2": "This group is for a messy junk drawer.  The idea is that it should be filled with random crud, much of it obvious trash.  Like you might find in the home of someone with a small hoarding problem.",
     "subtype": "collection",
     "entries": [
-      { "item": "cash_card", "count": [ 1, 3 ], "charges-min": 1, "charges-max": 1150 },
-      { "item": "cash_card", "count": [ 1, 4 ], "charges": 0 },
+      { "group": "cash_card", "count": [ 1, 3 ], "charges-min": 1, "charges-max": 1150 },
+      { "group": "cash_card", "count": [ 1, 4 ], "charges": 0 },
       { "item": "lighter", "prob": 90, "charges-min": 0, "charges-max": 2 },
       { "item": "bag_garbage", "prob": 95, "count": [ 1, 25 ] },
       { "item": "bottle_opener", "prob": 90 },
