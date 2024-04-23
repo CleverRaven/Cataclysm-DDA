@@ -513,6 +513,19 @@ class pocket_data
         // the contents of the pocket are visible
         bool transparent = false;
 
+        //MULTIMAG STARTS
+        std::set<ammotype> ammo_id;
+        itype_id subtype;//No idea what this does
+        std::vector<int> rand_charges;
+        int def_charges = 0;
+        int max_charges = 0;//Not needed?
+        int charge_factor = 1;//Needed?
+        int charges_per_use = 0;
+        units::power power_draw = 0_W;
+        int turns_per_charge = 0;
+        float fuel_efficiency = -1.0f;
+        //MULTIMAG END
+
         // a description of the pocket
         translation description;
 
