@@ -50,8 +50,8 @@
     "name": { "str": "shotshell, pyrotechnical", "str_pl": "shotshells, pyrotechnical" },
     "description": "A novelty shotgun shell filled with a simple pyrotechnical charge.  The payload is light and won't wound very well, but the flash and sparks will certainly be impressive, in addition to being an extreme fire hazard.",
     "proportional": {
-      "price": "2 cent",
-      "price_postapoc": "2 cent",
+      "price": 2,
+      "price_postapoc": 2,
       "damage": { "damage_type": "bullet", "amount": 0.2 },
       "recoil": 0.6,
       "loudness": 0.8,
