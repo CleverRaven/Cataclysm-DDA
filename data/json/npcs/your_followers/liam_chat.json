@@ -313,7 +313,7 @@
         "condition": { "u_has_mission": "MISSION_SCIENCE_REP_1" }
       },
       {
-        "text": "Sneaking into a lab to run some data analysis can't be bad right?",
+        "text": "Sneaking into a lab to run some data analysis can't be bad, right?",
         "topic": "TALK_Liam_Opinions_MISSION_SCIENCE_REP_2",
         "condition": { "u_has_mission": "MISSION_SCIENCE_REP_2" }
       },
@@ -1600,7 +1600,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_Liam_Opinions_MISSION_ISHERWOOD_JESSE_2",
-    "dynamic_line": "Fast, unidentified, monsters are killing the local wildlife, and we're going to get 'em.\"  He looks thoughtful.  \"I'm pretty sure this was an episode of the X-Files.  Or like, several episodes?  As long as we're Scully and Mulder we'll be fine, but if we're the local cops coming in to investigate, we're *toast*.  Just in case, let's make sure we've got our good gear.",
+    "dynamic_line": "Fast, unidentified monsters are killing the local wildlife, and we're going to get 'em.\"  He looks thoughtful.  \"I'm pretty sure this was an episode of the X-Files.  Or like, several episodes?  As long as we're Scully and Mulder we'll be fine, but if we're the local cops coming in to investigate, we're *toast*.  Just in case, let's make sure we've got our good gear.",
     "responses": [ { "text": "Will do, Scully.  I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
   },
   {
