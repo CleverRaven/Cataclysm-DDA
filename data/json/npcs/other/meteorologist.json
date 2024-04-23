@@ -55,15 +55,11 @@
     "type": "talk_topic",
     "id": [ "TALK_meteorologist_1" ],
     "dynamic_line": {
-      "npc_has_var": "u_helped_meteorologist",
-      "type": "flag",
-      "context": "mission",
+      "npc_has_var": "flag_mission_u_helped_meteorologist",
       "value": "yes",
       "yes": "Run, I need to run, where to run…",
       "no": {
-        "npc_has_var": "u_met_meteorologist",
-        "type": "general",
-        "context": "meeting",
+        "npc_has_var": "general_meeting_u_met_meteorologist",
         "value": "yes",
         "yes": {
           "gendered_line": "Air temperature, precipitation, but what about… oh, I'm sorry, I didn't notice you.  Hello.",
@@ -77,7 +73,7 @@
     },
     "speaker_effect": {
       "sentinel": "u_met_meteorologist",
-      "effect": [ { "npc_add_var": "u_met_meteorologist", "type": "general", "context": "meeting", "value": "yes" } ]
+      "effect": [ { "npc_add_var": "general_meeting_u_met_meteorologist", "value": "yes" } ]
     },
     "responses": [
       { "text": "About that job…", "condition": "has_assigned_mission", "topic": "TALK_MISSION_INQUIRE" },
@@ -85,7 +81,7 @@
       {
         "text": "Maybe I can help you with your problem?",
         "topic": "TALK_meteorologist_safety",
-        "condition": { "npc_has_var": "u_helped_meteorologist", "type": "flag", "context": "mission", "value": "yes" },
+        "condition": { "npc_has_var": "flag_mission_u_helped_meteorologist", "value": "yes" },
         "switch": true
       },
       {
@@ -95,10 +91,7 @@
           "type": "CONDITION",
           "condition": { "math": [ "time_since(n_time_mission_meteorologist_wait)", ">=", "time('2 d')" ] }
         },
-        "success": {
-          "effect": [ { "npc_lose_var": "meteorologist_wait", "type": "time", "context": "mission" } ],
-          "topic": "TALK_MISSION_LIST"
-        },
+        "success": { "effect": [ { "npc_lose_var": "time_mission_meteorologist_wait" } ], "topic": "TALK_MISSION_LIST" },
         "failure": { "topic": "TALK_meteorologist_wait" }
       },
       { "text": "Goodbye.", "topic": "TALK_DONE" }
@@ -298,10 +291,7 @@
         "place_monster": [ { "monster": "mon_mi_go", "x": [ 5, 15 ], "y": [ 5, 15 ], "repeat": [ 2, 5 ] } ]
       }
     },
-    "end": {
-      "effect": [ { "npc_add_var": "u_helped_meteorologist", "type": "flag", "context": "mission", "value": "yes" } ],
-      "opinion": { "trust": 4 }
-    },
+    "end": { "effect": [ { "npc_add_var": "flag_mission_u_helped_meteorologist", "value": "yes" } ], "opinion": { "trust": 4 } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "I've lost the drone, we should find out what happened…",

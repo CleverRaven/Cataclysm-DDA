@@ -2040,5 +2040,14 @@
     "name": { "str": "Scroll of Zoom Lens", "str_pl": "Scrolls of Zoom Lens" },
     "description": "Enchant a lens with the ability to see beyond the horizon.",
     "use_action": { "type": "learn_spell", "spells": [ "technomancer_far_sight" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_technomancer_pain_ignore",
+    "//": "Technomancer spell",
+    "name": { "str": "Scroll of The Body Mechanical", "str_pl": "Scrolls of The Body Mechanical" },
+    "description": "Grant yourself brief reprieves from the effects of pain.",
+    "use_action": { "type": "learn_spell", "spells": [ "technomancer_pain_ignore" ] }
   }
 ]

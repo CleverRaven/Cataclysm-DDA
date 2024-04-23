@@ -17,17 +17,15 @@
       {
         "text": "Want to come with me?",
         "topic": "TALK_GODCO_Corrie_Recruit",
-        "condition": { "npc_has_var": "godco_corrie_machine", "type": "mission", "context": "completed", "value": "yes" }
+        "condition": { "npc_has_var": "mission_completed_godco_corrie_machine", "value": "yes" }
       },
       {
         "text": "What needs to be done?",
         "topic": "TALK_GODCO_Corrie_Mission",
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "godco_corrie_machine", "type": "mission", "context": "completed", "value": "in-progress" } },
-            {
-              "not": { "npc_has_var": "godco_corrie_machine", "type": "mission", "context": "completed", "value": "yes" }
-            }
+            { "not": { "npc_has_var": "mission_completed_godco_corrie_machine", "value": "in-progress" } },
+            { "not": { "npc_has_var": "mission_completed_godco_corrie_machine", "value": "yes" } }
           ]
         }
       }
@@ -40,47 +38,47 @@
     "responses": [
       {
         "text": "I'm just passing through.",
-        "effect": { "npc_add_var": "u_met_godco_corrie", "type": "general", "context": "meeting", "value": "yes" },
+        "effect": { "npc_add_var": "general_meeting_u_met_godco_corrie", "value": "yes" },
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "u_met_godco_corrie", "type": "general", "context": "meeting", "value": "yes" } },
-            { "not": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" } },
-            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+            { "not": { "npc_has_var": "general_meeting_u_met_godco_corrie", "value": "yes" } },
+            { "not": { "u_has_var": "general_meeting_godco_joinee", "value": "yes" } },
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
         "topic": "TALK_GODCO_Corrie_FirstmeetA"
       },
       {
         "text": "Nice to meet you.",
-        "effect": { "npc_add_var": "u_met_godco_corrie", "type": "general", "context": "meeting", "value": "yes" },
+        "effect": { "npc_add_var": "general_meeting_u_met_godco_corrie", "value": "yes" },
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "u_met_godco_corrie", "type": "general", "context": "meeting", "value": "yes" } },
-            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } },
-            { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" }
+            { "not": { "npc_has_var": "general_meeting_u_met_godco_corrie", "value": "yes" } },
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } },
+            { "u_has_var": "general_meeting_godco_joinee", "value": "yes" }
           ]
         },
         "topic": "TALK_GODCO_Corrie_FirstmeetB"
       },
       {
         "text": "Nice to meet you.",
-        "effect": { "npc_add_var": "u_met_godco_corrie", "type": "general", "context": "meeting", "value": "yes" },
+        "effect": { "npc_add_var": "general_meeting_u_met_godco_corrie", "value": "yes" },
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "u_met_godco_corrie", "type": "general", "context": "meeting", "value": "yes" } },
-            { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" }
+            { "not": { "npc_has_var": "general_meeting_u_met_godco_corrie", "value": "yes" } },
+            { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" }
           ]
         },
         "topic": "TALK_GODCO_Corrie_FirstmeetC"
       },
       {
         "text": "Hey Corrie, you free?",
-        "condition": { "npc_has_var": "u_met_godco_corrie", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "npc_has_var": "general_meeting_u_met_godco_corrie", "value": "yes" },
         "topic": "TALK_GODCO_Corrie_2"
       },
       {
         "text": "Hey Corrie.  I gotta go.",
-        "condition": { "npc_has_var": "u_met_godco_corrie", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "npc_has_var": "general_meeting_u_met_godco_corrie", "value": "yes" },
         "topic": "TALK_DONE"
       }
     ]
@@ -143,8 +141,8 @@
         "topic": "TALK_GODCO_Corrie_Result_rewardIcon",
         "condition": {
           "and": [
-            { "u_has_var": "godco_machine_reward", "type": "mission", "context": "reward", "value": "icon" },
-            { "u_has_var": "unclaimed_machine_reward", "type": "mission", "context": "reward", "value": "yes" }
+            { "u_has_var": "mission_reward_godco_machine_reward", "value": "icon" },
+            { "u_has_var": "mission_reward_unclaimed_machine_reward", "value": "yes" }
           ]
         }
       },
@@ -153,8 +151,8 @@
         "topic": "TALK_GODCO_Corrie_Result_rewardRation",
         "condition": {
           "and": [
-            { "u_has_var": "godco_machine_reward", "type": "mission", "context": "reward", "value": "ration" },
-            { "u_has_var": "unclaimed_machine_reward", "type": "mission", "context": "reward", "value": "yes" }
+            { "u_has_var": "mission_reward_godco_machine_reward", "value": "ration" },
+            { "u_has_var": "mission_reward_unclaimed_machine_reward", "value": "yes" }
           ]
         }
       },
@@ -170,18 +168,18 @@
       {
         "text": "Sorry to hear that.  What were you saying before?",
         "effect": [
-          { "npc_add_var": "godco_corrie_machine", "type": "mission", "context": "completed", "value": "yes" },
-          { "u_add_var": "godco_corrie_machine", "type": "mission", "context": "completed", "value": "yes" },
-          { "u_lose_var": "unclaimed_machine_reward", "type": "mission", "context": "reward" }
+          { "npc_add_var": "mission_completed_godco_corrie_machine", "value": "yes" },
+          { "u_add_var": "mission_completed_godco_corrie_machine", "value": "yes" },
+          { "u_lose_var": "mission_reward_unclaimed_machine_reward" }
         ],
         "topic": "TALK_NONE"
       },
       {
         "text": "No rest for the weary…",
         "effect": [
-          { "npc_add_var": "godco_corrie_machine", "type": "mission", "context": "completed", "value": "yes" },
-          { "u_add_var": "godco_corrie_machine", "type": "mission", "context": "completed", "value": "yes" },
-          { "u_lose_var": "unclaimed_machine_reward", "type": "mission", "context": "reward" }
+          { "npc_add_var": "mission_completed_godco_corrie_machine", "value": "yes" },
+          { "u_add_var": "mission_completed_godco_corrie_machine", "value": "yes" },
+          { "u_lose_var": "mission_reward_unclaimed_machine_reward" }
         ],
         "topic": "TALK_DONE"
       }
@@ -196,9 +194,9 @@
         "text": "How about some food as payment?",
         "topic": "TALK_GODCO_Corrie_Result_rewardIcon1",
         "effect": [
-          { "npc_add_var": "godco_corrie_machine", "type": "mission", "context": "completed", "value": "yes" },
-          { "u_add_var": "godco_corrie_machine", "type": "mission", "context": "completed", "value": "yes" },
-          { "u_lose_var": "unclaimed_machine_reward", "type": "mission", "context": "reward" }
+          { "npc_add_var": "mission_completed_godco_corrie_machine", "value": "yes" },
+          { "u_add_var": "mission_completed_godco_corrie_machine", "value": "yes" },
+          { "u_lose_var": "mission_reward_unclaimed_machine_reward" }
         ]
       },
       {
@@ -206,20 +204,20 @@
         "topic": "TALK_TRAIN",
         "condition": "npc_train_skills",
         "effect": [
-          { "npc_add_var": "godco_corrie_machine", "type": "mission", "context": "completed", "value": "yes" },
-          { "u_add_var": "godco_corrie_machine", "type": "mission", "context": "completed", "value": "yes" },
-          { "u_lose_var": "unclaimed_machine_reward", "type": "mission", "context": "reward" }
+          { "npc_add_var": "mission_completed_godco_corrie_machine", "value": "yes" },
+          { "u_add_var": "mission_completed_godco_corrie_machine", "value": "yes" },
+          { "u_lose_var": "mission_reward_unclaimed_machine_reward" }
         ]
       },
       {
         "text": "Glad to help.  What were you saying before?",
         "topic": "TALK_NONE",
-        "effect": [ { "u_add_var": "godco_corrie_machine", "type": "mission", "context": "completed", "value": "yes" } ]
+        "effect": [ { "u_add_var": "mission_completed_godco_corrie_machine", "value": "yes" } ]
       },
       {
         "text": "Glad to help.  See you around, Corrie.",
         "topic": "TALK_DONE",
-        "effect": [ { "u_add_var": "godco_corrie_machine", "type": "mission", "context": "completed", "value": "yes" } ]
+        "effect": [ { "u_add_var": "mission_completed_godco_corrie_machine", "value": "yes" } ]
       }
     ]
   },

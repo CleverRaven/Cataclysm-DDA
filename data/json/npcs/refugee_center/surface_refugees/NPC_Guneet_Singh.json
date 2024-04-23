@@ -78,9 +78,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            {
-              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
-            }
+            { "not": { "npc_has_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" } }
           ]
         },
         "trial": { "type": "PERSUADE", "difficulty": 15 },
@@ -97,7 +95,7 @@
     "dynamic_line": "*is a young man in a white turban, surprisingly clean compared to the rest of his outfit.  He turns from the window as you approach, then raises his eyebrows when he sees you're a new face.  \"Oh, hello.  I don't think I've seen you around before.  I'm Guneet, people call me Gunny.\"",
     "speaker_effect": {
       "effect": [
-        { "u_add_var": "u_met_Guneet_Singh", "type": "general", "context": "meeting", "value": "yes" },
+        { "u_add_var": "general_meeting_u_met_Guneet_Singh", "value": "yes" },
         { "npc_first_topic": "TALK_REFUGEE_Guneet_1a" }
       ]
     },

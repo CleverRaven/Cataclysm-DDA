@@ -907,5 +907,26 @@
     "max_level": 25,
     "spell_class": "TECHNOMANCER",
     "energy_source": "MANA"
+  },
+  {
+    "id": "technomancer_pain_ignore",
+    "type": "SPELL",
+    "name": { "str": "The Body Mechanical" },
+    "description": "With a word of power, you spur your body to function as a machine would, partially ignoring the effects of pain for a brief moment.",
+    "valid_targets": [ "self" ],
+    "flags": [ "VERBAL", "NO_LEGS", "NO_HANDS" ],
+    "extra_effects": [ { "id": "eoc_enhancement_setup" } ],
+    "effect": "attack",
+    "effect_str": "effect_technomancer_pain_ignore",
+    "shape": "blast",
+    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(50)" ] },
+    "base_energy_cost": 25,
+    "energy_source": "BIONIC",
+    "spell_class": "TECHNOMANCER",
+    "difficulty": 4,
+    "max_level": 15,
+    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(1000)" ] },
+    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(2500)" ] },
+    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(100)" ] }
   }
 ]

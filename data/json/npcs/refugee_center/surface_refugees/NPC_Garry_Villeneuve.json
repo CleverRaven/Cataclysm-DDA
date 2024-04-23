@@ -80,9 +80,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            {
-              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
-            }
+            { "not": { "npc_has_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" } }
           ]
         },
         "trial": { "type": "PERSUADE", "difficulty": 25 },
@@ -99,7 +97,7 @@
     "dynamic_line": "*looks up at you with a gaunt face.  His loose clothes and sharp cheekbones suggest he recently lost a lot of weight.  \"Hi.  Hi there.\"  He scratches at a patchy beard of gray stubble.  \"I'm Garry, Garry Villeneuve.\"",
     "speaker_effect": {
       "effect": [
-        { "u_add_var": "u_met_Garry_Villeneuve", "type": "general", "context": "meeting", "value": "yes" },
+        { "u_add_var": "general_meeting_u_met_Garry_Villeneuve", "value": "yes" },
         { "npc_first_topic": "TALK_REFUGEE_Garry_1a" }
       ]
     },

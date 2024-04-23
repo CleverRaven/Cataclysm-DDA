@@ -106,7 +106,7 @@
       "gendered_line": "Like I said, I'm a businessman and business is my job.  Those other yahoos you've been talkin' to don't know what they're doing.",
       "relevant_genders": [ "npc" ]
     },
-    "speaker_effect": { "effect": { "u_add_var": "u_think_suspicious_price", "type": "general", "context": "trade", "value": "yes" } },
+    "speaker_effect": { "effect": { "u_add_var": "general_trade_u_think_suspicious_price", "value": "yes" } },
     "responses": [
       {
         "text": "Alright.  I'd like to buy something.",
@@ -127,7 +127,7 @@
     "type": "talk_topic",
     "id": "TALK_CARAVAN_MERCHANT_PREDATORY_Pricegouge_Win",
     "dynamic_line": "Woah woah woah, cool your jets.  I can't let this spread about me, so name your price and keep quiet, and I might give you a discount.",
-    "speaker_effect": { "effect": { "npc_add_var": "u_paidoff", "type": "general", "context": "meeting", "value": "yes" } },
+    "speaker_effect": { "effect": { "npc_add_var": "general_meeting_u_paidoff", "value": "yes" } },
     "responses": [
       { "text": "50 merch and you have a deal.", "effect": { "u_spawn_item": "FMCNote", "count": 50 }, "topic": "TALK_DONE" },
       {

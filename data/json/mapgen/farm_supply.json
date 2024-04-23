@@ -519,7 +519,7 @@
         "à": {
           "item": {
             "subtype": "collection",
-            "entries": [ { "group": "guns_rifle_common_display", "prob": 40 }, { "group": "guns_shotgun_common_display", "prob": 60 } ]
+            "entries": [ { "group": "guns_rifle_common_display", "prob": 60 }, { "group": "guns_shotgun_common_display", "prob": 40 } ]
           },
           "chance": 7,
           "repeat": [ 0, 2 ]

@@ -263,6 +263,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_falcarius",
+    "name": "falcarius egg",
+    "copy-from": "egg_dino_theropod",
+    "rot_spawn": "GROUP_EGG_falcarius"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_therizinosaurus",
     "name": "therizinosaurus egg",
     "copy-from": "egg_dino_theropod",

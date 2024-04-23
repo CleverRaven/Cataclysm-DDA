@@ -44,7 +44,7 @@
       "assign_mission_target": { "om_terrain": "field", "reveal_radius": 1, "random": true, "search_range": 15 },
       "update_mapgen": { "place_monster": [ { "monster": "mon_ant", "pack_size": [ 2, 2 ], "x": 8, "y": 8, "target": true } ] }
     },
-    "end": { "effect": [ { "npc_add_var": "ant_meat_tradeable", "type": "dialogue", "context": "trade", "value": "yes" } ] },
+    "end": { "effect": [ { "npc_add_var": "dialogue_trade_ant_meat_tradeable", "value": "yes" } ] },
     "has_generic_rewards": true,
     "dialogue": {
       "describe": "I need some help.",
@@ -216,7 +216,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "end": {
       "update_mapgen": { "om_terrain": "homelesscamp_npc", "place_nested": [ { "chunks": [ "homeless_camp_refurb_5" ], "x": 0, "y": 0 } ] },
-      "effect": [ { "npc_add_var": "smoked_meat_tradeable", "type": "dialogue", "context": "trade", "value": "yes" } ]
+      "effect": [ { "npc_add_var": "dialogue_trade_smoked_meat_tradeable", "value": "yes" } ]
     },
     "has_generic_rewards": true,
     "dialogue": {

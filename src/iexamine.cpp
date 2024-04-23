@@ -196,6 +196,7 @@ static const json_character_flag json_flag_GLIDE( "GLIDE" );
 static const json_character_flag json_flag_LEVITATION( "LEVITATION" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_SAFECRACK_NO_TOOL( "SAFECRACK_NO_TOOL" );
+static const json_character_flag json_flag_WING_ARM( "WING_ARM" );
 static const json_character_flag json_flag_WING_GLIDE( "WING_GLIDE" );
 
 static const material_id material_bone( "bone" );
@@ -5420,8 +5421,10 @@ void iexamine::ledge( Character &you, const tripoint &examp )
     cmenu.addentry( ledge_jump_across, jump_target_valid, 'j',
                     ( jump_target_valid ? _( "Jump across." ) : _( "Can't jump across (need a small gap)." ) ) );
     cmenu.addentry( ledge_fall_down, true, 'f', _( "Fall down." ) );
-    if( you.has_trait_flag( json_flag_GLIDE ) || you.has_trait_flag( json_flag_WING_GLIDE ) ) {
-        cmenu.addentry( ledge_glide, true, 'g', _( "Glide away." ) );
+    if( you.has_flag( json_flag_GLIDE ) || you.has_flag( json_flag_WING_GLIDE ) ||
+        you.has_bodypart_with_flag( json_flag_WING_ARM ) ) {
+        cmenu.addentry( ledge_glide, you.can_fly(), 'g',
+                        ( you.can_fly() ? _( "Glide away." ) : _( "You can't glide in your current state" ) ) );
     }
     cmenu.query();
 
@@ -5509,43 +5512,30 @@ void iexamine::ledge( Character &you, const tripoint &examp )
             break;
         }*/
         case ledge_glide: {
-            // If player is grabbed, trapped, or somehow otherwise movement-impeded, first try to break free
-            if( !you.move_effects( false ) ) {
-                you.mod_moves( -to_moves<int>( 1_seconds ) );
-                return;
+            int glide_distance = 5;
+            const weather_manager &weather = get_weather();
+            add_msg( m_info, _( "You soar away from the ledge." ) );
+            int angledifference = std::abs( weather.winddirection - jump_direction * 45 );
+            // Handle cases where the difference wraps around due to compass directions
+            angledifference = std::min( angledifference, 360 - angledifference );
+            if( angledifference <= 45 && weather.windspeed >= 12 ) {
+                add_msg( m_warning, _( "Your glide is aided by a tailwind." ) );
+                glide_distance += 1;
             }
-            // The carried weight check here is redundant, but we do it anyway for better player feedback
-            if( 100 * you.weight_carried() / you.weight_capacity() > 50 &&
-                you.has_trait_flag( json_flag_WING_GLIDE ) ) {
-                add_msg( m_warning, _( "You are carrying too much to glide." ) );
-            } else if( !you.can_fly() ) {
-                add_msg( m_warning, _( "You can't manage to get airborne in your current state." ) );
-            } else {
-                int glide_distance = 5;
-                const weather_manager &weather = get_weather();
-                add_msg( m_info, _( "You soar away from the ledge." ) );
-                int angledifference = std::abs( weather.winddirection - jump_direction * 45 );
-                // Handle cases where the difference wraps around due to compass directions
-                angledifference = std::min( angledifference, 360 - angledifference );
-                if( angledifference <= 45 && weather.windspeed >= 12 ) {
-                    add_msg( m_warning, _( "Your glide is aided by a tailwind." ) );
-                    glide_distance += 1;
-                }
-                // Check if the directions are greater than 135 degrees apart
-                else if( angledifference >= 135 && weather.windspeed >= 12 ) {
-                    add_msg( m_warning, _( "Your glide is hindered by a headwind." ) );
-                    glide_distance -= 1;
-                }
-                if( jump_direction == 1 || jump_direction == 3 || jump_direction == 5 || jump_direction == 7 ) {
-                    glide_distance = std::round( 0.7 * glide_distance );
-                }
-                you.as_avatar()->grab( object_type::NONE );
-                glide_activity_actor glide( &you, jump_direction, glide_distance );
-                you.remove_effect( effect_bouldering );
-                you.assign_activity( glide );
-                you.add_effect( effect_gliding, 1_turns, true );
-                you.setpos( examp );
+            // Check if the directions are greater than 135 degrees apart
+            else if( angledifference >= 135 && weather.windspeed >= 12 ) {
+                add_msg( m_warning, _( "Your glide is hindered by a headwind." ) );
+                glide_distance -= 1;
             }
+            if( jump_direction == 1 || jump_direction == 3 || jump_direction == 5 || jump_direction == 7 ) {
+                glide_distance = std::round( 0.7 * glide_distance );
+            }
+            you.as_avatar()->grab( object_type::NONE );
+            glide_activity_actor glide( &you, jump_direction, glide_distance );
+            you.remove_effect( effect_bouldering );
+            you.assign_activity( glide );
+            you.add_effect( effect_gliding, 1_turns, true );
+            you.setpos( examp );
             break;
         }
         case ledge_fall_down: {
