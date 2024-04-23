@@ -95,7 +95,7 @@
         "condition": { "u_is_wearing": "badge_marshal" }
       },
       {
-        "text": "… (Leave)",
+        "text": "…(Leave)",
         "topic": "TALK_DONE",
         "effect": { "npc_first_topic": "TALK_ISHERWOOD_CARLOS_SawMarshal" },
         "opinion": { "trust": -20, "value": -20 },
@@ -119,7 +119,7 @@
           "and": [ { "u_has_var": "u_learned_barry_missing", "value": "yes" }, { "not": { "u_is_wearing": "badge_marshal" } } ]
         }
       },
-      { "text": "… (Leave)", "topic": "TALK_DONE" }
+      { "text": "…(Leave)", "topic": "TALK_DONE" }
     ]
   },
   {

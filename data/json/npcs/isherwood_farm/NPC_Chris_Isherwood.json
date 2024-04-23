@@ -79,7 +79,7 @@
     },
     "responses": [
       {
-        "text": "… (Leave)",
+        "text": "…(Leave)",
         "topic": "TALK_LEAVE_NOW_MARSHAL_CHRIS",
         "effect": { "u_add_var": "isherwood_chris_marshal_badge", "value": "seen" },
         "opinion": { "trust": -5, "value": -5 },
