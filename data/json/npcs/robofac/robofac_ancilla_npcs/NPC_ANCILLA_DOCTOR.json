@@ -25,7 +25,7 @@
     "shopkeeper_price_rules": [
       { "group": "NC_ANCILLA_DOCTOR_stock", "premium": 2.0 },
       { "group": "NC_ANCILLA_DOCTOR_EXPENSIVE_ITEMS", "premium": 6.0 },
-      { "item": "RobofacCoin", "price": "50 USD", "fixed_adj": 0 }
+      { "item": "RobofacCoin", "price": 5000, "fixed_adj": 0 }
     ],
     "skills": [
       {
