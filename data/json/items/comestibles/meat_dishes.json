@@ -567,7 +567,7 @@
     "weight": "56 g",
     "color": "red",
     "spoils_in": "2 days 12 hours",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 180,
