@@ -10340,11 +10340,7 @@
     "time": "45 s",
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
-    "components": [
-      [ [ "poultry_scrap", 1 ] ],
-      [ [ "pepper", 1 ] ],
-      [ [ "salt", 1 ], [ "seasoning_salt", 1 ] ]
-    ]
+    "components": [ [ [ "poultry_scrap", 1 ] ], [ [ "pepper", 1 ] ], [ [ "salt", 1 ], [ "seasoning_salt", 1 ] ] ]
   },
   {
     "type": "recipe",
