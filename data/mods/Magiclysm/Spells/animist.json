@@ -1073,10 +1073,7 @@
     "description": "I cast Magic... Fissile?  At the darkness?",
     "valid_targets": [ "hostile" ],
     "flags": [ "VERBAL", "SOMATIC", "NO_LEGS", "SILENT", "NO_PROJECTILE" ],
-    "extra_effects": [
-      { "id": "animist_radiation_bolt", "hit_self": false },
-      { "id": "eoc_evocation_setup" }
-    ],
+    "extra_effects": [ { "id": "animist_radiation_bolt", "hit_self": false }, { "id": "eoc_evocation_setup" } ],
     "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(1, 0.2)" ] },
     "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(1.5, 0.083)" ] },
     "damage_type": "necrotic",

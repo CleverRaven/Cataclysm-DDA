@@ -1181,7 +1181,10 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "green",
-    "use_action": { "type": "learn_spell", "spells": [ "summon_bear", "druid_tornskin", "stormshaper_cloak_of_frog", "animist_magic_fissile" ] }
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "summon_bear", "druid_tornskin", "stormshaper_cloak_of_frog", "animist_magic_fissile" ]
+    }
   },
   {
     "id": "biomancy_fasting_spellbook",
