@@ -10315,7 +10315,7 @@
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "//": "I guess I'm copying whatever meat does",
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
-    "components": [ [ [ "poultry_raw_steak", 1, "LIST" ] ] ]
+    "components": [ [ [ "poultry", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -10330,7 +10330,7 @@
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
-    "components": [ [ [ "poultry_raw_steak", 1, "LIST" ] ], [ [ "pepper", 1 ] ], [ [ "salt", 1 ], [ "seasoning_salt", 1 ] ] ]
+    "components": [ [ [ "poultry", 1 ] ], [ [ "pepper", 1 ] ], [ [ "salt", 1 ], [ "seasoning_salt", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -10341,7 +10341,7 @@
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
     "components": [
-      [ [ "poultry_scrap", 1 ], [ "poultry_fatty_scrap", 1 ] ],
+      [ [ "poultry_scrap", 1 ] ],
       [ [ "pepper", 1 ] ],
       [ [ "salt", 1 ], [ "seasoning_salt", 1 ] ]
     ]

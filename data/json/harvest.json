@@ -1142,7 +1142,7 @@
     "id": "waterfowl_tiny",
     "type": "harvest",
     "entries": [
-      { "drop": "poultry_fatty_scrap", "type": "flesh", "mass_ratio": 0.4 },
+      { "drop": "poultry_scrap", "type": "flesh", "mass_ratio": 0.4 },
       { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "feather", "type": "skin", "mass_ratio": 0.01 },
       { "drop": "down_feather", "type": "skin", "mass_ratio": 0.005 }
@@ -1152,9 +1152,9 @@
     "id": "waterfowl_small",
     "type": "harvest",
     "entries": [
-      { "drop": "poultry_fatty", "type": "flesh", "mass_ratio": 0.3 },
+      { "drop": "poultry", "type": "flesh", "mass_ratio": 0.3 },
       { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
-      { "drop": "poultry_fatty_scrap", "type": "flesh", "mass_ratio": 0.05 },
+      { "drop": "poultry_scrap", "type": "flesh", "mass_ratio": 0.05 },
       { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
       { "drop": "feather", "type": "skin", "mass_ratio": 0.01 },
       { "drop": "down_feather", "type": "skin", "mass_ratio": 0.005 }
@@ -1164,15 +1164,15 @@
     "id": "waterfowl_large",
     "type": "harvest",
     "entries": [
-      { "drop": "poultry_fatty", "type": "flesh", "mass_ratio": 0.3 },
+      { "drop": "poultry", "type": "flesh", "mass_ratio": 0.3 },
       { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
-      { "drop": "poultry_fatty_scrap", "type": "flesh", "mass_ratio": 0.03 },
+      { "drop": "poultry_scrap", "type": "flesh", "mass_ratio": 0.03 },
       { "drop": "fat", "type": "flesh", "mass_ratio": 0.18 },
       { "drop": "feather", "type": "skin", "mass_ratio": 0.02 },
       { "drop": "down_feather", "type": "skin", "mass_ratio": 0.01 },
       { "drop": "bone", "type": "bone", "mass_ratio": 0.1 }
     ]
-  }
+  },
   {
     "id": "mutant_bird",
     "type": "harvest",
