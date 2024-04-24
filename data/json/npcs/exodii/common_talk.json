@@ -73,12 +73,10 @@
     "value": 0,
     "start": {
       "assign_mission_target": {
-        "om_special": "exo_warehouse",
+        "om_special": "Strange warehouse",
         "om_terrain": "exo_warehouse_1",
         "reveal_radius": 2,
-        "search_range": 1000,
-        "offset_x": { "math": [ "rng(-5, 5)" ] },
-        "offset_y": { "math": [ "rng(-5, 5)" ] }
+        "search_range": 1000
       }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -107,9 +105,7 @@
         "om_special": "Out-of-place Stone Barn",
         "om_terrain": "exo_safehouse_stone_0",
         "reveal_radius": 2,
-        "search_range": 1000,
-        "offset_x": { "math": [ "rng(-5, 5)" ] },
-        "offset_y": { "math": [ "rng(-5, 5)" ] }
+        "search_range": 1000
       }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -138,9 +134,7 @@
         "om_special": "Mi-Go Scout Tower",
         "om_terrain": "mi-go_scout_tower_3",
         "reveal_radius": 2,
-        "search_range": 1000,
-        "offset_x": { "math": [ "rng(-5, 5)" ] },
-        "offset_y": { "math": [ "rng(-5, 5)" ] }
+        "search_range": 1000
       }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -169,9 +163,7 @@
         "om_special": "desolate barn",
         "om_terrain": "desolatebarn",
         "reveal_radius": 2,
-        "search_range": 1000,
-        "offset_x": { "math": [ "rng(-5, 5)" ] },
-        "offset_y": { "math": [ "rng(-5, 5)" ] }
+        "search_range": 1000
       }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
