@@ -1,14 +1,41 @@
 [
   {
     "type": "talk_topic",
+	"//": "Common topic responses for anyone who can give directions.  Also serves as a list of what NPCs can give these directions.",
+    "id": [
+      "TALK_EVAC_MERCHANT_EXODII_MISSION_WAREHOUSE",
+      "TALK_FREE_MERCHANT_TEAMSTER_EXODII_MISSION_WAREHOUSE",
+      "TALK_NPC_SCRAP_TRADER_EXODII_MISSION_WAREHOUSE"
+    ],
+    "responses": [
+      {
+        "text": "Can you give me directions?",
+        "topic": "TALK_Directions_exodii_true",
+        "condition": { "npc_has_var": "exodii_mission_wh_correct", "value": "yes" }
+      },
+      {
+        "text": "Can you give me directions?",
+        "topic": "TALK_Directions_exodii_false",
+        "condition": { "npc_has_var": "exodii_mission_wh_correct", "value": "alternate" },
+        "effect": [
+          { "math": [ "exodii_mission_wh_chance", "-=", "1" ] },
+          { "math": [ "exodii_mission_wh_chance", "=", "max( exodii_mission_wh_chance, 1 )" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_Directions_exodii_true",
+    "//": "For exodii 'find warehouse' mission, used by NPCs giving directions.",
     "dynamic_line": "&You listen to the directions, and jot them down in your map.",
     "speaker_effect": { "effect": { "assign_mission": "mission_exodii_wh_directions" } },
     "responses": [ { "text": "Thanks.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
-    "id": "TALK_Directions_exodii_true",
+    "id": "TALK_Directions_exodii_false",
+    "//": "For exodii 'find warehouse' mission, used by NPCs giving directions.",
     "dynamic_line": "&You listen to the directions, and jot them down in your map.",
     "speaker_effect": {
       "effect": {

@@ -258,20 +258,7 @@
     "speaker_effect": { "effect": { "npc_add_var": "asked_about_exodii_warehouse_mission", "value": "yes" } },
     "responses": [
       {
-        "text": "Where is it?",
-        "topic": "TALK_Directions_exodii_true",
-        "condition": { "npc_has_var": "exodii_mission_wh_correct", "value": "yes" }
-      },
-      {
-        "text": "Where is it?",
-        "topic": "TALK_Directions_exodii_false",
-        "condition": { "npc_has_var": "exodii_mission_wh_correct", "value": "alternate" },
-        "effect": [
-          { "math": [ "exodii_mission_wh_chance", "-=", "1" ] },
-          { "math": [ "exodii_mission_wh_chance", "=", "max( exodii_mission_wh_chance, 1 )" ] }
-        ]
-      },
-      {
+        "//": "The other responses are stored in common_talk.json in the exodii folder, to avoid repetition.",
         "text": "Oh well.  Thanks anyway.  I'll go ask around.",
         "topic": "TALK_DONE",
         "condition": { "npc_has_var": "exodii_mission_wh_correct", "value": "no" },
