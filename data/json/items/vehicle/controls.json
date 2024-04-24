@@ -11,8 +11,8 @@
     "material": [ "plastic" ],
     "volume": "4 L",
     "category": "veh_parts",
-    "price": 10000,
-    "price_postapoc": 1250,
+    "price": "100 USD",
+    "price_postapoc": "12 USD 50 cent",
     "flags": [ "WATER_BREAK", "ELECTRONIC" ]
   },
   {
@@ -27,8 +27,8 @@
     "material": [ "plastic" ],
     "volume": "2 L",
     "category": "veh_parts",
-    "price": 10000,
-    "price_postapoc": 750,
+    "price": "100 USD",
+    "price_postapoc": "7 USD 50 cent",
     "flags": [ "WATER_BREAK", "ELECTRONIC" ]
   },
   {
@@ -41,8 +41,8 @@
     "weight": "1400 g",
     "to_hit": -5,
     "material": [ "steel", "plastic" ],
-    "price": 20000,
-    "price_postapoc": 1500
+    "price": "200 USD",
+    "price_postapoc": "15 USD"
   },
   {
     "type": "GENERIC",
@@ -56,8 +56,8 @@
     "material": [ "plastic", "steel" ],
     "volume": "3 L",
     "category": "veh_parts",
-    "price": 40000,
-    "price_postapoc": 500,
+    "price": "400 USD",
+    "price_postapoc": "5 USD",
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "melee_damage": { "bash": 2 }
   },
@@ -69,8 +69,8 @@
     "description": "A set of leather bindings to control a mountable creature.",
     "weight": "500 g",
     "volume": "1200 ml",
-    "price": 30000,
-    "price_postapoc": 1000,
+    "price": "300 USD",
+    "price_postapoc": "10 USD",
     "to_hit": -2,
     "material": [ "leather" ],
     "symbol": "W",
@@ -90,8 +90,8 @@
     "material": [ "plastic", "steel" ],
     "volume": "10 L",
     "category": "veh_parts",
-    "price": 8000,
-    "price_postapoc": 250,
+    "price": "80 USD",
+    "price_postapoc": "2 USD 50 cent",
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "melee_damage": { "bash": 1 }
   },
@@ -105,8 +105,8 @@
     "to_hit": -4,
     "material": [ "plastic" ],
     "volume": "1500 ml",
-    "price": 4000,
-    "price_postapoc": 250,
+    "price": "40 USD",
+    "price_postapoc": "2 USD 50 cent",
     "flags": [ "WATER_BREAK", "ELECTRONIC" ]
   },
   {
@@ -117,8 +117,8 @@
     "weight": "3000 g",
     "color": "red",
     "volume": "3750 ml",
-    "price": 200000,
-    "price_postapoc": 1500,
+    "price": "2 kUSD",
+    "price_postapoc": "15 USD",
     "copy-from": "vehicle_controls",
     "melee_damage": { "bash": 1 }
   },
@@ -131,8 +131,8 @@
     "color": "white",
     "symbol": "&",
     "volume": "5 L",
-    "price": 20000,
-    "price_postapoc": 1000,
+    "price": "200 USD",
+    "price_postapoc": "10 USD",
     "copy-from": "vehicle_controls",
     "melee_damage": { "bash": 1 }
   },
@@ -145,8 +145,8 @@
     "color": "white",
     "symbol": "&",
     "volume": "9 L",
-    "price": 500000,
-    "price_postapoc": 3000,
+    "price": "5 kUSD",
+    "price_postapoc": "30 USD",
     "copy-from": "vehicle_controls"
   },
   {
@@ -161,8 +161,8 @@
     "material": [ "steel" ],
     "volume": "740 ml",
     "category": "veh_parts",
-    "price": 40000,
-    "price_postapoc": 40,
+    "price": "400 USD",
+    "price_postapoc": "40 cent",
     "melee_damage": { "bash": 3 }
   },
   {
@@ -177,8 +177,8 @@
     "material": [ "rubber", "steel" ],
     "volume": "740 ml",
     "category": "veh_parts",
-    "price": 10000,
-    "price_postapoc": 40,
+    "price": "100 USD",
+    "price_postapoc": "40 cent",
     "melee_damage": { "bash": 3 }
   },
   {
@@ -193,8 +193,8 @@
     "material": [ "wood" ],
     "volume": "656 ml",
     "category": "veh_parts",
-    "price": 2000,
-    "price_postapoc": 20,
+    "price": "20 USD",
+    "price_postapoc": "20 cent",
     "melee_damage": { "bash": 1 }
   }
 ]

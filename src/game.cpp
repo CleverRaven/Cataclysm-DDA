@@ -1843,13 +1843,11 @@ static hint_rating rate_action_disassemble( avatar &you, const item &it )
 
 static hint_rating rate_action_view_recipe( avatar &you, const item &it )
 {
-    const inventory &inven = you.crafting_inventory();
-    const std::vector<Character *> helpers = you.get_crafting_group();
     if( it.is_craft() ) {
         const recipe &craft_recipe = it.get_making();
         if( craft_recipe.is_null() || !craft_recipe.ident().is_valid() ) {
             return hint_rating::cant;
-        } else if( you.get_available_recipes( inven, &helpers ).contains( &craft_recipe ) ) {
+        } else if( you.get_group_available_recipes().contains( &craft_recipe ) ) {
             return hint_rating::good;
         }
     } else {
@@ -1860,8 +1858,8 @@ static hint_rating rate_action_view_recipe( avatar &you, const item &it )
         for( const auto& [_, r] : recipe_dict ) {
             if( !r.obsolete && ( item == r.result() || r.in_byproducts( item ) ) ) {
                 is_byproduct = true;
-                // If if exists, do I know it?
-                if( you.get_available_recipes( inven, &helpers ).contains( &r ) ) {
+                // If a recipe exists, does my group know it?
+                if( you.get_group_available_recipes().contains( &r ) ) {
                     can_craft = true;
                     break;
                 }

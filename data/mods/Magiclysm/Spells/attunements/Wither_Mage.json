@@ -8,8 +8,8 @@
     "shape": "blast",
     "valid_targets": [ "none" ],
     "flags": [ "SILENT" ],
-    "min_range": { "math": [ "conveyance_proficiency_bonus_calculate(8)" ] },
-    "max_range": { "math": [ "conveyance_proficiency_bonus_calculate(8)" ] }
+    "min_range": { "math": [ "conveyance_proficiency_bonus_calculate(8, 0.053)" ] },
+    "max_range": { "math": [ "conveyance_proficiency_bonus_calculate(8, 0.053)" ] }
   },
   {
     "type": "SPELL",
