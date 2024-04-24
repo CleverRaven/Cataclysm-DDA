@@ -90,10 +90,10 @@ void uilist_impl::draw_controls()
             ImGui::Text( "%c", '[' );
             ImGui::SameLine( 0, 0 );
             auto color = is_selected ? parent.hilight_color : parent.hotkey_color;
-            draw_colored_text( entry.hotkey.value().short_description(),
-                               color );
-            ImGui::SameLine( 0, 0 );
-            ImGui::Text( "%c", ']' );
+            cataimgui::draw_colored_text(entry.hotkey.value().short_description(),
+                color);
+            ImGui::SameLine(0, 0);
+            ImGui::Text("%c", ']');
             ImGui::SameLine();
         }
         nc_color color = ( is_selected ?
@@ -101,8 +101,7 @@ void uilist_impl::draw_controls()
                            ( entry.enabled || entry.force_color ?
                              entry.text_color :
                              parent.disabled_color ) );
-        draw_colored_text( entry.txt,
-                           color );
+        cataimgui::draw_colored_text(entry.txt, color);
         ImGui::PopID();
     }
 
