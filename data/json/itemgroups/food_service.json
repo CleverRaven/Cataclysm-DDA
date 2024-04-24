@@ -1698,7 +1698,6 @@
       { "//": "???" },
       { "prob": 2, "group": "sugar_bottle_glass" },
       { "prob": 4, "group": "sugar_bag_plastic" },
-      { "prob": 2, "group": "sugar_bag_canvas" },
       { "prob": 1, "group": "sugar_bag_paper" }
     ]
   },
@@ -1713,7 +1712,6 @@
       { "prob": 10, "item": "sugar", "container-item": "bottle_glass_seasoning_small", "count": 40 },
       { "prob": 5, "item": "sugar", "container-item": "bottle_plastic_seasoning", "count": 80 },
       { "prob": 5, "item": "sugar", "container-item": "bottle_glass_seasoning", "count": 80 },
-      { "prob": 2, "item": "sugar", "container-item": "bag_canvas_small", "count": 160 },
       { "prob": 4, "item": "sugar", "container-item": "bag_paper_powder", "count": 400 }
     ]
   },
@@ -1723,11 +1721,11 @@
     "//": "This group was created by a fool and may contain errors.",
     "subtype": "distribution",
     "entries": [
-      { "prob": 15, "group": "sugar_bottle_plastic" },
-      { "prob": 15, "group": "sugar_bottle_glass" },
-      { "prob": 4, "group": "sugar_bag_plastic" },
-      { "prob": 8, "group": "sugar_bag_canvas" },
-      { "prob": 5, "group": "sugar_bag_paper" }
+      { "prob": 20, "group": "sugar_bottle_plastic" },
+      { "prob": 20, "group": "sugar_bottle_glass" },
+      { "prob": 5, "group": "sugar_bag_plastic" },
+      { "prob": 10, "group": "sugar_bag_paper" },
+      { "prob": 2, "group": "sugar_bag_paper_bulk" }
     ]
   },
   {
@@ -1772,19 +1770,19 @@
   },
   {
     "type": "item_group",
-    "id": "sugar_bag_canvas",
-    "subtype": "collection",
-    "//": "This group was created by a fool and may contain errors.",
-    "container-item": "bag_canvas_small",
-    "entries": [ { "item": "sugar", "container-item": "null", "count": [ 20, 160 ] } ]
-  },
-  {
-    "type": "item_group",
     "id": "sugar_bag_paper",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_paper_powder",
     "entries": [ { "item": "sugar", "container-item": "null", "count": [ 25, 400 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "sugar_bag_paper_bulk",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bag_paper_powder_bulk",
+    "entries": [ { "item": "sugar", "container-item": "null", "count": [ 30, 1600 ] } ]
   },
   {
     "type": "item_group",
@@ -1912,15 +1910,10 @@
     "entries": [
       { "prob": 18, "group": "salt_bottle_plastic_small" },
       { "prob": 18, "group": "salt_bottle_glass_small" },
-      { "//": "250ml" },
       { "prob": 2, "group": "salt_bottle_plastic" },
       { "prob": 2, "group": "salt_bottle_glass" },
       { "prob": 4, "group": "salt_bag_plastic" },
-      { "//": "500ml" },
-      { "prob": 2, "group": "salt_bag_canvas" },
-      { "//": "1000ml" },
-      { "prob": 1, "group": "salt_bag_paper" },
-      { "//": "2500ml" }
+      { "prob": 1, "group": "salt_bag_paper" }
     ]
   },
   {
@@ -1933,7 +1926,6 @@
       { "prob": 10, "item": "salt", "container-item": "bottle_glass_seasoning_small", "count": 50 },
       { "prob": 4, "item": "salt", "container-item": "bottle_plastic_seasoning", "count": 100 },
       { "prob": 4, "item": "salt", "container-item": "bottle_glass_seasoning", "count": 100 },
-      { "prob": 2, "item": "salt", "container-item": "bag_canvas_small", "count": 200 },
       { "prob": 1, "item": "salt", "container-item": "bag_paper_powder", "count": 500 }
     ]
   },
@@ -1943,11 +1935,11 @@
     "//": "This group was created by a fool and may contain errors.",
     "subtype": "distribution",
     "entries": [
-      { "prob": 15, "group": "salt_bottle_plastic" },
-      { "prob": 15, "group": "salt_bottle_glass" },
-      { "prob": 4, "group": "salt_bag_plastic" },
-      { "prob": 8, "group": "salt_bag_canvas" },
-      { "prob": 5, "group": "salt_bag_paper" }
+      { "prob": 20, "group": "salt_bottle_plastic" },
+      { "prob": 20, "group": "salt_bottle_glass" },
+      { "prob": 5, "group": "salt_bag_plastic" },
+      { "prob": 10, "group": "salt_bag_paper" },
+      { "prob": 2, "group": "salt_bag_paper_bulk" }
     ]
   },
   {
@@ -1992,19 +1984,19 @@
   },
   {
     "type": "item_group",
-    "id": "salt_bag_canvas",
-    "subtype": "collection",
-    "//": "This group was created by a fool and may contain errors.",
-    "container-item": "bag_canvas_small",
-    "entries": [ { "item": "salt", "container-item": "null", "count": [ 20, 200 ] } ]
-  },
-  {
-    "type": "item_group",
     "id": "salt_bag_paper",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_paper_powder",
     "entries": [ { "item": "salt", "container-item": "null", "count": [ 25, 500 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "salt_bag_paper_bulk",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bag_paper_powder_bulk",
+    "entries": [ { "item": "salt", "container-item": "null", "count": [ 25, 2000 ] } ]
   },
   {
     "type": "item_group",
@@ -2025,7 +2017,6 @@
       { "prob": 6, "group": "seasoning_salt_bottle_plastic" },
       { "prob": 6, "group": "seasoning_salt_bottle_glass" },
       { "prob": 2, "group": "seasoning_salt_bag_plastic" },
-      { "prob": 2, "group": "seasoning_salt_bag_canvas" },
       { "prob": 2, "group": "seasoning_salt_bag_paper" }
     ]
   },
@@ -2039,7 +2030,6 @@
       { "prob": 10, "item": "seasoning_salt", "container-item": "bottle_glass_seasoning_small", "count": 50 },
       { "prob": 4, "item": "seasoning_salt", "container-item": "bottle_plastic_seasoning", "count": 100 },
       { "prob": 4, "item": "seasoning_salt", "container-item": "bottle_glass_seasoning", "count": 100 },
-      { "prob": 2, "item": "seasoning_salt", "container-item": "bag_canvas_small", "count": 200 },
       { "prob": 1, "item": "seasoning_salt", "container-item": "bag_paper_powder", "count": 500 }
     ]
   },
@@ -2049,11 +2039,11 @@
     "//": "This group was created by a fool and may contain errors.",
     "subtype": "distribution",
     "entries": [
-      { "prob": 15, "group": "seasoning_salt_bottle_plastic" },
-      { "prob": 15, "group": "seasoning_salt_bottle_glass" },
-      { "prob": 4, "group": "seasoning_salt_bag_plastic" },
-      { "prob": 8, "group": "seasoning_salt_bag_canvas" },
-      { "prob": 5, "group": "seasoning_salt_bag_paper" }
+      { "prob": 20, "group": "seasoning_salt_bottle_plastic" },
+      { "prob": 20, "group": "seasoning_salt_bottle_glass" },
+      { "prob": 5, "group": "seasoning_salt_bag_plastic" },
+      { "prob": 10, "group": "seasoning_salt_bag_paper" },
+      { "prob": 1, "group": "seasoning_salt_bag_paper_bulk" }
     ]
   },
   {
@@ -2098,19 +2088,19 @@
   },
   {
     "type": "item_group",
-    "id": "seasoning_salt_bag_canvas",
-    "subtype": "collection",
-    "//": "This group was created by a fool and may contain errors.",
-    "container-item": "bag_canvas_small",
-    "entries": [ { "item": "seasoning_salt", "container-item": "null", "count": [ 20, 200 ] } ]
-  },
-  {
-    "type": "item_group",
     "id": "seasoning_salt_bag_paper",
     "subtype": "collection",
     "//": "This group was created by a fool and may contain errors.",
     "container-item": "bag_paper_powder",
     "entries": [ { "item": "seasoning_salt", "container-item": "null", "count": [ 20, 500 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "seasoning_salt_bag_paper_bulk",
+    "subtype": "collection",
+    "//": "This group was created by a fool and may contain errors.",
+    "container-item": "bag_paper_powder_bulk",
+    "entries": [ { "item": "seasoning_salt", "container-item": "null", "count": [ 30, 2000 ] } ]
   },
   {
     "type": "item_group",
@@ -2123,7 +2113,6 @@
       { "prob": 6, "group": "seasoning_italian_bottle_plastic" },
       { "prob": 6, "group": "seasoning_italian_bottle_glass" },
       { "prob": 2, "group": "seasoning_italian_bag_plastic" },
-      { "prob": 2, "group": "seasoning_italian_bag_canvas" },
       { "prob": 2, "group": "seasoning_italian_bag_paper" }
     ]
   },
@@ -2137,7 +2126,6 @@
       { "prob": 10, "item": "seasoning_italian", "container-item": "bottle_glass_seasoning_small", "count": 50 },
       { "prob": 4, "item": "seasoning_italian", "container-item": "bottle_plastic_seasoning", "count": 100 },
       { "prob": 4, "item": "seasoning_italian", "container-item": "bottle_glass_seasoning", "count": 100 },
-      { "prob": 2, "item": "seasoning_italian", "container-item": "bag_canvas_small", "count": 200 },
       { "prob": 1, "item": "seasoning_italian", "container-item": "bag_paper_powder", "count": 500 }
     ]
   },
@@ -2147,14 +2135,11 @@
     "//": "This group was created by a fool and may contain errors.",
     "subtype": "distribution",
     "entries": [
-      { "prob": 15, "group": "seasoning_italian_bottle_plastic" },
-      { "prob": 15, "group": "seasoning_italian_bottle_glass" },
-      { "prob": 4, "group": "seasoning_italian_bag_plastic" },
-      { "//": "500ml" },
-      { "prob": 8, "group": "seasoning_italian_bag_canvas" },
-      { "//": "1000ml" },
-      { "prob": 5, "group": "seasoning_italian_bag_paper" },
-      { "//": "2500ml" }
+      { "prob": 20, "group": "seasoning_italian_bottle_plastic" },
+      { "prob": 20, "group": "seasoning_italian_bottle_glass" },
+      { "prob": 5, "group": "seasoning_italian_bag_plastic" },
+      { "prob": 10, "group": "seasoning_italian_bag_paper" },
+      { "prob": 1, "group": "seasoning_italian_bag_paper_bulk" }
     ]
   },
   {
@@ -2199,19 +2184,19 @@
   },
   {
     "type": "item_group",
-    "id": "seasoning_italian_bag_canvas",
-    "subtype": "collection",
-    "//": "This group was created by a fool and may contain errors.",
-    "container-item": "bag_canvas_small",
-    "entries": [ { "item": "seasoning_italian", "container-item": "null", "count": [ 20, 200 ] } ]
-  },
-  {
-    "type": "item_group",
     "id": "seasoning_italian_bag_paper",
     "subtype": "collection",
     "//": "This group was created by a fool and may contain errors.",
     "container-item": "bag_paper_powder",
     "entries": [ { "item": "seasoning_italian", "container-item": "null", "count": [ 20, 500 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "seasoning_italian_bag_paper_bulk",
+    "subtype": "collection",
+    "//": "This group was created by a fool and may contain errors.",
+    "container-item": "bag_paper_powder_bulk",
+    "entries": [ { "item": "seasoning_italian", "container-item": "null", "count": [ 30, 2000 ] } ]
   },
   {
     "type": "item_group",
@@ -2424,7 +2409,6 @@
       { "prob": 6, "group": "pepper_bottle_plastic" },
       { "prob": 6, "group": "pepper_bottle_glass" },
       { "prob": 2, "group": "pepper_bag_plastic" },
-      { "prob": 2, "group": "pepper_bag_canvas" },
       { "prob": 2, "group": "pepper_bag_paper" }
     ]
   },
@@ -2438,7 +2422,6 @@
       { "prob": 10, "item": "pepper", "container-item": "bottle_glass_seasoning_small", "count": 50 },
       { "prob": 4, "item": "pepper", "container-item": "bottle_plastic_seasoning", "count": 100 },
       { "prob": 4, "item": "pepper", "container-item": "bottle_glass_seasoning", "count": 100 },
-      { "prob": 2, "item": "pepper", "container-item": "bag_canvas_small", "count": 200 },
       { "prob": 1, "item": "pepper", "container-item": "bag_paper_powder", "count": 500 }
     ]
   },
@@ -2448,11 +2431,11 @@
     "//": "This group was created by a fool and may contain errors.",
     "subtype": "distribution",
     "entries": [
-      { "prob": 15, "group": "pepper_bottle_plastic" },
-      { "prob": 15, "group": "pepper_bottle_glass" },
-      { "prob": 4, "group": "pepper_bag_plastic" },
-      { "prob": 8, "group": "pepper_bag_canvas" },
-      { "prob": 5, "group": "pepper_bag_paper" }
+      { "prob": 20, "group": "pepper_bottle_plastic" },
+      { "prob": 20, "group": "pepper_bottle_glass" },
+      { "prob": 5, "group": "pepper_bag_plastic" },
+      { "prob": 10, "group": "pepper_bag_paper" },
+      { "prob": 2, "group": "pepper_bag_paper_bulk" }
     ]
   },
   {
@@ -2497,19 +2480,19 @@
   },
   {
     "type": "item_group",
-    "id": "pepper_bag_canvas",
-    "subtype": "collection",
-    "//": "This group was created by a fool and may contain errors.",
-    "container-item": "bag_canvas_small",
-    "entries": [ { "item": "pepper", "container-item": "null", "count": [ 20, 200 ] } ]
-  },
-  {
-    "type": "item_group",
     "id": "pepper_bag_paper",
     "subtype": "collection",
     "//": "This group was created by a fool and may contain errors.",
     "container-item": "bag_paper_powder",
     "entries": [ { "item": "pepper", "container-item": "null", "count": [ 20, 500 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "pepper_bag_paper_bulk",
+    "subtype": "collection",
+    "//": "This group was created by a fool and may contain errors.",
+    "container-item": "bag_paper_powder_bulk",
+    "entries": [ { "item": "pepper", "container-item": "null", "count": [ 30, 2000 ] } ]
   },
   {
     "type": "item_group",
@@ -2523,11 +2506,7 @@
       { "prob": 2, "group": "cinnamon_bottle_plastic" },
       { "prob": 2, "group": "cinnamon_bottle_glass" },
       { "prob": 4, "group": "cinnamon_bag_plastic" },
-      { "//": "500ml" },
-      { "prob": 2, "group": "cinnamon_bag_canvas" },
-      { "//": "1000ml" },
-      { "prob": 1, "group": "cinnamon_bag_paper" },
-      { "//": "2500ml" }
+      { "prob": 1, "group": "cinnamon_bag_paper" }
     ]
   },
   {
@@ -2540,7 +2519,6 @@
       { "prob": 10, "item": "cinnamon", "container-item": "bottle_glass_seasoning_small", "count": 50 },
       { "prob": 4, "item": "cinnamon", "container-item": "bottle_plastic_seasoning", "count": 100 },
       { "prob": 4, "item": "cinnamon", "container-item": "bottle_glass_seasoning", "count": 100 },
-      { "prob": 2, "item": "cinnamon", "container-item": "bag_canvas_small", "count": 200 },
       { "prob": 1, "item": "cinnamon", "container-item": "bag_paper_powder", "count": 500 }
     ]
   },
@@ -2583,14 +2561,6 @@
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_plastic_small",
     "entries": [ { "item": "cinnamon", "container-item": "null", "count": [ 10, 100 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "cinnamon_bag_canvas",
-    "subtype": "collection",
-    "//": "This group was created by a fool and may contain errors.",
-    "container-item": "bag_canvas_small",
-    "entries": [ { "item": "cinnamon", "container-item": "null", "count": [ 20, 200 ] } ]
   },
   {
     "type": "item_group",

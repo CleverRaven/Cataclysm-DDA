@@ -311,6 +311,33 @@
     "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
+    "id": "bag_paper_powder_bulk",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "large powder paper bag" },
+    "looks_like": "bag_plastic",
+    "description": "A large paper bag, for bulk storage and transport of powdered goods.",
+    "ascii_picture": "bag_paper_powder",
+    "weight": "20 g",
+    "volume": "40 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "to_hit": -2,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": false,
+        "max_contains_volume": "10000 ml",
+        "max_contains_weight": "15 kg",
+        "moves": 200
+      }
+    ],
+    "material": [ "paper" ],
+    "symbol": ")",
+    "color": "white",
+    "flags": [ "COLLAPSE_CONTENTS" ]
+  },
+  {
     "id": "bag_zipper",
     "type": "GENERIC",
     "category": "container",
