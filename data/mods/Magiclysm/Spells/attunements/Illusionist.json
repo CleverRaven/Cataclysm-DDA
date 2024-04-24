@@ -76,11 +76,11 @@
     "base_casting_time": 150,
     "casting_time_increment": -5,
     "final_casting_time": 0,
-    "base_energy_cost": { "math": [ "conveyance_proficiency_negate_calculate(250)" ] },
-    "energy_increment": { "math": [ "conveyance_proficiency_negate_calculate(-5)" ] },
-    "final_energy_cost": { "math": [ "conveyance_proficiency_negate_calculate(100)" ] },
-    "min_range": { "math": [ "conveyance_proficiency_bonus_calculate(25)" ] },
-    "max_range": { "math": [ "conveyance_proficiency_bonus_calculate(60)" ] },
-    "range_increment": { "math": [ "conveyance_proficiency_bonus_calculate(1)" ] }
+    "base_energy_cost": { "math": [ "conveyance_proficiency_negate_calculate(250, 1)" ] },
+    "energy_increment": { "math": [ "conveyance_proficiency_negate_calculate(-5, 0.033)" ] },
+    "final_energy_cost": { "math": [ "conveyance_proficiency_negate_calculate(100, 1)" ] },
+    "min_range": { "math": [ "conveyance_proficiency_bonus_calculate(25, 0.23)" ] },
+    "max_range": { "math": [ "conveyance_proficiency_bonus_calculate(60, 0.23)" ] },
+    "range_increment": { "math": [ "conveyance_proficiency_bonus_calculate(1, 0.03)" ] }
   }
 ]
