@@ -903,7 +903,7 @@
     "name": { "str_sp": "fried seeds" },
     "weight": "32 g",
     "color": "yellow",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 150,
@@ -944,7 +944,7 @@
   {
     "type": "COMESTIBLE",
     "id": "coffee_bean",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "price": "1 cent",
     "material": [ "veggy" ],
     "primary_material": "dried_vegetable",
@@ -967,7 +967,7 @@
     "id": "roasted_coffee_bean",
     "copy-from": "coffee_bean",
     "category": "other",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "name": { "str_sp": "roasted coffee beans" },
     "description": "Some roasted coffee beans, can be ground into powder.",
     "extend": { "flags": [ "RAW" ] }
