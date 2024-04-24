@@ -285,7 +285,7 @@
     "type": "overmap_terrain",
     "copy-from": "deep_rock",
     "//": "should be indistinguishable from deep rock.  Not supposed to be able to see it.",
-    "id": "ls_ew_base",
+    "id": "ls_straight_base",
     "name": "solid rock SPECIAL HAS A NAME FOR SPAWNING IT",
     "sym": "%",
     "color": "dark_gray"
@@ -293,7 +293,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "ls_ew_base" ],
+    "om_terrain": [ "ls_straight_base" ],
     "object": {
       "fill_ter": "t_nl_mist",
       "rows": [
@@ -323,13 +323,14 @@
         "                        "
       ],
       "terrain": { " ": "t_nl_mist" },
-      "nested": { "1": { "chunks": [ [ "ls_ew_template1", 100 ] ] } }
+      "nested": { "1": { "chunks": [ [ "ls_straight_template_rooms", 50 ], [ "ls_straight_template_chasm", 50 ] ] } }
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "ls_ew_template1",
+    "nested_mapgen_id": "ls_straight_template_rooms",
+    "//": "Two basic rooms, offset doors",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -368,24 +369,401 @@
       },
       "nested": {
         "1": { "chunks": [ [ "ls_ew_6x6hall_basic", 55 ], [ "ls_ew_6x6hall_fancy", 45 ] ] },
-        "2": { "chunks": "ls_ew_6x6door_north" },
-        "3": { "chunks": "ls_ew_6x6door_south" }
+        "2": { "chunks": [ "ls_Tn_6x6hall_basic" ] },
+        "3": { "chunks": [ "ls_Ts_6x6hall_basic" ] }
       }
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "ls_ew_6x6door_north",
+    "nested_mapgen_id": "ls_straight_template_rooms",
+    "//": "Two basic rooms, matching doors",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "!!!!!!!!!!!!!!!!!!!!!!!!",
+        "vvvvvv|................|",
+        "vvvvvv|................|",
+        "vvvvvv|................|",
+        "vvvvvv||..............||",
+        "vvvvvvv||............||v",
+        "vvvvvvvv|||........|||vv",
+        "vvvvvvvvvv|||+||+|||vvvv",
+        "vvvvvvvvvvvvv.vv.vvvvvvv",
+        "1     1     2     1     ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "vvvvvvvvvvvvv.vv.vvvvvvv",
+        "vvvvvvvvvv|||+||+|||vvvv",
+        "vvvvvvvv|||........|||vv",
+        "vvvvvvv||............||v",
+        "vvvvvv||..............||",
+        "vvvvvv|................|",
+        "vvvvvv|................|",
+        "vvvvvv|................|",
+        "!!!!!!!!!!!!!!!!!!!!!!!!"
+      ],
+      "terrain": {
+        " ": "t_nl_mist",
+        "|": "t_nl_metal_wall",
+        ".": "t_nl_metal_floor",
+        "!": "t_nl_metal_wall_edge",
+        "v": "t_nl_chasm",
+        "+": "t_nl_door_c"
+      },
+      "nested": {
+        "1": { "chunks": [ [ "ls_ew_6x6hall_basic", 55 ], [ "ls_ew_6x6hall_fancy", 45 ] ] },
+        "2": { "chunks": [ "ls_4way_6x6hall_basic" ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ls_straight_template_chasm",
+    "//": "hallway in a chasm",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "!!!!!!!!!!!!!!!!!!!!!!!!",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "1     1     1     1     ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "!!!!!!!!!!!!!!!!!!!!!!!!"
+      ],
+      "terrain": {
+        " ": "t_nl_mist",
+        "|": "t_nl_metal_wall",
+        ".": "t_nl_metal_floor",
+        "!": "t_nl_metal_wall_edge",
+        "v": "t_nl_chasm",
+        "+": "t_nl_door_c",
+        "2": "t_nl_chasm",
+        "3": "t_nl_chasm",
+        "4": "t_nl_chasm",
+        "5": "t_nl_chasm"
+      },
+      "nested": { "1": { "chunks": [ [ "ls_ew_6x6hall_basic", 70 ], [ "ls_ew_6x6hall_fancy", 30 ] ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ls_straight_template_chasm",
+    "//": "hallway in a chasm with possible half-formed juts",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "!!!!!!!!!!!!!!!!!!!!!!!!",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvv2vvvvv3vvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "1     6     7     1     ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "vvvvvv4vvvvv5vvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "!!!!!!!!!!!!!!!!!!!!!!!!"
+      ],
+      "terrain": {
+        " ": "t_nl_mist",
+        "|": "t_nl_metal_wall",
+        ".": "t_nl_metal_floor",
+        "!": "t_nl_metal_wall_edge",
+        "v": "t_nl_chasm",
+        "+": "t_nl_door_c",
+        "2": "t_nl_chasm",
+        "3": "t_nl_chasm",
+        "4": "t_nl_chasm",
+        "5": "t_nl_chasm"
+      },
+      "nested": {
+        "1": { "chunks": [ [ "ls_ew_6x6hall_basic", 70 ], [ "ls_ew_6x6hall_fancy", 30 ] ] },
+        "2": { "chunks": [ [ "null", 30 ], [ "ls_secorner_6x6hall_basic", 70 ] ] },
+        "3": { "chunks": [ [ "null", 60 ], [ "ls_swcorner_6x6hall_basic", 40 ] ] },
+        "4": { "chunks": [ [ "null", 30 ], [ "ls_necorner_6x6hall_basic", 70 ] ] },
+        "5": { "chunks": [ [ "null", 60 ], [ "ls_nwcorner_6x6hall_basic", 40 ] ] },
+        "6": { "chunks": [ [ "ls_ew_6x6hall_fancy", 10 ], [ "ls_4way_6x6hall_basic", 30 ], [ "ls_Ts_6x6hall_basic", 60 ] ] },
+        "7": { "chunks": [ [ "ls_ew_6x6hall_fancy", 10 ], [ "ls_4way_6x6hall_basic", 30 ], [ "ls_Tn_6x6hall_basic", 60 ] ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "ls_corner_base" ],
+    "object": {
+      "fill_ter": "t_nl_mist",
+      "rows": [
+        "1                       ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { " ": "t_nl_mist" },
+      "nested": { "1": { "chunks": [ [ "ls_corner_template_chasm", 50 ], [ "ls_corner_template_chasm", 50 ] ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ls_corner_template_chasm",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "!!!!!!!!!!!!!!!!!!!!!!!!",
+        "!vvvvvvvvvvvvvvvvvvvvvvv",
+        "!vvvvvvvvvvvvvvvvvvvvvvv",
+        "!vvvvvvvvvvvvvvvvvvvvvvv",
+        "!vvvvvvvvvvvvvvvvvvvvvvv",
+        "!vvvvvvvvvvvvvvvvvvvvvvv",
+        "!vvvvv1           vvvvvv",
+        "!vvvvv            vvvvvv",
+        "!vvvvv            vvvvvv",
+        "!vvvvv            2     ",
+        "!vvvvv                  ",
+        "!vvvvv                  ",
+        "!vvvvv                  ",
+        "!vvvvv                  ",
+        "!vvvvv                  ",
+        "!vvvvv            vvvvvv",
+        "!vvvvv            vvvvvv",
+        "!vvvvv            vvvvvv",
+        "!vvvvvvvv3     vvvvvvvvv",
+        "!vvvvvvvv      vvvvvvvvv",
+        "!vvvvvvvv      vvvvvvvvv",
+        "!vvvvvvvv      vvvvvvvvv",
+        "!vvvvvvvv      vvvvvvvvv",
+        "!vvvvvvvv      vvvvvvvvv"
+      ],
+      "terrain": {
+        " ": "t_nl_mist",
+        "|": "t_nl_metal_wall",
+        ".": "t_nl_metal_floor",
+        "!": "t_nl_metal_wall_edge",
+        "v": "t_nl_chasm",
+        "+": "t_nl_door_c"
+      },
+      "nested": {
+        "1": { "chunks": [ "ls_12x12hallcorner_basic" ] },
+        "2": { "chunks": [ "ls_ew_6x6hall_basic" ] },
+        "3": { "chunks": [ "ls_ns_6x6hall_basic" ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ls_tee_template_chasm",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "!!!!!!!!!!!!!!!!!!!!!!!!",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvv1           vvvvvv",
+        "vvvvvv            vvvvvv",
+        "vvvvvv            vvvvvv",
+        "2                 2     ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "vvvvvv            vvvvvv",
+        "vvvvvv            vvvvvv",
+        "vvvvvv            vvvvvv",
+        "vvvvvvvvv3     vvvvvvvvv",
+        "vvvvvvvvv      vvvvvvvvv",
+        "vvvvvvvvv      vvvvvvvvv",
+        "vvvvvvvvv      vvvvvvvvv",
+        "vvvvvvvvv      vvvvvvvvv",
+        "vvvvvvvvv      vvvvvvvvv"
+      ],
+      "terrain": {
+        " ": "t_nl_mist",
+        "|": "t_nl_metal_wall",
+        ".": "t_nl_metal_floor",
+        "!": "t_nl_metal_wall_edge",
+        "v": "t_nl_chasm",
+        "+": "t_nl_door_c"
+      },
+      "nested": {
+        "1": { "chunks": [ "ls_12x12halltee_basic" ] },
+        "2": { "chunks": [ "ls_ew_6x6hall_basic" ] },
+        "3": { "chunks": [ "ls_ns_6x6hall_basic" ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ls_4way_template_chasm",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "vvvvvvvvv3     vvvvvvvvv",
+        "vvvvvvvvv      vvvvvvvvv",
+        "vvvvvvvvv      vvvvvvvvv",
+        "vvvvvvvvv      vvvvvvvvv",
+        "vvvvvvvvv      vvvvvvvvv",
+        "vvvvvvvvv      vvvvvvvvv",
+        "vvvvvv1           vvvvvv",
+        "vvvvvv            vvvvvv",
+        "vvvvvv            vvvvvv",
+        "2                 2     ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "vvvvvv            vvvvvv",
+        "vvvvvv            vvvvvv",
+        "vvvvvv            vvvvvv",
+        "vvvvvvvvv3     vvvvvvvvv",
+        "vvvvvvvvv      vvvvvvvvv",
+        "vvvvvvvvv      vvvvvvvvv",
+        "vvvvvvvvv      vvvvvvvvv",
+        "vvvvvvvvv      vvvvvvvvv",
+        "vvvvvvvvv      vvvvvvvvv"
+      ],
+      "terrain": {
+        " ": "t_nl_mist",
+        "|": "t_nl_metal_wall",
+        ".": "t_nl_metal_floor",
+        "!": "t_nl_metal_wall_edge",
+        "v": "t_nl_chasm",
+        "+": "t_nl_door_c"
+      },
+      "nested": {
+        "1": { "chunks": [ "ls_12x12hall4way_basic" ] },
+        "2": { "chunks": [ "ls_ew_6x6hall_basic" ] },
+        "3": { "chunks": [ "ls_ns_6x6hall_basic" ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ls_deadend_template_chasm",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "!!!!!!!!!!!!!!!!!!!!!!!!",
+        "vvvvvvvvvvvvvvvvvvvvvvv!",
+        "vvvvvvvvvvvvvvvvvvvvvvv!",
+        "vvvvvvvvvvvvvvvvvvvvvvv!",
+        "vvvvvvvvvvvvvvvvvvvvvvv!",
+        "vvvvvvvvvvvvvvvvvvvvvvv!",
+        "vvvvvvvvvvvvvvvvvvvvvvv!",
+        "vvvvvvvvvvvvvvvvvvvvvvv!",
+        "vvvvvvvvvvvvvvvvvvvvvvv!",
+        "1     vvvvvvvvvvvvvvvvv!",
+        "      vvvvvvvvvvvvvvvvv!",
+        "      vvvvvvvvvvvvvvvvv!",
+        "      vvvvvvvvvvvvvvvvv!",
+        "      vvvvvvvvvvvvvvvvv!",
+        "      vvvvvvvvvvvvvvvvv!",
+        "vvvvvvvvvvvvvvvvvvvvvvv!",
+        "vvvvvvvvvvvvvvvvvvvvvvv!",
+        "vvvvvvvvvvvvvvvvvvvvvvv!",
+        "vvvvvvvvvvvvvvvvvvvvvvv!",
+        "vvvvvvvvvvvvvvvvvvvvvvv!",
+        "vvvvvvvvvvvvvvvvvvvvvvv!",
+        "vvvvvvvvvvvvvvvvvvvvvvv!",
+        "vvvvvvvvvvvvvvvvvvvvvvv!",
+        "!!!!!!!!!!!!!!!!!!!!!!!!"
+      ],
+      "terrain": {
+        " ": "t_nl_mist",
+        "|": "t_nl_metal_wall",
+        ".": "t_nl_metal_floor",
+        "!": "t_nl_metal_wall_edge",
+        "v": "t_nl_chasm",
+        "+": "t_nl_door_c"
+      },
+      "nested": { "1": { "chunks": [ "ls_ew_6x6hall_basic" ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ls_12x12hallcorner_basic",
     "object": {
       "mapgensize": [ 6, 6 ],
       "rows": [
-        "vv..vv",
-        "......",
-        "......",
-        "......",
-        "......",
-        "vvvvvv"
+        "vvvvvvvvvvvv",
+        "vvvvvvvvvvvv",
+        "vvvvvvvvvvvv",
+        "vvvvvvvvvvvv",
+        "vvvvvvvv....",
+        "vvvvvv......",
+        "vvvvv.......",
+        "vvvvv.......",
+        "vvvv.......v",
+        "vvvv......vv",
+        "vvvv.....vvv",
+        "vvvv....vvvv"
       ],
       "terrain": { "v": "t_nl_chasm", ".": "t_nl_catwalk" }
     }
@@ -393,17 +771,22 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "ls_ew_6x6door_north",
-    "//": "swoopy type",
+    "nested_mapgen_id": "ls_12x12hall4way_basic",
     "object": {
       "mapgensize": [ 6, 6 ],
       "rows": [
-        "v....v",
-        "......",
-        "......",
-        "..vv..",
-        ".vvvv.",
-        "vvvvvv"
+        "vvvv....vvvv",
+        "vvvv....vvvv",
+        "vvvv....vvvv",
+        "vvv......vvv",
+        "............",
+        "............",
+        "............",
+        "............",
+        "vvv......vvv",
+        "vvvv....vvvv",
+        "vvvv....vvvv",
+        "vvvv....vvvv"
       ],
       "terrain": { "v": "t_nl_chasm", ".": "t_nl_catwalk" }
     }
@@ -411,34 +794,22 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "ls_ew_6x6door_south",
+    "nested_mapgen_id": "ls_12x12halltee_basic",
     "object": {
       "mapgensize": [ 6, 6 ],
       "rows": [
-        "vvvvvv",
-        "......",
-        "......",
-        "......",
-        "......",
-        "vv..vv"
-      ],
-      "terrain": { "v": "t_nl_chasm", ".": "t_nl_catwalk" }
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "ls_ew_6x6door_south",
-    "//": "swoopy type",
-    "object": {
-      "mapgensize": [ 6, 6 ],
-      "rows": [
-        "vvvvvv",
-        ".vvvv.",
-        "..vv..",
-        "......",
-        "......",
-        "v....v"
+        "vvvvvvvvvvvv",
+        "vvvvvvvvvvvv",
+        "vvvvvvvvvvvv",
+        "vvvvvvvvvvvv",
+        ".....vv.....",
+        "............",
+        "............",
+        "............",
+        "vvv......vvv",
+        "vvvv....vvvv",
+        "vvvv....vvvv",
+        "vvvv....vvvv"
       ],
       "terrain": { "v": "t_nl_chasm", ".": "t_nl_catwalk" }
     }
@@ -456,6 +827,23 @@
         "......",
         "......",
         "vvvvvv"
+      ],
+      "terrain": { "v": "t_nl_chasm", ".": "t_nl_catwalk" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ls_ns_6x6hall_basic",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "v....v",
+        "v....v",
+        "v....v",
+        "v....v",
+        "v....v",
+        "v....v"
       ],
       "terrain": { "v": "t_nl_chasm", ".": "t_nl_catwalk" }
     }
@@ -548,6 +936,231 @@
         "vvvvvv"
       ],
       "terrain": { "v": "t_nl_chasm", ".": "t_nl_catwalk", "o": [ "t_nl_catwalk", "t_nl_chasm" ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ls_secorner_6x6hall_basic",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "vvvvvv",
+        "vv....",
+        "v.....",
+        "v.....",
+        "v.....",
+        "v....v"
+      ],
+      "terrain": { "v": "t_nl_chasm", ".": "t_nl_catwalk" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ls_necorner_6x6hall_basic",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "v....v",
+        "v.....",
+        "v.....",
+        "v.....",
+        "vv....",
+        "vvvvvv"
+      ],
+      "terrain": { "v": "t_nl_chasm", ".": "t_nl_catwalk" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ls_nwcorner_6x6hall_basic",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "v....v",
+        ".....v",
+        ".....v",
+        ".....v",
+        "....vv",
+        "vvvvvv"
+      ],
+      "terrain": { "v": "t_nl_chasm", ".": "t_nl_catwalk" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ls_swcorner_6x6hall_basic",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "vvvvvv",
+        "....vv",
+        ".....v",
+        ".....v",
+        ".....v",
+        "v....v"
+      ],
+      "terrain": { "v": "t_nl_chasm", ".": "t_nl_catwalk" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ls_Tn_6x6hall_basic",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "v....v",
+        "......",
+        "......",
+        "......",
+        "......",
+        "vvvvvv"
+      ],
+      "terrain": { "v": "t_nl_chasm", ".": "t_nl_catwalk" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ls_Tn_6x6hall_basic",
+    "//": "swoopy type",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "v....v",
+        "......",
+        "......",
+        "..vv..",
+        ".vvvv.",
+        "vvvvvv"
+      ],
+      "terrain": { "v": "t_nl_chasm", ".": "t_nl_catwalk" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ls_Tw_6x6hall_basic",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "v....v",
+        ".....v",
+        ".....v",
+        ".....v",
+        ".....v",
+        "v....v"
+      ],
+      "terrain": { "v": "t_nl_chasm", ".": "t_nl_catwalk" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ls_Tw_6x6hall_basic",
+    "//": "swoopy type",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "v....v",
+        "....vv",
+        "...vvv",
+        "...vvv",
+        "....vv",
+        "v....v"
+      ],
+      "terrain": { "v": "t_nl_chasm", ".": "t_nl_catwalk" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ls_Te_6x6hall_basic",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "v....v",
+        "v.....",
+        "v.....",
+        "v.....",
+        "v.....",
+        "v....v"
+      ],
+      "terrain": { "v": "t_nl_chasm", ".": "t_nl_catwalk" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ls_Te_6x6hall_basic",
+    "//": "swoopy type",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "v....v",
+        "vv....",
+        "vvv...",
+        "vvv...",
+        "vv....",
+        "v....v"
+      ],
+      "terrain": { "v": "t_nl_chasm", ".": "t_nl_catwalk" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ls_Ts_6x6hall_basic",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "vvvvvv",
+        "......",
+        "......",
+        "......",
+        "......",
+        "v....v"
+      ],
+      "terrain": { "v": "t_nl_chasm", ".": "t_nl_catwalk" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ls_Ts_6x6hall_basic",
+    "//": "swoopy type",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "vvvvvv",
+        ".vvvv.",
+        "..vv..",
+        "......",
+        "......",
+        "v....v"
+      ],
+      "terrain": { "v": "t_nl_chasm", ".": "t_nl_catwalk" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ls_4way_6x6hall_basic",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "v....v",
+        "......",
+        "......",
+        "......",
+        "......",
+        "v....v"
+      ],
+      "terrain": { "v": "t_nl_chasm", ".": "t_nl_catwalk" }
     }
   }
 ]
