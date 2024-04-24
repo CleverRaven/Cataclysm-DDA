@@ -9126,5 +9126,106 @@
     "pre_special": "check_empty",
     "post_terrain": "f_piano",
     "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_scaffolding_pipe_base",
+    "group": "build_scaffolding",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "10 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ], [ { "id": "WRENCH", "level": 1 } ] ],
+    "components": [ [ [ "pipe", 64 ] ], [ [ "pipe_fittings", 64 ] ], [ [ "2x4", 10 ] ], [ [ "nails", 20, "LIST" ] ] ],
+    "pre_note": "Must be supported from directly below.",
+    "pre_special": [ "check_empty", "check_single_support" ],
+    "post_terrain": "t_scaffolding_pipe_base"
+  },
+  {
+    "type": "construction",
+    "id": "constr_scaffolding_pipe_down_above",
+    "group": "build_scaffolding",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ], [ { "id": "WRENCH", "level": 1 } ] ],
+    "components": [ [ [ "pipe", 64 ] ], [ [ "pipe_fittings", 64 ] ], [ [ "2x4", 10 ] ], [ [ "nails", 20, "LIST" ] ] ],
+    "pre_note": "Constructs down scaffolding directly above the target up tile.",
+    "pre_terrain": "t_scaffolding_pipe_base",
+    "pre_special": [ "check_up_OK", "check_nofloor_above" ],
+    "post_special": "add_matching_down_above",
+    "post_terrain": "t_scaffolding_pipe_up"
+  },
+  {
+    "type": "construction",
+    "id": "constr_scaffolding_pipe_down",
+    "group": "build_scaffolding",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "10 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ], [ { "id": "WRENCH", "level": 1 } ] ],
+    "components": [ [ [ "pipe", 64 ] ], [ [ "pipe_fittings", 64 ] ], [ [ "2x4", 10 ] ], [ [ "nails", 20, "LIST" ] ] ],
+    "pre_note": "Must have scaffolding below.",
+    "pre_terrain": "t_scaffolding_pipe_down",
+    "pre_special": [ "check_up_OK", "check_nofloor_above" ],
+    "post_terrain": "t_scaffolding_pipe_updown",
+    "post_special": "add_matching_down_above"
+  },
+  {
+    "type": "construction",
+    "id": "remove_scaffolding_pipe_base",
+    "group": "remove_scaffolding",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+    "pre_note": "Removes scaffolding from the targeted tile.",
+    "pre_terrain": "t_scaffolding_pipe_base",
+    "post_terrain": "t_dirt",
+    "byproducts": [
+      { "item": "pipe", "count": 64 },
+      { "item": "pipe_fittings", "count": 64 },
+      { "item": "2x4", "count": 10 },
+      { "item": "nail", "count": 20 }
+    ]
+  },
+  {
+    "type": "construction",
+    "id": "remove_scaffolding_pipe_down_above",
+    "group": "remove_scaffolding",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+    "pre_note": "Removes down scaffolding from directly above the construction tile.",
+    "pre_terrain": "t_scaffolding_pipe_up",
+    "pre_special": "check_matching_down_above",
+    "post_special": "remove_above",
+    "post_terrain": "t_scaffolding_pipe_base",
+    "byproducts": [
+      { "item": "pipe", "count": 64 },
+      { "item": "pipe_fittings", "count": 64 },
+      { "item": "2x4", "count": 10 },
+      { "item": "nail", "count": 20 }
+    ]
+  },
+  {
+    "type": "construction",
+    "id": "remove_scaffolding_pipe_down_above_updown",
+    "group": "remove_scaffolding",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+    "pre_note": "Removes down scaffolding from directly above the construction tile.",
+    "pre_terrain": "t_scaffolding_pipe_updown",
+    "pre_special": "check_matching_down_above",
+    "post_special": "remove_above",
+    "post_terrain": "t_scaffolding_pipe_down",
+    "byproducts": [
+      { "item": "pipe", "count": 64 },
+      { "item": "pipe_fittings", "count": 64 },
+      { "item": "2x4", "count": 10 },
+      { "item": "nail", "count": 20 }
+    ]
   }
 ]
