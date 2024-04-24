@@ -293,7 +293,7 @@
     "id": "wax_paraffin",
     "name": { "str": "chunk of paraffin wax", "str_pl": "chunks of paraffin wax" },
     "category": "spare_parts",
-    "weight": "225 g",
+    "weight": "215 g",
     "color": "white",
     "material": [ "paraffin_wax" ],
     "symbol": "%",
