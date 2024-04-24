@@ -72,12 +72,7 @@
     "difficulty": 2,
     "value": 0,
     "start": {
-      "assign_mission_target": {
-        "om_special": "Strange warehouse",
-        "om_terrain": "exo_warehouse_1",
-        "reveal_radius": 2,
-        "search_range": 1000
-      }
+      "assign_mission_target": { "om_special": "Strange warehouse", "om_terrain": "exo_warehouse_1", "reveal_radius": 2, "search_range": 1000 }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
@@ -130,12 +125,7 @@
     "difficulty": 2,
     "value": 0,
     "start": {
-      "assign_mission_target": {
-        "om_special": "Mi-Go Scout Tower",
-        "om_terrain": "mi-go_scout_tower_3",
-        "reveal_radius": 2,
-        "search_range": 1000
-      }
+      "assign_mission_target": { "om_special": "Mi-Go Scout Tower", "om_terrain": "mi-go_scout_tower_3", "reveal_radius": 2, "search_range": 1000 }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
@@ -159,12 +149,7 @@
     "difficulty": 2,
     "value": 0,
     "start": {
-      "assign_mission_target": {
-        "om_special": "desolate barn",
-        "om_terrain": "desolatebarn",
-        "reveal_radius": 2,
-        "search_range": 1000
-      }
+      "assign_mission_target": { "om_special": "desolate barn", "om_terrain": "desolatebarn", "reveal_radius": 2, "search_range": 1000 }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
