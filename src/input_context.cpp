@@ -769,8 +769,9 @@ void keybindings_ui::draw_controls()
             key_text += string_format( "%s:", ctxt->get_action_name( action_id ) );
             bool is_selected = false;
             bool is_hovered = false;
-            cataimgui::draw_colored_text( key_text, col, 0.0f, status == kb_menu_status::show ? nullptr : &is_selected,
-                               nullptr, &is_hovered );
+            cataimgui::draw_colored_text( key_text, col, 0.0f,
+                                          status == kb_menu_status::show ? nullptr : &is_selected,
+                                          nullptr, &is_hovered );
             if( ( is_selected || is_hovered ) && invlet != ' ' ) {
                 highlight_row_index = i;
             }

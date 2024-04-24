@@ -33,31 +33,29 @@
 
 class uilist_impl : cataimgui::window
 {
-    uilist &parent;
-public:
-    uilist_impl(uilist& parent) : cataimgui::window("UILIST", ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_AlwaysAutoResize), parent(parent)
-    {
-    }
-
-    uilist_impl(uilist &parent, const std::string &title) : cataimgui::window(title, ImGuiWindowFlags_AlwaysAutoResize), parent(parent)
-    {
-    }
-
-    cataimgui::bounds get_bounds() override
-    {
-        if(!parent.started)
-        {
-            parent.setup();
+        uilist &parent;
+    public:
+        uilist_impl( uilist &parent ) : cataimgui::window( "UILIST",
+                    ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_AlwaysAutoResize ), parent( parent ) {
         }
 
-        return { static_cast<float>(parent.w_x * fontwidth),
-                 static_cast<float>(parent.w_y * fontheight),
-                 static_cast<float>(clamp(parent.w_width * fontwidth, 0, get_window_width())),
-            -1.f
-        };
-    }
-    void draw_controls() override;
-    void on_resized() override;
+        uilist_impl( uilist &parent, const std::string &title ) : cataimgui::window( title,
+                    ImGuiWindowFlags_AlwaysAutoResize ), parent( parent ) {
+        }
+
+        cataimgui::bounds get_bounds() override {
+            if( !parent.started ) {
+                parent.setup();
+            }
+
+            return { static_cast<float>( parent.w_x * fontwidth ),
+                     static_cast<float>( parent.w_y * fontheight ),
+                     static_cast<float>( clamp( parent.w_width * fontwidth, 0, get_window_width() ) ),
+                     -1.f
+                   };
+        }
+        void draw_controls() override;
+        void on_resized() override;
 };
 
 void uilist_impl::on_resized()
@@ -67,10 +65,9 @@ void uilist_impl::on_resized()
 
 void uilist_impl::draw_controls()
 {
-    if(!parent.text.empty())
-    {
-        ImGui::PushTextWrapPos(float(parent.w_width * fontwidth));
-        ImGui::TextWrapped("%s", parent.text.c_str());
+    if( !parent.text.empty() ) {
+        ImGui::PushTextWrapPos( float( parent.w_width * fontwidth ) );
+        ImGui::TextWrapped( "%s", parent.text.c_str() );
         ImGui::PopTextWrapPos();
         ImGui::Separator();
     }
@@ -79,61 +76,57 @@ void uilist_impl::draw_controls()
     // menu, left and right are usually invisible. Caller may use
     // left/right column to add additional content to the
     // window. There should only ever be one row.
-    ImGui::BeginTable("table", 3);
-    ImGui::TableSetupColumn("left");
-    ImGui::TableSetupColumn("menu");
-    ImGui::TableSetupColumn("right");
+    ImGui::BeginTable( "table", 3 );
+    ImGui::TableSetupColumn( "left" );
+    ImGui::TableSetupColumn( "menu" );
+    ImGui::TableSetupColumn( "right" );
     ImGui::TableNextRow();
-    ImGui::TableSetColumnIndex(1);
+    ImGui::TableSetColumnIndex( 1 );
 
     // It would be natural to make the entries into buttons, or
     // combos, or other pre-built ui elements. For now I am mostly
     // going to copy the style of the original textual ui elements.
-    for(size_t i = 0; i < parent.fentries.size(); i++)
-    {
+    for( size_t i = 0; i < parent.fentries.size(); i++ ) {
         auto entry = parent.entries[parent.fentries[i]];
-        ImGui::PushID(i);
+        ImGui::PushID( i );
         auto flags = entry.enabled ? ImGuiSelectableFlags_Disabled : ImGuiSelectableFlags_None;
-        bool is_selected = static_cast<int>(i) == parent.fselected;
-        ImGui::Selectable("", is_selected, flags);
-        ImGui::SameLine(0, 0);
-        if(is_selected)
-        {
+        bool is_selected = static_cast<int>( i ) == parent.fselected;
+        ImGui::Selectable( "", is_selected, flags );
+        ImGui::SameLine( 0, 0 );
+        if( is_selected ) {
             ImGui::SetItemDefaultFocus();
         }
 
-        if(entry.hotkey.has_value())
-        {
-            ImGui::Text("%c", '[');
-            ImGui::SameLine(0, 0);
+        if( entry.hotkey.has_value() ) {
+            ImGui::Text( "%c", '[' );
+            ImGui::SameLine( 0, 0 );
             auto color = is_selected ? parent.hilight_color : parent.hotkey_color;
-            cataimgui::draw_colored_text(entry.hotkey.value().short_description(),
-                color);
-            ImGui::SameLine(0, 0);
-            ImGui::Text("%c", ']');
+            cataimgui::draw_colored_text( entry.hotkey.value().short_description(),
+                                          color );
+            ImGui::SameLine( 0, 0 );
+            ImGui::Text( "%c", ']' );
             ImGui::SameLine();
         }
-        nc_color color = (is_selected ?
-            parent.hilight_color :
-            (entry.enabled || entry.force_color ?
-            entry.text_color :
-            parent.disabled_color));
-        cataimgui::draw_colored_text(entry.txt,
-            color);
+        nc_color color = ( is_selected ?
+                           parent.hilight_color :
+                           ( entry.enabled || entry.force_color ?
+                             entry.text_color :
+                             parent.disabled_color ) );
+        cataimgui::draw_colored_text( entry.txt,
+                                      color );
         ImGui::PopID();
     }
 
-    if(parent.callback != nullptr)
-    {
-       parent.callback->refresh(&parent);
+    if( parent.callback != nullptr ) {
+        parent.callback->refresh( &parent );
     }
 
     ImGui::EndTable();
 
-    if(parent.desc_enabled)
-    {
+    if( parent.desc_enabled ) {
         ImGui::Separator();
-        ImGui::TextWrapped("%s", parent.footer_text.empty() ? parent.entries[parent.selected].desc.c_str() : parent.footer_text.c_str());
+        ImGui::TextWrapped( "%s", parent.footer_text.empty() ? parent.entries[parent.selected].desc.c_str()
+                            : parent.footer_text.c_str() );
     }
 
     //werase(window);
@@ -1056,7 +1049,7 @@ shared_ptr_fast<uilist_impl> uilist::create_or_get_ui()
 {
     shared_ptr_fast<uilist_impl> current_ui = ui.lock();
     if( !current_ui ) {
-        ui = current_ui = make_shared_fast<uilist_impl>(*this);
+        ui = current_ui = make_shared_fast<uilist_impl>( *this );
         //current_ui->on_redraw( [this]( ui_adaptor & ui ) {
         //    show( ui );
         //} );

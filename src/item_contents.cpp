@@ -98,12 +98,12 @@ void pocket_favorite_callback::refresh( uilist *menu )
         auto gray = c_light_gray;
         auto blue = c_light_blue;
 
-        ImGui::TableSetColumnIndex(2);
+        ImGui::TableSetColumnIndex( 2 );
         ImGui::PushStyleColor( ImGuiCol_Text, cataimgui::imvec4_from_color( gray ) );
         ImGui::TextWrapped( "%s", _( "Currently modifying " ) );
-        ImGui::SameLine(0.0, 0.0);
+        ImGui::SameLine( 0.0, 0.0 );
         ImGui::PushStyleColor( ImGuiCol_Text, cataimgui::imvec4_from_color( blue ) );
-        ImGui::TextWrapped( "%s", whitelist ? _( "whitelist" ) : _( "blacklist" ));
+        ImGui::TextWrapped( "%s", whitelist ? _( "whitelist" ) : _( "blacklist" ) );
         ImGui::PopStyleColor();
         ImGui::PopStyleColor();
         ImGui::NewLine();

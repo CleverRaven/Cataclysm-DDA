@@ -2026,7 +2026,7 @@ class query_destination_callback : public uilist_callback
 
 void query_destination_callback::draw_squares( const uilist *menu )
 {
-    ImGui::TableSetColumnIndex(0);
+    ImGui::TableSetColumnIndex( 0 );
     ImGui::NewLine();
     ImGui::NewLine();
     ImGui::NewLine();
@@ -2047,16 +2047,18 @@ void query_destination_callback::draw_squares( const uilist *menu )
         nc_color bcolor = canputitems ? sel == loc ? h_white : c_light_gray : c_red;
         nc_color kcolor = canputitems ? sel == loc ? h_white : c_dark_gray : c_red;
         // TODO(db48x): maybe make these clickable buttons or something
-        ImGui::PushID(i);
+        ImGui::PushID( i );
         ImGui::BeginGroup();
         ImGui::TextColored( cataimgui::imvec4_from_color( bcolor ), "%c", bracket[0] );
-        ImGui::SameLine(0.0, 0.0);
+        ImGui::SameLine( 0.0, 0.0 );
         ImGui::TextColored( cataimgui::imvec4_from_color( kcolor ), "%s", key.c_str() );
-        ImGui::SameLine(0.0, 0.0);
+        ImGui::SameLine( 0.0, 0.0 );
         ImGui::TextColored( cataimgui::imvec4_from_color( bcolor ), "%c", bracket[1] );
         ImGui::EndGroup();
         ImGui::PopID();
-        if( i % 3 != 0 ) ImGui::SameLine();
+        if( i % 3 != 0 ) {
+            ImGui::SameLine();
+        }
     }
 }
 

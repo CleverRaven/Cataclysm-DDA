@@ -35,7 +35,8 @@ struct pairs {
 std::array<RGBTuple, color_loader<RGBTuple>::COLOR_NAMES_COUNT> rgbPalette;
 std::array<pairs, 100> colorpairs;   //storage for pair'ed colored
 
-ImVec4 cataimgui::imvec4_from_color( nc_color color ) {
+ImVec4 cataimgui::imvec4_from_color( nc_color color )
+{
     int pair_id = color.get_index();
     pairs &pair = colorpairs[pair_id];
 
@@ -183,7 +184,8 @@ RGBTuple color_loader<RGBTuple>::from_rgb( const int r, const int g, const int b
 #include <imgui/imgui_impl_sdl2.h>
 #include <imgui/imgui_impl_sdlrenderer2.h>
 
-ImVec4 cataimgui::imvec4_from_color( nc_color &color ) {
+ImVec4 cataimgui::imvec4_from_color( nc_color &color )
+{
     SDL_Color c = curses_color_to_SDL( color );
     return { static_cast<float>( c.r / 255. ),
              static_cast<float>( c.g / 255. ),
@@ -372,14 +374,14 @@ void cataimgui::imvec2_to_point( ImVec2 *src, point *dest )
 }
 
 void cataimgui::draw_colored_text( std::string const &text, const nc_color &color,
-        float wrap_width, bool *is_selected, bool *is_focused, bool *is_hovered )
+                                   float wrap_width, bool *is_selected, bool *is_focused, bool *is_hovered )
 {
     nc_color color_cpy = color;
     draw_colored_text( text, color_cpy, wrap_width, is_selected, is_focused, is_hovered );
 }
 
 void cataimgui::draw_colored_text( std::string const &text, nc_color &color,
-        float wrap_width, bool *is_selected, bool *is_focused, bool *is_hovered )
+                                   float wrap_width, bool *is_selected, bool *is_focused, bool *is_hovered )
 {
     ImGui::PushID( text.c_str() );
     ImGuiID itemId = GImGui->CurrentWindow->IDStack.back();
