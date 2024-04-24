@@ -192,6 +192,7 @@ class item_contents
         std::vector<const item_pocket *> get_all_standard_pockets() const;
         std::vector<item_pocket *> get_all_standard_pockets();
         std::vector<const item_pocket *> get_all_ablative_pockets() const;
+        std::vector<item_pocket *> get_all_magazine_pockets();
         std::vector<item_pocket *> get_all_ablative_pockets();
         std::vector<const item_pocket *>
         get_pockets( std::function<bool( item_pocket const & )> const &filter ) const;
@@ -298,6 +299,7 @@ class item_contents
         // returns amount of ammo consumed
         int ammo_consume( int qty, const tripoint &pos, float fuel_efficiency = -1.0 );
         item *magazine_current();
+        std::vector<item> *magazines_current();
         std::set<ammotype> ammo_types() const;
         int ammo_capacity( const ammotype &ammo ) const;
         // gets the first ammo in all magazine pockets

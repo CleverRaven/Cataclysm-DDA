@@ -1284,6 +1284,17 @@ item *item_contents::magazine_current()
     return nullptr;
 }
 
+std::vector<item> *item_contents::magazines_current()
+{
+    std::vector<item> *mag;
+    for( item_pocket &pocket : contents ) {
+        if( pocket.is_type( pocket_type::MAGAZINE_WELL ) ) {
+            mag -> push_back( *pocket.magazine_current() );
+        }
+    }
+    return mag;
+}
+
 int item_contents::ammo_capacity( const ammotype &ammo ) const
 {
     int ret = 0;
@@ -2058,7 +2069,14 @@ std::vector<const item_pocket *> item_contents::get_all_ablative_pockets() const
     } );
 }
 
-std::vector<item_pocket *> item_contents::get_all_ablative_pockets()
+std::vector<item_pocket *> item_contents::get_all_magazine_pockets()
+{
+    return get_pockets( []( item_pocket const & pocket ) {
+        return pocket.is_type( pocket_type::MAGAZINE_WELL ) || pocket.is_type( pocket_type::MAGAZINE );
+    } );
+}
+
+std::vector<item_pocket *> item_contents::get_all_magazine_pockets()
 {
     return get_pockets( []( item_pocket const & pocket ) {
         return pocket.is_ablative();

@@ -9682,6 +9682,11 @@ std::vector<const item_pocket *> item::get_all_ablative_pockets() const
     return contents.get_all_ablative_pockets();
 }
 
+std::vector<item_pocket *> item::get_all_magazine_pockets()//FUNC
+{
+    return contents.get_all_magazine_pockets();
+}
+
 item_pocket *item::contained_where( const item &contained )
 {
     return contents.contained_where( contained );
@@ -10686,15 +10691,95 @@ int item::ammo_remaining( const std::set<ammotype> &ammo, const Character *carri
 
     return ret;
 }
+
+std::vector<int> item::ammoes_remaining( const std::set<ammotype> &ammo, const Character *carrier,
+        const bool include_linked ) const
+{
+    std::vector<int> ammo_rem;
+
+    for( item magazine : *magazines_current() ) {
+        //OLD FUNCTION START
+        int ret = 0;
+
+
+        // Magazine in the item
+        const item *mag = magazine_current();
+        if( mag ) {
+            ret += mag->ammo_remaining();
+        }
+
+        // Cable connections
+        if( include_linked && link_length() >= 0 && link().efficiency >= MIN_LINK_EFFICIENCY ) {
+            if( link().t_veh ) {
+                ret += link().t_veh->connected_battery_power_level().first;
+            } else {
+                const optional_vpart_position vp = get_map().veh_at( link().t_abs_pos );
+                if( vp ) {
+                    ret += vp->vehicle().connected_battery_power_level().first;
+                }
+            }
+        }
+
+        // Non ammo using item that uses charges
+        if( ammo.empty() ) {
+            ret += charges;
+        }
+
+        // Magazines and integral magazines on their own
+        if( is_magazine() ) {
+            for( const item *e : contents.all_items_top( pocket_type::MAGAZINE ) ) {
+                if( e->is_ammo() ) {
+                    ret += e->charges;
+                }
+            }
+        }
+
+        // Handle non-magazines with ammo_restriction in a CONTAINER type pocket (like quivers)
+        if( !( mag || is_magazine() || ammo.empty() ) ) {
+            for( const item *e : contents.all_items_top( pocket_type::CONTAINER ) ) {
+                if( e->is_ammo() && ammo.find( e->ammo_type() ) != ammo.end() ) {
+                    ret += e->charges;
+                }
+            }
+        }
+
+        // UPS/bionic power can replace ammo requirement.
+        // Only for tools. Guns should always use energy_drain for electricity use.
+        if( carrier != nullptr && type->tool ) {
+            if( has_flag( flag_USES_BIONIC_POWER ) ) {
+                ret += units::to_kilojoule( carrier->get_power_level() );
+            }
+            if( has_flag( flag_USE_UPS ) ) {
+                ret += units::to_kilojoule( carrier->available_ups() );
+            }
+        }
+        //OLD FUNCTION END
+        ammo_rem.push_back( ret );
+    }
+    return ammo_rem;
+}
+
+
 int item::ammo_remaining( const Character *carrier, const bool include_linked ) const
 {
     std::set<ammotype> ammo = ammo_types();
     return ammo_remaining( ammo, carrier, include_linked );
 }
 
+std::vector<int> item::ammoes_remaining( const Character *carrier, const bool include_linked ) const
+{
+    std::set<ammotype> ammo = ammo_types();
+    return ammoes_remaining( ammo, carrier, include_linked );
+}
+
 int item::ammo_remaining( const bool include_linked ) const
 {
     return ammo_remaining( nullptr, include_linked );
+}
+
+std::vector<int> item::ammoes_remaining( const bool include_linked ) const
+{
+    return ammoes_remaining( nullptr, include_linked );
 }
 
 units::energy item::energy_remaining( const Character *carrier ) const
@@ -11152,6 +11237,16 @@ itype_id item::magazine_default( bool conversion ) const
 std::set<itype_id> item::magazine_compatible() const
 {
     return contents.magazine_compatible();
+}
+
+std::vector<item> *item::magazines_current()
+{
+    return contents.magazines_current();
+}
+
+const std::vector<item> *item::magazines_current() const
+{
+    return const_cast<item *>( this )->magazines_current();
 }
 
 item *item::magazine_current()
@@ -13853,14 +13948,39 @@ bool item::process_wet( Character *carrier, const tripoint & /*pos*/ )
 
 bool item::process_tool( Character *carrier, const tripoint &pos )
 {
+    std::vector<item_pocket *> pockets = get_all_magazine_pockets();
+    std::vector<item *> magazines;
+    for( item_pocket *p : pockets ) {
+        magazines.push_back( magazine_current() );
+    }
+
     // FIXME: remove this once power armors don't need to be TOOL_ARMOR anymore
     if( is_power_armor() && carrier && carrier->can_interface_armor() && carrier->has_power() ) {
         return false;
     }
 
     // if insufficient available charges shutdown the tool
+
+    /*
+    for( int ammo_remaining : ammoes_remaining( carrier, true ) ) {
+    }
+
+    bool is_layer_visible( const std::map<tripoint, explosion_tile> &layer )
+    {
+    return std::any_of( layer.begin(), layer.end(),
+    []( const std::pair<tripoint, explosion_tile> &element ) {
+        return is_point_visible( element.first );
+    } );
+    }
+    */
+
+    //ammoes_remaining( carrier, true ) == 0
+    std::vector<int> ammoes = ammoes_remaining( carrier, true );
     if( ( type->tool->turns_per_charge > 0 || type->tool->power_draw > 0_W ) &&
-        ammo_remaining( carrier, true ) == 0 ) {
+    std::any_of( ammoes.begin(), ammoes.end(), []( int i ) {
+    return i == 0;
+} )
+  ) {
         if( carrier && has_flag( flag_USE_UPS ) ) {
             carrier->add_msg_if_player( m_info, _( "You need an UPS to run the %s!" ), tname() );
         }
@@ -13874,7 +13994,6 @@ bool item::process_tool( Character *carrier, const tripoint &pos )
             return true;
         }
     }
-
     int energy = 0;
     if( type->tool->turns_per_charge > 0 &&
         to_turn<int>( calendar::turn ) % type->tool->turns_per_charge == 0 ) {

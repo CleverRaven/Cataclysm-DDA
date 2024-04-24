@@ -843,6 +843,7 @@ class item : public visitable
         std::vector<item_pocket *> get_all_standard_pockets();
         std::vector<item_pocket *> get_all_ablative_pockets();
         std::vector<const item_pocket *> get_all_ablative_pockets() const;
+        std::vector<item_pocket *> get_all_magazine_pockets();
         /**
          * Updates the pockets of this item to be correct based on the mods that are installed.
          * Pockets which are modified that contain an item will be spilled
@@ -2405,6 +2406,9 @@ class item : public visitable
          */
         int shots_remaining( const Character *carrier ) const;
 
+        std::vector<int> ammoes_remaining( const std::set<ammotype> &ammo, const Character *carrier,
+                                           const bool include_linked ) const;
+
         /**
          * Energy available from battery/UPS/bionics
          * @param carrier is used for UPS and bionic power.
@@ -2417,6 +2421,8 @@ class item : public visitable
          * @param include_linked Add cable-linked vehicles' ammo to the ammo count
          */
         int ammo_remaining( const Character *carrier = nullptr, bool include_linked = false ) const;
+        std::vector<int> ammoes_remaining( const Character *carrier, const bool include_linked ) const;
+        std::vector<int> ammoes_remaining( const bool include_linked ) const;
         int ammo_remaining( bool include_linked ) const;
 
 
@@ -2556,6 +2562,10 @@ class item : public visitable
          *  @see item::magazine_integral
          */
         std::set<itype_id> magazine_compatible() const;
+
+        std::vector<item> *magazines_current();
+
+        const std::vector<item> *magazines_current() const;
 
         /** Currently loaded magazine (if any)
          *  @return current magazine or nullptr if either no magazine loaded or item has integral magazine
