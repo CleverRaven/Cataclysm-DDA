@@ -196,12 +196,7 @@
       { "proficiency": "prof_frying" },
       { "proficiency": "prof_frying_bread" }
     ],
-    "components": [
-      [ [ "poultry", 2 ] ],
-      [ [ "any_butter_or_oil", 1, "LIST" ] ],
-      [ [ "batter", 1, "LIST" ] ],
-      [ [ "buttermilk", 1 ] ]
-    ]
+    "components": [ [ [ "poultry", 2 ] ], [ [ "any_butter_or_oil", 1, "LIST" ] ], [ [ "batter", 1, "LIST" ] ], [ [ "buttermilk", 1 ] ] ]
   },
   {
     "type": "recipe",
