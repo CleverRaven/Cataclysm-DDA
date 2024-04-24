@@ -20,6 +20,31 @@
 #include "cata_imgui.h"
 #include "imgui/imgui.h"
 
+enum class mission_ui_tab_enum : int {
+    ACTIVE = 0,
+    COMPLETED,
+    FAILED,
+    num_tabs
+};
+
+static mission_ui_tab_enum &operator++( mission_ui_tab_enum &c )
+{
+    c = static_cast<mission_ui_tab_enum>( static_cast<int>( c ) + 1 );
+    if( c == mission_ui_tab_enum::num_tabs ) {
+        c = static_cast<mission_ui_tab_enum>( 0 );
+    }
+    return c;
+}
+
+static mission_ui_tab_enum &operator--( mission_ui_tab_enum &c )
+{
+    if( c == static_cast<mission_ui_tab_enum>( 0 ) ) {
+        c = mission_ui_tab_enum::num_tabs;
+    }
+    c = static_cast<mission_ui_tab_enum>( static_cast<int>( c ) - 1 );
+    return c;
+}
+
 class mission_ui;
 
 class mission_ui
@@ -43,6 +68,9 @@ class mission_ui_impl : public cataimgui::window
         void draw_mission_names( std::vector<mission *> missions, int &selected_mission );
         void draw_selected_description( std::vector<mission *> missions, int &selected_mission );
 
+        mission_ui_tab_enum selected_tab = mission_ui_tab_enum::ACTIVE;
+        mission_ui_tab_enum switch_tab = mission_ui_tab_enum::num_tabs;
+
     protected:
         void draw_controls() override;
 };
@@ -60,6 +88,8 @@ void mission_ui::draw_mission_ui()
     ctxt.register_action( "MOUSE_MOVE" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "QUIT" );
+    // Smooths out our handling, makes tabs load immediately after input instead of waiting for next.
+    ctxt.set_timeout( 10 );
 
     while( true ) {
         ui_manager::redraw_invalidated();
@@ -89,22 +119,44 @@ void mission_ui_impl::draw_controls()
         selected_mission++;
     } else if( last_action == "NEXT_TAB" || last_action == "RIGHT" ) {
         selected_mission = 0;
-        //tab++
+        switch_tab = selected_tab;
+        ++switch_tab;
     } else if( last_action == "PREV_TAB" || last_action == "LEFT" ) {
         selected_mission = 0;
-        //switch_tab--;
+        switch_tab = selected_tab;
+        --switch_tab;
     }
 
+    ImGuiTabItemFlags_ flags = ImGuiTabItemFlags_None;
+
     if( ImGui::BeginTabBar( "##TAB_BAR" ) ) {
-        if( ImGui::BeginTabItem( _( "ACTIVE" ) ) ) {
+        flags = ImGuiTabItemFlags_None;
+        if( switch_tab == mission_ui_tab_enum::ACTIVE ) {
+            flags = ImGuiTabItemFlags_SetSelected;
+            switch_tab = mission_ui_tab_enum::num_tabs;
+        }
+        if( ImGui::BeginTabItem( _( "ACTIVE" ), nullptr, flags ) ) {
+            selected_tab = mission_ui_tab_enum::ACTIVE;
             umissions = get_avatar().get_active_missions();
             ImGui::EndTabItem();
         }
-        if( ImGui::BeginTabItem( _( "COMPLETED" ) ) ) {
+        flags = ImGuiTabItemFlags_None;
+        if( switch_tab == mission_ui_tab_enum::COMPLETED ) {
+            flags = ImGuiTabItemFlags_SetSelected;
+            switch_tab = mission_ui_tab_enum::num_tabs;
+        }
+        if( ImGui::BeginTabItem( _( "COMPLETED" ), nullptr, flags ) ) {
+            selected_tab = mission_ui_tab_enum::COMPLETED;
             umissions = get_avatar().get_completed_missions();
             ImGui::EndTabItem();
         }
-        if( ImGui::BeginTabItem( _( "FAILED" ) ) ) {
+        flags = ImGuiTabItemFlags_None;
+        if( switch_tab == mission_ui_tab_enum::FAILED ) {
+            flags = ImGuiTabItemFlags_SetSelected;
+            switch_tab = mission_ui_tab_enum::num_tabs;
+        }
+        if( ImGui::BeginTabItem( _( "FAILED" ), nullptr, flags ) ) {
+            selected_tab = mission_ui_tab_enum::FAILED;
             umissions = get_avatar().get_failed_missions();
             ImGui::EndTabItem();
         }
