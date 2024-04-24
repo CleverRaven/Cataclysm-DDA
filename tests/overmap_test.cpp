@@ -2,6 +2,7 @@
 #include <vector>
 
 #include "all_enum_values.h"
+#include "ammo.h"
 #include "calendar.h"
 #include "cata_catch.h"
 #include "city.h"
@@ -10,16 +11,20 @@
 #include "enums.h"
 #include "game_constants.h"
 #include "global_vars.h"
+#include "item_factory.h"
+#include "itype.h"
 #include "map.h"
+#include "map_iterator.h"
 #include "mapbuffer.h"
 #include "omdata.h"
-// #include "options_helpers.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmap_types.h"
 #include "overmapbuffer.h"
 #include "test_data.h"
 #include "type_id.h"
+#include "vehicle.h"
+#include "vpart_position.h"
 
 static const oter_str_id oter_cabin( "cabin" );
 static const oter_str_id oter_cabin_east( "cabin_east" );
@@ -247,26 +252,145 @@ TEST_CASE( "mutable_overmap_placement", "[overmap][slow]" )
     }
 }
 
+static bool tally_items( std::unordered_map<itype_id, float> &global_item_count,
+                         std::unordered_map<itype_id, int> &item_count, tinymap &tm )
+{
+    bool found = false;
+    for( const tripoint &p : tm.points_on_zlevel() ) {
+        for( item &i : tm.i_at( p ) ) {
+            std::unordered_map<itype_id, float>::iterator iter = global_item_count.find( i.typeId() );
+            if( iter != global_item_count.end() ) {
+                found = true;
+                item_count.emplace( i.typeId(), 0 ).first->second += i.count();
+            }
+            for( const item *it : i.all_items_ptr() ) {
+                iter = global_item_count.find( it->typeId() );
+                if( iter != global_item_count.end() ) {
+                    found = true;
+                    item_count.emplace( i.typeId(), 0 ).first->second += i.count();
+                }
+            }
+        }
+        if( const optional_vpart_position ovp = tm.veh_at( p ) ) {
+            vehicle *const veh = &ovp->vehicle();
+            for( const int elem : veh->parts_at_relative( ovp->mount(), true ) ) {
+                const vehicle_part &vp = veh->part( elem );
+                for( item &i : veh->get_items( vp ) ) {
+                    std::unordered_map<itype_id, float>::iterator iter = global_item_count.find( i.typeId() );
+                    if( iter != global_item_count.end() ) {
+                        found = true;
+                        item_count.emplace( i.typeId(), 0 ).first->second += i.count();
+                    }
+                    for( const item *it : i.all_items_ptr() ) {
+                        iter = global_item_count.find( it->typeId() );
+                        if( iter != global_item_count.end() ) {
+                            found = true;
+                            item_count.emplace( i.typeId(), 0 ).first->second += i.count();
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return found;
+}
+
+TEST_CASE( "enumerate_items", "[.]" )
+{
+    for( const itype *id : item_controller->find(
+    []( const itype & type ) -> bool {
+    return !!type.gun;
+} ) ) {
+        printf( "%s ", id->gun->skill_used.str().c_str() );
+        printf( "%s\n", id->get_id().str().c_str() );
+    }
+}
+
+static void finalize_item_counts( std::unordered_map<itype_id, float> &item_counts )
+{
+    for( std::pair<const std::string, item_demographic_test_data> &category :
+         test_data::item_demographics ) {
+        // Scan for match ing ammo types and shim them into the provided data so
+        // the test doesn't break every time we add a new item variant.
+        // Ammo has a lot of things in it we don't consider "real ammo" so there's a list
+        // of item types to ignore that are applied here.
+        if( category.first == "ammo" ) {
+            for( const itype *id : item_controller->find( []( const itype & type ) -> bool {
+            return !!type.ammo;
+        } ) ) {
+                if( category.second.ignored_items.find( id->get_id() ) != category.second.ignored_items.end() ) {
+                    continue;
+                }
+                category.second.item_weights[id->get_id()] = 1;
+                auto ammotype_map_iter = category.second.groups.find( id->ammo->type.str() );
+                if( ammotype_map_iter == category.second.groups.end() ) {
+                    // If there's no matching ammotype in the test data,
+                    // stick the item in the "other" group.
+                    category.second.groups["other"].second[id->get_id()];
+                } else {
+                    // If there is a matching ammotype and the item id isn't already populated,
+                    // add it.
+                    if( ammotype_map_iter->second.second.find( id->get_id() ) ==
+                        ammotype_map_iter->second.second.end() ) {
+                        ammotype_map_iter->second.second[id->get_id()] = 1;
+                    }
+                }
+            }
+        } else if( category.first == "gun" ) {
+            for( const itype *id : item_controller->find( []( const itype & type ) -> bool {
+            return !!type.gun;
+        } ) ) {
+                if( category.second.ignored_items.find( id->get_id() ) != category.second.ignored_items.end() ) {
+                    continue;
+                }
+                category.second.item_weights[id->get_id()] = 1; // ???
+                for( const ammotype &ammotype_id : id->gun->ammo ) {
+                    auto ammotype_map_iter = category.second.groups.find( ammotype_id.str() );
+                    if( ammotype_map_iter == category.second.groups.end() ) {
+                        // If there's no matching ammotype in the test data,
+                        // stick the item in the "other" group.
+                        category.second.groups["other"].second[id->get_id()];
+                    } else {
+                        // If there is a matching ammotype and the item id isn't already populated,
+                        // add it.
+                        if( ammotype_map_iter->second.second.find( id->get_id() ) ==
+                            ammotype_map_iter->second.second.end() ) {
+                            ammotype_map_iter->second.second[id->get_id()] = 1; // ???
+                        }
+                    }
+                }
+            }
+        }
+        for( std::pair<const itype_id, int> demographics : category.second.item_weights ) {
+            item_counts[demographics.first] = 0.0;
+        }
+    }
+}
+
+// Toggle this to enable the (very very very expensive) item demographics test.
+static bool enable_item_demographics = false;
+
 TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
 {
     // The goal of this test is to generate a lot of overmaps, and count up how
     // many times we see each terrain, so that we can check that everything
     // generates at least sometimes.
-    // override_option override_forestosity( "OVERMAP_FOREST_LIMIT", "0.2" );
-    // override_option override_urbanity( "OVERMAP_MAXIMUM_URBANITY", "1" );
     struct omt_stats {
-        explicit omt_stats( const tripoint_abs_omt &p ) : first_observed( p ) {}
+        explicit omt_stats( const tripoint_abs_omt &p ) : last_observed( p ) {}
 
-        tripoint_abs_omt first_observed;
+        tripoint_abs_omt last_observed;
         int count = 0;
+        int samples = 0;
+        bool found = false;
+        std::unordered_map<itype_id, int> item_counts;
     };
     std::unordered_map<oter_type_id, omt_stats> stats;
-    point_abs_omt origin;
+    std::unordered_map<itype_id, float> item_counts;
+    finalize_item_counts( item_counts );
     map &main_map = get_map();
-
+    point_abs_omt map_origin = project_to<coords::omt>( main_map.get_abs_sub().xy() );
     for( int i = 0; i < 10; ++i ) {
-        std::unordered_map<oter_type_id, omt_stats> loop_stats;
-        for( const point_abs_omt &p : closest_points_first( origin, 0, 3 * OMAPX - 1 ) ) {
+        for( const point_abs_omt &p : closest_points_first( map_origin, 5, 3 * ( OMAPX - 1 ) ) ) {
             // We need to avoid OMTs that overlap with the 'main' map, so we start at a
             // non-zero minimum radius and ensure that the 'main' map is inside that
             // minimum radius.
@@ -277,35 +401,54 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
                 tripoint_abs_omt tp( p, z );
                 oter_type_id id = overmap_buffer.ter( tp )->get_type_id();
                 auto iter_bool = stats.emplace( id, tp );
+                iter_bool.first->second.last_observed = tp;
                 ++iter_bool.first->second.count;
-                // Just the first time we see a oter_type, stash it here to run mapgen on it.
-                if( iter_bool.second ) {
-                    loop_stats.emplace( id, tp );
-                }
             }
         }
-        // The second phase of this test is to perform the tile-level mapgen once
+        // The second phase of this test is to perform the tile-level mapgen
         // for each oter_type, in hopes of triggering any errors that might arise
         // with that.
-        int num_generated_since_last_clear = 0;
-        for( const std::pair<const oter_type_id, omt_stats> &p : loop_stats ) {
+        // In addition, if enable_item_demographics == true,
+        // perform extensive mapgen analysis and make assertions about
+        // the ratios of selected item occurrence rates.
+        for( std::pair<const oter_type_id, omt_stats> &p : stats ) {
             const std::string oter_type_id = p.first->id.str();
-            const tripoint_abs_omt pos = p.second.first_observed;
+            const tripoint_abs_omt pos = p.second.last_observed;
+            const int count = p.second.count;
+            // Once we find items of interest in an oter_type, increase the sampling for it.
+            int sampling_exponent = p.second.found ? 3 : 2;
+            int goal_samples = std::pow( std::log( std::max( 10, count ) ), sampling_exponent );
+            if( !enable_item_demographics ) {
+                goal_samples = 1;
+            }
+            // We are sampling with logarithmic falloff. Once we pass a threshold where
+            // log( total_count ) yields the next-higher integer value, we take another sample.
+            int sample_size = goal_samples - p.second.samples;
+            if( sample_size <= 0 ) {
+                continue;
+            }
             CAPTURE( oter_type_id );
-            const std::string msg = capture_debugmsg_during( [pos, &num_generated_since_last_clear]() {
-                tinymap tm;
-                tm.load( pos, false );
-
-                // Periodically clear the generated maps to save memory
-                if( ++num_generated_since_last_clear >= 64 ) {
+            const std::string msg = capture_debugmsg_during( [pos,
+            &item_counts, &p, &sample_size, &goal_samples, count, oter_type_id]() {
+                for( int i = 0; i < sample_size; ++i ) {
+                    // clear the generated maps so we keep getting new results.
                     MAPBUFFER.clear_outside_reality_bubble();
-                    num_generated_since_last_clear = 0;
+                    tinymap tm;
+                    tm.generate( pos, calendar::turn );
+                    bool found = tally_items( item_counts, p.second.item_counts, tm );
+                    if( enable_item_demographics && found && !p.second.found ) {
+                        goal_samples = std::pow( std::log( std::max( 10, count ) ), 3 );
+                        sample_size = goal_samples - p.second.samples;
+                        p.second.found = true;
+                    }
                 }
             } );
+            p.second.samples = goal_samples;
             CAPTURE( msg );
-            REQUIRE( msg.empty() );
+            CAPTURE( msg.empty() );
         }
-        overmap_buffer.clear();
+
+        overmap_buffer.reset();
     }
 
     std::unordered_set<oter_type_id> done;
@@ -366,5 +509,96 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
               "(inteded for terrains that sometimes spawn, but cannot be expected to spawn "
               "reliably enough for this test)" );
         CHECK( num_missing == 0 );
+    }
+
+    if( !enable_item_demographics ) {
+        // This should be SKIP() but we haven't updated to Catch 3.3.0 yet.
+        return;;
+    }
+    // Copy and scale the final results from all oter_types to the global item_count map for analysis.
+    for( const std::pair<const oter_type_id, omt_stats> &omt_entry : stats ) {
+        REQUIRE( omt_entry.second.samples != 0 );
+        float sampling_factor = static_cast<float>( omt_entry.second.count ) /
+                                static_cast<float>( omt_entry.second.samples );
+        for( std::pair<const itype_id, int> item_entry : omt_entry.second.item_counts ) {
+            const itype *item_type = item::find_type( item_entry.first );
+            // Adjust this filter to limit output.
+            if( !!item_type->gun ) {
+                printf( "Found %f %s in %d instances of %s (scaled)\n",
+                        static_cast<float>( item_entry.second ) * sampling_factor,
+                        item_entry.first.c_str(), omt_entry.second.count,
+                        omt_entry.first.id().c_str() );
+            }
+            item_counts[item_entry.first] += static_cast<float>( item_entry.second ) * sampling_factor;
+        }
+    }
+
+    // We're asserting ratios for three things here.
+    // 1. global weight within a category, so e.g. number of glock 19s / all guns spawned.
+    // 2. weight of a sub-category within a category, e.g. number of 9mm firearms / all guns.
+    // 3. weight of individual items within a sub-category, e.g. number of glock 19s / all 9mm firearms.
+    for( std::pair<const std::string, item_demographic_test_data> &category :
+         test_data::item_demographics ) {
+        if( category.second.tests.count( "items" ) ) {
+            float category_weight_total = 0.0;
+            float category_actual_total = 0.0;
+            // I don't see an alternative to just walking this twice?
+            for( std::pair<const itype_id, int> &item_ratio : category.second.item_weights ) {
+                category_weight_total += item_ratio.second;
+                category_actual_total += item_counts[item_ratio.first];
+            }
+            for( std::pair<const itype_id, int> &item_ratio : category.second.item_weights ) {
+                float actual_item_count = item_counts[item_ratio.first];
+                float actual_item_ratio = actual_item_count / category_actual_total;
+                float expected_item_total = item_ratio.second;
+                float expected_item_ratio = expected_item_total / category_weight_total;
+                CAPTURE( item_ratio.first );
+                CAPTURE( actual_item_count );
+                CAPTURE( expected_item_total );
+                CHECK_THAT( actual_item_ratio, Catch::Matchers::WithinRel( expected_item_ratio, 0.1f ) );
+            }
+        }
+        if( category.second.tests.count( "groups" ) ) {
+            float all_type_weight_total = 0.0;
+            float all_type_actual_total = 0.0;
+            // I don't see an alternative to just walking this twice?
+            for( std::pair < const std::string,
+                 std::pair<int, std::map<itype_id, int>>> &group : category.second.groups ) {
+                all_type_weight_total += group.second.first;
+                for( std::pair<const itype_id, int> &item_ratio : group.second.second ) {
+                    all_type_actual_total += item_counts[item_ratio.first];
+                }
+            }
+            for( std::pair < const std::string,
+                 std::pair<int, std::map<itype_id, int>>> &group : category.second.groups ) {
+                float current_type_actual_total = 0.0;
+                float current_type_weight_total = group.second.first;
+                for( std::pair<const itype_id, int> &item_ratio : group.second.second ) {
+                    current_type_actual_total += item_counts[item_ratio.first];
+                }
+                if( category.second.tests.count( "inner-group" ) ) {
+                    for( std::pair<const itype_id, int> &item_ratio : group.second.second ) {
+                        float actual_item_count = item_counts[item_ratio.first];
+                        float actual_item_ratio = actual_item_count / current_type_actual_total;
+                        float expected_item_ratio = item_ratio.second / current_type_weight_total;
+                        CAPTURE( category.first );
+                        CAPTURE( item_ratio.first );
+                        CAPTURE( actual_item_count );
+                        CAPTURE( expected_item_ratio );
+                        CHECK_THAT( actual_item_ratio,
+                                    Catch::Matchers::WithinRel( expected_item_ratio, 0.1f ) );
+                    }
+                }
+                float current_type_expected_ratio = current_type_weight_total / all_type_weight_total;
+                float current_type_actual_ratio = current_type_actual_total / all_type_actual_total;
+                CAPTURE( category.first );
+                CAPTURE( group.first );
+                CAPTURE( current_type_expected_ratio );
+                CAPTURE( current_type_actual_ratio );
+                INFO( "Difference: " << current_type_actual_ratio - current_type_expected_ratio );
+                CHECK_THAT( current_type_actual_ratio,
+                            Catch::Matchers::WithinRel( current_type_expected_ratio, 0.1f ) );
+            }
+        }
     }
 }

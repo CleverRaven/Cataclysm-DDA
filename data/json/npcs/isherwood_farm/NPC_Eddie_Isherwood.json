@@ -79,7 +79,7 @@
       {
         "text": "Nice dairy, must be tough keeping it running.",
         "topic": "TALK_ISHERWOOD_EDDIE_TALK1",
-        "effect": { "u_add_var": "u_met_Eddie_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
+        "effect": { "u_add_var": "general_meeting_u_met_Eddie_Isherwood", "value": "yes" }
       },
       {
         "text": "Hi, Jack and Claire suggested I come down here and meet you.",
@@ -87,7 +87,7 @@
         "condition": {
           "and": [
             { "not": { "u_is_wearing": "badge_marshal" } },
-            { "u_has_var": "u_met_Jack_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
+            { "u_has_var": "general_meeting_u_met_Jack_Isherwood", "value": "yes" }
           ]
         }
       },
@@ -127,7 +127,7 @@
         "condition": {
           "and": [
             { "not": { "u_is_wearing": "badge_marshal" } },
-            { "u_has_var": "u_learned_about_barry", "type": "general", "context": "meeting", "value": "yes" }
+            { "u_has_var": "general_meeting_u_learned_about_barry", "value": "yes" }
           ]
         }
       },
@@ -158,7 +158,7 @@
     "type": "talk_topic",
     "id": "TALK_EDDIE_LUKE",
     "dynamic_line": "Luke was going to start college this year, now everything is upside down.  He is adaptable though, had an idea to begin manufacturing our own jars and pottery.  He's out in the old outbuilding right now, cleaning up the place.",
-    "speaker_effect": { "effect": { "u_add_var": "u_heard_about_luke", "type": "general", "context": "meeting", "value": "yes" } },
+    "speaker_effect": { "effect": { "u_add_var": "general_meeting_u_heard_about_luke", "value": "yes" } },
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_EDDIE_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -177,7 +177,7 @@
     "type": "talk_topic",
     "id": "TALK_EDDIE_CARLOS",
     "dynamic_line": "Carlos will be in his workshop if he isn't out hunting.  He is trying to get a forge set up.",
-    "speaker_effect": { "effect": { "u_add_var": "u_learned_about_forge", "type": "general", "context": "meeting", "value": "yes" } },
+    "speaker_effect": { "effect": { "u_add_var": "general_meeting_u_learned_about_forge", "value": "yes" } },
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_EDDIE_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -281,7 +281,7 @@
     "end": {
       "opinion": { "trust": 2, "value": 2 },
       "effect": [
-        { "u_add_var": "u_did_eddie_missions", "type": "general", "context": "mission", "value": "yes" },
+        { "u_add_var": "general_mission_u_did_eddie_missions", "value": "yes" },
         { "u_spawn_item": "rope_6", "count": 1 },
         { "u_buy_monster": "mon_cow", "count": 1, "name": "Daisy" },
         { "u_spawn_item": "cattlefodder", "count": 3 }

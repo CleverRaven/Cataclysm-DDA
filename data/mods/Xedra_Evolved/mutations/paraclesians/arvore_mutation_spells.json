@@ -271,7 +271,8 @@
     "base_casting_time": 100,
     "base_energy_cost": 800,
     "final_energy_cost": 500,
-    "energy_increment": -40
+    "energy_increment": -40,
+    "learn_spells": { "arvore_create_living_tent_spell": 4 }
   },
   {
     "id": "arvore_verdant_infusion",
@@ -592,7 +593,7 @@
     "base_energy_cost": 600,
     "final_energy_cost": 350,
     "energy_increment": -15,
-    "learn_spells": { "arvore_tree_singing_spell": 6, "arvore_turn_into_tree": 12 }
+    "learn_spells": { "arvore_tree_singing_spell": 6, "arvore_create_living_tent_spell": 8, "arvore_turn_into_tree": 12 }
   },
   {
     "id": "arvore_growing_wood_walls_wall",
@@ -683,7 +684,33 @@
     "energy_increment": -25,
     "base_casting_time": 150,
     "final_casting_time": 75,
-    "casting_time_increment": -5
+    "casting_time_increment": -5,
+    "learn_spells": { "arvore_create_living_tent_spell": 10 }
+  },
+  {
+    "type": "SPELL",
+    "id": "arvore_create_living_tent_spell",
+    "name": "Den of Brambles",
+    "description": "When outside on diggable ground, create a small structure of wood near the Arvore, offering shelter against the elements.",
+    "flags": [ "SOMATIC", "VERBAL", "NO_FAIL" ],
+    "valid_targets": [ "ground" ],
+    "skill": "deduction",
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "difficulty": 5,
+    "teachable": false,
+    "spell_class": "ARVORE",
+    "effect": "ter_transform",
+    "effect_str": "ter_arvore_living_tent",
+    "shape": "blast",
+    "min_range": 1,
+    "max_range": 1,
+    "energy_source": "MANA",
+    "base_energy_cost": 500,
+    "final_energy_cost": 250,
+    "energy_increment": -20,
+    "base_casting_time": 12000,
+    "final_casting_time": 1500,
+    "casting_time_increment": -150
   },
   {
     "id": "arvore_roots_spell",
@@ -885,21 +912,6 @@
     "energy_source": "MANA",
     "base_energy_cost": 1500,
     "base_casting_time": 30000
-  },
-  {
-    "id": "arvore_forest_translocate_real",
-    "type": "SPELL",
-    "name": "From Root to Root the Forest Is Joined Real",
-    "description": "The actual spell that transports you for From Root to Root the Forest Is Joined.  It's a bug if you have it.",
-    "teachable": false,
-    "valid_targets": [ "self" ],
-    "spell_class": "ARVORE",
-    "skill": "deduction",
-    "flags": [ "VERBAL", "SOMATIC" ],
-    "difficulty": 9,
-    "max_level": { "math": [ "per_to_level(1)" ] },
-    "effect": "translocate",
-    "shape": "blast"
   },
   {
     "id": "arvore_forest_translocate_attune",

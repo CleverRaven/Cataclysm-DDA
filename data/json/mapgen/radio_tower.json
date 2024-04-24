@@ -286,7 +286,7 @@
             [ "null", 40 ],
             [ "radio_tower_2x2_map", 40 ],
             [ "radio_tower_2x2_holdout", 10 ],
-            [ "radio_tower_2x2_sniper", 10 ],
+            [ "radio_tower_2x2_sniper", 2 ],
             [ "radio_tower_wasp", 5 ]
           ],
           "x": 10,

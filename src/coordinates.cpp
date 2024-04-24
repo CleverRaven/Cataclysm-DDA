@@ -1,5 +1,7 @@
 #include "coordinates.h"
 
+#include <cstdlib>
+
 void real_coords::fromabs( const point &abs )
 {
     const point norm( std::abs( abs.x ), std::abs( abs.y ) );

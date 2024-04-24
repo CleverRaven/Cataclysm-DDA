@@ -120,5 +120,62 @@
         }
       ]
     }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLAIR_ASTRAL_PROJECTION_INITIATE",
+    "effect": [
+      { "u_location_variable": { "u_val": "clair_astral_projection_original_location" }, "min_radius": 0, "max_radius": 0 },
+      { "u_add_effect": "effect_clair_astral_projection", "duration": "PERMANENT" },
+      { "u_add_effect": "incorporeal", "duration": "PERMANENT" },
+      { "u_message": "As you meditate, you feel your spirit slipping free from your body.", "type": "good" },
+      { "u_spawn_item": "body_astral_projection", "suppress_message": true },
+      { "u_spawn_item": "item_clair_astral_projection_cord", "suppress_message": true, "force_equip": true },
+      { "math": [ "u_spell_level('clair_astral_projection_passwall')", "=", "0" ] },
+      { "math": [ "u_spell_level('clair_astral_projection_return')", "=", "0" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLAIR_ASTRAL_PROJECTION_DEACTIVATE",
+    "effect": [
+      { "u_remove_item_with": "item_clair_astral_projection_cord" },
+      { "u_lose_effect": "effect_clair_astral_projection" },
+      { "u_lose_effect": "incorporeal" },
+      { "math": [ "u_spell_level('clair_astral_projection_passwall')", "=", "-1" ] },
+      { "math": [ "u_spell_level('clair_astral_projection_return')", "=", "-1" ] },
+      {
+        "u_teleport": { "u_val": "clair_astral_projection_original_location" },
+        "success_message": "You snap back into your body once again."
+      },
+      {
+        "u_map_run_item_eocs": "all",
+        "min_radius": 0,
+        "max_radius": 0,
+        "search_data": [ { "id": "body_astral_projection" } ],
+        "true_eocs": [ { "id": "EOC_CLAIR_ASTRAL_PROJECTION_DEACTIVATE_REMOVE_BODY", "effect": [ "npc_die" ] } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLAIR_ASTRAL_PROJECTION_MOVEMENT_STAMINA",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": { "u_has_effect": "effect_clair_astral_projection" },
+    "effect": [ { "math": [ "u_val('stamina')", "-=", "max((75 - (u_spell_level('clair_astral_projection') * 3)), 25)" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLAIR_ASTRAL_PROJECTION_NO_STAMINA_RETURN",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_clair_astral_projection" },
+        { "or": [ { "u_has_effect": "winded" }, { "math": [ "u_val('stamina')", "==", "0" ] } ] }
+      ]
+    },
+    "effect": [ { "run_eocs": "EOC_CLAIR_ASTRAL_PROJECTION_DEACTIVATE" } ]
   }
 ]

@@ -6,10 +6,10 @@
     "//2": "This group is for the contents of gunsafes",
     "subtype": "collection",
     "entries": [
-      { "group": "ammo_common_collection", "prob": 85 },
-      { "group": "ammo_rare_collection", "prob": 20 },
-      { "group": "ammo_obscure_collection", "prob": 10 },
-      { "group": "guns_rare_display", "prob": 10 }
+      { "group": "ammo_common_collection", "prob": 100 },
+      { "group": "ammo_rare_collection", "prob": 1 },
+      { "group": "ammo_obscure_collection", "prob": 1 },
+      { "group": "guns_rare_display", "prob": 1 }
     ]
   },
   {
@@ -26,7 +26,7 @@
       },
       {
         "collection": [ { "group": "guns_shotgun_obscure_display" }, { "group": "mags_shotgun_rare", "count": [ 1, 2 ] } ],
-        "prob": 10
+        "prob": 1
       },
       {
         "collection": [
@@ -34,7 +34,7 @@
           { "group": "mags_smg_common", "count": [ 1, 8 ] },
           { "group": "mags_smg_rare", "count": [ 1, 8 ] }
         ],
-        "prob": 45
+        "prob": 2
       }
     ]
   },
@@ -93,9 +93,12 @@
     "//2": "This group is for the contents of gunstore displaycases",
     "subtype": "distribution",
     "entries": [
-      { "group": "guns_rifle_rare_display", "prob": 80 },
-      { "group": "guns_pistol_rare_display", "prob": 40 },
-      { "group": "guns_shotgun_rare_display", "prob": 5 }
+      { "group": "guns_pistol_common_display", "prob": 60 },
+      { "group": "guns_rifle_common_display", "prob": 20 },
+      { "group": "guns_shotgun_common_display", "prob": 2 },
+      { "group": "guns_pistol_rare_display", "prob": 30 },
+      { "group": "guns_rifle_rare_display", "prob": 10 },
+      { "group": "guns_shotgun_rare_display", "prob": 1 }
     ]
   },
   {

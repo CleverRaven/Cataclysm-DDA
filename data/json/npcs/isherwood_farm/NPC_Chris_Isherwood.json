@@ -53,7 +53,7 @@
       {
         "text": "Hi, Your dad asked me to come find you, said you've been looking for your uncle.",
         "topic": "TALK_ISHERWOOD_CHRIS_TALK1",
-        "effect": { "u_add_var": "u_met_chris_isherwood", "type": "general", "context": "meeting", "value": "yes" }
+        "effect": { "u_add_var": "general_meeting_u_met_chris_isherwood", "value": "yes" }
       },
       {
         "text": "I was talking to Luke earlier, said you had some interesting ideas about the world ending.  Is it tied to Barry's abduction?",
@@ -61,7 +61,7 @@
         "condition": {
           "and": [
             { "not": { "u_is_wearing": "badge_marshal" } },
-            { "u_has_var": "u_heard_about_chris", "type": "general", "context": "meeting", "value": "yes" }
+            { "u_has_var": "general_meeting_u_heard_about_chris", "value": "yes" }
           ]
         }
       },
@@ -85,7 +85,7 @@
         "condition": {
           "and": [
             { "not": { "u_is_wearing": "badge_marshal" } },
-            { "u_has_var": "u_heard_about_chris", "type": "general", "context": "meeting", "value": "yes" }
+            { "u_has_var": "general_meeting_u_heard_about_chris", "value": "yes" }
           ]
         }
       },

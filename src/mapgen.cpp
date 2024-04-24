@@ -14,6 +14,7 @@
 #include <unordered_map>
 
 #include "all_enum_values.h"
+#include "avatar.h"
 #include "calendar.h"
 #include "cata_assert.h"
 #include "catacharset.h"

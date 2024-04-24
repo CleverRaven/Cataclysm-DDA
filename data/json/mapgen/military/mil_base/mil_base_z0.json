@@ -675,9 +675,9 @@
         "V": [ { "item": "tools_common", "chance": 50, "repeat": [ 0, 1 ] } ],
         "U": [
           { "item": "SUS_office_filing_cabinet", "chance": 50, "repeat": [ 1, 10 ] },
-          { "item": "guns_obscure", "chance": 50, "repeat": [ 1, 2 ] },
-          { "item": "ammo_obscure", "chance": 50, "repeat": [ 2, 4 ] },
-          { "item": "mags_obscure", "chance": 50, "repeat": [ 2, 3 ] }
+          { "item": "guns_common", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "ammo_common", "chance": 50, "repeat": [ 2, 4 ] },
+          { "item": "mags_common", "chance": 50, "repeat": [ 2, 3 ] }
         ],
         "^": [ { "item": "mil_base_iv", "chance": 70 } ]
       },

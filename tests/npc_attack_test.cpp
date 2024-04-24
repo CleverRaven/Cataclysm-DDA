@@ -11,13 +11,11 @@
 #include "options_helpers.h"
 #include "player_helpers.h"
 
-static const ammotype ammo_battery( "battery" );
-
 static const faction_id faction_your_followers( "your_followers" );
 
+static const itype_id itype_combat_exoskeleton_medium( "combat_exoskeleton_medium" );
+static const itype_id itype_combat_exoskeleton_medium_on( "combat_exoskeleton_medium_on" );
 static const itype_id itype_knife_chef( "knife_chef" );
-static const itype_id itype_power_armor_basic( "power_armor_basic" );
-static const itype_id itype_power_armor_basic_on( "power_armor_basic_on" );
 static const itype_id itype_rock( "rock" );
 static const itype_id itype_wearable_light( "wearable_light" );
 
@@ -149,41 +147,42 @@ TEST_CASE( "NPC_faces_zombies", "[npc_attack]" )
                 CHECK( !throw_attack );
             }
         }
-        WHEN( "NPC has power armor" ) {
-            main_npc.clear_worn();
+        WHEN( "NPC has an exoskeleton" ) {
 
-            item armor( "power_armor_basic" );
+            main_npc.clear_worn();
+            item armor( "combat_exoskeleton_medium" );
             std::optional<std::list<item>::iterator> wear_success = main_npc.wear_item( armor );
+            item &worn_armor = **wear_success;
+
             REQUIRE( wear_success );
 
             // If the flag gets removed from power armor, some other item with the flag will need to replace it.
             REQUIRE( main_npc.worn_with_flag( flag_COMBAT_TOGGLEABLE ) );
 
-            WHEN( "NPC has a UPS for their armor" ) {
-                item ps( "UPS_ON" );
-                item battery( "heavy_plus_battery_cell" );
-                battery.ammo_set( battery.ammo_default(), battery.ammo_capacity( ammo_battery ) );
+            WHEN( "NPC has a battery for their armor" ) {
 
-                ps.put_in( battery, pocket_type::MAGAZINE_WELL );
+                item battery = item( "heavy_battery_cell" );
+                battery.ammo_set( battery.ammo_default() );
+                worn_armor.put_in( battery, pocket_type::MAGAZINE_WELL );
 
-                item_location stored_ps = main_npc.try_add( ps );
-                REQUIRE( stored_ps != item_location::nowhere );
+                REQUIRE( worn_armor.ammo_remaining() > 0 );
 
-                THEN( "NPC activates their power armor successfully" ) {
+                THEN( "NPC activates their exoskeleton successfully" ) {
+
                     // target is not exposed, so regen_ai_cache is used to have the npc re-assess threat and store the target.
                     main_npc.regen_ai_cache();
                     main_npc.method_of_attack();
-                    CHECK( main_npc.is_wearing( itype_power_armor_basic_on ) );
-                    CHECK( !main_npc.is_wearing( itype_power_armor_basic ) );
+                    CHECK( main_npc.is_wearing( itype_combat_exoskeleton_medium_on ) );
+                    CHECK( !main_npc.is_wearing( itype_combat_exoskeleton_medium ) );
                 }
             }
 
-            WHEN( "NPC has no power supply for their armor" ) {
-                THEN( "NPC fails to activate their power armor" ) {
+            WHEN( "NPC has no power supply for their exoskeleton" ) {
+                THEN( "NPC fails to activate their exoskeleton" ) {
                     main_npc.regen_ai_cache();
                     main_npc.method_of_attack();
-                    CHECK( main_npc.is_wearing( itype_power_armor_basic ) );
-                    CHECK( !main_npc.is_wearing( itype_power_armor_basic_on ) );
+                    CHECK( main_npc.is_wearing( itype_combat_exoskeleton_medium ) );
+                    CHECK( !main_npc.is_wearing( itype_combat_exoskeleton_medium_on ) );
                 }
             }
         }
@@ -292,18 +291,18 @@ TEST_CASE( "NPC_faces_zombies", "[npc_attack]" )
         }
     }
     GIVEN( "There is no zombie nearby. " ) {
-        WHEN( "NPC is wearing active power armor. " ) {
-            item armor( "power_armor_basic_on" );
+        WHEN( "NPC is wearing active exoskeleton. " ) {
+            item armor( "combat_exoskeleton_medium_on" );
             armor.activate();
             std::optional<std::list<item>::iterator> wear_success = main_npc.wear_item( armor );
             REQUIRE( wear_success );
 
-            THEN( "NPC deactivates their power armor. " ) {
+            THEN( "NPC deactivates their exoskeleton. " ) {
                 // This is somewhat cheating, but going up one level is testing all of npc::move.
                 main_npc.cleanup_on_no_danger();
 
-                CHECK( !main_npc.is_wearing( itype_power_armor_basic_on ) );
-                CHECK( main_npc.is_wearing( itype_power_armor_basic ) );
+                CHECK( !main_npc.is_wearing( itype_combat_exoskeleton_medium_on ) );
+                CHECK( main_npc.is_wearing( itype_combat_exoskeleton_medium ) );
             }
         }
     }

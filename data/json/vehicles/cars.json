@@ -2295,7 +2295,7 @@
       { "x": 3, "y": 1, "parts": [ "ram_spiked" ] },
       { "x": -1, "y": -1, "parts": [ "frame#vertical_left", "halfboard#vertical_left" ] },
       { "x": -1, "y": 0, "parts": [ "frame#cross", "cargo_space", "recharge_station", "roof" ] },
-      { "x": -1, "y": 1, "parts": [ "frame#cross", "minifridge", "roof" ] },
+      { "x": -1, "y": 1, "parts": [ "frame#cross", "big_portable_fridge", "roof" ] },
       { "x": -1, "y": 2, "parts": [ "frame#vertical_right", "halfboard#vertical_right" ] },
       { "x": -2, "y": -1, "parts": [ "frame#vertical_left", "halfboard#wheel_left" ] },
       { "x": -2, "y": -1, "parts": [ "wheel_mount_medium", "wheel_wide_or" ] },
