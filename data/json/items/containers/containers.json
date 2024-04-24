@@ -766,11 +766,9 @@
         "open_container": true,
         "max_contains_volume": "250 ml",
         "max_contains_weight": "1 kg",
-        "sealed_data": { "spoil_multiplier": 0.5 },
         "moves": 200
       }
     ],
-    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
     "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
