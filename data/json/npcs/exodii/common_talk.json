@@ -1,7 +1,21 @@
 [
   {
+    "type": "effect_on_condition",
+    "id": "EOC_exodii_warehouse_mission_directions_chance",
+    "//": "to be called by NPCs as a way to assess if they have the right directions to the exodii warehouse.  The chance to get the right ones increases for each NPC you ask.",
+    "condition": { "one_in_chance": { "global_val": "exodii_mission_wh_chance" } },
+    "effect": [ { "npc_add_var": "exodii_mission_wh_correct", "value": "yes" } ],
+    "false_effect": [
+      {
+        "if": { "one_in_chance": 4 },
+        "then": { "npc_add_var": "exodii_mission_wh_correct", "value": "alternate" },
+        "else": { "npc_add_var": "exodii_mission_wh_correct", "value": "no" }
+      }
+    ]
+  },
+  {
     "type": "talk_topic",
-	"//": "Common topic responses for anyone who can give directions.  Also serves as a list of what NPCs can give these directions.",
+    "//": "Common topic responses for anyone who can give directions.  Also serves as a list of what NPCs can give these directions.",
     "id": [
       "TALK_EVAC_MERCHANT_EXODII_MISSION_WAREHOUSE",
       "TALK_FREE_MERCHANT_TEAMSTER_EXODII_MISSION_WAREHOUSE",
