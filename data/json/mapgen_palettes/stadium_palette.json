@@ -107,7 +107,7 @@
       "p": "f_pinball_machine",
       "r": "f_rack",
       "q": "f_displaycase",
-      "e": "f_fridge",
+      "e": [ "f_heavy_duty_fridge", "f_heavy_duty_freezer" ],
       "é": "f_fridge",
       "E": "f_glass_fridge",
       "É": "f_glass_fridge",

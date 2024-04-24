@@ -1,5 +1,27 @@
 [
   {
+    "id": "fridges_and_freezers_tradeable",
+    "//": "for traders",
+    "type": "item_group",
+    "items": [
+      { "item": "apartment_fridge", "prob": 100 },
+      { "item": "minifridge", "prob": 50 },
+      { "item": "big_portable_fridge", "prob": 8 },
+      { "item": "glass_fridge", "prob": 80 },
+      { "item": "glass_fridge_double", "prob": 70 },
+      { "item": "heavy_duty_fridge", "prob": 5 },
+      { "item": "display_fridge", "prob": 25 },
+      { "item": "apartment_freezer", "prob": 100 },
+      { "item": "minifreezer", "prob": 22 },
+      { "item": "chest_minifreezer", "prob": 16 },
+      { "item": "big_portable_freezer", "prob": 6 },
+      { "item": "chest_freezer", "prob": 20 },
+      { "item": "heavy_duty_freezer", "prob": 6 },
+      { "item": "glass_freezer", "prob": 30 },
+      { "item": "display_freezer", "prob": 30 }
+    ]
+  },
+  {
     "id": "apartment_fridge_destroyed",
     "//": "allows both terrain/furniture and vehicle/appliances use the same drop list",
     "type": "item_group",

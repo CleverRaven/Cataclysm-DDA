@@ -67,7 +67,8 @@
         "rigid": true,
         "condition": { "math": [ "n_NEVER", "==", "1" ] },
         "refusal": "<npcname> will never sell this"
-      }
+      },
+      { "group": "fridges_and_freezers_tradeable" }
     ],
     "shopkeeper_consumption_rates": "basic_shop_rates",
     "shopkeeper_price_rules": [
@@ -90,7 +91,8 @@
       { "item": "magnesium", "price": 2000, "fixed_adj": 0 },
       { "item": "silver_small", "price": 5600, "fixed_adj": 0 },
       { "item": "gold_small", "price": 20000, "fixed_adj": 0 },
-      { "item": "platinum_small", "price": 30000, "fixed_adj": 0 }
+      { "item": "platinum_small", "price": 30000, "fixed_adj": 0 },
+      { "group": "fridges_and_freezers_tradeable", "markup": 50 }
     ]
   },
   {
