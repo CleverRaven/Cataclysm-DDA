@@ -38,7 +38,6 @@ const int UILIST_ADDITIONAL = -1029;
 const int MENU_AUTOASSIGN = -1;
 
 class string_input_popup;
-class ui_adaptor;
 class uilist_impl;
 
 catacurses::window new_centered_win( int nlines, int ncols );
@@ -386,16 +385,6 @@ class uilist // NOLINT(cata-xy)
 
         void reset();
 
-        // Can be called before `uilist::query` to keep the uilist on UI stack after
-        // `uilist::query` returns. The returned `ui_adaptor` is cleared when the
-        // `uilist` is deconstructed.
-        //
-        // Example:
-        //     shared_ptr_fast<ui_adaptor> ui = menu.create_or_get_ui_adaptor();
-        //     menu.query()
-        //     // before `ui` or `menu` is deconstructed, the menu will always be
-        //     // displayed on screen.
-        //shared_ptr_fast<ui_adaptor> create_or_get_ui_adaptor();
         shared_ptr_fast<uilist_impl> create_or_get_ui();
         // NOLINTNEXTLINE(google-explicit-constructor)
         operator int() const;
@@ -494,7 +483,6 @@ class uilist // NOLINT(cata-xy)
         std::map<input_event, int, std::function<bool( const input_event &, const input_event & )>>
         keymap { input_event::compare_type_mod_code };
 
-        //weak_ptr_fast<ui_adaptor> ui;
         weak_ptr_fast<uilist_impl> ui;
 
         std::unique_ptr<string_input_popup> filter_popup;

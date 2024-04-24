@@ -688,8 +688,7 @@ void uilist::inputfilter()
 {
     input_context ctxt = create_filter_input_context();
     filter_popup = std::make_unique<string_input_popup>();
-    filter_popup->context( ctxt ).text( filter )
-    .max_length( 256 );
+    filter_popup->context( ctxt ).text( filter ).max_length( 256 );
     // .window( window, point( 4, w_height - 1 ), w_width - 4 );
     bool loop = true;
     do {
@@ -1049,13 +1048,6 @@ shared_ptr_fast<uilist_impl> uilist::create_or_get_ui()
     shared_ptr_fast<uilist_impl> current_ui = ui.lock();
     if( !current_ui ) {
         ui = current_ui = make_shared_fast<uilist_impl>( *this );
-        //current_ui->on_redraw( [this]( ui_adaptor & ui ) {
-        //    show( ui );
-        //} );
-        //current_ui->on_screen_resize( [this]( ui_adaptor & ui ) {
-        //    reposition( ui );
-        //} );
-        //current_ui->mark_resize();
         current_ui->on_resized();
     }
     return current_ui;
