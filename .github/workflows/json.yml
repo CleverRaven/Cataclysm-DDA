@@ -1,0 +1,36 @@
+name: JSON Validation
+
+on: pull_request
+
+jobs:
+  skip-duplicates:
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    # Map a step output to a job output
+    outputs:
+      should_skip: ${{ steps.skip_check.outputs.should_skip }}
+    steps:
+    - id: skip_check
+      uses: fkirc/skip-duplicate-actions@master
+      with:
+        cancel_others: 'true'
+        paths: '["**.json", ".github/workflows/json.yml"]'
+    - run: echo ${{ github.event.number }} > pull_request_id
+    - uses: actions/upload-artifact@v4
+      with:
+        name: pull_request_id
+        path: pull_request_id
+  style-json:
+    name: JSON style check
+
+    runs-on: ubuntu-latest
+    needs: skip-duplicates
+    if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' }}
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: JSON style check
+      run: make style-all-json-parallel RELEASE=1
+    - name: Display Corrections
+      if: failure()
+      run: git diff --color

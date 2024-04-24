@@ -1,0 +1,35 @@
+[
+  {
+    "id": "clear",
+    "type": "weather_type",
+    "name": "Clear",
+    "color": "cyan",
+    "map_color": "yellow_white",
+    "sym": " ",
+    "ranged_penalty": 0,
+    "sight_penalty": 1.0,
+    "light_modifier": 0,
+    "sound_attn": 0,
+    "dangerous": false,
+    "precip": "none",
+    "rains": false,
+    "sound_category": "clear",
+    "priority": 0
+  },
+  {
+    "id": "null",
+    "type": "weather_type",
+    "name": "NULL Weather - BUG",
+    "color": "magenta",
+    "map_color": "magenta_red",
+    "sym": "0",
+    "ranged_penalty": 0,
+    "sight_penalty": 0.0,
+    "light_modifier": 0,
+    "sound_attn": 0,
+    "dangerous": false,
+    "precip": "none",
+    "rains": false,
+    "priority": -1
+  }
+]

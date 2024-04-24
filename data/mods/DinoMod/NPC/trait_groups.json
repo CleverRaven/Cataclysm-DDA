@@ -1,0 +1,132 @@
+[
+  {
+    "type": "trait_group",
+    "id": "trait_group_dino",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "TOUGH_FEET", "prob": 50 },
+      { "trait": "THICKSKIN", "prob": 50 },
+      { "trait": "PAINRESIST", "prob": 50 },
+      { "trait": "ANTIJUNK", "prob": 50 },
+      { "trait": "THICKSKIN2", "prob": 40 },
+      { "trait": "UGLY", "prob": 60 },
+      { "trait": "LIZ_EYE", "prob": 50 },
+      { "trait": "SCALES", "prob": 50 },
+      { "trait": "NAILS", "prob": 50 },
+      { "trait": "CLAWS", "prob": 20 },
+      { "trait": "STRONGBACKDINO", "prob": 50 },
+      { "trait": "TAIL_LONG", "prob": 50 },
+      { "trait": "STR_UP" },
+      { "trait": "SLIT_NOSTRILS", "prob": 50 },
+      { "trait": "FORKED_TONGUE", "prob": 50 },
+      { "trait": "HUNGER2", "prob": 50 },
+      { "trait": "LARGE", "prob": 50 },
+      { "trait": "COLDBLOOD2", "prob": 50 },
+      { "trait": "HISS", "prob": 50 },
+      { "trait": "SHOUT1", "prob": 50 },
+      { "trait": "PONDEROUS2", "prob": 50 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_stego_nonthres",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "FANGS", "prob": 50 },
+      { "trait": "TOUGH", "prob": 70 },
+      { "trait": "ANIMALEMPATH", "prob": 50 },
+      { "trait": "HUGE", "prob": 50 },
+      { "trait": "VEGETARIAN", "prob": 50 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_stego_postthres",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "THRESH_STEGO" },
+      { "distribution": [ { "trait": "TOUGH3" }, { "trait": "TOUGH2" } ] },
+      { "trait": "COLDBLOOD4", "prob": 50 },
+      { "distribution": [ { "trait": "MUT_TOUGH3" }, { "trait": "MUT_TOUGH2" }, { "trait": "MUT_TOUGH" } ] },
+      { "trait": "PER_UP_3" },
+      { "trait": "GRAZER", "prob": 50 },
+      { "trait": "HUGE_OK", "prob": 20 },
+      { "trait": "LARGE_OK", "prob": 40 },
+      { "trait": "TAIL_HORNED", "prob": 40 },
+      { "trait": "THICKSKIN3", "prob": 50 },
+      { "distribution": [ { "trait": "GRAZER" }, { "trait": "RUMINANT" } ] }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_tyrant_nonthres",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "FANGS", "prob": 50 },
+      { "trait": "QUICK", "prob": 50 },
+      { "trait": "DEX_UP_2" },
+      { "trait": "CARNIVORE", "prob": 50 },
+      { "trait": "ANIMALDISCORD", "prob": 50 },
+      { "trait": "HUGE", "prob": 50 }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_tyrant_postthres",
+    "subtype": "collection",
+    "traits": [
+      { "trait": "THRESH_TYRANT" },
+      { "distribution": [ { "trait": "PRED3" }, { "trait": "PRED2" }, { "trait": "PRED4" }, { "trait": "PRED1" } ] },
+      { "trait": "SAPIOVORE", "prob": 50 },
+      { "trait": "GLASSJAW", "prob": 50 },
+      { "trait": "ANIMALDISCORD", "prob": 50 },
+      { "trait": "HUGE_OK", "prob": 20 },
+      { "trait": "LARGE_OK", "prob": 40 },
+      { "trait": "TYRANT_TEETH", "prob": 40 },
+      { "trait": "COLDBLOOD4", "prob": 50 },
+      { "distribution": [ { "trait": "MUT_TOUGH2" }, { "trait": "MUT_TOUGH" } ] }
+    ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_mutant_npc_common",
+    "subtype": "collection",
+    "traits": [
+      { "distribution": [ { "trait": "FASTLEARNER" }, { "trait": "SLOWLEARNER" } ], "prob": 10 },
+      {
+        "distribution": [ { "trait": "FASTREADER" }, { "trait": "SLOWREADER" }, { "trait": "ILLITERATE", "prob": 5 } ],
+        "prob": 10
+      },
+      { "distribution": [ { "trait": "GOODCARDIO" }, { "trait": "BADKNEES" } ], "prob": 10 },
+      { "distribution": [ { "trait": "LIAR" }, { "trait": "TRUTHTELLER" } ], "prob": 10 },
+      {
+        "distribution": [
+          { "trait": "MARTIAL_ARTS" },
+          { "trait": "MARTIAL_ARTS2" },
+          { "trait": "MARTIAL_ARTS3" },
+          { "trait": "MARTIAL_ARTS4" },
+          { "trait": "MARTIAL_ARTS5" }
+        ],
+        "prob": 10
+      },
+      { "trait": "DEFT", "prob": 10 },
+      { "trait": "ADRENALINE", "prob": 10 },
+      { "trait": "OUTDOORSMAN", "prob": 10 },
+      { "trait": "PAINRESIST", "prob": 10 },
+      { "trait": "QUICK", "prob": 10 },
+      { "trait": "ROBUST", "prob": 10 },
+      { "trait": "SPIRITUAL", "prob": 10 },
+      { "trait": "STYLISH", "prob": 10 },
+      { "trait": "ALBINO", "prob": 5 },
+      { "trait": "ASTHMA", "prob": 5 },
+      { "trait": "CHEMIMBALANCE", "prob": 10 },
+      { "trait": "HOARDER", "prob": 10 },
+      { "trait": "JITTERY", "prob": 10 },
+      { "trait": "MOODSWINGS", "prob": 10 },
+      { "trait": "SAVANT", "prob": 10 },
+      { "trait": "SCHIZOPHRENIC", "prob": 10 },
+      { "trait": "SQUEAMISH", "prob": 10 },
+      { "group": "Appearance_demographics", "prob": 100 }
+    ]
+  }
+]

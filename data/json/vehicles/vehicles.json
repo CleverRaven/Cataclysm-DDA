@@ -1,0 +1,10 @@
+[
+  {
+    "id": "none",
+    "type": "vehicle",
+    "name": "empty prototype",
+    "//": "don't remove, used for initializing empty vehicle prototype",
+    "blueprint": [ "H" ],
+    "parts": [  ]
+  }
+]

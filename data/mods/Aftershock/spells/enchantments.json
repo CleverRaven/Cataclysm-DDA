@@ -1,0 +1,100 @@
+[
+  {
+    "type": "enchantment",
+    "id": "cranial_explosion",
+    "intermittent_activation": { "effects": [ { "frequency": "5 days", "spell_effects": [ { "id": "head_go_bye" } ] } ] }
+  },
+  {
+    "type": "enchantment",
+    "id": "melee_counteraction",
+    "condition": "ACTIVE",
+    "hit_me_effect": [
+      {
+        "id": "afs_generic_free_turn",
+        "hit_self": true,
+        "message": "You react with machine-like precision.",
+        "npc_message": "%1$s's reacts with robotic precision."
+      }
+    ]
+  },
+  {
+    "type": "enchantment",
+    "id": "melee_optimization",
+    "condition": "ACTIVE",
+    "hit_you_effect": [ { "id": "afs_generic_speed_bonus", "hit_self": true } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "heightened_performance",
+    "condition": "ACTIVE",
+    "values": [
+      { "value": "DEXTERITY", "add": 1 },
+      { "value": "STRENGTH", "add": 1 },
+      { "value": "SPEED", "add": 3 },
+      { "value": "HUNGER", "multiply": 1.1 },
+      { "value": "THIRST", "multiply": 1.1 },
+      { "value": "METABOLISM", "multiply": 1.1 },
+      { "value": "SOCIAL_PERSUADE", "add": -10 },
+      { "value": "SOCIAL_INTIMIDATE", "add": 2 }
+    ]
+  },
+  {
+    "type": "enchantment",
+    "id": "protect_cold",
+    "condition": "ACTIVE",
+    "values": [ { "value": "ARMOR_COLD", "add": -15 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "forcefield_bash_cut_weak",
+    "condition": "ACTIVE",
+    "values": [ { "value": "ARMOR_BASH", "add": -5 }, { "value": "ARMOR_CUT", "add": -5 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "forcefield_bash_cut_medium",
+    "condition": "ACTIVE",
+    "values": [ { "value": "ARMOR_BASH", "add": -15 }, { "value": "ARMOR_CUT", "add": -15 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "forcefield_bash_cut_heavy",
+    "condition": "ACTIVE",
+    "values": [ { "value": "ARMOR_BASH", "add": -25 }, { "value": "ARMOR_CUT", "add": -25 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "forcefield_ballistic_piercing_weak",
+    "condition": "ACTIVE",
+    "hit_me_effect": [
+      {
+        "id": "conversion_field_flash",
+        "hit_self": true,
+        "message": "Your shield reacts with a flash of light and sound.",
+        "npc_message": "%1$s's shield goes off with a flash of light and sound."
+      }
+    ],
+    "values": [ { "value": "ARMOR_BULLET", "add": -10 }, { "value": "ARMOR_STAB", "add": -10 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "forcefield_ballistic_piercing_medium",
+    "condition": "ACTIVE",
+    "hit_me_effect": [
+      {
+        "id": "static_field",
+        "hit_self": true,
+        "message": "Your shield reacts with an arc of electricity.",
+        "npc_message": "%1$s's shield goes off with an arc of electricity."
+      }
+    ],
+    "values": [ { "value": "ARMOR_BULLET", "add": -20 }, { "value": "ARMOR_STAB", "add": -20 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "forcefield_ballistic_piercing_heavy",
+    "condition": "ACTIVE",
+    "intermittent_activation": { "effects": [ { "frequency": "1 hour", "spell_effects": [ { "id": "radiation_field" } ] } ] },
+    "values": [ { "value": "ARMOR_BULLET", "add": -40 }, { "value": "ARMOR_STAB", "add": -40 } ]
+  }
+]

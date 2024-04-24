@@ -1,0 +1,55 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ROBOT",
+    "monsters": [
+      { "monster": "mon_manhack", "weight": 515, "cost_multiplier": 0 },
+      { "monster": "mon_skitterbot", "weight": 220, "cost_multiplier": 0 },
+      { "monster": "mon_secubot", "weight": 150, "cost_multiplier": 0 },
+      { "monster": "mon_talon_m202a1", "weight": 75, "cost_multiplier": 0 },
+      { "monster": "mon_molebot", "weight": 40, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_TURRET",
+    "monsters": [
+      {
+        "monster": "mon_turret_rifle",
+        "weight": 950,
+        "spawn_data": { "ammo": [ { "ammo_id": "556", "qty": [ 100, 1600 ] } ] }
+      },
+      {
+        "monster": "mon_turret_bmg",
+        "weight": 50,
+        "cost_multiplier": 2,
+        "spawn_data": { "ammo": [ { "ammo_id": "50bmg", "qty": [ 50, 400 ] } ] }
+      }
+    ]
+  },
+  {
+    "name": "GROUP_HAZMATBOT",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_hazmatbot" } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ROBOT_SECUBOT",
+    "monsters": [ { "monster": "mon_secubot", "cost_multiplier": 0, "spawn_data": { "ammo": [ { "ammo_id": "556", "qty": 30 } ] } } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_TURRET_SPEAKER",
+    "monsters": [ { "monster": "mon_turret_speaker" } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_TURRET_RIOT",
+    "monsters": [ { "monster": "mon_turret_riot", "cost_multiplier": 0 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_TURRET_SEARCHLIGHT",
+    "monsters": [ { "monster": "mon_turret_searchlight", "cost_multiplier": 0 } ]
+  }
+]

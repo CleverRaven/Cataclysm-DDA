@@ -1,0 +1,315 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "isolated_house_farm_gunsmith" ],
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "GGGGGGGGGGGGGGGGGGGGGGGG",
+        "%%%%%%%%%%%%%%%%%%%%%%%G",
+        "%..................b..%G",
+        "%..........4|vvv|.....%G",
+        "%%||vv|||||||kkk|||...%G",
+        ".||g   +  +   h  1|...%G",
+        ".vk    |* |@@  Q nv...%G",
+        ".vkhQ  |!!|@@  888|...%G",
+        ".vk    |||||||+||||...%G",
+        ".|||+|||y        nv...%G",
+        "%%|d ddd  ||+||||||...%G",
+        "H,+   Q  d|D S|rrr|...%G",
+        "%,|d     d|B  |r r|...%G",
+        "%,|   h   |B t|r r|...%G",
+        "%,|nn*nnnn||+|||+||...%G",
+        "%,vh      XD  c  u|...%G",
+        "%,vn      X   c  uv...%G",
+        "%,vh  Q   X  Qc  Sv...%G",
+        "%,|       X      o|...%G",
+        "%,|yYa 888X hncfuu|...%G",
+        "%,||v|+||||vvv|||||...%G",
+        "%,,,,,,...............%G",
+        "%H%%%%%%%%%%%%%%%%%%%%%G",
+        "......................%G"
+      ],
+      "palettes": [ "artisans" ],
+      "place_monster": [
+        { "monster": "mon_turret_artisans", "x": 8, "y": 13, "chance": 100 },
+        { "monster": "mon_turret_artisans", "x": 4, "y": 13, "chance": 100 }
+      ],
+      "place_zones": [
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "faction": "isolated_artisans",
+          "x": [ 2, 2 ],
+          "y": [ 7, 7 ],
+          "filter": "ammo_rifle_common"
+        },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "faction": "isolated_artisans",
+          "x": [ 2, 2 ],
+          "y": [ 7, 7 ],
+          "filter": "guns_rifle_milspec"
+        },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "faction": "isolated_artisans",
+          "x": [ 3, 3 ],
+          "y": [ 10, 10 ],
+          "filter": "gunsmith_basic_ammo"
+        },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "faction": "isolated_artisans",
+          "x": [ 5, 7 ],
+          "y": [ 10, 10 ],
+          "filter": "gunsmith_basic_ammo"
+        },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "faction": "isolated_artisans",
+          "x": [ 3, 3 ],
+          "y": [ 12, 12 ],
+          "filter": "gunsmith_repack_ammo"
+        },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "faction": "isolated_artisans",
+          "x": [ 9, 9 ],
+          "y": [ 11, 12 ],
+          "filter": "gunsmith_repack_ammo"
+        },
+        { "type": "LOOT_AMMO", "faction": "isolated_artisans", "x": [ 5, 7 ], "y": [ 10, 10 ] },
+        { "type": "LOOT_UNSORTED", "faction": "isolated_artisans", "x": [ 9, 9 ], "y": [ 11, 12 ] }
+      ],
+      "place_npcs": [ { "class": "jay_ruckers", "x": 6, "y": 13 } ],
+      "faction_owner": [ { "id": "isolated_artisans", "x": [ 0, 23 ], "y": [ 0, 23 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "isolated_house_farm_blacksmith" ],
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "G%%%%%%%%%%%%%%%%%%%%%..",
+        "G%.....q........b....%..",
+        "G%...................H..",
+        "G%...||||||vv|| |####|..",
+        "G%...|rrr|fouu|      #..",
+        "G%...vr  + Q S|      #..",
+        "G%...|rrr|cc u|+|||  #..",
+        "G%._________    1n|7 #..",
+        "G%._:mmVCNM_d     v7 #..",
+        "G%.-jjjjjjj_d     v7 #..",
+        "G%.-jIjOjjm_d  Q  |  #..",
+        "G%.-jjj(jjm_d     v  |,,",
+        "G%.-jjjj_-Z_1     v   ,,",
+        "G%.-K*9J_         |   ,,",
+        "G%.______+||D  y  ||+||.",
+        "G%...|@@  8||+||     7v.",
+        "G%...v@@  8|t D|8    7v.",
+        "G%...|z Q 8|   |8    7v.",
+        "G%...|D  1 |BBS|8YYYa||.",
+        "G%...|||kkk|||||||v|||4.",
+        "G%.....|vvv|.........%..",
+        "G%...................%..",
+        "G%%%%%%%%%%%%%%%%%%%%%%%",
+        "GGGGGGGGGGGGGGGGGGGGGGGG"
+      ],
+      "palettes": [ "artisans" ],
+      "place_monster": [ { "monster": "mon_turret_artisans", "x": 17, "y": 10, "chance": 100 } ],
+      "place_zones": [
+        { "type": "LOOT_ARMOR", "faction": "isolated_artisans", "x": [ 12, 12 ], "y": [ 8, 8 ] },
+        { "type": "LOOT_CLOTHING", "faction": "isolated_artisans", "x": [ 12, 12 ], "y": [ 9, 9 ] },
+        { "type": "LOOT_WEAPONS", "faction": "isolated_artisans", "x": [ 12, 12 ], "y": [ 10, 10 ] },
+        { "type": "LOOT_GUNS", "faction": "isolated_artisans", "x": [ 12, 12 ], "y": [ 11, 11 ] },
+        { "type": "LOOT_UNSORTED", "faction": "isolated_artisans", "x": [ 12, 12 ], "y": [ 8, 11 ] }
+      ],
+      "place_item": [ { "item": "blacksmith_prototypes", "chance": 100, "x": 17, "y": 7 } ],
+      "place_npcs": [ { "class": "cody_miller", "x": 16, "y": 7 } ],
+      "faction_owner": [ { "id": "isolated_artisans", "x": [ 0, 23 ], "y": [ 0, 23 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "isolated_road_field_0" ],
+    "object": {
+      "fill_ter": "t_region_groundcover",
+      "rows": [
+        "GGGGGGGGGjjjjjjjGGGGGGGG",
+        "G........ddddddd........",
+        "G........ddddddd........",
+        "G........ddddddd........",
+        "G........ddddddd........",
+        "G........ddddddd........",
+        "G........ddddddd........",
+        "G........ddddddd........",
+        "Gddddddddddddddd........",
+        "Gddddddddddddddd........",
+        "Gddddddddddddddd........",
+        "Gddddddddddddddd........",
+        "G........ddddddd........",
+        "G........ddddddd........",
+        "G........ddddddd........",
+        "Gddddddddddddddd........",
+        "Gdddddddddddddd.........",
+        "Gddddddddddddd..........",
+        "Gdddddddddddd...........",
+        "G.......................",
+        "G.......................",
+        "G.......................",
+        "G.......................",
+        "G......................."
+      ],
+      "terrain": { "G": "t_pit_spiked", "j": "t_pit_covered", "d": "t_region_soil" },
+      "place_vehicles": [ { "vehicle": "pickup", "chance": 100, "fuel": 50, "rotation": 180, "status": 0, "x": 4, "y": 10 } ],
+      "place_monster": [
+        { "monster": "mon_turret_artisans", "x": 8, "y": 1, "chance": 100 },
+        { "monster": "mon_turret_artisans", "x": 16, "y": 1, "chance": 100 },
+        { "monster": "mon_turret_artisans", "x": 20, "y": 23, "chance": 100 },
+        { "monster": "mon_turret_artisans", "x": 2, "y": 23, "chance": 100 },
+        { "monster": "mon_turret_artisans", "x": 23, "y": 2, "chance": 100 }
+      ],
+      "faction_owner": [ { "id": "isolated_artisans", "x": [ 0, 23 ], "y": [ 0, 23 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "isolated_road_field_1" ],
+    "object": {
+      "fill_ter": "t_region_soil",
+      "rows": [
+        "______________________%G",
+        "______________________%G",
+        "__....................%G",
+        "__..-----O............%G",
+        "__..-ttt-O.......###..%G",
+        "__..-ddd-........###..%G",
+        "__...............##...%G",
+        "__....................%G",
+        "__..D.D.D.D..D.D.D.D..%G",
+        "__..D.D.D.D..D.D.D.D..%G",
+        "__..D.D.D.D..D.D.D.D..%G",
+        "__....................%G",
+        "__....................%G",
+        "__..D.D.D.D..D.D.D.D..%G",
+        "__..D.D.D.D..D.D.D.D..%G",
+        "__..D.D.D.D..D.D.D.D..%G",
+        "__....................%G",
+        "__..D.D.D.D..D.D.D.D..%G",
+        "__..D.D.D.D..D.D.D.D..%G",
+        "__..D.D.D.D..D.D.D.D..%G",
+        "__....................%G",
+        "__....................%G",
+        "%%%%%%%%%%%%%%%%%%%%%%%G",
+        "GGGGGGGGGGGGGGGGGGGGGGGG"
+      ],
+      "terrain": {
+        "#": "t_dirtmound",
+        "+": "t_fencegate_c",
+        "%": "t_splitrail_fence",
+        "-": "t_wall_wood",
+        "D": "t_dirtmound",
+        ".": [ "t_region_groundcover", "t_region_soil", "t_region_soil" ],
+        "P": "t_fence",
+        "_": "t_region_groundcover_urban",
+        "d": "t_dirtfloor",
+        "t": "t_dirtfloor",
+        "|": "t_fence",
+        "G": "t_pit_spiked"
+      },
+      "furniture": { "O": "f_standing_tank", "H": "f_standing_tank", "P": "f_sign", "t": "f_table" },
+      "liquids": { "O": { "liquid": "water", "amount": [ 0, 100 ] }, "H": { "liquid": "fertilizer_liquid", "amount": [ 0, 100 ] } },
+      "sealed_item": { "D": { "items": { "item": "farming_seeds", "chance": 100 }, "furniture": "f_plant_seedling", "chance": 70 } },
+      "place_items": [
+        { "chance": 35, "repeat": 2, "item": "supplies_farming", "x": 6, "y": 4 },
+        { "chance": 35, "repeat": 2, "item": "garden_shed", "x": 7, "y": 4 },
+        { "chance": 40, "repeat": 2, "item": "garden_shed", "x": 5, "y": 4 }
+      ],
+      "place_monster": [
+        { "monster": "mon_turret_artisans", "x": 1, "y": 21, "chance": 100 },
+        { "monster": "mon_turret_artisans", "x": 21, "y": 1, "chance": 100 },
+        { "monster": "mon_turret_artisans", "x": 21, "y": 21, "chance": 100 }
+      ],
+      "faction_owner": [ { "id": "isolated_artisans", "x": [ 0, 23 ], "y": [ 0, 23 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "isolated_house_farm_roof_blacksmith",
+    "object": {
+      "fill_ter": "t_shingle_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "     -----------------  ",
+        "     -...............-  ",
+        "     -...............-  ",
+        "     -...............-  ",
+        "     -...............-  ",
+        "     -...............-  ",
+        "     -...............-  ",
+        "     -...............-  ",
+        "     -...............-  ",
+        "     -...............-  ",
+        "     -...............-  ",
+        "     -...............-- ",
+        "     -................- ",
+        "     -................- ",
+        "     -................- ",
+        "     -...............5- ",
+        "     ---...-----------  ",
+        "       -----            ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_shingle_flat_roof" },
+      "faction_owner": [ { "id": "isolated_artisans", "x": [ 0, 23 ], "y": [ 0, 23 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "isolated_house_farm_roof_gunsmith",
+    "object": {
+      "fill_ter": "t_shingle_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "            -----       ",
+        "  ----------5...---     ",
+        " --...............-     ",
+        " -................-     ",
+        " -................-     ",
+        " -................-     ",
+        " --...............-     ",
+        "  -...............-     ",
+        "  -...............-     ",
+        "  -...............-     ",
+        "  -...............-     ",
+        "  -...............-     ",
+        "  -...............-     ",
+        "  -...............-     ",
+        "  -...............-     ",
+        "  -...............-     ",
+        "  -...............-     ",
+        "  -----------------     ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_shingle_flat_roof" },
+      "faction_owner": [ { "id": "isolated_artisans", "x": [ 0, 23 ], "y": [ 0, 23 ] } ]
+    }
+  }
+]

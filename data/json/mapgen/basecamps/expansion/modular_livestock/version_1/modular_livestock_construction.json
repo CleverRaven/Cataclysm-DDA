@@ -1,0 +1,216 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbml_coop_construction",
+    "object": {
+      "parameters": {
+        "fbml_construction_palette": {
+          "type": "palette_id",
+          "scope": "omt",
+          "default": {
+            "distribution": [
+              "fbml_concrete_palette",
+              "fbml_log_palette",
+              "fbml_metal_palette",
+              "fbml_migo_resin_palette",
+              "fbml_rammed_earth_palette",
+              "fbml_rock_palette",
+              "fbml_wad_palette",
+              "fbml_wood_palette"
+            ]
+          }
+        }
+      },
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "wwwwww",
+        "w....w",
+        "w....w",
+        "w....w",
+        "w....w",
+        "wwdfww"
+      ],
+      "place_zones": [ { "type": "NPC_NO_INVESTIGATE", "faction": "your_followers", "x": [ 0, 5 ], "y": [ 0, 5 ] } ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ { "param": "fbml_construction_palette" }, "fbml_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbml_coop_construction_northeast",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbml_coop_construction" ], "x": 15, "y": 3 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbml_shack_construction",
+    "object": {
+      "parameters": {
+        "fbml_construction_palette": {
+          "type": "palette_id",
+          "scope": "omt",
+          "default": {
+            "distribution": [
+              "fbml_concrete_palette",
+              "fbml_log_palette",
+              "fbml_metal_palette",
+              "fbml_migo_resin_palette",
+              "fbml_rammed_earth_palette",
+              "fbml_rock_palette",
+              "fbml_wad_palette",
+              "fbml_wood_palette"
+            ]
+          }
+        }
+      },
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "      ",
+        "  woww",
+        " wwrrw",
+        " +..to",
+        " orrrw",
+        " wwoww"
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ { "param": "fbml_construction_palette" }, "fbml_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbml_shack_construction_southeast",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbml_shack_construction" ], "x": 15, "y": 15 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbml_stable0_construction",
+    "object": {
+      "parameters": {
+        "fbml_construction_palette": {
+          "type": "palette_id",
+          "scope": "omt",
+          "default": {
+            "distribution": [
+              "fbml_concrete_palette",
+              "fbml_log_palette",
+              "fbml_metal_palette",
+              "fbml_migo_resin_palette",
+              "fbml_rammed_earth_palette",
+              "fbml_rock_palette",
+              "fbml_wad_palette",
+              "fbml_wood_palette"
+            ]
+          }
+        }
+      },
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "wwww.w",
+        "w..D..",
+        "w..F..",
+        "w..F..",
+        "w..Fbb",
+        "wwwwww"
+      ],
+      "place_zones": [ { "type": "NPC_NO_INVESTIGATE", "faction": "your_followers", "x": [ 0, 5 ], "y": [ 0, 5 ] } ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ { "param": "fbml_construction_palette" }, "fbml_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbml_stable0_construction_southwest",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbml_stable0_construction" ], "x": 3, "y": 15 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbml_stable1_construction",
+    "object": {
+      "parameters": {
+        "fbml_construction_palette": {
+          "type": "palette_id",
+          "scope": "omt",
+          "default": {
+            "distribution": [
+              "fbml_concrete_palette",
+              "fbml_log_palette",
+              "fbml_metal_palette",
+              "fbml_migo_resin_palette",
+              "fbml_rammed_earth_palette",
+              "fbml_rock_palette",
+              "fbml_wad_palette",
+              "fbml_wood_palette"
+            ]
+          }
+        }
+      },
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "wwww.w",
+        "w..F..",
+        "w..D..",
+        "wwwwb.",
+        "w..Fb.",
+        "w..D.."
+      ],
+      "place_zones": [ { "type": "NPC_NO_INVESTIGATE", "faction": "your_followers", "x": [ 0, 5 ], "y": [ 0, 5 ] } ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ { "param": "fbml_construction_palette" }, "fbml_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbml_stable1_construction_west",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbml_stable1_construction" ], "x": 3, "y": 9 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbml_stable2_construction",
+    "object": {
+      "parameters": {
+        "fbml_construction_palette": {
+          "type": "palette_id",
+          "scope": "omt",
+          "default": {
+            "distribution": [
+              "fbml_concrete_palette",
+              "fbml_log_palette",
+              "fbml_metal_palette",
+              "fbml_migo_resin_palette",
+              "fbml_rammed_earth_palette",
+              "fbml_rock_palette",
+              "fbml_wad_palette",
+              "fbml_wood_palette"
+            ]
+          }
+        }
+      },
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "wwwwww",
+        "w..F..",
+        "w..D..",
+        "wwwwb.",
+        "w..Fb.",
+        "w..D.."
+      ],
+      "place_zones": [ { "type": "NPC_NO_INVESTIGATE", "faction": "your_followers", "x": [ 0, 5 ], "y": [ 0, 5 ] } ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ { "param": "fbml_construction_palette" }, "fbml_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbml_stable2_construction_northwest",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbml_stable2_construction" ], "x": 3, "y": 3 } ] }
+  }
+]

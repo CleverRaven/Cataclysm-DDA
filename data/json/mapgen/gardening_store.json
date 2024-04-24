@@ -1,0 +1,152 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_gardening" ],
+    "weight": 500,
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        ".ppp,____,____,____,.ppp",
+        ".p.p,____,____,____,.p.p",
+        ".pQp,____,____,____,.pBp",
+        ".p.p,____,____,____,.p.p",
+        ".ppp,____,____,____,.ppp",
+        "..|--OOOO--++--OOOO--|..",
+        "..|  y@@y      y@@y  |..",
+        "..|                  |..",
+        "..|#$##  ttt ttt ttt |..",
+        "..|r  #              |..",
+        "..|r A#  ttt ttt ttt O..",
+        "..|   #              O..",
+        "..|*---|  r rr rr r  O..",
+        "..| |& |  r rr rr r  O..",
+        "..| |s *  r rr rr r  |..",
+        ".U|*---|             |..",
+        ".<| h  *  tttt  yyyyy|..",
+        ".U|IIIS|        yyyyy|..",
+        "..|------O-++-O------|..",
+        "..%ZZZZZ........bbbb%4..",
+        "..^.................^...",
+        "..%1.23.5Z.QQ.BB.b%%%...",
+        "..%1.23.5Z.QQ.BB.b%.....",
+        "..%%%%%%%%%%%%%%%%%....."
+      ],
+      "terrain": {
+        " ": "t_thconc_floor",
+        "+": "t_door_glass_c",
+        ",": "t_pavement_y",
+        "-": "t_wall_g",
+        ".": "t_region_groundcover_urban",
+        "Z": "t_region_groundcover_urban",
+        "1": "t_region_groundcover_urban",
+        "2": "t_region_groundcover_urban",
+        "3": "t_region_groundcover_urban",
+        "5": "t_region_groundcover_urban",
+        "Q": "t_region_groundcover_urban",
+        "B": "t_region_groundcover_urban",
+        "p": "t_region_groundcover_urban",
+        "b": "t_region_groundcover_urban",
+        "U": "t_region_groundcover_urban",
+        "O": "t_window",
+        "_": "t_pavement",
+        "|": "t_wall_g",
+        "^": "t_chaingate_l",
+        "%": "t_chainfence",
+        "*": [ "t_door_locked", "t_door_c" ],
+        "4": "t_gutter_downspout",
+        "<": "t_ladder_up"
+      },
+      "toilets": { "&": {  } },
+      "furniture": {
+        "#": "f_counter",
+        "$": "f_counter_gate_c",
+        "r": "f_rack",
+        "A": "f_stool",
+        "s": "f_sink",
+        "I": "f_desk",
+        "h": "f_chair",
+        "t": "f_table",
+        "@": "f_table",
+        "Q": "f_statue",
+        "S": "f_filing_cabinet",
+        "B": "f_birdbath",
+        "b": "f_bench",
+        "U": [ "f_dumpster", "f_recycle_bin" ],
+        "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
+        "p": "f_region_flower",
+        "Z": "f_planter"
+      },
+      "sealed_item": {
+        "1": { "item": { "item": "seed_chamomile" }, "furniture": "f_planter_harvest" },
+        "2": { "item": { "item": "seed_thyme" }, "furniture": "f_planter_harvest" },
+        "3": { "item": { "item": "seed_bee_balm" }, "furniture": "f_planter_harvest" },
+        "5": { "item": { "item": "seed_mugwort" }, "furniture": "f_planter_harvest" }
+      },
+      "items": {
+        "I": { "item": "office", "chance": 30 },
+        "S": { "item": "office_paper", "chance": 30 },
+        "r": { "item": "farming_tools", "chance": 60, "repeat": [ 1, 2 ] },
+        "#": { "item": "flower_pots", "chance": 70, "repeat": [ 2, 8 ] },
+        "U": { "item": "trash", "chance": 20 },
+        "@": { "item": "flower_pots", "chance": 70, "repeat": [ 2, 8 ] },
+        "s": { "item": "softdrugs", "chance": 20 },
+        "t": { "item": "farming_seeds", "chance": 80, "repeat": [ 4, 16 ] }
+      },
+      "place_loot": [ { "group": "cash_register_random", "x": 6, "y": [ 9, 11 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "s_gardening_roof",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "  --------------------  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "###..................-  ",
+        "#v#..................-  ",
+        "###..................-  ",
+        "  -------------------5  ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 50 ]
+          ],
+          "x": [ 4, 17 ],
+          "y": [ 7, 8 ]
+        },
+        {
+          "chunks": [ [ "null", 20 ], [ "roof_4x4_utility", 40 ], [ "roof_4x4_utility_1", 30 ] ],
+          "x": [ 4, 15 ],
+          "y": [ 11, 13 ]
+        }
+      ]
+    }
+  }
+]

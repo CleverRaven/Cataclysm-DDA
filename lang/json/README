@@ -1,0 +1,5 @@
+This directory is for storing translatable strings,
+automatically generated from the .json files in data/raw.
+
+Any files in here (other than this one) should not be edited by hand,
+and should not be added to the git repository.

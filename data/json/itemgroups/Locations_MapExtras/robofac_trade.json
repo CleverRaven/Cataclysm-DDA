@@ -1,0 +1,201 @@
+[
+  {
+    "type": "item_group",
+    "id": "NC_ROBOFAC_gear",
+    "//": "Should contain all Hub 01 gear",
+    "subtype": "collection",
+    "entries": [
+      { "group": "robofac_armor_pieces" },
+      { "group": "robofac_armor_pieces_basic" },
+      { "group": "robofac_armor_pieces_military" },
+      { "group": "robofac_gun_mags" },
+      { "group": "robofac_gun_exodii" },
+      { "group": "robofac_gun_kit" },
+      { "item": "robofac_armor_anchor" },
+      { "item": "robofac_armor_anchor_on" },
+      { "item": "robofac_armor_rig" },
+      { "item": "robofac_enviro_suit" },
+      { "item": "robofac_enviro_suit_casual" },
+      { "item": "robofac_head_rig" },
+      { "item": "robofac_head_rig_ir" },
+      { "item": "robofac_head_rig_nv" },
+      { "item": "hm12" },
+      { "item": "template_armor" },
+      { "item": "template_photonics" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "robofac_armor_pieces_basic",
+    "subtype": "collection",
+    "entries": [
+      { "item": "robofac_basic_helmet" },
+      { "item": "robofac_basic_greaves" },
+      { "item": "robofac_basic_mantle" },
+      { "item": "robofac_basic_skirt" },
+      { "item": "robofac_basic_vambraces" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "robofac_basic_trade",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "textbooks", "prob": 100 },
+      { "group": "electronics", "prob": 100 },
+      { "group": "science", "prob": 100 },
+      { "group": "robofac_basic_robots", "prob": 100 },
+      { "group": "robofac_id_cards", "prob": 100 },
+      { "group": "robofac_basic_grenades", "prob": 100 },
+      { "group": "cop_armory", "prob": 100 },
+      { "group": "ammo_any_batteries_full", "prob": 100 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "robofac_id_cards",
+    "subtype": "distribution",
+    "items": [ [ "id_science", 90 ], [ "id_military", 5 ], [ "id_industrial", 5 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "robofac_basic_grenades",
+    "subtype": "distribution",
+    "items": [ [ "grenade_emp", 70 ], [ "scrambler", 30 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "robofac_basic_robots",
+    "subtype": "distribution",
+    "items": [ [ "bot_tazer_hack", 40 ], [ "bot_manhack", 40 ], [ "bot_skitterbot", 25 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "robofac_robots",
+    "subtype": "distribution",
+    "items": [ [ "bot_robofac_skittergun", 40 ], [ "robofac_robotrig", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "robofac_armor_pieces",
+    "subtype": "distribution",
+    "items": [
+      [ "robofac_rubber_mantle", 25 ],
+      [ "robofac_nomex_mantle", 25 ],
+      [ "robofac_kevlar_mantle", 25 ],
+      [ "robofac_rubber_skirt", 25 ],
+      [ "robofac_nomex_skirt", 25 ],
+      [ "robofac_kevlar_skirt", 25 ],
+      [ "robofac_rubber_vambraces", 25 ],
+      [ "robofac_nomex_vambraces", 25 ],
+      [ "robofac_kevlar_vambraces", 25 ],
+      [ "robofac_rubber_greaves", 25 ],
+      [ "robofac_nomex_greaves", 25 ],
+      [ "robofac_kevlar_greaves", 25 ],
+      [ "robofac_armor_rig", 25 ],
+      [ "robofac_rubber_helmet", 25 ],
+      [ "robofac_nomex_helmet", 25 ],
+      [ "robofac_kevlar_helmet", 25 ],
+      [ "robofac_head_rig", 25 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "robofac_armor_pieces_military",
+    "subtype": "distribution",
+    "items": [
+      [ "robofac_military_skirt", 10 ],
+      [ "robofac_military_vambraces", 10 ],
+      [ "robofac_military_greaves", 10 ],
+      [ "robofac_military_mantle", 10 ],
+      [ "robofac_military_helmet", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "robofac_gun_mags",
+    "subtype": "collection",
+    "items": [
+      { "item": "robofac40", "count": 5, "prob": 100 },
+      { "item": "robofac60", "count": 5, "prob": 100 },
+      { "item": "robofac20", "count": 5, "prob": 100 },
+      { "item": "robofac10", "count": 5, "prob": 100 },
+      { "item": "robofac50", "count": 2, "prob": 100 },
+      { "item": "robofacmultimag", "count": 5, "prob": 100 },
+      { "item": "robofac30", "count": 2, "prob": 100 },
+      { "item": "robofac100", "count": 2, "prob": 100 },
+      { "item": "robofac_gun_40mm_10rd", "count": 2, "prob": 100 },
+      { "item": "robofac_gun_40mm_5rd", "count": 2, "prob": 100 },
+      { "item": "robofac_gun_40mm_3rd", "count": 2, "prob": 100 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "robofac_gun_exodii",
+    "subtype": "collection",
+    "items": [ { "item": "robofac_gun_exodii", "count": 1, "prob": 25 }, { "item": "robofac60_123ln", "count": 5, "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "robofac_gun_kit",
+    "subtype": "collection",
+    "items": [
+      {
+        "collection": [
+          { "item": "robofac_gun", "prob": 100, "count": 1 },
+          { "item": "robofac_gun_ar", "prob": 100, "count": 1 },
+          { "item": "robofac_gun_smg", "prob": 100, "count": 1 },
+          { "item": "robofac_gun_dmr", "prob": 100, "count": 1 },
+          { "item": "robofac_gun_shotgun", "prob": 100, "count": 1 },
+          { "item": "robofac_gun_shotgun_breach", "prob": 100, "count": 1 },
+          { "item": "robofac_gun_46", "prob": 100, "count": 1 },
+          { "item": "robofac_gun_57", "prob": 100, "count": 1 },
+          { "item": "robofac_gun_kit", "prob": 100, "count": 1 },
+          { "item": "robofac_gun_40mm", "prob": 100, "count": 1 }
+        ],
+        "prob": 25
+      }
+    ]
+  },
+  {
+    "id": "robofac_mantle_merc",
+    "type": "item_group",
+    "//": "a robofac poncho with a few armored bits",
+    "container-item": "robofac_armor_rig",
+    "subtype": "collection",
+    "entries": [ { "item": "robofac_kevlar_skirt" }, { "item": "robofac_kevlar_mantle" }, { "group": "robofac_merc_mags" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "robofac_merc_mags",
+    "entries": [
+      { "item": "robofac40", "ammo-item": "556", "charges": 40 },
+      { "item": "robofac40", "ammo-item": "556", "charges": 40 }
+    ]
+  },
+  {
+    "id": "robofac_helmet_merc",
+    "type": "item_group",
+    "//": "a robofac headrig with kevlar insert",
+    "container-item": "robofac_head_rig",
+    "subtype": "collection",
+    "entries": [ { "item": "robofac_kevlar_helmet" } ]
+  },
+  {
+    "id": "robofac_mantle_prototype",
+    "type": "item_group",
+    "//": "a robofac poncho with a few basic bits",
+    "container-item": "robofac_armor_rig",
+    "subtype": "collection",
+    "entries": [ { "item": "robofac_basic_skirt" }, { "item": "robofac_basic_mantle" } ]
+  },
+  {
+    "id": "nano_templates",
+    "type": "item_group",
+    "//": "a group of nano templates for one of the missions",
+    "container-item": "box_small_wood",
+    "subtype": "collection",
+    "entries": [ { "item": "template_armor" }, { "item": "template_photonics" } ]
+  }
+]

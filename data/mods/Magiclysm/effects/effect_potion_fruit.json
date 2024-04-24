@@ -1,0 +1,178 @@
+[
+  {
+    "id": "effect_pfruit_heal",
+    "type": "effect_type",
+    "name": [ "Restore Flesh and Bone" ],
+    "desc": [ "Thanks to that apple, your wounds are slowly healing." ],
+    "apply_message": "Your flesh and bones start to knit together before your eyes.",
+    "remove_message": "Your regeneration slows down.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [
+      {
+        "intermittent_activation": { "effects": [ { "frequency": "30 seconds", "spell_effects": [ { "id": "pfruit_regeneration_spell" } ] } ] }
+      }
+    ]
+  },
+  {
+    "id": "effect_pfruit_cure",
+    "type": "effect_type",
+    "name": [ "Ward off Miasma" ],
+    "desc": [ "No illness is going to get you down now." ],
+    "apply_message": "You feel revitalized.",
+    "rating": "good",
+    "show_intensity": false,
+    "removes_effects": [ "scurvy", "redcells_anemia", "anemia", "toxin_buildup", "common_cold", "flu" ]
+  },
+  {
+    "id": "effect_pfruit_attack_speed",
+    "type": "effect_type",
+    "name": [ "Quick Blows" ],
+    "desc": [ "Thanks to that pear, you can attack faster." ],
+    "apply_message": "You arms speed up.",
+    "remove_message": "Your muscle's twitch as the pear's magic fades.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [ { "values": [ { "value": "ATTACK_SPEED", "add": -15 } ] } ]
+  },
+  {
+    "id": "effect_pfruit_thorns",
+    "type": "effect_type",
+    "name": [ "Blackberry Thorns" ],
+    "desc": [ "Anyone who attacks you will regret it." ],
+    "apply_message": "Long thorns grow through your skin, clothes, and armor.",
+    "remove_message": "The thorns vanish without a trace, leaving your gear unharmed.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [ "enchant_pfruit_thorns" ]
+  },
+  {
+    "type": "enchantment",
+    "id": "enchant_pfruit_thorns",
+    "condition": "ALWAYS",
+    "has": "HELD",
+    "hit_me_effect": [ { "id": "pfruit_aura_thorns", "hit_self": false } ]
+  },
+  {
+    "id": "pfruit_aura_thorns",
+    "type": "SPELL",
+    "name": "Blackberry fruit aura thorns",
+    "description": "Stab a monster that attacked you.",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "RANDOM_DAMAGE" ],
+    "shape": "blast",
+    "effect": "attack",
+    "damage_type": "stab",
+    "min_damage": 1,
+    "max_damage": 4,
+    "min_range": 1,
+    "max_range": 1
+  },
+  {
+    "id": "effect_pfruit_keep_warm",
+    "type": "effect_type",
+    "name": [ "Summer's Heat" ],
+    "desc": [ "The magic of those strawberries is keeping you warm." ],
+    "apply_message": "You feel a pleasant warmth.",
+    "remove_message": "You shiver as a cool breeze hits your skin.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [ { "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 } ] } ]
+  },
+  {
+    "id": "effect_pfruit_purge",
+    "type": "effect_type",
+    "name": [ "Ward off Toxins" ],
+    "desc": [ "Your body will not be corrupted by these vile substances." ],
+    "apply_message": "You feel cleansed.",
+    "rating": "good",
+    "show_intensity": false,
+    "removes_effects": [
+      "poison",
+      "venom_dmg",
+      "venom_weaken",
+      "badpoison",
+      "foodpoison",
+      "paralyzepoison",
+      "bloodworms",
+      "brainworms",
+      "tapeworm"
+    ]
+  },
+  {
+    "id": "effect_pfruit_dodge",
+    "type": "effect_type",
+    "name": [ "Flexible" ],
+    "desc": [ "Your range of motion is greatly increased." ],
+    "apply_message": "You arms are as bendy as rubber.",
+    "remove_message": "Your limbs creak as they lose their flexibility.",
+    "rating": "good",
+    "show_intensity": false,
+    "limb_score_mods": [
+      { "limb_score": "reaction", "modifier": 2.0 },
+      { "limb_score": "block", "modifier": 1.2 },
+      { "limb_score": "crawl", "modifier": 1.5 }
+    ],
+    "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": 1 } ] } ],
+    "flags": [ "DOWNED_RECOVERY", "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_pfruit_nightvision",
+    "name": [ "Wintergreen Vision" ],
+    "desc": [ "You can see in the dark." ],
+    "apply_message": "The night doesn't seem so dark anymore.",
+    "remove_message": "The darkness of the night rushes in again.",
+    "rating": "good",
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 6 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "id": "effect_pfruit_nobleed",
+    "type": "effect_type",
+    "name": [ "Stopped Bleeding" ],
+    "desc": [ "Your blood is all being held within your body." ],
+    "apply_message": "Your wounds tingle.",
+    "remove_message": "You feel a prickle as your wounds ache.",
+    "rating": "good",
+    "show_intensity": false,
+    "removes_effects": [ "bleed" ],
+    "flags": [ "BLEED_IMMUNE" ]
+  },
+  {
+    "id": "effect_pfruit_vision",
+    "type": "effect_type",
+    "name": [ "Good Vision" ],
+    "desc": [ "The magic of those apricots is helping you see better." ],
+    "apply_message": "You can pick out even minute details.",
+    "remove_message": "Distant objects loose their magical clarity.",
+    "rating": "good",
+    "show_intensity": false,
+    "limb_score_mods": [ { "limb_score": "vision", "modifier": 1.25 } ],
+    "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 2 } ] } ],
+    "flags": [ "GLARE_RESIST", "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "id": "effect_pfruit_eat_poison",
+    "type": "effect_type",
+    "name": [ "Poison-Eater" ],
+    "desc": [ "You can eat toxic or spoiled food without penalty.  You still should not eat zombie meat." ],
+    "apply_message": "Your sense of taste dulls.",
+    "remove_message": "Something in your mouth tastes foul.",
+    "rating": "good",
+    "show_intensity": false,
+    "flags": [ "IMMUNE_SPOIL" ],
+    "vitamins": [ { "vitamin": "mutant_toxin", "rate": [ [ -1, -1 ] ], "absorb_mult": [ 0.5 ], "tick": [ "1 s" ] } ]
+  },
+  {
+    "id": "effect_pfruit_no_drunk",
+    "type": "effect_type",
+    "name": [ "Remove intoxicants" ],
+    "desc": [ "You are being rapidly sobered up." ],
+    "apply_message": "Your head pounds, but you feel much more alert.",
+    "remove_message": ".",
+    "rating": "mixed",
+    "show_intensity": false,
+    "removes_effects": [ "drunk", "meth", "high", "weed_high" ]
+  }
+]

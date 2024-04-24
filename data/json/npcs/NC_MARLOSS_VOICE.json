@@ -1,0 +1,30 @@
+[
+  {
+    "type": "item_group",
+    "id": "NC_VOICE_weapon",
+    "subtype": "distribution",
+    "entries": [ { "item": "q_staff", "prob": 20 }, { "item": "stick_long", "prob": 80 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_VOICE_worn",
+    "subtype": "collection",
+    "entries": [ { "group": "NC_VOICE_armor" }, { "item": "marloss_scarf" }, { "item": "boots" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_VOICE_carry",
+    "subtype": "collection",
+    "entries": [
+      { "item": "marloss_berry", "count": [ 1, 4 ] },
+      { "item": "marloss_seed", "count": [ 1, 4 ] },
+      { "item": "mycenacean_hymns" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_VOICE_armor",
+    "subtype": "distribution",
+    "entries": [ { "item": "robe", "prob": 100 } ]
+  }
+]

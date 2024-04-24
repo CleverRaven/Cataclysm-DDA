@@ -1,0 +1,148 @@
+[
+  {
+    "method": "json",
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "                         :    iiiiiiiiiiiiiiiiii",
+        "                        :::   iZ,,JJJJ6|t|..117i",
+        "iiiiiiiiiiiiiiiiiiii    :!:   iZ,,,,,,,+,|4..2.i",
+        "i......FFUUUgg.....i    :!:   iZ,,,,,,,|S|.4..Ui",
+        "i.......z..........i:::::!:   iW,,,,,,,|||&&$&&i",
+        "i...i..........i...i    :}:   iW,,,,,,,........i",
+        "i..iii........iii..i    :!:   iW,,,,,))|.&&&$&&i",
+        "i...i....UUz...i...i    :!::::=,,,,,,|||.&...z.i",
+        "i......iiiiii......i    :!:   i,JJJJ6|<..&.z..zi",
+        "i......iJWZJi......i    :!:   i|||||||||.&.555Ui",
+        "i...i..i,,,,i..i...i    :!:   i4044U.|U|.&&&&&&i",
+        "i..iiiii,,iii.iii..i    :!:   i40...z|.=.&.77.2i",
+        "i..iiJWZ,,i....i...i    :!:   i33.z..|.|.&v.113i",
+        "i..i,,,,,,i........i    :!:   i7.z.2.|U|.&50..3i",
+        "i...,,,,,,i........i    :!:   i&&$&&&|||.&&&$&&i",
+        "ii.i,,,JWZi........=:::::!:   i................i",
+        "i..iiiiiiii....i...i    :!:   i&&$&&&&$&&&&&$&&i",
+        "i<.i......i...iii..i    :!:   i11..&...z.&z...zi",
+        "i.........i....i...i    :!::::=..z7&1..zz&.z...i",
+        "i..i...............i    :!:   iU.z7&111.0&...z.i",
+        "i..i...............i    :!:   iiiiiiiiiiiiiiiiii",
+        "iiiiiiiiiiiiiiiiiiii    :!:                     ",
+        "                        :::                     ",
+        "                         :                      "
+      ],
+      "palettes": [ "basement_empty" ],
+      "liquids": { ")": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
+      "terrain": {
+        "}": "t_ladder_up",
+        ",": "t_linoleum_white",
+        "Z": "t_linoleum_white",
+        "W": "t_linoleum_white",
+        "J": "t_linoleum_white",
+        "S": "t_linoleum_white",
+        "t": "t_linoleum_white",
+        "6": "t_linoleum_white",
+        ")": "t_linoleum_white",
+        "!": "t_sewage",
+        "=": "t_door_metal_pickable",
+        ":": "t_dirtfloor",
+        "$": "t_chaingate_l",
+        "&": "t_chainfence",
+        "i": "t_brick_wall"
+      },
+      "furniture": {
+        "0": "f_table",
+        ")": "f_water_heater",
+        "1": "f_sofa",
+        "2": "f_armchair",
+        "3": "f_bed",
+        "4": "f_chair",
+        "5": "f_foot_locker",
+        "6": "f_trashcan",
+        "7": "f_rack_wood"
+      },
+      "items": {
+        "'": { "item": "home_hw", "chance": 2 },
+        "C": { "item": "cleaning", "chance": 20 },
+        "D": { "item": "allclothes", "chance": 20 },
+        "L": { "item": "homeguns", "chance": 20 },
+        "W": { "item": "allclothes", "chance": 20 },
+        "X": { "item": "allclothes", "chance": 20 }
+      },
+      "toilets": { "T": {  } },
+      "place_monsters": [
+        { "monster": "GROUP_ZOMBIE", "x": [ 1, 18 ], "y": [ 4, 20 ], "density": 0.06 },
+        { "monster": "GROUP_ZOMBIE", "x": [ 31, 46 ], "y": [ 1, 19 ], "density": 0.03 }
+      ]
+    },
+    "om_terrain": [ [ "urban_25_1", "urban_25_2" ] ],
+    "type": "mapgen",
+    "weight": 25000
+  },
+  {
+    "method": "json",
+    "om_terrain": [ [ "urban_25_4" ] ],
+    "type": "mapgen",
+    "//": "apartment side",
+    "weight": 25000,
+    "object": {
+      "fill_ter": "t_floor",
+      "//": "apartment side",
+      "rows": [
+        "`````)###############±##",
+        "`````)#  HH 3O1|BB|D  T#",
+        "`````(±   H 4,5|,t|d  I#",
+        "``````#x lH 7,2|,S|  @@#",
+        "``````#x  H J,F|+||  @@#",
+        "`$````±           |   I#",
+        "``````#TEs  RRL   + Ey #",
+        "``````#||||||||*|||||||#",
+        "`````}#TI@I Y|>,|D   @@#",
+        "``````±  @  d||,|d   @@±",
+        "``````#D     |<,|     I#",
+        "``````#||||+||,,||+||||#",
+        "``~```#BtS| L|,,|  |StB#",
+        "`~~~``#B,,+  |,,|  +,,B#",
+        "`~~~`i#||||6 *,,*  ||||#",
+        "`~!~`i±153F  |,,|   2O1#",
+        "`~[~``#O,,, Y|,,|   ,,5±",
+        "`~!~`i#427J x|,,|Y H 43#",
+        "`~~~`i#H    x|,,|x H  h#",
+        "`~~~``#HHH  y|,,| E  hf#",
+        "``~```###oo###{{###oo###",
+        "```````!%!!%!#,,#!%!!%!!",
+        "`````````````{,,{```````",
+        "`````````````#::#```````"
+      ],
+      "palettes": [
+        "standard_domestic_palette",
+        "standard_domestic_landscaping_palette",
+        "standard_domestic_lino_bathroom",
+        "standard_domestic_lino_kitchen"
+      ],
+      "terrain": {
+        "`": "t_concrete",
+        "i": "t_concrete",
+        ")": "t_concrete",
+        "(": "t_concrete",
+        "±": "t_window_bars_domestic",
+        ",": "t_linoleum_gray",
+        "$": "t_manhole_cover",
+        "{": "t_door_glass_c",
+        "~": "t_water_pool_shallow_outdoors",
+        "}": "t_ladder_up"
+      },
+      "furniture": { "!": "f_region_flower", "0": "f_stool", ")": "f_dumpster", "(": "f_recycle_bin" },
+      "place_vehicles": [ { "vehicle": "back_alley", "x": 4, "y": 5, "rotation": 90, "chance": 20, "status": 1 } ],
+      "place_loot": [
+        { "item": "television", "x": 7, "y": 3, "chance": 25 },
+        { "item": "television", "x": 12, "y": 18, "chance": 25 },
+        { "item": "television", "x": 17, "y": 18, "chance": 25 },
+        { "item": "stereo", "x": 7, "y": 4, "chance": 25 },
+        { "item": "stereo", "x": 12, "y": 17, "chance": 20 }
+      ],
+      "place_monsters": [
+        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.2 },
+        { "monster": "GROUP_ZOMBIE", "x": [ 25, 46 ], "y": [ 1, 22 ], "density": 0.2 }
+      ]
+    }
+  }
+]

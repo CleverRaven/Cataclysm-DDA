@@ -1,0 +1,514 @@
+[
+  {
+    "id": "MISSION_GET_INHALER",
+    "type": "mission_definition",
+    "name": { "str": "Find Spurge Tea" },
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": { "u_has_item": "spurge_tea" },
+    "difficulty": 2,
+    "value": 150000,
+    "urgent": true,
+    "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
+    "deadline_low": 30,
+    "deadline_high": 48,
+    "dialogue": {
+      "describe": "I'm… short… of breath…",
+      "offer": "I'm asthmatic.  I need you to get some kind of medicinal tea for me…",
+      "accepted": "Oh, thank god, thank you so much!  I won't last more than a couple of days, so hurry…",
+      "rejected": "What?!  Please, <ill_die> without your help!",
+      "advice": "I'm dead unless I can get this special tea.  Maybe it's from a flower?",
+      "inquire": "Find any tea yet?",
+      "success": "Oh thank god!  I'll be right as rain in no time.",
+      "success_lie": "What?!  You're lying, I can tell!  Ugh, forget it!",
+      "failure": "How am I not dead already?!"
+    },
+    "start": {
+      "effect": [
+        { "npc_add_trait": "ASTHMA" },
+        { "npc_remove_item_with": "spurge_tea" },
+        "assign_guard",
+        { "clear_npc_rule": "investigate_noises" }
+      ]
+    },
+    "end": {
+      "effect": [ "stop_guard", { "set_npc_rule": "investigate_noises" }, { "u_sell_item": "spurge_tea" }, "npc_thankful" ]
+    },
+    "fail": { "effect": "npc_die" }
+  },
+  {
+    "id": "MISSION_GET_ANTIBIOTICS",
+    "type": "mission_definition",
+    "name": { "str": "Find Cattail Jelly" },
+    "goal": "MGOAL_CONDITION",
+    "difficulty": 2,
+    "value": 150000,
+    "urgent": true,
+    "goal_condition": { "u_has_item": "cattail_jelly" },
+    "origins": [ "ORIGIN_OPENER_NPC" ],
+    "deadline_low": 24,
+    "deadline_high": 48,
+    "dialogue": {
+      "describe": "This infection is bad, <very> bad…",
+      "offer": "I'm infected.  Badly.  I need you to get something antiseptic for me…",
+      "accepted": "Oh, thank god, thank you so much!  I won't last more than a couple of days, so hurry.  Get me some cattail jelly.  That should hopefully be good enough.",
+      "rejected": "What?!  Please, <ill_die> without your help!",
+      "advice": "I think if you can pull cattail jelly out of some cattails from like a swamp or something, I can smear it on the wound.",
+      "inquire": "Find any jelly yet?",
+      "success": "Oh thank god!  I'll be right as rain in no time.",
+      "success_lie": "What?!  You're lying, I can tell!  Ugh, forget it!",
+      "failure": "How am I not dead already?!"
+    },
+    "start": {
+      "effect": [
+        { "npc_add_effect": "infection", "duration": "PERMANENT" },
+        { "npc_remove_item_with": "cattail_jelly" },
+        "assign_guard",
+        { "clear_npc_rule": "investigate_noises" }
+      ]
+    },
+    "end": {
+      "effect": [ { "npc_lose_effect": "infection" }, "stop_guard", { "set_npc_rule": "investigate_noises" }, "npc_thankful" ]
+    },
+    "fail": { "effect": "npc_die" }
+  },
+  {
+    "id": "MISSION_GET_FLAG",
+    "type": "mission_definition",
+    "name": { "str": "Make a Flag" },
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 2,
+    "value": 100000,
+    "item": "grass_blanket",
+    "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
+    "dialogue": {
+      "describe": "Does our flag still yet wave?  Maybe we will have to make it.",
+      "offer": "You haven't truly visited a place until you've driven a flagpole down into its dirt.  I've got the pole and the paint here, but I need a large canvas for the flag itself.  Get me a large sheet woven out of grass, and we can claim this land in the name of America!",
+      "accepted": "Hell ya!  Fetch me a large grass sheet!  Large enough to be used as a blanket!",
+      "rejected": "Seriously?  God damned commie…",
+      "advice": "You'll need to collect some straw and spin it into yarn first.",
+      "inquire": "Got the cloth?",
+      "success": "America, fuck ya!  I name this land…  New New England!  How does that sound?  I like it!",
+      "success_lie": "What?!  You liar!",
+      "failure": "You give up?  Our country fell apart because no one could find a good man to rely on, and now you're telling me this place ain't any better?  Might as well give up, I guess."
+    }
+  },
+  {
+    "id": "MISSION_GET_RECORD_ACCOUNTING",
+    "type": "mission_definition",
+    "name": { "str": "Find Secrets in Leather Journal" },
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 2,
+    "value": 140000,
+    "item": "leather_journal",
+    "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
+    "dialogue": {
+      "describe": "Those twisted snakes…",
+      "offer": "I left my dream journal in the swamp while I was doing my naked snake yoga.  There's some pretty wild stuff in there so I want it back.",
+      "accepted": "Please don't read it unless you are prepared for some graphic and disturbing content.",
+      "rejected": "I know it isn't pressing but I want it.  I have an incredible imagination.  I had a dream about a horse once and it talked.  Amazing stuff.",
+      "advice": "The swamps are pretty dangerous and I'm not really sure where I was.  If you want to just make me a new dream journal that would be all right too.",
+      "inquire": "Any luck?",
+      "success": "Great, let's see…  Oh.  Well I can just start over I guess.  My imagination is an endless play place of amazement!",
+      "success_lie": "Thanks for trying… I guess.",
+      "failure": "Now my nightmares are let loose upon the shivering land."
+    }
+  },
+  {
+    "id": "MISSION_GET_RECORD_PATIENT",
+    "type": "mission_definition",
+    "name": { "str": "Find Patient Records in Leather Journal" },
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 2,
+    "value": 60000,
+    "item": "leather_journal",
+    "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
+    "dialogue": {
+      "describe": "I hope I don't see many names I know…",
+      "offer": "I've lost so many friends… please find me a patient list in a leather journal.  I just want to know who might still be out there.",
+      "accepted": "Thank you, I suppose it won't change what has already happened but it will bring me closure.",
+      "rejected": "Please, I just want to know what happened to everyone.",
+      "advice": "You may have some difficulties finding a full list with things how they are.  If you can't get me the list, can you just make or find me a leather journal for me to make my own?",
+      "inquire": "Any luck?",
+      "success": "I'm making a list and checking it twice…",
+      "success_lie": "Thanks for trying… I guess.",
+      "failure": "I bet some of them are still out there…"
+    }
+  },
+  {
+    "id": "MISSION_GET_RECORD_WEATHER",
+    "type": "mission_definition",
+    "name": { "str": "Find Weather Log in Leather Journal" },
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 2,
+    "value": 50000,
+    "item": "leather_journal",
+    "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
+    "dialogue": {
+      "describe": "I wonder if a retreat might exist…",
+      "offer": "Everyone who dies gets back up, right?  Which means that whatever is causing this it must be airborne to have infected everyone.  I believe that if that is the case then there should be regions that were not downwind from where-ever the disease was released.  We need to find a leather journal with all the weather patterns leading up to the outbreak.",
+      "accepted": "Thanks so much, you may save both of us yet.",
+      "rejected": "Ya, it was a long shot I admit.",
+      "advice": "You may have some difficulties finding those weather pattern records with things how they are.  If you can't get me the list, can you just make or find me a leather journal for me to make my own?",
+      "inquire": "Any luck?",
+      "success": "These look more complicated than I thought, just give me some time.",
+      "success_lie": "This isn't what we need.",
+      "failure": "If only we could find a great valley or something."
+    }
+  },
+  {
+    "id": "MISSION_GET_RELIC",
+    "type": "mission_definition",
+    "name": { "str": "Find Rock" },
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 2,
+    "value": 100000,
+    "item": "rock",
+    "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
+    "dialogue": {
+      "describe": "St. Michael the archangel defend me in battle…",
+      "offer": "As the world seems to abandon the reality that we once knew, it becomes plausible that the old superstitions that were cast aside may have had some truth to them.  Please go and find me a religious relic… I doubt it will be of much use but I've got to hope in something.  It will look like a normal rock to you, but I can divine secrets from its earthly essence.",
+      "accepted": "I wish you the best of luck, may whatever god you please guide your path.",
+      "rejected": "Ya, I guess the stress may just be getting to me…",
+      "advice": "I hear rocks may be found in the woods.  They tell me things.  The spirits.  Religion!",
+      "inquire": "Any luck?  Please find me a small relic.  Any relic will do.  It looks like a rock.",
+      "success": "Thank you, I need some time alone now…",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways…"
+    }
+  },
+  {
+    "id": "MISSION_RECOVER_PRIEST_DIARY",
+    "type": "mission_definition",
+    "name": { "str": "Recover Holy Symbol" },
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 2,
+    "value": 70000,
+    "item": "holy_symbol",
+    "start": {
+      "update_mapgen": { "place_item": [ { "item": "holy_symbol", "x": [ 3, 21 ], "y": [ 6, 21 ], "amount": 1 } ] },
+      "assign_mission_target": {
+        "om_terrain": "standing_stones",
+        "om_terrain_match_type": "PREFIX",
+        "om_special": "Standing stones",
+        "search_range": 80,
+        "min_distance": 5,
+        "random": true,
+        "z": 0
+      }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_INVESTIGATE_CULT",
+    "dialogue": {
+      "describe": "St. Michael the archangel defend me in battle…",
+      "offer": "I have learned so much from this sacred relic.  I have attuned to it.  We must go deeper.  I now understand that buried in the deep forest is a special place with even larger rocks, I mean sacred relics.  Go there, and get me a holy symbol of this place.",
+      "accepted": "I wish you the best of luck, may whatever god you please guide your path.",
+      "rejected": "Ya, I guess the stress may just be getting to me…",
+      "advice": "The woods are deep and dark and probably dangerous.  Bring a friend if you can.",
+      "inquire": "Any luck?",
+      "success": "Thank you, this is exactly what I was looking for.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways…"
+    }
+  },
+  {
+    "id": "MISSION_INVESTIGATE_CULT",
+    "type": "mission_definition",
+    "name": { "str": "Investigate Cult" },
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 2,
+    "value": 150000,
+    "item": "etched_skull",
+    "start": {
+      "update_mapgen": { "place_item": [ { "item": "etched_skull", "x": [ 3, 21 ], "y": [ 6, 21 ], "amount": 1 } ] },
+      "assign_mission_target": { "om_terrain": "cave_rat", "om_special": "Rat Cave", "reveal_radius": 3, "search_range": 120 }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_INVESTIGATE_PRISON_VISIONARY",
+    "dialogue": {
+      "describe": "St. Michael the archangel defend me in battle…",
+      "offer": "You have no idea how interesting this holy symbol is.  I have two very promising leads… first things first, I have learned of dark whispers of mystic significance, telluric resonances that tingle the spine and give me kind of a dizzy feeling, but not entirely unpleasant.  Could you investigate a location for me?  I'm not sure what was going on here but the whispers seem fairly worried about it.",
+      "accepted": "I wish you the best of luck, may whatever god you please guide your path… You may need it this time more than the past excursions you have gone on.  There is a whisper about potential human sacrifice in the days immediately before and after the grand mystical shift.  The name of the cult is not revealed to me, except for an incessant squeaking.",
+      "rejected": "Ya, I guess the stress may just be getting to me…",
+      "advice": "I doubt the site is still occupied but I'd carry some form of weapon at least… I'm not sure what you might be looking for but I'm positive you'll find something out of the ordinary if you look long enough.",
+      "inquire": "I'm positive there is something there… there has to be, any luck?",
+      "success": "Thank you, your account of these… demonic creations proves the fears the whispers had were well founded.  Our priority should be routing out any survivors of this cult… I don't known if they are responsible for the disaster but they certainly know more about it than I do.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways…"
+    }
+  },
+  {
+    "id": "MISSION_INVESTIGATE_PRISON_VISIONARY",
+    "type": "mission_definition",
+    "name": { "str": "Mad Hermit" },
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 2,
+    "value": 150000,
+    "item": "visions_solitude",
+    "start": {
+      "assign_mission_target": { "om_terrain": "island_forest_thick", "om_special": "Island", "reveal_radius": 3, "search_range": 180 },
+      "update_mapgen": { "om_terrain": "prison_1_4", "place_item": [ { "item": "visions_solitude", "x": 15, "y": 22 } ] }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "St. Michael the archangel defend me in battle…",
+      "offer": "I have another task if you are feeling up to it.   There is a mad hermit that the whispers made special mention of.  I was wondering if you could see what may have happened to them or if they left anything behind.  The whispers admit the individual is rather unstable, to put it lightly, but the whispers believe the hermit was some kind of mystical visionary.  I'm not in a position to cast out the account just yet… it seems the hermit has prophesied events accurately before.",
+      "accepted": "I wish you the best of luck, may whatever god you please guide your path… I can only imagine that the island will be a little slice of hell.  I hope you can swim.",
+      "rejected": "Ya, I guess the stress may just be getting to me…",
+      "advice": "With things as they are you probably won't just find a boat lying around.  Maybe make one?  Maybe swim?",
+      "inquire": "Any luck?",
+      "success": "Thank you, I'm not sure what to make of this but I'll ponder your account.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways…"
+    }
+  },
+  {
+    "id": "MISSION_GET_SOFTWARE",
+    "type": "mission_definition",
+    "name": { "str": "Retrieve Stick" },
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "stick",
+    "difficulty": 2,
+    "value": 80000,
+    "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
+    "dialogue": {
+      "describe": "Oh man, I can't believe I forgot to bring it…",
+      "offer": "There's some important notes on my special stick that I need.",
+      "accepted": "Thanks!  Just get the stick and bring it to me.",
+      "rejected": "Seriously?  It's an easy job…",
+      "advice": "Don't worry, you'll know the stick when you see it, it is unmistakable.",
+      "inquire": "So, do you have my stick yet?",
+      "success": "Excellent, thank you!",
+      "success_lie": "What?!  You liar!",
+      "failure": "Wow, you failed?  All that work, down the drain…"
+    }
+  },
+  {
+    "id": "MISSION_GET_ZOMBIE_BLOOD_ANAL",
+    "type": "mission_definition",
+    "name": { "str": "Analyze Alien Fungus" },
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 8,
+    "value": 250000,
+    "item": "veggy_tainted",
+    "start": {
+      "assign_mission_target": { "om_terrain": "forest", "reveal_radius": 3, "search_range": 120 },
+      "update_mapgen": { "place_item": [ { "item": "veggy_tainted", "x": 14, "y": 15, "amount": [ 10, 20 ], "repeat": [ 1, 3 ] } ] }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "You've seen these walking fungus things around?  I would like to take a closer look at their flesh.  For science.",
+      "offer": "I need someone to get a sample of strange alien fungus chunks and bring it to me.",
+      "accepted": "Excellent.  Get me those nasty chunks.",
+      "rejected": "Are you sure?  The scientific value of those smelly chunks could be priceless…",
+      "advice": "I was cutting up a fungus creature in a nearby forest.  I was chased of by a big raven before I could finish, but perhaps you are brave enough to fetch the remains.  Alternatively, you could go and kill and butcher one of those things yourself.",
+      "inquire": "Well, do you have the disgusting chunks yet?",
+      "success": "Excellent!  This may be the key to removing the infection.",
+      "success_lie": "Wait, you couldn't possibly have the nasty chunks!  Liar!",
+      "failure": "What a shame, that horrible chunk could have proved invaluable…"
+    }
+  },
+  {
+    "id": "MISSION_KILL_JABBERWOCK",
+    "type": "mission_definition",
+    "name": { "str": "Kill Jabberwock" },
+    "goal": "MGOAL_KILL_MONSTER",
+    "difficulty": 5,
+    "value": 200000,
+    "urgent": true,
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "forest_thick",
+        "om_terrain_replace": "forest",
+        "reveal_radius": 1,
+        "random": true,
+        "search_range": 60,
+        "min_distance": 5,
+        "z": 0
+      },
+      "update_mapgen": { "place_monster": [ { "monster": "mon_jabberwock", "x": 11, "y": 11, "target": true } ] }
+    },
+    "end": { "effect": "npc_thankful" },
+    "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
+    "dialogue": {
+      "describe": "The eater of the dead… something was ripping trees to shreds and only leaving a few scattered limbs…",
+      "offer": "A few days ago another survivor and I were in the woods.  One night something caught onto our trail and chased us for ten minutes or so until we decided to split up and meet-up back here.  My buddy never showed up and I don't have the means to kill whatever it was.  Can you lend a hand?",
+      "accepted": "Thanks, make sure you're ready for whatever the beast is.",
+      "rejected": "Hey, I know I wouldn't volunteer for it either.",
+      "advice": "Make sure you have a good weapon.  It sounded pretty big.",
+      "inquire": "Any luck?",
+      "success": "You look a little shaken up, I can't tell you how glad I am that you killed it though.",
+      "success_lie": "Something in the shadows still seems to stare at me when I look at the woods.",
+      "failure": "I'm glad you came back alive… I wasn't sure if I had sent you to your death."
+    }
+  },
+  {
+    "id": "MISSION_KILL_ZOMBIE_MOM",
+    "type": "mission_definition",
+    "name": { "str": "Kill Zombie Bear" },
+    "goal": "MGOAL_KILL_MONSTER",
+    "difficulty": 5,
+    "value": 120000,
+    "urgent": true,
+    "start": {
+      "assign_mission_target": { "om_terrain": "forest", "reveal_radius": 3 },
+      "update_mapgen": { "place_monster": [ { "monster": "mon_zombear", "name": "Willa", "x": 12, "y": 12, "target": true } ] }
+    },
+    "end": { "effect": "npc_thankful" },
+    "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
+    "dialogue": {
+      "describe": "Oh god, I can't believe it happened…",
+      "offer": "My bear… she's… she was killed, but then she just got back up… she's one of those things now.  Can you put her out of her misery for me?",
+      "accepted": "Thank you… she would've wanted it this way.",
+      "rejected": "Please reconsider, I know she's suffering…",
+      "advice": "She's still a bear, and seemed furious, so be wary.  And please, make it quick…",
+      "inquire": "Well…?  Did you… finish things for my bear?",
+      "success": "Thank you.  I couldn't rest until I knew that was finished.",
+      "success_lie": "What?!  You're lying, I can tell!  Ugh, forget it!",
+      "failure": "Really… that's too bad."
+    }
+  },
+  {
+    "id": "MISSION_RESCUE_DOG",
+    "type": "mission_definition",
+    "name": { "str": "Find Lost Dog" },
+    "goal": "MGOAL_FIND_MONSTER",
+    "difficulty": 3,
+    "value": 100000,
+    "start": {
+      "assign_mission_target": { "om_terrain": "forest", "reveal_radius": 3 },
+      "update_mapgen": { "place_monster": [ { "monster": "mon_dog", "name": "Sparky", "x": 12, "y": 12, "target": true, "friendly": true } ] }
+    },
+    "origins": [ "ORIGIN_OPENER_NPC" ],
+    "dialogue": {
+      "describe": "Oh, my poor puppy…",
+      "offer": "I left my stupid dog in the woods, not far from here.  Can you retrieve it?",
+      "accepted": "Thank you!  Please hurry back!",
+      "rejected": "Please, think of my poor little puppy!",
+      "advice": "Good luck!",
+      "inquire": "Have you found my dog yet?  His name is Sparky!",
+      "success": "Thank you so much for finding him!",
+      "success_lie": "What?!  You're lying, I can tell!  Ugh, forget it!",
+      "failure": "Oh no!  My poor puppy…"
+    }
+  },
+  {
+    "id": "MISSION_GET_CITY_COP_MOMENTO",
+    "type": "mission_definition",
+    "name": { "str": "Go into deep woods to retrieve family seeds" },
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 2,
+    "value": 800,
+    "item": "seed_weed",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "start": {
+      "assign_mission_target": { "om_terrain": "forest", "reveal_radius": 3 },
+      "update_mapgen": { "place_item": [ { "item": "seed_weed", "x": 14, "y": 15, "amount": [ 10, 20 ] } ] }
+    },
+    "dialogue": {
+      "describe": "I need you to get my family seeds from the deep woods.",
+      "offer": "I left some special seeds from my family in the deep woods.  Can you get them?",
+      "accepted": "Thanks, it's great to see someone willing to help out.",
+      "rejected": "Well, I'll find someone else to do it for me, maybe there are a lot of people left…",
+      "advice": "I'll know the seeds when I see them.  Just bring me any seeds you find.",
+      "inquire": "Got the seeds?  They're important to me.",
+      "success": "Thanks!  I'll be sure to put in a good word for you around the woods.  With like birds or whatever.",
+      "success_lie": "OK, then hand it over.",
+      "failure": "Shit happens."
+    }
+  },
+  {
+    "id": "MISSION_LEARN_ABOUT_CATTAIL_JELLY",
+    "type": "mission_definition",
+    "name": { "str": "Gather cattail stalks to create cattail jelly" },
+    "description": "Gather <color_light_blue>80 cattail stalks</color> from the swamp and bring them back to <color_light_red>learn how to craft cattail jelly</color>.  Raise your <color_light_blue>survival skill to at least 1</color> by harvesting cattail stalks.  <color_light_blue>Bring back the provided bag</color> as well.",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": {
+      "and": [
+        { "u_has_item": "backpack_leather" },
+        { "u_has_items": { "item": "cattail_stalk", "count": 80 } },
+        { "math": [ "u_skill('survival')", ">=", "1" ] }
+      ]
+    },
+    "difficulty": 1,
+    "value": 0,
+    "has_generic_rewards": false,
+    "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
+    "start": {
+      "effect": [ { "u_spawn_item": "backpack_leather" } ],
+      "assign_mission_target": { "om_terrain": "forest_water", "reveal_radius": 3 }
+    },
+    "end": {
+      "effect": [
+        { "u_sell_item": "backpack_leather" },
+        { "u_sell_item": "cattail_stalk", "count": 80 },
+        { "npc_consume_item": "cattail_stalk", "count": 80 },
+        { "u_learn_recipe": "cattail_jelly" },
+        { "u_message": "You learn how to craft cattail jelly.", "popup": true },
+        { "u_spawn_item": "cattail_jelly", "container": "stomach_sealed", "count": 7 }
+      ]
+    },
+    "dialogue": {
+      "describe": "Medical services are a little sparse here, but people have been surviving using their wits and the bounty of Mother Nature for a long time.  Care to learn a little?",
+      "offer": "Did you know that cattails are a source of a jelly that works as an antiseptic and analgesic?  Something like that is likely to be mighty helpful out here.  I want you to take this bag, head to the nearest swamp, collect 80 cattail stalks, and bring them back here.  In exchange, I'll show you how to harvest the jelly.",
+      "accepted": "Great!  This bag should be big enough to hold all of the stalks we'll need.  Don't forget to bring it back.",
+      "rejected": "Your loss.",
+      "advice": "The cattails grow in the fresh water in swamps.  You can't miss them.",
+      "inquire": "Got those cattail stalks yet?  Don't forget to bring back my bag and to work on improving your survival skill as well.",
+      "success": "Great!  Hand them over and I'll show you how this works.",
+      "success_lie": "OK, then hand them over.",
+      "failure": "Well, that's a shame."
+    }
+  },
+  {
+    "id": "MISSION_PYROMANIAC",
+    "type": "mission_definition",
+    "name": { "str": "Angry pyromaniac" },
+    "goal": "MGOAL_GO_TO",
+    "difficulty": 0,
+    "value": 0,
+    "//": "NPC will ask player to burn tagged forest tile. Will follow player after accepting mission.",
+    "//2": "Change first topic to do proper checks. MGOAL_GO_TO to check if player stands on tagged tile.",
+    "//3": "At the end of the mission, will place fire on tagged tile and NPC will join player faction.",
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [ "follow_only", { "npc_first_topic": "MISSION_PYROMANIAC" } ],
+      "assign_mission_target": { "om_terrain": "forest", "om_terrain_match_type": "PREFIX", "search_range": 75, "random": true, "z": 0 }
+    },
+    "end": { "effect": [ "follow", { "u_consume_item": "tinder" }, { "mapgen_update": "MISSION_PYROMANIAC_BURN_INNAWOOD" } ] },
+    "origins": [ "ORIGIN_OPENER_NPC" ],
+    "dialogue": {
+      "describe": "Oh man, I want to <swear> burn it so bad…",
+      "offer": "I'm so <swear> infuriated!  I've got a tree that ruined my life, and now I want to get revenge!  I don't care about <the_cataclysm>, I just want to burn that tree!  Would you help me, <name_g>?",
+      "accepted": "Good.  Let's go to the tree and <swear> burn it down!  Oh, bring some tinder so we can start the fire.  I can make the sparks.",
+      "rejected": "Seriously?  It's such an easy job…",
+      "advice": "Maybe we can find a stick in the woods.",
+      "inquire": "Are you ready, <name_g>?",
+      "success": "Sweet, sweet revenge!  Ah, smells so nice!  Feels like the smell of napalm in the morning!  It will all burn to ashes in a matter of minutes.  You helped me get my revenge, so I'll follow you to the end, <name_g>!",
+      "success_lie": "What?!  You liar!",
+      "failure": "Wow, you failed?  How…"
+    }
+  },
+  {
+    "//": "For MISSION_PYROMANIAC. Will spawn fire on tile where PC is standing.",
+    "type": "mapgen",
+    "update_mapgen_id": "MISSION_PYROMANIAC_BURN_INNAWOOD",
+    "method": "json",
+    "object": {
+      "place_item": [ { "item": "tinder", "x": [ 5, 20 ], "y": [ 5, 20 ], "amount": 5, "repeat": 40 } ],
+      "place_fields": [ { "field": "fd_fire", "x": [ 5, 20 ], "y": [ 5, 20 ], "repeat": 40 } ]
+    }
+  },
+  {
+    "//": "MISSION_PYROMANIAC mission set this topic as starting topic for mission giver.",
+    "type": "talk_topic",
+    "id": "MISSION_PYROMANIAC",
+    "dynamic_line": "Are we there yet, <name_g>?  I can't wait to burn that tree!",
+    "responses": [
+      {
+        "text": "We're here.  Let's do it!",
+        "topic": "TALK_MISSION_INQUIRE",
+        "condition": { "and": [ "mission_complete", { "u_has_items": { "item": "tinder", "count": 1 } } ] }
+      }
+    ]
+  }
+]

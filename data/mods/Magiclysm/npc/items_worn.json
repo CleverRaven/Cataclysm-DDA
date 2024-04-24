@@ -1,0 +1,15 @@
+[
+  {
+    "type": "item_group",
+    "id": "NC_OLD_MAGUS_worn",
+    "subtype": "collection",
+    "items": [
+      { "item": "socks" },
+      { "item": "tunic" },
+      { "item": "long_underpants" },
+      { "item": "undershirt" },
+      { "item": "slippers" },
+      { "item": "robe" }
+    ]
+  }
+]

@@ -1,0 +1,22 @@
+[
+  {
+    "type": "disease_type",
+    "id": "bad_food",
+    "min_duration": "6 m",
+    "max_duration": "1 h",
+    "min_intensity": 1,
+    "max_intensity": 1,
+    "health_threshold": 100,
+    "symptoms": "foodpoison"
+  },
+  {
+    "type": "disease_type",
+    "id": "highly_contaminated_food",
+    "min_duration": "6 h",
+    "max_duration": "1 d",
+    "min_intensity": 1,
+    "max_intensity": 5,
+    "health_threshold": 210,
+    "symptoms": "foodpoison"
+  }
+]

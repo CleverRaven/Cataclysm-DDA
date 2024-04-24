@@ -1,0 +1,10 @@
+[
+  {
+    "result": "10mm_fmj",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "5 s",
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [ [ [ "lead", 3 ] ], [ [ "10mm_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder_magnum_pistol", 3 ] ] ]
+  }
+]

@@ -1,0 +1,82 @@
+[
+  {
+    "type": "test_data",
+    "npc_boarding_data": {
+      "npc tries to board a vehicle, door on back, windshield on front": {
+        "player_pos": [ 60, 60, 0 ],
+        "npc_pos": [ 62, 60, 0 ],
+        "npc_target": [ 60, 61, 0 ],
+        "vehicle": "boarding_test_veh_windshield"
+      },
+      "npc tries to board a vehicle, door on back, board on front": {
+        "player_pos": [ 60, 60, 0 ],
+        "npc_pos": [ 62, 60, 0 ],
+        "npc_target": [ 60, 61, 0 ],
+        "vehicle": "boarding_test_veh_board"
+      },
+      "npc tries to board a vehicle, door on front": {
+        "player_pos": [ 60, 60, 0 ],
+        "npc_pos": [ 62, 60, 0 ],
+        "npc_target": [ 60, 61, 0 ],
+        "vehicle": "boarding_test_veh_door"
+      }
+    }
+  },
+  {
+    "id": "boarding_test_veh_windshield",
+    "type": "vehicle",
+    "name": "NPC Boarding Test Vehicle",
+    "parts": [
+      { "x": 0, "y": -1, "parts": [ "frame", "board" ] },
+      { "x": 0, "y": 0, "parts": [ "frame", "seat" ] },
+      { "x": 0, "y": 1, "parts": [ "frame", "seat" ] },
+      { "x": 0, "y": 2, "parts": [ "frame", "board" ] },
+      { "x": 1, "y": -1, "parts": [ "frame", "windshield" ] },
+      { "x": 1, "y": 0, "parts": [ "frame", "windshield" ] },
+      { "x": 1, "y": 1, "parts": [ "frame", "windshield" ] },
+      { "x": 1, "y": 2, "parts": [ "frame", "windshield" ] },
+      { "x": -1, "y": -1, "parts": [ "frame", "board" ] },
+      { "x": -1, "y": 0, "parts": [ "frame", "door" ] },
+      { "x": -1, "y": 1, "parts": [ "frame", "board" ] },
+      { "x": -1, "y": 2, "parts": [ "frame", "board" ] }
+    ]
+  },
+  {
+    "id": "boarding_test_veh_board",
+    "type": "vehicle",
+    "name": "NPC Boarding Test Vehicle",
+    "parts": [
+      { "x": 0, "y": -1, "parts": [ "frame", "board" ] },
+      { "x": 0, "y": 0, "parts": [ "frame", "seat" ] },
+      { "x": 0, "y": 1, "parts": [ "frame", "seat" ] },
+      { "x": 0, "y": 2, "parts": [ "frame", "board" ] },
+      { "x": 1, "y": -1, "parts": [ "frame", "board" ] },
+      { "x": 1, "y": 0, "parts": [ "frame", "board" ] },
+      { "x": 1, "y": 1, "parts": [ "frame", "board" ] },
+      { "x": 1, "y": 2, "parts": [ "frame", "board" ] },
+      { "x": -1, "y": -1, "parts": [ "frame", "board" ] },
+      { "x": -1, "y": 0, "parts": [ "frame", "door" ] },
+      { "x": -1, "y": 1, "parts": [ "frame", "board" ] },
+      { "x": -1, "y": 2, "parts": [ "frame", "board" ] }
+    ]
+  },
+  {
+    "id": "boarding_test_veh_door",
+    "type": "vehicle",
+    "name": "NPC Boarding Test Vehicle",
+    "parts": [
+      { "x": 0, "y": -1, "parts": [ "frame", "board" ] },
+      { "x": 0, "y": 0, "parts": [ "frame", "seat" ] },
+      { "x": 0, "y": 1, "parts": [ "frame", "seat" ] },
+      { "x": 0, "y": 2, "parts": [ "frame", "board" ] },
+      { "x": 1, "y": -1, "parts": [ "frame", "windshield" ] },
+      { "x": 1, "y": 0, "parts": [ "frame", "windshield" ] },
+      { "x": 1, "y": 1, "parts": [ "frame", "door" ] },
+      { "x": 1, "y": 2, "parts": [ "frame", "windshield" ] },
+      { "x": -1, "y": -1, "parts": [ "frame", "board" ] },
+      { "x": -1, "y": 0, "parts": [ "frame", "board" ] },
+      { "x": -1, "y": 1, "parts": [ "frame", "board" ] },
+      { "x": -1, "y": 2, "parts": [ "frame", "board" ] }
+    ]
+  }
+]

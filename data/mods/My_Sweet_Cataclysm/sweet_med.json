@@ -1,0 +1,17 @@
+[
+  {
+    "id": "caramel_ointement",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str_sp": "caramel ointment" },
+    "description": "An ointment made of caramel.  You could use it to heal your wounds, if you were made of sugar.",
+    "weight": "375 g",
+    "volume": "27 ml",
+    "price": "66 cent",
+    "material": [ "sugar" ],
+    "symbol": "~",
+    "color": "brown",
+    "flags": [ "NO_INGEST", "CANT_HEAL_EVERYONE" ],
+    "use_action": { "type": "heal", "bandages_power": 15, "limb_power": 5, "move_cost": 300 }
+  }
+]

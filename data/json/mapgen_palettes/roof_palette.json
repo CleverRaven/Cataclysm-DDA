@@ -1,0 +1,63 @@
+[
+  {
+    "type": "palette",
+    "id": "roof_palette",
+    "terrain": {
+      ">": "t_stairs_down",
+      "v": "t_ladder_down",
+      ".": "t_flat_roof",
+      " ": "t_open_air",
+      "o": "t_glass_roof",
+      "_": "t_floor",
+      "-": "t_gutter",
+      "4": "t_gutter_downspout",
+      "5": "t_gutter_drop",
+      "#": "t_grate",
+      "&": "t_null",
+      ":": "t_null",
+      "X": "t_null",
+      "=": "t_null",
+      "A": "t_null",
+      "b": "t_null",
+      "c": "t_null",
+      "t": "t_null",
+      "r": "t_null",
+      "L": "t_null",
+      "C": "t_null",
+      "Y": "t_null",
+      "y": "t_null",
+      "f": "t_chainfence",
+      "g": "t_chaingate_c",
+      "+": "t_door_metal_c"
+    },
+    "furniture": {
+      "&": "f_roof_turbine_vent",
+      "N": "f_TV_antenna",
+      ":": "f_cellphone_booster",
+      "X": "f_small_satelitte_dish",
+      "~": "f_chimney",
+      "=": "f_vent_pipe",
+      "A": "f_air_conditioner",
+      "M": "f_solar_unit",
+      "b": "f_bench",
+      "c": "f_counter",
+      "t": "f_table",
+      "r": "f_rack",
+      "L": "f_locker",
+      "C": [ "f_crate_c", "f_cardboard_box" ],
+      "Y": "f_stool",
+      "s": "f_sofa",
+      "S": "f_sink",
+      "e": "f_oven",
+      "F": "f_fridge",
+      "Я": "f_standing_tank",
+      "y": [ "f_indoor_plant_y", "f_indoor_plant" ]
+    },
+    "liquids": { "Я": { "liquid": "water_clean", "amount": [ 0, 300 ] } },
+    "nested": {
+      "5": { "chunks": [ [ "null", 90 ], [ "roof_1x1_birdnest", 10 ] ] },
+      "-": { "chunks": [ [ "null", 1000 ], [ "roof_1x1_birdnest", 5 ] ] }
+    },
+    "toilets": { "T": {  } }
+  }
+]

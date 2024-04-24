@@ -1,0 +1,86 @@
+[
+  {
+    "id": "tiny_pistol_ball",
+    "type": "AMMO",
+    "copy-from": "32_acp",
+    "name": { "str_sp": "tiny pistol ammo, ball" },
+    "ammo_type": "ammo_pistol_tiny",
+    "casing": "pistol_tiny_casing",
+    "description": "Minuscule pistol and rifle ammunition, for target practice or turn of the century sidearms.  Sold in great quantities preceding the riots.  'Ball' is an old term for full metal jacketed bullets which offer reduced fouling, better reliability, and slightly improved penetration compared to plain lead.",
+    "relative": { "damage": { "damage_type": "bullet", "amount": -2, "armor_penetration": 3 } }
+  },
+  {
+    "id": "tiny_pistol_jhp",
+    "type": "AMMO",
+    "copy-from": "tiny_pistol_ball",
+    "name": { "str_sp": "tiny pistol ammo, JHP" },
+    "description": "Minuscule pistol and rifle ammunition, for target practice or turn of the century sidearms.  Sold in great quantities preceding the riots.  Jacketed Hollow Points are defensive/duty projectiles that are more destructive to tissue than plain ball ammunition, and slightly reduce overpenetration concerns.",
+    "relative": { "damage": { "damage_type": "bullet", "amount": 2, "armor_penetration": -3 } }
+  },
+  {
+    "id": "reloaded_tiny_pistol_ball",
+    "type": "AMMO",
+    "copy-from": "tiny_pistol_ball",
+    "name": { "str_sp": "tiny pistol ammo, ball (reloaded)" },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] }
+  },
+  {
+    "id": "reloaded_tiny_pistol_jhp",
+    "type": "AMMO",
+    "copy-from": "tiny_pistol_jhp",
+    "name": { "str_sp": "tiny pistol ammo, JHP (reloaded)" },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] }
+  },
+  {
+    "id": "bp_tiny_pistol_ball",
+    "type": "AMMO",
+    "copy-from": "tiny_pistol_ball",
+    "name": { "str_sp": "tiny pistol ammo, ball (black powder)" },
+    "proportional": {
+      "price": 0.3,
+      "damage": { "damage_type": "bullet", "amount": 0.57, "armor_penetration": 0.5 },
+      "recoil": 0.57,
+      "dispersion": 1.2
+    },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
+    "id": "bp_tiny_pistol_jhp",
+    "type": "AMMO",
+    "copy-from": "tiny_pistol_jhp",
+    "name": { "str_sp": "tiny pistol ammo, JHP (black powder)" },
+    "proportional": {
+      "price": 0.3,
+      "damage": { "damage_type": "bullet", "amount": 0.57, "armor_penetration": 0.5 },
+      "recoil": 0.57,
+      "dispersion": 1.2
+    },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
+    "id": "small_powder_blank",
+    "type": "AMMO",
+    "copy-from": "22_blank",
+    "name": { "str_sp": "pistol blank" }
+  },
+  {
+    "id": "matchhead_tiny_pistol_ball",
+    "copy-from": "bp_tiny_pistol_ball",
+    "type": "AMMO",
+    "name": { "str_sp": "tiny pistol ammo, ball (matchhead powder)" },
+    "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
+    "extend": { "effects": [ "MATCHHEAD" ] }
+  },
+  {
+    "id": "matchhead_tiny_pistol_jhp",
+    "copy-from": "bp_tiny_pistol_jhp",
+    "type": "AMMO",
+    "name": { "str_sp": "tiny pistol ammo, JHP (matchhead powder)" },
+    "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
+    "extend": { "effects": [ "MATCHHEAD" ] }
+  }
+]

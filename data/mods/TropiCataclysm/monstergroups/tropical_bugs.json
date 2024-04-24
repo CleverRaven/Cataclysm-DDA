@@ -1,0 +1,43 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_TERMITES",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_termite_nymph", "weight": 40, "cost_multiplier": 0 },
+      { "monster": "mon_termite_alate", "weight": 40, "cost_multiplier": 0 },
+      { "monster": "mon_termite_soldier", "weight": 90, "cost_multiplier": 5 },
+      { "monster": "mon_termite_shooter", "weight": 90, "cost_multiplier": 5 },
+      { "monster": "mon_termite_queen", "weight": 0, "cost_multiplier": 0 },
+      { "monster": "mon_termite_king", "weight": 0, "cost_multiplier": 0 },
+      { "monster": "mon_termite_worker", "weight": 870, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_TERMITE_SURFACE",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_termite_soldier", "weight": 90, "cost_multiplier": 5 },
+      { "monster": "mon_termite_shooter", "weight": 90, "cost_multiplier": 5 },
+      { "monster": "mon_termite_alate", "weight": 3, "cost_multiplier": 10 },
+      { "monster": "mon_termite_worker", "weight": 852, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_TERMITE_ALATE",
+    "default": "mon_termite_queen",
+    "monsters": [ { "monster": "mon_termite_king", "weight": 50 }, { "monster": "mon_termite_queen", "weight": 50 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_TERMITE",
+    "default": "mon_termite_soldier",
+    "monsters": [
+      { "monster": "mon_termite_soldier", "weight": 35 },
+      { "monster": "mon_termite_shooter", "weight": 35 },
+      { "monster": "mon_termite_alate", "weight": 30, "cost_multiplier": 2 }
+    ]
+  }
+]

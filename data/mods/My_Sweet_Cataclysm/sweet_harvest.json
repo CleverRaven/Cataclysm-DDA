@@ -1,0 +1,57 @@
+[
+  {
+    "id": "marshmallow_boy",
+    "type": "harvest",
+    "leftovers": "ruined_candy",
+    "entries": [ { "drop": "marshmallow_flesh", "type": "flesh", "mass_ratio": 0.7 } ]
+  },
+  {
+    "id": "armored_marshmallow_boy",
+    "type": "harvest",
+    "leftovers": "ruined_candy",
+    "entries": [ { "drop": "smores_flesh", "type": "flesh", "mass_ratio": 0.7 } ]
+  },
+  {
+    "id": "gummy_bear",
+    "type": "harvest",
+    "leftovers": "ruined_candy",
+    "entries": [ { "drop": "candy3_flesh", "type": "flesh", "mass_ratio": 0.7 } ]
+  },
+  {
+    "id": "cracker_boy",
+    "type": "harvest",
+    "leftovers": "ruined_candy",
+    "entries": [ { "drop": "grahmcrackers_shell", "type": "flesh", "mass_ratio": 0.7 } ]
+  },
+  {
+    "id": "cookie_beast",
+    "type": "harvest",
+    "leftovers": "ruined_candy",
+    "entries": [ { "drop": "cookie_flesh", "type": "flesh", "mass_ratio": 0.7 } ]
+  },
+  {
+    "id": "gum_spider",
+    "type": "harvest",
+    "leftovers": "ruined_candy",
+    "entries": [ { "drop": "gum_flesh", "type": "flesh", "mass_ratio": 0.7 } ]
+  },
+  {
+    "id": "caff_gum_spider",
+    "type": "harvest",
+    "leftovers": "ruined_candy",
+    "entries": [ { "drop": "caff_gum_flesh", "type": "flesh", "mass_ratio": 0.7 } ]
+  },
+  {
+    "id": "choc_cows",
+    "type": "harvest",
+    "message": "As you butcher the chocolate corpse, you break the large pieces of flesh down into more manageable chunks.",
+    "entries": [ { "drop": "cow_candy_flesh", "type": "flesh", "mass_ratio": 0.7 } ]
+  },
+  {
+    "id": "licorice_snake",
+    "type": "harvest",
+    "leftovers": "ruined_candy",
+    "message": "You carefully open the snake to extract the sweet fillets.",
+    "entries": [ { "drop": "licorice_flesh", "type": "flesh", "mass_ratio": 0.7 } ]
+  }
+]

@@ -1,0 +1,220 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE",
+    "monsters": [
+      { "monster": "mon_afs_headless_horror", "weight": 20, "cost_multiplier": 2, "starts": 400 },
+      { "monster": "mon_zombie_upliftedbear", "weight": 5, "cost_multiplier": 10, "starts": 1086 },
+      { "monster": "mon_uplifted_ape_zed", "weight": 8, "cost_multiplier": 10, "starts": 1086 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_MID",
+    "monsters": [
+      { "monster": "mon_afs_headless_horror", "weight": 10, "cost_multiplier": 20 },
+      { "monster": "mon_zombie_upliftedbear", "weight": 3, "cost_multiplier": 10, "starts": 1086 },
+      { "monster": "mon_uplifted_ape_zed", "weight": 5, "cost_multiplier": 10, "starts": 1086 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_PrepNet",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_cat", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_cat", "weight": 20, "cost_multiplier": 10, "pack_size": [ 2, 8 ] },
+      { "monster": "afs_mon_cyber_mastiff", "weight": 644, "cost_multiplier": 10 },
+      { "monster": "afs_mon_cyber_mastiff", "weight": 15, "cost_multiplier": 25, "pack_size": [ 1, 6 ] },
+      { "monster": "afs_mon_cyber_mastiff_pup", "weight": 1, "cost_multiplier": 25, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_chicken", "weight": 50, "cost_multiplier": 10, "pack_size": [ 1, 16 ] },
+      { "monster": "mon_cow", "weight": 50, "cost_multiplier": 25, "pack_size": [ 1, 8 ] },
+      { "monster": "mon_horse", "weight": 50, "cost_multiplier": 25, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_sheep", "weight": 50, "cost_multiplier": 25, "pack_size": [ 1, 12 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_MI-GO_BASE_COMMON",
+    "monsters": [ { "monster": "afs_mon_migoturret", "weight": 120 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_MI-GO_BASE_BOSS",
+    "//": "Mi-go base defenders for major boss battles.",
+    "monsters": [ { "monster": "afs_mon_migoturret", "weight": 150, "pack_size": [ 2, 3 ] } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_FOREST",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_uplifted_bear", "weight": 1, "cost_multiplier": 10, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
+      { "monster": "mon_zombie_upliftedbear", "weight": 1, "cost_multiplier": 10, "starts": 1086 },
+      { "monster": "mon_uplifted_ape_zed", "weight": 1, "cost_multiplier": 10, "starts": 1086 },
+      {
+        "monster": "afs_mon_boatman",
+        "weight": 1,
+        "cost_multiplier": 20,
+        "pack_size": [ 2, 4 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "afs_mon_garlander",
+        "weight": 3,
+        "cost_multiplier": 10,
+        "pack_size": [ 2, 4 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "afs_mon_rabbit",
+        "weight": 1,
+        "cost_multiplier": 10,
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ]
+      },
+      { "monster": "afs_titanis", "weight": 4, "cost_multiplier": 10 },
+      {
+        "monster": "afs_runner",
+        "weight": 1,
+        "cost_multiplier": 10,
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ]
+      },
+      {
+        "monster": "afs_grazer",
+        "weight": 1,
+        "cost_multiplier": 10,
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ]
+      },
+      {
+        "monster": "mon_uplifted_bear",
+        "weight": 3,
+        "cost_multiplier": 10,
+        "conditions": [ "NIGHT", "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_uplifted_ape",
+        "weight": 1,
+        "cost_multiplier": 10,
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ]
+      },
+      {
+        "monster": "mon_uplifted_ape",
+        "weight": 3,
+        "cost_multiplier": 10,
+        "pack_size": [ 2, 4 ],
+        "conditions": [ "NIGHT", "SPRING", "SUMMER", "AUTUMN", "WINTER" ]
+      }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_CAVE",
+    "monsters": [ { "monster": "mon_uplifted_bear", "weight": 50, "cost_multiplier": 10, "pack_size": [ 1, 3 ] } ]
+  },
+  {
+    "name": "GROUP_PARK_SCENIC",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_zombie_upliftedbear", "weight": 10, "pack_size": [ 2, 3 ], "starts": 1086 },
+      { "monster": "mon_uplifted_ape_zed", "weight": 10, "pack_size": [ 2, 3 ], "starts": 1086 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "AFS_GROUP_AUG_CLINIC",
+    "monsters": [
+      { "monster": "mon_broken_cyborg", "weight": 100 },
+      { "monster": "mon_zombie_electric", "weight": 450 },
+      { "monster": "mon_prototype_cyborg", "weight": 100, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_technician", "weight": 300 },
+      { "monster": "mon_secubot", "weight": 50, "cost_multiplier": 3 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_BRUTE",
+    "//": "Brute upgrades",
+    "monsters": [
+      { "monster": "mon_zombie_upliftedbear", "weight": 112, "cost_multiplier": 10 },
+      { "monster": "mon_uplifted_ape_zed", "weight": 100, "cost_multiplier": 10 },
+      { "monster": "mon_zombie_oliphant", "weight": 70, "cost_multiplier": 10 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_CENTRAL_LAB",
+    "monsters": [
+      { "monster": "mon_zombie_upliftedbear", "weight": 3, "cost_multiplier": 10 },
+      { "monster": "mon_uplifted_ape_zed", "weight": 10, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_oliphant", "weight": 1, "cost_multiplier": 10 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_RIVER",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_uplifted_octupus", "weight": 3, "cost_multiplier": 10 },
+      { "monster": "mon_zombie_upliftedoctopus", "weight": 1, "cost_multiplier": 10 },
+      { "monster": "mon_deep_go", "weight": 1, "cost_multiplier": 10, "starts": 500 },
+      { "monster": "mon_deep_go_slaver", "weight": 1, "cost_multiplier": 10, "starts": 1086 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_CRYO_LAB",
+    "monsters": [
+      { "monster": "mon_mutant_experimental", "weight": 30, "cost_multiplier": 2 },
+      { "monster": "mon_mutant_evolved", "weight": 5, "cost_multiplier": 10 },
+      { "monster": "mon_broken_cyborg", "weight": 8, "cost_multiplier": 10 },
+      { "monster": "mon_mutant_cryo", "weight": 940, "cost_multiplier": 2 },
+      { "monster": "mon_mi_go", "weight": 5, "cost_multiplier": 10, "starts": 500 },
+      { "monster": "mon_shoggoth", "weight": 3, "cost_multiplier": 10, "starts": 1086 },
+      { "monster": "mon_cryokinetic", "weight": 8, "cost_multiplier": 10 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_LAB",
+    "monsters": [
+      { "monster": "mon_moxie_scavenger", "weight": 25, "cost_multiplier": 0, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_moxie_spartan", "weight": 25, "cost_multiplier": 0 },
+      { "monster": "mon_moxie_regenerator", "weight": 25, "cost_multiplier": 0, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_moxie_grabby", "weight": 25, "cost_multiplier": 0, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_human_biomachine", "weight": 25, "cost_multiplier": 0, "pack_size": [ 1, 4 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_SWAMP",
+    "is_animal": true,
+    "monsters": [
+      {
+        "monster": "afs_mon_hevel",
+        "weight": 1,
+        "cost_multiplier": 10,
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ]
+      },
+      {
+        "monster": "afs_venandi",
+        "weight": 1,
+        "cost_multiplier": 10,
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ]
+      },
+      {
+        "monster": "afs_grazer",
+        "weight": 1,
+        "cost_multiplier": 10,
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ]
+      }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_RUINS",
+    "monsters": [
+      { "monster": "afs_mon_reaver", "weight": 25, "cost_multiplier": 0, "pack_size": [ 1, 3 ] },
+      { "monster": "afs_mon_reaver_rifle", "weight": 25, "cost_multiplier": 0 }
+    ]
+  }
+]

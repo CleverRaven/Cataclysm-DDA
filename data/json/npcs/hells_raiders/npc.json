@@ -1,0 +1,79 @@
+[
+  {
+    "type": "npc",
+    "id": "thug",
+    "//": "Generic melee focused guard for the Hell's Raiders faction.",
+    "name_suffix": "Thug",
+    "class": "NC_THUG",
+    "attitude": 0,
+    "mission": 8,
+    "chat": "TALK_DONE",
+    "faction": "hells_raiders"
+  },
+  {
+    "type": "npc",
+    "id": "bandit",
+    "//": "Generic pistol/rifle focused guard for the Hell's Raiders faction.",
+    "name_suffix": "Bandit",
+    "class": "NC_SCAVENGER",
+    "attitude": 0,
+    "mission": 8,
+    "chat": "TALK_DONE",
+    "faction": "hells_raiders"
+  },
+  {
+    "type": "npc",
+    "id": "hells_raiders_assassin",
+    "//": "EOC-specific, should not spawn outside of trigger events.",
+    "name_suffix": "assassin",
+    "class": "NC_BOUNTY_HUNTER",
+    "attitude": 10,
+    "mission": 0,
+    "chat": "TALK_DONE",
+    "faction": "hells_raiders"
+  },
+  {
+    "type": "npc",
+    "id": "hells_raiders_boss",
+    "//": "The boss of a local raider clan.",
+    "name_suffix": "Bandit",
+    "class": "NC_BANDIT_LEADER",
+    "attitude": 0,
+    "mission": 8,
+    "chat": "TALK_DONE",
+    "faction": "hells_raiders"
+  },
+  {
+    "type": "npc",
+    "id": "bandit_trader",
+    "//": "Generic trader for the Hell's Raiders.",
+    "name_suffix": "Bandit",
+    "class": "NC_BANDIT_TRADER",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_DONE",
+    "faction": "hells_raiders"
+  },
+  {
+    "type": "npc",
+    "id": "bandit_quartermaster",
+    "//": "Generic quartermaster for the Hell's Raiders.",
+    "name_suffix": "Quartermaster",
+    "class": "NC_BANDIT_QUARTERMASTER",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_DONE",
+    "faction": "hells_raiders"
+  },
+  {
+    "type": "npc",
+    "id": "bandit_mechanic",
+    "//": "Automotive specialist for the Hells Raiders.",
+    "name_suffix": "Mechanic",
+    "class": "NC_SCAVENGER",
+    "attitude": 0,
+    "mission": 8,
+    "chat": "TALK_DONE",
+    "faction": "hells_raiders"
+  }
+]

@@ -1,0 +1,65 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_flower_marloss",
+    "name": "Marloss flower",
+    "description": "This flower looks mostly like the other flowers taken by the mushrooms, but its bulb is a brilliant cyan color.  It emits an aroma that is both overwhelming and strangely alluring.",
+    "symbol": "f",
+    "color": "cyan",
+    "move_cost_mod": 1,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "FUNGUS", "TINY", "NOCOLLIDE" ],
+    "examine_action": "flower_marloss",
+    "bash": { "str_min": 2, "str_max": 6, "sound": "poof.", "sound_fail": "poof." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_flower_fungal",
+    "name": "fungal flower",
+    "description": "This flower has been overgrown by gray, sinewy tendrils of fungus, and the color has been leached from its petals and stem.  It gently sways of its own volition, maintaining an unsettling rhythm.",
+    "symbol": "f",
+    "color": "dark_gray",
+    "move_cost_mod": 1,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLOWER", "FUNGUS", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "GRAZER_INEDIBLE" ],
+    "examine_action": "fungus",
+    "bash": { "str_min": 2, "str_max": 6, "sound": "poof.", "sound_fail": "poof." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_fungal_mass",
+    "name": "fungal mass",
+    "description": "Thick ropes of Mycal matter have covered the ground here completely.  It's soft to the touch, but not firm enough to hold any weight.",
+    "symbol": "O",
+    "bgcolor": "dark_gray",
+    "move_cost_mod": -10,
+    "required_str": -1,
+    "flags": [ "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "FLAMMABLE_ASH", "FUNGUS", "MOUNTABLE", "SHORT" ],
+    "bash": { "str_min": 6, "str_max": 30, "sound": "poof.", "sound_fail": "poof." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_fungal_clump",
+    "name": "fungal clump",
+    "description": "Alien mold and stems mingle tightly here, swaying around and weaving together, creating a sort of fungal bush.",
+    "symbol": "#",
+    "bgcolor": "light_gray",
+    "move_cost_mod": 3,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "FLAMMABLE_ASH", "FUNGUS", "MOUNTABLE", "SHORT" ],
+    "bash": { "str_min": 6, "str_max": 20, "sound": "poof.", "sound_fail": "poof." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_fungal_tangle",
+    "name": "fungal tangle",
+    "description": "Thick, ropy tendrils of fungus have risen from the ground and gathered into an impenetrable clump.",
+    "looks_like": "mon_fungal_wall",
+    "symbol": "&",
+    "bgcolor": "light_gray",
+    "move_cost_mod": -1,
+    "required_str": -1,
+    "flags": [ "FLAMMABLE_ASH", "FUNGUS" ],
+    "bash": { "str_min": 26, "str_max": 50, "sound": "poof.", "sound_fail": "squelch." }
+  }
+]

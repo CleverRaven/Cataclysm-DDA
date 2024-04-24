@@ -1,0 +1,96 @@
+[
+  {
+    "type": "overmap_terrain",
+    "abstract": "generic_evac_center",
+    "name": "refugee center",
+    "see_cost": 5,
+    "flags": [ "SOURCE_PEOPLE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "abstract": "generic_fence",
+    "name": "fence",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "evac_center_7",
+      "evac_center_8",
+      "evac_center_9",
+      "evac_center_12",
+      "evac_center_13",
+      "evac_center_14",
+      "evac_center_17",
+      "evac_center_18",
+      "evac_center_19"
+    ],
+    "copy-from": "generic_evac_center",
+    "sym": "┼",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "evac_center_7_z1",
+      "evac_center_8_z1",
+      "evac_center_9_z1",
+      "evac_center_12_z1",
+      "evac_center_13_z1",
+      "evac_center_14_z1",
+      "evac_center_17_z1",
+      "evac_center_18_z1",
+      "evac_center_19_z1"
+    ],
+    "name": "refugee center roof",
+    "sym": "┼",
+    "color": "white",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "refctr_field",
+    "see_cost": 2,
+    "name": "field",
+    "looks_like": "field",
+    "sym": ",",
+    "color": "brown",
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "refctr_fence_NW",
+    "copy-from": "generic_fence",
+    "sym": "┌"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "refctr_fence_h", "refctr_fence_entrance_L", "refctr_fence_entrance_R" ],
+    "copy-from": "generic_fence",
+    "sym": "─"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "refctr_fence_NE",
+    "copy-from": "generic_fence",
+    "sym": "┐"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "refctr_fence_v",
+    "copy-from": "generic_fence",
+    "sym": "│"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "refctr_fence_SE",
+    "copy-from": "generic_fence",
+    "sym": "┘"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "refctr_fence_SW",
+    "copy-from": "generic_fence",
+    "sym": "└"
+  }
+]

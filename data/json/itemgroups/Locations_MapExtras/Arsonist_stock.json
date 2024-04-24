@@ -1,0 +1,27 @@
+[
+  {
+    "type": "item_group",
+    "id": "NC_ARSONIST_STOCK",
+    "subtype": "collection",
+    "items": [
+      { "item": "molotov", "count": 5 },
+      { "item": "cotton_patchwork", "count": 25 },
+      { "item": "gasoline", "count": 1 },
+      { "item": "pipebomb", "count": 25 },
+      { "item": "fuse", "count": 5 },
+      { "item": "FMCNote", "count": 3 },
+      { "item": "nail", "count": 5, "charges": [ 1, 100 ] },
+      { "item": "rebar", "count": 5 },
+      { "item": "textbook_anarch", "count": 1 },
+      { "count": 1, "group": "fertilizer_commercial_bag_canvas_60" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "fertilizer_commercial_bag_canvas_60",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bag_canvas",
+    "entries": [ { "item": "fertilizer_commercial", "container-item": "null", "count": 60 } ]
+  }
+]

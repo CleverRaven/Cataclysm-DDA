@@ -1,0 +1,694 @@
+[
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Fires can spread easily, especially with abundance of fuel." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Even without electricity, ovens can be useful fire containers." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Light itself doesn't draw zombies, it's sight, noise, or smell." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Moose may not be your friend." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Turnout gear protects from fire but not from overheating." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Peek around corners, when crouching, or up/down stairs to check for enemies." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Cold food lasts longer.  Find a cool basement or make a root cellar." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Dying is part of the experience.  Try again with what you've learned." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Frozen food?  Put it by a fire or heat it up in a pan." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Underground spaces like basements or caves stay cool year-round." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Afraid of wildlife?  Yell until it goes away.  But beware of what comes instead." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Animals and zombies are not friends.  You can take advantage of that." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "A door is not the only way in or out of most places." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Don't fight against the odds.  There's no shame in running to survive." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "You don't have to sit right next to fire to use it." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Many items have special actions.  Try to find out what they do." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Just because a place is dangerous doesn't mean it's worth looting." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "If you're breaking in, be sure you also know how to get back out." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "There's usually more than one way to do things.  Think outside the box." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Survival order: shelter, water, food, then everything else." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Balance armor versus encumbrance.  Even dropping a backpack can help in melee." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Scared of melee?  Throw some things at enemies and use reach weapons like spears." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Makeshift weapons can break easily, but they are weapons, and can be made again." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Not much survives a car at 120mph.  Can you?" ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Drugs are great for quick morale boosts and more, but be aware of addiction and overdose." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Use your map wisely.  Prioritize looting places that will get you what you need." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Wounds heal over time.  Bandages and antiseptic speeds that up." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Don't get grabbed by zombies.  Their bites can be infectious." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Feeling odd after waking up?  Try eating healthier and your health may improve." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Eat well or your health might suffer.  Fast food is only good in a pinch." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Nature can provide.  You can live off the land if you learn how." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Raw food and water from unsafe sources can't be healthy.  Right?" ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Why walk when you can use a car?  Or a bike?  Or rollerblades?" ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Food from before the Cataclysm won't last forever.  Keep that in mind." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "You can make unusual things from usual stuff.  Go full MacGyver style if needed." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "There are fungi you want to eat, and those you want to burn.  You'll know the difference." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Having a backup weapon is wise.  So is having a backup plan." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Wet and angry?  A dry towel will bring your smile back." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Like to gamble?  Use mutagen!  Be a winner today!" ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Smoking and napping is asking for more than a hole in your shirt." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "You're on fire?  Stop and wait to put it out." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Routine kills.  Stay alert!  Don't let your guard down." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Most medicine doesn't work instantly, so don't swallow a whole bottle of pills." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Famous last words:  Let's poke this electric zombie with a metal stick." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "A full stomach will not solve your starvation.  Give it time and eat regularly." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Be mindful of the environmental protection of your gear.  It can take you places." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Don't overlook protective gear, like gas masks or turnout gear.  You never know." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Out of resources?  Breaking or disassembling stuff can yield interesting components." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Temperature affects the shelf life of foods.  The colder, the better." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Frozen food doesn't rot, but may be inedible if not defrosted." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Some dry foods can be eaten frozen.  Some foods become mushy after defrosting." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Thirsty on a long winter journey?  Take a thermos with you." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "'Tis but a scratch?'  Bandage and disinfect it anyway to speed up healing." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Broken limb?  Improvised splints are ok, but hospitals might have better tech for it." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Don't be afraid to make the game easier on yourself.  Worlds can be made to spawn with more resources." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Terrain that slows you down will also slow down your enemies." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "When the whole town is one big supermarket, a shopping cart becomes your best friend." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Different characters, professions, hobbies, and scenarios can spice up your game.  Roleplay!" ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "A survivor saved is a friend earned.  Most of the time…" ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Learning how to play?  Visit the keybindings menu and learn your ropes." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Expect the unexpected, even if it's the Spanish Inquisition." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "You can throw things while peeking around corners.  Perfect for taking down gun turrets." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Nobody told the vending machines that the world ended.  Save those cash cards!" ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "There's got to be some cool stuff in those top-secret underground labs, right?" ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Put a funnel over a jug or barrel to collect rainwater over time." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "The number of zombies in a city is large but finite.  You can (eventually) kill them all." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Did you *only* take everything not nailed down?  Go back for the nails!" ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "You can make your own safe mode rules in the pause menu." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "The best gun in the world is useless without ammo." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Most zombies go through cars, not around them.  Remember that when running away." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "If you're stuck inside with a broken leg, read some books to pass the time." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Don't be too greedy.  Loot doesn't matter if you're dead." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "The floor is too hard to sleep on?  Try gathering a pile of leaves." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Too cold to sleep well at night?  A pile of clothes will make it better." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Major blood loss?  Drink plenty, supplement iron, and rest to regenerate your red blood cells." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Arterial bleeding from a gunshot?  A tourniquet can save you from death." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "No bandages nearby?  Empty your hands and let the time pass to apply pressure to the wound." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Tis but a scratch?  Minor bleeding does not require any dressing.  A Bandaid is sufficient enough." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Zone activity manager can make your life easier.  Do more in one go." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Want less micro-management?  Zone manager can change your game." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Every sensei was once a student.  NPCs can teach you and vice versa." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Length matters… at least when it comes to shoving a shovel in your backpack." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Where did my lighter go again?  Manage your containers to store specific items in them." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Keep essentials in your clothing pockets in case you have to ditch your backpack." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Exercising and being active increases your cardio and therefore your stamina pool." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Long trip ahead?  Auto travel and auto drive to your desired destination." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "You can automate repetitive tasks such as foraging, mining, or mopping for your convenience." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "You can crouch or go prone to hide behind objects and reduce the sound you make when you move." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "When you are prone, you use the bipod of your rifle for better accuracy." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Dissecting bodies will help in gaining knowledge about the weaknesses of the opponents." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "An armored enemy?  Don't give up, maybe it has some weaknesses that can be exploited." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Need experience with crafting and such?  Use the training recipes to master the ins and outs." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Remember that the sidebar is customizable and widgets can be added and removed from it." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Power move.  You can take control and play as your NPC follower." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Your skills can rust, but you'll learn them faster when you pick them up again." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Save time.  Instead of using a recipe, place water in a container on a fire to boil it." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Knowledge can't replace practical skill and experience, but it will help you get them faster." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Books carry knowledge and often recipes.  You need practical skills to utilize them.  Practice." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Being skilled does not mean being proficient.  Gain proficiency to become a master in specific areas." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Prolonged physical exhaustion results in weariness.  Overworking causes loss of productivity." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Mark the items you carry as favorites so you can easily identify new items and drop them in bulk." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Verticality is a thing.  If you can get to a roof somehow, it may save your life." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Your enemy is often slower than you.  Walk to conserve stamina and run only when you must." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Fight on your conditions whenever you can.  Use terrain, traps, and fire to your advantage." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Pick your fights and don't let them pick you.  Don't bite what you can't chew." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Learn to use zone sorting to sort your loot in one go.  Y to set up zones, O to sort items." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Want to loot everything not nailed down in one go?  Use zone manager to fill your hoard." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "You can view local keybindings in most sub-menus by pressing the question mark (?) key." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "There are some unbound keybindings that might prove useful for your needs.  Check them out." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Check what you can craft from time to time, even if you don't have components right now." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Where applicable, use blacklists, whitelists, and filters for a better quality of life." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Many items have contextual uses.  Use the item action menu to find out what you can do with them." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "The action menu can help you determine what you can do.  There are also some rare actions there." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Auto-pickup settings can save you time when you need it.  It's fully customizable too." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Feeling unwell?  Allow yourself to rest, even for a few days as needed.  Heal now, explore later." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Overconfidence is a treacherous killer.  Leave yourself some leeway for unforeseen circumstances." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Be mindful of what, when, and how much you eat.  A balanced diet is crucial in the long run." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Skillful management of your stamina is crucial for your survival.  Conserve it when you can." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "For free in the construction menu: a crafting spot, a firewood source, and a practice target." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "When looking around, use T to move to a destination or item automatically." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "You can use your mouse to move to a destination by double-clicking it." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "You can use your mouse in your inventory and few other menus." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Crafting is faster if you have an actual place for it, preferably a workshop bench." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Hope for the best but prepare for the worst.  A backup stash of necessities can save the day." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Pain can drastically slow you down and reduces your stats.  Check your speed in the character menu." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Winners don't do drugs.  They're too valuable.  Winners trade drugs for more bullets." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [
+      "If you don't have a certain proficiency, having a related book is a good idea.  More books make you less likely to fail, but not as good as knowing the subject for yourself."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "You can set priority levels for pockets in your inventory, letting you decide where your loot goes." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Face masks can help protect from smoke and disease, but make it harder to breathe, affecting stamina." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "The burglar alarm for a store won't go off if you break through the wall." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "You can keep a diary if you set the keybinding.  Use it to roleplay, take notes, and keep score." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Some weapons have techniques that let you do things like hit faster, block attacks, or stun opponents." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "If brute force isn't working, you're not using enough of it." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Sweat is simulated in Cataclysm.  Excessive sweating will dehydrate you quickly but keep you cool." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Feral humans are smarter than zombies.  They throw rocks and can even open doors.  Watch out!" ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "If you want something to stop existing, setting it on fire is a tried and true method." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "The higher up you are, the farther you can see on the overmap." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Nobody wants to buy filthy underwear.  Wash your clothes to get a better price for them." ]
+  }
+]

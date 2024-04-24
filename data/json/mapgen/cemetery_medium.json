@@ -1,0 +1,117 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ [ "Cemetery_1a", "Cemetery_1b" ] ],
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_region_groundcover_urban",
+      "rows": [
+        "                   ___                          ",
+        " ||||||||||||||||||___||||||||||||||||||||||||| ",
+        " |  p#  00p# ##    ___                        | ",
+        " |  p#  00p# ##    ___                        | ",
+        " | ^ ^^    ^ ^^   7___7 ^^GG ^GG^ G^G^ ^^^^ 4 | ",
+        " | X XX   #X XX0P  ___  XXXX XXXX  XXX XXXX   | ",
+        " |        #  ##0P  ___                        | ",
+        " | ^^^^ ^^^^ ^^   7___7 ^^^G G^G^ ^^^^ ^G^^ 4 | ",
+        " | XXXX XXXX XX    ___  XXXX XXXX XXXX XXXX   | ",
+        " |                 ___                        | ",
+        " | ^^^G ^^^^ G^^^ 7___7 ^G^^ ^G^G G^GG G^G^ 4 | ",
+        " | XXX  XXXX  XXX  ___  XXXX XXXX XXXX XXXX   | ",
+        " |                 ___                        | ",
+        " | ^^GG ^G^G ^^G^ 7___7 ^GG^ G^^G G^GG G^G^ 4 | ",
+        " | XX   X X        ___  XXXX XXXX XXXX XXXX   | ",
+        " |                 ___                        | ",
+        " | ^G^G ^GGG G^^G 7___7 G^G^ GG^G ^^GG GG^G 4 | ",
+        " | X X  X     XX   ___   XXX XXXX XXXX XXXX   | ",
+        " |              IwI+IIII                      | ",
+        " | ^GG^ GG^G GG IcD.+'&IGGG^ GG^^ G^GG GG^G 4 | ",
+        " | X  X   X     I...ITaIXXXX XXXX XXXX XXXX   | ",
+        " |7    7    7 nnIIIIIIII    7    7    7       | ",
+        " ||||||||||||||||||||!||||||||||||||||||||||||| ",
+        "                                                "
+      ],
+      "terrain": {
+        "!": "t_gutter_downspout",
+        "#": "t_dirtmound",
+        "+": "t_door_c",
+        "I": "t_brick_wall",
+        "0": "t_pit",
+        "4": "t_region_tree_evergreen",
+        "7": "t_region_tree_shade",
+        "P": "t_pit_shallow",
+        "_": "t_concrete",
+        "T": "t_linoleum_white",
+        "a": "t_linoleum_white",
+        "&": "t_linoleum_white",
+        "'": "t_linoleum_white",
+        "D": "t_floor",
+        "c": "t_floor",
+        ".": "t_floor",
+        "p": "t_pit_corpsed",
+        "w": "t_window_domestic",
+        "X": "t_grave"
+      },
+      "furniture": {
+        "|": "f_hedge_short",
+        "&": "f_sink",
+        "D": "f_desk",
+        "^": "f_grave_stone",
+        "G": "f_grave_stone_old",
+        "a": "f_trashcan",
+        "c": "f_chair",
+        "n": "f_slab"
+      },
+      "toilets": { "T": {  } },
+      "place_loot": [
+        { "item": "shovel", "repeat": 1, "x": 17, "y": 4 },
+        { "group": "nested_glock_22", "chance": 50, "repeat": 1, "x": 18, "y": 19 }
+      ],
+      "place_items": [
+        { "chance": 10, "item": "office", "x": 17, "y": 19 },
+        { "chance": 3, "item": "creepy", "x": 21, "y": 20 },
+        { "chance": 3, "item": "creepy", "x": 4, "y": 19 },
+        { "chance": 3, "item": "creepy", "x": 4, "y": 3 },
+        { "chance": 20, "item": "trash", "x": 22, "y": 20 }
+      ],
+      "place_monsters": [ { "chance": 2, "density": 0.5, "monster": "GROUP_ZOMBIE", "x": [ 0, 18 ], "y": [ 0, 6 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "Cemetery_1a_roof",
+    "weight": 100,
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                --------",
+        "                -......-",
+        "                -......-",
+        "                -----5--",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_shingle_flat_roof" }
+    }
+  }
+]

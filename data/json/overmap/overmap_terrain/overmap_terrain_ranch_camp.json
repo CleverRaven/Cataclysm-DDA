@@ -1,0 +1,236 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_1",
+    "name": "ranch field",
+    "sym": "┌",
+    "color": "brown",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "ranch_camp_2",
+      "ranch_camp_3",
+      "ranch_camp_4",
+      "ranch_camp_5",
+      "ranch_camp_6",
+      "ranch_camp_7",
+      "ranch_camp_8",
+      "ranch_camp_74",
+      "ranch_camp_74_roof",
+      "ranch_camp_79",
+      "ranch_camp_80"
+    ],
+    "name": "ranch field",
+    "sym": "─",
+    "color": "brown",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "ranch_camp_9", "ranch_camp_69" ],
+    "name": "ranch field",
+    "sym": "┐",
+    "color": "brown",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "ranch_camp_10",
+      "ranch_camp_18",
+      "ranch_camp_19",
+      "ranch_camp_27",
+      "ranch_camp_28",
+      "ranch_camp_36",
+      "ranch_camp_37",
+      "ranch_camp_45",
+      "ranch_camp_46",
+      "ranch_camp_54",
+      "ranch_camp_55",
+      "ranch_camp_57_roof",
+      "ranch_camp_63",
+      "ranch_camp_64",
+      "ranch_camp_72"
+    ],
+    "name": "ranch field",
+    "sym": "│",
+    "color": "brown",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "ranch_camp_11",
+      "ranch_camp_12",
+      "ranch_camp_13",
+      "ranch_camp_14",
+      "ranch_camp_15",
+      "ranch_camp_16",
+      "ranch_camp_20",
+      "ranch_camp_21",
+      "ranch_camp_22",
+      "ranch_camp_23",
+      "ranch_camp_24",
+      "ranch_camp_25",
+      "ranch_camp_26",
+      "ranch_camp_29",
+      "ranch_camp_30",
+      "ranch_camp_31",
+      "ranch_camp_32",
+      "ranch_camp_33",
+      "ranch_camp_34",
+      "ranch_camp_35",
+      "ranch_camp_38",
+      "ranch_camp_39",
+      "ranch_camp_40",
+      "ranch_camp_41",
+      "ranch_camp_42",
+      "ranch_camp_43",
+      "ranch_camp_44",
+      "ranch_camp_47",
+      "ranch_camp_48",
+      "ranch_camp_49",
+      "ranch_camp_50",
+      "ranch_camp_51",
+      "ranch_camp_52",
+      "ranch_camp_53",
+      "ranch_camp_56",
+      "ranch_camp_58",
+      "ranch_camp_59",
+      "ranch_camp_60",
+      "ranch_camp_61",
+      "ranch_camp_62",
+      "ranch_camp_65",
+      "ranch_camp_70",
+      "ranch_camp_71"
+    ],
+    "name": "ranch field",
+    "sym": "#",
+    "color": "brown",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_17",
+    "name": "pond",
+    "sym": "P",
+    "color": "blue",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_57",
+    "name": "silo",
+    "sym": "#",
+    "color": "i_brown",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_57_silo",
+    "name": "silo",
+    "sym": "│",
+    "color": "brown",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_57_silocap",
+    "name": "silo cap",
+    "sym": "│",
+    "color": "brown",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_65_roof",
+    "name": "barn roof",
+    "sym": "#",
+    "color": "brown",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_66",
+    "name": "barn",
+    "sym": "#",
+    "color": "i_brown",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_66_roof",
+    "name": "barn roof",
+    "sym": "#",
+    "color": "i_brown",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_67",
+    "name": "garage",
+    "sym": "O",
+    "color": "white",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_67_roof",
+    "name": "garage roof",
+    "sym": "O",
+    "color": "white",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_68",
+    "name": "ranch",
+    "sym": "v",
+    "color": "light_green",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_68_roof",
+    "name": "ranch roof",
+    "sym": "v",
+    "color": "light_green",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "ranch_camp_75", "ranch_camp_75_roof", "ranch_camp_81" ],
+    "name": "ranch field",
+    "sym": "┘",
+    "color": "brown",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_76",
+    "name": "lot",
+    "sym": "O",
+    "color": "dark_gray",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_77",
+    "name": "road",
+    "sym": "│",
+    "color": "dark_gray",
+    "see_cost": 2,
+    "travel_cost_type": "road",
+    "extras": "road"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "ranch_camp_73", "ranch_camp_78" ],
+    "name": "ranch field",
+    "sym": "└",
+    "color": "brown",
+    "see_cost": 2
+  }
+]

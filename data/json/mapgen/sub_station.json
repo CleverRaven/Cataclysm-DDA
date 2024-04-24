@@ -1,0 +1,153 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "sub_station" ],
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "StSStSStSStSStSStSStSStS",
+        "SSSSSSSSSSSSSSSSSSSSSSSS",
+        "SS||-;;-||-;;-||-;;-||SS",
+        "SS|     |      |     |SS",
+        "SS|                  |SS",
+        "SS|b                b|SS",
+        "SS|b                b|SS",
+        "SS|b    bb    bb    b|SS",
+        "SS|D    bM    Mb    F|SS",
+        "SS|D    bM    Mb    F|SS",
+        "SS|D    bM    Mb    F|SS",
+        "SS|b    bb    bb    b|SS",
+        "SS|b                b|SS",
+        "SS|b                b|SS",
+        "SS|                  |SS",
+        "SS|                  |SS",
+        "SS|                  |SS",
+        "SS|                  |SS",
+        "SS||                ||SS",
+        "SSS||              ||SSS",
+        "SSSS||>>> 6  6 >>>||SSSS",
+        "SSSSS||||||||||||||SSSSS",
+        "SSSSSSSSSSSSSSSS4SSSSSSS",
+        "SSSSSSSSSSSSSSSSSSSSSSSS"
+      ],
+      "palettes": [ "subway" ],
+      "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "sub_station_roof",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "  --------------------  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -.oooo........oooo.-  ",
+        "  -.oooo........oooo.-  ",
+        "  -.oooo........oooo.-  ",
+        "  -.oooo........oooo.-  ",
+        "  -.oooo........oooo.-  ",
+        "  -.oooo........oooo.-  ",
+        "  -.oooo........oooo.-  ",
+        "  -.oooo........oooo.-  ",
+        "  -.oooo........oooo.-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -...oooooooooooo...-  ",
+        "  -...oooooooooooo...-  ",
+        "  --..oooooooooooo..--  ",
+        "   --..............--   ",
+        "    --............--    ",
+        "     -----------5--     ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "sewer_sub_station" ],
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "########################",
+        "########################",
+        "#####IIIIIIIIIIIIII#####",
+        "#####IbbCI>>>>IJbbI#####",
+        "IIIIII            I#####",
+        "INNNNI            I#####",
+        "IN   I            I#####",
+        "IN   I            I#####",
+        "IIII+I            III###",
+        "##II                II##",
+        "##I      I+I~~I      I##",
+        "##I      ~    ~      I##",
+        "##IsZzzZsIQc  IsZzzZsI##",
+        "##I      ~QQQ +      I##",
+        "##IM     ~~~~~I     MI##",
+        "##IT                TI##",
+        "##IIAT            TAII##",
+        "###III            III###",
+        "#####I            I#####",
+        "#####I            I#####",
+        "#####I<<<IJbbCI<<<I#####",
+        "#####IIIIIIIIIIIIII#####",
+        "########################",
+        "########################"
+      ],
+      "palettes": [ "subway_underground" ],
+      "vendingmachines": { "J": { "item_group": "vending_drink", "lootable": true }, "C": { "item_group": "vending_food", "lootable": true } },
+      "place_monster": [ { "group": "GROUP_ZOMBIE", "x": [ 6, 20 ], "y": [ 4, 9 ], "repeat": [ 5, 9 ] } ],
+      "place_item": [ { "item": "subwaymap", "x": 1, "y": [ 6, 7 ], "chance": 75 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "underground_sub_station" ],
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "0^^^X^^^X^^^^^^X^^^X^^^0",
+        "0^^-x---x-^^^^-x---x-^^0",
+        "0^^^X^^^X^IIII^X^^^X^^^0",
+        "R^^^X^^^X^<<<<^X^^^X^^^R",
+        "R^^-x---x-____-x---x-^^R",
+        "G^^^X^^^X^____^X^^^X^^^G",
+        "R^^^X^^^X^____^X^^^X^^^R",
+        "R^^-x---x-_MM_-x---x-^^R",
+        "R^^^X^^^X^_bb_^X^^^X^^^R",
+        "B^^^X^^^X^_bb_^X^^^X^^^B",
+        "B^^-x---x-_bb_-x---x-^^B",
+        "B^^^X^^^X^_MM_^X^^^X^^^B",
+        "B^^^X^^^X^____^X^^^X^^^B",
+        "B^^-x---x-____-x---x-^^B",
+        "B^^^X^^^X^_MM_^X^^^X^^^B",
+        "R^^^X^^^X^_bb_^X^^^X^^^R",
+        "R^^-x---x-_bb_-x---x-^^R",
+        "R^^^X^^^X^_bb_^X^^^X^^^R",
+        "G^^^X^^^X^_MM_^X^^^X^^^G",
+        "R^^-x---x-____-x---x-^^R",
+        "R^^^X^^^X^____^X^^^X^^^R",
+        "0^^^X^^^X^____^X^^^X^^^0",
+        "0^^-x---x-IIII-x---x-^^0",
+        "0^^^X^^^X^^^^^^X^^^X^^^0"
+      ],
+      "place_vehicles": [
+        { "vehicle": "train_car_passenger", "x": 6, "y": [ 8, 15 ], "chance": 20, "rotation": 90 },
+        { "vehicle": "train_car_passenger", "x": 17, "y": [ 8, 15 ], "chance": 20, "rotation": 90 }
+      ],
+      "palettes": [ "subway_underground" ]
+    }
+  }
+]

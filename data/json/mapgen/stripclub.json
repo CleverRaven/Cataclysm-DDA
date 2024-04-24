@@ -1,0 +1,482 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "stripclub",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_carpet_purple",
+      "rows": [
+        "        SS              ",
+        "        SS||||||||||||| ",
+        "        SS|..o__|@C@C@| ",
+        "        SS+..oA_|A_A_A| ",
+        " ||||||||||..|__+_____| ",
+        " |H#H.H#H^|..h__|bb___| ",
+        " |........|dd||||||__|| ",
+        " |H.H#H........T|{___{| ",
+        " |#.............|{___{| ",
+        " |H.............|{___{|4",
+        " |..............|{___{| ",
+        " |^....HHHHHHH..||___|| ",
+        " |s..H----------|_____| ",
+        " |s..H-_________D__zzz| ",
+        " |s..H----------||+|||| ",
+        " |s....HHHHHHH..|É''''| ",
+        " |..............|'''|+| ",
+        " |.............^|&C&|t| ",
+        " |a.a.a.........||||||| ",
+        " |CCCCC|..sss#..+'''''| ",
+        " |'''''+........|'|+|+| ",
+        " |gg&gg|^.sss#.T|&|t|t| ",
+        " |||||||||||||||||||||| ",
+        "                        "
+      ],
+      "terrain": {
+        "o": "t_window_no_curtains_open",
+        "+": "t_door_c",
+        "-": "t_railing",
+        "S": "t_concrete",
+        " ": "t_region_groundcover_urban",
+        "_": "t_thconc_floor",
+        "A": "t_thconc_floor",
+        "{": "t_thconc_floor",
+        "z": "t_thconc_floor",
+        "b": "t_thconc_floor",
+        "'": "t_linoleum_gray",
+        "g": "t_linoleum_gray",
+        "&": "t_linoleum_gray",
+        "t": "t_linoleum_gray",
+        "C": "t_linoleum_gray",
+        "É": "t_linoleum_gray",
+        "h": "t_door_locked",
+        ".": "t_carpet_purple",
+        "|": "t_wall_r",
+        "4": "t_gutter_downspout"
+      },
+      "furniture": {
+        "É": "f_locker",
+        "D": "f_beaded_door",
+        "d": "f_beaded_door",
+        "#": "f_table",
+        "&": "f_sink",
+        "@": "f_sink",
+        "C": "f_counter",
+        "H": "f_armchair",
+        "T": "f_trashcan",
+        "^": [ "f_indoor_plant_y", "f_indoor_plant" ],
+        "a": "f_barstool",
+        "A": "f_stool",
+        "b": "f_bigmirror",
+        "g": "f_glass_fridge",
+        "s": "f_sofa",
+        "z": "f_sofa",
+        "{": "f_locker"
+      },
+      "items": {
+        "É": { "item": "SUS_janitors_closet", "chance": 100 },
+        "{": [
+          { "item": "female_underwear_bottom", "chance": 60, "repeat": [ 1, 3 ] },
+          { "item": "female_underwear_top", "chance": 60, "repeat": [ 1, 3 ] },
+          { "item": "dresser_female", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "sex_lair", "chance": 40, "repeat": [ 1, 2 ] }
+        ],
+        "-": [ { "item": "female_underwear_bottom", "chance": 15 }, { "item": "female_underwear_top", "chance": 15 } ],
+        "T": [ { "item": "stripclub_dirty", "chance": 5 }, { "item": "alcohol", "chance": 40 } ],
+        "_": { "item": "sex_lair", "chance": 10 },
+        "g": { "item": "alcohol", "chance": 80, "repeat": [ 1, 6 ] },
+        "C": { "item": "alcohol", "chance": 30 },
+        "#": { "item": "alcohol", "chance": 15 },
+        "t": { "item": "stripclub_dirty", "chance": 35 }
+      },
+      "toilets": { "t": {  } },
+      "place_fields": [
+        { "field": "fd_blood", "x": [ 2, 7 ], "y": [ 5, 18 ], "repeat": [ 1, 5 ] },
+        { "field": "fd_bile", "x": [ 2, 7 ], "y": [ 5, 18 ], "repeat": [ 1, 16 ] },
+        { "field": "fd_blood", "x": [ 8, 15 ], "y": [ 7, 21 ], "repeat": [ 1, 5 ] },
+        { "field": "fd_bile", "x": [ 8, 15 ], "y": [ 7, 21 ], "repeat": [ 1, 16 ] }
+      ],
+      "item": {
+        ".": [
+          { "item": "bottle_glass", "chance": 4 },
+          { "item": "can_drink", "chance": 2 },
+          { "item": "glass_shard", "chance": 7 }
+        ]
+      },
+      "place_loot": [ { "group": "cash_register_random", "x": [ 2, 6 ], "y": 19 } ],
+      "place_monsters": [ { "monster": "GROUP_RESORT_DANCERS", "x": [ 2, 22 ], "y": [ 2, 22 ], "density": 0.5 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "stripclub_roof",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "          ------------- ",
+        "          -...........- ",
+        "          -...:...&...- ",
+        " ----------...........- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................5 ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -.................=..- ",
+        " -....................- ",
+        " ---------------------- ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 50 ]
+          ],
+          "x": [ 4, 17 ],
+          "y": [ 5, 15 ]
+        }
+      ]
+    }
+  },
+  {
+    "method": "json",
+    "om_terrain": "stripclub_1",
+    "type": "mapgen",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "          sss           ",
+        "          sss           ",
+        "  ||||||||sss|||||||||| ",
+        "  |&á'QQÉ|sss|^..+'&gg| ",
+        "  |b'''''||+||...|''''| ",
+        "  |&á'|'áo...e...|bbbb| ",
+        "  |b''|''D...e...nÁÁÁÁ| ",
+        "  |&á'||||||||........| ",
+        "  |B''???|CtC...CtC..C| ",
+        "  |B'''''|...........t| ",
+        "  |B'''''|...........C| ",
+        "  |{'QQ'{|..HHHHH.....| ",
+        "  |{'QQ'{|-------H....| ",
+        "  |{'QQ''|______-H...n| ",
+        "  |{'''''E____I_-H...^| ",
+        "  |{'''''|______-H....| ",
+        "  |{{{{{{|-------H...S| ",
+        "  ||||||||^.HHHHH....S| ",
+        "  |''''''+...........S| ",
+        "  |+||'''|...........t|4",
+        "  |'T|&b&|n.HtH..SSSt^| ",
+        "  ||||||||||||||||||||| ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": {
+        "o": "t_window_no_curtains_open",
+        "+": "t_door_c",
+        "-": "t_railing",
+        ".": "t_thconc_floor",
+        "'": "t_linoleum_gray",
+        "T": "t_linoleum_gray",
+        "b": "t_linoleum_gray",
+        "B": "t_linoleum_gray",
+        "&": "t_linoleum_gray",
+        "g": "t_linoleum_gray",
+        "{": "t_linoleum_gray",
+        "Q": "t_linoleum_gray",
+        "E": "t_linoleum_gray",
+        "?": "t_linoleum_gray",
+        "á": "t_linoleum_gray",
+        "É": "t_linoleum_gray",
+        "D": "t_door_locked",
+        " ": "t_region_groundcover_urban",
+        "_": "t_carpet_red",
+        "I": "t_carpet_red",
+        "s": "t_concrete",
+        "|": "t_brick_wall",
+        "4": "t_gutter_downspout"
+      },
+      "furniture": {
+        "É": "f_locker",
+        "I": "f_dancing_pole",
+        "e": "f_beaded_door",
+        "E": "f_beaded_door",
+        "B": "f_bigmirror",
+        "C": "f_chair",
+        "?": "f_sofa",
+        "á": "f_stool",
+        "Á": "f_barstool",
+        "H": "f_armchair",
+        "S": "f_sofa",
+        "^": [ "f_indoor_plant_y", "f_indoor_plant" ],
+        "b": "f_counter",
+        "g": "f_glass_fridge",
+        "t": "f_table",
+        "3": "f_table",
+        "n": "f_trashcan",
+        "{": "f_locker",
+        "Q": "f_metal_bench",
+        "&": "f_sink"
+      },
+      "items": {
+        "É": { "item": "SUS_janitors_closet", "chance": 100 },
+        "{": [
+          { "item": "female_underwear_bottom", "chance": 60, "repeat": [ 1, 3 ] },
+          { "item": "female_underwear_top", "chance": 60, "repeat": [ 1, 3 ] },
+          { "item": "dresser_female", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "sex_lair", "chance": 40, "repeat": [ 1, 2 ] },
+          { "item": "softdrugs", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "harddrugs", "chance": 10, "repeat": [ 1, 2 ] }
+        ],
+        "-": [ { "item": "female_underwear_bottom", "chance": 15 }, { "item": "female_underwear_top", "chance": 15 } ],
+        "n": [ { "item": "trash", "chance": 30 }, { "item": "stripclub_dirty", "chance": 5 } ],
+        "3": { "item": "office_breakroom", "chance": 50, "repeat": [ 1, 2 ] },
+        "Q": [
+          { "item": "office_breakroom", "chance": 30 },
+          { "item": "female_underwear_bottom", "chance": 20 },
+          { "item": "female_underwear_top", "chance": 20 }
+        ],
+        "t": [ { "item": "alcohol", "chance": 30 }, { "item": "softdrugs", "chance": 10 }, { "item": "harddrugs", "chance": 10 } ],
+        "S": [
+          { "item": "alcohol", "chance": 15 },
+          { "item": "softdrugs", "chance": 10 },
+          { "item": "harddrugs", "chance": 10 },
+          { "item": "stripclub_dirty", "chance": 40 }
+        ],
+        "_": { "item": "sex_lair", "chance": 10 },
+        "g": { "item": "alcohol", "chance": 60, "repeat": [ 1, 3 ] },
+        "b": { "item": "alcohol", "chance": 15 },
+        "T": { "item": "stripclub_dirty", "chance": 55 }
+      },
+      "place_fields": [
+        { "field": "fd_blood", "x": [ 10, 21 ], "y": [ 8, 20 ], "repeat": [ 1, 8 ] },
+        { "field": "fd_bile", "x": [ 10, 21 ], "y": [ 8, 20 ], "repeat": [ 1, 20 ] }
+      ],
+      "item": {
+        ".": [
+          { "item": "bottle_glass", "chance": 4 },
+          { "item": "can_drink", "chance": 2 },
+          { "item": "glass_shard", "chance": 7 }
+        ]
+      },
+      "place_loot": [ { "group": "cash_register_random", "x": [ 18, 21 ], "y": 5 } ],
+      "place_monsters": [ { "monster": "GROUP_RESORT_DANCERS", "x": [ 1, 23 ], "y": [ 0, 22 ], "density": 0.5 } ],
+      "toilets": { "T": {  } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "stripclub_roof_1",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "  --------   ---------- ",
+        "  -......-   -........- ",
+        "  -..=...-----....&...- ",
+        "  -...................- ",
+        "  -...................- ",
+        "  -...................- ",
+        "  -...................- ",
+        "  -...................- ",
+        "  -...................- ",
+        "  -...................- ",
+        "  -...................- ",
+        "  -...................- ",
+        "  -...................- ",
+        "  -...................- ",
+        "  -...................- ",
+        "  -...................- ",
+        "  -...................- ",
+        "  -...................5 ",
+        "  -...................- ",
+        "  --------------------- ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 50 ]
+          ],
+          "x": [ 4, 17 ],
+          "y": [ 6, 17 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "stripclub_2",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_linoleum_gray",
+      "rows": [
+        "s       sss             ",
+        "s|SS|SS|sss|SS|SS|SS|   ",
+        "s|||||||sss||||||||||   ",
+        "s|&@ccc||D||.HHHH..a|   ",
+        "s|Ccccc|...|.......t|   ",
+        "s|&@cc@o...R.......a|   ",
+        "s||cc|||||||á.......|   ",
+        "s|hcccb|^...........|   ",
+        "s|hcccb|..######...a|   ",
+        "s|hcccb|--------#..t|   ",
+        "s|ccccccccccccc-#..a|   ",
+        "s|ccccccccccccc-#...|   ",
+        "s|{{{{{|--------#...|   ",
+        "s|||||||^.######...a|   ",
+        "s|&C&C&|...........t|   ",
+        "s|.....+....ata....a|4  ",
+        "s|+|+|||á...........|   ",
+        "s|e|e|H......****..^|   ",
+        "s|||||H....||CCCC|+||   ",
+        "sssÁÁ|H....|........|   ",
+        "sssÁÁ|^ata^|gggC&C.á|   ",
+        "sssÁÁ||||||||||||||||   ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": {
+        "o": "t_window_no_curtains_open",
+        "+": "t_door_c",
+        "-": "t_railing",
+        ".": "t_linoleum_gray",
+        "D": "t_door_metal_c",
+        "S": "t_region_shrub_decorative",
+        " ": "t_region_groundcover_urban",
+        "c": "t_carpet_purple",
+        "b": "t_carpet_purple",
+        "{": "t_carpet_purple",
+        "h": "t_carpet_purple",
+        "@": "t_carpet_purple",
+        "s": "t_concrete",
+        "Á": "t_concrete",
+        "|": "t_wall_p",
+        "4": "t_gutter_downspout"
+      },
+      "furniture": {
+        "á": "f_trashcan",
+        "Á": "f_dumpster",
+        "R": "f_beaded_door",
+        "#": "f_stool",
+        "@": "f_stool",
+        "*": "f_barstool",
+        "&": "f_sink",
+        "C": "f_counter",
+        "H": "f_sofa",
+        "h": "f_sofa",
+        "^": [ "f_indoor_plant_y", "f_indoor_plant" ],
+        "a": "f_armchair",
+        "b": "f_bigmirror",
+        "g": "f_glass_fridge",
+        "t": "f_table",
+        "{": "f_locker"
+      },
+      "items": {
+        "á": [ { "item": "trash", "chance": 30 }, { "item": "stripclub_dirty", "chance": 5 } ],
+        "Á": [ { "item": "trash", "chance": 75, "repeat": [ 1, 3 ] }, { "item": "stripclub_dirty", "chance": 5 } ],
+        "{": [
+          { "item": "dresser_female", "chance": 60, "repeat": [ 1, 2 ] },
+          { "item": "beauty", "chance": 20, "repeat": [ 1, 2 ] },
+          { "item": "softdrugs", "chance": 60, "repeat": [ 1, 2 ] },
+          { "item": "sex_lair", "chance": 24 }
+        ],
+        "H": [ { "item": "magazines", "chance": 35 }, { "item": "bar_alcohol", "chance": 15 } ],
+        "t": [ { "item": "bar_alcohol", "chance": 25 }, { "item": "misc_smoking", "chance": 25 } ],
+        "C": [ { "item": "magazines", "chance": 25 }, { "item": "bar_alcohol", "chance": 25 } ],
+        "g": { "item": "beer_selection", "chance": 65, "repeat": [ 1, 3 ] },
+        "a": { "item": "chair_hat", "chance": 5 },
+        "e": { "item": "stripclub_dirty", "chance": 5 }
+      },
+      "place_fields": [
+        { "field": "fd_blood", "x": [ 8, 19 ], "y": [ 3, 20 ], "repeat": [ 1, 8 ] },
+        { "field": "fd_bile", "x": [ 8, 19 ], "y": [ 3, 20 ], "repeat": [ 1, 20 ] }
+      ],
+      "item": {
+        ".": [
+          { "item": "bottle_glass", "chance": 4 },
+          { "item": "can_drink", "chance": 2 },
+          { "item": "glass_shard", "chance": 7 }
+        ]
+      },
+      "place_loot": [ { "group": "cash_register_random", "x": [ 13, 16 ], "y": 18 } ],
+      "vendingmachines": { "V": { "item_group": "vending_food", "lootable": true }, "v": { "item_group": "vending_drink", "lootable": true } },
+      "place_monsters": [ { "monster": "GROUP_RESORT_DANCERS", "x": [ 1, 23 ], "y": [ 0, 22 ], "density": 0.5 } ],
+      "toilets": { "e": {  } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "stripclub_roof_2",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        " .  .  .   .  .  .  .   ",
+        " -------   ----------   ",
+        " -.....-----........-   ",
+        " -.............:....-   ",
+        " -..................-   ",
+        " -..................-   ",
+        " -..................-   ",
+        " -..................-   ",
+        " -..................-   ",
+        " -..................-   ",
+        " -..................-   ",
+        " -..................-   ",
+        " -..................-   ",
+        " -..................-   ",
+        " -..................5   ",
+        " -..................-   ",
+        " -..................-   ",
+        " -----..............-   ",
+        "     -....&...=.....-   ",
+        "     -..............-   ",
+        "     ----------------   ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 50 ]
+          ],
+          "x": [ 4, 15 ],
+          "y": [ 6, 14 ]
+        }
+      ]
+    }
+  }
+]

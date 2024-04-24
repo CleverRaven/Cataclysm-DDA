@@ -1,0 +1,203 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmg_2",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                  ;     ",
+        ";;;;;;;;;;;;;;;;;;;;    ",
+        ";;;;;;;;;;;;;;;;;;;;    ",
+        ";;;;;;;;;;;;;;;;;;;;    ",
+        ";;;;;;;;;;;;;;;;;;;;    ",
+        ";;;;;;;;;;;;;;;;;;;;    ",
+        ";;;;;;;;;;;;;;;;;;;;    ",
+        ";;;;;;;;;;;;;;;;;;;;    ",
+        ";;;;;;;;;;;;;;;;;;;;    ",
+        ";;;;;;;;;;;;;;;;;;;;    ",
+        ";;;;;;;;;;;;;;;;;;;;    ",
+        ";;;;;;;;;;;;;;;;;;;;    ",
+        ";;;;;;;;;;;;;;;;;;;;    ",
+        ";;;;;;;;;;;;;;;;;;;;    ",
+        ";;;;;;;;;;;;;;;;;;;;    ",
+        ";;;;;;;;;;;;;;;;;;;;    ",
+        ";;;;;;;;;;;;;;;;;;;;    ",
+        ";;;;;;;;;;;;;;;;;;;;    ",
+        ";;;;;;;;;;;;;;;;;;;;    ",
+        ";;;;;;;;;;;;;;;;;;;;    ",
+        ";;;;;;;;;;;;;;;;;;;;    ",
+        ";;;;;;;;;;;;;;;;;;;;    ",
+        ";;;;;;;;;;;;;;;;;;;;    ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "fbmg_2_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_garage_2_0",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmg_2" ], "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmg_2_furniture",
+    "method": "json",
+    "object": {
+      "set": [
+        { "point": "furniture", "id": "f_counter", "x": 1, "y": 17 },
+        { "point": "furniture", "id": "f_counter", "x": 1, "y": 18 },
+        { "point": "furniture", "id": "f_rack", "x": 1, "y": 20 },
+        { "point": "furniture", "id": "f_rack", "x": 1, "y": 21 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmg_2_3",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        ",,,,,,,,",
+        ",,,,,,,,",
+        ",,,,,,,,",
+        ",,,,,,,,",
+        ",,,,,,,,",
+        ",,,,,,,,",
+        "        ",
+        "        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "fbmg_2_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmg_2_3",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmg_2_3" ], "x": 6, "y": 16 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmg_2_6",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        ",,,,,,,,",
+        ",,,,,,,,",
+        ",,,,,,,,",
+        ",,,,,,,,",
+        ",,,,,,,,",
+        "        ",
+        "        ",
+        "        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "fbmg_2_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmg_2_6",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmg_2_6" ], "x": 6, "y": 11 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmg_2_gate_2",
+    "method": "json",
+    "object": {
+      "set": [
+        { "point": "terrain", "id": "t_palisade", "x": 1, "y": 10 },
+        { "line": "terrain", "id": "t_palisade_gate", "x": 2, "x2": 17, "y": 10, "y2": 10 },
+        { "point": "terrain", "id": "t_palisade", "x": 18, "y": 10 },
+        { "point": "terrain", "id": "t_palisade_pulley", "x": 18, "y": 9 },
+        { "point": "terrain", "id": "t_palisade_pulley", "x": 18, "y": 11 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmg_2_9",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        ",,,,,,,,",
+        ",,,,,,,,",
+        ",,,,,,,,",
+        ",,,,,,,,",
+        ",,,,,,,,",
+        "        ",
+        "        ",
+        "        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "fbmg_2_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmg_2_9",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmg_2_9" ], "x": 6, "y": 6 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmg_2_gate_3",
+    "method": "json",
+    "object": {
+      "set": [
+        { "point": "terrain", "id": "t_palisade", "x": 1, "y": 5 },
+        { "line": "terrain", "id": "t_palisade_gate", "x": 2, "x2": 17, "y": 5, "y2": 5 },
+        { "point": "terrain", "id": "t_palisade", "x": 18, "y": 5 },
+        { "point": "terrain", "id": "t_palisade_pulley", "x": 18, "y": 4 },
+        { "point": "terrain", "id": "t_palisade_pulley", "x": 18, "y": 6 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmg_2_12",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        ",,,,,,,,",
+        ",,,,,,,,",
+        ",,,,,,,,",
+        ",,,,,,,,",
+        "        ",
+        "        ",
+        "        ",
+        "        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "fbmg_2_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmg_2_12",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmg_2_12" ], "x": 6, "y": 2 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmg_2_gate_4",
+    "method": "json",
+    "object": {
+      "set": [
+        { "point": "terrain", "id": "t_palisade", "x": 1, "y": 1 },
+        { "line": "terrain", "id": "t_palisade_gate", "x": 2, "x2": 17, "y": 1, "y2": 1 },
+        { "point": "terrain", "id": "t_palisade", "x": 18, "y": 1 },
+        { "point": "terrain", "id": "t_palisade_pulley", "x": 18, "y": 0 },
+        { "point": "terrain", "id": "t_palisade_pulley", "x": 18, "y": 2 }
+      ]
+    }
+  }
+]

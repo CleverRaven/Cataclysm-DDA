@@ -1,0 +1,114 @@
+name: Clang-tidy 17
+
+on:
+  push:
+    branches:
+    - master
+
+  pull_request:
+    branches:
+    - master
+    paths:
+    - '**.c'
+    - '**.cpp'
+    - '**.h'
+    - '**.hpp'
+    - '**/CMakeLists.txt'
+    - '**/Makefile'
+    - 'build-scripts/clang-tidy.sh'
+    - 'build-scripts/clang-tidy-wrapper.sh'
+    - 'build-scripts/get_affected_files.py'
+    - '.github/workflows/clang-tidy.yml'
+
+# We only care about the latest revision of a PR, so cancel all previous instances.
+concurrency:
+  group: clang-tidy-build-${{ github.event.pull_request.number || github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  skip-duplicates:
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    # Map a step output to a job output
+    outputs:
+      should_skip: ${{ steps.skip_check.outputs.should_skip }}
+    steps:
+      - id: skip_check
+        uses: fkirc/skip-duplicate-actions@master
+        with:
+          cancel_others: 'true'
+          paths: '[ "**.cpp", "**.h", "**.c", "**/CMakeLists.txt", "**/Makefile", "**.hpp", "**.cmake", "build-scripts/clang-tidy.sh", "build-scripts/clang-tidy-wrapper.sh", "build-scripts/get_affected_files.py", ".github/workflows/clang-tidy.yml" ]'
+  build:
+    needs: skip-duplicates
+    if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        # To make the run finish in the run time limit, we split it up into two
+        # parts: the src directory and everything else
+        subset: [ 'src', 'other' ]
+
+    runs-on: ubuntu-22.04
+    env:
+        CMAKE: 1
+        CLANG: clang++-17
+        COMPILER: clang++-17
+        CATA_CLANG_TIDY: plugin
+        CATA_CLANG_TIDY_SUBSET: ${{ matrix.subset }}
+        TILES: 1
+        SOUND: 1
+        RELEASE: 1
+    steps:
+    - name: install LLVM 17
+      run: |
+          wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+          sudo apt-add-repository "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-17 main"
+          sudo apt update
+          sudo apt install llvm-17 llvm-17-dev llvm-17-tools clang-17 clang-tidy-17 clang-tools-17 \
+            libclang-17-dev libflac-dev libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev \
+            libpulse-dev ccache gettext jq
+    - name: install dependencies
+      run: |
+          sudo apt install python3-pip libncursesw5-dev ninja-build cmake gettext
+          pip3 install --user lit
+    - name: ensure clang-tidy and FileCheck commands point to LLVM 17
+      run: |
+          mkdir ~/llvm-command-override
+          ln -s /usr/bin/clang-tidy-17 ~/llvm-command-override/clang-tidy
+          ln -s /usr/bin/FileCheck-17 ~/llvm-command-override/FileCheck
+          echo "$HOME/llvm-command-override" >> $GITHUB_PATH
+    - name: checkout repository
+      uses: actions/checkout@v4
+    - name: prepare
+      run: bash ./build-scripts/requirements.sh
+    - name: determine changed files
+      if: ${{ github.event_name == 'pull_request' }}
+      uses: actions/github-script@v7
+      with:
+        script: |
+          var fs = require('fs');
+          const response = await github.paginate(github.rest.pulls.listFiles,
+            {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number,
+            }
+          );
+          const files = response.map(x => x.filename);
+          for (const path of files) {
+            console.log(path);
+          }
+          fs.writeFileSync("files_changed", files.join('\n'));
+    - uses: ammaraskar/gcc-problem-matcher@master
+    - name: run clang-tidy
+      run: bash ./build-scripts/clang-tidy.sh
+    - name: show most time consuming checks
+      if: always()
+      run: | # the folder may not exist if there is no file to analyze
+        if [ -d clang-tidy-trace ]
+        then
+          jq -n 'reduce(inputs.profile | to_entries[]) as {$key,$value} ({}; .[$key] += $value) | with_entries(select(.key|contains(".wall"))) | to_entries | sort_by(.value) | reverse | .[0:10] | from_entries' clang-tidy-trace/*.json
+        else
+          echo "clang-tidy-trace folder not found."
+        fi

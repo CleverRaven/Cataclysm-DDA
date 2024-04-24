@@ -1,0 +1,353 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_bed",
+    "name": "bed",
+    "symbol": "#",
+    "description": "A standard mattress on a sturdy wooden frame.  Even without blankets or pillows, and despite being a completely ordinary mattress, it's a sight for sore, tired eyes.",
+    "color": "magenta",
+    "move_cost_mod": 3,
+    "coverage": 40,
+    "comfort": 5,
+    "floor_bedding_warmth": 1000,
+    "required_str": -1,
+    "deconstruct": { "items": [ { "item": "mattress", "count": 1 } ], "furn_set": "f_bed_frame" },
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "CAN_SIT", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "2x4", "count": [ 5, 8 ] },
+        { "item": "nail", "charges": [ 6, 8 ] },
+        { "item": "splinter", "count": [ 3, 6 ] },
+        { "item": "sheet_cotton", "count": [ 5, 6 ] },
+        { "item": "cotton_patchwork", "count": [ 8, 15 ] },
+        { "item": "scrap", "count": [ 10, 20 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_bunkbed",
+    "name": "bunk bed",
+    "symbol": "#",
+    "looks_like": "f_bed",
+    "description": "A bunk bed with a sturdy wooden frame built to hold two single-person mattresses above one another.  While these usually mean sleeping closer than you'd like to somebody you wouldn't normally want to share a mattress with, a bed's a bed.",
+    "color": "magenta",
+    "move_cost_mod": 6,
+    "coverage": 40,
+    "comfort": 5,
+    "floor_bedding_warmth": 1000,
+    "required_str": -1,
+    "deconstruct": {
+      "items": [ { "item": "mattress", "count": 1 }, { "item": "2x4", "count": 16 }, { "item": "nail", "charges": [ 10, 20 ] } ],
+      "furn_set": "f_bed"
+    },
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "CAN_SIT", "SMALL_HIDE" ],
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "2x4", "count": [ 8, 15 ] },
+        { "item": "nail", "charges": [ 15, 20 ] },
+        { "item": "splinter", "count": [ 8, 15 ] },
+        { "item": "sheet_cotton", "count": [ 10, 13 ] },
+        { "item": "cotton_patchwork", "count": [ 8, 14 ] },
+        { "item": "scrap", "count": [ 20, 40 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_bed_down",
+    "name": "down bed",
+    "symbol": "0",
+    "description": "A down mattress on a sturdy wooden frame.  Even without blankets or pillows, and despite being a completely ordinary mattress, it's a sight for sore, tired eyes.",
+    "color": "magenta",
+    "move_cost_mod": 3,
+    "coverage": 40,
+    "comfort": 5,
+    "floor_bedding_warmth": 1000,
+    "required_str": -1,
+    "deconstruct": { "items": [ { "item": "down_mattress", "count": 1 } ], "furn_set": "f_bed_frame" },
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "CAN_SIT", "EASY_DECONSTRUCT" ],
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "2x4", "count": [ 5, 8 ] },
+        { "item": "nail", "charges": [ 6, 8 ] },
+        { "item": "splinter", "count": [ 3, 6 ] },
+        { "item": "sheet_cotton", "count": [ 1, 2 ] },
+        { "item": "cotton_patchwork", "count": [ 10, 15 ] },
+        { "item": "down_feather", "count": [ 45, 55 ] },
+        { "item": "scrap", "count": [ 10, 20 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_bunkbed_down",
+    "name": "down bunkbed",
+    "symbol": "0",
+    "looks_like": "f_bed_down",
+    "description": "A bunk bed with a sturdy wooden frame built to hold two single-person mattresses above one another.  While these usually mean sleeping closer than you'd like to somebody you wouldn't normally want to share a mattress with, a bed's a bed.  This one has two down mattresses.",
+    "color": "magenta",
+    "move_cost_mod": 6,
+    "coverage": 40,
+    "comfort": 5,
+    "floor_bedding_warmth": 1000,
+    "required_str": -1,
+    "deconstruct": {
+      "items": [ { "item": "down_mattress", "count": 1 }, { "item": "2x4", "count": 16 }, { "item": "nail", "charges": [ 10, 20 ] } ],
+      "furn_set": "f_bed_down"
+    },
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "CAN_SIT" ],
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "2x4", "count": [ 8, 15 ] },
+        { "item": "nail", "charges": [ 15, 20 ] },
+        { "item": "splinter", "count": [ 8, 15 ] },
+        { "item": "sheet_cotton", "count": [ 2, 3 ] },
+        { "item": "cotton_patchwork", "count": [ 12, 14 ] },
+        { "item": "down_feather", "count": [ 90, 110 ] },
+        { "item": "scrap", "count": [ 20, 40 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_triple_bunkbed",
+    "name": "triple berth",
+    "symbol": "#",
+    "description": "This bunk bed can hold three people at once - a perfect sleeping solution for places where empty space is at a premium.",
+    "looks_like": "f_bed",
+    "color": "magenta",
+    "move_cost_mod": 8,
+    "coverage": 40,
+    "comfort": 5,
+    "floor_bedding_warmth": 1000,
+    "required_str": -1,
+    "deconstruct": {
+      "items": [
+        { "item": "mattress", "count": 3 },
+        { "item": "pipe", "count": 28 },
+        { "item": "sheet_metal", "count": 3 },
+        { "item": "sheet_metal_small", "count": 12 }
+      ]
+    },
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "CAN_SIT", "SMALL_HIDE" ],
+    "bash": {
+      "str_min": 25,
+      "str_max": 60,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "pipe", "count": [ 8, 15 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 2 ] },
+        { "item": "sheet_cotton", "count": [ 15, 20 ] },
+        { "item": "cotton_patchwork", "count": [ 8, 15 ] },
+        { "item": "scrap", "count": [ 60, 100 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_bed_frame",
+    "name": "bed frame",
+    "symbol": "#",
+    "description": "A sturdy wooden bed frame built to hold most standard mattresses.  Despite being one half of a bed, it's just about impossible to lay on by itself.",
+    "color": "brown",
+    "move_cost_mod": 4,
+    "coverage": 40,
+    "required_str": 5,
+    "deconstruct": { "items": [ { "item": "2x4", "count": 12 }, { "item": "nail", "charges": [ 8, 10 ] } ] },
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "CAN_SIT", "SMALL_HIDE" ],
+    "bash": {
+      "str_min": 10,
+      "str_max": 40,
+      "sound": "crunch!",
+      "sound_fail": "whack.",
+      "items": [
+        { "item": "2x4", "count": [ 5, 8 ] },
+        { "item": "nail", "charges": [ 6, 8 ] },
+        { "item": "splinter", "count": [ 3, 6 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_floor_mattress",
+    "name": "mattress",
+    "description": "An ordinary mattress lying on the floor.  While it's not as comfortable as a proper bed with a frame, it's pretty close.  If it's somewhere actually safe to sleep, this is practically a luxury in and of itself.",
+    "symbol": "0",
+    "color": "magenta",
+    "move_cost_mod": 3,
+    "coverage": 40,
+    "comfort": 4,
+    "floor_bedding_warmth": 800,
+    "required_str": 7,
+    "deployed_item": "mattress",
+    "examine_action": "deployed_furniture",
+    "flags": [ "TRANSPARENT", "SHORT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "mattress", "count": 1 } ] },
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "rrrrip!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "sheet_cotton", "count": [ 5, 6 ] }, { "item": "cotton_patchwork", "count": [ 8, 15 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_down_mattress",
+    "name": "down mattress",
+    "description": "A squishy, feather-stuffed mattress lying on the floor.  While it's not as comfortable as a proper bed with a frame, it's pretty close.  If it's somewhere actually safe to sleep, this is practically a luxury in and of itself.",
+    "symbol": "0",
+    "color": "magenta",
+    "move_cost_mod": 3,
+    "coverage": 40,
+    "comfort": 4,
+    "floor_bedding_warmth": 800,
+    "required_str": 7,
+    "deployed_item": "down_mattress",
+    "examine_action": "deployed_furniture",
+    "flags": [ "TRANSPARENT", "SHORT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE" ],
+    "deconstruct": { "items": [ { "item": "down_mattress", "count": 1 } ] },
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "rrrrip!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "sheet_cotton", "count": 1 },
+        { "item": "cotton_patchwork", "count": [ 10, 15 ] },
+        { "item": "down_feather", "count": [ 45, 55 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_hammock",
+    "name": "hammock",
+    "looks_like": "t_leanto",
+    "symbol": "#",
+    "description": "A large sheet of cloth with ropes on two sides tied to nearby objects.  It's quite comfortable to sleep in, but provides no warmth.",
+    "color": "white",
+    "move_cost_mod": 3,
+    "comfort": 4,
+    "floor_bedding_warmth": -1400,
+    "required_str": -1,
+    "deconstruct": { "items": [ { "item": "hammock", "count": 1 } ] },
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "CAN_SIT", "EASY_DECONSTRUCT" ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 14,
+      "sound": "rrrrip!",
+      "sound_fail": "slap!",
+      "sound_vol": 6,
+      "sound_fail_vol": 3,
+      "items": [
+        { "item": "sheet_cotton", "count": [ 2, 3 ] },
+        { "item": "cotton_patchwork", "count": [ 12, 14 ] },
+        { "item": "rope_makeshift_6", "count": [ 2, 3 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_hammock_net",
+    "name": "net hammock",
+    "looks_like": "f_hammock",
+    "symbol": "#",
+    "description": "A large net with ropes on two sides tied to nearby objects.  It's quite comfortable to sleep in, but provides no warmth.",
+    "color": "white",
+    "move_cost_mod": 3,
+    "comfort": 4,
+    "floor_bedding_warmth": -1500,
+    "required_str": -1,
+    "deconstruct": { "items": [ { "item": "hammock_net", "count": 1 } ] },
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "CAN_SIT", "EASY_DECONSTRUCT" ],
+    "bash": {
+      "str_min": 2,
+      "str_max": 10,
+      "sound": "rrrrip!",
+      "sound_fail": "slap!",
+      "sound_vol": 6,
+      "sound_fail_vol": 3,
+      "items": [ { "item": "string_36", "count": [ 12, 16 ] }, { "item": "rope_makeshift_6", "count": [ 2, 3 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_makeshift_bed",
+    "name": "makeshift bed",
+    "symbol": "#",
+    "description": "An improvised mattress on a flimsy wooden frame.  Almost as good as a normal bed, albeit with a slightly lumpy mattress.  Considering the circumstances, it's not too bad at all.",
+    "color": "magenta",
+    "move_cost_mod": 3,
+    "coverage": 40,
+    "comfort": 4,
+    "floor_bedding_warmth": 500,
+    "required_str": 10,
+    "deconstruct": {
+      "items": [
+        { "item": "2x4", "count": 4 },
+        { "item": "sheet_cotton", "count": [ 3, 4 ] },
+        { "item": "cotton_patchwork", "count": [ 5, 14 ] },
+        { "item": "nail", "charges": [ 4, 6 ] }
+      ]
+    },
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "SMALL_HIDE" ],
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "2x4", "count": [ 1, 3 ] },
+        { "item": "nail", "charges": [ 2, 6 ] },
+        { "item": "splinter", "count": [ 1, 4 ] },
+        { "item": "sheet_cotton", "count": [ 2, 3 ] },
+        { "item": "cotton_patchwork", "count": [ 6, 14 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_straw_bed",
+    "name": "straw bed",
+    "symbol": "#",
+    "description": "An improvised bedding pile made of hay.  Better than nothing, but not particularly comfortable, and quite itchy.",
+    "color": "magenta",
+    "move_cost_mod": 3,
+    "coverage": 35,
+    "comfort": 2,
+    "floor_bedding_warmth": 200,
+    "required_str": -1,
+    "deconstruct": { "items": [ { "item": "stick", "count": 4 }, { "item": "straw_pile", "count": [ 120, 140 ] } ] },
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
+    "bash": {
+      "str_min": 6,
+      "str_max": 20,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "stick", "count": [ 2, 3 ] },
+        { "item": "straw_pile", "count": [ 100, 120 ] },
+        { "item": "splinter", "count": [ 1, 2 ] }
+      ]
+    }
+  }
+]

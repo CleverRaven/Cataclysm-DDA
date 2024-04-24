@@ -1,0 +1,13 @@
+[
+  {
+    "type": "npc",
+    "id": "rural_holdout_solo",
+    "//": "A rural holdout survivor living in a barn or a forest or something, all by themselves.  At some point this NPC should get special dialogue.",
+    "class": "NC_COWBOY",
+    "attitude": 0,
+    "name_suffix": "Survivor",
+    "mission": 7,
+    "chat": "TALK_STRANGER_NEUTRAL",
+    "faction": "no_faction"
+  }
+]

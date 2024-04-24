@@ -1,0 +1,10 @@
+[
+  {
+    "result": "cow_bell",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "5 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "components": [ [ [ "scrap", 6 ] ] ]
+  }
+]

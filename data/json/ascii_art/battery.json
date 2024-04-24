@@ -1,0 +1,157 @@
+[
+  {
+    "type": "ascii_art",
+    "id": "light_minus_battery_cell",
+    "picture": [ "<color_yellow>()" ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "light_minus_atomic_battery_cell",
+    "picture": [ "<color_light_green>()" ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "light_minus_disposable_cell",
+    "picture": [ "<color_yellow>()" ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "light_battery_cell",
+    "picture": [
+      "<color_yellow>┌<color_light_gray>▬</color>┐",
+      "├<color_white>L</color>┤",
+      "<color_light_gray>└─┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "light_plus_battery_cell",
+    "picture": [
+      "<color_yellow>╓<color_light_gray>▬</color>╖",
+      "╟<color_white>L</color>╢",
+      "<color_light_gray>╙─╜"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "light_atomic_battery_cell",
+    "picture": [
+      "<color_light_green>╓<color_light_gray>▬</color>╖",
+      "╠<color_white>L</color>╣",
+      "<color_light_gray>╙─╜"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "light_disposable_cell",
+    "picture": [
+      "<color_yellow>╓<color_light_gray>▬</color>╖",
+      "║<color_white>L</color>║",
+      "<color_light_gray>╙─╜"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "light_dry_cell",
+    "picture": [
+      "<color_light_gray>┌▬┐",
+      "[=]",
+      "└─┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "medium_battery_cell",
+    "picture": [
+      "<color_red>,<color_dark_gray>/]===.",
+      "|<color_yellow>< M ></color>|",
+      "'─────'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "medium_plus_battery_cell",
+    "picture": [
+      "<color_red>,<color_dark_gray>/]===__",
+      "|<color_yellow>< M+  ></color>|",
+      "'───────'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "medium_atomic_battery_cell",
+    "picture": [
+      "<color_red>,<color_dark_gray>/]===__",
+      "|<color_light_green>< MP  ></color>|",
+      "'───────'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "medium_disposable_cell",
+    "picture": [
+      "<color_red>,<color_dark_gray>/]===__",
+      "|<color_yellow>< MD  ></color>|",
+      "'───────'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "medium_dry_cell",
+    "picture": [
+      "<color_light_gray>┌─┐===__",
+      "[≡≡≡≡≡≡≡]",
+      "└───────┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "heavy_battery_cell",
+    "picture": [
+      "   <color_yellow>_<color_dark_gray>_</color>_____",
+      " ,'<color_dark_gray>,└─────┤</color>",
+      "|<color_dark_gray>_|_<color_yellow>H</color>____,~<color_light_gray>:</color>",
+      "└──────────┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "heavy_plus_battery_cell",
+    "picture": [
+      "   <color_yellow>_<color_dark_gray>_</color>_______",
+      " ,'<color_dark_gray>,└───────┤</color>",
+      "|<color_dark_gray>_|_<color_yellow>H+</color>_____,~<color_light_gray>:</color>",
+      "└────────────┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "heavy_atomic_battery_cell",
+    "picture": [
+      "   <color_light_green>_<color_dark_gray>_</color>_______",
+      " ,'<color_dark_gray>,└───────┤</color>",
+      "|<color_dark_gray>_|_<color_light_green>HP</color>_____,~<color_light_gray>:</color>",
+      "└────────────┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "heavy_disposable_cell",
+    "picture": [
+      "   <color_yellow>_<color_dark_gray>_</color>_______",
+      " ,'<color_dark_gray>,└───────┤</color>",
+      "|<color_dark_gray>_|_<color_yellow>HD</color>_____,~<color_light_gray>:</color>",
+      "└────────────┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "heavy_dry_cell",
+    "picture": [
+      "<color_light_gray>____________",
+      "[==║====║==]",
+      "|__║____║__|~:",
+      "└────────────┘"
+    ]
+  }
+]

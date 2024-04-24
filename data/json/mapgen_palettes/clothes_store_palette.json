@@ -1,0 +1,137 @@
+[
+  {
+    "type": "palette",
+    "id": "clothes_store_palette",
+    "terrain": { "p": "t_region_groundcover_urban" },
+    "furniture": {
+      "%": "f_console_broken",
+      "c": "f_counter",
+      "C": "f_armchair",
+      "s": "f_stool",
+      "M": "f_clothing_rail",
+      "K": "f_clothing_rail",
+      "J": "f_clothing_rail",
+      "W": "f_clothing_rail",
+      "U": "f_clothing_rail",
+      "T": "f_clothing_rail",
+      "O": "f_clothing_rail",
+      "B": "f_clothing_rail",
+      "I": "f_clothing_rail",
+      "d": "f_desk",
+      "[": "f_table",
+      "h": "f_chair",
+      "$": "f_filing_cabinet",
+      "L": "f_locker",
+      "l": "f_locker",
+      "b": "f_bigmirror",
+      "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
+      "p": "f_region_flower",
+      "D": "f_trashcan",
+      "&": "f_mannequin",
+      "(": "f_mannequin",
+      "n": "f_bulletin"
+    },
+    "items": {
+      "M": [
+        { "item": "pants_unisex", "chance": 50, "repeat": 3 },
+        { "item": "pants_womens", "chance": 5, "repeat": 3 },
+        { "item": "pants_mens", "chance": 5, "repeat": 3 }
+      ],
+      "K": { "item": "coats_unisex", "chance": 30, "repeat": 3 },
+      "J": [ { "item": "shoes_unisex", "chance": 60, "repeat": 3 }, { "item": "shoes_womens", "chance": 20, "repeat": 3 } ],
+      "W": [ { "item": "shirts_unisex", "chance": 50, "repeat": 3 }, { "item": "shirts_womens", "chance": 10, "repeat": 3 } ],
+      "U": { "item": "underwear_mens", "chance": 40, "repeat": 3 },
+      "I": { "item": "underwear_womens", "chance": 40, "repeat": 3 },
+      "T": [ { "item": "gloves_unisex", "chance": 45, "repeat": 3 }, { "item": "scarfs_unisex", "chance": 30, "repeat": 3 } ],
+      "O": [
+        { "item": "clothing_outdoor_torso", "chance": 50, "repeat": 3 },
+        { "item": "clothing_outdoor_pants", "chance": 50, "repeat": 3 }
+      ],
+      "B": { "item": "bags", "chance": 50, "repeat": 3 },
+      "$": { "item": "SUS_office_filing_cabinet", "chance": 100 },
+      "D": { "item": "trash", "chance": 30, "repeat": [ 1, 2 ] },
+      "(": { "item": "SUS_mannequin_outdoor", "chance": 30 },
+      "&": { "item": "SUS_mannequin_general", "chance": 70 },
+      "d": { "item": "SUS_office_desk", "chance": 100 },
+      "L": { "item": "SUS_janitors_closet", "chance": 100 }
+    }
+  },
+  {
+    "type": "palette",
+    "id": "tailor_palette",
+    "terrain": {
+      ";": [ "t_door_locked", "t_door_elocked_alarm" ],
+      "0": "t_window_alarm",
+      "z": "t_region_shrub_decorative",
+      "p": "t_region_groundcover_urban"
+    },
+    "furniture": {
+      "%": "f_console_broken",
+      "c": "f_counter",
+      "R": "f_clothing_rail",
+      "s": "f_stool",
+      "d": "f_desk",
+      "[": "f_table",
+      "b": "f_bigmirror",
+      "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
+      "&": "f_mannequin",
+      "@": "f_mannequin",
+      "h": "f_chair",
+      "p": "f_region_flower",
+      "]": "f_bookcase",
+      "f": "f_cupboard",
+      "L": "f_locker"
+    },
+    "items": {
+      "R": [
+        { "item": "dresses_womens", "chance": 70 },
+        { "item": "shirts_summer_womens", "chance": 70 },
+        { "item": "pants_summer_womens", "chance": 70 }
+      ],
+      "]": { "item": "SUS_tailoring_bookcase", "chance": 100 },
+      "&": { "item": "SUS_mannequin_formal_mens", "chance": 50 },
+      "@": { "item": "SUS_mannequin_dresses", "chance": 50 },
+      "d": { "item": "SUS_tailoring_tool_drawer", "chance": 80 },
+      "f": [ { "item": "SUS_tailoring_materials", "chance": 85 }, { "item": "SUS_tailoring_fasteners", "chance": 85 } ],
+      "L": { "item": "SUS_janitors_closet", "chance": 85 }
+    }
+  },
+  {
+    "type": "palette",
+    "id": "furs_palette",
+    "terrain": {
+      ";": [ "t_door_locked", "t_door_elocked_alarm" ],
+      "i": "t_door_locked_interior",
+      "0": "t_window_alarm",
+      "z": "t_region_shrub_decorative",
+      "p": "t_region_groundcover_urban"
+    },
+    "furniture": {
+      "%": "f_console_broken",
+      "c": "f_displaycase",
+      "s": "f_stool",
+      "d": "f_desk",
+      "[": "f_table",
+      "b": "f_bigmirror",
+      "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
+      "&": "f_mannequin",
+      "h": "f_chair",
+      "p": "f_region_flower",
+      "A": "f_statue",
+      "L": "f_locker",
+      "J": "f_locker"
+    },
+    "items": {
+      "c": [
+        { "item": "fur_hats_unisex", "chance": 50 },
+        { "item": "fur_gloves_unisex", "chance": 50 },
+        { "item": "fur_shoes_unisex", "chance": 50 }
+      ],
+      "&": { "item": "SUS_mannequin_fur", "chance": 50 },
+      "d": { "item": "SUS_office_desk", "chance": 60 },
+      "[": { "item": "SUS_tailoring_tool_drawer", "chance": 30 },
+      "L": [ { "item": "SUS_fur_tailoring_materials", "chance": 50 }, { "item": "SUS_tailoring_fasteners", "chance": 50 } ],
+      "J": { "item": "SUS_janitors_closet", "chance": 60 }
+    }
+  }
+]

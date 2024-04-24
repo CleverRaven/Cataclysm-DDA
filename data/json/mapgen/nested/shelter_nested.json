@@ -1,0 +1,206 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "shelter_under_nest_zombies",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "     bbbbbbbbbbbbbb     ",
+        "     b____________b     ",
+        "         _________b     ",
+        "          bbbbb___b     ",
+        "     ____      ___b     ",
+        "        _ ____ ___b     ",
+        "          _  _ ___b     ",
+        "        _ _  _ ___b     ",
+        "     ____ ____ ___b     ",
+        "               ___b     ",
+        "          bbbbb___b     ",
+        "     b____________b     ",
+        "     b____________b     ",
+        "     bbbbbbbbbbbbbb     ",
+        "                        "
+      ],
+      "palettes": [ "shelter_zombies" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "shelter_under_1_nest_zombies",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "         bbbbbbb        ",
+        "         b_____b        ",
+        "         b_____b        ",
+        "     _ _ b_____bbbb     ",
+        "     ___ b________b     ",
+        "      __ b________b     ",
+        "      _  b________b     ",
+        "         b________b     ",
+        "      ____________b     ",
+        "         b________b     ",
+        "      _  b________b     ",
+        "      __ b________b     ",
+        "     ___ b____b         ",
+        "     _ _ b____b  __     ",
+        "         bbbbbb  __     ",
+        "                        "
+      ],
+      "palettes": [ "shelter_zombies" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "shelter_under_1b_nest_zombies",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "     b__________        ",
+        "     b_bb_bb____        ",
+        "     b_bb_bb____bbb     ",
+        "     b_bb_bb_______     ",
+        "     b_bb_bb____bbb     ",
+        "     b_bb_bb____        ",
+        "     b_bb_bb____bbb     ",
+        "             ______     ",
+        "      ______ ___bbb     ",
+        "             ___        ",
+        "      _   _  ___        ",
+        "      _   _  ___        ",
+        "      _   _  ___        ",
+        "                        "
+      ],
+      "palettes": [ "shelter_zombies" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "shelter_under_2_nest_zombies",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "    bbbbb    _______    ",
+        "    _____         _     ",
+        "    _bb_____            ",
+        "   b_bb______________   ",
+        "   b_bb_bb________bbb   ",
+        "   b_bb_b      ___      ",
+        "   b_bb_b ____ ___bbb   ",
+        "   b_bb__ _  _ ___bbb   ",
+        "   b_bb__ _  _ ___      ",
+        "   b_bb_b ____ ___bbb   ",
+        "   b_bb_b      ______   ",
+        "   b_bb_bb              ",
+        "    ______        _     ",
+        "    bbbbbb   _______    ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "shelter_zombies" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "shelter_graffiti",
+    "object": { "mapgensize": [ 1, 1 ], "place_graffiti": [ { "x": 0, "y": 0, "snippet": "shelter_graffiti_snippets" } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "general_graffiti",
+    "object": { "mapgensize": [ 1, 1 ], "place_graffiti": [ { "x": 0, "y": 0, "snippet": "general_graffiti_snippets" } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "shelter_computer",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_computers": [
+        {
+          "x": 0,
+          "y": 0,
+          "name": "Evac shelter computer",
+          "eocs": [ "EOC_REFUGEE_CENTER_COMPUTER" ],
+          "chat_topics": [ "COMP_REFUGEE_CENTER_MAIN" ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "shelter_computer_broken",
+    "object": { "mapgensize": [ 1, 1 ], "place_furniture": [ { "furn": "f_console_broken", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "4x4_planksandtools",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rows": [
+        "~~ 2",
+        "~~ 2",
+        "   2",
+        "!!!!"
+      ],
+      "palettes": [ "shelter_unfinished" ],
+      "furniture": { "!": "f_crate_o", "2": "f_crate_o" },
+      "place_item": [ { "item": "pot", "x": 1, "y": 4, "amount": 1 } ],
+      "items": {
+        "!": [
+          { "item": "faction_camp_tools", "chance": 95, "repeat": [ 2, 3 ], "faction": "your_followers" },
+          { "item": "hardware_bulk", "chance": 95, "faction": "your_followers" },
+          { "item": "tools_home", "chance": 95, "faction": "your_followers" },
+          { "item": "dishes_utility", "chance": 80, "repeat": [ 2, 3 ], "faction": "your_followers" }
+        ],
+        "2": [
+          { "item": "faction_camp_misc", "chance": 80, "repeat": [ 1, 2 ], "faction": "your_followers" },
+          { "item": "metal_wreckage", "chance": 80, "repeat": [ 6, 9 ], "faction": "your_followers" }
+        ]
+      }
+    }
+  }
+]

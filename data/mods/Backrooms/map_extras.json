@@ -1,0 +1,22 @@
+[
+  {
+    "id": "mx_teleporter_node",
+    "type": "map_extra",
+    "name": "Red room",
+    "description": "There's a red room here.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_teleporter_node" },
+    "sym": "X",
+    "color": "red",
+    "autonote": true
+  },
+  {
+    "id": "mx_autodoc_room",
+    "type": "map_extra",
+    "name": "Autodoc room",
+    "description": "There's an autodoc here.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_autodoc_room" },
+    "sym": "A",
+    "color": "pink",
+    "autonote": true
+  }
+]

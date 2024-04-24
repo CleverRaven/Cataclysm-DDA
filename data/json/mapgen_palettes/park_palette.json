@@ -1,0 +1,153 @@
+[
+  {
+    "type": "palette",
+    "id": "park_scenic_palette",
+    "terrain": {
+      "]": "t_brick_wall",
+      "*": "t_wall_wood",
+      "Q": "t_concrete_wall",
+      "+": "t_door_c",
+      "-": "t_chaingate_c",
+      "`": "t_floor",
+      "s": "t_sidewalk",
+      ",": "t_region_soil",
+      "Y": "t_region_soil",
+      " ": "t_region_groundcover_urban",
+      "z": "t_region_groundcover_urban",
+      "P": "t_pavement_y",
+      "p": "t_pavement",
+      ":": "t_thconc_floor",
+      "v": "t_thconc_floor",
+      "x": "t_thconc_floor",
+      "X": "t_thconc_floor",
+      "B": "t_thconc_floor",
+      "L": "t_thconc_floor",
+      "5": "t_thconc_floor",
+      "t": "t_region_tree_shade",
+      "4": "t_region_tree_evergreen",
+      "u": "t_region_shrub",
+      "1": "t_region_shrub_decorative",
+      "h": "t_slide",
+      "m": "t_monkey_bars",
+      "o": "t_bollard",
+      "q": "t_concrete",
+      "R": "t_concrete_railing",
+      "[": "t_chainfence",
+      "g": "t_sandbox",
+      "e": "t_water_pump",
+      "~": "t_water_pool_shallow",
+      "i": "t_water_sh",
+      "W": "t_water_sh",
+      "w": "t_water_dp"
+    },
+    "furniture": {
+      "N": "f_bulletin",
+      "!": "f_street_light",
+      "z": "f_hedge_short",
+      "&": "f_trashcan",
+      " ": [ [ "f_null", 40 ], "f_region_flower" ],
+      "f": "f_region_flower_decorative",
+      "A": "f_statue",
+      "B": "f_bench_park",
+      "b": "f_bench",
+      "I": "f_region_water_plant",
+      "i": "f_region_water_plant",
+      "L": "f_table",
+      "T": "f_table",
+      "v": "f_vending_c",
+      "X": "f_trashcan",
+      "Y": "f_brazier",
+      "5": "f_sink"
+    },
+    "toilets": { "x": {  } },
+    "item": { "g": { "item": "sandbox_kit", "chance": 5 } },
+    "items": {
+      "x": { "item": "SUS_toilet", "chance": 50 },
+      "&": { "item": "trash", "chance": 70, "repeat": [ 2, 7 ] },
+      "L": [ { "item": "dining", "chance": 10, "repeat": [ 1, 2 ] } ],
+      "T": [ { "item": "dining", "chance": 10, "repeat": [ 1, 2 ] } ],
+      "X": { "item": "trash", "chance": 70, "repeat": [ 2, 7 ] }
+    }
+  },
+  {
+    "type": "palette",
+    "id": "park_asphalt_palette",
+    "terrain": {
+      "+": "t_chaingate_c",
+      "|": "t_chainfence",
+      ".": "t_pavement_y",
+      "7": "t_backboard",
+      "[": "t_fence_rope",
+      "$": "t_sand",
+      ",": "t_region_soil"
+    },
+    "furniture": { "b": "f_bench", "&": "f_trashcan" },
+    "items": { "&": { "item": "trash", "chance": 70, "repeat": [ 2, 7 ] }, "b": { "item": "trash", "chance": 2 } },
+    "vendingmachines": { "V": { "item_group": "vending_drink" } }
+  },
+  {
+    "type": "palette",
+    "id": "park_nature_palette",
+    "parameters": {
+      "walkway": {
+        "type": "ter_str_id",
+        "default": {
+          "distribution": [ [ "t_railroad_rubble", 1 ], [ "t_region_soil", 3 ], [ "t_region_groundcover_barren", 1 ], [ "t_concrete", 1 ] ]
+        }
+      },
+      "fencing": {
+        "type": "ter_str_id",
+        "default": {
+          "distribution": [ [ "t_chainfence", 3 ], [ "t_privacy_fence", 1 ], [ "t_drystone_wall_half", 1 ], [ "t_region_groundcover", 1 ] ]
+        }
+      }
+    },
+    "terrain": {
+      "#": "t_wall_g",
+      ".": "t_floor",
+      "d": "t_floor",
+      "h": "t_floor",
+      ",": "t_pavement",
+      ";": "t_pavement_y",
+      "0": "t_window_empty",
+      "+": "t_door_c",
+      "'": "t_region_soil",
+      "O": "t_region_soil",
+      "|": { "param": "fencing", "fallback": "t_chainfence" },
+      "_": { "param": "walkway", "fallback": "t_region_soil" },
+      "&": { "param": "walkway", "fallback": "t_region_soil" },
+      "b": { "param": "walkway", "fallback": "t_region_soil" },
+      "T": { "param": "walkway", "fallback": "t_region_soil" },
+      "s": "t_sand",
+      "=": "t_dock",
+      "w": "t_water_dp",
+      "W": "t_water_sh"
+    },
+    "furniture": {
+      "Y": {
+        "switch": { "param": "walkway", "fallback": "f_null" },
+        "cases": {
+          "t_railroad_rubble": "f_null",
+          "t_region_soil": "f_null",
+          "t_region_groundcover_barren": "f_null",
+          "t_concrete": "f_street_light"
+        }
+      },
+      "T": "f_table",
+      "b": "f_bench",
+      "&": "f_trashcan",
+      "d": "f_desk",
+      "h": "f_chair",
+      "O": "f_brazier"
+    },
+    "items": {
+      "&": { "item": "trash", "chance": 70, "repeat": [ 2, 7 ] },
+      "b": { "item": "trash", "chance": 2 },
+      "T": [ { "item": "snacks", "chance": 4 }, { "item": "games", "chance": 2 } ]
+    },
+    "nested": {
+      "W": { "chunks": [ [ "pond_water_furniture", 8 ], [ "null", 92 ] ] },
+      "w": { "chunks": [ [ "pond_water_furniture", 8 ], [ "null", 500 ] ] }
+    }
+  }
+]

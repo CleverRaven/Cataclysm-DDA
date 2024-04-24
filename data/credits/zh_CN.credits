@@ -1,0 +1,148 @@
+# 超过78个字符的段落将自动换行
+# 下面这行这么长
+##############################################################################
+<color_white>原作者：</color>           <color_white>项目主管：</color>
+<color_yellow>Whales</color>（<color_dark_gray>不再参与</color>） <color_yellow>KevinGranade</color>
+
+<color_white>当前主要开发者：</color>
+<color_yellow>I-am-Erk</color> - Ultica贴图包，世界观设定，创意。
+<color_yellow>KorGgenT</color> - 专业的细节“理发师”。
+
+<color_white>特别感谢：</color>
+<color_yellow>anothersimulacrum</color> - 中流砥柱。
+<color_yellow>BombasticSlacks</color> - 完善了盔甲系统并让我们汗流浃背。
+<color_yellow>Fris0uman</color> - 修好了我们家的冰箱（家电系统）。
+<color_yellow>John-Candlebury</color> - Hub01以及其它美丽地形。
+<color_yellow>jbytheway</color> - 参数化地图生成以及地图变种机制。
+<color_yellow>BrettDong</color> - 翻译开发与分析怪异Bug。
+<color_yellow>wapcaplet</color> - 关于侧边栏的一切东西。
+<color_yellow>ZhilkinSerg</color> - 所有PR基本都是TA合并的。
+<color_yellow>Rivet-the-Zombie</color> - “一天合并一PR”记录保持者。
+<color_yellow>Night-Pryanik</color> - 无数的bug修复与优化。
+<color_yellow>Qrox</color> - 完善用户界面。
+<color_yellow>Ramza13</color> - 让JSON也图灵了（EOC系统）。
+<color_yellow>Drew4484</color> - 钢铁大户。
+<color_yellow>LyleSY</color> - 恐龙专家。
+<color_yellow>irwiss</color>, <color_yellow>Maleclypse</color>, <color_yellow>Venera3</color>, <color_yellow>MylieDaniels</color>, <color_yellow>andrei8l</color>, <color_yellow>mqrause</color>, 和<color_yellow>Eltank</color>.
+
+<color_white>特别鸣谢艺术贡献者：</color>
+<color_yellow>Fris0uman</color>, <color_yellow>Golfavel</color>, <color_yellow>vetall812</color>, <color_yellow>Dandy-boy</color>, 以及其他人。
+
+<color_white>完整贡献者列表请见：</color>
+<color_cyan>https://github.com/CleverRaven/Cataclysm-DDA/contributors</color>
+
+《<color_light_cyan>大灾变</color>：<color_light_blue>劫后余生</color>》按 <color_white>CC-BY-SA 3.0</color> 授权协议发布：
+<color_cyan>https://creativecommons.org/licenses/by-sa/3.0/</color>
+
+******************************************************************************
+
+<color_white>主要开发者 (<color_cyan>0.F</color>):</color>
+<color_yellow>mlangsdorf</color> - 载具，船只，营地和mod制作教程。
+<color_yellow>I-am-Erk</color> - 维护Ultica贴图包
+<color_yellow>KorGgenT</color> - 口袋系统与大魔法
+
+<color_white>特别感谢 (<color_cyan>0.F</color>):</color>
+<color_yellow>Aivean</color> - 程序优化
+<color_yellow>anothersimulacrum</color> - 疲劳系统
+<color_yellow>jbytheway2</color> - 成就系统
+<color_yellow>BrettDong</color> - 翻译管理以及其他程序修正。
+<color_yellow>Qrox</color> - 定位并显示游戏程序错误信息
+<color_yellow>LyleSY</color> - 恐龙
+
+<color_white>对艺术贡献的特别感谢 (<color_cyan>0.F</color>):</color>
+<color_yellow>acepleiades</color>, <color_yellow>barsoosayque</color>, <color_yellow>Fris0uman</color>, <color_yellow>int-ua</color>，以及其他贡献者。
+
+<color_white>完整贡献者列表请见：</color>
+<color_cyan>https://github.com/CleverRaven/Cataclysm-DDA/contributors</color>
+
+《<color_light_cyan>大灾变</color>：<color_light_blue>劫后余生</color>》按 <color_white>CC-BY-SA 3.0</color> 授权协议发布：
+<color_cyan>https://creativecommons.org/licenses/by-sa/3.0/</color>
+
+******************************************************************************
+
+<color_white>主要开发者（<color_cyan>0.E</color>）：</color>
+<color_yellow>mlangsdorf</color> - 载具，船只，营地和mod制作教程。
+<color_yellow>I-am-Erk</color> - Ultica图像包，对话，NPC和厨房杂物。
+<color_yellow>KorGgenT</color> - 大魔法和胃痛机制。
+
+<color_white>特别感谢（<color_cyan>0.E</color>）：</color>
+<color_yellow>Narc</color> - 利用 Jenkins 设立自动游戏自重编译打包服务。
+<color_yellow>Rivet-the-Zombie</color> - 每日合并一个PR请求。
+<color_yellow>BevapDin</color> - 代码复查和底层重构。
+<color_yellow>BrettDong</color> - 管理翻译事项。
+<color_yellow>curstwist</color> - 添加屋顶，地图生成，NPC和每周更新日志。
+<color_yellow>davidpwbrown</color> - 自动移动模式，以及骑马。
+<color_yellow>jbytheway</color> - 持续集成和Z轴相关重构。
+<color_yellow>Hymore246</color> - 重构武术。
+<color_yellow>Qrox</color> - 提升在Windows下的回溯可读性。
+<color_yellow>ZhilkinSerg</color> - 代码合并及测试。
+
+<color_white>完整贡献者名单请见Git repo：</color>
+<color_cyan>https://github.com/CleverRaven/Cataclysm-DDA</color>
+
+******************************************************************************
+
+<color_white>主要开发者 （<color_cyan>0.D</color>）：</color>
+<color_yellow>KevinGranade</color>，<color_yellow>Rivet-the-Zombie</color>，<color_yellow>BevapDin</color>，<color_yellow>Coolthulu</color>，<color_yellow>i2amroy</color>
+
+<color_white>特别感谢（<color_cyan>0.D</color>）：</color>
+<color_yellow>Narc</color> - 建立自动化Jenkins构建机器人。
+<color_yellow>Acidia</color> - 在NPC、任务和地点方面的精彩贡献。
+<color_yellow>Wuzzy</color>与<color_yellow>VlasovVitaly</color> - 在翻译方面的巨大努力。
+<color_yellow>HuXTUS</color> - 大量惊人的内容。
+
+******************************************************************************
+
+<color_white>主要开发者（<color_cyan>0.C</color>）：</color>
+<color_yellow>KevinGranade</color>, <color_yellow>Rivet-the-Zombie</color>, <color_yellow>KA101</color>, <color_yellow>BevapDin</color>, <color_yellow>Coolthulu</color>, <color_yellow>i2amroy</color>
+
+<color_white>特别感谢（<color_cyan>0.C</color>）：</color>
+<color_yellow>Narc</color> - 建立自动化Jenkins构建机器人。
+<color_yellow>Acidia</color> - 在NPC、任务和地点方面的精彩贡献。
+<color_yellow>Wuzzy</color>与<color_yellow>VlasovVitaly</color> - 在翻译方面的巨大努力。
+<color_yellow>HuXTUS</color> - 大量惊人的内容。
+
+******************************************************************************
+
+<color_white>主要开发者（<color_cyan>0.B</color>）：</color>
+<color_yellow>KevinGranade</color>, <color_yellow>Rivet-the-Zombie</color>, <color_yellow>KA101</color>, <color_yellow>BevapDin</color>
+
+<color_white>特别感谢（<color_cyan>0.B</color>）：</color>
+<color_yellow>Narc</color> - 建立自动化Jenkins构建机器人。
+<color_yellow>Acidia</color> - 在NPC、任务和地点方面的精彩贡献。
+<color_yellow>Wuzzy</color>与<color_yellow>VlasovVitaly</color> - 在翻译方面的巨大努力。
+<color_yellow>i2amroy</color> - 多个大型基础系统检修。
+<color_yellow>HuXTUS</color> - 大量惊人的内容。
+
+******************************************************************************
+
+<color_white>主要开发者（<color_cyan>0.A</color>）：</color>
+<color_yellow>KevinGranade</color>, <color_yellow>i2amroy</color>, <color_yellow>Rivet-the-Zombie</color>, <color_yellow>KA101</color>, <color_yellow>BevapDin</color>
+
+<color_white>特别感谢（<color_cyan>0.A</color>）：</color>
+<color_yellow>TheDarklingWolf</color> - 创造了我们所熟知的大灾变：劫后余生。
+<color_yellow>Narc</color> - 建立自动化Jenkins构建机器人。
+<color_yellow>BevapDin</color> - 在bug修复方面的不懈努力。
+<color_yellow>dwarfkoala</color> - 繁多的bug分类。
+<color_yellow>Ill-kun</color> - 无数UI清理。
+
+******************************************************************************
+
+<color_white>主要开发者（<color_cyan>0.9</color>）：</color>
+<color_yellow>KevinGranade</color>, <color_yellow>GalenEvil</color>, <color_yellow>i2amroy</color>, <color_yellow>AtomicDryad</color>, <color_yellow>Ianestrachan</color>
+
+<color_white>特别感谢（<color_cyan>0.9</color>）：</color>
+<color_yellow>TheDarklingWolf</color> - 创造了我们所熟知的大灾变：劫后余生。
+<color_yellow>Narc</color> - 建立自动化Jenkins构建机器人。
+<color_yellow>yobbobanana</color> - 作为translators和GitHub之间的联络人。
+<color_yellow>Angela 'Rivet' Graves</color>，大灾变内容的持续创造者。
+
+******************************************************************************
+
+<color_white>主要开发者（<color_cyan>0.8</color>）：</color>
+<color_yellow>Kevingranade</color>, <color_yellow>GalenEvil</color>, <color_yellow>i2amroy</color>, <color_yellow>AtomicDryad</color>, <color_yellow>Ozone</color>
+
+<color_white>特别感谢（<color_cyan>0.8</color>）：</color>
+<color_yellow>TheDarklingWolf</color> - 创造了我们所熟知的大灾变：劫后余生。
+<color_yellow>Narc</color> - 建立自动化Jenkins构建机器人。
+<color_yellow>yobbobanana</color> - 作为translators和GitHub之间的联络人。

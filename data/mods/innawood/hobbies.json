@@ -1,0 +1,11 @@
+[
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "hates_books",
+    "name": "Book Hating",
+    "description": "Reading is for nerds!  You've managed to make hatred of the written word a central part of your identity.  Or, perhaps, you have a barrier that makes books additionally challenging and frustrating for you.  Whatever the reason, boring books are more boring, and you can't have fun by reading books.",
+    "points": 0,
+    "traits": [ "HATES_BOOKS" ]
+  }
+]

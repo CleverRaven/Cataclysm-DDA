@@ -1,0 +1,98 @@
+[
+  {
+    "type": "item_group",
+    "id": "gathering_faction_camp_firewood",
+    "items": [ [ "stick", 200 ], [ "withered", 10 ], [ "straw_pile", 10 ], [ "splinter", 400 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "foraging_faction_camp_spring",
+    "items": [
+      { "item": "datura_seed", "count": [ 2, 5 ], "prob": 5 },
+      { "item": "raw_dandelion", "count": [ 1, 4 ], "prob": 20 },
+      { "item": "raw_burdock", "count": [ 1, 4 ], "prob": 20 },
+      { "item": "cattail_stalk", "count": [ 1, 4 ], "prob": 20 },
+      { "group": "forage_spring", "prob": 55 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "foraging_faction_camp_summer",
+    "items": [
+      { "item": "datura_seed", "count": [ 2, 5 ], "prob": 5 },
+      { "item": "raw_dandelion", "count": [ 1, 4 ], "prob": 20 },
+      { "item": "raw_burdock", "count": [ 1, 4 ], "prob": 20 },
+      { "item": "cattail_stalk", "count": [ 1, 4 ], "prob": 20 },
+      { "item": "sunflower", "count": [ 1, 2 ], "prob": 20 },
+      { "item": "cherries", "count": [ 3, 9 ], "prob": 30 },
+      { "item": "pear", "count": [ 1, 3 ], "prob": 30 },
+      { "item": "apricot", "count": [ 1, 3 ], "prob": 30 },
+      { "item": "plums", "count": [ 1, 3 ], "prob": 30 },
+      { "item": "mulberries", "count": [ 1, 3 ], "prob": 30 },
+      { "item": "elderberries", "count": [ 4, 10 ], "prob": 30 },
+      { "item": "blueberries", "count": [ 1, 3 ], "prob": 30 },
+      { "item": "strawberries", "count": [ 1, 3 ], "prob": 30 },
+      { "item": "blackberries", "count": [ 1, 3 ], "prob": 30 },
+      { "item": "huckleberries", "count": [ 1, 3 ], "prob": 30 },
+      { "item": "raspberries", "count": [ 1, 3 ], "prob": 30 },
+      { "item": "grapes", "count": [ 1, 3 ], "prob": 25 },
+      { "item": "wild_rice", "count": [ 2, 4 ], "prob": 10 },
+      { "group": "forage_summer", "prob": 250 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "foraging_faction_camp_autumn",
+    "items": [
+      { "item": "datura_seed", "count": [ 2, 5 ], "prob": 5 },
+      { "item": "raw_dandelion", "count": [ 1, 4 ], "prob": 20 },
+      { "item": "raw_burdock", "count": [ 1, 4 ], "prob": 20 },
+      { "item": "cattail_stalk", "count": [ 1, 4 ], "prob": 20 },
+      { "item": "walnut", "count": [ 2, 6 ], "prob": 20 },
+      { "item": "butternut", "count": [ 2, 4 ], "prob": 20 },
+      { "item": "chestnut", "count": [ 2, 6 ], "prob": 20 },
+      { "item": "beech_nuts", "count": [ 8, 24 ], "prob": 20 },
+      { "item": "hazelnut", "count": [ 2, 6 ], "prob": 20 },
+      { "item": "acorns", "count": [ 8, 24 ], "prob": 20 },
+      { "item": "apple", "count": [ 1, 3 ], "prob": 20 },
+      { "item": "pear", "count": [ 1, 3 ], "prob": 20 },
+      { "item": "coffee_pod", "count": [ 8, 20 ], "prob": 15 },
+      { "item": "hickory_nut", "count": [ 3, 6 ], "prob": 20 },
+      { "item": "pistachio", "count": [ 3, 6 ], "prob": 20 },
+      { "item": "almond", "count": [ 3, 6 ], "prob": 20 },
+      { "item": "pecan", "count": [ 3, 6 ], "prob": 20 },
+      { "item": "peanut", "count": [ 3, 6 ], "prob": 20 },
+      { "group": "forage_autumn", "prob": 200 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "foraging_faction_camp_winter",
+    "items": [ { "item": "cattail_rhizome", "count": [ 1, 4 ], "prob": 25 }, { "group": "forage_winter", "prob": 75 } ]
+  },
+  {
+    "id": "faction_camp_misc",
+    "//": "Miscellaneous stuff that faction camps need.  Should appear in and around areas that are faction-related camps.",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "item": "nail", "count": [ 75, 100 ], "prob": 80 },
+      { "item": "wood_sheet", "count": [ 3, 5 ], "prob": 80 },
+      { "item": "wood_panel", "count": [ 2, 7 ], "prob": 80 }
+    ]
+  },
+  {
+    "id": "faction_camp_tools",
+    "//": "Tools that faction camps need.  Should appear in and around areas that are faction-related camps.",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "item": "shovel", "prob": 80 },
+      { "item": "ax", "prob": 80 },
+      { "item": "saw", "prob": 80 },
+      { "item": "bow_saw", "prob": 80 },
+      { "item": "hammer", "prob": 80 },
+      { "item": "hacksaw", "prob": 50 }
+    ]
+  }
+]

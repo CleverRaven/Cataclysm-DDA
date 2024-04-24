@@ -1,0 +1,404 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "microlab_generic_hallway_straight",
+    "object": {
+      "fill_ter": "t_strconc_floor",
+      "place_nested": [
+        {
+          "chunks": [ [ "microlab_generic_hallway_straight_tile", 98 ], [ "microlab_generic_hallway_straight_isolated_tile", 2 ] ],
+          "x": 0,
+          "y": 0
+        },
+        {
+          "chunks": [
+            {
+              "switch": { "param": "labtype", "fallback": "microlab_generic" },
+              "cases": { "microlab_meat": "micolab_meat_pools", "microlab_generic": "null" }
+            }
+          ],
+          "x": 0,
+          "y": 0
+        },
+        { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 0, "neighbors": { "north_west": "microlab" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 0, "neighbors": { "north_east": "microlab" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 23, "neighbors": { "south_east": "microlab" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 23, "neighbors": { "south_west": "microlab" } }
+      ],
+      "place_monster": [
+        {
+          "group": {
+            "switch": { "param": "labtype", "fallback": "microlab_generic" },
+            "cases": { "microlab_meat": "GROUP_MEATLAB", "microlab_generic": "GROUP_LAB" }
+          },
+          "chance": 80,
+          "x": [ 0, 23 ],
+          "y": [ 0, 23 ],
+          "repeat": [ 2, 5 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "microlab_generic_hallway_curved",
+    "object": {
+      "fill_ter": "t_strconc_floor",
+      "place_nested": [
+        { "chunks": [ "microlab_generic_hallway_curved_tile" ], "x": 0, "y": 0 },
+        { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 0, "neighbors": { "north_west": "microlab" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 0, "neighbors": { "north_east": "microlab" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 23, "neighbors": { "south_east": "microlab" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 23, "neighbors": { "south_west": "microlab" } }
+      ],
+      "place_monster": [
+        {
+          "group": {
+            "switch": { "param": "labtype", "fallback": "microlab_generic" },
+            "cases": { "microlab_meat": "GROUP_MEATLAB", "microlab_generic": "GROUP_LAB" }
+          },
+          "chance": 80,
+          "x": [ 0, 23 ],
+          "y": [ 0, 23 ],
+          "repeat": [ 2, 5 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "microlab_generic_hallway_tee",
+    "object": {
+      "fill_ter": "t_strconc_floor",
+      "place_nested": [
+        { "chunks": [ "microlab_generic_hallway_tee_tile" ], "x": 0, "y": 0 },
+        { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 0, "neighbors": { "north_west": "microlab" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 0, "neighbors": { "north_east": "microlab" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 23, "neighbors": { "south_east": "microlab" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 23, "neighbors": { "south_west": "microlab" } }
+      ],
+      "place_monster": [
+        {
+          "group": {
+            "switch": { "param": "labtype", "fallback": "microlab_generic" },
+            "cases": { "microlab_meat": "GROUP_MEATLAB", "microlab_generic": "GROUP_LAB" }
+          },
+          "chance": 80,
+          "x": [ 0, 23 ],
+          "y": [ 0, 23 ],
+          "repeat": [ 2, 5 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "microlab_generic_hallway_four_way",
+    "object": {
+      "fill_ter": "t_strconc_floor",
+      "place_nested": [
+        { "chunks": [ "microlab_generic_hallway_four_way_tile" ], "x": 0, "y": 0 },
+        { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 0, "neighbors": { "north_west": "microlab" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 0, "neighbors": { "north_east": "microlab" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 23, "neighbors": { "south_east": "microlab" } },
+        { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 23, "neighbors": { "south_west": "microlab" } }
+      ],
+      "place_monster": [
+        {
+          "group": {
+            "switch": { "param": "labtype", "fallback": "microlab_generic" },
+            "cases": { "microlab_meat": "GROUP_MEATLAB", "microlab_generic": "GROUP_LAB" }
+          },
+          "chance": 80,
+          "x": [ 0, 23 ],
+          "y": [ 0, 23 ],
+          "repeat": [ 2, 5 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "microlab_generic_hallway_straight_tile",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        " cc  | PP  PP  PP |     ",
+        " cc  | PP  PP  PP |     ",
+        "     | PPbb  bbPP |cci  ",
+        "  |||| PP      PP ||||  ",
+        " F|XX= PPbb  bbPP =XX|  ",
+        "|||XX= PP      PP =XX|||",
+        " F|XX= PP dd6d PP =XX|c ",
+        " F|XX= PP dh d PP =XX|c ",
+        " F|XX= PP d hd PP =XX|c ",
+        "  |XX= PP d6dd PP =XX|c ",
+        "|5|||| PP      PP ||||||",
+        "   2  YPP      PPY 2    ",
+        "   2  YPP      PPY 2    ",
+        "|2|||| PP      PP ||2|||",
+        "   hc| PP |||| PP |c    ",
+        "cc  c| PP  YY  PP |6    ",
+        "cc  6| PP  ^???PP |c c  ",
+        "     | PP   t ?PP |ciccc",
+        "|2|||| PP? t   PP ||||||",
+        "  ch | PP???^  PP |     ",
+        "  cc | PP      PP |F c  ",
+        "  ch | PP  PP  PP |F c  ",
+        "  cc | PP  PP  PP |F c  ",
+        "     | PP  PP  PP |     "
+      ],
+      "palettes": [ "microlab" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "microlab_generic_hallway_straight_tile",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        " cc  | PP  PP  PP |     ",
+        " cc  | PP      PP |     ",
+        "     | PP b  b PP |cci  ",
+        "  |||| PP b  b PP ||||  ",
+        " F|XX= PP      PP =XX|  ",
+        "|||XX= PP ==== PP =XX|||",
+        " F|XX= PP =XX= PP =XX|c ",
+        " F|XX= PP =XX= PP =XX|c ",
+        " F|XX= PP =XX= PP =XX|c ",
+        "  |XX= PP =XX= PP =XX|c ",
+        "|5||||=[[======[[=||||||",
+        "    2YPPPPPPPPPPPPY2    ",
+        "    2YPPPPPPPPPPPPY2    ",
+        "|2||||=[[======[[=||||||",
+        "  |XX= PP =XX= PP =XX|  ",
+        "c |XX= PP =XX= PP =XX|  ",
+        "c |XX= PP =XX= PP =XX|  ",
+        "  |XX= PP =XX= PP =XX|cc",
+        "|2|XX= PP =XX= PP =XX|||",
+        "  |XX= PP =XX= PP =XX|c ",
+        "  |||| PP =XX= PP ||||c ",
+        "  icc| PP ==== PP |F cc ",
+        "    F| PP      PP |F c  ",
+        "    F| PP  PP  PP |     "
+      ],
+      "palettes": [ "microlab" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "microlab_generic_hallway_straight_tile",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        " cc  | PP  PP  PP |     ",
+        " cc  | PP      PP |     ",
+        "     | PP ==== PP |cci  ",
+        "  |||| PP =XX= PP ||||  ",
+        " F|XX= PP =XX= PP =XX|  ",
+        "|||XX==[[==XX==[[==XX|||",
+        " F|XX= PP =XX= PP =XX|c ",
+        " F|XX= PP =XX= PP =XX|c ",
+        " F|XX= PP =XX= PP =XX|c ",
+        "  |XX= PP =XX= PP =XX|c ",
+        "|5|XX= PP =XX= PP =XX|||",
+        "  |XX= PP =XX= PP =XX|  ",
+        "  |XX= PP =XX= PP =XX|  ",
+        "|2|XX= PP =XX= PP =XX|2|",
+        "  |XX= PP =XX= PP =XX|  ",
+        "c |XX= PP =XX= PP =XX|  ",
+        "c |XX= PP =XX= PP =XX|  ",
+        "  |XX= PP =XX= PP =XX|cc",
+        "|2|XX= PP =XX= PP =XX|||",
+        "  |XX=YPP =XX= PPY=XX|c ",
+        "  |||| PP =XX= PP ||||c ",
+        "  icc| PP ==== PP |F cc ",
+        "    F| PP      PP |F c  ",
+        "    F| PP  PP  PP |     "
+      ],
+      "palettes": [ "microlab" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "microlab_generic_hallway_straight_isolated_tile",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "|####| PP  PP  PP |####|",
+        "|####| PP      PP |####|",
+        "|####| PP ==== PP |####|",
+        "|#|||| PP =XX= PP ||||#|",
+        "|#|XX= PP =XX= PP =XX|#|",
+        "|#|XX==[[==XX==[[==XX|#|",
+        "|#|XX= PP =XX= PP =XX|#|",
+        "|#|XX= PP =XX= PP =XX|#|",
+        "|#|XX= PP =XX= PP =XX|#|",
+        "|#|XX= PP =XX= PP =XX|#|",
+        "|#|XX= PP =XX= PP =XX|#|",
+        "|#|XX= PP =XX= PP =XX|#|",
+        "|#|XX= PP =XX= PP =XX|#|",
+        "|#|XX= PP =XX= PP =XX|#|",
+        "|#|XX= PP =XX= PP =XX|#|",
+        "|#|XX= PP =XX= PP =XX|#|",
+        "|#|XX= PP =XX= PP =XX|#|",
+        "|#|XX= PP =XX= PP =XX|#|",
+        "|#|XX= PP =XX= PP =XX|#|",
+        "|#|XX=YPP =XX= PPY=XX|#|",
+        "|#|||| PP =XX= PP ||||#|",
+        "|####| PP ==== PP |####|",
+        "|####| PP      PP |####|",
+        "|||||| PP  PP  PP ||||||"
+      ],
+      "palettes": [ "microlab" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "microlab_generic_hallway_straight_tile",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        " cc c| PP  PP  PP |c c  ",
+        " cc c| PP  PP  PP |c    ",
+        "    c| PP  PP  PP |cci  ",
+        "  |||| PP  PP  PP ||||F ",
+        " F|XX= PP  PP  PP =XX|F ",
+        "|||XX= PP  PP  PP =XX|||",
+        " F|XX= PP  PP  PP =XX|c ",
+        " F|XX= PP  PP  PP =XX|c ",
+        " F|XX= PP      PP =XX|i ",
+        "  |XX=            =XX|c ",
+        "|5||||            ||||||",
+        "   2  Y          Y 2    ",
+        "   2  Y          Y 2    ",
+        "|2||||            ||2|||",
+        "   hc|            |c    ",
+        "cc  c| PP      PP |6    ",
+        "cc  6| PP  PP  PP |c c  ",
+        "     | PP  PP  PP |ciccc",
+        "|2|||| PP  PP  PP ||||||",
+        "  ch | PP  PP  PP |     ",
+        "  cc | PP  PP  PP |F i  ",
+        "  ch | PP  PP  PP |F c  ",
+        "  cc | PP  PP  PP |F i  ",
+        "     | PP  PP  PP |     "
+      ],
+      "palettes": [ "microlab" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "microlab_generic_hallway_curved_tile",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        " cc c||||||||||||||c c  ",
+        " cc c|############|c    ",
+        "    c|############|cci  ",
+        "  |||||||||||||||||c  h ",
+        " F|XXXXXXXXXXXXXXX|cccc ",
+        "|||XX=============||||||",
+        " F|XX=      d           ",
+        " F|XX=     hd     PPPPPP",
+        " F|XX=   dd6d     PPPPPP",
+        "  |XX=                  ",
+        "|5||||    PPPP          ",
+        "   2      PPPP    PPPPPP",
+        "   2      PPPP    PPPPPP",
+        "|2||||    PPPP          ",
+        "   hc|                  ",
+        "cc  c|            PPPPPP",
+        "cc  6|            PPPPPP",
+        "     |                  ",
+        "|2|||| PP  PP  PP ||||||",
+        "  ch | PP  PP  PP |     ",
+        "  cc | PP  PP  PP |F i  ",
+        "  ch | PP  PP  PP |F c  ",
+        "  cc | PP  PP  PP |F i  ",
+        "     | PP  PP  PP |     "
+      ],
+      "palettes": [ "microlab" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "microlab_generic_hallway_tee_tile",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        " cc  ||||||  ||||||     ",
+        " cc  2   [   [    2     ",
+        "     |   =   =    |     ",
+        "  ||||||||||||||||||||F ",
+        " F|XXXXXXXXXXXXXXXXXX|F ",
+        "|||==================|||",
+        "  Y                  Y  ",
+        "PPPPPP PPPPPPPPPP  PPPPP",
+        "PPPPPP PPPPPPPPPP  PPPPP",
+        "                        ",
+        "====== PP ==== PP ======",
+        "=XXXX= PP =XX= PP =XXXX=",
+        "=XXXX= PP =XX= PP =XXXX=",
+        "====== PP ==== PP ======",
+        "       PP      PP       ",
+        "PPPPP  PP  PP  PP  PPPPP",
+        "PPPPP  PP  PP  PP  PPPPP",
+        "  Y    PP      PP    Y  ",
+        "|||=== PP ==== PP ===|||",
+        " F|XX=YPP =XX= PPY=XX|c ",
+        " F|||| PP =XX= PP ||||c ",
+        "  icc| PP ==== PP |F cc ",
+        "    F| PP      PP |F c  ",
+        "    F| PP  PP  PP |     "
+      ],
+      "palettes": [ "microlab" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "microlab_generic_hallway_four_way_tile",
+    "method": "json",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        " cc  | PP      PP |     ",
+        " cc  | PP      PP |     ",
+        "     | PP ==== PP |     ",
+        "  |||| PP =XX= PP ||||F ",
+        " F|XX=YPP =XX= PP =XX|F ",
+        "|||=== PP ==== PP ===|||",
+        "  Y    PP      PP    Y  ",
+        "PPPPPP PP  PP  PP  PPPPP",
+        "PPPPPP PP  PP  PP  PPPPP",
+        "       PP      PP       ",
+        "====== PP ==== PP ======",
+        "=XXXX= PP =XX= PP =XXXX=",
+        "=XXXX= PP =XX= PP =XXXX=",
+        "====== PP ==== PP ======",
+        "       PP      PP       ",
+        "PPPPP  PP  PP  PP  PPPPP",
+        "PPPPP  PP  PP  PP  PPPPP",
+        "  Y    PP      PP    Y  ",
+        "|||=== PP ==== PP ===|||",
+        " F|XX=YPP =XX= PPY=XX|c ",
+        " F|||| PP =XX= PP ||||c ",
+        "  icc| PP ==== PP |F cc ",
+        "    F| PP      PP |F c  ",
+        "    F| PP  PP  PP |     "
+      ],
+      "palettes": [ "microlab" ]
+    }
+  }
+]

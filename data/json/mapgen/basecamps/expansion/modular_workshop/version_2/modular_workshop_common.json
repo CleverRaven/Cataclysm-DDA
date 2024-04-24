@@ -1,0 +1,246 @@
+[
+  {
+    "type": "palette",
+    "id": "fbmw_2_common_palette",
+    "terrain": { ";": "t_dirt" },
+    "furniture": {
+      "t": "f_table",
+      "L": "f_dresser",
+      "x": "f_kiln_empty",
+      "f": "f_forge_rock",
+      "c": "f_workbench",
+      "h": "f_stool",
+      "A": "f_anvil",
+      "r": "f_rack_wood",
+      "Q": "f_bellows",
+      "b": "f_bench",
+      "z": "f_55gal_firebarrel",
+      "k": "f_clay_kiln",
+      "M": "f_armchair",
+      "B": "f_bookcase",
+      ";": "f_clear"
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmw_2",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "            ; ;;;;;;    ",
+        "            ; ;;;;;;    ",
+        "            ; ;;;;;;    ",
+        "              ;;;;;;    ",
+        "              ;;;;;;    ",
+        "                        ",
+        "                        ",
+        ";;;;;;                  ",
+        ";;;;;;                  ",
+        ";;;;;;                  ",
+        ";;;;;;                  ",
+        ";;;;;;                  ",
+        "                        ",
+        "     ;                  ",
+        "                ;;;;    ",
+        "    ;;;         ;;;;    ",
+        ";;;;;;;;;;;;;;;;;;;;    ",
+        ";;;;;;;;;;;;;;;;;;;;    ",
+        ";;;;;;;;;;;;;;;;;;;;    ",
+        ";;;;;;;;;;;;;;;;;;;;    ",
+        ";;;;;;;;;;;;;;;;;;;;    ",
+        ";;;;;;;;;;;;;;;;;;;;    ",
+        ";;;;;;;;;;;;;;;;;;;;    ",
+        "                        "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "fbmw_2_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_workshop_2_0",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmw_2" ], "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmw_2_common_smithy_1",
+    "method": "json",
+    "object": {
+      "set": [
+        { "point": "furniture", "id": "f_fireplace", "x": 14, "y": 17 },
+        { "point": "furniture", "id": "f_forge_rock", "x": 16, "y": 17 },
+        { "point": "furniture", "id": "f_table", "x": 17, "y": 17 },
+        { "point": "furniture", "id": "f_dresser", "x": 18, "y": 17 }
+      ],
+      "place_loot": [ { "item": "makeshift_hammer", "x": 17, "y": 17, "chance": 100 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmw_2_common_smithy_2",
+    "method": "json",
+    "object": {
+      "set": [
+        { "point": "furniture", "id": "f_kiln_empty", "x": 17, "y": 14 },
+        { "point": "furniture", "id": "f_kiln_empty", "x": 18, "y": 14 }
+      ],
+      "place_loot": [ { "item": "crucible", "x": 17, "y": 17, "chance": 100 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmw_2_common_smithy_3",
+    "method": "json",
+    "object": {
+      "set": [
+        { "point": "furniture", "id": "f_workbench", "x": 18, "y": 18 },
+        { "point": "furniture", "id": "f_workbench", "x": 18, "y": 19 },
+        { "point": "furniture", "id": "f_workbench", "x": 18, "y": 20 },
+        { "point": "furniture", "id": "f_anvil", "x": 16, "y": 19 }
+      ],
+      "place_loot": [ { "item": "55gal_drum", "x": 16, "y": 20, "chance": 100 }, { "item": "30gal_drum", "x": 16, "y": 21, "chance": 100 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmw_2_common_smithy_4",
+    "method": "json",
+    "object": {
+      "set": [
+        { "point": "furniture", "id": "f_table", "x": 9, "y": 17 },
+        { "point": "furniture", "id": "f_armchair", "x": 10, "y": 17 },
+        { "point": "furniture", "id": "f_bookcase", "x": 11, "y": 17 },
+        { "point": "furniture", "id": "f_rack_wood", "x": 12, "y": 17 },
+        { "point": "furniture", "id": "f_stool", "x": 13, "y": 18 }
+      ],
+      "place_loot": [
+        { "item": "metalworking_tongs", "x": 18, "y": 18, "chance": 100 },
+        { "item": "chisel", "x": 18, "y": 18, "chance": 100 },
+        { "item": "hammer", "x": 18, "y": 18, "chance": 100 },
+        { "item": "swage", "x": 18, "y": 18, "chance": 100 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmw_2_common_smithy_5",
+    "method": "json",
+    "object": {
+      "set": [ { "point": "furniture", "id": "f_bellows", "x": 15, "y": 17 } ],
+      "place_loot": [
+        { "item": "hammer_sledge", "x": 18, "y": 19, "chance": 100 },
+        { "item": "copper_knife", "x": 18, "y": 19, "chance": 100 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmw_2_common_smithy_6",
+    "method": "json",
+    "object": {
+      "set": [
+        { "point": "furniture", "id": "f_rack", "x": 9, "y": 21 },
+        { "point": "furniture", "id": "f_rack", "x": 10, "y": 21 },
+        { "point": "furniture", "id": "f_rack", "x": 12, "y": 21 },
+        { "point": "furniture", "id": "f_rack", "x": 12, "y": 20 },
+        { "point": "furniture", "id": "f_drophammer", "x": 11, "y": 21 }
+      ],
+      "place_loot": [ { "item": "wrench", "x": 18, "y": 20, "chance": 100 }, { "item": "pliers", "x": 18, "y": 20, "chance": 100 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmw_2_common_pottery",
+    "method": "json",
+    "object": { "set": [ { "point": "furniture", "id": "f_clay_kiln", "x": 1, "y": 18 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmw_2_common_pottery_1",
+    "method": "json",
+    "object": {
+      "set": [
+        { "point": "furniture", "id": "f_rack", "x": 1, "y": 17 },
+        { "point": "furniture", "id": "f_rack", "x": 2, "y": 17 },
+        { "point": "furniture", "id": "f_rack", "x": 4, "y": 17 },
+        { "point": "furniture", "id": "f_rack", "x": 5, "y": 17 },
+        { "point": "furniture", "id": "f_rack", "x": 6, "y": 17 },
+        { "point": "furniture", "id": "f_rack", "x": 7, "y": 17 },
+        { "point": "furniture", "id": "f_workbench", "x": 3, "y": 19 },
+        { "point": "furniture", "id": "f_workbench", "x": 4, "y": 19 },
+        { "point": "furniture", "id": "f_workbench", "x": 5, "y": 19 },
+        { "point": "furniture", "id": "f_stool", "x": 4, "y": 20 },
+        { "point": "furniture", "id": "f_rack", "x": 1, "y": 19 },
+        { "point": "furniture", "id": "f_rack", "x": 1, "y": 20 },
+        { "point": "furniture", "id": "f_rack", "x": 1, "y": 21 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmw_2_common_glassblower",
+    "method": "json",
+    "object": {
+      "set": [
+        { "point": "furniture", "id": "f_bookcase", "x": 1, "y": 8 },
+        { "point": "furniture", "id": "f_forge_rock", "x": 3, "y": 8 },
+        { "point": "furniture", "id": "f_bookcase", "x": 1, "y": 9 },
+        { "point": "furniture", "id": "f_bookcase", "x": 1, "y": 10 },
+        { "point": "furniture", "id": "f_armchair", "x": 2, "y": 10 },
+        { "point": "furniture", "id": "f_workbench", "x": 3, "y": 10 }
+      ],
+      "place_loot": [
+        { "item": "tongs", "x": 3, "y": 10, "chance": 100 },
+        { "item": "chisel", "x": 3, "y": 10, "chance": 100 },
+        { "item": "crucible", "x": 3, "y": 10, "chance": 100 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmw_2_common_recreation",
+    "method": "json",
+    "object": {
+      "set": [
+        { "point": "furniture", "id": "f_bench", "x": 4, "y": 15 },
+        { "point": "furniture", "id": "f_bench", "x": 5, "y": 15 },
+        { "point": "furniture", "id": "f_bench", "x": 6, "y": 15 },
+        { "point": "furniture", "id": "f_55gal_firebarrel", "x": 5, "y": 13 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmw_2_common_tanner",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rows": [
+        " t r",
+        " h B",
+        "   r",
+        "    "
+      ],
+      "palettes": [ "fbmw_2_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmw_2_common_tanner",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmw_2_common_tanner" ], "x": 15, "y": 1 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmw_2_salt_water_pump",
+    "method": "json",
+    "object": {
+      "set": [
+        { "line": "terrain", "id": "t_dirt", "x": 12, "x2": 12, "y": 0, "y2": 1 },
+        { "point": "terrain", "id": "t_salt_water_pump", "x": 12, "y": 2 }
+      ]
+    }
+  }
+]

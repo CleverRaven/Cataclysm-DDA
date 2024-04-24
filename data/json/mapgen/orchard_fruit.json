@@ -1,0 +1,193 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "orchard" ],
+    "object": {
+      "fill_ter": "t_region_groundcover_urban",
+      "rows": [
+        "||||||||||f__f||||||||||",
+        "|7fff7fff7f__ffffffffff|",
+        "|f    bb&  __   bb    f|",
+        "|f __________________ f|",
+        "|f _fffffff__       _ f|",
+        "|7 _f7 7 7f__ 11 22 _ f|",
+        "|f _fffffff__ 11 22 _ f|",
+        "|f __________       _ f|",
+        "|f _ bb    __    33 _ f|",
+        "|f _    ###++### 33 _ f|",
+        "|f _    #D.....#    _ f|",
+        "|f _ bb #D..h..#    _ f|",
+        "|f _____+..TT..offf _ f|",
+        "|f _    #D.h.h.#    _ f|",
+        "|7 _ 7  #D.....#  7 _ 7|",
+        "|f _    ##o##o##    _ f|",
+        "|f _                _ f|",
+        "|f _                _ f|",
+        "|7 _ 7   7    7   7 _ 7|",
+        "|f _       bb      &_ f|",
+        "|f __________________ f|",
+        "|f _                  f|",
+        "|7f_f7fff7ffff7fff7fff7|",
+        "|||_||||||||||||||||||||"
+      ],
+      "palettes": [ "park_nature_palette" ],
+      "terrain": {
+        "+": "t_door_c",
+        " ": "t_region_groundcover_urban",
+        "7": "t_region_tree_fruit",
+        "D": "t_floor",
+        "T": "t_floor",
+        "o": "t_window_domestic",
+        "#": "t_wall_wood"
+      },
+      "furniture": { "D": "f_rack_wood", "f": "f_region_flower_decorative" },
+      "items": { "D": { "item": "supplies_farming", "chance": 70, "repeat": [ 1, 5 ] } },
+      "place_loot": [ { "item": "30gal_barrel", "x": 7, "y": 13, "chance": 80 } ],
+      "sealed_item": {
+        "1": { "item": { "item": "seed_tomato" }, "furniture": "f_planter_seedling", "chance": 100 },
+        "2": { "item": { "item": "seed_corn" }, "furniture": "f_planter_seedling", "chance": 100 },
+        "3": { "item": { "item": "seed_carrot" }, "furniture": "f_planter_seedling", "chance": 100 }
+      },
+      "place_monsters": [
+        { "monster": "GROUP_PARK_SCENIC", "x": 12, "y": 14, "chance": 3 },
+        { "monster": "GROUP_PARK_ANIMAL", "x": [ 3, 20 ], "y": [ 16, 20 ], "chance": 3 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "orchard_roof" ],
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_shingle_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "        --------        ",
+        "        -......-        ",
+        "        -......-        ",
+        "        -......-        ",
+        "        5......-        ",
+        "        -......-        ",
+        "        --------        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_shingle_flat_roof" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "orchard_1" ],
+    "object": {
+      "fill_ter": "t_region_groundcover_urban",
+      "rows": [
+        "||||__||||||||||||||||||",
+        "|fff__fffffffffffffffff|",
+        "|   __f7  7f           |",
+        "|   __ffffff  7  7  7  |",
+        "|   ________           |",
+        "|   __&    _           |",
+        "| ##++##   _  7  7  7  |",
+        "| #h...#   _           |",
+        "| #h...o b _           |",
+        "| o...H# b__  7  7  7  |",
+        "| #h..Ho b _           |",
+        "| #d..H#   _           |",
+        "| ###o##   _  7  7  7  |",
+        "|          _           |",
+        "| __________           |",
+        "| _111  111_  7  7  7  |",
+        "| _111  111_           |",
+        "| _111  111_           |",
+        "| _        _  7  7  7  |",
+        "| _22 22 22_           |",
+        "| _22 22 22_           |",
+        "| __________  7  7  7  |",
+        "|                      |",
+        "||||||||||||||||||||||||"
+      ],
+      "palettes": [ "park_nature_palette" ],
+      "terrain": {
+        "+": "t_door_c",
+        " ": "t_region_groundcover_urban",
+        "7": "t_region_tree_fruit",
+        "H": "t_thconc_floor",
+        "h": "t_thconc_floor",
+        "d": "t_thconc_floor",
+        "o": "t_window_domestic",
+        ".": "t_thconc_floor",
+        "#": "t_wall_log"
+      },
+      "furniture": { "H": "f_sofa", "f": "f_region_flower_decorative" },
+      "sealed_item": {
+        "1": { "item": { "item": "seed_blueberries" }, "furniture": "f_planter_seedling", "chance": 100 },
+        "2": { "item": { "item": "seed_strawberries" }, "furniture": "f_planter_seedling", "chance": 100 }
+      },
+      "place_loot": [
+        { "group": "supplies_farming", "x": 6, "y": 13, "chance": 50 },
+        { "group": "supplies_farming", "x": 4, "y": 11, "chance": 15 },
+        { "group": "supplies_farming", "x": 6, "y": 7, "chance": 15 },
+        { "item": "30gal_barrel", "x": 3, "y": 13, "chance": 80 }
+      ],
+      "place_monsters": [
+        { "monster": "GROUP_PARK_SCENIC", "x": 12, "y": 14, "chance": 3 },
+        { "monster": "GROUP_PARK_ANIMAL", "x": [ 3, 20 ], "y": [ 16, 20 ], "chance": 3 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "orchard_roof_1" ],
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_shingle_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "  ------                ",
+        "  -....-                ",
+        "  -....-                ",
+        "  -....-                ",
+        "  -....-                ",
+        "  -....-                ",
+        "  -5----                ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_shingle_flat_roof" }
+    }
+  }
+]

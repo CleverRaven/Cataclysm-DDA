@@ -1,0 +1,74 @@
+[
+  {
+    "id": "software",
+    "type": "GENERIC",
+    "name": { "str_sp": "software" },
+    "symbol": "#",
+    "container": "usb_drive",
+    "description": "IF YOU ARE SEEING THIS IT IS A BUG.",
+    "flags": [ "IRREMOVABLE", "NO_DROP" ]
+  },
+  {
+    "id": "software_useless",
+    "copy-from": "software",
+    "type": "GENERIC",
+    "name": { "str_sp": "misc software" },
+    "description": "A miscellaneous piece of hobby software.  Probably useless.",
+    "price": "3 USD",
+    "price_postapoc": "0 cent"
+  },
+  {
+    "id": "software_hacking",
+    "copy-from": "software",
+    "type": "GENERIC",
+    "name": { "str_sp": "hackPRO" },
+    "description": "A piece of hacking software.",
+    "price": "8 USD",
+    "price_postapoc": "20 USD"
+  },
+  {
+    "id": "software_medical",
+    "copy-from": "software",
+    "type": "GENERIC",
+    "name": { "str_sp": "MediSoft" },
+    "description": "A piece of medical software.",
+    "price": "6 USD",
+    "price_postapoc": "0 cent"
+  },
+  {
+    "id": "software_math",
+    "copy-from": "software",
+    "type": "GENERIC",
+    "name": { "str_sp": "MatheMAX" },
+    "description": "A piece of mathematical software.",
+    "price": "5 USD",
+    "price_postapoc": "0 cent"
+  },
+  {
+    "id": "software_blood_data",
+    "copy-from": "software",
+    "type": "GENERIC",
+    "name": { "str_sp": "infection data" },
+    "description": "Medical data on zombie blood.",
+    "price": "2 USD",
+    "price_postapoc": "0 cent"
+  },
+  {
+    "id": "software_lab_data",
+    "copy-from": "software",
+    "type": "GENERIC",
+    "name": { "str_sp": "lab data" },
+    "description": "Research archives from a government laboratory.",
+    "price": "2 USD",
+    "price_postapoc": "0 cent"
+  },
+  {
+    "id": "software_electronics_reference",
+    "copy-from": "software",
+    "type": "GENERIC",
+    "name": { "str": "integrated circuit datasheet archives", "str_pl": "misc software" },
+    "description": "Huge archives of numerous IC circuit datasheets from several major manufacturers.  Probably valuable to the right person, as it would be hard to salvage and reuse these components without them.",
+    "price": "400 USD",
+    "price_postapoc": "0 cent"
+  }
+]

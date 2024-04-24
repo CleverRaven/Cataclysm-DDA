@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="installTitle">Installing game data...</string>
+    <string name="upgradeTitle">Upgrading game data...</string>
+    <string name="helpTitle">Help &amp; Controls</string>
+    <string name="helpMessage">"Swipe" for directional movement (hold for virtual joystick). "Tap" to confirm selection in menu or Pause one turn in-game (hold to Pause several turns in-game). "Double tap" to cancel or go back in menus (works like Escape key). "Pinch" to zoom in/out (in-game). Use hardware "Back" button to toggle virtual keyboard (hold to toggle keyboard shortcuts).</string>
+    <string name="accessibilityServicesTitle">Accessibility Services Warning</string>
+    <string name="accessibilityServicesMessage">If swipe commands and shortcuts menus are not working in game, you might want to disable one of the following accessibility services/software that interact with touchscreen (swipe assists, auto-clickers, one-handed mode, etc.):\n%1$s</string>
+    <string name="softwareRendering">Software rendering</string>
+    <string name="forceFullscreen">Force fullscreen</string>
+    <string name="trapBackButton">Trap Back button</string>
+    <string name="nativeAndroidUI">Native Android UI menus</string>
+    <string name="settings">Settings</string>
+    <string name="startGame">Start game</string>
+    <string name="showHelp">Show help</string>
+    <string name="showAccessibilitySettings">Show accessibility settings menu</string>
+    <string name="crashAlert">The game did not quit properly last time</string>
+    <string name="crashMessage">The crash report located in ./config/crash.log may help developers troubleshoot program errors.</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="unavailable">Unavailable</string>
+    <string name="unavailableOption">The option you chose is not available.</string>
+</resources>

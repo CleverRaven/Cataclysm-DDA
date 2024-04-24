@@ -1,0 +1,20 @@
+[
+  {
+    "type": "effect_type",
+    "id": "spell_karma_arms_eff",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "stalker_eyes_eff",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "devil_tail_eff",
+    "name": [ "" ],
+    "desc": [ "" ]
+  }
+]

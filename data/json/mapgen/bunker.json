@@ -1,0 +1,263 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "bunker_roof",
+    "object": {
+      "fill_ter": "t_open_air",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "      ::::::::::        ",
+        "      ::::::::::        ",
+        "      ::::::::::        ",
+        "      ::::::::::        ",
+        "      ::::::::::        ",
+        "      ::::::::::        ",
+        "::::  ::::::::::   :::: ",
+        "::::  ::::::::::   :::: ",
+        "::::  ::::::::::   :::: ",
+        "      ::::  ::::        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { ":": "t_concrete" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "bunker" ],
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "----------------------- ",
+        "|                     | ",
+        "|        aaaa         | ",
+        "|        aaaa         | ",
+        "|        aaaa         | ",
+        "|                     | ",
+        "|     MMMMMMMMMM      | ",
+        "|     MMMMMMMMMM      | ",
+        "|     MM>,,,,,MM      | ",
+        "|     MM,,==,,MM      | ",
+        "|     MM,,,,=,MM      | ",
+        "|     MMf,,,=,MM      | ",
+        "//*/  MM,,==,,MM   /*// ",
+        "I#,/  MM,,tt,,MM   /,#I ",
+        "I00/  MMMMDDMMMM   /00I ",
+        "|     MMMM  6MMM      | ",
+        "|     H_      _H      | ",
+        "|     HHHH  HHHH      | ",
+        "|                     | ",
+        "|                     | ",
+        "|                     | ",
+        "--------++++++--------- ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": {
+        " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "H": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "_": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "#": "t_floor",
+        "*": "t_door_c",
+        "+": "t_chaingate_l",
+        ",": "t_floor",
+        "-": "t_chainfence_h",
+        "/": "t_concrete_wall",
+        "0": "t_window",
+        "6": "t_card_military",
+        ">": "t_stairs_down",
+        "D": "t_door_metal_locked",
+        "I": "t_ballistic_glass",
+        "M": "t_wall_metal",
+        "|": "t_chainfence_v",
+        "a": "t_pit_corpsed"
+      },
+      "furniture": { "#": "f_table", "H": "f_sandbag_half", "t": "f_table", "f": "f_30gal_firebarrel" },
+      "traps": { "=": "tr_rollmat" },
+      "monster": { "_": { "monster": "mon_turret_searchlight" } },
+      "place_monsters": [
+        { "monster": "GROUP_MIL_MASS_GRAVE", "density": 0.6, "x": [ 1, 21 ], "y": [ 1, 5 ] },
+        { "monster": "GROUP_MIL_BASE", "density": 0.6, "x": [ 1, 21 ], "y": [ 16, 20 ] },
+        { "monster": "GROUP_MIL_STRONG", "density": 0.4, "x": [ 8, 13 ], "y": [ 8, 13 ] }
+      ],
+      "place_items": [ { "item": "mre_accessory_pack", "x": [ 8, 13 ], "y": [ 8, 13 ], "chance": 100, "repeat": [ 5, 12 ] } ],
+      "place_item": [
+        { "item": "mre_package", "x": [ 8, 13 ], "y": [ 8, 13 ], "chance": 100, "repeat": [ 5, 12 ] },
+        { "item": "ash", "x": [ 10, 10 ], "y": [ 12, 12 ], "chance": 100, "repeat": [ 500, 1200 ] },
+        { "item": "223_casing", "x": [ 8, 13 ], "y": [ 8, 13 ], "chance": 100, "repeat": [ 5, 60 ] },
+        { "item": "30gal_drum", "x": [ 8, 13 ], "y": [ 8, 13 ], "chance": 10 },
+        { "item": "gasoline", "x": [ 8, 13 ], "y": [ 8, 13 ], "chance": 10 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "bunker_basement_1" ],
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "########################",
+        "#MMMMMMMMMMMMMMMMMMMMMM#",
+        "#Ms  6 {{M3 5M n 2MbCbM#",
+        "#Ms ct   ^   +    /   M#",
+        "#Mt     2M   MCCCgMbCbM#",
+        "#MMMMMMMMMM  MMMMMMMMMM#",
+        "#M2 cd|  9M  2Mb  23 bM#",
+        "#ME cd|   + ~ Ml     lM#",
+        "#ME   M < M   *      bM#",
+        "#MMMM^MMMMM   Mb     lM#",
+        "#MU *         Ml     bM#",
+        "#MMMMMMMMMM   Mlb bl lM#",
+        "#Mc t t t2M   MMMMMMMMM#",
+        "#Mt c c cWM   M}   2 %M#",
+        "#Mc       *   *       M#",
+        "#MMCCCpCCCM   MYsssY{{M#",
+        "#M2      TM   MMMMMMMMM#",
+        "#MSBOCCfCCM5      *  SM#",
+        "#MMMMMMMMMMM+MMM*MM2 SM#",
+        "#MrrrrrrG     M   M   M#",
+        "#M          c M*M*M*M*M#",
+        "#MLLLLLLG  C6CM1M1M&M&M#",
+        "#MMMMMMMMMMMMMMMMMMMMMM#",
+        "########################"
+      ],
+      "palettes": [ "basement_bunker" ],
+      "terrain": { "9": "t_card_reader_broken" },
+      "furniture": {
+        "r": "f_rack",
+        "f": "f_fridge",
+        "s": "f_sofa",
+        "t": "f_table",
+        "d": "f_desk",
+        "c": "f_chair",
+        "b": "f_bunkbed",
+        "1": "f_shower",
+        "S": "f_sink",
+        "O": "f_oven",
+        "C": "f_counter",
+        "p": "f_counter_gate_c",
+        "T": "f_trashcan",
+        "B": "f_cupboard",
+        "l": "f_locker",
+        "L": "f_locker",
+        "E": "f_locker",
+        "G": "f_locker",
+        "Y": "f_table",
+        "g": "f_glass_fridge",
+        "{": "f_bookcase",
+        "}": "f_pinball_machine",
+        "%": "f_floor_canvas",
+        "2": "f_air_conditioner",
+        "3": "f_speaker_cabinet",
+        "U": "f_utility_shelf"
+      },
+      "items": {
+        "b": { "item": "bed", "chance": 60 },
+        "{": { "item": "bunker_basement_books", "chance": 70 },
+        "T": { "item": "trash_cart", "chance": 50 },
+        "l": { "item": "bunker_basement_clothing", "chance": 50 },
+        "t": { "item": "dining", "chance": 45 },
+        "r": [
+          { "item": "milspec_arsenal_group_only_guns", "chance": 100 },
+          { "item": "arsenal_mics_group", "chance": 70 },
+          { "item": "c4_box_part", "chance": 10 },
+          { "item": "grenade_can_pa120_grenades_full", "chance": 10 }
+        ],
+        "U": { "item": "SUS_janitors_closet", "chance": 100 },
+        "L": { "item": "milspec_arsenal_group_only_ammo", "chance": 100 },
+        "G": { "item": "arsenal_armor_collection", "chance": 100 },
+        "E": { "item": "guns_rifle_milspec", "chance": 100 }
+      },
+      "place_fields": [ { "field": "fd_blood", "x": 2, "y": 3 }, { "field": "fd_blood", "x": 3, "y": 3 } ],
+      "place_loot": [
+        { "group": "hospital_medical_items", "x": [ 14, 16 ], "y": 4, "chance": 70, "repeat": [ 1, 3 ] },
+        { "group": "bunker_basement_drugs", "x": [ 14, 16 ], "y": 4, "chance": 80, "repeat": [ 1, 3 ] },
+        { "group": "dining", "x": [ 8, 9 ], "y": 17, "chance": 75, "repeat": [ 1, 2 ] },
+        { "group": "oven", "x": 4, "y": 17, "chance": 70 },
+        { "group": "cleaning", "x": 2, "y": 10, "chance": 70 },
+        { "group": "bunker_basement_suicide", "x": 3, "y": 3 },
+        { "item": "mess_tray", "x": [ 5, 6 ], "y": 17, "chance": 50, "repeat": [ 4, 5 ] },
+        { "item": "whiskey", "x": 5, "y": 3 },
+        { "item": "glass", "x": 5, "y": 3 },
+        { "item": "militarymap", "x": 5, "y": 3 },
+        { "item": "anesthetic_kit", "x": 17, "y": 4, "ammo": 100 },
+        { "item": "television", "x": 17, "y": 13, "chance": 95 },
+        { "item": "stereo", "x": 19, "y": 15, "chance": 80 }
+      ],
+      "vehicles": { "n": { "vehicle": "hospital_bed", "chance": 100, "status": 0 } },
+      "monster": { "~": { "monster": "mon_turret_rifle" } }
+    }
+  },
+  {
+    "type": "item_group",
+    "id": "bunker_basement_books",
+    "items": [
+      { "group": "book_military", "prob": 50 },
+      { "group": "book_survival", "prob": 50 },
+      { "group": "magazines", "prob": 80 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "bunker_basement_drugs",
+    "items": [ { "group": "drugs_pharmacy", "prob": 70 }, { "group": "drugs_soldier", "prob": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "bunker_basement_food",
+    "items": [ { "group": "cannedfood", "prob": 80 }, { "group": "pasta", "prob": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "bunker_basement_suicide",
+    "subtype": "collection",
+    "items": [
+      { "item": "m1911", "charges": 6, "ammo-item": "45_acp" },
+      { "item": "45_casing", "charges-min": 1, "charges-max": 1 },
+      { "group": "underwear" },
+      { "item": "corpse" }
+    ]
+  },
+  {
+    "id": "bunker_basement_clothing",
+    "type": "item_group",
+    "items": [
+      { "group": "clothing_soldier_shirt", "prob": 20 },
+      { "item": "jacket_army", "prob": 20 },
+      { "item": "pants_army", "prob": 20 },
+      { "item": "boots_combat", "prob": 20 },
+      { "item": "helmet_army", "prob": 20 },
+      { "item": "gloves_tactical", "prob": 10 },
+      { "item": "elbow_pads", "prob": 10 },
+      { "group": "clothing_tactical_leg", "prob": 15 },
+      { "group": "clothing_tactical_torso", "prob": 15 },
+      { "group": "underwear" },
+      { "distribution": [ { "item": "socks", "prob": 95 }, { "item": "socks_wool", "prob": 5 } ] },
+      {
+        "distribution": [
+          { "group": "clothing_glasses", "prob": 60 },
+          { "item": "glasses_bal", "prob": 30 },
+          { "item": "goggles_nv", "prob": 5 },
+          { "item": "goggles_ir", "prob": 5 }
+        ],
+        "prob": 20
+      },
+      { "group": "clothing_watch", "prob": 5 }
+    ]
+  }
+]

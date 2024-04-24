@@ -1,0 +1,49 @@
+[
+  {
+    "type": "vehicle_part",
+    "id": "wing_mirror",
+    "name": { "str": "wing mirror" },
+    "categories": [ "other" ],
+    "color": "light_cyan",
+    "broken_color": "dark_gray",
+    "damage_modifier": 10,
+    "durability": 20,
+    "description": "A small mirror, mounted outside the vehicle.  If you see the mirror, your vision is expanded as though you were standing where the mirror is.",
+    "folded_volume": "500 ml",
+    "item": "mirror",
+    "location": "structure",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "100 s", "using": [ [ "vehicle_screw", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "100 s", "using": [ [ "vehicle_screw", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
+    },
+    "flags": [ "VISION", "PROTRUSION", "UNMOUNT_ON_DAMAGE" ],
+    "breaks_into": [ { "item": "glass_shard", "count": [ 0, 16 ] } ],
+    "variants": [
+      { "id": "left", "label": "Left", "symbols": "o", "symbols_broken": "*" },
+      { "id": "right", "label": "Right", "symbols": "o", "symbols_broken": "*" }
+    ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "inboard_mirror",
+    "name": { "str": "inboard mirror" },
+    "categories": [ "other" ],
+    "color": "light_cyan",
+    "broken_color": "dark_gray",
+    "damage_modifier": 10,
+    "durability": 30,
+    "description": "A small mirror, mounted inside the vehicle.  If you see the mirror, your vision is expanded as though you were standing where the mirror is.",
+    "folded_volume": "250 ml",
+    "item": "mirror",
+    "location": "on_windshield",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "100 s", "using": [ [ "vehicle_screw", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "100 s", "using": [ [ "vehicle_screw", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
+    },
+    "flags": [ "VISION" ],
+    "breaks_into": [ { "item": "glass_shard", "count": [ 0, 16 ] } ],
+    "variants": [ { "symbols": "o", "symbols_broken": "*" } ]
+  }
+]

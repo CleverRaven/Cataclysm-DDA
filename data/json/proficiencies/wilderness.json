@@ -1,0 +1,90 @@
+[
+  {
+    "type": "proficiency",
+    "id": "prof_fibers",
+    "category": "prof_survival",
+    "name": { "str": "Fiber Twisting" },
+    "description": "You've got a basic grasp of the theory of how to twist and arrange fibers into a more durable cord.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.5,
+    "//": "Experimental data: I actually went camping and just sat around twisting cordage until I felt like I had a good handle on it.",
+    "time_to_learn": "4 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_fibers_rope",
+    "category": "prof_survival",
+    "name": { "str": "Ropemaking" },
+    "description": "Making twisted fibers into durable and useful rope.",
+    "can_learn": true,
+    "time_to_learn": "8 h",
+    "default_time_multiplier": 3,
+    "default_skill_penalty": 0.15,
+    "required_proficiencies": [ "prof_fibers" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_tanning_basic",
+    "category": "prof_survival",
+    "name": { "str": "Basic Tanning" },
+    "description": "You're familiar with the theory behind turning raw hides into leather.",
+    "can_learn": true,
+    "time_to_learn": "4 h",
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.5
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_tanning",
+    "category": "prof_survival",
+    "name": { "str": "Skilled Tanning" },
+    "description": "You have a lot of practice and experience with processing hides to leather, as well as related techniques like making boiled leather.",
+    "can_learn": true,
+    "time_to_learn": "8 h",
+    "default_time_multiplier": 2,
+    "default_skill_penalty": 0.2,
+    "required_proficiencies": [ "prof_tanning_basic" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_bow_basic",
+    "category": "prof_archery",
+    "name": { "str": "Archer's Form" },
+    "description": "You have grasped some basic understanding on archery, and find handling bows easier.",
+    "can_learn": true,
+    "time_to_learn": "8 h",
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "bonuses": { "archery": [ { "type": "strength", "value": 2 } ] },
+    "ignore_focus": true
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_bow_expert",
+    "category": "prof_archery",
+    "name": { "str": "Archer's Form (Expert)" },
+    "description": "After significant practice, you have become experienced in the movements used in drawing and firing a bow, and have strengthened those muscles considerably.",
+    "can_learn": true,
+    "time_to_learn": "16 h",
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "required_proficiencies": [ "prof_bow_basic" ],
+    "bonuses": { "archery": [ { "type": "strength", "value": 2 } ] },
+    "ignore_focus": true
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_bow_master",
+    "category": "prof_archery",
+    "name": { "str": "Archer's Form (Master)" },
+    "description": "You have drawn and fired a bow so many times, you probably have a bit of a twist in your spine from it.  You've developed at least a professional-level understanding of the pose and motion of effective archery.",
+    "can_learn": true,
+    "time_to_learn": "32 h",
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "required_proficiencies": [ "prof_bow_expert" ],
+    "bonuses": { "archery": [ { "type": "strength", "value": 2 } ] },
+    "ignore_focus": true
+  }
+]

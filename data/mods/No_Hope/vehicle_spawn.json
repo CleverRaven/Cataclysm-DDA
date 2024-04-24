@@ -1,0 +1,47 @@
+[
+  {
+    "type": "vehicle_spawn",
+    "id": "default_bridge",
+    "spawn_types": [
+      { "//": "Clear section of bridge", "weight": 849000, "vehicle_function": "no_vehicles" },
+      {
+        "//": "Unfueled Vehicle on the bridge",
+        "weight": 1000,
+        "vehicle_json": { "vehicle": "highway", "placement": "highway", "number": 1, "fuel": 0, "status": 1 }
+      },
+      {
+        "//": "Wrecked vehicles",
+        "weight": 30000,
+        "vehicle_json": { "vehicle": "highway_wr", "placement": "road_wreck_t", "number": [ 2, 3 ], "fuel": 0, "status": 1 }
+      },
+      {
+        "//": "Wrecked vehicles",
+        "weight": 30000,
+        "vehicle_json": { "vehicle": "highway_wr", "placement": "road_wreck_b", "number": [ 2, 3 ], "fuel": 0, "status": 1 }
+      },
+      {
+        "//": "Wrecked vehicles",
+        "weight": 30000,
+        "vehicle_json": { "vehicle": "highway_wr", "placement": "road_wreck_l", "number": [ 2, 3 ], "fuel": 0, "status": 1 }
+      },
+      {
+        "//": "Wrecked vehicles",
+        "weight": 30000,
+        "vehicle_json": { "vehicle": "highway_wr", "placement": "road_wreck_r", "number": [ 2, 3 ], "fuel": -1, "status": 1 }
+      },
+      {
+        "//": "Wrecked vehicles",
+        "weight": 30000,
+        "vehicle_json": { "vehicle": "highway_wr", "placement": "road_wreck_c", "number": [ 2, 3 ], "fuel": -1, "status": 1 }
+      }
+    ]
+  },
+  {
+    "type": "vehicle_spawn",
+    "id": "default_parkinglot",
+    "spawn_types": [
+      { "//": "Clear section", "weight": 950000, "vehicle_function": "no_vehicles" },
+      { "//": "Parking lot with vehicles", "weight": 50000, "vehicle_function": "parkinglot" }
+    ]
+  }
+]

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="installTitle">Instalando los datos del juego...</string>
+    <string name="upgradeTitle">Actualizando los datos del juego...</string>
+    <string name="helpTitle">Ayuda &amp; Controles</string>
+    <string name="helpMessage">\"Deslizar\" para el movimiento direccional (mantenlo presionado para el joystick virtual). \"Toque\" para confirmar la selección en el menú o Pausar un turno en-juego (mantenlo presionado para varios turnos en-juego). \"Toque doble\" para cancelar o ir hacia atrás en los menús (funciona como la tecla Escape). \"Pellizcar\" para zoom dentro/fuera (en-juego). Usa el botón \"Atrás\" físico para mostrar/ocultar el teclado virtual (mantenlo pulsado para alternar los atajos de teclado).</string>
+    <string name="softwareRendering">Render por software</string>
+    <string name="forceFullscreen">Forzar pantalla completa</string>
+    <string name="trapBackButton">Capturar Botón de atrás</string>
+    <string name="settings">Opciones</string>
+    <string name="startGame">Comenzar el juego</string>
+    <string name="showHelp">Mostrar ayuda</string>
+    <string name="crashAlert">El juego no finalizó correctamente la última vez</string>
+    <string name="crashMessage">El informe de fallos que se encuentra en ./config/crash.log puede ayudar a los desarrolladores a solucionar los errores del programa. </string>
+    <string name="yes">Sí</string>
+    <string name="no">No</string>
+    <string name="cancel">Cancelar</string>
+    </resources>

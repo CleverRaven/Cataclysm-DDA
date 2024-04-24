@@ -1,0 +1,249 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "water_purifier",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "mechanics",
+    "skills_required": [ "electronics", 1 ],
+    "difficulty": 3,
+    "time": "25 m",
+    "reversible": true,
+    "decomp_learn": 2,
+    "autolearn": true,
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "element", 8 ], [ "crude_heating_element", 8 ] ],
+      [ [ "bottle_glass", 2 ], [ "bottle_plastic", 5 ], [ "bottle_bathroom", 5 ], [ "bottle_plastic_small", 10 ] ],
+      [ [ "hose", 1 ], [ "makeshift_hose", 1 ] ],
+      [ [ "scrap", 3 ] ],
+      [ [ "cable", 5 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "soldering_iron",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "electronics",
+    "difficulty": 1,
+    "time": "20 m",
+    "reversible": true,
+    "decomp_learn": 0,
+    "autolearn": [ [ "electronics", 2 ] ],
+    "book_learn": [ [ "manual_electronics", 1 ], [ "advanced_electronics", 2 ], [ "textbook_anarch", 2 ] ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "SCREW", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_elec_soldering", "skill_penalty": 0.125 }, { "proficiency": "prof_elec_circuits" } ],
+    "components": [
+      [ [ "e_scrap", 2 ], [ "glowplug", 1 ], [ "makeshift_transformer", 2 ] ],
+      [ [ "copper", 1 ], [ "nail", 1 ], [ "wire", 1 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "duct_tape", 10 ] ],
+      [ [ "cable", 5 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "hotplate",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "time": "30 m",
+    "reversible": true,
+    "decomp_learn": 2,
+    "autolearn": true,
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "proficiencies": [
+      { "proficiency": "prof_plasticworking", "time_multiplier": 1.5 },
+      { "proficiency": "prof_elec_soldering" },
+      { "proficiency": "prof_elec_circuits" }
+    ],
+    "components": [
+      [ [ "element", 4 ], [ "crude_heating_element", 4 ] ],
+      [ [ "amplifier", 1 ], [ "makeshift_transformer", 1 ] ],
+      [
+        [ "scrap", 2 ],
+        [ "pan", 1 ],
+        [ "pot", 1 ],
+        [ "pot_copper", 1 ],
+        [ "knife_butcher", 2 ],
+        [ "knife_steak", 6 ],
+        [ "knife_butter", 6 ],
+        [ "muffler", 1 ]
+      ],
+      [ [ "cable", 10 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "coffeemaker",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "time": "30 m",
+    "reversible": true,
+    "decomp_learn": 2,
+    "autolearn": true,
+    "using": [ [ "soldering_standard", 10 ] ],
+    "proficiencies": [ { "proficiency": "prof_elec_soldering" }, { "proficiency": "prof_elec_circuits" } ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "element", 4 ], [ "crude_heating_element", 4 ] ],
+      [ [ "amplifier", 1 ], [ "makeshift_transformer", 1 ] ],
+      [ [ "wire_mesh", 1 ], [ "sieve_steel", 1 ], [ "colander_steel", 1 ], [ "splatter_guard", 1 ] ],
+      [
+        [ "scrap", 2 ],
+        [ "pan", 1 ],
+        [ "pot", 1 ],
+        [ "pot_copper", 1 ],
+        [ "knife_butcher", 2 ],
+        [ "knife_steak", 6 ],
+        [ "knife_butter", 6 ],
+        [ "muffler", 1 ]
+      ],
+      [ [ "cable", 15 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "dehydrator",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "electronics",
+    "difficulty": 4,
+    "time": "1 h",
+    "reversible": true,
+    "decomp_learn": 4,
+    "autolearn": true,
+    "book_learn": [ [ "textbook_electronics", 3 ], [ "advanced_electronics", 3 ], [ "textbook_chemistry", 5 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_plasticworking" },
+      { "proficiency": "prof_elec_soldering" },
+      { "proficiency": "prof_elec_circuits" }
+    ],
+    "using": [ [ "soldering_standard", 20 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "element", 2 ], [ "crude_heating_element", 2 ] ],
+      [ [ "amplifier", 2 ], [ "makeshift_transformer", 2 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "cable", 10 ] ],
+      [ [ "pot", 1 ], [ "pot_copper", 1 ] ],
+      [ [ "plastic_chunk", 18 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "makeshift_sealer",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "electronics",
+    "skills_required": [ "mechanics", 2 ],
+    "difficulty": 4,
+    "time": "1 h",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "proficiencies": [
+      { "proficiency": "prof_plasticworking" },
+      { "proficiency": "prof_elec_soldering" },
+      { "proficiency": "prof_elec_circuits" }
+    ],
+    "components": [
+      [ [ "scrap", 4 ] ],
+      [ [ "plastic_chunk", 2 ] ],
+      [ [ "motor_micro", 1 ] ],
+      [ [ "superglue", 2 ] ],
+      [ [ "element", 2 ], [ "crude_heating_element", 2 ] ],
+      [ [ "hose", 1 ], [ "makeshift_hose", 1 ] ],
+      [ [ "power_supply", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "makeshift_vacuum_mold",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "mechanics",
+    "skills_required": [ "electronics", 2 ],
+    "difficulty": 4,
+    "time": "1 h",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "VISE", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SAW_W", "level": 1 } ],
+    "proficiencies": [
+      { "proficiency": "prof_plasticworking" },
+      { "proficiency": "prof_elec_soldering" },
+      { "proficiency": "prof_carpentry_basic" }
+    ],
+    "components": [
+      [ [ "2x4", 4 ] ],
+      [ [ "plastic_chunk", 2 ] ],
+      [ [ "motor_micro", 1 ] ],
+      [ [ "nail", 16 ] ],
+      [ [ "wood_panel", 1 ] ],
+      [ [ "hose", 1 ], [ "makeshift_hose", 1 ] ],
+      [ [ "power_supply", 1 ] ]
+    ]
+  },
+  {
+    "result": "food_processor",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "time": "20 m",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "soldering_standard", 20 ] ],
+    "proficiencies": [ { "proficiency": "prof_elec_soldering" }, { "proficiency": "prof_elec_circuits" } ],
+    "qualities": [ { "id": "SCREW", "level": 1, "amount": 1 }, { "id": "HAMMER", "level": 3, "amount": 1 } ],
+    "components": [
+      [ [ "scrap", 4 ] ],
+      [ [ "cable", 2 ] ],
+      [ [ "pot", 1 ], [ "pot_copper", 1 ] ],
+      [ [ "motor_micro", 1 ] ],
+      [ [ "e_scrap", 1 ], [ "makeshift_transformer", 1 ] ]
+    ]
+  },
+  {
+    "result": "microcentrifuge",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "time": "20 m",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "soldering_standard", 30 ] ],
+    "proficiencies": [ { "proficiency": "prof_elec_soldering" }, { "proficiency": "prof_elec_circuits" } ],
+    "qualities": [
+      { "id": "SCREW", "level": 1, "amount": 1 },
+      { "id": "HAMMER", "level": 3, "amount": 1 },
+      { "id": "CUT_FINE", "level": 1, "amount": 1 }
+    ],
+    "components": [
+      [ [ "sheet_metal_small", 2 ] ],
+      [ [ "steel_chunk", 4 ] ],
+      [ [ "cable", 2 ] ],
+      [ [ "motor_small", 1 ] ],
+      [ [ "2x4", 1 ] ],
+      [ [ "adhesive", 1, "LIST" ] ]
+    ]
+  }
+]

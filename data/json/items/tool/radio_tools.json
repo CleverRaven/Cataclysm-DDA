@@ -1,0 +1,194 @@
+[
+  {
+    "id": "radiocontrol",
+    "type": "TOOL",
+    "name": { "str": "RC control" },
+    "description": "A remote control for an RC car, with a joystick to steer the car and colorful buttons that don't seem to do anything.  Perhaps they were for the deluxe model?",
+    "symbol": "#",
+    "color": "yellow",
+    "ammo": [ "battery" ],
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "material": [ "plastic" ],
+    "charges_per_use": 1,
+    "turns_per_charge": 5,
+    "weight": "670 g",
+    "volume": "500 ml",
+    "price": "60 USD",
+    "price_postapoc": "2 USD 50 cent",
+    "use_action": [ "RADIOCONTROL" ],
+    "tick_action": [ "RADIOCONTROL_TICK" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_disposable_cell"
+      }
+    ]
+  },
+  {
+    "id": "radio_car",
+    "type": "TOOL",
+    "name": { "str": "RC car" },
+    "description": "A remote-controlled car.  Fun for all ages.",
+    "symbol": "#",
+    "ammo": [ "battery" ],
+    "material": [ "aluminum", "plastic" ],
+    "charges_per_use": 1,
+    "weight": "2340 g",
+    "volume": "1500 ml",
+    "price": "240 USD",
+    "price_postapoc": "2 USD 50 cent",
+    "use_action": [ "RADIOCAR" ],
+    "flags": [ "RADIO_CONTAINER", "WATER_BREAK", "ELECTRONIC" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "2 kg",
+        "flag_restriction": [ "RADIOCARITEM" ]
+      },
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_minus_disposable_cell"
+      }
+    ]
+  },
+  {
+    "id": "radio_car_on",
+    "copy-from": "radio_car",
+    "type": "TOOL",
+    "name": { "str": "RC car (on)", "str_pl": "RC cars (on)" },
+    "description": "A remote-controlled toy car.  It is turned on and draining its batteries just like a real electric car!  Use a remote control to drive it around.",
+    "turns_per_charge": 5,
+    "revert_to": "radio_car",
+    "use_action": [ "RADIOCARON" ],
+    "tick_action": [
+      {
+        "type": "sound",
+        "sound_message": "buzzz…",
+        "sound_volume": 0,
+        "sound_id": "misc",
+        "sound_variant": "rc_car_drives"
+      }
+    ],
+    "flags": [ "LIGHT_15", "RADIO_CONTAINER", "TRADER_AVOID", "RADIOCAR", "WATER_BREAK", "ELECTRONIC" ]
+  },
+  {
+    "id": "radio_mod",
+    "type": "TOOL",
+    "category": "spare_parts",
+    "name": { "str": "radio activation mod" },
+    "description": "A small electronic device that can be attached to certain items to activate them with a radio signal from an RC car controller.",
+    "weight": "142 g",
+    "volume": "250 ml",
+    "price": "50 USD",
+    "price_postapoc": "2 USD 50 cent",
+    "to_hit": -2,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "use_action": [ "RADIO_MOD" ],
+    "flags": [ "SINGLE_USE", "WATER_BREAK", "ELECTRONIC" ]
+  },
+  {
+    "id": "radio",
+    "type": "TOOL",
+    "name": { "str": "radio (off)", "str_pl": "radios (off)" },
+    "description": "A portable radio.  Using this radio turns it on.  It will pick up any nearby signals being broadcasted and play them audibly.",
+    "weight": "295 g",
+    "volume": "1 L",
+    "price": "10 USD",
+    "price_postapoc": "5 USD",
+    "to_hit": -1,
+    "material": [ "plastic", "aluminum" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "ammo": [ "battery" ],
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "charges_per_use": 1,
+    "use_action": [ "RADIO_OFF", { "type": "link_up", "cable_length": 3, "charge_rate": "5 W" } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_disposable_cell"
+      }
+    ],
+    "melee_damage": { "bash": 4 }
+  },
+  {
+    "id": "radio_on",
+    "copy-from": "radio",
+    "type": "TOOL",
+    "name": { "str": "radio (on)", "str_pl": "radios (on)" },
+    "description": "A portable radio that is turned on and continually draining its batteries.  It is playing the broadcast being sent from any nearby radio towers.",
+    "power_draw": "500 mW",
+    "revert_to": "radio",
+    "use_action": [
+      "RADIO_ON",
+      { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 3, "charge_rate": "5 W" },
+      { "type": "transform", "target": "radio", "menu_text": "Turn off" }
+    ],
+    "tick_action": [ "RADIO_TICK" ],
+    "flags": [ "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ]
+  },
+  {
+    "id": "two_way_radio",
+    "type": "TOOL",
+    "name": { "str": "two-way radio" },
+    "description": "A radio with a transmitting unit.  You could use it to contact someone who also has one.",
+    "weight": "431 g",
+    "volume": "500 ml",
+    "price": "20 USD",
+    "price_postapoc": "7 USD 50 cent",
+    "material": [ "plastic", "aluminum" ],
+    "symbol": ";",
+    "color": "green",
+    "ammo": [ "battery" ],
+    "charges_per_use": 1,
+    "flags": [ "TWO_WAY_RADIO", "WATER_BREAK", "ELECTRONIC" ],
+    "use_action": [ { "type": "link_up", "cable_length": 3, "charge_rate": "5 W" } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_disposable_cell"
+      }
+    ],
+    "melee_damage": { "bash": 6 }
+  },
+  {
+    "id": "remotevehcontrol",
+    "type": "TOOL",
+    "name": { "str": "remote vehicle controller" },
+    "description": "A remote controller for a real car.  Can turn onboard devices on and off.  Some cars can be driven remotely.",
+    "weight": "907 g",
+    "volume": "1 L",
+    "price": "20 USD",
+    "price_postapoc": "2 USD 50 cent",
+    "to_hit": -1,
+    "material": [ "plastic" ],
+    "symbol": "#",
+    "color": "yellow",
+    "ammo": [ "battery" ],
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "charges_per_use": 1,
+    "turns_per_charge": 10,
+    "use_action": [ "REMOTEVEH" ],
+    "tick_action": "REMOTEVEH_TICK",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_battery_cell"
+      }
+    ]
+  }
+]

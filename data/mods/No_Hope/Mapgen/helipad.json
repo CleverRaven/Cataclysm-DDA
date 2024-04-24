@@ -1,0 +1,131 @@
+[
+  {
+    "method": "json",
+    "om_terrain": [ [ "helipad_nw", "helipad_ne" ], [ "helipad_sw", "helipad_se" ] ],
+    "type": "mapgen",
+    "weight": 100000,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "FFF.......pppppppp...........................FFF",
+        "FTFFWWWWWF!!!!!!!!FFFFFFFFFFFFFFFFFFFFFFFFFFFFTF",
+        "FFG.W4ddw.pppppppp...........................GFF",
+        ".F..W-c?w.pppppppp...|||||||||||||||||||||||..F.",
+        ".F..WmWWW.pppppppp...|%_____________C__B___|..F.",
+        ".F..pppppppppppppppppM___C_________C_CC_B__|..F.",
+        ".F..pppppppppppppppppM____________CCCCC____|..F.",
+        ".F..pppppppppppppppppM_B__C___B__B___C_B___|..F.",
+        ".F..pppppyppppyppppppM________*_________B__|..F.",
+        ".F..pppppyppppyppppppM__B___C___B__C__B____|..F.",
+        ".F..pppppyppppyppp...|____C___B____________|..F.",
+        ".F..pppppyppppypppooom___________B______%__|..F.",
+        ".F..pppppyppppyppp...||||||||m|MMMMMMMMM||||..F.",
+        ".F..pppppyppppyppp...|_rrrr|____________%__|..F.",
+        ".F..oooooooooooooo...|_____|_______________|..F.",
+        ".F..............oo...|_rrrr|___IIIIIIIII_RR|..F.",
+        ".F..WwWWwWwwWwwW++WwW|M|||||___IUUUUUUUI_sR|..F.",
+        ".F..W----+-----+-----m_____m___IUUUUUUUI_75|..F.",
+        ".F..W-?ddWdc--dW--WWW|||||||___IUUUUUUUI___|..F.",
+        ".F..Wz-cfWd?f?dW--W&W|_____m___IUUUUUUUI_RR|..F.",
+        ".F..WWWWWWWWWWWWz-+-W|ggggg|___IUUUUUUUI_sR|..F.",
+        ".F..W[[[HH##O#SW--WSW|||||||___IUUUUUUUI_85|..F.",
+        ".F..W----------+--WWW|lllll|___IUUUUUUUI___|..F.",
+        ".F..W-cttc---1WW--+-W|_____M___IUUUUUUUI___|..F.",
+        ".F..W-cttc-z-2W<--WhW|lllll|___IUUUUUUUI%__|..F.",
+        ".F..WWwwwWwwwWWW++WWW||||||||m|MMMMMMMMM||||..F.",
+        ".F.......3P.....oo...........o.=========6666..F.",
+        ".F..========================================..F.",
+        ".F..========================================..F.",
+        ".F..========================================..F.",
+        ".F..========================================..F.",
+        ".F...o,,,,,o..o,,,,,,,,,,,,,,,,,,o..o,,,,,o...F.",
+        ".F...o=====o..o==================o..o=====o...F.",
+        ".F..$=========o$==,,========,,===o$=========..F.",
+        ".F..==========o===,,========,,===o==========..F.",
+        ".F..=,=====,==o===,,========,,===o=,=====,==..F.",
+        ".F..=,=====,==o===,,========,,===o=,=====,==..F.",
+        ".F..=,=====,==o===,,,,,,,,,,,,===o=,=====,==..F.",
+        ".F..=,,,,,,,==o===,,,,,,,,,,,,===o=,,,,,,,==..F.",
+        ".F..=,,,,,,,==o===,,========,,===o=,,,,,,,==..F.",
+        ".F..=,=====,==o===,,========,,===o=,=====,==..F.",
+        ".F..=,=====,==o===,,========,,===o=,=====,==..F.",
+        ".F..=,=====,==o===,,========,,===o=,=====,==..F.",
+        ".F..==========o==================o==========..F.",
+        ".F..==========o==================o==========..F.",
+        "FFG..........................................GFF",
+        "FTFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFTF",
+        "FFF..........................................FFF"
+      ],
+      "palettes": [ "helipad_palette" ],
+      "toilets": { "&": {  } },
+      "gaspumps": { "$": { "fuel": "jp8", "amount": [ 0, 100 ] } },
+      "items": {
+        "B": {
+          "item": {
+            "subtype": "distribution",
+            "entries": [ { "group": "fuel_barrel", "prob": 20 }, { "group": "jp8_barrel", "prob": 40 }, { "item": "30gal_drum", "prob": 40 } ]
+          },
+          "chance": 5
+        },
+        "C": {
+          "item": {
+            "subtype": "distribution",
+            "entries": [
+              { "group": "military_patrol_food", "prob": 50, "count": [ 3, 5 ] },
+              { "group": "infantry_common_gear", "prob": 5, "count": [ 1, 2 ] },
+              { "group": "mil_food", "prob": 40, "count": [ 1, 5 ] },
+              { "group": "infantry_medical_gear", "prob": 5, "count": [ 1, 2 ] },
+              { "group": "supplies_metal", "prob": 150, "count": [ 2, 6 ] },
+              { "group": "supplies_mechanics", "prob": 50, "count": [ 0, 3 ] }
+            ]
+          },
+          "chance": 5
+        },
+        "r": {
+          "item": {
+            "subtype": "distribution",
+            "entries": [ { "group": "military_standard_assault_rifles", "prob": 45 }, { "group": "military_standard_shotguns", "prob": 5 } ]
+          },
+          "chance": 5
+        },
+        "l": {
+          "item": {
+            "subtype": "distribution",
+            "entries": [
+              { "group": "army_personal_locker", "prob": 150 },
+              { "group": "military_patrol_food", "prob": 50 },
+              { "group": "supplies_plumbing", "prob": 20 },
+              { "group": "supplies_electronics", "prob": 20 },
+              { "group": "supplies_metal", "prob": 20 },
+              { "group": "supplies_mechanics", "prob": 20 },
+              { "group": "hardware", "prob": 20 }
+            ]
+          },
+          "chance": 5,
+          "repeat": [ 2, 6 ]
+        },
+        "L": { "item": "army_personal_locker", "chance": 5, "repeat": [ 0, 4 ] },
+        "d": { "item": "SUS_office_desk", "chance": 5 },
+        "f": { "item": "SUS_office_filing_cabinet", "chance": 10 },
+        "4": { "item": "military_standard_shotguns", "chance": 5 },
+        "#": { "item": "SUS_utensils", "chance": 25, "repeat": [ 1, 3 ] },
+        "t": { "item": "SUS_dishes", "chance": 50, "repeat": [ 1, 2 ] },
+        "[": { "item": "SUS_fridge_healthy_vegan", "chance": 5 },
+        "O": { "item": "SUS_oven", "chance": 5, "repeat": [ 0, 2 ] },
+        "H": { "item": "SUS_spice_collection", "chance": 5 },
+        "&": { "item": "SUS_toilet", "chance": 50 }
+      },
+      "vendingmachines": { "1": { "item_group": "vending_drink" }, "2": { "item_group": "vending_food" } },
+      "place_monsters": [ { "monster": "GROUP_MIL_STRONG", "x": 36, "y": 15 }, { "monster": "GROUP_MIL_WEAK", "x": 24, "y": 30, "density": 2 } ],
+      "monster": { "T": { "monster": "mon_turret_rifle" } },
+      "place_vehicles": [
+        { "vehicle": "forklift", "x": 29, "y": 6, "chance": 95, "rotation": 180, "status": 1 },
+        { "vehicle": "parkinglotbasic", "x": 4, "y": 9, "chance": 75, "rotation": 270, "status": -1 },
+        { "vehicle": "flatbed_truck", "x": 11, "y": 4, "chance": 25, "rotation": 270, "status": -1 },
+        { "vehicle": "Medevac1", "x": 9, "y": 38, "chance": 1, "rotation": 90, "status": -1 },
+        { "vehicle": "helicopter_apache_1a", "x": 29, "y": 33, "chance": 1, "rotation": 270, "status": 1 },
+        { "vehicle": "SmallFlier2_Wreck", "x": 39, "y": 38, "chance": 50, "rotation": 90, "status": -1 }
+      ]
+    }
+  }
+]

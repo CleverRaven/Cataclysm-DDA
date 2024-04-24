@@ -1,0 +1,50 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "deserter_city_gate",
+    "object": {
+      "fill_ter": "t_pavement",
+      "rows": [
+        "ssss'''''''rr''e''''ssss",
+        "s||||||||AAAAAA|||||||||",
+        "s|ss'ttt'''rr''e'pp'ssss",
+        "s|ss''''''''''''''''ssss",
+        "s|'''''''''''''''''''''s",
+        "s|'''''''''''''''''''''s",
+        "s|'''''''''''''''''''''s",
+        "s|'''''''''''''''''''''s",
+        "s|''''rrrrrssrrrrr'''''s",
+        "s|'''''''''ss''''''''''s",
+        "s|'''''''''ss''''''''''s",
+        "s|'''''''''ss''''''''''s",
+        "s|'''''''''ss''''''''''s",
+        "s|''''rrrrrssrrrrr'''''s",
+        "s|'''''''''ss''''''''''s",
+        "s|'''''''''ss''''''''''s",
+        "s|'''''''''ss''''''''''s",
+        "s|'''''''''ss''''''''''s",
+        "s|''''rrrrrssrrrrr'''''s",
+        "s|'''''''''ss''''''''''s",
+        "s|'''O'''''ss''''''''''s",
+        "s|O''''''''ss'''''''''Os",
+        "s|O''''''''ss''''''''pOs",
+        "s|ssssssssssssssssssssss"
+      ],
+      "palettes": [ "deserter_city" ],
+      "furniture": { "p": "f_stack_plank", "t": "f_tourist_table", "c": "f_camp_chair" },
+      "items": {
+        "t": [
+          { "item": "power_tools", "chance": 10 },
+          { "item": "tools_construction", "chance": 25 },
+          { "item": "tools_carpentry", "chance": 10 },
+          { "item": "tools_earthworking", "chance": 5 },
+          { "item": "hardware_plumbing", "chance": 5 },
+          { "item": "paint", "chance": 3 }
+        ]
+      },
+      "place_npcs": [ { "class": "deserter", "x": 9, "y": 22 }, { "class": "deserter", "x": 16, "y": 15 } ],
+      "place_vehicles": [ { "vehicle": "military_vehicles", "x": 10, "y": 13, "chance": 40, "rotation": 0, "status": 0 } ]
+    }
+  }
+]

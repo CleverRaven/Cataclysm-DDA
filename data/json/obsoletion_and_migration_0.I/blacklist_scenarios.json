@@ -1,0 +1,17 @@
+[
+  {
+    "//": "Exists here to prevent errors with Defense Mode stuff.",
+    "type": "scenario",
+    "id": "defense_mode_fortified",
+    "name": "Fortified",
+    "points": 0,
+    "description": "",
+    "allowed_locs": [ "sloc_bar" ],
+    "start_name": ""
+  },
+  {
+    "type": "SCENARIO_BLACKLIST",
+    "subtype": "blacklist",
+    "scenarios": [ "defense_mode_fortified" ]
+  }
+]

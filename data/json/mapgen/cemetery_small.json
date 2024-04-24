@@ -1,0 +1,289 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "cemetery_small",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_region_groundcover_urban",
+      "rows": [
+        "ssssssssssssssssssssssss",
+        "ssssssssssssssssssssssss",
+        "          ____          ",
+        " S 7      ____    7  S  ",
+        "    S 7   ____  S   7   ",
+        "          ____          ",
+        "         &____          ",
+        "   S     b____  S   S S ",
+        " R R R R b____  R R R R ",
+        " X X X X  ____  X X X X ",
+        " S S S    ____    S S   ",
+        " RScSR R  ____  R R R R ",
+        " X S X X  ____  X X X X ",
+        " S        ____    S     ",
+        " R R R R  ____  R c R R ",
+        " X X X X  ____  X   X X ",
+        "   S   S  ____7     S   ",
+        " R R R R  ____& R R R R ",
+        " X X X X  ____b X X X X ",
+        "   S S S  ____b   S   S ",
+        " R R R R  ____  R RSR R ",
+        " X X X X   __  SX X X X ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": {
+        ".": "t_region_groundcover_urban",
+        "7": "t_region_tree",
+        "S": "t_region_shrub_decorative",
+        "_": "t_concrete",
+        "s": "t_sidewalk",
+        "X": "t_grave"
+      },
+      "furniture": { "&": "f_trashcan", "b": "f_bench", "R": "f_grave_head", "c": "f_statue" },
+      "place_items": [
+        { "item": "trash", "x": [ 14, 15 ], "y": 17, "chance": 60 },
+        { "item": "trash", "x": 9, "y": 6, "chance": 60 },
+        { "item": "alcohol", "x": 9, "y": 7, "chance": 15 }
+      ],
+      "place_monsters": [
+        { "monster": "GROUP_ZOMBIE", "x": 11, "y": 16, "chance": 3 },
+        { "monster": "GROUP_PARK_ANIMAL", "x": [ 4, 19 ], "y": [ 13, 18 ], "repeat": 3 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "cemetery_small",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_region_groundcover_urban",
+      "rows": [
+        "                        ",
+        " 4  4  4        4  4  4 ",
+        "                        ",
+        "                        ",
+        " 4                    4 ",
+        "   ^gg  ^^^  ^gg  g^^   ",
+        "    XX        XX  X     ",
+        " 4                    4 ",
+        "   g^^  ^g^  g^^  ^^^   ",
+        "   X     X   X          ",
+        " 4                    4 ",
+        "   ^gg  ^^g  ^^^  ^^g   ",
+        "    XX    X         X   ",
+        " 4                    4 ",
+        "   ^^^  ^g^  ^^^  ^^^   ",
+        "         X              ",
+        " 4                    4 ",
+        "   ^^^  ^g^  ^^^  ^^g   ",
+        "         X          X   ",
+        " 4                    4 ",
+        "   ^^^  ^^^  ^^g  ^^^   ",
+        "               X        ",
+        " 4  4  4  4  4  4  4  4 ",
+        "                        "
+      ],
+      "terrain": { " ": "t_region_groundcover_urban", "4": "t_region_tree_shade", "X": "t_grave" },
+      "furniture": { "^": "f_grave_stone_old", "g": "f_grave_stone" },
+      "place_signs": [ { "signage": "<city> Cemetery", "x": 9, "y": 1 }, { "signage": "<city> Cemetery", "x": 14, "y": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "cemetery_small",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_region_groundcover_urban",
+      "rows": [
+        "                        ",
+        "                        ",
+        " 4  4  4  4  4  4  4  4 ",
+        "                  ##    ",
+        "                  00    ",
+        "                  00    ",
+        "  ^^^^^ ^^^  ^^^ ^^^^^  ",
+        "  XXXXX XXX  XXX XXXXX  ",
+        "                    0   ",
+        "  ^^^^^ ^^^  ^^^ ^^^^^  ",
+        "  XXXXXXXXX  XXX XXXXX  ",
+        "   0                    ",
+        "  ^^^^^ ^^^  ^^^ ^^^^^  ",
+        "  XXXXX XXX  XXX XXXXX  ",
+        "                        ",
+        "  ^^^^^ ^^^  ^^^ ^^^^^  ",
+        "  XXXXX XXX  XXX XXXXX  ",
+        "                        ",
+        "  ^^^^^ ^^^  ^^^ ^^^^^  ",
+        "  XXXXX XXX  XXX XXXXX  ",
+        "                        ",
+        "  ^^^^^ ^^^  ^^^ ^^^^^  ",
+        "  XXXXX XXX  XXX XXXXX  ",
+        "                        "
+      ],
+      "terrain": {
+        "#": "t_dirtmound",
+        " ": "t_region_groundcover_urban",
+        "0": "t_pit_shallow",
+        "4": "t_region_tree_shade",
+        "X": "t_grave"
+      },
+      "furniture": { "^": [ "f_grave_stone_old", [ "f_grave_stone", 12 ] ] },
+      "place_monsters": [ { "chance": 3, "density": 1, "monster": "GROUP_ZOMBIE", "x": 13, "y": 13 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "cemetery_small",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_region_groundcover_urban",
+      "rows": [
+        "________________________",
+        "_4____________________4_",
+        "___####### __ #######___",
+        "__##       __       ##__",
+        "__# ^   ^  __  ^   ^ #__",
+        "__# X___X  __  X___X #__",
+        "__#  _S__________S_  #__",
+        "__# X___X  __  X___X #__",
+        "__# ^ _ ^  __  ^ _ ^ #__",
+        "__#   _  ______  _   #__",
+        "__    _  _||||_  _    __",
+        "__________|nn|__________",
+        "__________|nn|__________",
+        "__    _  _||||_  _    __",
+        "__#   _  ______  _   #__",
+        "__# ^ _ ^  __  ^ _ ^ #__",
+        "__# X___X  __  X___X #__",
+        "__#  _S__________S_  #__",
+        "__# X___X  __  X___X #__",
+        "__# ^   ^  __  ^   ^ #__",
+        "__##       __       ##__",
+        "___####### __ #######___",
+        "_4____________________4_",
+        "________________________"
+      ],
+      "terrain": {
+        ".": "t_region_groundcover_urban",
+        "4": "t_region_tree_shade",
+        "S": "t_concrete",
+        "_": "t_concrete",
+        "n": "t_thconc_floor",
+        "|": "t_concrete_wall",
+        "X": "t_grave"
+      },
+      "furniture": { "P": "f_sign", "S": "f_statue", "^": "f_grave_stone", "#": "f_hedge_short", "n": "f_slab" },
+      "place_items": [
+        { "chance": 3, "item": "creepy", "x": 11, "y": 12 },
+        { "chance": 3, "item": "creepy", "x": 12, "y": 11 },
+        { "chance": 3, "item": "creepy", "x": 11, "y": 11 }
+      ],
+      "place_signs": [
+        { "signage": "<family_name> Cemetery", "x": 2, "y": 9 },
+        { "signage": "Please respect the cemetery", "x": 2, "y": 14 },
+        { "signage": "May <given_name> and their family rest in peace", "x": 21, "y": 14 },
+        { "signage": "Please respect the cemetery", "x": 21, "y": 9 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "cemetery_small",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_region_groundcover_urban",
+      "rows": [
+        "           _            ",
+        "            _           ",
+        "   f#f#f#f  _ f#f#f#f   ",
+        " ||||||||||cc|||||||||| ",
+        " |         ___        | ",
+        " |   _ _ __ _ __ _ _  | ",
+        " | ^G^ ^^^  _ ^^^ G^^ | ",
+        " | XXX XXX___ XXX XXX | ",
+        " |      _  _ _        | ",
+        " |_  ###  _ _    ###  | ",
+        " |  __ __    _ _ _ __ | ",
+        " | ^G^ ^^^ _  ^^^ ^^G | ",
+        " | XXX XXX  _ XXX XXX | ",
+        " |         __         | ",
+        " |   ###  _  __ ###   | ",
+        " |  _ _ __  _  __ _   | ",
+        " | ^^^ ^^^ _  ^^^ ^g^ | ",
+        " | XXX XXX_ _ XXX XXX | ",
+        " |        __ _      _ | ",
+        " |  _ __ _    __ _ _  | ",
+        " |_XXX XXX    XXX XXX | ",
+        " | ^g^ g^^    ^g^ ^gg | ",
+        " |||||||||||||||||||||| ",
+        "                        "
+      ],
+      "terrain": {
+        "#": "t_region_shrub_decorative",
+        " ": "t_region_groundcover_urban",
+        "_": "t_region_soil",
+        "c": "t_chaingate_o",
+        "|": "t_chainfence",
+        "g": "t_grass",
+        "X": "t_grave"
+      },
+      "furniture": { "G": "f_grave_stone", "^": "f_grave_stone", "f": "f_region_flower_decorative", "g": "f_grave_stone_old" },
+      "place_monsters": [ { "chance": 3, "density": 1.5, "monster": "GROUP_ZOMBIE", "x": 12, "y": 13 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "cemetery_small",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_region_groundcover_urban",
+      "rows": [
+        "           ss           ",
+        "  7  7  7  ss  7  7  7  ",
+        "           ss           ",
+        " ||||||||||++|||||||||| ",
+        " |     bbb __ bbb     | ",
+        " | S^      __      ^S | ",
+        " |         __         | ",
+        " |         __         | ",
+        " | ^^^ ^g^ __ ^^^ ^^^ | ",
+        " | XXX XXX __ XXX XXX | ",
+        " |         __         | ",
+        " |  g^^^   __   ^^^^  | ",
+        " |  XXXX   __   XXXX  | ",
+        " |   7     __     7   | ",
+        " |      ^X __ X^      | ",
+        " | ^g  ^S^ __ ^S^  ^^ | ",
+        " | XX  X#X __ X#X XXX | ",
+        " |         __         | ",
+        " |   ^X    __    X^   | ",
+        " |  gS^          gS^  | ",
+        " |  X#X ^g    ^^ X#X  | ",
+        " |      XX    XX      | ",
+        " |||||||||||||||||||||| ",
+        "                        "
+      ],
+      "terrain": {
+        "#": "t_region_shrub_decorative",
+        "+": "t_chaingate_c",
+        " ": "t_region_groundcover_urban",
+        "7": "t_region_tree_shade",
+        "_": "t_concrete",
+        "s": "t_sidewalk",
+        "|": "t_chainfence",
+        "X": "t_grave"
+      },
+      "furniture": { "S": "f_statue", "^": "f_grave_stone", "a": "f_statue", "b": "f_bench", "g": "f_grave_stone" },
+      "place_signs": [
+        { "signage": "<family_name> Family Cemetery", "x": 10, "y": 3 },
+        { "signage": "Please respect the cemetery", "x": 13, "y": 3 }
+      ]
+    }
+  }
+]

@@ -1,0 +1,92 @@
+[
+  {
+    "name": "i_light_gray",
+    "custom": "",
+    "invertcustom": "c_white"
+  },
+  {
+    "name": "c_pink",
+    "custom": "",
+    "invertcustom": "i_magenta"
+  },
+  {
+    "name": "c_light_red",
+    "custom": "",
+    "invertcustom": "i_red"
+  },
+  {
+    "name": "c_light_cyan",
+    "custom": "",
+    "invertcustom": "i_cyan"
+  },
+  {
+    "name": "c_white",
+    "custom": "",
+    "invertcustom": "i_light_gray"
+  },
+  {
+    "name": "c_light_blue",
+    "custom": "",
+    "invertcustom": "i_blue"
+  },
+  {
+    "name": "c_yellow",
+    "custom": "",
+    "invertcustom": "i_brown"
+  },
+  {
+    "name": "c_dark_gray",
+    "custom": "",
+    "invertcustom": "i_light_gray"
+  },
+  {
+    "name": "c_light_green",
+    "custom": "",
+    "invertcustom": "i_green"
+  },
+  {
+    "name": "i_white",
+    "custom": "i_light_gray",
+    "invertcustom": ""
+  },
+  {
+    "name": "i_dark_gray",
+    "custom": "i_light_gray",
+    "invertcustom": ""
+  },
+  {
+    "name": "i_light_red",
+    "custom": "i_red",
+    "invertcustom": ""
+  },
+  {
+    "name": "i_light_green",
+    "custom": "i_green",
+    "invertcustom": ""
+  },
+  {
+    "name": "i_light_blue",
+    "custom": "i_blue",
+    "invertcustom": ""
+  },
+  {
+    "name": "i_light_cyan",
+    "custom": "i_cyan",
+    "invertcustom": ""
+  },
+  {
+    "name": "i_pink",
+    "custom": "i_magenta",
+    "invertcustom": ""
+  },
+  {
+    "name": "i_yellow",
+    "custom": "i_brown",
+    "invertcustom": ""
+  },
+  {
+    "name": "c_light_gray",
+    "custom": "c_white",
+    "invertcustom": ""
+  }
+]

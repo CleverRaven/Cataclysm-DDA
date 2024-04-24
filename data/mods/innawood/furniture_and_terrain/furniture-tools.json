@@ -1,0 +1,84 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_fvat_empty",
+    "name": "fermenting vat",
+    "looks_like": "f_standing_tank",
+    "description": "A sealable vat for fermenting vinegar and various alcoholic brews.",
+    "symbol": "O",
+    "color": "brown",
+    "move_cost_mod": -1,
+    "required_str": -1,
+    "flags": [ "NOITEM", "SEALED", "TRANSPARENT", "FLAMMABLE", "CONTAINER", "DONT_REMOVE_ROTTEN" ],
+    "examine_action": "fvat_empty",
+    "deconstruct": {
+      "items": [
+        { "item": "2x4", "count": 14 },
+        { "item": "nail", "charges": [ 6, 12 ] },
+        { "item": "sheet_metal_small", "count": [ 4, 10 ] },
+        { "item": "scrap", "count": [ 5, 10 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 3,
+      "str_max": 45,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "2x4", "count": [ 4, 8 ] },
+        { "item": "nail", "charges": [ 4, 8 ] },
+        { "item": "sheet_metal_small", "count": [ 2, 6 ] },
+        { "item": "scrap", "count": [ 5, 10 ] },
+        { "item": "splinter", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_bulletin",
+    "name": "bulletin board",
+    "description": "A crude approximation of a 'real' bulletin board.  Good for pinning various notices for other survivors to read.",
+    "symbol": "6",
+    "color": "blue",
+    "move_cost_mod": -1,
+    "coverage": 75,
+    "required_str": -1,
+    "flags": [ "FLAMMABLE", "ORGANIC", "TRANSPARENT" ],
+    "max_volume": "120 ml",
+    "examine_action": "bulletin_board",
+    "deconstruct": {
+      "items": [ { "item": "stick", "count": 6 }, { "item": "string_36", "count": 1 }, { "item": "birchbark", "count": [ 2, 6 ] } ]
+    },
+    "bash": {
+      "str_min": 3,
+      "str_max": 40,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "stick", "count": [ 0, 3 ] },
+        { "item": "birchbark", "count": [ 2, 4 ] },
+        { "item": "splinter", "count": [ 1, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "construction_group",
+    "id": "build_innawood_bulletin_board",
+    "name": "Build Innawood Bulletin Board"
+  },
+  {
+    "type": "construction",
+    "id": "constr_innawood_bulletin",
+    "group": "build_innawood_bulletin_board",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "20 m",
+    "components": [
+      [ [ "stick", 6 ], [ "stick_long", 3 ] ],
+      [ [ "string_36", 1 ], [ "cordage_36", 1 ] ],
+      [ [ "birchbark", 6 ], [ "willowbark", 6 ], [ "tanbark", 6 ], [ "alder_bark", 6 ] ]
+    ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_bulletin"
+  }
+]

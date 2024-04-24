@@ -1,0 +1,98 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lmoe3_storage_11x11",
+    "//": "This is done in a nested map to make the flooring under the furniture look right, nothing much else.",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rows": [
+        "lllll|#####",
+        "u___U|#####",
+        "u_u_U|#####",
+        "u_u_U|#####",
+        "u_u_U|#####",
+        "u_u_U|#####",
+        "__v_U|#####",
+        "u_v_U|#####",
+        "u_v_U|#####",
+        "u___U|#####",
+        "AV_VU|#####"
+      ],
+      "palettes": [ "bunker", "empty_bunker_items" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lmoe3_tankroom_11x11",
+    "//": "This is done in a nested map to make the flooring under the furniture look right, nothing much else.",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rows": [
+        "_{|l__aa|{_",
+        "_{|l__aa||+",
+        "_{|l____ll_",
+        "_{|l_______",
+        "__+________",
+        "|||||||||||",
+        "           ",
+        "           ",
+        "           ",
+        "           ",
+        "           "
+      ],
+      "palettes": [ "bunker", "empty_bunker_items" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lmoe3_crafting_11x11",
+    "//": "This is done in a nested map to make the flooring under the furniture look right, nothing much else.",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rows": [
+        "l__RRRR=_G",
+        "l______*_a",
+        "l_____c=_a",
+        "__h___c=_l",
+        "TTTcccc=_A",
+        "||||||||||",
+        "          ",
+        "          ",
+        "          ",
+        "          "
+      ],
+      "palettes": [ "bunker", "empty_bunker_items" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "This is for the computer in the prepper_1 NPC's locked LMOE. It provides an explanation for the locked LMOE and background flavor on the prepper in case the player hasn't met them yet.",
+    "nested_mapgen_id": "prepper_1_computer",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_computers": [
+        {
+          "x": 0,
+          "y": 0,
+          "name": "Personal Computer: User",
+          "eocs": [ "EOC_PREPPER_1_COMPUTER" ],
+          "chat_topics": [ "COMP_PREPPER_1_MAIN" ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "This is done to give a chance for lmoe bunkers to spawn with solar panels on the roof",
+    "nested_mapgen_id": "lmoe_solar",
+    "object": { "mapgensize": [ 2, 2 ], "rows": [
+        "MM",
+        "MM"
+      ], "palettes": [ "roof_palette" ] }
+  }
+]

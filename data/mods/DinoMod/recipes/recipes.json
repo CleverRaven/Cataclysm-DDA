@@ -1,0 +1,16 @@
+[
+  {
+    "type": "recipe_category",
+    "id": "CC_ANIMALS",
+    "recipe_subcategories": [
+      "CSC_ALL",
+      "CSC_ANIMALS_BOVINE ARMOR",
+      "CSC_ANIMALS_CANINE ARMOR",
+      "CSC_ANIMALS_EQUINE ARMOR",
+      "CSC_ANIMALS_ELEPHANT ARMOR",
+      "CSC_ANIMALS_OSTRICH ARMOR",
+      "CSC_ANIMALS_BEAR ARMOR",
+      "CSC_ANIMALS_EQUINE STORAGE"
+    ]
+  }
+]

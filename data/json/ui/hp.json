@@ -1,0 +1,511 @@
+[
+  {
+    "id": "hitpoint_graph_label",
+    "type": "widget",
+    "style": "graph",
+    "width": 5,
+    "symbols": ".\\|",
+    "fill": "bucket",
+    "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ]
+  },
+  {
+    "id": "hitpoint_graph_no_label",
+    "type": "widget",
+    "style": "graph",
+    "width": 5,
+    "symbols": ".\\|",
+    "fill": "bucket",
+    "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ],
+    "flags": [ "W_LABEL_NONE", "W_NO_PADDING" ]
+  },
+  {
+    "id": "hitpoint_num_label",
+    "type": "widget",
+    "style": "number",
+    "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ]
+  },
+  {
+    "id": "hitpoint_num_no_label",
+    "type": "widget",
+    "style": "number",
+    "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ],
+    "flags": [ "W_LABEL_NONE", "W_NO_PADDING" ]
+  },
+  {
+    "id": "hp_head_graph",
+    "type": "widget",
+    "label": "HEAD",
+    "var": "bp_hp",
+    "bodypart": "head",
+    "copy-from": "hitpoint_graph_label"
+  },
+  {
+    "id": "hp_torso_graph",
+    "type": "widget",
+    "label": "TORSO",
+    "var": "bp_hp",
+    "bodypart": "torso",
+    "copy-from": "hitpoint_graph_label"
+  },
+  {
+    "id": "hp_left_arm_graph",
+    "type": "widget",
+    "label": "L ARM",
+    "var": "bp_hp",
+    "bodypart": "arm_l",
+    "copy-from": "hitpoint_graph_label"
+  },
+  {
+    "id": "hp_right_arm_graph",
+    "type": "widget",
+    "label": "R ARM",
+    "var": "bp_hp",
+    "bodypart": "arm_r",
+    "copy-from": "hitpoint_graph_label"
+  },
+  {
+    "id": "hp_left_leg_graph",
+    "type": "widget",
+    "label": "L LEG",
+    "var": "bp_hp",
+    "bodypart": "leg_l",
+    "copy-from": "hitpoint_graph_label"
+  },
+  {
+    "id": "hp_right_leg_graph",
+    "type": "widget",
+    "label": "R LEG",
+    "var": "bp_hp",
+    "bodypart": "leg_r",
+    "copy-from": "hitpoint_graph_label"
+  },
+  {
+    "id": "hp_head_graph_no_label",
+    "type": "widget",
+    "label": "HEAD",
+    "var": "bp_hp",
+    "bodypart": "head",
+    "copy-from": "hitpoint_graph_no_label"
+  },
+  {
+    "id": "hp_torso_graph_no_label",
+    "type": "widget",
+    "label": "TORSO",
+    "var": "bp_hp",
+    "bodypart": "torso",
+    "copy-from": "hitpoint_graph_no_label"
+  },
+  {
+    "id": "hp_left_arm_graph_no_label",
+    "type": "widget",
+    "label": "L ARM",
+    "var": "bp_hp",
+    "bodypart": "arm_l",
+    "copy-from": "hitpoint_graph_no_label"
+  },
+  {
+    "id": "hp_right_arm_graph_no_label",
+    "type": "widget",
+    "label": "R ARM",
+    "var": "bp_hp",
+    "bodypart": "arm_r",
+    "copy-from": "hitpoint_graph_no_label"
+  },
+  {
+    "id": "hp_left_leg_graph_no_label",
+    "type": "widget",
+    "label": "L LEG",
+    "var": "bp_hp",
+    "bodypart": "leg_l",
+    "copy-from": "hitpoint_graph_no_label"
+  },
+  {
+    "id": "hp_right_leg_graph_no_label",
+    "type": "widget",
+    "label": "R LEG",
+    "var": "bp_hp",
+    "bodypart": "leg_r",
+    "copy-from": "hitpoint_graph_no_label"
+  },
+  {
+    "id": "hp_head_num_label",
+    "type": "widget",
+    "label": "HEAD",
+    "var": "bp_hp",
+    "bodypart": "head",
+    "copy-from": "hitpoint_num_label"
+  },
+  {
+    "id": "hp_torso_num_label",
+    "type": "widget",
+    "label": "TORSO",
+    "var": "bp_hp",
+    "bodypart": "torso",
+    "copy-from": "hitpoint_num_label"
+  },
+  {
+    "id": "hp_left_arm_num_label",
+    "type": "widget",
+    "label": "L ARM",
+    "var": "bp_hp",
+    "bodypart": "arm_l",
+    "copy-from": "hitpoint_num_label"
+  },
+  {
+    "id": "hp_right_arm_num_label",
+    "type": "widget",
+    "label": "R ARM",
+    "var": "bp_hp",
+    "bodypart": "arm_r",
+    "copy-from": "hitpoint_num_label"
+  },
+  {
+    "id": "hp_left_leg_num_label",
+    "type": "widget",
+    "label": "L LEG",
+    "var": "bp_hp",
+    "bodypart": "leg_l",
+    "copy-from": "hitpoint_num_label"
+  },
+  {
+    "id": "hp_right_leg_num_label",
+    "type": "widget",
+    "label": "R LEG",
+    "var": "bp_hp",
+    "bodypart": "leg_r",
+    "copy-from": "hitpoint_num_label"
+  },
+  {
+    "id": "hp_head_num_no_label",
+    "type": "widget",
+    "label": "HEAD",
+    "var": "bp_hp",
+    "bodypart": "head",
+    "copy-from": "hitpoint_num_no_label"
+  },
+  {
+    "id": "hp_torso_num_no_label",
+    "type": "widget",
+    "label": "TORSO",
+    "var": "bp_hp",
+    "bodypart": "torso",
+    "copy-from": "hitpoint_num_no_label"
+  },
+  {
+    "id": "hp_left_arm_num_no_label",
+    "type": "widget",
+    "label": "L ARM",
+    "var": "bp_hp",
+    "bodypart": "arm_l",
+    "copy-from": "hitpoint_num_no_label"
+  },
+  {
+    "id": "hp_right_arm_num_no_label",
+    "type": "widget",
+    "label": "R ARM",
+    "var": "bp_hp",
+    "bodypart": "arm_r",
+    "copy-from": "hitpoint_num_no_label"
+  },
+  {
+    "id": "hp_left_leg_num_no_label",
+    "type": "widget",
+    "label": "L LEG",
+    "var": "bp_hp",
+    "bodypart": "leg_l",
+    "copy-from": "hitpoint_num_no_label"
+  },
+  {
+    "id": "hp_right_leg_num_no_label",
+    "type": "widget",
+    "label": "R LEG",
+    "var": "bp_hp",
+    "bodypart": "leg_r",
+    "copy-from": "hitpoint_num_no_label"
+  },
+  {
+    "id": "bodygraph_hp_layout",
+    "type": "widget",
+    "label": "Body Status",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "bodygraph_wrapper_layout", "hitpoint_graphs_vertical_layout" ],
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
+  },
+  {
+    "id": "bodygraph_wrapper_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 13,
+    "widgets": [ "body_graph" ]
+  },
+  {
+    "id": "status_hpg_layout_head",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "width": 11,
+    "widgets": [ "bodypart_head_status_text", "hp_head_graph_no_label" ]
+  },
+  {
+    "id": "status_hpg_layout_torso",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "width": 11,
+    "widgets": [ "bodypart_torso_status_text", "hp_torso_graph_no_label" ]
+  },
+  {
+    "id": "status_hpg_layout_larm",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "width": 11,
+    "widgets": [ "bodypart_larm_status_text", "hp_left_arm_graph_no_label" ]
+  },
+  {
+    "id": "status_hpg_layout_rarm",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "width": 11,
+    "widgets": [ "bodypart_rarm_status_text", "hp_right_arm_graph_no_label" ]
+  },
+  {
+    "id": "status_hpg_layout_lleg",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "width": 11,
+    "widgets": [ "bodypart_lleg_status_text", "hp_left_leg_graph_no_label" ]
+  },
+  {
+    "id": "status_hpg_layout_rleg",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "width": 11,
+    "widgets": [ "bodypart_rleg_status_text", "hp_right_leg_graph_no_label" ]
+  },
+  {
+    "id": "status_hpn_layout_head",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "width": 9,
+    "widgets": [ "bodypart_head_status_text", "hp_head_num_no_label" ]
+  },
+  {
+    "id": "status_hpn_layout_torso",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "width": 9,
+    "widgets": [ "bodypart_torso_status_text", "hp_torso_num_no_label" ]
+  },
+  {
+    "id": "status_hpn_layout_larm",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "width": 9,
+    "widgets": [ "bodypart_larm_status_text", "hp_left_arm_num_no_label" ]
+  },
+  {
+    "id": "status_hpn_layout_rarm",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "width": 9,
+    "widgets": [ "bodypart_rarm_status_text", "hp_right_arm_num_no_label" ]
+  },
+  {
+    "id": "status_hpn_layout_lleg",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "width": 9,
+    "widgets": [ "bodypart_lleg_status_text", "hp_left_leg_num_no_label" ]
+  },
+  {
+    "id": "status_hpn_layout_rleg",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "width": 9,
+    "widgets": [ "bodypart_rleg_status_text", "hp_right_leg_num_no_label" ]
+  },
+  {
+    "id": "hitpoint_graphs_top_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "HP Top",
+    "arrange": "columns",
+    "widgets": [ "status_hpg_layout_larm", "status_hpg_layout_head", "status_hpg_layout_rarm" ]
+  },
+  {
+    "id": "hitpoint_graphs_bottom_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "HP Bottom",
+    "arrange": "columns",
+    "widgets": [ "status_hpg_layout_lleg", "status_hpg_layout_torso", "status_hpg_layout_rleg" ]
+  },
+  {
+    "id": "hitpoints_all_graphs_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Hit Points",
+    "arrange": "rows",
+    "widgets": [ "hitpoint_graphs_top_layout", "hitpoint_graphs_bottom_layout" ]
+  },
+  {
+    "id": "hitpoints_head_torso_layout_graphs",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "status_hpg_layout_head", "status_hpg_layout_torso" ]
+  },
+  {
+    "id": "hitpoints_arms_layout_graphs",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "status_hpg_layout_larm", "status_hpg_layout_rarm" ]
+  },
+  {
+    "id": "hitpoints_legs_layout_graphs",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "status_hpg_layout_lleg", "status_hpg_layout_rleg" ]
+  },
+  {
+    "id": "hitpoints_head_torso_nums_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "status_hpn_layout_head", "status_hpn_layout_torso" ]
+  },
+  {
+    "id": "hitpoints_arms_nums_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "status_hpn_layout_larm", "status_hpn_layout_rarm" ]
+  },
+  {
+    "id": "hitpoints_legs_nums_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "status_hpn_layout_lleg", "status_hpn_layout_rleg" ]
+  },
+  {
+    "id": "hitpoint_nums_top_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "HP Top",
+    "arrange": "columns",
+    "widgets": [ "status_hpn_layout_larm", "status_hpn_layout_head", "status_hpn_layout_rarm" ]
+  },
+  {
+    "id": "hitpoint_nums_bottom_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "HP Bottom",
+    "arrange": "columns",
+    "widgets": [ "status_hpn_layout_lleg", "status_hpn_layout_torso", "status_hpn_layout_rleg" ]
+  },
+  {
+    "id": "hitpoints_all_nums_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Hit Points",
+    "arrange": "rows",
+    "widgets": [ "hitpoint_nums_top_layout", "hitpoint_nums_bottom_layout" ]
+  },
+  {
+    "id": "hitpoints_head_torso_layout_nums",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "status_hpn_layout_head", "status_hpn_layout_torso" ]
+  },
+  {
+    "id": "hitpoints_arms_layout_nums",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "status_hpn_layout_larm", "status_hpn_layout_rarm" ]
+  },
+  {
+    "id": "hitpoints_legs_layout_nums",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "status_hpn_layout_lleg", "status_hpn_layout_rleg" ]
+  },
+  {
+    "id": "hitpoint_num_labels_top_layout",
+    "type": "widget",
+    "label": "HP Nums Top",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "status_hpn_layout_larm", "status_hpn_layout_head", "status_hpn_layout_rarm" ]
+  },
+  {
+    "id": "hitpoint_num_labels_bottom_layout",
+    "type": "widget",
+    "label": "HP Nums Bottom",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "status_hpn_layout_lleg", "status_hpn_layout_torso", "status_hpn_layout_rleg" ]
+  },
+  {
+    "id": "hitpoints_all_narrow_graphs_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Hit Points",
+    "arrange": "rows",
+    "widgets": [ "hitpoints_head_torso_layout_graphs", "hitpoints_arms_layout_graphs", "hitpoints_legs_layout_graphs" ]
+  },
+  {
+    "id": "hitpoints_all_narrow_nums_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Hit Points (num)",
+    "arrange": "rows",
+    "widgets": [ "hitpoints_head_torso_layout_nums", "hitpoints_arms_layout_nums", "hitpoints_legs_layout_nums" ],
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
+  },
+  {
+    "id": "hitpoint_graphs_vertical_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "widgets": [
+      "status_hpg_layout_head",
+      "status_hpg_layout_torso",
+      "status_hpg_layout_larm",
+      "status_hpg_layout_rarm",
+      "status_hpg_layout_lleg",
+      "status_hpg_layout_rleg"
+    ]
+  },
+  {
+    "id": "hitpoint_nums_vertical_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "widgets": [
+      "status_hpn_layout_head",
+      "status_hpn_layout_torso",
+      "status_hpn_layout_larm",
+      "status_hpn_layout_rarm",
+      "status_hpn_layout_lleg",
+      "status_hpn_layout_rleg"
+    ]
+  }
+]

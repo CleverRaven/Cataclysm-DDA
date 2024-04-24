@@ -1,0 +1,143 @@
+[
+  {
+    "type": "item_group",
+    "id": "ga_items_1",
+    "items": [
+      [ "seed_celery", 10 ],
+      [ "seed_tomato", 10 ],
+      [ "seed_zucchini", 10 ],
+      [ "seed_lettuce", 10 ],
+      [ "seed_cucumber", 10 ],
+      [ "seed_carrot", 10 ],
+      [ "seed_pumpkin", 10 ],
+      [ "seed_bottle_gourd", 2 ],
+      [ "seed_broccoli", 10 ],
+      [ "seed_spurge", 10 ],
+      [ "gloves_work", 10 ]
+    ]
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ "cs_gardening_allotment" ],
+    "method": "json",
+    "weight": 1000,
+    "object": {
+      "fill_ter": "t_region_soil",
+      "rows": [
+        "      ____              ",
+        "      ____              ",
+        "  ||||====||||||||||||  ",
+        "  |333____444_sss_aaa|  ",
+        "  |333____444_sss_aaa|  ",
+        "  |333____444_sss_aaa|  ",
+        "  |__________________|  ",
+        "  |aaa____888_aaa_111|  ",
+        "  |aaa____888_aaa_111|  ",
+        "  |aaa____888_aaa_111|  ",
+        "  |__________________|  ",
+        "  |ggg____SSS_222_666|  ",
+        "  |ggg____SSS_222_666|  ",
+        "  |ggg____SSS_222_666|  ",
+        "  |__________________|  ",
+        "  |hhh____555_aaa_RRR|  ",
+        "  |hhh____555_aaa_RRR|  ",
+        "  |hhh____555_aaa_RRR|  ",
+        "  |______twwwwwwwwwwwww ",
+        "  |______Ow77777777777w ",
+        "  |_T_____d,,,,B,,,,,Aw ",
+        "  |||||==|w,CCC,,B,,B7w ",
+        "          wwwwwwwwwwwww ",
+        "                        "
+      ],
+      "terrain": {
+        " ": "t_region_groundcover_urban",
+        "|": "t_chainfence",
+        "=": "t_chaingate_c",
+        "T": "t_region_tree_fruit",
+        "_": "t_region_soil",
+        "h": "t_dirtmound",
+        ",": "t_dirtfloor",
+        "C": "t_dirtfloor",
+        "B": "t_dirtfloor",
+        "A": "t_dirtfloor",
+        "7": "t_dirtfloor",
+        "w": "t_wall_wood",
+        "d": "t_door_o"
+      },
+      "furniture": {
+        "7": "f_table",
+        "C": "f_crate_c",
+        "A": "f_sink",
+        "B": "f_chair",
+        "D": "f_trashcan",
+        "t": "f_standing_tank",
+        "O": "f_standing_tank",
+        "h": "f_hay",
+        "a": "f_planter"
+      },
+      "liquids": { "O": { "liquid": "water", "amount": [ 0, 100 ] }, "t": { "liquid": "fertilizer_liquid", "amount": [ 0, 100 ] } },
+      "sealed_item": {
+        "1": { "item": { "item": "seed_tomato" }, "furniture": "f_planter_seedling", "chance": 100 },
+        "2": { "item": { "item": "seed_lettuce" }, "furniture": "f_planter_seedling", "chance": 100 },
+        "3": { "item": { "item": "seed_cucumber" }, "furniture": "f_planter_seedling", "chance": 100 },
+        "4": { "item": { "item": "seed_carrot" }, "furniture": "f_planter_seedling", "chance": 100 },
+        "5": { "item": { "item": "seed_zucchini" }, "furniture": "f_planter_seedling", "chance": 100 },
+        "8": { "item": { "item": "seed_celery" }, "furniture": "f_planter_seedling", "chance": 100 },
+        "6": { "item": { "item": "seed_pumpkin" }, "furniture": "f_planter_seedling", "chance": 100 },
+        "R": { "item": { "item": "seed_blueberries" }, "furniture": "f_planter_seedling", "chance": 100 },
+        "S": { "item": { "item": "seed_strawberries" }, "furniture": "f_planter_seedling", "chance": 100 },
+        "s": { "item": { "item": "seed_corn" }, "furniture": "f_planter_seedling", "chance": 100 },
+        "g": { "item": { "item": "seed_cabbage" }, "furniture": "f_planter_seedling", "chance": 100 }
+      },
+      "items": { "C": { "item": "ga_items_1", "chance": 80 }, "7": { "item": "garden_shed", "chance": 33 } },
+      "place_items": [
+        { "item": "ga_items_1", "chance": 80, "x": 12, "y": 21 },
+        { "item": "ga_items_1", "chance": 80, "x": 13, "y": 21 },
+        { "item": "ga_items_1", "chance": 80, "x": 14, "y": 21 }
+      ],
+      "add": [
+        { "item": "shovel", "x": [ 13, 17 ], "y": [ 19, 20 ], "chance": 20 },
+        { "item": "stepladder", "x": 11, "y": 21, "chance": 40 },
+        { "item": "gloves_work", "x": [ 14, 16 ], "y": 19, "chance": 45 },
+        { "item": "shovel", "x": 12, "y": 21, "chance": 20 },
+        { "item": "shovel", "x": 13, "y": 21, "chance": 20 },
+        { "item": "shovel", "x": 14, "y": 21, "chance": 20 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "cs_gardening_allotment_roof",
+    "object": {
+      "fill_ter": "t_shingle_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "          ............. ",
+        "          ............. ",
+        "          ............. ",
+        "          ............. ",
+        "          ............. ",
+        "                        "
+      ],
+      "terrain": { ".": "t_shingle_flat_roof", " ": "t_open_air" }
+    }
+  }
+]

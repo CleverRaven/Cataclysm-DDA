@@ -1,0 +1,50 @@
+[
+  {
+    "type": "proficiency",
+    "id": "prof_wound_care",
+    "category": "prof_firstaid",
+    "name": { "str": "Wound Care" },
+    "description": "You know how to bandage wounds and understand basic principles of wound care.",
+    "can_learn": true,
+    "default_time_multiplier": 2,
+    "default_skill_penalty": 0.5,
+    "time_to_learn": "2 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_wound_care_expert",
+    "category": "prof_firstaid",
+    "name": { "str": "Wound Care Expert" },
+    "description": "Your extensive field experience in bandaging and wound care is on par with that of a paramedic.",
+    "can_learn": true,
+    "default_time_multiplier": 2,
+    "default_skill_penalty": 0.25,
+    "time_to_learn": "14 h",
+    "required_proficiencies": [ "prof_wound_care" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_burn_care",
+    "category": "prof_firstaid",
+    "name": { "str": "Burn Care" },
+    "description": "You have some basic understanding of how burns work and (potentially) how they could be treated.",
+    "can_learn": true,
+    "default_time_multiplier": 2,
+    "default_skill_penalty": 0.25,
+    "time_to_learn": "12 h",
+    "default_weakpoint_bonus": 2,
+    "default_weakpoint_penalty": 0
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_dissect_humans",
+    "category": "prof_firstaid",
+    "name": { "str": "Human Autopsies" },
+    "description": "You have been trained such that you are desensitized to the sight of a human's innards, and can dissect human corpses without penalty.",
+    "can_learn": false,
+    "default_time_multiplier": 2,
+    "default_skill_penalty": 0.25,
+    "time_to_learn": "1000 h",
+    "required_proficiencies": [ "prof_physiology" ]
+  }
+]

@@ -1,0 +1,390 @@
+[
+  {
+    "type": "npc",
+    "id": "traveler_camper_van",
+    "class": "NC_SCAVENGER",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_NPC_CAMPER_VAN_TRAVELER",
+    "faction": "no_faction"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_CAMPER_VAN_TRAVELER",
+    "name": { "str": "Scavenger" },
+    "job_description": "I'm just trying to survive.",
+    "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "shopkeeper_price_rules": [
+      { "category": "food", "premium": 2.5 },
+      { "item": "gasoline", "premium": 2.5 },
+      { "item": "water_clean", "premium": 2.5 }
+    ],
+    "skills": [
+      { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -3 } ] } },
+      { "skill": "gun", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "pistol", "bonus": { "rng": [ 2, 5 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 0, 3 ] } },
+      { "skill": "archery", "bonus": { "rng": [ 0, 3 ] } }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": [
+      "TALK_NPC_CAMPER_VAN_TRAVELER",
+      "TALK_NPC_CAMPER_VAN_TRAVELER_DESTINATION",
+      "TALK_NPC_CAMPER_VAN_TRAVELER_BACKSTORY",
+      "TALK_NPC_CAMPER_VAN_TRAVELER_LEAVING_WHEN"
+    ],
+    "responses": [
+      {
+        "text": "Do you have anything that you'd like to sell?",
+        "topic": "TALK_NPC_CAMPER_VAN_TRAVELER_TRADE",
+        "condition": { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" }
+      },
+      {
+        "text": "I'd like to ask you a few questions.",
+        "topic": "TALK_FRIEND_CONVERSATION",
+        "condition": {
+          "and": [ { "math": [ "n_val('npc_trust')", ">=", "2" ] }, { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" } ]
+        }
+      },
+      {
+        "text": "Where did you say you were going again?",
+        "topic": "TALK_NPC_CAMPER_VAN_TRAVELER_DESTINATION",
+        "condition": { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" }
+      },
+      {
+        "text": "What did you do before <the_cataclysm>?",
+        "topic": "TALK_NPC_CAMPER_VAN_TRAVELER_BACKSTORY",
+        "condition": { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" }
+      },
+      {
+        "text": "I'd like to ask you a few questions.",
+        "topic": "TALK_FRIEND_CONVERSATION",
+        "condition": { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" }
+      },
+      {
+        "text": "Have you found anything out of the ordinary out in the wastes?",
+        "topic": "TALK_NPC_CAMPER_VAN_TRAVELER_INTERESTING_THINGS",
+        "condition": {
+          "and": [
+            { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" },
+            { "not": { "npc_has_var": "dialogue_camper_van_traveler_gave_directions", "value": "yes" } }
+          ]
+        },
+        "effect": [
+          { "math": [ "npc_randomize_dialogue_direction", "=", "rand(4)" ] },
+          { "npc_add_var": "dialogue_camper_van_traveler_gave_directions", "value": "yes" }
+        ],
+        "switch": true
+      },
+      {
+        "text": "Have you found anything out of the ordinary out in the wastes?",
+        "topic": "TALK_NPC_CAMPER_VAN_TRAVELER_INTERESTING_THINGS",
+        "condition": {
+          "and": [
+            { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" },
+            { "npc_has_var": "dialogue_camper_van_traveler_gave_directions", "value": "yes" }
+          ]
+        },
+        "switch": true,
+        "default": true
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_CAMPER_VAN_TRAVELER",
+    "dynamic_line": {
+      "npc_has_var": "dialogue_first_meeting_knows_u",
+      "value": "yes",
+      "yes": "<greet>",
+      "no": {
+        "gendered_line": "I didn't think anyone was around here.  Pleased to meet you, I'm <npc_name>.",
+        "relevant_genders": [ "npc" ]
+      }
+    },
+    "speaker_effect": {
+      "effect": [
+        { "npc_add_var": "dialogue_first_meeting_knows_u", "value": "yes" },
+        { "u_run_npc_eocs": [ "EOC_traveler_random_destination_direction" ], "unique_ids": [ "TRAVELER" ] }
+      ]
+    },
+    "responses": [
+      {
+        "text": "What's in that RV of yours?  Couldn't be anything you need, so hand over your stuff.",
+        "trial": { "type": "INTIMIDATE", "difficulty": 30 },
+        "success": { "topic": "TALK_WEAPON_DROPPED", "effect": "drop_weapon", "opinion": { "trust": -4, "fear": 3 } },
+        "failure": { "topic": "TALK_DONE", "effect": "hostile" },
+        "condition": { "not": { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" } }
+      },
+      {
+        "text": "Good to meet you too.  What are you doing out here?",
+        "topic": "TALK_NPC_CAMPER_VAN_TRAVELER_DESTINATION",
+        "condition": { "not": { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" } }
+      },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_CAMPER_VAN_TRAVELER_DESTINATION",
+    "dynamic_line": {
+      "npc_has_var": "dialogue_travel_direction_travel_direction",
+      "value": "north",
+      "yes": {
+        "gendered_line": "I'm going north, up towards the border and the big wide wilderness.  I heard that there's some sort of safe spot up there, where people didn't go crazy and try to kill each other.  I don't know whether or not that's true, but at the very least, the colder climate might help keep the <zombies> down.",
+        "relevant_genders": [ "npc" ]
+      },
+      "no": {
+        "npc_has_var": "dialogue_travel_direction_travel_direction",
+        "value": "south",
+        "yes": "I'm going south.  Hopefully somebody down there fared better than the people I knew up here.  Besides, I won't have to worry about freezing my <swear> butt off when winter comes.",
+        "no": {
+          "npc_has_var": "dialogue_travel_direction_travel_direction",
+          "value": "east",
+          "yes": {
+            "gendered_line": "I'm going east, towards the coastline.  I heard some rumors that Rhode Island was still holding itself together, so I'm going to go and check that out.  Heck, I might just go out to sea myself, live on an old oil rig or something like that.",
+            "relevant_genders": [ "npc" ]
+          },
+          "no": {
+            "npc_has_var": "dialogue_travel_direction_travel_direction",
+            "value": "west",
+            "yes": "I'm going west, see how things are out there in tumbleweed territory.  You see, the Midwest didn't have a whole lot of people in it compared the the East Coast, so there logically shouldn't be as many <zombies> as there are here.  I just hope that everything hasn't <swear> collapsed, that someone's still holding on.",
+            "no": "ERROR: DIRECTION PARAMETERS EITHER NOT PICKED OR OUT OF BOUNDS"
+          }
+        }
+      }
+    },
+    "responses": [
+      { "text": "When will you be leaving?", "topic": "TALK_NPC_CAMPER_VAN_TRAVELER_LEAVING_WHEN" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_CAMPER_VAN_TRAVELER_LEAVING_WHEN",
+    "dynamic_line": "I'll be gone here in a day or two, just stopping long enough to get some supplies and fix anything wrong with the camper.",
+    "responses": [ { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_CAMPER_VAN_TRAVELER_TRADE",
+    "dynamic_line": "I don't have a whole lot, but I've got a few things that I could stand to be rid of, too much weight tanks the gas mileage.  I could always use more fuel, food, and clean water if you have any to spare.  Entertainment is also appreciated, it's pretty <swear> boring looking at nothing but road for 10 hours a day.",
+    "responses": [
+      { "text": "Let's take a look.", "topic": "TALK_NPC_CAMPER_VAN_TRAVELER", "effect": "start_trade" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_CAMPER_VAN_TRAVELER_INTERESTING_THINGS",
+    "dynamic_line": {
+      "math": [ "npc_randomize_dialogue_direction", "==", "0" ],
+      "yes": {
+        "gendered_line": "I haven't found anything out of the ordinary, just a bunch of <zombies> and the ruins of our old lives.",
+        "relevant_genders": [ "npc" ]
+      },
+      "no": {
+        "math": [ "npc_randomize_dialogue_direction", "==", "1" ],
+        "yes": {
+          "gendered_line": "Actually, I came across a group of farmers on my way here.  They were a little suspicious, but turned out to be pretty nice.  Good place to buy some food, if they're still around.",
+          "relevant_genders": [ "npc" ]
+        },
+        "no": {
+          "math": [ "npc_randomize_dialogue_direction", "==", "2" ],
+          "yes": {
+            "gendered_line": "I found a small cabin out in the woods, someone was living there and had some serious chemistry equipment.  I managed to get good medical supplies from there.  They even had some oddball things too, like <swear> napalm and black powder.",
+            "relevant_genders": [ "npc" ]
+          },
+          "no": {
+            "math": [ "npc_randomize_dialogue_direction", "==", "3" ],
+            "yes": {
+              "gendered_line": "I ran in to someone living in an old barn, didn't want anything to do with the world.  The odd thing is, they looked like one of those old, Wild West cowboys.",
+              "relevant_genders": [ "npc" ]
+            },
+            "no": {
+              "math": [ "npc_randomize_dialogue_direction", "==", "4" ],
+              "yes": {
+                "gendered_line": "I came across an abandoned house, half of it was collapsed in, looked like it was from way before <the_cataclysm>.  I was poking around to see what was there, and I found a whole bunker underneath the place.  I don't know what the heck was up with that, but I wouldn't want to find out.",
+                "relevant_genders": [ "npc" ]
+              },
+              "no": "ERROR: out of bounds on randomize_directions."
+            }
+          }
+        }
+      }
+    },
+    "responses": [
+      {
+        "text": "How do I get to that farm?",
+        "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS_2",
+        "condition": {
+          "and": [
+            { "math": [ "npc_randomize_dialogue_direction", "==", "1" ] },
+            { "not": { "npc_has_var": "camper_van_traveler_mission_directions", "value": "isherwood" } }
+          ]
+        },
+        "effect": [
+          { "npc_add_var": "camper_van_traveler_mission_directions", "value": "isherwood" },
+          { "assign_mission": "directions_isherwood_traveler" }
+        ],
+        "switch": true
+      },
+      {
+        "text": "How do I get to that cabin?",
+        "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS_2",
+        "condition": {
+          "and": [
+            { "math": [ "npc_randomize_dialogue_direction", "==", "2" ] },
+            { "not": { "npc_has_var": "camper_van_traveler_mission_directions", "value": "chem_chabin" } }
+          ]
+        },
+        "effect": [
+          { "npc_add_var": "camper_van_traveler_mission_directions", "value": "chem_chabin" },
+          { "assign_mission": "directions_cabin" }
+        ],
+        "switch": true
+      },
+      {
+        "text": "Where were they at?",
+        "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS_2",
+        "condition": {
+          "and": [
+            { "math": [ "npc_randomize_dialogue_direction", "==", "3" ] },
+            { "not": { "npc_has_var": "camper_van_traveler_mission_directions", "value": "cowboy" } }
+          ]
+        },
+        "effect": [
+          { "npc_add_var": "camper_van_traveler_mission_directions", "value": "cowboy" },
+          { "assign_mission": "directions_cowboy" }
+        ],
+        "switch": true
+      },
+      {
+        "text": "Where was the bunker at?",
+        "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS_2",
+        "condition": {
+          "and": [
+            { "math": [ "npc_randomize_dialogue_direction", "==", "4" ] },
+            { "not": { "npc_has_var": "camper_van_traveler_mission_directions", "value": "bunker_shop" } }
+          ]
+        },
+        "effect": [
+          { "npc_add_var": "camper_van_traveler_mission_directions", "value": "bunker_shop" },
+          { "assign_mission": "directions_bunker_shop" }
+        ],
+        "switch": true
+      },
+      {
+        "text": "Ah, that's nothing new to me.  Thanks anyway though.",
+        "topic": "TALK_NPC_CAMPER_VAN_TRAVELER",
+        "switch": true,
+        "default": true
+      },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_CAMPER_VAN_TRAVELER_BACKSTORY",
+    "//": "This should also be included as part of a randomly selected list of backgrounds in the future.",
+    "dynamic_line": {
+      "gendered_line": "I used to travel a lot before <the_cataclysm>, and I've had this camper with me for a while now.  I was at home when the riots started, so I grabbed everything I could from my house and hopped in the camper.  I nearly wrecked on my way out of town when some crazy people tried to smash my van, but I made it out.  I've been on the move ever since.",
+      "relevant_genders": [ "npc" ]
+    },
+    "responses": [ { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "directions_isherwood_traveler",
+    "type": "mission_definition",
+    "name": { "str": "Check out that farm" },
+    "goal": "MGOAL_GO_TO",
+    "difficulty": 2,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_special": "Isherwood Farms", "om_terrain": "farm_isherwood_1", "reveal_radius": 5, "search_range": 400 }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": ".",
+      "offer": ".",
+      "accepted": ".",
+      "rejected": ".",
+      "advice": "Be careful.  Seems like a rough place to me.",
+      "inquire": "How is the search going?",
+      "success": "Sweet.",
+      "success_lie": "Sweet.",
+      "failure": "That's unfortunate."
+    }
+  },
+  {
+    "id": "directions_cabin",
+    "type": "mission_definition",
+    "name": { "str": "Check out that cabin" },
+    "goal": "MGOAL_GO_TO",
+    "difficulty": 2,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_terrain": "chemical_lab_ocu", "om_special": "Occupied Chem Lab", "reveal_radius": 5, "search_range": 400 }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": ".",
+      "offer": ".",
+      "accepted": ".",
+      "rejected": ".",
+      "advice": "Be careful.  Seems like a rough place to me.",
+      "inquire": "How is the search going?",
+      "success": "Sweet.",
+      "success_lie": "Sweet.",
+      "failure": "That's unfortunate."
+    }
+  },
+  {
+    "id": "directions_cowboy",
+    "type": "mission_definition",
+    "name": { "str": "Check out that desolate barn" },
+    "goal": "MGOAL_GO_TO",
+    "difficulty": 2,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_terrain": "desolatebarn", "om_special": "desolate barn", "reveal_radius": 5, "search_range": 400 }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": ".",
+      "offer": ".",
+      "accepted": ".",
+      "rejected": ".",
+      "advice": "Be careful.  Seems like a rough place to me.",
+      "inquire": "How is the search going?",
+      "success": "Sweet.",
+      "success_lie": "Sweet.",
+      "failure": "That's unfortunate."
+    }
+  },
+  {
+    "id": "directions_bunker_shop",
+    "type": "mission_definition",
+    "name": { "str": "Check out that collapsed house" },
+    "goal": "MGOAL_GO_TO",
+    "difficulty": 2,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_terrain": "bunker_shop_g", "om_special": "bunker shop", "reveal_radius": 5, "search_range": 400 }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": ".",
+      "offer": ".",
+      "accepted": ".",
+      "rejected": ".",
+      "advice": "Be careful.  Seems like a rough place to me.",
+      "inquire": "How is the search going?",
+      "success": "Sweet.",
+      "success_lie": "Sweet.",
+      "failure": "That's unfortunate."
+    }
+  }
+]

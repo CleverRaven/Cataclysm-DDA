@@ -1,0 +1,122 @@
+[
+  {
+    "type": "palette",
+    "id": "dock_small",
+    "terrain": { "d": "t_dock" }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "lake_dock_small" ],
+    "weight": 1000,
+    "object": {
+      "predecessor_mapgen": "lake_surface",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "           dd           ",
+        "           dd           ",
+        "           dd           ",
+        "           dd           "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "dock_small" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "lake_dock_small" ],
+    "weight": 750,
+    "object": {
+      "predecessor_mapgen": "lake_surface",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "      dddddddddddd      ",
+        "      dddddddddddd      ",
+        "      dddddddddddd      "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "dock_small" ],
+      "place_nested": [ { "chunks": [ [ "NPC_lighthouse_man_spawn", 25 ], [ "null", 75 ] ], "x": 12, "y": 21 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "lake_shore_dock_small" ],
+    "object": {
+      "predecessor_mapgen": "lake_shore",
+      "rows": [
+        "           dd           ",
+        "           dd           ",
+        "           dd           ",
+        "           dd           ",
+        "           dd           ",
+        "           dd           ",
+        "           dd           ",
+        "           dd           ",
+        "           dd           ",
+        "           dd           ",
+        "           dd           ",
+        "           dd           ",
+        "           dd           ",
+        "           dd           ",
+        "           dd           ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "dock_small" ],
+      "place_vehicles": [
+        { "chance": 10, "fuel": 15, "vehicle": "boat_motor_single", "x": 8, "y": 5, "rotation": 270 },
+        { "chance": 10, "fuel": 15, "vehicle": "boat_motor_single", "x": 13, "y": 5, "rotation": 270 }
+      ]
+    }
+  }
+]

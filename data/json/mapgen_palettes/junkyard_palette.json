@@ -1,0 +1,51 @@
+[
+  {
+    "type": "palette",
+    "id": "junkyard_palette",
+    "terrain": {
+      ".": [ [ "t_pavement", 22 ], "t_region_groundcover" ],
+      "g": "t_region_groundcover_urban",
+      "_": [ [ "t_region_groundcover_barren", 5 ], "t_region_groundcover_urban" ],
+      "|": "t_fence_barbed",
+      "$": "t_fence_barbed",
+      "-": "t_laminated_glass",
+      "s": [ [ "t_region_groundcover_barren", 5 ], "t_region_groundcover" ],
+      "D": "t_door_c",
+      "S": "t_sidewalk",
+      "q": "t_door_metal_locked",
+      "f": "t_floor",
+      "c": "t_carpet_concrete_red",
+      "n": "t_carpet_concrete_red",
+      "r": "t_reinforced_door_glass_c",
+      "%": "t_brick_wall",
+      "C": "t_thconc_floor",
+      "&": "t_thconc_floor",
+      "#": "t_thconc_floor",
+      "t": "t_thconc_floor",
+      "e": "t_gates_mech_control",
+      "d": "t_door_metal_locked",
+      "m": "t_metal_floor",
+      "9": "t_wall_wood",
+      "4": "t_gutter_downspout"
+    },
+    "furniture": {
+      "x": "f_console_broken",
+      "#": "f_straw_bed",
+      "N": "f_ladder",
+      "B": "f_bench",
+      "&": "f_trashcan",
+      "R": "f_trashcan",
+      "C": "f_counter",
+      "U": "f_counter",
+      "T": "f_toilet",
+      "a": "f_chair",
+      "b": "f_sink",
+      "I": "f_desk",
+      "n": "f_table",
+      "p": "f_table",
+      "F": "f_vending_c",
+      "K": "f_vending_c"
+    },
+    "items": { "_": { "item": "trash_junkyard", "chance": 3, "repeat": 2 } }
+  }
+]

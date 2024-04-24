@@ -1,0 +1,150 @@
+[
+  {
+    "result": "oven",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 h",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "autolearn": true,
+    "skills_required": [ "electronics", 1 ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_appliance_repair" } ],
+    "components": [
+      [ [ "oven_stovetop", 1 ] ],
+      [ [ "oven_cabinet", 1 ] ],
+      [ [ "oven_controls", 1 ] ],
+      [ [ "oven_door", 1 ] ],
+      [ [ "oven_broiler_pan", 1 ] ],
+      [ [ "heavy_wire_rack", 2 ] ],
+      [ [ "element", 4 ], [ "crude_heating_element", 6 ] ],
+      [ [ "cable", 1 ] ]
+    ]
+  },
+  {
+    "result": "oven",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "45 m",
+    "skill_used": "fabrication",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_appliance_repair", "skill_penalty": 0 } ],
+    "components": [
+      [ [ "oven_stovetop", 1 ] ],
+      [ [ "oven_cabinet", 1 ] ],
+      [ [ "oven_controls", 1 ] ],
+      [ [ "oven_door", 1 ] ],
+      [ [ "oven_broiler_pan", 1 ] ],
+      [ [ "heavy_wire_rack", 2 ] ],
+      [ [ "element", 4 ] ],
+      [ [ "cable", 4 ] ]
+    ]
+  },
+  {
+    "result": "oven_stovetop",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "30 m",
+    "skill_used": "fabrication",
+    "proficiencies": [ { "proficiency": "prof_appliance_repair", "skill_penalty": 0 } ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 },
+      { "id": "HAMMER", "level": 1 },
+      { "id": "SAW_M", "level": 1 }
+    ],
+    "components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "spring", 1 ] ], [ [ "hinge", 1 ] ], [ [ "wire", 1 ] ], [ [ "e_scrap", 4 ] ] ]
+  },
+  {
+    "result": "oven_cabinet",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 h",
+    "skill_used": "fabrication",
+    "proficiencies": [ { "proficiency": "prof_appliance_repair", "skill_penalty": 0 } ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 },
+      { "id": "HAMMER", "level": 1 },
+      { "id": "SAW_M", "level": 1 }
+    ],
+    "//": "Pilot lights shouldn't be part of an electric oven but we don't have gas ones yet. Can be removed when that changes.",
+    "components": [
+      [ [ "sheet_metal", 2 ] ],
+      [ [ "sheet_metal_small", 2 ] ],
+      [ [ "rock_wool_bat", 3 ] ],
+      [ [ "element", 2 ] ],
+      [ [ "scrap", 4 ] ],
+      [ [ "e_scrap", 2 ] ],
+      [ [ "cable", 2 ] ],
+      [ [ "pilot_light", 1 ] ],
+      [ [ "motor_micro", 1 ] ],
+      [ [ "fanblade_metal", 1 ] ],
+      [ [ "thermometer", 1 ] ],
+      [ [ "pipe_fittings", 4 ] ]
+    ]
+  },
+  {
+    "result": "oven_door",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 h",
+    "skill_used": "fabrication",
+    "proficiencies": [ { "proficiency": "prof_appliance_repair", "skill_penalty": 0 } ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 },
+      { "id": "HAMMER_FINE", "level": 1 },
+      { "id": "SAW_M", "level": 1 }
+    ],
+    "components": [
+      [ [ "reinforced_glass_pane", 1 ] ],
+      [ [ "sheet_metal_small", 2 ] ],
+      [ [ "rock_wool_bat", 1 ] ],
+      [ [ "element", 2 ] ],
+      [ [ "scrap", 4 ] ],
+      [ [ "e_scrap", 2 ] ],
+      [ [ "cable", 2 ] ],
+      [ [ "hinge", 2 ] ]
+    ]
+  },
+  {
+    "result": "oven_broiler_pan",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "30 m",
+    "skill_used": "fabrication",
+    "proficiencies": [ { "proficiency": "prof_appliance_repair", "skill_penalty": 0 } ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "WRENCH", "level": 1 },
+      { "id": "HAMMER", "level": 1 },
+      { "id": "SAW_M", "level": 1 }
+    ],
+    "components": [ [ [ "sheet_metal", 1 ] ], [ [ "sheet_metal_small", 2 ] ], [ [ "scrap", 2 ] ], [ [ "bearing", 12 ] ] ]
+  },
+  {
+    "result": "oven_controls",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 h",
+    "skill_used": "fabrication",
+    "proficiencies": [
+      { "proficiency": "prof_elec_soldering", "skill_penalty": 0 },
+      { "proficiency": "prof_elec_circuits", "skill_penalty": 0 }
+    ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "tools": [ [ [ "soldering_iron", -1 ], [ "soldering_iron_portable", -1 ], [ "integrated_welder", -1 ] ] ],
+    "components": [
+      [ [ "plastic_chunk", 4 ] ],
+      [ [ "sheet_metal_small", 1 ] ],
+      [ [ "scrap", 2 ] ],
+      [ [ "e_scrap", 6 ] ],
+      [ [ "cable", 2 ] ],
+      [ [ "solder_wire", 8 ] ],
+      [ [ "small_lcd_screen", 1 ] ]
+    ]
+  }
+]

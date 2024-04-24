@@ -1,0 +1,62 @@
+[
+  {
+    "name": "GROUP_EGG_MARSHMALLOW",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_marshmallow_kid" } ]
+  },
+  {
+    "name": "GROUP_EGG_SMORES",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_marshmallow_kid_armored" } ]
+  },
+  {
+    "name": "GROUP_EGG_GUMMY",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_gummy_cub" } ]
+  },
+  {
+    "name": "GROUP_EGG_GUMMY_GATOR",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_gummy_gator" } ]
+  },
+  {
+    "name": "GROUP_EGG_CRACKER",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_small_cracker" } ]
+  },
+  {
+    "name": "GROUP_EGG_CRACKER_ROE",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_cracker_lbass" } ]
+  },
+  {
+    "name": "GROUP_EGG_COOKIE",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_cookie" } ]
+  },
+  {
+    "name": "GROUP_EGG_COOKIE_EGG",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_cookie_hydra_youth" } ]
+  },
+  {
+    "name": "GROUP_EGG_GUM",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_spider_gum" } ]
+  },
+  {
+    "name": "GROUP_EGG_CAFFGUM",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_gum_spider_wolf" } ]
+  },
+  {
+    "name": "GROUP_EGG_CHOC_COW",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_cow_calf_choc" } ]
+  },
+  {
+    "name": "GROUP_EGG_LICORICE",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_licorice_snake_hatchling" } ]
+  }
+]

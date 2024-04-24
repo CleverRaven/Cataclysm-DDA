@@ -1,0 +1,80 @@
+[
+  {
+    "type": "overmap_location",
+    "id": "mesa",
+    "terrains": [
+      "mesa",
+      "mesa_edge_v1",
+      "mesa_corner_v1",
+      "mesa_2way_v1",
+      "mesa_3way_v1",
+      "mesa_edge_top_v1",
+      "mesa_corner_top_v1",
+      "mesa_2way_top_v1",
+      "mesa_3way_top_v1",
+      "mesa_edge_v2",
+      "mesa_corner_v2",
+      "mesa_2way_v2",
+      "mesa_3way_v2",
+      "mesa_edge_top_v2",
+      "mesa_corner_top_v2",
+      "mesa_2way_top_v2",
+      "mesa_3way_top_v2"
+    ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "land",
+    "terrains": [ "forest", "forest_thick", "forest_water", "field", "forest_trail" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "wilderness",
+    "terrains": [ "forest", "forest_thick", "field", "forest_trail" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "subterranean_empty",
+    "terrains": [ "deep_rock", "sandstone", "empty_rock", "rock", "solid_earth" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "canyon",
+    "terrains": [
+      "canyon_2way_v1",
+      "canyon_3way_v1",
+      "canyon_edge_v1",
+      "canyon_corner_v1",
+      "canyon_2way_v2",
+      "canyon_3way_v2",
+      "canyon_edge_v2",
+      "canyon_corner_v2",
+      "canyon_2way_ground_v1",
+      "canyon_3way_ground_v1",
+      "canyon_edge_ground_v1",
+      "canyon_corner_ground_v1",
+      "canyon_2way_ground_v2",
+      "canyon_3way_ground_v2",
+      "canyon_edge_ground_v2",
+      "canyon_corner_ground_v2",
+      "canyon_2way_v1_bottom",
+      "canyon_3way_v1_bottom",
+      "canyon_edge_v1_bottom",
+      "canyon_corner_v1_bottom",
+      "canyon_2way_v2_bottom",
+      "canyon_3way_v2_bottom",
+      "canyon_edge_v2_bottom",
+      "canyon_corner_v2_bottom"
+    ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "subterranean",
+    "terrains": [ "empty_rock", "sandstone", "rock", "slimepit", "sewer", "solid_earth" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "subterranean_subway",
+    "terrains": [ "empty_rock", "sandstone", "slimepit", "subway" ]
+  }
+]

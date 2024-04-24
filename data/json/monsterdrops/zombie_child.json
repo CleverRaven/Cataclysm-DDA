@@ -1,0 +1,169 @@
+[
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "contains cloth for an average zombie child",
+    "id": "default_zombie_children_clothes",
+    "entries": [
+      {
+        "distribution": [
+          { "group": "coats_unisex", "prob": 90, "custom-flags": [ "UNDERSIZE" ], "damage": [ 1, 4 ] },
+          { "item": "football_armor", "prob": 10, "custom-flags": [ "UNDERSIZE" ], "damage": [ 1, 4 ] }
+        ],
+        "prob": 20
+      },
+      { "group": "common_gloves", "custom-flags": [ "UNDERSIZE" ], "damage": [ 1, 4 ], "prob": 20 },
+      {
+        "distribution": [
+          { "group": "hatstore_hats", "prob": 50, "custom-flags": [ "UNDERSIZE" ], "damage": [ 1, 4 ] },
+          { "group": "child_hats", "prob": 50, "custom-flags": [ "UNDERSIZE" ], "damage": [ 1, 4 ] }
+        ],
+        "prob": 20
+      },
+      { "group": "scarfs_unisex", "damage": [ 1, 4 ], "custom-flags": [ "UNDERSIZE" ], "prob": 20 },
+      { "group": "accesories_personal_unisex_child", "damage": [ 1, 4 ], "custom-flags": [ "UNDERSIZE" ], "prob": 15 },
+      {
+        "distribution": [
+          {
+            "collection": [
+              {
+                "distribution": [
+                  { "group": "male_underwear", "prob": 90, "custom-flags": [ "UNDERSIZE" ], "damage": [ 1, 4 ] },
+                  { "item": "union_suit", "prob": 10, "custom-flags": [ "UNDERSIZE" ], "damage": [ 1, 4 ] }
+                ]
+              },
+              {
+                "distribution": [
+                  {
+                    "collection": [
+                      { "group": "pants_male", "prob": 60, "custom-flags": [ "UNDERSIZE" ], "damage": [ 1, 4 ] },
+                      { "group": "shirts_unisex", "prob": 60, "custom-flags": [ "UNDERSIZE" ], "damage": [ 1, 4 ] },
+                      { "item": "leather_belt", "prob": 30, "custom-flags": [ "UNDERSIZE" ], "damage": [ 1, 4 ] }
+                    ]
+                  },
+                  { "item": "suit", "prob": 5, "custom-flags": [ "UNDERSIZE" ], "damage": [ 1, 4 ] },
+                  { "item": "tux", "prob": 5, "custom-flags": [ "UNDERSIZE" ], "damage": [ 1, 4 ] }
+                ]
+              },
+              { "group": "neckties", "prob": 15, "custom-flags": [ "UNDERSIZE" ], "damage": [ 1, 4 ] },
+              {
+                "distribution": [
+                  { "group": "shoes_unisex", "prob": 50, "custom-flags": [ "UNDERSIZE" ], "damage": [ 1, 4 ] },
+                  { "group": "child_shoes", "prob": 50, "custom-flags": [ "UNDERSIZE" ], "damage": [ 1, 4 ] }
+                ],
+                "prob": 30
+              },
+              { "group": "socks_unisex", "custom-flags": [ "UNDERSIZE" ], "damage": [ 1, 4 ], "prob": 50 },
+              { "group": "accesories_personal_mens", "prob": 15, "custom-flags": [ "UNDERSIZE" ], "damage": [ 1, 4 ] }
+            ]
+          },
+          {
+            "collection": [
+              { "group": "female_underwear_child", "prob": 90, "custom-flags": [ "UNDERSIZE" ], "damage": [ 1, 4 ] },
+              {
+                "group": "accesories_personal_womens_child",
+                "prob": 15,
+                "custom-flags": [ "UNDERSIZE" ],
+                "damage": [ 1, 4 ]
+              },
+              {
+                "distribution": [
+                  {
+                    "collection": [
+                      { "group": "pants_female_child", "prob": 60, "custom-flags": [ "UNDERSIZE" ], "damage": [ 1, 4 ] },
+                      {
+                        "distribution": [
+                          { "group": "child_shoes", "prob": 50, "custom-flags": [ "UNDERSIZE" ], "damage": [ 1, 4 ] },
+                          { "group": "shoes_unisex", "prob": 30, "custom-flags": [ "UNDERSIZE" ], "damage": [ 1, 4 ] },
+                          { "group": "shoes_womens", "prob": 20, "custom-flags": [ "UNDERSIZE" ], "damage": [ 1, 4 ] }
+                        ],
+                        "prob": 30
+                      },
+                      { "group": "shirts_unisex", "prob": 60, "custom-flags": [ "UNDERSIZE" ], "damage": [ 1, 4 ] },
+                      {
+                        "distribution": [
+                          {
+                            "distribution": [
+                              { "item": "stockings", "prob": 50, "custom-flags": [ "UNDERSIZE" ], "damage": [ 1, 4 ] },
+                              { "item": "tights", "prob": 50, "custom-flags": [ "UNDERSIZE" ], "damage": [ 1, 4 ] }
+                            ]
+                          },
+                          { "group": "socks_unisex", "prob": 50, "custom-flags": [ "UNDERSIZE" ], "damage": [ 1, 4 ] }
+                        ]
+                      }
+                    ],
+                    "prob": 70
+                  },
+                  {
+                    "collection": [
+                      {
+                        "distribution": [
+                          { "item": "dress", "prob": 70, "custom-flags": [ "UNDERSIZE" ], "damage": [ 1, 4 ] },
+                          { "item": "sundress", "prob": 50, "custom-flags": [ "UNDERSIZE" ], "damage": [ 1, 4 ] }
+                        ]
+                      },
+                      {
+                        "distribution": [
+                          { "group": "dress_shoes", "prob": 60, "custom-flags": [ "UNDERSIZE" ], "damage": [ 1, 4 ] },
+                          { "group": "child_shoes", "prob": 20, "custom-flags": [ "UNDERSIZE" ], "damage": [ 1, 4 ] },
+                          { "group": "shoes_womens", "prob": 20, "custom-flags": [ "UNDERSIZE" ], "damage": [ 1, 4 ] }
+                        ],
+                        "prob": 30
+                      },
+                      {
+                        "collection": [
+                          {
+                            "distribution": [
+                              { "item": "stockings", "prob": 50, "custom-flags": [ "UNDERSIZE" ], "damage": [ 1, 4 ] },
+                              { "item": "tights", "prob": 50, "custom-flags": [ "UNDERSIZE" ], "damage": [ 1, 4 ] }
+                            ]
+                          }
+                        ]
+                      }
+                    ],
+                    "prob": 20
+                  },
+                  {
+                    "collection": [
+                      { "group": "costume_cheerleader_set_any", "custom-flags": [ "UNDERSIZE" ], "damage": [ 1, 4 ] },
+                      { "item": "pom_poms", "prob": 50, "custom-flags": [ "UNDERSIZE" ], "damage": [ 1, 4 ] },
+                      {
+                        "distribution": [
+                          { "group": "shoes_unisex", "prob": 60, "custom-flags": [ "UNDERSIZE" ], "damage": [ 1, 4 ] },
+                          { "group": "child_shoes", "prob": 35, "custom-flags": [ "UNDERSIZE" ], "damage": [ 1, 4 ] },
+                          { "group": "shoes_womens", "prob": 5, "custom-flags": [ "UNDERSIZE" ], "damage": [ 1, 4 ] }
+                        ],
+                        "prob": 30
+                      },
+                      {
+                        "distribution": [
+                          {
+                            "collection": [
+                              {
+                                "distribution": [
+                                  { "item": "stockings", "prob": 50, "custom-flags": [ "UNDERSIZE" ], "damage": [ 1, 4 ] },
+                                  {
+                                    "item": "tights",
+                                    "prob": 50,
+                                    "custom-flags": [ "UNDERSIZE" ],
+                                    "damage": [ 1, 4 ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          { "group": "socks_unisex", "prob": 50, "custom-flags": [ "UNDERSIZE" ], "damage": [ 1, 4 ] }
+                        ]
+                      }
+                    ],
+                    "prob": 10
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

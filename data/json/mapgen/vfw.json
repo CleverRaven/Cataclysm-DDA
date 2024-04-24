@@ -1,0 +1,143 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_vfw" ],
+    "weight": 500,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "________________   22   ",
+        "y____y____y____y  2222  ",
+        "y____y____y____y 22pp22 ",
+        "y____y____y____y 2p  p2 ",
+        "y____y____y____y 2pXSp2 ",
+        "y___Áy__Á_y__Á_y 22pp22 ",
+        "y____y____y____y  2222  ",
+        "yyyyyyyyyyyyyyyy   22   ",
+        "3pppppppppppppp    22  3",
+        "3||11||11||11||    22  3",
+        "3|I....F..É..A|   222  3",
+        "31I...FHF.....+222222  3",
+        "31I....F......+22222   3",
+        "3|I.......I...|        3",
+        "3|.....F..I..H|        3",
+        "3|B...FHF.I..H|pppppp  3",
+        "3|B....F..I...|||11||  3",
+        "3|B............FC..O|  3",
+        "3|.....F...F...FC..e1  3",
+        "3|+||.FHF.FHF..FC..D1  3",
+        "3|d;|..F...F.......U|  3",
+        "3|||||||||||||+||||||  3",
+        "3           522ZZ      3",
+        "333333333333333333333333"
+      ],
+      "terrain": {
+        ".": "t_floor",
+        "d": "t_linoleum_gray",
+        ";": "t_linoleum_gray",
+        "+": "t_door_c",
+        "-": "t_wall_wood",
+        "X": "t_region_groundcover_urban",
+        "S": "t_region_groundcover_urban",
+        "p": "t_region_groundcover_urban",
+        "3": "t_region_groundcover_urban",
+        " ": "t_region_groundcover_urban",
+        "1": [ "t_window_domestic", "t_curtains", "t_window_open" ],
+        "2": "t_sidewalk",
+        "_": "t_pavement",
+        "Z": "t_sidewalk",
+        "Á": "t_pavement",
+        "y": "t_pavement_y",
+        "|": "t_wall_wood",
+        "5": "t_gutter_downspout"
+      },
+      "furniture": {
+        "A": "f_rack_coat",
+        "C": "f_counter",
+        "U": "f_cupboard",
+        "O": "f_oven",
+        "e": "f_fridge",
+        "B": "f_bookcase",
+        "D": "f_sink",
+        "d": "f_sink",
+        "F": "f_chair",
+        "H": "f_table",
+        "I": "f_sofa",
+        "Z": [ "f_dumpster", "f_recycle_bin" ],
+        "3": "f_hedge_short",
+        "p": "f_region_flower_decorative",
+        "S": "f_statue",
+        "X": "f_flagpole"
+      },
+      "items": {
+        ";": { "item": "SUS_toilet", "chance": 100 },
+        "O": { "item": "SUS_oven", "chance": 100 },
+        "D": { "item": "SUS_kitchen_sink", "chance": 100 },
+        "e": { "item": "SUS_fridge_breakroom", "chance": 80 },
+        "Z": { "item": "trash", "chance": 70, "repeat": [ 1, 4 ] },
+        "U": [
+          { "item": "SUS_silverware", "chance": 100 },
+          { "item": "SUS_dishes", "chance": 100 },
+          { "item": "SUS_cookware", "chance": 75 },
+          { "item": "SUS_appliances_cupboard", "chance": 75 }
+        ],
+        "A": [ { "item": "jackets", "chance": 16 }, { "item": "hats_unisex", "chance": 12 } ],
+        "B": { "item": "novels", "chance": 80, "repeat": [ 1, 10 ] },
+        "H": [ { "item": "novels", "chance": 6 }, { "item": "alcohol", "chance": 10 } ]
+      },
+      "item": { "X": { "item": "american_flag" } },
+      "toilets": { ";": {  } },
+      "place_loot": [ { "item": "television", "x": 13, "y": [ 14, 15 ] }, { "item": "american_flag", "x": 9, "y": 20 } ],
+      "vehicles": { "Á": { "vehicle": "parking_garage", "chance": 20, "rotation": 90 }, "É": { "vehicle": "wheelchair", "chance": 50 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "s_vfw_roof",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        " --------------         ",
+        " -............-         ",
+        " -............-         ",
+        " -............-         ",
+        " -............-         ",
+        " -............-         ",
+        " -............-         ",
+        " -............-------   ",
+        " -..................-   ",
+        " -...............=..-   ",
+        " -..&...............-   ",
+        " -..................-   ",
+        " -----------5--------   ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 50 ]
+          ],
+          "x": [ 4, 10 ],
+          "y": [ 11, 14 ]
+        }
+      ]
+    }
+  }
+]

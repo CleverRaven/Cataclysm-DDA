@@ -1,0 +1,229 @@
+[
+  {
+    "id": "fd_vault_atmosphere",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "crisp air",
+        "effects": [
+          {
+            "effect_id": "vault_atmosphere",
+            "body_part": "mouth",
+            "intensity": 1,
+            "min_duration": "100 seconds",
+            "max_duration": "350 seconds",
+            "immune_inside_vehicle": false
+          }
+        ]
+      },
+      { "//": "repeat last entry" },
+      { "//": "repeat last entry" }
+    ],
+    "decay_amount_factor": 5,
+    "gas_absorption_factor": 15,
+    "percent_spread": 30,
+    "outdoor_age_speedup": "3 minutes",
+    "priority": 8,
+    "half_life": "10 minutes",
+    "phase": "gas"
+  },
+  {
+    "id": "fd_safe_shoppers",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": {
+          "//~": "context: `hair on your neck`, according to maleclypse, `I've always heard that when you suspect you are being watched it feels like the hair on your neck is lifting away from your body`. the effect of field is delete the invisibility effect from the character",
+          "str": "hair on your neck"
+        },
+        "effects": [
+          {
+            "effect_id": "safe_shoppers",
+            "body_part": "mouth",
+            "intensity": 1,
+            "min_duration": "100 seconds",
+            "max_duration": "950 seconds",
+            "immune_inside_vehicle": false
+          }
+        ]
+      },
+      { "//": "repeat last entry" },
+      { "//": "repeat last entry" }
+    ],
+    "decay_amount_factor": 5,
+    "gas_absorption_factor": 15,
+    "percent_spread": 70,
+    "outdoor_age_speedup": "9 minutes",
+    "priority": 8,
+    "half_life": "30 minutes",
+    "phase": "gas"
+  },
+  {
+    "id": "fd_alkahest",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "alkahest splatter",
+        "sym": "5",
+        "color": "light_green",
+        "dangerous": false,
+        "effects": [ { "effect_id": "alkahest", "intensity": 1, "immune_in_vehicle": true, "is_environmental": false } ]
+      }
+    ],
+    "description_affix": "covered_in",
+    "immunity_data": { "flags": [ "ALKAHEST_IMMUNE" ] },
+    "underwater_age_speedup": "8 h",
+    "priority": 2,
+    "half_life": "8 h",
+    "phase": "liquid",
+    "display_field": true,
+    "looks_like": "fd_sludge"
+  },
+  {
+    "id": "fd_eshaper_dust",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "dust", "sym": "~", "dangerous": false, "transparent": false, "translucency": 14 } ],
+    "decay_amount_factor": 15,
+    "gas_absorption_factor": 5,
+    "percent_spread": 30,
+    "dirty_transparency_cache": true,
+    "has_fume": true,
+    "priority": 8,
+    "half_life": "20 seconds",
+    "phase": "gas",
+    "display_items": false,
+    "display_field": true,
+    "looks_like": "fd_tear_gas"
+  },
+  {
+    "id": "fd_cold_energy",
+    "type": "field_type",
+    "display_field": true,
+    "phase": "gas",
+    "intensity_levels": [
+      {
+        "name": "Ice haze",
+        "sym": "S",
+        "color": "blue",
+        "dangerous": false,
+        "effects": [ { "effect_id": "ice_energy", "intensity": 1, "immune_in_vehicle": true, "is_environmental": false } ]
+      },
+      {
+        "name": "Ice mist",
+        "sym": "S",
+        "color": "blue",
+        "dangerous": false,
+        "effects": [ { "effect_id": "ice_energy", "intensity": 2, "immune_in_vehicle": true, "is_environmental": false } ]
+      },
+      {
+        "name": "Ice fog",
+        "sym": "S",
+        "color": "blue",
+        "dangerous": false,
+        "effects": [ { "effect_id": "ice_energy", "intensity": 3, "immune_in_vehicle": true, "is_environmental": false } ]
+      }
+    ],
+    "immunity_data": { "flags": [ "COLD_ENERGY_IMMUNE" ] },
+    "half_life": "3 seconds"
+  },
+  {
+    "id": "fd_fog_permanent",
+    "type": "field_type",
+    "copy-from": "fd_fog",
+    "half_life": "999999999 minutes",
+    "looks_like": "fd_fog"
+  },
+  {
+    "id": "fd_kelvinist_warmth",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "heated air", "sym": "&", "convection_temperature_mod": 7 },
+      { "color": "yellow", "convection_temperature_mod": 15 },
+      { "color": "red", "convection_temperature_mod": 30 }
+    ],
+    "decay_amount_factor": 5,
+    "percent_spread": 50,
+    "outdoor_age_speedup": "15 minutes",
+    "priority": 7,
+    "half_life": "30 minutes",
+    "phase": "gas"
+  },
+  {
+    "id": "fd_kelvinist_cold",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "chill air", "sym": "&", "convection_temperature_mod": -7 },
+      { "color": "blue", "convection_temperature_mod": -15 },
+      { "color": "cyan", "convection_temperature_mod": -30 }
+    ],
+    "decay_amount_factor": 5,
+    "percent_spread": 50,
+    "outdoor_age_speedup": "15 minutes",
+    "priority": 7,
+    "half_life": "30 minutes",
+    "phase": "gas"
+  },
+  {
+    "id": "fd_rad_mage_aura",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "hazy cloud", "sym": "8", "dangerous": true, "translucency": 10, "extra_radiation_max": 10 },
+      {
+        "name": "radioactive gas",
+        "color": "light_green",
+        "extra_radiation_max": 15,
+        "radiation_hurt_damage_min": 1,
+        "radiation_hurt_damage_max": 2,
+        "radiation_hurt_message": "This radioactive gas burns!"
+      },
+      {
+        "name": "thick radioactive gas",
+        "color": "green",
+        "transparent": false,
+        "extra_radiation_max": 20,
+        "radiation_hurt_damage_min": 1,
+        "radiation_hurt_damage_max": 3,
+        "radiation_hurt_message": "This radioactive gas burns!"
+      }
+    ],
+    "decay_amount_factor": 5,
+    "percent_spread": 15,
+    "outdoor_age_speedup": "1 minutes",
+    "dirty_transparency_cache": true,
+    "has_fume": true,
+    "priority": 8,
+    "half_life": "100 minutes",
+    "phase": "gas",
+    "display_items": false,
+    "display_field": true,
+    "looks_like": "fd_nuke_gas"
+  },
+  {
+    "id": "fd_obscuring_fog",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "thick fog",
+        "sym": "~",
+        "dangerous": false,
+        "transparent": false,
+        "translucency": 8,
+        "color": "light_gray",
+        "scent_neutralization": 3
+      },
+      { "name": "very thick fog", "translucency": 12, "color": "light_gray", "scent_neutralization": 6 },
+      { "name": "impenetrable fog", "translucency": 0, "color": "dark_gray", "scent_neutralization": 9 }
+    ],
+    "decay_amount_factor": 15,
+    "gas_absorption_factor": 5,
+    "percent_spread": 35,
+    "dirty_transparency_cache": true,
+    "has_fume": true,
+    "priority": 8,
+    "half_life": "7 minutes",
+    "phase": "gas",
+    "display_items": false,
+    "display_field": true,
+    "looks_like": "fd_smoke"
+  }
+]

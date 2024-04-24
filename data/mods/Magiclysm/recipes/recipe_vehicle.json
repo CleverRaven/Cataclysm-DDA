@@ -1,0 +1,22 @@
+[
+  {
+    "result": "light_orichalcum_frame",
+    "byproducts": [ [ "orichalcum_lump", 2 ], [ "orichalcum_sliver", 4 ] ],
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "mechanics",
+    "difficulty": 4,
+    "time": "40 m",
+    "reversible": false,
+    "autolearn": true,
+    "using": [ [ "welding_standard", 20 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "required": false, "learning_time_multiplier": 0.5 },
+      { "proficiency": "prof_welding_basic", "required": false, "skill_penalty": 0.5 }
+    ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 }, { "id": "CHISEL", "level": 2 } ],
+    "components": [ [ [ "orichalcum_frame", 1 ] ] ]
+  }
+]

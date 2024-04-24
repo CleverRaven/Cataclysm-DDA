@@ -1,0 +1,42 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_rock",
+    "name": "solid rock",
+    "description": "It's solid rock, could be full of all kinds of interesting things.  Best grab your pickaxe or equivalent digging implement, and strike the earth!",
+    "symbol": "#",
+    "color": "white",
+    "move_cost": 0,
+    "coverage": 100,
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "MINEABLE", "BLOCK_WIND" ],
+    "roof": "t_rock_floor_no_roof",
+    "bash": {
+      "str_min": 100,
+      "str_max": 400,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_rock_floor",
+      "ter_set_bashed_from_above": "t_rock_floor_no_roof",
+      "items": [
+        { "item": "rock", "count": [ 17, 37 ] },
+        { "item": "rock_large", "count": [ 1, 2 ] },
+        { "item": "coal_lump", "charges": [ 250, 500 ], "prob": 10 },
+        { "item": "material_limestone", "charges": [ 10, 25 ], "prob": 80 },
+        { "item": "material_rocksalt", "count": [ 0, 1 ], "prob": 20 },
+        { "item": "material_niter", "count": [ 0, 1 ], "prob": 20 },
+        { "item": "material_rhodonite", "count": [ 0, 1 ], "prob": 3 },
+        { "item": "material_zincite", "count": [ 0, 5 ], "prob": 5 },
+        { "item": "chunk_sulfur", "count": [ 0, 5 ], "prob": 5 },
+        { "item": "iron_ore", "count": [ 0, 5 ], "prob": 5 },
+        { "item": "chunk_copper", "count": [ 0, 3 ], "prob": 15 },
+        { "item": "chunk_silver", "count": [ 0, 2 ], "prob": 5 },
+        { "item": "chunk_gold", "count": [ 0, 2 ], "prob": 3 },
+        { "item": "chunk_aluminum", "count": [ 0, 3 ], "prob": 3 },
+        { "item": "chunk_cassiterite", "count": [ 2, 4 ], "prob": 10 },
+        { "item": "chunk_galena", "count": [ 2, 4 ], "prob": 10 },
+        { "item": "chunk_hematite", "count": [ 2, 2 ], "prob": 10 },
+        { "item": "chunk_cinnabar", "count": [ 1, 3 ], "prob": 15 }
+      ]
+    }
+  }
+]

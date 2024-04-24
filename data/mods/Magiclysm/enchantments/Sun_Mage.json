@@ -1,0 +1,69 @@
+[
+  {
+    "id": "solar_blinding",
+    "type": "SPELL",
+    "name": "Solar Blinding",
+    "description": "Make your enemies blind for a short time.",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SILENT", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "effect": "attack",
+    "effect_str": "blind",
+    "shape": "blast",
+    "min_damage": 2,
+    "max_damage": 2,
+    "min_range": 1,
+    "max_range": 1,
+    "min_duration": 200,
+    "max_duration": 200,
+    "damage_type": "pure"
+  },
+  {
+    "type": "enchantment",
+    "id": "SUN_MAGE",
+    "condition": "ALWAYS",
+    "name": { "str": "Solar Warrior" },
+    "description": "Your Sun Mage abilities blind everyone who are mean to you.",
+    "hit_me_effect": [
+      {
+        "id": "solar_blinding",
+        "message": "A brilliant light radiates from where you've been hit.",
+        "npc_message": "%1$s's body is enveloped in a bright glare."
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "SUN_MAGE_BUFF",
+    "recurrence": [ "5 m", "10 m" ],
+    "condition": {
+      "or": [
+        { "and": [ "is_day", "u_is_outside", { "u_has_trait": "SUN_MAGE" } ] },
+        { "u_has_items": { "item": "pocket_sun", "count": 1 } }
+      ]
+    },
+    "deactivate_condition": { "not": { "u_has_trait": "SUN_MAGE" } },
+    "effect": [ { "u_add_effect": "sun_mage_buff", "intensity": 1, "duration": "10 minutes" } ]
+  },
+  {
+    "id": "sun_mage_buff",
+    "type": "effect_type",
+    "name": [ "Sol" ],
+    "desc": [ "You feel your mana connected to the Sun, and it makes you better than ever." ],
+    "remove_message": "You don't feel Solar energy in your body anymore.",
+    "rating": "good",
+    "max_duration": "10 m",
+    "show_intensity": false,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "STRENGTH", "add": 1, "multiply": 0.25 },
+          { "value": "DEXTERITY", "add": 1, "multiply": 0.25 },
+          { "value": "INTELLIGENCE", "add": 1, "multiply": 0.25 },
+          { "value": "PERCEPTION", "add": 1, "multiply": 0.25 },
+          { "value": "CLIMATE_CONTROL_HEAT", "add": 30 },
+          { "value": "CLIMATE_CONTROL_CHILL", "add": 30 }
+        ]
+      }
+    ]
+  }
+]

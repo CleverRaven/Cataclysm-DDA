@@ -1,0 +1,18 @@
+#!/usr/bin/gnuplot
+
+if (!exists("input")) input='slope_vs_moves_data_mon_zombie_dog'
+
+reset
+set terminal png
+
+set xlabel "slope"
+
+set ylabel "moves"
+
+set title "Slope vs moves to travel."
+set key reverse Left outside
+set grid
+
+set style data linespoints
+
+plot input using 1:2

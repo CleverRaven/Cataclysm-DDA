@@ -1,0 +1,300 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "roadstop" ],
+    "weight": 333,
+    "object": {
+      "fill_ter": "t_linoleum_white",
+      "rows": [
+        ".......2222..2222.......",
+        ".......2222..2222.......",
+        ".......2222..2222.......",
+        ".......2222..2222.......",
+        ".......2222..2222.......",
+        ".......2222..2222.......",
+        ".......2222..2222.......",
+        "......S2222..2222S......",
+        "......S2222..2222S......",
+        "######S2222##2222S######",
+        "#73 A#S2222662222S#A 37#",
+        "### A#S2222##2222S#A ###",
+        "#73 A#S2222882222S#A 37#",
+        "### A#S2222##2222S#A ###",
+        "#73  3S2222662222S3  37#",
+        "######S2222##2222S######",
+        "......S2222..2222S......",
+        "......S2222..2222S......",
+        ".......2222..2222.......",
+        ".......2222222222.......",
+        ".......2222222222.......",
+        "........22222222........",
+        ".........222222.........",
+        "........................"
+      ],
+      "terrain": {
+        " ": "t_linoleum_white",
+        "#": "t_wall_log",
+        ".": "t_region_groundcover",
+        "6": "t_region_groundcover_barren",
+        "2": "t_region_groundcover_barren",
+        "8": "t_region_groundcover_barren",
+        "3": "t_door_c",
+        "S": "t_concrete"
+      },
+      "furniture": { "6": "f_table", "8": "f_trashcan", "A": "f_sink" },
+      "item": { "7": { "item": "toilet_paper", "chance": 15 } },
+      "toilets": { "7": {  } },
+      "place_items": [
+        { "item": "magazines", "x": [ 11, 12 ], "y": 10, "chance": 90 },
+        { "item": "trash", "x": [ 11, 12 ], "y": 12, "chance": 80 },
+        { "item": "magazines", "x": [ 11, 12 ], "y": 14, "chance": 80 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "roadstop_roof",
+    "object": {
+      "fill_ter": "t_tar_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "........................",
+        "........................",
+        ".A...................A..",
+        ".=.&.................=..",
+        "........................",
+        ".....................&..",
+        "........................",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_tar_flat_roof" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "roadstop_a" ],
+    "weight": 333,
+    "object": {
+      "fill_ter": "t_linoleum_gray",
+      "rows": [
+        "......2222....2222......",
+        "......2222....2222......",
+        "......2222#ii#2222......",
+        "......2222....2222......",
+        "......222222222222......",
+        "......222222222222......",
+        ".......2222222222.......",
+        "........22222222........",
+        ".....SSSSSSSSSSSSSS.....",
+        ".....####3#88#3####.....",
+        ".....#    ####    #.....",
+        ".....# ########## #.....",
+        ".....#   37##73   #.....",
+        ".....#A  ######  A#.....",
+        ".....#A  37##73  A#.....",
+        ".....#A  ######  A#.....",
+        ".....#A  37##73  A#.....",
+        ".....##############.....",
+        "......o........oo.......",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................"
+      ],
+      "terrain": {
+        " ": "t_linoleum_gray",
+        "#": "t_wall_log",
+        ".": "t_region_groundcover",
+        "2": "t_region_groundcover_barren",
+        "3": "t_door_c",
+        "8": "t_region_groundcover_barren",
+        "S": "t_concrete",
+        "i": "t_region_groundcover_barren",
+        "o": "t_region_groundcover_barren"
+      },
+      "furniture": { "6": "f_table", "8": "f_trashcan", "A": "f_sink", "i": "f_sign", "o": "f_crate_c" },
+      "signs": {
+        "i": {
+          "signage": "This was once an information map for the <city> area, but it has long since eroded beyond usefulness.  There are small holders for tourist maps attached."
+        }
+      },
+      "item": { "7": { "item": "toilet_paper", "chance": 15 } },
+      "toilets": { "7": {  } },
+      "place_items": [
+        { "item": "trash", "x": [ 11, 12 ], "y": 9, "chance": 80 },
+        { "item": "trash", "x": [ 6, 18 ], "y": [ 8, 15 ], "chance": 60 },
+        { "item": "methlab", "x": [ 6, 18 ], "y": [ 8, 15 ], "chance": 50 }
+      ],
+      "place_item": [ { "item": "touristmap", "x": [ 11, 12 ], "y": 2, "amount": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "roadstop_a_roof",
+    "object": {
+      "fill_ter": "t_tar_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "         ......         ",
+        "         ......         ",
+        "         ......         ",
+        "         ......         ",
+        "         ......         ",
+        "         ......         ",
+        "         ......         ",
+        "     ..............     ",
+        "     ..............     ",
+        "     ..............     ",
+        "     ..............     ",
+        "     ..............     ",
+        "     ..............     ",
+        "     ..............     ",
+        "     ..............     ",
+        "     ..............     ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_tar_flat_roof" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "roadstop_b" ],
+    "weight": 333,
+    "object": {
+      "fill_ter": "t_linoleum_gray",
+      "rows": [
+        "..._,,,,,,,,,,,,,,,,_...",
+        "..._,,,,,,,,,,,,,,,,_...",
+        "..._y,,,,y,,,,y,,,,y_...",
+        "..._y,,,,y,,,,y,,,,y_...",
+        "..._y,,,,y,,,,y,,,,y_...",
+        "..._y,,Á,y,,Á,y,,Á,y_...",
+        "..._y,,,,y,,,,y,,,,y_...",
+        "..._y,,,,y,,,,y,,,,y_...",
+        "...__________________...",
+        "....SSSS464S464SSS......",
+        "....SS4SS4S4S4SS4S......",
+        "....S464SS464SS46S__....",
+        "..._8S4SSSS4SSSS4S._....",
+        "..._########777###._....",
+        "..._# 999ccc    5##3##..",
+        "..._#           5#A A#..",
+        "..._3           5#   #..",
+        "..._#           5#3#3#..",
+        "..._#  7AA7ii7  5#T#T#..",
+        "..._##################..",
+        "...__o_oo_..............",
+        "..._______..............",
+        "..._______..............",
+        "........................"
+      ],
+      "terrain": {
+        " ": "t_linoleum_gray",
+        "#": "t_wall_w",
+        ".": "t_region_groundcover_urban",
+        ",": "t_pavement",
+        "y": "t_pavement_y",
+        "Á": "t_pavement",
+        "3": "t_door_c",
+        "4": "t_sidewalk",
+        "6": "t_sidewalk",
+        "8": "t_sidewalk",
+        "S": "t_sidewalk",
+        "_": "t_concrete",
+        "o": "t_concrete"
+      },
+      "furniture": {
+        "4": "f_chair",
+        "5": "f_rack_wood",
+        "6": "f_table",
+        "7": "f_counter",
+        "c": "f_cupboard",
+        "8": "f_trashcan",
+        "9": "f_fridge",
+        "A": "f_sink",
+        "i": "f_oven",
+        "o": [ "f_dumpster", "f_recycle_bin" ]
+      },
+      "place_items": [
+        { "item": "cash_register_random", "x": [ 12, 14 ], "y": 13, "chance": 100 },
+        { "item": "SUS_appliances_cupboard", "x": [ 9, 11 ], "y": 14, "chance": 80 }
+      ],
+      "item": { "T": { "item": "toilet_paper", "chance": 15 } },
+      "items": {
+        "8": { "item": "trash", "chance": 33, "repeat": [ 1, 3 ] },
+        "6": { "item": "dining", "chance": 40 },
+        "c": { "item": "SUS_silverware", "chance": 80 },
+        "5": { "item": "snacks", "chance": 60, "repeat": [ 1, 4 ] },
+        "i": { "item": "SUS_oven", "chance": 100 },
+        "9": { "item": "SUS_fridge_breakroom", "chance": 80 }
+      },
+      "toilets": { "T": {  } },
+      "vehicles": { "Á": { "vehicle": "parking_garage", "chance": 33, "rotation": 90 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "roadstop_b_roof",
+    "object": {
+      "fill_ter": "t_tar_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "    ..............      ",
+        "    .......&..........  ",
+        "    ...A..............  ",
+        "    ..........:.......  ",
+        "    ..................  ",
+        "    ..................  ",
+        "    ..................  ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_tar_flat_roof" }
+    }
+  }
+]

@@ -1,0 +1,58 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "city_cop_police_station",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rows": [
+        "  .       ",
+        " L.7      ",
+        " L.7      ",
+        " L.7      ",
+        " L.7      ",
+        " L.7      ",
+        " L.7      ",
+        " L..mtb.  ",
+        " L.....   ",
+        " LLLLLL.  "
+      ],
+      "terrain": { "-": "t_wall", ".": "t_floor" },
+      "furniture": { "t": "f_table", "b": "f_brazier", "m": "f_makeshift_bed", "7": "f_safe_o", "L": "f_locker" },
+      "place_npcs": [ { "class": "survivor_cop", "x": 5, "y": 8 } ],
+      "place_zones": [
+        { "type": "LOOT_UNSORTED", "faction": "no_faction", "x": [ 5, 5 ], "y": [ 9, 9 ] },
+        { "type": "LOOT_CURRENCY", "faction": "no_faction", "x": [ 5, 5 ], "y": [ 7, 7 ] }
+      ],
+      "items": {
+        "L": [ { "item": "cannedfood", "chance": 50, "repeat": [ 1, 2 ] }, { "item": "alcohol", "chance": 50, "repeat": [ 1, 2 ] } ],
+        "7": [
+          { "item": "jewelry_front", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "harddrugs", "chance": 20, "repeat": [ 1, 2 ] },
+          { "item": "stash_drugs", "chance": 50, "repeat": [ 2, 3 ] }
+        ],
+        "m": { "item": "bed", "chance": 50, "repeat": [ 1, 2 ] },
+        "b": { "item": "stash_wood", "chance": 100, "repeat": [ 2, 3 ] },
+        "t": { "item": "cannedfood", "chance": 100, "repeat": [ 2, 3 ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "SEER_Brigitte_LaCroix_spawn",
+    "object": { "mapgensize": [ 1, 1 ], "place_npcs": [ { "class": "SEER_Brigitte_LaCroix", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "KINDRED_Darren_Cooper_spawn",
+    "object": { "mapgensize": [ 1, 1 ], "place_npcs": [ { "class": "KINDRED_Darren_Cooper", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "NPC_pizzaiolo_spawn",
+    "object": { "mapgensize": [ 1, 1 ], "place_npcs": [ { "class": "NPC_pizzaiolo", "x": 0, "y": 0 } ] }
+  }
+]

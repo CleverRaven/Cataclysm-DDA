@@ -1,0 +1,151 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "cs_internet_cafe" ],
+    "weight": 100000,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "...ssssssssssssssssss...",
+        "..gggggggggGGggggggggg..",
+        "..gccccccc,,,,cccccccg..",
+        "..|c,,,,,,,,,,,,,,,,c|..",
+        "..|c,,,,,cPccPc,,,,,c|..",
+        "..g,,,,,cc,,,,cc,,,,,g..",
+        "..g,,,,,c,,||,,c,,,,,g..",
+        "..|V,,,,cc,,,,cc,,,,A|..",
+        "..|V,,,,,cccccc,,,,,A|..",
+        "..g,,,,,,,,,,,,,,,,,,g..",
+        "..||,,,|||,,,,|||,,,||..",
+        "..gPh,hP|Ph,,hP|Ph,hPg..",
+        "..||,,,||||,,||||,,,||..",
+        "..gPh,hP|<D,,DL|Ph,hPg..",
+        "..||,,,||||GG||||,,,||..",
+        "..gPh,hP|S,,,,S|Ph,hPg..",
+        "..||,,,||||,,||||,,,||..",
+        "..gPh,hP|tD,,Dt|Ph,hPg..",
+        "..||,,,||||,,||||,,,||..",
+        "..gPh,hP|tD,,Dt|Ph,hPg..",
+        "..||,,,||||,,||||,,,||..",
+        "..gPh,hP|tD,,Dt|Ph,hPg..",
+        "..|||g|||||gg|||||g|||..",
+        "...4...................."
+      ],
+      "terrain": {
+        ".": "t_region_groundcover_urban",
+        ",": "t_floor",
+        "|": "t_wall_w",
+        "s": "t_sidewalk",
+        "D": [ [ "t_door_b", 20 ], [ "t_door_frame", 10 ], [ "t_door_o", 70 ], [ "t_door_c", 5 ], [ "t_door_locked_interior", 3 ] ],
+        "g": "t_wall_glass_alarm",
+        "G": "t_door_glass_c",
+        "<": "t_stairs_up",
+        "4": "t_gutter_downspout",
+        "A": "t_atm"
+      },
+      "furniture": {
+        "P": "f_console_broken",
+        "c": "f_displaycase",
+        "t": "f_toilet",
+        "h": "f_chair",
+        "V": "f_vending_c",
+        "S": "f_sink",
+        "L": "f_locker"
+      },
+      "toilets": { "t": { "//": "no values needed here" } },
+      "items": {
+        "c": { "item": "ic_merch", "chance": 20 },
+        "V": { "item": "ic_merch_vending", "chance": 50 },
+        "L": { "item": "cleaning", "chance": 50 }
+      },
+      "add": [ { "item": "mop", "x": [ 11, 12 ], "y": [ 17, 20 ], "chance": 2 } ],
+      "place_items": [
+        { "item": "ic_merch_vending", "x": 3, "y": 7, "chance": 90 },
+        { "item": "ic_merch_vending", "x": 3, "y": 7, "chance": 90 },
+        { "item": "ic_merch_vending", "x": 3, "y": 7, "chance": 90 },
+        { "item": "ic_merch_vending", "x": 3, "y": 7, "chance": 90 },
+        { "item": "ic_merch_vending", "x": 3, "y": 8, "chance": 90 },
+        { "item": "ic_merch_vending", "x": 3, "y": 8, "chance": 90 },
+        { "item": "ic_merch_vending", "x": 3, "y": 8, "chance": 90 },
+        { "item": "ic_merch_vending", "x": 3, "y": 8, "chance": 90 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "cs_internet_cafe_roof",
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "                        ",
+        "  --------------------  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -........=.........-  ",
+        "  -.#######ggg##.....-  ",
+        "  -.#kkk#cPcccP#.....-  ",
+        "  -.#kkk#__Y__cg.....-  ",
+        "  -.#___#_____y#.....-  ",
+        "  -.##+####+####.....-  ",
+        "  -.#L_______CC#.....-  ",
+        "  -.#r___>____Cg.....-  ",
+        "  -.#r________r#.....-  ",
+        "  -.####g#+g####.....-  ",
+        "  -....AA............-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -.......&..........-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -5------------------  ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": {
+        "#": "t_wall_w",
+        "_": "t_thconc_floor",
+        "+": "t_door_locked",
+        "g": "t_wall_glass_alarm",
+        "&": "t_flat_roof",
+        "=": "t_flat_roof"
+      },
+      "furniture": { "P": "f_console_broken", "k": "f_generator_broken" },
+      "place_loot": [ { "item": "television", "x": 14, "y": 9, "chance": 50 }, { "item": "stepladder", "x": 5, "y": 10, "chance": 50 } ],
+      "items": {
+        "c": { "item": "electronics", "chance": 40 },
+        "r": { "item": "ic_merch", "chance": 70, "repeat": [ 1, 2 ] },
+        "C": { "item": "ic_merch_vending", "chance": 70, "repeat": [ 2, 4 ] },
+        "L": { "item": "cleaning", "chance": 60, "repeat": [ 2, 4 ] }
+      },
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 20 ],
+            [ "roof_3x3_wine", 10 ]
+          ],
+          "x": [ 3, 15 ],
+          "y": [ 3, 4 ]
+        },
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_4x4_party", 15 ],
+            [ "roof_6x6_survivor", 5 ],
+            [ "roof_4x4_utility", 40 ],
+            [ "roof_4x4_utility_1", 30 ]
+          ],
+          "x": 13,
+          "y": 16
+        }
+      ]
+    }
+  }
+]

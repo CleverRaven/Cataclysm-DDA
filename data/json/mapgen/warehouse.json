@@ -1,0 +1,126 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "warehouse" ],
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "....S.SSSSSSSSSSSS......",
+        "....S.SSSSSSSSSSSS......",
+        ".|||3|MMMMMMMMMMMM|||||.",
+        ".|11 6            w111|.",
+        ".|11               1 1|.",
+        ".|1  1               1|.",
+        ".|11                11|.",
+        ".|1                 11|.",
+        ".|111                1|.",
+        ".|1 1                 |.",
+        ".|1111                |.",
+        ".|1111                |.",
+        ".|111                 |.",
+        ".|111                 |.",
+        ".|11   1            61|.",
+        ".||||3||            11|.",
+        ".|43  5|@        1  11|.",
+        ".|||@ 5|1          111|.",
+        ".O2   9|1 11  111  111|U",
+        ".|5 6 9|11111  6111111|.",
+        ".|5@788|11111111111111|.",
+        ".|||O||||||||||||||||||.",
+        "........................",
+        "........................"
+      ],
+      "terrain": {
+        ".": "t_region_groundcover_urban",
+        "S": "t_concrete",
+        "O": "t_window_no_curtains",
+        "3": "t_door_locked",
+        "M": "t_door_metal_locked",
+        "|": "t_brick_wall",
+        " ": "t_thconc_floor",
+        "w": "t_gates_mech_control_lab",
+        "U": "t_gutter_downspout"
+      },
+      "furniture": {
+        "1": [ "f_crate_c", "f_cardboard_box" ],
+        "2": "f_sink",
+        "5": "f_counter",
+        "6": "f_chair",
+        "7": "f_desk",
+        "8": "f_bookcase",
+        "9": "f_sofa",
+        "@": "f_trashcan"
+      },
+      "items": {
+        "1": [
+          { "item": "kitchen_counters", "chance": 20, "repeat": [ 1, 2 ] },
+          { "item": "dishes_dining", "chance": 20, "repeat": [ 1, 2 ] },
+          { "item": "dishes_utility", "chance": 20, "repeat": [ 1, 2 ] },
+          { "item": "allclothes", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "homebooks", "chance": 2, "repeat": [ 1, 2 ] },
+          { "item": "softdrugs", "chance": 5, "repeat": [ 1, 2 ] },
+          { "item": "home_hw", "chance": 5, "repeat": [ 1, 2 ] }
+        ]
+      },
+      "toilets": { "4": {  } },
+      "place_items": [
+        { "item": "cannedfood", "x": [ 2, 2 ], "y": [ 19, 20 ], "chance": 20 },
+        { "item": "softdrugs", "x": [ 2, 3 ], "y": [ 16, 16 ], "chance": 30 }
+      ],
+      "place_monster": [ { "group": "GROUP_CIVILIAN", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 66 } ],
+      "place_vehicles": [
+        { "vehicle": "industrial_transport", "x": [ 11, 13 ], "y": 8, "chance": 50, "rotation": 270 },
+        { "vehicle": "warehouse_vehicles", "x": [ 17, 19 ], "y": [ 9, 12 ], "chance": 50 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "warehouse_roof" ],
+    "object": {
+      "fill_ter": "t_tar_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        " ---------------------- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................5 ",
+        " -....................- ",
+        " -....................- ",
+        " ---------------------- ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 50 ],
+            [ "roof_4x4_party", 15 ],
+            [ "roof_4x4_holdout", 5 ],
+            [ "roof_4x4_utility", 40 ],
+            [ "roof_5x5_coop", 5 ]
+          ],
+          "x": [ 3, 15 ],
+          "y": [ 3, 15 ]
+        }
+      ]
+    }
+  }
+]

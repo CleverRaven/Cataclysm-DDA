@@ -1,0 +1,13 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "innawood",
+    "name": "Innawood",
+    "authors": [ "Lightwave" ],
+    "maintainers": [ "Lightwave" ],
+    "description": "An untouched land that mankind has yet to reach.  Disables most traces of civilization for that 'innawood' experience.",
+    "category": "total_conversion",
+    "dependencies": [ "dda" ],
+    "obsolete": false
+  }
+]

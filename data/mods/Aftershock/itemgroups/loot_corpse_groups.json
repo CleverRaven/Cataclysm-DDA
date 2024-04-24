@@ -1,0 +1,46 @@
+[
+  {
+    "id": "afs_dead_survivor",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "afs_corpse_old",
+    "//": "The corpse of someone who managed to survive the Discontinuity for a while. Can spawn common weapons and misc gear.",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "afs_tattered_garment", "prob": 90 },
+          { "collection": [ { "group": "underwear" }, { "group": "afs_wintersuit_generic_advanced" } ], "prob": 10 }
+        ]
+      },
+      { "group": "afs_survivor_weapon_set", "prob": 80 },
+      { "group": "afs_tools_scavenging", "prob": 30 },
+      { "group": "tools_survival", "prob": 80, "count": [ 1, 3 ] },
+      { "group": "afs_cheap_food", "prob": 30, "count": [ 2, 6 ] },
+      { "group": "afs_survivor_armor", "prob": 30 },
+      { "group": "afs_any_hand_grenade", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_survivor_weapon_set",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "afs_any_makeshift_gun", "prob": 5 },
+      { "group": "afs_any_ballistic_s_gun", "prob": 10 },
+      { "group": "afs_any_laser_s_gun", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "copbot",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "baton", "prob": 8 },
+      { "item": "tazer", "prob": 3 },
+      { "item": "ceramic_armor", "prob": 15 },
+      { "item": "tonfa", "prob": 10 },
+      { "item": "shocktonfa_off", "prob": 5 },
+      { "item": "alloy_plate", "prob": 10 }
+    ]
+  }
+]

@@ -1,0 +1,325 @@
+[
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "contains cloth for an average zombie",
+    "id": "default_zombie_clothes",
+    "entries": [
+      { "group": "coats_unisex", "damage": [ 1, 4 ], "prob": 20 },
+      { "group": "common_gloves", "damage": [ 1, 4 ], "prob": 20 },
+      { "group": "hatstore_hats", "damage": [ 1, 4 ], "prob": 20 },
+      { "group": "scarfs_unisex", "damage": [ 1, 4 ], "prob": 20 },
+      { "item": "vampire_fangs", "damage": [ 1, 4 ], "prob": 25, "event": "halloween" },
+      { "group": "accesories_personal_unisex", "damage": [ 1, 4 ], "prob": 15 },
+      { "group": "christmas_accesories_personal_unisex", "damage": [ 1, 4 ], "prob": 25, "event": "christmas" },
+      {
+        "distribution": [
+          {
+            "collection": [
+              {
+                "distribution": [
+                  { "group": "male_underwear", "prob": 99, "damage": [ 1, 4 ] },
+                  { "item": "union_suit", "prob": 1, "damage": [ 1, 4 ] }
+                ]
+              },
+              {
+                "distribution": [
+                  {
+                    "collection": [
+                      { "group": "pants_male", "prob": 60, "damage": [ 1, 4 ] },
+                      { "group": "shirts_unisex", "prob": 60, "damage": [ 1, 4 ] },
+                      {
+                        "distribution": [
+                          { "item": "leather_belt", "prob": 85, "damage": [ 1, 4 ] },
+                          { "group": "christmas_belts", "prob": 25, "damage": [ 1, 4 ], "event": "christmas" }
+                        ],
+                        "prob": 30
+                      }
+                    ]
+                  },
+                  { "item": "suit", "prob": 5, "damage": [ 1, 4 ] },
+                  { "item": "tux", "prob": 1, "damage": [ 1, 4 ] },
+                  { "item": "thawb", "prob": 1, "damage": [ 1, 4 ] },
+                  { "item": "cassock", "prob": 1, "damage": [ 1, 4 ] },
+                  { "item": "haori", "prob": 1, "damage": [ 1, 4 ] },
+                  { "group": "costume_suits", "prob": 25, "damage": [ 1, 4 ], "event": "halloween" }
+                ]
+              },
+              { "group": "neckties", "prob": 15, "damage": [ 1, 4 ] },
+              { "group": "shoes_unisex", "prob": 30, "damage": [ 1, 4 ] },
+              { "group": "socks_unisex", "damage": [ 1, 4 ], "prob": 50 },
+              { "group": "accesories_personal_mens", "prob": 15, "damage": [ 1, 4 ] }
+            ]
+          },
+          {
+            "collection": [
+              { "group": "female_underwear", "prob": 90, "damage": [ 1, 4 ] },
+              { "group": "accesories_personal_womens", "prob": 15, "damage": [ 1, 4 ] },
+              {
+                "distribution": [
+                  {
+                    "collection": [
+                      { "group": "pants_female", "prob": 60, "damage": [ 1, 4 ] },
+                      { "group": "shoes_unisex", "prob": 30, "damage": [ 1, 4 ] },
+                      { "group": "shirts_unisex", "prob": 60, "damage": [ 1, 4 ] },
+                      {
+                        "distribution": [
+                          {
+                            "collection": [
+                              {
+                                "distribution": [ { "item": "stockings", "prob": 1, "damage": [ 1, 4 ] }, { "item": "tights", "prob": 5, "damage": [ 1, 4 ] } ]
+                              },
+                              { "item": "garter_belt", "prob": 1, "damage": [ 1, 4 ] }
+                            ]
+                          },
+                          { "group": "socks_unisex", "prob": 50, "damage": [ 1, 4 ] }
+                        ]
+                      }
+                    ],
+                    "prob": 70
+                  },
+                  {
+                    "collection": [
+                      {
+                        "distribution": [
+                          { "item": "gown", "prob": 10, "damage": [ 1, 4 ] },
+                          { "item": "dress", "prob": 70, "damage": [ 1, 4 ] },
+                          { "item": "sundress", "prob": 45, "damage": [ 1, 4 ] },
+                          { "group": "christmas_dresses", "prob": 50, "damage": [ 1, 4 ], "event": "christmas" },
+                          { "group": "costume_dresses", "prob": 50, "damage": [ 1, 4 ], "event": "halloween" }
+                        ]
+                      },
+                      { "group": "dress_shoes", "prob": 30, "damage": [ 1, 4 ] },
+                      {
+                        "collection": [
+                          {
+                            "distribution": [ { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] }, { "item": "tights", "prob": 50, "damage": [ 1, 4 ] } ]
+                          },
+                          { "item": "garter_belt", "prob": 10, "damage": [ 1, 4 ] }
+                        ]
+                      },
+                      { "item": "long_glove_white", "prob": 1, "damage": [ 1, 4 ] }
+                    ],
+                    "prob": 30
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "distribution": [
+          { "item": "helmet_bike", "damage": [ 1, 4 ], "prob": 50 },
+          { "group": "clothing_biker", "damage": [ 1, 4 ], "prob": 50 }
+        ],
+        "prob": 3
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "items people could have carried in their bags prior to zombification",
+    "id": "default_zombie_items_bags",
+    "entries": [
+      { "group": "default_zombie_items_bags_small", "prob": 100 },
+      { "group": "homebooks", "prob": 30 },
+      { "group": "alcohol_bottled_canned", "prob": 10 },
+      { "group": "vending_drink_items", "prob": 10 },
+      { "item": "laptop", "prob": 10, "charges-min": 0, "charges-max": 500 },
+      { "item": "eink_tablet_pc", "prob": 10, "charges-min": 0, "charges-max": 50 },
+      { "item": "teleumbrella", "prob": 10 },
+      { "item": "thermos", "prob": 10 },
+      { "item": "spray_can", "prob": 10 },
+      {
+        "distribution": [ { "group": "tools_common_small", "count": [ 1, 2 ], "prob": 50 }, { "group": "tools_electronics", "prob": 50 } ],
+        "prob": 5
+      },
+      {
+        "distribution": [ { "item": "RPG_die", "prob": 70 }, { "item": "dnd_handbook", "prob": 30 }, { "item": "metal_RPG_die", "prob": 10 } ],
+        "prob": 1
+      },
+      {
+        "distribution": [
+          { "item": "camera", "prob": 40, "charges-min": 0, "charges-max": 50 },
+          { "item": "camera", "container-item": "camera_bag", "prob": 30, "charges-min": 0, "charges-max": 50 },
+          { "item": "camera_pro", "prob": 10, "charges-min": 0, "charges-max": 50 },
+          { "item": "camera_pro", "container-item": "camera_bag", "prob": 20, "charges-min": 0, "charges-max": 50 }
+        ],
+        "prob": 10
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "items people could have carried in their small bags prior to zombification",
+    "id": "default_zombie_items_bags_small",
+    "entries": [
+      { "group": "default_zombie_items_pockets", "prob": 50 },
+      { "item": "vibrator", "prob": 1, "charges-min": 0, "charges-max": 50 },
+      { "item": "file", "prob": 10 },
+      {
+        "distribution": [
+          { "item": "roadmap" },
+          { "item": "trailmap" },
+          { "item": "touristmap" },
+          { "item": "restaurantmap" },
+          { "item": "urbexmap" }
+        ],
+        "prob": 5
+      },
+      {
+        "distribution": [
+          { "item": "talking_doll", "prob": 33, "charges-min": 0, "charges-max": 50 },
+          { "item": "creepy_doll", "prob": 33, "charges-min": 0, "charges-max": 50 },
+          { "item": "straw_doll", "prob": 33 }
+        ],
+        "prob": 5
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "items people could have carried in their pockets prior to zombification",
+    "id": "default_zombie_items_pockets",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "pockknife", "prob": 50 },
+          { "item": "knife_folding", "prob": 30 },
+          { "item": "knife_swissarmy", "prob": 10 },
+          { "item": "switchblade", "prob": 10 }
+        ],
+        "prob": 5
+      },
+      {
+        "distribution": [
+          { "item": "meth", "prob": 5 },
+          { "item": "coke", "prob": 5 },
+          { "item": "lsd", "prob": 2 },
+          { "item": "heroin", "prob": 5 },
+          { "collection": [ { "item": "crackpipe" }, { "item": "crack" } ], "prob": 5 },
+          { "collection": [ { "item": "weed" }, { "item": "pipe_glass", "prob": 50 } ], "prob": 10 },
+          { "distribution": [ { "item": "joint", "prob": 80 }, { "item": "joint_roach", "prob": 20 } ], "prob": 10 }
+        ],
+        "prob": 5
+      },
+      {
+        "distribution": [
+          {
+            "item": "cig",
+            "prob": 65,
+            "count-min": 0,
+            "count-max": 20,
+            "container-item": "null",
+            "entry-wrapper": "box_cigarette"
+          },
+          { "item": "chaw", "prob": 5 },
+          { "item": "cigar", "prob": 5 },
+          { "group": "pocket_cigar", "prob": 1 },
+          { "item": "handrolled_cig", "prob": 10 },
+          { "item": "nic_gum", "prob": 10 },
+          { "item": "ecig", "prob": 15 },
+          {
+            "collection": [
+              { "item": "tobacco" },
+              { "distribution": [ { "item": "rolling_paper", "prob": 80 }, { "item": "pipe_tobacco", "prob": 20 } ] }
+            ],
+            "prob": 10
+          },
+          { "collection": [ { "item": "advanced_ecig" }, { "item": "nicotine_liquid" } ], "prob": 10 }
+        ],
+        "prob": 15
+      },
+      {
+        "distribution": [
+          { "item": "lighter", "prob": 100, "charges": [ 0, 100 ] },
+          { "item": "ref_lighter", "prob": 20, "charges": [ 0, 50 ] },
+          { "item": "matches", "prob": 20, "charges": [ 0, 20 ] },
+          { "item": "small_lighter", "prob": 40, "charges": [ 0, 50 ] },
+          {
+            "collection": [ { "item": "ref_lighter_butane" }, { "item": "butane_can", "charges": [ 200, 400 ] } ],
+            "prob": 1
+          }
+        ],
+        "prob": 15
+      },
+      { "distribution": [ { "item": "gum" }, { "item": "caff_gum" } ], "prob": 30 },
+      { "item": "mp3", "prob": 18, "charges-min": 0, "charges-max": 15 },
+      { "item": "portable_game", "prob": 10, "charges-min": 0, "charges-max": 50 },
+      { "item": "game_watch", "prob": 1, "damage": [ 1, 4 ], "charges-min": 0, "charges-max": 50 },
+      { "item": "usb_drive", "prob": 10 },
+      { "item": "memory_card_unread", "prob": 10 },
+      { "item": "flyer", "prob": 30 },
+      { "item": "multitool", "prob": 5 },
+      { "item": "permanent_marker", "prob": 10, "charges": [ 0, 500 ] },
+      { "group": "softdrugs", "prob": 10 },
+      { "group": "harddrugs", "prob": 5 },
+      { "group": "phones", "prob": 85 },
+      { "group": "vending_food_items", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "items that an average zombie carries around and drops on death",
+    "//2": "any zombie could have died carrying a gun, or holding one",
+    "id": "default_zombie_items",
+    "entries": [
+      { "group": "large_bags", "damage": [ 1, 4 ], "contents-group": "default_zombie_items_bags", "prob": 6 },
+      { "group": "small_bags", "damage": [ 1, 4 ], "contents-group": "default_zombie_items_bags_small", "prob": 10 },
+      { "group": "bugout_bag", "prob": 1 },
+      { "group": "default_zombie_items_pockets", "prob": 20 },
+      {
+        "distribution": [
+          { "item": "teargas_sprayer", "prob": 10, "charges-min": 0, "charges-max": 8 },
+          {
+            "collection": [ { "item": "holster" }, { "group": "guns_pistol_common_everyday_carry", "damage": [ 0, 2 ] } ],
+            "prob": 8
+          },
+          {
+            "collection": [ { "item": "holster" }, { "item": "tazer", "damage": [ 0, 2 ], "charges-min": 0, "charges-max": 100 } ],
+            "prob": 5
+          }
+        ],
+        "prob": 2
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "contains clothing (always), a wallet (30% chance), and items in pockets or a bag (80~% chance)",
+    "id": "default_zombie_death_drops",
+    "entries": [
+      { "group": "wallets", "damage": [ 1, 4 ], "prob": 30 },
+      {
+        "distribution": [
+          {
+            "collection": [
+              { "group": "default_zombie_clothes" },
+              {
+                "distribution": [ { "group": "default_zombie_items", "prob": 80 }, { "group": "default_zombie_items_pockets", "prob": 20 } ]
+              }
+            ],
+            "prob": 99
+          },
+          {
+            "distribution": [
+              {
+                "collection": [ { "group": "postman_gear", "damage": [ 1, 4 ] }, { "group": "default_zombie_items_pockets", "prob": 10 } ]
+              },
+              {
+                "collection": [ { "group": "prof-plumbing_gear", "damage": [ 1, 4 ] }, { "group": "default_zombie_items_pockets", "prob": 10 } ]
+              }
+            ],
+            "prob": 1
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,120 @@
+[
+  {
+    "name": "test_event_mongroup",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_test_non_shearable", "weight": 50, "event": "christmas" },
+      { "monster": "mon_test_shearable", "weight": 50, "event": "christmas" },
+      { "monster": "mon_test_bovine", "weight": 50, "event": "christmas" },
+      { "monster": "mon_test_CBM", "weight": 50, "event": "halloween" },
+      { "monster": "mon_test_speed_desc_base", "weight": 50, "event": "halloween" },
+      { "monster": "mon_test_speed_desc_base_immobile", "weight": 50 }
+    ]
+  },
+  {
+    "name": "test_event_only",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_test_non_shearable", "weight": 50, "event": "christmas" },
+      { "monster": "mon_test_shearable", "weight": 50, "event": "christmas" },
+      { "monster": "mon_test_bovine", "weight": 50, "event": "christmas" }
+    ]
+  },
+  {
+    "name": "test_default_monster",
+    "type": "monstergroup",
+    "default": "mon_null",
+    "monsters": [
+      { "monster": "mon_test_non_shearable", "weight": 30 },
+      { "monster": "mon_test_non_shearable", "weight": 10, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_test_shearable", "weight": 5 },
+      { "monster": "mon_test_shearable", "weight": 3, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_test_bovine", "weight": 5 },
+      { "monster": "mon_test_bovine", "weight": 3, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_test_CBM", "weight": 5 },
+      { "monster": "mon_test_CBM", "weight": 3, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_test_speed_desc_base", "weight": 10 },
+      { "monster": "mon_test_speed_desc_base_immobile", "weight": 10 }
+    ]
+  },
+  {
+    "//": "Extends the test_default_monster group",
+    "name": "test_default_monster",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_test_CBM", "weight": 50 },
+      { "group": "test_event_mongroup", "weight": 10 },
+      { "group": "test_event_only", "weight": 5 }
+    ]
+  },
+  {
+    "name": "test_group_default_monster",
+    "type": "monstergroup",
+    "default": "mon_null",
+    "monsters": [
+      { "monster": "mon_test_CBM", "weight": 50 },
+      { "group": "test_event_mongroup", "weight": 10 },
+      { "group": "test_event_only", "weight": 5 }
+    ]
+  },
+  {
+    "name": "test_l2_nested_mongroup",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_test_speed_desc_base", "weight": 50 },
+      { "monster": "mon_test_speed_desc_base_immobile", "weight": 50 }
+    ]
+  },
+  {
+    "name": "test_l1_nested_mongroup",
+    "type": "monstergroup",
+    "monsters": [
+      { "group": "test_l2_nested_mongroup", "weight": 5 },
+      { "monster": "mon_test_shearable", "weight": 50 },
+      { "monster": "mon_test_non_shearable", "weight": 50 }
+    ]
+  },
+  {
+    "name": "test_top_level_mongroup",
+    "type": "monstergroup",
+    "monsters": [
+      { "group": "test_l1_nested_mongroup", "weight": 5 },
+      { "monster": "mon_test_CBM", "weight": 5 },
+      { "monster": "mon_test_bovine", "weight": 5 }
+    ]
+  },
+  {
+    "name": "test_nested_packsize",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_test_CBM", "pack_size": [ 2, 4 ] } ]
+  },
+  {
+    "name": "test_top_level_packsize",
+    "type": "monstergroup",
+    "monsters": [ { "group": "test_nested_packsize", "pack_size": [ 4, 6 ] } ]
+  },
+  {
+    "name": "test_top_level_no_packsize",
+    "type": "monstergroup",
+    "monsters": [ { "group": "test_nested_packsize" } ]
+  },
+  {
+    "name": "test_upgrades_multi",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_test_shearable", "pack_size": [ 4, 6 ] } ]
+  },
+  {
+    "name": "test_upgrades_multi_null",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_null" }, { "monster": "mon_test_zombie_cop", "pack_size": [ 4, 6 ], "starts": "2 days" } ]
+  },
+  {
+    "name": "test_upgrades_multi_late",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_test_shearable", "pack_size": [ 4, 6 ], "starts": "7 days" },
+      { "monster": "mon_test_CBM", "pack_size": [ 4, 6 ], "ends": "2 days" },
+      { "monster": "mon_test_zombie_cop", "pack_size": [ 4, 6 ], "conditions": [ "DAY" ] }
+    ]
+  }
+]

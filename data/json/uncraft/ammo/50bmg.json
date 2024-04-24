@@ -1,0 +1,51 @@
+[
+  {
+    "result": "50_incendiary",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "gun",
+    "difficulty": 5,
+    "time": "5 s",
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [
+      [ [ "lead", 12 ] ],
+      [ [ "incendiary", 20 ] ],
+      [ [ "50_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "gunpowder_large_rifle", 158 ] ],
+      [ [ "copper", 6 ] ]
+    ]
+  },
+  {
+    "result": "50bmg",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "gun",
+    "difficulty": 5,
+    "time": "5 s",
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [
+      [ [ "lead", 12 ] ],
+      [ [ "50_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "gunpowder_large_rifle", 158 ] ],
+      [ [ "copper", 6 ] ]
+    ]
+  },
+  {
+    "result": "50ss",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "gun",
+    "difficulty": 5,
+    "time": "5 s",
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [
+      [ [ "50_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "gunpowder_large_rifle", 158 ] ],
+      [ [ "copper", 6 ] ],
+      [ [ "scrap", 1 ] ]
+    ]
+  }
+]

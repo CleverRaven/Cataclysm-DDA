@@ -1,0 +1,331 @@
+[
+  {
+    "id": "SUS_evac_shelter_locker",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "Each locker contains by spec one jacket, one blanket, one gas mask, a flashlight, a whistle, a plastic bowl and utensils, a lighter, and two bottles of water.  Not every locker is fully stocked.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "evac_pamphlet", "prob": 99 },
+      { "item": "jacket_evac", "prob": 75 },
+      { "item": "emer_blanket", "prob": 75 },
+      { "item": "mask_gas", "prob": 2 },
+      { "item": "flashlight", "prob": 50 },
+      { "item": "light_disposable_cell", "prob": 10 },
+      { "item": "lighter", "prob": 20, "charges": [ 60, 100 ] },
+      { "item": "whistle", "prob": 70 },
+      { "item": "water_clean", "count": [ 1, 2 ], "prob": 80 },
+      { "item": "protein_bar_evac", "count": [ 2, 3 ] },
+      {
+        "collection": [
+          { "item": "plastic_spoon", "prob": 90 },
+          { "item": "plastic_knife", "prob": 90 },
+          { "item": "plastic_fork", "prob": 90 },
+          { "item": "bowl_plastic", "prob": 90 }
+        ],
+        "prob": 90
+      }
+    ]
+  },
+  {
+    "id": "SUS_evac_shelter_locker_used",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This locker has been picked through by an evacuee already. Not everyone wants the jacket, plenty leave the blanket or the gas mask, but the useful stuff is usually gone.  Some people left junk behind.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "evac_pamphlet", "prob": 95 },
+      { "item": "jacket_evac", "prob": 15 },
+      { "item": "emer_blanket", "prob": 45 },
+      { "item": "mask_gas", "prob": 1 },
+      { "item": "flashlight", "prob": 10 },
+      { "item": "wrapper", "prob": 50 },
+      { "item": "wrapper_foil", "prob": 2 },
+      { "item": "survnote", "prob": 5 },
+      { "item": "plastic_shopping_bag", "prob": 5 },
+      { "item": "box_small", "prob": 5 },
+      { "item": "bag_plastic", "prob": 5 },
+      { "item": "bowl_plastic", "prob": 5 },
+      { "item": "can_food", "prob": 5 },
+      { "item": "can_opener", "prob": 3 },
+      { "item": "bottle_plastic", "count": [ 1, 2 ], "prob": 50 },
+      { "item": "protein_bar_evac", "count": [ 2, 3 ], "prob": 70 },
+      {
+        "collection": [
+          { "item": "plastic_spoon", "prob": 70 },
+          { "item": "plastic_knife", "prob": 70 },
+          { "item": "plastic_fork", "prob": 70 },
+          { "item": "bowl_plastic", "prob": 50 }
+        ],
+        "prob": 90
+      }
+    ]
+  },
+  {
+    "id": "SUS_evac_shelter_cabinet",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "The cabinets contain a stock of delicious evac protein bars, and may contain clean water, cans of food, and spare blankets.",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [
+          {
+            "collection": [
+              { "item": "emer_blanket", "count": [ 5, 10 ], "prob": 80 },
+              { "item": "jacket_evac", "count": [ 5, 10 ], "prob": 80 }
+            ],
+            "prob": 30
+          },
+          { "item": "water_clean", "count": [ 6, 12 ], "prob": 20 },
+          { "item": "protein_bar_evac", "count": [ 20, 24 ], "prob": 60 },
+          {
+            "collection": [
+              { "item": "extinguisher", "prob": 70, "charges": 100 },
+              { "group": "full_1st_aid", "count": [ 1, 3 ], "prob": 65 },
+              { "item": "two_way_radio", "prob": 65 },
+              { "item": "light_disposable_cell", "count": [ 2, 4 ], "prob": 65 },
+              { "item": "electric_lantern", "prob": 35 },
+              { "item": "barometer", "prob": 8 }
+            ],
+            "prob": 10
+          },
+          {
+            "collection": [
+              { "item": "detergent", "count": [ 0, 2 ] },
+              { "item": "brush", "prob": 85 },
+              { "item": "bleach", "prob": 45 },
+              { "item": "chem_washing_soda", "prob": 10 },
+              { "item": "ammonia_hydroxide", "prob": 15 },
+              { "item": "vinegar", "prob": 10 }
+            ],
+            "prob": 15
+          },
+          {
+            "collection": [
+              { "item": "can_beans", "count": [ 8, 12 ], "prob": 50 },
+              { "item": "can_tomato", "count": [ 8, 12 ], "prob": 40 },
+              { "item": "soup_chicken", "count": [ 8, 12 ], "prob": 20 },
+              { "item": "can_opener", "prob": 90 }
+            ],
+            "prob": 5
+          }
+        ]
+      },
+      { "item": "evac_pamphlet", "prob": 15 }
+    ]
+  },
+  {
+    "id": "SUS_evac_shelter_cabinet_used",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "These cabinets have been picked over by a previous flood of evacuees, but plenty of good stuff could still be left.",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [
+          {
+            "collection": [
+              { "item": "folding_poncho", "count": [ 1, 10 ], "prob": 60 },
+              { "item": "emer_blanket", "count": [ 1, 10 ], "prob": 60 },
+              { "item": "jacket_evac", "count": [ 1, 10 ], "prob": 50 }
+            ],
+            "prob": 30
+          },
+          {
+            "collection": [
+              { "item": "water_clean", "count": [ 1, 6 ], "prob": 60 },
+              { "item": "bottle_plastic", "count": [ 1, 6 ], "prob": 90 }
+            ],
+            "prob": 50
+          },
+          { "item": "protein_bar_evac", "count": [ 1, 23 ], "prob": 60 },
+          {
+            "collection": [
+              { "item": "extinguisher", "prob": 50, "charges": 100 },
+              { "group": "full_1st_aid", "prob": 5 },
+              { "item": "two_way_radio", "prob": 25 },
+              { "item": "electric_lantern", "prob": 5 },
+              { "item": "wearable_light", "prob": 5 }
+            ],
+            "prob": 10
+          },
+          {
+            "collection": [
+              { "item": "detergent", "count": [ 0, 2 ] },
+              { "item": "brush", "prob": 85 },
+              { "item": "bleach", "charges-min": 1, "prob": 45 },
+              { "item": "box_small", "prob": 5 },
+              { "item": "bag_plastic", "prob": 5 },
+              { "item": "bowl_plastic", "prob": 5 },
+              { "item": "ammonia_hydroxide", "charges-min": 1, "prob": 15 },
+              { "item": "chem_washing_soda", "charges-min": 1, "prob": 10 }
+            ],
+            "prob": 15
+          },
+          {
+            "collection": [
+              { "item": "can_beans", "count": [ 1, 2 ], "prob": 10 },
+              { "item": "can_tomato", "count": [ 1, 2 ], "prob": 5 },
+              { "item": "soup_chicken", "count": [ 1, 2 ], "prob": 2 },
+              { "item": "box_small", "prob": 5 },
+              { "item": "bag_plastic", "prob": 5 },
+              { "item": "bowl_plastic", "prob": 5 },
+              { "item": "vitamins", "prob": 5 },
+              { "item": "can_food", "count": [ 1, 30 ], "prob": 90 },
+              { "item": "can_opener", "prob": 90 }
+            ],
+            "prob": 5
+          }
+        ]
+      },
+      { "item": "evac_pamphlet", "prob": 15 }
+    ]
+  },
+  {
+    "id": "SUS_evac_shelter_sink",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "soap", "count": [ 1, 2 ] },
+      { "item": "brush", "prob": 90 },
+      { "item": "bleach", "prob": 45 },
+      { "item": "ammonia_hydroxide", "prob": 25 },
+      { "item": "chem_washing_soda", "prob": 20 },
+      { "item": "mirror", "prob": 12 },
+      { "group": "full_1st_aid", "prob": 60 },
+      { "item": "paper", "count": [ 1, 3 ] },
+      { "item": "evac_pamphlet", "prob": 10 }
+    ]
+  },
+  {
+    "id": "SUS_evac_shelter_sink_used",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "These items have been picked over by a previous flood of evacuees, but plenty of good stuff could still be left.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "soap", "count": [ 1, 2 ], "prob": 50 },
+      { "item": "brush", "prob": 45 },
+      { "item": "bleach", "prob": 20 },
+      { "item": "ammonia_hydroxide", "prob": 10 },
+      { "item": "mirror", "prob": 5 },
+      { "group": "used_1st_aid", "prob": 40 },
+      { "item": "paper", "count": [ 1, 3 ], "prob": 50 },
+      { "item": "evac_pamphlet", "prob": 10 }
+    ]
+  },
+  {
+    "id": "SUS_evac_shelter_supply_closet",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "These shelves contain miscellaneous extra supplies.",
+    "subtype": "collection",
+    "entries": [
+      { "group": "games_basic", "prob": 75, "count": [ 1, 3 ] },
+      { "item": "two_way_radio", "prob": 25 },
+      { "item": "electric_lantern", "prob": 5 },
+      { "item": "flashlight", "prob": 50 },
+      { "item": "light_disposable_cell", "prob": 10 },
+      { "item": "jacket_evac", "prob": 75 },
+      { "item": "emer_blanket", "prob": 75 }
+    ]
+  },
+  {
+    "id": "SUS_evac_shelter_supply_closet_used",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "These shelves contain miscellaneous extra supplies.",
+    "//3": "These items have been picked over by a previous flood of evacuees, but plenty of good stuff could still be left.",
+    "subtype": "collection",
+    "entries": [
+      { "group": "games_basic", "prob": 25, "count": [ 1, 2 ] },
+      { "item": "two_way_radio", "prob": 10 },
+      { "item": "electric_lantern", "prob": 2 },
+      { "item": "flashlight", "prob": 25 },
+      { "item": "light_disposable_cell", "prob": 5 },
+      { "item": "jacket_evac", "prob": 30 },
+      { "item": "emer_blanket", "prob": 30 }
+    ]
+  },
+  {
+    "id": "SUS_evac_shelter_table",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "These tables contain miscellaneous items to occupy people's time while waiting in the shelter.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "evac_pamphlet", "prob": 15 },
+      { "group": "games_basic", "prob": 15, "count": [ 1, 2 ] },
+      { "item": "paper", "prob": 20, "count": [ 1, 3 ] },
+      { "item": "pencil", "prob": 20, "count": [ 1, 5 ], "charges": [ 1, 100 ] }
+    ]
+  },
+  {
+    "id": "SUS_evac_shelter_table_used",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "These tables contain miscellaneous items to occupy people's time while waiting in the shelter.",
+    "//3": "These items have been picked over by a previous flood of evacuees, but plenty of good stuff could still be left.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "evac_pamphlet", "prob": 15 },
+      { "group": "games_basic", "prob": 8 },
+      { "item": "paper", "prob": 10, "count": [ 1, 2 ] },
+      { "item": "pencil", "prob": 10, "count": [ 1, 2 ], "charges": [ 1, 100 ] }
+    ]
+  },
+  {
+    "id": "SUS_evac_shelter_bathroom_counter",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "These counters contain bathroom items found next to sinks.",
+    "subtype": "collection",
+    "entries": [ { "item": "soap_holder", "prob": 50 }, { "item": "soap", "prob": 75 }, { "item": "mirror", "prob": 20 } ]
+  },
+  {
+    "id": "SUS_evac_shelter_bathroom_counter_used",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "These counters contain bathroom items found next to sinks.",
+    "//3": "These items have been picked over by a previous flood of evacuees, but plenty of good stuff could still be left.",
+    "subtype": "collection",
+    "entries": [ { "item": "soap_holder", "prob": 50 }, { "item": "soap", "prob": 15 }, { "item": "mirror", "prob": 5 } ]
+  },
+  {
+    "id": "SUS_evac_shelter_bathroom_supplies",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "These shelves contain spare bathroom supplies.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "soap", "count": [ 1, 2 ] },
+      { "item": "bleach", "prob": 45 },
+      { "item": "ammonia_hydroxide", "prob": 25 },
+      { "item": "toilet_paper", "prob": 100, "count": [ 3, 6 ] },
+      { "item": "plunger_toilet", "prob": 70 },
+      { "item": "plunger_futuristic", "prob": 70 },
+      { "item": "brush_toilet", "prob": 50 },
+      { "item": "towel", "prob": 50, "count": [ 1, 3 ] }
+    ]
+  },
+  {
+    "id": "SUS_evac_shelter_bathroom_supplies_used",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "These shelves contain spare bathroom supplies.",
+    "//3": "These items have been picked over by a previous flood of evacuees, but plenty of good stuff could still be left.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "soap", "prob": 50 },
+      { "item": "bleach", "prob": 20 },
+      { "item": "ammonia_hydroxide", "prob": 10 },
+      { "item": "toilet_paper", "prob": 50, "count": [ 1, 2 ] },
+      { "item": "plunger_toilet", "prob": 40 },
+      { "item": "plunger_futuristic", "prob": 40 },
+      { "item": "brush_toilet", "prob": 30 },
+      { "item": "towel", "prob": 20, "count": [ 1, 2 ] }
+    ]
+  }
+]

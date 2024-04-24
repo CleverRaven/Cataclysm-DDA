@@ -1,0 +1,81 @@
+[
+  {
+    "type": "item_group",
+    "id": "NC_SURVIVOR_CHEF_head",
+    "subtype": "distribution",
+    "entries": [ { "item": "hat_chef", "prob": 10 }, { "item": "pot_helmet", "prob": 80 }, { "item": "hat_ball", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SURVIVOR_CHEF_pants_male",
+    "subtype": "distribution",
+    "entries": [ { "item": "pants_checkered", "prob": 90 }, { "item": "pants", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SURVIVOR_CHEF_pants_female",
+    "subtype": "distribution",
+    "entries": [ { "item": "pants_checkered", "prob": 90 }, { "item": "jeans", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SURVIVOR_CHEF_shirt_male",
+    "subtype": "distribution",
+    "entries": [ { "item": "tshirt", "prob": 90 }, { "item": "longshirt", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SURVIVOR_CHEF_shirt_female",
+    "subtype": "distribution",
+    "entries": [ { "item": "tshirt", "prob": 90 }, { "item": "longshirt", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SURVIVOR_CHEF_gloves",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "null", "prob": 80 },
+      { "item": "gloves_leather", "prob": 10 },
+      { "item": "gloves_fingerless", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SURVIVOR_CHEF_coat",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "jacket_chef", "prob": 90 },
+      { "item": "hoodie", "prob": 5 },
+      { "item": "jacket_light", "prob": 5 },
+      { "item": "jacket_leather", "prob": 5 },
+      { "item": "jacket_jean", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SURVIVOR_CHEF_masks",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 80 }, { "item": "bandana", "prob": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SURVIVOR_CHEF_eyes",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 80 }, { "item": "sunglasses", "prob": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SURVIVOR_CHEF_misc",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "water_clean", "prob": 90 },
+      { "item": "knife_butcher", "prob": 100 },
+      { "item": "joint", "prob": 50 },
+      { "prob": 5, "group": "coke_bag_zipper_8" },
+      { "prob": 60, "group": "cig_box_cigarette_20" },
+      { "item": "lighter", "prob": 60, "charges-min": 10 },
+      { "prob": 30, "group": "veggy_pickled_jar_glass_sealed_2" },
+      { "prob": 20, "group": "meat_pickled_jar_glass_sealed_2" }
+    ]
+  }
+]

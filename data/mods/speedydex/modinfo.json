@@ -1,0 +1,24 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "speedydex",
+    "name": "SpeedyDex",
+    "authors": [ "KorGgenT" ],
+    "maintainers": [ "KorGgenT" ],
+    "description": "Higher dex increases your speed.",
+    "category": "rebalance",
+    "dependencies": [ "dda" ]
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "SPEEDYDEX_MIN_DEX",
+    "stype": "int",
+    "value": 12
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "SPEEDYDEX_DEX_SPEED",
+    "stype": "int",
+    "value": 2
+  }
+]

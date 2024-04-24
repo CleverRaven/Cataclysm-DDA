@@ -1,0 +1,452 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": [ "public_works_NE", "public_works_NW", "public_works_SE" ],
+    "name": "public works",
+    "sym": "w",
+    "color": "light_gray",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK", "SOURCE_VEHICLES", "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "public_works_SW",
+    "name": "public works",
+    "sym": "W",
+    "color": "light_gray",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK", "SOURCE_VEHICLES", "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "public_works_NE_roof", "public_works_NW_roof", "public_works_SE_roof" ],
+    "name": "public works roof",
+    "sym": "w",
+    "color": "light_gray",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "public_works_SW_roof",
+    "name": "public works roof",
+    "sym": "W",
+    "color": "light_gray",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "sai",
+    "name": "serving area interface",
+    "sym": "0",
+    "color": "i_magenta",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "solar_farm",
+    "name": "solar farm",
+    "sym": "#",
+    "color": "i_yellow",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "pwr_sub_s",
+    "name": "small power substation",
+    "sym": "H",
+    "color": "light_cyan",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "pwr_sub_s_roof",
+    "name": "small power substation roof",
+    "sym": "H",
+    "color": "light_cyan",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "pwr_large_entrance", "pwr_large_2", "pwr_large_3", "pwr_large_4" ],
+    "name": "large power substation",
+    "sym": "H",
+    "color": "cyan",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "pwr_large_entrance_roof", "pwr_large_2_roof" ],
+    "name": "large power substation roof",
+    "sym": "H",
+    "color": "cyan",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "warehouse",
+    "copy-from": "generic_city_building",
+    "name": "small warehouse",
+    "sym": "w",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "warehouse_roof",
+    "copy-from": "generic_city_building",
+    "name": "small warehouse roof",
+    "sym": "w",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "small_storage_units", "small_storage_units_1" ],
+    "copy-from": "generic_city_building",
+    "name": "small storage units",
+    "sym": "#",
+    "color": "i_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "small_storage_units_roof", "small_storage_units_roof_1" ],
+    "copy-from": "generic_city_building",
+    "name": "small storage units roof",
+    "sym": "#",
+    "color": "i_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "lumberyard_0_0", "lumberyard_0_1", "lumberyard_1_0", "lumberyard_1_1" ],
+    "copy-from": "generic_city_building",
+    "name": "lumberyard",
+    "sym": "L",
+    "color": "i_green",
+    "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 1, 3 ], "chance": 10 },
+    "extend": { "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "lumberyard_0_0_roof", "lumberyard_0_1_roof", "lumberyard_1_0_roof", "lumberyard_1_1_roof" ],
+    "copy-from": "generic_city_building",
+    "name": "lumberyard",
+    "sym": "L",
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "lumbermill_0_0", "lumbermill_0_1", "lumbermill_1_0", "lumbermill_1_1" ],
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "lumbermill",
+    "sym": "L",
+    "color": "i_green",
+    "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 1, 3 ], "chance": 10 },
+    "extend": { "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "lumbermill_0_0_roof", "lumbermill_0_1_roof", "lumbermill_1_0_roof", "lumbermill_1_1_roof" ],
+    "copy-from": "generic_city_building",
+    "name": "lumbermill roof",
+    "sym": "L",
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lumbermill_dforest",
+    "name": "forest",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "sym": "L",
+    "color": "green",
+    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "construction_site", "house_vacant", "house_vacant1", "house_vacant2", "house_vacant3" ],
+    "name": "construction site",
+    "copy-from": "generic_city_building",
+    "sym": "x",
+    "color": "i_light_gray",
+    "extend": { "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "abandonedwarehouse", "abandonedwarehouse_1", "abandonedwarehouse_2", "abandonedwarehouse_3", "abandonedwarehouse_4" ],
+    "copy-from": "generic_city_building",
+    "name": "abandoned warehouse",
+    "sym": "w",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "abandonedwarehouse_roof",
+      "abandonedwarehouse_1_roof",
+      "abandonedwarehouse_2_roof",
+      "abandonedwarehouse_3_roof",
+      "abandonedwarehouse_4_roof"
+    ],
+    "copy-from": "generic_city_building",
+    "name": "abandoned warehouse roof",
+    "sym": "w",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "large_storage_units_3",
+      "large_storage_units_2",
+      "large_storage_units_1",
+      "medium_storage_units_1",
+      "medium_storage_units_2"
+    ],
+    "copy-from": "generic_city_building",
+    "name": "storage units",
+    "sym": "#",
+    "color": "i_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "large_storage_units_roof_3",
+      "large_storage_units_roof_2",
+      "large_storage_units_roof_1",
+      "medium_storage_units_roof_1",
+      "medium_storage_units_roof_2"
+    ],
+    "copy-from": "generic_city_building",
+    "name": "storage units roof",
+    "sym": "#",
+    "color": "i_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "steel_mill_0_1",
+      "steel_mill_0_1_2",
+      "steel_mill_0_1_3",
+      "steel_mill_0_2",
+      "steel_mill_0_2_2",
+      "steel_mill_0_2_3",
+      "steel_mill_0_3",
+      "steel_mill_0_3_2",
+      "steel_mill_0_3_3",
+      "steel_mill_0_4",
+      "steel_mill_0_4_2",
+      "steel_mill_0_4_3",
+      "steel_mill_1_1",
+      "steel_mill_1_1_2",
+      "steel_mill_1_1_3",
+      "steel_mill_1_2",
+      "steel_mill_1_2_2",
+      "steel_mill_1_2_3",
+      "steel_mill_1_3",
+      "steel_mill_1_3_2",
+      "steel_mill_1_3_3",
+      "steel_mill_1_4",
+      "steel_mill_1_4_2",
+      "steel_mill_1_4_3",
+      "steel_mill_2_1",
+      "steel_mill_2_1_2",
+      "steel_mill_2_1_3",
+      "steel_mill_2_2",
+      "steel_mill_2_2_2",
+      "steel_mill_2_2_3",
+      "steel_mill_2_3",
+      "steel_mill_2_3_2",
+      "steel_mill_2_3_3",
+      "steel_mill_2_4",
+      "steel_mill_2_4_2",
+      "steel_mill_2_4_3",
+      "steel_mill_3_1",
+      "steel_mill_3_1_2",
+      "steel_mill_3_1_3",
+      "steel_mill_3_2",
+      "steel_mill_3_2_2",
+      "steel_mill_3_2_3",
+      "steel_mill_3_3",
+      "steel_mill_3_3_2",
+      "steel_mill_3_3_3",
+      "steel_mill_4_1",
+      "steel_mill_4_1_2",
+      "steel_mill_4_1_3",
+      "steel_mill_4_2",
+      "steel_mill_4_2_2",
+      "steel_mill_4_2_3",
+      "steel_mill_4_3",
+      "steel_mill_4_3_2",
+      "steel_mill_4_3_3"
+    ],
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "steel mill",
+    "sym": "S",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "steel_mill_rail_1",
+      "steel_mill_rail_2",
+      "steel_mill_rail_1_2",
+      "steel_mill_rail_2_2",
+      "steel_mill_rail_1_3",
+      "steel_mill_rail_2_3"
+    ],
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "steel mill depot",
+    "sym": "│",
+    "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_lightindustry_road_0", "s_lightindustry_road_1" ],
+    "name": "light industry",
+    "sym": "─",
+    "color": "dark_gray",
+    "see_cost": 5,
+    "extras": "build",
+    "travel_cost_type": "road",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "s_lightindustry_00",
+      "s_lightindustry_00_roof",
+      "s_lightindustry_01",
+      "s_lightindustry_01_roof",
+      "s_lightindustry_10",
+      "s_lightindustry_10_roof",
+      "s_lightindustry_11",
+      "s_lightindustry_11_roof"
+    ],
+    "name": "light industry",
+    "sym": "I",
+    "color": "light_blue",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "mine_entrance", "mine_entrance_loading_zone" ],
+    "name": "mine entrance",
+    "sym": "M",
+    "color": "magenta",
+    "see_cost": 5,
+    "flags": [ "KNOWN_DOWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "mine_entrance_roof", "mine_entrance_loading_zone_roof" ],
+    "name": "mine entrance roof",
+    "sym": "M",
+    "color": "magenta",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "mine_shaft_middle", "mine_shaft_middle_east" ],
+    "name": "mine shaft",
+    "sym": "O",
+    "color": "dark_gray",
+    "see_cost": 5,
+    "flags": [ "KNOWN_UP", "KNOWN_DOWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "mine_shaft_lower", "mine_shaft_lower_east" ],
+    "name": "mine shaft",
+    "sym": "O",
+    "color": "dark_gray",
+    "see_cost": 5,
+    "flags": [ "KNOWN_UP" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "mine_spiral_west",
+      "mine_spiral_central",
+      "mine_spiral_east",
+      "mine_spiral_-1_nw",
+      "mine_spiral_-1_n",
+      "mine_spiral_-1_ne",
+      "mine_spiral_-1_sw",
+      "mine_spiral_-1_s",
+      "mine_spiral_-1_se",
+      "mine_spiral_finale_nw",
+      "mine_spiral_finale_n",
+      "mine_spiral_finale_ne",
+      "mine_spiral_finale_sw",
+      "mine_spiral_finale_s",
+      "mine_spiral_finale_se",
+      "mine_amigara_west",
+      "mine_amigara_central",
+      "mine_amigara_east",
+      "mine_amigara_-1_west",
+      "mine_amigara_-1_central",
+      "mine_amigara_-1_east",
+      "mine_amigara_finale_west",
+      "mine_amigara_finale_central",
+      "mine_amigara_finale_east",
+      "mine_wyrms_west",
+      "mine_wyrms_central",
+      "mine_wyrms_east",
+      "mine_wyrms_finale"
+    ],
+    "name": "mine tunnels",
+    "sym": "O",
+    "color": "dark_gray",
+    "see_cost": 5,
+    "flags": [ "KNOWN_UP" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mine_tunnel",
+    "name": "mine tunnels",
+    "color": "dark_gray",
+    "see_cost": 5,
+    "spawns": { "group": "GROUP_MINERS", "population": [ 1, 2 ], "chance": 100 },
+    "flags": [ "LINEAR" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mine_finale",
+    "name": "mine",
+    "sym": "M",
+    "color": "brown",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_lightindustry_scen_road_0", "s_lightindustry_scen_road_1" ],
+    "name": "light industry",
+    "sym": "─",
+    "color": "dark_gray",
+    "see_cost": 5,
+    "extras": "build",
+    "travel_cost_type": "road",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "s_lightindustry_scen_00",
+      "s_lightindustry_scen_00_roof",
+      "s_lightindustry_scen_01",
+      "s_lightindustry_scen_01_roof",
+      "s_lightindustry_scen_10",
+      "s_lightindustry_scen_10_roof",
+      "s_lightindustry_scen_11",
+      "s_lightindustry_scen_11_roof"
+    ],
+    "name": "light industry",
+    "sym": "I",
+    "color": "light_blue",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  }
+]

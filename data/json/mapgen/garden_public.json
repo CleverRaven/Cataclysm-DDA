@@ -1,0 +1,85 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "publicgarden",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_region_groundcover_urban",
+      "rows": [
+        "________________________",
+        "_______________bb_______",
+        "__4_o######__######o_4__",
+        "____##o o o__o o o##____",
+        "__o##o     __     o##o__",
+        "__##o  ####__####  o##__",
+        "__#o  ##o o__o o##  o#__",
+        "_b#  ##o   __   o##  #__",
+        "_b#o #o  ##__##  o# o#__",
+        "__#  #  ##o__o##  #  #__",
+        "__#o #o #o____o# o# o#__",
+        "___________bb___________",
+        "___________bb___________",
+        "__#o #o #o____o# o# o#__",
+        "__#  #  ##o__o##  #  #__",
+        "__#o #o  ##__##  o# o#b_",
+        "__#  ##o   __   o##  #b_",
+        "__#o  ##o o__o o##  o#__",
+        "__##o  ####__####  o##__",
+        "__o##o     __     o##o__",
+        "____##o o o__o o o##____",
+        "__4_o######__######o_4__",
+        "_______bb_______________",
+        "________________________"
+      ],
+      "terrain": { "_": "t_concrete", "b": "t_concrete", "4": "t_region_tree", " ": "t_region_groundcover_urban" },
+      "place_item": [ { "item": "ref_lighter", "chance": 10, "x": 11, "y": 11 } ],
+      "furniture": { "#": "f_hedge_short", "b": "f_bench", "o": "f_region_flower_decorative" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "publicgarden_2",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_region_groundcover_urban",
+      "rows": [
+        "________________________",
+        "_4_########__########_4_",
+        "___#      ____      #___",
+        "_### bbbb _##_ bbbb ###_",
+        "_#        _##_        #_",
+        "_# b      _##_      b #_",
+        "_# b  *** _##_ ***  b #_",
+        "_# b  *S* _##_ *S*  b #_",
+        "_# b  *** ____ ***  b #_",
+        "_#       __**__       #_",
+        "_#________wwww________#_",
+        "___#####_*w**w*_#####___",
+        "___#####_*w**w*_#####___",
+        "_#________wwww________#_",
+        "_#       __**__       #_",
+        "_# b  *** ____ ***  b #_",
+        "_# b  *S* _##_ *S*  b #_",
+        "_# b  *** _##_ ***  b #_",
+        "_# b      _##_      b #_",
+        "_#        _##_        #_",
+        "_### bbbb _##_ bbbb ###_",
+        "___#      ____      #___",
+        "_4_########__########_4_",
+        "________________________"
+      ],
+      "terrain": { " ": "t_region_groundcover_urban", "_": "t_concrete", "w": "t_water_sh", "4": "t_region_tree" },
+      "furniture": { "#": "f_hedge_short", "*": "f_region_flower_decorative", "S": "f_statue", "b": "f_bench" },
+      "place_item": [ { "item": "lighter", "chance": 9, "x": 18, "y": 19 } ],
+      "place_items": [ { "chance": 7, "item": "homebooks", "x": 2, "y": 12 } ],
+      "place_signs": [
+        { "signage": "<city> Public Garden", "x": 10, "y": 0 },
+        { "signage": "<city> Public Garden", "x": 0, "y": 13 },
+        { "signage": "<city> Public Garden", "x": 23, "y": 10 },
+        { "signage": "<city> Public Garden", "x": 13, "y": 23 }
+      ]
+    }
+  }
+]

@@ -1,0 +1,86 @@
+[
+  {
+    "result": "bone_glue",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_OTHER",
+    "skill_used": "survival",
+    "difficulty": 2,
+    "skills_required": [ "chemistry", 1 ],
+    "time": "30 m",
+    "batch_time_factors": [ 70, 4 ],
+    "autolearn": true,
+    "book_learn": [ [ "recipe_arrows", 1 ], [ "textbook_survival", 1 ], [ "survival_book", 1 ] ],
+    "qualities": [ { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "bone_any", 10, "LIST" ], [ "skewer_bone", 500 ] ] ]
+  },
+  {
+    "result": "superglue",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_OTHER",
+    "skill_used": "chemistry",
+    "difficulty": 3,
+    "time": "12 m",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
+    "qualities": [ { "id": "CHEM", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [
+        [ "bone_any", 20, "LIST" ],
+        [ "skewer_bone", 1000 ],
+        [ "cured_hide", 2 ],
+        [ "pine_bough", 10 ],
+        [ "raw_dandelion", 20 ],
+        [ "biollante_bud", 1 ],
+        [ "ant_egg", 1 ],
+        [ "slime_scrap", 1 ]
+      ]
+    ]
+  },
+  {
+    "result": "rubber_cement",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_OTHER",
+    "skill_used": "chemistry",
+    "difficulty": 3,
+    "time": "10 m",
+    "autolearn": false,
+    "book_learn": [ [ "textbook_fabrication", 3 ], [ "adv_chemistry", 3 ], [ "textbook_chemistry", 3 ], [ "textbook_tailor", 5 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_organic_chemistry" }
+    ],
+    "qualities": [ { "id": "CHEM", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "ppe_gas", 1, "LIST" ] ] ],
+    "components": [
+      [ [ "chem_acetone", 1 ], [ "chem_chloroform", 250 ], [ "ammonia_hydroxide", 1 ], [ "chem_toluene", 250 ] ],
+      [ [ "chem_ethanol", 10 ], [ "denat_alcohol", 10 ], [ "methed_alcohol", 10 ], [ "chem_methanol", 10 ] ],
+      [ [ "balloon", 3 ], [ "shredded_rubber", 20 ], [ "gloves_medical", 2 ], [ "latex", 2 ], [ "condom", 3 ] ]
+    ]
+  },
+  {
+    "result": "rosin",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_OTHER",
+    "skill_used": "chemistry",
+    "difficulty": 3,
+    "time": "60 m",
+    "batch_time_factors": [ 70, 10 ],
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_distilling" } ],
+    "qualities": [ { "id": "CHEM", "level": 1 }, { "id": "DISTILL", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "components": [ [ [ "pine_bough", 1 ] ] ]
+  }
+]

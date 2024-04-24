@@ -1,0 +1,56 @@
+[
+  {
+    "type": "recipe",
+    "result": "faction_base_fire_lookout_tower_construction_shack_0",
+    "description": "We need some shelter, so build a shack in the northern part of the camp.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_fire_lookout_tower_construction_shack_0",
+    "blueprint_provides": [ { "id": "fbmc_fire_lookout_tower_shack_0" } ],
+    "blueprint_excludes": [ { "id": "fbmc_fire_lookout_tower_shack_0" } ],
+    "blueprint_requires": [ { "id": "fbmc_fire_lookout_tower_0" } ],
+    "blueprint_name": "northern shack",
+    "blueprint_parameter_names": {
+      "fbmc_construction_palette": {
+        "fbmc_concrete_palette": "Concrete walls and roof",
+        "fbmc_log_palette": "Log walls and wooden roof",
+        "fbmc_metal_palette": "Metal walls and roof",
+        "fbmc_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbmc_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmc_rock_palette": "Rock walls and wooden roof",
+        "fbmc_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbmc_wood_palette": "Wooden walls and wooden roof"
+      }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_fire_lookout_tower_construction_shack_1",
+    "description": "We need some shelter, so build a shack in the southern part of the camp.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_fire_lookout_tower_construction_shack_1",
+    "blueprint_provides": [ { "id": "fbmc_fire_lookout_tower_shack_1" } ],
+    "blueprint_excludes": [ { "id": "fbmc_fire_lookout_tower_shack_1" } ],
+    "blueprint_requires": [ { "id": "fbmc_fire_lookout_tower_shack_0" } ],
+    "blueprint_name": "southern shack",
+    "blueprint_parameter_names": {
+      "fbmc_construction_palette": {
+        "fbmc_concrete_palette": "Concrete walls and roof",
+        "fbmc_log_palette": "Log walls and wooden roof",
+        "fbmc_metal_palette": "Metal walls and roof",
+        "fbmc_migo_resin_palette": "Mi-go resin walls and roof",
+        "fbmc_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmc_rock_palette": "Rock walls and wooden roof",
+        "fbmc_wad_palette": "Wattle-and-daub walls and sod roof",
+        "fbmc_wood_palette": "Wooden walls and wooden roof"
+      }
+    }
+  }
+]

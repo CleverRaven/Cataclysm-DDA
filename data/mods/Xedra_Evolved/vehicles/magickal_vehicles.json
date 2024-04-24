@@ -1,0 +1,18 @@
+[
+  {
+    "type": "vehicle",
+    "id": "wave_rider_kayak",
+    "name": "wave rider kayak",
+    "blueprint": [ [ "<O>" ] ],
+    "parts": [
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [ "xlframe#horizontal", "seat", "wave_rider_engine", "carbonfiber_boat_hull", "alternator_motorbike" ]
+      },
+      { "x": 0, "y": 0, "parts": [ "controls", "controls_electronic" ] },
+      { "x": 1, "y": 0, "parts": [ "xlframe#horizontal", "carbonfiber_boat_hull" ] },
+      { "x": -1, "y": 0, "parts": [ "xlframe#horizontal", "carbonfiber_boat_hull", "battery_motorbike" ] }
+    ]
+  }
+]

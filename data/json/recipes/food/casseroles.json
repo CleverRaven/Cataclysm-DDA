@@ -1,0 +1,148 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "hot_corn_casserole",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "charges": 8,
+    "time": "40 m",
+    "batch_time_factors": [ 50, 2 ],
+    "book_learn": [ [ "mag_cooking", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "surface_heat", 44, "LIST" ] ], [ [ "casserole", -1 ] ] ],
+    "//": "33u for corn (1680g), 2u for oil, 6u for cheese, 3u for the peppers/onion/garlic",
+    "components": [
+      [ [ "veggy_any_corn_uncooked", 8, "LIST" ] ],
+      [ [ "salt", 7 ], [ "seasoning_salt", 7 ], [ "soysauce", 4 ] ],
+      [ [ "seasoning_italian", 7 ], [ "wild_herbs", 7 ], [ "pepper", 7 ], [ "cinnamon", 7 ], [ "mustard_powder", 7 ] ],
+      [ [ "any_butter_or_oil", 4, "LIST" ] ],
+      [ [ "bell_pepper", 1 ], [ "bell_pepper_cut", 1 ] ],
+      [ [ "onion", 1 ] ],
+      [ [ "cheese", 6 ], [ "can_cheese", 6 ], [ "cheese_hard", 6 ] ],
+      [ [ "garlic_clove", 1 ], [ "rehydrated_garlic", 1 ] ],
+      [ [ "chilly-p", 7 ], [ "curry_powder", 7 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "cheesy_spinach_casserole",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "charges": 8,
+    "time": "40 m",
+    "batch_time_factors": [ 50, 2 ],
+    "book_learn": [ [ "mag_cooking", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "surface_heat", 6, "LIST" ] ], [ [ "casserole", -1 ] ] ],
+    "components": [
+      [ [ "spinach", 8 ] ],
+      [ [ "salt", 7 ], [ "seasoning_salt", 7 ], [ "soysauce", 4 ] ],
+      [
+        [ "seasoning_italian", 7 ],
+        [ "wild_herbs", 7 ],
+        [ "pepper", 7 ],
+        [ "cinnamon", 7 ],
+        [ "curry_powder", 7 ],
+        [ "mustard_powder", 7 ]
+      ],
+      [ [ "any_butter_or_oil", 4, "LIST" ] ],
+      [ [ "onion", 1 ] ],
+      [ [ "cheese_standard", 6, "LIST" ] ],
+      [ [ "garlic_clove", 1 ], [ "rehydrated_garlic", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "tuna_noodle_casserole",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_BREAD",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "charges": 4,
+    "time": "45 m",
+    "batch_time_factors": [ 50, 2 ],
+    "book_learn": [ [ "mag_cooking", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "surface_heat", 49, "LIST" ] ], [ [ "casserole", -1 ] ] ],
+    "//": "20u for the fish (300g), 9u for the pasta (120g), 8u for the beans/corn, 4u for the broth, 2u for the carrot, 4u for the milk, 1u for the oil, 1u for bread",
+    "components": [
+      [ [ "fish", 2 ], [ "can_tuna", 2 ], [ "can_salmon", 2 ], [ "can_herring", 2 ], [ "fish_canned", 2 ] ],
+      [ [ "spaghetti_raw", 2 ], [ "macaroni_raw", 2 ], [ "noodles_fast", 2 ] ],
+      [ [ "corn", 2 ], [ "dry_beans", 2 ], [ "raw_beans", 2 ] ],
+      [ [ "broth", 2 ] ],
+      [ [ "carrot", 1 ], [ "carrot_wild", 1 ] ],
+      [ [ "milk_standard_raw", 4, "LIST" ], [ "lf_milk_standard", 4, "LIST" ] ],
+      [
+        [ "seasoning_italian", 7 ],
+        [ "wild_herbs", 7 ],
+        [ "pepper", 7 ],
+        [ "curry_powder", 7 ],
+        [ "mustard_powder", 7 ]
+      ],
+      [ [ "any_butter_or_oil", 1, "LIST" ] ],
+      [ [ "bread_sandwich", 1, "LIST" ], [ "bread_sandwich_wheat_free", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "lazy_lobster_casserole",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_BREAD",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "charges": 4,
+    "time": "45 m",
+    "batch_time_factors": [ 50, 2 ],
+    "book_learn": [ [ "mag_cooking", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "surface_heat", 33, "LIST" ] ], [ [ "casserole", -1 ] ] ],
+    "//": "20u for the lobster (300g), 2u for the flour, 2u for the sherry, 2u for the milk, 1u for the cheese, 2u for the oil, 4u for the crackers",
+    "components": [
+      [ [ "lobster", 2 ], [ "lobster_canned", 2 ] ],
+      [ [ "crackers", 2 ], [ "oyster_crackers", 2 ] ],
+      [ [ "flour", 2 ] ],
+      [ [ "sherry", 2 ] ],
+      [ [ "milk_standard_raw", 2, "LIST" ], [ "lf_milk_standard", 2, "LIST" ] ],
+      [ [ "cheese", 1 ], [ "cheese_hard", 1 ] ],
+      [
+        [ "seasoning_italian", 7 ],
+        [ "wild_herbs", 7 ],
+        [ "pepper", 7 ],
+        [ "curry_powder", 7 ],
+        [ "mustard_powder", 7 ]
+      ],
+      [ [ "any_butter_or_oil", 3, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "eggplant_parmigiana",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "40 m",
+    "batch_time_factors": [ 50, 2 ],
+    "book_learn": [ [ "cookbook_italian", 2 ] ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "surface_heat", 44, "LIST" ] ], [ [ "casserole", -1 ] ] ],
+    "components": [
+      [ [ "eggplant", 3 ] ],
+      [ [ "salt", 3 ] ],
+      [ [ "seasoning_italian", 5 ], [ "wild_herbs", 5 ], [ "pepper", 5 ] ],
+      [ [ "any_butter_or_oil", 4, "LIST" ] ],
+      [ [ "cheese", 4 ], [ "can_cheese", 4 ], [ "mozzarella_cheese", 4 ] ],
+      [ [ "sauce_red", 4 ] ]
+    ],
+    "charges": 4
+  }
+]

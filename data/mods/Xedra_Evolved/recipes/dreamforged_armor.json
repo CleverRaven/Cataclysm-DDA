@@ -1,0 +1,176 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "ACTIVE_EXERCISE",
+    "result": "dreamforged_ballistic_plate",
+    "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_dreamsmithing" }, { "proficiency": "prof_dreamsmithing_armor" } ],
+    "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ],
+    "time": "6 h",
+    "skill_used": "deduction",
+    "difficulty": 4,
+    "flags": [ "SECRET" ],
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_ARMOR"
+  },
+  {
+    "type": "recipe",
+    "result": "dreamforged_ballistic_plate_small",
+    "activity_level": "ACTIVE_EXERCISE",
+    "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_dreamsmithing" }, { "proficiency": "prof_dreamsmithing_armor" } ],
+    "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ],
+    "time": "5 h",
+    "skill_used": "deduction",
+    "difficulty": 4,
+    "flags": [ "SECRET" ],
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_ARMOR"
+  },
+  {
+    "type": "recipe",
+    "name": "dreamforged full helmet",
+    "id": "dreamforged_fullhelmet_ench",
+    "activity_level": "ACTIVE_EXERCISE",
+    "description": "Shape the armor you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
+    "result_eocs": [
+      {
+        "id": "dreamforged_fullhelmet_ench",
+        "effect": [ { "u_spawn_item": "dreamforged_fullhelmet_ench", "use_item_group": true } ]
+      }
+    ],
+    "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_dreamsmithing" }, { "proficiency": "prof_dreamsmithing_armor" } ],
+    "components": [ [ [ "forged_dreamstuff_ingot", 2 ] ] ],
+    "time": "16 h",
+    "skill_used": "deduction",
+    "difficulty": 5,
+    "flags": [ "SECRET" ],
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_ARMOR"
+  },
+  {
+    "type": "recipe",
+    "name": "dreamforged helmet",
+    "id": "dreamforged_helmet_ench",
+    "copy-from": "dreamforged_fullhelmet_ench",
+    "description": "Shape the armor you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
+    "result_eocs": [
+      { "id": "dreamforged_helmet_ench", "effect": [ { "u_spawn_item": "dreamforged_helmet_ench", "use_item_group": true } ] }
+    ],
+    "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
+    "components": [ [ [ "forged_dreamstuff_ingot", 1 ] ] ],
+    "time": "8 h",
+    "difficulty": 4,
+    "flags": [ "SECRET" ]
+  },
+  {
+    "type": "recipe",
+    "name": "dreamforged plate armor",
+    "id": "dreamforged_plate_armor_ench",
+    "copy-from": "dreamforged_fullhelmet_ench",
+    "description": "Shape the armor you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
+    "result_eocs": [
+      {
+        "id": "dreamforged_plate_armor_ench",
+        "effect": [ { "u_spawn_item": "dreamforged_plate_armor_ench", "use_item_group": true } ]
+      }
+    ],
+    "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
+    "components": [ [ [ "forged_dreamstuff_ingot", 8 ] ] ],
+    "time": "22 h",
+    "flags": [ "SECRET" ],
+    "difficulty": 7
+  },
+  {
+    "type": "recipe",
+    "name": "dreamforged arm guards",
+    "id": "dreamforged_armguard_plate_ench",
+    "copy-from": "dreamforged_fullhelmet_ench",
+    "description": "Shape the armor you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
+    "result_eocs": [
+      {
+        "id": "dreamforged_armguard_plate_ench",
+        "effect": [ { "u_spawn_item": "dreamforged_armguard_plate_ench", "use_item_group": true } ]
+      }
+    ],
+    "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
+    "components": [ [ [ "forged_dreamstuff_ingot", 3 ] ] ],
+    "time": "11 h",
+    "flags": [ "SECRET" ],
+    "difficulty": 5
+  },
+  {
+    "type": "recipe",
+    "name": "dreamforged boots",
+    "id": "dreamforged_boots_ench",
+    "copy-from": "dreamforged_fullhelmet_ench",
+    "description": "Shape the armor you imagine, using your powers and some dreamdross ingots.  The result is unclear, and the effects are uncontrollable.",
+    "result_eocs": [
+      { "id": "dreamforged_boots_ench", "effect": [ { "u_spawn_item": "dreamforged_boots_ench", "use_item_group": true } ] }
+    ],
+    "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
+    "components": [ [ [ "forged_dreamstuff_ingot", 3 ] ] ],
+    "time": "12 h",
+    "flags": [ "SECRET" ],
+    "difficulty": 5
+  },
+  {
+    "type": "recipe",
+    "activity_level": "ACTIVE_EXERCISE",
+    "result": "dreamforged_helmet_berserker",
+    "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
+    "proficiencies": [
+      { "proficiency": "prof_dreamsmithing" },
+      { "proficiency": "prof_dreamsmithing_armor" },
+      { "proficiency": "prof_dreamsmithing_peak" }
+    ],
+    "components": [ [ [ "forged_dreamstuff_ingot", 2 ] ] ],
+    "time": "1 d 1 h",
+    "skill_used": "deduction",
+    "difficulty": 7,
+    "flags": [ "SECRET" ],
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_ARMOR"
+  },
+  {
+    "type": "recipe",
+    "copy-from": "dreamforged_helmet_berserker",
+    "result": "dreamforged_armguard_plate_berserk",
+    "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
+    "components": [ [ [ "forged_dreamstuff_ingot", 3 ] ] ],
+    "time": "1 d 5 h",
+    "flags": [ "SECRET" ],
+    "difficulty": 8
+  },
+  {
+    "type": "recipe",
+    "copy-from": "dreamforged_helmet_berserker",
+    "result": "dreamforged_boots_berserk",
+    "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
+    "components": [ [ [ "forged_dreamstuff_ingot", 3 ] ] ],
+    "time": "1 d 3 h",
+    "flags": [ "SECRET" ],
+    "difficulty": 7
+  },
+  {
+    "type": "recipe",
+    "copy-from": "dreamforged_helmet_berserker",
+    "result": "dreamforged_fullhelmet_arcane",
+    "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
+    "components": [ [ [ "forged_dreamstuff_ingot", 3 ] ] ],
+    "time": "1 d 9 h",
+    "flags": [ "SECRET" ],
+    "difficulty": 7
+  },
+  {
+    "type": "recipe",
+    "copy-from": "dreamforged_helmet_berserker",
+    "result": "dreamforged_armguard_plate_gunslinger",
+    "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
+    "components": [ [ [ "forged_dreamstuff_ingot", 3 ] ] ],
+    "time": "2 d 6 h",
+    "flags": [ "SECRET" ],
+    "difficulty": 6
+  }
+]

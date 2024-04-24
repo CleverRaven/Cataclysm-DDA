@@ -1,0 +1,140 @@
+[
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_9mm_gun&mags&cans",
+    "subtype": "collection",
+    "items": [
+      { "group": "milspec_arsenal_9mm_gun&ammo" },
+      {
+        "distribution": [ { "item": "ammo_can_30_9mm_fmj_1000", "count": [ 1, 4 ] }, { "item": "ammo_can_30_9mm_jhp_1000", "count": [ 1, 4 ] } ]
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_9mm_gun&ammo",
+    "subtype": "collection",
+    "items": [
+      { "group": "milspec_arsenal_9mm_gun&mags" },
+      { "group": "ammo_can_9mm_any_full", "prob": 30 },
+      { "group": "ammo_can_9mm_any_part", "prob": 80, "count": [ 1, 2 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_9mm_gun&mags",
+    "subtype": "collection",
+    "items": [
+      { "group": "milspec_arsenal_9mm", "count": [ 1, 2 ] },
+      { "group": "milspec_arsenal_9mm", "count": [ 1, 2 ], "prob": 40 },
+      { "group": "milspec_arsenal_9mm", "count": [ 1, 2 ], "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_9mm",
+    "items": [
+      { "group": "nested_m9_no_ammo", "prob": 70 },
+      { "group": "nested_m11_no_ammo", "prob": 70 },
+      { "group": "nested_m17_no_ammo", "prob": 100 },
+      { "group": "nested_m18_no_ammo", "prob": 100 },
+      { "group": "nested_p226_no_ammo", "prob": 10 },
+      { "group": "nested_glock_19_no_ammo", "prob": 10 },
+      { "group": "nested_glock_17_no_ammo", "prob": 10 }
+    ]
+  },
+  {
+    "id": "nested_m9_no_ammo",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "item": "m9", "variant": "m9" }, { "group": "m9_mags", "count": [ 1, 3 ] } ]
+  },
+  {
+    "id": "m9_mags",
+    "type": "item_group",
+    "items": [
+      { "item": "m9mag", "prob": 50 },
+      { "item": "m9mag_10rd", "prob": 50 },
+      { "item": "m9mag_17rd", "prob": 400 },
+      { "item": "m9mag_18rd", "prob": 70 },
+      { "item": "m9mag_20rd", "prob": 50 },
+      { "item": "m9bigmag", "prob": 40 },
+      { "item": "m9mag_32rd", "prob": 30 },
+      { "item": "m9mag_35rd", "prob": 20 }
+    ]
+  },
+  {
+    "id": "nested_m11_no_ammo",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "item": "m11" }, { "item": "p228mag_13rd_9x19mm", "count": [ 1, 3 ] } ]
+  },
+  {
+    "id": "nested_m17_no_ammo",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "item": "m17" }, { "group": "m17_mags", "count": [ 1, 3 ] } ]
+  },
+  {
+    "id": "m17_mags",
+    "type": "item_group",
+    "items": [
+      { "item": "p320mag_10rd_9x19mm", "prob": 50 },
+      { "item": "p320mag_17rd_9x19mm", "prob": 400 },
+      { "item": "p320mag_21rd_9x19mm", "prob": 20 }
+    ]
+  },
+  {
+    "id": "nested_m18_no_ammo",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "item": "m18" }, { "group": "m17_mags", "count": [ 1, 3 ] } ]
+  },
+  {
+    "id": "nested_p226_no_ammo",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "item": "p226_9mm" }, { "group": "p226_mags", "count": [ 1, 3 ] } ]
+  },
+  {
+    "id": "p226_mags",
+    "type": "item_group",
+    "items": [ { "item": "p226mag_10rd_9x19mm", "prob": 400 }, { "item": "p226mag_15rd_9x19mm", "prob": 50 } ]
+  },
+  {
+    "id": "nested_glock_19_no_ammo",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "item": "glock_19" }, { "group": "glock_19_mags", "count": [ 1, 3 ] } ]
+  },
+  {
+    "id": "glock_19_mags",
+    "type": "item_group",
+    "items": [
+      { "item": "glockmag", "prob": 50 },
+      { "item": "glock17_17", "prob": 400 },
+      { "item": "glock17_22", "prob": 70 },
+      { "item": "glockbigmag", "prob": 50 },
+      { "item": "m9bigmag", "prob": 40 },
+      { "item": "glock_drum_50rd", "prob": 30 },
+      { "item": "glock_drum_100rd", "prob": 20 }
+    ]
+  },
+  {
+    "id": "nested_glock_17_no_ammo",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "item": "glock_17" }, { "group": "glock_17_mags", "count": [ 1, 3 ] } ]
+  },
+  {
+    "id": "glock_17_mags",
+    "type": "item_group",
+    "items": [
+      { "item": "glock17_17", "prob": 400 },
+      { "item": "glock17_22", "prob": 70 },
+      { "item": "glockbigmag", "prob": 50 },
+      { "item": "glock_drum_50rd", "prob": 30 },
+      { "item": "glock_drum_100rd", "prob": 20 }
+    ]
+  }
+]

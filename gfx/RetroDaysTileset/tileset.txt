@@ -1,0 +1,15 @@
+#RETRO DAYS TILESET
+#Name of the tileset
+NAME: retrodays
+#Viewing (Option) name of the tileset
+VIEW: RetroDays
+#JSON Path - Default of gfx/tile_config.json
+JSON: tile_config.json
+#Tileset Path - Default of gfx/tinytile.png
+TILESET: tiles.png
+
+#RetroDays was imported from Cataclysm:Dark Days Ahead under Creative Commons Attribution-ShareAlike 3.0 Unported License(http://creativecommons.org/licenses/by-sa/3.0/)
+#as of https://github.com/CleverRaven/Cataclysm-DDA/commits/e50c436a33cec448de0cf9e8c27bbb0eb2d5d00f/gfx/RetroDaysTileset, see original for attribution details.
+
+#Visit https://discord.gg/kAXNZuy to discuss and contribute to this community-driven tileset!
+#Find source github at https://github.com/I-am-Erk/CDDA-Tilesets/tree/master/gfx/Retrodays

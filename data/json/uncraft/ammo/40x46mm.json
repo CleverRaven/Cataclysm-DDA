@@ -1,0 +1,59 @@
+[
+  {
+    "result": "40x46mm_m1006",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "3 m",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 }, { "id": "PULL", "level": 1 } ],
+    "components": [
+      [ [ "smpistol_primer", 1 ] ],
+      [ [ "gunpowder_shotgun", 1 ] ],
+      [ [ "32_casing", 1 ] ],
+      [ [ "40x46mm_m212_casing", 1 ] ]
+    ]
+  },
+  {
+    "result": "40x46mm_m433",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "3 m",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 }, { "id": "PULL", "level": 1 } ],
+    "components": [
+      [ [ "smpistol_primer", 1 ] ],
+      [ [ "combatnail", 70 ] ],
+      [ [ "gunpowder_shotgun", 3 ] ],
+      [ [ "impact_fuze", 1 ] ],
+      [ [ "40x46mm_m118_casing", 1 ] ]
+    ]
+  },
+  {
+    "result": "40x46mm_m576",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "3 m",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 }, { "id": "PULL", "level": 1 } ],
+    "components": [
+      [ [ "lgpistol_primer", 1 ] ],
+      [ [ "chem_compositionb", 32 ] ],
+      [ [ "gunpowder_shotgun", 2 ] ],
+      [ [ "impact_fuze", 1 ] ],
+      [ [ "40x46mm_m199_casing", 1 ] ]
+    ]
+  },
+  {
+    "result": "40x46mm_m651",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "3 m",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 }, { "id": "PULL", "level": 1 } ],
+    "components": [ [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder_shotgun", 1 ] ], [ [ "40x46mm_m195_casing", 1 ] ] ]
+  }
+]

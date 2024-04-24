@@ -1,0 +1,52 @@
+[
+  {
+    "id": "MISSION_BIONICS_FAULTY",
+    "type": "mission_definition",
+    "name": { "str": "Free yourself from your bionic failures" },
+    "description": "You currently have some bionics malfunctioning.  Remove them and avoid any more faulty bionics in your body.",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": {
+      "not": {
+        "or": [
+          { "u_has_bionics": "bio_ankles" },
+          { "u_has_bionics": "bio_deformity" },
+          { "u_has_bionics": "bio_dis_acid" },
+          { "u_has_bionics": "bio_dis_shock" },
+          { "u_has_bionics": "bio_drain" },
+          { "u_has_bionics": "bio_glowy" },
+          { "u_has_bionics": "bio_itchy" },
+          { "u_has_bionics": "bio_leaky" },
+          { "u_has_bionics": "bio_noise" },
+          { "u_has_bionics": "bio_nostril" },
+          { "u_has_bionics": "bio_pokedeye" },
+          { "u_has_bionics": "bio_power_weakness" },
+          { "u_has_bionics": "bio_shakes" },
+          { "u_has_bionics": "bio_sleepy" },
+          { "u_has_bionics": "bio_spasm" },
+          { "u_has_bionics": "bio_stiff" },
+          { "u_has_bionics": "bio_thumbs" },
+          { "u_has_bionics": "bio_trip" },
+          { "u_has_bionics": "bio_voice" },
+          { "u_has_bionics": "bio_faulty_electromagnetic_leak" },
+          { "u_has_bionics": "bio_faulty_grossfood" },
+          { "u_has_bionics": "bio_radleak" },
+          { "u_has_bionics": "bio_sleep_shutdown" }
+        ]
+      }
+    },
+    "difficulty": 4,
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 50,
+          "max_bonus": 50,
+          "duration": "24 hours",
+          "decay_start": "24 hours"
+        }
+      ]
+    },
+    "origins": [ "ORIGIN_GAME_START" ]
+  }
+]

@@ -1,0 +1,159 @@
+[
+  {
+    "type": "proficiency",
+    "id": "prof_knapping",
+    "category": "prof_survival",
+    "name": { "str": "Basic Knapping" },
+    "description": "You know the basic principles of turning stones into more useful tools.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.8,
+    "time_to_learn": "8 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_knapping_speed",
+    "category": "prof_survival",
+    "name": { "str": "Speed Knapping" },
+    "description": "You've banged rocks together so much and for so long, you've become extremely fast at it.",
+    "can_learn": true,
+    "default_time_multiplier": 5,
+    "default_skill_penalty": 0.15,
+    "time_to_learn": "12 h",
+    "required_proficiencies": [ "prof_knapping" ],
+    "ignore_focus": true
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_glassblowing",
+    "category": "prof_misc_craft",
+    "name": { "str": "Glassblowing" },
+    "description": "Working with glass and heat without poisoning or perforating yourself.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.5,
+    "time_to_learn": "8 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_plumbing",
+    "category": "prof_mechanic",
+    "name": { "str": "Plumbing" },
+    "description": "Working with pipes and pipe fittings to transport fluids without leakage.",
+    "can_learn": true,
+    "default_time_multiplier": 2,
+    "default_skill_penalty": 0.25,
+    "time_to_learn": "8 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_pottery",
+    "category": "prof_misc_craft",
+    "name": { "str": "Pottery" },
+    "description": "Basic pottery, from shaping to working with slip to fuse pieces.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.5,
+    "time_to_learn": "6 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_bowyery",
+    "category": "prof_archery",
+    "name": { "str": "Bowyery" },
+    "description": "The ability to make durable, effective bows.",
+    "can_learn": true,
+    "default_time_multiplier": 2.5,
+    "default_skill_penalty": 0.5,
+    "time_to_learn": "10 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_fletching",
+    "category": "prof_archery",
+    "name": { "str": "Fletching" },
+    "description": "The skill involved in making arrows that fly true.",
+    "can_learn": true,
+    "default_time_multiplier": 2,
+    "default_skill_penalty": 0.25,
+    "time_to_learn": "8 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_basketweaving",
+    "category": "prof_misc_craft",
+    "name": { "str": "Basketweaving" },
+    "description": "Forming coarse fibers into shapes.",
+    "can_learn": true,
+    "default_time_multiplier": 2.5,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "6 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_pottery_glazing",
+    "category": "prof_misc_craft",
+    "name": { "str": "Pottery Glazing" },
+    "description": "Adding glazes to pottery to make them waterproof.",
+    "can_learn": true,
+    "default_time_multiplier": 2,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "5 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_plasticworking",
+    "category": "prof_misc_craft",
+    "name": { "str": "Plastic Working" },
+    "description": "Working with plastic using your hands, including carving, molding, and gluing it.  You know how to identify thermoplastics that are suitable for mold casting, and how to identify the right plastic for the right job.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.5,
+    "time_to_learn": "6 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_carving",
+    "category": "prof_survival",
+    "name": { "str": "Carving" },
+    "description": "Shaping wood, bone, and similar materials with a cutting implement.",
+    "can_learn": true,
+    "default_time_multiplier": 2,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "10 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_gem_setting",
+    "category": "prof_misc_craft",
+    "name": { "str": "Gem Setting" },
+    "description": "How to add gemstones to jewelry.",
+    "can_learn": true,
+    "default_time_multiplier": 2,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "10 h",
+    "required_proficiencies": [ "prof_fine_metalsmithing", "prof_redsmithing" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_handloading",
+    "category": "prof_gunmaking",
+    "name": { "str": "Handloading" },
+    "description": "You know how to accurately measure powder and projectile weights for reloading firearm cartridges.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.5,
+    "time_to_learn": "8 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_appliance_repair",
+    "category": "prof_mechanic",
+    "name": { "str": "General Appliance Repair" },
+    "description": "A base knowledge of how to put together and take apart common appliances, diagnose problems, and replace parts.",
+    "can_learn": true,
+    "default_time_multiplier": 2,
+    "default_skill_penalty": 0.1,
+    "time_to_learn": "8 h"
+  }
+]

@@ -1,0 +1,429 @@
+[
+  {
+    "id": "EXAMINE_VEHICLE",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Examine vehicle",
+    "bindings": [ { "input_method": "keyboard_any", "key": "e" } ]
+  },
+  {
+    "id": "CONTROL_ENGINES",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Control individual engines",
+    "bindings": [ { "input_method": "keyboard_any", "key": "y" } ]
+  },
+  {
+    "id": "FOLD_VEHICLE",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Fold vehicle",
+    "bindings": [ { "input_method": "keyboard_any", "key": "f" } ]
+  },
+  {
+    "id": "RELEASE_CONTROLS",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Release controls",
+    "bindings": [ { "input_method": "keyboard_any", "key": "l" } ]
+  },
+  {
+    "id": "HOTWIRE",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Attempt to hotwire",
+    "bindings": [ { "input_method": "keyboard_any", "key": "h" } ]
+  },
+  {
+    "id": "PULL_HANDBRAKE",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Pull handbrake",
+    "bindings": [ { "input_method": "keyboard_char", "key": "H" }, { "input_method": "keyboard_code", "key": "h", "mod": [ "shift" ] } ]
+  },
+  {
+    "id": "USE_WORKBENCH",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Use workbench",
+    "bindings": [ { "input_method": "keyboard_char", "key": "&" }, { "input_method": "keyboard_code", "key": "7", "mod": [ "shift" ] } ]
+  },
+  {
+    "id": "SOUND_HORN",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Sound horn",
+    "bindings": [ { "input_method": "keyboard_any", "key": "n" } ]
+  },
+  {
+    "id": "CONTROL_AUTOPILOT_PATROL",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Set autopilot to patrol nearby zone",
+    "bindings": [ { "input_method": "keyboard_any", "key": "p" } ]
+  },
+  {
+    "id": "CONTROL_AUTOPILOT_FOLLOW",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Set autopilot to follow you",
+    "bindings": [ { "input_method": "keyboard_any", "key": "f" } ]
+  },
+  {
+    "id": "CONTROL_AUTOPILOT_STOP",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Set autopilot to stop all activities",
+    "bindings": [ { "input_method": "keyboard_any", "key": "s" } ]
+  },
+  {
+    "id": "CONTROL_AUTOPILOT_CAS",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle pre-collision system",
+    "bindings": [ { "input_method": "keyboard_any", "key": "c" } ]
+  },
+  {
+    "id": "CONTROL_SMART_ENGINE",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Smart controller settings",
+    "bindings": [  ]
+  },
+  {
+    "id": "TOGGLE_AUTOCLAVE",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle autoclave",
+    "bindings": [ { "input_method": "keyboard_char", "key": "C" }, { "input_method": "keyboard_code", "key": "c", "mod": [ "shift" ] } ]
+  },
+  {
+    "id": "TOGGLE_WASHING_MACHINE",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle washing machine",
+    "bindings": [ { "input_method": "keyboard_char", "key": "W" }, { "input_method": "keyboard_code", "key": "w", "mod": [ "shift" ] } ]
+  },
+  {
+    "id": "TOGGLE_DISHWASHER",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle dishwasher",
+    "bindings": [ { "input_method": "keyboard_char", "key": "D" }, { "input_method": "keyboard_code", "key": "d", "mod": [ "shift" ] } ]
+  },
+  {
+    "id": "GET_ITEMS",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Get items",
+    "bindings": [ { "input_method": "keyboard_any", "key": "g" } ]
+  },
+  {
+    "id": "UNLOAD_TURRET",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Unload turret",
+    "bindings": [ { "input_method": "keyboard_any", "key": "u" } ]
+  },
+  {
+    "id": "RELOAD_TURRET",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Reload turret",
+    "bindings": [ { "input_method": "keyboard_any", "key": "r" } ]
+  },
+  {
+    "id": "CURTAIN_PEEK",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Peek through closed curtains",
+    "bindings": [ { "input_method": "keyboard_any", "key": "p" } ]
+  },
+  {
+    "id": "FAUCET_FILL",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Fill container with water from faucet",
+    "bindings": [ { "input_method": "keyboard_char", "key": "F" }, { "input_method": "keyboard_code", "key": "f", "mod": [ "shift" ] } ]
+  },
+  {
+    "id": "FAUCET_DRINK",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Drink from faucet",
+    "bindings": [ { "input_method": "keyboard_any", "key": "d" } ]
+  },
+  {
+    "id": "PURIFY_WATER",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Purify water in vehicle tank",
+    "bindings": [ { "input_method": "keyboard_char", "key": "P" }, { "input_method": "keyboard_code", "key": "p", "mod": [ "shift" ] } ]
+  },
+  {
+    "id": "USE_CAPTURE_MONSTER_VEH",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Capture or release a creature",
+    "bindings": [ { "input_method": "keyboard_char", "key": "G" }, { "input_method": "keyboard_code", "key": "g", "mod": [ "shift" ] } ]
+  },
+  {
+    "id": "USE_ANIMAL_CTRL",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Harness an animal",
+    "bindings": [ { "input_method": "keyboard_char", "key": "H" }, { "input_method": "keyboard_code", "key": "h", "mod": [ "shift" ] } ]
+  },
+  {
+    "id": "USE_PLANTER",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Reload seed drill with seeds",
+    "bindings": [ { "input_method": "keyboard_any", "key": "s" } ]
+  },
+  {
+    "id": "TOGGLE_AISLE_LIGHT",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle aisle lights",
+    "bindings": [ { "input_method": "keyboard_char", "key": "L" }, { "input_method": "keyboard_code", "key": "l", "mod": [ "shift" ] } ]
+  },
+  {
+    "id": "TOGGLE_ALARM",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle alarm",
+    "bindings": [ { "input_method": "keyboard_any", "key": "z" } ]
+  },
+  {
+    "id": "TOGGLE_ATOMIC_LIGHT",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle atomic lights",
+    "bindings": [ { "input_method": "keyboard_char", "key": "A" }, { "input_method": "keyboard_code", "key": "a", "mod": [ "shift" ] } ]
+  },
+  {
+    "id": "CONTROL_AUTOPILOT",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Control autopilot",
+    "bindings": [ { "input_method": "keyboard_any", "key": "a" } ]
+  },
+  {
+    "id": "TOGGLE_CAMERA",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle camera system",
+    "bindings": [ { "input_method": "keyboard_char", "key": "M" }, { "input_method": "keyboard_code", "key": "m", "mod": [ "shift" ] } ]
+  },
+  {
+    "id": "TOGGLE_CHIMES",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle chimes",
+    "bindings": [ { "input_method": "keyboard_any", "key": "i" } ]
+  },
+  {
+    "id": "TOGGLE_DOME_LIGHT",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle dome lights",
+    "bindings": [ { "input_method": "keyboard_any", "key": "d" } ]
+  },
+  {
+    "id": "TOGGLE_DOORS",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle doors",
+    "bindings": [ { "input_method": "keyboard_char", "key": "D" }, { "input_method": "keyboard_code", "key": "d", "mod": [ "shift" ] } ]
+  },
+  {
+    "id": "TOGGLE_ENGINE",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle engine",
+    "bindings": [ { "input_method": "keyboard_any", "key": "s" } ]
+  },
+  {
+    "id": "TOGGLE_FRIDGE",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle fridge",
+    "bindings": [ { "input_method": "keyboard_any", "key": "f" } ]
+  },
+  {
+    "id": "TOGGLE_FREEZER",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle freezer",
+    "bindings": [ { "input_method": "keyboard_any", "key": "r" } ]
+  },
+  {
+    "id": "TOGGLE_SPACE_HEATER",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle space heater",
+    "bindings": [ { "input_method": "keyboard_char", "key": "J" }, { "input_method": "keyboard_code", "key": "j", "mod": [ "shift" ] } ]
+  },
+  {
+    "id": "TOGGLE_HEATED_TANK",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle heated tank",
+    "bindings": [ { "input_method": "keyboard_any", "key": "j" } ]
+  },
+  {
+    "id": "TOGGLE_COOLER",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle cooler",
+    "bindings": [ { "input_method": "keyboard_char", "key": "C" }, { "input_method": "keyboard_code", "key": "c", "mod": [ "shift" ] } ]
+  },
+  {
+    "id": "TOGGLE_HEADLIGHT",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle headlights",
+    "bindings": [ { "input_method": "keyboard_any", "key": "h" } ]
+  },
+  {
+    "id": "TOGGLE_WIDE_HEADLIGHT",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle wide-angle headlights",
+    "bindings": [ { "input_method": "keyboard_any", "key": "b" } ]
+  },
+  {
+    "id": "TOGGLE_HALF_OVERHEAD_LIGHT",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle directional overhead lights",
+    "bindings": [ { "input_method": "keyboard_char", "key": "O" }, { "input_method": "keyboard_code", "key": "o", "mod": [ "shift" ] } ]
+  },
+  {
+    "id": "TOGGLE_OVERHEAD_LIGHT",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle overhead lights",
+    "bindings": [ { "input_method": "keyboard_any", "key": "o" } ]
+  },
+  {
+    "id": "TOGGLE_PLANTER",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle planter",
+    "bindings": [ { "input_method": "keyboard_char", "key": "P" }, { "input_method": "keyboard_code", "key": "p", "mod": [ "shift" ] } ]
+  },
+  {
+    "id": "TOGGLE_PLOW",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle plow",
+    "bindings": [ { "input_method": "keyboard_any", "key": "w" } ]
+  },
+  {
+    "id": "TOGGLE_REACTOR",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle reactor",
+    "bindings": [ { "input_method": "keyboard_any", "key": "k" } ]
+  },
+  {
+    "id": "TOGGLE_REAPER",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle reaper",
+    "bindings": [ { "input_method": "keyboard_char", "key": "H" }, { "input_method": "keyboard_code", "key": "h", "mod": [ "shift" ] } ]
+  },
+  {
+    "id": "TOGGLE_RECHARGER",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle recharger",
+    "bindings": [ { "input_method": "keyboard_any", "key": "g" } ]
+  },
+  {
+    "id": "TOGGLE_SCOOP",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle scoop",
+    "bindings": [ { "input_method": "keyboard_char", "key": "S" }, { "input_method": "keyboard_code", "key": "s", "mod": [ "shift" ] } ]
+  },
+  {
+    "id": "TOGGLE_STEREO",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle stereo",
+    "bindings": [ { "input_method": "keyboard_any", "key": "m" } ]
+  },
+  {
+    "id": "TOGGLE_WATER_PURIFIER",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle water purifiers",
+    "bindings": [ { "input_method": "keyboard_any", "key": "p" } ]
+  },
+  {
+    "id": "TOGGLE_TRACKING",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle tracking",
+    "bindings": [ { "input_method": "keyboard_char", "key": "K" }, { "input_method": "keyboard_code", "key": "k", "mod": [ "shift" ] } ]
+  },
+  {
+    "id": "TOGGLE_SMART_ENGINE_CONTROLLER",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle smart engine controller",
+    "bindings": [ { "input_method": "keyboard_char", "key": "Y" }, { "input_method": "keyboard_code", "key": "y", "mod": [ "shift" ] } ]
+  },
+  {
+    "id": "TURRET_FIRE_MODE",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Set turret firing modes",
+    "bindings": [ { "input_method": "keyboard_any", "key": "x" } ]
+  },
+  {
+    "id": "TURRET_MANUAL_AIM",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Aim turrets manually",
+    "bindings": [ { "input_method": "keyboard_char", "key": "X" }, { "input_method": "keyboard_code", "key": "x", "mod": [ "shift" ] } ]
+  },
+  {
+    "id": "TURRET_MANUAL_OVERRIDE",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Aim automatic turrets",
+    "bindings": [ { "input_method": "keyboard_char", "key": "V" }, { "input_method": "keyboard_code", "key": "v", "mod": [ "shift" ] } ]
+  },
+  {
+    "id": "TURRET_SINGLE_FIRE",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Aim individual turret",
+    "bindings": [ { "input_method": "keyboard_char", "key": "T" }, { "input_method": "keyboard_code", "key": "t", "mod": [ "shift" ] } ]
+  },
+  {
+    "id": "TURRET_TARGET_MODE",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Set turret targeting modes",
+    "bindings": [ { "input_method": "keyboard_any", "key": "t" } ]
+  },
+  {
+    "id": "DISCONNECT_CABLES",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Disconnect attached cables",
+    "bindings": [ { "input_method": "keyboard_any", "key": "c" } ]
+  },
+  {
+    "id": "ARCADE",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Play arcade machine",
+    "bindings": [ { "input_method": "keyboard_char", "key": "R" }, { "input_method": "keyboard_code", "key": "r", "mod": [ "shift" ] } ]
+  }
+]

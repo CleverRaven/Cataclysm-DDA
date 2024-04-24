@@ -1,0 +1,26 @@
+[
+  {
+    "type": "palette",
+    "id": "campus_common",
+    "terrain": {
+      ",": "t_floor",
+      "|": "t_brick_wall",
+      "#": "t_wall_w",
+      "R": "t_flat_roof",
+      ".": "t_region_groundcover_urban",
+      "_": "t_concrete",
+      "'": "t_pavement",
+      ":": "t_wall_glass",
+      "%": "t_door_glass_c",
+      "0": "t_door_locked_interior",
+      "b": "t_rock_wall_half",
+      "`": "t_pavement_y",
+      "?": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
+      "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
+      ">": "t_stairs_down",
+      "<": "t_stairs_up",
+      "E": "t_elevator"
+    },
+    "furniture": {  }
+  }
+]

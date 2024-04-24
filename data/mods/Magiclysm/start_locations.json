@@ -1,0 +1,20 @@
+[
+  {
+    "type": "start_location",
+    "id": "sloc_magic_basement",
+    "name": "Wizard's Secret Basement Study",
+    "terrain": [ "magic_basement" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_lake_retreat",
+    "name": "Wizard's lake retreat",
+    "terrain": [ "lake_retreat_ground" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_last_mage_on_earth",
+    "name": "Last Mage on Earth Shelter",
+    "terrain": [ "last_mage_on_earth_shelter" ]
+  }
+]

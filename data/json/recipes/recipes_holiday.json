@@ -1,0 +1,50 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "plastic_jack_o_lantern",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "30 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "book_learn": [ [ "plastics_book", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "using": [ [ "plastic_molding", 2 ] ],
+    "components": [
+      [ [ "jug_plastic", 1 ], [ "bottle_plastic", 3 ], [ "bottle_bathroom", 3 ], [ "bottle_plastic_small", 6 ] ],
+      [ [ "lightstrip_inactive", 1 ] ],
+      [ [ "light_battery_cell", 1 ] ],
+      [ [ "paint_yellow", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "decorative_wreath",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "45 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "pine_bough", 4 ] ], [ [ "duct_tape", 10 ], [ "cordage_superior", 6, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "jackolantern",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "15 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "pumpkin", 1 ] ], [ [ "candle", 1 ] ] ]
+  }
+]

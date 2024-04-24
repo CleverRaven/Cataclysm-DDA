@@ -1,0 +1,319 @@
+[
+  {
+    "type": "palette",
+    "id": "moonshine_palette",
+    "terrain": {
+      "d": "t_dirtfloor",
+      "^": "t_dirtfloor",
+      "H": "t_dirtfloor",
+      "+": "t_dirtfloor",
+      "O": "t_dirtfloor",
+      "a": "t_region_groundcover_barren",
+      "c": "t_region_groundcover_barren",
+      "_": "t_region_groundcover_barren",
+      "|": "t_wall_wood",
+      "t": "t_dirtfloor",
+      "b": "t_dirtfloor",
+      "w": "t_region_groundcover_barren"
+    },
+    "furniture": {
+      "+": [ [ "f_canvas_door", 3 ], "f_canvas_door_o" ],
+      "H": "f_wood_keg",
+      "O": "f_fvat_empty",
+      "^": "f_still",
+      "a": [ "f_ash", "f_firering" ],
+      "c": "f_camp_chair",
+      "b": "f_camp_chair",
+      "w": "f_wood_keg",
+      "t": "f_tourist_table"
+    },
+    "items": {
+      " ": [ { "item": "trash", "chance": 1 }, { "item": "clutter_yard", "chance": 1 } ],
+      "t": { "item": "moonshine_brew", "chance": 70 }
+    }
+  },
+  {
+    "method": "json",
+    "om_terrain": "moonshine_still",
+    "type": "mapgen",
+    "weight": 100,
+    "object": {
+      "predecessor_mapgen": "forest",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "              ___       ",
+        "             _c___      ",
+        "             ___c_      ",
+        "             _a___      ",
+        "            _____       ",
+        "           ________     ",
+        "           |++|++|____  ",
+        "           |ddddd|w____ ",
+        "           |bdddd|w____ ",
+        "           |tt^O^|   _  ",
+        "           |||||||      ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "moonshine_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_item": [
+        { "item": "cig_butt", "x": 12, "y": 6 },
+        { "item": "cig_butt", "x": 18, "y": 7 },
+        { "item": "shovel", "x": 21, "y": 12 },
+        { "item": "stepladder", "x": 21, "y": 13 }
+      ]
+    }
+  },
+  {
+    "method": "json",
+    "om_terrain": "moonshine_still",
+    "type": "mapgen",
+    "weight": 10,
+    "object": {
+      "fill_ter": "t_region_groundcover",
+      "faction_owner": [ { "id": "no_faction", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "              ___       ",
+        "             _c___      ",
+        "             ___c_      ",
+        "             _a___      ",
+        "            _____       ",
+        "           ________     ",
+        "        ||||++|++|____  ",
+        "        |Od+ddddd|w____ ",
+        "        |Od|bdddd|w____ ",
+        "        |^^|tttd~|   _  ",
+        "        ||||||||||      ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "moonshine_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "furniture": { "~": "f_makeshift_bed" },
+      "place_npcs": [ { "class": "survivor_moonshiner", "x": 13, "y": 12 } ],
+      "place_zones": [
+        { "type": "LOOT_UNSORTED", "faction": "no_faction", "x": [ 14, 14 ], "y": [ 13, 13 ] },
+        { "type": "LOOT_DRINK", "faction": "no_faction", "x": [ 12, 13 ], "y": [ 13, 13 ] }
+      ],
+      "place_items": [
+        { "item": "still_alcohol", "x": [ 12, 13 ], "y": [ 13, 13 ], "chance": 100, "repeat": [ 20, 43 ] },
+        { "item": "keg_wine_intact", "x": [ 12, 13 ], "y": [ 13, 13 ], "chance": 70, "repeat": [ 2, 5 ] }
+      ],
+      "place_loot": [
+        { "item": "cig_butt", "x": 12, "y": 6 },
+        { "item": "cig_butt", "x": 18, "y": 7 },
+        { "item": "shovel", "x": 21, "y": 12 },
+        { "item": "stepladder", "x": 21, "y": 13 },
+        { "item": "blanket", "x": 16, "y": 13 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "moonshine_still_roof",
+    "object": {
+      "fill_ter": "t_thatch_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "           .......      ",
+        "           .......      ",
+        "           .......      ",
+        "           .......      ",
+        "           .......      ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { ".": "t_thatch_roof", " ": "t_open_air" }
+    }
+  },
+  {
+    "method": "json",
+    "om_terrain": "moonshine_still_1",
+    "type": "mapgen",
+    "weight": 100,
+    "object": {
+      "predecessor_mapgen": "forest",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                 ___    ",
+        "              ________  ",
+        "           |||||___c__  ",
+        "           |ttt+______  ",
+        "           |^dd+__a_c__ ",
+        "           |Odd|_______ ",
+        "           |^dd+__c___  ",
+        "           |HHH+___     ",
+        "           |||||        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "moonshine_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_item": [
+        { "item": "cig_butt", "x": 12, "y": 6 },
+        { "item": "cig_butt", "x": 18, "y": 7 },
+        { "item": "shovel", "x": 21, "y": 12 },
+        { "item": "stepladder", "x": 10, "y": 5 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "moonshine_still_roof_1",
+    "object": {
+      "fill_ter": "t_thatch_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "           .....        ",
+        "           .....        ",
+        "           .....        ",
+        "           .....        ",
+        "           .....        ",
+        "           .....        ",
+        "           .....        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { ".": "t_thatch_roof", " ": "t_open_air" }
+    }
+  },
+  {
+    "method": "json",
+    "om_terrain": "moonshine_still_2",
+    "type": "mapgen",
+    "weight": 100,
+    "object": {
+      "predecessor_mapgen": "forest",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "           ||||||       ",
+        "           |d^OO|       ",
+        "           |tddd|w      ",
+        "           |tddb|w      ",
+        "           ||+++|       ",
+        "           _c____       ",
+        "            __a_c       ",
+        "              _         ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "moonshine_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_item": [ { "item": "stepladder", "x": 4, "y": 4 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "moonshine_still_roof_2",
+    "object": {
+      "fill_ter": "t_thatch_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "           ......       ",
+        "           ......       ",
+        "           ......       ",
+        "           ......       ",
+        "           ......       ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { ".": "t_thatch_roof", " ": "t_open_air" }
+    }
+  }
+]

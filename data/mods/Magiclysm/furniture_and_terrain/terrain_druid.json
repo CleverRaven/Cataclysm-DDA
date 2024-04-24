@@ -1,0 +1,76 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_druid_leaves",
+    "looks_like": "t_triffid_leaves",
+    "name": "branches with leaves",
+    "description": "Thin branches emerge here, covered with thick, large leaves.",
+    "symbol": "#",
+    "color": "green",
+    "move_cost": 8,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH" ],
+    "bash": { "str_min": 4, "str_max": 60, "sound": "crunch.", "sound_fail": "poof!", "ter_set": "t_null" }
+  },
+  {
+    "type": "terrain",
+    "id": "t_druid_wood_wall",
+    "looks_like": "t_triffid_wood_wall",
+    "name": "solid wood wall",
+    "description": "A solid wall of naturally grown wood.  Likely very flammable.",
+    "symbol": "LINE_OXOX",
+    "color": "brown",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_barkfloor",
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_heartwood_floor",
+      "items": [ { "item": "splinter", "count": [ 20, 25 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_heartwood_floor",
+    "looks_like": "t_barkfloor",
+    "name": "heartwood floor",
+    "description": "The living heartwood of the tree.",
+    "symbol": ".",
+    "color": "brown",
+    "move_cost": 2,
+    "roof": "t_heartwood_floor",
+    "flags": [ "FLAMMABLE_HARD", "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_open_air",
+      "str_min": 200,
+      "str_max": 600,
+      "str_min_supported": 100,
+      "items": [ { "item": "splinter", "count": [ 20, 80 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_druid_root_floor",
+    "looks_like": "t_root_floor",
+    "name": "root floor",
+    "description": "A dirt floor covered with roots.",
+    "symbol": "#",
+    "color": "brown",
+    "move_cost": 2,
+    "roof": "t_root_floor",
+    "flags": [ "SUPPORTS_ROOF", "WALL", "NO_SCENT" ],
+    "bash": {
+      "str_min": 12,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "splinter", "count": [ 2, 5 ] } ]
+    }
+  }
+]

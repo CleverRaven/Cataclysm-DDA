@@ -1,0 +1,117 @@
+[
+  {
+    "type": "npc_class",
+    "id": "NC_MAGE_TEST",
+    "name": "Mage Test",
+    "job_description": "I'm a wandering debug tester for the arcane arts.",
+    "traits": [
+      { "trait": "STORMSHAPER" },
+      { "group": "BG_survival_story_EVACUEE" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" }
+    ],
+    "spells": [ { "id": "lightning_bolt", "level": 6 }, { "id": "windrun", "level": 6 } ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_OLD_MAGUS",
+    "name": "Master Magus",
+    "job_description": "I'm an old Magus.  Get off my lawn!",
+    "worn_override": "NC_OLD_MAGUS_worn",
+    "traits": [
+      { "trait": "MAGUS" },
+      { "group": "BG_survival_story_RURAL" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" }
+    ],
+    "bonus_str": { "rng": [ -4, -1 ] },
+    "bonus_dex": { "rng": [ -2, 0 ] },
+    "bonus_int": { "rng": [ 2, 5 ] },
+    "bonus_per": { "rng": [ -2, -1 ] },
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -2 ] } ] } ] } },
+      { "skill": "spellcraft", "bonus": { "rng": [ 4, 6 ] } }
+    ],
+    "spells": [ { "id": "magic_missile", "level": 18 }, { "id": "gravity_well", "level": 10 }, { "id": "foxs_cunning", "level": 7 } ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_TECHNO_KID",
+    "name": "Techno-student",
+    "job_description": "I'm searching for more power.",
+    "traits": [
+      { "trait": "TECHNOMANCER" },
+      { "group": "BG_survival_story_TEENAGER" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" }
+    ],
+    "bonus_str": { "rng": [ -2, 1 ] },
+    "bonus_dex": { "rng": [ -1, 1 ] },
+    "bonus_int": { "rng": [ 0, 3 ] },
+    "bonus_per": { "rng": [ -1, 1 ] },
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ -1, -4 ] } ] } ] } },
+      { "skill": "spellcraft", "bonus": { "rng": [ 0, 2 ] } }
+    ],
+    "spells": [ { "id": "quantum_tunnel_lesser", "level": 2 }, { "id": "animated_blade", "level": 2 } ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_BIO_PRIEST",
+    "name": "Healer",
+    "job_description": "I will purge this land of its curse.",
+    "traits": [
+      { "trait": "BIOMANCER" },
+      { "group": "BG_survival_story_UNIVERSAL" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" }
+    ],
+    "bonus_str": { "rng": [ -2, 2 ] },
+    "bonus_dex": { "rng": [ -2, 2 ] },
+    "bonus_int": { "rng": [ 0, 4 ] },
+    "bonus_per": { "rng": [ 0, 3 ] },
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -3 ] } ] } ] } },
+      { "skill": "spellcraft", "bonus": { "rng": [ 1, 3 ] } }
+    ],
+    "spells": [ { "id": "light_healing", "level": 3 }, { "id": "bio_bonespear", "level": 6 } ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_NPC_MUTANT_MANATOUCHED",
+    "name": "Manatouched Mutant",
+    "job_description": "I'm becoming something more than mortal.  I need to find a way off this plane.",
+    "skills": [
+      { "skill": "spellcraft", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "chemistry", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "gun", "bonus": { "rng": [ 2, 4 ] } }
+    ],
+    "bonus_int": 4,
+    "bonus_per": 2,
+    "traits": [
+      { "group": "trait_mutant_npc_common" },
+      { "group": "BG_survival_story_UNIVERSAL" },
+      { "group": "NPC_starting_traits" },
+      { "group": "trait_group_manatouched" },
+      {
+        "distribution": [ { "group": "trait_group_manatouched_nonthres" }, { "group": "trait_group_manatouched_postthres" } ]
+      }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_NPC_MUTANT_BDRAGON",
+    "name": "Black Dragon Mutant",
+    "job_description": "I've got the blood of dragons in my veins.  I need more.",
+    "skills": [ { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } }, { "skill": "unarmed", "bonus": { "rng": [ 3, 6 ] } } ],
+    "traits": [
+      { "group": "trait_mutant_npc_common" },
+      { "group": "BG_survival_story_UNIVERSAL" },
+      { "group": "NPC_starting_traits" },
+      { "group": "trait_group_bdragon" },
+      {
+        "distribution": [ { "group": "trait_group_bdragon_nonthres" }, { "group": "trait_group_bdragon_postthres" } ]
+      }
+    ]
+  }
+]

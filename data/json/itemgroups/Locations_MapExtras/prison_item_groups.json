@@ -1,0 +1,82 @@
+[
+  {
+    "id": "prison_canine_food",
+    "type": "item_group",
+    "items": [ { "item": "dogfood", "prob": 100, "container-item": "can_medium" } ]
+  },
+  {
+    "id": "prison_canine_bowl",
+    "type": "item_group",
+    "items": [ [ "bowl_plastic", 100 ] ]
+  },
+  {
+    "id": "prison_canine_utility",
+    "type": "item_group",
+    "items": [
+      [ "dog_whistle", 10 ],
+      [ "pet_carrier", 30 ],
+      [ "towel", 20 ],
+      [ "soap", 10 ],
+      [ "gloves_medical", 20 ],
+      [ "cotton_patchwork", 15 ],
+      [ "bag_plastic", 20 ],
+      [ "jerky", 40 ],
+      [ "rope_6", 15 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "prison_workshop_safety",
+    "subtype": "collection",
+    "items": [
+      { "item": "mask_dust", "prob": 75, "damage": [ 1, 4 ] },
+      { "item": "gloves_work", "prob": 75, "damage": [ 1, 4 ] },
+      { "item": "glasses_safety", "prob": 75, "damage": [ 1, 4 ] }
+    ]
+  },
+  {
+    "id": "prison_jumpsuit",
+    "type": "item_group",
+    "items": [ { "item": "jumpsuit", "prob": 75, "damage": [ 1, 4 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "prisoner_or_cop_clothes",
+    "//": "Nested group to damage the container-item",
+    "entries": [ { "group": "prisoner_or_cop_clothes_corpse", "prob": 100, "damage": [ 3, 4 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "prisoner_or_cop_clothes_corpse",
+    "subtype": "collection",
+    "container-item": "corpse_generic_human",
+    "entries": [
+      { "group": "male_underwear", "damage": [ 1, 4 ] },
+      {
+        "distribution": [
+          {
+            "collection": [
+              { "item": "striped_shirt", "damage": [ 1, 4 ] },
+              { "item": "striped_pants", "damage": [ 1, 4 ] },
+              { "group": "clothing_prisoner_shoes", "damage": [ 1, 4 ], "prob": 20 },
+              { "item": "bandana", "damage": [ 1, 4 ] }
+            ]
+          },
+          {
+            "collection": [
+              { "group": "cop_pants", "damage": [ 1, 4 ] },
+              { "group": "cop_shoes", "damage": [ 1, 4 ], "prob": 20 },
+              { "group": "cop_torso", "damage": [ 1, 4 ] },
+              { "group": "clothing_watch", "prob": 20 },
+              { "item": "police_belt", "damage": [ 1, 4 ], "prob": 20 }
+            ]
+          }
+        ],
+        "prob": 90
+      },
+      { "group": "socks_unisex", "damage": [ 1, 4 ] },
+      { "group": "clothing_glasses", "prob": 20 }
+    ]
+  }
+]

@@ -1,0 +1,32 @@
+[
+  {
+    "type": "SPELL",
+    "id": "STORM_ELEMENTAL_ZAPBACK",
+    "name": "Storm Elemental Zapback",
+    "description": "The zapback effect from the Storm Elemental Attunement.",
+    "effect": "attack",
+    "shape": "blast",
+    "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "min_damage": 5,
+    "max_damage": 5,
+    "valid_targets": [ "hostile" ],
+    "damage_type": "electric",
+    "min_range": 2,
+    "max_range": 2
+  },
+  {
+    "type": "enchantment",
+    "id": "STORM_ELEMENTAL",
+    "condition": "ALWAYS",
+    "name": { "str": "Cyclone" },
+    "description": "Your Storm Elemental abilities grant you total electric immunity, and reflective zippers to anyone who tries to attack you.",
+    "values": [ { "value": "ARMOR_ELEC", "multiply": -0.4 } ],
+    "hit_me_effect": [
+      {
+        "id": "STORM_ELEMENTAL_ZAPBACK",
+        "message": "Electricity arcs out from where you've been hit.",
+        "npc_message": "%1$s's body arcs electricity from the wound."
+      }
+    ]
+  }
+]

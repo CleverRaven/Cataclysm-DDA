@@ -1,0 +1,46 @@
+[
+  {
+    "type": "SPELL",
+    "id": "spell_summon_crocodile",
+    "name": "Summon Crocodile",
+    "description": "Summons a crocodile.",
+    "flags": [ "HOSTILE_SUMMON", "NO_PROJECTILE" ],
+    "valid_targets": [ "ground" ],
+    "base_casting_time": 200,
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_aoe": 2,
+    "max_aoe": 2,
+    "min_duration": 40000,
+    "message": "The shaman summons a crocodile!",
+    "shape": "blast",
+    "effect": "summon",
+    "effect_str": "mon_crocodile"
+  },
+  {
+    "type": "SPELL",
+    "id": "spell_shaman_base",
+    "name": "An Ancient Reptilian Spell",
+    "description": "Causes one of the shaman spells to be cast.",
+    "valid_targets": [ "hostile", "ground" ],
+    "effect": "none",
+    "shape": "blast",
+    "base_casting_time": 100,
+    "flags": [ "WONDER", "NO_PROJECTILE" ],
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_range": 10,
+    "max_range": 10,
+    "message": "",
+    "extra_effects": [
+      { "id": "druid_veggrasp" },
+      { "id": "druid_veggrasp" },
+      { "id": "druid_veggrasp" },
+      { "id": "druid_veggrasp" },
+      { "id": "light_healing", "hit_self": true },
+      { "id": "light_healing", "hit_self": true },
+      { "id": "light_healing", "hit_self": true },
+      { "id": "spell_summon_crocodile" }
+    ]
+  }
+]

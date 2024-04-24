@@ -1,0 +1,101 @@
+[
+  {
+    "type": "npc",
+    "id": "hub_security",
+    "//": "A generic guard for Hub 01.",
+    "name_suffix": "Hub Security",
+    "class": "NC_ROBOFAC_SECURITY",
+    "attitude": 0,
+    "mission": 8,
+    "chat": "TALK_HUB_SECURITY",
+    "faction": "robofac"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_ROBOFAC_SECURITY",
+    "name": { "str": "Hub Security" },
+    "job_description": "I'm part of the Hub security team.",
+    "common": false,
+    "traits": [ { "group": "BG_survival_story_POLICE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "bonus_str": { "rng": [ 1, 3 ] },
+    "bonus_int": { "rng": [ 1, 2 ] },
+    "bonus_per": { "rng": [ 1, 2 ] },
+    "skills": [
+      { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -2 } ] } },
+      { "skill": "gun", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "pistol", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 2, 4 ] } }
+    ],
+    "carry_override": "NC_robofac_generic_security_misc",
+    "worn_override": "NC_robofac_generic_security_worn",
+    "weapon_override": "NC_robofac_security_weapon"
+  },
+  {
+    "type": "item_group",
+    "id": "NC_robofac_generic_security_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "under_armor" },
+      { "item": "under_armor_shorts" },
+      { "item": "socks" },
+      { "item": "robofac_jumpsuit" },
+      { "item": "tac_helmet" },
+      { "group": "military_ballistic_vest_pristine" },
+      { "group": "clothing_watch" },
+      { "distribution": [ { "group": "clothing_glasses" }, { "item": "glasses_bal" } ] },
+      { "item": "gloves_tactical", "prob": 60 },
+      { "item": "boots_combat" },
+      { "group": "clothing_watch" },
+      { "item": "holster" },
+      { "item": "legrig" },
+      { "item": "legrig", "prob": 30 },
+      { "item": "tacvest" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_robofac_generic_security_misc",
+    "subtype": "collection",
+    "entries": [
+      { "item": "grenade_emp", "prob": 33 },
+      {
+        "collection": [
+          { "item": "glock_17", "charges": 22, "ammo-item": "9mmP" },
+          { "item": "glock17_22", "charges": 22, "ammo-item": "9mmP", "count": [ 1, 2 ] },
+          { "item": "9mmP", "count": [ 1, 2 ] },
+          { "item": "stanag30", "charges": 30, "ammo-item": "556", "count": [ 1, 2 ] },
+          { "item": "556", "count": 2 }
+        ]
+      },
+      { "item": "grenade", "prob": 2 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_robofac_security_weapon",
+    "subtype": "collection",
+    "entries": [
+      {
+        "item": "modular_m27_assault_rifle",
+        "variant": "modular_m38dmr",
+        "contents-group": "robofac_sec_weapon_mods",
+        "charges": 30
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "robofac_sec_weapon_mods",
+    "subtype": "collection",
+    "entries": [
+      { "distribution": [ { "item": "holo_sight", "prob": 50 }, { "item": "acog_scope", "prob": 30 } ] },
+      { "item": "shoulder_strap" }
+    ]
+  },
+  {
+    "id": "TALK_HUB_SECURITY",
+    "type": "talk_topic",
+    "dynamic_line": [ "Keep it civil, merc.", "Just on watch, move along.", { "u_male": [ "Sir." ], "no": [ "Ma'am" ] } ],
+    "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
+  }
+]

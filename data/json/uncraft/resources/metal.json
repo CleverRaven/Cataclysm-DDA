@@ -1,0 +1,34 @@
+[
+  {
+    "result": "10l_iron",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "10 m",
+    "tools": [ [ [ "angle_grinder", 10 ] ] ],
+    "components": [ [ [ "5l_iron", 2 ] ] ]
+  },
+  {
+    "result": "5l_iron",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 h",
+    "tools": [ [ [ "angle_grinder", 50 ] ] ],
+    "components": [ [ [ "lump_cast_iron", 39 ] ] ]
+  },
+  {
+    "result": "lump_cast_iron",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "15 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "chunk_cast_iron", 4 ] ] ]
+  },
+  {
+    "result": "chunk_cast_iron",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "5 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "scrap_cast_iron", 5 ] ] ]
+  }
+]

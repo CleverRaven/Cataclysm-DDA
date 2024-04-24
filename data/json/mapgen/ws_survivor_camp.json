@@ -1,0 +1,157 @@
+[
+  {
+    "type": "item_group",
+    "id": "sc_loot_general",
+    "items": [
+      [ "rock", 20 ],
+      [ "sharp_rock", 20 ],
+      [ "dry_meat", 20 ],
+      [ "dry_veggy", 20 ],
+      [ "stick", 20 ],
+      [ "pointy_stick", 20 ],
+      [ "bottle_plastic", 20 ],
+      [ "carrot", 20 ],
+      [ "hotdogs_campfire", 20 ],
+      [ "birchbark", 20 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "sc_loot_equipment",
+    "items": [
+      [ "flask_hip", 20 ],
+      [ "shortbow", 20 ],
+      { "group": "makeshift_archery_ammo", "prob": 20, "count": [ 1, 2 ] },
+      [ "quiver_birchbark", 30 ],
+      [ "fire_drill", 30 ],
+      { "item": "lighter", "prob": 30, "charges": [ 0, 100 ] },
+      { "item": "matches", "prob": 30, "charges": [ 0, 20 ] },
+      { "item": "small_lighter", "prob": 10, "charges": [ 0, 50 ] },
+      [ "sunglasses", 30 ],
+      [ "fitover_sunglasses", 20 ],
+      [ "ax", 10 ],
+      [ "saw", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "sc_loot_rare",
+    "items": [
+      [ "recurbow", 20 ],
+      [ "quiver", 20 ],
+      [ "book_archery", 20 ],
+      [ "canteen", 20 ],
+      [ "knife_hunting", 30 ],
+      [ "binoculars", 20 ],
+      { "item": "ref_lighter", "prob": 30, "charges": [ 0, 50 ] },
+      [ "backpack", 30 ],
+      [ "backpack_leather", 30 ],
+      [ "e_tool", 30 ]
+    ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "ws_survivor_camp" ],
+    "weight": 1000,
+    "object": {
+      "predecessor_mapgen": "field",
+      "rows": [
+        "       pp      pp       ",
+        " pppppppp      pppppppp ",
+        "pppppppp        pppppppp",
+        "pppssr          ssr  ppp",
+        "ppsE           sW     pp",
+        "ppr c          r c    pp",
+        "pp                    pp",
+        "pp                    pp",
+        "pp           ww       pp",
+        "pp ssr       ww ssr   pp",
+        "ppsE           sW     pp",
+        "ppr c          r c    pp",
+        "pp         O          pp",
+        "pp                    pp",
+        "pp                    pp",
+        "pp ssr          ssr   pp",
+        "ppsE           sW     pp",
+        "ppr c          r c    pp",
+        "pp                    pp",
+        "pp                    pp",
+        "pp                    pp",
+        "ppp                  ppp",
+        "pppppppppppppppppppppppp",
+        " pppppppppppppppppppppp "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "nested": {
+        "E": { "chunks": [ [ "tent_3x3_E", 10 ], [ "tent_5x5_E", 20 ], [ "null", 5 ] ] },
+        "W": { "chunks": [ [ "tent_3x3_W", 10 ], [ "tent_5x5_W", 20 ], [ "null", 5 ] ] }
+      },
+      "terrain": { "O": "t_pit_shallow", "p": [ "t_pit_spiked", "t_region_groundcover" ] },
+      "furniture": { "O": "f_firering" },
+      "items": {
+        "c": { "item": "sc_loot_rare", "chance": 30 },
+        "r": { "item": "sc_loot_general", "chance": 30 },
+        "s": { "item": "sc_loot_equipment", "chance": 30 },
+        "w": { "item": "stash_wood", "chance": 30 }
+      },
+      "place_monsters": [
+        { "monster": "GROUP_PREPPER_HOUSE", "x": 11, "y": 10 },
+        { "monster": "GROUP_PREPPER_HOUSE", "x": 10, "y": 9 },
+        { "monster": "GROUP_PREPPER_HOUSE", "x": 12, "y": 8 }
+      ],
+      "place_vehicles": [ { "vehicle": "surv_car", "x": 11, "y": 4, "chance": 20, "rotation": 270 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "ws_survivor_camp" ],
+    "weight": 10,
+    "object": {
+      "predecessor_mapgen": "field",
+      "faction_owner": [ { "id": "no_faction", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "rows": [
+        "       pp      pp       ",
+        " pppppppp      pppppppp ",
+        "pppppppp        pppppppp",
+        "pppssr          ssr  ppp",
+        "ppsE           sW     pp",
+        "ppr c          r c    pp",
+        "pp                    pp",
+        "pp                    pp",
+        "pp           ww       pp",
+        "pp ssr       ww ssr   pp",
+        "ppsE           sW     pp",
+        "ppr c          r c    pp",
+        "pp         O          pp",
+        "pp                    pp",
+        "pp                    pp",
+        "pp ssr          ssr   pp",
+        "ppsE           sW     pp",
+        "ppr c          r c    pp",
+        "pp                    pp",
+        "pp                    pp",
+        "pp                    pp",
+        "ppp                  ppp",
+        "pppppppppppppppppppppppp",
+        " pppppppppppppppppppppp "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_npcs": [ { "class": "survivor_camper", "x": 10, "y": 11 } ],
+      "nested": {
+        "E": { "chunks": [ [ "tent_3x3_E", 10 ], [ "tent_5x5_E", 20 ], [ "null", 5 ] ] },
+        "W": { "chunks": [ [ "tent_3x3_W", 10 ], [ "tent_5x5_W", 20 ], [ "null", 5 ] ] }
+      },
+      "terrain": { "O": "t_pit_shallow", "p": [ "t_pit_spiked" ] },
+      "furniture": { "O": "f_firering" },
+      "items": {
+        "c": { "item": "sc_loot_rare", "chance": 50, "repeat": [ 2, 3 ] },
+        "r": { "item": "sc_loot_general", "chance": 70, "repeat": [ 2, 3 ] },
+        "s": { "item": "sc_loot_equipment", "chance": 85, "repeat": [ 2, 3 ] },
+        "w": { "item": "stash_wood", "chance": 100, "repeat": [ 2, 3 ] }
+      },
+      "place_vehicles": [ { "vehicle": "surv_car", "x": 11, "y": 4, "chance": 70, "rotation": 270 } ]
+    }
+  }
+]

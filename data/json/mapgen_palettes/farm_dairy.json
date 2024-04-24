@@ -1,0 +1,29 @@
+[
+  {
+    "type": "palette",
+    "id": "farm_dairy_palette",
+    "parameters": {
+      "fence_type": {
+        "type": "ter_str_id",
+        "default": {
+          "distribution": [ [ "t_splitrail_fence", 3 ], [ "t_chainfence", 2 ], [ "t_fence_barbed", 2 ], [ "t_privacy_fence", 1 ] ]
+        }
+      }
+    },
+    "terrain": {
+      "$": { "param": "fence_type", "fallback": "t_splitrail_fence" },
+      "f": {
+        "switch": { "param": "fence_type", "fallback": "t_splitrail_fence" },
+        "cases": {
+          "t_splitrail_fence": "t_splitrail_fencegate_c",
+          "t_chainfence": "t_chaingate_c",
+          "t_fence_barbed": "t_gate_metal_c",
+          "t_privacy_fence": "t_privacy_fencegate_c"
+        }
+      },
+      ".": [ [ "t_region_groundcover", 2 ], [ "t_region_soil", 3 ] ],
+      ",": [ [ "t_region_groundcover", 2 ], [ "t_region_soil", 3 ] ]
+    },
+    "furniture": { ".": [ [ "f_null", 29 ], [ "f_thistle", 1 ] ], ",": [ [ "f_null", 29 ], [ "f_thistle", 1 ] ] }
+  }
+]

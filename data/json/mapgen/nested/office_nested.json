@@ -1,0 +1,1347 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "14x14_office_crowded_sw",
+    "object": {
+      "mapgensize": [ 14, 14 ],
+      "rows": [
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "****  ****    ",
+        "dddx  dddx   x",
+        "   h   h     d",
+        "  h      h  hd",
+        "dddx  dddx    ",
+        "****  ****    ",
+        "dddx  dddx    ",
+        "  h    h      ",
+        "   h    h   h ",
+        "dddx  dddx xdd"
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "14x14_office_generic_sw",
+    "object": {
+      "mapgensize": [ 14, 14 ],
+      "rows": [
+        "              ",
+        "              ",
+        "              ",
+        "Y             ",
+        "************  ",
+        "ddx*ddx*ddx* f",
+        " h * h * h * f",
+        "              ",
+        "ddx*ddx*ddx*  ",
+        "   *  h*h  *  ",
+        " h            ",
+        "ddx*ddx*ddx*  ",
+        " h * h *   * f",
+        "         h   f"
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "14x14_office_glass_sw",
+    "object": {
+      "mapgensize": [ 14, 14 ],
+      "rows": [
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "^   ^    ^   ^",
+        "*****    *****",
+        "   h*   Y*  h ",
+        " dxd*    * dxd",
+        "              ",
+        "f             ",
+        "f             ",
+        "              ",
+        " dxd* dxd* dxd",
+        "  h *  h *  h "
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "14x14_office_cubicle_sw",
+    "object": {
+      "mapgensize": [ 14, 14 ],
+      "rows": [
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "         ^  ff",
+        "**********Y **",
+        "x  x*x  x*   x",
+        "dh d*dhhd*  hd",
+        "d hd*d  d*   d",
+        "              ",
+        "              ",
+        "d hd*d  d*dh d",
+        "dh d*dhhd*d hd",
+        "x  x*x  x*x  x"
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "14x14_office_slide_sw",
+    "object": {
+      "mapgensize": [ 14, 14 ],
+      "rows": [
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "   fff  fff   ",
+        "*  ***  ***   ",
+        "d  d*d  d*d   ",
+        "dh d*dh d*d   ",
+        "d hd*d hd*d h ",
+        "x  x*x  x*x   ",
+        "*  ***  ***   ",
+        "  h *  h *  h ",
+        "dddx*dddx*dddx"
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "14x14_office_generic_se",
+    "object": {
+      "mapgensize": [ 14, 14 ],
+      "rows": [
+        "              ",
+        "              ",
+        "             a",
+        "             Y",
+        "  ************",
+        "  *xdd*xdd*xdd",
+        "  * h * h *   ",
+        "             h",
+        "  *xdd*xdd*xdd",
+        "  *  h*h  * h ",
+        "              ",
+        "  *xdd*xdd*xdd",
+        "  *   * h *   ",
+        "    h       h "
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "14x14_office_glass_se",
+    "object": {
+      "mapgensize": [ 14, 14 ],
+      "rows": [
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "ffff          ",
+        "*****    *****",
+        " h  *^   * h  ",
+        "dxd *    *dxd ",
+        "              ",
+        "             Y",
+        "             a",
+        "              ",
+        "dxd *dxd *dxd ",
+        "  h * h  * h  "
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "14x14_office_slide_se",
+    "object": {
+      "mapgensize": [ 14, 14 ],
+      "rows": [
+        "              ",
+        "              ",
+        "             a",
+        "             Y",
+        "              ",
+        "   fff  fff   ",
+        "   ***  ***  *",
+        "   d*d  d*d  d",
+        "   d*dh d*d hd",
+        "  hd*d hd*dh d",
+        "   x*x  x*x  x",
+        "   ***  ***  *",
+        "  h * h  * h  ",
+        "xddd*xddd*xddd"
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "14x14_office_cubicle_se",
+    "object": {
+      "mapgensize": [ 14, 14 ],
+      "rows": [
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "     ^ffff^   ",
+        "**  **********",
+        "x   *x  x*x  x",
+        "dh  *dhhd*dhhc",
+        "d   *d  d*d  d",
+        "              ",
+        "              ",
+        "d hd*d hd*dh d",
+        "dh d*dh d*d hd",
+        "x  x*x  x*x  x"
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "14x14_office_crowded_se",
+    "object": {
+      "mapgensize": [ 14, 14 ],
+      "rows": [
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "    ****  ****",
+        "x   xddd  xddd",
+        "dh   h     h  ",
+        "d     h     h ",
+        "    xddd  xddd",
+        "    ****  ****",
+        "    xddd  xddd",
+        "     h      h ",
+        " h    h    h  ",
+        "ddx xddd  xddd"
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "14x14_office_slide_nw",
+    "object": {
+      "mapgensize": [ 14, 14 ],
+      "rows": [
+        "dddx*dddx*dddx",
+        "  h *  h *  h ",
+        "*  ***  ***   ",
+        "x  x*x  x*x   ",
+        "dh d*d hd*d   ",
+        "d hd*dh d*dh  ",
+        "d  d*d  d*d   ",
+        "*  ***  ***  a",
+        "   fff  fff  Y",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              "
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "14x14_office_crowded_nw",
+    "object": {
+      "mapgensize": [ 14, 14 ],
+      "rows": [
+        "dddx  dddx xdd",
+        "  h    h    h ",
+        " h       h    ",
+        "dddx  dddx    ",
+        "****  ****    ",
+        "dddx  dddx    ",
+        "  h    h     d",
+        " h      h   hd",
+        "dddx  dddx   x",
+        "****  ****    ",
+        "Y             ",
+        "              ",
+        "              ",
+        "              "
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "14x14_office_generic_nw",
+    "object": {
+      "mapgensize": [ 14, 14 ],
+      "rows": [
+        "     h       f",
+        " h *   * h * f",
+        "ddx*ddx*ddx*  ",
+        "      h       ",
+        "h  *   *h  * a",
+        "ddx*ddx*ddx*  ",
+        " h            ",
+        "   * h * h * f",
+        "ddx*ddx*ddx* f",
+        "************ Y",
+        "              ",
+        "              ",
+        "              ",
+        "              "
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "14x14_office_cubicle_nw",
+    "object": {
+      "mapgensize": [ 14, 14 ],
+      "rows": [
+        "x  x*x  x*x  x",
+        "d hd*dh d*d hd",
+        "dh d*d hd*dh d",
+        "              ",
+        "              ",
+        "d hd*d  d*   d",
+        "dh d*dhhd*  hd",
+        "x  x*x  x*   x",
+        "**********  **",
+        "     ^fffY    ",
+        "              ",
+        "              ",
+        "              ",
+        "              "
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "14x14_office_glass_nw",
+    "object": {
+      "mapgensize": [ 14, 14 ],
+      "rows": [
+        "  h *  h * h  ",
+        " dxd* dxd* dxd",
+        "              ",
+        "              ",
+        "Y             ",
+        "              ",
+        " dxd*    * dxd",
+        "  h *    *  h ",
+        "*****    *****",
+        "    a     ffff",
+        "              ",
+        "              ",
+        "              ",
+        "              "
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "14x14_office_slide_ne",
+    "object": {
+      "mapgensize": [ 14, 14 ],
+      "rows": [
+        "xddd*xddd*xddd",
+        "  h *  h *  h ",
+        "   ***  ***  *",
+        "   x*x  x*x  x",
+        "   d*d hd*d hd",
+        "  hd*dh d*dh d",
+        "   d*d  d*d  d",
+        "   ***  ***  *",
+        "   fff  fff  Y",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              "
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "14x14_office_crowded_ne",
+    "object": {
+      "mapgensize": [ 14, 14 ],
+      "rows": [
+        "ddx xddd  xddd",
+        " h   h     h  ",
+        "       h     h",
+        "    xddd  xddd",
+        "    ****  ****",
+        "    xddd  xddd",
+        "d     h    h  ",
+        "dh   h      h ",
+        "x   xddd  xddd",
+        "Y   ****  ****",
+        "       ^  ^   ",
+        "              ",
+        "              ",
+        "              "
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "14x14_office_generic_ne",
+    "object": {
+      "mapgensize": [ 14, 14 ],
+      "rows": [
+        "^       h     ",
+        "a * h *   * h ",
+        "  *ddx*ddx*ddx",
+        "       h      ",
+        "  *h  *   *h  ",
+        "  *ddx*ddx*ddx",
+        "  h           ",
+        "  *   * h *  h",
+        "^ *ddx*ddx*ddx",
+        "  ************",
+        "   fff        ",
+        "              ",
+        "              ",
+        "              "
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "14x14_office_cubicle_ne",
+    "object": {
+      "mapgensize": [ 14, 14 ],
+      "rows": [
+        "x  x*x  x*x  x",
+        "dhhd*dh d*d hd",
+        "d  d*d hd*dh d",
+        "              ",
+        "              ",
+        "d   *d hd*d  d",
+        "dh  *dh d*dhhd",
+        "x   *x  x*x  x",
+        "** Y**********",
+        " a  ^ ff ^ ff ",
+        "              ",
+        "              ",
+        "              ",
+        "              "
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "14x14_office_glass_ne",
+    "object": {
+      "mapgensize": [ 14, 14 ],
+      "rows": [
+        " h  * h  *h   ",
+        "dxd *dxd *dxd ",
+        "             f",
+        "             f",
+        "             f",
+        "             f",
+        "dxd *    * dxd",
+        " h  *Y   * h  ",
+        "*****    *****",
+        "a   ^    ^    ",
+        "              ",
+        "              ",
+        "              ",
+        "              "
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "5x5_cabinet_office0_n",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "fff c",
+        "    c",
+        "    c",
+        "ddx c",
+        "     "
+      ],
+      "palettes": [ "office_palette" ],
+      "place_vehicles": [ { "vehicle": "swivel_chair", "x": 2, "y": 2, "chance": 100 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "5x5_cabinet_office1_n",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "xf  x",
+        "dh hd",
+        "d   d",
+        "    f",
+        "     "
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "5x5_cabinet_sec_n",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "xdddc",
+        "x   c",
+        "x   c",
+        "f  cc",
+        "     "
+      ],
+      "palettes": [ "office_palette" ],
+      "place_vehicles": [ { "vehicle": "swivel_chair", "x": 2, "y": 1, "chance": 100 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "5x5_cabinet_sofa_n",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "?????",
+        "?    ",
+        "? nn ",
+        "^   M",
+        "     "
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "6x6_cabinet_glass_ne",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "Vdd  f",
+        "Vx   f",
+        "Vcc   ",
+        "||VGV|",
+        "      ",
+        "      "
+      ],
+      "palettes": [ "office_palette" ],
+      "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 3, 4 ], "y": [ 0, 2 ], "chance": 100 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "6x6_cabinet_office_n",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "d ff d",
+        "d   hd",
+        "xh   x",
+        "cc  cc",
+        "      ",
+        "      "
+      ],
+      "palettes": [ "office_palette" ],
+      "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 1, 4 ], "y": [ 1, 2 ], "repeat": [ 1, 2 ], "chance": 100 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "6x6_cabinet_computer_ne",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "Vx x x",
+        "Vx x x",
+        "Vx   x",
+        "VVVGVV",
+        "  ^ ^ ",
+        "      "
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "6x6_cabinet_files_ne",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "|f f f",
+        "|f f f",
+        "|f   f",
+        "|||+||",
+        "      ",
+        "      "
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "5x5_corridor_register_ne",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "  fff",
+        "c    ",
+        "c    ",
+        "cxddd",
+        "     "
+      ],
+      "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 1, 4 ], "y": [ 1, 2 ], "chance": 100 } ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "5x5_corridor_benches_ne",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "    ^",
+        " bttb",
+        " bttb",
+        " bttb",
+        "     "
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "5x5_corridor_sofa_ne",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "c????",
+        "c   ?",
+        "  n ?",
+        "M n ?",
+        "     "
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "5x5_corridor_office_ne",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "    x",
+        "d   d",
+        "d   d",
+        "x   d",
+        "     "
+      ],
+      "palettes": [ "office_palette" ],
+      "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 1, 3 ], "y": [ 1, 3 ], "repeat": [ 1, 2 ], "chance": 100 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "5x5_corridor_office0_sw",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "     ",
+        "xddd ",
+        "  h  ",
+        " h   ",
+        "dddx "
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "5x5_corridor_office1_sw",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "     ",
+        "ddxd ",
+        " h d ",
+        "d h  ",
+        "dddx^"
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "5x5_corridor_sofas_sw",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "     ",
+        "^ M  ",
+        "?   ?",
+        "? n ?",
+        "?   ?"
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "5x5_corridor_office0_se",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "     ",
+        "     ",
+        "cdxdd",
+        "c h  ",
+        "  fff"
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "5x5_corridor_office1_se",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "     ",
+        "     ",
+        "*d hd",
+        "*dh d",
+        "*x  x"
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "5x5_corridor_sofas_se",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "     ",
+        "  M ^",
+        "?   ?",
+        "? n ?",
+        "?   ?"
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "5x5_cabinet_toilet_l",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "iiii+",
+        "TiSi ",
+        "     ",
+        "     ",
+        "     "
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "5x5_cabinet_storage0_l",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "h?? =",
+        "hnnh ",
+        "     ",
+        "     ",
+        "     "
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "5x5_cabinet_storage1_l",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "MMnn=",
+        "hMhh ",
+        "     ",
+        "     ",
+        "     "
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "5x5_cabinet_storage2_l",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "x** =",
+        " x h ",
+        "     ",
+        "     ",
+        "     "
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "5x5_cabinet_cleaning0_l",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "iiii=",
+        "yyyS ",
+        "     ",
+        "     ",
+        "     "
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "5x5_cabinet_cleaning1_l",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "iiii=",
+        "yCSC ",
+        "     ",
+        "     ",
+        "     "
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "5x5_cabinet_toilet_r",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "+iiii",
+        " iSiT",
+        "     ",
+        "     ",
+        "     "
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "5x5_cabinet_storage0_r",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "= ???",
+        " nnhh",
+        "     ",
+        "     ",
+        "     "
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "5x5_cabinet_storage1_r",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "=nnMM",
+        " **Mh",
+        "     ",
+        "     ",
+        "     "
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "5x5_cabinet_storage2_r",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "=hhh*",
+        "  hhh",
+        "     ",
+        "     ",
+        "     "
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "5x5_cabinet_cleaning0_r",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "=iiii",
+        " Syyy",
+        "     ",
+        "     ",
+        "     "
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "5x5_cabinet_cleaning1_r",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "=iiii",
+        " CSCy",
+        "     ",
+        "     ",
+        "     "
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "6x6_room_boss_l",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "V^  c|",
+        "V   c|",
+        "V dxd|",
+        "V hh |",
+        "G    +",
+        "Vffff|"
+      ],
+      "palettes": [ "office_palette" ],
+      "place_vehicles": [ { "vehicle": "swivel_chair", "x": [ 2, 3 ], "y": [ 0, 1 ], "chance": 100 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "6x6_room_breakroom_l",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "CSCoe|",
+        "Ciiii|",
+        "iiiii|",
+        "    h|",
+        "     |",
+        "^FaD^|"
+      ],
+      "palettes": [ "office_palette" ],
+      "place_loot": [ { "item": "microwave", "x": 2, "y": 0 }, { "item": "coffeemaker", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "6x6_room_office_l",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "*dddx|",
+        "*d h |",
+        "    f|",
+        "     |",
+        "* h d|",
+        "*xddd|"
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "6x6_room_meeting_l",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "*^  B|",
+        "*    |",
+        "    h|",
+        "  h  |",
+        "h  hh+",
+        "hhh  |"
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "6x6_room_office_r",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "f dxd*",
+        "   h *",
+        "f     ",
+        "f     ",
+        "  h  *",
+        "f dxd*"
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "6x6_room_boss_r",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "    cV",
+        "  M cV",
+        " xdddV",
+        " h h G",
+        "     G",
+        "^fff^V"
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "6x6_room_breakroom_r",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "^??? *",
+        "  n M*",
+        "M    *",
+        "      ",
+        "  n   ",
+        "a??? ^"
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "6x6_room_files_r",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "ffff  ",
+        "      ",
+        "ffff  ",
+        "     *",
+        "  ddd*",
+        "f  h *"
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "3x3_desk_r_1",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "M  ",
+        " c ",
+        "xc "
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "3x3_desk_r_2",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "f  ",
+        "M c",
+        "dxc"
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "3x3_desk_r_3",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "ddx",
+        "M  ",
+        "ddd"
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "3x3_desk_l_1",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "c f",
+        "c  ",
+        "cxd"
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "3x3_desk_l_2",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "  f",
+        "c  ",
+        "cdd"
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "3x3_desk_l_3",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "fff",
+        "   ",
+        "add"
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "8x8_meeting_room_l_1",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "   ^    ",
+        "  V     ",
+        "  V  MMM",
+        "  G  nnn",
+        "  G  nnn",
+        "  V  MMM",
+        "  V     ",
+        "   ^ ***"
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "8x8_meeting_room_l_2",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "   ^    ",
+        "        ",
+        "     c  ",
+        "    hc  ",
+        "  +  c  ",
+        "   B c  ",
+        "        ",
+        "        "
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "8x8_meeting_room_l_3",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "        ",
+        "  V *   ",
+        "  V *  M",
+        "  G *  M",
+        "  G *  M",
+        "  V *  M",
+        "  V *   ",
+        "      ^^"
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "8x8_meeting_room_r_1",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "    Y   ",
+        "     V  ",
+        "MMM  V  ",
+        "nnn  G  ",
+        "nnn  G  ",
+        "MMM  V  ",
+        "     V  ",
+        "   ff   "
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "8x8_meeting_room_r_2",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "    ^   ",
+        "        ",
+        "MMM     ",
+        "nnn B   ",
+        "nnn B   ",
+        "MMM     ",
+        "        ",
+        " Y  a   "
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "8x8_meeting_room_r_3",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "    ^   ",
+        "     V  ",
+        "nnM  V  ",
+        "nnM  G  ",
+        "nnM  G  ",
+        "nnM  V  ",
+        "     V  ",
+        "ff  Y   "
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "8x8_meeting_room_r_4",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "    ^   ",
+        "     V  ",
+        " h h V  ",
+        " h h G  ",
+        " h h G  ",
+        " h h V  ",
+        "     V  ",
+        "fff Y   "
+      ],
+      "palettes": [ "office_palette" ]
+    }
+  }
+]

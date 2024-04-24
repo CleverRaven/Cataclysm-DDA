@@ -1,0 +1,240 @@
+[
+  {
+    "type": "palette",
+    "id": "homelesscamp_palette",
+    "nested": {
+      "N": { "chunks": [ [ "tent_b_5x5_N", 9 ], [ "tent_5x5_N", 16 ], [ "null", 5 ] ] },
+      "S": { "chunks": [ [ "tent_b_5x5_S", 9 ], [ "tent_5x5_S", 16 ], [ "null", 5 ] ] },
+      "E": { "chunks": [ [ "tent_b_5x5_E", 9 ], [ "tent_5x5_E", 16 ], [ "null", 5 ] ] },
+      "W": { "chunks": [ [ "tent_b_5x5_W", 9 ], [ "tent_5x5_W", 16 ], [ "null", 5 ] ] },
+      "n": { "chunks": [ [ "tent_b_3x3_N", 9 ], [ "tent_3x3_N", 16 ], [ "null", 5 ] ] },
+      "s": { "chunks": [ [ "tent_b_3x3_S", 9 ], [ "tent_3x3_S", 16 ], [ "null", 5 ] ] },
+      "e": { "chunks": [ [ "tent_b_3x3_E", 9 ], [ "tent_3x3_E", 16 ], [ "null", 5 ] ] },
+      "w": { "chunks": [ [ "tent_b_3x3_W", 9 ], [ "tent_3x3_W", 16 ], [ "null", 5 ] ] }
+    },
+    "terrain": {
+      ",": "t_region_groundcover",
+      "?": "t_region_groundcover",
+      "h": "t_region_groundcover",
+      "t": "t_region_groundcover",
+      "_": "t_region_soil",
+      "o": "t_region_soil",
+      "X": "t_region_groundcover_barren",
+      "N": "t_region_groundcover",
+      "E": "t_region_groundcover",
+      "S": "t_region_groundcover",
+      "W": "t_region_groundcover",
+      "n": "t_region_groundcover",
+      "e": "t_region_groundcover",
+      "s": "t_region_groundcover",
+      "w": "t_region_groundcover"
+    },
+    "traps": { "?": [ [ "tr_null", 25 ], "tr_cot", "tr_rollmat" ] },
+    "furniture": {
+      " ": [ [ "f_null", 250 ], [ "f_rubble_landfill", 16 ], [ "f_wreckage", 4 ], "f_rubble", "f_rubble_rock" ],
+      "o": [ [ "f_firering", 2 ], [ "f_ash", 2 ], "f_30gal_firebarrel", "f_55gal_firebarrel" ],
+      "h": [ [ "f_null", 2 ], "f_camp_chair" ],
+      "t": [ [ "f_null", 2 ], "f_tourist_table" ]
+    },
+    "items": {
+      "o": { "item": "fireplace_fill", "chance": 66, "repeat": [ 1, 3 ] },
+      " ": [
+        { "item": "clutter_yard", "chance": 4, "repeat": [ 1, 2 ] },
+        { "item": "trash", "chance": 2, "repeat": [ 1, 2 ] },
+        { "item": "creepy", "chance": 1 },
+        { "item": "allclothes_damaged", "chance": 1 },
+        { "item": "oa_ig_rd_metal_trash", "chance": 1 }
+      ],
+      "?": [
+        { "item": "gear_homeless", "chance": 3 },
+        { "item": "camping", "chance": 3 },
+        { "item": "bar_trash", "chance": 2 },
+        { "item": "misc_smoking", "chance": 2 },
+        { "item": "alcohol", "chance": 4 },
+        { "item": "foodintincan", "chance": 3, "repeat": [ 1, 3 ] },
+        { "item": "stash_food", "chance": 2, "repeat": [ 1, 2 ] },
+        { "item": "allclothes_damaged", "chance": 10, "repeat": [ 1, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "homelesscamp",
+    "weight": 100,
+    "object": {
+      "predecessor_mapgen": "forest_thick",
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "           __           ",
+        " S,,,,     _            ",
+        " ,???,,    _h           ",
+        " ,???,,   h_            ",
+        " ,???,,    _            ",
+        " ,,,,,_    __     ,,,   ",
+        "   _h  t    _     w,,   ",
+        "   ___h     _ ____,?,   ",
+        "   _o__________ th,,,   ",
+        "  h___     _t__h        ",
+        "    _h     _hh_     h   ",
+        "_  __    N,,,,__   _____",
+        "____     ,???, _____ th_",
+        "  _      ,???, _h       ",
+        "  _  th  ,???, _h       ",
+        "  _____  ,,,,, _        ",
+        "   _  ____,,, ___ ,,,,  ",
+        "   _t    ______ _ W,,,, ",
+        " ,n,,      _    _ ,???, ",
+        " ,,?,     t_    __,???, ",
+        " ,,,,     h_    th,???, ",
+        " ,         __     ,,,,, ",
+        "            _           ",
+        "           __           "
+      ],
+      "palettes": [ "homelesscamp_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_vehicles": [
+        { "vehicle": "bicycle", "x": 19, "y": 5, "chance": 12, "rotation": 180 },
+        { "vehicle": "bicycle", "x": 11, "y": 16, "chance": 12, "rotation": 180 },
+        { "vehicle": "canoe", "x": 20, "y": 16, "chance": 5, "rotation": 180 },
+        { "vehicle": "bicycle", "x": 6, "y": 3, "chance": 12, "rotation": 90 },
+        { "vehicle": "canoe", "x": 1, "y": 19, "chance": 5, "rotation": 90 }
+      ],
+      "place_monsters": [ { "monster": "GROUP_VANILLA", "x": [ 0, 23 ], "y": [ 0, 23 ], "density": 0.07 } ]
+    }
+  },
+  {
+    "method": "json",
+    "om_terrain": "homelesscamp_npc",
+    "type": "mapgen",
+    "weight": 40,
+    "object": {
+      "fill_ter": "t_region_soil",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "    7                   ",
+        "                   w    ",
+        "                 iwww   ",
+        "     !!!!!!!!!!!! wwww  ",
+        "     !   ccccc  ! wWww  ",
+        "     !   cmdmc  ! wWWWw ",
+        "     !   cdddc  ! wWWww ",
+        "     !   cdddc  ! wwwww ",
+        "     !   cc+cc  !   wi  ",
+        "     !     _    !       ",
+        "     !!!!!!_!!!!!       ",
+        "        C ___ S         ",
+        "    cccc  _a_           ",
+        "    cmdc  ___ S         ",
+        "    cddb___             ",
+        "    cddc  C C           ",
+        "    cccc                ",
+        "                        ",
+        "                        ",
+        "             7          ",
+        "                        "
+      ],
+      "place_npcs": [ { "class": "NPC_homeless_survivor", "x": 9, "y": 12 } ],
+      "terrain": {
+        " ": "t_region_groundcover",
+        "_": "t_region_soil",
+        "7": "t_region_tree",
+        "W": "t_water_dp",
+        "+": "t_dirtfloor",
+        "b": "t_dirtfloor",
+        "d": "t_dirtfloor",
+        "m": "t_dirtfloor",
+        "w": "t_water_sh",
+        "!": "t_trunk"
+      },
+      "furniture": {
+        "+": "f_canvas_door",
+        "C": "f_camp_chair",
+        "S": "f_straw_bed",
+        "a": "f_woodstove",
+        "b": "f_canvas_door_o",
+        "c": "f_canvas_wall",
+        "i": "f_cattails",
+        "m": "f_makeshift_bed"
+      }
+    }
+  },
+  {
+    "method": "json",
+    "om_terrain": "homelesscamp_npc",
+    "type": "mapgen",
+    "weight": 20,
+    "object": {
+      "fill_ter": "t_region_soil",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "          7             ",
+        "                   ww   ",
+        "                 iwwww  ",
+        " !!!!!!!!!!!!!!!!wwwwww ",
+        " !       ccccc  ! wWwww ",
+        " !       cdddc  !wwWWWw ",
+        " !       cdddc  !wwWWww ",
+        " !       cmddc  ! wwwww ",
+        " !       cc+cc  !   wi  ",
+        " !         _    !       ",
+        " !         _    !       ",
+        "_____________ S !   7   ",
+        " !  cccc C_a_   !       ",
+        " !  cmmc  ___ S !       ",
+        " !  cmdb___     !       ",
+        " !  cmmc  C C   !       ",
+        " !  cccc        !       ",
+        " !!!!!!!!!!!!!!!!       ",
+        "                        ",
+        " 7                      ",
+        "             7          "
+      ],
+      "place_npcs": [
+        { "class": "NPC_homeless_broker", "x": 11, "y": 9 },
+        { "class": "NPC_homeless_group_survivor", "x": 2, "y": 13 },
+        { "class": "NPC_homeless_group_survivor", "x": 15, "y": 14 },
+        { "class": "NPC_homeless_group_survivor", "x": 2, "y": 15 }
+      ],
+      "faction_owner": [ { "id": "wasteland_scavengers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "place_zones": [
+        { "type": "LOOT_UNSORTED", "faction": "wasteland_scavengers", "x": [ 11, 11 ], "y": [ 10, 10 ] },
+        { "type": "LOOT_CURRENCY", "faction": "wasteland_scavengers", "x": [ 12, 12 ], "y": [ 10, 10 ] },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "filter": "homeless_broker_sell",
+          "faction": "wasteland_scavengers",
+          "x": [ 10, 12 ],
+          "y": [ 8, 9 ]
+        }
+      ],
+      "terrain": {
+        " ": "t_region_groundcover",
+        "_": "t_region_soil",
+        "7": "t_region_tree",
+        "W": "t_water_dp",
+        "+": "t_dirtfloor",
+        "b": "t_dirtfloor",
+        "d": "t_dirtfloor",
+        "m": "t_dirtfloor",
+        "~": "t_dirtfloor",
+        "w": "t_water_sh",
+        "!": "t_trunk"
+      },
+      "furniture": {
+        "+": "f_canvas_door",
+        "C": "f_camp_chair",
+        "S": "f_straw_bed",
+        "a": "f_woodstove",
+        "b": "f_canvas_door_o",
+        "c": "f_canvas_wall",
+        "i": "f_cattails",
+        "m": "f_makeshift_bed"
+      }
+    }
+  }
+]

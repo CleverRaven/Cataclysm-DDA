@@ -1,0 +1,66 @@
+[
+  {
+    "type": "palette",
+    "id": "subway",
+    "terrain": {
+      ".": "t_region_groundcover_barren",
+      "|": "t_brick_wall",
+      "-": "t_wall_glass",
+      ";": "t_door_glass_c",
+      "S": "t_sidewalk",
+      "t": "t_bollard",
+      "*": "t_region_shrub_decorative",
+      ">": "t_stairs_down",
+      "<": "t_stairs_up",
+      "4": "t_gutter_downspout"
+    },
+    "furniture": { "&": "f_trashcan", "b": "f_bench", "1": "f_indoor_plant", "2": "f_indoor_plant_y" },
+    "nested": { "6": { "chunks": [ "1x1_subwaystationmap" ] } },
+    "signs": { "M": { "signage": "Subway Map: <city> stop" } }
+  },
+  {
+    "type": "palette",
+    "id": "subway_underground",
+    "terrain": {
+      "#": "t_soil",
+      "0": "t_rock",
+      "R": "t_rock_red",
+      "G": "t_rock_green",
+      "B": "t_rock_blue",
+      ".": "t_rock_floor",
+      "_": "t_thconc_floor",
+      ">": "t_stairs_down",
+      "<": "t_stairs_up",
+      "^": "t_railroad_rubble",
+      "t": "t_railroad_tie",
+      "-": "t_railroad_tie_h",
+      "|": "t_railroad_tie_v",
+      "/": "t_railroad_tie_d",
+      "X": "t_railroad_track",
+      "H": "t_railroad_track_h",
+      "V": "t_railroad_track_v",
+      "D": "t_railroad_track_d",
+      "E": "t_railroad_track_d1",
+      "F": "t_railroad_track_d2",
+      "x": "t_railroad_track_on_tie",
+      "h": "t_railroad_track_h_on_tie",
+      "v": "t_railroad_track_v_on_tie",
+      "d": "t_railroad_track_d_on_tie",
+      "S": "t_buffer_stop",
+      "I": "t_brick_wall",
+      "+": "t_door_metal_c",
+      "~": "t_laminated_glass",
+      "z": "t_fence_metal",
+      "Z": "t_gate_metal_c",
+      "A": "t_atm",
+      "T": "t_ticket_vendor",
+      "s": "t_ticket_machine"
+    },
+    "furniture": { "&": "f_trashcan", "b": "f_bench", "Q": "f_desk", "c": "f_chair", "N": "f_rack" },
+    "signs": { "M": { "signage": "Subway Map: <city> stop" } },
+    "items": {
+      "N": { "item": "tools_construction", "chance": 90, "repeat": 3 },
+      "Q": { "item": "office_paper", "chance": 90, "repeat": 5 }
+    }
+  }
+]

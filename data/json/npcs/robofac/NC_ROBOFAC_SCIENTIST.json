@@ -1,0 +1,22 @@
+[
+  {
+    "type": "item_group",
+    "id": "NC_ROBOFAC_SCIENTIST_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "under_armor", "damage": [ 0, 2 ] },
+      { "item": "under_armor_shorts", "damage": [ 0, 2 ] },
+      { "item": "robofac_jumpsuit", "damage": [ 0, 2 ] },
+      { "group": "robofac_mantle_prototype", "damage": [ 0, 2 ] },
+      { "item": "coat_lab", "damage": [ 0, 2 ], "contents-item": [ "sunglasses", "grenade_emp", "grenade_emp" ] },
+      { "item": "black_pen", "charges": [ 50, 100 ] },
+      { "item": "red_pen", "charges": [ 50, 100 ], "prob": 40 },
+      { "item": "pencil", "charges": [ 50, 100 ], "damage": [ 0, 2 ] },
+      { "item": "paper", "count": [ 2, 3 ] },
+      { "item": "laptop", "charges": [ 300, 500 ] },
+      { "item": "nic_gum", "count": [ 5, 10 ] },
+      { "item": "water_clean", "container-item": "canteen", "prob": 50, "charges": [ 2, 6 ] },
+      { "item": "boots" }
+    ]
+  }
+]

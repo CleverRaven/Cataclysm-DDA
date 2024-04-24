@@ -1,0 +1,75 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NONE",
+    "//": "Empty EoC, use it if you need to run EoC with no effect for any reason",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RandEnc",
+    "condition": {
+      "and": [
+        { "expects_vars": [ "map_update", "omt", "map_removal", "chance", "days_till_spawn" ] },
+        { "one_in_chance": { "context_val": "chance" } },
+        { "u_near_om_location": { "context_val": "omt" }, "range": 30 },
+        { "math": [ "time_since('cataclysm', 'unit':'days') >= _days_till_spawn" ] },
+        { "math": [ "time_since(u_timer_caravan_RandEnc)", ">=", "time('1 d')" ] },
+        { "not": { "u_near_om_location": { "context_val": "omt" }, "range": 2 } },
+        { "get_condition": "random_enc_condition" }
+      ]
+    },
+    "effect": [
+      { "mapgen_update": [ { "context_val": "map_update" } ], "om_terrain": { "context_val": "omt" } },
+      { "math": [ "u_timer_caravan_RandEnc", "=", "time('now')" ] },
+      {
+        "u_location_variable": { "global_val": "randenc_loc" },
+        "target_params": { "om_terrain": { "context_val": "omt" } }
+      },
+      { "math": [ "RandEnc", "=", "1" ] },
+      { "set_string_var": { "context_val": "omt" }, "target_var": { "global_val": "random_encounter_omt" } },
+      {
+        "set_string_var": { "context_val": "map_removal" },
+        "target_var": { "global_val": "random_encounter_map_remove" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RandEnc_remove",
+    "recurrence": 200,
+    "global": true,
+    "condition": {
+      "and": [
+        { "math": [ "time_since(u_timer_caravan_RandEnc)", ">", "time('1 h')" ] },
+        { "not": { "u_near_om_location": { "global_val": "random_encounter_omt" }, "range": 2 } },
+        { "math": [ "RandEnc", "==", "1" ] }
+      ]
+    },
+    "effect": [
+      {
+        "mapgen_update": [ { "global_val": "random_encounter_map_remove" } ],
+        "om_terrain": { "global_val": "random_encounter_omt" },
+        "target_var": { "global_val": "randenc_loc" }
+      },
+      { "math": [ "RandEnc", "=", "0" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DEBUG_TELL_ME_TIME",
+    "eoc_type": "ACTIVATION",
+    "effect": [
+      { "math": [ "TIME_TILL_SUNSET", "=", "time_until('sunset', 'unit':'minutes')" ] },
+      { "u_message": "Minutes remaining until sunset is <global_val:TIME_TILL_SUNSET>", "type": "good" },
+      { "math": [ "TIME_TILL_NIGHT", "=", "time_until('night_time', 'unit':'minutes')" ] },
+      { "u_message": "Minutes remaining until night time is <global_val:TIME_TILL_NIGHT>", "type": "good" },
+      { "math": [ "TIME_TILL_SUNRISE", "=", "time_until('sunrise', 'unit':'minutes')" ] },
+      { "u_message": "Minutes remaining until sunrise is <global_val:TIME_TILL_SUNRISE>", "type": "good" },
+      { "math": [ "TIME_TILL_DAYTIME", "=", "time_until('daylight_time', 'unit':'minutes')" ] },
+      { "u_message": "Minutes remaining until daylight is <global_val:TIME_TILL_DAYTIME>", "type": "good" },
+      { "math": [ "TIME_TILL_NOON", "=", "time_until('noon', 'unit':'minutes')" ] },
+      { "u_message": "Minutes remaining until noon is <global_val:TIME_TILL_NOON>", "type": "good" }
+    ]
+  }
+]

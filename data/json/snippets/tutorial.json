@@ -1,0 +1,204 @@
+[
+  {
+    "type": "snippet",
+    "category": "tutorial_messages",
+    "text": [
+      {
+        "id": "LESSON_INTRO",
+        "text": "Welcome to the Cataclysm tutorial!  As you play, pop-ups like this one will appear to guide you through the basic game actions.\n\nAt any time, you can press <keybind:HELP_KEYBINDINGS> to open the <color_light_cyan>Keybindings menu</color> to view or modify the controls for the game or specific menu that you are in.\n\nPressing <keybind:POPUP_WAIT:QUIT> will close the pop-up."
+      },
+      {
+        "id": "LESSON_MOVE",
+        "text": "The character in the center of the screen represents you.  By default, you can move around using the <color_yellow>numpad</color>, <color_yellow>vikeys</color>, or the <color_yellow>arrow keys</color>.\n\nMovement Controls:\nNorth: <keybind:UP>\nSouth: <keybind:DOWN>\nWest: <keybind:LEFT>\nEast: <keybind:RIGHT>\nNorthwest: <keybind:LEFTUP>\nNortheast: <keybind:RIGHTUP>\nSouthwest: <keybind:LEFTDOWN>\nSoutheast: <keybind:RIGHTDOWN>\nWait in place: <keybind:pause>\n\nYou can also use <keybind:SELECT> to select the location you want to move, and then press it again to confirm the movement.\n\nTo continue the tutorial, please move to the door to the east."
+      },
+      {
+        "id": "LESSON_MOVEMENT_MODES",
+        "text": "Most of the time your character will be walking when you move.  But sometimes it's useful to change your movement mode to something else.\n\nThere are four movement modes:\n<color_light_cyan>Walking</color>: default mode, average movement speed, stamina draining speed, and noise\n<color_light_cyan>Running</color>: <color_light_green>move much faster</color>, but will <color_light_red>drain your stamina quickly</color>\n<color_light_cyan>Crouching</color>: will make your character <color_light_green>less visible to monsters</color> by allowing you to hide behind some obstacles, <color_light_red>decreased movement speed</color> and <color_light_green>noise</color>\n<color_light_cyan>Prone</color>: <color_light_green>even less visibility</color> to monsters, <color_light_red>even less movement speed</color> and <color_light_green>noise</color>\n\nPressing <keybind:open_movement> will open the <color_light_cyan>Movement Mode</color> menu, which allows you to switch the mode at any time.  There are extra keybindings that can be set to switch to each mode individually for convenience.\n\nTo continue the tutorial, please move to the end of the corridor."
+      },
+      {
+        "id": "LESSON_LOOK",
+        "text": "You can also use the mouse to see things around you.  The <color_light_cyan>Mouse view</color> window will appear on the sidebar, and you'll be able to get information on the terrain, monsters, and items in the world around you.  Alternatively, you can press <keybind:look> to open the <color_light_cyan>Look Around</color> window."
+      },
+      {
+        "id": "LESSON_OPEN",
+        "text": "You're standing next to a closed door.  To open it, either walk into it, or press <keybind:open> and then a movement key.  Using <keybind:open> will also let you open windows, gates, fences, safes and more."
+      },
+      {
+        "id": "LESSON_CLOSE",
+        "text": "You can close an opened door by pressing <keybind:close> and then a movement key.  Closing doors behind you can often slow down crowds of monsters greatly."
+      },
+      {
+        "id": "LESSON_SMASH",
+        "text": "Most monsters will have to smash their way through a closed door.  If a door is locked or partially broken, you can smash it by pressing <keybind:smash> and then a movement key."
+      },
+      {
+        "id": "LESSON_WINDOW",
+        "text": "You can smash through windows by pressing <keybind:smash> and then a movement key.  A smashed window takes a long time to climb through, and it's possible to hurt yourself on the broken glass, but it's a good last-ditch escape route.  Smashing a broken window again will clear the glass so you can move through it safely, although it will still be quite slow.  Almost everything can be smashed, given you have enough strength or are doing enough damage."
+      },
+      {
+        "id": "LESSON_PICKUP",
+        "text": "You just stepped on a space with one or more items.  If you wish to pick it up, press <keybind:pickup>.  To select the tile directly underneath you, press <keybind:pause>.\n\nIn the <color_light_cyan>Pickup</color> menu, press:\n<keybind:RIGHT> to select the items you wish to pick up\n<keybind:LEFT> to deselect\n<keybind:CONFIRM> to confirm\n\nNote that you don't need to stand directly on the space with items to pick them up, you can pick them up when standing near them.\n\nIf the item is too big to fit in any of your pockets, or is a weapon that you want to wield, you can press <keybind:wield> to wield it from the ground or from the <color_light_cyan>Pickup</color> menu.\n\nTo continue the tutorial, please pick up the <color_light_cyan>baseball bat</color> you're standing on and move to the door to the south."
+      },
+      {
+        "id": "LESSON_EXAMINE",
+        "text": "There is a display rack next to you with a steel spear lying on it.  You can press <keybind:wield> to directly wield an item, without the need of picking it up first.  Pressing <keybind:wield> will open the <color_light_cyan>Wield item</color> menu.  Select the item you want to wield and confirm by pressing <keybind:CONFIRM>.\n\nAs you have no free space in your inventory, you will have to drop the <color_light_cyan>baseball bat</color> on the ground before you can wield the spear.\n\nIf you wish to free your hands (i.e. wield nothing), press <keybind:wield> and select your currently wielded item.  Alternatively, you could drop the wielded item by pressing <keybind:drop> and selecting your currently wielded item.\n\nTo continue the tutorial, please wield the spear and move to the counters west of you."
+      },
+      {
+        "id": "LESSON_INTERACT",
+        "text": "There is a <color_light_cyan>water dispenser</color> around the corner.  Pick up the <color_light_cyan>plastic bottle</color> from the rack and proceed to the dispenser."
+      },
+      {
+        "id": "LESSON_GOT_ARMOR",
+        "text": "The item you just picked up is a type of clothing!  To wear clothing, press <keybind:wear> and then select an item.  To take off clothing, press <keybind:take_off>, or simply take it off and drop it in one action by pressing <keybind:drop>."
+      },
+      {
+        "id": "LESSON_GOT_WEAPON",
+        "text": "The item you just picked up is a good weapon!  To wield a weapon, press <keybind:wield>, then pick what to wield.  To wield nothing, either drop your weapon with <keybind:drop>, or press <keybind:wield> to put it away.  A zombie has spawned nearby.  To attack it, simply move into it."
+      },
+      {
+        "id": "LESSON_GOT_FOOD",
+        "text": "The item you just picked up is a comestible!  To eat a comestible, press <keybind:eat>.  Comestibles are items you can use up, like food, drink, pills, etc.  Most food expires eventually, so be careful.  Some comestibles, especially drugs, can cause subtle, long-term effects."
+      },
+      {
+        "id": "LESSON_GOT_TOOL",
+        "text": "The item you just picked up is a tool!  To activate a tool, press <keybind:apply>.  Some tools have a set charge, which can be reloaded once depleted.  Others are single-use items, and still others are reusable."
+      },
+      {
+        "id": "LESSON_GOT_GUN",
+        "text": "The item you just picked up is a firearm!  Guns are very powerful weapons but they require ammunition.  Firearms have many special attributes.  Most modify the damage done by their ammunition.  They also have dispersion, which affects their chance to hit.  Some guns are semi-automatic, while others can fire a burst.  Some firearms (mainly bows and other muscle-powered weapons) have a range, which is added on top of the ammo's range when firing."
+      },
+      {
+        "id": "LESSON_GOT_AMMO",
+        "text": "The item you just picked up is ammunition, used with a gun.  It has many special attributes.  The damage value is the maximum done on a standard hit; a critical hit or headshot will do much more damage.  Some monsters or NPCs will wear armor which reduces the damage from gunfire; a high armor-pierce value will reduce this effect.  The range is the maximum range the ammo can achieve, and the dispersion affects its chance to hit."
+      },
+      {
+        "id": "LESSON_WORE_ARMOR",
+        "text": "You just put on an article of clothing that provides physical protection.  There are three types of damage that clothing defends against: <color_light_cyan>bashing</color>, <color_light_cyan>cutting</color>, and <color_light_cyan>ballistic</color>.  Most monsters deal bashing damage, but cutting is often the more deadly of the two.  Not many enemies deal ballistic damage; among them are some robots, turrets, and non-playable characters (NPCs)."
+      },
+      {
+        "id": "LESSON_WORE_STORAGE",
+        "text": "You just put on an article of clothing that provides ample storage space.  This will allow you to carry more stuff, but be aware that there is also a limit on the weight you can carry which depends on your strength.  The item you put on also encumbered your torso.  This will make combat a little more difficult.  To check encumbrance, press <keybind:player_data>.\n\nTo continue the tutorial, please move to the corridor to the north and wear all clothing you find on the racks."
+      },
+      {
+        "id": "LESSON_WORE_MASK",
+        "text": "You just put on an article of clothing that protects against the environment.  The most common and important are respiratory devices, which will protect you against smoke, airborne toxins or organisms, and other common hazards.  However, they also make it a little harder to breathe when running, so you'll move more slowly.  To check your encumbrance, press <keybind:player_data>."
+      },
+      {
+        "id": "LESSON_WEAPON_INFO",
+        "text": "If you press <keybind:inventory> and then the letter of your weapon, you'll see its combat stats.  Bashing damage ignores most armor, but varies greatly and requires strength.  Cutting damage is a fixed amount, but is blocked by armor.  The To-hit bonus affects your chances of hitting.  The amount of time it takes to swing your melee weapon depends on both its size and weight; small, compact weapons are the fastest."
+      },
+      {
+        "id": "LESSON_HIT_MONSTER",
+        "text": "Hitting a monster will stun it briefly, allowing you to escape or get in another attack.  Your dexterity and melee skills are used to determine whether an attack hits, while strength affects damage."
+      },
+      {
+        "id": "LESSON_PAIN",
+        "text": "Looks like you suddenly felt pain.  The pain status is indicated on the sidebar and also in the <keybind:player_data> menu.\n\nSmall amounts of pain are tolerable, but as it gets worse your stats will drop and you will move much slower.  To reduce pain, take painkillers like <color_light_cyan>codeine</color> on the rack nearby (by activating it with <keybind:apply>), or simply wait it out."
+      },
+      {
+        "id": "LESSON_BUTCHER",
+        "text": "When you kill a monster it will often leave behind a corpse.  Corpses can be important sources of food, but you must butcher them by standing on the corpse and pressing <keybind:butcher>.  You'll need a bladed weapon in your inventory, preferably a small, very sharp one.  An unskilled butcher may only get a few pieces of meat, or none at all.  Note that many monsters, such as zombies, leave tainted meat, unsuitable for consumption."
+      },
+      {
+        "id": "LESSON_TOOK_PAINKILLER",
+        "text": "That drug you just took is a <color_light_cyan>painkiller</color>.  Painkillers are very important to keep on hand, as pain both penalizes your stats and makes you slower.  Be careful though, as the stronger painkillers can make you woozy, and some are even addictive.\n\nPlease also note that painkillers don't work the moment you take them.  They need some time to start working, and you don't need to take another dose right now if you don't see the immediate effect.  Just wait, and sooner or later the pain will start going away."
+      },
+      {
+        "id": "LESSON_TOOK_CIG",
+        "text": "That drug you just took placed an effect on you.  To check your effects, press <keybind:player_data>.  Most only last a short while, while others, like chronic disease, last until cured by some other means."
+      },
+      {
+        "id": "LESSON_DRANK_WATER",
+        "text": "You just drank a bottle of water, reducing your thirst level and reducing the water level in the bottle.  You'll probably want to drop empty bottles, or you might want to save them to refill from a water source later."
+      },
+      {
+        "id": "LESSON_ACT_GRENADE",
+        "text": "You just activated a grenade!  You probably want to throw it.  To throw an item, press <keybind:throw> and then select the item to throw.  The maximum range depends on your strength and the object's weight and size.  Throwing isn't very good in most combat situations, but if you've got some fire power…"
+      },
+      {
+        "id": "LESSON_ACT_BUBBLEWRAP",
+        "text": "This thing here on the floor is a <color_light_cyan>trap</color>.  Traps are permanent until set off, and can be an important defensive tactic, particularly when sleeping in unsafe territory.  Try stepping on the bubble wrap.  Don't worry, it's harmless, but it will make some noise.  There are other types of traps that will cause varying amounts of damage or even teleport you, so watch your step carefully."
+      },
+      {
+        "id": "LESSON_GUN_LOAD",
+        "text": "In the next room you'll find a row of racks with a gun, a magazine for it, and ammo for it.  To be able to fire a gun, you'll need to insert a magazine with ammo in it.  Press <keybind:reload_item> to open the <color_light_cyan>Reload item</color> menu and put ammo in the magazine, and then press <keybind:reload_item> once again to insert a magazine into a gun.\n\nIf you wish to unload your gun, possibly to change ammunition types, press <keybind:unload>."
+      },
+      {
+        "id": "LESSON_GUN_FIRE",
+        "text": "Finally, to fire a gun, press <keybind:fire>. You'll automatically target the last monster you shot at, or the closest monster to you.  You can change your target with the <color_yellow>movement keys</color>, or cycle through monsters with <keybind:TARGET:PREV_TARGET> and <keybind:TARGET:NEXT_TARGET>.  Select the <color_light_cyan>dummy</color> as a target and press <keybind:fire> to fire a single shot.  With many guns, you can change the fire mode to burst or full auto by pressing <keybind:select_fire_mode>.\n\nThere are detailed instructions on how to aim and fire in the <color_light_cyan>Aiming and firing</color> menu, so make sure to check it carefully.\n\nTo continue the tutorial, please fire a couple of times at the dummy and move to the corridor to the west."
+      },
+      {
+        "id": "LESSON_RECOIL",
+        "text": "Firing your gun will increase your recoil level.  You can see its level in the <color_light_cyan>Aiming and firing</color> menu (by pressing <keybind:fire>).  Generally speaking, the more damaging the ammo, the worse the recoil.  Recoil severely reduces your chance to hit, but you can eliminate recoil by pausing (<keybind:pause>) for a turn.  High strength reduces recoil, so weak characters might want to stick to .22 or 9x19mm guns."
+      },
+      {
+        "id": "LESSON_STAIRS",
+        "text": "This is a staircase leading down.  To go downstairs, step onto the staircase and press the <keybind:LEVEL_DOWN> key.  Similarly, to go upstairs, stand on the staircase leading up and press the <keybind:LEVEL_UP> key."
+      },
+      {
+        "id": "LESSON_DARK_NO_FLASH",
+        "text": "It's dark down here!  Without a source of light, you'll be limited to seeing only one space in any direction.  You'll encounter darkness while underground or at night.  Press <keybind:LEVEL_UP> to go back upstairs, and look around for a flashlight."
+      },
+      {
+        "id": "LESSON_DARK",
+        "text": "It's dark down here!  Fortunately, you have a <color_light_cyan>flashlight</color>.  Press <keybind:apply> and then select your flashlight to turn it on."
+      },
+      {
+        "id": "LESSON_PICKUP_WATER",
+        "text": "From a water source like this, you can fill any containers you might have.  Examine the dispenser by pressing <keybind:examine>.  Next, press <color_yellow>'c'</color> to fill a container, then select the <color_light_cyan>plastic bottle</color> to put the water into.\n\nThe Examine command (<keybind:examine>) can be used for interacting with many types of terrain and furniture.\n\nTo continue the tutorial, please fill the plastic bottle with water, drink a little of it (by pressing <keybind:eat> and selecting <color_light_cyan>clean water</color>), and then move to the corridor to the north."
+      },
+      {
+        "id": "LESSON_MONSTER_SIGHTED",
+        "text": "There is a <color_light_cyan>dummy</color> standing before you.  Let's attack it.  To do this, simply move into it.\n\nAfter you've dealt with it, please move to the door behind it."
+      },
+      {
+        "id": "LESSON_LOCKED_DOOR",
+        "text": "This door is locked.  There are several ways to deal with locked doors (lockpicking and prying being the most common), but right now you don't have the necessary tools at hand.  Instead, you can simply bash it with your <color_light_cyan>baseball bat</color> by pressing <keybind:smash> and then selecting the direction.\n\nNote that not every door can be bashed down.  Some doors will require more strength than you have or a stronger weapon.  If you're not seeing any damage being done after a few swings, an alternative approach might be needed.\n\nTo continue the tutorial, please smash the door."
+      },
+      {
+        "id": "LESSON_RESTORE_STAMINA",
+        "text": "Bashing things is hard work that will deplete your stamina.  You can see how much stamina you have on the sidebar.  The less stamina you have, the slower your movement and most actions will be.  To restore stamina, you need only to wait.  You can press <keybind:wait> to open the <color_light_cyan>Wait for how long</color> menu and select the amount of time you want to wait.  Select option <color_light_cyan>Wait until you catch your breath</color> to fully restore all lost stamina.\n\nBe careful about doing too many strenuous activities as you will build up your weariness over time, which will stack movement and action penalties on top of your stamina cost.  You can watch your <color_light_cyan>Weary Transition</color> in the sidebar as you are performing longer activities to see their effect on  your weariness.  To reduce your weariness, you just need to rest or do less strenuous activities for a while."
+      },
+      {
+        "id": "LESSON_REACH_ATTACK",
+        "text": "There is another <color_light_cyan>dummy</color> standing behind the counters.  Most melee weapons require standing directly adjacent to your target in order to hit it.\n\nFortunately, some long weapons such as spears are able to perform reach attack with a range of 2 or 3, so if you have one, you don't need to climb onto the counters to stand next to the dummy.  The <color_light_cyan>steel spear</color> has a range of 2, so you can hit the dummy right over the counters.  To use the reach attack, press the <keybind:fire> key.  Once you select your target, press <keybind:CONFIRM> to confirm.\n\nAfter you've dealt with the dummy, please move to the corridor to the south."
+      },
+      {
+        "id": "LESSON_HOLSTERS_WEAR",
+        "text": "Always wielding a <color_light_cyan>steel spear</color> in your hands might be inconvenient.  Fortunately, there is a <color_light_cyan>spear strap</color> lying on the rack nearby.  You can wear it by pressing <keybind:wear>.\nTo take off any worn item, you can press <keybind:take_off>.\n\nTo continue the tutorial, please wear the spear strap."
+      },
+      {
+        "id": "LESSON_HOLSTERS_ACTIVATE",
+        "text": "You can put the <color_light_cyan>steel spear</color> in the <color_light_cyan>spear strap</color> to free your hands.  Press <keybind:apply> to open the <color_light_cyan>Use item</color> menu, then select the spear strap, then select the spear, and finally press <keybind:CONFIRM> to confirm.\n\nTo continue the tutorial, please put the <color_light_cyan>steel spear</color> in the <color_light_cyan>spear strap</color> and move down the corridor."
+      },
+      {
+        "id": "LESSON_INVENTORY",
+        "text": "Cataclysm uses a container-based inventory.  Putting something into your inventory requires wearing some clothing or container with pockets that are big enough to hold it.  The <color_light_cyan>spear strap</color> is one example of such containers.  Pockets have finite dimensions, so you can't put an item that has more volume or is longer than a pocket.\n\nTo view your inventory, press <keybind:inventory>.  You'll see that you have only your worn clothes, of which only your jeans have 4 small pockets.  Select your jeans and press <keybind:CONFIRM> to see their description and amount of pockets.  To scroll through the description, press <keybind:PAGE_UP> and <keybind:PAGE_DOWN>.\n\nTo continue the tutorial, move to the western rack and wear (<keybind:wear>) the <color_light_cyan>backpack</color> to increase the available capacity of your inventory."
+      },
+      {
+        "id": "LESSON_FLASHLIGHT",
+        "text": "There is a <color_light_cyan>flashlight</color> and a <color_light_cyan>light disposable battery</color> lying on the rack.  Flashlights are very useful tools as they allow you to see in the dark.\n\nTo continue the tutorial, please reload the flashlight by pressing <keybind:reload_item>.  Take it with you and move to the stairs."
+      },
+      {
+        "id": "LESSON_REMOTE_USE",
+        "text": "A <color_light_cyan>flashlight</color> is a good thing to have, but it drains its battery quickly, so it won't last very long.  A much better solution for long-lasting lighting is a <color_light_cyan>gasoline lantern</color>.  Reload the lantern with <color_light_cyan>gasoline</color> (<keybind:reload_item>) and then activate it (<keybind:apply>) while standing nearby.  A <color_light_cyan>lighter</color> will help you to fire the lantern.\n\nSome tools (such as lamps, dehydrators, bathroom scales etc) don't need to be picked up before activating and allow remote use.\n\nAfter you light the lantern, you can safely turn off your flashlight to conserve its energy; the lit lantern will give you enough light for any actions and will last much longer.\n\nTo continue the tutorial, please light the lantern and then move to the corridor to the east."
+      },
+      {
+        "id": "LESSON_CRAFTING_FOOD",
+        "text": "Looks like you're hungry!  The hunger status is indicated on the sidebar.  Let's make a <color_light_cyan>peanut butter sandwich</color> from <color_light_cyan>peanut butter</color> and <color_light_cyan>crackers</color> on the counter next to the wall.\n\nTo make food, you need to use the <color_light_cyan>Crafting</color> menu.  Press <keybind:craft> to open the menu.  Press <keybind:NEXT_TAB> and <keybind:PREV_TAB> to toggle crafting categories and select the <color_light_cyan>FOOD</color> category.  From there, select peanut butter sandwich and press <keybind:CONFIRM> to start crafting.\n\nNote that you don't need to stand directly near the counter to be able to craft.  The <color_light_cyan>crafting radius</color> is 6 tiles, so while you're standing no farther than 6 tiles from any crafting components and tools, your character is able to still get them in order to use them.\n\nTo continue the tutorial, please craft the peanut butter sandwich and then eat it by pressing <keybind:eat>."
+      },
+      {
+        "id": "LESSON_CONSTRUCTION",
+        "text": "In the next room, you can find a <color_light_cyan>paint brush</color> and several cans of <color_light_cyan>paint</color>.  You can use them to paint the wall in your preferred color.  To do this, open the <color_light_cyan>Construction</color> menu by pressing <keybind:construct> and toggling the categories with <keybind:LEFT> and <keybind:RIGHT>.  Find the <color_light_cyan>Decorative</color> category and select one of the options to paint the wall.\n\nTo continue the tutorial, please paint some walls and move further south."
+      },
+      {
+        "id": "LESSON_THROWING",
+        "text": "There are 10 <color_light_cyan>baseballs</color> lying on the floor.  You might not need all 10, or you might not have enough space in your pockets.  To pick up a specific amount of items, press <keybind:pickup>, select the stack of items, and type a number on the keyboard (Multiple numbers can be used for large stacks).  Finish the selection with <keybind:INVENTORY:TOGGLE_ENTRY>.  The cursor should change to a <color_light_cyan>#</color> symbol.\n\nYou can throw a baseball at the <color_light_cyan>dummy</color> in the end of the corridor by pressing <keybind:throw>.\n\nTo complete the tutorial, throw some baseballs at the dummy and then move to the end of the corridor to the north."
+      },
+      {
+        "id": "LESSON_FINALE",
+        "text": "Congratulations!  You have completed the tutorial.  Here is some last-minute advice.\n\nYou can press <keybind:action_menu> to open the <color_light_cyan>Action menu</color>.  It provides a convenient way to access various actions.\n\nNot sure what keys you can press in a given menu?  Press the <keybind:HELP_KEYBINDINGS> to open the <color_light_cyan>Keybindings</color> menu.  It allows you to view the existing keybindings and modify them to your liking.  Sometimes there will be lesser used or convenience actions without a default keybinding, which you can also set.\n\nYou can continue exploring the tutorial rooms, or you can exit the tutorial by pressing <keybind:save>.  This will save your game and exit to the main menu."
+      }
+    ]
+  }
+]

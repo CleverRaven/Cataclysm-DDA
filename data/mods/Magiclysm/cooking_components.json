@@ -1,0 +1,32 @@
+[
+  {
+    "id": "eggs_bird",
+    "type": "requirement",
+    "extend": { "components": [ [ [ "egg_owlbear", 1 ] ] ] }
+  },
+  {
+    "id": "hard_liquor_and_whiskflower",
+    "type": "requirement",
+    "components": [ [ [ "hard_liquor_unmixed", 1, "LIST" ], [ "mixed_alcohol_strong", 1 ], [ "whiskflower", 1 ] ] ]
+  },
+  {
+    "id": "mana_energy_weak",
+    "type": "requirement",
+    "components": [
+      [
+        [ "lotus", 1 ],
+        [ "funnelcap_chunk", 2 ],
+        [ "mana_dust", 5 ],
+        [ "mossling_fur", 8 ],
+        [ "dryad_bark", 3 ],
+        [ "gnome_eye", 2 ],
+        [ "bracken_eye", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "mana_energy_strong",
+    "type": "requirement",
+    "components": [ [ [ "golden_reed_stalk", 1 ], [ "funnelcap_chunk", 5 ], [ "bracken_eye", 1 ], [ "dryad_bark", 10 ] ] ]
+  }
+]

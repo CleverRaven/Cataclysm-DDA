@@ -1,0 +1,95 @@
+[
+  {
+    "id": "windshield",
+    "type": "vehicle_part",
+    "breaks_into": [ { "count": [ 25, 50 ], "item": "glass_shard" } ],
+    "categories": [ "hull" ],
+    "color": "light_cyan",
+    "damage_modifier": 70,
+    "description": "A sheet of glass that lets you see outside the vehicle.",
+    "durability": 50,
+    "flags": [ "WINDSHIELD", "OBSTACLE", "WINDOW" ],
+    "item": "glass_sheet",
+    "location": "center",
+    "looks_like": "t_wall_glass",
+    "name": { "str": "windshield" },
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "adhesive", 2 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "using": [ [ "vehicle_nail_removal", 1 ] ] }
+    },
+    "variants_bases": [ { "id": "full", "label": "Full" } ],
+    "variants": [
+      { "id": "horizontal", "label": "Horizontal", "symbols": "\"", "symbols_broken": "0" },
+      { "id": "cover_left", "label": "Cover Left", "symbols": "──│───│─", "symbols_broken": "0" },
+      { "id": "cover_right", "label": "Cover Right", "symbols": "──│───│─", "symbols_broken": "0" },
+      { "id": "nw", "label": "Front Left", "symbols": "┌┌└┘┘┘┐┌", "symbols_broken": "0" },
+      { "id": "ne", "label": "Front Right", "symbols": "┐┐┌└└└┘┐", "symbols_broken": "0" },
+      { "id": "sw", "label": "Rear Left", "symbols": "└└┘┐┐┐┌└", "symbols_broken": "0" },
+      { "id": "se", "label": "Rear Right", "symbols": "┘┘┐┌┌┌└┘", "symbols_broken": "0" },
+      { "id": "nw_edge", "label": "Front Left Corner", "symbols": "┌┌└┘┘┘┐┌", "symbols_broken": "0" },
+      { "id": "ne_edge", "label": "Front Right Corner", "symbols": "┐┐┌└└└┘┐", "symbols_broken": "0" },
+      { "id": "sw_edge", "label": "Rear Left Corner", "symbols": "└└┘┐┐┐┌└", "symbols_broken": "0" },
+      { "id": "se_edge", "label": "Rear Right Corner", "symbols": "┘┘┐┌┌┌└┘", "symbols_broken": "0" },
+      { "id": "left", "label": "Left", "symbols": "│\\─/│\\─/", "symbols_broken": "0" },
+      { "id": "right", "label": "Right", "symbols": "│\\─/│\\─/", "symbols_broken": "0" },
+      { "id": "vertical", "label": "Vertical", "symbols": "│\\─/│\\─/", "symbols_broken": "0" },
+      { "id": "vertical_left", "label": "Left Vertical", "symbols": "│\\─/│\\─/", "symbols_broken": "0" },
+      { "id": "vertical_right", "label": "Right Vertical", "symbols": "│\\─/│\\─/", "symbols_broken": "0" },
+      {
+        "id": "vertical_2_left",
+        "label": "Left Thick Vertical",
+        "symbols": "│\\─/│\\─/",
+        "symbols_broken": "0"
+      },
+      {
+        "id": "vertical_2_right",
+        "label": "Right Thick Vertical",
+        "symbols": "│\\─/│\\─/",
+        "symbols_broken": "0"
+      },
+      {
+        "id": "horizontal_front",
+        "label": "Front Horizontal",
+        "symbols": "──│───│─",
+        "symbols_broken": "0"
+      },
+      {
+        "id": "horizontal_front_edge",
+        "label": "Front Edge Horizontal",
+        "symbols": "^^<vvv>^",
+        "symbols_broken": "0"
+      },
+      {
+        "id": "horizontal_rear",
+        "label": "Rear Horizontal",
+        "symbols": "──│───│─",
+        "symbols_broken": "0"
+      },
+      {
+        "id": "horizontal_rear_edge",
+        "label": "Rear Edge Horizontal",
+        "symbols": "━━┃━━━┃━",
+        "symbols_broken": "0"
+      },
+      { "id": "wheel_left", "label": "Wheel Left", "symbols": "┌┌└┘┘┘┐┌", "symbols_broken": "0" },
+      { "id": "wheel_right", "label": "Wheel Right", "symbols": "┐┐┌└└└┘┐", "symbols_broken": "0" }
+    ]
+  },
+  {
+    "id": "reinforced_windshield",
+    "type": "vehicle_part",
+    "copy-from": "windshield",
+    "breaks_into": [ { "count": [ 25, 50 ], "item": "glass_shard" }, { "count": [ 4, 8 ], "item": "wire" } ],
+    "damage_modifier": 80,
+    "damage_reduction": { "all": 16 },
+    "description": "A sheet of glass that lets you see outside the vehicle.  Reinforced with wire to make it harder to break than normal glass.",
+    "durability": 250,
+    "item": "reinforced_glass_sheet",
+    "name": { "str": "reinforced windshield" },
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] }
+    },
+    "variants_bases": [ { "id": "full", "label": "Full" } ]
+  }
+]

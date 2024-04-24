@@ -1,0 +1,139 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "s_music",
+    "//": "Real decent place for a quick morale boost, relatively rare.",
+    "object": {
+      "fill_ter": "t_linoleum_gray",
+      "rows": [
+        "zs______,______,______sz",
+        "zs______,______,______sz",
+        "zs______,______,______sz",
+        "zs______,______,______sz",
+        "zs______,______,______sz",
+        "zs______,______,______sz",
+        "zssssssssssssssssssssssz",
+        "z||----||----|++||-----z",
+        " |^.CC....CC.....#.EcC- ",
+        " -...............#....| ",
+        " -E..###rrr..rr..#....- ",
+        " -c..###rrr..rr..####.- ",
+        " |...........rr.......| ",
+        " |1..######..........C| ",
+        " |...######...........| ",
+        " -...........|+||+||+|| ",
+        " -E..rrrrrr..|g7|gg|gg- ",
+        " -c..rrrrrr..|gg|gg|gg- ",
+        " |...........|Kh|Kh|Kh| ",
+        " |D|||D|D|||||||||||||| ",
+        " |.S|S.|sddds         < ",
+        " |T#|#T|sddds           ",
+        " |H|||H|sssss           ",
+        "                        "
+      ],
+      "terrain": {
+        " ": "t_region_groundcover_urban",
+        "z": "t_region_shrub_decorative",
+        "_": "t_pavement",
+        ",": "t_pavement_y",
+        "s": "t_concrete",
+        "d": "t_concrete",
+        "L": "t_door_locked",
+        "D": "t_door_c",
+        "H": "t_curtains",
+        "+": "t_door_glass_c",
+        "-": "t_wall_glass",
+        "|": "t_wall_b",
+        ".": "t_linoleum_gray",
+        "g": "t_carpet_concrete_green",
+        "h": "t_carpet_concrete_green",
+        "K": "t_carpet_concrete_green",
+        "7": "t_carpet_concrete_green",
+        "<": "t_gutter_downspout"
+      },
+      "furniture": {
+        "c": "f_chair",
+        "h": "f_chair",
+        "#": "f_counter",
+        "K": "f_desk",
+        "E": "f_desk",
+        "S": "f_sink",
+        "^": "f_indoor_plant",
+        "7": "f_speaker_cabinet",
+        "C": "f_displaycase",
+        "r": "f_rack",
+        "d": "f_dumpster"
+      },
+      "vendingmachines": { "1": { "item_group": "vending_drink", "lootable": true } },
+      "toilets": { "T": {  } },
+      "place_loot": [
+        { "group": "mussto_stringinst", "x": [ 5, 10 ], "y": 10, "chance": 70, "repeat": [ 3, 7 ] },
+        { "group": "mussto_windinst", "x": [ 5, 10 ], "y": 11, "chance": 80, "repeat": [ 3, 7 ] },
+        { "group": "mussto_stringinst", "x": [ 5, 10 ], "y": 13, "chance": 70, "repeat": [ 3, 7 ] },
+        { "group": "mussto_windinst", "x": [ 5, 10 ], "y": 14, "chance": 80, "repeat": [ 3, 7 ] },
+        { "group": "mussto_stringinst", "x": [ 5, 10 ], "y": 16, "chance": 70, "repeat": [ 3, 7 ] },
+        { "group": "tools_luthier", "x": [ 5, 10 ], "y": 17, "chance": 80, "repeat": [ 3, 7 ] },
+        { "group": "light_reading", "x": [ 13, 14 ], "y": [ 10, 12 ], "chance": 90, "repeat": [ 4, 10 ] },
+        { "group": "musicstore_showpiece", "x": 21, "y": 8, "chance": 95 },
+        { "item": "amplifier_head", "x": 15, "y": [ 16, 17 ], "chance": 80 },
+        { "item": "amplifier_head", "x": 18, "y": [ 16, 17 ], "chance": 60 },
+        { "item": "amplifier_head", "x": 21, "y": [ 16, 17 ], "chance": 60 },
+        { "group": "cash_register_random", "x": 17, "y": [ 8, 10 ] }
+      ],
+      "place_furniture": [
+        { "furn": "f_speaker_cabinet", "x": 15, "y": 17 },
+        { "furn": "f_speaker_cabinet", "x": 18, "y": [ 16, 17 ] },
+        { "furn": "f_speaker_cabinet", "x": 21, "y": [ 16, 17 ] }
+      ],
+      "place_vehicles": [
+        { "vehicle": "parking_garage_short", "x": 5, "y": 3, "rotation": 90, "chance": 33 },
+        { "vehicle": "parking_garage_short", "x": 12, "y": 3, "rotation": 90, "chance": 33 },
+        { "vehicle": "parking_garage_short", "x": 19, "y": 3, "rotation": 90, "chance": 33 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "s_music_roof",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        " ---------------------- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -.&..................- ",
+        " -.....---------------5 ",
+        " -.....-                ",
+        " -.....-                ",
+        " -------                ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "place_items": [ { "item": "roof_trash", "x": [ 2, 21 ], "y": [ 9, 18 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_nested": [
+        {
+          "chunks": [ [ "null", 5 ], [ "roof_2x2_utilities_d", 30 ], [ "roof_2x2_utilities", 50 ], [ "roof_6x6_survivor", 5 ] ],
+          "x": [ 3, 15 ],
+          "y": [ 10, 13 ]
+        }
+      ]
+    }
+  }
+]

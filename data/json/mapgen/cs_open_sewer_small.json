@@ -1,0 +1,187 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_SEWER",
+    "monsters": [
+      { "monster": "mon_zombie_technician", "weight": 850, "cost_multiplier": 3 },
+      { "monster": "mon_zombie_static", "weight": 150, "cost_multiplier": 5 }
+    ]
+  },
+  {
+    "type": "vehicle",
+    "id": "oa_work_light",
+    "name": "work light",
+    "blueprint": [ "^" ],
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "xlframe#vertical_2" ] },
+      { "x": 0, "y": 0, "parts": [ "wheel_caster" ] },
+      { "x": 0, "y": 0, "parts": [ "small_storage_battery" ] },
+      { "x": 0, "y": 0, "parts": [ "floodlight" ] },
+      { "x": 0, "y": 0, "parts": [ "controls_electronic" ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "os_items",
+    "items": [
+      { "item": "flashlight", "prob": 50, "charges": [ 0, 300 ] },
+      { "item": "heavy_flashlight", "prob": 40, "charges": [ 0, 300 ] },
+      [ "gloves_work", 30 ],
+      [ "gloves_rubber", 60 ],
+      [ "boots_rubber", 60 ],
+      [ "hat_hard", 60 ],
+      [ "shovel", 40 ],
+      [ "jackhammer", 5 ],
+      [ "elec_jackhammer", 5 ],
+      [ "folding_poncho", 40 ],
+      [ "radio", 40 ],
+      [ "well_pump", 10 ],
+      { "group": "tools_toolbox", "prob": 5 },
+      [ "wrench", 15 ],
+      [ "bag_canvas", 40 ],
+      [ "jumper_cable", 40 ],
+      [ "jumper_cable_heavy", 20 ],
+      [ "glasses_safety", 30 ],
+      [ "crowbar", 15 ],
+      [ "mask_filter", 30 ],
+      [ "electric_lantern", 30 ]
+    ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "cs_open_sewer" ],
+    "weight": 1000,
+    "object": {
+      "fill_ter": "t_region_soil",
+      "rows": [
+        "  -  -  - ____  -  -  - ",
+        "-         ____          ",
+        "        21││││12       -",
+        "        21││││12        ",
+        "-       21││││12        ",
+        "        21││││12       -",
+        "        21││││12        ",
+        "-       21││││12   hh   ",
+        "        21││││12  |||| -",
+        "    h   21││││12  ...|  ",
+        "- hn    21││││12  ..L|  ",
+        "  hn    21││││12  ..L| -",
+        "   nh   21││││12  ..L|  ",
+        "- h     21││││12  ||||  ",
+        "        21111112       -",
+        "        22222222        ",
+        "- o o o           OO    ",
+        "  o o o         OOOOOO -",
+        "  o o o   r    OOOOOOOO ",
+        "- o o o  rrr  OOOOOOOOO ",
+        "  o o o  rrr  OOOOOOOOO-",
+        "  o o o  rr    OOOOOOO  ",
+        "-                OOO  - ",
+        "  -  -  -  -  -  -  -   "
+      ],
+      "terrain": {
+        "│": "t_open_air",
+        "O": "t_dirtmound",
+        "o": "t_sewage_pipe",
+        "_": "t_concrete",
+        "1": "t_earth_ramp_down_low",
+        "2": "t_earth_ramp_down_high"
+      },
+      "furniture": {
+        "-": "f_barricade_road",
+        "r": "f_rubble",
+        "n": "f_tourist_table",
+        "h": "f_camp_chair",
+        "|": "f_large_canvas_wall",
+        ".": "f_large_groundsheet",
+        "L": "f_locker"
+      },
+      "items": {
+        "n": { "item": "os_items", "chance": 33 },
+        "L": { "item": "os_items", "chance": 80, "repeat": [ 2, 5 ] },
+        " ": { "item": "os_items", "chance": 1 }
+      },
+      "place_vehicles": [
+        { "vehicle": "wheelbarrow", "chance": 90, "x": [ 8, 22 ], "y": [ 16, 22 ] },
+        { "vehicle": "oa_work_light", "chance": 33, "x": [ 4, 6 ], "y": [ 2, 6 ] },
+        { "vehicle": "oa_work_light", "chance": 33, "x": [ 17, 19 ], "y": [ 2, 6 ] },
+        { "vehicle": "portable_generator", "chance": 50, "x": [ 18, 20 ], "y": 14 }
+      ],
+      "place_monster": [ { "group": "GROUP_ZOMBIE_SEWER", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 2, 5 ] } ],
+      "place_signs": [
+        { "signage": "Caution: Work in Progress", "x": 2, "y": 2 },
+        { "signage": "Caution: Work in Progress", "x": 21, "y": 2 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "cs_open_sewer_undergound",
+    "weight": 1000,
+    "object": {
+      "rows": [
+        "#########o~~~~o#########",
+        "#########o~~~~##########",
+        "########21~~~~12########",
+        "########21~~~~12########",
+        "########21~~~~12########",
+        "########21~~~~12########",
+        "########21~~~~12########",
+        "########21~~~~12########",
+        "########21~~~~12########",
+        "########21~~~~12########",
+        "########21~~~~12########",
+        "########21~~~~12########",
+        "########21~~~~12########",
+        "########21~~~~12########",
+        "########21111112########",
+        "########22222222########",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################"
+      ],
+      "terrain": { "#": "t_soil", "~": "t_sewage", "1": "t_earth_ramp_up_low", "2": "t_earth_ramp_up_high", "o": "t_sewage_pipe" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "sewer_connector",
+    "object": {
+      "rows": [
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################"
+      ],
+      "terrain": { "#": "t_soil" }
+    }
+  }
+]

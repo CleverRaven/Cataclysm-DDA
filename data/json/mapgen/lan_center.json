@@ -1,0 +1,242 @@
+[
+  {
+    "method": "json",
+    "om_terrain": "lancenter",
+    "type": "mapgen",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "ssssssssssssssssssssssss",
+        "ssssssssssssssssssssssss",
+        "______dsd_____d_________",
+        "d9d___dsd__9___9___9___d",
+        "___9__dsd__d_9___9_d_9__",
+        "______dsd_____d_________",
+        "_||w|||+|w||||w||||w|||_",
+        "_|{.&C...y{{vW.......Y|_",
+        "_|..H6..........##...#|_",
+        "_|.CCC.........c66c.c6|_",
+        "_|.........##...##...#|_",
+        "_|Y.......c66c.c66c.ca|_",
+        "_|#...##...##...##...#|_",
+        "_|6c.c66c.c66c.c66c.c6|_",
+        "_|#...##...##...##...#|_",
+        "_|6c.c66c.ca6c.c66c.c6|_",
+        "_|#...##...##...##...#|_",
+        "_|6c.c66c.c66c.c66c.c6|d",
+        "d|#...##...##...##...#|_",
+        "_|Y......y....y......Y|_",
+        "_||=|||=|||=|w||=||w|||_",
+        "__sss4|..|..|@....S..I|_",
+        "__sUss|RT|RT|@@@y...cI|_",
+        "__ssUU|||||||||||||||||_"
+      ],
+      "terrain": {
+        "+": "t_reinforced_door_glass_c",
+        ".": "t_floor",
+        "_": [ [ "t_region_groundcover_urban", 8 ], "t_region_shrub_decorative" ],
+        "d": "t_region_groundcover",
+        "s": "t_sidewalk",
+        "w": "t_window",
+        "|": "t_wall_w",
+        "4": "t_gutter_downspout",
+        "=": "t_door_locked",
+        "U": "t_sidewalk",
+        "9": [ "t_region_tree_shade", "t_region_tree_fruit" ]
+      },
+      "furniture": {
+        "6": "f_console",
+        "a": "f_console_broken",
+        "#": "f_table",
+        "&": "f_trashcan",
+        "C": "f_counter",
+        "H": "f_armchair",
+        "c": "f_chair",
+        "v": "f_vending_c",
+        "W": "f_vending_c",
+        "Y": "f_rack_coat",
+        "{": "f_fridge",
+        "I": "f_desk",
+        "S": "f_filing_cabinet",
+        "U": [ "f_dumpster", "f_recycle_bin" ],
+        "d": "f_region_weed",
+        "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
+        "R": "f_sink",
+        "@": "f_sofa"
+      },
+      "toilets": { "T": {  } },
+      "items": {
+        "Y": { "item": "coat_rack", "chance": 40, "repeat": 2 },
+        "I": { "item": "office", "chance": 30 },
+        "S": { "item": "office_paper", "chance": 30 },
+        "R": { "item": "softdrugs", "chance": 30 },
+        "U": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] },
+        "{": { "item": "fridge", "chance": 20, "repeat": [ 2, 4 ] },
+        "v": { "item": "vending_drink_items", "chance": 20, "repeat": [ 2, 4 ] },
+        "W": { "item": "vending_food_items", "chance": 20, "repeat": [ 2, 4 ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "lancenter_roof",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        " ---------------------- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -.R..................- ",
+        " -....................- ",
+        " -----5...............- ",
+        "      -..Z........U...- ",
+        "      -...............- ",
+        "      ----------------- "
+      ],
+      "palettes": [ "roof_palette" ],
+      "place_items": [ { "item": "roof_trash", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "nested": {
+        "U": { "chunks": [ "roof_2x2_infrastructure" ] },
+        "R": { "chunks": [ "roof_2x2_infrastructure_1" ] },
+        "Z": { "chunks": [ "roof_2x2_infrastructure_2" ] }
+      },
+      "place_nested": [
+        { "chunks": [ [ "null", 20 ], [ "roof_2x2_utilities_d", 40 ], [ "roof_2x2_utilities", 50 ] ], "x": [ 7, 17 ], "y": 17 },
+        {
+          "chunks": [ [ "null", 20 ], [ "roof_4x4_utility", 40 ], [ "roof_6x6_utility", 20 ] ],
+          "x": [ 3, 15 ],
+          "y": [ 8, 10 ]
+        }
+      ]
+    }
+  },
+  {
+    "method": "json",
+    "om_terrain": "lancenter_1",
+    "type": "mapgen",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "ssssssssssssssssssssssss",
+        "ssssssssssssssssssssssss",
+        "__||---|||---||ppppppp_d",
+        "__|...........|ppppppp__",
+        "__|..c.c.c.c..-ppppppp__",
+        "_d|.#6#6#6#6#.-ppppppp__",
+        "__|.#6#6#6#6#.-ppppppp__",
+        "__|..c.c.c.c..|ppppppp__",
+        "__|Y..........|ppppppp__",
+        "__|..c.c.c.c..|pppppppd_",
+        "__|.#6#6#6#6#.-ppppppp__",
+        "__|.#6#6#6#6#.-ppppppp__",
+        "__|..c.c.c.c..-ppppppp__",
+        "__|Y..........|ppppppp__",
+        "__|..c.c.c.c..||+|P-||__",
+        "__|.#6#6#6#6#.....C&H|__",
+        "d_|.....#6#6#.....6..|_d",
+        "__|Y.....c.c......C..|__",
+        "__|||||...........C..|__",
+        "__|...D..c.c......C..|__",
+        "__|tCS|.#6#6#.v{{...f|4_",
+        "_d||||||||||||||||||||__",
+        "______________d_________",
+        "______d_d_____________d_"
+      ],
+      "terrain": {
+        "+": "t_reinforced_door_glass_c",
+        "-": "t_wall_glass",
+        ".": "t_floor",
+        "D": "t_door_c",
+        "P": "t_wall_glass",
+        "_": [ [ "t_region_groundcover_urban", 8 ], "t_region_shrub_decorative" ],
+        "d": "t_dirt",
+        "p": "t_pavement",
+        "s": "t_sidewalk",
+        "|": "t_brick_wall",
+        "4": "t_gutter_downspout"
+      },
+      "furniture": {
+        "6": "f_console",
+        "#": "f_table",
+        "&": "f_trashcan",
+        "C": "f_counter",
+        "H": "f_armchair",
+        "P": "f_sign",
+        "S": "f_sink",
+        "c": "f_chair",
+        "f": "f_fridge",
+        "Y": "f_rack_coat",
+        "t": "f_toilet",
+        "v": "f_vending_c",
+        "{": "f_glass_fridge"
+      },
+      "items": { "Y": { "item": "coat_rack", "chance": 40, "repeat": 2 } },
+      "place_items": [
+        { "chance": 45, "item": "fridge", "x": 20, "y": 20 },
+        { "chance": 50, "item": "vending_food_items", "x": 14, "y": 20 },
+        { "chance": 15, "repeat": [ 1, 3 ], "item": "trash", "x": 19, "y": 15 },
+        { "chance": 50, "item": "vending_drink_items", "x": 15, "y": 20 },
+        { "chance": 50, "item": "vending_drink_items", "x": 16, "y": 20 }
+      ],
+      "place_toilets": [ { "x": 3, "y": 20 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "lancenter_roof_1",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "  -------------         ",
+        "  -...........-         ",
+        "  -...........-         ",
+        "  -........R..-         ",
+        "  -...........-         ",
+        "  -...........-         ",
+        "  -...........-         ",
+        "  -...........-         ",
+        "  -...........-         ",
+        "  -...........-         ",
+        "  -...........-         ",
+        "  -...........-         ",
+        "  -...........--------  ",
+        "  -....ZA............-  ",
+        "  -.....A............-  ",
+        "  -.............U....-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..................5  ",
+        "  --------------------  ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "nested": {
+        "U": { "chunks": [ "roof_2x2_infrastructure" ] },
+        "R": { "chunks": [ "roof_2x2_infrastructure_1" ] },
+        "Z": { "chunks": [ "roof_2x2_infrastructure_2" ] }
+      }
+    }
+  }
+]

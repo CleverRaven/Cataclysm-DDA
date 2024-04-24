@@ -1,0 +1,92 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "motor",
+    "name": { "str": "electric motor" },
+    "description": "A standard electric motor.  Suitable for use in ultra-light vehicles.",
+    "weight": "46 kg",
+    "color": "light_cyan",
+    "symbol": ",",
+    "material": [ "steel" ],
+    "volume": "30 L",
+    "category": "veh_parts",
+    "price": "120 USD",
+    "price_postapoc": "15 USD",
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "melee_damage": { "bash": 4 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "motor_enhanced",
+    "name": { "str": "enhanced electric motor" },
+    "description": "A powerful electric motor, as found in those consumer electric sports cars with ridiculous or ludicrous acceleration options.",
+    "weight": "120 kg",
+    "material": [ "superalloy", "copper" ],
+    "volume": "140 L",
+    "price": "680 USD",
+    "price_postapoc": "25 USD",
+    "copy-from": "motor"
+  },
+  {
+    "type": "GENERIC",
+    "id": "motor_super",
+    "name": { "str": "super electric motor" },
+    "description": "An extremely powerful electric motor.  This delivers massive torque and would be well suited to an electric racing car.",
+    "weight": "140 kg",
+    "volume": "200 L",
+    "price": "800 USD",
+    "price_postapoc": "35 USD",
+    "copy-from": "motor"
+  },
+  {
+    "type": "GENERIC",
+    "id": "motor_large",
+    "name": { "str": "large electric motor" },
+    "description": "A large electric motor.  Could be used to power a full-size car or SUV.",
+    "weight": "90 kg",
+    "to_hit": -3,
+    "symbol": ":",
+    "volume": "75 L",
+    "price": "220 USD",
+    "price_postapoc": "15 USD",
+    "copy-from": "motor",
+    "melee_damage": { "bash": 9 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "motor_small",
+    "name": { "str": "small electric motor" },
+    "description": "A light-duty electric motor.  Strong enough for an electric moped or golf cart.",
+    "weight": "9 kg",
+    "volume": "6 L",
+    "price": "20 USD",
+    "price_postapoc": "5 USD",
+    "copy-from": "motor",
+    "melee_damage": { "bash": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "motor_tiny",
+    "name": { "str": "tiny electric motor" },
+    "description": "A small electric motor, suitable for powering a bicycle or a hedge trimmer.",
+    "weight": "1500 g",
+    "color": "light_cyan",
+    "symbol": ",",
+    "material": [ "steel", "plastic" ],
+    "volume": "750 ml",
+    "category": "veh_parts",
+    "price": "20 USD",
+    "price_postapoc": "1 USD"
+  },
+  {
+    "type": "GENERIC",
+    "id": "motor_train1300",
+    "name": { "str": "1,300 HP electric train engine" },
+    "description": "A 1,300 horsepower 3-phase 60 Hz electric engine.  Normally used in trains.",
+    "weight": "2000 kg",
+    "volume": "250 L",
+    "price": "1 kUSD 200 USD",
+    "price_postapoc": "80 USD",
+    "copy-from": "motor"
+  }
+]

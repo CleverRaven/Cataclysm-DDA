@@ -1,0 +1,57 @@
+[
+  {
+    "id": "bp_null",
+    "type": "body_part",
+    "name": "appendix",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "appendix" },
+    "heading": "appendix",
+    "heading_multiple": "Appendices",
+    "encumbrance_text": "It's inflamed.",
+    "main_part": "bp_null",
+    "connected_to": "bp_null",
+    "opposite_part": "bp_null",
+    "limb_type": "other",
+    "hit_size": 0,
+    "hit_difficulty": 0,
+    "side": "both",
+    "base_hp": 60,
+    "drench_capacity": 1,
+    "legacy_id": "NUM_BP",
+    "sub_parts": [ "sub_limb_debug" ]
+  },
+  {
+    "id": "mx_null",
+    "type": "map_extra",
+    "name": { "str": "Nothing" },
+    "description": "Nothing of interest is here.",
+    "generator": { "generator_method": "null", "generator_id": "mx_null" }
+  },
+  {
+    "type": "trap",
+    "id": "tr_null",
+    "name": "none",
+    "color": "white",
+    "symbol": "?",
+    "visibility": 20,
+    "avoidance": 0,
+    "difficulty": 0,
+    "action": "none",
+    "benign": true
+  },
+  {
+    "id": "fd_null",
+    "type": "field_type",
+    "legacy_enum_id": 0,
+    "intensity_levels": [ { "name": "nothing" } ]
+  },
+  {
+    "type": "SPELL",
+    "id": "null",
+    "name": { "str": "none" },
+    "description": "seeing this is a bug",
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "shape": "blast",
+    "effect": "attack"
+  }
+]

@@ -1,0 +1,50 @@
+[
+  {
+    "result": "xlhsurvivor_suit",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "10 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [
+      [ [ "sheet_cotton", 3 ] ],
+      [ [ "cotton_patchwork", 11 ] ],
+      [ [ "leather", 35 ] ],
+      [ [ "scrap", 24 ] ],
+      [ [ "sheet_kevlar_layered", 48 ] ]
+    ]
+  },
+  {
+    "result": "xshsurvivor_suit",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "10 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [
+      [ [ "sheet_cotton", 1 ] ],
+      [ [ "cotton_patchwork", 6 ] ],
+      [ [ "leather", 16 ] ],
+      [ [ "scrap", 8 ] ],
+      [ [ "sheet_kevlar_layered", 16 ] ]
+    ]
+  },
+  {
+    "result": "xlsurvivor_suit",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "5 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [
+      [ [ "sheet_cotton", 2 ] ],
+      [ [ "cotton_patchwork", 8 ] ],
+      [ [ "leather", 25 ] ],
+      [ [ "scrap", 12 ] ],
+      [ [ "sheet_kevlar_layered", 24 ] ]
+    ]
+  }
+]

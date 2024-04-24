@@ -1,0 +1,254 @@
+[
+  {
+    "abstract": "engine_motor",
+    "type": "vehicle_part",
+    "name": { "str": "electric motor" },
+    "item": "motor",
+    "categories": [ "movement" ],
+    "location": "engine_block",
+    "description": "An electric motor.",
+    "noise_factor": 5,
+    "m2c": 90,
+    "fuel_type": "battery",
+    "color": "yellow",
+    "broken_color": "red",
+    "flags": [ "ENGINE", "E_HIGHER_SKILL", "E_HEATER" ],
+    "variants": [ { "symbols": "*", "symbols_broken": "#" } ]
+  },
+  {
+    "id": "engine_electric_tiny",
+    "copy-from": "engine_motor",
+    "type": "vehicle_part",
+    "name": { "str": "tiny electric motor" },
+    "description": "A tiny electric motor just the right size for powering a bicycle or a hedge trimmer.",
+    "item": "motor_tiny",
+    "looks_like": "motor_small",
+    "durability": 80,
+    "power": "1600 W",
+    "energy_consumption": "2 kW",
+    "damage_modifier": 80,
+    "folded_volume": "750 ml",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "60 m",
+        "using": [ [ "adhesive", 1 ], [ "soldering_standard", 3 ], [ "vehicle_screw", 1 ] ]
+      }
+    },
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] }, { "item": "cable", "charges": [ 1, 3 ] } ]
+  },
+  {
+    "id": "engine_electric_small",
+    "copy-from": "engine_motor",
+    "type": "vehicle_part",
+    "name": { "str": "small electric motor" },
+    "description": "A light-duty electrical motor, strong enough for an electric moped or golf cart.",
+    "item": "motor_small",
+    "durability": 120,
+    "power": "7040 W",
+    "energy_consumption": "8 kW",
+    "damage_modifier": 80,
+    "folded_volume": "6 L",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "60 m",
+        "using": [ [ "adhesive", 1 ], [ "soldering_standard", 4 ], [ "vehicle_wrench_1", 1 ], [ "vehicle_screw", 1 ] ]
+      }
+    },
+    "breaks_into": [
+      { "item": "scrap", "count": [ 1, 4 ] },
+      { "item": "steel_chunk", "count": [ 1, 3 ] },
+      { "item": "cable", "charges": [ 3, 6 ] }
+    ],
+    "damage_reduction": { "all": 6 }
+  },
+  {
+    "id": "engine_electric",
+    "copy-from": "engine_motor",
+    "type": "vehicle_part",
+    "description": "A medium-duty electrical motor, suitable for powering ultra-light vehicles, or as part of a hybrid gas-electric drivetrain.",
+    "durability": 200,
+    "power": "36000 W",
+    "energy_consumption": "40 kW",
+    "damage_modifier": 80,
+    "//": "20 cm weld per quadrant of damage",
+    "folded_volume": "30 L",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": "60 m",
+        "using": [
+          [ "repair_welding_standard", 2 ],
+          [ "soldering_standard", 10 ],
+          [ "repair_welding_alloys", 1 ],
+          [ "vehicle_wrench_2", 1 ],
+          [ "vehicle_screw", 1 ]
+        ]
+      }
+    },
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 2, 4 ] },
+      { "item": "steel_chunk", "count": [ 2, 4 ] },
+      { "item": "scrap", "count": [ 2, 4 ] },
+      { "item": "e_scrap", "count": [ 1, 2 ] },
+      { "item": "bearing", "charges": [ 5, 10 ] },
+      { "item": "cable", "charges": [ 10, 20 ] }
+    ],
+    "damage_reduction": { "all": 32 }
+  },
+  {
+    "id": "engine_electric_large",
+    "copy-from": "engine_motor",
+    "type": "vehicle_part",
+    "name": { "str": "large electric motor" },
+    "description": "A heavy-duty electrical motor, capable of propelling a full-size car or SUV through electric power alone, provided you have the battery capacity.",
+    "item": "motor_large",
+    "durability": 400,
+    "power": "150000 W",
+    "energy_consumption": "163 kW",
+    "damage_modifier": 80,
+    "//": "30 cm weld per quadrant of damage",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 4 ] ],
+        "time": "60 m",
+        "using": [
+          [ "repair_welding_standard", 3 ],
+          [ "soldering_standard", 15 ],
+          [ "repair_welding_alloys", 2 ],
+          [ "vehicle_wrench_2", 1 ],
+          [ "vehicle_screw", 1 ]
+        ]
+      }
+    },
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 5, 10 ] },
+      { "item": "steel_chunk", "count": [ 3, 5 ] },
+      { "item": "scrap", "count": [ 3, 5 ] },
+      { "item": "e_scrap", "count": [ 3, 5 ] },
+      { "item": "bearing", "charges": [ 20, 40 ] },
+      { "item": "cable", "charges": [ 15, 30 ] }
+    ],
+    "damage_reduction": { "all": 43 }
+  },
+  {
+    "id": "engine_electric_enhanced",
+    "copy-from": "engine_motor",
+    "type": "vehicle_part",
+    "name": { "str": "enhanced electric motor" },
+    "description": "A powerful high-performance electric motor, as found in those consumer electric sports cars with ridiculous, ludicrous, or similarly hyperbolic acceleration options.  It needs a lot of battery power.",
+    "item": "motor_enhanced",
+    "durability": 200,
+    "power": "282000 W",
+    "energy_consumption": "300 kW",
+    "damage_modifier": 80,
+    "//": "30 cm weld per quadrant of damage",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 5 ] ],
+        "time": "60 m",
+        "using": [
+          [ "repair_welding_standard", 3 ],
+          [ "soldering_standard", 18 ],
+          [ "repair_welding_alloys", 3 ],
+          [ "vehicle_wrench_2", 1 ],
+          [ "vehicle_screw", 1 ]
+        ]
+      }
+    },
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 10, 15 ] },
+      { "item": "steel_chunk", "count": [ 3, 5 ] },
+      { "item": "scrap", "count": [ 3, 5 ] },
+      { "item": "e_scrap", "count": [ 5, 10 ] },
+      { "item": "bearing", "charges": [ 20, 50 ] },
+      { "item": "cable", "charges": [ 10, 15 ] }
+    ],
+    "damage_reduction": { "all": 50 }
+  },
+  {
+    "id": "engine_electric_super",
+    "copy-from": "engine_motor",
+    "type": "vehicle_part",
+    "name": { "str": "super electric motor" },
+    "description": "A massive and extremely powerful electric motor, delivering high torque at the cost of significant power drain, this would be well suited to an electric racing car.",
+    "item": "motor_super",
+    "durability": 400,
+    "power": "475000 W",
+    "energy_consumption": "500 kW",
+    "damage_modifier": 80,
+    "//": "3 cm weld per quadrant of damage",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 6 ] ],
+        "time": "60 m",
+        "using": [
+          [ "repair_welding_standard", 3 ],
+          [ "soldering_standard", 20 ],
+          [ "repair_welding_alloys", 3 ],
+          [ "vehicle_wrench_2", 1 ],
+          [ "vehicle_screw", 1 ]
+        ]
+      }
+    },
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 15, 20 ] },
+      { "item": "steel_chunk", "count": [ 6, 10 ] },
+      { "item": "scrap", "count": [ 6, 10 ] },
+      { "item": "e_scrap", "count": [ 5, 15 ] },
+      { "item": "bearing", "charges": [ 25, 60 ] },
+      { "item": "cable", "charges": [ 20, 30 ] }
+    ],
+    "damage_reduction": { "all": 60 }
+  },
+  {
+    "id": "engine_electric_train",
+    "copy-from": "engine_motor",
+    "type": "vehicle_part",
+    "name": { "str": "1,300 HP electric train engine" },
+    "description": "An enormous and heavy electric traction motor, powerful enough to pull a train.",
+    "item": "motor_train1300",
+    "durability": 500,
+    "power": "1000000 W",
+    "energy_consumption": "1050 kW",
+    "damage_modifier": 80,
+    "//": "50 cm weld per quadrant of damage",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 8 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "45 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 10 ] ],
+        "time": "60 m",
+        "using": [
+          [ "repair_welding_standard", 5 ],
+          [ "soldering_standard", 30 ],
+          [ "repair_welding_alloys", 5 ],
+          [ "vehicle_wrench_2", 1 ],
+          [ "vehicle_screw", 1 ]
+        ]
+      }
+    },
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 60, 80 ] },
+      { "item": "steel_chunk", "count": [ 24, 40 ] },
+      { "item": "scrap", "count": [ 24, 40 ] },
+      { "item": "e_scrap", "count": [ 20, 60 ] },
+      { "item": "bearing", "charges": [ 100, 240 ] },
+      { "item": "cable", "charges": [ 80, 120 ] }
+    ],
+    "damage_reduction": { "all": 60 }
+  }
+]

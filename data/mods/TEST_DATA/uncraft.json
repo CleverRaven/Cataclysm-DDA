@@ -1,0 +1,39 @@
+[
+  {
+    "result": "test_sheet_metal",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "150 s",
+    "qualities": [ { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "test_sheet_metal_small", 24 ] ] ]
+  },
+  {
+    "result": "test_socks",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 0,
+    "time": "5 m",
+    "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
+    "components": [ [ [ "thread", 10 ] ], [ [ "cotton_patchwork", 2 ] ] ]
+  },
+  {
+    "result": "test_rag_bundle",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "difficulty": 0,
+    "time": "1 m",
+    "components": [ [ [ "string_36", 1 ] ], [ [ "cotton_patchwork", 100 ] ] ]
+  },
+  {
+    "result": "test_knotted_string_ball",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "time": "30 m",
+    "components": [ [ [ "string_6", 1000 ] ] ]
+  }
+]

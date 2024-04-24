@@ -1,0 +1,121 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": [ "cs_car_dealership" ],
+    "method": "json",
+    "weight": 1000,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        " ##==================## ",
+        " #____________________# ",
+        " #yy__yy_yy__yy_yy__yy# ",
+        " #y____y_y____y_y____y# ",
+        " #y____y_y____y_y____y# ",
+        " #____________________# ",
+        " #____________________# ",
+        " #____________________# ",
+        " #y____y_y____y_y____y# ",
+        " #y____y_y____y_y____y# ",
+        " #yy__yy_yy__yy_yy__yy# ",
+        " #____________________# ",
+        " #_|OOO||+|_____yy__yy# ",
+        " #_|sssVv.|OOO|_y____y# ",
+        " #_|......|...|_y____y# ",
+        " #_|......|.d.|_______# ",
+        " #_|Fttc..+.dh|_______# ",
+        " #_|||||..|.d.|_______# ",
+        " #_|L..l..|||||_y____y# ",
+        " #_|L.S|..+''T|_y____y# ",
+        " #_|||||OO|||||_yy__yy# ",
+        " #___________4________# ",
+        " #DD##~################ ",
+        " ####                   "
+      ],
+      "terrain": {
+        " ": "t_region_groundcover_urban",
+        "_": "t_pavement",
+        "y": "t_pavement_y",
+        ".": "t_floor",
+        "T": "t_linoleum_gray",
+        "'": "t_linoleum_gray",
+        "|": "t_wall_wood",
+        "l": "t_door_locked_interior",
+        "+": "t_door_c",
+        "#": "t_chainfence",
+        "O": "t_window_alarm",
+        "=": "t_chaingate_l",
+        "~": "t_chaingate_c",
+        "D": "t_pavement",
+        "4": "t_gutter_downspout"
+      },
+      "furniture": {
+        "D": "f_dumpster",
+        "S": "f_sink",
+        "L": "f_locker",
+        "F": "f_fridge",
+        "t": "f_table",
+        "c": "f_trashcan",
+        "d": "f_desk",
+        "h": "f_chair",
+        "T": "f_toilet",
+        "s": "f_sofa"
+      },
+      "vendingmachines": { "v": { "item_group": "vending_drink", "lootable": true }, "V": { "item_group": "vending_food", "lootable": true } },
+      "place_vehicles": [
+        { "vehicle": "oa_vg_cd_vehicles", "x": 4, "y": 5, "rotation": 270, "chance": 70, "fuel": 0 },
+        { "vehicle": "oa_vg_cd_vehicles", "x": 11, "y": 5, "rotation": 270, "chance": 70, "fuel": 0 },
+        { "vehicle": "oa_vg_cd_vehicles", "x": 18, "y": 5, "rotation": 270, "chance": 70, "fuel": 0 },
+        { "vehicle": "oa_vg_cd_vehicles", "x": 18, "y": 15, "rotation": 270, "chance": 70, "fuel": 0 }
+      ],
+      "items": {
+        "s": { "item": "oa_discarded_news", "chance": 33 },
+        "c": { "item": "oa_custom_trash", "chance": 70 },
+        "D": { "item": "oa_custom_trash", "chance": 60 },
+        "d": { "item": "SUS_office_desk", "chance": 33 },
+        "L": { "item": "oa_ig_cd_lockers", "chance": 70, "repeat": [ 1, 4 ] },
+        "F": { "item": "SUS_fridge_breakroom", "chance": 90 }
+      },
+      "place_items": [ { "item": "oa_ig_cd_fuel", "chance": 30, "x": 6, "y": 19 } ],
+      "add": [ { "item": "microwave", "x": 5, "y": 16, "chance": 2 }, { "item": "coffeemaker", "x": 6, "y": 16, "chance": 2 } ],
+      "toilets": { "T": {  } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "cs_car_dealership_roof",
+    "object": {
+      "fill_ter": "t_tar_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "   --------             ",
+        "   -......-----         ",
+        "   -..........-         ",
+        "   -....A.....-         ",
+        "   -..........-         ",
+        "   -..........-         ",
+        "   -...&......-         ",
+        "   -........=.-         ",
+        "   ----------5-         ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_tar_flat_roof" },
+      "place_items": [ { "item": "roof_trash", "x": [ 4, 12 ], "y": [ 14, 19 ], "chance": 50, "repeat": [ 1, 3 ] } ]
+    }
+  }
+]

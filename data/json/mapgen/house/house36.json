@@ -1,0 +1,154 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "house_36" ],
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        ".```````........```.!!!.",
+        ".```````........```.![!.",
+        ".```````##oooo##```.!!!.",
+        ".```````#RE   y##*#oo##.",
+        ".```````o     d|L y xx#^",
+        ".```````#     d|r     #.",
+        ".``````y# @@   |r  llE#.",
+        ".```````#I@@I  |   HHs#.",
+        ".``````y#||||| |      #.",
+        ".&``````*  |>| |R    R#.",
+        "##=====##i |+|+|R    R#.",
+        "#&~~~~~U#i     ||    |#.",
+        "o~~~~~~~#|+|y        T#.",
+        "#~~~~~~q#S'|||||||    #.",
+        "#~~~~~~q#t9|32F1O| hh #.",
+        "#~~~~~~##|||4____J ff #.",
+        "#~~~~~~*~~+______J ff #.",
+        "o~~~~~~#~A|+||____ hh #.",
+        "#~~~~~~#NN|_S|_45|y   #.",
+        "#########o#_t#*#o##oo##.",
+        "......^...##o#..........",
+        "................[.......",
+        "....[...............[...",
+        "........................"
+      ],
+      "palettes": [
+        "domestic_general_and_variant_palette",
+        "standard_domestic_landscaping_palette",
+        "standard_domestic_lino_bathroom",
+        "standard_domestic_lino_kitchen"
+      ],
+      "terrain": {
+        "=": "t_door_metal_locked",
+        "&": "t_gates_control_brick",
+        "~": "t_thconc_floor",
+        "q": "t_thconc_floor",
+        "U": "t_thconc_floor",
+        "A": "t_thconc_floor",
+        "N": "t_thconc_floor",
+        "y": "t_concrete",
+        "'": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
+        "_": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" }
+      },
+      "place_loot": [
+        { "item": "hose", "x": 10, "y": 20 },
+        { "item": "lawnmower", "x": 1, "y": 4 },
+        { "item": "television", "x": 20, "y": 4 },
+        { "item": "stereo", "x": 21, "y": 4 }
+      ],
+      "place_vehicles": [
+        { "vehicle": "car", "x": 3, "y": 14, "chance": 60, "rotation": 270 },
+        { "vehicle": "tricycle", "x": 4, "y": 7, "chance": 40, "status": 0 }
+      ],
+      "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 11, "y": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "house_36_roof",
+    "object": {
+      "fill_ter": "t_shingle_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "        --------------- ",
+        "        -.............5 ",
+        "        -...........X.- ",
+        "        -....N........- ",
+        "        -.............- ",
+        "        -.............- ",
+        "        -.............- ",
+        "        -.............- ",
+        "---------.............- ",
+        "-.....................- ",
+        "-.....................- ",
+        "-.....................- ",
+        "-.....&.......=.......- ",
+        "-.....................- ",
+        "-.....................- ",
+        "-.....................- ",
+        "-.....................- ",
+        "------5----..---------- ",
+        "          ----          ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_shingle_flat_roof" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "house_36_basement",
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "                        ",
+        "                        ",
+        "        ||||||||        ",
+        "        |....UU|||||||| ",
+        "        |.z.z...2.....| ",
+        "        |..z..........| ",
+        "        |F............| ",
+        "        |g............| ",
+        "        ||||||........| ",
+        "        |WZ|<|........| ",
+        "        |..|+|........| ",
+        "        |.............| ",
+        "        |1............| ",
+        "        |.............| ",
+        "        |.............| ",
+        "       ||.............| ",
+        "       |..............| ",
+        "       |..............| ",
+        "       |..............| ",
+        "       ||||..|||||||||| ",
+        "          ||||          ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "basement_empty" ],
+      "nested": {
+        "2": {
+          "chunks": [
+            [ "null", 70 ],
+            [ "room_6x6_office_S", 35 ],
+            [ "room_6x6_woodworker", 10 ],
+            [ "room_6x6_guns_S", 10 ],
+            [ "room_6x6_brewer_S", 10 ],
+            [ "room_6x6_bike", 10 ],
+            [ "6x6_electronics_open", 10 ],
+            [ "6x6_sewing_open", 10 ],
+            [ "room_6x6_junk_S", 20 ]
+          ]
+        },
+        "1": {
+          "chunks": [ [ "null", 95 ], [ "7x7_tent_indoors", 5 ], [ "room_7x7_recroom_N", 20 ], [ "7x7_band_practice_open", 20 ] ]
+        }
+      }
+    }
+  }
+]

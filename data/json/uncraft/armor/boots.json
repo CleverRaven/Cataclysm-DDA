@@ -1,0 +1,37 @@
+[
+  {
+    "result": "roller_blades",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "10 m",
+    "qualities": [ { "id": "PRY", "level": 1 } ],
+    "components": [
+      [ [ "wheel_skate", 6 ] ],
+      [ [ "cotton_patchwork", 6 ] ],
+      [ [ "plastic_chunk", 6 ] ],
+      [ [ "scrap", 18 ] ],
+      [ [ "bearing", 6 ] ]
+    ]
+  },
+  {
+    "result": "rollerskates",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "10 m",
+    "qualities": [ { "id": "PRY", "level": 1 } ],
+    "components": [ [ [ "wheel_skate", 8 ] ], [ [ "scrap_leather", 6 ] ], [ [ "scrap", 20 ] ], [ [ "bearing", 8 ] ] ]
+  },
+  {
+    "result": "footrags_faux_fur",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "tailor",
+    "time": "1 m 30 s",
+    "components": [ [ [ "sheet_faux_fur_patchwork", 2 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  }
+]

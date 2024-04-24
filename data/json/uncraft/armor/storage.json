@@ -1,0 +1,60 @@
+[
+  {
+    "result": "fireman_belt",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "leather", 5 ] ], [ [ "scrap", 3 ] ] ]
+  },
+  {
+    "result": "load_bearing_vest_sling",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "5 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "load_bearing_vest", 1 ] ], [ [ "single_sling", 1 ] ] ]
+  },
+  {
+    "result": "heavy_load_bearing_vest_sling",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "5 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "heavy_load_bearing_vest", 1 ] ], [ [ "single_sling", 1 ] ] ]
+  },
+  {
+    "result": "runner_bag",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "25 m",
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_canvas", 6 ] ], [ [ "thread_canvas", 40 ] ], [ [ "zipper_long_plastic", 1 ] ] ]
+  },
+  {
+    "result": "dry_bag",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "35 m",
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_lycra_patchwork", 18 ] ], [ [ "button_plastic", 1 ] ], [ [ "plastic_sheet_small", 9 ] ] ]
+  },
+  {
+    "result": "dry_bag_large",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "35 m",
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_lycra_patchwork", 9 ] ], [ [ "button_plastic", 1 ] ], [ [ "plastic_sheet_small", 38 ] ] ]
+  }
+]

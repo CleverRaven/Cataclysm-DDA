@@ -1,0 +1,112 @@
+[
+  {
+    "id": "bio_limb_leg_l",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Bionic Limb - Left Leg CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "CBM which replaces the left leg with a bionic counterpart.",
+    "price": "2 kUSD 200 USD",
+    "weight": "30000 g",
+    "difficulty": 3,
+    "volume": "8000 ml"
+  },
+  {
+    "id": "bio_limb_leg_r",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Bionic Limb - Right Leg CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "CBM which replaces the left leg with a bionic counterpart.",
+    "price": "2 kUSD 200 USD",
+    "weight": "30000 g",
+    "difficulty": 3,
+    "volume": "8000 ml"
+  },
+  {
+    "id": "bio_limb_arm_l",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Bionic Limb - Left Arm CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "CBM which replaces the left leg with a bionic counterpart.",
+    "price": "2 kUSD 200 USD",
+    "weight": "20000 g",
+    "difficulty": 3,
+    "volume": "5000 ml"
+  },
+  {
+    "id": "bio_limb_arm_r",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Bionic Limb - Right Arm CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "CBM which replaces the left leg with a bionic counterpart.",
+    "price": "2 kUSD 200 USD",
+    "weight": "20000 g",
+    "difficulty": 3,
+    "volume": "5000 ml"
+  },
+  {
+    "id": "bio_limb_treads",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Bionic Limb - Tank Treads CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "CBM which replaces the left leg with a bionic counterpart.",
+    "price": "2 kUSD 200 USD",
+    "weight": "120000 g",
+    "difficulty": 3,
+    "volume": "40000 ml"
+  },
+  {
+    "id": "bio_limb_leg_l",
+    "type": "bionic",
+    "name": { "str": "Bionic Limb - Left Leg" },
+    "description": "CBM which replaces your left leg with a bionic counterpart.",
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
+    "enchantments": [ "ENCH_BIONIC_LEG_L" ],
+    "passive_pseudo_items": [ "armor_bio_leg_l" ],
+    "give_mut_on_removal": [ "NO_LEFT_LEG" ]
+  },
+  {
+    "id": "bio_limb_leg_r",
+    "type": "bionic",
+    "name": { "str": "Bionic Limb - Right Leg" },
+    "description": "CBM which replaces your right leg with a bionic counterpart.",
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
+    "enchantments": [ "ENCH_BIONIC_LEG_R" ],
+    "passive_pseudo_items": [ "armor_bio_leg_r" ],
+    "give_mut_on_removal": [ "NO_RIGHT_LEG" ]
+  },
+  {
+    "id": "bio_limb_treads",
+    "type": "bionic",
+    "name": { "str": "Bionic Limb - Tank Treads" },
+    "description": "CBM which replaces your legs with tank treads.",
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
+    "enchantments": [ "ENCH_BIONIC_TREADS" ],
+    "passive_pseudo_items": [ "armor_bio_treads" ],
+    "give_mut_on_removal": [ "NO_LEFT_LEG", "NO_RIGHT_LEG" ]
+  },
+  {
+    "id": "bio_limb_arm_l",
+    "type": "bionic",
+    "name": { "str": "Bionic Limb - Left Arm" },
+    "description": "CBM which replaces your left leg with a bionic counterpart.",
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
+    "enchantments": [ "ENCH_BIONIC_ARM_L" ],
+    "passive_pseudo_items": [ "armor_bio_arm_l" ],
+    "give_mut_on_removal": [ "NO_LEFT_ARM" ]
+  },
+  {
+    "id": "bio_limb_arm_r",
+    "type": "bionic",
+    "name": { "str": "Bionic Limb - Right Arm" },
+    "description": "CBM which replaces your right leg with a bionic counterpart.",
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
+    "enchantments": [ "ENCH_BIONIC_ARM_R" ],
+    "passive_pseudo_items": [ "armor_bio_arm_r" ],
+    "give_mut_on_removal": [ "NO_RIGHT_ARM" ]
+  }
+]

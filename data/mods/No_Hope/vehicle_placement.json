@@ -1,0 +1,27 @@
+[
+  {
+    "type": "vehicle_placement",
+    "id": "road_wreck_t",
+    "locations": [ { "x": [ 8, 11 ], "y": [ 10, 14 ], "facing": [ 90, 270 ] } ]
+  },
+  {
+    "type": "vehicle_placement",
+    "id": "road_wreck_b",
+    "locations": [ { "x": [ 8, 11 ], "y": [ 5, 8 ], "facing": [ 90, 270 ] } ]
+  },
+  {
+    "type": "vehicle_placement",
+    "id": "road_wreck_l",
+    "locations": [ { "x": [ 5, 8 ], "y": [ 8, 11 ], "facing": [ 90, 270 ] } ]
+  },
+  {
+    "type": "vehicle_placement",
+    "id": "road_wreck_r",
+    "locations": [ { "x": [ 10, 14 ], "y": [ 8, 11 ], "facing": [ 90, 270 ] } ]
+  },
+  {
+    "type": "vehicle_placement",
+    "id": "road_wreck_c",
+    "locations": [ { "x": [ 8, 11 ], "y": [ 8, 11 ], "facing": [ 90, 270 ] } ]
+  }
+]

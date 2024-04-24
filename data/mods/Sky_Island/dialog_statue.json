@@ -1,0 +1,641 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_statue_startdialog",
+    "//": "Called when interacting with the Island Heart.  Starts the main dialog tree.",
+    "effect": [ { "open_dialogue": { "topic": "SKYISLAND_UPGRADE" } } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "SKYISLAND_QUESTIONS",
+    "dynamic_line": "Ask what you will.",
+    "responses": [
+      { "text": "Can you summarize this for me, briefly?", "topic": "SKYISLAND_WHAT" },
+      { "text": "Explain expeditions.", "topic": "SKYISLAND_EXPLAIN1" },
+      { "text": "Explain missions.", "topic": "SKYISLAND_EXPLAIN2" },
+      { "text": "Explain upgrades.", "topic": "SKYISLAND_EXPLAIN3" },
+      { "text": "Explain warp shards and rewards.", "topic": "SKYISLAND_EXPLAIN4" },
+      { "text": "Explain services.", "topic": "SKYISLAND_EXPLAIN5" },
+      { "text": "Let's return to discussing upgrades.", "topic": "SKYISLAND_UPGRADE" },
+      { "text": "That's all for now.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "SKYISLAND_WHAT",
+    "dynamic_line": "This floating island is your base of operations, isolated and safe.  When you are ready, use the Warp Obelisk to teleport down to the surface and begin an expedition.  Scavenge, kill, explore, and reach the exit to return here.\n\nShould you die, you will be saved from death and returned to the island, though you will lose EVERYTHING that you were carrying.\n\nGo on expeditions, clear missions, stockpile supplies, upgrade this island, and prepare yourself for your next outing with the equipment you have retrieved.  Repeat until you are an unstoppable force!\nGood luck.",
+    "responses": [ { "text": "I see…", "topic": "SKYISLAND_QUESTIONS" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "SKYISLAND_EXPLAIN1",
+    "dynamic_line": "Use the Warp Obelisk to reach the surface and begin an expedition to a random place on the surface.  Find the exit marked on your map and get there in time with all the loot you can carry and to bring it back to the island!\nDying on expedition will return you home safely, but you will lose EVERYTHING you had with you.  Keep spare gear at home so you can quickly resupply!\n\nThe time limit is enforced by warp pulses, which hit you at regular intervals.  After 8 pulses, you suffer warpsickness, which rapidly reduces your stats with each pulse.  After 12 pulses, your body begins to disintegrate, taking damage until you die.  Get home safely to reset the pulses!\n\nCertain upgrades can unlock new varieties of expeditions, or improve your survivability.",
+    "responses": [ { "text": "Interesting…", "topic": "SKYISLAND_QUESTIONS" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "SKYISLAND_EXPLAIN2",
+    "dynamic_line": "After you have unlocked them, missions are generated randomly once an expedition begins.  These mostly involve finding and killing targeted enemies, and any remaining missions fail when you return home.  There is no penalty for failing missions, so if they are too far out of the way or too difficult, you can try for better luck in the next expedition.  Completed missions reward warp shards.  Harder missions give more shards!\n\nYou can also unlock slaughter missions, which require a total amount of kills in a single expedition.  These can be completed anywhere, but reward a smaller amount of shards.",
+    "responses": [ { "text": "Interesting…", "topic": "SKYISLAND_QUESTIONS" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "SKYISLAND_EXPLAIN3",
+    "dynamic_line": "You can unlock and upgrade many features here.  For the right price, you can improve things like how much map is revealed around you, how many missions are available per trip, what sort of expeditions you can go on, and even instantly construct things on this island.\n\nTo upgrade, simply accept a mission here, then turn in the required materials by just crafting the associated recipe.  Find them under the warp upgrades category of your crafting menu.\n\nSome upgrades and recipes will not be available to unlock until you have reached a higher rank.  To increase your rank, survive enough expeditions and you will be notified that a rank up mission has become available.",
+    "responses": [ { "text": "Interesting…", "topic": "SKYISLAND_QUESTIONS" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "SKYISLAND_EXPLAIN4",
+    "dynamic_line": "Warp shards are rewarded for completing missions.  They can be spent on special warp-related recipes in your crafting menu, and are also required for various upgrades.  If you need, warp shards can be spent here to heal yourself instantly.\n\nYou will also acquire material tokens, rewarded any time you complete an expedition, even if you did no missions.  Longer expeditions yield more tokens.  These tokens can be crafted into common raw resources, like wood, sand, scrap metal, and so on, as long as you have an infinity source nearby.  Infinity sources come in three varieties, each providing different resources, and are acquired by crafting.  Find them under the warp tools category of your crafting menu.",
+    "responses": [ { "text": "Interesting…", "topic": "SKYISLAND_QUESTIONS" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "SKYISLAND_EXPLAIN5",
+    "dynamic_line": "This statue offers a variety of services.  You can be instantly healed, dispel an ongoing portal storm, check your current statistics and progress, and tweak your expedition difficulty settings.\n\nHealing is free until you have survived 10 expeditions.  After this point, healing costs 4 warp shards per treatment.\n\nExpedition difficulty is set to default when you start a new game, but here you can change many finer details to suit your own playstyle.",
+    "responses": [ { "text": "Interesting…", "topic": "SKYISLAND_QUESTIONS" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "SKYISLAND_UPGRADE",
+    "dynamic_line": "Here you may spend your treasures on upgrades.",
+    "responses": [
+      {
+        "text": "Unlock: RANK UP 1",
+        "condition": { "and": [ { "not": { "u_has_mission": "SKYISLAND_UPGRADE_rankup1" } }, { "math": [ "islandrank", "==", "1" ] } ] },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_rankup1" } ],
+        "topic": "SKYISLAND_UPGRADE"
+      },
+      {
+        "text": "Unlock: RANK UP 2",
+        "condition": { "and": [ { "not": { "u_has_mission": "SKYISLAND_UPGRADE_rankup2" } }, { "math": [ "islandrank", "==", "3" ] } ] },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_rankup2" } ],
+        "topic": "SKYISLAND_UPGRADE"
+      },
+      { "text": "Empower the warp obelisk.", "topic": "SKYISLAND_UPGRADES_RAIDS" },
+      { "text": "Upgrade expeditions.", "topic": "SKYISLAND_UPGRADES_FEATURES" },
+      { "text": "Construction options.", "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE" },
+      { "text": "I need your services.", "topic": "SKYISLAND_SERVICES" },
+      { "text": "I have some questions.", "topic": "SKYISLAND_QUESTIONS" },
+      { "text": "Another time.  Goodbye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "SKYISLAND_SERVICES",
+    "dynamic_line": "How may I help?",
+    "responses": [
+      {
+        "text": "Heal me.  (Free)",
+        "condition": { "math": [ "islandrank", "==", "0" ] },
+        "effect": [ { "run_eocs": [ "EOC_HEAL_NEWBIE" ] } ],
+        "topic": "SKYISLAND_SERVICES"
+      },
+      {
+        "text": "Heal me.  (Costs 4 Warp Shards)",
+        "condition": { "math": [ "islandrank", "!=", "0" ] },
+        "effect": [ { "run_eocs": [ "EOC_HEAL_NEWBIE" ] } ],
+        "topic": "SKYISLAND_SERVICES"
+      },
+      {
+        "text": "End an active portal storm.",
+        "effect": [
+          { "run_eocs": [ "EOC_CANCEL_PORTAL_STORM" ] },
+          { "u_message": "The air crackles with static electricity, then stabilizes.", "popup": true }
+        ],
+        "topic": "SKYISLAND_SERVICES"
+      },
+      {
+        "text": "View my expedition stats.",
+        "effect": [ { "run_eocs": [ "EOC_statcheck" ] } ],
+        "topic": "SKYISLAND_SERVICES"
+      },
+      {
+        "text": "View my upgrade stats.",
+        "effect": [ { "run_eocs": [ "EOC_progresscheck" ] } ],
+        "topic": "SKYISLAND_SERVICES"
+      },
+      {
+        "text": "View my construction stats.",
+        "effect": [ { "run_eocs": [ "EOC_buildcheck" ] } ],
+        "topic": "SKYISLAND_SERVICES"
+      },
+      {
+        "text": "Change my difficulty settings.",
+        "effect": [ { "run_eocs": [ "EOC_difficultycheck" ] } ],
+        "topic": "SKYISLAND_SERVICES"
+      },
+      { "text": "Let's return to discussing upgrades.", "topic": "SKYISLAND_UPGRADE" },
+      { "text": "That's all.  Goodbye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "SKYISLAND_UPGRADES_RAIDS",
+    "dynamic_line": "By empowering the warp obelisk, you can expand the quality and variety of available expeditions.",
+    "responses": [
+      {
+        "text": "Unlock: Large Expeditions",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_UPGRADE_raidlength1" } },
+            { "math": [ "longerraids", "==", "0" ] },
+            { "math": [ "islandrank", ">=", "2" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_raidlength1" } ],
+        "topic": "SKYISLAND_UPGRADES_RAIDS"
+      },
+      {
+        "text": "Unlock: Extended Expeditions",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_UPGRADE_raidlength2" } },
+            { "math": [ "longerraids", "==", "1" ] },
+            { "math": [ "islandrank", ">=", "4" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_raidlength2" } ],
+        "topic": "SKYISLAND_UPGRADES_RAIDS"
+      },
+      {
+        "text": "Unlock Start Location: Basements",
+        "condition": {
+          "and": [ { "not": { "u_has_mission": "SKYISLAND_UPGRADE_basementsunlock" } }, { "math": [ "basementsunlocked", "==", "0" ] } ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_basementsunlock" } ],
+        "topic": "SKYISLAND_UPGRADES_RAIDS"
+      },
+      {
+        "text": "Unlock Start Location: Rooftops",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_UPGRADE_roofsunlock" } },
+            { "math": [ "roofsunlocked", "==", "0" ] },
+            { "math": [ "islandrank", ">=", "2" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_roofsunlock" } ],
+        "topic": "SKYISLAND_UPGRADES_RAIDS"
+      },
+      {
+        "text": "Unlock Start Location: Labs",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_UPGRADE_labsunlock" } },
+            { "math": [ "labsunlocked", "==", "0" ] },
+            { "math": [ "islandrank", ">=", "4" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_labsunlock" } ],
+        "topic": "SKYISLAND_UPGRADES_RAIDS"
+      },
+      {
+        "text": "Security Alpha",
+        "condition": { "and": [ { "not": { "u_has_mission": "SKYISLAND_UPGRADE_security1" } }, { "math": [ "securitylevel", "==", "0" ] } ] },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_security1" } ],
+        "topic": "SKYISLAND_UPGRADES_RAIDS"
+      },
+      {
+        "text": "Security Beta",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_UPGRADE_security2" } },
+            { "math": [ "securitylevel", "==", "1" ] },
+            { "math": [ "islandrank", ">=", "2" ] },
+            { "math": [ "debug_never_achievable", "==", "1" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_security2" } ],
+        "topic": "SKYISLAND_UPGRADES_RAIDS"
+      },
+      {
+        "text": "Security Gamma",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_UPGRADE_security3" } },
+            { "math": [ "securitylevel", "==", "2" ] },
+            { "math": [ "islandrank", ">=", "4" ] },
+            { "math": [ "debug_never_achievable", "==", "1" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_security3" } ],
+        "topic": "SKYISLAND_UPGRADES_RAIDS"
+      },
+      {
+        "text": "Security Epsilon",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_UPGRADE_security4" } },
+            { "math": [ "securitylevel", "==", "3" ] },
+            { "math": [ "islandrank", ">=", "4" ] },
+            { "math": [ "debug_never_achievable", "==", "1" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_security4" } ],
+        "topic": "SKYISLAND_UPGRADES_RAIDS"
+      },
+      {
+        "text": "Security Kappa",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_UPGRADE_security5" } },
+            { "math": [ "securitylevel", "==", "4" ] },
+            { "math": [ "islandrank", ">=", "4" ] },
+            { "math": [ "debug_never_achievable", "==", "1" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_security5" } ],
+        "topic": "SKYISLAND_UPGRADES_RAIDS"
+      },
+      { "text": "Nevermind.", "topic": "SKYISLAND_UPGRADE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "SKYISLAND_UPGRADES_FEATURES",
+    "dynamic_line": "There are many abilities to learn that will help you on your expeditions.",
+    "responses": [
+      {
+        "text": "Upgrade: Stability 1",
+        "condition": { "and": [ { "not": { "u_has_mission": "SKYISLAND_UPGRADE_stability1" } }, { "math": [ "bonuspulses", "==", "0" ] } ] },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_stability1" } ],
+        "topic": "SKYISLAND_UPGRADES_FEATURES"
+      },
+      {
+        "text": "Upgrade: Stability 2",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_UPGRADE_stability2" } },
+            { "math": [ "bonuspulses", "==", "1" ] },
+            { "math": [ "islandrank", ">=", "2" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_stability2" } ],
+        "topic": "SKYISLAND_UPGRADES_FEATURES"
+      },
+      {
+        "text": "Upgrade: Stability 3",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_UPGRADE_stability3" } },
+            { "math": [ "bonuspulses", "==", "2" ] },
+            { "math": [ "islandrank", ">=", "4" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_stability3" } ],
+        "topic": "SKYISLAND_UPGRADES_FEATURES"
+      },
+      {
+        "text": "Upgrade: Stability 4",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_UPGRADE_stability4" } },
+            { "math": [ "bonuspulses", "==", "3" ] },
+            { "math": [ "islandrank", ">=", "4" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_stability4" } ],
+        "topic": "SKYISLAND_UPGRADES_FEATURES"
+      },
+      {
+        "text": "Upgrade: Scouting 1",
+        "condition": {
+          "and": [ { "not": { "u_has_mission": "SKYISLAND_UPGRADE_scouting1" } }, { "math": [ "scoutingdistancetargets", "==", "0" ] } ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_scouting1" } ],
+        "topic": "SKYISLAND_UPGRADES_FEATURES"
+      },
+      {
+        "text": "Upgrade: Scouting 2",
+        "condition": {
+          "and": [ { "not": { "u_has_mission": "SKYISLAND_UPGRADE_scouting2" } }, { "math": [ "scoutingdistancetargets", "==", "1" ] } ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_scouting2" } ],
+        "topic": "SKYISLAND_UPGRADES_FEATURES"
+      },
+      {
+        "text": "Upgrade: Scouting 3",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_UPGRADE_scouting3" } },
+            { "math": [ "scoutingdistancetargets", "==", "2" ] },
+            { "math": [ "islandrank", ">=", "2" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_scouting3" } ],
+        "topic": "SKYISLAND_UPGRADES_FEATURES"
+      },
+      {
+        "text": "Upgrade: Scouting 4",
+        "condition": {
+          "and": [ { "not": { "u_has_mission": "SKYISLAND_UPGRADE_scouting4" } }, { "math": [ "scoutingdistancetargets", "==", "4" ] } ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_scouting4" } ],
+        "topic": "SKYISLAND_UPGRADES_FEATURES"
+      },
+      {
+        "text": "Upgrade: Scouting 5",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_UPGRADE_scouting5" } },
+            { "math": [ "scoutingdistancetargets", "==", "6" ] },
+            { "math": [ "islandrank", ">=", "4" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_scouting5" } ],
+        "topic": "SKYISLAND_UPGRADES_FEATURES"
+      },
+      {
+        "text": "Upgrade: Landing 1",
+        "condition": {
+          "and": [ { "not": { "u_has_mission": "SKYISLAND_UPGRADE_landing1" } }, { "math": [ "scoutingdistancelanding", "==", "0" ] } ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_landing1" } ],
+        "topic": "SKYISLAND_UPGRADES_FEATURES"
+      },
+      {
+        "text": "Upgrade: Landing 2",
+        "condition": {
+          "and": [ { "not": { "u_has_mission": "SKYISLAND_UPGRADE_landing2" } }, { "math": [ "scoutingdistancelanding", "==", "4" ] } ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_landing2" } ],
+        "topic": "SKYISLAND_UPGRADES_FEATURES"
+      },
+      {
+        "text": "Upgrade: Landing 3",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_UPGRADE_landing3" } },
+            { "math": [ "scoutingdistancelanding", "==", "8" ] },
+            { "math": [ "islandrank", ">=", "2" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_landing3" } ],
+        "topic": "SKYISLAND_UPGRADES_FEATURES"
+      },
+      {
+        "text": "Upgrade: Landing 4",
+        "condition": {
+          "and": [ { "not": { "u_has_mission": "SKYISLAND_UPGRADE_landing4" } }, { "math": [ "scoutingdistancelanding", "==", "12" ] } ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_landing4" } ],
+        "topic": "SKYISLAND_UPGRADES_FEATURES"
+      },
+      {
+        "text": "Upgrade: Landing 5",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_UPGRADE_landing5" } },
+            { "math": [ "scoutingdistancelanding", "==", "16" ] },
+            { "math": [ "islandrank", ">=", "4" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_landing5" } ],
+        "topic": "SKYISLAND_UPGRADES_FEATURES"
+      },
+      {
+        "text": "Unlock: Slaughter Missions",
+        "condition": {
+          "and": [ { "not": { "u_has_mission": "SKYISLAND_UPGRADE_slaughter" } }, { "math": [ "slaughterunlocked", "==", "0" ] } ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_slaughter" } ],
+        "topic": "SKYISLAND_UPGRADES_FEATURES"
+      },
+      {
+        "text": "Unlock: Two Exits per Expedition",
+        "condition": { "and": [ { "not": { "u_has_mission": "SKYISLAND_UPGRADE_exit1" } }, { "math": [ "bonusexits", "==", "0" ] } ] },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_exit1" } ],
+        "topic": "SKYISLAND_UPGRADES_FEATURES"
+      },
+      {
+        "text": "Unlock: Three Exits per Expedition",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_UPGRADE_exit2" } },
+            { "math": [ "bonusexits", "==", "1" ] },
+            { "math": [ "islandrank", ">=", "2" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_exit2" } ],
+        "topic": "SKYISLAND_UPGRADES_FEATURES"
+      },
+      {
+        "text": "Unlock: Expedition Missions",
+        "condition": {
+          "and": [ { "not": { "u_has_mission": "SKYISLAND_UPGRADE_bonusmissions1" } }, { "math": [ "bonusmissions", "==", "0" ] } ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_bonusmissions1" } ],
+        "topic": "SKYISLAND_UPGRADES_FEATURES"
+      },
+      {
+        "text": "Unlock: Two Missions per Expedition",
+        "condition": {
+          "and": [ { "not": { "u_has_mission": "SKYISLAND_UPGRADE_bonusmissions2" } }, { "math": [ "bonusmissions", "==", "1" ] } ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_bonusmissions2" } ],
+        "topic": "SKYISLAND_UPGRADES_FEATURES"
+      },
+      {
+        "text": "Unlock: Three Missions per Expedition",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_UPGRADE_bonusmissions3" } },
+            { "math": [ "bonusmissions", "==", "2" ] },
+            { "math": [ "islandrank", ">=", "2" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_bonusmissions3" } ],
+        "topic": "SKYISLAND_UPGRADES_FEATURES"
+      },
+      {
+        "text": "Unlock: Harder Missions",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_UPGRADE_hardmissions1" } },
+            { "math": [ "hardmissions", "==", "0" ] },
+            { "math": [ "islandrank", ">=", "2" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_hardmissions1" } ],
+        "topic": "SKYISLAND_UPGRADES_FEATURES"
+      },
+      {
+        "text": "Unlock: Hardest Missions",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_UPGRADE_hardmissions2" } },
+            { "math": [ "hardmissions", "==", "10" ] },
+            { "math": [ "islandrank", ">=", "4" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_UPGRADE_hardmissions2" } ],
+        "topic": "SKYISLAND_UPGRADES_FEATURES"
+      },
+      { "text": "Nevermind…", "topic": "SKYISLAND_UPGRADE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "SKYISLAND_UPGRADES_INFRASTRUCTURE",
+    "dynamic_line": "The Island is your home now.  It will be prudent to make it livable.",
+    "responses": [
+      {
+        "text": "Construct: Bunker Entrance",
+        "condition": {
+          "and": [ { "not": { "u_has_mission": "SKYISLAND_BUILD_base1" } }, { "math": [ "skyisland_build_base", "==", "0" ] } ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_BUILD_base1" } ],
+        "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE"
+      },
+      {
+        "text": "Construct: Main Room 1",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_BUILD_bigroom1" } },
+            { "math": [ "skyisland_build_bigroom", "==", "0" ] },
+            { "math": [ "skyisland_build_base", "==", "1" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_BUILD_bigroom1" } ],
+        "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE"
+      },
+      {
+        "text": "Construct: Main Room 2",
+        "condition": {
+          "and": [ { "not": { "u_has_mission": "SKYISLAND_BUILD_bigroom2" } }, { "math": [ "skyisland_build_bigroom", "==", "1" ] } ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_BUILD_bigroom2" } ],
+        "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE"
+      },
+      {
+        "text": "Construct: Main Room 3",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_BUILD_bigroom3" } },
+            { "math": [ "skyisland_build_bigroom", "==", "2" ] },
+            { "math": [ "islandrank", ">=", "2" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_BUILD_bigroom3" } ],
+        "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE"
+      },
+      {
+        "text": "Construct: Main Room 4",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_BUILD_bigroom4" } },
+            { "math": [ "skyisland_build_bigroom", "==", "3" ] },
+            { "math": [ "islandrank", ">=", "4" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_BUILD_bigroom4" } ],
+        "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE"
+      },
+      {
+        "text": "Construct: West Room 1",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_BUILD_westroom1" } },
+            { "math": [ "skyisland_build_bigroom", ">=", "1" ] },
+            { "math": [ "skyisland_build_westroom", "==", "0" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_BUILD_westroom1" } ],
+        "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE"
+      },
+      {
+        "text": "Construct: West Room 2",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_BUILD_westroom2" } },
+            { "math": [ "skyisland_build_westroom", "==", "1" ] },
+            { "math": [ "skyisland_build_bigroom", ">=", "1" ] },
+            { "math": [ "islandrank", ">=", "2" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_BUILD_westroom2" } ],
+        "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE"
+      },
+      {
+        "text": "Construct: West Room 3",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_BUILD_westroom3" } },
+            { "math": [ "skyisland_build_westroom", "==", "2" ] },
+            { "math": [ "skyisland_build_bigroom", ">=", "2" ] },
+            { "math": [ "islandrank", ">=", "3" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_BUILD_westroom3" } ],
+        "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE"
+      },
+      {
+        "text": "Construct: West Room Gallery",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_BUILD_westroom4" } },
+            { "math": [ "skyisland_build_westroom", "==", "3" ] },
+            { "math": [ "skyisland_build_bigroom", ">=", "3" ] },
+            { "math": [ "islandrank", ">=", "3" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_BUILD_westroom4" } ],
+        "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE"
+      },
+      {
+        "text": "Construct: East Room 1",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_BUILD_eastroom1" } },
+            { "math": [ "skyisland_build_bigroom", ">=", "1" ] },
+            { "math": [ "skyisland_build_eastroom", "==", "0" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_BUILD_eastroom1" } ],
+        "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE"
+      },
+      {
+        "text": "Construct: East Room 2",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_BUILD_eastroom2" } },
+            { "math": [ "skyisland_build_eastroom", "==", "1" ] },
+            { "math": [ "skyisland_build_bigroom", ">=", "1" ] },
+            { "math": [ "islandrank", ">=", "2" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_BUILD_eastroom2" } ],
+        "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE"
+      },
+      {
+        "text": "Construct: East Room 3",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_BUILD_eastroom3" } },
+            { "math": [ "skyisland_build_eastroom", "==", "2" ] },
+            { "math": [ "skyisland_build_bigroom", ">=", "2" ] },
+            { "math": [ "islandrank", ">=", "3" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_BUILD_eastroom3" } ],
+        "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE"
+      },
+      {
+        "text": "Construct: East Room Gallery",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_BUILD_eastroom4" } },
+            { "math": [ "skyisland_build_eastroom", "==", "3" ] },
+            { "math": [ "skyisland_build_bigroom", ">=", "3" ] },
+            { "math": [ "islandrank", ">=", "3" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_BUILD_eastroom4" } ],
+        "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE"
+      },
+      { "text": "Nevermind.", "topic": "SKYISLAND_UPGRADE" }
+    ]
+  }
+]

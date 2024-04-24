@@ -1,0 +1,25 @@
+[
+  {
+    "abstract": "turret",
+    "type": "vehicle_part",
+    "durability": 400,
+    "damage_modifier": 80,
+    "location": "on_roof",
+    "categories": [ "warfare" ],
+    "requirements": { "install": { "time": "100 s" }, "removal": { "time": "50 s" } },
+    "flags": [ "TURRET" ],
+    "variants": [ { "symbols": "t", "symbols_broken": "#" } ]
+  },
+  {
+    "id": "turret_generic",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "item": "m249",
+    "looks_like": "mounted_m249",
+    "//": "This item is used as base for turrets generated at runtime. m249 is random 'safe' choice, actual item is set at runtime in vpart_info::finalize.",
+    "color": "magenta",
+    "broken_color": "magenta",
+    "breaks_into": [ { "item": "scrap", "count": 6 }, { "item": "steel_chunk", "count": 5 }, { "item": "steel_lump", "count": 2 } ],
+    "requirements": { "//": "Generated at runtime" }
+  }
+]

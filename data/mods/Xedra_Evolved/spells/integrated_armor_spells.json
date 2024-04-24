@@ -1,0 +1,93 @@
+[
+  {
+    "type": "SPELL",
+    "id": "integrated_coal_skin_burnback",
+    "name": "Coal Skin Burnback",
+    "description": "The burnback effect from the burning coals skin.",
+    "effect": "attack",
+    "shape": "blast",
+    "min_damage": 3,
+    "max_damage": 3,
+    "valid_targets": [ "hostile" ],
+    "damage_type": "heat",
+    "min_range": 1,
+    "max_range": 1
+  },
+  {
+    "type": "enchantment",
+    "id": "coal_skin_enchantment",
+    "name": { "str": "Salamander" },
+    "description": "Your Fire Elemental abilities grant you good resistance to temperature conditions and heat damage.  Also your body emits streams of heat into anyone who attack you,.",
+    "condition": "ALWAYS",
+    "values": [
+      { "value": "ARMOR_HEAT", "multiply": -0.2 },
+      { "value": "CLIMATE_CONTROL_HEAT", "add": 15 },
+      { "value": "CLIMATE_CONTROL_CHILL", "add": 10 }
+    ],
+    "hit_me_effect": [
+      {
+        "id": "integrated_coal_skin_burnback",
+        "message": "Flames and heat flash out from where you've been hit.",
+        "npc_message": "%1$s's body jets fire and heat out from the wound."
+      }
+    ]
+  },
+  {
+    "type": "SPELL",
+    "id": "integrated_flame_skin_burnback",
+    "name": "Flame Skin Burnback",
+    "description": "The burnback effect from the flaming skin.",
+    "effect": "attack",
+    "shape": "blast",
+    "min_damage": 7,
+    "max_damage": 13,
+    "valid_targets": [ "hostile" ],
+    "damage_type": "heat",
+    "min_range": 2,
+    "max_range": 2
+  },
+  {
+    "type": "enchantment",
+    "id": "flame_skin_enchantment",
+    "name": { "str": "Salamonstrous" },
+    "description": "Your Fire Elemental abilities grant you good resistance to temperature conditions and heat damage.  Also your body emits streams of heat into anyone who attack you,.",
+    "condition": "ALWAYS",
+    "values": [
+      { "value": "ARMOR_HEAT", "multiply": -0.5 },
+      { "value": "CLIMATE_CONTROL_HEAT", "add": 45 },
+      { "value": "CLIMATE_CONTROL_CHILL", "add": 10 }
+    ],
+    "hit_me_effect": [
+      {
+        "id": "integrated_coal_skin_burnback",
+        "message": "Flames and heat flash out from where you've been hit.",
+        "npc_message": "%1$s's body jets fire and heat out from the wound."
+      }
+    ]
+  },
+  {
+    "type": "enchantment",
+    "id": "cloud_skin_enchantment",
+    "name": { "str": "cloud skin" },
+    "description": "Your cloud skin grant you good resistance to temperature conditions.  Also your hands emit a small amount of electricity, increasing your damage in melee.",
+    "condition": "ALWAYS",
+    "values": [
+      { "value": "ITEM_DAMAGE_ELEC", "add": 4 },
+      { "value": "CLIMATE_CONTROL_HEAT", "add": 10 },
+      { "value": "CLIMATE_CONTROL_CHILL", "add": 30 }
+    ]
+  },
+  {
+    "type": "enchantment",
+    "id": "storm_skin_enchantment",
+    "name": { "str": "storm skin" },
+    "description": "Your storm skin grant you good resistance to temperature conditions.  Also your hands emit a moderate amount of electricity, increasing your damage in melee.",
+    "condition": "ALWAYS",
+    "values": [
+      { "value": "ITEM_DAMAGE_ELEC", "add": 12 },
+      { "value": "DEXTERITY", "add": 2 },
+      { "value": "CLIMATE_CONTROL_HEAT", "add": 20 },
+      { "value": "CLIMATE_CONTROL_CHILL", "add": 50 }
+    ]
+  }
+]

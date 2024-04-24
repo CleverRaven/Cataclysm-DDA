@@ -1,0 +1,33 @@
+[
+  {
+    "type": "start_location",
+    "id": "sloc_dinoexhibit",
+    "name": "Dinosaur exhibit",
+    "terrain": [ "dinoexhibit" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_dinolab",
+    "name": "DinoLab",
+    "terrain": [ "microlab_DinoLab_edge" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_dinozoo_giftshop",
+    "name": "DinoZoo (Giftshop)",
+    "terrain": [ "dinozoo_0_1" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_dinozoo_cages",
+    "name": "DinoZoo (Cages)",
+    "terrain": [ "dinozoo_1_1" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_swamp",
+    "name": "Middle of Swamp",
+    "terrain": [ "forest_water" ],
+    "flags": [ "ALLOW_OUTSIDE" ]
+  }
+]

@@ -1,0 +1,136 @@
+[
+  {
+    "id": "SUS_mannequin_outdoor",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a mannequin displaying outdoor gear.",
+    "subtype": "collection",
+    "entries": [ { "group": "clothing_outdoor_set" } ]
+  },
+  {
+    "id": "SUS_mannequin_general",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a mannequin displaying average clothes.",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "collection": [ { "group": "shirts_unisex" }, { "group": "pants_unisex" }, { "group": "shoes_unisex", "prob": 75 } ],
+        "prob": 95
+      },
+      {
+        "collection": [ { "group": "shirts_womens" }, { "group": "pants_womens" }, { "group": "shoes_womens", "prob": 75 } ],
+        "prob": 5
+      }
+    ]
+  },
+  {
+    "id": "SUS_mannequin_fur",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a mannequin displaying fur clothes.",
+    "subtype": "collection",
+    "entries": [
+      { "group": "fur_coats_unisex" },
+      { "distribution": [ { "group": "pants_unisex", "prob": 80 }, { "group": "fur_pants_womens", "prob": 20 } ] },
+      { "group": "fur_shoes_unisex" },
+      { "group": "fur_gloves_unisex" },
+      { "group": "fur_hats_unisex" }
+    ]
+  },
+  {
+    "id": "SUS_mannequin_dresses",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a mannequin displaying dresses.",
+    "subtype": "collection",
+    "entries": [ { "group": "dresses_womens" }, { "group": "shoes_womens", "prob": 20 } ]
+  },
+  {
+    "id": "SUS_mannequin_formal_mens",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a mannequin displaying formal clothes.",
+    "subtype": "collection",
+    "entries": [ { "group": "formal_set_mens" } ]
+  },
+  {
+    "id": "SUS_tailoring_tool_drawer",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a set of tailoring tools.",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [
+          {
+            "collection": [
+              { "item": "awl_steel", "prob": 70 },
+              { "item": "needle_curved", "prob": 75 },
+              { "item": "scissors", "prob": 90 },
+              { "item": "knitting_needles", "prob": 20 },
+              { "item": "sewing_kit", "prob": 85, "charges-min": 0 },
+              { "item": "kevlar_shears", "prob": 5 }
+            ],
+            "prob": 25
+          },
+          { "item": "tailors_kit", "prob": 75, "charges-min": 0 },
+          { "item": "electric_spinwheel", "prob": 75, "charges-min": 0 }
+        ]
+      },
+      { "item": "thread", "count": [ 2, 7 ], "prob": 75 },
+      { "item": "thread_kevlar", "count": [ 1, 3 ], "prob": 6 },
+      { "item": "thread_nomex", "count": [ 2, 5 ], "prob": 14 },
+      { "item": "thread_canvas", "count": [ 2, 6 ], "prob": 18 }
+    ]
+  },
+  {
+    "id": "SUS_tailoring_fasteners",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a container of fasteners for making clothing.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "button_plastic", "count": [ 1, 5 ], "prob": 75 },
+      { "item": "button_steel", "count": [ 1, 5 ], "prob": 75 },
+      { "item": "button_wood", "count": [ 1, 5 ], "prob": 75 },
+      { "item": "snapfastener_steel", "count": [ 1, 5 ], "prob": 75 },
+      { "item": "zipper_long_plastic", "count": [ 1, 8 ], "prob": 75 },
+      { "item": "zipper_short_plastic", "count": [ 1, 8 ], "prob": 75 }
+    ]
+  },
+  {
+    "id": "SUS_tailoring_materials",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a container of tailoring materials.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "thread", "count": [ 2, 7 ], "prob": 75 },
+      { "item": "cotton_patchwork", "count": [ 10, 40 ], "prob": 75 },
+      { "item": "sheet_cotton", "count": [ 10, 35 ], "prob": 70 },
+      { "item": "sheet_felt", "count": [ 10, 25 ], "prob": 40 },
+      { "item": "sheet_canvas", "count": [ 10, 25 ], "prob": 35 },
+      { "item": "sheet_lycra", "count": [ 10, 35 ], "prob": 20 },
+      { "item": "sheet_nylon", "count": [ 10, 35 ], "prob": 20 },
+      { "item": "sheet_nomex", "count": [ 10, 35 ], "prob": 5 },
+      { "item": "sheet_kevlar", "count": [ 10, 35 ], "prob": 5 },
+      { "item": "thread_nomex", "count": [ 2, 4 ], "prob": 10 },
+      { "item": "thread_kevlar", "count": [ 1, 3 ], "prob": 5 },
+      { "item": "thread_canvas", "count": [ 2, 5 ], "prob": 15 }
+    ]
+  },
+  {
+    "id": "SUS_fur_tailoring_materials",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a container of fur tailoring materials.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "thread", "count": [ 2, 7 ], "prob": 75 },
+      { "item": "cotton_patchwork", "count": [ 5, 15 ], "prob": 75 },
+      { "item": "sheet_cotton", "count": [ 10, 25 ], "prob": 70 },
+      { "item": "tanned_pelt", "count": [ 5, 35 ], "prob": 70 }
+    ]
+  }
+]

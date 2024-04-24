@@ -1,0 +1,83 @@
+[
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_308_sniper_gun&mags&cans",
+    "subtype": "collection",
+    "items": [
+      { "group": "milspec_arsenal_308_sniper_gun&ammo" },
+      {
+        "distribution": [ { "item": "ammo_can_30_308ap_240", "count": [ 1, 4 ] }, { "item": "ammo_can_30_308fmj_460", "count": [ 1, 4 ] } ]
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_308_sniper_gun&ammo",
+    "subtype": "collection",
+    "items": [
+      { "group": "milspec_arsenal_308_sniper_gun&mags" },
+      { "group": "ammo_can_308_any_full", "prob": 30 },
+      { "group": "ammo_can_308_any_part", "prob": 80, "count": [ 1, 2 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_308_sniper_gun&mags",
+    "subtype": "collection",
+    "items": [
+      { "group": "milspec_arsenal_308_sniper", "count": [ 1, 2 ] },
+      { "group": "milspec_arsenal_308_sniper", "count": [ 1, 2 ], "prob": 40 },
+      { "group": "milspec_arsenal_308_sniper", "count": [ 1, 2 ], "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_308_sniper",
+    "items": [
+      { "group": "nested_m110a1_no_ammo", "prob": 100 },
+      { "group": "nested_m14ebr_no_ammo", "prob": 70 },
+      { "group": "nested_m24_no_ammo", "prob": 50 },
+      { "group": "nested_scar_no_ammo", "prob": 30 }
+    ]
+  },
+  {
+    "id": "nested_m110a1_no_ammo",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "item": "m110a1" }, { "group": "m110a1_mags", "count": [ 1, 3 ] } ]
+  },
+  {
+    "id": "m110a1_mags",
+    "type": "item_group",
+    "items": [ { "item": "hk417mag_10rd", "prob": 500 }, { "item": "hk417mag_20rd", "prob": 50 } ]
+  },
+  {
+    "id": "nested_m14ebr_no_ammo",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "item": "m14ebr" }, { "group": "m14ebr_mags", "count": [ 1, 3 ] } ]
+  },
+  {
+    "id": "m14ebr_mags",
+    "type": "item_group",
+    "items": [ { "item": "m14mag", "prob": 500 }, { "item": "m14smallmag", "prob": 50 } ]
+  },
+  {
+    "id": "nested_m24_no_ammo",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "item": "M24" } ]
+  },
+  {
+    "id": "nested_scar_no_ammo",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "TODO: add SCAR H MK 20 SSR here instead of common SCAR.  Or maybe left this one and add another, dunno",
+    "items": [ { "item": "scar_h" }, { "group": "scar_mags", "count": [ 1, 3 ] } ]
+  },
+  {
+    "id": "scar_mags",
+    "type": "item_group",
+    "items": [ { "item": "scarhmag", "prob": 500 }, { "item": "scarhmag_30rd", "prob": 50 }, { "item": "scarhbigmag", "prob": 20 } ]
+  }
+]

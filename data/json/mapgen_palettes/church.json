@@ -1,0 +1,57 @@
+[
+  {
+    "type": "palette",
+    "id": "church",
+    "terrain": {
+      " ": "t_region_groundcover_urban",
+      "+": "t_door_c",
+      ".": "t_floor",
+      "S": "t_linoleum_gray",
+      "T": "t_linoleum_gray",
+      "'": "t_linoleum_gray",
+      "=": "t_door_locked_alarm",
+      "-": "t_door_locked",
+      "O": "t_column",
+      "^": "t_region_shrub_decorative",
+      "s": "t_sidewalk",
+      "w": "t_window",
+      "|": "t_wall_w",
+      "<": "t_stairs_up"
+    },
+    "furniture": {
+      "b": "f_brazier",
+      "#": "f_bench",
+      "S": "f_sink",
+      "c": "f_counter",
+      "d": "f_desk",
+      "e": "f_fridge",
+      "h": "f_chair",
+      "l": "f_rack_coat",
+      "L": "f_locker",
+      "o": "f_bookcase",
+      "t": "f_table",
+      "C": "f_crate_c",
+      "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
+      "p": "f_piano",
+      "D": "f_wardrobe"
+    },
+    "toilets": { "T": {  } },
+    "computers": {
+      "6": {
+        "name": "Church Bells 1.2",
+        "options": [
+          { "name": "Gathering Toll", "action": "toll" },
+          { "name": "Wedding Toll", "action": "toll" },
+          { "name": "Funeral Toll", "action": "toll" }
+        ]
+      }
+    },
+    "items": {
+      "L": { "item": "SUS_janitors_closet", "chance": 80 },
+      "#": { "item": "church", "chance": 40 },
+      ".": { "item": "church", "chance": 5 },
+      ",": { "item": "church", "chance": 5 },
+      "l": { "item": "jackets", "chance": 60 }
+    }
+  }
+]

@@ -1,0 +1,155 @@
+[
+  {
+    "id": "veh_forge",
+    "breaks_into": [
+      { "count": [ 4, 5 ], "item": "steel_lump" },
+      { "count": [ 4, 6 ], "item": "steel_chunk" },
+      { "count": [ 4, 6 ], "item": "scrap" }
+    ],
+    "categories": [ "utility" ],
+    "color": "red",
+    "damage_modifier": 10,
+    "damage_reduction": { "all": 29 },
+    "description": "An electric forge for metalworking, powered by the vehicle's batteries.  With a hammer and other tools, you could use this for metalworking.  If you attempt to craft an item that needs a forge, you will be given the option of selecting it as a tool.",
+    "durability": 80,
+    "flags": [ "CARGO", "OBSTACLE" ],
+    "pseudo_tools": [ { "id": "forge" } ],
+    "item": "forgerig",
+    "location": "center",
+    "looks_like": "f_forge_rock",
+    "name": { "str": "mounted electric forge" },
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 4 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 2 ], [ "soldering_standard", 15 ] ]
+      }
+    },
+    "size": "50 L",
+    "type": "vehicle_part",
+    "variants": [ { "symbols": "&", "symbols_broken": "x" } ]
+  },
+  {
+    "id": "veh_kiln",
+    "breaks_into": [
+      { "count": [ 4, 5 ], "item": "steel_lump" },
+      { "count": [ 4, 6 ], "item": "steel_chunk" },
+      { "count": [ 4, 6 ], "item": "scrap" }
+    ],
+    "categories": [ "utility" ],
+    "color": "red",
+    "damage_modifier": 10,
+    "damage_reduction": { "all": 25 },
+    "description": "A electric kiln for baking brick or clay, powered by the vehicle's batteries.  You could use this to harden bricks or clay.  If you attempt to craft an item that needs a kiln, you will be given the option of selecting it as a tool.",
+    "durability": 80,
+    "flags": [ "CARGO", "OBSTACLE" ],
+    "pseudo_tools": [ { "id": "kiln" } ],
+    "item": "kilnrig",
+    "location": "center",
+    "looks_like": "f_kiln_empty",
+    "name": { "str": "mounted electric kiln" },
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 4 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 2 ], [ "soldering_standard", 10 ] ]
+      }
+    },
+    "size": "50 L",
+    "type": "vehicle_part",
+    "variants": [ { "symbols": "&", "symbols_broken": "x" } ]
+  },
+  {
+    "id": "veh_oil_press_electric",
+    "type": "vehicle_part",
+    "name": { "str": "mounted electric oil press" },
+    "item": "oil_press_electric",
+    "description": "A heavy-duty press used to create vegetable oil from nuts or seeds.",
+    "categories": [ "utility" ],
+    "location": "center",
+    "color": "green",
+    "broken_color": "green",
+    "damage_modifier": 10,
+    "damage_reduction": { "all": 30 },
+    "durability": 200,
+    "flags": [ "OBSTACLE", "CARGO" ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 3 ], [ "soldering_standard", 5 ] ]
+      }
+    },
+    "pseudo_tools": [ { "id": "oil_press_electric" } ],
+    "size": "5 L",
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 4, 7 ] },
+      { "item": "steel_chunk", "count": [ 3, 6 ] },
+      { "item": "sheet_metal_small", "count": [ 4, 8 ] },
+      { "item": "scrap", "count": [ 4, 7 ] },
+      { "item": "element", "count": [ 0, 2 ] },
+      { "item": "pipe", "prob": 50 },
+      { "item": "motor_small", "prob": 25 }
+    ],
+    "variants": [ { "symbols": "Y", "symbols_broken": "x" } ]
+  },
+  {
+    "id": "door_lock",
+    "type": "GENERIC",
+    "name": { "str": "door lock set" },
+    "description": "Some wires and gears for connecting door handles and an unlocking knob to a latching mechanism, and a sturdy lock to go on the outer surface.  It is meant to be installed in a vehicle door or hatch.",
+    "symbol": "+",
+    "color": "dark_gray",
+    "material": [ "steel" ],
+    "category": "veh_parts",
+    "weight": "500 g",
+    "volume": "300 ml",
+    "price": "30 USD",
+    "price_postapoc": "72 cent"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "veh_binoculars",
+    "name": { "str": "binoculars" },
+    "looks_like": "binoculars",
+    "categories": [ "passengers" ],
+    "color": "dark_gray",
+    "damage_modifier": 1,
+    "durability": 50,
+    "description": "Binoculars secured near the seat.",
+    "item": "binoculars",
+    "location": "internal",
+    "folded_volume": "500 ml",
+    "flags": [ "ENHANCED_VISION", "SIMPLE_PART" ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "6 m", "using": [ [ "vehicle_screw", 1 ], [ "adhesive", 2 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "3 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "6 m", "using": [ [ "adhesive", 2 ] ] }
+    },
+    "breaks_into": [ { "item": "plastic_chunk", "count": [ 2, 5 ] } ],
+    "variants": [ { "symbols": "8", "symbols_broken": "x" } ]
+  },
+  {
+    "id": "drum_concrete_mix",
+    "type": "vehicle_part",
+    "name": { "str": "concrete mixer drum" },
+    "item": "30gal_barrel",
+    "description": "A plastic 100-liter drum of a portable concrete mixer.",
+    "categories": [ "utility" ],
+    "location": "center",
+    "folded_volume": "113560 ml",
+    "color": "light_blue",
+    "broken_color": "light_blue",
+    "durability": 150,
+    "flags": [ "OBSTACLE", "NO_INSTALL_HIDDEN" ],
+    "pseudo_tools": [ { "id": "concrete_mix_tool" } ],
+    "breaks_into": [ { "item": "plastic_chunk", "count": [ 10, 100 ] } ],
+    "variants": [ { "symbols": "U", "symbols_broken": "u" } ]
+  }
+]

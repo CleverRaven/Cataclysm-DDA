@@ -1,0 +1,105 @@
+[
+  {
+    "result": "battletorch_done",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "2 m",
+    "components": [ [ [ "bat", 1 ] ], [ [ "nomex", 5 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "firekatana_off",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "skill_used": "mechanics",
+    "difficulty": 5,
+    "time": "30 m",
+    "reversible": true,
+    "decomp_learn": 4,
+    "book_learn": [ [ "welding_book", 8 ], [ "book_icef", 4 ] ],
+    "using": [ [ "welding_standard", 2 ] ],
+    "components": [
+      [ [ "leather", 5 ] ],
+      [ [ "pipe", 1 ] ],
+      [ [ "katana", 1 ] ],
+      [ [ "pilot_light", 1 ] ],
+      [ [ "aux_pressurized_tank", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "zweifire_off",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "skill_used": "mechanics",
+    "difficulty": 5,
+    "time": "30 m",
+    "reversible": true,
+    "decomp_learn": 4,
+    "book_learn": [ [ "welding_book", 8 ], [ "book_icef", 4 ] ],
+    "using": [ [ "welding_standard", 2 ] ],
+    "components": [
+      [ [ "leather", 5 ] ],
+      [ [ "pipe", 1 ] ],
+      [ [ "zweihander", 1 ] ],
+      [ [ "pilot_light", 1 ] ],
+      [ [ "aux_pressurized_tank", 1 ] ]
+    ]
+  },
+  {
+    "result": "battletorch",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "time": "2 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [
+      [ [ "cotton_patchwork", 1 ] ],
+      [ [ "bat", 1 ] ],
+      [ [ "nomex", 5 ] ],
+      [
+        [ "lamp_oil", 50 ],
+        [ "motor_oil", 50 ],
+        [ "chem_ethanol", 100 ],
+        [ "denat_alcohol", 100 ],
+        [ "gasoline", 250 ],
+        [ "diesel", 250 ],
+        [ "biodiesel", 250 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "bread_sword",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "25 m",
+    "autolearn": true,
+    "qualities": [ { "id": "OVEN", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ "knife_bread" ] ],
+    "components": [ [ [ "flour", 20 ], [ "bread_flour", 20 ] ], [ [ "yeast", 1 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ]
+  },
+  {
+    "result": "aux_pressurized_tank",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MAGAZINES",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ "mechanics", 3 ],
+    "time": "40 m",
+    "autolearn": true,
+    "using": [ [ "welding_standard", 2 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "components": [ [ [ "metal_tank_little", 1 ] ] ]
+  }
+]

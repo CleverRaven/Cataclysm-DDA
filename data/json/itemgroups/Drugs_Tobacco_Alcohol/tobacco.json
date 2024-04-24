@@ -1,0 +1,88 @@
+[
+  {
+    "type": "item_group",
+    "id": "tobacco_products",
+    "items": [
+      { "prob": 60, "group": "cig_box_cigarette_1_20" },
+      { "prob": 20, "group": "tobacco_bag_plastic_1_20" },
+      { "prob": 20, "group": "chaw_wrapper_1_20" },
+      { "item": "cigar", "prob": 10, "count": [ 1, 5 ] },
+      { "item": "ecig", "prob": 10, "count": [ 1, 40 ] },
+      { "item": "advanced_ecig", "prob": 8, "charges": [ 1, 100 ] },
+      [ "nicotine_liquid", 15 ],
+      [ "pipe_tobacco", 10 ]
+    ]
+  },
+  {
+    "id": "pocket_cigar",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "case_cigar",
+    "items": [
+      { "item": "cigar", "count": [ 0, 2 ] },
+      {
+        "distribution": [ { "item": "cigar_cutter", "prob": 50 }, { "item": "cigar_punch", "prob": 50 } ],
+        "prob": 50
+      }
+    ]
+  },
+  {
+    "id": "cigar_box_unopened",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_small_wood",
+    "items": [ { "item": "cigar", "count": [ 25, 25 ] }, { "item": "paper", "charges": [ 2, 2 ] } ]
+  },
+  {
+    "id": "cigar_box_opened",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_small_wood",
+    "entries": [
+      { "item": "cigar", "count": [ 0, 25 ] },
+      { "item": "paper", "charges": [ 2, 2 ], "prob": 90 },
+      {
+        "distribution": [ { "item": "cigar_cutter", "prob": 50 }, { "item": "cigar_punch", "prob": 50 } ],
+        "prob": 50
+      }
+    ]
+  },
+  {
+    "id": "misc_smoking_legal",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Legal smokable item and something to light it with",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "cig", "prob": 75, "count": [ 1, 10 ], "container-item": "null", "entry-wrapper": "box_cigarette" },
+          {
+            "collection": [
+              { "item": "tobacco", "count-min": 1, "count-max": 20, "container-item": "null", "entry-wrapper": "bag_plastic" },
+              {
+                "distribution": [ { "item": "rolling_paper", "prob": 70, "charges-min": 1, "charges-max": 30 }, { "item": "pipe_tobacco", "prob": 30 } ]
+              }
+            ],
+            "prob": 20
+          },
+          { "item": "cigar", "prob": 5, "count": [ 1, 1 ] }
+        ]
+      },
+      {
+        "distribution": [
+          { "item": "lighter", "charges": [ 0, 100 ] },
+          { "item": "matches", "charges": [ 1, 20 ] },
+          { "item": "ref_matches", "charges": [ 1, 32 ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "chaw_wrapper_1_20",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "wrapper",
+    "entries": [ { "item": "chaw", "container-item": "null", "count": [ 1, 20 ] } ]
+  }
+]

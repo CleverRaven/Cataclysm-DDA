@@ -1,0 +1,310 @@
+[
+  {
+    "result": "pipe_tobacco",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "50 s",
+    "qualities": [ [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "splinter", 1 ] ] ]
+  },
+  {
+    "result": "ukulele",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "50 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "wire", 4 ] ], [ [ "splinter", 8 ] ] ]
+  },
+  {
+    "result": "hose_garden",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "hose", 3 ] ] ]
+  },
+  {
+    "result": "elec_shears",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "30 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "steel_lump", 1 ] ], [ [ "e_scrap", 1 ] ], [ [ "motor_micro", 1 ] ] ]
+  },
+  {
+    "result": "carver_off",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "30 m",
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "plastic_chunk", 4 ] ],
+      [ [ "blade", 2 ] ],
+      [ [ "motor_micro", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "cable", 4 ] ]
+    ]
+  },
+  {
+    "result": "cordless_drill",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "30 m",
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "antenna", 1 ] ],
+      [ [ "plastic_chunk", 4 ] ],
+      [ [ "motor_tiny", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "cable", 4 ] ],
+      [ [ "scrap", 1 ] ]
+    ]
+  },
+  {
+    "result": "corded_powerdrill",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "30 m",
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "antenna", 1 ] ],
+      [ [ "plastic_chunk", 4 ] ],
+      [ [ "motor_tiny", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "cable", 100 ] ],
+      [ [ "scrap", 1 ] ]
+    ]
+  },
+  {
+    "result": "trimmer_off",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "30 m",
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "plastic_chunk", 4 ] ],
+      [ [ "chain", 1 ] ],
+      [ [ "motor_tiny", 1 ] ],
+      [ [ "metal_tank_little", 1 ] ],
+      [ [ "scrap", 2 ] ],
+      [ [ "cable", 3 ] ],
+      [ [ "1cyl_combustion_small", 1 ] ]
+    ]
+  },
+  {
+    "result": "circsaw_off",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "30 m",
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "plastic_chunk", 4 ] ],
+      [ [ "circsaw_blade", 1 ] ],
+      [ [ "motor_tiny", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "cable", 4 ] ]
+    ]
+  },
+  {
+    "result": "vibrator",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "30 m",
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "scrap_aluminum", 1 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "cable", 4 ] ], [ [ "motor_micro", 1 ] ] ]
+  },
+  {
+    "result": "elec_hairtrimmer",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "30 m",
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "razor_blade", 1 ] ], [ [ "motor_micro", 1 ] ], [ [ "power_supply", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
+  },
+  {
+    "result": "radio_car",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "30 m",
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "antenna", 1 ] ],
+      [ [ "motor_micro", 2 ] ],
+      [ [ "amplifier", 2 ] ],
+      [ [ "receiver", 1 ] ],
+      [ [ "plastic_chunk", 9 ] ],
+      [ [ "scrap", 3 ] ],
+      [ [ "e_scrap", 2 ] ],
+      [ [ "cable", 6 ] ],
+      [ [ "spring", 2 ] ],
+      [ [ "radio_car_wheel", 1 ] ]
+    ]
+  },
+  {
+    "result": "funnel",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "plastic_chunk", 3 ] ] ]
+  },
+  {
+    "result": "puller",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "plastic_chunk", 4 ] ], [ [ "scrap", 1 ] ] ]
+  },
+  {
+    "result": "magnifying_glass",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "plastic_chunk", 4 ] ], [ [ "lens", 1 ] ], [ [ "wire", 1 ] ] ]
+  },
+  {
+    "result": "survivor_scope",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "5 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "plastic_chunk", 4 ] ], [ [ "lens", 1 ] ], [ [ "lens", 1 ], [ "lens_small", 1 ] ], [ [ "spring", 1 ] ] ]
+  },
+  {
+    "result": "fishing_rod_professional",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "5 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "string_36", 6 ] ],
+      [ [ "fishing_hook_basic", 1 ] ],
+      [ [ "wire", 1 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "bismuth", 200 ] ]
+    ]
+  },
+  {
+    "result": "fishing_rod_2pc_packed",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "5 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "string_36", 6 ] ],
+      [ [ "fishing_hook_basic", 1 ] ],
+      [ [ "wire", 1 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "bismuth", 200 ] ]
+    ]
+  },
+  {
+    "result": "fishing_rod_2pc",
+    "type": "uncraft",
+    "//": "copy-from: fishing_rod_2pc_packed",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "5 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "string_36", 6 ] ],
+      [ [ "fishing_hook_basic", 1 ] ],
+      [ [ "wire", 1 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "bismuth", 200 ] ]
+    ]
+  },
+  {
+    "result": "fishing_rod_tele_packed",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "5 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "string_36", 6 ] ],
+      [ [ "fishing_hook_basic", 1 ] ],
+      [ [ "wire", 1 ] ],
+      [ [ "scrap", 2 ] ],
+      [ [ "bismuth", 200 ] ]
+    ]
+  },
+  {
+    "result": "fishing_rod_tele",
+    "type": "uncraft",
+    "//": "copy-from: fishing_rod_tele_packed",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "5 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "string_36", 6 ] ],
+      [ [ "fishing_hook_basic", 1 ] ],
+      [ [ "wire", 1 ] ],
+      [ [ "scrap", 2 ] ],
+      [ [ "bismuth", 200 ] ]
+    ]
+  },
+  {
+    "result": "plastichoboreel",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "3 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "string_36", 6 ] ], [ [ "fishing_hook_basic", 1 ] ] ]
+  },
+  {
+    "result": "clay_dutch_oven",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "2 m",
+    "components": [ [ [ "pot_canning_clay", 1 ] ], [ [ "clay_pot", 1 ] ], [ [ "fire_brick", 2 ] ] ]
+  }
+]

@@ -1,0 +1,262 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "bank" ],
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "         S              ",
+        " #gggggggGgggggggggggg# ",
+        " #A..........CTC.CTC.p# ",
+        " #A...................w ",
+        " #....................# ",
+        " #+###-c-c-c-c-c####..# ",
+        " #.....l.l.l.l.l#s.+..w ",
+        " #..............#..#..# ",
+        " #..ccccccccp...#t.#..# ",
+        " ##############+####%%# ",
+        " #.....*..............# ",
+        " w.....#..............# ",
+        " #.TTT.#....##+##+##+## ",
+        " #p.C.p#....#......#.c# ",
+        " #######....#...CT.#.c# ",
+        " #RRRRR#....#..CTC.#cc# ",
+        " #R$$$R#....########### ",
+        " #R...R#....+........p# ",
+        " #R...R#....#..C.C.C..# ",
+        " #Rc..MM....#..TTTTTC.# ",
+        " #Rc..MM...###.C.C.C..w ",
+        "4#RRRRR#6..+<#p......p# ",
+        " ###############w####w# ",
+        "                        "
+      ],
+      "terrain": {
+        " ": [ [ "t_region_groundcover_urban", 10 ], "t_region_shrub_decorative" ],
+        "#": "t_wall_w",
+        "$": "t_metal_floor",
+        "%": [ [ "t_door_c", 2 ], "t_door_locked_interior" ],
+        "*": [ [ "t_door_c", 3 ], "t_door_locked_interior" ],
+        "+": "t_door_c",
+        "-": "t_window",
+        ".": "t_floor",
+        "A": "t_atm",
+        "G": "t_door_glass_c",
+        "M": "t_door_metal_locked",
+        "R": "t_wall_metal",
+        "S": "t_sidewalk",
+        "g": "t_wall_glass_alarm",
+        "4": "t_gutter_downspout",
+        "<": "t_ladder_up",
+        "w": "t_window_alarm"
+      },
+      "furniture": {
+        "6": "f_console",
+        "$": "f_safe_l",
+        "C": "f_chair",
+        "T": "f_table",
+        "c": "f_counter",
+        "l": "f_stool",
+        "p": [ "f_indoor_plant", "f_null" ],
+        "s": "f_sink",
+        "t": "f_toilet"
+      },
+      "toilets": { "t": {  } },
+      "place_items": [
+        { "item": "office", "x": [ 4, 9 ], "y": 8, "chance": 30 },
+        { "item": "office", "x": [ 3, 5 ], "y": 12, "chance": 30 },
+        { "item": "office", "x": 16, "y": [ 14, 15 ], "chance": 70 },
+        { "item": "vault", "x": 3, "y": [ 19, 20 ], "chance": 30, "repeat": 5 },
+        { "item": "vault", "x": [ 3, 5 ], "y": 16, "chance": 90, "repeat": 5 }
+      ],
+      "computers": {
+        "6": {
+          "name": "Consolidated Computerized Bank of the Treasury",
+          "security": 3,
+          "options": [ { "name": "Open Vault", "action": "unlock" } ],
+          "failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "bank_roof",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        " ---------------------- ",
+        " -....................- ",
+        " -...ooo...oo...ooo...- ",
+        " -...ooo...oo...ooo...- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -............=.......- ",
+        " -....................- ",
+        " -........v.....&.....- ",
+        " 5....................- ",
+        " ---------------------- ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "place_nested": [
+        {
+          "chunks": [ [ "null", 20 ], [ "roof_2x2_utilities_b", 15 ], [ "roof_2x2_utilities_c", 5 ], [ "roof_2x2_utilities_d", 40 ] ],
+          "x": [ 4, 16 ],
+          "y": [ 5, 14 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "bank_1" ],
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "   SS                   ",
+        " ggGGgggggggggg#######  ",
+        " gA.........ccx.#....## ",
+        " gA........C-C..+....p# ",
+        " gA.........ccx.#aca..##",
+        " ####%##...C-C..#aca..Dw",
+        " #LL#.d-....ccx.#aca..Dw",
+        " #..%.C-...C-C..#.....Dw",
+        " #LL#xx-....%...#ee...##",
+        " #######hGh#########%## ",
+        " #t.*..+...#___$#dx...# ",
+        " ####.s#...#||||#dC...# ",
+        " #t.*.s#...#oooo#d..Cx# ",
+        "########...h....#I.ddd# ",
+        "#RRRRRR#...G.Cda#..II## ",
+        "#R$$$$R#...h.Cd.#..xd#  ",
+        "#R____R##%##+####..Cd#  ",
+        "#R_TT_R#...#.dddI..pd#  ",
+        "#R_TT_R#...#.pCxI..II#  ",
+        "#R_TT_MM...%.........#  ",
+        "#R____MM...#..C..IxCp#  ",
+        "#R$$$$R#6..#pddxpIddd#  ",
+        "#RRRRRR###############  ",
+        "########4               "
+      ],
+      "terrain": {
+        " ": "t_region_groundcover_urban",
+        "_": "t_metal_floor",
+        "|": [ "t_door_c", [ "t_wall_w", 7 ] ],
+        "I": "t_wall_w",
+        "#": "t_brick_wall",
+        "$": "t_metal_floor",
+        "%": [ [ "t_door_c", 2 ], "t_door_locked_interior" ],
+        "*": [ [ "t_door_c", 3 ], "t_door_locked_interior" ],
+        "+": "t_door_c",
+        "-": "t_window",
+        ".": "t_floor",
+        "A": "t_atm",
+        "G": "t_door_glass_c",
+        "M": "t_door_metal_locked",
+        "R": "t_wall_metal",
+        "S": "t_sidewalk",
+        ">": "t_stairs_down",
+        "T": "t_metal_floor",
+        "g": "t_wall_glass_alarm",
+        "h": "t_wall_glass",
+        "4": "t_gutter_downspout",
+        "w": "t_window_alarm"
+      },
+      "furniture": {
+        "x": "f_console_broken",
+        "6": "f_console",
+        "a": "f_armchair",
+        "D": "f_sofa",
+        "o": "f_bookcase",
+        "e": "f_fridge",
+        "$": "f_safe_l",
+        "C": "f_chair",
+        "T": "f_table",
+        "c": "f_counter",
+        "l": "f_stool",
+        "p": [ "f_indoor_plant", "f_null" ],
+        "s": "f_sink",
+        "L": "f_locker",
+        "d": "f_desk",
+        "t": "f_toilet"
+      },
+      "toilets": { "t": {  } },
+      "items": {
+        "o": { "item": "novels", "chance": 70 },
+        "$": { "item": "vault", "chance": 95, "repeat": 5 },
+        "T": { "item": "vault", "chance": 20, "repeat": 5 },
+        "e": { "item": "SUS_fridge_breakroom", "chance": 70 },
+        "d": { "item": "office", "chance": 50 },
+        "L": { "item": "cop_weapons", "chance": 40 }
+      },
+      "computers": {
+        "6": {
+          "name": "High Security Consolidated Computerized Bank of the Treasury",
+          "access_denied": "ERROR!  Access denied!  Unauthorized access will be met with lethal force!",
+          "security": 4,
+          "options": [ { "name": "Open Vault", "action": "unlock" } ],
+          "failures": [ { "action": "alarm" }, { "action": "damage" }, { "action": "secubots" } ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "bank_roof_1",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        " ---------------------  ",
+        " -...................-- ",
+        " -....................- ",
+        " -....................--",
+        " -.....................-",
+        " -.....................-",
+        " -.....................-",
+        " -....................--",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        "--....................- ",
+        "-..=.................-- ",
+        "-....................-  ",
+        "-....................-  ",
+        "-....................-  ",
+        "-....................-  ",
+        "-....................-  ",
+        "-....................-  ",
+        "-....................-  ",
+        "-......-5-------------  ",
+        "--------                "
+      ],
+      "palettes": [ "roof_palette" ],
+      "place_nested": [
+        {
+          "chunks": [ [ "null", 20 ], [ "roof_2x2_utilities_b", 15 ], [ "roof_2x2_utilities_c", 5 ], [ "roof_2x2_utilities_d", 40 ] ],
+          "x": [ 5, 15 ],
+          "y": [ 4, 17 ]
+        }
+      ]
+    }
+  }
+]

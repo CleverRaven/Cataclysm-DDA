@@ -1,0 +1,11 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "package_bionic_professions",
+    "name": "Bionic Professions",
+    "authors": [ "Erk/Everyone" ],
+    "description": "Numerous bionic starting professions.",
+    "category": "content",
+    "dependencies": [ "dda" ]
+  }
+]

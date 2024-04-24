@@ -1,0 +1,85 @@
+[
+  {
+    "type": "mutation",
+    "id": "awayfromhome",
+    "name": { "str": "Earthside" },
+    "//": "Basically just a flag to show you're away from base.  This trait on your character is what tells the EOC to start increasing your warp sickness.",
+    "description": "You are away from your sanctuary island.  Over time, you will begin to succumb to the intangible miasma of the world below, and your stats will suffer.  You have several hours after warp before this becomes a problem, after which it will rapidly get worse until you warp home or die.",
+    "points": 0,
+    "valid": false,
+    "purifiable": false
+  },
+  {
+    "type": "effect_type",
+    "id": "warpsickness",
+    "//": "This is the warp sickness effect which makes it hard to stay away from base for too long.  Intensity 1 is the strongest while Intensity 5 is the weakest and has no penalties.  This effect does not increase or decrease on its own, rather it is controlled exclusively by a recurring EOC which checks how long you've been away from base and intermittently moves you towards intensity 1.  The decay messages don't seem to display this way but they're left here anyway.",
+    "name": [ "Warp Disintegration!", "Warp Necrosis", "Warp Debilitation", "Warp Sickness", "Warp Nausea", "Warp Stability" ],
+    "desc": [
+      "You're going to die.  And if you weren't busy leaking blood out of every pore, you'd find a better way to emphasize just how badly you're dying.  Your only hope is to return home immediately.",
+      "The very fabric of your being is unraveling!  You're in dire straits.  You need to get back to your sanctuary island NOW!",
+      "You've stayed earthside WAY too long!  Your body barely responds and your senses are slush.  The world itself feels barbed and frayed, and the very air is like breathing fiberglass.  If you want to survive, you need to warp home as soon as possible.",
+      "You've stayed earthside too long.  Your body aches and your senses are dulling.  Every step feels like you're walking through thick mud and breathing hot tar.  You should warp home as soon as you can, or this is only going to get worse.",
+      "You've overstayed your time earthside.  It's getting hard to concentrate, there's a painful ringing in your ears, and your muscles sting and jolt.  Every action feels delayed.  You need to warp home to refresh yourself, or this is going to get worse.  Probably within just a few hours.",
+      "You're fresh from your stay at your sanctuary island.  The intangible miasma of terra firma currently has no effect on you, and you feel fine.  This should last for several hours.  Stay too long, however, and you'll gradually begin to suffer ever-worsening debilitating effects."
+    ],
+    "decay_messages": [
+      [
+        "There are no words to describe how much trouble you're in.  Your body is crumbling to wet paste and your blood is twisting into a viny tangle.  All you know is pain.  You're not just dying, you're dying horribly.  Your only hope is escape to your sanctuary, but oblivion is only moments away.",
+        "bad"
+      ],
+      [
+        "You taste blood and your eyes sink back into their sockets.  You've stayed out too long.  Your warp sickness is about to consume you entirely and you're falling apart at the seams.  Get home NOW!",
+        "bad"
+      ],
+      [
+        "The ravages of the world intensify.  Everything hurts and existence is a surreal wash of pain.  Your warp sickness is unbearable.  You need to get home as soon as possible.",
+        "bad"
+      ],
+      [
+        "The bile suddenly rises in your throat and your fingers feel like they're peeling themselves open.  Your warp sickness is getting worse.  You should get home soon.",
+        "bad"
+      ],
+      [
+        "The whole world shimmers in front of your eyes.  Everything feels slow and sticky.  Warp sickness is setting in.  You should focus on getting home.",
+        "bad"
+      ]
+    ],
+    "rating": "mixed",
+    "max_intensity": 6,
+    "base_mods": { "str_mod": [ -10 ], "dex_mod": [ -10 ], "per_mod": [ -10 ], "int_mod": [ -10 ] },
+    "scaling_mods": { "str_mod": [ 2 ], "dex_mod": [ 2 ], "per_mod": [ 2 ], "int_mod": [ 2 ] }
+  },
+  {
+    "id": "warpdisintegration",
+    "type": "effect_type",
+    "name": [ "Disintegrating!" ],
+    "//": "This is a very bad effect that will kill you in short order by damaging your torso over time.  It is only activated by the recurring EOC which checks how long you've been away from base, and always at the same time that you reach warp sickness intensity 1.",
+    "desc": [ "Prolonged warp is destroying you.  You're coming apart." ],
+    "apply_message": "You're being unmade!",
+    "remove_message": "The rending of the warp has finally abated.  You feel like you exist again.",
+    "show_intensity": false,
+    "rating": "bad",
+    "max_intensity": 1,
+    "base_mods": {
+      "pain_amount": [ 5 ],
+      "pain_min": [ 1 ],
+      "pain_chance": [ 20 ],
+      "pain_max_val": [ 100 ],
+      "hurt_amount": [ 5 ],
+      "hurt_min": [ 1 ],
+      "hurt_chance": [ 1 ],
+      "hurt_tick": [ 20 ]
+    }
+  },
+  {
+    "type": "effect_type",
+    "id": "warpcloak",
+    "name": [ "Warpcloaked" ],
+    "//": "A simple invisibility that decays on its own and whose duration is set in the teleport to world EOCs.",
+    "desc": [
+      "You are invisible for a very brief time.  Now's your chance to get to cover.  You're also incorporeal enough to not take fall damage, but hopefully that won't be relevant."
+    ],
+    "flags": [ "INVISIBLE", "FEATHER_FALL" ],
+    "remove_message": "You fully materialize.  You're not invisible anymore!"
+  }
+]

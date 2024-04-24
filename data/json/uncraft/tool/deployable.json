@@ -1,0 +1,112 @@
+[
+  {
+    "result": "camp_chair",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "10 m",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "sheet_metal_small", 2 ] ],
+      [ [ "steel_chunk", 3 ] ],
+      [ [ "scrap", 17 ] ],
+      [ [ "sheet_cotton", 1 ] ],
+      [ [ "cotton_patchwork", 7 ] ]
+    ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "tourist_table",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "10 m",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap", 6 ] ], [ [ "pipe", 6 ] ], [ [ "nail", 10 ] ], [ [ "sheet_metal", 1 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "catalytic_cracking_reactor",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "60 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "beverly_shear",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "40 m",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "scrap", 10 ] ], [ [ "pipe", 2 ] ], [ [ "steel_chunk", 5 ] ], [ [ "steel_lump", 2 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "manual_tire_changer",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "60 m",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [
+      [ [ "scrap", 12 ] ],
+      [ [ "pipe", 2 ] ],
+      [ [ "steel_chunk", 6 ] ],
+      [ [ "steel_lump", 4 ] ],
+      [ [ "plastic_chunk", 6 ] ],
+      [ [ "hand_pump", 1 ] ]
+    ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "oxygen_concentrator",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "45 m",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [
+      [ [ "motor_small", 1 ] ],
+      [ [ "compressor", 1 ] ],
+      [ [ "nitrogen_membrane_filter", 1 ] ],
+      [ [ "filter_air", 1 ] ],
+      [ [ "hose", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "pipe_fittings", 2 ] ],
+      [ [ "pipe", 2 ] ],
+      [ [ "plastic_chunk", 10 ] ],
+      [ [ "cable", 50 ] ]
+    ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "hd_compressor_unit",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "60 m",
+    "qualities": [ { "id": "WRENCH", "level": 1 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [
+      [ [ "hd_compressor", 1 ] ],
+      [ [ "pressure_gauge", 1 ] ],
+      [ [ "pipe_fittings", 1 ] ],
+      [ [ "hd_pipe_fittings", 1 ] ],
+      [ [ "metal_tank_little", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "hd_pipe", 4 ] ],
+      [ [ "sheet_metal_small", 6 ] ],
+      [ [ "cable", 20 ] ],
+      [ [ "steel_chunk", 1 ] ]
+    ]
+  },
+  {
+    "result": "brazier",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "15 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "steel_lump", 4 ] ], [ [ "steel_chunk", 1 ] ], [ [ "scrap", 4 ] ] ]
+  }
+]

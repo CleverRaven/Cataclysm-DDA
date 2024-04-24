@@ -1,0 +1,80 @@
+[
+  {
+    "type": "weakpoint_set",
+    "id": "wps_slime",
+    "weakpoints": [
+      {
+        "id": "body",
+        "name": "the body",
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "ranged": 4, "melee": 3 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [
+          { "effect": "staggered", "chance": 15, "message": "The %s is knocked off-balance!", "damage_required": [ 10, 30 ] },
+          {
+            "effect": "staggered",
+            "chance": 25,
+            "message": "The %s is knocked off-balance!",
+            "damage_required": [ 31, 100 ]
+          }
+        ],
+        "coverage": 6
+      },
+      {
+        "id": "insensitive_spot",
+        "name": "a spot with virtually nothing to damage",
+        "armor_mult": { "all": 1.25 },
+        "crit_mult": { "all": 0.75 },
+        "coverage_mult": { "melee": 0.75 },
+        "coverage": 3
+      },
+      {
+        "id": "organ",
+        "name": "an organ inside the slime, causing the slime to freeze up briefly as it reconstitutes it",
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "melee": 3, "ranged": 5 },
+        "coverage_mult": { "melee": 0.75 },
+        "effects": [
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 5,
+            "message": "The %s is stunned!",
+            "damage_required": [ 1, 10 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 25,
+            "message": "The %s is stunned!",
+            "damage_required": [ 11, 50 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 45,
+            "message": "The %s is stunned!",
+            "damage_required": [ 51, 100 ]
+          }
+        ],
+        "coverage": 3
+      },
+      {
+        "id": "fragment",
+        "name": "the body, separating a fragment that you manage to keep from rejoining the slime until the fragment melts away",
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "ranged": 3, "melee": 1 },
+        "coverage_mult": { "point": 0.75 },
+        "coverage": 5
+      },
+      {
+        "id": "pseudopod",
+        "name": "a pseudopod reaching out to strike you when you deftly counter strike it",
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "ranged": 7, "melee": 5 },
+        "coverage_mult": { "point": 0.75 },
+        "coverage": 5
+      }
+    ]
+  }
+]

@@ -1,0 +1,29 @@
+[
+  {
+    "type": "ascii_art",
+    "id": "308",
+    "picture": [
+      "<color_yellow>;",
+      "‼",
+      "\""
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "762_51_incendiary",
+    "picture": [
+      "<color_red>;",
+      "<color_yellow>‼",
+      "\""
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "762_51_m993",
+    "picture": [
+      "<color_dark_gray>;",
+      "<color_yellow>‼",
+      "\""
+    ]
+  }
+]

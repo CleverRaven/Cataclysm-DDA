@@ -1,0 +1,223 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "house_w_6",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "..........GssM..........",
+        "...$..MMMMMssMMMMM......",
+        "......C~~~~~~~~~~C..$...",
+        ".$..$.~~~~~~~~~~~~....$.",
+        "....MM~~~~~~~~FFF~MM....",
+        "....##oo##o**##ooo##....",
+        "....#3  R|E  |5    #....",
+        "....#   R|L  |     #....",
+        "....#    ||++|     #....",
+        "....#Yv      |    h#....",
+        "..M##|||||         #....",
+        "..Mo<              #....",
+        "..Mo>RRa y|+||||  |#....",
+        "..M##||| ||jt|4   y#....",
+        "...^#KiK l||||     #....",
+        "...Mon   Y|QQ|     oM...",
+        "...MoJ             oM...",
+        "...M#J yJJ|QQ|a   y#....",
+        "....##*o#######o#o##....",
+        ".....MsM................",
+        ".....sss................",
+        ".....sss................",
+        "........................",
+        "........................"
+      ],
+      "palettes": [ "house_w_foundation_palette" ],
+      "terrain": { "#": "t_brick_wall", "F": "t_thconc_floor" },
+      "nested": {
+        "4": { "chunks": [ [ "diningroom_5x5_N_S", 50 ], [ "diningroom_5x5_E_W", 50 ] ] },
+        "3": {
+          "chunks": [
+            [ "bonus_room_3x3_2", 50 ],
+            [ "bonus_room_3x3_3", 50 ],
+            [ "bonus_room_3x3_4", 50 ],
+            [ "bonus_room_3x3_5", 50 ],
+            [ "bonus_room_3x3_N_6", 50 ],
+            [ "bonus_room_3x3_W_6", 50 ]
+          ]
+        },
+        "5": {
+          "chunks": [
+            [ "livingroom_5x5_N_1", 10 ],
+            [ "livingroom_5x5_S_1", 10 ],
+            [ "livingroom_5x5_N_2", 200 ],
+            [ "livingroom_5x5_S_2", 200 ],
+            [ "livingroom_5x5_E_2", 200 ],
+            [ "livingroom_5x5_W_2", 200 ]
+          ]
+        },
+        "7": {
+          "chunks": [
+            [ "bonus_room_3x3_4", 20 ],
+            [ "bonus_room_3x3_E_6", 20 ],
+            [ "bonus_room_3x3_S_6", 20 ],
+            [ "bonus_room_3x3_E_8", 30 ],
+            [ "bonus_room_3x3_S_8", 30 ]
+          ]
+        }
+      },
+      "place_nested": [
+        {
+          "chunks": [ [ "null", 50 ], [ "firepit_5x5_2", 15 ], [ "reflecting_pool_5x5_1", 15 ], [ "reflecting_pool_5x5_2", 25 ] ],
+          "x": [ 9, 13 ],
+          "y": 19
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "house_w_6_2ndfloor",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "------------------------",
+        "------------------------",
+        "------%%%%%%%%%%%%------",
+        "------%%%%%%%%%%%%------",
+        "------%%%%%%%%%%%%------",
+        "----##oo########oo##----",
+        "----#1    +O| +2  L#----",
+        "----#    H|||O|    #----",
+        "----#    L|w|||    #----",
+        "----#L    |+| +   h#----",
+        "---##||||+|   |||||#----",
+        "---o>         +w|vO#----",
+        "---oRR|||+||| ||||+#----",
+        "---##||Ry +O| + II #----",
+        "----#3    |||+|4 A #----",
+        "---^#     |t  |    o----",
+        "----o     |j  |    o----",
+        "----#L    |TTT|y  L#----",
+        "----###o####o####o##----",
+        "------------------------",
+        "------------------------",
+        "------------------------",
+        "------------------------",
+        "------------------------"
+      ],
+      "palettes": [ "house_w_foundation_palette" ],
+      "terrain": { "#": "t_brick_wall", ".": "t_open_air", "%": "t_shingle_flat_roof" },
+      "nested": {
+        "1": {
+          "chunks": [
+            [ "bedroom_4x4_adult_1_N", 20 ],
+            [ "bedroom_4x4_adult_1_S", 20 ],
+            [ "bedroom_4x4_adult_2_N", 20 ],
+            [ "bedroom_4x4_adult_3_S", 200 ],
+            [ "bedroom_4x4_adult_3_N", 200 ]
+          ]
+        },
+        "2": {
+          "chunks": [
+            [ "bedroom_4x4_adult_1_S", 20 ],
+            [ "bedroom_4x4_adult_3_S", 200 ],
+            [ "bedroom_4x4_adult_3_N", 200 ],
+            [ "bedroom_4x4_adult_3_E", 200 ],
+            [ "bedroom_4x4_adult_3_W", 200 ]
+          ]
+        },
+        "3": {
+          "chunks": [
+            [ "bedroom_4x4_adult_1_S", 20 ],
+            [ "bedroom_4x4_adult_2_W", 20 ],
+            [ "bedroom_4x4_adult_2_S", 20 ],
+            [ "bedroom_4x4_adult_3_S", 200 ],
+            [ "bedroom_4x4_adult_3_W", 200 ]
+          ]
+        },
+        "4": {
+          "chunks": [
+            [ "bedroom_4x4_adult_1_E", 20 ],
+            [ "bedroom_4x4_adult_2_W", 20 ],
+            [ "bedroom_4x4_adult_2_W", 20 ],
+            [ "bedroom_4x4_adult_3_E", 200 ],
+            [ "bedroom_4x4_adult_3_W", 200 ]
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "house_w_6_roof",
+    "object": {
+      "fill_ter": "t_shingle_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "    ----------------    ",
+        "    -..............-    ",
+        "    -..............-    ",
+        "    -..............-    ",
+        "    -..............-    ",
+        "   --..............-    ",
+        "   -...............-    ",
+        "   -...............-    ",
+        "   --..............-    ",
+        "    -......&.......-    ",
+        "    5..............-    ",
+        "    -..............-    ",
+        "    -..............-    ",
+        "    ----------------    ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_shingle_flat_roof" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "house_w_6_basement",
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "    ||||||||||||||||    ",
+        "    |Z.1...........|    ",
+        "    |J.............|    ",
+        "    |J.............|    ",
+        "    |W.............|    ",
+        "   ||..............|    ",
+        "   |U..............|    ",
+        "   |<..............|    ",
+        "   ||..............|    ",
+        "    |..............|    ",
+        "    |g.............|    ",
+        "    |..............|    ",
+        "    |F.............|    ",
+        "    ||||||||||||||||    ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "basement_empty" ],
+      "nested": { "1": { "chunks": [ [ "null", 70 ], [ "recroom_12x12", 30 ], [ "tvroom_12x12", 30 ], [ "workoutroom_12x12", 30 ] ] } }
+    }
+  }
+]

@@ -1,0 +1,74 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_LAST_STAND",
+    "default": "mon_null",
+    "monsters": [
+      { "monster": "mon_civilian_police", "weight": 1, "cost_multiplier": 1, "ends": "5 days" },
+      { "monster": "mon_civilian_zombiefighter", "weight": 4, "cost_multiplier": 1, "ends": "5 days" }
+    ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_laststand",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "   ##################   ",
+        "   ##################   ",
+        "   ##################   ",
+        "   ###            ###   ",
+        "   ###            ###   ",
+        "   ###            ###   ",
+        "   ###            ###   ",
+        "   ###            ###   ",
+        "   ###            ###   ",
+        "   ###            ###   ",
+        "   ###            ###   ",
+        "   ###            ###   ",
+        "   ##################   ",
+        "   ##################   ",
+        "   ##################   ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "furniture": {
+        "#": [
+          [ "f_barricade_road", 10 ],
+          [ "f_sandbag_half", 10 ],
+          [ "f_earthbag_half", 10 ],
+          [ "f_gravelbag_half", 10 ],
+          [ "f_table", 10 ],
+          [ "f_bench", 10 ],
+          "f_55gal_firebarrel",
+          "f_30gal_firebarrel",
+          "f_pallet_brick",
+          "f_pallet_cement",
+          "f_stack_plank",
+          "f_metal_table",
+          "f_armchair",
+          "f_chair",
+          "f_rack",
+          "f_locker",
+          "f_displaycase",
+          "f_recycle_bin",
+          "f_trashcan",
+          "f_metal_trashcan",
+          "f_rubble",
+          "f_wreckage",
+          [ "f_null", 150 ]
+        ]
+      },
+      "place_monster": [ { "group": "GROUP_LAST_STAND", "x": [ 6, 17 ], "y": [ 6, 16 ], "chance": 100, "repeat": [ 10, 15 ] } ],
+      "place_loot": [ { "group": "trash", "x": [ 6, 17 ], "y": [ 6, 16 ], "repeat": [ 5, 10 ] } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  }
+]

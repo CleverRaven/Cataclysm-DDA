@@ -1,0 +1,144 @@
+[
+  {
+    "id": "rifle_assault",
+    "copy-from": "hk417_13",
+    "type": "GUN",
+    "name": { "str": "assault rifle" },
+    "ammo": [ "ammo_rifle" ],
+    "description": "The products of decades of improvement, rifle such as this are handy, reliable, and adaptable.  An 'assault rifle', it is capable of providing both accurate semi-automatic fire and bursts of automatic fire.  Short of large creatures and light vehicles, this should take care of most of your problems out to several hundred meters.",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "rifle_mag", "rifle_sniper_mag" ],
+        "rigid": true
+      }
+    ]
+  },
+  {
+    "id": "rifle_lmg",
+    "copy-from": "m240",
+    "type": "GUN",
+    "name": { "str": "light machine gun" },
+    "ammo": [ "ammo_rifle" ],
+    "description": "The light machine gun is a formidable implement for suppressive fire, an important part of squad tactics.  Its belt feed allows for hundreds of rounds to be loaded, and its heavy components can withstand long bursts of fire.  While perhaps not as precise as a service rifle, a light machinegun does allow for a considerable amount of energy to be sent down range.  Slow to reload.",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "rifle_belt" ],
+        "rigid": true
+      }
+    ]
+  },
+  {
+    "id": "rifle_sniper",
+    "copy-from": "m2010",
+    "type": "GUN",
+    "name": "sniper rifle",
+    "ammo": [ "ammo_rifle" ],
+    "description": "Sniper rifles fill military, police and civilian needs for precise, accurate fire.  Modern examples feature detachable magazines and various mounting interfaces for optics and supports.  With care and practice, all should be quite capable of eliminating bipedal threats from very safe ranges.",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "rifle_sniper_mag", "rifle_mag" ],
+        "rigid": true
+      }
+    ]
+  },
+  {
+    "id": "rifle_sporter",
+    "copy-from": "ar10",
+    "type": "GUN",
+    "name": "sporter carbine",
+    "ammo": [ "ammo_rifle" ],
+    "description": "Though often mislabeled an assault rifle, this common, cheap magazine fed carbine isn't capable of automatic fire.  While almost as effective as a proper rifle, the wider variety of components and varying levels of maintenance make these less reliable than their military brethren.  These rifles are just as adequate for taking on anything smaller than large game, however.",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "rifle_mag", "rifle_sniper_mag" ],
+        "rigid": true
+      }
+    ]
+  },
+  {
+    "id": "rifle_assault_foreign",
+    "copy-from": "pamd68",
+    "type": "GUN",
+    "name": { "str": "foreign assault rifle" },
+    "ammo": [ "ammo_rifle_foreign" ],
+    "description": "A battle rifle popular among the Exodii.  Reliable and powerful, though slightly unwieldy to use as an infantry weapon.  Just different enough from local weaponry that the same ammunition cannot be shared between them.",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "rifle_mag_foreign", "rifle_sniper_mag_foreign" ]
+      }
+    ]
+  },
+  {
+    "id": "rifle_sniper_foreign",
+    "copy-from": "m2010",
+    "type": "GUN",
+    "name": "foreign sniper rifle",
+    "ammo": [ "ammo_rifle_foreign" ],
+    "description": "A sniper rifle popular among the Exodii.  Just different enough from local weaponry that the same ammunition cannot be shared between them.",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "rifle_sniper_mag_foreign" ]
+      }
+    ]
+  },
+  {
+    "id": "rifle_rail",
+    "copy-from": "hk_g80",
+    "type": "GUN",
+    "name": "railgun rifle",
+    "ammo": [ "ammo_railgun" ],
+    "description": "A handheld railgun which magnetically propels a ferromagnetic projectile using an alternating current.  Powered by UPS.",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "magazine_well": "250 ml",
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "rifle_rail_mag" ]
+      }
+    ]
+  },
+  {
+    "id": "rifle_shotgun_combination",
+    "copy-from": "combination_gun",
+    "type": "GUN",
+    "name": "combination rifle shotgun",
+    "description": "A break action firearm comprised of a rifle barrel over two smooth bore shotgun barrels.  Historically used by egomaniac hunters in Africa, now used by their egomaniac descendants in New England.",
+    "built_in_mods": [ "rifle_shotgun_combination_shotgun" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "ammo_rifle": 1 } } ]
+  },
+  {
+    "id": "feral_rifle",
+    "copy-from": "feral_militia_gun",
+    "type": "GUN",
+    "name": { "str": "mad militias' rifle" },
+    "description": "A fake semi-auto rifle for feral militiamen (because monster aiming is too lethal).",
+    "ammo": [ "ammo_rifle" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "ammo_rifle": 1 } } ]
+  }
+]

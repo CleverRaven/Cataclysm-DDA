@@ -1,0 +1,109 @@
+[
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "contains cloth for an average human moxie",
+    "id": "default_moxie_human_clothes",
+    "entries": [
+      { "group": "afs_colonist_outfit", "damage": [ 1, 4 ] },
+      { "group": "afs_scrap_armor_g", "damage": [ 1, 4 ], "prob": 15 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "items people could have carried in their bags prior to the moxification, that word is a WIP, haha",
+    "id": "default_moxie_human_item_bags",
+    "entries": [
+      { "group": "afs_colonist_bags", "damage": [ 1, 4 ] },
+      { "group": "default_moxie_human_items_pockets", "prob": 50 },
+      { "group": "alcohol_bottled_canned", "prob": 10 },
+      { "group": "vending_drink_items", "prob": 25 },
+      { "item": "file", "prob": 10 },
+      { "item": "thermos", "prob": 10 },
+      {
+        "distribution": [
+          { "group": "afs_tools_electric_repair", "prob": 40 },
+          { "group": "afs_tools_scavenging", "prob": 10 },
+          { "group": "afs_tools_programing", "prob": 50 }
+        ],
+        "prob": 5
+      },
+      {
+        "distribution": [
+          { "item": "camera", "prob": 70, "charges-min": 0, "charges-max": 50 },
+          { "item": "camera_pro", "prob": 30, "charges-min": 0, "charges-max": 50 }
+        ],
+        "prob": 10
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "items people could have carried in their pockets prior to moxieification",
+    "id": "default_moxie_human_items_pockets",
+    "entries": [
+      { "group": "afs_tools_pocket", "prob": 5 },
+      { "item": "afs_glass_device", "prob": 15 },
+      {
+        "distribution": [
+          {
+            "item": "cig",
+            "prob": 65,
+            "count-min": 0,
+            "count-max": 20,
+            "container-item": "null",
+            "entry-wrapper": "box_cigarette"
+          },
+          { "item": "chaw", "prob": 5 },
+          { "item": "cigar", "prob": 10 },
+          { "item": "handrolled_cig", "prob": 10 },
+          { "item": "nic_gum", "prob": 20 },
+          { "item": "ecig", "prob": 15 },
+          { "collection": [ { "item": "advanced_ecig" }, { "item": "nicotine_liquid" } ], "prob": 10 },
+          { "collection": [ { "item": "crackpipe" }, { "item": "crack" } ], "prob": 5 }
+        ],
+        "prob": 50
+      },
+      { "distribution": [ { "item": "gum" }, { "item": "caff_gum" } ], "prob": 30 },
+      { "item": "mp3", "prob": 18, "charges-min": 0, "charges-max": 15 },
+      { "item": "portable_game", "prob": 10, "charges-min": 0, "charges-max": 50 },
+      { "item": "game_watch", "prob": 10, "damage": [ 1, 4 ], "charges-min": 0, "charges-max": 50 },
+      { "item": "usb_drive", "prob": 10 },
+      { "item": "meth", "prob": 2 },
+      { "item": "coke", "prob": 2 },
+      { "item": "lsd", "prob": 2 },
+      { "item": "heroin", "prob": 2 },
+      { "item": "memory_card_unread", "prob": 10 },
+      { "item": "flyer", "prob": 30 },
+      { "item": "multitool", "prob": 5 },
+      { "item": "permanent_marker", "prob": 10, "charges": [ 0, 500 ] },
+      { "group": "softdrugs", "prob": 10 },
+      { "group": "harddrugs", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "items that an average zombie carries around and drops on death",
+    "id": "default_moxie_human_items",
+    "ammo": 30,
+    "magazine": 100,
+    "entries": [
+      { "group": "default_moxie_human_item_bags", "prob": 16 },
+      { "group": "default_moxie_human_items_pockets", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "contains cloth (always), a cash card (10% chance), and a random item (50% chance)",
+    "id": "default_moxie_human_death_drops",
+    "entries": [
+      { "group": "default_moxie_human_clothes" },
+      { "group": "default_moxie_human_items", "prob": 50 },
+      { "group": "wallets", "damage": [ 1, 4 ], "prob": 10 }
+    ]
+  }
+]

@@ -1,0 +1,16 @@
+[
+  {
+    "id": "TALK_WARRENER",
+    "type": "talk_topic",
+    "insert_before_standard_exits": true,
+    "responses": [ { "text": "What can you tell me about Xedra?", "topic": "TALK_WARRENER_XEDRA" } ]
+  },
+  {
+    "id": "TALK_WARRENER_XEDRA",
+    "type": "talk_topic",
+    "dynamic_line": "Are you talking about the Zebra agencies?  I probably don't know any more than you do.  When things started getting weird about a decade ago, all these new departments starting springing up out of Homeland Security.  Their badges were just barcodes that if you scanned with your phone would put you in contact with your local law enforcement, who'd vouch for them.",
+    "responses": [
+      { "text": "I just keep finding references to them, I wondered if anyone else was as well.", "topic": "TALK_WARRENER" }
+    ]
+  }
+]

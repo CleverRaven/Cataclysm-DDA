@@ -1,0 +1,58 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "mi-go_camp1",
+    "copy-from": "mi-go_camp1",
+    "sym": "\u00F3",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mi-go_camp2",
+    "copy-from": "mi-go_camp2",
+    "sym": "\u00F3",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mi-go_camp2-1",
+    "copy-from": "mi-go_camp2-1",
+    "sym": "\u00DD",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mi-go_camp2-2",
+    "copy-from": "mi-go_camp2-2",
+    "sym": "\u00D7",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mi-go_scout_tower_1",
+    "copy-from": "mi-go_scout_tower_1",
+    "sym": "\u00DD",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mi-go_scout_tower_2",
+    "copy-from": "mi-go_scout_tower_2",
+    "sym": "\u00DD",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mi-go_scout_tower_3",
+    "copy-from": "mi-go_scout_tower_3",
+    "sym": "\u00DD",
+    "color": "magenta"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "mi-go_scout_tower_4",
+    "copy-from": "mi-go_scout_tower_4",
+    "sym": "\u00DD",
+    "color": "magenta"
+  }
+]

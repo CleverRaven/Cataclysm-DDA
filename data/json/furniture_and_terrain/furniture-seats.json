@@ -1,0 +1,537 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_bench",
+    "name": "bench",
+    "symbol": "#",
+    "description": "A simple bench with wood slats nailed to a frame.  While uncomfortably flat and just as cold as the ground, it could serve as a bed if needed.",
+    "color": "brown",
+    "move_cost_mod": 1,
+    "coverage": 35,
+    "comfort": 1,
+    "floor_bedding_warmth": -1500,
+    "bonus_fire_warmth_feet": 1000,
+    "required_str": 8,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "CAN_SIT", "SMALL_HIDE" ],
+    "deconstruct": {
+      "items": [ { "item": "2x4", "count": 4 }, { "item": "nuts_bolts", "charges": 12 }, { "item": "steel_chunk", "count": 8 } ]
+    },
+    "bash": {
+      "str_min": 10,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "2x4", "count": [ 1, 2 ] },
+        { "item": "nuts_bolts", "charges": [ 2, 6 ] },
+        { "item": "splinter", "count": [ 1, 6 ] },
+        { "item": "scrap", "charges": [ 10, 25 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_armchair",
+    "name": "armchair",
+    "symbol": "H",
+    "description": "A simple upholstered chair with armrests.  Soft and fairly warm, it definitely beats the ground for sleeping on, though not by much.",
+    "color": "green",
+    "move_cost_mod": 1,
+    "coverage": 45,
+    "comfort": 3,
+    "floor_bedding_warmth": 500,
+    "bonus_fire_warmth_feet": 1000,
+    "required_str": 7,
+    "deconstruct": { "items": [ { "item": "armchair", "count": 1 } ] },
+    "flags": [
+      "TRANSPARENT",
+      "FLAMMABLE_ASH",
+      "ORGANIC",
+      "MOUNTABLE",
+      "EASY_DECONSTRUCT",
+      "CAN_SIT",
+      "ALIGN_WORKBENCH",
+      "SMALL_HIDE"
+    ],
+    "bash": {
+      "str_min": 10,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "wooden_post_short", "count": [ 0, 3 ] },
+        { "item": "nuts_bolts", "charges": [ 2, 8 ] },
+        { "item": "splinter", "count": [ 5, 35 ] },
+        { "item": "sheet_cotton", "count": [ 6, 10 ] },
+        { "item": "cotton_patchwork", "count": [ 2, 7 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_seat_airplane",
+    "name": "airplane seat",
+    "//": "Used in airliner.json, it yields short rope as a seatbelt",
+    "looks_like": "f_armchair",
+    "symbol": "H",
+    "description": "A cheaply-upholstered folding airplane seat, it has a simple across-the-lap seatbelt.  You likely wouldn't be the first to sleep in this.",
+    "color": "light_gray",
+    "move_cost_mod": 1,
+    "coverage": 45,
+    "comfort": 3,
+    "floor_bedding_warmth": 500,
+    "bonus_fire_warmth_feet": 1000,
+    "required_str": 7,
+    "deconstruct": {
+      "items": [
+        { "item": "pipe", "count": 4 },
+        { "item": "sheet_cotton", "count": 6 },
+        { "item": "cotton_patchwork", "count": 4 },
+        { "item": "seatbelt" },
+        { "item": "plastic_chunk", "count": 10 },
+        { "item": "spring", "count": 3 }
+      ]
+    },
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT", "SMALL_HIDE" ],
+    "bash": {
+      "str_min": 10,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "pipe", "count": [ 0, 2 ] },
+        { "item": "scrap", "charges": [ 2, 10 ] },
+        { "item": "sheet_cotton", "count": [ 2, 5 ] },
+        { "item": "cotton_patchwork", "count": [ 5, 8 ] },
+        { "item": "plastic_chunk", "count": [ 1, 7 ] },
+        { "item": "rope_6" }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_chair",
+    "name": "wooden chair",
+    "symbol": "#",
+    "description": "A simple wooden chair with four legs, a seat, and a back.  It's nice to rest your feet for once, and if coupled with a suitable table, you could eat a meal properly and almost pretend that things were normal again.",
+    "color": "brown",
+    "move_cost_mod": 1,
+    "coverage": 40,
+    "comfort": 1,
+    "floor_bedding_warmth": -1500,
+    "bonus_fire_warmth_feet": 1000,
+    "required_str": 4,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT", "EASY_DECONSTRUCT", "ALIGN_WORKBENCH" ],
+    "deconstruct": { "items": [ { "item": "chair_wood", "count": 1 } ] },
+    "bash": {
+      "str_min": 6,
+      "str_max": 25,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "wooden_post_short", "count": 1 },
+        { "item": "nuts_bolts", "charges": [ 2, 10 ] },
+        { "item": "splinter", "count": [ 1, 10 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_sofa",
+    "name": "sofa",
+    "symbol": "H",
+    "description": "A wide upholstered bench, large enough for two people to comfortably sit alongside one another, or for one person to lay down on.  It's not quite a bed, but it's a hell of a lot more comfortable than the floor.",
+    "bgcolor": "red",
+    "move_cost_mod": 1,
+    "coverage": 60,
+    "comfort": 4,
+    "floor_bedding_warmth": 500,
+    "required_str": 10,
+    "deconstruct": {
+      "items": [
+        { "item": "wooden_post_short", "count": 6 },
+        { "item": "sheet_cotton", "count": 10 },
+        { "item": "cotton_patchwork", "count": 5 },
+        { "item": "nuts_bolts", "charges": 16 },
+        { "item": "spring", "count": 2 },
+        { "item": "splinter", "count": [ 1, 25 ] }
+      ]
+    },
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE", "CAN_SIT", "SMALL_HIDE" ],
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "wooden_post_short", "count": [ 0, 3 ] },
+        { "item": "nuts_bolts", "charges": [ 2, 8 ] },
+        { "item": "splinter", "count": [ 5, 35 ] },
+        { "item": "scrap", "charges": [ 0, 6 ] },
+        { "item": "sheet_cotton", "count": [ 5, 8 ] },
+        { "item": "cotton_patchwork", "count": [ 1, 6 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_stool",
+    "name": "wooden stool",
+    "symbol": "#",
+    "looks_like": "f_chair",
+    "description": "A simple stool with four legs and a seat.  While it's a touch more maneuverable to sit on, the lack of back support means it's significantly less comfortable than a normal chair.",
+    "color": "brown",
+    "move_cost_mod": 1,
+    "coverage": 30,
+    "comfort": 1,
+    "bonus_fire_warmth_feet": 1000,
+    "required_str": 3,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT", "EASY_DECONSTRUCT", "ALIGN_WORKBENCH" ],
+    "deconstruct": { "items": [ { "item": "stool_wood", "count": 1 } ] },
+    "max_volume": "875 L",
+    "bash": {
+      "str_min": 6,
+      "str_max": 20,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "nuts_bolts", "charges": [ 1, 5 ] }, { "item": "splinter", "count": [ 3, 10 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_camp_chair",
+    "name": "camp chair",
+    "symbol": "#",
+    "looks_like": "f_chair",
+    "description": "A somewhat uncomfortable folding chair, with fabric strung across a metal frame.  Not the best, but better than nothing, and very easy to pack up for transport.",
+    "color": "brown",
+    "move_cost_mod": 1,
+    "coverage": 35,
+    "comfort": 1,
+    "floor_bedding_warmth": -1000,
+    "bonus_fire_warmth_feet": 1000,
+    "required_str": 3,
+    "deployed_item": "camp_chair",
+    "examine_action": "deployed_furniture",
+    "flags": [ "TRANSPARENT", "SHORT", "CAN_SIT", "EASY_DECONSTRUCT", "ALIGN_WORKBENCH" ],
+    "max_volume": "875 L",
+    "deconstruct": { "items": [ { "item": "camp_chair", "count": 1 } ] },
+    "bash": {
+      "str_min": 6,
+      "str_max": 20,
+      "sound": "metal screeching!",
+      "sound_fail": "crash!",
+      "items": [
+        { "item": "steel_chunk", "count": 1 },
+        { "item": "scrap", "charges": [ 3, 20 ] },
+        { "item": "sheet_cotton", "count": [ 0, 1 ] },
+        { "item": "cotton_patchwork", "count": [ 3, 10 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_logstool",
+    "name": "log stool",
+    "symbol": "#",
+    "looks_like": "f_stool",
+    "description": "A short section of a tree trunk with one of the flat ends smoothed down.  Makes for a decent place to sit, but not quite a real chair.",
+    "color": "brown",
+    "move_cost_mod": 1,
+    "coverage": 40,
+    "comfort": 1,
+    "floor_bedding_warmth": -1000,
+    "bonus_fire_warmth_feet": 1000,
+    "required_str": 5,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "CAN_SIT", "EASY_DECONSTRUCT", "ALIGN_WORKBENCH" ],
+    "max_volume": "750 L",
+    "deconstruct": { "items": [ { "item": "stool_log", "count": 1 } ] },
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "splinter", "count": [ 2, 30 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_deckchair",
+    "name": "deck chair",
+    "symbol": "#",
+    "looks_like": "f_chair",
+    "description": "A folding deck chair with fabric sheets mounted to a wooden frame.  While it's built to handle outdoor conditions and is an improvement over the ground, it's not particularly comfortable.",
+    "color": "brown",
+    "move_cost_mod": 1,
+    "coverage": 30,
+    "comfort": 1,
+    "floor_bedding_warmth": -1000,
+    "bonus_fire_warmth_feet": 1000,
+    "required_str": 5,
+    "deployed_item": "deck_chair",
+    "examine_action": "deployed_furniture",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "SHORT", "EASY_DECONSTRUCT", "CAN_SIT" ],
+    "max_volume": "750 L",
+    "deconstruct": { "items": [ { "item": "deck_chair", "count": 1 } ] },
+    "bash": {
+      "str_min": 5,
+      "str_max": 25,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "splinter", "count": [ 2, 10 ] },
+        { "item": "nuts_bolts", "charges": [ 1, 6 ] },
+        { "item": "sheet_cotton", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_metal_bench",
+    "name": "metal bench",
+    "symbol": "h",
+    "looks_like": "f_bench",
+    "description": "A bench made of metal.  Not the most comfortable furniture you've ever sat on.",
+    "color": "light_gray",
+    "move_cost_mod": 1,
+    "coverage": 30,
+    "required_str": 7,
+    "comfort": 1,
+    "floor_bedding_warmth": -2000,
+    "bonus_fire_warmth_feet": 1000,
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "SHORT", "CAN_SIT", "SMALL_HIDE" ],
+    "bash": {
+      "str_min": 15,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "crash!",
+      "items": [
+        { "item": "scrap", "charges": [ 20, 65 ] },
+        { "item": "steel_chunk", "count": [ 0, 5 ] },
+        { "item": "pipe", "count": [ 1, 2 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "pipe_fittings", "count": 4 },
+        { "item": "scrap", "charges": 15 },
+        { "item": "sheet_metal", "count": 1 },
+        { "item": "steel_chunk", "count": 8 },
+        { "item": "pipe", "count": 4 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_bench_wooden",
+    "name": "wooden bench",
+    "symbol": "#",
+    "looks_like": "f_bench",
+    "description": "A simple wooden bench made of two thick, makeshift legs and a flat piece of wood on top.  Certainly nowhere near as good as a bed, but sitting on it makes you feel like you're out camping.",
+    "color": "brown",
+    "move_cost_mod": 1,
+    "coverage": 30,
+    "comfort": 1,
+    "floor_bedding_warmth": -1500,
+    "bonus_fire_warmth_feet": 1000,
+    "required_str": 5,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "CAN_SIT", "SMALL_HIDE" ],
+    "deconstruct": { "items": [ { "item": "2x4", "count": 1 }, { "item": "splinter", "count": 32 } ] },
+    "bash": {
+      "str_min": 8,
+      "str_max": 25,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "2x4", "count": [ 0, 1 ] }, { "item": "splinter", "count": [ 4, 28 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_bench_park",
+    "name": "park bench",
+    "symbol": "#",
+    "looks_like": "f_bench",
+    "description": "A wooden bench with a metal frame and a back support.  Cold and uncomfortable to sleep on, but sitting on it is not terrible.",
+    "//": "The numbers are adjusted in such a way that the park bench should appear on two tiles next to each other.",
+    "color": "brown",
+    "move_cost_mod": 1,
+    "coverage": 45,
+    "comfort": 1,
+    "floor_bedding_warmth": -1500,
+    "bonus_fire_warmth_feet": 1000,
+    "required_str": 12,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT", "SMALL_HIDE" ],
+    "deconstruct": {
+      "items": [ { "item": "2x4", "count": 8 }, { "item": "nuts_bolts", "charges": 20 }, { "item": "steel_chunk", "count": 12 } ]
+    },
+    "bash": {
+      "str_min": 10,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "2x4", "count": [ 1, 5 ] },
+        { "item": "nuts_bolts", "charges": [ 4, 12 ] },
+        { "item": "splinter", "count": [ 2, 16 ] },
+        { "item": "scrap", "charges": [ 15, 40 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_barstool",
+    "name": "bar stool",
+    "symbol": "p",
+    "looks_like": "f_stool",
+    "description": "A bar stool with a leather seat on a steel support.  Not practical for sleeping at all, but it does feel nicer than sitting on the ground.",
+    "color": "light_gray",
+    "move_cost_mod": 1,
+    "coverage": 35,
+    "required_str": 5,
+    "comfort": 1,
+    "floor_bedding_warmth": -1000,
+    "bonus_fire_warmth_feet": 1000,
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "SHORT", "CAN_SIT", "EASY_DECONSTRUCT", "ALIGN_WORKBENCH" ],
+    "deconstruct": { "items": [ { "item": "barstool", "count": 1 } ] },
+    "bash": {
+      "str_min": 10,
+      "str_max": 45,
+      "sound": "metal screeching!",
+      "sound_fail": "crash!",
+      "items": [
+        { "item": "leather", "count": [ 1, 4 ] },
+        { "item": "steel_chunk", "count": [ 1, 14 ] },
+        { "item": "scrap", "charges": [ 10, 65 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_chair_folding",
+    "name": "folding chair",
+    "symbol": "#",
+    "looks_like": "f_chair",
+    "description": "A black foldable plastic chair on a steel frame.  Not particularly comfortable, but at least you have something to sit on.",
+    "color": "light_gray",
+    "move_cost_mod": 1,
+    "coverage": 30,
+    "comfort": 1,
+    "floor_bedding_warmth": -1500,
+    "bonus_fire_warmth_feet": 1000,
+    "required_str": 3,
+    "deployed_item": "chair_folding",
+    "examine_action": "deployed_furniture",
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "EASY_DECONSTRUCT", "CAN_SIT", "ALIGN_WORKBENCH" ],
+    "max_volume": "750 L",
+    "deconstruct": { "items": [ { "item": "chair_folding", "count": 1 } ] },
+    "bash": {
+      "str_min": 5,
+      "str_max": 15,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "plastic_chunk", "count": [ 3, 12 ] }, { "item": "scrap", "charges": [ 5, 25 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_chair_plywood",
+    "name": "plywood chair",
+    "symbol": "#",
+    "looks_like": "f_chair",
+    "description": "A simple chair made of plywood on a steel frame.  Quite uncomfortable, but it works for sleeping if it's the only option available.",
+    "color": "brown",
+    "move_cost_mod": 1,
+    "coverage": 30,
+    "comfort": 1,
+    "floor_bedding_warmth": -1000,
+    "bonus_fire_warmth_feet": 1000,
+    "required_str": 5,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT", "EASY_DECONSTRUCT", "ALIGN_WORKBENCH" ],
+    "deconstruct": { "items": [ { "item": "chair_plywood", "count": 1 } ] },
+    "bash": {
+      "str_min": 7,
+      "str_max": 25,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "splinter", "count": [ 1, 10 ] }, { "item": "scrap", "charges": [ 10, 30 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_chair_black",
+    "name": "black wooden chair",
+    "symbol": "#",
+    "looks_like": "f_chair",
+    "description": "A simple wooden chair with four legs, a seat, and a back.  It's nice to rest your feet for once, and if coupled with a suitable table, you could eat a meal properly and almost pretend that things were normal again.  This particular chair is painted black.",
+    "color": "light_gray",
+    "move_cost_mod": 1,
+    "coverage": 40,
+    "comfort": 1,
+    "floor_bedding_warmth": -1500,
+    "bonus_fire_warmth_feet": 1000,
+    "required_str": 4,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT", "EASY_DECONSTRUCT", "ALIGN_WORKBENCH" ],
+    "deconstruct": { "items": [ { "item": "chair_wood_black", "count": 1 } ] },
+    "bash": {
+      "str_min": 6,
+      "str_max": 25,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "wooden_post_short", "count": 1 },
+        { "item": "nuts_bolts", "charges": [ 2, 10 ] },
+        { "item": "splinter", "count": [ 1, 10 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_chair_white",
+    "name": "white wooden chair",
+    "symbol": "#",
+    "looks_like": "f_chair",
+    "description": "A simple wooden chair with four legs, a seat, and a back.  It's nice to rest your feet for once, and if coupled with a suitable table, you could eat a meal properly and almost pretend that things were normal again.  This particular chair is painted white.",
+    "color": "white",
+    "move_cost_mod": 1,
+    "coverage": 40,
+    "comfort": 1,
+    "floor_bedding_warmth": -1500,
+    "bonus_fire_warmth_feet": 1000,
+    "required_str": 4,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "CAN_SIT", "EASY_DECONSTRUCT", "ALIGN_WORKBENCH" ],
+    "deconstruct": { "items": [ { "item": "chair_wood_white", "count": 1 } ] },
+    "bash": {
+      "str_min": 6,
+      "str_max": 25,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "wooden_post_short", "count": 1 },
+        { "item": "nuts_bolts", "charges": [ 2, 10 ] },
+        { "item": "splinter", "count": [ 1, 10 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_barber_chair",
+    "name": "barber chair",
+    "symbol": "$",
+    "looks_like": "f_barber_chair",
+    "description": "a stationary chair made of cloth and steel.  With adjustable height and the ability to swing.",
+    "color": "black",
+    "move_cost_mod": 2,
+    "coverage": 40,
+    "comfort": 1,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CAN_SIT" ],
+    "deconstruct": { "items": [ { "item": "cotton_patchwork", "count": 40 }, { "item": "steel_chunk", "count": 10 } ] },
+    "bash": {
+      "str_min": 9,
+      "str_max": 25,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "sheet_cotton", "count": 1 }, { "item": "steel_chunk", "count": [ 1, 3 ] } ]
+    }
+  }
+]

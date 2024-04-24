@@ -1,0 +1,211 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "emptyresidentiallot",
+    "weight": 100,
+    "object": {
+      "predecessor_mapgen": "forest",
+      "rows": [
+        "                        ",
+        "            P           ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "P": "t_region_soil" },
+      "furniture": {  },
+      "place_items": [
+        { "chance": 1, "item": "creepy", "x": 10, "y": 16 },
+        { "chance": 15, "item": "forest", "x": 21, "y": 19 },
+        { "chance": 15, "item": "forest", "x": 4, "y": 19 },
+        { "chance": 10, "item": "trash", "x": 20, "y": 12 },
+        { "chance": 10, "item": "trash", "x": 4, "y": 8 }
+      ],
+      "place_signs": [ { "signage": "Cheap lot for sale!  Call <given_name> at 555-5151!", "x": 12, "y": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "emptyresidentiallot",
+    "weight": 100,
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                       7",
+        "                        ",
+        "  7                     ",
+        "                    1   ",
+        "     1                  ",
+        "                        ",
+        "                      7 ",
+        "  1                     ",
+        "#                       ",
+        " 1                      ",
+        "                     1  ",
+        "  #                    1",
+        "                        ",
+        "  #                     ",
+        "                        ",
+        "      1                #",
+        "  1                     ",
+        "   #                   1",
+        " 1  1       1     1 #   ",
+        "1        #     #1     7 ",
+        "  #   # 7  #  1      #  "
+      ],
+      "terrain": { "#": "t_region_shrub", " ": "t_region_groundcover", "1": "t_region_tree", "7": "t_stump" },
+      "furniture": {  },
+      "place_item": [
+        { "item": "log", "repeat": 3, "x": 20, "y": 15 },
+        { "item": "log", "repeat": 2, "x": 20, "y": 16 },
+        { "item": "log", "x": 20, "y": 17 },
+        { "item": "log", "x": 8, "y": 19 },
+        { "item": "log", "repeat": 2, "x": 9, "y": 19 },
+        { "item": "log", "x": 11, "y": 19 }
+      ],
+      "place_signs": [
+        { "signage": "Property for sale!", "x": 12, "y": 1 },
+        { "signage": "Call <given_name> with <family_name> Realty at 555-6288!", "x": 12, "y": 2 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "emptyresidentiallot",
+    "weight": 100,
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        " 4                    4 ",
+        "                        ",
+        "                        ",
+        " 4                    4 ",
+        "                        ",
+        "                        ",
+        " 4                    4 ",
+        "                        ",
+        "                        ",
+        " 4                    4 ",
+        "                        ",
+        "                        ",
+        " 4                    4 ",
+        "                        ",
+        "                        ",
+        " 4                    4 ",
+        "                        ",
+        "                        ",
+        " 4                    4 ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { " ": "t_region_groundcover_urban", "4": "t_region_tree_evergreen" },
+      "furniture": {  },
+      "place_signs": [ { "signage": "Beautiful lot with some natural privacy!  Call <full_name> at 555-3927!", "x": 9, "y": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "emptyresidentiallot",
+    "weight": 100,
+    "object": {
+      "rows": [
+        "ssssssssssssssssssssssss",
+        "ssssssssssssssssssssssss",
+        "ssssssssssssssssssssssss",
+        "            P           ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": {
+        " ": [ [ "t_region_soil", 25 ], [ "t_region_groundcover_urban", 13 ], "t_stump" ],
+        "P": "t_region_soil",
+        "s": "t_sidewalk"
+      },
+      "furniture": {  },
+      "place_signs": [ { "signage": "Property for sale, call <city> Real Estate at 555-8255!", "x": 12, "y": 3 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "emptyresidentiallot",
+    "weight": 100,
+    "object": {
+      "rows": [
+        "                ______  ",
+        "                ______  ",
+        "                ______  ",
+        "                ______  ",
+        "                ______  ",
+        "  4             ______  ",
+        "                ______  ",
+        "                ______  ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { " ": "t_region_groundcover_urban", "4": "t_region_tree", "_": "t_pavement" },
+      "furniture": {  },
+      "place_signs": [ { "signage": "Lot SOLD!", "x": 14, "y": 4 } ]
+    }
+  }
+]

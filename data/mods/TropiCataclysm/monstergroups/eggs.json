@@ -1,0 +1,270 @@
+[
+  {
+    "name": "GROUP_EGG_BIRD_WILD",
+    "type": "monstergroup",
+    "default": "mon_guinea_fowl_chick",
+    "monsters": [
+      { "monster": "mon_guinea_fowl_chick", "weight": 50, "cost_multiplier": 1 },
+      { "monster": "mon_quail_chick", "weight": 100, "cost_multiplier": 1 },
+      { "monster": "mon_rhea_chick", "weight": 250, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_EGG_GUINEA_FOWL",
+    "type": "monstergroup",
+    "default": "mon_guinea_fowl_chick",
+    "monsters": [ { "monster": "mon_guinea_fowl_chick", "weight": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_QUAIL",
+    "type": "monstergroup",
+    "default": "mon_quail_chick",
+    "monsters": [ { "monster": "mon_quail_chick", "weight": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_RHEA",
+    "type": "monstergroup",
+    "default": "mon_rhea_chick",
+    "monsters": [ { "monster": "mon_rhea_chick", "weight": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_TOUCAN",
+    "type": "monstergroup",
+    "default": "mon_toucan_chick",
+    "monsters": [ { "monster": "mon_toucan_chick", "weight": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_PARROT",
+    "type": "monstergroup",
+    "default": "mon_parrot_chick",
+    "monsters": [ { "monster": "mon_parrot_chick", "weight": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_BUDGERIGAR",
+    "type": "monstergroup",
+    "default": "mon_budgerigar_chick",
+    "monsters": [ { "monster": "mon_budgerigar_chick", "weight": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_COCKATOO",
+    "type": "monstergroup",
+    "default": "mon_cockatoo_chick",
+    "monsters": [ { "monster": "mon_cockatoo_chick", "weight": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_MACAW",
+    "type": "monstergroup",
+    "default": "mon_macaw_chick",
+    "monsters": [ { "monster": "mon_macaw_chick", "weight": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_TINAMOU",
+    "type": "monstergroup",
+    "default": "mon_tinamou_chick",
+    "monsters": [ { "monster": "mon_tinamou_chick", "weight": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_SERIEMA",
+    "type": "monstergroup",
+    "default": "mon_seriema_chick",
+    "monsters": [ { "monster": "mon_seriema_chick", "weight": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_CHACHALACA",
+    "type": "monstergroup",
+    "default": "mon_chachalaca_chick",
+    "monsters": [ { "monster": "mon_chachalaca_chick", "weight": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_GUAN",
+    "type": "monstergroup",
+    "default": "mon_guan_chick",
+    "monsters": [ { "monster": "mon_guan_chick", "weight": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_CURASSOW",
+    "type": "monstergroup",
+    "default": "mon_curassow_chick",
+    "monsters": [ { "monster": "mon_curassow_chick", "weight": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_FLAMINGO",
+    "type": "monstergroup",
+    "default": "mon_flamingo_chick",
+    "monsters": [ { "monster": "mon_flamingo_chick", "weight": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_CONSTRICTOR",
+    "type": "monstergroup",
+    "default": "mon_anaconda",
+    "monsters": [
+      { "monster": "mon_anaconda", "weight": 40, "cost_multiplier": 1 },
+      { "monster": "mon_python", "weight": 20, "cost_multiplier": 1 },
+      { "monster": "mon_boa", "weight": 40, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_EGG_LIZARD",
+    "type": "monstergroup",
+    "default": "mon_beaded_lizard",
+    "monsters": [ { "monster": "mon_beaded_lizard", "weight": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_MONITOR",
+    "type": "monstergroup",
+    "default": "mon_monitor_lizard",
+    "monsters": [ { "monster": "mon_monitor_lizard", "weight": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_IGUANA",
+    "type": "monstergroup",
+    "default": "mon_iguana",
+    "monsters": [ { "monster": "mon_iguana", "weight": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_TURTLE",
+    "type": "monstergroup",
+    "default": "mon_turtle",
+    "monsters": [ { "monster": "mon_turtle", "weight": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_SNAPPER",
+    "type": "monstergroup",
+    "default": "mon_turtle_snapper",
+    "monsters": [ { "monster": "mon_turtle_snapper", "weight": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_TORTOISE",
+    "type": "monstergroup",
+    "default": "mon_tortoise",
+    "monsters": [ { "monster": "mon_tortoise", "weight": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_TERMITE",
+    "type": "monstergroup",
+    "default": "mon_termite_nymph",
+    "monsters": [ { "monster": "mon_termite_nymph", "weight": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_TRIFFID",
+    "type": "monstergroup",
+    "default": "mon_triffid_podling",
+    "monsters": [ { "monster": "mon_triffid_podling", "weight": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_FUNGUS",
+    "type": "monstergroup",
+    "default": "mon_fungaloid_saproling",
+    "monsters": [ { "monster": "mon_fungaloid_saproling", "weight": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_SALAMANDER",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_axolotl" } ]
+  },
+  {
+    "name": "GROUP_EGG_TADFISH",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_tadpole_small" } ]
+  },
+  {
+    "name": "GROUP_EGG_LUNGFISH",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_lungfish" } ]
+  },
+  {
+    "name": "GROUP_EGG_EEL_ELECTRIC",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_eel_electric" } ]
+  },
+  {
+    "name": "GROUP_EGG_PACU",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_pacu" } ]
+  },
+  {
+    "name": "GROUP_EGG_TAMBAQUI",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_tambaqui" } ]
+  },
+  {
+    "name": "GROUP_EGG_PIRANHA",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_piranha" } ]
+  },
+  {
+    "name": "GROUP_EGG_AROWANA",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_arowana" } ]
+  },
+  {
+    "name": "GROUP_EGG_ARAPAIMA",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_arapaima" } ]
+  },
+  {
+    "name": "GROUP_EGG_PIRAIBA",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_piraiba" } ]
+  },
+  {
+    "name": "GROUP_EGG_PLECO",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_pleco" } ]
+  },
+  {
+    "name": "GROUP_EGG_GAR",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_gar" } ]
+  },
+  {
+    "name": "GROUP_EGG_TUCUNARE",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_tucunare" } ]
+  },
+  {
+    "name": "GROUP_EGG_DISCUS",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_discus" } ]
+  },
+  {
+    "name": "GROUP_EGG_ANGELFISH",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_angelfish" } ]
+  },
+  {
+    "name": "GROUP_EGG_GOLDFISH",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_goldfish" } ]
+  },
+  {
+    "name": "GROUP_EGG_KOI",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_koi" } ]
+  },
+  {
+    "name": "GROUP_EGG_TILAPIA",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_tilapia" } ]
+  },
+  {
+    "name": "GROUP_EGG_SABALO",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_sabalo" } ]
+  },
+  {
+    "name": "GROUP_EGG_OSCAR",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_oscar" } ]
+  },
+  {
+    "name": "GROUP_EGG_GUAPOTE",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_guapote" } ]
+  },
+  {
+    "name": "GROUP_EGG_MAYAHEROS",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_mayaheros" } ]
+  }
+]

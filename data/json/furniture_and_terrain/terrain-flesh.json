@@ -1,0 +1,41 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_thconc_floor_flesh",
+    "name": "overgrown floor",
+    "description": "A bare concrete floor, almost completely covered by twitching filaments of gray flesh.",
+    "symbol": ".",
+    "color": "red_yellow",
+    "move_cost": 5,
+    "roof": "t_concrete_roof",
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT" ],
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_concrete",
+      "str_min": 10,
+      "str_max": 20,
+      "str_min_supported": 10,
+      "items": [ { "item": "meat_tainted", "count": [ 5, 10 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_concrete_wall_flesh",
+    "name": "overgrown wall",
+    "description": "A concrete wall overgrown by a grotesque grid of veins and knotted flesh.",
+    "symbol": "LINE_OXOX",
+    "color": "magenta_yellow",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_concrete_roof",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 10,
+      "str_max": 20,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_strconc_wall",
+      "items": [ { "item": "meat_tainted", "count": [ 5, 10 ] } ]
+    }
+  }
+]

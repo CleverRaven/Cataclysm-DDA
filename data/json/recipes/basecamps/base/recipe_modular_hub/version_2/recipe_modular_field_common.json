@@ -1,0 +1,471 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "faction_base_modular_hub_field_version_2_0",
+    "description": "We should survey the base site and set up a bulletin board.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "skill_used": "fabrication",
+    "autolearn": false,
+    "never_learn": true,
+    "time": "1 h",
+    "construction_blueprint": "fbmh_2",
+    "blueprint_provides": [
+      { "id": "gathering" },
+      { "id": "fbmh_2_crafting_recipes_1" },
+      { "id": "fbmh_2" },
+      { "id": "firewood" },
+      { "id": "foraging" },
+      { "id": "sorting" },
+      { "id": "logging" }
+    ],
+    "blueprint_requires": [ { "id": "not_an_upgrade" } ],
+    "blueprint_name": "basic hub version 1 survey",
+    "check_blueprint_needs": false
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmh_2_brazier_NE",
+    "description": "Now that we have some cover, we should build basic cooking facilities in the northeast shack.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "skill_used": "fabrication",
+    "autolearn": false,
+    "never_learn": true,
+    "time": "5 m",
+    "construction_blueprint": "fbmh_2_brazier_NE",
+    "blueprint_name": "northeast cooking (Brazier)",
+    "blueprint_requires": [ { "id": "fbmh_2_room_NE" } ],
+    "blueprint_provides": [ { "id": "fbmh_2_cooking_NE" } ],
+    "blueprint_excludes": [ { "id": "fbmh_2_cooking_NE" } ],
+    "components": [ [ [ "brazier", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmh_2_cooking_NE",
+    "description": "Now that we have some cover, we should build basic cooking facilities in the northeast shack.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmh_2_cooking_NE",
+    "blueprint_name": "northeast cooking",
+    "blueprint_parameter_names": { "fbmh_2_cooking_palette": { "fbmh_2_fireplace_palette": "Fireplace", "fbmh_2_stove_palette": "Woodstove" } },
+    "blueprint_requires": [ { "id": "fbmh_2_room_NE" } ],
+    "blueprint_provides": [ { "id": "fbmh_2_cooking_NE" } ],
+    "blueprint_excludes": [ { "id": "fbmh_2_cooking_NE" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmh_2_bed_NE_1",
+    "description": "A bed in the northeast shack will make sleeping much easier.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmh_2_bed_NE_1",
+    "blueprint_name": "northeast bed",
+    "blueprint_parameter_names": {
+      "fbmh_2_bed_palette": {
+        "fbmh_2_straw_bed_palette": "Straw bed",
+        "fbmh_2_makeshift_bed_palette": "Makeshift bed",
+        "fbmh_2_bed_palette": "Bed"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbmh_2_room_NE" } ],
+    "blueprint_provides": [ { "id": "fbmh_2_bed_NE_1" } ],
+    "blueprint_excludes": [ { "id": "fbmh_2_bed_NE_1" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmh_2_bed_NE_2",
+    "description": "Another bed in the northeast shack will make sleeping much easier.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmh_2_bed_NE_2",
+    "blueprint_name": "northeast bed",
+    "blueprint_parameter_names": {
+      "fbmh_2_bed_palette": {
+        "fbmh_2_straw_bed_palette": "Straw bed",
+        "fbmh_2_makeshift_bed_palette": "Makeshift bed",
+        "fbmh_2_bed_palette": "Bed"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbmh_2_room_NE", "amount": 2 } ],
+    "blueprint_provides": [ { "id": "fbmh_2_bed_NE_2" } ],
+    "blueprint_excludes": [ { "id": "fbmh_2_bed_NE_2" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmh_2_bed_ENE",
+    "description": "A pair of beds in the southern room to the northeast will allow us to house two more people.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmh_2_bed_ENE",
+    "blueprint_name": "east north east beds",
+    "blueprint_parameter_names": {
+      "fbmh_2_bed_palette": {
+        "fbmh_2_straw_bed_palette": "Straw bed",
+        "fbmh_2_makeshift_bed_palette": "Makeshift bed",
+        "fbmh_2_bed_palette": "Bed"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbmh_2_room_ENE" } ],
+    "blueprint_provides": [ { "id": "fbmh_2_bed_ENE" } ],
+    "blueprint_excludes": [ { "id": "fbmh_2_bed_ENE" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmh_2_bed_ESE",
+    "description": "A pair of beds in the east northern room to the southeast will allow us to house two more people.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmh_2_bed_ESE",
+    "blueprint_name": "east south east beds",
+    "blueprint_parameter_names": {
+      "fbmh_2_bed_palette": {
+        "fbmh_2_straw_bed_palette": "Straw bed",
+        "fbmh_2_makeshift_bed_palette": "Makeshift bed",
+        "fbmh_2_bed_palette": "Bed"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbmh_2_room_ESE" } ],
+    "blueprint_provides": [ { "id": "fbmh_2_bed_ESE" } ],
+    "blueprint_excludes": [ { "id": "fbmh_2_bed_ESE" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmh_2_bed_SE",
+    "description": "A pair of beds in the south eastern room will allow us to house two more people.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmh_2_bed_SE",
+    "blueprint_name": "southeast beds",
+    "blueprint_parameter_names": {
+      "fbmh_2_bed_palette": {
+        "fbmh_2_straw_bed_palette": "Straw bed",
+        "fbmh_2_makeshift_bed_palette": "Makeshift bed",
+        "fbmh_2_bed_palette": "Bed"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbmh_2_room_SE" } ],
+    "blueprint_provides": [ { "id": "fbmh_2_bed_SE" } ],
+    "blueprint_excludes": [ { "id": "fbmh_2_bed_SE" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmh_2_bed_SW",
+    "description": "A pair of beds in the south western room will allow us to house two more people.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmh_2_bed_SW",
+    "blueprint_name": "southwest beds",
+    "blueprint_parameter_names": {
+      "fbmh_2_bed_palette": {
+        "fbmh_2_straw_bed_palette": "Straw bed",
+        "fbmh_2_makeshift_bed_palette": "Makeshift bed",
+        "fbmh_2_bed_palette": "Bed"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbmh_2_room_SW" } ],
+    "blueprint_provides": [ { "id": "fbmh_2_bed_SW" } ],
+    "blueprint_excludes": [ { "id": "fbmh_2_bed_SW" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmh_2_bed_WSW",
+    "description": "A pair of beds in the northern room to the southwest will allow us to house two more people.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmh_2_bed_WSW",
+    "blueprint_name": "west south west beds",
+    "blueprint_parameter_names": {
+      "fbmh_2_bed_palette": {
+        "fbmh_2_straw_bed_palette": "Straw bed",
+        "fbmh_2_makeshift_bed_palette": "Makeshift bed",
+        "fbmh_2_bed_palette": "Bed"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbmh_2_room_WSW" } ],
+    "blueprint_provides": [ { "id": "fbmh_2_bed_WSW" } ],
+    "blueprint_excludes": [ { "id": "fbmh_2_bed_WSW" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmh_2_bed_WNW",
+    "description": "A pair of beds in the southern room to the northwest will allow us to house two more people.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmh_2_bed_WNW",
+    "blueprint_name": "west north west beds",
+    "blueprint_parameter_names": {
+      "fbmh_2_bed_palette": {
+        "fbmh_2_straw_bed_palette": "Straw bed",
+        "fbmh_2_makeshift_bed_palette": "Makeshift bed",
+        "fbmh_2_bed_palette": "Bed"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbmh_2_room_WNW" } ],
+    "blueprint_provides": [ { "id": "fbmh_2_bed_WNW" } ],
+    "blueprint_excludes": [ { "id": "fbmh_2_bed_WNW" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmh_2_bed_NW",
+    "description": "A pair of beds in the north western room will allow us to house two more people.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmh_2_bed_NW",
+    "blueprint_name": "northwest beds",
+    "blueprint_parameter_names": {
+      "fbmh_2_bed_palette": {
+        "fbmh_2_straw_bed_palette": "Straw bed",
+        "fbmh_2_makeshift_bed_palette": "Makeshift bed",
+        "fbmh_2_bed_palette": "Bed"
+      }
+    },
+    "blueprint_requires": [ { "id": "fbmh_2_room_NW" } ],
+    "blueprint_provides": [ { "id": "fbmh_2_bed_NW" } ],
+    "blueprint_excludes": [ { "id": "fbmh_2_bed_NW" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmh_2_center_fireplace",
+    "description": "A fireplace, counter, and some pots and pans in the central building will allow us to cook simple recipes and organize hunting expeditions.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmh_2_center_fireplace",
+    "blueprint_name": "central fireplace",
+    "blueprint_requires": [ { "id": "fbmh_2_center_west" } ],
+    "blueprint_provides": [ { "id": "trapping" }, { "id": "hunting" }, { "id": "kitchen" }, { "id": "fbmh_2_cooking_recipes_1" } ],
+    "blueprint_resources": [ "fake_fireplace", "pot" ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmh_2_center_butchery",
+    "description": "We need a butchery rack to maximize the harvest from our hunting and trapping efforts.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmh_2_center_butchery",
+    "blueprint_name": "central butchery rack",
+    "blueprint_requires": [ { "id": "fbmh_2_center_east" } ],
+    "blueprint_provides": [ { "id": "trapping" }, { "id": "hunting" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmh_2_center_toolrack",
+    "description": "A tool rack in the central building will give us a place to store tools.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmh_2_center_toolrack",
+    "blueprint_name": "central tool rack",
+    "blueprint_requires": [ { "id": "fbmh_2_center_west" } ],
+    "blueprint_provides": [ { "id": "tool_storage" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmh_2_center_table_east",
+    "description": "Setting up some tables and chairs will make the central building into a dining area, and we can also use them as a workspace to organize the camp.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmh_2_center_table_east",
+    "blueprint_name": "central dining hall east",
+    "blueprint_requires": [ { "id": "fbmh_2_center_east" }, { "id": "fbmh_2_center_mideast" } ],
+    "blueprint_provides": [ { "id": "relaying" }, { "id": "walls" }, { "id": "recruiting" }, { "id": "scouting" }, { "id": "patrolling" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmh_2_center_table_west",
+    "description": "Setting up some tables and chairs will make the central building into a dining area, and we can also use them as a workspace to organize the camp.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmh_2_center_table_west",
+    "blueprint_name": "central dining hall west",
+    "blueprint_requires": [ { "id": "fbmh_2_center_west" }, { "id": "fbmh_2_center_midwest" } ],
+    "blueprint_provides": [ { "id": "relaying" }, { "id": "walls" }, { "id": "recruiting" }, { "id": "scouting" }, { "id": "patrolling" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmh_2_center_table",
+    "description": "Setting up some tables and chairs will make the central building into a dining area, and we can also use them as a workspace to organize the camp.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "skill_used": "fabrication",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmh_2_center_table",
+    "blueprint_name": "central dining hall",
+    "blueprint_requires": [ { "id": "fbmh_2_center_mideast" }, { "id": "fbmh_2_center_midwest" } ],
+    "blueprint_provides": [ { "id": "relaying" }, { "id": "walls" }, { "id": "recruiting" }, { "id": "scouting" }, { "id": "patrolling" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmh_2_center_stove",
+    "description": "A wood stove, counter, and some pots and pans in the central building will allow us to cook simple recipes and organize hunting expeditions.  The stove will be more efficient than a fireplace.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmh_2_center_stove",
+    "blueprint_name": "central wood stove",
+    "blueprint_resources": [ "fake_woodstove" ],
+    "blueprint_requires": [ { "id": "fbmh_2_center_east" } ],
+    "blueprint_provides": [ { "id": "trapping" }, { "id": "hunting" }, { "id": "kitchen" }, { "id": "fbmh_2_cooking_recipes_1" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmh_2_well",
+    "description": "Digging a well will give us easy access to water.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmh_2_well",
+    "blueprint_name": "water well",
+    "blueprint_provides": [ { "id": "water_well" } ],
+    "blueprint_requires": [ { "id": "fbmh_2" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmh_2_root_cellar",
+    "description": "Digging a root cellar will give us a way to extend the shelf life of perishable food.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmh_2_root_cellar",
+    "blueprint_name": "root cellar",
+    "blueprint_provides": [ { "id": "pantry" } ],
+    "blueprint_requires": [ { "id": "fbmh_2" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmh_2_radio_tower",
+    "description": "We could build a radio tower to improve the range of our radios.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "autolearn": false,
+    "never_learn": true,
+    "time": "24 h",
+    "construction_blueprint": "fbmh_2_radio_tower",
+    "blueprint_name": "radio tower",
+    "blueprint_provides": [ { "id": "fbmh_2_radio_tower" } ],
+    "blueprint_requires": [ { "id": "fbmh_2" } ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "WRENCH", "level": 1 },
+      { "id": "SCREW", "level": 1 }
+    ],
+    "components": [
+      [
+        [ "wind_turbine", 4 ],
+        [ "xl_wind_turbine", 1 ],
+        [ "solar_panel", 4 ],
+        [ "reinforced_solar_panel", 4 ],
+        [ "solar_panel_v2", 2 ],
+        [ "reinforced_solar_panel_v2", 2 ]
+      ],
+      [ [ "storage_battery", 1 ], [ "medium_storage_battery", 4 ], [ "small_storage_battery", 32 ] ],
+      [ [ "sheet_metal", 2 ], [ "wire", 8 ] ],
+      [ [ "pipe", 24 ] ]
+    ],
+    "check_blueprint_needs": false
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmh_2_radio_console",
+    "description": "Adding a console to control the radio tower will help with recruiting more survivors.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "skill_used": "electronics",
+    "difficulty": 6,
+    "autolearn": false,
+    "never_learn": true,
+    "time": "24 h",
+    "construction_blueprint": "fbmh_2_radio_console",
+    "blueprint_name": "radio console",
+    "blueprint_provides": [ { "id": "fbmh_2_radio_console" }, { "id": "recruiting" }, { "id": "radio" } ],
+    "blueprint_requires": [ { "id": "fbmh_2_radio_tower" } ],
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "processor", 2 ] ],
+      [ [ "RAM", 2 ] ],
+      [ [ "large_lcd_screen", 1 ] ],
+      [ [ "e_scrap", 8 ] ],
+      [ [ "frame", 1 ] ],
+      [ [ "circuit", 4 ] ],
+      [ [ "power_supply", 2 ] ],
+      [ [ "amplifier", 2 ] ],
+      [ [ "cable", 80 ] ],
+      [ [ "motor_small", 1 ], [ "motor_tiny", 2 ] ]
+    ],
+    "check_blueprint_needs": false
+  },
+  {
+    "type": "recipe",
+    "result": "fbmh_2_parkour",
+    "description": "Let's build a parkour obstacle training course in the northern courtyard.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmh_2_parkour",
+    "blueprint_name": "build an obstacle course",
+    "blueprint_provides": [ { "id": "fbmh_2_parkour" } ],
+    "blueprint_requires": [ { "id": "fbmh_2" } ],
+    "blueprint_excludes": [ { "id": "fbmh_2_parkour" } ]
+  }
+]

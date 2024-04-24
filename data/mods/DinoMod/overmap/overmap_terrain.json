@@ -1,0 +1,69 @@
+[
+  {
+    "color": "brown",
+    "id": "dinoexhibit",
+    "mondensity": 2,
+    "name": "Dinosaur Exhibit",
+    "see_cost": 5,
+    "sym": "^",
+    "type": "overmap_terrain"
+  },
+  {
+    "color": "brown",
+    "id": "dinoexhibit_roof",
+    "mondensity": 2,
+    "name": "Dinosaur Exhibit roof",
+    "see_cost": 5,
+    "sym": "^",
+    "type": "overmap_terrain"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_DinoLab",
+    "name": "science lab",
+    "sym": "L",
+    "color": "light_blue",
+    "spawns": { "group": "GROUP_DINOLAB", "population": [ 40, 45 ], "chance": 80 },
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE", "RISK_HIGH", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_DinoLab_edge",
+    "copy-from": "microlab_DinoLab"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_DinoLab_surface_connector",
+    "copy-from": "microlab_DinoLab"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_DinoLab_sub_entry",
+    "name": "science lab",
+    "sym": "L",
+    "copy-from": "microlab_sub_connector"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_DinoLab_surface",
+    "name": "lab",
+    "sym": "L",
+    "color": "blue",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_DinoLab_surface_roof",
+    "copy-from": "microlab_DinoLab_surface"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "mi-go_scout_tower_dino_1", "mi-go_scout_tower_2", "mi-go_scout_tower_dino_3", "mi-go_scout_tower_4" ],
+    "name": "mi-go scout tower",
+    "sym": ">",
+    "color": "light_gray",
+    "mondensity": 2,
+    "flags": [ "RISK_HIGH" ]
+  }
+]

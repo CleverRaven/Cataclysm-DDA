@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Tileset Issues
+    url: https://github.com/I-am-Erk/CDDA-Tilesets/issues
+    about: For issues concerning the built-in tilesets.
+  - name: Github Discussion
+    url: https://github.com/CleverRaven/Cataclysm-DDA/discussions
+    about: For nonspecific feature requests, balance concerns, and questions about the game, prefer opening a discussion to an issue.
+  - name: Project Forums
+    url: https://discourse.cataclysmdda.org/
+    about: For even more general discussion with the community, consider posting on the forums.

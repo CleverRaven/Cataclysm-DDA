@@ -1,0 +1,127 @@
+[
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "jackson_drops",
+    "entries": [
+      { "item": "jacket_leather_red", "prob": 100 },
+      { "item": "jeans_red", "prob": 100 },
+      { "item": "socks", "prob": 100 },
+      { "item": "dance_shoes", "prob": 100 },
+      { "item": "glove_jackson", "prob": 100 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "void_spider_spiderling_skewered_drops",
+    "entries": [ { "item": "arrow_meteor", "charges": 1, "prob": 90 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "mon_dragon_dummy_drops",
+    "entries": [
+      { "item": "paper", "count": [ 100, 300 ] },
+      { "item": "stick", "count": [ 5, 8 ] },
+      { "item": "cable", "charges-min": 20, "charges-max": 50 },
+      { "item": "amplifier", "count": [ 0, 3 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "amigara_items",
+    "subtype": "distribution",
+    "items": [
+      [ "art_robe", 100 ],
+      [ "art_cloak", 100 ],
+      [ "art_coat", 100 ],
+      [ "art_mask", 100 ],
+      [ "art_helm", 100 ],
+      [ "art_gloves", 100 ],
+      [ "art_boots", 100 ],
+      [ "art_ring", 100 ],
+      [ "art_staff", 100 ],
+      [ "art_sword", 100 ],
+      [ "art_harp", 100 ],
+      [ "art_dagger", 100 ],
+      [ "art_spear", 100 ],
+      [ "art_club", 100 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "amigara_drops",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "group": "amigara_items",
+        "artifact": {
+          "procgen_id": "netherum_tunnels",
+          "rules": { "power_level": 1000, "max_attributes": 4, "max_negative_power": -1000, "resonant": true }
+        },
+        "prob": 100
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "items for zombie reenactor",
+    "id": "zombie_reenactor_drops",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "pockknife", "prob": 10 },
+          {
+            "collection": [
+              { "item": "pipe_tobacco" },
+              { "item": "tobacco", "count": [ 0, 40 ], "container-item": "null", "entry-wrapper": "bag_plastic" }
+            ],
+            "prob": 10
+          },
+          { "item": "hatchet", "prob": 10 },
+          { "item": "hardtack", "count": [ 1, 3 ], "prob": 10 },
+          { "item": "pipe_cleaner", "prob": 10 }
+        ],
+        "prob": 10
+      },
+      {
+        "collection": [
+          { "item": "knee_high_boots", "damage": [ 1, 4 ], "prob": 20 },
+          { "item": "breeches", "damage": [ 1, 4 ], "prob": 50 },
+          { "item": "waistcoat", "damage": [ 1, 4 ], "prob": 30 },
+          { "item": "peacoat", "damage": [ 1, 4 ], "prob": 50 },
+          { "item": "leather_belt", "damage": [ 1, 4 ], "prob": 10 },
+          { "item": "knit_scarf", "damage": [ 1, 4 ], "prob": 10 },
+          { "item": "tricorne", "damage": [ 1, 4 ], "prob": 30 },
+          { "item": "gloves_leather", "damage": [ 1, 4 ], "prob": 10 },
+          { "item": "stockings", "damage": [ 1, 4 ], "prob": 20 },
+          { "group": "underwear", "damage": [ 1, 4 ] }
+        ]
+      },
+      {
+        "distribution": [
+          {
+            "distribution": [
+              { "item": "rifle_flintlock", "charges": [ 0, 1 ], "contents-item": "shoulder_strap_simple", "prob": 50 },
+              { "item": "pistol_flintlock", "charges": [ 0, 1 ], "prob": 20 },
+              {
+                "item": "longrifle_flintlock",
+                "charges": [ 0, 1 ],
+                "contents-item": "shoulder_strap_simple",
+                "prob": 30
+              }
+            ],
+            "prob": 50
+          },
+          {
+            "collection": [ { "item": "flintlock_pouch", "damage": [ 1, 4 ] }, { "item": "flintlock_ammo", "charges-min": 0, "charges-max": 14 } ],
+            "prob": 30
+          },
+          { "item": "lamp_oil", "charges": [ 0, 250 ], "container-item": "bottle_plastic_small", "prob": 10 }
+        ]
+      }
+    ]
+  }
+]

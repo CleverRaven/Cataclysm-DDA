@@ -1,0 +1,148 @@
+# 78文字を超える行は自動的に折り返されます
+# 次の行は参照用です
+##############################################################################
+<color_white>オリジナルの作者:</color>    <color_white>プロジェクト管理者:</color>
+<color_yellow>Whales</color> (<color_dark_gray>引退</color>)    <color_yellow>KevinGranade</color>
+
+<color_white>現在の主要な開発者:</color>
+<color_yellow>I-am-Erk</color> - Ultica、物語設定、企画立案
+<color_yellow>KorGgenT</color> - 問題解決の専門家
+
+<color_white>スペシャルサンクス:</color>
+<color_yellow>anothersimulacrum</color> - 困難な作業の遂行
+<color_yellow>BombasticSlacks</color> - 着用システムの具体化に尽力
+<color_yellow>Fris0uman</color> - 冷蔵庫の実用化
+<color_yellow>John-Candlebury</color> - ハブ01などの素晴らしいマップ
+<color_yellow>jbytheway</color> - マップ生成のパラメータと変化
+<color_yellow>BrettDong</color> - 翻訳、奇妙なバグの解析
+<color_yellow>wapcaplet</color> - サイドバーに関するあらゆる作業
+<color_yellow>ZhilkinSerg</color> - あらゆるマージ作業
+<color_yellow>Rivet-the-Zombie</color> - 1日1回のプルリクエストマージを継続
+<color_yellow>Night-Pryanik</color> - 数えきれない量のバグフィックスと機能強化
+<color_yellow>Qrox</color> - UI基盤の改善
+<color_yellow>Ramza13</color> - JSONのチューリング完全化
+<color_yellow>Drew4484</color> - 鋼鉄素材に関するあらゆる作業
+<color_yellow>LyleSY</color> - 更なる恐竜
+<color_yellow>irwiss</color>、<color_yellow>Maleclypse</color>、<color_yellow>Venera3</color>、<color_yellow>MylieDaniels</color>、<color_yellow>andrei8l</color>、<color_yellow>mqrause</color>、<color_yellow>Eltank</color>
+
+<color_white>技術的なスペシャルサンクス:</color>
+<color_yellow>Fris0uman</color>、<color_yellow>Golfavel</color>、<color_yellow>vetall812</color>、<color_yellow>Dandy-boy</color>、その他たくさんの方々
+
+<color_white>全貢献者リスト:</color>
+<color_cyan>https://github.com/CleverRaven/Cataclysm-DDA/contributors</color>
+
+<color_light_cyan>Cataclysm</color>: <color_light_blue>Dark Days Ahead</color>は<color_white>CC-BY-SA 3.0</color>の下にリリースされています:
+<color_cyan>https://creativecommons.org/licenses/by-sa/3.0/</color>
+
+******************************************************************************
+
+<color_white>主要開発者(<color_cyan>0.F</color>):</color>
+<color_yellow>mlangsdorf</color> - 車両、ボート、拠点、MOD作成ガイド
+<color_yellow>I-am-Erk</color> - Ulticaタイルセット保守管理
+<color_yellow>KorGgenT</color> - その他の細々とした作業
+
+<color_white>スペシャルサンクス(<color_cyan>0.F</color>):</color>
+<color_yellow>Aivean</color> - 大幅なパフォーマンス向上への尽力
+<color_yellow>anothersimulacrum </color> - 仕事の追加
+<color_yellow>jbytheway</color> - 仕事の達成の手助け
+<color_yellow>BrettDong</color> - 翻訳など
+<color_yellow>Qrox</color> - エラーメッセージのロケーション表示
+<color_yellow>LyleSY</color> - 恐竜
+
+<color_white>技術的なスペシャルサンクス(<color_cyan>0.F</color>):</color>
+<color_yellow>acepleiades</color>、<color_yellow>barsoosayque</color>、<color_yellow>Fris0uman</color>、<color_yellow>int-ua</color>、その他たくさんの方々
+
+<color_white>全貢献者リスト:</color>
+<color_cyan>https://github.com/CleverRaven/Cataclysm-DDA/contributors</color>
+
+<color_light_cyan>Cataclysm</color>: <color_light_blue>Dark Days Ahead</color>は<color_white>CC-BY-SA 3.0</color>の下にリリースされています:
+<color_cyan>https://creativecommons.org/licenses/by-sa/3.0/</color>
+
+******************************************************************************
+
+<color_white>主な開発者 (<color_cyan>0.E</color>):</color>
+<color_yellow>mlangsdorf</color> - 車両、ボート、拠点、MOD作成ガイド
+<color_yellow>I-am-Erk</color> - Ulticaタイルセット、台詞、NPC、キッチン小物
+<color_yellow>KorGgenT</color> - Magiclysm、胃痛
+
+<color_white>スペシャルサンクス(<color_cyan>0.E</color>):</color>
+<color_yellow>Narc</color> - Jenkinsビルドbot保守管理
+<color_yellow>Rivet-the-Zombie</color> - 1日1回のプルリクエストマージ
+<color_yellow>BevapDin</color> - コードレビューやリファクタリングへの尽力
+<color_yellow>BrettDong</color> - 翻訳
+<color_yellow>curstwist</color> - 屋根、マップ生成、NPC、更新履歴
+<color_yellow>davidpwbrown</color> - 自動移動と自動移動、騎乗
+<color_yellow>jbytheway</color> - 継続的インティグレーションと(tri)point作成
+<color_yellow>Hymore246</color> - 戦闘スタイルのオーバーホール
+<color_yellow>Qrox</color> - Windowsビルドでのバックトレース可読化
+<color_yellow>ZhilkinSerg</color> - マージテスト
+
+<color_white>全貢献者リストはGitリポジトリをご参照ください:</color>
+<color_cyan>https://github.com/CleverRaven/Cataclysm-DDA</color>
+
+******************************************************************************
+
+<color_white>主な開発者 (<color_cyan>0.D</color>):</color>
+<color_yellow>KevinGranade</color>、<color_yellow>Rivet-the-Zombie</color>、<color_yellow>BevapDin</color>、<color_yellow>Coolthulu</color>、<color_yellow>i2amroy</color>
+
+<color_white>スペシャルサンクス(<color_cyan>0.D</color>):</color>
+<color_yellow>Narc</color> - Jenkinsビルドbot設定
+Acidia - 素晴らしいNPC、クエスト、ロケーションに貢献
+<color_yellow>Wuzzy</color>、 <color_yellow>VlasovVitaly</color> - 翻訳への超人的貢献
+<color_yellow>HuXTUS</color> - 膨大な量の素晴らしいコンテンツ
+
+******************************************************************************
+
+<color_white>主な開発者 (<color_cyan>0.C</color>):</color>
+<color_yellow>KevinGranade</color>、<color_yellow>Rivet-the-Zombie</color>、<color_yellow>KA101</color>、<color_yellow>BevapDin</color>、<color_yellow>Coolthulu</color>、<color_yellow>i2amroy</color>
+
+<color_white>スペシャルサンクス(<color_cyan>0.C</color>):</color>
+<color_yellow>Narc</color> - Jenkinsビルドbot設定
+Acidia - 素晴らしいNPC、クエスト、ロケーションに貢献
+<color_yellow>Wuzzy</color>、 <color_yellow>VlasovVitaly</color> - 翻訳への超人的貢献
+<color_yellow>HuXTUS</color> - 膨大な量の素晴らしいコンテンツ
+
+******************************************************************************
+
+<color_white>主な開発者 (<color_cyan>0.B</color>):</color>
+<color_yellow>KevinGranade</color>、<color_yellow>Rivet-the-Zombie</color>、<color_yellow>KA101</color>、<color_yellow>BevapDin</color>
+
+<color_white>スペシャルサンクス(<color_cyan>0.B</color>):</color>
+<color_yellow>Narc</color> - Jenkinsビルドbot設定
+Acidia - 素晴らしいNPC、クエスト、ロケーションに貢献
+<color_yellow>Wuzzy</color>、 <color_yellow>VlasovVitaly</color> - 翻訳への超人的貢献
+<color_yellow>i2amroy</color> - 基盤システムの大規模改修など
+<color_yellow>HuXTUS</color> - 膨大な量の素晴らしいコンテンツ
+
+******************************************************************************
+
+<color_white>主な開発者 (<color_cyan>0.A</color>):</color>
+<color_yellow>KevinGranade</color>、<color_yellow>i2amroy</color>、<color_yellow>Rivet-the-Zombie</color>、<color_yellow>KA101</color>、<color_yellow>BevapDin</color>
+
+<color_white>スペシャルサンクス(<color_cyan>0.A</color>):</color>
+<color_yellow>TheDarklingWolf</color> - 我々の知るCataclysm:DDAを作り上げた
+<color_yellow>Narc</color> - Jenkinsビルドbot設定
+<color_yellow>BevapDin</color> - たゆまぬバグフィックス作業
+<color_yellow>dwarfkoala</color> - 膨大なバグのトリアージ
+<color_yellow>Ill-kun</color> - 無数のUI整理
+
+******************************************************************************
+
+<color_white>主な開発者 (<color_cyan>0.9</color>):</color>
+<color_yellow>KevinGranade</color>、<color_yellow>GalenEvil</color>、<color_yellow>i2amroy</color>、<color_yellow>AtomicDryad</color>、<color_yellow>Ianestrachan</color>
+
+<color_white>スペシャルサンクス(<color_cyan>0.9</color>):</color>
+<color_yellow>TheDarklingWolf</color> - 我々の知るCataclysm:DDAを作り上げた
+<color_yellow>Narc</color> - Jenkinsビルドbot設定
+<color_yellow>yobbobanana</color> - 翻訳者とGitHubの橋渡し
+<color_yellow>Angela 'Rivet' Graves</color> - 大変動を続けるコンテンツの絶え間ない創造
+
+******************************************************************************
+
+<color_white>主な開発者 (<color_cyan>0.8</color>):</color>
+<color_yellow>Kevingranade</color>、<color_yellow>GalenEvil</color>、<color_yellow>i2amroy</color>、<color_yellow>AtomicDryad</color>、<color_yellow>Ozone</color>
+
+<color_white>スペシャルサンクス(<color_cyan>0.8</color>):</color>
+<color_yellow>TheDarklingWolf</color> - 我々の知るCataclysm:DDAを作り上げた
+<color_yellow>Narc</color> - Jenkinsビルドbot設定
+<color_yellow>yobbobanana</color> - 翻訳者とGitHubの橋渡し

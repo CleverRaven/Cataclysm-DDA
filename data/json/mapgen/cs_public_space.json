@@ -1,0 +1,47 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": [ "cs_public_space" ],
+    "method": "json",
+    "weight": 1000,
+    "object": {
+      "fill_ter": "t_sidewalk",
+      "rows": [
+        "           ss           ",
+        "           ss           ",
+        "   ####### ss #######   ",
+        "  ##fffff  ss  fffff##  ",
+        "  #ff      ss      ff#  ",
+        "  #f  ssssssssssss  f#  ",
+        "  #f sssbbssssbbsss f#  ",
+        "  #f ssssssssssssss f#  ",
+        "  #f sbssssssssssbs f#  ",
+        "  #f sbssswwwwsssbs f#  ",
+        "  #f sssswwwwwwssss f#  ",
+        "  #f sssswwSSwwssss f#  ",
+        "  #f sssswwSSwwssss f#  ",
+        "  #f sssswwwwwwssss f#  ",
+        "  #f sbssswwwwsssbs f#  ",
+        "  #f sbssssssssssbs f#  ",
+        "  #f ssssssssssssss f#  ",
+        "  #f sssbbssssbbsss f#  ",
+        "  #f  ssssssssssss  f#  ",
+        "  #ff              ff#  ",
+        "  ##ffffffffffffffff##  ",
+        "   ##################   ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": {
+        " ": "t_region_groundcover_urban",
+        "s": "t_sidewalk",
+        "w": "t_water_pool_shallow_outdoors",
+        "#": "t_region_shrub_decorative",
+        "S": "t_water_pool_shallow_outdoors",
+        "f": "t_region_groundcover_urban"
+      },
+      "furniture": { "S": "f_statue", "b": "f_bench", "f": "f_region_flower_decorative" },
+      "items": { "b": { "item": "oa_discarded_news", "chance": 5 } }
+    }
+  }
+]

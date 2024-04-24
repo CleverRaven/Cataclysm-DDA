@@ -1,0 +1,229 @@
+[
+  {
+    "type": "snippet",
+    "category": "schizo_self_talk",
+    "text": [
+      "Hey, can you hear me?",
+      "I think I know what I'm doing.",
+      "Don't touch me.",
+      "What's your name?",
+      "I thought you were my friend.",
+      "How are you today?",
+      "Shut up!  Don't lie to me.",
+      "How do I bring you back?",
+      "They're all gone…",
+      "Why did you leave me?",
+      "Oh, there you are.",
+      "…and just where have you been?",
+      "You hungry?  I've got plenty of food.",
+      "You thirsty?  I've got water.",
+      "Why would you do that?",
+      "Please don't go.",
+      "Don't leave me alone!",
+      "Yeah, sure.",
+      "No way man.",
+      "Do you really think so?",
+      "Is it really time for that?",
+      "Sorry, I can't hear you.",
+      "You've told me already.",
+      "I know!",
+      "Where the hell am I?",
+      "Why are you following me?",
+      "This place is dangerous, we shouldn't be here.",
+      "What are you doing out here?",
+      "That's not true, is it?",
+      "Are you hurt?",
+      "Tell me where it hurts."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<schizo_weapon_talk_monster>",
+    "//": "In the future, it would be preferable for the snippet to use the monster's name, instead of a generic insult.",
+    "text": [
+      "Hey, let's go kill that <name_b>!",
+      "Did you see that <name_b>!?  Be careful.",
+      "Look out!  That creature is dangerous!",
+      "I want to kill that <name_b>!",
+      "That intruder looks like it wants to party.",
+      "I think that <name_b> wants to talk to you.",
+      "That <name_b> wants to be your friend!",
+      "Arrest that <name_b>!",
+      "That <name_b> hasn't met it's quota.",
+      "That guy deserves a raise!",
+      "We should give that <name_b> a stern talking to.",
+      "Maybe we can reason with that creature!",
+      "That <name_b> must be pulling the strings…",
+      "Let me kill that <name_b>!  Please?",
+      "I need to kill that <name_b>!",
+      "I want to watch that <name_b> bleed!",
+      "Wait, that <name_b> needs to die!",
+      "Go kill that <name_b>!  NOW!",
+      "Stop!  Look at that monster.",
+      "That <name_b> doesn't deserve to live!"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<schizo_weapon_talk_bleeding>",
+    "text": [
+      "Hey, you're hurt.",
+      "Your wound looks pretty bad.",
+      "Shouldn't you put a bandage on that?",
+      "You look hurt, did I do that?  I'm sorry.",
+      "Please don't die!  No one else lets me kill things!",
+      "Are you supposed to be bleeding?",
+      "You're not going to die are you?",
+      "You're bleeding you know.",
+      "That's not jelly on your coat lad, that's blood!",
+      "Take out a few more before you die!",
+      "Oh God.  Please don't die.  Not now!",
+      "'Tis but a flesh wound.",
+      "Gross, you're bleeding all over me.",
+      "Hold fast, you can do this.",
+      "When's your next doctor's appointment?"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<schizo_weapon_talk_damaged>",
+    "text": [
+      "Hey, fix me up will ya?",
+      "I need healing!",
+      "It hurts all over…",
+      "You can put me back together, right?",
+      "I… I can't move my legs!",
+      "Medic!",
+      "You gonna let me die too?!",
+      "No!  I can't die now!",
+      "I can still fight, don't replace me!",
+      "They got me!",
+      "You're nothing without me, NOTHING!",
+      "*cough cough* Go on without me…",
+      "Am I gonna die?",
+      "Is anybody here a doctor!?"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<schizo_weapon_talk_misc>",
+    "text": [
+      "Let me kill something already!",
+      "I'm bored.",
+      "What's for dinner?",
+      "Wow!  Everything looks so… nevermind.",
+      "You seriously need friends.",
+      "So, got any hobbies?",
+      "I spy with my little eye… oh right, I don't have eyes.",
+      "Lovely weather we're having, huh?",
+      "So what if everyone you know is dead, you've still got me, right?",
+      "Best friends forever!",
+      "Come on!  What're we doing here?!",
+      "This trip was pointless.",
+      "You're gonna die out here.",
+      "You're in charge?  We're screwed.",
+      "Dang, you look terrible.",
+      "You should take a shower.",
+      "We should go home, it's not safe here.",
+      "We're in over our heads!",
+      "There's something following us, I can feel it.",
+      "I'm your best friend, right?",
+      "How are you today?",
+      "Sorry about earlier, can you forgive me?",
+      "Do you think it'll rain today?",
+      "I love you!",
+      "Shhh… I think I heard something.",
+      "Did you hear that?",
+      "Try not to drop me.",
+      "How many do you think we've killed?",
+      "I'll keep you safe."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "schizo_delusion_paranoid",
+    "text": [
+      "You feel like the world is out to get you.",
+      "You feel a mounting sense of impending doom.",
+      "You gain the sudden realization that you must have been responsible for the Cataclysm.",
+      "You get the odd feeling that your thoughts are not your own.",
+      "You feel as if everyone in the world must be playing a sick prank on you.",
+      "You are being watched… by THEM.",
+      "You feel like you should get back home.",
+      "You can feel your heart racing, something is watching you.",
+      "You feel lost.  Painfully and irrevocably lost."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "schizo_delusion_grandiose",
+    "text": [
+      "You gain the sudden realization that you are the creator of the universe.",
+      "You increase all your skills to level 10.",
+      "You gain the sudden realization that you must have been responsible for the Cataclysm.",
+      "You feel that this must be a global reality show, in which you are the star.",
+      "You now know that you are a secret agent, kept alive to continue serving the government.",
+      "You feel in full control of the situation."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "schizo_formication",
+    "text": [
+      "Your skin feels itchy.",
+      "You can feel something wriggling underneath your skin.",
+      "You can feel insects crawling all over you.",
+      "You feel larvae wriggling beneath the skin.",
+      "You feel itchy all over.",
+      "You feel like you're covered in bugs.",
+      "You feel bugs crawling on you."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "schizo_self_shout",
+    "text": [
+      "\"Get away from here!\"",
+      "\"What do you think you're doing?\"",
+      "\"Stop laughing at me!\"",
+      "\"Don't point that thing at me!\"",
+      "\"Stay away from me!\"",
+      "\"No!  Stop!\"",
+      "\"Get the fuck away from me!\"",
+      "\"That's not true!\"",
+      "\"What do you want from me?\"",
+      "\"I didn't mean to do it!\"",
+      "\"It wasn't my fault!\"",
+      "\"I had to do it!\"",
+      "\"They made me do it!\"",
+      "\"What are you!?\"",
+      "\"I should never have trusted you!\""
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<schizo_weapon_drop>",
+    "//": "In the future, it would be preferable for the snippet to use the object's name, instead of \"Your weapon\"",
+    "text": [
+      "Your weapon starts burning your hands!",
+      "Your weapon feels freezing cold!",
+      "An electric shock shoots into your hand from Your weapon!",
+      "Your weapon was working for… THEM",
+      "Your weapon is running away!",
+      "Your weapon is a dirty traitor!"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "schizo_hear_sound",
+    "text": [
+      "From the <random_direction> you hear <random_sound>",
+      "From the <random_direction> <up_or_down> you hear <random_sound>"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "broken_limb",
+    "text": [ "Your limb breaks!" ]
+  }
+]

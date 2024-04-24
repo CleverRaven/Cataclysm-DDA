@@ -1,0 +1,42 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "cave_innawood",
+    "name": "cave",
+    "looks_like": "cave",
+    "sym": "C",
+    "color": "brown",
+    "see_cost": 2,
+    "flags": [ "NO_ROTATE", "SOURCE_SAFETY" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cave_underground_innawood",
+    "name": "cave",
+    "looks_like": "cave_underground",
+    "sym": "C",
+    "color": "brown",
+    "see_cost": 2,
+    "flags": [ "NO_ROTATE", "SOURCE_SAFETY" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cave_rat_underground_innawood",
+    "name": "rat cave",
+    "looks_like": "cave_rat_underground",
+    "sym": "C",
+    "color": "brown",
+    "see_cost": 2,
+    "flags": [ "NO_ROTATE", "SOURCE_SAFETY" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cave_rat_innawood",
+    "name": "rat cave",
+    "looks_like": "cave_rat",
+    "sym": "C",
+    "color": "dark_gray",
+    "see_cost": 2,
+    "flags": [ "KNOWN_DOWN", "NO_ROTATE", "SOURCE_SAFETY" ]
+  }
+]

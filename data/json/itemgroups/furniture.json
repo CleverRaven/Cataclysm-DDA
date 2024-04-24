@@ -1,0 +1,103 @@
+[
+  {
+    "type": "item_group",
+    "id": "knifeblock",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "knife_steak", "prob": 85 },
+      { "item": "knife_butcher", "prob": 10 },
+      { "item": "kukri", "prob": 1 },
+      { "item": "tongs", "prob": 28 },
+      { "item": "meat", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "oven",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "pan", "prob": 80 },
+      { "item": "rolling_pin", "prob": 25 },
+      { "item": "waffleiron", "prob": 25 },
+      { "item": "teapot", "prob": 25 },
+      { "item": "pot", "prob": 80 },
+      { "item": "pot_copper", "prob": 20 },
+      { "item": "pot_canning", "prob": 15 },
+      { "item": "pressure_cooker", "prob": 5 },
+      { "item": "dutch_oven", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "bed",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "blanket", "prob": 2500 },
+      { "item": "down_blanket", "prob": 1300 },
+      { "item": "pillow", "prob": 3000 },
+      { "item": "down_pillow", "prob": 1500 },
+      { "item": "electric_blanket", "prob": 400 },
+      { "item": "quilt", "prob": 1000 },
+      { "item": "quilt_patchwork", "prob": 800 },
+      { "item": "teddy_bear", "variant": "toy_plush_teddy", "prob": 190 },
+      { "item": "teddy_bear", "prob": 10 },
+      { "item": "shark_plushie", "prob": 5 },
+      { "item": "bodypillow", "prob": 2 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "pool_table",
+    "subtype": "distribution",
+    "entries": [ { "item": "pool_cue", "prob": 4 }, { "item": "pool_ball", "prob": 40 } ]
+  },
+  {
+    "id": "barrels",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "wooden_barrel", "prob": 30 },
+      { "item": "30gal_barrel", "prob": 50 },
+      { "item": "30gal_drum", "prob": 45 },
+      { "item": "55gal_drum", "prob": 35 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "flower_pots",
+    "subtype": "distribution",
+    "entries": [ { "item": "clay_pot_flower", "prob": 65 }, { "item": "plastic_pot_flower", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "flower_pots_broken",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "ceramic_shard", "prob": 65, "count-min": 2, "count-max": 5 },
+      { "item": "plastic_chunk", "prob": 100, "count-min": 2, "count-max": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "entertainment_center_loot",
+    "//": "something you can find in entertainment center, except the tv",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "games", "prob": 40, "count-min": 0, "count-max": 3 },
+      { "group": "magazines", "prob": 40, "count-min": 0, "count-max": 6 },
+      { "group": "newspaper", "prob": 40, "count-min": 1, "count-max": 2 },
+      { "group": "homebooks", "prob": 40, "count-min": 0, "count-max": 4 },
+      { "group": "novels", "prob": 40, "count-min": 0, "count-max": 8 },
+      { "group": "religious_books", "prob": 40, "count-min": 0, "count-max": 8 },
+      { "item": "stereo", "prob": 30 },
+      { "item": "portable_game", "prob": 30 },
+      { "item": "battery_charger", "prob": 40 },
+      { "item": "extension_cable", "prob": 30 },
+      { "item": "microphone_xlr_generic", "prob": 20 },
+      { "item": "cable_xlr", "prob": 40 },
+      { "item": "cable_speaker", "prob": 20 },
+      { "item": "headphones_circumaural", "prob": 10 },
+      { "item": "cable_instrument", "prob": 5 }
+    ]
+  }
+]

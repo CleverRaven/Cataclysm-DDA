@@ -1,0 +1,300 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ANT",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_ant_larva", "weight": 40, "cost_multiplier": 0 },
+      { "monster": "mon_ant_soldier", "weight": 90, "cost_multiplier": 5 },
+      { "monster": "mon_ant_queen", "weight": 0, "cost_multiplier": 0 },
+      { "monster": "mon_ant_small", "weight": 870, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ANT_SURFACE",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_ant_soldier", "weight": 90, "cost_multiplier": 5 },
+      { "monster": "mon_aphid", "weight": 40, "pack_size": [ 3, 10 ], "cost_multiplier": 0 },
+      { "monster": "mon_lady_bug", "weight": 10, "pack_size": [ 1, 3 ], "cost_multiplier": 10 },
+      { "monster": "mon_lady_bug_giant", "weight": 5, "cost_multiplier": 10, "starts": "15 days" },
+      { "monster": "mon_antlion_larva", "weight": 5, "cost_multiplier": 10 },
+      { "monster": "mon_antlion_giant", "weight": 3, "cost_multiplier": 10 },
+      { "monster": "mon_ant_small", "weight": 852, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ACID_ANT",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_ant_acid_larva", "weight": 35, "cost_multiplier": 0 },
+      { "monster": "mon_ant_acid_soldier", "weight": 100, "cost_multiplier": 5 },
+      { "monster": "mon_ant_acid_queen", "weight": 0, "cost_multiplier": 0 },
+      { "monster": "mon_ant_acid_small", "weight": 865, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ACID_ANT_SURFACE",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_ant_acid_soldier", "weight": 90, "cost_multiplier": 5 },
+      { "monster": "mon_aphid", "weight": 40, "pack_size": [ 3, 10 ], "cost_multiplier": 0 },
+      { "monster": "mon_lady_bug", "weight": 10, "pack_size": [ 1, 3 ], "cost_multiplier": 10 },
+      { "monster": "mon_lady_bug_giant", "weight": 5, "cost_multiplier": 10, "starts": "15 days" },
+      { "monster": "mon_antlion_larva", "weight": 5, "cost_multiplier": 10 },
+      { "monster": "mon_antlion_giant", "weight": 3, "cost_multiplier": 10 },
+      { "monster": "mon_ant_acid_small", "weight": 852, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_BEEHIVE",
+    "monsters": [ { "monster": "mon_bee_small", "cost_multiplier": 0 }, { "monster": "mon_bee", "cost_multiplier": 5 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_BEE",
+    "monsters": [ { "monster": "mon_bee_small", "cost_multiplier": 0 } ]
+  },
+  {
+    "name": "GROUP_DERMATIK",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_dermatik" } ]
+  },
+  {
+    "name": "GROUP_DERMATIK_INCUB",
+    "type": "monstergroup",
+    "default": "mon_dermatik_incubator_deer",
+    "monsters": [
+      { "monster": "mon_dermatik_incubator_spider", "weight": 500 },
+      { "monster": "mon_dermatik_incubator_dog", "weight": 100 },
+      { "monster": "mon_dermatik_incubator_deer", "weight": 400 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ROACH",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_large_cockroach", "weight": 975, "cost_multiplier": 0 },
+      { "monster": "mon_pregnant_giant_cockroach", "weight": 5, "cost_multiplier": 2 },
+      { "monster": "mon_giant_cockroach_nymph", "weight": 20, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_PLAGUE_ROACH",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_skittering_plague", "weight": 975, "cost_multiplier": 0 },
+      { "monster": "mon_plague_vector", "weight": 5, "cost_multiplier": 2 },
+      { "monster": "mon_plague_nymph", "weight": 20, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_SPIDER",
+    "monsters": [ { "monster": "mon_spider_web_small", "cost_multiplier": 0 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_SPIDER_BASEMENT",
+    "default": "mon_spider_cellar_small",
+    "//": "`monster` ignores group-level pack size, so numbers are set in mapgen",
+    "monsters": [
+      { "monster": "mon_spider_cellar_small", "weight": 300, "ends": "14 days" },
+      { "monster": "mon_spider_cellar_giant", "weight": 220, "starts": "7 days", "ends": "28 days" },
+      { "monster": "mon_spider_cellar_mom", "weight": 80, "starts": "7 days" },
+      { "monster": "mon_spider_cellar_giant", "weight": 200, "starts": "28 days" },
+      { "monster": "mon_spider_cellar_mega", "weight": 100, "cost_multiplier": 0, "starts": "28 days" }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_SPIDER_CELLAR",
+    "default": "mon_spider_cellar_giant",
+    "monsters": [ { "monster": "mon_spider_cellar_giant", "weight": 5 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_SPIDER_CELLAR_GIANT",
+    "monsters": [
+      { "monster": "mon_spider_cellar_giant", "weight": 5 },
+      { "monster": "mon_spider_cellar_mom", "weight": 2 },
+      { "monster": "mon_spider_cellar_mega", "weight": 3 }
+    ]
+  },
+  {
+    "name": "GROUP_WASP_NEST",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_wasp_small", "weight": 500, "ends": "180 hours", "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
+      {
+        "monster": "mon_wasp_small",
+        "weight": 500,
+        "starts": "180 hours",
+        "ends": "540 hours",
+        "pack_size": [ 2, 4 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_wasp_small_guard",
+        "weight": 500,
+        "ends": "180 hours",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_wasp_small_guard",
+        "weight": 500,
+        "starts": "180 hours",
+        "ends": "540 hours",
+        "pack_size": [ 2, 4 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_wasp",
+        "weight": 500,
+        "starts": "180 hours",
+        "ends": "540 hours",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_wasp",
+        "weight": 500,
+        "starts": "540 hours",
+        "pack_size": [ 2, 4 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_wasp_guard",
+        "weight": 500,
+        "starts": "180 hours",
+        "ends": "540 hours",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_wasp_guard",
+        "weight": 500,
+        "starts": "540 hours",
+        "pack_size": [ 2, 4 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      }
+    ]
+  },
+  {
+    "name": "GROUP_WASP_FORAGER",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_wasp_small", "weight": 1000, "ends": "180 hours", "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] },
+      {
+        "monster": "mon_wasp_small",
+        "weight": 500,
+        "starts": "180 hours",
+        "ends": "540 hours",
+        "pack_size": [ 2, 4 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_wasp",
+        "weight": 1000,
+        "starts": "15 days",
+        "ends": "30 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_wasp",
+        "weight": 1000,
+        "starts": "30 days",
+        "pack_size": [ 2, 4 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      }
+    ]
+  },
+  {
+    "name": "GROUP_WASP_GUARD",
+    "type": "monstergroup",
+    "monsters": [
+      {
+        "monster": "mon_wasp_small_guard",
+        "weight": 1000,
+        "ends": "180 hours",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_wasp_small_guard",
+        "weight": 500,
+        "starts": "180 hours",
+        "ends": "540 hours",
+        "pack_size": [ 2, 4 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_wasp_guard",
+        "weight": 500,
+        "starts": "180 hours",
+        "ends": "540 hours",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_wasp_guard",
+        "weight": 500,
+        "starts": "540 hours",
+        "pack_size": [ 2, 4 ],
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      }
+    ]
+  },
+  {
+    "name": "GROUP_WASP_QUEEN",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_wasp_queen", "weight": 1000, "cost_multiplier": 50, "ends": "30 days" },
+      { "monster": "mon_wasp_mega", "weight": 1000, "cost_multiplier": 50, "starts": "15 days" }
+    ]
+  },
+  {
+    "name": "GROUP_WASP_PUPA",
+    "type": "monstergroup",
+    "default": "mon_wasp",
+    "monsters": [
+      { "monster": "mon_dermatik", "weight": 50 },
+      { "monster": "mon_wasp_guard", "weight": 500 },
+      { "monster": "mon_wasp", "weight": 450 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_WORM",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_graboid", "weight": 30, "cost_multiplier": 20, "starts": "13 days" },
+      { "monster": "mon_halfworm", "weight": 0, "cost_multiplier": 0 },
+      { "monster": "mon_worm_small", "weight": 970, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_BUTTERFLY",
+    "default": "mon_butterfly",
+    "monsters": [ { "monster": "mon_butterfly", "weight": 50 }, { "monster": "mon_moth", "weight": 50 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_BUTTERFLY_GIANT",
+    "default": "mon_butterfly_giant",
+    "monsters": [
+      { "monster": "mon_butterfly_giant", "weight": 45 },
+      { "monster": "mon_butterfly_titan", "weight": 5, "cost_multiplier": 2 },
+      { "monster": "mon_moth_giant", "weight": 45 },
+      { "monster": "mon_moth_titan", "weight": 5, "cost_multiplier": 2 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_CENTIPEDE_MOM_SUMMON",
+    "monsters": [ { "monster": "mon_centipede_small", "weight": 67 }, { "monster": "mon_centipede_larva", "weight": 33 } ]
+  }
+]

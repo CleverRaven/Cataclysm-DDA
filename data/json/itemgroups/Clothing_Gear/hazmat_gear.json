@@ -1,0 +1,29 @@
+[
+  {
+    "id": "decontamination_room",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "hazmat_suit", "prob": 60 },
+      { "item": "mask_gas", "prob": 60, "charges-min": 0 },
+      { "item": "gasfilter_med", "prob": 60, "charges-min": 0 },
+      { "item": "rad_monitor", "prob": 33, "charges": [ 0, 100 ] },
+      { "prob": 33, "group": "iodine_bottle_plastic_pill_supplement_1_10" },
+      { "group": "full_1st_aid", "prob": 15 },
+      { "item": "geiger_off", "prob": 15, "charges": [ 0, 100 ] }
+    ]
+  },
+  {
+    "id": "decontamination_room_portal_lab",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "xedra_enviro_suit", "prob": 60 },
+      { "item": "rebreather", "prob": 60 },
+      { "item": "rebreather_cartridge_regen", "prob": 60, "charges-min": 0 },
+      { "item": "dimensional_anchor", "prob": 33, "charges": [ 0, 2500 ] },
+      { "group": "full_1st_aid", "prob": 15 },
+      { "item": "geiger_off", "prob": 15, "charges": [ 0, 100 ] }
+    ]
+  }
+]

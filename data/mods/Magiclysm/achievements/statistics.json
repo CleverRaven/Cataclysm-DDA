@@ -1,0 +1,55 @@
+[
+  {
+    "id": "avatar_levels_spell",
+    "type": "event_transformation",
+    "event_type": "player_levels_spell",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" } },
+    "drop_fields": [ "character" ]
+  },
+  {
+    "id": "avatar_learns_spell",
+    "type": "event_transformation",
+    "event_type": "character_learns_spell",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" } },
+    "drop_fields": [ "character" ]
+  },
+  {
+    "id": "num_spells_learned",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_learns_spell",
+    "description": { "str": "spell learned", "str_pl": "spells learned" }
+  },
+  {
+    "id": "avatar_forgets_spell",
+    "type": "event_transformation",
+    "event_type": "character_forgets_spell",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" } },
+    "drop_fields": [ "character" ]
+  },
+  {
+    "id": "num_spells_forgotten",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_forgets_spell",
+    "description": { "str": "spell forgotten", "str_pl": "spells forgotten" }
+  },
+  {
+    "id": "avatar_max_spell_level",
+    "type": "event_statistic",
+    "stat_type": "maximum",
+    "field": "new_level",
+    "event_transformation": "avatar_levels_spell",
+    "description": { "str_sp": "maximum spell level earned" }
+  },
+  {
+    "type": "score",
+    "id": "score_spells_learned",
+    "statistic": "num_spells_learned"
+  },
+  {
+    "type": "score",
+    "id": "score_spells_forgotten",
+    "statistic": "num_spells_forgotten"
+  }
+]

@@ -1,0 +1,207 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_bathtub",
+    "name": "bathtub",
+    "symbol": "~",
+    "description": "An ordinary ceramic tub, with a now-functionless steel faucet and a plug fixed over the drain.  Watertight and relatively clean, it would make for a good water trough.",
+    "color": "white",
+    "move_cost_mod": 2,
+    "coverage": 30,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE", "LIQUIDCONT" ],
+    "max_volume": "200 L",
+    "examine_action": "keg",
+    "keg_capacity": 600,
+    "bash": {
+      "str_min": 12,
+      "str_max": 50,
+      "sound": "porcelain breaking!",
+      "sound_fail": "whunk!",
+      "items": [
+        { "item": "cu_pipe", "prob": 50 },
+        { "item": "water_faucet", "prob": 50 },
+        { "item": "pipe_fittings", "count": [ 0, 2 ] },
+        { "item": "ceramic_shard", "count": [ 6, 18 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_shower",
+    "name": "shower",
+    "symbol": "~",
+    "description": "A small enclosed ceramic room with a glass door and plumbing fixtures for cleaning oneself.  Before it was a commonplace amenity, but now it's hard to imagine wasting that much water.",
+    "color": "white",
+    "move_cost_mod": 0,
+    "coverage": 35,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR" ],
+    "bash": {
+      "str_min": 6,
+      "str_max": 30,
+      "sound": "porcelain breaking!",
+      "sound_fail": "whunk!",
+      "sound_vol": 16,
+      "sound_fail_vol": 12,
+      "items": [
+        { "item": "cu_pipe", "count": [ 0, 2 ] },
+        { "item": "scrap_copper", "count": [ 0, 2 ] },
+        { "item": "pipe_fittings", "count": [ 0, 2 ] },
+        { "item": "ceramic_shard", "count": [ 2, 6 ] },
+        { "item": "glass_shard", "count": [ 8, 16 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_sink",
+    "name": "sink",
+    "symbol": "&",
+    "description": "A porcelain water basin with a water tap and drain, designed to be fitted into an opening on a countertop.",
+    "color": "white",
+    "move_cost_mod": 2,
+    "coverage": 60,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "MOUNTABLE" ],
+    "connect_groups": "COUNTER",
+    "connects_to": "COUNTER",
+    "rotates_to": "INDOORFLOOR",
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "porcelain breaking!",
+      "sound_fail": "whunk!",
+      "items": [
+        { "item": "cu_pipe", "prob": 50 },
+        { "item": "water_faucet", "prob": 50 },
+        { "item": "pipe_fittings", "count": [ 0, 2 ] },
+        { "item": "ceramic_shard", "count": [ 2, 8 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_toilet",
+    "name": "toilet",
+    "symbol": "o",
+    "color": "white",
+    "description": "An invaluable fixture in any home, it would be a miracle to have one that works.  The standing tank may hold a moderate amount of water, but while better than anything that would be in the bowl, it would not be the cleanest.",
+    "move_cost_mod": 2,
+    "coverage": 30,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "MOUNTABLE", "LIQUIDCONT", "TOILET_WATER" ],
+    "examine_action": "finite_water_source",
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "porcelain breaking!",
+      "sound_fail": "whunk!",
+      "items": [
+        { "item": "cu_pipe", "prob": 50 },
+        { "item": "ceramic_shard", "count": [ 2, 8 ] },
+        { "item": "wax_paraffin", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_water_heater",
+    "name": "water heater",
+    "looks_like": "f_standing_tank",
+    "description": "An insulated metal tank with a small fire used to maintain near-boiling temperatures.  There's no longer any way to power it, but any water left in the large tank from before the power went out should be pretty clean, and it could be used to store large quantities of other liquids too.",
+    "symbol": "0",
+    "bgcolor": "white",
+    "move_cost_mod": -1,
+    "coverage": 55,
+    "required_str": -1,
+    "flags": [ "CONTAINER", "PLACE_ITEM", "LIQUIDCONT", "NOITEM", "SEALED", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
+    "//": "keg_capacity assumed to be from model XE36S06ST45U0 water heater <https://images.thdstatic.com/catalog/pdfImages/2d/2d7ed116-1a8c-439d-b7fe-a62a0a98f806.pdf>",
+    "examine_action": "keg",
+    "keg_capacity": 400,
+    "deconstruct": { "items": [ { "item": "household_water_heater", "count": 1 } ] },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal", "count": [ 2, 6 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 0, 2 ] },
+        { "item": "cu_pipe", "count": [ 1, 4 ] },
+        { "item": "scrap_copper", "count": [ 0, 2 ] },
+        { "item": "water_faucet", "count": [ 0, 1 ] },
+        { "item": "material_aluminium_ingot", "count": 2 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_water_heater_family",
+    "name": "family–sized water heater",
+    "looks_like": "f_water_heater",
+    "description": "An insulated metal tank with a small fire used to maintain near-boiling temperatures.  There's no longer any way to power it, but any water left in the large tank from before the power went out should be pretty clean, and it could be used to store large quantities of other liquids too.",
+    "symbol": "0",
+    "bgcolor": "white",
+    "move_cost_mod": -1,
+    "coverage": 55,
+    "required_str": -1,
+    "flags": [ "CONTAINER", "PLACE_ITEM", "LIQUIDCONT", "NOITEM", "SEALED", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
+    "//": "keg_capacity assumed to be from model XG55T06EC50UO water heater <https://images.thdstatic.com/catalog/pdfImages/7e/7e7928b1-8b4f-472a-8ee8-b48eb1e7932a.pdf>",
+    "examine_action": "keg",
+    "keg_capacity": 800,
+    "deconstruct": { "items": [ { "item": "household_water_heater_family", "count": 1 } ] },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 4, 14 ] },
+        { "item": "steel_chunk", "count": [ 1, 6 ] },
+        { "item": "sheet_metal", "count": [ 4, 12 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 1, 4 ] },
+        { "item": "cu_pipe", "count": [ 1, 8 ] },
+        { "item": "scrap_copper", "count": [ 1, 4 ] },
+        { "item": "water_faucet", "count": [ 0, 1 ] },
+        { "item": "material_aluminium_ingot", "count": 4 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_water_purifier",
+    "looks_like": "f_water_heater",
+    "name": "water purifier",
+    "description": "This device effectively sterilizes water.  You can plug it into a power grid to use it.",
+    "symbol": "W",
+    "bgcolor": "blue",
+    "move_cost_mod": -1,
+    "coverage": 50,
+    "required_str": -1,
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "stationary_water_purifier" },
+    "flags": [ "EASY_DECONSTRUCT", "SMALL_HIDE" ],
+    "deconstruct": { "items": [ { "item": "stationary_water_purifier", "count": 1 } ] },
+    "bash": {
+      "str_min": 15,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 0, 1 ] },
+        { "item": "e_scrap", "count": [ 5, 10 ] },
+        { "item": "plastic_chunk", "count": [ 0, 2 ] },
+        { "item": "cu_pipe", "count": [ 1, 3 ] }
+      ]
+    }
+  }
+]

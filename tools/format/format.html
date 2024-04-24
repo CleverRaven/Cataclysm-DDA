@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Cataclysm: DDA Web JSON Linting Tool</title>
+    <meta name="description" content="Cataclysm DDA's web JSON linter for modders and editors">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
+    <style>
+      *,
+      *::before,
+      *::after {
+          box-sizing: border-box;
+      }
+
+      body {
+          font-family: Helvetica, Arial, sans-serif;
+          padding: 15px;
+          background-color: #f0f0f0;
+      }
+
+      form {
+          max-width: 100%;
+      }
+
+      textarea {
+          font-family: monospace;
+          font-size: 1.2em;
+          border: solid 1px #ccc;
+          padding: 15px;
+          transition: border-color .1s ease;
+          width: 100%;
+          max-width: 1400px;
+      }
+
+      textarea:focus {
+          border-color: #444;
+          outline: none;
+      }
+
+      input[type=submit] {
+          display: block;
+          border: solid 1px #ccc;
+          background-color: transparent;
+          -webkit-appearance: none;
+          border-radius: 3px;
+          padding: 10px 35px;
+          font-size: 1.4em;
+          font-weight: 100;
+          background: #333;
+          color: white;
+          transition: background-color .1s ease, transform .1s ease-in;
+      }
+
+      input[type=submit]:hover {
+          background-color: #555;
+          transform: translateY(-1px);
+          box-shadow: 0 1px 3px rgba(0,0,0,.2);
+      }
+    </style>
+    <script>
+      function lint(form) {
+          var txt = form.getElementsByTagName('textarea')[0];
+          var cmd = form.getElementsByTagName('input')[0];
+
+          if (txt.value.length == 0) {
+              return false;
+          }
+          try {
+              JSON.parse(txt.value);
+          } catch (e) {
+              alert('Syntax error');
+              return false;
+          }
+
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', '/tools/format/json_formatter.cgi');
+          xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+          xhr.timeout = 10000; // 10 seconds
+
+          xhr.onload = function() {
+              if (xhr.status == 200) {
+                  txt.value = xhr.responseText;
+              } else if (xhr.status == 304) {
+                  // no-op
+              } else if (xhr.status == 400) {
+                  alert(xhr.responseText);
+              } else {
+                  alert('Linter currently unavailable');
+              }
+              txt.disabled = false;
+              cmd.disabled = false;
+              window.document.body.style.cursor = "default";
+          };
+
+          xhr.ontimeout = function() {
+              alert('Request timed out');
+              txt.disabled = false;
+              cmd.disabled = false;
+              window.document.body.style.cursor = "default";
+          };
+
+          xhr.send('data=' + encodeURIComponent(txt.value));
+
+          txt.disabled = true;
+          cmd.disabled = true;
+          window.document.body.style.cursor = "wait";
+          return false; // suppress default form action
+      }
+    </script>
+  </head>
+  <body>
+    <h1>Cataclysm: Dark Days Ahead JSON Web Linting Tool</h1>
+    <p>This is a tool to help modders and editors of the open source game <a href="https://github.com/CleverRaven/Cataclysm-DDA">Cataclysm: Dark Days Ahead</a> write JSON in the game's expected format.</p>
+    <p>Paste some JSON into the field below and click "Lint" to run an autoformatter against it.</p>
+    <form onsubmit="return lint(this);">
+      <textarea name="data" rows="30" placeholder="Paste JSON here"></textarea>
+      <input type="submit" value="Lint"/>
+    </form>
+  </body>
+</html>
