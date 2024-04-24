@@ -4658,6 +4658,24 @@
     ]
   },
   {
+    "id": "nemesis_buff",
+    "type": "effect_type",
+    "max_duration": "1000 s",
+    "name": [ "SWOLE" ],
+    "desc": [ "If you see this description it is a bug." ],
+    "rating": "bad",
+    "show_intensity": false,
+    "show_in_info": true,
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "SPEED", "multiply": { "math": [ "Nemesis_iteration * 0.1" ] } }
+        ]
+      }
+    ]
+  },
+  {
     "type": "effect_type",
     "id": "molting",
     "name": [ "Molting" ],
