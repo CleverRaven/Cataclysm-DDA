@@ -28,7 +28,7 @@
     "type": "AMMO",
     "name": { "str": "shotshell, birdshot", "str_pl": "shotshells, birdshot" },
     "description": "A shotshell filled with numerous small pellets.  Designed for hunting birds and other small game, its applications in combat are very limited.",
-    "price_postapoc": 2400,
+    "price_postapoc": "24 USD",
     "proportional": { "price": 0.2, "damage": { "damage_type": "bullet", "amount": 0.3 }, "recoil": 0.6, "loudness": 0.8 },
     "extend": { "effects": [ "NOGIB" ] }
   },

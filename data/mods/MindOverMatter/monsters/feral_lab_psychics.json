@@ -78,7 +78,7 @@
         "damage_max_instance": [ { "damage_type": "psi_telekinetic_damage", "amount": 20, "armor_penetration": 10 } ],
         "hitsize_min": 12,
         "range": 8,
-        "throw_strength": 100,
+        "throw_strength": 70,
         "dodgeable": false,
         "uncanny_dodgeable": true,
         "blockable": false,
