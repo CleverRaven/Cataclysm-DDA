@@ -198,7 +198,7 @@ static void done_mark_firewood( const tripoint_bub_ms &, Character & );
 static void done_mark_practice_target( const tripoint_bub_ms &, Character & );
 static void done_ramp_low( const tripoint_bub_ms &, Character & );
 static void done_ramp_high( const tripoint_bub_ms &, Character & );
-static void done_matching_down_above( const tripoint_bub_ms &p, Character & );
+static void add_matching_down_above( const tripoint_bub_ms &p, Character & );
 static void remove_above( const tripoint_bub_ms &p, Character & );
 
 static void do_turn_shovel( const tripoint_bub_ms &, Character & );
@@ -1816,7 +1816,7 @@ void construct::done_ramp_high( const tripoint_bub_ms &p, Character &/*who*/ )
     get_map().ter_set( top, ter_t_ramp_down_high );
 }
 
-void construct::done_matching_down_above( const tripoint_bub_ms &p, Character &/*who*/ )
+void construct::add_matching_down_above( const tripoint_bub_ms &p, Character &/*who*/ )
 {
     map &here = get_map();
     const std::string ter_here = here.ter( p ).id().str();
@@ -2039,7 +2039,7 @@ void load_construction( const JsonObject &jo )
             { "done_mark_practice_target", construct::done_mark_practice_target },
             { "done_ramp_low", construct::done_ramp_low },
             { "done_ramp_high", construct::done_ramp_high },
-            { "add_matching_down_above", construct::done_matching_down_above },
+            { "add_matching_down_above", construct::add_matching_down_above },
             { "remove_above", construct::remove_above }
 
         }
