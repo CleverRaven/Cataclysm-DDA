@@ -190,7 +190,7 @@
     "category": "container",
     "name": { "str": "plastic bag" },
     "looks_like": "bag_canvas",
-    "description": "A small, open plastic bag.  Essentially trash.",
+    "description": "An open plastic bag.  Essentially trash.",
     "ascii_picture": "bag_plastic",
     "weight": "5 g",
     "volume": "10 ml",
@@ -199,6 +199,31 @@
     "to_hit": -1,
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "6 L", "max_contains_weight": "10 kg", "moves": 400 } ],
     "material": [ "plastic" ],
+    "symbol": ")",
+    "color": "light_gray",
+    "flags": [ "COLLAPSE_CONTENTS" ]
+  },
+  {
+    "id": "bag_plastic_small",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "small plastic bag" },
+    "looks_like": "bag_plastic",
+    "description": "A small, open plastic bag.  Essentially trash.",
+    "weight": "1 g",
+    "volume": "2 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "plastic" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "1250 g",
+        "moves": 400
+      }
+    ],
     "symbol": ")",
     "color": "light_gray",
     "flags": [ "COLLAPSE_CONTENTS" ]
@@ -621,6 +646,132 @@
     "description": "A small green pill bottle with a screw top.",
     "ascii_picture": "bottle_plastic_pill_supplement",
     "color": "green"
+  },
+  {
+    "id": "bottle_plastic_seasoning",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "plastic seasoning bottle" },
+    "looks_like": "bottle_plastic",
+    "description": "A 500 mL plastic bottle, for storing large amounts of powder seasoning.",
+    "ascii_picture": "bottle_plastic_seasoning",
+    "weight": "13 g",
+    "volume": "510 ml",
+    "longest_side": "18 cm",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "airtight": true,
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "500 ml",
+        "max_item_volume": "17 ml",
+        "max_contains_weight": "1250 g",
+        "sealed_data": { "spoil_multiplier": 0.5 },
+        "moves": 200
+      }
+    ],
+    "price": "0 cent",
+    "price_postapoc": "10 cent",
+    "to_hit": 1,
+    "material": [ "plastic" ],
+    "symbol": ")",
+    "color": "light_cyan",
+    "flags": [ "COLLAPSE_CONTENTS" ]
+  },
+  {
+    "id": "bottle_plastic_seasoning_small",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "small plastic seasoning bottle" },
+    "looks_like": "bottle_plastic",
+    "description": "A small plastic bottle, the kind seasoning comes in.",
+    "ascii_picture": "bottle_plastic_seasoning",
+    "weight": "7 g",
+    "volume": "255 ml",
+    "longest_side": "14 cm",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "250 ml",
+        "max_item_volume": "17 ml",
+        "max_contains_weight": "1 kg",
+        "sealed_data": { "spoil_multiplier": 0.5 },
+        "moves": 200
+      }
+    ],
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "to_hit": 1,
+    "material": [ "plastic" ],
+    "symbol": ")",
+    "color": "white",
+    "flags": [ "COLLAPSE_CONTENTS" ]
+  },
+  {
+    "id": "bottle_glass_seasoning",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "glass seasoning bottle" },
+    "looks_like": "bottle_plastic",
+    "description": "A 500 mL glass bottle, for storing large amounts of powder seasoning.",
+    "weight": "450 g",
+    "volume": "510 ml",
+    "longest_side": "18 cm",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "airtight": true,
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "500 ml",
+        "max_item_volume": "17 ml",
+        "max_contains_weight": "1250 g",
+        "sealed_data": { "spoil_multiplier": 0.5 },
+        "moves": 400
+      }
+    ],
+    "price": "0 cent",
+    "price_postapoc": "10 cent",
+    "to_hit": 1,
+    "material": [ "glass" ],
+    "symbol": ")",
+    "color": "light_cyan",
+    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
+  },
+  {
+    "id": "bottle_glass_seasoning_small",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "small glass seasoning bottle" },
+    "looks_like": "bottle_plastic",
+    "description": "A small glass bottle, the kind seasoning comes in.",
+    "weight": "150 g",
+    "volume": "251 ml",
+    "longest_side": "72 mm",
+    "price": "5 USD",
+    "price_postapoc": "10 cent",
+    "to_hit": -1,
+    "material": [ "glass" ],
+    "symbol": ")",
+    "color": "light_cyan",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "open_container": true,
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "1 kg",
+        "sealed_data": { "spoil_multiplier": 0.5 },
+        "moves": 200
+      }
+    ],
+    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
     "id": "bottle_twoliter",

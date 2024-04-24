@@ -1,4 +1,4 @@
-[
+seasoning_salt_variousseasoning_salt_100[
   {
     "type": "item_group",
     "id": "stash_food",
@@ -20,8 +20,8 @@
       [ "can_corn", 35 ],
       [ "cooked_pumpkin", 20 ],
       [ "can_spam", 30 ],
-      { "prob": 10, "group": "salt_bag_plastic_100" },
-      { "prob": 5, "group": "seasoning_salt_bag_plastic_100" },
+      { "prob": 10, "group": "salt_various" },
+      { "prob": 5, "group": "seasoning_salt_various" },
       [ "vinegar", 10 ],
       { "prob": 30, "group": "veggy_pickled_jar_glass_sealed_2" },
       { "prob": 20, "group": "sauerkraut_jar_glass_sealed_2" },

@@ -728,18 +728,18 @@
     "//2": "This group is for cupboard, drawer, or rack with spices.",
     "subtype": "collection",
     "entries": [
-      { "count": [ 2, 4 ], "group": "salt_bag_plastic_100" },
-      { "group": "pepper_bag_plastic_100" },
-      { "prob": 75, "group": "cinnamon_bag_plastic_100" },
-      { "prob": 75, "group": "chilly-p_bag_plastic_100" },
-      { "prob": 15, "group": "sugar_packed" },
+      { "count": [ 2, 4 ], "group": "salt_various" },
+      { "group": "pepper_various" },
+      { "prob": 75, "group": "cinnamon_various" },
+      { "prob": 75, "group": "chilly-p_various" },
+      { "prob": 15, "group": "sugar_various" },
       { "prob": 5, "group": "artificial_sweetener_box_small_71" },
-      { "prob": 25, "group": "curry_powder_bag_plastic_100" },
-      { "prob": 25, "group": "garlic_powder_bag_plastic_100" },
+      { "prob": 25, "group": "curry_powder_various" },
+      { "prob": 25, "group": "garlic_powder_various" },
       { "prob": 10, "group": "sprinkles_bottle_plastic_small_62" },
       { "item": "thyme", "prob": 65 },
-      { "prob": 50, "group": "seasoning_italian_bag_plastic_100" },
-      { "prob": 50, "group": "seasoning_salt_bag_plastic_100" }
+      { "prob": 50, "group": "seasoning_italian_various" },
+      { "prob": 50, "group": "seasoning_salt_various" }
     ]
   },
   {
@@ -1128,11 +1128,78 @@
   },
   {
     "type": "item_group",
-    "id": "garlic_powder_bag_plastic_100",
+    "id": "garlic_powder_various",
+    "//": "This group was created by a fool and may contain errors.",
+    "subtype": "distribution",
+    "entries": [
+      { "prob": 18, "group": "garlic_powder_bottle_plastic_small" },
+      { "prob": 18, "group": "garlic_powder_bottle_glass_small" },
+      { "//": "250ml" },
+      { "prob": 2, "group": "garlic_powder_bottle_plastic" },
+      { "prob": 2, "group": "garlic_powder_bottle_glass" },
+      { "prob": 4, "group": "garlic_powder_bag_plastic" },
+      { "//": "500ml" },
+      { "prob": 2, "group": "garlic_powder_bag_canvas" },
+      { "//": "1000ml" },
+      { "prob": 1, "group": "garlic_powder_bag_paper" },
+      { "//": "2500ml" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "garlic_powder_bottle_plastic_small",
+    "subtype": "collection",
+    "//": "This group was created by a fool and may contain errors.",
+    "container-item": "bottle_plastic_seasoning_small",
+    "entries": [ { "item": "garlic_powder", "container-item": "null", "count": [ 10, 50 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "garlic_powder_bottle_glass_small",
+    "subtype": "collection",
+    "//": "This group was created by a fool and may contain errors.",
+    "container-item": "bottle_glass_seasoning_small",
+    "entries": [ { "item": "garlic_powder", "container-item": "null", "count": [ 10, 50 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "garlic_powder_bottle_plastic",
+    "subtype": "collection",
+    "//": "This group was created by a fool and may contain errors.",
+    "container-item": "bottle_plastic_seasoning",
+    "entries": [ { "item": "garlic_powder", "container-item": "null", "count": [ 10, 100 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "garlic_powder_bottle_glass",
+    "subtype": "collection",
+    "//": "This group was created by a fool and may contain errors.",
+    "container-item": "bottle_glass_seasoning",
+    "entries": [ { "item": "garlic_powder", "container-item": "null", "count": [ 10, 100 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "garlic_powder_bag_plastic",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic",
-    "entries": [ { "item": "garlic_powder", "container-item": "null", "count": 100 } ]
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "garlic_powder", "container-item": "null", "count": [ 10, 100 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "garlic_powder_bag_canvas",
+    "subtype": "collection",
+    "//": "This group was created by a fool and may contain errors.",
+    "container-item": "bag_canvas_small",
+    "entries": [ { "item": "garlic_powder", "container-item": "null", "count": [ 20, 200 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "garlic_powder_bag_paper",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bag_paper_powder",
+    "entries": [ { "item": "garlic_powder", "container-item": "null", "count": [ 25, 500 ] } ]
   },
   {
     "type": "item_group",
