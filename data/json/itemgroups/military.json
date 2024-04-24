@@ -1075,7 +1075,7 @@
     "id": "neccowafers_bag_plastic_3",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic",
+    "container-item": "bag_plastic_small",
     "entries": [ { "item": "neccowafers", "container-item": "null", "count": 3 } ]
   },
   {

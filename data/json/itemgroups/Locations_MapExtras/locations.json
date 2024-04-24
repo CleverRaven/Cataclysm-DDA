@@ -2891,7 +2891,7 @@
     "id": "tobacco_bag_plastic_20",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic",
+    "container-item": "bag_plastic_small",
     "entries": [ { "item": "tobacco", "container-item": "null", "count": 20 } ]
   },
   {
@@ -2915,7 +2915,7 @@
     "id": "quikclot_bag_plastic_6",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic",
+    "container-item": "bag_plastic_small",
     "entries": [ { "item": "quikclot", "container-item": "null", "count": 6 } ]
   },
   {

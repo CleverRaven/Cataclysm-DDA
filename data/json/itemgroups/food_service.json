@@ -434,7 +434,7 @@
       { "item": "honey_bottled", "prob": 10 },
       { "prob": 10, "group": "honey_glassed_jar_glass_sealed_5" },
       { "item": "milk", "prob": 10 },
-      { "prob": 65, "group": "milk_powder_bag_plastic_4" },
+      { "prob": 65, "group": "milk_powder_various" },
       { "prob": 15, "group": "salt_various" },
       { "prob": 70, "group": "sugar_bulk" },
       { "prob": 15, "group": "artificial_sweetener_box_small_71" },
@@ -758,7 +758,7 @@
       { "item": "milk_UHT", "prob": 15 },
       { "item": "milk_evap", "prob": 25 },
       { "item": "con_milk", "prob": 25 },
-      { "prob": 45, "group": "milk_powder_bag_plastic_4" },
+      { "prob": 45, "group": "milk_powder_various_full" },
       { "prob": 50, "group": "salt_various_full" },
       { "item": "soysauce", "prob": 25 },
       { "item": "hot_sauce", "prob": 25 },
@@ -1593,7 +1593,7 @@
     "id": "tea_raw_bag_plastic_33",
     "subtype": "collection",
     "//": "100 g of tea",
-    "container-item": "bag_plastic",
+    "container-item": "bag_plastic_small",
     "entries": [ { "item": "tea_raw", "container-item": "null", "count-min": 2, "count-max": 33 } ]
   },
   {
@@ -1601,7 +1601,7 @@
     "id": "tea_green_raw_bag_plastic_33",
     "subtype": "collection",
     "//": "100 g of tea",
-    "container-item": "bag_plastic",
+    "container-item": "bag_plastic_small",
     "entries": [ { "item": "tea_green_raw", "container-item": "null", "count-min": 2, "count": 33 } ]
   },
   {
@@ -1702,7 +1702,7 @@
       { "prob": 1, "group": "sugar_bag_paper" }
     ]
   },
-  
+
   {
     "type": "item_group",
     "id": "sugar_various_full",
@@ -1726,11 +1726,8 @@
       { "prob": 15, "group": "sugar_bottle_plastic" },
       { "prob": 15, "group": "sugar_bottle_glass" },
       { "prob": 4, "group": "sugar_bag_plastic" },
-      { "//": "500ml" },
       { "prob": 8, "group": "sugar_bag_canvas" },
-      { "//": "1000ml" },
-      { "prob": 5, "group": "sugar_bag_paper" },
-      { "//": "2500ml" }
+      { "prob": 5, "group": "sugar_bag_paper" }
     ]
   },
   {
@@ -1802,7 +1799,7 @@
     "id": "fried_mozzarella_sticks_bag_plastic_4",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic",
+    "container-item": "bag_plastic_small",
     "entries": [ { "item": "fried_mozzarella_sticks", "container-item": "null", "count": 4 } ]
   },
   {
@@ -1872,7 +1869,7 @@
     "id": "chips2_bag_plastic_3",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic",
+    "container-item": "bag_plastic_small",
     "entries": [ { "item": "chips2", "container-item": "null", "count": 3 } ]
   },
   {
@@ -1880,7 +1877,7 @@
     "id": "chips3_bag_plastic_3",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic",
+    "container-item": "bag_plastic_small",
     "entries": [ { "item": "chips3", "container-item": "null", "count": 3 } ]
   },
   {
@@ -1888,7 +1885,7 @@
     "id": "choco_coffee_beans_bag_plastic_5",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic",
+    "container-item": "bag_plastic_small",
     "entries": [ { "item": "choco_coffee_beans", "container-item": "null", "count": 5 } ]
   },
   {
@@ -1896,7 +1893,7 @@
     "id": "coffee_raw_bag_plastic_20",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic",
+    "container-item": "bag_plastic_small",
     "entries": [ { "item": "coffee_raw", "container-item": "null", "count": 20 } ]
   },
   {
@@ -1904,7 +1901,7 @@
     "id": "toast_bag_plastic_2",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic",
+    "container-item": "bag_plastic_small",
     "entries": [ { "item": "toast", "container-item": "null", "count": 2 } ]
   },
   {
@@ -2253,7 +2250,7 @@
     "id": "almond_shelled_bag_plastic_4",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic",
+    "container-item": "bag_plastic_small",
     "entries": [ { "item": "almond_shelled", "container-item": "null", "count": 4 } ]
   },
   {
@@ -2269,7 +2266,7 @@
     "id": "cashews_bag_plastic_4",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic",
+    "container-item": "bag_plastic_small",
     "entries": [ { "item": "cashews", "container-item": "null", "count": 4 } ]
   },
   {
@@ -2277,7 +2274,7 @@
     "id": "pistachio_shelled_bag_plastic_4",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic",
+    "container-item": "bag_plastic_small",
     "entries": [ { "item": "pistachio_shelled", "container-item": "null", "count": 4 } ]
   },
   {
@@ -2285,7 +2282,7 @@
     "id": "peanut_shelled_bag_plastic_4",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic",
+    "container-item": "bag_plastic_small",
     "entries": [ { "item": "peanut_shelled", "container-item": "null", "count": 4 } ]
   },
   {
@@ -2381,7 +2378,7 @@
     "id": "koji_bag_plastic_25",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic",
+    "container-item": "bag_plastic_small",
     "entries": [ { "item": "koji", "container-item": "null", "count": 25 } ]
   },
   {
@@ -2389,7 +2386,7 @@
     "id": "dry_rice_bag_plastic_3",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic",
+    "container-item": "bag_plastic_small",
     "entries": [ { "item": "dry_rice", "container-item": "null", "count": 3 } ]
   },
   {
@@ -2397,7 +2394,7 @@
     "id": "dry_wild_rice_bag_plastic_3",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic",
+    "container-item": "bag_plastic_small",
     "entries": [ { "item": "dry_wild_rice", "container-item": "null", "count": 3 } ]
   },
   {
@@ -2680,7 +2677,7 @@
     "id": "PBJ_Toast_bag_plastic_2",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic",
+    "container-item": "bag_plastic_small",
     "entries": [ { "item": "PBJ_Toast", "container-item": "null", "count": 2 } ]
   },
   {
@@ -2704,7 +2701,7 @@
     "id": "tortilla_corn_bag_plastic_12",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic",
+    "container-item": "bag_plastic_small",
     "entries": [ { "item": "tortilla_corn", "container-item": "null", "count": 12 } ]
   },
   {
@@ -2712,7 +2709,7 @@
     "id": "tortilla_flour_bag_plastic_12",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic",
+    "container-item": "bag_plastic_small",
     "entries": [ { "item": "tortilla_flour", "container-item": "null", "count": 12 } ]
   },
   {
@@ -2720,7 +2717,7 @@
     "id": "nachos_bag_plastic_3",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic",
+    "container-item": "bag_plastic_small",
     "entries": [ { "item": "nachos", "container-item": "null", "count": 3 } ]
   },
   {
@@ -2728,7 +2725,7 @@
     "id": "dry_beans_bag_plastic_6",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic",
+    "container-item": "bag_plastic_small",
     "entries": [ { "item": "dry_beans", "container-item": "null", "count": 6 } ]
   },
   {
@@ -2736,7 +2733,7 @@
     "id": "flatbread_bag_plastic_2",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic",
+    "container-item": "bag_plastic_small",
     "entries": [ { "item": "flatbread", "container-item": "null", "count": 2 } ]
   }
 ]
