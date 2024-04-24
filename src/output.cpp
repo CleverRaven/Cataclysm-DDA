@@ -123,10 +123,7 @@ std::string string_from_int( const catacurses::chtype ch )
 std::vector<std::string> foldstring( const std::string &str, int width, const char split )
 {
     std::vector<std::string> lines;
-    if( width < 1 ) {
-        lines.push_back( str );
-        return lines;
-    }
+    bool should_wrap = width >= 1;
     std::stringstream sstr( str );
     std::string strline;
     std::vector<std::string> tags;
@@ -136,7 +133,7 @@ std::vector<std::string> foldstring( const std::string &str, int width, const ch
             // if the line is empty.
             lines.emplace_back();
         } else {
-            std::string wrapped = word_rewrap( strline, width, split );
+            std::string wrapped = should_wrap ? word_rewrap( strline, width, split ) : strline;
             std::stringstream swrapped( wrapped );
             std::string wline;
             while( std::getline( swrapped, wline, '\n' ) ) {
