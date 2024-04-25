@@ -325,8 +325,8 @@
     "shape": "blast",
     "difficulty": 15,
     "max_level": 25,
-    "base_casting_time": { "math": [ "conveyance_proficiency_negate_calculate(6000)" ] },
-    "base_energy_cost": { "math": [ "conveyance_proficiency_negate_calculate(675)" ] },
+    "base_casting_time": { "math": [ "conveyance_proficiency_negate_calculate(6000, 40)" ] },
+    "base_energy_cost": { "math": [ "conveyance_proficiency_negate_calculate(675, 4.5)" ] },
     "extra_effects": [ { "id": "eoc_conveyance_setup" } ],
     "energy_source": "MANA",
     "spell_class": "NONE"

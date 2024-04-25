@@ -332,7 +332,6 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 6.0 } ],
     "grab_strength": 5,
     "dodge": 3,
-    "luminance": 0,
     "hp": 150,
     "special_attacks": [
       { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true },

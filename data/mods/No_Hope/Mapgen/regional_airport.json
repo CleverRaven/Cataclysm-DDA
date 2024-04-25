@@ -35,7 +35,7 @@
       "palettes": [ "airport_palette" ],
       "place_furniture": [ { "furn": "f_gas_tank", "x": 4, "y": 10 } ],
       "place_liquids": [ { "liquid": "avgas", "x": 4, "y": 10, "repeat": [ 0, 100 ] } ],
-      "gaspumps": { "J": { "fuel": "avgas", "amount": [ 0, 100 ] } },
+      "gaspumps": { "J": { "fuel": "avgas", "amount": [ 0, 1 ] } },
       "place_monster": [ { "group": "GROUP_SMALL_STATION", "x": [ 4, 19 ], "y": [ 4, 19 ], "chance": 75, "repeat": [ 1, 4 ] } ],
       "place_loot": [
         { "group": "supplies_electronics", "x": 6, "y": [ 4, 6 ], "chance": 5, "repeat": [ 1, 3 ] },

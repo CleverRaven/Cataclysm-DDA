@@ -13,6 +13,16 @@
         "topic": "TALK_FRIEND_Liam_CHAT",
         "condition": { "not": { "npc_has_effect": "asked_to_socialize" } }
       },
+      {
+        "text": "The way you said something earlier made me realize… you have a crush on Jenny Forcette, don't you.",
+        "topic": "TALK_Liam_Jenny_CrushAccuse",
+        "condition": {
+          "and": [
+            { "u_has_var": "u_liam_jenny_feelings", "value": "crush_suspected" },
+            { "not": { "u_has_var": "u_liam_jenny_feelings", "value": "crushing_hard" } }
+          ]
+        }
+      },
       { "text": "I changed my mind, wanted to ask you something else.", "topic": "TALK_NONE" },
       { "text": "Let's go.", "topic": "TALK_DONE" }
     ]
@@ -189,6 +199,16 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_Liam_Jenny_CrushAccuse",
+    "dynamic_line": "*stares at you wide-eyed for a beat, then breaks into a shy grin.  \"Aw man, busted.  You *know* I dig those distracted nerdy chicks who don't react to my presence in any way.  It's all good though, you know?  Don't tell her.  I barely know her and it's not like she's in a place to be dating some stranger.\"",
+    "speaker_effect": { "effect": { "u_add_var": "u_liam_jenny_feelings", "value": "crushing_hard" } },
+    "responses": [
+      { "text": "Your secret's safe with me.  I wanted to talk about something else.", "topic": "TALK_Liam_SOCIAL" },
+      { "text": "Your secret's safe with me.  Let's go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_Liam_Opinions",
     "dynamic_line": "My opinion?  Sure, my friend, hit me up, what's eating you?",
     "responses": [
@@ -196,6 +216,11 @@
         "text": "Check this out, I found an address of some kind of central refugee management facility.  Should we check it out?  Maybe they'll have answers?",
         "topic": "TALK_Liam_Opinions_MISSION_REACH_REFUGEE_CENTER",
         "condition": { "u_has_mission": "MISSION_REACH_REFUGEE_CENTER" }
+      },
+      {
+        "text": "You thinking what I'm thinking about this mystery dropoff for Smokes?",
+        "topic": "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_HUB_DELIVERY_1",
+        "condition": { "u_has_mission": "MISSION_FREE_MERCHANTS_HUB_DELIVERY_1" }
       },
       {
         "text": "Any ideas about this job to clear out the back bay for Smokes?",
@@ -211,6 +236,101 @@
         "text": "Any thoughts about bringing this prospectus out to the ranch?",
         "topic": "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_3",
         "condition": { "u_has_mission": "MISSION_FREE_MERCHANTS_EVAC_3" }
+      },
+      {
+        "text": "What's the fastest way to find these guys some solar panels?",
+        "topic": "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_4",
+        "condition": { "u_has_mission": "MISSION_FREE_MERCHANTS_EVAC_4" }
+      },
+      {
+        "text": "Liam, I need a lot of jars.  A shocking amount of jars.",
+        "topic": "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_5",
+        "condition": { "u_has_mission": "MISSION_FREE_MERCHANTS_EVAC_5" }
+      },
+      {
+        "text": "Liam, we need bigger jars.",
+        "topic": "TALK_Liam_Opinions_MISSION_BROKER_1",
+        "condition": { "u_has_mission": "MISSION_BROKER_1" }
+      },
+      {
+        "text": "How about finding this guy some cigarettes?",
+        "topic": "TALK_Liam_Opinions_MISSION_EVAC_SMOKER_GET_CIGARETTES",
+        "condition": { "u_has_mission": "MISSION_EVAC_SMOKER_GET_CIGARETTES" }
+      },
+      {
+        "text": "Should we go check out those farmers the teamster mentioned?",
+        "topic": "TALK_Liam_Opinions_directions_isherwood",
+        "condition": { "u_has_mission": "directions_isherwood" }
+      },
+      {
+        "text": "A secret lab in the wilds, with survivors in it, Liam.  You heard the teamster.",
+        "topic": "TALK_Liam_Opinions_directions_hub01",
+        "condition": { "u_has_mission": "directions_hub01" }
+      },
+      {
+        "text": "This 'scrap metal castle' sounds far fetched to me.",
+        "topic": "TALK_Liam_Opinions_directions_exodii",
+        "condition": { "u_has_mission": "directions_exodii" }
+      },
+      {
+        "text": "What sounds better to you, a 'bullet bank' or a woman who feeds visitors?",
+        "topic": "TALK_Liam_Opinions_directions_artisans",
+        "condition": { "u_has_mission": "directions_artisans" }
+      },
+      {
+        "text": "What do you think about helping out this Dave guy?",
+        "topic": "TALK_Liam_Opinions_MISSION_BEGGAR_2_BOX_SMALL",
+        "condition": { "u_has_mission": "MISSION_BEGGAR_2_BOX_SMALL" }
+      },
+      {
+        "text": "At least Dave has some practicality, and isn't just asking for more trash, right?",
+        "topic": "TALK_Liam_Opinions_MISSION_BEGGAR_2_DUCT_TAPE",
+        "condition": { "u_has_mission": "MISSION_BEGGAR_2_DUCT_TAPE" }
+      },
+      {
+        "text": "Any thoughts on Dave's cardboard needs?",
+        "topic": "TALK_Liam_Opinions_MISSION_BEGGAR_2_BOX_MEDIUM",
+        "condition": { "u_has_mission": "MISSION_BEGGAR_2_BOX_MEDIUM" }
+      },
+      {
+        "text": "Looks like we might be done with cardboard for Dave, it's plastic now.",
+        "topic": "TALK_Liam_Opinions_MISSION_BEGGAR_2_PLASTIC_SHEET",
+        "condition": { "u_has_mission": "MISSION_BEGGAR_2_PLASTIC_SHEET" }
+      },
+      {
+        "text": "I have a feeling this is the last of the cardboard for Dave.",
+        "topic": "TALK_Liam_Opinions_MISSION_BEGGAR_2_BOX_LARGE",
+        "condition": { "u_has_mission": "MISSION_BEGGAR_2_BOX_LARGE" }
+      },
+      {
+        "text": "Hey, this is a different direction for Dave, don't you think?",
+        "topic": "TALK_Liam_Opinions_MISSION_BEGGAR_2_PERMISSION",
+        "condition": { "u_has_mission": "MISSION_BEGGAR_2_PERMISSION" }
+      },
+      {
+        "text": "Do you think it's dangerous to get zombie blood, besides the obvious?",
+        "topic": "TALK_Liam_Opinions_MISSION_SCIENCE_REP_1",
+        "condition": { "u_has_mission": "MISSION_SCIENCE_REP_1" }
+      },
+      {
+        "text": "Sneaking into a lab to run some data analysis can't be bad, right?",
+        "topic": "TALK_Liam_Opinions_MISSION_SCIENCE_REP_2",
+        "condition": { "u_has_mission": "MISSION_SCIENCE_REP_2" }
+      },
+      {
+        "text": "Who could have guessed there'd be some further complications to our stolen data analysis?",
+        "topic": "TALK_Liam_Opinions_MISSION_SCIENCE_REP_3",
+        "condition": { "u_has_mission": "MISSION_SCIENCE_REP_3" }
+      },
+      {
+        "text": "What do you think about checking out this freezing portal lab?",
+        "topic": "TALK_Liam_Opinions_MISSION_SCIENCE_REP_4",
+        "condition": { "u_has_mission": "MISSION_SCIENCE_REP_4" }
+      },
+      {
+        "text": "If you were tired of underground labs, now we're gonna check out secret underground lab tunnels!",
+        "topic": "TALK_Liam_Opinions_MISSION_SCIENCE_REP_5",
+        "condition": { "u_has_mission": "MISSION_SCIENCE_REP_5" }
       },
       {
         "text": "Do you know how to build a still?",
@@ -238,9 +358,104 @@
         "condition": { "u_has_mission": "MISSION_RANCH_BARTENDER_5" }
       },
       {
+        "text": "Bringing a professional arsonist some commercial fertilizer seems like a normal thing to do.",
+        "topic": "TALK_Liam_Opinions_MISSION_ARSONIST_1_AMMONIUM_NITRATE",
+        "condition": { "u_has_mission": "MISSION_ARSONIST_1_AMMONIUM_NITRATE" }
+      },
+      {
+        "text": "So, uh.  Alonso's pants, hey.",
+        "topic": "TALK_Liam_Opinions_MISSION_REFUGEE_Alonso_pants",
+        "condition": { "u_has_mission": "MISSION_REFUGEE_Alonso_pants" }
+      },
+      {
         "text": "What do you think about helping these guys clean up all that dead zombie mess?",
         "topic": "TALK_Liam_Opinions_MISSION_REFUGEE_Boris_CLEANUP",
         "condition": { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" }
+      },
+      {
+        "text": "Any thoughts on finding Boris a power saw?",
+        "topic": "TALK_Liam_Opinions_MISSION_REFUGEE_Boris_WORKSPACE",
+        "condition": { "u_has_mission": "MISSION_REFUGEE_Boris_WORKSPACE" }
+      },
+      {
+        "text": "We're looking for Boris' kid's old laptop.  Thoughts?",
+        "topic": "TALK_Liam_Opinions_MISSION_REFUGEE_Boris_LAPTOP",
+        "condition": { "u_has_mission": "MISSION_REFUGEE_Boris_LAPTOP" }
+      },
+      {
+        "text": "You ever used a sourdough starter?",
+        "topic": "TALK_Liam_Opinions_MISSION_REFUGEE_Dana_Sourdough",
+        "condition": { "u_has_mission": "MISSION_REFUGEE_Dana_Sourdough" }
+      },
+      {
+        "text": "Draco seems like a kindred spirit for you.",
+        "topic": "TALK_Liam_Opinions_MISSION_REFUGEE_Draco_GET_GUITAR",
+        "condition": { "u_has_mission": "MISSION_REFUGEE_Draco_GET_GUITAR" }
+      },
+      {
+        "text": "Are you okay with tracking down a copy of the Quran?",
+        "topic": "TALK_Liam_Opinions_MISSION_REFUGEE_Fatima_1",
+        "condition": { "u_has_mission": "MISSION_REFUGEE_Fatima_1" }
+      },
+      {
+        "text": "Any idea where to find a really specific reference book about pneumatic guns?",
+        "topic": "TALK_Liam_Opinions_MISSION_REFUGEE_Jenny_GET_PNEUMATICS",
+        "condition": { "u_has_mission": "MISSION_REFUGEE_Jenny_GET_PNEUMATICS" }
+      },
+      {
+        "text": "What do you think, where should we look for a motor for Jenny?",
+        "topic": "TALK_Liam_Opinions_MISSION_REFUGEE_Jenny_GET_MOTOR",
+        "condition": { "u_has_mission": "MISSION_REFUGEE_Jenny_GET_MOTOR" }
+      },
+      {
+        "text": "It shouldn't be too hard to find Jenny a big metal tank, right?",
+        "topic": "TALK_Liam_Opinions_MISSION_REFUGEE_Jenny_GET_TANK",
+        "condition": { "u_has_mission": "MISSION_REFUGEE_Jenny_GET_TANK" }
+      },
+      {
+        "text": "You ever seen gunsmithing books just lying around?",
+        "topic": "TALK_Liam_Opinions_MISSION_REFUGEE_Jenny_GET_TEXT",
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "u_liam_jenny_feelings", "value": "crushing_hard" } },
+            { "u_has_mission": "MISSION_REFUGEE_Jenny_GET_TEXT" }
+          ]
+        }
+      },
+      {
+        "text": "So, we're finding a book about guns for your sweet nerd-girl.",
+        "topic": "TALK_Liam_Opinions_MISSION_REFUGEE_Jenny_GET_TEXTcrushmode",
+        "condition": {
+          "and": [
+            { "u_has_var": "u_liam_jenny_feelings", "value": "crushing_hard" },
+            { "u_has_mission": "MISSION_REFUGEE_Jenny_GET_TEXT" }
+          ]
+        }
+      },
+      {
+        "text": "Do you think it's the right thing, trying to help the Nunez family move to Tacoma?",
+        "topic": "TALK_Liam_Opinions_MISSION_TACOMA_Nunez",
+        "condition": { "u_has_mission": "MISSION_TACOMA_Nunez" }
+      },
+      {
+        "text": "Any thoughts on helping Uyen out with her antiseptic?",
+        "topic": "TALK_Liam_Opinions_MISSION_REFUGEE_Uyen_1",
+        "condition": { "u_has_mission": "MISSION_REFUGEE_Uyen_1" }
+      },
+      {
+        "text": "Any thoughts on helping Uyen out with her bandages?",
+        "topic": "TALK_Liam_Opinions_MISSION_REFUGEE_Uyen_2",
+        "condition": { "u_has_mission": "MISSION_REFUGEE_Uyen_2" }
+      },
+      {
+        "text": "Any thoughts on helping Uyen out with her antidepressants?",
+        "topic": "TALK_Liam_Opinions_MISSION_REFUGEE_Uyen_3",
+        "condition": { "u_has_mission": "MISSION_REFUGEE_Uyen_3" }
+      },
+      {
+        "text": "You and me: hairdressing supply vendors now.",
+        "topic": "TALK_Liam_Opinions_MISSION_REFUGEE_Vanessa_1",
+        "condition": { "u_has_mission": "MISSION_REFUGEE_Vanessa_1" }
       },
       {
         "text": "What're your thoughts on this mission to kill bandits for the old guard?",
@@ -258,7 +473,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_OLD_GUARD_REP_3" },
-            { "not": { "u_has_var": "u_met_Rubik", "type": "general", "context": "meeting", "value": "yes" } }
+            { "not": { "u_has_var": "general_meeting_u_met_Rubik", "value": "yes" } }
           ]
         }
       },
@@ -266,10 +481,7 @@
         "text": "What do you think about these robots?  Crazy stuff, hey?",
         "topic": "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_3-HasMet",
         "condition": {
-          "and": [
-            { "u_has_mission": "MISSION_OLD_GUARD_REP_3" },
-            { "u_has_var": "u_met_Rubik", "type": "general", "context": "meeting", "value": "yes" }
-          ]
+          "and": [ { "u_has_mission": "MISSION_OLD_GUARD_REP_3" }, { "u_has_var": "general_meeting_u_met_Rubik", "value": "yes" } ]
         }
       },
       {
@@ -453,6 +665,11 @@
         "condition": { "u_has_mission": "MISSION_ISHERWOOD_JESSE_1" }
       },
       {
+        "text": "What do you think about hunting some mystery monsters for Jesse?",
+        "topic": "TALK_Liam_Opinions_MISSION_ISHERWOOD_JESSE_2",
+        "condition": { "u_has_mission": "MISSION_ISHERWOOD_JESSE_2" }
+      },
+      {
         "text": "Hey, you ever seen a book about glassblowing?",
         "topic": "TALK_Liam_Opinions_MISSION_ISHERWOOD_LUKE_1",
         "condition": { "u_has_mission": "MISSION_ISHERWOOD_LUKE_1" }
@@ -500,7 +717,17 @@
     "type": "talk_topic",
     "id": "TALK_Liam_Opinions_MISSION_REACH_REFUGEE_CENTER",
     "dynamic_line": "Sweet, road trip!  That sounds like as good a plan as any, my friend.  Gives me some first season Walking Dead vibes, you know?  Maybe the place will be run by sinister G-men, or a lone crazy scientist who thinks he can cure zombies if he can just get his hands on one super-rare ingredient.  Road trip!",
-    "responses": [ { "text": "Road trip!.  I'd like your opinion on something else, actually.", "topic": "TALK_Liam_Opinions" } ]
+    "responses": [ { "text": "Road trip!  I'd like your opinion on something else, actually.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_HUB_DELIVERY_1",
+    "dynamic_line": {
+      "math": [ "u_hub01_completed_missions", ">=", "1" ],
+      "yes": "I'm thinking this kinda sounds like that intercom and their vague-yet-menacing government agency.\"  He pauses.  \"That might be a deep cut, if you never listened to Night Vale.  Anyway, I bet that's where we're going.",
+      "no": "I'm thinking this sounds *awesome*, and also possibly we're gonna die.  At least we'll die investigating a vague-yet-menacing government agency.\"  He pauses.  \"That might be a deep cut, if you never listened to Night Vale."
+    },
+    "responses": [ { "text": "Yep, same page.  I'd like your opinion on something else, actually.", "topic": "TALK_Liam_Opinions" } ]
   },
   {
     "type": "talk_topic",
@@ -547,6 +774,187 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_4",
+    "dynamic_line": "You know, I read an article about how those stupid FEMA evac shelters all had solar power for emergencies.  I bet nobody's looting those, let's track some down and unbolt 'em.",
+    "responses": [ { "text": "Not a bad thought.  I'd like your opinion on something else, actually.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_5",
+    "dynamic_line": "Look, you're the one that agreed to this.  I don't know why you keep agreeing to this stuff.  Maybe we can check hardware stores?  Or just eat a lot of jarred food, and keep the empties?  A hundred jars.  That's a lot, my friend.\"  He shakes his head.  \"You don't have to agree to do *everything* people ask you to do, you know?",
+    "speaker_effect": {
+      "effect": { "u_add_var": "u_liam_opinion_liam_MISSION_FREE_MERCHANTS_EVAC_5", "value": "yes" },
+      "sentinel": "liam_opinion_liam_MISSION_FREE_MERCHANTS_EVAC_5"
+    },
+    "responses": [
+      { "text": "Your objection is noted.  I'd like your opinion on something else, though.", "topic": "TALK_Liam_Opinions" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_BROKER_1",
+    "dynamic_line": {
+      "u_has_var": "u_liam_opinion_liam_MISSION_FREE_MERCHANTS_EVAC_5",
+      "value": "yes",
+      "yes": "*shakes his head at you.  \"Look, you asked last time, and I told you you didn't have to keep taking jobs like this.  Now you're asking again?  *I dunno, stop offering to bring a billion jars to people if you don't know where to find them.*\"  He laughs.  \"I'm just messing with you.\"  His eyes narrow.  \"Or am I?\"",
+      "no": "Look, you're the one that agreed to this.  I don't know why you keep agreeing to this stuff.  Maybe we can check hardware stores?  Or just eat a lot of jarred food, and keep the empties?  A hundred jars.  That's a lot, my friend.\"  He shakes his head.  \"You don't have to agree to do *everything* people ask you to do, you know?"
+    },
+    "responses": [
+      { "text": "Your objection is noted.  I'd like your opinion on something else, though.", "topic": "TALK_Liam_Opinions" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_EVAC_SMOKER_GET_CIGARETTES",
+    "dynamic_line": "How about it?  Seems like a nice enough thing to do I guess.  I bet plenty of zombies are carrying smokes, and there's probably tons in people's abandoned cars.",
+    "responses": [ { "text": "Yeah.  I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_directions_isherwood",
+    "dynamic_line": {
+      "u_has_var": "u_met_an_isherwood",
+      "value": "yes",
+      "yes": "Isn't he just directing us out to that Isherwood farm?",
+      "no": "Sounds good.  I'm a bit nervous about what we might find, though.  Who knows what the apocalypse would do to a bunch of gun-toting back country folks?  On the other hand, maybe they're sweet, salt-of-the-earth types.  Only one way to find out!"
+    },
+    "responses": [ { "text": "Right.  I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_directions_hub01",
+    "dynamic_line": {
+      "u_has_var": "dialogue_intercom_u_discovered_robofac_intercom",
+      "value": "yes",
+      "yes": {
+        "math": [ "u_hub01_completed_missions", ">=", "1" ],
+        "yes": "Is that just that Hub place, with the intercom?  Not that it's not cool, but it's nothing new to us.  Woah… we've really seen some shit, haven't we.",
+        "no": "It sounds to me like this might be that intercom we found out in that weird building?  I'm just guessing.  We should go confirm."
+      },
+      "no": "Hell yeah, this sounds so badass!  Let's be careful though, 'secret lab' sounds like a place that's gonna have some defenses."
+    },
+    "responses": [ { "text": "You bet.  I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_directions_exodii",
+    "dynamic_line": {
+      "u_has_var": "general_meeting_u_met_Rubik",
+      "value": "yes",
+      "yes": "We've been there, remember?  It's got those cyborg guys, the cockney ones.",
+      "no": "Far-fetched and awesome!  Let's go see.  Maybe it's an abandoned theme park or something."
+    },
+    "responses": [ { "text": "I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_directions_artisans",
+    "dynamic_line": {
+      "u_has_var": "u_met_isolated_road_artisans",
+      "value": "yes",
+      "yes": {
+        "concatenate": [
+          "We've been there, remember",
+          {
+            "u_has_var": "u_met_isolated_road_cody",
+            "value": "yes",
+            "yes": "?  Cody, the blacksmith, she's the food lady",
+            "no": "?  I'm guessing the blacksmith we didn't talk to is the one who would have fed us"
+          },
+          {
+            "u_has_var": "u_met_isolated_road_jay",
+            "value": "yes",
+            "yes": ", and Jay is the one with the weird bullet bank.",
+            "no": ", and the other guy there must be the one with the bullet bank."
+          }
+        ]
+      },
+      "no": "I'm open to anything if it means getting fed.  Ugh, unless it's unidentified meat.  I guess we have to be more careful of strangers than we used to.  Still, let's find out."
+    },
+    "responses": [ { "text": "I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_BEGGAR_2_BOX_SMALL",
+    "dynamic_line": "Well, I like his fashion choices, but he, um.  Well, you know.  You met him.  I don't mind helping him out, in theory, but I don't know if bringing him piles of trash is really going to do anyone any good.  The Merchants might think it's a fire hazard.",
+    "responses": [ { "text": "Let's try it out anyway.  I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_BEGGAR_2_DUCT_TAPE",
+    "dynamic_line": "Right, I guess.  I don't quite get why you're doing this stuff for him, he's probably just going to keep piling up the stuff and not doing anything with it.\"  He shrugs.  \"On the other hand, maybe he'll make a kick-ass box fort, I'd be all about that.",
+    "responses": [ { "text": "That's my hope.  I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_BEGGAR_2_BOX_MEDIUM",
+    "dynamic_line": "I'm telling you, this is just going to go on and on forever.\"  He looks sad.  \"I'd really love to see him get a cool box fort and feel better, but I think we're just enabling his delusions, my friend.",
+    "responses": [
+      {
+        "text": "Let's see this through a bit longer.  I'd like your opinion on something else.",
+        "topic": "TALK_Liam_Opinions"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_BEGGAR_2_PLASTIC_SHEET",
+    "dynamic_line": "I gotta admit, this one surprised me.  I take back some of what I said earlier, I'm just confused now.  Let's see where it goes.",
+    "responses": [ { "text": "Right?  I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_BEGGAR_2_BOX_LARGE",
+    "dynamic_line": "It had better be!  I'm not sure why you're doing this, but I do think it's good you're trying to help him.  Maybe we should stop eventually though?\"  He sighs.  \"I don't know what to make of Dave.  I worked with a guy with schizophrenia back at Foodplace, and Dave is nothing like that.  I don't know if he's actually got some kind of mental illness or if it's a stress reaction or something.  He doesn't act like any real person I've ever met, and we got all kinds of strung-out types there.",
+    "responses": [ { "text": "That's good insight.  I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_BEGGAR_2_PERMISSION",
+    "dynamic_line": "Well, I'm definitely interested to see where it goes.  I hope it helps Dave somehow.  I don't know what's going on with him except that it's nothing like any schizophrenia or anything like that I've ever seen, and I've seen practically anything you can imagine, working service.",
+    "responses": [ { "text": "I have a good feeling.  I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_SCIENCE_REP_1",
+    "dynamic_line": "Well, it probably isn't going to come back alive.  They ooze blood everywhere, when we fight 'em.  It's kinda thicker and goopier than human blood, but I guess not so bad it'd be hard to draw?",
+    "responses": [ { "text": "Thanks.  I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_SCIENCE_REP_2",
+    "dynamic_line": "This sounds *nuts* man.  How are we going to get in and out alive?  A place like that is going to be crawling with zombies and who knows what else.\"  He shudders.  \"Let's be careful, right?",
+    "responses": [ { "text": "Okay.  I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_SCIENCE_REP_3",
+    "dynamic_line": "This was a total surprise to everyone,\" he grumbles.  \"Still, this can't be any worse than getting the first analysis done, right?",
+    "responses": [ { "text": "Let's hope not.  I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_SCIENCE_REP_4",
+    "dynamic_line": {
+      "concatenate": [
+        "&He grins.  \"I'm gonna level with you, this sounds incredibly *cool*.\"  He laughs at his own joke.  \"Seriously though, it's probably going to be a really tricky one",
+        {
+          "u_has_trait": "CBM_Interface",
+          "yes": ".  It'd be good to maybe try cybernetics to help us with the cold, they won't be as bulky and confining to fight in as winter gear.",
+          "no": ".  We'll need to bundle up extra toasty, that'll make fighting tough."
+        }
+      ]
+    },
+    "responses": [ { "text": "Good thoughts.  I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_SCIENCE_REP_5",
+    "dynamic_line": "Compared to what we've done, this doesn't sound so bad.  Creepy as heck though.  We should tell ghost stories on the way.",
+    "responses": [ { "text": "I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_Liam_Opinions_MISSION_RANCH_BARTENDER_1",
     "dynamic_line": "I mean, I have a basic understanding of the principles.  We could also see if we could just find a couple stills though, we're not far from the mountains.  I bet every second farm's gonna have a moonshine still set up in one of the sheds.",
     "responses": [
@@ -584,11 +992,19 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_REFUGEE_Alonso_pants",
+    "dynamic_line": "Of all the jobs we've agreed to do, this is certainly one of them.",
+    "responses": [
+      { "text": "You can say that again.  I'd like your opinion on something else, actually.", "topic": "TALK_Liam_Opinions" }
+    ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_Liam_Opinions_MISSION_REFUGEE_Boris_CLEANUP",
     "dynamic_line": "I guess I get why the one Boris guy can't do it but I don't quite see why we have to go around asking everyone for him.  He lives here!  Anyway, you know I'm okay with getting my hands dirty, if you want to go offer to help him out I'll get busy with a scrubby.  I've cleaned worse things out of the Foodplace washroom.  Hell, I've cleaned worse things out of the back of my van when I was running for Amazon.\"  He gets a thousand-yard-stare for a moment.  \"Let's not discuss this any more.",
     "speaker_effect": {
       "effect": [
-        { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" },
+        { "npc_add_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" },
         { "math": [ "u_mission_cleanup_promises_Boris_mission_1", "+=", "1" ] }
       ]
     },
@@ -596,17 +1012,168 @@
       {
         "//": "It's a bit weird that Liam doesn't leave your party, if you ask four other people and he goes to help, but no big deal I think.  Ideally this should be coded so that he only helps out if you also do, and he shortens the time, but I'm trying to make some quick improvements here, not write a bunch of EoC.",
         "text": "Thanks Liam, I knew I could count on you.",
-        "topic": "TALK_Liam_Opinions",
-        "effect": [
-          { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" },
-          { "math": [ "u_mission_cleanup_promises_Boris_mission_1", "+=", "1" ] }
-        ],
-        "condition": { "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" } }
-      },
+        "topic": "TALK_Liam_Opinions"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_REFUGEE_Boris_WORKSPACE",
+    "dynamic_line": "It's just a fetch job, right?  I'd say our best first bet would be to see if Smokes up at the Free Merchant desk has one, and just shell out to get it covered.  These guys are broke as heck, but we can easily make the cash back by doing some good old fashioned scavenging.",
+    "responses": [ { "text": "Worth checking.  I'd like your opinion on something else, actually.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_REFUGEE_Boris_LAPTOP",
+    "dynamic_line": "&His voice comes out a bit softer and lower than usual.  \"This is just a sad one, my friend.  I don't think we'll have any troubles with the delivery, but it's so goddamn sad.\"",
+    "responses": [
+      { "text": "You can say that again.  I'd like your opinion on something else, actually.", "topic": "TALK_Liam_Opinions" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_REFUGEE_Dana_Sourdough",
+    "dynamic_line": "Nah, not me.  I hear they're hard to keep alive or something, and that makes me nervous.  I was never really that much of a baker to be honest.  I love the bread though, pretty excited to see what she makes.\"  He looks thoughtful for a moment.  \"Depending on where the bakery is though, this could be a heck of a job.  We should make sure we're ready to sneak past a lot of zed to get to it.",
+    "responses": [
       {
-        "text": "Thanks Liam, I knew I could count on you.",
-        "topic": "TALK_Liam_Opinions",
-        "condition": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
+        "text": "Or we could clear the area some other way.  I'd like your opinion on something else, actually.",
+        "topic": "TALK_Liam_Opinions"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_REFUGEE_Draco_GET_GUITAR",
+    "dynamic_line": "*grins.  \"Yeah, he sure is.  I never got the hang of the guitar, myself, but I respect the journey.  It shouldn't be too hard to find one, right?  Lots of people have them in their houses, or we could maybe loot a music store if we want to get fancy.\"",
+    "responses": [
+      {
+        "text": "With your singing voice, I'm glad you never learned.  I'd like your opinion on something else, actually.",
+        "topic": "TALK_Liam_Opinions"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_REFUGEE_Fatima_1",
+    "dynamic_line": "Of course!  People need what comfort they can get, right?  I've always been kinda spiritual, but I'm not the sort to put a label on it or anything.  I don't have a clue where to find one though, I'm not sure I'd even recognize a mosque if I saw one.  Do they stock books like that in normal stores?\"  He frowns.  \"I feel like I should know this, but… well, no Wikipedia, right?",
+    "responses": [
+      {
+        "text": "Cell phones were something else.  I'd like your opinion on a different thing though.",
+        "topic": "TALK_Liam_Opinions"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_REFUGEE_Jenny_GET_PNEUMATICS",
+    "dynamic_line": "&He scratches his head.  \"No.  I guess a library or a bookstore.  I have a feeling this is going to be a tough one though.  Maybe we could try like, hardware stores?  Or school libraries?\"  He thinks a bit more.  \"Those seem like our best bets to me, but I'm just guessing.\"",
+    "responses": [ { "text": "Thanks, man.  I'd like your opinion on a different thing though.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_REFUGEE_Jenny_GET_MOTOR",
+    "dynamic_line": "This one sounds easy to me.  Let's just take apart some old machinery until we find a good one.",
+    "responses": [ { "text": "Thanks, man.  I'd like your opinion on a different thing though.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_REFUGEE_Jenny_GET_TANK",
+    "dynamic_line": "Kinda wonder why she didn't just get us to get her a compressor, but she probably has her reasons.\"  You notice a bit of an odd tone to his voice.  \"Maybe we could take apart a big compressor for her, the tank would probably be perfect.",
+    "speaker_effect": { "sentinel": "liam_crush1", "effect": { "u_add_var": "u_liam_jenny_feelings", "value": "crush_suspected" } },
+    "responses": [
+      {
+        "text": "Dude.  You have a crush on Jenny.",
+        "topic": "TALK_Liam_Jenny_CrushAccuse",
+        "condition": { "not": { "u_has_var": "u_liam_jenny_feelings", "value": "crushing_hard" } }
+      },
+      { "text": "Thanks, man.  I'd like your opinion on a different thing though.", "topic": "TALK_Liam_Opinions" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_REFUGEE_Jenny_GET_TEXT",
+    "dynamic_line": "*blushes, for some reason.  \"Uh, yeah.  Gun books, hey?  I guess we should look in um, gun stores or libraries?  Or high school lockers, haha.  Oh, that made me sad.\"",
+    "speaker_effect": { "sentinel": "liam_crush1", "effect": { "u_add_var": "u_liam_jenny_feelings", "value": "crush_suspected" } },
+    "responses": [
+      {
+        "text": "Dude.  You have a crush on Jenny.",
+        "topic": "TALK_Liam_Jenny_CrushAccuse",
+        "condition": { "not": { "u_has_var": "u_liam_jenny_feelings", "value": "crushing_hard" } }
+      },
+      { "text": "Thanks, man.  I'd like your opinion on a different thing though.", "topic": "TALK_Liam_Opinions" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_REFUGEE_Jenny_GET_TEXTcrushmode",
+    "dynamic_line": "*blushes.  \"Yeah we are.\"  He smiles dopily, apparently forgetting that you'd asked for his thoughts.",
+    "responses": [
+      { "text": "Any opinions on the job itself?", "topic": "TALK_Liam_Opinions_MISSION_REFUGEE_Jenny_GET_TEXTcrushmode2" },
+      {
+        "text": "Just wanted to point that out.  I'd like your opinion on a different thing though.",
+        "topic": "TALK_Liam_Opinions"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_REFUGEE_Jenny_GET_TEXTcrushmode2",
+    "dynamic_line": "Uh, right.  Maybe a gun store?  Or a library?  Or we could check high school lockers, haha.  Oh, that made me sad.",
+    "responses": [
+      {
+        "text": "You've got it *bad*, dude.  I'd like your opinion on a different thing though.",
+        "topic": "TALK_Liam_Opinions"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_TACOMA_Nunez",
+    "dynamic_line": "&He looks at you, a bit surprised.  \"Yeah, of course.  I mean, that situation they're in now is miserable, no matter how much we've helped folks out there.  Can you imagine trying to be a young couple in that cramped space?\"  He waggles his eyebrows suggestively.  \"They're tryin' to have a *baby*, you know.  Gonna be hard in a bunkhouse.  Let's get them out to a nice farm, some fresh air, and, *you* know.\"  He winks, to drive the point far, far further home than necessary.  \"Let the magic happen, right?\"",
+    "responses": [
+      {
+        "text": "That was unnecessarily clear.  Still, I'd like your opinion on a different thing, somehow.",
+        "topic": "TALK_Liam_Opinions"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_REFUGEE_Uyen_1",
+    "dynamic_line": "Seems pretty cut and dry to me.  Let's raid a few first aid kits.  I'm pretty sure you can find that stuff in the basement of those government evac shelters, for example.",
+    "responses": [ { "text": "Thanks.  I'd like your opinion on a different thing, though.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_REFUGEE_Uyen_2",
+    "dynamic_line": "Kinda don't think she needs our help on this one, but she's in a bind I guess.\"  He pauses.  \"No pun intended this time,\" he chuckles.  \"Anyway, let's just find some spare fabric, choppy-choppy, and Bob's your uncle.\"  He thinks for a moment.  \"Actually she'll probably want them disinfected, and we should find her some tape too just to be on the safe side.",
+    "responses": [ { "text": "Fair enough.  I'd like your opinion on a different thing, though.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_REFUGEE_Uyen_3",
+    "dynamic_line": "I admit, I haven't been paying attention to it, but I'm sure those things must be around in half the medicine cabinets in the area, right?  Seems like an easy looting job to me.",
+    "responses": [ { "text": "Good point.  I'd like your opinion on a different thing, though.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_REFUGEE_Vanessa_1",
+    "dynamic_line": "Worse things we could do for people than help them get haircuts,\" he shrugs.  \"No job too small, right?  Vanessa seems a bit cranky to me, but I'm not judging.  Those folks are in a tough spot.  Maybe she'll turn suddenly nice if we bring her the hair stuff she wants.\"  He grins.  \"I'm one hundred percent sure that's what'll happen.",
+    "responses": [
+      {
+        "text": "That's my optimistic Liam.  I'd like your opinion on a different thing, though.",
+        "topic": "TALK_Liam_Opinions"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_ARSONIST_1_AMMONIUM_NITRATE",
+    "dynamic_line": "*laughs.  \"Look, Makayla is a trained professional, she knows what she's doing with several kilograms of improvised explosives, doesn't she?\"  He shrugs.  \"If not, let's just stay far away when she tests it.\"",
+    "responses": [
+      {
+        "text": "That's my optimistic Liam.  I'd like your opinion on a different thing, though.",
+        "topic": "TALK_Liam_Opinions"
       }
     ]
   },
@@ -948,9 +1515,7 @@
     "type": "talk_topic",
     "id": "TALK_Liam_Opinions_MISSION_ISHERWOOD_CLAIRE_1",
     "dynamic_line": {
-      "u_has_var": "u_saved_barry",
-      "type": "general",
-      "context": "meeting",
+      "u_has_var": "u_saved_barry_isherwood",
       "value": "yes",
       "no": "Picking flowers in a field seems okay to me.  I don't mind helping Claire out, she's a nice enough person.  Gotta say though, I get a bit of a weird vibe off these guys.  They're so… I don't know.  It's like we walked into a Norman Rockwell painting in the middle of the end of the world.",
       "yes": "After the shit these poor bastards have gone through, picking some dandelions for them seems kind of anticlimactic.  Still, I am a big fan of dandelion wine."
@@ -980,9 +1545,7 @@
     "type": "talk_topic",
     "id": "TALK_Liam_Opinions_MISSION_ISHERWOOD_EDDIE_1",
     "dynamic_line": {
-      "u_has_var": "u_saved_barry",
-      "type": "general",
-      "context": "meeting",
+      "u_has_var": "u_saved_barry_isherwood",
       "value": "yes",
       "no": "Even if we work together it's gonna take a while to just find enough good rocks lying around.  We'll probably want to get a shovel and dig around a bit maybe?  Or break up bigger ones with a sledge.  Something about this stuff feels weird to me though.  Too pastoral for the apocalypse.",
       "yes": "Even if we work together it's gonna take a while to just find enough good rocks lying around.  We'll probably want to get a shovel and dig around a bit maybe?  Or break up bigger ones with a sledge.  I'm impressed at these guys, keeping going after everything that's happened."
@@ -1033,6 +1596,12 @@
     "id": "TALK_Liam_Opinions_MISSION_ISHERWOOD_JESSE_1",
     "dynamic_line": "You know, it's a harmful stereotype that wolves are dangerous to humans.  Of course I'm not afraid.\"  He smirks at you, then grins.  \"Except let's be honest, this is probably going to be a giant monster zombie wolf or something, right?  Let's go take the bastard down.",
     "responses": [ { "text": "That's the spirit.  I'd like your opinion on something else, actually.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_ISHERWOOD_JESSE_2",
+    "dynamic_line": "Fast, unidentified monsters are killing the local wildlife, and we're going to get 'em.\"  He looks thoughtful.  \"I'm pretty sure this was an episode of the X-Files.  Or like, several episodes?  As long as we're Scully and Mulder we'll be fine, but if we're the local cops coming in to investigate, we're *toast*.  Just in case, let's make sure we've got our good gear.",
+    "responses": [ { "text": "Will do, Scully.  I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
   },
   {
     "type": "talk_topic",
@@ -1126,10 +1695,30 @@
     "type": "talk_topic",
     "id": [
       "TALK_Liam_Opinions_MISSION_REACH_REFUGEE_CENTER",
+      "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_HUB_DELIVERY_1",
       "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_1",
       "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_2",
       "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_2-1",
       "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_3",
+      "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_4",
+      "TALK_Liam_Opinions_MISSION_FREE_MERCHANTS_EVAC_5",
+      "TALK_Liam_Opinions_MISSION_BROKER_1",
+      "TALK_Liam_Opinions_MISSION_EVAC_SMOKER_GET_CIGARETTES",
+      "TALK_Liam_Opinions_directions_isherwood",
+      "TALK_Liam_Opinions_directions_hub01",
+      "TALK_Liam_Opinions_directions_exodii",
+      "TALK_Liam_Opinions_directions_artisans",
+      "TALK_Liam_Opinions_MISSION_BEGGAR_2_BOX_SMALL",
+      "TALK_Liam_Opinions_MISSION_BEGGAR_2_DUCT_TAPE",
+      "TALK_Liam_Opinions_MISSION_BEGGAR_2_BOX_MEDIUM",
+      "TALK_Liam_Opinions_MISSION_BEGGAR_2_PLASTIC_SHEET",
+      "TALK_Liam_Opinions_MISSION_BEGGAR_2_BOX_LARGE",
+      "TALK_Liam_Opinions_MISSION_BEGGAR_2_PERMISSION",
+      "TALK_Liam_Opinions_MISSION_SCIENCE_REP_1",
+      "TALK_Liam_Opinions_MISSION_SCIENCE_REP_2",
+      "TALK_Liam_Opinions_MISSION_SCIENCE_REP_3",
+      "TALK_Liam_Opinions_MISSION_SCIENCE_REP_4",
+      "TALK_Liam_Opinions_MISSION_SCIENCE_REP_5",
       "TALK_Liam_Opinions_MISSION_RANCH_BARTENDER_1",
       "TALK_Liam_Opinions_MISSION_RANCH_BARTENDER_2",
       "TALK_Liam_Opinions_MISSION_RANCH_BARTENDER_3",
@@ -1145,7 +1734,25 @@
       "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_4",
       "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_5",
       "TALK_Liam_Opinions_MISSION_OLD_GUARD_REPEATER_BEGIN",
+      "TALK_Liam_Opinions_MISSION_ARSONIST_1_AMMONIUM_NITRATE",
+      "TALK_Liam_Opinions_MISSION_REFUGEE_Alonso_pants",
       "TALK_Liam_Opinions_MISSION_REFUGEE_Boris_CLEANUP",
+      "TALK_Liam_Opinions_MISSION_REFUGEE_Boris_WORKSPACE",
+      "TALK_Liam_Opinions_MISSION_REFUGEE_Boris_LAPTOP",
+      "TALK_Liam_Opinions_MISSION_REFUGEE_Dana_Sourdough",
+      "TALK_Liam_Opinions_MISSION_REFUGEE_Draco_GET_GUITAR",
+      "TALK_Liam_Opinions_MISSION_REFUGEE_Fatima_1",
+      "TALK_Liam_Opinions_MISSION_REFUGEE_Jenny_GET_PNEUMATICS",
+      "TALK_Liam_Opinions_MISSION_REFUGEE_Jenny_GET_MOTOR",
+      "TALK_Liam_Opinions_MISSION_REFUGEE_Jenny_GET_TANK",
+      "TALK_Liam_Opinions_MISSION_REFUGEE_Jenny_GET_TEXT",
+      "TALK_Liam_Opinions_MISSION_REFUGEE_Jenny_GET_TEXTcrushmode",
+      "TALK_Liam_Opinions_MISSION_REFUGEE_Jenny_GET_TEXTcrushmode2",
+      "TALK_Liam_Opinions_MISSION_REFUGEE_Uyen_1",
+      "TALK_Liam_Opinions_MISSION_REFUGEE_Uyen_2",
+      "TALK_Liam_Opinions_MISSION_REFUGEE_Uyen_3",
+      "TALK_Liam_Opinions_MISSION_REFUGEE_Vanessa_1",
+      "TALK_Liam_Opinions_MISSION_TACOMA_Nunez",
       "TALK_Liam_Opinions_directions_exodii_signpost",
       "TALK_Liam_Opinions_RUBIK_ANUS_FETICK-1",
       "TALK_Liam_Opinions_EXODII_MISSION_CONTACT_HUB",
@@ -1181,6 +1788,7 @@
       "TALK_Liam_Opinions_MISSION_ISHERWOOD_JACK_1",
       "TALK_Liam_Opinions_MISSION_ISHERWOOD_JACK_2",
       "TALK_Liam_Opinions_MISSION_ISHERWOOD_JESSE_1",
+      "TALK_Liam_Opinions_MISSION_ISHERWOOD_JESSE_2",
       "TALK_Liam_Opinions_MISSION_ISHERWOOD_LUKE_1",
       "TALK_Liam_Opinions_MISSION_ISHERWOOD_LUKE_2",
       "TALK_Liam_Opinions_MISSION_ISHERWOOD_BARRY_1",
