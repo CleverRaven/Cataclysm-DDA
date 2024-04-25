@@ -1167,7 +1167,9 @@
     "rating": "good",
     "enchantments": [
       {
-        "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": { "math": [ "u_spell_level('biomancer_eat_tons_of_food')" ] } } ]
+        "values": [
+          { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": { "math": [ "u_spell_level('biomancer_eat_tons_of_food') * 0.5" ] } }
+        ]
       }
     ]
   },
