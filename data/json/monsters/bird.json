@@ -233,7 +233,7 @@
     "dodge": 4,
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_flying", "prof_wp_basic_bird" ],
     "weakpoint_sets": [ "wps_bird_body" ],
-    "harvest": "waterfowl_small",
+    "harvest": "bird_small",
     "dissect": "dissect_bird_sample_single",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED", "FRIEND_DIED", "FIRE", "HURT" ],
     "reproduction": { "baby_egg": "egg_duck", "baby_count": 3, "baby_timer": 5 },
@@ -452,7 +452,7 @@
   {
     "id": "mon_duck_chick",
     "type": "MONSTER",
-    "copy-from": "mon_generic_waterfowl_chick",
+    "copy-from": "mon_generic_chick",
     "name": { "str": "waterfowl chick" },
     "description": "A tiny yellow and brown waterfowl chick, it could be from a number of different species.",
     "petfood": {
@@ -723,7 +723,7 @@
     "dodge": 4,
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_flying", "prof_wp_basic_bird" ],
     "weakpoint_sets": [ "wps_bird_body" ],
-    "harvest": "waterfowl_small",
+    "harvest": "bird_small",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED", "FRIEND_DIED", "FIRE", "HURT" ],
     "reproduction": { "baby_egg": "egg_coot", "baby_count": 3, "baby_timer": 5 },
     "baby_flags": [ "SPRING" ],
@@ -772,55 +772,25 @@
   {
     "id": "mon_coot_chick",
     "type": "MONSTER",
-    "copy-from": "mon_generic_waterfowl_chick",
+    "copy-from": "mon_generic_chick",
     "upgrades": { "age_grow": 14, "into": "mon_coot" }
   },
   {
     "id": "mon_cormorant_chick",
     "type": "MONSTER",
-    "copy-from": "mon_generic_waterfowl_chick",
+    "copy-from": "mon_generic_chick",
     "upgrades": { "age_grow": 14, "into": "mon_cormorant" }
   },
   {
     "id": "mon_moorhen_chick",
     "type": "MONSTER",
-    "copy-from": "mon_generic_waterfowl_chick",
+    "copy-from": "mon_generic_chick",
     "upgrades": { "age_grow": 14, "into": "mon_moorhen" }
   },
   {
     "id": "mon_grebe_chick",
     "type": "MONSTER",
-    "copy-from": "mon_generic_waterfowl_chick",
+    "copy-from": "mon_generic_chick",
     "upgrades": { "age_grow": 14, "into": "mon_grebe" }
-  },
-  {
-    "abstract": "mon_generic_waterfowl_chick",
-    "type": "MONSTER",
-    "name": { "str": "fuzzy brown chick" },
-    "description": "A tiny darkly-colored waterfowl chick with lots of fuzzy down feathers, it could be from a number of different species.",
-    "default_faction": "small_animal",
-    "bodytype": "bird",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "BIRD" ],
-    "volume": "750 ml",
-    "weight": "60 g",
-    "hp": 1,
-    "speed": 40,
-    "material": [ "flesh" ],
-    "symbol": "v",
-    "color": "yellow",
-    "looks_like": "mon_chicken",
-    "aggression": -99,
-    "morale": -8,
-    "melee_skill": 1,
-    "melee_dice": 1,
-    "melee_dice_sides": 1,
-    "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
-    "dodge": 1,
-    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_basic_bird" ],
-    "harvest": "waterfowl_tiny",
-    "upgrades": { "age_grow": 14, "into": "mon_goose" },
-    "//": "Grows up into a standard goose as a fallback",
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "SWARMS", "CAN_BE_CULLED" ]
   }
 ]
