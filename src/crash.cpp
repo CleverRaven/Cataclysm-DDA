@@ -135,6 +135,9 @@ extern "C" {
             default:
                 return;
         }
+#if !(defined(WIN32) || defined(TILES)) && !defined(CYGWIN)
+        system("reset");
+#endif
         if( !isDebuggerActive() ) {
             log_crash( "Signal", msg );
         }
