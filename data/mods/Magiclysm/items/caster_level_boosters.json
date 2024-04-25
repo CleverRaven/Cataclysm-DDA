@@ -138,7 +138,7 @@
     "copy-from": "kelvinist_booster_1",
     "name": { "str": "kelvinist's candle" },
     "description": "A thick candle of magically treated tallow with a kelvinist rune artfully inscribed on the side.  It doesn't burn for quite as long as a regular candle, but it will boost your caster level of kelvinist spells by 1 while burning.  The magic of the candle protects it from the wind and from setting your backpack aflame.  This candle is lit.",
-    "turns_per_charge": 675,
+    "turns_per_charge": 630,
     "use_action": [
       { "type": "firestarter", "moves": 100 },
       {
