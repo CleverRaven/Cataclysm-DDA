@@ -1514,12 +1514,60 @@
     "//": "This group was created by a fool and may contain errors.",
     "subtype": "distribution",
     "entries": [
-      { "prob": 10, "item": "yeast", "container-item": "bottle_plastic_seasoning_small", "count": 25 },
-      { "prob": 10, "item": "yeast", "container-item": "bottle_glass_seasoning_small", "count": 25 },
-      { "prob": 4, "item": "yeast", "container-item": "bottle_plastic_seasoning", "count": 50  },
-      { "prob": 4, "item": "yeast", "container-item": "bottle_glass_seasoning", "count": 50 },
-      { "prob": 1, "item": "yeast", "container-item": "bag_paper_powder", "count": 250 }
+      { "prob": 10, "group": "yeast_bottle_plastic_small_full"},
+      { "prob": 10, "group": "yeast_bottle_glass_small_full"},
+      { "prob": 4, "group": "yeast_bottle_plastic_full"},
+      { "prob": 4, "group": "yeast_bottle_glass_full"},
+      { "prob": 1, "group": "yeast_bag_paper_full"}
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "yeast_bottle_plastic_small_full",
+    "subtype": "collection",
+    "//": "This group was created by a fool and may contain errors.",
+    "container-item": "bottle_plastic_seasoning_small",
+    "entries": [ { "item": "yeast", "container-item": "null", "count": 25 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "yeast_bottle_glass_small_full",
+    "subtype": "collection",
+    "//": "This group was created by a fool and may contain errors.",
+    "container-item": "bottle_glass_seasoning_small",
+    "entries": [ { "item": "yeast", "container-item": "null", "count": 25 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "yeast_bottle_plastic_full",
+    "subtype": "collection",
+    "//": "This group was created by a fool and may contain errors.",
+    "container-item": "bottle_plastic_seasoning",
+    "entries": [ { "item": "yeast", "container-item": "null", "count": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "yeast_bottle_glass_full",
+    "subtype": "collection",
+    "//": "This group was created by a fool and may contain errors.",
+    "container-item": "bottle_glass_seasoning",
+    "entries": [ { "item": "yeast", "container-item": "null", "count": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "yeast_bag_plastic_full",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "yeast", "container-item": "null", "count": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "yeast_bag_paper_full",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bag_paper_powder",
+    "entries": [ { "item": "yeast", "container-item": "null", "count": 250 } ]
   },
   {
     "type": "item_group",
@@ -1701,11 +1749,6 @@
     "container-item": "bag_plastic_small",
     "entries": [ { "item": "bacon", "container-item": "null", "count": 2 } ]
   },
-
-
-
-
-
   {
     "type": "item_group",
     "id": "milk_powder_various",
@@ -1724,10 +1767,16 @@
     "//": "This group was created by a fool and may contain errors.",
     "subtype": "distribution",
     "entries": [
-      { "prob": 8, "item": "milk_powder", "container-item": "bottle_plastic_seasoning", "count": 8 },
-      { "prob": 8, "item": "milk_powder", "container-item": "bottle_glass_seasoning", "count": 8 },
-      { "prob": 1, "item": "milk_powder", "container-item": "bag_paper_powder", "count": 40 }
+      { "prob": 1, "group": "milk_powder_bag_paper_full", "container-item": "bag_paper_powder", "count": 40 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "milk_powder_bag_paper_full",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bag_paper_powder",
+    "entries": [ { "item": "milk_powder", "container-item": "null", "count": 40 } ]
   },
   {
     "type": "item_group",
@@ -1773,7 +1822,6 @@
     "container-item": "bag_paper_powder",
     "entries": [ { "item": "milk_powder", "container-item": "null", "count": [ 5, 40 ] } ]
   },
-
 
   {
     "type": "item_group",
@@ -1984,12 +2032,52 @@
     "//": "This group was created by a fool and may contain errors.",
     "subtype": "distribution",
     "entries": [
-      { "prob": 10, "item": "curry_powder", "container-item": "bottle_plastic_seasoning_small", "count": 50 },
-      { "prob": 10, "item": "curry_powder", "container-item": "bottle_glass_seasoning_small", "count": 50 },
-      { "prob": 4, "item": "curry_powder", "container-item": "bottle_plastic_seasoning", "count": 100 },
-      { "prob": 4, "item": "curry_powder", "container-item": "bottle_glass_seasoning", "count": 100 },
-      { "prob": 1, "item": "curry_powder", "container-item": "bag_paper_powder", "count": 500 }
+      { "prob": 10, "group": "curry_powder_bottle_plastic_small_full" },
+      { "prob": 10, "group": "curry_powder_bottle_glass_small_full" },
+      { "prob": 4, "group": "curry_powder_bottle_plastic_full" },
+      { "prob": 4, "group": "curry_powder_bottle_glass_full" },
+      { "prob": 1, "group": "curry_powder_bag_paper_full" }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "curry_powder_bottle_plastic_small_full",
+    "subtype": "collection",
+    "//": "This group was created by a fool and may contain errors.",
+    "container-item": "bottle_plastic_seasoning_small",
+    "entries": [ { "item": "curry_powder", "container-item": "null", "count": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "curry_powder_bottle_glass_small_full",
+    "subtype": "collection",
+    "//": "This group was created by a fool and may contain errors.",
+    "container-item": "bottle_glass_seasoning_small",
+    "entries": [ { "item": "curry_powder", "container-item": "null", "count": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "curry_powder_bottle_plastic_full",
+    "subtype": "collection",
+    "//": "This group was created by a fool and may contain errors.",
+    "container-item": "bottle_plastic_seasoning",
+    "entries": [ { "item": "curry_powder", "container-item": "null", "count": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "curry_powder_bottle_glass_full",
+    "subtype": "collection",
+    "//": "This group was created by a fool and may contain errors.",
+    "container-item": "bottle_glass_seasoning",
+    "entries": [ { "item": "curry_powder", "container-item": "null", "count": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "curry_powder_bag_paper_full",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bag_paper_powder",
+    "entries": [ { "item": "curry_powder", "container-item": "null", "count": 500 } ]
   },
   {
     "type": "item_group",
