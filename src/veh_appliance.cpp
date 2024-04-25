@@ -114,20 +114,6 @@ void place_appliance( const tripoint &p, const vpart_id &vpart, const std::optio
     }
 }
 
-// uilist_callback whose sole responsibility is to draw the
-// connecting borders between the uilist and the info window.
-class app_uilist_handler : public uilist_callback
-{
-        void refresh( uilist *imenu ) override {
-            //NOLINTNEXTLINE(cata-use-named-point-constants)
-            mvwputch( imenu->window, point( 0, 0 ), c_white, LINE_XXXO );
-            mvwputch( imenu->window, point( win_width - 1, 0 ), c_white, LINE_XOXX );
-            wnoutrefresh( imenu->window );
-        }
-};
-
-static app_uilist_handler app_callback;
-
 player_activity veh_app_interact::run( vehicle &veh, const point &p )
 {
     veh_app_interact ap( veh, p );
@@ -202,7 +188,6 @@ void veh_app_interact::init_ui_windows()
     imenu.w_y_setup = topleft.y + height_info;
     imenu.allow_cancel = true;
     imenu.border_color = c_white;
-    imenu.callback = &app_callback;
     imenu.setup();
 }
 
