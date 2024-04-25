@@ -1747,7 +1747,7 @@
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_paper_powder",
-    "entries": [ { "item": "sugar", "container-item": "null", "count": 400  } ]
+    "entries": [ { "item": "sugar", "container-item": "null", "count": 400 } ]
   },
   {
     "type": "item_group",
@@ -1866,7 +1866,6 @@
     "container-item": "box_small",
     "entries": [ { "item": "stuffed_clams", "container-item": "null", "count-min": 1 } ]
   },
-
   {
     "type": "item_group",
     "id": "flour_various",
@@ -1879,16 +1878,12 @@
       { "prob": 1, "group": "flour_bag_paper" }
     ]
   },
-
   {
     "type": "item_group",
     "id": "flour_various_full",
     "//": "This group was created by a fool and may contain errors.",
     "subtype": "distribution",
-    "entries": [
-      { "prob": 4, "group": "flour_bag_plastic_full"},
-      { "prob": 6, "group": "flour_bag_paper_full"}
-    ]
+    "entries": [ { "prob": 4, "group": "flour_bag_plastic_full" }, { "prob": 6, "group": "flour_bag_paper_full" } ]
   },
   {
     "type": "item_group",

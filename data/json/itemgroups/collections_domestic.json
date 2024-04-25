@@ -1514,11 +1514,11 @@
     "//": "This group was created by a fool and may contain errors.",
     "subtype": "distribution",
     "entries": [
-      { "prob": 10, "group": "yeast_bottle_plastic_small_full"},
-      { "prob": 10, "group": "yeast_bottle_glass_small_full"},
-      { "prob": 4, "group": "yeast_bottle_plastic_full"},
-      { "prob": 4, "group": "yeast_bottle_glass_full"},
-      { "prob": 1, "group": "yeast_bag_paper_full"}
+      { "prob": 10, "group": "yeast_bottle_plastic_small_full" },
+      { "prob": 10, "group": "yeast_bottle_glass_small_full" },
+      { "prob": 4, "group": "yeast_bottle_plastic_full" },
+      { "prob": 4, "group": "yeast_bottle_glass_full" },
+      { "prob": 1, "group": "yeast_bag_paper_full" }
     ]
   },
   {
@@ -1588,7 +1588,7 @@
     "subtype": "collection",
     "//": "This group was created by a fool and may contain errors.",
     "container-item": "bottle_plastic_seasoning_small",
-    "entries": [ { "item": "yeast", "container-item": "null", "count": [5, 25] } ]
+    "entries": [ { "item": "yeast", "container-item": "null", "count": [ 5, 25 ] } ]
   },
   {
     "type": "item_group",
@@ -1766,9 +1766,7 @@
     "id": "milk_powder_various_full",
     "//": "This group was created by a fool and may contain errors.",
     "subtype": "distribution",
-    "entries": [
-      { "prob": 1, "group": "milk_powder_bag_paper_full", "container-item": "bag_paper_powder", "count": 40 }
-    ]
+    "entries": [ { "prob": 1, "group": "milk_powder_bag_paper_full", "container-item": "bag_paper_powder", "count": 40 } ]
   },
   {
     "type": "item_group",
@@ -1822,7 +1820,6 @@
     "container-item": "bag_paper_powder",
     "entries": [ { "item": "milk_powder", "container-item": "null", "count": [ 5, 40 ] } ]
   },
-
   {
     "type": "item_group",
     "id": "milk_powder_bag_plastic_4",
@@ -1831,11 +1828,6 @@
     "container-item": "bag_plastic_small",
     "entries": [ { "item": "milk_powder", "container-item": "null", "count": 4 } ]
   },
-
-
-
-
-
   {
     "type": "item_group",
     "id": "powder_eggs_bottle_plastic_small_16",

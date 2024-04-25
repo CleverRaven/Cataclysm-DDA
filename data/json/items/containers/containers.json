@@ -227,7 +227,7 @@
     "symbol": ")",
     "color": "light_gray",
     "flags": [ "COLLAPSE_CONTENTS" ]
-  },  
+  },
   {
     "id": "bag_garbage",
     "type": "GENERIC",
