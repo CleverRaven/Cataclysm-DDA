@@ -107,7 +107,7 @@
         "id": "psi_biokin2_hardened_skin",
         "type": "spell",
         "spell_data": { "id": "biokinetic_hardened_skin_monster" },
-        "cooldown": 20,
+        "cooldown": 1,
         "condition": {
           "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "not": { "u_has_effect": "effect_monster_hardened_skin" } } ]
         },
@@ -188,7 +188,7 @@
         "id": "psi_biokin3_hardened_skin",
         "type": "spell",
         "spell_data": { "id": "biokinetic_hardened_skin_monster" },
-        "cooldown": 20,
+        "cooldown": 1,
         "condition": {
           "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "not": { "u_has_effect": "effect_monster_hardened_skin" } } ]
         },
