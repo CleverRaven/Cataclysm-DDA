@@ -53,9 +53,9 @@
         }
       },
       {
-        "text": "[NEW MISSION LINE] So, what's the plan with this rescue?",
+        "text": "Have you had any ideas for what your family could do?",
         "condition": {
-          "and": [ { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" }, { "math": [ "isherwood_rescue_family_coming", "==", "1" ] } ]
+          "math": [ "npc_timer_thinking_about_plan", "=", "time('1 h')" ]
         },
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN"
       },
@@ -178,67 +178,74 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY",
-    "dynamic_line": "[que exposition about a plan]",
+    "dynamic_line": "&Chris looks you up and down, and nods.  \"I'm definitely not going to say no to a willing body, and you look like you know what's up.\"  He sighs.  \"To be honest with you, I've been a bit stuck.  I can't tackle that thing alone, and I'm not willing to bring my dad or Uncle Eddie in either.  Dad's got a bum knee - don't tell him I said that - and Eddie's not that great a shot.  Luke's still too young for something like this… you get the idea.\"  He leans forward, self-consciously running his hand through his hair.  \"I think if we work together maybe we'd stand a chance.  I don't have a great plan though.  That tower doesn't look like something a person could just storm up to full-frontal style.\"",
     "responses": [
-      { "text": "[go it alone]", "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_GO_IT_ALONE" },
+      { "text": "Actually, I was just planning to go in by myself.  I've handled worse.", "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_GO_IT_ALONE" },
+      "condition": { "not": { "npc_allies": 1 } },
       {
-        "text": "[go with your own team]",
-        "condition": { "npc_allies": 3 },
+        "text": "I've got my own team here, we'll take this.  You stay back here, keep the family safe.",
+        "condition": { "npc_allies": 1 },
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_TAKE_OWN_TEAM"
       },
-      { "text": "[take Chris with you]", "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_CHRIS_JOINS" }
+      { "text": "Yeah, I think we should work together on this.  Do you mind if I take the lead?  I've probably got more experience.", "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_CHRIS_JOINS" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_GO_IT_ALONE",
-    "dynamic_line": "[you quite sure? don't die]",
+    "dynamic_line": "*looks at you with obvious doubt.  \"You sure you know what you're getting into?  I can't stop you if you plan on going in solo, but it seems like a terrible idea.  Those things mean business.  I won't be able to go in and help you if you get trapped too.  It's probably better we pair up.\"",
     "responses": [
-      { "text": "[i'm sure]", "topic": "TALK_DONE" },
-      { "text": "[change mind, take Chris]", "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_CHRIS_JOINS" }
+      { "text": "Trust me.  See you in a bit.", "topic": "TALK_DONE", "effect": { "assign_mission": "MISSION_ISHERWOOD_CHRIS_1" } },
+      { "text": "If you insist, yeah, we could team up.", "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_CHRIS_JOINS" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_TAKE_OWN_TEAM",
-    "dynamic_line": "[good you got pals]",
+    "dynamic_line": "Yeah, bringing your own people in is reasonable.  Still, the more the better.  It's my uncle in there, I'm more than willing to help out.  I know my way around, I won't get in your way.",
     "responses": [
-      { "text": "[you want to come too?]", "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_CHRIS_JOINS" },
-      { "text": "[thanks bye be back with Barry]", "topic": "TALK_DONE" }
+      { "text": "All right.  As long as you follow my lead, we could use another pair of hands.", "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_CHRIS_JOINS" },
+      { "text": "It's all right.  We've got this, you get things ready for when we return with Barry", "topic": "TALK_DONE", "effect": { "assign_mission": "MISSION_ISHERWOOD_CHRIS_1" } }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_CHRIS_JOINS",
-    "dynamic_line": "[yay lets kick butt. we need more?]",
+    "dynamic_line": "*nods.  \"I'm fine following your lead.  I'm a good scout and hunter, but I've never done anything like this before.  When you set the time, I'll head out and wait near the scout tower for you with the best gear I can get.\"",
     "responses": [
-      { "text": "[nah we good trust me bro]", "effect": "follow", "topic": "TALK_DONE" },
-      { "text": "[sister come too?]", "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_TAKE_LISA" },
-      { "text": "[i think whole family needed]", "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_TAKE_WHOLE_FAMILY" }
+      { "text": "All right.  Let's kick some alien butt.", "effect": [ "follow", { "assign_mission": "MISSION_ISHERWOOD_CHRIS_1" } ], "//": "This is temporary, Chris should actually spawn near the tower with some new gear and follow you from there.", "topic": "TALK_DONE" },
+      { "text": "Is there anyone else around here that could help us?", "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_TAKE_LISA" },
+      { "text": "You mentioned that Carlos, Eddie and Luke probably can't help in a firefight.  Is there any other way we could use them?", "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY__THE_ISHERWOODS" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_TAKE_LISA",
-    "dynamic_line": "[lemme go check she prob will good idea bro]",
-    "responses": [ { "text": "[okie dokie]", "effect": { "math": [ "isherwood_rescue_lisa_coming", "=", "1" ] }, "topic": "TALK_DONE" } ]
+    "dynamic_line": "Like I said, I don't really think my dad or uncle should help, and I think Luke's more likely to get injured than be helpful.",
+    "responses": [ { "text": "What about Lisa?  She seems like she could handle herself.", "condition": { "u_has_var": "u_met_lisa_isherwood", "value": "yes" }, "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_TAKE_LISA2" } ]
   },
   {
     "type": "talk_topic",
-    "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_TAKE_WHOLE_FAMILY",
-    "dynamic_line": "[lemme go check they prob like we all love barry.  Meet me again we plan more.]",
+    "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_TAKE_LISA2",
+    "dynamic_line": "*blinks.  \"My… yeah, of course Lisa could come.  Damn, she'd smack me if she knew I didn't think of that myself.  Mind if I go talk to her about it?  I'll get her to come out with me and we'll meet you together, if she's willing.\"",
+    "responses": [       { "text": "All right.  Let's kick some alien butt.", "effect": [ "follow", { "assign_mission": "MISSION_ISHERWOOD_CHRIS_1" } ], "//": "This is temporary, Chris should actually spawn near the tower with some new gear and follow you from there.", "topic": "TALK_DONE" } ]
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_THE_ISHERWOODS",
+    "dynamic_line": "Probably.  They'd want to, for sure.\"  He looks thoughtful.  \"I'm sure we could use more help, but this isn't my strong suit.  Let me think about it.  If you have any ideas, run them by me.\"",
+    "speaker_effect": { "sentinel": "chris_thinking_about_plan", "effect": { "math": [ "npc_timer_thinking_about_plan", "=", "time('now')" ] } },
     "responses": [
-      { "text": "[okie dokie]", "effect": { "math": [ "isherwood_rescue_family_coming", "=", "1" ] }, "topic": "TALK_DONE" }
+      { "text": "OK.  Let's talk about it again in a bit.", "topic": "TALK_NONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN",
-    "dynamic_line": "[Fam pull up in truck with us & we start shooting. U get inside and get Barry then we leave. Anything go wrong we let u know.  I want better gear & fortifications]",
+    "dynamic_line": "Yeah.  I think they should cover our exit.  We've got an old truck they could set up as a platform, where Dad can put down covering fire without his knee being an issue.  Eddie can drive, instead of shoot, and Luke or Mom can be ready with some first aid supplies.  Then when we get out, we've got an easy getaway set up, and there's less chance of us getting flanked while we're in there looking for Barry.\"  He looks at you, suddenly nervous.  \"Is that a good plan?",
     "responses": [
-      { "text": "[okie dokie lets go kick butt]", "topic": "TALK_DONE" },
-      { "text": "[details on gear?]", "topic": "TALK_DONE" },
-      { "text": "[details on fort?]", "topic": "TALK_DONE" }
+      { "text": "Seems like a good plan to me.", "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN2" },
+      { "text": "I think it's better we take my vehicle, and just leave them out of it.", "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Cancel" },
+      { "text": "I don't think one farmer with a hunting rifle is going to be enough to keep our backs safe.", "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear" }
     ]
   },
   {
