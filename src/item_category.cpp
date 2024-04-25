@@ -127,7 +127,11 @@ int item_category::sort_rank() const
     return sort_rank_;
 }
 
-float item_category::get_spawn_rate() const
+float item_category::get_spawn_rate()
 {
+    if( dirty_spawn_rate ) {
+        spawn_rate = get_option<float>( "SPAWN_RATE_" + id.c_str() );
+        dirty_spawn_rate = false;
+    }
     return spawn_rate;
 }

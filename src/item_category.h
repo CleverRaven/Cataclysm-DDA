@@ -72,7 +72,7 @@ class item_category
         std::optional<zone_type_id> priority_zone( const item &it ) const;
         std::optional<zone_type_id> zone() const;
         int sort_rank() const;
-        float get_spawn_rate() const;
+        float get_spawn_rate();
 
         /**
          * Comparison operators

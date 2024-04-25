@@ -4182,6 +4182,20 @@ void options_manager::set_world_options( options_container *options )
     }
 }
 
+void options_manager::set_world_option( std::pair<std::string, cOpt> &option )
+{
+    auto it = world_options.find(option.first);
+    if( it != world_options.end() ) {
+        if( option.second == nullopt ) {
+            world_options.erase(it);
+        } else {
+            it->second = option.second;
+        }
+    } else {
+        world_options.insert(option);
+    }
+}
+
 void options_manager::update_global_locale()
 {
     std::string lang = ::get_option<std::string>( "USE_LANG" );
