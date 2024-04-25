@@ -1861,11 +1861,27 @@
       { "prob": 2, "group": "flour_bag_paper_bulk" }
     ]
   },
+  {
+    "type": "item_group",
+    "id": "flour_bottle_plastic",
+    "subtype": "collection",
+    "//": "This group was created by a fool and may contain errors.",
+    "container-item": "bottle_plastic_seasoning",
+    "entries": [ { "item": "flour", "container-item": "null", "count": [ 2, 20 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "flour_bottle_glass",
+    "subtype": "collection",
+    "//": "This group was created by a fool and may contain errors.",
+    "container-item": "bottle_glass_seasoning",
+    "entries": [ { "item": "flour", "container-item": "null", "count": [ 2, 20 ] } ]
+  },
 
 
   {
     "type": "item_group",
-    "id": "flour_bag_paper_powder",
+    "id": "flour_bag_paper",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_paper_powder",
@@ -1873,7 +1889,7 @@
   },
   {
     "type": "item_group",
-    "id": "flour_bag_paper_powder_bulk",
+    "id": "flour_bag_paper_bulk",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_paper_powder_bulk",
@@ -1885,7 +1901,7 @@
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_plastic_small",
-    "entries": [ { "item": "flour", "container-item": "null", "count": [ 1, 20 ] } ]
+    "entries": [ { "item": "flour", "container-item": "null", "count": [ 2, 20 ] } ]
   },
   {
     "type": "item_group",
