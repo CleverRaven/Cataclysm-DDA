@@ -3109,6 +3109,7 @@ void Item_factory::load( islot_tool &slot, const JsonObject &jo, const std::stri
     assign( jo, "power_draw", slot.power_draw, strict, 0_W );
     assign( jo, "revert_msg", slot.revert_msg, strict );
     assign( jo, "sub", slot.subtype, strict );
+    assign( jo, "has_multimag", slot.has_multimag, strict, false );
 
     if( slot.def_charges > slot.max_charges ) {
         jo.throw_error_at( "initial_charges", "initial_charges is larger than max_charges" );

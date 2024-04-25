@@ -843,6 +843,7 @@ class item : public visitable
         std::vector<item_pocket *> get_all_standard_pockets();
         std::vector<item_pocket *> get_all_ablative_pockets();
         std::vector<const item_pocket *> get_all_ablative_pockets() const;
+        std::vector<item *> get_all_magazines();
         std::vector<item_pocket *> get_all_magazine_pockets();
         /**
          * Updates the pockets of this item to be correct based on the mods that are installed.
@@ -1620,6 +1621,7 @@ class item : public visitable
 
         bool is_deployable() const;
         bool is_tool() const;
+        bool is_tool_with_multimag() const;
         bool is_transformable() const;
         bool is_relic() const;
         bool is_same_relic( item const &rhs ) const;
@@ -3069,6 +3071,7 @@ class item : public visitable
         bool process_blackpowder_fouling( Character *carrier );
         bool process_gun_cooling( Character *carrier );
         bool process_tool( Character *carrier, const tripoint &pos );
+        bool process_tool_with_multimag( Character *carrier, const tripoint &pos );
 
     public:
         static const int INFINITE_CHARGES;

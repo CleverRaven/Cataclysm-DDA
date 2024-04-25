@@ -2076,13 +2076,6 @@ std::vector<item_pocket *> item_contents::get_all_magazine_pockets()
     } );
 }
 
-std::vector<item_pocket *> item_contents::get_all_magazine_pockets()
-{
-    return get_pockets( []( item_pocket const & pocket ) {
-        return pocket.is_ablative();
-    } );
-}
-
 std::vector<const item *> item_contents::get_added_pockets() const
 {
     std::vector<const item *> items_added;

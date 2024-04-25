@@ -61,6 +61,7 @@
 #include "item_category.h"
 #include "item_factory.h"
 #include "item_group.h"
+#include "item_pocket.h"
 #include "item_tname.h"
 #include "iteminfo_query.h"
 #include "itype.h"
@@ -9682,6 +9683,16 @@ std::vector<const item_pocket *> item::get_all_ablative_pockets() const
     return contents.get_all_ablative_pockets();
 }
 
+std::vector<item *> item::get_all_magazines()//FUNC
+{
+    std::vector<item *> magazines;
+    std::vector<item_pocket *> pockets_with_magazines = get_all_magazine_pockets();
+    for( item_pocket *pocket_with_magazine : pockets_with_magazines ) {
+        magazines.push_back( magazine_current() );
+    }
+    return magazines;
+}
+
 std::vector<item_pocket *> item::get_all_magazine_pockets()//FUNC
 {
     return contents.get_all_magazine_pockets();
@@ -9912,6 +9923,11 @@ bool item::is_deployable() const
 bool item::is_tool() const
 {
     return !!type->tool;
+}
+
+bool item::is_tool_with_multimag() const
+{
+    return !!type->tool->has_multimag;
 }
 
 bool item::is_transformable() const
@@ -10150,7 +10166,8 @@ ret_val<void> item::can_contain_partial_directly( const item &it ) const
     return can_contain( i_copy, false, false, true, item_location(), 10000000_ml, false );
 }
 
-std::pair<item_location, item_pocket *> item::best_pocket( const item &it, item_location &this_loc,
+std::pair<item_location, item_pocket *> item::best_pocket( const item &it,
+        item_location &this_loc,
         const item *avoid, const bool allow_sealed, const bool ignore_settings,
         const bool nested, bool ignore_rigidity )
 {
@@ -10766,7 +10783,8 @@ int item::ammo_remaining( const Character *carrier, const bool include_linked ) 
     return ammo_remaining( ammo, carrier, include_linked );
 }
 
-std::vector<int> item::ammoes_remaining( const Character *carrier, const bool include_linked ) const
+std::vector<int> item::ammoes_remaining( const Character *carrier,
+        const bool include_linked ) const
 {
     std::set<ammotype> ammo = ammo_types();
     return ammoes_remaining( ammo, carrier, include_linked );
@@ -10886,6 +10904,8 @@ void item::handle_liquid_or_spill( Character &guy, const item *avoid )
 {
     contents.handle_liquid_or_spill( guy, avoid );
 }
+
+//RELEVANT REGION START
 
 bool item::ammo_sufficient( const Character *carrier, int qty ) const
 {
@@ -11026,6 +11046,152 @@ int item::activation_consume( int qty, const tripoint &pos, Character *carrier )
 {
     return ammo_consume( qty * ammo_required(), pos, carrier );
 }
+
+//RELEVANT REGION END
+
+//DUPLICATED REGION START
+
+bool item::ammo_sufficient( const Character *carrier, int qty ) const
+{
+    if( count_by_charges() ) {
+        return ammo_remaining( carrier, true ) >= qty;
+    }
+
+    if( is_comestible() ) {
+        return true;
+    }
+
+    return shots_remaining( carrier ) >= qty;
+}
+
+bool item::ammo_sufficient( const Character *carrier, const std::string &method, int qty ) const
+{
+    auto iter = type->ammo_scale.find( method );
+    if( iter != type->ammo_scale.end() ) {
+        qty *= iter->second;
+    }
+
+    return ammo_sufficient( carrier, qty );
+}
+
+int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
+{
+    if( qty < 0 ) {
+        debugmsg( "Cannot consume negative quantity of ammo for %s", tname() );
+        return 0;
+    }
+    const int wanted_qty = qty;
+
+    // Consume power from appliances/vehicles connected with cables
+    if( has_link_data() ) {
+        if( link().t_veh && link().efficiency >= MIN_LINK_EFFICIENCY ) {
+            qty = link().t_veh->discharge_battery( qty, true );
+        } else {
+            const optional_vpart_position vp = get_map().veh_at( link().t_abs_pos );
+            if( vp ) {
+                qty = vp->vehicle().discharge_battery( qty, true );
+            }
+        }
+    }
+
+    // Consume charges loaded in the item or its magazines
+    if( is_magazine() || uses_magazine() ) {
+        qty -= contents.ammo_consume( qty, pos );
+        if( ammo_capacity( ammo_battery ) == 0 && carrier != nullptr ) {
+            carrier->invalidate_weight_carried_cache();
+        }
+    }
+
+    // Dirty fix: activating a container of meds leads here, and used to use up all of the charges.
+    if( is_medication() && charges > 1 ) {
+        int charg_used = std::min( charges, qty );
+        charges -= charg_used;
+        qty -= charg_used;
+    }
+
+    // Some weird internal non-item charges (used by grenades)
+    if( is_tool() && type->tool->ammo_id.empty() ) {
+        int charg_used = std::min( charges, qty );
+        charges -= charg_used;
+        qty -= charg_used;
+    }
+
+    // Modded tools can consume UPS/bionic energy instead of ammo.
+    // Guns handle energy in energy_consume()
+    if( carrier != nullptr && type->tool &&
+        ( has_flag( flag_USE_UPS ) || has_flag( flag_USES_BIONIC_POWER ) ) ) {
+        units::energy wanted_energy = units::from_kilojoule( static_cast<std::int64_t>( qty ) );
+
+        if( has_flag( flag_USE_UPS ) ) {
+            wanted_energy -= carrier->consume_ups( wanted_energy );
+        }
+
+        if( has_flag( flag_USES_BIONIC_POWER ) ) {
+            units::energy bio_used = std::min( carrier->get_power_level(), wanted_energy );
+            carrier->mod_power_level( -bio_used );
+            wanted_energy -= bio_used;
+        }
+
+        // It is possible for this to cause rounding error due to different precision of energy
+        // But that can happen only if there was not enough ammo and you shouldn't be able to use without sufficient ammo
+        qty = units::to_kilojoule( wanted_energy );
+    }
+    return wanted_qty - qty;
+}
+
+units::energy item::energy_consume( units::energy qty, const tripoint &pos, Character *carrier,
+                                    float fuel_efficiency )
+{
+    if( qty < 0_kJ ) {
+        debugmsg( "Cannot consume negative quantity of energy for %s", tname() );
+        return 0_kJ;
+    }
+
+    const units::energy wanted_energy = qty;
+
+    // Consume battery(ammo) and other fuel (if allowed)
+    if( is_battery() || fuel_efficiency >= 0 ) {
+        int consumed_kj = contents.ammo_consume( units::to_kilojoule( qty ), pos, fuel_efficiency );
+        qty -= units::from_kilojoule( static_cast<std::int64_t>( consumed_kj ) );
+        // fix negative quantity
+        if( qty < 0_J ) {
+            qty = 0_J;
+        }
+    }
+
+    // Consume energy from contained magazine
+    if( magazine_current() ) {
+        qty -= magazine_current()->energy_consume( qty, pos, carrier );
+    }
+
+    // Consume UPS energy from various sources
+    if( carrier != nullptr && has_flag( flag_USE_UPS ) ) {
+        qty -= carrier->consume_ups( qty );
+    }
+
+    // Consume bio energy
+    if( carrier != nullptr && has_flag( flag_USES_BIONIC_POWER ) ) {
+        units::energy bio_used = std::min( carrier->get_power_level(), qty );
+        carrier->mod_power_level( -bio_used );
+        qty -= bio_used;
+    }
+
+    // If consumption is not integer kJ we need to consume one extra battery charge to "round up".
+    // Should happen only if battery powered and energy per shot is not integer kJ.
+    if( qty > 0_kJ && is_battery() ) {
+        int consumed_kj = contents.ammo_consume( 1, pos );
+        qty -= units::from_kilojoule( static_cast<std::int64_t>( consumed_kj ) );
+    }
+
+    return wanted_energy - qty;
+}
+
+int item::activation_consume( int qty, const tripoint &pos, Character *carrier )
+{
+    return ammo_consume( qty * ammo_required(), pos, carrier );
+}
+
+//DUPLICATED REGION END
 
 const itype *item::ammo_data() const
 {
@@ -13948,39 +14114,14 @@ bool item::process_wet( Character *carrier, const tripoint & /*pos*/ )
 
 bool item::process_tool( Character *carrier, const tripoint &pos )
 {
-    std::vector<item_pocket *> pockets = get_all_magazine_pockets();
-    std::vector<item *> magazines;
-    for( item_pocket *p : pockets ) {
-        magazines.push_back( magazine_current() );
-    }
-
     // FIXME: remove this once power armors don't need to be TOOL_ARMOR anymore
     if( is_power_armor() && carrier && carrier->can_interface_armor() && carrier->has_power() ) {
         return false;
     }
 
     // if insufficient available charges shutdown the tool
-
-    /*
-    for( int ammo_remaining : ammoes_remaining( carrier, true ) ) {
-    }
-
-    bool is_layer_visible( const std::map<tripoint, explosion_tile> &layer )
-    {
-    return std::any_of( layer.begin(), layer.end(),
-    []( const std::pair<tripoint, explosion_tile> &element ) {
-        return is_point_visible( element.first );
-    } );
-    }
-    */
-
-    //ammoes_remaining( carrier, true ) == 0
-    std::vector<int> ammoes = ammoes_remaining( carrier, true );
     if( ( type->tool->turns_per_charge > 0 || type->tool->power_draw > 0_W ) &&
-    std::any_of( ammoes.begin(), ammoes.end(), []( int i ) {
-    return i == 0;
-} )
-  ) {
+        ammo_remaining( carrier, true ) == 0 ) {
         if( carrier && has_flag( flag_USE_UPS ) ) {
             carrier->add_msg_if_player( m_info, _( "You need an UPS to run the %s!" ), tname() );
         }
@@ -13994,6 +14135,7 @@ bool item::process_tool( Character *carrier, const tripoint &pos )
             return true;
         }
     }
+
     int energy = 0;
     if( type->tool->turns_per_charge > 0 &&
         to_turn<int>( calendar::turn ) % type->tool->turns_per_charge == 0 ) {
@@ -14010,6 +14152,53 @@ bool item::process_tool( Character *carrier, const tripoint &pos )
         ammo_consume( energy, pos, carrier );
     }
 
+    type->tick( carrier, *this, pos );
+    return false;
+}
+
+bool item::process_tool_with_multimag( Character *carrier, const tripoint &pos )
+{
+    std::vector<item_pocket *> pockets_with_magazine = get_all_magazine_pockets();
+    for( item_pocket *pocket_with_magazine : pockets_with_magazine ) {
+
+        item current_magazine = *pocket_with_magazine->magazine_current();
+        pocket_data current_pocket_data = *pocket_with_magazine->get_pocket_data();
+
+        // if insufficient available charges shutdown the tool
+        if( ( current_pocket_data.turns_per_charge > 0 ||
+              current_pocket_data.power_draw > 0_W ) &&
+            current_magazine.ammo_remaining( carrier, false ) == 0 ) {
+            if( carrier && has_flag( flag_USE_UPS ) ) {
+                carrier->add_msg_if_player( m_info, _( "You need an UPS to run the %s!" ), tname() );
+            }
+            if( carrier ) {
+                carrier->add_msg_if_player( m_info, _( "The %s ran out of energy!" ), tname() );
+            }
+            if( type->revert_to.has_value() ) {
+                deactivate( carrier );
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        int energy = 0;
+        if( current_pocket_data.turns_per_charge > 0 &&
+            to_turn<int>( calendar::turn ) % current_pocket_data.turns_per_charge == 0 ) {
+            energy = std::max( ammo_required(), 1 );
+        } else if( current_pocket_data.power_draw > 0_W ) {
+            // kJ (battery unit) per second
+            energy = units::to_kilowatt( current_pocket_data.power_draw );
+            // energy_bat remainder results in chance at additional charge/discharge
+            const int kw_in_mw = units::to_milliwatt( 1_kW );
+            energy += x_in_y( units::to_milliwatt( current_pocket_data.power_draw ) % kw_in_mw,
+                              kw_in_mw ) ? 1 : 0;
+        }
+
+        if( energy > 0 ) {
+            ammo_consume( energy, pos, carrier );
+        }
+    }
     type->tick( carrier, *this, pos );
     return false;
 }
@@ -14218,6 +14407,9 @@ bool item::process_internal( map &here, Character *carrier, const tripoint &pos,
         }
 
         if( is_tool() ) {
+            return process_tool( carrier, pos );
+        }
+        if( is_tool_with_multimag() ) {
             return process_tool( carrier, pos );
         }
         // All foods that go bad have temperature
