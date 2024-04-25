@@ -1716,50 +1716,56 @@
   {
     "type": "talk_topic",
     "id": "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_1",
-    "dynamic_line": "",
-    "responses": [ { "text": "I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+    "dynamic_line": "How do you think I'm feeling?  *Amazing* of course.  Can I hold the EMP grenades?  Please?\"  He lightens up his grin, just a little.  \"Hope Dr. Prado is OK though.",
+    "responses": [ { "text": "We'll see about the grenades, but I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_2",
-    "dynamic_line": "",
-    "responses": [ { "text": "I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+    "dynamic_line": "I want to say… yes?\"  He rubs his chin.  \"Yes.  This is going to be an easy find-and-fetch job and nothing could possibly go wrong.\"  He grins.  \"There, now you have it from the source.",
+    "responses": [ { "text": "Great, thanks for predicting that.  I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_3",
-    "dynamic_line": "",
-    "responses": [ { "text": "I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+    "dynamic_line": "&He cocks his head at you.  \"My friend, I'm in.  It sounds risky as hell, I'm not letting you go in there alone!  Let's get as geared up as possible though.  Hazard suits.  Heavy armor.  Big guns.  Can I have some EMP grenades?  Please?\"",
+    "responses": [ { "text": "What is it with you and EMP grenades?  Anyway, I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1",
-    "dynamic_line": "",
-    "responses": [ { "text": "I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+    "dynamic_line": "Yeah.  It sounds like we're gonna need some serious mechanical or electrical know-how if we're gonna take it down.  Big responsibility.  If we can pull it off, though, it'll be *so cool*.",
+    "responses": [ { "text": "Do you think you know enough to handle the technical side?", "topic": "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_Skills" }, { "text": "Yeah.  I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_Skills",
+    "dynamic_line": { "or": [  { "math": [ "npc_skill('mechanics')", ">=", "5" ] }, { "math": [ "npc_skill('electronics')", ">=", "5" ] } ], "yes": "Maybe?  It's hard to say without seeing the machine, but I know my way around enough to at least try.", "no": "What?  Me?  Dismantle a *robot*?  I love that you've got this kind of faith in me, my friend, but my contribution here is going to be a lot more smashy-smashy, less thinky-thinky." },
+    "responses": [ { "text": "Gotcha.  I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1",
-    "dynamic_line": "",
-    "responses": [ { "text": "I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+    "dynamic_line": "*stares at you for a moment.  \"Remember when we were kids, and that huge storm hit?  I thought it was a hurricane, and we ran outside, and that tree fell down like just down the road, and smashed that guy's car?\"  He grins.  \"That was awesome.  Let's do that again!\"",
+    "responses": [ { "text": "Let's hope it's not *our* car getting smashed this time.  I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_LIXA_SM_1",
-    "dynamic_line": "",
-    "responses": [ { "text": "I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+    "dynamic_line": "Yo dawg, we heard you like science labs.\"  He grins.  \"My guess is there's gonna be some serious defenses in there.  We should stick together, and make sure we've got our best gear.",
+    "responses": [ { "text": "Agreed.  Don't go running around a corner and eating turret fire.  I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_Liam_Opinions_BEM_jabberwock_mission",
-    "dynamic_line": "",
-    "responses": [ { "text": "I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+    "dynamic_line": "I'm always a fan of a good monster hunt.  Anything that could shake up a merc like that is gonna be pretty serious business, though.  We better pack some heat.",
+    "responses": [ { "text": "That's your advice for everything.  I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_Liam_Opinions_BEM_human_sample_mission",
-    "dynamic_line": "",
-    "responses": [ { "text": "I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+    "dynamic_line": "Yes, it does,\" he admits.  \"I'm not the one that took the job though.  Let's maybe get it from a feral though, right?  Not some hapless dork?",
+    "responses": [ { "text": "Right… Right.  I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
   },
   {
     "type": "talk_topic",
@@ -1911,6 +1917,7 @@
       "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_2",
       "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_3",
       "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1",
+      "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_Skills",
       "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1",
       "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_LIXA_SM_1",
       "TALK_Liam_Opinions_BEM_jabberwock_mission",
