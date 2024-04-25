@@ -285,15 +285,17 @@
     "type": "overmap_terrain",
     "copy-from": "deep_rock",
     "//": "should be indistinguishable from deep rock.  Not supposed to be able to see it.",
-    "id": "ls_straight_base",
-    "name": "solid rock SPECIAL HAS A NAME FOR SPAWNING IT",
+    "id": "labyrinth_hall",
+    "name": "cavern",
+    "name": "solid rock",
     "sym": "%",
     "color": "dark_gray"
+    "flags": [ "LINEAR" ]
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "ls_straight_base" ],
+    "om_terrain": [ "labyrinth_hall_straight" ],
     "object": {
       "fill_ter": "t_nl_mist",
       "rows": [
@@ -324,6 +326,150 @@
       ],
       "terrain": { " ": "t_nl_mist" },
       "nested": { "1": { "chunks": [ [ "ls_straight_template_rooms", 50 ], [ "ls_straight_template_chasm", 50 ] ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "labyrinth_hall_curved" ],
+    "object": {
+      "fill_ter": "t_nl_mist",
+      "rows": [
+        "1                       ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { " ": "t_nl_mist" },
+      "nested": { "1": { "chunks": [ [ "ls_corner_template_chasm", 50 ], [ "ls_corner_template_chasm", 50 ] ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "labyrinth_hall_tee" ],
+    "object": {
+      "fill_ter": "t_nl_mist",
+      "rows": [
+        "1                       ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { " ": "t_nl_mist" },
+      "nested": { "1": { "chunks": [ [ "ls_tee_template_chasm", 50 ], [ "ls_tee_template_chasm", 50 ] ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "labyrinth_hall_4way" ],
+    "object": {
+      "fill_ter": "t_nl_mist",
+      "rows": [
+        "1                       ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { " ": "t_nl_mist" },
+      "nested": { "1": { "chunks": [ [ "ls_4way_template_chasm", 50 ], [ "ls_4way_template_chasm", 50 ] ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "labyrinth_hall_end" ],
+    "object": {
+      "fill_ter": "t_nl_mist",
+      "rows": [
+        "1                       ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { " ": "t_nl_mist" },
+      "nested": { "1": { "chunks": [ [ "ls_deadend_template_chasm", 50 ], [ "ls_deadend_template_chasm", 50 ] ] } }
     }
   },
   {
@@ -523,42 +669,6 @@
         "6": { "chunks": [ [ "ls_ew_6x6hall_fancy", 10 ], [ "ls_4way_6x6hall_basic", 30 ], [ "ls_Ts_6x6hall_basic", 60 ] ] },
         "7": { "chunks": [ [ "ls_ew_6x6hall_fancy", 10 ], [ "ls_4way_6x6hall_basic", 30 ], [ "ls_Tn_6x6hall_basic", 60 ] ] }
       }
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "om_terrain": [ "ls_corner_base" ],
-    "object": {
-      "fill_ter": "t_nl_mist",
-      "rows": [
-        "1                       ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        "
-      ],
-      "terrain": { " ": "t_nl_mist" },
-      "nested": { "1": { "chunks": [ [ "ls_corner_template_chasm", 50 ], [ "ls_corner_template_chasm", 50 ] ] } }
     }
   },
   {
