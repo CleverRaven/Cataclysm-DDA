@@ -1,6 +1,5 @@
 #include "game.h"
 
-#include <functional>
 #include <algorithm>
 #include <bitset>
 #include <chrono>
@@ -12,10 +11,13 @@
 #include <ctime>
 #include <cwctype>
 #include <exception>
+#include <functional>
 #include <iomanip>
 #include <iostream>
 #include <iterator>
 #include <limits>
+#include <list>
+#include <locale>
 #include <map>
 #include <memory>
 #include <numeric>
@@ -45,21 +47,25 @@
 #include "avatar_action.h"
 #include "basecamp.h"
 #include "bionics.h"
+#include "body_part_set.h"
 #include "bodygraph.h"
 #include "bodypart.h"
 #include "butchery_requirements.h"
 #include "cached_options.h"
+#include "cata_path.h"
 #include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "cata_variant.h"
 #include "catacharset.h"
 #include "character.h"
+#include "character_attire.h"
 #include "character_martial_arts.h"
 #include "city.h"
 #include "climbing.h"
 #include "clzones.h"
 #include "colony.h"
 #include "color.h"
+#include "computer.h"
 #include "computer_session.h"
 #include "construction.h"
 #include "construction_group.h"
@@ -72,19 +78,24 @@
 #include "damage.h"
 #include "debug.h"
 #include "dependency_tree.h"
+#include "dialogue.h"
 #include "dialogue_chatbin.h"
 #include "diary.h"
 #include "distraction_manager.h"
 #include "editmap.h"
+#include "effect.h"
 #include "effect_on_condition.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
 #include "faction.h"
+#include "fault.h"
 #include "field.h"
 #include "field_type.h"
 #include "filesystem.h"
 #include "flag.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "game_ui.h"
@@ -92,11 +103,11 @@
 #include "gates.h"
 #include "get_version.h"
 #include "harvest.h"
-#include "help.h"
 #include "iexamine.h"
 #include "init.h"
 #include "input.h"
 #include "input_context.h"
+#include "input_enums.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_category.h"
@@ -115,8 +126,9 @@
 #include "line.h"
 #include "live_view.h"
 #include "loading_ui.h"
-#include "main_menu.h"
 #include "magic.h"
+#include "magic_enchantment.h"
+#include "main_menu.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_item_stack.h"
@@ -125,17 +137,20 @@
 #include "mapbuffer.h"
 #include "mapdata.h"
 #include "mapsharing.h"
+#include "maptile_fwd.h"
 #include "memorial_logger.h"
 #include "messages.h"
 #include "mission.h"
 #include "mod_manager.h"
 #include "monexamine.h"
+#include "mongroup.h"
+#include "monster.h"
 #include "monstergenerator.h"
 #include "move_mode.h"
 #include "mtype.h"
 #include "npc.h"
-#include "npctrade.h"
 #include "npc_class.h"
+#include "npctrade.h"
 #include "omdata.h"
 #include "options.h"
 #include "output.h"
@@ -143,7 +158,6 @@
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "panels.h"
-#include "past_games_info.h"
 #include "past_achievements_info.h"
 #include "path_info.h"
 #include "pathfinding.h"
@@ -151,6 +165,7 @@
 #include "player_activity.h"
 #include "popup.h"
 #include "profession.h"
+#include "proficiency.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "ret_val.h"
@@ -169,6 +184,8 @@
 #include "text_snippets.h"
 #include "tileray.h"
 #include "timed_event.h"
+#include "translation.h"
+#include "translation_cache.h"
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
@@ -181,8 +198,11 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "viewer.h"
+#include "visitable.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
+#include "wcwidth.h"
+#include "weakpoint.h"
 #include "weather.h"
 #include "weather_type.h"
 #include "worldfactory.h"
@@ -249,6 +269,7 @@ static const faction_id faction_your_followers( "your_followers" );
 
 static const flag_id json_flag_CONVECTS_TEMPERATURE( "CONVECTS_TEMPERATURE" );
 static const flag_id json_flag_LEVITATION( "LEVITATION" );
+static const flag_id json_flag_NO_RELOAD( "NO_RELOAD" );
 static const flag_id json_flag_SPLINT( "SPLINT" );
 
 static const furn_str_id furn_f_rope_up( "f_rope_up" );
@@ -305,6 +326,14 @@ static const skill_id skill_survival( "survival" );
 static const species_id species_PLANT( "PLANT" );
 
 static const string_id<npc_template> npc_template_cyborg_rescued( "cyborg_rescued" );
+
+static const ter_str_id ter_t_elevator( "t_elevator" );
+static const ter_str_id ter_t_grave_new( "t_grave_new" );
+static const ter_str_id ter_t_lava( "t_lava" );
+static const ter_str_id ter_t_manhole( "t_manhole" );
+static const ter_str_id ter_t_manhole_cover( "t_manhole_cover" );
+static const ter_str_id ter_t_pit( "t_pit" );
+static const ter_str_id ter_t_pit_shallow( "t_pit_shallow" );
 
 static const trait_id trait_BADKNEES( "BADKNEES" );
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
@@ -850,6 +879,7 @@ bool game::start_game()
     const start_location &start_loc = u.random_start_location ? scen->random_start_location().obj() :
                                       u.start_location.obj();
     tripoint_abs_omt omtstart = overmap::invalid_tripoint;
+    std::unordered_map<std::string, std::string> associated_parameters;
     const bool select_starting_city = get_option<bool>( "SELECT_STARTING_CITY" );
     do {
         if( select_starting_city ) {
@@ -857,9 +887,13 @@ bool game::start_game()
                 u.starting_city = random_entry( city::get_all() );
                 u.world_origin = u.starting_city->pos_om;
             }
-            omtstart = start_loc.find_player_initial_location( u.starting_city.value() );
+            auto ret = start_loc.find_player_initial_location( u.starting_city.value() );
+            omtstart = ret.first;
+            associated_parameters = ret.second;
         } else {
-            omtstart = start_loc.find_player_initial_location( u.world_origin.value_or( point_abs_om() ) );
+            auto ret = start_loc.find_player_initial_location( u.world_origin.value_or( point_abs_om() ) );
+            omtstart = ret.first;
+            associated_parameters = ret.second;
         }
         if( omtstart == overmap::invalid_tripoint ) {
 
@@ -872,6 +906,9 @@ bool game::start_game()
             }
         }
     } while( omtstart == overmap::invalid_tripoint );
+
+    // Set parameter(s) if specified in chosen start_loc
+    start_loc.set_parameters( omtstart, associated_parameters );
 
     start_loc.prepare_map( omtstart );
 
@@ -911,7 +948,7 @@ bool game::start_game()
         overmap_buffer.reveal( city_center_omt, city_size );
     }
 
-    u.moves = 0;
+    u.set_moves( 0 );
     u.process_turn(); // process_turn adds the initial move points
     u.set_stamina( u.get_stamina_max() );
     weather.temperature = SPRING_TEMPERATURE;
@@ -1122,7 +1159,7 @@ vehicle *game::place_vehicle_nearby(
         for( const tripoint_abs_omt &goal : overmap_buffer.find_all( omt_origin, find_params ) ) {
             // try place vehicle there.
             tinymap target_map;
-            target_map.load( project_to<coords::sm>( goal ), false );
+            target_map.load( goal, false );
             const tripoint tinymap_center( SEEX, SEEY, goal.z() );
             static constexpr std::array<units::angle, 4> angles = {{
                     0_degrees, 90_degrees, 180_degrees, 270_degrees
@@ -1806,13 +1843,11 @@ static hint_rating rate_action_disassemble( avatar &you, const item &it )
 
 static hint_rating rate_action_view_recipe( avatar &you, const item &it )
 {
-    const inventory &inven = you.crafting_inventory();
-    const std::vector<Character *> helpers = you.get_crafting_group();
     if( it.is_craft() ) {
         const recipe &craft_recipe = it.get_making();
         if( craft_recipe.is_null() || !craft_recipe.ident().is_valid() ) {
             return hint_rating::cant;
-        } else if( you.get_available_recipes( inven, &helpers ).contains( &craft_recipe ) ) {
+        } else if( you.get_group_available_recipes().contains( &craft_recipe ) ) {
             return hint_rating::good;
         }
     } else {
@@ -1823,8 +1858,8 @@ static hint_rating rate_action_view_recipe( avatar &you, const item &it )
         for( const auto& [_, r] : recipe_dict ) {
             if( !r.obsolete && ( item == r.result() || r.in_byproducts( item ) ) ) {
                 is_byproduct = true;
-                // If if exists, do I know it?
-                if( you.get_available_recipes( inven, &helpers ).contains( &r ) ) {
+                // If a recipe exists, does my group know it?
+                if( you.get_group_available_recipes().contains( &r ) ) {
                     can_craft = true;
                     break;
                 }
@@ -1980,6 +2015,9 @@ static hint_rating rate_action_insert( const avatar &you, const item_location &l
         && loc.where() != item_location::type::map
         && !you.is_wielding( *loc ) ) {
 
+        return hint_rating::cant;
+    }
+    if( loc.get_item()->has_flag( json_flag_NO_RELOAD ) ) {
         return hint_rating::cant;
     }
     return hint_rating::good;
@@ -2698,7 +2736,7 @@ bool game::is_game_over()
     }
     if( uquit == QUIT_WATCH ) {
         // deny player movement and dodging
-        u.moves = 0;
+        u.set_moves( 0 );
         // prevent pain from updating
         u.set_pain( 0 );
         // prevent dodging
@@ -2855,7 +2893,7 @@ void game::bury_screen() const
     sfx::fade_audio_group( sfx::group::weather, 2000 );
     sfx::fade_audio_group( sfx::group::time_of_day, 2000 );
     sfx::fade_audio_group( sfx::group::context_themes, 2000 );
-    sfx::fade_audio_group( sfx::group::fatigue, 2000 );
+    sfx::fade_audio_group( sfx::group::sleepiness, 2000 );
 
     for( size_t iY = 0; iY < vRip.size(); ++iY ) {
         size_t iX = 0;
@@ -5610,7 +5648,7 @@ void game::exam_appliance( vehicle &veh, const point &c )
 {
     player_activity act = veh_app_interact::run( veh, c );
     if( act ) {
-        u.moves = 0;
+        u.set_moves( 0 );
         u.assign_activity( act );
     }
 }
@@ -5623,7 +5661,7 @@ void game::exam_vehicle( vehicle &veh, const point &c )
     }
     player_activity act = veh_interact::run( veh, c );
     if( act ) {
-        u.moves = 0;
+        u.set_moves( 0 );
         u.assign_activity( act );
     }
 }
@@ -5785,7 +5823,7 @@ void game::moving_vehicle_dismount( const tripoint &dest_loc )
     const units::angle d = ray.dir();
     add_msg( _( "You dive from the %s." ), veh->name );
     m.unboard_vehicle( u.pos() );
-    u.moves -= 200;
+    u.mod_moves( -to_moves<int>( 2_seconds ) );
     // Dive three tiles in the direction of tox and toy
     fling_creature( &u, d, 30, true, true );
     // Hit the ground according to vehicle speed
@@ -6339,7 +6377,7 @@ void game::peek()
 
 void game::peek( const tripoint &p )
 {
-    u.moves -= 200;
+    u.mod_moves( -u.get_speed() * 2 );
     tripoint prev = u.pos();
     u.setpos( p );
     const bool is_same_pos = u.pos() == prev;
@@ -6559,7 +6597,7 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
     print_furniture_info( lp, w_look, column, line );
 
     // Cover percentage from terrain and furniture next.
-    fold_and_print( w_look, point( column, ++line ), max_width, c_light_gray, _( "Cover: %d%%" ),
+    fold_and_print( w_look, point( column, ++line ), max_width, c_light_gray, _( "Concealment: %d%%" ),
                     m.coverage( lp ) );
 
     if( m.has_flag( ter_furn_flag::TFLAG_TREE, lp ) ) {
@@ -6670,7 +6708,7 @@ void game::print_fields_info( const tripoint &lp, const catacurses::window &w_lo
     for( const auto &fld : tmpfield ) {
         const field_entry &cur = fld.second;
         if( fld.first.obj().has_fire && ( m.has_flag( ter_furn_flag::TFLAG_FIRE_CONTAINER, lp ) ||
-                                          m.ter( lp ) == t_pit_shallow || m.ter( lp ) == t_pit ) ) {
+                                          m.ter( lp ) == ter_t_pit_shallow || m.ter( lp ) == ter_t_pit ) ) {
             const int max_width = getmaxx( w_look ) - column - 2;
             int lines = fold_and_print( w_look, point( column, ++line ), max_width, cur.color(),
                                         get_fire_fuel_string( lp ) ) - 1;
@@ -6798,7 +6836,7 @@ void game::print_graffiti_info( const tripoint &lp, const catacurses::window &w_
     const int max_width = getmaxx( w_look ) - column - 2;
     if( m.has_graffiti_at( lp ) ) {
         const int lines = fold_and_print( w_look, point( column, ++line ), max_width, c_light_gray,
-                                          m.ter( lp ) == t_grave_new ? _( "Graffiti: %s" ) : _( "Inscription: %s" ),
+                                          m.ter( lp ) == ter_t_grave_new ? _( "Graffiti: %s" ) : _( "Inscription: %s" ),
                                           m.graffiti_at( lp ) );
         line += lines - 1;
     }
@@ -9803,6 +9841,26 @@ void game::butcher()
     }
 }
 
+static item::reload_option favorite_ammo_or_select( avatar &u, item_location &loc, bool empty,
+        bool prompt )
+{
+    if( u.ammo_location ) {
+        std::vector<item::reload_option> ammo_list;
+        if( u.list_ammo( loc, ammo_list, false ) ) {
+            const auto is_favorite_and_compatible = [&loc, &u]( const item::reload_option & opt ) {
+                return opt.ammo == u.ammo_location && loc->can_reload_with( *u.ammo_location.get_item(), false );
+            };
+            auto it = std::find_if( ammo_list.begin(), ammo_list.end(), is_favorite_and_compatible );
+            if( it != ammo_list.end() ) {
+                return *it;
+            }
+        }
+    } else {
+        const_cast<item_location &>( u.ammo_location ) = item_location();
+    }
+    return u.select_ammo( loc, prompt, empty );
+}
+
 void game::reload( item_location &loc, bool prompt, bool empty )
 {
     // bows etc. do not need to reload. select favorite ammo for them instead
@@ -9811,9 +9869,13 @@ void game::reload( item_location &loc, bool prompt, bool empty )
         if( !opt ) {
             return;
         } else if( u.ammo_location && opt.ammo == u.ammo_location ) {
+            u.add_msg_if_player( _( "Cleared ammo preferences for %s." ), loc->tname() );
             u.ammo_location = item_location();
-        } else {
+        } else if( u.has_item( *opt.ammo ) ) {
+            u.add_msg_if_player( _( "Selected %s as default ammo for %s." ), opt.ammo->tname(), loc->tname() );
             u.ammo_location = opt.ammo;
+        } else {
+            u.add_msg_if_player( _( "You need to keep that ammo on you to select it as default ammo." ) );
         }
         return;
     }
@@ -9861,10 +9923,7 @@ void game::reload( item_location &loc, bool prompt, bool empty )
         loc = item_location( loc, &loc->only_item() );
     }
 
-    item::reload_option opt = u.ammo_location &&
-                              loc->can_reload_with( *u.ammo_location.get_item(), false ) ?
-                              item::reload_option( &u, loc, u.ammo_location ) :
-                              u.select_ammo( loc, prompt, empty );
+    item::reload_option opt = favorite_ammo_or_select( u, loc, empty, prompt );
 
     if( opt.ammo.get_item() == nullptr || ( opt.ammo.get_item()->is_frozen_liquid() &&
                                             !u.crush_frozen_liquid( opt.ammo ) ) ) {
@@ -10563,7 +10622,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
         return false;
     }
     bool diag = trigdist && u.posx() != dest_loc.x && u.posy() != dest_loc.y;
-    const int previous_moves = u.moves;
+    const int previous_moves = u.get_moves();
     if( u.is_mounted() ) {
         auto *crit = u.mounted_creature.get();
         if( !crit->has_flag( mon_flag_RIDEABLE_MECH ) &&
@@ -10577,10 +10636,10 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
         }
         const double base_moves = u.run_cost( mcost, diag ) * 100.0 / crit->get_speed();
         const double encumb_moves = u.get_weight() / 4800.0_gram;
-        u.moves -= static_cast<int>( std::ceil( base_moves + encumb_moves ) );
+        u.mod_moves( -static_cast<int>( std::ceil( base_moves + encumb_moves ) ) );
         crit->use_mech_power( u.current_movement_mode()->mech_power_use() );
     } else {
-        u.moves -= u.run_cost( mcost, diag );
+        u.mod_moves( -u.run_cost( mcost, diag ) );
         /**
         TODO:
         This should really use the mounted creatures stamina, if mounted.
@@ -10589,10 +10648,10 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
         */
         if( grabbed_vehicle == nullptr || grabbed_vehicle->wheelcache.empty() ) {
             //Burn normal amount of stamina if no vehicle grabbed or vehicle lacks wheels
-            u.burn_move_stamina( previous_moves - u.moves );
+            u.burn_move_stamina( previous_moves - u.get_moves() );
         } else {
             //Burn half as much stamina if vehicle has wheels, without changing move time
-            u.burn_move_stamina( 0.50 * ( previous_moves - u.moves ) );
+            u.burn_move_stamina( 0.50 * ( previous_moves - u.get_moves() ) );
         }
     }
     // Max out recoil & reset aim point
@@ -10650,7 +10709,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
         if( !m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, dest_loc ) &&
             one_in( 80 + u.dex_cur + u.int_cur ) ) {
             add_msg( _( "Your tentacles stick to the ground, but you pull them free." ) );
-            u.mod_fatigue( 1 );
+            u.mod_sleepiness( 1 );
         }
     }
 
@@ -11206,7 +11265,7 @@ bool game::phasing_move( const tripoint &dest_loc, const bool via_ramp )
         add_msg( _( "You quantum tunnel through the %d-tile wide barrier!" ), tunneldist );
         //tunneling costs 250 bionic power per impassable tile
         u.mod_power_level( -( tunneldist * trigger_cost ) );
-        u.moves -= 100; //tunneling costs 100 moves
+        u.mod_moves( -to_moves<int>( 1_seconds ) ); //tunneling takes exactly one second
         u.setpos( dest );
 
         if( m.veh_at( u.pos() ).part_with_feature( "BOARDABLE", true ) ) {
@@ -11432,7 +11491,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
 
     // Actually move the furniture.
     m.furn_set( fdest, m.furn( fpos ) );
-    m.furn_set( fpos, f_null, true );
+    m.furn_set( fpos, furn_str_id::NULL_ID(), true );
 
     if( fire_intensity == 1 && !pulling_furniture ) {
         m.remove_field( fpos, fd_fire );
@@ -11571,46 +11630,33 @@ void game::on_options_changed()
 
 void game::water_affect_items( Character &ch ) const
 {
-    std::vector<item_location> dissolved;
-    std::vector<item_location> destroyed;
-    std::vector<item_location> wet;
-
     for( item_location &loc : ch.all_items_loc() ) {
         // check flag first because its cheaper
         if( loc->has_flag( flag_WATER_DISSOLVE ) && !loc.protected_from_liquids() ) {
-            dissolved.emplace_back( loc );
+            add_msg_if_player_sees( ch.pos(), m_bad, _( "%1$s %2$s dissolved in the water!" ),
+                                    ch.disp_name( true, true ), loc->display_name() );
+            loc.remove_item();
         } else if( loc->has_flag( flag_WATER_BREAK ) && !loc->is_broken()
                    && !loc.protected_from_liquids() ) {
-            destroyed.emplace_back( loc );
+
+            add_msg_if_player_sees( ch.pos(), m_bad, _( "The water destroyed %1$s %2$s!" ),
+                                    ch.disp_name( true ), loc->display_name() );
+            loc->deactivate();
+            // TODO: Maybe different types of wet faults? But I can't think of any.
+            // This just means it's still too wet to use.
+            loc->set_fault( random_entry( fault::get_by_type( std::string( "wet" ) ) ) );
+            // An electronic item in water is also shorted.
+            if( loc->has_flag( flag_ELECTRONIC ) ) {
+                loc->set_fault( random_entry( fault::get_by_type( std::string( "shorted" ) ) ) );
+            }
         } else if( loc->has_flag( flag_WATER_BREAK_ACTIVE ) && !loc->is_broken()
                    && !loc.protected_from_liquids() ) {
-            wet.emplace_back( loc );
+            const int wetness_add = 5100 * std::log10( units::to_milliliter( loc->volume() ) );
+            loc->wetness += wetness_add;
+            loc->wetness = std::min( loc->wetness, 5 * wetness_add );
         } else if( loc->typeId() == itype_towel && !loc.protected_from_liquids() ) {
             loc->convert( itype_towel_wet, &ch ).active = true;
         }
-    }
-
-    if( dissolved.empty() && destroyed.empty() && wet.empty() ) {
-        return;
-    }
-
-    for( item_location &it : dissolved ) {
-        add_msg_if_player_sees( ch.pos(), m_bad, _( "%1$s %2$s dissolved in the water!" ),
-                                ch.disp_name( true, true ), it->display_name() );
-        it.remove_item();
-    }
-
-    for( item_location &it : destroyed ) {
-        add_msg_if_player_sees( ch.pos(), m_bad, _( "The water destroyed %1$s %2$s!" ),
-                                ch.disp_name( true ), it->display_name() );
-        it->deactivate();
-        it->set_flag( flag_ITEM_BROKEN );
-    }
-
-    for( item_location &it : wet ) {
-        const int wetness_add = 5100 * std::log10( units::to_milliliter( it->volume() ) );
-        it->wetness += wetness_add;
-        it->wetness = std::min( it->wetness, 5 * wetness_add );
     }
 }
 
@@ -11977,7 +12023,8 @@ void game::vertical_move( int movez, bool force, bool peeking )
     }
 
     if( !u.move_effects( false ) && !force ) {
-        u.moves -= 100;
+        // move_effects determined we could not move, waste all moves
+        u.set_moves( 0 );
         return;
     }
 
@@ -12110,7 +12157,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
             crit->use_mech_power( u.current_movement_mode()->mech_power_use() + 1_kJ );
         }
     } else {
-        u.moves -= move_cost;
+        u.mod_moves( -move_cost );
         u.burn_energy_all( -move_cost );
     }
 
@@ -12169,7 +12216,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
         }
         if( player_displace ) {
             u.setpos( *displace );
-            u.moves -= 20;
+            u.mod_moves( -to_moves<int>( 1_seconds ) * 0.2 );;
             add_msg( _( "You push past %s blocking the way." ), crit_name );
         }
     }
@@ -12195,9 +12242,9 @@ void game::vertical_move( int movez, bool force, bool peeking )
         }
     }
 
-    if( here.ter( stairs ) == t_manhole_cover ) {
+    if( here.ter( stairs ) == ter_t_manhole_cover ) {
         here.spawn_item( stairs + point( rng( -1, 1 ), rng( -1, 1 ) ), itype_manhole_cover );
-        here.ter_set( stairs, t_manhole );
+        here.ter_set( stairs, ter_t_manhole );
     }
 
     if( u.is_hauling() ) {
@@ -12293,8 +12340,8 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
             if( rl_dist( u.pos(), dest ) <= best &&
                 ( ( going_down_1 && mp.has_flag( ter_furn_flag::TFLAG_GOES_UP, dest ) ) ||
                   ( going_up_1 && ( mp.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, dest ) ||
-                                    mp.ter( dest ) == t_manhole_cover ) ) ||
-                  ( ( movez == 2 || movez == -2 ) && mp.ter( dest ) == t_elevator ) ) ) {
+                                    mp.ter( dest ) == ter_t_manhole_cover ) ) ||
+                  ( ( movez == 2 || movez == -2 ) && mp.ter( dest ) == ter_t_elevator ) ) ) {
                 stairs.emplace( dest );
                 best = rl_dist( u.pos(), dest );
             }
@@ -12339,7 +12386,7 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
     stairs.emplace( pos );
     stairs->z = z_after;
     // Check the destination area for lava.
-    if( mp.ter( *stairs ) == t_lava ) {
+    if( mp.ter( *stairs ) == ter_t_lava ) {
         if( movez < 0 &&
             !query_yn(
                 _( "There is a LOT of heat coming out of there, even the stairs have melted away.  Jump down?  You won't be able to get back up." ) ) ) {
@@ -12958,7 +13005,7 @@ void game::quickload()
             moves_since_last_save = 0;
             last_save_timestamp = std::time( nullptr );
 
-            u.moves = 0;
+            u.set_moves( 0 );
             uquit = QUIT_NOSAVED;
 
             main_menu::queued_world_to_load = world_name;
@@ -13439,7 +13486,8 @@ void game::climb_down_using( const tripoint &examp, climbing_aid_id aid_id, bool
 
     // If player is grabbed, trapped, or somehow otherwise movement-impeded, first try to break free
     if( !you.move_effects( false ) ) {
-        you.moves -= 100;
+        // move_effects determined we could not move, waste all moves
+        you.set_moves( 0 );
         return;
     }
 
@@ -13569,7 +13617,7 @@ void game::climb_down_using( const tripoint &examp, climbing_aid_id aid_id, bool
     you.set_activity_level( ACTIVE_EXERCISE );
     float weary_mult = 1.0f / you.exertion_adjusted_move_multiplier( ACTIVE_EXERCISE );
 
-    you.moves -= to_moves<int>( 1_seconds + 1_seconds * fall_mod ) * weary_mult;
+    you.mod_moves( -to_moves<int>( 1_seconds + 1_seconds * fall_mod ) * weary_mult );
     you.setpos( examp );
 
     // Pre-descent message.

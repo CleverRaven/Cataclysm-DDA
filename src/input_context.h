@@ -20,9 +20,7 @@
 enum class kb_menu_status;
 
 class hotkey_queue;
-#if !defined(__ANDROID__)
 class keybindings_ui;
-#endif
 namespace catacurses
 {
 class window;
@@ -40,9 +38,7 @@ class window;
  */
 class input_context
 {
-#if !defined(__ANDROID__)
         friend class keybindings_ui;
-#endif
     public:
 #if defined(__ANDROID__)
         // Whatever's on top is our current input context.
@@ -227,6 +223,27 @@ class input_context
                               const input_event_filter &evt_filter = allow_all_keys ) const;
 
         /**
+         * Get a description for the action parameter along with a printable hotkey
+         * for the description in the format [%s] %s
+         *
+         * @param action_descriptor The action descriptor for which to return
+         *                          a description of the bound keys.
+         */
+        std::string get_button_text( const std::string &action_descriptor ) const;
+
+        /**
+         * Get a description for the action parameter along with a printable hotkey
+         * for the description in the format [%s] %s
+         *
+         * @param action_descriptor The action descriptor for which to return
+         *                          a description of the bound keys.
+         *
+         * @param action_text The human readable description of the action.
+         */
+        std::string get_button_text( const std::string &action_descriptor,
+                                     const std::string &action_text ) const;
+
+        /**
          * Get a description based on `text`. If a bound key for `action_descriptor`
          * satisfying `evt_filter` is contained in `text`, surround the key with
          * brackets and change the case if necessary (e.g. "(Y)es"). Otherwise
@@ -267,6 +284,7 @@ class input_context
          *
          * If the action is mouse input, returns "MOUSE".
          *
+         * @param timeout in milliseconds.
          * @return One of the input actions formerly registered with
          *         `register_action()`, or "ERROR" if an error happened.
          *
@@ -460,11 +478,6 @@ class input_context
          */
         std::vector<std::string> filter_strings_by_phrase( const std::vector<std::string> &strings,
                 std::string_view phrase ) const;
-
-        action_id display_menu_legacy( bool permit_execute_action );
-#if !defined(__ANDROID__)
-        action_id display_menu_imgui( bool permit_execute_action );
-#endif
 };
 
 class hotkey_queue

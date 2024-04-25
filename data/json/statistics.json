@@ -728,7 +728,7 @@
     "id": "avatar_wears_power_armor_heavy",
     "type": "event_transformation",
     "event_transformation": "avatar_wears_item",
-    "value_constraints": { "itype": { "equals": [ "itype_id", "power_armor_heavy" ] } },
+    "value_constraints": { "itype": { "equals": [ "itype_id", "combat_exoskeleton_heavy" ] } },
     "drop_fields": [ "itype" ]
   },
   {
@@ -2711,5 +2711,20 @@
     "stat_type": "count",
     "event_transformation": "avatar_enters_trans_lab",
     "description": { "str": "Trans Coastal Lab entered", "str_pl": "Trans Coastal Labs entered" }
+  },
+  {
+    "id": "avatar_enters_LIXA",
+    "type": "event_transformation",
+    "event_transformation": "avatar_enters_oter_type",
+    "value_constraints": {
+      "oter_type_id": { "equals_any": [ "oter_type_str_id", [ "LIXA_surface_1a", "LIXA_surface_1b", "LIXA_surface_2a", "LIXA_surface_2b" ] ] }
+    }
+  },
+  {
+    "id": "num_avatar_enters_LIXA",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_enters_LIXA",
+    "description": { "str": "LIXA entered", "str_pl": "LIXAs entered" }
   }
 ]

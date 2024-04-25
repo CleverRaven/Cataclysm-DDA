@@ -30,6 +30,12 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF",
+    "condition": { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_PORTAL_EARLY_MESSAGES",
     "recurrence": [ "1 minutes", "30 minutes" ],
     "global": true,
@@ -133,7 +139,13 @@
       }
     },
     "effect": [
-      { "u_location_variable": { "global_val": "portal_storm_center" }, "min_radius": 30, "max_radius": 75 },
+      {
+        "u_location_variable": { "global_val": "portal_storm_center" },
+        "min_radius": 30,
+        "max_radius": 75,
+        "z_override": true,
+        "z_adjust": 0
+      },
       { "math": [ "cause_early_portal_storm", "=", "1" ] },
       "next_weather",
       { "queue_eocs": "EOC_CAUSE_PORTAL_STORM", "time_in_future": [ "30 seconds", "1 minutes" ] },
@@ -229,7 +241,7 @@
         "u_message": "As suddenly as it began, the portal storm fades.  Reality returns to normal.  Hopefully the scarring is minimal…",
         "type": "good"
       },
-      { "u_add_var": "u_witnessed_portal_storm", "type": "global", "context": "portal_storms", "value": "yes" },
+      { "u_add_var": "global_portal_storms_u_witnessed_portal_storm", "value": "yes" },
       { "run_eocs": [ "EOC_WORSEN_PORTAL_STORM", "EOC_PORTAL_STORM_DUNGEON_EXIT" ] },
       { "remove_active_mission": "MISSION_INVESTIGATE_PORTAL_DUNGEON" },
       { "remove_active_mission": "MISSION_INVESTIGATE_PORTAL_STORM_CENTER" },
@@ -362,7 +374,7 @@
         },
         { "math": [ "portal_dungeon_level", "==", "0" ] },
         "u_is_outside",
-        { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } }
+        { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" }
       ]
     },
     "deactivate_condition": {
@@ -382,7 +394,7 @@
         { "is_weather": "portal_storm" },
         { "math": [ "portal_dungeon_level", "==", "0" ] },
         "u_is_outside",
-        { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } },
+        { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" },
         { "math": [ "talked_to_storm", "!=", "1" ] },
         { "x_in_y_chance": { "x": 7, "y": 10 } }
       ]
@@ -394,7 +406,7 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_MESSAGE",
     "//": "This displays messages depending on the storms strength.",
-    "condition": { "and": [ "u_can_see", { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } } ] },
+    "condition": { "and": [ "u_can_see", { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" } ] },
     "effect": {
       "switch": { "math": [ "distance('u', portal_storm_center)" ] },
       "cases": [
@@ -454,7 +466,9 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_ARTIFACT_WEAK",
-    "condition": { "and": [ "u_is_outside", { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } }, { "math": [ "ps_str", "<", "2" ] } ] },
+    "condition": {
+      "and": [ "u_is_outside", { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" }, { "math": [ "ps_str", "<", "2" ] } ]
+    },
     "effect": [
       {
         "u_spawn_monster": "mon_archunk_weak",
@@ -464,6 +478,7 @@
         "min_radius": 3,
         "max_radius": 20,
         "lifespan": [ "7 minutes", "10 minutes" ],
+        "temporary_drop_items": true,
         "spawn_message": "A chunk of reality gets loose and falls on the ground.",
         "spawn_message_plural": "Chunks of reality get loose and fall on the ground."
       }
@@ -473,7 +488,9 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_ARTIFACT_MEDIUM",
-    "condition": { "and": [ "u_is_outside", { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } }, { "math": [ "ps_str", "<", "5" ] } ] },
+    "condition": {
+      "and": [ "u_is_outside", { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" }, { "math": [ "ps_str", "<", "5" ] } ]
+    },
     "effect": [
       {
         "u_spawn_monster": "mon_archunk_medium",
@@ -483,6 +500,7 @@
         "min_radius": 3,
         "max_radius": 20,
         "lifespan": [ "7 minutes", "10 minutes" ],
+        "temporary_drop_items": true,
         "spawn_message": "Reality twists and deforms as a wriggling chunk of it falls on the ground.",
         "spawn_message_plural": "Reality twists and deforms as wriggling chunks of it fall on the ground."
       }
@@ -492,7 +510,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_ARTIFACT_STRONG",
-    "condition": { "and": [ "u_is_outside", { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } } ] },
+    "condition": { "and": [ "u_is_outside", { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" } ] },
     "effect": [
       {
         "u_spawn_monster": "mon_archunk_strong",
@@ -502,6 +520,7 @@
         "min_radius": 3,
         "max_radius": 20,
         "lifespan": [ "7 minutes", "10 minutes" ],
+        "temporary_drop_items": true,
         "spawn_message": "A chunk of reality tears itself asunder and takes shape on the ground.",
         "spawn_message_plural": "Chunks of reality tear themselves asunder and take shape on the ground."
       }
@@ -555,7 +574,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_HALLUCINATOR",
-    "condition": { "or": [ { "not": { "u_has_effect": "sleep" } }, { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } } ] },
+    "condition": { "or": [ { "not": { "u_has_effect": "sleep" } }, { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" } ] },
     "//": "The hallucination itself is not related to portal, its kinda create nightmares, nothing more. but the monster's existing can be prevented due portaL_proof flag (let's say the entity can't see the flag's user)",
     "effect": [
       {
@@ -614,7 +633,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_PAIN",
-    "condition": { "and": [ "u_is_outside", { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } } ] },
+    "condition": { "and": [ "u_is_outside", { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" } ] },
     "effect": [
       {
         "u_message": "You awake with a start from what must have been a violent and horrifying daydream.  Your body aches as if the wounds were real.",
@@ -645,7 +664,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_TELEPORT_STUCK_START",
-    "condition": { "and": [ { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } }, { "not": "u_driving" } ] },
+    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" }, { "not": "u_driving" } ] },
     "effect": [
       { "u_location_variable": { "u_val": "stuck_teleport" }, "min_radius": 0, "max_radius": 0 },
       { "run_eocs": "EOC_PORTAL_TELEPORT_STUCK" },
@@ -666,7 +685,7 @@
     "condition": {
       "and": [
         { "not": "u_driving" },
-        { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } },
+        { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" },
         { "math": [ "portal_dungeon_level", "==", "0" ] }
       ]
     },
@@ -707,7 +726,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_INCORPOREAL",
-    "condition": { "and": [ { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } }, { "not": "u_driving" } ] },
+    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" }, { "not": "u_driving" } ] },
     "effect": [
       {
         "u_message": "You feel stretched, as if part of you was elsewhere.  You are not solid enough to affect matter, and your equipment falls through you.",
@@ -782,7 +801,7 @@
     "global": true,
     "condition": {
       "and": [
-        { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } },
+        { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" },
         { "not": "u_is_outside" },
         { "not": { "u_has_effect": "sleep" } },
         { "x_in_y_chance": { "x": 1, "y": 250 } }
@@ -801,7 +820,7 @@
     "global": true,
     "condition": {
       "and": [
-        { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } },
+        { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" },
         { "not": { "u_has_effect": "sleep" } },
         { "x_in_y_chance": { "x": 1, "y": 30 } }
       ]
@@ -814,7 +833,7 @@
     "global": true,
     "condition": {
       "and": [
-        { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } },
+        { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" },
         { "not": { "u_has_effect": "sleep" } },
         { "x_in_y_chance": { "x": 1, "y": 30 } }
       ]
@@ -827,7 +846,7 @@
     "global": true,
     "condition": {
       "and": [
-        { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } },
+        { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" },
         { "not": { "u_has_effect": "sleep" } },
         { "x_in_y_chance": { "x": 1, "y": 30 } }
       ]
@@ -840,7 +859,7 @@
     "condition": {
       "and": [
         { "math": [ "u_in_portal_cell", "==", "0" ] },
-        { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } },
+        { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" },
         { "not": "u_driving" }
       ]
     },
@@ -982,7 +1001,7 @@
       ]
     },
     "effect": {
-      "switch": { "global_val": "var", "var_name": "portal_dungeon_reflect_strength" },
+      "switch": { "global_val": "var", "var_name": "portal_dungeon_reflect_strength", "default": 0 },
       "cases": [
         {
           "case": 0,
@@ -1146,7 +1165,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_TELEPORT_UNSTABLE_RIFT",
-    "condition": { "and": [ { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } }, { "not": "u_driving" } ] },
+    "condition": { "and": [ { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" }, { "not": "u_driving" } ] },
     "effect": [
       { "u_location_variable": { "u_val": "unstable_teleport" }, "min_radius": 30, "max_radius": 70 },
       { "u_teleport": { "u_val": "unstable_teleport" } },
@@ -1202,7 +1221,7 @@
       "and": [
         { "is_weather": "portal_storm" },
         { "u_has_trait": "MAKAYLA_MUTATOR" },
-        { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } },
+        { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" },
         "u_is_outside"
       ]
     },
@@ -1312,7 +1331,10 @@
             { "compare_string": [ "mon_hallucinator", { "context_val": "victim_type" } ] },
             { "compare_string": [ "mon_archunk_strong", { "context_val": "victim_type" } ] },
             { "compare_string": [ "mon_void_spider", { "context_val": "victim_type" } ] },
-            { "compare_string": [ "mon_XEDRA_officer", { "context_val": "victim_type" } ] }
+            { "compare_string": [ "mon_XEDRA_officer", { "context_val": "victim_type" } ] },
+            { "compare_string": [ "mon_eigenspectre_3", { "context_val": "victim_type" } ] },
+            { "compare_string": [ "mon_eigenspectre_4", { "context_val": "victim_type" } ] },
+            { "compare_string": [ "mon_living_vector", { "context_val": "victim_type" } ] }
           ]
         }
       ]

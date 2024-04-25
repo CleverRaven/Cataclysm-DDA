@@ -288,9 +288,15 @@ void mission_type::load_mission_type( const JsonObject &jo, const std::string &s
     mission_type_factory.load( jo, src );
 }
 
+static DynamicDataLoader::deferred_json deferred;
+
 void mission_type::reset()
 {
     mission_type_factory.reset();
+    for( std::pair<JsonObject, std::string> &deferred_json : deferred ) {
+        deferred_json.first.allow_omitted_members();
+    }
+    deferred.clear();
 }
 
 template <typename Fun>
@@ -306,8 +312,6 @@ void assign_function( const JsonObject &jo, const std::string &id, Fun &target,
         }
     }
 }
-
-static DynamicDataLoader::deferred_json deferred;
 
 void mission_type::load( const JsonObject &jo, const std::string &src )
 {

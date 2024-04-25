@@ -33,7 +33,7 @@
   {
     "id": "vfw_tools",
     "type": "item_group",
-    "items": [ { "item": "glock_19", "prob": 1, "charges": [ 0, 15 ] }, [ "boots_steel", 50 ], [ "boots_hiking", 10 ] ]
+    "items": [ [ "boots_steel", 50 ], [ "boots_hiking", 10 ] ]
   },
   {
     "id": "vfw_books",
@@ -87,16 +87,14 @@
     "ammo": 100,
     "subtype": "distribution",
     "entries": [
-      { "group": "guns_pistol_common", "prob": 20 },
-      { "group": "guns_rifle_common", "prob": 20 },
-      { "group": "guns_shotgun_common", "prob": 20 },
-      { "group": "guns_pistol_obscure", "prob": 60 },
-      { "group": "guns_rifle_obscure", "prob": 60 },
-      { "group": "guns_shotgun_obscure", "prob": 60 },
-      { "group": "guns_survival", "prob": 30 },
-      { "group": "ammo_obscure", "prob": 90 },
-      { "group": "ammo_reloaded", "prob": 30 },
-      { "group": "mags_obscure", "prob": 30 }
+      { "group": "guns_pistol_common", "prob": 162 },
+      { "group": "guns_rifle_common", "prob": 36 },
+      { "group": "guns_shotgun_common", "prob": 2 },
+      { "group": "guns_pistol_obscure", "prob": 81 },
+      { "group": "guns_rifle_obscure", "prob": 18 },
+      { "group": "guns_shotgun_obscure", "prob": 1 },
+      { "group": "ammo_obscure", "prob": 40 },
+      { "group": "mags_obscure", "prob": 40 }
     ]
   },
   {
@@ -106,10 +104,10 @@
     "ammo": 100,
     "subtype": "distribution",
     "entries": [
-      { "group": "guns_pistol_common", "prob": 50 },
-      { "group": "guns_rifle_common", "prob": 50 },
-      { "group": "guns_shotgun_common", "prob": 50 },
-      { "group": "guns_survival", "prob": 100 },
+      { "group": "guns_pistol_common", "prob": 81 },
+      { "group": "guns_rifle_common", "prob": 18 },
+      { "group": "guns_shotgun_common", "prob": 2 },
+      { "group": "guns_survival", "prob": 1 },
       { "item": "flaregun", "prob": 25 },
       { "item": "large_repairkit", "prob": 5, "charges": [ 0, 500 ] },
       { "item": "signal_flare", "prob": 20 },
@@ -243,7 +241,8 @@
       [ "lanyard", 1 ],
       [ "tourist_table", 1 ],
       [ "thermos", 10 ],
-      [ "crutches", 5 ]
+      [ "crutches", 5 ],
+      { "group": "pillbox_any_used", "prob": 20 }
     ]
   },
   {
@@ -480,12 +479,11 @@
       [ "hot_pants_leather", 30 ],
       [ "mag_porn", 30 ],
       { "group": "stash_drugs", "prob": 20 },
-      [ "bikini_top_leather", 10 ],
-      [ "bikini_top_fur", 10 ],
-      [ "bikini_top_short", 10 ],
-      [ "bikini_bottom_short", 10 ],
-      { "item": "bikini_top", "variant": "maid_bikini_top", "prob": 5 },
-      { "item": "bikini_bottom", "variant": "maid_bikini_bottom", "prob": 5 },
+      { "group": "bikini", "prob": 30 },
+      {
+        "collection": [ { "item": "bikini_top", "variant": "maid_bikini_top" }, { "item": "bikini_bottom", "variant": "maid_bikini_bottom" } ],
+        "prob": 5
+      },
       [ "skirt_leather", 20 ],
       [ "nanoskirt", 20 ],
       [ "mag_dude", 20 ],
@@ -575,8 +573,7 @@
       [ "swimming_kickboard", 5 ],
       [ "plastic_sheet", 10 ],
       [ "fishing_waders", 5 ],
-      [ "bikini_top", 10 ],
-      [ "bikini_bottom", 10 ],
+      { "group": "bikini", "prob": 10 },
       [ "rashguard", 5 ],
       [ "wetsuit_jacket", 10 ],
       [ "wetsuit_top", 10 ],
@@ -614,6 +611,7 @@
       [ "fish_bait", 100 ],
       [ "fish_trap", 100 ],
       [ "bucket", 100 ],
+      [ "bucket_5gal", 100 ],
       [ "fishing_hook_basic", 100 ]
     ]
   },
@@ -726,7 +724,8 @@
       [ "plastic_chunk", 150 ],
       [ "plastic_plate", 50 ],
       [ "tumbler_plastic", 50 ],
-      [ "plastic_bowl_kids", 25 ]
+      [ "plastic_bowl_kids", 25 ],
+      { "group": "pillbox_any_empty", "prob": 15 }
     ]
   },
   {
@@ -953,7 +952,8 @@
       [ "tinder", 1 ],
       { "item": "hobo_stove", "prob": 1 },
       [ "eclipse_glasses", 1 ],
-      { "group": "writing_utensils", "prob": 5 }
+      { "group": "writing_utensils", "prob": 5 },
+      { "group": "pillbox_any_used", "prob": 5 }
     ]
   },
   {
@@ -1332,7 +1332,8 @@
       [ "shovel", 10 ],
       [ "e_tool", 5 ],
       { "item": "miner_hat", "prob": 40, "charges": [ 0, 100 ] },
-      [ "bucket", 10 ],
+      [ "bucket", 5 ],
+      [ "bucket_5gal", 20 ],
       [ "grapnel", 1 ],
       { "group": "tools_toolbox", "prob": 1 },
       [ "apron_leather", 5 ],
@@ -1470,11 +1471,11 @@
       [ "tonfa_wood", 10 ],
       { "item": "shocktonfa_off", "prob": 25, "charges": [ 0, 500 ] },
       { "item": "tazer", "prob": 25, "charges": [ 0, 500 ] },
-      { "item": "remington_700", "prob": 5, "charges": [ 0, 4 ] },
-      { "item": "3006", "prob": 5, "charges": [ 1, 20 ] },
-      { "item": "ksg", "prob": 8, "charges": [ 0, 7 ] },
-      { "item": "remington_870_express", "prob": 8, "charges": [ 0, 7 ] },
-      { "item": "mossberg_500", "variant": "mossberg_500_security", "prob": 8, "charges": [ 0, 6 ] },
+      { "item": "remington_700", "prob": 1, "charges": [ 0, 4 ] },
+      { "item": "3006", "prob": 1, "charges": [ 1, 20 ] },
+      { "item": "ksg", "prob": 1, "charges": [ 0, 7 ] },
+      { "item": "remington_870_express", "prob": 1, "charges": [ 0, 7 ] },
+      { "item": "benelli_tsa", "variant": "mossberg_500_security", "prob": 1, "charges": [ 0, 6 ] },
       { "item": "shot_beanbag", "prob": 25, "charges": [ 1, 10 ] },
       { "item": "rm120c", "prob": 2, "charges": [ 0, 5 ] },
       { "item": "rm20", "prob": 1, "charges": [ 0, 20 ] },
@@ -1932,6 +1933,7 @@
       [ "memory_card_unread", 40 ],
       [ "memory_card_science", 10 ],
       [ "standard_template_construct", 5 ],
+      [ "standard_template_construct_combat_exoskeleton", 5 ],
       { "item": "camera", "prob": 15, "charges": [ 0, 150 ] },
       { "item": "camera_pro", "prob": 5, "charges": [ 0, 150 ] },
       { "item": "lighter", "prob": 50, "charges": [ 0, 100 ] },
@@ -2001,7 +2003,8 @@
       [ "lanyard", 5 ],
       [ "dnd_handbook", 2 ],
       [ "bodypillow", 1 ],
-      { "group": "writing_utensils", "prob": 10 }
+      { "group": "writing_utensils", "prob": 10 },
+      { "group": "pillbox_any_used", "prob": 10 }
     ]
   },
   {
@@ -2121,13 +2124,10 @@
       { "item": "stand_ring", "prob": 5 },
       { "item": "stand_ring_clamps", "prob": 5 },
       { "item": "ether", "prob": 5, "charges-min": 100 },
-      { "prob": 5, "group": "iodine_bottle_plastic_pill_supplement_1_10" },
-      { "prob": 5, "group": "prussian_blue_bottle_plastic_pill_supplement_1_10" },
       { "item": "pocket_firstaid", "prob": 2 },
       { "item": "file", "prob": 5 },
       { "item": "textbook_chemistry", "prob": 10 },
       { "item": "adv_chemistry", "prob": 2 },
-      { "item": "decoy_elfa", "prob": 2 },
       { "item": "water_clean", "prob": 90, "charges-min": 1, "container-item": "bottle_plastic", "sealed": false },
       { "item": "salt_water", "prob": 30, "charges-min": 1 },
       { "item": "bleach", "prob": 10, "charges-min": 6 },
@@ -2135,11 +2135,8 @@
       { "item": "chem_washing_soda", "prob": 10 },
       { "item": "chem_baking_soda", "prob": 10 },
       { "item": "chem_calcium_chloride", "prob": 2 },
-      { "item": "mutagen", "prob": 1 },
-      { "item": "purifier", "prob": 1 },
       { "prob": 3, "group": "yeast_bag_plastic_25" },
       { "prob": 1, "group": "yogurt_starter_culture_bag_plastic_4" },
-      { "item": "royal_jelly", "prob": 4 },
       { "item": "superglue", "prob": 30 },
       { "item": "bottle_glass", "prob": 10 },
       { "item": "syringe", "prob": 1 },
@@ -2304,7 +2301,8 @@
       { "item": "knitting_needles", "prob": 1 },
       { "item": "survnote", "prob": 1 },
       { "item": "eclipse_glasses", "prob": 1 },
-      { "group": "writing_utensils", "prob": 20 }
+      { "group": "writing_utensils", "prob": 20 },
+      { "group": "pillbox_any_used", "prob": 5 }
     ]
   },
   {
@@ -2394,6 +2392,7 @@
       [ "diamond_dental_grill", 5 ],
       [ "gold_dental_grill", 5 ],
       [ "standard_template_construct", 4 ],
+      [ "standard_template_construct_combat_exoskeleton", 4 ],
       [ "briefcase", 4 ],
       [ "small_relic", 3 ],
       [ "holy_symbol", 3 ],
@@ -2594,7 +2593,8 @@
       [ "bottle_folding", 6 ],
       [ "metal_file", 5 ],
       [ "pin_reamer", 3 ],
-      { "group": "writing_utensils", "prob": 20 }
+      { "group": "writing_utensils", "prob": 20 },
+      { "group": "pillbox_any_used", "prob": 10 }
     ]
   },
   {
@@ -2798,7 +2798,7 @@
       [ "brew_moonshine", 5 ],
       { "prob": 35, "group": "cornbread_bag_plastic_6" },
       { "prob": 25, "group": "yeast_bag_plastic_25" },
-      { "prob": 20, "group": "sugar_box_small_71" },
+      { "prob": 20, "group": "sugar_packed" },
       [ "chem_ethanol", 5 ]
     ]
   },

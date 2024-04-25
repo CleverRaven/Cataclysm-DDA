@@ -70,13 +70,12 @@
 #include "sdl_gamepad.h"
 #include "sdlsound.h"
 #include "string_formatter.h"
+#include "uistate.h"
 #include "ui_manager.h"
 #include "wcwidth.h"
 #include "cata_imgui.h"
 
-#if !defined(__ANDROID__)
 std::unique_ptr<cataimgui::client> imclient;
-#endif
 
 #if defined(__linux__)
 #   include <cstdlib> // getenv()/setenv()
@@ -271,6 +270,10 @@ static void WinCreate()
     // Without this, the game only displays in the top-left 1/4 of the window.
     window_flags &= ~SDL_WINDOW_ALLOW_HIGHDPI;
 #endif
+#if defined(__ANDROID__)
+    // Without this, the game only displays in the top-left 1/4 of the window.
+    window_flags = SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_MAXIMIZED;
+#endif
 
     int display = std::stoi( get_option<std::string>( "DISPLAY" ) );
     if( display < 0 || display >= SDL_GetNumVideoDisplays() ) {
@@ -423,14 +426,7 @@ static void WinCreate()
         geometry = std::make_unique<DefaultGeometryRenderer>();
     }
 
-#if !defined(__ANDROID__)
-    cataimgui::client::sdl_renderer = renderer.get();
-    cataimgui::client::sdl_window = window.get();
-    imclient = std::make_unique<cataimgui::client>();
-#endif
-
-    //io.Fonts->AddFontDefault();
-    //io.Fonts->Build();
+    imclient = std::make_unique<cataimgui::client>( renderer, window, geometry );
 }
 
 static void WinDestroy()
@@ -438,9 +434,7 @@ static void WinDestroy()
 #if defined(__ANDROID__)
     touch_joystick.reset();
 #endif
-#if !defined(__ANDROID__)
     imclient.reset();
-#endif
     shutdown_sound();
     tilecontext.reset();
     gamepad::quit();
@@ -550,6 +544,7 @@ void refresh_display()
 #else
     RenderCopy( renderer, display_buffer, nullptr, nullptr );
 #endif
+
 #if defined(__ANDROID__)
     draw_terminal_size_preview();
     if( g ) {
@@ -1171,8 +1166,8 @@ static bool draw_window( Font_Ptr &font, const catacurses::window &w, const poin
         // only clearing those lines that are touched, we avoid
         // clearing lines that were already drawn in a previous
         // window but are untouched in this one.
-        geometry->rect( renderer, point( win->pos.x * fontwidth, ( win->pos.y + j ) * fontheight ),
-                        win->width * fontwidth, fontheight,
+        geometry->rect( renderer, point( win->pos.x * font->width, ( win->pos.y + j ) * font->height ),
+                        win->width * font->width, font->height,
                         color_as_sdl( catacurses::black ) );
         update = true;
         win->line[j].touched = false;
@@ -1803,6 +1798,10 @@ static float second_finger_down_x = -1.0f; // in pixels
 static float second_finger_down_y = -1.0f; // in pixels
 static float second_finger_curr_x = -1.0f; // in pixels
 static float second_finger_curr_y = -1.0f; // in pixels
+static float third_finger_down_x = -1.0f; // in pixels
+static float third_finger_down_y = -1.0f; // in pixels
+static float third_finger_curr_x = -1.0f; // in pixels
+static float third_finger_curr_y = -1.0f; // in pixels
 // when did the first finger start touching the screen? 0 if not touching, otherwise the time in milliseconds.
 static uint32_t finger_down_time = 0;
 // the last time we repeated input for a finger hold, 0 if not touching, otherwise the time in milliseconds.
@@ -1813,6 +1812,8 @@ static uint32_t last_tap_time = 0;
 static uint32_t ac_back_down_time = 0;
 // has a second finger touched the screen while the first was touching?
 static bool is_two_finger_touch = false;
+// has a third finger touched the screen while the first and second were touching?
+static bool is_three_finger_touch = false;
 // did this touch start on a quick shortcut?
 static bool is_quick_shortcut_touch = false;
 static bool quick_shortcuts_toggle_handled = false;
@@ -2341,7 +2342,8 @@ void draw_virtual_joystick()
         SDL_GetTicks() - finger_down_time <= static_cast<uint32_t>
         ( get_option<int>( "ANDROID_INITIAL_DELAY" ) ) ||
         is_quick_shortcut_touch ||
-        is_two_finger_touch ) {
+        is_two_finger_touch ||
+        is_three_finger_touch ) {
         return;
     }
 
@@ -2496,6 +2498,9 @@ void handle_finger_input( uint32_t ticks )
             }
         }
     }
+    if( last_input.type != input_event_t::error ) {
+        imclient->process_cata_input( last_input );
+    }
 }
 
 bool android_is_hardware_keyboard_available()
@@ -2571,6 +2576,7 @@ static void CheckMessages()
 #if defined(__ANDROID__)
     if( visible_display_frame_dirty ) {
         needupdate = true;
+        ui_manager::redraw_invalidated();
         visible_display_frame_dirty = false;
     }
 
@@ -2611,6 +2617,7 @@ static void CheckMessages()
 
             touch_input_context = *new_input_context;
             needupdate = true;
+            ui_manager::redraw_invalidated();
         }
     }
 
@@ -2775,7 +2782,7 @@ static void CheckMessages()
                 }
 
                 // Check if we're dead tired - if so, add sleep
-                if( player_character.get_fatigue() > fatigue_levels::DEAD_TIRED ) {
+                if( player_character.get_sleepiness() > sleepiness_levels::DEAD_TIRED ) {
                     actions.insert( ACTION_SLEEP );
                 }
 
@@ -2825,7 +2832,8 @@ static void CheckMessages()
         }
 
         // Handle repeating inputs from touch + holds
-        if( !is_quick_shortcut_touch && !is_two_finger_touch && finger_down_time > 0 &&
+        if( !is_quick_shortcut_touch && !is_two_finger_touch && !is_three_finger_touch &&
+            finger_down_time > 0 &&
             ticks - finger_down_time > static_cast<uint32_t>
             ( get_option<int>( "ANDROID_INITIAL_DELAY" ) ) ) {
             if( ticks - finger_repeat_time > finger_repeat_delay ) {
@@ -2834,9 +2842,12 @@ static void CheckMessages()
                 // Prevent repeating inputs on the next call to this function if there is a fingerup event
                 while( SDL_PollEvent( &ev ) ) {
                     if( ev.type == SDL_FINGERUP ) {
-                        second_finger_down_x = second_finger_curr_x = finger_down_x = finger_curr_x = -1.0f;
-                        second_finger_down_y = second_finger_curr_y = finger_down_y = finger_curr_y = -1.0f;
+                        third_finger_down_x = third_finger_curr_x = second_finger_down_x = second_finger_curr_x =
+                                                  finger_down_x = finger_curr_x = -1.0f;
+                        third_finger_down_y = third_finger_curr_y = second_finger_down_y = second_finger_curr_y =
+                                                  finger_down_y = finger_curr_y = -1.0f;
                         is_two_finger_touch = false;
+                        is_three_finger_touch = false;
                         finger_down_time = 0;
                         finger_repeat_time = 0;
                         // let the next call decide if needupdate should be true
@@ -2848,7 +2859,8 @@ static void CheckMessages()
         }
 
         // If we received a first tap and not another one within a certain period, this was a single tap, so trigger the input event
-        if( !is_quick_shortcut_touch && !is_two_finger_touch && last_tap_time > 0 &&
+        if( !is_quick_shortcut_touch && !is_two_finger_touch && !is_three_finger_touch &&
+            last_tap_time > 0 &&
             ticks - last_tap_time >= static_cast<uint32_t>
             ( get_option<int>( "ANDROID_INITIAL_DELAY" ) ) ) {
             // Single tap
@@ -2874,9 +2886,7 @@ static void CheckMessages()
     bool render_target_reset = false;
 
     while( SDL_PollEvent( &ev ) ) {
-#if !defined(__ANDROID__)
         imclient->process_input( &ev );
-#endif
         switch( ev.type ) {
             case SDL_WINDOWEVENT:
                 switch( ev.window.event ) {
@@ -2901,6 +2911,7 @@ static void CheckMessages()
                         WindowHeight = ev.window.data2;
                         SDL_Delay( 500 );
                         SDL_GetWindowSurface( window.get() );
+                        ui_manager::redraw_invalidated();
                         refresh_display();
                         needupdate = true;
                         break;
@@ -2994,6 +3005,7 @@ static void CheckMessages()
                                     !inp_mngr.get_keyname( lc, input_event_t::keyboard_char ).empty() ) {
                                     qsl.remove( last_input );
                                     add_quick_shortcut( qsl, last_input, false, true );
+                                    ui_manager::redraw_invalidated();
                                     refresh_display();
                                 }
                             } else if( lc == '\n' || lc == KEY_ESCAPE ) {
@@ -3060,6 +3072,7 @@ static void CheckMessages()
                                                              touch_input_context.get_category() )];
                                 qsl.remove( last_input );
                                 add_quick_shortcut( qsl, last_input, false, true );
+                                ui_manager::redraw_invalidated();
                                 refresh_display();
                             } else if( lc == '\n' || lc == KEY_ESCAPE ) {
                                 if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
@@ -3186,10 +3199,12 @@ static void CheckMessages()
                         update_finger_repeat_delay();
                     }
                     needupdate = true; // ensure virtual joystick and quick shortcuts redraw as we interact
+                    ui_manager::redraw_invalidated();
                     finger_curr_x = ev.tfinger.x * WindowWidth;
                     finger_curr_y = ev.tfinger.y * WindowHeight;
 
-                    if( get_option<bool>( "ANDROID_VIRTUAL_JOYSTICK_FOLLOW" ) && !is_two_finger_touch ) {
+                    if( get_option<bool>( "ANDROID_VIRTUAL_JOYSTICK_FOLLOW" ) && !is_two_finger_touch &&
+                        !is_three_finger_touch ) {
                         // If we've moved too far from joystick center, offset joystick center automatically
                         float delta_x = finger_curr_x - finger_down_x;
                         float delta_y = finger_curr_y - finger_down_y;
@@ -3206,6 +3221,9 @@ static void CheckMessages()
                 } else if( ev.tfinger.fingerId == 1 ) {
                     second_finger_curr_x = ev.tfinger.x * WindowWidth;
                     second_finger_curr_y = ev.tfinger.y * WindowHeight;
+                } else if( ev.tfinger.fingerId == 2 ) {
+                    third_finger_curr_x = ev.tfinger.x * WindowWidth;
+                    third_finger_curr_y = ev.tfinger.y * WindowHeight;
                 }
                 break;
             case SDL_FINGERDOWN:
@@ -3218,12 +3236,20 @@ static void CheckMessages()
                     if( !is_quick_shortcut_touch ) {
                         update_finger_repeat_delay();
                     }
+                    ui_manager::redraw_invalidated();
                     needupdate = true; // ensure virtual joystick and quick shortcuts redraw as we interact
                 } else if( ev.tfinger.fingerId == 1 ) {
                     if( !is_quick_shortcut_touch ) {
                         second_finger_down_x = second_finger_curr_x = ev.tfinger.x * WindowWidth;
                         second_finger_down_y = second_finger_curr_y = ev.tfinger.y * WindowHeight;
                         is_two_finger_touch = true;
+                    }
+                } else if( ev.tfinger.fingerId == 2 ) {
+                    if( !is_quick_shortcut_touch ) {
+                        third_finger_down_x = third_finger_curr_x = ev.tfinger.x * WindowWidth;
+                        third_finger_down_y = third_finger_curr_y = ev.tfinger.y * WindowHeight;
+                        is_three_finger_touch = true;
+                        is_two_finger_touch = false;
                     }
                 }
                 break;
@@ -3317,17 +3343,85 @@ static void CheckMessages()
                                     }
                                 }
                             }
+                        } else if( is_three_finger_touch ) {
+                            // handle zoom in/out
+                            float x1 = ( finger_curr_x - finger_down_x );
+                            float y1 = ( finger_curr_y - finger_down_y );
+                            float d1 = std::sqrt( x1 * x1 + y1 * y1 );
+
+                            float x2 = ( second_finger_curr_x - second_finger_down_x );
+                            float y2 = ( second_finger_curr_y - second_finger_down_y );
+                            float d2 = std::sqrt( x2 * x2 + y2 * y2 );
+
+                            float x3 = ( third_finger_curr_x - third_finger_down_x );
+                            float y3 = ( third_finger_curr_y - third_finger_down_y );
+                            float d3 = std::sqrt( x3 * x3 + y3 * y3 );
+
+                            float longest_window_edge = std::max( WindowWidth, WindowHeight );
+
+                            if( std::max( d1, std::max( d2,
+                                                        d3 ) ) < get_option<float>( "ANDROID_DEADZONE_RANGE" ) * longest_window_edge ) {
+                                int three_tap_key = 0; //get_option<int>( "ANDROID_3_TAP_KEY" );
+                                if( three_tap_key == 0 ) { // not set
+                                    quick_shortcuts_enabled = !quick_shortcuts_enabled;
+
+                                    quick_shortcuts_toggle_handled = true;
+
+                                    // Display an Android toast message
+                                    {
+                                        JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
+                                        jobject activity = ( jobject )SDL_AndroidGetActivity();
+                                        jclass clazz( env->GetObjectClass( activity ) );
+                                        jstring toast_message = env->NewStringUTF( quick_shortcuts_enabled ? "Shortcuts visible" :
+                                                                "Shortcuts hidden" );
+                                        jmethodID method_id = env->GetMethodID( clazz, "toast", "(Ljava/lang/String;)V" );
+                                        env->CallVoidMethod( activity, method_id, toast_message );
+                                        env->DeleteLocalRef( activity );
+                                        env->DeleteLocalRef( clazz );
+                                    }
+                                } else {
+                                    last_input = input_event( three_tap_key, input_event_t::keyboard_char );
+                                }
+                            } else {
+                                float dot = ( x1 * x2 + y1 * y2 ) / ( d1 * d2 ); // dot product of two finger vectors, -1 to +1
+                                float dot2 = ( x1 * x3 + y1 * y3 ) / ( d1 * d3 ); // dot product of three finger vectors, -1 to +1
+                                if( dot > 0.0f &&
+                                    dot2 > 0.0f ) { // all fingers mostly heading in same direction, check for triple-finger swipe gesture
+                                    float dratio = d1 / d2;
+                                    const float dist_ratio = 0.3f;
+                                    if( dratio > dist_ratio &&
+                                        dratio < ( 1.0f /
+                                                   dist_ratio ) ) { // both fingers moved roughly the same distance, so it's a double-finger swipe!
+                                        float xavg = 0.5f * ( x1 + x2 );
+                                        float yavg = 0.5f * ( y1 + y2 );
+                                        if( xavg > 0 && xavg > std::abs( yavg ) ) {
+                                            last_input = input_event( '\t', input_event_t::keyboard_char );
+                                        } else if( xavg < 0 && -xavg > std::abs( yavg ) ) {
+                                            last_input = input_event( KEY_BTAB, input_event_t::keyboard_char );
+                                        } else if( yavg > 0 && yavg > std::abs( xavg ) ) {
+                                            last_input = input_event( KEY_NPAGE, input_event_t::keyboard_char );
+                                        } else {
+                                            last_input = input_event( KEY_PPAGE, input_event_t::keyboard_char );
+                                        }
+                                    }
+                                }
+                            }
+
                         } else if( ticks - finger_down_time <= static_cast<uint32_t>(
                                        get_option<int>( "ANDROID_INITIAL_DELAY" ) ) ) {
                             handle_finger_input( ticks );
                         }
                     }
-                    second_finger_down_x = second_finger_curr_x = finger_down_x = finger_curr_x = -1.0f;
-                    second_finger_down_y = second_finger_curr_y = finger_down_y = finger_curr_y = -1.0f;
+                    third_finger_down_x = third_finger_curr_x = second_finger_down_x = second_finger_curr_x =
+                                              finger_down_x = finger_curr_x = -1.0f;
+                    third_finger_down_y = third_finger_curr_y = second_finger_down_y = second_finger_curr_y =
+                                              finger_down_y = finger_curr_y = -1.0f;
                     is_two_finger_touch = false;
+                    is_three_finger_touch = false;
                     finger_down_time = 0;
                     finger_repeat_time = 0;
                     needupdate = true; // ensure virtual joystick and quick shortcuts are updated properly
+                    ui_manager::redraw_invalidated();
                     refresh_display(); // as above, but actually redraw it now as well
                 } else if( ev.tfinger.fingerId == 1 ) {
                     if( is_two_finger_touch ) {
@@ -3335,6 +3429,13 @@ static void CheckMessages()
                         // is_two_finger_touch will be reset when first finger lifts (see above)
                         second_finger_curr_x = ev.tfinger.x * WindowWidth;
                         second_finger_curr_y = ev.tfinger.y * WindowHeight;
+                    }
+                } else if( ev.tfinger.fingerId == 2 ) {
+                    if( is_three_finger_touch ) {
+                        // on third finger release, just remember the x/y position so we can calculate delta once first finger is done
+                        // is_three_finger_touch will be reset when first finger lifts (see above)
+                        third_finger_curr_x = ev.tfinger.x * WindowWidth;
+                        third_finger_curr_y = ev.tfinger.y * WindowHeight;
                     }
                 }
 
@@ -3366,9 +3467,6 @@ static void CheckMessages()
         // contents are redrawn in the following code.
         ui_manager::invalidate( rectangle<point>( point_zero, point( WindowWidth, WindowHeight ) ), false );
         ui_manager::redraw_invalidated();
-    }
-    if( ui_adaptor::has_imgui() ) {
-        needupdate = true;
     }
     if( needupdate ) {
         try_sdl_update();
@@ -3587,7 +3685,7 @@ void catacurses::init_interface()
                    windowsPalette, fl.overmap_typeface, fl.overmap_fontsize, fl.fontblending );
     stdscr = newwin( get_terminal_height(), get_terminal_width(), point_zero );
     //newwin calls `new WINDOW`, and that will throw, but not return nullptr.
-
+    imclient->load_fonts( font, windowsPalette );
 #if defined(__ANDROID__)
     // Make sure we initialize preview_terminal_width/height to sensible values
     preview_terminal_width = TERMINAL_WIDTH * fontwidth;
@@ -3692,8 +3790,11 @@ input_event input_manager::get_input_event( const keyboard_mode preferred_keyboa
     // we can skip screen update if `needupdate` is false to improve performance during mouse
     // move events.
     wnoutrefresh( catacurses::stdscr );
+
     if( needupdate ) {
         refresh_display();
+    } else if( ui_adaptor::has_imgui() ) {
+        try_sdl_update();
     }
 
     if( inputdelay < 0 ) {

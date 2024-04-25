@@ -185,7 +185,7 @@
     "purifiable": false,
     "category": [ "SPECIES_DWARF" ],
     "threshreq": [ "THRESH_SPECIES_DWARF" ],
-    "crafting_speed_multiplier": 1.1
+    "enchantments": [ { "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.1 } ] } ]
   },
   {
     "type": "mutation",
@@ -353,8 +353,7 @@
     "category": [ "SPECIES_ELF" ],
     "threshreq": [ "THRESH_SPECIES_ELF" ],
     "flags": [ "SEESLEEP" ],
-    "fatigue_modifier": -0.166667,
-    "fatigue_regen_modifier": 1
+    "enchantments": [ { "values": [ { "value": "SLEEPINESS_REGEN", "multiply": 1 }, { "value": "SLEEPINESS", "multiply": -0.166667 } ] } ]
   },
   {
     "type": "mutation",
@@ -500,19 +499,19 @@
     "category": [ "SPECIES_GOBLIN" ],
     "threshreq": [ "THRESH_SPECIES_GOBLIN" ],
     "flags": [ "TINY" ],
-    "stomach_size_multiplier": 0.5,
     "enchantments": [
       {
         "values": [
-          { "value": "BONUS_DODGE", "add": 2 },
+          { "value": "DODGE_CHANCE", "add": 2 },
           { "value": "MAX_HP", "multiply": -0.25 },
           { "value": "STRENGTH", "add": -3 },
-          { "value": "DEXTERITY", "add": 2 }
+          { "value": "DEXTERITY", "add": 2 },
+          { "value": "FOOTSTEP_NOISE", "multiply": -1 },
+          { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": -0.5 },
+          { "value": "CARRY_WEIGHT", "multiply": 0.7 }
         ]
       }
-    ],
-    "weight_capacity_modifier": 0.7,
-    "noise_modifier": 0
+    ]
   },
   {
     "type": "mutation",
@@ -528,44 +527,15 @@
     "category": [ "SPECIES_GOBLIN" ],
     "threshreq": [ "THRESH_SPECIES_GOBLIN" ],
     "enchantments": [
-      { "condition": { "not": "is_day" }, "values": [ { "value": "SLEEPY", "add": -50 } ] },
-      { "condition": "is_day", "values": [ { "value": "SLEEPY", "add": 50 } ] }
+      {
+        "condition": { "not": "is_day" },
+        "values": [ { "value": "SLEEPY", "add": -50 }, { "value": "OVERMAP_SIGHT", "add": 6 } ]
+      },
+      {
+        "condition": "is_day",
+        "values": [ { "value": "SLEEPY", "add": 50 }, { "value": "OVERMAP_SIGHT", "add": -2 } ]
+      }
     ]
-  },
-  {
-    "type": "mutation",
-    "id": "NOCTURNAL_DAY",
-    "name": { "str": "Nocturnal OverMap Day Vision" },
-    "//": "Invisible to player, sets overmap vision",
-    "points": 0,
-    "ugliness": 0,
-    "visibility": 0,
-    "description": "This adjusts goblin overmap sight so their vision is not as far during the day.",
-    "mixed_effect": true,
-    "valid": false,
-    "player_display": false,
-    "overmap_sight": -2,
-    "category": [ "SPECIES_GOBLIN" ],
-    "threshreq": [ "THRESH_SPECIES_GOBLIN" ],
-    "triggers": [ [ { "condition": { "not": "is_day" }, "msg_on": { "text": "", "rating": "good" } } ] ],
-    "transform": { "target": "NOCTURNAL_NIGHT", "msg_transform": "", "active": false, "moves": 0 }
-  },
-  {
-    "type": "mutation",
-    "id": "NOCTURNAL_NIGHT",
-    "name": { "str": "Nocturnal OverMap Night Vision" },
-    "points": 0,
-    "ugliness": 0,
-    "visibility": 0,
-    "description": "This adjusts goblin overmap sight so their vision is farther at night.",
-    "mixed_effect": true,
-    "valid": false,
-    "player_display": false,
-    "overmap_sight": 6,
-    "category": [ "SPECIES_GOBLIN" ],
-    "threshreq": [ "THRESH_SPECIES_GOBLIN" ],
-    "triggers": [ [ { "condition": "is_day", "msg_on": { "text": "", "rating": "good" } } ] ],
-    "transform": { "target": "NOCTURNAL_DAY", "msg_transform": "", "active": false, "moves": 0 }
   },
   {
     "type": "mutation",
@@ -630,14 +600,14 @@
     "category": [ "SPECIES_LIZARDFOLK" ],
     "threshreq": [ "THRESH_SPECIES_LIZARDFOLK" ],
     "flags": [ "LARGE" ],
-    "stomach_size_multiplier": 1.25,
-    "weight_capacity_modifier": 1.05,
     "enchantments": [
       {
         "values": [
           { "value": "MOVECOST_SWIM_MOD", "multiply": -0.1 },
           { "value": "STRENGTH", "add": 1 },
-          { "value": "DEXTERITY", "add": 1 }
+          { "value": "DEXTERITY", "add": 1 },
+          { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 0.25 },
+          { "value": "CARRY_WEIGHT", "multiply": 0.05 }
         ]
       }
     ]
@@ -672,8 +642,14 @@
     "purifiable": false,
     "types": [ "METABOLISM" ],
     "category": [ "SPECIES_LIZARDFOLK" ],
-    "temperature_speed_modifier": 0.5,
-    "metabolism_modifier": 0.5
+    "enchantments": [
+      {
+        "values": [
+          { "value": "METABOLISM", "multiply": 0.5 },
+          { "value": "SPEED", "add": { "math": [ "temperature_speed_mod(65, 0.5)" ] } }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",

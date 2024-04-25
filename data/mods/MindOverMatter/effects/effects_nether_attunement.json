@@ -57,5 +57,28 @@
     "rating": "bad",
     "max_duration": "30 seconds",
     "base_mods": { "health_min": [ -1 ], "health_chance": [ 2 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_nether_attunement_raiser",
+    "name": [ "Nether Conduit" ],
+    "desc": [ "Your skin prickles." ],
+    "remove_message": "The tingling sensation finally vanishes.",
+    "vitamins": [ { "vitamin": "vitamin_psionic_drain", "rate": [ [ 1, 2 ] ], "tick": [ "5 m" ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_nether_attunement_attenuation",
+    "name": [ "Nether Attenuation" ],
+    "desc": [ "You feel strangely listless." ],
+    "remove_message": "The listless feeling vanishes.",
+    "enchantments": [ { "values": [ { "value": "CASTING_TIME_MULTIPLIER", "multiply": 4 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_nether_attunement_feedback",
+    "name": [ "Feedback" ],
+    "desc": [ "You feel a persistent itching that will not go away." ],
+    "rating": "bad"
   }
 ]

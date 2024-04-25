@@ -241,31 +241,14 @@
     "id": "mon_feral_labsecurity_9mm",
     "type": "MONSTER",
     "name": { "str": "feral security guard" },
-    "description": "This security guard still breathes, but has been lost to some terrible madness.  They move among the undead, handgun at the ready and saucer pupils scanning for threats in a mockery of their former duty.",
+    "description": "This security guard still breathes, but has been lost to some terrible madness.  They move among the undead, with a baton in their arms and saucer pupils scanning for threats in a mockery of their former duty.",
     "copy-from": "mon_feral_human_pipe",
     "default_faction": "science",
     "melee_skill": 6,
     "vision_day": 50,
     "vision_night": 4,
     "diff": 5,
-    "starting_ammo": { "9mm": 5 },
-    "special_attacks": [
-      {
-        "type": "gun",
-        "cooldown": 10,
-        "move_cost": 150,
-        "gun_type": "feral_m9",
-        "ammo_type": "9mm",
-        "fake_skills": [ [ "gun", 1 ], [ "pistol", 2 ] ],
-        "fake_dex": 8,
-        "fake_per": 10,
-        "ranges": [ [ 2, 14, "DEFAULT" ] ],
-        "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
-        "require_targeting_player": false,
-        "description": "The feral security guard fires their Beretta M9A1!"
-      },
-      { "id": "feral_weapon_feral_m9" }
-    ],
+    "special_attacks": [ { "id": "feral_weapon_baton-extended" } ],
     "death_drops": "feral_security_death_drops_9mm",
     "zombify_into": "mon_zombie_labsecurity",
     "extend": { "flags": [ "CLIMBS" ], "weakpoint_sets": [ "wps_humanoid_body_armor" ], "families": [ "prof_wp_syn_armored" ] },
@@ -282,6 +265,7 @@
   },
   {
     "id": "mon_feral_maid_broom",
+    "//": "Nonsense feral for the mansion escape challenge scenario, shouldn't be used for general spawns",
     "type": "MONSTER",
     "name": { "str": "feral servant" },
     "description": "Once a fancy servant of some rich family, this maniac walks around with a broom in hand, searching for a victim to sweep off this mortal coil.",
@@ -329,32 +313,6 @@
     "death_drops": "feral_fancy_death_drops_rapier_fake"
   },
   {
-    "id": "mon_feral_fancy_crossbow",
-    "type": "MONSTER",
-    "copy-from": "mon_feral_maid_broom",
-    "name": { "str": "well dressed feral" },
-    "description": "Wearing fancy clothes and with a crossbow in hand, this maniac was once a socialite.  Their hands caress the crossbow as if touching a loved one.",
-    "starting_ammo": { "bolt_cf": 6 },
-    "special_attacks": [
-      {
-        "type": "gun",
-        "cooldown": 15,
-        "move_cost": 200,
-        "gun_type": "rep_crossbow",
-        "ammo_type": "bolt_cf",
-        "fake_skills": [ [ "gun", 1 ], [ "smg", 1 ] ],
-        "fake_dex": 6,
-        "fake_per": 6,
-        "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
-        "require_targeting_player": false,
-        "ranges": [ [ 2, 7, "DEFAULT" ] ],
-        "description": "The feral human shoots its crossbow!"
-      },
-      { "id": "feral_weapon_crossbow_melee" }
-    ],
-    "death_drops": "feral_fancy_death_drops_crossbow"
-  },
-  {
     "id": "mon_feral_armored_mace",
     "type": "MONSTER",
     "copy-from": "mon_feral_maid_broom",
@@ -380,37 +338,28 @@
     "death_drops": "feral_armored_death_drops_battleaxe"
   },
   {
-    "id": "mon_feral_prepper",
+    "id": "mon_feral_prepper_mace",
     "type": "MONSTER",
     "name": { "str": "feral prepper" },
-    "description": "A quick glance at this person would suggest that they have prepared well enough for the apocalypse.  Unfortunately, their bloodshot eyes, and the excluding treatment by the undead, shows that they have turned feral.  One of their hands clasps the handle of a makeshift weapon, while the other grips a handgun.",
+    "description": "A quick glance at this person would suggest that they have prepared well enough for the apocalypse, with their armor equipped and some makeshift mace in their hands.  Unfortunately, their bloodshot eyes, and the excluding treatment by the undead, shows that they have turned feral.",
     "copy-from": "mon_feral_human_pipe",
     "aggression": 75,
     "dodge": 3,
     "vision_day": 50,
-    "starting_ammo": { "9mm": 3 },
-    "special_attacks": [
-      {
-        "type": "gun",
-        "cooldown": 10,
-        "move_cost": 50,
-        "//": "(movecost is 50 to show that the feral prepper doesn't take time to aim, and just shoots barbaric-ly)",
-        "gun_type": "feral_m9",
-        "ammo_type": "9mm",
-        "fake_skills": [ [ "gun", 0 ], [ "pistol", 0 ] ],
-        "fake_dex": 8,
-        "fake_per": 9,
-        "ranges": [ [ 2, 14, "DEFAULT" ], [ 10, 35, "DEFAULT" ] ],
-        "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
-        "require_targeting_player": false,
-        "description": "The feral prepper haphazardly fires their firearm!"
-      },
-      { "id": "feral_weapon_feral_m9" }
-    ],
-    "death_drops": "mon_feral_prepper_death_drops",
+    "special_attacks": [ { "id": "feral_weapon_mace_pipe" } ],
+    "death_drops": "mon_feral_prepper_mace_death_drops",
     "zombify_into": "mon_zombie_survivor",
     "extend": { "flags": [ "CLIMBS" ], "weakpoint_sets": [ "wps_humanoid_light_armor" ], "families": [ "prof_wp_syn_armored" ] },
     "armor": { "bash": 4, "cut": 4, "acid": 4, "bullet": 4 }
+  },
+  {
+    "id": "mon_feral_prepper_knife",
+    "type": "MONSTER",
+    "copy-from": "mon_feral_prepper_mace",
+    "name": { "str": "feral prepper" },
+    "description": "A quick glance at this person would suggest that they have prepared well enough for the apocalypse, with their armor equipped and some military-grade knife in their hands.  Unfortunately, their bloodshot eyes, and the excluding treatment by the undead, shows that they have turned feral.",
+    "special_attacks": [ { "id": "feral_weapon_knife_combat_low_skill" } ],
+    "death_drops": "mon_feral_prepper_knife_death_drops"
   },
   {
     "id": "mon_feral_survivalist",
@@ -453,25 +402,7 @@
     "dodge": 3,
     "vision_day": 50,
     "luminance": 500,
-    "starting_ammo": { "223": 10 },
-    "special_attacks": [
-      {
-        "type": "gun",
-        "cooldown": 5,
-        "move_cost": 150,
-        "gun_type": "feral_militia_gun",
-        "ammo_type": "223",
-        "fake_skills": [ [ "gun", 2 ], [ "rifle", 2 ] ],
-        "fake_dex": 8,
-        "fake_per": 10,
-        "ranges": [ [ 2, 35, "DEFAULT" ] ],
-        "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
-        "require_targeting_player": false,
-        "target_moving_vehicles": true,
-        "description": "The mad militiaman fires their rifle!"
-      },
-      { "id": "feral_weapon_feral_militia_gun" }
-    ],
+    "special_attacks": [ { "id": "feral_weapon_feral_militia_gun" } ],
     "death_drops": "mon_feral_militia_death_drops",
     "zombify_into": "mon_zombie_milbase_personnel",
     "delete": { "anger_triggers": [ "HURT" ] },
@@ -504,31 +435,12 @@
     "id": "mon_feral_jackboot",
     "type": "MONSTER",
     "name": { "str": "feral biker" },
-    "description": "A rough-looking feral human, clad in black leather and wielding a pump-action shotgun.  It seems body-armor wasn't one of their priorities however.",
+    "description": "A rough-looking feral human, clad in black leather and wielding a pump-action shotgun, that seems to be empty already.  It seems body-armor wasn't one of their priorities however.",
     "copy-from": "mon_feral_human_pipe",
     "aggression": 75,
     "melee_skill": 6,
     "vision_day": 50,
-    "starting_ammo": { "shot_00": 5 },
-    "special_attacks": [
-      {
-        "type": "gun",
-        "cooldown": 10,
-        "move_cost": 150,
-        "gun_type": "feral_jackboot_gun",
-        "ammo_type": "shot_00",
-        "fake_skills": [ [ "gun", 2 ], [ "shotgun", 2 ] ],
-        "fake_dex": 8,
-        "fake_per": 9,
-        "//": "(ferals don't care about max-effective range.)",
-        "ranges": [ [ 2, 25, "DEFAULT" ] ],
-        "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
-        "require_targeting_player": false,
-        "target_moving_vehicles": true,
-        "description": "The feral biker fires their shotgun!"
-      },
-      { "id": "feral_weapon_shotgun_melee" }
-    ],
+    "special_attacks": [ { "id": "feral_weapon_shotgun_melee" } ],
     "death_drops": "mon_feral_jackboot_death_drops",
     "extend": { "flags": [ "CLIMBS" ] }
   },
@@ -612,25 +524,7 @@
     "color": "light_blue",
     "dodge": 3,
     "diff": 4,
-    "starting_ammo": { "9mm": 3 },
-    "special_attacks": [
-      {
-        "type": "gun",
-        "cooldown": 10,
-        "move_cost": 150,
-        "gun_type": "m18",
-        "ammo_type": "9mm",
-        "fake_skills": [ [ "gun", 1 ], [ "pistol", 2 ] ],
-        "fake_dex": 8,
-        "fake_per": 10,
-        "ranges": [ [ 2, 14, "DEFAULT" ] ],
-        "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
-        "require_targeting_player": false,
-        "target_moving_vehicles": true,
-        "description": "The feral officer fires their M18!"
-      },
-      { "id": "feral_weapon_m18" }
-    ],
+    "special_attacks": [ { "id": "feral_weapon_m18" } ],
     "death_drops": "mon_feral_officer_death_drops",
     "zombify_into": "mon_zombie_officer",
     "extend": { "flags": [ "CLIMBS" ] }

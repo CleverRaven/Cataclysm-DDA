@@ -7,8 +7,8 @@
     "description": "A description of simple meditation and breathing techniques, intended for a beginner.",
     "weight": "1454 g",
     "volume": "1250 ml",
-    "price": 2500,
-    "price_postapoc": 150,
+    "price": "25 USD",
+    "price_postapoc": "1 USD 50 cent",
     "melee_damage": { "bash": 3 },
     "material": [ "paper" ],
     "symbol": "?",
@@ -76,7 +76,7 @@
           "str": "The Mind Illuminated: A Complete Meditation Guide Integrating Buddhist Wisdom and Brain Science for Greater Mindfulness",
           "str_pl": "copies of The Mind Illuminated: A Complete Meditation Guide Integrating Buddhist Wisdom and Brain Science for Greater Mindfulness"
         },
-        "description": "Written by a neuroscientist and meditator pratitioner, this book offers a ten-step meditation program that combines science with traditional meditation techniques.",
+        "description": "Written by a neuroscientist and meditator practitioner, this book offers a ten-step meditation program that combines science with traditional meditation techniques.",
         "weight": 1
       },
       {
@@ -123,6 +123,23 @@
     "skill": "metaphysics",
     "required_level": 6,
     "max_level": 6,
+    "intelligence": 12,
+    "time": "35 m",
+    "fun": -2
+  },
+  {
+    "id": "manual_psionic_ritual",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": {
+      "str": "Training Manual: Method of Loci and Dimensional Metaphysics",
+      "str_pl": "copies of Training Manual: Method of Loci and Dimensional Metaphysics"
+    },
+    "description": "A formal report on a series of training procedures to allow the practitioner to hold images and ideas in their head for long periods of time without being distracted or losing their train of thought.  The report concludes, \"While the human mind is not adept at holding static images or scenes in place, some minor variation can be allowed for without suffering any adverse effects from the flow of Netherum energy.  Method of Loci allows the mathematician to maintain their thoughts within this area of variation while still exerting effective control over the mathematics.\"",
+    "copy-from": "recipe_lab_elec",
+    "skill": "metaphysics",
+    "required_level": 4,
+    "max_level": 4,
     "intelligence": 12,
     "time": "35 m",
     "fun": -2

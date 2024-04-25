@@ -473,5 +473,43 @@
         { "point": "trap", "id": "tr_shotgun_2", "x": 1, "y": 18 }
       ]
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "lmoe_under_empty" ],
+    "weight": 100,
+    "//": "Empty LMOE shelter that has been looted or used.",
+    "//2": "This is a 4 bed shelter done in a realistic style. The secret room was intended to be a science lab but construction was never completed.",
+    "object": {
+      "fill_ter": "t_metal_floor",
+      "rows": [
+        "########################",
+        "||||||||||||||||||######",
+        "|A,BdBd|AA|V,ee,A|######",
+        "|w,B,B,|,,|V,,,,f|######",
+        "|w,,,,,+,,+,,PP,f|######",
+        "|w,B,B,|,,|V,,,,f|######",
+        "|w,BdBd|,,|V,EE,f|######",
+        "||||||||,,||||||||||||||",
+        "|A}}}}}|,,|KvKvvA:____A|",
+        "|b,,,,,+,,+______|c_c_c|",
+        "|b,hTh,|,,|+|+|__|c_c_c|",
+        "|b,hTh,|,,|t|t|ss|c_c_c|",
+        "||||||||,,||||||||||||||",
+        "|AUUUUU|,,|CCKCCA|######",
+        "|l_____+,,+_____F|######",
+        "|l_cc_{|,,|u____é|######",
+        "|l_cc_{|,,|uuuu_é|######",
+        "|l_cc_{|,,|||||+||######",
+        "|l____{|,,|__*__W|######",
+        "|lUUUUU|,,|GG|A~H|######",
+        "||||||||++||||||||######",
+        "#######|__|#############",
+        "#######|<<|#############",
+        "#######||||#############"
+      ],
+      "palettes": [ "bunker", "empty_bunker_items" ]
+    }
   }
 ]

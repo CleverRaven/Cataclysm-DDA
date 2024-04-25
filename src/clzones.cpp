@@ -5,28 +5,34 @@
 #include <functional>
 #include <iosfwd>
 #include <iterator>
-#include <new>
 #include <string>
 #include <tuple>
-#include <type_traits>
 
+#include "avatar.h"
+#include "calendar.h"
+#include "cata_path.h"
 #include "cata_utility.h"
 #include "character.h"
-#include "colony.h"
+#include "color.h"
 #include "construction.h"
 #include "construction_group.h"
-#include "cursesdef.h"
 #include "debug.h"
 #include "faction.h"
+#include "field_type.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
+#include "game_constants.h"
 #include "generic_factory.h"
 #include "iexamine.h"
+#include "init.h"
 #include "item.h"
 #include "item_category.h"
+#include "item_group.h"
 #include "item_pocket.h"
 #include "item_search.h"
 #include "itype.h"
 #include "json.h"
-#include "line.h"
+#include "json_error.h"
 #include "localized_comparator.h"
 #include "make_static.h"
 #include "map.h"
@@ -721,12 +727,14 @@ void zone_data::refresh_display() const
     const tripoint_abs_ms start = bounds.first;
     const tripoint_abs_ms end = bounds.second;
 
-    const tripoint_abs_sm sm_start_pos = coords::project_to<coords::sm>( start );
-    const tripoint_abs_sm sm_end_pos = coords::project_to<coords::sm>( end );
-    const tripoint_rel_ms start_remainder = get_start_point() - coords::project_to < coords::ms >
-                                            ( sm_start_pos );
-    const tripoint_rel_ms end_remainder = get_end_point() - coords::project_to < coords::ms >
-                                          ( sm_end_pos );
+    const tripoint_abs_omt omt_start_pos = coords::project_to<coords::omt>( start );
+    const tripoint_abs_omt omt_end_pos = coords::project_to<coords::omt>( end );
+    const tripoint_omt_ms start_remainder = tripoint_omt_ms( ( get_start_point() - coords::project_to
+                                            < coords::ms >
+                                            ( omt_start_pos ) ).raw() );
+    const tripoint_omt_ms end_remainder = tripoint_omt_ms( ( get_end_point() - coords::project_to
+                                          < coords::ms >
+                                          ( omt_end_pos ) ).raw() );
 
     zone_type_id type = this->get_type();
 
@@ -740,20 +748,20 @@ void zone_data::refresh_display() const
     }
 
     if( field != fd_null ) {
-        tripoint start_sm;
-        tripoint end_sm;
+        tripoint_omt_ms start_ms;
+        tripoint_omt_ms end_ms;
 
-        for( int i = sm_start_pos.x(); i <= sm_end_pos.x(); i++ ) {
-            for( int k = sm_start_pos.y(); k <= sm_end_pos.y(); k++ ) {
+        for( int i = omt_start_pos.x(); i <= omt_end_pos.x(); i++ ) {
+            for( int k = omt_start_pos.y(); k <= omt_end_pos.y(); k++ ) {
                 //  We assume the Z coordinate will remain fixed
-                update_tmap.load( { i, k, sm_start_pos.z() }, false );
+                update_tmap.load( tripoint_abs_omt{ i, k, omt_start_pos.z() }, false );
 
-                start_sm = tripoint( i > sm_start_pos.x() ? 0 : start_remainder.x(),
-                                     k > sm_start_pos.y() ? 0 : start_remainder.y(), start_remainder.z() );
-                end_sm = tripoint( i < sm_end_pos.x() ? MAPSIZE : end_remainder.x(),
-                                   k < sm_end_pos.y() ? MAPSIZE : end_remainder.y(), end_remainder.z() );
+                start_ms = tripoint_omt_ms( i > omt_start_pos.x() ? 0 : start_remainder.x(),
+                                            k > omt_start_pos.y() ? 0 : start_remainder.y(), start_remainder.z() );
+                end_ms = tripoint_omt_ms( i < omt_end_pos.x() ? SEEX * 2 - 1 : end_remainder.x(),
+                                          k < omt_end_pos.y() ? SEEY * 2 - 1 : end_remainder.y(), end_remainder.z() );
 
-                for( tripoint pt : update_tmap.points_in_rectangle( start_sm, end_sm ) ) {
+                for( tripoint_omt_ms pt : update_tmap.points_in_rectangle( start_ms, end_ms ) ) {
                     if( is_displayed ) {
                         update_tmap.add_field( pt, field, 1, time_duration::from_turns( 0 ), false );
                     } else {

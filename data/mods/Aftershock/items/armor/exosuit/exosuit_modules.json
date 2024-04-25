@@ -4,7 +4,7 @@
     "type": "TOOL_ARMOR",
     "category": "exosuit",
     "name": { "str": "exosuit power supply unit" },
-    "description": "Designed to attach to an exosuit's back, this is a large rechargable battery with an integrated UPS.",
+    "description": "Designed to attach to an exosuit's back, this is a large rechargeable battery with an integrated UPS.",
     "weight": "15 kg",
     "volume": "20 L",
     "material": [ "plastic", "qt_steel" ],
@@ -12,7 +12,18 @@
     "looks_like": "storage_battery",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "flags": [ "FRAGILE", "CANT_WEAR", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "WATERPROOF", "IS_UPS", "EXO_PSU", "ONLY_ONE" ],
+    "flags": [
+      "FRAGILE",
+      "CANT_WEAR",
+      "NO_UNLOAD",
+      "NO_RELOAD",
+      "RECHARGE",
+      "WATERPROOF",
+      "IS_UPS",
+      "USE_UPS",
+      "EXO_PSU",
+      "ONLY_ONE"
+    ],
     "armor": [ { "encumbrance": 0, "coverage": 20, "covers": [ "torso" ] } ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 40000 } } ]
   },
@@ -29,7 +40,7 @@
     "looks_like": "1cyl_combustion",
     "color": "dark_gray",
     "ammo": "gasoline",
-    "flags": [ "FRAGILE", "CANT_WEAR", "WATERPROOF", "IS_UPS", "EXO_PSU", "ONLY_ONE" ],
+    "flags": [ "FRAGILE", "CANT_WEAR", "WATERPROOF", "IS_UPS", "USE_UPS", "EXO_PSU", "ONLY_ONE" ],
     "armor": [ { "encumbrance": 0, "coverage": 40, "covers": [ "torso" ] } ],
     "pocket_data": [
       {
@@ -54,7 +65,7 @@
     "looks_like": "1cyl_combustion",
     "color": "dark_gray",
     "ammo": [ "gasoline", "diesel", "jp8", "avgas", "lamp_oil", "motor_oil", "propane", "conc_alcohol", "ammonia_liquid" ],
-    "flags": [ "FRAGILE", "CANT_WEAR", "WATERPROOF", "IS_UPS", "EXO_PSU", "ONLY_ONE" ],
+    "flags": [ "FRAGILE", "CANT_WEAR", "WATERPROOF", "IS_UPS", "USE_UPS", "EXO_PSU", "ONLY_ONE" ],
     "armor": [ { "encumbrance": 0, "coverage": 40, "covers": [ "torso" ] } ],
     "pocket_data": [
       {
@@ -98,6 +109,7 @@
       "RECHARGE",
       "WATERPROOF",
       "IS_UPS",
+      "USE_UPS",
       "EXO_PSU",
       "LEAK_DAM",
       "RADIOACTIVE",
@@ -127,6 +139,7 @@
       "RECHARGE",
       "WATERPROOF",
       "IS_UPS",
+      "USE_UPS",
       "EXO_MEDIUM_GADGET",
       "ONLY_ONE"
     ],
@@ -145,7 +158,7 @@
     "looks_like": "storage_battery",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "flags": [ "FRAGILE", "CANT_WEAR", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "WATERPROOF", "IS_UPS", "EXO_SMALL_GADGET" ],
+    "flags": [ "FRAGILE", "CANT_WEAR", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "WATERPROOF", "IS_UPS", "USE_UPS", "EXO_SMALL_GADGET" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 2500 } } ]
   },
   {
@@ -235,7 +248,7 @@
   {
     "id": "exo_lense_module",
     "type": "TOOL",
-    "name": { "str": "exosuit multi lense zoom module" },
+    "name": { "str": "exosuit multi-lens zoom module" },
     "description": "A series of strangely shaped hexagonal lenses that flutter about inside your helmet.  As the lenses shift things around you stay perfectly in focus no matter your eyesight or distance.  It can be mounted to an exosuit helmet.",
     "weight": "500 g",
     "volume": "250 ml",
@@ -621,7 +634,7 @@
     "color": "light_gray",
     "name": "collapsed boarding axe",
     "description": "This is an exosuit-scale boarding axe, folded into a compact module.  Activate to extend.",
-    "weight": "3500 g",
+    "weight": "7500 g",
     "volume": "1500 ml",
     "longest_side": "45 cm",
     "flags": [ "DURABLE_MELEE", "BELT_CLIP", "NONCONDUCTIVE", "EXO_MEDIUM_GADGET" ],

@@ -20,7 +20,7 @@
         "place_monster": [
           { "monster": "mon_feral_scientist_scalpel", "name": "The Target", "x": 11, "y": 11, "target": true },
           { "monster": "mon_feral_labsecurity_9mm", "name": "The Guard", "x": 12, "y": 12 },
-          { "monster": "mon_feral_soldier", "name": "The Colaborator", "x": 9, "y": 9 },
+          { "monster": "mon_feral_soldier", "name": "The Collaborator", "x": 9, "y": 9 },
           { "monster": "mon_feral_fancy_rapier", "name": "The Aristocrat", "x": 13, "y": 13 },
           { "monster": "mon_feral_maid_broom", "name": "The Servant", "x": 12, "y": 13 }
         ]
@@ -722,7 +722,7 @@
     "id": "MISSION_LAST_DELIVERY",
     "type": "mission_definition",
     "name": { "str": "Deliver Your Cargo" },
-    "description": "You're not sure who orders takeout when the world's ending, but that doesn't matter.  Evacuation doesn't matter.  Nothing, indeed, matters, save for safely delivering your precious cargo to its destination: a remote mansion.  May Foodperson watch over you, soldier.",
+    "description": "You're not sure who orders takeout when the world's ending, but that doesn't matter.  Evacuation doesn't matter.  Nothing, indeed, matters, save for safely delivering your precious cargo to its destination: a remote mansion.",
     "goal": "MGOAL_GO_TO_TYPE",
     "destination": "mansion_c3",
     "difficulty": 1,

@@ -261,9 +261,9 @@
         "i": { "item": "SUS_office_desk", "chance": 70 },
         "p": { "item": "clothing_male", "chance": 70, "repeat": 3 },
         "P": [
-          { "item": "guns_pistol_milspec", "chance": 60, "repeat": 3 },
-          { "item": "ammo_pistol_milspec", "chance": 60, "repeat": 3 },
-          { "item": "prison_armor", "chance": 60, "repeat": 3 }
+          { "item": "guns_pistol_milspec", "chance": 60 },
+          { "item": "ammo_pistol_milspec", "chance": 60 },
+          { "item": "prison_armor", "chance": 60 }
         ],
         "n": { "item": "SUS_bathroom_sink", "chance": 90 }
       },
@@ -431,10 +431,10 @@
         "D": { "item": "textbooks", "chance": 80, "repeat": [ 1, 12 ] },
         "Y": [ { "item": "mut_lab", "chance": 33, "repeat": [ 1, 2 ] }, { "item": "chem_lab", "chance": 75, "repeat": [ 1, 3 ] } ],
         "B": [
-          { "item": "guns_rifle_milspec", "chance": 40, "repeat": [ 1, 4 ] },
-          { "item": "guns_smg_milspec", "chance": 40, "repeat": [ 1, 4 ] },
-          { "item": "ammo_rifle_milspec", "chance": 40, "repeat": [ 1, 4 ] },
-          { "item": "ammo_smg_milspec", "chance": 40, "repeat": [ 1, 4 ] }
+          { "item": "guns_rifle_milspec", "chance": 40 },
+          { "item": "guns_smg_milspec", "chance": 40 },
+          { "item": "ammo_rifle_milspec", "chance": 40 },
+          { "item": "ammo_smg_milspec", "chance": 40 }
         ]
       },
       "place_loot": [

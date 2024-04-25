@@ -17,15 +17,15 @@
       {
         "id": "type99ld",
         "name": { "str": "Arisaka Type 99 rifle" },
-        "description": "Standing as a clear example of what happens when a country losing a war realises that it's running out of resources and its rifles are ripe for corner-cutting, this Type 99 Arisaka, the standard service arm of imperial Japan from 1939, is a crewed end-of-war example.  Coated in machining marks, lacking an upper handguard, and with the early production anti-aircraft sights long since done away with, where early production Arisaka rifles are a feat in elegant engineering, this one is a last-ditch bang stick hammered together in a mostly bombed-out factory.  Aesthetics not withstanding, this weapon is still an effective and powerful shoulder arm, just… not the prettiest."
+        "description": "Standing as a clear example of what happens when a country losing a war realizes that it's running out of resources and its rifles are ripe for corner-cutting, this Type 99 Arisaka, the standard service arm of imperial Japan from 1939, is a crewed end-of-war example.  Coated in machining marks, lacking an upper handguard, and with the early production anti-aircraft sights long since done away with, where early production Arisaka rifles are a feat in elegant engineering, this one is a last-ditch bang stick hammered together in a mostly bombed-out factory.  Aesthetics not withstanding, this weapon is still an effective and powerful shoulder arm, just… not the prettiest."
       }
     ],
     "weight": "3790 g",
     "volume": "2680 ml",
     "longest_side": "1118 mm",
     "barrel_length": "657 mm",
-    "price": 65000,
-    "price_postapoc": 1850,
+    "price": "650 USD",
+    "price_postapoc": "18 USD 50 cent",
     "to_hit": -1,
     "material": [ "steel", "wood" ],
     "color": "brown",
@@ -34,13 +34,12 @@
     "durability": 10,
     "blackpowder_tolerance": 24,
     "clip_size": 5,
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "EASY_CLEAN" ],
+    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "EASY_CLEAN", "NO_TURRET" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bore", 1 ],
       [ "bayonet lug", 1 ],
       [ "brass catcher", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "sights mount", 1 ],
       [ "sling", 1 ],
       [ "grip mount", 1 ],
@@ -71,7 +70,7 @@
       {
         "id": "type99_sniper",
         "name": { "str": "Arisaka Type 99 sniper rifle" },
-        "description": "The standard sniper's weapon of Imperial Japan, this rifle is essentially an early production Type 99 Arisaka fitted with an offset optical sight and a bent bolt handle to facilitate stripper clip loading and easy manipulation despite the skope's presence.  While its 7.7x58mm chambering resulted in a muzzle flash and report that were significantly greater than those of the Type 97, which it sought to replace, the rifle's man-stopping potential is nothing to be trifled with.",
+        "description": "The standard sniper's weapon of Imperial Japan, this rifle is essentially an early production Type 99 Arisaka fitted with an offset optical sight and a bent bolt handle to facilitate stripper clip loading and easy manipulation despite the scope's presence.  While its 7.7x58mm chambering resulted in a muzzle flash and report that were significantly greater than those of the Type 97, which it sought to replace, the rifle's man-stopping potential is nothing to be trifled with.",
         "weight": 1
       }
     ],

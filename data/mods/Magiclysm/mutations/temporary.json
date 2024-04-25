@@ -11,11 +11,18 @@
     "description": "Magic has made you grow to enormous size!",
     "flags": [ "HUGE" ],
     "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
-    "stomach_size_multiplier": 2.0,
-    "weight_capacity_modifier": 1.1,
-    "cardio_multiplier": 1.25,
     "social_modifiers": { "intimidate": 15 },
-    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": 0.3 }, { "value": "STRENGTH", "add": 6 } ] } ]
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MAX_HP", "multiply": 0.3 },
+          { "value": "STRENGTH", "add": 6 },
+          { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 1 },
+          { "value": "CARDIO_MULTIPLIER", "multiply": 0.25 },
+          { "value": "CARRY_WEIGHT", "multiply": 0.1 }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -42,16 +49,16 @@
     "description": "You are resting in the depths of the earth.  You should never actually see this.",
     "player_display": false,
     "points": 0,
-    "fatigue_regen_modifier": 0.5,
-    "healing_awake": 0.8,
-    "healing_multiplier": 2.5,
-    "mending_modifier": 16,
     "enchantments": [
       {
         "values": [
           { "value": "HUNGER", "multiply": -1.0 },
           { "value": "THIRST", "multiply": -1.0 },
-          { "value": "METABOLISM", "multiply": -1.0 }
+          { "value": "METABOLISM", "multiply": -1.0 },
+          { "value": "SLEEPINESS_REGEN", "multiply": 0.5 },
+          { "value": "MENDING_MODIFIER", "multiply": 15 },
+          { "value": "REGEN_HP", "multiply": 1.5 },
+          { "value": "REGEN_HP_AWAKE", "multiply": 0.8 }
         ]
       }
     ]
@@ -63,7 +70,7 @@
     "description": "You can eat tons of food.  You should never actually see this.",
     "player_display": false,
     "points": 0,
-    "stomach_size_multiplier": 2.0
+    "enchantments": [ { "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -72,7 +79,7 @@
     "description": "You can eat tons of food.  You should never actually see this.",
     "player_display": false,
     "points": 0,
-    "stomach_size_multiplier": 4.0
+    "enchantments": [ { "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 3 } ] } ]
   },
   {
     "type": "mutation",
@@ -81,7 +88,7 @@
     "description": "You can eat tons of food.  You should never actually see this.",
     "player_display": false,
     "points": 0,
-    "stomach_size_multiplier": 6.0
+    "enchantments": [ { "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 5 } ] } ]
   },
   {
     "type": "mutation",
@@ -90,7 +97,7 @@
     "description": "You can eat tons of food.  You should never actually see this.",
     "player_display": false,
     "points": 0,
-    "stomach_size_multiplier": 8.0
+    "enchantments": [ { "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 7 } ] } ]
   },
   {
     "type": "mutation",
@@ -99,14 +106,6 @@
     "description": "You can eat tons of food.  You should never actually see this.",
     "player_display": false,
     "points": 0,
-    "stomach_size_multiplier": 10.0
-  },
-  {
-    "type": "mutation",
-    "id": "FOREST_STEALTH",
-    "name": { "str": "Cloak of Elvenkind: Forest Stealth" },
-    "description": "You have a much easier time hiding in the forest.",
-    "points": 2,
-    "stealth_modifier": 60
+    "enchantments": [ { "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 9 } ] } ]
   }
 ]

@@ -168,6 +168,11 @@
   },
   {
     "type": "item_group",
+    "id": "dead_vegetation",
+    "items": [ { "item": "twig", "prob": 15, "count": [ 5, 20 ] }, [ "withered", 60 ], [ "stick_long", 15 ], [ "stick", 30 ] ]
+  },
+  {
+    "type": "item_group",
     "id": "trash",
     "ammo": 20,
     "magazine": 50,
@@ -261,7 +266,8 @@
       [ "bubblewrap", 3 ],
       [ "survnote", 1 ],
       { "item": "lighter", "prob": 3, "charges-min": 0, "charges-max": 10 },
-      [ "flyer", 3 ]
+      [ "flyer", 3 ],
+      { "group": "pillbox_any_empty", "prob": 1 }
     ]
   },
   {

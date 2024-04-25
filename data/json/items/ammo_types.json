@@ -127,12 +127,6 @@
   },
   {
     "type": "ammunition_type",
-    "id": "shotpaper",
-    "name": "20ga percussion",
-    "default": "shot_paper_00"
-  },
-  {
-    "type": "ammunition_type",
     "id": "410shot",
     "name": ".410 shot",
     "default": "410shot_000"
@@ -532,6 +526,12 @@
     "id": "propane",
     "name": "propane",
     "default": "propane"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "biogas",
+    "name": "biogas",
+    "default": "biogas"
   },
   {
     "type": "ammunition_type",

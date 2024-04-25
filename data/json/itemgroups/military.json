@@ -736,6 +736,7 @@
       { "item": "match_trigger", "prob": 2 },
       { "item": "grapnel", "prob": 1 },
       { "item": "bucket", "prob": 4 },
+      { "item": "bucket_5gal", "prob": 4 },
       { "item": "sheath", "prob": 13 },
       { "item": "bootsheath", "prob": 8 },
       { "item": "leg_sheath6", "prob": 2 },

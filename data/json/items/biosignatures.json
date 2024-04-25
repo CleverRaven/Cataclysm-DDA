@@ -85,5 +85,66 @@
     "material": [ "chitin" ],
     "flags": [ "NO_SALVAGE" ],
     "volume": "62 ml"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "shed_snakeskin_little",
+    "name": { "str": "shed snakeskin" },
+    "copy-from": "shed_snakeskin",
+    "description": "A small length of shed snakeskin.  It's thin and translucent but still bears the distinct pattern of scales.",
+    "weight": "30 g",
+    "volume": "100 ml"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "shed_snakeskin",
+    "name": { "str": "shed snakeskin" },
+    "description": "The molted dermis of an adult snake.  This one is in one piece.  You can even see the individual eyes.",
+    "category": "spare_parts",
+    "comestible_type": "FOOD",
+    "material": [ "flesh" ],
+    "symbol": "~",
+    "color": "white",
+    "weight": "100 g",
+    "volume": "400 ml",
+    "spoils_in": "60 days",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "flags": [ "TRADER_AVOID", "INEDIBLE" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "shed_snakeskin_big",
+    "name": { "str": "big shed snakeskin" },
+    "copy-from": "shed_snakeskin",
+    "description": "A very large shed snakeskin.  This didn't come from anything native, or natural, to New England.",
+    "weight": "500 g",
+    "volume": "2 L"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "shed_snakeskin_giant",
+    "name": { "str": "gigantic shed snakeskin" },
+    "copy-from": "shed_snakeskin",
+    "description": "A complete shed snakeskin of tremendous size.  Whatever left it must be getting even bigger.  You should not be, or return to, wherever you found this.",
+    "weight": "1 kg",
+    "volume": "4 L"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "shed_snakeskin_scales",
+    "name": { "str_sp": "gigantic snake scales" },
+    "description": "A handful of greatly oversized scales from a snake.  This is a troubling find for a few reasons.  There's the size, obviously, but also the unusual hardness in spite of the obvious decay, and the fact that snakes don't shed individual scales like this.",
+    "category": "spare_parts",
+    "comestible_type": "FOOD",
+    "material": [ "chitin" ],
+    "symbol": "U",
+    "color": "brown",
+    "weight": "3 kg",
+    "volume": "4 L",
+    "spoils_in": "60 days",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "flags": [ "TRADER_AVOID", "INEDIBLE" ]
   }
 ]

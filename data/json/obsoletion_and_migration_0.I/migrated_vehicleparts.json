@@ -1,0 +1,14 @@
+[
+  {
+    "type": "vehicle_part_migration",
+    "//": "Remove after 0.I release",
+    "from": "ap_fridge",
+    "to": "ap_apartment_fridge"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "//": "Remove after 0.I release",
+    "from": "ap_freezer",
+    "to": "ap_apartment_freezer"
+  }
+]

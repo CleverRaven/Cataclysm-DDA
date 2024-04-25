@@ -4,8 +4,8 @@
     "type": "BOOK",
     "name": { "str": "holybook abstract" },
     "description": "theoretically this isn't a book at all",
-    "price": 550,
-    "price_postapoc": 550,
+    "price": "5 USD 50 cent",
+    "price_postapoc": "5 USD 50 cent",
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "looks_like": "story_book",
@@ -283,7 +283,7 @@
     "id": "holybook_anglican",
     "type": "BOOK",
     "name": { "str": "Anglican Book of Common Prayer", "str_pl": "copies of the Anglican Book of Common Prayer" },
-    "description": "A hardcover edition of the Anglican Book of Commom Prayer.  It once held great significance in the Anglican Church, but still contain a collection of liturgical prayers, rites, catechisms and instructions that provide a standardized format for various religious services and ceremonies.",
+    "description": "A hardcover edition of the Anglican Book of Common Prayer.  It once held great significance in the Anglican Church, but still contain a collection of liturgical prayers, rites, catechisms and instructions that provide a standardized format for various religious services and ceremonies.",
     "weight": "720 g",
     "volume": "1100 ml",
     "copy-from": "holybook_abstract"
@@ -415,7 +415,7 @@
     "id": "holybook_mo",
     "type": "BOOK",
     "name": { "str": "Buluotuo", "str_pl": "copies of the Buluotuo" },
-    "description": "This is very rare English translation of the Buluotuo, a sacred epic in Moism, the religion of most Zhuang people, the largest ethnic minority of China.  This book addresses the creation of the Universe and life as well as how to live a religiously meritorious life inside Moism.  This book also contains information on entities, deities, gods, godesses, prayers, practices and rituais of Moism.",
+    "description": "This is very rare English translation of the Buluotuo, a sacred epic in Moism, the religion of most Zhuang people, the largest ethnic minority of China.  This book addresses the creation of the Universe and life as well as how to live a religiously meritorious life inside Moism.  This book also contains information on entities, deities, gods, godesses, prayers, practices and rituals of Moism.",
     "weight": "370 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
@@ -505,7 +505,7 @@
     "id": "holybook_sumeria",
     "type": "BOOK",
     "name": { "str": "Enki and Ninhursag Myth", "str_pl": "copies of the Enki and Ninhursag Myth" },
-    "description": "A pretty uncomom English translation of the Enki and Ninhursag Myth, a Sumerian creation myth that explains the origins of the world, humanity, and the gods.",
+    "description": "A pretty uncommon English translation of the Enki and Ninhursag Myth, a Sumerian creation myth that explains the origins of the world, humanity, and the gods.",
     "weight": "368 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
@@ -622,7 +622,7 @@
       {
         "id": "holybook_east7",
         "name": { "str": "Sacred Books of the East Vol. 7", "str_pl": "copies of the seventh volume of the Sacred Books of the East" },
-        "description": "It contains The Institutes of Visnu.",
+        "description": "It contains The Institutes of Vishnu.",
         "append": true
       },
       {
@@ -892,7 +892,7 @@
           "str": "Sacred Books of the East Vol. 39",
           "str_pl": "copies of the thirty-ninth volume of the Sacred Books of the East"
         },
-        "description": "It contains the Texts of Taoism, part 1/2: The Tao Te Ching of Lao Dze (Lao Tsu) and The Writings of Kwang-tze (Chuang-tse), from I to XVII.",
+        "description": "It contains the Texts of Taoism, part 1/2: The Tao Te Ching of Lao Dze (Lao Tsu) and The Writings of Chuang-tse, from I to XVII.",
         "append": true
       },
       {
@@ -901,7 +901,7 @@
           "str": "Sacred Books of the East Vol. 40",
           "str_pl": "copies of the fourtieth volume of the Sacred Books of the East"
         },
-        "description": "It contains the Texts of Taoism, part 2/2: The Writings of Kwang Tse, from XVII to XXXIII, The Thai-shang tractate of actions and their retributions, other Taoist texts and the Index to volumes 39 and 40.",
+        "description": "It contains the Texts of Taoism, part 2/2: The Writings of Chuang-tse, from XVII to XXXIII, The Thai-shang tractate of actions and their retributions, other Taoist texts and the Index to volumes 39 and 40.",
         "append": true
       },
       {
@@ -1030,7 +1030,7 @@
       {
         "id": "holybook_nag_hammadi_05",
         "name": { "str": "Nag Hammadi Codex V", "str_pl": "copies of the fifth Nag Hammadi Codex" },
-        "description": "It contains Eugenostos the Blessed, the Apocalypse of Paul, the First Apocalypse of James, the Second Apocalypse of James, and the Apocalypse of Adam.",
+        "description": "It contains Eugnostos the Blessed, the Apocalypse of Paul, the First Apocalypse of James, the Second Apocalypse of James, and the Apocalypse of Adam.",
         "append": true
       },
       {
@@ -1111,8 +1111,8 @@
     "description": "A collection of essays, observations, and rituals published by Anton LaVey in 1969.",
     "weight": "130 g",
     "volume": "250 ml",
-    "price": 550,
-    "price_postapoc": 50,
+    "price": "5 USD 50 cent",
+    "price_postapoc": "50 cent",
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "story_book",
@@ -1156,8 +1156,8 @@
     "description": "This book is the canonical text of Scientology.  Written by a science fiction author, it contains self-improvement techniques and musings on psychology called Dianetics.",
     "weight": "486 g",
     "volume": "1 L",
-    "price": 550,
-    "price_postapoc": 550,
+    "price": "5 USD 50 cent",
+    "price_postapoc": "5 USD 50 cent",
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "looks_like": "story_book",
@@ -1305,7 +1305,7 @@
   {
     "id": "holybook_golden",
     "type": "BOOK",
-    "name": { "str": "The Orphic Gold Tablets", "str_pl": "copies of the The Orphic Gold Tablets" },
+    "name": { "str": "The Orphic Gold Tablets", "str_pl": "copies of The Orphic Gold Tablets" },
     "description": "A paperback English translation of the many texts, hymns and inscriptions found in the Orphic Gold Tablets, a series of ancient Greek texts found on gold leaves, dating back to the 4th century BCE.  This book contain Orphic teachings and rituals, which are believed to have been used by initiates in Orphic mystery cults, offering guidance on purification, initiation, and the afterlife, as well as instructions for living a virtuous life in accordance with the Greek gods' will.",
     "weight": "300 g",
     "volume": "900 ml",
@@ -1341,7 +1341,7 @@
   {
     "id": "holybook_mithraic",
     "type": "BOOK",
-    "name": { "str": "The Mithraic Inscriptions", "str_pl": "copies of the The Mithraic Inscriptions" },
+    "name": { "str": "The Mithraic Inscriptions", "str_pl": "copies of The Mithraic Inscriptions" },
     "description": "A commercial-grade, paperback English edition of The Mithraic Inscriptions, a book that explains the ancient Mithraic religion and its various inscriptions, artifacts, characteristics and rituals.  The book, written by a team of scholars and experts in the field, aims to provide a comprehensive understanding of the Mithraism and its significance in the ancient world.",
     "weight": "500 g",
     "volume": "1 L",
@@ -1655,7 +1655,7 @@
           "str": "Talmud, Vol. 19, Tractate Pesachim (Part 1)",
           "str_pl": "copies of the Talmud, Vol. 19, Tractate Pesachim (Part 1)"
         },
-        "description": "This is volume 19 of 51, containing the first part of Tractate Pesachim.  It discusses laws relating to Passover, such as the the proper disposal of leaven and the preparation of unleavened bread.",
+        "description": "This is volume 19 of 51, containing the first part of Tractate Pesachim.  It discusses laws relating to Passover, such as the proper disposal of leaven and the preparation of unleavened bread.",
         "append": true
       },
       {
@@ -1676,13 +1676,13 @@
       {
         "id": "holybook_talmud_22",
         "name": { "str": "Talmud, Vol. 22, Tractate Yoma", "str_pl": "copies of the Talmud, Vol. 22, Tractate Yoma" },
-        "description": "This is volume 22 of 51, containing Tractate Yoma.  It discusses the the rituals and laws related to Yom Kippur, primarily concerned with the Temple service.",
+        "description": "This is volume 22 of 51, containing Tractate Yoma.  It discusses the rituals and laws related to Yom Kippur, primarily concerned with the Temple service.",
         "append": true
       },
       {
         "id": "holybook_talmud_23",
         "name": { "str": "Talmud, Vol. 23, Tractate Sukkah", "str_pl": "copies of the Talmud, Vol. 23, Tractate Sukkah" },
-        "description": "This is volume 23 of 51, containing Tractate Sukkah.  It discusses the the rituals and laws related to Sukkot, such as dwelling in the Sukkah and the four species of plants.",
+        "description": "This is volume 23 of 51, containing Tractate Sukkah.  It discusses the rituals and laws related to Sukkot, such as dwelling in the Sukkah and the four species of plants.",
         "append": true
       },
       {
@@ -1831,7 +1831,7 @@
       },
       {
         "id": "holybook_talmud_43",
-        "name": { "str": "Talmud, Vol. 43, Tractate Bava Metzia", "str_pl": "copies of the Talmud, Vol. 43, Tractate Bava Meztia" },
+        "name": { "str": "Talmud, Vol. 43, Tractate Bava Metzia", "str_pl": "copies of the Talmud, Vol. 43, Tractate Bava Metzia" },
         "description": "This is volume 43 of 51, containing Tractate Bava Metzia.  It discusses interpersonal disputes such as lost property, renting, and obligations of workers and employers, with a digression into how great sages who spend their lives studying Torah are.  It also reiterates the story of the Oven of Akhnai.",
         "append": true
       },
@@ -1916,8 +1916,8 @@
     "description": "The five books of Moses, written on animal skin by a trained scribe in accordance with the laws and customs of traditional Jewish calligraphy and bound onto wooden rollers.  Once very expensive, it would now be beyond price, if there are any Jewish communities left to use it.",
     "weight": "12000 g",
     "volume": "24 L",
-    "price": 4000000,
-    "price_postapoc": 200,
+    "price": "40 kUSD",
+    "price_postapoc": "2 USD",
     "longest_side": "48 cm",
     "material": [ "leather", "wood" ],
     "copy-from": "holybook_abstract"
@@ -2043,7 +2043,7 @@
     "id": "holybook_bahai5",
     "type": "BOOK",
     "name": { "str": "'Some Answered Questions'", "str_pl": "copies of 'Some Answered Questions'" },
-    "description": "A hardcover book containing a collection of transcriptions of table talks given by 'Abdu'l‑Bahá in 'Akká between 1904 and 1906 in response to questions posed by Laura Dreyfus-Barney, an American Bahá'í resident in Paris, and first published in 1908.  This book provides clarity, guidance, and understanding to Baha'is and those seeking to learn more about the religion.",
+    "description": "A hardcover book containing a collection of transcriptions of table talks given by 'Abdu'l-Bahá in 'Akká between 1904 and 1906 in response to questions posed by Laura Dreyfus-Barney, an American Bahá'í resident in Paris, and first published in 1908.  This book provides clarity, guidance, and understanding to Baha'is and those seeking to learn more about the religion.",
     "weight": "540 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"

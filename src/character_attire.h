@@ -2,20 +2,41 @@
 #ifndef CATA_SRC_CHARACTER_ATTIRE_H
 #define CATA_SRC_CHARACTER_ATTIRE_H
 
-#include "advanced_inv_listitem.h"
+#include <cstddef>
+#include <functional>
+#include <iosfwd>
+#include <list>
+#include <map>
+#include <optional>
+#include <set>
+#include <string>
+#include <unordered_set>
+#include <utility>
+#include <vector>
+
+#include "body_part_set.h"
 #include "bodypart.h"
 #include "color.h"
 #include "item.h"
-#include "magic.h"
-#include "magic_spell_effect_helpers.h"
+#include "item_location.h"
+#include "ret_val.h"
+#include "subbodypart.h"
+#include "type_id.h"
 #include "units.h"
+#include "visitable.h"
 
-class advanced_inventory_pane;
+class Character;
+class JsonObject;
+class JsonOut;
 class advanced_inv_area;
+class advanced_inv_listitem;
+class advanced_inventory_pane;
 class avatar;
+class item_pocket;
 class npc;
 class player_morale;
 struct bodygraph_info;
+struct damage_unit;
 
 using drop_location = std::pair<item_location, int>;
 using drop_locations = std::list<drop_location>;
@@ -80,7 +101,8 @@ class outfit
                                    const body_part_set &worn_item_body_parts ) const;
         // will someone get shocked by zapback
         bool hands_conductive() const;
-        bool can_pickVolume( const item &it, bool ignore_pkt_settings = true ) const;
+        bool can_pickVolume( const item &it, bool ignore_pkt_settings = true,
+                             bool is_pick_up_inv = false ) const;
         side is_wearing_shoes( const bodypart_id &bp ) const;
         bool is_barefoot() const;
         item item_worn_with_flag( const flag_id &f, const bodypart_id &bp ) const;
@@ -106,8 +128,6 @@ class outfit
         bool natural_attack_restricted_on( const sub_bodypart_id &bp ) const;
         units::mass weight_carried_with_tweaks( const std::map<const item *, int> &without ) const;
         units::mass weight() const;
-        float weight_capacity_modifier() const;
-        units::mass weight_capacity_bonus() const;
         units::volume holster_volume() const;
         int used_holsters() const;
         int total_holsters() const;
@@ -150,14 +170,6 @@ class outfit
         float damage_resist( const damage_type_id &dt, const bodypart_id &bp, bool to_self = false ) const;
         // sums the coverage of items that do not have the listed flags
         int coverage_with_flags_exclude( const bodypart_id &bp, const std::vector<flag_id> &flags ) const;
-
-        /** Splash a liquid on a character's body and equipment via magic_spell_effect. Splash attacks are blocked by a combination of coverage
-         * and breathability, and items use their armor values to resist being damaged if the spell is flagged to damage them.
-         */
-        void splash_attack( Character &guy, const spell &sp, Creature &caster, bodypart_id bp );
-        // Used with splash_attack. Returns a string relative to the amount of liquid involved in the attack.
-        std::string get_liquid_descriptor( int liquid_remaining = 0 );
-
         int get_coverage( bodypart_id bp,
                           item::cover_type cover_type = item::cover_type::COVER_DEFAULT ) const;
         void bodypart_exposure( std::map<bodypart_id, float> &bp_exposure,

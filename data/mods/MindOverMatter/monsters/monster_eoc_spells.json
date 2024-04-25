@@ -59,21 +59,21 @@
     "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "effect": "recover_energy",
     "effect_str": "STAMINA",
-    "extra_effects": [ { "id": "eater_drain_fatigue", "hit_self": false, "max_level": 3 } ],
+    "extra_effects": [ { "id": "eater_drain_sleepiness", "hit_self": false, "max_level": 3 } ],
     "shape": "blast",
     "max_level": 1,
     "min_damage": -200,
     "min_range": 30
   },
   {
-    "id": "eater_drain_fatigue",
+    "id": "eater_drain_sleepiness",
     "type": "SPELL",
-    "name": "[Ψ]Eater Drain Fatigue",
-    "description": "Eater's spell to drain fatigue.  It's a bug if you have it.",
+    "name": "[Ψ]Eater Drain Sleepiness",
+    "description": "Eater's spell to drain sleepiness.  It's a bug if you have it.",
     "valid_targets": [ "self" ],
     "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "effect": "recover_energy",
-    "effect_str": "FATIGUE",
+    "effect_str": "SLEEPINESS",
     "shape": "blast",
     "max_level": 1,
     "min_damage": -2,
@@ -99,5 +99,73 @@
     "id": "pigeon_aura",
     "condition": "u_is_character",
     "effect": [ { "math": [ "u_vitamin('passenger_pigeon_aura')", "+=", "400 + rand(100)" ] } ]
+  },
+  {
+    "id": "null_break_concentration_spell",
+    "type": "SPELL",
+    "name": "[Ψ]Breaker end powers",
+    "description": "Breaker's power that ends concentration.  It's a bug if you have it.",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_NULL_BREAK_CONCENTRATION",
+    "shape": "blast",
+    "max_level": 1,
+    "min_damage": 1,
+    "max_damage": 2,
+    "min_range": 25
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NULL_BREAK_CONCENTRATION",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_telepathic_psi_armor" },
+        { "x_in_y_chance": { "x": { "math": [ "u_spell_level('telepathic_shield')" ] }, "y": 12 } }
+      ]
+    },
+    "effect": [ { "u_message": "Icy fingers crawl across the surface of your mind, but your powers repel them.", "type": "bad" } ],
+    "false_effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_NULL_BREAK_CONCENTRATION_2",
+            "condition": { "math": [ "u_vitamin('vitamin_maintained_powers')", ">=", "1" ] },
+            "effect": [
+              {
+                "run_eocs": [
+                  {
+                    "id": "EOC_NULL_BREAK_CONCENTRATION_3",
+                    "condition": {
+                      "x_in_y_chance": {
+                        "x": {
+                          "math": [
+                            "5 - u_has_proficiency('prof_concentration_basic') - u_has_proficiency('prof_concentration_intermediate') - u_has_proficiency('prof_concentration_master')"
+                          ]
+                        },
+                        "y": 5
+                      }
+                    },
+                    "effect": [
+                      { "u_message": "An icy dagger seems to stab into your brain.", "type": "bad" },
+                      { "math": [ "u_pain()", "+=", "rand(3) + 1" ] },
+                      { "run_eocs": "EOC_END_PSI_POWERS_MAINTAINED" }
+                    ],
+                    "false_effect": [
+                      { "u_message": "Icy fingers crawl across your brain for a moment.", "type": "bad" },
+                      { "math": [ "u_pain()", "+=", "1" ] }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "false_effect": [
+              { "u_message": "Icy fingers crawl across your brain for a moment.", "type": "bad" },
+              { "math": [ "u_pain()", "+=", "1" ] }
+            ]
+          }
+        ]
+      }
+    ]
   }
 ]

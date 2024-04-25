@@ -168,21 +168,6 @@
   },
   {
     "type": "snippet",
-    "category": "mutant_tree_communion",
-    "text": [
-      "You feel something like laughter through your roots.",
-      "The trees hear you, the first of your kind.",
-      "The impossible task of survival seems suddenly quite simple.",
-      "You feel the presence of another like yourself.",
-      "An inquisitive mind probes at you, its curiosity unique among the whispering leaves.",
-      "The brief sensation that someone is holding your hand is almost enough to bring you to tears.",
-      "You dream of a wooded grove.  Peace.  Family.",
-      "In your mind's eye you walk the woods, a familiar presence by your side.",
-      "A gentle feeling washes over you like a tender hug."
-    ]
-  },
-  {
-    "type": "snippet",
     "category": "headshop_graffiti",
     "text": [ "(~);}", "<given_name> + <given_name> forever", "Be Kind", "Save the whales!" ]
   },
@@ -333,22 +318,22 @@
     "text": [
       {
         "id": "artisan_prototypes_1",
-        "effect_on_examine": [ { "u_add_var": "seen_blacksmith_sketches", "type": "dialogue", "context": "artisans", "value": "yes" } ],
+        "effect_on_examine": [ { "u_add_var": "dialogue_artisans_seen_blacksmith_sketches", "value": "yes" } ],
         "text": "A collection of sketches and CAD designs marked up with a pencil.  They depict a classic rifle and several diagrams of curved wooden maces.  The word 'OBREZ?' is written clearly on the front sheet.  There are two distinct sets of handwriting making notes."
       },
       {
         "id": "artisan_prototypes_2",
-        "effect_on_examine": [ { "u_add_var": "seen_blacksmith_sketches", "type": "dialogue", "context": "artisans", "value": "yes" } ],
+        "effect_on_examine": [ { "u_add_var": "dialogue_artisans_seen_blacksmith_sketches", "value": "yes" } ],
         "text": "A collection of sketches and CAD designs marked up with a pencil.  They depict a large mace with an internal gas reservoir and venting holes between the steel segments.  There are additional diagrams labeled 'IGNITION SYSTEM' and 'TRIGGER?'.  There are two distinct sets of handwriting making notes."
       },
       {
         "id": "artisan_prototypes_3",
-        "effect_on_examine": [ { "u_add_var": "seen_blacksmith_sketches", "type": "dialogue", "context": "artisans", "value": "yes" } ],
+        "effect_on_examine": [ { "u_add_var": "dialogue_artisans_seen_blacksmith_sketches", "value": "yes" } ],
         "text": "A collection of sketches and CAD designs marked up with a pencil.  They depict a bladed weapon with some audio equipment implanted.  Doodles of hair metal rock stars line the page, as well as the words 'LETS, HEAR IT FOR FRANKY'.  There are two distinct sets of handwriting making notes."
       },
       {
         "id": "artisan_prototypes_4",
-        "effect_on_examine": [ { "u_add_var": "seen_blacksmith_sketches", "type": "dialogue", "context": "artisans", "value": "yes" } ],
+        "effect_on_examine": [ { "u_add_var": "dialogue_artisans_seen_blacksmith_sketches", "value": "yes" } ],
         "text": "A collection of sketches and CAD designs marked up with a pencil.  They depict a sledgehammer with a moving center.  There is a references doc for a powder actuated nail gun stapled to the sheets.  There are two distinct sets of handwriting making notes."
       }
     ]

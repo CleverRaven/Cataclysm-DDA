@@ -14,7 +14,7 @@
             "or": [
               { "npc_need": "thirst", "amount": 80 },
               { "npc_need": "hunger", "amount": 160 },
-              { "npc_need": "fatigue", "level": "TIRED" },
+              { "npc_need": "sleepiness", "level": "TIRED" },
               { "npc_has_effect": "asked_to_hint" },
               "u_driving",
               "npc_driving"
@@ -150,7 +150,7 @@
   {
     "id": "TALK_ALLY_TUTORIAL_HORSES",
     "type": "talk_topic",
-    "dynamic_line": "If there's a friendly horse with a saddle nearby, you tell me to mount up, I'll go over and get on it.  You may need to feed a feral horse some cattlefodder to get it act tame and friendly, and e'x'amine it while you have a saddle in your inventory in order to put the saddle on.  You can also ride yourself, if you know how how.\n  You want me to get off a horse, you just tell me.  You can get off a horse with the vehicle control key (keybind '^').\n  While we're on horses, we'll just move normally, but a lot faster.  It's a good way to get places more quickly than we could on our own two feet.",
+    "dynamic_line": "If there's a friendly horse with a saddle nearby, you tell me to mount up, I'll go over and get on it.  You may need to feed a feral horse some cattle fodder to get it act tame and friendly, and e'x'amine it while you have a saddle in your inventory in order to put the saddle on.  You can also ride yourself, if you know how how.\n  You want me to get off a horse, you just tell me.  You can get off a horse with the vehicle control key (keybind '^').\n  While we're on horses, we'll just move normally, but a lot faster.  It's a good way to get places more quickly than we could on our own two feet.",
     "responses": [ { "text": "You said something about being to go places.", "topic": "TALK_ALLY_TUTORIAL_MOVEMENT" } ]
   },
   {

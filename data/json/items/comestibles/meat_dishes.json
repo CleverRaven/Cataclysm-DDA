@@ -4,7 +4,7 @@
     "id": "sausage_raw",
     "name": { "str": "raw sausage" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": "raw Mannwurst" },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": "raw Mannwurst" },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": "raw killbasa" },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "sinister %s" } }
     ],
@@ -17,8 +17,8 @@
     "calories": 474,
     "parasites": 32,
     "description": "A hefty raw sausage, prepared for smoking or cooking.",
-    "price": 1600,
-    "price_postapoc": 200,
+    "price": "16 USD",
+    "price_postapoc": "2 USD",
     "material": [ "flesh" ],
     "volume": "250 ml",
     "flags": [ "SMOKABLE" ],
@@ -31,14 +31,14 @@
     "id": "sausage",
     "name": { "str": "smoked sausage" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": "smoked Mannwurst" },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": "smoked Mannwurst" },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": "smoked killbasa" },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "sinister %s" } }
     ],
     "copy-from": "sausage_raw",
     "parasites": 0,
     "spoils_in": "14 days",
-    "price_postapoc": 300,
+    "price_postapoc": "3 USD",
     "description": "A hefty sausage that has been cured and smoked for long term storage.",
     "flags": [ "EATEN_HOT", "SMOKED" ],
     "fun": 5
@@ -48,7 +48,7 @@
     "id": "sausage_cooked",
     "name": { "str": "cooked sausage" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": "cooked Mannwurst" },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": "cooked Mannwurst" },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": "cooked killbasa" },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "sinister %s" } }
     ],
@@ -56,7 +56,7 @@
     "parasites": 0,
     "fun": 5,
     "spoils_in": "2 days",
-    "price_postapoc": 200,
+    "price_postapoc": "2 USD",
     "description": "A hefty cooked sausage.  Better eat it hot and fresh.",
     "flags": [ "EATEN_HOT" ]
   },
@@ -66,7 +66,7 @@
     "looks_like": "meat_cooked",
     "name": { "str_sp": "meat confit" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "con confit" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "con confit" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "birdman confit" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "twisted confit" } }
     ],
@@ -79,8 +79,8 @@
     "quench": -2,
     "calories": 716,
     "description": "Salted meat slowly cooked in butter or melted fat, a form of food preservation from the days before canning.  Rich and fatty, it will last for a long time.",
-    "price": 600,
-    "price_postapoc": 350,
+    "price": "6 USD",
+    "price_postapoc": "3 USD 50 cent",
     "material": [ "flesh" ],
     "volume": "250 ml",
     "vitamins": [ [ "calcium", 2 ], [ "iron", 20 ] ],
@@ -99,10 +99,10 @@
     "symbol": "%",
     "calories": 539,
     "description": "A sweet and delicious maple-flavored sausage.  Better eat it hot and fresh.",
-    "price": 2400,
+    "price": "24 USD",
     "material": [ "flesh" ],
     "volume": "250 ml",
-    "price_postapoc": 250,
+    "price_postapoc": "2 USD 50 cent",
     "vitamins": [ [ "vitC", 4 ], [ "iron", 22 ] ],
     "flags": [ "EATEN_HOT" ],
     "fun": 8
@@ -112,7 +112,7 @@
     "id": "blutwurst_sausage",
     "name": { "str": "blutwurst" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": "Menschenblutwurst" },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": "Menschenblutwurst" },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": "Mein teil" },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "baleful %s" } }
     ],
@@ -137,7 +137,7 @@
     "id": "bratwurst_sausage",
     "name": { "str": "bratwurst" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": "Mannbrat" },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": "Mannbrat" },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": "frankenfurter" },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "baleful %s" } }
     ],
@@ -168,8 +168,8 @@
     "symbol": "%",
     "calories": 637,
     "description": "A chunk of meat coated with royal jelly.  It's a lot like a honey-baked ham.",
-    "price": 21000,
-    "price_postapoc": 4500,
+    "price": "210 USD",
+    "price_postapoc": "45 USD",
     "material": [ "flesh" ],
     "volume": "500 ml",
     "fun": 7,
@@ -317,7 +317,7 @@
     "id": "currywurst",
     "name": { "str": "currywurst" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "cheapskate %s" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "cheapskate %s" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "confusing %s" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "bloodcurdling %s" } }
     ],
@@ -344,7 +344,7 @@
     "name": { "str_sp": "aspic" },
     "conditional_names": [
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "abomination %s" } },
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "amoral %s" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "amoral %s" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "Orwell's %s" } }
     ],
     "weight": "154 g",
@@ -355,8 +355,8 @@
     "calories": 213,
     "//": "Same as the meat it's been made from.  It's additional ingredient compared to smoking, jerking, and dehydrating, so there's no incentive otherwise.",
     "description": "A dish in which meat or fish is set into a gelatin made from a meat or vegetable stock.",
-    "price": 2500,
-    "price_postapoc": 150,
+    "price": "25 USD",
+    "price_postapoc": "1 USD 50 cent",
     "material": [ "flesh" ],
     "volume": "250 ml",
     "vitamins": [ [ "vitC", 15 ], [ "calcium", 2 ], [ "iron", 8 ] ],
@@ -373,8 +373,8 @@
     "spoils_in": "360 days",
     "quench": -3,
     "description": "Dehydrated fish flakes.  With proper storage, this dried food will remain edible for an incredibly long time.",
-    "price": 500,
-    "price_postapoc": 250,
+    "price": "5 USD",
+    "price_postapoc": "2 USD 50 cent",
     "volume": "125 ml",
     "flags": [ "EDIBLE_FROZEN" ]
   },
@@ -385,7 +385,7 @@
     "copy-from": "fish_cooked",
     "color": "white",
     "description": "Reconstituted fish flakes, which are much more enjoyable to eat now that they have been rehydrated.",
-    "price": 500,
+    "price": "5 USD",
     "fun": 2
   },
   {
@@ -399,8 +399,8 @@
     "spoils_in": "360 days",
     "quench": -3,
     "description": "Dehydrated lobster meat.  With proper storage, this dried food will remain edible for an incredibly long time.",
-    "price": 500,
-    "price_postapoc": 300,
+    "price": "5 USD",
+    "price_postapoc": "3 USD",
     "volume": "125 ml",
     "flags": [ "EDIBLE_FROZEN" ]
   },
@@ -411,7 +411,7 @@
     "copy-from": "lobster_cooked",
     "color": "white",
     "description": "Reconstituted lobster meat, which is much more enjoyable to eat now that it has been rehydrated.",
-    "price": 500,
+    "price": "5 USD",
     "fun": 4
   },
   {
@@ -425,8 +425,8 @@
     "spoils_in": "360 days",
     "quench": -3,
     "description": "Dehydrated mollusk meat.  With proper storage, this dried food will remain edible for an incredibly long time.",
-    "price": 500,
-    "price_postapoc": 300,
+    "price": "5 USD",
+    "price_postapoc": "3 USD",
     "volume": "125 ml",
     "flags": [ "EDIBLE_FROZEN" ]
   },
@@ -437,7 +437,7 @@
     "copy-from": "mollusk_cooked",
     "color": "pink",
     "description": "Reconstituted mollusk meat, which is much more enjoyable to eat now that it has been rehydrated.",
-    "price": 500,
+    "price": "5 USD",
     "fun": 4
   },
   {
@@ -462,8 +462,8 @@
     "spoils_in": "1 day 16 hours",
     "container": "can_food",
     "description": "Low-sodium boiled and canned fish.  Contains most of the nutrition, but little of the savor of cooked fish.",
-    "price": 250,
-    "price_postapoc": 250,
+    "price": "2 USD 50 cent",
+    "price_postapoc": "2 USD 50 cent",
     "sealed": true,
     "fun": 2
   },
@@ -476,8 +476,8 @@
     "spoils_in": "1 day 16 hours",
     "container": "can_food",
     "description": "Low-sodium boiled and canned lobster.  Contains most of the nutrition, but little of the savor of cooked lobster.",
-    "price": 250,
-    "price_postapoc": 250,
+    "price": "2 USD 50 cent",
+    "price_postapoc": "2 USD 50 cent",
     "sealed": true,
     "fun": 4
   },
@@ -493,8 +493,8 @@
     "symbol": "f",
     "calories": 381,
     "description": "A delicious pair of golden-brown crispy fried frog legs.",
-    "price": 700,
-    "price_postapoc": 300,
+    "price": "7 USD",
+    "price_postapoc": "3 USD",
     "material": [ "flesh" ],
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
@@ -513,8 +513,8 @@
     "symbol": "%",
     "calories": 748,
     "description": "A delicious golden-brown serving of crispy fried fish.",
-    "price": 500,
-    "price_postapoc": 400,
+    "price": "5 USD",
+    "price_postapoc": "4 USD",
     "material": [ "flesh" ],
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
@@ -572,8 +572,8 @@
     "symbol": "%",
     "calories": 180,
     "description": "Meat that has been cooked, preserved, and cut into thin slices for convenient sandwich construction.  It tastes fine cold.",
-    "price": 14,
-    "price_postapoc": 75,
+    "price": "14 cent",
+    "price_postapoc": "75 cent",
     "//": "*Looking for ~$6 per pound here.",
     "material": [ "flesh" ],
     "volume": "75 ml",
@@ -584,7 +584,7 @@
     "id": "bologna",
     "name": { "str_sp": "bologna" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "brat %s" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "brat %s" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "Tumnis %s" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "bleak %s" } }
     ],
@@ -616,8 +616,8 @@
     "quench": -2,
     "calories": 260,
     "description": "Preserved fish that has been dried in a lye solution.  Vile and soap-like yet highly nutritious, it is reminiscent of the afterbirth of a dog or the world's largest chunk of phlegm.",
-    "price": 200,
-    "price_postapoc": 250,
+    "price": "2 USD",
+    "price_postapoc": "2 USD 50 cent",
     "material": [ "flesh" ],
     "primary_material": "cured_meat",
     "volume": "250 ml",
@@ -670,8 +670,8 @@
     "quench": -8,
     "calories": 340,
     "description": "Salty little fish.  They'll make you thirsty.",
-    "price": 200,
-    "price_postapoc": 300,
+    "price": "2 USD",
+    "price_postapoc": "3 USD",
     "material": [ "flesh" ],
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
@@ -683,7 +683,7 @@
     "id": "sausagegravy",
     "name": { "str_sp": "sausage gravy" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "Mannwurst gravy" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "Mannwurst gravy" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "killbasa gravy" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "ghastly %s" } }
     ],
@@ -696,8 +696,8 @@
     "quench": 6,
     "calories": 363,
     "description": "Biscuits, meat, and delicious mushroom soup all crammed together into a wonderfully greasy and tasty mush.",
-    "price": 1000,
-    "price_postapoc": 200,
+    "price": "10 USD",
+    "price_postapoc": "2 USD",
     "material": [ "flesh", "wheat", "mushroom" ],
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
@@ -708,7 +708,7 @@
     "id": "pemmican",
     "name": { "str_sp": "pemmican" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "prepper %s" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "prepper %s" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "Orley %s" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "pernicious %s" } }
     ],
@@ -721,8 +721,8 @@
     "quench": -2,
     "calories": 440,
     "description": "A concentrated mixture of fat and protein, first said to have been used as a nutritious high-energy food by the Querecho and Teya people of what is Texas today.  Composed of meat, tallow, and edible berries, it provides excellent nutrition in an easy to carry form.",
-    "price": 600,
-    "price_postapoc": 350,
+    "price": "6 USD",
+    "price_postapoc": "3 USD 50 cent",
     "material": [ "flesh", "fruit" ],
     "volume": "120 ml",
     "vitamins": [ [ "vitC", 3 ], [ "calcium", 5 ], [ "iron", 21 ] ],
@@ -733,7 +733,7 @@
     "id": "pemmican_veggy",
     "name": { "str_sp": "pemmican" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "prepper %s" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "prepper %s" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "Orley %s" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "pernicious %s" } }
     ],
@@ -746,8 +746,8 @@
     "quench": -2,
     "calories": 440,
     "description": "A concentrated mixture of fat and protein, first said to have been used as a nutritious high-energy food by the Querecho and Teya people of what is Texas today.  Composed of meat, tallow, and edible plants or mushrooms, it provides excellent nutrition in an easy to carry form.",
-    "price": 599,
-    "price_postapoc": 350,
+    "price": "5 USD 99 cent",
+    "price_postapoc": "3 USD 50 cent",
     "material": [ "flesh", "veggy" ],
     "volume": "120 ml",
     "vitamins": [ [ "vitC", 3 ], [ "calcium", 5 ], [ "iron", 21 ] ],
@@ -758,7 +758,7 @@
     "id": "pemmican_meat",
     "name": { "str_sp": "pemmican (meat only)" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "prepper %s" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "prepper %s" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "Orley %s" } },
       { "type": "COMPONENT_ID", "condition": "mutant", "name": { "str_sp": "pernicious %s" } }
     ],
@@ -771,8 +771,8 @@
     "quench": -3,
     "calories": 400,
     "description": "A concentrated mixture of fat and protein, first said to have been used as a nutritious high-energy food by the Querecho and Teya people of what is Texas today.  Composed of meat and tallow, it provides excellent nutrition in an easy to carry form.  Contains no fruits or veggies.",
-    "price": 500,
-    "price_postapoc": 300,
+    "price": "5 USD",
+    "price_postapoc": "3 USD",
     "material": [ "flesh" ],
     "volume": "110 ml",
     "vitamins": [ [ "calcium", 4 ], [ "iron", 20 ] ],
@@ -783,7 +783,7 @@
     "id": "macaroni_helper",
     "name": { "str_sp": "hamburger helper" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "hobo helper" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "hobo helper" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "halfling helper" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "heinous %s" } }
     ],
@@ -796,8 +796,8 @@
     "quench": 13,
     "calories": 393,
     "description": "Some mac and cheese with ground meat added, enhancing the flavor and nutritional value.",
-    "price": 490,
-    "price_postapoc": 200,
+    "price": "4 USD 90 cent",
+    "price_postapoc": "2 USD",
     "material": [ "wheat", "flesh", "milk" ],
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
@@ -828,7 +828,7 @@
     "id": "chili",
     "name": { "str_sp": "chili con carne" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "chili con cabron" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "chili con Cabron" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "chili con Sindar" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "chili con chupacabra" } }
     ],
@@ -881,8 +881,8 @@
     "symbol": "%",
     "calories": 305,
     "description": "Now with 95 percent fewer dolphins!",
-    "price": 200,
-    "price_postapoc": 300,
+    "price": "2 USD",
+    "price_postapoc": "3 USD",
     "material": [ "flesh" ],
     "volume": "250 ml",
     "fun": 2,
@@ -900,8 +900,8 @@
     "symbol": "%",
     "calories": 276,
     "description": "Bright pink fish-paste from a can.",
-    "price": 500,
-    "price_postapoc": 350,
+    "price": "5 USD",
+    "price_postapoc": "3 USD 50 cent",
     "material": [ "flesh" ],
     "volume": "250 ml",
     "fun": 1,
@@ -958,8 +958,8 @@
     "quench": 1,
     "calories": 240,
     "description": "Chopped quahog clams in water.",
-    "price": 500,
-    "price_postapoc": 500,
+    "price": "5 USD",
+    "price_postapoc": "5 USD",
     "material": [ "flesh" ],
     "volume": "250 ml",
     "fun": 2,
@@ -1057,7 +1057,7 @@
     "id": "pie_meat",
     "name": { "str": "meat pie" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "prick pie" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str": "prick pie" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str": "talking animal pie" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "malignant %s" } }
     ],
@@ -1083,7 +1083,7 @@
     "id": "pizza_meat",
     "name": { "str": "meat pizza" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "poser pizza" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str": "poser pizza" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str": "protesting pizza" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "miserable %s" } }
     ],
@@ -1112,8 +1112,8 @@
     "weight": "300 g",
     "calories": 641,
     "description": "A supreme pizza with ALL the toppings.",
-    "price": 1500,
-    "price_postapoc": 1500,
+    "price": "15 USD",
+    "price_postapoc": "15 USD",
     "material": [ "wheat", "flesh", "veggy", "milk" ],
     "fun": 11,
     "vitamins": [ [ "vitC", 20 ], [ "calcium", 32 ], [ "iron", 28 ] ]
@@ -1123,7 +1123,7 @@
     "id": "deluxe_eggs",
     "name": { "str_sp": "deluxe scrambled eggs" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "deluxe scrambled eggheads" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "deluxe scrambled eggheads" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "birdman's scrambled eggs" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "\"deluxe\" scrambled eggs" } }
     ],
@@ -1147,7 +1147,7 @@
     "id": "meat_canned",
     "name": { "str_sp": "canned meat" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "soylent slice" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "soylent slice" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "sapient slice" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "%s, mutant" } }
     ],
@@ -1156,8 +1156,8 @@
     "spoils_in": "1 day 16 hours",
     "container": "can_food",
     "description": "Low-sodium boiled and canned meat.  Contains most of the nutrition, but little of the savor of cooked meat.",
-    "price": 250,
-    "price_postapoc": 250,
+    "price": "2 USD 50 cent",
+    "price_postapoc": "2 USD 50 cent",
     "flags": [ "EATEN_HOT" ],
     "sealed": true,
     "fun": 2
@@ -1167,7 +1167,7 @@
     "id": "meat_salted",
     "name": { "str_sp": "salted meat slice" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "salted simpleton slice" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "salted simpleton slice" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "salted sapient slice" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "%s, mutant" } }
     ],
@@ -1177,8 +1177,8 @@
     "container": "plastic_bag_vac",
     "quench": -5,
     "description": "Meat slices cured in brine.  Salty but tasty in a pinch.",
-    "price": 500,
-    "price_postapoc": 300,
+    "price": "5 USD",
+    "price_postapoc": "3 USD",
     "material": [ "flesh" ],
     "delete": { "flags": [ "NUTRIENT_OVERRIDE" ] },
     "primary_material": "cured_meat",
@@ -1189,7 +1189,7 @@
     "id": "spaghetti_bolognese",
     "name": { "str_sp": "spaghetti bolognese" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "scoundrel spaghetti" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "scoundrel spaghetti" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "speaking spaghetti" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "gnarly %s" } }
     ],
@@ -1213,7 +1213,7 @@
     "id": "lasagne",
     "name": { "str_sp": "lasagne" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "Luigi %s" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "Luigi %s" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "Lab %s" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "monster %s" } }
     ],
@@ -1242,7 +1242,7 @@
     "color": "red",
     "quench": -6,
     "description": "Now that it's been fried, this SPAM is actually pretty tasty.",
-    "price": 500,
+    "price": "5 USD",
     "material": [ "flesh" ],
     "flags": [ "EATEN_HOT" ],
     "fun": 8
@@ -1252,7 +1252,7 @@
     "id": "cheeseburger",
     "name": { "str": "cheeseburger" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "chump %s" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "chump %s" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "elf %s" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "chilling %s" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "egg", "name": { "str": "breakfast cheeseburger" } }
@@ -1265,8 +1265,8 @@
     "symbol": "%",
     "calories": 380,
     "description": "A sandwich of minced meat and cheese with condiments.  A simple favorite of the people before the Cataclysm.",
-    "price": 1000,
-    "price_postapoc": 250,
+    "price": "10 USD",
+    "price_postapoc": "2 USD 50 cent",
     "material": [ "flesh", "wheat", "milk" ],
     "primary_material": "processed_food",
     "volume": "300 ml",
@@ -1279,7 +1279,7 @@
     "id": "cheeseburger_wheat_free",
     "name": { "str": "wheat-free cheeseburger" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "chump %s" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "chump %s" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "elf %s" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "chilling %s" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "egg", "name": { "str": "wheat-free breakfast cheeseburger" } }
@@ -1292,8 +1292,8 @@
     "symbol": "%",
     "calories": 380,
     "description": "A wheat-free sandwich of minced meat and cheese with condiments.  A simple favorite of the people before the Cataclysm.",
-    "price": 1000,
-    "price_postapoc": 250,
+    "price": "10 USD",
+    "price_postapoc": "2 USD 50 cent",
     "material": [ "flesh", "veggy", "milk" ],
     "primary_material": "processed_food",
     "volume": "300 ml",
@@ -1309,7 +1309,7 @@
     "weight": "380 g",
     "calories": 500,
     "description": "A cheeseburger with more vegetables and condiments.  This is the apex of pre-Cataclysm culinary achievement.",
-    "price_postapoc": 300,
+    "price_postapoc": "3 USD",
     "material": [ "flesh", "wheat", "milk", "veggy", "tomato" ],
     "primary_material": "processed_food",
     "volume": "350 ml",
@@ -1324,7 +1324,7 @@
     "weight": "380 g",
     "calories": 500,
     "description": "A wheat-free cheeseburger with more vegetables and condiments.  This is the apex of pre-Cataclysm culinary achievement.",
-    "price_postapoc": 300,
+    "price_postapoc": "3 USD",
     "material": [ "flesh", "milk", "veggy", "tomato" ],
     "primary_material": "processed_food",
     "volume": "350 ml",
@@ -1336,7 +1336,7 @@
     "id": "hamburger",
     "name": { "str": "hamburger" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "bobburger" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str": "bobburger" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str": "Moreauburger" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "horrible %s" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "egg", "name": { "str": "breakfast burger" } }
@@ -1349,8 +1349,8 @@
     "symbol": "%",
     "calories": 258,
     "description": "A sandwich of minced meat with condiments.",
-    "price": 900,
-    "price_postapoc": 200,
+    "price": "9 USD",
+    "price_postapoc": "2 USD",
     "material": [ "flesh", "wheat" ],
     "volume": "300 ml",
     "flags": [ "EATEN_HOT" ],
@@ -1362,7 +1362,7 @@
     "id": "hamburger_wheat_free",
     "name": { "str": "wheat-free hamburger" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "wheat-free bobburger" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str": "wheat-free bobburger" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str": "wheat-free Moreauburger" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "horrible %s" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "egg", "name": { "str": "wheat-free breakfast burger" } }
@@ -1375,8 +1375,8 @@
     "symbol": "%",
     "calories": 258,
     "description": "A wheat-free sandwich of minced meat with condiments.",
-    "price": 900,
-    "price_postapoc": 200,
+    "price": "9 USD",
+    "price_postapoc": "2 USD",
     "material": [ "flesh", "veggy" ],
     "volume": "300 ml",
     "flags": [ "EATEN_HOT" ],
@@ -1388,7 +1388,7 @@
     "id": "sloppyjoe",
     "name": { "str": "sloppy joe" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "manwich", "str_pl": "manwiches" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str": "manwich", "str_pl": "manwiches" } },
       {
         "type": "FLAG",
         "condition": "STRICT_HUMANITARIANISM",
@@ -1404,8 +1404,8 @@
     "symbol": "%",
     "calories": 391,
     "description": "A sandwich consisting of ground meat and tomato sauce served on bread.",
-    "price": 900,
-    "price_postapoc": 250,
+    "price": "9 USD",
+    "price_postapoc": "2 USD 50 cent",
     "material": [ "flesh", "tomato", "wheat" ],
     "volume": "300 ml",
     "flags": [ "EATEN_HOT" ],
@@ -1418,8 +1418,8 @@
     "name": { "str": "wheat-free sloppy joe" },
     "conditional_names": [
       {
-        "type": "FLAG",
-        "condition": "CANNIBALISM",
+        "type": "VITAMIN",
+        "condition": "human_flesh_vitamin",
         "name": { "str": "wheat-free manwich", "str_pl": "wheat-free manwiches" }
       },
       {
@@ -1437,8 +1437,8 @@
     "symbol": "%",
     "calories": 391,
     "description": "A sandwich consisting of ground meat and tomato sauce served on wheat-free bread.",
-    "price": 900,
-    "price_postapoc": 250,
+    "price": "9 USD",
+    "price_postapoc": "2 USD 50 cent",
     "material": [ "flesh", "tomato", "veggy" ],
     "volume": "300 ml",
     "flags": [ "EATEN_HOT" ],
@@ -1450,7 +1450,7 @@
     "id": "taco",
     "name": { "str": "taco" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "tio %s" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "tio %s" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "talking %s" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "terrifying %s" } }
     ],
@@ -1463,8 +1463,8 @@
     "quench": -5,
     "calories": 210,
     "description": "A traditional Mexican dish composed of a corn tortilla folded or rolled around a meat filling.",
-    "price": 210,
-    "price_postapoc": 150,
+    "price": "2 USD 10 cent",
+    "price_postapoc": "1 USD 50 cent",
     "material": [ "flesh" ],
     "volume": "250 ml",
     "fun": 8,
@@ -1475,7 +1475,7 @@
     "id": "ndn_taco",
     "name": { "str": "Indian taco" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "tio %s" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "tio %s" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "talking %s" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "terrifying %s" } }
     ],
@@ -1488,8 +1488,8 @@
     "quench": -5,
     "calories": 365,
     "description": "Frybread topped with beans, meat, and lettuce.  Originally conceived by the Navajo in the 19th century, only having available basic foodstuffs provided by the US-government after forced expulsion from their homelands, this dish became popular with many Native Americans and is often served at Powwows or other festivities.",
-    "price": 210,
-    "price_postapoc": 150,
+    "price": "2 USD 10 cent",
+    "price_postapoc": "1 USD 50 cent",
     "material": [ "flesh" ],
     "volume": "250 ml",
     "fun": 8,
@@ -1500,7 +1500,7 @@
     "id": "meat_pickled",
     "name": { "str_sp": "pickled meat" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "pickled punk" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "pickled punk" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "pickled anthro" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "%s, mutant" } }
     ],
@@ -1509,8 +1509,8 @@
     "spoils_in": "4 days",
     "container": "jar_glass_sealed",
     "description": "A serving of crisply brined and canned meat.  Tasty and nutritious.",
-    "price": 250,
-    "price_postapoc": 300,
+    "price": "2 USD 50 cent",
+    "price_postapoc": "3 USD",
     "delete": { "flags": [ "NUTRIENT_OVERRIDE" ] },
     "fun": 6
   },
@@ -1519,7 +1519,7 @@
     "id": "dry_meat",
     "name": { "str_sp": "dehydrated meat" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "%s, human" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "%s, human" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "%s, demihuman" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "%s, mutant" } }
     ],
@@ -1529,8 +1529,8 @@
     "spoils_in": "360 days",
     "quench": -3,
     "description": "Dehydrated meat flakes.  With proper storage, this dried food will remain edible for an incredibly long time.",
-    "price": 900,
-    "price_postapoc": 300,
+    "price": "9 USD",
+    "price_postapoc": "3 USD",
     "material": [ "flesh" ],
     "primary_material": "cured_meat",
     "volume": "125 ml",
@@ -1547,8 +1547,8 @@
     "spoils_in": "360 days",
     "quench": -1,
     "description": "A pair of dehydrated frog legs.  With proper storage, this dried food will remain edible for an incredibly long time.",
-    "price": 600,
-    "price_postapoc": 300,
+    "price": "6 USD",
+    "price_postapoc": "3 USD",
     "material": [ "flesh" ],
     "primary_material": "cured_meat",
     "volume": "25 ml",
@@ -1561,8 +1561,8 @@
     "copy-from": "froglegs_cooked",
     "color": "light_red",
     "description": "Reconstituted frog legs, which are much more enjoyable to eat now that they have been rehydrated.",
-    "price": 600,
-    "price_postapoc": 300,
+    "price": "6 USD",
+    "price_postapoc": "3 USD",
     "fun": 2
   },
   {
@@ -1570,15 +1570,15 @@
     "id": "rehydrated_meat",
     "name": { "str_sp": "rehydrated meat" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "%s, human" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "%s, human" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "%s, demihuman" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "%s, mutant" } }
     ],
     "copy-from": "meat_cooked",
     "color": "light_red",
     "description": "Reconstituted meat flakes, which are much more enjoyable to eat now that they have been rehydrated.",
-    "price": 900,
-    "price_postapoc": 100,
+    "price": "9 USD",
+    "price_postapoc": "1 USD",
     "delete": { "flags": [ "NUTRIENT_OVERRIDE" ] },
     "fun": 2
   },
@@ -1587,7 +1587,7 @@
     "id": "haggis",
     "name": { "str": "haggis", "str_pl": "haggises" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "human %s" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "human %s" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "%s, demihuman" } }
     ],
     "//": "That's whisky without an 'e' because we're talking about Scotch whisky.",
@@ -1599,8 +1599,8 @@
     "quench": 2,
     "calories": 979,
     "description": "This traditional Scottish savory pudding is made of meat and offal mixed with oatmeal, sewn into an animal's stomach and boiled.  Surprisingly tasty and quite filling, it is best served with boiled root vegetables and strong whisky.",
-    "price": 750,
-    "price_postapoc": 250,
+    "price": "7 USD 50 cent",
+    "price_postapoc": "2 USD 50 cent",
     "material": [ "wheat", "flesh" ],
     "volume": "250 ml",
     "flags": [ "EATEN_HOT" ],
@@ -1653,8 +1653,8 @@
     "spoils_in": "12 hours",
     "calories": 160,
     "description": "Delicious slivers of thinly sliced raw fish, served with tasty vegetables.",
-    "price": 600,
-    "price_postapoc": 300,
+    "price": "6 USD",
+    "price_postapoc": "3 USD",
     "material": [ "veggy", "flesh" ],
     "fun": 7
   },
@@ -1669,8 +1669,8 @@
     "use_action": [ "POISON" ],
     "quench": -3,
     "description": "Pieces of poisonous meat that have been dried to prevent them from rotting away.  They're still unsafe to eat.",
-    "price": 0,
-    "price_postapoc": 10,
+    "price": "0 cent",
+    "price_postapoc": "10 cent",
     "material": [ "flesh" ],
     "volume": "125 ml",
     "flags": [ "EDIBLE_FROZEN" ],
@@ -1726,7 +1726,7 @@
     "id": "meatball_raw",
     "name": { "str": "raw meatball" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": "raw manball" },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": "raw manball" },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": "raw murderball" },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "sinister %s" } }
     ],
@@ -1738,8 +1738,8 @@
     "calories": 230,
     "parasites": 32,
     "description": "A round, seasoned lump of meat, ready to fry.",
-    "price": 800,
-    "price_postapoc": 200,
+    "price": "8 USD",
+    "price_postapoc": "2 USD",
     "material": [ "flesh" ],
     "volume": "85 ml",
     "vitamins": [ [ "vitC", 2 ], [ "calcium", 8 ], [ "iron", 4 ] ],
@@ -1750,14 +1750,14 @@
     "id": "meatball",
     "name": { "str": "meatball" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": "manball" },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": "manball" },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": "murderball" },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "sinister %s" } }
     ],
     "copy-from": "meatball_raw",
     "parasites": 0,
     "spoils_in": "4 days",
-    "price_postapoc": 300,
+    "price_postapoc": "3 USD",
     "description": "A seasoned and fried round lump of meat.  Just like mom used to make!",
     "flags": [ "EATEN_HOT" ],
     "fun": 6
@@ -1765,7 +1765,7 @@
   {
     "type": "COMESTIBLE",
     "id": "paella_valenciana",
-    "name": { "str_sp": "valencian paella" },
+    "name": { "str_sp": "Valencian paella" },
     "conditional_names": [ { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "\"deluxe\" beans and rice" } } ],
     "weight": "110 g",
     "color": "brown",

@@ -11,8 +11,8 @@
     "longest_side": "332 mm",
     "barrel_length": "258 mm",
     "//": "212.725 + 45mm max OAL for 454. Revolvers just built different.",
-    "price": 64100,
-    "price_postapoc": 2500,
+    "price": "641 USD",
+    "price_postapoc": "25 USD",
     "to_hit": -2,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
@@ -22,7 +22,7 @@
     "durability": 8,
     "blackpowder_tolerance": 56,
     "clip_size": 5,
-    "valid_mod_locations": [ [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock mount", 1 ], [ "underbarrel mount", 1 ] ],
+    "valid_mod_locations": [ [ "grip", 1 ], [ "mechanism", 2 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock mount", 1 ], [ "underbarrel mount", 1 ] ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",

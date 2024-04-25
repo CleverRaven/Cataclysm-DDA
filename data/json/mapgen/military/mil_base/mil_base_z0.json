@@ -539,7 +539,7 @@
         { "group": "cornmeal_box_small_10", "x": [ 41, 42 ], "y": 53, "chance": 75, "repeat": [ 50, 150 ] },
         { "group": "coffee_raw_bag_plastic_20", "x": 40, "y": 53, "chance": 75, "repeat": [ 50, 150 ] },
         { "group": "tea_raw_bag_plastic_33", "x": 39, "y": 53, "chance": 75, "repeat": [ 50, 150 ] },
-        { "group": "sugar_box_small_71", "x": 38, "y": 53, "chance": 75, "repeat": [ 50, 150 ] },
+        { "group": "sugar_packed", "x": 38, "y": 53, "chance": 75, "repeat": [ 50, 150 ] },
         { "group": "salt_bag_plastic_100", "x": 37, "y": 53, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "cooking_oil", "x": 36, "y": 53, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "meat_salted", "x": [ 45, 46 ], "y": 48, "chance": 75, "repeat": [ 50, 150 ] },
@@ -675,9 +675,9 @@
         "V": [ { "item": "tools_common", "chance": 50, "repeat": [ 0, 1 ] } ],
         "U": [
           { "item": "SUS_office_filing_cabinet", "chance": 50, "repeat": [ 1, 10 ] },
-          { "item": "guns_obscure", "chance": 50, "repeat": [ 1, 2 ] },
-          { "item": "ammo_obscure", "chance": 50, "repeat": [ 2, 4 ] },
-          { "item": "mags_obscure", "chance": 50, "repeat": [ 2, 3 ] }
+          { "item": "guns_common", "chance": 50, "repeat": [ 1, 2 ] },
+          { "item": "ammo_common", "chance": 50, "repeat": [ 2, 4 ] },
+          { "item": "mags_common", "chance": 50, "repeat": [ 2, 3 ] }
         ],
         "^": [ { "item": "mil_base_iv", "chance": 70 } ]
       },

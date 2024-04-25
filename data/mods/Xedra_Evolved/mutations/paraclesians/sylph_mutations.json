@@ -134,6 +134,18 @@
   },
   {
     "type": "mutation",
+    "id": "SYLPH_SPEED_ALLY_BUFF",
+    "name": { "str": "Favonian Murmuration" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Sylph gains the ability increase the speed of one of their allies.",
+    "prereqs": [ "SYLPH_CHARGE_DASH" ],
+    "category": [ "SYLPH" ],
+    "spells_learned": [ [ "sylph_increase_ally_speed_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "SYLPH_REVEAL_OVERMAP",
     "name": { "str": "Like a Bird on the Wing" },
     "points": 3,
@@ -502,5 +514,22 @@
     "threshreq": [ "THRESH_SYLPH" ],
     "enchantments": [ { "condition": "ALWAYS", "ench_effects": [ { "effect": "effect_sylph_cannot_be_slowed", "intensity": 1 } ] } ],
     "flags": [ "STEADY", "SLUDGE_IMMUNE", "WEB_WALKER" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SYLPH_PAIN_DOESNT_AFFECT_DEX_SPEED",
+    "name": { "str": "Winds Always At My Back" },
+    "points": 6,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "The winds surround the Sylph and carry them along regardless of their physical condition.  They suffer no penalties to dexterity or speed due to pain.",
+    "prereqs": [ "SYLPH_CANNOT_BE_SLOWED_OR_STOPPED" ],
+    "category": [ "SYLPH" ],
+    "threshreq": [ "THRESH_SYLPH" ],
+    "enchantments": [
+      {
+        "values": [ { "value": "PAIN_PENALTY_MOD_SPEED", "multiply": -1 }, { "value": "PAIN_PENALTY_MOD_DEX", "multiply": -1 } ]
+      }
+    ]
   }
 ]
