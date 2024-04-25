@@ -695,42 +695,42 @@
         "condition": { "u_has_mission": "MISSION_ROBOFAC_MERC_1_RETURN_TO_HUB" }
       },
       {
-        "text": "TK  Investigate a nearby field and return with Dr. Prado and the robot prototype she was testing.  Failing that, retrieve the I/O recorder stored within the robot.  If the robot remains operational, avoid direct confrontation and use EMP grenades to disable it.",
+        "text": "These guys seriously want us to try to take down a robot with EMP grenades.  How you feeling?",
         "topic": "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_1",
         "condition": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_1" }
       },
       {
-        "text": "TK  Find the corpse of a Hub 01's AI researcher and retrieve the hard case they brought with them during the evacuation.",
+        "text": "Think this will be an easy find and retrieve job, looking for the hard case?",
         "topic": "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_2",
         "condition": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_2" }
       },
       {
-        "text": "TK Reach the collapsed tower basement, and search the ruins for a photonic circuitry template.  The intercom warned you about heavy enemy presence, and of the existence of a hazardous environment.",
+        "text": "This collapsed tower business sounds pretty risky.  Are you still in?",
         "topic": "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_3",
         "condition": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_3" }
       },
       {
-        "text": "TK Disable and retrieve the unusual robot by <color_yellow>successfully stunning it with the prototype rifle provided,</color> then <color_yellow>quickly running up and deactivating the robot before it recovers from the stun</color>.  You can keep shooting it while it's stunned to prolong the time until it is active again.  You can intercept the robot indicated by Hub 01, or find an inactive robot somewhere else.  <color_yellow>You'll need some experience in electronics or mechanics to disable it</color>.",
+        "text": "This robot interception stuff sounds pretty heavy, don't you think?",
         "topic": "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1",
         "condition": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1" }
       },
       {
-        "text": "TK Use the NRE recorder to collect information during a portal storm event.  You'll need to <color_yellow>stay outside and carry the recorder for around 6 minutes until you hear a sharp beep</color> to collect sufficient data.  Generate a printout by activating the NRE recorder and offer it to Hub 01 to finish the mission.",
+        "text": "What are your thoughts on standing outside during a portal storm?  Seems like a good way to spend an evening right?",
         "topic": "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1",
         "condition": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1" }
       },
       {
-        "text": "TK Reach the LIXA facility, and search the area for anything of interest.  The intercom warned you about a number of undead aboveground, and the high probability of more underground.",
+        "text": "Liam, the guys in the secret lab want us to break into a secret lab.",
         "topic": "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_LIXA_SM_1",
         "condition": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1" }
       },
       {
-        "text": "TK A traumatized mercenary has claimed to have seen what you assume to be a powerful monster.  Maybe you should investigate this for the benefit of everyone.",
+        "text": "Looks like we're on a monster hunt, my friend.",
         "topic": "TALK_Liam_Opinions_BEM_jabberwock_mission",
         "condition": { "u_has_mission": "BEM_jabberwock_mission" }
       },
       {
-        "text": "TK Deposit a human sample in a pit within the dead drop location.  Pick up your reward at the Terminal once that's done.",
+        "text": "Does this 'human sample' business seem a little off to you?",
         "topic": "TALK_Liam_Opinions_BEM_human_sample_mission",
         "condition": { "u_has_mission": "BEM_human_sample_mission" }
       },
