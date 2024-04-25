@@ -1158,7 +1158,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [
-      { "item": "mercury", "prob": 15, "charges-min": 50 },
+      { "item": "mercury", "prob": 15, "charges": [ 50, -1 ] },
       { "group": "magic_plants_common", "prob": 6 },
       { "group": "magic_plants_uncommon", "prob": 3 },
       { "group": "magic_plants_rare", "prob": 1 }

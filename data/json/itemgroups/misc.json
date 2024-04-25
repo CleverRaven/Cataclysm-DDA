@@ -72,7 +72,7 @@
               { "item": "cotton_patchwork", "count": [ 3, 10 ] },
               { "distribution": [ { "item": "hotplate", "prob": 80 }, { "item": "chemistry_set", "prob": 20 } ] },
               { "item": "vac_pump" },
-              { "item": "chem_ethanol", "charges-min": 150, "prob": 80 }
+              { "item": "chem_ethanol", "charges": [ 150, -1 ], "prob": 80 }
             ],
             "prob": 30
           }
@@ -80,8 +80,8 @@
       },
       {
         "collection": [
-          { "item": "filter_paper_qualitative", "charges-min": 30 },
-          { "item": "filter_paper_quantitative", "charges-min": 30 },
+          { "item": "filter_paper_qualitative", "charges": [ 30, -1 ] },
+          { "item": "filter_paper_quantitative", "charges": [ 30, -1 ] },
           { "item": "gasket_plastic_set", "count": [ 1, 3 ] },
           { "item": "textbook_extraction", "prob": 75 }
         ]
@@ -279,7 +279,7 @@
     "subtype": "collection",
     "entries": [
       { "item": "candle", "prob": 100, "count": [ 1, 3 ], "charges-max": 50 },
-      { "item": "candle", "prob": 33, "count": [ 1, 2 ], "charges-min": 50 },
+      { "item": "candle", "prob": 33, "count": [ 1, 2 ], "charges": [ 50, -1 ] },
       { "item": "family_photo", "prob": 20, "count": [ 1, 2 ] },
       { "item": "teddy_bear", "prob": 5 }
     ]

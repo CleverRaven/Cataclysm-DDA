@@ -362,7 +362,7 @@
       [ "towel", 15 ],
       { "item": "soap", "prob": 15, "charges": [ 1, 10 ] },
       { "item": "detergent", "prob": 15, "charges": [ 1, 20 ] },
-      { "item": "bleach", "prob": 15, "charges-min": 1 },
+      { "item": "bleach", "prob": 15, "charges": [ 1, -1 ] },
       [ "broom", 13 ],
       [ "dinosuit", 7 ],
       [ "hat_ball", 19 ],
@@ -517,7 +517,7 @@
       { "item": "detergent", "prob": 8, "charges": [ 1, 20 ] },
       { "item": "cotton_patchwork", "prob": 15 },
       { "item": "broom", "prob": 8 },
-      { "item": "bleach", "prob": 8, "charges-min": 1 },
+      { "item": "bleach", "prob": 8, "charges": [ 1, -1 ] },
       { "item": "hotplate", "prob": 1 },
       { "item": "vinegar", "prob": 3 }
     ]
@@ -662,7 +662,7 @@
       { "item": "soap", "prob": 30, "charges": [ 1, 10 ] },
       { "item": "detergent", "prob": 30, "charges": [ 1, 20 ] },
       { "item": "cotton_patchwork", "prob": 30 },
-      { "item": "bleach", "prob": 30, "charges-min": 1 },
+      { "item": "bleach", "prob": 30, "charges": [ 1, -1 ] },
       { "item": "vinegar", "prob": 30 },
       { "item": "backpack", "prob": 5 }
     ]
