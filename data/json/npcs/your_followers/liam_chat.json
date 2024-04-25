@@ -695,6 +695,46 @@
         "condition": { "u_has_mission": "MISSION_ROBOFAC_MERC_1_RETURN_TO_HUB" }
       },
       {
+        "text": "TK  Investigate a nearby field and return with Dr. Prado and the robot prototype she was testing.  Failing that, retrieve the I/O recorder stored within the robot.  If the robot remains operational, avoid direct confrontation and use EMP grenades to disable it.",
+        "topic": "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_1",
+        "condition": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_1" }
+      },
+      {
+        "text": "TK  Find the corpse of a Hub 01's AI researcher and retrieve the hard case they brought with them during the evacuation.",
+        "topic": "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_2",
+        "condition": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_2" }
+      },
+      {
+        "text": "TK Reach the collapsed tower basement, and search the ruins for a photonic circuitry template.  The intercom warned you about heavy enemy presence, and of the existence of a hazardous environment.",
+        "topic": "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_3",
+        "condition": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_3" }
+      },
+      {
+        "text": "TK Disable and retrieve the unusual robot by <color_yellow>successfully stunning it with the prototype rifle provided,</color> then <color_yellow>quickly running up and deactivating the robot before it recovers from the stun</color>.  You can keep shooting it while it's stunned to prolong the time until it is active again.  You can intercept the robot indicated by Hub 01, or find an inactive robot somewhere else.  <color_yellow>You'll need some experience in electronics or mechanics to disable it</color>.",
+        "topic": "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1",
+        "condition": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1" }
+      },
+      {
+        "text": "TK Use the NRE recorder to collect information during a portal storm event.  You'll need to <color_yellow>stay outside and carry the recorder for around 6 minutes until you hear a sharp beep</color> to collect sufficient data.  Generate a printout by activating the NRE recorder and offer it to Hub 01 to finish the mission.",
+        "topic": "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1",
+        "condition": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1" }
+      },
+      {
+        "text": "TK Reach the LIXA facility, and search the area for anything of interest.  The intercom warned you about a number of undead aboveground, and the high probability of more underground.",
+        "topic": "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_LIXA_SM_1",
+        "condition": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1" }
+      },
+      {
+        "text": "TK A traumatized mercenary has claimed to have seen what you assume to be a powerful monster.  Maybe you should investigate this for the benefit of everyone.",
+        "topic": "TALK_Liam_Opinions_BEM_jabberwock_mission",
+        "condition": { "u_has_mission": "BEM_jabberwock_mission" }
+      },
+      {
+        "text": "TK Deposit a human sample in a pit within the dead drop location.  Pick up your reward at the Terminal once that's done.",
+        "topic": "TALK_Liam_Opinions_BEM_human_sample_mission",
+        "condition": { "u_has_mission": "BEM_human_sample_mission" }
+      },
+      {
         "text": "Liam!  There's a chef, trapped in a restaurant!  Want to help save them?",
         "topic": "TALK_Liam_Opinions_directions_chef",
         "condition": { "u_has_mission": "directions_chef" }
@@ -1675,6 +1715,54 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_1",
+    "dynamic_line": "",
+    "responses": [ { "text": "I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_2",
+    "dynamic_line": "",
+    "responses": [ { "text": "I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_3",
+    "dynamic_line": "",
+    "responses": [ { "text": "I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1",
+    "dynamic_line": "",
+    "responses": [ { "text": "I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1",
+    "dynamic_line": "",
+    "responses": [ { "text": "I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_LIXA_SM_1",
+    "dynamic_line": "",
+    "responses": [ { "text": "I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_BEM_jabberwock_mission",
+    "dynamic_line": "",
+    "responses": [ { "text": "I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_BEM_human_sample_mission",
+    "dynamic_line": "",
+    "responses": [ { "text": "I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_Liam_Opinions_directions_chef",
     "dynamic_line": "*rubs his chin.  \"Mmmaaaybe?  What kind of chef?  I worked as a dishwasher in a fancy place for a couple months.  If they're a line chef, then yes.  Sous-chef or above?  Leave 'em for the zombies.  I hated that job.\"",
     "responses": [ { "text": "Duly noted.  I'd like your opinion on something else, though.", "topic": "TALK_Liam_Opinions" } ]
@@ -1819,6 +1907,14 @@
       "TALK_Liam_Opinions_MISSION_ISHERWOOD_BARRY_1-toughlove",
       "TALK_Liam_Opinions_MISSION_ROBOFAC_MERC_1_RADIO",
       "TALK_Liam_Opinions_MISSION_ROBOFAC_MERC_1_RETURN_TO_HUB",
+      "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_1",
+      "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_2",
+      "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_3",
+      "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1",
+      "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1",
+      "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_LIXA_SM_1",
+      "TALK_Liam_Opinions_BEM_jabberwock_mission",
+      "TALK_Liam_Opinions_BEM_human_sample_mission",
       "TALK_Liam_Opinions_directions_chef",
       "TALK_Liam_Opinions_directions_farmer",
       "TALK_Liam_Opinions_directions_hospital_2_CABIN",
