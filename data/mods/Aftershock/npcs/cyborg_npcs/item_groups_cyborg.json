@@ -55,7 +55,7 @@
       { "item": "soldering_iron", "prob": 60 },
       { "item": "soldering_iron_portable", "prob": 60, "charges": [ 0, 50 ] },
       [ "solder_wire", 60 ],
-      { "item": "inhaler", "prob": 5, "charges-min": 10, "charges-max": 100 },
+      { "item": "inhaler", "prob": 5, "charges": [ 10, 100 ] },
       [ "codeine", 15 ],
       [ "oxycodone", 4 ],
       [ "morphine", 4 ],

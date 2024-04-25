@@ -657,7 +657,7 @@
       [ "imperial_stout", 2 ],
       [ "improve_sights", 1 ],
       [ "india_pale_ale", 2 ],
-      { "item": "inhaler", "prob": 5, "charges-min": 10, "charges-max": 100 },
+      { "item": "inhaler", "prob": 5, "charges": [ 10, 100 ] },
       [ "iodine", 5 ],
       { "item": "apple", "prob": 3, "custom-flags": [ "IRRADIATED" ] },
       { "item": "apricot", "prob": 2, "custom-flags": [ "IRRADIATED" ] },

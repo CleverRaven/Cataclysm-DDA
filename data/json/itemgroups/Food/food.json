@@ -983,7 +983,7 @@
     "type": "item_group",
     "id": "soup_box",
     "subtype": "distribution",
-    "entries": [ { "group": "soup_packet", "prob": 50, "container-item": "box_small", "charges-min": 1, "charges-max": 8 } ]
+    "entries": [ { "group": "soup_packet", "prob": 50, "container-item": "box_small", "charges": [ 1, 8 ] } ]
   },
   {
     "type": "item_group",

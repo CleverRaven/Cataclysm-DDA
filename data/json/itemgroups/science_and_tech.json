@@ -17,7 +17,7 @@
       [ "purifier", 5 ],
       { "prob": 5, "group": "iodine_bottle_plastic_pill_supplement_1_10" },
       { "prob": 5, "group": "prussian_blue_bottle_plastic_pill_supplement_1_10" },
-      { "item": "inhaler", "prob": 14, "charges-min": 10, "charges-max": 100 },
+      { "item": "inhaler", "prob": 14, "charges": [ 10, 100 ] },
       [ "eyedrops", 20 ],
       { "prob": 10, "group": "adderall_bottle_plastic_pill_prescription_1_10" },
       { "group": "wallets_science", "prob": 2 },

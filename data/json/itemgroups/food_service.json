@@ -952,14 +952,7 @@
       [ "water_mineral", 10 ],
       [ "milk", 20 ],
       { "prob": 35, "group": "butter_wrapper_8_64" },
-      {
-        "item": "ghee",
-        "prob": 5,
-        "charges-min": 1,
-        "charges-max": 64,
-        "container-item": "jar_glass_sealed",
-        "sealed": false
-      },
+      { "item": "ghee", "prob": 5, "charges": [ 1, 64 ], "container-item": "jar_glass_sealed", "sealed": false },
       [ "yoghurt", 10 ],
       [ "pudding", 15 ],
       [ "apple", 10 ],
@@ -1008,14 +1001,7 @@
       [ "milk", 20 ],
       [ "egg_bird_unfert", 20 ],
       { "prob": 35, "group": "butter_wrapper_8_64" },
-      {
-        "item": "ghee",
-        "prob": 5,
-        "charges-min": 1,
-        "charges-max": 64,
-        "container-item": "jar_glass_sealed",
-        "sealed": false
-      },
+      { "item": "ghee", "prob": 5, "charges": [ 1, 64 ], "container-item": "jar_glass_sealed", "sealed": false },
       [ "apple", 10 ],
       [ "fish_sandwich", 15 ],
       [ "lobster_roll", 15 ],
@@ -1462,14 +1448,7 @@
       [ "water_mineral", 10 ],
       [ "milk", 20 ],
       { "prob": 35, "group": "butter_wrapper_8_64" },
-      {
-        "item": "ghee",
-        "prob": 5,
-        "charges-min": 1,
-        "charges-max": 64,
-        "container-item": "jar_glass_sealed",
-        "sealed": false
-      },
+      { "item": "ghee", "prob": 5, "charges": [ 1, 64 ], "container-item": "jar_glass_sealed", "sealed": false },
       [ "cactus_pad", 20 ],
       [ "papaya", 20 ],
       [ "fish_cooked", 20 ],

@@ -30,10 +30,7 @@
         "prob": 5
       },
       {
-        "distribution": [
-          { "item": "camera", "prob": 70, "charges-min": 0, "charges-max": 50 },
-          { "item": "camera_pro", "prob": 30, "charges-min": 0, "charges-max": 50 }
-        ],
+        "distribution": [ { "item": "camera", "prob": 70, "charges": [ 0, 50 ] }, { "item": "camera_pro", "prob": 30, "charges": [ 0, 50 ] } ],
         "prob": 10
       }
     ]
@@ -67,9 +64,9 @@
         "prob": 50
       },
       { "distribution": [ { "item": "gum" }, { "item": "caff_gum" } ], "prob": 30 },
-      { "item": "mp3", "prob": 18, "charges-min": 0, "charges-max": 15 },
-      { "item": "portable_game", "prob": 10, "charges-min": 0, "charges-max": 50 },
-      { "item": "game_watch", "prob": 10, "damage": [ 1, 4 ], "charges-min": 0, "charges-max": 50 },
+      { "item": "mp3", "prob": 18, "charges": [ 0, 15 ] },
+      { "item": "portable_game", "prob": 10, "charges": [ 0, 50 ] },
+      { "item": "game_watch", "prob": 10, "damage": [ 1, 4 ], "charges": [ 0, 50 ] },
       { "item": "usb_drive", "prob": 10 },
       { "item": "meth", "prob": 2 },
       { "item": "coke", "prob": 2 },

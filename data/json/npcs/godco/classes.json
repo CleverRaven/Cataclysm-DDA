@@ -997,10 +997,7 @@
     "type": "item_group",
     "id": "GODCO_julian_carried",
     "subtype": "collection",
-    "entries": [
-      { "item": "glock17_17", "charges-min": 15, "charges-max": 17 },
-      { "item": "glock_17", "charges-min": 25, "charges-max": 30 }
-    ]
+    "entries": [ { "item": "glock17_17", "charges": [ 15, 17 ] }, { "item": "glock_17", "charges": [ 25, 30 ] } ]
   },
   {
     "type": "item_group",

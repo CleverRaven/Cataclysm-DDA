@@ -460,7 +460,7 @@
       { "group": "fresh_produce", "count": [ 1, 2 ], "prob": 20 },
       {
         "distribution": [
-          { "item": "milk", "charges-min": 1, "charges-max": 8, "prob": 60, "container-item": "jug_plastic", "sealed": false },
+          { "item": "milk", "charges": [ 1, 8 ], "prob": 60, "container-item": "jug_plastic", "sealed": false },
           {
             "item": "milk",
             "prob": 40,

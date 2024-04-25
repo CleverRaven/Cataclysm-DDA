@@ -137,8 +137,8 @@
     "id": "phones_case",
     "container-item": "waterproof_smart_phone_case",
     "items": [
-      { "item": "smart_phone", "prob": 17, "charges-min": 0, "charges-max": 15 },
-      { "item": "smart_phone", "prob": 1, "charges-min": 130, "charges-max": 130 }
+      { "item": "smart_phone", "prob": 17, "charges": [ 0, 15 ] },
+      { "item": "smart_phone", "prob": 1, "charges": [ 130, 130 ] }
     ]
   },
   {
@@ -146,10 +146,10 @@
     "subtype": "distribution",
     "id": "phones_no_case",
     "items": [
-      { "item": "cell_phone", "prob": 2, "charges-min": 0, "charges-max": 15 },
-      { "item": "cell_phone", "prob": 1, "charges-min": 150, "charges-max": 150 },
-      { "item": "smart_phone", "prob": 17, "charges-min": 0, "charges-max": 15 },
-      { "item": "smart_phone", "prob": 1, "charges-min": 130, "charges-max": 130 }
+      { "item": "cell_phone", "prob": 2, "charges": [ 0, 15 ] },
+      { "item": "cell_phone", "prob": 1, "charges": [ 150, 150 ] },
+      { "item": "smart_phone", "prob": 17, "charges": [ 0, 15 ] },
+      { "item": "smart_phone", "prob": 1, "charges": [ 130, 130 ] }
     ]
   },
   {
