@@ -53,6 +53,13 @@
         }
       },
       {
+        "text": "[NEW MISSION LINE] So, what's the plan with this rescue?",
+        "condition": {
+          "and": [ { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" }, { "math": [ "isherwood_rescue_family_coming", "==", "1" ] } ]
+        },
+        "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN"
+      },
+      {
         "text": "I'd better get going.",
         "topic": "TALK_DONE",
         "condition": { "not": { "u_is_wearing": "badge_marshal" } }
@@ -128,8 +135,9 @@
     "dynamic_line": "They made their way to this weird spire like structure, I've never seen anything like it, it glistened in the sun like something organic.  I think they could be holding Barry there, I've seen them arrive and leave with other humans.",
     "responses": [
       {
-        "text": "If you join up with me, we can go check it out, I want to see what they are doing.",
-        "topic": "TALK_MISSION_OFFER"
+        "text": "[NEW MISSION LINE] I might be able to help you get Barry back, but we've got to plan this out.",
+        "effect": { "assign_mission": "MISSION_ISHERWOOD_CHRIS_1" },
+        "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY"
       },
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -168,6 +176,72 @@
     ]
   },
   {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY",
+    "dynamic_line": "[que exposition about a plan]",
+    "responses": [
+      { "text": "[go it alone]", "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_GO_IT_ALONE" },
+      {
+        "text": "[go with your own team]",
+        "condition": { "npc_allies": 3 },
+        "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_TAKE_OWN_TEAM"
+      },
+      { "text": "[take Chris with you]", "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_CHRIS_JOINS" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_GO_IT_ALONE",
+    "dynamic_line": "[you quite sure? don't die]",
+    "responses": [
+      { "text": "[i'm sure]", "topic": "TALK_DONE" },
+      { "text": "[change mind, take Chris]", "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_CHRIS_JOINS" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_TAKE_OWN_TEAM",
+    "dynamic_line": "[good you got pals]",
+    "responses": [
+      { "text": "[you want to come too?]", "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_CHRIS_JOINS" },
+      { "text": "[thanks bye be back with Barry]", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_CHRIS_JOINS",
+    "dynamic_line": "[yay lets kick butt. we need more?]",
+    "responses": [
+      { "text": "[nah we good trust me bro]", "effect": "follow", "topic": "TALK_DONE" },
+      { "text": "[sister come too?]", "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_TAKE_LISA" },
+      { "text": "[i think whole family needed]", "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_TAKE_WHOLE_FAMILY" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_TAKE_LISA",
+    "dynamic_line": "[lemme go check she prob will good idea bro]",
+    "responses": [ { "text": "[okie dokie]", "effect": { "math": [ "isherwood_rescue_lisa_coming", "=", "1" ] }, "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_TAKE_WHOLE_FAMILY",
+    "dynamic_line": "[lemme go check they prob like we all love barry.  Meet me again we plan more.]",
+    "responses": [
+      { "text": "[okie dokie]", "effect": { "math": [ "isherwood_rescue_family_coming", "=", "1" ] }, "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN",
+    "dynamic_line": "[Fam pull up in truck with us & we start shooting. U get inside and get Barry then we leave. Anything go wrong we let u know.  I want better gear & fortifications]",
+    "responses": [
+      { "text": "[okie dokie lets go kick butt]", "topic": "TALK_DONE" },
+      { "text": "[details on gear?]", "topic": "TALK_DONE" },
+      { "text": "[details on fort?]", "topic": "TALK_DONE" }
+    ]
+  },
+  {
     "id": "MISSION_ISHERWOOD_CHRIS_1",
     "type": "mission_definition",
     "name": { "str": "Free Barry from the mysterious structure" },
@@ -175,8 +249,7 @@
     "difficulty": 5,
     "value": 50000,
     "start": {
-      "effect": "follow",
-      "assign_mission_target": { "om_terrain": "mi-go_scout_tower_3", "om_special": "Mi-Go Scout Tower", "reveal_radius": 3 },
+      "assign_mission_target": { "om_terrain": "mi-go_scout_tower_3", "om_special": "Barry's Mi-Go Scout Tower", "reveal_radius": 3 },
       "update_mapgen": { "place_npcs": [ { "class": "isherwood_barry", "x": 18, "y": 15, "target": true } ] }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
