@@ -2688,11 +2688,11 @@
   },
   {
     "type": "item_group",
-    "id": "pepper_bag_paper",
+    "id": "pepper_bag_paper_full",
     "subtype": "collection",
     "//": "This group was created by a fool and may contain errors.",
     "container-item": "bag_paper_powder",
-    "entries": [ { "item": "pepper", "container-item": "null", "count": [ 20, 500 ] } ]
+    "entries": [ { "item": "pepper", "container-item": "null", "count": 500 } ]
   },
   {
     "type": "item_group",

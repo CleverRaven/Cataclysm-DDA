@@ -9,6 +9,7 @@
     "symbol": "6",
     "description": "A vegetable from the gourd family, bottle gourds were brought to the Americas by the first Native American settlers crossing the Bering strait.  This one has been dried for processing into a watertight container.",
     "volume": "1250 ml",
+    "container": "bag_plastic",
     "flags": [ "INEDIBLE" ]
   },
   {
