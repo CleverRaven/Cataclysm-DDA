@@ -2088,7 +2088,7 @@
     "price_postapoc": "25 cent",
     "spoils_in": "1 day",
     "calories": 220,
-    "//": "Scaled from 100g skin on, boneless, wild duck meat from USDA database"
+    "//": "Scaled from 100g skin on, boneless, wild duck meat from USDA database",
     "fun": -18,
     "cooks_like": "meat_cooked",
     "vitamins": [ [ "calcium", "5 mg" ], [ "iron", "5 mg" ] ],
