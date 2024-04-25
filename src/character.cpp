@@ -399,7 +399,7 @@ static const skill_id skill_throw( "throw" );
 
 static const species_id species_HUMAN( "HUMAN" );
 
-static const start_location_id start_location_sloc_shelter_a( "sloc_shelter_a" );
+static const start_location_id start_location_sloc_shelter_safe( "sloc_shelter_safe" );
 
 static const ter_str_id ter_t_dirt( "t_dirt" );
 static const ter_str_id ter_t_dirtmound( "t_dirtmound" );
@@ -605,7 +605,7 @@ Character::Character() :
     male = true;
     prof = profession::has_initialized() ? profession::generic() :
            nullptr; //workaround for a potential structural limitation, see player::create
-    start_location = start_location_sloc_shelter_a;
+    start_location = start_location_sloc_shelter_safe;
     moves = 100;
     oxygen = 0;
     in_vehicle = false;
