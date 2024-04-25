@@ -4626,19 +4626,15 @@ talk_effect_fun_t::func f_set_condition( const JsonObject &jo, std::string_view 
     };
 }
 
-talk_effect_fun_t::func f_set_option( const JsonObject &jo, std::string_view member )
+talk_effect_fun_t::func f_set_item_category_spawn_rate( const JsonObject &jo,
+        std::string_view member )
 {
-    std::string type = jo.get_string( "type" );
-    // Each option needs explicit special handling as most options are only checked during load
-    if( type == "item_category_spawn_rate" ) {
-        std::string id = jo.get_string( "id" );
-        item_category category( jo.get_string( "item_category" ) );
-        float spawn_rate = jo.get_string( "spawn_rate" );
-        options_manager::set_world_option( std::make_pair( id, spawn_rate ) );
-        category.dirty_spawn_rate = true;
-    } else {
-        jo.throw_error( "Option type lacks handling" );
-    }
+    JsonObject joi = jo.get_member ( member );
+    item_category_id cat( joi.get_string( "id" ) );
+    float spawn_rate = joi.get_float( "spawn_rate" );
+    return [cat, spawn_rate]( dialogue const &/* d */ ) {
+        cat.obj().set_spawn_rate( spawn_rate );
+    };
 }
 
 talk_effect_fun_t::func f_assign_mission( const JsonObject &jo, std::string_view member )
@@ -6412,7 +6408,7 @@ parsers = {
     { "give_equipment", jarg::object, &talk_effect_fun::f_give_equipment },
     { "set_string_var", jarg::member | jarg::array, &talk_effect_fun::f_set_string_var },
     { "set_condition", jarg::member, &talk_effect_fun::f_set_condition },
-    { "set_option", jarg::member, &talk_effect_fun::f_set_item_category_spawn_rate },
+    { "set_item_category_spawn_rate", jarg::member, &talk_effect_fun::f_set_item_category_spawn_rate },
     { "open_dialogue", jarg::member, &talk_effect_fun::f_open_dialogue },
     { "take_control", jarg::member, &talk_effect_fun::f_take_control },
     { "trigger_event", jarg::member, &talk_effect_fun::f_trigger_event },

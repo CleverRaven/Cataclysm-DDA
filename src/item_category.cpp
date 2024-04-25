@@ -59,7 +59,9 @@ void item_category::load( const JsonObject &jo, const std::string_view )
     mandatory( jo, was_loaded, "sort_rank", sort_rank_ );
     optional( jo, was_loaded, "priority_zones", zone_priority_ );
     optional( jo, was_loaded, "zone", zone_, std::nullopt );
-    optional( jo, was_loaded, "spawn_rate", spawn_rate, 1.0f );
+    float spawn_rate = 1.0f;
+    optional( jo, was_loaded, "spawn_rate", spawn_rate );
+    set_spawn_rate( spawn_rate );
 }
 
 bool item_category::operator<( const item_category &rhs ) const
@@ -127,11 +129,31 @@ int item_category::sort_rank() const
     return sort_rank_;
 }
 
-float item_category::get_spawn_rate()
+void item_category::set_spawn_rate( const float &rate ) const
 {
-    if( dirty_spawn_rate ) {
-        spawn_rate = get_option<float>( "SPAWN_RATE_" + id.c_str() );
-        dirty_spawn_rate = false;
+    item_category_spawn_rates::get_item_category_spawn_rates().set_spawn_rate( id, rate );
+}
+
+float item_category::get_spawn_rate() const
+{
+    return item_category_spawn_rates::get_item_category_spawn_rates().get_spawn_rate( id );
+}
+
+void item_category_spawn_rates::set_spawn_rate( const item_category_id &id, const float &rate )
+{
+    auto it = spawn_rates.find( id );
+    if( it != spawn_rates.end() ) {
+        it->second = rate;
+    } else {
+        spawn_rates.insert( std::make_pair( id, rate ) );
     }
-    return spawn_rate;
+}
+
+float item_category_spawn_rates::get_spawn_rate( const item_category_id &id )
+{
+    auto it = spawn_rates.find( id );
+    if( it != spawn_rates.end() ) {
+        return it->second;
+    }
+    return 1.0f;
 }

@@ -228,8 +228,6 @@ class options_manager
         options_container get_world_defaults() const;
 
         void set_world_options( options_container *options );
-        // Sets a single world option, should be used with caution to ensure uses actually get read post load
-        void set_world_option( std::pair<std::string, cOpt> &option );
 
         /** Check if an option exists? */
         bool has_option( const std::string &name ) const;

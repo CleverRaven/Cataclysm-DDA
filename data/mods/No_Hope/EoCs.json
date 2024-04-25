@@ -4,7 +4,6 @@
     "id": "EOC_NH_difficultycheck",
     "eoc_type": "EVENT",
     "required_event": "game_load",
-    "condition": { "math": [ "NH_has_set_difficulty", "==", "0" ] },
     "effect": [
       {
         "run_eoc_selector": [ "EOC_NH_difficulty0", "EOC_NH_difficulty1", "EOC_NH_difficulty2" ],
@@ -24,21 +23,14 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_NH_difficulty0",
-    "effect": [
-      { "u_message": "Difficulty set to Hard." },
-      {
-        "set_option": { "type": "item_category_spawn_rate", "id": "SPAWN_RATE_ARMOR", "item_category": "armor", "spawn_rate": "0.5" }
-      }
-    ]
+    "effect": [ { "u_message": "Difficulty set to Hard." }, { "set_item_category_spawn_rate": { "id": "armor", "spawn_rate": 0.5 } } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_NH_difficulty1",
     "effect": [
       { "u_message": "Difficulty set to Harder." },
-      {
-        "set_option": { "type": "item_category_spawn_rate", "id": "SPAWN_RATE_ARMOR", "item_category": "armor", "spawn_rate": "0.3" }
-      }
+      { "set_item_category_spawn_rate": { "id": "armor", "spawn_rate": 0.3 } }
     ]
   },
   {
@@ -46,9 +38,7 @@
     "id": "EOC_NH_difficulty2",
     "effect": [
       { "u_message": "Difficulty set to Harderest." },
-      {
-        "set_option": { "type": "item_category_spawn_rate", "id": "SPAWN_RATE_ARMOR", "item_category": "armor", "spawn_rate": "0.1" }
-      }
+      { "set_item_category_spawn_rate": { "id": "armor", "spawn_rate": 0.1 } }
     ]
   }
 ]
