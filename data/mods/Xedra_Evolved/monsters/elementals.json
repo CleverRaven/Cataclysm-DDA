@@ -852,7 +852,6 @@
     "melee_dice_sides": 1,
     "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
     "dodge": 4,
-    "luminance": 0,
     "vision_day": 14,
     "vision_night": 14,
     "special_attacks": [ { "type": "leap", "cooldown": 3, "max_range": 2, "allow_no_target": true }, { "id": "cut_throat" } ],
