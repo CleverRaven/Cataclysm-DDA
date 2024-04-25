@@ -515,7 +515,7 @@
     "eoc_type": "EVENT",
     "required_event": "spellcasting_finish",
     "condition": { "test_eoc": "EOC_CONDITION_SPELLCASTING_FINISH_TRAIT_AND_SCHOOL_LIST" },
-    "effect": [ { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(_difficulty)" ] } ]
+    "effect": [ { "math": [ "u_calories()", "-=", "psionics_kcal_cost(_difficulty)" ] } ]
   },
   {
     "type": "effect_on_condition",

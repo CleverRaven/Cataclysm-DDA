@@ -7,7 +7,7 @@
     "description": "A generic magic mask.",
     "weight": "442 g",
     "volume": "750 ml",
-    "price": 200000,
+    "price": "2 kUSD",
     "to_hit": -3,
     "material": [ "steel", "leather" ],
     "symbol": "[",
