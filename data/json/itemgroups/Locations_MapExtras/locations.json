@@ -454,7 +454,7 @@
       [ "fork", 90 ],
       [ "spoon", 90 ],
       [ "knife_butcher", 10 ],
-      { "item": "extinguisher", "prob": 20, "charges-max": 5 },
+      { "item": "extinguisher", "prob": 20, "charges": [ 0, 5 ] },
       [ "hose", 15 ],
       [ "water_faucet", 20 ],
       [ "chain", 20 ],
@@ -1481,7 +1481,7 @@
       { "item": "rm20", "prob": 1, "charges": [ 0, 20 ] },
       { "item": "20x66_beanbag", "prob": 10, "charges": [ 1, 10 ] },
       { "item": "gasbomb", "count": [ 1, 6 ], "prob": 20 },
-      { "item": "m79", "prob": 8, "charges-max": 0 },
+      { "item": "m79", "prob": 8, "charges": [ 0, 0 ] },
       { "item": "40x46mm_m651", "prob": 20, "charges": [ 1, 6 ] },
       { "item": "40x46mm_m1006", "prob": 10, "charges": [ 1, 6 ] }
     ]

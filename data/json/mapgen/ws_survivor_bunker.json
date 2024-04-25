@@ -5,7 +5,7 @@
     "id": "oa_ig_sb_water",
     "items": [
       { "item": "water_clean", "prob": 30, "charges": [ 50, 200 ], "container-item": "keg" },
-      { "item": "water_clean", "prob": 70, "charges-max": 50, "container-item": "keg" }
+      { "item": "water_clean", "prob": 70, "charges": [ 0, 50 ], "container-item": "keg" }
     ]
   },
   {
