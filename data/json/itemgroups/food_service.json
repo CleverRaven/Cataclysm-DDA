@@ -300,8 +300,7 @@
       { "prob": 10, "group": "yeast_bulk" },
       { "prob": 9, "group": "sugar_bulk" },
       [ "cornmeal", 8 ],
-      { "prob": 5, "group": "flour_bag_paper_powder" },
-      { "prob": 20, "group": "flour_bag_plastic_1_175" },
+      { "prob": 25, "group": "flour_bulk" },
       [ "cookbook", 3 ],
       [ "cookbook_italian", 2 ]
     ]
@@ -601,8 +600,7 @@
       { "prob": 10, "group": "artificial_sweetener_box_small_71" },
       { "item": "soysauce", "prob": 10 },
       { "item": "hot_sauce", "prob": 10 },
-      { "prob": 8, "group": "flour_bag_paper_powder" },
-      { "prob": 32, "group": "flour_bag_plastic_1_175" },
+      { "prob": 40, "group": "flour_bulk" },
       { "prob": 40, "group": "curry_powder_various" },
       { "prob": 52, "group": "cornmeal_box_small_10" },
       { "prob": 35, "group": "oyster_crackers_plastic_bag_vac_1_inf" }
@@ -747,8 +745,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "prob": 40, "group": "flour_bag_paper_powder_70" },
-      { "prob": 25, "group": "flour_bag_plastic_175" },
+      { "prob": 65, "group": "flour_various_full" },
       { "prob": 35, "group": "bread_flour_bag_paper_powder_20" },
       { "prob": 50, "group": "cornmeal_box_small_10" },
       { "prob": 40, "group": "yeast_various_full" },
@@ -1069,9 +1066,8 @@
       [ "ghee", 15 ],
       { "prob": 15, "group": "pepper_bulk" },
       { "prob": 20, "group": "salt_bulk" },
-      { "prob": 5, "group": "sugar_various" },
-      { "prob": 4, "group": "flour_bag_paper_powder" },
-      { "prob": 13, "group": "flour_bag_plastic_1_175" },
+      { "prob": 5, "group": "sugar_bulk" },
+      { "prob": 17, "group": "flour_bulk" },
       [ "soysauce", 25 ],
       [ "hot_sauce", 25 ],
       [ "cooking_oil", 50 ],
@@ -1109,9 +1105,8 @@
       [ "ghee", 15 ],
       { "prob": 15, "group": "pepper_bulk" },
       { "prob": 20, "group": "salt_bulk" },
-      { "prob": 5, "group": "sugar_various" },
-      { "prob": 4, "group": "flour_bag_paper_powder" },
-      { "prob": 13, "group": "flour_bag_plastic_1_175" },
+      { "prob": 5, "group": "sugar_bulk" },
+      { "prob": 17, "group": "flour_bulk" },
       [ "soysauce", 25 ],
       [ "hot_sauce", 25 ],
       [ "cooking_oil", 40 ],
@@ -1832,6 +1827,42 @@
     "container-item": "box_small",
     "entries": [ { "item": "stuffed_clams", "container-item": "null", "count-min": 1 } ]
   },
+
+  {
+    "type": "item_group",
+    "id": "flour_various",
+    "//": "This group was created by a fool and may contain errors.",
+    "subtype": "distribution",
+    "entries": [
+      { "prob": 2, "group": "flour_bottle_plastic" },
+      { "prob": 2, "group": "flour_bottle_glass" },
+      { "prob": 4, "group": "flour_bag_plastic" },
+      { "prob": 1, "group": "flour_bag_paper" }
+    ]
+  },
+
+  {
+    "type": "item_group",
+    "id": "flour_various_full",
+    "//": "This group was created by a fool and may contain errors.",
+    "subtype": "distribution",
+    "entries": [
+      { "prob": 4, "item": "flour", "container-item": "bag_paper_powder", "count": 175 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "flour_bulk",
+    "//": "This group was created by a fool and may contain errors.",
+    "subtype": "distribution",
+    "entries": [
+      { "prob": 5, "group": "flour_bag_plastic" },
+      { "prob": 20, "group": "flour_bag_paper" },
+      { "prob": 2, "group": "flour_bag_paper_bulk" }
+    ]
+  },
+
+
   {
     "type": "item_group",
     "id": "flour_bag_paper_powder",
@@ -1842,11 +1873,27 @@
   },
   {
     "type": "item_group",
-    "id": "flour_bag_plastic_1_175",
+    "id": "flour_bag_paper_powder_bulk",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic",
-    "entries": [ { "item": "flour", "container-item": "null", "count": [ 1, 175 ] } ]
+    "container-item": "bag_paper_powder_bulk",
+    "entries": [ { "item": "flour", "container-item": "null", "count": [ 10, 400 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "flour_bag_plastic",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "flour", "container-item": "null", "count": [ 1, 20 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "bread_flour_bag_paper_powder_20",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bag_paper_powder",
+    "entries": [ { "item": "bread_flour", "container-item": "null", "count": 20 } ]
   },
   {
     "type": "item_group",
@@ -2333,30 +2380,6 @@
     "//": "This group was created automatically and may contain errors.",
     "container-item": "box_small",
     "entries": [ { "item": "cereal_fp7", "container-item": "null", "count": 6 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "flour_bag_paper_powder_70",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_paper_powder",
-    "entries": [ { "item": "flour", "container-item": "null", "count": 70 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "flour_bag_plastic_175",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic",
-    "entries": [ { "item": "flour", "container-item": "null", "count": 175 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "bread_flour_bag_paper_powder_20",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_paper_powder",
-    "entries": [ { "item": "bread_flour", "container-item": "null", "count": 20 } ]
   },
   {
     "type": "item_group",
