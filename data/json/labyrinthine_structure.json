@@ -284,13 +284,56 @@
   {
     "type": "overmap_terrain",
     "copy-from": "deep_rock",
+    "looks_like": "evac_center_7",
     "//": "should be indistinguishable from deep rock.  Not supposed to be able to see it.",
     "id": "labyrinth_hall",
-    "name": "cavern",
-    "name": "solid rock",
     "sym": "%",
-    "color": "dark_gray"
+    "color": "dark_gray",
     "flags": [ "LINEAR" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "labyrinthine_structure",
+    "subtype": "mutable",
+    "locations": [ "subterranean_empty" ],
+    "city_distance": [ 10, -1 ],
+    "occurrences": [ 10, 10 ],
+    "flags": [ "EXODII" ],
+    "check_for_locations": [ [ [ 0, 0, -10 ], [ "subterranean_empty" ] ] ],
+    "joins": [ { "id": "tunnel_to_tunnel", "into_locations": [ "subterranean_empty" ] } ],
+    "overmaps": {
+      "crossroads": {
+        "overmap": "labyrinth_hall_nesw",
+        "north": "tunnel_to_tunnel",
+        "east": "tunnel_to_tunnel",
+        "south": "tunnel_to_tunnel",
+        "west": "tunnel_to_tunnel"
+      },
+      "tee": {
+        "overmap": "labyrinth_hall_nes",
+        "north": "tunnel_to_tunnel",
+        "east": "tunnel_to_tunnel",
+        "south": "tunnel_to_tunnel"
+      },
+      "straight_tunnel": { "overmap": "labyrinth_hall_ns", "north": "tunnel_to_tunnel", "south": "tunnel_to_tunnel" },
+      "corner": { "overmap": "labyrinth_hall_ne", "north": "tunnel_to_tunnel", "east": "tunnel_to_tunnel" },
+      "dead_end": { "overmap": "labyrinth_hall_end_south", "north": "tunnel_to_tunnel" }
+    },
+    "root": "crossroads",
+    "phases": [
+      [
+        { "overmap": "straight_tunnel", "max": { "poisson": 20 } },
+        { "overmap": "corner", "max": { "poisson": 5 } },
+        { "overmap": "tee", "max": { "poisson": 10 } }
+      ],
+      [
+        { "overmap": "dead_end", "weight": 2000 },
+        { "overmap": "straight_tunnel", "weight": 100 },
+        { "overmap": "corner", "weight": 100 },
+        { "overmap": "tee", "weight": 10 },
+        { "overmap": "crossroads", "weight": 1 }
+      ]
+    ]
   },
   {
     "type": "mapgen",
@@ -403,7 +446,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "labyrinth_hall_4way" ],
+    "om_terrain": [ "labyrinth_hall_four_way" ],
     "object": {
       "fill_ter": "t_nl_mist",
       "rows": [
@@ -860,7 +903,7 @@
     "method": "json",
     "nested_mapgen_id": "ls_12x12hallcorner_basic",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [ 12, 12 ],
       "rows": [
         "vvvvvvvvvvvv",
         "vvvvvvvvvvvv",
@@ -883,7 +926,7 @@
     "method": "json",
     "nested_mapgen_id": "ls_12x12hall4way_basic",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [ 12, 12 ],
       "rows": [
         "vvvv....vvvv",
         "vvvv....vvvv",
@@ -906,7 +949,7 @@
     "method": "json",
     "nested_mapgen_id": "ls_12x12halltee_basic",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [ 12, 12 ],
       "rows": [
         "vvvvvvvvvvvv",
         "vvvvvvvvvvvv",
