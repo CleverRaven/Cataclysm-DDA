@@ -1,9 +1,24 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_NH_start",
+    "eoc_type": "EVENT",
+    "required_event": "game_start",
+    "effect": [ { "run_eocs": "EOC_NH_difficultycheck" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NH_load",
+    "eoc_type": "EVENT",
+    "required_event": "game_load",
+    "effect": [ { "run_eocs": "EOC_NH_difficultycheck" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_NH_difficultycheck",
     "eoc_type": "EVENT",
     "required_event": "game_load",
+    "condition": { "math": [ "NH_has_set_difficulty", "==", "0" ] },
     "effect": [
       {
         "run_eoc_selector": [ "EOC_NH_difficulty0", "EOC_NH_difficulty1", "EOC_NH_difficulty2" ],
