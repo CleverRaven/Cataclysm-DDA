@@ -11,8 +11,8 @@
     "flags": [ "COIN_SHAPED" ],
     "material": [ "copper" ],
     "volume": "1 ml",
-    "price": 1,
-    "price_postapoc": 1
+    "price": "1 cent",
+    "price_postapoc": "1 cent"
   },
   {
     "//": "table of contents: common response strings appearing in this list of topics",

@@ -12,8 +12,8 @@
     "techniques": [ "WBLOCK_1" ],
     "volume": "3500 ml",
     "category": "veh_parts",
-    "price": 3000,
-    "price_postapoc": 100,
+    "price": "30 USD",
+    "price_postapoc": "1 USD",
     "qualities": [ [ "HAMMER", 1 ] ],
     "melee_damage": { "bash": 19 }
   },
@@ -29,8 +29,8 @@
     "volume": "250 ml",
     "to_hit": -1,
     "category": "veh_parts",
-    "price": 6000,
-    "price_postapoc": 100,
+    "price": "60 USD",
+    "price_postapoc": "1 USD",
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "melee_damage": { "bash": 2 }
   },
@@ -46,8 +46,8 @@
     "material": [ "steel" ],
     "volume": "3500 ml",
     "category": "veh_parts",
-    "price": 800,
-    "price_postapoc": 100,
+    "price": "8 USD",
+    "price_postapoc": "1 USD",
     "flags": [ "WATER_BREAK", "ELECTRONIC" ]
   },
   {
@@ -62,8 +62,8 @@
     "material": [ "steel" ],
     "volume": "4 L",
     "category": "veh_parts",
-    "price": 5000,
-    "price_postapoc": 250,
+    "price": "50 USD",
+    "price_postapoc": "2 USD 50 cent",
     "flags": [ "WATER_BREAK", "ELECTRONIC" ]
   }
 ]
