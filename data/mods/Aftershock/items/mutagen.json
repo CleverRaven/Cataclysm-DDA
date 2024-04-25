@@ -5,7 +5,7 @@
     "type": "COMESTIBLE",
     "name": { "str_sp": "mi-go mutagenic primer" },
     "description": "A super-concentrated mutagen strongly resembling a lava lamp.",
-    "price": 1000000,
+    "price": "10 kUSD",
     "color": "red",
     "healthy": -4,
     "use_action": {
@@ -21,7 +21,7 @@
     "type": "COMESTIBLE",
     "name": { "str_sp": "mi-go mutagen" },
     "description": "An extremely rare mutagen cocktail, it smells of sulfur and glows orange.",
-    "price": 500000,
+    "price": "5 kUSD",
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You drink the mi-go mutagen.",
@@ -34,7 +34,7 @@
     "type": "COMESTIBLE",
     "name": { "str_sp": "mastodon mutagenic primer" },
     "description": "A processed mutagenic primer not for those frightened of this thing they have become.",
-    "price": 1000000,
+    "price": "10 kUSD",
     "color": "red",
     "healthy": -4,
     "use_action": {
@@ -50,7 +50,7 @@
     "type": "COMESTIBLE",
     "name": { "str_sp": "mastodon mutagen" },
     "description": "An extremely rare mutagen cocktail, it seeks to cure what's deep inside.",
-    "price": 500000,
+    "price": "5 kUSD",
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You drink the mastodon mutagen.",

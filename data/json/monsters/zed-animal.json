@@ -23,7 +23,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
     "dodge": 5,
-    "luminance": 0,
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_zombie" ],
     "harvest": "zombie_leather",
     "flags": [
@@ -65,7 +64,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],
     "dodge": 3,
-    "luminance": 0,
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_zombie" ],
     "harvest": "zombie_leather",
     "flags": [

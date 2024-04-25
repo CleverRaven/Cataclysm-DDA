@@ -2,8 +2,8 @@
   {
     "type": "AMMO",
     "id": "afs_82mm_flashbulb",
-    "price": 70000,
-    "price_postapoc": 12000,
+    "price": "700 USD",
+    "price_postapoc": "120 USD",
     "name": { "str": "82x225mm flashbulb" },
     "symbol": "=",
     "color": "dark_gray",

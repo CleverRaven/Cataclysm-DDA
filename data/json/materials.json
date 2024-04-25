@@ -1542,7 +1542,7 @@
     "type": "material",
     "id": "paraffin_wax",
     "name": "Paraffin Wax",
-    "density": 0.9,
+    "density": 0.86,
     "specific_heat_liquid": 2.9,
     "specific_heat_solid": 3.7,
     "latent_heat": 210,

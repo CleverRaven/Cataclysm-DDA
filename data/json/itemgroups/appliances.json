@@ -38,7 +38,7 @@
       { "item": "chunk_rubber", "count": [ 0, 3 ] },
       { "item": "material_aluminium_ingot", "count": [ 0, 12 ] },
       { "item": "glass", "count": [ 0, 5 ] },
-      { "item": "cable", "charges": [ 0, 8300 ] },
+      { "item": "cable", "charges": [ 0, 42 ] },
       { "item": "hose", "count": [ 0, 1 ] },
       { "item": "cu_pipe", "count": [ 0, 1 ] },
       { "item": "refrigerant_tank", "count": [ 0, 1 ] }
@@ -59,7 +59,7 @@
       { "item": "chunk_rubber", "count": [ 0, 1 ] },
       { "item": "material_aluminium_ingot", "count": [ 0, 5 ] },
       { "item": "glass", "count": [ 0, 2 ] },
-      { "item": "cable", "charges": [ 0, 3600 ] },
+      { "item": "cable", "charges": [ 0, 18 ] },
       { "item": "hose", "count": [ 0, 1 ] },
       { "item": "cu_pipe", "count": [ 0, 1 ] },
       { "item": "refrigerant_tank", "count": [ 0, 1 ] }
@@ -81,7 +81,7 @@
       { "item": "chunk_rubber", "count": [ 0, 3 ] },
       { "item": "material_aluminium_ingot", "count": [ 0, 14 ] },
       { "item": "glass", "count": [ 0, 6 ] },
-      { "item": "cable", "charges": [ 0, 9900 ] },
+      { "item": "cable", "charges": [ 0, 50 ] },
       { "item": "hose", "count": [ 0, 1 ] },
       { "item": "cu_pipe", "count": [ 0, 1 ] },
       { "item": "refrigerant_tank", "count": [ 0, 1 ] }
@@ -103,7 +103,7 @@
       { "item": "chunk_rubber", "count": [ 0, 4 ] },
       { "item": "material_aluminium_ingot", "count": [ 0, 16 ] },
       { "item": "glass", "count": [ 0, 234 ] },
-      { "item": "cable", "charges": [ 0, 11500 ] },
+      { "item": "cable", "charges": [ 0, 58 ] },
       { "item": "hose", "count": [ 0, 1 ] },
       { "item": "cu_pipe", "count": [ 0, 1 ] },
       { "item": "refrigerant_tank", "count": [ 0, 1 ] }
@@ -125,7 +125,7 @@
       { "item": "chunk_rubber", "count": [ 0, 7 ] },
       { "item": "material_aluminium_ingot", "count": [ 0, 34 ] },
       { "item": "glass", "count": [ 0, 468 ] },
-      { "item": "cable", "charges": [ 0, 24800 ] },
+      { "item": "cable", "charges": [ 0, 124 ] },
       { "item": "hose", "count": [ 0, 1 ] },
       { "item": "cu_pipe", "count": [ 0, 1 ] },
       { "item": "refrigerant_tank", "count": [ 0, 1 ] }
@@ -147,7 +147,7 @@
       { "item": "chunk_rubber", "count": [ 0, 7 ] },
       { "item": "material_aluminium_ingot", "count": [ 0, 33 ] },
       { "item": "glass", "count": [ 0, 14 ] },
-      { "item": "cable", "charges": [ 0, 24300 ] },
+      { "item": "cable", "charges": [ 0, 122 ] },
       { "item": "hose", "count": [ 0, 1 ] },
       { "item": "cu_pipe", "count": [ 0, 1 ] },
       { "item": "refrigerant_tank", "count": [ 0, 1 ] }
@@ -169,7 +169,7 @@
       { "item": "chunk_rubber", "count": [ 0, 5 ] },
       { "item": "material_aluminium_ingot", "count": [ 0, 21 ] },
       { "item": "glass", "count": [ 0, 236 ] },
-      { "item": "cable", "charges": [ 0, 15000 ] },
+      { "item": "cable", "charges": [ 0, 75 ] },
       { "item": "hose", "count": [ 0, 1 ] },
       { "item": "cu_pipe", "count": [ 0, 1 ] },
       { "item": "refrigerant_tank", "count": [ 0, 1 ] }
@@ -191,7 +191,7 @@
       { "item": "chunk_rubber", "count": [ 0, 3 ] },
       { "item": "material_aluminium_ingot", "count": [ 0, 12 ] },
       { "item": "glass", "count": [ 0, 5 ] },
-      { "item": "cable", "charges": [ 0, 8300 ] },
+      { "item": "cable", "charges": [ 0, 42 ] },
       { "item": "hose", "count": [ 0, 1 ] },
       { "item": "cu_pipe", "count": [ 0, 1 ] },
       { "item": "refrigerant_tank", "count": [ 0, 1 ] }
@@ -212,7 +212,7 @@
       { "item": "chunk_rubber", "count": [ 0, 2 ] },
       { "item": "material_aluminium_ingot", "count": [ 0, 6 ] },
       { "item": "glass", "count": [ 0, 3 ] },
-      { "item": "cable", "charges": [ 0, 3900 ] },
+      { "item": "cable", "charges": [ 0, 20 ] },
       { "item": "hose", "count": [ 0, 1 ] },
       { "item": "cu_pipe", "count": [ 0, 1 ] },
       { "item": "refrigerant_tank", "count": [ 0, 1 ] }
@@ -233,7 +233,7 @@
       { "item": "chunk_rubber", "count": [ 0, 1 ] },
       { "item": "material_aluminium_ingot", "count": [ 0, 5 ] },
       { "item": "glass", "count": [ 0, 2 ] },
-      { "item": "cable", "charges": [ 0, 3400 ] },
+      { "item": "cable", "charges": [ 0, 17 ] },
       { "item": "hose", "count": [ 0, 1 ] },
       { "item": "cu_pipe", "count": [ 0, 1 ] },
       { "item": "refrigerant_tank", "count": [ 0, 1 ] }
@@ -255,7 +255,7 @@
       { "item": "chunk_rubber", "count": [ 0, 3 ] },
       { "item": "material_aluminium_ingot", "count": [ 0, 15 ] },
       { "item": "glass", "count": [ 0, 6 ] },
-      { "item": "cable", "charges": [ 0, 10600 ] },
+      { "item": "cable", "charges": [ 0, 53 ] },
       { "item": "hose", "count": [ 0, 1 ] },
       { "item": "cu_pipe", "count": [ 0, 1 ] },
       { "item": "refrigerant_tank", "count": [ 0, 1 ] }
@@ -277,7 +277,7 @@
       { "item": "chunk_rubber", "count": [ 0, 2 ] },
       { "item": "material_aluminium_ingot", "count": [ 0, 10 ] },
       { "item": "glass", "count": [ 0, 4 ] },
-      { "item": "cable", "charges": [ 0, 7400 ] },
+      { "item": "cable", "charges": [ 0, 37 ] },
       { "item": "hose", "count": [ 0, 1 ] },
       { "item": "cu_pipe", "count": [ 0, 1 ] },
       { "item": "refrigerant_tank", "count": [ 0, 1 ] }
@@ -299,7 +299,7 @@
       { "item": "chunk_rubber", "count": [ 0, 7 ] },
       { "item": "material_aluminium_ingot", "count": [ 0, 35 ] },
       { "item": "glass", "count": [ 0, 14 ] },
-      { "item": "cable", "charges": [ 0, 25400 ] },
+      { "item": "cable", "charges": [ 0, 127 ] },
       { "item": "hose", "count": [ 0, 1 ] },
       { "item": "cu_pipe", "count": [ 0, 1 ] },
       { "item": "refrigerant_tank", "count": [ 0, 1 ] }
@@ -321,7 +321,7 @@
       { "item": "chunk_rubber", "count": [ 0, 4 ] },
       { "item": "material_aluminium_ingot", "count": [ 0, 16 ] },
       { "item": "glass", "count": [ 0, 234 ] },
-      { "item": "cable", "charges": [ 0, 11800 ] },
+      { "item": "cable", "charges": [ 0, 59 ] },
       { "item": "hose", "count": [ 0, 1 ] },
       { "item": "cu_pipe", "count": [ 0, 1 ] },
       { "item": "refrigerant_tank", "count": [ 0, 1 ] }
@@ -343,7 +343,7 @@
       { "item": "chunk_rubber", "count": [ 0, 3 ] },
       { "item": "material_aluminium_ingot", "count": [ 0, 13 ] },
       { "item": "glass", "count": [ 0, 232 ] },
-      { "item": "cable", "charges": [ 0, 8900 ] },
+      { "item": "cable", "charges": [ 0, 45 ] },
       { "item": "hose", "count": [ 0, 1 ] },
       { "item": "cu_pipe", "count": [ 0, 1 ] },
       { "item": "refrigerant_tank", "count": [ 0, 1 ] }

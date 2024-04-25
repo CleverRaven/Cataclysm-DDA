@@ -1306,17 +1306,12 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
     int last_line = -1;
     bool just_toggled_unread = false;
 
-    const inventory &crafting_inv = crafter->crafting_inventory();
     const std::vector<Character *> crafting_group = crafter->get_crafting_group();
     int crafter_i = find( crafting_group.begin(), crafting_group.end(),
                           crafter ) - crafting_group.begin();
 
     // Get everyone's recipes
-    recipe_subset assemble_available_recipes;;
-    for( const Character *guy : crafting_group ) {
-        assemble_available_recipes.include( guy->get_available_recipes( crafting_inv ) );
-    }
-    const recipe_subset &available_recipes = assemble_available_recipes;
+    const recipe_subset &available_recipes = crafter->get_group_available_recipes();
     std::map<character_id, std::map<const recipe *, availability>> guy_availability_cache;
     // next line also inserts empty cache for crafter->getID()
     std::map<const recipe *, availability> *availability_cache =
