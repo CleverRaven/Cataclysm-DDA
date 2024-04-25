@@ -4626,12 +4626,19 @@ talk_effect_fun_t::func f_set_condition( const JsonObject &jo, std::string_view 
     };
 }
 
-talk_effect_fun_t::func f_set_item_category_spawn_rate( const JsonObject &jo, std::string_view member ) // Can't be generified to any world option without explicit special handling as it needs to dirty the item category's cache
+talk_effect_fun_t::func f_set_option( const JsonObject &jo, std::string_view member )
 {
-    std::string category = jo.get_string( "category" ); // Might want to be two strings or use an enum bc I don't think "SPAWN_RATE_" + category is right
-    float rate = jo.get_string( "rate" );
-    options_manager::set_world_option( std::make_pair( "SPAWN_RATE_" + category, rate) );
-    item_category( category ).dirty_spawn_rate = true;
+    std::string type = jo.get_string( "type" );
+    // Each option needs explicit special handling as most options are only checked during load
+    if( type == "item_category_spawn_rate" ) {
+        std::string id = jo.get_string( "id" );
+        item_category category( jo.get_string( "item_category" ) );
+        float spawn_rate = jo.get_string( "spawn_rate" );
+        options_manager::set_world_option( std::make_pair( id, spawn_rate ) );
+        category.dirty_spawn_rate = true;
+    } else {
+        jo.throw_error( "Option type lacks handling" );
+    }
 }
 
 talk_effect_fun_t::func f_assign_mission( const JsonObject &jo, std::string_view member )
@@ -6405,7 +6412,7 @@ parsers = {
     { "give_equipment", jarg::object, &talk_effect_fun::f_give_equipment },
     { "set_string_var", jarg::member | jarg::array, &talk_effect_fun::f_set_string_var },
     { "set_condition", jarg::member, &talk_effect_fun::f_set_condition },
-    { "set_item_category_spawn_rate", jarg::member, &talk_effect_fun::f_set_item_category_spawn_rate },
+    { "set_option", jarg::member, &talk_effect_fun::f_set_item_category_spawn_rate },
     { "open_dialogue", jarg::member, &talk_effect_fun::f_open_dialogue },
     { "take_control", jarg::member, &talk_effect_fun::f_take_control },
     { "trigger_event", jarg::member, &talk_effect_fun::f_trigger_event },

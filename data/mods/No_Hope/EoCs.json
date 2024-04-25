@@ -1,0 +1,54 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NH_difficultycheck",
+    "eoc_type": "EVENT",
+    "required_event": "game_load",
+    "condition": { "math": [ "NH_has_set_difficulty", "==", "0" ] },
+    "effect": [
+      {
+        "run_eoc_selector": [ "EOC_NH_difficulty0", "EOC_NH_difficulty1", "EOC_NH_difficulty2" ],
+        "//": "A custom difficulty could be nice too.",
+        "names": [ "Hard", "Harder", "Harderest" ],
+        "title": "Select a Difficulty",
+        "keys": [ "1", "2", "3" ],
+        "descriptions": [
+          "In Hard Difficulty, items are rarer than vanilla.",
+          "In Harder Difficulty, items are much rarer than vanilla.",
+          "In Harderest Difficulty, items are so very much rarerer than vanilla."
+        ]
+      },
+      { "math": [ "NH_has_set_difficulty", "=", "1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NH_difficulty0",
+    "effect": [
+      { "u_message": "Difficulty set to Hard." },
+      {
+        "set_option": { "type": "item_category_spawn_rate", "id": "SPAWN_RATE_ARMOR", "item_category": "armor", "spawn_rate": "0.5" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NH_difficulty1",
+    "effect": [
+      { "u_message": "Difficulty set to Harder." },
+      {
+        "set_option": { "type": "item_category_spawn_rate", "id": "SPAWN_RATE_ARMOR", "item_category": "armor", "spawn_rate": "0.3" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NH_difficulty2",
+    "effect": [
+      { "u_message": "Difficulty set to Harderest." },
+      {
+        "set_option": { "type": "item_category_spawn_rate", "id": "SPAWN_RATE_ARMOR", "item_category": "armor", "spawn_rate": "0.1" }
+      }
+    ]
+  }
+]
