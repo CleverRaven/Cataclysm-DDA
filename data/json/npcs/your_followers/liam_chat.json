@@ -685,6 +685,16 @@
         "condition": { "u_has_mission": "MISSION_ISHERWOOD_BARRY_1" }
       },
       {
+        "text": "You know anything about how to troubleshoot a radio tower, Liam?",
+        "topic": "TALK_Liam_Opinions_MISSION_ROBOFAC_MERC_1_RADIO",
+        "condition": { "u_has_mission": "MISSION_ROBOFAC_MERC_1_RADIO" }
+      },
+      {
+        "text": "How do we explain what we saw out at the radio tower to the guys back at the Hub?",
+        "topic": "TALK_Liam_Opinions_MISSION_ROBOFAC_MERC_1_RETURN_TO_HUB",
+        "condition": { "u_has_mission": "MISSION_ROBOFAC_MERC_1_RETURN_TO_HUB" }
+      },
+      {
         "text": "Liam!  There's a chef, trapped in a restaurant!  Want to help save them?",
         "topic": "TALK_Liam_Opinions_directions_chef",
         "condition": { "u_has_mission": "directions_chef" }
@@ -1653,6 +1663,18 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_ROBOFAC_MERC_1_RADIO",
+    "dynamic_line": "&He laughs.  \"Heck yeah, my friend, I picked that up here and there running deliveries for Amazon, during my famously long breaks.\"  He grins.  \"Seriously though, I hope it's something obvious, like a big disconnected dish.  Even if we can't figure it out, I'm looking forward to climbing up there, I love that shit.  Seems like a nice fun one.\"",
+    "responses": [ { "text": "Cool.  I'd like your opinion on something else, though.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_ROBOFAC_MERC_1_RETURN_TO_HUB",
+    "dynamic_line": "*stares at you.  \"I'm leaving that one to you.  I can't believe I was excited for that mission, that critter was *weird*.  I guess it did make it easy to figure out what was going on though, so that's cool right?\"",
+    "responses": [ { "text": "Yeah, 'cool'.  I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_Liam_Opinions_directions_chef",
     "dynamic_line": "*rubs his chin.  \"Mmmaaaybe?  What kind of chef?  I worked as a dishwasher in a fancy place for a couple months.  If they're a line chef, then yes.  Sous-chef or above?  Leave 'em for the zombies.  I hated that job.\"",
     "responses": [ { "text": "Duly noted.  I'd like your opinion on something else, though.", "topic": "TALK_Liam_Opinions" } ]
@@ -1795,6 +1817,8 @@
       "TALK_Liam_Opinions_MISSION_ISHERWOOD_BARRY_1-help1",
       "TALK_Liam_Opinions_MISSION_ISHERWOOD_BARRY_1-help2",
       "TALK_Liam_Opinions_MISSION_ISHERWOOD_BARRY_1-toughlove",
+      "TALK_Liam_Opinions_MISSION_ROBOFAC_MERC_1_RADIO",
+      "TALK_Liam_Opinions_MISSION_ROBOFAC_MERC_1_RETURN_TO_HUB",
       "TALK_Liam_Opinions_directions_chef",
       "TALK_Liam_Opinions_directions_farmer",
       "TALK_Liam_Opinions_directions_hospital_2_CABIN",
