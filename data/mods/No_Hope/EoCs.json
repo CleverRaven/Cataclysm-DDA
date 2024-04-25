@@ -18,10 +18,11 @@
     "id": "EOC_NH_difficultycheck",
     "eoc_type": "EVENT",
     "required_event": "game_load",
-    "condition": { "math": [ "!has_var( NH_has_set_difficulty )" ] },
+    "condition": { "math": [ "!has_var( NH_item_difficulty )" ] },
+    "//1": "TODO: Sensible names/descriptions",
     "effect": [
       {
-        "run_eoc_selector": [ "EOC_NH_difficulty0", "EOC_NH_difficulty1", "EOC_NH_difficulty2" ],
+        "run_eoc_selector": [ "EOC_NH_set_item_difficulty_0", "EOC_NH_set_item_difficulty_1", "EOC_NH_set_item_difficulty_2" ],
         "//": "A custom difficulty could be nice too.",
         "names": [ "Hard", "Harder", "Harderest" ],
         "title": "Select a Difficulty",
@@ -31,16 +32,33 @@
           "In Harder Difficulty, items are much rarer than vanilla.",
           "In Harderest Difficulty, items are so very much rarerer than vanilla."
         ]
-      },
-      { "math": [ "NH_has_set_difficulty", "=", "1" ] }
+      }
+    ],
+    "else_effect": [
+      {
+        "switch": { "math": [ "NH_item_difficulty" ] },
+        "cases": [
+          { "case": 0, "effect": { "run_eocs": "EOC_NH_item_difficulty_0" } },
+          { "case": 1, "effect": { "run_eocs": "EOC_NH_item_difficulty_1" } },
+          { "case": 2, "effect": { "run_eocs": "EOC_NH_item_difficulty_2" } }
+        ]
+      }
     ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_NH_difficulty0",
-    "//": "TODO: Add variance to the rates to make it more tailored than just a flat decrease",
+    "id": "EOC_NH_set_item_difficulty_0",
     "effect": [
       { "u_message": "Difficulty set to Hard." },
+      { "run_eocs": "EOC_NH_item_difficulty_0" },
+      { "math": [ "NH_item_difficulty", "=", "0" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NH_item_difficulty_0",
+    "//": "TODO: Add variance to the rates to make it more tailored than just a flat decrease",
+    "effect": [
       {
         "set_item_category_spawn_rates": [
           { "spawn_rate": 0.6, "id": "guns" },
@@ -63,7 +81,16 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_NH_difficulty1",
+    "id": "EOC_NH_set_item_difficulty_1",
+    "effect": [
+      { "u_message": "Difficulty set to Harder." },
+      { "run_eocs": "EOC_NH_item_difficulty_1" },
+      { "math": [ "NH_item_difficulty", "=", "1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NH_item_difficulty_1",
     "effect": [
       { "u_message": "Difficulty set to Harder." },
       {
@@ -83,14 +110,23 @@
           { "spawn_rate": 0.4, "id": "fuel" },
           { "spawn_rate": 0.4, "id": "armor" }
         ]
-      }
+      },
+      { "math": [ "NH_item_difficulty", "=", "1" ] }
     ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_NH_difficulty2",
+    "id": "EOC_NH_set_item_difficulty_2",
     "effect": [
       { "u_message": "Difficulty set to Harderest." },
+      { "run_eocs": "EOC_NH_item_difficulty_2" },
+      { "math": [ "NH_item_difficulty", "=", "2" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NH_item_difficulty_2",
+    "effect": [
       {
         "set_item_category_spawn_rates": [
           { "spawn_rate": 0.2, "id": "guns" },
