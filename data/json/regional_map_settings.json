@@ -651,16 +651,16 @@
         }
       },
       "road": {
-        "chance": 75,
+        "chance": 100,
         "extras": {
-          "mx_helicopter": 10,
-          "mx_military": 50,
-          "mx_science": 50,
+          "mx_helicopter": 1,
+          "mx_military": 10,
+          "mx_science": 10,
           "mx_collegekids": 500,
           "mx_roadblock": 830,
           "mx_roadblock_mil": 170,
-          "mx_bandits_block": 800,
-          "mx_drugdeal": 300,
+          "mx_bandits_block": 400,
+          "mx_drugdeal": 100,
           "mx_supplydrop": 5,
           "mx_portal": 50,
           "mx_crater": 100,
@@ -681,7 +681,7 @@
       "build": {
         "chance": 90,
         "extras": {
-          "mx_bugout": 20,
+          "mx_bugout": 10,
           "mx_house_spider": 40,
           "mx_house_wasp": 30,
           "mx_military": 5,
@@ -697,7 +697,7 @@
         }
       },
       "marloss": { "chance": 20, "extras": { "mx_marloss_pilgrimage": 100 } },
-      "subway": { "chance": 75, "extras": { "mx_military": 5, "mx_science": 12, "mx_drugdeal": 5, "mx_casings": 10 } },
+      "subway": { "chance": 100, "extras": { "mx_military": 5, "mx_science": 12, "mx_drugdeal": 5, "mx_casings": 10 } },
       "lab_subway": { "chance": 25, "extras": { "mx_military": 5, "mx_science": 15, "mx_portal": 3, "mx_portal_in": 3 } },
       "research_facility_lot": {
         "chance": 3,
@@ -1096,7 +1096,7 @@
         "police": 100,
         "police_1": 100,
         "police_2": 100,
-        "police_dept": 1250,
+        "police_dept": 125,
         "fire_station": 200,
         "fire_station_1": 200,
         "home_improvement": 200,

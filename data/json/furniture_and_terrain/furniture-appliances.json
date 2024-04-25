@@ -163,33 +163,20 @@
     "id": "f_fridge",
     "name": "refrigerator",
     "symbol": "{",
-    "description": "A standard household refrigerator.  If powered, it will cool its contents to extend the time before they spoil.",
+    "description": "A standard household refrigerator.  If powered, it will cool its contents to extend the time before they spoil.  Deconstruct it if you want to connect it to the grid.",
     "color": "light_cyan",
     "move_cost_mod": -1,
     "coverage": 90,
     "required_str": 10,
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "NO_SELF_CONNECT", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
-    "deconstruct": { "items": [ { "item": "fridge", "count": 1 } ] },
-    "max_volume": "500 L",
-    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "fridge" },
+    "deconstruct": { "items": [ { "item": "fridge", "count": 1 }, { "item": "apartment_freezer", "count": 1 } ] },
+    "max_volume": "433 L",
     "bash": {
       "str_min": 18,
       "str_max": 50,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [
-        { "item": "sheet_metal", "count": [ 1, 4 ] },
-        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
-        { "item": "scrap", "count": [ 2, 8 ] },
-        { "item": "plastic_chunk", "count": [ 9, 14 ] },
-        { "item": "cable", "charges": [ 1, 2 ] },
-        { "item": "pipe_fittings", "count": [ 1, 3 ] },
-        { "item": "hose", "count": 1 },
-        { "item": "cu_pipe", "count": [ 2, 4 ] },
-        { "item": "scrap_copper", "count": [ 1, 2 ] },
-        { "item": "motor_tiny", "prob": 25 }
-      ]
+      "items": [ { "group": "apartment_fridge_destroyed" }, { "group": "apartment_freezer_destroyed" } ]
     }
   },
   {
@@ -206,25 +193,13 @@
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "glass_fridge" },
     "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "NO_SELF_CONNECT", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
     "deconstruct": { "items": [ { "item": "glass_fridge", "count": 1 } ] },
-    "max_volume": "500 L",
+    "max_volume": "347 L",
     "bash": {
       "str_min": 12,
       "str_max": 50,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [
-        { "item": "sheet_metal", "count": [ 1, 3 ] },
-        { "item": "sheet_metal_small", "count": [ 6, 9 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
-        { "item": "scrap", "count": [ 2, 8 ] },
-        { "item": "pipe_fittings", "count": [ 1, 3 ] },
-        { "item": "cable", "charges": [ 1, 3 ] },
-        { "item": "hose", "count": 1 },
-        { "item": "cu_pipe", "count": [ 1, 4 ] },
-        { "item": "scrap_copper", "count": [ 0, 2 ] },
-        { "item": "glass_shard", "count": [ 25, 50 ] },
-        { "item": "motor_tiny", "prob": 25 }
-      ]
+      "items": [ { "group": "glass_fridge_destroyed" } ]
     }
   },
   {
@@ -238,27 +213,16 @@
     "move_cost_mod": -1,
     "coverage": 60,
     "required_str": 10,
-    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "freezer" },
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "chest_freezer" },
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "NO_SELF_CONNECT", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
     "deconstruct": { "items": [ { "item": "freezer", "count": 1 } ] },
-    "max_volume": "450 L",
+    "max_volume": "350 L",
     "bash": {
       "str_min": 18,
       "str_max": 50,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [
-        { "item": "sheet_metal", "count": [ 1, 4 ] },
-        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
-        { "item": "scrap", "count": [ 2, 8 ] },
-        { "item": "plastic_chunk", "count": [ 13, 18 ] },
-        { "item": "cable", "charges": [ 1, 2 ] },
-        { "item": "pipe_fittings", "count": [ 1, 3 ] },
-        { "item": "hose", "count": 1 },
-        { "item": "cu_pipe", "count": [ 2, 4 ] },
-        { "item": "scrap_copper", "count": [ 1, 2 ] }
-      ]
+      "items": [ { "group": "chest_freezer_destroyed" } ]
     }
   },
   {

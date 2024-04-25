@@ -7,7 +7,7 @@
     "name": { "str_sp": "trifacet remains" },
     "category": "other",
     "description": "A split-open facet reveals an interior full of closely-fit geometric primitives among chipped strips of milk-white quartz.  The composition of parts lends you no clues as to how this machine ever functioned.",
-    "price": 1000,
+    "price": "10 USD",
     "material": [ "steel", "ceramic" ],
     "volume": "119 L",
     "weight": "221 kg",

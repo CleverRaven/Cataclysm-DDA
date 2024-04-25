@@ -70,7 +70,7 @@
         "z": "f_crate_c",
         "S": "f_sink"
       },
-      "gaspumps": { "&": { "amount": [ 0, 100 ] } },
+      "gaspumps": { "&": { "amount": [ 0, 1 ] } },
       "toilets": { "t": {  } },
       "place_vendingmachines": [
         { "item_group": "vending_food", "x": 31, "y": 6, "lootable": true },

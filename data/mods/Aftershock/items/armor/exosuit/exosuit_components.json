@@ -7,7 +7,7 @@
     "description": "A small connector used in the construction of exosuit plating and modules, these allow the exosuit to provide power and transfer data.  Larger items will require additional fittings to produce.",
     "weight": "10 g",
     "volume": "250 ml",
-    "price": 1000,
+    "price": "10 USD",
     "ammo_type": "exo_connector",
     "material": [ "nanoprinted_alloy", "copper", "plastic" ],
     "symbol": "#",

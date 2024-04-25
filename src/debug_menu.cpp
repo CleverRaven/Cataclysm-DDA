@@ -187,6 +187,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::CHANGE_THEORY: return "CHANGE_THEORY";
         case debug_menu::debug_menu_index::LEARN_MA: return "LEARN_MA";
         case debug_menu::debug_menu_index::UNLOCK_RECIPES: return "UNLOCK_RECIPES";
+        case debug_menu::debug_menu_index::FORGET_ALL_RECIPES: return "FORGET_ALL_RECIPES";
         case debug_menu::debug_menu_index::EDIT_PLAYER: return "EDIT_PLAYER";
         case debug_menu::debug_menu_index::CONTROL_NPC: return "CONTROL_NPC";
         case debug_menu::debug_menu_index::SPAWN_ARTIFACT: return "SPAWN_ARTIFACT";
@@ -449,6 +450,7 @@ static int player_uilist()
         { uilist_entry( debug_menu_index::CHANGE_THEORY, true, 'T', _( "Change all skills theoretical knowledge" ) ) },
         { uilist_entry( debug_menu_index::LEARN_MA, true, 'l', _( "Learn all melee styles" ) ) },
         { uilist_entry( debug_menu_index::UNLOCK_RECIPES, true, 'r', _( "Unlock all recipes" ) ) },
+        { uilist_entry( debug_menu_index::FORGET_ALL_RECIPES, true, 'f', _( "Forget all recipes" ) ) },
         { uilist_entry( debug_menu_index::EDIT_PLAYER, true, 'p', _( "Edit player/NPC" ) ) },
         { uilist_entry( debug_menu_index::DAMAGE_SELF, true, 'd', _( "Damage self" ) ) },
         { uilist_entry( debug_menu_index::BLEED_SELF, true, 'b', _( "Bleed self" ) ) },
@@ -3042,6 +3044,13 @@ void debug()
                 player_character.learn_recipe( &e.second );
             }
             add_msg( m_good, _( "You know how to craft that now." ) );
+        }
+        break;
+
+        case debug_menu_index::FORGET_ALL_RECIPES: {
+            add_msg( m_info, _( "Recipe debug: forget recipes." ) );
+            player_character.forget_all_recipes();
+            add_msg( m_bad, _( "You don't know how to craft anymore." ) );
         }
         break;
 

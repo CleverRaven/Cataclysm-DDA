@@ -27,8 +27,8 @@
       {
         "text": "If you still want to travel with me, let's go.",
         "topic": "TALK_DONE",
-        "condition": { "npc_has_var": "u_helped_pizzaiolo", "type": "dialogue", "context": "pizzaiolo", "value": "yes" },
-        "effect": [ "follow", { "npc_lose_var": "u_helped_pizzaiolo", "type": "dialogue", "context": "pizzaiolo" } ]
+        "condition": { "npc_has_var": "dialogue_pizzaiolo_u_helped_pizzaiolo", "value": "yes" },
+        "effect": [ "follow", { "npc_lose_var": "dialogue_pizzaiolo_u_helped_pizzaiolo" } ]
       },
       { "text": "Goodbye.", "topic": "TALK_DONE" }
     ]
@@ -76,7 +76,7 @@
         "topic": "TALK_DONE",
         "effect": [
           { "npc_first_topic": "TALK_pizzaiolo_1" },
-          { "npc_add_var": "u_helped_pizzaiolo", "type": "dialogue", "context": "pizzaiolo", "value": "yes" }
+          { "npc_add_var": "dialogue_pizzaiolo_u_helped_pizzaiolo", "value": "yes" }
         ]
       }
     ]

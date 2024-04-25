@@ -9,8 +9,8 @@
     "snippet_category": "necropolis_intro",
     "description": "A folded glossy handout that appears to be an introduction to living in a massive underground complex.",
     "looks_like": "flyer",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "paper" ],
     "weight": "1 g",
     "volume": "1 ml"

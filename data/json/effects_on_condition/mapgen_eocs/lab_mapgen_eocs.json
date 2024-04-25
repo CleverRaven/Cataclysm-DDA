@@ -46,14 +46,12 @@
       "and": [
         { "u_at_om_location": "lab_security_z-1" },
         { "u_has_item": "id_science_security_yellow" },
-        {
-          "not": { "u_has_var": "valid_security_employee", "type": "check", "context": "trap trigger", "value": "yes" }
-        }
+        { "not": { "u_has_var": "check_trap_trigger_valid_security_employee", "value": "yes" } }
       ]
     },
     "effect": [
       { "mapgen_update": "magenta_security_card_spawn", "om_terrain": "lab_security_z-1" },
-      { "u_add_var": "valid_security_employee", "type": "check", "context": "trap trigger", "value": "yes" }
+      { "u_add_var": "check_trap_trigger_valid_security_employee", "value": "yes" }
     ]
   },
   {
