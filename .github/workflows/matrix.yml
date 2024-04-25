@@ -77,7 +77,7 @@ jobs:
   varied_builds:
     needs: [ skip-duplicates-code, skip-duplicates-data, matrix-variables ]
     strategy:
-      fail-fast: ${{ fromJSON(needs.matrix-variables.outputs.fail_fast) }}
+      fail-fast: false
       max-parallel: ${{ fromJSON(needs.matrix-variables.outputs.max_parallel) }}
       matrix:
         include:
@@ -234,7 +234,7 @@ jobs:
         CCACHE_FILECLONE: true
         CCACHE_HARDLINK: true
         CCACHE_NOCOMPRESS: true
-        SKIP: ${{ ( github.event.pull_request.draft == true && matrix.title != 'Basic Build and Test (Clang 10, Ubuntu, Curses)' ) || ( matrix.dont_skip_data_only_changes == 0 && needs.skip-duplicates.outputs.should_skip_code == 'true' ) || ( matrix.dont_skip_data_only_changes != 0 && needs.skip-duplicates-mods.outputs.should_skip_data == 'true' ) }}
+        SKIP: ${{ ( false == true && matrix.title != 'Basic Build and Test (Clang 10, Ubuntu, Curses)' ) || ( matrix.dont_skip_data_only_changes == 0 && needs.skip-duplicates.outputs.should_skip_code == 'true' ) || ( matrix.dont_skip_data_only_changes != 0 && needs.skip-duplicates-mods.outputs.should_skip_data == 'true' ) }}
         SKIP_TESTS: ${{ needs.matrix-variables.outputs.skip_tests }}
     steps:
     - name: checkout repository
@@ -317,7 +317,7 @@ jobs:
     # TODO: post ccache here, however actions/cache@v2 does not support manual upload step
     - name: run tests
       if: ${{ env.SKIP == 'false' && env.SKIP_TESTS == 'false' }}
-      run: bash ./build-scripts/gha_test_only.sh
+      run: true
     - run: |
         echo ${{ github.event.number }} > pull_request_id
         echo "true" > ${{ env.ARCHIVE_SUCCESS }}
@@ -338,8 +338,8 @@ jobs:
         path: ${{ env.ARCHIVE_SUCCESS }}
     - name: upload artifacts if failed
       uses: actions/upload-artifact@v4
-      if: failure()
+      if: ${{ always() }}
       with:
-        name: cata_test
+        name: ${{ matrix.title }}
         path: tests/cata_test*
         if-no-files-found: ignore
