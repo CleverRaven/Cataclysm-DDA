@@ -299,7 +299,6 @@
     "city_distance": [ 10, -1 ],
     "occurrences": [ 10, 10 ],
     "flags": [ "EXODII" ],
-    "check_for_locations": [ [ [ 0, 0, -10 ], [ "subterranean_empty" ] ] ],
     "joins": [ { "id": "tunnel_to_tunnel", "into_locations": [ "subterranean_empty" ] } ],
     "overmaps": {
       "crossroads": {
@@ -315,22 +314,22 @@
         "east": "tunnel_to_tunnel",
         "south": "tunnel_to_tunnel"
       },
-      "straight_tunnel": { "overmap": "labyrinth_hall_ns", "north": "tunnel_to_tunnel", "south": "tunnel_to_tunnel" },
+      "straight_tunnel": { "overmap": "labyrinth_hall_ew", "east": "tunnel_to_tunnel", "west": "tunnel_to_tunnel" },
       "corner": { "overmap": "labyrinth_hall_ne", "north": "tunnel_to_tunnel", "east": "tunnel_to_tunnel" },
-      "dead_end": { "overmap": "labyrinth_hall_end_south", "north": "tunnel_to_tunnel" }
+      "dead_end": { "overmap": "labyrinth_hall_end_west", "west": "tunnel_to_tunnel" }
     },
     "root": "crossroads",
     "phases": [
       [
         { "overmap": "straight_tunnel", "max": { "poisson": 20 } },
-        { "overmap": "corner", "max": { "poisson": 5 } },
+        { "overmap": "corner", "max": { "poisson": 20 } },
         { "overmap": "tee", "max": { "poisson": 10 } }
       ],
       [
         { "overmap": "dead_end", "weight": 2000 },
-        { "overmap": "straight_tunnel", "weight": 100 },
+        { "overmap": "straight_tunnel", "weight": 20 },
         { "overmap": "corner", "weight": 100 },
-        { "overmap": "tee", "weight": 10 },
+        { "overmap": "tee", "weight": 20 },
         { "overmap": "crossroads", "weight": 1 }
       ]
     ]
@@ -721,12 +720,12 @@
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
-        "!!!!!!!!!!!!!!!!!!!!!!!!",
-        "!vvvvvvvvvvvvvvvvvvvvvvv",
-        "!vvvvvvvvvvvvvvvvvvvvvvv",
-        "!vvvvvvvvvvvvvvvvvvvvvvv",
-        "!vvvvvvvvvvvvvvvvvvvvvvv",
-        "!vvvvvvvvvvvvvvvvvvvvvvv",
+        "!vvvvvvvv3     vvvvvvvvv",
+        "!vvvvvvvv      vvvvvvvvv",
+        "!vvvvvvvv      vvvvvvvvv",
+        "!vvvvvvvv      vvvvvvvvv",
+        "!vvvvvvvv      vvvvvvvvv",
+        "!vvvvvvvv      vvvvvvvvv",
         "!vvvvv1           vvvvvv",
         "!vvvvv            vvvvvv",
         "!vvvvv            vvvvvv",
@@ -739,12 +738,12 @@
         "!vvvvv            vvvvvv",
         "!vvvvv            vvvvvv",
         "!vvvvv            vvvvvv",
-        "!vvvvvvvv3     vvvvvvvvv",
-        "!vvvvvvvv      vvvvvvvvv",
-        "!vvvvvvvv      vvvvvvvvv",
-        "!vvvvvvvv      vvvvvvvvv",
-        "!vvvvvvvv      vvvvvvvvv",
-        "!vvvvvvvv      vvvvvvvvv"
+        "!vvvvvvvvvvvvvvvvvvvvvvv",
+        "!vvvvvvvvvvvvvvvvvvvvvvv",
+        "!vvvvvvvvvvvvvvvvvvvvvvv",
+        "!vvvvvvvvvvvvvvvvvvvvvvv",
+        "!vvvvvvvvvvvvvvvvvvvvvvv",
+        "!!!!!!!!!!!!!!!!!!!!!!!!"
       ],
       "terrain": {
         " ": "t_nl_mist",
@@ -768,30 +767,30 @@
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
-        "!!!!!!!!!!!!!!!!!!!!!!!!",
-        "vvvvvvvvvvvvvvvvvvvvvvvv",
-        "vvvvvvvvvvvvvvvvvvvvvvvv",
-        "vvvvvvvvvvvvvvvvvvvvvvvv",
-        "vvvvvvvvvvvvvvvvvvvvvvvv",
-        "vvvvvvvvvvvvvvvvvvvvvvvv",
-        "vvvvvv1           vvvvvv",
-        "vvvvvv            vvvvvv",
-        "vvvvvv            vvvvvv",
-        "2                 2     ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "vvvvvv            vvvvvv",
-        "vvvvvv            vvvvvv",
-        "vvvvvv            vvvvvv",
-        "vvvvvvvvv3     vvvvvvvvv",
-        "vvvvvvvvv      vvvvvvvvv",
-        "vvvvvvvvv      vvvvvvvvv",
-        "vvvvvvvvv      vvvvvvvvv",
-        "vvvvvvvvv      vvvvvvvvv",
-        "vvvvvvvvv      vvvvvvvvv"
+        "!vvvvvvvv3     vvvvvvvvv",
+        "!vvvvvvvv      vvvvvvvvv",
+        "!vvvvvvvv      vvvvvvvvv",
+        "!vvvvvvvv      vvvvvvvvv",
+        "!vvvvvvvv      vvvvvvvvv",
+        "!vvvvvvvv      vvvvvvvvv",
+        "!vvvvv1           vvvvvv",
+        "!vvvvv            vvvvvv",
+        "!vvvvv            vvvvvv",
+        "!vvvvv            2     ",
+        "!vvvvv                  ",
+        "!vvvvv                  ",
+        "!vvvvv                  ",
+        "!vvvvv                  ",
+        "!vvvvv                  ",
+        "!vvvvv            vvvvvv",
+        "!vvvvv            vvvvvv",
+        "!vvvvv            vvvvvv",
+        "!vvvvvvvv3     vvvvvvvvv",
+        "!vvvvvvvv      vvvvvvvvv",
+        "!vvvvvvvv      vvvvvvvvv",
+        "!vvvvvvvv      vvvvvvvvv",
+        "!vvvvvvvv      vvvvvvvvv",
+        "!vvvvvvvv      vvvvvvvvv"
       ],
       "terrain": {
         " ": "t_nl_mist",
@@ -905,18 +904,18 @@
     "object": {
       "mapgensize": [ 12, 12 ],
       "rows": [
-        "vvvvvvvvvvvv",
-        "vvvvvvvvvvvv",
-        "vvvvvvvvvvvv",
-        "vvvvvvvvvvvv",
-        "vvvvvvvv....",
-        "vvvvvv......",
-        "vvvvv.......",
-        "vvvvv.......",
-        "vvvv.......v",
-        "vvvv......vv",
+        "vvvv....vvvv",
+        "vvvv....vvvv",
+        "vvvv....vvvv",
         "vvvv.....vvv",
-        "vvvv....vvvv"
+        "vvvv........",
+        "vvvv........",
+        "vvvvv.......",
+        "vvvvvv......",
+        "vvvvvvvvvvvv",
+        "vvvvvvvvvvvv",
+        "vvvvvvvvvvvv",
+        "vvvvvvvvvvvv"
       ],
       "terrain": { "v": "t_nl_chasm", ".": "t_nl_catwalk" }
     }
@@ -951,15 +950,15 @@
     "object": {
       "mapgensize": [ 12, 12 ],
       "rows": [
-        "vvvvvvvvvvvv",
-        "vvvvvvvvvvvv",
-        "vvvvvvvvvvvv",
-        "vvvvvvvvvvvv",
-        ".....vv.....",
-        "............",
-        "............",
-        "............",
-        "vvv......vvv",
+        "vvvv....vvvv",
+        "vvvv....vvvv",
+        "vvvv....vvvv",
+        "vvvv.....vvv",
+        "vvvv........",
+        "vvvvv.......",
+        "vvvvv.......",
+        "vvvv........",
+        "vvvv.....vvv",
         "vvvv....vvvv",
         "vvvv....vvvv",
         "vvvv....vvvv"
