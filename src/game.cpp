@@ -7023,7 +7023,7 @@ void game::zones_manager()
     }
 
     // get zones with distance between player and
-    // zone center point <= ACTIVITY_SEARCH_DISTANCE or all zones, if show_all_zones is true
+    // zone center point <= MAX_VIEW_DISTANCE or all zones, if show_all_zones is true
     auto get_zones = [&]() {
         std::vector<zone_manager::ref_zone_data> zones;
         if( show_all_zones ) {
@@ -7032,7 +7032,7 @@ void game::zones_manager()
             const tripoint_abs_ms u_abs_pos = u.get_location();
             for( zone_manager::ref_zone_data &ref : mgr.get_zones( zones_faction ) ) {
                 const tripoint_abs_ms &zone_abs_pos = ref.get().get_center_point();
-                if( rl_dist( u_abs_pos, zone_abs_pos ) <= ACTIVITY_SEARCH_DISTANCE ) {
+                if( rl_dist( u_abs_pos, zone_abs_pos ) <= MAX_VIEW_DISTANCE ) {
                     zones.emplace_back( ref );
                 }
             }

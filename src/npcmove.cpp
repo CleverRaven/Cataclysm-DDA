@@ -1626,7 +1626,7 @@ void npc::execute_action( npc_action action )
             // Find a nice spot to sleep
             tripoint_bub_ms best_spot = pos_bub();
             int best_sleepy = evaluate_sleep_spot( best_spot );
-            for( const tripoint_bub_ms &p : closest_points_first( pos_bub(), ACTIVITY_SEARCH_DISTANCE ) ) {
+            for( const tripoint_bub_ms &p : closest_points_first( pos_bub(), MAX_VIEW_DISTANCE ) ) {
                 if( !could_move_onto( p ) || !g->is_empty( p ) ) {
                     continue;
                 }

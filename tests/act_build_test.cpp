@@ -134,7 +134,7 @@ void run_test_case( Character &u )
     }
 
     SECTION( "1-step construction activity with pre_terrain and starting far away" ) {
-        u.setpos( { ACTIVITY_SEARCH_DISTANCE - 1, 0, 0} );
+        u.setpos( { MAX_VIEW_DISTANCE - 1, 0, 0} );
         here.build_map_cache( u.pos().z );
         tripoint_bub_ms const tri_window( tripoint_south );
         construction const build =
