@@ -295,7 +295,7 @@
     "locations": [ "forest" ],
     "city_distance": [ 12, -1 ],
     "occurrences": [ 30, 100 ],
-    "flags": [ "CLASSIC", "FARM", "GLOBAL_UNIQUE", "MAN_MADE" ]
+    "flags": [ "CLASSIC", "FARM", "GLOBALLY_UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -7098,7 +7098,7 @@
     "connections": [ { "point": [ 3, 3, 0 ], "terrain": "road", "connection": "local_road", "from": [ 3, 2, 0 ] } ],
     "city_distance": [ 0, 20 ],
     "occurrences": [ 5, 100 ],
-    "flags": [ "GLOBAL_UNIQUE", "RISK_HIGH", "GENERIC_LOOT", "MAN_MADE" ]
+    "flags": [ "GLOBALLY_UNIQUE", "RISK_HIGH", "GENERIC_LOOT", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
