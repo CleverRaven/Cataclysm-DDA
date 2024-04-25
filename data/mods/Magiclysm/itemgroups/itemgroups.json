@@ -131,7 +131,7 @@
     "type": "item_group",
     "id": "guns_rifle_common_display",
     "copy-from": "guns_rifle_common_display",
-    "extend": { "items": [ { "item": "boreal_mosin", "prob": 3, "charges": [ 0, 0 ] } ] }
+    "extend": { "items": [ { "item": "boreal_mosin", "prob": 3, "charges": 0 } ] }
   },
   {
     "type": "item_group",

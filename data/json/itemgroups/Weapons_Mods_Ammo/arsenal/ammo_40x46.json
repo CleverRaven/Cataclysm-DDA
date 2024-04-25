@@ -3,7 +3,7 @@
     "type": "item_group",
     "id": "ammo_can_40x46mm_m433_full",
     "container-item": { "item": "ammunition_crate_40x46_72", "variant": "ammunition_crate_40x46_72" },
-    "items": [ { "item": "40x46mm_m433", "count": 1, "charges": [ 72, 72 ] } ]
+    "items": [ { "item": "40x46mm_m433", "count": 1, "charges": 72 } ]
   },
   {
     "type": "item_group",

@@ -927,15 +927,15 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "hair_dye_black", "prob": 70, "charges": [ 2, 2 ] },
-      { "item": "hair_dye_blond", "prob": 70, "charges": [ 2, 2 ] },
-      { "item": "hair_dye_blue", "prob": 30, "charges": [ 2, 2 ] },
-      { "item": "hair_dye_brown", "prob": 70, "charges": [ 2, 2 ] },
-      { "item": "hair_dye_gray", "prob": 50, "charges": [ 2, 2 ] },
-      { "item": "hair_dye_green", "prob": 30, "charges": [ 2, 2 ] },
-      { "item": "hair_dye_red", "prob": 30, "charges": [ 2, 2 ] },
-      { "item": "hair_dye_pink", "prob": 30, "charges": [ 2, 2 ] },
-      { "item": "hair_dye_white", "prob": 70, "charges": [ 2, 2 ] }
+      { "item": "hair_dye_black", "prob": 70, "charges": 2 },
+      { "item": "hair_dye_blond", "prob": 70, "charges": 2 },
+      { "item": "hair_dye_blue", "prob": 30, "charges": 2 },
+      { "item": "hair_dye_brown", "prob": 70, "charges": 2 },
+      { "item": "hair_dye_gray", "prob": 50, "charges": 2 },
+      { "item": "hair_dye_green", "prob": 30, "charges": 2 },
+      { "item": "hair_dye_red", "prob": 30, "charges": 2 },
+      { "item": "hair_dye_pink", "prob": 30, "charges": 2 },
+      { "item": "hair_dye_white", "prob": 70, "charges": 2 }
     ]
   },
   {

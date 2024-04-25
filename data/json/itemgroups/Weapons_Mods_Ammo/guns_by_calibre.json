@@ -742,7 +742,7 @@
     "type": "item_group",
     "id": "guns_rifle_rare_display_3006",
     "items": [
-      { "item": "m1903", "prob": 15, "charges": [ 0, 0 ] },
+      { "item": "m1903", "prob": 15, "charges": 0 },
       { "item": "browning_blr", "prob": 10 },
       { "item": "garand", "prob": 10 }
     ]
@@ -766,14 +766,8 @@
     "type": "item_group",
     "id": "guns_rifle_rare_display_762R",
     "items": [
-      { "item": "mosin44", "variant": "mosin44_ebr", "contents-group": "mosin_mods", "prob": 1, "charges": [ 0, 0 ] },
-      {
-        "item": "mosin91_30",
-        "variant": "mosin91_30_ebr",
-        "contents-group": "mosin_mods",
-        "prob": 1,
-        "charges": [ 0, 0 ]
-      },
+      { "item": "mosin44", "variant": "mosin44_ebr", "contents-group": "mosin_mods", "prob": 1, "charges": 0 },
+      { "item": "mosin91_30", "variant": "mosin91_30_ebr", "contents-group": "mosin_mods", "prob": 1, "charges": 0 },
       { "item": "mosin44", "variant": "mosin44", "prob": 10 },
       { "item": "mosin91_30", "variant": "mosin91_30", "prob": 10 }
     ]
@@ -787,22 +781,22 @@
     "type": "item_group",
     "id": "guns_rifle_rare_display_other",
     "items": [
-      { "item": "smle_mk3", "prob": 10, "charges": [ 0, 0 ] },
-      { "item": "number4_mki", "prob": 10, "charges": [ 0, 0 ] },
-      { "item": "type99", "variant": "type99", "contents-group": "type99_mods", "prob": 3, "charges": [ 0, 0 ] },
-      { "item": "type99_sniper", "contents-item": "arisaka_monopod", "prob": 1, "charges": [ 0, 0 ] },
+      { "item": "smle_mk3", "prob": 10, "charges": 0 },
+      { "item": "number4_mki", "prob": 10, "charges": 0 },
+      { "item": "type99", "variant": "type99", "contents-group": "type99_mods", "prob": 3, "charges": 0 },
+      { "item": "type99_sniper", "contents-item": "arisaka_monopod", "prob": 1, "charges": 0 },
       { "item": "1895sbl", "prob": 10 },
       { "item": "ruger_pr", "prob": 10 },
       { "item": "carbine_flintlock", "prob": 1 },
       { "item": "rifle_flintlock", "prob": 1 },
       { "item": "win70", "prob": 10 },
-      { "item": "ak74_semi", "variant": "ak74_fixed", "prob": 6, "charges": [ 0, 0 ] },
+      { "item": "ak74_semi", "variant": "ak74_fixed", "prob": 6, "charges": 0 },
       {
         "item": "ak74_semi",
         "variant": "ak74_folding",
         "contents-group": "ak74_folding_mods",
         "prob": 4,
-        "charges": [ 0, 0 ]
+        "charges": 0
       },
       { "item": "m1carbine", "prob": 10 },
       { "item": "mrad_smr", "prob": 10 },

@@ -857,10 +857,10 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "group": "ammo_casings_gunsmith", "prob": 25, "charges": [ 50, 50 ] },
-      { "group": "ammo_casings_gunsmith", "prob": 10, "charges": [ 100, 100 ] },
-      { "group": "ammo_casings_gunsmith", "prob": 2, "charges": [ 250, 250 ] },
-      { "group": "ammo_casings_gunsmith", "prob": 1, "charges": [ 500, 500 ] }
+      { "group": "ammo_casings_gunsmith", "prob": 25, "charges": 50 },
+      { "group": "ammo_casings_gunsmith", "prob": 10, "charges": 100 },
+      { "group": "ammo_casings_gunsmith", "prob": 2, "charges": 250 },
+      { "group": "ammo_casings_gunsmith", "prob": 1, "charges": 500 }
     ]
   },
   {
@@ -878,10 +878,10 @@
     "type": "item_group",
     "id": "ammo_light_batteries_full",
     "items": [
-      { "item": "light_battery_cell", "prob": 25, "charges": [ 100, 100 ] },
-      { "item": "light_minus_battery_cell", "prob": 12, "charges": [ 50, 50 ] },
-      { "item": "light_plus_battery_cell", "prob": 9, "charges": [ 150, 150 ] },
-      { "item": "light_disposable_cell", "prob": 50, "charges": [ 300, 300 ] }
+      { "item": "light_battery_cell", "prob": 25, "charges": 100 },
+      { "item": "light_minus_battery_cell", "prob": 12, "charges": 50 },
+      { "item": "light_plus_battery_cell", "prob": 9, "charges": 150 },
+      { "item": "light_disposable_cell", "prob": 50, "charges": 300 }
     ]
   },
   {
@@ -899,9 +899,9 @@
     "id": "ammo_medium_batteries_full",
     "subtype": "distribution",
     "entries": [
-      { "item": "medium_battery_cell", "prob": 40, "charges": [ 500, 500 ] },
-      { "item": "medium_plus_battery_cell", "prob": 10, "charges": [ 600, 600 ] },
-      { "item": "medium_disposable_cell", "prob": 80, "charges": [ 1200, 1200 ] }
+      { "item": "medium_battery_cell", "prob": 40, "charges": 500 },
+      { "item": "medium_plus_battery_cell", "prob": 10, "charges": 600 },
+      { "item": "medium_disposable_cell", "prob": 80, "charges": 1200 }
     ]
   },
   {
@@ -919,9 +919,9 @@
     "id": "ammo_heavy_batteries_full",
     "subtype": "distribution",
     "entries": [
-      { "item": "heavy_battery_cell", "prob": 40, "charges": [ 1000, 1000 ] },
-      { "item": "heavy_plus_battery_cell", "prob": 10, "charges": [ 1250, 1250 ] },
-      { "item": "heavy_disposable_cell", "prob": 80, "charges": [ 2500, 2500 ] }
+      { "item": "heavy_battery_cell", "prob": 40, "charges": 1000 },
+      { "item": "heavy_plus_battery_cell", "prob": 10, "charges": 1250 },
+      { "item": "heavy_disposable_cell", "prob": 80, "charges": 2500 }
     ]
   },
   {

@@ -16,7 +16,7 @@
     "subtype": "collection",
     "entries": [
       { "item": "usp_45", "charges": 11, "ammo-item": "45_acp" },
-      { "item": "45_casing", "charges": [ 1, 1 ] },
+      { "item": "45_casing", "charges": 1 },
       { "item": "corpse" },
       { "group": "underwear" },
       { "group": "cabin_suicide_over" },
