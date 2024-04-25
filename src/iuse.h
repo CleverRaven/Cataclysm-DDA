@@ -194,6 +194,7 @@ std::optional<int> wash_hard_items( Character *, item *, const tripoint & );
 std::optional<int> wash_items( Character *p, bool soft_items, bool hard_items );
 std::optional<int> wash_soft_items( Character *, item *, const tripoint & );
 std::optional<int> water_purifier( Character *, item *, const tripoint & );
+std::optional<int> water_tablets( Character *, item *, const tripoint & );
 std::optional<int> weak_antibiotic( Character *, item *, const tripoint & );
 std::optional<int> weather_tool( Character *, item *, const tripoint & );
 std::optional<int> sextant( Character *, item *, const tripoint & );
@@ -221,6 +222,7 @@ std::optional<int> disassemble( Character *, item *, const tripoint & );
 // Helper functions for other iuse functions
 void cut_log_into_planks( Character & );
 void play_music( Character *p, const tripoint &source, int volume, int max_morale );
+std::optional<int> purify_water( Character *p, item *purifier, item_location &water );
 int towel_common( Character *, item *, bool );
 
 // Helper for validating a potential target of robot control

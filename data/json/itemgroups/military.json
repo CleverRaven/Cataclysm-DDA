@@ -853,7 +853,7 @@
       { "prob": 25, "group": "antibiotics_bottle_plastic_pill_prescription_1_15" },
       { "item": "purifier", "prob": 12 },
       { "item": "heatpack", "prob": 60 },
-      { "prob": 20, "group": "pur_tablets_bottle_plastic_small_1_15" },
+      { "prob": 20, "group": "pur_tablets_bottle_plastic_small_1_50" },
       { "prob": 5, "group": "fungicide_bag_plastic_400" },
       { "group": "insecticide_bag_plastic", "prob": 5 },
       { "item": "rx12_injector", "prob": 8, "charges": [ 0, 2 ] },

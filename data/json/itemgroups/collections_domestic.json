@@ -219,7 +219,7 @@
       { "item": "apron_plastic", "prob": 15 },
       { "item": "apron_cotton", "prob": 3 },
       { "item": "apron_leather", "prob": 3 },
-      { "prob": 15, "group": "pur_tablets_bottle_plastic_small_1_15" },
+      { "prob": 15, "group": "pur_tablets_bottle_plastic_small_1_50" },
       { "item": "lye_powder", "prob": 20, "charges-min": 100 },
       { "item": "oxy_powder", "prob": 24, "charges-min": 100 },
       { "item": "chemistry_set", "prob": 10 },

@@ -278,6 +278,7 @@ static const itype_id itype_multi_cooker( "multi_cooker" );
 static const itype_id itype_multi_cooker_filled( "multi_cooker_filled" );
 static const itype_id itype_nicotine_liquid( "nicotine_liquid" );
 static const itype_id itype_paper( "paper" );
+static const itype_id itype_pur_tablets( "pur_tablets" );
 static const itype_id itype_radio_car( "radio_car" );
 static const itype_id itype_radio_car_on( "radio_car_on" );
 static const itype_id itype_radio_on( "radio_on" );
@@ -294,6 +295,7 @@ static const itype_id itype_towel( "towel" );
 static const itype_id itype_towel_wet( "towel_wet" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
+static const itype_id itype_water_purifying( "water_purifying" );
 static const itype_id itype_wax( "wax" );
 static const itype_id itype_weather_reader( "weather_reader" );
 
@@ -1092,6 +1094,11 @@ std::optional<int> iuse::blech( Character *p, item *it, const tripoint & )
 std::optional<int> iuse::blech_because_unclean( Character *p, item *it, const tripoint & )
 {
     if( !p->is_npc() ) {
+        if( test_mode ) {
+            p->add_msg_if_player( m_info,
+                                  _( "Automatically eating the gross food because a test told us to." ) );
+            return 1;
+        }
         if( it->made_of( phase_id::LIQUID ) ) {
             if( !p->query_yn( _( "This looks unclean; are you sure you want to drink it?" ) ) ) {
                 return std::nullopt;
@@ -2457,6 +2464,81 @@ std::optional<int> iuse::water_purifier( Character *p, item *it, const tripoint 
         water->convert( itype_water_clean, p ).poison = 0;
     }
     return charges_of_water;
+}
+
+
+// Part of iuse::water_tablets, but with the user interaction split out so it can be unit tested
+std::optional<int> iuse::purify_water( Character *p, item *purifier, item_location &water )
+{
+    const double default_ratio = 4; // Existing pur_tablets will not have the var
+    const int max_water_per_tablet = static_cast<int>( purifier->get_var( "water_per_tablet",
+                                     default_ratio ) );
+    if( max_water_per_tablet < 1 ) {
+        debugmsg( "ERROR: %s set to purify only %i water each.  Nothing was purified.",
+                  purifier->typeId().str(), max_water_per_tablet );
+        return std::nullopt;
+    }
+
+    const std::vector<item *> liquids = water->items_with( []( const item & it ) {
+        return it.typeId() == itype_water;
+    } );
+    int charges_of_water = 0;
+    for( const item *water : liquids ) {
+        charges_of_water += water->charges;
+    }
+    float to_consume_f = charges_of_water;
+    to_consume_f /= max_water_per_tablet;
+
+    const int available = p->crafting_inventory().count_item( itype_pur_tablets );
+    if( available * max_water_per_tablet >= charges_of_water ) {
+        int to_consume = std::ceil( to_consume_f );
+        p->add_msg_if_player( m_info, _( "Purifying %i water using %i %s" ), charges_of_water, to_consume,
+                              purifier->tname( to_consume ) );;
+        // Pull from surrounding map first because it will update to_consume
+        get_map().use_amount( p->pos(), PICKUP_RANGE, itype_pur_tablets, to_consume );
+        // Then pull from inventory
+        if( to_consume > 0 ) {
+            p->use_amount( itype_pur_tablets, to_consume );
+        }
+    } else {
+        p->add_msg_if_player( m_info,
+                              _( "You need %i tablets to purify that.  You only have %i" ),
+                              charges_of_water / max_water_per_tablet,  available );
+        return std::nullopt;
+    }
+
+    // Try to match crafting recipe at 5m for 1, 90% batch time savings:
+    int req_moves = to_moves<int>( 5_minutes );
+    req_moves = req_moves * 0.1 * to_consume_f;
+    p->moves -= req_moves;
+
+    for( item *water : liquids ) {
+        water->convert( itype_water_purifying, p ).poison = 0;
+        water->set_birthday( calendar::turn );
+    }
+    // We've already consumed the tablets, so don't try to consume them again
+    return std::nullopt;
+}
+
+std::optional<int> iuse::water_tablets( Character *p, item *it, const tripoint & )
+{
+    if( p->cant_do_mounted() ) {
+        return std::nullopt;
+    }
+
+    item_location obj = g->inv_map_splice( []( const item_location & e ) {
+        return ( !e->empty() && e->has_item_with( []( const item & it ) {
+            return it.typeId() == itype_water;
+        } ) ) || ( e->typeId() == itype_water &&
+                   get_map().has_flag_furn( ter_furn_flag::TFLAG_LIQUIDCONT, e.position() ) );
+    }, _( "Purify what?" ), 1, _( "You don't have water to purify." ) );
+
+    if( !obj ) {
+        p->add_msg_if_player( m_info, _( "You don't have that item!" ) );
+        return std::nullopt;
+    }
+
+    return purify_water( p, it, obj );
 }
 
 std::optional<int> iuse::radio_off( Character *p, item *it, const tripoint & )

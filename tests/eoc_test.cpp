@@ -45,7 +45,9 @@ effect_on_condition_EOC_martial_art_test_1( "EOC_martial_art_test_1" );
 static const effect_on_condition_id
 effect_on_condition_EOC_martial_art_test_2( "EOC_martial_art_test_2" );
 static const effect_on_condition_id
-effect_on_condition_EOC_math_addiction( "EOC_math_addiction" );
+effect_on_condition_EOC_math_addiction_check( "EOC_math_addiction_check" );
+static const effect_on_condition_id
+effect_on_condition_EOC_math_addiction_setup( "EOC_math_addiction_setup" );
 static const effect_on_condition_id
 effect_on_condition_EOC_math_armor( "EOC_math_armor" );
 static const effect_on_condition_id
@@ -447,7 +449,12 @@ TEST_CASE( "EOC_math_addiction", "[eoc][math_parser]" )
 
     REQUIRE( globvars.get_global_value( "npctalk_var_key_add_intensity" ).empty() );
     REQUIRE( globvars.get_global_value( "npctalk_var_key_add_turn" ).empty() );
-    CHECK( effect_on_condition_EOC_math_addiction->activate( d ) );
+    CHECK( effect_on_condition_EOC_math_addiction_setup->activate( d ) );
+    // Finish drinking
+    complete_activity( get_avatar() );
+
+    CHECK( effect_on_condition_EOC_math_addiction_check->activate( d ) );
+
     CHECK( globvars.get_global_value( "npctalk_var_key_add_intensity" ) == "1" );
     CHECK( globvars.get_global_value( "npctalk_var_key_add_turn" ) == "3600" );
 }

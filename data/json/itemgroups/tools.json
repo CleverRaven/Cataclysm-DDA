@@ -268,7 +268,7 @@
       { "item": "mess_kit", "prob": 20 },
       [ "multitool", 10 ],
       [ "pockknife", 30 ],
-      { "prob": 10, "group": "pur_tablets_bottle_plastic_small_1_15" },
+      { "prob": 10, "group": "pur_tablets_bottle_plastic_small_1_50" },
       { "item": "ref_lighter", "prob": 20, "charges": [ 0, 50 ] },
       [ "rope_30", 20 ],
       [ "flint_steel", 10 ],
@@ -477,7 +477,7 @@
       { "item": "whistle_multitool" },
       { "item": "glowstick", "charges": 1400 },
       { "item": "handflare", "count": 4, "charges": 300 },
-      { "group": "pur_tablets_bottle_plastic_small_15" },
+      { "group": "pur_tablets_bottle_plastic_small_50" },
       { "item": "pocket_survival" }
     ]
   },
@@ -492,7 +492,7 @@
       { "item": "whistle_multitool", "prob": 70 },
       { "item": "glowstick", "charges": 1400, "prob": 60 },
       { "item": "handflare", "count": [ 0, 4 ], "charges": 300 },
-      { "group": "pur_tablets_bottle_plastic_small_0_15" },
+      { "group": "pur_tablets_bottle_plastic_small_0_50" },
       { "item": "pocket_survival", "prob": 40 }
     ]
   },
@@ -600,7 +600,7 @@
       { "item": "bandages", "count": 9 },
       { "item": "medical_gauze", "count": 3 },
       { "item": "adhesive_bandages", "count": 3 },
-      { "group": "pur_tablets_bottle_plastic_small_0_3" },
+      { "group": "pur_tablets_bottle_plastic_small_0_9" },
       { "item": "gloves_medical" },
       { "item": "scissors_medical" }
     ]
@@ -617,7 +617,7 @@
       { "item": "bandages", "count": [ 0, 9 ] },
       { "item": "medical_gauze", "count": [ 0, 3 ] },
       { "item": "adhesive_bandages", "count": [ 0, 3 ] },
-      { "group": "pur_tablets_bottle_plastic_small_0_3" },
+      { "group": "pur_tablets_bottle_plastic_small_0_9" },
       { "item": "gloves_medical", "prob": 50 },
       { "item": "scissors_medical", "prob": 30 }
     ]
@@ -996,19 +996,19 @@
   },
   {
     "type": "item_group",
-    "id": "pur_tablets_bottle_plastic_small_15",
+    "id": "pur_tablets_bottle_plastic_small_50",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_small",
-    "entries": [ { "item": "pur_tablets", "count": 15 } ]
+    "entries": [ { "item": "pur_tablets", "count": 50 } ]
   },
   {
     "type": "item_group",
-    "id": "pur_tablets_bottle_plastic_small_0_15",
+    "id": "pur_tablets_bottle_plastic_small_0_50",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_small",
-    "entries": [ { "item": "pur_tablets", "count": [ 0, 15 ] } ]
+    "entries": [ { "item": "pur_tablets", "count": [ 0, 50 ] } ]
   },
   {
     "type": "item_group",
@@ -1044,11 +1044,11 @@
   },
   {
     "type": "item_group",
-    "id": "pur_tablets_bottle_plastic_small_0_3",
+    "id": "pur_tablets_bottle_plastic_small_0_9",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_small",
-    "entries": [ { "item": "pur_tablets", "count": [ 0, 3 ] } ]
+    "entries": [ { "item": "pur_tablets", "count": [ 0, 9 ] } ]
   },
   {
     "type": "item_group",
