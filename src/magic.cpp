@@ -10,6 +10,7 @@
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
+#include "cata_imgui.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
@@ -26,6 +27,7 @@
 #include "event_bus.h"
 #include "field.h"
 #include "generic_factory.h"
+#include "imgui/imgui.h"
 #include "input_context.h"
 #include "inventory.h"
 #include "item.h"
@@ -2919,32 +2921,33 @@ static std::string color_number( const float num )
     }
 }
 
-static void draw_spellbook_info( const spell_type &sp, uilist *menu )
+static void draw_spellbook_info( const spell_type &sp )
 {
-    const int width = menu->pad_left - 4;
-    const int start_x = 2;
-    int line = 1;
-    const catacurses::window w = menu->window;
-    nc_color gray = c_light_gray;
-    nc_color yellow = c_yellow;
     const spell fake_spell( sp.id );
     Character &pc = get_player_character();
     dialogue d( get_talker_for( pc ), nullptr );
 
-    const std::string spell_name = colorize( sp.name, c_light_green );
+    cataimgui::draw_colored_text( sp.name.translated(), c_light_green );
+    ImGui::SameLine();
+
     const std::string spell_class = sp.spell_class == trait_NONE ? _( "Classless" ) :
                                     sp.spell_class->name();
-    print_colored_text( w, point( start_x, line ), gray, gray, spell_name );
-    print_colored_text( w, point( menu->pad_left - utf8_width( spell_class ) - 1, line++ ), yellow,
-                        yellow, spell_class );
-    line++;
-    line += fold_and_print( w, point( start_x, line ), width, gray, "%s", sp.description );
-    line++;
+    auto posX = ImGui::GetCursorPosX() + ImGui::GetColumnWidth() - ImGui::CalcTextSize(
+                    spell_class.c_str() ).x
+                - ImGui::GetScrollX() - 2 * ImGui::GetStyle().ItemSpacing.x;
+    if( posX > ImGui::GetCursorPosX() ) {
+        ImGui::SetCursorPosX( posX );
+    }
+    ImGui::TextColored( c_yellow, "%s", spell_class.c_str() );
 
-    mvwprintz( w, point( start_x, line ), c_light_gray,
-               string_format( "%s: %d", _( "Difficulty" ), static_cast<int>( sp.difficulty.evaluate( d ) ) ) );
-    mvwprintz( w, point( start_x + width / 2, line++ ), c_light_gray,
-               string_format( "%s: %d", _( "Max Level" ), static_cast<int>( sp.max_level.evaluate( d ) ) ) );
+    ImGui::NewLine();
+    cataimgui::draw_colored_text( sp.description.translated() );
+    ImGui::NewLine();
+
+    cataimgui::draw_colored_text( string_format( "%s: %d", _( "Difficulty" ),
+                                  static_cast<int>( sp.difficulty.evaluate( d ) ) ) );
+    cataimgui::draw_colored_text( string_format( "%s: %d", _( "Max Level" ),
+                                  static_cast<int>( sp.max_level.evaluate( d ) ) ) );
 
     const std::string fx = sp.effect_name;
     std::string damage_string;
@@ -2967,65 +2970,70 @@ static void draw_spellbook_info( const spell_type &sp, uilist *menu )
     }
 
     if( has_damage_type ) {
-        print_colored_text( w, point( start_x, line++ ), gray, gray, string_format( "%s: %s",
-                            _( "Damage Type" ),
-                            colorize( fake_spell.damage_type_string(), fake_spell.damage_type_color() ) ) );
+        cataimgui::draw_colored_text( string_format( "%s: %s",
+                                      _( "Damage Type" ),
+                                      colorize( fake_spell.damage_type_string(), fake_spell.damage_type_color() ) ) );
     }
-    line++;
 
-    print_colored_text( w, point( start_x, line++ ), gray, gray,
-                        string_format( "%s %s %s %s",
-                                       //~ translation should not exceed 10 console cells
-                                       left_justify( _( "Stat Gain" ), 10 ),
-                                       //~ translation should not exceed 7 console cells
-                                       left_justify( _( "lvl 0" ), 7 ),
-                                       //~ translation should not exceed 7 console cells
-                                       left_justify( _( "per lvl" ), 7 ),
-                                       //~ translation should not exceed 7 console cells
-                                       left_justify( _( "max lvl" ), 7 ) ) );
+    if( ImGui::BeginTable( "stats", 4,
+                           ImGuiTableFlags_Resizable | ImGuiTableFlags_SizingStretchProp | ImGuiTableFlags_BordersOuter |
+                           ImGuiTableFlags_BordersInnerV ) ) {
+        ImGui::TableSetupColumn( _( "Stat Gain" ), 0, 10 );
+        ImGui::TableSetupColumn( _( "lvl 0" ), 0, 7 );
+        ImGui::TableSetupColumn( _( "per lvl" ), 0, 7 );
+        ImGui::TableSetupColumn( _( "max lvl" ), 0, 7 );
+        ImGui::TableHeadersRow();
 
-    const auto row = [&]( const std::string & label, const dbl_or_var & min_d,
-    const dbl_or_var & inc_d, const dbl_or_var & max_d, bool check_minmax = false ) {
-        const int min = static_cast<int>( min_d.evaluate( d ) );
-        const float inc = static_cast<float>( inc_d.evaluate( d ) );
-        const int max = static_cast<int>( max_d.evaluate( d ) );
-        if( check_minmax && ( min == 0 || max == 0 ) ) {
-            return;
+        const auto row = [&]( const std::string & label, const dbl_or_var & min_d,
+        const dbl_or_var & inc_d, const dbl_or_var & max_d, bool check_minmax = false ) {
+            const int min = static_cast<int>( min_d.evaluate( d ) );
+            const float inc = static_cast<float>( inc_d.evaluate( d ) );
+            const int max = static_cast<int>( max_d.evaluate( d ) );
+            if( check_minmax && ( min == 0 || max == 0 ) ) {
+                return;
+            }
+            ImGui::TableNextRow();
+            ImGui::TableNextColumn();
+            ImGui::TextColored( c_light_gray, "%s", label.c_str() );
+            ImGui::TableNextColumn();
+            cataimgui::draw_colored_text( color_number( min ) );
+            ImGui::TableNextColumn();
+            cataimgui::draw_colored_text( color_number( inc ) );
+            ImGui::TableNextColumn();
+            cataimgui::draw_colored_text( color_number( max ) );
+        };
+
+        if( !damage_string.empty() ) {
+            row( damage_string, sp.min_damage, sp.damage_increment, sp.max_damage, true );
         }
-        mvwprintz( w, point( start_x, line ), c_light_gray, label );
-        print_colored_text( w, point( start_x + 11, line ), gray, gray, color_number( min ) );
-        print_colored_text( w, point( start_x + 19, line ), gray, gray, color_number( inc ) );
-        print_colored_text( w, point( start_x + 27, line ), gray, gray, color_number( max ) );
-        line++;
-    };
 
-    if( !damage_string.empty() ) {
-        row( damage_string, sp.min_damage, sp.damage_increment, sp.max_damage, true );
+        row( _( "Range" ), sp.min_range, sp.range_increment, sp.max_range, true );
+
+        if( !aoe_string.empty() ) {
+            row( aoe_string, sp.min_aoe, sp.aoe_increment, sp.max_aoe, true );
+        }
+
+        row( _( "Duration" ), sp.min_duration, sp.duration_increment, sp.max_duration, true );
+        row( _( "Cast Cost" ), sp.base_energy_cost, sp.energy_increment, sp.final_energy_cost, false );
+        row( _( "Cast Time" ), sp.base_casting_time, sp.casting_time_increment, sp.final_casting_time,
+             false );
+
+        ImGui::EndTable();
     }
-
-    row( _( "Range" ), sp.min_range, sp.range_increment, sp.max_range, true );
-
-    if( !aoe_string.empty() ) {
-        row( aoe_string, sp.min_aoe, sp.aoe_increment, sp.max_aoe, true );
-    }
-
-    row( _( "Duration" ), sp.min_duration, sp.duration_increment, sp.max_duration, true );
-    row( _( "Cast Cost" ), sp.base_energy_cost, sp.energy_increment, sp.final_energy_cost, false );
-    row( _( "Cast Time" ), sp.base_casting_time, sp.casting_time_increment, sp.final_casting_time,
-         false );
 }
 
 void spellbook_callback::refresh( uilist *menu )
 {
-    mvwputch( menu->window, point( menu->pad_left, 0 ), c_magenta, LINE_OXXX );
-    mvwputch( menu->window, point( menu->pad_left, menu->w_height - 1 ), c_magenta, LINE_XXOX );
-    for( int i = 1; i < menu->w_height - 1; i++ ) {
-        mvwputch( menu->window, point( menu->pad_left, i ), c_magenta, LINE_XOXO );
+    auto info_width = ImGui::GetContentRegionAvail().x * 3.0f;
+    auto info_height = info_width * 3.0f * 1.62f;
+    ImGui::TableSetColumnIndex( 2 );
+    if( ImGui::BeginChild( "spellbook info", { info_width, info_height }, false,
+                           ImGuiWindowFlags_AlwaysAutoResize ) ) {
+        if( menu->selected >= 0 && static_cast<size_t>( menu->selected ) < spells.size() ) {
+            draw_spellbook_info( spells[menu->selected] );
+        }
     }
-    if( menu->selected >= 0 && static_cast<size_t>( menu->selected ) < spells.size() ) {
-        draw_spellbook_info( spells[menu->selected], menu );
-    }
-    wnoutrefresh( menu->window );
+    ImGui::EndChild();
 }
 
 bool fake_spell::is_valid() const
