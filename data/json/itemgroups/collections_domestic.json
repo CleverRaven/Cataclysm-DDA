@@ -1567,7 +1567,7 @@
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_paper_powder",
-    "entries": [ { "item": "yeast", "container-item": "null", "count": 250 } ]
+    "entries": [ { "item": "yeast", "container-item": "null", "count": 180 } ]
   },
   {
     "type": "item_group",
@@ -1628,7 +1628,7 @@
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_paper_powder",
-    "entries": [ { "item": "yeast", "container-item": "null", "count": [ 20, 250 ] } ]
+    "entries": [ { "item": "yeast", "container-item": "null", "count": [ 20, 180 ] } ]
   },
   {
     "type": "item_group",
