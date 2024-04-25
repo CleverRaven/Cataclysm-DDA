@@ -1916,7 +1916,6 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
     "dodge": 5,
     "armor": { "bash": 0, "cut": 2, "bullet": 0 },
-    "luminance": 0,
     "families": [ "prof_wp_netherium_abomination" ],
     "weakpoint_sets": [ "wps_netherium_abomination" ],
     "harvest": "fish_small",
