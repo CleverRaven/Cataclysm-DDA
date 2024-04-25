@@ -35,7 +35,7 @@ inline const faction_id your_fac( "your_followers" );
 const std::string type_fac_hash_str = "__FAC__";
 
 //Generic activity: maximum search distance for zones, constructions, etc.
-constexpr int ACTIVITY_SEARCH_DISTANCE = 60;
+constexpr int ACTIVITY_SEARCH_DISTANCE = MAX_VIEW_DISTANCE;
 
 extern const std::vector<zone_type_id> ignorable_zone_types;
 
