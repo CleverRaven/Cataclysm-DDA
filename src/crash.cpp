@@ -15,6 +15,10 @@
 #include <string>
 #include <typeinfo>
 
+#if !(defined(WIN32) || defined(TILES) || defined(CYGWIN))
+#include <curses.h>
+#endif
+
 #if defined(TILES)
 #include "sdl_wrappers.h"
 #endif
@@ -136,7 +140,7 @@ extern "C" {
                 return;
         }
 #if !(defined(WIN32) || defined(TILES)) && !defined(CYGWIN)
-        system("reset");
+        endwin();
 #endif
         if( !isDebuggerActive() ) {
             log_crash( "Signal", msg );
