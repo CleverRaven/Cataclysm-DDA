@@ -661,7 +661,21 @@ void overmap::unserialize( const JsonObject &jsobj )
             }
         } else if( name == "predecessors" ) {
             std::vector<std::pair<tripoint_om_omt, std::vector<oter_id>>> flattened_predecessors;
-            om_member.read( flattened_predecessors, true );
+            JsonArray predecessors_json = om_member;
+            for( JsonArray point_and_predecessors : predecessors_json ) {
+                if( point_and_predecessors.size() != 2 ) {
+                    point_and_predecessors.throw_error( 2,
+                                                        "Invalid overmap predecessors: expected a point and an array" );
+                }
+                tripoint_om_omt point;
+                point_and_predecessors.read( 0, point, true );
+                std::vector<oter_id> predecessors;
+                for( std::string oterid : point_and_predecessors.get_array( 1 ) ) {
+                    predecessors.push_back( get_or_migrate_oter( oterid ) );
+                }
+                flattened_predecessors.emplace_back( point, std::move( predecessors ) );
+            }
+
             std::vector<oter_id> om_predecessors;
 
             for( auto& [p, serialized_predecessors] : flattened_predecessors ) {
