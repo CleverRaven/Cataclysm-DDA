@@ -17,6 +17,7 @@
 
 #include "coordinates.h"
 #include "cuboid_rectangle.h"
+#include "memory_fast.h"
 #include "point.h"
 #include "translation.h"
 #include "type_id.h"

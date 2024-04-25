@@ -6,6 +6,7 @@
 
 #include "cata_catch.h"
 #include "game_constants.h"
+#include "map_scale_constants.h"
 
 struct point;
 struct tripoint;

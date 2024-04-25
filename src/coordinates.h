@@ -14,7 +14,7 @@
 #include "coordinate_conversions.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
-#include "game_constants.h"
+#include "map_scale_constants.h"
 #include "line.h"  // IWYU pragma: keep
 #include "point.h"
 
