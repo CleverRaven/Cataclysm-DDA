@@ -4270,10 +4270,7 @@
         ],
         "prob": 60
       },
-      {
-        "distribution": [ { "item": "house_coat", "prob": 80 }, { "item": "kimono", "prob": 20 }, { "item": "robe", "prob": 10 } ],
-        "prob": 30
-      },
+      { "distribution": [ { "item": "kimono", "prob": 20 }, { "item": "robe", "prob": 10 } ], "prob": 5 },
       {
         "distribution": [
           { "item": "vest", "prob": 80 },

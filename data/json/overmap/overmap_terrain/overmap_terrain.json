@@ -1016,5 +1016,17 @@
     "color": "yellow",
     "see_cost": 3,
     "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "field_graboid",
+    "looks_like": "field",
+    "name": "field",
+    "sym": ".",
+    "color": "brown",
+    "see_cost": 2,
+    "extras": "field",
+    "travel_cost_type": "field",
+    "flags": [ "NO_ROTATE" ]
   }
 ]

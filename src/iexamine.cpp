@@ -7278,8 +7278,7 @@ void iexamine::workbench_internal( Character &you, const tripoint &examp,
                     break;
                 }
                 const recipe &rec = selected_craft->get_making();
-                const inventory &inv = you.crafting_inventory();
-                if( !you.has_recipe( &rec, inv, you.get_crafting_group() ) ) {
+                if( !you.has_recipe( &rec ) ) {
                     you.add_msg_player_or_npc(
                         _( "You don't know the recipe for the %s and can't continue crafting." ),
                         _( "<npcname> doesn't know the recipe for the %s and can't continue crafting." ),

@@ -98,9 +98,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            {
-              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
-            }
+            { "not": { "npc_has_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" } }
           ]
         },
         "topic": "TALK_REFUGEE_Refuse_Boris_Mission_1"
@@ -111,10 +109,7 @@
         "text": "Dana wanted me to be the one to let you know: they've got work for you over at the ranch.  You could get out of here if you want.",
         "topic": "TALK_REFUGEE_Pablo_Tacoma2",
         "condition": {
-          "and": [
-            { "u_has_mission": "MISSION_TACOMA_Nunez" },
-            { "u_has_var": "Nunez_Tacoma", "type": "recruit", "context": "general", "value": "phase_3" }
-          ]
+          "and": [ { "u_has_mission": "MISSION_TACOMA_Nunez" }, { "u_has_var": "recruit_general_Nunez_Tacoma", "value": "phase_3" } ]
         }
       },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
@@ -126,10 +121,7 @@
     "id": "TALK_REFUGEE_Pablo_1",
     "dynamic_line": "*looks up at you with a young faced lined prematurely with concern.  \"Hi there.  I'm Pablo, nice to see a new face.\"",
     "speaker_effect": {
-      "effect": [
-        { "u_add_var": "u_met_Pablo_Nunez", "type": "general", "context": "meeting", "value": "yes" },
-        { "npc_first_topic": "TALK_REFUGEE_Pablo_1a" }
-      ]
+      "effect": [ { "u_add_var": "general_meeting_u_met_Pablo_Nunez", "value": "yes" }, { "npc_first_topic": "TALK_REFUGEE_Pablo_1a" } ]
     },
     "responses": [
       { "text": "Pablo, hey?  Nice to meet you.", "topic": "TALK_REFUGEE_Pablo_1_firstmeet" },
@@ -197,7 +189,7 @@
       {
         "text": "I've been back to the quarantined area, cleared it out.  It was ugly back there.",
         "topic": "TALK_REFUGEE_Pablo_Background2_cleared",
-        "condition": { "u_has_var": "FMShopkeep_Mission1", "type": "mission", "context": "flag", "value": "yes" }
+        "condition": { "u_has_var": "mission_flag_FMShopkeep_Mission1", "value": "yes" }
       }
     ]
   },
@@ -221,7 +213,7 @@
         "effect": { "assign_mission": "MISSION_TACOMA_Nunez" },
         "condition": {
           "and": [
-            { "u_has_var": "tacoma_started", "type": "knowledge", "context": "flag", "value": "yes" },
+            { "u_has_var": "knowledge_flag_tacoma_started", "value": "yes" },
             { "not": { "u_has_mission": "MISSION_TACOMA_Nunez" } }
           ]
         }
@@ -229,7 +221,7 @@
       {
         "text": "I've got a secure base.  You and your wife could come with me.",
         "topic": "TALK_REFUGEE_Pablo_Recruit",
-        "effect": { "u_add_var": "Pablo_ask_recruit", "type": "recruit", "context": "general", "value": "yes" },
+        "effect": { "u_add_var": "recruit_general_Pablo_ask_recruit", "value": "yes" },
         "condition": "u_has_camp"
       }
     ]

@@ -41,8 +41,8 @@
     ],
     "weight": "60 g",
     "volume": "250 ml",
-    "price": 490,
-    "price_postapoc": 250,
+    "price": "4 USD 90 cent",
+    "price_postapoc": "2 USD 50 cent",
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "mag_glam",
@@ -86,8 +86,8 @@
     ],
     "weight": "2330 g",
     "volume": "1250 ml",
-    "price": 7200,
-    "price_postapoc": 750,
+    "price": "72 USD",
+    "price_postapoc": "7 USD 50 cent",
     "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "looks_like": "manual_gun",
@@ -185,6 +185,6 @@
     "color": "blue",
     "required_level": 4,
     "max_level": 5,
-    "relative": { "price_postapoc": 2000, "intelligence": 4, "time": "10 m" }
+    "relative": { "price_postapoc": "20 USD", "intelligence": 4, "time": "10 m" }
   }
 ]
