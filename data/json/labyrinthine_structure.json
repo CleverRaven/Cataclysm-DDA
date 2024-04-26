@@ -337,8 +337,17 @@
   {
     "type": "palette",
     "id": "labyrinthine_base_palette",
-      "terrain": { " ": "t_nl_mist" },
-  }
+    "terrain": {
+      " ": "t_nl_mist",
+      "|": "t_nl_metal_wall",
+      "_": "t_nl_metal_floor",
+      ".": "t_nl_catwalk",
+      "!": "t_nl_metal_wall_edge",
+      "v": "t_nl_chasm",
+      "+": "t_nl_door_c",
+      "o": [ [ "t_nl_catwalk", 3 ], [ "t_nl_chasm", 1 ] ]
+    }
+  },
   {
     "type": "mapgen",
     "method": "json",
@@ -407,7 +416,7 @@
         "                        ",
         "                        "
       ],
-      "terrain": { " ": "t_nl_mist" },
+      "palettes": [ "labyrinthine_base_palette" ],
       "nested": { "1": { "chunks": [ [ "ls_corner_template_chasm", 50 ], [ "ls_corner_template_chasm", 50 ] ] } }
     }
   },
@@ -443,7 +452,7 @@
         "                        ",
         "                        "
       ],
-      "terrain": { " ": "t_nl_mist" },
+      "palettes": [ "labyrinthine_base_palette" ],
       "nested": { "1": { "chunks": [ [ "ls_tee_template_chasm", 50 ], [ "ls_tee_template_chasm", 50 ] ] } }
     }
   },
@@ -479,7 +488,7 @@
         "                        ",
         "                        "
       ],
-      "terrain": { " ": "t_nl_mist" },
+      "palettes": [ "labyrinthine_base_palette" ],
       "nested": { "1": { "chunks": [ [ "ls_4way_template_chasm", 50 ], [ "ls_4way_template_chasm", 50 ] ] } }
     }
   },
@@ -515,7 +524,7 @@
         "                        ",
         "                        "
       ],
-      "terrain": { " ": "t_nl_mist" },
+      "palettes": [ "labyrinthine_base_palette" ],
       "nested": { "1": { "chunks": [ [ "ls_deadend_template_chasm", 50 ], [ "ls_deadend_template_chasm", 50 ] ] } }
     }
   },
@@ -528,89 +537,35 @@
       "mapgensize": [ 24, 24 ],
       "rows": [
         "!|||||||v2     v|||||||!",
-        "!......|v      v|......!",
-        "!......+.      v|......!",
-        "!......+.      v|......!",
-        "!......|v      v|......!",
-        "!......|v      v|......!",
-        "!......|v1     v|......!",
-        "!......|v      v|......!",
-        "!......|v      v|......!",
-        "!......|v      v|......!",
-        "!......|v      v|......!",
-        "!......|v      v|......!",
-        "!......|v3     v|......!",
-        "!......|v      v|......!",
-        "!......|v      .+......!",
-        "!......|v      .+......!",
-        "!......|v      v|......!",
-        "!......|v      v|......!",
-        "!......|v1     v|......!",
-        "!......|v      v|......!",
-        "!......|v      v|......!",
-        "!......|v      v|......!",
-        "!......|v      v|......!",
+        "!______|v      v|______!",
+        "!______+.      v|______!",
+        "!______+.      v|______!",
+        "!______|v      v|______!",
+        "!______|v      v|______!",
+        "!______|v1     v|______!",
+        "!______|v      v|______!",
+        "!______|v      v|______!",
+        "!______|v      v|______!",
+        "!______|v      v|______!",
+        "!______|v      v|______!",
+        "!______|v3     v|______!",
+        "!______|v      v|______!",
+        "!______|v      .+______!",
+        "!______|v      .+______!",
+        "!______|v      v|______!",
+        "!______|v      v|______!",
+        "!______|v1     v|______!",
+        "!______|v      v|______!",
+        "!______|v      v|______!",
+        "!______|v      v|______!",
+        "!______|v      v|______!",
         "!|||||||v      v|||||||!"
       ],
-      "terrain": {
-        " ": "t_nl_mist",
-        "|": "t_nl_metal_wall",
-        ".": "t_nl_metal_floor",
-        "!": "t_nl_metal_wall_edge",
-        "v": "t_nl_chasm",
-        "+": "t_nl_door_c"
-      },
+      "palettes": [ "labyrinthine_base_palette" ],
       "nested": {
         "1": { "chunks": [ [ "ls_ns_6x6hall_basic", 55 ], [ "ls_ns_6x6hall_fancy", 45 ] ] },
         "2": { "chunks": [ "ls_Tw_6x6hall_basic" ] },
         "3": { "chunks": [ "ls_Te_6x6hall_basic" ] }
-      }
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "ls_straight_template_rooms_unused",
-    "//": "Two basic rooms, matching doors",
-    "object": {
-      "mapgensize": [ 24, 24 ],
-      "rows": [
-        "!!!!!!!!!!!!!!!!!!!!!!!!",
-        "vvvvvv|................|",
-        "vvvvvv|................|",
-        "vvvvvv|................|",
-        "vvvvvv||..............||",
-        "vvvvvvv||............||v",
-        "vvvvvvvv|||........|||vv",
-        "vvvvvvvvvv|||+||+|||vvvv",
-        "vvvvvvvvvvvvv.vv.vvvvvvv",
-        "1     1     2     1     ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "vvvvvvvvvvvvv.vv.vvvvvvv",
-        "vvvvvvvvvv|||+||+|||vvvv",
-        "vvvvvvvv|||........|||vv",
-        "vvvvvvv||............||v",
-        "vvvvvv||..............||",
-        "vvvvvv|................|",
-        "vvvvvv|................|",
-        "vvvvvv|................|",
-        "!!!!!!!!!!!!!!!!!!!!!!!!"
-      ],
-      "terrain": {
-        " ": "t_nl_mist",
-        "|": "t_nl_metal_wall",
-        ".": "t_nl_metal_floor",
-        "!": "t_nl_metal_wall_edge",
-        "v": "t_nl_chasm",
-        "+": "t_nl_door_c"
-      },
-      "nested": {
-        "1": { "chunks": [ [ "ls_ew_6x6hall_basic", 55 ], [ "ls_ew_6x6hall_fancy", 45 ] ] },
-        "2": { "chunks": [ "ls_4way_6x6hall_basic" ] }
       }
     }
   },
@@ -648,16 +603,16 @@
         "!vvvvvvvv      vvvvvvvv!"
       ],
       "terrain": {
+        "2": "t_nl_chasm",
+        "3": "t_nl_chasm",
+        "4": "t_nl_chasm",
+        "5": "t_nl_chasm",
         " ": "t_nl_mist",
         "|": "t_nl_metal_wall",
         ".": "t_nl_metal_floor",
         "!": "t_nl_metal_wall_edge",
         "v": "t_nl_chasm",
-        "+": "t_nl_door_c",
-        "2": "t_nl_chasm",
-        "3": "t_nl_chasm",
-        "4": "t_nl_chasm",
-        "5": "t_nl_chasm"
+        "+": "t_nl_door_c"
       },
       "nested": { "1": { "chunks": [ [ "ls_ns_6x6hall_basic", 70 ], [ "ls_ns_6x6hall_fancy", 30 ] ] } }
     }
@@ -695,18 +650,7 @@
         "vvvvvvvvvvvvvvvvvvvvvvvv",
         "!!!!!!!!!!!!!!!!!!!!!!!!"
       ],
-      "terrain": {
-        " ": "t_nl_mist",
-        "|": "t_nl_metal_wall",
-        ".": "t_nl_metal_floor",
-        "!": "t_nl_metal_wall_edge",
-        "v": "t_nl_chasm",
-        "+": "t_nl_door_c",
-        "2": "t_nl_chasm",
-        "3": "t_nl_chasm",
-        "4": "t_nl_chasm",
-        "5": "t_nl_chasm"
-      },
+      "palettes": [ "labyrinthine_base_palette" ],
       "nested": {
         "1": { "chunks": [ [ "ls_ew_6x6hall_basic", 70 ], [ "ls_ew_6x6hall_fancy", 30 ] ] },
         "2": { "chunks": [ [ "null", 30 ], [ "ls_secorner_6x6hall_basic", 70 ] ] },
@@ -797,14 +741,7 @@
         "vvvvvvvvv      vvvvvvvvv",
         "vvvvvvvvv      vvvvvvvvv"
       ],
-      "terrain": {
-        " ": "t_nl_mist",
-        "|": "t_nl_metal_wall",
-        ".": "t_nl_metal_floor",
-        "!": "t_nl_metal_wall_edge",
-        "v": "t_nl_chasm",
-        "+": "t_nl_door_c"
-      },
+      "palettes": [ "labyrinthine_base_palette" ],
       "nested": {
         "1": { "chunks": [ "ls_12x12halltee_basic" ] },
         "2": { "chunks": [ "ls_ew_6x6hall_basic" ] },
@@ -844,14 +781,7 @@
         "vvvvvvvvv      vvvvvvvvv",
         "vvvvvvvvv      vvvvvvvvv"
       ],
-      "terrain": {
-        " ": "t_nl_mist",
-        "|": "t_nl_metal_wall",
-        ".": "t_nl_metal_floor",
-        "!": "t_nl_metal_wall_edge",
-        "v": "t_nl_chasm",
-        "+": "t_nl_door_c"
-      },
+      "palettes": [ "labyrinthine_base_palette" ],
       "nested": {
         "1": { "chunks": [ "ls_12x12hall4way_basic" ] },
         "2": { "chunks": [ "ls_ew_6x6hall_basic" ] },
@@ -891,14 +821,7 @@
         "!vvvvvvvvvvvvvvvvvvvvvv!",
         "!!!!!!!!!!!!!!!!!!!!!!!!"
       ],
-      "terrain": {
-        " ": "t_nl_mist",
-        "|": "t_nl_metal_wall",
-        ".": "t_nl_metal_floor",
-        "!": "t_nl_metal_wall_edge",
-        "v": "t_nl_chasm",
-        "+": "t_nl_door_c"
-      },
+      "palettes": [ "labyrinthine_base_palette" ],
       "nested": { "1": { "chunks": [ "ls_ns_6x6hall_basic" ] } }
     }
   },
@@ -922,7 +845,7 @@
         "vvvv....vvvv",
         "vvvv....vvvv"
       ],
-      "terrain": { "v": "t_nl_chasm", ".": "t_nl_catwalk" }
+      "palettes": [ "labyrinthine_base_palette" ]
     }
   },
   {
@@ -945,7 +868,7 @@
         "vvvv....vvvv",
         "vvvv....vvvv"
       ],
-      "terrain": { "v": "t_nl_chasm", ".": "t_nl_catwalk" }
+      "palettes": [ "labyrinthine_base_palette" ]
     }
   },
   {
@@ -968,7 +891,7 @@
         "vvvv....vvvv",
         "vvvv....vvvv"
       ],
-      "terrain": { "v": "t_nl_chasm", ".": "t_nl_catwalk" }
+      "palettes": [ "labyrinthine_base_palette" ]
     }
   },
   {
@@ -985,7 +908,7 @@
         "......",
         "vvvvvv"
       ],
-      "terrain": { "v": "t_nl_chasm", ".": "t_nl_catwalk" }
+      "palettes": [ "labyrinthine_base_palette" ]
     }
   },
   {
@@ -1002,7 +925,7 @@
         "v....v",
         "v....v"
       ],
-      "terrain": { "v": "t_nl_chasm", ".": "t_nl_catwalk" }
+      "palettes": [ "labyrinthine_base_palette" ]
     }
   },
   {
@@ -1020,7 +943,7 @@
         "vv..vv",
         "v....v"
       ],
-      "terrain": { "v": "t_nl_chasm", ".": "t_nl_catwalk" }
+      "palettes": [ "labyrinthine_base_palette" ]
     }
   },
   {
@@ -1038,7 +961,7 @@
         "..vv..",
         "......"
       ],
-      "terrain": { "v": "t_nl_chasm", ".": "t_nl_catwalk" }
+      "palettes": [ "labyrinthine_base_palette" ]
     }
   },
   {
@@ -1056,7 +979,7 @@
         "..vv..",
         "v....v"
       ],
-      "terrain": { "v": "t_nl_chasm", ".": "t_nl_catwalk" }
+      "palettes": [ "labyrinthine_base_palette" ]
     }
   },
   {
@@ -1074,7 +997,7 @@
         "..vv..",
         "v....v"
       ],
-      "terrain": { "v": "t_nl_chasm", ".": "t_nl_catwalk" }
+      "palettes": [ "labyrinthine_base_palette" ]
     }
   },
   {
@@ -1092,7 +1015,7 @@
         "vo.oov",
         "voo.ov"
       ],
-      "terrain": { "v": "t_nl_chasm", ".": "t_nl_catwalk", "o": [ [ "t_nl_catwalk", 3 ], [ "t_nl_chasm", 1 ] ] }
+      "palettes": [ "labyrinthine_base_palette" ]
     }
   },
   {
@@ -1110,7 +1033,7 @@
         "oooooo",
         "vvvvvv"
       ],
-      "terrain": { "v": "t_nl_chasm", ".": "t_nl_catwalk", "o": [ [ "t_nl_catwalk", 3 ], [ "t_nl_chasm", 1 ] ] }
+      "palettes": [ "labyrinthine_base_palette" ]
     }
   },
   {
@@ -1128,7 +1051,7 @@
         ".vvvv.",
         "vvvvvv"
       ],
-      "terrain": { "v": "t_nl_chasm", ".": "t_nl_catwalk" }
+      "palettes": [ "labyrinthine_base_palette" ]
     }
   },
   {
@@ -1146,7 +1069,7 @@
         ".vvvv.",
         "vvvvvv"
       ],
-      "terrain": { "v": "t_nl_chasm", ".": "t_nl_catwalk" }
+      "palettes": [ "labyrinthine_base_palette" ]
     }
   },
   {
@@ -1164,7 +1087,7 @@
         "......",
         "vv..vv"
       ],
-      "terrain": { "v": "t_nl_chasm", ".": "t_nl_catwalk" }
+      "palettes": [ "labyrinthine_base_palette" ]
     }
   },
   {
@@ -1182,7 +1105,7 @@
         "oooooo",
         "vvvvvv"
       ],
-      "terrain": { "v": "t_nl_chasm", ".": "t_nl_catwalk", "o": [ "t_nl_catwalk", "t_nl_chasm" ] }
+      "palettes": [ "labyrinthine_base_palette" ]
     }
   },
   {
@@ -1199,7 +1122,7 @@
         "v.....",
         "v....v"
       ],
-      "terrain": { "v": "t_nl_chasm", ".": "t_nl_catwalk" }
+      "palettes": [ "labyrinthine_base_palette" ]
     }
   },
   {
@@ -1216,7 +1139,7 @@
         "vv....",
         "vvvvvv"
       ],
-      "terrain": { "v": "t_nl_chasm", ".": "t_nl_catwalk" }
+      "palettes": [ "labyrinthine_base_palette" ]
     }
   },
   {
@@ -1233,7 +1156,7 @@
         "....vv",
         "vvvvvv"
       ],
-      "terrain": { "v": "t_nl_chasm", ".": "t_nl_catwalk" }
+      "palettes": [ "labyrinthine_base_palette" ]
     }
   },
   {
@@ -1250,7 +1173,7 @@
         ".....v",
         "v....v"
       ],
-      "terrain": { "v": "t_nl_chasm", ".": "t_nl_catwalk" }
+      "palettes": [ "labyrinthine_base_palette" ]
     }
   },
   {
@@ -1267,7 +1190,7 @@
         "......",
         "vvvvvv"
       ],
-      "terrain": { "v": "t_nl_chasm", ".": "t_nl_catwalk" }
+      "palettes": [ "labyrinthine_base_palette" ]
     }
   },
   {
@@ -1285,7 +1208,7 @@
         ".vvvv.",
         "vvvvvv"
       ],
-      "terrain": { "v": "t_nl_chasm", ".": "t_nl_catwalk" }
+      "palettes": [ "labyrinthine_base_palette" ]
     }
   },
   {
@@ -1302,7 +1225,7 @@
         ".....v",
         "v....v"
       ],
-      "terrain": { "v": "t_nl_chasm", ".": "t_nl_catwalk" }
+      "palettes": [ "labyrinthine_base_palette" ]
     }
   },
   {
@@ -1320,7 +1243,7 @@
         "....vv",
         "v....v"
       ],
-      "terrain": { "v": "t_nl_chasm", ".": "t_nl_catwalk" }
+      "palettes": [ "labyrinthine_base_palette" ]
     }
   },
   {
@@ -1337,7 +1260,7 @@
         "v.....",
         "v....v"
       ],
-      "terrain": { "v": "t_nl_chasm", ".": "t_nl_catwalk" }
+      "palettes": [ "labyrinthine_base_palette" ]
     }
   },
   {
@@ -1355,7 +1278,7 @@
         "vv....",
         "v....v"
       ],
-      "terrain": { "v": "t_nl_chasm", ".": "t_nl_catwalk" }
+      "palettes": [ "labyrinthine_base_palette" ]
     }
   },
   {
@@ -1372,7 +1295,7 @@
         "......",
         "v....v"
       ],
-      "terrain": { "v": "t_nl_chasm", ".": "t_nl_catwalk" }
+      "palettes": [ "labyrinthine_base_palette" ]
     }
   },
   {
@@ -1390,7 +1313,7 @@
         "......",
         "v....v"
       ],
-      "terrain": { "v": "t_nl_chasm", ".": "t_nl_catwalk" }
+      "palettes": [ "labyrinthine_base_palette" ]
     }
   },
   {
@@ -1407,7 +1330,7 @@
         "......",
         "v....v"
       ],
-      "terrain": { "v": "t_nl_chasm", ".": "t_nl_catwalk" }
+      "palettes": [ "labyrinthine_base_palette" ]
     }
   }
 ]
