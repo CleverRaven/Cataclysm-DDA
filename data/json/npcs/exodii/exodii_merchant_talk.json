@@ -797,22 +797,22 @@
       "concatenate": [
         {
           "//~": "Yeah, we're always in need of some help around here.  Here's the list I've got for stuff like this.",
-          "str": "*pulls out a sheaf of mismatched papers, and leafs through the pages for a second.  Their broad metallic fingers look surprisingly deft and delicate, and incongruous on the otherwise unremarkable looseleaf.  \"Aye, an' there's room for a pop-an-work roun' here.  Rubik's got tassed a lissy, right and clean.\""
+          "str": "*pulls out a sheaf of mismatched papers, and leafs through the pages for a second.  Their broad metallic fingers look surprisingly deft and delicate, and incongruous on the otherwise unremarkable looseleaf.  \"Aye, an' there's room for a pop-an-work roun' here.  Rubik's got tassed a lissy, right and clean"
         },
         {
           "u_has_mission": "EXODII_MISSION_CONTACT_HUB",
-          "yes": ".  Right and so, mayhap ye should first see about that escoltin'.",
+          "yes": ".  Right and so, mayhap ye should first see about that escoltin'.\"",
           "no": [
             {
               "math": [ "exodii_knows_hub01", "==", "1" ],
               "yes": [
                 {
                   "math": [ "warehouse_was_found", "==", "1" ],
-                  "yes": ", but for the right-an-quick, this'n has nothin' t'be tassed for ye.",
-                  "no": ".  How'd ye be twigged by a pop-an-squeak?  Or as y'r tassed, a treasure hunt?"
+                  "yes": ", but for the right-an-quick, this'n has nothin' t'be tassed for ye.\"",
+                  "no": ".  How'd ye be twigged by a pop-an-squeak?  Or as y'r tassed, a treasure hunt?\""
                 }
               ],
-              "no": ".  How'd ye be twigged by a quick an' round, a nice escoltin' out to a place sommat of curiosity?"
+              "no": ".  How'd ye be twigged by a quick an' round, a nice escoltin' out to a place sommat of curiosity?\""
             }
           ]
         }
