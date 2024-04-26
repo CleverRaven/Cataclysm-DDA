@@ -65,7 +65,8 @@ class mission_ui_impl : public cataimgui::window
         }
 
     private:
-        void draw_mission_names( std::vector<mission *> missions, int &selected_mission );
+        void draw_mission_names( std::vector<mission *> missions, int &selected_mission,
+                                 bool &need_adjust );
         void draw_selected_description( std::vector<mission *> missions, int &selected_mission );
 
         mission_ui_tab_enum selected_tab = mission_ui_tab_enum::ACTIVE;
@@ -108,13 +109,16 @@ void mission_ui_impl::draw_controls()
     std::vector<mission *> umissions;
 
     static int selected_mission = 0;
+    static bool adjust_selected = false;
 
     if( last_action == "QUIT" ) {
         return;
     } else if( last_action == "UP" ) {
+        adjust_selected = true;
         ImGui::SetKeyboardFocusHere( -1 );
         selected_mission--;
     } else if( last_action == "DOWN" ) {
+        adjust_selected = true;
         ImGui::SetKeyboardFocusHere( 1 );
         selected_mission++;
     } else if( last_action == "NEXT_TAB" || last_action == "RIGHT" ) {
@@ -183,14 +187,15 @@ void mission_ui_impl::draw_controls()
         ImGui::TableSetupColumn( _( "Description" ), ImGuiTableColumnFlags_WidthFixed, 600.0f );
         ImGui::TableHeadersRow();
         ImGui::TableNextColumn();
-        draw_mission_names( umissions, selected_mission );
+        draw_mission_names( umissions, selected_mission, adjust_selected );
         ImGui::TableNextColumn();
         draw_selected_description( umissions, selected_mission );
         ImGui::EndTable();
     }
 }
 
-void mission_ui_impl::draw_mission_names( std::vector<mission *> missions, int &selected_mission )
+void mission_ui_impl::draw_mission_names( std::vector<mission *> missions, int &selected_mission,
+        bool &need_adjust )
 {
     const int num_missions = missions.size();
     if( ImGui::BeginListBox( "##LISTBOX", ImVec2( 300.0f, 300.0f ) ) ) {
@@ -199,9 +204,11 @@ void mission_ui_impl::draw_mission_names( std::vector<mission *> missions, int &
             ImGui::PushID( i );
             if( ImGui::Selectable( missions[i]->name().c_str(), is_selected ) ) {
                 selected_mission = i;
+                // Don't snap to the newly-selected mission when mouse selection is used
+                need_adjust = false;
             }
 
-            if( is_selected ) {
+            if( is_selected && need_adjust ) {
                 ImGui::SetScrollHereY();
                 ImGui::SetItemDefaultFocus();
             }
