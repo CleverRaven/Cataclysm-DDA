@@ -100,6 +100,12 @@
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Done"
       },
       {
+        "text": "[LIE: someone took cop gear before I could. sorry]",
+        "condition": { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_GEAR" },
+        "effect": { "finish_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_GEAR", "success": false },
+        "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Fail"
+      },
+      {
         "text": "I'd better get going.",
         "topic": "TALK_DONE",
         "condition": { "not": { "u_is_wearing": "badge_marshal" } }
@@ -417,6 +423,12 @@
     "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Done",
     "dynamic_line": "[sweet now we beefed up.]",
     "responses": [ { "text": "[woo hoo]", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Fail",
+    "dynamic_line": "[aw shucks that's bad. now no sweet armor.]",
+    "responses": [ { "text": "[sorry]", "topic": "TALK_DONE" } ]
   },
   {
     "id": "MISSION_ISHERWOOD_CHRIS_1",
