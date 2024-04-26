@@ -804,19 +804,23 @@ std::function<double( dialogue & )> moon_phase_eval( char /* scope */,
 }
 
 std::function<double( dialogue & )> pain_eval( char scope,
-        std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
+        std::vector<diag_value> const &/* params */, diag_kwargs const &kwargs )
 {
-    return [beta = is_beta( scope )]( dialogue const & d ) {
-        return d.actor( beta )->pain_cur();
-    };
-}
-
-std::function<double( dialogue & )> perceived_pain_eval( char scope,
-        std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
-{
-    return [beta = is_beta( scope )]( dialogue const & d ) {
-        return d.actor( beta )->perceived_pain_cur();
-    };
+    diag_value format_value( std::string( "raw" ) );
+    if( kwargs.count( "type" ) != 0 ) {
+        format_value = *kwargs.at( "type" );
+    }
+    return [format_value, beta = is_beta( scope )]( dialogue const & d ) {
+        std::string format = format_value.str( d );
+        if( format == "perceived" ) {
+            return d.actor( beta )->perceived_pain_cur();
+        } else if( format == "raw" ) {
+            return d.actor( beta )->pain_cur();
+        } else {
+            debugmsg( R"(Unknown type "%s" for pain())", format );
+            return 0;
+        }
+     };
 }
 
 std::function<void( dialogue &, double )> pain_ass( char scope,
@@ -1475,7 +1479,6 @@ std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "moon_phase", { "g", 0, moon_phase_eval } },
     { "num_input", { "g", 2, num_input_eval } },
     { "pain", { "un", 0, pain_eval } },
-    { "perceived_pain", { "un", 0, perceived_pain_eval } },
     { "school_level", { "un", 1, school_level_eval}},
     { "school_level_adjustment", { "un", 1, school_level_adjustment_eval } },
     { "skill", { "un", 1, skill_eval } },
