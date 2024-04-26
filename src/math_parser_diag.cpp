@@ -824,7 +824,7 @@ std::function<double( dialogue & )> pain_eval( char scope,
             debugmsg( R"(Unknown type "%s" for pain())", format );
             return 0;
         }
-     };
+    };
 }
 
 std::function<void( dialogue &, double )> pain_ass( char scope,
