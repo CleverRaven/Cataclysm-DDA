@@ -177,14 +177,13 @@ struct uilist_entry {
  *   public:
  *   bool key(int ch, int num, uilist * menu) {
  *     if ( ch == 'k' && num > 0 ) {
- *       std::vector<monster> * game_z=static_cast<std::vector<monster>*>(myptr);
+ *       std::vector<monster> * game_z = static_cast<std::vector<monster>*>( myptr );
  *       game_z[num]->dead = true;
  *     }
  *   }
  *   void refresh( uilist *menu ) {
  *       if( menu->selected >= 0 && static_cast<size_t>( menu->selected ) < game_z.size() ) {
- *           mvwprintz( menu->window, 0, 0, c_red, "( %s )",game_z[menu->selected]->name() );
- *           wnoutrefresh( menu->window );
+ *           ImGui::TextColored( c_red, "( %s )", game_z[menu->selected]->name() );
  *       }
  *   }
  * }
