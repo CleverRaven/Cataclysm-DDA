@@ -2893,9 +2893,9 @@ static void draw_spellbook_info( const spell_type &sp )
     cataimgui::draw_colored_text( sp.description.translated(), gray );
 
     cataimgui::draw_colored_text( string_format( "%s: %d", _( "Difficulty" ),
-                                      static_cast<int>( sp.difficulty.evaluate( d ) ) ), c_light_gray );
+                                  static_cast<int>( sp.difficulty.evaluate( d ) ) ), c_light_gray );
     cataimgui::draw_colored_text( string_format( "%s: %d", _( "Max Level" ),
-                                      static_cast<int>( sp.max_level.evaluate( d ) ) ), c_light_gray );
+                                  static_cast<int>( sp.max_level.evaluate( d ) ) ), c_light_gray );
 
     const std::string fx = sp.effect_name;
     std::string damage_string;
@@ -2919,12 +2919,14 @@ static void draw_spellbook_info( const spell_type &sp )
 
     if( has_damage_type ) {
         cataimgui::draw_colored_text( string_format( "%s: %s",
-                                          _( "Damage Type" ),
-                                          colorize( fake_spell.damage_type_string(), fake_spell.damage_type_color() ) ),
-                           gray );
+                                      _( "Damage Type" ),
+                                      colorize( fake_spell.damage_type_string(), fake_spell.damage_type_color() ) ),
+                                      gray );
     }
 
-    if( ImGui::BeginTable( "stats", 4, ImGuiTableFlags_Resizable | ImGuiTableFlags_SizingStretchProp | ImGuiTableFlags_BordersOuter | ImGuiTableFlags_BordersInnerV) ) {
+    if( ImGui::BeginTable( "stats", 4,
+                           ImGuiTableFlags_Resizable | ImGuiTableFlags_SizingStretchProp | ImGuiTableFlags_BordersOuter |
+                           ImGuiTableFlags_BordersInnerV ) ) {
         ImGui::TableSetupColumn( _( "Stat Gain" ), 0, 10 );
         ImGui::TableSetupColumn( _( "lvl 0" ), 0, 7 );
         ImGui::TableSetupColumn( _( "per lvl" ), 0, 7 );
@@ -2973,7 +2975,7 @@ void spellbook_callback::refresh( uilist *menu )
 {
     auto width = ImGui::GetWindowWidth();
     ImGui::TableSetColumnIndex( 0 );
-    ImGui::PushTextWrapPos( width/2.0 );
+    ImGui::PushTextWrapPos( width / 2.0 );
     if( menu->selected >= 0 && static_cast<size_t>( menu->selected ) < spells.size() ) {
         draw_spellbook_info( spells[menu->selected] );
     }

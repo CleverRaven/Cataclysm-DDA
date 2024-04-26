@@ -262,12 +262,12 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
 }
 
 void overmap_ui::draw_overmap_chunk_imgui( const avatar &you, const tripoint_abs_omt &global_omt,
-                                           const int width, const int height )
+        const int width, const int height )
 {
     ImGui::BeginGroup();
     auto start_pos = ImGui::GetCursorPos();
-    const ImVec2 mid { static_cast<float>(width / 2), static_cast<float>(height / 2) };
-    auto char_size = ImGui::CalcTextSize("X");
+    const ImVec2 mid { static_cast<float>( width / 2 ), static_cast<float>( height / 2 ) };
+    auto char_size = ImGui::CalcTextSize( "X" );
     // Map is centered on curs - typically player's global_omt_location
     const point_abs_omt curs = global_omt.xy();
     const tripoint_abs_omt targ = you.get_active_mission_target();
@@ -324,7 +324,7 @@ void overmap_ui::draw_overmap_chunk_imgui( const avatar &you, const tripoint_abs
                 }
             }
             // TODO: Build colorized string instead of writing directly to window
-            auto pos = start_pos + (char_size * (mid + ImVec2( i, j ) ) );
+            auto pos = start_pos + ( char_size * ( mid + ImVec2( i, j ) ) );
             ImGui::SetCursorPos( pos );
             // Show hordes on minimap, leaving a one-tile space around the player
             bool show_hordes = i < -1 || i > 1 || j < -1 || j > 1;
@@ -334,14 +334,14 @@ void overmap_ui::draw_overmap_chunk_imgui( const avatar &you, const tripoint_abs
                 overmap_buffer.seen( omp ) && you.overmap_los( omp, sight_points ) ) {
                 auto horde = horde_size > HORDE_VISIBILITY_SIZE * 2 ? "Z" : "z";
                 ImGui::TextColored( cataimgui::imvec4_from_color( green ), horde );
-                ImGui::SameLine(0, 0);
+                ImGui::SameLine( 0, 0 );
             } else {
                 if( i == 0 && j == 0 ) {
                     // Highlight player character position in center of minimap
                     ter_color = hilite( ter_color );
                 }
                 ImGui::TextColored( cataimgui::imvec4_from_color( ter_color ), ter_sym.c_str() );
-                ImGui::SameLine(0, 0);
+                ImGui::SameLine( 0, 0 );
             }
         }
         ImGui::NewLine();

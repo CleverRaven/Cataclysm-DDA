@@ -164,7 +164,7 @@ class teleporter_callback : public uilist_callback
         std::map<int, tripoint_abs_omt> index_pairs;
     public:
         explicit teleporter_callback( std::map<int, tripoint_abs_omt> &ip ) : index_pairs( ip ) {}
-        void refresh( __attribute__ ((unused)) uilist *menu ) override {
+        void refresh( __attribute__( ( unused ) ) uilist *menu ) override {
             ImGui::TableSetColumnIndex( 2 );
             const int entnum = menu->selected;
             if( entnum >= 0 && static_cast<size_t>( entnum ) < index_pairs.size() ) {
