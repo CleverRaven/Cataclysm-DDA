@@ -109,7 +109,7 @@ void mission_ui_impl::draw_controls()
     std::vector<mission *> umissions;
 
     static int selected_mission = 0;
-    static bool adjust_selected = false;
+    bool adjust_selected = false;
 
     if( last_action == "QUIT" ) {
         return;
@@ -209,8 +209,6 @@ void mission_ui_impl::draw_mission_names( std::vector<mission *> missions, int &
             ImGui::PushID( i );
             if( ImGui::Selectable( missions[i]->name().c_str(), is_selected ) ) {
                 selected_mission = i;
-                // Don't snap to the newly-selected mission when mouse selection is used
-                need_adjust = false;
             }
 
             if( is_selected && need_adjust ) {
@@ -237,7 +235,15 @@ void mission_ui_impl::draw_selected_description( std::vector<mission *> missions
         }
     }
     ImGui::Separator();
-    ImGui::TextWrapped( miss->get_description().c_str() );
+    static std::string raw_description;
+    static std::string parsed_description;
+    // Avoid replacing expanded snippets with other valid snippet text on redraw
+    if( raw_description != miss->get_description() ) {
+        raw_description = miss->get_description();
+        parsed_description = raw_description;
+        parse_tags( parsed_description, get_player_character(), get_player_character() );
+    }
+    draw_colored_text( parsed_description.c_str(), c_unset, 600.0f );
     if( miss->has_deadline() ) {
         const time_point deadline = miss->get_deadline();
         ImGui::Text( _( "Deadline: %s" ), to_string( deadline ).c_str() );
