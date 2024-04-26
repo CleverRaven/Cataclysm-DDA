@@ -209,7 +209,7 @@
     "category": "container",
     "name": { "str": "garbage bag" },
     "looks_like": "bag_canvas",
-    "description": "A hefty plastic bag, made to carry lots of trash.  It's sturdy and waterproof, and could easily be repurposed.",
+    "description": "A hefty plastic bag, made to carry lots of trash.  It's sturdy and water-resistant; this could easily be repurposed.",
     "ascii_picture": "bag_garbage",
     "weight": "40 g",
     "volume": "42 ml",
