@@ -168,6 +168,8 @@ struct bash_params {
 struct drawsq_params {
     private:
         tripoint view_center = tripoint_min;
+        ter_str_id ter_override = ter_str_id::NULL_ID();
+        furn_str_id furn_override = furn_str_id::NULL_ID();
         bool do_highlight = false;
         bool do_show_items = true;
         bool do_low_light = false;
@@ -176,7 +178,7 @@ struct drawsq_params {
         bool do_output = true;
 
     public:
-        constexpr drawsq_params() = default;
+        drawsq_params() = default;
 
         /**
          * Highlight the tile. On TILES, draws an overlay; on CURSES, inverts color.
@@ -277,6 +279,23 @@ struct drawsq_params {
             return *this;
         }
         tripoint center() const;
+        //@}
+
+        /**
+         * Set terrain or furniture override.
+         * Default: no override.
+         */
+        //@{
+        drawsq_params &terrain_override( const ter_str_id &id ) {
+            ter_override = id;
+            return *this;
+        }
+        drawsq_params &furniture_override( const furn_str_id &id ) {
+            furn_override = id;
+            return *this;
+        }
+        const ter_str_id &terrain_override() const;
+        const furn_str_id &furniture_override() const;
         //@}
 };
 

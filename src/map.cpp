@@ -7065,8 +7065,10 @@ bool map::draw_maptile( const catacurses::window &w, const tripoint &p,
 {
     drawsq_params param = params;
     nc_color tercol;
-    const ter_t &curr_ter = curr_maptile.get_ter_t();
-    const furn_t &curr_furn = curr_maptile.get_furn_t();
+    const ter_t &curr_ter = params.terrain_override().is_null()
+                            ? curr_maptile.get_ter_t() : params.terrain_override().obj();
+    const furn_t &curr_furn = params.furniture_override().is_null()
+                              ? curr_maptile.get_furn_t() : params.furniture_override().obj();
     const trap &curr_trap = curr_maptile.get_trap().obj();
     const field &curr_field = curr_maptile.get_field();
     int sym;
@@ -10557,4 +10559,14 @@ tripoint drawsq_params::center() const
     } else {
         return view_center;
     }
+}
+
+const ter_str_id &drawsq_params::terrain_override() const
+{
+    return ter_override;
+}
+
+const furn_str_id &drawsq_params::furniture_override() const
+{
+    return furn_override;
 }

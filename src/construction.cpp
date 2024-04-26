@@ -1007,15 +1007,49 @@ void place_construction( std::vector<construction_group_str_id> const &groups )
         std::move( temp.begin(), temp.end(), std::back_inserter( cons ) );
     }
 
-    shared_ptr_fast<game::draw_callback_t> draw_valid = make_shared_fast<game::draw_callback_t>( [&]() {
+    shared_ptr_fast<game::draw_callback_t> draw_preview =
+    make_shared_fast<game::draw_callback_t>( [&]() {
         map &here = get_map();
-        for( auto &elem : valid ) {
-            // TODO: fix point types
-            here.drawsq( g->w_terrain, elem.first.raw(),
-                         drawsq_params().highlight( true ).show_items( true ) );
+        // Draw construction result preview on valid squares
+        // TODO: fix point types
+        for( const auto &elem : valid ) {
+            const tripoint_bub_ms &loc = elem.first;
+            const construction &con = *elem.second;
+            const std::string &post_id = con.post_terrain;
+            if( !post_id.empty() ) {
+                if( con.post_is_furniture ) {
+                    if( is_draw_tiles_mode() ) {
+                        g->draw_furniture_override( loc.raw(), furn_str_id( post_id ) );
+                        g->draw_highlight( loc.raw() );
+                    } else {
+                        here.drawsq( g->w_terrain, loc,
+                                     drawsq_params().highlight( true )
+                                     .show_items( true )
+                                     .furniture_override( furn_str_id( post_id ) ) );
+                    }
+                } else {
+                    if( is_draw_tiles_mode() ) {
+                        g->draw_terrain_override( loc.raw(), ter_str_id( post_id ) );
+                        g->draw_highlight( loc.raw() );
+                    } else {
+                        here.drawsq( g->w_terrain, loc,
+                                     drawsq_params().highlight( true )
+                                     .show_items( true )
+                                     .terrain_override( ter_str_id( post_id ) ) );
+                    }
+                }
+            } else {
+                if( is_draw_tiles_mode() ) {
+                    g->draw_highlight( loc.raw() );
+                } else {
+                    here.drawsq( g->w_terrain, loc,
+                                 drawsq_params().highlight( true )
+                                 .show_items( true ) );
+                }
+            }
         }
     } );
-    g->add_draw_callback( draw_valid );
+    g->add_draw_callback( draw_preview );
 
     const std::optional<tripoint> pnt_ = choose_adjacent( _( "Construct where?" ) );
     if( !pnt_ ) {
