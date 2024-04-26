@@ -782,9 +782,7 @@
     "special_attacks": [ { "id": "grab", "cooldown": 7 }, { "id": "scratch_humanoid" }, { "id": "smash" } ],
     "death_drops": "mon_zombie_hulk_death_drops",
     "regenerates": 15,
-    "death_function": {
-      "eoc": "EOC_NEMESIS_DIED"
-    },
+    "death_function": { "eoc": "EOC_NEMESIS_DIED" },
     "upgrades": false,
     "armor": { "bash": 15, "cut": 15, "bullet": 15, "electric": 6 },
     "extend": {
