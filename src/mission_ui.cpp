@@ -177,7 +177,12 @@ void mission_ui_impl::draw_controls()
     }
 
     if( umissions.empty() ) {
-        ImGui::Text( _( "No missions!" ) );
+        static const std::map< mission_ui_tab_enum, std::string > nope = {
+            { mission_ui_tab_enum::ACTIVE, translate_marker( "You have no active missions!" ) },
+            { mission_ui_tab_enum::COMPLETED, translate_marker( "You haven't completed any missions!" ) },
+            { mission_ui_tab_enum::FAILED, translate_marker( "You haven't failed any missions!" ) }
+        };
+        ImGui::TextWrapped( nope.at( selected_tab ).c_str() );
         return;
     }
 
@@ -225,6 +230,12 @@ void mission_ui_impl::draw_selected_description( std::vector<mission *> missions
     ImGui::Text( _( "Mission:" ) );
     ImGui::SameLine();
     ImGui::TextWrapped( miss->name().c_str() );
+    if( miss->get_npc_id().is_valid() ) {
+        npc *guy = g->find_npc( miss->get_npc_id() );
+        if( guy ) {
+            ImGui::TextWrapped( _( "Given by: %s" ), guy->disp_name().c_str() );
+        }
+    }
     ImGui::Separator();
     ImGui::TextWrapped( miss->get_description().c_str() );
     if( miss->has_deadline() ) {
@@ -244,6 +255,14 @@ void mission_ui_impl::draw_selected_description( std::vector<mission *> missions
             }
             ImGui::TextWrapped( _( "Time remaining: %s" ), remaining_time.c_str() );
         }
+    }
+    if( miss->has_target() ) {
+        // TODO: target does not contain a z-component, targets are assumed to be on z=0
+        const tripoint_abs_omt pos = get_player_character().global_omt_location();
+        draw_colored_text( string_format( _( "Target: %s" ), miss->get_target().to_string() ), c_white );
+        // Below is done instead of a table for the benefit of right-to-left languages
+        //~Extra padding spaces in the English text are so that the replaced string vertically aligns with the one above
+        draw_colored_text( string_format( _( "You:    %s" ), pos.to_string() ), c_white );
     }
 }
 
