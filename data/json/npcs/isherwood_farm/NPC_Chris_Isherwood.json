@@ -106,6 +106,18 @@
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Fail"
       },
       {
+        "text": "[got da 20 bags]",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_WALL_BAGS" },
+            { "u_has_items": { "item": "bag_canvas", "count": 20 } },
+            { "math": [ "isherwood_wall_status", "<", "1" ] }
+          ]
+        },
+        "effect": { "finish_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_WALL_BAGS", "success": true },
+        "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Wall_Done"
+      },
+      {
         "text": "I'd better get going.",
         "topic": "TALK_DONE",
         "condition": { "not": { "u_is_wearing": "badge_marshal" } }
@@ -348,6 +360,16 @@
         "text": "I don't think one farmer with a hunting rifle is going to be enough to keep our backs safe.",
         "condition": { "math": [ "isherwood_gear_status", "<", "1" ] },
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear"
+      },
+      {
+        "text": "[lets build a wall.]",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_WALL_BAGS" } },
+            { "math": [ "isherwood_wall_status", "<", "1" ] }
+          ]
+        },
+        "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Wall"
       }
     ]
   },
@@ -369,6 +391,16 @@
         "text": "Come to think of it, one farmer with a hunting rifle is going to be enough to keep our backs safe.",
         "condition": { "math": [ "isherwood_gear_status", "<", "1" ] },
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear"
+      },
+      {
+        "text": "[lets build a wall.]",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_WALL_BAGS" } },
+            { "math": [ "isherwood_wall_status", "<", "1" ] }
+          ]
+        },
+        "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Wall"
       }
     ]
   },
@@ -431,6 +463,31 @@
     "responses": [ { "text": "[sorry]", "topic": "TALK_DONE" } ]
   },
   {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Wall",
+    "dynamic_line": "[yeah bro that sounds sweet. I got a plan Dutch, get 20 canvas bags 4 me. I get traps and we lay a wall with da truck]",
+    "responses": [
+      { "text": "[nah bro let's not bother]", "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Cancel" },
+      {
+        "text": "[yeah bro i'll do it]",
+        "effect": { "assign_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_WALL_BAGS" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Wall_Done",
+    "dynamic_line": "[sweet now we get something between us.  Give me 1 day and we ready]",
+    "responses": [
+      {
+        "text": "[woo hoo]",
+        "effect": { "math": [ "npc_timer_getting_wall_ready", "=", "time('now')" ] },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
     "id": "MISSION_ISHERWOOD_CHRIS_1",
     "type": "mission_definition",
     "name": { "str": "Free Barry from the mysterious structure" },
@@ -474,6 +531,29 @@
       ]
     },
     "end": { "effect": { "math": [ "isherwood_gear_status", "=", "1" ] } },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "//": "Dialogue for this mission is handled externally.",
+    "dialogue": {
+      "describe": ".",
+      "offer": ".",
+      "accepted": ".",
+      "rejected": ".",
+      "advice": ".",
+      "inquire": ".",
+      "success": ".",
+      "success_lie": ".",
+      "failure": "."
+    }
+  },
+  {
+    "id": "MISSION_ISHERWOOD_CHRIS_1_GET_WALL_BAGS",
+    "type": "mission_definition",
+    "name": { "str": "Retrieve Canvas Bags for Chris" },
+    "goal": "MGOAL_NULL",
+    "difficulty": 1,
+    "value": 0,
+    "end": { "effect": { "math": [ "isherwood_wall_status", "=", "1" ] } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "//": "Dialogue for this mission is handled externally.",
