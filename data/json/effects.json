@@ -4670,7 +4670,10 @@
       {
         "condition": "ALWAYS",
         "values": [
-          { "value": "SPEED", "multiply": { "math": [ "Nemesis_iteration * 0.1" ] } }
+          { "value": "SPEED", "multiply": { "math": [ "Nemesis_iteration * 0.01" ] } },
+          { "value": "ARMOR_BASH", "add": { "math": [ "Nemesis_iteration * -1" ]  } },
+          { "value": "ARMOR_STAB", "add": { "math": [ "Nemesis_iteration * -1" ]  } },
+          { "value": "ARMOR_CUT", "add": { "math": [ "Nemesis_iteration * -1" ]  } }
         ]
       }
     ]
