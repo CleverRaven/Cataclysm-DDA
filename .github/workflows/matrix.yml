@@ -343,3 +343,4 @@ jobs:
         name: cata_test
         path: tests/cata_test*
         if-no-files-found: ignore
+        retention-days: 9
