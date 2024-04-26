@@ -86,7 +86,7 @@
     "type": "terrain",
     "id": "t_nl_door_o",
     "name": "mysterious open door",
-    "looks_like": "t_door_metal_c",
+    "looks_like": "t_door_metal_o",
     "description": "A dark door of twisted metal, etched with symbols and writing that you can't piece together.  It has been swung open.",
     "symbol": "/",
     "color": "blue",
@@ -299,35 +299,36 @@
     "city_distance": [ 10, -1 ],
     "occurrences": [ 10, 10 ],
     "flags": [ "EXODII" ],
-    "joins": [ { "id": "tunnel_to_tunnel", "into_locations": [ "subterranean_empty" ] } ],
+    "joins": [ { "id": "passage_to_passage", "into_locations": [ "subterranean_empty" ] } ],
     "overmaps": {
       "crossroads": {
         "overmap": "labyrinth_hall_nesw",
-        "north": "tunnel_to_tunnel",
-        "east": "tunnel_to_tunnel",
-        "south": "tunnel_to_tunnel",
-        "west": "tunnel_to_tunnel"
+        "north": "passage_to_passage",
+        "east": "passage_to_passage",
+        "south": "passage_to_passage",
+        "west": "passage_to_passage"
       },
       "tee": {
         "overmap": "labyrinth_hall_nes",
-        "north": "tunnel_to_tunnel",
-        "east": "tunnel_to_tunnel",
-        "south": "tunnel_to_tunnel"
+        "north": "passage_to_passage",
+        "east": "passage_to_passage",
+        "south": "passage_to_passage"
       },
-      "straight_tunnel": { "overmap": "labyrinth_hall_ew", "east": "tunnel_to_tunnel", "west": "tunnel_to_tunnel" },
-      "corner": { "overmap": "labyrinth_hall_ne", "north": "tunnel_to_tunnel", "east": "tunnel_to_tunnel" },
-      "dead_end": { "overmap": "labyrinth_hall_end_west", "west": "tunnel_to_tunnel" }
+      "straight_passage": { "overmap": "labyrinth_hall_ew", "east": "passage_to_passage", "west": "passage_to_passage" },
+      "corner": { "overmap": "labyrinth_hall_ne", "north": "passage_to_passage", "east": "passage_to_passage" },
+      "dead_end": { "overmap": "labyrinth_hall_end_west", "west": "passage_to_passage" }
     },
     "root": "crossroads",
     "phases": [
       [
-        { "overmap": "straight_tunnel", "max": { "poisson": 20 } },
-        { "overmap": "corner", "max": { "poisson": 20 } },
-        { "overmap": "tee", "max": { "poisson": 10 } }
+        { "overmap": "straight_passage", "max": { "poisson": 20 } },
+        { "overmap": "corner", "max": { "poisson": 30 } },
+        { "overmap": "tee", "max": { "poisson": 20 } },
+        { "overmap": "dead_end", "weight": 1 }
       ],
       [
         { "overmap": "dead_end", "weight": 2000 },
-        { "overmap": "straight_tunnel", "weight": 20 },
+        { "overmap": "straight_passage", "weight": 20 },
         { "overmap": "corner", "weight": 100 },
         { "overmap": "tee", "weight": 20 },
         { "overmap": "crossroads", "weight": 1 }
@@ -346,14 +347,15 @@
       "v": "t_nl_chasm",
       "+": "t_nl_door_c",
       "o": [ [ "t_nl_catwalk", 3 ], [ "t_nl_chasm", 1 ] ]
-    }
+    },
+    "furniture": { "C": "f_control_station", "B": "f_capacitor", "M": "f_machinery_electronic", "(": "f_electrical_conduit" }
   },
   {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "labyrinth_hall_straight" ],
     "object": {
-      "fill_ter": "t_nl_mist",
+      "fill_ter": "t_nl_metal_floor",
       "rows": [
         "1                       ",
         "                        ",
@@ -381,7 +383,7 @@
         "                        "
       ],
       "palettes": [ "labyrinthine_base_palette" ],
-      "nested": { "1": { "chunks": [ [ "ls_straight_template_rooms", 50 ], [ "ls_straight_template_chasm", 50 ] ] } }
+      "nested": { "1": { "chunks": [ [ "ls_straight_template_rooms", 60 ], [ "ls_straight_template_chasm", 40 ] ] } }
     }
   },
   {
@@ -389,7 +391,7 @@
     "method": "json",
     "om_terrain": [ "labyrinth_hall_curved" ],
     "object": {
-      "fill_ter": "t_nl_mist",
+      "fill_ter": "t_nl_metal_floor",
       "rows": [
         "1                       ",
         "                        ",
@@ -417,7 +419,7 @@
         "                        "
       ],
       "palettes": [ "labyrinthine_base_palette" ],
-      "nested": { "1": { "chunks": [ [ "ls_corner_template_chasm", 50 ], [ "ls_corner_template_chasm", 50 ] ] } }
+      "nested": { "1": { "chunks": [ [ "ls_corner_template_chasm", 70 ], [ "ls_corner_template_rooms", 30 ] ] } }
     }
   },
   {
@@ -425,7 +427,7 @@
     "method": "json",
     "om_terrain": [ "labyrinth_hall_tee" ],
     "object": {
-      "fill_ter": "t_nl_mist",
+      "fill_ter": "t_nl_metal_floor",
       "rows": [
         "1                       ",
         "                        ",
@@ -453,7 +455,7 @@
         "                        "
       ],
       "palettes": [ "labyrinthine_base_palette" ],
-      "nested": { "1": { "chunks": [ [ "ls_tee_template_chasm", 50 ], [ "ls_tee_template_chasm", 50 ] ] } }
+      "nested": { "1": { "chunks": [ [ "ls_tee_template_chasm", 50 ], [ "ls_tee_template_rooms", 50 ] ] } }
     }
   },
   {
@@ -461,7 +463,7 @@
     "method": "json",
     "om_terrain": [ "labyrinth_hall_four_way" ],
     "object": {
-      "fill_ter": "t_nl_mist",
+      "fill_ter": "t_nl_metal_floor",
       "rows": [
         "1                       ",
         "                        ",
@@ -489,7 +491,7 @@
         "                        "
       ],
       "palettes": [ "labyrinthine_base_palette" ],
-      "nested": { "1": { "chunks": [ [ "ls_4way_template_chasm", 50 ], [ "ls_4way_template_chasm", 50 ] ] } }
+      "nested": { "1": { "chunks": [ [ "ls_4way_template_chasm", 50 ], [ "ls_4way_template_rooms", 50 ] ] } }
     }
   },
   {
@@ -497,7 +499,7 @@
     "method": "json",
     "om_terrain": [ "labyrinth_hall_end" ],
     "object": {
-      "fill_ter": "t_nl_mist",
+      "fill_ter": "t_nl_metal_floor",
       "rows": [
         "1                       ",
         "                        ",
@@ -525,7 +527,7 @@
         "                        "
       ],
       "palettes": [ "labyrinthine_base_palette" ],
-      "nested": { "1": { "chunks": [ [ "ls_deadend_template_chasm", 50 ], [ "ls_deadend_template_chasm", 50 ] ] } }
+      "nested": { "1": { "chunks": [ [ "ls_deadend_template_chasm", 30 ], [ "ls_deadend_template_rooms", 70 ] ] } }
     }
   },
   {
@@ -572,6 +574,78 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "ls_straight_template_rooms",
+    "//": "Bubble cell rooms",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "!||||||vvv....vvv||||||!",
+        "!|____||vv....vv||____|!",
+        "!______+........+______!",
+        "!______+.....ovv||____|!",
+        "!|____||vvo..ovvv||||||!",
+        "!||||||vvvo..ovv||____|!",
+        "!|____||vvo.....+______!",
+        "!______+........+______!",
+        "!|____||vo...ovv||____|!",
+        "!||||||vvo...ovvv||||||!",
+        "!|____||vo...ovv||____|!",
+        "!______+........+______!",
+        "!______+.......v||____|!",
+        "!|____||vvo..ovvv||||||!",
+        "!||||||vvvo..ovv||____|!",
+        "!|____||vvo.....+______!",
+        "!______+........+______!",
+        "!______+......ov||____|!",
+        "!|____||vvo...ovv||||||!",
+        "!||||||vvvo...ov||____|!",
+        "!|____||vvo.....+______!",
+        "!______+........+______!",
+        "!|____||vv....vv||____|!",
+        "!||||||vvv....vvv||||||!"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ls_straight_template_rooms",
+    "//": "Bubble cell rooms2",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "!||||||vvv....vvvv|||||!",
+        "!|____||vv....vvv||___|!",
+        "!______+.........+_____!",
+        "!______+.....ovvv||___|!",
+        "!|___|||vo...ovvvv|||||!",
+        "!|||||vvvo...ovv|||___|!",
+        "!|___||vvo......+______!",
+        "!_____+.........+______!",
+        "!_____+......ovv|||___|!",
+        "!|___||vvvo..ovvvv|||||!",
+        "!|||||vvvvo..ovvv||___|!",
+        "!|___|||v........+_____!",
+        "!______+.........+_____!",
+        "!|___|||vvo...ovv||___|!",
+        "!|||||vvvvo...ovvv|||||!",
+        "!|___||vvvo...o||||___|!",
+        "!_____+........+__+____!",
+        "!_____+......ov||||___|!",
+        "!|___||vvvo..ovvvv|||||!",
+        "!|||||vvvvo..ovvv||___|!",
+        "!|___|||vvo......+_____!",
+        "!______+.........+_____!",
+        "!|____||vv....vvv||___|!",
+        "!||||||vvv....vvvv|||||!"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "ls_straight_template_chasm",
     "//": "hallway in a chasm",
     "object": {
@@ -602,63 +676,134 @@
         "!vvvvvvvv      vvvvvvvv!",
         "!vvvvvvvv      vvvvvvvv!"
       ],
-      "terrain": {
-        "2": "t_nl_chasm",
-        "3": "t_nl_chasm",
-        "4": "t_nl_chasm",
-        "5": "t_nl_chasm",
-        " ": "t_nl_mist",
-        "|": "t_nl_metal_wall",
-        ".": "t_nl_metal_floor",
-        "!": "t_nl_metal_wall_edge",
-        "v": "t_nl_chasm",
-        "+": "t_nl_door_c"
-      },
+      "palettes": [ "labyrinthine_base_palette" ],
       "nested": { "1": { "chunks": [ [ "ls_ns_6x6hall_basic", 70 ], [ "ls_ns_6x6hall_fancy", 30 ] ] } }
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "ls_straight_template_chasm_unused",
+    "nested_mapgen_id": "ls_straight_template_chasm",
+    "//": "split passage",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "!v2     v6     v3     v!",
+        "!v      .      .      v!",
+        "!v      .      .      v!",
+        "!v      .      .      v!",
+        "!v      .      .      v!",
+        "!v      v      v      v!",
+        "!v1     vvvvvvvv1     v!",
+        "!v      vvvvvvvv      v!",
+        "!v      vvvvvvvv      v!",
+        "!v      vvvvvvvv      v!",
+        "!v      vvvvvvvv      v!",
+        "!v      vvvvvvvv      v!",
+        "!v1     vvvvvvvv1     v!",
+        "!v      vvvvvvvv      v!",
+        "!v      vvvvvvvv      v!",
+        "!v      vvvvvvvv      v!",
+        "!v      vvvvvvvv      v!",
+        "!v      vvvvvvvv      v!",
+        "!v4     v7     v5     v!",
+        "!v      .      .      v!",
+        "!v      .      .      v!",
+        "!v      .      .      v!",
+        "!v      .      .      v!",
+        "!v      v      v      v!"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ],
+      "nested": {
+        "1": { "chunks": [ [ "ls_ns_6x6hall_basic", 70 ], [ "ls_ns_6x6hall_fancy", 30 ] ] },
+        "2": { "chunks": [ "ls_secorner_6x6hall_basic" ] },
+        "3": { "chunks": [ "ls_swcorner_6x6hall_basic" ] },
+        "4": { "chunks": [ "ls_necorner_6x6hall_basic" ] },
+        "5": { "chunks": [ "ls_nwcorner_6x6hall_basic" ] },
+        "6": { "chunks": [ "ls_Tn_6x6hall_basic" ] },
+        "7": { "chunks": [ "ls_Ts_6x6hall_basic" ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ls_straight_template_chasm",
+    "//": "wiggly passage",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "!vvvvvvvvoo..oovvvvvvvv!",
+        "!vvvvvvvoo..oovvvvvvvvv!",
+        "!vvvvvvoo..o.vvvvvvvvvv!",
+        "!vvvvvvoo..oooovvvvvvvv!",
+        "!vvvvvoo..oovoovvvvvvvv!",
+        "!vvvvoo..oovvoovvvvvvvv!",
+        "!vvvvoo..oovvoovvvvvvvv!",
+        "!vvvoo..oovvvvoovvvvvvv!",
+        "!vvvoo..oovvvoovvvvvvvv!",
+        "!vvoo..oovvvvvoovvvvvvv!",
+        "!vvoo..oovvvvvvoovvvvvv!",
+        "!vvvoo..oovvvvvvoovvvvv!",
+        "!vvvvoo..oovvvvvoovvvvv!",
+        "!vvvvvoo..oovvvoovvvvvv!",
+        "!vvvvvvoo..oovvoovvvvvv!",
+        "!vvvvvvvoo..oooooovvvvv!",
+        "!vvvvvvvvoo..o..ovvvvvv!",
+        "!vvvvvvvvvoo..ooovvvvvv!",
+        "!vvvvvvvvoo..oovvvvvvvv!",
+        "!vvvvvvvoo..oovvvvvvvvv!",
+        "!vvvvvvvoo..oovvvvvvvvv!",
+        "!vvvvvvvvoo..oovvvvvvvv!",
+        "!vvvvvvvvoo..oovvvvvvvv!",
+        "!vvvvvvvvoo..oovvvvvvvv!"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ls_straight_template_chasm",
     "//": "hallway in a chasm with possible half-formed juts",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
-        "!!!!!!!!!!!!!!!!!!!!!!!!",
-        "vvvvvvvvvvvvvvvvvvvvvvvv",
-        "vvvvvvvvvvvvvvvvvvvvvvvv",
-        "vvvvvv2vvvvv3vvvvvvvvvvv",
-        "vvvvvvvvvvvvvvvvvvvvvvvv",
-        "vvvvvvvvvvvvvvvvvvvvvvvv",
-        "vvvvvvvvvvvvvvvvvvvvvvvv",
-        "vvvvvvvvvvvvvvvvvvvvvvvv",
-        "vvvvvvvvvvvvvvvvvvvvvvvv",
-        "1     6     7     1     ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "vvvvvv4vvvvv5vvvvvvvvvvv",
-        "vvvvvvvvvvvvvvvvvvvvvvvv",
-        "vvvvvvvvvvvvvvvvvvvvvvvv",
-        "vvvvvvvvvvvvvvvvvvvvvvvv",
-        "vvvvvvvvvvvvvvvvvvvvvvvv",
-        "vvvvvvvvvvvvvvvvvvvvvvvv",
-        "vvvvvvvvvvvvvvvvvvvvvvvv",
-        "vvvvvvvvvvvvvvvvvvvvvvvv",
-        "!!!!!!!!!!!!!!!!!!!!!!!!"
+        "!vvvvvvvv1     vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vv3vvvvv7     5vvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vv2vvvvv6     4vvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv1     vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!"
       ],
       "palettes": [ "labyrinthine_base_palette" ],
+      "terrain": { "2": "t_nl_chasm", "3": "t_nl_chasm", "4": "t_nl_chasm", "5": "t_nl_chasm" },
       "nested": {
-        "1": { "chunks": [ [ "ls_ew_6x6hall_basic", 70 ], [ "ls_ew_6x6hall_fancy", 30 ] ] },
-        "2": { "chunks": [ [ "null", 30 ], [ "ls_secorner_6x6hall_basic", 70 ] ] },
-        "3": { "chunks": [ [ "null", 60 ], [ "ls_swcorner_6x6hall_basic", 40 ] ] },
-        "4": { "chunks": [ [ "null", 30 ], [ "ls_necorner_6x6hall_basic", 70 ] ] },
-        "5": { "chunks": [ [ "null", 60 ], [ "ls_nwcorner_6x6hall_basic", 40 ] ] },
-        "6": { "chunks": [ [ "ls_ew_6x6hall_fancy", 10 ], [ "ls_4way_6x6hall_basic", 30 ], [ "ls_Ts_6x6hall_basic", 60 ] ] },
-        "7": { "chunks": [ [ "ls_ew_6x6hall_fancy", 10 ], [ "ls_4way_6x6hall_basic", 30 ], [ "ls_Tn_6x6hall_basic", 60 ] ] }
+        "1": { "chunks": [ [ "ls_ns_6x6hall_basic", 70 ], [ "ls_ns_6x6hall_fancy", 30 ] ] },
+        "2": { "chunks": [ [ "null", 30 ], [ "ls_necorner_6x6hall_basic", 70 ] ] },
+        "3": { "chunks": [ [ "null", 60 ], [ "ls_secorner_6x6hall_basic", 40 ] ] },
+        "4": { "chunks": [ [ "null", 30 ], [ "ls_nwcorner_6x6hall_basic", 70 ] ] },
+        "5": { "chunks": [ [ "null", 60 ], [ "ls_swcorner_6x6hall_basic", 40 ] ] },
+        "6": { "chunks": [ [ "ls_ns_6x6hall_fancy", 10 ], [ "ls_4way_6x6hall_basic", 30 ], [ "ls_Te_6x6hall_basic", 60 ] ] },
+        "7": { "chunks": [ [ "ls_ns_6x6hall_fancy", 10 ], [ "ls_4way_6x6hall_basic", 30 ], [ "ls_Tw_6x6hall_basic", 60 ] ] }
       }
     }
   },
@@ -670,11 +815,11 @@
       "mapgensize": [ 24, 24 ],
       "rows": [
         "!!!!!!!!!!!!!!!!!!!!!!!!",
-        "!vvvvvvvvvvvvvvvvvvvvvvv",
-        "!vvvvvvvvvvvvvvvvvvvvvvv",
-        "!vvvvvvvvvvvvvvvvvvvvvvv",
-        "!vvvvvvvvvvvvvvvvvvvvvvv",
-        "!vvvvvvvvvvvvvvvvvvvvvvv",
+        "!|||||vvvvvvvvvvvvvvvvvv",
+        "!|||vvvvvvvvvvvvvvvvvvvv",
+        "!||vvvvvvvvvvvvvvvvvvvvv",
+        "!|vvvvvvvvvvvvvvvvvvvvvv",
+        "!|vvvvvvvvvvvvvvvvvvvvvv",
         "!vvvvv1           vvvvvv",
         "!vvvvv            vvvvvv",
         "!vvvvv            vvvvvv",
@@ -694,18 +839,132 @@
         "!vvvvvvvv      vvvvvvvvv",
         "!vvvvvvvv      vvvvvvvvv"
       ],
-      "terrain": {
-        " ": "t_nl_mist",
-        "|": "t_nl_metal_wall",
-        ".": "t_nl_metal_floor",
-        "!": "t_nl_metal_wall_edge",
-        "v": "t_nl_chasm",
-        "+": "t_nl_door_c"
-      },
+      "palettes": [ "labyrinthine_base_palette" ],
       "nested": {
         "1": { "chunks": [ "ls_12x12hallcorner_basic" ] },
         "2": { "chunks": [ "ls_ew_6x6hall_basic" ] },
         "3": { "chunks": [ "ls_ns_6x6hall_basic" ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ls_corner_template_chasm",
+    "//": "Messy corner",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "!!!!!!!!!!!!!!!!!!!!!!!!",
+        "!|||||||vvvvvvvvvvvvvvvv",
+        "!||||vvvvvvvvvvvvvvvvvvv",
+        "!||vvvvvvvvvvvvvvvvvvvvv",
+        "!||vvvvvvvvvvvvvvvvvvvvv",
+        "!|vvvvvvvvooovvvvvvvvvvv",
+        "!|vvvvvvooooooovvvvvvvvv",
+        "!|vvvvvooovvvoooovvvvvvv",
+        "!vvvvvvoovvvvvoooooovvvv",
+        "!vvvvvoovvvvvvvvoooooovv",
+        "!vvvvvoovvvvvvvvvooooooo",
+        "!vvvvvvoovvvvvvooo..oooo",
+        "!vvvvvvoovvvvooo........",
+        "!vvvvvoovvvvoo...oooo..o",
+        "!vvvvvoovvvoo..oovvvoooo",
+        "!vvvvvvoooo..ooovvvvvoov",
+        "!vvvvvvoo..ooovvvvvvvvvv",
+        "!vvvvvoo..oovvvvvvvvvvvv",
+        "!vvvvvoo..oovvvvvvvvvvvv",
+        "!vvvvvvoo..oovvvvvvvvvvv",
+        "!vvvvvvooo..oovvvvvvvvvv",
+        "!vvvvvvvvoo..oovvvvvvvvv",
+        "!vvvvvvvoo...oovvvvvvvvv",
+        "!vvvvvvvvoo..oovvvvvvvvv"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ls_corner_template_chasm",
+    "//": "Swingy corner, decent chance of a room in the middle",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "!!!!!!!!!!!!!!!!!!!!!!!!",
+        "!|||||vvvvvvvvvvvvvvvvvv",
+        "!||vvvvvvvv2     vvvvvvv",
+        "!|vvvvvvvvv      .ovvvvv",
+        "!|vvvvvvvv.      ..ovvvv",
+        "!|vvvvvvo..      ...ovvv",
+        "!vvvvvvv...      ....ovv",
+        "!vvvvvo....      v....ov",
+        "!vvvvv....5vvvvvvvv....v",
+        "!vvv3     vvvvvvvv4     ",
+        "!vvv      vvvvvvvv      ",
+        "!vvv      vvvvvvvv      ",
+        "!vvv      vvvvvvvv      ",
+        "!vvv      vvvvvvvv      ",
+        "!vvv      vvvvvvvv      ",
+        "!vvvvo....vvvvvvvvvvvvvv",
+        "!vvvvvo.....ovvvvvvvvvvv",
+        "!vvvvvvvo....ovvvvvvvvvv",
+        "!vvvvvvvv3     vvvvvvvvv",
+        "!vvvvvvvv      vvvvvvvvv",
+        "!vvvvvvvv      vvvvvvvvv",
+        "!vvvvvvvv      vvvvvvvvv",
+        "!vvvvvvvv      vvvvvvvvv",
+        "!vvvvvvvv      vvvvvvvvv"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ],
+      "terrain": { "5": "t_nl_chasm" },
+      "nested": {
+        "1": { "chunks": [ "ls_12x12hallcorner_basic" ] },
+        "2": { "chunks": [ "ls_ew_6x6hall_basic" ] },
+        "3": { "chunks": [ "ls_ns_6x6hall_basic" ] },
+        "4": { "chunks": [ "ls_necorner_6x6hall_basic" ] },
+        "5": { "chunks": [ [ "null", 40 ], [ "ls_8x8_se_entry_room", 60 ] ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ls_corner_template_rooms",
+    "//": "large room with small cells",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "!!!!!!!!!!!!!!!!!!!!!!!!",
+        "!________________|_____|",
+        "!________________|_____|",
+        "!________________|_____|",
+        "!________________|_____|",
+        "!________________|_____|",
+        "!________________+_____|",
+        "!________________|||||||",
+        "!________________|vvvvvv",
+        "!________________|2     ",
+        "!________________|      ",
+        "!________________+      ",
+        "!________________+      ",
+        "!________________|      ",
+        "!________________|      ",
+        "!________________|vv..vv",
+        "!________________|||++||",
+        "!|||||+||||++|||||_____|",
+        "!______|v3     v|______|",
+        "!______|v      v|______|",
+        "!______|v      .+______|",
+        "!______|v      .+______|",
+        "!______|v      v|______|",
+        "!|||||||v      v||||||||"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ],
+      "nested": {
+        "1": { "chunks": [ "ls_12x12hallcorner_basic" ] },
+        "2": { "chunks": [ "ls_Ts_6x6hall_basic" ] },
+        "3": { "chunks": [ "ls_Te_6x6hall_basic" ] }
       }
     }
   },
@@ -717,8 +976,8 @@
       "mapgensize": [ 24, 24 ],
       "rows": [
         "!!!!!!!!!!!!!!!!!!!!!!!!",
-        "vvvvvvvvvvvvvvvvvvvvvvvv",
-        "vvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvv||||vvvvvvvvvv",
+        "vvvvvvvvvvv||vvvvvvvvvvv",
         "vvvvvvvvvvvvvvvvvvvvvvvv",
         "vvvvvvvvvvvvvvvvvvvvvvvv",
         "vvvvvvvvvvvvvvvvvvvvvvvv",
@@ -745,6 +1004,46 @@
       "nested": {
         "1": { "chunks": [ "ls_12x12halltee_basic" ] },
         "2": { "chunks": [ "ls_ew_6x6hall_basic" ] },
+        "3": { "chunks": [ "ls_ns_6x6hall_basic" ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ls_tee_template_rooms",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "!!!!!!!!!!!!!!!!!!!!!!!!",
+        "|______________________|",
+        "|______________________|",
+        "|______________________|",
+        "|______________________|",
+        "|______________________|",
+        "|______________________|",
+        "||++||||||||||||||||++||",
+        "vv..vvvvvvvvvvvvvvvv..vv",
+        "1     2     2     1     ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "vvvvvvv....vv....vvvvvvv",
+        "||||||||...vv...||||||||",
+        "|______+........+______|",
+        "|______|v3     v|______|",
+        "|______|v      v|______|",
+        "|______|v      v|______|",
+        "|______|v      v|______|",
+        "|______|v      v|______|",
+        "||||||||v      v||||||||"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ],
+      "nested": {
+        "1": { "chunks": [ "ls_Tn_6x6hall_basic" ] },
+        "2": { "chunks": [ "ls_Ts_6x6hall_basic" ] },
         "3": { "chunks": [ "ls_ns_6x6hall_basic" ] }
       }
     }
@@ -792,6 +1091,42 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "ls_4way_template_rooms",
+    "//": "large room for setpiece nests",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "|||||||||||++|||||||||||",
+        "|______________________|",
+        "|______________________|",
+        "|______________________|",
+        "|______________________|",
+        "|______________________|",
+        "|______________________|",
+        "|______________________|",
+        "|______________________|",
+        "|______________________|",
+        "|______________________|",
+        "+______________________+",
+        "+______________________+",
+        "|______________________|",
+        "|______________________|",
+        "|______________________|",
+        "|______________________|",
+        "|______________________|",
+        "|______________________|",
+        "|______________________|",
+        "|______________________|",
+        "|______________________|",
+        "|______________________|",
+        "|||||||||||++|||||||||||"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "ls_deadend_template_chasm",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -816,13 +1151,123 @@
         "!vvvvvvvvvvvvvvvvvvvvvv!",
         "!vvvvvvvvvvvvvvvvvvvvvv!",
         "!vvvvvvvvvvvvvvvvvvvvvv!",
-        "!vvvvvvvvvvvvvvvvvvvvvv!",
-        "!vvvvvvvvvvvvvvvvvvvvvv!",
-        "!vvvvvvvvvvvvvvvvvvvvvv!",
+        "!|vvvvvvvvvvvvvvvvvvvv|!",
+        "!||vvvvvvvvvvvvvvvvvv||!",
+        "!|||vvvvvvvvvvvvvvvv|||!",
         "!!!!!!!!!!!!!!!!!!!!!!!!"
       ],
       "palettes": [ "labyrinthine_base_palette" ],
       "nested": { "1": { "chunks": [ "ls_ns_6x6hall_basic" ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ls_deadend_template_chasm",
+    "//": "Hanging room, easy to reach.",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "!vvvvvvvv1     vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvv||||++||||vvvvvv!",
+        "!vvvvv||________||vvvvv!",
+        "!vvvvv|__________|vvvvv!",
+        "!vvvvv|__________|vvvvv!",
+        "!vvvvv|__________|vvvvv!",
+        "!vvvvv|__________|vvvvv!",
+        "!vvvvv|__________|vvvvv!",
+        "!vvvvv|__________|vvvvv!",
+        "!vvvvv|__________|vvvvv!",
+        "!vvvvv|__________|vvvvv!",
+        "!vvvvv||________||vvvvv!",
+        "!vvvvvv||||||||||vvvvvv!",
+        "!vvvvvvvvvvvvvvvvvvvvvv!",
+        "!vvvvvvvvvvvvvvvvvvvvvv!",
+        "!|vvvvvvvvvvvvvvvvvvvv|!",
+        "!||vvvvvvvvvvvvvvvvvv||!",
+        "!|||vvvvvvvvvvvvvvvv|||!",
+        "!!!!!!!!!!!!!!!!!!!!!!!!"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ],
+      "nested": { "1": { "chunks": [ "ls_ns_6x6hall_basic" ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ls_deadend_template_chasm",
+    "//": "Hanging room, hard to reach.  The machine should interact to extend a bridge.  Good treasure.",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "!vvvvvvvv1     vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvv      vvvvvvvv!",
+        "!vvvvvvvvvv...C(Mvvvvvv!",
+        "!vvvvvvvvvvvvvv((vvvvvv!",
+        "!vvvvvvvvvvvvvvvvvvvvvv!",
+        "!vvvvvv||||++||||vvvvvv!",
+        "!vvvvv||________||vvvvv!",
+        "!vvvvv|__________|vvvvv!",
+        "!vvvvv|__________|vvvvv!",
+        "!vvvvv|__________|vvvvv!",
+        "!vvvvv|__________|vvvvv!",
+        "!vvvvv|__________|vvvvv!",
+        "!vvvvv|__________|vvvvv!",
+        "!vvvvv|__________|vvvvv!",
+        "!vvvvv|__________|vvvvv!",
+        "!vvvvv||________||vvvvv!",
+        "!|vvvvv||||||||||vvvvv|!",
+        "!||vvvvvvvvvvvvvvvvvv||!",
+        "!|||vvvvvvvvvvvvvvvv|||!",
+        "!!!!!!!!!!!!!!!!!!!!!!!!"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ],
+      "nested": { "1": { "chunks": [ "ls_ns_6x6hall_basic" ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ls_deadend_template_rooms",
+    "//": "single large room, ideal for nested maps",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "!||||||||||++||||||||||!",
+        "!______________________!",
+        "!______________________!",
+        "!______________________!",
+        "!______________________!",
+        "!______________________!",
+        "!______________________!",
+        "!______________________!",
+        "!______________________!",
+        "!______________________!",
+        "!______________________!",
+        "!______________________!",
+        "!______________________!",
+        "!______________________!",
+        "!______________________!",
+        "!______________________!",
+        "!______________________!",
+        "!______________________!",
+        "!______________________!",
+        "!______________________!",
+        "!______________________!",
+        "!______________________!",
+        "!______________________!",
+        "!!!!!!!!!!!!!!!!!!!!!!!!"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ]
     }
   },
   {
@@ -890,6 +1335,46 @@
         "vvvv....vvvv",
         "vvvv....vvvv",
         "vvvv....vvvv"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ls_8x8_se_entry_room",
+    "//": "Small round room",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "vvvvvvvv",
+        "vv||||vv",
+        "v||__||v",
+        "v|____|v",
+        "v|____|v",
+        "v||__||v",
+        "..+_||vv",
+        "..|||vvv"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ls_8x8_se_entry_room",
+    "//": "Room with nooks",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "|||v||||",
+        "|_|||__|",
+        "|_____||",
+        "||____|v",
+        "v|____||",
+        "||_____|",
+        "|__|||_|",
+        "|+||v|||"
       ],
       "palettes": [ "labyrinthine_base_palette" ]
     }
