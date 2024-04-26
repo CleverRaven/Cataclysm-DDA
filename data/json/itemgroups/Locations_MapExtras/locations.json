@@ -2477,6 +2477,7 @@
       [ "shorts", 70 ],
       [ "shorts_denim", 35 ],
       [ "tshirt", 80 ],
+      [ "tshirt_cropped", 8 ],
       [ "longshirt", 70 ],
       [ "denim_shirt", 10 ],
       [ "sweatshirt", 75 ],

@@ -26,6 +26,7 @@
       [ "socks_ankle", 70 ],
       [ "stockings", 20 ],
       [ "tshirt", 80 ],
+      [ "tshirt_cropped", 8 ],
       [ "longshirt", 70 ],
       [ "tank_top", 50 ],
       [ "sports_bra", 30 ],
