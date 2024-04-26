@@ -1058,7 +1058,7 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "lockpick_message", lockpick_message, translation() );
 
     oxytorch = cata::make_value<activity_data_ter>();
-    if( jo.has_object( "oxytorch" ) ) { //TODO: Does these support copy-from?
+    if( jo.has_object( "oxytorch" ) ) { //TODO: Check overwriting these with eg "oxytorch": { } works, they appear to allow overwriting result already.
         oxytorch->load( jo.get_object( "oxytorch" ) );
     }
 
@@ -1080,9 +1080,11 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "emissions", emissions );
 
     bash.load( jo, "bash", map_bash_info::terrain,
-               "terrain " + id.str() ); //TODO: Does this support copy-from?
+               "terrain " +
+               id.str() ); //TODO: Make this support copy-from, also make overwriting these with "bash": { } works and overwriting single values primarily for "ter_set" works
     deconstruct.load( jo, "deconstruct", false,
-                      "terrain " + id.str() ); //TODO: Does this support copy-from?
+                      "terrain " +
+                      id.str() ); //TODO: Make this support copy-from, possibly take an enum for type like above, also make overwriting these with "bash": { } works and overwriting single values primarily for "ter_set" works
 
     if( was_loaded && jo.has_member( "extend" ) ) {
         JsonObject joe = jo.get_object( "extend" );
