@@ -4665,7 +4665,6 @@
     "desc": [ "If you see this description it is a bug." ],
     "rating": "bad",
     "show_intensity": false,
-    "show_in_info": true,
     "enchantments": [
       {
         "condition": "ALWAYS",
