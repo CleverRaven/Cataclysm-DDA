@@ -9129,26 +9129,7 @@
   },
   {
     "type": "construction",
-    "id": "constr_scaffolding_pipe_base",
-    "group": "build_scaffolding",
-    "category": "CONSTRUCT",
-    "required_skills": [ [ "fabrication", 3 ] ],
-    "time": "10 m",
-    "qualities": [ [ { "id": "WRENCH", "level": 1 } ] ],
-    "components": [
-      [ [ "pipe", 46 ] ],
-      [ [ "pipe_fittings", 55 ] ],
-      [ [ "2x4", 4 ], [ "wood_panel", 1 ] ],
-      [ [ "stick", 2 ] ],
-      [ [ "rope_natural", 2, "LIST" ] ]
-    ],
-    "pre_note": "Must be supported from directly below.",
-    "pre_special": [ "check_empty", "check_single_support" ],
-    "post_terrain": "t_scaffolding_pipe_base"
-  },
-  {
-    "type": "construction",
-    "id": "constr_scaffolding_pipe_down_above",
+    "id": "constr_scaffolding_pipe_up",
     "group": "build_scaffolding",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
@@ -9161,10 +9142,9 @@
       [ [ "stick", 2 ] ],
       [ [ "rope_natural", 2, "LIST" ] ]
     ],
-    "pre_note": "Constructs down scaffolding directly above the target up tile.",
-    "pre_terrain": "t_scaffolding_pipe_base",
-    "pre_special": [ "check_up_OK", "check_nofloor_above" ],
-    "post_special": "add_matching_down_above",
+    "pre_note": "Constructs scaffolding on the tile and provides a platform on the Z level above.",
+    "pre_special": [ "check_empty", "check_single_support", "check_up_OK", "check_nofloor_above" ],
+    "post_special": "add_roof",
     "post_terrain": "t_scaffolding_pipe_up"
   },
   {
@@ -9182,7 +9162,7 @@
       [ [ "stick", 2 ] ],
       [ [ "rope_natural", 2, "LIST" ] ]
     ],
-    "pre_note": "Must have scaffolding below.",
+    "pre_note": "Builds another scaffolding level.",
     "pre_terrain": "t_scaffolding_pipe_down",
     "pre_special": [ "check_up_OK", "check_nofloor_above" ],
     "post_terrain": "t_scaffolding_pipe_updown",
@@ -9190,36 +9170,17 @@
   },
   {
     "type": "construction",
-    "id": "remove_scaffolding_pipe_base",
+    "id": "remove_scaffolding_pipe_up",
     "group": "remove_scaffolding",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "WRENCH", "level": 1 } ] ],
-    "pre_note": "Removes scaffolding from the targeted tile.",
-    "pre_terrain": "t_scaffolding_pipe_base",
-    "post_terrain": "t_dirt",
-    "byproducts": [
-      { "item": "pipe", "count": 46 },
-      { "item": "pipe_fittings", "count": 55 },
-      { "item": "2x4", "count": 4 },
-      { "item": "stick", "count": 2 },
-      { "item": "rope_30", "count": 2 }
-    ]
-  },
-  {
-    "type": "construction",
-    "id": "remove_scaffolding_pipe_down_above",
-    "group": "remove_scaffolding",
-    "category": "CONSTRUCT",
-    "required_skills": [ [ "fabrication", 3 ] ],
-    "time": "30 m",
-    "qualities": [ [ { "id": "WRENCH", "level": 1 } ] ],
-    "pre_note": "Removes down scaffolding from directly above the construction tile.",
+    "pre_note": "Removes scaffolding.",
     "pre_terrain": "t_scaffolding_pipe_up",
     "pre_special": "check_matching_down_above",
     "post_special": "remove_above",
-    "post_terrain": "t_scaffolding_pipe_base",
+    "post_terrain": "t_dirt",
     "byproducts": [
       { "item": "pipe", "count": 46 },
       { "item": "pipe_fittings", "count": 55 },

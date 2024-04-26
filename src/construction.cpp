@@ -200,6 +200,7 @@ static void done_ramp_low( const tripoint_bub_ms &, Character & );
 static void done_ramp_high( const tripoint_bub_ms &, Character & );
 static void add_matching_down_above( const tripoint_bub_ms &p, Character & );
 static void remove_above( const tripoint_bub_ms &p, Character & );
+static void add_roof(const tripoint_bub_ms& p, Character&);
 
 static void do_turn_shovel( const tripoint_bub_ms &, Character & );
 static void do_turn_exhume( const tripoint_bub_ms &, Character & );
@@ -1833,6 +1834,16 @@ void construct::remove_above( const tripoint_bub_ms &p, Character &/*who*/ )
     here.ter_set( p + tripoint_above, ter_t_open_air );
 }
 
+void construct::add_roof(const tripoint_bub_ms& p, Character&/*who*/)
+{
+    map& here = get_map();
+    ter_id roof = here.ter(p).obj().roof;
+    if (!roof) {
+        debugmsg("add_roof post_ter called on terrain lacking roof definition, %s.", here.ter(p).id().c_str());
+    }
+    here.ter_set(p + tripoint_above, roof);
+}
+
 void construct::do_turn_shovel( const tripoint_bub_ms &p, Character &who )
 {
     // TODO: fix point types
@@ -2040,7 +2051,8 @@ void load_construction( const JsonObject &jo )
             { "done_ramp_low", construct::done_ramp_low },
             { "done_ramp_high", construct::done_ramp_high },
             { "add_matching_down_above", construct::add_matching_down_above },
-            { "remove_above", construct::remove_above }
+            { "remove_above", construct::remove_above },
+            { "add_roof", construct::add_roof }
 
         }
     };

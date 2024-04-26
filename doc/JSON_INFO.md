@@ -2499,8 +2499,9 @@ request](https://github.com/CleverRaven/Cataclysm-DDA/pull/36657) and the
 | `done_mark_practice_target`| Sets a target practice trap at the location
 | `done_ramp_low`        | Sets a t_ramp_down_low at the tile above the target
 | `done_ramp_high`       | Sets a t_ramp_down_high at the tile above the target
-| `add_matching_down_above`| The terrain on the Z level above is set to the corresponding terrain at this level, but with the "down" suffix instead
-| `remove_above`         | Remove the terrain at the Z level above and replace it with t_open_air.
+| `done_matching_down_above`| The terrain on the Z level above is set to the corresponding terrain at this level, but with the "down" suffix instead
+| `remove_above`         | Remove the terrain at the Z level above and replace it with t_open_air
+| `add_roof`             | Add the roof specified for the terrain at the site to the tile above
 
 
 ### Scent_types
