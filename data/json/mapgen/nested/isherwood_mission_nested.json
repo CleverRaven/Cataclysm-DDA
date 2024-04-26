@@ -1,0 +1,19 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "isherwood_barry_riot_drop",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "/" ],
+      "items": {
+        "/": [
+          { "item": "armor_riot", "chance": 100, "repeat": 5 },
+          { "item": "helmet_riot", "chance": 100, "repeat": 5 },
+          { "item": "armor_riot_arm", "chance": 100, "repeat": 5 },
+          { "item": "armor_riot_leg", "chance": 100, "repeat": 5 }
+        ]
+      }
+    }
+  }
+]

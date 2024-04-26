@@ -63,6 +63,43 @@
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN"
       },
       {
+        "text": "[i got cop gear to turn over]",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_GEAR" },
+            {
+              "or": [
+                { "u_has_item": "armor_riot" },
+                { "u_has_item": "helmet_riot" },
+                { "u_has_item": "armor_riot_arm" },
+                { "u_has_item": "armor_riot_leg" }
+              ]
+            },
+            { "math": [ "isherwood_gear_status", "<", "1" ] }
+          ]
+        },
+        "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Turn_Over"
+      },
+      {
+        "text": "[got all cop gear]",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_GEAR" },
+            {
+              "and": [
+                { "math": [ "isherwood_gear_retrival_armor_body_count", "==", "5" ] },
+                { "math": [ "isherwood_gear_retrival_helmet_count", "==", "5" ] },
+                { "math": [ "isherwood_gear_retrival_armor_arm_count", "==", "5" ] },
+                { "math": [ "isherwood_gear_retrival_armor_leg_count", "==", "5" ] }
+              ]
+            },
+            { "math": [ "isherwood_gear_status", "<", "1" ] }
+          ]
+        },
+        "effect": { "finish_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_GEAR", "success": true },
+        "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Done"
+      },
+      {
         "text": "I'd better get going.",
         "topic": "TALK_DONE",
         "condition": { "not": { "u_is_wearing": "badge_marshal" } }
@@ -243,7 +280,7 @@
       },
       {
         "text": "You mentioned that Carlos, Eddie and Luke probably can't help in a firefight.  Is there any other way we could use them?",
-        "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY__THE_ISHERWOODS"
+        "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_THE_ISHERWOODS"
       }
     ]
   },
@@ -259,7 +296,7 @@
       },
       {
         "text": "You mentioned that Carlos, Eddie and Luke probably can't help in a firefight.  Is there any other way we could use them?",
-        "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY__THE_ISHERWOODS"
+        "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_THE_ISHERWOODS"
       },
       { "text": "Well, I guess it's just us.  Let's go.", "topic": "TALK_DONE" }
     ]
@@ -269,6 +306,10 @@
     "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_TAKE_LISA2",
     "dynamic_line": "*blinks.  \"My… yeah, of course Lisa could come.  Damn, she'd smack me if she knew I didn't think of that myself.  Mind if I go talk to her about it?  I'll get her to come out with me and we'll meet you together, if she's willing.\"",
     "responses": [
+      {
+        "text": "You mentioned that Carlos, Eddie and Luke probably can't help in a firefight.  Is there any other way we could use them?",
+        "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_THE_ISHERWOODS"
+      },
       {
         "text": "All right.  Let's kick some alien butt.",
         "effect": "follow",
@@ -285,7 +326,7 @@
       "sentinel": "chris_thinking_about_plan",
       "effect": { "math": [ "npc_timer_thinking_about_plan", "=", "time('now')" ] }
     },
-    "responses": [ { "text": "OK.  Let's talk about it again in a bit.", "topic": "TALK_NONE" } ]
+    "responses": [ { "text": "OK.  Let's talk about it again in a bit.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
@@ -299,9 +340,83 @@
       },
       {
         "text": "I don't think one farmer with a hunting rifle is going to be enough to keep our backs safe.",
+        "condition": { "math": [ "isherwood_gear_status", "<", "1" ] },
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear"
       }
     ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN2",
+    "dynamic_line": "Can you think of anything else we might need, or should we put this into action?",
+    "responses": [
+      {
+        "text": "Let's go get your uncle back.",
+        "//": "This should trigger any EOCs that start the mission setup.  To be done.",
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "I've changed my mind. I think it's better we take my vehicle, and just leave them out of it.",
+        "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Cancel"
+      },
+      {
+        "text": "Come to think of it, one farmer with a hunting rifle is going to be enough to keep our backs safe.",
+        "condition": { "math": [ "isherwood_gear_status", "<", "1" ] },
+        "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear",
+    "dynamic_line": "[yeah bro here's a drop go get the cop gear. there's 5 sets to bring back]",
+    "responses": [
+      { "text": "[nah bro let's not bother]", "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Cancel" },
+      {
+        "text": "[yeah bro i'll do it]",
+        "effect": { "assign_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_GEAR" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Turn_Over",
+    "dynamic_line": "[ok what u got?]",
+    "responses": [
+      {
+        "text": "[bod armor]",
+        "condition": { "and": [ { "u_has_item": "armor_riot" }, { "math": [ "isherwood_gear_retrival_armor_body_count", "<", "5" ] } ] },
+        "effect": [ { "math": [ "isherwood_gear_retrival_armor_body_count", "++" ] } ],
+        "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Turn_Over"
+      },
+      {
+        "text": "[helmet]",
+        "condition": { "and": [ { "u_has_item": "helmet_riot" }, { "math": [ "isherwood_gear_retrival_helmet_count", "<", "5" ] } ] },
+        "effect": [ { "math": [ "isherwood_gear_retrival_helmet_count", "++" ] } ],
+        "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Turn_Over"
+      },
+      {
+        "text": "[arm armor]",
+        "condition": { "and": [ { "u_has_item": "armor_riot_arm" }, { "math": [ "isherwood_gear_retrival_armor_arm_count", "<", "5" ] } ] },
+        "effect": [ { "math": [ "isherwood_gear_retrival_armor_arm_count", "++" ] } ],
+        "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Turn_Over"
+      },
+      {
+        "text": "[leg armor]",
+        "condition": { "and": [ { "u_has_item": "armor_riot_leg" }, { "math": [ "isherwood_gear_retrival_armor_leg_count", "<", "5" ] } ] },
+        "effect": [ { "math": [ "isherwood_gear_retrival_armor_leg_count", "++" ] } ],
+        "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Turn_Over"
+      },
+      { "text": "That's all for now. Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS" },
+      { "text": "That's all for now. I'll see you later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Done",
+    "dynamic_line": "[sweet now we beefed up.]",
+    "responses": [ { "text": "[woo hoo]", "topic": "TALK_DONE" } ]
   },
   {
     "id": "MISSION_ISHERWOOD_CHRIS_1",
@@ -331,6 +446,35 @@
     "end": {
       "opinion": { "trust": 5, "value": 5 },
       "update_mapgen": [ { "om_terrain": "cabin_isherwood", "place_nested": [ { "chunks": [ "cabin_isherwood_update" ], "x": 3, "y": 1 } ] } ]
+    }
+  },
+  {
+    "id": "MISSION_ISHERWOOD_CHRIS_1_GET_GEAR",
+    "type": "mission_definition",
+    "name": { "str": "Retrieve Riot Armor for the Isherwoods" },
+    "goal": "MGOAL_NULL",
+    "difficulty": 1,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_terrain": "police_2ndfloor_1", "om_special": "police_1", "reveal_radius": 3 },
+      "update_mapgen": [
+        { "om_terrain": "police_2ndfloor_1", "place_nested": [ { "chunks": [ "isherwood_barry_riot_drop" ], "x": 1, "y": 5 } ] }
+      ]
+    },
+    "end": { "effect": { "math": [ "isherwood_gear_status", "=", "1" ] } },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "//": "Dialogue for this mission is handled externally.",
+    "dialogue": {
+      "describe": ".",
+      "offer": ".",
+      "accepted": ".",
+      "rejected": ".",
+      "advice": ".",
+      "inquire": ".",
+      "success": ".",
+      "success_lie": ".",
+      "failure": "."
     }
   }
 ]
