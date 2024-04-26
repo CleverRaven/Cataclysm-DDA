@@ -412,7 +412,12 @@
               { "item": "foodplace_zero_drink", "charges": [ 1, -1 ], "prob": 4, "container-item": "bottle_twoliter" },
               { "item": "sparkling", "charges": [ 1, -1 ], "prob": 10, "container-item": "bottle_twoliter" },
               { "item": "sparkling_peach", "charges": [ 1, -1 ], "prob": 10, "container-item": "bottle_twoliter" },
-              { "item": "sparkling_pomegranate", "charges": [ 1, -1 ], "prob": 10, "container-item": "bottle_twoliter" }
+              {
+                "item": "sparkling_pomegranate",
+                "charges": [ 1, -1 ],
+                "prob": 10,
+                "container-item": "bottle_twoliter"
+              }
             ],
             "prob": 15
           }
@@ -733,7 +738,12 @@
               { "item": "foodplace_zero_drink", "charges": [ 1, -1 ], "prob": 4, "container-item": "bottle_twoliter" },
               { "item": "sparkling", "charges": [ 1, -1 ], "prob": 10, "container-item": "bottle_twoliter" },
               { "item": "sparkling_peach", "charges": [ 1, -1 ], "prob": 10, "container-item": "bottle_twoliter" },
-              { "item": "sparkling_pomegranate", "charges": [ 1, -1 ], "prob": 10, "container-item": "bottle_twoliter" }
+              {
+                "item": "sparkling_pomegranate",
+                "charges": [ 1, -1 ],
+                "prob": 10,
+                "container-item": "bottle_twoliter"
+              }
             ],
             "prob": 15
           }
@@ -1279,7 +1289,12 @@
               { "item": "foodplace_zero_drink", "charges": [ 1, -1 ], "prob": 4, "container-item": "bottle_twoliter" },
               { "item": "sparkling", "charges": [ 1, -1 ], "prob": 15, "container-item": "bottle_twoliter" },
               { "item": "sparkling_peach", "charges": [ 1, -1 ], "prob": 15, "container-item": "bottle_twoliter" },
-              { "item": "sparkling_pomegranate", "charges": [ 1, -1 ], "prob": 15, "container-item": "bottle_twoliter" }
+              {
+                "item": "sparkling_pomegranate",
+                "charges": [ 1, -1 ],
+                "prob": 15,
+                "container-item": "bottle_twoliter"
+              }
             ],
             "prob": 15
           }
