@@ -140,7 +140,7 @@
       "terrain": { "9": "t_card_reader_broken" },
       "furniture": {
         "r": "f_rack",
-        "f": "f_fridge",
+        "f": "f_heavy_duty_fridge",
         "s": "f_sofa",
         "t": "f_table",
         "d": "f_desk",

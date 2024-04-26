@@ -136,6 +136,16 @@
         "spell_data": { "id": "biokinetic_speed_boost_monster_01", "min_level": 5 },
         "cooldown": 18,
         "monster_message": "%1$s moves too quickly for the eye to follow!"
+      },
+      {
+        "id": "psi_hodag_hardened_skin",
+        "type": "spell",
+        "spell_data": { "id": "biokinetic_hardened_skin_monster" },
+        "cooldown": 1,
+        "condition": {
+          "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "not": { "u_has_effect": "effect_monster_hardened_skin" } } ]
+        },
+        "monster_message": "%1$s's skin takes on a slightly waxen appearance."
       }
     ],
     "dodge": 2,
@@ -153,7 +163,7 @@
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "biosignature": { "biosig_item": "feces_cow", "biosig_timer": 1 },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "EATS", "PATH_AVOID_DANGER_1", "WARM", "CORNERED_FIGHTER" ],
-    "armor": { "bash": 16, "cut": 10, "stab": 10, "bullet": 4, "electric": 1 }
+    "armor": { "bash": 4, "cut": 3, "stab": 1, "bullet": 4, "electric": 1 }
   },
   {
     "id": "mon_cockatrice",

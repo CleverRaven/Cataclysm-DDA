@@ -1164,7 +1164,14 @@
     "id": "effect_biomancer_eat_tons_of_food",
     "name": [ "Gluttonous Consumption" ],
     "desc": [ "You feel like you could eat a horse." ],
-    "rating": "good"
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [
+          { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": { "math": [ "u_spell_level('biomancer_eat_tons_of_food') * 0.5" ] } }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_type",
