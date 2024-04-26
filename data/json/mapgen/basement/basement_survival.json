@@ -76,7 +76,7 @@
         "b": "f_bed",
         "c": "f_cupboard",
         "d": "f_dresser",
-        "f": "f_fridge",
+        "f": [ "f_minifreezer", "f_chest_minifreezer", "f_freezer" ],
         "g": "f_oven",
         "h": "f_chair",
         "k": "f_sink",
