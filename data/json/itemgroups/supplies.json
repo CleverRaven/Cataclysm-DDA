@@ -904,7 +904,7 @@
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_small",
-    "entries": [ { "item": "chem_peptone_broth", "container-item": "null", "count-min": 1 } ]
+    "entries": [ { "item": "chem_peptone_broth", "container-item": "null", "count": [ 1, -1 ] } ]
   },
   {
     "type": "item_group",
@@ -912,7 +912,7 @@
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_small",
-    "entries": [ { "item": "chem_agar", "container-item": "null", "count-min": 1 } ]
+    "entries": [ { "item": "chem_agar", "container-item": "null", "count": [ 1, -1 ] } ]
   },
   {
     "type": "item_group",
@@ -920,7 +920,7 @@
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_glass",
-    "entries": [ { "item": "chem_acrylamide", "container-item": "null", "count-min": 1 } ]
+    "entries": [ { "item": "chem_acrylamide", "container-item": "null", "count": [ 1, -1 ] } ]
   },
   {
     "id": "hair_dye",

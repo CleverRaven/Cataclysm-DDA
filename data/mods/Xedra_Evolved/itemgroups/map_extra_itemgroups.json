@@ -8,21 +8,19 @@
       { "group": "drugdealer", "prob": 75 },
       {
         "distribution": [
-          { "item": "lsd", "container-item": "null", "entry-wrapper": "bag_zipper", "count-min": 20, "count-max": 30, "prob": 10 },
+          { "item": "lsd", "container-item": "null", "entry-wrapper": "bag_zipper", "count": [ 20, 30 ], "prob": 10 },
           {
             "item": "faewild",
             "container-item": "null",
             "entry-wrapper": "bag_zipper",
-            "count-min": 10,
-            "count-max": 20,
+            "count": [ 10, 20 ],
             "prob": 40
           },
           {
             "item": "lotus_blossom",
             "container-item": "null",
             "entry-wrapper": "bag_zipper",
-            "count-min": 8,
-            "count-max": 14,
+            "count": [ 8, 14 ],
             "prob": 30
           }
         ],

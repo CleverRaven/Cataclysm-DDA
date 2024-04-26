@@ -429,7 +429,7 @@
     "id": "oa_ig_rd_metal_trash",
     "//": "for ws_regional_dump",
     "items": [
-      { "item": "scrap", "prob": 100, "count-min": 1, "count-max": 10 },
+      { "item": "scrap", "prob": 100, "count": [ 1, 10 ] },
       [ "muffler", 30 ],
       [ "pipe", 20 ],
       [ "motor", 2 ],
@@ -552,7 +552,7 @@
     "id": "oa_ig_rd_glass_trash",
     "//": "for ws_regional_dump",
     "items": [
-      { "item": "glass_shard", "prob": 100, "count-min": 8, "count-max": 168 },
+      { "item": "glass_shard", "prob": 100, "count": [ 8, 168 ] },
       [ "bottle_glass", 30 ],
       [ "jar_glass_sealed", 20 ],
       [ "jar_3l_glass_sealed", 10 ]
@@ -1663,7 +1663,7 @@
       { "item": "knuckle_steel_forged", "prob": 3 },
       { "item": "switchblade", "prob": 4 },
       { "item": "throwing_knife", "prob": 5 },
-      { "item": "throwing_knife", "count-min": 1, "count-max": 6, "entry-wrapper": "leg_sheath6", "prob": 1 },
+      { "item": "throwing_knife", "count": [ 1, 6 ], "entry-wrapper": "leg_sheath6", "prob": 1 },
       { "item": "leg_sheath6", "prob": 2 },
       { "item": "punch_dagger", "container-item": "gartersheath1", "prob": 1 },
       { "item": "gartersheath1", "prob": 10 },

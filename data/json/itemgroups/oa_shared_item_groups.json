@@ -72,6 +72,6 @@
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "box_cigarette",
-    "entries": [ { "item": "cig", "container-item": "null", "count-min": 1, "count-max": 5 } ]
+    "entries": [ { "item": "cig", "container-item": "null", "count": [ 1, 5 ] } ]
   }
 ]

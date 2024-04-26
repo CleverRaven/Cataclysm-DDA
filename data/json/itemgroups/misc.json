@@ -10,7 +10,7 @@
           { "item": "cig", "prob": 70, "count": [ 1, 10 ], "container-item": "null", "entry-wrapper": "box_cigarette" },
           {
             "collection": [
-              { "item": "tobacco", "count-min": 1, "count-max": 20, "container-item": "null", "entry-wrapper": "bag_plastic" },
+              { "item": "tobacco", "count": [ 1, 20 ], "container-item": "null", "entry-wrapper": "bag_plastic" },
               {
                 "distribution": [ { "item": "rolling_paper", "prob": 70, "charges": [ 1, 30 ] }, { "item": "pipe_tobacco", "prob": 30 } ]
               }
