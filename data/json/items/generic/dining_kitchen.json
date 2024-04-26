@@ -111,8 +111,8 @@
     "type": "GENERIC",
     "symbol": ")",
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
-    "price": 4500,
-    "price_postapoc": 10,
+    "price": "45 USD",
+    "price_postapoc": "10 cent",
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
     "use_action": [ "HEAT_ALL_ITEMS" ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
