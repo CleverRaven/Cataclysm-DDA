@@ -1,13 +1,129 @@
 [
   {
+    "id": "BIOKIN_ENHANCE_MOBILITY_01",
     "type": "mutation",
-    "id": "CLAIR_SPEED_READ",
-    "name": { "str": "Speed Reader" },
-    "points": 1,
-    "description": "Your powers allow you to absorb knowledge at a greatly accelerated pace.",
-    "reading_speed_multiplier": 0.66,
+    "name": { "str": "Enhanced Mobility" },
+    "description": "Your gear isn't bothering you as much.",
+    "points": 0,
+    "visibility": 0,
+    "ugliness": 0,
+    "player_display": false,
     "valid": false,
-    "enchantments": [ "enchant_clair_speed_read" ]
+    "encumbrance_always": [
+      [ "head", -2 ],
+      [ "torso", -2 ],
+      [ "hand_r", -2 ],
+      [ "hand_l", -2 ],
+      [ "arm_r", -2 ],
+      [ "arm_l", -2 ],
+      [ "leg_r", -2 ],
+      [ "leg_l", -2 ]
+    ]
+  },
+  {
+    "id": "BIOKIN_ENHANCE_MOBILITY_02",
+    "type": "mutation",
+    "name": { "str": "Enhanced Mobility" },
+    "description": "Your gear isn't bothering you as much.",
+    "points": 0,
+    "visibility": 0,
+    "ugliness": 0,
+    "player_display": false,
+    "valid": false,
+    "encumbrance_always": [
+      [ "head", -4 ],
+      [ "torso", -4 ],
+      [ "hand_r", -4 ],
+      [ "hand_l", -4 ],
+      [ "arm_r", -4 ],
+      [ "arm_l", -4 ],
+      [ "leg_r", -4 ],
+      [ "leg_l", -4 ]
+    ]
+  },
+  {
+    "id": "BIOKIN_ENHANCE_MOBILITY_03",
+    "type": "mutation",
+    "name": { "str": "Enhanced Mobility" },
+    "description": "Your gear isn't bothering you as much.",
+    "points": 0,
+    "visibility": 0,
+    "ugliness": 0,
+    "player_display": false,
+    "valid": false,
+    "encumbrance_always": [
+      [ "head", -8 ],
+      [ "torso", -8 ],
+      [ "hand_r", -8 ],
+      [ "hand_l", -8 ],
+      [ "arm_r", -8 ],
+      [ "arm_l", -8 ],
+      [ "leg_r", -8 ],
+      [ "leg_l", -8 ]
+    ]
+  },
+  {
+    "id": "BIOKIN_ENHANCE_MOBILITY_04",
+    "type": "mutation",
+    "name": { "str": "Enhanced Mobility" },
+    "description": "Your gear isn't bothering you as much.",
+    "points": 0,
+    "visibility": 0,
+    "ugliness": 0,
+    "player_display": false,
+    "valid": false,
+    "encumbrance_always": [
+      [ "head", -12 ],
+      [ "torso", -12 ],
+      [ "hand_r", -12 ],
+      [ "hand_l", -12 ],
+      [ "arm_r", -12 ],
+      [ "arm_l", -12 ],
+      [ "leg_r", -12 ],
+      [ "leg_l", -12 ]
+    ]
+  },
+  {
+    "id": "BIOKIN_ENHANCE_MOBILITY_05",
+    "type": "mutation",
+    "name": { "str": "Enhanced Mobility" },
+    "description": "Your gear isn't bothering you as much.",
+    "points": 0,
+    "visibility": 0,
+    "ugliness": 0,
+    "player_display": false,
+    "valid": false,
+    "encumbrance_always": [
+      [ "head", -16 ],
+      [ "torso", -16 ],
+      [ "hand_r", -16 ],
+      [ "hand_l", -16 ],
+      [ "arm_r", -16 ],
+      [ "arm_l", -16 ],
+      [ "leg_r", -16 ],
+      [ "leg_l", -16 ]
+    ]
+  },
+  {
+    "id": "BIOKIN_ENHANCE_MOBILITY_06",
+    "type": "mutation",
+    "name": { "str": "Enhanced Mobility" },
+    "description": "Your gear isn't bothering you as much.",
+    "points": 0,
+    "visibility": 0,
+    "ugliness": 0,
+    "player_display": false,
+    "valid": false,
+    "encumbrance_always": [
+      [ "head", -20 ],
+      [ "torso", -20 ],
+      [ "hand_r", -20 ],
+      [ "hand_l", -20 ],
+      [ "arm_r", -20 ],
+      [ "arm_l", -20 ],
+      [ "leg_r", -20 ],
+      [ "leg_l", -20 ]
+    ]
   },
   {
     "type": "mutation",
@@ -16,7 +132,7 @@
     "points": 0,
     "description": "Gazing into the near future lets you know what part goes where.",
     "valid": false,
-    "crafting_speed_multiplier": 1.04,
+    "enchantments": [ { "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.04 } ] } ],
     "craft_skill_bonus": [
       [ "electronics", 1 ],
       [ "tailor", 1 ],
@@ -33,7 +149,7 @@
     "points": 0,
     "description": "Gazing into the near future lets you know what part goes where.",
     "valid": false,
-    "crafting_speed_multiplier": 1.08,
+    "enchantments": [ { "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.08 } ] } ],
     "craft_skill_bonus": [
       [ "electronics", 2 ],
       [ "tailor", 2 ],
@@ -50,7 +166,7 @@
     "points": 0,
     "description": "Gazing into the near future lets you know what part goes where.",
     "valid": false,
-    "crafting_speed_multiplier": 1.12,
+    "enchantments": [ { "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.12 } ] } ],
     "craft_skill_bonus": [
       [ "electronics", 3 ],
       [ "tailor", 3 ],
@@ -67,7 +183,7 @@
     "points": 0,
     "description": "Gazing into the near future lets you know what part goes where.",
     "valid": false,
-    "crafting_speed_multiplier": 1.16,
+    "enchantments": [ { "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.16 } ] } ],
     "craft_skill_bonus": [
       [ "electronics", 4 ],
       [ "tailor", 4 ],
@@ -84,7 +200,7 @@
     "points": 0,
     "description": "Gazing into the near future lets you know what part goes where.",
     "valid": false,
-    "crafting_speed_multiplier": 1.2,
+    "enchantments": [ { "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.2 } ] } ],
     "craft_skill_bonus": [
       [ "electronics", 5 ],
       [ "tailor", 5 ],
@@ -101,7 +217,7 @@
     "points": 0,
     "description": "Gazing into the near future lets you know what part goes where.",
     "valid": false,
-    "crafting_speed_multiplier": 1.24,
+    "enchantments": [ { "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.24 } ] } ],
     "craft_skill_bonus": [
       [ "electronics", 6 ],
       [ "tailor", 6 ],
@@ -110,66 +226,6 @@
       [ "chemistry", 6 ],
       [ "fabrication", 6 ]
     ]
-  },
-  {
-    "type": "mutation",
-    "//": "This and following are all necessary because stealth_modifier is mutation only.  Redo the whole thing once it isn't.",
-    "id": "PHOTOKINETIC_CAMOUFLAGE_1",
-    "name": { "str": "Chameleoflage" },
-    "points": 1,
-    "description": "Your powers are blending nearby light to make you harder to spot.",
-    "stealth_modifier": 15,
-    "valid": false
-  },
-  {
-    "type": "mutation",
-    "//": "This and following are all necessary because stealth_modifier is mutation only.  Redo the whole thing once it isn't.",
-    "id": "PHOTOKINETIC_CAMOUFLAGE_2",
-    "name": { "str": "Chameleoflage" },
-    "points": 1,
-    "description": "Your powers are blending nearby light to make you harder to spot.",
-    "stealth_modifier": 25,
-    "valid": false
-  },
-  {
-    "type": "mutation",
-    "//": "This and following are all necessary because stealth_modifier is mutation only.  Redo the whole thing once it isn't.",
-    "id": "PHOTOKINETIC_CAMOUFLAGE_3",
-    "name": { "str": "Chameleoflage" },
-    "points": 1,
-    "description": "Your powers are blending nearby light to make you harder to spot.",
-    "stealth_modifier": 35,
-    "valid": false
-  },
-  {
-    "type": "mutation",
-    "//": "This and following are all necessary because stealth_modifier is mutation only.  Redo the whole thing once it isn't.",
-    "id": "PHOTOKINETIC_CAMOUFLAGE_4",
-    "name": { "str": "Chameleoflage" },
-    "points": 1,
-    "description": "Your powers are blending nearby light to make you harder to spot.",
-    "stealth_modifier": 43,
-    "valid": false
-  },
-  {
-    "type": "mutation",
-    "//": "This and following are all necessary because stealth_modifier is mutation only.  Redo the whole thing once it isn't.",
-    "id": "PHOTOKINETIC_CAMOUFLAGE_5",
-    "name": { "str": "Chameleoflage" },
-    "points": 1,
-    "description": "Your powers are blending nearby light to make you harder to spot.",
-    "stealth_modifier": 50,
-    "valid": false
-  },
-  {
-    "type": "mutation",
-    "//": "This and following are all necessary because stealth_modifier is mutation only.  Redo the whole thing once it isn't.",
-    "id": "PHOTOKINETIC_CAMOUFLAGE_6",
-    "name": { "str": "Chameleoflage" },
-    "points": 1,
-    "description": "Your powers are blending nearby light to make you harder to spot.",
-    "stealth_modifier": 55,
-    "valid": false
   },
   {
     "id": "PHOTOKIN_HIDE_UGLY_01",
@@ -256,7 +312,7 @@
     "name": { "str": "Elixir PK Surge (active)" },
     "copy-from": "TELELIXIRDOWN",
     "description": "You are lashing out with your elixir-forged telekinetic powers.",
-    "fatigue": true,
+    "sleepiness": true,
     "cost": 1,
     "time": "1 m",
     "activated_eocs": [ "EOC_TELELIXIR_CAST" ],
@@ -325,7 +381,7 @@
     "points": 5,
     "visibility": 0,
     "ugliness": 0,
-    "player_display": true,
+    "player_display": false,
     "valid": false,
     "flags": [ "NO_PSIONICS" ]
   },
@@ -339,6 +395,6 @@
     "ugliness": 0,
     "player_display": true,
     "valid": false,
-    "flags": [ "TEEPSHIELD", "PORTAL_PROOF" ]
+    "flags": [ "TEEPSHIELD" ]
   }
 ]

@@ -216,5 +216,82 @@
         "coverage": 100
       }
     ]
+  },
+  {
+    "id": "boots_of_elvenkind",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of boots of elvenkind", "str_pl": "pairs of boots of elvenkind" },
+    "description": "One of the traditional items of the ancient elven warrior societies, these soft leather boots are worked with silver inlays in the shape of vines and leaves.  They allow the wearer to walk in complete silence and move faster when in the wilderness.",
+    "weight": "902 g",
+    "volume": "2 L",
+    "price": "3 kUSD",
+    "price_postapoc": "150 USD",
+    "to_hit": -1,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "boots",
+    "color": "brown",
+    "warmth": 15,
+    "material_thickness": 3,
+    "environmental_protection": 2,
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [
+          "foot_toes_r",
+          "foot_toes_l",
+          "foot_ankle_r",
+          "foot_ankle_l",
+          "foot_heel_r",
+          "foot_heel_l",
+          "foot_arch_r",
+          "foot_arch_l"
+        ],
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 3.0 } ],
+        "encumbrance": 6,
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 0.3 } ],
+        "coverage": 100
+      }
+    ],
+    "melee_damage": { "bash": 4 },
+    "relic_data": {
+      "passive_effects": [
+        { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -1 } ] },
+        {
+          "has": "WORN",
+          "condition": {
+            "and": [
+              "u_is_outside",
+              {
+                "or": [
+                  { "u_is_on_terrain_with_flag": "SHRUB" },
+                  { "u_is_on_terrain_with_flag": "DIGGABLE" },
+                  { "u_is_on_terrain_with_flag": "YOUNG" }
+                ]
+              },
+              { "not": { "u_near_om_location": "road_curved", "range": 1 } },
+              { "not": { "u_near_om_location": "road_four_way", "range": 1 } },
+              { "not": { "u_near_om_location": "road_tee", "range": 1 } },
+              { "not": { "u_near_om_location": "road_straight", "range": 1 } },
+              { "not": { "u_near_om_location": "road_end", "range": 1 } },
+              { "not": { "u_near_om_location": "road_sw", "range": 1 } },
+              { "not": { "u_near_om_location": "road_ne", "range": 1 } },
+              { "not": { "u_near_om_location": "road_ew", "range": 1 } },
+              { "not": { "u_near_om_location": "road_ns", "range": 1 } },
+              { "not": { "u_near_om_location": "road_nesw", "range": 1 } },
+              { "not": { "u_near_om_location": "road", "range": 1 } }
+            ]
+          },
+          "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ]
+        }
+      ]
+    }
   }
 ]

@@ -1,5 +1,50 @@
 [
   {
+    "abstract": "mon_bird_flying_base",
+    "type": "MONSTER",
+    "name": { "str": "flying bird abstract" },
+    "description": "This is an abstract monsters for other wild flying birds to copy from, so that we have some common foundation to work with.  If it appears in the game that's a bug.",
+    "bodytype": "bird",
+    "default_faction": "small_animal",
+    "categories": [ "WILDLIFE" ],
+    "species": [ "BIRD" ],
+    "volume": "600 ml",
+    "weight": "450 g",
+    "//": "~0.75g/ml density for most wild flying birds",
+    "hp": 4,
+    "speed": 200,
+    "material": [ "flesh" ],
+    "symbol": "v",
+    "color": "dark_gray",
+    "aggression": -99,
+    "morale": 5,
+    "melee_dice": 1,
+    "melee_dice_sides": 1,
+    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
+    "dodge": 4,
+    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_flying", "prof_wp_basic_bird" ],
+    "weakpoint_sets": [ "wps_bird_body" ],
+    "harvest": "bird_tiny",
+    "dissect": "dissect_bird_sample_single",
+    "baby_flags": [ "SPRING", "SUMMER" ],
+    "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED", "FRIEND_DIED", "FIRE", "HURT" ],
+    "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 4 },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_FIRE",
+      "WARM",
+      "FLIES",
+      "SWARMS",
+      "CANPLAY",
+      "CAN_BE_CULLED",
+      "PET_WONT_FOLLOW",
+      "SMALL_HIDER"
+    ]
+  },
+  {
     "id": "mon_chicken",
     "type": "MONSTER",
     "name": { "str": "chicken" },
@@ -35,7 +80,18 @@
       "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
       "pet": "The %s runs around your leg."
     },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "SWARMS", "CAN_BE_CULLED" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CANPLAY",
+      "SWARMS",
+      "CAN_BE_CULLED",
+      "SMALL_HIDER"
+    ]
   },
   {
     "id": "mon_grouse",
@@ -55,198 +111,103 @@
   {
     "id": "mon_crow",
     "type": "MONSTER",
-    "name": { "str": "crow" },
+    "name": { "str": "American crow" },
     "description": "A small, elegant black bird, famous for its distinctive call.  An intelligent bird, there is a glitter of mischief behind its eyes.",
-    "bodytype": "bird",
-    "default_faction": "small_animal",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "BIRD" ],
-    "volume": "1000 ml",
-    "weight": "450 g",
-    "hp": 4,
-    "speed": 140,
-    "material": [ "flesh" ],
-    "symbol": "v",
+    "copy-from": "mon_bird_flying_base",
     "color": "dark_gray",
-    "aggression": -99,
-    "morale": 10,
-    "melee_dice": 1,
-    "melee_dice_sides": 1,
-    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "dodge": 4,
     "stomach_size": 30,
     "special_attacks": [ [ "EAT_CARRION", 40 ], [ "EAT_FOOD", 120 ] ],
-    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_flying", "prof_wp_basic_bird" ],
-    "weakpoint_sets": [ "wps_bird_body" ],
-    "harvest": "bird_tiny",
-    "dissect": "dissect_bird_sample_single",
-    "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED", "FRIEND_DIED", "FIRE", "HURT" ],
     "reproduction": { "baby_egg": "egg_crow", "baby_count": 4, "baby_timer": 18 },
-    "baby_flags": [ "SPRING" ],
-    "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "FLIES", "SWARMS", "EATS" ]
+    "extend": { "flags": [ "EATS" ] }
   },
   {
     "id": "mon_raven",
     "type": "MONSTER",
     "name": { "str": "raven" },
     "description": "A small, elegant black bird, famous for its distinctive call.  A clever bird, there is a glitter of mischief behind its eyes.",
-    "bodytype": "bird",
-    "default_faction": "small_animal",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "BIRD" ],
-    "volume": "1250 ml",
-    "weight": "1200 g",
-    "hp": 4,
-    "speed": 140,
-    "material": [ "flesh" ],
-    "symbol": "v",
+    "copy-from": "mon_bird_flying_base",
+    "volume": "1960 ml",
+    "weight": "1470 g",
     "color": "dark_gray",
-    "aggression": -99,
-    "morale": 10,
-    "melee_dice": 1,
-    "melee_dice_sides": 1,
-    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "dodge": 4,
     "stomach_size": 50,
     "special_attacks": [ [ "EAT_CARRION", 40 ], [ "EAT_FOOD", 120 ] ],
-    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_flying", "prof_wp_basic_bird" ],
-    "weakpoint_sets": [ "wps_bird_body" ],
-    "harvest": "bird_tiny",
-    "dissect": "dissect_bird_sample_single",
-    "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED", "FRIEND_DIED", "FIRE", "HURT" ],
     "reproduction": { "baby_egg": "egg_raven", "baby_count": 5, "baby_timer": 18 },
-    "baby_flags": [ "SPRING" ],
-    "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "FLIES", "SWARMS", "EATS" ]
+    "extend": { "flags": [ "EATS" ] }
   },
   {
     "id": "mon_bluejay",
     "type": "MONSTER",
     "name": { "str": "blue jay" },
     "description": "A small, noisy bird with distinctive blue feathers.",
-    "bodytype": "bird",
-    "default_faction": "small_animal",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "BIRD" ],
-    "volume": "550 ml",
-    "weight": "85 g",
-    "hp": 3,
-    "speed": 140,
-    "material": [ "flesh" ],
-    "symbol": "v",
+    "copy-from": "mon_bird_flying_base",
+    "volume": "120 ml",
+    "weight": "90 g",
     "color": "light_blue",
-    "aggression": -99,
-    "morale": -8,
-    "melee_dice": 1,
-    "melee_dice_sides": 1,
-    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "dodge": 4,
-    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_flying", "prof_wp_basic_bird" ],
-    "weakpoint_sets": [ "wps_bird_body" ],
-    "harvest": "bird_tiny",
-    "dissect": "dissect_bird_sample_single",
-    "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED", "FRIEND_DIED", "FIRE", "HURT" ],
-    "reproduction": { "baby_egg": "egg_bluejay", "baby_count": 5, "baby_timer": 18 },
-    "baby_flags": [ "SPRING" ],
-    "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CANPLAY", "FLIES", "SWARMS" ]
+    "reproduction": { "baby_egg": "egg_bluejay", "baby_count": 5, "baby_timer": 18 }
   },
   {
     "id": "mon_cardinal",
     "type": "MONSTER",
     "name": { "str": "cardinal" },
     "description": "A small songbird, famous for its distinctive crest and facial markings.  A well-known example of sexual dimorphism, the males are colored much more vibrantly than the females.",
-    "bodytype": "bird",
-    "default_faction": "small_animal",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "BIRD" ],
-    "volume": "450 ml",
-    "weight": "40 g",
-    "hp": 3,
-    "speed": 140,
-    "material": [ "flesh" ],
-    "symbol": "v",
+    "copy-from": "mon_bird_flying_base",
+    "volume": "60 ml",
+    "weight": "45 g",
     "color": "red",
-    "aggression": -99,
-    "morale": -8,
-    "melee_dice": 1,
-    "melee_dice_sides": 1,
-    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "dodge": 4,
-    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_flying", "prof_wp_basic_bird" ],
-    "weakpoint_sets": [ "wps_bird_body" ],
-    "harvest": "bird_tiny",
-    "dissect": "dissect_bird_sample_single",
-    "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED", "FRIEND_DIED", "FIRE", "HURT" ],
-    "reproduction": { "baby_egg": "egg_cardinal", "baby_count": 3, "baby_timer": 13 },
-    "baby_flags": [ "SPRING" ],
-    "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "SWARMS" ]
+    "reproduction": { "baby_egg": "egg_cardinal", "baby_count": 3, "baby_timer": 16 }
   },
   {
     "id": "mon_robin",
     "type": "MONSTER",
-    "name": { "str": "robin" },
+    "name": { "str": "American robin" },
     "description": "A brown songbird with a reddish-orange breast.  Their eggs are a distinctive shade of blue.",
-    "bodytype": "bird",
-    "default_faction": "small_animal",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "BIRD" ],
-    "volume": "550 ml",
+    "copy-from": "mon_bird_flying_base",
+    "volume": "103 ml",
     "weight": "77 g",
-    "hp": 3,
-    "speed": 140,
-    "material": [ "flesh" ],
-    "symbol": "v",
     "color": "brown",
-    "aggression": -99,
-    "morale": -8,
-    "melee_dice": 1,
-    "melee_dice_sides": 1,
-    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "dodge": 4,
-    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_flying", "prof_wp_basic_bird" ],
-    "weakpoint_sets": [ "wps_bird_body" ],
-    "harvest": "bird_tiny",
-    "dissect": "dissect_bird_sample_single",
-    "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED", "FRIEND_DIED", "FIRE", "HURT" ],
-    "reproduction": { "baby_egg": "egg_robin", "baby_count": 3, "baby_timer": 14 },
-    "baby_flags": [ "SPRING" ],
-    "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "SWARMS" ]
+    "reproduction": { "baby_egg": "egg_robin", "baby_count": 5, "baby_timer": 16 }
   },
   {
     "id": "mon_sparrow",
     "type": "MONSTER",
-    "name": { "str": "sparrow" },
+    "name": { "str": "house sparrow" },
     "description": "A small bird with brown and gray feathers.  Introduced to North America in the 1850s, it is now one of the most abundant birds in the continent.",
-    "bodytype": "bird",
-    "default_faction": "small_animal",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "BIRD" ],
-    "volume": "400 ml",
+    "copy-from": "mon_bird_flying_base",
+    "volume": "40 ml",
     "weight": "30 g",
-    "hp": 3,
-    "speed": 140,
-    "material": [ "flesh" ],
-    "symbol": "v",
-    "color": "brown",
-    "aggression": -99,
-    "morale": -8,
-    "melee_dice": 1,
-    "melee_dice_sides": 1,
-    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "dodge": 4,
-    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_flying", "prof_wp_basic_bird" ],
-    "weakpoint_sets": [ "wps_bird_body" ],
-    "harvest": "bird_tiny",
-    "dissect": "dissect_bird_sample_single",
-    "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED", "FRIEND_DIED", "FIRE", "HURT" ],
-    "reproduction": { "baby_egg": "egg_sparrow", "baby_count": 5, "baby_timer": 14 },
-    "baby_flags": [ "SPRING" ],
-    "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "SWARMS" ]
+    "reproduction": { "baby_egg": "egg_sparrow", "baby_count": 5, "baby_timer": 16 }
+  },
+  {
+    "id": "mon_chickadee",
+    "type": "MONSTER",
+    "name": { "str": "black-capped chickadee" },
+    "description": "A tiny species of tit native to North America, with a distinctive black cap on its head.",
+    "copy-from": "mon_bird_flying_base",
+    "volume": "16 ml",
+    "weight": "12 g",
+    "reproduction": { "baby_egg": "egg_chickadee", "baby_count": 8, "baby_timer": 14 }
+  },
+  {
+    "id": "mon_chickadee_chick",
+    "type": "MONSTER",
+    "copy-from": "mon_generic_chick_tiny",
+    "upgrades": { "age_grow": 7, "into": "mon_chickadee" }
+  },
+  {
+    "id": "mon_waxwing",
+    "type": "MONSTER",
+    "name": { "str": "cedar waxwing" },
+    "description": "A small species of waxwing with a distinctive feathered crest and a black mask pattern on its face.",
+    "copy-from": "mon_bird_flying_base",
+    "volume": "40 ml",
+    "weight": "30 g",
+    "reproduction": { "baby_egg": "egg_waxwing", "baby_count": 5, "baby_timer": 16 }
+  },
+  {
+    "id": "mon_waxwing_chick",
+    "type": "MONSTER",
+    "copy-from": "mon_generic_chick_tiny",
+    "upgrades": { "age_grow": 8, "into": "mon_waxwing" }
   },
   {
     "id": "mon_duck",
@@ -278,7 +239,7 @@
     "reproduction": { "baby_egg": "egg_duck", "baby_count": 3, "baby_timer": 5 },
     "baby_flags": [ "SPRING" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 5 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "SWARMS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "SWARMS", "SMALL_HIDER" ]
   },
   {
     "id": "mon_goose_canadian",
@@ -331,7 +292,7 @@
     "reproduction": { "baby_egg": "egg_turkey", "baby_count": 3, "baby_timer": 12 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "SMALL_HIDER" ]
   },
   {
     "id": "mon_pheasant",
@@ -359,7 +320,7 @@
     "bodytype": "bird",
     "categories": [ "WILDLIFE" ],
     "species": [ "BIRD" ],
-    "volume": "750 ml",
+    "volume": "80 ml",
     "weight": "60 g",
     "hp": 1,
     "speed": 40,
@@ -372,13 +333,36 @@
     "melee_skill": 1,
     "melee_dice": 1,
     "melee_dice_sides": 1,
-    "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
+    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 1,
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_basic_bird" ],
     "harvest": "bird_tiny",
     "upgrades": { "age_grow": 14, "into": "mon_chicken" },
     "//": "Grows up into a standard chicken as a fallback",
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "SWARMS", "CAN_BE_CULLED" ]
+    "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED", "FRIEND_DIED", "FIRE", "HURT" ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_FIRE",
+      "WARM",
+      "SWARMS",
+      "CAN_BE_CULLED",
+      "CANPLAY",
+      "SMALL_HIDER"
+    ]
+  },
+  {
+    "abstract": "mon_generic_chick_tiny",
+    "type": "MONSTER",
+    "name": { "str": "brown chick" },
+    "description": "A tiny darkly-colored chick, it could be from a number of different species.",
+    "copy-from": "mon_generic_chick",
+    "volume": "7 ml",
+    "weight": "5 g",
+    "upgrades": { "age_grow": 14, "into": "mon_sparrow" },
+    "//": "Grows up into a sparrow as a fallback"
   },
   {
     "id": "mon_chicken_chick",
@@ -391,8 +375,7 @@
       "food": [ "BIRDFOOD" ],
       "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
       "pet": "The %s runs around your leg."
-    },
-    "extend": { "flags": [ "CANPLAY" ] }
+    }
   },
   {
     "id": "mon_grouse_chick",
@@ -410,8 +393,7 @@
       "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
       "pet": "The %s runs around your leg."
     },
-    "extend": { "flags": [ "CANPLAY" ] },
-    "volume": "250 ml",
+    "volume": "67 ml",
     "weight": "50 g",
     "upgrades": { "age_grow": 36, "into": "mon_crow" }
   },
@@ -419,41 +401,31 @@
     "id": "mon_raven_chick",
     "type": "MONSTER",
     "copy-from": "mon_crow_chick",
-    "volume": "750 ml",
-    "weight": "60 g",
     "upgrades": { "age_grow": 35, "into": "mon_raven" }
   },
   {
     "id": "mon_bluejay_chick",
     "type": "MONSTER",
-    "copy-from": "mon_crow_chick",
-    "volume": "225 ml",
-    "weight": "38 g",
-    "upgrades": { "age_grow": 18, "into": "mon_bluejay" }
+    "copy-from": "mon_generic_chick_tiny",
+    "upgrades": { "age_grow": 10, "into": "mon_bluejay" }
   },
   {
     "id": "mon_cardinal_chick",
     "type": "MONSTER",
-    "copy-from": "mon_generic_chick",
-    "volume": "200 ml",
-    "weight": "15 g",
-    "upgrades": { "age_grow": 11, "into": "mon_cardinal" }
+    "copy-from": "mon_generic_chick_tiny",
+    "upgrades": { "age_grow": 10, "into": "mon_cardinal" }
   },
   {
     "id": "mon_robin_chick",
     "type": "MONSTER",
-    "copy-from": "mon_generic_chick",
-    "volume": "215 ml",
-    "weight": "35 g",
-    "upgrades": { "age_grow": 14, "into": "mon_robin" }
+    "copy-from": "mon_generic_chick_tiny",
+    "upgrades": { "age_grow": 7, "into": "mon_robin" }
   },
   {
     "id": "mon_sparrow_chick",
     "type": "MONSTER",
-    "copy-from": "mon_generic_chick",
-    "volume": "175 ml",
-    "weight": "12 g",
-    "upgrades": { "age_grow": 15, "into": "mon_sparrow" }
+    "copy-from": "mon_generic_chick_tiny",
+    "upgrades": { "age_grow": 7, "into": "mon_sparrow" }
   },
   {
     "id": "mon_turkey_chick",
@@ -464,7 +436,6 @@
       "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
       "pet": "The %s runs around your leg."
     },
-    "extend": { "flags": [ "CANPLAY" ] },
     "upgrades": { "age_grow": 18, "into": "mon_turkey" }
   },
   {
@@ -476,7 +447,6 @@
       "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
       "pet": "The %s runs around your leg."
     },
-    "extend": { "flags": [ "CANPLAY" ] },
     "upgrades": { "age_grow": 14, "into": "mon_pheasant" }
   },
   {
@@ -490,8 +460,7 @@
       "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
       "pet": "The %s runs around your leg."
     },
-    "upgrades": { "age_grow": 12, "into": "mon_duck" },
-    "extend": { "flags": [ "CANPLAY" ] }
+    "upgrades": { "age_grow": 12, "into": "mon_duck" }
   },
   {
     "id": "mon_goose_canadian_chick",
@@ -531,7 +500,7 @@
     "special_attacks": [ [ "SHRIEK", 10 ], [ "EAT_CARRION", 40 ], [ "EAT_FOOD", 120 ] ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
     "upgrades": { "half_life": 21, "into_group": "GROUP_CROW_MUTANT" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "EATS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "EATS", "SMALL_HIDER" ]
   },
   {
     "id": "mon_crow_mutant",
@@ -575,37 +544,28 @@
   {
     "id": "mon_pigeon",
     "type": "MONSTER",
-    "name": { "str": "pigeon" },
+    "name": { "str": "feral pigeon" },
     "description": "A gentle, plump, small-billed bird with a skin saddle, or cere, between its bill and forehead.  On the ground, it struts about with a characteristic bobbing of the head.  It is a strong, swift flier thanks to its long wings and powerful flight muscles.",
-    "bodytype": "bird",
-    "default_faction": "small_animal",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "BIRD" ],
-    "volume": "1 L",
-    "weight": "360 g",
-    "hp": 4,
-    "speed": 150,
-    "material": [ "flesh" ],
-    "symbol": "v",
-    "color": "dark_gray",
-    "aggression": -99,
-    "morale": 5,
-    "melee_dice": 1,
-    "melee_dice_sides": 1,
-    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "dodge": 4,
-    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_flying", "prof_wp_basic_bird" ],
-    "weakpoint_sets": [ "wps_bird_body" ],
-    "harvest": "bird_tiny",
-    "dissect": "dissect_bird_sample_single",
-    "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED", "FRIEND_DIED", "FIRE", "HURT" ],
-    "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 4 },
+    "copy-from": "mon_bird_flying_base",
+    "volume": "467 ml",
+    "weight": "350 g",
+    "reproduction": { "baby_egg": "egg_pigeon", "baby_count": 3, "baby_timer": 32 },
     "petfood": {
       "food": [ "BIRDFOOD" ],
       "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
       "pet": "The %s runs around your leg."
-    },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "SWARMS", "CANPLAY", "CAN_BE_CULLED" ]
+    }
+  },
+  {
+    "id": "mon_pigeon_chick",
+    "type": "MONSTER",
+    "copy-from": "mon_generic_chick",
+    "upgrades": { "age_grow": 10, "into": "mon_pigeon" },
+    "petfood": {
+      "food": [ "BIRDFOOD" ],
+      "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
+      "pet": "The %s runs around your leg."
+    }
   },
   {
     "id": "mon_goose",
@@ -632,7 +592,7 @@
       "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
       "pet": "The %s runs around your leg."
     },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CAN_BE_CULLED" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CAN_BE_CULLED", "SMALL_HIDER" ]
   },
   {
     "id": "mon_goose_golden",
@@ -691,7 +651,7 @@
     "reproduction": { "baby_egg": "egg_hummingbird", "baby_count": 5, "baby_timer": 14 },
     "baby_flags": [ "SPRING" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "SMALL_HIDER" ]
   },
   {
     "id": "mon_woodpecker",
@@ -722,13 +682,12 @@
     "reproduction": { "baby_egg": "egg_woodpecker", "baby_count": 5, "baby_timer": 14 },
     "baby_flags": [ "SPRING" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "SMALL_HIDER" ]
   },
   {
     "id": "mon_hummingbird_chick",
     "type": "MONSTER",
     "copy-from": "mon_generic_chick",
-    "volume": "80 ml",
     "weight": "7 g",
     "upgrades": { "age_grow": 11, "into": "mon_hummingbird" }
   },
@@ -769,7 +728,7 @@
     "reproduction": { "baby_egg": "egg_coot", "baby_count": 3, "baby_timer": 5 },
     "baby_flags": [ "SPRING" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 5 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "SWARMS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "SWARMS", "SMALL_HIDER" ]
   },
   {
     "id": "mon_cormorant",

@@ -132,7 +132,7 @@
       "byproducts": [ "grape_leaves", "withered" ],
       "grow": "91 days"
     },
-    "milling": { "into": "paste_seed", "conversion_rate": 0.02 }
+    "milling": { "into": "paste_seed", "recipe": "paste_seed_mill_8_1" }
   },
   {
     "id": "seed_rose",
@@ -160,7 +160,8 @@
     "name": { "str_sp": "barley seeds" },
     "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] },
     "description": "This pile of dried barley is earmarked for planting.",
-    "seed_data": { "plant_name": "barley", "fruit": "barley_stalks", "seeds": false, "grow": "70 days" }
+    "seed_data": { "plant_name": "barley", "fruit": "barley_stalks", "seeds": false, "grow": "70 days" },
+    "milling": { "into": "null", "recipe": "" }
   },
   {
     "type": "COMESTIBLE",
@@ -178,7 +179,7 @@
     "type": "COMESTIBLE",
     "id": "seed_lettuce",
     "copy-from": "seed",
-    "price": 50,
+    "price": "50 cent",
     "name": { "str_sp": "lettuce seeds" },
     "description": "Some lettuce seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
@@ -188,7 +189,7 @@
     "type": "COMESTIBLE",
     "id": "seed_cabbage",
     "copy-from": "seed",
-    "price": 50,
+    "price": "50 cent",
     "name": { "str_sp": "cabbage seeds" },
     "color": "light_gray",
     "description": "Some white cabbage seeds.",
@@ -199,7 +200,7 @@
     "type": "COMESTIBLE",
     "id": "seed_tomato",
     "copy-from": "seed",
-    "price": 50,
+    "price": "50 cent",
     "name": { "str_sp": "tomato seeds" },
     "description": "Some tomato seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
@@ -215,14 +216,14 @@
     "weight": "5 g",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "seed_data": { "plant_name": "cotton", "fruit": "cotton_boll", "byproducts": [ "withered" ], "grow": "130 days" },
-    "milling": { "into": "paste_seed", "conversion_rate": 0.05 },
+    "milling": { "into": "paste_seed", "recipe": "paste_seed_mill_8_1" },
     "volume": "6 ml"
   },
   {
     "type": "COMESTIBLE",
     "id": "seed_broccoli",
     "copy-from": "seed",
-    "price": 50,
+    "price": "50 cent",
     "name": { "str_sp": "broccoli seeds" },
     "description": "Some broccoli seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
@@ -232,7 +233,7 @@
     "type": "COMESTIBLE",
     "id": "seed_zucchini",
     "copy-from": "seed",
-    "price": 50,
+    "price": "50 cent",
     "name": { "str_sp": "zucchini seeds" },
     "description": "Some zucchini seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
@@ -242,7 +243,7 @@
     "type": "COMESTIBLE",
     "id": "seed_onion",
     "copy-from": "seed",
-    "price": 50,
+    "price": "50 cent",
     "name": { "str_sp": "onion seeds" },
     "description": "Some onion seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
@@ -252,7 +253,7 @@
     "type": "COMESTIBLE",
     "id": "seed_garlic",
     "copy-from": "seed",
-    "price": 50,
+    "price": "50 cent",
     "name": { "str_sp": "garlic seeds" },
     "description": "Some garlic seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
@@ -350,7 +351,7 @@
     "type": "COMESTIBLE",
     "id": "seed_wildcarrot",
     "copy-from": "seed",
-    "price": 50,
+    "price": "50 cent",
     "name": { "str_sp": "wild root seeds" },
     "description": "Some seeds from a white flower.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
@@ -378,28 +379,9 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "garlic_clove",
-    "name": { "str": "garlic clove" },
-    "weight": "3 g",
-    "color": "white",
-    "spoils_in": "360 days",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": -3,
-    "calories": 4,
-    "description": "Cloves of garlic.  Useful as a seasoning, or for planting.",
-    "price": "8 cent",
-    "material": [ "garlic" ],
-    "volume": "25 ml",
-    "fun": -3,
-    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE" ],
-    "seed_data": { "plant_name": "garlic", "fruit": "garlic", "byproducts": [ "withered" ], "grow": "65 days" }
-  },
-  {
-    "type": "COMESTIBLE",
     "id": "seed_carrot",
     "copy-from": "seed",
-    "price": 50,
+    "price": "50 cent",
     "name": { "str_sp": "carrot seeds" },
     "description": "Some carrot seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
@@ -413,13 +395,14 @@
     "name": { "str_sp": "corn seeds" },
     "description": "A pile of dried corn, designated for planting.  It could just as easily become food.",
     "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] },
-    "seed_data": { "plant_name": "corn", "fruit": "corn", "seeds": false, "byproducts": [ "withered" ], "grow": "80 days" }
+    "seed_data": { "plant_name": "corn", "fruit": "corn", "seeds": false, "byproducts": [ "withered" ], "grow": "80 days" },
+    "milling": { "into": "null", "recipe": "" }
   },
   {
     "type": "COMESTIBLE",
     "id": "seed_chili_pepper",
     "copy-from": "seed",
-    "price": 50,
+    "price": "50 cent",
     "name": { "str_sp": "chili pepper seeds" },
     "color": "white",
     "description": "Some chili pepper seeds.",
@@ -436,7 +419,7 @@
     "type": "COMESTIBLE",
     "id": "seed_cucumber",
     "copy-from": "seed",
-    "price": 50,
+    "price": "50 cent",
     "name": { "str_sp": "cucumber seeds" },
     "description": "Some cucumber seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
@@ -450,9 +433,9 @@
     "calories": 48,
     "volume": "94 ml",
     "weight": "53 g",
-    "price": 0,
+    "price": "0 cent",
     "spoils_in": "1 day",
-    "price_postapoc": 0,
+    "price_postapoc": "0 cent",
     "name": { "str_sp": "seed potatoes" },
     "description": "Raw potato cut into pieces, separating each bud for planting.",
     "extend": { "flags": [ "INEDIBLE", "PLANTABLE_SEED", "NUTRIENT_OVERRIDE" ] },
@@ -473,7 +456,7 @@
     "price": "1 cent",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "seed_data": { "plant_name": "cannabis", "fruit": "cannabis", "grow": "91 days" },
-    "milling": { "into": "paste_seed", "conversion_rate": 0.02 }
+    "milling": { "into": "paste_seed", "recipe": "paste_seed_mill_8_1" }
   },
   {
     "type": "COMESTIBLE",
@@ -530,8 +513,9 @@
     "name": { "str_sp": "soybean seeds" },
     "extend": { "flags": [ "NUTRIENT_OVERRIDE", "INEDIBLE" ] },
     "description": "A pile of dry soybeans.  These are intended for planting, but there's no reason they couldn't be made into food.",
-    "price": 90,
-    "seed_data": { "plant_name": "soybean", "fruit": "raw_edamame", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" }
+    "price": "90 cent",
+    "seed_data": { "plant_name": "soybean", "fruit": "raw_edamame", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" },
+    "milling": { "into": "null", "recipe": "" }
   },
   {
     "type": "COMESTIBLE",
@@ -585,10 +569,10 @@
     "use_action": [ "SEED" ],
     "calories": 65,
     "description": "Some raw pumpkin seeds with the shells on.  Could be fried and eaten.",
-    "price": 100,
+    "price": "1 USD",
     "flags": [ "PLANTABLE_SEED" ],
     "seed_data": { "plant_name": "pumpkin", "fruit": "pumpkin", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" },
-    "milling": { "into": "paste_seed", "conversion_rate": 0.02 }
+    "milling": { "into": "paste_seed", "recipe": "paste_seed_mill_8_1" }
   },
   {
     "type": "COMESTIBLE",
@@ -602,9 +586,9 @@
     "calories": 165,
     "description": "Some raw sunflower seeds with the shells on.  Could be pressed into oil.",
     "price": "1 cent",
-    "flags": [ "PLANTABLE_SEED" ],
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE" ],
     "seed_data": { "plant_name": "sunflower", "fruit": "seed_sunflower", "byproducts": [ "withered" ], "grow": "91 days" },
-    "milling": { "into": "paste_seed", "conversion_rate": 0.02 }
+    "milling": { "into": "paste_seed", "recipe": "paste_seed_mill_8_1" }
   },
   {
     "type": "COMESTIBLE",
@@ -658,7 +642,8 @@
     "description": "A pile of buckwheat, ready to be planted.",
     "category": "seeds",
     "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] },
-    "seed_data": { "plant_name": "buckwheat", "fruit": "buckwheat_stalks", "seeds": false, "grow": "91 days" }
+    "seed_data": { "plant_name": "buckwheat", "fruit": "buckwheat_stalks", "seeds": false, "grow": "91 days" },
+    "milling": { "into": "null", "recipe": "" }
   },
   {
     "type": "COMESTIBLE",
@@ -862,7 +847,7 @@
     "name": { "str_sp": "datura seeds" },
     "description": "Small, dark seeds from the spiny pods of a datura plant.  Full of powerful psychoactive chemicals, these tiny seeds are a potent analgesic and deliriant, and can be deadly in cases of overdose.",
     "weight": "2 g",
-    "price": 0,
+    "price": "0 cent",
     "stim": 6,
     "healthy": -2,
     "fun": -1,
@@ -874,7 +859,7 @@
     "type": "COMESTIBLE",
     "id": "seed_celery",
     "copy-from": "seed",
-    "price": 50,
+    "price": "50 cent",
     "name": { "str_sp": "celery seeds" },
     "description": "Some celery seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
@@ -888,7 +873,18 @@
     "description": "A pile of dried whole oats, ready for planting.",
     "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] },
     "category": "seeds",
-    "seed_data": { "plant_name": "oats", "fruit": "oat_stalks", "seeds": false, "grow": "65 days" }
+    "seed_data": { "plant_name": "oats", "fruit": "oat_stalks", "seeds": false, "grow": "65 days" },
+    "milling": { "into": "null", "recipe": "" }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_garlic_clove",
+    "copy-from": "garlic",
+    "name": { "str_sp": "seed garlic" },
+    "category": "seeds",
+    "description": "Several cloves of garlic, ready for planting.",
+    "seed_data": { "plant_name": "garlic", "fruit": "garlic", "byproducts": [ "withered" ], "grow": "65 days" },
+    "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] }
   },
   {
     "id": "seed_wheat",
@@ -898,7 +894,8 @@
     "name": { "str_sp": "wheat seeds" },
     "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] },
     "description": "A pile of dry wheatberries, designated for planting.",
-    "seed_data": { "plant_name": "wheat", "fruit": "wheat_stalks", "seeds": false, "grow": "120 days" }
+    "seed_data": { "plant_name": "wheat", "fruit": "wheat_stalks", "seeds": false, "grow": "120 days" },
+    "milling": { "into": "null", "recipe": "" }
   },
   {
     "type": "COMESTIBLE",
@@ -1033,7 +1030,7 @@
     "type": "COMESTIBLE",
     "id": "seed_bell_pepper",
     "copy-from": "seed",
-    "price": 50,
+    "price": "50 cent",
     "name": { "str_sp": "bell pepper seeds" },
     "description": "Some bell pepper seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
@@ -1043,7 +1040,7 @@
     "type": "COMESTIBLE",
     "id": "seed_bottle_gourd",
     "copy-from": "seed",
-    "price": 50,
+    "price": "50 cent",
     "name": { "str_sp": "bottle gourd seeds" },
     "description": "Some bottle gourd seeds.",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
@@ -1059,34 +1056,9 @@
     "type": "COMESTIBLE",
     "id": "seed_eggplant",
     "copy-from": "seed",
-    "price": 70,
+    "price": "70 cent",
     "name": { "str_sp": "eggplant seeds" },
     "description": "Some eggplant seeds.",
     "seed_data": { "plant_name": "eggplant", "fruit": "eggplant", "seeds": false, "byproducts": [ "withered" ], "grow": "60 days" }
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "seed_mutant",
-    "comestible_type": "FOOD",
-    "name": { "str_sp": "mutant seed" },
-    "description": "A single rock-hard seed shaped like a kidney bean.  Two dark spots on one end look a bit like a pair of eyes.",
-    "category": "seeds",
-    "volume": "2 ml",
-    "weight": "1 g",
-    "price": "1 cent",
-    "price_postapoc": "1 cent",
-    "material": [ "veggy", "bone" ],
-    "symbol": ".",
-    "flags": [ "TRADER_AVOID", "CANNIBALISM" ],
-    "color": "brown",
-    "seed_data": {
-      "plant_name": "mutant",
-      "fruit": "null",
-      "grow": "90 days",
-      "seedling_form": "f_mutant_tree_sprout",
-      "mature_form": "f_mutant_tree_sapling",
-      "harvestable_form": "f_mutant_tree_adult",
-      "required_terrain_flag": "TREE_PLANTABLE"
-    }
   }
 ]

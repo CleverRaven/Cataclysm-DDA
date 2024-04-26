@@ -5,8 +5,8 @@
 #include <array>
 #include <cmath>
 #include <cstddef>
-#include <iosfwd>
-#include <limits>
+#include <cstdint>
+#include <list>
 #include <map>
 #include <memory>
 #include <optional>
@@ -21,27 +21,30 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
-#include "colony.h"
 #include "color.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "damage.h"
 #include "debug.h"
 #include "enums.h"
+#include "fault.h"
 #include "field_type.h"
 #include "flag.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "game.h"
 #include "game_constants.h"
 #include "item.h"
 #include "item_factory.h"
+#include "item_location.h"
 #include "itype.h"
-#include "json.h"
 #include "line.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "math_defines.h"
+#include "mdarray.h"
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
@@ -53,11 +56,11 @@
 #include "rng.h"
 #include "shadowcasting.h"
 #include "sounds.h"
-#include "string_formatter.h"
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"
 #include "units.h"
+#include "value_ptr.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 
@@ -87,6 +90,13 @@ static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
 
 static const species_id species_ROBOT( "ROBOT" );
 
+static const ter_str_id ter_t_card_industrial( "t_card_industrial" );
+static const ter_str_id ter_t_card_military( "t_card_military" );
+static const ter_str_id ter_t_card_reader_broken( "t_card_reader_broken" );
+static const ter_str_id ter_t_card_science( "t_card_science" );
+static const ter_str_id ter_t_door_metal_locked( "t_door_metal_locked" );
+static const ter_str_id ter_t_floor( "t_floor" );
+
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
 static const trait_id trait_PER_SLIME( "PER_SLIME" );
 static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
@@ -98,8 +108,8 @@ static float fragment_mass = 0.0001f;
 static float fragment_area = 0.00001f;
 // Minimum velocity resulting in skin perforation according to https://www.ncbi.nlg->m.nih.gov/pubmed/7304523
 static constexpr float MIN_EFFECTIVE_VELOCITY = 70.0f;
-// Pretty arbitrary minimum density.  1/1,000 change of a fragment passing through the given square.
-static constexpr float MIN_FRAGMENT_DENSITY = 0.0001f;
+// Pretty arbitrary minimum density.  1/100 chance of a fragment passing through the given square.
+static constexpr float MIN_FRAGMENT_DENSITY = 0.001f;
 
 explosion_data load_explosion_data( const JsonObject &jo )
 {
@@ -136,7 +146,7 @@ shrapnel_data load_shrapnel_data( const JsonObject &jo )
 namespace explosion_handler
 {
 
-static int ballistic_damage( float velocity, float mass )
+int ballistic_damage( float velocity, float mass )
 {
     // Damage is square root of Joules, dividing by 2000 because it's dividing by 2 and
     // converting mass from grams to kg. The initial term is simply a scaling factor.
@@ -155,7 +165,7 @@ static float mass_to_area( const float mass )
 // Approximate Gurney constant for Composition B and C (in m/s instead of the usual km/s).
 // Source: https://en.wikipedia.org/wiki/Gurney_equations#Gurney_constant_and_detonation_velocity
 static constexpr double TYPICAL_GURNEY_CONSTANT = 2700.0;
-static float gurney_spherical( const double charge, const double mass )
+float gurney_spherical( const double charge, const double mass )
 {
     return static_cast<float>( std::pow( ( mass / charge ) + ( 3.0 / 5.0 ),
                                          -0.5 ) * TYPICAL_GURNEY_CONSTANT );
@@ -411,7 +421,7 @@ static std::vector<tripoint> shrapnel( const Creature *source, const tripoint &s
     fragment_cloud initial_cloud = accumulate_fragment_cloud( obstacle_cache[src.x][src.y],
     { fragment_velocity, static_cast<float>( fragment_count ) }, 1 );
     visited_cache[src.x][src.y] = initial_cloud;
-    visited_cache[src.x][src.y].density = static_cast<float>( fragment_count );
+    visited_cache[src.x][src.y].density = static_cast<float>( fragment_count / 2.0 );
 
     castLightAll<fragment_cloud, fragment_cloud, shrapnel_calc, shrapnel_check,
                  update_fragment_cloud, accumulate_fragment_cloud>
@@ -657,14 +667,14 @@ void emp_blast( const tripoint &p )
         return;
     }
     // TODO: More terrain effects.
-    if( here.ter( p ) == t_card_science || here.ter( p ) == t_card_military ||
-        here.ter( p ) == t_card_industrial ) {
+    if( here.ter( p ) == ter_t_card_science || here.ter( p ) == ter_t_card_military ||
+        here.ter( p ) == ter_t_card_industrial ) {
         int rn = rng( 1, 100 );
         if( rn > 92 || rn < 40 ) {
             if( sight ) {
                 add_msg( _( "The card reader is rendered non-functional." ) );
             }
-            here.ter_set( p, t_card_reader_broken );
+            here.ter_set( p, ter_t_card_reader_broken );
         }
         if( rn > 80 ) {
             if( sight ) {
@@ -672,8 +682,8 @@ void emp_blast( const tripoint &p )
             }
             for( int i = -3; i <= 3; i++ ) {
                 for( int j = -3; j <= 3; j++ ) {
-                    if( here.ter( p + tripoint( i, j, 0 ) ) == t_door_metal_locked ) {
-                        here.ter_set( p + tripoint( i, j, 0 ), t_floor );
+                    if( here.ter( p + tripoint( i, j, 0 ) ) == ter_t_door_metal_locked ) {
+                        here.ter_set( p + tripoint( i, j, 0 ), ter_t_floor );
                     }
                 }
             }
@@ -751,7 +761,8 @@ void emp_blast( const tripoint &p )
             add_msg( m_bad, _( "The EMP blast drains your power." ) );
             int max_drain = ( player_character.get_power_level() > 1000_kJ ? 1000 : units::to_kilojoule(
                                   player_character.get_power_level() ) );
-            player_character.mod_power_level( units::from_kilojoule( -rng( 1 + max_drain / 3, max_drain ) ) );
+            player_character.mod_power_level( units::from_kilojoule( static_cast<std::int64_t>( -rng(
+                                                  1 + max_drain / 3, max_drain ) ) ) );
         }
         // TODO: More effects?
         //e-handcuffs effects
@@ -771,7 +782,7 @@ void emp_blast( const tripoint &p )
                 !player_character.has_flag( json_flag_EMP_IMMUNE ) ) {
                 add_msg( m_bad, _( "The EMP blast fries your %s!" ), it->tname() );
                 it->deactivate();
-                it->set_flag( flag_ITEM_BROKEN );
+                it->faults.insert( random_entry( fault::get_by_type( "shorted" ) ) );
             }
         }
     }
@@ -784,7 +795,7 @@ void emp_blast( const tripoint &p )
                 add_msg( _( "The EMP blast fries the %s!" ), it.tname() );
             }
             it.deactivate();
-            it.set_flag( flag_ITEM_BROKEN );
+            it.set_fault( random_entry( fault::get_by_type( "shorted" ) ) );
         }
     }
     // TODO: Drain NPC energy reserves
@@ -792,10 +803,8 @@ void emp_blast( const tripoint &p )
 
 void nuke( const tripoint_abs_omt &p )
 {
-    const tripoint_abs_sm pos_sm = project_to<coords::sm>( p );
-
     tinymap tmpmap;
-    tmpmap.load( pos_sm, false );
+    tmpmap.load( p, false );
 
     item mininuke( itype_mininuke_act );
     mininuke.set_flag( json_flag_ACTIVATE_ON_PLACE );
@@ -936,14 +945,14 @@ fragment_cloud shrapnel_calc( const fragment_cloud &initial,
                               const int &distance )
 {
     // SWAG coefficient of drag.
-    constexpr float Cd = 0.5f;
+    constexpr float Cd = 1.5f;
     fragment_cloud new_cloud;
     new_cloud.velocity = initial.velocity * std::exp( -cloud.velocity * ( (
                              Cd * fragment_area * distance ) /
                          ( 2.0f * fragment_mass ) ) );
     // Two effects, the accumulated proportion of blocked fragments,
     // and the inverse-square dilution of fragments with distance.
-    new_cloud.density = ( initial.density * cloud.density ) / ( distance * distance / 2.5 );
+    new_cloud.density = ( initial.density * cloud.density ) / ( distance * distance );
     return new_cloud;
 }
 bool shrapnel_check( const fragment_cloud &cloud, const fragment_cloud &intensity )

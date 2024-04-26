@@ -1337,7 +1337,7 @@
     "id": "achievement_lvl_10_electronics",
     "type": "achievement",
     "name": "Nicola Tesla",
-    "description": "One does not simply taste a 9V battery.",
+    "description": "One does not simply taste a 9 V battery.",
     "requirements": [
       {
         "event_statistic": "num_gains_electronics_level_10",
@@ -2236,6 +2236,90 @@
         "target": 1,
         "visible": "when_achievement_completed",
         "description": "Reach a Police Station"
+      }
+    ]
+  },
+  {
+    "id": "achievement_read_books_250",
+    "type": "achievement",
+    "name": "Avid Reader",
+    "description": "Read any book 250 times",
+    "requirements": [ { "event_statistic": "num_reads_book", "is": ">=", "target": 250, "description": "Read books 250 times" } ]
+  },
+  {
+    "id": "achievement_read_books_500",
+    "type": "achievement",
+    "name": "Dedicated Reader",
+    "description": "Read any book 500 times",
+    "hidden_by": [ "achievement_read_books_250" ],
+    "requirements": [ { "event_statistic": "num_reads_book", "is": ">=", "target": 500, "description": "Read books 500 times" } ]
+  },
+  {
+    "id": "achievement_read_books_1000",
+    "type": "achievement",
+    "name": "Bibliophile",
+    "description": "Read any book 1000 times",
+    "hidden_by": [ "achievement_read_books_500" ],
+    "requirements": [ { "event_statistic": "num_reads_book", "is": ">=", "target": 1000, "description": "Read books 1000 times" } ]
+  },
+  {
+    "id": "achievement_break_3_bones",
+    "type": "achievement",
+    "name": "That's not supposed to bend that way!",
+    "requirements": [ { "event_statistic": "num_broken_bone", "is": ">=", "target": 3, "description": "Break 3 bones" } ]
+  },
+  {
+    "id": "achievement_break_6_bones",
+    "type": "achievement",
+    "name": "Paper mache limbs",
+    "hidden_by": [ "achievement_break_3_bones" ],
+    "requirements": [ { "event_statistic": "num_broken_bone", "is": ">=", "target": 6, "description": "Break 6 bones" } ]
+  },
+  {
+    "id": "achievement_break_10_bones",
+    "type": "achievement",
+    "name": "Amateur Orthopedic Surgeon",
+    "hidden_by": [ "achievement_break_6_bones" ],
+    "requirements": [ { "event_statistic": "num_broken_bone", "is": ">=", "target": 10, "description": "Break 10 bones" } ]
+  },
+  {
+    "id": "achievement_heal_250_damage",
+    "type": "achievement",
+    "name": "Beginner Survivor",
+    "requirements": [ { "event_statistic": "avatar_damage_healed", "is": ">=", "target": 250, "description": "Heal 250 Damage" } ]
+  },
+  {
+    "id": "achievement_heal_1000_damage",
+    "type": "achievement",
+    "name": "Accomplished Survivor",
+    "hidden_by": [ "achievement_heal_250_damage" ],
+    "requirements": [ { "event_statistic": "avatar_damage_healed", "is": ">=", "target": 1000, "description": "Heal 1,000 Damage" } ]
+  },
+  {
+    "id": "achievement_heal_2500_damage",
+    "type": "achievement",
+    "name": "Veteran Survivor",
+    "hidden_by": [ "achievement_heal_1000_damage" ],
+    "requirements": [ { "event_statistic": "avatar_damage_healed", "is": ">=", "target": 2500, "description": "Heal 2,500 Damage" } ]
+  },
+  {
+    "id": "achievement_heal_5000_damage",
+    "type": "achievement",
+    "name": "Hardened Survivor",
+    "hidden_by": [ "achievement_heal_2500_damage" ],
+    "requirements": [ { "event_statistic": "avatar_damage_healed", "is": ">=", "target": 5000, "description": "Heal 5,000 Damage" } ]
+  },
+  {
+    "id": "achievement_reach_LIXA",
+    "type": "achievement",
+    "name": "Brilliant!",
+    "requirements": [
+      {
+        "event_statistic": "num_avatar_enters_LIXA",
+        "is": ">=",
+        "target": 1,
+        "visible": "when_achievement_completed",
+        "description": "Reach a research lab"
       }
     ]
   }

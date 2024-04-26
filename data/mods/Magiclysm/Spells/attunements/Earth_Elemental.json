@@ -15,9 +15,9 @@
     "shape": "blast",
     "effect_str": "downed",
     "damage_type": "bash",
-    "min_damage": 20,
-    "damage_increment": 4.0,
-    "max_damage": 160,
+    "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(20, 0.5)" ] },
+    "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(4.0, 0.03)" ] },
+    "max_damage": { "math": [ "evocation_proficiency_bonus_calculate(160, 0.5)" ] },
     "min_aoe": 0,
     "max_aoe": 35,
     "aoe_increment": 1,
@@ -32,7 +32,7 @@
     "sound_id": "earth_spell",
     "sound_variant": "strong",
     "energy_source": "MANA",
-    "extra_effects": [ { "id": "quake_transform" }, { "id": "quake_shake" } ]
+    "extra_effects": [ { "id": "quake_transform" }, { "id": "quake_shake" }, { "id": "eoc_evocation_setup" } ]
   },
   {
     "id": "quake_transform",
@@ -79,9 +79,9 @@
     "effect": "attack",
     "shape": "blast",
     "max_level": 35,
-    "min_damage": 20,
-    "max_damage": 180,
-    "damage_increment": 4.6,
+    "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(20, 0.5)" ] },
+    "max_damage": { "math": [ "evocation_proficiency_bonus_calculate(180, 0.5)" ] },
+    "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(4.6, 0.03)" ] },
     "min_range": 8,
     "max_range": 15,
     "range_increment": 0.2,
@@ -94,7 +94,12 @@
     "base_casting_time": 200,
     "final_casting_time": 50,
     "casting_time_increment": -5,
-    "extra_effects": [ { "id": "single_rock_blast" }, { "id": "single_rock_blast" }, { "id": "rock_blast_push" } ]
+    "extra_effects": [
+      { "id": "single_rock_blast" },
+      { "id": "single_rock_blast" },
+      { "id": "rock_blast_push" },
+      { "id": "eoc_evocation_setup" }
+    ]
   },
   {
     "id": "single_rock_blast",
@@ -106,9 +111,9 @@
     "effect": "attack",
     "shape": "blast",
     "max_level": 35,
-    "min_damage": 20,
-    "max_damage": 180,
-    "damage_increment": 4.6,
+    "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(20, 0.5)" ] },
+    "max_damage": { "math": [ "evocation_proficiency_bonus_calculate(180, 0.5)" ] },
+    "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(4.6, 0.03)" ] },
     "damage_type": "bash",
     "sound_id": "earth_spell",
     "sound_variant": "strong"

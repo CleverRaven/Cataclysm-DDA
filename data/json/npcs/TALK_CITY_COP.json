@@ -3,18 +3,19 @@
     "type": "talk_topic",
     "id": "TALK_CITY_COP",
     "dynamic_line": {
-      "u_has_var": "talked_to_survivor_cop",
-      "type": "dialogue",
-      "context": "survivor_cop",
+      "u_has_var": "dialogue_survivor_cop_talked_to_survivor_cop",
       "value": "yes",
-      "no": "STOP, Put your hands in the air!  Ha, startled you didn't I… there is no law anymore…",
+      "no": {
+        "gendered_line": "STOP, Put your hands in the air!  Ha, startled you didn't I… there is no law anymore…",
+        "relevant_genders": [ "npc" ]
+      },
       "yes": "Hi there, <name_g>."
     },
     "responses": [
       {
         "text": "What are you doing here?",
         "topic": "TALK_CITY_COP_INTRO",
-        "effect": { "u_add_var": "talked_to_survivor_cop", "type": "dialogue", "context": "survivor_cop", "value": "yes" }
+        "effect": { "u_add_var": "dialogue_survivor_cop_talked_to_survivor_cop", "value": "yes" }
       },
       { "text": "Wanna get outta here?", "topic": "TALK_SUGGEST_FOLLOW" },
       { "text": "Let's trade items.", "topic": "TALK_CITY_COP", "effect": "start_trade" },
@@ -25,7 +26,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_CITY_COP_INTRO",
-    "dynamic_line": "I was watching the station when things went sideways.  None of the other officers returned from the last call, well not as humans anyway…",
+    "dynamic_line": {
+      "gendered_line": "I was watching the station when things went sideways.  None of the other officers returned from the last call, well not as humans anyway…",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "Why don't you go somewhere else?", "topic": "TALK_CITY_COP_LEAVE" },
       { "text": "Let's trade then.", "effect": "start_trade", "topic": "TALK_CITY_COP" },
@@ -35,7 +39,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_CITY_COP_LEAVE",
-    "dynamic_line": "This is a nice, secure building.  I'd be a fool to leave.  Been living off the vending machines, but I found the code for the evidence lockup so I've been doing some trading with other survivors.",
+    "dynamic_line": {
+      "gendered_line": "This is a nice, secure building.  I'd be a fool to leave.  Been living off the vending machines, but I found the code for the evidence lockup so I've been doing some trading with other survivors.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "What kind of stuff was in the evidence lockup?", "topic": "TALK_CITY_COP_EVIDENCE" },
       { "text": "You've seen other survivors?", "topic": "TALK_CITY_COP_NEWS" },

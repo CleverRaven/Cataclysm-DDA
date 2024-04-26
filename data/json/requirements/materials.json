@@ -522,6 +522,21 @@
     ]
   },
   {
+    "id": "organic_waste",
+    "type": "requirement",
+    "//": "Materials for anaerobic digestion",
+    "components": [
+      [
+        [ "feces_roach", 20 ],
+        [ "feces_bird", 20 ],
+        [ "feces_manure", 3 ],
+        [ "feces_dog", 3 ],
+        [ "water_sewage", 3 ],
+        [ "feces_cow", 1 ]
+      ]
+    ]
+  },
+  {
     "id": "carbon",
     "type": "requirement",
     "//": "Carbon resources, used for case hardening.",
@@ -542,5 +557,36 @@
     "type": "requirement",
     "//": "Both wax types, for when the recipe doesn't really care.",
     "components": [ [ [ "wax", 1 ], [ "wax_paraffin", 1 ] ] ]
+  },
+  {
+    "id": "plain_necklaces",
+    "type": "requirement",
+    "//": "For jewelry crafts that require a plain necklace as a base. Anything with a pendent already attached shouldn’t be considered here.",
+    "components": [ [ [ "platinum_necklace", 1 ], [ "gold_necklace", 1 ], [ "silver_necklace", 1 ], [ "copper_necklace", 1 ] ] ]
+  },
+  {
+    "id": "gemstones",
+    "type": "requirement",
+    "//": "For jewelry crafts that require gemstones.",
+    "components": [
+      [
+        [ "diamond", 1 ],
+        [ "garnet", 1 ],
+        [ "amethyst", 1 ],
+        [ "aquamarine", 1 ],
+        [ "emerald", 1 ],
+        [ "alexandrite", 1 ],
+        [ "malachite", 1 ],
+        [ "pearl", 1 ],
+        [ "ruby", 1 ],
+        [ "peridot", 1 ],
+        [ "sapphire", 1 ],
+        [ "opal", 1 ],
+        [ "tourmaline", 1 ],
+        [ "citrine", 1 ],
+        [ "blue_topaz", 1 ],
+        [ "onyx", 1 ]
+      ]
+    ]
   }
 ]

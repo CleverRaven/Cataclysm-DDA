@@ -10,7 +10,7 @@
 #include <utility>
 
 #include "avatar.h"
-#include "cached_options.h"
+#include "cached_options.h" // IWYU pragma: keep
 #include "cata_utility.h"
 #include "character.h"
 #include "creature.h"
@@ -18,9 +18,12 @@
 #include "debug.h"
 #include "flag.h"
 #include "game.h"
+#include "game_constants.h"
 #include "input_context.h"
+#include "input_enums.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_location.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -743,6 +746,11 @@ bool can_interact_at( action_id action, const tripoint &p )
     }
 }
 
+bool can_interact_at( action_id action, const tripoint_bub_ms &p )
+{
+    return can_interact_at( action, p.raw() );
+}
+
 action_id handle_action_menu()
 {
     const input_context ctxt = get_default_mode_input_context();
@@ -1044,9 +1052,13 @@ action_id handle_main_menu()
     const input_context ctxt = get_default_mode_input_context();
     std::vector<uilist_entry> entries;
 
-    const auto REGISTER_ACTION = [&]( action_id name ) {
-        entries.emplace_back( name, true, hotkey_for_action( name, /*maximum_modifier_count=*/1 ),
-                              ctxt.get_action_name( action_ident( name ) ) );
+    const auto REGISTER_ACTION = [&]( action_id name, std::optional<char> kb = std::nullopt ) {
+        std::optional<input_event> hotkey = hotkey_for_action( name, /*maximum_modifier_count=*/1 );
+        if( hotkey.has_value() || !kb.has_value() ) {
+            entries.emplace_back( name, true, hotkey, ctxt.get_action_name( action_ident( name ) ) );
+        } else {
+            entries.emplace_back( name, true, kb.value(), ctxt.get_action_name( action_ident( name ) ) );
+        }
     };
 
     REGISTER_ACTION( ACTION_HELP );
@@ -1066,7 +1078,7 @@ action_id handle_main_menu()
     REGISTER_ACTION( ACTION_ACTIONMENU );
     REGISTER_ACTION( ACTION_QUICKSAVE );
     REGISTER_ACTION( ACTION_SAVE );
-    REGISTER_ACTION( ACTION_DEBUG );
+    REGISTER_ACTION( ACTION_DEBUG, 'd' );
 
     uilist smenu;
     smenu.settext( _( "MAIN MENU" ) );
@@ -1125,6 +1137,51 @@ std::optional<tripoint> choose_direction( const std::string &message, const bool
     return std::nullopt;
 }
 
+std::optional<tripoint_rel_ms> choose_direction_rel_ms( const std::string &message,
+        const bool allow_vertical )
+{
+    input_context ctxt( "DEFAULTMODE", keyboard_mode::keycode );
+    ctxt.set_iso( true );
+    ctxt.register_directions();
+    ctxt.register_action( "pause" );
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    if( allow_vertical ) {
+        ctxt.register_action( "LEVEL_UP" );
+        ctxt.register_action( "LEVEL_DOWN" );
+    }
+
+    static_popup popup;
+    //~ %s: "Close where?" "Pry where?" etc.
+    popup.message( _( "%s (Direction button)" ), message ).on_top( true );
+
+    temp_hide_advanced_inv();
+    std::string action;
+    do {
+        ui_manager::redraw();
+        action = ctxt.handle_input();
+        if( std::optional<tripoint_rel_ms> vec = ctxt.get_direction_rel_ms( action ) ) {
+            FacingDirection &facing = get_player_character().facing;
+            // Make player's sprite face left/right if interacting with something to the left or right
+            if( vec->x() > 0 ) {
+                facing = FacingDirection::RIGHT;
+            } else if( vec->x() < 0 ) {
+                facing = FacingDirection::LEFT;
+            }
+            return vec;
+        } else if( action == "pause" ) {
+            return tripoint_rel_ms( tripoint_zero );
+        } else if( action == "LEVEL_UP" ) {
+            return tripoint_rel_ms( tripoint_above );
+        } else if( action == "LEVEL_DOWN" ) {
+            return tripoint_rel_ms( tripoint_below );
+        }
+    } while( action != "QUIT" );
+
+    add_msg( _( "Never mind." ) );
+    return std::nullopt;
+}
+
 std::optional<tripoint> choose_adjacent( const std::string &message, const bool allow_vertical )
 {
     return choose_adjacent( get_player_character().pos(), message, allow_vertical );
@@ -1137,6 +1194,18 @@ std::optional<tripoint> choose_adjacent( const tripoint &pos, const std::string 
     return dir ? *dir + pos : dir;
 }
 
+std::optional<tripoint_bub_ms> choose_adjacent( const tripoint_bub_ms &pos,
+        const std::string &message,
+        bool allow_vertical )
+{
+    const std::optional<tripoint_rel_ms> dir = choose_direction_rel_ms( message, allow_vertical );
+    if( dir ) {
+        return pos + *dir;
+    } else {
+        return std::nullopt;
+    }
+}
+
 std::optional<tripoint> choose_adjacent_highlight( const std::string &message,
         const std::string &failure_message, const action_id action,
         const bool allow_vertical, const bool allow_autoselect )
@@ -1147,11 +1216,29 @@ std::optional<tripoint> choose_adjacent_highlight( const std::string &message,
     return choose_adjacent_highlight( message, failure_message, f, allow_vertical, allow_autoselect );
 }
 
+std::optional<tripoint_bub_ms> choose_adjacent_highlight_bub_ms( const std::string &message,
+        const std::string &failure_message, const action_id action,
+        const bool allow_vertical, const bool allow_autoselect )
+{
+    const std::function<bool( const tripoint_bub_ms & )> f = [&action]( const tripoint_bub_ms & p ) {
+        return can_interact_at( action, p );
+    };
+    return choose_adjacent_highlight( message, failure_message, f, allow_vertical, allow_autoselect );
+}
+
 std::optional<tripoint> choose_adjacent_highlight( const std::string &message,
         const std::string &failure_message, const std::function<bool ( const tripoint & )> &allowed,
         const bool allow_vertical, const bool allow_autoselect )
 {
     return choose_adjacent_highlight( get_avatar().pos(), message, failure_message, allowed,
+                                      allow_vertical, allow_autoselect );
+}
+
+std::optional<tripoint_bub_ms> choose_adjacent_highlight( const std::string &message,
+        const std::string &failure_message, const std::function<bool( const tripoint_bub_ms & )> &allowed,
+        const bool allow_vertical, const bool allow_autoselect )
+{
+    return choose_adjacent_highlight( get_avatar().pos_bub(), message, failure_message, allowed,
                                       allow_vertical, allow_autoselect );
 }
 
@@ -1188,6 +1275,47 @@ std::optional<tripoint> choose_adjacent_highlight( const tripoint &pos, const st
     }
 
     const std::optional<tripoint> chosen = choose_adjacent( pos, message, allow_vertical );
+    if( std::find( valid.begin(), valid.end(), chosen ) != valid.end() ) {
+        return chosen;
+    }
+
+    return std::nullopt;
+}
+
+std::optional<tripoint_bub_ms> choose_adjacent_highlight( const tripoint_bub_ms &pos,
+        const std::string &message,
+        const std::string &failure_message, const std::function<bool( const tripoint_bub_ms & )> &allowed,
+        bool allow_vertical, bool allow_autoselect )
+{
+    std::vector<tripoint_bub_ms> valid;
+    map &here = get_map();
+    if( allowed ) {
+        for( const tripoint_bub_ms &pos : here.points_in_radius( pos, 1 ) ) {
+            if( allowed( pos ) ) {
+                valid.emplace_back( pos );
+            }
+        }
+    }
+
+    const bool auto_select = allow_autoselect && get_option<bool>( "AUTOSELECT_SINGLE_VALID_TARGET" );
+    if( valid.empty() && auto_select ) {
+        add_msg( failure_message );
+        return std::nullopt;
+    } else if( valid.size() == 1 && auto_select ) {
+        return valid.back();
+    }
+
+    shared_ptr_fast<game::draw_callback_t> hilite_cb;
+    if( !valid.empty() ) {
+        hilite_cb = make_shared_fast<game::draw_callback_t>( [&]() {
+            for( const tripoint_bub_ms &pos : valid ) {
+                here.drawsq( g->w_terrain, pos, drawsq_params().highlight( true ) );
+            }
+        } );
+        g->add_draw_callback( hilite_cb );
+    }
+
+    const std::optional<tripoint_bub_ms> chosen = choose_adjacent( pos, message, allow_vertical );
     if( std::find( valid.begin(), valid.end(), chosen ) != valid.end() ) {
         return chosen;
     }

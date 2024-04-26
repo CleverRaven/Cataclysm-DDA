@@ -30,7 +30,13 @@
     "condition": { "and": [ { "u_has_trait": "perk_ALCHEMY2" }, { "not": { "u_has_effect": "mental_exhaustion" } } ] },
     "effect": [
       {
-        "u_roll_remainder": [ "prophets_lsd", "truckers_stamina_pills", "spiritshow_dust", "charm_of_marzanna" ],
+        "u_roll_remainder": [
+          "prophets_lsd",
+          "truckers_stamina_pills",
+          "spiritshow_dust",
+          "charm_of_marzanna",
+          "väinämöinens_kantele_imitation"
+        ],
         "type": "recipe",
         "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER_ALCHEMY" ],
         "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER_ALCHEMY" ]
@@ -65,7 +71,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_COLD_IRON",
+    "id": "EOC_ALCHEMY3_COLD_IRON",
     "condition": {
       "and": [
         { "u_has_trait": "perk_ALCHEMY3" },
@@ -75,7 +81,7 @@
     },
     "effect": [
       {
-        "u_roll_remainder": [ "cold_iron_knife", "cold_iron_sword", "cold_iron_warhammer", "cold_iron_battleaxe", "blood_of_saints" ],
+        "u_roll_remainder": [ "cold_iron_knife", "cold_iron_arming_sword", "cold_iron_warhammer", "cold_iron_battleaxe", "blood_of_saints" ],
         "type": "recipe",
         "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER_ALCHEMY" ],
         "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER_ALCHEMY" ]
@@ -138,6 +144,7 @@
         "u_message": "You imbibed the concoction and you feel your soul merge with an alien power, becoming weirdly doll-like?"
       },
       { "u_add_trait": "HOMULLUS" },
+      { "u_add_trait": "HOMULLUS_MINIMIZED_MUTATIONS" },
       { "u_learn_recipe": "mutagen_dollkin" },
       { "u_learn_recipe": "doll_repair_paste" }
     ],

@@ -5,7 +5,7 @@
     "name": { "str": "PrepNet Tag" },
     "points": 0,
     "valid": false,
-    "description": "NPC trait that makes monsters see it as a Prepnet.  It is a bug if you have it.",
+    "description": "NPC trait that makes monsters see it as a PrepNet.  It is a bug if you have it.",
     "player_display": false,
     "threshold": true
   },
@@ -82,7 +82,7 @@
     "points": 1,
     "visibility": 8,
     "ugliness": 5,
-    "consume_time_modifier": 0.5,
+    "enchantments": [ { "values": [ { "value": "CONSUME_TIME_MOD", "multiply": -0.5 } ] } ],
     "description": "A set of tentacles surrounds your mouth.  They allow you to eat twice as fast.  Slightly decreases wet penalties.",
     "types": [ "MUZZLE" ],
     "prereqs": [ "MOUTH_TENDRILS" ],
@@ -192,7 +192,7 @@
     "changes_to": [ "EXPANDED_CONSCIOUSNESS" ],
     "types": [ "INT" ],
     "category": [ "MIGO" ],
-    "passive_mods": { "int_mod": 1 }
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -204,7 +204,7 @@
     "prereqs": [ "NEURAL_IMPROVEMENT" ],
     "changes_to": [ "UPLIFTED_CONSCIOUSNESS" ],
     "category": [ "MIGO" ],
-    "passive_mods": { "int_mod": 2 }
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 2 } ] } ]
   },
   {
     "type": "mutation",
@@ -218,7 +218,7 @@
     "types": [ "INT" ],
     "changes_to": [ "ALIEN_INT" ],
     "category": [ "MIGO" ],
-    "passive_mods": { "int_mod": 4 }
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 4 } ] } ]
   },
   {
     "type": "mutation",
@@ -233,7 +233,7 @@
     "category": [ "MIGO" ],
     "threshreq": [ "THRESH_YUGGOTH" ],
     "starting_trait": false,
-    "passive_mods": { "int_mod": 5 }
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 5 } ] } ]
   },
   {
     "type": "mutation",
@@ -244,7 +244,7 @@
     "types": [ "DEX" ],
     "changes_to": [ "QUICKENING" ],
     "category": [ "MIGO" ],
-    "passive_mods": { "dex_mod": 1 }
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -256,7 +256,7 @@
     "prereqs": [ "ENHANCED_REACTIONS" ],
     "changes_to": [ "OTHERWORLDLY_GRACE" ],
     "category": [ "MIGO" ],
-    "passive_mods": { "dex_mod": 2 }
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 2 } ] } ]
   },
   {
     "type": "mutation",
@@ -269,7 +269,7 @@
     "threshreq": "THRESH_YUGGOTH",
     "social_modifiers": { "persuade": -10, "lie": -6 },
     "category": [ "MIGO" ],
-    "passive_mods": { "dex_mod": 4 }
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 4 } ] } ]
   },
   {
     "type": "mutation",
@@ -281,7 +281,7 @@
     "category": [ "MIGO" ],
     "types": [ "STR" ],
     "social_modifiers": { "persuade": -3, "intimidate": 2 },
-    "passive_mods": { "str_mod": 1 }
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -294,7 +294,7 @@
     "category": [ "MIGO" ],
     "social_modifiers": { "persuade": -3, "intimidate": 2 },
     "ugliness": 2,
-    "passive_mods": { "str_mod": 2 }
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 2 } ] } ]
   },
   {
     "type": "mutation",
@@ -306,7 +306,7 @@
     "types": [ "EARS" ],
     "category": [ "MIGO" ],
     "ugliness": 4,
-    "hearing_modifier": 1.4
+    "enchantments": [ { "values": [ { "value": "HEARING_MULT", "multiply": 0.4 } ] } ]
   },
   {
     "type": "mutation",
@@ -440,7 +440,7 @@
     "description": "You are capable of carrying far more than someone with similar strength could.  Your maximum weight carried is increased by 60%.",
     "category": [ "MASTODON" ],
     "cancels": [ "BADBACK" ],
-    "weight_capacity_modifier": 1.6
+    "enchantments": [ { "values": [ { "value": "CARRY_WEIGHT", "multiply": 0.6 } ] } ]
   },
   {
     "type": "mutation",
@@ -482,7 +482,20 @@
     "description": "Your skin has patches of light fur.  This has no impact on your life except marking you as not fully human.",
     "types": [ "SKIN", "BODY_ARMOR", "BODY_ARMOR_MOD", "ARMOR" ],
     "changes_to": [ "LIGHTFUR" ],
-    "category": [ "MASTODON", "SPIDER", "MOUSE", "BEAST", "CATTLE", "RAT", "FELINE", "LUPINE", "RABBIT", "INSECT", "URSINE" ]
+    "category": [
+      "MASTODON",
+      "SPIDER",
+      "MOUSE",
+      "BEAST",
+      "CATTLE",
+      "RAT",
+      "FELINE",
+      "LUPINE",
+      "RABBIT",
+      "INSECT",
+      "URSINE",
+      "CHIROPTERAN"
+    ]
   },
   {
     "type": "mutation",
@@ -510,7 +523,7 @@
     "points": 4,
     "visibility": 10,
     "ugliness": 3,
-    "bodytemp_sleep": 550,
+    "enchantments": [ { "values": [ { "value": "BODYTEMP_SLEEP", "add": 1.1 } ] } ],
     "description": "Your fur has grown out and thickened, providing great protection from attacks as well as considerable insulation.",
     "types": [ "SKIN" ],
     "prereqs": [ "FUR" ],
@@ -771,7 +784,7 @@
     "purifiable": false,
     "cancels": [ "STR_UP" ],
     "profession": true,
-    "passive_mods": { "str_mod": 7 }
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 7 } ] } ]
   },
   {
     "type": "mutation",
@@ -780,6 +793,16 @@
     "description": "An experimental cryosleep procedure has permanently altered your body, allowing you to better tolerate cold temperatures.",
     "bodytemp_modifiers": [ -850, 850 ],
     "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "profession": true
+  },
+  {
+    "type": "mutation",
+    "id": "AFS_LEADERSHIP",
+    "name": "Empathic Leadership",
+    "description": "You have a natural talent for leadership and can easily see yourself in others.  Quite literally.  In fact, you can swap control to any other character that follows you.",
+    "points": 5,
     "valid": false,
     "purifiable": false,
     "profession": true
@@ -882,6 +905,6 @@
     "description": "You took the bionic skullgun out of your noggin, but that didn't replace the brain cells you lost when you installed it.",
     "valid": false,
     "purifiable": false,
-    "passive_mods": { "int_mod": -4, "per_mod": -2 }
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": -4 }, { "value": "PERCEPTION", "add": -2 } ] } ]
   }
 ]

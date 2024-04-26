@@ -64,7 +64,7 @@
     "id": "TALK_REFUGEE_BEGGAR_4",
     "dynamic_line": {
       "npc_has_effect": "beggar_has_eaten",
-      "yes": "Thanks again for the grub, my friend.",
+      "yes": { "gendered_line": "Thanks again for the grub, my friend.", "relevant_genders": [ "u" ] },
       "no": "Hey, are you a big fan of survival of the fittest?"
     },
     "responses": [
@@ -100,7 +100,7 @@
     },
     "responses": [
       {
-        "condition": { "u_has_var": "beggars_recruited", "type": "general", "context": "recruit", "value": "yes" },
+        "condition": { "u_has_var": "general_recruit_beggars_recruited", "value": "yes" },
         "text": "I've talked to the others, and they're all willing to come.  So, you joining us?",
         "topic": "TALK_REFUGEE_BEGGAR_4_RECRUITED"
       },
@@ -118,7 +118,10 @@
     "dynamic_line": {
       "npc_has_effect": "beggar_has_eaten",
       "yes": "That's awful kind of you, you really are a wonderful person.",
-      "no": "Oh, wow!  You're a real gem, you know that?  Thanks for even thinking of it."
+      "no": {
+        "gendered_line": "Oh, wow!  You're a real gem, you know that?  Thanks for even thinking of it.",
+        "relevant_genders": [ "u" ]
+      }
     },
     "responses": [
       { "text": "Actually can I ask you something else?", "topic": "TALK_NONE" },
@@ -200,7 +203,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_4_HAPPY",
     "dynamic_line": "What's the alternative?  You take the hand you're dealt.  I've given eulogies for two of the people I love most on this earth, and the third wrote me off.  I've already been through the end of the world.  Came out the other side with my bits intact.  And you know, I've been pretty lonely since my wife passed.  Here I've got friends.  We might be hungry but we're close.  Reena's been teaching me math and science, Luo is one of the smartest folks I've ever met - she's got a doctorate you know - and Yusuke is the only one here that can beat me at poker.  And Dave, well, he's Dave.  There's more goin' on under the surface there, mark my words.  We may be unfit, but we aren't worthless.",
-    "speaker_effect": [ { "effect": [ { "u_add_var": "luo_doctorate", "type": "general", "context": "conversation", "value": "yes" } ] } ],
+    "speaker_effect": [ { "effect": [ { "u_add_var": "general_conversation_luo_doctorate", "value": "yes" } ] } ],
     "responses": [
       { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_REFUGEE_BEGGAR_4_LIFEBEFORE1" },
       { "text": "You seem awfully happy considering the situation.", "topic": "TALK_REFUGEE_BEGGAR_4_HAPPY" },
@@ -278,7 +281,7 @@
     "dynamic_line": "That's awful nice of you.  Tell you what: if you can help Dave get himself sorted out, so I don't feel like I've gotta stay here keeping an eye on the poor fella, then I'll come along.",
     "responses": [
       {
-        "condition": { "u_has_var": "dave_happy", "type": "general", "context": "recruit", "value": "yes" },
+        "condition": { "u_has_var": "general_recruit_dave_happy", "value": "yes" },
         "text": "I think I've sorted Dave out pretty well, don't you?  Would you consider coming with me now?",
         "topic": "TALK_REFUGEE_BEGGAR_4_RECRUIT2"
       },
@@ -289,8 +292,11 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_4_RECRUIT2",
-    "dynamic_line": "Well… I'll be honest, I didn't even think Dave could be sorted out, and you've gone and called my bluff!  It's a darn fine thing you've done for that poor soul.  Listen, I wasn't… entirely serious about wanting to come with you, but if you can convince the others to go, then I guess I'll come along.",
-    "speaker_effect": [ { "effect": { "u_add_var": "brendan_recruited", "type": "general", "context": "recruit", "value": "yes" } } ],
+    "dynamic_line": {
+      "gendered_line": "Well… I'll be honest, I didn't even think Dave could be sorted out, and you've gone and called my bluff!  It's a darn fine thing you've done for that poor soul.  Listen, I wasn't… entirely serious about wanting to come with you, but if you can convince the others to go, then I guess I'll come along.",
+      "relevant_genders": [ "u" ]
+    },
+    "speaker_effect": [ { "effect": { "u_add_var": "general_recruit_brendan_recruited", "value": "yes" } } ],
     "responses": [
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }

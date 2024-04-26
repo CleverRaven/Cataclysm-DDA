@@ -7,6 +7,7 @@
     "effect": "spawn_item",
     "effect_str": "potion_starter",
     "components": "spell_components_potion_starter",
+    "extra_effects": [ { "id": "eoc_summon_setup" } ],
     "shape": "blast",
     "valid_targets": [ "self" ],
     "flags": [ "SOMATIC", "CONCENTRATE", "VERBAL" ],
@@ -18,9 +19,9 @@
     "base_casting_time": 45000,
     "final_casting_time": 4500,
     "casting_time_increment": -1250,
-    "base_energy_cost": 300,
-    "final_energy_cost": 100,
-    "energy_increment": -6,
+    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(300, 1)" ] },
+    "final_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(100, 1)" ] },
+    "energy_increment": { "math": [ "summoning_proficiency_negate_calculate(-6, 0.03)" ] },
     "energy_source": "MANA",
     "difficulty": 5
   },
@@ -31,6 +32,7 @@
     "description": "Oversaturates potion starter with mana to create a deadly mana explosion.",
     "valid_targets": [ "none" ],
     "flags": [ "SOMATIC", "PERMANENT_ALL_LEVELS" ],
+    "extra_effects": [ { "id": "eoc_summon_setup" } ],
     "effect": "spawn_item",
     "effect_str": "alchemist_bomb",
     "components": "spell_components_manabomb",
@@ -44,9 +46,9 @@
     "base_casting_time": 180000,
     "final_casting_time": 12000,
     "casting_time_increment": -5000,
-    "base_energy_cost": 400,
-    "final_energy_cost": 800,
-    "energy_increment": 12,
+    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(400, 2)" ] },
+    "final_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(800, 2)" ] },
+    "energy_increment": { "math": [ "summoning_proficiency_negate_calculate(12, 0.03)" ] },
     "difficulty": 5
   },
   {
@@ -57,6 +59,7 @@
     "//": "In perfect world there will be another spell that create already buried mine, making very effective trap in realtime. But not today.",
     "valid_targets": [ "none" ],
     "flags": [ "SOMATIC", "PERMANENT_ALL_LEVELS" ],
+    "extra_effects": [ { "id": "eoc_summon_setup" } ],
     "effect": "spawn_item",
     "effect_str": "alchemist_mine",
     "shape": "blast",
@@ -70,9 +73,9 @@
     "base_casting_time": 18000,
     "final_casting_time": 1200,
     "casting_time_increment": -500,
-    "base_energy_cost": 400,
-    "final_energy_cost": 800,
-    "energy_increment": 12,
+    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(400, 2)" ] },
+    "final_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(800, 2)" ] },
+    "energy_increment": { "math": [ "summoning_proficiency_negate_calculate(12, 0.03)" ] },
     "difficulty": 6
   }
 ]

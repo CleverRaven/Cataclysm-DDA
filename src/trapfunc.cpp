@@ -72,8 +72,6 @@ static const itype_id itype_rope_30( "rope_30" );
 
 static const json_character_flag json_flag_INFECTION_IMMUNE( "INFECTION_IMMUNE" );
 static const json_character_flag json_flag_WALL_CLING( "WALL_CLING" );
-static const json_character_flag json_flag_WINGS_1( "WINGS_1" );
-static const json_character_flag json_flag_WINGS_2( "WINGS_2" );
 
 static const material_id material_kevlar( "kevlar" );
 static const material_id material_steel( "steel" );
@@ -87,6 +85,14 @@ static const mtype_id mon_shadow_snake( "mon_shadow_snake" );
 static const skill_id skill_throw( "throw" );
 
 static const species_id species_ROBOT( "ROBOT" );
+
+static const ter_str_id ter_t_floor_blue( "t_floor_blue" );
+static const ter_str_id ter_t_floor_green( "t_floor_green" );
+static const ter_str_id ter_t_floor_red( "t_floor_red" );
+static const ter_str_id ter_t_pit( "t_pit" );
+static const ter_str_id ter_t_rock_blue( "t_rock_blue" );
+static const ter_str_id ter_t_rock_green( "t_rock_green" );
+static const ter_str_id ter_t_rock_red( "t_rock_red" );
 
 static const trait_id trait_INFRESIST( "INFRESIST" );
 
@@ -142,7 +148,7 @@ bool trapfunc::glass( const tripoint &p, Creature *c, item * )
         monster *z = dynamic_cast<monster *>( c );
         const char dmg = std::max( 0, rng( -10, 10 ) );
         if( z != nullptr && dmg > 0 ) {
-            z->moves -= 80;
+            z->mod_moves( -z->get_speed() * 0.8 );
         }
         if( dmg > 0 ) {
             c->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_cut, dmg ) );
@@ -161,7 +167,7 @@ bool trapfunc::cot( const tripoint &, Creature *c, item * )
     if( z != nullptr ) {
         // Haha, only monsters stumble over a cot, humans are smart.
         add_msg( m_good, _( "The %s stumbles over the cot!" ), z->name() );
-        c->moves -= 100;
+        c->mod_moves( -c->get_speed() );
         return true;
     }
     return false;
@@ -224,9 +230,9 @@ bool trapfunc::board( const tripoint &, Creature *c, item * )
     if( z != nullptr ) {
         if( z->has_effect( effect_ridden ) ) {
             add_msg( m_warning, _( "Your %s stepped on a spiked board!" ), c->get_name() );
-            get_player_character().moves -= 80;
+            get_player_character().mod_moves( -z->get_speed() * 0.8 );
         } else {
-            z->moves -= 80;
+            z->mod_moves( -z->get_speed() * 0.8 );
         }
         z->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_cut, rng( 3,
                         5 ) ) );
@@ -265,9 +271,9 @@ bool trapfunc::caltrops( const tripoint &, Creature *c, item * )
     if( z != nullptr ) {
         if( z->has_effect( effect_ridden ) ) {
             add_msg( m_warning, _( "Your %s steps on a sharp metal caltrop!" ), c->get_name() );
-            get_player_character().moves -= 80;
+            get_player_character().mod_moves( -z->get_speed() * 0.8 );
         } else {
-            z->moves -= 80;
+            z->mod_moves( -z->get_speed() * 0.8 );
         }
         z->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_cut, rng( 9,
                         15 ) ) );
@@ -309,7 +315,7 @@ bool trapfunc::caltrops_glass( const tripoint &p, Creature *c, item * )
                               _( "<npcname> steps on a sharp glass caltrop!" ) );
     monster *z = dynamic_cast<monster *>( c );
     if( z != nullptr ) {
-        z->moves -= 80;
+        z->mod_moves( -z->get_speed() * 0.8 );
         z->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_cut, rng( 9, 15 ) ) );
         z->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( damage_cut, rng( 9, 15 ) ) );
     } else {
@@ -355,7 +361,7 @@ bool trapfunc::tripwire( const tripoint &p, Creature *c, item * )
                 player_character.setpos( random_entry( valid ) );
                 z->setpos( player_character.pos() );
             }
-            player_character.moves -= 150;
+            player_character.mod_moves( -z->get_speed() * 1.5 );
             g->update_map( player_character );
         } else {
             z->stumble();
@@ -374,7 +380,7 @@ bool trapfunc::tripwire( const tripoint &p, Creature *c, item * )
         if( !valid.empty() ) {
             you->setpos( random_entry( valid ) );
         }
-        you->moves -= 150;
+        you->mod_moves( -you->get_speed() * 1.5 );
         if( c->is_avatar() ) {
             g->update_map( player_character );
         }
@@ -836,8 +842,7 @@ bool trapfunc::pit( const tripoint &p, Creature *c, item * )
     monster *z = dynamic_cast<monster *>( c );
     Character *you = dynamic_cast<Character *>( c );
     if( you != nullptr ) {
-        if( you->can_fly() && ( you->has_flag( json_flag_WINGS_1 ) ||
-                                you->has_flag( json_flag_WINGS_2 ) ) ) {
+        if( you->can_fly() ) {
             you->add_msg_player_or_npc( _( "You spread your wings to slow your fall." ),
                                         _( "<npcname> spreads their wings to slow their fall." ) );
         } else if( you->has_active_bionic( bio_shock_absorber ) ) {
@@ -889,8 +894,7 @@ bool trapfunc::pit_spikes( const tripoint &p, Creature *c, item * )
     if( you != nullptr ) {
         int dodge = you->get_dodge();
         int damage = pit_effectiveness( p ) * rng( 20, 50 );
-        if( you->can_fly() && ( you->has_flag( json_flag_WINGS_1 ) ||
-                                you->has_flag( json_flag_WINGS_2 ) ) ) {
+        if( you->can_fly() ) {
             you->add_msg_player_or_npc( _( "You spread your wings to slow your fall." ),
                                         _( "<npcname> spreads their wings to slow their fall." ) );
         } else if( you->has_active_bionic( bio_shock_absorber ) ) {
@@ -946,7 +950,7 @@ bool trapfunc::pit_spikes( const tripoint &p, Creature *c, item * )
     if( one_in( 4 ) ) {
         add_msg_if_player_sees( p, _( "The spears break!" ) );
         map &here = get_map();
-        here.ter_set( p, t_pit );
+        here.ter_set( p, ter_t_pit );
         // 4 spears to a pit
         for( int i = 0; i < 4; i++ ) {
             if( one_in( 3 ) ) {
@@ -975,8 +979,7 @@ bool trapfunc::pit_glass( const tripoint &p, Creature *c, item * )
     if( you != nullptr ) {
         int dodge = you->get_dodge();
         int damage = pit_effectiveness( p ) * rng( 15, 35 );
-        if( you->can_fly() && ( you->has_flag( json_flag_WINGS_1 ) ||
-                                you->has_flag( json_flag_WINGS_2 ) ) ) {
+        if( you->can_fly() ) {
             you->add_msg_player_or_npc( _( "You spread your wings to slow your fall." ),
                                         _( "<npcname> spreads their wings to slow their fall." ) );
         } else if( you->has_active_bionic( bio_shock_absorber ) ) {
@@ -1037,7 +1040,7 @@ bool trapfunc::pit_glass( const tripoint &p, Creature *c, item * )
     if( one_in( 5 ) ) {
         add_msg_if_player_sees( p, _( "The shards shatter!" ) );
         map &here = get_map();
-        here.ter_set( p, t_pit );
+        here.ter_set( p, ter_t_pit );
         // 20 shards in a pit.
         for( int i = 0; i < 20; i++ ) {
             if( one_in( 3 ) ) {
@@ -1180,7 +1183,7 @@ bool trapfunc::sinkhole( const tripoint &p, Creature *c, item *i )
                                     _( "A sinkhole under <npcname> collapses!" ) );
         if( success ) {
             here.remove_trap( p );
-            here.ter_set( p, t_pit );
+            here.ter_set( p, ter_t_pit );
             return true;
         }
         you->add_msg_player_or_npc( m_bad, _( "You fall into the sinkhole!" ),
@@ -1189,8 +1192,8 @@ bool trapfunc::sinkhole( const tripoint &p, Creature *c, item *i )
         return false;
     }
     here.remove_trap( p );
-    here.ter_set( p, t_pit );
-    c->moves -= 100;
+    here.ter_set( p, ter_t_pit );
+    c->mod_moves( -c->get_speed() );
     pit( p, c, i );
     return true;
 }
@@ -1295,12 +1298,7 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
     if( you->has_effect( effect_strengthened_gravity ) ) {
         height += 1;
     }
-    if( you->can_fly() && you->has_flag( json_flag_WINGS_1 ) ) {
-        you->add_msg_player_or_npc( _( "You spread your wings to slow your fall." ),
-                                    _( "<npcname> spreads their wings to slow their fall." ) );
-        height = std::max( 0, height - 1 );
-    }
-    if( you->can_fly() && you->has_flag( json_flag_WINGS_2 ) ) {
+    if( you->can_fly() ) {
         you->add_msg_player_or_npc( _( "You spread your wings to slow your fall." ),
                                     _( "<npcname> spreads their wings to slow their fall." ) );
         height = std::max( 0, height - 2 );
@@ -1372,23 +1370,23 @@ bool trapfunc::temple_toggle( const tripoint &p, Creature *c, item * )
         int &j = tmp.y;
         for( i = 0; i < MAPSIZE_X; i++ ) {
             for( j = 0; j < MAPSIZE_Y; j++ ) {
-                if( type == t_floor_red ) {
-                    if( here.ter( tmp ) == t_rock_green ) {
-                        here.ter_set( tmp, t_floor_green );
-                    } else if( here.ter( tmp ) == t_floor_green ) {
-                        here.ter_set( tmp, t_rock_green );
+                if( type == ter_t_floor_red ) {
+                    if( here.ter( tmp ) == ter_t_rock_green ) {
+                        here.ter_set( tmp, ter_t_floor_green );
+                    } else if( here.ter( tmp ) == ter_t_floor_green ) {
+                        here.ter_set( tmp, ter_t_rock_green );
                     }
-                } else if( type == t_floor_green ) {
-                    if( here.ter( tmp ) == t_rock_blue ) {
-                        here.ter_set( tmp, t_floor_blue );
-                    } else if( here.ter( tmp ) == t_floor_blue ) {
-                        here.ter_set( tmp, t_rock_blue );
+                } else if( type == ter_t_floor_green ) {
+                    if( here.ter( tmp ) == ter_t_rock_blue ) {
+                        here.ter_set( tmp, ter_t_floor_blue );
+                    } else if( here.ter( tmp ) == ter_t_floor_blue ) {
+                        here.ter_set( tmp, ter_t_rock_blue );
                     }
-                } else if( type == t_floor_blue ) {
-                    if( here.ter( tmp ) == t_rock_red ) {
-                        here.ter_set( tmp, t_floor_red );
-                    } else if( here.ter( tmp ) == t_floor_red ) {
-                        here.ter_set( tmp, t_rock_red );
+                } else if( type == ter_t_floor_blue ) {
+                    if( here.ter( tmp ) == ter_t_rock_red ) {
+                        here.ter_set( tmp, ter_t_floor_red );
+                    } else if( here.ter( tmp ) == ter_t_floor_red ) {
+                        here.ter_set( tmp, ter_t_rock_red );
                     }
                 }
             }
@@ -1404,19 +1402,19 @@ bool trapfunc::temple_toggle( const tripoint &p, Creature *c, item * )
 
         if( blocked_tiles.size() == 8 ) {
             for( int i = 7; i >= 0 ; --i ) {
-                if( here.ter( blocked_tiles.at( i ) ) != t_rock_red &&
-                    here.ter( blocked_tiles.at( i ) ) != t_rock_green &&
-                    here.ter( blocked_tiles.at( i ) ) != t_rock_blue ) {
+                if( here.ter( blocked_tiles.at( i ) ) != ter_t_rock_red &&
+                    here.ter( blocked_tiles.at( i ) ) != ter_t_rock_green &&
+                    here.ter( blocked_tiles.at( i ) ) != ter_t_rock_blue ) {
                     blocked_tiles.erase( blocked_tiles.begin() + i );
                 }
             }
             const tripoint &pnt = random_entry( blocked_tiles );
-            if( here.ter( pnt ) == t_rock_red ) {
-                here.ter_set( pnt, t_floor_red );
-            } else if( here.ter( pnt ) == t_rock_green ) {
-                here.ter_set( pnt, t_floor_green );
-            } else if( here.ter( pnt ) == t_rock_blue ) {
-                here.ter_set( pnt, t_floor_blue );
+            if( here.ter( pnt ) == ter_t_rock_red ) {
+                here.ter_set( pnt, ter_t_floor_red );
+            } else if( here.ter( pnt ) == ter_t_rock_green ) {
+                here.ter_set( pnt, ter_t_floor_green );
+            } else if( here.ter( pnt ) == ter_t_rock_blue ) {
+                here.ter_set( pnt, ter_t_floor_blue );
             }
         }
 

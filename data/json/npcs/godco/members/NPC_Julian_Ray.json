@@ -18,9 +18,9 @@
         "topic": "TALK_GODCO_Julian_Join",
         "condition": {
           "and": [
-            { "npc_has_var": "u_met_godco_julian", "type": "general", "context": "meeting", "value": "yes" },
-            { "not": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" } },
-            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+            { "npc_has_var": "general_meeting_u_met_godco_julian", "value": "yes" },
+            { "not": { "u_has_var": "general_meeting_godco_joinee", "value": "yes" } },
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         }
       },
@@ -29,9 +29,9 @@
         "topic": "TALK_GODCO_Julian_Mutant_Join",
         "condition": {
           "and": [
-            { "npc_has_var": "u_met_godco_julian", "type": "general", "context": "meeting", "value": "yes" },
-            { "not": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" } },
-            { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" }
+            { "npc_has_var": "general_meeting_u_met_godco_julian", "value": "yes" },
+            { "not": { "u_has_var": "general_meeting_godco_joinee", "value": "yes" } },
+            { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" }
           ]
         }
       }
@@ -41,15 +41,11 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Julian_1",
     "dynamic_line": {
-      "u_has_var": "godco_notalk_to_u",
-      "type": "dialogue",
-      "context": "godco",
+      "u_has_var": "dialogue_godco_godco_notalk_to_u",
       "value": "yes",
       "yes": "Hey…  I'm Julian, the guy in charge of this room.  Are you… planning on sticking around or somethin'?",
       "no": {
-        "npc_has_var": "u_met_godco_julian",
-        "type": "general",
-        "context": "meeting",
+        "npc_has_var": "general_meeting_u_met_godco_julian",
         "value": "yes",
         "yes": [ "Praise the Lord.", "Hey, <name_g>.", "Good to see you again <u_name>." ],
         "no": "Hey, a new face.  I'm Julian, the guy in charge of this room.  You're planning on sticking around or somethin'?"
@@ -61,53 +57,53 @@
         "topic": "TALK_GODCO_Julian_Leave",
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "u_met_godco_julian", "type": "general", "context": "meeting", "value": "yes" } },
-            { "not": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" } },
-            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+            { "not": { "npc_has_var": "general_meeting_u_met_godco_julian", "value": "yes" } },
+            { "not": { "u_has_var": "general_meeting_godco_joinee", "value": "yes" } },
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
-        "effect": { "npc_add_var": "u_met_godco_julian", "type": "general", "context": "meeting", "value": "yes" }
+        "effect": { "npc_add_var": "general_meeting_u_met_godco_julian", "value": "yes" }
       },
       {
         "text": "Nice to meet you, Julian.  I'm seeking asylum.",
         "topic": "TALK_GODCO_Julian_Join",
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "u_met_godco_julian", "type": "general", "context": "meeting", "value": "yes" } },
-            { "not": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" } },
-            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+            { "not": { "npc_has_var": "general_meeting_u_met_godco_julian", "value": "yes" } },
+            { "not": { "u_has_var": "general_meeting_godco_joinee", "value": "yes" } },
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
-        "effect": { "npc_add_var": "u_met_godco_julian", "type": "general", "context": "meeting", "value": "yes" }
+        "effect": { "npc_add_var": "general_meeting_u_met_godco_julian", "value": "yes" }
       },
       {
         "text": "I'm a joinee actually.  Nice to meet you.",
         "topic": "TALK_GODCO_Julian_2",
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "u_met_godco_julian", "type": "general", "context": "meeting", "value": "yes" } },
-            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } },
-            { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" }
+            { "not": { "npc_has_var": "general_meeting_u_met_godco_julian", "value": "yes" } },
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } },
+            { "u_has_var": "general_meeting_godco_joinee", "value": "yes" }
           ]
         },
-        "effect": { "npc_add_var": "u_met_godco_julian", "type": "general", "context": "meeting", "value": "yes" }
+        "effect": { "npc_add_var": "general_meeting_u_met_godco_julian", "value": "yes" }
       },
       {
         "text": "Nice to meet you, Julian.  I'm seeking asylum.",
         "topic": "TALK_GODCO_Julian_Mutant_Join",
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "u_met_godco_julian", "type": "general", "context": "meeting", "value": "yes" } },
-            { "not": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" } },
-            { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" }
+            { "not": { "npc_has_var": "general_meeting_u_met_godco_julian", "value": "yes" } },
+            { "not": { "u_has_var": "general_meeting_godco_joinee", "value": "yes" } },
+            { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" }
           ]
         },
-        "effect": { "npc_add_var": "u_met_godco_julian", "type": "general", "context": "meeting", "value": "yes" }
+        "effect": { "npc_add_var": "general_meeting_u_met_godco_julian", "value": "yes" }
       },
       {
         "text": "Hey, good to see you again.",
         "topic": "TALK_GODCO_Julian_2",
-        "condition": { "npc_has_var": "u_met_godco_julian", "type": "general", "context": "meeting", "value": "yes" }
+        "condition": { "npc_has_var": "general_meeting_u_met_godco_julian", "value": "yes" }
       },
       { "text": "Hello, Julian.  I can't stay to talk.", "topic": "TALK_DONE" }
     ]
@@ -116,9 +112,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Julian_2",
     "dynamic_line": {
-      "u_has_var": "godco_joinee",
-      "type": "general",
-      "context": "meeting",
+      "u_has_var": "general_meeting_godco_joinee",
       "value": "yes",
       "yes": [ "If you have complaints, please don't tell anyone.", "You're still staying here, joinee?", "Need anything, joinee?" ],
       "no": [ "Need anything?", "Go on…" ]
@@ -128,7 +122,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Julian_Leave",
-    "dynamic_line": "You sure?  I mean, you've been traveling for a long time, haven't you?  Alright, it's your decision.  Let me know when you changed your mind.",
+    "dynamic_line": {
+      "gendered_line": "You sure?  I mean, you've been traveling for a long time, haven't you?  Alright, it's your decision.  Let me know when you changed your mind.",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [ { "text": "I'd better get going.  Nice meeting you.", "topic": "TALK_DONE" } ]
   },
   {
@@ -153,12 +150,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Julian_Joinee",
     "dynamic_line": "Your name is now on the books.  Here's your blanket, joinee.  Those two beds next to the window, you can choose one of them.  It's safe, don't worry.  I'm armed.  By the way, if you're hungry you can go bug Simon for a meal, up to one in a day.",
-    "speaker_effect": {
-      "effect": [
-        { "u_spawn_item": "blanket" },
-        { "u_add_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" }
-      ]
-    },
+    "speaker_effect": { "effect": [ { "u_spawn_item": "blanket" }, { "u_add_var": "general_meeting_godco_joinee", "value": "yes" } ] },
     "responses": [ { "text": "Thank you.  See you around, Julian.", "topic": "TALK_DONE" } ]
   },
   {
@@ -168,7 +160,7 @@
     "responses": [
       {
         "text": "How did you make it out?",
-        "condition": { "not": { "npc_has_var": "told_backstory", "type": "general", "context": "meeting", "value": "yes" } },
+        "condition": { "not": { "npc_has_var": "general_meeting_told_backstory", "value": "yes" } },
         "trial": { "type": "PERSUADE", "difficulty": 30 },
         "failure": { "topic": "TALK_GODCO_Julian_NoChat" },
         "success": { "topic": "TALK_GODCO_Julian_Riots" }
@@ -184,12 +176,12 @@
     "responses": [
       {
         "text": "I'm sorry for your loss.  Maybe we should change the subject.",
-        "effect": { "npc_add_var": "told_backstory", "type": "general", "context": "meeting", "value": "yes" },
+        "effect": { "npc_add_var": "general_meeting_told_backstory", "value": "yes" },
         "topic": "TALK_GODCO_Julian_2"
       },
       {
         "text": "I'm sorry for your loss.  I gotta go.",
-        "effect": { "npc_add_var": "told_backstory", "type": "general", "context": "meeting", "value": "yes" },
+        "effect": { "npc_add_var": "general_meeting_told_backstory", "value": "yes" },
         "topic": "TALK_DONE"
       }
     ]

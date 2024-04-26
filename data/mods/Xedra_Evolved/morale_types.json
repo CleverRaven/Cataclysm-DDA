@@ -18,5 +18,10 @@
     "id": "morale_broke_fae_ban",
     "type": "morale_type",
     "text": "Broke one of the ancient laws of the fae"
+  },
+  {
+    "id": "morale_homullus_self_deception",
+    "type": "morale_type",
+    "text": "Focusing on the positive"
   }
 ]

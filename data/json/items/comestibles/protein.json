@@ -5,7 +5,7 @@
     "comestible_type": "DRINK",
     "name": { "str_sp": "protein drink" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "soylent green drink" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "soylent green drink" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "sapient green drink" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "perturbing %s" } }
     ],
@@ -13,8 +13,8 @@
     "weight": "278 g",
     "volume": "250 ml",
     "charges": 1,
-    "price": 200,
-    "price_postapoc": 25,
+    "price": "2 USD",
+    "price_postapoc": "25 cent",
     "symbol": "~",
     "color": "light_gray",
     "spoils_in": "2 days",
@@ -34,7 +34,7 @@
     "comestible_type": "FOOD",
     "name": { "str_sp": "protein powder" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "soylent green powder" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "soylent green powder" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "sapient green powder" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "perturbing %s" } }
     ],
@@ -62,8 +62,8 @@
     "description": "SoyPelusa ran a highly successful crowdfunding campaign for their signature protein bar, dubbed \"DaiZoom.\"\n\nA person can live on one of these bars, three times a day, presumably forever.  After backers received their product, a single flaw was found: most consumers found starvation preferable to the flavor.  Warehouses of the product went unsold as the company went bankrupt, providing the perfect opportunity for FEMA to scoop them up and stock the evac shelters.\n\nNow, you hold a piece of famous crowdfunding history in your hands.  How exciting.",
     "weight": "150 g",
     "volume": "223 ml",
-    "price": 500,
-    "price_postapoc": 50,
+    "price": "5 USD",
+    "price_postapoc": "50 cent",
     "flags": [ "EDIBLE_FROZEN" ],
     "healthy": -1,
     "fun": -5,
@@ -81,7 +81,7 @@
     "type": "COMESTIBLE",
     "name": { "str_sp": "protein shake" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "soylent green shake" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "soylent green shake" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "sapient green shake" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "perturbing %s" } }
     ],
@@ -100,7 +100,7 @@
     "type": "COMESTIBLE",
     "name": { "str_sp": "fortified protein shake" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "fortified soylent green shake" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "fortified soylent green shake" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "fortified sapient green shake" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "perturbing %s" } }
     ],
@@ -113,7 +113,7 @@
     "comestible_type": "DRINK",
     "name": { "str_sp": "fortified milk" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "soylent milk" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "soylent milk" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "sapient-enhanced milk" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "freaky %s" } }
     ],
@@ -121,8 +121,8 @@
     "weight": "286 g",
     "volume": "250 ml",
     "charges": 1,
-    "price": 300,
-    "price_postapoc": 75,
+    "price": "3 USD",
+    "price_postapoc": "75 cent",
     "symbol": "~",
     "color": "white",
     "spoils_in": "1 day",
@@ -142,7 +142,7 @@
     "type": "COMESTIBLE",
     "name": { "str_sp": "protein smoothie" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "soylent smoothie" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "soylent smoothie" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "sapient green smoothie" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "perturbing %s" } }
     ],

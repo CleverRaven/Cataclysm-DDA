@@ -45,7 +45,6 @@ bool fungus_bristle( monster *z );    // Fungal hedgerow rake & inject
 bool fungus_growth( monster *z );     // Sporeling -> fungal creature
 bool fungus_sprout( monster *z );     // Grow fungal walls
 bool fungus_fortify( monster *z );    // Grow fungal hedgerows
-bool impale( monster *z );
 bool dermatik( monster *z );
 bool dermatik_growth( monster *z );
 bool fungal_trail( monster *z );
@@ -57,13 +56,11 @@ bool callblobs( monster *z );
 bool jackson( monster *z );
 bool dance( monster *z );
 bool dogthing( monster *z );
-bool tentacle( monster *z );
 bool vortex( monster *z );
 bool gene_sting( monster *z );
 bool para_sting( monster *z );
 bool triffid_growth( monster *z );
 bool stare( monster *z );
-bool fear_paralyze( monster *z );
 bool nurse_check_up( monster *z );
 bool nurse_assist( monster *z );
 bool nurse_operate( monster *z );
@@ -84,7 +81,6 @@ bool brandish( monster *z );
 bool flesh_golem( monster *z );
 bool absorb_meat( monster *z );
 bool lunge( monster *z );
-bool longswipe( monster *z );
 bool parrot( monster *z );
 bool parrot_at_danger( monster *parrot );
 bool darkman( monster *z );
@@ -101,7 +97,6 @@ bool bio_op_disarm( monster *z );
 bool suicide( monster *z );
 bool riotbot( monster *z );
 bool stretch_attack( monster *z );
-bool stretch_bite( monster *z );
 bool kamikaze( monster *z );
 bool grenadier( monster *z );
 bool grenadier_elite( monster *z );

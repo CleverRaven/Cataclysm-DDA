@@ -403,7 +403,7 @@ void memorial_logger::write_json_memorial( std::ostream &memorial_file ) const
 {
     JsonOut jsout( memorial_file, true, 2 );
     jsout.start_object();
-    jsout.member( "memorial_version", 0 );
+    jsout.member( "memorial_version", 1 );
     jsout.member( "log", log );
     jsout.member( "achievements", get_achievements() );
     jsout.member( "stats", get_stats() );
@@ -1143,6 +1143,7 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::game_begin:
         case event_type::u_var_changed:
         case event_type::vehicle_moves:
+        case event_type::character_butchered_corpse:
             break;
         case event_type::num_event_types: {
             debugmsg( "Invalid event type" );

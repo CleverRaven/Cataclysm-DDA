@@ -231,6 +231,12 @@ void overmapbuffer::save()
     }
 }
 
+void overmapbuffer::reset()
+{
+    overmaps.clear();
+    last_requested_overmap = nullptr;
+}
+
 void overmapbuffer::clear()
 {
     overmaps.clear();
@@ -385,6 +391,14 @@ const std::string &overmapbuffer::note( const tripoint_abs_omt &p )
     }
     static const std::string empty_string;
     return empty_string;
+}
+
+int overmapbuffer::note_danger_radius( const tripoint_abs_omt &p )
+{
+    if( const overmap_with_local_coords om_loc = get_existing_om_global( p ) ) {
+        return om_loc.om->note_danger_radius( om_loc.local );
+    }
+    return -1;
 }
 
 bool overmapbuffer::has_extra( const tripoint_abs_omt &p )

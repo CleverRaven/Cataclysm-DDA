@@ -116,7 +116,7 @@
     "type": "SPELL",
     "name": "[Ψ]Flexibility",
     "description": "You can make your limbs move far beyond the normal human range of motion, allowing you to twist out of others' grasp and reduce fall damage.",
-    "message": "You body begins twisting in unbelivable ways.",
+    "message": "You body begins twisting in unbelievable ways.",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
@@ -126,7 +126,6 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "effect_biokin_flexibility",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_three", "hit_self": true } ],
     "shape": "blast",
     "energy_source": "STAMINA",
     "base_energy_cost": 2500,
@@ -152,7 +151,6 @@
     "difficulty": 3,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "dash",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_three", "hit_self": true } ],
     "shape": "blast",
     "min_damage": 0,
     "damage_type": "biological",
@@ -185,7 +183,6 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_BIOKIN_CHANGE_APPEARANCE",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_four", "hit_self": true } ],
     "shape": "blast",
     "energy_source": "STAMINA",
     "base_energy_cost": 5000,
@@ -210,7 +207,6 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "effect_biokin_armor_skin",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_four", "hit_self": true } ],
     "shape": "blast",
     "min_duration": {
       "math": [
@@ -234,7 +230,7 @@
     "id": "biokin_adrenaline",
     "type": "SPELL",
     "name": "[Ψ]Adrenaline Trigger",
-    "description": "With a moment of concentration, you can trigger a surge of adrenaline.  This provides a .",
+    "description": "With a moment of concentration, you can trigger a surge of adrenaline.  This provides a speed boost, albeit at a draining cost when the boost expires.",
     "message": "Your heartbeat surges as your body floods with adrenaline.",
     "teachable": false,
     "valid_targets": [ "self" ],
@@ -245,7 +241,6 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_BIOKIN_ADRENALINE_TRIGGER",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_four", "hit_self": true } ],
     "shape": "blast",
     "energy_source": "STAMINA",
     "base_energy_cost": 3500,
@@ -425,8 +420,7 @@
     "effect_str": "effect_biokin_sealed",
     "extra_effects": [
       { "id": "biokin_sealed_remove_climate", "hit_self": true },
-      { "id": "biokin_sealed_remove_breathe_skin", "hit_self": true },
-      { "id": "psionic_drained_difficulty_seven", "hit_self": false }
+      { "id": "biokin_sealed_remove_breathe_skin", "hit_self": true }
     ],
     "shape": "blast",
     "min_duration": {
@@ -528,7 +522,6 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "effect_biokin_combat_dance",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_eight", "hit_self": false } ],
     "shape": "blast",
     "min_duration": {
       "math": [
@@ -563,7 +556,6 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "effect_biokin_perfected_motion",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_nine", "hit_self": false } ],
     "shape": "blast",
     "min_duration": {
       "math": [
@@ -598,7 +590,7 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "effect_biokin_hurricane_blows",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_ten", "hit_self": true }, { "id": "biokin_hurricane_blows_2", "hit_self": true } ],
+    "extra_effects": [ { "id": "biokin_hurricane_blows_2", "hit_self": true } ],
     "shape": "blast",
     "min_duration": 100,
     "max_duration": 100,

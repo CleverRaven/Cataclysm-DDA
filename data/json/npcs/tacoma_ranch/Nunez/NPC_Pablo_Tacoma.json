@@ -86,12 +86,12 @@
       {
         "text": "Hey, Pablo!  I heard you might be willing to trade for propane?",
         "topic": "TALK_TACOMA_Pablo_Propane1",
-        "condition": { "u_has_var": "propane_scavenging", "context": "knowledge", "value": "knows" }
+        "condition": { "u_has_var": "knowledge_propane_scavenging", "value": "knows" }
       },
       {
         "text": "Hey, Pablo!  Dana said you had some plans to build a bakery?",
         "topic": "TALK_TACOMA_Pablo_Bakery1",
-        "condition": { "u_has_var": "tacoma_bakery", "context": "knowledge", "value": "knows" }
+        "condition": { "u_has_var": "knowledge_tacoma_bakery", "value": "knows" }
       },
       { "text": "Just popping in to say hi.  Talk to you later!", "topic": "TALK_DONE" }
     ]
@@ -160,9 +160,9 @@
     "dynamic_line": "Not where you might think.\"  He sets aside his ledger and pulls out a page of bullet-point notes written in neat block letters.  \"Everyone is on board with the idea and the amount of actual building to get it online is small enough that the carpenters are willing to help out, so I don't need any assistance with design.  For the really short term I basically just need materials.  I've been collecting spare wood, but to get a good wood-fired oven I need to secure a source of firebrick.  In the longer run, Dana knows the principles of milling, but I need a resource book if I want to set up a functioning mill, first a muscle-powered one and then a windmill for long term.  I wish I'd thought of asking Jenny.  She's a mechanical engineer, but she would probably know how to get me started at least.  I'm also still looking into how to make a good vermin-proof cellar.  Longer term, I will need to work my way around our reliance on sugar, salt, and vinegar from before the cataclysm, but our stocks of those will hold out for months while I sort things out.",
     "speaker_effect": {
       "effect": [
-        { "u_add_var": "tacoma_mill", "context": "message_jenny", "value": "known" },
-        { "u_add_var": "tacoma_bakery", "context": "firebricks", "value": "known" },
-        { "u_add_var": "tacoma_bakery", "context": "rootcellar", "value": "known" }
+        { "u_add_var": "message_jenny_tacoma_mill", "value": "known" },
+        { "u_add_var": "firebricks_tacoma_bakery", "value": "known" },
+        { "u_add_var": "rootcellar_tacoma_bakery", "value": "known" }
       ]
     },
     "responses": [
@@ -173,11 +173,11 @@
   {
     "type": "talk_topic",
     "id": "TALK_TACOMA_Pablo_Bakery-Firebricks1",
-    "dynamic_line": "Seriously?  You've already done so much.  I won't say no, though.",
+    "dynamic_line": { "gendered_line": "Seriously?  You've already done so much.  I won't say no, though.", "relevant_genders": [ "u" ] },
     "speaker_effect": {
       "effect": [
         { "assign_mission": "MISSION_TACOMA_Pablo_Firebricks" },
-        { "u_add_var": "tacoma_bakery", "context": "firebricks", "value": "helped" }
+        { "u_add_var": "firebricks_tacoma_bakery", "value": "helped" }
       ]
     },
     "responses": [
@@ -192,7 +192,7 @@
     "speaker_effect": {
       "effect": [
         { "assign_mission": "MISSION_TACOMA_Pablo_Message" },
-        { "u_add_var": "tacoma_mill", "context": "message_jenny", "value": "helped" }
+        { "u_add_var": "message_jenny_tacoma_mill", "value": "helped" }
       ]
     },
     "responses": [
@@ -204,7 +204,7 @@
     "type": "talk_topic",
     "id": "TALK_TACOMA_Pablo_Bakery-RootCellar1",
     "dynamic_line": "Oh… oh, ok!  It's a good thing you showed me this, my basic guesses missed some important points.  Thanks, this will be helpful for a lot more than just the bakery.",
-    "speaker_effect": { "effect": { "npc_add_var": "tacoma_bakery", "context": "rootcellar", "value": "helped" } },
+    "speaker_effect": { "effect": { "npc_add_var": "rootcellar_tacoma_bakery", "value": "helped" } },
     "responses": [
       { "text": "No problem.  What were you saying before?", "topic": "TALK_NONE" },
       { "text": "Any time!  But I'd better go.", "topic": "TALK_DONE" }
@@ -227,12 +227,12 @@
       {
         "text": "I heard you might be willing to trade for propane?",
         "topic": "TALK_TACOMA_Pablo_Propane1",
-        "condition": { "u_has_var": "propane_scavenging", "context": "knowledge", "value": "knows" }
+        "condition": { "u_has_var": "knowledge_propane_scavenging", "value": "knows" }
       },
       {
         "text": "Dana said you had some plans to build a bakery?",
         "topic": "TALK_TACOMA_Pablo_Bakery1",
-        "condition": { "u_has_var": "tacoma_bakery", "context": "knowledge", "value": "knows" }
+        "condition": { "u_has_var": "knowledge_tacoma_bakery", "value": "knows" }
       },
       {
         "text": "I don't mind keeping my eye out for some firebricks for you.",
@@ -240,8 +240,8 @@
         "//": "temporarily disabled by making the condition impossible to achieve.",
         "condition": {
           "and": [
-            { "u_has_var": "tacoma_bakery", "context": "firebricks", "value": "known_deleted" },
-            { "not": { "u_has_var": "tacoma_bakery", "context": "firebricks", "value": "helped" } }
+            { "u_has_var": "firebricks_tacoma_bakery", "value": "known_deleted" },
+            { "not": { "u_has_var": "firebricks_tacoma_bakery", "value": "helped" } }
           ]
         }
       },
@@ -251,8 +251,8 @@
         "//": "temporarily disabled by making the condition impossible to achieve.",
         "condition": {
           "and": [
-            { "u_has_var": "tacoma_mill", "context": "message_jenny", "value": "known_deleted" },
-            { "not": { "u_has_var": "tacoma_mill", "context": "message_jenny", "value": "helped" } }
+            { "u_has_var": "message_jenny_tacoma_mill", "value": "known_deleted" },
+            { "not": { "u_has_var": "message_jenny_tacoma_mill", "value": "helped" } }
           ]
         }
       },
@@ -263,8 +263,8 @@
           "and": [
             { "math": [ "u_skill('survival')", ">=", "4" ] },
             { "math": [ "u_skill('fabrication')", ">=", "4" ] },
-            { "u_has_var": "tacoma_bakery", "context": "rootcellar", "value": "known" },
-            { "not": { "npc_has_var": "tacoma_bakery", "context": "rootcellar", "value": "helped" } }
+            { "u_has_var": "rootcellar_tacoma_bakery", "value": "known" },
+            { "not": { "npc_has_var": "rootcellar_tacoma_bakery", "value": "helped" } }
           ]
         }
       }

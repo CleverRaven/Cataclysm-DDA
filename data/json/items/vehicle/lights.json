@@ -10,8 +10,8 @@
     "category": "veh_parts",
     "weight": "1000 g",
     "volume": "1 L",
-    "price": 3000,
-    "price_postapoc": 100,
+    "price": "30 USD",
+    "price_postapoc": "1 USD",
     "flags": [ "NO_SALVAGE" ]
   },
   {
@@ -21,8 +21,8 @@
     "description": "A motorcycle headlight to light up the way.",
     "weight": "500 g",
     "volume": "250 ml",
-    "price": 5000,
-    "price_postapoc": 100,
+    "price": "50 USD",
+    "price_postapoc": "1 USD",
     "copy-from": "car_headlight"
   },
   {
@@ -33,8 +33,8 @@
     "looks_like": "car_headlight",
     "weight": "2000 g",
     "volume": "1250 ml",
-    "price": 4000,
-    "price_postapoc": 150,
+    "price": "40 USD",
+    "price_postapoc": "1 USD 50 cent",
     "copy-from": "car_headlight"
   },
   {
@@ -47,8 +47,8 @@
     "color": "light_cyan",
     "symbol": ",",
     "material": [ "steel", "plastic" ],
-    "price": 40000,
-    "price_postapoc": 250,
+    "price": "400 USD",
+    "price_postapoc": "2 USD 50 cent",
     "copy-from": "car_headlight",
     "melee_damage": { "bash": 4 }
   },
@@ -70,8 +70,8 @@
     "to_hit": 1,
     "color": "red",
     "material": [ "plastic", "steel" ],
-    "price": 40000,
-    "price_postapoc": 100,
+    "price": "400 USD",
+    "price_postapoc": "1 USD",
     "copy-from": "car_headlight",
     "melee_damage": { "bash": 1 }
   },
@@ -92,8 +92,8 @@
     "to_hit": 1,
     "material": [ "plastic", "steel" ],
     "volume": "2 L",
-    "price": 90000,
-    "price_postapoc": 1500,
+    "price": "900 USD",
+    "price_postapoc": "15 USD",
     "copy-from": "car_headlight",
     "melee_damage": { "bash": 5 }
   },

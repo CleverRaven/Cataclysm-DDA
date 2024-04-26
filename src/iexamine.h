@@ -122,6 +122,8 @@ void autoclave_full( Character &, const tripoint &examp );
 void fireplace( Character &you, const tripoint &examp );
 void fvat_empty( Character &you, const tripoint &examp );
 void fvat_full( Character &you, const tripoint &examp );
+void compost_empty( Character &you, const tripoint &examp );
+void compost_full( Character &you, const tripoint &examp );
 void keg( Character &you, const tripoint &examp );
 void reload_furniture( Character &you, const tripoint &examp );
 void curtains( Character &you, const tripoint &examp );
@@ -133,7 +135,7 @@ void attunement_altar( Character &you, const tripoint &examp );
 void translocator( Character &you, const tripoint &examp );
 void on_smoke_out( const tripoint &examp,
                    const time_point &start_time ); //activates end of smoking effects
-void mill_finalize( Character &, const tripoint &examp, const time_point &start_time );
+void mill_finalize( Character &, const tripoint &examp );
 void quern_examine( Character &you, const tripoint &examp );
 void smoker_options( Character &you, const tripoint &examp );
 void open_safe( Character &you, const tripoint &examp );
@@ -158,6 +160,7 @@ std::list<item> get_harvest_items( const itype &type, int plant_count,
 std::vector<seed_tuple> get_seed_entries( const std::vector<item *> &seed_inv );
 int query_seed( const std::vector<seed_tuple> &seed_entries );
 void plant_seed( Character &you, const tripoint &examp, const itype_id &seed_id );
+void clear_overgrown( Character &you, const tripoint &examp );
 void harvest_plant_ex( Character &you, const tripoint &examp );
 void harvest_plant( Character &you, const tripoint &examp, bool from_activity );
 void fertilize_plant( Character &you, const tripoint &tile, const itype_id &fertilizer );

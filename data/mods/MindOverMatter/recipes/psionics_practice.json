@@ -91,6 +91,20 @@
     "book_learn": [ [ "manual_psionics_advan", 3 ], [ "schematics_matrix_channeling", 3 ], [ "schematics_matrix_aligning", 3 ] ]
   },
   {
+    "id": "prac_psionics_prof_ritual",
+    "type": "practice",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_METAPHYSICS",
+    "name": "thought-form exercises",
+    "description": "Practice holding mental images and scenes in your mind for an extended period without your mind wandering.",
+    "skill_used": "metaphysics",
+    "practice_data": { "min_difficulty": 4, "max_difficulty": 4, "skill_limit": 4 },
+    "proficiencies": [ { "proficiency": "prof_psionic_ritual", "time_multiplier": 1, "skill_penalty": 0 } ],
+    "time": "1 h",
+    "book_learn": [ [ "manual_psionic_ritual", 4 ] ]
+  },
+  {
     "id": "prac_concentration_basic",
     "type": "practice",
     "activity_level": "NO_EXERCISE",

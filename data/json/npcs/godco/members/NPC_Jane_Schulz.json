@@ -38,9 +38,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Jane_1",
     "dynamic_line": {
-      "npc_has_var": "u_met_godco_jane",
-      "type": "general",
-      "context": "meeting",
+      "npc_has_var": "general_meeting_u_met_godco_jane",
       "value": "yes",
       "yes": [ "How can I help you?", "<u_name>, what can I do for you?" ],
       "no": "Oh, I don't think we've met before.  My name's Jane, I'm the local doctor."
@@ -48,13 +46,13 @@
     "responses": [
       {
         "text": "Nice to meet you too, Jane.",
-        "effect": { "npc_add_var": "u_met_godco_jane", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "npc_has_var": "u_met_godco_jane", "type": "general", "context": "meeting", "value": "yes" } },
+        "effect": { "npc_add_var": "general_meeting_u_met_godco_jane", "value": "yes" },
+        "condition": { "not": { "npc_has_var": "general_meeting_u_met_godco_jane", "value": "yes" } },
         "topic": "TALK_GODCO_Jane_Firstmeet"
       },
       {
         "text": "Hi, Jane.  Got a minute?",
-        "condition": { "npc_has_var": "u_met_godco_jane", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "npc_has_var": "general_meeting_u_met_godco_jane", "value": "yes" },
         "topic": "TALK_GODCO_Jane_2"
       },
       { "text": "I'm afraid I can't talk right now.", "topic": "TALK_DONE" }
@@ -63,7 +61,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Jane_Firstmeet",
-    "dynamic_line": "Always nice to meet a fellow outsider.  How can I help you?",
+    "dynamic_line": { "gendered_line": "Always nice to meet a fellow outsider.  How can I help you?", "relevant_genders": [ "u" ] },
     "responses": [ { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" } ]
   },
   {
@@ -161,9 +159,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Jane_Follow",
     "dynamic_line": {
-      "npc_has_var": "jane_willing_to_follow",
-      "type": "mission",
-      "context": "meeting",
+      "npc_has_var": "mission_meeting_jane_willing_to_follow",
       "value": "yes",
       "yes": "I'm up for it, Arturo's got enough medicine for two-and-half months.  It's thankless work around here, so let's blow this joint.",
       "no": "I'd like to leave, but I've got to take care of Arturo.  He's always low or nearly out of antipsychotics, so I do what I can."
@@ -171,12 +167,12 @@
     "responses": [
       {
         "text": "Alright.  Wanna chat?",
-        "condition": { "not": { "npc_has_var": "jane_willing_to_follow", "type": "mission", "context": "meeting", "value": "yes" } },
+        "condition": { "not": { "npc_has_var": "mission_meeting_jane_willing_to_follow", "value": "yes" } },
         "topic": "TALK_GODCO_Jane_2"
       },
       {
         "text": "Let's go.",
-        "condition": { "npc_has_var": "jane_willing_to_follow", "type": "mission", "context": "meeting", "value": "yes" },
+        "condition": { "npc_has_var": "mission_meeting_jane_willing_to_follow", "value": "yes" },
         "effect": "follow",
         "topic": "TALK_DONE"
       }

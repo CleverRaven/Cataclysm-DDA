@@ -31,8 +31,8 @@
     "quench": -2,
     "calories": 22,
     "description": "A handful of female juniper cones, for making gin and adding earthy flavors to food.  Spicy, tastes similar to rosemary.",
-    "price": 400,
-    "price_postapoc": 25,
+    "price": "4 USD",
+    "price_postapoc": "25 cent",
     "material": [ "fruit" ],
     "volume": "250 ml",
     "fun": -2,
@@ -59,7 +59,7 @@
     "smoking_result": "pistachio_roasted",
     "vitamins": [ [ "vitC", 1 ], [ "calcium", 3 ], [ "iron", 7 ] ],
     "fun": 1,
-    "milling": { "into": "paste_nut", "conversion_rate": 0.1 }
+    "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
   },
   {
     "type": "COMESTIBLE",
@@ -67,9 +67,10 @@
     "name": { "str_sp": "roasted pistachios" },
     "copy-from": "pistachio_shelled",
     "description": "A handful of roasted nuts from a pistachio tree.",
-    "price": 150,
+    "price": "1 USD 50 cent",
     "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
-    "fun": 3
+    "fun": 3,
+    "milling": { "into": "null", "recipe": "" }
   },
   {
     "type": "COMESTIBLE",
@@ -92,7 +93,7 @@
     "smoking_result": "almond_roasted",
     "vitamins": [ [ "calcium", 6 ], [ "iron", 6 ] ],
     "fun": 1,
-    "milling": { "into": "paste_nut", "conversion_rate": 0.1 }
+    "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
   },
   {
     "type": "COMESTIBLE",
@@ -106,8 +107,8 @@
     "symbol": "%",
     "calories": 184,
     "description": "Pulp left over after making almond milk.  It's gritty and incredibly bland.",
-    "price": 10,
-    "price_postapoc": 50,
+    "price": "10 cent",
+    "price_postapoc": "50 cent",
     "material": [ "nut" ],
     "volume": "125 ml",
     "flags": [ "EDIBLE_FROZEN" ],
@@ -119,10 +120,11 @@
     "name": { "str_sp": "roasted almonds" },
     "copy-from": "almond_shelled",
     "description": "A handful of roasted nuts from an almond tree.",
-    "price": 150,
-    "price_postapoc": 600,
+    "price": "1 USD 50 cent",
+    "price_postapoc": "6 USD",
     "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
-    "fun": 3
+    "fun": 3,
+    "milling": { "into": "null", "recipe": "" }
   },
   {
     "type": "COMESTIBLE",
@@ -144,7 +146,7 @@
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
     "vitamins": [ [ "calcium", 1 ], [ "iron", 12 ] ],
     "fun": 3,
-    "milling": { "into": "paste_nut", "conversion_rate": 0.1 }
+    "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
   },
   {
     "type": "COMESTIBLE",
@@ -167,7 +169,7 @@
     "smoking_result": "pecan_roasted",
     "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ] ],
     "fun": 1,
-    "milling": { "into": "paste_nut", "conversion_rate": 0.1 }
+    "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
   },
   {
     "type": "COMESTIBLE",
@@ -175,9 +177,10 @@
     "name": { "str_sp": "roasted pecans" },
     "copy-from": "pecan_shelled",
     "description": "A handful of roasted nuts from a pecan tree.",
-    "price": 150,
+    "price": "1 USD 50 cent",
     "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
-    "fun": 3
+    "fun": 3,
+    "milling": { "into": "null", "recipe": "" }
   },
   {
     "type": "COMESTIBLE",
@@ -199,7 +202,7 @@
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW" ],
     "vitamins": [ [ "calcium", 1 ], [ "iron", 3 ] ],
     "fun": 3,
-    "milling": { "into": "paste_nut", "conversion_rate": 0.1 }
+    "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
   },
   {
     "type": "COMESTIBLE",
@@ -219,7 +222,7 @@
     "volume": "62 ml",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW" ],
     "vitamins": [ [ "vitC", 5 ], [ "iron", 9 ] ],
-    "milling": { "into": "paste_nut", "conversion_rate": 0.1 }
+    "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
   },
   {
     "type": "COMESTIBLE",
@@ -241,7 +244,7 @@
     "smoking_result": "walnut_roasted",
     "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ] ],
     "fun": -1,
-    "milling": { "into": "paste_nut", "conversion_rate": 0.1 }
+    "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
   },
   {
     "type": "COMESTIBLE",
@@ -270,9 +273,10 @@
     "name": { "str_sp": "roasted walnuts" },
     "copy-from": "walnut_shelled",
     "description": "A handful of roasted nuts from a walnut tree.",
-    "price": 90,
+    "price": "90 cent",
     "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
-    "fun": 1
+    "fun": 1,
+    "milling": { "into": "null", "recipe": "" }
   },
   {
     "type": "COMESTIBLE",
@@ -280,7 +284,7 @@
     "name": { "str_sp": "roasted butternuts" },
     "copy-from": "butternut_shelled",
     "description": "A handful of roasted nuts from a butternut tree.",
-    "price": 90,
+    "price": "90 cent",
     "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
     "fun": 1
   },
@@ -304,7 +308,7 @@
     "smoking_result": "chestnut_roasted",
     "vitamins": [ [ "vitC", 13 ], [ "iron", 1 ] ],
     "fun": -10,
-    "milling": { "into": "paste_nut", "conversion_rate": 0.1 }
+    "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
   },
   {
     "type": "COMESTIBLE",
@@ -312,9 +316,9 @@
     "name": { "str_sp": "roasted chestnuts" },
     "copy-from": "chestnut_shelled",
     "description": "A handful of roasted nuts from a chestnut tree.",
-    "price": 90,
+    "price": "90 cent",
     "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
-    "milling": { "into": "flour_wheat_free", "conversion_rate": 1.25 },
+    "milling": { "into": "flour_wheat_free", "recipe": "flour_wheat_free_mill_4_5" },
     "fun": 3
   },
   {
@@ -337,7 +341,7 @@
     "smoking_result": "hazelnut_roasted",
     "vitamins": [ [ "vitC", 2 ], [ "calcium", 3 ], [ "iron", 7 ] ],
     "fun": -1,
-    "milling": { "into": "paste_nut", "conversion_rate": 0.1 }
+    "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
   },
   {
     "type": "COMESTIBLE",
@@ -385,9 +389,10 @@
     "name": { "str_sp": "roasted hazelnuts" },
     "copy-from": "hazelnut_shelled",
     "description": "A handful of roasted nuts from a hazelnut tree.",
-    "price": 90,
+    "price": "90 cent",
     "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
-    "fun": 1
+    "fun": 1,
+    "milling": { "into": "null", "recipe": "" }
   },
   {
     "type": "COMESTIBLE",
@@ -409,7 +414,7 @@
     "smoking_result": "hickory_nut_roasted",
     "vitamins": [ [ "calcium", 2 ], [ "iron", 8 ] ],
     "fun": -10,
-    "milling": { "into": "paste_nut", "conversion_rate": 0.1 }
+    "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
   },
   {
     "type": "COMESTIBLE",
@@ -417,10 +422,11 @@
     "name": { "str_sp": "roasted hickory nuts" },
     "copy-from": "hickory_nut_shelled",
     "description": "A handful of roasted nuts from a hickory tree.",
-    "price": 90,
-    "price_postapoc": 500,
+    "price": "90 cent",
+    "price_postapoc": "5 USD",
     "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
-    "fun": 1
+    "fun": 1,
+    "milling": { "into": "null", "recipe": "" }
   },
   {
     "type": "COMESTIBLE",
@@ -436,8 +442,8 @@
     "quench": 10,
     "calories": 130,
     "description": "Delicious hickory nut ambrosia.  A drink worthy of the gods.",
-    "price": 100,
-    "price_postapoc": 400,
+    "price": "1 USD",
+    "price_postapoc": "4 USD",
     "material": [ "nut", "milk" ],
     "volume": "250 ml",
     "phase": "liquid",
@@ -454,8 +460,8 @@
     "spoils_in": "180 days",
     "name": { "str_sp": "peanut butter" },
     "description": "A brown goo that tastes very little like its namesake.  It's not bad, but it'll stick to the roof of your mouth.",
-    "price": 195,
-    "price_postapoc": 1000,
+    "price": "1 USD 95 cent",
+    "price_postapoc": "10 USD",
     "//": "Two tablespoons per charge.",
     "weight": "50 g",
     "volume": "250 ml",
@@ -490,8 +496,8 @@
     "comestible_type": "FOOD",
     "color": "brown",
     "spoils_in": "180 days",
-    "price": 195,
-    "price_postapoc": 1000,
+    "price": "1 USD 95 cent",
+    "price_postapoc": "10 USD",
     "//": "Two tablespoons per charge.",
     "phase": "solid",
     "volume": "31 ml",
@@ -536,7 +542,7 @@
     "price": "22 cent",
     "price_postapoc": "75 cent",
     "flags": [ "EDIBLE_FROZEN", "SMOKABLE" ],
-    "milling": { "into": "flour_wheat_free", "conversion_rate": 1.5 },
+    "milling": { "into": "flour_wheat_free", "recipe": "flour_wheat_free_mill_2_3" },
     "smoking_result": "acorn_roasted",
     "fun": 0
   },
@@ -561,12 +567,12 @@
     "copy-from": "acorns",
     "spoils_in": "5 days",
     "description": "A handful of mushy blanched acorns.  No longer bitter, but not pleasant to eat in this state.",
-    "price": 90,
-    "price_postapoc": 200,
+    "price": "90 cent",
+    "price_postapoc": "2 USD",
     "flags": [ "EDIBLE_FROZEN", "SMOKABLE" ],
     "smoking_result": "acorns_cooked",
     "fun": -1,
-    "milling": { "into": "paste_nut", "conversion_rate": 0.1 }
+    "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
   },
   {
     "type": "COMESTIBLE",
@@ -577,7 +583,7 @@
     "comestible_type": "DRINK",
     "symbol": "~",
     "quench": 25,
-    "price_postapoc": 50,
+    "price_postapoc": "50 cent",
     "delete": { "flags": [ "EDIBLE_FROZEN" ] },
     "weight": "512 g",
     "volume": "500 ml",

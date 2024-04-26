@@ -1,0 +1,191 @@
+[
+  {
+    "id": "aura_ward_off_rain",
+    "type": "ARMOR",
+    "name": "Rain Ward",
+    "description": "Thanks to the words of the charm you spoke, you won't get wet.",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "price": "0 cent",
+    "symbol": "x",
+    "color": "white",
+    "flags": [
+      "AURA",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "PADDED",
+      "INTEGRATED",
+      "ALLOWS_NATURAL_ATTACKS",
+      "TRADER_AVOID",
+      "NO_REPAIR",
+      "NO_TAKEOFF",
+      "ZERO_WEIGHT",
+      "NONCONDUCTIVE",
+      "RAINPROOF"
+    ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] },
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ]
+  },
+  {
+    "id": "item_hedge_witchlight",
+    "type": "ARMOR",
+    "name": "Witchlight",
+    "description": "A bobbing ball of blueish-green light, just bright enough to read by.",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "price": "0 cent",
+    "symbol": "x",
+    "color": "yellow",
+    "flags": [
+      "LIGHT_10",
+      "SEMITANGIBLE",
+      "AURA",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "PADDED",
+      "ALLOWS_NATURAL_ATTACKS",
+      "TRADER_AVOID",
+      "NO_REPAIR",
+      "NO_DROP",
+      "ZERO_WEIGHT",
+      "NONCONDUCTIVE"
+    ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] },
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Dismiss the witchlight",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_ITEM_HEDGE_WITCHLIGHT_DISMISS",
+          "effect": [ { "queue_eocs": "EOC_ITEM_HEDGE_WITCHLIGHT_DISMISS_ACTUAL", "time_in_future": 1 } ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "item_hedge_make_plants_grow",
+    "name": { "str_sp": "life of the crops" },
+    "weight": "0 g",
+    "color": "green",
+    "flags": [ "TRADER_AVOID", "ZERO_WEIGHT", "FERTILIZER" ],
+    "comestible_type": "FOOD",
+    "symbol": "°",
+    "quench": -10,
+    "healthy": -2,
+    "description": "Use this to fertilize your crops.",
+    "material": [ "powder" ],
+    "volume": "0 ml",
+    "category": "chems",
+    "fun": -15
+  },
+  {
+    "id": "hedge_fire_starter",
+    "type": "TOOL",
+    "name": { "str_sp": "To Kindle the Flames" },
+    "description": "The item that starts fires when using To Kindle the Flames.  This should be summoned and deleted as part of the spell, so you should never actually see it.",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "symbol": ",",
+    "color": "red",
+    "use_action": { "type": "firestarter", "moves": 5, "moves_slow": 5 },
+    "flags": [ "FIRE", "ZERO_WEIGHT" ]
+  },
+  {
+    "id": "item_hedge_see_fae_necklace",
+    "type": "TOOL_ARMOR",
+    "name": "Faesight Charm",
+    "description": "A small sack with herbs in it to warn you if the Fair Folk are nearby.  You had better wear it under your clothes.  You wouldn't want them to know you're avoiding them.  It's awaiting you to speak the final words of the charm and activate it.",
+    "rand_charges": [ 120, 240, 360 ],
+    "turns_per_charge": 25,
+    "ammo": "glamour_charge",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "glamour_charge": 360 } } ],
+    "weight": "100 g",
+    "volume": "50 ml",
+    "price": "50 USD",
+    "price_postapoc": "50 cent",
+    "material": [ "leather", "veggy" ],
+    "color": "green",
+    "symbol": ",",
+    "flags": [ "ONE_PER_LAYER", "SKINTIGHT", "NO_UNLOAD", "NO_RELOAD", "MUNDANE" ],
+    "use_action": {
+      "type": "transform",
+      "need_charges": 1,
+      "active": true,
+      "target": "item_hedge_see_fae_necklace_on",
+      "msg": "You recite that last part of the charm.",
+      "need_worn": true
+    },
+    "relic_data": {
+      "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "SIGHT_RANGE_FAE", "add": 20 } ] } ]
+    }
+  },
+  {
+    "id": "item_hedge_see_fae_necklace_on",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "Faesight Charm (active)", "str_pl": "Faesight Charms (active)" },
+    "description": "A small sack with herbs in it to warn you if the Fair Folk are nearby.  You had better wear it under your clothes.  You wouldn't want them to know you're avoiding them.",
+    "turns_per_charge": 25,
+    "ammo": "glamour_charge",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "glamour_charge": 360 } } ],
+    "weight": "100 g",
+    "volume": "50 ml",
+    "material": [ "leather", "veggy" ],
+    "color": "green",
+    "symbol": ",",
+    "flags": [ "ONE_PER_LAYER", "SKINTIGHT", "NO_UNLOAD", "NO_RELOAD" ],
+    "revert_to": "item_hedge_see_fae_necklace_done",
+    "revert_msg": "Your otherworldly senses fade.",
+    "relic_data": {
+      "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "SIGHT_RANGE_FAE", "add": 20 } ] } ]
+    }
+  },
+  {
+    "id": "item_hedge_see_fae_necklace_done",
+    "type": "TOOL_ARMOR",
+    "name": "Faesight Charm",
+    "description": "A small sack with herbs in it to warn you if the Fair Folk are nearby.  You had better wear it under your clothes.  You wouldn't want them to know you're avoiding them.  This charm seems lifeless somehow, its energy spent.",
+    "weight": "100 g",
+    "volume": "50 ml",
+    "material": [ "leather", "veggy" ],
+    "color": "green",
+    "symbol": ",",
+    "flags": [ "ONE_PER_LAYER", "SKINTIGHT", "NO_UNLOAD", "NO_RELOAD", "MUNDANE" ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
+  },
+  {
+    "id": "item_hedge_nether_eye_paste",
+    "name": { "str_sp": "Blood-and-Ash Paste" },
+    "description": "A disgusting mixture of blood, ashes, and certain herbs.  Using it will allow you to see otherworldly creatures even through walls or in darkness.",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "weight": "265 g",
+    "volume": "250 ml",
+    "price": "2 USD",
+    "price_postapoc": "1 USD",
+    "spoils_in": "10 days",
+    "fun": -5,
+    "symbol": "q",
+    "color": "blue",
+    "flags": [ "EATEN_COLD" ],
+    "phase": "solid",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Rub the paste on your eyes.",
+      "effect_on_conditions": [ "EOC_HEDGE_SEE_NETHER_EYE_PASTE" ]
+    }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "item_hedge_cure_cold_or_flu",
+    "copy-from": "tea",
+    "name": { "str": "Curative tea" },
+    "description": "Tea with herbs, iron, and a bit of magick.  If you're sick, there's nothing better for your body than this."
+  }
+]

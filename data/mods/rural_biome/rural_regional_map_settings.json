@@ -206,6 +206,14 @@
       "river_floodplain_buffer_distance_min": 3,
       "river_floodplain_buffer_distance_max": 15
     },
+    "overmap_connection_settings": {
+      "intra_city_road_connection": "local_road",
+      "inter_city_road_connection": "local_road",
+      "trail_connection": "forest_trail",
+      "sewer_connection": "sewer_tunnel",
+      "subway_connection": "subway_tunnel",
+      "rail_connection": "local_railroad"
+    },
     "forest_mapgen_settings": {
       "forest": {
         "terrains": [ "forest" ],
@@ -495,7 +503,6 @@
         "house_03": 50,
         "house_04": 50,
         "house_05": 50,
-        "house_05ab": 20,
         "house_06": 50,
         "house_07": 50,
         "house_08": 50,

@@ -7,7 +7,7 @@
     "symbol": "Y",
     "color": "brown",
     "flags": [ "NO_SALVAGE", "FRAGILE_MELEE" ],
-    "price": 0,
+    "price": "0 cent",
     "price_postapoc": "1000 USD",
     "longest_side": "150 cm",
     "volume": "200 L",
@@ -22,7 +22,7 @@
     "description": "This is a high quality engraved wooden torch, placed into a wood and metal sconce and ready to be attached to a wall.  It will burn forever with a smokeless light.  Now you can light your wizard's ritual room in the traditional fashion.",
     "weight": "1531 g",
     "volume": "2250 ml",
-    "price": 0,
+    "price": "0 cent",
     "price_postapoc": "150 USD",
     "longest_side": "60 cm",
     "to_hit": 1,
@@ -44,5 +44,21 @@
     "symbol": "@",
     "color": "brown",
     "melee_damage": { "bash": 8 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "druid_chair_item",
+    "name": { "str": "gnarled chair" },
+    "description": "A simple wooden chair with four legs, a seat, and a back, all seemingly grown out of a single solid piece of wood.  Despite the twisted lines, it still looks extremely comfortable.",
+    "symbol": "#",
+    "color": "green",
+    "flags": [ "NO_SALVAGE", "FRAGILE_MELEE" ],
+    "price": "30 USD",
+    "price_postapoc": "2 USD 50 cent",
+    "longest_side": "95 cm",
+    "volume": "30 L",
+    "weight": "12 kg",
+    "material": [ "wood" ],
+    "to_hit": -3
   }
 ]

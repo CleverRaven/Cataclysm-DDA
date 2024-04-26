@@ -28,7 +28,7 @@
     "abstract": "iv_mutagen_flavor",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str_sp": "abstract iv mutagen flavor" },
+    "name": { "str_sp": "abstract IV mutagen flavor" },
     "description": "A processed mutagenic primer.",
     "price": "3000 USD",
     "price_postapoc": "1 USD",
@@ -144,7 +144,7 @@
     "type": "COMESTIBLE",
     "name": { "str_sp": "chimera mutagenic primer" },
     "description": "A processed mutagenic primer that churns with iridescence.",
-    "price": 400000,
+    "price": "4 kUSD",
     "looks_like": "iv_mutagen",
     "color": "red",
     "healthy": -15,
@@ -163,7 +163,7 @@
     "type": "COMESTIBLE",
     "name": { "str_sp": "Elf-A mutagenic primer" },
     "description": "A processed mutagenic primer that's a striking sylvan green.",
-    "price": 400000,
+    "price": "4 kUSD",
     "looks_like": "iv_mutagen",
     "color": "light_green",
     "use_action": {
@@ -286,7 +286,7 @@
     "type": "COMESTIBLE",
     "name": { "str_sp": "raptor mutagenic primer" },
     "description": "A processed mutagenic primer that seems to shift slightly whenever you look at it.",
-    "price": 400000,
+    "price": "4 kUSD",
     "looks_like": "iv_mutagen",
     "color": "green",
     "use_action": {
@@ -309,6 +309,21 @@
       "activation_message": "You inject the rat mutagenic primer.",
       "tools_needed": { "syringe": -1 },
       "vitamins": [ [ "mutagen_rat", 450, 550 ] ]
+    }
+  },
+  {
+    "id": "iv_mutagen_chiropteran",
+    "copy-from": "iv_mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "chiropteran mutagenic primer" },
+    "description": "A processed mutagenic primer, black as night.",
+    "looks_like": "iv_mutagen",
+    "color": "black",
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You inject the chiropteran mutagenic primer.",
+      "tools_needed": { "syringe": -1 },
+      "vitamins": [ [ "mutagen_chiropteran", 450, 550 ] ]
     }
   },
   {
@@ -628,7 +643,7 @@
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
     "name": { "str_sp": "medical mutagen" },
-    "price": 150000,
+    "price": "1 kUSD 500 USD",
     "looks_like": "mutagen",
     "//": "*May* have been considered for commercial trading.",
     "use_action": {
@@ -673,6 +688,19 @@
       "type": "consume_drug",
       "activation_message": "You drink the rat mutagen.",
       "vitamins": [ [ "mutagen_rat", 225 ], [ "mutagen", 125 ] ]
+    }
+  },
+  {
+    "id": "mutagen_chiropteran",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "chiropteran mutagen" },
+    "description": "A murky black liquid that smells of blood.",
+    "looks_like": "mutagen",
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You drink the chiropteran mutagen.",
+      "vitamins": [ [ "mutagen_chiropteran", 225 ], [ "mutagen", 125 ] ]
     }
   },
   {
@@ -859,8 +887,8 @@
     "description": "An experimental stem cell treatment, offering limited control over which mutations are purified.  The liquid sloshes strangely inside of this syringe.",
     "weight": "12 g",
     "volume": "10ml",
-    "price": 1200000,
-    "price_postapoc": 3000,
+    "price": "12 kUSD",
+    "price_postapoc": "30 USD",
     "material": [ "plastic" ],
     "symbol": "!",
     "color": "magenta",
@@ -883,8 +911,8 @@
     "healthy": -12,
     "calories": 156,
     "description": "A deformed human fetus.  Eating this would be the most vile thing you can think of, and just might cause you to mutate.",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "hflesh" ],
     "volume": "250 ml",
     "fun": -60,
@@ -904,10 +932,10 @@
     "healthy": -8,
     "calories": 278,
     "description": "A misshapen human arm.  Eating this would be incredibly disgusting and probably cause you to mutate.",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "hflesh" ],
-    "volume": "2 L",
+    "volume": "4500 ml",
     "fun": -20,
     "vitamins": [ [ "mutagenic_slurry", 10 ] ]
   },
@@ -925,10 +953,10 @@
     "healthy": -8,
     "calories": 399,
     "description": "A malformed human leg.  This would be gross to eat, and probably cause mutations.",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "material": [ "hflesh" ],
-    "volume": "5 L",
+    "volume": "12 L",
     "fun": -20,
     "vitamins": [ [ "mutagenic_slurry", 10 ] ]
   }

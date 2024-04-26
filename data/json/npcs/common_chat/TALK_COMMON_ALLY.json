@@ -5,13 +5,13 @@
     "dynamic_line": {
       "npc_has_effect": "sleep",
       "yes": {
-        "npc_need": "fatigue",
+        "npc_need": "sleepiness",
         "level": "EXHAUSTED",
         "no": {
-          "npc_need": "fatigue",
+          "npc_need": "sleepiness",
           "level": "DEAD_TIRED",
           "no": {
-            "npc_need": "fatigue",
+            "npc_need": "sleepiness",
             "level": "TIRED",
             "no": "Just few minutes more…",
             "yes": "Make it quick, I want to go back to sleep."
@@ -134,7 +134,7 @@
             "or": [
               { "npc_need": "thirst", "amount": 80 },
               { "npc_need": "hunger", "amount": 160 },
-              { "npc_need": "fatigue", "level": "TIRED" },
+              { "npc_need": "sleepiness", "level": "TIRED" },
               { "npc_has_effect": "asked_to_train" },
               { "npc_has_trait": "HALLUCINATION" },
               "u_driving",
@@ -154,7 +154,7 @@
             "or": [
               { "npc_need": "thirst", "amount": 80 },
               { "npc_need": "hunger", "amount": 160 },
-              { "npc_need": "fatigue", "level": "TIRED" },
+              { "npc_need": "sleepiness", "level": "TIRED" },
               { "npc_has_effect": "asked_to_train" },
               "u_driving",
               "npc_driving"
@@ -1081,7 +1081,7 @@
   {
     "id": "TALK_ABANDON",
     "type": "talk_topic",
-    "dynamic_line": "Are you sure?",
+    "dynamic_line": { "gendered_line": "Are you sure?", "relevant_genders": [ "u" ] },
     "responses": [
       { "text": "Yes, I'm sure.", "topic": "TALK_DONE", "effect": "abandon_camp" },
       { "text": "Actually, never mind.", "topic": "TALK_NONE" }

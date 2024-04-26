@@ -15,7 +15,7 @@
       [ "H" ]
     ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "xlframe#cross", "wheel_10", "minifridge" ] },
+      { "x": 0, "y": 0, "parts": [ "xlframe#cross", "wheel_10", "big_portable_fridge" ] },
       { "x": 0, "y": 0, "parts": [ "controls_electronic" ] },
       { "x": -1, "y": 0, "parts": [ "xlframe#cross", "wheel_10" ] },
       { "x": -1, "y": 0, "parts": [ "small_storage_battery" ] },
@@ -94,7 +94,7 @@
     "blueprint": [ "#" ],
     "parts": [
       { "x": 0, "y": 0, "parts": [ "xlframe#vertical_2", "wheel_10", "small_storage_battery" ] },
-      { "x": 0, "y": 0, "parts": [ "minifreezer", "controls_electronic" ] }
+      { "x": 0, "y": 0, "parts": [ "chest_minifreezer", "controls_electronic" ] }
     ]
   },
   {
@@ -130,7 +130,7 @@
     "type": "vehicle",
     "name": "Shopping Cart",
     "blueprint": [ "o" ],
-    "parts": [ { "x": 0, "y": 0, "parts": [ "xlframe#vertical_2", "wheel_caster", "basketlg#cart" ] } ],
+    "parts": [ { "x": 0, "y": 0, "parts": [ "xlframe#vertical_2", "wheel_caster_large", "basketlg#cart" ] } ],
     "items": [ { "x": 0, "y": 0, "chance": 35, "item_groups": [ "trash_cart" ] } ]
   },
   {
@@ -138,8 +138,12 @@
     "type": "vehicle",
     "name": "Rolling Trash Can",
     "blueprint": [ [ "o" ] ],
-    "parts": [ { "x": 0, "y": 0, "parts": [ "xlframe", "wheel_caster", "integrated_trashcan" ] } ],
-    "items": [ { "x": 0, "y": 0, "chance": 75, "item_groups": [ "trash" ] } ]
+    "parts": [ { "x": 0, "y": 0, "parts": [ "xlframe", "wheel_caster_large", "integrated_trashcan" ] } ],
+    "items": [
+      { "x": 0, "y": 0, "chance": 20, "item_groups": [ "rolling_trash" ] },
+      { "x": 0, "y": 0, "chance": 20, "item_groups": [ "rolling_trash" ] },
+      { "x": 0, "y": 0, "chance": 20, "item_groups": [ "rolling_trash" ] }
+    ]
   },
   {
     "id": "grocery_cart",
@@ -150,7 +154,7 @@
       [ "-" ]
     ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "xlframe#vertical_2", "wheel_caster", "basketlg#cart" ] },
+      { "x": 0, "y": 0, "parts": [ "xlframe#vertical_2", "wheel_caster_large", "basketlg#cart" ] },
       { "x": -1, "y": 0, "parts": [ "cart_handle" ] }
     ],
     "items": [ { "x": 0, "y": 0, "chance": 35, "item_groups": [ "trash_cart" ] } ]
@@ -207,7 +211,7 @@
     "name": "Welding Cart",
     "blueprint": [ "&" ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "xlframe#vertical_2", "wheel_caster", "small_storage_battery" ] },
+      { "x": 0, "y": 0, "parts": [ "xlframe#vertical_2", "wheel_caster_large", "small_storage_battery" ] },
       { "x": 0, "y": 0, "parts": [ { "part": "veh_tools_workshop", "tools": [ "welder", "soldering_iron" ] } ] }
     ],
     "items": [ { "x": 0, "y": 0, "chance": 30, "items": [ "goggles_welding" ] } ]

@@ -13,31 +13,27 @@ void past_achievements_info::clear()
 
 bool past_achievements_info::is_completed( const achievement_id &ach ) const
 {
-    auto ach_it = completed_achievements_.find( ach );
-    return ach_it != completed_achievements_.end();
+    return !avatars_completed( ach ).empty();
 }
 
-/*
- * This is for when the player copies their memorial folder
- * in and expects those achievements to still work for scenarios/professions
- *
- * It will create a save/achievements/ entry called memorial_achievements.json,
- * this file contains the achievement ids from the players memorials.
- */
-bool past_achievements_info::migrate_memorial()
+std::vector<std::string> past_achievements_info::avatars_completed(
+    const achievement_id &ach ) const
 {
-    const std::string &oldachievements_file = PATH_INFO::oldachievements();
-    if( memorial_loaded_ ) {
-        return false;
+    std::vector<std::string> completed;
+    const auto it = completed_achievements_.find( ach );
+    if( it != completed_achievements_.end() ) {
+        completed = it->second;
     }
-    memorial_loaded_ = true;
-
-    std::ostringstream oldachievements_file_path;
-    oldachievements_file_path << oldachievements_file;
-
-    return write_to_file( oldachievements_file, [&]( std::ostream & fout ) {
-        get_past_games().write_json_achievements( fout );
-    }, _( "player achievements" ) );
+    // Legacy data from memorials
+    const achievement_completion_info *legacy = get_past_games().legacy_achievement( ach );
+    if( legacy ) {
+        for( const past_game_info *const info : legacy->games_completed ) {
+            if( info ) {
+                completed.emplace_back( info->avatar_name() );
+            }
+        }
+    }
+    return completed;
 }
 
 void past_achievements_info::load()
@@ -49,21 +45,30 @@ void past_achievements_info::load()
     const cata_path &achievement_dir = PATH_INFO::achievementdir_path();
     assure_dir_exist( achievement_dir );
 
-    migrate_memorial();
     std::vector<cata_path> filenames = get_files_from_path( ".json", achievement_dir, true, true );
 
     for( const cata_path &filename : filenames ) {
         int version;
         std::vector<achievement_id> achievements;
+        std::string avatar_name;
         JsonValue jsin = json_loader::from_path( filename );
         JsonObject jo = jsin.get_object();
         jo.read( "achievement_version", version );
-        if( version != 0 ) {
+        if( version == 0 ) {
+            // version 0 has no `avatar_name` member, skip them
             continue;
+        } else if( version != 1 ) {
+            throw JsonError( string_format( "unexpected past achievements version %d", version ) );
         }
         jo.read( "achievements", achievements );
-        completed_achievements_.insert( achievements.cbegin(), achievements.cend() );
+        jo.read( "avatar_name", avatar_name );
+        for( const achievement_id &id : achievements ) {
+            completed_achievements_[id].emplace_back( avatar_name );
+        }
     }
+
+    // Ensure memorial data are also loaded for legacy dead character achievements
+    get_past_games();
 }
 
 static past_achievements_info past_achievements;

@@ -58,7 +58,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_FRIEND_LUO_CHAT",
-    "dynamic_line": "Seen any good movies lately?",
+    "dynamic_line": { "gendered_line": "Seen any good movies lately?", "relevant_genders": [ "u" ] },
     "//": "TK: custom chat topics here that actually include small talk that expands her character, while still giving the socialize bonus.",
     "responses": [
       {
@@ -83,7 +83,7 @@
             "or": [
               { "npc_need": "thirst", "amount": 80 },
               { "npc_need": "hunger", "amount": 160 },
-              { "npc_need": "fatigue", "level": "TIRED" },
+              { "npc_need": "sleepiness", "level": "TIRED" },
               { "npc_has_effect": "asked_to_train" },
               { "npc_has_trait": "HALLUCINATION" },
               "u_driving",
@@ -103,7 +103,7 @@
             "or": [
               { "npc_need": "thirst", "amount": 80 },
               { "npc_need": "hunger", "amount": 160 },
-              { "npc_need": "fatigue", "level": "TIRED" },
+              { "npc_need": "sleepiness", "level": "TIRED" },
               { "npc_has_effect": "asked_to_train" },
               "u_driving",
               "npc_driving"

@@ -26,6 +26,37 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "rural_church", "rural_church_parking" ],
+    "name": "rural church",
+    "sym": "C",
+    "color": "light_red",
+    "see_cost": 4
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "rural_church_steeple" ],
+    "name": "rural church steeple",
+    "sym": "C",
+    "color": "light_red",
+    "see_cost": 4
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "rural_church_steeple_roof" ],
+    "name": "rural church steeple roof",
+    "sym": "C",
+    "color": "light_red",
+    "see_cost": 4
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "rural_church_basement" ],
+    "name": "church basement",
+    "sym": "B",
+    "color": "light_red"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "synagogue" ],
     "copy-from": "generic_city_building",
     "name": "synagogue",

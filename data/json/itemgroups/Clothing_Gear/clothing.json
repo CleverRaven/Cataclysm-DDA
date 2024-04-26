@@ -99,6 +99,7 @@
       { "item": "knit_scarf", "prob": 50 },
       { "item": "pants_cargo", "prob": 75 },
       { "item": "tacjacket", "prob": 75 },
+      { "item": "jacket_army", "prob": 40 },
       { "item": "socks_wool", "prob": 50 },
       { "item": "coat_winter", "prob": 50 },
       { "item": "greatcoat", "prob": 25 },
@@ -552,6 +553,7 @@
               { "item": "tacjacket", "prob": 30 },
               { "item": "leather_police_jacket", "prob": 15 },
               { "item": "jacket_light", "prob": 40 },
+              { "item": "jacket_army", "prob": 25 },
               { "item": "jacket_windbreaker", "prob": 20 },
               { "item": "jacket_varsity", "prob": 20 },
               { "item": "gosling_jacket", "prob": 5 },
@@ -1547,10 +1549,7 @@
       [ "boxer_briefs", 45 ],
       [ "swim_briefs", 10 ],
       [ "speedo", 5 ],
-      [ "bikini_top", 10 ],
-      [ "bikini_top_short", 5 ],
-      [ "bikini_bottom", 10 ],
-      [ "bikini_bottom_short", 5 ],
+      { "group": "bikini", "prob": 20 },
       [ "panties", 70 ],
       [ "boy_shorts", 25 ],
       { "item": "boy_shorts", "variant": "flag_boy_shorts", "prob": 2 },
@@ -2194,7 +2193,7 @@
       [ "boy_shorts", 50 ],
       { "item": "boy_shorts", "variant": "flag_boy_shorts", "prob": 2 },
       { "item": "boy_shorts", "variant": "flag_boy_shorts", "prob": 70, "event": "independence_day" },
-      [ "bikini_bottom", 5 ],
+      [ "bikini_bottom", 9 ],
       [ "bikini_bottom_short", 1 ],
       { "item": "bikini_bottom", "variant": "flag_bikini_bottom", "prob": 70, "event": "independence_day" }
     ]
@@ -2277,10 +2276,7 @@
       { "item": "boxer_briefs", "prob": 20 },
       { "item": "swim_briefs", "prob": 10 },
       { "item": "speedo", "prob": 5 },
-      { "item": "bikini_top", "prob": 10 },
-      { "item": "bikini_top_short", "prob": 5 },
-      { "item": "bikini_bottom", "prob": 10 },
-      { "item": "bikini_bottom_short", "prob": 5 },
+      { "group": "bikini", "prob": 10 },
       { "item": "panties", "prob": 30 },
       { "item": "boy_shorts", "prob": 25 },
       { "item": "boy_shorts", "variant": "flag_boy_shorts", "prob": 2 },
@@ -2508,11 +2504,7 @@
       { "item": "jumpsuit_skeleton", "prob": 1 },
       { "item": "mummy_jumpsuit", "prob": 1 },
       { "item": "bodysuit_lycra", "prob": 5 },
-      { "item": "flag_swimsuit", "prob": 10 },
-      { "item": "bikini_top", "prob": 10 },
-      { "item": "bikini_top_short", "prob": 3 },
-      { "item": "bikini_bottom", "prob": 10 },
-      { "item": "bikini_bottom_short", "prob": 3 }
+      { "item": "flag_swimsuit", "prob": 10 }
     ]
   },
   {
@@ -2578,7 +2570,9 @@
     "type": "item_group",
     "id": "swimmer_torso",
     "items": [
-      [ "bikini_top", 95 ],
+      [ "bikini_top", 85 ],
+      [ "bikini_top_fur", 5 ],
+      [ "bikini_top_leather", 5 ],
       [ "bikini_top_short", 20 ],
       [ "sports_bra", 10 ],
       [ "wetsuit_jacket", 10 ],
@@ -2600,6 +2594,28 @@
   },
   {
     "type": "item_group",
+    "id": "swimmer_torso_no_bikini",
+    "//": "For use in death drops where bikinis are paired separately",
+    "items": [
+      [ "sports_bra", 10 ],
+      [ "wetsuit_jacket", 10 ],
+      [ "wetsuit_top", 25 ],
+      [ "wetsuit_top_sleeved", 25 ],
+      [ "rashguard", 25 ],
+      [ "thermal_shirt", 20 ],
+      [ "under_armor", 15 ],
+      { "item": "tank_top", "variant": "tank_top_camo", "prob": 6 },
+      [ "tank_top", 6 ],
+      [ "halter_top", 6 ],
+      [ "tshirt", 6 ],
+      [ "tshirt_text", 6 ],
+      [ "flag_shirt", 5 ],
+      { "item": "rashguard", "variant": "flag_rashguard_shirt", "prob": 60, "event": "independence_day" },
+      { "item": "flag_shirt", "prob": 20, "event": "independence_day" }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "swimmer_pants",
     "items": [
       [ "trunks", 65 ],
@@ -2615,6 +2631,23 @@
       [ "skirt_grass", 15 ],
       [ "nanoskirt", 5 ],
       { "item": "bikini_bottom", "variant": "flag_bikini_bottom", "prob": 50, "event": "independence_day" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "swimmer_pants_no_bikini",
+    "//": "For use in death drops where bikinis are paired separately",
+    "items": [
+      [ "trunks", 65 ],
+      [ "swim_briefs", 35 ],
+      [ "speedo", 10 ],
+      [ "wetsuit_pants", 25 ],
+      [ "wetsuit_shorts", 35 ],
+      [ "hot_pants", 30 ],
+      [ "under_armor_shorts", 15 ],
+      [ "skirt", 10 ],
+      [ "skirt_grass", 15 ],
+      [ "nanoskirt", 5 ]
     ]
   },
   {
@@ -3511,10 +3544,7 @@
       [ "boxer_briefs", 20 ],
       [ "swim_briefs", 10 ],
       [ "speedo", 5 ],
-      [ "bikini_top", 10 ],
-      [ "bikini_top_short", 5 ],
-      [ "bikini_bottom", 10 ],
-      [ "bikini_bottom_short", 5 ],
+      { "group": "bikini", "prob": 20 },
       [ "panties", 30 ],
       [ "boy_shorts", 25 ],
       { "item": "boy_shorts", "variant": "flag_boy_shorts", "prob": 2 },
@@ -3623,10 +3653,6 @@
       [ "jumpsuit_skeleton", 1 ],
       [ "mummy_jumpsuit", 1 ],
       [ "bodysuit_lycra", 3 ],
-      [ "bikini_top", 10 ],
-      [ "bikini_top_short", 3 ],
-      [ "bikini_bottom", 10 ],
-      [ "bikini_bottom_short", 3 ],
       [ "flag_swimsuit", 2 ]
     ]
   },
@@ -3873,17 +3899,12 @@
     "//": "womens underwear.",
     "subtype": "distribution",
     "items": [
-      { "item": "bikini_bottom", "prob": 30 },
-      { "item": "bikini_bottom_short", "prob": 10 },
       { "item": "boy_shorts", "prob": 30 },
       { "item": "boy_shorts", "variant": "flag_boy_shorts", "prob": 2 },
       { "item": "boy_shorts", "variant": "flag_boy_shorts", "prob": 100, "event": "independence_day" },
       { "item": "bra", "prob": 60 },
       { "item": "panties", "prob": 70 },
-      { "item": "bikini_top", "prob": 30 },
-      { "item": "bikini_top_short", "prob": 10 },
-      { "item": "bikini_top_fur", "prob": 5 },
-      { "item": "bikini_top_leather", "prob": 10 },
+      { "group": "bikini", "prob": 55 },
       { "item": "flag_swimsuit", "prob": 5 },
       { "item": "camisole", "prob": 30 },
       { "item": "corset", "prob": 10 },
@@ -4058,7 +4079,6 @@
           { "item": "dry_bag", "prob": 25 },
           { "item": "dry_duffelbag", "prob": 25 },
           { "item": "dry_bag_large", "prob": 15 },
-          { "item": "petpack", "prob": 50 },
           { "item": "chestrig", "variant": "flag_chestrig", "prob": 70, "event": "independence_day" }
         ],
         "prob": 30
@@ -4235,6 +4255,7 @@
           { "item": "jacket_flannel", "prob": 50 },
           { "item": "jacket_leather", "prob": 50 },
           { "item": "tacjacket", "prob": 50 },
+          { "item": "jacket_army", "prob": 30 },
           { "item": "leather_police_jacket", "prob": 10 },
           { "item": "jacket_leather_red", "prob": 25 },
           { "item": "jacket_light", "prob": 60 },
@@ -4249,10 +4270,7 @@
         ],
         "prob": 60
       },
-      {
-        "distribution": [ { "item": "house_coat", "prob": 80 }, { "item": "kimono", "prob": 20 }, { "item": "robe", "prob": 10 } ],
-        "prob": 30
-      },
+      { "distribution": [ { "item": "kimono", "prob": 20 }, { "item": "robe", "prob": 10 } ], "prob": 5 },
       {
         "distribution": [
           { "item": "vest", "prob": 80 },

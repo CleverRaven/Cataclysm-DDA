@@ -76,7 +76,7 @@
     "id": "XAEA_kill_spell",
     "type": "SPELL",
     "name": "Artifact Kill",
-    "description": "Deal damage equal to 1000% of monster's hp.",
+    "description": "Deal damage equal to 1000% of monster's HP.",
     "valid_targets": [ "hostile" ],
     "message": "Something living nearby just exploded with fountain of gore.",
     "sound_description": "",
@@ -184,7 +184,7 @@
     "name": [ "Enormous power" ],
     "desc": [ "Your muscles scream with force." ],
     "apply_message": "Unleash the power.",
-    "remove_message": "The power fade away.",
+    "remove_message": "The power fades away.",
     "rating": "good",
     "show_intensity": false,
     "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 15 } ] } ]

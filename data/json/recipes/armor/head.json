@@ -380,6 +380,18 @@
     "using": [ [ "tailoring_cotton_small", 2 ] ]
   },
   {
+    "copy-from": "maid_hat",
+    "result": "maid_hat_xl",
+    "type": "recipe",
+    "using": [ [ "tailoring_cotton_small", 3 ] ]
+  },
+  {
+    "copy-from": "maid_hat",
+    "result": "maid_hat_xs",
+    "type": "recipe",
+    "using": [ [ "tailoring_cotton_small", 1 ] ]
+  },
+  {
     "result": "hat_fur",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -2397,7 +2409,7 @@
     "using": [ [ "tailoring_nylon_patchwork", 30 ], [ "tailoring_neoprene_patchwork", 18 ] ]
   },
   {
-    "result": "xl_wetsuit_hood_thick",
+    "result": "xs_wetsuit_hood_thick",
     "type": "recipe",
     "copy-from": "wetsuit_hood_thick",
     "time": "2 h 15 m",

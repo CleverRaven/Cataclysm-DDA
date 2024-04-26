@@ -17,7 +17,7 @@
       { "text": "What does a dorm leader do exactly?", "topic": "TALK_GODCO_Gemma_Leader" },
       {
         "text": "Can I help you with anything?",
-        "condition": { "npc_has_var": "u_met_godco_gemma", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "npc_has_var": "general_meeting_u_met_godco_gemma", "value": "yes" },
         "topic": "TALK_GODCO_Gemma_Help"
       },
       {
@@ -25,8 +25,8 @@
         "topic": "TALK_GODCO_Gemma_Join",
         "condition": {
           "and": [
-            { "npc_has_var": "u_met_godco_gemma", "type": "general", "context": "meeting", "value": "yes" },
-            { "not": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" } }
+            { "npc_has_var": "general_meeting_u_met_godco_gemma", "value": "yes" },
+            { "not": { "u_has_var": "general_meeting_godco_joinee", "value": "yes" } }
           ]
         }
       }
@@ -36,15 +36,14 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Gemma_1",
     "dynamic_line": {
-      "u_has_var": "godco_notalk_to_u",
-      "type": "dialogue",
-      "context": "godco",
+      "u_has_var": "dialogue_godco_godco_notalk_to_u",
       "value": "yes",
-      "yes": "The Lord isn't with you, and that's obvious.  Get out of my sight, sinner.",
+      "yes": {
+        "gendered_line": "The Lord isn't with you, and that's obvious.  Get out of my sight, sinner.",
+        "relevant_genders": [ "u" ]
+      },
       "no": {
-        "npc_has_var": "u_met_godco_gemma",
-        "type": "general",
-        "context": "meeting",
+        "npc_has_var": "general_meeting_u_met_godco_gemma",
         "value": "yes",
         "yes": [ "Praise the Lord.", "Good to see you're still around, <granny_name_g>.", "Hey <u_name>.  How can I help you?" ],
         "no": "Great to see a new face.  I'm Gemma.  Will you be staying here with us?"
@@ -56,62 +55,65 @@
         "topic": "TALK_GODCO_Gemma_Leave",
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "u_met_godco_gemma", "type": "general", "context": "meeting", "value": "yes" } },
-            { "not": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" } },
-            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+            { "not": { "npc_has_var": "general_meeting_u_met_godco_gemma", "value": "yes" } },
+            { "not": { "u_has_var": "general_meeting_godco_joinee", "value": "yes" } },
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
-        "effect": { "npc_add_var": "u_met_godco_gemma", "type": "general", "context": "meeting", "value": "yes" }
+        "effect": { "npc_add_var": "general_meeting_u_met_godco_gemma", "value": "yes" }
       },
       {
         "text": "Nice to meet you, Gemma.  I'm seeking asylum.",
         "topic": "TALK_GODCO_Gemma_Join",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" } },
-            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+            { "not": { "u_has_var": "general_meeting_godco_joinee", "value": "yes" } },
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
-        "effect": { "npc_add_var": "u_met_godco_gemma", "type": "general", "context": "meeting", "value": "yes" }
+        "effect": { "npc_add_var": "general_meeting_u_met_godco_gemma", "value": "yes" }
       },
       {
         "text": "I'm already staying here.  Nice to meet you.",
         "topic": "TALK_GODCO_Gemma_Firstmeet",
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "u_met_godco_gemma", "type": "general", "context": "meeting", "value": "yes" } },
-            { "u_has_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" },
-            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+            { "not": { "npc_has_var": "general_meeting_u_met_godco_gemma", "value": "yes" } },
+            { "u_has_var": "general_meeting_godco_joinee", "value": "yes" },
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
-        "effect": { "npc_add_var": "u_met_godco_gemma", "type": "general", "context": "meeting", "value": "yes" }
+        "effect": { "npc_add_var": "general_meeting_u_met_godco_gemma", "value": "yes" }
       },
       {
         "text": "Hi, Gemma.  How're you doing?",
         "topic": "TALK_GODCO_Gemma_Mood",
-        "condition": { "npc_has_var": "u_met_godco_gemma", "type": "general", "context": "meeting", "value": "yes" }
+        "condition": { "npc_has_var": "general_meeting_u_met_godco_gemma", "value": "yes" }
       },
       {
         "text": "Hello, Gemma.  I'm afraid I can't talk right now.",
-        "condition": { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } },
+        "condition": { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } },
         "topic": "TALK_DONE"
       },
       {
         "text": "What's the harsh reception about?",
         "topic": "TALK_GODCO_Gemma_You_Mutant",
-        "condition": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" }
+        "condition": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" }
       },
       {
         "text": "Fine then, screw you.",
         "topic": "TALK_DONE",
-        "condition": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" }
+        "condition": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" }
       }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Gemma_Firstmeet",
-    "dynamic_line": "It's nice to meet you too, survivor.  It's a tragedy what's become of the New England Church Community, perhaps it'll flourish again someday.",
+    "dynamic_line": {
+      "gendered_line": "It's nice to meet you too, survivor.  It's a tragedy what's become of the New England Church Community, perhaps it'll flourish again someday.",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [ { "text": "I'd better get going.  Nice meeting you.", "topic": "TALK_DONE" } ]
   },
   {
@@ -126,14 +128,14 @@
     "dynamic_line": "We are all under God's protection here.  Our community, like all moral civilizations, has a set of rules.  Obey the Decalogue, have respect for your neighbors and we'll get along just fine, okay?",
     "responses": [
       { "text": "Got it.", "topic": "TALK_GODCO_Gemma_Joinee" },
-      { "text": "What is the Decalouge?", "topic": "TALK_GODCO_Gemma_Decalouge" },
+      { "text": "What is the Decalogue?", "topic": "TALK_GODCO_Gemma_Decalouge" },
       { "text": "Actually, I had better go.", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Gemma_Decalouge",
-    "dynamic_line": "Its also called the Ten Commandments, if you've heard it by that.  A long time ago, Moses lead the Isrealites out of slavery in Egypt, towards the Promised Land.  They broke their Covenant with God, and were cursed to wander the desert for forty years, as opposed to the nineteen days it would normally take.  On the way there, Moses went atop Mount Sinai to speak with God.  He saw a burning bush, and heard the voice of the Lord; who engraved the Decalouge on two tablets of stone.",
+    "dynamic_line": "Its also called the Ten Commandments, if you've heard it by that.  A long time ago, Moses lead the Israelites out of slavery in Egypt, towards the Promised Land.  They broke their Covenant with God, and were cursed to wander the desert for forty years, as opposed to the nineteen days it would normally take.  On the way there, Moses went atop Mount Sinai to speak with God.  He saw a burning bush, and heard the voice of the Lord; who engraved the Decalogue on two tablets of stone.",
     "responses": [ { "text": "…", "topic": "TALK_GODCO_Gemma_Decalouge2" } ]
   },
   {
@@ -146,12 +148,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Gemma_Joinee",
     "dynamic_line": "You are most welcome here.  In the good old days we would've held a ceremony for you.  Oh well, times have changed.  Accept this blanket, you may choose either bed by the window.  If you're hungry, you can go see Simon for a meal, up to one per day.",
-    "speaker_effect": {
-      "effect": [
-        { "u_spawn_item": "blanket" },
-        { "u_add_var": "godco_joinee", "type": "general", "context": "meeting", "value": "yes" }
-      ]
-    },
+    "speaker_effect": { "effect": [ { "u_spawn_item": "blanket" }, { "u_add_var": "general_meeting_godco_joinee", "value": "yes" } ] },
     "responses": [ { "text": "Thank you.  See you around, Gemma.", "topic": "TALK_DONE" } ]
   },
   {
@@ -177,9 +174,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Gemma_Mood",
     "dynamic_line": {
-      "npc_has_var": "gemma_got_supplements",
-      "type": "mission",
-      "context": "meeting",
+      "npc_has_var": "mission_meeting_gemma_got_supplements",
       "value": "yes",
       "yes": "I'm feeling great!  Even if the world's over, I always have myself and God above.",
       "no": "I'm feeling alright, just working away."
@@ -188,12 +183,12 @@
       {
         "text": "I'm happy to hear that, Gemma.  I'd best be going.",
         "topic": "TALK_DONE",
-        "condition": { "npc_has_var": "gemma_got_supplements", "type": "mission", "context": "meeting", "value": "yes" }
+        "condition": { "npc_has_var": "mission_meeting_gemma_got_supplements", "value": "yes" }
       },
       {
         "text": "I'll see you around.",
         "topic": "TALK_DONE",
-        "condition": { "not": { "npc_has_var": "gemma_got_supplements", "type": "mission", "context": "meeting", "value": "yes" } }
+        "condition": { "not": { "npc_has_var": "mission_meeting_gemma_got_supplements", "value": "yes" } }
       }
     ]
   },

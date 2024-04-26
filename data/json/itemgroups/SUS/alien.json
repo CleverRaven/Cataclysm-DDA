@@ -57,12 +57,12 @@
     "entries": [
       { "group": "SUS_exodii_storage_lowvalue", "prob": 30 },
       {
-        "collection": [ { "item": "pamd68", "count": [ 15, 20 ] }, { "item": "pamd71z", "count": [ 10, 15 ] } ],
-        "prob": 30
+        "collection": [ { "item": "pamd68", "count": [ 2, 3 ] }, { "item": "pamd71z", "count": [ 1, 2 ] } ],
+        "prob": 5
       },
       {
-        "collection": [ { "item": "exodiiminimag", "count": [ 30, 50 ] }, { "item": "exodiiBRmag", "count": [ 20, 40 ] } ],
-        "prob": 20
+        "collection": [ { "item": "exodiiminimag", "count": [ 2, 5 ] }, { "item": "exodiiBRmag", "count": [ 2, 3 ] } ],
+        "prob": 5
       },
       {
         "distribution": [
@@ -81,14 +81,14 @@
     "//2": "This group is for Exodii storage pods and lockers that processed ingots and the like, ready for use.",
     "subtype": "distribution",
     "entries": [
-      { "collection": [ { "item": "pamd68", "count": [ 15, 20 ] }, { "item": "pamd71z", "count": [ 10, 15 ] } ], "prob": 20 },
+      { "collection": [ { "item": "pamd68", "count": [ 2, 3 ] }, { "item": "pamd71z", "count": [ 1, 2 ] } ], "prob": 5 },
       {
         "collection": [
-          { "item": "exodiiminimag", "count": [ 30, 50 ] },
-          { "item": "exodiiBRmag", "count": [ 20, 40 ] },
-          { "item": "123ln", "count": [ 0, 200 ] }
+          { "item": "exodiiminimag", "count": [ 2, 3 ] },
+          { "item": "exodiiBRmag", "count": [ 1, 2 ] },
+          { "item": "123ln", "count": [ 0, 100 ] }
         ],
-        "prob": 20
+        "prob": 5
       },
       {
         "distribution": [
@@ -121,7 +121,7 @@
       {
         "collection": [
           { "item": "salt", "prob": 100 },
-          { "item": "sugar", "prob": 25 },
+          { "group": "sugar_jar_glass_sealed_10_140", "prob": 25 },
           { "item": "chem_saltpetre", "prob": 10 },
           { "item": "yeast", "prob": 30 }
         ],

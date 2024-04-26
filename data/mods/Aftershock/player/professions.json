@@ -2,21 +2,21 @@
   {
     "type": "profession",
     "id": "afs_radio_technician",
-    "name": "Radio Tower Technician",
-    "description": "From your spot at the top of the tower you were working on, you had a good view of the end of the world; of streaks of light falling from the sky, blossoming into mushroom clouds, barely a flicker on the horizon before your optical dampers flicked down.  You rushed to safety before the shockwaves could blast you from your perch.  The bionic implants included with your contract might come in handy now…",
+    "name": "Deck Engineer",
+    "description": "A skilled ship technician, turned to independent salvage work.",
     "points": 4,
     "CBMs": [ "bio_weight", "bn_bio_solar", "bio_power_storage_mkII", "bio_flashlight", "bio_tools", "bio_sunglasses" ],
     "skills": [ { "level": 4, "name": "electronics" }, { "level": 2, "name": "launcher" } ],
     "items": {
       "both": {
         "entries": [
-          { "item": "jumpsuit" },
+          { "item": "spacer_jumpsuit" },
           { "item": "socks" },
           { "item": "rope_30" },
           { "item": "boots" },
           { "item": "afs_herc_rig" },
-          { "item": "hat_hard", "variant": "blue_hat_hard" },
           { "item": "afs_foamgun", "ammo-item": "afs_foamcrete", "charges": 30 },
+          { "item": "cash_card", "charges": 1120000 },
           { "item": "afs_foam_tank", "ammo-item": "afs_foamcrete", "charges": 30 }
         ]
       },
@@ -251,7 +251,7 @@
           { "item": "boots" },
           { "item": "backpack" },
           { "item": "jeans" },
-          { "item": "cash_card", "charges": 50000 },
+          { "item": "cash_card", "charges": 1120000 },
           { "item": "mask_dust", "variant": "white_mask_dust" }
         ]
       },
@@ -263,10 +263,7 @@
     "type": "profession",
     "id": "afs_wraitheon_executive",
     "name": "Wraitheon Executive",
-    "description": {
-      "str": "You were one of the chief executives of the Megacorporation Wraitheon Robotics ltd. and consistently ranked among the most powerful and influential persons of the world.  Still, the apocalypse has caught you unprepared, and now after the dissolution of your company and the crumbling of your network of influence, you are left powerless and destitute, and must rely on your two robotic bodyguards to survive.",
-      "//NOLINT(cata-text-style)": "not a period"
-    },
+    "description": "The exiled scion of an unfavorable seat within the Wraitheon board of directors, wealthy beyond measure even in their estrangement.  Sent to the frontier in a last-ditch effort to salvage their reputation, or more likely, to find a silent and politically convenient death.",
     "points": 8,
     "CBMs": [ "bio_batteries", "bio_power_storage_mkII", "bio_eye_enhancer", "bio_int_enhancer", "bio_memory", "bio_cable" ],
     "traits": [ "FLIMSY3", "SLOWHEALER3" ],
@@ -280,7 +277,6 @@
           { "item": "socks" },
           { "item": "gold_watch" },
           { "item": "undershirt" },
-          { "item": "gasdiscount_platinum" },
           { "item": "afs_10mm_smart_template" },
           { "item": "cash_card", "charges": 200000000 },
           { "item": "cash_card", "charges": 200000000 },
@@ -302,7 +298,7 @@
     "type": "profession",
     "id": "afs_holo_fighter",
     "name": "Corporate Infiltrator",
-    "description": "Before all this, you were an 'independent contractor', a spy and mercenary at the service of megacorporations.  Using highly experimental holographic technology, you once took on impossible jobs one after the other.",
+    "description": "A spy and mercenary at the direct service of the Solar Corporations.  Touring the frontier in search of intelligence gathering and sabotage contracts.  Equipped with a set of irreplaceable holographic technology that borders on the miraculous.",
     "points": 8,
     "skills": [
       { "level": 4, "name": "gun" },
@@ -324,11 +320,8 @@
         "entries": [
           { "item": "under_armor" },
           { "item": "under_armor_shorts" },
-          { "item": "gloves_leather" },
-          { "item": "pants_cargo" },
-          { "item": "socks" },
+          { "item": "afs_combat_cryo" },
           { "item": "boots_combat" },
-          { "item": "gloves_leather" },
           { "item": "webbing_belt" },
           { "item": "sweater" },
           { "item": "powered_earmuffs" },
@@ -338,6 +331,7 @@
           { "item": "afs_holo_flare_caster" },
           { "item": "afs_holo_cloak_mk2" },
           { "item": "kukri", "container-item": "sheath" },
+          { "item": "cash_card", "charges": 2600000 },
           { "item": "afs_cam_spy", "ammo-item": "light_minus_atomic_battery_cell", "charges": 500 },
           { "item": "radiocontrol", "ammo-item": "light_atomic_battery_cell", "charges": 1000 },
           { "item": "afs_eidolon_derringer", "ammo-item": "afs_5x50heavy", "charges": 4, "container-item": "holster" },
@@ -383,7 +377,7 @@
       { "level": 3, "name": "bashing" }
     ],
     "proficiencies": [ "prof_batons_familiar", "prof_auto_pistols_familiar" ],
-    "traits": [ "PROF_SWAT", "UPLIFTED", "THRESH_MASTODON", "MUT_TANK", "TUSKS", "HUGE_OK" ],
+    "traits": [ "PROF_SWAT", "UPLIFTED", "THRESH_MASTODON", "TUSKS", "HUGE_OK" ],
     "//": "Need to add XL gear for MASTODON's in more items.",
     "items": {
       "both": {
@@ -414,7 +408,7 @@
   {
     "type": "profession",
     "id": "afs_bio_operator",
-    "name": "Bionic Operator",
+    "name": "Rogue Operator",
     "description": "You worked as a mercenary across six continents for a dozen corps.  A VP at the last corp decided he wanted to put you on retainer and you agreed to a three month gig in return for some additional bionics.  You woke up with an extra bionic, a cranial bomb that needed to be reset every month or so or it blows up.  Now you have days until the bomb goes off.  Maybe you'll find someone who can remove it.  Can you even sleep, for fear of death?",
     "points": 2,
     "CBMs": [
@@ -441,17 +435,14 @@
     "items": {
       "both": {
         "entries": [
-          { "item": "winter_pants_army" },
-          { "item": "winter_jacket_army" },
           { "item": "gloves_tactical" },
-          { "item": "rucksack" },
+          { "item": "afs_jumpsuit_military" },
           { "item": "cloak" },
           { "item": "mask_ski" },
           { "item": "socks" },
           { "item": "boots_combat" },
           { "item": "canteen" },
           { "item": "wristwatch" },
-          { "item": "tent_kit" },
           { "item": "rollmat" },
           { "item": "e_tool" },
           { "item": "knife_hunting" },
@@ -459,11 +450,8 @@
             "item": "medium_plus_battery_cell",
             "ammo-item": "battery",
             "charges": 600,
-            "container-item": "mil_mess_kit"
+            "container-item": "multi_cooker"
           },
-          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "hat_boonie", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "tank_top", "variant": "tank_top_camo" },
           {
             "item": "m2010",
             "ammo-item": "300_winmag",
@@ -500,7 +488,7 @@
   {
     "type": "profession",
     "id": "robot_scavenger",
-    "name": "Robot Scavenger",
+    "name": "Roboticist",
     "description": "Scavenging and reselling abandoned robotics is what you call your \"job.\" It certainly isn't official in any means of the word, but it rakes in the dough and that is all that matters to you, even if it involves dangerous activities, be it cracking old Wraitheon security cyphers or crossing well-worn wires on ancient mining drones.",
     "points": 4,
     "skills": [
@@ -520,6 +508,7 @@
           { "item": "wristwatch" },
           { "item": "bot_manhack", "count": 2 },
           { "group": "charged_smart_phone" },
+          { "item": "cash_card", "charges": 1120000 },
           { "item": "afs_cartridge", "ammo-item": "battery", "charges": 1500 },
           {
             "item": "afs_cartridge",
@@ -535,9 +524,77 @@
   },
   {
     "type": "profession",
+    "id": "afs_academic",
+    "name": "Academy Technologist",
+    "description": "A senior technologist from the Planetary Academy of Khorat, sent to Salus IV to oversee the procurement of valuable technological artifacts.  Although generously equipped, you are neither a fighter nor a good fit for life in the frontier.  You'd feel far more comfortable and capable commanding this salvage operation from the faraway safety of your office.",
+    "points": 4,
+    "traits": [ "PACIFIST", "AFS_LEADERSHIP" ],
+    "skills": [
+      { "level": 1, "name": "gun" },
+      { "level": 1, "name": "pistol" },
+      { "level": 5, "name": "fabrication" },
+      { "level": 5, "name": "chemistry" },
+      { "level": 8, "name": "mechanics" },
+      { "level": 8, "name": "electronics" }
+    ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "afs_academy_cloak" },
+          { "item": "socks" },
+          { "item": "pants" },
+          { "item": "dress_shoes" },
+          { "item": "dress_shirt" },
+          { "item": "wristwatch" },
+          { "item": "cash_card", "charges": 1120000 },
+          {
+            "item": "afs_voltaic_cartridge",
+            "ammo-item": "battery",
+            "charges": 1500,
+            "container-item": "afs_voltaic_pistol"
+          },
+          { "item": "holster" },
+          { "group": "charged_smart_phone" }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "panties" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "afs_salvor",
+    "name": "Salvor",
+    "description": "A scavenger by necessity, born and raised in between ruins and slums.  Some might be lured to your profession by romantic notions of wealth, adventure or scientific discovery.  You know better.",
+    "points": 4,
+    "skills": [
+      { "level": 1, "name": "dodge" },
+      { "level": 1, "name": "gun" },
+      { "level": 1, "name": "pistol" },
+      { "level": 3, "name": "mechanics" },
+      { "level": 3, "name": "fabrication" },
+      { "level": 3, "name": "electronics" }
+    ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "spacer_jumpsuit" },
+          { "item": "socks" },
+          { "item": "boots_combat" },
+          { "item": "wristwatch" },
+          { "item": "cash_card", "charges": 1120000 },
+          { "group": "charged_smart_phone" }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "panties" } ] }
+    }
+  },
+  {
+    "type": "profession",
     "id": "rocket_jumper",
     "name": "Rocket Jumper",
-    "description": "A skilled airborne scout and salvager equipped with a rocket pack, eking out a living on the edge of legality.  Confident that your ability to find opportunity in the skies will be your edge towards success.",
+    "description": "A skilled airborne scout and salvager equipped with a rocket pack, eking out a living on the edge of legality.",
     "points": 4,
     "skills": [
       { "level": 3, "name": "dodge" },
@@ -564,6 +621,7 @@
           { "item": "ammonia_liquid" },
           { "item": "afs_cartridge", "ammo-item": "battery", "charges": 1500 },
           { "item": "afs_cartridge", "ammo-item": "battery", "charges": 1500, "container-item": "afs_v29" },
+          { "item": "cash_card", "charges": 1120000 },
           {
             "item": "afs_40g_plasma_civ",
             "ammo-item": "afs_shydrogen",

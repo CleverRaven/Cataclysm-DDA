@@ -28,6 +28,10 @@
 #include "submap.h"
 #include "type_id.h"
 
+static const ter_str_id ter_t_grass( "t_grass" );
+static const ter_str_id ter_t_open_air( "t_open_air" );
+static const ter_str_id ter_t_rock( "t_rock" );
+
 // Remove all vehicles from the map
 void clear_vehicles( map *target )
 {
@@ -55,10 +59,10 @@ void wipe_map_terrain( map *target )
     map &here = target ? *target : get_map();
     const int mapsize = here.getmapsize() * SEEX;
     for( int z = -1; z <= OVERMAP_HEIGHT; ++z ) {
-        ter_id terrain = z == 0 ? t_grass : z < 0 ? t_rock : t_open_air;
+        ter_id terrain = z == 0 ? ter_t_grass : z < 0 ? ter_t_rock : ter_t_open_air;
         for( int x = 0; x < mapsize; ++x ) {
             for( int y = 0; y < mapsize; ++y ) {
-                here.set( { x, y, z}, terrain, f_null );
+                here.set( { x, y, z}, terrain, furn_str_id::NULL_ID() );
                 here.partial_con_remove( { x, y, z } );
             }
         }
@@ -108,7 +112,7 @@ void clear_items( const int zlevel )
     const int mapsize = here.getmapsize() * SEEX;
     for( int x = 0; x < mapsize; ++x ) {
         for( int y = 0; y < mapsize; ++y ) {
-            here.i_clear( { x, y, zlevel } );
+            here.i_clear( tripoint_bub_ms{ x, y, zlevel } );
         }
     }
 }
@@ -190,9 +194,9 @@ void build_water_test_map( const ter_id &surface, const ter_id &mid, const ter_i
         } else if( p.z == z_bottom ) {
             here.ter_set( p, bottom );
         } else if( p.z < z_bottom ) {
-            here.ter_set( p, t_rock );
+            here.ter_set( p, ter_t_rock );
         } else if( p.z > z_surface ) {
-            here.ter_set( p, t_open_air );
+            here.ter_set( p, ter_t_open_air );
         }
     }
 

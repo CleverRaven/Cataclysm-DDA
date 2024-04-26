@@ -3,8 +3,12 @@
 #include <string>
 
 #include "dialogue.h"
+#include "rng.h"
+#include "talker.h"
 
-std::optional<std::string> maybe_read_var_value( const var_info &info, const dialogue &d )
+template<class T>
+std::optional<std::string> maybe_read_var_value(
+    const abstract_var_info<T> &info, const dialogue &d, int call_depth )
 {
     global_variables &globvars = get_globals();
     switch( info.type ) {
@@ -18,7 +22,14 @@ std::optional<std::string> maybe_read_var_value( const var_info &info, const dia
             return d.actor( true )->maybe_get_value( info.name );
         case var_type::var: {
             std::optional<std::string> const var_val = d.maybe_get_value( info.name );
-            return var_val ? maybe_read_var_value( process_variable( *var_val ), d ) : std::nullopt;
+            if( call_depth > 1000 && var_val ) {
+                debugmsg( "Possible infinite loop detected: var_val points to itself or forms a cycle.  %s->%s %s",
+                          info.name, var_val.value(), d.get_callstack() );
+                return std::nullopt;
+            } else {
+                return var_val ? maybe_read_var_value( process_variable( *var_val ), d,
+                                                       call_depth + 1 ) : std::nullopt;
+            }
         }
         case var_type::faction:
         case var_type::party:
@@ -28,9 +39,23 @@ std::optional<std::string> maybe_read_var_value( const var_info &info, const dia
     return std::nullopt;
 }
 
+template
+std::optional<std::string> maybe_read_var_value( const var_info &, const dialogue &,
+        int call_depth );
+template
+std::optional<std::string> maybe_read_var_value( const translation_var_info &, const dialogue &,
+        int call_depth );
+
+template<>
 std::string read_var_value( const var_info &info, const dialogue &d )
 {
     return maybe_read_var_value( info, d ).value_or( info.default_val );
+}
+
+template<>
+std::string read_var_value( const translation_var_info &info, const dialogue &d )
+{
+    return maybe_read_var_value( info, d ).value_or( info.default_val.translated() );
 }
 
 var_info process_variable( const std::string &type )
@@ -44,6 +69,9 @@ var_info process_variable( const std::string &type )
     } else if( type.compare( 0, 4, "npc_" ) == 0 ) {
         vt = var_type::npc;
         ret_str = type.substr( 4, type.size() - 4 );
+    } else if( type.compare( 0, 2, "n_" ) == 0 ) {
+        vt = var_type::npc;
+        ret_str = type.substr( 2, type.size() - 2 );
     } else if( type.compare( 0, 7, "global_" ) == 0 ) {
         vt = var_type::global;
         ret_str = type.substr( 7, type.size() - 7 );
@@ -122,6 +150,13 @@ std::string translation_or_var::evaluate( dialogue const &d ) const
     }
     debugmsg( "No valid value for str_or_var_part.  %s", d.get_callstack() );
     return "";
+}
+
+std::string str_translation_or_var::evaluate( dialogue const &d ) const
+{
+    return std::visit( [&d]( auto &&val ) {
+        return val.evaluate( d );
+    }, val );
 }
 
 double dbl_or_var_part::evaluate( dialogue &d ) const

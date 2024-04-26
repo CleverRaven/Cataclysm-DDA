@@ -224,6 +224,9 @@ class Item_factory
          */
         void migrate_item( const itype_id &id, item &obj );
 
+        /** applies a migration to the item if one exists with the given from_variant */
+        void migrate_item_from_variant( item &obj, const std::string &from_variant );
+
         /**
          * Check if an item type is known to the Item_factory.
          * @param id Item type id (@ref itype::id).

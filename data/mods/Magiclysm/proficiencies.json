@@ -6,6 +6,12 @@
     "description": "Proficiencies for working with the elements and transforming substances."
   },
   {
+    "type": "proficiency_category",
+    "id": "prof_magic_casting",
+    "name": "Spellcraft",
+    "description": "Proficiencies that help with casting of magical spells."
+  },
+  {
     "type": "proficiency",
     "id": "prof_alchemy",
     "category": "prof_alchemy",
@@ -84,5 +90,185 @@
     "default_time_multiplier": 2,
     "default_skill_penalty": 0.2,
     "time_to_learn": "10 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_magic_evocation_beginner",
+    "category": "prof_magic_casting",
+    "name": { "str": "Novice Evocation" },
+    "//": "This doesn't just have to be damage-dealing spells, it can include anything that involves quickly casting something.",
+    "description": "You're familiar with how to channel magic and quickly release it with destructive potential.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "8 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_magic_evocation_apprentice",
+    "category": "prof_magic_casting",
+    "name": { "str": "Apprentice Evocation" },
+    "description": "You're proficient in quickly pooling magical energy for forceful casting.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "16 h",
+    "required_proficiencies": [ "prof_magic_evocation_beginner" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_magic_evocation_master",
+    "category": "prof_magic_casting",
+    "name": { "str": "Master Evocation" },
+    "description": "You've mastered the art of casting evocative magic, able to pool large amounts of your mana for quick, powerful spells.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "32 h",
+    "required_proficiencies": [ "prof_magic_evocation_apprentice" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_magic_channel_beginner",
+    "category": "prof_magic_casting",
+    "name": { "str": "Novice Channeling" },
+    "//": "This covers anything that involves channeling mana for a prolonged amount of time.",
+    "description": "You're familiar with the methods used to efficiently channel mana in prolonged casting.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "8 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_magic_channel_apprentice",
+    "category": "prof_magic_casting",
+    "name": { "str": "Apprentice Channeling" },
+    "description": "You're proficient in keeping a steady hand when channeling magic for long amounts of time.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "16 h",
+    "required_proficiencies": [ "prof_magic_channel_beginner" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_magic_channel_master",
+    "category": "prof_magic_casting",
+    "name": { "str": "Master Channeling" },
+    "description": "You've mastered the art of letting magic flow through you in long stretches.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "32 h",
+    "required_proficiencies": [ "prof_magic_channel_apprentice" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_magic_summon_beginner",
+    "category": "prof_magic_casting",
+    "name": { "str": "Novice Conjuration" },
+    "//": "This covers anything that involves summoning something with magic, like zombies.",
+    "description": "You're familiar with the ideal ways of conjuring something with the power of magic.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "8 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_magic_summon_apprentice",
+    "category": "prof_magic_casting",
+    "name": { "str": "Apprentice Conjuration" },
+    "description": "You're proficient with the methods used in conjuring magical things.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "16 h",
+    "required_proficiencies": [ "prof_magic_summon_beginner" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_magic_summon_master",
+    "category": "prof_magic_casting",
+    "name": { "str": "Master Conjuration" },
+    "description": "You've mastered the art of conjuring things with the power of magic.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "32 h",
+    "required_proficiencies": [ "prof_magic_summon_apprentice" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_magic_enhancement_beginner",
+    "category": "prof_magic_casting",
+    "name": { "str": "Novice Enhancement" },
+    "//": "This covers anything that improves a target, such as making oneself more intelligent or strong.",
+    "description": "You're familiar with improving a creature by way of magical enhancement.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "8 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_magic_enhancement_apprentice",
+    "category": "prof_magic_casting",
+    "name": { "str": "Apprentice Enhancement" },
+    "description": "You're proficient in boosting the capabilities of your subject with magic.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "16 h",
+    "required_proficiencies": [ "prof_magic_enhancement_beginner" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_magic_enhancement_master",
+    "category": "prof_magic_casting",
+    "name": { "str": "Master Enhancement" },
+    "description": "You've mastered the art of improving yourself and others with the power of magical incantations.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "32 h",
+    "required_proficiencies": [ "prof_magic_enhancement_apprentice" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_magic_conveyance_beginner",
+    "category": "prof_magic_casting",
+    "name": { "str": "Novice Conveyance" },
+    "//": "This covers anything that moves a target to and from some place, like teleportation.",
+    "description": "You're familiar with how to safely move something from place to place with magic.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "8 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_magic_conveyance_apprentice",
+    "category": "prof_magic_casting",
+    "name": { "str": "Apprentice Conveyance" },
+    "description": "You're proficient in moving your subjects with magic across long distances.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "16 h",
+    "required_proficiencies": [ "prof_magic_conveyance_beginner" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_magic_conveyance_master",
+    "category": "prof_magic_casting",
+    "name": { "str": "Master Conveyance" },
+    "description": "You've mastered the art of moving things from place to place by magical means.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "32 h",
+    "required_proficiencies": [ "prof_magic_conveyance_apprentice" ]
   }
 ]

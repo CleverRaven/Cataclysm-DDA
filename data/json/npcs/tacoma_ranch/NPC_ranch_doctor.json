@@ -14,9 +14,7 @@
     "type": "talk_topic",
     "id": "TALK_RANCH_DOCTOR",
     "dynamic_line": {
-      "npc_has_var": "provides_aid",
-      "type": "dialogue",
-      "context": "tacoma_ranch",
+      "npc_has_var": "dialogue_tacoma_ranch_provides_aid",
       "value": "yes",
       "yes": "How can I help you today?",
       "no": "I'm sorry, I don't have time to help you at the moment."
@@ -25,22 +23,20 @@
       {
         "text": "Is there anything else I can help with?",
         "topic": "TALK_MISSION_LIST",
-        "condition": {
-          "and": [ { "npc_has_var": "doctor_completed_supplies", "type": "mission", "context": "tacoma_ranch", "value": "yes" } ]
-        }
+        "condition": { "and": [ { "npc_has_var": "mission_tacoma_ranch_doctor_completed_supplies", "value": "yes" } ] }
       },
       {
         "text": "Maybe I could help you with something?",
         "topic": "TALK_RANCH_DOCTOR_SUPPLIES",
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "doctor_completed_supplies", "type": "mission", "context": "tacoma_ranch", "value": "yes" } },
+            { "not": { "npc_has_var": "mission_tacoma_ranch_doctor_completed_supplies", "value": "yes" } },
             { "not": { "u_has_mission": "MISSION_RANCH_DOCTOR_SUPPLIES" } }
           ]
         },
         "effect": [
           { "add_mission": "MISSION_RANCH_DOCTOR_SUPPLIES" },
-          { "npc_add_var": "doctor_completed_supplies", "type": "mission", "context": "tacoma_ranch", "value": "no" }
+          { "npc_add_var": "mission_tacoma_ranch_doctor_completed_supplies", "value": "no" }
         ]
       },
       {
@@ -68,9 +64,7 @@
     "id": "TALK_RANCH_DOCTOR_AID",
     "type": "talk_topic",
     "dynamic_line": {
-      "npc_has_var": "provides_aid",
-      "type": "dialogue",
-      "context": "tacoma_ranch",
+      "npc_has_var": "dialogue_tacoma_ranch_provides_aid",
       "value": "yes",
       "yes": {
         "npc_has_effect": "currently_busy",
@@ -84,23 +78,13 @@
         "text": "[$200, 30m] I need you to patch me up.",
         "topic": "TALK_RANCH_DOCTOR_AID_DONE",
         "effect": [ "give_aid", { "u_spend_cash": 20000 } ],
-        "condition": {
-          "and": [
-            { "npc_service": 20000 },
-            { "npc_has_var": "provides_aid", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" }
-          ]
-        }
+        "condition": { "and": [ { "npc_service": 20000 }, { "npc_has_var": "dialogue_tacoma_ranch_provides_aid", "value": "yes" } ] }
       },
       {
         "text": "[$500, 1h] I need you to patch my friends up.",
         "topic": "TALK_RANCH_DOCTOR_AID_DONE",
         "effect": [ "give_all_aid", { "u_spend_cash": 50000 } ],
-        "condition": {
-          "and": [
-            { "npc_service": 50000 },
-            { "npc_has_var": "provides_aid", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" }
-          ]
-        }
+        "condition": { "and": [ { "npc_service": 50000 }, { "npc_has_var": "dialogue_tacoma_ranch_provides_aid", "value": "yes" } ] }
       },
       { "text": "Never mind.", "topic": "TALK_NONE" },
       { "text": "I've got to go…", "topic": "TALK_DONE" }
@@ -109,16 +93,14 @@
   {
     "type": "talk_topic",
     "id": "TALK_RANCH_DOCTOR_AID_DONE",
-    "dynamic_line": "Take it easy now.  Wouldn't want you coming back here too soon.",
+    "dynamic_line": { "gendered_line": "Take it easy now.  Wouldn't want you coming back here too soon.", "relevant_genders": [ "u" ] },
     "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
   },
   {
     "id": "TALK_RANCH_DOCTOR_BIONICS",
     "type": "talk_topic",
     "dynamic_line": {
-      "npc_has_var": "provides_bionics",
-      "type": "dialogue",
-      "context": "tacoma_ranch",
+      "npc_has_var": "dialogue_tacoma_ranch_provides_bionics",
       "value": "yes",
       "yes": "What can I help you with?",
       "no": "We don't have the medical equipment to do that right now."
@@ -128,23 +110,13 @@
         "text": "I was wondering if you could install a cybernetic implant…",
         "topic": "TALK_DONE",
         "effect": "bionic_install",
-        "condition": {
-          "and": [
-            { "npc_service": 0 },
-            { "npc_has_var": "provides_bionics", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" }
-          ]
-        }
+        "condition": { "and": [ { "npc_service": 0 }, { "npc_has_var": "dialogue_tacoma_ranch_provides_bionics", "value": "yes" } ] }
       },
       {
         "text": "I need help removing an implant…",
         "topic": "TALK_DONE",
         "effect": "bionic_remove",
-        "condition": {
-          "and": [
-            { "npc_service": 0 },
-            { "npc_has_var": "provides_bionics", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" }
-          ]
-        }
+        "condition": { "and": [ { "npc_service": 0 }, { "npc_has_var": "dialogue_tacoma_ranch_provides_bionics", "value": "yes" } ] }
       },
       { "text": "Never mind.", "topic": "TALK_NONE" },
       { "text": "I've got to go…", "topic": "TALK_DONE" }
@@ -158,7 +130,7 @@
       {
         "text": "I'll see what I can find.",
         "topic": "TALK_DONE",
-        "effect": [ { "npc_add_var": "doctor_completed_supplies", "type": "mission", "context": "tacoma_ranch", "value": "no" } ]
+        "effect": [ { "npc_add_var": "mission_tacoma_ranch_doctor_completed_supplies", "value": "no" } ]
       },
       { "text": "Never mind.", "topic": "TALK_NONE" },
       { "text": "I've got to go…", "topic": "TALK_DONE" }
@@ -226,7 +198,7 @@
       "effect": [
         { "u_consume_item": "paper", "count": 500 },
         { "u_consume_item": "book_binder", "count": 10 },
-        { "npc_add_var": "doctor_completed_supplies", "type": "mission", "context": "tacoma_ranch", "value": "yes" }
+        { "npc_add_var": "mission_tacoma_ranch_doctor_completed_supplies", "value": "yes" }
       ]
     }
   },
@@ -277,7 +249,7 @@
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways…"
     },
-    "end": { "effect": [ { "npc_add_var": "provides_aid", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" } ] }
+    "end": { "effect": [ { "npc_add_var": "dialogue_tacoma_ranch_provides_aid", "value": "yes" } ] }
   },
   {
     "id": "MISSION_RANCH_DOCTOR_MEDICAL_ANESTHETIC",
@@ -288,18 +260,8 @@
     "goal_condition": {
       "and": [
         { "u_has_items": { "item": "anesthetic", "count": 3000 } },
-        {
-          "u_has_var": "doctor_anesthetic_scavengers_helped",
-          "type": "mission",
-          "context": "tacoma_ranch",
-          "value": "yes"
-        },
-        {
-          "u_has_var": "doctor_anesthetic_scrappers_helped",
-          "type": "mission",
-          "context": "tacoma_ranch",
-          "value": "yes"
-        }
+        { "u_has_var": "mission_tacoma_ranch_doctor_anesthetic_scavengers_helped", "value": "yes" },
+        { "u_has_var": "mission_tacoma_ranch_doctor_anesthetic_scrappers_helped", "value": "yes" }
       ]
     },
     "difficulty": 5,
@@ -322,7 +284,7 @@
       "update_mapgen": [ { "om_terrain": "ranch_camp_50", "set": [ { "point": "furniture", "id": "f_anesthetic", "x": 19, "y": 19 } ] } ],
       "effect": [
         { "u_consume_item": "anesthetic", "count": 3000 },
-        { "npc_add_var": "provides_bionics", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" }
+        { "npc_add_var": "dialogue_tacoma_ranch_provides_bionics", "value": "yes" }
       ]
     }
   }

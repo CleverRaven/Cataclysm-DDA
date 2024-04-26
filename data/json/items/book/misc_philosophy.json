@@ -15,7 +15,7 @@
       },
       {
         "id": "philosophy4",
-        "text": "A large, extended version of \"Madness and Civilisation\" by Michel Foucault.  The cover features a striking image of a Panopticonic Prison."
+        "text": "A large, extended version of \"Madness and Civilization\" by Michel Foucault.  The cover features a striking image of a Panopticonic Prison."
       },
       {
         "id": "philosophy5",
@@ -161,7 +161,7 @@
     "weight": "834 g",
     "volume": "1249 ml",
     "longest_side": "24 cm",
-    "price": 4895,
+    "price": "48 USD 95 cent",
     "copy-from": "book_nonf_hard_phil_tpl"
   },
   {
@@ -173,7 +173,7 @@
     "weight": "1139 g",
     "volume": "1625 ml",
     "longest_side": "24 cm",
-    "price": 6499,
+    "price": "64 USD 99 cent",
     "chapters": 48,
     "copy-from": "book_nonf_hard_phil_tpl"
   },
@@ -186,7 +186,7 @@
     "weight": "800 g",
     "volume": "1425 ml",
     "longest_side": "24 cm",
-    "price": 8391,
+    "price": "83 USD 91 cent",
     "copy-from": "book_nonf_hard_phil_tpl",
     "relative": { "intelligence": 1, "fun": -2 }
   },
@@ -199,8 +199,8 @@
     "weight": "794 g",
     "volume": "1 L",
     "longest_side": "21 cm",
-    "price": 3400,
-    "price_postapoc": 50,
+    "price": "34 USD",
+    "price_postapoc": "50 cent",
     "copy-from": "book_nonf_soft_phil_tpl"
   }
 ]

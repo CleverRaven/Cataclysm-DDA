@@ -24,10 +24,11 @@
 #include "weighted_list.h"
 
 class map;
-template <typename Id> class mapgen_value;
 class mapgendata;
-class mission;
 struct mapgen_arguments;
+template <typename Id> class mapgen_value;
+class mission;
+class tinymap;
 
 using building_gen_pointer = void ( * )( mapgendata & );
 
@@ -78,10 +79,15 @@ class mapgen_function_builtin : public virtual mapgen_function
  * Actually a pair of integers that can rng, for numbers that will never exceed INT_MAX
  */
 struct jmapgen_int {
-    int val;
-    int valmax;
-    explicit jmapgen_int( int v ) : val( v ), valmax( v ) {}
-    jmapgen_int( int v, int v2 ) : val( v ), valmax( v2 ) {}
+    int16_t val;
+    int16_t valmax;
+    explicit jmapgen_int( int v ) : val( v ), valmax( v ) {
+        cata_assert( v <= std::numeric_limits<int16_t>::max() );
+    }
+    jmapgen_int( int v, int v2 ) : val( v ), valmax( v2 ) {
+        cata_assert( v <= std::numeric_limits<int16_t>::max() );
+        cata_assert( v2 <= std::numeric_limits<int16_t>::max() );
+    }
     explicit jmapgen_int( point p );
     /**
      * Throws as usually if the json is invalid or missing.
@@ -317,7 +323,7 @@ class mapgen_palette
         void load_place_mapings( const JsonObject &jo, const std::string &member_name,
                                  placing_map &format_placings, const std::string &context );
 
-        void check();
+        void check() const;
 
         const mapgen_parameters &get_parameters() const {
             return parameters;
@@ -637,13 +643,16 @@ enum room_type {
 bool connects_to( const oter_id &there, int dir );
 // wrappers for map:: functions
 void line( map *m, const ter_id &type, const point &p1, const point &p2 );
+void line( tinymap *m, const ter_id &type, const point &p1, const point &p2 );
 void line_furn( map *m, const furn_id &type, const point &p1, const point &p2 );
+void line_furn( tinymap *m, const furn_id &type, const point &p1, const point &p2 );
 void fill_background( map *m, const ter_id &type );
 void fill_background( map *m, ter_id( *f )() );
 void square( map *m, const ter_id &type, const point &p1, const point &p2 );
 void square( map *m, ter_id( *f )(), const point &p1, const point &p2 );
 void square( map *m, const weighted_int_list<ter_id> &f, const point &p1, const point &p2 );
 void square_furn( map *m, const furn_id &type, const point &p1, const point &p2 );
+void square_furn( tinymap *m, const furn_id &type, const point &p1, const point &p2 );
 void rough_circle( map *m, const ter_id &type, const point &, int rad );
 void rough_circle_furn( map *m, const furn_id &type, const point &, int rad );
 void circle( map *m, const ter_id &type, double x, double y, double rad );

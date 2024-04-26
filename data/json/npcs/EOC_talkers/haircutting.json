@@ -1,0 +1,1925 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_CUT_HAIR_OR_BEARD",
+    "dynamic_line": "Do you want to shave, or cut your hair?",
+    "responses": [
+      { "text": "Shave your beard.", "topic": "TALK_CUT_YOUR_BEARD" },
+      { "text": "Cut your hair.", "topic": "TALK_CUT_YOUR_HAIR" },
+      { "text": "Don't do either.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CUT_YOUR_HAIR",
+    "dynamic_line": "How do you want your hair cut?",
+    "responses": [
+      {
+        "text": "Get a buzzcut.",
+        "condition": {
+          "and": [
+            { "u_has_trait": "natural_hair_growth" },
+            {
+              "or": [
+                { "u_has_trait": "hair_crewcut" },
+                { "u_has_trait": "hair_short" },
+                { "u_has_trait": "hair_short_no_fringe" },
+                { "u_has_trait": "hair_short_over_eye" },
+                { "u_has_trait": "hair_medium" },
+                { "u_has_trait": "hair_mohawk" },
+                { "u_has_trait": "hair_long" },
+                { "u_has_trait": "hair_long_mohawk" },
+                { "u_has_trait": "hair_mullet" },
+                { "u_has_trait": "hair_long_over_eye" },
+                { "u_has_trait": "hair_messy" },
+                { "u_has_trait": "hair_very_long" },
+                { "u_has_trait": "hair_extremely_long" },
+                { "u_has_trait": "hair_body_length" }
+              ]
+            }
+          ]
+        },
+        "effect": [
+          { "run_eocs": "reset_all_hair_types" },
+          {
+            "u_add_morale": "morale_haircut",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_buzzcut" } }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a crewcut.",
+        "condition": {
+          "and": [
+            { "u_has_trait": "natural_hair_growth" },
+            {
+              "or": [
+                { "u_has_trait": "hair_short" },
+                { "u_has_trait": "hair_short_no_fringe" },
+                { "u_has_trait": "hair_short_over_eye" },
+                { "u_has_trait": "hair_medium" },
+                { "u_has_trait": "hair_mohawk" },
+                { "u_has_trait": "hair_long" },
+                { "u_has_trait": "hair_long_mohawk" },
+                { "u_has_trait": "hair_mullet" },
+                { "u_has_trait": "hair_long_over_eye" },
+                { "u_has_trait": "hair_messy" },
+                { "u_has_trait": "hair_very_long" },
+                { "u_has_trait": "hair_extremely_long" },
+                { "u_has_trait": "hair_body_length" }
+              ]
+            }
+          ]
+        },
+        "effect": [
+          { "run_eocs": "reset_all_hair_types" },
+          {
+            "u_add_morale": "morale_haircut",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_crewcut" } }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a short cut.",
+        "condition": {
+          "and": [
+            { "u_has_trait": "natural_hair_growth" },
+            {
+              "or": [
+                { "u_has_trait": "hair_medium" },
+                { "u_has_trait": "hair_mohawk" },
+                { "u_has_trait": "hair_long" },
+                { "u_has_trait": "hair_long_mohawk" },
+                { "u_has_trait": "hair_mullet" },
+                { "u_has_trait": "hair_long_over_eye" },
+                { "u_has_trait": "hair_messy" },
+                { "u_has_trait": "hair_very_long" },
+                { "u_has_trait": "hair_extremely_long" },
+                { "u_has_trait": "hair_body_length" }
+              ]
+            }
+          ]
+        },
+        "effect": [
+          { "run_eocs": "reset_all_hair_types" },
+          {
+            "u_add_morale": "morale_haircut",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_short" } }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a short cut (no fringe).",
+        "condition": {
+          "and": [
+            { "u_has_trait": "natural_hair_growth" },
+            {
+              "or": [
+                { "u_has_trait": "hair_short" },
+                { "u_has_trait": "hair_short_over_eye" },
+                { "u_has_trait": "hair_medium" },
+                { "u_has_trait": "hair_mohawk" },
+                { "u_has_trait": "hair_long" },
+                { "u_has_trait": "hair_long_mohawk" },
+                { "u_has_trait": "hair_mullet" },
+                { "u_has_trait": "hair_long_over_eye" },
+                { "u_has_trait": "hair_messy" },
+                { "u_has_trait": "hair_very_long" },
+                { "u_has_trait": "hair_extremely_long" },
+                { "u_has_trait": "hair_body_length" }
+              ]
+            }
+          ]
+        },
+        "effect": [
+          { "run_eocs": "reset_all_hair_types" },
+          {
+            "u_add_morale": "morale_haircut",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_short_no_fringe" } }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a short cut (over eye).",
+        "condition": {
+          "and": [
+            { "u_has_trait": "natural_hair_growth" },
+            {
+              "or": [
+                { "u_has_trait": "hair_medium" },
+                { "u_has_trait": "hair_mohawk" },
+                { "u_has_trait": "hair_long" },
+                { "u_has_trait": "hair_long_mohawk" },
+                { "u_has_trait": "hair_mullet" },
+                { "u_has_trait": "hair_long_over_eye" },
+                { "u_has_trait": "hair_messy" },
+                { "u_has_trait": "hair_very_long" },
+                { "u_has_trait": "hair_extremely_long" },
+                { "u_has_trait": "hair_body_length" }
+              ]
+            }
+          ]
+        },
+        "effect": [
+          { "run_eocs": "reset_all_hair_types" },
+          {
+            "u_add_morale": "morale_haircut",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_short_over_eye" } }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a medium-length cut.",
+        "condition": {
+          "and": [
+            { "u_has_trait": "natural_hair_growth" },
+            {
+              "or": [
+                { "u_has_trait": "hair_mohawk" },
+                { "u_has_trait": "hair_long" },
+                { "u_has_trait": "hair_long_mohawk" },
+                { "u_has_trait": "hair_mullet" },
+                { "u_has_trait": "hair_long_over_eye" },
+                { "u_has_trait": "hair_messy" },
+                { "u_has_trait": "hair_very_long" },
+                { "u_has_trait": "hair_extremely_long" },
+                { "u_has_trait": "hair_body_length" }
+              ]
+            }
+          ]
+        },
+        "effect": [
+          { "run_eocs": "reset_all_hair_types" },
+          {
+            "u_add_morale": "morale_haircut",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_medium" } }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a mohawk.",
+        "condition": {
+          "and": [
+            { "u_has_trait": "natural_hair_growth" },
+            {
+              "or": [
+                { "u_has_trait": "hair_long" },
+                { "u_has_trait": "hair_long_mohawk" },
+                { "u_has_trait": "hair_mullet" },
+                { "u_has_trait": "hair_long_over_eye" },
+                { "u_has_trait": "hair_messy" },
+                { "u_has_trait": "hair_very_long" },
+                { "u_has_trait": "hair_extremely_long" },
+                { "u_has_trait": "hair_body_length" }
+              ]
+            }
+          ]
+        },
+        "effect": [
+          { "run_eocs": "reset_all_hair_types" },
+          {
+            "u_add_morale": "morale_haircut",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_mohawk" } }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a long cut.",
+        "condition": {
+          "and": [
+            { "u_has_trait": "natural_hair_growth" },
+            {
+              "or": [
+                { "u_has_trait": "hair_messy" },
+                { "u_has_trait": "hair_very_long" },
+                { "u_has_trait": "hair_extremely_long" },
+                { "u_has_trait": "hair_body_length" }
+              ]
+            }
+          ]
+        },
+        "effect": [
+          { "run_eocs": "reset_all_hair_types" },
+          {
+            "u_add_morale": "morale_haircut",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_long" } }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a long cut (over eye).",
+        "condition": {
+          "and": [
+            { "u_has_trait": "natural_hair_growth" },
+            {
+              "or": [
+                { "u_has_trait": "hair_messy" },
+                { "u_has_trait": "hair_very_long" },
+                { "u_has_trait": "hair_extremely_long" },
+                { "u_has_trait": "hair_body_length" }
+              ]
+            }
+          ]
+        },
+        "effect": [
+          { "run_eocs": "reset_all_hair_types" },
+          {
+            "u_add_morale": "morale_haircut",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_long_over_eye" } }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a long mohawk.",
+        "condition": {
+          "and": [
+            { "u_has_trait": "natural_hair_growth" },
+            {
+              "or": [
+                { "u_has_trait": "hair_messy" },
+                { "u_has_trait": "hair_very_long" },
+                { "u_has_trait": "hair_extremely_long" },
+                { "u_has_trait": "hair_body_length" }
+              ]
+            }
+          ]
+        },
+        "effect": [
+          { "run_eocs": "reset_all_hair_types" },
+          {
+            "u_add_morale": "morale_haircut",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_long_mohawk" } }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a mullet.",
+        "condition": {
+          "and": [
+            { "u_has_trait": "natural_hair_growth" },
+            {
+              "or": [
+                { "u_has_trait": "hair_messy" },
+                { "u_has_trait": "hair_very_long" },
+                { "u_has_trait": "hair_extremely_long" },
+                { "u_has_trait": "hair_body_length" }
+              ]
+            }
+          ]
+        },
+        "effect": [
+          { "run_eocs": "reset_all_hair_types" },
+          {
+            "u_add_morale": "morale_haircut",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_mullet" } }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a very long cut.",
+        "condition": {
+          "and": [
+            { "u_has_trait": "natural_hair_growth" },
+            { "or": [ { "u_has_trait": "hair_extremely_long" }, { "u_has_trait": "hair_body_length" } ] }
+          ]
+        },
+        "effect": [
+          { "run_eocs": "reset_all_hair_types" },
+          {
+            "u_add_morale": "morale_haircut",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_very_long" } }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get an extremely long cut.",
+        "condition": { "and": [ { "u_has_trait": "natural_hair_growth" }, { "u_has_trait": "hair_body_length" } ] },
+        "effect": [
+          { "run_eocs": "reset_all_hair_types" },
+          {
+            "u_add_morale": "morale_haircut",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_extremely_long" } }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a buzzcut.",
+        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "effect": [
+          { "run_eocs": "reset_all_hair_types" },
+          {
+            "u_add_morale": "morale_haircut",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_buzzcut" } }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a crewcut.",
+        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "effect": [
+          { "run_eocs": "reset_all_hair_types" },
+          {
+            "u_add_morale": "morale_haircut",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_crewcut" } }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a short cut.",
+        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "effect": [
+          { "run_eocs": "reset_all_hair_types" },
+          {
+            "u_add_morale": "morale_haircut",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_short" } }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a short cut (no fringe).",
+        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "effect": [
+          { "run_eocs": "reset_all_hair_types" },
+          {
+            "u_add_morale": "morale_haircut",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_short_no_fringe" } }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a short cut (over eye).",
+        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "effect": [
+          { "run_eocs": "reset_all_hair_types" },
+          {
+            "u_add_morale": "morale_haircut",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_short_over_eye" } }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a medium-length cut.",
+        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "effect": [
+          { "run_eocs": "reset_all_hair_types" },
+          {
+            "u_add_morale": "morale_haircut",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_medium" } }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a mohawk.",
+        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "effect": [
+          { "run_eocs": "reset_all_hair_types" },
+          {
+            "u_add_morale": "morale_haircut",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_mohawk" } }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a long cut.",
+        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "effect": [
+          { "run_eocs": "reset_all_hair_types" },
+          {
+            "u_add_morale": "morale_haircut",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_long" } }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a long cut (over eye).",
+        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "effect": [
+          { "run_eocs": "reset_all_hair_types" },
+          {
+            "u_add_morale": "morale_haircut",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_long_over_eye" } }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a long mohawk.",
+        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "effect": [
+          { "run_eocs": "reset_all_hair_types" },
+          {
+            "u_add_morale": "morale_haircut",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_long_mohawk" } }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a mullet.",
+        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "effect": [
+          { "run_eocs": "reset_all_hair_types" },
+          {
+            "u_add_morale": "morale_haircut",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_mullet" } }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a very long cut.",
+        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "effect": [
+          { "run_eocs": "reset_all_hair_types" },
+          {
+            "u_add_morale": "morale_haircut",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_very_long" } }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get an extremely long cut.",
+        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "effect": [
+          { "run_eocs": "reset_all_hair_types" },
+          {
+            "u_add_morale": "morale_haircut",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_extremely_long" } }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get an body-length cut.",
+        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "effect": [
+          { "run_eocs": "reset_all_hair_types" },
+          {
+            "u_add_morale": "morale_haircut",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_body_length" } }
+        ],
+        "topic": "TALK_DONE"
+      },
+      { "text": "Don't cut anything.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CUT_YOUR_BEARD",
+    "dynamic_line": "How do you want your beard cut?",
+    "responses": [
+      {
+        "text": "Get a clean shave.",
+        "condition": {
+          "and": [
+            { "u_has_trait": "natural_hair_growth" },
+            {
+              "or": [
+                { "u_has_trait": "FACIAL_HAIR_NECKBEARD" },
+                { "u_has_trait": "FACIAL_HAIR_SIDEBURNS" },
+                { "u_has_trait": "FACIAL_HAIR_SOUL_PATCH" },
+                { "u_has_trait": "FACIAL_HAIR_CHIN_STRIP" },
+                { "u_has_trait": "FACIAL_HAIR_3DAYSTUBBLE" },
+                { "u_has_trait": "FACIAL_HAIR_TOOTHBRUSH" },
+                { "u_has_trait": "FACIAL_HAIR_CHIN_STRAP" },
+                { "u_has_trait": "FACIAL_HAIR_MUSTACHE" },
+                { "u_has_trait": "FACIAL_HAIR_NECKBEARD" },
+                { "u_has_trait": "FACIAL_HAIR_WALRUS" },
+                { "u_has_trait": "FACIAL_HAIR_ZAPPA" },
+                { "u_has_trait": "FACIAL_HAIR_GOATEE" },
+                { "u_has_trait": "FACIAL_HAIR_CIRCLE" },
+                { "u_has_trait": "FACIAL_HAIR_SHORTBOXED" },
+                { "u_has_trait": "FACIAL_HAIR_HORSESHOE" },
+                { "u_has_trait": "FACIAL_HAIR_MUTTONCHOPS" },
+                { "u_has_trait": "FACIAL_HAIR_GUNSLINGER" },
+                { "u_has_trait": "FACIAL_HAIR_CHIN_CURTAIN" },
+                { "u_has_trait": "FACIAL_HAIR_HANDLEBAR" },
+                { "u_has_trait": "FACIAL_HAIR_VANDYKE" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD" },
+                { "u_has_trait": "FACIAL_HAIR_ANCHOR" },
+                { "u_has_trait": "FACIAL_HAIR_ROYALE" },
+                { "u_has_trait": "FACIAL_HAIR_SHENANDOAH" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD_LONG" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD_VERY_LONG" }
+              ]
+            }
+          ]
+        },
+        "effect": [
+          { "run_eocs": "reset_all_beard_types" },
+          {
+            "u_add_morale": "morale_shave",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "u_add_trait": "FACIAL_HAIR_NONE" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a neck beard.",
+        "condition": {
+          "and": [
+            { "u_has_trait": "natural_hair_growth" },
+            {
+              "or": [
+                { "u_has_trait": "FACIAL_HAIR_SIDEBURNS" },
+                { "u_has_trait": "FACIAL_HAIR_SOUL_PATCH" },
+                { "u_has_trait": "FACIAL_HAIR_CHIN_STRIP" },
+                { "u_has_trait": "FACIAL_HAIR_3DAYSTUBBLE" },
+                { "u_has_trait": "FACIAL_HAIR_TOOTHBRUSH" },
+                { "u_has_trait": "FACIAL_HAIR_CHIN_STRAP" },
+                { "u_has_trait": "FACIAL_HAIR_MUSTACHE" },
+                { "u_has_trait": "FACIAL_HAIR_NECKBEARD" },
+                { "u_has_trait": "FACIAL_HAIR_WALRUS" },
+                { "u_has_trait": "FACIAL_HAIR_ZAPPA" },
+                { "u_has_trait": "FACIAL_HAIR_GOATEE" },
+                { "u_has_trait": "FACIAL_HAIR_CIRCLE" },
+                { "u_has_trait": "FACIAL_HAIR_SHORTBOXED" },
+                { "u_has_trait": "FACIAL_HAIR_HORSESHOE" },
+                { "u_has_trait": "FACIAL_HAIR_MUTTONCHOPS" },
+                { "u_has_trait": "FACIAL_HAIR_GUNSLINGER" },
+                { "u_has_trait": "FACIAL_HAIR_CHIN_CURTAIN" },
+                { "u_has_trait": "FACIAL_HAIR_HANDLEBAR" },
+                { "u_has_trait": "FACIAL_HAIR_VANDYKE" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD" },
+                { "u_has_trait": "FACIAL_HAIR_ANCHOR" },
+                { "u_has_trait": "FACIAL_HAIR_ROYALE" },
+                { "u_has_trait": "FACIAL_HAIR_SHENANDOAH" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD_LONG" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD_VERY_LONG" }
+              ]
+            }
+          ]
+        },
+        "effect": [
+          { "run_eocs": "reset_all_beard_types" },
+          {
+            "u_add_morale": "morale_shave",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "u_add_trait": "FACIAL_HAIR_NECKBEARD" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get some sideburns.",
+        "condition": {
+          "and": [
+            { "u_has_trait": "natural_hair_growth" },
+            {
+              "or": [
+                { "u_has_trait": "FACIAL_HAIR_3DAYSTUBBLE" },
+                { "u_has_trait": "FACIAL_HAIR_TOOTHBRUSH" },
+                { "u_has_trait": "FACIAL_HAIR_CHIN_STRAP" },
+                { "u_has_trait": "FACIAL_HAIR_MUSTACHE" },
+                { "u_has_trait": "FACIAL_HAIR_NECKBEARD" },
+                { "u_has_trait": "FACIAL_HAIR_WALRUS" },
+                { "u_has_trait": "FACIAL_HAIR_ZAPPA" },
+                { "u_has_trait": "FACIAL_HAIR_GOATEE" },
+                { "u_has_trait": "FACIAL_HAIR_CIRCLE" },
+                { "u_has_trait": "FACIAL_HAIR_SHORTBOXED" },
+                { "u_has_trait": "FACIAL_HAIR_HORSESHOE" },
+                { "u_has_trait": "FACIAL_HAIR_MUTTONCHOPS" },
+                { "u_has_trait": "FACIAL_HAIR_GUNSLINGER" },
+                { "u_has_trait": "FACIAL_HAIR_CHIN_CURTAIN" },
+                { "u_has_trait": "FACIAL_HAIR_HANDLEBAR" },
+                { "u_has_trait": "FACIAL_HAIR_VANDYKE" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD" },
+                { "u_has_trait": "FACIAL_HAIR_ANCHOR" },
+                { "u_has_trait": "FACIAL_HAIR_ROYALE" },
+                { "u_has_trait": "FACIAL_HAIR_SHENANDOAH" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD_LONG" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD_VERY_LONG" }
+              ]
+            }
+          ]
+        },
+        "effect": [
+          { "run_eocs": "reset_all_beard_types" },
+          {
+            "u_add_morale": "morale_shave",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "u_add_trait": "FACIAL_HAIR_SIDEBURNS" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a soul patch.",
+        "condition": {
+          "and": [
+            { "u_has_trait": "natural_hair_growth" },
+            {
+              "or": [
+                { "u_has_trait": "FACIAL_HAIR_3DAYSTUBBLE" },
+                { "u_has_trait": "FACIAL_HAIR_TOOTHBRUSH" },
+                { "u_has_trait": "FACIAL_HAIR_CHIN_STRAP" },
+                { "u_has_trait": "FACIAL_HAIR_MUSTACHE" },
+                { "u_has_trait": "FACIAL_HAIR_NECKBEARD" },
+                { "u_has_trait": "FACIAL_HAIR_WALRUS" },
+                { "u_has_trait": "FACIAL_HAIR_ZAPPA" },
+                { "u_has_trait": "FACIAL_HAIR_GOATEE" },
+                { "u_has_trait": "FACIAL_HAIR_CIRCLE" },
+                { "u_has_trait": "FACIAL_HAIR_SHORTBOXED" },
+                { "u_has_trait": "FACIAL_HAIR_HORSESHOE" },
+                { "u_has_trait": "FACIAL_HAIR_MUTTONCHOPS" },
+                { "u_has_trait": "FACIAL_HAIR_GUNSLINGER" },
+                { "u_has_trait": "FACIAL_HAIR_CHIN_CURTAIN" },
+                { "u_has_trait": "FACIAL_HAIR_HANDLEBAR" },
+                { "u_has_trait": "FACIAL_HAIR_VANDYKE" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD" },
+                { "u_has_trait": "FACIAL_HAIR_ANCHOR" },
+                { "u_has_trait": "FACIAL_HAIR_ROYALE" },
+                { "u_has_trait": "FACIAL_HAIR_SHENANDOAH" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD_LONG" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD_VERY_LONG" }
+              ]
+            }
+          ]
+        },
+        "effect": [
+          { "run_eocs": "reset_all_beard_types" },
+          {
+            "u_add_morale": "morale_shave",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "u_add_trait": "FACIAL_HAIR_SOUL_PATCH" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a chin strip.",
+        "condition": {
+          "and": [
+            { "u_has_trait": "natural_hair_growth" },
+            {
+              "or": [
+                { "u_has_trait": "FACIAL_HAIR_3DAYSTUBBLE" },
+                { "u_has_trait": "FACIAL_HAIR_TOOTHBRUSH" },
+                { "u_has_trait": "FACIAL_HAIR_CHIN_STRAP" },
+                { "u_has_trait": "FACIAL_HAIR_MUSTACHE" },
+                { "u_has_trait": "FACIAL_HAIR_NECKBEARD" },
+                { "u_has_trait": "FACIAL_HAIR_WALRUS" },
+                { "u_has_trait": "FACIAL_HAIR_ZAPPA" },
+                { "u_has_trait": "FACIAL_HAIR_GOATEE" },
+                { "u_has_trait": "FACIAL_HAIR_CIRCLE" },
+                { "u_has_trait": "FACIAL_HAIR_SHORTBOXED" },
+                { "u_has_trait": "FACIAL_HAIR_HORSESHOE" },
+                { "u_has_trait": "FACIAL_HAIR_MUTTONCHOPS" },
+                { "u_has_trait": "FACIAL_HAIR_GUNSLINGER" },
+                { "u_has_trait": "FACIAL_HAIR_CHIN_CURTAIN" },
+                { "u_has_trait": "FACIAL_HAIR_HANDLEBAR" },
+                { "u_has_trait": "FACIAL_HAIR_VANDYKE" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD" },
+                { "u_has_trait": "FACIAL_HAIR_ANCHOR" },
+                { "u_has_trait": "FACIAL_HAIR_ROYALE" },
+                { "u_has_trait": "FACIAL_HAIR_SHENANDOAH" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD_LONG" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD_VERY_LONG" }
+              ]
+            }
+          ]
+        },
+        "effect": [
+          { "run_eocs": "reset_all_beard_types" },
+          {
+            "u_add_morale": "morale_shave",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "u_add_trait": "FACIAL_HAIR_CHIN_STRIP" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get some 3-day stubble.",
+        "condition": {
+          "and": [
+            { "u_has_trait": "natural_hair_growth" },
+            {
+              "or": [
+                { "u_has_trait": "FACIAL_HAIR_ZAPPA" },
+                { "u_has_trait": "FACIAL_HAIR_GOATEE" },
+                { "u_has_trait": "FACIAL_HAIR_CIRCLE" },
+                { "u_has_trait": "FACIAL_HAIR_SHORTBOXED" },
+                { "u_has_trait": "FACIAL_HAIR_HORSESHOE" },
+                { "u_has_trait": "FACIAL_HAIR_MUTTONCHOPS" },
+                { "u_has_trait": "FACIAL_HAIR_GUNSLINGER" },
+                { "u_has_trait": "FACIAL_HAIR_CHIN_CURTAIN" },
+                { "u_has_trait": "FACIAL_HAIR_HANDLEBAR" },
+                { "u_has_trait": "FACIAL_HAIR_VANDYKE" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD" },
+                { "u_has_trait": "FACIAL_HAIR_ANCHOR" },
+                { "u_has_trait": "FACIAL_HAIR_ROYALE" },
+                { "u_has_trait": "FACIAL_HAIR_SHENANDOAH" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD_LONG" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD_VERY_LONG" }
+              ]
+            }
+          ]
+        },
+        "effect": [
+          { "run_eocs": "reset_all_beard_types" },
+          {
+            "u_add_morale": "morale_shave",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "u_add_trait": "FACIAL_HAIR_3DAYSTUBBLE" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a toothbrush moustache.",
+        "condition": {
+          "and": [
+            { "u_has_trait": "natural_hair_growth" },
+            {
+              "or": [
+                { "u_has_trait": "FACIAL_HAIR_ZAPPA" },
+                { "u_has_trait": "FACIAL_HAIR_GOATEE" },
+                { "u_has_trait": "FACIAL_HAIR_CIRCLE" },
+                { "u_has_trait": "FACIAL_HAIR_SHORTBOXED" },
+                { "u_has_trait": "FACIAL_HAIR_HORSESHOE" },
+                { "u_has_trait": "FACIAL_HAIR_MUTTONCHOPS" },
+                { "u_has_trait": "FACIAL_HAIR_GUNSLINGER" },
+                { "u_has_trait": "FACIAL_HAIR_CHIN_CURTAIN" },
+                { "u_has_trait": "FACIAL_HAIR_HANDLEBAR" },
+                { "u_has_trait": "FACIAL_HAIR_VANDYKE" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD" },
+                { "u_has_trait": "FACIAL_HAIR_ANCHOR" },
+                { "u_has_trait": "FACIAL_HAIR_ROYALE" },
+                { "u_has_trait": "FACIAL_HAIR_SHENANDOAH" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD_LONG" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD_VERY_LONG" }
+              ]
+            }
+          ]
+        },
+        "effect": [
+          { "run_eocs": "reset_all_beard_types" },
+          {
+            "u_add_morale": "morale_shave",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "u_add_trait": "FACIAL_HAIR_TOOTHBRUSH" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a chin strap.",
+        "condition": {
+          "and": [
+            { "u_has_trait": "natural_hair_growth" },
+            {
+              "or": [
+                { "u_has_trait": "FACIAL_HAIR_ZAPPA" },
+                { "u_has_trait": "FACIAL_HAIR_GOATEE" },
+                { "u_has_trait": "FACIAL_HAIR_CIRCLE" },
+                { "u_has_trait": "FACIAL_HAIR_SHORTBOXED" },
+                { "u_has_trait": "FACIAL_HAIR_HORSESHOE" },
+                { "u_has_trait": "FACIAL_HAIR_MUTTONCHOPS" },
+                { "u_has_trait": "FACIAL_HAIR_GUNSLINGER" },
+                { "u_has_trait": "FACIAL_HAIR_CHIN_CURTAIN" },
+                { "u_has_trait": "FACIAL_HAIR_HANDLEBAR" },
+                { "u_has_trait": "FACIAL_HAIR_VANDYKE" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD" },
+                { "u_has_trait": "FACIAL_HAIR_ANCHOR" },
+                { "u_has_trait": "FACIAL_HAIR_ROYALE" },
+                { "u_has_trait": "FACIAL_HAIR_SHENANDOAH" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD_LONG" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD_VERY_LONG" }
+              ]
+            }
+          ]
+        },
+        "effect": [
+          { "run_eocs": "reset_all_beard_types" },
+          {
+            "u_add_morale": "morale_shave",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "u_add_trait": "FACIAL_HAIR_CHIN_STRAP" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a moustache.",
+        "condition": {
+          "and": [
+            { "u_has_trait": "natural_hair_growth" },
+            {
+              "or": [
+                { "u_has_trait": "FACIAL_HAIR_GOATEE" },
+                { "u_has_trait": "FACIAL_HAIR_CIRCLE" },
+                { "u_has_trait": "FACIAL_HAIR_SHORTBOXED" },
+                { "u_has_trait": "FACIAL_HAIR_HORSESHOE" },
+                { "u_has_trait": "FACIAL_HAIR_MUTTONCHOPS" },
+                { "u_has_trait": "FACIAL_HAIR_GUNSLINGER" },
+                { "u_has_trait": "FACIAL_HAIR_CHIN_CURTAIN" },
+                { "u_has_trait": "FACIAL_HAIR_HANDLEBAR" },
+                { "u_has_trait": "FACIAL_HAIR_VANDYKE" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD" },
+                { "u_has_trait": "FACIAL_HAIR_ANCHOR" },
+                { "u_has_trait": "FACIAL_HAIR_ROYALE" },
+                { "u_has_trait": "FACIAL_HAIR_SHENANDOAH" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD_LONG" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD_VERY_LONG" }
+              ]
+            }
+          ]
+        },
+        "effect": [
+          { "run_eocs": "reset_all_beard_types" },
+          {
+            "u_add_morale": "morale_shave",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "u_add_trait": "FACIAL_HAIR_MUSTACHE" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a walrus moustache.",
+        "condition": {
+          "and": [
+            { "u_has_trait": "natural_hair_growth" },
+            {
+              "or": [
+                { "u_has_trait": "FACIAL_HAIR_GOATEE" },
+                { "u_has_trait": "FACIAL_HAIR_CIRCLE" },
+                { "u_has_trait": "FACIAL_HAIR_SHORTBOXED" },
+                { "u_has_trait": "FACIAL_HAIR_HORSESHOE" },
+                { "u_has_trait": "FACIAL_HAIR_MUTTONCHOPS" },
+                { "u_has_trait": "FACIAL_HAIR_GUNSLINGER" },
+                { "u_has_trait": "FACIAL_HAIR_CHIN_CURTAIN" },
+                { "u_has_trait": "FACIAL_HAIR_HANDLEBAR" },
+                { "u_has_trait": "FACIAL_HAIR_VANDYKE" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD" },
+                { "u_has_trait": "FACIAL_HAIR_ANCHOR" },
+                { "u_has_trait": "FACIAL_HAIR_ROYALE" },
+                { "u_has_trait": "FACIAL_HAIR_SHENANDOAH" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD_LONG" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD_VERY_LONG" }
+              ]
+            }
+          ]
+        },
+        "effect": [
+          { "run_eocs": "reset_all_beard_types" },
+          {
+            "u_add_morale": "morale_shave",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "u_add_trait": "FACIAL_HAIR_WALRUS" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a Zappa.",
+        "condition": {
+          "and": [
+            { "u_has_trait": "natural_hair_growth" },
+            {
+              "or": [
+                { "u_has_trait": "FACIAL_HAIR_GOATEE" },
+                { "u_has_trait": "FACIAL_HAIR_CIRCLE" },
+                { "u_has_trait": "FACIAL_HAIR_SHORTBOXED" },
+                { "u_has_trait": "FACIAL_HAIR_HORSESHOE" },
+                { "u_has_trait": "FACIAL_HAIR_MUTTONCHOPS" },
+                { "u_has_trait": "FACIAL_HAIR_GUNSLINGER" },
+                { "u_has_trait": "FACIAL_HAIR_CHIN_CURTAIN" },
+                { "u_has_trait": "FACIAL_HAIR_HANDLEBAR" },
+                { "u_has_trait": "FACIAL_HAIR_VANDYKE" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD" },
+                { "u_has_trait": "FACIAL_HAIR_ANCHOR" },
+                { "u_has_trait": "FACIAL_HAIR_ROYALE" },
+                { "u_has_trait": "FACIAL_HAIR_SHENANDOAH" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD_LONG" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD_VERY_LONG" }
+              ]
+            }
+          ]
+        },
+        "effect": [
+          { "run_eocs": "reset_all_beard_types" },
+          {
+            "u_add_morale": "morale_shave",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "u_add_trait": "FACIAL_HAIR_ZAPPA" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a goatee.",
+        "condition": {
+          "and": [
+            { "u_has_trait": "natural_hair_growth" },
+            {
+              "or": [
+                { "u_has_trait": "FACIAL_HAIR_BEARD" },
+                { "u_has_trait": "FACIAL_HAIR_ANCHOR" },
+                { "u_has_trait": "FACIAL_HAIR_ROYALE" },
+                { "u_has_trait": "FACIAL_HAIR_SHENANDOAH" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD_LONG" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD_VERY_LONG" }
+              ]
+            }
+          ]
+        },
+        "effect": [
+          { "run_eocs": "reset_all_beard_types" },
+          {
+            "u_add_morale": "morale_shave",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "u_add_trait": "FACIAL_HAIR_GOATEE" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a circle beard.",
+        "condition": {
+          "and": [
+            { "u_has_trait": "natural_hair_growth" },
+            {
+              "or": [
+                { "u_has_trait": "FACIAL_HAIR_BEARD" },
+                { "u_has_trait": "FACIAL_HAIR_ANCHOR" },
+                { "u_has_trait": "FACIAL_HAIR_ROYALE" },
+                { "u_has_trait": "FACIAL_HAIR_SHENANDOAH" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD_LONG" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD_VERY_LONG" }
+              ]
+            }
+          ]
+        },
+        "effect": [
+          { "run_eocs": "reset_all_beard_types" },
+          {
+            "u_add_morale": "morale_shave",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "u_add_trait": "FACIAL_HAIR_CIRCLE" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a short boxed beard.",
+        "condition": {
+          "and": [
+            { "u_has_trait": "natural_hair_growth" },
+            {
+              "or": [
+                { "u_has_trait": "FACIAL_HAIR_BEARD" },
+                { "u_has_trait": "FACIAL_HAIR_ANCHOR" },
+                { "u_has_trait": "FACIAL_HAIR_ROYALE" },
+                { "u_has_trait": "FACIAL_HAIR_SHENANDOAH" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD_LONG" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD_VERY_LONG" }
+              ]
+            }
+          ]
+        },
+        "effect": [
+          { "run_eocs": "reset_all_beard_types" },
+          {
+            "u_add_morale": "morale_shave",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "u_add_trait": "FACIAL_HAIR_SHORTBOXED" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a horseshoe.",
+        "condition": {
+          "and": [
+            { "u_has_trait": "natural_hair_growth" },
+            {
+              "or": [
+                { "u_has_trait": "FACIAL_HAIR_BEARD" },
+                { "u_has_trait": "FACIAL_HAIR_ANCHOR" },
+                { "u_has_trait": "FACIAL_HAIR_ROYALE" },
+                { "u_has_trait": "FACIAL_HAIR_SHENANDOAH" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD_LONG" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD_VERY_LONG" }
+              ]
+            }
+          ]
+        },
+        "effect": [
+          { "run_eocs": "reset_all_beard_types" },
+          {
+            "u_add_morale": "morale_shave",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "u_add_trait": "FACIAL_HAIR_HORSESHOE" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get some mutton chops.",
+        "condition": {
+          "and": [
+            { "u_has_trait": "natural_hair_growth" },
+            {
+              "or": [
+                { "u_has_trait": "FACIAL_HAIR_BEARD" },
+                { "u_has_trait": "FACIAL_HAIR_ANCHOR" },
+                { "u_has_trait": "FACIAL_HAIR_ROYALE" },
+                { "u_has_trait": "FACIAL_HAIR_SHENANDOAH" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD_LONG" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD_VERY_LONG" }
+              ]
+            }
+          ]
+        },
+        "effect": [
+          { "run_eocs": "reset_all_beard_types" },
+          {
+            "u_add_morale": "morale_shave",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "u_add_trait": "FACIAL_HAIR_MUTTONCHOPS" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a gunslinger beard.",
+        "condition": {
+          "and": [
+            { "u_has_trait": "natural_hair_growth" },
+            {
+              "or": [
+                { "u_has_trait": "FACIAL_HAIR_BEARD" },
+                { "u_has_trait": "FACIAL_HAIR_ANCHOR" },
+                { "u_has_trait": "FACIAL_HAIR_ROYALE" },
+                { "u_has_trait": "FACIAL_HAIR_SHENANDOAH" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD_LONG" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD_VERY_LONG" }
+              ]
+            }
+          ]
+        },
+        "effect": [
+          { "run_eocs": "reset_all_beard_types" },
+          {
+            "u_add_morale": "morale_shave",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "u_add_trait": "FACIAL_HAIR_GUNSLINGER" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a chin curtain.",
+        "condition": {
+          "and": [
+            { "u_has_trait": "natural_hair_growth" },
+            {
+              "or": [
+                { "u_has_trait": "FACIAL_HAIR_BEARD" },
+                { "u_has_trait": "FACIAL_HAIR_ANCHOR" },
+                { "u_has_trait": "FACIAL_HAIR_ROYALE" },
+                { "u_has_trait": "FACIAL_HAIR_SHENANDOAH" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD_LONG" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD_VERY_LONG" }
+              ]
+            }
+          ]
+        },
+        "effect": [
+          { "run_eocs": "reset_all_beard_types" },
+          {
+            "u_add_morale": "morale_shave",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "u_add_trait": "FACIAL_HAIR_CHIN_CURTAIN" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a handlebar moustache.",
+        "condition": {
+          "and": [
+            { "u_has_trait": "natural_hair_growth" },
+            {
+              "or": [
+                { "u_has_trait": "FACIAL_HAIR_BEARD" },
+                { "u_has_trait": "FACIAL_HAIR_ANCHOR" },
+                { "u_has_trait": "FACIAL_HAIR_ROYALE" },
+                { "u_has_trait": "FACIAL_HAIR_SHENANDOAH" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD_LONG" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD_VERY_LONG" }
+              ]
+            }
+          ]
+        },
+        "effect": [
+          { "run_eocs": "reset_all_beard_types" },
+          {
+            "u_add_morale": "morale_shave",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "u_add_trait": "FACIAL_HAIR_HANDLEBAR" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a Van Dyke.",
+        "condition": {
+          "and": [
+            { "u_has_trait": "natural_hair_growth" },
+            {
+              "or": [
+                { "u_has_trait": "FACIAL_HAIR_BEARD" },
+                { "u_has_trait": "FACIAL_HAIR_ANCHOR" },
+                { "u_has_trait": "FACIAL_HAIR_ROYALE" },
+                { "u_has_trait": "FACIAL_HAIR_SHENANDOAH" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD_LONG" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD_VERY_LONG" }
+              ]
+            }
+          ]
+        },
+        "effect": [
+          { "run_eocs": "reset_all_beard_types" },
+          {
+            "u_add_morale": "morale_shave",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "u_add_trait": "FACIAL_HAIR_VANDYKE" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a regular beard.",
+        "condition": {
+          "and": [
+            { "u_has_trait": "natural_hair_growth" },
+            {
+              "or": [
+                { "u_has_trait": "FACIAL_HAIR_SHENANDOAH" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD_LONG" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD_VERY_LONG" }
+              ]
+            }
+          ]
+        },
+        "effect": [
+          { "run_eocs": "reset_all_beard_types" },
+          {
+            "u_add_morale": "morale_shave",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "u_add_trait": "FACIAL_HAIR_BEARD" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a anchor beard.",
+        "condition": {
+          "and": [
+            { "u_has_trait": "natural_hair_growth" },
+            {
+              "or": [
+                { "u_has_trait": "FACIAL_HAIR_SHENANDOAH" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD_LONG" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD_VERY_LONG" }
+              ]
+            }
+          ]
+        },
+        "effect": [
+          { "run_eocs": "reset_all_beard_types" },
+          {
+            "u_add_morale": "morale_shave",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "u_add_trait": "FACIAL_HAIR_ANCHOR" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a royale beard.",
+        "condition": {
+          "and": [
+            { "u_has_trait": "natural_hair_growth" },
+            {
+              "or": [
+                { "u_has_trait": "FACIAL_HAIR_SHENANDOAH" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD_LONG" },
+                { "u_has_trait": "FACIAL_HAIR_BEARD_VERY_LONG" }
+              ]
+            }
+          ]
+        },
+        "effect": [
+          { "run_eocs": "reset_all_beard_types" },
+          {
+            "u_add_morale": "morale_shave",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "u_add_trait": "FACIAL_HAIR_ROYALE" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a Shenandoah.",
+        "condition": {
+          "and": [
+            { "u_has_trait": "natural_hair_growth" },
+            {
+              "or": [ { "u_has_trait": "FACIAL_HAIR_BEARD_LONG" }, { "u_has_trait": "FACIAL_HAIR_BEARD_VERY_LONG" } ]
+            }
+          ]
+        },
+        "effect": [
+          { "run_eocs": "reset_all_beard_types" },
+          {
+            "u_add_morale": "morale_shave",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "u_add_trait": "FACIAL_HAIR_SHENANDOAH" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a long beard.",
+        "condition": { "and": [ { "u_has_trait": "natural_hair_growth" }, { "u_has_trait": "FACIAL_HAIR_BEARD_VERY_LONG" } ] },
+        "effect": [
+          { "run_eocs": "reset_all_beard_types" },
+          {
+            "u_add_morale": "morale_shave",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "u_add_trait": "FACIAL_HAIR_BEARD_LONG" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a clean shave.",
+        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "effect": [
+          { "run_eocs": "reset_all_beard_types" },
+          {
+            "u_add_morale": "morale_shave",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "u_add_trait": "FACIAL_HAIR_NONE" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a neck beard.",
+        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "effect": [
+          { "run_eocs": "reset_all_beard_types" },
+          {
+            "u_add_morale": "morale_shave",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "u_add_trait": "FACIAL_HAIR_NECKBEARD" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get some sideburns.",
+        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "effect": [
+          { "run_eocs": "reset_all_beard_types" },
+          {
+            "u_add_morale": "morale_shave",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "u_add_trait": "FACIAL_HAIR_SIDEBURNS" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a soul patch.",
+        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "effect": [
+          { "run_eocs": "reset_all_beard_types" },
+          {
+            "u_add_morale": "morale_shave",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "u_add_trait": "FACIAL_HAIR_SOUL_PATCH" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a chin strip.",
+        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "effect": [
+          { "run_eocs": "reset_all_beard_types" },
+          {
+            "u_add_morale": "morale_shave",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "u_add_trait": "FACIAL_HAIR_CHIN_STRIP" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get some 3-day stubble.",
+        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "effect": [
+          { "run_eocs": "reset_all_beard_types" },
+          {
+            "u_add_morale": "morale_shave",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "u_add_trait": "FACIAL_HAIR_3DAYSTUBBLE" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a toothbrush moustache.",
+        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "effect": [
+          { "run_eocs": "reset_all_beard_types" },
+          {
+            "u_add_morale": "morale_shave",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "u_add_trait": "FACIAL_HAIR_TOOTHBRUSH" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a chin strap.",
+        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "effect": [
+          { "run_eocs": "reset_all_beard_types" },
+          {
+            "u_add_morale": "morale_shave",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "u_add_trait": "FACIAL_HAIR_CHIN_STRAP" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a moustache.",
+        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "effect": [
+          { "run_eocs": "reset_all_beard_types" },
+          {
+            "u_add_morale": "morale_shave",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "u_add_trait": "FACIAL_HAIR_MUSTACHE" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a walrus moustache.",
+        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "effect": [
+          { "run_eocs": "reset_all_beard_types" },
+          {
+            "u_add_morale": "morale_shave",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "u_add_trait": "FACIAL_HAIR_WALRUS" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a Zappa.",
+        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "effect": [
+          { "run_eocs": "reset_all_beard_types" },
+          {
+            "u_add_morale": "morale_shave",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "u_add_trait": "FACIAL_HAIR_ZAPPA" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a goatee.",
+        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "effect": [
+          { "run_eocs": "reset_all_beard_types" },
+          {
+            "u_add_morale": "morale_shave",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "u_add_trait": "FACIAL_HAIR_GOATEE" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a circle beard.",
+        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "effect": [
+          { "run_eocs": "reset_all_beard_types" },
+          {
+            "u_add_morale": "morale_shave",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "u_add_trait": "FACIAL_HAIR_CIRCLE" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a short boxed beard.",
+        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "effect": [
+          { "run_eocs": "reset_all_beard_types" },
+          {
+            "u_add_morale": "morale_shave",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "u_add_trait": "FACIAL_HAIR_SHORTBOXED" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a horseshoe.",
+        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "effect": [
+          { "run_eocs": "reset_all_beard_types" },
+          {
+            "u_add_morale": "morale_shave",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "u_add_trait": "FACIAL_HAIR_HORSESHOE" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get some mutton chops.",
+        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "effect": [
+          { "run_eocs": "reset_all_beard_types" },
+          {
+            "u_add_morale": "morale_shave",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "u_add_trait": "FACIAL_HAIR_MUTTONCHOPS" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a gunslinger beard.",
+        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "effect": [
+          { "run_eocs": "reset_all_beard_types" },
+          {
+            "u_add_morale": "morale_shave",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "u_add_trait": "FACIAL_HAIR_GUNSLINGER" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a chin curtain.",
+        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "effect": [
+          { "run_eocs": "reset_all_beard_types" },
+          {
+            "u_add_morale": "morale_shave",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "u_add_trait": "FACIAL_HAIR_CHIN_CURTAIN" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a handlebar moustache.",
+        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "effect": [
+          { "run_eocs": "reset_all_beard_types" },
+          {
+            "u_add_morale": "morale_shave",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "u_add_trait": "FACIAL_HAIR_HANDLEBAR" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a Van Dyke.",
+        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "effect": [
+          { "run_eocs": "reset_all_beard_types" },
+          {
+            "u_add_morale": "morale_shave",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "u_add_trait": "FACIAL_HAIR_VANDYKE" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a regular beard.",
+        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "effect": [
+          { "run_eocs": "reset_all_beard_types" },
+          {
+            "u_add_morale": "morale_shave",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "u_add_trait": "FACIAL_HAIR_BEARD" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a anchor beard.",
+        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "effect": [
+          { "run_eocs": "reset_all_beard_types" },
+          {
+            "u_add_morale": "morale_shave",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "u_add_trait": "FACIAL_HAIR_ANCHOR" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a royale beard.",
+        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "effect": [
+          { "run_eocs": "reset_all_beard_types" },
+          {
+            "u_add_morale": "morale_shave",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "u_add_trait": "FACIAL_HAIR_ROYALE" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a Shenandoah.",
+        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "effect": [
+          { "run_eocs": "reset_all_beard_types" },
+          {
+            "u_add_morale": "morale_shave",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "u_add_trait": "FACIAL_HAIR_SHENANDOAH" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a long beard.",
+        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "effect": [
+          { "run_eocs": "reset_all_beard_types" },
+          {
+            "u_add_morale": "morale_shave",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "u_add_trait": "FACIAL_HAIR_BEARD_LONG" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a very long beard.",
+        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "effect": [
+          { "run_eocs": "reset_all_beard_types" },
+          {
+            "u_add_morale": "morale_shave",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "u_add_trait": "FACIAL_HAIR_BEARD_VERY_LONG" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      { "text": "Don't cut anything.", "topic": "TALK_DONE" }
+    ]
+  }
+]

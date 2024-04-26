@@ -78,23 +78,21 @@
     "id": "TALK_ANCILLA_DOCTOR",
     "dynamic_line": {
       "u_has_faction_trust": 10,
-      "yes": [ "Oh, what can I do for you today?" ],
+      "yes": "Oh, what can I do for you today?",
       "no": {
-        "u_has_var": "first_meet",
-        "type": "dialogue",
-        "context": "ancilla_doctor",
+        "u_has_var": "dialogue_ancilla_doctor_first_meet",
         "value": "yes",
         "yes": [
           "Try not to touch anything.  Keeping this place clean is a full time job.",
-          "I'm free at the moment if you need something.",
-          "Did you know you can loose a medical license over tax fraud?  Couldn't be me.",
+          { "gendered_line": "I'm free at the moment if you need something.", "relevant_genders": [ "npc" ] },
+          "Did you know you can lose a medical license over tax fraud?  Couldn't be me.",
           "You try to use the autodoc alone and I'll let it carve you up.  I'm not kidding."
         ],
         "no": "Clinic is open, yes.  If you need medical assistance, I'm your man."
       }
     },
     "speaker_effect": {
-      "effect": [ { "u_add_var": "first_meet", "type": "dialogue", "context": "ancilla_doctor", "value": "yes" } ],
+      "effect": [ { "u_add_var": "dialogue_ancilla_doctor_first_meet", "value": "yes" } ],
       "sentinel": "ancilla_doctor_meet"
     },
     "responses": [
@@ -177,7 +175,10 @@
     "id": "TALK_ANCILLA_DOCTOR_AID_DONE",
     "dynamic_line": [
       "Take it easy now, or come back soon.  All the same to me.",
-      "Now try not to do whatever you did again.  No, don't tell me more."
+      {
+        "gendered_line": "Now try not to do whatever you did again.  No, don't tell me more.",
+        "relevant_genders": [ "u" ]
+      }
     ],
     "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
   },

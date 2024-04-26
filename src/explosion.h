@@ -4,16 +4,16 @@
 
 #include <map>
 #include <optional>
-#include <utility>
+#include <string>
 #include <vector>
 
 #include "coordinates.h"
-#include "point.h"
 #include "type_id.h"
 
 class Creature;
 class JsonObject;
 class nc_color;
+struct tripoint;
 
 struct shrapnel_data {
     int casing_mass = 0;
@@ -101,6 +101,8 @@ void draw_explosion( const tripoint &p, int radius, const nc_color &col );
 void draw_custom_explosion( const tripoint &p, const std::map<tripoint, nc_color> &area,
                             const std::optional<std::string> &tile_id = std::nullopt );
 
+int ballistic_damage( float velocity, float mass );
+float gurney_spherical( double charge, double mass );
 void process_explosions();
 } // namespace explosion_handler
 

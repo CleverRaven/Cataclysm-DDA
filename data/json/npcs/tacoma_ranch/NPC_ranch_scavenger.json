@@ -22,15 +22,11 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_RANCH_DOCTOR_MEDICAL_ANESTHETIC" },
-            {
-              "not": { "u_has_var": "doctor_anesthetic_scavengers_helped", "type": "mission", "context": "tacoma_ranch", "value": "yes" }
-            },
-            {
-              "not": { "u_has_var": "scavenger_hospital_raid_started", "type": "mission", "context": "tacoma_ranch", "value": "yes" }
-            }
+            { "not": { "u_has_var": "mission_tacoma_ranch_doctor_anesthetic_scavengers_helped", "value": "yes" } },
+            { "not": { "u_has_var": "mission_tacoma_ranch_scavenger_hospital_raid_started", "value": "yes" } }
           ]
         },
-        "effect": [ { "u_add_var": "scavenger_hospital_raid", "type": "mission", "context": "tacoma_ranch", "value": "yes" } ]
+        "effect": [ { "u_add_var": "mission_tacoma_ranch_scavenger_hospital_raid", "value": "yes" } ]
       },
       { "text": "What is your job here?", "topic": "TALK_RANCH_SCAVENGER_1_JOB" },
       { "text": "Do you need any help?", "topic": "TALK_RANCH_SCAVENGER_1_HIRE" },
@@ -48,7 +44,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_RANCH_SCAVENGER_1_JOB",
-    "dynamic_line": "I organize scavenging runs to bring in supplies that we can't produce ourselves.  I try and provide incentives to get migrants to join one of the teams… it's dangerous work, but keeps our outpost alive.  Selling anything we can't use helps keep us afloat with the traders.  If you wanted to drop off a companion or two to assist in one of the runs, I'd appreciate it.",
+    "dynamic_line": {
+      "gendered_line": "I organize scavenging runs to bring in supplies that we can't produce ourselves.  I try and provide incentives to get migrants to join one of the teams… it's dangerous work, but keeps our outpost alive.  Selling anything we can't use helps keep us afloat with the traders.  If you wanted to drop off a companion or two to assist in one of the runs, I'd appreciate it.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [ { "text": "I'll think about it.", "topic": "TALK_RANCH_SCAVENGER_1" } ]
   },
   {

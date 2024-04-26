@@ -4,7 +4,7 @@
     "copy-from": "stanag20",
     "type": "MAGAZINE",
     "name": { "str": "retooled STANAG 20-round magazine" },
-    "description": "This 20-round box magazine is compatible with STANAG rifles and has been modified to hold a single-stack, seven round column of .50-caliber Beowulf ammo.  The front lip of the magazine has been beveled to allow for reliable feeding of the Beowulf rounds into a properly converted weapon’s chamber, and, happily, this modification hasn’t interfered with the magazine's ability to hold standard ammunition.",
+    "description": "This 20-round box magazine is compatible with STANAG rifles and has been modified to hold a single-stack, seven round column of .50-caliber Beowulf ammo.  The front lip of the magazine has been beveled to allow for reliable feeding of the Beowulf rounds into a properly converted weapon's chamber, and, happily, this modification hasn't interfered with the magazine's ability to hold standard ammunition.",
     "ammo_type": [ "50beowulf", "223", "300blk" ],
     "pocket_data": [
       {
@@ -23,7 +23,7 @@
       "str": "retooled STANAG 20-round magazine with ranger plate",
       "str_pl": "retooled STANAG 20-round magazines with ranger plates"
     },
-    "description": "This 20-round box magazine is compatible with STANAG rifles and has been modified to hold a single-stack, seven round column of .50-caliber Beowulf ammo.  The front lip of the magazine has been beveled to allow for reliable feeding of the Beowulf rounds into a properly converted weapon’s chamber, and, happily, this modification hasn’t interfered with the magazine's ability to hold standard ammunition.  The bottom has been modified with a ranger plate attachment to allow it to clip to carabiners.",
+    "description": "This 20-round box magazine is compatible with STANAG rifles and has been modified to hold a single-stack, seven round column of .50-caliber Beowulf ammo.  The front lip of the magazine has been beveled to allow for reliable feeding of the Beowulf rounds into a properly converted weapon's chamber, and, happily, this modification hasn't interfered with the magazine's ability to hold standard ammunition.  The bottom has been modified with a ranger plate attachment to allow it to clip to carabiners.",
     "ammo_type": [ "50beowulf", "223", "300blk" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "50beowulf": 7, "223": 30, "300blk": 30 } } ]
   },
@@ -32,7 +32,7 @@
     "copy-from": "stanag30",
     "type": "MAGAZINE",
     "name": { "str": "retooled STANAG 30-round magazine" },
-    "description": "This 30-round box magazine is compatible with STANAG rifles and has been modified to hold a single-stack, 10-round column of .50-caliber Beowulf ammo.  The front lip of the magazine has been beveled to allow for reliable feeding of the Beowulf rounds into a properly converted weapon’s chamber, and, happily, this modification hasn’t interfered with the magazine's ability to hold standard ammunition.",
+    "description": "This 30-round box magazine is compatible with STANAG rifles and has been modified to hold a single-stack, 10-round column of .50-caliber Beowulf ammo.  The front lip of the magazine has been beveled to allow for reliable feeding of the Beowulf rounds into a properly converted weapon's chamber, and, happily, this modification hasn't interfered with the magazine's ability to hold standard ammunition.",
     "ammo_type": [ "50beowulf", "223", "300blk" ],
     "pocket_data": [
       {
@@ -51,7 +51,7 @@
       "str": "retooled STANAG 30-round magazine with ranger plate",
       "str_pl": "retooled STANAG 30-round magazines with ranger plates"
     },
-    "description": "This 30-round box magazine is compatible with STANAG rifles and has been modified to hold a single-stack, 10-round column of .50-caliber Beowulf ammo.  The front lip of the magazine has been beveled to allow for reliable feeding of the Beowulf rounds into a properly converted weapon’s chamber, and, happily, this modification hasn’t interfered with the magazine's ability to hold standard ammunition.  The bottom has been modified with a ranger plate attachment to allow it to clip to carabiners.",
+    "description": "This 30-round box magazine is compatible with STANAG rifles and has been modified to hold a single-stack, 10-round column of .50-caliber Beowulf ammo.  The front lip of the magazine has been beveled to allow for reliable feeding of the Beowulf rounds into a properly converted weapon's chamber, and, happily, this modification hasn't interfered with the magazine's ability to hold standard ammunition.  The bottom has been modified with a ranger plate attachment to allow it to clip to carabiners.",
     "ammo_type": [ "50beowulf", "223", "300blk" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "50beowulf": 10, "223": 30, "300blk": 30 } } ]
   },
@@ -63,8 +63,8 @@
     "weight": "226 g",
     "volume": "290 ml",
     "longest_side": "190 mm",
-    "price": 2999,
-    "price_postapoc": 250,
+    "price": "29 USD 99 cent",
+    "price_postapoc": "2 USD 50 cent",
     "material": [ "aluminum" ],
     "symbol": "#",
     "color": "light_gray",

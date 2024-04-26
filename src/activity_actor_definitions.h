@@ -53,6 +53,8 @@ class aim_activity_actor : public activity_actor
         int aif_duration = 0; // Counts aim-and-fire duration
         bool aiming_at_critter = false; // Whether aiming at critter or a tile
         bool snap_to_target = false;
+        /** Not to try to unload RELOAD_AND_SHOOT weapon if it is not loaded */
+        bool loaded_RAS_weapon = false;
         bool shifting_view = false;
         tripoint initial_view_offset;
         /** Target UI requested to abort aiming */
@@ -745,7 +747,7 @@ class open_gate_activity_actor : public activity_actor
 {
     private:
         int moves_total;
-        tripoint placement;
+        tripoint_bub_ms placement;
 
         /**
          * @pre @p other is a open_gate_activity_actor
@@ -756,7 +758,7 @@ class open_gate_activity_actor : public activity_actor
         }
 
     public:
-        open_gate_activity_actor( int gate_moves, const tripoint &gate_placement ) :
+        open_gate_activity_actor( int gate_moves, const tripoint_bub_ms &gate_placement ) :
             moves_total( gate_moves ), placement( gate_placement ) {}
 
         activity_id get_type() const override {

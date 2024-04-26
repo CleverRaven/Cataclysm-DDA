@@ -13,6 +13,7 @@
       { "trait": "SKIN_DARK" },
       { "trait": "seer_mark" },
       { "trait": "hair_mohawk", "variant": "black" },
+      { "trait": "natural_hair_color_black" },
       { "trait": "IGNORE_SOUND" },
       { "trait": "NO_BASH" }
     ],
@@ -99,85 +100,76 @@
     "type": "talk_topic",
     "id": "TALK_BONE_SEER",
     "dynamic_line": {
-      "u_has_var": "talked_to_seer",
-      "type": "dialogue",
-      "context": "first_meeting",
+      "u_has_var": "dialogue_first_meeting_talked_to_seer",
       "value": "yes",
       "no": "You there.  Quiet down.  Can you hear it?  The song?",
       "yes": {
-        "u_has_var": "asked_about_song",
-        "type": "dialogue",
-        "context": "song",
+        "u_has_var": "dialogue_song_asked_about_song",
         "value": "yes",
-        "no": "You're back.  Have you come to listen to the song?",
+        "no": { "gendered_line": "You're back.  Have you come to listen to the song?", "relevant_genders": [ "u" ] },
         "yes": {
           "u_has_trait": "seer_mark",
-          "no": "Traveller.",
+          "no": { "gendered_line": "Traveller.", "relevant_genders": [ "u" ] },
           "yes": { "u_female": true, "yes": "Greetings, sister.", "no": "Greetings, brother." }
         }
       }
     },
-    "speaker_effect": { "effect": { "u_add_var": "talked_to_seer", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
+    "speaker_effect": { "effect": { "u_add_var": "dialogue_first_meeting_talked_to_seer", "value": "yes" } },
     "responses": [
       {
         "text": "What song?",
         "topic": "TALK_BONE_SEER_SONG",
-        "condition": { "not": { "u_has_var": "asked_about_song", "type": "dialogue", "context": "song", "value": "yes" } }
+        "condition": { "not": { "u_has_var": "dialogue_song_asked_about_song", "value": "yes" } }
       },
       {
         "text": "So about the songs…",
         "topic": "TALK_BONE_SEER_SONG2",
-        "condition": { "u_has_var": "asked_about_song", "type": "dialogue", "context": "song", "value": "yes" }
+        "condition": { "u_has_var": "dialogue_song_asked_about_song", "value": "yes" }
       },
       {
         "text": "Do others follow this belief as well?",
         "topic": "TALK_BONE_SEER_OTHERS",
-        "condition": { "u_has_var": "asked_about_song", "type": "dialogue", "context": "song", "value": "yes" }
+        "condition": { "u_has_var": "dialogue_song_asked_about_song", "value": "yes" }
       },
       {
         "text": "Can you tell me more about yourself?",
         "topic": "TALK_BONE_SEER_ABOUT",
-        "condition": { "u_has_var": "asked_about_song", "type": "dialogue", "context": "song", "value": "yes" }
+        "condition": { "u_has_var": "dialogue_song_asked_about_song", "value": "yes" }
       },
       {
         "text": "You mentioned some cycle before.  What does that mean?",
         "topic": "TALK_BONE_SEER_CYCLE",
-        "condition": { "u_has_var": "asked_about_song", "type": "dialogue", "context": "song", "value": "yes" }
+        "condition": { "u_has_var": "dialogue_song_asked_about_song", "value": "yes" }
       },
       {
         "text": "I've met Cooper.",
         "topic": "TALK_BONE_SEER_METCOOPER",
         "condition": {
           "and": [
-            { "u_has_var": "talked_to_cooper", "type": "dialogue", "context": "first_meeting", "value": "yes" },
-            { "u_has_var": "knows_cooper", "type": "dialogue", "context": "kindred_cooper", "value": "yes" }
+            { "u_has_var": "dialogue_first_meeting_talked_to_cooper", "value": "yes" },
+            { "u_has_var": "dialogue_kindred_cooper_knows_cooper", "value": "yes" }
           ]
         }
       },
       {
         "text": "Would you like to join me on my travels?",
         "topic": "TALK_SUGGEST_FOLLOW_SEER",
-        "condition": {
-          "and": [
-            { "not": "npc_following" },
-            { "u_has_var": "asked_about_song", "type": "dialogue", "context": "song", "value": "yes" }
-          ]
-        }
+        "condition": { "and": [ { "not": "npc_following" }, { "u_has_var": "dialogue_song_asked_about_song", "value": "yes" } ] }
       },
       {
         "text": "Is there a way I can help you with your song?",
         "topic": "TALK_MISSION_LIST_SEER",
-        "condition": { "u_has_var": "asked_about_song", "type": "dialogue", "context": "song", "value": "yes" }
+        "condition": { "u_has_var": "dialogue_song_asked_about_song", "value": "yes" }
       },
       {
         "text": "I have to go.",
         "topic": "TALK_DONE",
-        "condition": { "not": { "u_has_var": "asked_about_song", "type": "dialogue", "context": "song", "value": "yes" } }
+        "condition": { "not": { "u_has_var": "dialogue_song_asked_about_song", "value": "yes" } }
       },
       {
         "text": "I have to get going.  Take care, Seer.",
         "topic": "TALK_DONE",
-        "condition": { "u_has_var": "asked_about_song", "type": "dialogue", "context": "song", "value": "yes" }
+        "condition": { "u_has_var": "dialogue_song_asked_about_song", "value": "yes" }
       }
     ]
   },
@@ -194,7 +186,7 @@
     "type": "talk_topic",
     "id": "TALK_BONE_SEER_SONG2",
     "dynamic_line": "When it all happened, the Cataclysm, something… changed.  You can see it in all creatures, most of all in their bones.  They break, morph, rise again, over and over - a never-ending cycle.  The dead walk again, horrors rip and tear each other apart.  And within each one… the quiet hum of raw strength.  Only by taking the bones does the cycle end - their story, their song, their strength; they become yours to use.",
-    "speaker_effect": { "effect": { "u_add_var": "asked_about_song", "type": "dialogue", "context": "song", "value": "yes" } },
+    "speaker_effect": { "effect": { "u_add_var": "dialogue_song_asked_about_song", "value": "yes" } },
     "responses": [
       { "text": "So what do you actually do with the bones?", "topic": "TALK_BONE_SEER_BONES" },
       { "text": "I'm still not sure what you mean.", "topic": "TALK_BONE_SEER_SONG3" },
@@ -214,7 +206,7 @@
     "type": "talk_topic",
     "id": "TALK_BONE_SEER_OTHERS",
     "dynamic_line": "There are others who know the power the bones hold, but not all of them are my kin.  Not anymore, at least.",
-    "speaker_effect": { "effect": { "u_add_var": "knows_kindred", "type": "dialogue", "context": "kindred", "value": "yes" } },
+    "speaker_effect": { "effect": { "u_add_var": "dialogue_kindred_knows_kindred", "value": "yes" } },
     "responses": [
       { "text": "What do you mean 'not anymore'?", "topic": "TALK_BONE_SEER_COOPER" },
       { "text": "Why do you gather these bones again?", "topic": "TALK_BONE_SEER_BONES" },
@@ -225,18 +217,18 @@
     "type": "talk_topic",
     "id": "TALK_BONE_SEER_COOPER",
     "dynamic_line": "Some time ago, a man named Cooper joined me and my kin.  He showed great promise and devotion to our cause, but in his effort to weave songs, he justified increasingly grim actions.  We tried to stop him when we learned of this, but he managed to get away.  If you ever come across him, be sure to thread carefully, and if you can, stop him.",
-    "speaker_effect": { "effect": { "u_add_var": "knows_cooper", "type": "dialogue", "context": "kindred_cooper", "value": "yes" } },
+    "speaker_effect": { "effect": { "u_add_var": "dialogue_kindred_cooper_knows_cooper", "value": "yes" } },
     "responses": [
       {
         "text": "Wait, Cooper?  Darren Cooper?  I've already met him.",
         "topic": "TALK_BONE_SEER_METCOOPER2",
-        "condition": { "u_has_var": "talked_to_cooper", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+        "condition": { "u_has_var": "dialogue_first_meeting_talked_to_cooper", "value": "yes" }
       },
       { "text": "What exactly did he do?", "topic": "TALK_BONE_SEER_COOPER2" },
       {
         "text": "Sounds like there is another side to this.  Sometimes, what is necessary is not pretty.",
         "topic": "TALK_BONE_SEER_COOPER3",
-        "effect": { "u_add_var": "admires_cooper", "type": "dialogue", "context": "kindred", "value": "yes" }
+        "effect": { "u_add_var": "dialogue_kindred_admires_cooper", "value": "yes" }
       },
       { "text": "What cause is that?  What do you do with the bones?", "topic": "TALK_BONE_SEER_BONES" },
       { "text": "I see.  I wanted to ask about something else…", "topic": "TALK_BONE_SEER" }
@@ -245,14 +237,14 @@
   {
     "type": "talk_topic",
     "id": "TALK_BONE_SEER_COOPER2",
-    "dynamic_line": "He began killing others to get their bones as fresh as possible.  Later, he… he started carving the bones of the living.  Thought the anguish alone would empower the song.  The goal of the Kindred is to banish the shadow of the Cataclysm, not to cast it.  Such heinous acts will likely twist the song of the world, but I don't think Cooper realises it.  To him, the end justifies any means.",
-    "speaker_effect": { "effect": { "u_add_var": "knows_cooper_kill", "type": "dialogue", "context": "kindred_cooper", "value": "yes" } },
+    "dynamic_line": "He began killing others to get their bones as fresh as possible.  Later, he… he started carving the bones of the living.  Thought the anguish alone would empower the song.  The goal of the Kindred is to banish the shadow of the Cataclysm, not to cast it.  Such heinous acts will likely twist the song of the world, but I don't think Cooper realizes it.  To him, the end justifies any means.",
+    "speaker_effect": { "effect": { "u_add_var": "dialogue_kindred_cooper_knows_cooper_kill", "value": "yes" } },
     "responses": [
       { "text": "Well… shit.  Maybe we should talk about something else.", "topic": "TALK_BONE_SEER" },
       {
         "text": "What if he is right?  Maybe what you do isn't enough and he's the only one to do what it takes.",
         "topic": "TALK_BONE_SEER_COOPER3",
-        "effect": { "u_add_var": "admires_cooper", "type": "dialogue", "context": "kindred", "value": "yes" }
+        "effect": { "u_add_var": "dialogue_kindred_admires_cooper", "value": "yes" }
       }
     ]
   },
@@ -281,7 +273,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_BONE_SEER_POSITIVE",
-    "dynamic_line": "Your mind is open.  More than most.  Perhaps one day, you too will feel the power of the song and become Kindred.  For now, traveller, listen, listen and feel the song.",
+    "dynamic_line": {
+      "gendered_line": "Your mind is open.  More than most.  Perhaps one day, you too will feel the power of the song and become Kindred.  For now, traveller, listen, listen and feel the song.",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [ { "text": "I… thank you.", "topic": "TALK_BONE_SEER" } ]
   },
   {
@@ -341,17 +336,12 @@
     "item": "bone",
     "count": 8,
     "origins": [ "ORIGIN_SECONDARY" ],
-    "end": {
-      "effect": [
-        { "u_add_var": "NC_SEER_MISSION_1", "type": "general", "context": "mission", "value": "yes" },
-        { "u_add_trait": "seer_mark" }
-      ]
-    },
+    "end": { "effect": [ { "u_add_var": "general_mission_NC_SEER_MISSION_1", "value": "yes" }, { "u_add_trait": "seer_mark" } ] },
     "dialogue": {
       "describe": "There is always work to be done, song to be woven.",
       "offer": "If you wish to be set on the path to enlightenment, first you must learn to listen and hear the song.  Go out, butcher an untainted creature and feel the power between your fingertips.  Then bring me the bones and I shall carve them for you.",
       "accepted": "Excellent.  Now be on your way.",
-      "rejected": "I understand your reluctancy.  Feel free to return when you see the way.",
+      "rejected": "I understand your reluctance.  Feel free to return when you see the way.",
       "advice": "The shambling corpses we see all around move in discord.  Their song can be used, but for an Acolyte, this would be needlessly hard.  Be sure to carve an unspoiled living creature.",
       "inquire": "Have you felt the song in your hands yet?",
       "success": "And so, another cycle ends.  You have done well.  I will now bestow my mark upon you, so that others may know the path you walk and aid you.",
@@ -460,7 +450,7 @@
   {
     "id": "TALK_MISSION_REJECTED_SEER",
     "type": "talk_topic",
-    "dynamic_line": "I understand your reluctancy.  Feel free to return when you see the way.",
+    "dynamic_line": "I understand your reluctance.  Feel free to return when you see the way.",
     "responses": [
       { "text": "Maybe some other time.  Changing the topic…", "topic": "TALK_NONE" },
       { "text": "Alright, but I have to go now.", "topic": "TALK_DONE" }
@@ -479,25 +469,25 @@
   {
     "type": "talk_topic",
     "id": "TALK_BONE_SEER_METCOOPER",
-    "dynamic_line": "I see.  And you live still.  Does that mean you managed to stop him?",
+    "dynamic_line": { "gendered_line": "I see.  And you live still.  Does that mean you managed to stop him?", "relevant_genders": [ "u" ] },
     "responses": [
       {
         "text": "I've confronted him.  He ended up attacking me.",
         "topic": "TALK_BONE_SEER_COOPERFIGHT",
-        "condition": { "u_has_var": "fought_cooper", "type": "dialogue", "context": "cooper", "value": "yes" }
+        "condition": { "u_has_var": "dialogue_cooper_fought_cooper", "value": "yes" }
       },
       {
         "text": "He was reasonable.  We talked, then parted ways peacefully.",
         "topic": "TALK_BONE_SEER_COOPERPEACE",
-        "condition": { "not": { "u_has_var": "fought_cooper", "type": "dialogue", "context": "cooper", "value": "yes" } }
+        "condition": { "not": { "u_has_var": "dialogue_cooper_fought_cooper", "value": "yes" } }
       },
       {
         "text": "I agree with him.  What he does is necessary.",
         "topic": "TALK_BONE_SEER_COOPERAGREE",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "fought_cooper", "type": "dialogue", "context": "cooper", "value": "yes" } },
-            { "u_has_var": "cooper_friendly", "type": "dialogue", "context": "cooper", "value": "yes" }
+            { "not": { "u_has_var": "dialogue_cooper_fought_cooper", "value": "yes" } },
+            { "u_has_var": "dialogue_cooper_cooper_friendly", "value": "yes" }
           ]
         }
       }
@@ -506,7 +496,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_BONE_SEER_COOPERFIGHT",
-    "dynamic_line": "It saddens me to see a talented Kindred lose his way so greatly, but I take solace in the fact that you are unscathed.",
+    "dynamic_line": {
+      "gendered_line": "It saddens me to see a talented Kindred lose his way so greatly, but I take solace in the fact that you are unscathed.",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [ { "text": "Best not to dwell on it.  Let's move on.", "topic": "TALK_BONE_SEER" } ]
   },
   {
@@ -523,20 +516,20 @@
       {
         "text": "I've confronted him.  He ended up attacking me.",
         "topic": "TALK_BONE_SEER_COOPERFIGHT",
-        "condition": { "u_has_var": "fought_cooper", "type": "dialogue", "context": "cooper", "value": "yes" }
+        "condition": { "u_has_var": "dialogue_cooper_fought_cooper", "value": "yes" }
       },
       {
         "text": "He was reasonable.  We talked, then parted ways peacefully.",
         "topic": "TALK_BONE_SEER_COOPERPEACE",
-        "condition": { "not": { "u_has_var": "fought_cooper", "type": "dialogue", "context": "cooper", "value": "yes" } }
+        "condition": { "not": { "u_has_var": "dialogue_cooper_fought_cooper", "value": "yes" } }
       },
       {
         "text": "I agree with him.  What he does is necessary.",
         "topic": "TALK_BONE_SEER_COOPERAGREE",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "fought_cooper", "type": "dialogue", "context": "cooper", "value": "yes" } },
-            { "u_has_var": "cooper_friendly", "type": "dialogue", "context": "cooper", "value": "yes" }
+            { "not": { "u_has_var": "dialogue_cooper_fought_cooper", "value": "yes" } },
+            { "u_has_var": "dialogue_cooper_cooper_friendly", "value": "yes" }
           ]
         }
       }

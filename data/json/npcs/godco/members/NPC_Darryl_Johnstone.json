@@ -19,7 +19,7 @@
     "responses": [
       {
         "text": "About that well…",
-        "condition": { "npc_has_var": "godco_darryl_mission1", "type": "mission", "context": "completed", "value": "in-progress" },
+        "condition": { "npc_has_var": "mission_completed_godco_darryl_mission1", "value": "in-progress" },
         "topic": "TALK_MISSION_LIST"
       },
       { "text": "What's your story?", "topic": "TALK_GODCO_Darryl_Story" },
@@ -32,33 +32,36 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Darryl_1",
     "dynamic_line": {
-      "u_has_var": "godco_notalk_to_u",
-      "type": "dialogue",
-      "context": "godco",
+      "u_has_var": "dialogue_godco_godco_notalk_to_u",
       "value": "yes",
-      "yes": "What the <swear> are you, sinner?  Get away from me.",
+      "yes": { "gendered_line": "What the <swear> are you, sinner?  Get away from me.", "relevant_genders": [ "u" ] },
       "no": {
-        "npc_has_var": "u_met_godco_darryl",
-        "type": "general",
-        "context": "meeting",
+        "npc_has_var": "general_meeting_u_met_godco_darryl",
         "value": "yes",
-        "yes": [ "Praise the Lord.", "Welcome back.", "Nice to see you again, survivor." ],
-        "no": "Well I'll be damned, a fellow survivor!  I'm Darryl, nice to meet you."
+        "yes": [
+          "Praise the Lord.",
+          "Welcome back.",
+          { "gendered_line": "Nice to see you again, survivor.", "relevant_genders": [ "u" ] }
+        ],
+        "no": {
+          "gendered_line": "Well I'll be damned, a fellow survivor!  I'm Darryl, nice to meet you.",
+          "relevant_genders": [ "u" ]
+        }
       }
     },
     "responses": [
       {
         "text": "About that well…",
-        "condition": { "npc_has_var": "godco_darryl_mission1", "type": "mission", "context": "completed", "value": "in-progress" },
+        "condition": { "npc_has_var": "mission_completed_godco_darryl_mission1", "value": "in-progress" },
         "topic": "TALK_MISSION_LIST"
       },
       {
         "text": "Nice to meet you too, Darryl.  Neat farm you have here.",
-        "effect": { "npc_add_var": "u_met_godco_darryl", "type": "general", "context": "meeting", "value": "yes" },
+        "effect": { "npc_add_var": "general_meeting_u_met_godco_darryl", "value": "yes" },
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "u_met_godco_darryl", "type": "general", "context": "meeting", "value": "yes" } },
-            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+            { "not": { "npc_has_var": "general_meeting_u_met_godco_darryl", "value": "yes" } },
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
         "topic": "TALK_GODCO_Darryl_Farm"
@@ -67,8 +70,8 @@
         "text": "Hey Darryl.  Got a minute?",
         "condition": {
           "and": [
-            { "npc_has_var": "u_met_godco_darryl", "type": "general", "context": "meeting", "value": "yes" },
-            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+            { "npc_has_var": "general_meeting_u_met_godco_darryl", "value": "yes" },
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
         "topic": "TALK_GODCO_Darryl_2"
@@ -77,8 +80,8 @@
         "text": "Hey Darryl.  Care to trade?",
         "condition": {
           "and": [
-            { "npc_has_var": "u_met_godco_darryl", "type": "general", "context": "meeting", "value": "yes" },
-            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+            { "npc_has_var": "general_meeting_u_met_godco_darryl", "value": "yes" },
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
         "topic": "TALK_GODCO_Darryl_Trade"
@@ -88,24 +91,24 @@
         "condition": {
           "and": [
             { "math": [ "darryl_building_coop", "==", "2" ] },
-            { "npc_has_var": "u_met_godco_darryl", "type": "general", "context": "meeting", "value": "yes" }
+            { "npc_has_var": "general_meeting_u_met_godco_darryl", "value": "yes" }
           ]
         },
         "topic": "TALK_GODCO_Darryl_Trade_Eggs"
       },
       {
         "text": "I'm afraid I can't talk right now.",
-        "condition": { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } },
+        "condition": { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } },
         "topic": "TALK_DONE"
       },
       {
         "text": "What's the poor attitude about?",
-        "condition": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" },
+        "condition": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" },
         "topic": "TALK_GODCO_Darryl_You_Mutant"
       },
       {
         "text": "Fuck you <name_b>, I'm outta here.",
-        "condition": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" },
+        "condition": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" },
         "topic": "TALK_DONE"
       }
     ]
@@ -120,8 +123,8 @@
         "text": "How are the chickens?",
         "condition": {
           "and": [
-            { "u_has_var": "darryl_built_coop", "type": "general", "context": "trade", "value": "yes" },
-            { "npc_has_var": "u_met_godco_darryl", "type": "general", "context": "meeting", "value": "yes" }
+            { "u_has_var": "general_trade_darryl_built_coop", "value": "yes" },
+            { "npc_has_var": "general_meeting_u_met_godco_darryl", "value": "yes" }
           ]
         },
         "topic": "TALK_GODCO_Darryl_Trade_Eggs"
@@ -261,7 +264,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Darryl_BarterSuccess",
-    "dynamic_line": "Well, you got me there.  I sure ain't one to block a fellow farmer's right to reclaim this God-given earth.",
+    "dynamic_line": {
+      "gendered_line": "Well, you got me there.  I sure ain't one to block a fellow farmer's right to reclaim this God-given earth.",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [ { "text": "Thank you.  See you around, Darryl.", "topic": "TALK_DONE" } ]
   },
   {

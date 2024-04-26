@@ -3,12 +3,12 @@
 #define CATA_SRC_COLOR_H
 
 #include <array>
-#include <cstddef>
 #include <iosfwd>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 
-#include "translations.h"
+#include "translation.h"
 
 #define all_colors get_all_colors()
 
@@ -349,11 +349,13 @@ class nc_color
     private:
         // color is actually an ncurses attribute.
         int attribute_value;
+        int index; // NOLINT(cata-serialize)
 
-        explicit nc_color( const int a ) : attribute_value( a ) { }
+        explicit nc_color( const int a ) : attribute_value( a ), index( 0 ) { }
+        explicit nc_color( const int a, const int i ) : attribute_value( a ), index( i ) { }
 
     public:
-        nc_color() : attribute_value( 0 ) { }
+        nc_color() : attribute_value( 0 ), index( 0 ) { }
 
         // Most of the functions here are implemented in ncurses_def.cpp
         // (for ncurses builds) *and* in cursesport.cpp (for other builds).
@@ -366,6 +368,10 @@ class nc_color
         }
         int to_int() const {
             return attribute_value;
+        }
+
+        int get_index() const {
+            return index;
         }
 
         // Returns this attribute plus A_BOLD.

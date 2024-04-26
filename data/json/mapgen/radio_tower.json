@@ -286,7 +286,7 @@
             [ "null", 40 ],
             [ "radio_tower_2x2_map", 40 ],
             [ "radio_tower_2x2_holdout", 10 ],
-            [ "radio_tower_2x2_sniper", 10 ],
+            [ "radio_tower_2x2_sniper", 2 ],
             [ "radio_tower_wasp", 5 ]
           ],
           "x": 10,
@@ -347,11 +347,7 @@
     "nested_mapgen_id": "radio_tower_2x2_map",
     "object": {
       "mapgensize": [ 2, 2 ],
-      "place_loot": [
-        { "item": "binoculars", "x": 1, "y": 0 },
-        { "item": "survivormap", "x": 1, "y": 0 },
-        { "item": "3006", "x": 1, "y": 0, "chance": 40 }
-      ]
+      "place_loot": [ { "item": "binoculars", "x": 1, "y": 0 }, { "item": "survivormap", "x": 1, "y": 0 } ]
     }
   }
 ]

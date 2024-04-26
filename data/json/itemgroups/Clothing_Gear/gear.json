@@ -243,12 +243,7 @@
       { "item": "wetsuit_booties", "prob": 70 },
       { "item": "swim_fins", "prob": 100 },
       {
-        "distribution": [
-          { "item": "airspeargun", "prob": 20 },
-          { "item": "doublespeargun", "prob": 10 },
-          { "item": "minispeargun", "prob": 30 },
-          { "item": "speargun", "prob": 40 }
-        ],
+        "distribution": [ { "item": "airspeargun", "prob": 20 }, { "item": "doublespeargun", "prob": 10 }, { "item": "speargun", "prob": 40 } ],
         "prob": 65
       },
       {

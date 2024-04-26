@@ -487,6 +487,23 @@
     ]
   },
   {
+    "id": "afs_exosuit_light_worker",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "modular_exosuit_light", "prob": 100 },
+      { "item": "afs_exo_standard_underlayer", "prob": 90 },
+      { "item": "exo_helmet_plastic", "prob": 90 },
+      { "item": "exo_torso_plastic", "prob": 90 },
+      { "item": "exo_arm_plastic", "prob": 90 },
+      { "item": "exo_leg_plastic", "prob": 90 },
+      { "group": "afs_exo_basic_power", "prob": 75 },
+      { "group": "afs_exo_basic_accessories", "prob": 50 },
+      { "group": "afs_exo_basic_accessories", "prob": 50 },
+      { "group": "afs_power_tools", "prob": 25 }
+    ]
+  },
+  {
     "id": "afs_exosuit_worker",
     "type": "item_group",
     "subtype": "collection",

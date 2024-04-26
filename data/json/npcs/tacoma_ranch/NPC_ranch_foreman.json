@@ -42,16 +42,13 @@
         "text": "Hey, are you looking for workers here?  I know a couple people back at the refugee center that might be willing to come.",
         "topic": "TALK_RANCH_FOREMAN_Nunez",
         "condition": {
-          "and": [
-            { "u_has_mission": "MISSION_TACOMA_Nunez" },
-            { "u_has_var": "Nunez_Tacoma", "type": "recruit", "context": "general", "value": "phase_1" }
-          ]
+          "and": [ { "u_has_mission": "MISSION_TACOMA_Nunez" }, { "u_has_var": "recruit_general_Nunez_Tacoma", "value": "phase_1" } ]
         }
       },
       {
         "text": "Hey, are you looking for workers here?",
         "topic": "TALK_RANCH_FOREMAN_Nunez_Clue",
-        "condition": { "not": { "u_has_var": "Nunez_Tacoma", "type": "recruit", "context": "general", "value": "phase_1" } }
+        "condition": { "not": { "u_has_var": "recruit_general_Nunez_Tacoma", "value": "phase_1" } }
       },
       { "text": "I've got to go…", "topic": "TALK_DONE" }
     ]
@@ -59,7 +56,10 @@
   {
     "id": "TALK_RANCH_FOREMAN_PROSPECTUS",
     "type": "talk_topic",
-    "dynamic_line": "I was starting to wonder if they were really interested in the project or were just trying to get rid of me.",
+    "dynamic_line": {
+      "gendered_line": "I was starting to wonder if they were really interested in the project or were just trying to get rid of me.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       {
         "text": "Thanks.",
@@ -72,22 +72,16 @@
     "id": "TALK_RANCH_FOREMAN_ANESTHETIC_FOR_DOCTOR",
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_var": "doctor_anesthetic_scavengers_helped",
-      "type": "mission",
-      "context": "tacoma_ranch",
+      "u_has_var": "mission_tacoma_ranch_doctor_anesthetic_scavengers_helped",
       "value": "yes",
       "no": {
-        "u_has_var": "doctor_anesthetic_scrappers_helped",
-        "type": "mission",
-        "context": "tacoma_ranch",
+        "u_has_var": "mission_tacoma_ranch_doctor_anesthetic_scrappers_helped",
         "value": "yes",
         "no": "I don't have anything to offer, but you could talk to the scavenger boss and the scrappers; They might be able to help.",
         "yes": "I don't have anything to offer, but maybe the scavenger boss could help find some materials."
       },
       "yes": {
-        "u_has_var": "doctor_anesthetic_scrappers_helped",
-        "type": "mission",
-        "context": "tacoma_ranch",
+        "u_has_var": "mission_tacoma_ranch_doctor_anesthetic_scrappers_helped",
         "value": "yes",
         "no": "I don't have anything to offer, but maybe the scrappers could help find some materials.",
         "yes": "I'm afraid I don't have anything to offer."
@@ -99,12 +93,8 @@
         "topic": "TALK_RANCH_FOREMAN",
         "condition": {
           "or": [
-            {
-              "not": { "u_has_var": "doctor_anesthetic_scavengers_helped", "type": "mission", "context": "tacoma_ranch", "value": "yes" }
-            },
-            {
-              "not": { "u_has_var": "doctor_anesthetic_scrappers_helped", "type": "mission", "context": "tacoma_ranch", "value": "yes" }
-            }
+            { "not": { "u_has_var": "mission_tacoma_ranch_doctor_anesthetic_scavengers_helped", "value": "yes" } },
+            { "not": { "u_has_var": "mission_tacoma_ranch_doctor_anesthetic_scrappers_helped", "value": "yes" } }
           ]
         }
       },
@@ -113,13 +103,8 @@
         "topic": "TALK_RANCH_FOREMAN",
         "condition": {
           "and": [
-            { "u_has_var": "doctor_anesthetic_scavengers_helped", "type": "mission", "context": "tacoma_ranch", "value": "yes" },
-            {
-              "u_has_var": "doctor_anesthetic_scrappers_helped",
-              "type": "mission",
-              "context": "tacoma_ranch",
-              "value": "yes"
-            }
+            { "u_has_var": "mission_tacoma_ranch_doctor_anesthetic_scavengers_helped", "value": "yes" },
+            { "u_has_var": "mission_tacoma_ranch_doctor_anesthetic_scrappers_helped", "value": "yes" }
           ]
         }
       },
@@ -135,7 +120,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_RANCH_FOREMAN_REFUGEES",
-    "dynamic_line": "Could easily be hundreds as far as I know.  They chose this ranch because of its rather remote location, decent fence, and huge cleared field.  With as much land as we have fenced off we could build a village if we had the materials.  We would have tried to secure a small town or something, but the lack of good farmland and number of undead makes it more practical for us to build from scratch.  The refugee center I came from is constantly facing starvation and undead assaults.",
+    "dynamic_line": {
+      "gendered_line": "Could easily be hundreds as far as I know.  They chose this ranch because of its rather remote location, decent fence, and huge cleared field.  With as much land as we have fenced off we could build a village if we had the materials.  We would have tried to secure a small town or something, but the lack of good farmland and number of undead makes it more practical for us to build from scratch.  The refugee center I came from is constantly facing starvation and undead assaults.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [ { "text": "Hopefully moving out here was worth it…", "topic": "TALK_RANCH_FOREMAN" } ]
   },
   {
@@ -148,7 +136,7 @@
     "type": "talk_topic",
     "id": "TALK_RANCH_FOREMAN_Nunez",
     "dynamic_line": "We're still in early stages of getting set up, but we're not overly flush for hands, that's for sure.  If they're willing to put in a hard day's work, we can get them busy.",
-    "speaker_effect": { "effect": { "u_add_var": "Nunez_Tacoma", "type": "recruit", "context": "general", "value": "phase_2" } },
+    "speaker_effect": { "effect": { "u_add_var": "recruit_general_Nunez_Tacoma", "value": "phase_2" } },
     "responses": [ { "text": "I'll tell them that, but they seemed good for a bit of hard labor.", "topic": "TALK_RANCH_FOREMAN" } ]
   },
   {

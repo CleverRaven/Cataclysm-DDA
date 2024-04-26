@@ -67,34 +67,6 @@ bool string_id<Trait_group>::is_valid() const
     return trait_groups.count( *this );
 }
 
-static void extract_mod(
-    const JsonObject &j, std::unordered_map<std::pair<bool, std::string>, int, cata::tuple_hash> &data,
-    const std::string_view mod_type, bool active, const std::string &type_key )
-{
-    int val = j.get_int( mod_type, 0 );
-    if( val != 0 ) {
-        data[std::make_pair( active, type_key )] = val;
-    }
-}
-
-static void load_mutation_mods(
-    const JsonObject &jsobj, const std::string &member,
-    std::unordered_map<std::pair<bool, std::string>, int, cata::tuple_hash> &mods )
-{
-    if( jsobj.has_object( member ) ) {
-        JsonObject j = jsobj.get_object( member );
-        bool active = false;
-        if( member == "active_mods" ) {
-            active = true;
-        }
-        //                   json field             type key
-        extract_mod( j, mods, "str_mod",     active, "STR" );
-        extract_mod( j, mods, "dex_mod",     active, "DEX" );
-        extract_mod( j, mods, "per_mod",     active, "PER" );
-        extract_mod( j, mods, "int_mod",     active, "INT" );
-    }
-}
-
 void mutation_category_trait::load( const JsonObject &jsobj )
 {
     mutation_category_trait new_category;
@@ -346,7 +318,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "time", cooldown, 0_turns );
     optional( jo, was_loaded, "kcal", hunger, false );
     optional( jo, was_loaded, "thirst", thirst, false );
-    optional( jo, was_loaded, "fatigue", fatigue, false );
+    optional( jo, was_loaded, "sleepiness", sleepiness, false );
     optional( jo, was_loaded, "valid", valid, true );
     optional( jo, was_loaded, "purifiable", purifiable, true );
 
@@ -357,6 +329,14 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
         variants.emplace( var.id, var );
     }
 
+    if( jo.has_object( "override_look" ) ) {
+        JsonObject jv = jo.get_object( "override_look" );
+        std::string override_look_id;
+        std::string override_look_tile_category;
+        mandatory( jv, was_loaded, "id", override_look_id );
+        mandatory( jv, was_loaded, "tile_category", override_look_tile_category );
+        override_look.emplace( override_look_id, override_look_tile_category );
+    }
     if( jo.has_object( "spawn_item" ) ) {
         JsonObject si = jo.get_object( "spawn_item" );
         optional( si, was_loaded, "type", spawn_item );
@@ -386,10 +366,9 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
         bodytemp_max = units::from_legacy_bodypart_temp_delta( bodytemp_array.get_int( 1 ) );
     }
 
-    int legacy_bodytemp_sleep = units::to_legacy_bodypart_temp_delta( bodytemp_sleep );
-    optional( jo, was_loaded, "bodytemp_sleep", legacy_bodytemp_sleep, 0 );
-    bodytemp_sleep = units::from_legacy_bodypart_temp_delta( legacy_bodytemp_sleep );
     optional( jo, was_loaded, "threshold", threshold, false );
+    optional( jo, was_loaded, "threshold_substitutes", threshold_substitutes );
+    optional( jo, was_loaded, "strict_threshreq", strict_threshreq );
     optional( jo, was_loaded, "profession", profession, false );
     optional( jo, was_loaded, "debug", debug, false );
     optional( jo, was_loaded, "player_display", player_display, true );
@@ -411,51 +390,8 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
         vitamin_absorb_multi.emplace( material_id( pair.get_string( 0 ) ), vit );
     }
 
-    optional( jo, was_loaded, "healing_awake", healing_awake, std::nullopt );
-    optional( jo, was_loaded, "pain_modifier", pain_modifier, std::nullopt );
-    optional( jo, was_loaded, "healing_multiplier", healing_multiplier, std::nullopt );
-    optional( jo, was_loaded, "mending_modifier", mending_modifier, std::nullopt );
-    optional( jo, was_loaded, "hp_modifier", hp_modifier, std::nullopt );
-    optional( jo, was_loaded, "hp_modifier_secondary", hp_modifier_secondary, std::nullopt );
-    optional( jo, was_loaded, "hp_adjustment", hp_adjustment, std::nullopt );
-    optional( jo, was_loaded, "stealth_modifier", stealth_modifier, std::nullopt );
-    optional( jo, was_loaded, "str_modifier", str_modifier, std::nullopt );
-    optional( jo, was_loaded, "cut_dmg_bonus", cut_dmg_bonus, 0 );
-    optional( jo, was_loaded, "pierce_dmg_bonus", pierce_dmg_bonus, 0.0f );
-    optional( jo, was_loaded, "bash_dmg_bonus", bash_dmg_bonus, 0 );
-    optional( jo, was_loaded, "dodge_modifier", dodge_modifier, std::nullopt );
-    optional( jo, was_loaded, "movecost_modifier", movecost_modifier, std::nullopt );
-    optional( jo, was_loaded, "movecost_flatground_modifier", movecost_flatground_modifier,
-              std::nullopt );
-    optional( jo, was_loaded, "movecost_obstacle_modifier", movecost_obstacle_modifier, std::nullopt );
-    optional( jo, was_loaded, "movecost_swim_modifier", movecost_swim_modifier, std::nullopt );
-    optional( jo, was_loaded, "attackcost_modifier", attackcost_modifier, std::nullopt );
-    optional( jo, was_loaded, "cardio_multiplier", cardio_multiplier, std::nullopt );
-    optional( jo, was_loaded, "weight_capacity_modifier", weight_capacity_modifier, std::nullopt );
-    optional( jo, was_loaded, "hearing_modifier", hearing_modifier, std::nullopt );
-    optional( jo, was_loaded, "noise_modifier", noise_modifier, std::nullopt );
-    optional( jo, was_loaded, "temperature_speed_modifier", temperature_speed_modifier, std::nullopt );
-    optional( jo, was_loaded, "metabolism_modifier", metabolism_modifier, std::nullopt );
-    optional( jo, was_loaded, "thirst_modifier", thirst_modifier, std::nullopt );
-    optional( jo, was_loaded, "fatigue_modifier", fatigue_modifier, std::nullopt );
-    optional( jo, was_loaded, "fatigue_regen_modifier", fatigue_regen_modifier, std::nullopt );
-    optional( jo, was_loaded, "stamina_regen_modifier", stamina_regen_modifier, std::nullopt );
-    optional( jo, was_loaded, "obtain_cost_multiplier", obtain_cost_multiplier, std::nullopt );
-    optional( jo, was_loaded, "stomach_size_multiplier", stomach_size_multiplier, std::nullopt );
-    optional( jo, was_loaded, "vomit_multiplier", vomit_multiplier, std::nullopt );
-    optional( jo, was_loaded, "sweat_multiplier", sweat_multiplier, std::nullopt );
-    optional( jo, was_loaded, "overmap_sight", overmap_sight, std::nullopt );
-    optional( jo, was_loaded, "overmap_multiplier", overmap_multiplier, std::nullopt );
-    optional( jo, was_loaded, "reading_speed_multiplier", reading_speed_multiplier, std::nullopt );
-    optional( jo, was_loaded, "skill_rust_multiplier", skill_rust_multiplier, std::nullopt );
-    optional( jo, was_loaded, "consume_time_modifier", consume_time_modifier, std::nullopt );
-    optional( jo, was_loaded, "scent_modifier", scent_modifier, 1.0f );
     optional( jo, was_loaded, "scent_intensity", scent_intensity, std::nullopt );
-    optional( jo, was_loaded, "scent_mask", scent_mask, std::nullopt );
     optional( jo, was_loaded, "scent_type", scent_typeid, std::nullopt );
-    optional( jo, was_loaded, "healthy_rate", healthy_rate, 1.0f );
-    optional( jo, was_loaded, "fat_to_max_hp", fat_to_max_hp, 0.0f );
-    optional( jo, was_loaded, "weakness_to_water", weakness_to_water, 0 );
     optional( jo, was_loaded, "ignored_by", ignored_by );
     optional( jo, was_loaded, "can_only_eat", can_only_eat );
     optional( jo, was_loaded, "can_only_heal_with", can_only_heal_with );
@@ -464,33 +400,11 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "butchering_quality", butchering_quality, 0 );
 
     optional( jo, was_loaded, "allowed_category", allowed_category );
-    optional( jo, was_loaded, "crafting_speed_multiplier", crafting_speed_multiplier );
-    optional( jo, was_loaded, "mana_modifier", mana_modifier, std::nullopt );
-    optional( jo, was_loaded, "mana_multiplier", mana_multiplier, std::nullopt );
-    optional( jo, was_loaded, "mana_regen_multiplier", mana_regen_multiplier, std::nullopt );
-    optional( jo, was_loaded, "bionic_mana_penalty", bionic_mana_penalty, std::nullopt );
-    optional( jo, was_loaded, "casting_time_multiplier", casting_time_multiplier, std::nullopt );
-
-    if( jo.has_object( "rand_cut_bonus" ) ) {
-        JsonObject sm = jo.get_object( "rand_cut_bonus" );
-        rand_cut_bonus.first = sm.get_int( "min" );
-        rand_cut_bonus.second = sm.get_int( "max" );
-    }
-
-    if( jo.has_object( "rand_bash_bonus" ) ) {
-        JsonObject sm = jo.get_object( "rand_bash_bonus" );
-        rand_bash_bonus.first = sm.get_int( "min" );
-        rand_bash_bonus.second = sm.get_int( "max" );
-    }
 
     if( jo.has_object( "social_modifiers" ) ) {
         JsonObject sm = jo.get_object( "social_modifiers" );
         social_mods = load_mutation_social_mods( sm );
     }
-
-    load_mutation_mods( jo, "passive_mods", mods );
-    /* Not currently supported due to inability to save active mutation state
-    load_mutation_mods(jsobj, "active_mods", new_mut.mods); */
 
     optional( jo, was_loaded, "prereqs", prereqs, trait_reader{} );
     optional( jo, was_loaded, "prereqs2", prereqs2, trait_reader{} );
@@ -502,7 +416,6 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "active_flags", active_flags, flag_reader{} );
     optional( jo, was_loaded, "inactive_flags", inactive_flags, flag_reader{} );
     optional( jo, was_loaded, "types", types, string_reader{} );
-    optional( jo, was_loaded, "prevented_by", prevented_by, trait_reader{} );
 
     for( JsonArray pair : jo.get_array( "moncams" ) ) {
         moncams.insert( std::pair<mtype_id, int>( mtype_id( pair.get_string( 0 ) ), pair.get_int( 1 ) ) );
@@ -524,7 +437,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
 
     int enchant_num = 0;
     for( JsonValue jv : jo.get_array( "enchantments" ) ) {
-        std::string enchant_name = "INLINE_ENCH_" + raw_name + "_" + std::to_string( enchant_num++ );
+        std::string enchant_name = "INLINE_ENCH_" + id.str() + "_" + std::to_string( enchant_num++ );
         enchantments.push_back( enchantment::load_inline_enchantment( jv, src, enchant_name ) );
     }
 
@@ -739,6 +652,8 @@ void mutation_branch::check_consistency()
 {
     for( const mutation_branch &mdata : get_all() ) {
         const trait_id &mid = mdata.id;
+        const mod_id &trait_source = mdata.src.back().second;
+        const bool basegame_trait = trait_source.str() == "dda";
         const std::optional<scenttype_id> &s_id = mdata.scent_typeid;
         const std::map<species_id, int> &an_id = mdata.anger_relations;
         for( const auto &style : mdata.initial_ma_styles ) {
@@ -765,10 +680,13 @@ void mutation_branch::check_consistency()
         if( s_id && !s_id.value().is_valid() ) {
             debugmsg( "mutation %s refers to undefined scent type %s", mid.c_str(), s_id.value().c_str() );
         }
+        // Suppress these onload warnings for overlapping mods
         for( const trait_id &replacement : mdata.replacements ) {
             const mutation_branch &rdata = replacement.obj();
+            bool suppressed = rdata.src.back().second != trait_source && !basegame_trait;
             for( const mutation_category_id &cat : rdata.category ) {
-                if( std::find( mdata.category.begin(), mdata.category.end(), cat ) == mdata.category.end() ) {
+                if( std::find( mdata.category.begin(), mdata.category.end(), cat ) == mdata.category.end() &&
+                    !suppressed ) {
                     debugmsg( "mutation %s lacks category %s present in replacement mutation %s", mid.c_str(),
                               cat.c_str(), replacement.c_str() );
                 }
@@ -780,11 +698,12 @@ void mutation_branch::check_consistency()
             }
             const mutation_branch &adata = addition.obj();
             bool found = false;
+            bool suppressed = adata.src.back().second != trait_source && !basegame_trait;
             for( const mutation_category_id &cat : adata.category ) {
                 found = found ||
                         std::find( mdata.category.begin(), mdata.category.end(), cat ) != mdata.category.end();
             }
-            if( !found ) {
+            if( !found && !suppressed ) {
                 debugmsg( "categories in mutation %s don't match any category present in additive mutation %s",
                           mid.c_str(), addition.c_str() );
             }
@@ -793,12 +712,14 @@ void mutation_branch::check_consistency()
         for( const mutation_category_id &cat_id : mdata.category ) {
             if( !mdata.prereqs.empty() ) {
                 bool found = false;
+                bool suppressed = false;
                 for( const trait_id &prereq_id : mdata.prereqs ) {
                     const mutation_branch &prereq = prereq_id.obj();
+                    suppressed = suppressed || ( prereq.src.back().second != trait_source && !basegame_trait );
                     found = found ||
                             std::find( prereq.category.begin(), prereq.category.end(), cat_id ) != prereq.category.end();
                 }
-                if( !found ) {
+                if( !found && !suppressed ) {
                     debugmsg( "mutation %s is in category %s but none of its slot 1 prereqs have this category",
                               mid.c_str(), cat_id.c_str() );
                 }
@@ -806,12 +727,14 @@ void mutation_branch::check_consistency()
 
             if( !mdata.prereqs2.empty() ) {
                 bool found = false;
+                bool suppressed = false;
                 for( const trait_id &prereq_id : mdata.prereqs2 ) {
                     const mutation_branch &prereq = prereq_id.obj();
+                    suppressed = suppressed || ( prereq.src.back().second != trait_source && !basegame_trait );
                     found = found ||
                             std::find( prereq.category.begin(), prereq.category.end(), cat_id ) != prereq.category.end();
                 }
-                if( !found ) {
+                if( !found && !suppressed ) {
                     debugmsg( "mutation %s is in category %s but none of its slot 2 prereqs have this category",
                               mid.c_str(), cat_id.c_str() );
                 }

@@ -1,0 +1,439 @@
+[
+  {
+    "id": "mana_upgrade_efficiency_01",
+    "type": "SPELL",
+    "name": { "str": "First Circle: Lesser Mana Efficiency." },
+    "description": "Perform a magical ritual to increase the efficiency by which your body processes mana, granting you the Lesser Mana Efficiency trait.  The ritual must end when the sun is in the sky and you are at least one story above the ground.\n\nThe chance of the ritual's success depends in your spell level and Spellcraft skill.",
+    "valid_targets": [ "self" ],
+    "shape": "blast",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_SPELL_GRANT_MANA_ADD1",
+    "flags": [ "VERBAL", "SOMATIC", "CONCENTRATE" ],
+    "extra_effects": [ { "id": "eoc_channeling_setup" } ],
+    "components": "spell_components_mana_upgrade_efficiency_01",
+    "difficulty": 6,
+    "max_level": 15,
+    "energy_source": "MANA",
+    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(800, 10)" ] },
+    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(2520000, 2000)" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SPELL_GRANT_MANA_ADD1",
+    "condition": { "and": [ "is_day", { "math": [ "u_val('pos_z')", ">=", "1" ] } ] },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_SPELL_GRANT_MANA_ADD1_PART2",
+            "condition": {
+              "roll_contested": { "math": [ "u_spell_level('mana_upgrade_efficiency_01') + (u_skill('spellcraft') / 2 )" ] },
+              "difficulty": 15
+            },
+            "effect": [ { "u_mutate_towards": "MANA_ADD1", "category": "MANATOUCHED", "use_vitamins": false } ],
+            "false_effect": [
+              {
+                "u_message": "As you intone the final words of the spell, you wait for the change, but nothing happens.  You must need more practice."
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "u_message": "You intone the final words of the spell, but without the proper conditions being fulfilled it has no effect."
+      }
+    ]
+  },
+  {
+    "id": "spell_components_mana_upgrade_efficiency_01",
+    "type": "requirement",
+    "qualities": [ { "id": "MANA_INFUSE", "level": 1 }, { "id": "MANA_FOCUS", "level": 1 } ],
+    "components": [
+      [ [ "mana_energy_weak", 5, "LIST" ] ],
+      [ [ "mercury", 100 ] ],
+      [ [ "crystallized_mana", 25 ] ],
+      [ [ "copper", 250 ], [ "scrap_copper", 5 ] ]
+    ]
+  },
+  {
+    "id": "mana_upgrade_efficiency_02",
+    "type": "SPELL",
+    "name": { "str": "Second Circle: Mana Efficiency." },
+    "description": "Perform a magical ritual to increase the efficiency by which your body processes mana, granting you the Mana Efficiency trait.  You must already have the Lesser Mana Efficiency trait for the spell to take full effect.  The ritual must end within one hour of noon and you are at least four stories above the ground.\n\nThe chance of the ritual's success depends in your spell level and Spellcraft skill.",
+    "valid_targets": [ "self" ],
+    "shape": "blast",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_SPELL_GRANT_MANA_ADD2",
+    "flags": [ "VERBAL", "SOMATIC", "CONCENTRATE" ],
+    "extra_effects": [ { "id": "eoc_channeling_setup" } ],
+    "components": "spell_components_mana_upgrade_efficiency_02",
+    "difficulty": 9,
+    "max_level": 15,
+    "energy_source": "MANA",
+    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(1400, 10)" ] },
+    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(3960000, 2000)" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SPELL_GRANT_MANA_ADD2",
+    "condition": {
+      "and": [
+        { "math": [ "time_since('midnight', 'unit': 'hours') >= 11" ] },
+        { "math": [ "time_since('midnight', 'unit': 'hours') <= 13" ] },
+        { "math": [ "u_val('pos_z')", ">=", "4" ] }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_SPELL_GRANT_MANA_ADD2_PART2",
+            "condition": {
+              "roll_contested": { "math": [ "u_spell_level('mana_upgrade_efficiency_02') + (u_skill('spellcraft') / 2 )" ] },
+              "difficulty": 15
+            },
+            "effect": [ { "u_mutate_towards": "MANA_ADD2", "category": "MANATOUCHED", "use_vitamins": false } ],
+            "false_effect": [
+              {
+                "u_message": "As you intone the final words of the spell, you wait for the change, but nothing happens.  You must need more practice."
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "u_message": "You intone the final words of the spell, but without the proper conditions being fulfilled it has no effect."
+      }
+    ]
+  },
+  {
+    "id": "spell_components_mana_upgrade_efficiency_02",
+    "type": "requirement",
+    "qualities": [ { "id": "MANA_INFUSE", "level": 2 }, { "id": "MANA_FOCUS", "level": 2 } ],
+    "components": [
+      [ [ "mana_energy_strong", 5, "LIST" ] ],
+      [ [ "mercury", 250 ] ],
+      [ [ "mana_infused_blood", 10 ] ],
+      [ [ "crystallized_mana", 75 ] ],
+      [ [ "silver_small", 250 ] ]
+    ]
+  },
+  {
+    "id": "mana_upgrade_regeneration_01",
+    "type": "SPELL",
+    "name": { "str": "First Circle: Lesser Mana Regeneration." },
+    "description": "Perform a magical ritual to increase the speed by which your body restores its mana, granting you the Lesser Mana Regeneration trait.  The ritual must be performed while standing in a river or a stream.\n\nThe chance of the ritual's success depends in your spell level and Spellcraft skill.",
+    "valid_targets": [ "self" ],
+    "shape": "blast",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_SPELL_GRANT_MANA_REGEN1",
+    "flags": [ "VERBAL", "SOMATIC", "CONCENTRATE" ],
+    "extra_effects": [ { "id": "eoc_channeling_setup" } ],
+    "components": "spell_components_mana_upgrade_regeneration_01",
+    "difficulty": 6,
+    "max_level": 15,
+    "energy_source": "MANA",
+    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(800, 10)" ] },
+    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(2520000, 2000)" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SPELL_GRANT_MANA_REGEN1",
+    "condition": {
+      "and": [
+        "u_is_outside",
+        {
+          "and": [
+            { "or": [ { "u_is_on_terrain_with_flag": "SHALLOW_WATER" }, { "u_is_on_terrain_with_flag": "DEEP_WATER" } ] },
+            { "u_is_on_terrain_with_flag": "CURRENT" },
+            { "not": { "u_is_on_terrain": "t_sewage" } },
+            { "not": { "u_is_on_terrain": "t_water_pool_shallow_outdoors" } }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_SPELL_GRANT_MANA_REGEN1_PART2",
+            "condition": {
+              "roll_contested": { "math": [ "u_spell_level('mana_upgrade_regeneration_01') + (u_skill('spellcraft') / 2 )" ] },
+              "difficulty": 15
+            },
+            "effect": [ { "u_mutate_towards": "MANA_REGEN1", "category": "MANATOUCHED", "use_vitamins": false } ],
+            "false_effect": [
+              {
+                "u_message": "As you intone the final words of the spell, you wait for the change, but nothing happens.  You must need more practice."
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "u_message": "You intone the final words of the spell, but without the proper conditions being fulfilled it has no effect."
+      }
+    ]
+  },
+  {
+    "id": "spell_components_mana_upgrade_regeneration_01",
+    "type": "requirement",
+    "qualities": [ { "id": "MANA_INFUSE", "level": 1 }, { "id": "MANA_FOCUS", "level": 1 } ],
+    "components": [
+      [ [ "mana_energy_weak", 5, "LIST" ] ],
+      [ [ "mercury", 100 ] ],
+      [ [ "crystallized_mana", 25 ] ],
+      [ [ "mana_potion_lesser", 40 ], [ "mana_potion", 10 ], [ "mana_potion_greater", 2 ] ]
+    ]
+  },
+  {
+    "id": "mana_upgrade_regeneration_02",
+    "type": "SPELL",
+    "name": { "str": "Second Circle: Mana Regeneration." },
+    "description": "Perform a magical ritual to increase the speed by which your body restores its mana, granting you the Mana Regeneration trait.  You must already have the Lesser Mana Regeneration trait for the spell to take full effect.  The ritual must be performed while standing in a river.\n\nThe chance of the ritual's success depends in your spell level and Spellcraft skill.",
+    "valid_targets": [ "self" ],
+    "shape": "blast",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_SPELL_GRANT_MANA_REGEN2",
+    "flags": [ "VERBAL", "SOMATIC", "CONCENTRATE" ],
+    "extra_effects": [ { "id": "eoc_channeling_setup" } ],
+    "components": "spell_components_mana_upgrade_regeneration_02",
+    "difficulty": 9,
+    "max_level": 15,
+    "energy_source": "MANA",
+    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(1400, 10)" ] },
+    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(3960000, 2000)" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SPELL_GRANT_MANA_REGEN2",
+    "condition": {
+      "and": [
+        "u_is_outside",
+        {
+          "and": [
+            { "or": [ { "u_is_on_terrain_with_flag": "SHALLOW_WATER" }, { "u_is_on_terrain_with_flag": "DEEP_WATER" } ] },
+            {
+              "or": [
+                { "u_at_om_location": "generic_river_bank" },
+                { "u_at_om_location": "generic_river" },
+                { "u_at_om_location": "river_center" },
+                { "u_at_om_location": "river" },
+                { "u_at_om_location": "river_c_not_ne" },
+                { "u_at_om_location": "river_c_not_nw" },
+                { "u_at_om_location": "river_c_not_se" },
+                { "u_at_om_location": "river_c_not_sw" },
+                { "u_at_om_location": "river_ne" },
+                { "u_at_om_location": "river_se" },
+                { "u_at_om_location": "river_sw" },
+                { "u_at_om_location": "river_nw" }
+              ]
+            },
+            { "u_is_on_terrain_with_flag": "CURRENT" },
+            { "not": { "u_is_on_terrain": "t_sewage" } },
+            { "not": { "u_is_on_terrain": "t_water_pool_shallow_outdoors" } }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_SPELL_GRANT_MANA_REGEN2_PART2",
+            "condition": {
+              "roll_contested": { "math": [ "u_spell_level('mana_upgrade_regeneration_02') + (u_skill('spellcraft') / 2 )" ] },
+              "difficulty": 15
+            },
+            "effect": [ { "u_mutate_towards": "MANA_REGEN2", "category": "MANATOUCHED", "use_vitamins": false } ],
+            "false_effect": [
+              {
+                "u_message": "As you intone the final words of the spell, you wait for the change, but nothing happens.  You must need more practice."
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "u_message": "You intone the final words of the spell, but without the proper conditions being fulfilled it has no effect."
+      }
+    ]
+  },
+  {
+    "id": "spell_components_mana_upgrade_regeneration_02",
+    "type": "requirement",
+    "qualities": [ { "id": "MANA_INFUSE", "level": 2 }, { "id": "MANA_FOCUS", "level": 2 } ],
+    "components": [
+      [ [ "mana_energy_strong", 5, "LIST" ] ],
+      [ [ "mercury", 250 ] ],
+      [ [ "mana_infused_blood", 10 ] ],
+      [ [ "crystallized_mana", 75 ] ],
+      [ [ "mana_potion_lesser", 200 ], [ "mana_potion", 50 ], [ "mana_potion_greater", 10 ] ]
+    ]
+  },
+  {
+    "id": "mana_upgrade_sensitivity_01",
+    "type": "SPELL",
+    "name": { "str": "First Circle: Lesser Mana Sensitivity." },
+    "description": "Perform a magical ritual to increase the sensitivity that your body has to mana, granting you the Lesser Mana Sensitivity trait.  The ritual must take place in a natural location away (at least 4 OM tiles) from buildings, roads, or other evidence of civilization.\n\nThe chance of the ritual's success depends in your spell level and Spellcraft skill.",
+    "valid_targets": [ "self" ],
+    "shape": "blast",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_SPELL_GRANT_MANA_MULT1",
+    "flags": [ "VERBAL", "SOMATIC", "CONCENTRATE" ],
+    "extra_effects": [ { "id": "eoc_channeling_setup" } ],
+    "components": "spell_components_mana_upgrade_sensitivity_01",
+    "difficulty": 6,
+    "max_level": 15,
+    "energy_source": "MANA",
+    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(800, 10)" ] },
+    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(2520000, 2000)" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SPELL_GRANT_MANA_MULT1",
+    "condition": {
+      "and": [
+        "u_is_outside",
+        { "not": { "u_at_om_location": "FACTION_CAMP_ANY" } },
+        { "not": { "u_near_om_location": "cabin", "range": 4 } },
+        { "not": { "u_near_om_location": "magic_cabin", "range": 4 } },
+        { "not": { "u_near_om_location": "road_curved", "range": 4 } },
+        { "not": { "u_near_om_location": "road_four_way", "range": 4 } },
+        { "not": { "u_near_om_location": "road_tee", "range": 4 } },
+        { "not": { "u_near_om_location": "road_straight", "range": 4 } },
+        { "not": { "u_near_om_location": "road_end", "range": 4 } },
+        { "not": { "u_near_om_location": "road_sw", "range": 4 } },
+        { "not": { "u_near_om_location": "road_ne", "range": 4 } },
+        { "not": { "u_near_om_location": "road_ew", "range": 4 } },
+        { "not": { "u_near_om_location": "road_ns", "range": 4 } },
+        { "not": { "u_near_om_location": "road_nesw", "range": 4 } },
+        { "not": { "u_near_om_location": "road", "range": 4 } },
+        { "not": { "u_near_om_location": "dirt_road", "range": 4 } },
+        { "not": { "u_near_om_location": "dumpsite", "range": 4 } }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_SPELL_GRANT_MANA_MULT1_PART2",
+            "condition": {
+              "roll_contested": { "math": [ "u_spell_level('mana_upgrade_sensitivity_01') + (u_skill('spellcraft') / 2 )" ] },
+              "difficulty": 15
+            },
+            "effect": [ { "u_mutate_towards": "MANA_MULT1", "category": "MANATOUCHED", "use_vitamins": false } ],
+            "false_effect": [
+              {
+                "u_message": "As you intone the final words of the spell, you wait for the change, but nothing happens.  You must need more practice."
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "u_message": "You intone the final words of the spell, but without the proper conditions being fulfilled it has no effect."
+      }
+    ]
+  },
+  {
+    "id": "spell_components_mana_upgrade_sensitivity_01",
+    "type": "requirement",
+    "qualities": [ { "id": "MANA_INFUSE", "level": 1 }, { "id": "MANA_FOCUS", "level": 1 } ],
+    "components": [
+      [ [ "mana_energy_weak", 5, "LIST" ] ],
+      [ [ "mercury", 100 ] ],
+      [ [ "crystallized_mana", 25 ] ],
+      [ [ "precious_gemstones", 5, "LIST" ], [ "semiprecious_gemstones", 25, "LIST" ] ]
+    ]
+  },
+  {
+    "id": "mana_upgrade_sensitivity_02",
+    "type": "SPELL",
+    "name": { "str": "Second Circle: Mana Sensitivity." },
+    "description": "Perform a magical ritual to increase the sensitivity that your body has to mana, granting you the Mana Sensitivity trait.  You must already have the Lesser Mana Sensitivity trait for the spell to take full effect.  The ritual must take place in a natural location far away (at least 15 OM tiles) from buildings, roads, or other evidence of civilization.\n\nThe chance of the ritual's success depends in your spell level and Spellcraft skill.",
+    "valid_targets": [ "self" ],
+    "shape": "blast",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_SPELL_GRANT_MANA_MULT2",
+    "flags": [ "VERBAL", "SOMATIC", "CONCENTRATE" ],
+    "extra_effects": [ { "id": "eoc_channeling_setup" } ],
+    "components": "spell_components_mana_upgrade_sensitivity_02",
+    "difficulty": 9,
+    "max_level": 15,
+    "energy_source": "MANA",
+    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(1400, 10)" ] },
+    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(3960000, 2000)" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SPELL_GRANT_MANA_MULT2",
+    "condition": {
+      "and": [
+        "u_is_outside",
+        { "not": { "u_at_om_location": "FACTION_CAMP_ANY" } },
+        { "not": { "u_near_om_location": "cabin", "range": 15 } },
+        { "not": { "u_near_om_location": "magic_cabin", "range": 15 } },
+        { "not": { "u_near_om_location": "road_curved", "range": 15 } },
+        { "not": { "u_near_om_location": "road_four_way", "range": 15 } },
+        { "not": { "u_near_om_location": "road_tee", "range": 15 } },
+        { "not": { "u_near_om_location": "road_straight", "range": 15 } },
+        { "not": { "u_near_om_location": "road_end", "range": 15 } },
+        { "not": { "u_near_om_location": "road_sw", "range": 15 } },
+        { "not": { "u_near_om_location": "road_ne", "range": 15 } },
+        { "not": { "u_near_om_location": "road_ew", "range": 15 } },
+        { "not": { "u_near_om_location": "road_ns", "range": 15 } },
+        { "not": { "u_near_om_location": "road_nesw", "range": 15 } },
+        { "not": { "u_near_om_location": "road", "range": 15 } },
+        { "not": { "u_near_om_location": "dirt_road", "range": 15 } },
+        { "not": { "u_near_om_location": "dumpsite", "range": 15 } }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_SPELL_GRANT_MANA_MULT2_PART2",
+            "condition": {
+              "roll_contested": { "math": [ "u_spell_level('mana_upgrade_sensitivity_02') + (u_skill('spellcraft') / 2 )" ] },
+              "difficulty": 15
+            },
+            "effect": [ { "u_mutate_towards": "MANA_MULT2", "category": "MANATOUCHED", "use_vitamins": false } ],
+            "false_effect": [
+              {
+                "u_message": "As you intone the final words of the spell, you wait for the change, but nothing happens.  You must need more practice."
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "u_message": "You intone the final words of the spell, but without the proper conditions being fulfilled it has no effect."
+      }
+    ]
+  },
+  {
+    "id": "spell_components_mana_upgrade_sensitivity_02",
+    "type": "requirement",
+    "qualities": [ { "id": "MANA_INFUSE", "level": 2 }, { "id": "MANA_FOCUS", "level": 2 } ],
+    "components": [
+      [ [ "mana_energy_strong", 5, "LIST" ] ],
+      [ [ "mercury", 250 ] ],
+      [ [ "mana_infused_blood", 10 ] ],
+      [ [ "crystallized_mana", 75 ] ],
+      [ [ "precious_gemstones", 25, "LIST" ], [ "semiprecious_gemstones", 150, "LIST" ] ]
+    ]
+  }
+]

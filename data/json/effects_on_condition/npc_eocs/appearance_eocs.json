@@ -1,0 +1,536 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_hair_growth_tracking",
+    "//": "Hair usually grows at a rate of 1 cm per month.  This is not a hard number, because hair growth is very complex.",
+    "//2": "For the purposes of this EOC right now, we'll assume this rate.",
+    "//3": "For ease of calculation, all math will be done with centimeters for hair growth.",
+    "//4": "For reference starting point, a buzzcut is 0.32 centimeters long.",
+    "//5": "1 inch is 2.54 centimeters.",
+    "recurrence": { "math": [ "(648000000 - ((u_val('health') * 180000) ) )" ] },
+    "global": false,
+    "condition": { "u_has_trait": "natural_hair_growth" },
+    "effect": [
+      {
+        "if": { "u_has_trait": "hair_buzzcut" },
+        "then": [
+          { "u_lose_trait": "hair_buzzcut" },
+          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_crewcut" } }
+        ],
+        "else": {
+          "if": { "u_has_trait": "hair_crewcut" },
+          "then": [
+            { "u_lose_trait": "hair_crewcut" },
+            { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_short" } }
+          ],
+          "else": {
+            "if": {
+              "or": [ { "u_has_trait": "hair_short" }, { "u_has_trait": "hair_short_no_fringe" }, { "u_has_trait": "hair_short_over_eye" } ]
+            },
+            "then": [
+              { "u_lose_trait": "hair_short" },
+              { "u_lose_trait": "hair_short_no_fringe" },
+              { "u_lose_trait": "hair_short_over_eye" },
+              { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_medium" } }
+            ],
+            "else": {
+              "if": { "or": [ { "u_has_trait": "hair_medium" } ] },
+              "then": [
+                { "u_lose_trait": "hair_medium" },
+                { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_long" } }
+              ],
+              "else": {
+                "if": { "u_has_trait": "hair_mohawk" },
+                "then": [
+                  { "u_lose_trait": "hair_mohawk" },
+                  { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_long_mohawk" } }
+                ],
+                "else": {
+                  "if": {
+                    "or": [
+                      { "u_has_trait": "hair_long" },
+                      { "u_has_trait": "hair_long_mohawk" },
+                      { "u_has_trait": "hair_mullet" },
+                      { "u_has_trait": "hair_long_over_eye" }
+                    ]
+                  },
+                  "then": [
+                    { "u_lose_trait": "hair_long" },
+                    { "u_lose_trait": "hair_mullet" },
+                    { "u_lose_trait": "hair_long_over_eye" },
+                    { "u_lose_trait": "hair_long_mohawk" },
+                    { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_messy" } }
+                  ],
+                  "else": {
+                    "if": { "or": [ { "u_has_trait": "hair_messy" } ] },
+                    "then": [
+                      { "u_lose_trait": "hair_messy" },
+                      { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_very_long" } }
+                    ],
+                    "else": {
+                      "if": { "or": [ { "u_has_trait": "hair_very_long" } ] },
+                      "then": [
+                        { "u_lose_trait": "hair_very_long" },
+                        {
+                          "run_eoc_with": "reset_natural_hair_color",
+                          "variables": { "trait_id": "hair_extremely_long" }
+                        }
+                      ],
+                      "else": {
+                        "if": { "or": [ { "u_has_trait": "hair_extremely_long" } ] },
+                        "then": [
+                          { "u_lose_trait": "hair_extremely_long" },
+                          {
+                            "run_eoc_with": "reset_natural_hair_color",
+                            "variables": { "trait_id": "hair_body_length" }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_beard_growth_tracking",
+    "//": "Use the same notes as hair growth.  However, facial hair grows faster than head hair, averaging 1.25 inches per month.",
+    "recurrence": { "math": [ "(43200000 - ((u_val('health') * 86400) ) )" ] },
+    "global": false,
+    "condition": { "u_has_trait": "natural_hair_growth" },
+    "effect": [
+      {
+        "if": { "u_has_trait": "FACIAL_HAIR_NONE" },
+        "then": [ { "u_lose_trait": "FACIAL_HAIR_NONE" }, { "u_add_trait": "FACIAL_HAIR_NECKBEARD" } ],
+        "else": {
+          "if": {
+            "or": [
+              { "u_has_trait": "FACIAL_HAIR_NECKBEARD" },
+              { "u_has_trait": "FACIAL_HAIR_SIDEBURNS" },
+              { "u_has_trait": "FACIAL_HAIR_SOUL_PATCH" },
+              { "u_has_trait": "FACIAL_HAIR_CHIN_STRIP" }
+            ]
+          },
+          "then": [
+            { "u_lose_trait": "FACIAL_HAIR_NECKBEARD" },
+            { "u_lose_trait": "FACIAL_HAIR_SIDEBURNS" },
+            { "u_lose_trait": "FACIAL_HAIR_SOUL_PATCH" },
+            { "u_lose_trait": "FACIAL_HAIR_CHIN_STRIP" },
+            { "u_add_trait": "FACIAL_HAIR_3DAYSTUBBLE" }
+          ],
+          "else": {
+            "if": {
+              "or": [
+                { "u_has_trait": "FACIAL_HAIR_3DAYSTUBBLE" },
+                { "u_has_trait": "FACIAL_HAIR_TOOTHBRUSH" },
+                { "u_has_trait": "FACIAL_HAIR_CHIN_STRAP" },
+                { "u_has_trait": "FACIAL_HAIR_MUSTACHE" },
+                { "u_has_trait": "FACIAL_HAIR_NECKBEARD" },
+                { "u_has_trait": "FACIAL_HAIR_WALRUS" },
+                { "u_has_trait": "FACIAL_HAIR_ZAPPA" }
+              ]
+            },
+            "then": [
+              { "u_lose_trait": "FACIAL_HAIR_3DAYSTUBBLE" },
+              { "u_lose_trait": "FACIAL_HAIR_TOOTHBRUSH" },
+              { "u_lose_trait": "FACIAL_HAIR_CHIN_STRAP" },
+              { "u_lose_trait": "FACIAL_HAIR_MUSTACHE" },
+              { "u_lose_trait": "FACIAL_HAIR_NECKBEARD" },
+              { "u_lose_trait": "FACIAL_HAIR_WALRUS" },
+              { "u_lose_trait": "FACIAL_HAIR_ZAPPA" },
+              { "u_add_trait": "FACIAL_HAIR_GOATEE" }
+            ],
+            "else": {
+              "if": {
+                "or": [
+                  { "u_has_trait": "FACIAL_HAIR_GOATEE" },
+                  { "u_has_trait": "FACIAL_HAIR_CIRCLE" },
+                  { "u_has_trait": "FACIAL_HAIR_SHORTBOXED" },
+                  { "u_has_trait": "FACIAL_HAIR_HORSESHOE" },
+                  { "u_has_trait": "FACIAL_HAIR_MUTTONCHOPS" },
+                  { "u_has_trait": "FACIAL_HAIR_GUNSLINGER" },
+                  { "u_has_trait": "FACIAL_HAIR_CHIN_CURTAIN" },
+                  { "u_has_trait": "FACIAL_HAIR_HANDLEBAR" },
+                  { "u_has_trait": "FACIAL_HAIR_VANDYKE" }
+                ]
+              },
+              "then": [
+                { "u_lose_trait": "FACIAL_HAIR_GOATEE" },
+                { "u_lose_trait": "FACIAL_HAIR_CIRCLE" },
+                { "u_lose_trait": "FACIAL_HAIR_SHORTBOXED" },
+                { "u_lose_trait": "FACIAL_HAIR_HORSESHOE" },
+                { "u_lose_trait": "FACIAL_HAIR_MUTTONCHOPS" },
+                { "u_lose_trait": "FACIAL_HAIR_GUNSLINGER" },
+                { "u_lose_trait": "FACIAL_HAIR_CHIN_CURTAIN" },
+                { "u_lose_trait": "FACIAL_HAIR_HANDLEBAR" },
+                { "u_lose_trait": "FACIAL_HAIR_VANDYKE" },
+                { "u_add_trait": "FACIAL_HAIR_BEARD" }
+              ],
+              "else": {
+                "if": {
+                  "or": [
+                    { "u_has_trait": "FACIAL_HAIR_BEARD" },
+                    { "u_has_trait": "FACIAL_HAIR_ANCHOR" },
+                    { "u_has_trait": "FACIAL_HAIR_ROYALE" }
+                  ]
+                },
+                "then": [
+                  { "u_lose_trait": "FACIAL_HAIR_BEARD" },
+                  { "u_lose_trait": "FACIAL_HAIR_ANCHOR" },
+                  { "u_lose_trait": "FACIAL_HAIR_ROYALE" },
+                  { "u_add_trait": "FACIAL_HAIR_SHENANDOAH" }
+                ],
+                "else": {
+                  "if": { "or": [ { "u_has_trait": "FACIAL_HAIR_SHENANDOAH" } ] },
+                  "then": [ { "u_lose_trait": "FACIAL_HAIR_SHENANDOAH" }, { "u_add_trait": "FACIAL_HAIR_BEARD_LONG" } ],
+                  "else": {
+                    "if": { "or": [ { "u_has_trait": "FACIAL_HAIR_BEARD_LONG" } ] },
+                    "then": [ { "u_lose_trait": "FACIAL_HAIR_BEARD_LONG" }, { "u_add_trait": "FACIAL_HAIR_BEARD_VERY_LONG" } ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "reset_natural_hair_color",
+    "condition": { "expects_vars": [ "trait_id" ] },
+    "effect": [
+      { "run_eocs": "assign_random_natural_hair_color" },
+      {
+        "if": { "u_has_var": "mutation_hair_color_natural_hair_color_black", "value": "yes" },
+        "then": [ { "u_add_trait": { "context_val": "trait_id" }, "variant": "black" } ],
+        "else": {
+          "if": { "u_has_var": "mutation_hair_color_natural_hair_color_blond", "value": "yes" },
+          "then": [ { "u_add_trait": { "context_val": "trait_id" }, "variant": "blond" } ],
+          "else": {
+            "if": { "u_has_var": "mutation_hair_color_natural_hair_color_brown", "value": "yes" },
+            "then": [ { "u_add_trait": { "context_val": "trait_id" }, "variant": "brown" } ],
+            "else": {
+              "if": { "u_has_var": "mutation_hair_color_natural_hair_color_gray", "value": "yes" },
+              "then": [ { "u_add_trait": { "context_val": "trait_id" }, "variant": "gray" } ],
+              "else": {
+                "if": { "u_has_var": "mutation_hair_color_natural_hair_color_red", "value": "yes" },
+                "then": [ { "u_add_trait": { "context_val": "trait_id" }, "variant": "red" } ],
+                "else": {
+                  "if": { "u_has_var": "mutation_hair_color_natural_hair_color_white", "value": "yes" },
+                  "then": [ { "u_add_trait": { "context_val": "trait_id" }, "variant": "white" } ]
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "apply_hair_dye",
+    "global": false,
+    "condition": { "expects_vars": [ "color_id" ] },
+    "effect": [
+      {
+        "if": { "u_has_trait": "hair_buzzcut" },
+        "then": [ { "u_lose_trait": "hair_buzzcut" }, { "u_add_trait": "hair_buzzcut", "variant": { "context_val": "color_id" } } ],
+        "else": {
+          "if": { "u_has_trait": "hair_crewcut" },
+          "then": [ { "u_lose_trait": "hair_crewcut" }, { "u_add_trait": "hair_crewcut", "variant": { "context_val": "color_id" } } ],
+          "else": {
+            "if": { "u_has_trait": "hair_short" },
+            "then": [ { "u_lose_trait": "hair_short" }, { "u_add_trait": "hair_short", "variant": { "context_val": "color_id" } } ],
+            "else": {
+              "if": { "u_has_trait": "hair_short_no_fringe" },
+              "then": [
+                { "u_lose_trait": "hair_short_no_fringe" },
+                { "u_add_trait": "hair_short_no_fringe", "variant": { "context_val": "color_id" } }
+              ],
+              "else": {
+                "if": { "u_has_trait": "hair_short_over_eye" },
+                "then": [
+                  { "u_lose_trait": "hair_short_over_eye" },
+                  { "u_add_trait": "hair_short_over_eye", "variant": { "context_val": "color_id" } }
+                ],
+                "else": {
+                  "if": { "or": [ { "u_has_trait": "hair_medium" } ] },
+                  "then": [ { "u_lose_trait": "hair_medium" }, { "u_add_trait": "hair_medium", "variant": { "context_val": "color_id" } } ],
+                  "else": {
+                    "if": { "u_has_trait": "hair_mohawk" },
+                    "then": [ { "u_lose_trait": "hair_mohawk" }, { "u_add_trait": "hair_mohawk", "variant": { "context_val": "color_id" } } ],
+                    "else": {
+                      "if": { "u_has_trait": "hair_long" },
+                      "then": [ { "u_lose_trait": "hair_long" }, { "u_add_trait": "hair_long", "variant": { "context_val": "color_id" } } ],
+                      "else": {
+                        "if": { "u_has_trait": "hair_long_mohawk" },
+                        "then": [
+                          { "u_lose_trait": "hair_long_mohawk" },
+                          { "u_add_trait": "hair_long_mohawk", "variant": { "context_val": "color_id" } }
+                        ],
+                        "else": {
+                          "if": { "u_has_trait": "hair_mullet" },
+                          "then": [ { "u_lose_trait": "hair_mullet" }, { "u_add_trait": "hair_mullet", "variant": { "context_val": "color_id" } } ],
+                          "else": {
+                            "if": { "u_has_trait": "hair_long_over_eye" },
+                            "then": [
+                              { "u_lose_trait": "hair_long_over_eye" },
+                              { "u_add_trait": "hair_long_over_eye", "variant": { "context_val": "color_id" } }
+                            ],
+                            "else": {
+                              "if": { "or": [ { "u_has_trait": "hair_messy" } ] },
+                              "then": [ { "u_lose_trait": "hair_messy" }, { "u_add_trait": "hair_messy", "variant": { "context_val": "color_id" } } ],
+                              "else": {
+                                "if": { "or": [ { "u_has_trait": "hair_very_long" } ] },
+                                "then": [ { "u_lose_trait": "hair_very_long" }, { "u_add_trait": "hair_very_long", "variant": { "context_val": "color_id" } } ],
+                                "else": {
+                                  "if": { "or": [ { "u_has_trait": "hair_extremely_long" } ] },
+                                  "then": [
+                                    { "u_lose_trait": "hair_extremely_long" },
+                                    { "u_add_trait": "hair_extremely_long", "variant": { "context_val": "color_id" } }
+                                  ],
+                                  "else": {
+                                    "if": { "or": [ { "u_has_trait": "hair_body_length" } ] },
+                                    "then": [
+                                      { "u_lose_trait": "hair_body_length" },
+                                      { "u_add_trait": "hair_body_length", "variant": { "context_val": "color_id" } }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "use_hair_dye_kit",
+    "effect": [
+      {
+        "run_eoc_selector": [
+          "black_hair_dye",
+          "blond_hair_dye",
+          "blue_hair_dye",
+          "brown_hair_dye",
+          "gray_hair_dye",
+          "green_hair_dye",
+          "red_hair_dye",
+          "pink_hair_dye",
+          "white_hair_dye",
+          "EOC_NONE"
+        ],
+        "names": [
+          "Black Dye",
+          "Blond Dye",
+          "Blue Dye",
+          "Brown Dye",
+          "Gray Dye",
+          "Green Dye",
+          "Red Dye",
+          "Pink Dye",
+          "White Dye",
+          "Nevermind"
+        ],
+        "keys": [ "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" ],
+        "descriptions": [
+          "Dye your hair black.",
+          "Dye your hair blond.",
+          "Dye your hair blue.",
+          "Dye your hair brown.",
+          "Dye your hair gray.",
+          "Dye your hair green.",
+          "Dye your hair red.",
+          "Dye your hair pink.",
+          "Dye your hair white.",
+          "Don't do anything."
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "assign_random_natural_hair_color",
+    "condition": {
+      "and": [
+        { "not": { "u_has_var": "mutation_hair_color_natural_hair_color_black", "value": "yes" } },
+        { "not": { "u_has_var": "mutation_hair_color_natural_hair_color_blond", "value": "yes" } },
+        { "not": { "u_has_var": "mutation_hair_color_natural_hair_color_brown", "value": "yes" } },
+        { "not": { "u_has_var": "mutation_hair_color_natural_hair_color_gray", "value": "yes" } },
+        { "not": { "u_has_var": "mutation_hair_color_natural_hair_color_red", "value": "yes" } },
+        { "not": { "u_has_var": "mutation_hair_color_natural_hair_color_white", "value": "yes" } }
+      ]
+    },
+    "effect": [
+      {
+        "weighted_list_eocs": [
+          [ { "id": "black_hair", "effect": { "u_add_trait": "natural_hair_color_black" } }, 1 ],
+          [ { "id": "blond_hair", "effect": { "u_add_trait": "natural_hair_color_blond" } }, 1 ],
+          [ { "id": "brown_hair", "effect": { "u_add_trait": "natural_hair_color_brown" } }, 1 ],
+          [ { "id": "gray_hair", "effect": { "u_add_trait": "natural_hair_color_gray" } }, 1 ],
+          [ { "id": "white_hair", "effect": { "u_add_trait": "natural_hair_color_white" } }, 1 ],
+          [ { "id": "red_hair", "effect": { "u_add_trait": "natural_hair_color_red" } }, 1 ]
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "natural_hair_color_black",
+    "condition": { "not": { "u_has_var": "mutation_hair_color_picked_hair_color", "value": "yes" } },
+    "effect": [
+      { "u_add_var": "mutation_hair_color_natural_hair_color_black", "value": "yes" },
+      { "u_add_var": "mutation_hair_color_picked_hair_color", "value": "yes" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "natural_hair_color_blond",
+    "condition": { "not": { "u_has_var": "mutation_hair_color_picked_hair_color", "value": "yes" } },
+    "effect": [
+      { "u_add_var": "mutation_hair_color_natural_hair_color_blond", "value": "yes" },
+      { "u_add_var": "mutation_hair_color_picked_hair_color", "value": "yes" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "natural_hair_color_brown",
+    "condition": { "not": { "u_has_var": "mutation_hair_color_picked_hair_color", "value": "yes" } },
+    "effect": [
+      { "u_add_var": "mutation_hair_color_natural_hair_color_brown", "value": "yes" },
+      { "u_add_var": "mutation_hair_color_picked_hair_color", "value": "yes" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "natural_hair_color_gray",
+    "condition": { "not": { "u_has_var": "mutation_hair_color_picked_hair_color", "value": "yes" } },
+    "effect": [
+      { "u_add_var": "mutation_hair_color_natural_hair_color_gray", "value": "yes" },
+      { "u_add_var": "mutation_hair_color_picked_hair_color", "value": "yes" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "natural_hair_color_white",
+    "condition": { "not": { "u_has_var": "mutation_hair_color_picked_hair_color", "value": "yes" } },
+    "effect": [
+      { "u_add_var": "mutation_hair_color_natural_hair_color_white", "value": "yes" },
+      { "u_add_var": "mutation_hair_color_picked_hair_color", "value": "yes" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "natural_hair_color_red",
+    "condition": { "not": { "u_has_var": "mutation_hair_color_picked_hair_color", "value": "yes" } },
+    "effect": [
+      { "u_add_var": "mutation_hair_color_natural_hair_color_red", "value": "yes" },
+      { "u_add_var": "mutation_hair_color_picked_hair_color", "value": "yes" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "black_hair_dye",
+    "condition": { "u_has_item": "hair_dye_black" },
+    "effect": [
+      { "u_message": "You finish dyeing your hair." },
+      { "run_eoc_with": "apply_hair_dye", "variables": { "color_id": "black" } }
+    ],
+    "false_effect": [ { "u_message": "You don't have any black hair dye!" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "blond_hair_dye",
+    "condition": { "u_has_item": "hair_dye_blond" },
+    "effect": [
+      { "u_message": "You finish dyeing your hair." },
+      { "run_eoc_with": "apply_hair_dye", "variables": { "color_id": "blond" } }
+    ],
+    "false_effect": [ { "u_message": "You don't have any blond hair dye!" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "blue_hair_dye",
+    "condition": { "u_has_item": "hair_dye_blue" },
+    "effect": [
+      { "u_message": "You finish dyeing your hair." },
+      { "run_eoc_with": "apply_hair_dye", "variables": { "color_id": "blue" } }
+    ],
+    "false_effect": [ { "u_message": "You don't have any blue hair dye!" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "brown_hair_dye",
+    "condition": { "u_has_item": "hair_dye_brown" },
+    "effect": [
+      { "u_message": "You finish dyeing your hair." },
+      { "run_eoc_with": "apply_hair_dye", "variables": { "color_id": "brown" } }
+    ],
+    "false_effect": [ { "u_message": "You don't have any brown hair dye!" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "gray_hair_dye",
+    "condition": { "u_has_item": "hair_dye_gray" },
+    "effect": [
+      { "u_message": "You finish dyeing your hair." },
+      { "run_eoc_with": "apply_hair_dye", "variables": { "color_id": "gray" } }
+    ],
+    "false_effect": [ { "u_message": "You don't have any gray hair dye!" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "green_hair_dye",
+    "condition": { "u_has_item": "hair_dye_green" },
+    "effect": [
+      { "u_message": "You finish dyeing your hair." },
+      { "run_eoc_with": "apply_hair_dye", "variables": { "color_id": "green" } }
+    ],
+    "false_effect": [ { "u_message": "You don't have any green hair dye!" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "red_hair_dye",
+    "condition": { "u_has_item": "hair_dye_red" },
+    "effect": [
+      { "u_message": "You finish dyeing your hair." },
+      { "run_eoc_with": "apply_hair_dye", "variables": { "color_id": "red" } }
+    ],
+    "false_effect": [ { "u_message": "You don't have any red hair dye!" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "pink_hair_dye",
+    "condition": { "u_has_item": "hair_dye_pink" },
+    "effect": [
+      { "u_message": "You finish dyeing your hair." },
+      { "run_eoc_with": "apply_hair_dye", "variables": { "color_id": "pink" } }
+    ],
+    "false_effect": [ { "u_message": "You don't have any pink hair dye!" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "white_hair_dye",
+    "condition": { "u_has_item": "hair_dye_white" },
+    "effect": [
+      { "u_message": "You finish dyeing your hair." },
+      { "run_eoc_with": "apply_hair_dye", "variables": { "color_id": "white" } }
+    ],
+    "false_effect": [ { "u_message": "You don't have any white hair dye!" } ]
+  }
+]

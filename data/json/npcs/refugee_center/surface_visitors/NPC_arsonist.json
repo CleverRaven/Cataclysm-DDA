@@ -30,6 +30,7 @@
     "traits": [
       { "group": "BG_survival_story_CRIMINAL" },
       { "trait": "hair_long_over_eye", "variant": "brown" },
+      { "trait": "natural_hair_color_brown" },
       { "trait": "eye_color", "variant": "blue" },
       { "trait": "SKIN_LIGHT" },
       { "trait": "QUICK" },
@@ -44,6 +45,11 @@
     "bonus_aggression": { "rng": [ 0, 1 ] },
     "bonus_collector": { "rng": [ 0, 2 ] },
     "shopkeeper_item_group": "NC_ARSONIST_STOCK",
+    "shopkeeper_price_rules": [
+      { "item": "FMCNote", "fixed_adj": 0 },
+      { "item": "money_strap_FMCNote", "fixed_adj": 0 },
+      { "item": "money_bundle_FMCNote", "fixed_adj": 0 }
+    ],
     "carry_override": "NC_ARSONIST_STOCK",
     "worn_override": "NC_ARSONIST_worn",
     "skills": [
@@ -126,7 +132,7 @@
       },
       {
         "text": "How are you doing these days?",
-        "condition": { "u_has_var": "TALK_ARSONIST_SUPPLIED", "type": "talk", "context": "flag", "value": "yes" },
+        "condition": { "u_has_var": "talk_flag_TALK_ARSONIST_SUPPLIED", "value": "yes" },
         "topic": "TALK_ARSONIST_TRADING"
       },
       { "text": "Well, bye.", "topic": "TALK_DONE" }
@@ -210,10 +216,7 @@
       "failure": "Damn.  Perhaps I wasn't the only one who thought of this."
     },
     "end": {
-      "effect": [
-        { "u_spawn_item": "molotov", "count": 10 },
-        { "u_add_var": "TALK_ARSONIST_SUPPLIED", "type": "talk", "context": "flag", "value": "yes" }
-      ]
+      "effect": [ { "u_spawn_item": "molotov", "count": 10 }, { "u_add_var": "talk_flag_TALK_ARSONIST_SUPPLIED", "value": "yes" } ]
     }
   },
   {
@@ -227,8 +230,8 @@
     "id": "TALK_ARSONIST_MUTATION_INSULT",
     "dynamic_line": {
       "u_has_any_trait": [ "CANINE_EARS", "LUPINE_EARS", "FELINE_EARS", "URSINE_EARS", "ELFA_EARS" ],
-      "yes": "As if you're one to talk.  Screw You.",
-      "no": "Screw You!"
+      "yes": { "gendered_line": "As if you're one to talk.  Screw You.", "relevant_genders": [ "u" ] },
+      "no": { "gendered_line": "Screw You!", "relevant_genders": [ "u" ] }
     },
     "responses": [
       {

@@ -13,7 +13,7 @@ An NPC faction looks like this:
     "known_by_u": false,
     "size": 100,
     "power": 100,
-    "food_supply": 115200,
+    "fac_food_supply": { "calories": 115200, "vitamins": { "iron": 800, "calcium": 800, "vitC": 600 } },
     "lone_wolf_faction": true,
     "wealth": 75000000,
     "currency": "FMCNote",
@@ -24,7 +24,7 @@ An NPC faction looks like this:
         "group": "test_item_group",
         "markup": 2.0,
         "fixed_adj": 0.1,
-        "condition": { "npc_has_var": "thirsty", "type": "bool", "context": "allnighter", "value": "yes" }
+        "condition": { "npc_has_var": "bool_allnighter_thirsty", "value": "yes" }
       }
     ],
     "relations": {
@@ -66,7 +66,8 @@ Field                 | Meaning
 `"known_by_u"`        | boolean, whether the player has met members of the faction.  Can be changed in play.  Unknown factions will not be displayed in the faction menu.
 `"size"`              | integer, an approximate count of the members of the faction.  Has no effect in play currently.
 `"power"`             | integer, an approximation of the faction's power.  Has no effect in play currently.
-`"food_supply"`       | integer, the number of calories available to the faction.  Has no effect in play currently.
+`"fac_food_supply"`   | integer, the number of calories (not kilocalories!) available to the faction. Has no effect in play currently.
+`"vitamins"`          | array, *units* of vitamins available to this faction. This is not the same as RDA, see [the vitamins doc](VITAMIN.md) for more details. Has no effect in play currently.
 `"wealth"`            | integer, number of post-apocalyptic currency in cents that that faction has to purchase stuff. Serves as an upper limit on the amount of items restocked by a NPC of this faction with a defined shopkeeper_item_group (see NPCs.md)
 `"currency"`          | string, the item `"id"` of the faction's preferred currency.  Faction shopkeeps will trade faction current at 100% value, for both selling and buying.
 `"price_rules"`       | array, allows defining `premium`, `markup`, `price` and/or `fixed_adj` for an `item`/`category`/`group`.<br/><br/>`premium` is a price multiplier that applies to both sides.<br/> `markup` is only used when an NPC is selling to the avatar and defaults to `1`.<br/>`price` replaces the item's `price_postapoc`.<br/>`fixed_adj` is used instead of adjustment based on social skill and intelligence stat and can be used to define secondary currencies.<br/><br/>Lower entries override higher ones. For conditionals, the avatar is used as alpha and the evaluating npc as beta
