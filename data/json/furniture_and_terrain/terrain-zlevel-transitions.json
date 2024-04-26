@@ -258,20 +258,7 @@
     "color": "dark_gray",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "GOES_DOWN", "PLACE_ITEM", "DIFFICULT_Z", "SINGLE_SUPPORT" ],
-    "bash": {
-      "str_min": 20,
-      "str_max": 150,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "ter_set": "t_open_air_rooved",
-      "items": [
-        { "item": "pipe", "count": [ 10, 46 ] },
-        { "item": "pipe_fittings", "count": [ 10, 55 ] },
-        { "item": "2x4", "count": [ 1, 4 ] },
-        { "item": "stick", "count": [ 0, 2 ] },
-        { "item": "rope_30", "count": [ 0, 2 ] }
-      ]
-    }
+    "bash": { "str_min": 20, "str_max": 150, "sound": "metal screeching!", "sound_fail": "clang!", "ter_set": "t_open_air" }
   },
   {
     "type": "terrain",
@@ -287,7 +274,7 @@
       "str_max": 150,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "ter_set": "t_ladder_down",
+      "ter_set": "t_scaffolding_pipe_down",
       "items": [
         { "item": "pipe", "count": [ 10, 46 ] },
         { "item": "pipe_fittings", "count": [ 10, 55 ] },
