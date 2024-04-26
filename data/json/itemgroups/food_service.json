@@ -92,12 +92,18 @@
       {
         "item": "dandelionburdock_tea",
         "prob": 20,
-        "charges-max": 2,
+        "charges": [ 0, 2 ],
         "container-item": "bottle_plastic",
         "sealed": false
       },
-      { "item": "dandelion_tea", "prob": 10, "charges-max": 2, "container-item": "bottle_plastic", "sealed": false },
-      { "item": "pine_tea", "prob": 10, "charges-max": 2, "container-item": "bottle_plastic", "sealed": false },
+      {
+        "item": "dandelion_tea",
+        "prob": 10,
+        "charges": [ 0, 2 ],
+        "container-item": "bottle_plastic",
+        "sealed": false
+      },
+      { "item": "pine_tea", "prob": 10, "charges": [ 0, 2 ], "container-item": "bottle_plastic", "sealed": false },
       { "item": "herbal_tea", "prob": 50 },
       { "item": "chamomile_tea", "prob": 40 },
       { "item": "lotus_tea", "prob": 30 },
@@ -362,7 +368,7 @@
       [ "towel", 15 ],
       { "item": "soap", "prob": 15, "charges": [ 1, 10 ] },
       { "item": "detergent", "prob": 15, "charges": [ 1, 20 ] },
-      { "item": "bleach", "prob": 15, "charges-min": 1 },
+      { "item": "bleach", "prob": 15, "charges": [ 1, -1 ] },
       [ "broom", 13 ],
       [ "dinosuit", 7 ],
       [ "hat_ball", 19 ],
@@ -517,7 +523,7 @@
       { "item": "detergent", "prob": 8, "charges": [ 1, 20 ] },
       { "item": "cotton_patchwork", "prob": 15 },
       { "item": "broom", "prob": 8 },
-      { "item": "bleach", "prob": 8, "charges-min": 1 },
+      { "item": "bleach", "prob": 8, "charges": [ 1, -1 ] },
       { "item": "hotplate", "prob": 1 },
       { "item": "vinegar", "prob": 3 }
     ]
@@ -662,7 +668,7 @@
       { "item": "soap", "prob": 30, "charges": [ 1, 10 ] },
       { "item": "detergent", "prob": 30, "charges": [ 1, 20 ] },
       { "item": "cotton_patchwork", "prob": 30 },
-      { "item": "bleach", "prob": 30, "charges-min": 1 },
+      { "item": "bleach", "prob": 30, "charges": [ 1, -1 ] },
       { "item": "vinegar", "prob": 30 },
       { "item": "backpack", "prob": 5 }
     ]
@@ -952,14 +958,7 @@
       [ "water_mineral", 10 ],
       [ "milk", 20 ],
       { "prob": 35, "group": "butter_wrapper_8_64" },
-      {
-        "item": "ghee",
-        "prob": 5,
-        "charges-min": 1,
-        "charges-max": 64,
-        "container-item": "jar_glass_sealed",
-        "sealed": false
-      },
+      { "item": "ghee", "prob": 5, "charges": [ 1, 64 ], "container-item": "jar_glass_sealed", "sealed": false },
       [ "yoghurt", 10 ],
       [ "pudding", 15 ],
       [ "apple", 10 ],
@@ -1008,14 +1007,7 @@
       [ "milk", 20 ],
       [ "egg_bird_unfert", 20 ],
       { "prob": 35, "group": "butter_wrapper_8_64" },
-      {
-        "item": "ghee",
-        "prob": 5,
-        "charges-min": 1,
-        "charges-max": 64,
-        "container-item": "jar_glass_sealed",
-        "sealed": false
-      },
+      { "item": "ghee", "prob": 5, "charges": [ 1, 64 ], "container-item": "jar_glass_sealed", "sealed": false },
       [ "apple", 10 ],
       [ "fish_sandwich", 15 ],
       [ "lobster_roll", 15 ],
@@ -1462,14 +1454,7 @@
       [ "water_mineral", 10 ],
       [ "milk", 20 ],
       { "prob": 35, "group": "butter_wrapper_8_64" },
-      {
-        "item": "ghee",
-        "prob": 5,
-        "charges-min": 1,
-        "charges-max": 64,
-        "container-item": "jar_glass_sealed",
-        "sealed": false
-      },
+      { "item": "ghee", "prob": 5, "charges": [ 1, 64 ], "container-item": "jar_glass_sealed", "sealed": false },
       [ "cactus_pad", 20 ],
       [ "papaya", 20 ],
       [ "fish_cooked", 20 ],
