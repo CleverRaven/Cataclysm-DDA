@@ -441,467 +441,467 @@
         "STRONGER_RESISTCHILL"
       ]
     }
-    },
-    {
-      "type": "scenario",
-      "id": "extscenario_cephalopod",
-      "copy-from": "extscenario_prethresh",
-      "name": "Mutant - Cephalopod Threshold",
-      "description": "Start as a post-threshold Cephalopod Mutant",
-      "forced_traits": "THRESH_CEPHALOPOD",
+  },
+  {
+    "type": "scenario",
+    "id": "extscenario_cephalopod",
+    "copy-from": "extscenario_prethresh",
+    "name": "Mutant - Cephalopod Threshold",
+    "description": "Start as a post-threshold Cephalopod Mutant",
+    "forced_traits": "THRESH_CEPHALOPOD",
+    "traits": [
+      "CAMO2",
+      "CEPH_MIND",
+      "CLAWS_TENTACLE",
+      "GILLS_CEPH",
+      "INT_UP_3",
+      "DEX_UP_4",
+      "INK_GLANDS",
+      "INT_UP_4",
+      "LEG_TENT_BRACE",
+      "SHELL2",
+      "STRONGER_RESISTWARM"
+    ]
+  },
+  {
+    "type": "scenario",
+    "id": "extscenario_chimera",
+    "copy-from": "extscenario_prethresh",
+    "name": "Mutant - Chaos Threshold",
+    "description": "Start as a post-threshold Chaos Mutant",
+    "forced_traits": "THRESH_CHIMERA",
+    "extend": {
       "traits": [
-        "CAMO2",
-        "CEPH_MIND",
-        "CLAWS_TENTACLE",
-        "GILLS_CEPH",
-        "INT_UP_3",
-        "DEX_UP_4",
-        "INK_GLANDS",
-        "INT_UP_4",
-        "LEG_TENT_BRACE",
-        "SHELL2",
-        "STRONGER_RESISTWARM"
+        "ACIDBLOOD",
+        "ACIDPROOF",
+        "DEFORMED3",
+        "EATDEAD",
+        "EATHEALTH",
+        "EATPOISON",
+        "LARGE_OK",
+        "MUT_JUNKIE",
+        "MUT_TOUGH",
+        "MUT_TOUGH2",
+        "PATCHSKIN3",
+        "PROJUNK2",
+        "PRED1",
+        "PRED2",
+        "PRED3",
+        "PRED4",
+        "SABER_TEETH",
+        "SAPIOVORE",
+        "STR_UP_3"
       ]
-    },
-    {
-      "type": "scenario",
-      "id": "extscenario_chimera",
-      "copy-from": "extscenario_prethresh",
-      "name": "Mutant - Chaos Threshold",
-      "description": "Start as a post-threshold Chaos Mutant",
-      "forced_traits": "THRESH_CHIMERA",
-      "extend": {
-        "traits": [
-          "ACIDBLOOD",
-          "ACIDPROOF",
-          "DEFORMED3",
-          "EATDEAD",
-          "EATHEALTH",
-          "EATPOISON",
-          "LARGE_OK",
-          "MUT_JUNKIE",
-          "MUT_TOUGH",
-          "MUT_TOUGH2",
-          "PATCHSKIN3",
-          "PROJUNK2",
-          "PRED1",
-          "PRED2",
-          "PRED3",
-          "PRED4",
-          "SABER_TEETH",
-          "SAPIOVORE",
-          "STR_UP_3"
-        ]
-      }
-    },
-    {
-      "type": "scenario",
-      "id": "extscenario_elfa",
-      "copy-from": "extscenario_prethresh",
-      "name": "Mutant - Fey Threshold",
-      "description": "Start as a post-threshold Fey Mutant",
-      "forced_traits": "THRESH_ELFA",
-      "extend": {
-        "traits": [
-          "BENDY1",
-          "BEAUTIFUL2",
-          "BEAUTIFUL3",
-          "DEX_UP_3",
-          "ELFA_NV",
-          "ELFA_FNV",
-          "FEYHEARING",
-          "FLOWERS",
-          "PER_UP_3",
-          "ROSEBUDS",
-          "TREE_COMMUNION",
-          "WAKEFUL2",
-          "WAKEFUL3"
-        ]
-      }
-    },
-    {
-      "type": "scenario",
-      "id": "extscenario_feline",
-      "copy-from": "extscenario_prethresh",
-      "name": "Mutant - Feline Threshold",
-      "description": "Start as a post-threshold Feline Mutant",
-      "forced_traits": "THRESH_FELINE",
-      "extend": {
-        "traits": [
-          "DEX_UP_3",
-          "FELINE_FLEXIBILITY",
-          "FELINE_LEAP",
-          "PRED1",
-          "PRED2",
-          "PRED3",
-          "SABER_TEETH",
-          "STRONGER_RESISTCHILL"
-        ]
-      }
-    },
-    {
-      "type": "scenario",
-      "id": "extscenario_fish",
-      "copy-from": "extscenario_prethresh",
-      "name": "Mutant - Aquatic Threshold",
-      "description": "Start as a post-threshold Aquatic Mutant",
-      "forced_traits": "THRESH_FISH",
-      "extend": {
-        "traits": [
-          "AMPHIBIAN",
-          "DEX_UP_4",
-          "FRESHWATEROSMOSIS",
-          "GILLS",
-          "SEESLEEP",
-          "SHARKTEETH",
-          "SLEEK_SCALES",
-          "STRONGER_RESISTWARM",
-          "TOXICFLESH",
-          "WATERSLEEP"
-        ]
-      }
-    },
-    {
-      "type": "scenario",
-      "id": "extscenario_insect",
-      "copy-from": "extscenario_prethresh",
-      "name": "Mutant - Insect Threshold",
-      "description": "Start as a post-threshold Insect Mutant",
-      "forced_traits": "THRESH_INSECT",
-      "extend": {
-        "traits": [
-          "ACIDBLOOD",
-          "ACIDPROOF",
-          "BIOLUM3",
-          "BOMBADIER_BLAST",
-          "INFRARED",
-          "INSECT_ARMS",
-          "INSECT_ARMS_OK",
-          "TAIL_STING",
-          "PROBOSCIS",
-          "WINGS_BUTTERFLY"
-        ]
-      }
-    },
-    {
-      "type": "scenario",
-      "id": "extscenario_lizard",
-      "copy-from": "extscenario_prethresh",
-      "name": "Mutant - Lizard Threshold",
-      "description": "Start as a post-threshold Lizard Mutant",
-      "forced_traits": "THRESH_LIZARD",
-      "extend": {
-        "traits": [
-          "COLDBLOOD4",
-          "LARGE_OK",
-          "MUT_TOUGH",
-          "PRED1",
-          "PRED2",
-          "PRED3",
-          "REGEN_LIZ",
-          "SAPIOVORE",
-          "STRONGER_RESISTWARM",
-          "THICK_SCALES"
-        ]
-      }
-    },
-    {
-      "type": "scenario",
-      "id": "extscenario_lupine",
-      "copy-from": "extscenario_prethresh",
-      "name": "Mutant - Wolf Threshold",
-      "description": "Start as a post-threshold Wolf Mutant",
-      "forced_traits": "THRESH_LUPINE",
-      "extend": {
-        "traits": [
-          "BURROWLARGE",
-          "PACK_HUNTER",
-          "PERSISTENCE_HUNTER2",
-          "PRED1",
-          "PRED2",
-          "PRED3",
-          "STR_UP_3",
-          "STRONGER_RESISTCHILL"
-        ]
-      }
-    },
-    {
-      "type": "scenario",
-      "id": "extscenario_marloss",
-      "copy-from": "extscenario_prethresh",
-      "name": "Mutant - Marloss Gateway Threshold",
-      "description": "Start as a post-threshold Marloss Gateway Mutant",
-      "forced_traits": "THRESH_MARLOSS",
-      "extend": { "traits": [] }
-    },
-    {
-      "type": "scenario",
-      "id": "extscenario_medical",
-      "copy-from": "extscenario_prethresh",
-      "name": "Mutant - Prototype Threshold",
-      "description": "Start as a post-threshold Prototype Mutant",
-      "forced_traits": "THRESH_MEDICAL",
-      "extend": {
-        "traits": [
-          "ACIDBLOOD",
-          "ACIDPROOF",
-          "CENOBITE",
-          "MASOCHIST_MED",
-          "MUT_JUNKIE",
-          "MUT_TOUGH",
-          "MUT_TOUGH2",
-          "NOPAIN",
-          "NUMB"
-        ]
-      }
-    },
-    {
-      "type": "scenario",
-      "id": "extscenario_mouse",
-      "copy-from": "extscenario_prethresh",
-      "name": "Mutant - Diminutive Threshold",
-      "description": "Start as a post-threshold Diminutive Mutant",
-      "forced_traits": "THRESH_MOUSE",
-      "extend": {
-        "traits": [
-          "CRAFTY",
-          "EASYSLEEPER2",
-          "EATDEAD",
-          "EATPOISON",
-          "GOODCARDIO2",
-          "MOUSE_EARS",
-          "NO_THIRST",
-          "PROJUNK2",
-          "SMALL_OK",
-          "STRONGER_RESISTCHILL"
-        ]
-      }
-    },
-    {
-      "type": "scenario",
-      "id": "extscenario_mycus",
-      "copy-from": "extscenario_prethresh",
-      "name": "Mutant - Mycus Threshold",
-      "description": "Start as a post-threshold Mycus Mutant",
-      "forced_traits": "THRESH_MYCUS",
-      "extend": {
-        "traits": [
-          "M_BLOOM",
-          "M_BLOSSOMS",
-          "M_DEFENDER",
-          "M_DEPENDENT",
-          "M_FERTILE",
-          "M_IMMUNE",
-          "M_PROVENANCE",
-          "M_SKIN",
-          "M_SKIN2",
-          "M_SKIN3",
-          "M_SPORES"
-        ]
-      }
-    },
-    {
-      "type": "scenario",
-      "id": "extscenario_plant",
-      "copy-from": "extscenario_prethresh",
-      "name": "Mutant - Plant Threshold",
-      "description": "Start as a post-threshold Plant Mutant",
-      "forced_traits": "THRESH_PLANT",
-      "extend": {
-        "traits": [
-          "CHLOROMORPH",
-          "COLDBLOOD4",
-          "FLOWERS",
-          "LEAVES2",
-          "LEAVES3",
-          "ROOTS1",
-          "ROOTS2",
-          "ROOTS3",
-          "ROSEBUDS",
-          "SAPROPHAGE",
-          "STRONGER_RESISTWARM",
-          "TRANSPIRATION",
-          "TREE_COMMUNION",
-          "STRONGER_RESISTCHILL",
-          "VINES3"
-        ]
-      }
-    },
-    {
-      "type": "scenario",
-      "id": "extscenario_chiropteran",
-      "copy-from": "extscenario_prethresh",
-      "name": "Mutant - Chiropteran Threshold",
-      "description": "Start as a post-threshold Bat Mutant",
-      "forced_traits": "THRESH_CHIROPTERAN",
-      "extend": {
-        "traits": [
-          "FANGS_VAMPIRE",
-          "ECHOLOCATION",
-          "PHEROMONE_MAMMAL",
-          "HOOKED_TOES",
-          "DEX_UP_3",
-          "WINGS_BAT",
-          "BLOODFEEDER",
-          "LEGS_BAT"
-        ]
-      }
-    },
-    {
-      "type": "scenario",
-      "id": "extscenario_rabbit",
-      "copy-from": "extscenario_prethresh",
-      "name": "Mutant - Lagomorph Threshold",
-      "description": "Start as a post-threshold Lagomorph Mutant",
-      "forced_traits": "THRESH_RABBIT",
-      "extend": {
-        "traits": [
-          "BURROW",
-          "EASYSLEEPER2",
-          "GOODCARDIO2",
-          "GRAZER",
-          "INCISORS",
-          "LEAPING_LEGS",
-          "PER_UP_3",
-          "STRONGER_RESISTCHILL"
-        ]
-      }
-    },
-    {
-      "type": "scenario",
-      "id": "extscenario_raptor",
-      "copy-from": "extscenario_prethresh",
-      "name": "Mutant - Raptor Threshold",
-      "description": "Start as a post-threshold Raptor Mutant",
-      "forced_traits": "THRESH_RAPTOR",
-      "extend": {
-        "traits": [
-          "EATPOISON",
-          "PRED1",
-          "PRED2",
-          "PRED3",
-          "PRED4",
-          "SAPIOVORE"
-        ]
-      }
-    },
-    {
-      "type": "scenario",
-      "id": "extscenario_rat",
-      "copy-from": "extscenario_prethresh",
-      "name": "Mutant - Survivor Threshold",
-      "description": "Start as a post-threshold Survivor Mutant",
-      "forced_traits": "THRESH_RAT",
-      "extend": {
-        "traits": [
-          "BURROW",
-          "DEFORMED3",
-          "CLAWS_ST",
-          "EATDEAD",
-          "EATPOISON",
-          "INCISORS",
-          "MOUSE_EARS"
-        ]
-      }
-    },
-    {
-      "type": "scenario",
-      "id": "extscenario_slime",
-      "copy-from": "extscenario_prethresh",
-      "name": "Mutant - Aqueous Threshold",
-      "description": "Start as a post-threshold Aqueous Mutant",
-      "forced_traits": "THRESH_SLIME",
-      "extend": {
-        "traits": [
-          "ACIDBLOOD",
-          "ACIDPROOF",
-          "AMORPHOUS",
-          "BENDY1",
-          "DEFORMED3",
-          "BENDY2",
-          "BENDY3",
-          "INT_SLIME",
-          "PER_SLIME",
-          "PER_SLIME_OK",
-          "REGEN",
-          "SLIMEMIND",
-          "SLIMESPAWNER",
-          "SLIME_SPRAY",
-          "VISCOUS"
-        ]
-      }
-    },
-    {
-      "type": "scenario",
-      "id": "extscenario_spider",
-      "copy-from": "extscenario_prethresh",
-      "name": "Mutant - Arachnid Threshold",
-      "description": "Start as a post-threshold Arachnid Mutant",
-      "forced_traits": "THRESH_SPIDER",
-      "extend": {
-        "traits": [
-          "ARACHNID_ARMS",
-          "ARACHNID_ARMS_OK",
-          "CF_HAIR",
-          "CHITIN_FUR3",
-          "FANGS_SPIDER",
-          "INFRARED",
-          "INSECT_ARMS",
-          "POISONOUS2",
-          "PRED1",
-          "PRED2",
-          "PRED3",
-          "SAPIOVORE",
-          "WEB_RAPPEL",
-          "WEB_ROPE",
-          "WEB_SPINNER",
-          "WEB_WEAVER"
-        ]
-      }
-    },
-    {
-      "type": "scenario",
-      "id": "extscenario_troglobite",
-      "copy-from": "extscenario_prethresh",
-      "name": "Mutant - Subterranean Threshold",
-      "description": "Start as a post-threshold Subterranean Mutant",
-      "forced_traits": "THRESH_TROGLOBITE",
-      "extend": {
-        "traits": [
-          "EATPOISON",
-          "INFRARED",
-          "PAINRESIST_TROGLO",
-          "REGEN",
-          "STR_UP_3",
-          "STOCKY_TROGLO"
-        ]
-      }
-    },
-    {
-      "type": "scenario",
-      "id": "extscenario_ursine",
-      "copy-from": "extscenario_prethresh",
-      "name": "Mutant - Bear Threshold",
-      "description": "Start as a post-threshold Bear Mutant",
-      "forced_traits": [ "THRESH_URSINE" ],
-      "extend": {
-        "traits": [
-          "BURROWLARGE",
-          "CLAWS_ST",
-          "HIBERNATE",
-          "HUGE_OK",
-          "LARGE_OK",
-          "MUT_TOUGH",
-          "MUT_TOUGH2",
-          "MUT_TOUGH3",
-          "PRED1",
-          "PRED2",
-          "PRED3",
-          "PRED4",
-          "SAPIOVORE",
-          "STRONGER_RESISTCHILL",
-          "STR_UP_4"
-        ]
-      }
     }
+  },
+  {
+    "type": "scenario",
+    "id": "extscenario_elfa",
+    "copy-from": "extscenario_prethresh",
+    "name": "Mutant - Fey Threshold",
+    "description": "Start as a post-threshold Fey Mutant",
+    "forced_traits": "THRESH_ELFA",
+    "extend": {
+      "traits": [
+        "BENDY1",
+        "BEAUTIFUL2",
+        "BEAUTIFUL3",
+        "DEX_UP_3",
+        "ELFA_NV",
+        "ELFA_FNV",
+        "FEYHEARING",
+        "FLOWERS",
+        "PER_UP_3",
+        "ROSEBUDS",
+        "TREE_COMMUNION",
+        "WAKEFUL2",
+        "WAKEFUL3"
+      ]
+    }
+  },
+  {
+    "type": "scenario",
+    "id": "extscenario_feline",
+    "copy-from": "extscenario_prethresh",
+    "name": "Mutant - Feline Threshold",
+    "description": "Start as a post-threshold Feline Mutant",
+    "forced_traits": "THRESH_FELINE",
+    "extend": {
+      "traits": [
+        "DEX_UP_3",
+        "FELINE_FLEXIBILITY",
+        "FELINE_LEAP",
+        "PRED1",
+        "PRED2",
+        "PRED3",
+        "SABER_TEETH",
+        "STRONGER_RESISTCHILL"
+      ]
+    }
+  },
+  {
+    "type": "scenario",
+    "id": "extscenario_fish",
+    "copy-from": "extscenario_prethresh",
+    "name": "Mutant - Aquatic Threshold",
+    "description": "Start as a post-threshold Aquatic Mutant",
+    "forced_traits": "THRESH_FISH",
+    "extend": {
+      "traits": [
+        "AMPHIBIAN",
+        "DEX_UP_4",
+        "FRESHWATEROSMOSIS",
+        "GILLS",
+        "SEESLEEP",
+        "SHARKTEETH",
+        "SLEEK_SCALES",
+        "STRONGER_RESISTWARM",
+        "TOXICFLESH",
+        "WATERSLEEP"
+      ]
+    }
+  },
+  {
+    "type": "scenario",
+    "id": "extscenario_insect",
+    "copy-from": "extscenario_prethresh",
+    "name": "Mutant - Insect Threshold",
+    "description": "Start as a post-threshold Insect Mutant",
+    "forced_traits": "THRESH_INSECT",
+    "extend": {
+      "traits": [
+        "ACIDBLOOD",
+        "ACIDPROOF",
+        "BIOLUM3",
+        "BOMBADIER_BLAST",
+        "INFRARED",
+        "INSECT_ARMS",
+        "INSECT_ARMS_OK",
+        "TAIL_STING",
+        "PROBOSCIS",
+        "WINGS_BUTTERFLY"
+      ]
+    }
+  },
+  {
+    "type": "scenario",
+    "id": "extscenario_lizard",
+    "copy-from": "extscenario_prethresh",
+    "name": "Mutant - Lizard Threshold",
+    "description": "Start as a post-threshold Lizard Mutant",
+    "forced_traits": "THRESH_LIZARD",
+    "extend": {
+      "traits": [
+        "COLDBLOOD4",
+        "LARGE_OK",
+        "MUT_TOUGH",
+        "PRED1",
+        "PRED2",
+        "PRED3",
+        "REGEN_LIZ",
+        "SAPIOVORE",
+        "STRONGER_RESISTWARM",
+        "THICK_SCALES"
+      ]
+    }
+  },
+  {
+    "type": "scenario",
+    "id": "extscenario_lupine",
+    "copy-from": "extscenario_prethresh",
+    "name": "Mutant - Wolf Threshold",
+    "description": "Start as a post-threshold Wolf Mutant",
+    "forced_traits": "THRESH_LUPINE",
+    "extend": {
+      "traits": [
+        "BURROWLARGE",
+        "PACK_HUNTER",
+        "PERSISTENCE_HUNTER2",
+        "PRED1",
+        "PRED2",
+        "PRED3",
+        "STR_UP_3",
+        "STRONGER_RESISTCHILL"
+      ]
+    }
+  },
+  {
+    "type": "scenario",
+    "id": "extscenario_marloss",
+    "copy-from": "extscenario_prethresh",
+    "name": "Mutant - Marloss Gateway Threshold",
+    "description": "Start as a post-threshold Marloss Gateway Mutant",
+    "forced_traits": "THRESH_MARLOSS",
+    "extend": { "traits": [] }
+  },
+  {
+    "type": "scenario",
+    "id": "extscenario_medical",
+    "copy-from": "extscenario_prethresh",
+    "name": "Mutant - Prototype Threshold",
+    "description": "Start as a post-threshold Prototype Mutant",
+    "forced_traits": "THRESH_MEDICAL",
+    "extend": {
+      "traits": [
+        "ACIDBLOOD",
+        "ACIDPROOF",
+        "CENOBITE",
+        "MASOCHIST_MED",
+        "MUT_JUNKIE",
+        "MUT_TOUGH",
+        "MUT_TOUGH2",
+        "NOPAIN",
+        "NUMB"
+      ]
+    }
+  },
+  {
+    "type": "scenario",
+    "id": "extscenario_mouse",
+    "copy-from": "extscenario_prethresh",
+    "name": "Mutant - Diminutive Threshold",
+    "description": "Start as a post-threshold Diminutive Mutant",
+    "forced_traits": "THRESH_MOUSE",
+    "extend": {
+      "traits": [
+        "CRAFTY",
+        "EASYSLEEPER2",
+        "EATDEAD",
+        "EATPOISON",
+        "GOODCARDIO2",
+        "MOUSE_EARS",
+        "NO_THIRST",
+        "PROJUNK2",
+        "SMALL_OK",
+        "STRONGER_RESISTCHILL"
+      ]
+    }
+  },
+  {
+    "type": "scenario",
+    "id": "extscenario_mycus",
+    "copy-from": "extscenario_prethresh",
+    "name": "Mutant - Mycus Threshold",
+    "description": "Start as a post-threshold Mycus Mutant",
+    "forced_traits": "THRESH_MYCUS",
+    "extend": {
+      "traits": [
+        "M_BLOOM",
+        "M_BLOSSOMS",
+        "M_DEFENDER",
+        "M_DEPENDENT",
+        "M_FERTILE",
+        "M_IMMUNE",
+        "M_PROVENANCE",
+        "M_SKIN",
+        "M_SKIN2",
+        "M_SKIN3",
+        "M_SPORES"
+      ]
+    }
+  },
+  {
+    "type": "scenario",
+    "id": "extscenario_plant",
+    "copy-from": "extscenario_prethresh",
+    "name": "Mutant - Plant Threshold",
+    "description": "Start as a post-threshold Plant Mutant",
+    "forced_traits": "THRESH_PLANT",
+    "extend": {
+      "traits": [
+        "CHLOROMORPH",
+        "COLDBLOOD4",
+        "FLOWERS",
+        "LEAVES2",
+        "LEAVES3",
+        "ROOTS1",
+        "ROOTS2",
+        "ROOTS3",
+        "ROSEBUDS",
+        "SAPROPHAGE",
+        "STRONGER_RESISTWARM",
+        "TRANSPIRATION",
+        "TREE_COMMUNION",
+        "STRONGER_RESISTCHILL",
+        "VINES3"
+      ]
+    }
+  },
+  {
+    "type": "scenario",
+    "id": "extscenario_chiropteran",
+    "copy-from": "extscenario_prethresh",
+    "name": "Mutant - Chiropteran Threshold",
+    "description": "Start as a post-threshold Bat Mutant",
+    "forced_traits": "THRESH_CHIROPTERAN",
+    "extend": {
+      "traits": [
+        "FANGS_VAMPIRE",
+        "ECHOLOCATION",
+        "PHEROMONE_MAMMAL",
+        "HOOKED_TOES",
+        "DEX_UP_3",
+        "WINGS_BAT",
+        "BLOODFEEDER",
+        "LEGS_BAT"
+      ]
+    }
+  },
+  {
+    "type": "scenario",
+    "id": "extscenario_rabbit",
+    "copy-from": "extscenario_prethresh",
+    "name": "Mutant - Lagomorph Threshold",
+    "description": "Start as a post-threshold Lagomorph Mutant",
+    "forced_traits": "THRESH_RABBIT",
+    "extend": {
+      "traits": [
+        "BURROW",
+        "EASYSLEEPER2",
+        "GOODCARDIO2",
+        "GRAZER",
+        "INCISORS",
+        "LEAPING_LEGS",
+        "PER_UP_3",
+        "STRONGER_RESISTCHILL"
+      ]
+    }
+  },
+  {
+    "type": "scenario",
+    "id": "extscenario_raptor",
+    "copy-from": "extscenario_prethresh",
+    "name": "Mutant - Raptor Threshold",
+    "description": "Start as a post-threshold Raptor Mutant",
+    "forced_traits": "THRESH_RAPTOR",
+    "extend": {
+      "traits": [
+        "EATPOISON",
+        "PRED1",
+        "PRED2",
+        "PRED3",
+        "PRED4",
+        "SAPIOVORE"
+      ]
+    }
+  },
+  {
+    "type": "scenario",
+    "id": "extscenario_rat",
+    "copy-from": "extscenario_prethresh",
+    "name": "Mutant - Survivor Threshold",
+    "description": "Start as a post-threshold Survivor Mutant",
+    "forced_traits": "THRESH_RAT",
+    "extend": {
+      "traits": [
+        "BURROW",
+        "DEFORMED3",
+        "CLAWS_ST",
+        "EATDEAD",
+        "EATPOISON",
+        "INCISORS",
+        "MOUSE_EARS"
+      ]
+    }
+  },
+  {
+    "type": "scenario",
+    "id": "extscenario_slime",
+    "copy-from": "extscenario_prethresh",
+    "name": "Mutant - Aqueous Threshold",
+    "description": "Start as a post-threshold Aqueous Mutant",
+    "forced_traits": "THRESH_SLIME",
+    "extend": {
+      "traits": [
+        "ACIDBLOOD",
+        "ACIDPROOF",
+        "AMORPHOUS",
+        "BENDY1",
+        "DEFORMED3",
+        "BENDY2",
+        "BENDY3",
+        "INT_SLIME",
+        "PER_SLIME",
+        "PER_SLIME_OK",
+        "REGEN",
+        "SLIMEMIND",
+        "SLIMESPAWNER",
+        "SLIME_SPRAY",
+        "VISCOUS"
+      ]
+    }
+  },
+  {
+    "type": "scenario",
+    "id": "extscenario_spider",
+    "copy-from": "extscenario_prethresh",
+    "name": "Mutant - Arachnid Threshold",
+    "description": "Start as a post-threshold Arachnid Mutant",
+    "forced_traits": "THRESH_SPIDER",
+    "extend": {
+      "traits": [
+        "ARACHNID_ARMS",
+        "ARACHNID_ARMS_OK",
+        "CF_HAIR",
+        "CHITIN_FUR3",
+        "FANGS_SPIDER",
+        "INFRARED",
+        "INSECT_ARMS",
+        "POISONOUS2",
+        "PRED1",
+        "PRED2",
+        "PRED3",
+        "SAPIOVORE",
+        "WEB_RAPPEL",
+        "WEB_ROPE",
+        "WEB_SPINNER",
+        "WEB_WEAVER"
+      ]
+    }
+  },
+  {
+    "type": "scenario",
+    "id": "extscenario_troglobite",
+    "copy-from": "extscenario_prethresh",
+    "name": "Mutant - Subterranean Threshold",
+    "description": "Start as a post-threshold Subterranean Mutant",
+    "forced_traits": "THRESH_TROGLOBITE",
+    "extend": {
+      "traits": [
+        "EATPOISON",
+        "INFRARED",
+        "PAINRESIST_TROGLO",
+        "REGEN",
+        "STR_UP_3",
+        "STOCKY_TROGLO"
+      ]
+    }
+  },
+  {
+    "type": "scenario",
+    "id": "extscenario_ursine",
+    "copy-from": "extscenario_prethresh",
+    "name": "Mutant - Bear Threshold",
+    "description": "Start as a post-threshold Bear Mutant",
+    "forced_traits": [ "THRESH_URSINE" ],
+    "extend": {
+      "traits": [
+        "BURROWLARGE",
+        "CLAWS_ST",
+        "HIBERNATE",
+        "HUGE_OK",
+        "LARGE_OK",
+        "MUT_TOUGH",
+        "MUT_TOUGH2",
+        "MUT_TOUGH3",
+        "PRED1",
+        "PRED2",
+        "PRED3",
+        "PRED4",
+        "SAPIOVORE",
+        "STRONGER_RESISTCHILL",
+        "STR_UP_4"
+      ]
+    }
+  }
 ]
