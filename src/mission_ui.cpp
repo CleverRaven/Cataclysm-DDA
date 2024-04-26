@@ -221,11 +221,30 @@ void mission_ui_impl::draw_mission_names( std::vector<mission *> missions, int &
 void mission_ui_impl::draw_selected_description( std::vector<mission *> missions,
         int &selected_mission )
 {
+    mission *miss = missions[selected_mission];
     ImGui::Text( _( "Mission:" ) );
     ImGui::SameLine();
-    ImGui::TextWrapped( missions[selected_mission]->name().c_str() );
+    ImGui::TextWrapped( miss->name().c_str() );
     ImGui::Separator();
-    ImGui::TextWrapped( missions[selected_mission]->get_description().c_str() );
+    ImGui::TextWrapped( miss->get_description().c_str() );
+    if( miss->has_deadline() ) {
+        const time_point deadline = miss->get_deadline();
+        ImGui::Text( _( "Deadline: %s" ), to_string( deadline ).c_str() );
+        if( selected_tab == mission_ui_tab_enum::ACTIVE ) {
+            // There's no point in displaying this for a completed/failed mission.
+            // @ TODO: But displaying when you completed it would be useful.
+            const time_duration remaining = deadline - calendar::turn;
+            std::string remaining_time;
+            if( remaining <= 0_turns ) {
+                remaining_time = _( "None!" );
+            } else if( get_player_character().has_watch() ) {
+                remaining_time = to_string( remaining );
+            } else {
+                remaining_time = to_string_approx( remaining );
+            }
+            ImGui::TextWrapped( _( "Time remaining: %s" ), remaining_time.c_str() );
+        }
+    }
 }
 
 void game::list_missions()
