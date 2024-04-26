@@ -196,6 +196,7 @@ void mission_ui_impl::draw_mission_names( std::vector<mission *> missions, int &
     if( ImGui::BeginListBox( "##LISTBOX", ImVec2( 300.0f, 300.0f ) ) ) {
         for( int i = 0; i < num_missions; i++ ) {
             const bool is_selected = ( selected_mission == i );
+            ImGui::PushID( i );
             if( ImGui::Selectable( missions[i]->name().c_str(), is_selected ) ) {
                 selected_mission = i;
             }
@@ -204,6 +205,7 @@ void mission_ui_impl::draw_mission_names( std::vector<mission *> missions, int &
                 ImGui::SetScrollHereY();
                 ImGui::SetItemDefaultFocus();
             }
+            ImGui::PopID();
         }
         ImGui::EndListBox();
     }
