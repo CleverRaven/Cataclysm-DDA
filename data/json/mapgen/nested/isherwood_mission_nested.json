@@ -2,6 +2,65 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "isherwood_barry_firing_wall",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rows": [
+        "^^^^^^^^^^",
+        "^^^^^^^^^^",
+        "^^^^^^^^^^",
+        "----------",
+        "tttttttttt",
+        "t        t",
+        "          ",
+        "          ",
+        "          ",
+        "          "
+      ],
+      "traps": { "-": "tr_beartrap", "^": "tr_nailboard" },
+      "furniture": { "t": "f_earthbag_half" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "isherwood_barry_firing_line",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rows": [
+        "          ",
+        "          ",
+        "          ",
+        "          ",
+        "          ",
+        " . p q l  ",
+        "          ",
+        "          ",
+        "          ",
+        "          "
+      ],
+      "terrain": {
+        ".": "t_dirt_isherwood_spawnpoint_1",
+        "p": "t_dirt_isherwood_spawnpoint_2",
+        "q": "t_dirt_isherwood_spawnpoint_3",
+        "l": "t_dirt_isherwood_spawnpoint_4"
+      },
+      "place_vehicles": [
+        {
+          "vehicle": "extended_pickup",
+          "chance": 100,
+          "fuel": 99,
+          "rotation": 0,
+          "faction": "isherwood_family",
+          "x": [ 5 ],
+          "y": [ 8 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "isherwood_barry_riot_drop",
     "object": {
       "mapgensize": [ 1, 1 ],
