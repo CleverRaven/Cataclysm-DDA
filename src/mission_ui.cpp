@@ -241,6 +241,15 @@ void mission_ui_impl::draw_selected_description( std::vector<mission *> missions
     if( raw_description != miss->get_description() ) {
         raw_description = miss->get_description();
         parsed_description = raw_description;
+        // Handles(example)  <reward_count:item>   in description
+        // Not handled in parse_tags for some reason!
+        dialogue d( get_talker_for( get_avatar() ), nullptr, {} );
+        auto &rewards = miss->get_likely_rewards();
+        for( const auto &reward : rewards ) {
+            std::string token = "<reward_count:" + itype_id( reward.second.evaluate( d ) ).str() + ">";
+            parsed_description = string_replace( parsed_description, token, string_format( "%g",
+                                                 reward.first.evaluate( d ) ) );
+        }
         parse_tags( parsed_description, get_player_character(), get_player_character() );
     }
     draw_colored_text( parsed_description.c_str(), c_unset, 600.0f );
