@@ -510,7 +510,7 @@ bool aim_activity_actor::load_RAS_weapon()
     }
 
     // Burn 0.6% max base stamina without cardio/BMI factored in x the strength required to fire.
-    // Stamina cost of RAS weapon is also caculated in ranged.cpp mod_stamina_archery, need to
+    // Stamina cost of RAS weapon is also calculated in ranged.cpp mod_stamina_archery, need to
     // confirm if this formula should be removed.
     you.burn_energy_arms( - gun->get_min_str() * static_cast<int>( 0.006f *
                           get_option<int>( "PLAYER_MAX_STAMINA_BASE" ) ) );
