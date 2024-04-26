@@ -29,8 +29,16 @@
     "type": "talk_topic",
     "responses": [
       { "text": "What've you got for trade?", "effect": "start_trade", "topic": "TALK_EXODII_MERCHANT_DoneTrade" },
-      { "text": "Can you do something for me?", "topic": "TALK_EXODII_MERCHANT_DoSomething" },
-      { "text": "I'm here to talk about a job.", "topic": "TALK_EXODII_MERCHANT_TalkJob" },
+      {
+        "text": "Can you do something for me?",
+        "topic": "TALK_EXODII_MERCHANT_DoSomething",
+        "condition": { "u_has_var": "general_meeting_u_met_Rubik", "value": "yes" }
+      },
+      {
+        "text": "I'm here to talk about a job.",
+        "topic": "TALK_EXODII_MERCHANT_TalkJob",
+        "condition": { "u_has_var": "general_meeting_u_met_Rubik", "value": "yes" }
+      },
       { "text": "I don't understand a word you're saying.", "topic": "TALK_EXODII_MERCHANT_Dialect" },
       { "text": "Are you some kind of robot?", "topic": "TALK_EXODII_MERCHANT_Robot" },
       {
@@ -340,6 +348,7 @@
         "condition": { "u_has_trait": "DEBUG_NODMG" },
         "topic": "TALK_EXODII_MERCHANT_ExodizeTest"
       },
+      { "text": "Never mind, I want to ask you something.", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "Actually, I changed my mind.  I have to go.", "topic": "TALK_DONE" }
     ]
   },
@@ -370,6 +379,7 @@
         "effect": [ { "u_lose_var": "mission_completed_u_found_warehouse" }, { "math": [ "warehouse_was_found", "=", "1" ] } ],
         "topic": "TALK_EXODII_MERCHANT_mission_2_complete"
       },
+      { "text": "Never mind, I want to ask you something.", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "Actually, I changed my mind.  I have to go.", "topic": "TALK_DONE" }
     ]
   },
