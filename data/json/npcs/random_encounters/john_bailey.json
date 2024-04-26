@@ -175,8 +175,7 @@
     "dynamic_line": {
       "concatenate": [
         {
-          "u_has_var": "John_Bailey_Convo",
-          "context": "RC_John_Bailey_2",
+          "u_has_var": "RC_John_Bailey_2_John_Bailey_Convo",
           "value": "seen",
           "yes": "Like I said,\" John shrugs.  \"I'm just checking ",
           "no": "Same as you, I imagine,\" John shrugs.  \"Checking "
@@ -184,7 +183,7 @@
         "the place out, doing a little shopping.  Then I'll be on my way again.  Might see if they have any work that needs done first, if the price is right."
       ]
     },
-    "speaker_effect": { "effect": { "u_add_var": "John_Bailey_Convo", "context": "RC_John_Bailey_2", "value": "seen" } },
+    "speaker_effect": { "effect": { "u_add_var": "RC_John_Bailey_2_John_Bailey_Convo", "value": "seen" } },
     "responses": [
       { "text": "What are you shopping for?", "topic": "TALK_RC_John_Bailey_Shopping" },
       { "text": "What do you know about this place?", "topic": "TALK_RC_John_Bailey_RefCenter" },
@@ -269,7 +268,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_RC_John_Bailey_Darius",
-    "dynamic_line": "Talk to Darius if you want to know about Darius.  He's a good man, and he won't bite-- ugh, sorry, that's a turn of phrase we should probably retire, hey?  Anwyay.  I don't know if we'd have made it through the first days without him.  He gets a bit jumpy around crowds since the riots though, so he's out watching our stuff.",
+    "dynamic_line": "Talk to Darius if you want to know about Darius.  He's a good man, and he won't bite-- ugh, sorry, that's a turn of phrase we should probably retire, hey?  Anyway.  I don't know if we'd have made it through the first days without him.  He gets a bit jumpy around crowds since the riots though, so he's out watching our stuff.",
     "responses": [
       { "text": "Where are you guys located?  Can I join up too?", "topic": "TALK_RC_John_Bailey_Faction2" },
       { "text": "How did you know things were going to go wrong?", "topic": "TALK_RC_John_Bailey_Intuition" },

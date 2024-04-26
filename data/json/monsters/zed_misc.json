@@ -661,7 +661,7 @@
       { "id": "smash", "throw_strength": 72, "cooldown": 30 },
       { "id": "grab", "cooldown": 11 },
       { "id": "grab_3", "cooldown": 12 },
-      { "id": "ranged_pull", "cooldown": 20 },
+      { "id": "ranged_pull", "cooldown": 20, "grab_data": { "pull_weight_ratio": 1.5 } },
       { "id": "bite_humanoid" },
       { "id": "grab_drag", "grab_data": { "drag_distance": 1, "drag_deviation": 1, "drag_movecost_mod": 1.5 } },
       { "id": "drag_followup", "grab_data": { "drag_distance": 1, "drag_deviation": 1, "drag_movecost_mod": 1.5 } }
@@ -831,7 +831,7 @@
     "harvest": "zombie_grabber",
     "grab_strength": 100,
     "special_attacks": [
-      { "id": "ranged_pull", "cooldown": 20 },
+      { "id": "ranged_pull", "cooldown": 20, "grab_data": { "pull_weight_ratio": 1.5 } },
       { "id": "grab_drag", "cooldown": 3 },
       { "id": "drag_followup" },
       { "id": "bite_humanoid", "cooldown": 5 }
@@ -1052,7 +1052,6 @@
     "melee_dice": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 1,
-    "path_settings": { "max_dist": 4, "allow_climb_stairs": false },
     "special_attacks": [
       { "id": "grab" },
       { "id": "scratch_humanoid", "cooldown": 10 },
@@ -1265,7 +1264,7 @@
       { "id": "smash", "throw_strength": 48, "cooldown": 30 },
       { "id": "bite_humanoid", "cooldown": 5 },
       { "id": "scratch_humanoid", "cooldown": 15 },
-      { "id": "ranged_pull", "cooldown": 20 },
+      { "id": "ranged_pull", "cooldown": 20, "grab_data": { "pull_weight_ratio": 1.2 } },
       { "id": "grab_drag" },
       { "id": "drag_followup" }
     ],

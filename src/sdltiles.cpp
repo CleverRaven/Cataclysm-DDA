@@ -544,6 +544,7 @@ void refresh_display()
 #else
     RenderCopy( renderer, display_buffer, nullptr, nullptr );
 #endif
+
 #if defined(__ANDROID__)
     draw_terminal_size_preview();
     if( g ) {
@@ -3789,8 +3790,11 @@ input_event input_manager::get_input_event( const keyboard_mode preferred_keyboa
     // we can skip screen update if `needupdate` is false to improve performance during mouse
     // move events.
     wnoutrefresh( catacurses::stdscr );
+
     if( needupdate ) {
         refresh_display();
+    } else if( ui_adaptor::has_imgui() ) {
+        try_sdl_update();
     }
 
     if( inputdelay < 0 ) {

@@ -803,7 +803,7 @@ Character status value  | Description
 `AVOID_FRIENDRY_FIRE`   | Flat chance for your character to avoid friendry fire if there is a friend in the line of fire. From 0.0 (no chance) to 1.0 (never frindly fire).
 `BANDAGE_BONUS`         | Affects the `bandages_power` you have when applying medicine.
 `BIONIC_MANA_PENALTY`       | changes how big the mana penalty for having bionic energy is (default ratio is 1 kj removes 1 mana point). better to use with `multiply`, using `add` just adds or removes flat amount of mana no matter of energy level. `"multiply": 1` double the ratio (1 kj removes 2 mana points), `"multiply": -0.5` halves it
-`BIONIC_POWER`          |
+`BIONIC_POWER`          | Adds bionic power storage in millijoules ("add": 1000000 adds 1 kJ)
 `BLEED_STOP_BONUS`      | Affects the `bleed` level when applying medicine.
 `BODYTEMP_SLEEP`        | Amount of warmth (in celcius) added to you when you sleep. Default is 0, so better to use `add`
 `BONUS_BLOCK`           | Affects the number of blocks you can perform.
@@ -866,10 +866,10 @@ Character status value  | Description
 `OVERKILL_DAMAGE`       | multiplies or contributes to the damage to an enemy corpse after death. The lower the number, the more damage caused.
 `OVERMAP_SIGHT`         | Increases the amount of overmap tiles you can see around.
 `PAIN`                  | When gaining pain the amount gained will be modified by this much.  You will still always gain at least 1 pain.
-`PAIN_PENALTY_MOD_STR`  | Amount of this stat you lose from pain. Default value is `(pain*0.007)*max_str`. Can't be lower than 0
-`PAIN_PENALTY_MOD_DEX`  | Amount of this stat you lose from pain. Default value is `(pain*0.007)*max_dex`. Can't be lower than 0
-`PAIN_PENALTY_MOD_INT`  | Amount of this stat you lose from pain. Default value is `(pain*0.01)*max_int`. Can't be lower than 0
-`PAIN_PENALTY_MOD_PER`  | Amount of this stat you lose from pain. Default value is `(pain*0.01)*max_per`. Can't be lower than 0
+`PAIN_PENALTY_MOD_STR`  | Amount of this stat you lose from pain. Default value is `(pain*0.005)*max_str`. Can't be lower than 1
+`PAIN_PENALTY_MOD_DEX`  | Amount of this stat you lose from pain. Default value is `(pain*0.0075)*max_dex`. Can't be lower than 1
+`PAIN_PENALTY_MOD_INT`  | Amount of this stat you lose from pain. Default value is `(pain*0.01)*max_int`. Can't be lower than 1
+`PAIN_PENALTY_MOD_PER`  | Amount of this stat you lose from pain. Default value is `(pain*0.01)*max_per`. Can't be lower than 1
 `PAIN_PENALTY_MOD_SPEED`| Amount of speed you lose from pain. Default value is `pain^0.7`. Can't be bigger than 50 speed.
 `PAIN_REMOVE`           | When pain naturally decreases every five minutes the chance of pain removal will be modified by this much.  You will still always have at least a chance to reduce pain.
 `PERCEPTION`            | Affects the perception stat.

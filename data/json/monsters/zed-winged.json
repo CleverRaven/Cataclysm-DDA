@@ -4,26 +4,14 @@
     "type": "MONSTER",
     "name": { "str": "batwing zombie" },
     "description": "This zombie's arms have stretched far beyond human limits, the skin lengthened into a gruesome, fleshy membrane.  The mutation does not suit it well: it moves clumsily, even compared to other zombies, but can occasionally leap a significant distance.",
-    "default_faction": "zombie",
-    "bodytype": "human",
-    "species": [ "ZOMBIE", "HUMAN" ],
-    "volume": "62500 ml",
+    "copy-from": "mon_zombie_base",
     "weight": "65200 g",
     "hp": 64,
-    "speed": 70,
-    "material": [ "flesh" ],
-    "symbol": "Z",
     "color": "light_green",
     "scents_tracked": [ "sc_human", "sc_fetid" ],
-    "aggression": 100,
-    "morale": 100,
     "melee_skill": 2,
-    "melee_dice": 2,
     "melee_dice_sides": 2,
-    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "bleed_rate": 50,
-    "vision_night": 3,
-    "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_flying" ],
     "weakpoints": [
       {
@@ -36,62 +24,36 @@
         "coverage": 12
       }
     ],
-    "harvest": "zombie_humanoid",
-    "grab_strength": 20,
+    "grab_strength": 15,
     "special_attacks": [
       { "id": "bite_humanoid", "cooldown": 5 },
       { "id": "grab", "cooldown": 12 },
       { "id": "scratch_humanoid" },
       { "type": "leap", "cooldown": 10, "max_range": 5 }
     ],
-    "death_drops": "default_zombie_death_drops",
-    "burn_into": "mon_zombie_scorched",
     "upgrades": { "half_life": 35, "into": "mon_zombie_brute_winged" },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "STUMBLES",
-      "WARM",
-      "GRABS",
-      "BASHES",
-      "GROUP_BASH",
-      "POISON",
-      "NO_BREATHE",
-      "REVIVES",
-      "PUSH_MON",
-      "FILTHY"
-    ],
-    "//": "In the future, it would be nice if these guys could be resistant to fall damage.",
-    "armor": { "electric": 1 }
+    "extend": { "families": [ "prof_wp_flying" ], "flags": [ "SMELLS" ] },
+    "//": "In the future, it would be nice if these guys could be resistant to fall damage."
   },
   {
     "id": "mon_zombie_brute_winged",
     "type": "MONSTER",
     "name": { "str": "garghoul" },
     "description": "This zombie's arms have stretched far beyond human limits, the skin lengthened into a gruesome, fleshy membrane.  The rest has become emaciated, with thin, rope-like muscles ripping through taut flesh.  While it doesn't appear to be able to fly, it uses its mutated arms to make shockingly fast leaps through the air.",
-    "species": [ "ZOMBIE", "HUMAN" ],
-    "default_faction": "zombie",
+    "copy-from": "mon_zombie_base",
     "diff": 2,
     "volume": "52 L",
     "weight": "41 kg",
     "hp": 70,
     "speed": 65,
     "//": "Slow at actual movement, made up for by its rapid leaps.  This should work to simulate its clumsy form.  When charge attacks are possible it should get one, and that will be its main damaging ability.",
-    "material": [ "flesh" ],
-    "symbol": "Z",
     "color": "white",
     "scents_tracked": [ "sc_human", "sc_fetid" ],
-    "aggression": 100,
-    "morale": 100,
-    "melee_skill": 4,
     "melee_dice": 3,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
     "bleed_rate": 0,
     "vision_night": 7,
-    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_head_small" ],
-    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_flying" ],
     "weakpoints": [
       {
         "id": "arm",
@@ -103,8 +65,7 @@
         "coverage": 12
       }
     ],
-    "harvest": "zombie_humanoid",
-    "grab_strength": 30,
+    "grab_strength": 15,
     "special_attacks": [
       { "id": "bite_humanoid", "damage_max_instance": [ { "damage_type": "stab", "amount": 12, "armor_multiplier": 0.7 } ] },
       { "id": "grab", "cooldown": 12 },
@@ -112,23 +73,9 @@
       { "type": "leap", "cooldown": 2, "max_range": 8 }
     ],
     "death_drops": "default_zombie_death_drops",
-    "burn_into": "mon_zombie_fiend",
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "STUMBLES",
-      "WARM",
-      "GRABS",
-      "BASHES",
-      "GROUP_BASH",
-      "POISON",
-      "NO_BREATHE",
-      "REVIVES",
-      "PUSH_MON",
-      "FILTHY"
-    ],
-    "armor": { "bash": 2, "cut": 2, "bullet": 2, "electric": 1 }
+    "burn_into": "mon_zombie_scorched",
+    "armor": { "bash": 2, "cut": 2, "bullet": 2, "electric": 1 },
+    "extend": { "families": [ "prof_wp_flying" ], "flags": [ "SMELLS" ] }
   },
   {
     "id": "mon_spawn_raptor",

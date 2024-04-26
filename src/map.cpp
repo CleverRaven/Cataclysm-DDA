@@ -130,6 +130,11 @@ static const flag_id json_flag_PRESERVE_SPAWN_OMT( "PRESERVE_SPAWN_OMT" );
 static const flag_id json_flag_PROXIMITY( "PROXIMITY" );
 static const flag_id json_flag_UNDODGEABLE( "UNDODGEABLE" );
 
+static const furn_str_id furn_f_clear( "f_clear" );
+static const furn_str_id furn_f_rubble( "f_rubble" );
+static const furn_str_id furn_f_rubble_rock( "f_rubble_rock" );
+static const furn_str_id furn_f_wreckage( "f_wreckage" );
+
 static const item_group_id Item_spawn_data_default_zombie_clothes( "default_zombie_clothes" );
 static const item_group_id Item_spawn_data_default_zombie_items( "default_zombie_items" );
 
@@ -175,6 +180,7 @@ static const ter_str_id ter_t_rock_floor( "t_rock_floor" );
 static const ter_str_id ter_t_rootcellar( "t_rootcellar" );
 static const ter_str_id ter_t_sewage( "t_sewage" );
 static const ter_str_id ter_t_soil( "t_soil" );
+static const ter_str_id ter_t_stump( "t_stump" );
 static const ter_str_id ter_t_tree_birch( "t_tree_birch" );
 static const ter_str_id ter_t_tree_birch_harvested( "t_tree_birch_harvested" );
 static const ter_str_id ter_t_tree_dead( "t_tree_dead" );
@@ -187,6 +193,7 @@ static const ter_str_id ter_t_tree_pine( "t_tree_pine" );
 static const ter_str_id ter_t_tree_willow( "t_tree_willow" );
 static const ter_str_id ter_t_tree_willow_harvested( "t_tree_willow_harvested" );
 static const ter_str_id ter_t_tree_young( "t_tree_young" );
+static const ter_str_id ter_t_trunk( "t_trunk" );
 static const ter_str_id ter_t_vat( "t_vat" );
 static const ter_str_id ter_t_wall_glass( "t_wall_glass" );
 static const ter_str_id ter_t_wall_glass_alarm( "t_wall_glass_alarm" );
@@ -1703,7 +1710,7 @@ std::string map::obstacle_name( const tripoint_bub_ms &p )
 
 bool map::has_furn( const tripoint &p ) const
 {
-    return furn( p ) != f_null;
+    return furn( p ) != furn_str_id::NULL_ID();
 }
 
 bool map::has_furn( const tripoint_bub_ms &p ) const
@@ -1714,14 +1721,14 @@ bool map::has_furn( const tripoint_bub_ms &p ) const
 furn_id map::furn( const tripoint &p ) const
 {
     if( !inbounds( p ) ) {
-        return f_null;
+        return furn_str_id::NULL_ID();
     }
 
     point l;
     const submap *const current_submap = unsafe_get_submap_at( p, l );
     if( current_submap == nullptr ) {
         debugmsg( "Tried process furniture at (%d,%d) but the submap is not loaded", l.x, l.y );
-        return f_null;
+        return furn_str_id::NULL_ID();
     }
 
     return current_submap->get_furn( l );
@@ -1751,7 +1758,8 @@ bool map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
         debugmsg( "Tried to set furniture at (%d,%d) but the submap is not loaded", l.x, l.y );
         return false;
     }
-    const furn_id new_target_furniture = new_furniture == f_clear ? f_null : new_furniture;
+    const furn_id new_target_furniture = new_furniture == furn_f_clear ? furn_str_id::NULL_ID() :
+                                         new_furniture;
     const furn_id old_id = current_submap->get_furn( l );
     if( old_id == new_target_furniture ) {
         // Nothing changed
@@ -1770,7 +1778,7 @@ bool map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
     if( current_submap->is_open_air( l ) &&
         !new_f.has_flag( ter_furn_flag::TFLAG_ALLOW_ON_OPEN_AIR ) &&
         !new_f.has_flag( ter_furn_flag::TFLAG_FLOATS_IN_AIR ) &&
-        new_target_furniture != f_null ) {
+        new_target_furniture != furn_str_id::NULL_ID() ) {
         const ter_id current_ter = current_submap->get_ter( l );
         debugmsg( "Setting furniture %s at %s where terrain is %s (which is_open_air)\n"
                   "If this is intentional, set the ALLOW_ON_OPEN_AIR flag on the furniture",
@@ -1793,7 +1801,7 @@ bool map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
         player_character.grab( object_type::NONE );
     }
     // If a creature was crushed under a rubble -> free it
-    if( old_id == f_rubble && new_target_furniture == f_null ) {
+    if( old_id == furn_f_rubble && new_target_furniture == furn_str_id::NULL_ID() ) {
         Creature *c = get_creature_tracker().creature_at( p );
         if( c ) {
             c->remove_effect( effect_crushed );
@@ -2247,7 +2255,7 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain, bool avoid_crea
 
     if( current_submap->is_open_air( l ) ) {
         const furn_id &current_furn = current_submap->get_furn( l );
-        if( current_furn != f_null &&
+        if( current_furn != furn_str_id::NULL_ID() &&
             !current_furn->has_flag( ter_furn_flag::TFLAG_ALLOW_ON_OPEN_AIR ) ) {
             debugmsg( "Setting terrain %s at %s where furniture is %s.  Terrain is_open_air\n"
                       "If this is intentional, set the ALLOW_ON_OPEN_AIR flag on the furniture",
@@ -2711,7 +2719,7 @@ bool map::supports_above( const tripoint &p ) const
     }
 
     const furn_id frn_id = tile.get_furn();
-    if( frn_id != f_null ) {
+    if( frn_id != furn_str_id::NULL_ID() ) {
         const furn_t &frn = frn_id.obj();
         if( frn.movecost < 0 ) {
             return true;
@@ -2753,7 +2761,7 @@ void map::drop_everything( const tripoint &p )
 void map::drop_furniture( const tripoint &p )
 {
     const furn_id frn = furn( p );
-    if( frn == f_null || frn->has_flag( ter_furn_flag::TFLAG_FLOATS_IN_AIR ) ) {
+    if( frn == furn_str_id::NULL_ID() || frn->has_flag( ter_furn_flag::TFLAG_FLOATS_IN_AIR ) ) {
         return;
     }
 
@@ -2781,7 +2789,7 @@ void map::drop_furniture( const tripoint &p )
         }
 
         const furn_id frn_id = furn( below_dest );
-        if( frn_id != f_null ) {
+        if( frn_id != furn_str_id::NULL_ID() ) {
             const furn_t &frn = frn_id.obj();
             // Allow crushing tiny/nocollide furniture
             if( !frn.has_flag( ter_furn_flag::TFLAG_TINY ) &&
@@ -2815,7 +2823,7 @@ void map::drop_furniture( const tripoint &p )
         return;
     }
 
-    furn_set( p, f_null );
+    furn_set( p, furn_str_id::NULL_ID() );
     furn_set( current, frn );
 
     // If it's sealed, we need to drop items with it
@@ -3329,7 +3337,7 @@ void map::make_rubble( const tripoint &p, const furn_id &rubble_type, const bool
     }
 
     //Still hardcoded, but a step up from the old stuff due to being in only one place
-    if( rubble_type == f_wreckage ) {
+    if( rubble_type == furn_f_wreckage ) {
         item chunk( "steel_chunk", calendar::turn );
         item scrap( "scrap", calendar::turn );
         add_item_or_charges( p, chunk );
@@ -3340,13 +3348,13 @@ void map::make_rubble( const tripoint &p, const furn_id &rubble_type, const bool
             add_item_or_charges( p, pipe );
             add_item_or_charges( p, wire );
         }
-    } else if( rubble_type == f_rubble_rock ) {
+    } else if( rubble_type == furn_f_rubble_rock ) {
         item rock( "rock", calendar::turn );
         int rock_count = rng( 1, 3 );
         for( int i = 0; i < rock_count; i++ ) {
             add_item_or_charges( p, rock );
         }
-    } else if( rubble_type == f_rubble ) {
+    } else if( rubble_type == furn_f_rubble ) {
         item splinter( "splinter", calendar::turn );
         int splinter_count = rng( 2, 8 );
         for( int i = 0; i < splinter_count; i++ ) {
@@ -3718,6 +3726,13 @@ int map::collapse_check( const tripoint &p ) const
     const bool collapses = has_flag( ter_furn_flag::TFLAG_COLLAPSES, p );
     const bool supports_roof = has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p );
 
+    if( has_flag( ter_furn_flag::TFLAG_SINGLE_SUPPORT, p ) ) {
+        // We should definitely collapse if there's no support below, and
+        // given that a single wall as a support below isn't sufficient, a tree
+        // is deemed not to be sufficient either.
+        return 0;
+    }
+
     int num_supports = p.z == OVERMAP_DEPTH ? 0 : -5;
     // if there's support below, things are less likely to collapse
     if( p.z > -OVERMAP_DEPTH ) {
@@ -3730,9 +3745,6 @@ int map::collapse_check( const tripoint &p ) const
                 }
                 if( tbelow == pbelow ) {
                     num_supports += 2;
-                }
-                if( has_flag( ter_furn_flag::TFLAG_SINGLE_SUPPORT, p ) ) {
-                    num_supports = 0;
                 }
             }
         }
@@ -3757,9 +3769,6 @@ int map::collapse_check( const tripoint &p ) const
                     num_supports += 3;
                 }
             }
-        }
-        if( has_flag( ter_furn_flag::TFLAG_SINGLE_SUPPORT, p ) ) {
-            num_supports = 0;
         }
     }
 
@@ -3807,7 +3816,7 @@ void map::collapse_at( const tripoint &p, const bool silent, const bool was_supp
                 // ensure that the layer below this one is not a wall, otherwise you have a ledge dropping onto
                 // a wall which doesn't make sense.
                 if( !has_flag( ter_furn_flag::TFLAG_WALL, t ) ) {
-                    furn_set( tz, f_null );
+                    furn_set( tz, furn_str_id::NULL_ID() );
                     ter_set( tz, ter_t_open_air );
                     Creature *critter = get_creature_tracker().creature_at( tz );
                     if( critter != nullptr ) {
@@ -4184,7 +4193,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
             const int rad = tentp->second.obj().bash.collapse_radius;
             for( const tripoint &pt : points_in_radius( tentp->first, rad ) ) {
                 const furn_id frn = furn( pt );
-                if( frn == f_null ) {
+                if( frn == furn_str_id::NULL_ID() ) {
                     continue;
                 }
 
@@ -4233,7 +4242,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
             bash_ter_furn( below, params_below );
         }
 
-        furn_set( p, f_null );
+        furn_set( p, furn_str_id::NULL_ID() );
         ter_set( p, ter_t_open_air );
     }
 
@@ -4381,7 +4390,8 @@ void map::destroy_furn( const tripoint &p, const bool silent )
     // Break if it takes more than 25 destructions to remove to prevent infinite loops
     // Example: A bashes to B, B bashes to A leads to A->B->A->...
     int count = 0;
-    while( count <= 25 && furn( p ) != f_null && bash( p, 999, silent, true ).success ) {
+    while( count <= 25 && furn( p ) != furn_str_id::NULL_ID() &&
+           bash( p, 999, silent, true ).success ) {
         count++;
     }
 }
@@ -8377,61 +8387,43 @@ void map::grow_plant( const tripoint &p )
             return it.display_name();
         } );
         i_clear( p );
-        furn_set( p, f_null );
+        furn_set( p, furn_str_id::NULL_ID() );
         return;
     }
-    const time_duration plantEpoch = seed->get_plant_epoch();
-    if( seed->age() >= plantEpoch * furn.plant->growth_multiplier &&
-        !furn.has_flag( ter_furn_flag::TFLAG_GROWTH_HARVEST ) ) {
-        if( seed->age() < plantEpoch * 2 ) {
-            if( has_flag_furn( ter_furn_flag::TFLAG_GROWTH_SEEDLING, p ) ) {
-                return;
-            }
+    // TODO: this should probably be read from the seed's data. But for now, everything uses exactly this many growth stages.
+    std::map<ter_furn_flag, int> plant_epochs;
+    plant_epochs[ter_furn_flag::TFLAG_GROWTH_SEEDLING] = 1;
+    plant_epochs[ter_furn_flag::TFLAG_GROWTH_MATURE] = 2;
+    plant_epochs[ter_furn_flag::TFLAG_GROWTH_HARVEST] = 3;
 
-            // Remove fertilizer if any
-            map_stack::iterator fertilizer = std::find_if( items.begin(), items.end(), []( const item & it ) {
-                return it.has_flag( flag_FERTILIZER );
-            } );
-            if( fertilizer != items.end() ) {
-                items.erase( fertilizer );
+    const time_duration base_epoch_duration = seed->get_plant_epoch( plant_epochs.size() );
+    const time_duration epoch_duration = base_epoch_duration * furn.plant->growth_multiplier;
+    if( seed->age() >= epoch_duration ) {
+        const int epoch_age = seed->age() / epoch_duration;
+        int current_epoch = 0;
+        for( std::pair<const ter_furn_flag, int> pair : plant_epochs ) {
+            if( has_flag_furn( pair.first, p ) ) {
+                current_epoch = pair.second;
+                break;
             }
-
-            rotten_item_spawn( *seed, p );
-            furn_set( p, furn_str_id( furn.plant->transform ) );
-        } else if( seed->age() < plantEpoch * 3 * furn.plant->growth_multiplier ) {
-            if( has_flag_furn( ter_furn_flag::TFLAG_GROWTH_MATURE, p ) ) {
-                return;
-            }
-            // Remove fertilizer if any
-            map_stack::iterator fertilizer = std::find_if( items.begin(), items.end(), []( const item & it ) {
-                return it.has_flag( flag_FERTILIZER );
-            } );
-            if( fertilizer != items.end() ) {
-                items.erase( fertilizer );
-            }
-            rotten_item_spawn( *seed, p );
-            //You've skipped the seedling stage so roll monsters twice
-            if( !has_flag_furn( ter_furn_flag::TFLAG_GROWTH_SEEDLING, p ) ) {
-                rotten_item_spawn( *seed, p );
-            }
-            furn_set( p, furn_str_id( furn.plant->transform ) );
-
-        } else {
-            //You've skipped two stages so roll monsters two times
-            if( has_flag_furn( ter_furn_flag::TFLAG_GROWTH_SEEDLING, p ) ) {
-                rotten_item_spawn( *seed, p );
-                rotten_item_spawn( *seed, p );
-                //One stage change
-            } else if( has_flag_furn( ter_furn_flag::TFLAG_GROWTH_MATURE, p ) ) {
-                rotten_item_spawn( *seed, p );
-                //Goes from seed to harvest in one check
-            } else {
-                rotten_item_spawn( *seed, p );
-                rotten_item_spawn( *seed, p );
-                rotten_item_spawn( *seed, p );
-            }
-            furn_set( p, furn_str_id( furn.plant->transform ) );
         }
+        const int epochs_to_advance = epoch_age - current_epoch;
+
+        for( int i = 0; i < epochs_to_advance; i++ ) {
+            // Remove fertilizer if any
+            map_stack::iterator fertilizer = std::find_if( items.begin(), items.end(), []( const item & it ) {
+                return it.has_flag( flag_FERTILIZER );
+            } );
+            if( fertilizer != items.end() ) {
+                items.erase( fertilizer );
+            }
+            // spawn appropriate amount of rot_spawn, equivalent to number of times we iterate this loop
+            rotten_item_spawn( *seed, p );
+            // Get an updated reference to the furniture each time we go through this loop, to make sure we transform each step in turn
+            const furn_t &current_furn = this->furn( p ).obj();
+            furn_set( p, furn_str_id( current_furn.plant->transform ) );
+        }
+
     }
 }
 
@@ -8544,6 +8536,29 @@ void map::produce_sap( const tripoint &p, const time_duration &time_since_last_a
     }
 }
 
+void map::cut_down_tree( tripoint_bub_ms p, point dir )
+{
+    if( !zlevels ) {
+        debugmsg( "Call to cut_down_tree from a map that doesn't support zlevels." );
+        return;
+    }
+
+    if( !ter( p ).obj().has_flag( ter_furn_flag::TFLAG_TREE ) ) {
+        debugmsg( "Call to cut_down_tree on a tile that doesn't contain a tree." );
+        return;
+    }
+
+    tripoint_bub_ms to = p + 3 * dir + point( rng( -1, 1 ), rng( -1, 1 ) );
+
+    // TODO: make line_to type aware.
+    std::vector<tripoint> tree = line_to( p.raw(), to.raw(), rng( 1, 8 ) );
+    for( tripoint &elem : tree ) {
+        batter( elem, 300, 5 );
+        ter_set( elem, ter_t_trunk );
+    }
+    ter_set( p, ter_t_stump );
+}
+
 void map::rad_scorch( const tripoint &p, const time_duration &time_since_last_actualize )
 {
     const int rads = get_radiation( p );
@@ -8561,7 +8576,7 @@ void map::rad_scorch( const tripoint &p, const time_duration &time_since_last_ac
     const furn_t &fid = furn( p ).obj();
     if( fid.has_flag( ter_furn_flag::TFLAG_PLANT ) ) {
         i_clear( p );
-        furn_set( p, f_null );
+        furn_set( p, furn_str_id::NULL_ID() );
     }
 
     const ter_id tid = ter( p );
@@ -9126,7 +9141,7 @@ fake_map::fake_map( const ter_id &ter_type )
             std::unique_ptr<submap> sm = std::make_unique<submap>();
 
             sm->set_all_ter( ter_type );
-            sm->set_all_furn( f_null );
+            sm->set_all_furn( furn_str_id::NULL_ID() );
             sm->set_all_traps( tr_null );
 
             setsubmap( get_nonant( { gridx, gridy, fake_map_z } ), sm.get() );

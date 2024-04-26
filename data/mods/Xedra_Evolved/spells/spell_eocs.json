@@ -36,7 +36,7 @@
         {
           "case": 300,
           "effect": {
-            "u_message": "You try to connect the item with another dimension, but something interupts you in the middle of your attempt.  You need just a bit more time to make this work.",
+            "u_message": "You try to connect the item with another dimension, but something interrupts you in the middle of your attempt.  You need just a bit more time to make this work.",
             "type": "bad"
           }
         },
@@ -190,7 +190,7 @@
       { "u_location_variable": { "u_val": "lucid_dream_teleport" }, "min_radius": 0, "max_radius": 0 },
       { "math": [ "u_hp_before_lucid", "=", "u_hp('ALL') / 6" ] },
       { "math": [ "u_pain_before_lucid", "=", "u_pain()" ] },
-      { "math": [ "u_kcal_before_lucid", "=", "u_val('stored_kcal')" ] },
+      { "math": [ "u_kcal_before_lucid", "=", "u_calories()" ] },
       { "math": [ "u_thirst_before_lucid", "=", "u_val('thirst')" ] },
       { "math": [ "u_blood_before_lucid", "=", "u_vitamin('blood')" ] },
       { "math": [ "u_redcells_before_lucid", "=", "u_vitamin('redcells')" ] },
@@ -215,7 +215,7 @@
       { "u_teleport": { "u_val": "lucid_dream_teleport" } },
       { "math": [ "u_hp('ALL')", "=", "u_hp_before_lucid" ] },
       { "math": [ "u_pain()", "=", "u_pain_before_lucid" ] },
-      { "math": [ "u_val('stored_kcal')", "=", "u_kcal_before_lucid" ] },
+      { "math": [ "u_calories()", "=", "u_kcal_before_lucid" ] },
       { "math": [ "u_val('thirst')", "=", "u_thirst_before_lucid" ] },
       { "math": [ "u_vitamin('blood')", "=", "u_blood_before_lucid" ] },
       { "math": [ "u_vitamin('redcells')", "=", "u_redcells_before_lucid" ] },

@@ -5816,7 +5816,7 @@ static std::string colorized_feature_description_at( const tripoint &center_poin
     item_found = false;
     map &here = get_map();
     const furn_id furn = here.furn( center_point );
-    if( furn != f_null && furn.is_valid() ) {
+    if( furn != furn_str_id::NULL_ID() && furn.is_valid() ) {
         std::string furn_str = colorize( furn->name(), c_yellow );
         std::string sign_message = here.get_signage( center_point );
         if( !sign_message.empty() ) {
@@ -8347,8 +8347,7 @@ std::optional<int> iuse::craft( Character *p, item *it, const tripoint & )
         return std::nullopt;
     }
     const recipe &rec = it->get_making();
-    const inventory &inv = p->crafting_inventory();
-    if( !p->has_recipe( &rec, inv, p->get_crafting_group() ) ) {
+    if( !p->has_recipe( &rec ) ) {
         p->add_msg_player_or_npc(
             _( "You don't know the recipe for the %s and can't continue crafting." ),
             _( "<npcname> doesn't know the recipe for the %s and can't continue crafting." ),

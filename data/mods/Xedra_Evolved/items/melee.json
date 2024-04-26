@@ -8,7 +8,7 @@
     "copy-from": "knife_combat",
     "volume": "500 ml",
     "longest_side": "30 cm",
-    "price_postapoc": 1250,
+    "price_postapoc": "12 USD 50 cent",
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "good" },
     "proportional": { "price": 5, "weight": 0.8, "melee_damage": { "stab": 1.1 } },
     "material": [ "moon_tears", "leather" ],
@@ -28,8 +28,8 @@
     "color": "light_gray",
     "name": { "str": "mirrored estoc" },
     "description": "A thin piercing sword no wider than two fingers side by side, it's mirrored surface reflects the world back at it's wielders opponents and is difficult to see to parry.  You've never felt a sword like this before.",
-    "price": 135000,
-    "price_postapoc": 50000,
+    "price": "1 kUSD 350 USD",
+    "price_postapoc": "500 USD",
     "material": [ "moon_tears" ],
     "techniques": [ "WBLOCK_2", "PRECISE" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
@@ -159,7 +159,7 @@
     "proportional": { "weight": 0.6, "melee_damage": { "bash": 1.3 } },
     "category": "weapons",
     "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "good" },
-    "price_postapoc": 1000
+    "price_postapoc": "10 USD"
   },
   {
     "type": "GENERIC",
@@ -419,14 +419,14 @@
     "id": "dreamforged_tsurugi_speed",
     "copy-from": "dreamforged_broadsword",
     "name": { "str_sp": "tsurugi of speed" },
-    "description": "A classic japanese tsurugi sword with a razor sharp blade.  You start to think you need to move faster, and the effect intensifies when you are surrounded.",
+    "description": "A classic Japanese tsurugi sword with a razor sharp blade.  You start to think you need to move faster, and the effect intensifies when you are surrounded.",
     "relic_data": { "passive_effects": [ { "id": "MON_NEARBY_SPEED" } ] }
   },
   {
     "type": "GENERIC",
     "id": "dreamforged_q_staff_exp",
     "copy-from": "dreamforged_q_staff",
-    "name": { "str": "bo of practice", "str_pl": "bos of practice" },
+    "name": { "str_sp": "bō of practice" },
     "description": "A long, straight stick.  A simple weapon empowered by your experience in fighting against dreadful creatures.",
     "relic_data": { "passive_effects": [ { "id": "EXP_BASH" } ] }
   }

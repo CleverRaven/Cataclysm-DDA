@@ -1940,11 +1940,12 @@ void avatar::try_to_sleep( const time_duration &dur )
     if( has_trait( trait_CHLOROMORPH ) ) {
         plantsleep = true;
         const std::unordered_set<ter_str_id> comfy_ters = { ter_t_dirt, ter_t_dirtmound, ter_t_grass, ter_t_pit, ter_t_pit_shallow };
-        if( comfy_ters.find( ter_at_pos.id() ) != comfy_ters.end() && !vp && furn_at_pos == f_null ) {
+        if( comfy_ters.find( ter_at_pos.id() ) != comfy_ters.end() && !vp &&
+            furn_at_pos == furn_str_id::NULL_ID() ) {
             add_msg_if_player( m_good, _( "You relax as your roots embrace the soil." ) );
         } else if( vp ) {
             add_msg_if_player( m_bad, _( "It's impossible to sleep in this wheeled pot!" ) );
-        } else if( furn_at_pos != f_null ) {
+        } else if( furn_at_pos != furn_str_id::NULL_ID() ) {
             add_msg_if_player( m_bad,
                                _( "The humans' furniture blocks your roots.  You can't get comfortable." ) );
         } else { // Floor problems

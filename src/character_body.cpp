@@ -1,21 +1,56 @@
+#include <algorithm>
+#include <cmath>
+#include <cstdlib>
+#include <map>
+#include <memory>
+#include <optional>
+#include <string>
+#include <utility>
+#include <vector>
+
+#include "activity_tracker.h"
 #include "avatar.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "cata_utility.h"
+#include "catacharset.h"
 #include "character.h"
+#include "character_attire.h"
+#include "color.h"
+#include "creature.h"
 #include "display.h"
+#include "effect.h"
+#include "enums.h"
 #include "flag.h"
 #include "game.h"
+#include "game_constants.h"
+#include "magic.h"
+#include "magic_enchantment.h"
 #include "make_static.h"
 #include "map.h"
+#include "mapdata.h"
 #include "messages.h"
 #include "morale_types.h"
-#include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
+#include "pimpl.h"
+#include "rng.h"
+#include "stomach.h"
+#include "string_formatter.h"
+#include "translation.h"
+#include "translations.h"
 #include "type_id.h"
-#include "vitamin.h"
+#include "ui.h"
+#include "units.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vitamin.h"
 #include "vpart_position.h"
 #include "weather.h"
+#include "weather_gen.h"
+
+class item;
+struct mutation_branch;
 
 static const bionic_id bio_sleep_shutdown( "bio_sleep_shutdown" );
 
@@ -622,7 +657,7 @@ void Character::update_bodytemp()
         if( !has_sleep_state && best_fire > 0 ) {
             // Warming up over a fire
             if( bp == body_part_foot_l || bp == body_part_foot_r ) {
-                if( furn_at_pos != f_null ) {
+                if( furn_at_pos != furn_str_id::NULL_ID() ) {
                     // Can sit on something to lift feet up to the fire
                     bonus_fire_warmth = best_fire * furn_at_pos.obj().bonus_fire_warmth_feet;
                 } else if( boardable ) {

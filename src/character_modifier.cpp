@@ -1,10 +1,26 @@
-#include "character.h"
 #include "character_modifier.h"
+
+#include <algorithm>
+#include <cmath>
+#include <functional>
+#include <limits>
+#include <set>
+
+#include "character.h"
+#include "debug.h"
+#include "effect.h"
 #include "enum_conversions.h"
 #include "flag.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
+#include "game_constants.h"
 #include "generic_factory.h"
+#include "init.h"
+#include "json_error.h"
 #include "messages.h"
 #include "move_mode.h"
+#include "output.h"
+#include "string_formatter.h"
 
 static const character_modifier_id
 character_modifier_limb_footing_movecost_mod( "limb_footing_movecost_mod" );

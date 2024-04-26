@@ -343,7 +343,7 @@
     "id": "ierde_buff_armor_allies_spell",
     "type": "SPELL",
     "name": "Skin of the Mountains",
-    "description": "Infuse the resilence of the earth into one of your allies.  Their skin will repel some of the physical damage they take, and they will be more resistant to losing blood, but they will be slightly slower due to the magicks.",
+    "description": "Infuse the resilience of the earth into one of your allies.  Their skin will repel some of the physical damage they take, and they will be more resistant to losing blood, but they will be slightly slower due to the magicks.",
     "valid_targets": [ "ally" ],
     "skill": "deduction",
     "effect": "attack",

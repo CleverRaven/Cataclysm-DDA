@@ -257,7 +257,6 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 2,
-    "luminance": 0,
     "hp": 60,
     "special_attacks": [ { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true }, { "type": "bite", "cooldown": 10 } ],
     "description": "A tall bird with two long, muscular legs, a long neck, and a long sharp beak.",

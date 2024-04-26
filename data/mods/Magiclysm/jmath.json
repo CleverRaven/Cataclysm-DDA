@@ -26,14 +26,14 @@
   {
     "type": "jmath_function",
     "id": "summoning_proficiency_bonus_calculate",
-    "num_args": 1,
-    "return": "_0 + ((u_proficiency('prof_magic_summon_beginner', 'format': 'percent') * 1) / 10) + ((u_proficiency('prof_magic_summon_apprentice', 'format': 'percent') * 1) / 10) + ((u_proficiency('prof_magic_summon_master', 'format': 'percent') * 1) / 10)"
+    "num_args": 2,
+    "return": "_0 + (((((u_proficiency('prof_magic_summon_beginner', 'format': 'percent') * 1) / 10) + ((u_proficiency('prof_magic_summon_apprentice', 'format': 'percent') * 1) / 10) + ((u_proficiency('prof_magic_summon_master', 'format': 'percent') * 1) / 10))) * _1 )"
   },
   {
     "type": "jmath_function",
     "id": "summoning_proficiency_negate_calculate",
-    "num_args": 1,
-    "return": "_0 - ((u_proficiency('prof_magic_summon_beginner', 'format': 'percent') * 1) / 10) - ((u_proficiency('prof_magic_summon_apprentice', 'format': 'percent') * 1) / 10) - ((u_proficiency('prof_magic_summon_master', 'format': 'percent') * 1) / 10)"
+    "num_args": 2,
+    "return": "_0 - (((((u_proficiency('prof_magic_summon_beginner', 'format': 'percent') * 1) / 10) - ((u_proficiency('prof_magic_summon_apprentice', 'format': 'percent') * 1) / 10) - ((u_proficiency('prof_magic_summon_master', 'format': 'percent') * 1) / 10))) * _1 )"
   },
   {
     "type": "jmath_function",
@@ -50,13 +50,13 @@
   {
     "type": "jmath_function",
     "id": "conveyance_proficiency_bonus_calculate",
-    "num_args": 1,
-    "return": "_0 + ((u_proficiency('prof_magic_conveyance_beginner', 'format': 'percent') * 1) / 10) + ((u_proficiency('prof_magic_conveyance_apprentice', 'format': 'percent') * 1) / 10) + ((u_proficiency('prof_magic_conveyance_master', 'format': 'percent') * 1) / 10)"
+    "num_args": 2,
+    "return": "_0 + (((((u_proficiency('prof_magic_conveyance_beginner', 'format': 'percent') * 1) / 10) + ((u_proficiency('prof_magic_conveyance_apprentice', 'format': 'percent') * 1) / 10) + ((u_proficiency('prof_magic_conveyance_master', 'format': 'percent') * 1) / 10))) * _1 )"
   },
   {
     "type": "jmath_function",
     "id": "conveyance_proficiency_negate_calculate",
-    "num_args": 1,
-    "return": "_0 - ((u_proficiency('prof_magic_conveyance_beginner', 'format': 'percent') * 1) / 10) - ((u_proficiency('prof_magic_conveyance_apprentice', 'format': 'percent') * 1) / 10) - ((u_proficiency('prof_magic_conveyance_master', 'format': 'percent') * 1) / 10)"
+    "num_args": 2,
+    "return": "_0 - (((((u_proficiency('prof_magic_conveyance_beginner', 'format': 'percent') * 1) / 10) - ((u_proficiency('prof_magic_conveyance_apprentice', 'format': 'percent') * 1) / 10) - ((u_proficiency('prof_magic_conveyance_master', 'format': 'percent') * 1) / 10))) * _1 )"
   }
 ]

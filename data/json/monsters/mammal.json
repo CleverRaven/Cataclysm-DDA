@@ -30,7 +30,7 @@
   {
     "id": "mon_child",
     "type": "MONSTER",
-    "name": { "str": "child" },
+    "name": { "str": "child", "str_pl": "children" },
     "description": "Placeholder for children corpses.  If you see this, it's a bug.",
     "bodytype": "human",
     "copy-from": "mon_zombie_child",

@@ -7,7 +7,7 @@
     "description": "A 40-round magazine for use with 25mm firearms.",
     "weight": "340 g",
     "volume": "2 L",
-    "price": 70000,
+    "price": "700 USD",
     "material": [ "superalloy", "plastic" ],
     "symbol": "#",
     "color": "dark_gray",
