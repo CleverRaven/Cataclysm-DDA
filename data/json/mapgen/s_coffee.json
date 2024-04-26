@@ -18,7 +18,7 @@
         "SSSSSSSSSSSSSS|r      |S",
         "SVVVVVVVzMSSzz|   #W##|S",
         "SVD>>>>VzMSSMzV   #ww%|S",
-        "SV BBB>VzMSSSS{   xwwF|S",
+        "SV BBB>VzMSSSS{   xww(|S",
         "SV   B>VzMSSSS{   flwl|S",
         "SV   B>VzMMMMzV   flwU|S",
         "SV   B>Vzzzzzz|X  #wwG|S",
@@ -32,6 +32,7 @@
         "S|||||||||||||||||||3||S",
         "S4SSSSSSSSSSSSSSSSSSSSSS"
       ],
+      "palettes": [ "commercial" ],
       "terrain": {
         ".": "t_region_groundcover_urban",
         "M": "t_region_groundcover_urban",
@@ -48,6 +49,7 @@
         "A": "t_linoleum_white",
         "C": "t_linoleum_white",
         "F": "t_linoleum_white",
+        "(": "t_linoleum_white",
         "G": "t_linoleum_white",
         "L": "t_linoleum_white",
         "U": "t_linoleum_white",
@@ -83,8 +85,9 @@
         "L": "f_locker",
         "A": "f_sink",
         "U": "f_sink",
-        "f": "f_glass_fridge",
-        "F": "f_fridge",
+        "f": { "param": "display_fridge", "fallback": "f_glass_fridge" },
+        "F": "f_heavy_duty_fridge",
+        "(": "f_glass_fridge_double",
         "G": "f_oven",
         "X": "f_rack",
         "9": "f_rack",
@@ -229,7 +232,7 @@
         "T": "f_table",
         "t": "f_table",
         "c": "f_counter",
-        "e": "f_fridge",
+        "e": "f_heavy_duty_fridge",
         "l": "f_locker",
         "W": "f_counter_gate_c",
         "r": "f_rack"
@@ -345,7 +348,7 @@
         "r": "f_rack",
         "t": "f_table",
         "v": "f_vending_o",
-        "{": "f_fridge",
+        "{": [ "f_heavy_duty_fridge", "f_heavy_duty_freezer" ],
         "x": "f_counter"
       },
       "terrain": {

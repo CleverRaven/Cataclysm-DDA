@@ -77,7 +77,7 @@
     "id": "ketchup_sealed_rng",
     "subtype": "distribution",
     "entries": [
-      { "item": "ketchup", "prob": 6, "charges-min": 1 },
+      { "item": "ketchup", "prob": 6, "charges": [ 1, -1 ] },
       { "item": "ketchup", "prob": 1, "charges": 32, "container-item": "condiment_bottle_sealed" }
     ]
   },
@@ -86,7 +86,7 @@
     "id": "honey_mustard_sealed_rng",
     "subtype": "distribution",
     "entries": [
-      { "item": "honey_mustard", "prob": 6, "charges-min": 1 },
+      { "item": "honey_mustard", "prob": 6, "charges": [ 1, -1 ] },
       { "item": "honey_mustard", "prob": 1, "charges": 32, "container-item": "condiment_bottle_sealed" }
     ]
   },
@@ -95,7 +95,7 @@
     "id": "barbecue_sauce_sealed_rng",
     "subtype": "distribution",
     "entries": [
-      { "item": "barbecue_sauce", "prob": 6, "charges-min": 1 },
+      { "item": "barbecue_sauce", "prob": 6, "charges": [ 1, -1 ] },
       { "item": "barbecue_sauce", "prob": 1, "charges": 32, "container-item": "condiment_bottle_sealed" }
     ]
   },
@@ -104,7 +104,7 @@
     "id": "mustard_sealed_rng",
     "subtype": "distribution",
     "entries": [
-      { "item": "mustard", "prob": 6, "charges-min": 1 },
+      { "item": "mustard", "prob": 6, "charges": [ 1, -1 ] },
       { "item": "mustard", "prob": 1, "charges": 96, "container-item": "condiment_bottle_sealed" }
     ]
   },
@@ -983,7 +983,7 @@
     "type": "item_group",
     "id": "soup_box",
     "subtype": "distribution",
-    "entries": [ { "group": "soup_packet", "prob": 50, "container-item": "box_small", "charges-min": 1, "charges-max": 8 } ]
+    "entries": [ { "group": "soup_packet", "prob": 50, "container-item": "box_small", "charges": [ 1, 8 ] } ]
   },
   {
     "type": "item_group",

@@ -551,7 +551,7 @@
       { "item": "exo_arm_vcc", "prob": 90 },
       { "item": "exo_leg_vcc", "prob": 90 },
       { "item": "exo_electrolaser", "prob": 15 },
-      { "item": "exo_flame_thrower", "prob": 50, "charges-min": 100, "charges-max": 1500 },
+      { "item": "exo_flame_thrower", "prob": 50, "charges": [ 100, 1500 ] },
       { "item": "afs_cartridge", "count": [ 2, 6 ], "prob": 95, "charges": [ 50, 100 ] },
       { "group": "afs_exo_advanced_power", "prob": 25 }
     ]
