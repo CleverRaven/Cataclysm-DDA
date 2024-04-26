@@ -808,7 +808,7 @@
     "copy-from": "extscenario_prethresh",
     "name": "Mutant - Bear Threshold",
     "description": "Start as a post-threshold Bear Mutant",
-    "forced_traits": [ "THRESH_URSINE" ],
+    "forced_traits": "THRESH_URSINE",
     "extend": {
       "traits": [
         "BURROWLARGE",
