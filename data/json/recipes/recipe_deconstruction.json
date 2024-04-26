@@ -7157,6 +7157,14 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
+    "result": "bag_paper_powder_bulk",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "3 s",
+    "components": [ [ [ "paper", 10 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "lug_wrench",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",

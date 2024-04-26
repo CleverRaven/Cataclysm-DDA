@@ -852,7 +852,7 @@
     "description": "Salty dried meat that lasts for a long time, but will make you thirsty.",
     "primary_material": "cured_meat",
     "weight": "85 g",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "color": "brown",
     "spoils_in": "24 days",
     "volume": "250 ml",
