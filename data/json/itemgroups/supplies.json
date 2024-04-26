@@ -797,7 +797,7 @@
       { "item": "laptop", "prob": 7, "charges": [ 0, 500 ] },
       { "item": "eink_tablet_pc", "prob": 7, "charges": [ 0, 100 ] },
       [ "usb_drive", 5 ],
-      [ "cash_card", 5 ],
+      { "item": "cash_card", "prob": 5, "charges": [ 0, 50000 ] },
       [ "record_accounting", 1 ],
       [ "money_strap_twenty", 1 ]
     ]

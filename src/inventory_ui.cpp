@@ -865,7 +865,7 @@ std::string inventory_holster_preset::get_denial( const item_location &it ) cons
     item_copy.charges = 1;
     item_location parent = it.has_parent() ? it.parent_item() : item_location();
 
-    ret_val<void> ret = holster->can_contain( item_copy, false, false, true, parent );
+    ret_val<void> ret = holster->can_contain( item_copy, false, false, true, false, parent );
     if( !ret.success() ) {
         return !ret.str().empty() ? ret.str() : "item can't be stored there";
     }

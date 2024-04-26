@@ -15,49 +15,47 @@
     "type": "talk_topic",
     "id": "TALK_COWBOYT_MAIN",
     "dynamic_line": {
-      "u_has_var": "talked_to_cowboyt",
-      "type": "dialogue",
-      "context": "first_meeting",
+      "u_has_var": "dialogue_first_meeting_talked_to_cowboyt",
       "value": "yes",
       "yes": "Hey there.",
       "no": "Hey!  Who goes there?"
     },
-    "speaker_effect": { "effect": { "u_add_var": "talked_to_cowboyt", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
+    "speaker_effect": { "effect": { "u_add_var": "dialogue_first_meeting_talked_to_cowboyt", "value": "yes" } },
     "responses": [
       {
         "text": "Just another survivor.  What are you doing here?",
         "topic": "TALK_COWBOYT_INTRODUCTION",
-        "condition": { "not": { "u_has_var": "talked_to_cowboyt", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+        "condition": { "not": { "u_has_var": "dialogue_first_meeting_talked_to_cowboyt", "value": "yes" } }
       },
       {
         "text": "I'm you, from the future.  I've come to warn you.",
         "topic": "TALK_COWBOYT_JOKE",
-        "condition": { "not": { "u_has_var": "talked_to_cowboyt", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+        "condition": { "not": { "u_has_var": "dialogue_first_meeting_talked_to_cowboyt", "value": "yes" } }
       },
       {
         "text": "I am a ghost.  I died here 37 years ago, yet I cannot depart this mortal realm.",
         "topic": "TALK_COWBOYT_JOKE",
-        "condition": { "not": { "u_has_var": "talked_to_cowboyt", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+        "condition": { "not": { "u_has_var": "dialogue_first_meeting_talked_to_cowboyt", "value": "yes" } }
       },
       {
         "text": "What did you before all this?",
         "topic": "TALK_COWBOYT_BACKGROUND",
-        "condition": { "u_has_var": "talked_to_cowboyt", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+        "condition": { "u_has_var": "dialogue_first_meeting_talked_to_cowboyt", "value": "yes" }
       },
       {
         "text": "Is there something I can help you with?",
         "topic": "TALK_MISSION_LIST",
-        "condition": { "u_has_var": "talked_to_cowboyt", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+        "condition": { "u_has_var": "dialogue_first_meeting_talked_to_cowboyt", "value": "yes" }
       },
       {
         "text": "How about we travel together?",
         "topic": "TALK_COWBOYT_FOLLOW",
-        "condition": { "u_has_var": "talked_to_cowboyt", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+        "condition": { "u_has_var": "dialogue_first_meeting_talked_to_cowboyt", "value": "yes" }
       },
       {
         "text": "See you around.",
         "topic": "TALK_DONE",
-        "condition": { "u_has_var": "talked_to_cowboyt", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+        "condition": { "u_has_var": "dialogue_first_meeting_talked_to_cowboyt", "value": "yes" }
       }
     ]
   },

@@ -9,7 +9,7 @@
       "H": "f_armchair",
       "Z": [ "f_crate_c", "f_crate_o", "f_cardboard_box" ],
       "f": "f_glass_fridge",
-      "]": "f_fridge",
+      "]": [ "f_heavy_duty_fridge", "f_heavy_duty_freezer" ],
       "O": "f_oven",
       "S": "f_sink",
       "j": "f_bench",

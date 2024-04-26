@@ -6024,8 +6024,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         // with the inventory display allowing you to select items, showing the things you could make with contained items could be confusing.
         const itype_id &tid = typeId();
         const inventory &crafting_inv = player_character.crafting_inventory();
-        const recipe_subset available_recipe_subset = player_character.get_available_recipes(
-                    crafting_inv );
+        const recipe_subset available_recipe_subset = player_character.get_group_available_recipes();
         const std::set<const recipe *> &item_recipes = available_recipe_subset.of_component( tid );
 
         insert_separation_line( info );
@@ -10101,22 +10100,24 @@ ret_val<void> item::is_compatible( const item &it ) const
 
 ret_val<void> item::can_contain_directly( const item &it ) const
 {
-    return can_contain( it, false, false, true, item_location(), 10000000_ml, false );
+    return can_contain( it, false, false, true, false, item_location(), 10000000_ml, false );
 }
 
 ret_val<void> item::can_contain( const item &it, const bool nested, const bool ignore_rigidity,
-                                 const bool ignore_pkt_settings, const item_location &parent_it,
+                                 const bool ignore_pkt_settings, const bool is_pick_up_inv,
+                                 const item_location &parent_it,
                                  units::volume remaining_parent_volume, const bool allow_nested ) const
 {
     int copies = 1;
     return can_contain( it, copies, nested, ignore_rigidity,
-                        ignore_pkt_settings, parent_it,
+                        ignore_pkt_settings, is_pick_up_inv, parent_it,
                         remaining_parent_volume, allow_nested );
 }
 
 ret_val<void> item::can_contain( const item &it, int &copies_remaining, const bool nested,
                                  const bool ignore_rigidity, const bool ignore_pkt_settings,
-                                 const item_location &parent_it, units::volume remaining_parent_volume,
+                                 const bool is_pick_up_inv, const item_location &parent_it,
+                                 units::volume remaining_parent_volume,
                                  const bool allow_nested ) const
 {
     if( copies_remaining <= 0 ) {
@@ -10161,7 +10162,8 @@ ret_val<void> item::can_contain( const item &it, int &copies_remaining, const bo
                     continue;
                 }
                 auto ret = internal_it->can_contain( it, copies_remaining, true, ignore_nested_rigidity,
-                                                     ignore_pkt_settings, parent_it, pkt->remaining_volume() );
+                                                     ignore_pkt_settings, is_pick_up_inv, parent_it,
+                                                     pkt->remaining_volume() );
                 if( copies_remaining <= 0 ) {
                     return ret;
                 }
@@ -10170,8 +10172,9 @@ ret_val<void> item::can_contain( const item &it, int &copies_remaining, const bo
     }
 
     return nested && !ignore_rigidity ?
-           contents.can_contain_rigid( it, copies_remaining, ignore_pkt_settings ) :
-           contents.can_contain( it, copies_remaining, ignore_pkt_settings, remaining_parent_volume );
+           contents.can_contain_rigid( it, copies_remaining, ignore_pkt_settings, is_pick_up_inv ) :
+           contents.can_contain( it, copies_remaining, ignore_pkt_settings, is_pick_up_inv,
+                                 remaining_parent_volume );
 }
 
 ret_val<void> item::can_contain( const itype &tp ) const
@@ -10194,7 +10197,7 @@ ret_val<void> item::can_contain_partial_directly( const item &it ) const
     if( i_copy.count_by_charges() ) {
         i_copy.charges = 1;
     }
-    return can_contain( i_copy, false, false, true, item_location(), 10000000_ml, false );
+    return can_contain( i_copy, false, false, true, false, item_location(), 10000000_ml, false );
 }
 
 std::pair<item_location, item_pocket *> item::best_pocket( const item &it, item_location &this_loc,

@@ -54,8 +54,8 @@
     "description": "A 50 cc single-cylinder 4-stroke combustion engine.",
     "weight": "3750 g",
     "volume": "12 L",
-    "price": 10000,
-    "price_postapoc": 1000,
+    "price": "100 USD",
+    "price_postapoc": "10 USD",
     "faults": [ "fault_engine_starter" ]
   },
   {
@@ -67,8 +67,8 @@
     "description": "A high-compression, 200 cc single-cylinder 4-stroke combustion engine.",
     "weight": "28 kg",
     "volume": "42 L",
-    "price": 10000,
-    "price_postapoc": 1250,
+    "price": "100 USD",
+    "price_postapoc": "12 USD 50 cent",
     "faults": [ "fault_engine_starter" ]
   },
   {
@@ -80,8 +80,8 @@
     "description": "A high-compression, 200 cc single-cylinder 4-stroke diesel combustion engine.",
     "weight": "28 kg",
     "volume": "42 L",
-    "price": 10000,
-    "price_postapoc": 1250,
+    "price": "100 USD",
+    "price_postapoc": "12 USD 50 cent",
     "faults": [ "fault_engine_starter" ]
   },
   {
@@ -93,8 +93,8 @@
     "description": "A small, 25 cc single-cylinder 2-stroke combustion engine.",
     "weight": "2200 g",
     "volume": "6 L",
-    "price": 6000,
-    "price_postapoc": 750,
+    "price": "60 USD",
+    "price_postapoc": "7 USD 50 cent",
     "faults": [  ]
   },
   {
@@ -105,8 +105,8 @@
     "description": "An air-cooled, 4-cylinder, horizontally opposed internal combustion engine, rated for 150 horsepower.  Commonly used on light aircraft.",
     "weight": "126 kg",
     "volume": "182 L",
-    "price": 80000,
-    "price_postapoc": 2000
+    "price": "800 USD",
+    "price_postapoc": "20 USD"
   },
   {
     "id": "i4_combustion",
@@ -117,8 +117,8 @@
     "description": "A small, 1600 cc 4-cylinder combustion engine, commonly called a straight-four.",
     "weight": "120 kg",
     "volume": "164 L",
-    "price": 15000,
-    "price_postapoc": 1250
+    "price": "150 USD",
+    "price_postapoc": "12 USD 50 cent"
   },
   {
     "id": "i4_diesel",
@@ -128,8 +128,8 @@
     "description": "A small, yet powerful 4-cylinder diesel engine, commonly called a straight-four.",
     "weight": "120 kg",
     "volume": "166 L",
-    "price": 16000,
-    "price_postapoc": 1250
+    "price": "160 USD",
+    "price_postapoc": "12 USD 50 cent"
   },
   {
     "id": "i6_diesel",
@@ -139,8 +139,8 @@
     "description": "An industrial-sized 6-cylinder diesel engine, commonly called a straight-six.  About as powerful as a V6 engine but significantly larger for use in heavy equipment.",
     "weight": "580 kg",
     "volume": "500 L",
-    "price": 27000,
-    "price_postapoc": 1500
+    "price": "270 USD",
+    "price_postapoc": "15 USD"
   },
   {
     "id": "v2_combustion",
@@ -151,8 +151,8 @@
     "description": "A 600 cc, 2-cylinder 4-stroke combustion engine, commonly called a V-twin.",
     "weight": "42 kg",
     "volume": "70 L",
-    "price": 10000,
-    "price_postapoc": 1000
+    "price": "100 USD",
+    "price_postapoc": "10 USD"
   },
   {
     "id": "v6_combustion",
@@ -162,8 +162,8 @@
     "description": "A powerful 6-cylinder combustion engine.",
     "weight": "203 kg",
     "volume": "191 L",
-    "price": 18000,
-    "price_postapoc": 1500
+    "price": "180 USD",
+    "price_postapoc": "15 USD"
   },
   {
     "id": "v6_diesel",
@@ -173,8 +173,8 @@
     "description": "A powerful 6-cylinder diesel engine.",
     "weight": "207 kg",
     "volume": "194 L",
-    "price": 20000,
-    "price_postapoc": 1500
+    "price": "200 USD",
+    "price_postapoc": "15 USD"
   },
   {
     "id": "v8_combustion",
@@ -184,8 +184,8 @@
     "description": "A large and very powerful 8-cylinder combustion engine.",
     "weight": "238 kg",
     "volume": "251 L",
-    "price": 25000,
-    "price_postapoc": 1750
+    "price": "250 USD",
+    "price_postapoc": "17 USD 50 cent"
   },
   {
     "id": "v8_diesel",
@@ -195,8 +195,8 @@
     "description": "A large and very powerful 8-cylinder diesel engine.",
     "weight": "242 kg",
     "volume": "256 L",
-    "price": 26500,
-    "price_postapoc": 1750
+    "price": "265 USD",
+    "price_postapoc": "17 USD 50 cent"
   },
   {
     "id": "v12_combustion",
@@ -206,8 +206,8 @@
     "description": "A massive and extremely powerful 12-cylinder combustion engine, usually built into high-end sports cars.",
     "weight": "240 kg",
     "volume": "248 L",
-    "price": 36000,
-    "price_postapoc": 2250
+    "price": "360 USD",
+    "price_postapoc": "22 USD 50 cent"
   },
   {
     "id": "v12_diesel",
@@ -217,8 +217,8 @@
     "description": "A massive and extremely powerful 12-cylinder diesel engine, usually built into heavy trucks.",
     "weight": "244 kg",
     "volume": "253 L",
-    "price": 32000,
-    "price_postapoc": 2250
+    "price": "320 USD",
+    "price_postapoc": "22 USD 50 cent"
   },
   {
     "id": "steam_watts_small",
@@ -228,8 +228,8 @@
     "description": "A small, primitive steam engine.  An integrated boiler burns coal to heat water into steam, driving a reciprocating shaft.  A condenser recaptures the water, making this a closed-cycle system.",
     "weight": "225000 g",
     "volume": "62500 ml",
-    "price": 225000,
-    "price_postapoc": 5000
+    "price": "2 kUSD 250 USD",
+    "price_postapoc": "50 USD"
   },
   {
     "id": "steam_triple_small",
@@ -239,8 +239,8 @@
     "description": "A small steam engine.  An integrated boiler burns coal to heat water into steam, driving a reciprocating shaft.  A condenser recaptures the water, making this a closed-cycle system.",
     "weight": "180000 g",
     "volume": "37500 ml",
-    "price": 555000,
-    "price_postapoc": 8000
+    "price": "5 kUSD 550 USD",
+    "price_postapoc": "80 USD"
   },
   {
     "id": "steam_triple_medium",
@@ -250,8 +250,8 @@
     "description": "A medium-sized steam engine.  An integrated boiler burns coal to heat water into steam, driving a reciprocating shaft.  A condenser recaptures the water, making this a closed-cycle system.",
     "weight": "280000 g",
     "volume": "57500 ml",
-    "price": 870000,
-    "price_postapoc": 10000
+    "price": "8 kUSD 700 USD",
+    "price_postapoc": "100 USD"
   },
   {
     "id": "engine_block_massive",
@@ -262,8 +262,8 @@
     "material": [ "iron" ],
     "weight": "96 kg",
     "volume": "96 L",
-    "price": 30000,
-    "price_postapoc": 500
+    "price": "300 USD",
+    "price_postapoc": "5 USD"
   },
   {
     "id": "engine_block_large",
@@ -274,8 +274,8 @@
     "material": [ "iron" ],
     "weight": "95 kg",
     "volume": "95 L",
-    "price": 20000,
-    "price_postapoc": 500
+    "price": "200 USD",
+    "price_postapoc": "5 USD"
   },
   {
     "id": "engine_block_medium",
@@ -286,8 +286,8 @@
     "material": [ "iron" ],
     "weight": "81 kg",
     "volume": "81 L",
-    "price": 10000,
-    "price_postapoc": 250
+    "price": "100 USD",
+    "price_postapoc": "2 USD 50 cent"
   },
   {
     "id": "engine_block_small",
@@ -298,8 +298,8 @@
     "material": [ "iron" ],
     "weight": "23 kg",
     "volume": "23 L",
-    "price": 5000,
-    "price_postapoc": 250
+    "price": "50 USD",
+    "price_postapoc": "2 USD 50 cent"
   },
   {
     "id": "engine_block_tiny",
@@ -310,8 +310,8 @@
     "material": [ "iron" ],
     "weight": "10 kg",
     "volume": "10 L",
-    "price": 3500,
-    "price_postapoc": 100
+    "price": "35 USD",
+    "price_postapoc": "1 USD"
   },
   {
     "id": "small_turbine_engine",
@@ -322,8 +322,8 @@
     "//": "Based on AGT1500 engine.",
     "weight": "1134 kg",
     "volume": "900 L",
-    "price": 96000,
-    "price_postapoc": 2500
+    "price": "960 USD",
+    "price_postapoc": "25 USD"
   },
   {
     "id": "medium_turbine_engine",
@@ -334,8 +334,8 @@
     "//": "Based on T700 turboshaft engine. Much lighter weight than the 1,350 HP small gas turbine.  Doubled the published weight to account for a transmission.",
     "weight": "400 kg",
     "volume": "400 L",
-    "price": 192000,
-    "price_postapoc": 5000
+    "price": "1 kUSD 920 USD",
+    "price_postapoc": "50 USD"
   },
   {
     "id": "large_turbine_engine",
@@ -346,7 +346,7 @@
     "//": "Based on Rolls-Royce T406.",
     "weight": "900 kg",
     "volume": "900 L",
-    "price": 960000,
-    "price_postapoc": 7500
+    "price": "9 kUSD 600 USD",
+    "price_postapoc": "75 USD"
   }
 ]
