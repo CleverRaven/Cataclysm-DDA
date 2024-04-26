@@ -16,6 +16,17 @@
         "effect": { "u_add_var": "general_meeting_u_met_Gavin", "value": "yes" }
       },
       {
+        "text": "I'm looking for a specific, strange building.  I wonder if you've heard anything about it, maybe from some of the traders coming through?",
+        "topic": "TALK_EVAC_MERCHANT_EXODII_MISSION_WAREHOUSE",
+        "condition": {
+          "and": [
+            { "u_has_mission": "EXODII_MISSION_WAREHOUSE" },
+            { "not": { "npc_has_var": "asked_about_exodii_warehouse_mission", "value": "yes" } }
+          ]
+        },
+        "effect": { "run_eocs": [ "EOC_exodii_mission_wh_directions_chance" ] }
+      },
+      {
         "text": "Just passing through, don't mind me.",
         "topic": "TALK_DONE",
         "condition": { "not": { "u_has_var": "general_meeting_u_met_Gavin", "value": "yes" } }
@@ -334,6 +345,34 @@
         "text": "Well, how about 200 merch for 75 pounds of…",
         "effect": { "u_spawn_item": "trade_writ" },
         "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_EVAC_MERCHANT_EXODII_MISSION_WAREHOUSE",
+    "dynamic_line": {
+      "concatenate": [
+        "&You describe the warehouse to the best of your ability.  Smokes listens",
+        {
+          "npc_has_var": "exodii_mission_wh_correct",
+          "value": "no",
+          "yes": ", then shakes his head.  \"Not ringing a bell, I think I'd remember if I'd heard about something like that.\"",
+          "no": ", then nods slowly.  \"This sounds a bit familiar, I remember a scavenger coming through a while ago with a weird story about a place like that.  Might be nothing though.\""
+        }
+      ]
+    },
+    "speaker_effect": { "effect": { "npc_add_var": "asked_about_exodii_warehouse_mission", "value": "yes" } },
+    "responses": [
+      {
+        "//": "The other responses are stored in common_talk.json in the exodii folder, to avoid repetition.",
+        "text": "Oh well.  Thanks anyway.  I'll go ask around.",
+        "topic": "TALK_DONE",
+        "condition": { "npc_has_var": "exodii_mission_wh_correct", "value": "no" },
+        "effect": [
+          { "math": [ "exodii_mission_wh_chance", "-=", "1" ] },
+          { "math": [ "exodii_mission_wh_chance", "=", "max( exodii_mission_wh_chance, 1 )" ] }
+        ]
       }
     ]
   }
