@@ -1,3 +1,8 @@
+Cataclysm: Dark Days Ahead JSON Web Linting Tool
+This is a tool to help modders and editors of the open source game Cataclysm: Dark Days Ahead write JSON in the game's expected format.
+
+Paste some JSON into the field below and click "Lint" to run an autoformatter against it.
+
 [
   {
     "type": "scenario",
@@ -284,17 +289,7 @@
     "name": "Mutant - Prime Threshold",
     "description": "Start as a post-threshold Prime Mutant",
     "forced_traits": "THRESH_ALPHA",
-    "extend": {
-      "traits": [
-        "ALPHA_COMPLEX",
-        "DEX_ALPHA",
-        "INT_ALPHA",
-        "PER_ALPHA",
-        "ROT3",
-        "STR_ALPHA",
-        "WAKEFUL2"
-      ]
-    }
+    "extend": { "traits": [ "ALPHA_COMPLEX", "DEX_ALPHA", "INT_ALPHA", "PER_ALPHA", "ROT3", "STR_ALPHA", "WAKEFUL2" ] }
   },
   {
     "type": "scenario",
@@ -527,16 +522,7 @@
     "description": "Start as a post-threshold Feline Mutant",
     "forced_traits": "THRESH_FELINE",
     "extend": {
-      "traits": [
-        "DEX_UP_3",
-        "FELINE_FLEXIBILITY",
-        "FELINE_LEAP",
-        "PRED1",
-        "PRED2",
-        "PRED3",
-        "SABER_TEETH",
-        "STRONGER_RESISTCHILL"
-      ]
+      "traits": [ "DEX_UP_3", "FELINE_FLEXIBILITY", "FELINE_LEAP", "PRED1", "PRED2", "PRED3", "SABER_TEETH", "STRONGER_RESISTCHILL" ]
     }
   },
   {
@@ -613,16 +599,7 @@
     "description": "Start as a post-threshold Wolf Mutant",
     "forced_traits": "THRESH_LUPINE",
     "extend": {
-      "traits": [
-        "BURROWLARGE",
-        "PACK_HUNTER",
-        "PERSISTENCE_HUNTER2",
-        "PRED1",
-        "PRED2",
-        "PRED3",
-        "STR_UP_3",
-        "STRONGER_RESISTCHILL"
-      ]
+      "traits": [ "BURROWLARGE", "PACK_HUNTER", "PERSISTENCE_HUNTER2", "PRED1", "PRED2", "PRED3", "STR_UP_3", "STRONGER_RESISTCHILL" ]
     }
   },
   {
@@ -632,7 +609,7 @@
     "name": "Mutant - Marloss Gateway Threshold",
     "description": "Start as a post-threshold Marloss Gateway Mutant",
     "forced_traits": "THRESH_MARLOSS",
-    "extend": { "traits": [] }
+    "extend": { "traits": [  ] }
   },
   {
     "type": "scenario",
@@ -642,17 +619,7 @@
     "description": "Start as a post-threshold Prototype Mutant",
     "forced_traits": "THRESH_MEDICAL",
     "extend": {
-      "traits": [
-        "ACIDBLOOD",
-        "ACIDPROOF",
-        "CENOBITE",
-        "MASOCHIST_MED",
-        "MUT_JUNKIE",
-        "MUT_TOUGH",
-        "MUT_TOUGH2",
-        "NOPAIN",
-        "NUMB"
-      ]
+      "traits": [ "ACIDBLOOD", "ACIDPROOF", "CENOBITE", "MASOCHIST_MED", "MUT_JUNKIE", "MUT_TOUGH", "MUT_TOUGH2", "NOPAIN", "NUMB" ]
     }
   },
   {
@@ -755,16 +722,7 @@
     "description": "Start as a post-threshold Lagomorph Mutant",
     "forced_traits": "THRESH_RABBIT",
     "extend": {
-      "traits": [
-        "BURROW",
-        "EASYSLEEPER2",
-        "GOODCARDIO2",
-        "GRAZER",
-        "INCISORS",
-        "LEAPING_LEGS",
-        "PER_UP_3",
-        "STRONGER_RESISTCHILL"
-      ]
+      "traits": [ "BURROW", "EASYSLEEPER2", "GOODCARDIO2", "GRAZER", "INCISORS", "LEAPING_LEGS", "PER_UP_3", "STRONGER_RESISTCHILL" ]
     }
   },
   {
@@ -774,16 +732,7 @@
     "name": "Mutant - Raptor Threshold",
     "description": "Start as a post-threshold Raptor Mutant",
     "forced_traits": "THRESH_RAPTOR",
-    "extend": {
-      "traits": [
-        "EATPOISON",
-        "PRED1",
-        "PRED2",
-        "PRED3",
-        "PRED4",
-        "SAPIOVORE"
-      ]
-    }
+    "extend": { "traits": [ "EATPOISON", "PRED1", "PRED2", "PRED3", "PRED4", "SAPIOVORE" ] }
   },
   {
     "type": "scenario",
@@ -792,17 +741,7 @@
     "name": "Mutant - Survivor Threshold",
     "description": "Start as a post-threshold Survivor Mutant",
     "forced_traits": "THRESH_RAT",
-    "extend": {
-      "traits": [
-        "BURROW",
-        "DEFORMED3",
-        "CLAWS_ST",
-        "EATDEAD",
-        "EATPOISON",
-        "INCISORS",
-        "MOUSE_EARS"
-      ]
-    }
+    "extend": { "traits": [ "BURROW", "DEFORMED3", "CLAWS_ST", "EATDEAD", "EATPOISON", "INCISORS", "MOUSE_EARS" ] }
   },
   {
     "type": "scenario",
@@ -866,16 +805,7 @@
     "name": "Mutant - Subterranean Threshold",
     "description": "Start as a post-threshold Subterranean Mutant",
     "forced_traits": "THRESH_TROGLOBITE",
-    "extend": {
-      "traits": [
-        "EATPOISON",
-        "INFRARED",
-        "PAINRESIST_TROGLO",
-        "REGEN",
-        "STR_UP_3",
-        "STOCKY_TROGLO"
-      ]
-    }
+    "extend": { "traits": [ "EATPOISON", "INFRARED", "PAINRESIST_TROGLO", "REGEN", "STR_UP_3", "STOCKY_TROGLO" ] }
   },
   {
     "type": "scenario",
@@ -905,3 +835,4 @@
     }
   }
 ]
+
