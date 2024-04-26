@@ -440,8 +440,8 @@
         "PHEROMONE_MAMMAL",
         "STRONGER_RESISTCHILL"
       ]
+    }
     },
-
     {
       "type": "scenario",
       "id": "extscenario_cephalopod",
