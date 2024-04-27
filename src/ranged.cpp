@@ -156,7 +156,7 @@ static constexpr int AIF_DURATION_LIMIT = 10;
 
 static projectile make_gun_projectile( const item &gun );
 static int NPC_time_to_attack( const Character &p, const itype &firing );
-static int time_to_attack( const Character &p, const item &firing, const item_location loc );
+static int time_to_attack( const Character &p, const item &firing, const item_location &loc );
 /**
 * Handle spent ammo casings and linkages.
 * @param weap   Weapon.
@@ -1704,7 +1704,7 @@ static std::vector<aim_type_prediction> calculate_ranged_chances(
     const target_ui &ui, const Character &you,
     target_ui::TargetMode mode, const input_context &ctxt, const item &weapon,
     const dispersion_sources &dispersion, const std::vector<confidence_rating> &confidence_ratings,
-    const Target_attributes &target, const tripoint &pos, item_location load_loc )
+    const Target_attributes &target, const tripoint &pos, const item_location &load_loc )
 {
     std::vector<aim_type> aim_types { get_default_aim_type() };
     std::vector<aim_type_prediction> aim_outputs;
@@ -1736,7 +1736,7 @@ static std::vector<aim_type_prediction> calculate_ranged_chances(
         } else {
             prediction.moves = predict_recoil( you, weapon, target, ui.get_sight_dispersion(), aim_type,
                                                you.recoil ).moves + time_to_attack( you, weapon,
-                                               load_loc );
+                                                       load_loc );
         }
 
         // if the default method is "behind" the selected; e.g. you are in immediate
@@ -1952,7 +1952,7 @@ static bool pl_sees( const Creature &cr )
 
 static int print_aim( const target_ui &ui, Character &you, const catacurses::window &w,
                       int line_number, input_context &ctxt, const item &weapon, const tripoint &pos,
-                      item_location load_loc )
+                      item_location &load_loc )
 {
     // This is absolute accuracy for the player.
     // TODO: push the calculations duplicated from Creature::deal_projectile_attack() and
@@ -2123,7 +2123,7 @@ int NPC_time_to_attack( const Character &p, const itype &firing )
                                            skill_used ) ) ) );
 }
 
-int time_to_attack( const Character &p, const item &firing, const item_location loc )
+int time_to_attack( const Character &p, const item &firing, const item_location &loc )
 {
     const skill_id &skill_used = firing.type->gun->skill_used;
     const time_info_t &info = skill_used->time_to_attack();
@@ -3653,7 +3653,8 @@ void target_ui::draw_ui_window()
         // TODO: these are old, consider refactoring
         if( mode == TargetMode::Fire ) {
             item_location load_loc = activity->reload_loc;
-            text_y = print_aim( *this, *you, w_target, text_y, ctxt, *relevant->gun_current_mode(), dst, load_loc );
+            text_y = print_aim( *this, *you, w_target, text_y, ctxt, *relevant->gun_current_mode(), dst,
+                                load_loc );
         } else if( mode == TargetMode::Throw || mode == TargetMode::ThrowBlind ) {
             bool blind = mode == TargetMode::ThrowBlind;
             draw_throw_aim( *this, *you, w_target, text_y, ctxt, *relevant, dst, blind );
