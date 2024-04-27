@@ -588,8 +588,17 @@
     "responses": [
       {
         "text": "Extend bridge",
-        "effect": { "run_eocs": "LS_Bridge_control_deadend_1_extend" },
+        "effect": [
+          { "run_eocs": "LS_Bridge_control_deadend_1_extend" },
+          { "npc_add_var": "COMP_LS_Bridge_control_deadend_1_Retract", "value": "retracted" }
+        ],
+        "condition": { "not": { "npc_has_var": "COMP_LS_Bridge_control_deadend_1_Retract", "value": "retracted" } },
         "topic": "COMP_LS_Bridge_control_deadend_1_Extend"
+      },
+      {
+        "text": "Retract bridge",
+        "topic": "COMP_LS_Bridge_control_deadend_1_Retract",
+        "condition": { "npc_has_var": "COMP_LS_Bridge_control_deadend_1_Retract", "value": "retracted" }
       },
       { "text": "Log off.", "topic": "TALK_DONE" }
     ]
@@ -607,6 +616,19 @@
     "type": "talk_topic",
     "id": "COMP_LS_Bridge_control_deadend_1_Retract",
     "dynamic_line": "&<color_light_green> @User > Retract bridge\n<color_light_green>Bad command or file name.\n<color_light_green>What is done cannot be undone.\n\n<color_light_green> @User > _</color>",
+    "responses": [
+      {
+        "text": "--help",
+        "condition": { "math": [ "u_skill('computer')", ">", "2" ] },
+        "topic": "COMP_LS_Bridge_control_deadend_1_help"
+      },
+      { "text": "Log off.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Bridge_control_deadend_1_help",
+    "dynamic_line": "&<color_light_green> @User > --help\n<color_light_green>Help?  @User help request logged.\n<color_light_green>Error: \"Help\" - implied payment|cost detected.\n<color_light_green>Error: Payment|cost not found.  Try again later.\n\n<color_light_green> @User > _</color>",
     "responses": [ { "text": "Log off.", "topic": "TALK_DONE" } ]
   },
   {
