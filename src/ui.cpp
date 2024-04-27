@@ -72,55 +72,69 @@ void uilist_impl::draw_controls()
         ImGui::Separator();
     }
 
+    // First, measure the menu items to see how wide the menu will be
+    ImVec2 menu_size = { 0.0f, 0.0f };
+    for( size_t i = 0; i < parent.fentries.size(); i++ ) {
+        auto entry = parent.entries[parent.fentries[i]];
+        // this will overestimate if there are any color tags, but that never happens. probably.
+        menu_size.x = std::max( menu_size.x, ImGui::CalcTextSize( entry.txt.c_str() ).x );
+    }
+    menu_size.y = std::min( ImGui::GetIO().DisplaySize.y,
+                            parent.fentries.size() * ImGui::GetTextLineHeightWithSpacing() );
+
     // An invisible table with three columns. Center column is for the
     // menu, left and right are usually invisible. Caller may use
     // left/right column to add additional content to the
     // window. There should only ever be one row.
-    ImGui::BeginTable( "table", 3 );
-    ImGui::TableSetupColumn( "left" );
-    ImGui::TableSetupColumn( "menu" );
-    ImGui::TableSetupColumn( "right" );
-    ImGui::TableNextRow();
-    ImGui::TableSetColumnIndex( 1 );
+    if( ImGui::BeginTable( "table", 3 ) ) {
+        ImGui::TableSetupColumn( "left" );
+        ImGui::TableSetupColumn( "menu" );
+        ImGui::TableSetupColumn( "right" );
+        ImGui::TableNextRow();
+        ImGui::TableSetColumnIndex( 1 );
 
-    // It would be natural to make the entries into buttons, or
-    // combos, or other pre-built ui elements. For now I am mostly
-    // going to copy the style of the original textual ui elements.
-    for( size_t i = 0; i < parent.fentries.size(); i++ ) {
-        auto entry = parent.entries[parent.fentries[i]];
-        ImGui::PushID( i );
-        auto flags = entry.enabled ? ImGuiSelectableFlags_Disabled : ImGuiSelectableFlags_None;
-        bool is_selected = static_cast<int>( i ) == parent.fselected;
-        ImGui::Selectable( "", is_selected, flags );
-        ImGui::SameLine( 0, 0 );
-        if( is_selected ) {
-            ImGui::SetItemDefaultFocus();
+        if( ImGui::BeginChild( "scroll", menu_size ) ) {
+            // It would be natural to make the entries into buttons, or
+            // combos, or other pre-built ui elements. For now I am mostly
+            // going to copy the style of the original textual ui elements.
+            for( size_t i = 0; i < parent.fentries.size(); i++ ) {
+                auto entry = parent.entries[parent.fentries[i]];
+                ImGui::PushID( i );
+                auto flags = entry.enabled ? ImGuiSelectableFlags_Disabled : ImGuiSelectableFlags_None;
+                bool is_selected = static_cast<int>( i ) == parent.fselected;
+                ImGui::Selectable( "", is_selected, flags );
+                ImGui::SameLine( 0, 0 );
+                if( is_selected ) {
+                    ImGui::SetItemDefaultFocus();
+                }
+
+                if( entry.hotkey.has_value() ) {
+                    ImGui::Text( "%c", '[' );
+                    ImGui::SameLine( 0, 0 );
+                    auto color = is_selected ? parent.hilight_color : parent.hotkey_color;
+                    cataimgui::draw_colored_text( entry.hotkey.value().short_description(),
+                                                  color );
+                    ImGui::SameLine( 0, 0 );
+                    ImGui::Text( "%c", ']' );
+                    ImGui::SameLine();
+                }
+                nc_color color = ( is_selected ?
+                                   parent.hilight_color :
+                                   ( entry.enabled || entry.force_color ?
+                                     entry.text_color :
+                                     parent.disabled_color ) );
+                cataimgui::draw_colored_text( entry.txt,
+                                              color );
+                ImGui::PopID();
+            }
+            ImGui::EndChild();
         }
 
-        if( entry.hotkey.has_value() ) {
-            ImGui::Text( "%c", '[' );
-            ImGui::SameLine( 0, 0 );
-            auto color = is_selected ? parent.hilight_color : parent.hotkey_color;
-            cataimgui::draw_colored_text( entry.hotkey.value().short_description(),
-                                          color );
-            ImGui::SameLine( 0, 0 );
-            ImGui::Text( "%c", ']' );
-            ImGui::SameLine();
+        if( parent.callback != nullptr ) {
+            parent.callback->refresh( &parent );
         }
-        nc_color color = ( is_selected ?
-                           parent.hilight_color :
-                           ( entry.enabled || entry.force_color ?
-                             entry.text_color :
-                             parent.disabled_color ) );
-        cataimgui::draw_colored_text( entry.txt, color );
-        ImGui::PopID();
+        ImGui::EndTable();
     }
-
-    if( parent.callback != nullptr ) {
-        parent.callback->refresh( &parent );
-    }
-
-    ImGui::EndTable();
 
     if( parent.desc_enabled ) {
         ImGui::Separator();
