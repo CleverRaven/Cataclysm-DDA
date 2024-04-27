@@ -666,40 +666,46 @@ class wish_monster_callback: public uilist_callback
         }
 
         void refresh( uilist *menu ) override {
-            catacurses::window w_info = catacurses::newwin( menu->w_height - 2, menu->pad_right,
-                                        point( menu->w_x + menu->w_width - 1 - menu->pad_right, 1 ) );
-
-            const int entnum = menu->selected;
-            const bool valid_entnum = entnum >= 0 && static_cast<size_t>( entnum ) < mtypes.size();
-            if( entnum != lastent ) {
-                lastent = entnum;
-                if( valid_entnum ) {
-                    tmp = monster( mtypes[ entnum ]->id );
-                    if( friendly ) {
-                        tmp.friendly = -1;
+            auto info_size = ImGui::GetContentRegionAvail();
+            info_size.x *= 3.0;
+            ImGui::TableSetColumnIndex( 2 );
+            if( ImGui::BeginChild( "monster info", info_size ) ) {
+                const int entnum = menu->selected;
+                const bool valid_entnum = entnum >= 0 && static_cast<size_t>( entnum ) < mtypes.size();
+                if( entnum != lastent ) {
+                    lastent = entnum;
+                    if( valid_entnum ) {
+                        tmp = monster( mtypes[ entnum ]->id );
+                        if( friendly ) {
+                            tmp.friendly = -1;
+                        }
+                    } else {
+                        tmp = monster();
                     }
-                } else {
-                    tmp = monster();
                 }
+
+                if( valid_entnum ) {
+                    auto header = string_format( "#%d: %s (%d)%s", entnum, tmp.type->id.c_str(), group,
+                                                 hallucination ? _( " (hallucination)" ) : "" );
+                    ImGui::SetCursorPosX( ( ImGui::GetContentRegionAvail().x - ImGui::CalcTextSize(
+                                                header.c_str() ).x ) * 0.5 );
+                    ImGui::TextColored( c_cyan, header.c_str() );
+
+                    tmp.print_info_imgui();
+                }
+
+                auto y = ImGui::GetContentRegionMax().y - 3 * ImGui::GetTextLineHeightWithSpacing();
+                if( ImGui::GetCursorPosY() < y ) {
+                    ImGui::SetCursorPosY( y );
+                }
+                ImGui::TextColored( c_green, "%s", msg.c_str() );
+                msg.clear();
+                input_context ctxt( menu->input_category, keyboard_mode::keycode );
+                ImGui::Text(
+                    _( "[%s] find, [f]riendly, [h]allucination, [i]ncrease group, [d]ecrease group, [%s] quit" ),
+                    ctxt.get_desc( "FILTER" ).c_str(), ctxt.get_desc( "QUIT" ).c_str() );
             }
-
-            werase( w_info );
-            if( valid_entnum ) {
-                tmp.print_info( w_info, 2, 5, 1 );
-
-                std::string header = string_format( "#%d: %s (%d)%s", entnum, tmp.type->id.str(),
-                                                    group, hallucination ? _( " (hallucination)" ) : "" );
-                mvwprintz( w_info, point( ( getmaxx( w_info ) - utf8_width( header ) ) / 2, 0 ), c_cyan, header );
-            }
-
-            mvwprintz( w_info, point( 0, getmaxy( w_info ) - 3 ), c_green, msg );
-            msg.clear();
-            input_context ctxt( menu->input_category, keyboard_mode::keycode );
-            mvwprintw( w_info, point( 0, getmaxy( w_info ) - 2 ),
-                       _( "[%s] find, [f]riendly, [h]allucination, [i]ncrease group, [d]ecrease group, [%s] quit" ),
-                       ctxt.get_desc( "FILTER" ), ctxt.get_desc( "QUIT" ) );
-
-            wnoutrefresh( w_info );
+            ImGui::EndChild();
         }
 
         ~wish_monster_callback() override = default;
