@@ -10319,10 +10319,6 @@ std::vector<run_cost_effect> Character::run_cost_effects( float &movecost ) cons
         run_cost_effect_mul( flatground_mult, _( "Flat Ground Mut." ) );
     }
 
-    if( worn_with_flag( flag_SLOWS_MOVEMENT ) ) {
-        run_cost_effect_mul( 1.1f, _( "Tight Clothing" ) );
-    }
-
     if( worn_with_flag( flag_FIN ) ) {
         run_cost_effect_mul( 1.5f, _( "Swim Fins" ) );
     }
