@@ -396,6 +396,50 @@
     }
   },
   {
+    "id": "EOC_LS_Computer",
+    "type": "effect_on_condition",
+    "effect": [ "open_dialogue" ]
+  },
+  {
+    "id": "LS_Bridge_control_deadend_1_extend",
+    "type": "effect_on_condition",
+    "effect": [ { "mapgen_update": "UM_Bridge_control_deadend_1_extend" } ]
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "UM_Bridge_control_deadend_1_extend",
+    "method": "json",
+    "object": { "set": [ { "square": "terrain", "id": "t_nl_catwalk", "x": 11, "x2": 12, "y": 7, "y2": 8 } ] }
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Bridge_control_deadend_1",
+    "dynamic_line": "&You see a strangely mundane black computer screen, with a blinking green cursor awaiting input.\n\n<color_light_green> @User > _</color>",
+    "responses": [
+      {
+        "text": "Extend bridge",
+        "effect": { "run_eocs": "LS_Bridge_control_deadend_1_extend" },
+        "topic": "COMP_LS_Bridge_control_deadend_1_Extend"
+      },
+      { "text": "Log off.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Bridge_control_deadend_1_Extend",
+    "dynamic_line": "&<color_light_green> @User > Extend bridge\n<color_light_green>Command accepted.\n<color_light_green>Extending bridge.\n<color_light_green>Watch your step.\n\n<color_light_green> @User > _</color>",
+    "responses": [
+      { "text": "Retract bridge", "topic": "COMP_LS_Bridge_control_deadend_1_Retract" },
+      { "text": "Log off.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Bridge_control_deadend_1_Retract",
+    "dynamic_line": "&<color_light_green> @User > Retract bridge\n<color_light_green>Bad command or file name.\n<color_light_green>What is done cannot be undone.\n\n<color_light_green> @User > _</color>",
+    "responses": [ { "text": "Log off.", "topic": "TALK_DONE" } ]
+  },
+  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "labyrinth_hall_straight" ],
@@ -1345,7 +1389,10 @@
         "!!!!!!!!!!!!!!!!!!!!!!!!"
       ],
       "palettes": [ "labyrinthine_base_palette" ],
-      "nested": { "1": { "chunks": [ "ls_ns_6x6hall_basic" ] } }
+      "nested": { "1": { "chunks": [ [ "ls_ns_6x6hall_basic", 50 ], [ "ls_ns_6x6hall_fancy", 50 ] ] } },
+      "computers": {
+        "Ç": { "name": "Bridge Controls", "eocs": [ "EOC_LS_Computer" ], "chat_topics": [ "COMP_LS_Bridge_control_deadend_1" ] }
+      }
     }
   },
   {
