@@ -15,7 +15,7 @@
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "using": [ [ "plastic_molding", 2 ] ],
     "components": [
-      [ [ "jug_plastic", 1 ], [ "bottle_plastic", 3 ], [ "bottle_bathroom", 3 ], [ "bottle_plastic_small", 6 ] ],
+      [ [ "plastic_bottles_4l", 1, "LIST" ] ],
       [ [ "lightstrip_inactive", 1 ] ],
       [ [ "light_battery_cell", 1 ] ],
       [ [ "paint_yellow", 1 ] ]
