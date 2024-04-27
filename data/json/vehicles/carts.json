@@ -357,5 +357,12 @@
     "name": "small hospital bed",
     "blueprint": [ [ "x" ] ],
     "parts": [ { "x": 0, "y": 0, "parts": [ "xlframe#vertical_2", "wheel_10", "bed" ] } ]
+  },
+  {
+    "id": "surgical_cart",
+    "type": "vehicle",
+    "name": "Surgical Cart",
+    "blueprint": [ "#" ],
+    "parts": [ { "x": 0, "y": 0, "parts": [ "xlframe#vertical_2", "wheel_caster", "Add New Tray Vehicle Part Here" ] } ]
   }
 ]
