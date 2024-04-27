@@ -1675,7 +1675,6 @@
       { "prob": 18, "group": "sugar_bottle_glass_small" },
       { "prob": 2, "group": "sugar_bottle_plastic" },
       { "prob": 2, "group": "sugar_pound" },
-      { "//": "???" },
       { "prob": 2, "group": "sugar_bottle_glass" },
       { "prob": 4, "group": "sugar_bag_plastic" },
       { "prob": 1, "group": "sugar_bag_paper" }
