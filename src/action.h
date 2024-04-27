@@ -469,8 +469,8 @@ std::optional<tripoint> choose_adjacent( const std::string &message, bool allow_
 std::optional<tripoint> choose_adjacent( const tripoint &pos, const std::string &message,
         bool allow_vertical = false );
 std::optional<tripoint_bub_ms> choose_adjacent( const tripoint_bub_ms &pos,
-        const std::string &message,
-        bool allow_vertical = false );
+        const std::string &message, bool allow_vertical = false, int timeout = -1,
+        const std::function<void( const std::string &action )> &action_cb = nullptr );
 
 /**
  * Request player input of a direction, possibly including vertical component
@@ -487,7 +487,8 @@ std::optional<tripoint_bub_ms> choose_adjacent( const tripoint_bub_ms &pos,
 std::optional<tripoint> choose_direction( const std::string &message,
         bool allow_vertical = false );
 std::optional<tripoint_rel_ms> choose_direction_rel_ms( const std::string &message,
-        bool allow_vertical = false );
+        bool allow_vertical = false, int timeout = -1,
+        const std::function<void( const std::string &action )> &action_cb = nullptr );
 
 /**
  * Request player input of adjacent tile with highlighting, possibly on different z-level

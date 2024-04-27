@@ -1091,52 +1091,22 @@ action_id handle_main_menu()
 
 std::optional<tripoint> choose_direction( const std::string &message, const bool allow_vertical )
 {
-    input_context ctxt( "DEFAULTMODE", keyboard_mode::keycode );
-    ctxt.set_iso( true );
-    ctxt.register_directions();
-    ctxt.register_action( "pause" );
-    ctxt.register_action( "QUIT" );
-    ctxt.register_action( "HELP_KEYBINDINGS" );
-    if( allow_vertical ) {
-        ctxt.register_action( "LEVEL_UP" );
-        ctxt.register_action( "LEVEL_DOWN" );
+    std::optional<tripoint_rel_ms> ret = choose_direction_rel_ms( message, allow_vertical );
+    if( ret.has_value() ) {
+        return ret->raw();
+    } else {
+        return std::nullopt;
     }
-
-    static_popup popup;
-    //~ %s: "Close where?" "Pry where?" etc.
-    popup.message( _( "%s (Direction button)" ), message ).on_top( true );
-
-    temp_hide_advanced_inv();
-    std::string action;
-    do {
-        ui_manager::redraw();
-        action = ctxt.handle_input();
-        if( std::optional<tripoint> vec = ctxt.get_direction( action ) ) {
-            FacingDirection &facing = get_player_character().facing;
-            // Make player's sprite face left/right if interacting with something to the left or right
-            if( vec->x > 0 ) {
-                facing = FacingDirection::RIGHT;
-            } else if( vec->x < 0 ) {
-                facing = FacingDirection::LEFT;
-            }
-            return vec;
-        } else if( action == "pause" ) {
-            return tripoint_zero;
-        } else if( action == "LEVEL_UP" ) {
-            return tripoint_above;
-        } else if( action == "LEVEL_DOWN" ) {
-            return tripoint_below;
-        }
-    } while( action != "QUIT" );
-
-    add_msg( _( "Never mind." ) );
-    return std::nullopt;
 }
 
 std::optional<tripoint_rel_ms> choose_direction_rel_ms( const std::string &message,
-        const bool allow_vertical )
+        const bool allow_vertical, const int timeout,
+        const std::function<void( const std::string &action )> &action_cb )
 {
     input_context ctxt( "DEFAULTMODE", keyboard_mode::keycode );
+    if( timeout >= 0 ) {
+        ctxt.set_timeout( timeout );
+    }
     ctxt.set_iso( true );
     ctxt.register_directions();
     ctxt.register_action( "pause" );
@@ -1172,6 +1142,9 @@ std::optional<tripoint_rel_ms> choose_direction_rel_ms( const std::string &messa
         } else if( action == "LEVEL_DOWN" ) {
             return tripoint_rel_ms( tripoint_below );
         }
+        if( action_cb ) {
+            action_cb( action );
+        }
     } while( action != "QUIT" );
 
     add_msg( _( "Never mind." ) );
@@ -1191,10 +1164,11 @@ std::optional<tripoint> choose_adjacent( const tripoint &pos, const std::string 
 }
 
 std::optional<tripoint_bub_ms> choose_adjacent( const tripoint_bub_ms &pos,
-        const std::string &message,
-        bool allow_vertical )
+        const std::string &message, bool allow_vertical, int timeout,
+        const std::function<void( const std::string &action )> &action_cb )
 {
-    const std::optional<tripoint_rel_ms> dir = choose_direction_rel_ms( message, allow_vertical );
+    const std::optional<tripoint_rel_ms> dir = choose_direction_rel_ms(
+                message, allow_vertical, timeout, action_cb );
     if( dir ) {
         return pos + *dir;
     } else {

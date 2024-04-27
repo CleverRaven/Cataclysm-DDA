@@ -1007,6 +1007,8 @@ void place_construction( std::vector<construction_group_str_id> const &groups )
         std::move( temp.begin(), temp.end(), std::back_inserter( cons ) );
     }
 
+    bool blink = true;
+
     shared_ptr_fast<game::draw_callback_t> draw_preview =
     make_shared_fast<game::draw_callback_t>( [&]() {
         map &here = get_map();
@@ -1019,23 +1021,27 @@ void place_construction( std::vector<construction_group_str_id> const &groups )
             if( !post_id.empty() ) {
                 if( con.post_is_furniture ) {
                     if( is_draw_tiles_mode() ) {
-                        g->draw_furniture_override( loc.raw(), furn_str_id( post_id ) );
+                        if( blink ) {
+                            g->draw_furniture_override( loc.raw(), furn_str_id( post_id ) );
+                        }
                         g->draw_highlight( loc.raw() );
                     } else {
                         here.drawsq( g->w_terrain, loc,
                                      drawsq_params().highlight( true )
                                      .show_items( true )
-                                     .furniture_override( furn_str_id( post_id ) ) );
+                                     .furniture_override( blink ? furn_str_id( post_id ) : furn_str_id::NULL_ID() ) );
                     }
                 } else {
                     if( is_draw_tiles_mode() ) {
-                        g->draw_terrain_override( loc.raw(), ter_str_id( post_id ) );
+                        if( blink ) {
+                            g->draw_terrain_override( loc.raw(), ter_str_id( post_id ) );
+                        }
                         g->draw_highlight( loc.raw() );
                     } else {
                         here.drawsq( g->w_terrain, loc,
                                      drawsq_params().highlight( true )
                                      .show_items( true )
-                                     .terrain_override( ter_str_id( post_id ) ) );
+                                     .terrain_override( blink ? ter_str_id( post_id ) : ter_str_id::NULL_ID() ) );
                     }
                 }
             } else {
@@ -1051,12 +1057,21 @@ void place_construction( std::vector<construction_group_str_id> const &groups )
     } );
     g->add_draw_callback( draw_preview );
 
-    const std::optional<tripoint> pnt_ = choose_adjacent( _( "Construct where?" ) );
+    const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent(
+                player_character.pos_bub(), _( "Construct where?" ),
+                /*allow_vertical=*/false, /*timeout=*/get_option<int>( "BLINK_SPEED" ),
+    [&blink]( const std::string & action ) {
+        if( action == "TIMEOUT" ) {
+            blink = !blink;
+        } else {
+            blink = true;
+        }
+        g->invalidate_main_ui_adaptor();
+    } );
     if( !pnt_ ) {
         return;
     }
-    // TODO: fix point types
-    const tripoint_bub_ms pnt( *pnt_ );
+    const tripoint_bub_ms &pnt = *pnt_;
 
     if( valid.find( pnt ) == valid.end() ) {
         cons.front()->explain_failure( pnt );
