@@ -100,7 +100,7 @@
     "type": "item_group",
     "id": "razorclaw_nest",
     "subtype": "distribution",
-    "entries": [ { "item": "razorclaw_roe", "count-min": 1, "count-max": 6 } ]
+    "entries": [ { "item": "razorclaw_roe", "count": [ 1, 6 ] } ]
   },
   {
     "type": "item_group",
@@ -140,7 +140,7 @@
       { "item": "9mm", "prob": 15, "charges": [ 1, 50 ] },
       { "item": "m9", "prob": 10, "charges": [ 0, 15 ] },
       { "item": "water_clean", "prob": 10 },
-      { "item": "eyedrops", "prob": 10, "count-min": 1, "count-max": 10 },
+      { "item": "eyedrops", "prob": 10, "count": [ 1, 10 ] },
       { "item": "screwdriver", "prob": 10 },
       { "group": "wallets_science", "prob": 5 },
       { "item": "cleansuit", "prob": 10 },

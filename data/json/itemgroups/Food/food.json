@@ -1428,7 +1428,7 @@
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "box_tea",
-    "entries": [ { "item": "tea_bag", "container-item": "null", "count-min": 1, "count-max": 10 } ]
+    "entries": [ { "item": "tea_bag", "container-item": "null", "count": [ 1, 10 ] } ]
   },
   {
     "type": "item_group",
@@ -1436,7 +1436,7 @@
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "box_tea",
-    "entries": [ { "item": "tea_fruit_bag", "container-item": "null", "count-min": 1, "count-max": 10 } ]
+    "entries": [ { "item": "tea_fruit_bag", "container-item": "null", "count": [ 1, 10 ] } ]
   },
   {
     "type": "item_group",
@@ -1444,7 +1444,7 @@
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "box_tea",
-    "entries": [ { "item": "tea_green_bag", "container-item": "null", "count-min": 1, "count-max": 10 } ]
+    "entries": [ { "item": "tea_green_bag", "container-item": "null", "count": [ 1, 10 ] } ]
   },
   {
     "type": "item_group",
@@ -1452,7 +1452,7 @@
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "box_tea",
-    "entries": [ { "item": "tea_bag_chamomile", "container-item": "null", "count-min": 1, "count-max": 10 } ]
+    "entries": [ { "item": "tea_bag_chamomile", "container-item": "null", "count": [ 1, 10 ] } ]
   },
   {
     "type": "item_group",
@@ -1460,7 +1460,7 @@
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "box_tea",
-    "entries": [ { "item": "herbal_tea_bag", "container-item": "null", "count-min": 1, "count-max": 10 } ]
+    "entries": [ { "item": "herbal_tea_bag", "container-item": "null", "count": [ 1, 10 ] } ]
   },
   {
     "type": "item_group",
@@ -1468,7 +1468,7 @@
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "box_tea",
-    "entries": [ { "item": "tea_bag_dandelion", "container-item": "null", "count-min": 1, "count-max": 10 } ]
+    "entries": [ { "item": "tea_bag_dandelion", "container-item": "null", "count": [ 1, 10 ] } ]
   },
   {
     "type": "item_group",
@@ -1476,7 +1476,7 @@
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_paper_powder",
-    "entries": [ { "item": "soup_instant_chicken_noodle_powder", "container-item": "null", "count-min": 1, "count-max": 1 } ]
+    "entries": [ { "item": "soup_instant_chicken_noodle_powder", "container-item": "null", "count": [ 1, 1 ] } ]
   },
   {
     "type": "item_group",
@@ -1484,6 +1484,6 @@
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_paper_powder",
-    "entries": [ { "item": "soup_instant_vegetable_powder", "container-item": "null", "count-min": 1, "count-max": 1 } ]
+    "entries": [ { "item": "soup_instant_vegetable_powder", "container-item": "null", "count": [ 1, 1 ] } ]
   }
 ]
