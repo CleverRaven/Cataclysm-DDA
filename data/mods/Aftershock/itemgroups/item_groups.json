@@ -555,5 +555,36 @@
       { "item": "afs_cartridge", "count": [ 2, 6 ], "prob": 95, "charges": [ 50, 100 ] },
       { "group": "afs_exo_advanced_power", "prob": 25 }
     ]
+  },
+  {
+    "//": "Industrial amounts of mostly useless consumer goods",
+    "id": "afs_useless_cargo",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "afs_glass_device", "count": [ 100, 200 ] },
+      { "item": "afs_glass_AR_device", "count": [ 100, 200 ] },
+      { "item": "afs_company_jacket", "count": [ 100, 200 ] },
+      { "item": "technician_pants_gray", "count": [ 100, 200 ] },
+      { "item": "boots_winter", "count": [ 100, 200 ] },
+      { "item": "instant_coffee", "count": [ 100, 200 ], "container-item": "afs_foil_bag" },
+      { "item": "artificial_sweetener", "count": [ 100, 200 ], "container-item": "afs_foil_bag" },
+      { "item": "instant_coffee", "count": [ 100, 200 ], "container-item": "afs_foil_bag" },
+      { "item": "syringe", "count": [ 100, 200 ] },
+      { "item": "pliers", "count": [ 100, 200 ] },
+      { "item": "goggles_welding", "count": [ 100, 200 ] },
+      { "item": "jumper_cable", "count": [ 100, 200 ] },
+      { "item": "magnifying_glass", "count": [ 100, 200 ] },
+      { "item": "shovel", "count": [ 100, 200 ] },
+      { "item": "chunk_rubber", "count": [ 100, 200 ] },
+      { "item": "nail", "count": [ 100, 200 ] },
+      { "item": "bubblewrap", "count": [ 100, 200 ] },
+      { "item": "soap", "count": [ 100, 200 ] },
+      { "item": "cu_pipe", "count": [ 100, 200 ] },
+      { "item": "stapler", "count": [ 100, 200 ] },
+      { "item": "canister_empty", "count": [ 100, 200 ] },
+      { "item": "spring", "count": [ 100, 200 ] },
+      { "item": "material_soil", "count": [ 100, 200 ] }
+    ]
   }
 ]
