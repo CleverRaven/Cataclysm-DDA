@@ -14,6 +14,7 @@
 #include "bionics.h"
 #include "calendar.h"
 #include "catacharset.h"
+#include "cata_imgui.h"
 #include "character.h"
 #include "color.h"
 #include "cursesdef.h"
@@ -21,6 +22,7 @@
 #include "effect.h"
 #include "enums.h"
 #include "game.h"
+#include "imgui/imgui.h"
 #include "input.h"
 #include "input_context.h"
 #include "item.h"
@@ -66,7 +68,66 @@ class wish_mutate_callback: public uilist_callback
             if( pTraits[ m ] ) {
                 return c_green;
             }
-            return c_light_gray;
+            return c_white;
+        }
+
+        template<typename T>
+        void ValueRow( const char *key, std::vector<T> list ) {
+            ImGui::TableNextRow();
+            ImGui::TableNextColumn();
+            ImGui::TextUnformatted( key );
+            ImGui::TableNextColumn();
+            for( const auto &value : list ) {
+                auto color = mcolor( value );
+                ImGui::TextColored( color,
+                                    "%s",
+                                    value->name() );
+            }
+            ImGui::NewLine();
+        }
+
+        void ValueRow( const char *key, std::vector<string_id<mutation_branch>> list ) {
+            ImGui::TableNextRow();
+            ImGui::TableNextColumn();
+            ImGui::TextUnformatted( key );
+            ImGui::TableNextColumn();
+            for( const auto &value : list ) {
+                auto color = mcolor( value );
+                ImGui::TextColored( color,
+                                    "%s",
+                                    value->name().c_str() );
+            }
+            ImGui::NewLine();
+        }
+
+        void ValueRow( const char *key, std::vector<mutation_category_id> list ) {
+            ImGui::TableNextRow();
+            ImGui::TableNextColumn();
+            ImGui::TextUnformatted( key );
+            ImGui::TableNextColumn();
+            for( const auto &value : list ) {
+                ImGui::TextColored( c_light_gray, "%s", value.c_str() );
+            }
+            ImGui::NewLine();
+        }
+
+        void ValueRow( const char *key, std::set<std::string> list ) {
+            ImGui::TableNextRow();
+            ImGui::TableNextColumn();
+            ImGui::TextUnformatted( key );
+            ImGui::TableNextColumn();
+            for( const auto &value : list ) {
+                ImGui::TextColored( c_light_gray, "%s", value.c_str() );
+            }
+            ImGui::NewLine();
+        }
+
+        void ValueRow( const char *key, const char *value ) {
+            ImGui::TableNextRow();
+            ImGui::TableNextColumn();
+            ImGui::TextUnformatted( key );
+            ImGui::TableNextColumn();
+            ImGui::TextColored( c_light_gray, "%s", value );
         }
 
         wish_mutate_callback() = default;
@@ -106,147 +167,68 @@ class wish_mutate_callback: public uilist_callback
                 }
             }
 
-            const std::string padding = std::string( menu->pad_right - 1, ' ' );
-
-            const int startx = menu->w_width - menu->pad_right;
-            for( int i = 2; i < lastlen; i++ ) {
-                mvwprintw( menu->window, point( startx, i ), padding );
-            }
-
-            int line2 = 4;
+            ImGui::TableSetColumnIndex( 2 );
 
             if( menu->selected >= 0 && static_cast<size_t>( menu->selected ) < vTraits.size() ) {
                 const mutation_branch &mdata = vTraits[menu->selected].obj();
 
-                mvwprintw( menu->window, point( startx, 3 ),
-                           mdata.valid ? _( "Valid" ) : _( "Nonvalid" ) );
+                ImGui::TextUnformatted( mdata.valid ? _( "Valid" ) : _( "Nonvalid" ) );
+                ImGui::NewLine();
 
-                line2++;
-                mvwprintz(
-                    menu->window,
-                    point( startx, line2 ),
-                    c_light_gray,
-                    _( "Id:" )
-                );
-                mvwprintw(
-                    menu->window,
-                    point( startx + 11, line2 ),
-                    mdata.id.str()
-                );
-
-                if( !mdata.prereqs.empty() ) {
-                    line2++;
-                    mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "Prereqs:" ) );
-                    for( const trait_id &j : mdata.prereqs ) {
-                        mvwprintz( menu->window, point( startx + 11, line2 ), mcolor( j ),
-                                   j->name() );
-                        line2++;
+                if( ImGui::BeginTable( "props", 2 ) ) {
+                    ImGui::TableSetupColumn( "key" );
+                    ImGui::TableSetupColumn( "value" );
+                    ValueRow( _( "Id:" ), mdata.id.c_str() );
+                    ValueRow( _( "Prereqs:" ), mdata.prereqs );
+                    if( !mdata.prereqs2.empty() ) {
+                        ValueRow( _( "Prereqs, 2d:" ), mdata.prereqs2 );
                     }
-                }
-
-                if( !mdata.prereqs2.empty() ) {
-                    line2++;
-                    mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "Prereqs, 2d:" ) );
-                    for( const trait_id &j : mdata.prereqs2 ) {
-                        mvwprintz( menu->window, point( startx + 15, line2 ), mcolor( j ),
-                                   j->name() );
-                        line2++;
+                    if( !mdata.threshreq.empty() ) {
+                        ValueRow( _( "Thresholds required:" ), mdata.threshreq );
                     }
-                }
-
-                if( !mdata.threshreq.empty() ) {
-                    line2++;
-                    mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "Thresholds required:" ) );
-                    for( const trait_id &j : mdata.threshreq ) {
-                        mvwprintz( menu->window, point( startx + 21, line2 ), mcolor( j ),
-                                   j->name() );
-                        line2++;
+                    if( !mdata.cancels.empty() ) {
+                        ValueRow( _( "Cancels:" ), mdata.cancels );
                     }
-                }
-
-                if( !mdata.cancels.empty() ) {
-                    line2++;
-                    mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "Cancels:" ) );
-                    for( const trait_id &j : mdata.cancels ) {
-                        mvwprintz( menu->window, point( startx + 11, line2 ), mcolor( j ),
-                                   j->name() );
-                        line2++;
+                    if( !mdata.replacements.empty() ) {
+                        ValueRow( _( "Becomes:" ), mdata.replacements );
                     }
-                }
-
-                if( !mdata.replacements.empty() ) {
-                    line2++;
-                    mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "Becomes:" ) );
-                    for( const trait_id &j : mdata.replacements ) {
-                        mvwprintz( menu->window, point( startx + 11, line2 ), mcolor( j ),
-                                   j->name() );
-                        line2++;
+                    if( !mdata.additions.empty() ) {
+                        ValueRow( _( "Add-ons:" ), mdata.additions );
                     }
-                }
-
-                if( !mdata.additions.empty() ) {
-                    line2++;
-                    mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "Add-ons:" ) );
-                    for( const string_id<mutation_branch> &j : mdata.additions ) {
-                        mvwprintz( menu->window, point( startx + 11, line2 ), mcolor( j ),
-                                   j->name() );
-                        line2++;
+                    if( !mdata.types.empty() ) {
+                        ValueRow( _( "Type:" ), mdata.types );
                     }
-                }
-
-                if( !mdata.types.empty() ) {
-                    line2++;
-                    mvwprintz( menu->window, point( startx, line2 ), c_light_gray,  _( "Type:" ) );
-                    for( const std::string &j : mdata.types ) {
-                        mvwprintw( menu->window, point( startx + 11, line2 ), j );
-                        line2++;
+                    if( !mdata.category.empty() ) {
+                        ValueRow( _( "Category:" ), mdata.category );
                     }
+                    ImGui::EndTable();
                 }
-
-                if( !mdata.category.empty() ) {
-                    line2++;
-                    mvwprintz( menu->window, point( startx, line2 ), c_light_gray,  _( "Category:" ) );
-                    for( const mutation_category_id &j : mdata.category ) {
-                        mvwprintw( menu->window, point( startx + 11, line2 ), j.str() );
-                        line2++;
-                    }
-                }
-                line2 += 2;
+                ImGui::NewLine();
 
                 //~ pts: points, vis: visibility, ugly: ugliness
-                mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "pts: %d vis: %d ugly: %d" ),
-                           mdata.points,
-                           mdata.visibility,
-                           mdata.ugliness
-                         );
-                line2 += 2;
-
-                std::vector<std::string> desc = foldstring( mdata.desc(),
-                                                menu->pad_right - 1 );
-                for( auto &elem : desc ) {
-                    mvwprintz( menu->window, point( startx, line2 ), c_light_gray, elem );
-                    line2++;
-                }
+                ImGui::Text( _( "pts: %d vis: %d ugly: %d" ),
+                             mdata.points,
+                             mdata.visibility,
+                             mdata.ugliness );
+                ImGui::NewLine();
+                ImGui::TextWrapped( "%s", mdata.desc().c_str() );
             }
 
-            lastlen = line2 + 1;
-
-            mvwprintz( menu->window, point( startx, menu->w_height - 4 ), c_green, msg );
+            auto y = ImGui::GetContentRegionMax().y - 3 * ImGui::GetTextLineHeightWithSpacing();
+            if( ImGui::GetCursorPosY() < y ) {
+                ImGui::SetCursorPosY( y );
+            }
+            ImGui::TextColored( c_green, "%s", msg.c_str() );
             msg.clear();
             input_context ctxt( menu->input_category, keyboard_mode::keycode );
-            mvwprintw( menu->window, point( startx, menu->w_height - 3 ),
-                       _( "[%s] find, [%s] quit, [t] toggle base trait" ),
-                       ctxt.get_desc( "FILTER" ), ctxt.get_desc( "QUIT" ) );
+            ImGui::Text( _( "[%s] find, [%s] quit, [t] toggle base trait" ),
+                         ctxt.get_desc( "FILTER" ).c_str(), ctxt.get_desc( "QUIT" ).c_str() );
 
             if( only_active ) {
-                mvwprintz( menu->window, point( startx, menu->w_height - 2 ), c_green,
-                           _( "[a] show active traits (active)" ) );
+                ImGui::TextColored( c_green, _( "[a] show active traits (active)" ) );
             } else {
-                mvwprintz( menu->window, point( startx, menu->w_height - 2 ), c_white,
-                           _( "[a] show active traits" ) );
+                ImGui::TextColored( c_white, _( "[a] show active traits" ) );
             }
-
-            wnoutrefresh( menu->window );
         }
 
         ~wish_mutate_callback() override = default;
