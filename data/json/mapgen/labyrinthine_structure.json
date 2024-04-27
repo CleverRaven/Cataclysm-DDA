@@ -282,6 +282,132 @@
     "flags": [ "TRANSPARENT", "FLAT", "ROAD" ]
   },
   {
+    "type": "item_group",
+    "id": "LS_SUS_crate_tier0_supplies",
+    "//": "Filler.  Things to keep you going in the dungeon.",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "collection": [
+          { "//": "first aid items based on what would be in an autodoc suite" },
+          { "item": "bandages", "prob": 40, "count": [ 1, 3 ] },
+          { "item": "liq_bandage_spray", "prob": 10, "charges": [ 1, -1 ] },
+          { "item": "medical_gauze", "prob": 40, "count": [ 1, 6 ] },
+          { "item": "disinfectant", "prob": 60 },
+          { "item": "towel", "prob": 40 },
+          { "item": "blood", "prob": 40 },
+          { "item": "bleach", "prob": 20, "charges": [ 6, -1 ] },
+          { "group": "saline_bottle_random", "prob": 20 },
+          { "group": "cotton_ball_bag_used", "prob": 50 },
+          { "item": "chem_nitric_acid", "prob": 10, "charges": [ 1, -1 ] },
+          { "item": "chem_hydrogen_peroxide_conc", "prob": 10, "charges": [ 1, -1 ] },
+          { "item": "denat_alcohol", "prob": 6, "charges": [ 250, -1 ] },
+          { "item": "methed_alcohol", "prob": 4, "charges": [ 250, -1 ] }
+        ]
+      },
+      {
+        "collection": [
+          { "//": "edibles based on exodii food.  Will need new definitions." },
+          { "item": "dry_meat", "prob": 20 },
+          { "item": "dry_fish", "prob": 30 },
+          { "item": "dry_veggy", "prob": 40 },
+          { "item": "dry_corn", "prob": 40 },
+          { "item": "dry_fruit", "prob": 30 },
+          { "item": "salt", "prob": 30 },
+          { "item": "flour", "prob": 20 },
+          { "item": "cornmeal", "prob": 25 },
+          { "item": "oatmeal", "prob": 40 },
+          { "item": "barley", "prob": 20 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "LS_SUS_crate_tier0_materials",
+    "//": "Filler.  This should actually be a distribution of different collections and should contain a little weird stuff.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "chain", "prob": 30, "count": [ 2, 15 ] },
+      { "item": "steel_chunk", "prob": 40, "count": [ 2, 10 ] },
+      { "item": "spring", "prob": 20, "count": [ 2, 10 ] },
+      { "item": "steel_lump", "prob": 40, "count": [ 1, 5 ] },
+      { "item": "frame", "prob": 10, "count": [ 1, 10 ] },
+      { "item": "frame", "prob": 10, "count": [ 1, 5 ] },
+      { "item": "scrap", "prob": 40, "count": [ 5, 40 ] },
+      { "item": "pipe", "prob": 20, "count": [ 2, 8 ] },
+      { "item": "spike", "prob": 50, "count": [ 3, 40 ] },
+      { "item": "hinge", "prob": 20, "count": [ 1, 30 ] },
+      { "item": "wire", "prob": 40, "count": [ 5, 20 ] },
+      { "item": "rebar", "prob": 30, "count": [ 2, 30 ] },
+      { "item": "sheet_metal", "prob": 20, "count": [ 2, 30 ] },
+      { "item": "sheet_metal_small", "prob": 40, "count": [ 5, 50 ] },
+      { "item": "bolt_steel", "prob": 50, "count": [ 5, 70 ], "charges": [ 1, 100 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "LS_SUS_crate_tier0_machineparts",
+    "//": "Filler.  Pieces to repair stuff within the dungeon.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "scrap", "prob": 40, "count": [ 5, 40 ] },
+      { "item": "escrap", "prob": 40, "count": [ 5, 40 ] },
+      { "item": "wire", "prob": 40, "count": [ 5, 40 ] },
+      { "item": "bone", "prob": 40, "count": [ 5, 40 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "LS_SUS_shelf_tier0_food",
+    "//": "Filler.  Should contain several boxes of food and foodlike objects.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "dry_meat", "prob": 20 },
+      { "item": "dry_fish", "prob": 30 },
+      { "item": "dry_veggy", "prob": 40 },
+      { "item": "dry_corn", "prob": 40 },
+      { "item": "dry_fruit", "prob": 30 },
+      { "item": "salt", "prob": 30 },
+      { "item": "flour", "prob": 20 },
+      { "item": "cornmeal", "prob": 25 },
+      { "item": "oatmeal", "prob": 40 },
+      { "item": "barley", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "LS_SUS_table_items_workspace",
+    "//": "Incomplete.  Make tables look interesting.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "scrap", "prob": 40 },
+      { "item": "escrap", "prob": 40 },
+      { "item": "bone", "prob": 40 },
+      { "group": "tools_common_small", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "LS_SUS_table_items_mess",
+    "//": "Incomplete.  Make tables look interesting.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "knife_butter" },
+      { "item": "knife_steak" },
+      { "item": "knife_paring" },
+      { "item": "fork" },
+      { "item": "spoon" },
+      { "item": "bowl_pewter" },
+      { "item": "ceramic_plate" },
+      { "item": "ceramic_bowl" },
+      { "item": "wine_glass" },
+      { "item": "ceramic_mug" },
+      { "item": "pot", "prob": 50 },
+      { "item": "bone", "prob": 40 }
+    ]
+  },
+  {
     "type": "overmap_terrain",
     "copy-from": "deep_rock",
     "looks_like": "evac_center_7",
@@ -505,6 +631,7 @@
       "!": "t_nl_metal_wall_edge",
       "v": "t_nl_chasm",
       "+": "t_nl_door_c",
+      "ϴ": "t_nl_catwalk",
       "o": [ [ "t_nl_catwalk", 3 ], [ "t_nl_chasm", 1 ] ]
     },
     "furniture": {
@@ -522,6 +649,7 @@
       "F": "f_curtain",
       "l": "f_locker",
       "L": "f_exodii_lamp",
+      "ϴ": [ [ "f_null", 75 ], [ "f_exodii_lamp", 20 ], [ "f_electrical_conduit", 5 ] ],
       "M": "f_machinery_electronic",
       "U": "f_utility_shelf",
       "P": "f_exodii_pump",
@@ -535,6 +663,26 @@
     "monsters": {
       "_": { "monster": "GROUP_Labyrinth_Room", "density": 0.00015 },
       ".": { "monster": "GROUP_Labyrinth_Hallmonitors", "density": 0.0003 }
+    }
+  },
+  {
+    "type": "palette",
+    "id": "labyrinthine_item_palette_utility_tier0",
+    "items": {
+      "c": { "item": "LS_SUS_crate_tier0_materials", "chance": 75 },
+      "C": { "item": "LS_SUS_crate_tier0_machineparts", "chance": 75 },
+      "U": { "item": "LS_SUS_shelf_tier0_machineparts", "chance": 35 },
+      "Ṫ": { "item": "LS_SUS_table_items_workspace", "chance": 25 }
+    }
+  },
+  {
+    "type": "palette",
+    "id": "labyrinthine_item_palette_dining_tier0",
+    "items": {
+      "c": { "item": "LS_SUS_crate_tier0_supplies", "chance": 45 },
+      "C": { "item": "LS_SUS_crate_tier0_supplies", "chance": 75 },
+      "U": { "item": "LS_SUS_shelf_tier0_food", "chance": 35 },
+      "Ṫ": { "item": "LS_SUS_table_items_mess", "chance": 25 }
     }
   },
   {
@@ -875,16 +1023,16 @@
         "||||F|          ṪṪ__ṪṪ",
         "cc___c          ßß__ßß",
         "ccC¢Cc          |||+||",
-        "Cc¢¢¢¢          LUU_UU",
-        "CCC¢¢¢          U____U",
-        "||||F|          U____U",
-        "U____L          UUU_UU",
-        "U_((_U          |||+||",
-        "U_((_U          _____ß",
-        "U_ßß_U          _____ß",
-        "UUṪṪUU          UUL__ß"
+        "Cc¢¢¢¢          _____ß",
+        "CCC¢¢¢          _____L",
+        "||||F|          _____ß",
+        "U____L          |||+||",
+        "U_((_U          LUU_UU",
+        "U_((_U          U____U",
+        "U_ßß_U          U____U",
+        "UUṪṪUU          UUU_UU"
       ],
-      "palettes": [ "labyrinthine_base_palette" ],
+      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_utility_tier0" ],
       "monsters": { "1": { "monster": "GROUP_Labyrinth_Turret", "density": 0.01 } }
     }
   },
@@ -1492,7 +1640,7 @@
         "_UU__U         +_____U",
         "_____L          UUßṪßU"
       ],
-      "palettes": [ "labyrinthine_base_palette" ]
+      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_dining_tier0" ]
     }
   },
   {
@@ -1688,6 +1836,114 @@
       "palettes": [ "labyrinthine_base_palette" ],
       "terrain": { "1": "t_nl_metal_floor" },
       "nested": { "1": { "chunks": [ "ls_4waysquarerooms_22x22_rooms" ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ls_4waysquarerooms_22x22_rooms",
+    "//": "Room with open cells along the sides.",
+    "object": {
+      "mapgensize": [ 22, 22 ],
+      "rows": [
+        "L__|2_|2_|++|2_|2_|__L",
+        "___|__|__|__|__|__|___",
+        "______|__|__|__|______",
+        "||_______|++|_______||",
+        "2___________________2_",
+        "_____1________________",
+        "|||________________|||",
+        "2___________________2_",
+        "______________________",
+        "||||______________||||",
+        "___+______________+___",
+        "___+______________+___",
+        "||||______________||||",
+        "2___________________2_",
+        "______________________",
+        "|||________________|||",
+        "2___________________2_",
+        "______________________",
+        "||_______|++|_______||",
+        "______|__|__|__|______",
+        "___|2_|2_|__|2_|2_|___",
+        "L__|__|__|__|__|__|__L"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ],
+      "terrain": { "1": "t_nl_metal_floor", "2": "t_nl_metal_floor" },
+      "nested": { "1": { "chunks": [ "ls_openarea_12x12_rooms" ] }, "2": { "chunks": [ "ls_2x2_furniture" ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ls_openarea_12x12_rooms",
+    "//": "central area to place in larger rooms",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "            ",
+        " |L______L| ",
+        " U___UU___U ",
+        " U___UU___U ",
+        " U___UU___U ",
+        " U___UU___U ",
+        " U___UU___U ",
+        " U___UU___U ",
+        " U___UU___U ",
+        " U___UU___U ",
+        " |L__UU__L| ",
+        "            "
+      ],
+      "palettes": [ "labyrinthine_base_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ls_openarea_12x12_rooms",
+    "//": "central area to place in larger rooms",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "L(        (L",
+        "(|F||||||F|(",
+        " |__L||L__| ",
+        " |___cc___| ",
+        " |___cc___| ",
+        " F___||___F ",
+        " F___||___F ",
+        "(|___cc___| ",
+        " |___cc___| ",
+        " |__L||L__| ",
+        "(|F||||||F|(",
+        "L(        (L"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ls_openarea_12x12_rooms",
+    "//": "central area to place in larger rooms",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        " (ϟ      ϟ( ",
+        "(||      ||(",
+        "ϟ||      ||ϟ",
+        "   cc  cc   ",
+        "   cL  Lc   ",
+        "            ",
+        "            ",
+        "   cL  Lc   ",
+        "   cc  cc   ",
+        " ||      ||ϟ",
+        "(||      ||(",
+        "ϟ(       ϟ( "
+      ],
+      "palettes": [ "labyrinthine_base_palette" ]
     }
   },
   {
@@ -2069,16 +2325,52 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "ls_ns_6x6hall_fancy",
+    "//": "moth-eaten type",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "vo..ov",
+        "vo..ov",
+        "vo..ov",
+        "vo..ov",
+        "vo..ov",
+        "vo..ov"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ls_ns_6x6hall_fancy",
+    "//": "walled type",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "v|..|v",
+        "vϴ..ϴv",
+        "v|..|v",
+        "v|..|v",
+        "vϴ..ϴv",
+        "v|..|v"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ls_ns_6x6hall_fancy",
     "//": "split type",
     "object": {
       "mapgensize": [ 6, 6 ],
       "rows": [
-        "......",
+        "ϴ....ϴ",
         "..vv..",
         "..vv..",
         "..vv..",
         "..vv..",
-        "......"
+        "ϴ....ϴ"
       ],
       "palettes": [ "labyrinthine_base_palette" ]
     }
@@ -2105,15 +2397,35 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "ls_ns_6x6hall_fancy",
+    "//": "tiny storeroom type",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "......",
+        ".|--|.",
+        ".-1_-.",
+        ".-__-.",
+        ".|--|.",
+        "......"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ],
+      "terrain": { "-": [ [ "t_nl_metal_wall", 6 ], "t_nl_door_c" ] },
+      "nested": { "1": { "chunks": [ "ls_2x2_furniture" ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ls_ns_6x6hall_fancy",
     "//": "jagged hole type",
     "object": {
       "mapgensize": [ 6, 6 ],
       "rows": [
         "v....v",
-        "..vv..",
-        ".vvvv.",
-        ".vvvv.",
-        "..vv..",
+        "..oo..",
+        ".ovvo.",
+        ".ovvo.",
+        "..oo..",
         "v....v"
       ],
       "palettes": [ "labyrinthine_base_palette" ]
@@ -2150,6 +2462,24 @@
         "......",
         "......",
         "oooooo",
+        "vvvvvv"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ls_ew_6x6hall_fancy",
+    "//": "wall support type",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "vvvvvv",
+        "|ϴ||ϴ|",
+        "......",
+        "......",
+        "|ϴ||ϴ|",
         "vvvvvv"
       ],
       "palettes": [ "labyrinthine_base_palette" ]
@@ -2236,7 +2566,7 @@
       "rows": [
         "vvvvvv",
         "vv....",
-        "v.....",
+        "v.ϴ...",
         "v.....",
         "v.....",
         "v....v"
@@ -2254,7 +2584,7 @@
         "v....v",
         "v.....",
         "v.....",
-        "v.....",
+        "v.ϴ...",
         "vv....",
         "vvvvvv"
       ],
@@ -2271,7 +2601,7 @@
         "v....v",
         ".....v",
         ".....v",
-        ".....v",
+        "...ϴ.v",
         "....vv",
         "vvvvvv"
       ],
@@ -2287,7 +2617,7 @@
       "rows": [
         "vvvvvv",
         "....vv",
-        ".....v",
+        "...ϴ.v",
         ".....v",
         ".....v",
         "v....v"
@@ -2303,7 +2633,7 @@
       "mapgensize": [ 6, 6 ],
       "rows": [
         "v....v",
-        "......",
+        ".ϴ..ϴ.",
         "......",
         "......",
         "......",
@@ -2338,10 +2668,10 @@
       "mapgensize": [ 6, 6 ],
       "rows": [
         "v....v",
+        ".ϴ...v",
         ".....v",
         ".....v",
-        ".....v",
-        ".....v",
+        ".ϴ...v",
         "v....v"
       ],
       "palettes": [ "labyrinthine_base_palette" ]
@@ -2373,10 +2703,10 @@
       "mapgensize": [ 6, 6 ],
       "rows": [
         "v....v",
+        "v...ϴ.",
         "v.....",
         "v.....",
-        "v.....",
-        "v.....",
+        "v...ϴ.",
         "v....v"
       ],
       "palettes": [ "labyrinthine_base_palette" ]
@@ -2411,7 +2741,7 @@
         "......",
         "......",
         "......",
-        "......",
+        ".ϴ..ϴ.",
         "v....v"
       ],
       "palettes": [ "labyrinthine_base_palette" ]
@@ -2443,13 +2773,125 @@
       "mapgensize": [ 6, 6 ],
       "rows": [
         "v....v",
+        ".ϴ..ϴ.",
         "......",
         "......",
-        "......",
-        "......",
+        ".ϴ..ϴ.",
         "v....v"
       ],
       "palettes": [ "labyrinthine_base_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ls_4way_6x6hall_basic",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "v....v",
+        ".ϴ..ϴ.",
+        "..vv..",
+        "..vv..",
+        ".ϴ..ϴ.",
+        "v....v"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ls_4way_6x6hall_basic",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "v....v",
+        "..vv..",
+        ".vvvv.",
+        ".vvvv.",
+        "..vv..",
+        "v....v"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ls_2x2_furniture",
+    "object": { "mapgensize": [ 2, 2 ], "rows": [
+        "¢c",
+        "c¢"
+      ], "palettes": [ "labyrinthine_base_palette" ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ls_2x2_furniture",
+    "object": { "mapgensize": [ 2, 2 ], "rows": [
+        "BL",
+        "( "
+      ], "palettes": [ "labyrinthine_base_palette" ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ls_2x2_furniture",
+    "object": { "mapgensize": [ 2, 2 ], "rows": [
+        "Ṫß",
+        "(b"
+      ], "palettes": [ "labyrinthine_base_palette" ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ls_2x2_furniture",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rows": [
+        "l2",
+        "l "
+      ],
+      "palettes": [ "labyrinthine_base_palette" ],
+      "monsters": { "2": { "monster": "GROUP_Labyrinth_Turret", "density": 0.01 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ls_2x2_furniture",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rows": [
+        "UU",
+        " 2"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ],
+      "monsters": { "2": { "monster": "GROUP_Labyrinth_Turret", "density": 0.01 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ls_2x2_furniture",
+    "object": { "mapgensize": [ 2, 2 ], "rows": [
+        " L",
+        "UU"
+      ], "palettes": [ "labyrinthine_base_palette" ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ls_2x2_furniture",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rows": [
+        "ßß",
+        "2ß"
+      ],
+      "palettes": [ "labyrinthine_base_palette" ],
+      "monsters": { "2": { "monster": "GROUP_Labyrinth_Turret", "density": 0.01 } }
     }
   }
 ]
