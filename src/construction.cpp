@@ -1008,6 +1008,7 @@ void place_construction( std::vector<construction_group_str_id> const &groups )
     }
 
     bool blink = true;
+    std::optional<tripoint_bub_ms> mouse_pos;
 
     shared_ptr_fast<game::draw_callback_t> draw_preview =
     make_shared_fast<game::draw_callback_t>( [&]() {
@@ -1018,10 +1019,11 @@ void place_construction( std::vector<construction_group_str_id> const &groups )
             const tripoint_bub_ms &loc = elem.first;
             const construction &con = *elem.second;
             const std::string &post_id = con.post_terrain;
+            const bool preview = !mouse_pos.has_value() || mouse_pos.value() == loc;
             if( !post_id.empty() ) {
                 if( con.post_is_furniture ) {
                     if( is_draw_tiles_mode() ) {
-                        if( blink ) {
+                        if( blink && preview ) {
                             g->draw_furniture_override( loc.raw(), furn_str_id( post_id ) );
                         }
                         g->draw_highlight( loc.raw() );
@@ -1033,7 +1035,7 @@ void place_construction( std::vector<construction_group_str_id> const &groups )
                     }
                 } else {
                     if( is_draw_tiles_mode() ) {
-                        if( blink ) {
+                        if( blink && preview ) {
                             g->draw_terrain_override( loc.raw(), ter_str_id( post_id ) );
                         }
                         g->draw_highlight( loc.raw() );
@@ -1060,13 +1062,23 @@ void place_construction( std::vector<construction_group_str_id> const &groups )
     const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent(
                 player_character.pos_bub(), _( "Construct where?" ),
                 /*allow_vertical=*/false, /*timeout=*/get_option<int>( "BLINK_SPEED" ),
-    [&blink]( const std::string & action ) {
+    [&]( const input_context & ctxt, const std::string & action ) {
         if( action == "TIMEOUT" ) {
             blink = !blink;
         } else {
             blink = true;
         }
+        if( action == "MOUSE_MOVE" ) {
+            const std::optional<tripoint> mouse_pos_raw = ctxt.get_coordinates(
+                        g->w_terrain, g->ter_view_p.xy(), true );
+            if( mouse_pos_raw.has_value() ) {
+                mouse_pos = tripoint_bub_ms( *mouse_pos_raw );
+            } else {
+                mouse_pos = std::nullopt;
+            }
+        }
         g->invalidate_main_ui_adaptor();
+        return std::pair<bool, std::optional<tripoint_bub_ms>>( false, std::nullopt );
     } );
     if( !pnt_ ) {
         return;

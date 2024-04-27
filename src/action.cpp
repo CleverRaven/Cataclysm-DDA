@@ -1100,8 +1100,9 @@ std::optional<tripoint> choose_direction( const std::string &message, const bool
 }
 
 std::optional<tripoint_rel_ms> choose_direction_rel_ms( const std::string &message,
-        const bool allow_vertical, const int timeout,
-        const std::function<void( const std::string &action )> &action_cb )
+        const bool allow_vertical, const bool allow_mouse, const int timeout,
+        const std::function<std::pair<bool, std::optional<tripoint_rel_ms>>(
+            const input_context &ctxt, const std::string &action )> &action_cb )
 {
     input_context ctxt( "DEFAULTMODE", keyboard_mode::keycode );
     if( timeout >= 0 ) {
@@ -1116,6 +1117,11 @@ std::optional<tripoint_rel_ms> choose_direction_rel_ms( const std::string &messa
         ctxt.register_action( "LEVEL_UP" );
         ctxt.register_action( "LEVEL_DOWN" );
     }
+    if( allow_mouse ) {
+        ctxt.register_action( "COORDINATE" );
+        ctxt.register_action( "MOUSE_MOVE" );
+        ctxt.register_action( "SELECT" );
+    }
 
     static_popup popup;
     //~ %s: "Close where?" "Pry where?" etc.
@@ -1123,6 +1129,7 @@ std::optional<tripoint_rel_ms> choose_direction_rel_ms( const std::string &messa
 
     temp_hide_advanced_inv();
     std::string action;
+    bool done = false;
     do {
         ui_manager::redraw();
         action = ctxt.handle_input();
@@ -1141,11 +1148,20 @@ std::optional<tripoint_rel_ms> choose_direction_rel_ms( const std::string &messa
             return tripoint_rel_ms( tripoint_above );
         } else if( action == "LEVEL_DOWN" ) {
             return tripoint_rel_ms( tripoint_below );
+        } else if( action == "QUIT" ) {
+            done = true;
         }
-        if( action_cb ) {
-            action_cb( action );
+        if( !done && action_cb ) {
+            const std::pair<bool, std::optional<tripoint_rel_ms>> ret = action_cb( ctxt, action );
+            done = ret.first;
+            if( done && ret.second.has_value()
+                && ret.second->x() <= 1 && ret.second->x() >= -1
+                && ret.second->y() <= 1 && ret.second->y() >= -1 && ( allow_vertical
+                        ? ret.second->z() <= 1 && ret.second->z() >= -1 : ret.second->z() == 0 ) ) {
+                return ret.second;
+            }
         }
-    } while( action != "QUIT" );
+    } while( !done );
 
     add_msg( _( "Never mind." ) );
     return std::nullopt;
@@ -1159,16 +1175,45 @@ std::optional<tripoint> choose_adjacent( const std::string &message, const bool 
 std::optional<tripoint> choose_adjacent( const tripoint &pos, const std::string &message,
         bool allow_vertical )
 {
-    const std::optional<tripoint> dir = choose_direction( message, allow_vertical );
-    return dir ? *dir + pos : dir;
+    const std::optional<tripoint_bub_ms> dir = choose_adjacent(
+                tripoint_bub_ms( pos ), message, allow_vertical );
+    if( dir.has_value() ) {
+        return dir->raw();
+    } else {
+        return std::nullopt;
+    }
 }
 
 std::optional<tripoint_bub_ms> choose_adjacent( const tripoint_bub_ms &pos,
         const std::string &message, bool allow_vertical, int timeout,
-        const std::function<void( const std::string &action )> &action_cb )
+        const std::function<std::pair<bool, std::optional<tripoint_bub_ms>>(
+            const input_context &ctxt, const std::string &action )> &action_cb )
 {
     const std::optional<tripoint_rel_ms> dir = choose_direction_rel_ms(
-                message, allow_vertical, timeout, action_cb );
+                message, allow_vertical, /*allow_mouse=*/true, timeout,
+    [&]( const input_context & ctxt, const std::string & action ) {
+        if( action == "SELECT" ) {
+            const std::optional<tripoint> mouse_pos = ctxt.get_coordinates(
+                        g->w_terrain, g->ter_view_p.xy(), true );
+            if( mouse_pos ) {
+                const tripoint_rel_ms vec = tripoint_bub_ms( *mouse_pos ) - pos;
+                if( vec.x() >= -1 && vec.x() <= 1
+                    && vec.y() >= -1 && vec.y() <= 1
+                    && ( allow_vertical ? vec.z() >= -1 && vec.y() <= 1 : vec.z() == 0 ) ) {
+                    return std::pair<bool, std::optional<tripoint_rel_ms>>( true, vec );
+                }
+            }
+        }
+        if( action_cb ) {
+            const std::pair<bool, std::optional<tripoint_bub_ms>> ret = action_cb( ctxt, action );
+            if( ret.second.has_value() ) {
+                return std::pair<bool, std::optional<tripoint_rel_ms>>( ret.first, *ret.second - pos );
+            } else {
+                return std::pair<bool, std::optional<tripoint_rel_ms>>( ret.first, std::nullopt );
+            }
+        }
+        return std::pair<bool, std::optional<tripoint_rel_ms>>( false, std::nullopt );
+    } );
     if( dir ) {
         return pos + *dir;
     } else {
