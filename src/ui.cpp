@@ -127,8 +127,8 @@ void uilist_impl::draw_controls()
                                               color );
                 ImGui::PopID();
             }
-            ImGui::EndChild();
         }
+        ImGui::EndChild();
 
         if( parent.callback != nullptr ) {
             parent.callback->refresh( &parent );
