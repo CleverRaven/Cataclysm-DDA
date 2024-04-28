@@ -133,7 +133,7 @@ Items are where you really want to read the [JSON_INFO.md](JSON_INFO.md) file, j
     "description": "A photo of a smiling family on a camping trip.  One of the parents looks like a cleaner, happier version of the person you know.",
     "weight": "1 g",
     "volume": 0,
-    "price": 800,
+    "price": "8 USD",
     "material": [ "paper" ],
     "symbol": "*",
     "color": "light_gray"

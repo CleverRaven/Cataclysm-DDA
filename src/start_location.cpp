@@ -33,6 +33,18 @@ class item;
 
 static const efftype_id effect_bleed( "bleed" );
 
+static const ter_str_id ter_t_curtains( "t_curtains" );
+static const ter_str_id ter_t_door_boarded( "t_door_boarded" );
+static const ter_str_id ter_t_door_c( "t_door_c" );
+static const ter_str_id ter_t_door_c_peep( "t_door_c_peep" );
+static const ter_str_id ter_t_door_locked( "t_door_locked" );
+static const ter_str_id ter_t_door_o( "t_door_o" );
+static const ter_str_id ter_t_floor( "t_floor" );
+static const ter_str_id ter_t_window( "t_window" );
+static const ter_str_id ter_t_window_boarded( "t_window_boarded" );
+static const ter_str_id ter_t_window_domestic( "t_window_domestic" );
+static const ter_str_id ter_t_window_no_curtains( "t_window_no_curtains" );
+
 static const zone_type_id zone_type_ZONE_START_POINT( "ZONE_START_POINT" );
 
 namespace
@@ -68,12 +80,12 @@ std::string start_location::name() const
 
 int start_location::targets_count() const
 {
-    return _omt_types.size();
+    return _locations.size();
 }
 
-std::pair<std::string, ot_match_type> start_location::random_target() const
+omt_types_parameters start_location::random_target() const
 {
-    return random_entry( _omt_types );
+    return random_entry( _locations );
 }
 
 bool start_location::requires_city() const
@@ -106,14 +118,21 @@ void start_location::load( const JsonObject &jo, const std::string &src )
     std::string ter;
     for( const JsonValue entry : jo.get_array( "terrain" ) ) {
         ot_match_type ter_match_type = ot_match_type::type;
+        std::unordered_map<std::string, std::string> parameter_map;
         if( entry.test_string() ) {
             ter = entry.get_string();
         } else {
             JsonObject jot = entry.get_object();
             ter = jot.get_string( "om_terrain" );
-            ter_match_type = jot.get_enum_value<ot_match_type>( "om_terrain_match_type", ter_match_type );
+            if( jot.has_string( "om_terrain_match_type" ) ) {
+                ter_match_type = jot.get_enum_value<ot_match_type>( "om_terrain_match_type", ter_match_type );
+            }
+            if( jot.has_object( "parameters" ) ) {
+                std::unordered_map<std::string, std::string> parameter_map;
+                jot.read( "parameters", parameter_map );
+            }
         }
-        _omt_types.emplace_back( ter, ter_match_type );
+        _locations.emplace_back( omt_types_parameters{ ter, ter_match_type, parameter_map } );
     }
     if( jo.has_array( "city_sizes" ) ) {
         assign( jo, "city_sizes", constraints_.city_size, strict );
@@ -136,13 +155,13 @@ void start_location::finalize()
 }
 
 // check if tile at p should be boarded with some kind of furniture.
-static void add_boardable( const map &m, const tripoint &p, std::vector<tripoint> &vec )
+static void add_boardable( const tinymap &m, const tripoint &p, std::vector<tripoint> &vec )
 {
     if( m.has_furn( p ) ) {
         // Don't need to board this up, is already occupied
         return;
     }
-    if( m.ter( p ) != t_floor ) {
+    if( m.ter( p ) != ter_t_floor ) {
         // Other terrain (door, wall, ...), not boarded either
         return;
     }
@@ -157,7 +176,7 @@ static void add_boardable( const map &m, const tripoint &p, std::vector<tripoint
     vec.push_back( p );
 }
 
-static void board_up( map &m, const tripoint_range<tripoint> &range )
+static void board_up( tinymap &m, const tripoint_range<tripoint> &range )
 {
     std::vector<tripoint> furnitures1;
     std::vector<tripoint> furnitures2;
@@ -165,19 +184,19 @@ static void board_up( map &m, const tripoint_range<tripoint> &range )
     for( const tripoint &p : range ) {
         bool must_board_around = false;
         const ter_id t = m.ter( p );
-        if( t == t_window_domestic || t == t_window || t == t_window_no_curtains ) {
+        if( t == ter_t_window_domestic || t == ter_t_window || t == ter_t_window_no_curtains ) {
             // Windows are always to the outside and must be boarded
             must_board_around = true;
-            m.ter_set( p, t_window_boarded );
-        } else if( t == t_door_c || t == t_door_locked || t == t_door_c_peep ) {
+            m.ter_set( p, ter_t_window_boarded );
+        } else if( t == ter_t_door_c || t == ter_t_door_locked || t == ter_t_door_c_peep ) {
             // Only board up doors that lead to the outside
             if( m.is_outside( p + tripoint_north ) || m.is_outside( p + tripoint_south ) ||
                 m.is_outside( p + tripoint_east ) || m.is_outside( p + tripoint_west ) ) {
-                m.ter_set( p, t_door_boarded );
+                m.ter_set( p, ter_t_door_boarded );
                 must_board_around = true;
             } else {
                 // internal doors are opened instead
-                m.ter_set( p, t_door_o );
+                m.ter_set( p, ter_t_door_o );
             }
         }
         if( must_board_around ) {
@@ -215,7 +234,7 @@ static void board_up( map &m, const tripoint_range<tripoint> &range )
         const tripoint fp = random_entry_removed( furnitures1.empty() ? furnitures2 : furnitures1 );
         const tripoint bp = random_entry_removed( boardables );
         m.furn_set( bp, m.furn( fp ) );
-        m.furn_set( fp, f_null );
+        m.furn_set( fp, furn_str_id::NULL_ID() );
         map_stack destination_items = m.i_at( bp );
         for( const item &moved_item : m.i_at( fp ) ) {
             destination_items.insert( moved_item );
@@ -231,61 +250,120 @@ void start_location::prepare_map( tinymap &m ) const
         m.build_outside_cache( z );
         board_up( m, m.points_on_zlevel( z ) );
     } else {
-        m.translate( t_window_domestic, t_curtains );
+        m.translate( ter_t_window_domestic, ter_t_curtains );
     }
 }
 
-tripoint_abs_omt start_location::find_player_initial_location( const point_abs_om &origin ) const
+std::pair<tripoint_abs_omt, std::unordered_map<std::string, std::string>>
+        start_location::find_player_initial_location( const point_abs_om &origin ) const
 {
     // Spiral out from the world origin scanning for a compatible starting location,
     // creating overmaps as necessary.
     const int radius = 3;
+    const omt_types_parameters chosen_target = random_target();
     for( const point_abs_om &omp : closest_points_first( origin, radius ) ) {
         overmap &omap = overmap_buffer.get( omp );
-        const tripoint_om_omt omtstart = omap.find_random_omt( random_target() );
+        const tripoint_om_omt omtstart = omap.find_random_omt( std::make_pair( chosen_target.omt,
+                                         chosen_target.omt_type ) );
         if( omtstart.raw() != tripoint_min ) {
-            return project_combine( omp, omtstart );
+            return std::make_pair( project_combine( omp, omtstart ), chosen_target.parameters );
         }
     }
     // Should never happen, if it does we messed up.
     popup( _( "Unable to generate a valid starting location %s [%s] in a radius of %d overmaps, please report this failure." ),
            name(), id.str(), radius );
-    return overmap::invalid_tripoint;
+    return std::make_pair( overmap::invalid_tripoint, chosen_target.parameters );
 }
 
-tripoint_abs_omt start_location::find_player_initial_location( const city &origin ) const
+std::pair<tripoint_abs_omt, std::unordered_map<std::string, std::string>>
+        start_location::find_player_initial_location( const city &origin ) const
 {
     overmap &omap = overmap_buffer.get( origin.pos_om );
-    std::vector<tripoint_om_omt> valid;
+    std::vector<std::pair<tripoint_om_omt, omt_types_parameters>> valid;
     for( const point_om_omt &omp : closest_points_first( origin.pos, origin.size ) ) {
         for( int k = constraints_.allowed_z_levels.min; k <= constraints_.allowed_z_levels.max; k++ ) {
             tripoint_om_omt p( omp, k );
             if( !can_belong_to_city( p, origin ) ) {
                 continue;
             }
-            for( const auto &target : _omt_types ) {
-                if( is_ot_match( target.first, omap.ter( p ), target.second ) ) {
-                    valid.push_back( p );
-                }
+            auto target_is_ot_match = [&]( const omt_types_parameters & target ) {
+                return is_ot_match( target.omt, omap.ter( p ), target.omt_type );
+            };
+            auto it = std::find_if( _locations.begin(), _locations.end(),
+                                    target_is_ot_match );
+            if( it != _locations.end() ) {
+                valid.emplace_back( p, *it );
             }
         }
     }
-    const tripoint_om_omt omtstart = random_entry( valid, tripoint_om_omt( tripoint_min ) );
+    const std::pair<tripoint_om_omt, omt_types_parameters> random_valid = random_entry( valid,
+            std::make_pair( tripoint_om_omt( tripoint_min ), omt_types_parameters() ) );
+    const tripoint_om_omt omtstart = random_valid.first;
     if( omtstart.raw() != tripoint_min ) {
-        return project_combine( origin.pos_om, omtstart );
+        return std::make_pair( project_combine( origin.pos_om, omtstart ), random_valid.second.parameters );
     }
     // Should never happen, if it does we messed up.
     popup( _( "Unable to generate a valid starting location %s [%s] in a city [%s], please report this failure." ),
            name(), id.str(), origin.name );
-    return overmap::invalid_tripoint;
+    return std::make_pair( overmap::invalid_tripoint, random_valid.second.parameters );
+}
+
+void start_location::set_parameters( const tripoint_abs_omt &omtstart,
+                                     const std::unordered_map<std::string, std::string> &parameters_to_set ) const
+{
+    if( parameters_to_set.empty() ) {
+        return;
+    }
+    overmap_buffer.externally_set_args = true;
+    std::optional<mapgen_arguments> *maybe_args = overmap_buffer.mapgen_args( omtstart );
+    if( !maybe_args ) {
+        debugmsg( "No overmap special args at start location." );
+        return;
+    }
+    std::optional<overmap_special_id> s = overmap_buffer.overmap_special_at( omtstart );
+    if( !s ) {
+        debugmsg( "No overmap special at start location from which to fetch parameters." );
+        return;
+    }
+    const overmap_special &special = **s;
+    const mapgen_parameters &params = special.get_params();
+    mapgen_arguments args;
+    for( const auto &param_to_set : parameters_to_set ) {
+        const std::string &param_name_to_set = param_to_set.first;
+        const std::string &value_to_set = param_to_set.second;
+        auto param_it = params.map.find( param_name_to_set );
+        if( param_it == params.map.end() ) {
+            debugmsg( "Parameter %s not found", param_name_to_set );
+            continue;
+        }
+        const mapgen_parameter &param = param_it->second;
+        if( param.scope() != mapgen_parameter_scope::overmap_special ) {
+            debugmsg( "Parameter %s is not of scope overmap_special", param_name_to_set );
+            continue;
+        }
+        std::vector<std::string> possible_values = param.all_possible_values( params );
+        auto value_it = std::find( possible_values.begin(), possible_values.end(), value_to_set );
+        if( value_it == possible_values.end() ) {
+            debugmsg( "Parameter value %s for parameter %s not found", value_to_set, param_name_to_set );
+            continue;
+        }
+        if( *maybe_args ) {
+            maybe_args->value().map[param_name_to_set] =
+                cata_variant::from_string( param.type(), std::move( *value_it ) );
+        } else {
+            mapgen_arguments args;
+            args.map[param_name_to_set] =
+                cata_variant::from_string( param.type(), std::move( *value_it ) );
+            *maybe_args = args;
+        }
+    }
 }
 
 void start_location::prepare_map( const tripoint_abs_omt &omtstart ) const
 {
     // Now prepare the initial map (change terrain etc.)
-    const tripoint_abs_sm player_location = project_to<coords::sm>( omtstart );
     tinymap player_start;
-    player_start.load( player_location, false );
+    player_start.load( omtstart, false );
     prepare_map( player_start );
     player_start.save();
 }
@@ -443,9 +521,8 @@ void start_location::place_player( avatar &you, const tripoint_abs_omt &omtstart
 void start_location::burn( const tripoint_abs_omt &omtstart, const size_t count,
                            const int rad ) const
 {
-    const tripoint_abs_sm player_location = project_to<coords::sm>( omtstart );
     tinymap m;
-    m.load( player_location, false );
+    m.load( omtstart, false );
     m.build_outside_cache( m.get_abs_sub().z() );
     point player_pos = get_player_character().pos().xy();
     const point u( player_pos.x % HALF_MAPSIZE_X, player_pos.y % HALF_MAPSIZE_Y );
@@ -471,11 +548,10 @@ void start_location::burn( const tripoint_abs_omt &omtstart, const size_t count,
 void start_location::add_map_extra( const tripoint_abs_omt &omtstart,
                                     const map_extra_id &map_extra ) const
 {
-    const tripoint_abs_sm player_location = project_to<coords::sm>( omtstart );
     tinymap m;
-    m.load( player_location, false );
+    m.load( omtstart, false );
 
-    MapExtras::apply_function( map_extra, m, player_location );
+    MapExtras::apply_function( map_extra, m, omtstart );
 
     m.save();
 }
@@ -513,9 +589,8 @@ void start_location::handle_heli_crash( avatar &you ) const
 static void add_monsters( const tripoint_abs_omt &omtstart, const mongroup_id &type,
                           float expected_points )
 {
-    const tripoint_abs_sm spawn_location = project_to<coords::sm>( omtstart );
     tinymap m;
-    m.load( spawn_location, false );
+    m.load( omtstart, false );
     // map::place_spawns internally multiplies density by rng(10, 50)
     const float density = expected_points / ( ( 10 + 50 ) / 2.0 );
     m.place_spawns( type, 1, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), density );

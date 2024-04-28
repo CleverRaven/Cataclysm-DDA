@@ -16,18 +16,18 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "vending_mutagens",
-    "entries": [ { "item": "syringe", "count-min": 1, "count-max": 10 }, { "group": "mutagen_kits", "prob": 100 } ]
+    "entries": [ { "item": "syringe", "count": [ 1, 10 ] }, { "group": "mutagen_kits", "prob": 100 } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "vending_bionics",
     "entries": [
-      { "item": "anesthetic_kit", "count-min": 1, "count-max": 2 },
-      { "item": "scalpel", "count-min": 1, "count-max": 4 },
-      { "group": "bionics_common", "prob": 33, "count-min": 1, "count-max": 10 },
-      { "group": "bionics_mil", "prob": 20, "count-min": 1, "count-max": 8 },
-      { "group": "bionics", "prob": 15, "count-min": 1, "count-max": 6 }
+      { "item": "anesthetic_kit", "count": [ 1, 2 ] },
+      { "item": "scalpel", "count": [ 1, 4 ] },
+      { "group": "bionics_common", "prob": 33, "count": [ 1, 10 ] },
+      { "group": "bionics_mil", "prob": 20, "count": [ 1, 8 ] },
+      { "group": "bionics", "prob": 15, "count": [ 1, 6 ] }
     ]
   },
   {
@@ -696,6 +696,19 @@
       { "group": "forage_broad", "count": [ 1, 2 ], "prob": 100 },
       { "group": "trash_junkyard", "count": [ 1, 3 ], "prob": 50 },
       { "group": "wreckage", "count": [ 1, 3 ], "prob": 25 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "vending_ammo",
+    "entries": [
+      { "group": "ammo_pistol_common", "count": [ 3, 8 ] },
+      { "group": "ammo_rifle_common", "prob": 50, "count": [ 2, 6 ] },
+      { "group": "ammo_shotgun_common", "prob": 50, "count": [ 2, 6 ] },
+      { "group": "ammo_pistol_rare", "prob": 20, "count": [ 1, 2 ] },
+      { "group": "ammo_rifle_rare", "prob": 20, "count": [ 1, 2 ] },
+      { "group": "ammo_shotgun_rare", "prob": 20, "count": [ 1, 2 ] }
     ]
   },
   {

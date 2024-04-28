@@ -26,7 +26,7 @@
     "vision_night": 3,
     "harvest": "arachnid",
     "fear_triggers": [ "HURT", "FIRE" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "STUMBLES", "PATH_AVOID_FIRE" ]
+    "flags": [ "SEES", "HEARS", "CLIMBS", "STUMBLES", "PATH_AVOID_FIRE", "NO_BREED", "SMALL_HIDER" ]
   },
   {
     "id": "mon_dark_wyrm",
@@ -63,91 +63,91 @@
     "id": "mon_graboid",
     "type": "MONSTER",
     "name": { "str": "graboid" },
-    "description": "A monstrous beast the size of a semi truck with a tripartite mouth that opens to reveal hundreds of writhing tongues with razor sharp edges.  It keeps most of its enormous body hidden underground.",
+    "description": "This huge subterranean creature is a far cry from its earthworm ancestors.  Despite only seeing its head, you can tell its grown to a mind-boggling size.  While the image may be quite unsettling, it doesn't appear to pay you any mind.",
     "default_faction": "worm",
     "bodytype": "snake",
     "species": [ "WORM" ],
-    "volume": "875000 ml",
-    "weight": "200 kg",
-    "hp": 210,
-    "speed": 180,
+    "volume": "600 L",
+    "weight": "800 kg",
+    "hp": 600,
+    "speed": 95,
     "material": [ "flesh" ],
     "symbol": "W",
-    "color": "white",
-    "aggression": 40,
-    "morale": 120,
+    "color": "pink",
+    "aggression": -15,
+    "morale": 8,
     "melee_skill": 5,
     "melee_dice": 3,
-    "melee_dice_sides": 12,
-    "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
+    "melee_dice_sides": 7,
+    "melee_damage": [ { "damage_type": "bash", "amount": 5 } ],
+    "special_attacks": [ [ "EAT_FOOD", 60 ], [ "EAT_CARRION", 60 ], [ "EAT_CROP", 60 ] ],
     "bleed_rate": 60,
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_basic_bug" ],
     "harvest": "mutant_meatslug",
-    "dissect": "dissect_troglobite_sample_large",
     "reproduction": { "baby_egg": "egg_worm", "baby_count": 1, "baby_timer": 30 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "death_function": {
       "message": "The %s splits in two!",
-      "effect": { "id": "death_halfworm", "hit_self": true },
+      "effect": { "id": "death_halfworm_graboid", "hit_self": true },
       "corpse_type": "NO_CORPSE"
     },
-    "zombify_into": "mon_meat_cocoon_med",
-    "flags": [ "DIGS", "HEARS", "POISON", "GOODHEARING", "BASHES", "DESTROYS", "ATTACK_LOWER" ],
-    "armor": { "bash": 12, "cut": 8, "bullet": 6, "electric": 2 }
+    "zombify_into": "mon_meat_cocoon_large",
+    "flags": [ "DIGS", "HEARS", "GOODHEARING", "PATH_AVOID_FIRE", "EATS", "BASHES", "DESTROYS", "PUSH_VEH" ],
+    "armor": { "bash": 16, "cut": 6, "bullet": 4, "electric": 2 }
+  },
+  {
+    "id": "mon_halfworm_graboid",
+    "type": "MONSTER",
+    "name": { "str": "graboid half worm" },
+    "description": "A squiggling severed portion of a wounded graboid.",
+    "copy-from": "mon_graboid",
+    "proportional": { "hp": 0.4, "speed": 0.67, "volume": 0.475, "weight": 0.475 },
+    "morale": -5,
+    "death_function": {  },
+    "upgrades": { "age_grow": 10, "into": "mon_graboid" },
+    "dissect": "dissect_troglobite_sample_large",
+    "zombify_into": "mon_meat_cocoon_large",
+    "armor": { "bash": 12, "cut": 4, "bullet": 2 },
+    "extend": { "flags": [ "NO_BREED" ] }
   },
   {
     "id": "mon_halfworm",
     "type": "MONSTER",
-    "name": { "str": "half worm" },
+    "name": { "str": "giant half worm" },
     "description": "A squiggling severed portion of a wounded giant worm.",
-    "default_faction": "worm",
-    "bodytype": "snake",
-    "species": [ "WORM" ],
-    "volume": "45 L",
-    "weight": "60 kg",
-    "hp": 20,
-    "speed": 80,
-    "material": [ "flesh" ],
-    "symbol": "s",
-    "color": "pink",
-    "aggression": 10,
-    "morale": 40,
-    "melee_skill": 4,
-    "melee_dice": 2,
-    "melee_dice_sides": 6,
-    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_basic_bug" ],
-    "harvest": "mutant_meatslug",
+    "copy-from": "mon_worm",
+    "proportional": { "hp": 0.4, "speed": 0.67, "volume": 0.475, "weight": 0.475 },
+    "morale": -15,
     "dissect": "dissect_troglobite_sample_single",
+    "death_function": {  },
     "upgrades": { "age_grow": 10, "into": "mon_worm" },
     "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "DIGS", "HEARS", "GOODHEARING", "ATTACK_LOWER" ],
-    "armor": { "bash": 2 }
+    "armor": { "bash": 4 },
+    "extend": { "flags": [ "NO_BREED" ] }
   },
   {
     "id": "mon_worm",
     "type": "MONSTER",
-    "name": { "str": "giant worm" },
-    "description": "A huge, mutated creature that might once have been a nightcrawler.  It possesses a large fanged mouth and a long slender body that comes up to your shoulder, with even more surely hiding underground.",
+    "name": { "str": "giant earthworm" },
+    "description": "A huge, mutated garden worm peeking out from the earth - pink, ringed, and most importantly docile.  Despite its size and looks, it appears to be peaceful.",
     "default_faction": "worm",
     "bodytype": "snake",
     "species": [ "WORM" ],
     "volume": "108500 ml",
-    "weight": "120 kg",
-    "hp": 50,
-    "speed": 80,
+    "weight": "122250 g",
+    "hp": 115,
+    "speed": 55,
     "material": [ "flesh" ],
     "symbol": "W",
     "color": "pink",
-    "aggression": 30,
-    "morale": 100,
-    "melee_skill": 4,
-    "melee_dice": 4,
-    "melee_dice_sides": 6,
-    "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
+    "aggression": -60,
+    "morale": 5,
+    "melee_skill": 3,
+    "melee_dice": 2,
+    "melee_dice_sides": 3,
+    "special_attacks": [ [ "EAT_FOOD", 60 ], [ "EAT_CARRION", 60 ], [ "EAT_CROP", 60 ] ],
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_basic_bug" ],
     "harvest": "mutant_meatslug",
-    "dissect": "dissect_troglobite_sample_small",
     "reproduction": { "baby_egg": "egg_worm", "baby_count": 1, "baby_timer": 30 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "death_function": {
@@ -155,26 +155,39 @@
       "effect": { "id": "death_halfworm", "hit_self": true },
       "corpse_type": "NO_CORPSE"
     },
-    "upgrades": { "half_life": 60, "into": "mon_graboid" },
-    "flags": [ "DIGS", "HEARS", "GOODHEARING", "ATTACK_LOWER" ],
-    "armor": { "bash": 2 }
+    "upgrades": { "age_grow": 45, "into": "mon_graboid" },
+    "flags": [ "DIGS", "HEARS", "GOODHEARING", "ATTACK_LOWER", "PATH_AVOID_FIRE", "EATS" ],
+    "armor": { "bash": 6 }
   },
   {
     "id": "mon_worm_small",
     "type": "MONSTER",
-    "name": { "str": "large worm" },
-    "description": "A disturbingly large mutated subterranean creature similar to a nightcrawler.  It possesses a fanged mouth and a long slender body that comes up to your knees, with even more surely hiding underground.",
-    "copy-from": "mon_halfworm",
-    "looks_like": "mon_worm",
-    "volume": "62500 ml",
-    "weight": "81500 g",
+    "name": { "str": "oversized earthworm" },
+    "description": "A disturbingly large wriggling earthworm with the moist earth still clinging to its slimy body.  Despite its size it appears to be peaceful, a refreshing change for once.",
+    "copy-from": "mon_worm",
+    "proportional": { "hp": 0.85, "speed": 0.85, "volume": 0.67, "weight": 0.67 },
+    "upgrades": { "age_grow": 30, "into": "mon_worm" },
+    "death_function": {
+      "message": "The %s splits in two!",
+      "effect": { "id": "death_halfworm_small", "hit_self": true },
+      "corpse_type": "NO_CORPSE"
+    },
+    "armor": { "bash": 4 },
+    "extend": { "flags": [ "NO_BREED" ] }
+  },
+  {
+    "id": "mon_halfworm_small",
+    "type": "MONSTER",
+    "name": { "str": "oversized half worm" },
+    "description": "A squiggling severed portion of a wounded oversized worm.",
+    "copy-from": "mon_worm_small",
+    "proportional": { "hp": 0.4, "speed": 0.67, "volume": 0.475, "weight": 0.475 },
+    "morale": -15,
+    "death_function": {  },
+    "upgrades": { "age_grow": 10, "into": "mon_worm_small" },
     "dissect": "dissect_troglobite_sample_single",
-    "upgrades": { "half_life": 42, "into": "mon_worm" },
-    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_basic_bug" ],
-    "delete": {
-      "reproduction": { "baby_egg": "egg_worm", "baby_count": 3, "baby_timer": 15 },
-      "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ]
-    }
+    "zombify_into": "mon_meat_cocoon_small",
+    "armor": { "bash": 3 }
   },
   {
     "id": "mon_worm_larva",
@@ -196,14 +209,14 @@
   {
     "id": "mon_large_cockroach",
     "type": "MONSTER",
-    "name": { "str": "cockroach", "str_pl": "cockroaches" },
+    "name": { "str": "oversized cockroach", "str_pl": "oversized cockroaches" },
     "description": "An aggressive mutant cockroach the size of a small dog.",
     "copy-from": "mon_giant_cockroach",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
     "volume": "15 L",
     "weight": "20 kg",
     "zombify_into": "mon_meat_cocoon_tiny",
-    "upgrades": { "half_life": 42, "into": "mon_giant_cockroach" }
+    "upgrades": { "age_grow": 42, "into": "mon_giant_cockroach" }
   },
   {
     "id": "mon_skittering_plague",
@@ -215,7 +228,7 @@
     "species": [ "INSECT" ],
     "diff": 2,
     "volume": "20 L",
-    "weight": "25000 g",
+    "weight": "25 kg",
     "hp": 30,
     "speed": 120,
     "material": [ "iflesh" ],
@@ -236,7 +249,7 @@
     "reproduction": { "baby_egg": "egg_roach_plague", "baby_count": 1, "baby_timer": 6 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "biosignature": { "biosig_item": "feces_roach", "biosig_timer": 3 },
-    "upgrades": { "half_life": 42, "into": "mon_plague_vector" },
+    "upgrades": { "age_grow": 42, "into": "mon_plague_vector" },
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE" ],
     "fear_triggers": [ "BRIGHT_LIGHT" ],
     "special_attacks": [ [ "EAT_FOOD", 60 ], [ "EAT_CARRION", 60 ] ],
@@ -261,7 +274,7 @@
     "harvest": "arachnid_tainted",
     "upgrades": { "age_grow": 30, "into": "mon_skittering_plague" },
     "fear_triggers": [ "BRIGHT_LIGHT" ],
-    "extend": { "flags": [ "EATS", "SMALL_HIDER" ] },
+    "extend": { "flags": [ "EATS" ] },
     "special_attacks": [ [ "EAT_FOOD", 120 ], [ "EAT_CARRION", 120 ] ]
   },
   {
@@ -352,7 +365,7 @@
     "stomach_size": 80,
     "fear_triggers": [ "BRIGHT_LIGHT" ],
     "upgrades": { "age_grow": 30, "into": "mon_giant_cockroach" },
-    "extend": { "flags": [ "EATS", "SMALL_HIDER" ] },
+    "extend": { "flags": [ "EATS" ] },
     "special_attacks": [ [ "EAT_FOOD", 120 ], [ "EAT_CARRION", 120 ] ]
   },
   {
@@ -373,7 +386,7 @@
   {
     "id": "mon_bee_small",
     "type": "MONSTER",
-    "name": { "str": "bee" },
+    "name": { "str": "oversized bee" },
     "description": "A mutant bee the size of a small dog.",
     "copy-from": "mon_bee",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
@@ -382,7 +395,7 @@
     "weight": "20 kg",
     "zombify_into": "mon_meat_cocoon_tiny",
     "fungalize_into": "mon_bee_small_fungus",
-    "upgrades": { "half_life": 30, "into": "mon_bee" }
+    "upgrades": { "age_grow": 30, "into": "mon_bee" }
   },
   {
     "id": "mon_bee",
@@ -418,7 +431,7 @@
     "dissect": "dissect_insect_sample_single",
     "anger_triggers": [ "HURT", "FRIEND_DIED", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FIRE" ],
-    "upgrades": { "half_life": 42, "into": "mon_bee_mega" },
+    "upgrades": { "age_grow": 42, "into": "mon_bee_mega" },
     "zombify_into": "mon_meat_cocoon_small",
     "fungalize_into": "mon_bee_fungus",
     "flags": [ "SEES", "SMELLS", "FLIES", "STUMBLES", "SWARMS", "GROUP_MORALE", "CANPLAY", "PATH_AVOID_FIRE" ],
@@ -445,7 +458,7 @@
   {
     "id": "mon_centipede_small",
     "type": "MONSTER",
-    "name": { "str": "centipede" },
+    "name": { "str": "oversized centipede" },
     "description": "A brightly-colored mutant centipede the size of a small dog, skittering quickly in the underbrush.  Probably won't think you're suitable prey, but beware its venom.",
     "symbol": "a",
     "color": "light_green",
@@ -577,8 +590,7 @@
       }
     ],
     "anger_triggers": [ "PLAYER_CLOSE" ],
-    "armor": { "bash": 1, "cut": 2 },
-    "extend": { "flags": [ "SMALL_HIDER" ] }
+    "armor": { "bash": 1, "cut": 2 }
   },
   {
     "id": "mon_centipede_mom",
@@ -634,7 +646,7 @@
     "id": "mon_centipede_mega",
     "type": "MONSTER",
     "name": { "str": "armored centipede" },
-    "description": "A huge mutated centipede covered in interlocking chitinous plates of metallic gray, reminding you more of a runaway train car than any living animal.  Its mandibles end in jagged points, seemingly specialised to hunt prey at least as well-armored as itself.  You really don't want to try if you'd fare better.",
+    "description": "A huge mutated centipede covered in interlocking chitinous plates of metallic gray, reminding you more of a runaway train car than any living animal.  Its mandibles end in jagged points, seemingly specialized to hunt prey at least as well-armored as itself.  You really don't want to try if you'd fare better.",
     "symbol": "A",
     "color": "dark_gray",
     "default_faction": "centipede",
@@ -840,7 +852,7 @@
   {
     "id": "mon_firefly",
     "type": "MONSTER",
-    "name": { "str": "firefly", "str_pl": "fireflies" },
+    "name": { "str": "oversized firefly", "str_pl": "oversized fireflies" },
     "description": "A mutated firefly grown to the size of a large housecat, brightly glowing abdomen bobbing up and down as it tries to impress its unseen mate.  It looks strangely uninterested in you and everything else.",
     "bodytype": "flying insect",
     "species": [ "INSECT_FLYING" ],
@@ -877,24 +889,21 @@
     "dissect": "dissect_insect_sample_single",
     "upgrades": { "age_grow": 30, "into": "mon_firefly" },
     "armor": { "bash": 1, "cut": 2, "stab": 1 },
-    "extend": { "flags": [ "EATS", "SMALL_HIDER" ] }
+    "extend": { "flags": [ "EATS" ] }
   },
   {
     "id": "mon_fly_small",
     "type": "MONSTER",
-    "name": { "str": "fly", "str_pl": "flies" },
+    "name": { "str": "oversized fly", "str_pl": "oversized flies" },
     "description": "A mutant housefly the size of a small dog.  Its buzzing is high-pitched and somehow sad.",
     "copy-from": "mon_fly",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
     "volume": "15 L",
     "weight": "20 kg",
     "zombify_into": "mon_meat_cocoon_tiny",
-    "upgrades": { "half_life": 30, "into": "mon_fly" },
+    "upgrades": { "age_grow": 30, "into": "mon_fly" },
     "stomach_size": 100,
-    "delete": {
-      "reproduction": { "baby_egg": "egg_fly", "baby_count": 3, "baby_timer": 15 },
-      "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ]
-    }
+    "extend": { "flags": [ "NO_BREED" ] }
   },
   {
     "id": "mon_fly",
@@ -929,7 +938,7 @@
     "special_attacks": [ [ "EAT_CARRION", 100 ] ],
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "fear_triggers": [ "PLAYER_CLOSE", "HURT", "FIRE" ],
-    "upgrades": { "half_life": 42, "into": "mon_fly_mega" },
+    "upgrades": { "age_grow": 42, "into": "mon_fly_mega" },
     "zombify_into": "mon_meat_cocoon_small",
     "flags": [ "SEES", "SMELLS", "FLIES", "STUMBLES", "HIT_AND_RUN", "CANPLAY", "PATH_AVOID_FIRE", "EATS" ]
   },
@@ -948,7 +957,7 @@
     "color": "light_green",
     "special_attacks": [ [ "EAT_CARRION", 100 ] ],
     "dissect": "dissect_insect_sample_single",
-    "extend": { "flags": [ "EATS", "SMALL_HIDER" ] },
+    "extend": { "flags": [ "EATS" ] },
     "upgrades": { "age_grow": 30, "into": "mon_fly" }
   },
   {
@@ -972,18 +981,15 @@
   {
     "id": "mon_mosquito_small",
     "type": "MONSTER",
-    "name": { "str": "mosquito" },
+    "name": { "str": "oversized mosquito" },
     "description": "A mutant mosquito the size of a small dog, buzzing and fluttering erratically.",
     "copy-from": "mon_mosquito_giant",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
     "volume": "15 L",
     "weight": "20 kg",
     "zombify_into": "mon_meat_cocoon_tiny",
-    "upgrades": { "half_life": 30, "into": "mon_mosquito_giant" },
-    "delete": {
-      "reproduction": { "baby_egg": "egg_mosquito", "baby_count": 3, "baby_timer": 15 },
-      "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ]
-    }
+    "upgrades": { "age_grow": 30, "into": "mon_mosquito_giant" },
+    "extend": { "flags": [ "NO_BREED" ] }
   },
   {
     "id": "mon_mosquito_giant",
@@ -1017,7 +1023,7 @@
     "reproduction": { "baby_egg": "egg_mosquito", "baby_count": 3, "baby_timer": 15 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "fear_triggers": [ "HURT", "FIRE" ],
-    "upgrades": { "half_life": 42, "into": "mon_mosquito_mega" },
+    "upgrades": { "age_grow": 42, "into": "mon_mosquito_mega" },
     "zombify_into": "mon_meat_cocoon_small",
     "flags": [ "SEES", "SMELLS", "STUMBLES", "VENOM", "FLIES", "HIT_AND_RUN", "PATH_AVOID_FIRE" ]
   },
@@ -1035,7 +1041,7 @@
     "vision_day": 15,
     "upgrades": { "age_grow": 30, "into": "mon_mosquito_giant" },
     "fear_triggers": [ "HURT", "PLAYER_CLOSE", "SOUND" ],
-    "extend": { "flags": [ "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE", "SMALL_HIDER" ] }
+    "extend": { "flags": [ "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ] }
   },
   {
     "id": "mon_mosquito_mega",
@@ -1056,7 +1062,7 @@
   {
     "id": "mon_spider_cellar_small",
     "type": "MONSTER",
-    "name": { "str": "cellar spider" },
+    "name": { "str": "oversized cellar spider" },
     "description": "A cellar spider - also known as \"daddy long-legs\" - grown to distressing size.  Its body is about the size of your head, with the long, spindly legs raising it up to your knee.  It tries getting away from you with an unnervingly fluid run.",
     "copy-from": "mon_spider_cellar_giant",
     "proportional": { "hp": 0.5, "melee_dice_sides": 0.67 },
@@ -1064,7 +1070,7 @@
     "morale": 0,
     "volume": "20 L",
     "weight": "15 kg",
-    "extend": { "fear_triggers": [ "PLAYER_CLOSE" ] },
+    "extend": { "fear_triggers": [ "PLAYER_CLOSE" ], "flags": [ "NO_BREED" ] },
     "vision_day": 8,
     "vision_night": 8,
     "dissect": "dissect_spider_sample_single",
@@ -1073,9 +1079,7 @@
     "delete": {
       "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK", "HOSTILE_SEEN" ],
       "flags": [ "GRABS" ],
-      "special_attacks": [ "grab" ],
-      "reproduction": { "baby_egg": "egg_spider_cellar", "baby_count": 3, "baby_timer": 15 },
-      "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ]
+      "special_attacks": [ "grab" ]
     }
   },
   {
@@ -1147,7 +1151,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "upgrades": { "age_grow": 30, "into": "mon_spider_cellar_giant" },
-    "extend": { "flags": [ "WEBWALK", "SMALL_HIDER" ] }
+    "extend": { "flags": [ "WEBWALK" ] }
   },
   {
     "id": "mon_spider_cellar_mom",
@@ -1294,18 +1298,15 @@
   {
     "id": "mon_spider_jumping_small",
     "type": "MONSTER",
-    "name": { "str": "jumping spider" },
+    "name": { "str": "oversized jumping spider" },
     "description": "A mutant spider the size of a small dog with long forelegs, big eyes, and oversized fangs.",
     "copy-from": "mon_spider_jumping_giant",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
     "volume": "15 L",
     "weight": "20 kg",
     "zombify_into": "mon_meat_cocoon_tiny",
-    "upgrades": { "half_life": 30, "into": "mon_spider_jumping_giant" },
-    "delete": {
-      "reproduction": { "baby_egg": "egg_spider_jumping", "baby_count": 3, "baby_timer": 15 },
-      "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ]
-    }
+    "upgrades": { "age_grow": 30, "into": "mon_spider_jumping_giant" },
+    "extend": { "flags": [ "NO_BREED" ] }
   },
   {
     "id": "mon_spider_jumping_giant",
@@ -1352,7 +1353,7 @@
     ],
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "fungalize_into": "mon_spider_fungus",
-    "upgrades": { "half_life": 42, "into": "mon_spider_jumping_mega" },
+    "upgrades": { "age_grow": 42, "into": "mon_spider_jumping_mega" },
     "zombify_into": "mon_meat_cocoon_small",
     "flags": [ "SEES", "SMELLS", "HEARS", "HIT_AND_RUN", "CLIMBS", "PATH_AVOID_DANGER_1" ],
     "armor": { "cut": 3, "bullet": 2 }
@@ -1373,8 +1374,7 @@
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_basic_bug", "prof_wp_spider" ],
     "vision_day": 5,
     "vision_night": 5,
-    "upgrades": { "age_grow": 30, "into": "mon_spider_jumping_giant" },
-    "extend": { "flags": [ "SMALL_HIDER" ] }
+    "upgrades": { "age_grow": 30, "into": "mon_spider_jumping_giant" }
   },
   {
     "id": "mon_spider_jumping_mega",
@@ -1397,18 +1397,15 @@
   {
     "id": "mon_spider_trapdoor_small",
     "type": "MONSTER",
-    "name": { "str": "trapdoor spider" },
+    "name": { "str": "oversized trapdoor spider" },
     "description": "A dark brown mutant spider the size of a dog with a bulbous thorax, big eyes, and oversized fangs.",
     "copy-from": "mon_spider_trapdoor_giant",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
     "volume": "30 L",
     "weight": "40 kg",
     "zombify_into": "mon_meat_cocoon_small",
-    "upgrades": { "half_life": 30, "into": "mon_spider_trapdoor_giant" },
-    "delete": {
-      "reproduction": { "baby_egg": "egg_spider_trapdoor", "baby_count": 3, "baby_timer": 15 },
-      "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ]
-    }
+    "upgrades": { "age_grow": 30, "into": "mon_spider_trapdoor_giant" },
+    "extend": { "flags": [ "NO_BREED" ] }
   },
   {
     "id": "mon_spider_trapdoor_giant",
@@ -1444,7 +1441,7 @@
     "reproduction": { "baby_egg": "egg_spider_trapdoor", "baby_count": 3, "baby_timer": 15 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "fungalize_into": "mon_spider_fungus",
-    "upgrades": { "half_life": 42, "into": "mon_spider_trapdoor_mega" },
+    "upgrades": { "age_grow": 42, "into": "mon_spider_trapdoor_mega" },
     "zombify_into": "mon_meat_cocoon_small",
     "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "GRABS", "CAN_DIG", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE" ],
     "armor": { "bash": 4, "cut": 8, "bullet": 6 }
@@ -1466,7 +1463,7 @@
     "vision_day": 5,
     "vision_night": 5,
     "upgrades": { "age_grow": 30, "into": "mon_spider_trapdoor_giant" },
-    "extend": { "flags": [ "CAN_DIG", "WEBWALK", "SMALL_HIDER" ] }
+    "extend": { "flags": [ "CAN_DIG", "WEBWALK" ] }
   },
   {
     "id": "mon_spider_trapdoor_mega",
@@ -1486,18 +1483,15 @@
   {
     "id": "mon_spider_web_small",
     "type": "MONSTER",
-    "name": { "str": "web spinning spider" },
+    "name": { "str": "oversized web spinning spider" },
     "description": "A light gray mutant spider the size of a dog with a long legs, big eyes, and oversized fangs.",
     "copy-from": "mon_spider_web",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
     "volume": "30 L",
     "weight": "40 kg",
     "zombify_into": "mon_meat_cocoon_small",
-    "upgrades": { "half_life": 30, "into": "mon_spider_web" },
-    "delete": {
-      "reproduction": { "baby_egg": "egg_spider_web", "baby_count": 3, "baby_timer": 15 },
-      "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ]
-    },
+    "upgrades": { "age_grow": 30, "into": "mon_spider_web" },
+    "extend": { "flags": [ "NO_BREED" ] },
     "trap_avoids": [ "tr_sinkhole" ]
   },
   {
@@ -1536,7 +1530,7 @@
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "fungalize_into": "mon_spider_fungus",
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
-    "upgrades": { "half_life": 42, "into": "mon_spider_web_mega" },
+    "upgrades": { "age_grow": 42, "into": "mon_spider_web_mega" },
     "zombify_into": "mon_meat_cocoon_small",
     "trap_avoids": [ "tr_sinkhole" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
@@ -1582,18 +1576,15 @@
   {
     "id": "mon_spider_widow_small",
     "type": "MONSTER",
-    "name": { "str": "black widow spider" },
+    "name": { "str": "oversized black widow spider" },
     "description": "A black mutant spider the size of a small dog with a long legs, big eyes, and oversized fangs.  There is a red hourglass shape on its thorax.",
     "copy-from": "mon_spider_widow_giant",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
     "volume": "15 L",
     "weight": "20 kg",
     "zombify_into": "mon_meat_cocoon_tiny",
-    "upgrades": { "half_life": 30, "into": "mon_spider_widow_giant" },
-    "delete": {
-      "reproduction": { "baby_egg": "egg_spider_widow", "baby_count": 3, "baby_timer": 15 },
-      "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ]
-    }
+    "upgrades": { "age_grow": 30, "into": "mon_spider_widow_giant" },
+    "extend": { "flags": [ "NO_BREED" ] }
   },
   {
     "id": "mon_spider_widow_giant",
@@ -1629,7 +1620,7 @@
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "fungalize_into": "mon_spider_fungus",
-    "upgrades": { "half_life": 42, "into": "mon_spider_widow_mega" },
+    "upgrades": { "age_grow": 42, "into": "mon_spider_widow_mega" },
     "zombify_into": "mon_meat_cocoon_small",
     "flags": [ "SEES", "SMELLS", "HEARS", "BADVENOM", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE" ],
     "armor": { "bash": 2, "cut": 4, "bullet": 3 }
@@ -1667,24 +1658,21 @@
     "vision_day": 5,
     "vision_night": 5,
     "upgrades": { "age_grow": 30, "into": "mon_spider_widow_giant" },
-    "extend": { "flags": [ "WEBWALK", "SMALL_HIDER" ] },
+    "extend": { "flags": [ "WEBWALK" ] },
     "armor": { "bash": 2, "cut": 4, "bullet": 3 }
   },
   {
     "id": "mon_spider_wolf_small",
     "type": "MONSTER",
-    "name": { "str": "wolf spider" },
+    "name": { "str": "oversized wolf spider" },
     "description": "A shaggy brown mutant spider the size of a dog with eight long legs, two especially big eyes, and oversized fangs.",
     "copy-from": "mon_spider_wolf_giant",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
     "volume": "30 L",
     "weight": "40 kg",
     "zombify_into": "mon_meat_cocoon_small",
-    "upgrades": { "half_life": 30, "into": "mon_spider_wolf_giant" },
-    "delete": {
-      "reproduction": { "baby_egg": "egg_spider_wolf", "baby_count": 3, "baby_timer": 15 },
-      "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ]
-    }
+    "upgrades": { "age_grow": 30, "into": "mon_spider_wolf_giant" },
+    "extend": { "flags": [ "NO_BREED" ] }
   },
   {
     "id": "mon_spider_wolf_giant",
@@ -1722,7 +1710,7 @@
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE" ],
     "fungalize_into": "mon_spider_fungus",
-    "upgrades": { "half_life": 42, "into": "mon_spider_wolf_mega" },
+    "upgrades": { "age_grow": 42, "into": "mon_spider_wolf_mega" },
     "zombify_into": "mon_meat_cocoon_small",
     "flags": [ "SEES", "SMELLS", "HEARS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
     "armor": { "bash": 4, "cut": 8, "bullet": 6 }
@@ -1743,8 +1731,7 @@
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_basic_bug", "prof_wp_spider" ],
     "vision_day": 5,
     "vision_night": 5,
-    "upgrades": { "age_grow": 30, "into": "mon_spider_wolf_giant" },
-    "extend": { "flags": [ "SMALL_HIDER" ] }
+    "upgrades": { "age_grow": 30, "into": "mon_spider_wolf_giant" }
   },
   {
     "id": "mon_spider_wolf_mega",
@@ -1804,7 +1791,7 @@
   {
     "id": "mon_wasp_small",
     "type": "MONSTER",
-    "name": { "str": "wasp" },
+    "name": { "str": "oversized wasp" },
     "description": "A huge wasp the size of a large cat with bright yellow markings on her jet-black carapace and a threatening stinger.  She flies around erratically, searching for smaller prey.",
     "default_faction": "wasp",
     "bodytype": "flying insect",
@@ -1853,7 +1840,7 @@
     "dissect": "dissect_insect_sample_single",
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_CLOSE", "PLAYER_WEAK", "HOSTILE_SEEN" ],
     "fear_triggers": [ "HURT", "FIRE" ],
-    "upgrades": { "half_life": 30, "into": "mon_wasp" },
+    "upgrades": { "age_grow": 30, "into": "mon_wasp" },
     "zombify_into": "mon_meat_cocoon_tiny",
     "fungalize_into": "mon_wasp_small_fungus",
     "flags": [
@@ -1874,7 +1861,7 @@
   {
     "id": "mon_wasp_small_guard",
     "type": "MONSTER",
-    "name": { "str": "wasp guard" },
+    "name": { "str": "oversized wasp guard" },
     "description": "A mutated wasp worker, buzzing around the nest.  While her foraging sisters are relatively content to leave you be, this one won't hesitate to attack anything she considers a threat to the nest.  Don't linger.",
     "copy-from": "mon_wasp_small",
     "aggression": 0,
@@ -1882,20 +1869,20 @@
     "stomach_size": 180,
     "extend": { "anger_triggers": [ "HURT", "FIRE", "STALK" ] },
     "delete": { "fear_triggers": [ "HURT", "FIRE" ] },
-    "upgrades": { "half_life": 30, "into": "mon_wasp_guard" },
+    "upgrades": { "age_grow": 30, "into": "mon_wasp_guard" },
     "fungalize_into": "mon_wasp_small_guard_fungus"
   },
   {
     "id": "mon_wasp_queen",
     "type": "MONSTER",
-    "name": { "str": "wasp queen" },
+    "name": { "str": "oversized wasp queen" },
     "description": "A mutated wasp queen grown to the size of a person, laying a single white egg in each empty cell she comes across while scurrying around on the paper walls of her home.  She struggles to fit into some of them, but the newer cells seem to be getting larger…",
     "copy-from": "mon_wasp_guard",
     "harvest": "arachnid_wasp_queen",
     "dissect": "dissect_insect_sample_large",
     "stomach_size": 800,
     "reproduction": { "baby_egg": "egg_wasp", "baby_count": 2, "baby_timer": 5 },
-    "upgrades": { "half_life": 30, "into": "mon_wasp_mega" },
+    "upgrades": { "age_grow": 30, "into": "mon_wasp_mega" },
     "fungalize_into": "mon_wasp_queen_fungus",
     "armor": { "bash": 5, "cut": 14, "stab": 12, "bullet": 12, "electric": 3 }
   },
@@ -2042,7 +2029,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 1,
     "upgrades": { "age_grow": 61, "into": "mon_dermatik" },
-    "extend": { "flags": [ "CAN_DIG", "SMALL_HIDER" ] }
+    "extend": { "flags": [ "CAN_DIG" ] }
   },
   {
     "id": "mon_dermatik",
@@ -2161,13 +2148,13 @@
   {
     "id": "mon_ant_small",
     "type": "MONSTER",
-    "name": { "str": "ant" },
+    "name": { "str": "oversized ant" },
     "description": "A mutant red ant the size of a dog, covered in chitinous plates.  She possesses a pair of wriggling antennae and vicious-looking mandibles.",
     "copy-from": "mon_ant",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
     "volume": "30 L",
     "weight": "40 kg",
-    "upgrades": { "half_life": 30, "into": "mon_ant" },
+    "upgrades": { "age_grow": 30, "into": "mon_ant" },
     "zombify_into": "mon_meat_cocoon_small"
   },
   {
@@ -2202,7 +2189,7 @@
     "harvest": "arachnid",
     "stomach_size": 300,
     "dissect": "dissect_insect_sample_single",
-    "upgrades": { "half_life": 30, "into": "mon_ant_soldier" },
+    "upgrades": { "age_grow": 30, "into": "mon_ant_soldier" },
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_WEAK" ],
     "special_attacks": [ [ "EAT_FOOD", 30 ], [ "BROWSE", 90 ], [ "EAT_CARRION", 90 ] ],
     "fungalize_into": "mon_ant_fungus",
@@ -2213,14 +2200,14 @@
   {
     "id": "mon_ant_acid_small",
     "type": "MONSTER",
-    "name": { "str": "acidic ant" },
+    "name": { "str": "oversized acidic ant" },
     "description": "A dog-sized mutant brown ant with a swollen abdomen that ends with a small orifice at the tip.  Glistening liquid drips out periodically.",
     "copy-from": "mon_ant_acid",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
     "volume": "30 L",
     "weight": "40 kg",
     "zombify_into": "mon_meat_cocoon_small",
-    "upgrades": { "half_life": 30, "into": "mon_ant_acid" }
+    "upgrades": { "age_grow": 30, "into": "mon_ant_acid" }
   },
   {
     "id": "mon_ant_acid",
@@ -2253,7 +2240,7 @@
     "vision_day": 10,
     "vision_night": 5,
     "stomach_size": 300,
-    "upgrades": { "half_life": 30, "into": "mon_ant_acid_soldier" },
+    "upgrades": { "age_grow": 30, "into": "mon_ant_acid_soldier" },
     "special_attacks": [ [ "ACID", 23 ], [ "EAT_FOOD", 30 ], [ "BROWSE", 90 ], [ "EAT_CARRION", 90 ] ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
     "death_function": { "message": "The %s's body leaks acid.", "effect": { "id": "death_acid", "hit_self": true } },
@@ -2324,7 +2311,7 @@
   {
     "id": "mon_ant_acid_soldier",
     "type": "MONSTER",
-    "name": { "str": "acidic soldier ant" },
+    "name": { "str": "oversized acidic soldier ant" },
     "description": "A massive woolly brown ant that towers over the worker ants with a giant head crest.  Along with her huge mandibles, a corrosive liquid seeps from the end of her bloated abdomen.",
     "default_faction": "acid_ant",
     "bodytype": "insect",
@@ -2357,7 +2344,7 @@
     "harvest": "arachnid_acid",
     "dissect": "dissect_insect_sample_single",
     "zombify_into": "mon_meat_cocoon_small",
-    "upgrades": { "half_life": 42, "into": "mon_ant_acid_soldier_mega" },
+    "upgrades": { "age_grow": 42, "into": "mon_ant_acid_soldier_mega" },
     "flags": [ "ACIDPROOF", "SHORTACIDTRAIL", "CLIMBS", "HEARS", "POISON", "SEES", "SMELLS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
     "armor": { "bash": 12, "cut": 14, "bullet": 11, "electric": 1 }
   },
@@ -2414,7 +2401,7 @@
   {
     "id": "mon_ant_queen",
     "type": "MONSTER",
-    "name": { "str": "queen ant" },
+    "name": { "str": "oversized queen ant" },
     "description": "A colossal red ant with a bulging, bloated thorax.  She moves slowly and deliberately, tending to nearby eggs and continually laying more.",
     "default_faction": "ant",
     "bodytype": "insect",
@@ -2447,7 +2434,7 @@
   {
     "id": "mon_ant_soldier",
     "type": "MONSTER",
-    "name": { "str": "soldier ant" },
+    "name": { "str": "oversized soldier ant" },
     "description": "A huge and hairy red ant almost twice the size of other giant ants.  Bulging pincers extend from her jaws.",
     "default_faction": "ant",
     "bodytype": "insect",
@@ -2479,7 +2466,7 @@
     "dissect": "dissect_insect_sample_single",
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
     "fungalize_into": "mon_ant_fungus",
-    "upgrades": { "half_life": 42, "into": "mon_ant_soldier_mega" },
+    "upgrades": { "age_grow": 42, "into": "mon_ant_soldier_mega" },
     "zombify_into": "mon_meat_cocoon_small",
     "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
     "armor": { "bash": 10, "cut": 12, "bullet": 10, "electric": 2 }
@@ -2525,7 +2512,7 @@
   {
     "id": "mon_locust_small",
     "type": "MONSTER",
-    "name": { "str": "locust" },
+    "name": { "str": "oversized locust" },
     "description": "A yellow and brown mutated locust the size of a small dog, with big eyes and long, powerful legs.",
     "copy-from": "mon_locust",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
@@ -2533,7 +2520,7 @@
     "weight": "20 kg",
     "stomach_size": 200,
     "zombify_into": "mon_meat_cocoon_tiny",
-    "upgrades": { "half_life": 30, "into": "mon_locust" }
+    "upgrades": { "age_grow": 30, "into": "mon_locust" }
   },
   {
     "id": "mon_locust",
@@ -2568,7 +2555,7 @@
     "biosignature": { "biosig_item": "feces_roach", "biosig_timer": 3 },
     "anger_triggers": [ "FRIEND_ATTACKED" ],
     "fear_triggers": [ "HURT", "FIRE" ],
-    "upgrades": { "half_life": 42, "into": "mon_locust_mega" },
+    "upgrades": { "age_grow": 42, "into": "mon_locust_mega" },
     "special_attacks": [
       {
         "type": "leap",
@@ -2637,13 +2624,12 @@
       [ "EAT_CROP", 60 ],
       [ "BROWSE", 60 ],
       [ "GRAZE", 800 ]
-    ],
-    "extend": { "flags": [ "SMALL_HIDER" ] }
+    ]
   },
   {
     "id": "mon_aphid_small",
     "type": "MONSTER",
-    "name": { "str": "aphid" },
+    "name": { "str": "oversized aphid" },
     "description": "This huge aphid is as big as a hamster.  It's not as thirsty as bigger ones, but a herd of these could eat your crops easily.",
     "copy-from": "mon_aphid",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.5 },
@@ -2651,12 +2637,9 @@
     "weight": "96 g",
     "stomach_size": 50,
     "special_attacks": [ [ "EAT_CROP", 80 ], [ "GRAZE", 800 ] ],
-    "delete": {
-      "reproduction": { "baby_monster": "mon_aphid", "baby_count": 1, "baby_timer": 20 },
-      "baby_flags": [ "SPRING", "SUMMER" ]
-    },
+    "extend": { "flags": [ "NO_BREED" ] },
     "biosignature": { "biosig_item": "honeydew", "biosig_timer": 7000 },
-    "upgrades": { "half_life": 30, "into": "mon_aphid" }
+    "upgrades": { "age_grow": 30, "into": "mon_aphid" }
   },
   {
     "id": "mon_aphid",
@@ -2700,7 +2683,7 @@
   {
     "id": "mon_mantis_small",
     "type": "MONSTER",
-    "name": { "str": "praying mantis", "str_pl": "praying mantises" },
+    "name": { "str": "oversized praying mantis", "str_pl": "oversized praying mantises" },
     "description": "A green mutant insect with sharp grappling spikes on its front legs.  It's a little smaller than an adult person.",
     "copy-from": "mon_mantis_giant",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67, "melee_skill": 0.625 },
@@ -2708,11 +2691,8 @@
     "weight": "80 kg",
     "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
     "dissect": "dissect_insect_sample_single",
-    "delete": {
-      "reproduction": { "baby_egg": "egg_mantis", "baby_count": 1, "baby_timer": 30 },
-      "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ]
-    },
-    "upgrades": { "half_life": 42, "into": "mon_mantis_giant" },
+    "extend": { "flags": [ "NO_BREED" ] },
+    "upgrades": { "age_grow": 42, "into": "mon_mantis_giant" },
     "zombify_into": "mon_meat_cocoon_small",
     "armor": { "bash": 10, "cut": 16, "bullet": 13, "electric": 1 }
   },
@@ -2760,7 +2740,7 @@
         "condition": { "not": { "u_has_effect": "maimed_leg" } }
       }
     ],
-    "upgrades": { "half_life": 42, "into": "mon_mantis_mega" },
+    "upgrades": { "age_grow": 42, "into": "mon_mantis_mega" },
     "zombify_into": "mon_meat_cocoon_med",
     "flags": [ "SEES", "HEARS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
     "armor": { "bash": 10, "cut": 16, "bullet": 13, "electric": 2 }
@@ -2798,8 +2778,7 @@
       }
     ],
     "anger_triggers": [ "PLAYER_CLOSE" ],
-    "armor": { "bash": 1, "cut": 2, "bullet": 1 },
-    "extend": { "flags": [ "SMALL_HIDER" ] }
+    "armor": { "bash": 1, "cut": 2, "bullet": 1 }
   },
   {
     "id": "mon_mantis_mega",
@@ -2829,13 +2808,6 @@
     ],
     "zombify_into": "mon_meat_cocoon_large",
     "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH" ] },
-    "delete": {
-      "type": "leap",
-      "cooldown": 8,
-      "max_range": 5,
-      "allow_no_target": false,
-      "upgrades": { "half_life": 42, "into": "mon_mantis_mega" }
-    },
     "armor": { "bash": 10, "cut": 16, "bullet": 13, "electric": 3 }
   },
   {
@@ -2904,7 +2876,7 @@
   {
     "id": "mon_lady_bug",
     "type": "MONSTER",
-    "name": { "str": "lady bug" },
+    "name": { "str": "oversized lady bug" },
     "description": "This is a mutated lady bug the size of a big dog.  While not as dangerous as her giant sisters, she's still troublesome to deal with.",
     "default_faction": "ladybug",
     "bodytype": "insect",
@@ -2994,8 +2966,9 @@
   {
     "id": "mon_lady_bug_larva",
     "type": "MONSTER",
-    "name": { "str": "ladybug larva", "str_pl": "ladybug larvae" },
+    "name": { "str": "lady bug larva", "str_pl": "lady bug larvae" },
     "description": "A large armored larva looking not unlike a centipede.  Even though it's just a juvenile the armor on its back already looks functional.",
+    "default_faction": "ladybug",
     "copy-from": "mon_larva_abstract",
     "volume": "20 L",
     "weight": "10 kg",
@@ -3015,19 +2988,15 @@
   {
     "id": "mon_grasshopper_small",
     "type": "MONSTER",
-    "name": { "str": "grasshopper" },
+    "name": { "str": "oversized grasshopper" },
     "description": "A large grasshopper a few times bigger than a regular one.",
     "copy-from": "mon_grasshopper_giant",
     "proportional": { "hp": 0.5, "speed": 1.1 },
     "volume": "750 ml",
     "weight": "1 kg",
     "stomach_size": 30,
-    "delete": {
-      "reproduction": { "baby_egg": "egg_grasshopper", "baby_count": 3, "baby_timer": 15 },
-      "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ]
-    },
-    "upgrades": { "half_life": 35, "into": "mon_grasshopper_giant" },
-    "extend": { "flags": [ "SMALL_HIDER" ] }
+    "upgrades": { "age_grow": 35, "into": "mon_grasshopper_giant" },
+    "extend": { "flags": [ "SMALL_HIDER", "NO_BREED" ] }
   },
   {
     "id": "mon_grasshopper_giant",
@@ -3098,8 +3067,7 @@
       [ "EAT_CROP", 100 ],
       [ "GRAZE", 133 ],
       [ "BROWSE", 133 ]
-    ],
-    "extend": { "flags": [ "SMALL_HIDER" ] }
+    ]
   },
   {
     "id": "mon_stag_beetle_larva",
@@ -3150,7 +3118,7 @@
       }
     ],
     "dissect": "dissect_insect_sample_small",
-    "upgrades": { "half_life": 60, "into": "mon_stag_beetle_giant" },
+    "upgrades": { "age_grow": 60, "into": "mon_stag_beetle_giant" },
     "zombify_into": "mon_meat_cocoon_large",
     "extend": { "flags": [ "NO_BREED" ] },
     "delete": { "flags": [ "DESTROYS", "PUSH_VEH" ] },
@@ -3209,7 +3177,7 @@
       [ "EAT_FOOD", 30 ],
       [ "BROWSE", 60 ]
     ],
-    "upgrades": { "half_life": 60, "into": "mon_stag_beetle_mega" },
+    "upgrades": { "age_grow": 60, "into": "mon_stag_beetle_mega" },
     "reproduction": { "baby_egg": "egg_stag_beetle", "baby_count": 1, "baby_timer": 32 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ],
     "zombify_into": "mon_meat_cocoon_large",
@@ -3375,18 +3343,15 @@
   {
     "id": "mon_strider_small",
     "type": "MONSTER",
-    "name": { "str": "water strider" },
+    "name": { "str": "oversized water strider" },
     "description": "This water bug is several times larger than a regular one.  Its movements are fast and fluid.",
     "copy-from": "mon_strider_giant",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.5 },
     "volume": "3 L",
     "weight": "4 kg",
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
-    "delete": {
-      "reproduction": { "baby_egg": "egg_strider", "baby_count": 3, "baby_timer": 10 },
-      "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ]
-    },
-    "upgrades": { "half_life": 40, "into": "mon_strider_giant" }
+    "extend": { "flags": [ "NO_BREED" ] },
+    "upgrades": { "age_grow": 40, "into": "mon_strider_giant" }
   },
   {
     "id": "mon_strider_giant",
@@ -3435,12 +3400,12 @@
     "symbol": "s",
     "color": "light_gray",
     "upgrades": { "age_grow": 30, "into": "mon_strider_giant" },
-    "extend": { "flags": [ "SWIMS", "SMALL_HIDER" ] }
+    "extend": { "flags": [ "SWIMS" ] }
   },
   {
     "id": "mon_butterfly",
     "type": "MONSTER",
-    "name": { "str": "mutated butterfly", "str_pl": "mutated butterflies" },
+    "name": { "str": "oversized butterfly", "str_pl": "oversized butterflies" },
     "description": "An oversized butterfly with vibrant colored markings.  Unlike the other big insects of the Cataclysm this is a very peaceful nectivore.",
     "bodytype": "flying insect",
     "species": [ "INSECT_FLYING" ],
@@ -3506,7 +3471,7 @@
   {
     "id": "mon_moth",
     "type": "MONSTER",
-    "name": { "str": "mutated moth" },
+    "name": { "str": "oversized moth" },
     "description": "An oversized moth with its typical wood-like motifs.  It is as peaceful as the mutated butterflies found during the day.",
     "bodytype": "flying insect",
     "species": [ "INSECT_FLYING" ],
@@ -3755,8 +3720,7 @@
     "stomach_size": 60,
     "color": "white",
     "harvest": "mutant_shellfish",
-    "upgrades": { "age_grow": 21, "into": "mon_woodlouse" },
-    "extend": { "flags": [ "SMALL_HIDER" ] }
+    "upgrades": { "age_grow": 21, "into": "mon_woodlouse" }
   },
   {
     "id": "mon_diving_larva",
@@ -3787,8 +3751,7 @@
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "fear_triggers": [ "HURT" ],
     "flags": [ "AQUATIC", "SEES", "WATER_CAMOUFLAGE" ],
-    "upgrades": { "age_grow": 21, "into": "mon_diving_beetle_small" },
-    "extend": { "flags": [ "SMALL_HIDER" ] }
+    "upgrades": { "age_grow": 21, "into": "mon_diving_beetle_small" }
   },
   {
     "id": "mon_diving_beetle_small",
@@ -3869,7 +3832,6 @@
     "symbol": "w",
     "volume": "10 L",
     "weight": "15 kg",
-    "upgrades": { "half_life": 14, "into": "mon_water_scorpion" },
-    "delete": { "reproduction": { "baby_egg": "egg_water_bug", "baby_count": 3, "baby_timer": 10 } }
+    "upgrades": { "age_grow": 14, "into": "mon_water_scorpion" }
   }
 ]

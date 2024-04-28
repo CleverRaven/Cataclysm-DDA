@@ -317,7 +317,7 @@ int turret_data::fire( Character &c, const tripoint &target )
     gun_mode mode = base()->gun_current_mode();
 
     prepare_fire( c );
-    shots = c.fire_gun( target, mode.qty, *mode );
+    shots = c.fire_gun( target, mode.qty, *mode, item_location() );
     post_fire( c, shots );
     return shots;
 }
@@ -431,8 +431,8 @@ bool vehicle::turrets_aim( std::vector<vehicle_part *> &turrets )
         }
 
         ///\EFFECT_INT speeds up aiming of vehicle turrets
-        player_character.moves = std::min( 0,
-                                           player_character.moves - 100 + ( 5 * player_character.int_cur ) );
+        player_character.set_moves( std::min( 0,
+                                              player_character.get_moves() - 100 + ( 5 * player_character.int_cur ) ) );
     }
     return got_target;
 }

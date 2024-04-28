@@ -57,7 +57,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_NETHER_FATIGUE_FIELD",
+    "name": "GROUP_NETHER_REALITY_TEAR_FIELD",
     "monsters": [ { "monster": "mon_staring_eye", "weight": 100, "cost_multiplier": 0 } ]
   },
   {

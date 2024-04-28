@@ -2,31 +2,32 @@
 
 #include <algorithm>
 #include <cmath>
-#include <cstddef>
 #include <cstdlib>
-#include <iosfwd>
 #include <list>
 #include <memory>
 #include <optional>
 #include <set>
 #include <string>
 #include <tuple>
-#include <type_traits>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
+#include "activity_actor_definitions.h"
 #include "activity_type.h"
 #include "avatar.h"
 #include "calendar.h"
+#include "cata_utility.h"
 #include "character.h"
 #include "clzones.h"
 #include "colony.h"
 #include "construction.h"
-#include "contents_change_handler.h"
+#include "craft_command.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "debug.h"
 #include "enums.h"
+#include "faction.h"
 #include "field.h"
 #include "field_type.h"
 #include "fire.h"
@@ -36,11 +37,12 @@
 #include "iexamine.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_components.h"
+#include "item_contents.h"
 #include "item_location.h"
+#include "item_pocket.h"
+#include "item_stack.h"
 #include "itype.h"
-#include "iuse.h"
-#include "line.h"
-#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_selector.h"
@@ -52,7 +54,10 @@
 #include "overmapbuffer.h"
 #include "pickup.h"
 #include "player_activity.h"
+#include "pocket_type.h"
 #include "point.h"
+#include "recipe.h"
+#include "recipe_dictionary.h"
 #include "requirements.h"
 #include "ret_val.h"
 #include "rng.h"
@@ -65,10 +70,11 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
+#include "visitable.h"
 #include "vpart_position.h"
 #include "weather.h"
-#include "recipe_dictionary.h"
-#include "activity_actor_definitions.h"
+
+struct use_function;
 
 static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_BUTCHER_FULL( "ACT_BUTCHER_FULL" );
@@ -117,6 +123,9 @@ static const quality_id qual_SAW_W( "SAW_W" );
 static const quality_id qual_WELD( "WELD" );
 
 static const requirement_id requirement_data_mining_standard( "mining_standard" );
+
+static const ter_str_id ter_t_stump( "t_stump" );
+static const ter_str_id ter_t_trunk( "t_trunk" );
 
 static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
@@ -1167,8 +1176,8 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         }
     }
     if( act == ACT_MULTIPLE_CHOP_TREES ) {
-        if( here.has_flag( ter_furn_flag::TFLAG_TREE, src_loc ) || here.ter( src_loc ) == t_trunk ||
-            here.ter( src_loc ) == t_stump ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_TREE, src_loc ) || here.ter( src_loc ) == ter_t_trunk ||
+            here.ter( src_loc ) == ter_t_stump ) {
             if( you.has_quality( qual_AXE ) ) {
                 return activity_reason_info::ok( do_activity_reason::NEEDS_TREE_CHOPPING );
             } else {
@@ -1292,6 +1301,10 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         for( const zone_data &zone : zones ) {
             const plot_options &options = dynamic_cast<const plot_options &>( zone.get_options() );
             const itype_id seed = options.get_seed();
+
+            if( here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_OVERGROWN, src_loc ) ) {
+                return activity_reason_info::ok( do_activity_reason::NEEDS_CLEARING );
+            }
 
             if( here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_HARVEST, src_loc ) ) {
                 map_stack items = here.i_at( src_loc );
@@ -1777,29 +1790,8 @@ static bool construction_activity( Character &you, const zone_data * /*zone*/,
             comp_selection<item_comp> sel;
             sel.use_from = usage_from::both;
             sel.comp = comp;
-            std::list<item> empty_consumed = you.consume_items( sel, 1, is_preferred_crafting_component );
-
-            int left_to_consume = 0;
-
-            if( !empty_consumed.empty() && empty_consumed.front().count_by_charges() ) {
-                int consumed = 0;
-                for( item &itm : empty_consumed ) {
-                    consumed += itm.charges;
-                }
-                left_to_consume = comp.count - consumed;
-            } else if( empty_consumed.size() < static_cast<size_t>( comp.count ) ) {
-                left_to_consume = comp.count - empty_consumed.size();
-            }
-
-            if( left_to_consume > 0 ) {
-                comp_selection<item_comp> remainder = sel;
-                remainder.comp.count = 1;
-                std::list<item>used_consumed = you.consume_items( remainder,
-                                               left_to_consume, is_crafting_component );
-                empty_consumed.splice( empty_consumed.end(), used_consumed );
-            }
-
-            used.splice( used.end(), empty_consumed );
+            std::list<item> consumed = you.consume_items( sel, 1, is_crafting_component );
+            used.splice( used.end(), consumed );
         }
     }
     pc.components = used;
@@ -2371,7 +2363,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                     break;
                 }
             }
-            if( you.moves <= 0 || move_and_reset ) {
+            if( you.get_moves() <= 0 || move_and_reset ) {
                 return;
             }
         }
@@ -2477,7 +2469,7 @@ static bool chop_tree_activity( Character &you, const tripoint_bub_ms &src_loc )
         you.assign_activity( chop_tree_activity_actor( moves, item_location( you, &best_qual ) ) );
         you.activity.placement = here.getglobal( src_loc );
         return true;
-    } else if( ter == t_trunk || ter == t_stump ) {
+    } else if( ter == ter_t_trunk || ter == ter_t_stump ) {
         you.assign_activity( chop_logs_activity_actor( moves, item_location( you, &best_qual ) ) );
         you.activity.placement = here.getglobal( src_loc );
         return true;
@@ -2701,7 +2693,7 @@ static std::unordered_set<tripoint_abs_ms> generic_multi_activity_locations(
     }
     const bool post_dark_check = src_set.empty();
     if( !pre_dark_check && post_dark_check && !MOP_ACTIVITY ) {
-        you.add_msg_if_player( m_info, _( "It is too dark to do this activity." ) );
+        you.add_msg_if_player( m_info, _( "It is too dark to do the %s activity." ), act_id.c_str() );
     }
     return src_set;
 }
@@ -2751,9 +2743,21 @@ static requirement_check_result generic_multi_activity_check_requirement(
         reason == do_activity_reason::UNKNOWN_ACTIVITY ) {
         // we can discount this tile, the work can't be done.
         if( reason == do_activity_reason::DONT_HAVE_SKILL ) {
-            you.add_msg_if_player( m_info, _( "You don't have the skill for this task." ) );
+            if( zone ) {
+                you.add_msg_if_player( m_info, _( "You don't have the skill for the %s task at zone %s." ),
+                                       act_id.c_str(), zone->get_name() );
+            } else {
+                you.add_msg_if_player( m_info, _( "You don't have the skill for the %s task." ), act_id.c_str() );
+            }
         } else if( reason == do_activity_reason::BLOCKING_TILE ) {
-            you.add_msg_if_player( m_info, _( "There is something blocking the location for this task." ) );
+            if( zone ) {
+                you.add_msg_if_player( m_info,
+                                       _( "There is something blocking the location for the %s task at zone %s." ), act_id.c_str(),
+                                       zone->get_name() );
+            } else {
+                you.add_msg_if_player( m_info, _( "There is something blocking the location for the %s task." ),
+                                       act_id.c_str() );
+            }
         }
         return requirement_check_result::SKIP_LOCATION;
     } else if( reason == do_activity_reason::NO_COMPONENTS ||
@@ -2772,8 +2776,15 @@ static requirement_check_result generic_multi_activity_check_requirement(
         // we can do it, but we need to fetch some stuff first
         // before we set the task to fetch components - is it even worth it? are the components anywhere?
         if( you.is_npc() ) {
-            add_msg_if_player_sees( you, m_info, _( "%s is trying to find necessary items to do the job" ),
-                                    you.disp_name() );
+            if( zone ) {
+                add_msg_if_player_sees( you, m_info,
+                                        _( "%s is trying to find necessary items to do the %s job on zone %s, reason %s" ),
+                                        you.disp_name(), act_id.c_str(), zone->get_name(), do_activity_reason_string[int( reason )] );
+            } else {
+                add_msg_if_player_sees( you, m_info,
+                                        _( "%s is trying to find necessary items to do the %s job, reason %s" ),
+                                        you.disp_name(), act_id.c_str(), do_activity_reason_string[int( reason )] );
+            }
         }
         requirement_id what_we_need;
         std::vector<tripoint_bub_ms> loot_zone_spots;
@@ -2887,9 +2898,17 @@ static requirement_check_result generic_multi_activity_check_requirement(
         // is it even worth fetching anything if there isn't enough nearby?
         if( !are_requirements_nearby( tool_pickup ? loot_zone_spots : combined_spots, what_we_need, you,
                                       act_id, tool_pickup, src_loc ) ) {
-            you.add_msg_player_or_npc( m_info,
-                                       _( "The required items are not available to complete this task." ),
-                                       _( "The required items are not available to complete this task." ) );
+            if( zone ) {
+                you.add_msg_player_or_npc( m_info,
+                                           _( "The required items are not available to complete the %s task at zone %s." ), act_id.c_str(),
+                                           zone->get_name(),
+                                           _( "The required items are not available to complete the %s task at zone %s." ), act_id.c_str(),
+                                           zone->get_name() );
+            } else {
+                you.add_msg_player_or_npc( m_info,
+                                           _( "The required items are not available to complete the %s task." ), act_id.c_str(),
+                                           _( "The required items are not available to complete the %s task." ), act_id.c_str() );
+            }
             if( reason == do_activity_reason::NEEDS_VEH_DECONST ||
                 reason == do_activity_reason::NEEDS_VEH_REPAIR ) {
                 you.activity_vehicle_part_index = -1;
@@ -2967,6 +2986,9 @@ static bool generic_multi_activity_do(
         here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_HARVEST, src_loc ) ) {
         // TODO: fix point types
         iexamine::harvest_plant( you, src_loc.raw(), true );
+    } else if( ( reason == do_activity_reason::NEEDS_CLEARING ) &&
+               here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_OVERGROWN, src_loc ) ) {
+        iexamine::clear_overgrown( you, src_loc.raw() );
     } else if( reason == do_activity_reason::NEEDS_TILLING &&
                here.has_flag( ter_furn_flag::TFLAG_PLOWABLE, src_loc ) &&
                you.has_quality( qual_DIG, 1 ) && !here.has_furn( src_loc ) ) {
@@ -3211,7 +3233,7 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
                 continue;
             }
             if( !check_only ) {
-                if( you.moves <= 0 ) {
+                if( you.get_moves() <= 0 ) {
                     // Restart activity and break from cycle.
                     you.assign_activity( activity_to_restore );
                     return true;
@@ -3250,7 +3272,7 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
         }
     }
     if( !check_only ) {
-        if( you.moves <= 0 ) {
+        if( you.get_moves() <= 0 ) {
             // Restart activity and break from cycle.
             you.assign_activity( activity_to_restore );
             you.activity_vehicle_part_index = -1;

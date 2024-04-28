@@ -59,6 +59,10 @@ class vehicle;
 
 constexpr int8_t NPC_PERSONALITY_MIN = -10;
 constexpr int8_t NPC_PERSONALITY_MAX = 10;
+constexpr float NPC_DANGER_VERY_LOW = 5.0f;
+constexpr float NPC_MONSTER_DANGER_MAX = 150.0f;
+constexpr float NPC_CHARACTER_DANGER_MAX = 250.0f;
+constexpr float NPC_COWARDICE_MODIFIER = 0.25f;
 
 namespace catacurses
 {
@@ -1022,6 +1026,7 @@ class npc : public Character
             return say( string_format( line, std::forward<Args>( args )... ) );
         }
         void say( const std::string &line, sounds::sound_t spriority = sounds::sound_t::speech ) const;
+        int indoor_voice() const;
         void decide_needs();
         void reboot();
         void die( Creature *killer ) override;
@@ -1138,6 +1143,7 @@ class npc : public Character
         npc_action address_needs( float danger );
         npc_action address_player();
         npc_action long_term_goal_action();
+        int evaluate_sleep_spot( tripoint_bub_ms p );
         // Returns true if did something and we should end turn
         bool scan_new_items();
         // Returns true if did wield it
@@ -1231,8 +1237,8 @@ class npc : public Character
 
         /** Returns true if it finds one. */
         bool find_corpse_to_pulp();
-        /** Returns true if it handles the turn. */
-        bool do_pulp();
+        /** Returns true if NPC can do pulp in this turn. */
+        bool can_do_pulp();
         /** perform a player activity, returning true if it took up the turn */
         bool do_player_activity();
 
@@ -1352,7 +1358,10 @@ class npc : public Character
         // Player orders a friendly NPC to move to this position
         std::optional<tripoint_abs_ms> goto_to_this_pos;
         int last_seen_player_turn = 0; // Timeout to forgetting
-        const item *wanted_item = nullptr;
+
+        //Safe reference to an item at a specific location in case it gets deleted before pickup
+        item_location wanted_item = {};
+
         tripoint wanted_item_pos; // The square containing an item we want
         // These are the coordinates that a guard will return to inside of their goal tripoint
         std::optional<tripoint_abs_ms> guard_pos;

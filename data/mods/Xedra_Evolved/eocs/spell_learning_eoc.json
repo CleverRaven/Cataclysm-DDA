@@ -18,7 +18,7 @@
       { "u_message": "spell: <context_val:spell>", "type": "debug" },
       { "u_message": "spell_exp_diff: <global_val:debug_xe_spell_exp_diff>", "type": "debug" },
       { "u_message": "spell_train_factor: <global_val:debug_xe_spell_train_factor>", "type": "debug" },
-      { "u_message": "amount of xp added: <global_val:debug_xe_spell_xp_give>", "type": "debug" },
+      { "u_message": "amount of XP added: <global_val:debug_xe_spell_xp_give>", "type": "debug" },
       { "math": [ "u_spell_exp(_spell)", "+=", "spell_exp_diff(u_spell_level(_spell))/spell_train_factor(_cost)" ] }
     ]
   },

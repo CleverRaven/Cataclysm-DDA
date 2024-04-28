@@ -24,7 +24,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_NETHER_FATIGUE_FIELD",
+    "name": "GROUP_NETHER_REALITY_TEAR_FIELD",
     "default": "mon_blank",
     "monsters": [
       { "monster": "mon_flying_polyp", "weight": 100, "cost_multiplier": 0 },

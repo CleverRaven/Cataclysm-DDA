@@ -5,7 +5,7 @@
     "name": { "str": "Blood Power Generator" },
     "description": "Embedded into your back and connected to your bionic power supply is a powerful spell focus able to consume blood from dead creatures to produce bionic power.  It can store up to 750 mL of blood.",
     "occupied_bodyparts": [ [ "torso", 8 ] ],
-    "fuel_options": [ "blood", "dragon_blood", "tainted_blood", "hblood" ],
+    "fuel_options": [ "blood", "dragon_blood", "blood_tainted", "hblood" ],
     "fuel_efficiency": 0.6,
     "exothermic_power_gen": true,
     "time": "6 s",
@@ -20,7 +20,7 @@
     "description": "Internal tank for blood power generator bionic.",
     "volume": "751 ml",
     "weight": "1 g",
-    "price": 0,
+    "price": "0 cent",
     "material": [ "plastic" ],
     "symbol": "(",
     "color": "magenta",
@@ -33,7 +33,7 @@
         "max_contains_volume": "750 ml",
         "max_item_volume": "250 ml",
         "max_contains_weight": "1 kg",
-        "material_restriction": [ "blood", "dragon_blood", "tainted_blood", "hblood" ]
+        "material_restriction": [ "blood", "dragon_blood", "blood_tainted", "hblood" ]
       }
     ]
   }

@@ -12,12 +12,41 @@
     "symbol": "%",
     "quench": 3,
     "calories": 75,
-    "price": 40,
-    "price_postapoc": 100,
+    "price": "40 cent",
+    "price_postapoc": "1 USD",
     "material": [ "fruit" ],
     "fun": 1,
     "flags": [ "FREEZERBURN", "NO_AUTO_CONSUME" ],
     "vitamins": [ [ "vitC", 10 ], [ "calcium", 10 ], [ "iron", 10 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "goblin_fruit_gacha",
+    "name": { "str": "mysterious fruit" },
+    "description": "Some sort of fruit sealed in a thick shell.  The shell is rigid but seems surprisingly brittle; you could easily peel it open to see what's inside with your bare hands.",
+    "weight": "364 g",
+    "volume": "464 ml",
+    "color": "magenta",
+    "spoils_in": "60 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "price": "40 cent",
+    "price_postapoc": "1 USD",
+    "material": [ "fruit" ],
+    "flags": [ "INEDIBLE", "NO_AUTO_CONSUME", "SINGLE_USE" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Peel open the mysterious fruit.",
+      "effect_on_conditions": [ "EOC_GOBLIN_FRUIT_GACHA" ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GOBLIN_FRUIT_GACHA",
+    "effect": [
+      { "u_spawn_item": "spell_spawned_goblin_fruit", "use_item_group": true, "suppress_message": true },
+      { "u_message": "You peel open the mysterious fruit and find another whole fruit inside.", "type": "info" }
+    ]
   },
   {
     "type": "COMESTIBLE",
@@ -168,7 +197,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_GOBLIN_FRUIT_AWAKE",
-    "effect": [ { "math": [ "u_val('fatigue')", "-=", "25" ] } ]
+    "effect": [ { "math": [ "u_val('sleepiness')", "-=", "25" ] } ]
   },
   {
     "type": "COMESTIBLE",
@@ -423,7 +452,7 @@
     "effect": [
       { "u_message": "Your body swells and warps as your size increases!", "type": "good" },
       { "u_add_trait": "GOBLIN_FRUIT_GIANT_GROWTH" },
-      { "math": [ "u_val('stored_kcal')", "+=", "100000" ] },
+      { "math": [ "u_calories()", "+=", "100000" ] },
       { "queue_eocs": "EOC_GOBLIN_FRUIT_GIANT_GROWTH_REMOVE", "time_in_future": { "math": [ "3000 + rand(10000)" ] } }
     ],
     "false_effect": [ { "u_message": "You eat the goblin fruit but nothing happens.  Oh well." } ]
@@ -434,7 +463,7 @@
     "effect": [
       { "u_message": "Your body shrinks and warps as your size decreases!", "type": "mixed" },
       { "u_lose_trait": "GOBLIN_FRUIT_GIANT_GROWTH" },
-      { "math": [ "u_val('stored_kcal')", "-=", "100000" ] }
+      { "math": [ "u_calories()", "-=", "100000" ] }
     ]
   }
 ]

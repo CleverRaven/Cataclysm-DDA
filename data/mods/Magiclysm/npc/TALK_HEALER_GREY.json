@@ -3,9 +3,7 @@
     "type": "talk_topic",
     "id": "TALK_HEALER_GREY",
     "dynamic_line": {
-      "u_has_var": "talked_to_healer_grey",
-      "type": "dialogue",
-      "context": "healer_grey",
+      "u_has_var": "dialogue_healer_grey_talked_to_healer_grey",
       "value": "yes",
       "no": "I must purge this land of its curse.  Will you help or hinder our mission?",
       "yes": "Blessed be."
@@ -14,7 +12,7 @@
       {
         "text": "Hello <name_g>.",
         "topic": "TALK_HEALER_GREY_INTRO",
-        "effect": { "u_add_var": "talked_to_HEALER_GREY", "type": "dialogue", "context": "healer_grey", "value": "yes" }
+        "effect": { "u_add_var": "dialogue_healer_grey_talked_to_HEALER_GREY", "value": "yes" }
       },
       { "text": "Wanna get outta here?", "topic": "TALK_SUGGEST_FOLLOW" },
       { "text": "Let's trade items.", "topic": "TALK_HEALER_GREY", "effect": "start_trade" },

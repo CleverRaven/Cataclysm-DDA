@@ -176,10 +176,6 @@ template<>
 struct enum_traits<iteminfo::flags> {
     static constexpr bool is_flag_enum = true;
 };
-// Currently used to store the only throwing stats of character dropping this item. Default is -1
-struct dropped_by_character_stats {
-    float throwing;
-};
 
 iteminfo vol_to_info( const std::string &type, const std::string &left,
                       const units::volume &vol, int decimal_places = 2, bool lower_is_better = true );
@@ -235,8 +231,6 @@ class item : public visitable
         {}
 
         ~item() override;
-
-        struct dropped_by_character_stats dropped_char_stats = { -1.0f };
 
         /** Return a pointer-like type that's automatically invalidated if this
          * item is destroyed or assigned-to */
@@ -418,6 +412,8 @@ class item : public visitable
         std::string tname( unsigned int quantity = 1,
                            tname::segment_bitset const &segments = tname::default_tname ) const;
         std::string tname( unsigned int quantity, bool with_prefix ) const;
+        static std::string tname( const itype_id &id, unsigned int quantity = 1,
+                                  tname::segment_bitset const &segments = tname::default_tname );
         std::string display_money( unsigned int quantity, unsigned int total,
                                    const std::optional<unsigned int> &selected = std::nullopt ) const;
         /**
@@ -1151,6 +1147,11 @@ class item : public visitable
         /** The results of fermenting this item. */
         const std::map<itype_id, int> &brewing_results() const;
 
+        /** Time for this item to be fully fermented. */
+        time_duration composting_time() const;
+        /** The results of fermenting this item. */
+        const std::map<itype_id, int> &composting_results() const;
+
         /**
          * Detonates the item and adds remains (if any) to drops.
          * Returns true if the item actually detonated,
@@ -1630,6 +1631,7 @@ class item : public visitable
         bool is_bucket_nonempty() const;
 
         bool is_brewable() const;
+        bool is_compostable() const;
         bool is_engine() const;
         bool is_wheel() const;
         bool is_fuel() const;
@@ -1699,12 +1701,14 @@ class item : public visitable
         ret_val<void> can_contain( const item &it, bool nested = false,
                                    bool ignore_rigidity = false,
                                    bool ignore_pkt_settings = true,
+                                   bool is_pick_up_inv = false,
                                    const item_location &parent_it = item_location(),
                                    units::volume remaining_parent_volume = 10000000_ml,
                                    bool allow_nested = true ) const;
         ret_val<void> can_contain( const item &it, int &copies_remaining, bool nested = false,
                                    bool ignore_rigidity = false,
                                    bool ignore_pkt_settings = true,
+                                   bool is_pick_up_inv = false,
                                    const item_location &parent_it = item_location(),
                                    units::volume remaining_parent_volume = 10000000_ml,
                                    bool allow_nested = true ) const;
@@ -1970,6 +1974,9 @@ class item : public visitable
         /** Idempotent filter setting an item specific flag. */
         item &set_flag( const flag_id &flag );
 
+        /** Idempotent filter setting an item specific fault. */
+        item &set_fault( const fault_id &fault_id );
+
         /** Idempotent filter removing an item specific flag */
         item &unset_flag( const flag_id &flag );
 
@@ -1979,6 +1986,9 @@ class item : public visitable
         /** Removes all item specific flags. */
         void unset_flags();
         /*@}*/
+
+        /**Does this item have the specified vitamin*/
+        bool has_vitamin( const vitamin_id &vitamin ) const;
 
         /**Does this item have the specified fault*/
         bool has_fault( const fault_id &fault ) const;
@@ -2037,27 +2047,15 @@ class item : public visitable
          */
         bool is_seed() const;
         /**
-         * Time it takes to grow from one stage to another. There are 4 plant stages:
+         * Time it takes to grow from one stage to another. There are normally 4 plant stages:
          * seed, seedling, mature and harvest. Non-seed items return 0.
          */
-        time_duration get_plant_epoch() const;
+        time_duration get_plant_epoch( int num_epochs = 3 ) const;
         /**
          * The name of the plant as it appears in the various informational menus. This should be
          * translated. Returns an empty string for non-seed items.
          */
         std::string get_plant_name() const;
-        /**
-         * Furniture ID of what the plant grows into. Defaults to f_plant_seedling
-         */
-        std::optional<furn_str_id> get_plant_seedling_form() const;
-        /**
-         * Furniture ID of what the plant grows into. Defaults to f_plant_mature
-         */
-        std::optional<furn_str_id> get_plant_mature_form() const;
-        /**
-         * Furniture ID of what the plant grows into. Defaults to f_plant_harvestable
-         */
-        std::optional<furn_str_id> get_plant_harvestable_form() const;
         /*@}*/
         /**
          * @name Armor related functions.
@@ -2254,16 +2252,6 @@ class item : public visitable
         int get_encumber( const Character &, const bodypart_id &bodypart,
                           encumber_flags = encumber_flags::none ) const;
 
-        /**
-         * Returns the weight capacity modifier (@ref islot_armor::weight_capacity_modifier) that this item provides when worn.
-         * For non-armor it returns 1. The modifier is multiplied with the weight capacity of the character that wears the item.
-         */
-        float get_weight_capacity_modifier() const;
-        /**
-         * Returns the weight capacity bonus (@ref islot_armor::weight_capacity_modifier) that this item provides when worn.
-         * For non-armor it returns 0. The bonus is added to the total weight capacity of the character that wears the item.
-         */
-        units::mass get_weight_capacity_bonus() const;
         /**
          * Returns the resistance to environmental effects (@ref islot_armor::env_resist) that this
          * item provides when worn. See @ref player::get_env_resist. Higher values are better.
@@ -3286,11 +3274,6 @@ inline bool is_crafting_component( const item &component )
  * Filter for crafting components first pass searches excluding undesirable properties.
  */
 bool is_preferred_component( const item &component );
-
-/**
- * Filter for empty crafting components first pass searches
- */
-bool is_preferred_crafting_component( const item &component );
 
 #endif // CATA_SRC_ITEM_H
 

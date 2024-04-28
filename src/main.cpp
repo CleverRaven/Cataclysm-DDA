@@ -168,9 +168,7 @@ void exit_handler( int s )
         } else
 #endif
         {
-#if !defined(__ANDROID__)
             imclient.reset();
-#endif
             exit( exit_status );
         }
     }
@@ -596,7 +594,7 @@ EM_ASYNC_JS( void, mount_idbfs, (), {
             if( err ) {
                 reject( err );
             } else {
-                console.log( "Succesfully mounted IDBFS." );
+                console.log( "Successfully mounted IDBFS." );
                 resolve();
             }
         } );
@@ -619,7 +617,7 @@ EM_ASYNC_JS( void, mount_idbfs, (), {
             if( err ) {
                 console.error( err );
             } else {
-                console.log( "Succesfully persisted to IDBFS..." );
+                console.log( "Successfully persisted to IDBFS..." );
             }
         } );
     }

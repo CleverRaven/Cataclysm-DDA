@@ -71,6 +71,7 @@
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "harvest": "mammal_tiny",
+    "biosignature": { "biosig_item": "shed_snakeskin_little", "biosig_timer": 180 },
     "flags": [ "SEES", "HEARS", "SMELLS", "VENOM", "HARDTOSHOOT", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "SWIMS" ]
   },
   {
@@ -111,6 +112,7 @@
     "baby_flags": [ "SUMMER" ],
     "//babies": "On average, a female rattlesnake gives birth to at least eight babies, up to around fifteen.  Most baby rattlesnakes are born in the early summer, but sometimes in late summer and early autumn.",
     "upgrades": { "half_life": 34, "into": "mon_rattlesnake_big" },
+    "biosignature": { "biosig_item": "shed_snakeskin", "biosig_timer": 180 },
     "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "KEENNOSE", "CLIMBS", "PATH_AVOID_DANGER_1", "ANIMAL", "SWIMS" ]
   },
   {
@@ -133,9 +135,10 @@
         "damage_max_instance": [ { "damage_type": "stab", "amount": 8, "armor_multiplier": 0.8 } ]
       }
     ],
-    "reproduction": { "baby_monster": "mon_rattlesnake_s", "baby_count": 13, "baby_timer": 240 },
+    "reproduction": { "baby_monster": "mon_rattlesnake_s", "baby_count": 13, "baby_timer": 180 },
     "baby_flags": [ "AUTUMN", "SUMMER" ],
     "upgrades": { "half_life": 65, "into": "mon_rattlesnake_giant" },
+    "biosignature": { "biosig_item": "shed_snakeskin_big", "biosig_timer": 240 },
     "armor": { "bash": 1, "cut": 3, "bullet": 2, "electric": 1 },
     "delete": { "anger_triggers": [ "PLAYER_CLOSE" ] }
   },
@@ -157,7 +160,8 @@
     "aggression": -30,
     "upgrades": { "age_grow": 365, "into": "mon_rattlesnake_big" },
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
-    "harvest": "mammal_tiny",
+    "harvest": "mutant_tiny",
+    "biosignature": { "biosig_item": "shed_snakeskin", "biosig_timer": 180 },
     "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "KEENNOSE", "CLIMBS", "PATH_AVOID_DANGER_1", "ANIMAL", "SWIMS" ]
   },
   {
@@ -202,6 +206,7 @@
     "reproduction": { "baby_monster": "mon_rattlesnake_big_s", "baby_count": 15, "baby_timer": 120 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "upgrades": { "half_life": 80, "into": "mon_rattlesnake_mega" },
+    "biosignature": { "biosig_item": "shed_snakeskin_giant", "biosig_timer": 180 },
     "zombify_into": "mon_meat_cocoon_small",
     "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "KEENNOSE", "CLIMBS", "PATH_AVOID_DANGER_1", "ANIMAL", "SWIMS" ],
     "armor": { "bash": 2, "cut": 4, "bullet": 3, "electric": 1 }
@@ -255,6 +260,7 @@
     "//babies": "Rattlesnake's gestation period is around 90 days, but it varies depending on the breed.  The timber rattlesnake has a gestation period of up to five months.",
     "//babies2": "Deathrattle is heavily mutated, so a short gestation period and all-year large clutch birth are plausible",
     "zombify_into": "mon_meat_cocoon_large",
+    "biosignature": { "biosig_item": "shed_snakeskin_scales", "biosig_timer": 180 },
     "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "KEENNOSE", "CLIMBS", "PATH_AVOID_DANGER_1", "ANIMAL", "PUSH_MON", "SWIMS" ],
     "armor": { "bash": 6, "cut": 8, "bullet": 6, "electric": 3, "acid": 6 }
   },
@@ -535,11 +541,12 @@
     "id": "mon_pattern_frog",
     "type": "MONSTER",
     "copy-from": "mon_leo_frog",
-    "description": "This large frog is covered in chaotic markings like a fractal river map over a background of tv static.  While most lose their gills during metamorphosis, this frog seems to have retained them, or something like them.",
+    "description": "This large frog is covered in chaotic markings like a fractal river map over a background of TV static.  While most lose their gills during metamorphosis, this frog seems to have retained them, or something like them.",
     "name": { "str": "strangely-patterned frog" },
     "categories": [ "NULL" ],
     "harvest": "mutant_tiny",
     "upgrades": { "age_grow": 15, "into": "mon_pattern_bigfrog" },
+    "reproduction": { "baby_egg": "egg_pattern_frog", "baby_count": 6, "baby_timer": 20 },
     "//": "When possible, add effect for rare flicker of very low luminance."
   },
   {
@@ -574,7 +581,7 @@
     "type": "MONSTER",
     "copy-from": "mon_proxy_frog",
     "description": "Fowler's toads secrete a harmful and distasteful compound from their backs.  This helps safeguard them from predators and also gives them a distinctive odor like boiled peanuts.",
-    "name": { "str": "fowler's toad" },
+    "name": { "str": "Fowler's toad" },
     "reproduction": { "baby_egg": "egg_fowler_toad", "baby_count": 8, "baby_timer": 36 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "extend": { "flags": [ "POISON" ] }
@@ -596,7 +603,7 @@
     "type": "MONSTER",
     "copy-from": "mon_proxy_frog",
     "description": "American toads can vary greatly in appearance.  Individual toads will shift their coloration and patterning throughout the seasons to better camouflage.",
-    "name": { "str": "american toad" },
+    "name": { "str": "American toad" },
     "reproduction": { "baby_egg": "egg_freedom_toad", "baby_count": 8, "baby_timer": 36 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "extend": { "flags": [ "POISON" ] }
@@ -754,7 +761,7 @@
     "special_when_hit": [ "ZAPBACK", 100 ],
     "upgrades": { "age_grow": 30, "into_group": "GROUP_FROGS_UPGRADE_PATTERN" },
     "zombify_into": "mon_frog_shocker",
-    "reproduction": { "baby_egg": "egg_pattern_frog", "baby_count": 12, "baby_timer": 20 }
+    "reproduction": { "baby_egg": "egg_pattern_bigfrog", "baby_count": 12, "baby_timer": 20 }
   },
   {
     "id": "mon_foul_bigfrog",
@@ -979,7 +986,7 @@
     "special_when_hit": [ "ZAPBACK", 100 ],
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE", "MATING_SEASON", "FRIEND_ATTACKED" ],
     "zombify_into": "mon_frog_shocker",
-    "reproduction": { "baby_egg": "egg_pattern_frog", "baby_count": 18, "baby_timer": 20 },
+    "reproduction": { "baby_egg": "egg_pattern_bigfrog", "baby_count": 18, "baby_timer": 20 },
     "extend": { "flags": [ "SWARMS" ] }
   },
   {

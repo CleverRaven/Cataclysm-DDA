@@ -4,62 +4,64 @@
 
 #include <array>
 #include <climits>
-#include <iosfwd>
+#include <functional>
+#include <list>
 #include <map>
+#include <memory>
+#include <optional>
+#include <queue>
 #include <set>
+#include <string>
 #include <type_traits>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 #include <vector>
-#include <queue>
 
 #include "bodypart.h"
+#include "calendar.h"
 #include "compatibility.h"
+#include "coordinates.h"
 #include "damage.h"
 #include "debug.h"
 #include "effect_source.h"
 #include "enums.h"
-#include "field_type.h"
 #include "pimpl.h"
+#include "point.h"
 #include "string_formatter.h"
-#include "talker.h"
 #include "type_id.h"
 #include "units_fwd.h"
 #include "viewer.h"
 #include "weakpoint.h"
 
-class monster;
-class translation;
-template <typename T> struct enum_traits;
-
-enum game_message_type : int;
-class effect;
-class effects_map;
-class nc_color;
-
-namespace catacurses
-{
-class window;
-} // namespace catacurses
-class body_part_set;
 class Character;
 class JsonObject;
 class JsonOut;
 class anatomy;
 class avatar;
+class body_part_set;
+class character_id;
+class effect;
+class effects_map;
 class field;
 class field_entry;
+class item;
+class monster;
+class nc_color;
 class npc;
-class time_duration;
-struct point;
-struct tripoint;
-
-struct mon_flag;
+class talker;
+class translation;
+namespace catacurses
+{
+class window;
+}  // namespace catacurses
 struct dealt_projectile_attack;
+struct field_immunity_data;
 struct pathfinding_settings;
 struct projectile;
 struct projectile_attack_results;
 struct trap;
+template <typename T> struct enum_traits;
 
 using anatomy_id = string_id<anatomy>;
 
@@ -635,14 +637,6 @@ class Creature : public viewer
                              bool force = false );
         bool add_env_effect( const efftype_id &eff_id, const bodypart_id &vector, int strength,
                              const time_duration &dur, bool permanent = false, int intensity = 1, bool force = false );
-        /** Applies effects by spraying liquid on the creature. Returns false if the liquid was blocked
-         * by waterproof gear. This is a simple method for effects which deal no damage and don't harm clothing.
-         * For more complex stuff, see outfit::splash */
-        bool add_liquid_effect( const efftype_id &eff_id, const bodypart_id &vector, int strength,
-                                const time_duration &dur, const bodypart_id &bp, bool permanent = false, int intensity = 1,
-                                bool force = false );
-        bool add_liquid_effect( const efftype_id &eff_id, const bodypart_id &vector, int strength,
-                                const time_duration &dur, bool permanent = false, int intensity = 1, bool force = false );
         /** Removes a listed effect. If the bodypart is not specified remove all effects of
          * a given type, targeted or untargeted. Returns true if anything was
          * removed. */
@@ -944,7 +938,6 @@ class Creature : public viewer
         /** Returns a set of points we do not want to path through. */
         virtual std::unordered_set<tripoint> get_path_avoid() const = 0;
 
-        int moves;
         bool underwater;
         void draw( const catacurses::window &w, const point &origin, bool inverted ) const;
         void draw( const catacurses::window &w, const tripoint &origin, bool inverted ) const;
@@ -1192,10 +1185,16 @@ class Creature : public viewer
         void set_summon_time( const time_duration &length );
         // handles removing the creature if the timer runs out
         void decrement_summon_timer();
+        void set_summoner( Creature *summoner );
+        void set_summoner( character_id summoner );
+        Creature *get_summoner() const;
     protected:
+        // How many moves do we have to work with
+        int moves;
         Creature *killer; // whoever killed us. this should be NULL unless we are dead
         void set_killer( Creature *killer );
         std::optional<time_point> lifespan_end = std::nullopt;
+        std::optional<character_id> summoner = std::nullopt; // whoever summoned us
         /**
          * Processes one effect on the Creature.
          * Must not remove the effect, but can set it up for removal.

@@ -5,9 +5,9 @@
     "name": { "str": "Find the gun" },
     "description": "Cody wants you to go to a gun show and find a rare gun that Jay wanted to see.  It was an AK of some kind with a weird name… something like CARD or CORE.",
     "goal": "MGOAL_CONDITION",
-    "goal_condition": { "u_has_items": { "item": "kord", "count": 1 } },
+    "goal_condition": { "u_has_items": { "item": "broken_kord", "count": 1 } },
     "difficulty": 5,
-    "item": "kord",
+    "item": "broken_kord",
     "value": 1000,
     "start": {
       "assign_mission_target": { "om_special": "gun_show", "om_terrain": "gunshow_0", "reveal_radius": 2, "random": true, "search_range": 400 }
@@ -74,7 +74,8 @@
       "effect": [
         { "u_spawn_item": "casket74mag", "count": 1 },
         { "u_spawn_item": "545_ap", "count": 200 },
-        { "u_add_var": "artisans_made_up", "type": "dialogue", "context": "artisans", "value": "yes" }
+        { "u_spawn_item": "kord", "count": 1 },
+        { "u_add_var": "dialogue_artisans_artisans_made_up", "value": "yes" }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -86,7 +87,7 @@
       "rejected": "Let me know if you change your mind.",
       "advice": "I'd be careful.  Guy was a bit of a nut, I don't know what he was planning to do with that software.",
       "inquire": "Any luck finding that USB?",
-      "success": "Thanks bud, I'll take it from here.  Enjoy those bullets.",
+      "success": "Thanks bud, I'll take it from here.  Take care of that rifle, now.",
       "success_lie": "Shame.  Shame, shame.",
       "failure": "Well fuck me then."
     }

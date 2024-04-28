@@ -231,7 +231,6 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```SEMITANGIBLE``` Prevents the item from participating in the encumbrance system when worn.
 - ```SKINTIGHT``` Undergarment layer.
 - ```SLOWS_MOVEMENT``` This piece of clothing multiplies move cost by 1.1.
-- ```SLOWS_THIRST``` This piece of clothing multiplies the rate at which the player grows thirsty by 0.70.
 - ```STAR_PLATE``` Item can be worn with ryūsei battle kit armor; specifically can be put in pocket for armor with this flag restriction.
 - ```STAR_SHOULDER``` Item can be worn with ryūsei battle kit armor ; specifically can be put in pocket for armor with this flag restriction.
 - ```STAR_SKIRT``` Item can be worn with ryūsei battle kit armor; specifically can be put in pocket for armor with this flag restriction.
@@ -317,6 +316,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```LIMB_UPPER``` This bodypart is high off the ground, and as such can't be attacked by small monsters - unless they have the `FLIES` or have `ATTACK_UPPER` flags`.
 - ```MEND_LIMB``` This bodypart can heal from being broken without needing a splint.
 - ```NONSTANDARD_BLOCK``` This limb is different enough that martial arts' arm/leg blocks aren't applicable - blocking with this limb is unlocked by reaching the MA's `nonstandard_block` level, unless the limb also has `ALWAYS_BLOCK`.  Either block flag is **required** for non-arm / non-leg limbs to be eligible to block.
+- ```WING_ARM``` Counts as a wing for `Character::can_fly` if two instances of the flag are present.
 
 
 ## Books
@@ -333,7 +333,6 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```ACID_IMMUNE``` You are immune to acid damage.
 - ```ALARMCLOCK``` You always can set alarms.
 - ```ALBINO``` Cause you to have painful sunburns.
-- ```ARM_WINGS``` You have wings instead of regular arms.
 - ```BASH_IMMUNE``` You are immune to bashing damage.
 - ```BG_OTHER_SURVIVORS_STORY``` Given to NPC when it has other survival story.
 - ```BG_SURVIVAL_STORY``` Given to NPC when it has a survival story.
@@ -430,8 +429,9 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```WEBBED_HANDS``` You have webbings on your hands, supporting your swimming speed.
 - ```WEB_RAPPEL``` You can rappel down staircases and sheer drops of any height.
 - ```WEB_WALKER``` Removes the movement speed demerit while walking through webs.
-- ```WINGS_1``` You have 50% chance to ignore falling traps (including ledges).
-- ```WINGS_2``` You have 100% chance to ignore falling traps (including ledges).  Requires two flag instances.
+- ```WINGS_1``` You can slow your fall, effectively reducing the height of it by 1 level.
+- ```WINGS_2``` You can slow your fall, effectively reducing the height of falls by 2 levels, and ignore pit-like traps.
+- ```WING_ARMS``` Two instances of this flag enable you to glide and ignore pit traps if not above 50% carryweight or 4 lift strength. 
 - ```WINGGLIDE``` You can glide using some part of your body and strenuous physical effort.
 - ```mycus``` acts as `THRESH_MYCUS`, makes all monsters with FUNGUS species friendly, fungicidal gas & antifungal pills cause worse effects.  Mutate when eating mycus fruit, or when sleeping.
 
@@ -536,14 +536,14 @@ These flags apply to the `use_action` field, instead of the `flags` field.
 - ```DOGFOOD``` Makes a dog friendly.
 - ```FIRSTAID``` Heals.
 - ```FLUMED``` Adds disease `took_flumed`.
-- ```FLUSLEEP``` Adds disease `took_flumed` and increases fatigue.
+- ```FLUSLEEP``` Adds disease `took_flumed` and increases sleepiness.
 - ```FUNGICIDE``` Kills fungus and spores. Removes diseases `fungus` and `spores`.
 - ```HALLU``` Adds disease `hallu`.
 - ```HONEYCOMB``` Spawns wax.
 - ```INHALER``` Removes disease `asthma`.
 - ```IODINE``` Adds disease `iodine`.
 - ```MARLOSS``` "As you eat the berry, you have a near-religious experience, feeling at one with your surroundings..."
-- ```MYCUS``` if has trait `THRESH_MARLOSS`, neutral effect removes radiation, add 30 painkiller & heals all bodyparts by 4.  if good effect, add 1000 morale, sleep for 5 hours, add `THRESH_MYCUS`, also removes marloss addictions `addiction_marloss_r`,`addiction_marloss_b`, `addiction_marloss_y` .  With mycus threshold, adds 5 painkiller and stimulant.  With trait `M_DEPENDENT`, removes 87 kcal, add 10 thirst, adds 5 fatigue, and add morale to negate mutation pains. not having previously mentioned traits causes you to vomit, mutate, randomly gain 2 pain, reduce daily health by 8-50, removes 87 kcal, add 10 thirst, and add 5 fatigue.  Only applies to mycus fruit by default.
+- ```MYCUS``` if has trait `THRESH_MARLOSS`, neutral effect removes radiation, add 30 painkiller & heals all bodyparts by 4.  if good effect, add 1000 morale, sleep for 5 hours, add `THRESH_MYCUS`, also removes marloss addictions `addiction_marloss_r`,`addiction_marloss_b`, `addiction_marloss_y` .  With mycus threshold, adds 5 painkiller and stimulant.  With trait `M_DEPENDENT`, removes 87 kcal, add 10 thirst, adds 5 sleepiness, and add morale to negate mutation pains. not having previously mentioned traits causes you to vomit, mutate, randomly gain 2 pain, reduce daily health by 8-50, removes 87 kcal, add 10 thirst, and add 5 sleepiness.  Only applies to mycus fruit by default.
 - ```METH``` Adds disease `meth`.
 - ```NONE``` "You can't do anything of interest with your [x]."
 - ```PKILL``` Reduces pain.  Adds disease `pkill[n]` where `[n]` is the level of flag `PKILL_[n]` used on this comestible.
@@ -552,8 +552,8 @@ These flags apply to the `use_action` field, instead of the `flags` field.
 - ```PROZAC``` Adds disease `took_prozac` if not currently present, otherwise acts as a minor stimulant.  Rarely has the `took_prozac_bad` adverse effect.
 - ```PURIFIER``` Removes random number of negative mutations.
 - ```SEWAGE``` Causes vomiting.
-- ```SLEEP``` Greatly increases fatigue.
-- ```THORAZINE``` Removes diseases `hallu`, `visuals`, `high`.  Additionally removes disease `formication` if disease `dermatik` isn't also present.  Has a chance of a negative reaction which increases fatigue.
+- ```SLEEP``` Greatly increases sleepiness.
+- ```THORAZINE``` Removes diseases `hallu`, `visuals`, `high`.  Additionally removes disease `formication` if disease `dermatik` isn't also present.  Has a chance of a negative reaction which increases sleepiness.
 - ```VITAMINS``` Increases healthiness (not to be confused with HP).
 - ```WEED``` Makes you roll with Cheech & Chong.  Adds disease `weed_high`.
 - ```XANAX``` Alleviates anxiety.  Adds disease `took_xanax`.
@@ -565,6 +565,7 @@ These are checked by hardcode for monsters (introducing new flags will require C
 
 - ```DISABLE_FLIGHT``` Monsters affected by an effect with this flag will never count as flying (even if they have the `FLIES` flag).
 - ```EFFECT_IMPEDING``` Character affected by an effect with this flag can't move until they break free from the effect.  Breaking free requires a strength check: `x_in_y( STR * limb lifting score * limb grip score, 6 * get_effect_int( eff_id )`.
+- ```EFFECT_LIMB_DISABLE_CONDITIONAL_FLAGS``` Effect disables any conditional flags the limb has.
 - ```EFFECT_LIMB_SCORE_MOD``` Effect with a limb score component to be used in Character::get_limb_score.  See [EFFECTS_JSON.md](EFFECTS_JSON.md) for the exact function of limb score modifiers and [JSON_INFO.md](JSON_INFO.md#limb-scores) for the effects of the scores.
 - ```EFFECT_LIMB_SCORE_MOD_LOCAL``` Same as `EFFECT_LIMB_SCORE_MOD`, but limb score is modified only if effect is applied to body part, that has said score; effect, that apply -50% vision debuff, won't have effect if applied to leg with this flag.
 - ```GRAB``` This effect is a grab, creatures will attempt to break it as such (see `character_escape.cpp`).
@@ -1242,17 +1243,6 @@ Multiple time of day conditions will be combined together so that any of those c
 - ```NIGHT```
 
 
-### Sizes
-
-Monster physical sizes.
-
-- ```HUGE``` Tank
-- ```LARGE``` Cow
-- ```MEDIUM``` Human
-- ```SMALL``` Dog
-- ```TINY``` Squirrel
-
-
 ### Special attacks
 
 Special attacks have been moved to [MONSTER_SPECIAL_ATTACKS.md](MONSTER_SPECIAL_ATTACKS.md) as they have all been migrated away from flags.
@@ -1449,6 +1439,7 @@ Techniques may be used by tools, armors, weapons and anything else that can be w
 - ```HAS_RECIPE``` Used by the E-Ink tablet to indicate it's currently showing a recipe.
 - ```IS_UPS``` Item is Unified Power Supply.  Used in active item processing.
 - ```LIGHT_[X]``` Illuminates the area with light intensity `[X]` where `[X]` is an intensity value (e.g. `LIGHT_4` or `LIGHT_100`).  Note: this flags sets `itype::light_emission` field and then is removed (can't be found using `has_flag`).
+- ```MAGICAL``` Causes magical effects or functions based on arcane principles. Currently used by `iuse::robotcontrol` to determine if the hacking device is a computer (and thus has a screen that must be read etc).
 - ```NO_DROP``` Item should never exist on map tile as a discrete item (must be contained by another item).
 - ```NO_UNLOAD``` Cannot be unloaded.
 - ```POWERED``` If turned ON, item uses its own source of power, instead of relying on power of the user.
@@ -1629,6 +1620,7 @@ Note: Vehicle parts requiring other parts is defined by setting a `requires_flag
 - ```CURTAIN``` Can be installed over a part flagged with `WINDOW`, and functions the same as blinds found on windows in buildings.
 - ```DISHWASHER``` Can be used to wash filthy non-soft items en masse.
 - ```DOME_LIGHT``` This part lightens up surroundings.
+- ```DOOR_LOCKING``` This is a lock that can be installed on a door. Can only be installed on a part with `LOCKABLE_DOOR` flag.
 - ```DOOR_MOTOR``` Can only be installed on a part with `OPENABLE` flag.
 - ```ENABLED_DRAINS_EPOWER``` Make vehicle part to require some energy to start it's work.  Requires `epower` field.
 - ```ENGINE``` Is an engine and contributes towards vehicle mechanical power.
@@ -1653,6 +1645,7 @@ Note: Vehicle parts requiring other parts is defined by setting a `requires_flag
 - ```INITIAL_PART``` When starting a new vehicle via the construction menu, this vehicle part will be the initial part of the vehicle (if the used item matches the item required for this part).  The items of parts with this flag are automatically added as component to the vehicle start construction.
 - ```INTERNAL``` Can only be installed on a part with `CARGO` flag.
 - ```LOCKABLE_CARGO``` Cargo containers that are able to have a lock installed.
+- ```LOCKABLE_DOOR``` Doors that are able to have a lock installed. (See `DOOR_LOCKING`)
 - ```MUFFLER``` Muffles the noise a vehicle makes while running.
 - ```MULTISQUARE``` Causes this part and any adjacent parts with the same ID to act as a singular part.
 - ```MUSCLE_ARMS``` Power of the engine with such flag depends on player's strength (it's less effective than `MUSCLE_LEGS`).

@@ -1,0 +1,50 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_perk_duck_and_weave",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": {
+      "and": [ { "u_has_trait": "perk_duck_and_weave" }, { "compare_string": [ "run", { "context_val": "movement_mode" } ] } ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_perk_duck_and_weave_2",
+            "condition": { "math": [ "u_duck_and_weave_counter", ">=", "3" ] },
+            "effect": [ { "u_add_effect": "effect_perk_duck_and_weave", "duration": 1 } ],
+            "false_effect": [ { "math": [ "u_duck_and_weave_counter", "+=", "1" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_perk_duck_and_weave_reset",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": {
+      "and": [
+        { "u_has_trait": "perk_duck_and_weave" },
+        {
+          "or": [
+            { "compare_string": [ "walk", { "context_val": "movement_mode" } ] },
+            { "compare_string": [ "crouch", { "context_val": "movement_mode" } ] },
+            { "compare_string": [ "prone", { "context_val": "movement_mode" } ] }
+          ]
+        }
+      ]
+    },
+    "effect": [ { "math": [ "u_duck_and_weave_counter", "=", "0" ] }, { "u_lose_effect": "effect_perk_duck_and_weave" } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_perk_duck_and_weave",
+    "name": [ "Running without Rhythm" ],
+    "desc": [ "You definitely won't attract the worm.  +5 effective dodge, +1 dodge attempt." ],
+    "rating": "good",
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 1 }, { "value": "DODGE_CHANCE", "add": 5 } ] } ]
+  }
+]

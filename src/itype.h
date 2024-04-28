@@ -146,8 +146,8 @@ struct islot_comestible {
         /** stimulant effect */
         int stim = 0;
 
-        /**fatigue altering effect*/
-        int fatigue_mod = 0;
+        /**sleepiness altering effect*/
+        int sleepiness_mod = 0;
 
         /** Reference to other item that replaces this one as a component in recipe results */
         itype_id cooks_like;
@@ -213,6 +213,19 @@ struct islot_brewable {
     std::map<itype_id, int> results;
 
     /** How long for this brew to ferment. */
+    time_duration time = 0_turns;
+
+    bool was_loaded = false;
+
+    void load( const JsonObject &jo );
+    void deserialize( const JsonObject &jo );
+};
+
+struct islot_compostable {
+    /** What are the results of fermenting this item? */
+    std::map<itype_id, int> results;
+
+    /** How long for this compost to ferment. */
     time_duration time = 0_turns;
 
     bool was_loaded = false;
@@ -385,14 +398,6 @@ struct islot_armor {
          * How much warmth this item provides.
          */
         int warmth = 0;
-        /**
-        * Factor modifying weight capacity
-        */
-        float weight_capacity_modifier = 1.0f;
-        /**
-        * Bonus to weight capacity
-        */
-        units::mass weight_capacity_bonus = 0_gram;
         /**
          * Whether this is a power armor item.
          */
@@ -1118,6 +1123,7 @@ struct islot_seed {
 
 enum condition_type {
     FLAG,
+    VITAMIN,
     COMPONENT_ID,
     COMPONENT_ID_SUBSTRING,
     VAR,
@@ -1187,6 +1193,7 @@ struct itype {
         cata::value_ptr<islot_tool> tool;
         cata::value_ptr<islot_comestible> comestible;
         cata::value_ptr<islot_brewable> brewable;
+        cata::value_ptr<islot_compostable> compostable;
         cata::value_ptr<islot_armor> armor;
         cata::value_ptr<islot_pet_armor> pet_armor;
         cata::value_ptr<islot_book> book;

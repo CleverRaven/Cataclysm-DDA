@@ -35,7 +35,7 @@
     "type": "talk_topic",
     "dynamic_line": "Interested in booking passage planetside?",
     "responses": [
-      { "text": "Thats why I'm here", "topic": "TALK_AUGUSTMOON_LANDING" },
+      { "text": "That's why I'm here", "topic": "TALK_AUGUSTMOON_LANDING" },
       {
         "text": "I want to contract a drone shuttle.",
         "topic": "TALK_AUGUSTMOON_SHIPPING_CHIEF",

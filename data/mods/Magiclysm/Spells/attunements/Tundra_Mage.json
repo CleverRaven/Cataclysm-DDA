@@ -9,9 +9,9 @@
     "damage_type": "cold",
     "spell_class": "TUNDRA_MAGE",
     "max_level": 35,
-    "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(0)" ] },
-    "max_damage": { "math": [ "evocation_proficiency_bonus_calculate(140)" ] },
-    "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(4)" ] },
+    "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(0, 0.5)" ] },
+    "max_damage": { "math": [ "evocation_proficiency_bonus_calculate(140, 0.5)" ] },
+    "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(4, 0.03)" ] },
     "min_range": 4,
     "max_range": 10,
     "range_increment": 0.2,
@@ -55,7 +55,7 @@
     "extra_effects": [ { "id": "eoc_summon_setup" } ],
     "shape": "blast",
     "energy_source": "MANA",
-    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(600)" ] },
+    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(600, 4)" ] },
     "base_casting_time": 300,
     "min_range": 5,
     "max_range": 7,
@@ -63,8 +63,8 @@
     "min_aoe": 2,
     "max_aoe": 2,
     "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE", "MUST_HAVE_CLASS_TO_LEARN", "NO_CORPSE_QUIET" ],
-    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(36000)" ] },
-    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(180000)" ] },
-    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(5000)" ] }
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(36000, 100)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(180000, 100)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(5000, 0.03)" ] }
   }
 ]

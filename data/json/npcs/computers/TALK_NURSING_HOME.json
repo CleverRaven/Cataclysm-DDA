@@ -41,7 +41,7 @@
   {
     "type": "talk_topic",
     "id": "COMP_NURSING_HOME_RECEP_HOUSEKEEPING",
-    "dynamic_line": "FROM: Bryan Rooters, Reception Manager\n TO: Receptionists\n RE: Housekeping\n\n Hi team,\n Please be aware that the decision has been made to let go some of the housekeeping staff.\n This decision was made by management to ensure that our operation can run as smoothly and efficiently as possible by passing on these cost savings to the residents.\n To keep up with our high standards of elder care, I will be assigning some additional small tasks to you in the near future.\n As you know, here at Shady Hills we value each and every employee and see this as an excellent opportunity to grow, learn, and provide for the Shady Hills family.\n Please let me know if you have any questions.\n Thanks.",
+    "dynamic_line": "FROM: Bryan Rooters, Reception Manager\n TO: Receptionists\n RE: Housekeeping\n\n Hi team,\n Please be aware that the decision has been made to let go some of the housekeeping staff.\n This decision was made by management to ensure that our operation can run as smoothly and efficiently as possible by passing on these cost savings to the residents.\n To keep up with our high standards of elder care, I will be assigning some additional small tasks to you in the near future.\n As you know, here at Shady Hills we value each and every employee and see this as an excellent opportunity to grow, learn, and provide for the Shady Hills family.\n Please let me know if you have any questions.\n Thanks.",
     "responses": [ { "text": "RETURN TO MESSAGES", "topic": "COMP_NURSING_HOME_RECEP_EMAILS" } ]
   },
   {
@@ -187,7 +187,7 @@
   {
     "type": "talk_topic",
     "id": "COMP_NURSING_HOME_MGR_AMANDARECORD",
-    "dynamic_line": "EMPLOYEE NAME: Amanda Hugenstkis\n EMPLOYEE TITLE: Receptionist\n HIRE DATE: xx-xx-xxxx\n Status: Terminated\n REVIEW DUE: December\n\n",
+    "dynamic_line": "EMPLOYEE NAME: Amanda Hugentskis\n EMPLOYEE TITLE: Receptionist\n HIRE DATE: xx-xx-xxxx\n Status: Terminated\n REVIEW DUE: December\n\n",
     "responses": [
       { "text": "Assign Task to This Employee", "topic": "COMP_NURSING_HOME_MGR_ERROR" },
       { "text": "View Most Recent Evaluation", "topic": "COMP_NURSING_HOME_MGR_ERROR" },

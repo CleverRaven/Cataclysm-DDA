@@ -626,7 +626,6 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "JACKSON", mattack::jackson );
     add_hardcoded_attack( "DANCE", mattack::dance );
     add_hardcoded_attack( "DOGTHING", mattack::dogthing );
-    add_hardcoded_attack( "TENTACLE", mattack::tentacle );
     add_hardcoded_attack( "GENE_STING", mattack::gene_sting );
     add_hardcoded_attack( "PARA_STING", mattack::para_sting );
     add_hardcoded_attack( "TRIFFID_GROWTH", mattack::triffid_growth );
@@ -642,12 +641,10 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "GENERATOR", mattack::generator );
     add_hardcoded_attack( "UPGRADE", mattack::upgrade );
     add_hardcoded_attack( "BREATHE", mattack::breathe );
-    add_hardcoded_attack( "IMPALE", mattack::impale );
     add_hardcoded_attack( "BRANDISH", mattack::brandish );
     add_hardcoded_attack( "FLESH_GOLEM", mattack::flesh_golem );
     add_hardcoded_attack( "ABSORB_MEAT", mattack::absorb_meat );
     add_hardcoded_attack( "LUNGE", mattack::lunge );
-    add_hardcoded_attack( "LONGSWIPE", mattack::longswipe );
     add_hardcoded_attack( "PARROT", mattack::parrot );
     add_hardcoded_attack( "PARROT_AT_DANGER", mattack::parrot_at_danger );
     add_hardcoded_attack( "BLOW_WHISTLE", mattack::blow_whistle );
@@ -668,7 +665,6 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "GRENADIER_ELITE", mattack::grenadier_elite );
     add_hardcoded_attack( "RIOTBOT", mattack::riotbot );
     add_hardcoded_attack( "STRETCH_ATTACK", mattack::stretch_attack );
-    add_hardcoded_attack( "STRETCH_BITE", mattack::stretch_bite );
     add_hardcoded_attack( "DOOT", mattack::doot );
     add_hardcoded_attack( "DSA_DRONE_SCAN", mattack::dsa_drone_scan );
     add_hardcoded_attack( "ZOMBIE_FUSE", mattack::zombie_fuse );
@@ -944,6 +940,17 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         }
     }
 
+    if( jo.has_member( "no_absorb_material" ) ) {
+        no_absorb_material.clear();
+        if( jo.has_array( "no_absorb_material" ) ) {
+            for( std::string mat : jo.get_string_array( "no_absorb_material" ) ) {
+                no_absorb_material.emplace_back( mat );
+            }
+        } else {
+            no_absorb_material.emplace_back( jo.get_string( "no_absorb_material" ) );
+        }
+    }
+
     optional( jo, was_loaded, "bleed_rate", bleed_rate, 100 );
 
     optional( jo, was_loaded, "petfood", petfood );
@@ -974,7 +981,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     }
 
     optional( jo, was_loaded, "starting_ammo", starting_ammo );
-    optional( jo, was_loaded, "luminance", luminance, 0 );
+    assign( jo, "luminance", luminance, true );
     optional( jo, was_loaded, "revert_to_itype", revert_to_itype, itype_id() );
     optional( jo, was_loaded, "mech_weapon", mech_weapon, itype_id() );
     optional( jo, was_loaded, "mech_str_bonus", mech_str_bonus, 0 );
@@ -1605,6 +1612,13 @@ void mtype::remove_regeneration_modifiers( const JsonObject &jo, const std::stri
 void MonsterGenerator::check_monster_definitions() const
 {
     for( const mtype &mon : mon_templates->get_all() ) {
+        if( !mon.src.empty() && mon.src.back().second.str() == "dda" ) {
+            std::string mon_id = mon.id.str();
+            std::string suffix_id = mon_id.substr( 0, mon_id.find( '_' ) );
+            if( suffix_id != "mon" && suffix_id != "pseudo" ) {
+                debugmsg( "monster %s is missing mon_ (or pseudo_) prefix from id", mon.id.c_str() );
+            }
+        }
         if( mon.harvest.is_null() && !mon.has_flag( mon_flag_ELECTRONIC ) && !mon.id.is_null() ) {
             debugmsg( "monster %s has no harvest entry", mon.id.c_str(), mon.harvest.c_str() );
         }
@@ -1801,6 +1815,7 @@ void monster_death_effect::load( const JsonObject &jo )
     optional( jo, was_loaded, "effect", sp );
     has_effect = sp.is_valid();
     optional( jo, was_loaded, "corpse_type", corpse_type, mdeath_type::NORMAL );
+    optional( jo, was_loaded, "eoc", eoc );
 }
 
 void monster_death_effect::deserialize( const JsonObject &data )

@@ -9,6 +9,7 @@
 #include <vector>
 
 #include "activity_actor_definitions.h"
+#include "avatar.h"
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
@@ -1748,7 +1749,7 @@ static void test_pickup_autoinsert_results( Character &u, bool wear, const item_
         size_t on_ground, size_t in_top, size_t in_nested, bool count_by_charges = false )
 {
     map &m = get_map();
-    u.moves = 100;
+    u.set_moves( 100 );
     while( !u.activity.is_null() ) {
         u.activity.do_turn( u );
     }
@@ -2268,11 +2269,11 @@ TEST_CASE( "multipocket_liquid_transfer_test", "[pocket][item][liquid]" )
             liquid_target.pos = jug_w_water.position();
             liquid_target.dest_opt = LD_ITEM;
             liquid_target.item_loc = suit;
-            u.moves = 100;
+            u.set_moves( 100 );
             liquid_handler::perform_liquid_transfer( *jug_w_water->all_items_top().front(), nullptr,
                     nullptr, -1, nullptr, liquid_target );
             THEN( "liquid fills the worn container's pockets, some left over" ) {
-                CHECK( u.moves == 0 );
+                CHECK( u.get_moves() == 0 );
                 CHECK( !jug_w_water->only_item().is_null() );
                 CHECK( jug_w_water->only_item().charges == 3 );
                 CHECK( suit->all_items_top().size() == 2 );
@@ -2296,11 +2297,11 @@ TEST_CASE( "multipocket_liquid_transfer_test", "[pocket][item][liquid]" )
             liquid_target.pos = jug_w_water.position();
             liquid_target.dest_opt = LD_ITEM;
             liquid_target.item_loc = suit;
-            u.moves = 100;
+            u.set_moves( 100 );
             liquid_handler::perform_liquid_transfer( *jug_w_water->all_items_top().front(), nullptr,
                     nullptr, -1, nullptr, liquid_target );
             THEN( "liquid fills the worn container's pockets, some left over" ) {
-                CHECK( u.moves == 0 );
+                CHECK( u.get_moves() == 0 );
                 CHECK( !jug_w_water->only_item().is_null() );
                 CHECK( jug_w_water->only_item().charges == 7 );
                 CHECK( suit->all_items_top().size() == 2 );
@@ -2322,14 +2323,14 @@ TEST_CASE( "multipocket_liquid_transfer_test", "[pocket][item][liquid]" )
             liquid_target.pos = jug_w_water.position();
             liquid_target.dest_opt = LD_ITEM;
             liquid_target.item_loc = suit;
-            u.moves = 100;
+            u.set_moves( 100 );
             liquid_handler::perform_liquid_transfer( *jug_w_water->all_items_top().front(), nullptr,
                     nullptr, -1, nullptr, liquid_target );
             m.make_active( jug_w_water );
             CHECK( jug_w_water->only_item().charges == 0 );
             jug_w_water->remove_item( jug_w_water->only_item() );
             THEN( "liquid fills one of the worn container's pockets, none left over" ) {
-                CHECK( u.moves == 0 );
+                CHECK( u.get_moves() == 0 );
                 CHECK( jug_w_water->is_container_empty() );
                 CHECK( suit->all_items_top().size() == 1 );
                 CHECK( suit->all_items_top().front()->charges == 2 );
@@ -2346,14 +2347,14 @@ TEST_CASE( "multipocket_liquid_transfer_test", "[pocket][item][liquid]" )
             liquid_target.pos = jug_w_water.position();
             liquid_target.dest_opt = LD_ITEM;
             liquid_target.item_loc = suit;
-            u.moves = 100;
+            u.set_moves( 100 );
             liquid_handler::perform_liquid_transfer( *jug_w_water->all_items_top().front(), nullptr,
                     nullptr, -1, nullptr, liquid_target );
             m.make_active( jug_w_water );
             CHECK( jug_w_water->only_item().charges == 0 );
             jug_w_water->remove_item( jug_w_water->only_item() );
             THEN( "liquid fills one of the worn container's pockets, none left over" ) {
-                CHECK( u.moves == 0 );
+                CHECK( u.get_moves() == 0 );
                 CHECK( jug_w_water->is_container_empty() );
                 CHECK( suit->all_items_top().size() == 2 );
                 int total = 0;
@@ -2375,15 +2376,15 @@ TEST_CASE( "multipocket_liquid_transfer_test", "[pocket][item][liquid]" )
             liquid_target.dest_opt = LD_ITEM;
             liquid_target.item_loc = jug_w_water;
             for( item *&it : suit->all_items_top() ) {
-                u.moves = 100;
+                u.set_moves( 100 );
                 REQUIRE( it->charges == 6 );
                 liquid_handler::perform_liquid_transfer( *it, nullptr, nullptr, -1, nullptr, liquid_target );
-                CHECK( u.moves == 0 );
+                CHECK( u.get_moves() == 0 );
                 CHECK( it->charges == 0 );
                 suit->remove_item( *it );
             }
             THEN( "liquid fills most of the empty container, none left over" ) {
-                CHECK( u.moves == 0 );
+                CHECK( u.get_moves() == 0 );
                 CHECK( !jug_w_water->only_item().is_null() );
                 CHECK( jug_w_water->only_item().charges == 12 );
                 CHECK( suit->is_container_empty() );
@@ -2400,10 +2401,10 @@ TEST_CASE( "multipocket_liquid_transfer_test", "[pocket][item][liquid]" )
             liquid_target.dest_opt = LD_ITEM;
             liquid_target.item_loc = jug_w_water;
             for( item *&it : suit->all_items_top() ) {
-                u.moves = 100;
+                u.set_moves( 100 );
                 REQUIRE( it->charges == 6 );
                 liquid_handler::perform_liquid_transfer( *it, nullptr, nullptr, -1, nullptr, liquid_target );
-                if( u.moves == 0 && it->charges == 0 ) {
+                if( u.get_moves() == 0 && it->charges == 0 ) {
                     suit->remove_item( *it );
                 }
             }
@@ -2639,7 +2640,7 @@ TEST_CASE( "item_cannot_contain_contents_it_already_has", "[item][pocket]" )
     }
     CHECK( in_top );
     CHECK( bottle_loc->can_contain( water_item ).success() );
-    CHECK( !bottle_loc->can_contain( water_item, false, false, true, bottle_loc ).success() );
+    CHECK( !bottle_loc->can_contain( water_item, false, false, true, false, bottle_loc ).success() );
 
     // Check backpack containing bottle containing water
     in_top = false;
@@ -2650,7 +2651,7 @@ TEST_CASE( "item_cannot_contain_contents_it_already_has", "[item][pocket]" )
     }
     CHECK( !in_top );
     CHECK( backpack_loc->can_contain( water_item ).success() );
-    CHECK( !backpack_loc->can_contain( water_item, false, false, true, bottle_loc ).success() );
+    CHECK( !backpack_loc->can_contain( water_item, false, false, true, false, bottle_loc ).success() );
 }
 
 TEST_CASE( "Sawed_off_fits_in_large_holster", "[item][pocket]" )

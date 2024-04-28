@@ -185,29 +185,26 @@
     "id": "MISSION_GODCO_GET_GUITAR_STRING",
     "type": "mission_definition",
     "name": { "str": "Obtain a guitar string" },
-    "description": "Find a wire to be used as a guitar string.",
+    "description": "Find a piano wire to be used as a guitar string.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 1,
     "value": 0,
-    "item": "wire",
+    "item": "piano_wire",
     "count": 1,
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "I need a new guitar string.",
-      "offer": "One of my guitar strings busted from where I smacked a zombie.  If you could get me a wire, I can rig it to work as a substitute.",
+      "offer": "One of my guitar strings busted from where I smacked a zombie.  If you could get me a piano wire, I can fix my guitar.",
       "accepted": "Thanks.  I'll give you a performance when you get back with it.",
       "rejected": "I guess I'll just skip that note.",
-      "advice": "Any old wire should do.",
+      "advice": "Music shops should have some.",
       "inquire": "Do you have it?",
       "success": "Thank you so much!  This should last for a while.",
       "success_lie": "Thanks for trying… I guess.",
       "failure": "Don't worry about it, I'll do it myself."
     },
     "end": {
-      "effect": [
-        { "npc_add_var": "sonia_guitar_fixed", "type": "mission", "context": "completed", "value": "yes" },
-        { "u_spawn_item": "icon", "count": 1 }
-      ]
+      "effect": [ { "npc_add_var": "mission_completed_sonia_guitar_fixed", "value": "yes" }, { "u_spawn_item": "icon", "count": 1 } ]
     }
   },
   {
@@ -236,7 +233,7 @@
     },
     "end": {
       "effect": [
-        { "npc_add_var": "godco_darryl_mission1", "type": "mission", "context": "completed", "value": "in-progress" },
+        { "npc_add_var": "mission_completed_godco_darryl_mission1", "value": "in-progress" },
         { "u_spawn_item": "icon", "count": 3 }
       ],
       "update_mapgen": {
@@ -273,10 +270,7 @@
       "failure": "It was a lost cause anyways…"
     },
     "end": {
-      "effect": [
-        { "npc_add_var": "godco_darryl_mission1", "type": "mission", "context": "completed", "value": "yes" },
-        { "u_spawn_item": "icon", "count": 6 }
-      ],
+      "effect": [ { "npc_add_var": "mission_completed_godco_darryl_mission1", "value": "yes" }, { "u_spawn_item": "icon", "count": 6 } ],
       "update_mapgen": { "om_terrain": "godco_5", "set": [ { "point": "terrain", "id": "t_water_pump", "x": 15, "y": 23 } ] }
     }
   },
@@ -428,7 +422,7 @@
     "end": {
       "effect": [
         { "u_spawn_item": "icon", "count": 12 },
-        { "u_add_var": "zachary_willing_to_follow", "type": "mission", "context": "meeting", "value": "yes" }
+        { "u_add_var": "mission_meeting_zachary_willing_to_follow", "value": "yes" }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -638,7 +632,7 @@
     "id": "MISSION_GODCO_GEMMA_SUPPLEMENTS",
     "type": "mission_definition",
     "name": { "str": "Retrieve the fertility supplements" },
-    "description": "Get Gemmas fertility supplements.",
+    "description": "Get Gemma's fertility supplements.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "fert_supplement",
     "count": 25,
@@ -656,10 +650,7 @@
       "update_mapgen": { "place_item": [ { "item": "fert_supplement", "x": 15, "y": 15, "amount": 1 } ] }
     },
     "end": {
-      "effect": [
-        { "u_spawn_item": "icon", "count": 10 },
-        { "npc_add_var": "gemma_got_supplements", "type": "mission", "context": "meeting", "value": "yes" }
-      ]
+      "effect": [ { "u_spawn_item": "icon", "count": 10 }, { "npc_add_var": "mission_meeting_gemma_got_supplements", "value": "yes" } ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
@@ -713,7 +704,7 @@
     "end": {
       "effect": [
         { "u_spawn_item": "icon", "count": 155 },
-        { "npc_add_var": "jane_willing_to_follow", "type": "mission", "context": "meeting", "value": "yes" }
+        { "npc_add_var": "mission_meeting_jane_willing_to_follow", "value": "yes" }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -755,7 +746,7 @@
     },
     "end": {
       "effect": [
-        { "u_add_var": "godco_corrie_machine", "type": "mission", "context": "completed", "value": "in-progress" },
+        { "u_add_var": "mission_completed_godco_corrie_machine", "value": "in-progress" },
         { "mapgen_update": "place_solar_farm", "om_terrain": "godco_1" }
       ]
     }
@@ -831,7 +822,7 @@
         { "u_spawn_item": "gold_necklace" },
         { "u_spawn_item": "glasses_reading" },
         { "u_spawn_item": "knitting_needles" },
-        { "u_add_var": "theresa_going_away", "type": "general", "context": "completed", "value": "yes" }
+        { "u_add_var": "general_completed_theresa_going_away", "value": "yes" }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -957,7 +948,7 @@
     "id": "MISSION_GODCO_KOSTAS_3",
     "type": "mission_definition",
     "name": { "str": "Out Of This World Cures" },
-    "description": "Find a marloss berry for Kostas.",
+    "description": "Find a Marloss berry for Kostas.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "marloss_berry",
     "difficulty": 6,
@@ -965,7 +956,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": true,
     "dialogue": {
-      "describe": "Get a marloss berry.",
+      "describe": "Get a Marloss berry.",
       "offer": "I'm wanting to experiment with some of the more…  otherworldly fauna that have appeared recently.  I saw these pink berries inside a fungal infestation the other day before I burned it with a Molotov.  If you could get me one, I can pay you with a discount on my medicine.",
       "accepted": "Thanks, <name_g>.",
       "rejected": "I understand that it seems formidable, but there is a good deal of money for you.",
@@ -1091,7 +1082,7 @@
       "effect": [
         { "u_spawn_item": "icon", "count": 6 },
         { "mapgen_update": "olwen_radio_adapter", "om_terrain": "godco_1_2" },
-        { "u_add_var": "godco_has_radio", "type": "general", "context": "mission", "value": "yes" }
+        { "u_add_var": "general_mission_godco_has_radio", "value": "yes" }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -1255,7 +1246,7 @@
   {
     "id": "MISSION_GODCO_HELENA_4",
     "type": "mission_definition",
-    "name": { "str": "Preservation of Substenance" },
+    "name": { "str": "Preservation of Sustenance" },
     "description": "Find five canning pots for Helena Misinter.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "pot_canning",
@@ -1290,7 +1281,7 @@
     "description": "Go to the location Helena told you about and see who's there.",
     "goal": "MGOAL_CONDITION",
     "difficulty": 1,
-    "goal_condition": { "u_has_var": "u_met_Gavin", "type": "general", "context": "meeting", "value": "yes" },
+    "goal_condition": { "u_has_var": "general_meeting_u_met_Gavin", "value": "yes" },
     "value": 0,
     "start": "reveal_refugee_center",
     "end": {

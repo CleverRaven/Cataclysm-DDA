@@ -1,9 +1,99 @@
 [
   {
+    "id": "depowered_armor",
+    "type": "MIGRATION",
+    "replace": "combat_exoskeleton_light_salvaged"
+  },
+  {
+    "id": "depowered_helmet",
+    "type": "MIGRATION",
+    "replace": "combat_exoskeleton_armor_head_light"
+  },
+  {
+    "id": "power_armor_frame",
+    "type": "MIGRATION",
+    "replace": "qt_steel_chunk"
+  },
+  {
+    "id": "power_armor_generator",
+    "type": "MIGRATION",
+    "replace": "qt_steel_chunk"
+  },
+  {
+    "id": "power_armor_helmet_basic",
+    "type": "MIGRATION",
+    "replace": "combat_exoskeleton_armor_head_medium"
+  },
+  {
+    "id": "power_armor_helmet_basic_on",
+    "type": "MIGRATION",
+    "replace": "combat_exoskeleton_armor_head_medium"
+  },
+  {
+    "id": "power_armor_helmet_light",
+    "type": "MIGRATION",
+    "replace": "combat_exoskeleton_armor_head_light"
+  },
+  {
+    "id": "power_armor_helmet_light_on",
+    "type": "MIGRATION",
+    "replace": "combat_exoskeleton_armor_head_light"
+  },
+  {
+    "id": "power_armor_helmet_heavy",
+    "type": "MIGRATION",
+    "replace": "combat_exoskeleton_armor_head_heavy"
+  },
+  {
+    "id": "power_armor_helmet_heavy_on",
+    "type": "MIGRATION",
+    "replace": "combat_exoskeleton_armor_head_heavy"
+  },
+  {
+    "id": "power_armor_basic",
+    "type": "MIGRATION",
+    "replace": "combat_exoskeleton_medium"
+  },
+  {
+    "id": "power_armor_basic_on",
+    "type": "MIGRATION",
+    "replace": "combat_exoskeleton_medium_on"
+  },
+  {
+    "id": "power_armor_light",
+    "type": "MIGRATION",
+    "replace": "combat_exoskeleton_light"
+  },
+  {
+    "id": "power_armor_light_on",
+    "type": "MIGRATION",
+    "replace": "combat_exoskeleton_light_on"
+  },
+  {
+    "id": "power_armor_heavy",
+    "type": "MIGRATION",
+    "replace": "combat_exoskeleton_heavy"
+  },
+  {
+    "id": "power_armor_heavy_on",
+    "type": "MIGRATION",
+    "replace": "combat_exoskeleton_heavy_on"
+  },
+  {
     "id": "lobotomizer",
     "type": "MIGRATION",
     "replace": "box_medium_wood",
     "contents": [ { "id": "steel_lump", "count": 6 } ]
+  },
+  {
+    "id": "fridge",
+    "type": "MIGRATION",
+    "replace": "apartment_fridge"
+  },
+  {
+    "id": "freezer",
+    "type": "MIGRATION",
+    "replace": "apartment_freezer"
   },
   {
     "id": "mold_plastic",
@@ -1141,5 +1231,118 @@
     "id": "ak74",
     "type": "MIGRATION",
     "replace": "ak74_semi"
+  },
+  {
+    "id": "bh_m89",
+    "type": "MIGRATION",
+    "replace": "henry_big_boy"
+  },
+  {
+    "id": "rifle_9mm",
+    "type": "MIGRATION",
+    "replace": "rifle_38"
+  },
+  {
+    "id": "rifle_9x18",
+    "type": "MIGRATION",
+    "replace": "rifle_38"
+  },
+  {
+    "id": "rifle_45",
+    "type": "MIGRATION",
+    "replace": "rifle_38"
+  },
+  {
+    "id": "rifle_40",
+    "type": "MIGRATION",
+    "replace": "rifle_38"
+  },
+  {
+    "id": "rifle_380",
+    "type": "MIGRATION",
+    "replace": "rifle_38"
+  },
+  {
+    "id": "rifle_32",
+    "type": "MIGRATION",
+    "replace": "rifle_38"
+  },
+  {
+    "id": "lemat_revolver",
+    "type": "MIGRATION",
+    "replace": "colt_saa"
+  },
+  {
+    "id": "lemat_revolver_shotgun",
+    "type": "MIGRATION",
+    "replace": "u_shotgun"
+  },
+  {
+    "id": "shot_paper_slug",
+    "type": "MIGRATION",
+    "replace": "44army"
+  },
+  {
+    "id": "shot_paper_bird",
+    "type": "MIGRATION",
+    "replace": "44army"
+  },
+  {
+    "id": "shot_paper_00",
+    "type": "MIGRATION",
+    "replace": "44army"
+  },
+  {
+    "id": "shot_paper_dragon",
+    "type": "MIGRATION",
+    "replace": "44army"
+  },
+  {
+    "id": "lever_shotgun",
+    "type": "MIGRATION",
+    "replace": "remington_870"
+  },
+  {
+    "id": "famas",
+    "type": "MIGRATION",
+    "replace": "rdb_223"
+  },
+  {
+    "id": "famasmag",
+    "type": "MIGRATION",
+    "replace": "stanag30"
+  },
+  {
+    "id": "mossberg_500",
+    "type": "MIGRATION",
+    "from_variant": "mossberg_500_security",
+    "replace": "benelli_tsa",
+    "variant": "mossberg_500_security"
+  },
+  {
+    "id": "bottle_suppressor",
+    "type": "MIGRATION",
+    "replace": "filter_suppressor"
+  },
+  {
+    "id": "riv_suppressor",
+    "type": "MIGRATION",
+    "replace": "suppressor"
+  },
+  {
+    "id": "surv_six_shooter",
+    "type": "MIGRATION",
+    "replace": "hptjcpmag"
+  },
+  {
+    "id": "surv_hand_cannon",
+    "type": "MIGRATION",
+    "replace": "hptjhpmag"
+  },
+  {
+    "id": "con_mix",
+    "type": "MIGRATION",
+    "replace": "con_mix_foldable",
+    "reset_item_vars": true
   }
 ]

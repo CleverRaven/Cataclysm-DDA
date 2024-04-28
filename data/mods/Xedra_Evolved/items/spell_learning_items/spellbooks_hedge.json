@@ -1,0 +1,83 @@
+[
+  {
+    "id": "spellbook_hedge_farm",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "Goody Osborne's Booke of Remedies", "str_pl": "copies of Goody Osborne's Booke of Remedies" },
+    "description": "This purports to be the 'Reale and True Acounting of the Works and Devices of Sarah Osbourne, a Most Puissant Wiche', but you're pretty sure it's all a front and it was actually written within the last couple decades.  There are some pretty detailed descriptions of rituals in here, mixed among diary entries and accounts of fanciful meetings in the woods.",
+    "weight": "1200 g",
+    "volume": "2500 ml",
+    "price": "30 USD",
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "light_blue",
+    "use_action": { "type": "learn_spell", "spells": [ "hedge_make_plants_grow", "hedge_ward_off_rain", "hedge_cure_cold_or_flu" ] }
+  },
+  {
+    "id": "spellbook_hedge_ward_demons",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "Malleus Maleficarum", "str_pl": "copies of Malleus Maleficarum" },
+    "description": "A hardcover translation of the infamous 15th century book used as a reference work for witchcraft trials for centuries.  This translation seems to have some handwritten notes in some of the margins.",
+    "weight": "721 g",
+    "volume": "791 ml",
+    "price": "15 USD",
+    "material": [ "paper", "cardboard" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "brown",
+    "use_action": { "type": "learn_spell", "spells": [ "hedge_evil_eye_ward", "hedge_see_nether_eye_paste" ] }
+  },
+  {
+    "id": "spellbook_hedge_doctor_book",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "The Cunning Book of Home and Hearth", "str_pl": "copies of The Cunning Book of Home and Hearth" },
+    "description": "This mass-market paperback purports to pass down the ancient traditional secrets of English cunning folk, though if that were true, they probably could have gotten more than $12.95 for it.  There are a lot of descriptions of rituals and procedures in here, though--maybe some of them deserve further investigation.",
+    "weight": "537 g",
+    "volume": "930 ml",
+    "price": "12 USD 95 cent",
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "light_green",
+    "use_action": { "type": "learn_spell", "spells": [ "hedge_increase_healing_rate", "hedge_cure_cold_or_flu", "hedge_light_fire" ] }
+  },
+  {
+    "id": "spellbook_hedge_blood_book",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": {
+      "str": "Bloodstoppers and Bearwalkers: Folk Traditions of Michigan's Upper Peninsula",
+      "str_pl": "copies of Bloodstoppers and Bearwalkers: Folk Traditions of Michigan's Upper Peninsula"
+    },
+    "description": "This is an anthropological collection of American folk beliefs in the Upper Peninsula of Michigan, consisting of stories, legends, descriptions of rituals, tall tales, and anything else the author heard during his period of study.  The \"Bloodstoppers\" of the title are individuals believed to be able to stop the flow of blood from a wound, with an incantation or ritual or sheer force of will, and the bearwalkers were allegedly sorcerers who could assume the shape of a bear and cause misfortune.",
+    "weight": "211 g",
+    "volume": "500 ml",
+    "price": "50 USD",
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "light_red",
+    "use_action": { "type": "learn_spell", "spells": [ "hedge_increase_bandaging_rate" ] }
+  },
+  {
+    "id": "spellbook_hedge_ward_dreams",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": {
+      "str": "Ward your Dreams for a Good Night's Sleep!",
+      "str_pl": "copies of Ward your Dreams for a Good Night's Sleep!"
+    },
+    "description": "This is a very thin booklet, more of a pamphlet, about various ways to protect from nightmares.  There are quite a few techniques in here, though you're a bit skeptical about whether the author took the end of the world into their calculations.",
+    "weight": "83 g",
+    "volume": "132 ml",
+    "price": "10 USD",
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "dark_gray",
+    "use_action": { "type": "learn_spell", "spells": [ "hedge_no_nightmares" ] }
+  }
+]

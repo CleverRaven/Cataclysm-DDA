@@ -1,39 +1,54 @@
 #include "condition.h"
 
+#include <algorithm>
+#include <array>
 #include <climits>
+#include <cmath>
 #include <cstddef>
 #include <functional>
 #include <map>
 #include <memory>
 #include <optional>
+#include <queue>
 #include <set>
+#include <stdexcept>
 #include <string>
+#include <type_traits>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
+#include <variant>
 #include <vector>
 
 #include "action.h"
 #include "avatar.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "coordinates.h"
-#include "dialogue.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "dialogue_helpers.h"
+#include "effect.h"
+#include "effect_on_condition.h"
 #include "enum_conversions.h"
+#include "enum_traits.h"
+#include "faction.h"
 #include "field.h"
 #include "flag.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "game.h"
 #include "generic_factory.h"
 #include "global_vars.h"
 #include "item.h"
 #include "item_category.h"
-#include "json.h"
-#include "kill_tracker.h"
+#include "item_location.h"
+#include "json_error.h"
 #include "line.h"
 #include "map.h"
+#include "map_iterator.h"
 #include "mapdata.h"
 #include "martialarts.h"
 #include "math_parser.h"
@@ -41,6 +56,8 @@
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
+#include "options.h"
+#include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "point.h"
@@ -48,16 +65,24 @@
 #include "profession.h"
 #include "ranged.h"
 #include "recipe_groups.h"
+#include "rng.h"
+#include "string_formatter.h"
 #include "talker.h"
+#include "translation.h"
+#include "translations.h"
 #include "type_id.h"
 #include "units.h"
 #include "vehicle.h"
+#include "viewer.h"
 #include "vpart_position.h"
+#include "weather.h"
 #include "widget.h"
 #include "worldfactory.h"
 
+class Creature;
 class basecamp;
 class recipe;
+struct mapgen_arguments;
 
 static const efftype_id effect_currently_busy( "currently_busy" );
 
@@ -449,8 +474,8 @@ translation_var_info read_translation_var_info( const JsonObject &jo )
     return abstract_read_var_info<translation>( jo );
 }
 
-void write_var_value( var_type type, const std::string &name, talker *talk, dialogue *d,
-                      const std::string &value )
+void write_var_value( var_type type, const std::string &name, dialogue *d,
+                      const std::string &value, int call_depth )
 {
     global_variables &globvars = get_globals();
     std::string ret;
@@ -462,11 +487,27 @@ void write_var_value( var_type type, const std::string &name, talker *talk, dial
         case var_type::var:
             ret = d->get_value( name );
             vinfo = process_variable( ret );
-            write_var_value( vinfo.type, vinfo.name, talk, d, value );
+            if( call_depth > 1000 ) {
+                debugmsg( "Possible infinite loop detected: var_val points to itself or forms a cycle.  %s->%s %s",
+                          name, vinfo.name, d->get_callstack() );
+            } else {
+                write_var_value( vinfo.type, vinfo.name, d, value,
+                                 call_depth + 1 );
+            }
             break;
         case var_type::u:
+            if( d->has_alpha ) {
+                d->actor( false )->set_value( name, value );
+            } else {
+                debugmsg( "Tried to use an invalid alpha talker.  %s", d->get_callstack() );
+            }
+            break;
         case var_type::npc:
-            talk->set_value( name, value );
+            if( d->has_beta ) {
+                d->actor( true )->set_value( name, value );
+            } else {
+                debugmsg( "Tried to use an invalid beta talker.  %s", d->get_callstack() );
+            }
             break;
         case var_type::faction:
             debugmsg( "Not implemented yet." );
@@ -483,11 +524,11 @@ void write_var_value( var_type type, const std::string &name, talker *talk, dial
     }
 }
 
-void write_var_value( var_type type, const std::string &name, talker *talk, dialogue *d,
+void write_var_value( var_type type, const std::string &name, dialogue *d,
                       double value )
 {
     // NOLINTNEXTLINE(cata-translate-string-literal)
-    write_var_value( type, name, talk, d, string_format( "%g", value ) );
+    write_var_value( type, name, d, string_format( "%g", value ) );
 }
 
 static bodypart_id get_bp_from_str( const std::string &ctxt )
@@ -926,15 +967,15 @@ conditional_t::func f_need( const JsonObject &jo, std::string_view member, bool 
         dov = get_dbl_or_var( jo, "amount" );
     } else if( jo.has_string( "level" ) ) {
         const std::string &level = jo.get_string( "level" );
-        auto flevel = fatigue_level_strs.find( level );
-        if( flevel != fatigue_level_strs.end() ) {
+        auto flevel = sleepiness_level_strs.find( level );
+        if( flevel != sleepiness_level_strs.end() ) {
             dov.min.dbl_val = static_cast<int>( flevel->second );
         }
     }
     return [need, dov, is_npc]( dialogue & d ) {
         const talker *actor = d.actor( is_npc );
         int amount = dov.evaluate( d );
-        return ( actor->get_fatigue() > amount && need.evaluate( d ) == "fatigue" ) ||
+        return ( actor->get_sleepiness() > amount && need.evaluate( d ) == "sleepiness" ) ||
                ( actor->get_hunger() > amount && need.evaluate( d ) == "hunger" ) ||
                ( actor->get_thirst() > amount && need.evaluate( d ) == "thirst" );
     };
@@ -958,7 +999,8 @@ conditional_t::func f_at_om_location( const JsonObject &jo, std::string_view mem
             // TODO: legacy check to be removed once primitive field camp OMTs have been purged
             return omt_str.find( "faction_base_camp" ) != std::string::npos;
         } else if( location_value == "FACTION_CAMP_START" ) {
-            return !recipe_group::get_recipes_by_id( "all_faction_base_types", omt_str ).empty();
+            const std::optional<mapgen_arguments> *maybe_args = overmap_buffer.mapgen_args( omt_pos );
+            return !recipe_group::get_recipes_by_id( "all_faction_base_types", omt_ter, maybe_args ).empty();
         } else {
             return oter_no_dir( omt_ter ) == location_value;
         }
@@ -975,6 +1017,7 @@ conditional_t::func f_near_om_location( const JsonObject &jo, std::string_view m
         for( const tripoint_abs_omt &curr_pos : points_in_radius( omt_pos,
                 range.evaluate( d ) ) ) {
             const oter_id &omt_ter = overmap_buffer.ter( curr_pos );
+            const std::optional<mapgen_arguments> *maybe_args = overmap_buffer.mapgen_args( omt_pos );
             const std::string &omt_str = omt_ter.id().str();
             std::string location_value = location.evaluate( d );
 
@@ -988,7 +1031,7 @@ conditional_t::func f_near_om_location( const JsonObject &jo, std::string_view m
                     return true;
                 }
             } else if( location_value  == "FACTION_CAMP_START" &&
-                       !recipe_group::get_recipes_by_id( "all_faction_base_types", omt_str ).empty() ) {
+                       !recipe_group::get_recipes_by_id( "all_faction_base_types", omt_ter, maybe_args ).empty() ) {
                 return true;
             } else {
                 if( oter_no_dir( omt_ter ) == location_value ) {
@@ -1527,7 +1570,7 @@ conditional_t::func f_query_tile( const JsonObject &jo, std::string_view member,
         }
         if( loc.has_value() ) {
             tripoint_abs_ms pos_global = get_map().getglobal( *loc );
-            write_var_value( target_var.type, target_var.name, d.actor( target_var.type == var_type::npc ), &d,
+            write_var_value( target_var.type, target_var.name, &d,
                              pos_global.to_string() );
         }
         return loc.has_value();
@@ -1569,6 +1612,26 @@ conditional_t::func f_map_ter_furn_with_flag( const JsonObject &jo, std::string_
             return get_map().ter( loc )->has_flag( furn_type.evaluate( d ) );
         } else {
             return get_map().furn( loc )->has_flag( furn_type.evaluate( d ) );
+        }
+    };
+}
+
+conditional_t::func f_map_ter_furn_id( const JsonObject &jo, std::string_view member )
+{
+    str_or_var furn_type = get_str_or_var( jo.get_member( member ), member, true );
+    var_info loc_var = read_var_info( jo.get_object( "loc" ) );
+    bool terrain = true;
+    if( member == "map_terrain_id" ) {
+        terrain = true;
+    } else if( member == "map_furniture_id" ) {
+        terrain = false;
+    }
+    return [terrain, furn_type, loc_var]( dialogue const & d ) {
+        tripoint loc = get_map().getlocal( get_tripoint_from_var( loc_var, d ) );
+        if( terrain ) {
+            return get_map().ter( loc ) == ter_id( furn_type.evaluate( d ) );
+        } else {
+            return get_map().furn( loc ) == furn_id( furn_type.evaluate( d ) );
         }
     };
 }
@@ -1978,7 +2041,7 @@ std::unordered_map<std::string_view, int ( talker::* )() const> const f_get_vals
     { "dexterity_bonus", &talker::get_dex_bonus },
     { "dexterity", &talker::dex_cur },
     { "exp", &talker::get_kill_xp },
-    { "fatigue", &talker::get_fatigue },
+    { "sleepiness", &talker::get_sleepiness },
     { "fine_detail_vision_mod", &talker::get_fine_detail_vision_mod },
     { "focus", &talker::focus_cur },
     { "friendly", &talker::get_friendly },
@@ -2011,7 +2074,6 @@ std::unordered_map<std::string_view, int ( talker::* )() const> const f_get_vals
     { "sold", &talker::sold },
     { "stamina", &talker::get_stamina },
     { "stim", &talker::get_stim },
-    { "stored_kcal", &talker::get_stored_kcal },
     { "strength_base", &talker::get_str_max },
     { "strength_bonus", &talker::get_str_bonus },
     { "strength", &talker::str_cur },
@@ -2061,16 +2123,6 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( std::string_view
             }
             return d.actor( is_npc )->mana_cur() * 100.0 / mana_max;
         };
-    } else if( checked_value == "stored_kcal_percentage" ) {
-        // 100% is 5 BMI's worth of kcal, which is considered healthy (this varies with height).
-        return [is_npc]( dialogue const & d ) {
-            int divisor = d.actor( is_npc )->get_healthy_kcal() / 100;
-            //if no data default to default height of 175cm
-            if( divisor == 0 ) {
-                divisor = 118169 / 100;
-            }
-            return static_cast<double>( d.actor( is_npc )->get_stored_kcal() ) / divisor;
-        };
     } else if( checked_value == "body_temp" ) {
         return [is_npc]( dialogue const & d ) {
             return units::to_legacy_bodypart_temp( d.actor( is_npc )->get_body_temp() );
@@ -2102,7 +2154,7 @@ std::unordered_map<std::string_view, void ( talker::* )( int )> const f_set_vals
     { "dexterity_base", &talker::set_dex_max },
     { "dexterity_bonus", &talker::set_dex_bonus },
     { "exp", &talker::set_kill_xp },
-    { "fatigue", &talker::set_fatigue },
+    { "sleepiness", &talker::set_sleepiness },
     { "friendly", &talker::set_friendly },
     { "height", &talker::set_height },
     { "intelligence_base", &talker::set_int_max },
@@ -2120,7 +2172,6 @@ std::unordered_map<std::string_view, void ( talker::* )( int )> const f_set_vals
     { "sleep_deprivation", &talker::set_sleep_deprivation },
     { "stamina", &talker::set_stamina },
     { "stim", &talker::set_stim },
-    { "stored_kcal", &talker::set_stored_kcal },
     { "strength_base", &talker::set_str_max },
     { "strength_bonus", &talker::set_str_bonus },
     { "thirst", &talker::set_thirst },
@@ -2178,11 +2229,6 @@ conditional_t::get_set_dbl( std::string_view checked_value, char scope )
     } else if( checked_value == "mana_percentage" ) {
         return [is_npc]( dialogue & d, double input ) {
             d.actor( is_npc )->set_mana_cur( ( d.actor( is_npc )->mana_max() * input ) / 100 );
-        };
-    } else if( checked_value == "stored_kcal_percentage" ) {
-        // 100% is 55'000 kcal, which is considered healthy.
-        return [is_npc]( dialogue & d, double input ) {
-            d.actor( is_npc )->set_stored_kcal( input * 5500 );
         };
     }
     throw std::invalid_argument( string_format( R"(Invalid aspect "%s" for val())", checked_value ) );
@@ -2384,6 +2430,8 @@ parsers = {
     {"is_weather", jarg::member, &conditional_fun::f_is_weather },
     {"map_terrain_with_flag", jarg::member, &conditional_fun::f_map_ter_furn_with_flag },
     {"map_furniture_with_flag", jarg::member, &conditional_fun::f_map_ter_furn_with_flag },
+    {"map_terrain_id", jarg::member, &conditional_fun::f_map_ter_furn_id },
+    {"map_furniture_id", jarg::member, &conditional_fun::f_map_ter_furn_id },
     {"map_in_city", jarg::member, &conditional_fun::f_map_in_city },
     {"mod_is_loaded", jarg::member, &conditional_fun::f_mod_is_loaded },
     {"u_has_faction_trust", jarg::member | jarg::array, &conditional_fun::f_has_faction_trust },
