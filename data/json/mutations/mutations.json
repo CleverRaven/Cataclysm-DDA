@@ -1053,7 +1053,11 @@
     "description": "Either as the result of a lifesaving surgery, or as a congenital defect, your stomach is much smaller than usual. You'll have to eat your food in small servings during the day, rather than one or two large daily meals.",
     "starting_trait": true,
     "active": false,
-    "stomach_size_multiplier": 0.2
+    "enchantments": [
+      {
+        "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 0.2 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
