@@ -619,6 +619,157 @@
     ]
   },
   {
+    "type": "item_group",
+    "id": "LS_Rewardroom_Scatter_Passcode0",
+    "//": "Scattered reward items in passcode 0 room, 'thief's pass', themed around cheating/infiltration",
+    "subtype": "distribution",
+    "items": [
+      [ "bio_power_storage", 10 ],
+      [ "bio_batteries", 10 ],
+      [ "bio_lockpick", 10 ],
+      [ "bio_watch", 10 ],
+      [ "bio_alarm", 10 ],
+      [ "bio_sunglasses", 10 ],
+      [ "bio_meteorologist", 10 ],
+      [ "bio_pitch_perfect", 10 ],
+      [ "bio_fitnessband", 10 ],
+      [ "bio_radio", 10 ],
+      [ "bio_torsionratchet", 10 ],
+      [ "bio_fingerhack", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "LS_Rewardroom_Primary_Passcode0",
+    "//": "Special primary reward items in passcode 0 room, 'thief's pass', themed around cheating/infiltration",
+    "subtype": "distribution",
+    "items": [
+      [ "bio_scent_mask", 10 ],
+      [ "bio_remote", 10 ],
+      [ "bio_gills", 10 ],
+      [ "bio_taste_blocker", 10 ],
+      [ "bio_speed", 1 ],
+      [ "bio_membrane", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "LS_Rewardroom_Scatter_Passcode1",
+    "//": "Scattered reward items in passcode 1 room, 'circle of wings', themed around healing/movement",
+    "subtype": "distribution",
+    "items": [
+      [ "bio_power_storage", 10 ],
+      [ "bio_power_storage_mkII", 3 ],
+      [ "bio_batteries", 10 ],
+      [ "bio_lockpick", 10 ],
+      [ "bio_watch", 10 ],
+      [ "bio_alarm", 10 ],
+      [ "bio_sunglasses", 10 ],
+      [ "bio_meteorologist", 10 ],
+      [ "bio_pitch_perfect", 10 ],
+      [ "bio_fitnessband", 10 ],
+      [ "bio_radio", 10 ],
+      [ "bio_syringe", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "LS_Rewardroom_Primary_Passcode1",
+    "//": "Special primary reward items in passcode 1 room, 'circle of wings', themed around healing/movement",
+    "subtype": "distribution",
+    "items": [
+      [ "bio_jointservo", 10 ],
+      [ "bio_heatsink", 10 ],
+      [ "bio_painkiller", 10 ],
+      [ "bio_digestion", 10 ],
+      [ "bio_water_extractor", 10 ],
+      [ "bio_ads", 1 ],
+      [ "bio_synlungs", 2 ],
+      [ "bio_recycler", 3 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "LS_Rewardroom_Scatter_Passcode2",
+    "//": "Scattered reward items in passcode 2 room, 'hard nails', themed around damage/armour",
+    "subtype": "distribution",
+    "items": [
+      [ "bio_power_storage", 10 ],
+      [ "bio_batteries", 10 ],
+      [ "bio_lockpick", 10 ],
+      [ "bio_watch", 10 ],
+      [ "bio_alarm", 10 ],
+      [ "bio_sunglasses", 10 ],
+      [ "bio_meteorologist", 10 ],
+      [ "bio_pitch_perfect", 10 ],
+      [ "bio_fitnessband", 10 ],
+      [ "bio_radio", 10 ],
+      [ "bio_geiger", 5 ],
+      [ "bio_flashlight", 10 ],
+      [ "bio_radscrubber", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "LS_Rewardroom_Primary_Passcode2",
+    "//": "Special primary reward items in passcode 2 room, 'hard nails', themed around damage/armour",
+    "subtype": "distribution",
+    "items": [
+      [ "bio_armor_arms", 8 ],
+      [ "bio_armor_eyes", 5 ],
+      [ "bio_armor_head", 8 ],
+      [ "bio_armor_legs", 8 ],
+      [ "bio_armor_torso", 5 ],
+      [ "bio_blade", 10 ],
+      [ "bio_claws", 15 ],
+      [ "bio_cqb", 10 ],
+      [ "bio_flashbang", 10 ],
+      [ "bio_razors", 15 ],
+      [ "bio_resonator", 5 ],
+      [ "bio_targeting", 7 ],
+      [ "bio_shotgun", 10 ],
+      [ "bio_laser", 2 ],
+      [ "bio_shock", 5 ],
+      [ "bio_recoil", 7 ],
+      [ "bio_taser", 2 ],
+      [ "bio_ods", 1 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "LS_Rewardroom_Scatter_Passcode3",
+    "//": "Scattered reward items in passcode 3 room, 'laughing man', themed around manipulation/perception",
+    "subtype": "distribution",
+    "items": [
+      [ "bio_batteries", 10 ],
+      [ "bio_lockpick", 10 ],
+      [ "bio_watch", 10 ],
+      [ "bio_alarm", 10 ],
+      [ "bio_sunglasses", 10 ],
+      [ "bio_meteorologist", 10 ],
+      [ "bio_pitch_perfect", 10 ],
+      [ "bio_fitnessband", 10 ],
+      [ "bio_radio", 10 ],
+      [ "bio_geiger", 5 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "LS_Rewardroom_Primary_Passcode3",
+    "//": "Special primary items in passcode 3 room, 'laughing man', themed around manipulation/perception",
+    "subtype": "distribution",
+    "items": [
+      [ "bio_eye_optic", 10 ],
+      [ "bio_eye_enhancer", 10 ],
+      [ "bio_dex_enhancer", 10 ],
+      [ "bio_str_enhancer", 10 ],
+      [ "bio_int_enhancer", 10 ],
+      [ "bio_night_vision", 10 ],
+      [ "bio_infrared", 10 ],
+      [ "bio_ground_sonar", 10 ]
+    ]
+  },
+  {
     "type": "overmap_terrain",
     "copy-from": "deep_rock",
     "looks_like": "evac_center_7",
@@ -812,7 +963,9 @@
       { "monster": "mon_fleshborg_1_1", "weight": 800 },
       { "monster": "mon_fleshborg_1_1", "weight": 100, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
       { "monster": "mon_fleshborg_1_1", "weight": 50, "cost_multiplier": 20, "pack_size": [ 4, 6 ] },
-      { "monster": "mon_fleshborg_1_2", "weight": 50, "cost_multiplier": 20 }
+      { "monster": "mon_fleshborg_1_2", "weight": 50, "cost_multiplier": 20 },
+      { "monster": "mon_star_vampire", "weight": 1, "cost_multiplier": 0 },
+      { "monster": "mon_nuckalavee", "weight": 1, "cost_multiplier": 0 }
     ]
   },
   {
@@ -822,7 +975,10 @@
     "monsters": [
       { "monster": "mon_fleshborg_1_1", "weight": 850 },
       { "monster": "mon_fleshborg_1_1", "weight": 100, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_fleshborg_1_1", "weight": 50, "cost_multiplier": 20, "pack_size": [ 4, 6 ] }
+      { "monster": "mon_fleshborg_1_1", "weight": 50, "cost_multiplier": 20, "pack_size": [ 4, 6 ] },
+      { "monster": "mon_flying_polyp", "weight": 2, "cost_multiplier": 0 },
+      { "monster": "mon_hunting_horror", "weight": 2, "cost_multiplier": 0 },
+      { "monster": "mon_unseen_hunter", "weight": 2, "cost_multiplier": 0 }
     ]
   },
   {
@@ -2657,7 +2813,8 @@
         "|(UEBBEU(|"
       ],
       "palettes": [ "labyrinthine_base_palette" ],
-      "items": { "U": { "item": "bionics_common", "chance": 25 } }
+      "items": { "U": { "item": "LS_Rewardroom_Scatter_Passcode0", "chance": 32 } },
+      "place_items": [ { "item": "LS_Rewardroom_Primary_Passcode0", "x": 4, "y": 4 } ]
     }
   },
   {
@@ -2668,43 +2825,54 @@
     "object": {
       "mapgensize": [ 10, 10 ],
       "rows": [
-        "__________",
+        "|________|",
         "_((_______",
         "_((L______",
-        "__L___U___",
-        "____U_U___",
-        "____U_U___",
-        "__s_U_U_s_",
-        "____U_U___",
-        "__s_____s_",
-        "__________"
+        "__LÜ______",
+        "__________",
+        "____UU____",
+        "__s_UU_s__",
+        "____UU____",
+        "__s_UU_s__",
+        "|________|"
       ],
       "palettes": [ "labyrinthine_base_palette" ],
-      "furniture": { "s": "f_statue" },
-      "items": { "U": { "item": "bionics", "chance": 15 } }
+      "furniture": { "s": "f_statue", "Ü": "f_lab_bench" },
+      "items": {
+        "U": { "item": "LS_Rewardroom_Scatter_Passcode1", "chance": 32 },
+        "Ü": { "item": "LS_Rewardroom_Primary_Passcode1" }
+      }
     }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "LS_10x10_deadend_1_room2",
-    "//": "Room full of shelves, should have CBMs and weapons",
+    "//": "Room full of shelves, should have CBMs and weapons and a big fight",
     "object": {
       "mapgensize": [ 10, 10 ],
       "rows": [
         "|L______L|",
-        "U___UU___U",
-        "U___UU___U",
-        "U___UU___U",
-        "U___UU___U",
-        "U___UU___U",
-        "U___UU___U",
-        "U___UU___U",
-        "U___UU___U",
-        "|L__UU__L|"
+        "U___¯¯___U",
+        "Ü________U",
+        "U___¯¯___U",
+        "U________U",
+        "U___¯¯___U",
+        "U________U",
+        "U___¯¯___U",
+        "U________U",
+        "|L______L|"
       ],
       "palettes": [ "labyrinthine_base_palette" ],
-      "items": { "c": { "item": "bionics_common", "chance": 35 },  "U": { "item": "bionics_mil", "chance": 15 } }
+      "furniture": { "Ü": "f_utility_shelf" },
+      "monsters": { "¯": { "monster": "GROUP_NETHER_REALITY_TEAR_FIELD", "density": 0.01 } },
+      "items": {
+        "Ü": { "item": "LS_Rewardroom_Primary_Passcode2" },
+        "U": [
+          { "item": "LS_Rewardroom_Scatter_Passcode2", "chance": 25 },
+          { "item": "LS_Rewardroom_Primary_Passcode2", "chance": 2 }
+        ]
+      }
     }
   },
   {
@@ -2717,17 +2885,23 @@
       "rows": [
         "|________|",
         "ϟ________ϟ",
-        "ϟ_¢M__M¢_ϟ",
-        "(_¢____¢_(",
-        "ϟ_¢M__M¢_ϟ",
-        "ϟ_¢____¢_ϟ",
-        "(_¢M__M¢_(",
-        "ϟ_¢____¢_ϟ",
-        "ϟ_¢M__M¢_ϟ",
-        "|ccCUUCcc|"
+        "ϟ__M__M__ϟ",
+        "(________(",
+        "ϟ__M__M__ϟ",
+        "ϟ________ϟ",
+        "(__M__M__(",
+        "ϟ________ϟ",
+        "ϟ__M__M__ϟ",
+        "|ccCUÜCcc|"
       ],
       "palettes": [ "labyrinthine_base_palette" ],
-      "items": { "c": { "item": "bionics_common", "chance": 35 },  "u": { "item": "bionics_mil", "chance": 75 } }
+      "furniture": { "Ü": "f_utility_shelf" },
+      "items": {
+        "c": { "item": "LS_SUS_crate_tier0_materials" },
+        "C": { "item": "LS_Rewardroom_Scatter_Passcode3", "chance": 75 },
+        "U": { "item": "LS_Rewardroom_Scatter_Passcode3", "chance": 75 },
+        "Ü": { "item": "LS_Rewardroom_Primary_Passcode3" }
+      }
     }
   },
   {
