@@ -631,6 +631,7 @@
       "!": "t_nl_metal_wall_edge",
       "v": "t_nl_chasm",
       "+": "t_nl_door_c",
+      "=": "t_nl_door_l",
       "ϴ": "t_nl_catwalk",
       "o": [ [ "t_nl_catwalk", 3 ], [ "t_nl_chasm", 1 ] ]
     },
@@ -691,6 +692,23 @@
     "effect": [ "open_dialogue" ]
   },
   {
+    "id": "EOC_LS_Passcode_Randomize",
+    "type": "effect_on_condition",
+    "effect": [ { "math": [ "LS_Passcode_Selector", "=", "rng(1, 3)" ] } ]
+  },
+  {
+    "id": "EOC_LS_Passcode_Selector",
+    "type": "effect_on_condition",
+    "effect": [
+      { "if": { "and": [ { "math": [ "LS_Passcode_Selector", "==", "3" ] }, { "u_has_trait": "LS_Passcode_3" } ] } },
+      { "then": { "math": [ "LS_Passcode_Selector", "-=", "1" ] } },
+      { "if": { "and": [ { "math": [ "LS_Passcode_Selector", "==", "2" ] }, { "u_has_trait": "LS_Passcode_2" } ] } },
+      { "then": { "math": [ "LS_Passcode_Selector", "-=", "1" ] } },
+      { "if": { "and": [ { "math": [ "LS_Passcode_Selector", "==", "1" ] }, { "u_has_trait": "LS_Passcode_1" } ] } },
+      { "then": { "math": [ "LS_Passcode_Selector", "-=", "1" ] } }
+    ]
+  },
+  {
     "id": "LS_Bridge_control_deadend_1_extend",
     "type": "effect_on_condition",
     "effect": [
@@ -704,6 +722,51 @@
         ]
       }
     ]
+  },
+  {
+    "id": "EOC_LS_Unlock",
+    "type": "effect_on_condition",
+    "effect": [ { "mapgen_update": "UM_LS_Unlock" } ]
+  },
+  {
+    "id": "EOC_LS_Passcode_Generator",
+    "type": "effect_on_condition",
+    "effect": [
+      { "mapgen_update": "UM_LS_Unlock" },
+      {
+        "switch": { "math": [ "LS_Passcode_Selector" ] },
+        "cases": [
+          { "case": 0, "effect": [ { "mapgen_update": "UM_LS_Passcode_Generator_0" } ] },
+          { "case": 1, "effect": [ { "mapgen_update": "UM_LS_Passcode_Generator_1" } ] },
+          { "case": 2, "effect": [ { "mapgen_update": "UM_LS_Passcode_Generator_2" } ] },
+          { "case": 3, "effect": [ { "mapgen_update": "UM_LS_Passcode_Generator_3" } ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "UM_LS_Unlock",
+    "method": "json",
+    "object": { "translate_ter": [ { "from": "t_nl_door_l", "to": "t_nl_door_c", "x": [ 0, 23 ], "y": [ 0, 23 ] } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "UM_LS_Passcode_Generator_1",
+    "method": "json",
+    "object": { "translate_ter": [ { "from": "t_nl_obelisk_0", "to": "t_nl_obelisk_1", "x": [ 0, 23 ], "y": [ 0, 23 ] } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "UM_LS_Passcode_Generator_2",
+    "method": "json",
+    "object": { "translate_ter": [ { "from": "t_nl_obelisk_0", "to": "t_nl_obelisk_2", "x": [ 0, 23 ], "y": [ 0, 23 ] } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "UM_LS_Passcode_Generator_3",
+    "method": "json",
+    "object": { "translate_ter": [ { "from": "t_nl_obelisk_0", "to": "t_nl_obelisk_3", "x": [ 0, 23 ], "y": [ 0, 23 ] } ] }
   },
   {
     "type": "mapgen",
@@ -728,6 +791,15 @@
     "update_mapgen_id": "UM_LS_deadend_1_room3",
     "method": "json",
     "object": { "place_nested": [ { "chunks": [ "LS_10x10_deadend_1_room3" ], "x": 7, "y": 10 } ] }
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Passcode_Door",
+    "dynamic_line": "&You see a strangely mundane black computer screen, with a blinking green cursor awaiting input.\n\n<color_light_green> @User > _</color>",
+    "responses": [
+      { "text": "Unlock connected doors", "effect": [ { "run_eocs": [ "EOC_LS_Unlock", "EOC_LS_Passcode_Generator" ] } ] },
+      { "text": "Log off.", "topic": "TALK_DONE" }
+    ]
   },
   {
     "type": "talk_topic",
@@ -1021,11 +1093,11 @@
         "U____l          L_____",
         "UUUU_l          ßß__ßß",
         "||||F|          ṪṪ__ṪṪ",
-        "cc___c          ßß__ßß",
-        "ccC¢Cc          |||+||",
+        "cc___c          |||_ßß",
+        "ccC¢Cc          __|+||",
         "Cc¢¢¢¢          _____ß",
-        "CCC¢¢¢          _____L",
-        "||||F|          _____ß",
+        "CCC¢¢¢          ßṪ___L",
+        "||||F|          ßṪ___ß",
         "U____L          |||+||",
         "U_((_U          LUU_UU",
         "U_((_U          U____U",
@@ -1034,6 +1106,47 @@
       ],
       "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_utility_tier0" ],
       "monsters": { "1": { "monster": "GROUP_Labyrinth_Turret", "density": 0.01 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ls_straight_2basic_rooms_offset",
+    "//": "Two rooms with keycard access gated by a computer",
+    "object": {
+      "mapgensize": [ 22, 22 ],
+      "rows": [
+        "L_____|        |______",
+        "___|__+        |______",
+        "___|__+        |______",
+        "______|        |______",
+        "|__||||        |______",
+        "_____L|        |______",
+        "______|        |______",
+        "______|        |______",
+        "______|        |______",
+        "||||__|        |______",
+        "______|        |______",
+        "_____L|        |||____",
+        "_||||||        |L|||==",
+        "______|        =______",
+        "______|        =______",
+        "LUUU_L|        |L|||==",
+        "||||+||        |||L___",
+        "L_____|        |______",
+        "Ṫ_____|        |______",
+        "Ṫ_____|        |______",
+        "Ṫ_____|        |______",
+        "ṪṪṪṪṪÇ|        |UUUUUU"
+      ],
+      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_utility_tier0" ],
+      "computers": {
+        "Ç": {
+          "name": "",
+          "eocs": [ "EOC_LS_Computer", "EOC_LS_Passcode_Randomize", "EOC_LS_Passcode_Selector" ],
+          "chat_topics": [ "COMP_LS_Passcode_Door" ]
+        }
+      }
     }
   },
   {
@@ -1255,7 +1368,7 @@
       "mapgensize": [ 24, 24 ],
       "rows": [
         "!||||||vvv....vvvv|||||!",
-        "!|UUUU||vv....vvv||¢¢¢|!",
+        "!1UUUU||vv....vvv||¢¢¢|!",
         "!L_____+.........+____L!",
         "!ϟ_____+.....ovvv||¢¢¢|!",
         "!|UUU|||vo...ovvvv|||||!",
@@ -1279,7 +1392,9 @@
         "!|UUUU||vv....vvv||ṪṪṪ|!",
         "!||||||vvv....vvvv|||||!"
       ],
-      "palettes": [ "labyrinthine_base_palette" ]
+      "palettes": [ "labyrinthine_base_palette" ],
+      "terrain": { "1": "t_nl_metal_wall" },
+      "nested": { "1": { "chunks": [ [ "null", 50 ], [ "ls_straight_bubble2_computer_placement", 50 ] ] } }
     }
   },
   {
