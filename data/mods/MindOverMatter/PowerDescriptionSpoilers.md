@@ -949,7 +949,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Duration*: Aftereffects last from 2 to 5 seconds, plus 0.75 to 1.75 seconds per power level<br />
 *Stamina Cost*: 6000, minus 100 per level to a minimum of 3500<br />
 *Channeling Time*: 125 moves, minus 5 moves per level to a minimum of 50<br />
-*Effects*: Assault the target's mind, unleashing their most elemental fears. Freezes the target in place for a number of moves depending on power level--the formula is from ((Power level / 4) * 6) / ((Power level / 4) + 3) to ((Power level / 4) * 10) / ((Power level / 4) + 3), and then multiply by 100 to get the moves subtracted from the target. Level 1 minimum is 46.5 moves lost, level 20 maximum is 625. For the aftereffect duration, the target suffers a -30 penalty to speed, a -2 penalty to dodge, a -2 penalty to hit, and a -8 penalty to bash damage.<br />
+*Effects*: Assault the target's mind, unleashing their most elemental fears. Freezes the target in place for a number of seconds depending on power level--the formula is from ((Power level / 4) * 6) / ((Power level / 4) + 3) to ((Power level / 4) * 10) / ((Power level / 4) + 3).  In addition, the target will suffer a lingering teror--for the aftereffect duration, the target suffers a -30 penalty to speed, a -2 penalty to dodge, a -2 penalty to hit, and a -8 penalty to bash damage. If an NPC, the target has their fear of the avatar increased by one-half the power level, and if a monster, the target has their morale reduced by 5 times the power level.<br />
 *Prerequisites*: Synaptic Blast 8, Mood Stabilization 8<br />
 
 ## Obscurity

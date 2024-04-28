@@ -2447,10 +2447,11 @@ request](https://github.com/CleverRaven/Cataclysm-DDA/pull/36657) and the
 "vehicle_start": true,                                              // Hardcoded check for construction recipe, that result into vehicle frame; Can be used only with `done_vehicle`
 "time": "30 m",                                                     // Time required to complete construction. Integers will be read as minutes or a time string can be used.
 "components": [ [ [ "spear_wood", 4 ], [ "pointy_stick", 4 ] ] ],   // Items used in construction
-"pre_special": "check_empty",                                       // Required something that isn't terrain
+"pre_special": [ "check_empty", "check_up_OK" ],                    // Required something that isn't terrain. The syntax also allows for a square bracket enclosed list of specials which all have to be fulfilled
 "pre_terrain": "t_pit",                                             // Alternative to pre_special; Required terrain to build on
 "pre_flags": [ "WALL", { "flag": "DIGGABLE", "force_terrain": true } ], // Flags beginning furniture/terrain must have. force_ter forces the flag to apply to the underlying terrain
 "post_terrain": "t_pit_spiked",                                     // Terrain type after construction is complete
+"post_special": "done_mine_upstairs",                               // Required to do something beyond setting the post terrain. The syntax also allows for a square bracket enclosed list of specials which all have to be fulfilled
 "pre_note": "Build a spikes on a diggable terrain",                 // Create an annotation to this recipe
 "dark_craftable": true,                                             // If true, you can construct it with lack of light
 "byproducts": [ { "item": "material_soil", "count": [ 2, 5 ] } } ], // Items, that would be left after construction
@@ -2463,19 +2464,45 @@ request](https://github.com/CleverRaven/Cataclysm-DDA/pull/36657) and the
 | `check_channel`        | Must be empty and have a current in at least one orthogonal tile
 | `check_empty`          | Tile is empty (no furniture, trap, item, or vehicle) and flat terrain
 | `check_empty_lite`     | Tile is empty (no furniture, trap, item, or vehicle)
-| `check_support`        | Must have at least two solid walls/obstructions nearby on orthogonals (non-diagonal directions only) to support the tile
-| `check_support_below`  | Must have at least two solid walls/obstructions at the Z level below on orthogonals (non-diagonal directions only) to support the tile and be empty lite but with a ledge trap acceptable, as well as open air
+| `check_support`        | Must have at least two solid walls/obstructions nearby on orthogonals (non-diagonal directions only) or solid support directly below to support the tile
+| `check_support_below`  | Must have at least two solid walls/obstructions at the Z level below on orthogonals (non-diagonal directions only) or solid support directly below to support the tile and be empty lite but with a ledge trap acceptable, as well as open air
+| `check_single_support` | Must have solid support directly below to support the tile
 | `check_stable`         | Tile on level below has a flag `SUPPORTS_ROOF`
 | `check_empty_stable`   | Tile is empty and stable
 | `check_nofloor_above`  | Tile on level above has a flag `NO_FLOOR`
 | `check_deconstruction` | The furniture (or tile, if no furniture) in the target tile must have a "deconstruct" entry
-| `check_empty_up_OK`    | Tile is empty and is below the maximum possible elevation (can build up here)
 | `check_up_OK`          | Tile is below the maximum possible elevation (can build up here)
 | `check_down_OK`        | Tile is above the lowest possible elevation (can dig down here)
 | `check_no_trap`        | There is no trap object in this tile
 | `check_ramp_low`       | Both this and the next level above can be built up one additional Z level
 | `check_ramp_high`      | There is a complete downramp on the next higher level, and both this and next level above can be built up one additional Z level
 | `check_no_wiring`      | The tile must either be free of a vehicle, or at least a vehicle that doesn't have the WIRING flag
+| `check_matching_down_above`| The tile directly above must have the same base identifier but with a suffix of 'down'
+
+| post_special            | Description
+|---                     |---
+| `done_trunk_plank`     | Generate logs and then planks here (under the assumption the tile was a trunk or stump)
+| `done_grave`           | Finish grave digging by performing burial activities
+| `done_vehicle`         | Create a new vehicle and name it
+| `done_appliance`       | Finish the placement of a partially placed appliance
+| `done_wiring`          | Place a wiring "appliance" at the location
+| `done_deconstruct`     | Finish deconstruction of furniture or, if not present, terrain
+| `done_dig_grave`       | Finish digging up a grave and find what's inside of it
+| `done_dig_grave_nospawn`| Finish digging up a grave and retrieve a coffin (which is not an option above)
+| `done_dig_stair`       | Finish diggins stairs downwards (with handling of what's beneath and how to get up)
+| `done_mine_downstair`  | Same as the previous one, but mining rather than digging
+| `done_mine_upstair`    | Finish mining stairs from below
+| `done_wood_stairs`     | Finish building stairs from below
+| `done_window_curtains` | Finish boarding up window and get materials from curtains
+| `done_extract_maybe_revert_to_dirt`| Finish sand/clay extraction, which may exhaust the resource
+| `done_mark_firewood`   | Sets a firewood source trap at the location
+| `done_mark_practice_target`| Sets a target practice trap at the location
+| `done_ramp_low`        | Sets a t_ramp_down_low at the tile above the target
+| `done_ramp_high`       | Sets a t_ramp_down_high at the tile above the target
+| `done_matching_down_above`| The terrain on the Z level above is set to the corresponding terrain at this level, but with the "down" suffix instead
+| `remove_above`         | Remove the terrain at the Z level above and replace it with t_open_air
+| `add_roof`             | Add the roof specified for the terrain at the site to the tile above
+
 
 ### Scent_types
 

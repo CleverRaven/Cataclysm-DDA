@@ -953,6 +953,18 @@
     ]
   },
   {
+    "id": "hoodie_cropped",
+    "copy-from": "hoodie",
+    "type": "ARMOR",
+    "name": { "str": "cropped hoodie" },
+    "description": "A sweatshirt with a hood, cropped to expose the stomach.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "warmth": 0.75 },
+    "armor": [
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95, "encumbrance": 4 },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": 6 }
+    ]
+  },
+  {
     "id": "jersey",
     "type": "ARMOR",
     "name": { "str": "sports jersey" },
@@ -1841,6 +1853,23 @@
     "flags": [ "VARSIZE", "SKINTIGHT" ],
     "armor": [
       { "coverage": 90, "covers": [ "torso" ] },
+      {
+        "coverage": 100,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
+      },
+      { "coverage": 50, "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_upper_l", "arm_upper_r" ] }
+    ]
+  },
+  {
+    "id": "tshirt_cropped",
+    "copy-from": "tshirt",
+    "type": "ARMOR",
+    "name": { "str": "crop top" },
+    "description": "A short-sleeved cotton shirt, cropped to expose the stomach.",
+    "proportional": { "weight": 0.5, "volume": 0.5, "warmth": 0.5 },
+    "armor": [
+      { "coverage": 90, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] },
       {
         "coverage": 100,
         "covers": [ "arm_l", "arm_r" ],

@@ -57,7 +57,7 @@
     "type": "mission_definition",
     "goal": "MGOAL_GO_TO_TYPE",
     "destination": "exo_warehouse_1",
-    "start": { "effect": { "u_spawn_item": "warehouse_rebooter" } },
+    "start": { "effect": [ { "u_spawn_item": "warehouse_rebooter" }, { "math": [ "exodii_mission_wh_chance", "=", "6" ] } ] },
     "end": { "effect": [ { "u_add_var": "mission_completed_u_found_warehouse", "value": "yes" } ] },
     "difficulty": 5,
     "value": 2,
