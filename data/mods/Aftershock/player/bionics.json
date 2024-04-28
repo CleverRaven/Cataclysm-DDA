@@ -110,7 +110,7 @@
           { "value": "PERCEPTION", "add": 4 },
           { "value": "DEXTERITY", "add": 4 },
           { "value": "PAIN", "multiply": -0.33 },
-          { "value": "PAIN_PENALTY_MOD_INT", "add": - 4 }
+          { "value": "PAIN_PENALTY_MOD_INT", "add": -4 }
         ]
       }
     ]
