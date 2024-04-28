@@ -60,7 +60,7 @@ class mission_ui_impl : public cataimgui::window
     public:
         std::string last_action;
         explicit mission_ui_impl( mission_ui &parent ) : cataimgui::window( _( "Your missions" ),
-                    ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoNav ),
+                    ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoNav ),
             parent( parent ) {
         }
 
@@ -71,6 +71,10 @@ class mission_ui_impl : public cataimgui::window
 
         mission_ui_tab_enum selected_tab = mission_ui_tab_enum::ACTIVE;
         mission_ui_tab_enum switch_tab = mission_ui_tab_enum::num_tabs;
+
+        size_t window_width = str_width_to_pixels( FULL_SCREEN_WIDTH );
+        size_t window_height = str_height_to_pixels( FULL_SCREEN_HEIGHT );
+        size_t table_column_width = window_width / 2;
 
     protected:
         void draw_controls() override;
@@ -122,10 +126,12 @@ void mission_ui_impl::draw_controls()
         ImGui::SetKeyboardFocusHere( 1 );
         selected_mission++;
     } else if( last_action == "NEXT_TAB" || last_action == "RIGHT" ) {
+        adjust_selected = true;
         selected_mission = 0;
         switch_tab = selected_tab;
         ++switch_tab;
     } else if( last_action == "PREV_TAB" || last_action == "LEFT" ) {
+        adjust_selected = true;
         selected_mission = 0;
         switch_tab = selected_tab;
         --switch_tab;
@@ -186,10 +192,13 @@ void mission_ui_impl::draw_controls()
         return;
     }
 
-    // All window sizes are currently static values until I've finished building the thing.
-    if( ImGui::BeginTable( "##MISSION_TABLE", 2, ImGuiTableFlags_None, ImVec2( 900.0f, 500.f ) ) ) {
-        ImGui::TableSetupColumn( _( "Missions" ), ImGuiTableColumnFlags_WidthFixed, 300.0f );
-        ImGui::TableSetupColumn( _( "Description" ), ImGuiTableColumnFlags_WidthFixed, 600.0f );
+    if( ImGui::BeginTable( "##MISSION_TABLE", 2, ImGuiTableFlags_None,
+                           ImVec2( window_width, window_height ) ) ) {
+        // Missions selection is purposefully thinner than the description, it has less to convey.
+        ImGui::TableSetupColumn( _( "Missions" ), ImGuiTableColumnFlags_WidthStretch,
+                                 table_column_width * 0.8 );
+        ImGui::TableSetupColumn( _( "Description" ), ImGuiTableColumnFlags_NoDirectResize_,
+                                 table_column_width * 1.2 );
         ImGui::TableHeadersRow();
         ImGui::TableNextColumn();
         draw_mission_names( umissions, selected_mission, adjust_selected );
@@ -203,7 +212,7 @@ void mission_ui_impl::draw_mission_names( std::vector<mission *> missions, int &
         bool &need_adjust )
 {
     const int num_missions = missions.size();
-    if( ImGui::BeginListBox( "##LISTBOX", ImVec2( 300.0f, 300.0f ) ) ) {
+    if( ImGui::BeginListBox( "##LISTBOX", ImVec2( table_column_width * 0.75, window_height ) ) ) {
         for( int i = 0; i < num_missions; i++ ) {
             const bool is_selected = ( selected_mission == i );
             ImGui::PushID( i );
@@ -252,7 +261,7 @@ void mission_ui_impl::draw_selected_description( std::vector<mission *> missions
         }
         parse_tags( parsed_description, get_player_character(), get_player_character() );
     }
-    draw_colored_text( parsed_description.c_str(), c_unset, 600.0f );
+    draw_colored_text( parsed_description.c_str(), c_unset, table_column_width * 1.15 );
     if( miss->has_deadline() ) {
         const time_point deadline = miss->get_deadline();
         ImGui::Text( _( "Deadline: %s" ), to_string( deadline ).c_str() );
