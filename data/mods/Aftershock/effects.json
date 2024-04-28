@@ -183,7 +183,7 @@
     "id": "synth_blood_permanent",
     "name": [ "Synthblood" ],
     "desc": [
-      "Your breaths instinctively grows more shallow as the synthetic blood carries oxygen throughout your body, increasing your speed, stamina, and general endurance."
+      "Your breaths instinctively grow shallow as the synthetic blood carries oxygen throughout your body, increasing your speed, stamina, and general endurance."
     ],
     "removes_effects": [ "synth_blood_perf" ],
     "rating": "good",
