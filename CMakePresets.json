@@ -105,11 +105,13 @@
     },
     {
       "name": "windows-tiles-sounds-x64",
-      "configurePreset": "windows-tiles-sounds-x64"
+      "configurePreset": "windows-tiles-sounds-x64",
+      "configuration":  "RelWithDebInfo"
     },
     {
       "name": "linux-tiles-sounds-x64",
-      "configurePreset": "linux-tiles-sounds-x64"
+      "configurePreset": "linux-tiles-sounds-x64",
+      "configuration":  "RelWithDebInfo"
     },
     {
       "name": "linux-tiles-sounds-x64-vcpkg",
@@ -117,21 +119,25 @@
     },
     {
       "name": "windows-tiles-sounds-x64-msvc",
-      "configurePreset": "windows-tiles-sounds-x64-msvc"
+      "configurePreset": "windows-tiles-sounds-x64-msvc",
+      "configuration": "RelWithDebInfo"
     },
     {
       "name": "windows-tiles-sounds-x64-llvm",
-      "configurePreset": "windows-tiles-sounds-x64-llvm"
+      "configurePreset": "windows-tiles-sounds-x64-llvm",
+      "configuration": "RelWithDebInfo"
     }
   ],
   "testPresets": [
     {
       "name": "windows-tiles-sounds-x64-msvc",
-      "configurePreset": "windows-tiles-sounds-x64-msvc"
+      "configurePreset": "windows-tiles-sounds-x64-msvc",
+      "configuration": "RelWithDebInfo"
     },
     {
       "name": "linux-tiles-sounds-x64",
-      "configurePreset": "linux-tiles-sounds-x64"
+      "configurePreset": "linux-tiles-sounds-x64",
+      "configuration": "RelWithDebInfo"
     }
   ]
 }
