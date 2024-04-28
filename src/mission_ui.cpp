@@ -56,17 +56,15 @@ class mission_ui
 
 class mission_ui_impl : public cataimgui::window
 {
-        mission_ui &parent;
     public:
         std::string last_action;
-        explicit mission_ui_impl( mission_ui &parent ) : cataimgui::window( _( "Your missions" ),
-                    ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoNav ),
-            parent( parent ) {
+        explicit mission_ui_impl() : cataimgui::window( _( "Your missions" ),
+                    ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoNav ) {
         }
 
     private:
         void draw_mission_names( std::vector<mission *> missions, int &selected_mission,
-                                 bool &need_adjust );
+                                 bool &need_adjust ) const;
         void draw_selected_description( std::vector<mission *> missions, int &selected_mission );
 
         mission_ui_tab_enum selected_tab = mission_ui_tab_enum::ACTIVE;
@@ -83,7 +81,7 @@ class mission_ui_impl : public cataimgui::window
 void mission_ui::draw_mission_ui()
 {
     input_context ctxt;
-    mission_ui_impl p_impl( *this );
+    mission_ui_impl p_impl;
 
     ctxt.register_navigate_ui_list();
     ctxt.register_leftright();
@@ -178,7 +176,7 @@ void mission_ui_impl::draw_controls()
         selected_mission = 0;
     }
 
-    if( selected_mission > umissions.size() - 1 ) {
+    if( static_cast<size_t>( selected_mission ) > umissions.size() - 1 ) {
         selected_mission = umissions.size() - 1;
     }
 
@@ -188,7 +186,7 @@ void mission_ui_impl::draw_controls()
             { mission_ui_tab_enum::COMPLETED, translate_marker( "You haven't completed any missions!" ) },
             { mission_ui_tab_enum::FAILED, translate_marker( "You haven't failed any missions!" ) }
         };
-        ImGui::TextWrapped( nope.at( selected_tab ).c_str() );
+        ImGui::TextWrapped( "%s", nope.at( selected_tab ).c_str() );
         return;
     }
 
@@ -209,12 +207,12 @@ void mission_ui_impl::draw_controls()
 }
 
 void mission_ui_impl::draw_mission_names( std::vector<mission *> missions, int &selected_mission,
-        bool &need_adjust )
+        bool &need_adjust ) const
 {
     const int num_missions = missions.size();
     if( ImGui::BeginListBox( "##LISTBOX", ImVec2( table_column_width * 0.75, window_height ) ) ) {
         for( int i = 0; i < num_missions; i++ ) {
-            const bool is_selected = ( selected_mission == i );
+            const bool is_selected = selected_mission == i;
             ImGui::PushID( i );
             if( ImGui::Selectable( missions[i]->name().c_str(), is_selected ) ) {
                 selected_mission = i;
@@ -234,9 +232,7 @@ void mission_ui_impl::draw_selected_description( std::vector<mission *> missions
         int &selected_mission )
 {
     mission *miss = missions[selected_mission];
-    ImGui::Text( _( "Mission:" ) );
-    ImGui::SameLine();
-    ImGui::TextWrapped( miss->name().c_str() );
+    ImGui::TextWrapped( _( "Mission: %s" ), miss->name().c_str() );
     if( miss->get_npc_id().is_valid() ) {
         npc *guy = g->find_npc( miss->get_npc_id() );
         if( guy ) {
@@ -253,7 +249,7 @@ void mission_ui_impl::draw_selected_description( std::vector<mission *> missions
         // Handles(example)  <reward_count:item>   in description
         // Not handled in parse_tags for some reason!
         dialogue d( get_talker_for( get_avatar() ), nullptr, {} );
-        auto &rewards = miss->get_likely_rewards();
+        const talk_effect_fun_t::likely_rewards_t &rewards = miss->get_likely_rewards();
         for( const auto &reward : rewards ) {
             std::string token = "<reward_count:" + itype_id( reward.second.evaluate( d ) ).str() + ">";
             parsed_description = string_replace( parsed_description, token, string_format( "%g",
@@ -261,7 +257,7 @@ void mission_ui_impl::draw_selected_description( std::vector<mission *> missions
         }
         parse_tags( parsed_description, get_player_character(), get_player_character() );
     }
-    draw_colored_text( parsed_description.c_str(), c_unset, table_column_width * 1.15 );
+    draw_colored_text( parsed_description, c_unset, table_column_width * 1.15 );
     if( miss->has_deadline() ) {
         const time_point deadline = miss->get_deadline();
         ImGui::Text( _( "Deadline: %s" ), to_string( deadline ).c_str() );
