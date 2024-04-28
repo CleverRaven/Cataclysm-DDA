@@ -14,7 +14,7 @@
       { "item": "cheese_fries", "prob": 10 },
       { "item": "onion_rings", "prob": 10 },
       { "prob": 20, "group": "mintpatties_bag_plastic_3" },
-      { "item": "electrohack", "prob": 3, "charges-min": 0 },
+      { "item": "electrohack", "prob": 3, "charges": [ 0, -1 ] },
       { "item": "usb_drive", "prob": 5 },
       { "group": "ammo_pocket_batteries_full", "prob": 50 },
       { "item": "file", "prob": 10 },
