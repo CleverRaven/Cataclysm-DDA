@@ -1703,10 +1703,10 @@
       "mapgensize": [ 6, 6 ],
       "rows": [
         "||||| ",
-        "l__L__",
-        "b_____",
-        "Ṫß____",
-        "(((___",
+        "l__L_ ",
+        "b____ ",
+        "Ṫß___ ",
+        "(((__ ",
         "||||| "
       ],
       "palettes": [ "labyrinthine_base_palette" ]
@@ -1720,10 +1720,10 @@
       "mapgensize": [ 6, 6 ],
       "rows": [
         "||||| ",
-        "B__ϟ(_",
-        "l_____",
-        "l_____",
-        "B__ϟ(_",
+        "B__ϟ( ",
+        "l____ ",
+        "l____ ",
+        "B__ϟ( ",
         "||||| "
       ],
       "palettes": [ "labyrinthine_base_palette" ]
@@ -1737,9 +1737,9 @@
       "mapgensize": [ 5, 5 ],
       "rows": [
         "|||||",
-        "B____",
-        "(L___",
-        "B____",
+        "B___ ",
+        "(L__ ",
+        "B___ ",
         "|||||"
       ],
       "palettes": [ "labyrinthine_base_palette" ]
@@ -1753,9 +1753,9 @@
       "mapgensize": [ 5, 5 ],
       "rows": [
         "|||||",
-        "b____",
-        "l____",
-        "L_Ṫß_",
+        "b___ ",
+        "l___ ",
+        "L_Ṫß ",
         "|||||"
       ],
       "palettes": [ "labyrinthine_base_palette" ]
@@ -1769,10 +1769,10 @@
       "mapgensize": [ 6, 6 ],
       "rows": [
         " |||||",
-        "___L_l",
-        "_____b",
-        "____ßṪ",
-        "___(((",
+        " __L_l",
+        " ____b",
+        " ___ßṪ",
+        " __(((",
         " |||||"
       ],
       "palettes": [ "labyrinthine_base_palette" ]
@@ -1786,10 +1786,10 @@
       "mapgensize": [ 6, 6 ],
       "rows": [
         " |||||",
-        "__ϟ(_B",
-        "_____l",
-        "_____l",
-        "__ϟ(_B",
+        " _ϟ(_B",
+        " ____l",
+        " ____l",
+        " _ϟ(_B",
         " |||||"
       ],
       "palettes": [ "labyrinthine_base_palette" ]
@@ -1803,9 +1803,9 @@
       "mapgensize": [ 5, 5 ],
       "rows": [
         "|||||",
-        "____B",
-        "___L(",
-        "____B",
+        " ___B",
+        " __L(",
+        " ___B",
         "|||||"
       ],
       "palettes": [ "labyrinthine_base_palette" ]
@@ -1819,9 +1819,9 @@
       "mapgensize": [ 5, 5 ],
       "rows": [
         "|||||",
-        "____b",
-        "____l",
-        "_Ṫß_L",
+        "  __b",
+        " ___l",
+        " Ṫß_L",
         "|||||"
       ],
       "palettes": [ "labyrinthine_base_palette" ]
@@ -2338,7 +2338,7 @@
         "__UU__          Ṫ____E",
         "_____L          L((((("
       ],
-      "palettes": [ "labyrinthine_base_palette" ]
+      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_dining_tier0" ]
     }
   },
   {
@@ -2427,7 +2427,7 @@
     "object": {
       "mapgensize": [ 22, 22 ],
       "rows": [
-        "L__|2_|2_|++|2_|2_|__L",
+        "L__|2_|2_|__|2_|2_|__L",
         "___|__|__|__|__|__|___",
         "______|__|__|__|______",
         "||_______|++|_______||",
@@ -2500,7 +2500,7 @@
         "(|F||||||F|(",
         "L(        (L"
       ],
-      "palettes": [ "labyrinthine_base_palette" ]
+      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_utility_tier0" ]
     }
   },
   {
@@ -2524,7 +2524,7 @@
         "(||      ||(",
         "ϟ(       ϟ( "
       ],
-      "palettes": [ "labyrinthine_base_palette" ]
+      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_utility_tier0" ]
     }
   },
   {
@@ -2656,7 +2656,8 @@
         "(________(",
         "|(UEBBEU(|"
       ],
-      "palettes": [ "labyrinthine_base_palette" ]
+      "palettes": [ "labyrinthine_base_palette" ],
+      "items": { "U": { "item": "bionics_common", "chance": 25 } }
     }
   },
   {
@@ -2679,7 +2680,8 @@
         "__________"
       ],
       "palettes": [ "labyrinthine_base_palette" ],
-      "furniture": { "s": "f_statue" }
+      "furniture": { "s": "f_statue" },
+      "items": { "U": { "item": "bionics", "chance": 15 } }
     }
   },
   {
@@ -2701,7 +2703,8 @@
         "U___UU___U",
         "|L__UU__L|"
       ],
-      "palettes": [ "labyrinthine_base_palette" ]
+      "palettes": [ "labyrinthine_base_palette" ],
+      "items": { "c": { "item": "bionics_common", "chance": 35 },  "U": { "item": "bionics_mil", "chance": 15 } }
     }
   },
   {
@@ -2721,9 +2724,10 @@
         "(_¢M__M¢_(",
         "ϟ_¢____¢_ϟ",
         "ϟ_¢M__M¢_ϟ",
-        "|ccCccCcc|"
+        "|ccCUUCcc|"
       ],
-      "palettes": [ "labyrinthine_base_palette" ]
+      "palettes": [ "labyrinthine_base_palette" ],
+      "items": { "c": { "item": "bionics_common", "chance": 35 },  "u": { "item": "bionics_mil", "chance": 75 } }
     }
   },
   {
