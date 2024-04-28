@@ -42,7 +42,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": { "str": "Synthblood Biofactory CBM" },
-    "description": "A mercurial brand biofactory that replaces the user's blood with a synthetic substitute.  Primarily desinged to boost combat performance, its common among the corporation's own security forces.  The biofactory can't be removed once integrated witha a host.",
+    "description": "A mercurial brand biofactory that replaces the user's blood with a synthetic substitute.  Primarily desinged to boost combat performance, its common among the corporation's own security forces.  The biofactory can't be removed once integrated with a host.",
     "price_postapoc": "15 kUSD",
     "difficulty": 5
   },
