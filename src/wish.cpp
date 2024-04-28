@@ -918,71 +918,63 @@ class wish_item_callback: public uilist_callback
         }
 
         void refresh( uilist *menu ) override {
-            const int description_height = menu->w_height - 6;
-            const int starty = 3;
-            const int startx = menu->w_width - menu->pad_right;
-            const std::string padding( menu->pad_right, ' ' );
-            for( int y = 2; y < menu->w_height - 1; y++ ) {
-                mvwprintw( menu->window, point( startx - 1, y ), padding );
-            }
-            mvwhline( menu->window, point( startx, 1 ), ' ', menu->pad_right - 1 );
-            const int entnum = menu->selected;
-            if( entnum >= 0 && static_cast<size_t>( entnum ) < standard_itype_ids.size() ) {
-                item tmp = wishitem_produce( *standard_itype_ids[entnum], flags, false );
+            auto info_size = ImGui::GetContentRegionAvail();
+            info_size.x = ImGui::GetWindowWidth() - info_size.x;
+            ImGui::TableSetColumnIndex( 2 );
+            if( ImGui::BeginChild( "monster info", info_size ) ) {
+                const int entnum = menu->selected;
+                if( entnum >= 0 && static_cast<size_t>( entnum ) < standard_itype_ids.size() ) {
+                    item tmp = wishitem_produce( *standard_itype_ids[entnum], flags, false );
 
-                const itype_variant_data *variant = itype_variants[entnum];
-                if( variant != nullptr && tmp.has_itype_variant( false ) ) {
-                    // Set the variant type as shown in the selected list item.
-                    std::string variant_id = variant->id;
-                    tmp.set_itype_variant( variant_id );
-                }
-
-                if( !tmp.type->snippet_category.empty() ) {
-                    if( renew_snippet ) {
-                        last_snippet_id = tmp.snip_id.str();
-                        renew_snippet = false;
-                    } else if( chosen_snippet_id.first == entnum && !chosen_snippet_id.second.empty() ) {
-                        std::string snip = chosen_snippet_id.second;
-                        if( snippet_id( snip ).is_valid() || snippet_id( snip ) == snippet_id::NULL_ID() ) {
-                            tmp.snip_id = snippet_id( snip );
-                            last_snippet_id = snip;
-                        }
-                    } else {
-                        tmp.snip_id = snippet_id( last_snippet_id );
+                    const itype_variant_data *variant = itype_variants[entnum];
+                    if( variant != nullptr && tmp.has_itype_variant( false ) ) {
+                        // Set the variant type as shown in the selected list item.
+                        std::string variant_id = variant->id;
+                        tmp.set_itype_variant( variant_id );
                     }
+
+                    if( !tmp.type->snippet_category.empty() ) {
+                        if( renew_snippet ) {
+                            last_snippet_id = tmp.snip_id.str();
+                            renew_snippet = false;
+                        } else if( chosen_snippet_id.first == entnum && !chosen_snippet_id.second.empty() ) {
+                            std::string snip = chosen_snippet_id.second;
+                            if( snippet_id( snip ).is_valid() || snippet_id( snip ) == snippet_id::NULL_ID() ) {
+                                tmp.snip_id = snippet_id( snip );
+                                last_snippet_id = snip;
+                            }
+                        } else {
+                            tmp.snip_id = snippet_id( last_snippet_id );
+                        }
+                    }
+
+                    const std::string header = string_format( "#%d: %s%s%s", entnum,
+                                               standard_itype_ids[entnum]->get_id().c_str(),
+                                               incontainer ? _( " (contained)" ) : "",
+                                               flags.empty() ? "" : _( " (flagged)" ) );
+                    ImGui::SetCursorPosX( ( ImGui::GetContentRegionAvail().x - ImGui::CalcTextSize(
+                                                header.c_str() ).x ) * 0.5 );
+                    ImGui::TextColored( c_cyan, header.c_str() );
+
+                    display_item_info( tmp.get_info( true ), {} );
                 }
 
-                const std::string header = string_format( "#%d: %s%s%s", entnum,
-                                           standard_itype_ids[entnum]->get_id().c_str(),
-                                           incontainer ? _( " (contained)" ) : "",
-                                           flags.empty() ? "" : _( " (flagged)" ) );
-                mvwprintz( menu->window, point( startx + ( menu->pad_right - 1 - utf8_width( header ) ) / 2, 1 ),
-                           c_cyan, header );
-
-                std::vector<std::string> desc = foldstring( tmp.info( true ), menu->pad_right - 1 );
-                const bool do_scroll = desc.size() > static_cast<unsigned>( description_height );
-                examine_pos = std::min( examine_pos, static_cast<int>( desc.size() - description_height ) );
-                const int first_line = do_scroll ? examine_pos : 0;
-                const int last_line = do_scroll ? ( first_line + description_height ) : desc.size();
-                draw_scrollbar( menu->window, first_line, description_height, desc.size(), point( menu->w_width - 1,
-                                starty ),
-                                c_white, true );
-                for( int i = first_line; i < last_line; i++ ) {
-                    fold_and_print( menu->window, point( startx, starty + i - first_line ), menu->pad_right - 1,
-                                    c_light_gray, desc[i] );
+                auto y = ImGui::GetContentRegionMax().y - 3 * ImGui::GetTextLineHeightWithSpacing();
+                if( ImGui::GetCursorPosY() < y ) {
+                    ImGui::SetCursorPosY( y );
                 }
+                ImGui::TextColored( c_green, "%s", msg.c_str() );
+                msg.erase();
+                input_context ctxt( menu->input_category, keyboard_mode::keycode );
+                ImGui::Text( _( "[%s] find, [%s] container, [%s] flag, [%s] everything, [%s] snippet, [%s] quit" ),
+                             ctxt.get_desc( "FILTER" ).c_str(),
+                             ctxt.get_desc( "CONTAINER" ).c_str(),
+                             ctxt.get_desc( "FLAG" ).c_str(),
+                             ctxt.get_desc( "EVERYTHING" ).c_str(),
+                             ctxt.get_desc( "SNIPPET" ).c_str(),
+                             ctxt.get_desc( "QUIT" ).c_str() );
             }
-
-            mvwprintz( menu->window, point( startx, menu->w_height - 3 ), c_green, msg );
-            msg.erase();
-            input_context ctxt( menu->input_category, keyboard_mode::keycode );
-            mvwprintw( menu->window, point( startx, menu->w_height - 2 ),
-                       _( "[%s] find, [%s] container, [%s] flag, [%s] everything, [%s] snippet, [%s] quit" ),
-                       ctxt.get_desc( "FILTER" ), ctxt.get_desc( "CONTAINER" ),
-                       ctxt.get_desc( "FLAG" ), ctxt.get_desc( "EVERYTHING" ),
-                       ctxt.get_desc( "SNIPPET" ),
-                       ctxt.get_desc( "QUIT" ) );
-            wnoutrefresh( menu->window );
+            ImGui::EndChild();
         }
 };
 

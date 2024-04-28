@@ -17,12 +17,14 @@
 #include <vector>
 
 #include "cached_options.h" // IWYU pragma: keep
+#include "cata_imgui.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
 #include "cursesport.h" // IWYU pragma: keep
 #include "cursesdef.h"
 #include "game_constants.h"
+#include "imgui/imgui.h"
 #include "input.h"
 #include "input_context.h"
 #include "item.h"
@@ -1180,6 +1182,86 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
     }
 
     return buffer;
+}
+
+void display_item_info( const std::vector<iteminfo> &vItemDisplay,
+                        const std::vector<iteminfo> &vItemCompare )
+{
+    bool bIsNewLine = true;
+
+    for( const iteminfo &i : vItemDisplay ) {
+        if( i.sType == "DESCRIPTION" ) {
+            // Always start a new line for sType == "DESCRIPTION"
+            if( !bIsNewLine ) {
+                ImGui::NewLine();
+            }
+            if( i.bDrawName ) {
+                cataimgui::draw_colored_text( i.sName, c_white );
+            }
+        } else {
+            if( i.bDrawName ) {
+                cataimgui::draw_colored_text( i.sName, c_white );
+            }
+
+            std::string sFmt = i.sFmt;
+            std::string sPost;
+            if( !sFmt.empty() ) {
+                //A bit tricky, find %d and split the string
+                size_t pos = sFmt.find( "<num>" );
+                if( pos != std::string::npos ) {
+                    cataimgui::draw_colored_text( sFmt.substr( 0, pos ).c_str(), c_white );
+                    sPost = sFmt.substr( pos + 5 );
+                } else {
+                    cataimgui::draw_colored_text( sFmt.c_str(), c_white );
+                }
+
+                if( i.sValue != "-999" ) {
+                    nc_color thisColor = c_yellow;
+                    for( const iteminfo &k : vItemCompare ) {
+                        if( k.sValue != "-999" ) {
+                            if( i.sName == k.sName && i.sType == k.sType ) {
+                                double iVal = i.dValue;
+                                double kVal = k.dValue;
+                                if( i.sFmt != k.sFmt ) {
+                                    // Different units, compare unit adjusted vals
+                                    iVal = i.dUnitAdjustedVal;
+                                    kVal = k.dUnitAdjustedVal;
+                                }
+                                if( iVal > kVal - .01 &&
+                                    iVal < kVal + .01 ) {
+                                    thisColor = c_light_gray;
+                                } else if( iVal > kVal ) {
+                                    if( i.bLowerIsBetter ) {
+                                        thisColor = c_light_red;
+                                    } else {
+                                        thisColor = c_light_green;
+                                    }
+                                } else if( iVal < kVal ) {
+                                    if( i.bLowerIsBetter ) {
+                                        thisColor = c_light_green;
+                                    } else {
+                                        thisColor = c_light_red;
+                                    }
+                                }
+                                break;
+                            }
+                        }
+                    }
+                    ImGui::SameLine( 0, 0 );
+                    ImGui::TextColored( thisColor, "%s", i.sValue.c_str() );
+                }
+                if( !sPost.empty() ) {
+                    ImGui::SameLine( 0, 0 );
+                    cataimgui::draw_colored_text( sPost.c_str(), c_white );
+                }
+            }
+        }
+
+        // Set bIsNewLine in case the next line should always start in a new line
+        if( !( bIsNewLine = i.bNewLine ) ) {
+            ImGui::SameLine( 0, 0 );
+        }
+    }
 }
 
 input_event draw_item_info( const catacurses::window &win, item_info_data &data )
