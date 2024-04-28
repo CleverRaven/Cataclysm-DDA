@@ -1208,13 +1208,21 @@
   },
   {
     "type": "talk_topic",
-    "id": [ "COMP_LS_Bridge_control_deadend_1", "COMP_LS_Bridge_control_deadend_1_Extend_passcode1" ],
+    "id": [
+      "COMP_LS_Bridge_control_deadend_1",
+      "COMP_LS_Bridge_control_deadend_1_Extend_passcode0",
+      "COMP_LS_Bridge_control_deadend_1_Extend_passcode1",
+      "COMP_LS_Bridge_control_deadend_1_Extend_passcode2",
+      "COMP_LS_Bridge_control_deadend_1_Extend_passcode3",
+      "COMP_LS_Bridge_control_deadend_1_Retract",
+      "COMP_LS_Bridge_control_deadend_1_Extend_nopasscode"
+    ],
     "responses": [
       {
         "text": "Enter the Thief's Passcode to extend the bridge.",
         "effect": [
           { "run_eocs": "EOC_LS_Bridge_control_deadend_1_Passcode0" },
-          { "math": [ "npc_LS_bidge_requests", "=", "1" ] },
+          { "math": [ "npc_LS_bridge_requests", "=", "1" ] },
           { "u_lose_trait": "LS_Passcode_0" }
         ],
         "condition": { "and": [ { "math": [ "npc_LS_bridge_requests", "<", "1" ] }, { "u_has_trait": "LS_Passcode_0" } ] },
@@ -1224,7 +1232,7 @@
         "text": "Enter the Circle of Wings Passcode to extend the bridge.",
         "effect": [
           { "run_eocs": "EOC_LS_Bridge_control_deadend_1_Passcode1" },
-          { "math": [ "npc_LS_bidge_requests", "=", "1" ] },
+          { "math": [ "npc_LS_bridge_requests", "=", "1" ] },
           { "u_lose_trait": "LS_Passcode_1" }
         ],
         "condition": { "and": [ { "math": [ "npc_LS_bridge_requests", "<", "1" ] }, { "u_has_trait": "LS_Passcode_1" } ] },
@@ -1234,7 +1242,7 @@
         "text": "Enter the Hard Nails Passcode to extend the bridge.",
         "effect": [
           { "run_eocs": "EOC_LS_Bridge_control_deadend_1_Passcode2" },
-          { "math": [ "npc_LS_bidge_requests", "=", "1" ] },
+          { "math": [ "npc_LS_bridge_requests", "=", "1" ] },
           { "u_lose_trait": "LS_Passcode_2" }
         ],
         "condition": { "and": [ { "math": [ "npc_LS_bridge_requests", "<", "1" ] }, { "u_has_trait": "LS_Passcode_2" } ] },
@@ -1244,11 +1252,16 @@
         "text": "Enter the Laughing Man Passcode to extend the bridge.",
         "effect": [
           { "run_eocs": "EOC_LS_Bridge_control_deadend_1_Passcode3" },
-          { "math": [ "npc_LS_bidge_requests", "=", "1" ] },
+          { "math": [ "npc_LS_bridge_requests", "=", "1" ] },
           { "u_lose_trait": "LS_Passcode_3" }
         ],
         "condition": { "and": [ { "math": [ "npc_LS_bridge_requests", "<", "1" ] }, { "u_has_trait": "LS_Passcode_3" } ] },
         "topic": "COMP_LS_Bridge_control_deadend_1_Extend_passcode3"
+      },
+      {
+        "text": "Try to extend the bridge to the treasure room.",
+        "condition": { "math": [ "npc_LS_bridge_requests", "<", "1" ] },
+        "topic": "COMP_LS_Bridge_control_deadend_1_Extend_nopasscode"
       },
       {
         "text": "Retract the bridge",
@@ -1267,6 +1280,11 @@
     "type": "talk_topic",
     "id": "COMP_LS_Bridge_control_deadend_1",
     "dynamic_line": "&You see a strangely mundane black computer screen, with a blinking green cursor awaiting input.\n\n<color_light_green> @User > _</color>"
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Bridge_control_deadend_1_Extend_nopasscode",
+    "dynamic_line": "&<color_light_green> @User > bridge --update=extend\n<color_light_green>Error: No PASSCODE or CONFIDENCE.\n<color_light_green>If you have a PASSCODE, please enter using syntax --pass=\"your password\"\n<color_light_green>If you have not been granted a PASSCODE, contact your system obelisk for help.\n\n<color_light_green> @User > _"
   },
   {
     "type": "talk_topic",
@@ -1292,7 +1310,7 @@
     "type": "talk_topic",
     "id": "COMP_LS_Bridge_control_deadend_1_Retract",
     "dynamic_line": "&<color_light_green> @User > bridge --update=retract\n<color_light_green>Error: Insufficient confidence.\n<color_light_green>What is done cannot be undone.\n\n<color_light_green> @User > _</color>",
-    "speaker_effect": { "effect": { "math": [ "npc_LS_bridge_requests", "==", "2" ] } }
+    "speaker_effect": { "effect": { "math": [ "npc_LS_bridge_requests", "=", "2" ] } }
   },
   {
     "type": "talk_topic",
