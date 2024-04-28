@@ -160,7 +160,7 @@ class advanced_inventory
                                          std::vector<drop_or_stash_item_info> &fav_list, bool forbid_buckets );
 
         // Returns the x coordinate where the header started. The header is
-        // displayed right of it, everything left of it is till free.
+        // displayed right of it, everything left of it is still free.
         int print_header( advanced_inventory_pane &pane, aim_location sel );
         void init();
         /**

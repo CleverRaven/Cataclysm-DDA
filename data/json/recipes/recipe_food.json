@@ -2895,7 +2895,7 @@
     "contained": true,
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "roasted_coffee_bean", 1 ] ], [ [ "bag_plastic", 1 ] ] ],
+    "components": [ [ [ "roasted_coffee_bean", 1 ] ], [ [ "bag_plastic", 1 ], [ "bag_plastic_small", 1 ] ] ],
     "charges": 20
   },
   {
@@ -7349,7 +7349,7 @@
       [ [ "splinter", 1 ] ],
       [ [ "cornmeal", 1 ] ],
       [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ],
-      [ [ "bag_plastic", 1 ] ]
+      [ [ "bag_plastic", 1 ], [ "bag_plastic_small", 1 ] ]
     ]
   },
   {

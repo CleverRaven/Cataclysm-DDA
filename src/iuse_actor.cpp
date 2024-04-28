@@ -5025,7 +5025,7 @@ std::optional<int> link_up_actor::link_extend_cable( Character *p, item &it,
     if( extended_copy ) {
         // Check if there's another pocket on the same container that can hold the extended item, respecting pocket settings.
         item_location parent = extended.parent_item();
-        if( parent->can_contain( *extended_ptr, false, false, false,
+        if( parent->can_contain( *extended_ptr, false, false, false, false,
                                  item_location(), 10000000_ml, false ).success() ) {
             if( !parent->put_in( *extended_ptr, pocket_type::CONTAINER ).success() ) {
                 debugmsg( "Failed to put %s inside %s!", extended_ptr->type_name(),

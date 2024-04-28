@@ -253,6 +253,8 @@
       { "monster": "mon_bluejay", "weight": 5 },
       { "monster": "mon_cardinal", "weight": 5 },
       { "monster": "mon_sparrow", "weight": 10 },
+      { "monster": "mon_chickadee", "weight": 5 },
+      { "monster": "mon_waxwing", "weight": 5 },
       { "monster": "mon_robin", "weight": 10 },
       { "monster": "mon_pigeon", "weight": 10 },
       { "monster": "mon_deer", "weight": 10 },

@@ -2525,6 +2525,27 @@
   },
   {
     "type": "construction",
+    "id": "constr_compost_empty",
+    "group": "build_compost_tank",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 5 ], [ "mechanics", 2 ] ],
+    "time": "2880 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ], [ { "id": "SMOOTH", "level": 1 } ] ],
+    "using": [ [ "welding_standard", 10 ] ],
+    "components": [
+      [ [ "brick", 600 ] ],
+      [ [ "pipe", 8 ] ],
+      [ [ "pipe_fittings", 8 ] ],
+      [ [ "metal_tank", 1 ] ],
+      [ [ "hose", 2 ], [ "makeshift_hose", 2 ] ],
+      [ [ "mortar_build", 10 ], [ "mortar_lime", 10 ] ],
+      [ [ "water", 80 ], [ "water_clean", 80 ] ]
+    ],
+    "pre_terrain": "t_pit",
+    "post_terrain": "f_compost_empty"
+  },
+  {
+    "type": "construction",
     "id": "constr_wood_keg",
     "group": "build_wooden_keg",
     "category": "FURN",
@@ -5022,11 +5043,23 @@
   {
     "type": "construction",
     "id": "app_fridge",
-    "group": "place_fridge",
+    "group": "place_apartment_fridge",
     "category": "APPLIANCE",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "5 m",
-    "components": [ [ [ "fridge", 1 ] ] ],
+    "components": [ [ [ "apartment_fridge", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "BRISK_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_big_portable_fridge",
+    "group": "place_big_portable_fridge",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "big_portable_fridge", 1 ] ] ],
     "pre_special": "check_empty",
     "post_special": "done_appliance",
     "activity_level": "BRISK_EXERCISE"
@@ -5039,6 +5072,42 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "5 m",
     "components": [ [ [ "glass_fridge", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "BRISK_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_glass_fridge_double",
+    "group": "place_glass_fridge_double",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "glass_fridge_double", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "BRISK_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_heavy_duty_fridge",
+    "group": "place_heavy_duty_fridge",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "heavy_duty_fridge", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "BRISK_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_display_fridge",
+    "group": "place_display_fridge",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "display_fridge", 1 ] ] ],
     "pre_special": "check_empty",
     "post_special": "done_appliance",
     "activity_level": "BRISK_EXERCISE"
@@ -5068,12 +5137,12 @@
   },
   {
     "type": "construction",
-    "id": "app_freezer",
-    "group": "place_freezer",
+    "id": "app_apartment_freezer",
+    "group": "place_apartment_freezer",
     "category": "APPLIANCE",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "5 m",
-    "components": [ [ [ "freezer", 1 ] ] ],
+    "components": [ [ [ "apartment_freezer", 1 ] ] ],
     "pre_special": "check_empty",
     "post_special": "done_appliance",
     "activity_level": "BRISK_EXERCISE"
@@ -5086,6 +5155,66 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "5 m",
     "components": [ [ [ "minifreezer", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_big_portable_freezer",
+    "group": "place_big_portable_freezer",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "big_portable_freezer", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_chest_freezer",
+    "group": "place_chest_freezer",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "chest_freezer", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_heavy_duty_freezer",
+    "group": "place_heavy_duty_freezer",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "heavy_duty_freezer", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_glass_freezer",
+    "group": "place_glass_freezer",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "glass_freezer", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_display_freezer",
+    "group": "place_display_freezer",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "display_freezer", 1 ] ] ],
     "pre_special": "check_empty",
     "post_special": "done_appliance",
     "activity_level": "LIGHT_EXERCISE"
@@ -8997,5 +9126,88 @@
     "pre_special": "check_empty",
     "post_terrain": "f_piano",
     "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_scaffolding_pipe_up",
+    "group": "build_scaffolding",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "WRENCH", "level": 1 } ] ],
+    "components": [
+      [ [ "pipe", 46 ] ],
+      [ [ "pipe_fittings", 55 ] ],
+      [ [ "2x4", 4 ], [ "wood_panel", 1 ] ],
+      [ [ "stick", 2 ] ],
+      [ [ "rope_natural", 2, "LIST" ] ]
+    ],
+    "pre_note": "Constructs scaffolding on the tile and provides a platform on the Z level above.",
+    "pre_special": [ "check_empty", "check_single_support", "check_up_OK", "check_nofloor_above" ],
+    "post_special": "add_roof",
+    "post_terrain": "t_scaffolding_pipe_up"
+  },
+  {
+    "type": "construction",
+    "id": "constr_scaffolding_pipe_down",
+    "group": "build_scaffolding",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "10 m",
+    "qualities": [ [ { "id": "WRENCH", "level": 1 } ] ],
+    "components": [
+      [ [ "pipe", 46 ] ],
+      [ [ "pipe_fittings", 55 ] ],
+      [ [ "2x4", 4 ], [ "wood_panel", 1 ] ],
+      [ [ "stick", 2 ] ],
+      [ [ "rope_natural", 2, "LIST" ] ]
+    ],
+    "pre_note": "Builds another scaffolding level.",
+    "pre_terrain": "t_scaffolding_pipe_down",
+    "pre_special": [ "check_up_OK", "check_nofloor_above" ],
+    "post_terrain": "t_scaffolding_pipe_updown",
+    "post_special": "add_matching_down_above"
+  },
+  {
+    "type": "construction",
+    "id": "remove_scaffolding_pipe_up",
+    "group": "remove_scaffolding",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "WRENCH", "level": 1 } ] ],
+    "pre_note": "Removes scaffolding.",
+    "pre_terrain": "t_scaffolding_pipe_up",
+    "pre_special": "check_matching_down_above",
+    "post_special": "remove_above",
+    "post_terrain": "t_dirt",
+    "byproducts": [
+      { "item": "pipe", "count": 46 },
+      { "item": "pipe_fittings", "count": 55 },
+      { "item": "2x4", "count": 4 },
+      { "item": "stick", "count": 2 },
+      { "item": "rope_30", "count": 2 }
+    ]
+  },
+  {
+    "type": "construction",
+    "id": "remove_scaffolding_pipe_down_above_updown",
+    "group": "remove_scaffolding",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "WRENCH", "level": 1 } ] ],
+    "pre_note": "Removes down scaffolding from directly above the construction tile.",
+    "pre_terrain": "t_scaffolding_pipe_updown",
+    "pre_special": "check_matching_down_above",
+    "post_special": "remove_above",
+    "post_terrain": "t_scaffolding_pipe_down",
+    "byproducts": [
+      { "item": "pipe", "count": 46 },
+      { "item": "pipe_fittings", "count": 55 },
+      { "item": "2x4", "count": 4 },
+      { "item": "stick", "count": 2 },
+      { "item": "rope_30", "count": 2 }
+    ]
   }
 ]

@@ -14,7 +14,7 @@
     "description": "A column of mana energy that enables a floating disk to move.",
     "weight": "500 g",
     "volume": "500 ml",
-    "price": 1,
+    "price": "1 cent",
     "to_hit": -4,
     "material": [ "steel" ],
     "symbol": "]",

@@ -7,9 +7,7 @@
     "type": "talk_topic",
     "id": "TALK_WHATELY_1",
     "dynamic_line": {
-      "u_has_var": "u_met_whately",
-      "type": "general",
-      "context": "meeting",
+      "u_has_var": "general_meeting_u_met_whately",
       "value": "yes",
       "yes": [ "Outsider.", "Hello.", "Hospitality rites are civilization.", "Guest.", "How's the madness outside?" ],
       "no": "We don't get outsiders around here all that much."
@@ -17,28 +15,28 @@
     "responses": [
       {
         "text": "Who are you?",
-        "effect": { "u_add_var": "u_met_whately", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "u_has_var": "u_met_whately", "type": "general", "context": "meeting", "value": "yes" } },
+        "effect": { "u_add_var": "general_meeting_u_met_whately", "value": "yes" },
+        "condition": { "not": { "u_has_var": "general_meeting_u_met_whately", "value": "yes" } },
         "topic": "TALK_WHATELY_firstmeet"
       },
       {
         "text": "What is this place?",
-        "condition": { "u_has_var": "u_met_whately", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "u_has_var": "general_meeting_u_met_whately", "value": "yes" },
         "topic": "TALK_WHATELY_place"
       },
       {
         "text": "What's your story?",
-        "condition": { "u_has_var": "u_met_whately", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "u_has_var": "general_meeting_u_met_whately", "value": "yes" },
         "topic": "TALK_WHATELY_ask_past"
       },
       {
         "text": "How are things here?",
-        "condition": { "u_has_var": "u_met_whately", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "u_has_var": "general_meeting_u_met_whately", "value": "yes" },
         "topic": "TALK_WHATELY_ask_mood"
       },
       {
         "text": "Can I do anything for you?",
-        "condition": { "u_has_var": "u_met_whately", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "u_has_var": "general_meeting_u_met_whately", "value": "yes" },
         "topic": "TALK_MISSION_LIST"
       },
       { "text": "How do I join the family?", "topic": "TALK_WHATELY_ask_membership" },

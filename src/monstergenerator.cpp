@@ -981,7 +981,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     }
 
     optional( jo, was_loaded, "starting_ammo", starting_ammo );
-    optional( jo, was_loaded, "luminance", luminance, 0 );
+    assign( jo, "luminance", luminance, true );
     optional( jo, was_loaded, "revert_to_itype", revert_to_itype, itype_id() );
     optional( jo, was_loaded, "mech_weapon", mech_weapon, itype_id() );
     optional( jo, was_loaded, "mech_str_bonus", mech_str_bonus, 0 );
@@ -1815,6 +1815,7 @@ void monster_death_effect::load( const JsonObject &jo )
     optional( jo, was_loaded, "effect", sp );
     has_effect = sp.is_valid();
     optional( jo, was_loaded, "corpse_type", corpse_type, mdeath_type::NORMAL );
+    optional( jo, was_loaded, "eoc", eoc );
 }
 
 void monster_death_effect::deserialize( const JsonObject &data )

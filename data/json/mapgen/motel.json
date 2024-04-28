@@ -117,6 +117,7 @@
       "d": "f_desk",
       "a": "f_trashcan",
       "L": "f_rack_coat",
+      "Q": "f_minifridge",
       "B": "f_floor_lamp"
     },
     "toilets": { "T": {  } },
@@ -127,6 +128,7 @@
       "8": { "item": "shower", "chance": 33 },
       ":": { "item": "traveler", "chance": 80, "repeat": [ 3, 5 ] },
       "d": { "item": "book_motel", "chance": 100 },
+      "Q": { "item": "SUS_fridge_bachelor", "chance": 100 },
       "s": { "item": "public_sink", "chance": 40, "repeat": [ 0, 2 ] }
     },
     "item": { "x": { "item": "television", "chance": 100 } }
@@ -138,9 +140,9 @@
     "object": {
       "mapgensize": [ 9, 9 ],
       "rows": [
-        "'s|::xBhn",
+        "'s|:QxBhn",
         "''+      ",
-        "T'|     L",
+        "T'|:    L",
         "''|@@ @@ ",
         "88|@@d@@a",
         "         ",
@@ -160,7 +162,7 @@
     "object": {
       "mapgensize": [ 9, 9 ],
       "rows": [
-        "'s|:: xBL",
+        "'s|::QxBL",
         "''+      ",
         "T'|H     ",
         "''|H  @@ ",
@@ -182,7 +184,7 @@
     "object": {
       "mapgensize": [ 9, 9 ],
       "rows": [
-        "'s|:: BxL",
+        "'s|::QBxL",
         "''+      ",
         "T'|h    H",
         "''|d  @@H",
@@ -209,7 +211,7 @@
         "@@  B    ",
         "d   x    ",
         "@@  :    ",
-        "@@  :    ",
+        "@@  Q    ",
         "|||+|    ",
         "8'''s    ",
         "8'T''    "
@@ -231,7 +233,7 @@
         "@@  x    ",
         "@@  a    ",
         "    :    ",
-        "HHH :    ",
+        "QHH :    ",
         "|||+|    ",
         "8'''s    ",
         "8'T''    "
@@ -251,7 +253,7 @@
         "a L      ",
         "@@  x    ",
         "@@  B    ",
-        "         ",
+        "Q        ",
         "h   :    ",
         "dh  :    ",
         "|||+|    ",

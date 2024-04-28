@@ -37,7 +37,7 @@
     "subtype": "collection",
     "container-item": "wallet",
     "items": [
-      { "item": "cash_card", "prob": 100, "charges-min": 0, "charges-max": 50000 },
+      { "item": "cash_card", "prob": 100, "charges": [ 0, 50000 ] },
       { "group": "banknotes", "prob": 80, "count": [ 1, 20 ] },
       { "group": "coins", "prob": 80, "count": [ 1, 10 ] },
       { "group": "discount_cards", "prob": 40, "count": [ 1, 3 ] },
@@ -53,7 +53,7 @@
     "container-item": "wallet_leather",
     "//": "copy-from: wallet_full ",
     "items": [
-      { "item": "cash_card", "prob": 100, "charges-min": 0, "charges-max": 50000 },
+      { "item": "cash_card", "prob": 100, "charges": [ 0, 50000 ] },
       { "group": "banknotes", "prob": 80, "count": [ 1, 20 ] },
       { "group": "coins", "prob": 80, "count": [ 1, 10 ] },
       { "group": "discount_cards", "prob": 40, "count": [ 1, 3 ] },
@@ -69,7 +69,7 @@
     "//": "copy-from: wallet_full ",
     "container-item": "wallet_large",
     "items": [
-      { "item": "cash_card", "prob": 100, "charges-min": 0, "charges-max": 50000 },
+      { "item": "cash_card", "prob": 100, "charges": [ 0, 50000 ] },
       { "group": "banknotes", "prob": 80, "count": [ 1, 20 ] },
       { "group": "coins", "prob": 80, "count": [ 1, 10 ] },
       { "group": "discount_cards", "prob": 40, "count": [ 1, 3 ] },
@@ -84,7 +84,7 @@
     "id": "wallet_duct_tape_full",
     "container-item": "wallet_duct_tape",
     "items": [
-      { "item": "cash_card", "prob": 50, "charges-min": 0, "charges-max": 500 },
+      { "item": "cash_card", "prob": 50, "charges": [ 0, 500 ] },
       { "group": "banknotes", "prob": 50, "count": [ 1, 20 ] },
       { "group": "coins", "prob": 80, "count": [ 1, 10 ] },
       { "group": "discount_cards", "prob": 10 },
@@ -99,7 +99,7 @@
     "subtype": "collection",
     "container-item": "wallet_stylish",
     "items": [
-      { "item": "cash_card", "prob": 100, "charges-min": 10000, "charges-max": 50000 },
+      { "item": "cash_card", "prob": 100, "charges": [ 10000, 50000 ] },
       { "group": "banknotes", "prob": 80, "count": [ 1, 20 ] },
       { "group": "coins", "prob": 80, "count": [ 1, 10 ] },
       { "group": "discount_cards", "prob": 60, "count": [ 2, 5 ] },
@@ -116,7 +116,7 @@
     "//": "copy-from: wallet_leather_full ",
     "container-item": "wallet_leather",
     "items": [
-      { "item": "cash_card", "prob": 100, "charges-min": 0, "charges-max": 50000 },
+      { "item": "cash_card", "prob": 100, "charges": [ 0, 50000 ] },
       { "item": "id_military", "prob": 100 },
       { "group": "banknotes", "prob": 80, "count": [ 1, 20 ] },
       { "group": "coins", "prob": 80, "count": [ 1, 10 ] },
@@ -133,7 +133,7 @@
     "//": "copy-from: wallet_full ",
     "container-item": "wallet",
     "items": [
-      { "item": "cash_card", "prob": 100, "charges-min": 0, "charges-max": 50000 },
+      { "item": "cash_card", "prob": 100, "charges": [ 0, 50000 ] },
       { "item": "id_military", "prob": 100 },
       { "group": "banknotes", "prob": 80, "count": [ 1, 20 ] },
       { "group": "coins", "prob": 80, "count": [ 1, 10 ] },
@@ -151,7 +151,7 @@
     "container-item": "wallet_leather",
     "on_overflow": "discard",
     "items": [
-      { "item": "cash_card", "prob": 100, "charges-min": 0, "charges-max": 50000 },
+      { "item": "cash_card", "prob": 100, "charges": [ 0, 50000 ] },
       { "group": "banknotes", "prob": 80, "count": [ 1, 20 ] },
       { "group": "coins", "prob": 80, "count": [ 1, 10 ] },
       { "item": "id_science", "prob": 100 },
@@ -171,7 +171,7 @@
     "container-item": "wallet",
     "on_overflow": "discard",
     "items": [
-      { "item": "cash_card", "prob": 100, "charges-min": 0, "charges-max": 50000 },
+      { "item": "cash_card", "prob": 100, "charges": [ 0, 50000 ] },
       { "item": "id_science", "prob": 100 },
       { "item": "id_science_visitor_1", "prob": 100 },
       { "group": "banknotes", "prob": 80, "count": [ 1, 20 ] },
@@ -193,7 +193,7 @@
     "items": [
       { "item": "id_science", "prob": 100 },
       { "item": "id_science_visitor_1", "prob": 100 },
-      { "item": "cash_card", "prob": 100, "charges-min": 10000, "charges-max": 50000 },
+      { "item": "cash_card", "prob": 100, "charges": [ 10000, 50000 ] },
       { "group": "banknotes", "prob": 80, "count": [ 1, 20 ] },
       { "group": "coins", "prob": 80, "count": [ 1, 10 ] },
       { "group": "discount_cards", "prob": 60, "count": [ 2, 5 ] },
@@ -228,7 +228,7 @@
     "//": "copy-from: wallet_leather_full ",
     "container-item": "wallet_leather",
     "items": [
-      { "item": "cash_card", "prob": 100, "charges-min": 0, "charges-max": 50000 },
+      { "item": "cash_card", "prob": 100, "charges": [ 0, 50000 ] },
       { "item": "id_industrial", "prob": 100 },
       { "group": "banknotes", "prob": 80, "count": [ 1, 20 ] },
       { "group": "coins", "prob": 80, "count": [ 1, 10 ] },
@@ -245,7 +245,7 @@
     "//": "copy-from: wallet_full ",
     "container-item": "wallet",
     "items": [
-      { "item": "cash_card", "prob": 100, "charges-min": 0, "charges-max": 50000 },
+      { "item": "cash_card", "prob": 100, "charges": [ 0, 50000 ] },
       { "item": "id_industrial", "prob": 100 },
       { "group": "banknotes", "prob": 80, "count": [ 1, 20 ] },
       { "group": "coins", "prob": 80, "count": [ 1, 10 ] },
