@@ -2423,7 +2423,7 @@
     "material": [ "veggy", "mold", "yeast" ],
     "weight": "200 g",
     "color": "white",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "symbol": "%",
     "description": "Some rice covered in koji mold, mixed in with yeast.  Useful for making sake, but not really tasty on its own.  Smells vaguely of chestnuts.",
     "price": "0 cent",
