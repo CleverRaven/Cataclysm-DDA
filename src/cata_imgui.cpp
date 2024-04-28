@@ -422,7 +422,9 @@ void cataimgui::draw_colored_text( std::string const &text, nc_color &color,
             if( i++ != 0 ) {
                 ImGui::SameLine( 0, 0 );
             }
-            ImGui::TextColored( imvec4_from_color( color ), "%s", seg.c_str() );
+            ImGui::PushStyleColor( ImGuiCol_Text, imvec4_from_color( color ) );
+            ImGui::TextWrapped( "%s", seg.c_str() );
+            ImGui::PopStyleColor();
             GImGui->LastItemData.ID = itemId;
             if( is_focused && !*is_focused ) {
                 *is_focused = ImGui::IsItemFocused();
