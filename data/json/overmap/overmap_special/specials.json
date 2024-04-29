@@ -5322,10 +5322,10 @@
     "id": "Barry's Mi-Go Scout Tower",
     "//": "This is a globally unqiue special used in the Isherwood rescue mission.",
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "mi-go_scout_tower_1_north" },
-      { "point": [ 0, 0, 1 ], "overmap": "mi-go_scout_tower_2_north" },
-      { "point": [ 0, 0, 2 ], "overmap": "mi-go_scout_tower_3_north" },
-      { "point": [ 0, 0, 3 ], "overmap": "mi-go_scout_tower_4_north" },
+      { "point": [ 0, 0, 0 ], "overmap": "barry_mi-go_scout_tower_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "barry_mi-go_scout_tower_2_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "barry_mi-go_scout_tower_3_north" },
+      { "point": [ 0, 0, 3 ], "overmap": "barry_mi-go_scout_tower_4_north" },
       { "point": [ 0, 1, 0 ], "overmap": "rural_road_north" }
     ],
     "locations": [ "wilderness" ],

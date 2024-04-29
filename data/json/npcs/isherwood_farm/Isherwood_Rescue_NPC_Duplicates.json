@@ -1,0 +1,21 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_FAMILY_DUPLICATES",
+    "dynamic_line": "I can't really talk right now, I'm busy.  Go get Barry for us!",
+    "responses": [
+      {
+        "text": "I've got Barry, let's get out of here.",
+        "condition": { "u_has_var": "barry_following", "type": "general", "context": "meeting", "value": "yes" },
+        "effect": [
+          { "u_lose_var": "barry_following", "type": "general", "context": "meeting" },
+          { "u_add_var": "u_saved_barry", "type": "general", "context": "meeting", "value": "yes" },
+          { "u_spawn_item": "hsurvivor_jumpsuit", "count": 1 },
+          { "mapgen_update": "isherwood_rescue_remove_npcs", "om_terrain": "rural_road" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      { "text": "Sure thing, I'll be back soon.", "topic": "TALK_DONE" }
+    ]
+  }
+]

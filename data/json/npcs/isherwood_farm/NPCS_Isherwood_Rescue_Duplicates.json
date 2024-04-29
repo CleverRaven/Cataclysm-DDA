@@ -1,0 +1,234 @@
+[
+  {
+    "type": "npc",
+    "id": "isherwood_carlos_copy",
+    "//": "Dairy farmer the Isherwood family.  Duplicate copy for the rescue mission",
+    "name_unique": "Carlos Isherwood",
+    "gender": "male",
+    "class": "NC_ISHERWOOD_CARLOS",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_ISHERWOOD_FAMILY_DUPLICATES",
+    "faction": "isherwood_family"
+  },
+  {
+    "type": "npc",
+    "id": "isherwood_carlos_swat_copy",
+    "//": "Dairy farmer the Isherwood family.  Duplicate copy for the rescue mission",
+    "name_unique": "Carlos Isherwood",
+    "gender": "male",
+    "class": "NC_ISHERWOOD_CARLOS_SWAT",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_ISHERWOOD_FAMILY_DUPLICATES",
+    "faction": "isherwood_family"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_ISHERWOOD_CARLOS_SWAT",
+    "name": { "str": "Carlos Isherwood" },
+    "job_description": "I'm Jesse's husband, part of the Isherwood family.",
+    "traits": [
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
+    "common": false,
+    "bonus_per": { "one_in": 4 },
+    "worn_override": "NC_Isherwood_swat_worn",
+    "weapon_override": "NC_ISHERWOOD_rifle",
+    "skills": [
+      {
+        "skill": "ALL",
+        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
+      },
+      { "skill": "speech", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "survival", "bonus": { "rng": [ 7, 10 ] } },
+      { "skill": "gun", "bonus": { "rng": [ 4, 8 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 7, 10 ] } },
+      { "skill": "archery", "bonus": { "rng": [ 8, 10 ] } }
+    ]
+  },
+  {
+    "type": "npc",
+    "id": "isherwood_eddie_copy",
+    "//": "Dairy farmer of the Isherwood family.  Duplicate for the rescue mission.",
+    "name_unique": "Eddie Isherwood",
+    "gender": "male",
+    "class": "NC_ISHERWOOD_EDDIE",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_ISHERWOOD_FAMILY_DUPLICATES",
+    "faction": "isherwood_family"
+  },
+  {
+    "type": "npc",
+    "id": "isherwood_eddie_swat_copy",
+    "//": "Dairy farmer of the Isherwood family.  Duplicate for the rescue mission.",
+    "name_unique": "Eddie Isherwood",
+    "gender": "male",
+    "class": "NC_ISHERWOOD_EDDIE_SWAT",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_ISHERWOOD_FAMILY_DUPLICATES",
+    "faction": "isherwood_family"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_ISHERWOOD_EDDIE_SWAT",
+    "name": { "str": "Eddie Isherwood" },
+    "job_description": "I'm a dairy farmer, part of the Isherwood family",
+    "traits": [
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
+    "common": false,
+    "bonus_per": { "one_in": 4 },
+    "worn_override": "NC_Isherwood_swat_worn",
+    "weapon_override": "NC_ISHERWOOD_rifle",
+    "shopkeeper_item_group": "NC_ISHERWOOD_EDDIE_misc",
+    "skills": [
+      {
+        "skill": "ALL",
+        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
+      },
+      { "skill": "speech", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "survival", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "gun", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 4, 8 ] } },
+      { "skill": "archery", "bonus": { "rng": [ 4, 8 ] } }
+    ]
+  },
+  {
+    "type": "npc",
+    "id": "isherwood_luke_copy",
+    "//": "Dairy farmer's son in the Isherwood family.  Duplicate for the rescue mission.",
+    "name_unique": "Luke Isherwood",
+    "gender": "male",
+    "class": "NC_ISHERWOOD_LUKE",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_ISHERWOOD_FAMILY_DUPLICATES",
+    "faction": "isherwood_family"
+  },
+  {
+    "type": "npc",
+    "id": "isherwood_luke_swat_copy",
+    "//": "Dairy farmer's son in the Isherwood family.  Duplicate for the rescue mission.",
+    "name_unique": "Luke Isherwood",
+    "gender": "male",
+    "class": "NC_ISHERWOOD_LUKE_SWAT",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_ISHERWOOD_FAMILY_DUPLICATES",
+    "faction": "isherwood_family"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_ISHERWOOD_LUKE_SWAT",
+    "name": { "str": "Luke Isherwood" },
+    "job_description": "I'm Eddie's son, part of the Isherwood family",
+    "traits": [
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
+    "common": false,
+    "bonus_per": { "one_in": 4 },
+    "worn_override": "NC_Isherwood_swat_worn",
+    "weapon_override": "NC_ISHERWOOD_rifle",
+    "skills": [
+      {
+        "skill": "ALL",
+        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
+      },
+      { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "survival", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "gun", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 4, 8 ] } },
+      { "skill": "fabrication", "bonus": { "rng": [ 2, 7 ] } },
+      { "skill": "archery", "bonus": { "rng": [ 4, 8 ] } }
+    ]
+  },
+  {
+    "type": "npc",
+    "id": "isherwood_jesse_copy",
+    "//": "Horse trainer for the Isherwood family.  False copy for the Barry resue mission",
+    "name_unique": "Jesse Isherwood",
+    "gender": "female",
+    "class": "NC_ISHERWOOD_JESSE",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_ISHERWOOD_FAMILY_DUPLICATES",
+    "faction": "isherwood_family"
+  },
+  {
+    "type": "npc",
+    "id": "isherwood_jesse_swat_copy",
+    "//": "Horse trainer for the Isherwood family.  False copy for the Barry resue mission",
+    "name_unique": "Jesse Isherwood",
+    "gender": "female",
+    "class": "NC_ISHERWOOD_JESSE_SWAT",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_ISHERWOOD_FAMILY_DUPLICATES",
+    "faction": "isherwood_family"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_ISHERWOOD_JESSE_SWAT",
+    "name": { "str": "Jesse Isherwood" },
+    "job_description": "I'm a horse trainer, part of the Isherwood family",
+    "traits": [
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
+    "common": false,
+    "bonus_per": { "one_in": 4 },
+    "worn_override": "NC_Isherwood_swat_worn",
+    "weapon_override": "NC_ISHERWOOD_rifle",
+    "skills": [
+      {
+        "skill": "ALL",
+        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
+      },
+      { "skill": "speech", "bonus": { "rng": [ 6, 9 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "survival", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "gun", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 4, 6 ] } },
+      { "skill": "archery", "bonus": { "rng": [ 4, 6 ] } }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_Isherwood_swat_worn",
+    "subtype": "collection",
+    "entries": [
+      { "distribution": [ { "item": "backpack_leather" }, { "item": "wicker_backpack" }, { "item": "slingpack" } ] },
+      { "item": "armor_riot" },
+      {
+        "collection": [ { "item": "3006", "container-item": "ammo_pouch" }, { "item": "3006", "charges": [ 4, 8 ] } ]
+      },
+      { "item": "3006", "charges": [ 4, 8 ] },
+      { "distribution": [ { "item": "boxer_briefs" }, { "item": "boxer_shorts" }, { "item": "briefs" } ] },
+      { "distribution": [ { "item": "tshirt" }, { "item": "undershirt" } ] },
+      { "distribution": [ { "item": "jeans" }, { "item": "pants_cargo" }, { "item": "pants_leather" } ] },
+      { "item": "leather_belt", "prob": 50 },
+      { "item": "gloves_fingerless", "prob": 50 },
+      { "item": "helmet_riot" },
+      { "item": "armor_riot_arm" },
+      { "item": "armor_riot_leg" },
+      { "distribution": [ { "item": "boots" }, { "item": "boots_western" } ] },
+      { "item": "socks", "prob": 50 }
+    ]
+  }
+]

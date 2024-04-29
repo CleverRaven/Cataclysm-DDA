@@ -1,0 +1,56 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "isherwood_mission_initialization_eoc",
+    "effect": [
+      {
+        "u_location_variable": { "global_val": "invasion_map" },
+        "target_params": { "om_terrain": "barry_mi-go_scout_tower_1", "search_range": 500, "z": 0 }
+      },
+      { "u_teleport": { "global_val": "invasion_map" }, "force": true },
+      {
+        "if": { "math": [ "isherwood_gear_status", "<", "1" ] },
+        "then": [
+          {
+            "mapgen_update": "nest_Isherwood_firing_line_add",
+            "om_terrain": "rural_road",
+            "om_special": "Barry's Mi-Go Scout Tower"
+          }
+        ],
+        "else": {
+          "if": { "math": [ "isherwood_gear_status", "==", "1" ] },
+          "then": [
+            {
+              "mapgen_update": "nest_Isherwood_firing_line_swat_add",
+              "om_terrain": "rural_road",
+              "om_special": "Barry's Mi-Go Scout Tower"
+            }
+          ],
+          "else": {
+            "if": { "math": [ "isherwood_wall_status", "==", "1" ] },
+            "then": [
+              {
+                "mapgen_update": "nest_Isherwood_firing_wall_add",
+                "om_terrain": "rural_road",
+                "om_special": "Barry's Mi-Go Scout Tower"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "u_location_variable": { "global_val": "invasion_map_proper_place" },
+        "terrain": "t_dirt_isherwood_player_spawnpoint",
+        "target_max_radius": 60,
+        "min_radius": 0,
+        "max_radius": 0
+      },
+      { "u_teleport": { "global_val": "invasion_map_proper_place" }, "force": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "isherwood_mission_wall_finished",
+    "effect": [ { "math": [ "isherwood_wall_status", "=", "1" ] } ]
+  }
+]

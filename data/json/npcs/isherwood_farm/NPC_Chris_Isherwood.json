@@ -381,6 +381,7 @@
       {
         "text": "Let's go get your uncle back.",
         "//": "This should trigger any EOCs that start the mission setup.  To be done.",
+        "effect": { "run_eocs": "isherwood_mission_initialization_eoc" },
         "topic": "TALK_DONE"
       },
       {
@@ -425,25 +426,25 @@
       {
         "text": "[bod armor]",
         "condition": { "and": [ { "u_has_item": "armor_riot" }, { "math": [ "isherwood_gear_retrival_armor_body_count", "<", "5" ] } ] },
-        "effect": [ { "math": [ "isherwood_gear_retrival_armor_body_count", "++" ] } ],
+        "effect": [ { "u_sell_item": "armor_riot" }, { "math": [ "isherwood_gear_retrival_armor_body_count", "++" ] } ],
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Turn_Over"
       },
       {
         "text": "[helmet]",
         "condition": { "and": [ { "u_has_item": "helmet_riot" }, { "math": [ "isherwood_gear_retrival_helmet_count", "<", "5" ] } ] },
-        "effect": [ { "math": [ "isherwood_gear_retrival_helmet_count", "++" ] } ],
+        "effect": [ { "u_sell_item": "helmet_riot" }, { "math": [ "isherwood_gear_retrival_helmet_count", "++" ] } ],
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Turn_Over"
       },
       {
         "text": "[arm armor]",
         "condition": { "and": [ { "u_has_item": "armor_riot_arm" }, { "math": [ "isherwood_gear_retrival_armor_arm_count", "<", "5" ] } ] },
-        "effect": [ { "math": [ "isherwood_gear_retrival_armor_arm_count", "++" ] } ],
+        "effect": [ { "u_sell_item": "armor_riot_arm" }, { "math": [ "isherwood_gear_retrival_armor_arm_count", "++" ] } ],
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Turn_Over"
       },
       {
         "text": "[leg armor]",
         "condition": { "and": [ { "u_has_item": "armor_riot_leg" }, { "math": [ "isherwood_gear_retrival_armor_leg_count", "<", "5" ] } ] },
-        "effect": [ { "math": [ "isherwood_gear_retrival_armor_leg_count", "++" ] } ],
+        "effect": [ { "u_sell_item": "armor_riot_leg" }, { "math": [ "isherwood_gear_retrival_armor_leg_count", "++" ] } ],
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Turn_Over"
       },
       { "text": "That's all for now. Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS" },
@@ -479,28 +480,21 @@
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Wall_Done",
     "dynamic_line": "[sweet now we get something between us.  Give me 1 day and we ready]",
-    "responses": [
-      {
-        "text": "[woo hoo]",
-        "effect": { "math": [ "npc_timer_getting_wall_ready", "=", "time('now')" ] },
-        "topic": "TALK_DONE"
-      }
-    ]
+    "responses": [ { "text": "[woo hoo]", "topic": "TALK_DONE" } ]
   },
   {
     "id": "MISSION_ISHERWOOD_CHRIS_1",
     "type": "mission_definition",
     "name": { "str": "Free Barry from the mysterious structure" },
-    "goal": "MGOAL_TALK_TO_NPC",
+    "goal": "MGOAL_NULL",
     "difficulty": 5,
     "value": 50000,
     "start": {
-      "assign_mission_target": { "om_terrain": "mi-go_scout_tower_3", "om_special": "Barry's Mi-Go Scout Tower", "reveal_radius": 3 },
+      "assign_mission_target": { "om_terrain": "barry_mi-go_scout_tower_3", "om_special": "Barry's Mi-Go Scout Tower", "reveal_radius": 3 },
       "update_mapgen": { "place_npcs": [ { "class": "isherwood_barry", "x": 18, "y": 15, "target": true } ] }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
-    "destination": "mi-go_scout_tower_3",
     "dialogue": {
       "describe": "We need to investigate the alien encampment and try to find out what happened to Barry.",
       "offer": "I can take you to the structure, I tracked them to it.",
@@ -514,6 +508,7 @@
     },
     "end": {
       "opinion": { "trust": 5, "value": 5 },
+      "effect": [ { "math": [ "isherwood_barry_rescued", "=", "1" ] } ],
       "update_mapgen": [ { "om_terrain": "cabin_isherwood", "place_nested": [ { "chunks": [ "cabin_isherwood_update" ], "x": 3, "y": 1 } ] } ]
     }
   },

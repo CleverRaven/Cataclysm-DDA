@@ -37,14 +37,53 @@
         "          ",
         "          ",
         "          ",
-        "          "
+        "         *"
       ],
-      "terrain": {
-        ".": "t_dirt_isherwood_spawnpoint_1",
-        "p": "t_dirt_isherwood_spawnpoint_2",
-        "q": "t_dirt_isherwood_spawnpoint_3",
-        "l": "t_dirt_isherwood_spawnpoint_4"
-      },
+      "terrain": { ".": "t_dirt", "p": "t_dirt", "q": "t_dirt", "l": "t_dirt", "*": "t_dirt_isherwood_player_spawnpoint" },
+      "place_npcs": [
+        { "class": "isherwood_carlos_copy", "x": 2, "y": 6 },
+        { "class": "isherwood_eddie_copy", "x": 4, "y": 6 },
+        { "class": "isherwood_luke_copy", "x": 6, "y": 6 },
+        { "class": "isherwood_jesse_copy", "x": 8, "y": 6 }
+      ],
+      "place_vehicles": [
+        {
+          "vehicle": "extended_pickup",
+          "chance": 100,
+          "fuel": 99,
+          "rotation": 0,
+          "faction": "isherwood_family",
+          "x": [ 5 ],
+          "y": [ 8 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "isherwood_barry_firing_line_swat",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rows": [
+        "          ",
+        "          ",
+        "          ",
+        "          ",
+        "          ",
+        " . p q l  ",
+        "          ",
+        "          ",
+        "          ",
+        "         *"
+      ],
+      "terrain": { ".": "t_dirt", "p": "t_dirt", "q": "t_dirt", "l": "t_dirt", "*": "t_dirt_isherwood_player_spawnpoint" },
+      "place_npcs": [
+        { "class": "isherwood_carlos_swat_copy", "x": 2, "y": 6 },
+        { "class": "isherwood_eddie_swat_copy", "x": 4, "y": 6 },
+        { "class": "isherwood_luke_swat_copy", "x": 6, "y": 6 },
+        { "class": "isherwood_jesse_swat_copy", "x": 8, "y": 6 }
+      ],
       "place_vehicles": [
         {
           "vehicle": "extended_pickup",
@@ -74,5 +113,42 @@
         ]
       }
     }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "isherwood_rescue_remove_npcs",
+    "method": "json",
+    "object": {
+      "remove_npcs": [
+        { "class": "isherwood_carlos_copy", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "class": "isherwood_eddie_copy", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "class": "isherwood_luke_copy", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "class": "isherwood_jesse_copy", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "class": "isherwood_carlos_swat_copy", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "class": "isherwood_eddie_swat_copy", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "class": "isherwood_luke_swat_copy", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "class": "isherwood_jesse_swat_copy", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "class": "isherwood_barry", "x": [ 0, 23 ], "y": [ 0, 23 ] }
+      ],
+      "remove_vehicles": [ { "vehicles": [ "extended_pickup" ], "x": [ 0, 23 ], "y": [ 0, 23 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "nest_Isherwood_firing_line_add",
+    "object": { "place_nested": [ { "chunks": [ "isherwood_barry_firing_line" ], "x": 10, "y": 12 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "nest_Isherwood_firing_line_swat_add",
+    "object": { "place_nested": [ { "chunks": [ "isherwood_barry_firing_line_swat" ], "x": 10, "y": 12 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "nest_Isherwood_firing_wall_add",
+    "object": { "place_nested": [ { "chunks": [ "isherwood_barry_firing_wall" ], "x": 10, "y": 12 } ] }
   }
 ]

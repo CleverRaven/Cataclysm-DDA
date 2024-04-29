@@ -58,7 +58,7 @@
       { "text": "Are you Barry Isherwood?", "topic": "TALK_ISHERWOOD_BARRY_ID" },
       {
         "text": "Let's go.",
-        "effect": [ "follow", { "assign_mission": "MISSION_ISHERWOOD_BARRY_1" } ],
+        "effect": [ "follow", { "u_add_var": "barry_following", "type": "general", "context": "meeting", "value": "yes" } ],
         "topic": "TALK_DONE"
       },
       { "text": "Hang on.  I've got questions.", "topic": "TALK_ISHERWOOD_BARRY_ID2" },
@@ -72,7 +72,7 @@
     "responses": [
       {
         "text": "Yeah, they did.  let's go.",
-        "effect": [ "follow", { "assign_mission": "MISSION_ISHERWOOD_BARRY_1" } ],
+        "effect": [ "follow", { "u_add_var": "barry_following", "type": "general", "context": "meeting", "value": "yes" } ],
         "topic": "TALK_DONE"
       },
       { "text": "Hang on.  I've got questions.", "topic": "TALK_ISHERWOOD_BARRY_ID2" },
@@ -86,12 +86,12 @@
     "responses": [
       {
         "text": "Okay, me too.  Let's go.",
-        "effect": [ "follow", { "assign_mission": "MISSION_ISHERWOOD_BARRY_1" } ],
+        "effect": [ "follow", { "u_add_var": "barry_following", "type": "general", "context": "meeting", "value": "yes" } ],
         "topic": "TALK_DONE"
       },
       {
         "text": "All right, we're leaving, but you better not test me again.",
-        "effect": [ "follow", { "assign_mission": "MISSION_ISHERWOOD_BARRY_1" } ],
+        "effect": [ "follow", { "u_add_var": "barry_following", "type": "general", "context": "meeting", "value": "yes" } ],
         "topic": "TALK_DONE"
       },
       { "text": "Pff.  If you're gonna treat me like that, you can stay here.", "topic": "TALK_DONE" }

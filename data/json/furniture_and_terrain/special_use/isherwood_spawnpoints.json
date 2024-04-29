@@ -1,34 +1,7 @@
 [
   {
     "type": "terrain",
-    "id": "t_dirt_isherwood_spawnpoint_1",
-    "name": "dirt",
-    "description": "It's dirt.  Looks like some fine soil for tillage.  Could also be dug out for construction projects.",
-    "symbol": ".",
-    "color": "brown",
-    "copy-from": "t_dirt"
-  },
-  {
-    "type": "terrain",
-    "id": "t_dirt_isherwood_spawnpoint_2",
-    "name": "dirt",
-    "description": "It's dirt.  Looks like some fine soil for tillage.  Could also be dug out for construction projects.",
-    "symbol": ".",
-    "color": "brown",
-    "copy-from": "t_dirt"
-  },
-  {
-    "type": "terrain",
-    "id": "t_dirt_isherwood_spawnpoint_3",
-    "name": "dirt",
-    "description": "It's dirt.  Looks like some fine soil for tillage.  Could also be dug out for construction projects.",
-    "symbol": ".",
-    "color": "brown",
-    "copy-from": "t_dirt"
-  },
-  {
-    "type": "terrain",
-    "id": "t_dirt_isherwood_spawnpoint_4",
+    "id": "t_dirt_isherwood_player_spawnpoint",
     "name": "dirt",
     "description": "It's dirt.  Looks like some fine soil for tillage.  Could also be dug out for construction projects.",
     "symbol": ".",
