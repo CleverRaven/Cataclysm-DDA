@@ -2414,11 +2414,11 @@
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "DRILL", "level": 1 } ],
     "components": [
-      [ [ "hammer", 2 ] ],
+      [ [ "aquamarine", 4 ], [ "citrine", 4 ], [ "garnet", 4 ], [ "peridot", 4 ], [ "tourmaline", 4 ], [ "topaz", 4 ] ],
       [ [ "glass_sheet", 3 ] ],
       [ [ "mirror", 1 ] ],
       [ [ "superglue", 5 ] ],
-      [ [ "frame", 2 ] ],
+      [ [ "frame_wood", 2 ] ],
       [ [ "cordage", 1, "LIST" ] ]
     ]
   },
@@ -2480,9 +2480,9 @@
     "components": [
       [ [ "bigmirror", 1 ] ],
       [ [ "tempered_glass_sheet", 4 ] ],
-      [ [ "pipe", 4 ] ],
+      [ [ "frame", 4 ] ],
       [ [ "rubber_cement", 8 ] ],
-      [ [ "hard_plate", 4 ], [ "steel_plate", 8 ] ],
+      [ [ "diamond", 8 ], [ "ruby", 8 ], [ "emerald", 8 ], [ "sapphire", 8 ] ],
       [ [ "cordage", 1, "LIST" ] ]
     ]
   },
