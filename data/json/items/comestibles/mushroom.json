@@ -28,9 +28,10 @@
     "charges": 48,
     "phase": "liquid",
     "comestible_type": "DRINK",
+    "flags": [ "NO_AUTO_CONSUME" ],
     "spoils_in": "365 days",
     "fun": -1,
-    "calories": 15,
+    "calories": 5,
     "vitamins": [ [ "vitC", 1 ], [ "iron", 2 ] ]
   },
   {
