@@ -1741,7 +1741,7 @@
       {
         "id": "black_white_varsity_jacket",
         "name": { "str": "black and white varsity jacket" },
-        "description": "This one is is black except the white arms, and has no discerning emblem or writing.",
+        "description": "This one is black except for its white arms, and has no discerning emblem or writing.",
         "color": "white",
         "weight": 10,
         "append": true
