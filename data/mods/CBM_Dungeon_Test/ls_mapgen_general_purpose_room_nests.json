@@ -66,7 +66,7 @@
         "|____________________|",
         "||L___AA______AA___L||"
       ],
-      "palettes": [ "labyrinthine_base_palette" ]
+      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_utility_tier0" ]
     }
   },
   {
@@ -90,7 +90,7 @@
         " |L__UU__L| ",
         "            "
       ],
-      "palettes": [ "labyrinthine_base_palette" ]
+      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_utility_tier0" ]
     }
   },
   {

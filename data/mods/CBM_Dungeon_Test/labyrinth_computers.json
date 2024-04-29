@@ -1,6 +1,27 @@
 [
   {
     "type": "talk_topic",
+    "id": [ "COMP_LS_Exit_Controls" ],
+    "responses": [
+      {
+        "text": "Activate exit protocol",
+        "topic": "COMP_LS_Exit_Controls2"
+      },
+      { "text": "Log off.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Exit_Controls",
+    "dynamic_line": "&You see a strangely mundane black computer screen, with a blinking green cursor awaiting input.\n\n<color_light_green> @User > _</color>"
+  },
+  {
+    "type": "talk_topic",
+    "id": "COMP_LS_Exit_Controls2",
+    "dynamic_line": "&<color_light_green> @User > skill -EXIT -@User\n<color_light_green>Really exit?"
+  },
+  {
+    "type": "talk_topic",
     "id": [ "COMP_LS_Passcode_Door", "COMP_LS_Passcode_Door2", "COMP_LS_Passcode_Door3" ],
     "responses": [
       {
