@@ -1102,6 +1102,8 @@ void overmap_special_terrain::deserialize( const JsonObject &om )
 {
     om.read( "point", p );
     om.read( "overmap", terrain );
+    om.read( "camp", camp_owner );
+    om.read( "camp_name", camp_name );
     om.read( "flags", flags );
     om.read( "locations", locations );
 }
@@ -1312,6 +1314,18 @@ struct fixed_overmap_special_data : overmap_special_data {
                 points.insert( pos );
             }
 
+            if( elem.camp_owner.has_value() ) {
+                if( !elem.camp_owner.value().is_valid() ) {
+                    debugmsg( "In %s, camp at %s has invalid owner %s", context, pos.to_string(),
+                              elem.camp_owner.value().c_str() );
+                }
+                if( elem.camp_name.empty() ) {
+                    debugmsg( "In %s, camp was defined but missing a camp_name.", context );
+                }
+            } else if( !elem.camp_name.empty() ) {
+                debugmsg( "In %s, camp_name defined but no owner. Invalid name is discarded.", context );
+            }
+
             if( elem.locations.empty() ) {
                 debugmsg( "In %s, no location is defined for point %s or the "
                           "overall special.", context, pos.to_string() );
@@ -1418,6 +1432,21 @@ struct fixed_overmap_special_data : overmap_special_data {
                 result.omts_used.push_back( location );
                 const oter_id tid = elem.terrain->get_rotated( dir );
                 om.ter_set( location, tid );
+                if( elem.camp_owner.has_value() ) {
+                    // This always results in z=0, but pos() doesn't return z-level information...
+                    tripoint_abs_omt camp_loc =  {project_combine( om.pos(), location.xy() ), 0};
+                    get_map().add_camp( camp_loc, "faction_camp", false );
+                    std::optional<basecamp *> bcp = overmap_buffer.find_camp( camp_loc.xy() );
+                    if( !bcp ) {
+                        debugmsg( "Camp placement during special generation failed at %s", camp_loc.to_string() );
+                    } else {
+                        basecamp *temp_camp = *bcp;
+                        temp_camp->set_owner( elem.camp_owner.value() );
+                        temp_camp->set_name( elem.camp_name );
+                        // FIXME? Camp types are raw strings! Not ideal.
+                        temp_camp->define_camp( camp_loc, "faction_base_bare_bones_basecamp_0", false );
+                    }
+                }
                 if( blob ) {
                     for( int x = -2; x <= 2; x++ ) {
                         for( int y = -2; y <= 2; y++ ) {

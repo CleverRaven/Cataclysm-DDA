@@ -187,9 +187,12 @@ void basecamp::add_expansion( const std::string &bldg, const tripoint_abs_omt &n
     update_resources( bldg );
 }
 
-void basecamp::define_camp( const tripoint_abs_omt &p, const std::string_view camp_type )
+void basecamp::define_camp( const tripoint_abs_omt &p, const std::string_view camp_type,
+                            bool player_founded )
 {
-    query_new_name( true );
+    if( player_founded ) {
+        query_new_name( true );
+    }
     omt_pos = p;
     const oter_id &omt_ref = overmap_buffer.ter( omt_pos );
     // purging the regions guarantees all entries will start with faction_base_
@@ -205,9 +208,11 @@ void basecamp::define_camp( const tripoint_abs_omt &p, const std::string_view ca
         e.pos = omt_pos;
         expansions[base_camps::base_dir] = e;
         const std::string direction = oter_get_rotation_string( omt_ref );
-        const oter_id bcid( direction.empty() ? "faction_base_camp_0" : "faction_base_camp_new_0" +
-                            direction );
-        overmap_buffer.ter_set( omt_pos, bcid );
+        if( player_founded ) {
+            const oter_id bcid( direction.empty() ? "faction_base_camp_0" : "faction_base_camp_new_0" +
+                                direction );
+            overmap_buffer.ter_set( omt_pos, bcid );
+        }
         update_provides( base_camps::faction_encode_abs( e, 0 ),
                          expansions[base_camps::base_dir] );
     } else {
@@ -808,14 +813,8 @@ void basecamp::unload_camp_map()
 
 void basecamp::set_owner( faction_id new_owner )
 {
-    for( const std::pair<faction_id, faction> fac : g->faction_manager_ptr->all() ) {
-        if( fac.first == new_owner ) {
-            owner = new_owner;
-            return;
-        }
-    }
-    //Fallthrough, id must be invalid
-    debugmsg( "Could not find matching faction for new owner's faction_id!" );
+    // Absolutely no safety checks, factions don't exist until you've encountered them but we sometimes set the owner before that
+    owner = new_owner;
 }
 
 faction_id basecamp::get_owner()

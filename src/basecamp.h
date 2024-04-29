@@ -207,7 +207,8 @@ class basecamp
         void add_expansion( const std::string &terrain, const tripoint_abs_omt &new_pos );
         void add_expansion( const std::string &bldg, const tripoint_abs_omt &new_pos,
                             const point &dir );
-        void define_camp( const tripoint_abs_omt &p, std::string_view camp_type );
+        void define_camp( const tripoint_abs_omt &p, std::string_view camp_type,
+                          bool player_founded = true );
 
         std::string expansion_tab( const point &dir ) const;
         // check whether the point is the part of camp
