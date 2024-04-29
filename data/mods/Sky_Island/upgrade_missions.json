@@ -2414,7 +2414,7 @@
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
     "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "DRILL", "level": 1 } ],
     "components": [
-      [ [ "aquamarine", 4 ], [ "citrine", 4 ], [ "garnet", 4 ], [ "peridot", 4 ], [ "tourmaline", 4 ], [ "topaz", 4 ] ],
+      [ [ "aquamarine", 4 ], [ "citrine", 4 ], [ "garnet", 4 ], [ "peridot", 4 ], [ "tourmaline", 4 ], [ "blue_topaz", 4 ] ],
       [ [ "glass_sheet", 3 ] ],
       [ [ "mirror", 1 ] ],
       [ [ "superglue", 5 ] ],
