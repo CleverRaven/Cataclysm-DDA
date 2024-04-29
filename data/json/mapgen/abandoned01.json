@@ -23,7 +23,7 @@
       { "group": "cabin_suicide_shirt" },
       { "group": "cabin_suicide_legs" },
       { "group": "cabin_suicide_shoes" },
-      { "group": "cabin_suicide_extras", "count-min": 3, "count-max": 6 }
+      { "group": "cabin_suicide_extras", "count": [ 3, 6 ] }
     ]
   },
   {

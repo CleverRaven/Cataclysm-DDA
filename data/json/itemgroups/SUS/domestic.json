@@ -870,24 +870,21 @@
           {
             "item": "vitamins",
             "prob": 60,
-            "count-min": 1,
-            "count-max": 40,
+            "count": [ 1, 40 ],
             "container-item": "null",
             "entry-wrapper": "bottle_plastic_small"
           },
           {
             "item": "gummy_vitamins",
             "prob": 20,
-            "count-min": 1,
-            "count-max": 20,
+            "count": [ 1, 20 ],
             "container-item": "null",
             "entry-wrapper": "bottle_plastic_small"
           },
           {
             "item": "calcium_tablet",
             "prob": 10,
-            "count-min": 1,
-            "count-max": 40,
+            "count": [ 1, 40 ],
             "container-item": "null",
             "entry-wrapper": "bottle_plastic_small"
           }
@@ -899,16 +896,14 @@
           {
             "item": "weak_antibiotic",
             "prob": 40,
-            "count-min": 1,
-            "count-max": 20,
+            "count": [ 1, 20 ],
             "container-item": "null",
             "entry-wrapper": "bottle_plastic_small"
           },
           {
             "item": "antibiotics",
             "prob": 10,
-            "count-min": 1,
-            "count-max": 20,
+            "count": [ 1, 20 ],
             "container-item": "null",
             "entry-wrapper": "bottle_plastic_small"
           }
@@ -920,16 +915,14 @@
           {
             "item": "antifungal",
             "prob": 5,
-            "count-min": 1,
-            "count-max": 10,
+            "count": [ 1, 10 ],
             "container-item": "null",
             "entry-wrapper": "bottle_plastic_small"
           },
           {
             "item": "antiparasitic",
             "prob": 20,
-            "count-min": 1,
-            "count-max": 10,
+            "count": [ 1, 10 ],
             "container-item": "null",
             "entry-wrapper": "bottle_plastic_pill_prescription"
           }

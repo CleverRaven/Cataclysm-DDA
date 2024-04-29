@@ -373,7 +373,7 @@
       { "item": "corpse_ash", "prob": 100, "charges": [ 1905, 3969 ], "container-item": "crystal_urn" },
       { "item": "photo_album", "prob": 80 },
       { "item": "bouquet", "prob": 80 },
-      { "item": "candlestick", "prob": 50, "count-min": 1, "count-max": 6 },
+      { "item": "candlestick", "prob": 50, "count": [ 1, 6 ] },
       { "group": "liquor_and_spirits", "prob": 60 },
       { "group": "wines_worthy", "prob": 50 },
       { "item": "cigar", "prob": 50, "count": 5 },
@@ -1347,7 +1347,7 @@
       [ "dragonskin", 2 ],
       [ "knife_hunting", 25 ],
       [ "throwing_knife", 25 ],
-      { "item": "throwing_knife", "count-min": 1, "count-max": 6, "entry-wrapper": "leg_sheath6", "prob": 5 },
+      { "item": "throwing_knife", "count": [ 1, 6 ], "entry-wrapper": "leg_sheath6", "prob": 5 },
       [ "throwing_axe", 25 ],
       [ "binoculars", 50 ],
       [ "crossbow", 20 ],
@@ -2377,7 +2377,7 @@
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "wrapper",
-    "entries": [ { "item": "butter", "container-item": "null", "count-min": 1, "count-max": 32 } ]
+    "entries": [ { "item": "butter", "container-item": "null", "count": [ 1, 32 ] } ]
   },
   {
     "type": "item_group",
@@ -2385,7 +2385,7 @@
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "carton_egg",
-    "entries": [ { "item": "egg_bird_unfert", "count-min": 1, "count-max": 12 } ]
+    "entries": [ { "item": "egg_bird_unfert", "count": [ 1, 12 ] } ]
   },
   {
     "type": "item_group",

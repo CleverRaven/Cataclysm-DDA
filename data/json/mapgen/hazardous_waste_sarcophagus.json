@@ -351,6 +351,6 @@
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "55gal_drum",
-    "entries": [ { "item": "meat_tainted", "count-min": 3, "count-max": 20 } ]
+    "entries": [ { "item": "meat_tainted", "count": [ 3, 20 ] } ]
   }
 ]
