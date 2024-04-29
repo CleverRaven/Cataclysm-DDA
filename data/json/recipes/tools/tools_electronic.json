@@ -427,7 +427,6 @@
     "skill_used": "electronics",
     "difficulty": 2,
     "time": "12 m",
-    "reversible": false,
     "decomp_learn": 0,
     "autolearn": [ [ "electronics", 2 ] ],
     "book_learn": [ [ "manual_electronics", 1 ], [ "advanced_electronics", 1 ], [ "textbook_anarch", 1 ] ],
