@@ -91,6 +91,7 @@
     "//": "Z-2 subways, some lost nether things but otherwise mostly normal mobs",
     "default": "mon_spider_jumping_small",
     "monsters": [
+      { "group": "GROUP_NETHER_UNVIABLE", "weight": 300, "cost_multiplier": 0 },
       { "monster": "mon_woodlouse", "weight": 300, "pack_size": [ 1, 3 ] },
       { "monster": "mon_slug_small", "weight": 180, "ends": "180 hours" },
       { "monster": "mon_slug_giant", "weight": 180, "starts": "180 hours" },
