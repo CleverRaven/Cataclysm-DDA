@@ -165,7 +165,8 @@
     "energy_source": "MANA",
     "base_energy_cost": 500,
     "final_energy_cost": 250,
-    "energy_increment": -15
+    "energy_increment": -15,
+    "learn_spells": { "ierde_entrap_target_in_stone": 6 }
   },
   {
     "id": "ierde_reshape_the_earth_walls",
@@ -394,6 +395,34 @@
     "base_casting_time": 1500
   },
   {
+    "id": "ierde_entrap_target_in_stone",
+    "type": "SPELL",
+    "name": "Lithic Gaol",
+    "description": "Summon up a series of spikes around a a single target, imprisoning them in a cage of stone.  The target must be on diggable around for the spell to take effect.",
+    "valid_targets": [ "hostile" ],
+    "skill": "deduction",
+    "spell_class": "IERDE",
+    "max_level": { "math": [ "per_to_level(1)" ] },
+    "teachable": false,
+    "flags": [ "VERBAL", "SOMATIC", "NO_LEGS" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_IERDE_ENTRAP_TARGET_IN_STONE",
+    "shape": "blast",
+    "min_range": {
+      "math": [ "( ( (u_spell_level('ierde_entrap_target_in_stone') * 1.1) + 2) * (scaling_factor(u_val('perception') ) ) )" ]
+    },
+    "max_range": {
+      "math": [ "( ( (u_spell_level('ierde_entrap_target_in_stone') * 1.1) + 2) * (scaling_factor(u_val('perception') ) ) )" ]
+    },
+    "energy_source": "MANA",
+    "base_energy_cost": 300,
+    "final_energy_cost": 150,
+    "energy_increment": -8,
+    "base_casting_time": 200,
+    "final_casting_time": 50,
+    "casting_time_increment": -10
+  },
+  {
     "id": "ierde_summon_earth_spirit",
     "type": "SPELL",
     "name": "Calling the Children of the Stones",
@@ -478,7 +507,8 @@
     "base_casting_time": 150,
     "sound_description": "the ground shakes!",
     "sound_id": "earth_spell",
-    "sound_variant": "strong"
+    "sound_variant": "strong",
+    "learn_spells": { "ierde_entrap_target_in_stone": 6 }
   },
   {
     "id": "ierde_cultivate_goblin_fruit",

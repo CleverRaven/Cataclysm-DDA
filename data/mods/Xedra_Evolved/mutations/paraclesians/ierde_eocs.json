@@ -389,6 +389,10 @@
   },
   {
     "type": "effect_on_condition",
+    
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_IERDE_STONE_FORM_PER_TURN",
     "condition": { "math": [ "u_val('mana')", ">=", "3" ] },
     "effect": [ { "math": [ "u_val('mana')", "-=", "1" ] } ],

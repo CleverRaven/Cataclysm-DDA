@@ -35,7 +35,8 @@
       { "part": "hand_r", "ignored": 1 },
       { "part": "torso", "ignored": 6 }
     ],
-    "integrated_armor": [ "integrated_pebbled" ]
+    "integrated_armor": [ "integrated_pebbled" ],
+    "flags": [ "TOUGH_FEET" ]
   },
   {
     "type": "mutation",
@@ -62,7 +63,8 @@
       { "part": "hand_r", "ignored": 4 },
       { "part": "torso", "ignored": 30 }
     ],
-    "integrated_armor": [ "integrated_granite_skin" ]
+    "integrated_armor": [ "integrated_granite_skin" ],
+    "flags": [ "TOUGH_FEET" ]
   },
   {
     "type": "mutation",
