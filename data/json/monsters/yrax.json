@@ -226,6 +226,7 @@
     "weight": "8282 kg",
     "diff": 40,
     "speed": 60,
+    "material": [ "gold", "steel" ],
     "symbol": "A",
     "aggression": 70,
     "aggro_character": false,

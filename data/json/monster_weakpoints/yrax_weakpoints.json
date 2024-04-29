@@ -37,8 +37,16 @@
         "name": "a lightly armored segment",
         "coverage": 10,
         "difficulty": { "melee": 3, "ranged": 6 },
-        "coverage_mult": { "ranged": 2.5 },
+        "coverage_mult": { "ranged": 1.5 },
         "armor_mult": { "all": 0.75 }
+      },
+      {
+        "id": "weak_point",
+        "name": "a weak segment",
+        "coverage": 5,
+        "difficulty": { "melee": 6, "ranged": 8 },
+        "coverage_mult": { "ranged": 2 },
+        "armor_mult": { "all": 0.1 }
       },
       {
         "id": "heavy_armor",

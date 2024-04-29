@@ -13011,7 +13011,8 @@ void Character::store( item &container, item &put, bool penalties, int base_cost
     if( check_best_pkt && pk_type == pocket_type::CONTAINER &&
         container.get_all_contained_pockets().size() > 1 ) {
         // Bypass pocket settings (assuming the item is manually stored)
-        container.fill_with( i_rem( &put ), put.count_by_charges() ? put.charges : 1, false, false, true );
+        int charges = put.count_by_charges() ? put.charges : 1;
+        container.fill_with( i_rem( &put ), charges, false, false, true );
     } else {
         container.put_in( i_rem( &put ), pk_type );
     }

@@ -269,7 +269,8 @@
           }
         ]
       }
-    ]
+    ],
+    "flags": [ "TOUGH_FEET" ]
   },
   {
     "type": "effect_type",

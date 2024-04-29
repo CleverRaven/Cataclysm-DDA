@@ -162,9 +162,13 @@
     "type": "effect_on_condition",
     "id": "EOC_QUADRAPHRACT_CONTROL",
     "effect": [
-      { "run_eocs": "eoc_update_quadraphract_walkers" },
       {
         "run_eocs": [
+          {
+            "id": "eoc_start_update_quadraphract_walkers",
+            "condition": { "math": [ "updating_quadraphracts", "!=", "1" ] },
+            "effect": [ { "run_eocs": "eoc_update_quadraphract_walkers" } ]
+          },
           {
             "id": "quadraphract_setup",
             "condition": { "math": [ "u_setup", "!=", "1" ] },
@@ -220,11 +224,17 @@
     "id": "eoc_update_quadraphract_walkers",
     "type": "effect_on_condition",
     "global": true,
-    "recurrence": "1 seconds",
     "condition": { "math": [ "u_monsters_nearby('mon_yrax_quadraphract', 'radius': 60)", ">=", "1" ] },
     "effect": [
-      { "u_run_monster_eocs": [ "eoc_quadraphract_walker" ], "monster_range": 65, "mtype_ids": [ "mon_yrax_quadraphract" ] }
-    ]
+      { "math": [ "updating_quadraphracts", "=", "1" ] },
+      { "queue_eocs": "eoc_update_quadraphract_walkers", "time_in_future": 1 },
+      {
+        "u_run_monster_eocs": [ "eoc_quadraphract_walker" ],
+        "monster_range": 65,
+        "mtype_ids": [ "mon_yrax_quadraphract" ]
+      }
+    ],
+    "false_effect": [ { "math": [ "updating_quadraphracts", "=", "0" ] } ]
   },
   {
     "id": "eoc_quadraphract_walker",

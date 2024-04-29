@@ -189,7 +189,7 @@
       { "item": "can_sealer", "prob": 5 },
       { "item": "multitool", "prob": 12 },
       { "item": "throwing_knife", "prob": 7 },
-      { "item": "throwing_knife", "count-min": 1, "count-max": 6, "entry-wrapper": "leg_sheath6", "prob": 3 },
+      { "item": "throwing_knife", "count": [ 1, 6 ], "entry-wrapper": "leg_sheath6", "prob": 3 },
       { "item": "slingpack", "prob": 18 },
       { "item": "armrig", "prob": 3 },
       { "item": "leg_small_bag", "prob": 3 },
@@ -726,7 +726,7 @@
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_small",
-    "entries": [ { "item": "protein_powder", "container-item": "null", "count-min": 1, "count-max": 9 } ]
+    "entries": [ { "item": "protein_powder", "container-item": "null", "count": [ 1, 9 ] } ]
   },
   {
     "type": "item_group",
