@@ -62,7 +62,7 @@
     "weight": "34 g",
     "color": "pink",
     "spoils_in": "360 days",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 122,

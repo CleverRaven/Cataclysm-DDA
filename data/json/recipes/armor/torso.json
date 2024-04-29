@@ -1025,6 +1025,26 @@
     "using": [ [ "tailoring_cotton_patchwork", 40 ] ]
   },
   {
+    "result": "hoodie_cropped",
+    "copy-from": "hoodie",
+    "type": "recipe",
+    "using": [ [ "tailoring_cotton_patchwork", 25 ] ]
+  },
+  {
+    "result": "hoodie_cropped",
+    "id_suffix": "cutting",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "10 m",
+    "autolearn": true,
+    "components": [ [ [ "hoodie", 1 ] ] ],
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ]
+  },
+  {
     "result": "sweatshirt",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -2464,6 +2484,26 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "tailoring_cotton_patchwork", 3 ] ]
+  },
+  {
+    "result": "tshirt_cropped",
+    "copy-from": "tshirt",
+    "type": "recipe",
+    "using": [ [ "tailoring_cotton_patchwork", 2 ] ]
+  },
+  {
+    "result": "tshirt_cropped",
+    "id_suffix": "cutting",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "10 m",
+    "autolearn": true,
+    "components": [ [ [ "tshirt", 1 ] ] ],
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ]
   },
   {
     "result": "tshirt",

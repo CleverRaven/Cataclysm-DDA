@@ -22,7 +22,7 @@
           { "item": "rebar", "prob": 30, "count": [ 2, 30 ] },
           { "item": "sheet_metal", "prob": 20, "count": [ 2, 30 ] },
           { "item": "sheet_metal_small", "prob": 40, "count": [ 5, 50 ] },
-          { "item": "nail", "prob": 50, "count": [ 5, 70 ], "charges-min": 1, "charges-max": 100 },
+          { "item": "nail", "prob": 50, "count": [ 5, 70 ], "charges": [ 1, 100 ] },
           { "item": "blade", "prob": 20, "count": [ 5, 10 ] },
           { "item": "hammer", "prob": 20, "count": [ 1, 3 ] },
           { "item": "tongs", "prob": 20, "count": [ 1, 3 ] }
@@ -146,7 +146,7 @@
           { "item": "chem_agar", "prob": 20 },
           { "item": "lye", "prob": 45 },
           { "item": "lye_powder", "prob": 20, "charges": [ 100, 200 ] },
-          { "item": "chem_sulphur", "prob": 30, "charges-min": 100, "container-item": "bottle_plastic_small" },
+          { "item": "chem_sulphur", "prob": 30, "charges": [ 100, -1 ], "container-item": "bottle_plastic_small" },
           { "item": "chem_peptone_broth", "prob": 95 }
         ],
         "prob": 20

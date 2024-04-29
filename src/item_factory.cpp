@@ -2679,6 +2679,7 @@ void islot_ammo::load( const JsonObject &jo )
     assign( jo, "drop_chance", drop_chance, strict, 0.0f, 1.0f );
     optional( jo, was_loaded, "drop_active", drop_active, true );
     optional( jo, was_loaded, "projectile_count", count, 1 );
+    optional( jo, was_loaded, "multi_projectile_effects", multi_projectile_effects, false );
     optional( jo, was_loaded, "shot_spread", shot_spread, 0 );
     assign( jo, "shot_damage", shot_damage, strict );
     // Damage instance assign reader handles pierce and prop_damage
