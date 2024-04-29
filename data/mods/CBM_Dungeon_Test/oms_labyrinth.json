@@ -1,0 +1,46 @@
+[
+  {
+    "type": "overmap_special",
+    "id": "labyrinthine_structure",
+    "subtype": "mutable",
+    "locations": [ "subterranean_empty" ],
+    "city_distance": [ 10, -1 ],
+    "occurrences": [ 10, 10 ],
+    "flags": [ "EXODII" ],
+    "joins": [ { "id": "passage_to_passage", "into_locations": [ "subterranean_empty" ] } ],
+    "overmaps": {
+      "crossroads": {
+        "overmap": "labyrinth_hall_nesw",
+        "north": "passage_to_passage",
+        "east": "passage_to_passage",
+        "south": "passage_to_passage",
+        "west": "passage_to_passage"
+      },
+      "tee": {
+        "overmap": "labyrinth_hall_nes",
+        "north": "passage_to_passage",
+        "east": "passage_to_passage",
+        "south": "passage_to_passage"
+      },
+      "straight_passage": { "overmap": "labyrinth_hall_ew", "east": "passage_to_passage", "west": "passage_to_passage" },
+      "corner": { "overmap": "labyrinth_hall_ne", "north": "passage_to_passage", "east": "passage_to_passage" },
+      "dead_end": { "overmap": "labyrinth_hall_end_west", "west": "passage_to_passage" }
+    },
+    "root": "crossroads",
+    "phases": [
+      [
+        { "overmap": "straight_passage", "max": { "poisson": 20 } },
+        { "overmap": "corner", "max": { "poisson": 30 } },
+        { "overmap": "tee", "max": { "poisson": 20 } },
+        { "overmap": "dead_end", "weight": 1 }
+      ],
+      [
+        { "overmap": "dead_end", "weight": 2000 },
+        { "overmap": "straight_passage", "weight": 20 },
+        { "overmap": "corner", "weight": 100 },
+        { "overmap": "tee", "weight": 20 },
+        { "overmap": "crossroads", "weight": 1 }
+      ]
+    ]
+  }
+]
