@@ -147,7 +147,7 @@
     "//2": "Rated 137 kwh on average, but since you use it, and it's upright, 1.5x as much",
     "epower": "-205 W",
     "size": "600 L",
-    "item": "heavy_duty_fridge",
+    "item": "display_fridge",
     "requirements": {
       "removal": { "time": "2 m" },
       "repair": {
@@ -156,7 +156,7 @@
         "using": [ [ "repair_welding_standard", 3 ], [ "soldering_standard", 5 ] ]
       }
     },
-    "breaks_into": [ { "group": "heavy_duty_fridge_destroyed" } ],
+    "breaks_into": [ { "group": "display_fridge_destroyed" } ],
     "flags": [ "CARGO", "OBSTACLE", "FRIDGE", "COVERED", "ENABLED_DRAINS_EPOWER", "APPLIANCE", "CTRL_ELECTRONIC" ]
   },
   {
