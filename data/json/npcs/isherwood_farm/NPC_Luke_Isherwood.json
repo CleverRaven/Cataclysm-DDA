@@ -90,6 +90,10 @@
         "condition": { "not": { "u_has_var": "u_saved_barry_isherwood", "value": "yes" } }
       },
       {
+        "text": "Chris and I have a little project for you that we've cooked up, if you're interested.",
+        "topic": "TALK_ISHERWOOD_LUKE_Truck_Bomb"
+      },
+      {
         "text": "How are those books doing for you?",
         "topic": "TALK_ISHERWOOD_LUKE_BOOKS2",
         "condition": {
