@@ -762,8 +762,8 @@
     "valid_targets": [ "self" ],
     "spell_class": "BIOMANCER",
     "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_BIO_EAT_TONS_OF_FOOD_MUTATION",
+    "effect": "attack",
+    "effect_str": "effect_biomancer_eat_tons_of_food",
     "shape": "blast",
     "difficulty": 3,
     "max_level": 16,
@@ -774,81 +774,5 @@
     "base_energy_cost": 200,
     "extra_effects": [ { "id": "eoc_enhancement_setup" } ],
     "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(1500)" ] }
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_BIO_EAT_TONS_OF_FOOD_MUTATION",
-    "effect": [
-      {
-        "u_add_effect": "effect_biomancer_eat_tons_of_food",
-        "duration": { "math": [ "(( u_spell_level('biomancer_eat_tons_of_food') * 720 ) + 720 )" ] }
-      },
-      {
-        "switch": { "math": [ "u_spell_level('biomancer_eat_tons_of_food')" ] },
-        "cases": [
-          {
-            "case": 0,
-            "effect": [
-              { "u_add_trait": "BIOMANCER_EAT_TONS_OF_FOOD_01" },
-              {
-                "queue_eocs": "EOC_BIO_EAT_TONS_OF_FOOD_MUTATION_REMOVER",
-                "time_in_future": { "math": [ "(( u_spell_level('biomancer_eat_tons_of_food') * 720 ) + 720 )" ] }
-              }
-            ]
-          },
-          {
-            "case": 4,
-            "effect": [
-              { "u_add_trait": "BIOMANCER_EAT_TONS_OF_FOOD_02" },
-              {
-                "queue_eocs": "EOC_BIO_EAT_TONS_OF_FOOD_MUTATION_REMOVER",
-                "time_in_future": { "math": [ "(( u_spell_level('biomancer_eat_tons_of_food') * 720 ) + 720 )" ] }
-              }
-            ]
-          },
-          {
-            "case": 8,
-            "effect": [
-              { "u_add_trait": "BIOMANCER_EAT_TONS_OF_FOOD_03" },
-              {
-                "queue_eocs": "EOC_BIO_EAT_TONS_OF_FOOD_MUTATION_REMOVER",
-                "time_in_future": { "math": [ "(( u_spell_level('biomancer_eat_tons_of_food') * 720 ) + 720 )" ] }
-              }
-            ]
-          },
-          {
-            "case": 12,
-            "effect": [
-              { "u_add_trait": "BIOMANCER_EAT_TONS_OF_FOOD_04" },
-              {
-                "queue_eocs": "EOC_BIO_EAT_TONS_OF_FOOD_MUTATION_REMOVER",
-                "time_in_future": { "math": [ "(( u_spell_level('biomancer_eat_tons_of_food') * 720 ) + 720 )" ] }
-              }
-            ]
-          },
-          {
-            "case": 16,
-            "effect": [
-              { "u_add_trait": "BIOMANCER_EAT_TONS_OF_FOOD_05" },
-              {
-                "queue_eocs": "EOC_BIO_EAT_TONS_OF_FOOD_MUTATION_REMOVER",
-                "time_in_future": { "math": [ "(( u_spell_level('biomancer_eat_tons_of_food') * 720 ) + 720 )" ] }
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_BIO_EAT_TONS_OF_FOOD_MUTATION_REMOVER",
-    "effect": [
-      { "u_lose_trait": "BIOMANCER_EAT_TONS_OF_FOOD_01" },
-      { "u_lose_trait": "BIOMANCER_EAT_TONS_OF_FOOD_02" },
-      { "u_lose_trait": "BIOMANCER_EAT_TONS_OF_FOOD_03" },
-      { "u_lose_trait": "BIOMANCER_EAT_TONS_OF_FOOD_04" },
-      { "u_lose_trait": "BIOMANCER_EAT_TONS_OF_FOOD_05" }
-    ]
   }
 ]

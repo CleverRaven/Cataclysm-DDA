@@ -90,7 +90,7 @@
         "t": "f_locker",
         "u": "f_indoor_plant"
       },
-      "gaspumps": { "1": { "amount": [ 0, 100 ] } },
+      "gaspumps": { "1": { "amount": [ 0, 1 ] } },
       "place_loot": [
         { "group": "road", "chance": 50, "repeat": 4, "x": [ 1, 22 ], "y": [ 1, 19 ] },
         { "group": "allclothes", "chance": 5, "repeat": [ 10 ], "x": 29, "y": [ 5, 6 ] },

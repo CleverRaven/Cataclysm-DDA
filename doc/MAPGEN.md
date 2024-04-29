@@ -879,7 +879,7 @@ Places a gas pump with fuel in it.
 
 | Field  | Description
 | ---    | ---
-| amount | (optional, integer or min/max array) the amount of fuel to be placed in the pump. If not specified, the amount is randomized between 10'000 and 50'000.
+| amount | (optional, integer or min/max array) the amount of fuel to be placed in the pump (multiplied by 100). If not specified, the amount is randomized between 10'000 and 50'000.
 | fuel   | (optional, string: "gasoline", "diesel", "jp8", or "avgas") the type of fuel to be placed in the pump. If not specified, the fuel is gasoline (75% chance) or diesel (25% chance).
 
 

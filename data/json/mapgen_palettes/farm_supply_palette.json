@@ -76,7 +76,7 @@
       "ý": "f_sandbag_wall",
       "w": "f_washer",
       "o": "f_dryer",
-      "d": "f_fridge",
+      "d": [ "f_fridge", "f_minifridge", "f_minifreezer", "f_chest_minifreezer", "f_freezer" ],
       "þ": "f_fridge",
       "e": "f_oven",
       "H": "f_sofa",

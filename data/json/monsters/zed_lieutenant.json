@@ -395,7 +395,13 @@
     "type": "effect_on_condition",
     "id": "EOC_LIEUTENANT_SPAWN_SHADOW_MESSAGE",
     "effect": [
-      { "u_message": "You shiver as the night closes in…", "type": "bad", "popup": true, "popup_w_interrupt_query": true }
+      {
+        "u_message": "You shiver as the night closes in…",
+        "type": "bad",
+        "popup": true,
+        "popup_w_interrupt_query": true,
+        "interrupt_type": "eoc"
+      }
     ]
   },
   {
