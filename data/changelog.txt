@@ -216,6 +216,15 @@ Pictures for House fluff
 Added Hub 01 mission signposting LIXA
 Crafting Musical Instruments
 Additional Achievements
+Honk your clown nose!
+Add a new LMOE mapgen layout
+Eeeeven MOOORE mission context dialogue for Liam (Friends to the End).
+Adds a significant amount of extra dialogue and conditionals to Isherwood (Isherwood update part 1, 50% done)
+Add cropped top and hoodie
+Finish the basic part of rubik's 'find the warehouse' mission, allowing you to ask around for directions; success is not solely RNG
+Replaced 'bag_plastic', powdered goods variance
+Add a new high danger Yrax construct
+Add poultry meat
 
 
 
@@ -273,6 +282,8 @@ Can't accidentally select full deconstruction if simple deconstruction is availa
 Set priority for containers that have auto whitelisting.
 Tile cover is now named concealment, because that's all it actually does.
 When opening spellcasting menu, go to favorite spells tab if player has favorited spells
+AIM: when cannot wear, try to wield
+Separate keybinding to select default ammo for RELOAD_AND_SHOOT/RELOAD_ONE weapon
 
 
 ## Mods:
@@ -401,6 +412,20 @@ XE: Trait to avoid learning dream magick
 [MoM] Power maintenance message change
 [DinoMod] Iguanodon
 [Bombastic Perks] Add more perks
+[MoM] Add `city_sizes` parameter to city buildings
+[Sky Island] Add east bunker room upgrades to possible missions 
+[MoM] Rework Far Hand into the "Move items" power and Force Shove into the "move creatures" power
+[MoM] Reduce feral telekinetic shove distances
+Tune conveyance spells with scaling modifier
+[MoM] Add the Megakinesis telekinetic power
+[Sky Island] Add buildable north chamber missions and mapgen
+[Magiclysm] Migrate Gluttonous Consumption spell to effect-only
+[MoM] Give biokinetic monsters Hardened Skin as an effect instead of a permanent armor buff
+[MoM] Add actual fear effect to Primal Terror telepathic power
+[MoM] Fix Force Shove, Force Shove downs targets
+[MoM] Add TOUGH_FEET to the Hardened Skin effect
+Aftershock: Add two crashed shuttle maps
+Aftershock: Audit magazine flags for better storage
 
 
 ## Balance:
@@ -464,6 +489,8 @@ Instability no longer accumulates or decreases; it depends on how many mutations
 Pain is painful
 Pain was a bit too painful
 shoggoths cannot eat artifacts
+Makes the candle's properties and recipe slightly more realistic
+Adjust MOLLE compatible pouches' trade value
 
 
 ## Bugfixes:
@@ -605,6 +632,19 @@ fixing issues where ImGui popup changes size sporadically. Fix issue where keybi
 fixes issue where all ImGui windows display wrong when the window scaling is not 1
 Fixed issue where new ImGui popup does not obey the default option requested by user
 Fixed issue where the keybindings UI doesn't let you press the plus key to add a local keybinding
+Fixed frame lag in imgui text inputs
+Incompatible tools only pop out from workstations, not from other vehicle parts on the same tile
+Lighthouse clear quest can be completed again
+Fridges do not drop 999 kilo of copper when disassembled
+[Sky Island] Fix double colon in expedition timer
+Not to use meat chunks in the smoking rack
+1L Silver Ingot should have "material" property of silver instead of lead
+Cureall Effect (Panacea) now cures early stages of cold and flu
+On curses build, clean up the terminal during a crash
+Fix Typos and Punctuation of Techniques
+Fix RAS weapon reload time and stamina drain.
+Fixed arrows disappearing when unwielded
+Make pupating zombie explosion quieter
 
 
 ## Performance:
@@ -630,6 +670,8 @@ Optimize creature vision checks.
 Optimize hot item function to save ~6.7% of game load time
 Skip MGOAL_Find_Item if the player is busy.
 Avoid wasteful loop in map special road connections
+Decrease memory overhead by about 200MB or about 15% by slimming down mapgen data structure.
+Faster ascii overmap drawing
 
 
 ## Infrastructure:
@@ -683,6 +725,7 @@ Rename 'fatigue' to 'sleepiness', mostly on the back end, to avoid confusing dif
 EOC proficiency adjustments use normal training route by default
 Improve spell checker tokenization and reporting
 Deleted the ImGui enable/disable toggle, turns on ImGui globally in CDDA
+Use test enumerating item spawns to make assertions about the rate of appearance of different items.
 
 
 ## Build:
