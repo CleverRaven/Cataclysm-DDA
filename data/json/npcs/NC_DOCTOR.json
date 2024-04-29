@@ -67,7 +67,7 @@
       { "item": "null", "prob": 5 },
       { "item": "mask_dust", "prob": 80 },
       { "item": "bandana", "prob": 10 },
-      { "item": "mask_filter", "prob": 10, "charges-min": 10 }
+      { "item": "mask_filter", "prob": 10, "charges": [ 10, -1 ] }
     ]
   },
   {
@@ -103,7 +103,7 @@
       { "item": "smoxygen_tank", "prob": 5 },
       { "item": "eyedrops", "prob": 35, "count": 10 },
       { "item": "nic_gum", "prob": 25, "count": 10 },
-      { "item": "inhaler", "prob": 20, "charges-min": 10, "charges-max": 100 },
+      { "item": "inhaler", "prob": 20, "charges": [ 10, 100 ] },
       { "prob": 25, "group": "codeine_bottle_plastic_pill_painkiller_10" },
       { "prob": 20, "group": "oxycodone_bottle_plastic_pill_prescription_10" },
       { "prob": 20, "group": "tramadol_bottle_plastic_pill_prescription_10" },

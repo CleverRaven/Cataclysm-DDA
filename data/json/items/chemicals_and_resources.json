@@ -410,7 +410,7 @@
     "flags": [ "EDIBLE_FROZEN" ],
     "use_action": [ "FUNGICIDE" ],
     "stim": -7,
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "comestible_type": "MED",
     "symbol": "!",
     "healthy": -7,
@@ -430,7 +430,7 @@
     "weight": "50 g",
     "color": "pink",
     "looks_like": "fungicide",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "symbol": "!",
     "description": "Agricultural-grade chemical insecticide powder designed to eradicate insect pests.",
     "price": "5 cent",
@@ -519,7 +519,7 @@
     "volume": "250 ml",
     "weight": "1760 mg",
     "ammo_type": "components",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "count": 100
   },
   {
@@ -532,7 +532,7 @@
     "symbol": "=",
     "color": "white",
     "description": "A handful of silvery-white metallic powder composed of nickel.  Common industrial uses include production of stainless steel as well as other alloys.",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "material": [ "powder_nonflam" ],
     "volume": "1 ml",
     "weight": "36 mg",
@@ -619,7 +619,7 @@
     "symbol": "=",
     "color": "green",
     "description": "A handful of dark green crystalline powder, with a weak pungent smell similar to that of hydrochloric acid.  Commonly used as a Lewis acid for catalyzing various chemical reactions.",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "material": [ "powder_nonflam" ],
     "volume": "250 ml",
     "weight": "2900 mg",
@@ -636,7 +636,7 @@
     "symbol": "=",
     "color": "white",
     "description": "A handful of soft, colorless powder with a sharp pungent odor, also known as butter of antimony.  It's a catalyst for polymerization, hydrocracking, and chlorination reactions, and has some other niche uses.",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "material": [ "powder_nonflam" ],
     "volume": "250 ml",
     "weight": "3140 mg",
@@ -1068,7 +1068,7 @@
     "volume": "89 ml",
     "weight": "151 mg",
     "ammo_type": "components",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "count": 1000
   },
   {
@@ -1120,7 +1120,7 @@
     "volume": "140 ml",
     "weight": "1 g",
     "ammo_type": "components",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "count": 200
   },
   {
@@ -1138,7 +1138,7 @@
     "volume": "140 ml",
     "weight": "1 g",
     "ammo_type": "components",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "count": 200
   },
   {
@@ -1155,7 +1155,7 @@
     "volume": "250 ml",
     "weight": "70 g",
     "ammo_type": "components",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "count": 10,
     "melee_damage": { "bash": 1 }
   },

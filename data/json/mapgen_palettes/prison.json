@@ -58,7 +58,7 @@
       "r": "f_locker",
       "m": "f_locker",
       "4": "f_glass_fridge",
-      "e": "f_fridge",
+      "e": [ "f_heavy_duty_fridge", "f_heavy_duty_freezer" ],
       "é": "f_fridge",
       "n": "f_oven",
       "o": "f_bookcase",
