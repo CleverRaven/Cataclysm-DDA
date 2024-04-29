@@ -8405,15 +8405,23 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
     int iInfoHeight = 0;
     int iMaxRows = 0;
     int width = 0;
+    int width_nob = 0;  // width without borders
     int max_name_width = 0;
+
+    // Constants for content that is always displayed in w_items
+    // on left: 1 space
+    const int left_padding = 1;
+    // on right: 2 digit distance 1 space 2 direction 1 space
+    const int right_padding = 2 + 1 + 2 + 1;
+    const int padding = left_padding + right_padding;
 
     //find max length of item name and resize window width
     for( const map_item_stack &cur_item : ground_items ) {
-        const int item_len = utf8_width( remove_color_tags( cur_item.example->display_name() ) ) + 15;
-        if( item_len > max_name_width ) {
-            max_name_width = item_len;
-        }
+        max_name_width = std::max( max_name_width,
+                                   utf8_width( remove_color_tags( cur_item.example->display_name() ) ) );
     }
+    // + 6 as estimate for `iThisPage` I guess
+    max_name_width = max_name_width + padding + 6;
 
     tripoint active_pos;
     map_item_stack *activeItem = nullptr;
@@ -8428,11 +8436,12 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         iMaxRows = TERMY - iInfoHeight - 2;
 
         width = clamp( max_name_width, 55, TERMX / 3 );
+        width_nob = width - 2;
 
         const int offsetX = TERMX - width;
 
         w_items = catacurses::newwin( TERMY - 2 - iInfoHeight,
-                                      width - 2, point( offsetX + 1, 1 ) );
+                                      width_nob, point( offsetX + 1, 1 ) );
         w_items_border = catacurses::newwin( TERMY - iInfoHeight,
                                              width, point( offsetX, 0 ) );
         w_item_info = catacurses::newwin( iInfoHeight, width,
@@ -8560,12 +8569,11 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                 } else {  // priority medium
                     col = iter->example->color_in_inventory();
                 }
-                trim_and_print( w_items, point( 1, iNum - iStartPos ), width - 9, col, sText );
-                const int numw = iItemNum > 9 ? 2 : 1;
+                trim_and_print( w_items, point( 1, iNum - iStartPos ), width_nob - padding, col, sText );
                 const point p( iter->vIG[iThisPage].pos.xy() );
-                mvwprintz( w_items, point( width - 6 - numw, iNum - iStartPos ),
+                mvwprintz( w_items, point( width_nob - right_padding, iNum - iStartPos ),
                            iNum == iActive ? c_light_green : c_light_gray,
-                           "%*d %s", numw, rl_dist( point_zero, p ),
+                           "%2d %s", rl_dist( point_zero, p ),
                            direction_name_short( direction_from( point_zero, p ) ) );
                 ++iter;
             }
@@ -8602,7 +8610,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         if( iItemNum > 0 && activeItem ) {
             // print info window title: < item name >
             mvwprintw( w_item_info, point( 2, 0 ), "< " );
-            trim_and_print( w_item_info, point( 4, 0 ), width - 8,
+            trim_and_print( w_item_info, point( 4, 0 ), width_nob - padding,
                             activeItem->vIG[page_num].it->color_in_inventory(),
                             activeItem->vIG[page_num].it->display_name() );
             wprintw( w_item_info, " >" );
