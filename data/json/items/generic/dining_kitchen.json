@@ -1118,7 +1118,7 @@
     "volume": "25400 ml",
     "longest_side": "45 cm",
     "price": "68 USD",
-    "price_postapoc": "8 USD 15 cent"
+    "price_postapoc": "8 USD 15 cent",
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": ")",
