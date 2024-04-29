@@ -10,6 +10,8 @@
         { "not": { "u_has_effect": "grabbed", "bodypart": "arm_r" } },
         { "not": { "u_has_effect": "grabbed", "bodypart": "leg_l" } },
         { "not": { "u_has_effect": "grabbed", "bodypart": "leg_r" } },
+        { "not": { "u_has_effect": "disabled", "bodypart": "leg_l" } },
+        { "not": { "u_has_effect": "disabled", "bodypart": "leg_r" } },
         { "not": { "u_is_on_terrain_with_flag": "DEEP_WATER" } }
       ]
     },
