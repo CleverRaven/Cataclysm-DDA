@@ -539,31 +539,26 @@
     ]
   },
   {
-    "name": "GROUP_PANICROOM",
+    "name": "GROUP_SCENARIO_PANICROOM",
     "type": "monstergroup",
-    "//": "Flavor spawn group for panic rooms for better story-telling.  Improved chance of dogs, fancy dogs, and (still) breathing people and children.",
+    "//": "Flavor spawn group for scenario panic rooms for better story-telling.  Improved chance of dogs, fancy dogs, and (still) breathing people and children.",
     "monsters": [
       { "monster": "mon_zombie_child", "weight": 180 },
-      { "monster": "mon_zombie", "weight": 120, "cost_multiplier": 2 },
       { "group": "GROUP_CIVILIANS_STANDARD", "weight": 200 },
-      { "group": "GROUP_FERAL", "weight": 150, "cost_multiplier": 2 },
       { "group": "GROUP_PET_DOGS", "weight": 100, "cost_multiplier": 2 },
       { "monster": "mon_dog_rottweiler", "weight": 100, "cost_multiplier": 2 },
-      { "monster": "mon_dog_gpyrenees", "weight": 100, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_dog", "weight": 20 }
+      { "monster": "mon_dog_gpyrenees", "weight": 100, "cost_multiplier": 2 }
     ]
   },
   {
-    "name": "GROUP_FANCY_PANICROOM",
+    "name": "GROUP_PANICROOM",
     "type": "monstergroup",
-    "//": "Same as above, but with the fancy ferals thrown into the mix for the scenario.",
+    "//": "Same as above, but more lethal.",
     "monsters": [
-      { "group": "GROUP_PANICROOM", "weight": 750 },
-      { "monster": "mon_feral_maid_broom", "weight": 15 },
-      { "monster": "mon_feral_maid_candlestick", "weight": 15 },
-      { "monster": "mon_feral_maid_knife", "weight": 20 },
-      { "monster": "mon_feral_fancy_rapier", "weight": 120, "cost_multiplier": 5 },
-      { "monster": "mon_feral_fancy_rapier_fake", "weight": 80, "cost_multiplier": 3 }
+      { "monster": "mon_zombie", "weight": 120, "cost_multiplier": 2 },
+      { "group": "GROUP_SCENARIO_PANICROOM", "weight": 680 },
+      { "group": "GROUP_FERAL", "weight": 150, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_dog", "weight": 20 }
     ]
   },
   {
