@@ -10343,7 +10343,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "crepe_sweet",
+    "result": "crepe",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
     "skill_used": "cooking",
@@ -10354,7 +10354,7 @@
     "charges": 12,
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 35, "LIST" ] ] ],
-    "//": "25u for flour, 6u for eggs, 4u for milk + water",
+    "//": "25u for flour, 6u for eggs, 4u for milk",
     "components": [
       [ [ "flour", 25 ] ],
       [ [ "eggs_any_shape", 2, "LIST" ] ],
@@ -10365,7 +10365,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "crepe",
+    "result": "crepe_plain",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
     "skill_used": "cooking",
