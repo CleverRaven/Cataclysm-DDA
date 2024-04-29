@@ -2169,6 +2169,10 @@ void basecamp::abandon_camp()
     for( npc_ptr &guy : get_npcs_assigned() ) {
         talk_function::stop_guard( *guy );
     }
+    // We must send this message early, before the name is erased.
+    add_msg( m_info, _( "You abandon %s." ), name );
+    std::set<tripoint_abs_omt> &known_camps = get_player_character().camps;
+    known_camps.erase( omt_pos );
     overmap_buffer.remove_camp( *this );
     map &here = get_map();
     const tripoint sm_pos = omt_to_sm_copy( omt_pos.raw() );
@@ -2176,7 +2180,6 @@ void basecamp::abandon_camp()
     // We cannot use bb_pos here, because bb_pos may be {0,0,0} if you haven't examined the bulletin board on camp ever.
     // here.remove_submap_camp( here.getlocal( bb_pos ) );
     here.remove_submap_camp( here.getlocal( ms_pos ) );
-    add_msg( m_info, _( "You abandon %s." ), name );
 }
 
 void basecamp::scan_pseudo_items()

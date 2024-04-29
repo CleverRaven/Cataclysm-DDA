@@ -1323,7 +1323,7 @@ struct fixed_overmap_special_data : overmap_special_data {
                     debugmsg( "In %s, camp was defined but missing a camp_name.", context );
                 }
             } else if( !elem.camp_name.empty() ) {
-                debugmsg( "In %s, camp_name defined but no owner. Invalid name is discarded.", context );
+                debugmsg( "In %s, camp_name defined but no owner.  Invalid name is discarded.", context );
             }
 
             if( elem.locations.empty() ) {
