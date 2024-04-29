@@ -209,6 +209,104 @@
     ]
   },
   {
+    "type": "npc",
+    "id": "isherwood_lisa_copy",
+    "//": "Part of the Isherwood family.  False copy for the Barry resue mission.",
+    "name_unique": "Lisa Isherwood",
+    "gender": "female",
+    "class": "NC_ISHERWOOD_LISA",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_ISHERWOOD_FAMILY_DUPLICATES",
+    "faction": "isherwood_family"
+  },
+  {
+    "type": "npc",
+    "id": "isherwood_lisa_swat_copy",
+    "//": "Part of the Isherwood family.  False copy for the Barry resue mission.",
+    "name_unique": "Lisa Isherwood",
+    "gender": "female",
+    "class": "NC_ISHERWOOD_LISA_SWAT",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_ISHERWOOD_FAMILY_DUPLICATES",
+    "faction": "isherwood_family"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_ISHERWOOD_LISA_SWAT",
+    "name": { "str": "Lisa Isherwood" },
+    "job_description": "Part of the Isherwood family",
+    "traits": [
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
+    "common": false,
+    "bonus_per": { "one_in": 4 },
+    "worn_override": "NC_Isherwood_swat_worn",
+    "weapon_override": "NC_ISHERWOOD_rifle",
+    "skills": [
+      {
+        "skill": "ALL",
+        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
+      },
+      { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "survival", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "gun", "bonus": { "rng": [ 3, 5 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 2, 5 ] } },
+      { "skill": "archery", "bonus": { "rng": [ 2, 5 ] } }
+    ]
+  },
+  {
+    "type": "npc",
+    "id": "isherwood_chris_copy",
+    "//": "Part of the Isherwood family.  False copy for the Barry resue mission.",
+    "name_unique": "Chris Isherwood",
+    "gender": "male",
+    "class": "NC_ISHERWOOD_CHRIS",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_ISHERWOOD_FAMILY_DUPLICATES",
+    "faction": "isherwood_family"
+  },
+  {
+    "type": "npc",
+    "id": "isherwood_chris_swat_copy",
+    "//": "Part of the Isherwood family.  False copy for the Barry resue mission.",
+    "name_unique": "Chris Isherwood",
+    "gender": "male",
+    "class": "NC_ISHERWOOD_CHRIS_SWAT",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_ISHERWOOD_FAMILY_DUPLICATES",
+    "faction": "isherwood_family"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_ISHERWOOD_CHRIS_SWAT",
+    "name": { "str": "Chris Isherwood" },
+    "job_description": "I'm Jesse and Carlos' son, part of the Isherwood family",
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" }, { "trait": "NO_BASH" } ],
+    "common": false,
+    "bonus_per": { "one_in": 4 },
+    "worn_override": "NC_Isherwood_swat_worn",
+    "weapon_override": "NC_ISHERWOOD_rifle",
+    "skills": [
+      {
+        "skill": "ALL",
+        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
+      },
+      { "skill": "speech", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "survival", "bonus": { "rng": [ 7, 10 ] } },
+      { "skill": "gun", "bonus": { "rng": [ 4, 8 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 7, 10 ] } },
+      { "skill": "archery", "bonus": { "rng": [ 8, 10 ] } }
+    ]
+  },
+  {
     "type": "item_group",
     "id": "NC_Isherwood_swat_worn",
     "subtype": "collection",

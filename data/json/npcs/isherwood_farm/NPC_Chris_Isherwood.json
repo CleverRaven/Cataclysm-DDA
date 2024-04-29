@@ -276,7 +276,7 @@
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_CHRIS_JOINS"
       },
       {
-        "text": "It's all right.  We've got this, you get things ready for when we return with Barry",
+        "text": "It's all right.  We've got this, you get things ready for when we return with Barry.",
         "topic": "TALK_DONE"
       }
     ]
@@ -288,8 +288,7 @@
     "responses": [
       {
         "text": "All right.  Let's kick some alien butt.",
-        "effect": "follow",
-        "//": "This is temporary, Chris should actually spawn near the tower with some new gear and follow you from there.",
+        "effect": [ { "math": [ "isherwood_family_coming", "=", "0" ] } ],
         "topic": "TALK_DONE"
       },
       {
@@ -323,6 +322,13 @@
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_TAKE_LISA2",
     "dynamic_line": "*blinks.  \"My… yeah, of course Lisa could come.  Damn, she'd smack me if she knew I didn't think of that myself.  Mind if I go talk to her about it?  I'll get her to come out with me and we'll meet you together, if she's willing.\"",
+    "speaker_effect": {
+      "sentinel": "plan_to_take_lisa",
+      "effect": [
+        { "u_add_var": "lisa_isherwood_coming_too", "value": "yes" },
+        { "math": [ "timer_chris_talked_to_lisa", "=", "time('now')" ] }
+      ]
+    },
     "responses": [
       {
         "text": "You mentioned that Carlos, Eddie and Luke probably can't help in a firefight.  Is there any other way we could use them?",
@@ -330,8 +336,18 @@
       },
       {
         "text": "All right.  Let's kick some alien butt.",
-        "effect": "follow",
-        "//": "This is temporary, Chris should actually spawn near the tower with some new gear and follow you from there.",
+        "effect": [
+          { "math": [ "isherwood_family_coming", "=", "0" ] },
+          { "queue_eocs": "isherwood_mission_lisa_coming", "time_in_future": "1 hour" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Okay, I'll give you about an hour to talk with her about it.  I'll be back soon.",
+        "effect": [
+          { "math": [ "isherwood_family_coming", "=", "0" ] },
+          { "queue_eocs": "isherwood_mission_lisa_coming", "time_in_future": "1 hour" }
+        ],
         "topic": "TALK_DONE"
       }
     ]
@@ -344,17 +360,32 @@
       "sentinel": "chris_thinking_about_plan",
       "effect": { "math": [ "npc_timer_thinking_about_plan", "=", "time('now')" ] }
     },
-    "responses": [ { "text": "OK.  Let's talk about it again in a bit.", "topic": "TALK_DONE" } ]
+    "responses": [
+      {
+        "text": "Is there anyone else around here that could help us?",
+        "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_TAKE_LISA"
+      },
+      { "text": "OK.  Let's talk about it again in a bit.", "topic": "TALK_DONE" }
+    ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN",
     "dynamic_line": "Yeah.  I think they should cover our exit.  We've got an old truck they could set up as a platform, where Dad can put down covering fire without his knee being an issue.  Eddie can drive, instead of shoot, and Luke or Mom can be ready with some first aid supplies.  Then when we get out, we've got an easy getaway set up, and there's less chance of us getting flanked while we're in there looking for Barry.\"  He looks at you, suddenly nervous.  \"Is that a good plan?",
     "responses": [
-      { "text": "Seems like a good plan to me.", "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN2" },
+      {
+        "text": "Seems like a good plan to me.",
+        "effect": [ { "math": [ "isherwood_family_coming", "=", "1" ] } ],
+        "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN2"
+      },
       {
         "text": "I think it's better we take my vehicle, and just leave them out of it.",
+        "effect": [ { "math": [ "isherwood_family_coming", "=", "0" ] } ],
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Cancel"
+      },
+      {
+        "text": "Is there anyone else around here that could help us?",
+        "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_TAKE_LISA"
       },
       {
         "text": "I don't think one farmer with a hunting rifle is going to be enough to keep our backs safe.",
@@ -380,8 +411,7 @@
     "responses": [
       {
         "text": "Let's go get your uncle back.",
-        "//": "This should trigger any EOCs that start the mission setup.  To be done.",
-        "effect": { "run_eocs": "isherwood_mission_initialization_eoc" },
+        "effect": [ { "math": [ "isherwood_family_coming", "=", "1" ] }, { "run_eocs": "isherwood_mission_initialization_eoc" } ],
         "topic": "TALK_DONE"
       },
       {
@@ -446,6 +476,25 @@
         "condition": { "and": [ { "u_has_item": "armor_riot_leg" }, { "math": [ "isherwood_gear_retrival_armor_leg_count", "<", "5" ] } ] },
         "effect": [ { "u_sell_item": "armor_riot_leg" }, { "math": [ "isherwood_gear_retrival_armor_leg_count", "++" ] } ],
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Turn_Over"
+      },
+      {
+        "text": "[got all cop gear]",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_GEAR" },
+            {
+              "and": [
+                { "math": [ "isherwood_gear_retrival_armor_body_count", "==", "5" ] },
+                { "math": [ "isherwood_gear_retrival_helmet_count", "==", "5" ] },
+                { "math": [ "isherwood_gear_retrival_armor_arm_count", "==", "5" ] },
+                { "math": [ "isherwood_gear_retrival_armor_leg_count", "==", "5" ] }
+              ]
+            },
+            { "math": [ "isherwood_gear_status", "<", "1" ] }
+          ]
+        },
+        "effect": { "finish_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_GEAR", "success": true },
+        "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Done"
       },
       { "text": "That's all for now. Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS" },
       { "text": "That's all for now. I'll see you later.", "topic": "TALK_DONE" }

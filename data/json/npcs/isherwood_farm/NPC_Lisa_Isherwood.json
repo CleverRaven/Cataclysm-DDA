@@ -46,6 +46,7 @@
       "yes": "I see that badge, I think you need to keep on walking, straight off this property.",
       "no": "Hi, what brings you here?"
     },
+    "speaker_effect": { "sentinel": "u_met_lisa", "effect": [ { "u_add_var": "u_met_lisa_isherwood", "value": "yes" } ] },
     "responses": [
       {
         "text": "…",
@@ -70,6 +71,20 @@
         "topic": "TALK_LISA_CHRIS",
         "effect": [ { "u_add_var": "u_met_Lisa_Isherwood", "value": "yes" } ],
         "condition": { "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "u_has_var": "u_heard_about_chris", "value": "yes" } ] }
+      },
+      {
+        "text": "[chris tell about plan?  we get barry back need u.]",
+        "topic": "TALK_ISHERWOOD_CHRIS_TALKED_TO_LISA",
+        "condition": {
+          "and": [ { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" }, { "math": [ "timer_chris_talked_to_lisa", ">=", "time('1 h')" ] } ]
+        }
+      },
+      {
+        "text": "[chris tell about plan?  we get barry back need u.]",
+        "topic": "TALK_ISHERWOOD_CHRIS_NOT_TALKED_TO_LISA",
+        "condition": {
+          "and": [ { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" }, { "math": [ "timer_chris_talked_to_lisa", "<", "time('1 h')" ] } ]
+        }
       },
       {
         "text": "I'd better get going.",
@@ -125,6 +140,31 @@
       { "text": "Hi, I'm looking for Jesse.", "topic": "TALK_LISA_JESSE" },
       { "text": "Hi, I'm looking for Chris.", "topic": "TALK_LISA_CHRIS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_CHRIS_TALKED_TO_LISA",
+    "dynamic_line": "[yeah he did im in on it lets kick ass]",
+    "responses": [ { "text": "[sweet see u then]", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_CHRIS_NOT_TALKED_TO_LISA",
+    "dynamic_line": "[no he didnt whats the plan]",
+    "responses": [ { "text": "[que expalnation of plan. u want in?]", "topic": "TALK_ISHERWOOD_LISA_JOIN_RESCUE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_LISA_JOIN_RESCUE",
+    "dynamic_line": "[heck yeah im in.]",
+    "responses": [
+      {
+        "text": "[sweet see u there]",
+        "effect": { "math": [ "isherwood_lisa_coming", "=", "1" ] },
+        "//": "This is temporary.  Lisa should join Chris at the tower with an EOC spawn.",
+        "topic": "TALK_DONE"
+      }
     ]
   }
 ]

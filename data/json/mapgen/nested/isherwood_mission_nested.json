@@ -100,6 +100,30 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "isherwood_barry_chris_spawn",
+    "object": { "mapgensize": [ 1, 1 ], "place_npcs": [ { "class": "isherwood_chris_copy", "x": 1, "y": 1 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "isherwood_barry_chris_swat_spawn",
+    "object": { "mapgensize": [ 1, 1 ], "place_npcs": [ { "class": "isherwood_chris_swat_copy", "x": 1, "y": 1 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "isherwood_barry_lisa_spawn",
+    "object": { "mapgensize": [ 1, 1 ], "place_npcs": [ { "class": "isherwood_lisa_copy", "x": 1, "y": 1 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "isherwood_barry_lisa_swat_spawn",
+    "object": { "mapgensize": [ 1, 1 ], "place_npcs": [ { "class": "isherwood_lisa_swat_copy", "x": 1, "y": 1 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "isherwood_barry_riot_drop",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -132,6 +156,30 @@
       ],
       "remove_vehicles": [ { "vehicles": [ "extended_pickup" ], "x": [ 0, 23 ], "y": [ 0, 23 ] } ]
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "nest_Isherwood_chris_add",
+    "object": { "place_nested": [ { "chunks": [ "isherwood_barry_chris_spawn" ], "x": 12, "y": 18 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "nest_Isherwood_chris_swat_add",
+    "object": { "place_nested": [ { "chunks": [ "isherwood_barry_chris_swat_spawn" ], "x": 12, "y": 18 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "nest_Isherwood_lisa_add",
+    "object": { "place_nested": [ { "chunks": [ "isherwood_barry_lisa_spawn" ], "x": 12, "y": 18 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "nest_Isherwood_lisa_swat_add",
+    "object": { "place_nested": [ { "chunks": [ "isherwood_barry_lisa_swat_spawn" ], "x": 7, "y": 18 } ] }
   },
   {
     "type": "mapgen",

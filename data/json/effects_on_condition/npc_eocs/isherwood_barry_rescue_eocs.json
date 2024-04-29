@@ -4,6 +4,58 @@
     "id": "isherwood_mission_initialization_eoc",
     "effect": [
       {
+        "if": { "math": [ "isherwood_family_coming", "==", "1" ] },
+        "then": {
+          "run_eocs": [ "isherwood_mission_family_included_eoc", "isherwood_mission_chris_spawn_eoc", "isherwood_mission_lisa_spawn_eoc" ]
+        },
+        "else": {
+          "if": { "math": [ "isherwood_family_coming", "==", "0" ] },
+          "then": { "run_eocs": [ "isherwood_mission_chris_spawn_eoc", "isherwood_mission_lisa_spawn_eoc" ] }
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "isherwood_mission_chris_spawn_eoc",
+    "effect": [
+      {
+        "if": { "math": [ "isherwood_gear_status", "==", "1" ] },
+        "then": {
+          "mapgen_update": "nest_Isherwood_chris_swat_add",
+          "om_terrain": "rural_road",
+          "om_special": "Barry's Mi-Go Scout Tower"
+        },
+        "else": {
+          "if": { "math": [ "isherwood_gear_status", "!=", "1" ] },
+          "then": { "mapgen_update": "nest_Isherwood_chris_add", "om_terrain": "rural_road", "om_special": "Barry's Mi-Go Scout Tower" }
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "isherwood_mission_lisa_spawn_eoc",
+    "effect": [
+      {
+        "if": { "and": [ { "math": [ "isherwood_lisa_coming", "==", "1" ] }, { "math": [ "isherwood_gear_status", "==", "1" ] } ] },
+        "then": {
+          "mapgen_update": "nest_Isherwood_lisa_swat_add",
+          "om_terrain": "rural_road",
+          "om_special": "Barry's Mi-Go Scout Tower"
+        },
+        "else": {
+          "if": { "and": [ { "math": [ "isherwood_lisa_coming", "==", "1" ] }, { "math": [ "isherwood_gear_status", "!=", "1" ] } ] },
+          "then": { "mapgen_update": "nest_Isherwood_lisa_add", "om_terrain": "rural_road", "om_special": "Barry's Mi-Go Scout Tower" }
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "isherwood_mission_family_included_eoc",
+    "effect": [
+      {
         "u_location_variable": { "global_val": "invasion_map" },
         "target_params": { "om_terrain": "barry_mi-go_scout_tower_1", "search_range": 500, "z": 0 }
       },
@@ -25,18 +77,18 @@
               "om_terrain": "rural_road",
               "om_special": "Barry's Mi-Go Scout Tower"
             }
-          ],
-          "else": {
-            "if": { "math": [ "isherwood_wall_status", "==", "1" ] },
-            "then": [
-              {
-                "mapgen_update": "nest_Isherwood_firing_wall_add",
-                "om_terrain": "rural_road",
-                "om_special": "Barry's Mi-Go Scout Tower"
-              }
-            ]
-          }
+          ]
         }
+      },
+      {
+        "if": { "math": [ "isherwood_wall_status", "==", "1" ] },
+        "then": [
+          {
+            "mapgen_update": "nest_Isherwood_firing_wall_add",
+            "om_terrain": "rural_road",
+            "om_special": "Barry's Mi-Go Scout Tower"
+          }
+        ]
       },
       {
         "u_location_variable": { "global_val": "invasion_map_proper_place" },
@@ -52,5 +104,10 @@
     "type": "effect_on_condition",
     "id": "isherwood_mission_wall_finished",
     "effect": [ { "math": [ "isherwood_wall_status", "=", "1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "isherwood_mission_lisa_coming",
+    "effect": [ { "math": [ "isherwood_lisa_coming", "=", "1" ] } ]
   }
 ]
