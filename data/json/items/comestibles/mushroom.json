@@ -15,8 +15,8 @@
   {
     "type": "COMESTIBLE",
     "id": "mushroom_ketchup",
-    "name": { "str": "mushroom ketchup" },
-    "description": "TBD.",
+    "name": { "str_sp": "mushroom ketchup" },
+    "description": "A savory condiment made from mushrooms.",
     "material": [ "mushroom" ],
     "symbol": "~",
     "color": "brown",
