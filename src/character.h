@@ -7,16 +7,15 @@
 #include <climits>
 #include <cstdint>
 #include <functional>
-#include <iosfwd>
 #include <limits>
 #include <list>
 #include <map>
-#include <new>
+#include <memory>
 #include <optional>
+#include <queue>
 #include <set>
 #include <string>
 #include <type_traits>
-#include <queue>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
@@ -25,77 +24,86 @@
 #include "activity_tracker.h"
 #include "activity_type.h"
 #include "addiction.h"
+#include "body_part_set.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character_attire.h"
 #include "character_id.h"
-#include "city.h"
+#include "city.h"  // IWYU pragma: keep
+#include "compatibility.h"
 #include "coordinates.h"
+#include "craft_command.h"
 #include "creature.h"
 #include "damage.h"
-#include "debug.h"
 #include "enums.h"
 #include "flat_set.h"
 #include "game_constants.h"
+#include "inventory.h"
 #include "item.h"
 #include "item_location.h"
-#include "item_pocket.h"
 #include "magic_enchantment.h"
-#include "memory_fast.h"
 #include "pimpl.h"
 #include "player_activity.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "ranged.h"
 #include "ret_val.h"
+#include "safe_reference.h"
 #include "stomach.h"
 #include "string_formatter.h"
+#include "subbodypart.h"
 #include "type_id.h"
-#include "units_fwd.h"
+#include "units.h"
 #include "visitable.h"
 #include "weakpoint.h"
 #include "weighted_list.h"
 
-class Character;
 class JsonObject;
 class JsonOut;
 class SkillLevel;
 class SkillLevelMap;
+class activity_actor;
 class basecamp;
 class bionic_collection;
 class character_martial_arts;
-class craft_command;
 class dispersion_sources;
 class effect;
 class effect_source;
 class faction;
-class inventory;
+class item_pocket;
 class known_magic;
 class ma_technique;
 class map;
 class monster;
 class nc_color;
-class npc;
 class player_morale;
+class profession;
 class proficiency_set;
+class recipe;
 class recipe_subset;
 class spell;
 class ui_adaptor;
-class vpart_reference;
 class vehicle;
+class vpart_reference;
+namespace catacurses
+{
+class window;
+}  // namespace catacurses
 struct bionic;
 struct construction;
 struct dealt_projectile_attack;
 struct display_proficiency;
+struct field_immunity_data;
 /// @brief Item slot used to apply modifications from food and meds
 struct islot_comestible;
 struct item_comp;
 struct itype;
 struct mutation_branch;
+struct mutation_category_trait;
 struct mutation_variant;
-struct needs_rates;
 struct pathfinding_settings;
-struct points_left;
+struct projectile;
 struct requirement_data;
 struct tool_comp;
 struct trait_and_var;
@@ -2273,7 +2281,7 @@ class Character : public Creature, public visitable
         bool can_pickVolume( const item &it, bool safe = false, const item *avoid = nullptr,
                              bool ignore_pkt_settings = true ) const;
         bool can_pickVolume_partial( const item &it, bool safe = false, const item *avoid = nullptr,
-                                     bool ignore_pkt_settings = true ) const;
+                                     bool ignore_pkt_settings = true, bool is_pick_up_inv = false ) const;
         bool can_pickWeight( const item &it, bool safe = true ) const;
         bool can_pickWeight_partial( const item &it, bool safe = true ) const;
 
@@ -3121,7 +3129,7 @@ class Character : public Creature, public visitable
          *  @param gun item to fire (which does not necessary have to be in the players possession)
          *  @return number of shots actually fired
          */
-        int fire_gun( const tripoint &target, int shots, item &gun );
+        int fire_gun( const tripoint &target, int shots, item &gun, item_location ammo = item_location() );
         /** Execute a throw */
         dealt_projectile_attack throw_item( const tripoint &target, const item &to_throw,
                                             const std::optional<tripoint> &blind_throw_from_pos = std::nullopt );
@@ -3467,9 +3475,8 @@ class Character : public Creature, public visitable
         int last_batch;
 
         // Returns true if the character knows the recipe, is near a book or device
-        // providing the recipe or a nearby Character knows it.
-        bool has_recipe( const recipe *r, const inventory &crafting_inv,
-                         const std::vector<Character *> &helpers ) const;
+        // providing the recipe or a nearby allied Character knows it.
+        bool has_recipe( const recipe *r ) const;
         bool knows_recipe( const recipe *rec ) const;
         void learn_recipe( const recipe *rec );
         void forget_recipe( const recipe *rec );
@@ -3487,6 +3494,7 @@ class Character : public Creature, public visitable
         recipe_subset get_recipes_from_books( const inventory &crafting_inv ) const;
         /** Returns all recipes that are known from the books inside ereaders (either in inventory or nearby). */
         recipe_subset get_recipes_from_ebooks( const inventory &crafting_inv ) const;
+    protected:
         /**
           * Return all available recipes (from books and companions)
           * @param crafting_inv Current available items to craft
@@ -3494,6 +3502,11 @@ class Character : public Creature, public visitable
           */
         recipe_subset get_available_recipes( const inventory &crafting_inv,
                                              const std::vector<Character *> *helpers = nullptr ) const;
+    public:
+        /**
+          * Return all available recipes for any member of `this` crafter's group. Using `this` inventory.
+          */
+        recipe_subset get_group_available_recipes() const;
         /**
           * Returns the set of book types in crafting_inv that provide the
           * given recipe.

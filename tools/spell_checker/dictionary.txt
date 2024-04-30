@@ -629,6 +629,8 @@ bioelectricity
 bioforms
 biofuel
 biofuels
+biogas
+biogases
 biohacker
 biohazard
 biohazardous
@@ -798,6 +800,7 @@ Breece
 Breedlove
 Bren
 Brenda
+Breton
 Brett
 brewable
 Brewster
@@ -1895,6 +1898,7 @@ Fairbairn
 Fairhaven
 FAL
 Fala
+falcarius
 falcata
 Falmouth
 falx
@@ -3174,6 +3178,7 @@ kPa
 krabgek
 krabgeks
 Krag
+krampouezh
 krar
 krars
 Krav
@@ -3916,6 +3921,7 @@ Monegasque
 Mongolian
 Monica
 Monoco
+monocrop
 monocrystalline
 monogyna
 monometal
@@ -4118,10 +4124,14 @@ Nazirite
 Nazirites
 Nazis
 NBC
+ncrease
+nd
 NDA
+ndo
 Neal
 Nebraska
 NECC
+nearsightedness
 necco
 neccos
 neckbeard
@@ -4153,6 +4163,8 @@ Neptune
 nerf
 nerfs
 Nero
+nestmate
+nestmates
 netherium
 nethermancer
 nethermancers

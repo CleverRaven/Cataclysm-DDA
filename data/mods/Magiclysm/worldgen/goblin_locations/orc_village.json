@@ -40,13 +40,13 @@
       { "item": "human_tallow", "prob": 2 },
       { "item": "bone_human", "prob": 20 },
       { "item": "human_lard", "prob": 15 },
-      { "item": "wastebread", "count-max": 8, "prob": 70 },
-      { "item": "dry_fruit", "count-max": 8, "prob": 70 },
-      { "item": "dry_veggy", "count-max": 8, "prob": 70 },
-      { "item": "meat_salted", "components": [ "human_flesh", "salt" ], "count-max": 3, "prob": 50 },
-      { "item": "meat_salted", "count-max": 8, "prob": 50 },
-      { "item": "meat_smoked", "components": [ "human_flesh" ], "count-max": 3, "prob": 70 },
-      { "item": "meat_smoked", "count-max": 8, "prob": 50 }
+      { "item": "wastebread", "count": [ 0, 8 ], "prob": 70 },
+      { "item": "dry_fruit", "count": [ 0, 8 ], "prob": 70 },
+      { "item": "dry_veggy", "count": [ 0, 8 ], "prob": 70 },
+      { "item": "meat_salted", "components": [ "human_flesh", "salt" ], "count": [ 0, 3 ], "prob": 50 },
+      { "item": "meat_salted", "count": [ 0, 8 ], "prob": 50 },
+      { "item": "meat_smoked", "components": [ "human_flesh" ], "count": [ 0, 3 ], "prob": 70 },
+      { "item": "meat_smoked", "count": [ 0, 8 ], "prob": 50 }
     ]
   },
   {
@@ -55,15 +55,15 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "group": "orc_village_foodstuffs", "count-max": 3, "prob": 70 },
+      { "group": "orc_village_foodstuffs", "count": [ 0, 3 ], "prob": 70 },
       { "item": "spell_scroll_bio_bonespear", "prob": 1 },
-      { "item": "arrow_wood_heavy", "count-max": 5, "prob": 40 },
+      { "item": "arrow_wood_heavy", "count": [ 0, 5 ], "prob": 40 },
       { "item": "bone_knife", "prob": 40 },
       { "item": "bowl_skull", "prob": 30 },
       { "item": "bowl_wood", "prob": 60 },
       { "item": "skewer_bone", "prob": 20 },
       { "item": "copper_ax", "prob": 10 },
-      { "item": "throwing_axe", "count-min": 2, "count-max": 8, "prob": 10 },
+      { "item": "throwing_axe", "count": [ 2, 8 ], "prob": 10 },
       { "item": "spear_wood", "prob": 10 },
       { "item": "spear_copper", "prob": 10 }
     ]

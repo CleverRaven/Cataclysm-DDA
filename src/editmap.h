@@ -3,16 +3,15 @@
 #define CATA_SRC_EDITMAP_H
 
 #include <functional>
-#include <iosfwd>
 #include <map>
 #include <memory>
 #include <optional>
+#include <string>
 #include <vector>
 
 #include "color.h"
 #include "coordinates.h"
 #include "cursesdef.h"
-#include "memory_fast.h"
 #include "point.h"
 #include "type_id.h"
 

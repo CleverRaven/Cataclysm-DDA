@@ -2,7 +2,8 @@
   {
     "type": "npc",
     "id": "isherwood_chris",
-    "//": "Part of the Isherwood family.",
+    "//": "Part of the Isherwood family.  Does not spawn until you get a mission from Carlos to track him down.",
+    "//2": "Son of Carlos and Jesse, nephew of Eddie.  Brother of Lisa, cousin of Luke.  Grandson of Claire and Jack, great-nephew of Barry.",
     "name_unique": "Chris Isherwood",
     "gender": "male",
     "class": "NC_ISHERWOOD_CHRIS",
@@ -37,38 +38,52 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_ISHERWOOD_CHRIS",
-    "dynamic_line": {
-      "u_is_wearing": "badge_marshal",
-      "yes": "I see that badge.  You need to leave our land, my relatives have no fondness for Marshals.",
-      "no": "Hi, what's up?"
-    },
+    "id": [ "TALK_ISHERWOOD_CHRIS" ],
     "responses": [
-      {
-        "text": "…",
-        "topic": "TALK_LEAVE_NOW_MARSHAL_CHRIS",
-        "opinion": { "trust": -20, "value": -20 },
-        "condition": { "u_is_wearing": "badge_marshal" }
-      },
       {
         "text": "Hi, Your dad asked me to come find you, said you've been looking for your uncle.",
         "topic": "TALK_ISHERWOOD_CHRIS_TALK1",
-        "effect": { "u_add_var": "u_met_chris_isherwood", "type": "general", "context": "meeting", "value": "yes" }
+        "effect": [ { "u_add_var": "u_met_Chris_Isherwood", "value": "yes" }, { "u_add_var": "u_met_an_isherwood", "value": "yes" } ]
       },
       {
         "text": "I was talking to Luke earlier, said you had some interesting ideas about the world ending.  Is it tied to Barry's abduction?",
         "topic": "TALK_CHRIS_THEORIES",
         "condition": {
-          "and": [
-            { "not": { "u_is_wearing": "badge_marshal" } },
-            { "u_has_var": "u_heard_about_chris", "type": "general", "context": "meeting", "value": "yes" }
-          ]
+          "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "u_has_var": "u_heard_about_chris_ideas", "value": "yes" } ]
         }
       },
       {
         "text": "I'd better get going.",
         "topic": "TALK_DONE",
         "condition": { "not": { "u_is_wearing": "badge_marshal" } }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_CHRIS",
+    "dynamic_line": {
+      "concatenate": [
+        "*is a young man, perhaps in his early twenties or late teens.  He eyes you up and down.  \"",
+        {
+          "u_is_wearing": "badge_marshal",
+          "yes": "I see that badge.  You need to leave our land, my relatives have no fondness for Marshals.\"",
+          "no": {
+            "u_has_var": "isherwood_chris_marshal_badge",
+            "value": "seen",
+            "yes": "I see you took the badge off.  Fine, then, but you'd better not let anyone here know you've got ties to the Marshals.\"",
+            "no": "Hi, what's up?\""
+          }
+        }
+      ]
+    },
+    "responses": [
+      {
+        "text": "…(Leave)",
+        "topic": "TALK_LEAVE_NOW_MARSHAL_CHRIS",
+        "effect": { "u_add_var": "isherwood_chris_marshal_badge", "value": "seen" },
+        "opinion": { "trust": -5, "value": -5 },
+        "condition": { "u_is_wearing": "badge_marshal" }
       }
     ]
   },
@@ -82,12 +97,7 @@
       {
         "text": "I was talking to Luke earlier, said you had some interesting ideas about the world ending.",
         "topic": "TALK_CHRIS_THEORIES",
-        "condition": {
-          "and": [
-            { "not": { "u_is_wearing": "badge_marshal" } },
-            { "u_has_var": "u_heard_about_chris", "type": "general", "context": "meeting", "value": "yes" }
-          ]
-        }
+        "condition": { "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "u_has_var": "u_heard_about_chris", "value": "yes" } ] }
       },
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }

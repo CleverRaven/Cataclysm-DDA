@@ -3,8 +3,9 @@
 #define CATA_SRC_AMMO_EFFECT_H
 
 #include <cstddef>
-#include <iosfwd>
 #include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
 #include "explosion.h"
@@ -12,6 +13,8 @@
 #include "type_id.h"
 
 class JsonObject;
+struct ammo_effect;
+template <typename T> class generic_factory;
 
 generic_factory<ammo_effect> &get_all_ammo_effects();
 

@@ -180,6 +180,19 @@
   },
   {
     "type": "effect_type",
+    "id": "synth_blood_permanent",
+    "name": [ "Synthblood" ],
+    "desc": [
+      "Your breaths instinctively grow shallow as the synthetic blood carries oxygen throughout your body, increasing your speed, stamina, and general endurance."
+    ],
+    "removes_effects": [ "synth_blood_perf" ],
+    "rating": "good",
+    "base_mods": { "speed_mod": [ 15 ], "str_mod": [ 1 ], "dex_mod": [ 1 ] },
+    "blood_analysis_description": "Synthetic blood",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
     "id": "afs_isohypsa_overwatch",
     "name": [ "Isohypsa Overwatch" ],
     "desc": [

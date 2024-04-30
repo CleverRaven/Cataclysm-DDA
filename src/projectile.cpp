@@ -48,6 +48,7 @@ projectile &projectile::operator=( const projectile &other )
     speed = other.speed;
     range = other.range;
     count = other.count;
+    multi_projectile_effects = other.multi_projectile_effects;
     shot_spread = other.shot_spread;
     shot_impact = other.shot_impact;
     proj_effects = other.proj_effects;

@@ -3,15 +3,22 @@
 #define CATA_SRC_CONDITION_H
 
 #include <functional>
-#include <iosfwd>
+#include <optional>
 #include <string>
+#include <string_view>
 #include <unordered_set>
 
-#include "dialogue.h"
+#include "calendar.h"
+#include "coordinates.h"
 #include "dialogue_helpers.h"
-#include "mission.h"
+#include "global_vars.h"
 
 class JsonObject;
+class JsonValue;
+class translation;
+struct dialogue;
+template <typename T> struct enum_traits;
+
 namespace dialogue_data
 {
 const std::unordered_set<std::string> &simple_string_conds();
