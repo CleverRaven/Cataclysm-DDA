@@ -215,7 +215,7 @@ class talker
         virtual int get_spell_count( const trait_id & ) const {
             return 0;
         }
-        virtual int get_spell_sum( const trait_id &school, int spell_limit ) const {
+        virtual int get_spell_sum( const trait_id &, int ) const {
             return 0;
         }
         virtual void set_spell_level( const spell_id &, int ) {}
