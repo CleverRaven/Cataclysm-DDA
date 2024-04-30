@@ -39,7 +39,7 @@
         "..................---..."
       ],
       "terrain": {
-        "{": "t_railing_v",
+        "{": "t_railing",
         ",": "t_floor_noroof",
         "Y": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
         "W": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },

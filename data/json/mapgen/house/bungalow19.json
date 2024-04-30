@@ -39,7 +39,7 @@
         "........................"
       ],
       "terrain": {
-        "}": "t_railing_v",
+        "}": "t_railing",
         "®": "t_carpet_green",
         "l": "t_carpet_green",
         "=": "t_floor_noroof",

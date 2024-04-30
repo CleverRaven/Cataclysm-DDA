@@ -34,7 +34,7 @@
       ],
       "terrain": {
         "+": "t_door_metal_locked",
-        "-": "t_chainfence_v",
+        "-": "t_chainfence",
         ".": "t_pavement",
         "6": "t_gates_mech_control",
         "R": "t_pavement_y",
@@ -169,7 +169,7 @@
         "^": "t_sidewalk",
         "I": "t_sidewalk",
         "+": "t_door_metal_locked",
-        "-": "t_chainfence_v",
+        "-": "t_chainfence",
         ".": "t_pavement",
         "6": "t_gates_mech_control",
         "_": "t_thconc_floor",

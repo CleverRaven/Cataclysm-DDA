@@ -106,7 +106,7 @@
     "id": "f_xedra_antenna",
     "name": "mobile antenna",
     "symbol": "1",
-    "looks_like": "f_small_satelitte_dish",
+    "looks_like": "f_small_satellite_dish",
     "description": "A stark black directional antenna, seemingly part of a monitoring setup.  An LED mounted on its back lights up with a lazy and irregular rhythm.",
     "color": "dark_gray",
     "move_cost_mod": 1,

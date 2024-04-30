@@ -44,7 +44,7 @@
         "-": "t_concrete",
         ",": "t_floor_noroof",
         "0": [ [ "t_shrub", 2 ], "t_shrub_strawberry", "t_shrub_blueberry" ],
-        "(": "t_railing_v",
+        "(": "t_railing",
         "{": "t_door_metal_locked",
         "?": "t_gates_mech_control",
         "`": "t_carpet_green",

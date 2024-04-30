@@ -120,7 +120,7 @@
     "//3": "There are extensive secret rooms which might contain a lot of treasure in the non-looted version.",
     "object": {
       "faction_owner": [ { "id": "whately_family", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
-      "fill_ter": "t_carpet_metal",
+      "fill_ter": "t_carpet_metal_yellow",
       "rows": [
         "##|||||#################",
         "##|,,<|||||||###########",
@@ -165,7 +165,7 @@
       "+": "t_door_metal_c",
       "-": "t_scrap_wall",
       "_": "t_metal_floor",
-      ",": "t_carpet_metal",
+      ",": "t_carpet_metal_yellow",
       "1": "t_column",
       "<": "t_stairs_up",
       ">": "t_stairs_down",

@@ -51,8 +51,8 @@
       "d": "t_door_locked",
       "a": "t_atm",
       "w": "t_window",
-      "-": "t_railing_h",
-      "R": "t_railing_h",
+      "-": "t_railing",
+      "R": "t_railing",
       "<": "t_ladder_up"
     }
   }

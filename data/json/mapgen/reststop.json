@@ -60,7 +60,7 @@
         ".": "t_pavement",
         "1": "t_pavement",
         "2": "t_pavement",
-        "_": "t_zebra_h",
+        "_": "t_zebra",
         " ": "t_thconc_floor",
         "+": "t_door_c",
         ",": "t_region_groundcover",

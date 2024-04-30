@@ -16,7 +16,7 @@
       "D": "t_door_metal_locked",
       "E": "t_elevator_control",
       "T": "t_region_tree_shade",
-      "[": "t_fence_v",
+      "[": "t_fence",
       "_": "t_pavement",
       "c": "t_door_locked",
       "e": "t_elevator",

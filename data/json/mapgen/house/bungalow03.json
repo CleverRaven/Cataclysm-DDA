@@ -41,7 +41,7 @@
       "terrain": {
         ",": "t_floor_noroof",
         "'": "t_shrub_lilac",
-        "!": "t_railing_v",
+        "!": "t_railing",
         "_": "t_carpet_green",
         "W": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "Z": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" }

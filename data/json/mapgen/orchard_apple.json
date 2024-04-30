@@ -7,7 +7,7 @@
     "object": {
       "fill_ter": "t_metal_floor",
       "rows": [
-        "QQQQQQQQQQQQQQQQQQQQQQQQ",
+        "qqqqqqqqqqqqqqqqqqqqqqqq",
         "q                      q",
         "q                      q",
         "q                      q",
@@ -86,7 +86,7 @@
         "q  ****btb  WXO,,,,,gW q",
         "q7 ****btb 7WWW=====WW q",
         "q *********   g*****dd q",
-        "QQQQ***QQQQQQQQ*****QQQQ"
+        "qqqq***qqqqqqqq*****qqqq"
       ],
       "palettes": [ "orchard_buildings" ],
       "place_signs": [ { "signage": "Get Apples n Ciders!", "x": 13, "y": 17 } ],

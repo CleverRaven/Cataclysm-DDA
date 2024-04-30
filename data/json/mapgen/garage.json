@@ -288,7 +288,7 @@
         "H": "t_wall_glass",
         "e": "t_gates_mech_control",
         "|": "t_wall_b",
-        "W": "t_chainfence_h",
+        "W": "t_chainfence",
         "^": "t_chaingate_c",
         "M": "t_metal_floor",
         "#": "t_grate",

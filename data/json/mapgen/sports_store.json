@@ -52,7 +52,7 @@
         "h": "f_stool",
         "t": [ "f_treadmill", "f_treadmill_mechanical" ],
         "e": [ "f_ergometer", "f_ergometer_mechanical" ],
-        "p": "f_floor_canvas",
+        "p": "f_punching_bag",
         "m": "f_exercise",
         "%": "f_sink",
         "@": "f_mannequin",

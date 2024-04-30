@@ -39,7 +39,7 @@
         "........................"
       ],
       "terrain": {
-        "?": "t_railing_v",
+        "?": "t_railing",
         "K": "t_concrete",
         "₸": "t_concrete",
         "W": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },

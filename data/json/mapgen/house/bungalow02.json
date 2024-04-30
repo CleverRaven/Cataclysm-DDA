@@ -40,7 +40,7 @@
       ],
       "terrain": {
         "'": "t_floor_noroof",
-        "0": "t_railing_v",
+        "0": "t_railing",
         "}": "t_door_metal_locked",
         ",": "t_gates_mech_control",
         "_": "t_thconc_floor",

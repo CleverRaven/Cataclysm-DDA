@@ -324,7 +324,7 @@
     "description": "A large wall-mounted panel, covered with fragile metal sheets that regulate airflow.",
     "symbol": "=",
     "color": "light_gray",
-    "looks_like": "t_chainfence_v",
+    "looks_like": "t_chainfence",
     "move_cost": 0,
     "coverage": 90,
     "flags": [ "NOITEM", "WALL" ],

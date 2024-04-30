@@ -643,7 +643,7 @@
       ],
       "terrain": {
         "_": "t_concrete",
-        "-": "t_chainfence_v",
+        "-": "t_chainfence",
         "x": "t_region_groundcover_urban",
         " ": "t_region_groundcover_urban",
         "W": "t_water_pool",
