@@ -503,6 +503,7 @@ ter_t null_terrain_t()
     return new_terrain;
 }
 
+//Isn't storing these as four ints in the case of no seasonal variation (overwhelmingly the norm) really inefficient compared to one int for not seasonal and an optional array?
 template<typename C, typename F>
 void load_season_array( const JsonObject &jo, const std::string &key, const std::string &context,
                         C &container, F load_func )
@@ -575,29 +576,11 @@ void map_data_common_t::load_symbol( const JsonObject &jo, const std::string &co
     jo.read( "looks_like", looks_like );
 
     if( jo.has_member( "symbol" ) || !was_loaded ) {
-        if( jo.has_string( "symbol" ) ) {
+        load_season_array( jo, "symbol", context, symbol_, [&]( const std::string & /*str*/ ) {
             uint32_t symbol;
             mandatory( jo, was_loaded, "symbol", symbol, unicode_codepoint_from_symbol_reader );
-            symbol_.fill( symbol );
-        } else if( jo.has_array( "symbol" ) ) {
-            JsonArray arr = jo.get_array( "symbol" );
-            if( arr.size() == 1 ) {
-                uint32_t symbol;
-                mandatory( jo, was_loaded, "symbol", symbol, unicode_codepoint_from_symbol_reader );
-                symbol_.fill( symbol );
-
-            } else if( arr.size() == symbol_.size() ) {
-                for( auto &seasonal_symbol : symbol_ ) {
-                    uint32_t symbol;
-                    mandatory( jo, was_loaded, "symbol", symbol, unicode_codepoint_from_symbol_reader );
-                    seasonal_symbol = symbol;
-                }
-            } else {
-                jo.throw_error_at( "symbol", "Incorrect number of entries" );
-            }
-        } else {
-            jo.throw_error_at( "symbol", "Expected symbol to be string or array" );
-        }
+            return static_cast<int>( symbol );
+        } );
     }
 
     const bool has_color = jo.has_member( "color" );
