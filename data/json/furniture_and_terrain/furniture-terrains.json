@@ -203,6 +203,7 @@
     "coverage": 100,
     "description": "A pile of cardboard boxes that have been filled with rags and junk and stacked together like bricks to form a wall.  The largest box has been cut open and folded to form a makeshift door, which is open.",
     "required_str": -1,
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "NOITEM", "BLOCKSDOOR", "FLAMMABLE_ASH", "ORGANIC", "EASY_DECONSTRUCT", "BLOCK_WIND", "DOOR" ],
     "deconstruct": {
       "items": [
@@ -243,6 +244,7 @@
     "coverage": 100,
     "description": "A pile of cardboard boxes that have been filled with rags and junk and stacked together like bricks to form a wall.  The largest box has been cut open and folded to form a makeshift door, which is closed.",
     "required_str": -1,
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "NOITEM", "FLAMMABLE_ASH", "ORGANIC", "EASY_DECONSTRUCT", "BLOCK_WIND", "DOOR" ],
     "open": "f_cardboard_door_o",
     "deconstruct": {
@@ -285,6 +287,7 @@
     "move_cost_mod": 6,
     "coverage": 90,
     "required_str": -1,
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "NOITEM", "DOOR", "PERMEABLE", "FLAMMABLE_ASH", "MOUNTABLE" ],
     "open": "f_beaded_door_o",
     "deconstruct": {
@@ -523,6 +526,7 @@
     "move_cost_mod": -1,
     "coverage": 95,
     "required_str": -1,
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE_HARD", "NOITEM", "DOOR", "BLOCK_WIND", "SUN_ROOF_ABOVE" ],
     "connect_groups": "CANVAS_WALL",
     "connects_to": "CANVAS_WALL",
@@ -568,6 +572,7 @@
     "move_cost_mod": -1,
     "coverage": 95,
     "required_str": -1,
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE_HARD", "NOITEM", "DOOR", "BLOCK_WIND", "SUN_ROOF_ABOVE" ],
     "connect_groups": "CANVAS_WALL",
     "connects_to": "CANVAS_WALL",

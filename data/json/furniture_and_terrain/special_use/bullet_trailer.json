@@ -108,6 +108,7 @@
     "looks_like": "t_door_metal_c",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "DOOR", "NOITEM", "MINEABLE", "BLOCK_WIND", "SUPPORTS_ROOF" ],
     "open": "t_bullettrailer_swall_door_o",
     "copy-from": "t_bullettrailer_swall_westcorner"
@@ -121,6 +122,7 @@
     "looks_like": "t_door_metal_o",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "DOOR", "NOITEM", "MINEABLE", "BLOCK_WIND", "SUPPORTS_ROOF" ],
     "copy-from": "t_bullettrailer_swall_westcorner",
     "close": "t_bullettrailer_swall_door"
@@ -208,6 +210,7 @@
     "symbol": "|",
     "color": "light_gray",
     "coverage": 100,
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "NOITEM", "FLAMMABLE_ASH", "BLOCK_WIND", "REDUCE_SCENT", "DOOR" ],
     "looks_like": "t_door_metal_c",
     "open": "t_bullettrailer_inner_door_o",
@@ -235,6 +238,7 @@
     "coverage": 30,
     "looks_like": "t_door_metal_o",
     "description": "A gray textured door, rimmed in chrome, like a very tacky version of a ship's hatch.",
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "NOITEM", "FLAMMABLE_ASH", "BLOCK_WIND", "DOOR", "MOUNTABLE", "TRANSPARENT" ],
     "close": "t_bullettrailer_inner_door",
     "bash": {

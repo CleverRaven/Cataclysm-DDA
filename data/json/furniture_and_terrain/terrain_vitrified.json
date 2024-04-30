@@ -60,6 +60,7 @@
     "color": "cyan",
     "looks_like": "t_chaingate_c",
     "move_cost": 0,
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "DOOR", "PERMEABLE", "THIN_OBSTACLE", "BURROWABLE" ],
     "connect_groups": "CHAINFENCE",
     "connects_to": "CHAINFENCE",

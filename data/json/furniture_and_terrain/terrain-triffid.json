@@ -193,6 +193,7 @@
     "roof": "t_barkfloor_noroof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE_ASH", "DOOR", "NOITEM", "BARRICADABLE_DOOR", "BLOCK_WIND" ],
     "open": "t_bramble_door_o",
     "bash": {

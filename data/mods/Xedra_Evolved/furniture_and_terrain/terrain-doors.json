@@ -12,6 +12,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE", "NOITEM", "DOOR", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "open": "t_secretdoor_wall_o",
     "bash": {
@@ -213,6 +214,7 @@
     "roof": "t_metal_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "NOITEM", "DOOR", "LOCKED", "SUPPORTS_ROOF" ],
     "oxytorch": {
       "result": "t_mdoor_frame",

@@ -144,6 +144,7 @@
     "open": "t_afs_space_ship_hatch_o",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "NOITEM", "DOOR", "MINEABLE" ],
     "copy-from": "t_door_metal_lab_c",
     "bash": {
