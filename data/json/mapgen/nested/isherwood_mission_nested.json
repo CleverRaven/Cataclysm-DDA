@@ -101,25 +101,37 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "isherwood_barry_chris_spawn",
-    "object": { "mapgensize": [ 1, 1 ], "place_npcs": [ { "class": "isherwood_chris_copy", "x": 1, "y": 1 } ] }
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_npcs": [ { "class": "isherwood_chris_copy", "unique_id": "CHRIS_MISSION", "x": 1, "y": 1 } ]
+    }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "isherwood_barry_chris_swat_spawn",
-    "object": { "mapgensize": [ 1, 1 ], "place_npcs": [ { "class": "isherwood_chris_swat_copy", "x": 1, "y": 1 } ] }
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_npcs": [ { "class": "isherwood_chris_swat_copy", "unique_id": "CHRIS_MISSION", "x": 1, "y": 1 } ]
+    }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "isherwood_barry_lisa_spawn",
-    "object": { "mapgensize": [ 1, 1 ], "place_npcs": [ { "class": "isherwood_lisa_copy", "x": 1, "y": 1 } ] }
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_npcs": [ { "class": "isherwood_lisa_copy", "unique_id": "LISA_MISSION", "x": 1, "y": 1 } ]
+    }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "isherwood_barry_lisa_swat_spawn",
-    "object": { "mapgensize": [ 1, 1 ], "place_npcs": [ { "class": "isherwood_lisa_swat_copy", "x": 1, "y": 1 } ] }
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_npcs": [ { "class": "isherwood_lisa_swat_copy", "unique_id": "LISA_MISSION", "x": 1, "y": 1 } ]
+    }
   },
   {
     "type": "mapgen",
@@ -148,13 +160,31 @@
         { "class": "isherwood_eddie_copy", "x": [ 0, 23 ], "y": [ 0, 23 ] },
         { "class": "isherwood_luke_copy", "x": [ 0, 23 ], "y": [ 0, 23 ] },
         { "class": "isherwood_jesse_copy", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "class": "isherwood_chris_copy", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "class": "isherwood_lisa_copy", "x": [ 0, 23 ], "y": [ 0, 23 ] },
         { "class": "isherwood_carlos_swat_copy", "x": [ 0, 23 ], "y": [ 0, 23 ] },
         { "class": "isherwood_eddie_swat_copy", "x": [ 0, 23 ], "y": [ 0, 23 ] },
         { "class": "isherwood_luke_swat_copy", "x": [ 0, 23 ], "y": [ 0, 23 ] },
         { "class": "isherwood_jesse_swat_copy", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "class": "isherwood_chris_swat_copy", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "class": "isherwood_lisa_swat_copy", "x": [ 0, 23 ], "y": [ 0, 23 ] },
         { "class": "isherwood_barry", "x": [ 0, 23 ], "y": [ 0, 23 ] }
       ],
       "remove_vehicles": [ { "vehicles": [ "extended_pickup" ], "x": [ 0, 23 ], "y": [ 0, 23 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "remove_barry_and_company",
+    "method": "json",
+    "object": {
+      "remove_npcs": [
+        { "class": "isherwood_barry", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "class": "isherwood_chris_copy", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "class": "isherwood_lisa_copy", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "class": "isherwood_chris_swat_copy", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "class": "isherwood_lisa_swat_copy", "x": [ 0, 23 ], "y": [ 0, 23 ] }
+      ]
     }
   },
   {

@@ -217,7 +217,7 @@
     "class": "NC_ISHERWOOD_LISA",
     "attitude": 0,
     "mission": 7,
-    "chat": "TALK_ISHERWOOD_FAMILY_DUPLICATES",
+    "chat": "TALK_ISHERWOOD_FAMILY_DUPLICATES_CHRIS",
     "faction": "isherwood_family"
   },
   {
@@ -229,7 +229,7 @@
     "class": "NC_ISHERWOOD_LISA_SWAT",
     "attitude": 0,
     "mission": 7,
-    "chat": "TALK_ISHERWOOD_FAMILY_DUPLICATES",
+    "chat": "TALK_ISHERWOOD_FAMILY_DUPLICATES_CHRIS",
     "faction": "isherwood_family"
   },
   {
@@ -268,7 +268,7 @@
     "class": "NC_ISHERWOOD_CHRIS",
     "attitude": 0,
     "mission": 7,
-    "chat": "TALK_ISHERWOOD_FAMILY_DUPLICATES",
+    "chat": "TALK_ISHERWOOD_FAMILY_DUPLICATES_CHRIS",
     "faction": "isherwood_family"
   },
   {
@@ -280,7 +280,7 @@
     "class": "NC_ISHERWOOD_CHRIS_SWAT",
     "attitude": 0,
     "mission": 7,
-    "chat": "TALK_ISHERWOOD_FAMILY_DUPLICATES",
+    "chat": "TALK_ISHERWOOD_FAMILY_DUPLICATES_CHRIS",
     "faction": "isherwood_family"
   },
   {

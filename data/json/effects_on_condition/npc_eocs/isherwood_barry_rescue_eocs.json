@@ -9,8 +9,15 @@
           "run_eocs": [ "isherwood_mission_family_included_eoc", "isherwood_mission_chris_spawn_eoc", "isherwood_mission_lisa_spawn_eoc" ]
         },
         "else": {
-          "if": { "math": [ "isherwood_family_coming", "==", "0" ] },
-          "then": { "run_eocs": [ "isherwood_mission_chris_spawn_eoc", "isherwood_mission_lisa_spawn_eoc" ] }
+          "if": { "math": [ "isherwood_family_coming", "!=", "1" ] },
+          "then": [
+            {
+              "u_location_variable": { "global_val": "invasion_map" },
+              "target_params": { "om_terrain": "barry_mi-go_scout_tower_1", "search_range": 500, "z": 0 }
+            },
+            { "u_teleport": { "global_val": "invasion_map" }, "force": true },
+            { "run_eocs": [ "isherwood_mission_chris_spawn_eoc", "isherwood_mission_lisa_spawn_eoc" ] }
+          ]
         }
       }
     ]
@@ -109,5 +116,47 @@
     "type": "effect_on_condition",
     "id": "isherwood_mission_lisa_coming",
     "effect": [ { "math": [ "isherwood_lisa_coming", "=", "1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "isherwood_mission_barry_return_home",
+    "global": true,
+    "eoc_type": "EVENT",
+    "required_event": "avatar_enters_omt",
+    "condition": {
+      "and": [
+        { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" },
+        { "u_has_var": "barry_following", "type": "general", "context": "meeting", "value": "yes" },
+        { "u_near_om_location": "horse_farm_isherwood_13", "range": 17 }
+      ]
+    },
+    "effect": [
+      { "finish_mission": "MISSION_ISHERWOOD_CHRIS_1", "success": true },
+      {
+        "u_message": "Barry turns about and tells you, \"I know where I am now, I'll go on ahead.  They'll be so happy to see me, thank you for everything!  Come drop by the farm sometime, we'll have something for you!\"",
+        "type": "good",
+        "popup": true
+      },
+      {
+        "u_run_npc_eocs": [
+          {
+            "id": "EOC_BARRY_LEAVE",
+            "effect": [
+              {
+                "u_location_variable": { "global_val": "invasion_map" },
+                "target_params": { "om_terrain": "barry_mi-go_scout_tower_1", "search_range": 500, "z": 0 }
+              },
+              { "u_teleport": { "global_val": "invasion_map" }, "force": true },
+              {
+                "mapgen_update": "remove_barry_and_company",
+                "om_terrain": "barry_mi-go_scout_tower_1",
+                "om_special": "Barry's Mi-Go Scout Tower"
+              }
+            ]
+          }
+        ],
+        "unique_ids": [ "BARRY_MISSION", "CHRIS_MISSION", "LISA_MISSION" ]
+      }
+    ]
   }
 ]
