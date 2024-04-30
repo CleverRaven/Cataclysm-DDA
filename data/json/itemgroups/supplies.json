@@ -504,8 +504,8 @@
       { "item": "nitrogen_tank", "prob": 7, "charges": [ 12, 24 ] },
       { "item": "hydrogen_tank", "prob": 8, "charges": [ 12, 24 ] },
       { "item": "polycarbonate_sheet", "prob": 7, "count": [ 1, 30 ] },
-      { "prob": 10, "group": "salt_bag_plastic_100" },
-      { "prob": 10, "group": "sugar_packed" },
+      { "prob": 10, "group": "salt_bag_plastic" },
+      { "prob": 10, "group": "sugar_bag_plastic" },
       { "item": "chem_ethanol", "prob": 10, "charges": [ 250, -1 ] },
       [ "oxygen_cylinder", 8 ],
       { "prob": 16, "group": "chem_citric_acid_bottle_glass_100_inf" },
@@ -904,7 +904,7 @@
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_small",
-    "entries": [ { "item": "chem_peptone_broth", "container-item": "null", "count-min": 1 } ]
+    "entries": [ { "item": "chem_peptone_broth", "container-item": "null", "count": [ 1, -1 ] } ]
   },
   {
     "type": "item_group",
@@ -912,7 +912,7 @@
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_small",
-    "entries": [ { "item": "chem_agar", "container-item": "null", "count-min": 1 } ]
+    "entries": [ { "item": "chem_agar", "container-item": "null", "count": [ 1, -1 ] } ]
   },
   {
     "type": "item_group",
@@ -920,7 +920,7 @@
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_glass",
-    "entries": [ { "item": "chem_acrylamide", "container-item": "null", "count-min": 1 } ]
+    "entries": [ { "item": "chem_acrylamide", "container-item": "null", "count": [ 1, -1 ] } ]
   },
   {
     "id": "hair_dye",

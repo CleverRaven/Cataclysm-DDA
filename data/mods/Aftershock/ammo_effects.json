@@ -40,5 +40,10 @@
     "id": "SEISMIC_MAPPING",
     "type": "ammo_effect",
     "aoe": { "field_type": "fd_clairvoyant", "intensity_min": 10, "intensity_max": 10 }
+  },
+  {
+    "id": "MULTI_EFFECTS",
+    "type": "ammo_effect",
+    "//": "Applies multi_projectile_effects to all ammo used by this weapon, even if the ammo doesn't normally have it. Hardcoded in projectile_attack (ranged.cpp)"
   }
 ]

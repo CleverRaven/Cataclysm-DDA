@@ -185,7 +185,7 @@
       { "group": "naproxen_ad_group", "prob": 50 },
       { "group": "codeine_ad_group", "prob": 60 },
       { "group": "tramadol_ad_group", "prob": 60 },
-      { "item": "morphine", "count-min": 1, "count-max": 12, "container-item": "null", "prob": 10 },
+      { "item": "morphine", "count": [ 1, 12 ], "container-item": "null", "prob": 10 },
       { "group": "oxycodone_ad_group", "prob": 200 }
     ]
   },
@@ -255,9 +255,9 @@
     "subtype": "distribution",
     "entries": [
       { "group": "bfipowder_bottle_plastic_5_60", "prob": 100 },
-      { "item": "dayquil", "count-min": 1, "count-max": 30, "container-item": "bottle_plastic", "prob": 50 },
-      { "item": "nyquil", "count-min": 1, "count-max": 30, "container-item": "bottle_plastic", "prob": 50 },
-      { "item": "flu_shot", "count-min": 1, "count-max": 10, "container-item": "null", "prob": 50 }
+      { "item": "dayquil", "count": [ 1, 30 ], "container-item": "bottle_plastic", "prob": 50 },
+      { "item": "nyquil", "count": [ 1, 30 ], "container-item": "bottle_plastic", "prob": 50 },
+      { "item": "flu_shot", "count": [ 1, 10 ], "container-item": "null", "prob": 50 }
     ]
   },
   {
@@ -764,33 +764,33 @@
     "entries": [
       {
         "distribution": [
-          { "item": "vitamins", "container-item": "null", "count-min": 5, "count-max": 7, "prob": 60 },
-          { "item": "gummy_vitamins", "container-item": "null", "count-min": 5, "count-max": 7, "prob": 20 },
-          { "item": "calcium_tablet", "container-item": "null", "count-min": 5, "count-max": 7, "prob": 20 }
+          { "item": "vitamins", "container-item": "null", "count": [ 5, 7 ], "prob": 60 },
+          { "item": "gummy_vitamins", "container-item": "null", "count": [ 5, 7 ], "prob": 20 },
+          { "item": "calcium_tablet", "container-item": "null", "count": [ 5, 7 ], "prob": 20 }
         ],
         "prob": 90
       },
-      { "item": "homeopathic_pills", "container-item": "null", "count-min": 5, "count-max": 7, "prob": 30 },
-      { "item": "antihistamine", "container-item": "null", "count-min": 3, "count-max": 7, "prob": 15 },
+      { "item": "homeopathic_pills", "container-item": "null", "count": [ 5, 7 ], "prob": 30 },
+      { "item": "antihistamine", "container-item": "null", "count": [ 3, 7 ], "prob": 15 },
       {
         "distribution": [
-          { "item": "adderall", "container-item": "null", "count-min": 3, "count-max": 7, "prob": 20 },
-          { "item": "diazepam", "container-item": "null", "count-min": 3, "count-max": 7, "prob": 20 },
-          { "item": "prozac", "container-item": "null", "count-min": 3, "count-max": 7, "prob": 20 },
-          { "item": "thorazine", "container-item": "null", "count-min": 3, "count-max": 7, "prob": 20 },
-          { "item": "pills_sleep", "container-item": "null", "count-min": 3, "count-max": 7, "prob": 20 }
+          { "item": "adderall", "container-item": "null", "count": [ 3, 7 ], "prob": 20 },
+          { "item": "diazepam", "container-item": "null", "count": [ 3, 7 ], "prob": 20 },
+          { "item": "prozac", "container-item": "null", "count": [ 3, 7 ], "prob": 20 },
+          { "item": "thorazine", "container-item": "null", "count": [ 3, 7 ], "prob": 20 },
+          { "item": "pills_sleep", "container-item": "null", "count": [ 3, 7 ], "prob": 20 }
         ],
         "prob": 15
       },
       {
         "distribution": [
-          { "item": "antibiotics", "container-item": "null", "count-min": 3, "count-max": 7, "prob": 40 },
-          { "item": "weak_antibiotic", "container-item": "null", "count-min": 3, "count-max": 7, "prob": 40 },
-          { "item": "strong_antibiotic", "container-item": "null", "count-min": 3, "count-max": 7, "prob": 20 }
+          { "item": "antibiotics", "container-item": "null", "count": [ 3, 7 ], "prob": 40 },
+          { "item": "weak_antibiotic", "container-item": "null", "count": [ 3, 7 ], "prob": 40 },
+          { "item": "strong_antibiotic", "container-item": "null", "count": [ 3, 7 ], "prob": 20 }
         ],
         "prob": 10
       },
-      { "item": "antifungal", "container-item": "null", "count-min": 3, "count-max": 7, "prob": 5 }
+      { "item": "antifungal", "container-item": "null", "count": [ 3, 7 ], "prob": 5 }
     ]
   },
   {
