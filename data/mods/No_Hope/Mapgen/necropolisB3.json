@@ -1,20 +1,11 @@
 [
   {
-    "name": "GROUP_NECROPOLIS_ROBOT",
-    "type": "monstergroup",
-    "monsters": [ { "monster": "mon_secubot" } ]
-  },
-  {
-    "name": "GROUP_NECROPOLIS_VAULT3",
-    "type": "monstergroup",
-    "monsters": [
-      { "monster": "mon_irradiated_wanderer_4", "weight": 890 },
-      { "monster": "mon_irradiated_wanderer_3", "weight": 20 },
-      { "monster": "mon_charred_nightmare", "weight": 90 }
-    ]
-  },
-  {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [
+      [ "necropolis_d_1", "necropolis_d_2", "necropolis_d_3" ],
+      [ "necropolis_d_10", "necropolis_d_11", "necropolis_d_12" ]
+    ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -68,7 +59,6 @@
         "...|-|-|-|-|--------|.|   vh           nn| r|...........|- -|- -|- -|- -"
       ],
       "palettes": [ "necropolis_b3" ],
-      "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate" },
       "place_items": [
         { "item": "electronics", "x": [ 20, 22 ], "y": [ 17, 17 ], "chance": 30 },
         { "item": "office", "x": [ 20, 22 ], "y": [ 17, 17 ], "chance": 30 },
@@ -106,16 +96,15 @@
         { "monster": "mon_turret_rifle", "x": 47, "y": 28 },
         { "monster": "mon_turret_rifle", "x": 41, "y": 28 }
       ]
-    },
-    "om_terrain": [
-      [ "necropolis_d_1", "necropolis_d_2", "necropolis_d_3" ],
-      [ "necropolis_d_10", "necropolis_d_11", "necropolis_d_12" ]
-    ],
-    "type": "mapgen",
-    "weight": 250
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [
+      [ "necropolis_d_4", "necropolis_d_5", "necropolis_d_6" ],
+      [ "necropolis_d_13", "necropolis_d_14", "necropolis_d_15" ]
+    ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -169,7 +158,7 @@
         "|- -|- -|        |- -|- -|- -|- -|- -|- -|.........................|   |"
       ],
       "palettes": [ "necropolis_b3" ],
-      "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate", "b": "t_metal_floor" },
+      "terrain": { "b": "t_metal_floor" },
       "place_items": [
         { "item": "bed", "x": [ 22, 22 ], "y": [ 22, 22 ], "chance": 40 },
         { "item": "traveler", "x": [ 22, 23 ], "y": [ 21, 21 ], "chance": 40 },
@@ -285,16 +274,15 @@
         { "monster": "GROUP_NECROPOLIS_VAULT3", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.2 },
         { "monster": "GROUP_NECROPOLIS_VAULT3", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.2 }
       ]
-    },
-    "om_terrain": [
-      [ "necropolis_d_4", "necropolis_d_5", "necropolis_d_6" ],
-      [ "necropolis_d_13", "necropolis_d_14", "necropolis_d_15" ]
-    ],
-    "type": "mapgen",
-    "weight": 250
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [
+      [ "necropolis_d_7", "necropolis_d_8", "necropolis_d_9" ],
+      [ "necropolis_d_16", "necropolis_d_17", "necropolis_d_18" ]
+    ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -348,7 +336,7 @@
         "..................................|  |.................................."
       ],
       "palettes": [ "necropolis_b3" ],
-      "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate", "b": "t_metal_floor" },
+      "terrain": { "b": "t_metal_floor" },
       "place_items": [
         { "item": "hospital_incubator", "x": [ 3, 3 ], "y": [ 17, 17 ], "chance": 40 },
         { "item": "hospital_incubator", "x": [ 5, 5 ], "y": [ 17, 17 ], "chance": 40 },
@@ -431,16 +419,15 @@
         { "monster": "GROUP_NECROPOLIS_VAULT3", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.1 },
         { "monster": "GROUP_NECROPOLIS_VAULT3", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.1 }
       ]
-    },
-    "om_terrain": [
-      [ "necropolis_d_7", "necropolis_d_8", "necropolis_d_9" ],
-      [ "necropolis_d_16", "necropolis_d_17", "necropolis_d_18" ]
-    ],
-    "type": "mapgen",
-    "weight": 250
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [
+      [ "necropolis_d_19", "necropolis_d_20", "necropolis_d_21" ],
+      [ "necropolis_d_28", "necropolis_d_29", "necropolis_d_30" ]
+    ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -494,7 +481,6 @@
         ".......................................|    5|.........................."
       ],
       "palettes": [ "necropolis_b3" ],
-      "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate" },
       "items": {
         "@": { "item": "bed", "chance": 60 },
         "L": { "item": "traveler", "chance": 60 },
@@ -562,16 +548,15 @@
         { "item": "traveler", "x": [ 29, 29 ], "y": [ 14, 16 ], "chance": 60 },
         { "item": "traveler", "x": [ 29, 29 ], "y": [ 8, 10 ], "chance": 60 }
       ]
-    },
-    "om_terrain": [
-      [ "necropolis_d_19", "necropolis_d_20", "necropolis_d_21" ],
-      [ "necropolis_d_28", "necropolis_d_29", "necropolis_d_30" ]
-    ],
-    "type": "mapgen",
-    "weight": 250
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [
+      [ "necropolis_d_22", "necropolis_d_23", "necropolis_d_24" ],
+      [ "necropolis_d_31", "necropolis_d_32", "necropolis_d_33" ]
+    ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -625,7 +610,7 @@
         "|EE|        G         |EE|                                              "
       ],
       "palettes": [ "necropolis_b3" ],
-      "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate", "b": "t_metal_floor" },
+      "terrain": { "b": "t_metal_floor" },
       "items": {
         "@": { "item": "bed", "chance": 60 },
         "L": { "item": "traveler", "chance": 60 },
@@ -647,16 +632,15 @@
         { "monster": "GROUP_NECROPOLIS_VAULT3", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.3 },
         { "monster": "GROUP_NECROPOLIS_VAULT3", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.3 }
       ]
-    },
-    "om_terrain": [
-      [ "necropolis_d_22", "necropolis_d_23", "necropolis_d_24" ],
-      [ "necropolis_d_31", "necropolis_d_32", "necropolis_d_33" ]
-    ],
-    "type": "mapgen",
-    "weight": 250
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [
+      [ "necropolis_d_25", "necropolis_d_26", "necropolis_d_27" ],
+      [ "necropolis_d_34", "necropolis_d_35", "necropolis_d_36" ]
+    ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -710,7 +694,6 @@
         "           PP                                             G   b|........"
       ],
       "palettes": [ "necropolis_b3" ],
-      "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate" },
       "items": {
         "@": { "item": "bed", "chance": 60 },
         "L": { "item": "traveler", "chance": 60 },
@@ -731,16 +714,15 @@
         { "monster": "GROUP_NECROPOLIS_VAULT3", "x": [ 49, 70 ], "y": [ 25, 39 ], "density": 0.45 },
         { "monster": "GROUP_NECROPOLIS_VAULT3", "x": [ 49, 70 ], "y": [ 25, 39 ], "density": 0.45 }
       ]
-    },
-    "om_terrain": [
-      [ "necropolis_d_25", "necropolis_d_26", "necropolis_d_27" ],
-      [ "necropolis_d_34", "necropolis_d_35", "necropolis_d_36" ]
-    ],
-    "type": "mapgen",
-    "weight": 250
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [
+      [ "necropolis_d_37", "necropolis_d_38", "necropolis_d_39" ],
+      [ "necropolis_d_46", "necropolis_d_47", "necropolis_d_48" ]
+    ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -794,7 +776,7 @@
         "|-------------------|.|   |.|-------------------|.|-|--|       b|L @|L @"
       ],
       "palettes": [ "necropolis_b3" ],
-      "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate", "c": "t_rock_floor" },
+      "terrain": { "c": "t_rock_floor" },
       "items": {
         "@": { "item": "bed", "chance": 60 },
         "L": { "item": "traveler", "chance": 60 },
@@ -826,16 +808,15 @@
         { "monster": "GROUP_NECROPOLIS_VAULT3", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.25 },
         { "monster": "GROUP_NECROPOLIS_VAULT3", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.25 }
       ]
-    },
-    "om_terrain": [
-      [ "necropolis_d_37", "necropolis_d_38", "necropolis_d_39" ],
-      [ "necropolis_d_46", "necropolis_d_47", "necropolis_d_48" ]
-    ],
-    "type": "mapgen",
-    "weight": 250
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [
+      [ "necropolis_d_40", "necropolis_d_41", "necropolis_d_42" ],
+      [ "necropolis_d_49", "necropolis_d_50", "necropolis_d_51" ]
+    ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -889,7 +870,7 @@
         "|L @|S|@@|      |Lc|t|L @|L @|L @|b       |--|-|........|     |     cc  "
       ],
       "palettes": [ "necropolis_b3" ],
-      "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate", "b": "t_metal_floor" },
+      "terrain": { "b": "t_metal_floor" },
       "items": {
         "@": { "item": "bed", "chance": 60 },
         "L": { "item": "traveler", "chance": 60 },
@@ -924,16 +905,15 @@
         { "item": "produce", "x": [ 68, 69 ], "y": [ 44, 46 ], "chance": 75 },
         { "item": "cannedfood", "x": [ 71, 71 ], "y": [ 47, 47 ], "chance": 75 }
       ]
-    },
-    "om_terrain": [
-      [ "necropolis_d_40", "necropolis_d_41", "necropolis_d_42" ],
-      [ "necropolis_d_49", "necropolis_d_50", "necropolis_d_51" ]
-    ],
-    "type": "mapgen",
-    "weight": 250
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [
+      [ "necropolis_d_43", "necropolis_d_44", "necropolis_d_45" ],
+      [ "necropolis_d_52", "necropolis_d_53", "necropolis_d_54" ]
+    ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -987,7 +967,6 @@
         "                      cc     |     |.|--|  |L@| L| L| L|L |L |L |  |--|."
       ],
       "palettes": [ "necropolis_b3" ],
-      "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate" },
       "items": {
         "@": { "item": "bed", "chance": 60 },
         "L": { "item": "traveler", "chance": 60 },
@@ -1008,16 +987,15 @@
         { "monster": "GROUP_NECROPOLIS_VAULT3", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.3 },
         { "monster": "GROUP_NECROPOLIS_VAULT3", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.3 }
       ]
-    },
-    "om_terrain": [
-      [ "necropolis_d_43", "necropolis_d_44", "necropolis_d_45" ],
-      [ "necropolis_d_52", "necropolis_d_53", "necropolis_d_54" ]
-    ],
-    "type": "mapgen",
-    "weight": 250
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [
+      [ "necropolis_d_55", "necropolis_d_56", "necropolis_d_57" ],
+      [ "necropolis_d_64", "necropolis_d_65", "necropolis_d_66" ]
+    ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -1071,7 +1049,7 @@
         "|                    v    |.................|-------|        G        |-"
       ],
       "palettes": [ "necropolis_b3" ],
-      "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate", "b": "t_metal_floor" },
+      "terrain": { "b": "t_metal_floor" },
       "items": {
         "@": { "item": "bed", "chance": 60 },
         "L": { "item": "traveler", "chance": 60 },
@@ -1093,16 +1071,15 @@
         { "monster": "GROUP_NECROPOLIS_VAULT3", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.3 },
         { "monster": "GROUP_NECROPOLIS_VAULT3", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.3 }
       ]
-    },
-    "om_terrain": [
-      [ "necropolis_d_55", "necropolis_d_56", "necropolis_d_57" ],
-      [ "necropolis_d_64", "necropolis_d_65", "necropolis_d_66" ]
-    ],
-    "type": "mapgen",
-    "weight": 250
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [
+      [ "necropolis_d_58", "necropolis_d_59", "necropolis_d_60" ],
+      [ "necropolis_d_67", "necropolis_d_68", "necropolis_d_69" ]
+    ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -1156,7 +1133,7 @@
         "|   |-|.......................|------|   |.|rrrrr8///__6///$$/,       Vk"
       ],
       "palettes": [ "necropolis_b3" ],
-      "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate", "b": "t_metal_floor" },
+      "terrain": { "7": "t_chainfence_h", "b": "t_metal_floor" },
       "items": { "k": { "item": "office", "chance": 60 } },
       "item": { "n": [ { "item": "water_clean", "chance": 20 } ] },
       "place_monsters": [
@@ -1173,16 +1150,15 @@
         { "monster": "GROUP_NECROPOLIS_VAULT3", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.2 },
         { "monster": "GROUP_NECROPOLIS_VAULT3", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.2 }
       ]
-    },
-    "om_terrain": [
-      [ "necropolis_d_58", "necropolis_d_59", "necropolis_d_60" ],
-      [ "necropolis_d_67", "necropolis_d_68", "necropolis_d_69" ]
-    ],
-    "type": "mapgen",
-    "weight": 250
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [
+      [ "necropolis_d_61", "necropolis_d_62", "necropolis_d_63" ],
+      [ "necropolis_d_70", "necropolis_d_71", "necropolis_d_72" ]
+    ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -1236,7 +1212,7 @@
         "6 |.|EE+    |.|b  ,    ,         ,    ,  b|  |.|L b L|L b L|.|  |  |--|."
       ],
       "palettes": [ "necropolis_b3" ],
-      "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate", "b": "t_metal_floor" },
+      "terrain": { "7": "t_chainfence_h", "b": "t_metal_floor" },
       "items": {
         "L": { "item": "sports", "chance": 60 },
         "b": { "item": "magazines", "chance": 10 },
@@ -1257,16 +1233,12 @@
         { "monster": "GROUP_NECROPOLIS_VAULT3", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.15 },
         { "monster": "GROUP_NECROPOLIS_VAULT3", "x": [ 49, 70 ], "y": [ 25, 46 ], "density": 0.15 }
       ]
-    },
-    "om_terrain": [
-      [ "necropolis_d_61", "necropolis_d_62", "necropolis_d_63" ],
-      [ "necropolis_d_70", "necropolis_d_71", "necropolis_d_72" ]
-    ],
-    "type": "mapgen",
-    "weight": 250
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [ [ "necropolis_d_73", "necropolis_d_74", "necropolis_d_75" ] ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -1296,7 +1268,6 @@
         "........................................................................"
       ],
       "palettes": [ "necropolis_b3" ],
-      "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate" },
       "items": { "r": { "item": "textbooks", "chance": 60 } },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS_VAULT3", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 },
@@ -1336,13 +1307,12 @@
         { "item": "textbooks", "x": [ 53, 55 ], "y": [ 21, 21 ], "chance": 75 },
         { "item": "textbooks", "x": [ 48, 49 ], "y": [ 21, 21 ], "chance": 75 }
       ]
-    },
-    "om_terrain": [ [ "necropolis_d_73", "necropolis_d_74", "necropolis_d_75" ] ],
-    "type": "mapgen",
-    "weight": 250
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [ [ "necropolis_d_76", "necropolis_d_77", "necropolis_d_78" ] ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -1372,7 +1342,7 @@
         "........................................................................"
       ],
       "palettes": [ "necropolis_b3" ],
-      "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate" },
+      "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h" },
       "items": { "/": { "item": "tools_common", "chance": 2 } },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS_VAULT3", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.15 },
@@ -1382,13 +1352,12 @@
         { "monster": "GROUP_NECROPOLIS_VAULT3", "x": [ 49, 70 ], "y": [ 1, 22 ], "density": 0.15 },
         { "monster": "GROUP_NECROPOLIS_VAULT3", "x": [ 49, 70 ], "y": [ 1, 22 ], "density": 0.15 }
       ]
-    },
-    "om_terrain": [ [ "necropolis_d_76", "necropolis_d_77", "necropolis_d_78" ] ],
-    "type": "mapgen",
-    "weight": 250
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": [ [ "necropolis_d_79", "necropolis_d_80", "necropolis_d_81" ] ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -1418,7 +1387,7 @@
         "........................................................................"
       ],
       "palettes": [ "necropolis_b3" ],
-      "terrain": { "2": "t_sewage_pipe", "7": "t_chainfence_h", "X": "t_grate", "b": "t_metal_floor" },
+      "terrain": { "7": "t_chainfence_h", "b": "t_metal_floor" },
       "items": { "L": { "item": "sports", "chance": 50 }, "l": { "item": "vending_drink", "chance": 70 } },
       "place_monsters": [
         { "monster": "GROUP_NECROPOLIS_VAULT3", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.15 },
@@ -1428,9 +1397,6 @@
         { "monster": "GROUP_NECROPOLIS_VAULT3", "x": [ 49, 70 ], "y": [ 1, 22 ], "density": 0.1 },
         { "monster": "GROUP_NECROPOLIS_VAULT3", "x": [ 49, 70 ], "y": [ 1, 22 ], "density": 0.1 }
       ]
-    },
-    "om_terrain": [ [ "necropolis_d_79", "necropolis_d_80", "necropolis_d_81" ] ],
-    "type": "mapgen",
-    "weight": 250
+    }
   }
 ]

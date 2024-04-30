@@ -3,6 +3,7 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "24x24_road_end_vehicles",
+    "//": "TODO: Should use an external option to disable the vanilla versions rather than 999999 weight",
     "weight": 999999,
     "object": {
       "mapgensize": [ 24, 24 ],

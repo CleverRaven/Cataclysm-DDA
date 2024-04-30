@@ -2,6 +2,7 @@
   {
     "type": "terrain",
     "id": "t_wall",
+    "//": "TODO: Change to copy-from: t_wall extend: flags: FLAMMABLE_HARD delete: flags: FLAMMABLE once #73211 merges",
     "alias": [ "t_wall_h", "t_wall_v" ],
     "name": "wall",
     "description": "The stereotypical wall with wooden support structure filled with insulation and drywalled.  Paint job is the all too common and neutral off-white or cream color, it could use more vibrant paint.",
