@@ -164,7 +164,7 @@
               "context": "intercom",
               "value": "yes"
             },
-            { "u_has_var": "completed_robofac_lixa_sm_1", "type": "dialogue", "context": "intercom", "value": "yes" },
+            { "u_has_var": "completed_robofac_intercom_lixa_sm_1", "type": "dialogue", "context": "intercom", "value": "yes" },
             {
               "or": [
                 { "u_has_var": "completed_robofac_intercom_robot_sm_1", "type": "dialogue", "context": "intercom", "value": "yes" },
@@ -937,7 +937,7 @@
     "end": {
       "effect": [
         { "u_spawn_item": "RobofacCoin", "count": 5 },
-        { "u_add_var": "completed_robofac_lixa_sm_1", "type": "dialogue", "context": "intercom", "value": "yes" },
+        { "u_add_var": "completed_robofac_intercom_lixa_sm_1", "type": "dialogue", "context": "intercom", "value": "yes" },
         { "math": [ "u_hub01_completed_missions", "++" ] }
       ]
     },
