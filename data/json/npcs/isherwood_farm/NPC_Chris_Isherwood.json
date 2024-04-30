@@ -63,6 +63,13 @@
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN"
       },
       {
+        "text": "Do you think we're ready to try this again?",
+        "condition": {
+          "and": [ { "math": [ "isherwood_family_coming", "==", "0" ] }, { "math": [ "isherwood_barry_rescued", "!=", "1" ] } ]
+        },
+        "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_CHRIS_JOINS"
+      },
+      {
         "text": "[i got cop gear to turn over]",
         "condition": {
           "and": [
@@ -530,6 +537,26 @@
     "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Wall_Done",
     "dynamic_line": "[sweet now we get something between us.  Give me 1 day and we ready]",
     "responses": [ { "text": "[woo hoo]", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_CHRIS_TRY_AGAIN",
+    "dynamic_line": "[yeah let's go]",
+    "responses": [
+      {
+        "text": "All right.  Let's kick some alien butt.",
+        "effect": [ { "run_eocs": "isherwood_mission_initialization_eoc" } ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Is there anyone else around here that could help us?",
+        "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_TAKE_LISA"
+      },
+      {
+        "text": "You mentioned that Carlos, Eddie and Luke probably can't help in a firefight.  Is there any other way we could use them?",
+        "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_THE_ISHERWOODS"
+      }
+    ]
   },
   {
     "id": "MISSION_ISHERWOOD_CHRIS_1",

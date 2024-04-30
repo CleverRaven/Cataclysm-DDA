@@ -29,7 +29,7 @@
     "id": "TALK_ISHERWOOD_FAMILY_DUPLICATES_CHRIS",
     "dynamic_line": "Hey, good to see you!  Are you ready to get Barry back?",
     "responses": [
-      { "text": "Let's do this!", "effect": "follow", "topic": "TALK_DONE" },
+      { "text": "Let's do this!", "effect": "follow_only", "topic": "TALK_DONE" },
       { "text": "Not yet, just give me a minute.", "topic": "TALK_DONE" }
     ]
   }
