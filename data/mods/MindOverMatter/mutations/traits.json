@@ -131,7 +131,7 @@
       },
       {
         "condition": { "not": "u_has_weapon" },
-        "values": [ { "value": "ITEM_DAMAGE_BASH", "multiply": { "math": [ "spell_level_sum('school': 'BIOKINETIC') * 0.01" ] } } ]
+        "values": [ { "value": "ITEM_DAMAGE_BASH", "multiply": { "math": [ "u_spell_level_sum('school': 'BIOKINETIC') * 0.01" ] } } ]
       }
     ]
   },
