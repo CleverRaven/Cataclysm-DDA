@@ -397,7 +397,8 @@ int talker_character_const::get_spell_sum( const trait_id &school, int min_level
     int count = 0;
 
     for( const spell *sp : me_chr_const->magic->get_spells() ) {
-        if( school.is_null() || sp->spell_class() == school && sp->get_effective_level() >= min_level ) {
+        if( school.is_null() || ( sp->spell_class() == school &&
+                                  sp->get_effective_level() >= min_level ) ) {
             count = count + sp->get_effective_level() ;
         }
     }
