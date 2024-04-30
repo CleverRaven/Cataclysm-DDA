@@ -7,7 +7,7 @@
     "roof": "t_metal_flat_roof",
     "copy-from": "t_wall_metal",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
-    "symbol": "LINE_OXOX",
+    "symbol": "─",
     "color": "white",
     "bash": {
       "str_min": 200,
@@ -29,7 +29,7 @@
     "description": "The diamond cubic lattice distorts distant light sources into eight pointed stars.  The galactic core is visible through the glass, but no spacer would ever give it more than a passing glance.",
     "roof": "t_metal_flat_roof",
     "looks_like": "t_reinforced_glass",
-    "symbol": "LINE_XOXO",
+    "symbol": "│",
     "color": "light_cyan",
     "move_cost": 0,
     "coverage": 100,
@@ -50,7 +50,7 @@
     "roof": "t_metal_flat_roof",
     "copy-from": "t_wall_metal",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
-    "symbol": "LINE_OXOX",
+    "symbol": "─",
     "bash": { "str_min": 4000, "str_max": 8000, "sound": "whump!", "sound_fail": "whump!", "ter_set": "t_afs_augustmoon_hull_wall" },
     "color": "white"
   },

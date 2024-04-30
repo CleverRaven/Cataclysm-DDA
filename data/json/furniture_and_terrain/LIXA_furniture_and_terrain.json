@@ -144,7 +144,7 @@
     "name": "reinforced concrete wall",
     "looks_like": "t_concrete_wall",
     "description": "You can see every side of every crack in this worn concrete, all the way down.  You can't look at it for too long.",
-    "symbol": "LINE_OXOX",
+    "symbol": "─",
     "color": "light_gray",
     "move_cost": 0,
     "coverage": 100,
