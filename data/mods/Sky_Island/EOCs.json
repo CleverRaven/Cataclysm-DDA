@@ -357,7 +357,7 @@
     "id": "EOC_healextras",
     "//": "Clears up various conditions beyond just your hp.  Should cover most diseases and infections, prevent extreme thirst and starvation, wipe pain, and even cure a few edge cases like being covered in acid.",
     "effect": [
-      { "math": [ "u_val('stored_kcal')", "=", "max( u_val('stored_kcal'), 9000)" ] },
+      { "math": [ "u_calories()", "=", "max( u_calories(), 9000)" ] },
       { "math": [ "u_val('thirst')", "=", "min( u_val('thirst'), 800)" ] },
       { "math": [ "u_vitamin('redcells')", "=", "0" ] },
       { "math": [ "u_vitamin('bad_food')", "=", "0" ] },
@@ -546,6 +546,7 @@
         "u_message": "Warp home behavior set to whole room.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
       },
       { "math": [ "roomteleportselector", "=", "0" ] },
+      { "u_forget_recipe": "warp_vortex_token" },
       { "run_eocs": "EOC_difficultycheck_3" }
     ]
   },
@@ -557,6 +558,7 @@
         "u_message": "Warp home behavior set to whole room at a cost.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
       },
       { "math": [ "roomteleportselector", "=", "1" ] },
+      { "u_learn_recipe": "warp_vortex_token" },
       { "run_eocs": "EOC_difficultycheck_3" }
     ]
   },
@@ -568,6 +570,7 @@
         "u_message": "Warp home behavior set to self only.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
       },
       { "math": [ "roomteleportselector", "=", "2" ] },
+      { "u_forget_recipe": "warp_vortex_token" },
       { "run_eocs": "EOC_difficultycheck_3" }
     ]
   },

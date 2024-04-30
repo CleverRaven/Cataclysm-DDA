@@ -14,6 +14,7 @@
 #include <unordered_map>
 
 #include "all_enum_values.h"
+#include "avatar.h"
 #include "calendar.h"
 #include "cata_assert.h"
 #include "catacharset.h"
@@ -871,7 +872,11 @@ mapgen_function_json_nested::mapgen_function_json_nested(
 {
 }
 
-jmapgen_int::jmapgen_int( point p ) : val( p.x ), valmax( p.y ) {}
+jmapgen_int::jmapgen_int( point p ) : val( p.x ), valmax( p.y )
+{
+    cata_assert( p.x <= std::numeric_limits<int16_t>::max() );
+    cata_assert( p.y <= std::numeric_limits<int16_t>::max() );
+}
 
 jmapgen_int::jmapgen_int( const JsonObject &jo, const std::string_view tag )
 {
@@ -880,9 +885,17 @@ jmapgen_int::jmapgen_int( const JsonObject &jo, const std::string_view tag )
         if( sparray.empty() || sparray.size() > 2 ) {
             jo.throw_error_at( tag, "invalid data: must be an array of 1 or 2 values" );
         }
-        val = sparray.get_int( 0 );
+        int tmpval = sparray.get_int( 0 );
+        if( tmpval >= std::numeric_limits<int16_t>::max() ) {
+            jo.throw_error_at( tag, string_format( "Value %d too large", tmpval ) );
+        }
+        val = tmpval;
         if( sparray.size() == 2 ) {
-            valmax = sparray.get_int( 1 );
+            int tmpvalmax = sparray.get_int( 1 );
+            if( tmpvalmax >= std::numeric_limits<int16_t>::max() ) {
+                jo.throw_error_at( tag, string_format( "Value %d too large", tmpvalmax ) );
+            }
+            valmax = tmpvalmax;
         } else {
             valmax = val;
         }
@@ -902,13 +915,25 @@ jmapgen_int::jmapgen_int( const JsonObject &jo, const std::string_view tag, cons
             jo.throw_error_at( tag, "invalid data: must be an array of 1 or 2 values" );
         }
         if( !sparray.empty() ) {
-            val = sparray.get_int( 0 );
+            int tmpval = sparray.get_int( 0 );
+            if( tmpval >= std::numeric_limits<int16_t>::max() ) {
+                jo.throw_error_at( tag, string_format( "Value %d too large", tmpval ) );
+            }
+            val = tmpval;
         }
         if( sparray.size() >= 2 ) {
-            valmax = sparray.get_int( 1 );
+            int tmpvalmax = sparray.get_int( 1 );
+            if( tmpvalmax >= std::numeric_limits<int16_t>::max() ) {
+                jo.throw_error_at( tag, string_format( "Value %d too large", tmpvalmax ) );
+            }
+            valmax = tmpvalmax;
         }
     } else if( jo.has_member( tag ) ) {
-        val = valmax = jo.get_int( tag );
+        int tmpval = jo.get_int( tag );
+        if( tmpval >= std::numeric_limits<int16_t>::max() ) {
+            jo.throw_error_at( tag, string_format( "Value %d too large", tmpval ) );
+        }
+        val = valmax = tmpval;
     }
 }
 
@@ -2121,7 +2146,7 @@ class jmapgen_gaspump : public jmapgen_piece
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const std::string &/*context*/ ) const override {
             const point r( x.get(), y.get() );
-            int charges = amount.get();
+            int charges = amount.get() * 100;
             dat.m.furn_set( r, furn_str_id::NULL_ID() );
             if( charges == 0 ) {
                 charges = rng( 10000, 50000 );
@@ -2172,6 +2197,12 @@ class jmapgen_liquid_item : public jmapgen_piece
                         newliquid.charges = amount.get();
                     } else {
                         newliquid.charges = amount.val;
+                    }
+                    if( migrated == itype_gasoline ||
+                        migrated == itype_avgas ||
+                        migrated == itype_diesel ||
+                        migrated == itype_jp8 ) {
+                        newliquid.charges *= 100;
                     }
                 }
                 if( newliquid.charges > 0 ) {
@@ -2228,10 +2259,14 @@ class jmapgen_item_group : public jmapgen_piece
         jmapgen_int chance;
         std::string faction;
         jmapgen_item_group( const JsonObject &jsi, const std::string_view context ) :
-            chance( jsi, "chance", 1, 1 ) {
+            chance( jsi, "chance", 100, 100 ) {
             JsonValue group = jsi.get_member( "item" );
             group_id = item_group::load_item_group( group, "collection",
                                                     str_cat( "mapgen item group ", context ) );
+            if( jsi.has_int( "prob" ) ) {
+                debugmsg( "prob definition in group %s with context %s should be replaced with chance where chance is a percent and defaults to 100",
+                          group_id.c_str(), context );
+            }
             repeat = jmapgen_int( jsi, "repeat", 1, 1 );
             if( jsi.has_string( "faction" ) ) {
                 faction = jsi.get_string( "faction" );
@@ -4747,6 +4782,7 @@ std::unordered_set<point> nested_mapgen::all_placement_coords() const
 void jmapgen_objects::finalize()
 {
     std::stable_sort( objects.begin(), objects.end(), compare_phases );
+    objects.shrink_to_fit();
 }
 
 void jmapgen_objects::check( const std::string &context, const mapgen_parameters &parameters ) const

@@ -9,28 +9,31 @@
         "distribution": [
           {
             "collection": [
-              { "item": "power_armor_frame" },
-              { "item": "power_armor_generator" },
-              { "item": "power_armor_basic" },
-              { "item": "power_armor_helmet_basic" }
+              { "item": "combat_exoskeleton_heavy" },
+              { "item": "combat_exoskeleton_armor_head_heavy" },
+              { "item": "combat_exoskeleton_armor_torso_heavy" },
+              { "item": "combat_exoskeleton_armor_arm_heavy" },
+              { "item": "combat_exoskeleton_armor_leg_heavy" }
             ],
             "prob": 30
           },
           {
             "collection": [
-              { "item": "power_armor_frame" },
-              { "item": "power_armor_generator" },
-              { "item": "power_armor_heavy" },
-              { "item": "power_armor_helmet_heavy" }
+              { "item": "combat_exoskeleton_medium" },
+              { "item": "combat_exoskeleton_armor_head_medium" },
+              { "item": "combat_exoskeleton_armor_torso_medium" },
+              { "item": "combat_exoskeleton_armor_arm_medium" },
+              { "item": "combat_exoskeleton_armor_leg_medium" }
             ],
             "prob": 10
           },
           {
             "collection": [
-              { "item": "power_armor_frame" },
-              { "item": "power_armor_generator" },
-              { "item": "power_armor_helmet_light" },
-              { "item": "power_armor_light" }
+              { "item": "combat_exoskeleton_light" },
+              { "item": "combat_exoskeleton_armor_head_light" },
+              { "item": "combat_exoskeleton_armor_torso_light" },
+              { "item": "combat_exoskeleton_armor_arm_light" },
+              { "item": "combat_exoskeleton_armor_leg_light" }
             ],
             "prob": 55
           },

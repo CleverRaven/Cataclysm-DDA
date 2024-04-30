@@ -24,7 +24,7 @@
             { "math": [ "u_skill('deduction')", ">=", "2" ] }
           ]
         },
-        "effect": { "u_add_var": "u_knows_goblinspider_eggs", "type": "knowledge", "context": "reproduction", "value": "yes" },
+        "effect": { "u_add_var": "knowledge_reproduction_u_knows_goblinspider_eggs", "value": "yes" },
         "topic": "TALK_RESCUED_INFESTED"
       }
     ]
@@ -40,7 +40,7 @@
           "not": {
             "or": [
               { "u_has_mission": "BRING_INFESTED_ANTIPARASITICS" },
-              { "u_has_var": "antiparasitic", "type": "mission", "context": "completed", "value": "yes" }
+              { "u_has_var": "mission_completed_antiparasitic", "value": "yes" }
             ]
           }
         },
@@ -67,7 +67,6 @@
     "type": "mission_definition",
     "name": { "str": "Bring 10 antiparasitic pills to %s" },
     "goal": "MGOAL_CONDITION",
-    "goal_condition": { "npc_has_var": "-", "type": "-", "context": "-", "value": "-" },
     "difficulty": 2,
     "value": 240,
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -82,6 +81,6 @@
       "success_lie": "You're telling me you brought it but you aren't giving them to me.",
       "failure": "Please try harder and get me some medicine, I don't know how long I've got!"
     },
-    "end": { "effect": [ { "u_add_var": "antiparasitic", "type": "mission", "context": "completed", "value": "yes" } ] }
+    "end": { "effect": [ { "u_add_var": "mission_completed_antiparasitic", "value": "yes" } ] }
   }
 ]

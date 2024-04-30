@@ -2,18 +2,23 @@
 #ifndef CATA_SRC_COORDINATES_H
 #define CATA_SRC_COORDINATES_H
 
-#include <algorithm>
-#include <cstdlib>
+#include <functional>
+#include <iosfwd>
 #include <iterator>
+#include <string>
+#include <tuple>
+#include <type_traits>
+#include <utility>
+#include <vector>
 
 #include "coordinate_conversions.h"
 #include "cuboid_rectangle.h"
-#include "enums.h"
-#include "game_constants.h"
-#include "line.h"
-#include "point.h"
 #include "debug.h"
+#include "game_constants.h"
+#include "line.h"  // IWYU pragma: keep
+#include "point.h"
 
+class JsonOut;
 class JsonValue;
 
 enum class direction : unsigned;

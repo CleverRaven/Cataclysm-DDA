@@ -121,7 +121,6 @@ static const map_extra_id map_extra_mx_casings( "mx_casings" );
 static const map_extra_id map_extra_mx_city_trap( "mx_city_trap" );
 static const map_extra_id map_extra_mx_clay_deposit( "mx_clay_deposit" );
 static const map_extra_id map_extra_mx_corpses( "mx_corpses" );
-static const map_extra_id map_extra_mx_dead_vegetation( "mx_dead_vegetation" );
 static const map_extra_id map_extra_mx_fungal_zone( "mx_fungal_zone" );
 static const map_extra_id map_extra_mx_grove( "mx_grove" );
 static const map_extra_id map_extra_mx_helicopter( "mx_helicopter" );
@@ -130,7 +129,6 @@ static const map_extra_id map_extra_mx_looters( "mx_looters" );
 static const map_extra_id map_extra_mx_minefield( "mx_minefield" );
 static const map_extra_id map_extra_mx_null( "mx_null" );
 static const map_extra_id map_extra_mx_point_burned_ground( "mx_point_burned_ground" );
-static const map_extra_id map_extra_mx_point_dead_vegetation( "mx_point_dead_vegetation" );
 static const map_extra_id map_extra_mx_pond( "mx_pond" );
 static const map_extra_id map_extra_mx_portal_in( "mx_portal_in" );
 static const map_extra_id map_extra_mx_reed( "mx_reed" );
@@ -1319,47 +1317,6 @@ static bool mx_clay_deposit( map &m, const tripoint &abs_sub )
     return false;
 }
 
-static bool mx_dead_vegetation( map &m, const tripoint &abs_sub )
-{
-    // This map extra kills all plant life, creating area of desolation.
-    // Possible result of acid rain / radiation / etc.,
-    // but reason is not exposed (no rads, acid pools, etc.)
-
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            const tripoint loc( i, j, abs_sub.z );
-
-            dead_vegetation_parser( m, loc );
-        }
-    }
-
-    return true;
-}
-
-static bool mx_point_dead_vegetation( map &m, const tripoint &abs_sub )
-{
-    // This map extra creates patch of dead vegetation using a simple cellular automaton.
-    // Lesser version of mx_dead_vegetation
-
-    constexpr int width = SEEX * 2;
-    constexpr int height = SEEY * 2;
-
-    // Generate the cells for dead vegetation.
-    std::vector<std::vector<int>> current = CellularAutomata::generate_cellular_automaton( width,
-                                            height, 55, 5, 4, 3 );
-
-    for( int i = 0; i < width; i++ ) {
-        for( int j = 0; j < height; j++ ) {
-            if( current[i][j] == 1 ) {
-                const tripoint loc( i, j, abs_sub.z );
-                dead_vegetation_parser( m, loc );
-            }
-        }
-    }
-
-    return true;
-}
-
 static void burned_ground_parser( map &m, const tripoint &loc )
 {
     const furn_t &fid = m.furn( loc ).obj();
@@ -2163,39 +2120,13 @@ static bool mx_city_trap( map &/*m*/, const tripoint &abs_sub )
     return true;
 }
 
-static bool mx_fungal_zone( map &/*m*/, const tripoint &abs_sub )
+static bool mx_fungal_zone( map &m, const tripoint &abs_sub )
 {
-    //First, find a city
-    // TODO: fix point types
-    const city_reference c = overmap_buffer.closest_city( tripoint_abs_sm( abs_sub ) );
-    const tripoint_abs_omt city_center_omt = project_to<coords::omt>( c.abs_sm_pos );
-
-    //Then find out which types of parks (defined in regional settings) exist in this city
-    std::vector<tripoint_abs_omt> valid_omt;
-    const auto &parks = g->get_cur_om().get_settings().city_spec.get_all_parks();
-    for( const auto &elem : parks ) {
-        for( const tripoint_abs_omt &p : points_in_radius( city_center_omt, c.city->size ) ) {
-            if( overmap_buffer.check_overmap_special_type( elem.obj, p ) ) {
-                valid_omt.push_back( p );
-            }
-        }
-    }
-
-    // If there's no parks in the city, bail out
-    if( valid_omt.empty() ) {
-        return false;
-    }
-
-    const tripoint_abs_omt &park_omt = random_entry( valid_omt, city_center_omt );
-
-    tinymap fungal_map;
-    fungal_map.load( park_omt, false );
-
-    // Then find suitable location for fungal spire to spawn (grass, dirt etc)
+    // Find suitable location for fungal spire to spawn (grass, dirt etc)
     const tripoint submap_center = { SEEX, SEEY, abs_sub.z };
     std::vector<tripoint> suitable_locations;
-    for( const tripoint &loc : fungal_map.points_in_radius( submap_center, 10 ) ) {
-        if( fungal_map.has_flag_ter( ter_furn_flag::TFLAG_DIGGABLE, loc ) ) {
+    for( const tripoint &loc : m.points_in_radius( submap_center, 10 ) ) {
+        if( m.has_flag_ter( ter_furn_flag::TFLAG_DIGGABLE, loc ) ) {
             suitable_locations.push_back( loc );
         }
     }
@@ -2206,11 +2137,11 @@ static bool mx_fungal_zone( map &/*m*/, const tripoint &abs_sub )
     }
 
     const tripoint suitable_location = random_entry( suitable_locations, submap_center );
-    fungal_map.add_spawn( mon_fungaloid_queen, 1, suitable_location );
-    fungal_map.place_spawns( GROUP_FUNGI_FUNGALOID, 1,
-                             suitable_location.xy() + point_north_west,
-                             suitable_location.xy() + point_south_east,
-                             3, true );
+    m.add_spawn( mon_fungaloid_queen, 1, suitable_location );
+    m.place_spawns( GROUP_FUNGI_FUNGALOID, 1,
+                    suitable_location.xy() + point_north_west,
+                    suitable_location.xy() + point_south_east,
+                    3, true );
     return true;
 }
 
@@ -2225,8 +2156,6 @@ static FunctionMap builtin_functions = {
     { map_extra_mx_shrubbery, mx_shrubbery },
     { map_extra_mx_pond, mx_pond },
     { map_extra_mx_clay_deposit, mx_clay_deposit },
-    { map_extra_mx_dead_vegetation, mx_dead_vegetation },
-    { map_extra_mx_point_dead_vegetation, mx_point_dead_vegetation },
     { map_extra_mx_burned_ground, mx_burned_ground },
     { map_extra_mx_point_burned_ground, mx_point_burned_ground },
     { map_extra_mx_casings, mx_casings },

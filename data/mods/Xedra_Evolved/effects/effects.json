@@ -949,6 +949,27 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_homullus_add_learning_focus",
+    "name": [ "Scholar's Regard" ],
+    "desc": [ "It's time for a study session" ],
+    "apply_message": "",
+    "remove_message": "You were just on the cusp of something as your enhanced focus fades.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "LEARNING_FOCUS",
+            "add": {
+              "math": [ "( ( u_spell_level('homullus_add_learning_focus_spell') * 1.5 ) + 5 ) * scaling_factor(u_val('intelligence') )" ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "telepathic_ignorance",
     "//": "id is hardcoded, used by the Homullus spell A Face in the Crowd",
     "name": [ "" ],

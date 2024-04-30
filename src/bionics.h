@@ -3,20 +3,23 @@
 #define CATA_SRC_BIONICS_H
 
 #include <cstddef>
-#include <iosfwd>
 #include <map>
-#include <new>
 #include <optional>
 #include <set>
+#include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
+#include "bodypart.h"
 #include "calendar.h"
-#include "effect_on_condition.h"
+#include "damage.h"
 #include "enums.h"
 #include "flat_set.h"
 #include "item.h"
 #include "magic.h"
-#include "translations.h"
+#include "npc.h"
+#include "translation.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"

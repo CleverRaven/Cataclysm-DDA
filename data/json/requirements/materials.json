@@ -417,6 +417,7 @@
         [ "duct_tape", 40 ],
         [ "cardboard", 10 ],
         [ "bag_plastic", 1 ],
+        [ "bag_plastic_small", 4 ],
         [ "bottle_plastic_small", 1 ],
         [ "plastic_chunk", 1 ],
         [ "aluminum_foil", 40 ],
@@ -519,6 +520,21 @@
         [ "feces_cow", 1 ]
       ],
       [ [ "pebble", 10 ], [ "material_sand", 10 ] ]
+    ]
+  },
+  {
+    "id": "organic_waste",
+    "type": "requirement",
+    "//": "Materials for anaerobic digestion",
+    "components": [
+      [
+        [ "feces_roach", 20 ],
+        [ "feces_bird", 20 ],
+        [ "feces_manure", 3 ],
+        [ "feces_dog", 3 ],
+        [ "water_sewage", 3 ],
+        [ "feces_cow", 1 ]
+      ]
     ]
   },
   {

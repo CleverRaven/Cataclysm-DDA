@@ -1,19 +1,25 @@
 #include "bodypart.h"
 
-#include <cstdlib>
+#include <algorithm>
 #include <set>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
 #include <vector>
 
+#include "assign.h"
 #include "body_part_set.h"
 #include "debug.h"
 #include "enum_conversions.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "subbodypart.h"
+#include "init.h"
 #include "json.h"
+#include "json_error.h"
+#include "localized_comparator.h"
 #include "rng.h"
+#include "subbodypart.h"
 
 const bodypart_str_id body_part_arm_l( "arm_l" );
 const bodypart_str_id body_part_arm_r( "arm_r" );
