@@ -202,7 +202,9 @@
     "move_cost": 0,
     "coverage": 60,
     "roof": "t_vitrified_roof",
-    "flags": [ "NOITEM", "REDUCE_SCENT", "CONNECT_WITH_WALL", "INDOORS", "SUPPORTS_ROOF" ],
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM", "REDUCE_SCENT", "INDOORS", "SUPPORTS_ROOF" ],
     "bash": {
       "str_min": 5,
       "str_max": 13,
@@ -305,7 +307,9 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "CONNECT_WITH_WALL", "BLOCK_WIND", "WINDOW", "SUPPORTS_ROOF" ],
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM", "BLOCK_WIND", "WINDOW", "SUPPORTS_ROOF" ],
     "bash": {
       "str_min": 3,
       "str_max": 6,
@@ -338,17 +342,9 @@
       "ter_set": "t_nether_glass_floor",
       "items": [ { "item": "black_glass_shard", "count": [ 40, 80 ] } ]
     },
-    "flags": [
-      "TRANSPARENT",
-      "SHARP",
-      "NOITEM",
-      "MOUNTABLE",
-      "CONNECT_WITH_WALL",
-      "SMALL_PASSAGE",
-      "PERMEABLE",
-      "WINDOW",
-      "SUPPORTS_ROOF"
-    ]
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "TRANSPARENT", "SHARP", "NOITEM", "MOUNTABLE", "SMALL_PASSAGE", "PERMEABLE", "WINDOW", "SUPPORTS_ROOF" ]
   },
   {
     "type": "terrain",
@@ -390,7 +386,9 @@
     "symbol": "\"",
     "color": "light_gray",
     "move_cost": 0,
-    "flags": [ "SUPPORTS_ROOF", "TRANSPARENT", "NOITEM", "PERMEABLE", "CONNECT_WITH_WALL", "THIN_OBSTACLE" ],
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "SUPPORTS_ROOF", "TRANSPARENT", "NOITEM", "PERMEABLE", "THIN_OBSTACLE" ],
     "bash": {
       "str_min": 60,
       "str_max": 250,

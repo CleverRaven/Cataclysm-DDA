@@ -11,7 +11,9 @@
     "coverage": 100,
     "connect_groups": "WALL",
     "connects_to": "WALL",
-    "flags": [ "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "CONNECT_WITH_WALL", "BLOCK_WIND" ]
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ]
   },
   {
     "type": "terrain",
@@ -27,7 +29,9 @@
     "roof": "t_obsidian_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "CONNECT_WITH_WALL", "MINEABLE", "BLOCK_WIND" ],
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 120,
       "str_max": 400,

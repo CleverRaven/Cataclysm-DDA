@@ -106,7 +106,9 @@
     "symbol": "-",
     "color": "light_gray",
     "looks_like": "t_door_metal_c",
-    "flags": [ "TRANSPARENT", "DOOR", "NOITEM", "CONNECT_WITH_WALL", "MINEABLE", "BLOCK_WIND", "SUPPORTS_ROOF" ],
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "TRANSPARENT", "DOOR", "NOITEM", "MINEABLE", "BLOCK_WIND", "SUPPORTS_ROOF" ],
     "open": "t_bullettrailer_swall_door_o",
     "copy-from": "t_bullettrailer_swall_westcorner"
   },
@@ -117,7 +119,9 @@
     "color": "dark_gray",
     "move_cost": 2,
     "looks_like": "t_door_metal_o",
-    "flags": [ "TRANSPARENT", "DOOR", "NOITEM", "CONNECT_WITH_WALL", "MINEABLE", "BLOCK_WIND", "SUPPORTS_ROOF" ],
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "TRANSPARENT", "DOOR", "NOITEM", "MINEABLE", "BLOCK_WIND", "SUPPORTS_ROOF" ],
     "copy-from": "t_bullettrailer_swall_westcorner",
     "close": "t_bullettrailer_swall_door"
   },

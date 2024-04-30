@@ -248,17 +248,9 @@
     "coverage": 90,
     "connect_groups": "WALL",
     "connects_to": "WALL",
-    "flags": [
-      "FLAMMABLE",
-      "NOITEM",
-      "SUPPORTS_ROOF",
-      "CONNECT_WITH_WALL",
-      "WALL",
-      "MOUNTABLE",
-      "PERMEABLE",
-      "TRANSPARENT",
-      "THIN_OBSTACLE"
-    ],
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "MOUNTABLE", "PERMEABLE", "TRANSPARENT", "THIN_OBSTACLE" ],
     "bash": {
       "str_min": 28,
       "str_max": 75,

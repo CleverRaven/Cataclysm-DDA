@@ -1844,7 +1844,9 @@
     "roof": "t_rock_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "CONNECT_WITH_WALL", "MINEABLE", "BLOCK_WIND" ],
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 120,
       "str_max": 400,
@@ -2257,7 +2259,9 @@
     "color": "light_red",
     "move_cost": 0,
     "coverage": 35,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT", "PERMEABLE", "CONNECT_WITH_WALL" ],
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT", "PERMEABLE" ],
     "bash": {
       "str_min": 4,
       "str_max": 110,
@@ -2360,7 +2364,9 @@
     "symbol": "&",
     "color": "brown",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT", "PERMEABLE", "CONNECT_WITH_WALL" ],
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT", "PERMEABLE" ],
     "bash": {
       "str_min": 8,
       "str_max": 150,
@@ -2383,7 +2389,9 @@
     "coverage": 100,
     "connect_groups": "WALL",
     "connects_to": "WALL",
-    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT", "CONNECT_WITH_WALL", "WALL", "BLOCK_WIND" ],
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT", "WALL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 35,
       "str_max": 150,
@@ -2434,7 +2442,9 @@
       "items": [ { "item": "2x4", "count": [ 0, 3 ] }, { "item": "splinter", "count": [ 3, 6 ] } ]
     },
     "shoot": { "chance_to_hit": 25, "reduce_damage": [ 20, 40 ], "reduce_damage_laser": [ 20, 50 ], "destroy_damage": [ 30, 100 ] },
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT", "PERMEABLE", "CONNECT_WITH_WALL" ]
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT", "PERMEABLE" ]
   },
   {
     "id": "t_wall_wattle_half",
@@ -2792,7 +2802,9 @@
       "message": "You finish cutting the metal.",
       "byproducts": [ { "item": "pipe", "count": 3 } ]
     },
-    "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "CONNECT_WITH_WALL", "THIN_OBSTACLE" ],
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "THIN_OBSTACLE" ],
     "oxytorch": { "result": "t_floor", "duration": "9 seconds", "byproducts": [ { "item": "pipe", "count": [ 1, 2 ] } ] },
     "bash": {
       "str_min": 60,

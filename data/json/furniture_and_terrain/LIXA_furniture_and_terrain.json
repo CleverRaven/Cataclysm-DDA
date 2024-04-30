@@ -168,7 +168,9 @@
     "looks_like": "t_card_science",
     "move_cost": 0,
     "roof": "t_metal_roof",
-    "flags": [ "NOITEM", "CONNECT_WITH_WALL", "INDOORS" ],
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM", "INDOORS" ],
     "examine_action": {
       "type": "cardreader",
       "flags": [ "LIXA_SCIENCE_CARD" ],
@@ -199,7 +201,9 @@
     "looks_like": "t_card_science",
     "move_cost": 0,
     "roof": "t_metal_roof",
-    "flags": [ "NOITEM", "INDOORS", "CONNECT_WITH_WALL" ],
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM", "INDOORS" ],
     "examine_action": {
       "type": "cardreader",
       "flags": [ "LIXA_SCIENCE_CARD_2" ],
@@ -230,7 +234,9 @@
     "looks_like": "t_card_science",
     "move_cost": 0,
     "roof": "t_metal_roof",
-    "flags": [ "NOITEM", "INDOORS", "CONNECT_WITH_WALL" ],
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM", "INDOORS" ],
     "examine_action": {
       "type": "cardreader",
       "flags": [ "LIXA_SCIENCE_CARD_3" ],
@@ -261,7 +267,9 @@
     "looks_like": "t_card_military",
     "move_cost": 0,
     "roof": "t_metal_roof",
-    "flags": [ "NOITEM", "INDOORS", "CONNECT_WITH_WALL" ],
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM", "INDOORS" ],
     "examine_action": {
       "type": "cardreader",
       "flags": [ "LIXA_MILITARY_CARD" ],
