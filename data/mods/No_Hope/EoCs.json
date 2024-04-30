@@ -20,6 +20,7 @@
     "required_event": "game_load",
     "condition": { "math": [ "!has_var( NH_item_difficulty )" ] },
     "//1": "TODO: Sensible names/descriptions",
+    "//2": "TODO: Add vehicle difficulty check too?",
     "effect": [
       {
         "run_eoc_selector": [ "EOC_NH_set_item_difficulty_0", "EOC_NH_set_item_difficulty_1", "EOC_NH_set_item_difficulty_2" ],
@@ -34,7 +35,7 @@
         ]
       }
     ],
-    "else_effect": [
+    "false_effect": [
       {
         "switch": { "math": [ "NH_item_difficulty" ] },
         "cases": [
