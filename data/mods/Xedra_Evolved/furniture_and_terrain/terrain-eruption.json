@@ -9,6 +9,8 @@
     "color": "light_gray",
     "move_cost": 0,
     "coverage": 100,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "CONNECT_WITH_WALL", "BLOCK_WIND" ]
   },
   {
@@ -23,6 +25,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_obsidian_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "CONNECT_WITH_WALL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 120,
@@ -57,6 +61,8 @@
     "color": "light_gray",
     "move_cost": 0,
     "coverage": 80,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "WALL", "PERMEABLE", "MINEABLE" ],
     "bash": {
       "str_min": 120,
@@ -89,6 +95,8 @@
     "color": "light_gray",
     "move_cost": 0,
     "coverage": 80,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "WALL", "PERMEABLE", "MINEABLE" ],
     "bash": {
       "str_min": 120,

@@ -10,6 +10,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [
       "FLAMMABLE_HARD",
       "NOITEM",
@@ -42,6 +44,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [
       "FLAMMABLE_HARD",
       "NOITEM",
@@ -75,6 +79,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [
       "FLAMMABLE_HARD",
       "NOITEM",
@@ -108,6 +114,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [
       "FLAMMABLE_HARD",
       "NOITEM",
@@ -141,6 +149,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [
       "FLAMMABLE_HARD",
       "NOITEM",
@@ -174,6 +184,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [
       "FLAMMABLE_HARD",
       "NOITEM",
@@ -206,6 +218,8 @@
     "color": "pink",
     "move_cost": 0,
     "coverage": 100,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [
       "FLAMMABLE_HARD",
       "NOITEM",
@@ -239,6 +253,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [
       "FLAMMABLE_HARD",
       "NOITEM",

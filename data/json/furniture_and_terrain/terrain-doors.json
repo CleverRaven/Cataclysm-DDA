@@ -2070,6 +2070,8 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_wood_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "WALL", "REDUCE_SCENT", "BLOCK_WIND", "SUPPORTS_ROOF" ],
     "bash": {
       "str_min": 15,
@@ -2106,6 +2108,8 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_wood_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "WALL", "REDUCE_SCENT", "SUPPORTS_ROOF" ],
     "bash": {
       "str_min": 10,
@@ -2143,6 +2147,8 @@
     "coverage": 95,
     "roof": "t_wood_roof",
     "examine_action": "door_peephole",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "WALL", "REDUCE_SCENT", "BLOCK_WIND", "SUPPORTS_ROOF" ],
     "bash": {
       "str_min": 15,
@@ -2178,6 +2184,8 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_wood_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "WALL", "NO_SCENT", "BLOCK_WIND", "SUPPORTS_ROOF" ],
     "bash": {
       "str_min": 25,
@@ -2214,6 +2222,8 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_wood_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "WALL", "NO_SCENT", "SUPPORTS_ROOF" ],
     "bash": {
       "str_min": 20,
@@ -2251,6 +2261,8 @@
     "coverage": 95,
     "roof": "t_wood_roof",
     "examine_action": "door_peephole",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "WALL", "NO_SCENT", "SUPPORTS_ROOF" ],
     "bash": {
       "str_min": 10,

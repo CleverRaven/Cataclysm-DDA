@@ -10,6 +10,8 @@
     "color": "light_gray",
     "move_cost": 0,
     "coverage": 100,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 20,
@@ -36,6 +38,8 @@
     "close": "t_wall_prefab_glass_shutters",
     "move_cost": 0,
     "coverage": 100,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "TRANSPARENT", "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "OPENCLOSE_INSIDE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 4,
@@ -58,6 +62,8 @@
     "open": "t_wall_prefab_glass",
     "move_cost": 0,
     "coverage": 100,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "OPENCLOSE_INSIDE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 20,
@@ -84,6 +90,8 @@
     "coverage": 100,
     "description": "The shutters of this porthole are deployed, but the lack of a window between them allows the frozen air to leak into the room.",
     "open": "t_wall_prefab_bglass",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "WALL", "PERMEABLE", "OPENCLOSE_INSIDE" ],
     "roof": "t_metal_flat_roof",
     "bash": {

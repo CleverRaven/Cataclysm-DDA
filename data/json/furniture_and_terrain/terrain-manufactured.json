@@ -327,6 +327,8 @@
     "looks_like": "t_chainfence_v",
     "move_cost": 0,
     "coverage": 90,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "WALL" ],
     "bash": {
       "str_min": 6,
@@ -500,6 +502,8 @@
     "color": "dark_gray",
     "move_cost": 0,
     "coverage": 65,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "WALL", "PERMEABLE" ],
     "bash": {
       "str_min": 6,
@@ -588,6 +592,8 @@
     "looks_like": "f_console",
     "move_cost": 0,
     "coverage": 50,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "WALL", "NOITEM", "PERMEABLE" ],
     "examine_action": "nanofab",
     "bash": {
@@ -621,6 +627,8 @@
     "move_cost": 0,
     "coverage": 40,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "TRANSPARENT", "SEALED", "PLACE_ITEM", "WALL", "NO_SPOIL" ],
     "bash": {
       "str_min": 2,
@@ -782,6 +790,8 @@
     "looks_like": "f_machinery_electronic",
     "move_cost": 0,
     "coverage": 90,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "WALL" ],
     "bash": { "str_min": 8, "str_max": 80, "sound": "whack!", "sound_fail": "clang!", "ter_set": "t_sai_box_damaged" },
     "deconstruct": {
@@ -809,6 +819,8 @@
     "looks_like": "f_wreckage",
     "move_cost": 0,
     "coverage": 90,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "WALL" ],
     "bash": {
       "str_min": 6,
@@ -848,6 +860,8 @@
     "looks_like": "f_machinery_electronic",
     "move_cost": 0,
     "coverage": 90,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "WALL", "PERMEABLE" ],
     "bash": {
       "str_min": 20,
@@ -885,6 +899,8 @@
     "looks_like": "f_machinery_electronic",
     "move_cost": 0,
     "coverage": 65,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "WALL", "PERMEABLE" ],
     "bash": {
       "str_min": 20,
@@ -922,6 +938,8 @@
     "looks_like": "f_machinery_electronic",
     "move_cost": 0,
     "coverage": 90,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "TRANSPARENT", "NOITEM", "WALL", "PERMEABLE" ],
     "bash": {
       "str_min": 20,
@@ -961,6 +979,8 @@
     "looks_like": "f_machinery_electronic",
     "move_cost": 0,
     "coverage": 65,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "TRANSPARENT", "NOITEM", "WALL", "PERMEABLE" ],
     "bash": {
       "str_min": 20,
@@ -1003,6 +1023,8 @@
     "color": "i_light_gray",
     "looks_like": "f_machinery_electronic",
     "move_cost": 0,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "TRANSPARENT", "NOITEM", "WALL", "PERMEABLE" ],
     "bash": {
       "str_min": 20,
@@ -1037,6 +1059,8 @@
     "color": "light_gray",
     "looks_like": "f_machinery_electronic",
     "move_cost": 0,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "TRANSPARENT", "NOITEM", "WALL", "PERMEABLE" ],
     "bash": {
       "str_min": 20,
@@ -1080,6 +1104,8 @@
     "looks_like": "f_machinery_electronic",
     "move_cost": 0,
     "coverage": 50,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "TRANSPARENT", "NOITEM", "WALL", "PERMEABLE" ],
     "bash": {
       "str_min": 20,
@@ -1118,6 +1144,8 @@
     "looks_like": "f_machinery_electronic",
     "move_cost": 0,
     "coverage": 50,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "TRANSPARENT", "NOITEM", "WALL", "PERMEABLE" ],
     "bash": {
       "str_min": 20,
@@ -1230,6 +1258,8 @@
       ]
     },
     "deconstruct": { "ter_set": "t_floor", "items": [ { "item": "55gal_drum" }, { "item": "water_faucet" } ] },
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "CONTAINER", "LIQUIDCONT", "NOITEM", "WALL" ]
   },
   {

@@ -53,6 +53,8 @@
     "looks_like": "f_machinery_electronic",
     "move_cost": 0,
     "coverage": 50,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "TRANSPARENT", "NOITEM", "WALL", "INDOORS", "PERMEABLE" ],
     "bash": {
       "str_min": 20,
@@ -86,6 +88,8 @@
     "looks_like": "f_machinery_electronic",
     "move_cost": 0,
     "coverage": 50,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "TRANSPARENT", "NOITEM", "WALL", "INDOORS", "PERMEABLE" ],
     "bash": { "str_min": 5, "str_max": 15, "explosive": 10, "ter_set": "t_LIXA_thconc_floor", "sound_fail": "clang!" },
     "shoot": { "chance_to_hit": 100, "reduce_damage": [ 0, 0 ], "reduce_damage_laser": [ 0, 0 ], "destroy_damage": [ 20, 30 ] }
@@ -149,6 +153,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_concrete_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ]
   },
   {

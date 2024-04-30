@@ -42,6 +42,8 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
     "deconstruct": {
       "ter_set": "t_window_empty",
@@ -216,6 +218,8 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
     "deconstruct": {
       "ter_set": "t_window_empty",
@@ -244,6 +248,8 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
     "curtain_transform": "t_window_no_curtains_taped",
     "deconstruct": {
@@ -430,6 +436,8 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [
       "FLAMMABLE",
       "NOITEM",
@@ -996,6 +1004,8 @@
     "color": "light_green",
     "move_cost": 0,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [
       "NOITEM",
       "SUPPORTS_ROOF",
@@ -1025,6 +1035,8 @@
     "color": "light_red",
     "move_cost": 0,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [
       "NOITEM",
       "SUPPORTS_ROOF",
@@ -1054,6 +1066,8 @@
     "color": "light_blue",
     "move_cost": 0,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [
       "NOITEM",
       "SUPPORTS_ROOF",
@@ -1600,6 +1614,8 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
     "deconstruct": {
       "ter_set": "t_window_empty",
@@ -1855,6 +1871,8 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
     "deconstruct": {
       "ter_set": "t_window_empty",
@@ -2130,6 +2148,8 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
     "deconstruct": {
       "ter_set": "t_window_empty",
@@ -2396,6 +2416,8 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
     "deconstruct": {
       "ter_set": "t_window_empty",
@@ -2651,6 +2673,8 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
     "deconstruct": {
       "ter_set": "t_window_empty",
@@ -2930,6 +2954,8 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
     "deconstruct": {
       "ter_set": "t_window_empty",
@@ -3205,6 +3231,8 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
     "deconstruct": {
       "ter_set": "t_window_empty",
@@ -3485,6 +3513,8 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
     "deconstruct": {
       "ter_set": "t_window_empty",

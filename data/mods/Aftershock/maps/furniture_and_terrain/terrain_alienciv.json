@@ -28,6 +28,8 @@
     "color": "light_gray",
     "move_cost": 0,
     "coverage": 100,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 20,

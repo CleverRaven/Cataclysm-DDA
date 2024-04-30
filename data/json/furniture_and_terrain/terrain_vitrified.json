@@ -175,6 +175,8 @@
     "symbol": "LINE_OXOX",
     "color": "dark_gray",
     "move_cost": 0,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "SUPPORTS_ROOF", "NOITEM", "WALL" ]
   },
   {
@@ -185,6 +187,8 @@
     "symbol": " ",
     "color": "black",
     "move_cost": 0,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "SUPPORTS_ROOF", "NOITEM", "WALL" ]
   },
   {
@@ -262,6 +266,8 @@
     "move_cost": 0,
     "coverage": 30,
     "roof": "t_vitrified_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "SUPPORTS_ROOF", "TRANSPARENT", "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
     "rotates_to": "INDOORFLOOR",
     "bash": {
@@ -404,6 +410,8 @@
     "color": "light_gray",
     "move_cost": 0,
     "coverage": 80,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "SUPPORTS_ROOF", "WALL", "PERMEABLE", "MINEABLE" ],
     "bash": {
       "str_min": 120,

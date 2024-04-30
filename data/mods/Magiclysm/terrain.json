@@ -48,6 +48,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "connect_groups": "WALL",
     "connects_to": "WALL"
@@ -75,6 +77,8 @@
     "color": "light_cyan",
     "move_cost": 0,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "TRANSPARENT", "ALARMED", "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 200,
@@ -126,6 +130,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 240,

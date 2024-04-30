@@ -16,6 +16,8 @@
     "name": "bullet trailer exterior wall",
     "copy-from": "t_scrap_wall",
     "description": "A smooth wall of gleaming chrome, slightly dusty from the road.",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "SUPPORTS_ROOF", "WALL", "REDUCE_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "symbol": "LINE_OXOX",
     "color": "light_gray"
@@ -33,6 +35,8 @@
     "symbol": "LINE_OXOX",
     "color": "light_gray",
     "looks_like": "t_window",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "SUPPORTS_ROOF", "WALL", "REDUCE_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND", "TRANSPARENT" ],
     "copy-from": "t_bullettrailer_nwall_westcorner"
   },
