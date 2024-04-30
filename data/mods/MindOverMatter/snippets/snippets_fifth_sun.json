@@ -5,7 +5,7 @@
     "condition": { "u_has_trait": "FIFTH_SUN_PEOPLE" },
     "effect": [
       {
-        "u_message": "You take a closer look at the note and, with mounting excitement, realize its written in the Clear Speech!  The blocky Imperial-military-standard characters read, \"I do not know if there are any who will read this, but I am still alive.  I survived the disaster of the Texopapalotl and awakened in a scientific facility filled with demons.  I fought my way out and found a place of some safety.  If you can read this, find me.\nXiuhcozcatl, Squad Leader, Eighth Band\"  Below it is a map of a small building by a lake, though you don't recognize the nearby terrain.",
+        "u_message": "You take a closer look at the note and, with mounting excitement, realize its written in the Imperial Speech!  The blocky Imperial-military-standard characters read, \"I do not know if there are any who will read this, but I am still alive.  I survived the disaster of the Texopapalotl and awakened in a scientific facility filled with demons.  I fought my way out and found a place of some safety.  If you can read this, find me.\nXiuhcozcatl, Squad Leader, Eighth Band\"  Below it is a map of a small building by a lake, though you don't recognize the nearby terrain.",
         "type": "neutral"
       }
     ],
