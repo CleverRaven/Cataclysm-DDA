@@ -54,7 +54,7 @@
     "weight": "100000 g",
     "to_hit": -6,
     "color": "green",
-    "material": [ "qt_steel", "steel" ],
+    "material": [ "auto_steel", "qt_steel", "hc_steel" ],
     "volume": "20 L",
     "price": 12000,
     "price_postapoc": 250,

@@ -2846,17 +2846,12 @@
   },
   {
     "type": "material",
-    "id": "auto_steel_light",
-    "name": "light automotive steel"
-  },
-  {
-    "type": "material",
-    "id": "auto_steel_medium",
-    "name": "medium automotive steel"
-  },
-  {
-    "type": "material",
-    "id": "auto_steel_heavy",
-    "name": "heavy automotive steel"
+    "id": "auto_steel",
+    "name": "automotive steel",
+	"//": "Represents modern automobile steel alloys, which are difficult if not impossible to recreate. damage resistance is qt_steel*1.2.",
+	"copy-from": "qt_steel",
+    "chip_resist": 25,
+    "resist": { "bash": 13.2, "cut": 13.2, "acid": 8, "heat": 3.6, "bullet": 9 },
+    "repair_difficulty": 8
   }
 ]
