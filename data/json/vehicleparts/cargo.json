@@ -27,19 +27,18 @@
     "categories": [ "cargo" ],
     "broken_color": "dark_gray",
     "damage_modifier": 60,
-    "durability": 15,
-    "folded_volume": "1 L",
+    "durability": 75,
     "size": "15 L",
-    "item": "bag_canvas",
+    "item": "sheet_metal",
     "location": "center",
     "requirements": {
-      "install": { "skills": [ [ "fabrication", 1 ] ], "time": "5 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
-      "removal": { "skills": [ [ "fabrication", 2 ] ], "time": "5 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
-      "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "5 m", "using": [ [ "adhesive", 2 ] ] }
+      "install": { "skills": [ [ "fabrication", 1 ] ], "time": "5 m", "using": [ [ "vehicle_bolt_install", 1 ] ] },
+      "removal": { "skills": [ [ "fabrication", 1 ] ], "time": "5 m", "using": [ [ "vehicle_wrench_1", 1 ] ] },
+      "repair": { "skills": [ [ "fabrication", 2 ], [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 5 ] ] }
     },
-    "flags": [ "CARGO", "BOARDABLE", "COVERED", "CARGO_PASSABLE" ],
-    "breaks_into": "ig_vp_cloth",
-    "variants": [ { "symbols": "o", "symbols_broken": "#" } ]
+    "flags": [ "CARGO", "BOARDABLE", "CARGO_PASSABLE", "FLAT_SURF" ],
+    "breaks_into": "ig_vp_sheet_metal",
+    "variants": [ { "symbols": "T", "symbols_broken": "#" } ]
   },
   {
     "type": "vehicle_part",
