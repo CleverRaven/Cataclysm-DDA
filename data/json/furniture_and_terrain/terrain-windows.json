@@ -11,6 +11,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "BARRICADABLE_WINDOW", "BLOCK_WIND", "WINDOW", "SUPPORTS_ROOF" ],
     "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 1 } ] },
     "bash": {
@@ -37,6 +38,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
     "deconstruct": {
       "ter_set": "t_window_empty",
@@ -66,6 +68,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -130,6 +133,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -178,6 +182,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -216,6 +221,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
     "deconstruct": {
       "ter_set": "t_window_empty",
@@ -246,6 +252,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
     "curtain_transform": "t_window_no_curtains_taped",
     "deconstruct": {
@@ -289,6 +296,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -342,6 +350,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "BARRICADABLE_WINDOW_CURTAINS", "BLOCK_WIND", "WINDOW", "SUPPORTS_ROOF" ],
     "curtain_transform": "t_window_no_curtains",
     "open": "t_window_domestic",
@@ -395,6 +404,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "FLAMMABLE", "ALARMED", "NOITEM", "BARRICADABLE_WINDOW", "BLOCK_WIND", "WINDOW", "SUPPORTS_ROOF" ],
     "bash": {
       "str_min": 3,
@@ -420,6 +430,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "FLAMMABLE",
       "NOITEM",
@@ -455,6 +466,7 @@
     "coverage": 60,
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "NOITEM",
@@ -568,6 +580,7 @@
     },
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "SHARP", "FLAMMABLE", "NOITEM", "MOUNTABLE", "SMALL_PASSAGE", "PERMEABLE", "WINDOW", "SUPPORTS_ROOF" ]
   },
   {
@@ -582,6 +595,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "BLOCK_WIND", "WINDOW", "SUPPORTS_ROOF" ],
     "deconstruct": {
       "ter_set": "t_window_empty",
@@ -619,6 +633,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE", "NOITEM", "BLOCK_WIND", "PERMEABLE", "WINDOW", "SUPPORTS_ROOF" ],
     "deconstruct": {
       "ter_set": "t_window_empty",
@@ -656,6 +671,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "BLOCK_WIND", "WINDOW", "SUPPORTS_ROOF" ],
     "deconstruct": { "ter_set": "t_window", "items": [ { "item": "2x4", "count": [ 6, 8 ] }, { "item": "nail", "charges": [ 12, 16 ] } ] },
     "bash": {
@@ -681,6 +697,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "BLOCK_WIND", "PERMEABLE", "WINDOW", "SUPPORTS_ROOF" ],
     "deconstruct": {
       "ter_set": "t_window_empty",
@@ -715,6 +732,7 @@
     },
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "NOITEM", "REDUCE_SCENT", "BLOCK_WIND", "WINDOW", "SUPPORTS_ROOF" ],
     "oxytorch": {
       "result": "t_window_empty",
@@ -752,6 +770,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "NOITEM", "REDUCE_SCENT", "BLOCK_WIND", "PERMEABLE", "WINDOW", "SUPPORTS_ROOF" ],
     "oxytorch": {
       "result": "t_window_empty",
@@ -800,6 +819,7 @@
     },
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "WINDOW", "SUPPORTS_ROOF" ],
     "oxytorch": { "result": "t_window", "duration": "9 seconds", "byproducts": [ { "item": "rebar", "count": [ 1, 2 ] } ] },
     "bash": {
@@ -832,6 +852,7 @@
     },
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "NOITEM", "WINDOW", "PERMEABLE", "SUPPORTS_ROOF", "THIN_OBSTACLE" ],
     "oxytorch": { "result": "t_window_empty", "duration": "9 seconds", "byproducts": [ { "item": "rebar", "count": [ 1, 2 ] } ] },
     "bash": {
@@ -865,6 +886,7 @@
     },
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "BLOCK_WIND", "ALARMED", "WINDOW", "SUPPORTS_ROOF" ],
     "oxytorch": { "result": "t_window_alarm", "duration": "9 seconds", "byproducts": [ { "item": "rebar", "count": [ 1, 2 ] } ] },
     "bash": {
@@ -898,6 +920,7 @@
     "oxytorch": { "result": "t_window_domestic", "duration": "9 seconds", "byproducts": [ { "item": "rebar", "count": [ 1, 2 ] } ] },
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "NOITEM",
       "OPENCLOSE_INSIDE",
@@ -945,6 +968,7 @@
     "oxytorch": { "result": "t_window_domestic", "duration": "9 seconds", "byproducts": [ { "item": "rebar", "count": [ 1, 2 ] } ] },
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "NOITEM",
@@ -985,6 +1009,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "NOITEM",
       "SUPPORTS_ROOF",
@@ -1016,6 +1041,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "NOITEM",
       "SUPPORTS_ROOF",
@@ -1047,6 +1073,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "NOITEM",
       "SUPPORTS_ROOF",
@@ -1091,6 +1118,7 @@
     },
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "NOITEM", "BARRICADABLE_WINDOW", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
     "bash": {
       "str_min": 50,
@@ -1129,6 +1157,7 @@
     },
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "NOITEM", "BARRICADABLE_WINDOW_CURTAINS", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
     "curtain_transform": "t_metal_grate_window",
     "examine_action": "curtains",
@@ -1159,6 +1188,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "NOITEM",
@@ -1210,6 +1240,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "NOITEM", "BARRICADABLE_WINDOW", "THIN_OBSTACLE", "PERMEABLE", "WINDOW", "SUPPORTS_ROOF" ],
     "oxytorch": {
       "result": "t_window_empty",
@@ -1247,6 +1278,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "NOITEM", "THIN_OBSTACLE", "BARRICADABLE_WINDOW_CURTAINS", "PERMEABLE", "WINDOW", "SUPPORTS_ROOF" ],
     "hacksaw": {
       "result": "t_window_empty_curtains_open",
@@ -1287,6 +1319,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "NOITEM", "BARRICADABLE_WINDOW_CURTAINS", "PERMEABLE", "WINDOW", "SUPPORTS_ROOF", "THIN_OBSTACLE" ],
     "oxytorch": {
       "result": "t_window_empty_curtains_open",
@@ -1339,6 +1372,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -1380,6 +1414,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -1423,6 +1458,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "BARRICADABLE_WINDOW_CURTAINS", "BLOCK_WIND", "WINDOW", "SUPPORTS_ROOF" ],
     "curtain_transform": "t_single_pane_glass",
     "examine_action": "curtains",
@@ -1461,6 +1497,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -1509,6 +1546,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -1560,6 +1598,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
     "deconstruct": {
       "ter_set": "t_window_empty",
@@ -1590,6 +1629,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -1632,6 +1672,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -1675,6 +1716,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "FLAMMABLE",
       "NOITEM",
@@ -1722,6 +1764,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -1771,6 +1814,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -1822,6 +1866,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
     "deconstruct": {
       "ter_set": "t_window_empty",
@@ -1852,6 +1897,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -1901,6 +1947,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -1951,6 +1998,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "FLAMMABLE",
       "NOITEM",
@@ -2000,6 +2048,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -2051,6 +2100,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -2104,6 +2154,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
     "deconstruct": {
       "ter_set": "t_window_empty",
@@ -2134,6 +2185,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -2179,6 +2231,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -2225,6 +2278,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "FLAMMABLE",
       "NOITEM",
@@ -2273,6 +2327,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -2325,6 +2380,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -2377,6 +2433,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
     "deconstruct": {
       "ter_set": "t_window_empty",
@@ -2407,6 +2464,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -2449,6 +2507,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -2492,6 +2551,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "FLAMMABLE",
       "NOITEM",
@@ -2539,6 +2599,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -2588,6 +2649,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -2639,6 +2701,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
     "deconstruct": {
       "ter_set": "t_window_empty",
@@ -2669,6 +2732,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -2719,6 +2783,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -2770,6 +2835,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "FLAMMABLE",
       "NOITEM",
@@ -2820,6 +2886,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -2872,6 +2939,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -2925,6 +2993,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
     "deconstruct": {
       "ter_set": "t_window_empty",
@@ -2955,6 +3024,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -3004,6 +3074,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -3054,6 +3125,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "FLAMMABLE",
       "NOITEM",
@@ -3103,6 +3175,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -3154,6 +3227,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -3207,6 +3281,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
     "deconstruct": {
       "ter_set": "t_window_empty",
@@ -3237,6 +3312,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -3287,6 +3363,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -3338,6 +3415,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "FLAMMABLE",
       "NOITEM",
@@ -3388,6 +3466,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -3440,6 +3519,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -3494,6 +3574,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
     "deconstruct": {
       "ter_set": "t_window_empty",
@@ -3524,6 +3605,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -3568,6 +3650,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -3614,6 +3697,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "BARRICADABLE_WINDOW_CURTAINS", "BLOCK_WIND", "WINDOW", "SUPPORTS_ROOF" ],
     "curtain_transform": "t_plastic_window",
     "examine_action": "curtains",
@@ -3654,6 +3738,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -3704,6 +3789,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -3756,6 +3842,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -3805,6 +3892,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -3855,6 +3943,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "FLAMMABLE",
       "NOITEM",
@@ -3908,6 +3997,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -3963,6 +4053,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -4040,6 +4131,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -4089,6 +4181,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -4139,6 +4232,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "FLAMMABLE",
       "NOITEM",
@@ -4188,6 +4282,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -4239,6 +4334,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -4290,6 +4386,7 @@
     "roof": "t_metal_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW", "SUPPORTS_ROOF" ],
     "bash": {
       "str_min": 50,

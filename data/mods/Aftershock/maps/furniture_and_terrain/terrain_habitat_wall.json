@@ -121,6 +121,7 @@
     "close": "t_wall_prefab_bglass_shutters",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "MOUNTABLE", "SMALL_PASSAGE", "WINDOW" ],
     "roof": "t_metal_flat_roof",
     "bash": {
@@ -146,6 +147,7 @@
     "color": "light_blue",
     "looks_like": "dark_",
     "description": "Exposed structural ribs and battered plate metal are all what remains of this habitat segment.",
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "MOUNTABLE", "THIN_OBSTACLE", "SMALL_PASSAGE", "WINDOW" ],
     "roof": "t_metal_flat_roof",
     "bash": {

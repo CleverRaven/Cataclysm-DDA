@@ -317,6 +317,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "NOITEM", "BLOCK_WIND", "WINDOW", "SUPPORTS_ROOF" ],
     "bash": {
       "str_min": 3,
@@ -352,6 +353,7 @@
     },
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "SHARP", "NOITEM", "MOUNTABLE", "SMALL_PASSAGE", "PERMEABLE", "WINDOW", "SUPPORTS_ROOF" ]
   },
   {
