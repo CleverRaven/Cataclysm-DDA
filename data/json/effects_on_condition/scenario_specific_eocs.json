@@ -95,13 +95,14 @@
         "monster_range": 36
       },
       {
-        "npc_run_monster_eocs": [
-          {
-            "id": "EOC_BANISH_MANSION_CIVILIANS",
-            "effect": { "run_eocs": "EOC_BANISH_SELF" }
-          }
+        "npc_run_monster_eocs": [ { "id": "EOC_BANISH_MANSION_CIVILIANS", "effect": { "run_eocs": "EOC_BANISH_SELF" } } ],
+        "mtype_ids": [
+          "mon_civilian_panic",
+          "mon_civilian_parent",
+          "mon_civilian_police",
+          "mon_civilian_stationary",
+          "mon_civilian_zombiefighter"
         ],
-        "mtype_ids": [ "mon_civilian_panic", "mon_civilian_parent", "mon_civilian_police", "mon_civilian_stationary", "mon_civilian_zombiefighter" ],
         "monster_range": 50
       }
     ]
@@ -141,7 +142,12 @@
           "id": "EOC_SEX_LAIR_SPAWNS",
           "condition": { "and": [ { "u_near_om_location": "mansion_boarded_t2d_start" }, { "math": [ "rand(2)", "==", "0" ] } ] },
           "effect": [
-            { "u_spawn_monster": "mon_zombie_resort_dancer", "real_count": { "math": [ "1 + rand(1)" ] }, "min_radius": 3, "max_radius": 5 },
+            {
+              "u_spawn_monster": "mon_zombie_resort_dancer",
+              "real_count": { "math": [ "1 + rand(1)" ] },
+              "min_radius": 3,
+              "max_radius": 5
+            },
             { "u_message": "What was that sound?", "type": "warning", "popup": true }
           ]
         }
@@ -151,7 +157,12 @@
           "id": "EOC_PANICROOM_SPAWNS",
           "condition": { "and": [ { "u_near_om_location": "mansion_boarded_t2_start" }, { "math": [ "rand(1)", "==", "0" ] } ] },
           "effect": [
-            { "u_spawn_monster": "GROUP_SCENARIO_PANICROOM", "group": true, "real_count": { "math": [ "1 + rand(1)" ] }, "max_radius": 2 },
+            {
+              "u_spawn_monster": "GROUP_SCENARIO_PANICROOM",
+              "group": true,
+              "real_count": { "math": [ "1 + rand(1)" ] },
+              "max_radius": 2
+            },
             { "u_message": "Is there someone else in here?", "type": "warning", "popup": true }
           ]
         }
