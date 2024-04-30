@@ -20,7 +20,7 @@
     "loudness": 20,
     "reload": 200,
     "range": 45,
-    "ammo_effects": [ "PLASMA", "PLASMA_BUBBLE", "INCENDIARY" ],
+    "ammo_effects": [ "PLASMA", "PLASMA_BUBBLE", "IGNITE" ],
     "ammo": [ "mom_fusion_ammo" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "25 ml", "item_restriction": [ "mom_fusion_mag" ] } ],
     "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE" ]

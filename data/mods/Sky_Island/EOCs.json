@@ -546,6 +546,7 @@
         "u_message": "Warp home behavior set to whole room.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
       },
       { "math": [ "roomteleportselector", "=", "0" ] },
+      { "u_forget_recipe": "warp_vortex_token" },
       { "run_eocs": "EOC_difficultycheck_3" }
     ]
   },
@@ -557,6 +558,7 @@
         "u_message": "Warp home behavior set to whole room at a cost.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
       },
       { "math": [ "roomteleportselector", "=", "1" ] },
+      { "u_learn_recipe": "warp_vortex_token" },
       { "run_eocs": "EOC_difficultycheck_3" }
     ]
   },
@@ -568,6 +570,7 @@
         "u_message": "Warp home behavior set to self only.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
       },
       { "math": [ "roomteleportselector", "=", "2" ] },
+      { "u_forget_recipe": "warp_vortex_token" },
       { "run_eocs": "EOC_difficultycheck_3" }
     ]
   },

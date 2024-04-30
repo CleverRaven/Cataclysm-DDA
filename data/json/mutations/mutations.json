@@ -4088,7 +4088,7 @@
     "name": { "str": "Padded Feet" },
     "points": 1,
     "visibility": 1,
-    "description": "The bottoms of your feet are strongly padded.  You receive no movement penalty for not wearing shoes, and even receive a 10% bonus when moving barefoot.  Also, your steps are significantly quieter, as added tissue dampens the noise.",
+    "description": "The bottoms of your feet are strongly padded.  You receive no movement penalty for not wearing shoes, and your steps are significantly quieter, as added tissue dampens the noise.",
     "types": [ "SOLES" ],
     "category": [ "BATRACHIAN", "RABBIT", "URSINE", "FELINE", "LUPINE", "SPIDER", "BEAST" ],
     "flags": [ "TOUGH_FEET" ],
@@ -9118,6 +9118,17 @@
     "valid": false,
     "description": "With this, you'll be fixing those bugs faster than ever!",
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": 10 } ] } ],
+    "debug": true,
+    "active": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_STAMINA",
+    "name": { "str": "Debug Stamina" },
+    "points": 99,
+    "valid": false,
+    "description": "Your energy to squash bugs is endless!",
+    "enchantments": [ { "values": [ { "value": "STAMINA_REGEN_MOD", "add": 9 } ] } ],
     "debug": true,
     "active": true
   },
