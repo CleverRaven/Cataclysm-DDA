@@ -88,6 +88,7 @@
     "connect_groups": "WALL",
     "connects_to": "WALL",
     "roof": "t_flat_roof",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "FLAMMABLE", "PLACE_ITEM", "INDOORS", "AUTO_WALL_SYMBOL", "THIN_OBSTACLE", "MOUNTABLE", "SHORT" ],
     "deconstruct": { "ter_set": "t_floor", "items": [ { "item": "2x4", "count": 5 }, { "item": "nail", "charges": 20 } ] },
     "bash": {

@@ -58,6 +58,7 @@
     "light_emitted": 120,
     "looks_like": "t_carpet_backrooms",
     "roof": "t_flat_roof",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT", "RUG" ],
     "bash": {
       "str_min": 4,
@@ -80,6 +81,7 @@
     "color": "yellow",
     "move_cost": 2,
     "roof": "t_flat_roof",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT", "RUG" ],
     "bash": {
       "sound": "SMASH!",
@@ -101,6 +103,7 @@
     "light_emitted": 120,
     "looks_like": "t_tile_backrooms",
     "roof": "t_flat_roof",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT" ],
     "bash": {
       "str_min": 4,
@@ -123,6 +126,7 @@
     "color": "yellow",
     "move_cost": 2,
     "roof": "t_flat_roof",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT" ],
     "bash": {
       "sound": "SMASH!",

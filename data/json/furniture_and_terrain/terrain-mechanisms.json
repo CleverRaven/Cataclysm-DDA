@@ -7,6 +7,7 @@
     "symbol": "6",
     "color": "cyan_red",
     "move_cost": 0,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE", "THIN_OBSTACLE" ],
     "examine_action": "controls_gate",
     "bash": {
@@ -26,6 +27,7 @@
     "symbol": "6",
     "color": "cyan_red",
     "move_cost": 0,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE", "THIN_OBSTACLE" ],
     "examine_action": "controls_gate",
     "bash": {
@@ -45,6 +47,7 @@
     "symbol": "6",
     "color": "cyan_red",
     "move_cost": 0,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE", "THIN_OBSTACLE" ],
     "examine_action": "controls_gate",
     "bash": {
@@ -64,6 +67,7 @@
     "symbol": "6",
     "color": "cyan_red",
     "move_cost": 0,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE", "THIN_OBSTACLE" ],
     "examine_action": "controls_gate",
     "bash": {
@@ -83,6 +87,7 @@
     "symbol": "6",
     "color": "cyan_red",
     "move_cost": 0,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE", "THIN_OBSTACLE" ],
     "examine_action": "controls_gate",
     "bash": {
@@ -102,6 +107,7 @@
     "symbol": "6",
     "color": "cyan_red",
     "move_cost": 0,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE", "THIN_OBSTACLE" ],
     "examine_action": "controls_gate",
     "bash": {
@@ -159,6 +165,7 @@
     "symbol": "|",
     "color": "brown",
     "move_cost": 0,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "NOITEM", "INDOORS", "PERMEABLE", "THIN_OBSTACLE" ],
     "examine_action": "controls_gate",
     "bash": {
@@ -792,6 +799,7 @@
     "move_cost": 0,
     "coverage": 50,
     "roof": "t_flat_roof",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "NOITEM", "INDOORS" ],
     "examine_action": "elevator",
     "bash": {
@@ -833,6 +841,7 @@
     "move_cost": 0,
     "coverage": 50,
     "roof": "t_flat_roof",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "NOITEM", "INDOORS" ],
     "examine_action": {
       "type": "effect_on_condition",
@@ -882,6 +891,7 @@
     "move_cost": 0,
     "coverage": 50,
     "roof": "t_flat_roof",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "NOITEM", "INDOORS" ],
     "examine_action": {
       "type": "effect_on_condition",
@@ -931,6 +941,7 @@
     "move_cost": 0,
     "coverage": 50,
     "roof": "t_flat_roof",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "NOITEM", "INDOORS" ],
     "bash": {
       "str_min": 40,

@@ -9,6 +9,7 @@
     "move_cost": 0,
     "coverage": 50,
     "roof": "t_flat_roof",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "NOITEM", "INDOORS" ],
     "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "EOC_ISO_ELEVATOR" ] }
   }

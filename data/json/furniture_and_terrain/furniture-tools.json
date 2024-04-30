@@ -10,6 +10,7 @@
     "move_cost_mod": -1,
     "coverage": 50,
     "required_str": -1,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "NOITEM", "INDOORS", "SHORT", "PERMEABLE" ],
     "connect_groups": "COUNTER",
     "connects_to": "COUNTER",
@@ -61,6 +62,7 @@
     "coverage": 50,
     "required_str": -1,
     "light_emitted": 10,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "CONSOLE", "NOITEM", "INDOORS", "SHORT", "PERMEABLE" ],
     "connect_groups": "COUNTER",
     "connects_to": "COUNTER",
@@ -111,6 +113,7 @@
     "move_cost_mod": -1,
     "coverage": 50,
     "required_str": -1,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "NOITEM", "INDOORS", "SHORT", "PERMEABLE" ],
     "deconstruct": {
       "skill": { "skill": "electronics", "min": 1, "max": 8 },

@@ -135,6 +135,7 @@
     "symbol": " ",
     "color": "black",
     "move_cost": 2,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "SUPPORTS_ROOF", "TRANSPARENT", "INDOORS", "FLAT", "ROAD" ]
   },
   {
@@ -145,6 +146,7 @@
     "symbol": ".",
     "color": "dark_gray",
     "move_cost": 2,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "SUPPORTS_ROOF", "TRANSPARENT", "FLAT", "ROAD", "INDOORS", "SHARP" ]
   },
   {
@@ -155,6 +157,7 @@
     "symbol": " ",
     "color": "black",
     "move_cost": 2,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "FLAT", "ROAD", "SUPPORTS_ROOF", "INDOORS" ]
   },
   {
@@ -165,6 +168,7 @@
     "symbol": " ",
     "color": "black",
     "move_cost": 2,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "FLAT", "ROAD", "SUPPORTS_ROOF", "INDOORS" ]
   },
   {
@@ -204,6 +208,7 @@
     "roof": "t_vitrified_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "NOITEM", "REDUCE_SCENT", "INDOORS", "SUPPORTS_ROOF" ],
     "bash": {
       "str_min": 5,
@@ -226,6 +231,7 @@
     "color": "dark_gray",
     "looks_like": "t_chainfence",
     "move_cost": 0,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "SUPPORTS_ROOF", "TRANSPARENT", "INDOORS", "NOITEM", "PERMEABLE", "SHARP", "AUTO_WALL_SYMBOL", "CLIMBABLE" ],
     "connect_groups": "CHAINFENCE",
     "connects_to": "CHAINFENCE",
@@ -247,6 +253,7 @@
     "symbol": "$",
     "color": "dark_gray",
     "move_cost": 4,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "SUPPORTS_ROOF", "TRANSPARENT", "INDOORS", "SHARP", "THIN_OBSTACLE", "SHORT" ],
     "bash": {
       "str_min": 8,
@@ -294,6 +301,7 @@
     "connect_groups": "SANDGLASS",
     "connects_to": "SANDGLASS",
     "move_cost": 3,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "SUPPORTS_ROOF", "TRANSPARENT", "INDOORS", "DIGGABLE", "FLAT", "SHARP" ],
     "bash": { "sound": "crunch", "ter_set": "t_sand", "str_min": 25, "str_max": 100, "str_min_supported": 100, "bash_below": true }
   },
@@ -429,6 +437,7 @@
     "looks_like": "t_water_pool",
     "color": "black",
     "move_cost": 7,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "SUPPORTS_ROOF", "TRANSPARENT", "INDOORS", "LIQUID", "NO_SCENT", "SWIMMABLE", "SHARP" ],
     "connect_groups": "POOLWATER",
     "connects_to": "POOLWATER"
@@ -482,6 +491,7 @@
     "color": "dark_gray",
     "move_cost": 8,
     "coverage": 40,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "SUPPORTS_ROOF", "TRANSPARENT", "INDOORS", "CONTAINER", "THIN_OBSTACLE", "SHRUB", "SHORT", "SHARP" ],
     "bash": {
       "str_min": 4,
@@ -500,6 +510,7 @@
     "symbol": ">",
     "color": "light_gray",
     "move_cost": 2,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "GOES_DOWN", "PLACE_ITEM", "INDOORS", "SUPPORTS_ROOF" ]
   },
   {
@@ -510,6 +521,7 @@
     "symbol": "<",
     "color": "light_gray",
     "move_cost": 2,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "SUPPORTS_ROOF", "TRANSPARENT", "GOES_UP", "INDOORS", "PLACE_ITEM" ]
   },
   {
@@ -522,6 +534,7 @@
     "color": "light_gray",
     "move_cost": 3,
     "trap": "tr_downspout_funnel",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "SUPPORTS_ROOF", "TRANSPARENT", "INDOORS", "THIN_OBSTACLE", "UNSTABLE", "CLIMBABLE" ],
     "bash": {
       "str_min": 5,
@@ -541,6 +554,7 @@
     "looks_like": "t_concrete",
     "color": "dark_gray",
     "move_cost": 2,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "SUPPORTS_ROOF", "TRANSPARENT", "INDOORS", "UNSTABLE" ],
     "bash": { "str_min": 30, "str_max": 210, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_hole", "bash_below": true }
   },
@@ -553,6 +567,7 @@
     "looks_like": "t_gutter",
     "color": "light_gray",
     "move_cost": 3,
+    "connect_groups": "INDOORFLOOR",
     "flags": [
       "SUPPORTS_ROOF",
       "TRANSPARENT",

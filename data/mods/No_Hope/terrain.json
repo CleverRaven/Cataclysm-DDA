@@ -287,6 +287,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "RAIL",
     "connects_to": "RAIL",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG" ],
     "bash": {
       "sound": "SMASH!",
@@ -310,6 +311,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "RAIL",
     "connects_to": "RAIL",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG" ],
     "bash": {
       "str_min": 4,
@@ -334,6 +336,7 @@
     "roof": "t_flat_roof",
     "connect_groups": "RAIL",
     "connects_to": "RAIL",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "INDOORS", "COLLAPSES", "SUPPORTS_ROOF", "FLAT", "ROAD" ],
     "bash": { "ter_set": "t_null", "str_min": 75, "str_max": 400, "str_min_supported": 100, "bash_below": true }
   },
@@ -350,6 +353,7 @@
     "connect_groups": "RAIL",
     "connects_to": "RAIL",
     "roof": "t_flat_roof",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "INDOORS", "COLLAPSES", "SUPPORTS_ROOF", "FLAT", "ROAD" ],
     "bash": {
       "str_min": 4,

@@ -33,6 +33,7 @@
     "roof": "t_resin_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "NOITEM", "WALL", "PERMEABLE", "TRANSPARENT", "INDOORS", "MINEABLE", "SUPPORTS_ROOF" ],
     "bash": {
       "str_min": 70,
@@ -52,6 +53,7 @@
     "color": "dark_gray",
     "move_cost": 1,
     "roof": "t_resin_roof",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD", "NOCOLLIDE" ],
     "bash": {
       "str_min": 250,

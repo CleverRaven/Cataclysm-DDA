@@ -652,6 +652,7 @@
     "move_cost": 0,
     "coverage": 50,
     "roof": "t_flat_roof",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "NOITEM", "INDOORS" ],
     "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "slot_machine_examine" ] },
     "bash": {
@@ -1182,6 +1183,7 @@
     "symbol": "=",
     "color": "brown",
     "move_cost": 6,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "PLACE_ITEM", "INDOORS" ],
     "coverage": 30,
     "deconstruct": {
@@ -1289,6 +1291,7 @@
     "color": "green",
     "looks_like": "t_pit",
     "move_cost": 0,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "INDOORS" ],
     "deconstruct": { "ter_set": "t_pit", "items": [ { "item": "rock", "count": 40 }, { "item": "stick", "count": [ 16, 16 ] } ] },
     "bash": {
@@ -1383,6 +1386,7 @@
     "coverage": 30,
     "floor_bedding_warmth": 1000,
     "comfort": 3,
+    "connect_groups": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "CONTAINER",
@@ -1415,6 +1419,7 @@
     "comfort": 4,
     "move_cost": 2,
     "coverage": 30,
+    "connect_groups": "INDOORFLOOR",
     "flags": [
       "TRANSPARENT",
       "CONTAINER",
@@ -1458,6 +1463,7 @@
         { "item": "pine_bough", "count": [ 0, 2 ] }
       ]
     },
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "REDUCE_SCENT", "INDOORS", "MOUNTABLE" ]
   },
   {
@@ -1485,6 +1491,7 @@
       "ter_set": "t_dirt",
       "items": [ { "item": "pointy_stick", "count": 4 }, { "item": "string_6", "count": 4 }, { "item": "tarp", "count": 1 } ]
     },
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "FLAMMABLE", "THIN_OBSTACLE", "INDOORS", "MOUNTABLE", "EASY_DECONSTRUCT" ]
   },
   {

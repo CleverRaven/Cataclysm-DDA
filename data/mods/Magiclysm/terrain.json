@@ -107,6 +107,7 @@
     "move_cost": 2,
     "light_emitted": 90,
     "roof": "t_flat_roof",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT", "ROAD" ],
     "bash": {
       "str_min": 4,
@@ -152,6 +153,7 @@
     "move_cost": 2,
     "roof": "t_flat_roof",
     "looks_like": "t_strconc_floor",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
     "bash": {
       "sound": "SMASH!",
@@ -176,6 +178,7 @@
     "color": "cyan",
     "move_cost": 2,
     "roof": "t_flat_roof",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
     "bash": {
       "sound": "SMASH!",
@@ -201,6 +204,7 @@
     "color": "cyan",
     "move_cost": 2,
     "roof": "t_flat_roof",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
     "bash": {
       "sound": "SMASH!",

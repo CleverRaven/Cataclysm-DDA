@@ -9,6 +9,7 @@
     "move_cost": 2,
     "light_emitted": 120,
     "looks_like": "t_carpet_green",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG", "EASY_DECONSTRUCT" ],
     "bash": {
       "str_min": 4,
@@ -32,6 +33,7 @@
     "color": "light_gray",
     "move_cost": 3,
     "coverage": 50,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "MOUNTABLE", "PERMEABLE", "THIN_OBSTACLE", "MINEABLE", "UNSTABLE", "INDOORS" ],
     "bash": {
       "str_min": 30,
@@ -55,6 +57,7 @@
     "coverage": 50,
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "NOITEM", "WALL", "INDOORS", "PERMEABLE" ],
     "bash": {
       "str_min": 20,
@@ -90,6 +93,7 @@
     "coverage": 50,
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "NOITEM", "WALL", "INDOORS", "PERMEABLE" ],
     "bash": { "str_min": 5, "str_max": 15, "explosive": 10, "ter_set": "t_LIXA_thconc_floor", "sound_fail": "clang!" },
     "shoot": { "chance_to_hit": 100, "reduce_damage": [ 0, 0 ], "reduce_damage_laser": [ 0, 0 ], "destroy_damage": [ 20, 30 ] }
@@ -104,6 +108,7 @@
     "color": "light_gray",
     "move_cost": 3,
     "coverage": 50,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "MOUNTABLE", "PERMEABLE", "INDOORS", "THIN_OBSTACLE", "UNSTABLE", "MINEABLE" ],
     "bash": {
       "str_min": 7,
@@ -125,6 +130,7 @@
     "light_emitted": 120,
     "move_cost": 2,
     "coverage": 50,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "MOUNTABLE", "PERMEABLE", "INDOORS", "THIN_OBSTACLE", "UNSTABLE", "MINEABLE" ],
     "emissions": [ "emit_congealed_light" ]
   },
@@ -138,6 +144,7 @@
     "color": "cyan",
     "move_cost": 2,
     "roof": "t_concrete_roof",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT", "ROAD" ],
     "connect_groups": "CONCRETE",
     "connects_to": "CONCRETE"
@@ -170,6 +177,7 @@
     "roof": "t_metal_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "NOITEM", "INDOORS" ],
     "examine_action": {
       "type": "cardreader",
@@ -203,6 +211,7 @@
     "roof": "t_metal_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "NOITEM", "INDOORS" ],
     "examine_action": {
       "type": "cardreader",
@@ -236,6 +245,7 @@
     "roof": "t_metal_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "NOITEM", "INDOORS" ],
     "examine_action": {
       "type": "cardreader",
@@ -269,6 +279,7 @@
     "roof": "t_metal_roof",
     "connect_groups": "WALL",
     "connects_to": "WALL",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "NOITEM", "INDOORS" ],
     "examine_action": {
       "type": "cardreader",

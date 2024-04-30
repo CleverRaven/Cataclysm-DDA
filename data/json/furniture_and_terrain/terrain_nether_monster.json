@@ -7,6 +7,7 @@
     "symbol": ".",
     "color": "magenta_white",
     "move_cost": 1,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT" ]
   },
   {
@@ -48,6 +49,7 @@
     "symbol": ".",
     "color": "magenta_white",
     "move_cost": 1,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT" ],
     "looks_like": "t_thconc_floor_flesh"
   },
@@ -135,6 +137,7 @@
     "color": "white",
     "move_cost": 0,
     "roof": "t_nm_floor_flesh",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "BLOCK_WIND", "NOITEM" ],
     "looks_like": "fd_web",
     "bash": { "sound": "Riiiiip!", "ter_set": "t_nm_floor_flesh", "str_min": 5, "str_max": 10 }
