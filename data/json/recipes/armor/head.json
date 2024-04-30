@@ -281,7 +281,7 @@
     "time": "2 h",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "cordage", 1, "LIST" ] ], [ [ "bottle_plastic", 1 ], [ "bottle_bathroom", 1 ], [ "bottle_plastic_small", 2 ] ] ],
+    "components": [ [ [ "cordage", 1, "LIST" ] ], [ [ "plastic_bottles_any", 1, "LIST" ] ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ]
   },
   {
@@ -1510,7 +1510,7 @@
       [ "textbook_gaswarfare", 3 ]
     ],
     "components": [
-      [ [ "plastic_sheet_small", 2 ], [ "bottle_plastic", 1 ], [ "bottle_bathroom", 1 ], [ "bottle_plastic_small", 2 ] ],
+      [ [ "plastic_sheet_small", 2 ], [ "plastic_bottles_any", 1, "LIST" ] ],
       [ [ "cotton_patchwork", 2 ], [ "bandana", 2 ], [ "paper", 10 ] ],
       [ [ "charcoal", 10 ] ]
     ],
