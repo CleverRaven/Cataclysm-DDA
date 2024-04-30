@@ -2043,5 +2043,15 @@
     "type": "construction_group",
     "id": "build_wood_roof",
     "name": "Build Wood Roof"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_chimney",
+    "name": "Build Chimney"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_vent_pipe",
+    "name": "Build Vent Pipe"
   }
 ]
