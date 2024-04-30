@@ -366,7 +366,7 @@
     "damage_reduction": { "all": 28, "stab": 12 },
     "variants": [ { "symbols": "O", "symbols_broken": "#" } ]
   },
-    {
+  {
     "id": "medium_pressure_tank",
     "type": "vehicle_part",
     "name": { "str": "medium pressurized tank" },
