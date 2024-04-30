@@ -1174,7 +1174,7 @@ TEST_CASE( "EOC_combat_event_test", "[eoc]" )
         get_avatar().set_body();
         arm_shooter( get_avatar(), "shotgun_s" );
         get_avatar().recoil = 0;
-        get_avatar().fire_gun( target_pos, 1, *get_avatar().get_wielded_item() );
+        get_avatar().fire_gun( target_pos, 1, *get_avatar().get_wielded_item(), item_location() );
         if( !npc_dst_ranged.get_value( "npctalk_var_test_event_last_event" ).empty() ) {
             break;
         }
@@ -1194,7 +1194,7 @@ TEST_CASE( "EOC_combat_event_test", "[eoc]" )
         get_avatar().set_body();
         arm_shooter( get_avatar(), "shotgun_s" );
         get_avatar().recoil = 0;
-        get_avatar().fire_gun( mon_dst_ranged.pos(), 1, *get_avatar().get_wielded_item() );
+        get_avatar().fire_gun( mon_dst_ranged.pos(), 1, *get_avatar().get_wielded_item(), item_location() );
         if( !mon_dst_ranged.get_value( "npctalk_var_test_event_last_event" ).empty() ) {
             break;
         }

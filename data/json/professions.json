@@ -3524,6 +3524,7 @@
           { "item": "howto_computer" },
           { "group": "charged_smart_phone" },
           { "item": "tshirt", "variant": "generic_tshirt" },
+          { "item": "tshirt_cropped" },
           { "item": "pants", "variant": "pants_black" }
         ]
       },
@@ -5054,6 +5055,7 @@
       "both": {
         "entries": [
           { "item": "hoodie" },
+          { "item": "hoodie_cropped" },
           { "item": "jeans" },
           { "item": "socks" },
           { "item": "elbow_pads" },
@@ -5064,7 +5066,8 @@
           { "item": "wristwatch" },
           { "item": "sports_drink" },
           { "group": "charged_smart_phone" },
-          { "item": "tshirt", "variant": "generic_tshirt" }
+          { "item": "tshirt", "variant": "generic_tshirt" },
+          { "item": "tshirt_cropped" }
         ]
       },
       "male": { "entries": [ { "item": "briefs" } ] },
@@ -5086,6 +5089,7 @@
       "both": {
         "entries": [
           { "item": "hoodie" },
+          { "item": "hoodie_cropped" },
           { "item": "jeans" },
           { "item": "socks" },
           { "item": "elbow_pads" },
@@ -5097,7 +5101,8 @@
           { "item": "wristwatch" },
           { "item": "sports_drink" },
           { "group": "charged_smart_phone" },
-          { "item": "tshirt", "variant": "generic_tshirt" }
+          { "item": "tshirt", "variant": "generic_tshirt" },
+          { "item": "tshirt_cropped" }
         ]
       },
       "male": { "entries": [ { "item": "briefs" } ] },
@@ -5124,6 +5129,7 @@
       "both": {
         "entries": [
           { "item": "hoodie" },
+          { "item": "hoodie_cropped" },
           { "item": "jeans" },
           { "item": "socks" },
           { "item": "sneakers" },
@@ -5138,7 +5144,8 @@
           { "item": "slingshot" },
           { "group": "charged_smart_phone" },
           { "group": "charged_matches" },
-          { "item": "tshirt", "variant": "generic_tshirt" }
+          { "item": "tshirt", "variant": "generic_tshirt" },
+          { "item": "tshirt_cropped" }
         ]
       },
       "male": { "entries": [ { "item": "briefs" } ] },
@@ -5431,13 +5438,15 @@
       "both": {
         "entries": [
           { "item": "hoodie" },
+          { "item": "hoodie_cropped" },
           { "item": "pants_cargo" },
           { "item": "socks_ankle" },
           { "item": "sneakers" },
           { "item": "runner_bag" },
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
-          { "item": "tshirt", "variant": "generic_tshirt" }
+          { "item": "tshirt", "variant": "generic_tshirt" },
+          { "item": "tshirt_cropped" }
         ]
       },
       "male": { "entries": [ { "item": "briefs" } ] },
@@ -5467,6 +5476,7 @@
           { "group": "charged_smart_phone" },
           { "item": "light_disposable_cell", "ammo-item": "battery", "charges": 300, "container-item": "camera" },
           { "item": "tshirt", "variant": "generic_tshirt" },
+          { "item": "tshirt_cropped" },
           { "item": "pants", "variant": "pants_black" }
         ]
       },

@@ -8,6 +8,7 @@
     - [Hardcoded special attacks](#hardcoded-special-attacks)
     - [JSON special attacks](#json-special-attacks)
         - [`bite`](#bite)
+        - [`grab`](#grab-attacks)
     - [Non-melee special attacks](#non-melee-special-attacks)
         - [`gun`](#gun)
         - [`spell`](#spell)
@@ -73,7 +74,7 @@ In the case of separately defined attacks the object has to contain at least an 
     { "id": "impale", "cooldown": 5, "min_mul": 1, "max_mul": 3 }
 ]
 ```
-This monster can attempt a grab every ten turns, a leap with a maximum range of 4 every eight and an impale attack with 1-3x damage multiplier every five turns.
+This monster can attempt an acid attack every ten turns, a leap with a maximum range of 4 every eight and an impale attack with 1-3x damage multiplier every five turns.
 
 
 ## Hardcoded special attacks
@@ -130,11 +131,9 @@ These special attacks are mostly hardcoded in C++ and are generally not configur
 - ```GROWPLANTS``` Spawns underbrush, or promotes it to `> young tree > tree`.  Can destroy bashable terrain or do damage if it hits something.
 - ```GROW_VINE``` Grows creeper vines.
 - ```HOWL``` "an ear-piercing howl!".
-- ```IMPALE``` Stabbing attack against the target's torso, with a chance to inflict `downed`.  Note: superseded by the JSON-defined `"impale"`.
 - ```JACKSON``` Converts zombies into zombie dancers (until its death).
 - ```KAMIKAZE``` Detonates its defined ammo after a countdown (calculated automatically to hopefully almost catch up to a running player).
 - ```LEECH_SPAWNER``` Spawns root runners or root drones, low chance of upgrading itself into a leech stalk.
-- ```LONGSWIPE``` Claw attack with 3-10 cut damage, which can even hit 3 tiles away.  If targeting an adjacent enemy it always hits the head and causes heavy bleeding.  JSON equivalents of the two elements are `"longswipe"` and `"cut_throat"` respectively.
 - ```LUNGE``` Performs a jumping attack from some distance away, which can inflict `downed` to the target.
 - ```MON_LEECH_EVOLUTION``` Evolves a leech plant into a leech blossom if no other blossoms are in sight.
 - ```MULTI_ROBOT``` Robot can attack with tazer, flamethrower, M4, MGL, or 120mm cannon depending on distance.
@@ -163,10 +162,8 @@ These special attacks are mostly hardcoded in C++ and are generally not configur
 - ```SPLIT``` Creates a copy of itself if it has twice the maximum HP that it should normally have.  This can be achieved by combining this with `ABSORB_ITEMS`.
 - ```STARE``` Stares at the player and inflicts ramping debuffs (`taint>tindrift`).
 - ```STRETCH_ATTACK``` Ranged (3 tiles) piercing attack, dealing 5-10 damage.  JSON equivalent is `"stretch_attack"`
-- ```STRETCH_BITE``` Ranged (3 tiles) bite attack, dealing stab damage and potentially infecting without grabbing.  JSON equivalent (without the chance of deep bites) is `"stretch_bite"`.
 - ```SUICIDE``` Dies after attacking.
 - ```TAZER``` Shocks the player.
-- ```TENTACLE``` Lashes a tentacle at an enemy, doing bash damage at 3 tiles range. JSON equivalent is `"tentacle"`.
 - ```TINDALOS_TELEPORT``` Spawns afterimages, teleports to corners nearer to its target.
 - ```TRIFFID_GROWTH``` Young triffid grows into an adult.
 - ```TRIFFID_HEARTBEAT``` Grows and crumbles root walls around the player, and spawns more monsters.

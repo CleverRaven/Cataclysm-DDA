@@ -333,6 +333,16 @@
   },
   {
     "type": "effect_type",
+    "id": "shattered",
+    "name": [ "shattered" ],
+    "//": "Intended for monsters, has no effect except to create a new weak point.",
+    "desc": [ "Your armor has been shattered by a heavy attack." ],
+    "apply_message": "Your armor has been shattered.",
+    "rating": "bad",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
     "id": "staggered",
     "name": [ "Staggered" ],
     "//": "Mainly for monsters",
@@ -471,6 +481,13 @@
       { "limb_score": "reaction", "modifier": 0.5 },
       { "limb_score": "block", "modifier": 0.5 }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "yrax_overcharged",
+    "name": [ "▙▜▛▜" ],
+    "desc": [ "▙▚▛▜▝▞▟" ],
+    "show_in_info": true
   },
   {
     "type": "effect_type",
@@ -3081,7 +3098,9 @@
       "infected",
       "asthma",
       "common_cold",
-      "flu"
+      "flu",
+      "pre_flu",
+      "pre_common_cold"
     ],
     "base_mods": { "pkill_min": [ 5 ] }
   },

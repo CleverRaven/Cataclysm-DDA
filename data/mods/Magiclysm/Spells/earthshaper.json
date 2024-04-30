@@ -814,9 +814,9 @@
     "shape": "blast",
     "max_level": 15,
     "spell_class": "EARTHSHAPER",
-    "base_casting_time": { "math": [ "conveyance_proficiency_negate_calculate(6000)" ] },
+    "base_casting_time": { "math": [ "conveyance_proficiency_negate_calculate(6000, 40)" ] },
     "energy_source": "MANA",
-    "base_energy_cost": { "math": [ "conveyance_proficiency_negate_calculate(1000)" ] },
+    "base_energy_cost": { "math": [ "conveyance_proficiency_negate_calculate(1000, 6.7)" ] },
     "difficulty": 8
   },
   {
