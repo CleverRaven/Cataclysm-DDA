@@ -1,37 +1,10 @@
 [
   {
-    "id": "EOC_LS_Teleport_to_labyrinth",
-    "type": "mission_definition",
-    "name": { "str": "Enter portal" },
-    "goal": "MGOAL_GO_TO_TYPE",
-    "destination": "labyrinth_hall",
-    "start": {
-      "assign_mission_target": {
-        "om_terrain": "labyrinth_hall",
-        "om_special": "labyrinth_hall_nesw",
-        "reveal_radius": 0,
-        "random": false,
-        "search_range": 2400
-      }
-    },
-    "difficulty": 0,
-    "value": 0,
-    "invisible_on_complete": true,
-    "origins": [ "ORIGIN_SECONDARY" ]
-  },
-  {
     "type": "effect_on_condition",
     "id": "EOC_LS_Teleport_to_labyrinth",
     "effect": [
-      { "assign_mission": "LS_go_to_labyrinth" },
-      { "u_location_variable": { "global_val": "original_labyrinth_portal_loc" } },
-      { "remove_active_mission": "LS_go_to_labyrinth" },
+      { "u_location_variable": { "global_val": "original_labyrinth_portal_loc" } }
     ]
-  },
-  {
-    "id": "EOC_LS_Computer",
-    "type": "effect_on_condition",
-    "effect": [ "open_dialogue" ]
   },
   {
     "id": "EOC_LS_Computer",

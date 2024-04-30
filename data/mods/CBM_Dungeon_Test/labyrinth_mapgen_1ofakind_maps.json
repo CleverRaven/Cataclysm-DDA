@@ -42,5 +42,5 @@
         "Ç": { "name": "Exit Controls", "eocs": [ "EOC_LS_Computer" ], "chat_topics": [ "COMP_LS_Exit_Controls" ] }
       }
     }
-  },
+  }
 ]

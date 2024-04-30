@@ -1,7 +1,7 @@
 [
   {
     "type": "talk_topic",
-    "id": [ "COMP_LS_Exit_Controls" ],
+    "id": [ "COMP_LS_Exit_Controls", "COMP_LS_Exit_Controls2" ],
     "responses": [
       {
         "text": "Activate exit protocol",
