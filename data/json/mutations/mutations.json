@@ -9123,6 +9123,17 @@
   },
   {
     "type": "mutation",
+    "id": "DEBUG_STAMINA",
+    "name": { "str": "Debug Stamina" },
+    "points": 99,
+    "valid": false,
+    "description": "Your energy to squash bugs is endless!",
+    "enchantments": [ { "values": [ { "value": "STAMINA_REGEN_MOD", "add": 9 } ] } ],
+    "debug": true,
+    "active": true
+  },
+  {
+    "type": "mutation",
     "id": "DEBUG_PREVENT_DEATH",
     "name": { "str": "Debug Prevent Death" },
     "points": 99,

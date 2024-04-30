@@ -157,9 +157,12 @@ static bool check_nothing( const tripoint_bub_ms & )
 static bool check_channel( const tripoint_bub_ms & ); // tile has adjacent flowing water
 static bool check_empty_lite( const tripoint_bub_ms & );
 static bool check_empty( const tripoint_bub_ms & ); // tile is empty
-static bool check_support( const tripoint_bub_ms & ); // at least two orthogonal supports
+static bool check_support( const tripoint_bub_ms
+                           & ); // at least two orthogonal supports or from below
 static bool check_support_below( const tripoint_bub_ms
-                                 & ); // at least two orthogonal supports at the level below
+                                 & ); // at least two orthogonal supports at the level below or from below
+static bool check_single_support( const tripoint_bub_ms
+                                  &p ); // Only support from directly below matters
 static bool check_stable( const tripoint_bub_ms & ); // tile below has a flag SUPPORTS_ROOF
 static bool check_nofloor_above( const tripoint_bub_ms & ); // tile above has a flag NO_FLOOR
 static bool check_deconstruct( const tripoint_bub_ms
@@ -171,6 +174,8 @@ static bool check_ramp_high( const tripoint_bub_ms
                              & ); // one of the adjacent tiles on the z-level above has a completed down ramp
 static bool check_no_wiring( const tripoint_bub_ms
                              & ); // tile doesn't contain appliances/vehicle parts with WIRING flag like ap_wall_wiring
+static bool check_matching_down_above( const tripoint_bub_ms
+                                       &p ); // tile above has the same base name but with the "down suffix
 
 // Special actions to be run post-terrain-mod
 static void done_nothing( const tripoint_bub_ms &, Character & ) {}
@@ -193,6 +198,9 @@ static void done_mark_firewood( const tripoint_bub_ms &, Character & );
 static void done_mark_practice_target( const tripoint_bub_ms &, Character & );
 static void done_ramp_low( const tripoint_bub_ms &, Character & );
 static void done_ramp_high( const tripoint_bub_ms &, Character & );
+static void add_matching_down_above( const tripoint_bub_ms &p, Character & );
+static void remove_above( const tripoint_bub_ms &p, Character & );
+static void add_roof( const tripoint_bub_ms &p, Character & );
 
 static void do_turn_shovel( const tripoint_bub_ms &, Character & );
 static void do_turn_exhume( const tripoint_bub_ms &, Character & );
@@ -1251,9 +1259,16 @@ bool construct::check_support( const tripoint_bub_ms &p )
     }
     int num_supports = 0;
     for( const point &offset : four_adjacent_offsets ) {
-        if( here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p + offset ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p + offset ) &&
+            !here.has_flag( ter_furn_flag::TFLAG_SINGLE_SUPPORT, p + offset ) ) {
             num_supports++;
         }
+    }
+    // We want to find "walls" below (including windows and doors), but not open rooms and the like.
+    if( here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p + tripoint_below ) &&
+        ( here.has_flag( ter_furn_flag::TFLAG_WALL, p + tripoint_below ) ||
+          here.has_flag( ter_furn_flag::TFLAG_CONNECT_WITH_WALL, p + tripoint_below ) ) ) {
+        num_supports += 2;
     }
     return num_supports >= 2;
 }
@@ -1283,11 +1298,27 @@ bool construct::check_support_below( const tripoint_bub_ms &p )
     // need two or more orthogonally adjacent supports at the Z level below
     int num_supports = 0;
     for( const point &offset : four_adjacent_offsets ) {
-        if( here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p + offset + tripoint_below ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p + offset + tripoint_below ) &&
+            !here.has_flag( ter_furn_flag::TFLAG_SINGLE_SUPPORT, p + offset + tripoint_below ) ) {
             num_supports++;
         }
     }
+    // We want to find "walls" below (including windows and doors), but not open rooms and the like.
+    if( here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p + tripoint_below ) &&
+        ( here.has_flag( ter_furn_flag::TFLAG_WALL, p + tripoint_below ) ||
+          here.has_flag( ter_furn_flag::TFLAG_CONNECT_WITH_WALL, p + tripoint_below ) ) ) {
+        num_supports += 2;
+    }
     return num_supports >= 2;
+}
+
+bool construct::check_single_support( const tripoint_bub_ms &p )
+{
+    map &here = get_map();
+    if( here.impassable( p ) ) {
+        return false;
+    }
+    return here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p + tripoint_below );
 }
 
 bool construct::check_stable( const tripoint_bub_ms &p )
@@ -1351,6 +1382,16 @@ bool construct::check_no_wiring( const tripoint_bub_ms &p )
 
     const vehicle &veh_target = vp->vehicle();
     return !veh_target.has_tag( flag_WIRING );
+}
+
+bool construct::check_matching_down_above( const tripoint_bub_ms &p )
+{
+    map &here = get_map();
+    const std::string ter_here = here.ter( p ).id().str();
+    const std::string ter_above = here.ter( p + tripoint_above ).id().str();
+    const size_t separation = ter_here.find_last_of( '_' );
+    return separation > 0 &&
+           ter_here.substr( 0, separation + 1 ) + "down" == ter_above;
 }
 
 void construct::done_trunk_plank( const tripoint_bub_ms &/*p*/, Character &/*who*/ )
@@ -1776,6 +1817,34 @@ void construct::done_ramp_high( const tripoint_bub_ms &p, Character &/*who*/ )
     get_map().ter_set( top, ter_t_ramp_down_high );
 }
 
+void construct::add_matching_down_above( const tripoint_bub_ms &p, Character &/*who*/ )
+{
+    map &here = get_map();
+    const std::string ter_here = here.ter( p ).id().str();
+    const std::string ter_above = here.ter( p + tripoint_above ).id().str();
+    const size_t separation = ter_here.find_last_of( '_' );
+    if( separation > 0 ) {
+        here.ter_set( p + tripoint_above, ter_id( ter_here.substr( 0, separation + 1 ) + "down" ) );
+    }
+}
+
+void construct::remove_above( const tripoint_bub_ms &p, Character &/*who*/ )
+{
+    map &here = get_map();
+    here.ter_set( p + tripoint_above, ter_t_open_air );
+}
+
+void construct::add_roof( const tripoint_bub_ms &p, Character &/*who*/ )
+{
+    map &here = get_map();
+    ter_id roof = here.ter( p ).obj().roof;
+    if( !roof ) {
+        debugmsg( "add_roof post_ter called on terrain lacking roof definition, %s.",
+                  here.ter( p ).id().c_str() );
+    }
+    here.ter_set( p + tripoint_above, roof );
+}
+
 void construct::do_turn_shovel( const tripoint_bub_ms &p, Character &who )
 {
     // TODO: fix point types
@@ -1949,6 +2018,7 @@ void load_construction( const JsonObject &jo )
             { "check_empty_lite", construct::check_empty_lite },
             { "check_support", construct::check_support },
             { "check_support_below", construct::check_support_below },
+            { "check_single_support", construct::check_single_support },
             { "check_stable", construct::check_stable },
             { "check_nofloor_above", construct::check_nofloor_above },
             { "check_deconstruct", construct::check_deconstruct },
@@ -1956,7 +2026,8 @@ void load_construction( const JsonObject &jo )
             { "check_down_OK", construct::check_down_OK },
             { "check_no_trap", construct::check_no_trap },
             { "check_ramp_high", construct::check_ramp_high },
-            { "check_no_wiring", construct::check_no_wiring }
+            { "check_no_wiring", construct::check_no_wiring },
+            { "check_matching_down_above", construct::check_matching_down_above }
         }
     };
     static const std::map<std::string, void( * )( const tripoint_bub_ms &, Character & )>
@@ -1979,7 +2050,11 @@ void load_construction( const JsonObject &jo )
             { "done_mark_firewood", construct::done_mark_firewood },
             { "done_mark_practice_target", construct::done_mark_practice_target },
             { "done_ramp_low", construct::done_ramp_low },
-            { "done_ramp_high", construct::done_ramp_high }
+            { "done_ramp_high", construct::done_ramp_high },
+            { "add_matching_down_above", construct::add_matching_down_above },
+            { "remove_above", construct::remove_above },
+            { "add_roof", construct::add_roof }
+
         }
     };
     static const std::map<std::string, void( * )( const tripoint_bub_ms &, Character & )>

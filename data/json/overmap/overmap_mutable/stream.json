@@ -5,6 +5,8 @@
     "subtype": "mutable",
     "locations": [ "field", "forest", "swamp" ],
     "occurrences": [ 1, 1 ],
+    "//": "Place before all priority buildings",
+    "priority": 2,
     "flags": [ "WILDERNESS" ],
     "check_for_locations_area": [ { "type": [ "field", "forest" ], "from": [ 1, 1, 0 ], "to": [ -1, -1, 0 ] } ],
     "joins": [ "stream_to_stream", "stream_to_east", "stream_to_west" ],

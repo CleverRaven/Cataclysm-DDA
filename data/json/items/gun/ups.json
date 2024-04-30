@@ -66,7 +66,7 @@
     "energy_drain": "20 kJ",
     "reload": 0,
     "modes": [ [ "DEFAULT", "3 rd.", 3 ], [ "BURST", "5 rd.", 5 ], [ "AUTO", "high auto", 15 ] ],
-    "ammo_effects": [ "LASER", "PLASMA_BUBBLE", "INCENDIARY" ],
+    "ammo_effects": [ "LASER", "PLASMA_BUBBLE", "IGNITE" ],
     "flags": [ "NO_UNLOAD", "NEVER_JAMS", "NO_UNWIELD", "NO_SALVAGE", "NO_REPAIR", "UNBREAKABLE_MELEE", "NON_FOULING", "USE_UPS" ],
     "overheat_threshold": 200,
     "cooling_value": 2,
@@ -97,7 +97,7 @@
     "loudness": 1,
     "energy_drain": "50 kJ",
     "reload": 0,
-    "ammo_effects": [ "LASER", "PLASMA_BUBBLE", "INCENDIARY" ],
+    "ammo_effects": [ "LASER", "PLASMA_BUBBLE", "IGNITE" ],
     "flags": [
       "NO_UNLOAD",
       "NEVER_JAMS",
@@ -154,7 +154,7 @@
       [ "stock accessory", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "ammo_effects": [ "LASER", "INCENDIARY" ],
+    "ammo_effects": [ "LASER", "IGNITE" ],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "USE_UPS", "OVERHEATS" ],
     "faults": [ "fault_overheat_melting", "fault_overheat_safety" ],
     "melee_damage": { "bash": 12 }
