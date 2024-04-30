@@ -79,6 +79,7 @@ void uilist_impl::draw_controls()
         // this will overestimate if there are any color tags, but that never happens. probably.
         menu_size.x = std::max( menu_size.x, ImGui::CalcTextSize( entry.txt.c_str() ).x );
     }
+    menu_size.x += ImGui::CalcTextSize( " [X] " ).x;
     menu_size.y = std::min( ImGui::GetIO().DisplaySize.y,
                             parent.fentries.size() * ImGui::GetTextLineHeightWithSpacing() );
 
