@@ -21,11 +21,28 @@
         "id": "EOC_UNLOCK_PSIONIC_COMBAT",
         "condition": {
           "and": [
-            { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "8" ] },
-            { "math": [ "u_spell_level('biokin_reflex_enhance')", ">=", "6" ] },
-            { "math": [ "u_spell_level('biokin_flexibility')", ">=", "8" ] },
+            {
+              "or": [
+                { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "8" ] },
+                { "math": [ "u_spell_level('biokin_reflex_enhance')", ">=", "8" ] },
+                { "math": [ "u_spell_level('biokin_combat_dance')", ">=", "5" ] }
+              ]
+            },
+            {
+              "or": [
+                { "math": [ "u_spell_level('biokin_dash')", ">=", "8" ] },
+                { "math": [ "u_spell_level('biokin_flexibility')", ">=", "8" ] },
+                { "math": [ "u_spell_level('biokin_adrenaline')", ">=", "8" ] },
+                { "math": [ "u_spell_level('biokin_perfected_motion')", ">=", "4" ] }
+              ]
+            },
             { "math": [ "u_spell_level('biokin_overcome_pain')", ">=", "5" ] },
-            { "math": [ "u_spell_level('biokin_armor_skin')", ">=", "4" ] }
+            {
+              "or": [
+                { "math": [ "u_spell_level('biokin_armor_skin')", ">=", "7" ] },
+                { "math": [ "u_spell_level('biokin_enhance_mobility')", ">=", "6" ] }
+              ]
+            }
           ]
         },
         "effect": {
