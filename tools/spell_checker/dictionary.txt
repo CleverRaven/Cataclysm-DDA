@@ -5949,6 +5949,7 @@ SWD
 Swedish
 sweety
 Swiss
+swole
 swordfighting
 swording
 swordsmith
