@@ -3868,9 +3868,13 @@
     "ammo": "battery",
     "charges_per_use": 1,
     "use_action": { "type": "transform", "msg": "The %s engages.", "target": "utility_exoskeleton_on", "active": true },
-    "flags": [ "STURDY", "OVERSIZE", "BELTED", "WATER_FRIENDLY", "SLOWS_MOVEMENT", "ELECTRONIC" ],
+    "flags": [ "STURDY", "OVERSIZE", "BELTED", "WATER_FRIENDLY", "ELECTRONIC" ],
     "relic_data": {
-      "passive_effects": [ { "id": "ench_exo_strength" }, { "condition": "ACTIVE", "values": [ { "value": "CARRY_WEIGHT", "add": 215000 } ] } ]
+      "passive_effects": [
+        { "id": "ench_exo_strength" },
+        { "condition": "ACTIVE", "values": [ { "value": "CARRY_WEIGHT", "add": 215000 } ] },
+        { "condition": "ALWAYS", "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ] }
+      ]
     },
     "armor": [
       {
@@ -3917,9 +3921,13 @@
     "ammo": "gasoline",
     "charges_per_use": 1,
     "use_action": { "type": "transform", "msg": "The %s engages.", "target": "ice_utility_exoskeleton_on", "active": true },
-    "flags": [ "STURDY", "OVERSIZE", "BELTED", "WATER_FRIENDLY", "SLOWS_MOVEMENT", "ELECTRONIC" ],
+    "flags": [ "STURDY", "OVERSIZE", "BELTED", "WATER_FRIENDLY", "ELECTRONIC" ],
     "relic_data": {
-      "passive_effects": [ { "id": "ench_exo_strength" }, { "condition": "ACTIVE", "values": [ { "value": "CARRY_WEIGHT", "add": 190000 } ] } ]
+      "passive_effects": [
+        { "id": "ench_exo_strength" },
+        { "condition": "ACTIVE", "values": [ { "value": "CARRY_WEIGHT", "add": 190000 } ] },
+        { "condition": "ALWAYS", "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ] }
+      ]
     },
     "armor": [
       {
