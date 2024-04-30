@@ -2,7 +2,7 @@
   {
     "type": "overmap_terrain",
     "name": "solid rock",
-    "looks_like": "evac_shelter_7",
+    "looks_like": "?",
     "//": "should be indistinguishable from deep_rock.  Not supposed to be able to see it.",
     "id": "labyrinth_hall",
     "sym": "%",
@@ -10,5 +10,16 @@
     "see_cost": 5,
     "travel_cost_type": "impassable",
     "flags": [ "LINEAR" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "solid rock",
+    "looks_like": "?",
+    "//": "should be indistinguishable from deep_rock.  Not supposed to be able to see it.",
+    "id": "labyrinth_entrance",
+    "sym": "%",
+    "color": "dark_gray",
+    "see_cost": 5,
+    "travel_cost_type": "impassable"
   }
 ]

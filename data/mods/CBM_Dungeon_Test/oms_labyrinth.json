@@ -35,7 +35,7 @@
       "vert_z-4": { "overmap": "deep_rock", "above": "vertical_dropshaft4", "below": "vertical_dropshaft5" },
       "vert_z-5": { "overmap": "deep_rock", "above": "vertical_dropshaft5", "below": "vertical_dropshaft6" },
       "vert_z-6": { "overmap": "deep_rock", "above": "vertical_dropshaft6", "below": "vertical_dropshaft7" },
-      "bottom_start_point": { "overmap": "labyrinth_hall_nesw", "above": "vertical_dropshaft7",
+      "bottom_start_point": { "overmap": "labyrinth_entrance_north", "above": "vertical_dropshaft7",
         "north": "passage_to_passage",
         "east": "passage_to_passage",
         "south": "passage_to_passage",
