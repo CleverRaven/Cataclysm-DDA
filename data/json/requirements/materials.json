@@ -594,11 +594,6 @@
     "id": "any_condom",
     "type": "requirement",
     "//": "Prevents having to open condoms before crafts",
-    "components": [
-      [
-        [ "condom", 1 ],
-        [ "condom_sealed", 1 ]
-      ]
-    ]
+    "components": [ [ [ "condom", 1 ], [ "condom_sealed", 1 ] ] ]
   }
 ]
