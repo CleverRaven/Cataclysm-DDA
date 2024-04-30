@@ -33,6 +33,7 @@ enum class debug_menu_index : int {
     LEARN_MA,
     UNLOCK_RECIPES,
     FORGET_ALL_RECIPES,
+    FORGET_ALL_ITEMS,
     UNLOCK_ALL,
     EDIT_PLAYER,
     CONTROL_NPC,
