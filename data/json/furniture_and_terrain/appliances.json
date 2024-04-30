@@ -51,7 +51,7 @@
     "flags": [ "OBSTACLE", "APPLIANCE" ],
     "pseudo_tools": [ { "id": "water_purifier", "hotkey": "p" } ],
     "item": "stationary_water_purifier",
-    "looks_like": "f_water_purifier",
+    "looks_like": "f_water_heater",
     "breaks_into": [
       { "item": "scrap", "count": [ 2, 7 ] },
       { "item": "steel_chunk", "count": [ 0, 3 ] },
