@@ -256,5 +256,17 @@
         "message": "Fangs of rock erupt around the target!"
       }
     ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_ierde_translocate_location_attune",
+    "furniture": [
+      {
+        "result": "f_ierde_translocator_location",
+        "valid_furniture": [ "f_null" ],
+        "message": "You place both hands on the living earth and feel the rhythms of the rock.",
+        "message_good": true
+      }
+    ]
   }
 ]

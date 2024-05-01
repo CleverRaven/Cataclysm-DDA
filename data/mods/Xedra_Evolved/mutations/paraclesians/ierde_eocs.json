@@ -390,6 +390,20 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_IERDE_TUNNEL_TRANSLOCATE_CHECK",
+    "condition": { "and": [ { "u_is_on_terrain_with_flag": "DIGGABLE" }, { "math": [ "u_val('pos_z')", "<=", "-2" ] } ] },
+    "effect": [ { "u_cast_spell": { "id": "paraclesian_translocate" } } ],
+    "false_effect": [ { "u_message": "You must be standing deep underground and on the living earth to translocate.", "type": "mixed" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_IERDE_TUNNEL_ATTUNEMENT_CHECK",
+    "condition": { "and": [ { "u_is_on_terrain_with_flag": "DIGGABLE" }, { "math": [ "u_val('pos_z')", "<=", "-2" ] } ] },
+    "effect": [ { "u_cast_spell": { "id": "ierde_tunnel_translocation_attune_real" }, "targeted": true } ],
+    "false_effect": [ { "u_message": "You must be deep underground on and on the living earth to attune.", "type": "mixed" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_IERDE_STONE_FORM_ON",
     "effect": [
       { "u_add_trait": "IERDE_STONE_FORM_TRAITS" },

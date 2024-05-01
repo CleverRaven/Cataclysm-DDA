@@ -585,6 +585,20 @@
   },
   {
     "type": "mutation",
+    "id": "IERDE_TUNNEL_TRANSLOCATION",
+    "name": { "str": "Traveling the Veins of the Earth" },
+    "points": 10,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Ierde gains the ability to travel through stone to another underground location they have previously been to.",
+    "category": [ "IERDE" ],
+    "threshreq": [ "THRESH_IERDE" ],
+    "prereqs": [ "IERDE_SINK_INTO_EARTH" ],
+    "prereqs2": [ "IERDE_STOP_BLEEDING" ],
+    "spells_learned": [ [ "ierde_tunnel_translocation_spell", 1 ], [ "ierde_tunnel_translocation_attune", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "IERDE_STONE_FORM",
     "name": { "str": "Form of the Solid Earth" },
     "points": 8,
