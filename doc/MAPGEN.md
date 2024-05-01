@@ -50,7 +50,6 @@
     * [Place messages with "graffiti"](#place-messages-with-graffiti)
     * [Place a zone for an NPC faction with "zones"](#place-a-zone-for-an-npc-faction-with-zones)
     * [Specify a player spawning location using "zones"](#specify-a-player-spawning-location-using-zones)
-    * [Translate terrain type with "translate_ter"](#translate-terrain-type-with-translate_ter)
     * [Apply mapgen transformation with "ter_furn_transforms"](#apply-mapgen-transformation-with-ter_furn_transforms)
   * [Mapgen values](#mapgen-values)
   * [Mapgen parameters](#mapgen-parameters)
@@ -1123,18 +1122,6 @@ This has no additional fields, and will remove all fields, items, traps,
 graffiti, and furniture from a tile.  This can be useful in e.g. nests or other
 update mapgen to clear out existing stuff that might exist but wouldn't make
 sense in the nest.
-
-
-### Translate terrain type with "translate_ter"
-
-Translates one type of terrain into another type of terrain.  There is no reason to do this with normal mapgen, but it
-is useful for setting a baseline with `update_mapgen`.
-
-| Field | Description
-| ---   | ---
-| from  | (required, string) the terrain id of the terrain to be transformed
-| to    | (required, string) the terrain id that the from terrain will transformed into
-
 
 ### Apply mapgen transformation with "ter_furn_transforms"
 
