@@ -1045,7 +1045,7 @@ void uilist::query( bool loop, int timeout )
                     }
                 }
             }
-        } else if( allow_confirm && !fentries.empty() && (ret_act == "CONFIRM" || ret_act == "SELECT") ) {
+        } else if( allow_confirm && !fentries.empty() && ( ret_act == "CONFIRM" || ret_act == "SELECT" ) ) {
             if( entries[ selected ].enabled || allow_disabled ) {
                 ret = entries[selected].retval;
             }

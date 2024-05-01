@@ -2339,8 +2339,8 @@ class spellcasting_callback : public uilist_callback
             return false;
         }
 
-        void refresh( __attribute__((unused)) uilist *menu ) override {
-            __attribute__((unused)) auto info_width = ImGui::GetContentRegionAvail().x * 3.0f;
+        void refresh( __attribute__( ( unused ) ) uilist *menu ) override {
+            auto info_width = ImGui::GetContentRegionAvail().x * 3.0f;
             ImGui::TableSetColumnIndex( 2 );
             std::string ignore_string = casting_ignore ? _( "Ignore Distractions" ) :
                                         _( "Popup Distractions" );
@@ -2355,7 +2355,8 @@ class spellcasting_callback : public uilist_callback
             auto yellow = c_yellow;
             ImGui::TextColored( cataimgui::imvec4_from_color( yellow ), assign_letter.c_str() );
             ImGui::NewLine();
-            if( ImGui::BeginChild( "spell info", { info_width, 0 }, false, ImGuiWindowFlags_AlwaysAutoResize ) ) {
+            if( ImGui::BeginChild( "spell info", { info_width, 0 }, false,
+                                   ImGuiWindowFlags_AlwaysAutoResize ) ) {
                 if( menu->selected >= 0 && static_cast<size_t>( menu->selected ) < known_spells.size() ) {
                     display_spell_info( menu->selected );
                 }
@@ -2431,7 +2432,8 @@ void spellcasting_callback::display_spell_info( size_t index )
     Character &pc = get_player_character();
 
     auto yellow = c_yellow;
-    ImGui::TextColored( cataimgui::imvec4_from_color( yellow ), sp.spell_class() == trait_NONE ? _( "Classless" ) :
+    ImGui::TextColored( cataimgui::imvec4_from_color( yellow ),
+                        sp.spell_class() == trait_NONE ? _( "Classless" ) :
                         sp.spell_class()->name().c_str() );
     ImGui::TextWrapped( "%s", sp.description().c_str() );
     ImGui::NewLine();
@@ -2450,7 +2452,7 @@ void spellcasting_callback::display_spell_info( size_t index )
     auto green = c_light_green;
     if( ImGui::BeginTable( "data", 2 ) ) {
         ImGui::TableSetupColumn( "current level" );
-        ImGui::TableSetupColumn( "max level");
+        ImGui::TableSetupColumn( "max level" );
 
         ImGui::TableNextColumn();
         ImGui::Text( "%s: %d%s%s", _( "Spell Level" ), sp.get_effective_level(),
@@ -2480,10 +2482,12 @@ void spellcasting_callback::display_spell_info( size_t index )
     const bool is_psi = sp.has_flag( spell_flag::PSIONIC );
     if( pc.magic->has_enough_energy( pc, sp ) ) {
         std::string cost_string = cost_encumb ? _( "Casting Cost (impeded)" ) : _( "Casting Cost" );
-        std::string psi_cost_string = cost_encumb ? _( "Channeling Cost (impeded)" ) : _( "Channeling Cost" );
+        std::string psi_cost_string = cost_encumb ? _( "Channeling Cost (impeded)" ) :
+                                      _( "Channeling Cost" );
         std::string energy_cur = sp.energy_source() == magic_energy_type::hp ? "" :
-            string_format( _( " (%s current)" ), sp.energy_cur_string( pc ) );
-        ImGui::Text( "%s: %s %s%s", is_psi ? psi_cost_string.c_str() : cost_string.c_str(), sp.energy_cost_string( pc ).c_str(),
+                                 string_format( _( " (%s current)" ), sp.energy_cur_string( pc ) );
+        ImGui::Text( "%s: %s %s%s", is_psi ? psi_cost_string.c_str() : cost_string.c_str(),
+                     sp.energy_cost_string( pc ).c_str(),
                      sp.energy_string().c_str(), energy_cur.c_str() );
     } else {
         auto red = c_red;
@@ -2498,7 +2502,8 @@ void spellcasting_callback::display_spell_info( size_t index )
     ImGui::Text( "%s: ", is_psi ? psi_cast_time.c_str() : cast_time.c_str() );
     ImGui::SameLine( 0, 0 );
     auto cast_color = c_t_encumb ? c_red : c_white;
-    ImGui::TextColored( cataimgui::imvec4_from_color( cast_color ), "%s", moves_to_string( sp.casting_time( pc ) ).c_str() );
+    ImGui::TextColored( cataimgui::imvec4_from_color( cast_color ), "%s",
+                        moves_to_string( sp.casting_time( pc ) ).c_str() );
 
     std::string targets;
     if( sp.is_valid_target( spell_target::none ) ) {
@@ -2627,7 +2632,7 @@ void spellcasting_callback::display_spell_info( size_t index )
     }
 
     // TODO(db48x): rewrite to display via ImGui directly, so that wrapping can be done correctly
-    auto width = ImGui::GetContentRegionAvail().x / ImGui::CalcTextSize("X").x;
+    auto width = ImGui::GetContentRegionAvail().x / ImGui::CalcTextSize( "X" ).x;
     if( sp.has_components() ) {
         if( !sp.components().get_components().empty() ) {
             for( const std::string &line : sp.components().get_folded_components_list(

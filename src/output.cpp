@@ -235,7 +235,8 @@ color_tag_parse_result::tag_type update_color_stack(
     return tag.type;
 }
 
-color_tag_parse_result::tag_type update_imgui_color_stack(const std::string_view seg, const report_color_error color_error )
+color_tag_parse_result::tag_type update_imgui_color_stack( const std::string_view seg,
+        const report_color_error color_error )
 {
     color_tag_parse_result tag = get_color_from_tag( seg, color_error );
     switch( tag.type ) {

@@ -373,13 +373,16 @@ void cataimgui::imvec2_to_point( ImVec2 *src, point *dest )
     }
 }
 
-void cataimgui::draw_colored_text( std::string const &text, __attribute__((unused)) const nc_color &color, bool *is_selected, bool *is_focused, bool *is_hovered )
+void cataimgui::draw_colored_text( std::string const &text,
+                                   __attribute__( ( unused ) ) const nc_color &color, bool *is_selected, bool *is_focused,
+                                   bool *is_hovered )
 {
     nc_color color_cpy = color;
     draw_colored_text( text, color_cpy, is_selected, is_focused, is_hovered );
 }
 
-void cataimgui::draw_colored_text( std::string const &text, __attribute__((unused)) nc_color &color, bool *is_selected, bool *is_focused, bool *is_hovered )
+void cataimgui::draw_colored_text( std::string const &text,
+                                   __attribute__( ( unused ) ) nc_color &color, bool *is_selected, bool *is_focused, bool *is_hovered )
 {
     ImGui::PushID( text.c_str() );
     ImGui::PushTextWrapPos( 0 );
