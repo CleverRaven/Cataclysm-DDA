@@ -103,7 +103,8 @@ void uilist_impl::draw_controls()
                 ImGui::PushID( i );
                 auto flags = !entry.enabled ? ImGuiSelectableFlags_Disabled : ImGuiSelectableFlags_None;
                 bool is_selected = static_cast<int>( i ) == parent.fselected;
-                if( ImGui::Selectable( "", is_selected, flags | ImGuiSelectableFlags_AllowItemOverlap ) || ImGui::IsItemHovered() ) {
+                if( ImGui::Selectable( "", is_selected, flags | ImGuiSelectableFlags_AllowItemOverlap ) ||
+                    ImGui::IsItemHovered() ) {
                     parent.fselected = i;
                     parent.selected = parent.fentries[parent.fselected];
                 }
