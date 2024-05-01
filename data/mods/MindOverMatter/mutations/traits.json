@@ -124,12 +124,7 @@
     "description": "Who needs weapons?  Thanks to your biokinesis, you deal more melee damage while fighting with your bare hands.  This damage improves as your unarmed skill increases.",
     "starting_trait": false,
     "valid": false,
-    "enchantments": [
-      {
-        "condition": { "not": "u_has_weapon" },
-        "values": [ { "value": "ITEM_DAMAGE_BASH", "add": { "math": [ "u_skill('unarmed') * 2" ] } } ]
-      }
-    ]
+    "enchantments": [ "KI_STRIKE" ]
   },
   {
     "type": "mutation",
