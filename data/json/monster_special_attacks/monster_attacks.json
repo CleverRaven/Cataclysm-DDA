@@ -689,6 +689,6 @@
     "miss_msg_u": "The %s tries to land on you, but you dodge!",
     "miss_msg_npc": "The %1$s tries to land on <npcname>, but they dodge!",
     "no_dmg_msg_u": "The %1$s lands on your %2$s, but can't penetrate your armor!",
-    "no_dmg_msg_npc": "The %1$s lands on your <npcname>'s %2$s, but can't penetrate your armor!"
+    "no_dmg_msg_npc": "The %1$s lands on <npcname>'s %2$s, but can't penetrate their armor!"
   }
 ]
