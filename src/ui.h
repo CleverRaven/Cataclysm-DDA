@@ -39,8 +39,6 @@ const int MENU_AUTOASSIGN = -1;
 class string_input_popup;
 class uilist_impl;
 
-catacurses::window new_centered_win( int nlines, int ncols );
-
 /**
  * mvwzstr: line of text with horizontal offset and color
  */
