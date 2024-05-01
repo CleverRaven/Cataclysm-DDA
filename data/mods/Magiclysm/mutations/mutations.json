@@ -296,7 +296,7 @@
         "values": [
           { "value": "MAX_HP", "add": -6 },
           { "value": "STRENGTH", "add": 4 },
-          { "value": "FATIGUE", "multiply": 0.15 },
+          { "value": "SLEEPINESS", "multiply": 0.15 },
           { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 1 },
           { "value": "CARRY_WEIGHT", "multiply": 0.1 }
         ]
@@ -477,7 +477,9 @@
     "type": "mutation",
     "id": "ARM_FEATHERS",
     "copy-from": "ARM_FEATHERS",
-    "extend": { "category": [ "SPECIES_RAVENFOLK" ] }
+    "valid": true,
+    "extend": { "category": [ "SPECIES_RAVENFOLK" ] },
+    "delete": { "prereqs2": [ "PRE_ARM_FEATHERS" ] }
   },
   {
     "type": "mutation",
@@ -497,7 +499,7 @@
     "prereqs": [ "WINGS_STUB" ],
     "category": [ "DRAGON_BLACK" ],
     "threshreq": [ "THRESH_DRAGON_BLACK" ],
-    "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": -3 } ] } ],
+    "enchantments": [ { "values": [ { "value": "DODGE_CHANCE", "add": -3 } ] } ],
     "attacks": {
       "attack_text_u": "You bash %s with your powerful wings!",
       "attack_text_npc": "%1$s bashes %2$s with their powerful wings!",

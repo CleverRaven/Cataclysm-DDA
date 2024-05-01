@@ -4,7 +4,6 @@
 
 #include <array>
 #include <functional>
-#include <iosfwd>
 #include <map>
 #include <string>
 #include <vector>
@@ -12,6 +11,8 @@
 #include "advanced_inv_area.h"
 #include "advanced_inv_listitem.h"
 #include "cursesdef.h"
+#include "item_location.h"
+#include "units_fwd.h"
 
 class item;
 struct advanced_inv_pane_save_state;

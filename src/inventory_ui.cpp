@@ -865,7 +865,7 @@ std::string inventory_holster_preset::get_denial( const item_location &it ) cons
     item_copy.charges = 1;
     item_location parent = it.has_parent() ? it.parent_item() : item_location();
 
-    ret_val<void> ret = holster->can_contain( item_copy, false, false, true, parent );
+    ret_val<void> ret = holster->can_contain( item_copy, false, false, true, false, parent );
     if( !ret.success() ) {
         return !ret.str().empty() ? ret.str() : "item can't be stored there";
     }
@@ -3619,7 +3619,8 @@ void inventory_multiselector::toggle_entries( int &count, const toggle_mode mode
 
     // Deal with entries that can be highlighted but not selected (e.g. items too large to pick up)
     inventory_entry &highlighted_entry = get_active_column().get_highlighted();
-    if( !highlighted_entry.is_selectable() && highlighted_entry.is_item() ) {
+    if( mode == toggle_mode::SELECTED
+        && !highlighted_entry.is_selectable() && highlighted_entry.is_item() ) {
         cata_assert( highlighted_entry.denial.has_value() );
         const std::string &denial = *highlighted_entry.denial;
 

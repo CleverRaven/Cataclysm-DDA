@@ -1,14 +1,18 @@
+#include "advanced_inv_pane.h"
+
 #include <cstddef>
 #include <iterator>
 #include <list>
+#include <memory>
 #include <string>
 #include <vector>
 
 #include "advanced_inv_area.h"
 #include "advanced_inv_pagination.h"
-#include "advanced_inv_pane.h"
 #include "avatar.h"
 #include "cata_assert.h"
+#include "character.h"
+#include "character_attire.h"
 #include "flag.h"
 #include "item.h"
 #include "item_search.h"

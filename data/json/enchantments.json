@@ -144,5 +144,53 @@
       ]
     },
     "values": [ { "value": "MOVE_COST", "multiply": -0.5 } ]
+  },
+  {
+    "id": "combat_exoskeleton_inactive",
+    "type": "enchantment",
+    "name": { "str": "Inactive exoskeleton" },
+    "description": "The exoskeleton is inactive and makes moving in it difficult and exhausting.",
+    "has": "WORN",
+    "condition": "INACTIVE",
+    "values": [ { "value": "MOVEMENT_EXERTION_MODIFIER", "multiply": 0.5 } ]
+  },
+  {
+    "id": "combat_exoskeleton_heavy_active",
+    "type": "enchantment",
+    "name": { "str": "Active combat exoskeleton mk.1" },
+    "description": "The exoskeleton helps you carry more weight, protects you against harmful gas, cools you down, and has reduced encumbrance.",
+    "has": "WORN",
+    "condition": "ACTIVE",
+    "values": [
+      { "value": "MOVEMENT_EXERTION_MODIFIER", "multiply": 0.4 },
+      { "value": "CARRY_WEIGHT", "multiply": 0.8 },
+      { "value": "CLIMATE_CONTROL_CHILL", "add": 50 }
+    ]
+  },
+  {
+    "id": "combat_exoskeleton_medium_active",
+    "type": "enchantment",
+    "name": { "str": "Active combat exoskeleton mk.2" },
+    "description": "The exoskeleton helps you carry more weight, protects you against harmful gas, cools you down, and has reduced encumbrance.",
+    "has": "WORN",
+    "condition": "ACTIVE",
+    "values": [
+      { "value": "MOVEMENT_EXERTION_MODIFIER", "multiply": 0.6 },
+      { "value": "CARRY_WEIGHT", "multiply": 0.6 },
+      { "value": "CLIMATE_CONTROL_CHILL", "add": 50 }
+    ]
+  },
+  {
+    "id": "combat_exoskeleton_light_active",
+    "type": "enchantment",
+    "name": { "str": "Active combat exoskeleton mk.3" },
+    "description": "The exoskeleton helps you carry more weight, protects you against harmful gas, cools you down, and has reduced encumbrance.",
+    "has": "WORN",
+    "condition": "ACTIVE",
+    "values": [
+      { "value": "MOVEMENT_EXERTION_MODIFIER", "multiply": 0.8 },
+      { "value": "CARRY_WEIGHT", "multiply": 0.4 },
+      { "value": "CLIMATE_CONTROL_CHILL", "add": 50 }
+    ]
   }
 ]

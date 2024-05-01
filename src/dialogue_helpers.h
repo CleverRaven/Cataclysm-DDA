@@ -2,18 +2,26 @@
 #ifndef CATA_SRC_DIALOGUE_HELPERS_H
 #define CATA_SRC_DIALOGUE_HELPERS_H
 
+#include <functional>
+#include <memory>
 #include <optional>
+#include <string>
+#include <string_view>
+#include <type_traits>
+#include <utility>
 #include <variant>
+#include <vector>
 
 #include "calendar.h"
+#include "debug.h"
 #include "global_vars.h"
-#include "math_parser.h"
-#include "rng.h"
 #include "translation.h"
-#include "type_id.h"
 
-struct dialogue;
+class JsonArray;
+class JsonObject;
+class math_exp;
 class npc;
+struct dialogue;
 
 using talkfunction_ptr = std::add_pointer_t<void ( npc & )>;
 using dialogue_fun_ptr = std::add_pointer_t<void( npc & )>;

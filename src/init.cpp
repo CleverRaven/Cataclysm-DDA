@@ -280,6 +280,7 @@ void DynamicDataLoader::initialize()
     add( "mutation", &mutation_branch::load_trait );
     add( "furniture", &load_furniture );
     add( "terrain", &load_terrain );
+    add( "ter_furn_migration", &ter_furn_migrations::load );
     add( "monstergroup", &MonsterGroupManager::LoadMonsterGroup );
     add( "MONSTER_BLACKLIST", &MonsterGroupManager::LoadMonsterBlacklist );
     add( "MONSTER_WHITELIST", &MonsterGroupManager::LoadMonsterWhitelist );
@@ -647,6 +648,7 @@ void DynamicDataLoader::unload_data()
     SNIPPET.clear_snippets();
     spell_type::reset_all();
     start_locations::reset();
+    ter_furn_migrations::reset();
     ter_furn_transform::reset();
     trap::reset();
     unload_talk_topics();
@@ -793,6 +795,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             },
             { _( "Vitamins" ), &vitamin::check_consistency },
             { _( "Weather types" ), &weather_types::check_consistency },
+            { _( "Weapon Categories" ), &weapon_category::verify_weapon_categories },
             { _( "Effect on conditions" ), &effect_on_conditions::check_consistency },
             { _( "Field types" ), &field_types::check_consistency },
             { _( "Ammo effects" ), &ammo_effects::check_consistency },
@@ -830,6 +833,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Mutations" ), &mutation_branch::check_consistency },
             { _( "Mutation categories" ), &mutation_category_trait::check_consistency },
             { _( "Region settings" ), check_region_settings },
+            { _( "Terrain/Furniture migrations" ), &ter_furn_migrations::check },
             { _( "Overmap land use codes" ), &overmap_land_use_codes::check_consistency },
             { _( "Overmap connections" ), &overmap_connections::check_consistency },
             { _( "Overmap terrain" ), &overmap_terrains::check_consistency },

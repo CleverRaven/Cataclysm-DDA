@@ -2,12 +2,12 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SLEEP",
-    "effect": [ { "u_message": "You feel very sleepy…" }, { "math": [ "u_val('fatigue')", "+=", "40" ] } ]
+    "effect": [ { "u_message": "You feel very sleepy…" }, { "math": [ "u_val('sleepiness')", "+=", "40" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_MINOR_SLEEP",
-    "effect": [ { "u_message": "You feel sleepy…" }, { "math": [ "u_val('fatigue')", "+=", "20" ] } ]
+    "effect": [ { "u_message": "You feel sleepy…" }, { "math": [ "u_val('sleepiness')", "+=", "20" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -71,7 +71,7 @@
         "u_message": "As the last of the horrors fell dead, you notice a strange thing popped up from nowhere and dropped on the ground.",
         "type": "info"
       },
-      { "u_add_var": "clearead_amigara_mine", "type": "general", "context": "talk", "value": "yes" }
+      { "u_add_var": "general_talk_clearead_amigara_mine", "value": "yes" }
     ]
   },
   {
@@ -113,7 +113,7 @@
     "type": "effect_on_condition",
     "id": "EOC_discover_zomborg",
     "condition": { "math": [ "u_monsters_nearby('mon_zomborg')", ">=", "1" ] },
-    "effect": [ { "u_add_var": "seen_zomborg", "type": "dialogue", "context": "exodii", "value": "yes" } ]
+    "effect": [ { "u_add_var": "dialogue_exodii_seen_zomborg", "value": "yes" } ]
   },
   {
     "type": "effect_on_condition",

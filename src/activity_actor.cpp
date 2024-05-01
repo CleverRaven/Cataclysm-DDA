@@ -6,34 +6,47 @@
 #include <cstddef>
 #include <cstdint>
 #include <functional>
+#include <initializer_list>
 #include <iterator>
 #include <list>
 #include <map>
-#include <new>
 #include <optional>
+#include <set>
+#include <sstream>
 #include <string>
+#include <string_view>
 #include <type_traits>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
 #include "action.h"
 #include "activity_actor_definitions.h"
-#include "activity_handlers.h" // put_into_vehicle_or_drop and drop_on_map
+#include "activity_handlers.h"
 #include "advanced_inv.h"
 #include "avatar.h"
 #include "avatar_action.h"
 #include "bodypart.h"
+#include "calendar.h"
+#include "cata_assert.h"
+#include "cata_utility.h"
 #include "character.h"
-#include "coordinates.h"
+#include "character_id.h"
+#include "clzones.h"
 #include "contents_change_handler.h"
+#include "coordinates.h"
 #include "craft_command.h"
+#include "creature.h"
 #include "creature_tracker.h"
 #include "debug.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
+#include "faction.h"
 #include "field_type.h"
 #include "flag.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
@@ -42,17 +55,22 @@
 #include "handle_liquid.h"
 #include "harvest.h"
 #include "iexamine.h"
+#include "inventory.h"
 #include "item.h"
-#include "item_group.h"
+#include "item_components.h"
+#include "item_contents.h"
 #include "item_location.h"
 #include "itype.h"
+#include "iuse.h"
 #include "iuse_actor.h"
 #include "json.h"
+#include "json_error.h"
 #include "line.h"
+#include "magic_enchantment.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "map_selector.h"
 #include "mapdata.h"
-#include "memory_fast.h"
 #include "martialarts.h"
 #include "messages.h"
 #include "monster.h"
@@ -64,6 +82,7 @@
 #include "pickup.h"
 #include "pimpl.h"
 #include "player_activity.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "ranged.h"
 #include "recipe.h"
@@ -72,19 +91,21 @@
 #include "ret_val.h"
 #include "rng.h"
 #include "shearing.h"
+#include "skill.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "skill.h"
-#include "timed_event.h"
+#include "translation.h"
 #include "translations.h"
+#include "trap.h"
 #include "try_parse_integer.h"
 #include "ui.h"
 #include "uistate.h"
 #include "units.h"
 #include "value_ptr.h"
+#include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "veh_type.h"
+#include "vpart_range.h"
 
 static const activity_id ACT_AIM( "ACT_AIM" );
 static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
@@ -175,6 +196,8 @@ static const flag_id json_flag_ALWAYS_AIMED( "ALWAYS_AIMED" );
 static const flag_id json_flag_NO_RELOAD( "NO_RELOAD" );
 
 static const furn_str_id furn_f_gunsafe_mj( "f_gunsafe_mj" );
+static const furn_str_id furn_f_gunsafe_ml( "f_gunsafe_ml" );
+static const furn_str_id furn_f_safe_c( "f_safe_c" );
 static const furn_str_id furn_f_safe_o( "f_safe_o" );
 
 static const gun_mode_id gun_mode_DEFAULT( "DEFAULT" );
@@ -225,6 +248,15 @@ static const skill_id skill_traps( "traps" );
 
 static const species_id species_ZOMBIE( "ZOMBIE" );
 
+static const ter_str_id ter_t_card_reader_broken( "t_card_reader_broken" );
+static const ter_str_id ter_t_dirt( "t_dirt" );
+static const ter_str_id ter_t_dirtmound( "t_dirtmound" );
+static const ter_str_id ter_t_door_c( "t_door_c" );
+static const ter_str_id ter_t_door_locked_alarm( "t_door_locked_alarm" );
+static const ter_str_id ter_t_door_metal_c( "t_door_metal_c" );
+static const ter_str_id ter_t_door_metal_locked( "t_door_metal_locked" );
+static const ter_str_id ter_t_stump( "t_stump" );
+static const ter_str_id ter_t_trunk( "t_trunk" );
 static const ter_str_id ter_t_underbrush_harvested_autumn( "t_underbrush_harvested_autumn" );
 static const ter_str_id ter_t_underbrush_harvested_spring( "t_underbrush_harvested_spring" );
 static const ter_str_id ter_t_underbrush_harvested_summer( "t_underbrush_harvested_summer" );
@@ -300,11 +332,12 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
     gun_mode gun = weapon->gun_current_mode();
     // We need to make sure RAS weapon is loaded/reloaded in case the aim activity was temp. suspended
     // therefore the order of evaluation matters here
-    if( gun->has_flag( flag_RELOAD_AND_SHOOT ) && !gun->ammo_remaining() && !load_RAS_weapon() &&
-        first_turn ) {
-        aborted = true;
-        act.moves_left = 0;
-        return;
+    if( gun->has_flag( flag_RELOAD_AND_SHOOT ) && !gun->ammo_remaining() && !reload_loc ) {
+        if( !load_RAS_weapon() ) {
+            aborted = true;
+            act.moves_left = 0;
+            return;
+        }
     }
 
     if( gun->has_flag( json_flag_ALWAYS_AIMED ) ) {
@@ -322,10 +355,6 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
             fin_trajectory = trajectory;
             act.moves_left = 0;
         }
-        // If aborting on the first turn, keep 'first_turn' as 'true'.
-        // This allows refunding moves spent on unloading RELOAD_AND_SHOOT weapons
-        // to simulate avatar not loading them in the first place
-        first_turn = false;
 
         // Allow interrupting activity only during 'aim and fire'.
         // Prevents '.' key for 'aim for 10 turns' from conflicting with '.' key for 'interrupt activity'
@@ -355,14 +384,7 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
     }
 
     gun_mode gun = weapon->gun_current_mode();
-    who.fire_gun( fin_trajectory.back(), gun.qty, *gun );
-
-    if( weapon && weapon->gun_current_mode()->has_flag( flag_RELOAD_AND_SHOOT ) ) {
-        // RAS weapons are currently bugged, this is a workaround so bug impact
-        // isn't amplified, once #54997 and #50571 are fixed this can be removed.
-        restore_view();
-        return;
-    }
+    who.fire_gun( fin_trajectory.back(), gun.qty, *gun, reload_loc );
 
     if( !get_option<bool>( "AIM_AFTER_FIRING" ) ) {
         restore_view();
@@ -395,11 +417,12 @@ void aim_activity_actor::serialize( JsonOut &jsout ) const
 
     jsout.member( "fake_weapon", fake_weapon );
     jsout.member( "fin_trajectory", fin_trajectory );
-    jsout.member( "first_turn", first_turn );
     jsout.member( "action", action );
     jsout.member( "aif_duration", aif_duration );
     jsout.member( "aiming_at_critter", aiming_at_critter );
     jsout.member( "snap_to_target", snap_to_target );
+    jsout.member( "loaded_RAS_weapon", loaded_RAS_weapon );
+    jsout.member( "reload_loc", reload_loc );
     jsout.member( "shifting_view", shifting_view );
     jsout.member( "initial_view_offset", initial_view_offset );
     jsout.member( "aborted", aborted );
@@ -417,11 +440,12 @@ std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonValue &jsin
 
     data.read( "fake_weapon", actor.fake_weapon );
     data.read( "fin_trajectory", actor.fin_trajectory );
-    data.read( "first_turn", actor.first_turn );
     data.read( "action", actor.action );
     data.read( "aif_duration", actor.aif_duration );
     data.read( "aiming_at_critter", actor.aiming_at_critter );
     data.read( "snap_to_target", actor.snap_to_target );
+    data.read( "loaded_RAS_weapon", actor.loaded_RAS_weapon );
+    data.read( "reload_loc", actor.reload_loc );
     data.read( "shifting_view", actor.shifting_view );
     data.read( "initial_view_offset", actor.initial_view_offset );
     data.read( "aborted", actor.aborted );
@@ -484,45 +508,32 @@ bool aim_activity_actor::load_RAS_weapon()
         // Menu canceled
         return false;
     }
-    int reload_time = 0;
-    reload_time += opt.moves();
-    if( !gun->reload( you, std::move( opt.ammo ), 1 ) ) {
-        // Reload not allowed
-        return false;
-    }
 
     // Burn 0.6% max base stamina without cardio/BMI factored in x the strength required to fire.
-    you.burn_energy_arms( gun->get_min_str() * static_cast<int>( 0.006f *
+    // Stamina cost of RAS weapon is also calculated in ranged.cpp mod_stamina_archery, need to
+    // confirm if this formula should be removed.
+    you.burn_energy_arms( - gun->get_min_str() * static_cast<int>( 0.006f *
                           get_option<int>( "PLAYER_MAX_STAMINA_BASE" ) ) );
-    // At low stamina levels, firing starts getting slow.
-    int sta_percent = ( 100 * you.get_stamina() ) / you.get_stamina_max();
-    reload_time += ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;
 
-    you.mod_moves( -reload_time );
+    reload_loc = opt.ammo;
+    loaded_RAS_weapon = true;
     return true;
 }
 
 void aim_activity_actor::unload_RAS_weapon()
 {
-    // Unload reload-and-shoot weapons to avoid leaving bows pre-loaded with arrows
     avatar &you = get_avatar();
     item_location weapon = get_weapon();
-    if( !weapon ) {
+    if( !weapon || !loaded_RAS_weapon ) {
         return;
     }
 
+    // Refund stamina cost.
     gun_mode gun = weapon->gun_current_mode();
     if( gun->has_flag( flag_RELOAD_AND_SHOOT ) ) {
-        int moves_before_unload = you.get_moves();
-
-        // Note: this code works only for avatar
-        item_location loc = item_location( you, gun.target );
-        you.unload( loc, true );
-
-        // Give back time for unloading as essentially nothing has been done.
-        if( first_turn ) {
-            you.set_moves( moves_before_unload );
-        }
+        you.burn_energy_arms( gun->get_min_str() * static_cast<int>( 0.006f *
+                              get_option<int>( "PLAYER_MAX_STAMINA_BASE" ) ) );
+        loaded_RAS_weapon = false;
     }
 }
 
@@ -814,10 +825,10 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
             } else if( type == hack_type::DOOR ) {
                 who.add_msg_if_player( _( "You activate the panel!" ) );
                 who.add_msg_if_player( m_good, _( "The nearby doors unlock." ) );
-                here.ter_set( examp, t_card_reader_broken );
+                here.ter_set( examp, ter_t_card_reader_broken );
                 for( const tripoint &tmp : here.points_in_radius( examp, 3 ) ) {
-                    if( here.ter( tmp ) == t_door_metal_locked ) {
-                        here.ter_set( tmp, t_door_metal_c );
+                    if( here.ter( tmp ) == ter_t_door_metal_locked ) {
+                        here.ter_set( tmp, ter_t_door_metal_c );
                     }
                 }
             }
@@ -2783,7 +2794,7 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
             here.ter_set( target, new_ter_type );
         }
         who.add_msg_if_player( m_good, open_message );
-    } else if( furn_type == f_gunsafe_ml && lock_roll > ( 3 * pick_roll ) ) {
+    } else if( furn_type == furn_f_gunsafe_ml && lock_roll > ( 3 * pick_roll ) ) {
         who.add_msg_if_player( m_bad, _( "Your clumsy attempt jams the lock!" ) );
         here.furn_set( target, furn_f_gunsafe_mj );
     } else if( lock_roll > ( 1.5 * pick_roll ) ) {
@@ -2811,7 +2822,7 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
         you->practice( skill_traps, xp_gain );
     }
 
-    if( !perfect && ter_type == t_door_locked_alarm && ( lock_roll + dice( 1, 30 ) ) > pick_roll ) {
+    if( !perfect && ter_type == ter_t_door_locked_alarm && ( lock_roll + dice( 1, 30 ) ) > pick_roll ) {
         sounds::sound( who.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
                        "alarm" );
     }
@@ -2858,7 +2869,7 @@ std::optional<tripoint> lockpick_activity_actor::select_location( avatar &you )
     } else if( get_creature_tracker().creature_at<npc>( *target ) ) {
         you.add_msg_if_player( m_info,
                                _( "You can pick your friends, and you can\npick your nose, but you can't pick\nyour friend's nose." ) );
-    } else if( terr_type == t_door_c ) {
+    } else if( terr_type == ter_t_door_c ) {
         you.add_msg_if_player( m_info, _( "That door isn't locked." ) );
     } else {
         you.add_msg_if_player( m_info, _( "That cannot be picked." ) );
@@ -3406,7 +3417,7 @@ void safecracking_activity_actor::do_turn( player_activity &act, Character &who 
 void safecracking_activity_actor::finish( player_activity &act, Character &who )
 {
     who.add_msg_if_player( m_good, _( "With a satisfying click, the lock on the safe opens!" ) );
-    get_map().furn_set( safe, f_safe_c );
+    get_map().furn_set( safe, furn_f_safe_c );
     act.set_to_null();
 }
 
@@ -3787,7 +3798,7 @@ std::unique_ptr<activity_actor> craft_activity_actor::deserialize( JsonValue &js
 
 void workout_activity_actor::start( player_activity &act, Character &who )
 {
-    if( who.get_fatigue() > fatigue_levels::DEAD_TIRED ) {
+    if( who.get_sleepiness() > sleepiness_levels::DEAD_TIRED ) {
         who.add_msg_if_player( _( "You are too tired to exercise." ) );
         act_id = activity_id::NULL_ID();
         act.set_to_null();
@@ -3885,16 +3896,16 @@ void workout_activity_actor::start( player_activity &act, Character &who )
     act.moves_total = to_moves<int>( duration );
     act.moves_left = act.moves_total;
     if( who.male ) {
-        sfx::play_activity_sound( "plmove", "fatigue_m_med", sfx::get_heard_volume( location ) );
+        sfx::play_activity_sound( "plmove", "sleepiness_m_med", sfx::get_heard_volume( location ) );
     } else {
-        sfx::play_activity_sound( "plmove", "fatigue_f_med", sfx::get_heard_volume( location ) );
+        sfx::play_activity_sound( "plmove", "sleepiness_f_med", sfx::get_heard_volume( location ) );
     }
     who.add_msg_if_player( _( "You start your workout session." ) );
 }
 
 void workout_activity_actor::do_turn( player_activity &act, Character &who )
 {
-    if( who.get_fatigue() > fatigue_levels::DEAD_TIRED ) {
+    if( who.get_sleepiness() > sleepiness_levels::DEAD_TIRED ) {
         who.add_msg_if_player( _( "You are exhausted so you finish your workout early." ) );
         act.set_to_null();
         return;
@@ -3907,7 +3918,7 @@ void workout_activity_actor::do_turn( player_activity &act, Character &who )
     if( !rest_mode && who.get_stamina() > who.get_stamina_max() / 3 ) {
         who.mod_stamina( -25 - intensity_modifier );
         if( one_in( 180 / intensity_modifier ) ) {
-            who.mod_fatigue( 1 );
+            who.mod_sleepiness( 1 );
             who.mod_thirst( 1 );
         }
         if( calendar::once_every( 16_minutes / intensity_modifier ) ) {
@@ -4245,7 +4256,7 @@ void harvest_activity_actor::finish( player_activity &act, Character &who )
     }
 
     if( exam_furn ) {
-        here.furn_set( target, f_null );
+        here.furn_set( target, furn_str_id::NULL_ID() );
     } else {
         here.ter_set( target, here.get_ter_transforms_into( target ) );
     }
@@ -4757,6 +4768,7 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
     const std::string ammo_name = ammo.tname();
     const bool ammo_is_filthy = ammo.is_filthy();
     const bool ammo_uses_speedloader = ammo.has_flag( flag_SPEEDLOADER );
+    const bool ammo_uses_speedloader_clip = ammo.has_flag( flag_SPEEDLOADER_CLIP );
 
     if( !reloadable.reload( who, std::move( ammo_loc ), quantity ) ) {
         add_msg( m_info, _( "Can't reload the %s." ), reloadable_name );
@@ -4774,7 +4786,8 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
     }
 
     if( reloadable.is_gun() ) {
-        if( reloadable.has_flag( flag_RELOAD_ONE ) && !ammo_uses_speedloader ) {
+        if( reloadable.has_flag( flag_RELOAD_ONE ) && !ammo_uses_speedloader &&
+            !ammo_uses_speedloader_clip ) {
             add_msg( m_neutral, _( "You insert %dx %s into the %s." ), quantity, ammo_name, reloadable_name );
         }
         make_reload_sound( who, reloadable );
@@ -5467,7 +5480,7 @@ void tent_deconstruct_activity_actor::finish( player_activity &act, Character & 
 {
     map &here = get_map();
     for( const tripoint &pt : here.points_in_radius( target, radius ) ) {
-        here.furn_set( pt, f_null );
+        here.furn_set( pt, furn_str_id::NULL_ID() );
     }
     here.add_item_or_charges( target, item( tent, calendar::turn ) );
     act.set_to_null();
@@ -6213,11 +6226,11 @@ void chop_logs_activity_actor::finish( player_activity &act, Character &who )
     int log_quan;
     int stick_quan;
     int splint_quan;
-    if( here.ter( pos ) == t_trunk ) {
+    if( here.ter( pos ) == ter_t_trunk ) {
         log_quan = rng( 2, 3 );
         stick_quan = rng( 0, 3 );
         splint_quan = 0;
-    } else if( here.ter( pos ) == t_stump ) {
+    } else if( here.ter( pos ) == ter_t_stump ) {
         log_quan = rng( 0, 2 );
         stick_quan = 0;
         splint_quan = rng( 5, 15 );
@@ -6241,7 +6254,7 @@ void chop_logs_activity_actor::finish( player_activity &act, Character &who )
         obj.set_var( "activity_var", who.name );
         here.add_item_or_charges( pos, obj );
     }
-    here.ter_set( pos, t_dirt );
+    here.ter_set( pos, ter_t_dirt );
     who.add_msg_if_player( m_good, _( "You finish chopping wood." ) );
 
     act.set_to_null();
@@ -6395,14 +6408,9 @@ void chop_tree_activity_actor::finish( player_activity &act, Character &who )
             }
         }
     }
-    const tripoint to = pos + 3 * direction.xy() + point( rng( -1, 1 ), rng( -1, 1 ) );
-    std::vector<tripoint> tree = line_to( pos, to, rng( 1, 8 ) );
-    for( const tripoint &elem : tree ) {
-        here.batter( elem, 300, 5 );
-        here.ter_set( elem, t_trunk );
-    }
 
-    here.ter_set( pos, t_stump );
+    here.cut_down_tree( tripoint_bub_ms( pos ), direction.xy() );
+
     who.add_msg_if_player( m_good, _( "You finish chopping down a tree." ) );
     // sound of falling tree
     here.collapse_at( pos, false, true, false );
@@ -6445,7 +6453,7 @@ void churn_activity_actor::finish( player_activity &act, Character &who )
 {
     map &here = get_map();
     who.add_msg_if_player( _( "You finish churning up the earth here." ) );
-    here.ter_set( here.getlocal( act.placement ), t_dirtmound );
+    here.ter_set( here.getlocal( act.placement ), ter_t_dirtmound );
     // Go back to what we were doing before
     // could be player zone activity, or could be NPC multi-farming
     act.set_to_null();
@@ -6485,7 +6493,7 @@ void clear_rubble_activity_actor::finish( player_activity &act, Character &who )
     map &here = get_map();
     const tripoint_bub_ms &pos = here.bub_from_abs( act.placement );
     who.add_msg_if_player( m_info, _( "You clear up the %s." ), here.furnname( pos ) );
-    here.furn_set( pos, f_null );
+    here.furn_set( pos, furn_str_id::NULL_ID() );
 
     act.set_to_null();
 

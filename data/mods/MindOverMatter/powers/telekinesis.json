@@ -1,53 +1,38 @@
 [
   {
     "id": "telekinetic_pull",
+    "//": "power ID exists for legacy reasons",
     "type": "SPELL",
     "name": "[Ψ]Far Hand",
-    "description": "Pull a target or set of items to you.",
-    "message": "You reach out and pull your target to you.",
+    "description": "Move a set of items towards or away from you.",
+    "message": "",
     "teachable": false,
-    "valid_targets": [ "ally", "hostile", "item", "ground" ],
+    "valid_targets": [ "self" ],
     "spell_class": "TELEKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 1,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "effect": "directed_push",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEKINETIC_FAR_HAND_SELECTOR",
     "shape": "blast",
-    "damage_type": "psi_telekinetic_damage",
-    "min_damage": {
-      "math": [
-        "min( (( (u_spell_level('telekinetic_pull') * 0.9) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling * -1), 40)"
-      ]
-    },
-    "max_damage": {
-      "math": [
-        "min( (( (u_spell_level('telekinetic_pull') * 0.9) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling * -1), 40)"
-      ]
-    },
-    "min_range": {
-      "math": [
-        "min( (( (u_spell_level('telekinetic_pull') * 0.9) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
-      ]
-    },
-    "max_range": 40,
     "energy_source": "STAMINA",
-    "base_energy_cost": 1750,
-    "final_energy_cost": 750,
+    "base_energy_cost": 1250,
+    "final_energy_cost": 500,
     "energy_increment": -80,
     "base_casting_time": 50,
     "final_casting_time": 10,
     "casting_time_increment": -4,
-    "ignored_monster_species": [ "PSI_NULL" ]
+    "ignored_monster_species": [ "PSI_NULL", "TELEKIN_PUSHPULL_NULL" ]
   },
   {
-    "id": "telekinetic_push",
+    "id": "telekinetic_item_pull_real",
     "type": "SPELL",
-    "name": "[Ψ]Force Shove",
-    "description": "Shove something away with a burst of psionic force.",
-    "message": "You hurl your target away.",
+    "name": "[Ψ]Far Hand Pull Items Real",
+    "description": "The actual effect that causes the far hand.  It's a bug if you have it.",
+    "message": "",
     "teachable": false,
-    "valid_targets": [ "ally", "hostile", "item", "ground" ],
+    "valid_targets": [ "item", "ground" ],
     "spell_class": "TELEKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
@@ -55,22 +40,80 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "directed_push",
     "shape": "blast",
-    "damage_type": "psi_telekinetic_damage",
     "min_damage": {
       "math": [
-        "min( ( ( (u_spell_level('telekinetic_push') * 0.5) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 30)"
+        "min( (( (u_spell_level('telekinetic_pull') * 0.4) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling * -1), 40)"
       ]
     },
     "max_damage": {
       "math": [
-        "min( ( ( (u_spell_level('telekinetic_push') * 1) + 4) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 30)"
+        "min( (( (u_spell_level('telekinetic_pull') * 0.9) + 4) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling * -1), 40)"
       ]
     },
     "min_range": {
       "math": [
-        "min( ( ( (u_spell_level('telekinetic_push') * 0.9) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
+        "min( (( (u_spell_level('telekinetic_pull') * 0.9) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
       ]
     },
+    "max_range": {
+      "math": [
+        "min( (( (u_spell_level('telekinetic_pull') * 0.9) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
+      ]
+    }
+  },
+  {
+    "id": "telekinetic_item_push_real",
+    "type": "SPELL",
+    "name": "[Ψ]Far Hand Push Items Real",
+    "description": "The actual effect that causes the far hand.  It's a bug if you have it.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "item", "ground" ],
+    "spell_class": "TELEKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 1,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "directed_push",
+    "shape": "blast",
+    "min_damage": {
+      "math": [
+        "min( (( (u_spell_level('telekinetic_pull') * 0.4) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
+      ]
+    },
+    "max_damage": {
+      "math": [
+        "min( (( (u_spell_level('telekinetic_pull') * 0.9) + 4) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
+      ]
+    },
+    "min_range": {
+      "math": [
+        "min( (( (u_spell_level('telekinetic_pull') * 0.9) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling ), 40)"
+      ]
+    },
+    "max_range": {
+      "math": [
+        "min( (( (u_spell_level('telekinetic_pull') * 0.9) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
+      ]
+    }
+  },
+  {
+    "id": "telekinetic_push",
+    "//": "power ID exists for legacy reasons",
+    "type": "SPELL",
+    "name": "[Ψ]Force Shove",
+    "description": "Shove a target away or pull it towards you with a burst of psionic force.  The distance the target can be moved depends on its weight versus your power level; heavier things will not go as far, and if your target is too heavy, you may not be able to move it at all.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 1,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEKINETIC_FORCE_SHOVE_SELECTOR",
+    "shape": "blast",
     "max_range": 40,
     "energy_source": "STAMINA",
     "base_energy_cost": 1750,
@@ -78,8 +121,138 @@
     "energy_increment": -80,
     "base_casting_time": 50,
     "final_casting_time": 10,
+    "casting_time_increment": -4
+  },
+  {
+    "id": "telekinetic_force_shove_away_target",
+    "type": "SPELL",
+    "name": "[Ψ]Force Shove Away",
+    "description": "The power that shoves a target away.  It's a bug if you have it.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ally", "hostile" ],
+    "spell_class": "TELEKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 1,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEKINETIC_FORCE_SHOVE_PUSH_CHECKER",
+    "shape": "blast",
+    "min_range": {
+      "math": [
+        "min( ( ( (u_spell_level('telekinetic_push') * 0.9) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
+      ]
+    },
+    "max_range": 40,
+    "ignored_monster_species": [ "PSI_NULL", "TELEKIN_PUSHPULL_NULL" ]
+  },
+  {
+    "id": "telekinetic_force_shove_toward_target",
+    "type": "SPELL",
+    "name": "[Ψ]Force Shove Toward",
+    "description": "The power that shoves a target toward.  It's a bug if you have it.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ally", "hostile" ],
+    "spell_class": "TELEKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 1,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEKINETIC_FORCE_SHOVE_PULL_CHECKER",
+    "shape": "blast",
+    "min_range": {
+      "math": [
+        "min( ( ( (u_spell_level('telekinetic_push') * 0.9) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
+      ]
+    },
+    "max_range": 40,
+    "ignored_monster_species": [ "PSI_NULL", "TELEKIN_PUSHPULL_NULL" ]
+  },
+  {
+    "id": "telekinetic_force_shove_away",
+    "type": "SPELL",
+    "name": "[Ψ]Force Shove Push Real",
+    "description": "The actual effect that causes the force shove away.  It's a bug if you have it.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ally", "hostile" ],
+    "spell_class": "TELEKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 1,
+    "max_level": 30,
+    "effect": "directed_push",
+    "shape": "blast",
+    "min_damage": 0,
+    "max_damage": 30,
+    "damage_increment": 1,
+    "min_range": 50,
+    "max_range": 50
+  },
+  {
+    "id": "telekinetic_force_shove_toward",
+    "type": "SPELL",
+    "name": "[Ψ]Force Shove Pull Real",
+    "description": "The actual effect that causes the force shove toward.  It's a bug if you have it.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ally", "hostile" ],
+    "spell_class": "TELEKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 1,
+    "max_level": 30,
+    "effect": "directed_push",
+    "shape": "blast",
+    "min_damage": 0,
+    "max_damage": -30,
+    "damage_increment": -1,
+    "min_range": 50,
+    "max_range": 50
+  },
+  {
+    "id": "telekinetic_noise",
+    "type": "SPELL",
+    "name": "[Ψ]Noisemaker",
+    "description": "Using a focused burst of telekinesis, slam two objects together, or an object into the ground, or simply hit the ground with your powers, causing a loud noise.",
+    "message": "You lash out at the ground with your powers.",
+    "teachable": false,
+    "valid_targets": [ "ground" ],
+    "spell_class": "TELEKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "RANDOM_DAMAGE", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 2,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "noise",
+    "shape": "blast",
+    "min_damage": {
+      "math": [
+        "( (u_spell_level('telekinetic_noise') * 0.5) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_damage": {
+      "math": [
+        "( (u_spell_level('telekinetic_noise') * 1.5) + 8) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "min_range": {
+      "math": [
+        "min( (( (u_spell_level('telekinetic_noise') * 0.9) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 60)"
+      ]
+    },
+    "max_range": 60,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 1750,
+    "final_energy_cost": 450,
+    "energy_increment": -85,
+    "base_casting_time": 65,
+    "final_casting_time": 15,
     "casting_time_increment": -4,
-    "ignored_monster_species": [ "PSI_NULL" ]
+    "sound_type": "combat",
+    "sound_description": "a loud thump"
   },
   {
     "id": "telekinetic_slam_down",
@@ -131,7 +304,7 @@
     "base_casting_time": 75,
     "final_casting_time": 30,
     "casting_time_increment": -3,
-    "ignored_monster_species": [ "PSI_NULL" ]
+    "ignored_monster_species": [ "PSI_NULL", "TELEKIN_PUSHPULL_NULL" ]
   },
   {
     "id": "telekinetic_momentum",
@@ -272,7 +445,7 @@
     },
     "min_range": 1,
     "max_range": 1,
-    "ignored_monster_species": [ "PSI_NULL" ]
+    "ignored_monster_species": [ "PSI_NULL", "TELEKIN_PUSHPULL_NULL" ]
   },
   {
     "id": "telekinetic_strength",
@@ -562,7 +735,7 @@
     "valid_targets": [ "self" ],
     "spell_class": "TELEKINETIC",
     "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "difficulty": 7,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
@@ -589,6 +762,70 @@
         "u_effect_intensity('effect_telekinetic_levitation') > -1 ? 10 : max((75 -(u_spell_level('telekinetic_levitation') * 7.5)), 15)"
       ]
     }
+  },
+  {
+    "id": "telekinetic_move_large_weight",
+    "type": "SPELL",
+    "name": "[Ψ]Megakinesis",
+    "description": "Telekinesis on a grand scale, this power allows you to move truly enormous amounts of weight, hurling a human-sized target at lethal speeds or picking up and throwing something monstrously large.  The amount of weight you can move is dependent on the power level.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 8,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEKINETIC_MOVE_LARGE_WEIGHT_SELECTOR",
+    "shape": "blast",
+    "energy_source": "STAMINA",
+    "base_energy_cost": 9500,
+    "final_energy_cost": 5000,
+    "energy_increment": -175,
+    "base_casting_time": 80,
+    "final_casting_time": 25,
+    "casting_time_increment": -5
+  },
+  {
+    "id": "telekinetic_move_large_weight_pushing",
+    "type": "SPELL",
+    "name": "[Ψ]Megakinesis Pushing Power",
+    "description": "Starts the push effect EoC for Megakinesis.  It's a bug if you have it.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ally", "hostile" ],
+    "spell_class": "TELEKINETIC",
+    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEKINETIC_MOVE_LARGE_WEIGHT_PUSH_CHECKER",
+    "shape": "blast",
+    "min_range": {
+      "math": [
+        "min( ( ( (u_spell_level('telekinetic_move_large_weight') * 0.9) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 55)"
+      ]
+    },
+    "max_range": 55
+  },
+  {
+    "id": "telekinetic_move_large_weight_pulling",
+    "type": "SPELL",
+    "name": "[Ψ]Megakinesis Pulling Power",
+    "description": "Starts the pull effect EoC for Megakinesis.  It's a bug if you have it.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ally", "hostile" ],
+    "spell_class": "TELEKINETIC",
+    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEKINETIC_MOVE_LARGE_WEIGHT_PULL_CHECKER",
+    "shape": "blast",
+    "min_range": {
+      "math": [
+        "min( ( ( (u_spell_level('telekinetic_move_large_weight') * 0.9) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 55)"
+      ]
+    },
+    "max_range": 55
   },
   {
     "id": "telekinetic_aegis",

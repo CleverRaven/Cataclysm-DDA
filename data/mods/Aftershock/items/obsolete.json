@@ -1,370 +1,140 @@
 [
   {
+    "type": "MIGRATION",
+    "//": "remove after 0.I",
     "id": "afs_sungel",
-    "type": "COMESTIBLE",
-    "name": { "str_sp": "sungel" },
-    "copy-from": "afs_sundew",
-    "description": "Mixed with morphine, this sundew has congealed, and has an immense stimulative and pain-numbing effect.  With sufficient tools, it could be used to create anesthesia.",
-    "stim": 50,
-    "phase": "liquid",
-    "charges": 2,
-    "fun": 20,
-    "use_action": {
-      "type": "consume_drug",
-      "activation_message": "Your vision sharpens and your eyes widen as the sungel slams your senses.",
-      "effects": [
-        { "id": "pkill3", "duration": 120 },
-        { "id": "pkill2", "duration": 1200 },
-        { "id": "cough_suppress", "duration": 1000 }
-      ]
-    }
+    "replace": "anesthetic_kit"
   },
   {
+    "type": "MIGRATION",
+    "//": "remove after 0.I",
     "id": "afs_solderers_item",
-    "copy-from": "fake_item",
-    "type": "TOOL",
-    "name": { "str_sp": "precision solderers" },
-    "flags": [ "TRADER_AVOID" ],
-    "qualities": [ [ "SAW_M_FINE", 1 ], [ "SCREW_FINE", 1 ], [ "CUT_FINE", 2 ], [ "BIONIC_ASSEMBLY", 2 ] ]
+    "replace": "bio_tools"
   },
   {
+    "type": "MIGRATION",
+    "//": "remove after 0.I",
     "id": "afs_fridge",
-    "category": "veh_parts",
-    "type": "GENERIC",
-    "name": { "str": "vehicle refrigerator" },
-    "description": "A household refrigerator with impressive capacity.  Its power connection has been refurbished, and it can be mounted onto a vehicle to draw from its power.",
-    "symbol": "{",
-    "color": "white",
-    "weight": "142882 g",
-    "volume": "300 L",
-    "price": 40000,
-    "price_postapoc": 10000,
-    "material": [ "steel" ],
-    "to_hit": -4,
-    "flags": [ "DURABLE_MELEE" ],
-    "looks_like": "minifridge",
-    "melee_damage": { "bash": 8 }
+    "replace": "apartment_fridge"
   },
   {
-    "type": "vehicle_part",
-    "id": "afs_fridge",
-    "copy-from": "minifridge",
-    "name": { "str": "refrigerator" },
-    "categories": [ "cargo" ],
-    "color": "white",
-    "broken_color": "white",
-    "looks_like": "minifridge",
-    "durability": 400,
-    "description": "A medium-sized household refrigerator, converted to utilize vehicle power.  When turned on, food inside will be cooled, extending the time it has before spoiling.",
-    "epower": "-100 W",
-    "size": "300 L",
-    "item": "afs_fridge",
-    "variants": [ { "symbols": "{", "symbols_broken": "#" } ]
+    "type": "vehicle_part_migration",
+    "//": "remove after 0.I",
+    "from": "afs_fridge",
+    "to": "minifridge"
   },
   {
-    "type": "vehicle_part",
+    "type": "vehicle_part_migration",
+    "//": "remove after 0.I",
+    "from": "afs_freezer",
+    "to": "minifridge"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.I",
     "id": "afs_freezer",
-    "copy-from": "minifreezer",
-    "name": { "str": "freezer" },
-    "categories": [ "cargo" ],
-    "color": "light_blue",
-    "broken_color": "light_blue",
-    "looks_like": "minifridge",
-    "durability": 400,
-    "description": "A household fridge, converted to run at a much lower temperature and on vehicle power.  When turned on, food inside will be frozen, completely stopping it from spoiling.",
-    "epower": "-120 W",
-    "size": "300 L",
-    "item": "afs_freezer",
-    "variants": [ { "symbols": "{", "symbols_broken": "#" } ]
+    "replace": "minifridge"
   },
   {
-    "id": "afs_freezer",
-    "category": "veh_parts",
-    "type": "GENERIC",
-    "name": { "str": "vehicle freezer" },
-    "copy-from": "afs_fridge",
-    "description": "This refurbished refrigerator has been stripped of much of its internal components and converted to run at a much lower temperature, causing it to serve as a freezer for more power.  Like its predecessor, it runs on vehicle power.",
-    "color": "light_blue"
-  },
-  {
+    "type": "MIGRATION",
+    "//": "remove after 0.I",
     "id": "afs_bio_precision_solderers",
-    "copy-from": "bionic_general",
-    "type": "BIONIC_ITEM",
-    "name": { "str": "Precision Solderers CBM" },
-    "description": "A set of tiny electronics tools, including soldering irons and wire cutters.  They serve no purpose on their own, but are required for crafting bionics.",
-    "price": 20000,
-    "difficulty": 3
+    "replace": "soldering_iron"
   },
   {
+    "type": "MIGRATION",
+    "//": "remove after 0.I",
     "id": "afs_blatant_half_life_reference",
-    "type": "ARMOR",
-    "name": "hazardous environment suit",
-    "description": "Developed for the exploration of alien planes, the lightweight, orange-black HEV suit covers everything below the neck.  While it possesses only modest physical protection, it provides excellent protection from most environmental hazards.  A hatch in the front opens to provide a small amount of storage.",
-    "symbol": "[",
-    "color": "yellow",
-    "weight": "3501 g",
-    "volume": "2500 ml",
-    "price": 100000000,
-    "price_postapoc": 50000,
-    "material": [ "superalloy", "kevlar" ],
-    "material_thickness": 2,
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ACTIVE",
-          "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ]
-        }
-      ]
-    },
-    "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 }
-    ],
-    "warmth": 20,
-    "environmental_protection": 5,
-    "flags": [ "ELECTRIC_IMMUNE", "RAD_PROOF", "WATERPROOF", "COLLAR", "THERMOMETER", "ONLY_ONE", "OUTER", "STURDY" ],
-    "looks_like": "depowered_armor",
-    "armor": [
-      {
-        "encumbrance": [ 4, 9 ],
-        "coverage": 100,
-        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
-      }
-    ]
+    "replace": "afs_military_vest"
   },
   {
+    "type": "MIGRATION",
+    "//": "remove after 0.I",
     "id": "afs_hev_helmet",
-    "type": "TOOL_ARMOR",
-    "name": "hazardous environment helmet",
-    "description": "Meant to pair with a compatible HEV suit, this helmet's physical protection is basic at best, but makes up for it with an air recycler that provides excellent protection from airborne contaminants.  It has a mounted LED headlamp, powered by standard batteries.",
-    "symbol": "[",
-    "color": "yellow",
-    "weight": "581 g",
-    "volume": "2 L",
-    "price": 10000000,
-    "price_postapoc": 5000,
-    "material": [ "superalloy", "plastic" ],
-    "material_thickness": 2,
-    "warmth": 20,
-    "environmental_protection": 11,
-    "qualities": [ [ "GLARE", 1 ] ],
-    "charges_per_use": 1,
-    "ammo": "battery",
-    "use_action": {
-      "type": "transform",
-      "msg": "You turn the helmet's headlamp on.",
-      "target": "afs_hev_helmet_on",
-      "active": true,
-      "need_charges": 1,
-      "need_charges_msg": "The helmet's batteries are dead."
-    },
-    "flags": [ "WATERPROOF", "FLASH_PROTECTION", "ONLY_ONE", "STURDY" ],
-    "looks_like": "afs_hev_helmet_on",
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [
-          "light_battery_cell",
-          "light_minus_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
-      }
-    ],
-    "armor": [ { "encumbrance": 15, "coverage": 100, "covers": [ "head", "eyes", "mouth" ] } ]
+    "replace": "spacer_cap"
   },
   {
+    "type": "MIGRATION",
+    "//": "remove after 0.I",
     "id": "afs_hev_helmet_on",
-    "type": "TOOL_ARMOR",
-    "copy-from": "afs_hev_helmet",
-    "name": { "str": "hazardous environment helmet (on)", "str_pl": "hazardous environment helmets (on)" },
-    "description": "Meant to pair with a compatible HEV suit, this helmet's physical protection is basic at best, but makes up for it with an air recycler that provides excellent protection from airborne contaminants.  Its light is on, illuminating the area at the cost of battery power.",
-    "revert_to": "afs_hev_helmet",
-    "turns_per_charge": 20,
-    "use_action": { "menu_text": "Turn off", "type": "transform", "msg": "The %s flicks off.", "target": "afs_hev_helmet" },
-    "flags": [ "LIGHT_500", "WATERPROOF", "FLASH_PROTECTION", "ONLY_ONE", "STURDY" ],
-    "looks_like": "afs_hev_helmet"
+    "replace": "spacer_cap"
   },
   {
+    "type": "MIGRATION",
+    "//": "remove after 0.I",
     "id": "afs_sunesthesia",
-    "type": "COMESTIBLE",
-    "name": { "str_sp": "sunesthesia" },
-    "copy-from": "afs_sungel",
-    "description": "This sungel has been mixed with several drugs and yet inherits none of their effects.  Its painkilling effect hasn't changed, but its stimulative properties have been reversed, and it could be used as anesthesia for installation of bionics.",
-    "stim": -30,
-    "phase": "liquid",
-    "color": "light_red",
-    "flags": [ "LIGHT_4", "EATEN_HOT" ],
-    "use_action": {
-      "type": "consume_drug",
-      "activation_message": "You go limp and collapse as the sunesthesia knocks you senseless.",
-      "effects": [
-        { "id": "pkill3", "duration": 480 },
-        { "id": "pkill2", "duration": 1200 },
-        { "id": "cough_suppress", "duration": 1000 },
-        { "id": "downed", "duration": 1 }
-      ]
-    }
+    "replace": "anesthetic_kit"
   },
   {
+    "type": "MIGRATION",
+    "//": "remove after 0.I",
     "id": "afs_textbook_shotguns",
-    "type": "BOOK",
-    "name": { "str": "USMC M1014 technical manual" },
-    "description": "A pocket-sized book printed in 2000 by the United States Marine Corps for official use.  It describes the operation, repair, and cleaning of the Benilli M1014 shotgun.  Though specific to the M4, it can provide a wealth of information to the trained eye.",
-    "weight": "600 g",
-    "volume": "250 ml",
-    "price": 3000,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "looks_like": "manual_shotgun",
-    "color": "green",
-    "skill": "shotgun",
-    "required_level": 2,
-    "max_level": 6,
-    "intelligence": 8,
-    "time": "15 m"
+    "replace": "manual_shotgun"
   },
   {
+    "type": "MIGRATION",
+    "//": "remove after 0.I",
     "id": "afs_textbook_handguns",
-    "type": "BOOK",
-    "name": { "str": "Black Powder to Berettas", "str_pl": "copies of Black Powder to Berettas" },
-    "description": "This hardcover book, aimed at the gun nut, provides an illustrated, concise history of the handgun throughout history, including technical specifications and use techniques.  It's difficult to follow without a passing knowledge in pistols, but an experienced handgun user could glean much from it.",
-    "weight": "732 g",
-    "volume": "750 ml",
-    "price": 3000,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "looks_like": "manual_shotgun",
-    "color": "green",
-    "skill": "pistol",
-    "required_level": 2,
-    "max_level": 6,
-    "intelligence": 6,
-    "time": "20 m"
+    "replace": "manual_pistol"
   },
   {
+    "type": "MIGRATION",
+    "//": "remove after 0.I",
     "id": "afs_textbook_rifles",
-    "type": "BOOK",
-    "name": { "str": "America's Rifle", "str_pl": "copies of America's Rifle" },
-    "description": "A history book penned by an anonymous author.  Starting from its design by John Garand and ending with the Vietnam War, it provides a detailed run-down of the M1 Garand rifle's use throughout history as well as its design and quirks with the weapon.",
-    "weight": "600 g",
-    "volume": "500 ml",
-    "price": 3000,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "looks_like": "manual_shotgun",
-    "color": "green",
-    "skill": "rifle",
-    "required_level": 2,
-    "max_level": 6,
-    "intelligence": 6,
-    "time": "20 m"
+    "replace": "manual_rifle"
   },
   {
+    "type": "MIGRATION",
+    "//": "remove after 0.I",
     "id": "afs_textbook_launchers",
-    "type": "BOOK",
-    "name": { "str": "Jane's Flamethrowers and Firestarters", "str_pl": "copies of Jane's Flamethrowers and Firestarters" },
-    "description": "A detailed, full-colored guide to flamethrowers, incendiary weapons, and napalm.  It builds off of information provided in its sister book, Jane's Mortars and Rocket Launchers, and so it's mostly incomprehensible to anyone without prior knowledge.",
-    "weight": "734 g",
-    "volume": "250 ml",
-    "price": 2000,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "looks_like": "manual_shotgun",
-    "color": "green",
-    "skill": "launcher",
-    "required_level": 2,
-    "max_level": 6,
-    "intelligence": 5,
-    "time": "18 m"
+    "replace": "manual_launcher"
   },
   {
+    "type": "MIGRATION",
+    "//": "remove after 0.I",
     "id": "afs_bio_wind_turbine",
-    "copy-from": "bionic_general",
-    "type": "BIONIC_ITEM",
-    "name": { "str": "Wind Turbine CBM" },
-    "description": "Installed on your body is a set of small retractable wind turbines.  When activated, they will deploy and slowly harvest wind power to recharge your power level.",
-    "price": 350000,
-    "difficulty": 4
+    "replace": "bio_torsionratchet"
   },
   {
-    "type": "GENERIC",
+    "type": "MIGRATION",
+    "//": "remove after 0.I",
     "id": "broken_milbot_flame",
-    "copy-from": "broken_milbot_disarmed",
-    "color": "red",
-    "name": "broken military flame robot",
-    "description": "A broken military robot, shattered and inert.  This one is armed with an integrated flamethrower.  Could be stripped for parts."
+    "replace": "broken_tankbot"
   },
   {
-    "type": "GENERIC",
+    "type": "MIGRATION",
+    "//": "remove after 0.I",
     "id": "broken_milbot_308",
-    "copy-from": "broken_milbot_disarmed",
-    "color": "light_gray",
-    "name": "broken military robot",
-    "description": "A broken military robot, shattered and inert.  This one is armed with an integrated 7.62mm firearm.  Could be stripped for parts."
+    "replace": "broken_tankbot"
   },
   {
-    "type": "GENERIC",
+    "type": "MIGRATION",
+    "//": "remove after 0.I",
     "id": "broken_milbot_8x40mm",
-    "copy-from": "broken_milbot_disarmed",
-    "color": "light_gray",
-    "name": "broken military robot",
-    "description": "A broken military robot, shattered and inert.  This one is armed with an integrated 8x40mm firearm.  Could be stripped for parts."
+    "replace": "broken_tankbot"
   },
   {
-    "type": "GENERIC",
+    "type": "MIGRATION",
+    "//": "remove after 0.I",
     "id": "broken_advbot_rail",
-    "copy-from": "broken_advbot_disarmed",
-    "color": "magenta",
-    "name": "broken advanced robot",
-    "description": "A broken advanced robot.  This one is armed with an integrated laser-emitter.  Could be stripped for parts."
+    "replace": "broken_tankbot"
   },
   {
+    "type": "MIGRATION",
+    "//": "remove after 0.I",
+    "id": "broken_advbot_rail",
+    "replace": "broken_tankbot"
+  },
+  {
+    "type": "MIGRATION",
+    "//": "remove after 0.I",
     "id": "40mm_emp",
-    "type": "AMMO",
-    "name": { "str": "40x46mm EMP grenade" },
-    "description": "A 40x46mm grenade with an EMP charge.  It will release an electromagnetic pulse capable of damaging robots and some equipment.",
-    "weight": "230 g",
-    "volume": "250 ml",
-    "price": 40000,
-    "material": [ "steel", "powder" ],
-    "symbol": "=",
-    "color": "yellow",
-    "count": 4,
-    "stack_size": 4,
-    "ammo_type": "40x46mm",
-    "casing": "40x46mm_m118_casing",
-    "range": 40,
-    "dispersion": 30,
-    "recoil": 225,
-    "drop": "40mmEMP_act",
-    "effects": [ "COOKOFF", "NEVER_MISFIRES", "NO_EMBED" ],
-    "melee_damage": { "bash": 5 }
+    "replace": "40x46mm_m433"
   },
   {
+    "type": "MIGRATION",
+    "//": "remove after 0.I",
     "id": "40mmEMP_act",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": "active EMP grenade",
-    "description": "This EMP grenade is active, and will shortly detonate, creating a large EMP field that damages robots and drains bionic energy.  You may not want to be holding it much longer.",
-    "weight": "400 g",
-    "volume": "250 ml",
-    "price": 0,
-    "to_hit": -1,
-    "material": [ "steel", "plastic" ],
-    "symbol": "*",
-    "color": "cyan",
-    "initial_charges": 0,
-    "max_charges": 0,
-    "turns_per_charge": 1,
-    "use_action": { "type": "explosion", "draw_explosion_radius": 8, "draw_explosion_color": "light_blue", "emp_blast_radius": 8 },
-    "flags": [ "TRADER_AVOID" ]
+    "replace": "40x46mm_m433"
   }
 ]

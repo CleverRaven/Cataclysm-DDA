@@ -136,7 +136,8 @@
       [ "spell_scroll_force_jar", 30 ],
       [ "spell_scroll_flamebreath", 30 ],
       [ "spell_scroll_thought_shield", 35 ],
-      [ "spell_scroll_technomancer_far_sight", 20 ]
+      [ "spell_scroll_technomancer_far_sight", 20 ],
+      [ "spell_scroll_technomancer_pain_ignore", 30 ]
     ]
   },
   {
@@ -146,7 +147,7 @@
       [ "spell_scroll_devour", 25 ],
       [ "spell_scroll_recover_mana", 25 ],
       [ "spell_scroll_recover_pain", 25 ],
-      [ "spell_scroll_recover_fatigue", 25 ],
+      [ "spell_scroll_recover_sleepiness", 25 ],
       [ "spell_scroll_recover_stamina", 25 ],
       [ "spell_scroll_recover_bionic_power", 25 ],
       [ "spell_scroll_summon_undead_swarm", 35 ],

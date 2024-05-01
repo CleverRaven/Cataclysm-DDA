@@ -12,7 +12,7 @@
           { "u_spawn_item": "mask_gas_half" },
           { "u_spawn_item": "robofac_enviro_suit" },
           { "u_spawn_item": "gasfilter_med", "count": 1 },
-          { "npc_add_var": "npc_bought_protective_gear", "type": "dialogue", "context": "intercom", "value": "yes" }
+          { "npc_add_var": "dialogue_intercom_npc_bought_protective_gear", "value": "yes" }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
       },
@@ -36,7 +36,7 @@
         "effect": [
           { "u_buy_item": "RobofacCoin", "count": 1 },
           { "mapgen_update": "robofachq_surface_entrance", "reveal_radius": 40, "random": true, "search_range": 70 },
-          { "npc_add_var": "sold_local_map", "type": "dialogue", "context": "intercom", "value": "yes" }
+          { "npc_add_var": "dialogue_intercom_sold_local_map", "value": "yes" }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
       },
@@ -58,6 +58,7 @@
         "condition": { "u_has_items": { "item": "nre_anomaly_printout_data", "count": 1 } },
         "effect": [
           { "u_consume_item": "nre_anomaly_printout_data", "count": 1, "popup": true },
+          { "math": [ "u_portal_storm_recordings_sold", "++" ] },
           { "u_spawn_item": "RobofacCoin", "count": 10 }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_PORTAL_STORM_DATA_Large"
@@ -67,6 +68,7 @@
         "condition": { "u_has_items": { "item": "large_printout_portal_storm_data", "count": 1 } },
         "effect": [
           { "u_consume_item": "large_printout_portal_storm_data", "count": 1, "popup": true },
+          { "math": [ "u_portal_storm_recordings_sold", "++" ] },
           { "u_spawn_item": "RobofacCoin", "count": 18 }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_PORTAL_STORM_DATA_Large"
@@ -82,6 +84,7 @@
         "effect": [
           { "u_consume_item": "medium_printout_portal_storm_data", "count": 1, "popup": true },
           { "math": [ "portal_storm_medium_data_sold", "++" ] },
+          { "math": [ "u_portal_storm_recordings_sold", "++" ] },
           { "u_spawn_item": "RobofacCoin", "count": 5 }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_PORTAL_STORM_DATA_Medium"
@@ -98,6 +101,7 @@
         "effect": [
           { "u_consume_item": "small_printout_portal_storm_data", "count": 1, "popup": true },
           { "math": [ "portal_storm_small_data_sold", "++" ] },
+          { "math": [ "u_portal_storm_recordings_sold", "++" ] },
           { "u_spawn_item": "RobofacCoin", "count": 1 }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_PORTAL_STORM_DATA_Small"
@@ -112,9 +116,7 @@
       "math": [ "portal_storm_small_data_sold", ">=", "3" ],
       "yes": "Extrapolating trends from these recordings has become difficult.  Research has requested we only accept higher quality data from now on.",
       "no": {
-        "npc_has_var": "accepted_nre_recording",
-        "type": "dialogue",
-        "context": "intercom",
+        "npc_has_var": "dialogue_intercom_accepted_nre_recording",
         "value": "yes",
         "no": "Excellent; this should be enough to work with.  Here's your agreed-upon reward.\"  The tray slides shut, and quickly reopens with your payment.  \"Given your performance and our constant need for new data, you are free to keep the recorder for further use.  We are willing to pay for any future data that you're able to record.",
         "yes": "&\"Thank you.\"  The recording changes hands."
@@ -122,7 +124,7 @@
     },
     "speaker_effect": {
       "effect": [
-        { "npc_add_var": "accepted_nre_recording", "type": "dialogue", "context": "intercom", "value": "yes" },
+        { "npc_add_var": "dialogue_intercom_accepted_nre_recording", "value": "yes" },
         { "finish_mission": "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1", "success": true }
       ],
       "sentinel": "nre_trade"
@@ -135,9 +137,7 @@
       "math": [ "portal_storm_medium_data_sold", ">=", "15" ],
       "yes": "Extrapolating trends from these recordings has become difficult.  Research has requested we only accept higher quality data from now on.",
       "no": {
-        "npc_has_var": "accepted_nre_recording",
-        "type": "dialogue",
-        "context": "intercom",
+        "npc_has_var": "dialogue_intercom_accepted_nre_recording",
         "value": "yes",
         "no": "Great!  This looks like a very high-quality recording.  Because this data is much better, we are willing to pay five times what we paid for the base data collected.\"  The tray slides shut, and quickly reopens with your payment.  \"Given your performance and our constant need for new data, you are free to keep the recorder for further use.  We are willing to pay for any future data that you're able to record.",
         "yes": "&\"Excellent.\"  The recording changes hands."
@@ -145,7 +145,7 @@
     },
     "speaker_effect": {
       "effect": [
-        { "npc_add_var": "accepted_nre_recording", "type": "dialogue", "context": "intercom", "value": "yes" },
+        { "npc_add_var": "dialogue_intercom_accepted_nre_recording", "value": "yes" },
         { "finish_mission": "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1", "success": true }
       ],
       "sentinel": "nre_trade"
@@ -155,16 +155,14 @@
     "id": "TALK_ROBOFAC_INTERCOM_SELL_PORTAL_STORM_DATA_Large",
     "type": "talk_topic",
     "dynamic_line": {
-      "npc_has_var": "accepted_nre_recording",
-      "type": "dialogue",
-      "context": "intercom",
+      "npc_has_var": "dialogue_intercom_accepted_nre_recording",
       "value": "yes",
       "no": "Uh… please allow me a second to check this in.\"  The tray slides shut, and the intercom turns off.  Roughly a minute later, it turns back on.  \"Well, it looks like this is a real treasure trove of information.  In fact, you've made quite an impression on R&D, and probably just saved us a few weeks of research at the least.  They demanded you be given a pretty significant accomplishment bonus, so… well, there you go.\"  The tray slides open, revealing an impressive pile of coins.\n\n\"Given your performance and our constant need for new data, you are free to keep the recorder for further use.  We are willing to pay for any future data that you're able to record.",
       "yes": "Fantastic.\"  The recording changes hands.  \"At this rate, we'll have some real results soon."
     },
     "speaker_effect": {
       "effect": [
-        { "npc_add_var": "accepted_nre_recording", "type": "dialogue", "context": "intercom", "value": "yes" },
+        { "npc_add_var": "dialogue_intercom_accepted_nre_recording", "value": "yes" },
         { "finish_mission": "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1", "success": true }
       ],
       "sentinel": "nre_trade"

@@ -111,6 +111,7 @@
       "d": "f_desk",
       "a": "f_trashcan",
       "L": "f_rack_coat",
+      "Q": "f_minifridge",
       "B": "f_floor_lamp"
     },
     "toilets": { "T": {  } },

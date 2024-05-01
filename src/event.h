@@ -4,17 +4,15 @@
 
 #include <array>
 #include <cstddef>
-#include <cstdlib>
 #include <iosfwd>
 #include <map>
-#include <type_traits>
+#include <string>
 #include <unordered_map>
 #include <utility>
+#include <vector>
 
 #include "calendar.h"
 #include "cata_variant.h"
-#include "debug.h"
-#include "enum_conversions.h"
 
 template <typename E> struct enum_traits;
 
@@ -127,6 +125,7 @@ enum class event_type : int {
     uses_debug_menu,
     u_var_changed,
     vehicle_moves,
+    character_butchered_corpse,
     num_event_types // last
 };
 
@@ -187,7 +186,7 @@ struct event_spec_character_item {
     };
 };
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 101,
+static_assert( static_cast<int>( event_type::num_event_types ) == 102,
                "This static_assert is to remind you to add a specialization for your new "
                "event_type below" );
 
@@ -487,6 +486,16 @@ template<>
 struct event_spec<event_type::character_attempt_to_fall_asleep> {
     static constexpr std::array<std::pair<const char *, cata_variant_type>, 1> fields = {{
             { "character", cata_variant_type::character_id },
+        }
+    };
+};
+
+template<>
+struct event_spec<event_type::character_butchered_corpse> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 3> fields = { {
+            { "character", cata_variant_type::character_id },
+            { "monster_id", cata_variant_type::mtype_id },
+            { "butcher_type", cata_variant_type::string },
         }
     };
 };

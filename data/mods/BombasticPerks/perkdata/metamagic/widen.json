@@ -2,14 +2,14 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_metamagic_toggle_widen",
-    "condition": { "u_has_var": "widen_deactivated", "context": "perk_metamagic", "value": "yes" },
+    "condition": { "u_has_var": "perk_metamagic_widen_deactivated", "value": "yes" },
     "effect": [
       { "u_message": "You activate your widen metamagic" },
-      { "u_add_var": "widen_deactivated", "context": "perk_metamagic", "value": "no" }
+      { "u_add_var": "perk_metamagic_widen_deactivated", "value": "no" }
     ],
     "false_effect": [
       { "u_message": "You deactivate your widen metamagic" },
-      { "u_add_var": "widen_deactivated", "context": "perk_metamagic", "value": "yes" }
+      { "u_add_var": "perk_metamagic_widen_deactivated", "value": "yes" }
     ]
   },
   {
@@ -20,7 +20,7 @@
     "condition": {
       "and": [
         { "u_has_trait": "perk_metamagic_widen" },
-        { "not": { "u_has_var": "widen_deactivated", "context": "perk_metamagic", "value": "yes" } }
+        { "not": { "u_has_var": "perk_metamagic_widen_deactivated", "value": "yes" } }
       ]
     },
     "effect": [

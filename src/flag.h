@@ -2,12 +2,13 @@
 #ifndef CATA_SRC_FLAG_H
 #define CATA_SRC_FLAG_H
 
-#include <iosfwd>
 #include <set>
 #include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 
 class JsonObject;
@@ -104,6 +105,7 @@ extern const flag_id flag_EATEN_COLD;
 extern const flag_id flag_EATEN_HOT;
 extern const flag_id flag_EDIBLE_FROZEN;
 extern const flag_id flag_EFFECT_IMPEDING;
+extern const flag_id flag_EFFECT_LIMB_DISABLE_CONDITIONAL_FLAGS;
 extern const flag_id flag_EFFECT_LIMB_SCORE_MOD;
 extern const flag_id flag_EFFECT_LIMB_SCORE_MOD_LOCAL;
 extern const flag_id flag_ELECTRIC_IMMUNE;
@@ -307,7 +309,6 @@ extern const flag_id flag_SKINTIGHT;
 extern const flag_id flag_SLEEP_AID;
 extern const flag_id flag_SLEEP_AID_CONTAINER;
 extern const flag_id flag_SLEEP_IGNORE;
-extern const flag_id flag_SLOWS_MOVEMENT;
 extern const flag_id flag_SLOW_WIELD;
 extern const flag_id flag_SMOKABLE;
 extern const flag_id flag_SMOKED;

@@ -10,8 +10,8 @@
     "volume": "1400 ml",
     "symbol": "@",
     "color": "white",
-    "price": 0,
-    "price_postapoc": 10,
+    "price": "0 cent",
+    "price_postapoc": "10 cent",
     "material": [ "bone" ]
   },
   {

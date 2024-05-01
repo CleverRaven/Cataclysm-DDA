@@ -79,7 +79,9 @@
 static const efftype_id effect_ridden( "ridden" );
 
 static const itype_id itype_corpse( "corpse" );
+
 static const trait_id trait_INATTENTIVE( "INATTENTIVE" );
+
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
 static const std::string ITEM_HIGHLIGHT( "highlight_item" );
@@ -3277,7 +3279,7 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
             const auto furn = [&]( const tripoint & q, const bool invis ) -> furn_id {
                 const auto it = furniture_override.find( q );
                 return it != furniture_override.end() ? it->second :
-                ( !overridden || !invis ) ? here.furn( q ) : f_null;
+                ( !overridden || !invis ) ? here.furn( q ) : furn_str_id::NULL_ID().id();
             };
             const std::array<int, 4> neighborhood = {
                 static_cast<int>( furn( p + point_south, invisible[1] ) ),
@@ -4839,15 +4841,15 @@ void cata_tiles::get_terrain_orientation( const tripoint &p, int &rota, int &sub
 {
     map &here = get_map();
     const bool overridden = ter_override.find( p ) != ter_override.end();
-    const auto ter = [&]( const tripoint & q, const bool invis ) -> ter_id {
-        const auto override = ter_override.find( q );
-        return override != ter_override.end() ? override->second :
-        ( !overridden || !invis ) ? here.ter( q ) : t_null;
+    const auto ter = [&]( const tripoint & q, const bool invis ) -> ter_str_id {
+        const auto override_it = ter_override.find( q );
+        return override_it != ter_override.end() ? override_it->second.id() :
+        ( !overridden || !invis ) ? here.ter( q ).id() : ter_str_id::NULL_ID();
     };
 
     // get terrain at x,y
     const ter_id tid = ter( p, invisible[0] );
-    if( tid == t_null ) {
+    if( tid == ter_str_id::NULL_ID() ) {
         subtile = 0;
         rota = 0;
         return;

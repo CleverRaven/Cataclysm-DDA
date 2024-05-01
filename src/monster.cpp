@@ -21,6 +21,7 @@
 #include "cursesdef.h"
 #include "debug.h"
 #include "effect.h"
+#include "effect_on_condition.h"
 #include "effect_source.h"
 #include "event.h"
 #include "event_bus.h"
@@ -598,7 +599,10 @@ void monster::try_reproduce()
             if( type->baby_monster ) {
                 here.add_spawn( type->baby_monster, spawn_cnt, pos() );
             } else {
-                here.add_item_or_charges( pos(), item( type->baby_egg, *baby_timer, spawn_cnt ), true );
+                const item egg( type->baby_egg, *baby_timer );
+                for( int i = 0; i < spawn_cnt; i++ ) {
+                    here.add_item_or_charges( pos(), egg, true );
+                }
             }
         }
         *baby_timer += *type->baby_timer;
@@ -1093,7 +1097,7 @@ std::string monster::extended_description() const
         ss += string_format( _( "Friendly: %1$d" ), friendly ) + "\n";
         ss += string_format( _( "Morale: %1$d" ), morale ) + "\n";
         if( aggro_character ) {
-            ss += string_format( _( "<color_red>Agressive towards characters</color>" ) ) + "\n";
+            ss += string_format( _( "<color_red>Aggressive towards characters</color>" ) ) + "\n";
         }
 
         const time_duration current_time = calendar::turn - calendar::turn_zero;
@@ -1340,6 +1344,11 @@ bool monster::has_intelligence() const
 std::vector<material_id> monster::get_absorb_material() const
 {
     return type->absorb_material;
+}
+
+std::vector<material_id> monster::get_no_absorb_material() const
+{
+    return type->no_absorb_material;
 }
 
 void monster::set_patrol_route( const std::vector<point> &patrol_pts_rel_ms )
@@ -2836,6 +2845,16 @@ void monster::die( Creature *nkiller )
         }
     }
 
+    if( type->mdeath_effect.eoc.has_value() ) {
+        //Not a hallucination, go process the death effects.
+        if( type->mdeath_effect.eoc.value().is_valid() ) {
+            dialogue d( get_talker_for( *this ), nullptr );
+            type->mdeath_effect.eoc.value()->activate( d );
+        } else {
+            debugmsg( "eoc id %s is not valid", type->mdeath_effect.eoc.value().str() );
+        }
+    }
+
     // scale overkill damage by enchantments
     if( nkiller && ( nkiller->is_npc() || nkiller->is_avatar() ) ) {
         int current_hp = get_hp();
@@ -3225,7 +3244,7 @@ void monster::process_effects()
         add_msg_if_player_sees( *this, m_warning, healing_format_string, name() );
     }
 
-    if( type->regenerates_in_dark ) {
+    if( type->regenerates_in_dark && !g->is_in_sunlight( pos() ) ) {
         const float light = get_map().ambient_light_at( pos() );
         // Magic number 10000 was chosen so that a floodlight prevents regeneration in a range of 20 tiles
         const float dHP = 50.0 * std::exp( - light * light / 10000 );
