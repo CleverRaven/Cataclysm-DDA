@@ -32,7 +32,7 @@
         "west": { "id": "crater_to_crater", "type": "available" }
       },
       "ground_cleanup": {
-        "overmap": "core_small",
+        "overmap": "crater_core_small",
         "north": { "id": "root", "type": "available" },
         "east": { "id": "root", "type": "available" },
         "south": { "id": "root", "type": "available" },
