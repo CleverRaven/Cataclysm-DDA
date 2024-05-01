@@ -835,7 +835,7 @@ class map
             return furn_set( tripoint( p, abs_sub.z() ), new_furniture, false, avoid_creatures );
         }
         void furn_clear( const tripoint &p ) {
-            furn_set( p, f_clear );
+            furn_set( p, furn_str_id( "f_clear" ) );
         };
         void furn_clear( const point &p ) {
             furn_clear( tripoint( p, abs_sub.z() ) );
@@ -1086,7 +1086,7 @@ class map
             make_rubble( p, rubble_type, items, ter_str_id( "t_dirt" ).id(), false );
         }
         void make_rubble( const tripoint &p ) {
-            make_rubble( p, f_rubble, false, ter_str_id( "t_dirt" ).id(), false );
+            make_rubble( p, furn_str_id( "f_rubble" ), false, ter_str_id( "t_dirt" ).id(), false );
         }
 
         bool is_outside( const tripoint &p ) const;
@@ -1975,6 +1975,13 @@ class map
          * called the last time.
          */
         void produce_sap( const tripoint &p, const time_duration &time_since_last_actualize );
+    public:
+        /**
+        * Removes the tree at 'p' and produces a trunk_yield length line of trunks in the 'dir'
+        * direction from 'p', leaving a stump behind at 'p'.
+        */
+        void cut_down_tree( tripoint_bub_ms p, point dir );
+    protected:
         /**
          * Radiation-related plant (and fungus?) death.
          */
@@ -2399,6 +2406,11 @@ class tinymap : private map
     protected:
         tinymap( int mapsize, bool zlev ) : map( mapsize, zlev ) {};
 
+        // This operation cannot be used with tinymap due to a lack of zlevel support, but are carried through for use by smallmap.
+        void cut_down_tree( tripoint_omt_ms p, point dir ) {
+            map::cut_down_tree( tripoint_bub_ms( p.raw() ), dir );
+        };
+
     public:
         tinymap() : map( 2, false ) {}
         bool inbounds( const tripoint &p ) const override;
@@ -2652,6 +2664,9 @@ class smallmap : public tinymap
 {
     public:
         smallmap() : tinymap( 2, true ) {}
-        void add_roofs();
+
+        void cut_down_tree( tripoint_omt_ms p, point dir ) {
+            tinymap::cut_down_tree( p, dir );
+        };
 };
 #endif // CATA_SRC_MAP_H

@@ -30,7 +30,13 @@
     "condition": { "and": [ { "u_has_trait": "perk_ALCHEMY2" }, { "not": { "u_has_effect": "mental_exhaustion" } } ] },
     "effect": [
       {
-        "u_roll_remainder": [ "prophets_lsd", "truckers_stamina_pills", "spiritshow_dust", "charm_of_marzanna" ],
+        "u_roll_remainder": [
+          "prophets_lsd",
+          "truckers_stamina_pills",
+          "spiritshow_dust",
+          "charm_of_marzanna",
+          "väinämöinens_kantele_imitation"
+        ],
         "type": "recipe",
         "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER_ALCHEMY" ],
         "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER_ALCHEMY" ]

@@ -31,7 +31,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_run_inv_test1_nested",
-    "effect": [ { "npc_add_var": "key1", "type": "general", "context": "run_inv_test", "value": "yes" } ]
+    "effect": [ { "npc_add_var": "general_run_inv_test_key1", "value": "yes" } ]
   },
   {
     "type": "effect_on_condition",
@@ -47,7 +47,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_run_inv_test2_nested",
-    "effect": [ { "npc_add_var": "key2", "type": "general", "context": "run_inv_test", "value": "yes" } ]
+    "effect": [ { "npc_add_var": "general_run_inv_test_key2", "value": "yes" } ]
   },
   {
     "type": "effect_on_condition",
@@ -63,7 +63,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_run_inv_test3_nested",
-    "effect": [ { "npc_add_var": "key3", "type": "general", "context": "run_inv_test", "value": "yes" } ]
+    "effect": [ { "npc_add_var": "general_run_inv_test_key3", "value": "yes" } ]
   },
   {
     "type": "effect_on_condition",
@@ -79,12 +79,12 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_run_inv_test4_nested",
-    "effect": [ { "npc_add_var": "key4", "type": "general", "context": "run_inv_test", "value": "yes" } ]
+    "effect": [ { "npc_add_var": "general_run_inv_test_key4", "value": "yes" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_run_inv_test5_nested",
-    "effect": [ { "npc_add_var": "key5", "type": "general", "context": "run_inv_test", "value": "yes" } ]
+    "effect": [ { "npc_add_var": "general_run_inv_test_key5", "value": "yes" } ]
   },
   {
     "type": "effect_on_condition",
@@ -140,7 +140,7 @@
     "type": "effect_on_condition",
     "id": "EOC_item_flag_test_nested2",
     "condition": { "npc_has_flag": "FILTHY" },
-    "effect": [ { "npc_add_var": "is_filthy", "type": "general", "context": "run_inv_test", "value": "yes" } ]
+    "effect": [ { "npc_add_var": "general_run_inv_test_is_filthy", "value": "yes" } ]
   },
   {
     "type": "effect_on_condition",
@@ -338,15 +338,15 @@
     "effect": [
       { "set_string_var": "prof_test", "target_var": { "global_val": "prof_id" } },
       { "math": [ "key_total_time_required", "=", "u_proficiency(prof_id, 'format': 'total_time_required')" ] },
-      { "math": [ "u_proficiency(prof_id)", "=", "50" ] },
+      { "math": [ "u_proficiency(prof_id, 'direct': true)", "=", "50" ] },
       { "math": [ "key_time_spent_50", "=", "u_proficiency(prof_id)" ] },
-      { "math": [ "u_proficiency(prof_id, 'format': 'percent')", "=", "50" ] },
+      { "math": [ "u_proficiency(prof_id, 'format': 'percent', 'direct': true)", "=", "50" ] },
       { "math": [ "key_percent_50", "=", "u_proficiency(prof_id, 'format': 'percent')" ] },
       { "math": [ "key_percent_50_turn", "=", "u_proficiency(prof_id)" ] },
-      { "math": [ "u_proficiency(prof_id, 'format': 'permille')", "=", "50" ] },
+      { "math": [ "u_proficiency(prof_id, 'format': 'permille', 'direct': true)", "=", "50" ] },
       { "math": [ "key_permille_50", "=", "u_proficiency(prof_id, 'format': 'permille')" ] },
       { "math": [ "key_permille_50_turn", "=", "u_proficiency(prof_id)" ] },
-      { "math": [ "u_proficiency(prof_id, 'format': 'time_left')", "=", "50" ] },
+      { "math": [ "u_proficiency(prof_id, 'format': 'time_left', 'direct': true)", "=", "50" ] },
       { "math": [ "key_time_left_50", "=", "u_proficiency(prof_id, 'format': 'time_left')" ] },
       { "math": [ "key_time_left_50_turn", "=", "u_proficiency(prof_id)" ] }
     ]
@@ -644,13 +644,8 @@
     "eoc_type": "EVENT",
     "required_event": "character_melee_attacks_character",
     "effect": [
-      { "u_add_var": "last_event", "type": "test", "context": "event", "value": "character_melee_attacks_character" },
-      {
-        "npc_add_var": "last_event",
-        "type": "test",
-        "context": "event",
-        "value": "character_melee_attacks_character"
-      },
+      { "u_add_var": "test_event_last_event", "value": "character_melee_attacks_character" },
+      { "npc_add_var": "test_event_last_event", "value": "character_melee_attacks_character" },
       { "set_string_var": { "context_val": "weapon" }, "target_var": { "global_val": "weapon" } },
       { "set_string_var": { "context_val": "victim_name" }, "target_var": { "global_val": "victim_name" } }
     ]
@@ -661,8 +656,8 @@
     "eoc_type": "EVENT",
     "required_event": "character_melee_attacks_monster",
     "effect": [
-      { "u_add_var": "last_event", "type": "test", "context": "event", "value": "character_melee_attacks_monster" },
-      { "npc_add_var": "last_event", "type": "test", "context": "event", "value": "character_melee_attacks_monster" },
+      { "u_add_var": "test_event_last_event", "value": "character_melee_attacks_monster" },
+      { "npc_add_var": "test_event_last_event", "value": "character_melee_attacks_monster" },
       { "set_string_var": { "context_val": "weapon" }, "target_var": { "global_val": "weapon" } },
       { "set_string_var": { "context_val": "victim_type" }, "target_var": { "global_val": "victim_type" } }
     ]
@@ -673,13 +668,8 @@
     "eoc_type": "EVENT",
     "required_event": "character_ranged_attacks_character",
     "effect": [
-      { "u_add_var": "last_event", "type": "test", "context": "event", "value": "character_ranged_attacks_character" },
-      {
-        "npc_add_var": "last_event",
-        "type": "test",
-        "context": "event",
-        "value": "character_ranged_attacks_character"
-      },
+      { "u_add_var": "test_event_last_event", "value": "character_ranged_attacks_character" },
+      { "npc_add_var": "test_event_last_event", "value": "character_ranged_attacks_character" },
       { "set_string_var": { "context_val": "weapon" }, "target_var": { "global_val": "weapon" } },
       { "set_string_var": { "context_val": "victim_name" }, "target_var": { "global_val": "victim_name" } }
     ]
@@ -690,8 +680,8 @@
     "eoc_type": "EVENT",
     "required_event": "character_ranged_attacks_monster",
     "effect": [
-      { "u_add_var": "last_event", "type": "test", "context": "event", "value": "character_ranged_attacks_monster" },
-      { "npc_add_var": "last_event", "type": "test", "context": "event", "value": "character_ranged_attacks_monster" },
+      { "u_add_var": "test_event_last_event", "value": "character_ranged_attacks_monster" },
+      { "npc_add_var": "test_event_last_event", "value": "character_ranged_attacks_monster" },
       { "set_string_var": { "context_val": "weapon" }, "target_var": { "global_val": "weapon" } },
       { "set_string_var": { "context_val": "victim_type" }, "target_var": { "global_val": "victim_type" } }
     ]
@@ -702,7 +692,7 @@
     "eoc_type": "EVENT",
     "required_event": "character_kills_monster",
     "effect": [
-      { "u_add_var": "last_event", "type": "test", "context": "event", "value": "character_kills_monster" },
+      { "u_add_var": "test_event_last_event", "value": "character_kills_monster" },
       { "set_string_var": { "context_val": "victim_type" }, "target_var": { "global_val": "victim_type" } },
       { "math": [ "test_exp", "=", "_exp" ] }
     ]
@@ -714,8 +704,8 @@
     "required_event": "character_wields_item",
     "condition": { "compare_string": [ "test_knife_combat", { "context_val": "itype" } ] },
     "effect": [
-      { "u_add_var": "last_event", "type": "test", "context": "event", "value": "character_wields_item" },
-      { "npc_add_var": "last_event", "type": "test", "context": "event", "value": "character_wields_item" }
+      { "u_add_var": "test_event_last_event", "value": "character_wields_item" },
+      { "npc_add_var": "test_event_last_event", "value": "character_wields_item" }
     ]
   },
   {
@@ -725,8 +715,8 @@
     "required_event": "character_wears_item",
     "condition": { "compare_string": [ "backpack", { "context_val": "itype" } ] },
     "effect": [
-      { "u_add_var": "last_event", "type": "test", "context": "event", "value": "character_wears_item" },
-      { "npc_add_var": "last_event", "type": "test", "context": "event", "value": "character_wears_item" }
+      { "u_add_var": "test_event_last_event", "value": "character_wears_item" },
+      { "npc_add_var": "test_event_last_event", "value": "character_wears_item" }
     ]
   },
   {

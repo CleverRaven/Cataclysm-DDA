@@ -90,8 +90,8 @@
     "difficulty": 1,
     "spell_class": "HEDGE_MAGIC",
     "skill": "survival",
-    "effect": "spawn_item",
-    "effect_str": "item_hedge_see_fae_necklace",
+    "effect": "effect_on_condition",
+    "effect_str": "hedge_see_fae_necklace",
     "shape": "blast",
     "components": "spell_components_hedge_see_fae_necklace",
     "max_level": 1,
@@ -100,6 +100,20 @@
     "base_casting_time": 1440000,
     "min_duration": 360000,
     "max_duration": 720000
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "hedge_see_fae_necklace",
+    "effect": { "u_spawn_item": "hedge_see_fae_necklace", "use_item_group": true }
+  },
+  {
+    "id": "hedge_see_fae_necklace",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "item": "item_hedge_see_fae_necklace", "charges": [ 120, 240 ] },
+      { "item": "item_hedge_see_fae_necklace", "charges": [ 240, 360 ] }
+    ]
   },
   {
     "id": "hedge_see_nether_eye_paste",
@@ -242,7 +256,7 @@
     "id": "hedge_clairvoyance_cone_real",
     "type": "SPELL",
     "name": "To See Beyond the Barriers Real",
-    "description": "The actual spell that causes the effec for To See Beyond the Barriers.  It's a bug if you have it.",
+    "description": "The actual spell that causes the effect for To See Beyond the Barriers.  It's a bug if you have it.",
     "message": "",
     "valid_targets": [ "hostile", "ground", "ally" ],
     "flags": [ "IGNORE_WALLS" ],

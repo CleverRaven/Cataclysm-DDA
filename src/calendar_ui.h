@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_CALENDAR_UI_H
 #define CATA_SRC_CALENDAR_UI_H
 
-#include <string>
+#include <string_view>
 
 #include "calendar.h"
 #include "translations.h"

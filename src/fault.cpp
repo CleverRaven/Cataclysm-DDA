@@ -1,10 +1,14 @@
 #include "fault.h"
 
+#include <type_traits>
 #include <utility>
 
+#include "assign.h"
 #include "debug.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "json.h"
+#include "json_error.h"
 #include "requirements.h"
 
 static std::map<fault_id, fault> faults_all;

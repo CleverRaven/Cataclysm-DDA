@@ -10,6 +10,7 @@
 #include "condition.h"
 #include "creature.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "dialogue_helpers.h"
 #include "enum_conversions.h"
 #include "enums.h"
@@ -76,8 +77,8 @@ namespace io
             case enchant_vals::mod::REGEN_HP_AWAKE: return "REGEN_HP_AWAKE";
             case enchant_vals::mod::HUNGER: return "HUNGER";
             case enchant_vals::mod::THIRST: return "THIRST";
-            case enchant_vals::mod::FATIGUE: return "FATIGUE";
-            case enchant_vals::mod::FATIGUE_REGEN: return "FATIGUE_REGEN";
+            case enchant_vals::mod::SLEEPINESS: return "SLEEPINESS";
+            case enchant_vals::mod::SLEEPINESS_REGEN: return "SLEEPINESS_REGEN";
             case enchant_vals::mod::PAIN: return "PAIN";
             case enchant_vals::mod::PAIN_REMOVE: return "PAIN_REMOVE";
             case enchant_vals::mod::PAIN_PENALTY_MOD_STR: return "PAIN_PENALTY_MOD_STR";
@@ -87,6 +88,7 @@ namespace io
             case enchant_vals::mod::PAIN_PENALTY_MOD_SPEED: return "PAIN_PENALTY_MOD_SPEED";
             case enchant_vals::mod::MELEE_DAMAGE: return "MELEE_DAMAGE";
             case enchant_vals::mod::RANGED_DAMAGE: return "RANGED_DAMAGE";
+            case enchant_vals::mod::DODGE_CHANCE: return "DODGE_CHANCE";
             case enchant_vals::mod::BONUS_BLOCK: return "BONUS_BLOCK";
             case enchant_vals::mod::BONUS_DODGE: return "BONUS_DODGE";
             case enchant_vals::mod::ATTACK_NOISE: return "ATTACK_NOISE";
@@ -675,6 +677,59 @@ void enchant_cache::force_add( const enchant_cache &rhs )
 void enchant_cache::force_add( const enchantment &rhs, const Character &guy )
 {
     dialogue d( get_talker_for( guy ), nullptr );
+    for( const std::pair<const enchant_vals::mod, dbl_or_var> &pair_values :
+         rhs.values_add ) {
+        values_add[pair_values.first] += pair_values.second.evaluate( d );
+    }
+    for( const std::pair<const enchant_vals::mod, dbl_or_var> &pair_values :
+         rhs.values_multiply ) {
+        // values do not multiply against each other, they add.
+        // so +10% and -10% will add to 0%
+        values_multiply[pair_values.first] += pair_values.second.evaluate( d );
+    }
+
+    for( const std::pair<const skill_id, dbl_or_var> &pair_values :
+         rhs.skill_values_add ) {
+        skill_values_add[pair_values.first] += pair_values.second.evaluate( d );
+    }
+    for( const std::pair<const skill_id, dbl_or_var> &pair_values :
+         rhs.skill_values_multiply ) {
+        // values do not multiply against each other, they add.
+        // so +10% and -10% will add to 0%
+        skill_values_multiply[pair_values.first] += pair_values.second.evaluate( d );
+    }
+
+    hit_me_effect.insert( hit_me_effect.end(), rhs.hit_me_effect.begin(), rhs.hit_me_effect.end() );
+
+    hit_you_effect.insert( hit_you_effect.end(), rhs.hit_you_effect.begin(), rhs.hit_you_effect.end() );
+
+    ench_effects.insert( rhs.ench_effects.begin(), rhs.ench_effects.end() );
+
+    if( rhs.emitter ) {
+        emitter = rhs.emitter;
+    }
+
+    for( const bodypart_changes &bp : rhs.modified_bodyparts ) {
+        modified_bodyparts.emplace_back( bp );
+    }
+
+    for( const trait_id &branch : rhs.mutations ) {
+        mutations.emplace( branch );
+    }
+
+    for( const std::pair<const time_duration, std::vector<fake_spell>> &act_pair :
+         rhs.intermittent_activation ) {
+        for( const fake_spell &fake : act_pair.second ) {
+            intermittent_activation[act_pair.first].emplace_back( fake );
+        }
+    }
+
+    details.emplace_back( rhs.name.translated(), rhs.description.translated() );
+}
+
+void enchant_cache::force_add( const enchantment &rhs, const monster &mon )
+{
+    dialogue d( get_talker_for( mon ), nullptr );
     for( const std::pair<const enchant_vals::mod, dbl_or_var> &pair_values :
          rhs.values_add ) {
         values_add[pair_values.first] += pair_values.second.evaluate( d );

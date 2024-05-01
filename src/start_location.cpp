@@ -234,7 +234,7 @@ static void board_up( tinymap &m, const tripoint_range<tripoint> &range )
         const tripoint fp = random_entry_removed( furnitures1.empty() ? furnitures2 : furnitures1 );
         const tripoint bp = random_entry_removed( boardables );
         m.furn_set( bp, m.furn( fp ) );
-        m.furn_set( fp, f_null );
+        m.furn_set( fp, furn_str_id::NULL_ID() );
         map_stack destination_items = m.i_at( bp );
         for( const item &moved_item : m.i_at( fp ) ) {
             destination_items.insert( moved_item );

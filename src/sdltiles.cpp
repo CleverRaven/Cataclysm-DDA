@@ -70,6 +70,7 @@
 #include "sdl_gamepad.h"
 #include "sdlsound.h"
 #include "string_formatter.h"
+#include "uistate.h"
 #include "ui_manager.h"
 #include "wcwidth.h"
 #include "cata_imgui.h"
@@ -543,6 +544,7 @@ void refresh_display()
 #else
     RenderCopy( renderer, display_buffer, nullptr, nullptr );
 #endif
+
 #if defined(__ANDROID__)
     draw_terminal_size_preview();
     if( g ) {
@@ -1153,6 +1155,7 @@ static bool draw_window( Font_Ptr &font, const catacurses::window &w, const poin
     // TODO: Get this from UTF system to make sure it is exactly the kind of space we need
     static const std::string space_string = " ";
 
+    const bool option_use_draw_ascii_lines_routine = get_option<bool>( "USE_DRAW_ASCII_LINES_ROUTINE" );
     bool update = false;
     for( int j = 0; j < win->height; j++ ) {
         if( !win->line[j].touched ) {
@@ -1198,7 +1201,7 @@ static bool draw_window( Font_Ptr &font, const catacurses::window &w, const poin
                 // utf8_width() may return a negative width
                 continue;
             }
-            bool use_draw_ascii_lines_routine = get_option<bool>( "USE_DRAW_ASCII_LINES_ROUTINE" );
+            bool use_draw_ascii_lines_routine = option_use_draw_ascii_lines_routine;
             unsigned char uc = static_cast<unsigned char>( cell.ch[0] );
             switch( codepoint ) {
                 case LINE_XOXO_UNICODE:
@@ -1241,8 +1244,10 @@ static bool draw_window( Font_Ptr &font, const catacurses::window &w, const poin
                     use_draw_ascii_lines_routine = false;
                     break;
             }
-            geometry->rect( renderer, draw, font->width * cw, font->height,
-                            color_as_sdl( BG ) );
+            if( cell.BG != catacurses::black ) {
+                geometry->rect( renderer, draw, font->width * cw, font->height,
+                                color_as_sdl( BG ) );
+            }
             if( use_draw_ascii_lines_routine ) {
                 font->draw_ascii_lines( renderer, geometry, uc, draw, FG );
             } else {
@@ -2780,7 +2785,7 @@ static void CheckMessages()
                 }
 
                 // Check if we're dead tired - if so, add sleep
-                if( player_character.get_fatigue() > fatigue_levels::DEAD_TIRED ) {
+                if( player_character.get_sleepiness() > sleepiness_levels::DEAD_TIRED ) {
                     actions.insert( ACTION_SLEEP );
                 }
 
@@ -3788,13 +3793,11 @@ input_event input_manager::get_input_event( const keyboard_mode preferred_keyboa
     // we can skip screen update if `needupdate` is false to improve performance during mouse
     // move events.
     wnoutrefresh( catacurses::stdscr );
-    // This statement is required when the screen is made very small
-    if( ui_adaptor::has_imgui() ) {
-        needupdate = true;
-    }
 
     if( needupdate ) {
         refresh_display();
+    } else if( ui_adaptor::has_imgui() ) {
+        try_sdl_update();
     }
 
     if( inputdelay < 0 ) {

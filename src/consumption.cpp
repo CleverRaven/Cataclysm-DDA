@@ -2,21 +2,29 @@
 #include <array>
 #include <cmath>
 #include <cstdlib>
-#include <functional>
+#include <cstdint>
+#include <limits>
+#include <list>
+#include <map>
 #include <memory>
+#include <optional>
+#include <set>
 #include <string>
 #include <tuple>
+#include <utility>
+#include <vector>
 
 #include "addiction.h"
 #include "avatar.h"
-#include "bionics.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "color.h"
 #include "contents_change_handler.h"
-#include "craft_command.h"
+#include "creature.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "effect.h"
 #include "effect_on_condition.h"
 #include "enums.h"
@@ -25,12 +33,16 @@
 #include "flag.h"
 #include "flat_set.h"
 #include "game.h"
+#include "game_constants.h"
 #include "item.h"
 #include "item_category.h"
+#include "item_components.h"
+#include "item_location.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "line.h"
+#include "magic_enchantment.h"
 #include "make_static.h"
 #include "map.h"
 #include "material.h"
@@ -41,14 +53,18 @@
 #include "npc.h"
 #include "options.h"
 #include "pickup.h"
+#include "pimpl.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "stomach.h"
 #include "string_formatter.h"
 #include "text_snippets.h"
+#include "translation.h"
 #include "translations.h"
+#include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
 #include "visitable.h"
@@ -1242,9 +1258,9 @@ void Character::modify_stimulation( const islot_comestible &comest )
     }
 }
 
-void Character::modify_fatigue( const islot_comestible &comest )
+void Character::modify_sleepiness( const islot_comestible &comest )
 {
-    mod_fatigue( -comest.fatigue_mod );
+    mod_sleepiness( -comest.sleepiness_mod );
 }
 
 void Character::modify_addiction( const islot_comestible &comest )
@@ -1553,7 +1569,7 @@ bool Character::consume_effects( item &food )
         modify_health( comest );
     }
     modify_stimulation( comest );
-    modify_fatigue( comest );
+    modify_sleepiness( comest );
     modify_addiction( comest );
     modify_morale( food, nutr );
 
@@ -1564,7 +1580,7 @@ bool Character::consume_effects( item &food )
             add_msg_if_player( _( "You gorge yourself, preparing to hibernate." ) );
             if( one_in( 2 ) ) {
                 // 50% chance of the food tiring you
-                mod_fatigue( nutr );
+                mod_sleepiness( nutr );
             }
         }
         if( ( nutr > 0 && get_hunger() < -200 ) || ( comest.quench > 0 && get_thirst() < -200 ) ) {
@@ -1572,7 +1588,7 @@ bool Character::consume_effects( item &food )
             add_msg_if_player( _( "You feel stocked for a day or two.  Got your bed all ready and secured?" ) );
             if( one_in( 2 ) ) {
                 // And another 50%, intended cumulative
-                mod_fatigue( nutr );
+                mod_sleepiness( nutr );
             }
         }
 
@@ -1581,13 +1597,13 @@ bool Character::consume_effects( item &food )
                 _( "Mmm.  You can still fit some more in… but maybe you should get comfortable and sleep." ) );
             if( !one_in( 3 ) ) {
                 // Third check, this one at 66%
-                mod_fatigue( nutr );
+                mod_sleepiness( nutr );
             }
         }
         if( ( nutr > 0 && get_hunger() < -600 ) || ( comest.quench > 0 && get_thirst() < -600 ) ) {
             add_msg_if_player( _( "That filled a hole!  Time for bed…" ) );
             // At this point, you're done.  Schlaf gut.
-            mod_fatigue( nutr );
+            mod_sleepiness( nutr );
         }
     }
     // Moved here and changed a bit - it was too complex
@@ -1821,7 +1837,7 @@ static bool consume_med( item &target, Character &you )
         // Assume that parenteral meds don't spoil, so don't apply rot
         you.modify_health( comest );
         you.modify_stimulation( comest );
-        you.modify_fatigue( comest );
+        you.modify_sleepiness( comest );
         you.modify_addiction( comest );
         you.modify_morale( target );
         activate_consume_eocs( you, target );

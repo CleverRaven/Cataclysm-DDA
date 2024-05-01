@@ -227,7 +227,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "Get a mowhawk.",
+        "text": "Get a mohawk.",
         "condition": {
           "and": [
             { "u_has_trait": "natural_hair_growth" },
@@ -504,7 +504,7 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "Get a mowhawk.",
+        "text": "Get a mohawk.",
         "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
         "effect": [
           { "run_eocs": "reset_all_hair_types" },

@@ -173,7 +173,7 @@
     "autolearn": false,
     "never_learn": true,
     "construction_blueprint": "fbmw_room11to12_construction_southeast",
-    "blueprint_name": "openair, covered work space",
+    "blueprint_name": "open air, covered work space",
     "blueprint_parameter_names": {
       "fbmw_construction_palette": {
         "fbmw_concrete_palette": "Concrete walls and roof",

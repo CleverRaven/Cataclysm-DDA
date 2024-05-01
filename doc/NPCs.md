@@ -63,12 +63,12 @@ Format:
     { "group": "example_shopkeeper_itemgroup3", "trust": 40, "strict": true },
     {
       "group": "example_shopkeeper_itemgroup4",
-      "condition": { "u_has_var": "VIP", "type": "general", "context": "examples", "value": "yes" }
+      "condition": { "u_has_var": "general_examples_VIP", "value": "yes" }
     }
   ],
   "shopkeeper_consumption_rates": "basic_shop_rates",
   "shopkeeper_price_rules": [
-    { "item": "scrap", "price": 10000 },
+    "price": 10000 },
   ],
   "shopkeeper_blacklist": "test_blacklist",
   "restock_interval": "6 days",
@@ -106,7 +106,7 @@ Controls consumption of shopkeeper's stock of items (simulates purchase by other
     {
       "item": "hammer",
       "rate": 10,
-      "condition": { "npc_has_var": "hammer_eater", "type": "bool", "context": "dinner", "value": "yes" }
+      "condition": { "npc_has_var": "bool_dinner_hammer_eater", "value": "yes" }
     },
     { "category": "ammo", "rate": 10 },
     { "group": "EXODII_basic_trade", "rate": 100 }
@@ -124,7 +124,7 @@ Specifies blacklist of items that shopkeeper will not accept for trade.  Format 
   "entries": [
     {
       "item": "hammer",
-      "condition": { "npc_has_var": "hammer_hater", "type": "bool", "context": "test", "value": "yes" },
+      "condition": { "npc_has_var": "bool_test_hammer_hater", "value": "yes" },
       "message": "<npcname> hates this item"
     },
     { "category": "ammo" },
@@ -537,7 +537,7 @@ The dynamic line will be chosen based on whether a single dialogue condition is 
 
 ```json
 {
-  "npc_need": "fatigue",
+  "npc_need": "sleepiness",
   "level": "TIRED",
   "no": "Just few minutes more...",
   "yes": "Make it quick, I want to go back to sleep."
@@ -1035,11 +1035,11 @@ Condition | Type | Description
   "topic": "TALK_NONE",
   "condition": {
     "not": {
-      "npc_has_var": "has_met_PC", "type": "general", "context": "examples", "value": "yes"
+      "npc_has_var": "general_examples_has_met_PC", "value": "yes"
     }
   },
   "effect": {
-    "npc_add_var": "has_met_PC", "type": "general", "context": "examples", "value": "yes"
+    "npc_add_var": "general_examples_has_met_PC", "value": "yes"
   }
 },
 {
@@ -1128,16 +1128,16 @@ Condition | Type | Description
 {
   "text": "Didn't you say you knew where the Vault was?",
   "topic": "TALK_VAULT_INFO",
-  "condition": { "not": { "u_has_var": "asked_about_vault", "value": "yes", "type": "sentinel", "context": "old_guard_rep" } },
+  "condition": { "not": { "u_has_var": "sentinel_old_guard_rep_asked_about_vault", "value": "yes" } },
   "effect": [
-    { "u_add_var": "asked_about_vault", "value": "yes", "type": "sentinel", "context": "old_guard" },
+    { "u_add_var": "sentinel_old_guard_asked_about_vault", "value": "yes" },
     { "mapgen_update": "hulk_hairstyling", "om_terrain": "necropolis_a_13", "om_special": "Necropolis", "om_terrain_replace": "field", "z": 0 }
   ]
 },
 {
   "text": "Why do zombies keep attacking every time I talk to you?",
   "topic": "TALK_RUN_AWAY_MORE_ZOMBIES",
-  "condition": { "u_has_var": "even_more_zombies", "value": "yes", "type": "trigger", "context": "learning_experience" },
+  "condition": { "u_has_var": "trigger_learning_experience_even_more_zombies", "value": "yes" },
   "effect": [
     { "mapgen_update": [ "even_more_zombies", "more zombies" ], "origin_npc": true },
     { "mapgen_update": "more zombies", "origin_npc": true, "offset_x": 1 },
@@ -1352,7 +1352,7 @@ _some functions support array arguments or kwargs, denoted with square brackets 
 | moon_phase()     |  ✅  |   ❌   | N/A<br/>(global)  | Returns current phase of the Moon. <pre>MOON_NEW = 0,<br/>WAXING_CRESCENT = 1,<br/>HALF_MOON_WAXING = 2,<br/>WAXING_GIBBOUS = 3,<br/>FULL = 4,<br/>WANING_GIBBOUS = 5,<br/>HALF_MOON_WANING = 6,<br/>WANING_CRESCENT = 7 |
 | num_input(`s`/`v`,`d`/`v`)   |  ✅  |   ❌   | N/A<br/>(global)  | Prompt the player for a number.<br/>Arguments are Prompt text, Default Value:<br/>`"math": [ "u_value_to_set", "=", "num_input('Playstyle Perks Cost?', 4)" ]`|
 | pain()     |  ✅  |   ✅   | u, n  | Return or set pain<br/> Example:<br/>`{ "math": [ "n_pain()", "=", "u_pain() + 9000" ] }`|
-| proficiency(`s`/`v`)    |  ✅   |   ✅  | u, n  | Return or set proficiency<br/>Argument is proficiency ID.<br/><br/> Optional kwargs:<br/>`format`: `s` - `percent` return or set how many percent done the learning is. `permille` does likewise for permille. `time_spent` return or set total time spent. `time_left` return or set the remaining time. `total_time_required` return total time required to train a given proficiency (read only).<br/><br/>Example:<br/>`{ "math": [ "u_proficiency('prof_intro_chemistry', 'format': 'percent')", "=", "50" ] }`|
+| proficiency(`s`/`v`)    |  ✅   |   ✅  | u, n  | Return or set proficiency<br/>Argument is proficiency ID.<br/><br/> Optional kwargs:<br/>`format`: `s` - `percent` return or set how many percent done the learning is. `permille` does likewise for permille. `time_spent` return or set total time spent. `time_left` return or set the remaining time. `total_time_required` return total time required to train a given proficiency (read only).<br/>`direct`: `true`/`false`/`d` - false (default) perform the adjustment by practicing the proficiency for the given amount of time. This will likely result in different values than specified. `true` perform the adjustment directly, bypassing other factors that may affect it.<br/><br/>Example:<br/>`{ "math": [ "u_proficiency('prof_intro_chemistry', 'format': 'percent')", "=", "50" ] }`|
 | school_level(`s`/`v`)    |  ✅   |   ❌  | u, n  | Return the highest level of spells known of that school.<br/>Argument is school ID.<br/><br/>Example:<br/>`"condition": { "math": [ "u_school_level('MAGUS')", ">=", "3"] }`|
 | school_level_adjustment(`s`/`v`)    |   ✅  |  ✅   | u, n  | Return or set temporary caster level adjustment. Only useable by EoCs that trigger on the event `opens_spellbook`. Old values will be reset to 0 before the event triggers. To avoid overwriting values from other EoCs, it is recommended to adjust the values here with `+=` or `-=` instead of setting it to an absolute value.<br/>Argument is school ID.<br/><br/>Example:<br/>`{ "math": [ "u_school_level_adjustment('MAGUS')", "+=", "3"] }`|
 | skill(`s`/`v`)    |  ✅  |   ✅   | u, n  | Return or set skill level<br/><br/>Example:<br/>`"condition": { "math": [ "u_skill('driving')", ">=", "5"] }`<br/>`"condition": { "math": [ "u_skill(someskill)", ">=", "5"] }`|
@@ -1376,6 +1376,7 @@ _some functions support array arguments or kwargs, denoted with square brackets 
 | damage_level()    |  ✅   |   ❌  | u, n  | Return the damage level of the talker, which must be an item.<br/><br/>Example:<br/>`"condition": { "math": [ "n_damage_level()", "<", "1" ] }`|
 | climate_control_str_heat()    |  ✅   |   ❌  | u, n  | return amount of heat climate control that character currently has (character feels better in warm places with it), in warmth points; default 0, affected by CLIMATE_CONTROL_HEAT enchantment.<br/><br/>Example:<br/>`"condition": { "math": [ "u_climate_control_str_heat()", "<", "0" ] }`|
 | climate_control_str_chill()    |  ✅   |   ❌  | u, n  | return amount of chill climate control that character currently has (character feels better in cold places with it), in warmth points; default 0, affected by CLIMATE_CONTROL_HEAT enchantment.<br/><br/>Example:<br/>`"condition": { "math": [ "n_climate_control_str_chill()", "<", "0" ] }`|
+| calories()    |  ✅   |   ✅  | u, n  | Return amount of calories character has. If used on item, return amount of calories this item gives when consumed (not affected by enchantments or mutations).  Optional kwargs:<br/>`format`: `s/v` - return the value in specific format.  Can be `percent` (return percent to the healthy amount of calories, `100` being the target, bmi 25, or 110000 kcal) or `raw`.  If now used, `raw` is used by default.<br/><br/>Example:<br/>`"condition": { "math": [ "u_calories()", "<", "0" ] }`<br/>`"condition": { "math": [ "u_calories('format': 'percent')", ">", "0" ] }`<br/>`"condition": { "math": [ "u_calories()", "=", "110000" ] }`|
 
 #### List of Character and item aspects
 These can be read or written to with `val()`.
@@ -1392,7 +1393,7 @@ These can be read or written to with `val()`.
 | `cash` | ❌ | Amount of money |
 | `dodge` | ❌ | Current effective dodge |
 | `exp` | ✅ | Total experience earned. |
-| `fatigue` | ✅ | Current fatigue level. |
+| `sleepiness` | ✅ | Current sleepiness level. |
 | `fine_detail_vision_mod` | ❌ | Returned values range from 1.0 (unimpeded vision) to 11.0 (totally blind). |
 | `focus` | ✅ | Current focus level. |
 | `friendly` | ✅ | Current friendly level. Only works for monsters. |
@@ -1421,8 +1422,6 @@ These can be read or written to with `val()`.
 | `sold` | ✅ | Amount of money the avatar has sold the Character |
 | `stamina` | ✅ | Current stamina level. |
 | `stim` | ✅ | Current stim level. |
-| `stored_kcal` | ✅ | Stored kcal in the character's body. 55'000 is considered healthy. |
-| `stored_kcal_percentage` | ✅ | a value of 100 represents 55'000 kcal, which is considered healthy. |
 | `strength`<br/>`dexterity`<br/>`intelligence`<br/>`pereception` | ✅ | Current attributes |
 | `strength_base`<br/>`dexterity_base`<br/>`intelligence_base`<br/>`perception_base` | ✅ | Base attributes |
 | `strength_bonus`<br/>`dexterity_bonus`<br/>`intelligence_bonus`<br/>`pereception_bonus` | ✅ | Bonus attributes |

@@ -345,6 +345,8 @@ void iuse_transform::do_transform( Character *p, item &it, const std::string &va
             p->on_worn_item_transform( obj_copy, *obj );
         }
     }
+
+    p->clear_inventory_search_cache();
 }
 
 ret_val<void> iuse_transform::can_use( const Character &p, const item &it,
@@ -976,7 +978,7 @@ std::optional<int> place_npc_iuse::use( Character *p, item &, const tripoint & )
     map &here = get_map();
     const tripoint_range<tripoint> target_range = place_randomly ?
             points_in_radius( p->pos(), radius ) :
-            points_in_radius( choose_adjacent( _( "Place npc where?" ) ).value_or( p->pos() ), 0 );
+            points_in_radius( choose_adjacent( _( "Place NPC where?" ) ).value_or( p->pos() ), 0 );
 
     const std::optional<tripoint> target_pos =
     random_point( target_range, [&here]( const tripoint & t ) {
@@ -985,7 +987,7 @@ std::optional<int> place_npc_iuse::use( Character *p, item &, const tripoint & )
     } );
 
     if( !target_pos.has_value() ) {
-        p->add_msg_if_player( m_info, _( "There is no square to spawn npc in!" ) );
+        p->add_msg_if_player( m_info, _( "There is no square to spawn NPC in!" ) );
         return std::nullopt;
     }
 
@@ -3516,7 +3518,7 @@ int heal_actor::finish_using( Character &healer, Character &patient, item &it,
         int bandages_intensity = get_bandaged_level( healer );
         patient.add_effect( effect_bandaged, 1_turns, healed );
         effect &e = patient.get_effect( effect_bandaged, healed );
-        e.set_duration( e.get_int_dur_factor() * bandages_intensity );
+        e.set_duration( e.get_int_dur_factor() * ( bandages_intensity + 0.5f ) );
         patient.set_part_damage_bandaged( healed,
                                           patient.get_part_hp_max( healed ) - patient.get_part_hp_cur( healed ) );
         practice_amount += 2 * bandages_intensity;
@@ -3525,7 +3527,7 @@ int heal_actor::finish_using( Character &healer, Character &patient, item &it,
         int disinfectant_intensity = get_disinfected_level( healer );
         patient.add_effect( effect_disinfected, 1_turns, healed );
         effect &e = patient.get_effect( effect_disinfected, healed );
-        e.set_duration( e.get_int_dur_factor() * disinfectant_intensity );
+        e.set_duration( e.get_int_dur_factor() * ( disinfectant_intensity + 0.5f ) );
         patient.set_part_damage_disinfected( healed,
                                              patient.get_part_hp_max( healed ) - patient.get_part_hp_cur( healed ) );
         practice_amount += 2 * disinfectant_intensity;
@@ -5023,7 +5025,7 @@ std::optional<int> link_up_actor::link_extend_cable( Character *p, item &it,
     if( extended_copy ) {
         // Check if there's another pocket on the same container that can hold the extended item, respecting pocket settings.
         item_location parent = extended.parent_item();
-        if( parent->can_contain( *extended_ptr, false, false, false,
+        if( parent->can_contain( *extended_ptr, false, false, false, false,
                                  item_location(), 10000000_ml, false ).success() ) {
             if( !parent->put_in( *extended_ptr, pocket_type::CONTAINER ).success() ) {
                 debugmsg( "Failed to put %s inside %s!", extended_ptr->type_name(),

@@ -9,24 +9,24 @@
 <color_yellow>KorGgenT</color>- Rasoio professionale per yak.
 
 <color_white>Un ringraziamento speciale a:</color>
-<color_yellow>un altro simulacro</color>- Per essere intervenuto e aver svolto il duro lavoro.
-<color_yellow>Pantaloni bombastici</color>- Per aver arricchito il sistema di armatura e averci fatto sudare.
-<color_yellow>Fris0uman</color>- Per far funzionare i nostri frigoriferi.
-<color_yellow>John-Candlebury</color>- Per Hub01 e tutte le bellissime mappe.
-<color_yellow>comunque</color>- Per mappe parametriche e posizioni mutabili.
-<color_yellow>BrettDong</color> - For translations and analyzing weird bugs.
-<color_yellow>wapcaplet</color>- Per tutto ciò che riguarda la barra laterale.
-<color_yellow>ZhilkinSerg</color>- Per unire tutte le cose.
-<color_yellow>Rivetto-lo-Zombie</color>- Per aver mantenuto il record di una fusione al giorno.
-<color_yellow>Notte-Pryanik</color>- Per innumerevoli correzioni di bug e miglioramenti.
-<color_yellow>Qrox</color>- Per aver migliorato ulteriormente l'infrastruttura dell'interfaccia utente.
-<color_yellow>Ramza13</color>- Per trasformare JSON in un linguaggio completo.
+<color_yellow>anothersimulacrum</color> - Per tutto il lavoro svolto.
+<color_yellow>BombasticSlacks</color> - Per aver rifinito il sistema di armatura e per averci introdotto alla sudorazione.
+<color_yellow>Fris0uman</color>- Per aver fatto funzionare i frigoriferi.
+<color_yellow>John-Candlebury</color>- Per l'Hub01 e tutte le bellissime mappe.
+<color_yellow>jbytheway</color> - Per la generazione parametrica delle mappe e posizioni variabili.
+<color_yellow>BrettDong</color> - Per le traduzioni e l'analisi di bug strani.
+<color_yellow>wapcaplet</color>- Per tutto ciò che riguarda la sidebar.
+<color_yellow>ZhilkinSerg</color>- Per tutti i merge effettuati.
+<color_yellow>Rivet-the-Zombie</color> - Per aver mantenuto il record di un merge al giorno.
+<color_yellow>Night-Pryanik</color>- Per innumerevoli correzioni di bug e miglioramenti.
+<color_yellow>Qrox</color>- Per aver migliorato ulteriormente la UI.
+<color_yellow>Ramza13</color>- Per aver trasformato JSON in un linguaggio turing-completo.
 <color_yellow>Drew4484</color>- Per tutto l'acciaio.
-<color_yellow>LyleSY</color>- Per ancora più dinosauri.
-<color_yellow>irwiss</color>,<color_yellow>Maleclisse</color>,<color_yellow>Venera3</color>,<color_yellow>Mylie Daniels</color>,<color_yellow>andrei8l</color>,<color_yellow>mqrause</color>, E<color_yellow>Eltank</color>.
+<color_yellow>LyleSY</color>- Per tutti i dinosauri.
+<color_yellow>irwiss</color>, <color_yellow>Maleclypse</color>, <color_yellow>Venera3</color>, <color_yellow>MylieDaniels</color>, <color_yellow>andrei8l</color>, <color_yellow>mqrause</color>, and <color_yellow>Eltank</color>.
 
 <color_white>Ringraziamenti speciali in ambito artistico:</color>
-<color_yellow>Fris0uman</color>,<color_yellow>Golfavel</color>,<color_yellow>vetall812</color>,<color_yellow>Dandy-ragazzo</color>, e molti altri.
+<color_yellow>Fris0uman</color>, <color_yellow>Golfavel</color>, <color_yellow>vetall812</color>, <color_yellow>Dandy-boy</color>, and many more.
 
 <color_white>Per una lista completa dei contributori si prega di vedere:</color>
 <color_cyan>https://github.com/CleverRaven/Cataclysm-DDA/contributors</color>
@@ -36,14 +36,14 @@
 
 ******************************************************************************
 
-<color_white>Principali sviluppatori (<color_cyan>0.F</color>):</color>
+<color_white>Sviluppatori Principali (<color_cyan>0.F</color>):</color>
 <color_yellow>mlangsdorf</color> - Veicoli, barche, accampamenti e guide sul modding.
 <color_yellow>I-am-Erk</color> - L'eredità di Ultica vivrà per sempre.
 <color_yellow>KorGgenT</color> - Non so dove mettere le mie assi di legno.
 
 <color_white>Ringraziamenti speciali a (<color_cyan>0.F</color>):</color>
 <color_yellow>Aivean</color> - Per la performance straordinaria.
-<color_yellow>un altro simulacro</color>- Per avermi stancato.
+<color_yellow>anothersimulacrum</color> - Per avermi stancato.
 <color_yellow>comunque</color>- Per avermi fatto realizzare cose.
 <color_yellow>BrettDong</color> - Per il progetto di traduzione e altro.
 <color_yellow>Qrox</color> - Per aver trovato e mostrato i messaggi d'errore.
@@ -60,10 +60,10 @@
 
 ******************************************************************************
 
-<color_white>Principali sviluppatori (<color_cyan>0.E</color>):</color>
+<color_white>Sviluppatori Principali (<color_cyan>0.E</color>):</color>
 <color_yellow>mlangsdorf</color> - Veicoli, barche, accampamenti e guide sul modding.
-<color_yellow>Io sono Erk</color>- Ultica, dialoghi, NPC e disordine nelle cucine.
-<color_yellow>KorGgenT</color>- Magicismo e mal di pancia.
+<color_yellow>I-am-Erk</color> - Ultica, dialoghi, NPC e il disordine nelle cucine.
+<color_yellow>KorGgenT</color>- Magiclysm e mal di pancia.
 
 <color_white>Ringraziamenti speciali a (<color_cyan>0.E</color>):</color>
 <color_yellow>Narcotraffico</color>- Per la manutenzione del bot di creazione automatico Jenkins.
