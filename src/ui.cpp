@@ -101,9 +101,14 @@ void uilist_impl::draw_controls()
             for( size_t i = 0; i < parent.fentries.size(); i++ ) {
                 auto entry = parent.entries[parent.fentries[i]];
                 ImGui::PushID( i );
-                auto flags = entry.enabled ? ImGuiSelectableFlags_Disabled : ImGuiSelectableFlags_None;
+                auto flags = !entry.enabled ? ImGuiSelectableFlags_Disabled : ImGuiSelectableFlags_None;
                 bool is_selected = static_cast<int>( i ) == parent.fselected;
-                ImGui::Selectable( "", is_selected, flags );
+                if( ImGui::Selectable( "", is_selected, flags | ImGuiSelectableFlags_AllowItemOverlap ) ) {
+                    parent.fselected = i;
+                }
+                if( ImGui::IsItemHovered( ) ) {
+                    parent.fselected = i;
+                }
                 ImGui::SameLine( 0, 0 );
                 if( is_selected ) {
                     ImGui::SetItemDefaultFocus();
@@ -560,8 +565,6 @@ void uilist::inputfilter()
                 recalc_start = true;
             } else if( scrollby( scroll_amount_from_action( action ) ) ) {
                 recalc_start = true;
-            } else if( handle_mouse( ctxt, action, true ) == handle_mouse_result_t::confirmed ) {
-                loop = false;
             }
         }
     } while( loop && !filter_popup->confirmed() && !filter_popup->canceled() );
@@ -911,49 +914,6 @@ shared_ptr_fast<uilist_impl> uilist::create_or_get_ui()
     return current_ui;
 }
 
-uilist::handle_mouse_result_t uilist::handle_mouse( const input_context &ctxt,
-        const std::string &ret_act,
-        const bool loop )
-{
-    handle_mouse_result_t result = handle_mouse_result_t::unhandled;
-    // int temp_pos = vshift;
-    // if( uilist_scrollbar->handle_dragging( ret_act, ctxt.get_coordinates_text( catacurses::stdscr ),
-    //                                        temp_pos ) ) {
-    //     scrollby( temp_pos - vshift );
-    //     vshift = temp_pos;
-    //     return handle_mouse_result_t::handled;
-    // }
-
-    // Only check MOUSE_MOVE when looping internally
-    if( !fentries.empty() && ( ret_act == "SELECT" || ( loop && ret_act == "MOUSE_MOVE" ) ) ) {
-        result = handle_mouse_result_t::handled;
-        const std::optional<point> p = ctxt.get_coordinates_text( window );
-        if( p && window_contains_point_relative( window, p.value() ) ) {
-            const int new_fselected = find_entry_by_coordinate( p.value() );
-            if( new_fselected >= 0 && static_cast<size_t>( new_fselected ) < fentries.size() ) {
-                const bool enabled = entries[fentries[new_fselected]].enabled;
-                if( enabled || allow_disabled || hilight_disabled ) {
-                    // Change the selection to display correctly after this
-                    // function is called again.
-                    fselected = new_fselected;
-                    selected = fentries[fselected];
-                    if( callback != nullptr ) {
-                        callback->select( this );
-                    }
-                    if( ret_act == "SELECT" ) {
-                        if( enabled || allow_disabled ) {
-                            ret = entries[selected].retval;
-                            // Treating clicking during filtering as confirmation and stop filtering
-                            result = handle_mouse_result_t::confirmed;
-                        }
-                    }
-                }
-            }
-        }
-    }
-    return result;
-}
-
 /**
  * Handle input and update display
  *
@@ -1092,9 +1052,7 @@ void uilist::query( bool loop, int timeout, bool allow_unfiltered_hotkeys )
                     }
                 }
             }
-        } else if( handle_mouse( ctxt, ret_act, loop ) != handle_mouse_result_t::unhandled ) {
-            // mouse handled, do nothing more
-        } else if( allow_confirm && !fentries.empty() && ret_act == "CONFIRM" ) {
+        } else if( allow_confirm && !fentries.empty() && ( ret_act == "CONFIRM" || ret_act == "SELECT" ) ) {
             if( entries[ selected ].enabled || allow_disabled ) {
                 ret = entries[selected].retval;
             }
@@ -1120,17 +1078,6 @@ void uilist::query( bool loop, int timeout, bool allow_unfiltered_hotkeys )
 
         ui_manager::redraw();
     } while( loop && ret == UILIST_WAIT_INPUT );
-}
-
-int uilist::find_entry_by_coordinate( const point &p ) const
-{
-    for( auto it = fentries.begin(); it != fentries.end(); ++it ) {
-        const uilist_entry &entry = entries[*it];
-        if( entry.drawn_rect && entry.drawn_rect.value().contains( p ) ) {
-            return std::distance( fentries.begin(), it );
-        }
-    }
-    return -1;
 }
 
 ///@}
