@@ -79,7 +79,27 @@
     "description": "The ancient arts of drunken brawling come naturally to you!  While under the influence of alcohol, your melee skill will rise considerably, especially unarmed combat.",
     "starting_trait": true,
     "valid": false,
-    "cancels": [ "LIGHTWEIGHT" ]
+    "cancels": [ "LIGHTWEIGHT" ],
+    "enchantments": [
+      {
+        "condition": { "not": "u_has_weapon" },
+        "values": [
+          {
+            "value": "ITEM_DAMAGE_BASH",
+            "add": { "math": [ "rng(u_effect_intensity('drunk') * 1.8, u_effect_intensity('drunk') * 4 )" ] }
+          }
+        ]
+      },
+      {
+        "condition": "u_has_weapon",
+        "values": [
+          {
+            "value": "ITEM_DAMAGE_BASH",
+            "add": { "math": [ "rng(u_effect_intensity('drunk') * 1.2, u_effect_intensity('drunk') * 2.6 )" ] }
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -88,7 +108,13 @@
     "points": 2,
     "description": "Who needs weapons?  You deal more melee damage while fighting barehanded and without gloves.  This damage improves as your unarmed skill increases.",
     "starting_trait": true,
-    "valid": false
+    "valid": false,
+    "enchantments": [
+      {
+        "condition": { "not": "u_has_weapon" },
+        "values": [ { "value": "ITEM_DAMAGE_BASH", "add": { "math": [ "u_skill('unarmed') * 2" ] } } ]
+      }
+    ]
   },
   {
     "type": "mutation",
