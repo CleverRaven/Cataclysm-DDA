@@ -95,8 +95,7 @@
     "skill_used": "survival",
     "time": "1 m",
     "autolearn": true,
-    "tools": [ [ [ "pur_tablets", 1 ] ] ],
-    "components": [ [ [ "water_murky", 1 ] ] ]
+    "components": [ [ [ "water_murky", 1 ] ], [ [ "pur_tablets", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -104,12 +103,12 @@
     "result": "water",
     "charges": 10,
     "category": "CC_FOOD",
-    "id_suffix": "using_water_purifier",
+    "id_suffix": "using_water_filter_sand",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "survival",
     "time": "15 m",
     "autolearn": true,
-    "tools": [ [ "water_filter_sand" ] ],
+    "tools": [ [ "water_filter_sand", -1 ] ],
     "components": [ [ [ "water_murky", 10 ] ] ]
   },
   {
