@@ -574,7 +574,6 @@ void cataimgui::window::draw()
         if( p_impl->window_adaptor->is_on_top && !force_to_back ) {
             ImGui::BringWindowToDisplayFront( ImGui::GetCurrentWindow() );
         }
-        
         if( handled_resize ) {
             point catapos;
             point catasize;
