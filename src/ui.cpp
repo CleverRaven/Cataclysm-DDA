@@ -103,11 +103,10 @@ void uilist_impl::draw_controls()
                 ImGui::PushID( i );
                 auto flags = !entry.enabled ? ImGuiSelectableFlags_Disabled : ImGuiSelectableFlags_None;
                 bool is_selected = static_cast<int>( i ) == parent.fselected;
-                if( ImGui::Selectable( "", is_selected, flags | ImGuiSelectableFlags_AllowItemOverlap ) ) {
+                if( ImGui::Selectable( "", is_selected, flags | ImGuiSelectableFlags_AllowItemOverlap ) ||
+                    ImGui::IsItemHovered() ) {
                     parent.fselected = i;
-                }
-                if( ImGui::IsItemHovered( ) ) {
-                    parent.fselected = i;
+                    parent.selected = parent.fentries[parent.fselected];
                 }
                 ImGui::SameLine( 0, 0 );
                 if( is_selected ) {
@@ -998,8 +997,6 @@ void uilist::query( bool loop, int timeout, bool allow_unfiltered_hotkeys )
 
     shared_ptr_fast<uilist_impl> ui = create_or_get_ui();
 
-    ui_manager::redraw();
-
 #if defined(__ANDROID__)
     for( const auto &entry : entries ) {
         if( entry.enabled && entry.hotkey.has_value()
@@ -1010,6 +1007,8 @@ void uilist::query( bool loop, int timeout, bool allow_unfiltered_hotkeys )
 #endif
 
     do {
+        ui_manager::redraw();
+
         ret_act = ctxt.handle_input( timeout );
         const input_event event = ctxt.get_raw_input();
         ret_evt = event;
@@ -1075,8 +1074,6 @@ void uilist::query( bool loop, int timeout, bool allow_unfiltered_hotkeys )
                 }
             }
         }
-
-        ui_manager::redraw();
     } while( loop && ret == UILIST_WAIT_INPUT );
 }
 
