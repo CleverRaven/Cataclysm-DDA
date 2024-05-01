@@ -32,7 +32,7 @@
     "item": "sheet_metal",
     "location": "center",
     "requirements": {
-      "install": { "skills": [ [ "fabrication", 1 ] ], "time": "5 m", "using": [ [ "vehicle_bolt_install", 1 ] ] },
+      "install": { "skills": [ [ "fabrication", 1 ] ], "time": "5 m", "using": [ [ "vehicle_bolt_install_simple", 1 ] ] },
       "removal": { "skills": [ [ "fabrication", 1 ] ], "time": "5 m", "using": [ [ "vehicle_wrench_1", 1 ] ] },
       "repair": { "skills": [ [ "fabrication", 2 ], [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 5 ] ] }
     },
