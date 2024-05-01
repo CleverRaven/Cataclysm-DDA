@@ -195,7 +195,6 @@
       [
         [ "meat_cooked", 1, "LIST" ],
         [ "dry_meat", 1 ],
-        [ "can_chicken", 1 ],
         [ "fish", 1 ],
         [ "dry_fish", 1 ],
         [ "rehydrated_fish", 1 ],
@@ -230,7 +229,7 @@
       [ [ "water_clean", 1 ] ],
       [ [ "eggs_any_shape", 3, "LIST" ] ],
       [ [ "cheese_standard", 1, "LIST" ], [ "pecorino_cheese", 1 ] ],
-      [ [ "meat_cooked", 1, "LIST" ], [ "dry_meat", 1 ], [ "bacon", 1 ] ]
+      [ [ "meat_red_raw", 1, "LIST" ], [ "dry_meat", 1 ], [ "bacon", 1 ] ]
     ],
     "charges": 4
   },
@@ -253,7 +252,7 @@
       [ [ "water_clean", 1 ] ],
       [ [ "sauce_red", 3 ] ],
       [ [ "cheese_standard", 1, "LIST" ], [ "pecorino_cheese", 1 ] ],
-      [ [ "meat_cooked", 1, "LIST" ], [ "dry_meat", 1 ], [ "bacon", 1 ] ]
+      [ [ "meat_red_raw", 1, "LIST" ], [ "dry_meat", 1 ], [ "bacon", 1 ] ]
     ],
     "charges": 4
   }

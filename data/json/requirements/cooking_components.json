@@ -452,7 +452,7 @@
   {
     "id": "meat_raw_steak",
     "type": "requirement",
-    "//": "An unbroken slab of raw meat.  For when scraps just aren't good enough.",
+    "//": "An unbroken slab of raw meat including poultry.  For when scraps aren't good enough.",
     "components": [
       [
         [ "meat", 1 ],
@@ -461,6 +461,20 @@
         [ "mutant_human_flesh", 1 ],
         [ "demihuman_flesh", 1 ],
         [ "poultry", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "meat_red_raw_steak",
+    "type": "requirement",
+    "//": "A whole slab of raw, red meat.  Substitutes pork and beef, but not chicken, in common recipes.",
+    "components": [
+      [
+        [ "meat", 1 ],
+        [ "mutant_meat", 1 ],
+        [ "human_flesh", 1 ],
+        [ "mutant_human_flesh", 1 ],
+        [ "demihuman_flesh", 1 ]
       ]
     ]
   },
