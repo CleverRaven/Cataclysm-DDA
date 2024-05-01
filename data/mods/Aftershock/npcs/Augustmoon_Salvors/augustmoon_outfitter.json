@@ -93,7 +93,7 @@
   {
     "id": [ "TALK_AUGUSTMOON_OUTFITTER" ],
     "type": "talk_topic",
-    "dynamic_line": "&You find the clerk inbetween stacked second hand outfits of all kinds. ",
+    "dynamic_line": "&You find the clerk in between stacked second hand outfits of all kinds.",
     "responses": [
       { "text": "I'm want to buy some gear.", "topic": "TALK_DONE", "effect": "start_trade" },
       { "text": "Maybe later.", "topic": "TALK_DONE" }
