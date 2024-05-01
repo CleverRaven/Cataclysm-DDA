@@ -107,6 +107,7 @@ void uilist_impl::draw_controls()
                 ImGui::SameLine( 0, 0 );
                 if( is_selected ) {
                     ImGui::SetItemDefaultFocus();
+                    ImGui::SetScrollHereY();
                 }
 
                 if( entry.hotkey.has_value() ) {
