@@ -373,29 +373,18 @@ void cataimgui::imvec2_to_point( ImVec2 *src, point *dest )
     }
 }
 
-void cataimgui::draw_colored_text( std::string const &text, const nc_color &color,
-                                   float wrap_width, bool *is_selected, bool *is_focused, bool *is_hovered )
+void cataimgui::draw_colored_text( std::string const &text, __attribute__((unused)) const nc_color &color, bool *is_selected, bool *is_focused, bool *is_hovered )
 {
     nc_color color_cpy = color;
-    draw_colored_text( text, color_cpy, wrap_width, is_selected, is_focused, is_hovered );
+    draw_colored_text( text, color_cpy, is_selected, is_focused, is_hovered );
 }
 
-void cataimgui::draw_colored_text( std::string const &text, nc_color &color,
-                                   float wrap_width, bool *is_selected, bool *is_focused, bool *is_hovered )
+void cataimgui::draw_colored_text( std::string const &text, __attribute__((unused)) nc_color &color, bool *is_selected, bool *is_focused, bool *is_hovered )
 {
     ImGui::PushID( text.c_str() );
+    ImGui::PushTextWrapPos( 0 );
     ImGuiID itemId = GImGui->CurrentWindow->IDStack.back();
-    std::stack<nc_color> color_stack;
-    color_stack.push( color );
-    size_t chars_per_line = size_t( wrap_width );
-    if( chars_per_line == 0 ) {
-        chars_per_line = SIZE_MAX;
-    }
-#if defined(WIN32) || defined(TILES)
-    size_t char_width = size_t( ImGui::CalcTextSize( " " ).x );
-    chars_per_line /= char_width;
-#endif
-    std::vector<std::string> folded_msg = foldstring( text, chars_per_line );
+    std::vector<std::string> folded_msg = foldstring( text, -1 );
 
     for( const std::string &line : folded_msg ) {
 
@@ -412,19 +401,16 @@ void cataimgui::draw_colored_text( std::string const &text, nc_color &color,
 
             if( seg[0] == '<' ) {
                 const color_tag_parse_result::tag_type type =
-                    update_color_stack( color_stack, seg, report_color_error::yes );
+                    update_imgui_color_stack( seg, report_color_error::yes );
                 if( type != color_tag_parse_result::non_color_tag ) {
                     seg = rm_prefix( seg );
                 }
             }
 
-            color = color_stack.empty() ? color : color_stack.top();
             if( i++ != 0 ) {
                 ImGui::SameLine( 0, 0 );
             }
-            ImGui::PushStyleColor( ImGuiCol_Text, imvec4_from_color( color ) );
-            ImGui::TextWrapped( "%s", seg.c_str() );
-            ImGui::PopStyleColor();
+            ImGui::TextUnformatted( seg.c_str() );
             GImGui->LastItemData.ID = itemId;
             if( is_focused && !*is_focused ) {
                 *is_focused = ImGui::IsItemFocused();
@@ -432,10 +418,10 @@ void cataimgui::draw_colored_text( std::string const &text, nc_color &color,
             if( is_hovered && !*is_hovered ) {
                 *is_hovered = GImGui->HoveredId == itemId;
             }
-
         }
     }
 
+    ImGui::PopTextWrapPos();
     ImGui::PopID();
 }
 

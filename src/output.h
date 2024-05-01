@@ -176,6 +176,7 @@ std::string rm_prefix( std::string str, char c1 = '<', char c2 = '>' );
 color_tag_parse_result::tag_type update_color_stack(
     std::stack<nc_color> &color_stack, std::string_view seg,
     report_color_error color_error = report_color_error::yes );
+color_tag_parse_result::tag_type update_imgui_color_stack(const std::string_view seg, const report_color_error color_error );
 
 /**
  * Removes the color tags from the input string. This might be required when the string is to

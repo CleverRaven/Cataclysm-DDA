@@ -53,7 +53,7 @@ void query_popup_impl::draw_controls()
 
     for( const std::string &line : parent->folded_msg ) {
         nc_color col = parent->default_text_color;
-        cataimgui::draw_colored_text( line, col, float( msg_width ) );
+        cataimgui::draw_colored_text( line, col );
     }
 
     if( !parent->buttons.empty() ) {

@@ -79,11 +79,9 @@ class client
 void point_to_imvec2( point *src, ImVec2 *dest );
 void imvec2_to_point( ImVec2 *src, point *dest );
 
-void draw_colored_text( std::string const &text, const nc_color &color,
-                        float wrap_width = 0.0F, bool *is_selected = nullptr,
+void draw_colored_text( std::string const &text, const nc_color &color, bool *is_selected = nullptr,
                         bool *is_focused = nullptr, bool *is_hovered = nullptr );
-void draw_colored_text( std::string const &text, nc_color &color,
-                        float wrap_width = 0.0F, bool *is_selected = nullptr,
+void draw_colored_text( std::string const &text, nc_color &color, bool *is_selected = nullptr,
                         bool *is_focused = nullptr, bool *is_hovered = nullptr );
 
 class window

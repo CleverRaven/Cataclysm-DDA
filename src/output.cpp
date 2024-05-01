@@ -235,6 +235,23 @@ color_tag_parse_result::tag_type update_color_stack(
     return tag.type;
 }
 
+color_tag_parse_result::tag_type update_imgui_color_stack(const std::string_view seg, const report_color_error color_error )
+{
+    color_tag_parse_result tag = get_color_from_tag( seg, color_error );
+    switch( tag.type ) {
+        case color_tag_parse_result::open_color_tag:
+            ImGui::PushStyleColor( ImGuiCol_Text, cataimgui::imvec4_from_color( tag.color ) );
+            break;
+        case color_tag_parse_result::close_color_tag:
+            ImGui::PopStyleColor();
+            break;
+        case color_tag_parse_result::non_color_tag:
+            // Do nothing
+            break;
+    }
+    return tag.type;
+}
+
 void print_colored_text( const catacurses::window &w, const point &p, nc_color &color,
                          const nc_color &base_color, const std::string_view text,
                          const report_color_error color_error )
