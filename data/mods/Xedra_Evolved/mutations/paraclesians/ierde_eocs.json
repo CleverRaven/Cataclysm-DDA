@@ -381,15 +381,20 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_IERDE_ENTRAP_TARGET_IN_STONE",
+    "condition": { "u_is_on_terrain_with_flag": "DIGGABLE" },
+    "effect": [
+      { "u_cast_spell": { "id": "ierde_trap_target_local_terrain_bash" } },
+      { "u_transform_radius": 1, "ter_furn_transform": "ter_ierde_entrap_target_in_stone" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_IERDE_STONE_FORM_ON",
     "effect": [
       { "u_add_trait": "IERDE_STONE_FORM_TRAITS" },
       { "u_message": "Your body stiffens as your flesh turns to stone and your joints to earth.", "type": "good" }
     ]
-  },
-  {
-    "type": "effect_on_condition",
-    
   },
   {
     "type": "effect_on_condition",
