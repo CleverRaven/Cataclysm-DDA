@@ -274,7 +274,7 @@
     "terrain": [
       { "result": "t_door_boarded", "valid_flags": [ "DOOR" ] },
       { "result": "t_window_boarded", "valid_flags": [ "WINDOW" ] },
-      { "result": "makeshift wall", "valid_terrain": [ "t_wall_glass" ] }
+      { "result": "t_scrap_wall", "valid_terrain": [ "t_wall_glass" ] }
     ]
   },
   {
