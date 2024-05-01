@@ -287,8 +287,7 @@ static std::array<std::pair<bool, int>, 256 * 256> colPairs;
 bool is_in_bounds( int x, int y )
 {
     ImGuiContext *ctxt = ImGui::GetCurrentContext();
-    // skip the first window, since ImGui seems to always have a "dummy" window that takes up most of the screen
-    for( int index = 1; index < ctxt->Windows.size(); index++ ) {
+    for( int index = 0; index < ctxt->Windows.size(); index++ ) {
         ImGuiWindow *win = ctxt->Windows[index];
         if(win->Collapsed || !win->Active) {
             continue;
