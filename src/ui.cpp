@@ -143,163 +143,6 @@ void uilist_impl::draw_controls()
         ImGui::TextWrapped( "%s", parent.footer_text.empty() ? parent.entries[parent.selected].desc.c_str()
                             : parent.footer_text.c_str() );
     }
-
-    //werase(window);
-    //draw_border(window, border_color);
-    //if(!title.empty())
-    //{
-    //    // NOLINTNEXTLINE(cata-use-named-point-constants)
-    //    mvwprintz(window, point(1, 0), border_color, "< ");
-    //    wprintz(window, title_color, title);
-    //    wprintz(window, border_color, " >");
-    //}
-
-    //const auto print_line = [&](int line)
-    //{
-    //    mvwputch(window, point(0, line), border_color, LINE_XXXO);
-    //    for(int i = 1; i < w_width - 1; ++i)
-    //    {
-    //        mvwputch(window, point(i, line), border_color, LINE_OXOX);
-    //    }
-    //    mvwputch(window, point(w_width - 1, line), border_color, LINE_XOXX);
-    //};
-    //const int text_lines = textformatted.size();
-    //int estart = 1;
-    //if(!textformatted.empty())
-    //{
-    //    for(int i = 0; i < text_lines; i++)
-    //    {
-    //        trim_and_print(window, point(2, 1 + i), getmaxx(window) - 4,
-    //            text_color, _color_error, "%s", textformatted[i]);
-    //    }
-    //    print_line(text_lines + 1);
-    //    estart += text_lines + 1; // +1 for the horizontal line.
-    //}
-    //if(!categories.empty())
-    //{
-    //    mvwprintz(window, point(1, estart), c_yellow, "<< %s >>", categories[current_category].second);
-    //    print_line(estart + category_lines);
-    //    estart += category_lines + 1;
-    //}
-
-    //if(recalc_start)
-    //{
-    //    calcStartPos(vshift, fselected, vmax, fentries.size());
-    //}
-
-    //const int pad_size = std::max(0, w_width - 2 - pad_left - pad_right);
-    //const std::string padspaces = std::string(pad_size, ' ');
-
-    //for(uilist_entry &entry : entries)
-    //{
-    //    entry.drawn_rect = std::nullopt;
-    //}
-
-    //// Entry text will be trimmed to this length for printing.  Need spacer at beginning/end, room for second column
-    //const int entry_space = pad_size - 2 - 1 - (max_column_len > 0 ? max_column_len + 2 : 0);
-    //for(int fei = vshift, si = 0; si < vmax; fei++, si++)
-    //{
-    //    if(fei < static_cast<int>(fentries.size()))
-    //    {
-    //        int ei = fentries[fei];
-    //        nc_color co = (ei == selected ?
-    //            hilight_color :
-    //            (entries[ei].enabled || entries[ei].force_color ?
-    //            entries[ei].text_color :
-    //            disabled_color)
-    //            );
-
-    //        mvwprintz(window, point(pad_left + 1, estart + si), co, padspaces);
-    //        if(entries[ei].hotkey.has_value() && entries[ei].hotkey.value() != input_event())
-    //        {
-    //            const nc_color hotkey_co = ei == selected ? hilight_color : hotkey_color;
-    //            mvwprintz(window, point(pad_left + 1, estart + si), entries[ei].enabled ? hotkey_co : co,
-    //                "%s", right_justify(entries[ei].hotkey.value().short_description(), 2));
-    //        }
-    //        if(pad_size > 3)
-    //        {
-    //            // pad_size indicates the maximal width of the entry, it is used above to
-    //            // activate the highlighting, it is used to override previous text there, but in both
-    //            // cases printing starts at pad_left+1, here it starts at pad_left+4, so 3 cells less
-    //            // to be used.
-    //            const std::string &entry = ei == selected ? remove_color_tags(entries[ei].txt) :
-    //                entries[ei].txt;
-    //            point p(pad_left + 4, estart + si);
-    //            entries[ei].drawn_rect =
-    //                inclusive_rectangle<point>(p + point(-3, 0), p + point(-4 + pad_size, 0));
-    //            trim_and_print(window, p, entry_space, co, _color_error, "%s", entry);
-
-    //            if(max_column_len && !entries[ei].ctxt.empty())
-    //            {
-    //                const std::string &centry = ei == selected ? remove_color_tags(entries[ei].ctxt) :
-    //                    entries[ei].ctxt;
-    //                trim_and_print(window, point(getmaxx(window) - max_column_len - 2, estart + si),
-    //                    max_column_len, co, _color_error, "%s", centry);
-    //            }
-    //        }
-    //        mvwzstr menu_entry_extra_text = entries[ei].extratxt;
-    //        if(!menu_entry_extra_text.txt.empty())
-    //        {
-    //            mvwprintz(window, point(pad_left + 1 + menu_entry_extra_text.left, estart + si),
-    //                menu_entry_extra_text.color, menu_entry_extra_text.txt);
-    //        }
-    //        if(menu_entry_extra_text.sym != 0)
-    //        {
-    //            mvwputch(window, point(pad_left + 1 + menu_entry_extra_text.left, estart + si),
-    //                menu_entry_extra_text.color, menu_entry_extra_text.sym);
-    //        }
-    //    }
-    //    else
-    //    {
-    //        mvwprintz(window, point(pad_left + 1, estart + si), c_light_gray, padspaces);
-    //    }
-    //}
-
-    //if(desc_enabled)
-    //{
-    //    // draw border
-    //    mvwputch(window, point(0, w_height - desc_lines - 2), border_color, LINE_XXXO);
-    //    for(int i = 1; i < w_width - 1; ++i)
-    //    {
-    //        mvwputch(window, point(i, w_height - desc_lines - 2), border_color, LINE_OXOX);
-    //    }
-    //    mvwputch(window, point(w_width - 1, w_height - desc_lines - 2), border_color, LINE_XOXX);
-
-    //    // clear previous desc the ugly way
-    //    for(int y = desc_lines + 1; y > 1; --y)
-    //    {
-    //        for(int x = 2; x < w_width - 2; ++x)
-    //        {
-    //            mvwputch(window, point(x, w_height - y), text_color, " ");
-    //        }
-    //    }
-
-    //    if(static_cast<size_t>(selected) < entries.size())
-    //    {
-    //        fold_and_print(window, point(2, w_height - desc_lines - 1), w_width - 4, text_color,
-    //            footer_text.empty() ? entries[selected].desc : footer_text);
-    //    }
-    //}
-
-    //if(filter_popup)
-    //{
-    //    mvwprintz(window, point(2, w_height - 1), border_color, "< ");
-    //    mvwprintz(window, point(w_width - 3, w_height - 1), border_color, " >");
-    //    filter_popup->query( /*loop=*/false, /*draw_only=*/true);
-    //    // Record cursor immediately after filter_popup drawing
-    //    ui.record_term_cursor();
-    //}
-    //else
-    //{
-    //    if(!filter.empty())
-    //    {
-    //        mvwprintz(window, point(2, w_height - 1), border_color, "< %s >", filter);
-    //        mvwprintz(window, point(4, w_height - 1), text_color, filter);
-    //    }
-    //}
-    //apply_scrollbar();
-
-    //wnoutrefresh(window);
 }
 
 catacurses::window new_centered_win( int nlines, int ncols )
@@ -705,7 +548,6 @@ void uilist::inputfilter()
     input_context ctxt = create_filter_input_context();
     filter_popup = std::make_unique<string_input_popup>();
     filter_popup->context( ctxt ).text( filter ).max_length( 256 );
-    // .window( window, point( 4, w_height - 1 ), w_width - 4 );
     bool loop = true;
     do {
         ui_manager::redraw();
@@ -1297,7 +1139,6 @@ int uilist::find_entry_by_coordinate( const point &p ) const
  */
 void uilist::reset()
 {
-    window = catacurses::window();
     init();
 }
 
