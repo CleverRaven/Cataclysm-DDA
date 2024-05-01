@@ -563,12 +563,12 @@
     "shape": "blast",
     "energy_source": "MANA",
     "base_energy_cost": 0,
-    "base_casting_time": { "math": [ "1440000 - max(( u_spell_level('homullus_road_translocate') * 108000), 90000)" ] }
+    "base_casting_time": { "math": [ "2880000 - max(( u_spell_level('ierde_tunnel_translocation_spell') * 108000), 180000)" ] }
   },
   {
     "id": "ierde_tunnel_translocation_attune_real",
     "type": "SPELL",
-    "name": "Traveling the Veins of the Earth Real",
+    "name": "Traveling the Veins of the Earth Attunement Real",
     "description": "The actual Traveling the Veins of the Earth attunement spell.  It's a bug if you have it.",
     "teachable": false,
     "valid_targets": [ "ground" ],
