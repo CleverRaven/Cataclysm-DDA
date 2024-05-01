@@ -132,7 +132,7 @@ void query_popup_impl::on_resized()
                 button_width += btn_padding( line.size() );
                 // Right align.
                 // TODO: multi-line buttons
-                size_t button_x = button_width > msg_width ? size_t( 0 ) :
+                size_t button_x = button_width > int( msg_width ) ? size_t( 0 ) :
                                   size_t( msg_width - button_width );
                 for( const auto &opt : line ) {
                     parent->buttons.emplace_back( opt, point( button_x, line_idx ) );
