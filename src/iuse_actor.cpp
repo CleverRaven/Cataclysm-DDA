@@ -433,7 +433,8 @@ void iuse_transform::finalize( const itype_id & )
 
 void iuse_transform::info( const item &it, std::vector<iteminfo> &dump ) const
 {
-    item dummy( target, calendar::turn, target->count_by_charges() ? std::max( ammo_qty, 1 ) : 1 );
+    int amount = std::max( ammo_qty, 1 );
+    item dummy( target, calendar::turn, 1 );
     dummy.set_itype_variant( variant_type );
     // If the variant is to be randomized, use default no-variant name
     if( variant_type == "<any>" ) {
@@ -442,8 +443,8 @@ void iuse_transform::info( const item &it, std::vector<iteminfo> &dump ) const
     if( it.has_flag( flag_FIT ) ) {
         dummy.set_flag( flag_FIT );
     }
-    dump.emplace_back( "TOOL", string_format( _( "<bold>Turns into</bold>: %s" ),
-                       dummy.tname() ) );
+    dump.emplace_back( "TOOL", string_format( _( "<bold>Turns into</bold>: %dge %s",  ),
+                       amount, dummy.tname() ) );
 
     if( target_timer > 0_seconds ) {
         dump.emplace_back( "TOOL", _( "Countdown: " ), to_seconds<int>( target_timer ) );
