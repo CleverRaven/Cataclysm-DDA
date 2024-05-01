@@ -222,7 +222,6 @@
         "effect": [
           { "u_sell_item": "FMCNote", "count": 200 },
           { "npc_add_trait": "NPC_CONSTRUCTION_LEV_2" },
-          { "mapgen_update": "tacoma_commune_crop_overseer_field_1_fence_legacy", "om_terrain": "ranch_camp_63" },
           {
             "u_message": "After counting your money, <npc_name> directs a nearby laborer to begin constructing a fence around your plot…",
             "type": "good",
@@ -297,11 +296,6 @@
           { "npc_lose_trait": "NPC_CONSTRUCTION_LEV_2" },
           { "npc_add_var": "purchased_field_1", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" },
           { "npc_add_var": "purchased_field_1_fence", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" },
-          { "mapgen_update": "tacoma_commune_crop_overseer_field_1_legacy_clear", "om_terrain": "ranch_camp_63" },
-          {
-            "mapgen_update": "tacoma_commune_crop_overseer_field_1_fence_legacy_clear",
-            "om_terrain": "ranch_camp_63"
-          },
           { "mapgen_update": "tacoma_commune_crop_overseer_field_1_plant", "om_terrain": "ranch_camp_63" },
           { "mapgen_update": "tacoma_commune_crop_overseer_field_1_fence", "om_terrain": "ranch_camp_63" }
         ]
@@ -320,7 +314,6 @@
           { "u_sell_item": "FMCNote", "count": 100 },
           { "npc_lose_trait": "NPC_CONSTRUCTION_LEV_1" },
           { "npc_add_var": "purchased_field_1", "type": "dialogue", "context": "tacoma_ranch", "value": "yes" },
-          { "mapgen_update": "tacoma_commune_crop_overseer_field_1_legacy_clear", "om_terrain": "ranch_camp_63" },
           { "mapgen_update": "tacoma_commune_crop_overseer_field_1_plant", "om_terrain": "ranch_camp_63" }
         ]
       },
