@@ -78,7 +78,7 @@
         "R": "f_rack_wood",
         "g": "f_glass_cabinet",
         "G": "f_glass_cabinet",
-        "{": "f_fridge"
+        "{": "f_heavy_duty_fridge"
       },
       "toilets": { "T": {  } },
       "place_items": [

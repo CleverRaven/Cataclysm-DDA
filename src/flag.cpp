@@ -306,7 +306,6 @@ const flag_id flag_SKINTIGHT( "SKINTIGHT" );
 const flag_id flag_SLEEP_AID( "SLEEP_AID" );
 const flag_id flag_SLEEP_AID_CONTAINER( "SLEEP_AID_CONTAINER" );
 const flag_id flag_SLEEP_IGNORE( "SLEEP_IGNORE" );
-const flag_id flag_SLOWS_MOVEMENT( "SLOWS_MOVEMENT" );
 const flag_id flag_SLOW_WIELD( "SLOW_WIELD" );
 const flag_id flag_SMOKABLE( "SMOKABLE" );
 const flag_id flag_SMOKED( "SMOKED" );

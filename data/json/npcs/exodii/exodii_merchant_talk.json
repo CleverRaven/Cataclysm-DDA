@@ -29,6 +29,16 @@
     "type": "talk_topic",
     "responses": [
       { "text": "What've you got for trade?", "effect": "start_trade", "topic": "TALK_EXODII_MERCHANT_DoneTrade" },
+      {
+        "text": "Can you do something for me?",
+        "topic": "TALK_EXODII_MERCHANT_DoSomething",
+        "condition": { "u_has_var": "general_meeting_u_met_Rubik", "value": "yes" }
+      },
+      {
+        "text": "I'm here to talk about a job.",
+        "topic": "TALK_EXODII_MERCHANT_TalkJob",
+        "condition": { "u_has_var": "general_meeting_u_met_Rubik", "value": "yes" }
+      },
       { "text": "I don't understand a word you're saying.", "topic": "TALK_EXODII_MERCHANT_Dialect" },
       { "text": "Are you some kind of robot?", "topic": "TALK_EXODII_MERCHANT_Robot" },
       {
@@ -53,11 +63,6 @@
         "topic": "TALK_EXODII_MERCHANT_Zomborgs"
       },
       {
-        "text": "Would you be willing to sell some of your robots?",
-        "condition": { "u_has_var": "dialogue_exodii_rubik_offered_robosell", "value": "yes" },
-        "topic": "TALK_EXODII_MERCHANT_Robot_Buy"
-      },
-      {
         "text": "You wanted to ask me some questions earlier, and I think I was rude about it.  What did you want to ask?",
         "condition": {
           "and": [
@@ -77,41 +82,6 @@
           ]
         },
         "topic": "TALK_EXODII_MERCHANT_Talk_Intro2a"
-      },
-      {
-        "text": "Can you turn me into a cyborg RIGHT NOW?  I'm a developer for this game, you know.",
-        "condition": { "u_has_trait": "DEBUG_NODMG" },
-        "topic": "TALK_EXODII_MERCHANT_ExodizeTest"
-      },
-      {
-        "text": "I think I'm ready to try becoming a cyborg now.",
-        "condition": {
-          "and": [ { "u_has_var": "mission_completed_anusfetick", "value": "yes" }, { "not": { "u_has_trait": "CBM_Interface" } } ]
-        },
-        "topic": "TALK_EXODII_MERCHANT_ExodizeMe2"
-      },
-      {
-        "text": "Any chance you could help me get some of those sweet bionic upgrades?",
-        "topic": "TALK_EXODII_MERCHANT_Exodize",
-        "condition": {
-          "and": [
-            { "u_has_var": "knowledge_exodization_u_knows_exodiilore", "value": "yes" },
-            {
-              "not": {
-                "or": [
-                  { "u_has_mission": "RUBIK_ANUS_FETICK" },
-                  { "u_has_var": "mission_completed_anusfetick", "value": "yes" },
-                  { "u_has_trait": "CBM_Interface" }
-                ]
-              }
-            }
-          ]
-        }
-      },
-      {
-        "text": "Can you help me with CBM surgery?",
-        "topic": "TALK_EXODII_MERCHANT_Bionic_Install",
-        "condition": { "u_has_trait": "CBM_Interface" }
       }
     ]
   },
@@ -129,11 +99,11 @@
         "u_has_var": "general_meeting_u_met_Rubik",
         "value": "yes",
         "yes": [
-          "And a fine return, matey.",
-          "Fine and you still ain't dead.  What brings ye roun' Rubik's neckawoods?",
-          "Bright and sunny, you're back!  I got goods for ye, if you got goods for me."
+          "And a fine return, matey.\"  Rubik puts a hand on the countertop, and gestures you closer with the other.",
+          "Fine and you still ain't dead.\"  Their gravelly voice is cheerful.  \"What brings ye roun' Rubik's neckawoods?",
+          "Bright and sunny, you're back!\"  There's a bit of a friendly chuckle in Rubik's gravelly voice.  \"Rubik's got goods for ye, if you got goods for Rubik."
         ],
-        "no": "Oy, you ain't dead.  Lookin' t'trade?"
+        "no": "&Before you stands a towering mass of metal, at least seven feet high, with a large reflective glass plate in the center of its torso.  It turns as you enter the room, and raises its hand in a surprisingly natural motion of greeting.  A gravelly voice resonates from unseen speakers in the steel frame.  Its tone is bizarrely normal, in complete contrast with everything else around you.  \"Oy, you ain't dead.  Lookin' t'trade?\"  The accent sounds vaguely British, but not familiar; like a terrible imitation of Cockney."
       }
     },
     "speaker_effect": [
@@ -166,43 +136,6 @@
         "effect": { "u_add_var": "general_meeting_u_met_Rubik", "value": "yes" }
       },
       {
-        "text": "I've brought the anesthetic for you.  Can you help me out?",
-        "condition": { "and": [ { "u_has_items": { "item": "anesthetic", "count": 1000 } }, { "u_has_mission": "RUBIK_ANUS_FETICK" } ] },
-        "effect": [ { "u_sell_item": "anesthetic", "count": 1000 }, { "finish_mission": "RUBIK_ANUS_FETICK", "success": true } ],
-        "topic": "TALK_EXODII_MERCHANT_ExodizeMe2"
-      },
-      {
-        "text": "I think I'm ready to try becoming a cyborg now.",
-        "condition": {
-          "and": [ { "u_has_var": "mission_completed_anusfetick", "value": "yes" }, { "not": { "u_has_trait": "CBM_Interface" } } ]
-        },
-        "topic": "TALK_EXODII_MERCHANT_ExodizeMe2"
-      },
-      {
-        "text": "I paid a visit to the bunker.",
-        "condition": { "and": [ { "u_has_var": "mission_completed_u_scouted_bunker", "value": "yes" } ] },
-        "effect": [ { "u_lose_var": "mission_completed_u_scouted_bunker" }, { "math": [ "exodii_knows_hub01", "=", "1" ] } ],
-        "topic": "TALK_EXODII_MERCHANT_mission_1_complete"
-      },
-      {
-        "text": "I found the warehouse.",
-        "condition": { "and": [ { "u_has_var": "mission_completed_u_found_warehouse", "value": "yes" } ] },
-        "effect": [ { "u_lose_var": "mission_completed_u_found_warehouse" }, { "math": [ "warehouse_was_found", "=", "1" ] } ],
-        "topic": "TALK_EXODII_MERCHANT_mission_2_complete"
-      },
-      {
-        "text": "Any chance you could help me get some of those sweet bionic upgrades?",
-        "topic": "TALK_EXODII_MERCHANT_Exodize",
-        "condition": {
-          "and": [
-            { "u_has_var": "knowledge_exodization_u_knows_exodiilore", "value": "yes" },
-            {
-              "not": { "or": [ { "u_has_mission": "RUBIK_ANUS_FETICK" }, { "u_has_var": "mission_completed_anusfetick", "value": "yes" } ] }
-            }
-          ]
-        }
-      },
-      {
         "text": "What've you got for trade?",
         "effect": "start_trade",
         "topic": "TALK_EXODII_MERCHANT_DoneTrade",
@@ -211,6 +144,16 @@
       {
         "text": "Actually, I wanted to talk.",
         "topic": "TALK_EXODII_MERCHANT_Talk",
+        "condition": { "u_has_var": "general_meeting_u_met_Rubik", "value": "yes" }
+      },
+      {
+        "text": "Can you do something for me?",
+        "topic": "TALK_EXODII_MERCHANT_DoSomething",
+        "condition": { "u_has_var": "general_meeting_u_met_Rubik", "value": "yes" }
+      },
+      {
+        "text": "I'm here to talk about a job.",
+        "topic": "TALK_EXODII_MERCHANT_TalkJob",
         "condition": { "u_has_var": "general_meeting_u_met_Rubik", "value": "yes" }
       },
       {
@@ -360,6 +303,84 @@
         "text": "No.  I'm too busy to answer your questions, you're supposed to answer mine.  I guess I'll head out.",
         "topic": "TALK_DONE"
       }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_DoSomething",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "Of course,\" the gravelly voice takes on an unmistakeable 'customer service' tone.  \"What can I do for you?",
+      "str": "Sure as can,\" the gravelly voice takes on an unmistakeable 'customer service' tone.  \"What'll ye tass this'n for?"
+    },
+    "responses": [
+      { "text": "What've you got for trade?", "effect": "start_trade", "topic": "TALK_EXODII_MERCHANT_DoneTrade" },
+      {
+        "text": "I think I'm ready to try becoming a cyborg now.",
+        "condition": {
+          "and": [ { "u_has_var": "mission_completed_anusfetick", "value": "yes" }, { "not": { "u_has_trait": "CBM_Interface" } } ]
+        },
+        "topic": "TALK_EXODII_MERCHANT_ExodizeMe2"
+      },
+      {
+        "text": "Any chance you could help me get some of those sweet bionic upgrades?",
+        "topic": "TALK_EXODII_MERCHANT_Exodize",
+        "condition": {
+          "and": [
+            { "u_has_var": "knowledge_exodization_u_knows_exodiilore", "value": "yes" },
+            {
+              "not": { "or": [ { "u_has_mission": "RUBIK_ANUS_FETICK" }, { "u_has_var": "mission_completed_anusfetick", "value": "yes" } ] }
+            }
+          ]
+        }
+      },
+      {
+        "text": "Would you be willing to sell some of your robots?",
+        "condition": { "u_has_var": "dialogue_exodii_rubik_offered_robosell", "value": "yes" },
+        "topic": "TALK_EXODII_MERCHANT_Robot_Buy"
+      },
+      {
+        "text": "Can you help me with CBM surgery?",
+        "topic": "TALK_EXODII_MERCHANT_Bionic_Install",
+        "condition": { "u_has_trait": "CBM_Interface" }
+      },
+      {
+        "text": "Can you turn me into a cyborg RIGHT NOW?  I'm a developer for this game, you know.",
+        "condition": { "u_has_trait": "DEBUG_NODMG" },
+        "topic": "TALK_EXODII_MERCHANT_ExodizeTest"
+      },
+      { "text": "Never mind, I want to ask you something.", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "Actually, I changed my mind.  I have to go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_TalkJobs",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "Business before pleasure.  What do you need?",
+      "str": "Aye, business afore, 'tis said.  What'll ye tass to ol' Rubik?"
+    },
+    "responses": [
+      { "text": "Do the Exodii have any work I could do?", "topic": "TALK_EXODII_MERCHANT_Jobs" },
+      {
+        "text": "I've brought the anesthetic for you.  Can you help me out?",
+        "condition": { "and": [ { "u_has_items": { "item": "anesthetic", "count": 1000 } }, { "u_has_mission": "RUBIK_ANUS_FETICK" } ] },
+        "effect": [ { "u_sell_item": "anesthetic", "count": 1000 }, { "finish_mission": "RUBIK_ANUS_FETICK", "success": true } ],
+        "topic": "TALK_EXODII_MERCHANT_ExodizeMe2"
+      },
+      {
+        "text": "I paid a visit to the bunker.",
+        "condition": { "and": [ { "u_has_var": "mission_completed_u_scouted_bunker", "value": "yes" } ] },
+        "effect": [ { "u_lose_var": "mission_completed_u_scouted_bunker" }, { "math": [ "exodii_knows_hub01", "=", "1" ] } ],
+        "topic": "TALK_EXODII_MERCHANT_mission_1_complete"
+      },
+      {
+        "text": "I found the warehouse.",
+        "condition": { "and": [ { "u_has_var": "mission_completed_u_found_warehouse", "value": "yes" } ] },
+        "effect": [ { "u_lose_var": "mission_completed_u_found_warehouse" }, { "math": [ "warehouse_was_found", "=", "1" ] } ],
+        "topic": "TALK_EXODII_MERCHANT_mission_2_complete"
+      },
+      { "text": "Never mind, I want to ask you something.", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "Actually, I changed my mind.  I have to go.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -797,22 +818,22 @@
       "concatenate": [
         {
           "//~": "Yeah, we're always in need of some help around here.  Here's the list I've got for stuff like this.",
-          "str": "*pulls out a sheaf of mismatched papers, and leafs through the pages for a second.  Their broad metallic fingers look surprisingly deft and delicate, and incongruous on the otherwise unremarkable looseleaf.  \"Aye, an' there's room for a pop-an-work roun' here.  Rubik's got tassed a lissy, right and clean.\""
+          "str": "*pulls out a sheaf of mismatched papers, and leafs through the pages for a second.  Their broad metallic fingers look surprisingly deft and delicate, and incongruous on the otherwise unremarkable looseleaf.  \"Aye, an' there's room for a pop-an-work roun' here.  Rubik's got tassed a lissy, right and clean"
         },
         {
           "u_has_mission": "EXODII_MISSION_CONTACT_HUB",
-          "yes": ".  Right and so, mayhap ye should first see about that escoltin'.",
+          "yes": ".  Right and so, mayhap ye should first see about that escoltin'.\"",
           "no": [
             {
               "math": [ "exodii_knows_hub01", "==", "1" ],
               "yes": [
                 {
                   "math": [ "warehouse_was_found", "==", "1" ],
-                  "yes": ", but for the right-an-quick, this'n has nothin' t'be tassed for ye.",
-                  "no": ".  How'd ye be twigged by a pop-an-squeak?  Or as y'r tassed, a treasure hunt?"
+                  "yes": ", but for the right-an-quick, this'n has nothin' t'be tassed for ye.\"",
+                  "no": ".  How'd ye be twigged by a pop-an-squeak?  Or as y'r tassed, a treasure hunt?\""
                 }
               ],
-              "no": ".  How'd ye be twigged by a quick an' round, a nice escoltin' out to a place sommat of curiosity?"
+              "no": ".  How'd ye be twigged by a quick an' round, a nice escoltin' out to a place sommat of curiosity?\""
             }
           ]
         }
@@ -1236,7 +1257,7 @@
     "id": "TALK_EXODII_MERCHANT_Survival3",
     "type": "talk_topic",
     "dynamic_line": {
-      "//~": "Oh, sure, that's a fair assessment.  I mean, I do get a bit of a laugh out of the look on your face sometimes.  What I'm saying is, if my body were flesh and bone, the device we use to travel around dimensions would rip up the meat and leave me quite a mess.  We can take a bit, but too much… once time, I felt a bit of that, and I'm not in any rush to try it again.",
+      "//~": "Oh, sure, that's a fair assessment.  I mean, I do get a bit of a laugh out of the look on your face sometimes.  What I'm saying is, if my body were flesh and bone, the device we use to travel around dimensions would rip up the meat and leave me quite a mess.  We can take a bit, but too much… one time, I felt a bit of that, and I'm not in any rush to try it again.",
       "str": "Oh, sure an it's bagged in a coffer an' all that.  That is t'say, this'n does get a wipe o' a grinny t'see the perplexion upon a visage, an I'm ken.*  You're pretty sure you hear a faint chuckle in the metallic voice.  *What I be meanin' is at, for my body were t'be meat-an'-bone, the tool what we be usin' for t'travel to an' fro, it rips up the meat an' leaves it a right mess.  A bit can come along for a right fun, but too much… on a time, an earlier Rubik felt a spot o' those willies, an' this'n be not in the farrier's hut for t'try it again."
     },
     "responses": [

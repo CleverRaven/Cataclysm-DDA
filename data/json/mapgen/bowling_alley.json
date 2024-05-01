@@ -27,8 +27,8 @@
         "|     |||+|||GSSGSSGSSG|",
         "|     |f~~~2|GSSGSSGSSG|",
         "|+||+||f~~~2|GSSGSSGSSG|",
-        "|'U|'U|f~~~2||$$|$$|$$||",
-        "|T%|T%|f~L~~+~~~~~~~~~~|",
+        "|'U|'U|(~~~2||$$|$$|$$||",
+        "|T%|T%|(~L~~+~~~~~~~~~~|",
         "||||||||||||||||||||||||"
       ],
       "terrain": {
@@ -60,7 +60,8 @@
         "G": "f_lane",
         "=": "f_ball_mach",
         "$": "f_machinery_light",
-        "f": "f_fridge",
+        "f": "f_heavy_duty_fridge",
+        "(": "f_heavy_duty_freezer",
         "U": "f_sink",
         "0": "f_rack",
         "1": "f_rack_wood",

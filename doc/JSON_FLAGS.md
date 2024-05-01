@@ -230,7 +230,6 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```ROLLER_QUAD```The medium choice between `ROLLER_INLINE` and `ROLLER_ONE`, while it is more stable, and moves faster, it also has a harsher non-flat terrain penalty than `ROLLER_ONE`.
 - ```SEMITANGIBLE``` Prevents the item from participating in the encumbrance system when worn.
 - ```SKINTIGHT``` Undergarment layer.
-- ```SLOWS_MOVEMENT``` This piece of clothing multiplies move cost by 1.1.
 - ```STAR_PLATE``` Item can be worn with ryūsei battle kit armor; specifically can be put in pocket for armor with this flag restriction.
 - ```STAR_SHOULDER``` Item can be worn with ryūsei battle kit armor ; specifically can be put in pocket for armor with this flag restriction.
 - ```STAR_SKIRT``` Item can be worn with ryūsei battle kit armor; specifically can be put in pocket for armor with this flag restriction.

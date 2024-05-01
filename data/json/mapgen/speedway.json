@@ -2,6 +2,12 @@
   {
     "type": "palette",
     "id": "speedway_palette",
+    "parameters": {
+      "display_fridge": {
+        "type": "furn_str_id",
+        "default": { "distribution": [ [ "f_glass_fridge", 1 ], [ "f_glass_fridge_double", 1 ], [ "f_display_fridge", 1 ] ] }
+      }
+    },
     "terrain": {
       "│": "t_null",
       " ": "t_region_groundcover",
@@ -53,7 +59,7 @@
       "A": "f_trashcan",
       "D": "f_dumpster",
       "S": "f_sink",
-      "e": "f_fridge",
+      "e": { "param": "display_fridge", "fallback": "f_glass_fridge" },
       "O": "f_oven",
       "R": "f_utility_shelf",
       "0": "f_manual_tire_changer",

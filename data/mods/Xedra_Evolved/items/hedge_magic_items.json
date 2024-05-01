@@ -102,7 +102,6 @@
     "type": "TOOL_ARMOR",
     "name": "Faesight Charm",
     "description": "A small sack with herbs in it to warn you if the Fair Folk are nearby.  You had better wear it under your clothes.  You wouldn't want them to know you're avoiding them.  It's awaiting you to speak the final words of the charm and activate it.",
-    "rand_charges": [ 120, 240, 360 ],
     "turns_per_charge": 25,
     "ammo": "glamour_charge",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "glamour_charge": 360 } } ],
