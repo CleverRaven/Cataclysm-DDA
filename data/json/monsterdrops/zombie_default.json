@@ -209,14 +209,7 @@
       },
       {
         "distribution": [
-          {
-            "item": "cig",
-            "prob": 65,
-            "count-min": 0,
-            "count-max": 20,
-            "container-item": "null",
-            "entry-wrapper": "box_cigarette"
-          },
+          { "item": "cig", "prob": 65, "count": [ 0, 20 ], "container-item": "null", "entry-wrapper": "box_cigarette" },
           { "item": "chaw", "prob": 5 },
           { "item": "cigar", "prob": 5 },
           { "group": "pocket_cigar", "prob": 1 },
