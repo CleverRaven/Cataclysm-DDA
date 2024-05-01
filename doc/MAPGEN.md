@@ -1125,10 +1125,16 @@ sense in the nest.
 
 ### Apply mapgen transformation with "ter_furn_transforms"
 
-Run a `ter_furn_transform` at the specified location.  This is mostly useful for applying transformations as part of
-an `update_mapgen`, as normal mapgen can just specify the terrain directly.
+Run a [ter_furn_transform](doc/TER_FURN_TRANSFORM.md) at the specified location that can change existing fields, furniture, terrain or traps into another of the same type including null values.
 
 - "transform": (required, string) the id of the `ter_furn_transform` to run.
+
+#### "place_ter_furn_transforms"
+
+- "x": (required, int or array in the form `[ min, max ]`)
+- "y": (required, int or array in the form `[ min, max ]`)
+
+If one or both are arrays it will apply the transform to all locations in that range.
 
 ### Spawn nested chunks based on overmap neighbors with "place_nested"
 
