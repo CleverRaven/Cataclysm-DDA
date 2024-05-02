@@ -296,15 +296,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "to_hit": -1,
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "watertight": false,
-        "max_contains_volume": "2500 ml",
-        "max_contains_weight": "2 kg",
-        "moves": 200
-      }
-    ],
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "2500 ml", "max_contains_weight": "2 kg", "moves": 200 } ],
     "material": [ "paper" ],
     "symbol": ")",
     "color": "white",
@@ -323,15 +315,7 @@
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "to_hit": -2,
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "watertight": false,
-        "max_contains_volume": "10000 ml",
-        "max_contains_weight": "15 kg",
-        "moves": 200
-      }
-    ],
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "10000 ml", "max_contains_weight": "15 kg", "moves": 200 } ],
     "material": [ "paper" ],
     "symbol": ")",
     "color": "white",
@@ -1729,7 +1713,6 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
-        "watertight": false,
         "max_contains_volume": "600 ml",
         "max_contains_weight": "1 kg",
         "max_item_length": "45 mm"
@@ -3887,7 +3870,6 @@
         "max_contains_weight": "4000 g",
         "max_item_length": "20 cm",
         "moves": 100,
-        "rigid": false,
         "volume_encumber_modifier": 0.3
       }
     ],
@@ -4692,9 +4674,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "rigid": false,
         "watertight": true,
-        "open_container": false,
         "max_contains_volume": "299 ml",
         "max_contains_weight": "2500 g"
       }
@@ -4722,9 +4702,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "rigid": false,
         "watertight": true,
-        "open_container": false,
         "max_contains_volume": "82 ml",
         "max_contains_weight": "500 g"
       }
@@ -4842,16 +4820,7 @@
     "material": [ "plastic" ],
     "symbol": "l",
     "color": "green",
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "rigid": true,
-        "watertight": false,
-        "open_container": false,
-        "max_contains_volume": "1100 ml",
-        "max_contains_weight": "2 kg"
-      }
-    ],
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "1100 ml", "max_contains_weight": "2 kg" } ],
     "qualities": [ [ "CONTAIN", 1 ] ],
     "flags": [ "COLLAPSE_CONTENTS" ]
   },
@@ -4872,9 +4841,6 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "rigid": false,
-        "watertight": false,
-        "open_container": false,
         "max_contains_volume": "1000 ml",
         "max_contains_weight": "2 kg",
         "max_item_length": "20 cm"
