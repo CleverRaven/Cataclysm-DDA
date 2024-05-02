@@ -1180,8 +1180,9 @@ void place_construction( std::vector<construction_group_str_id> const &groups )
                 valid, mouse_pos, blink );
     g->add_draw_callback( draw_preview );
 
+    const tripoint_bub_ms &loc = player_character.pos_bub();
     const std::optional<tripoint_bub_ms> pnt_ = choose_adjacent(
-                player_character.pos_bub(), _( "Construct where?" ),
+                loc, _( "Construct where?" ),
                 /*allow_vertical=*/false, /*timeout=*/get_option<int>( "BLINK_SPEED" ),
     [&]( const input_context & ctxt, const std::string & action ) {
         if( action == "TIMEOUT" ) {
@@ -1192,7 +1193,9 @@ void place_construction( std::vector<construction_group_str_id> const &groups )
         if( action == "MOUSE_MOVE" ) {
             const std::optional<tripoint> mouse_pos_raw = ctxt.get_coordinates(
                         g->w_terrain, g->ter_view_p.xy(), true );
-            if( mouse_pos_raw.has_value() ) {
+            if( mouse_pos_raw.has_value() && mouse_pos_raw->z == loc.z()
+                && mouse_pos_raw->x >= loc.x() - 1 && mouse_pos_raw->x <= loc.x() + 1
+                && mouse_pos_raw->y >= loc.y() - 1 && mouse_pos_raw->y <= loc.y() + 1 ) {
                 mouse_pos = tripoint_bub_ms( *mouse_pos_raw );
             } else {
                 mouse_pos = std::nullopt;

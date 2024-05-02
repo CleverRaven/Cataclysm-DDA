@@ -1124,8 +1124,11 @@ std::optional<tripoint_rel_ms> choose_direction_rel_ms( const std::string &messa
     }
 
     static_popup popup;
-    //~ %s: "Close where?" "Pry where?" etc.
-    popup.message( _( "%s (Direction button)" ), message ).on_top( true );
+    popup.message( allow_mouse
+                   //~ %s: "Close where?" "Pry where?" etc.
+                   ? _( "%s (Direction button or mouse)" )
+                   //~ %s: "Close where?" "Pry where?" etc.
+                   : _( "%s (Direction button)" ), message ).on_top( true );
 
     temp_hide_advanced_inv();
     std::string action;
