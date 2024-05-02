@@ -37,9 +37,7 @@
         "2": { "chunks": [ "ls_ew_6x6hall_basic" ] },
         "3": { "chunks": [ "ls_ns_6x6hall_basic" ] }
       },
-      "computers": {
-        "Ç": { "name": "Exit Controls", "eocs": [ "EOC_LS_Computer" ], "chat_topics": [ "COMP_LS_Exit_Controls" ] }
-      }
+      "computers": { "Ç": { "name": "Exit Controls", "eocs": [ "EOC_LS_Computer" ], "chat_topics": [ "COMP_LS_Exit_Controls" ] } }
     }
   }
 ]

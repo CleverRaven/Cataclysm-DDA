@@ -2016,6 +2016,8 @@ FLDSMDFR
 flechette
 flechettes
 flensing
+fleshborg
+fleshborgs
 Fleshmender
 fleshmonger
 fleshwarp
@@ -4401,6 +4403,7 @@ Orleans
 Orley
 ornithomimid
 ornithomimus
+orobouros
 Orpheus
 Orphic
 Orson
@@ -5777,6 +5780,8 @@ Steyr
 STI
 Stig
 Stillwater
+stiltwalker
+stiltwalkers
 stim
 stimpack
 stims
