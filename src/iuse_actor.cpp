@@ -4864,17 +4864,30 @@ std::optional<int> link_up_actor::link_to_veh_app( Character *p, item &it,
     } else {
 
         // Connecting two vehicles together.
+        const bool using_power_cord = it.typeId() == itype_power_cord;
+        if( using_power_cord && it.link().t_veh->is_powergrid() && sel_vp->vehicle().is_powergrid() ) {
+            // If both vehicles are adjacent power grids, try to merge them together first.
+            const point prev_pos = here.bub_from_abs( it.link().t_veh->coord_translate( it.link().t_mount ) +
+                                   it.link().t_abs_pos ).xy().raw();
+            if( selection.xy().distance( prev_pos ) <= 1.5f &&
+                it.link().t_veh->merge_appliance_into_grid( sel_vp->vehicle() ) ) {
+                it.link().t_veh->part_removal_cleanup();
+                p->add_msg_if_player( _( "You merge the two power grids." ) );
+                return 1;
+            }
+            // Unable to merge, so connect them with a power cord instead.
+        }
         ret_val<void> result = it.link_to( sel_vp, to_ports ? link_state::vehicle_port :
                                            link_state::vehicle_battery );
         if( !result.success() ) {
             p->add_msg_if_player( m_bad, result.str() );
             return 0;
         }
-        if( p->has_item( it ) ) {
+        if( using_power_cord || p->has_item( it ) ) {
             p->add_msg_if_player( m_good, result.str() );
         }
 
-        if( it.typeId() != itype_power_cord ) {
+        if( using_power_cord ) {
             // Remove linked_flag from attached parts - the just-added cable vehicle parts do the same thing.
             it.reset_link( true, p );
         }
