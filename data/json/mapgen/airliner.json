@@ -430,7 +430,7 @@
     "type": "item_group",
     "subtype": "collection",
     "entries": [
-      { "group": "allclothes", "count-min": 3, "count-max": 7 },
+      { "group": "allclothes", "count": [ 3, 7 ] },
       { "group": "shoes", "prob": 30 },
       { "group": "glasses", "prob": 10 },
       { "group": "magazines", "prob": 10 },
@@ -443,12 +443,9 @@
     "subtype": "collection",
     "items": [
       { "item": "crash_axe" },
-      {
-        "collection": [ { "item": "flaregun" }, { "item": "signal_flare", "count-min": 1, "count-max": 2 } ],
-        "prob": 40
-      },
+      { "collection": [ { "item": "flaregun" }, { "item": "signal_flare", "count": [ 1, 2 ] } ], "prob": 40 },
       { "group": "full_1st_aid", "prob": 40 },
-      { "item": "handflare", "count-min": 1, "count-max": 3, "prob": 30, "charges": 300 },
+      { "item": "handflare", "count": [ 1, 3 ], "prob": 30, "charges": 300 },
       { "item": "sm_extinguisher", "prob": 75 }
     ]
   },
@@ -458,7 +455,7 @@
     "subtype": "collection",
     "items": [
       { "group": "full_1st_aid", "prob": 40 },
-      { "item": "handflare", "count-min": 1, "count-max": 3, "prob": 30, "charges": 300 },
+      { "item": "handflare", "count": [ 1, 3 ], "prob": 30, "charges": 300 },
       { "item": "sm_extinguisher", "prob": 75 }
     ]
   },

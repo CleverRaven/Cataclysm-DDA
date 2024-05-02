@@ -269,7 +269,8 @@
           }
         ]
       }
-    ]
+    ],
+    "flags": [ "TOUGH_FEET" ]
   },
   {
     "type": "effect_type",
@@ -848,6 +849,26 @@
       "snow_glare",
       "venom_blind"
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_clair_astral_projection",
+    "name": [ "Astrally Projecting" ],
+    "desc": [ "Your spirit wanders the world." ],
+    "apply_message": "",
+    "remove_message": "",
+    "rating": "good",
+    "base_mods": { "stamina_min": [ -50 ], "stamina_chance": [ 1 ] },
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MOVE_COST", "multiply": -0.96 },
+          { "value": "EVASION", "add": 1 },
+          { "value": "REGEN_STAMINA", "multiply": -1 }
+        ]
+      }
+    ],
+    "flags": [ "ETHEREAL", "INVISIBLE", "FEATHER_FALL", "CLIMB_NO_LADDER", "LEVITATION", "NO_PSIONICS" ]
   },
   {
     "type": "effect_type",
@@ -1670,6 +1691,13 @@
     "show_in_info": true,
     "base_mods": { "speed_mod": [ -30 ], "dodge_mod": [ -2 ], "hit_mod": [ -2 ], "bash_mod": [ -8 ] },
     "immune_flags": [ "TEEPSHIELD", "TEEP_IMMUNE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_telepath_primal_terror_attitude_modified",
+    "//": "A tracker effect to prevent the target's morale or fear from being modified more than once in a period of time",
+    "name": [ "" ],
+    "desc": [ "" ]
   },
   {
     "type": "effect_type",

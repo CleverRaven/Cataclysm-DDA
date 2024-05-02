@@ -3,31 +3,29 @@
     "type": "talk_topic",
     "id": "TALK_NPC_LUMBERMILL_LOGGER",
     "dynamic_line": {
-      "npc_has_var": "talked_to_logger",
-      "type": "dialogue",
-      "context": "first_meeting",
+      "npc_has_var": "dialogue_first_meeting_talked_to_logger",
       "value": "yes",
       "yes": "Hello there.  Nice to see you, <name_g>.",
       "no": "A stranger out here?  Who are you?"
     },
-    "speaker_effect": { "effect": { "npc_add_var": "talked_to_logger", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
+    "speaker_effect": { "effect": { "npc_add_var": "dialogue_first_meeting_talked_to_logger", "value": "yes" } },
     "responses": [
       {
         "text": "Nice to meet you.",
         "topic": "TALK_NPC_LUMBERMILL_LOGGER_INTRO",
-        "condition": { "not": { "npc_has_var": "talked_to_logger", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+        "condition": { "not": { "npc_has_var": "dialogue_first_meeting_talked_to_logger", "value": "yes" } }
       },
       {
         "text": "Hands up, <name_b>!",
         "trial": { "type": "INTIMIDATE", "difficulty": 30 },
         "success": { "topic": "TALK_WEAPON_DROPPED", "effect": "drop_weapon", "opinion": { "trust": -4, "fear": 3 } },
         "failure": { "topic": "TALK_DONE", "effect": "hostile" },
-        "condition": { "not": { "npc_has_var": "talked_to_logger", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+        "condition": { "not": { "npc_has_var": "dialogue_first_meeting_talked_to_logger", "value": "yes" } }
       },
       {
         "text": "Pleasure to see you again.",
         "topic": "TALK_NPC_LUMBERMILL_LOGGER_INTRO",
-        "condition": { "npc_has_var": "talked_to_logger", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+        "condition": { "npc_has_var": "dialogue_first_meeting_talked_to_logger", "value": "yes" }
       },
       { "text": "See ya.", "topic": "TALK_DONE" }
     ]
@@ -44,9 +42,20 @@
         "condition": {
           "and": [
             { "math": [ "n_val('npc_trust')", ">=", "2" ] },
-            { "npc_has_var": "talked_to_logger", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+            { "npc_has_var": "dialogue_first_meeting_talked_to_logger", "value": "yes" }
           ]
         }
+      },
+      {
+        "text": "I'm looking for a specific, strange building.  I wonder if you've heard anything about it?",
+        "topic": "TALK_NPC_LUMBERMILL_LOGGER_MISSION_WAREHOUSE",
+        "condition": {
+          "and": [
+            { "u_has_mission": "EXODII_MISSION_WAREHOUSE" },
+            { "not": { "npc_has_var": "asked_about_exodii_warehouse_mission", "value": "yes" } }
+          ]
+        },
+        "effect": { "run_eocs": [ "EOC_exodii_mission_wh_directions_chance" ] }
       },
       { "text": "How do things work around here now?", "topic": "TALK_NPC_LUMBERMILL_LOGGER_TALK_TO_MANAGER" },
       {
@@ -55,6 +64,34 @@
         "topic": "TALK_MISSION_LIST"
       },
       { "text": "Nah, see ya.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_LUMBERMILL_LOGGER_MISSION_WAREHOUSE",
+    "dynamic_line": {
+      "concatenate": [
+        "&You describe the warehouse to the best of your ability.  The logger considers for a moment",
+        {
+          "npc_has_var": "exodii_mission_wh_correct",
+          "value": "no",
+          "yes": ", then frowns.  \"I think I'd remember something like that, no.  Sorry.\"",
+          "no": ", looking thoughtful.  \"You know, around the time things really went bad, I remember a really awful portal storm.  A while later, I saw something like that in the distance.  Could be what you're talking about.\""
+        }
+      ]
+    },
+    "speaker_effect": { "effect": { "npc_add_var": "asked_about_exodii_warehouse_mission", "value": "yes" } },
+    "responses": [
+      {
+        "//": "The other responses are stored in common_talk.json in the exodii folder, to avoid repetition.",
+        "text": "Oh well.  Thanks anyway.  I'll go ask around.",
+        "topic": "TALK_DONE",
+        "condition": { "npc_has_var": "exodii_mission_wh_correct", "value": "no" },
+        "effect": [
+          { "math": [ "exodii_mission_wh_chance", "-=", "1" ] },
+          { "math": [ "exodii_mission_wh_chance", "=", "max( exodii_mission_wh_chance, 1 )" ] }
+        ]
+      }
     ]
   },
   {

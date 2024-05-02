@@ -3,9 +3,7 @@
     "type": "talk_topic",
     "id": "TALK_TECHNO_KID",
     "dynamic_line": {
-      "u_has_var": "talked_to_techno_kid",
-      "type": "dialogue",
-      "context": "techno_kid",
+      "u_has_var": "dialogue_techno_kid_talked_to_techno_kid",
       "value": "yes",
       "no": "Do you seek power as well?",
       "yes": "Ah, hello again."
@@ -14,7 +12,7 @@
       {
         "text": "Hey <name_g>.",
         "topic": "TALK_TECHNO_KID_INTRO",
-        "effect": { "u_add_var": "talked_to_techno_kid", "type": "dialogue", "context": "techno_kid", "value": "yes" }
+        "effect": { "u_add_var": "dialogue_techno_kid_talked_to_techno_kid", "value": "yes" }
       },
       { "text": "Wanna get outta here?", "topic": "TALK_SUGGEST_FOLLOW" },
       { "text": "Let's trade items.", "topic": "TALK_TECHNO_KID", "effect": "start_trade" },

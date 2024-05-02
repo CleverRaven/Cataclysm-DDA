@@ -208,6 +208,7 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_CONSOLE: return "CONSOLE";
         case ter_furn_flag::TFLAG_PLANTABLE: return "PLANTABLE";
         case ter_furn_flag::TFLAG_GROWTH_HARVEST: return "GROWTH_HARVEST";
+        case ter_furn_flag::TFLAG_GROWTH_OVERGROWN: return "GROWTH_OVERGROWN";
         case ter_furn_flag::TFLAG_MOUNTABLE: return "MOUNTABLE";
         case ter_furn_flag::TFLAG_RAMP_END: return "RAMP_END";
         case ter_furn_flag::TFLAG_FLOWER: return "FLOWER";
