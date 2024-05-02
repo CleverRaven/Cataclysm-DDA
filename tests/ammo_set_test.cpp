@@ -295,7 +295,7 @@ TEST_CASE( "ammo_set_items_with_MAGAZINE_WELL_pockets_without_magazine",
 {
     GIVEN( "CZ 75 B 9mm gun w/o magazine" ) {
         item cz75( "cz75" );
-        itype_id cz75mag_12rd_id( "cz75mag_12rd" );
+        itype_id cz75mag_16rd_id( "cz75mag_16rd" );
         itype_id cz75mag_20rd_id( "cz75mag_20rd" );
         itype_id cz75mag_26rd_id( "cz75mag_26rd" );
         itype_id ammo9mm_id( "9mm" );
@@ -303,22 +303,22 @@ TEST_CASE( "ammo_set_items_with_MAGAZINE_WELL_pockets_without_magazine",
         REQUIRE_FALSE( cz75.is_magazine() );
         REQUIRE( cz75.magazine_current() == nullptr );
         REQUIRE( cz75.magazine_compatible().size() == 3 );
-        REQUIRE( cz75.magazine_compatible().count( cz75mag_12rd_id ) == 1 );
+        REQUIRE( cz75.magazine_compatible().count( cz75mag_16rd_id ) == 1 );
         REQUIRE( cz75.magazine_compatible().count( cz75mag_20rd_id ) == 1 );
         REQUIRE( cz75.magazine_compatible().count( cz75mag_26rd_id ) == 1 );
-        REQUIRE( cz75.magazine_default().str() == cz75mag_12rd_id.str() );
+        REQUIRE( cz75.magazine_default().str() == cz75mag_16rd_id.str() );
         const ammotype &amtype = ammo9mm_id->ammo->type;
         REQUIRE( cz75.ammo_capacity( amtype ) == 0 );
         REQUIRE( !cz75.ammo_default().is_null() );
         REQUIRE( cz75.magazine_default()->magazine->default_ammo.str() == ammo9mm_id.str() );
         WHEN( "set 9mm ammo in the gun w/o magazine w/o quantity" ) {
             cz75.ammo_set( ammo9mm_id );
-            THEN( "gun with new cz75mag_12rd magazine has 12 rounds of 9mm" ) {
-                CHECK( cz75.ammo_remaining() == 12 );
+            THEN( "gun with cz75mag_16rd magazine has 16 rounds of 9mm" ) {
+                CHECK( cz75.ammo_remaining() == 16 );
                 CHECK( cz75.ammo_current().str() == ammo9mm_id.str() );
                 REQUIRE( cz75.magazine_current() != nullptr );
-                CHECK( cz75.magazine_current()->typeId().str() == cz75mag_12rd_id.str() );
-                CHECK( cz75.magazine_current()->ammo_remaining() == 12 );
+                CHECK( cz75.magazine_current()->typeId().str() == cz75mag_16rd_id.str() );
+                CHECK( cz75.magazine_current()->ammo_remaining() == 16 );
                 CHECK( cz75.magazine_current()->ammo_current().str() == ammo9mm_id.str() );
             }
         }
