@@ -128,15 +128,15 @@
       ]
     },
     "effect": [
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'BIOKINETIC')", "=", "1" ] },
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'CLAIRSENTIENT')", "=", "1" ] },
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'ELECTROKINETIC')", "=", "1" ] },
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'PHOTOKINETIC')", "=", "1" ] },
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'PYROKINETIC')", "=", "1" ] },
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEKINETIC')", "=", "1" ] },
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEPATH')", "=", "1" ] },
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEPORTER')", "=", "1" ] },
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'VITAKINETIC')", "=", "1" ] }
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'BIOKINETIC')", "=", "2" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'CLAIRSENTIENT')", "=", "2" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'ELECTROKINETIC')", "=", "2" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'PHOTOKINETIC')", "=", "2" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'PYROKINETIC')", "=", "2" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEKINETIC')", "=", "2" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEPATH')", "=", "2" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEPORTER')", "=", "2" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'VITAKINETIC')", "=", "2" ] }
     ]
   },
   {
@@ -163,15 +163,15 @@
       ]
     },
     "effect": [
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'BIOKINETIC')", "=", "3" ] },
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'CLAIRSENTIENT')", "=", "3" ] },
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'ELECTROKINETIC')", "=", "3" ] },
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'PHOTOKINETIC')", "=", "3" ] },
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'PYROKINETIC')", "=", "3" ] },
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEKINETIC')", "=", "3" ] },
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEPATH')", "=", "3" ] },
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEPORTER')", "=", "3" ] },
-      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'VITAKINETIC')", "=", "3" ] }
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'BIOKINETIC')", "=", "4" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'CLAIRSENTIENT')", "=", "4" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'ELECTROKINETIC')", "=", "4" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'PHOTOKINETIC')", "=", "4" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'PYROKINETIC')", "=", "4" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEKINETIC')", "=", "4" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEPATH')", "=", "4" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'TELEPORTER')", "=", "4" ] },
+      { "math": [ "u_spellcasting_adjustment('caster_level', 'school': 'VITAKINETIC')", "=", "4" ] }
     ]
   },
   {
