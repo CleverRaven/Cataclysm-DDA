@@ -1467,5 +1467,16 @@
       { "math": [ "u_using_appropriate_matrix_crystal_for_dissipation", "=", "0" ] }
     ],
     "false_effect": [ { "math": [ "u_using_appropriate_matrix_crystal_for_dissipation", "=", "0" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONCENTRATION_IN_NETHER_AREAS_ATTUNEMENT",
+    "condition": {
+      "or": [
+        { "test_eoc": "EOC_CONDITION_NEAR_NETHER_RELATED_LOCATION" },
+        { "test_eoc": "EOC_CONDITION_YOU_ARE_IN_NETHER_LOCATION" }
+      ]
+    },
+    "effect": [ { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(2) + 1" ] } ]
   }
 ]
