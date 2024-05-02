@@ -14,24 +14,24 @@ clothing         | included?         | Corpses with no clothes would be weird?
 food             | included          |
 drugs            | included          |
 manuals          | included          |
-books            | included?         | Are these just for fun books?
+books            | included?         | Small category of mostly fluff items.
 maps             | excluded?         | The reduced working vehicles/fuel etc mean reducing maps would just be overkill.
 mods             | included          |
-mutagen          | excluded          | Mutagen is already a rare reward
-bionics          | excluded          | Bionics are already a rare reward
-currency         | excluded          | Currency is nigh useless anyway
+mutagen          | excluded          | Mutagen is already a rare reward.
+bionics          | excluded          | Bionics are already a rare reward.
+currency         | excluded          | Currency is nigh useless anyway.
 veh_parts        | included          |
-other            | ???               | Need to look at what kind of things come under this
+other            | included?         | Couldn't find much of note in this category despite it's size.
 fuel             | included          |
-seeds            | excluded          | Seeds are nigh useless anyway
-ma_manuals       | excluded?         | Martial art manuals are already rare
+seeds            | excluded          | Seeds are nigh useless anyway.
+ma_manuals       | excluded?         | Martial art manuals are already rare, I think making dojos more dangerous would be better.
 traps            | excluded          |
-chems            | ???               | Need to look at what kind of things come under this
-spare_parts      | ???               | Need to look at what kind of things come under this
+chems            | excluded          | These are either rare already or not really useful to the player as far as I can see.
+spare_parts      | included?         | This category is very broad but notably includes basic crafting ingredients and vehicle components that should be affected.
 container        | excluded          | I'm not 100% on whether removing containers removes their contents or spills them but either way doesn't seem ideal. Finding lots of empty containers fits the theme.
-artifacts        | excluded          | Artifacts are already a rare reward
-keys             | excluded          | I think these are key items and so shouldn't be reduced (although quest items can be explicitly flagged to always spawn)
+artifacts        | excluded          | Artifacts are already a rare reward.
+keys             | excluded?         | These are just id cards and are already reasonably rare and usually offer risk/reward.
 corpses          | excluded          |
-tool_magazine    | excluded          |
+tool_magazine    | included          |
 armor            | included          |
-exosuit          | excluded          | Exosuits are already a rare reward
+exosuit          | excluded          | Exosuits are already a rare reward.

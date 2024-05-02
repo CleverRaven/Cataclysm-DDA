@@ -77,7 +77,8 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_NH_item_difficulty_0",
-    "//": "TODO: Add variance to the rates to make it more tailored than just a flat decrease",
+    "//": "Purposefully doesn't affect all item categories, see EOCS.md",
+    "//1": "TODO: Add variance to the rates to make it more tailored than just a flat decrease",
     "effect": [
       {
         "set_item_category_spawn_rates": [
@@ -93,7 +94,10 @@
           { "spawn_rate": 0.6, "id": "books" },
           { "spawn_rate": 0.6, "id": "mods" },
           { "spawn_rate": 0.6, "id": "veh_parts" },
+          { "spawn_rate": 0.6, "id": "other" },
           { "spawn_rate": 0.6, "id": "fuel" },
+          { "spawn_rate": 0.6, "id": "spare_parts" },
+          { "spawn_rate": 0.6, "id": "tool_magazine" },
           { "spawn_rate": 0.6, "id": "armor" }
         ]
       }
@@ -119,7 +123,10 @@
           { "spawn_rate": 0.4, "id": "books" },
           { "spawn_rate": 0.4, "id": "mods" },
           { "spawn_rate": 0.4, "id": "veh_parts" },
+          { "spawn_rate": 0.4, "id": "other" },
           { "spawn_rate": 0.4, "id": "fuel" },
+          { "spawn_rate": 0.4, "id": "spare_parts" },
+          { "spawn_rate": 0.4, "id": "tool_magazine" },
           { "spawn_rate": 0.4, "id": "armor" }
         ]
       },
@@ -144,7 +151,10 @@
           { "spawn_rate": 0.2, "id": "books" },
           { "spawn_rate": 0.2, "id": "mods" },
           { "spawn_rate": 0.2, "id": "veh_parts" },
+          { "spawn_rate": 0.2, "id": "other" },
           { "spawn_rate": 0.2, "id": "fuel" },
+          { "spawn_rate": 0.2, "id": "spare_parts" },
+          { "spawn_rate": 0.2, "id": "tool_magazine" },
           { "spawn_rate": 0.2, "id": "armor" }
         ]
       }
