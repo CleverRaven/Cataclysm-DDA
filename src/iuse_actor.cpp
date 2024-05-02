@@ -443,7 +443,8 @@ void iuse_transform::info( const item &it, std::vector<iteminfo> &dump ) const
     if( it.has_flag( flag_FIT ) ) {
         dummy.set_flag( flag_FIT );
     }
-    dump.emplace_back( "TOOL", string_format( _( "<bold>Turns into</bold>: %dge %s",  ),
+    dump.emplace_back( "TOOL", _( "<bold>Turns into</bold>: "),
+                       string_format( _( "%d %s" ),
                        amount, dummy.tname() ) );
 
     if( target_timer > 0_seconds ) {
