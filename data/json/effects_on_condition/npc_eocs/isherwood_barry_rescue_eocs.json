@@ -3,11 +3,13 @@
     "type": "effect_on_condition",
     "id": "isherwood_mission_initialization_eoc",
     "effect": [
+      { "u_location_variable": { "u_val": "mission_return_position" } },
       {
         "if": { "math": [ "isherwood_family_coming", "==", "1" ] },
-        "then": {
-          "run_eocs": [ "isherwood_mission_family_included_eoc", "isherwood_mission_chris_spawn_eoc", "isherwood_mission_lisa_spawn_eoc" ]
-        },
+        "then": [
+          { "run_eocs": [ "isherwood_mission_family_included_eoc", "isherwood_mission_set_teleport_position" ] },
+          { "math": [ "currently_invading_map", "=", "1" ] }
+        ],
         "else": {
           "if": { "math": [ "isherwood_family_coming", "!=", "1" ] },
           "then": [
@@ -16,7 +18,9 @@
               "target_params": { "om_terrain": "barry_mi-go_scout_tower_1", "search_range": 500, "z": 0 }
             },
             { "u_teleport": { "global_val": "invasion_map" }, "force": true },
-            { "run_eocs": [ "isherwood_mission_chris_spawn_eoc", "isherwood_mission_lisa_spawn_eoc" ] }
+            { "run_eocs": [ "isherwood_mission_chris_spawn_eoc", "isherwood_mission_lisa_spawn_eoc" ] },
+            { "u_teleport": { "u_val": "mission_return_position" }, "force": true },
+            { "math": [ "is_isherwood_flee_eoc_activated", "=", "0" ] }
           ]
         }
       }
@@ -97,6 +101,7 @@
           }
         ]
       },
+      { "run_eocs": [ "isherwood_mission_chris_spawn_eoc", "isherwood_mission_lisa_spawn_eoc" ] },
       {
         "u_location_variable": { "global_val": "invasion_map_proper_place" },
         "terrain": "t_dirt_isherwood_player_spawnpoint",
@@ -161,6 +166,36 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "isherwood_mission_large_damage_retreat",
+    "eoc_type": "EVENT",
+    "required_event": "character_takes_damage",
+    "//": "I cant get this one to work right now, and I have no idea what's wrong.  It will need to be fixed.",
+    "condition": { "and": [ { "math": [ "currently_invading_map", "==", "1" ] } ] },
+    "effect": [
+      {
+        "if": { "math": [ "isherwood_family_coming", "==", "1" ] },
+        "then": {
+          "u_run_npc_eocs": [
+            {
+              "id": "EOC_ISHERWOODS_TOO_MUCH_DAMAGE_FLEE",
+              "condition": { "math": [ "u_hp('ALL')", "<=", "(u_hp_max('bp_null') * 0.7)" ] },
+              "effect": [
+                { "u_teleport": { "global_val": "_teleport_pos" }, "force": true },
+                {
+                  "mapgen_update": "isherwood_rescue_remove_npcs",
+                  "om_terrain": "rural_road",
+                  "om_special": "Barry's Mi-Go Scout Tower"
+                }
+              ]
+            }
+          ],
+          "unique_ids": [ "CHRIS_MISSION", "LISA_MISSION", "CARLOS_MISSION", "EDDIE_MISSION", "LUKE_MISSION", "JESSE_MISSION" ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "isherwood_mission_player_leaves_map",
     "global": true,
     "eoc_type": "EVENT",
@@ -178,31 +213,73 @@
         "type": "bad",
         "popup": true
       },
-      { "math": [ "currently_invading_map", "=", "0" ] },
-      { "math": [ "is_isherwood_flee_eoc_activated", "=", "0" ] },
-      {
-        "if": { "math": [ "isherwood_family_coming", "==", "1" ] },
-        "then": { "mapgen_update": "isherwood_rescue_remove_npcs", "om_terrain": "rural_road" }
-      },
       {
         "u_run_npc_eocs": [
           {
-            "id": "EOC_PLAYER_FLEES_ISHERWOODS",
+            "id": "EOC_ISHERWOODS_PLAYER_LEAVE_FLEE",
             "effect": [
+              { "u_teleport": { "global_val": "_teleport_pos" }, "force": true },
               {
-                "u_location_variable": { "global_val": "invasion_map" },
-                "target_params": { "om_terrain": "barry_mi-go_scout_tower_1", "search_range": 500, "z": 0 }
-              },
-              { "u_teleport": { "global_val": "invasion_map" }, "force": true },
-              {
-                "mapgen_update": "remove_barry_and_company",
-                "om_terrain": "barry_mi-go_scout_tower_1",
+                "mapgen_update": "isherwood_rescue_remove_npcs",
+                "om_terrain": "rural_road",
                 "om_special": "Barry's Mi-Go Scout Tower"
               }
             ]
           }
         ],
-        "unique_ids": [ "CHRIS_MISSION", "LISA_MISSION" ]
+        "unique_ids": [ "CHRIS_MISSION", "LISA_MISSION", "CARLOS_MISSION", "EDDIE_MISSION", "LUKE_MISSION", "JESSE_MISSION" ]
+      },
+      { "math": [ "currently_invading_map", "=", "0" ] },
+      { "math": [ "is_isherwood_flee_eoc_activated", "=", "0" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "isherwood_mission_set_teleport_position",
+    "effect": [
+      {
+        "u_run_npc_eocs": [
+          {
+            "id": "isherwood_mission_set_teleport_position_effect",
+            "effect": { "u_location_variable": { "global_val": "_teleport_pos" }, "unique_id": true }
+          }
+        ],
+        "unique_ids": [ "CHRIS_MISSION", "LISA_MISSION", "CARLOS_MISSION", "EDDIE_MISSION", "LUKE_MISSION", "JESSE_MISSION" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "isherwood_mission_remove_all_isherwoods",
+    "effect": [
+      {
+        "u_run_npc_eocs": [
+          { "id": "EOC_ISHERWOODS_TELEPORT_ALL", "effect": [ { "u_teleport": { "global_val": "invasion_map" }, "force": true } ] }
+        ],
+        "unique_ids": [ "CHRIS_MISSION", "LISA_MISSION", "CARLOS_MISSION", "EDDIE_MISSION", "LUKE_MISSION", "JESSE_MISSION" ]
+      },
+      {
+        "if": { "math": [ "isherwood_family_coming", "==", "1" ] },
+        "then": { "mapgen_update": "isherwood_rescue_remove_npcs", "om_terrain": "rural_road" }
+      },
+      {
+        "mapgen_update": "isherwood_rescue_remove_npcs",
+        "om_terrain": "barry_mi-go_scout_tower_1",
+        "om_special": "Barry's Mi-Go Scout Tower"
+      },
+      { "math": [ "currently_invading_map", "=", "0" ] },
+      { "math": [ "is_isherwood_flee_eoc_activated", "=", "0" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "isherwood_mission_damage_flee_message",
+    "global": true,
+    "effect": [
+      {
+        "u_message": "It's too hairy out here, we've got to go!  Meet us back home and regroup!",
+        "type": "bad",
+        "popup": true
       }
     ]
   },

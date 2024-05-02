@@ -65,7 +65,11 @@
       {
         "text": "Do you think we're ready to try this again?",
         "condition": {
-          "and": [ { "math": [ "isherwood_family_coming", "==", "0" ] }, { "math": [ "isherwood_barry_rescued", "!=", "1" ] } ]
+          "and": [
+            { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" },
+            { "math": [ "isherwood_family_coming", "==", "0" ] },
+            { "math": [ "isherwood_barry_rescued", "!=", "1" ] }
+          ]
         },
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_CHRIS_JOINS"
       },
