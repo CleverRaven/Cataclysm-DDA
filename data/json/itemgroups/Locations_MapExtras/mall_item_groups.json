@@ -166,7 +166,7 @@
       [ "knife_KABAR", 35 ],
       { "item": "knife_combat_army", "variant": "akbayonet", "prob": 10, "entry-wrapper": "sheath" },
       { "group": "infantry_knives", "prob": 5 },
-      { "item": "throwing_knife", "count-min": 1, "count-max": 6, "entry-wrapper": "leg_sheath6", "prob": 5 },
+      { "item": "throwing_knife", "count": [ 1, 6 ], "entry-wrapper": "leg_sheath6", "prob": 5 },
       [ "throwing_knife", 10 ],
       [ "pockknife", 50 ],
       [ "punch_dagger", 10 ],

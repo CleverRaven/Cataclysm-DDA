@@ -561,5 +561,29 @@
     "flags": [ "EDIBLE_FROZEN" ],
     "vitamins": [ [ "iron", 2 ] ],
     "fun": -10
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "coqauvin",
+    "looks_like": "soup_dumplings",
+    "name": { "str_sp": "coq au vin" },
+    "weight": "263 g",
+    "color": "light_gray",
+    "spoils_in": "3 days",
+    "comestible_type": "DRINK",
+    "symbol": "~",
+    "quench": 8,
+    "calories": 580,
+    "description": "Frenchy chicken stew braised with red wine.",
+    "price": 500,
+    "price_postapoc": 100,
+    "material": [ "flesh", "veggy" ],
+    "primary_material": "flesh",
+    "volume": "500 ml",
+    "charges": 2,
+    "phase": "liquid",
+    "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
+    "vitamins": [ [ "vitC", "7 mg" ], [ "iron", "23 mg" ] ],
+    "fun": 16
   }
 ]

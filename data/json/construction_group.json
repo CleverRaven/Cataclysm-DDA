@@ -1978,5 +1978,15 @@
     "type": "construction_group",
     "id": "place_piano",
     "name": "Place Piano"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_scaffolding",
+    "name": "Place Scaffolding"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_scaffolding",
+    "name": "Remove Scaffolding"
   }
 ]

@@ -21,6 +21,13 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "afs_eoc_blood_brain_heal",
+    "eoc_type": "PREVENT_DEATH",
+    "condition": { "u_has_bionics": "afs_bio_blood_brain" },
+    "effect": [ { "math": [ "u_hp('head')", "=", "1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "afs_eoc_chembaseline",
     "effect": [
       { "u_lose_effect": "decreased_performance" },
