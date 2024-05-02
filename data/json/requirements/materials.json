@@ -560,6 +560,57 @@
     "components": [ [ [ "wax", 1 ], [ "wax_paraffin", 1 ] ] ]
   },
   {
+    "id": "plastic_bottles_any",
+    "type": "requirement",
+    "//": "Any plastic bottle, no matter of it's size.",
+    "components": [
+      [
+        [ "jug_plastic", 1 ],
+        [ "bottle_twoliter", 1 ],
+        [ "bottle_plastic", 1 ],
+        [ "bottle_folding", 1 ],
+        [ "bottle_bathroom", 1 ],
+        [ "bottle_plastic_seasoning", 1 ],
+        [ "bottle_plastic_small", 1 ],
+        [ "bottle_plastic_seasoning_small", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "plastic_bottles_4l",
+    "type": "requirement",
+    "//": "Any plastic bottle, four liter of volume in total.",
+    "components": [ [ [ "jug_plastic", 2 ], [ "plastic_bottles_2l", 2, "LIST" ] ] ]
+  },
+  {
+    "id": "plastic_bottles_2l",
+    "type": "requirement",
+    "//": "Any plastic bottle, two liter of volume in total.",
+    "components": [ [ [ "bottle_twoliter", 1 ], [ "plastic_bottles_1l", 2, "LIST" ] ] ]
+  },
+  {
+    "id": "plastic_bottles_1l",
+    "type": "requirement",
+    "//": "Any plastic bottle, one liter of volume in total.",
+    "//2": "apparently we have no 1 L bottles in the game (yet)",
+    "components": [ [ [ "plastic_bottles_05l", 2, "LIST" ] ] ]
+  },
+  {
+    "id": "plastic_bottles_05l",
+    "type": "requirement",
+    "//": "Any plastic bottle, 0.5 liter of volume in total.",
+    "components": [
+      [
+        [ "bottle_plastic", 1 ],
+        [ "bottle_folding", 1 ],
+        [ "bottle_bathroom", 1 ],
+        [ "bottle_plastic_seasoning", 1 ],
+        [ "bottle_plastic_small", 2 ],
+        [ "bottle_plastic_seasoning_small", 2 ]
+      ]
+    ]
+  },
+  {
     "id": "plain_necklaces",
     "type": "requirement",
     "//": "For jewelry crafts that require a plain necklace as a base. Anything with a pendent already attached shouldn’t be considered here.",

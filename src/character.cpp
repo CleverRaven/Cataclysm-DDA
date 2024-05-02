@@ -457,7 +457,6 @@ static const trait_id trait_NOMAD( "NOMAD" );
 static const trait_id trait_NOMAD2( "NOMAD2" );
 static const trait_id trait_NOMAD3( "NOMAD3" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
-static const trait_id trait_PADDED_FEET( "PADDED_FEET" );
 static const trait_id trait_PARAIMMUNE( "PARAIMMUNE" );
 static const trait_id trait_PAWS( "PAWS" );
 static const trait_id trait_PAWS_LARGE( "PAWS_LARGE" );
@@ -10318,14 +10317,6 @@ std::vector<run_cost_effect> Character::run_cost_effects( float &movecost ) cons
         float flatground_mult = enchantment_cache->modify_value( enchant_vals::mod::MOVECOST_FLATGROUND_MOD,
                                 1 );
         run_cost_effect_mul( flatground_mult, _( "Flat Ground Mut." ) );
-    }
-
-    if( has_trait( trait_PADDED_FEET ) && is_barefoot() ) {
-        run_cost_effect_mul( 0.9f, _( "Bare Padded Feet" ) );
-    }
-
-    if( worn_with_flag( flag_SLOWS_MOVEMENT ) ) {
-        run_cost_effect_mul( 1.1f, _( "Tight Clothing" ) );
     }
 
     if( worn_with_flag( flag_FIN ) ) {

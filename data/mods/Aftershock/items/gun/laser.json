@@ -72,7 +72,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "ammo_effects": [ "LASER", "INCENDIARY" ],
+    "ammo_effects": [ "LASER", "IGNITE" ],
     "flags": [ "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "USE_UPS" ],
     "melee_damage": { "bash": 4 }
   },
@@ -168,7 +168,7 @@
     "overheat_threshold": 150,
     "modes": [ [ "DEFAULT", "pulse", 1 ], [ "BURST", "2s sequence", 2 ] ],
     "ammo_to_fire": 0,
-    "ammo_effects": [ "INCENDIARY", "DAZZLE_BEAM", "PLASMA_BUBBLE" ],
+    "ammo_effects": [ "IGNITE", "DAZZLE_BEAM", "PLASMA_BUBBLE" ],
     "delete": { "flags": [ "NO_UNLOAD", "NO_RELOAD" ] },
     "energy_drain": "30 kJ",
     "built_in_mods": [ "afs_holo_aim_assist" ],

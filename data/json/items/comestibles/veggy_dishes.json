@@ -1013,6 +1013,47 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "veggy_pickled_fried",
+    "copy-from": "veggy_pickled",
+    "name": { "str": "fried pickled veggy", "str_pl": "fried pickled veggies" },
+    "description": "A serving of fried pickled vegetables, tangy with a crunchy golden-brown coating.",
+    "conditional_names": [
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "veggy_pickled_broccoli", "name": { "str_sp": "%s, broccoli" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "veggy_pickled_carrot", "name": { "str_sp": "%s, carrot" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "veggy_pickled_corn", "name": { "str_sp": "%s, corn" } },
+      {
+        "type": "COMPONENT_ID_SUBSTRING",
+        "condition": "veggy_pickled_cucumber",
+        "name": { "str_sp": "%s, cucumber" }
+      },
+      { "type": "COMPONENT_ID", "condition": "veggy_pickled_garlic_clove", "name": { "str_sp": "%s, garlic clove" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "veggy_pickled_groundnut_prepared",
+        "name": { "str_sp": "%s, ground nuts" }
+      },
+      { "type": "COMPONENT_ID", "condition": "veggy_pickled_mushroom", "name": { "str_sp": "%s, mushroom" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "veggy_pickled_onion", "name": { "str_sp": "%s, onion" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "veggy_pickled_potato", "name": { "str_sp": "%s, potato" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "veggy_pickled_tomato", "name": { "str_sp": "%s, tomato" } },
+      { "type": "COMPONENT_ID", "condition": "veggy_pickled_veggy", "name": { "str_sp": "%s, plant marrow" } },
+      { "type": "COMPONENT_ID", "condition": "veggy_pickled_veggy_wild", "name": { "str_sp": "%s, wild vegetables" } },
+      { "type": "COMPONENT_ID", "condition": "veggy_pickled_wild_garlic", "name": { "str_sp": "%s, wild garlic" } },
+      {
+        "type": "COMPONENT_ID_SUBSTRING",
+        "condition": "veggy_pickled_zucchini",
+        "name": { "str_sp": "%s, zucchini" }
+      }
+    ],
+    "flags": [ "EATEN_HOT" ],
+    "extend": { "vitamins": [ [ "iron", 3 ] ] },
+    "relative": { "calories": 200, "fun": 2 },
+    "price": 500,
+    "price_postapoc": 50,
+    "spoils_in": "7 days"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "dry_veggy",
     "name": { "str_sp": "dehydrated vegetable" },
     "conditional_names": [

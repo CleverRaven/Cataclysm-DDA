@@ -879,34 +879,38 @@ void projectile::apply_effects_damage( Creature &target, Creature *source,
 
     Character &player_character = get_player_character();
     if( proj_effects.count( "INCENDIARY" ) ) {
-        if( target.made_of( material_veggy ) || target.made_of_any( Creature::cmat_flammable ) ) {
-            target.add_effect( effect_source( source ), effect_onfire, rng( 2_turns, 6_turns ),
-                               dealt_dam.bp_hit );
-        } else if( target.made_of_any( Creature::cmat_flesh ) && one_in( 4 ) ) {
-            target.add_effect( effect_source( source ), effect_onfire, rng( 1_turns, 4_turns ),
-                               dealt_dam.bp_hit );
-        }
-        if( player_character.has_trait( trait_PYROMANIA ) &&
-            !player_character.has_morale( MORALE_PYROMANIA_STARTFIRE ) &&
-            player_character.sees( target ) ) {
-            player_character.add_msg_if_player( m_good,
-                                                _( "You feel a surge of euphoria as flame engulfs %s!" ), target.get_name() );
-            player_character.add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
-            player_character.rem_morale( MORALE_PYROMANIA_NOFIRE );
+        if( x_in_y( 1, 100 ) ) { // 1% chance
+            if( target.made_of( material_veggy ) || target.made_of_any( Creature::cmat_flammable ) ) {
+                target.add_effect( effect_source( source ), effect_onfire, rng( 2_turns, 6_turns ),
+                                   dealt_dam.bp_hit );
+            } else if( target.made_of_any( Creature::cmat_flesh ) && one_in( 4 ) ) {
+                target.add_effect( effect_source( source ), effect_onfire, rng( 1_turns, 4_turns ),
+                                   dealt_dam.bp_hit );
+            }
+            if( player_character.has_trait( trait_PYROMANIA ) &&
+                !player_character.has_morale( MORALE_PYROMANIA_STARTFIRE ) &&
+                player_character.sees( target ) ) {
+                player_character.add_msg_if_player( m_good,
+                                                    _( "You feel a surge of euphoria as flame engulfs %s!" ), target.get_name() );
+                player_character.add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
+                player_character.rem_morale( MORALE_PYROMANIA_NOFIRE );
+            }
         }
     } else if( proj_effects.count( "IGNITE" ) ) {
-        if( target.made_of( material_veggy ) || target.made_of_any( Creature::cmat_flammable ) ) {
-            target.add_effect( effect_source( source ), effect_onfire, 6_turns, dealt_dam.bp_hit );
-        } else if( target.made_of_any( Creature::cmat_flesh ) ) {
-            target.add_effect( effect_source( source ), effect_onfire, 10_turns, dealt_dam.bp_hit );
-        }
-        if( player_character.has_trait( trait_PYROMANIA ) &&
-            !player_character.has_morale( MORALE_PYROMANIA_STARTFIRE ) &&
-            player_character.sees( target ) ) {
-            player_character.add_msg_if_player( m_good,
-                                                _( "You feel a surge of euphoria as flame engulfs %s!" ), target.get_name() );
-            player_character.add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
-            player_character.rem_morale( MORALE_PYROMANIA_NOFIRE );
+        if( x_in_y( 1, 2 ) ) { // 50% chance
+            if( target.made_of( material_veggy ) || target.made_of_any( Creature::cmat_flammable ) ) {
+                target.add_effect( effect_source( source ), effect_onfire, 10_turns, dealt_dam.bp_hit );
+            } else if( target.made_of_any( Creature::cmat_flesh ) ) {
+                target.add_effect( effect_source( source ), effect_onfire, 6_turns, dealt_dam.bp_hit );
+            }
+            if( player_character.has_trait( trait_PYROMANIA ) &&
+                !player_character.has_morale( MORALE_PYROMANIA_STARTFIRE ) &&
+                player_character.sees( target ) ) {
+                player_character.add_msg_if_player( m_good,
+                                                    _( "You feel a surge of euphoria as flame engulfs %s!" ), target.get_name() );
+                player_character.add_morale( MORALE_PYROMANIA_STARTFIRE, 15, 15, 8_hours, 6_hours );
+                player_character.rem_morale( MORALE_PYROMANIA_NOFIRE );
+            }
         }
     }
 
