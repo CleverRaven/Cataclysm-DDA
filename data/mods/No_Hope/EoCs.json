@@ -18,20 +18,21 @@
     "id": "EOC_NH_difficultycheck",
     "eoc_type": "EVENT",
     "required_event": "game_load",
+    "//": "When this EOC gets changed significantly a version variable should be added and checked against here so it reruns",
+    "//1": "TODO: Once variance is added to the difficulties update their descriptions to be more desciptive as to what they actually do",
+    "//2": "TODO: Add a vehicle difficulty check too that comes up as a second set of choices?",
     "condition": { "math": [ "!has_var( NH_item_difficulty )" ] },
-    "//1": "TODO: Sensible names/descriptions",
-    "//2": "TODO: Add vehicle difficulty check too?",
     "effect": [
       {
         "run_eoc_selector": [ "EOC_NH_set_item_difficulty_0", "EOC_NH_set_item_difficulty_1", "EOC_NH_set_item_difficulty_2" ],
-        "//": "A custom difficulty could be nice too.",
-        "names": [ "Hard", "Harder", "Harderest" ],
-        "title": "Select a Difficulty",
+        "//": "A custom difficulty could be nice too, with smaller groups like guns/magazines/ammo/mods, clothing/armor, fuel/veh_parts.",
+        "names": [ "Creeping Despair", "Fervent Despair", "Overwhelming Despair" ],
+        "title": "Select an Item Rarity Difficulty",
         "keys": [ "1", "2", "3" ],
         "descriptions": [
-          "In Hard Difficulty, items are rarer than vanilla.",
-          "In Harder Difficulty, items are much rarer than vanilla.",
-          "In Harderest Difficulty, items are so very much rarerer than vanilla."
+          "Creeping Despair makes items rarer than vanilla.",
+          "Fervent Despair makes items rarer than Creeping Despair.",
+          "Overwhelming Despair makes items rarer than Fervent Despair."
         ]
       }
     ],
@@ -50,9 +51,27 @@
     "type": "effect_on_condition",
     "id": "EOC_NH_set_item_difficulty_0",
     "effect": [
-      { "u_message": "Difficulty set to Hard." },
+      { "u_message": "A creeping sense of despair approaches…" },
       { "run_eocs": "EOC_NH_item_difficulty_0" },
       { "math": [ "NH_item_difficulty", "=", "0" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NH_set_item_difficulty_1",
+    "effect": [
+      { "u_message": "An intense sensation of despair fills you…" },
+      { "run_eocs": "EOC_NH_item_difficulty_1" },
+      { "math": [ "NH_item_difficulty", "=", "1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NH_set_item_difficulty_2",
+    "effect": [
+      { "u_message": "You are overcome by despair…" },
+      { "run_eocs": "EOC_NH_item_difficulty_2" },
+      { "math": [ "NH_item_difficulty", "=", "2" ] }
     ]
   },
   {
@@ -82,16 +101,8 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_NH_set_item_difficulty_1",
-    "effect": [
-      { "u_message": "Difficulty set to Harder." },
-      { "run_eocs": "EOC_NH_item_difficulty_1" },
-      { "math": [ "NH_item_difficulty", "=", "1" ] }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_NH_item_difficulty_1",
+    "//": "TODO: Higher difficulties should be more tailored than just everything being rarer",
     "effect": [
       { "u_message": "Difficulty set to Harder." },
       {
@@ -113,15 +124,6 @@
         ]
       },
       { "math": [ "NH_item_difficulty", "=", "1" ] }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_NH_set_item_difficulty_2",
-    "effect": [
-      { "u_message": "Difficulty set to Harderest." },
-      { "run_eocs": "EOC_NH_item_difficulty_2" },
-      { "math": [ "NH_item_difficulty", "=", "2" ] }
     ]
   },
   {
