@@ -182,7 +182,7 @@
           "condition": { "not": { "u_has_var": "ls_had_a_passcode", "value": "yes" } },
           "effect": [
             {
-              "u_message": "You see a beautiful pillar the color of roses or blood, absolutely perfect in its proportions.  As your eyes are drawn to it, you feel a burning sensation on your skin.  <ls_obelisk_firsttime1> a tattoo of a handsome man laughing. At first glance it appears charming and friendly, but the longer you examine it, the more it appears to be inhumanly cold and cruel; it's the 'Laughing Man Passcode'.  <ls_obelisk_firsttime2>",
+              "u_message": "You see a beautiful pillar the color of roses or blood, absolutely perfect in its proportions.  As your eyes are drawn to it, you feel a burning sensation on your skin.  <ls_obelisk_firsttime1> a tattoo of a handsome man laughing.  At first glance it appears charming and friendly, but the longer you examine it, the more it appears to be inhumanly cold and cruel; it's the 'Laughing Man Passcode'.  <ls_obelisk_firsttime2>",
               "popup": true
             },
             { "u_add_trait": "LS_Passcode_3" },
