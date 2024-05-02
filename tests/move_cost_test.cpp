@@ -39,7 +39,6 @@ static const ter_str_id ter_t_pavement( "t_pavement" );
 
 static const trait_id trait_HOOVES( "HOOVES" );
 static const trait_id trait_LEG_TENTACLES( "LEG_TENTACLES" );
-static const trait_id trait_PADDED_FEET( "PADDED_FEET" );
 static const trait_id trait_TOUGH_FEET( "TOUGH_FEET" );
 
 TEST_CASE( "being_knocked_down_triples_movement_cost", "[move_cost][downed]" )
@@ -198,19 +197,6 @@ TEST_CASE( "mutations_may_affect_movement_cost", "[move_cost][mutation]" )
         THEN( "barefoot penalty does not apply" ) {
             ava.clear_worn();
             CHECK( ava.run_cost( 100 ) == Approx( base_cost ) );
-        }
-    }
-
-    GIVEN( "PADDED_FEET" ) {
-        ava.toggle_trait( trait_PADDED_FEET );
-        THEN( "wearing sneakers gives baseline 100 movement speed" ) {
-            ava.clear_worn();
-            ava.wear_item( item( "sneakers" ) );
-            CHECK( ava.run_cost( 100 ) == Approx( base_cost ) );
-        }
-        THEN( "being barefoot is faster than wearing sneakers" ) {
-            ava.clear_worn();
-            CHECK( ava.run_cost( 100 ) == Approx( 0.9 * base_cost ) );
         }
     }
 }

@@ -782,6 +782,7 @@
     "special_attacks": [ { "id": "grab", "cooldown": 7 }, { "id": "scratch_humanoid" }, { "id": "smash" } ],
     "death_drops": "mon_zombie_hulk_death_drops",
     "regenerates": 15,
+    "death_function": { "eoc": "EOC_NEMESIS_DIED" },
     "upgrades": false,
     "armor": { "bash": 15, "cut": 15, "bullet": 15, "electric": 6 },
     "extend": {
@@ -789,6 +790,11 @@
       "weakpoint_sets": [ "wps_humanoid_head_small" ],
       "families": [ "prof_wp_hulk" ]
     }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NEMESIS_DIED",
+    "effect": [ { "math": [ "Nemesis_iteration", "+=", "1" ] } ]
   },
   {
     "id": "mon_zombie_grabber",

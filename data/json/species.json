@@ -180,6 +180,13 @@
   },
   {
     "type": "SPECIES",
+    "id": "ROBOT_FLYING",
+    "description": "a flying robot",
+    "footsteps": "WHIRR",
+    "flags": [ "LOUDMOVES" ]
+  },
+  {
+    "type": "SPECIES",
     "id": "HORROR",
     "description": "a horror"
   },

@@ -59,7 +59,7 @@
     "//3": "Therefore, indefinite storage is impossible through this method, and as such vac bags are now only 50% instead of 0% spoilage.",
     "//4": "It's likely doable to reseal an MRE bag using a sealer and the sterilize it and its contents with heat instead of radiation, though this is speculative.",
     "tools": [ [ [ "vac_sealer", 4 ], [ "makeshift_sealer", 8 ] ] ],
-    "components": [ [ [ "bag_plastic", 1 ], [ "plastic_bag_vac", 1 ] ] ]
+    "components": [ [ [ "bag_plastic", 1 ], [ "bag_plastic_small", 1 ], [ "plastic_bag_vac", 1 ] ] ]
   },
   {
     "id": "frying_oil",

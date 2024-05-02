@@ -12,7 +12,7 @@
     "flags": [ "FULL_MAGAZINE" ],
     "tools": [ [ [ "lighter", 5 ], [ "ref_lighter", 5 ], [ "surface_heat", 2, "LIST" ] ] ],
     "components": [
-      [ [ "wax_any", 1, "LIST" ], [ "any_tallow", 4, "LIST" ], [ "edible_lard", 1, "LIST" ] ],
+      [ [ "wax_any", 2, "LIST" ], [ "any_tallow", 8, "LIST" ], [ "edible_lard", 8, "LIST" ] ],
       [ [ "cordage_short", 1, "LIST" ] ]
     ]
   },
@@ -98,9 +98,7 @@
         [ "can_food", 1 ],
         [ "canister_empty", 1 ],
         [ "bottle_glass", 1 ],
-        [ "bottle_plastic", 1 ],
-        [ "bottle_bathroom", 1 ],
-        [ "bottle_plastic_small", 1 ]
+        [ "plastic_bottles_any", 1, "LIST" ]
       ],
       [ [ "lightstrip_inactive", 1 ], [ "light_bulb", 1 ] ],
       [ [ "cable", 10 ] ]

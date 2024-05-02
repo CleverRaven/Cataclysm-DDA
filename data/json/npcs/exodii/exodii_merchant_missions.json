@@ -4,7 +4,6 @@
     "type": "mission_definition",
     "name": { "str": "Bring 1000 units of anesthetic to Rubik" },
     "goal": "MGOAL_CONDITION",
-    "goal_condition": { "npc_has_var": "-", "type": "-", "context": "-", "value": "-" },
     "difficulty": 2,
     "value": 240,
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -19,7 +18,7 @@
       "success_lie": "Fine an' fine.  We can pass it in when you like.",
       "failure": "Fine an' fine.  Come back to this'n if you like to try again."
     },
-    "end": { "effect": [ { "u_add_var": "anusfetick", "type": "mission", "context": "completed", "value": "yes" } ] }
+    "end": { "effect": [ { "u_add_var": "mission_completed_anusfetick", "value": "yes" } ] }
   },
   {
     "id": "EXODII_MISSION_CONTACT_HUB",
@@ -36,7 +35,7 @@
         "search_range": 2400
       }
     },
-    "end": { "effect": [ { "u_add_var": "u_scouted_bunker", "type": "mission", "context": "completed", "value": "yes" } ] },
+    "end": { "effect": [ { "u_add_var": "mission_completed_u_scouted_bunker", "value": "yes" } ] },
     "difficulty": 2,
     "value": 0,
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -58,8 +57,8 @@
     "type": "mission_definition",
     "goal": "MGOAL_GO_TO_TYPE",
     "destination": "exo_warehouse_1",
-    "start": { "effect": { "u_spawn_item": "warehouse_rebooter" } },
-    "end": { "effect": [ { "u_add_var": "u_found_warehouse", "type": "mission", "context": "completed", "value": "yes" } ] },
+    "start": { "effect": [ { "u_spawn_item": "warehouse_rebooter" }, { "math": [ "exodii_mission_wh_chance", "=", "6" ] } ] },
+    "end": { "effect": [ { "u_add_var": "mission_completed_u_found_warehouse", "value": "yes" } ] },
     "difficulty": 5,
     "value": 2,
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -123,7 +122,7 @@
       { "text": "Why can't one of you do this?", "topic": "TALK_EXODII_MERCHANT_mission_1_explain" },
       {
         "text": "Well, today's your lucky day, my metal friend.  I already know the place quite well.",
-        "condition": { "u_has_var": "u_discovered_robofac_intercom", "type": "dialogue", "context": "intercom", "value": "yes" },
+        "condition": { "u_has_var": "dialogue_intercom_u_discovered_robofac_intercom", "value": "yes" },
         "topic": "TALK_EXODII_MERCHANT_mission_1_met_hub"
       },
       {
@@ -398,7 +397,7 @@
       "//~": "That's right, I did.  My mother's mother was a woman of the old kind, and so was my father's father.  My father's mother, she was a grandma, a little piece of old London-Town, but I had a jaryi and a taita and a tamoi (these are words for grandparents in a guarani dialect).  They were all there, right to the end.  Standing by, we were, one and all.  No time for stories, though.  Back to the here and now.",
       "str": "Right so, a fine notice.  Rubik's mother-twice, she were a woman o'th'old kind.  And were her mate, and Rubik's father-twice.  Rubik's father-mother, she were a gran, a fitty bit of ol' London-Town, right so, but Rubik had a jaryi and a taita and a tamoi.\" Rubik's voice goes distant for a moment.  \"An' they was all there, right to the end.  Standin' by, we were, one and all.\" They pause, then seem to snap back.  \"No time for stories, kennit?  Back to the here an' now."
     },
-    "speaker_effect": { "effect": { "u_add_var": "u_knows_exodiilore", "type": "knowledge", "context": "rubik_jaryi", "value": "yes" } },
+    "speaker_effect": { "effect": { "u_add_var": "knowledge_rubik_jaryi_u_knows_exodiilore", "value": "yes" } },
     "responses": [
       { "text": "Yeah, let's talk about business again.", "topic": "TALK_EXODII_MERCHANT_mission_2_intro1" },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },

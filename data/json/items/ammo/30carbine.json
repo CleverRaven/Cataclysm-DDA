@@ -9,8 +9,8 @@
     "weight": "12 g",
     "volume": "160 ml",
     "longest_side": "43 mm",
-    "price": 200,
-    "price_postapoc": 1200,
+    "price": "2 USD",
+    "price_postapoc": "12 USD",
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "material": [ "brass", "lead", "powder" ],
     "symbol": "=",
@@ -64,8 +64,8 @@
     "name": { "str_sp": ".30 Carbine JSP" },
     "description": ".30 Carbine ammunition with a 110gr jacketed soft point bullet, which will perform better as a hunting round than FMJ.  A light rifle round developed during the Second World War for use in the M1 carbine, it remains a popular sporting round today.",
     "ascii_picture": "762_jhp",
-    "price": 100,
-    "price_postapoc": 750,
+    "price": "1 USD",
+    "price_postapoc": "7 USD 50 cent",
     "relative": { "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": -4 } }
   },
   {

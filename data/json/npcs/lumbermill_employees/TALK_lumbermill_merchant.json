@@ -3,31 +3,29 @@
     "type": "talk_topic",
     "id": "TALK_NPC_LUMBERMILL_MERCHANT",
     "dynamic_line": {
-      "npc_has_var": "talked_to_merchant",
-      "type": "dialogue",
-      "context": "first_meeting",
+      "npc_has_var": "dialogue_first_meeting_talked_to_merchant",
       "value": "yes",
       "yes": "Hello there.  Nice to see you again.",
       "no": "A new face at the mill?  Who might you be?"
     },
-    "speaker_effect": { "effect": { "npc_add_var": "talked_to_merchant", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
+    "speaker_effect": { "effect": { "npc_add_var": "dialogue_first_meeting_talked_to_merchant", "value": "yes" } },
     "responses": [
       {
         "text": "Nice to meet you.",
         "topic": "TALK_NPC_LUMBERMILL_MERCHANT_INTRO",
-        "condition": { "not": { "npc_has_var": "talked_to_merchant", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+        "condition": { "not": { "npc_has_var": "dialogue_first_meeting_talked_to_merchant", "value": "yes" } }
       },
       {
         "text": "Hands up!",
         "trial": { "type": "INTIMIDATE", "difficulty": 30 },
         "success": { "topic": "TALK_WEAPON_DROPPED", "effect": "drop_weapon", "opinion": { "trust": -4, "fear": 3 } },
         "failure": { "topic": "TALK_DONE", "effect": "hostile" },
-        "condition": { "not": { "npc_has_var": "talked_to_merchant", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+        "condition": { "not": { "npc_has_var": "dialogue_first_meeting_talked_to_merchant", "value": "yes" } }
       },
       {
         "text": "Pleasure to see you again.",
         "topic": "TALK_NPC_LUMBERMILL_MERCHANT_INTRO",
-        "condition": { "npc_has_var": "talked_to_merchant", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+        "condition": { "npc_has_var": "dialogue_first_meeting_talked_to_merchant", "value": "yes" }
       },
       { "text": "See ya.", "topic": "TALK_DONE" }
     ]
@@ -41,7 +39,7 @@
       {
         "text": "I'd like to ask you a few questions.",
         "topic": "TALK_FRIEND_CONVERSATION",
-        "condition": { "npc_has_var": "talked_to_merchant", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+        "condition": { "npc_has_var": "dialogue_first_meeting_talked_to_merchant", "value": "yes" }
       },
       { "text": "Can I purchase some of your wares?", "topic": "TALK_LUMBERMILL_FABRICATE" },
       {
