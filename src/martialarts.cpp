@@ -37,8 +37,6 @@
 #include "value_ptr.h"
 #include "weighted_list.h"
 
-static const attack_vector_id attack_vector_null( "null" );
-
 static const bionic_id bio_armor_arms( "bio_armor_arms" );
 static const bionic_id bio_armor_legs( "bio_armor_legs" );
 static const bionic_id bio_cqb( "bio_cqb" );
@@ -51,8 +49,6 @@ static const json_character_flag json_flag_NONSTANDARD_BLOCK( "NONSTANDARD_BLOCK
 static const limb_score_id limb_score_block( "block" );
 
 static const skill_id skill_unarmed( "unarmed" );
-
-static const sub_bodypart_str_id sub_body_part_sub_limb_debug( "sub_limb_debug" );
 
 static const weapon_category_id weapon_category_OTHER_INVALID_WEAP_CAT( "OTHER_INVALID_WEAP_CAT" );
 
@@ -278,7 +274,6 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "crit_tec", crit_tec, false );
     optional( jo, was_loaded, "crit_ok", crit_ok, false );
-    optional( jo, was_loaded, "attack_override", attack_override, false );
     optional( jo, was_loaded, "wall_adjacent", wall_adjacent, false );
     optional( jo, was_loaded, "reach_tec", reach_tec, false );
     optional( jo, was_loaded, "reach_ok", reach_ok, false );
@@ -1540,7 +1535,7 @@ std::optional<std::pair<attack_vector_id, sub_bodypart_str_id>>
                     add_msg_debug( debugmode::DF_MELEE,
                                    "Bodypart %s eligable for attack vector %s weight %.1f (contact area %s)",
                                    bp.id().c_str(),
-                                   vec->name, weight, current_contact->name );
+                                   vec->name, unarmed_damage, current_contact->name );
                 }
             }
         }
@@ -1585,15 +1580,20 @@ damage_instance character_martial_arts::calculate_vector_damage( const Character
     // Calculate unarmed damage for the given sublimb(s)
     damage_instance ret;
     // If we got this far the limb is not overencumbered
-    ret.add( contact_area->parent->unarmed_damage_instance() );
-    add_msg_debug( debugmode::DF_MELEE,
-                   "Unarmed damage of bodypart %s %.1f", contact_area->parent->name,
-                   ret.total_damage() );
-    ret.add( contact_area->unarmed_damage );
-    add_msg_debug( debugmode::DF_MELEE,
-                   "Unarmed damage of subpart %s %.1f, total damage %.1f", contact_area->parent->name,
-                   contact_area->unarmed_damage.total_damage(),
-                   ret.total_damage() );
+    // But do filter on the flag to bring it in line with the actual damage calc
+    if( !user.natural_attack_restricted_on( contact_area->parent ) ) {
+        ret.add( contact_area->parent->unarmed_damage_instance() );
+        add_msg_debug( debugmode::DF_MELEE,
+                       "Unarmed damage of bodypart %s %.1f", contact_area->parent->name,
+                       ret.total_damage() );
+    }
+    if( !user.natural_attack_restricted_on( contact_area ) ) {
+        ret.add( contact_area->unarmed_damage );
+        add_msg_debug( debugmode::DF_MELEE,
+                       "Unarmed damage of subpart %s %.1f, total damage %.1f", contact_area->parent->name,
+                       contact_area->unarmed_damage.total_damage(),
+                       ret.total_damage() );
+    }
     // Add any bonus from worn armor if the vector allows it
     if( vec->armor_bonus ) {
         outfit current_worn = user.worn;

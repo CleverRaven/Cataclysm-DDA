@@ -6,7 +6,6 @@
     "messages": [ "You sting %s with your bug-laden tail", "<npcname> stings %s with their bug-laden tail" ],
     "unarmed_allowed": true,
     "melee_allowed": true,
-    "attack_override": true,
     "weighting": 200,
     "crit_ok": true,
     "repeat_min": 1,

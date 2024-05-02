@@ -3,13 +3,15 @@
     "type": "technique",
     "id": "tec_none",
     "name": "Not a technique at all",
-    "wip_attack_vectors": [ "vector_base" ],
+    "wip_attack_vectors": [ "vector_null" ],
     "dummy": true
   },
   {
     "type": "technique",
     "id": "tech_base_punch",
     "name": "Basic punch",
+    "crit_ok": true,
+    "unarmed_allowed": true,
     "messages": [ "You punch %s!", "<npcname> punches %s!" ],
     "description": "Just a basic punch",
     "wip_attack_vectors": [ "test_punch" ]
@@ -3500,9 +3502,6 @@
     "unarmed_allowed": true,
     "weighting": -5,
     "reach_ok": false,
-    "attack_override": true,
-    "crit_ok": true,
-    "crit_tec_id": "FANGS_BITE_CRIT",
     "attack_vectors": [ "MOUTH" ],
     "condition": {
       "and": [
@@ -3539,9 +3538,6 @@
     "unarmed_allowed": true,
     "weighting": -2,
     "reach_ok": false,
-    "attack_override": true,
-    "crit_ok": true,
-    "crit_tec_id": "FANGS_BITE_CRIT",
     "attack_vectors": [ "MOUTH" ],
     "condition": {
       "and": [
@@ -3578,7 +3574,6 @@
     "messages": [ "You deliver a wicked bite to %s", "<npcname> delivers a wicked bite to %s!" ],
     "unarmed_allowed": true,
     "reach_ok": false,
-    "attack_override": true,
     "crit_tec": true,
     "attack_vectors": [ "MOUTH" ],
     "tech_effects": [
@@ -3612,9 +3607,6 @@
     "unarmed_allowed": true,
     "weighting": -5,
     "reach_ok": false,
-    "attack_override": true,
-    "crit_ok": true,
-    "crit_tec_id": "VAMPIRE_BITE_CRIT",
     "attack_vectors": [ "MOUTH" ],
     "condition": {
       "and": [
@@ -3651,9 +3643,6 @@
     "unarmed_allowed": true,
     "weighting": -2,
     "reach_ok": false,
-    "attack_override": true,
-    "crit_ok": true,
-    "crit_tec_id": "VAMPIRE_BITE_CRIT",
     "attack_vectors": [ "MOUTH" ],
     "tech_effects": [
       {
@@ -3691,7 +3680,6 @@
     "unarmed_allowed": true,
     "weighting": -4,
     "reach_ok": false,
-    "attack_override": true,
     "crit_tec": true,
     "tech_effects": [
       {

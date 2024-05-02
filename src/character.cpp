@@ -353,8 +353,6 @@ static const limb_score_id limb_score_night_vis( "night_vis" );
 static const limb_score_id limb_score_reaction( "reaction" );
 static const limb_score_id limb_score_vision( "vision" );
 
-const matec_id tec_none( "tec_none" );
-
 static const material_id material_budget_steel( "budget_steel" );
 static const material_id material_ch_steel( "ch_steel" );
 static const material_id material_flesh( "flesh" );
@@ -1974,7 +1972,7 @@ void Character::on_dodge( Creature *source, float difficulty, float training_lev
 
     // For adjacent attackers check for techniques usable upon successful dodge
     if( source && square_dist( pos(), source->pos() ) == 1 ) {
-        matec_id tec = pick_technique( *source, used_weapon(), false, true, false );
+        matec_id tec = std::get<0>( pick_technique( *source, used_weapon(), false, true, false ) );
 
         if( tec != tec_none && !is_dead_state() ) {
             if( get_stamina() < get_stamina_max() / 3 ) {

@@ -1626,7 +1626,7 @@
     "color": "white",
     "warmth": 5,
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 4 ] ],
-    "techniques": [ "FANGS_BITE", "FANGS_BITE_NATURAL" ],
+    "techniques": [ "FANGS_BITE", "FANGS_BITE_NATURAL", "FANGS_BITE_CRIT" ],
     "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "PADDED", "PROVIDES_TECHNIQUES" ],
     "armor": [
       {
@@ -1652,7 +1652,7 @@
     "color": "white",
     "warmth": 5,
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 4 ] ],
-    "techniques": [ "VAMPIRE_BITE", "VAMPIRE_BITE_NATURAL" ],
+    "techniques": [ "VAMPIRE_BITE", "VAMPIRE_BITE_NATURAL", "VAMPIRE_BITE_CRIT" ],
     "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "PADDED", "PROVIDES_TECHNIQUES" ],
     "armor": [
       {

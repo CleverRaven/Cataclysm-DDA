@@ -74,7 +74,7 @@
 
 static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
 
-static const attack_vector_id attack_vector_base( "vector_base" );
+static const attack_vector_id attack_vector_null( "vector_null" );
 
 static const bionic_id bio_cqb( "bio_cqb" );
 static const bionic_id bio_heat_absorb( "bio_heat_absorb" );
@@ -715,7 +715,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
 
         // Practice melee and relevant weapon skill (if any) except when using CQB bionic
         if( !has_active_bionic( bio_cqb ) && !t.is_hallucination() ) {
-            melee_train( *this, 2, std::min( 5, skill_training_cap ), cur_weap, attack_vector_base );
+            melee_train( *this, 2, std::min( 5, skill_training_cap ), cur_weap, attack_vector_null );
         }
 
         // Cap stumble penalty, heavy weapons are quite weak already
@@ -749,11 +749,11 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         // Pick our attack
         // Unarmed needs a defined technique
         if( has_force_technique ) {
-            attack = std::make_tuple( force_technique, attack_vector_base, sub_body_part_sub_limb_debug );
+            attack = std::make_tuple( force_technique, attack_vector_null, sub_body_part_sub_limb_debug );
         } else if( allow_special ) {
             attack = pick_technique( t, cur_weapon, critical_hit, false, false );
         } else {
-            attack = std::make_tuple( tec_none, attack_vector_base, sub_body_part_sub_limb_debug );
+            attack = std::make_tuple( tec_none, attack_vector_null, sub_body_part_sub_limb_debug );
         }
         // Unpack our data
         matec_id attack_id;
@@ -820,11 +820,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             std::string specialmsg;
             // Handles speed penalties to monster & us, etc
             if( !t.is_hallucination() ) {
-                if( technique.attack_override ) {
-                    specialmsg = melee_special_effects( t, d, null_item_reference() );
-                } else {
-                    specialmsg = melee_special_effects( t, d, cur_weap );
-                }
+                specialmsg = melee_special_effects( t, d, cur_weap );
             }
 
             // gets overwritten with the dealt damage values
@@ -1406,25 +1402,21 @@ void Character::roll_damage( const damage_type_id &dt, bool crit, damage_instanc
 {
     // For handling typical melee damage types (bash, cut, stab)
     if( dt->melee_only ) {
-        roll_melee_damage_internal( *this, dt, crit, di, average, weap, attack_vector, crit_mod );
+        roll_melee_damage_internal( *this, dt, crit, di, average, weap, attack_vector, contact, crit_mod );
         return;
     }
 
-    bool unarmed = attack_vector != "WEAPON";
-
     float other_dam = mabuff_damage_bonus( dt ) + weap.damage_melee( dt );
     float arpen = 0.0f;
-    if( unarmed ) {
-        float dam = 0.0f;
-        float ap = 0.0f;
-        for( const bodypart_id &bp : get_all_body_parts() ) {
-            if( bp->unarmed_bonus && !natural_attack_restricted_on( bp ) ) {
-                dam += bp->unarmed_damage( dt );
-                arpen += bp->unarmed_arpen( dt );
-            }
+    bool unarmed = !attack_vector->weapon;
+    if( unarmed && !this->natural_attack_restricted_on( contact ) ) {
+        // Add contact/parent damage bonuses to unarmed
+        other_dam += contact->unarmed_damage.type_damage( dt );
+        arpen += contact->unarmed_damage.type_arpen( dt );
+        if( !this->natural_attack_restricted_on( contact->parent ) ) {
+            other_dam += contact->parent->unarmed_damage( dt );
+            arpen += contact->parent->unarmed_arpen( dt );
         }
-        other_dam += dam;
-        arpen += ap;
     }
 
     // No negative damage!
@@ -1442,7 +1434,9 @@ std::tuple<matec_id, attack_vector_id, sub_bodypart_str_id> Character::pick_tech
     std::vector<std::tuple<matec_id, attack_vector_id, sub_bodypart_str_id>> possible =
                 evaluate_techniques( t, weap, crit,
                                      dodge_counter,  block_counter, blacklist );
-    return random_entry( possible, tec_none );
+    return random_entry( possible,
+                         std::make_tuple( tec_none, attack_vector_null,
+                                          sub_body_part_sub_limb_debug ) );
 }
 std::vector<std::tuple<matec_id, attack_vector_id, sub_bodypart_str_id>>
         Character::evaluate_techniques( Creature &t, const item_location &weap,
@@ -1451,7 +1445,7 @@ std::vector<std::tuple<matec_id, attack_vector_id, sub_bodypart_str_id>>
 
     const std::vector<matec_id> all = martial_arts_data->get_all_techniques( weap, *this );
 
-    std::vector<std::tuple<matec_id, attack_vector_id, std::vector<sub_bodypart_str_id>>> possible;
+    std::vector<std::tuple<matec_id, attack_vector_id, sub_bodypart_str_id>> possible;
 
     bool wall_adjacent = get_map().is_wall_adjacent( pos() );
     // this could be more robust but for now it should work fine
@@ -1575,8 +1569,7 @@ std::vector<std::tuple<matec_id, attack_vector_id, sub_bodypart_str_id>>
             continue;
         }
 
-        std::optional<std::pair<attack_vector_id, std::vector<sub_bodypart_str_id>>> vector =
-            martial_arts_data->choose_attack_vector( *this, tec.id );
+        std::optional<std::pair<attack_vector_id, sub_bodypart_str_id>> vector;
 
         if( tec.is_valid_character( *this ) ) {
             // We made it this far, choose an actual vector if possible
@@ -1758,12 +1751,6 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
     print_damage_info( di );
     int rep = rng( technique.repeat_min, technique.repeat_max );
     add_msg_debug( debugmode::DF_MELEE, "Tech repeats %d times", rep );
-
-    // Keep the technique definitions shorter
-    if( technique.attack_override ) {
-        move_cost = 0;
-        di.clear();
-    }
 
     for( const damage_type &dt : damage_type::get_all() ) {
         float dam = technique.damage_bonus( *this, dt.id );
@@ -2210,7 +2197,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     martial_arts_data->ma_onblock_effects( *this );
 
     // Check if we have any block counters
-    matec_id tec = pick_technique( *source, shield, false, false, true );
+    matec_id tec = std::get<0>( pick_technique( *source, shield, false, false, true ) );
 
     if( tec != tec_none && !is_dead_state() ) {
         int twenty_percent = std::round( ( 20 * weapon.type->mat_portion_total ) / 100.0f );

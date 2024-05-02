@@ -1,8 +1,9 @@
 [
   {
     "type": "attack_vector",
-    "id": "vector_base",
+    "id": "vector_null",
     "//": "Fallback weapon vector, unarmed attacks always go through techs",
+    "name": "base weapon vector",
     "weapon": true
   },
   {
@@ -17,12 +18,9 @@
     "type": "attack_vector",
     "id": "test_punch",
     "name": "test punch",
-    "limbs": [ "hand_l", "hand_r", "foot_r", "foot_l", "eyes" ],
-    "contact_area": [ "hand_fingers_l", "hand_fingers_r", "foot_sole_l", "foot_sole_r", "eyes_left", "eyes_right" ],
+    "limbs": [ "hand_l", "hand_r" ],
+    "contact_area": [ "hand_fingers_l", "hand_fingers_r" ],
     "strict_limb_definition": false,
-    "armor_bonus": true,
-    "limb_count_min": 1,
-    "limb_count_max": 2,
-    "forbidden_limb_flags": [ "IGNORE_TEMP" ]
+    "armor_bonus": true
   }
 ]
