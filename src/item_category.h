@@ -3,6 +3,7 @@
 #define CATA_SRC_ITEM_CATEGORY_H
 
 #include <iosfwd>
+#include <map>
 #include <new>
 #include <optional>
 #include <vector>
