@@ -60,6 +60,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
+#include "ui_iteminfo.h"
 #include "ui_manager.h"
 #include "uistate.h"
 #include "units.h"
@@ -1792,10 +1793,10 @@ void advanced_inventory::action_examine( advanced_inv_listitem *sitem,
 
         item_info_data data( it.tname(), it.type_name(), vThisItem, vDummy );
         data.handle_scrolling = true;
+        data.arrow_scrolling = true;
 
-        ret = draw_item_info( [&]() -> catacurses::window {
-            return catacurses::newwin( 0, info_width(), point( info_startx(), 0 ) );
-        }, data ).get_first_input();
+        iteminfo_window info_window( data, point( info_startx(), 0 ), info_width(), TERMY );
+        info_window.execute();
     }
     if( ret == KEY_NPAGE || ret == KEY_DOWN ) {
         spane.scroll_by( +1 );
