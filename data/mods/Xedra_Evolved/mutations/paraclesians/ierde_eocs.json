@@ -406,7 +406,14 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_IERDE_ENTRAP_TARGET_IN_STONE",
-    "condition": { "u_is_on_terrain_with_flag": "DIGGABLE" },
+    "condition": {
+      "or": [
+        { "u_is_on_terrain_with_flag": "DIGGABLE" },
+        { "u_is_on_terrain": "t_rock_floor" },
+        { "u_is_on_terrain": "t_railroad_rubble" },
+        { "u_is_on_terrain": "t_dirt_underground" }
+      ]
+    },
     "effect": [
       { "u_cast_spell": { "id": "ierde_trap_target_local_terrain_bash" } },
       { "u_transform_radius": 1, "ter_furn_transform": "ter_ierde_entrap_target_in_stone" },
