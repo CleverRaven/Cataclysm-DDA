@@ -443,9 +443,9 @@ void iuse_transform::info( const item &it, std::vector<iteminfo> &dump ) const
     if( it.has_flag( flag_FIT ) ) {
         dummy.set_flag( flag_FIT );
     }
-    dump.emplace_back( "TOOL", _( "<bold>Turns into</bold>: "),
+    dump.emplace_back( "TOOL", _( "<bold>Turns into</bold>: " ),
                        string_format( _( "%d %s" ),
-                       amount, dummy.tname() ) );
+                                      amount, dummy.tname() ) );
 
     if( target_timer > 0_seconds ) {
         dump.emplace_back( "TOOL", _( "Countdown: " ), to_seconds<int>( target_timer ) );
