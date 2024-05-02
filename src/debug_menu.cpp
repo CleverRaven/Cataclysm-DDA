@@ -156,8 +156,8 @@ static const trait_id trait_DEBUG_MANA( "DEBUG_MANA" );
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
 static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
 static const trait_id trait_DEBUG_NOTEMP( "DEBUG_NOTEMP" );
-static const trait_id trait_DEBUG_STAMINA( "DEBUG_STAMINA" );
 static const trait_id trait_DEBUG_SPEED( "DEBUG_SPEED" );
+static const trait_id trait_DEBUG_STAMINA( "DEBUG_STAMINA" );
 static const trait_id trait_NONE( "NONE" );
 
 #if defined(TILES)
