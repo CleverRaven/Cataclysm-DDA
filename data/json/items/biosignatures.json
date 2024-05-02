@@ -108,8 +108,8 @@
     "weight": "100 g",
     "volume": "400 ml",
     "spoils_in": "60 days",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "flags": [ "TRADER_AVOID", "INEDIBLE" ]
   },
   {
@@ -143,8 +143,8 @@
     "weight": "3 kg",
     "volume": "4 L",
     "spoils_in": "60 days",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "flags": [ "TRADER_AVOID", "INEDIBLE" ]
   }
 ]

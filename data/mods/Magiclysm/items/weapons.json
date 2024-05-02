@@ -9,7 +9,7 @@
     "description": "A stout knotty club with a large knob at the top.  While it's very heavy, it's a very effective weapon in the hands of a strong opponent.",
     "weight": "10 kg",
     "volume": "8 L",
-    "price": 5000,
+    "price": "50 USD",
     "flags": [ "UNBREAKABLE_MELEE", "ALWAYS_TWOHAND", "TRADER_AVOID", "SLOW_WIELD", "FIREWOOD", "NO_REPAIR" ],
     "to_hit": 1,
     "melee_damage": { "bash": 22 }
@@ -25,7 +25,7 @@
     "techniques": [ "WBLOCK_2", "DEF_DISARM", "IMPALE" ],
     "volume": "3 L",
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "DURABLE_MELEE", "SHEATH_SPEAR" ],
-    "price": 15000,
+    "price": "150 USD",
     "melee_damage": { "bash": 6, "stab": 29 }
   },
   {

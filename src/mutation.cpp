@@ -178,8 +178,9 @@ int Character::get_instability_per_category( const mutation_category_id &categ )
     bool robust = has_trait( trait_ROBUST );
     // For each and every trait we have...
     for( const trait_id &mut : get_mutations() ) {
-        // only count muts that have 0 or more points, aren't a threshold, are valid, and aren't a base trait.
-        if( mut.obj().points > -1 && !mut.obj().threshold && mut.obj().valid && !has_base_trait( mut ) ) {
+        // only count muts that have 0 or more points, aren't a threshold, have a category, and aren't a base trait.
+        if( mut.obj().points > -1 && !mut.obj().threshold && !mut.obj().category.empty() &&
+            !has_base_trait( mut ) ) {
             bool in_categ = false;
             // If among all allowed categories the mutation has, the input category is one of them.
             for( const mutation_category_id &Ch_cat : mut.obj().category ) {
@@ -1636,6 +1637,19 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
             add_msg_debug( debugmode::DF_MUTATION, "mutate_towards: necessary threshold %s found",
                            threshreq[i].c_str() );
             c_has_threshreq = true;
+        }
+        for( const trait_id &subst : threshreq[i]->threshold_substitutes ) {
+            if( has_trait( subst ) ) {
+                add_msg_debug( debugmode::DF_MUTATION, "mutate_towards: substitute threshold %s found",
+                               subst.c_str() );
+                if( mdata.strict_threshreq ) {
+                    add_msg_debug( debugmode::DF_MUTATION,
+                                   "mutate_towards: …but no threshold substitutions allowed for trait %s",
+                                   subst.c_str(), mdata.name() );
+                    continue;
+                }
+                c_has_threshreq = true;
+            }
         }
     }
 

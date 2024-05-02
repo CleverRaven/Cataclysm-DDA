@@ -2491,19 +2491,32 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
         }
 
         case ACTION_SELECT_FIRE_MODE:
-            if( weapon ) {
-                if( weapon->is_gun() && !weapon->is_gunmod() &&
-                    weapon->gun_all_modes().size() > 1 ) {
+            if( weapon && weapon->is_gun() && !weapon->is_gunmod() ) {
+                if( weapon->gun_all_modes().size() > 1 ) {
                     weapon->gun_cycle_mode();
-                } else if( weapon->has_flag( flag_RELOAD_ONE ) ||
-                           weapon->has_flag( flag_RELOAD_AND_SHOOT ) ) {
+                } else {
+                    add_msg( m_info, _( "Your %s has only one firing mode." ), weapon->tname() );
+                }
+            }
+            break;
+
+        case ACTION_SELECT_DEFAULT_AMMO:
+            if( weapon && weapon->is_gun() && !weapon->is_gunmod() ) {
+                if( weapon->has_flag( flag_RELOAD_ONE ) ||
+                    weapon->has_flag( flag_RELOAD_AND_SHOOT ) ) {
                     item::reload_option opt = player_character.select_ammo( weapon, false );
                     if( !opt ) {
                         break;
                     } else if( player_character.ammo_location && opt.ammo == player_character.ammo_location ) {
+                        player_character.add_msg_if_player( _( "Cleared ammo preferences for %s." ), weapon->tname() );
                         player_character.ammo_location = item_location();
-                    } else {
+                    } else if( player_character.has_item( *opt.ammo ) ) {
+                        player_character.add_msg_if_player( _( "Selected %s as default ammo for %s." ), opt.ammo->tname(),
+                                                            weapon->tname() );
                         player_character.ammo_location = opt.ammo;
+                    } else {
+                        player_character.add_msg_if_player(
+                            _( "You need to keep that ammo on you to select it as default ammo." ) );
                     }
                 }
             }

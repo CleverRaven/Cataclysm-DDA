@@ -136,7 +136,8 @@
       [ "spell_scroll_force_jar", 30 ],
       [ "spell_scroll_flamebreath", 30 ],
       [ "spell_scroll_thought_shield", 35 ],
-      [ "spell_scroll_technomancer_far_sight", 20 ]
+      [ "spell_scroll_technomancer_far_sight", 20 ],
+      [ "spell_scroll_technomancer_pain_ignore", 30 ]
     ]
   },
   {

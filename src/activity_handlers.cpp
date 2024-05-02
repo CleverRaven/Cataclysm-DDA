@@ -195,6 +195,8 @@ static const efftype_id effect_social_dissatisfied( "social_dissatisfied" );
 static const efftype_id effect_social_satisfied( "social_satisfied" );
 static const efftype_id effect_under_operation( "under_operation" );
 
+static const furn_str_id furn_f_compost_empty( "f_compost_empty" );
+static const furn_str_id furn_f_compost_full( "f_compost_full" );
 static const furn_str_id furn_f_fvat_empty( "f_fvat_empty" );
 static const furn_str_id furn_f_fvat_wood_empty( "f_fvat_wood_empty" );
 static const furn_str_id furn_f_fvat_wood_full( "f_fvat_wood_full" );
@@ -1575,6 +1577,15 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
                                 here.furn_set( source_pos, furn_f_fvat_empty );
                             }
                         }
+                    } else if( here.furn( source_pos )->has_examine( iexamine::compost_full ) ) {
+                        add_msg( _( "You squeeze the last drops of %s from the tank." ),
+                                 liquid.type_name( 1 ) );
+                        map_stack items_here = here.i_at( source_pos );
+                        if( items_here.empty() ) {
+                            if( here.furn( source_pos ) == furn_f_compost_full ) {
+                                here.furn_set( source_pos, furn_f_compost_empty );
+                            }
+                        }
                     }
                     act_ref.set_to_null();
                 }
@@ -2758,12 +2769,10 @@ void activity_handlers::view_recipe_do_turn( player_activity *act, Character *yo
 
     recipe_id id( act->name );
     std::string itname;
-    const inventory &inven = you->crafting_inventory();
-    const std::vector<Character *> &helpers = you->get_crafting_helpers();
     if( act->index != 0 ) {
         // act->name is recipe_id
         itname = id->result_name();
-        if( !you->get_available_recipes( inven, &helpers ).contains( &id.obj() ) ) {
+        if( !you->get_group_available_recipes().contains( &id.obj() ) ) {
             add_msg( m_info, _( "You don't know how to craft the %s!" ), itname );
             return;
         }
@@ -2780,8 +2789,8 @@ void activity_handlers::view_recipe_do_turn( player_activity *act, Character *yo
     for( const auto& [_, r] : recipe_dict ) {
         if( !r.obsolete && ( item == r.result() || r.in_byproducts( item ) ) ) {
             is_byproduct = true;
-            // If if exists, do I know it?
-            if( you->get_available_recipes( inven, &helpers ).contains( &r ) ) {
+            // If a recipe exists, does my group know it?
+            if( you->get_group_available_recipes().contains( &r ) ) {
                 can_craft = true;
                 break;
             }

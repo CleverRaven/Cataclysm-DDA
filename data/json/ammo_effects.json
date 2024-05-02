@@ -86,12 +86,14 @@
   {
     "id": "INCENDIARY",
     "type": "ammo_effect",
-    "//": "Creature, that got hit with this projectile, would be ignited for a short duration, up to 4 seconds, (6 if creature is made out of flammable material or made out of veggy). Hardcoded"
+    "//": "Creature, that got hit with this projectile, would be ignited for a short duration, up to 4 seconds, (6 if creature is made out of flammable material or made out of veggy). Hardcoded in projectile::apply_effects_damage",
+    "//2": "10% chance to start fires on flammable (has flag FLAMMABLE_ASH) furniture/terrain **with defined shoot data**, hardcoded in map::shoot"
   },
   {
     "id": "IGNITE",
     "type": "ammo_effect",
-    "//": "Same as INCENDIARY, creature that got hit with this projectile, would be ignited for a short duration, up to 6 seconds, (10 if creature is made out of flammable material or made out of veggy). Hardcoded"
+    "//": "Same as INCENDIARY, creature that got hit with this projectile, would be ignited for a short duration, up to 6 seconds, (10 if creature is made out of flammable material or made out of veggy). Hardcoded",
+    "//2": "Guaranteed to start fires on flammable (has flag FLAMMABLE_ASH) furniture/terrain **with defined shoot data**, hardcoded in map::shoot"
   },
   {
     "id": "JET",
@@ -390,6 +392,12 @@
     "trail": { "field_type": "fd_smoke", "intensity_min": 1, "intensity_max": 2, "chance": 75 }
   },
   {
+    "id": "STREAM_TINY",
+    "type": "ammo_effect",
+    "//": "Sometimes leaves a trail of small fire fields. All of these STREAM_XXXXXX effects have hardcoded interactions in projectile_attack (ballistics.cpp)",
+    "trail": { "field_type": "fd_fire", "intensity_min": 1, "intensity_max": 1, "chance": 10 }
+  },
+  {
     "id": "STREAM",
     "type": "ammo_effect",
     "//": "Leaves a trail of fire fields",
@@ -400,6 +408,12 @@
     "type": "ammo_effect",
     "//": "Leaves a trail of intense fire fields",
     "trail": { "field_type": "fd_fire", "intensity_min": 2, "intensity_max": 2, "chance": 75 }
+  },
+  {
+    "id": "PYROTECHNIC_DISPLAY",
+    "type": "ammo_effect",
+    "//": "Looks like huge fires, but doesn't actually burn stuff.",
+    "trail": { "field_type": "fd_fire_FAKE", "intensity_min": 1, "intensity_max": 3, "chance": 85 }
   },
   {
     "id": "STREAM_GAS_FUNGICIDAL",

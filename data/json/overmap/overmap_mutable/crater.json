@@ -5,6 +5,8 @@
     "subtype": "mutable",
     "locations": [ "land", "road", "crater", "open_air", "agricultural" ],
     "occurrences": [ 66, 100 ],
+    "//": "Spawn after all roads from other specials to avoid their roads routing around placed craters",
+    "priority": -2,
     "flags": [ "UNIQUE", "BLOB", "CLASSIC" ],
     "check_for_locations_area": [ { "type": [ "land", "road", "agricultural" ], "from": [ -1, -1, 0 ], "to": [ 1, 1, 0 ] } ],
     "joins": [ "crater_to_crater", "root" ],
@@ -28,6 +30,13 @@
         "east": { "id": "crater_to_crater", "type": "available" },
         "south": { "id": "crater_to_crater", "type": "available" },
         "west": { "id": "crater_to_crater", "type": "available" }
+      },
+      "ground_cleanup": {
+        "overmap": "crater_core_small",
+        "north": { "id": "root", "type": "available" },
+        "east": { "id": "root", "type": "available" },
+        "south": { "id": "root", "type": "available" },
+        "west": { "id": "root", "type": "available" }
       }
     },
     "root": "core_root",
@@ -158,7 +167,8 @@
           "max": { "binomial": [ 1, 0.66 ] }
         }
       ],
-      [ { "overmap": "cleanup", "weight": 1 } ]
+      [ { "overmap": "cleanup", "weight": 1 } ],
+      [ { "overmap": "ground_cleanup", "weight": 1 } ]
     ]
   }
 ]

@@ -179,6 +179,10 @@ struct mutation_branch {
         bool purifiable = false;
         // True if it's a threshold itself, and shouldn't be obtained *easily* (False by default).
         bool threshold = false;
+        // Other threshold traits that are taken as acceptable replacements for this threshold
+        std::vector<trait_id> threshold_substitutes;
+        // Disallow threshold substitution for this trait in particular
+        bool strict_threshreq = false;
         // True if this is a trait associated with professional training/experience, so profession/quest ONLY.
         bool profession = false;
         // True if the mutation is obtained through the debug menu

@@ -55,7 +55,7 @@ Property                 | Description
 `melee_damage`           | (array of objects) List of damage instances added to die roll on monster melee attack. Also see [monster maximum damage scaling in GAME_BALANCE.md](GAME_BALANCE.md#monster-maximum-damage-scaling)
 `melee_dice`             | (integer) Number of dice rolled on monster melee attack to determine bash damage
 `melee_dice_sides`       | (integer) Number of sides on each die rolled by `melee_dice`
-`grab_strength`          | (integer) Intensity of grab effect, from `1` to `n`, simulating `n` regular zombie grabs
+`grab_strength`          | (integer) Intensity of grab effect, from `1` to `n`. A default zombie has a grab strength of `20`
 `melee_training_cap`     | (integer) The maximum melee skill levels learnable by fighting this monster. If not defined defaults to `melee_skill + 2`.
 `armor`                  | (object) Monster's protection from different types of damage
 `weakpoints`             | (array of objects) Weakpoints in the monster's protection
@@ -323,7 +323,7 @@ Lower and upper bound of limb sizes the monster's melee attack can target - see 
 ## "grab_strength"
 (integer, optional)
 
-Intensity of the grab effect applied by this monster. Defaults to 1, is only useful for monster with a GRAB special attack and the GRABS flag. A monster with grab_strength = n applies a grab as if it was n zombies. A player with `max(Str,Dex)<=n` has no chance of breaking that grab.
+Base intensity of the grab effect applied by this monster as used by a `grab`-type special attack unless overwritten by the `grab_data` of the attack itself, default 1, range 1-100. See [Grab attacks](MONSTER_SPECIAL_ATTACKS.md#grab_attacks) for more information.
 
 ## "armor"
 (object, optional)
@@ -450,7 +450,8 @@ How the monster behaves on death.
 {
     "corpse_type": "NORMAL", // can be: BROKEN, NO_CORPSE, NORMAL (default)
     "message": "The %s dies!", // substitute %s for the monster's name.
-    "effect": { "id": "death_boomer", "hit_self": true }  // the actual effect that gets called when the monster dies.  follows the syntax of fake_spell.
+    "effect": { "id": "death_boomer", "hit_self": true }  // the spell that gets called when the monster dies.  follows the syntax of fake_spell.
+    "eoc": "debug_eoc_message",  // eoc that would be run when monster dies. Alpha talker is monster, beta talker is player (always).
 }
 ```
 

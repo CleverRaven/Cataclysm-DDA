@@ -14,7 +14,7 @@
     "addiction_potential": 5,
     "calories": 26,
     "description": "A very concentrated form of mana potion.",
-    "price": 60000,
+    "price": "600 USD",
     "volume": "500 ml",
     "phase": "liquid",
     "charges": 2,
