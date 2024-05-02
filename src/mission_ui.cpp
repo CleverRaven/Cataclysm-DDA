@@ -89,6 +89,9 @@ void mission_ui::draw_mission_ui()
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "SELECT" );
     ctxt.register_action( "MOUSE_MOVE" );
+    ctxt.register_action( "CONFIRM", to_translation( "Set selected mission as current objective" ) );
+    // We don't actually have a way to remap this right now
+    //ctxt.register_action( "DOUBLE_CLICK", to_translation( "Set selected mission as current objective" ) );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "QUIT" );
     // Smooths out our handling, makes tabs load immediately after input instead of waiting for next.
@@ -179,6 +182,11 @@ void mission_ui_impl::draw_controls()
         selected_mission = umissions.size() - 1;
     }
 
+    // This action needs to be after umissions is populated
+    if( last_action == "CONFIRM" && selected_tab == mission_ui_tab_enum::ACTIVE ) {
+        get_avatar().set_active_mission( *umissions[selected_mission] );
+    }
+
     if( umissions.empty() ) {
         static const std::map< mission_ui_tab_enum, std::string > nope = {
             { mission_ui_tab_enum::ACTIVE, translate_marker( "You have no active missions!" ) },
@@ -187,6 +195,11 @@ void mission_ui_impl::draw_controls()
         };
         ImGui::TextWrapped( "%s", nope.at( selected_tab ).c_str() );
         return;
+    }
+
+    if( get_avatar().get_active_mission() ) {
+        ImGui::TextWrapped( _( "Current objective: %s" ),
+                            get_avatar().get_active_mission()->name().c_str() );
     }
 
     if( ImGui::BeginTable( "##MISSION_TABLE", 2, ImGuiTableFlags_None,
@@ -213,8 +226,12 @@ void mission_ui_impl::draw_mission_names( std::vector<mission *> missions, int &
         for( int i = 0; i < num_missions; i++ ) {
             const bool is_selected = selected_mission == i;
             ImGui::PushID( i );
-            if( ImGui::Selectable( missions[i]->name().c_str(), is_selected ) ) {
+            if( ImGui::Selectable( missions[i]->name().c_str(), is_selected,
+                                   ImGuiSelectableFlags_AllowDoubleClick ) ) {
                 selected_mission = i;
+                if( ImGui::IsMouseDoubleClicked( ImGuiMouseButton_Left ) ) {
+                    get_avatar().set_active_mission( *missions[selected_mission] );
+                }
             }
 
             if( is_selected && need_adjust ) {
