@@ -58,7 +58,7 @@
       "dispersion": 1.2,
       "range": 0.5
     },
-    "extend": { "effects": [ "INCENDIARY", "STREAM", "NOGIB" ] }
+    "extend": { "effects": [ "INCENDIARY", "PYROTECHNIC_DISPLAY", "STREAM_TINY", "NOGIB" ] }
   },
   {
     "id": "shot_explosive",

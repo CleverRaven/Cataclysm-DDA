@@ -911,11 +911,6 @@
     "type": "json_flag"
   },
   {
-    "id": "SLOWS_MOVEMENT",
-    "type": "json_flag",
-    "info": "This clothing is restrictive and <bad>slows your movement speed</bad>."
-  },
-  {
     "id": "STURDY",
     "type": "json_flag",
     "info": "This clothing will <good>protect</good> you from harm and withstand <info>a lot of abuse</info>.",

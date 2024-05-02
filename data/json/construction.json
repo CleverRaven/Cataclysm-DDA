@@ -9143,7 +9143,7 @@
       [ [ "rope_natural", 2, "LIST" ] ]
     ],
     "pre_note": "Constructs scaffolding on the tile and provides a platform on the Z level above.",
-    "pre_special": [ "check_empty", "check_single_support", "check_up_OK", "check_nofloor_above" ],
+    "pre_special": [ "check_empty", "check_up_OK", "check_nofloor_above" ],
     "post_special": "add_roof",
     "post_terrain": "t_scaffolding_pipe_up"
   },
