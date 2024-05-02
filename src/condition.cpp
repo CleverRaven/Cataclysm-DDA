@@ -1433,14 +1433,22 @@ conditional_t::func f_follower_present(const JsonObject &jo, std::string_view me
     const std::string &var_name = jo.get_string(std::string(member));
     return [var_name](dialogue const &d)
     {
-        shared_ptr_fast<npc> npc_to_get = overmap_buffer.find_npc_by_unique_id(std::string(var_name));
+        npc *npc_to_check = nullptr;
+        for(npc &guy : g->all_npcs())
+        {
+            if(guy.myclass.str() == var_name)
+            {
+                npc_to_check = &guy;
+                break;
+            }
+        }
         npc *d_npc = d.actor(true)->get_npc();
-        if(!npc_to_get || d_npc == nullptr)
+        if(npc_to_check == nullptr || d_npc == nullptr)
         {
             return false;
         }
-        npc *npc_to_check = npc_to_get.get();
-        if(!std::any_of(g->get_follower_list().begin(), g->get_follower_list().end(), [&npc_to_check](const character_id &id) { return id == npc_to_check->getID(); }) || 
+        const std::set<character_id> followers = g->get_follower_list();
+        if(!std::any_of(followers.begin(), followers.end(), [&npc_to_check](const character_id &id) { return id == npc_to_check->getID(); }) ||
             !npc_to_check->is_following())
         {
             return false;
