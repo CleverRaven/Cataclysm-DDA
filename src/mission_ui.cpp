@@ -168,7 +168,6 @@ void mission_ui_impl::draw_controls()
             umissions = get_avatar().get_failed_missions();
             ImGui::EndTabItem();
         }
-        ImGui::Separator();
         ImGui::EndTabBar();
     }
 
