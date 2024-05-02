@@ -334,7 +334,7 @@
   {
     "type": "effect_type",
     "id": "shattered",
-    "name": [ "shattered" ],
+    "name": [ "Shattered Armor" ],
     "//": "Intended for monsters, has no effect except to create a new weak point.",
     "desc": [ "Your armor has been shattered by a heavy attack." ],
     "apply_message": "Your armor has been shattered.",
@@ -4662,6 +4662,26 @@
           { "value": "ARMOR_ELEC", "add": 15 },
           { "value": "ARMOR_ACID", "add": 15 },
           { "value": "ARMOR_BULLET", "add": 50 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "nemesis_buff",
+    "type": "effect_type",
+    "max_duration": "1000 s",
+    "name": [ "SWOLE" ],
+    "desc": [ "If you see this description it is a bug." ],
+    "rating": "bad",
+    "show_intensity": false,
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "SPEED", "multiply": { "math": [ "Nemesis_iteration * 0.01" ] } },
+          { "value": "ARMOR_BASH", "add": { "math": [ "Nemesis_iteration * -1" ] } },
+          { "value": "ARMOR_STAB", "add": { "math": [ "Nemesis_iteration * -1" ] } },
+          { "value": "ARMOR_CUT", "add": { "math": [ "Nemesis_iteration * -1" ] } }
         ]
       }
     ]

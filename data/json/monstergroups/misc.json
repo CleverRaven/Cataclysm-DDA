@@ -65,11 +65,18 @@
     "name": "GROUP_MANSION_START",
     "//": "Nonsense ferals for the mansion escape challenge scenario, shouldn't be used for general spawns",
     "monsters": [
-      { "monster": "mon_feral_maid_broom", "weight": 400 },
-      { "monster": "mon_feral_maid_candlestick", "weight": 400 },
-      { "monster": "mon_feral_maid_knife", "weight": 400 },
-      { "monster": "mon_feral_fancy_rapier", "weight": 300 },
+      { "group": "GROUP_MANSION_PURSUERS", "weight": 1600 },
+      { "monster": "mon_feral_fancy_rapier", "weight": 200 },
       { "monster": "mon_feral_fancy_rapier_fake", "weight": 300 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_MANSION_PURSUERS",
+    "monsters": [
+      { "monster": "mon_feral_maid_broom", "weight": 600 },
+      { "monster": "mon_feral_maid_candlestick", "weight": 600 },
+      { "monster": "mon_feral_maid_knife", "weight": 400 }
     ]
   },
   {
@@ -91,6 +98,7 @@
     "//": "Z-2 subways, some lost nether things but otherwise mostly normal mobs",
     "default": "mon_spider_jumping_small",
     "monsters": [
+      { "group": "GROUP_NETHER_UNVIABLE", "weight": 300, "cost_multiplier": 0 },
       { "monster": "mon_woodlouse", "weight": 300, "pack_size": [ 1, 3 ] },
       { "monster": "mon_slug_small", "weight": 180, "ends": "180 hours" },
       { "monster": "mon_slug_giant", "weight": 180, "starts": "180 hours" },

@@ -1180,5 +1180,30 @@
       { "u_add_effect": "tindrift", "duration": "1 s" },
       { "u_message": "Your sight darkens as the visions overtake you!", "type": "bad" }
     ]
+  },
+  {
+    "type": "SPELL",
+    "id": "veiled_butterfly_irradiate",
+    "name": { "str": "Irradiate Player" },
+    "description": "Adds minor radiation to player.",
+    "flags": [ "NO_PROJECTILE", "SILENT", "NO_EXPLOSION_SFX" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_veiled_butterfly_irradiate",
+    "valid_targets": [ "hostile" ],
+    "base_casting_time": 200,
+    "min_aoe": 1,
+    "max_aoe": 1,
+    "min_range": 1,
+    "max_range": 5,
+    "shape": "blast"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_veiled_butterfly_irradiate",
+    "condition": "u_is_character",
+    "effect": [
+      { "u_message": "The veiled butterfly's wings move in odd ways and a strange glow envelops you!", "type": "bad" },
+      { "math": [ "u_val('rad')", "+=", "20" ] }
+    ]
   }
 ]

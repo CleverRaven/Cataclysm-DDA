@@ -539,6 +539,29 @@
     ]
   },
   {
+    "name": "GROUP_SCENARIO_PANICROOM",
+    "type": "monstergroup",
+    "//": "Flavor spawn group for scenario panic rooms for better story-telling.  Improved chance of dogs, fancy dogs, and (still) breathing people and children.",
+    "monsters": [
+      { "monster": "mon_zombie_child", "weight": 180 },
+      { "group": "GROUP_CIVILIANS_STANDARD", "weight": 200 },
+      { "group": "GROUP_PET_DOGS", "weight": 100, "cost_multiplier": 2 },
+      { "monster": "mon_dog_rottweiler", "weight": 100, "cost_multiplier": 2 },
+      { "monster": "mon_dog_gpyrenees", "weight": 100, "cost_multiplier": 2 }
+    ]
+  },
+  {
+    "name": "GROUP_PANICROOM",
+    "type": "monstergroup",
+    "//": "Same as above, but more lethal.",
+    "monsters": [
+      { "monster": "mon_zombie", "weight": 120, "cost_multiplier": 2 },
+      { "group": "GROUP_SCENARIO_PANICROOM", "weight": 680 },
+      { "group": "GROUP_FERAL", "weight": 150, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_dog", "weight": 20 }
+    ]
+  },
+  {
     "type": "monstergroup",
     "name": "GROUP_ZOMBULL_FROG_UPGRADE",
     "monsters": [

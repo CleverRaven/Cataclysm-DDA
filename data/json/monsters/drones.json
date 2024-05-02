@@ -4,7 +4,7 @@
     "type": "MONSTER",
     "name": { "str": "autonomous drone" },
     "default_faction": "defense_bot",
-    "species": [ "ROBOT" ],
+    "species": [ "ROBOT_FLYING" ],
     "volume": "750 ml",
     "weight": "1 kg",
     "hp": 10,

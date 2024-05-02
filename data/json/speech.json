@@ -2725,7 +2725,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_civilian_zombiefighter" ],
+    "speaker": [ "mon_civilian_zombiefighter", "mon_feral_maid_broom", "mon_feral_maid_candlestick", "mon_feral_maid_knife" ],
     "sound": "\"Die!\"",
     "volume": 30
   },
@@ -2788,6 +2788,150 @@
     "speaker": [ "mon_civilian_parent" ],
     "sound": "someone calling for their child.",
     "volume": 25
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_maid_broom", "mon_feral_maid_candlestick", "mon_feral_maid_knife" ],
+    "sound": "\"Here!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_maid_broom", "mon_feral_maid_candlestick", "mon_feral_maid_knife" ],
+    "sound": "\"Here it is!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_maid_broom", "mon_feral_maid_candlestick", "mon_feral_maid_knife" ],
+    "sound": "\"Found you!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_maid_broom", "mon_feral_maid_candlestick", "mon_feral_maid_knife" ],
+    "sound": "\"You are trapped!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_maid_broom" ],
+    "sound": "\"Time to take out the trash!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_maid_candlestick" ],
+    "sound": "\"Time to turn off the lights!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_maid_knife" ],
+    "sound": "\"Food is ready!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_maid_knife" ],
+    "sound": "\"Today's menu is… You!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_maid_knife" ],
+    "sound": "\"Looks like meat is back on the menu!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_maid_broom", "mon_feral_maid_candlestick", "mon_feral_maid_knife" ],
+    "sound": "\"Come here!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_maid_broom", "mon_feral_maid_candlestick", "mon_feral_maid_knife" ],
+    "sound": "\"Lord, an intruder!\"",
+    "volume": 35
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_maid_broom", "mon_feral_maid_candlestick", "mon_feral_maid_knife" ],
+    "sound": "\"My lady, come see this one!\"",
+    "volume": 35
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_maid_broom", "mon_feral_maid_candlestick", "mon_feral_maid_knife" ],
+    "sound": "\"Master, I have one trapped!\"",
+    "volume": 35
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_fancy_rapier", "mon_feral_fancy_rapier_fake", "mon_feral_armored_mace", "mon_feral_armored_battleaxe" ],
+    "sound": "\"Where…\"",
+    "volume": 5
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_fancy_rapier", "mon_feral_fancy_rapier_fake" ],
+    "sound": "\"Look over there!\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_fancy_rapier", "mon_feral_fancy_rapier_fake" ],
+    "sound": "\"Come eat with me…\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_fancy_rapier", "mon_feral_fancy_rapier_fake" ],
+    "sound": "\"Come dance with me!\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_fancy_rapier", "mon_feral_fancy_rapier_fake" ],
+    "sound": "\"You can't hide forever…\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_fancy_rapier", "mon_feral_fancy_rapier_fake" ],
+    "sound": "\"Did you hear that?…\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_fancy_rapier", "mon_feral_fancy_rapier_fake" ],
+    "sound": "\"Another dead end!\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_armored_mace", "mon_feral_armored_battleaxe" ],
+    "sound": "the sound of metal dragged on the floor.",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_armored_mace", "mon_feral_armored_battleaxe" ],
+    "sound": "heavy but muffled breathing.",
+    "volume": 5
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_armored_mace", "mon_feral_armored_battleaxe" ],
+    "sound": "a strong swing of something in the air.",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_armored_mace", "mon_feral_armored_battleaxe" ],
+    "sound": "footsteps of something heavy and big.",
+    "volume": 8
   },
   {
     "type": "speech",
