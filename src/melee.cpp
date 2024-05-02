@@ -95,7 +95,6 @@ static const efftype_id effect_amigara( "amigara" );
 static const efftype_id effect_beartrap( "beartrap" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_downed( "downed" );
-static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_fearparalyze( "fearparalyze" );
 static const efftype_id effect_heavysnare( "heavysnare" );
 static const efftype_id effect_hit_by_player( "hit_by_player" );
@@ -152,8 +151,6 @@ static const trait_id trait_CLAWS_TENTACLE( "CLAWS_TENTACLE" );
 static const trait_id trait_CLUMSY( "CLUMSY" );
 static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
 static const trait_id trait_DEFT( "DEFT" );
-static const trait_id trait_DRUNKEN( "DRUNKEN" );
-static const trait_id trait_KI_STRIKE( "KI_STRIKE" );
 static const trait_id trait_POISONOUS( "POISONOUS" );
 static const trait_id trait_POISONOUS2( "POISONOUS2" );
 static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
@@ -179,7 +176,7 @@ static std::string melee_message( const ma_technique &tec, Character &p,
  * HIT DETERMINATION
  * int hit_roll() - The player's hit roll, to be compared to a monster's or
  *   player's dodge_roll().  This handles weapon bonuses, weapon-specific
- *   skills, torso encumbrance penalties and drunken master bonuses.
+ *   skills.
  */
 
 item_location Character::used_weapon() const
@@ -1300,31 +1297,6 @@ static void roll_melee_damage_internal( const Character &u, const damage_type_id
         skill = BIO_CQB_LEVEL;
     }
 
-    // FIXME: Hardcoded damage type effects (bash)
-    if( dt == damage_bash ) {
-        if( u.has_trait( trait_KI_STRIKE ) && unarmed ) {
-            // Pure unarmed doubles the bonuses from unarmed skill
-            skill *= 2;
-        }
-
-        // Drunken Master damage bonuses
-        if( u.has_trait( trait_DRUNKEN ) && u.has_effect( effect_drunk ) ) {
-            // Remember, a single drink gives 600 levels of "drunk"
-            int mindrunk = 0;
-            int maxdrunk = 0;
-            const time_duration drunk_dur = u.get_effect_dur( effect_drunk );
-            if( unarmed ) {
-                mindrunk = drunk_dur / 1_hours;
-                maxdrunk = drunk_dur / 25_minutes;
-            } else {
-                mindrunk = drunk_dur / 90_minutes;
-                maxdrunk = drunk_dur / 40_minutes;
-            }
-
-            dmg += average ? ( mindrunk + maxdrunk ) * 0.5f : rng( mindrunk, maxdrunk );
-        }
-    }
-
     if( unarmed ) {
         bool bp_unrestricted;
 
@@ -1418,11 +1390,6 @@ static void roll_melee_damage_internal( const Character &u, const damage_type_id
         /** @EFFECT_UNARMED caps bash damage with unarmed weapons */
         if( u.is_melee_bash_damage_cap_bonus() ) {
             bash_cap += melee_bonus;
-        }
-
-        if( u.has_trait( trait_KI_STRIKE ) && unarmed ) {
-            /** @EFFECT_UNARMED increases bashing damage with unarmed weapons when paired with the Ki Strike trait */
-            weap_dam += skill;
         }
     }
 
