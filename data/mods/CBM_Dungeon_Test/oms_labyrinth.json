@@ -14,8 +14,7 @@
       [ [ 0, 0, -6 ], [ "subterranean_empty" ] ],
       [ [ 0, 0, -7 ], [ "subterranean_empty" ] ]
     ],
-    "city_distance": [ 10, -1 ],
-    "occurrences": [ 0, 1 ],
+    "occurrences": [ 0, 0 ],
     "flags": [ "EXODII" ],
     "joins": [
       { "id": "passage_to_passage", "into_locations": [ "subterranean_empty" ] },
