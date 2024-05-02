@@ -1280,32 +1280,7 @@ static void roll_melee_damage_internal( const Character &u, const damage_type_id
     if( u.has_active_bionic( bio_cqb ) ) {
         skill = BIO_CQB_LEVEL;
     }
-
-    // FIXME: Hardcoded damage type effects (bash)
-    if( dt == damage_bash ) {
-        if( u.has_trait( trait_KI_STRIKE ) && unarmed ) {
-            // Pure unarmed doubles the bonuses from unarmed skill
-            skill *= 2;
-        }
-
-        // Drunken Master damage bonuses
-        if( u.has_trait( trait_DRUNKEN ) && u.has_effect( effect_drunk ) ) {
-            // Remember, a single drink gives 600 levels of "drunk"
-            int mindrunk = 0;
-            int maxdrunk = 0;
-            const time_duration drunk_dur = u.get_effect_dur( effect_drunk );
-            if( unarmed ) {
-                mindrunk = drunk_dur / 1_hours;
-                maxdrunk = drunk_dur / 25_minutes;
-            } else {
-                mindrunk = drunk_dur / 90_minutes;
-                maxdrunk = drunk_dur / 40_minutes;
-            }
-
-            dmg += average ? ( mindrunk + maxdrunk ) * 0.5f : rng( mindrunk, maxdrunk );
-        }
-    }
-
+    
     if( unarmed && !u.natural_attack_restricted_on( contact ) ) {
         // Add contact/parent damage bonuses to unarmed
         dmg += contact->unarmed_damage.type_damage( dt );
