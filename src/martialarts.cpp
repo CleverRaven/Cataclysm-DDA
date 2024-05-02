@@ -59,12 +59,12 @@ generic_factory<weapon_category> weapon_category_factory( "weapon category" );
 generic_factory<ma_technique> ma_techniques( "martial art technique" );
 generic_factory<martialart> martialarts( "martial art style" );
 generic_factory<ma_buff> ma_buffs( "martial art buff" );
-generic_factory<wip_attack_vector> attack_vector_factory( "attack vector" );
+generic_factory<attack_vector> attack_vector_factory( "attack vector" );
 } // namespace
 
 /** @relates string_id */
 template<>
-const wip_attack_vector &string_id<wip_attack_vector>::obj() const
+const attack_vector &string_id<attack_vector>::obj() const
 {
     return attack_vector_factory.obj( *this );
 }
@@ -75,17 +75,17 @@ bool attack_vector_id::is_valid() const
     return attack_vector_factory.is_valid( *this );
 }
 
-void wip_attack_vector::load_attack_vectors( const JsonObject &jo, const std::string &src )
+void attack_vector::load_attack_vectors( const JsonObject &jo, const std::string &src )
 {
     attack_vector_factory.load( jo, src );
 }
 
-void wip_attack_vector::reset()
+void attack_vector::reset()
 {
     attack_vector_factory.reset();
 }
 
-void wip_attack_vector::load( const JsonObject &jo, const std::string_view )
+void attack_vector::load( const JsonObject &jo, const std::string_view )
 {
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "name", name );
@@ -304,9 +304,6 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
     optional( jo, was_loaded, "tech_effects", tech_effects, tech_effect_reader{} );
 
-    optional( jo, was_loaded, "attack_vectors", attack_vectors, {} );
-    optional( jo, was_loaded, "attack_vectors_random", attack_vectors_random, {} );
-
     for( JsonValue jv : jo.get_array( "eocs" ) ) {
         eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
@@ -317,8 +314,8 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
         has_condition = true;
     }
 
-    if( jo.has_array( "wip_attack_vectors" ) ) {
-        optional( jo, was_loaded, "wip_attack_vectors", wip_attack_vectors );
+    if( jo.has_array( "attack_vectors" ) ) {
+        optional( jo, was_loaded, "attack_vectors", attack_vectors );
     }
     reqs.load( jo, src );
     bonuses.load( jo );
@@ -609,7 +606,7 @@ void finalize_martial_arts()
         effect_type::register_ma_buff_effect( new_eff );
     }
     // Iterate through every attack vector and substitute similar limbs (as long as they have similar sublimbs
-    for( wip_attack_vector vector : attack_vector_factory.get_all() ) {
+    for( attack_vector vector : attack_vector_factory.get_all() ) {
         // Check if this vector allows substitutions in the first place
         if( vector.strict_limb_definition ) {
             continue;
@@ -1447,18 +1444,6 @@ ma_technique character_martial_arts::get_miss_recovery( const Character &owner )
     return get_valid_technique( owner, &ma_technique::miss_recovery );
 }
 
-std::string character_martial_arts::get_valid_attack_vector( const Character &user,
-        const std::vector<std::string> &attack_vectors ) const
-{
-    for( auto av : attack_vectors ) {
-        if( can_use_attack_vector( user, av ) ) {
-            return av;
-        }
-    }
-
-    return "NONE";
-}
-
 std::optional<std::pair<attack_vector_id, sub_bodypart_str_id>>
         character_martial_arts::choose_attack_vector( const Character &user,
                 const matec_id &tech ) const
@@ -1472,7 +1457,7 @@ std::optional<std::pair<attack_vector_id, sub_bodypart_str_id>>
     const bool armed = user.is_armed();
     martialart ma = style_selected.obj();
     bool valid_weapon = ma.weapon_valid( user.get_wielded_item() );
-    for( const attack_vector_id &vec : tech.obj().wip_attack_vectors ) {
+    for( const attack_vector_id &vec : tech.obj().attack_vectors ) {
         add_msg_debug( debugmode::DF_MELEE, "Evaluating vector %s for tech %s", vec->name, tech.c_str() );
         float weight = 0.0f;
         // Early break for armed vectors
@@ -1607,29 +1592,6 @@ damage_instance character_martial_arts::calculate_vector_damage( const Character
         }
     }
     return ret;
-}
-
-bool character_martial_arts::can_use_attack_vector( const Character &user,
-        const std::string &av ) const
-{
-    martialart ma = style_selected.obj();
-    bool valid_weapon = ma.weapon_valid( user.get_wielded_item() );
-    int arm_r_hp = user.get_part_hp_cur( bodypart_id( "arm_r" ) );
-    int arm_l_hp = user.get_part_hp_cur( bodypart_id( "arm_l" ) );
-    int leg_r_hp = user.get_part_hp_cur( bodypart_id( "leg_r" ) );
-    int leg_l_hp = user.get_part_hp_cur( bodypart_id( "leg_l" ) );
-    bool healthy_arm = arm_r_hp > 0 || arm_l_hp > 0;
-    bool healthy_arms = arm_r_hp > 0 && arm_l_hp > 0;
-    bool healthy_legs = leg_r_hp > 0 && leg_l_hp > 0;
-    bool mouth_ok = ( av == "MOUTH" ) && !user.natural_attack_restricted_on( bodypart_id( "mouth" ) );
-    bool always_ok = av == "HEAD" || av == "TORSO";
-    bool weapon_ok = av == "WEAPON" && valid_weapon && healthy_arm;
-    bool arm_ok = ( av == "HAND" || av == "FINGER" || av == "WRIST" || av == "ARM" || av == "ELBOW" ||
-                    av == "HAND_BACK" || av == "PALM" || av == "SHOULDER" ) && healthy_arm;
-    bool arms_ok = ( av == "GRAPPLE" || av == "THROW" ) && healthy_arms;
-    bool legs_ok = ( av == "FOOT" || av == "LOWER_LEG" || av == "KNEE" || av == "HIP" ) && healthy_legs;
-
-    return always_ok || weapon_ok || mouth_ok || arm_ok || arms_ok || legs_ok;
 }
 
 bool character_martial_arts::can_leg_block( const Character &owner ) const

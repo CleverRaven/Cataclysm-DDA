@@ -86,11 +86,6 @@ class character_martial_arts
         // Calculate and return the damage of the given contact area for a given vector
         damage_instance calculate_vector_damage( const Character &user, const attack_vector_id &vec,
                 const sub_bodypart_str_id &contact_area ) const;
-        /** Returns an attack vector that the player can use */
-        std::string get_valid_attack_vector( const Character &user,
-                                             const std::vector<std::string> &attack_vectors ) const;
-        /** Returns true if the player is able to use the given attack vector */
-        bool can_use_attack_vector( const Character &user, const std::string &av ) const;
         /** Returns true if the player has the leg block technique available */
         bool can_leg_block( const Character &owner ) const;
         /** Returns true if the player has the arm block technique available */

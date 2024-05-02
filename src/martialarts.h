@@ -66,7 +66,7 @@ class weapon_category
 
 matype_id martial_art_learned_from( const itype & );
 
-struct wip_attack_vector {
+struct attack_vector {
     attack_vector_id id;
     translation name;
 
@@ -194,9 +194,7 @@ class ma_technique
         ma_requirements reqs;
 
         // What way is the technique delivered to the target?
-        std::vector<std::string> attack_vectors; // by priority
-        std::vector<std::string> attack_vectors_random; // randomly
-        std::vector<attack_vector_id> wip_attack_vectors;
+        std::vector<attack_vector_id> attack_vectors;
 
         int repeat_min = 1;    // Number of times the technique is repeated on a successful proc
         int repeat_max = 1;
