@@ -508,9 +508,17 @@ construction_id construction_menu( const bool blueprint )
     const nc_color color_stage = c_white;
     ui_adaptor ui;
 
-    std::unique_ptr<on_out_of_scope> invalidate_main_ui = std::make_unique<on_out_of_scope>( []() {
+    std::unique_ptr<on_out_of_scope> restore_ui = std::make_unique<on_out_of_scope>( []() {
+#if defined( TILES )
+        tilecontext->set_disable_occlusion( false );
+#endif
+        // always needs to restore view
         g->invalidate_main_ui_adaptor();
     } );
+#if defined( TILES )
+    tilecontext->set_disable_occlusion( true );
+    g->invalidate_main_ui_adaptor();
+#endif
     std::unique_ptr<restore_on_out_of_scope<tripoint>> restore_view
             = std::make_unique<restore_on_out_of_scope<tripoint>>( player_character.view_offset );
 
@@ -1002,7 +1010,7 @@ construction_id construction_menu( const bool blueprint )
                     } else {
                         draw_preview.reset();
                         restore_view.reset();
-                        invalidate_main_ui.reset();
+                        restore_ui.reset();
                         ui.reset();
                         place_construction( { constructs[select] } );
                         uistate.last_construction = constructs[select];
@@ -1175,6 +1183,15 @@ void place_construction( std::vector<construction_group_str_id> const &groups )
 
     bool blink = true;
     std::optional<tripoint_bub_ms> mouse_pos;
+
+#if defined( TILES )
+    on_out_of_scope reenable_occlusion( []() {
+        tilecontext->set_disable_occlusion( false );
+        g->invalidate_main_ui_adaptor();
+    } );
+    tilecontext->set_disable_occlusion( true );
+    g->invalidate_main_ui_adaptor();
+#endif
 
     shared_ptr_fast<game::draw_callback_t> draw_preview = construction_preview_callback(
                 valid, mouse_pos, blink );

@@ -664,6 +664,8 @@ class cata_tiles
 
         bool has_draw_override( const tripoint &p ) const;
 
+        void set_disable_occlusion( bool val );
+
         /**
          * Initialize the current tileset (load tile images, load mapping), using the current
          * tileset as it is set in the options.
@@ -753,6 +755,8 @@ class cata_tiles
         int fog_alpha = 0;
 
         bool in_animation = false;
+
+        bool disable_occlusion = false;
 
         bool do_draw_explosion = false;
         bool do_draw_custom_explosion = false;

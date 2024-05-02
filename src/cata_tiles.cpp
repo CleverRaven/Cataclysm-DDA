@@ -2369,6 +2369,11 @@ bool cata_tiles::find_overlay_looks_like( const bool male, const std::string &ov
     return exists;
 }
 
+void cata_tiles::set_disable_occlusion( const bool val )
+{
+    disable_occlusion = val;
+}
+
 bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEGORY category,
         const std::string &subcategory, const tripoint &pos,
         int subtile, int rota, lit_level ll, int retract,
@@ -2388,7 +2393,7 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
     const point screen_pos = player_to_screen( pos.xy() );
 
     if( retract < 0 && ( prevent_occlusion_transp || prevent_occlusion_retract ) ) {
-        if( prevent_occlusion == 0 ) {
+        if( prevent_occlusion == 0 || disable_occlusion ) {
             retract = 0;
         } else if( prevent_occlusion == 1 ) {
             retract = 100;
