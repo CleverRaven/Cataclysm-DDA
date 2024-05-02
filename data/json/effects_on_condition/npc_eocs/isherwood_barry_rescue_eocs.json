@@ -203,7 +203,14 @@
     "condition": {
       "and": [
         { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" },
-        { "not": { "u_near_om_location": "barry_mi-go_scout_tower_1", "range": 2 } },
+        {
+          "and": [
+            { "not": { "u_near_om_location": "barry_mi-go_scout_tower_1", "range": 2 } },
+            { "not": { "u_near_om_location": "barry_mi-go_scout_tower_2", "range": 2 } },
+            { "not": { "u_near_om_location": "barry_mi-go_scout_tower_3", "range": 2 } },
+            { "not": { "u_near_om_location": "barry_mi-go_scout_tower_4", "range": 2 } }
+          ]
+        },
         { "math": [ "currently_invading_map", "==", "1" ] }
       ]
     },

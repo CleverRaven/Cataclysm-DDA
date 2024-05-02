@@ -17,7 +17,16 @@
           { "u_add_var": "u_saved_barry", "type": "general", "context": "meeting", "value": "yes" },
           { "u_spawn_item": "hsurvivor_jumpsuit", "count": 1 },
           { "finish_mission": "MISSION_ISHERWOOD_CHRIS_1", "success": true },
-          { "mapgen_update": "isherwood_rescue_remove_npcs", "om_terrain": "rural_road" }
+          { "mapgen_update": "isherwood_rescue_remove_npcs", "om_terrain": "rural_road" },
+          {
+            "u_location_variable": { "global_val": "isherwood_mission_sucess_return_map" },
+            "target_params": { "om_terrain": "horse_farm_isherwood_13", "search_range": 500, "z": 0 },
+            "furniture": "f_sofa",
+            "target_max_radius": 30,
+            "min_radius": 0,
+            "max_radius": 0
+          },
+          { "u_teleport": { "global_val": "isherwood_mission_sucess_return_map" }, "force": true }
         ],
         "topic": "TALK_DONE"
       },
