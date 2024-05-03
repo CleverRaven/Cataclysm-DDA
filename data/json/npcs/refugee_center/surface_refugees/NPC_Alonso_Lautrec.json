@@ -362,10 +362,19 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Alonso_Pretty_Action",
     "dynamic_line": {
-      "npc_has_var": "general_none_Alonso_accent",
-      "value": "asked",
-      "no": "My jewel of the New England, I give to you my biggest prize.",
-      "yes": { "gendered_line": "Yo, you're crazy hot!  I'm not stupid!", "relevant_genders": [ "u" ] }
+      "concatenate": [
+        {
+          "npc_has_var": "general_none_Alonso_accent",
+          "value": "asked",
+          "no": "My jewel of the New England, I give to you my biggest prize.",
+          "yes": { "gendered_line": "Yo, you're crazy hot!  I'm not stupid!", "relevant_genders": [ "u" ] }
+        },
+        {
+          "follower_present": "NC_STARTINGNPC_LIAM",
+          "yes": "\"\n\nLiam gives you a sly wink, heads to the door, theatrically produces a sock from - somewhere, you're not sure where - slides it on the doorknob, and leaves the room.",
+          "no": "\""
+        }
+      ]
     },
     "speaker_effect": {
       "sentinel": "service_provided",
@@ -380,10 +389,19 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Alonso_Normal_Action",
     "dynamic_line": {
-      "npc_has_var": "general_none_Alonso_accent",
-      "value": "asked",
-      "no": "I give to you what of I got.  And this is Alonso so I mean it's a lot.",
-      "yes": "Yeeeeah it's on!"
+      "concatenate": [
+        {
+          "npc_has_var": "general_none_Alonso_accent",
+          "value": "asked",
+          "no": "I give to you what of I got.  And this is Alonso so I mean it's a lot.",
+          "yes": "Yeeeeah it's on!"
+        },
+        {
+          "follower_present": "NC_STARTINGNPC_LIAM",
+          "yes": "\"\n\nLiam gives you a sly wink, heads to the door, theatrically produces a sock from - somewhere, you're not sure where - slides it on the doorknob, and leaves the room.",
+          "no": "\""
+        }
+      ]
     },
     "speaker_effect": {
       "sentinel": "service_provided",
@@ -398,10 +416,19 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Alonso_Ugly_Action",
     "dynamic_line": {
-      "npc_has_var": "general_none_Alonso_accent",
-      "value": "asked",
-      "no": "My jewel of the New England, I give to you my biggest prize.",
-      "yes": { "gendered_line": "Yo, you're crazy hot!  I'm not stupid!", "relevant_genders": [ "u" ] }
+      "concatenate": [
+        {
+          "npc_has_var": "general_none_Alonso_accent",
+          "value": "asked",
+          "no": "My jewel of the New England, I give to you my biggest prize.",
+          "yes": { "gendered_line": "Yo, you're crazy hot!  I'm not stupid!", "relevant_genders": [ "u" ] }
+        },
+        {
+          "follower_present": "NC_STARTINGNPC_LIAM",
+          "yes": "\"\n\nAfter shooting Alonso a smile of genuine respect, Liam gives you a sly wink, heads to the door, theatrically produces a sock from - somewhere, you're not sure where - slides it on the doorknob, and leaves the room.",
+          "no": "\""
+        }
+      ]
     },
     "speaker_effect": {
       "sentinel": "service_provided",
