@@ -7975,6 +7975,11 @@ shift_bitset_cache<MAPSIZE, 1>( std::bitset<MAPSIZE *MAPSIZE> &cache, const poin
 
 void map::shift( const point &sp )
 {
+    if( !zlevels ) {
+        debugmsg( "map::shift called from map that doesn't support Z levels" );
+        return;
+    }
+
     // Special case of 0-shift; refresh the map
     if( sp == point_zero ) {
         return; // Skip this?
@@ -7982,6 +7987,7 @@ void map::shift( const point &sp )
 
     if( std::abs( sp.x ) > 1 || std::abs( sp.y ) > 1 ) {
         debugmsg( "map::shift called with a shift of more than one submap" );
+        return;
     }
 
     const tripoint_abs_sm abs = get_abs_sub();
@@ -7996,8 +8002,9 @@ void map::shift( const point &sp )
 
     vehicle *remoteveh = g->remoteveh();
 
-    const int zmin = zlevels ? -OVERMAP_DEPTH : abs.z();
-    const int zmax = zlevels ? OVERMAP_HEIGHT : abs.z();
+    const int zmin = -OVERMAP_DEPTH;
+    const int zmax = OVERMAP_HEIGHT;
+
     for( int gridz = zmin; gridz <= zmax; gridz++ ) {
         level_cache *cache = get_cache_lazy( gridz );
         if( !cache ) {
@@ -8012,6 +8019,14 @@ void map::shift( const point &sp )
     // sx and sy should never be bigger than +/-1.
     // absx and absy are our position in the world, for saving/loading purposes.
     clear_vehicle_level_caches();
+
+    const int x_start = sp.x >= 0 ? 0 : my_MAPSIZE - 1;
+    const int x_stop = sp.x >= 0 ? my_MAPSIZE : -1;
+    const int x_step = sp.x >= 0 ? 1 : -1;
+    const int y_start = sp.y >= 0 ? 0 : my_MAPSIZE - 1;
+    const int y_stop = sp.y >= 0 ? my_MAPSIZE : -1;
+    const int y_step = sp.y >= 0 ? 1 : -1;
+
     for( int gridz = zmin; gridz <= zmax; gridz++ ) {
         // Clear vehicle list and rebuild after shift
         // mlangsdorf 2020 - this is kind of insane, building the cache is not free, why are
@@ -8023,81 +8038,32 @@ void map::shift( const point &sp )
             shift_bitset_cache<MAPSIZE_X, SEEX>( cache->map_memory_cache_ter, sp );
             shift_bitset_cache<MAPSIZE, 1>( cache->field_cache, sp );
         }
-        if( sp.x >= 0 ) {
-            for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
-                if( sp.y >= 0 ) {
-                    for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
-                        const tripoint grid( gridx, gridy, gridz );
-                        if( gridx + sp.x < my_MAPSIZE && gridy + sp.y < my_MAPSIZE ) {
-                            copy_grid( grid, grid + sp );
-                            submap *const cur_submap = get_submap_at_grid( grid );
-                            if( cur_submap == nullptr ) {
-                                debugmsg( "Tried to update vehicle list at %s but the submap is not loaded", grid.to_string() );
-                                continue;
-                            }
-                            update_vehicle_list( cur_submap, gridz );
-                        } else {
-                            loadn( grid, true );
-                            loaded_grids.emplace_back( grid );
-                        }
+    }
+
+    for( int gridx = x_start; gridx != x_stop; gridx += x_step ) {
+        for( int gridy = y_start; gridy != y_stop; gridy += y_step ) {
+            if( gridx + sp.x != x_stop && gridy + sp.y != y_stop ) {
+                for( int gridz = zmin; gridz <= zmax; gridz++ ) {
+                    const tripoint grid( gridx, gridy, gridz );
+
+                    copy_grid( grid, grid + sp );
+                    submap *const cur_submap = get_submap_at_grid( grid );
+                    if( cur_submap == nullptr ) {
+                        debugmsg( "Tried to update vehicle list at %s but the submap is not loaded", grid.to_string() );
+                        continue;
                     }
-                } else { // sy < 0; work through it backwards
-                    for( int gridy = my_MAPSIZE - 1; gridy >= 0; gridy-- ) {
-                        const tripoint grid( gridx, gridy, gridz );
-                        if( gridx + sp.x < my_MAPSIZE && gridy + sp.y >= 0 ) {
-                            copy_grid( grid, grid + sp );
-                            submap *const cur_submap = get_submap_at_grid( grid );
-                            if( cur_submap == nullptr ) {
-                                debugmsg( "Tried to update vehicle list at %s but the submap is not loaded", grid.to_string() );
-                                continue;
-                            }
-                            update_vehicle_list( cur_submap, gridz );
-                        } else {
-                            loadn( grid, true );
-                            loaded_grids.emplace_back( grid );
-                        }
-                    }
+                    update_vehicle_list( cur_submap, gridz );
                 }
-            }
-        } else { // sx < 0; work through it backwards
-            for( int gridx = my_MAPSIZE - 1; gridx >= 0; gridx-- ) {
-                if( sp.y >= 0 ) {
-                    for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
-                        const tripoint grid( gridx, gridy, gridz );
-                        if( gridx + sp.x >= 0 && gridy + sp.y < my_MAPSIZE ) {
-                            copy_grid( grid, grid + sp );
-                            submap *const cur_submap = get_submap_at_grid( grid );
-                            if( cur_submap == nullptr ) {
-                                debugmsg( "Tried to update vehicle list at %s but the submap is not loaded", grid.to_string() );
-                                continue;
-                            }
-                            update_vehicle_list( cur_submap, gridz );
-                        } else {
-                            loadn( grid, true );
-                            loaded_grids.emplace_back( grid );
-                        }
-                    }
-                } else { // sy < 0; work through it backwards
-                    for( int gridy = my_MAPSIZE - 1; gridy >= 0; gridy-- ) {
-                        const tripoint grid( gridx, gridy, gridz );
-                        if( gridx + sp.x >= 0 && gridy + sp.y >= 0 ) {
-                            copy_grid( grid, grid + sp );
-                            submap *const cur_submap = get_submap_at_grid( grid );
-                            if( cur_submap == nullptr ) {
-                                debugmsg( "Tried to update vehicle list at %s but the submap is not loaded", grid.to_string() );
-                                continue;
-                            }
-                            update_vehicle_list( cur_submap, gridz );
-                        } else {
-                            loadn( grid, true );
-                            loaded_grids.emplace_back( grid );
-                        }
-                    }
+            } else {
+                loadn( point( gridx, gridy ), true );
+
+                for( int gridz = zmin; gridz <= zmax; gridz++ ) {
+                    loaded_grids.emplace_back( tripoint( gridx, gridy, gridz ) );
                 }
             }
         }
-
     }
+
     rebuild_vehicle_level_caches();
 
     g->setremoteveh( remoteveh );
