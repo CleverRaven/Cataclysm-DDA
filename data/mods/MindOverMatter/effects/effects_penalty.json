@@ -412,7 +412,7 @@
     "remove_message": "The oppressive weight vanishes.",
     "rating": "bad",
     "max_intensity": 10,
-    "enchantments": [ { "values": [ { "value": "CARRY_WEIGHT", "multiply": 0.75 }, { "value": "MOVE_COST", "multiply": 1.5 } ] } ],
+    "enchantments": [ { "values": [ { "value": "CARRY_WEIGHT", "multiply": 0.75 }, { "value": "MOVE_COST", "multiply": 0.5 } ] } ],
     "limb_score_mods": [ { "limb_score": "balance", "modifier": 0.7 }, { "limb_score": "reaction", "modifier": 0.7 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
