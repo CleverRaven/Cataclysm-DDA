@@ -24,6 +24,7 @@ class fault_fix
         translation success_msg; // message to print on applying successfully
         time_duration time;
         std::map<std::string, std::string> set_variables; // item vars applied to item
+        std::map<std::string, std::string> adjust_variables; // item vars adjustment(s) applied to item
         std::map<skill_id, int> skills; // map of skill_id to required level
         std::set<fault_id> faults_removed; // which faults are removed on applying
         std::set<fault_id> faults_added; // which faults are added on applying

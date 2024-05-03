@@ -2688,6 +2688,9 @@ void activity_handlers::mend_item_finish( player_activity *act, Character *you )
     for( const auto &[var_name, var_value] : fix.set_variables ) {
         target.set_var( var_name, var_value );
     }
+    for( const auto &[var_name, var_value] : fix.adjust_variables ) {
+        target.set_var( var_name, target.get_var ( var_name ) + var_value );
+    }
 
     const std::string start_durability = target.durability_indicator( true );
 
