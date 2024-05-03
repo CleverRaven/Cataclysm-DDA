@@ -1948,6 +1948,12 @@ void options_manager::add_options_interface()
              true
            );
 
+        add( "HIGHLIGHT_UNREAD_ITEMS", page_id,
+             to_translation( "Highlight unread items" ),
+             to_translation( "If true, highlight unread items to allow tracking of newly discovered items." ),
+             true
+           );
+
         add( "SCREEN_READER_MODE", page_id, to_translation( "Screen reader mode" ),
              to_translation( "On supported UI screens, tweaks display of text to optimize for screen readers.  Targeted towards using the open-source screen reader 'orca' using curses for display." ),
              // See doc/USER_INTERFACE_AND_ACCESSIBILITY.md for testing and implementation notes

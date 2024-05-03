@@ -1151,18 +1151,18 @@ void complete_construction( Character *you )
             here.furn_set( terp, furn_str_id( built.post_terrain ) );
         } else {
             here.ter_set( terp, ter_str_id( built.post_terrain ) );
-            // Make a roof if constructed terrain should have it and it's an open air
+            // Make a roof if constructed terrain should have it and it's an open space
             if( construct::check_up_OK( terp ) ) {
                 const int_id<ter_t> post_terrain = ter_id( built.post_terrain );
                 if( post_terrain->roof ) {
                     const tripoint_bub_ms top = terp + tripoint_above;
-                    if( here.ter( top ) == ter_t_open_air ) {
+                    if( here.ter( top )->has_flag( "EMPTY_SPACE" ) ) {
                         here.ter_set( top, ter_id( post_terrain->roof ) );
                     }
                 }
             }
 
-            if( ter_id( built.post_terrain ).id() == ter_t_open_air ) {
+            if( ter_id( built.post_terrain )->has_flag( "EMPTY_SPACE" ) ) {
                 const tripoint_bub_ms below = terp + tripoint_below;
                 if( below.z() > -OVERMAP_DEPTH && here.ter( below ).obj().has_flag( "SUPPORTS_ROOF" ) ) {
                     const map_bash_info bash_info = here.ter( below ).obj().bash;
@@ -1630,11 +1630,7 @@ void construct::done_digormine_stair( const tripoint_bub_ms &p, bool dig,
                                       Character &player_character )
 {
     map &here = get_map();
-    const tripoint_abs_ms abs_pos = here.getglobal( p );
-    const tripoint_abs_omt pos_omt = project_to<coords::omt>( abs_pos );
-    tinymap tmpmap;
-    tmpmap.load( pos_omt + tripoint_below, false );
-    const tripoint local_tmp = tmpmap.getlocal( abs_pos );
+    const tripoint_bub_ms p_below = p + tripoint_below;
 
     bool dig_muts = player_character.has_trait( trait_PAINRESIST_TROGLO ) ||
                     player_character.has_trait( trait_STOCKY_TROGLO );
@@ -1645,7 +1641,7 @@ void construct::done_digormine_stair( const tripoint_bub_ms &p, bool dig,
     player_character.mod_thirst( 5 + mine_penalty + no_mut_penalty );
     player_character.mod_sleepiness( 10 + mine_penalty + no_mut_penalty );
 
-    if( tmpmap.ter( local_tmp ) == ter_t_lava ) {
+    if( here.ter( p_below ) == ter_t_lava ) {
         if( !query_yn( _( "The rock feels much warmer than normal.  Proceed?" ) ) ) {
             here.ter_set( p, ter_t_pit ); // You dug down a bit before detecting the problem
             unroll_digging( dig ? 8 : 12 );
@@ -1658,7 +1654,7 @@ void construct::done_digormine_stair( const tripoint_bub_ms &p, bool dig,
         return;
     }
 
-    bool impassable = tmpmap.impassable( local_tmp );
+    bool impassable = here.impassable( p_below );
     if( !impassable ) {
         add_msg( _( "You dig into a preexisting space, and improvise a ladder." ) );
     } else if( dig ) {
@@ -1667,11 +1663,8 @@ void construct::done_digormine_stair( const tripoint_bub_ms &p, bool dig,
         add_msg( _( "You drill out a passage, heading deeper underground." ) );
     }
     here.ter_set( p, ter_t_stairs_down ); // There's the top half
-    // Again, need to use submap-local coordinates.
-    tmpmap.ter_set( local_tmp, impassable ? ter_t_stairs_up :
-                    ter_t_ladder_up ); // and there's the bottom half.
-    // And save to the center coordinate of the current active map.
-    tmpmap.save();
+    here.ter_set( p_below, impassable ? ter_t_stairs_up :
+                  ter_t_ladder_up ); // and there's the bottom half.
 }
 
 void construct::done_dig_grave( const tripoint_bub_ms &p, Character &who )
@@ -1724,22 +1717,18 @@ void construct::done_mine_downstair( const tripoint_bub_ms &p, Character &who )
 void construct::done_mine_upstair( const tripoint_bub_ms &p, Character &player_character )
 {
     map &here = get_map();
-    const tripoint_abs_ms abs_pos = here.getglobal( p );
-    const tripoint_abs_omt pos_omt = project_to<coords::omt>( abs_pos );
-    tinymap tmpmap;
-    tmpmap.load( pos_omt + tripoint_above, false );
-    const tripoint local_tmp = tmpmap.getlocal( abs_pos );
+    const tripoint_bub_ms p_above = p + tripoint_above;
 
-    if( tmpmap.ter( local_tmp ) == ter_t_lava ) {
-        here.ter_set( p.xy(), ter_t_rock_floor ); // You dug a bit before discovering the problem
+    if( here.ter( p_above ) == ter_t_lava ) {
+        here.ter_set( p, ter_t_rock_floor ); // You dug a bit before discovering the problem
         add_msg( m_warning, _( "The rock overhead feels hot.  You decide *not* to mine magma." ) );
         unroll_digging( 12 );
         return;
     }
 
-    if( tmpmap.has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, local_tmp ) ||
-        tmpmap.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, local_tmp ) ) {
-        here.ter_set( p.xy(), ter_t_rock_floor ); // You dug a bit before discovering the problem
+    if( here.has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, p_above.raw() ) ||
+        here.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, p_above.raw() ) ) {
+        here.ter_set( p, ter_t_rock_floor ); // You dug a bit before discovering the problem
         add_msg( m_warning, _( "The rock above is rather damp.  You decide *not* to mine water." ) );
         unroll_digging( 12 );
         return;
@@ -1754,10 +1743,8 @@ void construct::done_mine_upstair( const tripoint_bub_ms &p, Character &player_c
     player_character.mod_sleepiness( 25 + no_mut_penalty );
 
     add_msg( _( "You drill out a passage, heading for the surface." ) );
-    here.ter_set( p.xy(), ter_t_stairs_up ); // There's the bottom half
-    // We need to write to submap-local coordinates.
-    tmpmap.ter_set( local_tmp, ter_t_stairs_down ); // and there's the top half.
-    tmpmap.save();
+    here.ter_set( p, ter_t_stairs_up ); // There's the bottom half
+    here.ter_set( p_above, ter_t_stairs_down ); // and there's the top half.
 }
 
 void construct::done_wood_stairs( const tripoint_bub_ms &p, Character &/*who*/ )

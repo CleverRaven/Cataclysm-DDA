@@ -1713,6 +1713,32 @@ std::list<const item *> item_contents::all_items_top( const
     return all_items_internal;
 }
 
+content_newness item_contents::get_content_newness( const std::set<itype_id> &read_items ) const
+{
+    content_newness ret = content_newness::SEEN;
+    for( const item_pocket *pocket : get_all_standard_pockets() ) {
+        // taking transparent from item_contents::all_known_contents()
+        if( !pocket->transparent() ) {
+            ret = content_newness::MIGHT_BE_HIDDEN;
+            continue;
+        }
+        for( const item *itm : pocket->all_items_top() ) {
+            if( !read_items.count( itm->typeId() ) ) {
+                return content_newness::NEW;
+            }
+            switch( itm->get_contents().get_content_newness( read_items ) ) {
+                case content_newness::NEW:
+                    return content_newness::NEW;
+                case content_newness::MIGHT_BE_HIDDEN:
+                    ret = content_newness::MIGHT_BE_HIDDEN;
+                case content_newness::SEEN:
+                    break;
+            }
+        }
+    }
+    return ret;
+}
+
 std::list<const item *> item_contents::all_items_top( pocket_type pk_type ) const
 {
     return all_items_top( [pk_type]( const item_pocket & pocket ) {

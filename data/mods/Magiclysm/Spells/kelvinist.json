@@ -570,12 +570,12 @@
     "shape": "blast",
     "difficulty": 4,
     "max_level": 20,
-    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(180000)" ] },
-    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(2160000)" ] },
-    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(99000)" ] },
+    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(180000, 13200)" ] },
+    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(2160000, 13200)" ] },
+    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(99000, 0.05)" ] },
     "energy_source": "MANA",
     "base_energy_cost": 250,
-    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(1500)" ] }
+    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(1500, 20)" ] }
   },
   {
     "id": "kelvinist_anti_heat",
@@ -591,12 +591,12 @@
     "shape": "blast",
     "difficulty": 4,
     "max_level": 20,
-    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(180000)" ] },
-    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(2160000)" ] },
-    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(99000)" ] },
+    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(180000, 13200)" ] },
+    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(2160000, 13200)" ] },
+    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(99000, 0.05)" ] },
     "energy_source": "MANA",
     "base_energy_cost": 250,
-    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(1500)" ] }
+    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(1500, 20)" ] }
   },
   {
     "id": "kelvinist_persuasion_spell",
@@ -613,12 +613,12 @@
     "shape": "blast",
     "difficulty": 3,
     "max_level": 20,
-    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(90000)" ] },
-    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(990000)" ] },
-    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(45000)" ] },
+    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(90000, 6000)" ] },
+    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(990000, 6000)" ] },
+    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(45000, 0.05)" ] },
     "energy_source": "MANA",
     "base_energy_cost": 350,
-    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(500)" ] }
+    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(500, 2)" ] }
   },
   {
     "id": "kelvinist_extinguish_fire_spell",
@@ -701,12 +701,12 @@
     "max_level": 15,
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(60000)" ] },
-    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(960000)" ] },
-    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(60000)" ] },
+    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(60000, 6000)" ] },
+    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(960000, 6000)" ] },
+    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(60000, 0.07)" ] },
     "energy_source": "MANA",
     "base_energy_cost": 650,
-    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(6000)" ] }
+    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(6000, 40)" ] }
   },
   {
     "id": "kelvinist_firebolt",

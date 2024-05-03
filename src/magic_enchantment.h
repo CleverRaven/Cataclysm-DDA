@@ -291,6 +291,7 @@ class enchant_cache : public enchantment
         time_duration modify_value( enchant_vals::mod mod_val, time_duration value ) const;
         // adds two enchantments together and ignores their conditions
         void force_add( const enchantment &rhs, const Character &guy );
+        void force_add( const enchantment &rhs, const monster &mon );
         void force_add( const enchantment &rhs );
         void force_add( const enchant_cache &rhs );
 

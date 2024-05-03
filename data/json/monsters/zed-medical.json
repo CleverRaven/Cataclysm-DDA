@@ -16,7 +16,7 @@
     "description": "A former doctor of some sort, though its uniform has been torn apart.  You assume the oversized muscles that cover it to be the culprit.",
     "copy-from": "mon_zombie_brute",
     "death_drops": "mon_zombie_medical_death_drops",
-    "color": "blue"
+    "color": "red"
   },
   {
     "id": "mon_zombie_medical_regenerating",
@@ -34,7 +34,7 @@
     "description": "A malformed armor of misshapen bone has grown over this zombie, having pushed what remains of the skin out of the way.  The clothes of a medical worker are still draped over it.",
     "copy-from": "mon_skeleton",
     "death_drops": "zombie_medical_clothes",
-    "color": "blue"
+    "color": "white"
   },
   {
     "id": "mon_zombie_medical_acidic",

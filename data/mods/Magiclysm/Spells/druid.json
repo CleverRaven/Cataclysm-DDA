@@ -460,14 +460,14 @@
     "spell_class": "DRUID",
     "energy_source": "MANA",
     "difficulty": 4,
-    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(400)" ] },
+    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(400, 2)" ] },
     "base_energy_cost": 200,
     "max_level": 15,
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(24000)" ] },
-    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(360000)" ] },
-    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(24000)" ] },
+    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(24000, 2240)" ] },
+    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(360000, 2240)" ] },
+    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(24000, 0.07)" ] },
     "extra_effects": [ { "id": "eoc_enhancement_setup" } ],
     "learn_spells": { "druid_feralform_plus": 15 }
   },
@@ -485,18 +485,18 @@
     "spell_class": "DRUID",
     "energy_source": "MANA",
     "difficulty": 6,
-    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(400)" ] },
-    "final_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(100)" ] },
-    "casting_time_increment": { "math": [ "enhancement_proficiency_negate_calculate(-12)" ] },
+    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(400, 1)" ] },
+    "final_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(100, 1)" ] },
+    "casting_time_increment": { "math": [ "enhancement_proficiency_negate_calculate(-12, 0.04)" ] },
     "base_energy_cost": 200,
     "final_energy_cost": 100,
     "energy_increment": -4,
     "max_level": 25,
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(360000)" ] },
-    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(2160000)" ] },
-    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(72000)" ] },
+    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(360000, 12000)" ] },
+    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(2160000, 12000)" ] },
+    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(72000, 0.04)" ] },
     "extra_effects": [ { "id": "eoc_enhancement_setup" } ]
   },
   {
@@ -1169,13 +1169,13 @@
     "components": "spell_components_druid_anti_heat",
     "difficulty": 2,
     "max_level": 15,
-    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(90000)" ] },
-    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(900000)" ] },
-    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(54000)" ] },
+    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(90000, 5400)" ] },
+    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(900000, 5400)" ] },
+    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(54000, 0.07)" ] },
     "energy_source": "MANA",
     "base_energy_cost": 200,
     "extra_effects": [ { "id": "eoc_enhancement_setup" } ],
-    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(6000)" ] }
+    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(6000, 40)" ] }
   },
   {
     "id": "druid_breathing_underwater",
@@ -1193,11 +1193,11 @@
     "spell_class": "DRUID",
     "difficulty": 5,
     "max_level": 10,
-    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(3000)" ] },
+    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(3000, 20)" ] },
     "base_energy_cost": 350,
-    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(36000)" ] },
-    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(360000)" ] },
-    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(36000)" ] },
+    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(36000, 2160)" ] },
+    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(360000, 2160)" ] },
+    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(36000, 0.11)" ] },
     "extra_effects": [ { "id": "eoc_enhancement_setup" } ]
   },
   {
@@ -1252,11 +1252,11 @@
     "spell_class": "DRUID",
     "difficulty": 4,
     "max_level": 15,
-    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(250)" ] },
+    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(250, 2)" ] },
     "base_energy_cost": 250,
-    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(30000)" ] },
-    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(480000)" ] },
-    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(30000)" ] },
+    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(30000, 3000)" ] },
+    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(480000, 3000)" ] },
+    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(30000, 0.07)" ] },
     "extra_effects": [ { "id": "eoc_enhancement_setup" } ]
   },
   {
@@ -1279,8 +1279,12 @@
     "difficulty": 4,
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": { "math": [ "( (u_spell_level('druid_water_walking') * 30000) + enhancement_proficiency_bonus_calculate(30000))" ] },
-    "max_duration": { "math": [ "( (u_spell_level('druid_water_walking') * 30000) + enhancement_proficiency_bonus_calculate(30000))" ] }
+    "min_duration": {
+      "math": [ "( (u_spell_level('druid_water_walking') * 30000) + enhancement_proficiency_bonus_calculate(30000, 200))" ]
+    },
+    "max_duration": {
+      "math": [ "( (u_spell_level('druid_water_walking') * 30000) + enhancement_proficiency_bonus_calculate(30000, 200))" ]
+    }
   },
   {
     "type": "effect_on_condition",
@@ -1306,12 +1310,12 @@
     "shape": "blast",
     "difficulty": 3,
     "max_level": 15,
-    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(90000)" ] },
-    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(1440000)" ] },
-    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(90000)" ] },
+    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(90000, 9000)" ] },
+    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(1440000, 9000)" ] },
+    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(90000, 0.07)" ] },
     "energy_source": "MANA",
     "base_energy_cost": 150,
-    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(250)" ] },
+    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(250, 2)" ] },
     "extra_effects": [ { "id": "eoc_enhancement_setup" } ]
   },
   {
@@ -1404,14 +1408,14 @@
     "spell_class": "DRUID",
     "energy_source": "MANA",
     "difficulty": 4,
-    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(1500)" ] },
+    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(1500, 20)" ] },
     "base_energy_cost": 200,
     "max_level": 15,
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(96000)" ] },
-    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(1440000)" ] },
-    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(96000)" ] },
+    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(96000, 8960)" ] },
+    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(1440000, 8960)" ] },
+    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(96000, 0.07)" ] },
     "extra_effects": [ { "id": "eoc_enhancement_setup" } ]
   }
 ]

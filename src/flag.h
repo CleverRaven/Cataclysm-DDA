@@ -309,7 +309,6 @@ extern const flag_id flag_SKINTIGHT;
 extern const flag_id flag_SLEEP_AID;
 extern const flag_id flag_SLEEP_AID_CONTAINER;
 extern const flag_id flag_SLEEP_IGNORE;
-extern const flag_id flag_SLOWS_MOVEMENT;
 extern const flag_id flag_SLOW_WIELD;
 extern const flag_id flag_SMOKABLE;
 extern const flag_id flag_SMOKED;
