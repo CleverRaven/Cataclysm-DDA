@@ -98,7 +98,7 @@
           "condition": { "not": { "u_has_var": "ls_had_a_passcode", "value": "yes" } },
           "effect": [
             {
-              "u_message": "You see a squat, angry-looking, indigo metallic pillar covered carved in relief with the image of flying birds.  As your eyes are drawn to it, you feel a burning sensation on your skin.  <ls_obelisk_firsttime1> a tattoo of wings in a circle, running into themselves like an oroborous; it's the 'Circle of Wings Passcode'.  <ls_obelisk_firsttime2>",
+              "u_message": "You see a squat, angry-looking, indigo metallic pillar covered carved in relief with the image of flying birds.  As your eyes are drawn to it, you feel a burning sensation on your skin.  <ls_obelisk_firsttime1> a tattoo of wings in a circle, running into themselves like an ouroboros; it's the 'Circle of Wings Passcode'.  <ls_obelisk_firsttime2>",
               "popup": true
             },
             { "u_add_trait": "LS_Passcode_1" },
