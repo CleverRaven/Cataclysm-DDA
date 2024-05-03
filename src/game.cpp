@@ -111,6 +111,7 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_category.h"
+#include "item_contents.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "item_search.h"
@@ -8323,6 +8324,7 @@ void game::reset_item_list_state( const catacurses::window &window, int height, 
     tokens.emplace_back( _( "<C>ompare" ) );
     tokens.emplace_back( _( "<F>ilter" ) );
     tokens.emplace_back( _( "<+/->Priority" ) );
+    tokens.emplace_back( _( "<T>ravel to" ) );
 
     int gaps = tokens.size() + 1;
     letters = 0;
@@ -8398,21 +8400,56 @@ static std::string list_items_filter_history_help()
     return colorize( _( "UP: history, CTRL-U: clear line, ESC: abort, ENTER: save" ), c_green );
 }
 
+/// return content_newness based on if item is known and nested items are known
+static content_newness check_items_newness( const item *itm )
+{
+    if( !uistate.read_items.count( itm->typeId() ) ) {
+        return content_newness::NEW;
+    }
+    return itm->get_contents().get_content_newness( uistate.read_items );
+}
+
+/// add item and all visible nested items inside to known items
+static void mark_items_read_rec( const item *itm )
+{
+    uistate.read_items.insert( itm->typeId() );
+    for( const item *child : itm->all_known_contents() ) {
+        mark_items_read_rec( child );
+    }
+}
+
 game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
 {
     std::vector<map_item_stack> ground_items = item_list;
     int iInfoHeight = 0;
     int iMaxRows = 0;
     int width = 0;
+    int width_nob = 0;  // width without borders
     int max_name_width = 0;
+
+    const bool highlight_unread_items = get_option<bool>( "HIGHLIGHT_UNREAD_ITEMS" );
+    const nc_color item_new_col = c_light_green;
+    const nc_color item_maybe_new_col = c_light_gray;
+    const std::string item_new_str = pgettext( "crafting gui", "NEW!" );
+    const std::string item_maybe_new_str = pgettext( "crafting gui", "hides contents" );
+    const int item_new_str_width = utf8_width( item_new_str );
+    const int item_maybe_new_str_width = utf8_width( item_maybe_new_str );
+
+    // Constants for content that is always displayed in w_items
+    // on left: 1 space
+    const int left_padding = 1;
+    // on right: 2 digit distance 1 space 2 direction 1 space
+    const int right_padding = 2 + 1 + 2 + 1;
+    const int padding = left_padding + right_padding;
 
     //find max length of item name and resize window width
     for( const map_item_stack &cur_item : ground_items ) {
-        const int item_len = utf8_width( remove_color_tags( cur_item.example->display_name() ) ) + 15;
-        if( item_len > max_name_width ) {
-            max_name_width = item_len;
-        }
+        max_name_width = std::max( max_name_width,
+                                   utf8_width( remove_color_tags( cur_item.example->display_name() ) ) );
     }
+    // + 6 as estimate for `iThisPage` I guess
+    max_name_width = max_name_width + padding + 6 + ( highlight_unread_items ? std::max(
+                         item_new_str_width, item_maybe_new_str_width ) : 0 );
 
     tripoint active_pos;
     map_item_stack *activeItem = nullptr;
@@ -8427,11 +8464,12 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         iMaxRows = TERMY - iInfoHeight - 2;
 
         width = clamp( max_name_width, 55, TERMX / 3 );
+        width_nob = width - 2;
 
         const int offsetX = TERMX - width;
 
         w_items = catacurses::newwin( TERMY - 2 - iInfoHeight,
-                                      width - 2, point( offsetX + 1, 1 ) );
+                                      width_nob, point( offsetX + 1, 1 ) );
         w_items_border = catacurses::newwin( TERMY - iInfoHeight,
                                              width, point( offsetX, 0 ) );
         w_item_info = catacurses::newwin( iInfoHeight, width,
@@ -8517,8 +8555,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             werase( w_items );
             calcStartPos( iStartPos, iActive, iMaxRows, iItemNum );
             int iNum = 0;
-            bool high = false;
-            bool low = false;
+            // ITEM LIST
             int index = 0;
             int iCatSortOffset = 0;
 
@@ -8527,69 +8564,90 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                     iNum++;
                 }
             }
-            for( auto iter = filtered_items.begin(); iter != filtered_items.end(); ++index ) {
-                if( highPEnd > 0 && index < highPEnd + iCatSortOffset ) {
-                    high = true;
-                    low = false;
-                } else if( index >= lowPStart + iCatSortOffset ) {
-                    high = false;
-                    low = true;
-                } else {
-                    high = false;
-                    low = false;
-                }
-
-                if( iNum >= iStartPos && iNum < iStartPos + std::min( iMaxRows, iItemNum ) ) {
-                    int iThisPage = 0;
-                    if( !mSortCategory[iNum].empty() ) {
-                        iCatSortOffset++;
-                        mvwprintz( w_items, point( 1, iNum - iStartPos ), c_magenta, mSortCategory[iNum] );
-                    } else {
-                        if( iNum == iActive ) {
-                            iThisPage = page_num;
-                        }
-                        std::string sText;
-                        if( iter->vIG.size() > 1 ) {
-                            sText += string_format( "[%d/%d] (%d) ", iThisPage + 1, iter->vIG.size(), iter->totalcount );
-                        }
-                        sText += iter->example->tname();
-                        if( iter->vIG[iThisPage].count > 1 ) {
-                            sText += string_format( "[%d]", iter->vIG[iThisPage].count );
-                        }
-
-                        nc_color col = c_light_gray;
-                        if( iNum == iActive ) {
-                            col = hilite( c_white );
-                        } else if( high ) {
-                            col = c_yellow;
-                        } else if( low ) {
-                            col = c_red;
-                        } else {
-                            col = iter->example->color_in_inventory();
-                        }
-                        trim_and_print( w_items, point( 1, iNum - iStartPos ), width - 9, col, sText );
-                        const int numw = iItemNum > 9 ? 2 : 1;
-                        const point p( iter->vIG[iThisPage].pos.xy() );
-                        mvwprintz( w_items, point( width - 6 - numw, iNum - iStartPos ),
-                                   iNum == iActive ? c_light_green : c_light_gray,
-                                   "%*d %s", numw, rl_dist( point_zero, p ),
-                                   direction_name_short( direction_from( point_zero, p ) ) );
-                        ++iter;
-                    }
-                } else {
+            for( auto iter = filtered_items.begin(); iter != filtered_items.end(); ++index, iNum++ ) {
+                if( iNum < iStartPos || iNum >= iStartPos + std::min( iMaxRows, iItemNum ) ) {
                     ++iter;
+                    continue;
                 }
-                iNum++;
+                int iThisPage = 0;
+                if( !mSortCategory[iNum].empty() ) {
+                    iCatSortOffset++;
+                    mvwprintz( w_items, point( 1, iNum - iStartPos ), c_magenta, mSortCategory[iNum] );
+                    continue;
+                }
+                if( iNum == iActive ) {
+                    iThisPage = page_num;
+                }
+                std::string sText;
+                if( iter->vIG.size() > 1 ) {
+                    sText += string_format( "[%d/%d] (%d) ", iThisPage + 1, iter->vIG.size(), iter->totalcount );
+                }
+                sText += iter->example->tname();
+                if( iter->vIG[iThisPage].count > 1 ) {
+                    sText += string_format( "[%d]", iter->vIG[iThisPage].count );
+                }
+
+                nc_color col = c_light_gray;
+                if( iNum == iActive ) {
+                    col = hilite( c_white );
+                } else if( highPEnd > 0 && index < highPEnd + iCatSortOffset ) {  // priority high
+                    col = c_yellow;
+                } else if( index >= lowPStart + iCatSortOffset ) {  // priority low
+                    col = c_red;
+                } else {  // priority medium
+                    col = iter->example->color_in_inventory();
+                }
+                bool print_new = highlight_unread_items;
+                const std::string *new_str;
+                // 1 make space between item description and right padding (distance)
+                int new_width = 1;
+                const nc_color *new_col;
+                if( print_new ) {
+                    switch( check_items_newness( iter->example ) ) {
+                        case content_newness::NEW:
+                            new_str =  &item_new_str;
+                            // +1 make space between item description and "new"
+                            new_width += item_new_str_width + 1;
+                            new_col =  &item_new_col;
+                            break;
+                        case content_newness::MIGHT_BE_HIDDEN:
+                            new_str =  &item_maybe_new_str;
+                            new_width += item_maybe_new_str_width + 1;
+                            new_col =  &item_maybe_new_col;
+                            break;
+                        case content_newness::SEEN:
+                            print_new = false;
+                            break;
+                    }
+                }
+                trim_and_print( w_items, point( 1, iNum - iStartPos ), width_nob - padding - new_width, col,
+                                sText );
+                const point p( iter->vIG[iThisPage].pos.xy() );
+                if( print_new ) {
+                    // +1 move space between item description and "new"
+                    mvwprintz( w_items, point( width_nob - right_padding - new_width + 1, iNum - iStartPos ), *new_col,
+                               *new_str );
+                }
+                mvwprintz( w_items, point( width_nob - right_padding, iNum - iStartPos ),
+                           iNum == iActive ? c_light_green : c_light_gray,
+                           "%2d %s", rl_dist( point_zero, p ),
+                           direction_name_short( direction_from( point_zero, p ) ) );
+                ++iter;
             }
+            // ITEM DESCRIPTION
             iNum = 0;
             for( int i = 0; i < iActive; i++ ) {
                 if( !mSortCategory[i].empty() ) {
                     iNum++;
                 }
             }
-            mvwprintz( w_items_border, point( ( width - 9 ) / 2 + ( iItemNum > 9 ? 0 : 1 ), 0 ),
-                       c_light_green, " %*d", iItemNum > 9 ? 2 : 1, iItemNum > 0 ? iActive - iNum + 1 : 0 );
-            wprintz( w_items_border, c_white, " / %*d ", iItemNum > 9 ? 2 : 1, iItemNum - iCatSortNum );
+            const int current_i = iItemNum > 0 ? iActive - iNum + 1 : 0;
+            const int numd = current_i > 999 ? 4 :
+                             current_i > 99 ? 3 :
+                             current_i > 9 ? 2 : 1;
+            mvwprintz( w_items_border, point( width / 2 - numd - 2, 0 ), c_light_green, " %*d", numd,
+                       current_i );
+            wprintz( w_items_border, c_white, " / %*d ", numd, iItemNum - iCatSortNum );
             werase( w_item_info );
 
             if( iItemNum > 0 && activeItem ) {
@@ -8613,7 +8671,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         if( iItemNum > 0 && activeItem ) {
             // print info window title: < item name >
             mvwprintw( w_item_info, point( 2, 0 ), "< " );
-            trim_and_print( w_item_info, point( 4, 0 ), width - 8,
+            trim_and_print( w_item_info, point( 4, 0 ), width_nob - padding,
                             activeItem->vIG[page_num].it->color_in_inventory(),
                             activeItem->vIG[page_num].it->display_name() );
             wprintw( w_item_info, " >" );
@@ -8633,8 +8691,10 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
     add_draw_callback( trail_cb );
 
     do {
+        bool recalc_unread = false;
         if( action == "COMPARE" && activeItem ) {
             game_menus::inv::compare( u, active_pos );
+            recalc_unread = highlight_unread_items;
         } else if( action == "FILTER" ) {
             ui.invalidate_ui();
             string_input_popup()
@@ -8668,6 +8728,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             draw_item_info( [&]() -> catacurses::window {
                 return catacurses::newwin( TERMY, width - 5, point_zero );
             }, info_data );
+            recalc_unread = highlight_unread_items;
         } else if( action == "PRIORITY_INCREASE" ) {
             ui.invalidate_ui();
             list_item_upvote = string_input_popup()
@@ -8719,6 +8780,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             safe_route_to( u, u.pos_bub() + active_pos, 1, []( const std::string & msg ) {
                 popup( msg );
             } );
+            recalc_unread = highlight_unread_items;
             if( try_route.has_value() ) {
                 u.set_destination( *try_route );
                 break;
@@ -8779,6 +8841,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             if( iActive < 0 ) {
                 iActive = iItemNum - 1;
             }
+            recalc_unread = highlight_unread_items;
         } else if( action == "DOWN" ) {
             do {
                 iActive++;
@@ -8788,6 +8851,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             if( iActive >= iItemNum ) {
                 iActive = mSortCategory[0].empty() ? 0 : 1;
             }
+            recalc_unread = highlight_unread_items;
         } else if( action == "PAGE_DOWN" ) {
             iScrollPos = 0;
             page_num = 0;
@@ -8820,12 +8884,16 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                     page_num = activeItem->vIG.size() - 1;
                 }
             }
+            recalc_unread = highlight_unread_items;
         } else if( action == "LEFT" ) {
             page_num = std::max( 0, page_num - 1 );
+            recalc_unread = highlight_unread_items;
         } else if( action == "SCROLL_ITEM_INFO_UP" ) {
             iScrollPos -= item_info_scroll_lines;
+            recalc_unread = highlight_unread_items;
         } else if( action == "SCROLL_ITEM_INFO_DOWN" ) {
             iScrollPos += item_info_scroll_lines;
+            recalc_unread = highlight_unread_items;
         } else if( action == "zoom_in" ) {
             zoom_in();
             mark_main_ui_adaptor_resize();
@@ -8861,6 +8929,9 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             // call to `ui_manager::redraw`.
             //NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
             trail_end_x = true;
+            if( recalc_unread ) {
+                mark_items_read_rec( activeItem->example );
+            }
         } else {
             u.view_offset = stored_view_offset;
             trail_start = trail_end = std::nullopt;
