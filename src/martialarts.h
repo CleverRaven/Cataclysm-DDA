@@ -68,7 +68,6 @@ matype_id martial_art_learned_from( const itype & );
 
 struct attack_vector {
     attack_vector_id id;
-    translation name;
 
     // Used with a weapon, otherwise use unarmed damage calc
     bool weapon = false;
@@ -88,7 +87,7 @@ struct attack_vector {
     // Encumbrance limit in absolute encumbrance
     int encumbrance_limit = 100;
     // Percent of bodypart HP required
-    int bp_hp_limit = 100;
+    int bp_hp_limit = 10;
 
     bool was_loaded = false;
 

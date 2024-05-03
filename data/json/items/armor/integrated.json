@@ -1632,10 +1632,12 @@
       {
         "material": [ { "type": "bone", "covered_by_mat": 100, "thickness": 3.2 } ],
         "covers": [ "mouth" ],
-        "coverage": 0,
+        "specifically_covers": [ "mouth_lips" ],
+        "coverage": 100,
         "encumbrance": 0
       }
-    ]
+    ],
+    "melee_damage": { "stab": 9 }
   },
   {
     "id": "integrated_vampire_fangs",
@@ -1658,9 +1660,11 @@
       {
         "material": [ { "type": "bone", "covered_by_mat": 100, "thickness": 3.2 } ],
         "covers": [ "mouth" ],
-        "coverage": 0,
+        "specifically_covers": [ "mouth_lips" ],
+        "coverage": 100,
         "encumbrance": 0
       }
-    ]
+    ],
+    "melee_damage": { "stab": 15 }
   }
 ]

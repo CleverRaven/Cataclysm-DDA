@@ -1280,7 +1280,7 @@ static void roll_melee_damage_internal( const Character &u, const damage_type_id
     if( u.has_active_bionic( bio_cqb ) ) {
         skill = BIO_CQB_LEVEL;
     }
-    
+
     if( unarmed && !u.natural_attack_restricted_on( contact ) ) {
         // Add contact/parent damage bonuses to unarmed
         dmg += contact->unarmed_damage.type_damage( dt );
@@ -1406,166 +1406,170 @@ std::tuple<matec_id, attack_vector_id, sub_bodypart_str_id> Character::pick_tech
     Creature &t, const item_location &weap, bool crit,
     bool dodge_counter, bool block_counter, const std::vector<matec_id> &blacklist )
 {
-    std::vector<std::tuple<matec_id, attack_vector_id, sub_bodypart_str_id>> possible =
-                evaluate_techniques( t, weap, crit,
-                                     dodge_counter,  block_counter, blacklist );
-    return random_entry( possible,
-                         std::make_tuple( tec_none, attack_vector_null,
-                                          sub_body_part_sub_limb_debug ) );
-}
-std::vector<std::tuple<matec_id, attack_vector_id, sub_bodypart_str_id>>
-        Character::evaluate_techniques( Creature &t, const item_location &weap,
-                                        bool crit, bool dodge_counter, bool block_counter, const std::vector<matec_id> &blacklist )
-{
-
     const std::vector<matec_id> all = martial_arts_data->get_all_techniques( weap, *this );
 
     std::vector<std::tuple<matec_id, attack_vector_id, sub_bodypart_str_id>> possible;
 
-    bool wall_adjacent = get_map().is_wall_adjacent( pos() );
-    // this could be more robust but for now it should work fine
-    bool is_loaded = weap && weap->is_magazine_full();
-
-    // first add non-aoe tecs
     for( const matec_id &tec_id : all ) {
-        const ma_technique &tec = tec_id.obj();
-        add_msg_debug( debugmode::DF_MELEE, "Evaluating technique %s", tec.name );
+        add_msg_debug( debugmode::DF_MELEE, "Evaluating technique %s", tec_id->name );
 
-        // skip techniques on the blacklist
         if( find( blacklist.begin(), blacklist.end(), tec_id ) != blacklist.end() ) {
             add_msg_debug( debugmode::DF_MELEE, "Technique is on the blacklist, discarded" );
             continue;
         }
 
-        // ignore "dummy" techniques like WBLOCK_1
-        if( tec.dummy ) {
-            add_msg_debug( debugmode::DF_MELEE, "Dummy technique, attack discarded" );
-            continue;
-        }
-
-        // skip defensive techniques
-        if( tec.defensive ) {
-            add_msg_debug( debugmode::DF_MELEE, "Defensive technique, attack discarded" );
-            continue;
-        }
-
-        // Ignore this technique if we fail the doalog conditions
-        if( tec.has_condition ) {
-            dialogue d( get_talker_for( this ), get_talker_for( t ) );
-            if( !tec.condition( d ) ) {
-                add_msg_debug( debugmode::DF_MELEE, "Conditionas failed, attack discarded" );
-                continue;
-            }
-        }
-
-        // skip wall adjacent techniques if not next to a wall
-        if( tec.wall_adjacent && !wall_adjacent ) {
-            add_msg_debug( debugmode::DF_MELEE, "No adjacent walls found, attack discarded" );
-            continue;
-        }
-
-        // skip non reach ok techniques if reach attacking
-        if( !( tec.reach_ok || tec.reach_tec ) && reach_attacking ) {
-            add_msg_debug( debugmode::DF_MELEE, "Not usable with reach attack, attack discarded" );
-            continue;
-        }
-
-        // skip reach techniques if not reach attacking
-        if( tec.reach_tec && !reach_attacking ) {
-            add_msg_debug( debugmode::DF_MELEE, "Only usable with reach attack, attack discarded" );
-            continue;
-        }
-
-        // skip dodge counter techniques if it's not a dodge count, and vice versa
-        if( dodge_counter != tec.dodge_counter ) {
-            add_msg_debug( debugmode::DF_MELEE, "Not a dodge counter, attack discarded" );
-            continue;
-        }
-        // likewise for block counters
-        if( block_counter != tec.block_counter ) {
-            add_msg_debug( debugmode::DF_MELEE, "Not a block counter, attack discarded" );
-            continue;
-        }
-
-        // Don't counter if it would exhaust moves.
-        if( tec.block_counter || tec.dodge_counter ) {
-            item &used_weap = used_weapon() ? *used_weapon() : null_item_reference();
-            float move_cost = attack_speed( used_weap );
-            move_cost *= tec.move_cost_multiplier( *this );
-            move_cost += tec.move_cost_penalty( *this );
-            float move_mult = exertion_adjusted_move_multiplier( EXTRA_EXERCISE );
-            move_cost *= ( 1.0f / move_mult );
-            if( get_moves() + get_speed() - move_cost < 0 ) {
-                add_msg_debug( debugmode::DF_MELEE,
-                               "Counter technique would exhaust remaining moves, attack discarded" );
-                continue;
-            }
-        }
-
-        // if critical then select only from critical tecs
-        // but allow the technique if its crit ok
-        if( !tec.crit_ok && ( crit != tec.crit_tec ) ) {
-            add_msg_debug( debugmode::DF_MELEE, "Attack is%s critical, attack discarded", crit ? "" : "n't" );
-            continue;
-        }
-
-        // if the technique needs a loaded weapon and it isn't loaded skip it
-        if( tec.needs_ammo && !is_loaded ) {
-            add_msg_debug( debugmode::DF_MELEE, "No ammo, attack discarded" );
-            continue;
-        }
-
-        // don't apply disarming techniques to someone without a weapon
-        // TODO: these are the stat requirements for tec_disarm
-        // dice(   dex_cur +    get_skill_level("unarmed"),  8) >
-        // dice(p->dex_cur + p->get_skill_level("melee"),   10))
-        if( tec.disarms && !t.has_weapon() ) {
-            add_msg_debug( debugmode::DF_MELEE,
-                           "Disarming technique against unarmed opponent, attack discarded" );
-            continue;
-        }
-
-        if( tec.take_weapon && ( has_weapon() || !t.has_weapon() ) ) {
-            add_msg_debug( debugmode::DF_MELEE, "Weapon-taking technique %s, attack discarded",
-                           has_weapon() ? "while armed" : "against an unarmed opponent" );
-            continue;
-        }
-
-        // if aoe, check if there are valid targets
-        if( !tec.aoe.empty() && !valid_aoe_technique( t, tec ) ) {
-            add_msg_debug( debugmode::DF_MELEE, "AoE technique witout valid AoE targets, attack discarded" );
-            continue;
-        }
-
-        // If we have negative weighting then roll to see if it's valid this time
-        if( tec.weighting < 0 && !one_in( std::abs( tec.weighting ) ) ) {
-            add_msg_debug( debugmode::DF_MELEE,
-                           "Negative technique weighting failed weight roll, attack discarded" );
-            continue;
-        }
-
-        std::optional<std::pair<attack_vector_id, sub_bodypart_str_id>> vector;
-
-        if( tec.is_valid_character( *this ) ) {
-            // We made it this far, choose an actual vector if possible
-            vector = martial_arts_data->choose_attack_vector( *this, tec.id );
-            if( vector ) {
-                possible.emplace_back( std::make_tuple( tec.id, vector->first, vector->second ) );
-                //add weighted options into the list extra times, to increase their chance of being selected
-                if( tec.weighting > 1 ) {
-                    for( int i = 1; i < tec.weighting; i++ ) {
-                        possible.emplace_back( std::make_tuple( tec.id, vector->first, vector->second ) );
-                    }
+        auto tec = evaluate_technique( tec_id, t, weap, crit,
+                                       dodge_counter, block_counter );
+        if( tec ) {
+            possible.push_back( tec.value() );
+            if( tec_id->weighting > 1 ) {
+                for( int i = 1; i < tec_id->weighting; i++ ) {
+                    possible.push_back( tec.value() );
+                    add_msg_debug( debugmode::DF_MELEE, "Adding technique %s to the tech list (%d)", tec_id->name, i );
                 }
-            } else {
-                add_msg_debug( debugmode::DF_MELEE, "No valid attack vector found, attack discarded" );
-                continue;
             }
-
         }
     }
 
-    return possible;
+    return random_entry( possible,
+                         std::make_tuple( tec_none, attack_vector_null,
+                                          sub_body_part_sub_limb_debug ) );
+}
+std::optional<std::tuple<matec_id, attack_vector_id, sub_bodypart_str_id>>
+        Character::evaluate_technique( const matec_id &tec_id, Creature &t, const item_location &weap,
+                                       bool crit, bool dodge_counter, bool block_counter )
+{
+    std::optional<std::tuple<matec_id, attack_vector_id, sub_bodypart_str_id>> ret;
+
+    // this could be more robust but for now it should work fine
+    bool is_loaded = weap && weap->is_magazine_full();
+
+    // first add non-aoe tecs
+
+    // ignore "dummy" techniques like WBLOCK_1
+    if( tec_id->dummy ) {
+        add_msg_debug( debugmode::DF_MELEE, "Dummy technique, attack discarded" );
+        return std::nullopt;
+    }
+
+    // skip defensive techniques
+    if( tec_id->defensive ) {
+        add_msg_debug( debugmode::DF_MELEE, "Defensive technique, attack discarded" );
+        return std::nullopt;
+    }
+
+    // Ignore this technique if we fail the dialog conditions
+    if( tec_id->has_condition ) {
+        dialogue d( get_talker_for( this ), get_talker_for( t ) );
+        if( !tec_id->condition( d ) ) {
+            add_msg_debug( debugmode::DF_MELEE, "Conditionals failed, attack discarded" );
+            return std::nullopt;
+        }
+    }
+
+    // skip wall adjacent techniques if not next to a wall
+    if( tec_id->wall_adjacent && !get_map().is_wall_adjacent( pos() ) ) {
+        add_msg_debug( debugmode::DF_MELEE, "No adjacent walls found, attack discarded" );
+        return std::nullopt;
+    }
+
+    // skip non reach ok techniques if reach attacking
+    if( !( tec_id->reach_ok || tec_id->reach_tec ) && reach_attacking ) {
+        add_msg_debug( debugmode::DF_MELEE, "Not usable with reach attack, attack discarded" );
+        return std::nullopt;
+    }
+
+    // skip reach techniques if not reach attacking
+    if( tec_id->reach_tec && !reach_attacking ) {
+        add_msg_debug( debugmode::DF_MELEE, "Only usable with reach attack, attack discarded" );
+        return std::nullopt;
+    }
+
+    // skip dodge counter techniques if it's not a dodge count, and vice versa
+    if( dodge_counter != tec_id->dodge_counter ) {
+        add_msg_debug( debugmode::DF_MELEE, "%s a dodge counter, discarded",
+                       dodge_counter ? "Looking for" :
+                       "Attack is" );
+        return std::nullopt;
+    }
+    // likewise for block counters
+    if( block_counter != tec_id->block_counter ) {
+        add_msg_debug( debugmode::DF_MELEE, "%s a block counter, attack discarded",
+                       block_counter ? "Looking for" : "Attack is" );
+        return std::nullopt;
+    }
+
+    // Don't counter if it would exhaust moves.
+    if( tec_id->block_counter || tec_id->dodge_counter ) {
+        item &used_weap = used_weapon() ? *used_weapon() : null_item_reference();
+        float move_cost = attack_speed( used_weap );
+        move_cost *= tec_id->move_cost_multiplier( *this );
+        move_cost += tec_id->move_cost_penalty( *this );
+        float move_mult = exertion_adjusted_move_multiplier( EXTRA_EXERCISE );
+        move_cost *= ( 1.0f / move_mult );
+        if( get_moves() + get_speed() - move_cost < 0 ) {
+            add_msg_debug( debugmode::DF_MELEE,
+                           "Counter technique would exhaust remaining moves, attack discarded" );
+            return std::nullopt;
+        }
+    }
+
+    // if critical then select only from critical tecs
+    // but allow the technique if its crit ok
+    if( !tec_id->crit_ok && ( crit != tec_id->crit_tec ) ) {
+        add_msg_debug( debugmode::DF_MELEE, "Attack is%s critical, attack discarded", crit ? "" : "n't" );
+        return std::nullopt;
+    }
+
+    // if the technique needs a loaded weapon and it isn't loaded skip it
+    if( tec_id->needs_ammo && !is_loaded ) {
+        add_msg_debug( debugmode::DF_MELEE, "No ammo, attack discarded" );
+        return std::nullopt;
+    }
+
+    // don't apply disarming techniques to someone without a weapon
+    // TODO: these are the stat requirements for tec_disarm
+    // dice(   dex_cur +    get_skill_level("unarmed"),  8) >
+    // dice(p->dex_cur + p->get_skill_level("melee"),   10))
+    if( tec_id->disarms && !t.has_weapon() ) {
+        add_msg_debug( debugmode::DF_MELEE,
+                       "Disarming technique against unarmed opponent, attack discarded" );
+        return std::nullopt;
+    }
+
+    if( tec_id->take_weapon && ( has_weapon() || !t.has_weapon() ) ) {
+        add_msg_debug( debugmode::DF_MELEE, "Weapon-taking technique %s, attack discarded",
+                       has_weapon() ? "while armed" : "against an unarmed opponent" );
+        return std::nullopt;
+    }
+
+    // if aoe, check if there are valid targets
+    if( !tec_id->aoe.empty() && !valid_aoe_technique( t, tec_id.obj() ) ) {
+        add_msg_debug( debugmode::DF_MELEE, "AoE technique witout valid AoE targets, attack discarded" );
+        return std::nullopt;
+    }
+
+    // If we have negative weighting then roll to see if it's valid this time
+    if( tec_id->weighting < 0 && !one_in( std::abs( tec_id->weighting ) ) ) {
+        add_msg_debug( debugmode::DF_MELEE,
+                       "Negative technique weighting failed weight roll, attack discarded" );
+        return std::nullopt;
+    }
+
+    std::optional<std::pair<attack_vector_id, sub_bodypart_str_id>> vector;
+
+    if( tec_id->is_valid_character( *this ) ) {
+        // We made it this far, choose an actual vector if possible
+        vector = martial_arts_data->choose_attack_vector( *this, tec_id );
+        if( vector ) {
+            return std::make_tuple( tec_id, vector->first, vector->second );
+        }
+    } else {
+        add_msg_debug( debugmode::DF_MELEE, "No valid attack vector found, attack discarded" );
+        return std::nullopt;
+    }
+
+    return std::nullopt;
 }
 
 bool Character::valid_aoe_technique( Creature &t, const ma_technique &technique )

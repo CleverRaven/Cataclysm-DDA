@@ -25,7 +25,7 @@
     },
     "down_dur": 2,
     "messages": [ "You see if you can sweep %s", "<npcname> sees if they can sweep %s" ],
-    "attack_vectors": [ "FOOT" ]
+    "attack_vectors": [ "vector_foot_toes" ]
   },
   {
     "type": "technique",
@@ -59,7 +59,7 @@
     },
     "stun_dur": 1,
     "weapon_categories_allowed": [ "MEDIUM_SWORDS" ],
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -91,7 +91,7 @@
     },
     "knockback_dist": 2,
     "weapon_categories_allowed": [ "MACES" ],
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "martial_art",

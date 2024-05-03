@@ -88,14 +88,13 @@ void attack_vector::reset()
 void attack_vector::load( const JsonObject &jo, const std::string_view )
 {
     mandatory( jo, was_loaded, "id", id );
-    mandatory( jo, was_loaded, "name", name );
     optional( jo, was_loaded, "weapon", weapon, false );
     optional( jo, was_loaded, "limbs", limbs );
     optional( jo, was_loaded, "strict_limb_definition", strict_limb_definition, false );
     optional( jo, was_loaded, "contact_area", contact_area );
     optional( jo, was_loaded, "armor_bonus", armor_bonus, true );
     optional( jo, was_loaded, "encumbrance_limit", encumbrance_limit, 100 );
-    optional( jo, was_loaded, "bp_hp_limit", bp_hp_limit, 0 );
+    optional( jo, was_loaded, "bp_hp_limit", bp_hp_limit, 10 );
     optional( jo, was_loaded, "required_limb_flags", required_limb_flags );
     optional( jo, was_loaded, "forbidden_limb_flags", forbidden_limb_flags );
 }
@@ -1458,7 +1457,7 @@ std::optional<std::pair<attack_vector_id, sub_bodypart_str_id>>
     martialart ma = style_selected.obj();
     bool valid_weapon = ma.weapon_valid( user.get_wielded_item() );
     for( const attack_vector_id &vec : tech.obj().attack_vectors ) {
-        add_msg_debug( debugmode::DF_MELEE, "Evaluating vector %s for tech %s", vec->name, tech.c_str() );
+        add_msg_debug( debugmode::DF_MELEE, "Evaluating vector %s for tech %s", vec.c_str(), tech.c_str() );
         float weight = 0.0f;
         // Early break for armed vectors
         if( vec->weapon && armed && valid_weapon ) {
@@ -1478,7 +1477,7 @@ std::optional<std::pair<attack_vector_id, sub_bodypart_str_id>>
         std::vector<std::pair<sub_bodypart_str_id, float>> calc_vector;
         for( const bodypart_id &bp : vec->limbs ) {
             if( std::find( anat.begin(), anat.end(), bp ) != anat.end() ) {
-                add_msg_debug( debugmode::DF_MELEE, "Evaluating limb %s for vector %s", bp->name, vec->name );
+                add_msg_debug( debugmode::DF_MELEE, "Evaluating limb %s for vector %s", bp->name, vec.c_str() );
                 // Filter on limb flags early
                 bool allowed = true;
                 for( const json_character_flag &req : vec->required_limb_flags ) {
@@ -1498,12 +1497,17 @@ std::optional<std::pair<attack_vector_id, sub_bodypart_str_id>>
                     }
                 }
                 if( !allowed ) {
-                    add_msg_debug( debugmode::DF_MELEE, "Limb %s disqualified for vector %s", bp->name, vec->name );
+                    add_msg_debug( debugmode::DF_MELEE, "Limb %s disqualified for vector %s", bp->name, vec.c_str() );
                     continue;
                 }
-                const bodypart &part = *user.get_part( bp );
-                if( ( 100 * part.get_hp_cur() / part.get_hp_max() ) > vec->bp_hp_limit &&
-                    part.get_encumbrance_data().encumbrance < vec->encumbrance_limit ) {
+
+                // TODO: move this from being a special case to the default
+                int bp_hp_cur = bp->main_part == bp.id() ? user.get_part_hp_cur( bp ) : user.get_part_hp_cur(
+                                    bp->main_part );
+                int bp_hp_max = bp->main_part == bp.id() ? user.get_part_hp_max( bp ) : user.get_part_hp_max(
+                                    bp->main_part );
+                if( ( 100 * bp_hp_cur / bp_hp_max ) > vec->bp_hp_limit &&
+                    user.get_part_encumbrance_data( bp ).encumbrance < vec->encumbrance_limit ) {
                     sub_bodypart_str_id current_contact;
                     for( const sub_bodypart_str_id &sbp : bp->sub_parts ) {
                         if( std::find( vec->contact_area.begin(), vec->contact_area.end(),
@@ -1516,17 +1520,20 @@ std::optional<std::pair<attack_vector_id, sub_bodypart_str_id>>
                     }
                     // Go through the common function
                     float unarmed_damage = calculate_vector_damage( user, vec, current_contact ).total_damage();
+                    if( unarmed_damage == 0.0f ) {
+                        unarmed_damage++;
+                    }
                     calc_vector.emplace_back( std::make_pair( current_contact, unarmed_damage ) );
                     add_msg_debug( debugmode::DF_MELEE,
                                    "Bodypart %s eligable for attack vector %s weight %.1f (contact area %s)",
                                    bp.id().c_str(),
-                                   vec->name, unarmed_damage, current_contact->name );
+                                   vec.c_str(), unarmed_damage, current_contact->name );
                 }
             }
         }
         if( calc_vector.size() == 0 ) {
             add_msg_debug( debugmode::DF_MELEE, "Vector %s found no eligable bodyparts, discarding",
-                           vec->name );
+                           vec.c_str() );
             continue;
         }
         // Sort our calc_vector of sublimb/damage pairs
@@ -1540,7 +1547,7 @@ std::optional<std::pair<attack_vector_id, sub_bodypart_str_id>>
         storage.emplace_back( std::make_pair( vec, calc_vector.rbegin()->first ) );
         add_msg_debug( debugmode::DF_MELEE,
                        "Chose contact sublimb %s for vector %s with weight %.1f;  %d stored vectors",
-                       calc_vector.rbegin()->first->name, vec->name, calc_vector.rbegin()->second, storage.size() );
+                       calc_vector.rbegin()->first->name, vec.c_str(), calc_vector.rbegin()->second, storage.size() );
     }
     if( !list.empty() ) {
         ret = *list.pick();
@@ -1550,7 +1557,7 @@ std::optional<std::pair<attack_vector_id, sub_bodypart_str_id>>
         for( auto iterate = storage.begin(); iterate != storage.end(); ++iterate ) {
             if( iterate->first == ret ) {
                 return_set = *iterate;
-                add_msg_debug( debugmode::DF_MELEE, "Return vector %s found in storage", return_set.first->name );
+                add_msg_debug( debugmode::DF_MELEE, "Return vector %s found in storage", return_set.first.c_str() );
                 break;
             }
         }

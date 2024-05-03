@@ -3,7 +3,7 @@
     "type": "technique",
     "id": "tec_none",
     "name": "Not a technique at all",
-    "wip_attack_vectors": [ "vector_null" ],
+    "attack_vectors": [ "vector_null" ],
     "dummy": true
   },
   {
@@ -14,7 +14,7 @@
     "unarmed_allowed": true,
     "messages": [ "You punch %s!", "<npcname> punches %s!" ],
     "description": "Just a basic punch",
-    "wip_attack_vectors": [ "test_punch" ]
+    "attack_vectors": [ "vector_punch" ]
   },
   {
     "type": "technique",
@@ -60,7 +60,7 @@
         "message": "The weapon of %s has been forced out of their hands!"
       }
     ],
-    "attack_vectors": [ "HAND" ]
+    "attack_vectors": [ "vector_grasp" ]
   },
   {
     "type": "technique",
@@ -79,7 +79,7 @@
     "messages": [ "You swing through %s and everyone nearby", "<npcname> swings through %s and everyone nearby!" ],
     "aoe": "spin",
     "description": "Attack adjacent enemies, crit only, min 4 melee",
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -92,7 +92,7 @@
     "messages": [ "You swing in a wide arc through %s", "<npcname> swings in a wide arc through %s!" ],
     "aoe": "wide",
     "description": "Attack in a wide arc, crit only, min 3 melee",
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -104,7 +104,7 @@
     "messages": [ "You pierce straight through %s", "<npcname> pierces through %s!" ],
     "aoe": "impale",
     "description": "Attack target and another one behind it, crit only, min 4 melee",
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -158,7 +158,7 @@
     "condition_desc": "* Only works on a <info>non-stunned mundane</info> target of <info>similar or smaller</info> size, may fail on enemies grabbing you",
     "messages": [ "You send %s reeling", "<npcname> sends %s reeling!" ],
     "description": "Stun 1 turn, knockback 1 tile, crit only, min 2 melee",
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -174,7 +174,7 @@
     ],
     "messages": [ "You quickly strike %s", "<npcname> quickly strikes %s!" ],
     "description": "50% moves, 66% damage, min 2 melee",
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -189,7 +189,7 @@
       "Snicker-snack!  <npcname> slices through %s like a hot knife through butter!"
     ],
     "description": "Cut damage multiply by 99, crit only",
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -211,7 +211,7 @@
     "stun_dur": 2,
     "messages": [ "You wrap up %s", "<npcname> wraps up %s!" ],
     "description": "Stun 2 turns, min 4 melee",
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -233,7 +233,7 @@
     "down_dur": 2,
     "messages": [ "You sweep %s", "<npcname> sweeps %s!" ],
     "description": "Down 2 turns, min 3 melee",
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -254,7 +254,7 @@
     ],
     "messages": [ "With a loud crack the piston extends, sending %s reeling", "<npcname> sends %s reeling!" ],
     "description": "Stun 1 turn, knockback 2 tile, crit only, requires ammo",
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -275,7 +275,7 @@
     "messages": [ "You precisely hit %s", "<npcname> precisely hits %s!" ],
     "stun_dur": 2,
     "description": "Stun 2 turns, crit only, min 3 melee",
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -294,7 +294,7 @@
         "message": "The weapon of %s has been forced out ot their hands!"
       }
     ],
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -334,7 +334,7 @@
     "condition_desc": "* Only works on a <info>non-stunned humanoid</info> target of <info>similar or smaller</info> size",
     "messages": [ "You jab deftly at %s!", "<npcname> jabs deftly at %s!" ],
     "stun_dur": 2,
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -376,7 +376,7 @@
     "down_dur": 1,
     "knockback_dist": 1,
     "mult_bonuses": [ { "stat": "movecost", "scale": 0.7 } ],
-    "attack_vectors": [ "THROW" ]
+    "attack_vectors": [ "vector_grasp" ]
   },
   {
     "type": "technique",
@@ -417,7 +417,7 @@
     "down_dur": 1,
     "knockback_dist": 1,
     "mult_bonuses": [ { "stat": "movecost", "scale": 0.7 } ],
-    "attack_vectors": [ "THROW" ]
+    "attack_vectors": [ "vector_grasp" ]
   },
   {
     "type": "technique",
@@ -469,7 +469,7 @@
     "down_dur": 1,
     "knockback_dist": 1,
     "mult_bonuses": [ { "stat": "movecost", "scale": 0.7 } ],
-    "attack_vectors": [ "THROW" ]
+    "attack_vectors": [ "vector_grasp" ]
   },
   {
     "type": "technique",
@@ -521,7 +521,7 @@
     "down_dur": 1,
     "knockback_dist": 1,
     "mult_bonuses": [ { "stat": "movecost", "scale": 0.7 } ],
-    "attack_vectors": [ "THROW" ]
+    "attack_vectors": [ "vector_grasp" ]
   },
   {
     "type": "technique",
@@ -545,7 +545,7 @@
     "skill_requirements": [ { "name": "melee", "level": 1 } ],
     "melee_allowed": true,
     "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.2 } ],
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -572,7 +572,7 @@
     "condition_desc": "* Only works on a <info>non-downed humanoid</info> target of <info>similar or smaller</info> size incapable of flight",
     "down_dur": 1,
     "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ],
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -598,7 +598,7 @@
     "condition_desc": "* Only works on a <info>non-stunned</info> target of <info>similar or smaller</info> size",
     "stun_dur": 1,
     "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.4 } ],
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -611,7 +611,7 @@
     "weighting": 2,
     "crit_ok": true,
     "mult_bonuses": [ { "stat": "movecost", "scale": 0.75 }, { "stat": "damage", "type": "bash", "scale": 1.5 } ],
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -642,7 +642,7 @@
         "message": "The weapon of %s has been forced out of their hands!"
       }
     ],
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -659,7 +659,7 @@
       { "stat": "damage", "type": "stab", "scale": 1.1 },
       { "stat": "movecost", "scale": 1.2 }
     ],
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -676,7 +676,7 @@
       { "stat": "damage", "type": "cut", "scale": 0.66 },
       { "stat": "damage", "type": "stab", "scale": 0.66 }
     ],
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -685,7 +685,7 @@
     "messages": [ "You throw a heavy cross at %s", "<npcname> throws a cross at %s!" ],
     "unarmed_allowed": true,
     "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.2 } ],
-    "attack_vectors": [ "HAND" ]
+    "attack_vectors": [ "vector_punch" ]
   },
   {
     "type": "technique",
@@ -712,7 +712,7 @@
     "condition_desc": "* Only works on a <info>non-downed humanoid</info> target of <info>similar or smaller</info> size incapable of flight",
     "down_dur": 1,
     "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.5 } ],
-    "attack_vectors": [ "HAND" ]
+    "attack_vectors": [ "vector_punch" ]
   },
   {
     "type": "technique",
@@ -727,7 +727,7 @@
       { "stat": "damage", "type": "cut", "scale": 0.66 },
       { "stat": "damage", "type": "stab", "scale": 0.66 }
     ],
-    "attack_vectors": [ "HAND" ]
+    "attack_vectors": [ "vector_punch" ]
   },
   {
     "type": "technique",
@@ -758,7 +758,7 @@
     "condition_desc": "* Only works on a <info>non-stunned</info> target of <info>similar</info> size incapable of flight",
     "stun_dur": 1,
     "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.4 } ],
-    "attack_vectors": [ "HAND" ]
+    "attack_vectors": [ "vector_punch" ]
   },
   {
     "type": "technique",
@@ -823,7 +823,7 @@
         "message": "The weapon of %s has been forced out of their hands!"
       }
     ],
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -842,7 +842,7 @@
         "message": "The weapon of %s has been forced out of their hands!"
       }
     ],
-    "attack_vectors": [ "HAND" ]
+    "attack_vectors": [ "vector_grasp" ]
   },
   {
     "type": "technique",
@@ -864,7 +864,7 @@
       ]
     },
     "condition_desc": "* Only works on a <info>non-downed and non-stunned</info> target of <info>similar or smaller</info> size incapable of flight",
-    "attack_vectors": [ "HAND" ]
+    "attack_vectors": [ "vector_punch" ]
   },
   {
     "type": "technique",
@@ -884,7 +884,7 @@
     },
     "condition_desc": "* Only works on a <info>non-downed humanoid</info> target of <info>similar</info> size incapable of flight",
     "down_dur": 1,
-    "attack_vectors": [ "HAND" ]
+    "attack_vectors": [ "vector_shin" ]
   },
   {
     "type": "technique",
@@ -907,7 +907,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.2 },
       { "stat": "damage", "type": "stab", "scale": 1.2 }
     ],
-    "attack_vectors": [ "FOOT" ]
+    "attack_vectors": [ "vector_foot_sole" ]
   },
   {
     "type": "technique",
@@ -922,7 +922,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.4 },
       { "stat": "damage", "type": "stab", "scale": 1.4 }
     ],
-    "attack_vectors": [ "FOOT" ]
+    "attack_vectors": [ "vector_foot_sole" ]
   },
   {
     "type": "technique",
@@ -950,7 +950,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.2 },
       { "stat": "damage", "type": "stab", "scale": 1.2 }
     ],
-    "attack_vectors": [ "FOOT" ]
+    "attack_vectors": [ "vector_foot_toes" ]
   },
   {
     "type": "technique",
@@ -971,7 +971,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.4 },
       { "stat": "damage", "type": "stab", "scale": 1.4 }
     ],
-    "attack_vectors": [ "FOOT" ]
+    "attack_vectors": [ "vector_foot_sole" ]
   },
   {
     "type": "technique",
@@ -1006,7 +1006,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.25 },
       { "stat": "damage", "type": "stab", "scale": 1.25 }
     ],
-    "attack_vectors": [ "FOOT" ]
+    "attack_vectors": [ "vector_foot_toes" ]
   },
   {
     "type": "technique",
@@ -1062,7 +1062,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.5 },
       { "stat": "damage", "type": "stab", "scale": 1.5 }
     ],
-    "attack_vectors": [ "WRIST" ]
+    "attack_vectors": [ "vector_wrist" ]
   },
   {
     "type": "technique",
@@ -1071,7 +1071,7 @@
     "unarmed_allowed": true,
     "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.2 } ],
     "messages": [ "You lash out at %s with a Dragon Claw", "<npcname> lashes out at %s with a Dragon Claw!" ],
-    "attack_vectors": [ "HAND" ]
+    "attack_vectors": [ "vector_punch" ]
   },
   {
     "type": "technique",
@@ -1097,7 +1097,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.4 },
       { "stat": "damage", "type": "stab", "scale": 1.4 }
     ],
-    "attack_vectors": [ "FOOT" ]
+    "attack_vectors": [ "vector_foot_heel" ]
   },
   {
     "type": "technique",
@@ -1115,7 +1115,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.5 },
       { "stat": "damage", "type": "stab", "scale": 1.5 }
     ],
-    "attack_vectors": [ "HAND" ]
+    "attack_vectors": [ "vector_punch" ]
   },
   {
     "type": "technique",
@@ -1125,7 +1125,7 @@
     "skill_requirements": [ { "name": "melee", "level": 4 } ],
     "melee_allowed": true,
     "mult_bonuses": [ { "stat": "movecost", "scale": 0.6 } ],
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -1135,7 +1135,7 @@
     "skill_requirements": [ { "name": "melee", "level": 2 } ],
     "melee_allowed": true,
     "mult_bonuses": [ { "stat": "movecost", "scale": 0.75 } ],
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -1144,7 +1144,7 @@
     "messages": [ "You snap out at %s", "<npcname> snaps quickly at %s!" ],
     "melee_allowed": true,
     "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ],
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -1161,7 +1161,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.5 },
       { "stat": "damage", "type": "stab", "scale": 1.5 }
     ],
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -1198,7 +1198,7 @@
     "condition_desc": "* Only works on a <info>non-stunned mundane</info> target of <info>similar or smaller</info> size",
     "stun_dur": 1,
     "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ],
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -1219,7 +1219,7 @@
     },
     "condition_desc": "* Only works on a <info>non-downed humanoid</info> target of <info>similar or smaller</info> size incapable of flight",
     "down_dur": 1,
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -1240,7 +1240,7 @@
     "melee_allowed": true,
     "crit_ok": true,
     "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ],
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -1257,7 +1257,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.25 },
       { "stat": "damage", "type": "stab", "scale": 1.25 }
     ],
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -1274,7 +1274,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.25 },
       { "stat": "damage", "type": "stab", "scale": 1.25 }
     ],
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -1318,7 +1318,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.2 },
       { "stat": "damage", "type": "stab", "scale": 1.2 }
     ],
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -1347,7 +1347,7 @@
       { "stat": "damage", "type": "cut", "scale": 0.5 },
       { "stat": "damage", "type": "stab", "scale": 0.5 }
     ],
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -1363,7 +1363,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.1 },
       { "stat": "damage", "type": "stab", "scale": 1.1 }
     ],
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -1413,7 +1413,7 @@
       { "stat": "damage", "type": "cut", "scale": 0.5 },
       { "stat": "damage", "type": "stab", "scale": 0.5 }
     ],
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -1432,7 +1432,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.5 },
       { "stat": "damage", "type": "stab", "scale": 1.5 }
     ],
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -1454,7 +1454,7 @@
     "condition_desc": "* Only works on a <info>non-downed humanoid</info> target of <info>identical</info> size incapable of flight",
     "down_dur": 1,
     "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.25 } ],
-    "attack_vectors": [ "THROW" ]
+    "attack_vectors": [ "vector_grasp" ]
   },
   {
     "type": "technique",
@@ -1486,7 +1486,7 @@
     "condition_desc": "* Only works on a <info>non-downed humanoid</info> target of <info>identical</info> size incapable of flight",
     "down_dur": 1,
     "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.25 } ],
-    "attack_vectors": [ "THROW" ]
+    "attack_vectors": [ "vector_grasp" ]
   },
   {
     "type": "technique",
@@ -1511,7 +1511,7 @@
     "down_dur": 1,
     "stun_dur": 1,
     "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.5 } ],
-    "attack_vectors": [ "THROW" ]
+    "attack_vectors": [ "vector_grasp" ]
   },
   {
     "type": "technique",
@@ -1566,7 +1566,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.4 },
       { "stat": "damage", "type": "stab", "scale": 1.4 }
     ],
-    "attack_vectors": [ "HAND" ]
+    "attack_vectors": [ "vector_wrist" ]
   },
   {
     "type": "technique",
@@ -1581,7 +1581,7 @@
       { "stat": "damage", "type": "cut", "scale": 0.66 },
       { "stat": "damage", "type": "stab", "scale": 0.66 }
     ],
-    "attack_vectors": [ "HAND_BACK" ]
+    "attack_vectors": [ "vector_backhand" ]
   },
   {
     "type": "technique",
@@ -1595,7 +1595,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.2 },
       { "stat": "damage", "type": "stab", "scale": 1.2 }
     ],
-    "attack_vectors": [ "FOOT" ]
+    "attack_vectors": [ "vector_foot_toes" ]
   },
   {
     "type": "technique",
@@ -1606,7 +1606,7 @@
     "melee_allowed": true,
     "weapon_categories_allowed": "QUARTERSTAVES",
     "mult_bonuses": [ { "stat": "movecost", "scale": 0.9 } ],
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -1633,7 +1633,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.1 },
       { "stat": "damage", "type": "stab", "scale": 1.1 }
     ],
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -1648,7 +1648,7 @@
       { "stat": "damage", "type": "cut", "scale": 0.66 },
       { "stat": "damage", "type": "stab", "scale": 0.66 }
     ],
-    "attack_vectors": [ "HAND" ]
+    "attack_vectors": [ "vector_punch" ]
   },
   {
     "type": "technique",
@@ -1661,7 +1661,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.2 },
       { "stat": "damage", "type": "stab", "scale": 1.2 }
     ],
-    "attack_vectors": [ "HAND" ]
+    "attack_vectors": [ "vector_punch" ]
   },
   {
     "type": "technique",
@@ -1693,7 +1693,7 @@
     },
     "condition_desc": "* Only works on a target of <info>similar or smaller</info> size, may fail on enemies grabbing you",
     "knockback_dist": 1,
-    "attack_vectors": [ "FOOT" ]
+    "attack_vectors": [ "vector_foot_sole" ]
   },
   {
     "type": "technique",
@@ -1742,7 +1742,7 @@
     "condition_desc": "* Only works on a <info>non-stunned</info> target of <info>similar</info> size incapable of flight",
     "stun_dur": 1,
     "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.4 } ],
-    "attack_vectors": [ "HAND" ]
+    "attack_vectors": [ "vector_punch" ]
   },
   {
     "type": "technique",
@@ -1758,7 +1758,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.4 },
       { "stat": "damage", "type": "stab", "scale": 1.4 }
     ],
-    "attack_vectors": [ "FOOT" ]
+    "attack_vectors": [ "vector_foot_toes" ]
   },
   {
     "type": "technique",
@@ -1774,7 +1774,7 @@
       { "stat": "damage", "type": "cut", "scale": 0.66 },
       { "stat": "damage", "type": "stab", "scale": 0.66 }
     ],
-    "attack_vectors": [ "WEAPON", "HAND" ]
+    "attack_vectors": [ "vector_null", "vector_punch" ]
   },
   {
     "type": "technique",
@@ -1795,7 +1795,7 @@
         "message": "The weapon of %s has been forced out of their hands!"
       }
     ],
-    "attack_vectors": [ "WEAPON", "HAND" ]
+    "attack_vectors": [ "vector_null", "vector_grasp" ]
   },
   {
     "type": "technique",
@@ -1833,8 +1833,7 @@
     },
     "condition_desc": "* Only works on a <info>non-stunned mundane</info> target of <info>similar or smaller</info> size",
     "stun_dur": 1,
-    "attack_vectors": [ "WEAPON" ],
-    "attack_vectors_random": [ "HAND", "FINGERS", "FOOT", "ELBOW", "KNEE", "LOWER_LEG", "HEAD" ]
+    "attack_vectors": [ "vector_null", "vector_headbutt", "vector_punch", "vector_elbow", "vector_foot_toes", "vector_shin", "vector_knee" ]
   },
   {
     "type": "technique",
@@ -1856,7 +1855,7 @@
     },
     "condition_desc": "* Only works on a <info>non-downed humanoid</info> target of <info>similar or smaller</info> size incapable of flight",
     "down_dur": 1,
-    "attack_vectors": [ "THROW" ]
+    "attack_vectors": [ "vector_grasp" ]
   },
   {
     "type": "technique",
@@ -1888,7 +1887,7 @@
     ],
     "flat_bonuses": [ { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 1.0 } ],
     "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.0 } ],
-    "attack_vectors": [ "GRAPPLE" ]
+    "attack_vectors": [ "vector_arm_grapple" ]
   },
   {
     "type": "technique",
@@ -1946,7 +1945,7 @@
     "condition_desc": "* Only works on a <info>non-stunned mundane</info> target of <info>similar or smaller</info> size",
     "stun_dur": 1,
     "mult_bonuses": [ { "stat": "movecost", "scale": 0.5 } ],
-    "attack_vectors": [ "HAND" ]
+    "attack_vectors": [ "vector_punch" ]
   },
   {
     "type": "technique",
@@ -1960,7 +1959,7 @@
       { "stat": "damage", "type": "cut", "scale": 0.66 },
       { "stat": "damage", "type": "stab", "scale": 0.66 }
     ],
-    "attack_vectors": [ "HAND" ]
+    "attack_vectors": [ "vector_punch" ]
   },
   {
     "type": "technique",
@@ -1970,7 +1969,7 @@
     "unarmed_allowed": true,
     "crit_tec": true,
     "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 }, { "stat": "damage", "type": "bash", "scale": 1.3 } ],
-    "attack_vectors": [ "HAND" ]
+    "attack_vectors": [ "vector_punch" ]
   },
   {
     "type": "technique",
@@ -1991,7 +1990,7 @@
     "condition_desc": "* Only works on a <info>non-downed humanoid</info> target of <info>identical or smaller</info> size incapable of flight",
     "down_dur": 1,
     "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 }, { "stat": "damage", "type": "bash", "scale": 2.0 } ],
-    "attack_vectors": [ "HAND" ]
+    "attack_vectors": [ "vector_punch" ]
   },
   {
     "type": "technique",
@@ -2017,7 +2016,7 @@
     },
     "condition_desc": "* Only works on a <info>non-downed humanoid</info> target of <info>similar or smaller</info> size incapable of flight",
     "down_dur": 2,
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -2034,7 +2033,7 @@
       { "stat": "arpen", "type": "stab", "scaling-stat": "str", "scale": 1.5 }
     ],
     "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 0 } ],
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -2062,7 +2061,7 @@
       { "stat": "damage", "type": "cut", "scale": 0.66 },
       { "stat": "damage", "type": "stab", "scale": 0.66 }
     ],
-    "attack_vectors": [ "HAND" ]
+    "attack_vectors": [ "vector_punch" ]
   },
   {
     "type": "technique",
@@ -2075,7 +2074,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.2 },
       { "stat": "damage", "type": "stab", "scale": 1.2 }
     ],
-    "attack_vectors": [ "HAND" ]
+    "attack_vectors": [ "vector_punch" ]
   },
   {
     "type": "technique",
@@ -2087,7 +2086,7 @@
     "crit_tec": true,
     "flat_bonuses": [ { "stat": "damage", "type": "cut", "scale": 2 } ],
     "mult_bonuses": [ { "stat": "movecost", "scale": 0.66 } ],
-    "attack_vectors": [ "ELBOW" ]
+    "attack_vectors": [ "vector_elbow" ]
   },
   {
     "type": "technique",
@@ -2102,7 +2101,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.4 },
       { "stat": "damage", "type": "stab", "scale": 1.4 }
     ],
-    "attack_vectors_random": [ "LOWER_LEG", "FOOT" ]
+    "attack_vectors": [ "vector_shin", "vector_foot_toes" ]
   },
   {
     "type": "technique",
@@ -2134,7 +2133,7 @@
     },
     "condition_desc": "* Only works on a target of <info>similar or smaller</info> size, may fail on enemies grabbing you",
     "knockback_dist": 1,
-    "attack_vectors": [ "FOOT" ]
+    "attack_vectors": [ "vector_foot_sole" ]
   },
   {
     "type": "technique",
@@ -2171,7 +2170,7 @@
     },
     "condition_desc": "* Only works on a <info>non-stunned mundane</info> target of <info>similar or smaller</info> size",
     "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.35 } ],
-    "attack_vectors": [ "KNEE" ]
+    "attack_vectors": [ "vector_knee" ]
   },
   {
     "type": "technique",
@@ -2196,8 +2195,7 @@
     "unarmed_allowed": true,
     "melee_allowed": true,
     "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ],
-    "attack_vectors": [ "WEAPON" ],
-    "attack_vectors_random": [ "HAND", "ELBOW", "LOWER_LEG", "FOOT" ]
+    "attack_vectors": [ "vector_null", "vector_punch", "vector_elbow", "vector_foot_toes", "vector_shin" ]
   },
   {
     "type": "technique",
@@ -2210,8 +2208,7 @@
     "required_buffs_all": [ "buff_ninjutsu_onattack" ],
     "crit_tec": true,
     "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ],
-    "attack_vectors": [ "WEAPON" ],
-    "attack_vectors_random": [ "HAND", "ELBOW", "LOWER_LEG", "FOOT" ]
+    "attack_vectors": [ "vector_null", "vector_punch", "vector_elbow", "vector_foot_toes", "vector_shin" ]
   },
   {
     "type": "technique",
@@ -2228,7 +2225,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.3 },
       { "stat": "damage", "type": "stab", "scale": 1.3 }
     ],
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -2251,7 +2248,7 @@
     "down_dur": 2,
     "weighting": 3,
     "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.0 } ],
-    "attack_vectors": [ "THROW" ]
+    "attack_vectors": [ "vector_grasp" ]
   },
   {
     "type": "technique",
@@ -2275,7 +2272,7 @@
     "down_dur": 2,
     "weighting": 3,
     "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.0 } ],
-    "attack_vectors": [ "THROW" ]
+    "attack_vectors": [ "vector_grasp" ]
   },
   {
     "type": "technique",
@@ -2300,7 +2297,7 @@
     "condition_desc": "* Only works on a <info>non-downed humanoid</info> target of <info>similar or smaller</info> size incapable of flight",
     "down_dur": 2,
     "weighting": 2,
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -2341,8 +2338,7 @@
     "stun_dur": 2,
     "disarms": true,
     "tech_effects": [ { "id": "disarmed", "chance": 100, "duration": 400, "on_damage": true, "message": "The hand of %s is forced open!" } ],
-    "attack_vectors": [ "WEAPON" ],
-    "attack_vectors_random": [ "HAND", "ELBOW", "LOWER_LEG", "FOOT" ]
+    "attack_vectors": [ "vector_null", "vector_punch", "vector_elbow", "vector_foot_heel", "vector_shin" ]
   },
   {
     "type": "technique",
@@ -2356,7 +2352,7 @@
       { "stat": "damage", "type": "bash", "scale": 2.0 },
       { "stat": "damage", "type": "cut", "scale": 2.0 }
     ],
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -2375,7 +2371,7 @@
     },
     "condition_desc": "* Only works on a <info>non-downed humanoid</info> target of <info>similar or smaller</info> size incapable of flight",
     "down_dur": 1,
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -2416,7 +2412,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.5 },
       { "stat": "damage", "type": "stab", "scale": 1.5 }
     ],
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -2458,7 +2454,7 @@
       { "stat": "damage", "type": "bash", "scale": 1.5 },
       { "stat": "damage", "type": "cut", "scale": 1.5 }
     ],
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -2482,7 +2478,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.2 },
       { "stat": "damage", "type": "stab", "scale": 1.2 }
     ],
-    "attack_vectors": [ "HAND" ]
+    "attack_vectors": [ "vector_punch" ]
   },
   {
     "type": "technique",
@@ -2504,7 +2500,7 @@
     },
     "condition_desc": "* Only works on a <info>non-downed humanoid</info> target of <info>similar or smaller</info> size incapable of flight",
     "down_dur": 2,
-    "attack_vectors": [ "FOOT" ]
+    "attack_vectors": [ "vector_foot_sole" ]
   },
   {
     "type": "technique",
@@ -2527,7 +2523,7 @@
     "condition_desc": "* Only works on a <info>downed</info> target",
     "weighting": 3,
     "mult_bonuses": [ { "stat": "movecost", "scale": 0.5 } ],
-    "attack_vectors": [ "KNEE" ]
+    "attack_vectors": [ "vector_knee" ]
   },
   {
     "type": "technique",
@@ -2544,7 +2540,7 @@
     "tech_effects": [ { "id": "disarmed", "chance": 100, "duration": 400, "on_damage": true, "message": "The hand of %s is forced open!" } ],
     "flat_bonuses": [ { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 1.0 } ],
     "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.25 } ],
-    "attack_vectors": [ "GRAPPLE" ]
+    "attack_vectors": [ "vector_arm_grapple" ]
   },
   {
     "type": "technique",
@@ -2586,7 +2582,7 @@
     },
     "condition_desc": "* Only works on a <info>non-downed humanoid</info> target of <info>similar or smaller</info> size incapable of flight, may fail on targets <info>grabbing you</info>",
     "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.0 } ],
-    "attack_vectors": [ "THROW" ]
+    "attack_vectors": [ "vector_grasp" ]
   },
   {
     "type": "technique",
@@ -2606,7 +2602,7 @@
     },
     "condition_desc": "* Only works on a <info>non-downed humanoid</info> target of <info>similar or smaller</info> size incapable of flight",
     "down_dur": 2,
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -2624,7 +2620,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.33 },
       { "stat": "damage", "type": "stab", "scale": 1.33 }
     ],
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -2660,7 +2656,7 @@
     },
     "condition_desc": "* Only works on a <info>non-stunned mundane</info> target of <info>similar or smaller</info> size",
     "stun_dur": 2,
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -2678,7 +2674,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.33 },
       { "stat": "damage", "type": "stab", "scale": 1.33 }
     ],
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -2693,7 +2689,7 @@
       { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 0.5 }
     ],
     "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ],
-    "attack_vectors": [ "HAND" ]
+    "attack_vectors": [ "vector_punch" ]
   },
   {
     "type": "technique",
@@ -2756,7 +2752,7 @@
       { "stat": "arpen", "type": "stab", "scaling-stat": "per", "scale": 1.0 }
     ],
     "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.5 } ],
-    "attack_vectors": [ "HAND" ]
+    "attack_vectors": [ "vector_punch" ]
   },
   {
     "type": "technique",
@@ -2793,7 +2789,7 @@
       { "stat": "damage", "type": "cut", "scale": 0.5 },
       { "stat": "damage", "type": "stab", "scale": 0.5 }
     ],
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -2818,7 +2814,7 @@
       { "stat": "damage", "type": "cut", "scale": 0.5 },
       { "stat": "damage", "type": "stab", "scale": 0.5 }
     ],
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -2834,7 +2830,7 @@
       { "stat": "damage", "type": "cut", "scale": 0.66 },
       { "stat": "damage", "type": "stab", "scale": 0.66 }
     ],
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -2856,7 +2852,7 @@
     "weighting": 2,
     "take_weapon": true,
     "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 0.5 } ],
-    "attack_vectors": [ "HAND" ]
+    "attack_vectors": [ "vector_grasp" ]
   },
   {
     "type": "technique",
@@ -2904,7 +2900,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.5 },
       { "stat": "damage", "type": "stab", "scale": 1.5 }
     ],
-    "attack_vectors": [ "FOOT" ]
+    "attack_vectors": [ "vector_foot_heel" ]
   },
   {
     "type": "technique",
@@ -2936,7 +2932,7 @@
     },
     "condition_desc": "* Only works on a target of <info>similar or smaller</info> size, may fail on enemies grabbing you",
     "knockback_dist": 1,
-    "attack_vectors": [ "FOOT" ]
+    "attack_vectors": [ "vector_foot_sole" ]
   },
   {
     "type": "technique",
@@ -2957,7 +2953,7 @@
     },
     "condition_desc": "* Only works on a <info>non-downed humanoid</info> target of <info>similar or smaller</info> size incapable of flight",
     "down_dur": 1,
-    "attack_vectors_random": [ "FOOT", "LOWER_LEG" ]
+    "attack_vectors": [ "vector_foot_toes", "vector_shin" ]
   },
   {
     "type": "technique",
@@ -2971,7 +2967,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.2 },
       { "stat": "damage", "type": "stab", "scale": 1.2 }
     ],
-    "attack_vectors": [ "FOOT" ]
+    "attack_vectors": [ "vector_foot_toes" ]
   },
   {
     "type": "technique",
@@ -3001,7 +2997,7 @@
         "message": "The weapon of %s has been forced out of their hands!"
       }
     ],
-    "attack_vectors": [ "HAND" ]
+    "attack_vectors": [ "vector_grasp" ]
   },
   {
     "type": "technique",
@@ -3039,7 +3035,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.5 },
       { "stat": "damage", "type": "stab", "scale": 1.5 }
     ],
-    "attack_vectors": [ "PALM" ]
+    "attack_vectors": [ "vector_palm" ]
   },
   {
     "type": "technique",
@@ -3066,7 +3062,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.2 },
       { "stat": "damage", "type": "stab", "scale": 1.2 }
     ],
-    "attack_vectors": [ "THROW" ]
+    "attack_vectors": [ "vector_grasp" ]
   },
   {
     "type": "technique",
@@ -3125,7 +3121,7 @@
       { "stat": "damage", "type": "cut", "scale": 2.0 },
       { "stat": "damage", "type": "stab", "scale": 2.0 }
     ],
-    "attack_vectors": [ "PALM" ]
+    "attack_vectors": [ "vector_palm" ]
   },
   {
     "type": "technique",
@@ -3157,7 +3153,7 @@
     "condition_desc": "* Only works on a <info>non-downed humanoid</info> target of <info>similar or smaller</info> size incapable of flight",
     "down_dur": 1,
     "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.25 } ],
-    "attack_vectors": [ "THROW" ]
+    "attack_vectors": [ "vector_grasp" ]
   },
   {
     "type": "technique",
@@ -3177,7 +3173,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.25 },
       { "stat": "damage", "type": "stab", "scale": 1.25 }
     ],
-    "attack_vectors": [ "HAND" ]
+    "attack_vectors": [ "vector_palm" ]
   },
   {
     "type": "technique",
@@ -3218,7 +3214,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.25 },
       { "stat": "damage", "type": "stab", "scale": 1.25 }
     ],
-    "attack_vectors": [ "HAND" ]
+    "attack_vectors": [ "vector_punch" ]
   },
   {
     "type": "technique",
@@ -3235,7 +3231,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.25 },
       { "stat": "damage", "type": "stab", "scale": 1.25 }
     ],
-    "attack_vectors": [ "HAND" ]
+    "attack_vectors": [ "vector_punch" ]
   },
   {
     "type": "technique",
@@ -3248,7 +3244,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.1 },
       { "stat": "damage", "type": "stab", "scale": 1.1 }
     ],
-    "attack_vectors": [ "HAND" ]
+    "attack_vectors": [ "vector_punch" ]
   },
   {
     "type": "technique",
@@ -3288,7 +3284,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.1 },
       { "stat": "damage", "type": "stab", "scale": 1.1 }
     ],
-    "attack_vectors": [ "HAND" ]
+    "attack_vectors": [ "vector_punch" ]
   },
   {
     "type": "technique",
@@ -3313,7 +3309,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.2 },
       { "stat": "damage", "type": "stab", "scale": 1.2 }
     ],
-    "attack_vectors": [ "HAND" ]
+    "attack_vectors": [ "vector_punch" ]
   },
   {
     "type": "technique",
@@ -3358,7 +3354,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.2 },
       { "stat": "damage", "type": "stab", "scale": 1.2 }
     ],
-    "attack_vectors": [ "HAND" ]
+    "attack_vectors": [ "vector_punch" ]
   },
   {
     "type": "technique",
@@ -3392,7 +3388,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.2 },
       { "stat": "damage", "type": "stab", "scale": 1.2 }
     ],
-    "attack_vectors": [ "HAND" ]
+    "attack_vectors": [ "vector_punch" ]
   },
   {
     "type": "technique",
@@ -3420,7 +3416,7 @@
       { "stat": "damage", "type": "cut", "scale": 1.3 },
       { "stat": "damage", "type": "stab", "scale": 1.3 }
     ],
-    "attack_vectors_random": [ "HAND", "FOOT" ]
+    "attack_vectors": [ "vector_punch", "vector_foot_toes" ]
   },
   {
     "type": "technique",
@@ -3435,7 +3431,7 @@
     ],
     "messages": [ "You quickly strike %s!", "<npcname> quickly strikes %s!" ],
     "description": "50% moves, 66% damage",
-    "attack_vectors": [ "WEAPON" ]
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "technique",
@@ -3449,7 +3445,7 @@
     ],
     "flat_bonuses": [ { "stat": "movecost", "scale": 100 }, { "stat": "movecost", "scaling-stat": "str", "scale": 10 } ],
     "messages": [ "You slowly strike %s!", "<npcname> slowly strikes %s!" ],
-    "attack_vectors": [ "HAND" ]
+    "attack_vectors": [ "vector_punch" ]
   },
   {
     "type": "technique",
@@ -3470,7 +3466,7 @@
     ],
     "crit_tec": true,
     "messages": [ "You phase-strike %s!", "<npcname> phase-strikes %s!" ],
-    "attack_vectors": [ "WEAPON", "HAND" ]
+    "attack_vectors": [ "vector_null", "vector_punch" ]
   },
   {
     "type": "technique",
@@ -3491,217 +3487,6 @@
         ]
       }
     ],
-    "attack_vectors": [ "WEAPON", "HAND" ]
-  },
-  {
-    "type": "technique",
-    "id": "FANGS_BITE",
-    "name": "Fang Bite",
-    "melee_allowed": true,
-    "messages": [ "You bite %s", "<npcname> bites %s!" ],
-    "unarmed_allowed": true,
-    "weighting": -5,
-    "reach_ok": false,
-    "attack_vectors": [ "MOUTH" ],
-    "condition": {
-      "and": [
-        { "not": { "u_has_effect": "natural_stance" } },
-        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] }
-      ]
-    },
-    "tech_effects": [
-      {
-        "id": "anticoagulant_draculin",
-        "chance": 70,
-        "duration": 3000,
-        "on_damage": true,
-        "message": "Saliva glistens across %s's wound!",
-        "req_flag": "DRACULIN_VENOM"
-      }
-    ],
-    "flat_bonuses": [
-      { "stat": "damage", "type": "stab", "scale": 9 },
-      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 1.0 },
-      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
-      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.06 },
-      { "stat": "movecost", "scale": 75 },
-      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
-      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
-    ]
-  },
-  {
-    "type": "technique",
-    "id": "FANGS_BITE_NATURAL",
-    "name": "Fang Bite",
-    "melee_allowed": true,
-    "messages": [ "You bite %s", "<npcname> bites %s!" ],
-    "unarmed_allowed": true,
-    "weighting": -2,
-    "reach_ok": false,
-    "attack_vectors": [ "MOUTH" ],
-    "condition": {
-      "and": [
-        {
-          "or": [ { "u_has_effect": "natural_stance" }, { "and": [ { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" } ] } ]
-        }
-      ]
-    },
-    "tech_effects": [
-      {
-        "id": "anticoagulant_draculin",
-        "chance": 70,
-        "duration": 3000,
-        "on_damage": true,
-        "message": "Saliva glistens across %s's wound!",
-        "req_flag": "DRACULIN_VENOM"
-      }
-    ],
-    "flat_bonuses": [
-      { "stat": "damage", "type": "stab", "scale": 9 },
-      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 1.0 },
-      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
-      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.06 },
-      { "stat": "movecost", "scale": 75 },
-      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
-      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
-    ]
-  },
-  {
-    "type": "technique",
-    "id": "FANGS_BITE_CRIT",
-    "name": "Critical Fang Bite",
-    "melee_allowed": true,
-    "messages": [ "You deliver a wicked bite to %s", "<npcname> delivers a wicked bite to %s!" ],
-    "unarmed_allowed": true,
-    "reach_ok": false,
-    "crit_tec": true,
-    "attack_vectors": [ "MOUTH" ],
-    "tech_effects": [
-      {
-        "id": "anticoagulant_draculin",
-        "chance": 90,
-        "duration": 6000,
-        "on_damage": true,
-        "message": "Saliva glistens across %s's wound!",
-        "req_flag": "DRACULIN_VENOM"
-      }
-    ],
-    "flat_bonuses": [
-      { "stat": "damage", "type": "stab", "scale": 9 },
-      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 4.4 },
-      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
-      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.24 },
-      { "stat": "arpen", "type": "bash", "scaling-stat": "unar,ed", "scale": 1 },
-      { "stat": "arpen", "type": "stab", "scaling-stat": "unarmed", "scale": 1 },
-      { "stat": "movecost", "scale": 75 },
-      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
-      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
-    ]
-  },
-  {
-    "type": "technique",
-    "id": "VAMPIRE_BITE",
-    "name": "Vampire Bite",
-    "melee_allowed": true,
-    "messages": [ "You bite %s", "<npcname> bites %s!" ],
-    "unarmed_allowed": true,
-    "weighting": -5,
-    "reach_ok": false,
-    "attack_vectors": [ "MOUTH" ],
-    "condition": {
-      "and": [
-        { "not": { "u_has_effect": "natural_stance" } },
-        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] }
-      ]
-    },
-    "tech_effects": [
-      {
-        "id": "anticoagulant_draculin",
-        "chance": 90,
-        "duration": 3000,
-        "on_damage": true,
-        "message": "Saliva glistens across %s's wound!",
-        "req_flag": "DRACULIN_VENOM"
-      }
-    ],
-    "flat_bonuses": [
-      { "stat": "damage", "type": "stab", "scale": 15 },
-      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 1.0 },
-      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
-      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.06 },
-      { "stat": "movecost", "scale": 75 },
-      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
-      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
-    ]
-  },
-  {
-    "type": "technique",
-    "id": "VAMPIRE_BITE_NATURAL",
-    "name": "Vampire Bite",
-    "melee_allowed": true,
-    "messages": [ "You bite %s", "<npcname> bites %s!" ],
-    "unarmed_allowed": true,
-    "weighting": -2,
-    "reach_ok": false,
-    "attack_vectors": [ "MOUTH" ],
-    "tech_effects": [
-      {
-        "id": "anticoagulant_draculin",
-        "chance": 90,
-        "duration": 3000,
-        "on_damage": true,
-        "message": "Saliva glistens across %s's wound!",
-        "req_flag": "DRACULIN_VENOM"
-      }
-    ],
-    "condition": {
-      "and": [
-        {
-          "or": [ { "u_has_effect": "natural_stance" }, { "and": [ { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" } ] } ]
-        }
-      ]
-    },
-    "flat_bonuses": [
-      { "stat": "damage", "type": "stab", "scale": 15 },
-      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 1.0 },
-      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
-      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.06 },
-      { "stat": "movecost", "scale": 75 },
-      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
-      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
-    ]
-  },
-  {
-    "type": "technique",
-    "id": "VAMPIRE_BITE_CRIT",
-    "name": "Critical Vampire Bite",
-    "melee_allowed": true,
-    "messages": [ "You sink your fangs deep into %s!", "<npcname> sinks their fangs deep into %s!" ],
-    "unarmed_allowed": true,
-    "weighting": -4,
-    "reach_ok": false,
-    "crit_tec": true,
-    "tech_effects": [
-      {
-        "id": "anticoagulant_draculin",
-        "chance": 100,
-        "duration": 6000,
-        "on_damage": true,
-        "message": "Saliva glistens across %s's wound!",
-        "req_flag": "DRACULIN_VENOM"
-      }
-    ],
-    "attack_vectors": [ "MOUTH" ],
-    "flat_bonuses": [
-      { "stat": "damage", "type": "stab", "scale": 15 },
-      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 4.4 },
-      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
-      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.24 },
-      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 1 },
-      { "stat": "arpen", "type": "stab", "scaling-stat": "unarmed", "scale": 1 },
-      { "stat": "movecost", "scale": 75 },
-      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
-      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
-    ]
+    "attack_vectors": [ "vector_null", "vector_wrist" ]
   }
 ]

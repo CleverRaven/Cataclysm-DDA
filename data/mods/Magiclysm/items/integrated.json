@@ -6,7 +6,8 @@
     "category": "armor",
     "name": { "str_sp": "goblin teeth" },
     "description": "A set of goblin teeth, small but needle-sharp.",
-    "techniques": [ "FANGS_BITE_GOBLIN", "FANGS_BITE_GOBLIN_GRAB" ]
+    "techniques": [ "FANGS_BITE_GOBLIN", "FANGS_BITE_GOBLIN_GRAB", "FANGS_BITE_GOBLIN_CRIT" ],
+    "melee_damage": { "stab": 6 }
   },
   {
     "id": "integrated_lizardfolk_teeth",
@@ -15,6 +16,7 @@
     "category": "armor",
     "name": { "str_sp": "lizardfolk teeth" },
     "description": "A set of lizardfolk teeth, made for biting chunks of out their prey.",
-    "techniques": [ "FANGS_BITE_LIZARDFOLK" ]
+    "techniques": [ "FANGS_BITE_LIZARDFOLK", "LIZARDFOLK_BITE_CRIT" ],
+    "melee_damage": { "stab": 20 }
   }
 ]

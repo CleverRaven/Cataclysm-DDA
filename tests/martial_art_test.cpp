@@ -1,3 +1,5 @@
+#include <tuple>
+
 #include "catch/catch.hpp"
 #include "player_helpers.h"
 
@@ -94,22 +96,24 @@ TEST_CASE( "Martial_art_technique_conditionals", "[martial_arts]" )
         monster &target_1 = spawn_test_monster( "mon_zombie_fat", target_1_pos );
         monster &target_2 = spawn_test_monster( "mon_zombie_hulk", target_2_pos );
         monster &target_3 = spawn_test_monster( "mon_blob", target_3_pos );
-        std::vector<matec_id> tech_1 = dude.evaluate_techniques( target_1, dude.used_weapon() );
 
         // test sweeping a zombie (succeed)
         REQUIRE( target_1.get_size() == 3 );
-        CHECK( tech_1.size() == 1 );
-        CHECK( std::find( tech_1.begin(), tech_1.end(), tec ) != tech_1.end() );
+        CHECK( dude.evaluate_technique( tec, target_1, dude.used_weapon(), false, false,
+                                        false ).has_value() );
         // Being downed disables the attack
         target_1.add_effect( effect_downed, 1_days );
-        CHECK( dude.evaluate_techniques( target_1, dude.used_weapon() ).empty() );
+        CHECK( !dude.evaluate_technique( tec, target_1, dude.used_weapon(), false, false,
+                                         false ).has_value() );
         // test sweeping a big zomb (fail)
         REQUIRE( target_2.get_size() == 5 );
-        CHECK( dude.evaluate_techniques( target_2, dude.used_weapon() ).empty() );
+        CHECK( !dude.evaluate_technique( tec, target_2, dude.used_weapon(), false, false,
+                                         false ).has_value() );
         // test sweeping a slime (fail)
         REQUIRE( target_3.get_size() == 3 );
         REQUIRE( target_3.type->bodytype == "blob" );
-        CHECK( dude.evaluate_techniques( target_3, dude.used_weapon() ).empty() );
+        CHECK( !dude.evaluate_technique( tec, target_3, dude.used_weapon(), false, false,
+                                         false ).has_value() );
     }
 
     SECTION( "Test stun" ) {
@@ -119,22 +123,26 @@ TEST_CASE( "Martial_art_technique_conditionals", "[martial_arts]" )
         monster &target_3 = spawn_test_monster( "mon_blob", target_3_pos );
         item weap( itype_sword_crude );
         dude.wield( weap );
+
         // test stunning a feral (succeed)
-        std::vector<matec_id> tech_1 = dude.evaluate_techniques( target_1, dude.used_weapon() );
         REQUIRE( target_1.get_size() == 3 );
         REQUIRE( !target_1.type->in_species( species_ZOMBIE ) );
-        CHECK( std::find( tech_1.begin(), tech_1.end(), tec ) != tech_1.end() );
-        // Being downed disables the attack
+        CHECK( dude.evaluate_technique( tec, target_1, dude.used_weapon(), false, false,
+                                        false ).has_value() );
+        // Being stunned disables the attack
         target_1.add_effect( effect_stunned, 1_days );
-        CHECK( dude.evaluate_techniques( target_1, dude.used_weapon() ).empty() );
+        CHECK( !dude.evaluate_technique( tec, target_1, dude.used_weapon(), false, false,
+                                         false ).has_value() );
         // test stunning a zombie (fail)
         REQUIRE( target_2.get_size() == 3 );
         REQUIRE( target_2.type->in_species( species_ZOMBIE ) );
-        CHECK( dude.evaluate_techniques( target_2, dude.used_weapon() ).empty() );
+        CHECK( !dude.evaluate_technique( tec, target_2, dude.used_weapon(), false, false,
+                                         false ).has_value() );
         // test stunning a slime (fail)
         REQUIRE( target_3.get_size() == 3 );
         REQUIRE( target_3.type->in_species( species_SLIME ) );
-        CHECK( dude.evaluate_techniques( target_3, dude.used_weapon() ).empty() );
+        CHECK( !dude.evaluate_technique( tec, target_3, dude.used_weapon(), false, false,
+                                         false ).has_value() );
     }
     SECTION( "Test knockback" ) {
         const matec_id &tec = *test_style_ma1->techniques.find( test_tech_condition_knockback );
@@ -143,21 +151,25 @@ TEST_CASE( "Martial_art_technique_conditionals", "[martial_arts]" )
         monster &target_3 = spawn_test_monster( "mon_test_tech_grabber", target_3_pos );
         item weap( itype_club_wooden );
         dude.wield( weap );
+
         // test throwing a feral (succeed)
-        std::vector<matec_id> tech_1 = dude.evaluate_techniques( target_1, dude.used_weapon() );
         REQUIRE( target_1.get_size() == 3 );
-        CHECK( std::find( tech_1.begin(), tech_1.end(), tec ) != tech_1.end() );
+        CHECK( dude.evaluate_technique( tec, target_1, dude.used_weapon(), false, false,
+                                        false ).has_value() );
         // Being downed disables the attack
         target_1.add_effect( effect_downed, 1_days );
-        CHECK( dude.evaluate_techniques( target_1, dude.used_weapon() ).empty() );
+        CHECK( !dude.evaluate_technique( tec, target_1, dude.used_weapon(), false, false,
+                                         false ).has_value() );
         // test throwing a large target (fail)
         REQUIRE( target_2.get_size() == 5 );
-        CHECK( dude.evaluate_techniques( target_2, dude.used_weapon() ).empty() );
+        CHECK( !dude.evaluate_technique( tec, target_2, dude.used_weapon(), false, false,
+                                         false ).has_value() );
         // test throwing a monster grabbing you (succeed)
         dude.add_effect( effect_grabbed, 1_days );
         target_3.add_effect( effect_grabbing, 1_days );
         REQUIRE( target_3.get_size() == 3 );
         REQUIRE( target_3.get_grab_strength() == 0 );
-        CHECK( dude.evaluate_techniques( target_3, dude.used_weapon() ).size() == 1 );
+        CHECK( dude.evaluate_technique( tec, target_3, dude.used_weapon(), false, false,
+                                        false ).has_value() );
     }
 }
