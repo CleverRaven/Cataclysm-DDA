@@ -317,7 +317,7 @@ int turret_data::fire( Character &c, const tripoint &target )
     gun_mode mode = base()->gun_current_mode();
 
     prepare_fire( c );
-    shots = c.fire_gun( target, mode.qty, *mode, item_location() );
+    shots = c.fire_gun( target, mode.qty, *mode );
     post_fire( c, shots );
     return shots;
 }
