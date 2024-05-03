@@ -8058,7 +8058,7 @@ void map::shift( const point &sp )
                 loadn( point( gridx, gridy ), true );
 
                 for( int gridz = zmin; gridz <= zmax; gridz++ ) {
-                    loaded_grids.emplace_back( tripoint( gridx, gridy, gridz ) );
+                    loaded_grids.emplace_back( gridx, gridy, gridz );
                 }
             }
         }
@@ -8694,7 +8694,7 @@ void map::add_roofs( const tripoint &grid )
     for( int x = 0; x < SEEX; x++ ) {
         for( int y = 0; y < SEEY; y++ ) {
             const ter_id ter_here = sub_here->get_ter( { x, y } );
-            if( !ter_here->has_flag( "EMPTY_SPACE" ) ) {
+            if( ter_here.id() != ter_t_open_air ) {
                 continue;
             }
 
