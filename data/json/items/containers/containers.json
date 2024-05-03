@@ -1278,6 +1278,33 @@
     "color": "brown"
   },
   {
+    "id": "box_oversize_reinforced",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "reinforced oversize cardboard box", "str_pl": "reinforced oversize cardboard boxes" },
+    "looks_like": "box_small",
+    "description": "An oversize cardboard box, doubled up with a second layer of cardboard and lots of duct tape.  It can't be folded anymore.",
+    "ascii_picture": "box_oversize",
+    "weight": "4002 g",
+    "volume": "205000 ml",
+    "longest_side": "201 cm",
+    "//": "(200x50x20)",
+    "price": "10 USD",
+    "price_postapoc": "20 cent",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "200000 ml",
+        "max_contains_weight": "100 kg",
+        "max_item_length": "200 cm"
+      }
+    ],
+    "material": [ "cardboard" ],
+    "symbol": ")",
+    "color": "brown"
+  },
+  {
     "id": "box_compact_wood",
     "type": "GENERIC",
     "name": { "str": "tiny wooden box", "str_pl": "tiny wooden boxes" },
