@@ -686,6 +686,42 @@
         "effect": [ { "assign_mission": "SKYISLAND_BUILD_northroom4" } ],
         "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE"
       },
+      {
+        "text": "Construct: Central Skylight 2",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_BUILD_centralskylight2" } },
+            { "math": [ "skyisland_build_bigroom", ">=", "2" ] },
+            { "math": [ "skyisland_build_centralskylight", "==", "0" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_BUILD_centralskylight2" } ],
+        "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE"
+      },
+      {
+        "text": "Construct: Central Skylight 3",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_BUILD_centralskylight3" } },
+            { "math": [ "skyisland_build_bigroom", ">=", "3" ] },
+            { "math": [ "skyisland_build_centralskylight", "==", "1" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_BUILD_centralskylight3" } ],
+        "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE"
+      },
+      {
+        "text": "Construct: Central Skylight 4",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "SKYISLAND_BUILD_centralskylight4" } },
+            { "math": [ "skyisland_build_bigroom", ">=", "4" ] },
+            { "math": [ "skyisland_build_centralskylight", "==", "2" ] }
+          ]
+        },
+        "effect": [ { "assign_mission": "SKYISLAND_BUILD_centralskylight4" } ],
+        "topic": "SKYISLAND_UPGRADES_INFRASTRUCTURE"
+      },
       { "text": "Nevermind.", "topic": "SKYISLAND_UPGRADE" }
     ]
   }

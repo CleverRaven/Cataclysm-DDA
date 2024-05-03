@@ -93,6 +93,21 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_skyisland_build_centralskylight2",
+    "effect": [ { "mapgen_update": "mx_skyisland_skylight2", "target_var": { "global_val": "OM_island_center" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_skyisland_build_centralskylight3",
+    "effect": [ { "mapgen_update": "mx_skyisland_skylight3", "target_var": { "global_val": "OM_island_center" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_skyisland_build_centralskylight4",
+    "effect": [ { "mapgen_update": "mx_skyisland_skylight4", "target_var": { "global_val": "OM_island_center" } } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_memorize_island",
     "//": "Tracks various map or overmap spots for the island's construction upgrades.",
     "effect": [
@@ -288,6 +303,111 @@
         "                        ",
         "                        ",
         "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "NO_UNDERLYING_ROTATE", "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "terrain": { "*": "t_glass_roof", ".": "t_concrete" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_skyisland_skylight2",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "           ...          ",
+        "          ..*..         ",
+        "          .***.         ",
+        "          ..*..         ",
+        "           ...          ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "NO_UNDERLYING_ROTATE", "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "terrain": { "*": "t_glass_roof", ".": "t_concrete" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_skyisland_skylight3",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "           ...          ",
+        "          ..*..         ",
+        "         ..***..        ",
+        "        ..*****..       ",
+        "        .*******.       ",
+        "        ..*****..       ",
+        "         ..***..        ",
+        "          ..*..         ",
+        "           ...          ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "NO_UNDERLYING_ROTATE", "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "terrain": { "*": "t_glass_roof", ".": "t_concrete" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_skyisland_skylight4",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "           ...          ",
+        "          ..*..         ",
+        "         ..***..        ",
+        "        ..*****..       ",
+        "       ..*******..      ",
+        "      ..*********..     ",
+        "      .***********.     ",
+        "      ..*********..     ",
+        "       ..*******..      ",
+        "        ..*****..       ",
+        "         ..***..        ",
+        "          ..*..         ",
+        "           ...          ",
         "                        ",
         "                        ",
         "                        ",
