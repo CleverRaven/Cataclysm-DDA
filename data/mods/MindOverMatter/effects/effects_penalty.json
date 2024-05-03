@@ -244,7 +244,16 @@
     "max_intensity": 10,
     "base_mods": { "str_mod": [ -2 ], "dex_mod": [ -2 ] },
     "scaling_mods": { "str_mod": [ -1.2 ], "dex_mod": [ -1.2 ] },
-    "enchantments": [ { "values": [ { "value": "MELEE_STAMINA_CONSUMPTION", "multiply": -0.15 } ] } ],
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "MELEE_STAMINA_CONSUMPTION",
+            "multiply": { "math": [ "-0.15 - ( u_vitamin('vitamin_psionic_drain') * -0.01)" ] }
+          }
+        ]
+      }
+    ],
     "limb_score_mods": [
       { "limb_score": "lift", "modifier": 0.9, "resist_modifier": 1.0, "scaling": -0.05, "resist_scaling": -0.00125 },
       { "limb_score": "grip", "modifier": 0.8, "resist_modifier": 1.0, "scaling": -0.1, "resist_scaling": -0.025 },
@@ -380,10 +389,10 @@
     "id": "effect_teleporter_overload",
     "name": [ "Warped Space" ],
     "desc": [ "Nothing is quite where it seems to be." ],
-    "apply_message": "The air itself seems to press down on you!",
+    "apply_message": "Your vision doesn't agree with where things seem to actually be",
     "remove_message": "Distances resolve themselves again.",
     "rating": "bad",
-    "enchantments": [ { "values": [ { "value": "OBTAIN_COST_MULTIPLIER", "multiply": 0.1 }, { "value": "MOVE_COST", "multiply": 0.1 } ] } ]
+    "enchantments": [ { "values": [ { "value": "OBTAIN_COST_MULTIPLIER", "multiply": 0.1 }, { "value": "MOVE_COST", "multiply": 0.33 } ] } ]
   },
   {
     "type": "effect_type",
