@@ -74,11 +74,10 @@
 
 static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
 
-static const attack_vector_id attack_vector_null( "vector_null" );
+static const attack_vector_id attack_vector_vector_null( "vector_null" );
 
 static const bionic_id bio_cqb( "bio_cqb" );
 static const bionic_id bio_heat_absorb( "bio_heat_absorb" );
-static const bionic_id bio_razors( "bio_razors" );
 static const bionic_id bio_shock( "bio_shock" );
 
 static const character_modifier_id
@@ -715,7 +714,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
 
         // Practice melee and relevant weapon skill (if any) except when using CQB bionic
         if( !has_active_bionic( bio_cqb ) && !t.is_hallucination() ) {
-            melee_train( *this, 2, std::min( 5, skill_training_cap ), cur_weap, attack_vector_null );
+            melee_train( *this, 2, std::min( 5, skill_training_cap ), cur_weap, attack_vector_vector_null );
         }
 
         // Cap stumble penalty, heavy weapons are quite weak already
@@ -749,11 +748,12 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         // Pick our attack
         // Unarmed needs a defined technique
         if( has_force_technique ) {
-            attack = std::make_tuple( force_technique, attack_vector_null, sub_body_part_sub_limb_debug );
+            attack = std::make_tuple( force_technique, attack_vector_vector_null,
+                                      sub_body_part_sub_limb_debug );
         } else if( allow_special ) {
             attack = pick_technique( t, cur_weapon, critical_hit, false, false );
         } else {
-            attack = std::make_tuple( tec_none, attack_vector_null, sub_body_part_sub_limb_debug );
+            attack = std::make_tuple( tec_none, attack_vector_vector_null, sub_body_part_sub_limb_debug );
         }
         // Unpack our data
         matec_id attack_id;
@@ -1432,19 +1432,15 @@ std::tuple<matec_id, attack_vector_id, sub_bodypart_str_id> Character::pick_tech
     }
 
     return random_entry( possible,
-                         std::make_tuple( tec_none, attack_vector_null,
+                         std::make_tuple( tec_none, attack_vector_vector_null,
                                           sub_body_part_sub_limb_debug ) );
 }
 std::optional<std::tuple<matec_id, attack_vector_id, sub_bodypart_str_id>>
         Character::evaluate_technique( const matec_id &tec_id, Creature &t, const item_location &weap,
                                        bool crit, bool dodge_counter, bool block_counter )
 {
-    std::optional<std::tuple<matec_id, attack_vector_id, sub_bodypart_str_id>> ret;
-
     // this could be more robust but for now it should work fine
     bool is_loaded = weap && weap->is_magazine_full();
-
-    // first add non-aoe tecs
 
     // ignore "dummy" techniques like WBLOCK_1
     if( tec_id->dummy ) {
@@ -1563,10 +1559,10 @@ std::optional<std::tuple<matec_id, attack_vector_id, sub_bodypart_str_id>>
         vector = martial_arts_data->choose_attack_vector( *this, tec_id );
         if( vector ) {
             return std::make_tuple( tec_id, vector->first, vector->second );
+        } else {
+            add_msg_debug( debugmode::DF_MELEE, "No valid attack vector found, attack discarded" );
+            return std::nullopt;
         }
-    } else {
-        add_msg_debug( debugmode::DF_MELEE, "No valid attack vector found, attack discarded" );
-        return std::nullopt;
     }
 
     return std::nullopt;

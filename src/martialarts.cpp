@@ -629,7 +629,7 @@ void finalize_martial_arts()
                 std::vector<sub_bodypart_str_id> intersect;
                 std::set_intersection( similar->sub_parts.begin(), similar->sub_parts.end(),
                                        vector.contact_area.begin(), vector.contact_area.end(), std::back_inserter( intersect ) );
-                if( intersect.size() > 0 ) {
+                if( !intersect.empty() ) {
                     // We have a common element in our sublimb list and the contact area list
                     similar_bp.emplace_back( similar );
                 }
@@ -711,10 +711,7 @@ bool ma_requirements::is_valid_character( const Character &u ) const
     bool valid_melee = !strictly_unarmed && ( forced_unarmed || melee_ok );
 
     if( !valid_unarmed && !valid_melee ) {
-        return false;
-    }
-
-    if( wall_adjacent && !get_map().is_wall_adjacent( u.pos() ) ) {
+        add_msg_debug( debugmode::DF_MELEE, "Weapon/technique conflict, attack discarded" );
         return false;
     }
 
@@ -1466,7 +1463,7 @@ std::optional<std::pair<attack_vector_id, sub_bodypart_str_id>>
             // Store a dummy sublimb to show we're attacking with a weapon
             weight = weapon->base_damage_melee().total_damage();
             list.add_or_replace( vec, weight );
-            storage.emplace_back( std::make_pair( vec, sub_body_part_sub_limb_debug ) );
+            storage.emplace_back( vec, sub_body_part_sub_limb_debug );
             add_msg_debug( debugmode::DF_MELEE, "Weapon %s eligable for attack vector %s with weight %.1f",
                            weapon->display_name(),
                            vec.c_str(), weight );
@@ -1475,7 +1472,8 @@ std::optional<std::pair<attack_vector_id, sub_bodypart_str_id>>
         // Smilar bodyparts get appended to the vector limb list in the finalization step
         // So we just need to check if we have a limb, a contact area sublimb and tally up the damages
         std::vector<std::pair<sub_bodypart_str_id, float>> calc_vector;
-        for( const bodypart_id &bp : vec->limbs ) {
+        for( const bodypart_id &bp_id : vec->limbs ) {
+            const bodypart_str_id &bp = bp_id.id();
             if( std::find( anat.begin(), anat.end(), bp ) != anat.end() ) {
                 add_msg_debug( debugmode::DF_MELEE, "Evaluating limb %s for vector %s", bp->name, vec.c_str() );
                 // Filter on limb flags early
@@ -1502,9 +1500,9 @@ std::optional<std::pair<attack_vector_id, sub_bodypart_str_id>>
                 }
 
                 // TODO: move this from being a special case to the default
-                int bp_hp_cur = bp->main_part == bp.id() ? user.get_part_hp_cur( bp ) : user.get_part_hp_cur(
+                int bp_hp_cur = bp->main_part == bp ? user.get_part_hp_cur( bp ) : user.get_part_hp_cur(
                                     bp->main_part );
-                int bp_hp_max = bp->main_part == bp.id() ? user.get_part_hp_max( bp ) : user.get_part_hp_max(
+                int bp_hp_max = bp->main_part == bp ? user.get_part_hp_max( bp ) : user.get_part_hp_max(
                                     bp->main_part );
                 if( ( 100 * bp_hp_cur / bp_hp_max ) > vec->bp_hp_limit &&
                     user.get_part_encumbrance_data( bp ).encumbrance < vec->encumbrance_limit ) {
@@ -1518,15 +1516,16 @@ std::optional<std::pair<attack_vector_id, sub_bodypart_str_id>>
                             break;
                         }
                     }
-                    // Go through the common function
+
                     float unarmed_damage = calculate_vector_damage( user, vec, current_contact ).total_damage();
-                    if( unarmed_damage == 0.0f ) {
-                        unarmed_damage++;
+                    if( unarmed_damage <= 0.0f ) {
+                        // Give extra/damage-less vectors a base chance to be chosen
+                        unarmed_damage = 1.0f;
                     }
                     calc_vector.emplace_back( std::make_pair( current_contact, unarmed_damage ) );
                     add_msg_debug( debugmode::DF_MELEE,
                                    "Bodypart %s eligable for attack vector %s weight %.1f (contact area %s)",
-                                   bp.id().c_str(),
+                                   bp.c_str(),
                                    vec.c_str(), unarmed_damage, current_contact->name );
                 }
             }
@@ -1544,9 +1543,9 @@ std::optional<std::pair<attack_vector_id, sub_bodypart_str_id>>
         } );
         int i = 0;
         list.add( vec, calc_vector.rbegin()->second );
-        storage.emplace_back( std::make_pair( vec, calc_vector.rbegin()->first ) );
+        storage.emplace_back( vec, calc_vector.rbegin()->first );
         add_msg_debug( debugmode::DF_MELEE,
-                       "Chose contact sublimb %s for vector %s with weight %.1f;  %d stored vectors",
+                       "Chose contact sublimb %s for vector %s with weight %.1f; %d stored vectors",
                        calc_vector.rbegin()->first->name, vec.c_str(), calc_vector.rbegin()->second, storage.size() );
     }
     if( !list.empty() ) {
@@ -1554,9 +1553,9 @@ std::optional<std::pair<attack_vector_id, sub_bodypart_str_id>>
         add_msg_debug( debugmode::DF_MELEE, "Picked vector %s for technique %s", ret.c_str(),
                        tech.c_str() );
         // Now find the contact data matching the winning vector
-        for( auto iterate = storage.begin(); iterate != storage.end(); ++iterate ) {
-            if( iterate->first == ret ) {
-                return_set = *iterate;
+        for( auto &iterate : storage ) {
+            if( iterate.first == ret ) {
+                return_set = iterate;
                 add_msg_debug( debugmode::DF_MELEE, "Return vector %s found in storage", return_set.first.c_str() );
                 break;
             }

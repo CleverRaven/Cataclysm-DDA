@@ -82,7 +82,7 @@
   "forbidden_buffs_all": [ "eskrima_hit_buff" ],    // This technique is forbidden if all of the named buffs are active
   "req_flags": [ "" ],        // List of item flags the used weapon needs to be eligible for the technique
   "required_char_flags": [ "" ],    // List of "character" (bionic, trait, effect or bodypart) flags the character needs to be able to use this technique
-  "required_char_flags_all": [ ""], // This technique requires all of the listed character flags to trigger
+  "required_char_flags_all": [ "" ], // This technique requires all of the listed character flags to trigger
   "forbidden_char_flags": [ "" ],   // List of character flags disabling this technique
   "needs_ammo": true,         // Technique works only if weapon is loaded; Consume 1 charge per attack 
   "crit_tec": true,           // This technique only works on a critical hit
@@ -139,9 +139,6 @@ Attack vectors define which (sub)bodypart is used for the attack in question, al
   }
 ]
 ```
-List of attack vectors is currently hardcoded, and contain:
-
-- `WEAPON` - Any technique the requires a held item to perform (see any weapon style). Can be used if the user is holding a valid style weapon for their martial art and at least one hand/arm is not broken.
 
 ### Tech effects
 ```C++

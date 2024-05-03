@@ -124,7 +124,7 @@ static const ammotype ammo_bolt( "bolt" );
 static const ammotype ammo_money( "money" );
 static const ammotype ammo_plutonium( "plutonium" );
 
-static const attack_vector_id attack_vector_null( "vector_null" );
+static const attack_vector_id attack_vector_vector_null( "vector_null" );
 
 static const bionic_id bio_digestion( "bio_digestion" );
 
@@ -189,7 +189,6 @@ static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
 static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
 
 static const matec_id RAPID( "RAPID" );
-static const matec_id tec_none( "tec_none" );
 
 static const material_id material_wool( "wool" );
 
@@ -2282,7 +2281,7 @@ double item::effective_dps( const Character &guy, Creature &mon ) const
         Creature *temp_mon = &mon;
         double subtotal_damage = 0;
         damage_instance base_damage;
-        guy.roll_all_damage( crit, base_damage, true, *this, attack_vector_null,
+        guy.roll_all_damage( crit, base_damage, true, *this, attack_vector_vector_null,
                              sub_body_part_sub_limb_debug, &mon, bp );
         damage_instance dealt_damage = base_damage;
         // TODO: Modify DPS calculation to consider weakpoints.
@@ -2308,7 +2307,7 @@ double item::effective_dps( const Character &guy, Creature &mon ) const
         if( has_technique( RAPID ) ) {
             Creature *temp_rs_mon = &mon;
             damage_instance rs_base_damage;
-            guy.roll_all_damage( crit, rs_base_damage, true, *this, attack_vector_null,
+            guy.roll_all_damage( crit, rs_base_damage, true, *this, attack_vector_vector_null,
                                  sub_body_part_sub_limb_debug, &mon, bp );
             damage_instance dealt_rs_damage = rs_base_damage;
             for( damage_unit &dmg_unit : dealt_rs_damage.damage_units ) {
@@ -5589,10 +5588,10 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
           ( !dmg_types.empty() || type->m_to_hit > 0 ) ) || debug_mode ) {
         bodypart_id bp = bodypart_id( "torso" );
         damage_instance non_crit;
-        player_character.roll_all_damage( false, non_crit, true, *this, attack_vector_null,
+        player_character.roll_all_damage( false, non_crit, true, *this, attack_vector_vector_null,
                                           sub_body_part_sub_limb_debug, nullptr, bp );
         damage_instance crit;
-        player_character.roll_all_damage( true, crit, true, *this, attack_vector_null,
+        player_character.roll_all_damage( true, crit, true, *this, attack_vector_vector_null,
                                           sub_body_part_sub_limb_debug, nullptr, bp );
         int attack_cost = player_character.attack_speed( *this );
         insert_separation_line( info );
