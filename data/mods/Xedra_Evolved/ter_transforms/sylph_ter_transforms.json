@@ -14,5 +14,17 @@
         "message": "The lightning blasts a crater where it strikes!"
       }
     ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_sylph_translocate_location_attune",
+    "furniture": [
+      {
+        "result": "f_sylph_translocator_location",
+        "valid_furniture": [ "f_null" ],
+        "message": "High above the earth, you close your eyes and feel the wind on your face.",
+        "message_good": true
+      }
+    ]
   }
 ]

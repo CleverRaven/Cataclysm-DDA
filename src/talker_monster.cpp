@@ -63,6 +63,11 @@ int talker_monster_const::pain_cur() const
     return me_mon_const->get_pain();
 }
 
+int talker_monster_const::perceived_pain_cur() const
+{
+    return me_mon_const->get_perceived_pain();
+}
+
 bool talker_monster_const::has_effect( const efftype_id &effect_id, const bodypart_id &bp ) const
 {
     return me_mon_const->has_effect( effect_id, bp );
