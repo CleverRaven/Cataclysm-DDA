@@ -12,7 +12,7 @@
     "joins": [ { "id": "passage_to_passage", "into_locations": [ "subterranean_empty" ] }, { "id": "surface_to_z-7" } ],
     "overmaps": {
       "root": { "overmap": "field", "above": "surface_to_z-7" },
-      "root_to_entrance": { "overmap": "open_air", "below": "surface_to_z-7" },
+      "root_to_entrance": { "overmap": "open_air", "below": "surface_to_z-7", "locations": [ "open_air" ] },
       "entrance": {
         "overmap": "labyrinth_entrance_north",
         "north": "passage_to_passage",
