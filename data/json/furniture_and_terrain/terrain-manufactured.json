@@ -448,7 +448,7 @@
     }
   },
   {
-    "type": "terrain"
+    "type": "terrain",
     "id": "t_truss_pillar",
     "name": "truss pillar",
     "description": "A hollow metal pillar composed of interconnected beams that distribute loads efficiently while maintaining stability and strength.",
