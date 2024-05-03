@@ -7737,7 +7737,7 @@ look_around_result game::look_around(
 
     const int old_levz = m.get_abs_sub().z();
     const int min_levz = std::max( old_levz - fov_3d_z_range, -OVERMAP_DEPTH );
-    const int max_levz = std::min( old_levz + fov_3d_z_range, OVERMAP_HEIGHT - 1 );
+    const int max_levz = std::min( old_levz + fov_3d_z_range, OVERMAP_HEIGHT );
 
     m.update_visibility_cache( old_levz );
     const visibility_variables &cache = m.get_visibility_variables_cache();
@@ -12089,7 +12089,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
     if( z_after < -OVERMAP_DEPTH ) {
         add_msg( m_info, _( "Halfway down, the way down becomes blocked off." ) );
         return;
-    } else if( z_after >= OVERMAP_HEIGHT ) {
+    } else if( z_after > OVERMAP_HEIGHT ) {
         add_msg( m_info, _( "Halfway up, the way up becomes blocked off." ) );
         return;
     }
