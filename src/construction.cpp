@@ -115,7 +115,6 @@ static const ter_str_id ter_t_dirt( "t_dirt" );
 static const ter_str_id ter_t_hole( "t_hole" );
 static const ter_str_id ter_t_ladder_up( "t_ladder_up" );
 static const ter_str_id ter_t_lava( "t_lava" );
-static const ter_str_id ter_t_open_air( "t_open_air" );
 static const ter_str_id ter_t_pit( "t_pit" );
 static const ter_str_id ter_t_ramp_down_high( "t_ramp_down_high" );
 static const ter_str_id ter_t_ramp_down_low( "t_ramp_down_low" );
@@ -1151,18 +1150,18 @@ void complete_construction( Character *you )
             here.furn_set( terp, furn_str_id( built.post_terrain ) );
         } else {
             here.ter_set( terp, ter_str_id( built.post_terrain ) );
-            // Make a roof if constructed terrain should have it and it's an open air
+            // Make a roof if constructed terrain should have it and it's an open space
             if( construct::check_up_OK( terp ) ) {
                 const int_id<ter_t> post_terrain = ter_id( built.post_terrain );
                 if( post_terrain->roof ) {
                     const tripoint_bub_ms top = terp + tripoint_above;
-                    if( here.ter( top ) == ter_t_open_air ) {
+                    if( here.ter( top )->has_flag( "EMPTY_SPACE" ) ) {
                         here.ter_set( top, ter_id( post_terrain->roof ) );
                     }
                 }
             }
 
-            if( ter_id( built.post_terrain ).id() == ter_t_open_air ) {
+            if( ter_id( built.post_terrain )->has_flag( "EMPTY_SPACE" ) ) {
                 const tripoint_bub_ms below = terp + tripoint_below;
                 if( below.z() > -OVERMAP_DEPTH && here.ter( below ).obj().has_flag( "SUPPORTS_ROOF" ) ) {
                     const map_bash_info bash_info = here.ter( below ).obj().bash;
