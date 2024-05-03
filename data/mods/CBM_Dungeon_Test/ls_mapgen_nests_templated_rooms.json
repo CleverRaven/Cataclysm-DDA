@@ -476,7 +476,7 @@
         "|((__ ",
         "||||| "
       ],
-      "palettes": [ "labyrinthine_base_palette" ]
+      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_bunk_room_tier0" ]
     }
   },
   {
@@ -493,7 +493,7 @@
         "|B_ϟ( ",
         "||||| "
       ],
-      "palettes": [ "labyrinthine_base_palette" ]
+      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_bunk_room_tier0" ]
     }
   },
   {
@@ -509,7 +509,7 @@
         "|B__ ",
         "|||||"
       ],
-      "palettes": [ "labyrinthine_base_palette" ]
+      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_bunk_room_tier0" ]
     }
   },
   {
@@ -525,7 +525,7 @@
         "|LṪß ",
         "|||||"
       ],
-      "palettes": [ "labyrinthine_base_palette" ]
+      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_bunk_room_tier0" ]
     }
   },
   {
@@ -542,7 +542,7 @@
         " __((|",
         " |||||"
       ],
-      "palettes": [ "labyrinthine_base_palette" ]
+      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_bunk_room_tier0" ]
     }
   },
   {
@@ -559,7 +559,7 @@
         " _ϟ(B|",
         " |||||"
       ],
-      "palettes": [ "labyrinthine_base_palette" ]
+      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_bunk_room_tier0" ]
     }
   },
   {
@@ -575,7 +575,7 @@
         " __B|",
         "|||||"
       ],
-      "palettes": [ "labyrinthine_base_palette" ]
+      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_bunk_room_tier0" ]
     }
   },
   {
@@ -591,7 +591,7 @@
         " ṪßL|",
         "|||||"
       ],
-      "palettes": [ "labyrinthine_base_palette" ]
+      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_bunk_room_tier0" ]
     }
   }
 ]

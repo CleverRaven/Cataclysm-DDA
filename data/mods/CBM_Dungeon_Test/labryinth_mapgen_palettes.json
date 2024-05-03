@@ -63,5 +63,14 @@
       "U": { "item": "LS_SUS_shelf_tier0_food", "chance": 35 },
       "Ṫ": { "item": "LS_SUS_table_items_mess", "chance": 25 }
     }
+  },
+  {
+    "type": "palette",
+    "id": "labyrinthine_item_palette_bunk_room_tier0",
+    "items": {
+      "l": { "item": "LS_SUS_bunk_room", "chance": 75 },
+      "U": { "item": "LS_SUS_bunk_room", "chance": 25 },
+      "Ṫ": { "item": "LS_SUS_table_items_mess", "chance": 35 }
+    }
   }
 ]

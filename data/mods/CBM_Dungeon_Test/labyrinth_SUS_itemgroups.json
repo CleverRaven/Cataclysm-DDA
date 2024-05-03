@@ -131,5 +131,22 @@
       { "item": "pot", "prob": 50 },
       { "item": "bone", "prob": 40 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "LS_SUS_bunk_room",
+    "//": "Filler.  Not totally sure what would be in a locker in an imperfect copy of an exodii bedroom.  Huh.  I'll add a welding blanket, not because I think it actually goes in a bedroom, but because I think it's very funny.",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [ { "item": "scrap", "prob": 40 }, { "item": "e_scrap", "prob": 40 }, { "item": "bone", "prob": 40 } ],
+        "prob": 60
+      },
+      {
+        "distribution": [ { "item": "emer_blanket", "prob": 40 }, { "item": "welding_blanket", "prob": 40 } ],
+        "prob": 80
+      },
+      { "group": "games_basic", "prob": 10 }
+    ]
   }
 ]
