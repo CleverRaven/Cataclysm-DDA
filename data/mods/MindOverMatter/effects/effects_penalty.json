@@ -338,7 +338,7 @@
     "desc": [ "Overwhelming light obscures your vision." ],
     "removes_effects": [ "darkness" ],
     "apply_message": "You're blinded!",
-    "remove_message": "Youasdr sight returns!",
+    "remove_message": "Your sight returns!",
     "rating": "bad",
     "show_in_info": true,
     "limb_score_mods": [
