@@ -14,7 +14,7 @@
     "id": "LS_Passcode_1",
     "type": "mutation",
     "name": { "str": "Passcode: Circle of Wings" },
-    "description": "There's a symbol etched into your skin.  Somehow you implicitly understand that it is a type of password, it just looks like a tattoo, though how you know this isn't clear.  The symbol itself looks like bird wings, circling around themselves in an orobouros-like shape.",
+    "description": "There's a symbol etched into your skin.  Somehow you implicitly understand that it is a type of password, it just looks like a tattoo, though how you know this isn't clear.  The symbol itself looks like bird wings, circling around themselves in an ouroboros-like shape.",
     "points": 0,
     "starting_trait": false,
     "valid": false,

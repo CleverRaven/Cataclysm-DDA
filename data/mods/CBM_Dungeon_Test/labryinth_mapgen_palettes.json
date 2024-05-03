@@ -3,7 +3,6 @@
     "type": "palette",
     "id": "labyrinthine_base_palette",
     "terrain": {
-      " ": "t_null",
       "|": "t_nl_metal_wall",
       "_": "t_nl_metal_floor",
       ".": "t_nl_catwalk",

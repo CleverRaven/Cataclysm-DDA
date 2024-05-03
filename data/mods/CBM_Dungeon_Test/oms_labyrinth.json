@@ -4,39 +4,17 @@
     "id": "labyrinthine_structure",
     "subtype": "mutable",
     "locations": [ "subterranean_empty", "land" ],
-    "check_for_locations": [
-      [ [ 0, 0, 0 ], [ "land" ] ],
-      [ [ 0, 0, -1 ], [ "subterranean_empty" ] ],
-      [ [ 0, 0, -2 ], [ "subterranean_empty" ] ],
-      [ [ 0, 0, -3 ], [ "subterranean_empty" ] ],
-      [ [ 0, 0, -4 ], [ "subterranean_empty" ] ],
-      [ [ 0, 0, -5 ], [ "subterranean_empty" ] ],
-      [ [ 0, 0, -6 ], [ "subterranean_empty" ] ],
-      [ [ 0, 0, -7 ], [ "subterranean_empty" ] ]
-    ],
+    "check_for_locations": [ [ [ 0, 0, 1 ], [ "open_air" ] ], [ [ 0, 0, 0 ], [ "land" ] ] ],
+    "check_for_locations_area": [ { "type": [ "subterranean_empty" ], "from": [ -4, -4, -7 ], "to": [ 4, 4, -7 ] } ],
+    "//": "Placed with EoC",
     "occurrences": [ 0, 0 ],
     "flags": [ "EXODII" ],
-    "joins": [
-      { "id": "passage_to_passage", "into_locations": [ "subterranean_empty" ] },
-      { "id": "vertical_dropshaft1", "into_locations": [ "subterranean_empty" ] },
-      { "id": "vertical_dropshaft2", "into_locations": [ "subterranean_empty" ] },
-      { "id": "vertical_dropshaft3", "into_locations": [ "subterranean_empty" ] },
-      { "id": "vertical_dropshaft4", "into_locations": [ "subterranean_empty" ] },
-      { "id": "vertical_dropshaft5", "into_locations": [ "subterranean_empty" ] },
-      { "id": "vertical_dropshaft6", "into_locations": [ "subterranean_empty" ] },
-      { "id": "vertical_dropshaft7", "into_locations": [ "subterranean_empty" ] }
-    ],
+    "joins": [ { "id": "passage_to_passage", "into_locations": [ "subterranean_empty" ] }, { "id": "surface_to_z-7" } ],
     "overmaps": {
-      "top_start_point": { "overmap": "field", "below": "vertical_dropshaft1", "locations": [ "land" ] },
-      "vert_z-1": { "overmap": "solid_earth", "above": "vertical_dropshaft1", "below": "vertical_dropshaft2" },
-      "vert_z-2": { "overmap": "deep_rock", "above": "vertical_dropshaft2", "below": "vertical_dropshaft3" },
-      "vert_z-3": { "overmap": "deep_rock", "above": "vertical_dropshaft3", "below": "vertical_dropshaft4" },
-      "vert_z-4": { "overmap": "deep_rock", "above": "vertical_dropshaft4", "below": "vertical_dropshaft5" },
-      "vert_z-5": { "overmap": "deep_rock", "above": "vertical_dropshaft5", "below": "vertical_dropshaft6" },
-      "vert_z-6": { "overmap": "deep_rock", "above": "vertical_dropshaft6", "below": "vertical_dropshaft7" },
-      "bottom_start_point": {
+      "root": { "overmap": "field", "above": "surface_to_z-7" },
+      "root_to_entrance": { "overmap": "open_air", "below": "surface_to_z-7" },
+      "entrance": {
         "overmap": "labyrinth_entrance_north",
-        "above": "vertical_dropshaft7",
         "north": "passage_to_passage",
         "east": "passage_to_passage",
         "south": "passage_to_passage",
@@ -59,16 +37,14 @@
       "corner": { "overmap": "labyrinth_hall_ne", "north": "passage_to_passage", "east": "passage_to_passage" },
       "dead_end": { "overmap": "labyrinth_hall_end_west", "west": "passage_to_passage" }
     },
-    "root": "top_start_point",
+    "root": "root",
     "phases": [
       [
-        { "overmap": "vert_z-1", "max": 1 },
-        { "overmap": "vert_z-2", "max": 1 },
-        { "overmap": "vert_z-3", "max": 1 },
-        { "overmap": "vert_z-4", "max": 1 },
-        { "overmap": "vert_z-5", "max": 1 },
-        { "overmap": "vert_z-6", "max": 1 },
-        { "overmap": "bottom_start_point", "max": 1 }
+        {
+          "name": "entrance",
+          "chunk": [ { "overmap": "root_to_entrance", "pos": [ 0, 0, 1 ] }, { "overmap": "entrance", "pos": [ 0, 0, -7 ] } ],
+          "max": 1
+        }
       ],
       [
         { "overmap": "straight_passage", "max": { "poisson": 20 } },
@@ -86,3 +62,4 @@
     ]
   }
 ]
+
