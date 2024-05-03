@@ -4250,7 +4250,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         spawn_items( p, item_group::items_from( bash->drop_group, calendar::turn ) );
     }
 
-    if( smash_ter && ter( p ) == ter_t_open_air && zlevels ) {
+    if( smash_ter && ter( p )->has_flag( "EMPTY_SPACE" ) && zlevels ) {
         tripoint below( p.xy(), p.z - 1 );
         const ter_str_id roof = get_roof( below, params.bash_floor && ter( below ).obj().movecost != 0 );
         ter_set( p, roof );
@@ -8728,7 +8728,7 @@ void map::add_roofs( const tripoint &grid )
     for( int x = 0; x < SEEX; x++ ) {
         for( int y = 0; y < SEEY; y++ ) {
             const ter_id ter_here = sub_here->get_ter( { x, y } );
-            if( ter_here != ter_t_open_air ) {
+            if( !ter_here->has_flag( "EMPTY_SPACE" ) ) {
                 continue;
             }
 
