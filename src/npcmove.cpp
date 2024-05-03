@@ -78,6 +78,7 @@
 #include "vehicle.h"
 #include "viewer.h"
 #include "visitable.h"
+#include "vehicle_selector.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 
@@ -1729,7 +1730,7 @@ void npc::execute_action( npc_action action )
             if( is_hallucination() ) {
                 pretend_fire( this, mode.qty, *mode );
             } else {
-                fire_gun( tar, mode.qty, *mode );
+                fire_gun( tar, mode.qty, *mode, item_location() );
                 // "discard" the fake bio weapon after shooting it
                 if( is_using_bionic_weapon() ) {
                     discharge_cbm_weapon();
@@ -3504,7 +3505,7 @@ void npc::find_item()
     }
 
     fetching_item = false;
-    wanted_item = nullptr;
+    wanted_item = {};
     int best_value = minimum_item_value();
     // Not perfect, but has to mirror pickup code
     units::volume volume_allowed = volume_capacity() - volume_carried();
@@ -3514,8 +3515,6 @@ void npc::find_item()
     //int range = sight_range( g->light_level( posz() ) );
     //range = std::max( 1, std::min( 12, range ) );
 
-    const item *wanted = wanted_item;
-
     if( volume_allowed <= 0_ml || weight_allowed <= 0_gram ) {
         add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s considered picking something up, but no storage left.",
                        name );
@@ -3523,13 +3522,14 @@ void npc::find_item()
     }
 
     const auto consider_item =
-        [&wanted, &best_value, this]
+        [&best_value, this]
     ( const item & it, const tripoint & p ) {
         if( ::good_for_pickup( it, *this, p ) ) {
             wanted_item_pos = p;
-            wanted_item = &it;
-            wanted = wanted_item;
             best_value = has_item_whitelist() ? 1000 : value( it );
+            return true;
+        } else {
+            return false;
         }
     };
 
@@ -3537,9 +3537,9 @@ void npc::find_item()
     // Harvest item doesn't exist, so we'll be checking by its name
     std::string wanted_name;
     const auto consider_terrain =
-    [ this, volume_allowed, &wanted, &wanted_name, &here ]( const tripoint & p ) {
+    [ this, volume_allowed, &wanted_name, &here ]( const tripoint & p ) {
         // We only want to pick plants when there are no items to pick
-        if( !has_item_whitelist() || wanted != nullptr || !wanted_name.empty() ||
+        if( !has_item_whitelist() || wanted_item.get_item() != nullptr || !wanted_name.empty() ||
             volume_allowed < 250_ml ) {
             return;
         }
@@ -3566,7 +3566,7 @@ void npc::find_item()
         const tripoint abs_p = get_location().raw() - pos() + p;
         const int prev_num_items = ai_cache.searched_tiles.get( abs_p, -1 );
         // Prefetch the number of items present so we can bail out if we already checked here.
-        const map_stack m_stack = here.i_at( p );
+        map_stack m_stack = here.i_at( p );
         int num_items = m_stack.size();
         const optional_vpart_position vp = here.veh_at( p );
         if( vp ) {
@@ -3577,16 +3577,18 @@ void npc::find_item()
         if( prev_num_items == num_items ) {
             continue;
         }
-        auto cache_tile = [this, &abs_p, num_items, &wanted]() {
-            if( wanted == nullptr ) {
+        auto cache_tile = [this, &abs_p, num_items]() {
+            if( wanted_item.get_item() == nullptr ) {
                 ai_cache.searched_tiles.insert( 1000, abs_p, num_items );
             }
         };
         bool can_see = false;
         if( here.sees_some_items( p, *this ) && sees( p ) ) {
             can_see = true;
-            for( const item &it : m_stack ) {
-                consider_item( it, p );
+            for( item &it : m_stack ) {
+                if( consider_item( it, p ) ) {
+                    wanted_item = item_location{ map_cursor{p}, &it };
+                }
             }
         }
 
@@ -3614,14 +3616,16 @@ void npc::find_item()
             continue;
         }
 
-        for( const item &it : cargo->items() ) {
-            consider_item( it, p );
+        for( item &it : cargo->items() ) {
+            if( consider_item( it, p ) ) {
+                wanted_item = {  vehicle_cursor{ cargo->vehicle(), static_cast<ptrdiff_t>( cargo->part_index() ) }, &it };
+            }
         }
         cache_tile();
     }
 
-    if( wanted != nullptr ) {
-        wanted_name = wanted->tname();
+    if( wanted_item.get_item() != nullptr ) {
+        wanted_name = wanted_item->tname();
     }
 
     if( wanted_name.empty() ) {
@@ -3640,7 +3644,7 @@ void npc::find_item()
     if( path.empty() && dist_to_item > 1 ) {
         // Item not reachable, let's just totally give up for now
         fetching_item = false;
-        wanted_item = nullptr;
+        wanted_item = {};
     }
 
     if( fetching_item && rl_dist( wanted_item_pos, pos() ) > 1 && is_walking_with() ) {
@@ -3657,7 +3661,7 @@ void npc::pick_up_item()
     if( !rules.has_flag( ally_rule::allow_pick_up ) && is_player_ally() ) {
         add_msg_debug( debugmode::DF_NPC, "%s::pick_up_item(); Canceling on player's request", get_name() );
         fetching_item = false;
-        wanted_item = nullptr;
+        wanted_item = {};
         mod_moves( -1 );
         return;
     }
@@ -3673,7 +3677,7 @@ void npc::pick_up_item()
         // Items we wanted no longer exist and we can see it
         // Or player who is leading us doesn't want us to pick it up
         fetching_item = false;
-        wanted_item = nullptr;
+        wanted_item = {};
         move_pause();
         add_msg_debug( debugmode::DF_NPC, "Canceling pickup - no items or new zone" );
         return;
@@ -3681,12 +3685,12 @@ void npc::pick_up_item()
 
     // Check: Is the item owned? Has the situation changed since we last moved? Am 'I' now
     // standing in front of the shopkeeper/player that I am about to steal from?
-    if( wanted_item != nullptr ) {
+    if( wanted_item ) {
         if( !::good_for_pickup( *wanted_item, *this, wanted_item_pos ) ) {
             add_msg_debug( debugmode::DF_NPC_ITEMAI,
                            "%s canceling pickup - situation changed since they decided to take item", get_name() );
             fetching_item = false;
-            wanted_item = nullptr;
+            wanted_item = {};
             move_pause();
             return;
         }
@@ -3710,7 +3714,7 @@ void npc::pick_up_item()
         add_msg_debug( debugmode::DF_NPC, "Can't find path" );
         // This can happen, always do something
         fetching_item = false;
-        wanted_item = nullptr;
+        wanted_item = {};
         move_pause();
         return;
     }
@@ -3729,7 +3733,7 @@ void npc::pick_up_item()
             // Note: we didn't actually pick up anything, just spawned items
             // but we want the item picker to find new items
             fetching_item = false;
-            wanted_item = nullptr;
+            wanted_item = {};
             return;
         }
     }
@@ -3759,7 +3763,7 @@ void npc::pick_up_item()
     }
 
     fetching_item = false;
-    wanted_item = nullptr;
+    wanted_item = {};
     has_new_items = true;
 }
 

@@ -1760,10 +1760,10 @@
   },
   {
     "type": "keybinding",
-    "id": "MERGE",
+    "id": "DISCONNECT_GRID",
     "category": "APP_INTERACT",
-    "name": "Merge power grids",
-    "bindings": [ { "input_method": "keyboard_any", "key": "m" } ]
+    "name": "Separate from power grid",
+    "bindings": [ { "input_method": "keyboard_any", "key": "c" } ]
   },
   {
     "type": "keybinding",
@@ -2576,6 +2576,13 @@
     "category": "DEFAULTMODE",
     "id": "select_fire_mode",
     "bindings": [ { "input_method": "keyboard_char", "key": "F" }, { "input_method": "keyboard_code", "key": "f", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "Select default ammo for wielded weapon which do not use a magazine",
+    "category": "DEFAULTMODE",
+    "id": "select_default_ammo",
+    "bindings": [ { "input_method": "keyboard_any", "key": "F3" } ]
   },
   {
     "type": "keybinding",

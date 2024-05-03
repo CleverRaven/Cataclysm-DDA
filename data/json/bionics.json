@@ -759,6 +759,7 @@
     "canceled_mutations": [
       "WEAKSTOMACH",
       "STRONGSTOMACH",
+      "TINYSTOMACH",
       "CARNIVORE",
       "HERBIVORE",
       "ANTIJUNK",

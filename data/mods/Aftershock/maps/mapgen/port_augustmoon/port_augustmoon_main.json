@@ -45,11 +45,11 @@
         "||23|||||||  ||||  ||||.",
         ".||||,sss,]  |ÑÑ ,, ÑÑ|.",
         ".|kó=     ]  |Ñ,    ,Ñ|.",
-        ".|, =     ||||||||||||||",
+        ".|, =     |||||||   ||||",
         ".| ||!!||Ñ|..|,  ,,  ,|.",
-        ".|!|0  0|||..|        ||",
-        ".|,      ,|..| ||  || | ",
-        ".||00  00||,,||| ,, ||||",
+        ".|!|0  0|||..|  ====  ||",
+        ".|,      ,|..| ||jÄ|| | ",
+        ".||00  00||,,|||ä,,ä||||",
         "..|||]]|||...4||||||||..",
         "..|7á  á7|...4..........",
         "..|8 ,, 8|..............",
@@ -95,10 +95,14 @@
         "Ñ": "f_vending_reinforced",
         "á": "f_neuralnet_inserter"
       },
-      "items": { "Ï": { "item": "afs_civilian_armory", "chance": 100, "repeat": [ 3, 4 ] } },
+      "items": {
+        "Ï": { "item": "afs_civilian_armory", "chance": 100, "repeat": [ 3, 4 ] },
+        "ä": { "item": "afs_augustmoon_outfitter", "chance": 100, "repeat": [ 3, 4 ] }
+      },
       "npcs": {
         "í": { "class": "augustmoon_shipping_chief" },
         "ï": { "class": "augustmoon_gun_trader" },
+        "Ä": { "class": "augustmoon_outfitter" },
         "ó": { "class": "augustmoon_doctor" },
         "ú": { "class": "augustmoon_security" }
       }

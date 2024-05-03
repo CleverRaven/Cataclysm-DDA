@@ -25,7 +25,7 @@
     "responses": [
       {
         "text": "I'm ready, book me in the next ship.",
-        "effect": [ { "u_spend_cash": 1250000, "true_eocs": "EOC_AFS_AUGUSTMOON_SHUTTLE_TP" } ],
+        "effect": [ { "u_spend_cash": 1250000, "true_eocs": "EOC_AFS_AUGUSTMOON_SPACEPORT_TP" } ],
         "topic": "TALK_DONE"
       },
       { "text": "I need to settle a few things first", "topic": "TALK_DONE" }

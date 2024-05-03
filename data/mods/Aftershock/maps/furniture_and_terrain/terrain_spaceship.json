@@ -292,7 +292,7 @@
     "bgcolor": "brown",
     "move_cost": 0,
     "coverage": 60,
-    "flags": [ "TRANSPARENT", "MOUNTABLE", "SHORT", "SMALL_HIDE" ]
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "SHORT", "SMALL_HIDE", "PLACE_ITEM", "CONTAINER" ]
   },
   {
     "type": "terrain",

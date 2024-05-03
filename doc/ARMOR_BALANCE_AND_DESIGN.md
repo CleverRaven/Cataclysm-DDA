@@ -574,7 +574,6 @@ FANCY            | Clothing is impractically fancy, (like a top hat)
 SUPER_FANCY      | Even more fancy than fancy
 FILTHY           | Disgusting dirty clothes
 FRAGILE          | Breaks fast
-SLOWS_MOVEMENT   | Slows you down to wear
 
 #### Immunities/Defenses
 **only some of these that are used**

@@ -1209,7 +1209,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_Liam_Opinions_MISSION_OLD_GUARD_REP_1-Bravado",
-    "dynamic_line": "Oh, oh yeah that makes sense.  Okay, well, that's something I can do.  I'll cover your back like it's never been covered before.  You and me like Calvin and Hobbes baby.",
+    "dynamic_line": "Oh, oh yeah that makes sense.  Okay, well, that's something I can do.  I'll cover your back like it's never been covered before.  You and me like Calvin and Hobbes, baby.",
     "responses": [ { "text": "Thanks, Hooch.  I'd like your opinion on something else, actually.", "topic": "TALK_Liam_Opinions" } ]
   },
   {
@@ -1291,7 +1291,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_Liam_Opinions_directions_exodii_signpost",
-    "dynamic_line": "Yeah, I'm with you there, it's some kind of weird map.  The smart thing to do is probably avoid it, this is some really weird shit.  I've never been one to do the smart thing though, myself.  Probably gonna have troubles sleeping until I know what that thing is trying to lead us to",
+    "dynamic_line": "Yeah, I'm with you there, it's some kind of weird map.  The smart thing to do is probably avoid it, this is some really weird shit.  I've never been one to do the smart thing though, myself.  Probably gonna have troubles sleeping until I know what that thing is trying to lead us to.",
     "responses": [ { "text": "I know what you mean.  I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
   },
   {
@@ -1313,7 +1313,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_Liam_Opinions_EXODII_MISSION_CONTACT_HUB",
-    "dynamic_line": "Something about this kinda rubs me the wrong way, my friend.  I don't know what it is.  That Rubik guy seems nice enough but I feel like we're not getting the whole story.  Just tread carefully okay?",
+    "dynamic_line": "Something about this kinda rubs me the wrong way, my friend.  I don't know what it is.  That Rubik guy seems nice enough but I feel like we're not getting the whole story.  Just tread carefully, okay?",
     "responses": [ { "text": "Thanks man.  I'd like your opinion on something else, actually.", "topic": "TALK_Liam_Opinions" } ]
   },
   {

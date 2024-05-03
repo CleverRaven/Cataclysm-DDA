@@ -717,7 +717,7 @@ class item_location::impl::item_in_container : public item_location::impl
                 return 0;
             }
 
-            int primary_cost = ch.item_handling_cost( *target(), true, container_mv );
+            int primary_cost = ch.item_handling_cost( *target(), true, container_mv, qty );
             primary_cost = ch.enchantment_cache->modify_value( enchant_vals::mod::OBTAIN_COST_MULTIPLIER,
                            primary_cost );
             int parent_obtain_cost = container.obtain_cost( ch, qty );

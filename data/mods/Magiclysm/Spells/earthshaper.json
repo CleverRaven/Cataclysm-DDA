@@ -676,16 +676,16 @@
     "energy_source": "MANA",
     "extra_effects": [ { "id": "eoc_enhancement_setup" } ],
     "difficulty": 6,
-    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(1500)" ] },
-    "final_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(500)" ] },
-    "casting_time_increment": { "math": [ "enhancement_proficiency_negate_calculate(-40)" ] },
+    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(1500, 6.67)" ] },
+    "final_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(500, 6.67)" ] },
+    "casting_time_increment": { "math": [ "enhancement_proficiency_negate_calculate(-40, 0.04)" ] },
     "base_energy_cost": 500,
     "final_energy_cost": 200,
     "energy_increment": -12,
     "max_level": 25,
-    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(14400)" ] },
-    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(360000)" ] },
-    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(14400)" ] }
+    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(14400, 2304)" ] },
+    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(360000, 2304)" ] },
+    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(14400, 0.042)" ] }
   },
   {
     "id": "eshaper_crystal_wrap",
@@ -743,12 +743,12 @@
     "energy_source": "MANA",
     "difficulty": 7,
     "max_level": 25,
-    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(500)" ] },
+    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(500, 2)" ] },
     "base_energy_cost": 350,
     "extra_effects": [ { "id": "eoc_enhancement_setup" } ],
-    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(2400)" ] },
-    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(60000)" ] },
-    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(2400)" ] }
+    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(2400, 384)" ] },
+    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(60000, 384)" ] },
+    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(2400, 0.042)" ] }
   },
   {
     "id": "summon_eshaper_golem",
@@ -1008,9 +1008,9 @@
     "base_casting_time": 500,
     "base_energy_cost": 650,
     "max_level": 20,
-    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(360000)" ] },
-    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(2160000)" ] },
-    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(100000)" ] }
+    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(360000, 12000)" ] },
+    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(2160000, 12000)" ] },
+    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(100000, 0.055)" ] }
   },
   {
     "id": "earthshaper_turning_of_earth",
@@ -1166,8 +1166,8 @@
     "shape": "blast",
     "energy_source": "MANA",
     "extra_effects": [ { "id": "eoc_enhancement_setup" } ],
-    "base_casting_time": { "math": [ "u_has_trait('EARTHSHAPER_STONE_SLEEP') ? 0 : enhancement_proficiency_negate_calculate(6000)" ] },
-    "base_energy_cost": { "math": [ "u_has_trait('EARTHSHAPER_STONE_SLEEP') ? 0 : enhancement_proficiency_negate_calculate(800)" ] }
+    "base_casting_time": { "math": [ "u_has_trait('EARTHSHAPER_STONE_SLEEP') ? 0 : enhancement_proficiency_negate_calculate(6000, 34.7)" ] },
+    "base_energy_cost": { "math": [ "u_has_trait('EARTHSHAPER_STONE_SLEEP') ? 0 : enhancement_proficiency_negate_calculate(800, 34.7)" ] }
   },
   {
     "type": "effect_on_condition",

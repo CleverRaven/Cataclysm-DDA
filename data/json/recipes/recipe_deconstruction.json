@@ -6030,6 +6030,22 @@
     "components": [ [ [ "nylon", 6 ] ], [ [ "sheet_kevlar_layered", 7 ] ] ]
   },
   {
+    "result": "ballistic_vest_light_pouches",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "copy-from": "ballistic_vest_light",
+    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
+    "components": [ [ [ "nylon", 6 ] ], [ [ "sheet_kevlar_layered", 7 ] ] ]
+  },
+  {
+    "result": "ballistic_vest_light_operator",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "copy-from": "ballistic_vest_light",
+    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
+    "components": [ [ [ "nylon", 6 ] ], [ [ "sheet_kevlar_layered", 7 ] ] ]
+  },
+  {
     "result": "towel",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -7154,6 +7170,14 @@
     "activity_level": "NO_EXERCISE",
     "time": "1 s",
     "components": [ [ [ "paper", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "bag_paper_powder_bulk",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "3 s",
+    "components": [ [ [ "paper", 10 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
