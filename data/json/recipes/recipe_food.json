@@ -108,7 +108,7 @@
     "skill_used": "survival",
     "time": "15 m",
     "autolearn": true,
-    "tools": [ [ "water_filter_sand", -1 ] ],
+    "tools": [ [ "water_filter_sand" ] ],
     "components": [ [ [ "water_murky", 10 ] ] ]
   },
   {
