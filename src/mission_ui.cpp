@@ -209,7 +209,7 @@ void mission_ui_impl::draw_controls()
         // Missions selection is purposefully thinner than the description, it has less to convey.
         ImGui::TableSetupColumn( _( "Missions" ), ImGuiTableColumnFlags_WidthStretch,
                                  table_column_width * 0.8 );
-        ImGui::TableSetupColumn( _( "Description" ), ImGuiTableColumnFlags_NoDirectResize_,
+        ImGui::TableSetupColumn( _( "Description" ), ImGuiTableColumnFlags_WidthStretch,
                                  table_column_width * 1.2 );
         ImGui::TableHeadersRow();
         ImGui::TableNextColumn();
