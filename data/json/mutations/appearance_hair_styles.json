@@ -1580,61 +1580,61 @@
     "variants": [
       {
         "id": "black",
-        "name": { "str": "Hair: black, beaded hair" },
+        "name": { "str": "Hair: black, beaded" },
         "description": "Black hair threaded with beads.",
         "weight": 1
       },
       {
         "id": "blond",
-        "name": { "str": "Hair: blond, beaded hair" },
+        "name": { "str": "Hair: blond, beaded" },
         "description": "Blond hair threaded with beads.",
         "weight": 1
       },
       {
         "id": "blue",
-        "name": { "str": "Hair: blue, beaded hair" },
+        "name": { "str": "Hair: blue, beaded" },
         "description": "Blue hair threaded with beads.",
         "weight": 1
       },
       {
         "id": "brown",
-        "name": { "str": "Hair: brown, beaded hair" },
+        "name": { "str": "Hair: brown, beaded" },
         "description": "Brown hair threaded with beads.",
         "weight": 1
       },
       {
         "id": "gray",
-        "name": { "str": "Hair: gray, beaded hair" },
+        "name": { "str": "Hair: gray, beaded" },
         "description": "Gray hair threaded with beads.",
         "weight": 1
       },
       {
         "id": "green",
-        "name": { "str": "Hair: green, beaded hair" },
+        "name": { "str": "Hair: green, beaded" },
         "description": "Green hair threaded with beads.",
         "weight": 1
       },
       {
         "id": "pink",
-        "name": { "str": "Hair: pink, beaded hair" },
+        "name": { "str": "Hair: pink, beaded" },
         "description": "Pink hair threaded with beads.",
         "weight": 1
       },
       {
         "id": "purple",
-        "name": { "str": "Hair: purple, beaded hair" },
+        "name": { "str": "Hair: purple, beaded" },
         "description": "Purple hair threaded with beads.",
         "weight": 1
       },
       {
         "id": "red",
-        "name": { "str": "Hair: red, beaded hair" },
+        "name": { "str": "Hair: red, beaded" },
         "description": "Red hair threaded with beads.",
         "weight": 1
       },
       {
         "id": "white",
-        "name": { "str": "Hair: white, beaded hair" },
+        "name": { "str": "Hair: white, beaded" },
         "description": "White hair threaded with beads.",
         "weight": 1
       }
