@@ -291,10 +291,11 @@
     "apply_message": "Your limbs twitch involuntarily!",
     "remove_message": "The twitching stops",
     "rating": "bad",
+    "enchantments": [ { "values": [ { "value": "SLEEPY", "add": { "math": [ "-0.1 * ( u_vitamin('vitamin_psionic_drain'))" ] } } ] } ],
     "limb_score_mods": [
-      { "limb_score": "reaction", "modifier": 0.9, "scaling": -0.2 },
+      { "limb_score": "reaction", "modifier": 0.8, "scaling": -0.2 },
       { "limb_score": "grip", "modifier": 0.8 },
-      { "limb_score": "block", "modifier": 0.9 }
+      { "limb_score": "block", "modifier": 0.8 }
     ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
@@ -328,7 +329,7 @@
     "desc": [ "Overwhelming light obscures your vision." ],
     "removes_effects": [ "darkness" ],
     "apply_message": "You're blinded!",
-    "remove_message": "Your sight returns!",
+    "remove_message": "Youasdr sight returns!",
     "rating": "bad",
     "show_in_info": true,
     "limb_score_mods": [
@@ -358,6 +359,13 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_pyrokin_fever_burning",
+    "name": [ "Burning" ],
+    "desc": [ "The air around you is overheating!" ],
+    "enchantments": [ "enchant_pyrokin_fever" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_portal_storm_teleport",
     "name": [ "Dimensionally Unstable" ],
     "desc": [ "You feel like you're barely part of the world." ],
@@ -366,6 +374,16 @@
     "remove_message": "With a jolt, you feel more solid again.",
     "rating": "bad",
     "enchantments": [ "enchant_riftwalker_teleport" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_teleporter_overload",
+    "name": [ "Warped Space" ],
+    "desc": [ "Nothing is quite where it seems to be." ],
+    "apply_message": "The air itself seems to press down on you!",
+    "remove_message": "Distances resolve themselves again.",
+    "rating": "bad",
+    "enchantments": [ { "values": [ { "value": "OBTAIN_COST_MULTIPLIER", "multiply": 0.1 }, { "value": "MOVE_COST", "multiply": 0.1 } ] } ]
   },
   {
     "type": "effect_type",
@@ -402,7 +420,7 @@
     "scaling_mods": { "sleepiness_min": [ 1 ], "health_min": [ -1 ] },
     "enchantments": [
       {
-        "values": [ { "value": "REGEN_HP", "multiply": { "math": [ "u_effect_intensity('effect_vitakin_overload') *-0.1" ] } } ]
+        "values": [ { "value": "REGEN_HP", "multiply": { "math": [ "-0.125 - ( u_vitamin('vitamin_psionic_drain') * -0.0035)" ] } } ]
       },
       { "values": [ { "value": "MENDING_MODIFIER", "multiply": -0.5 } ] }
     ],
