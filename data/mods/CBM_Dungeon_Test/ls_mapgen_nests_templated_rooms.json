@@ -470,10 +470,10 @@
       "mapgensize": [ 6, 6 ],
       "rows": [
         "||||| ",
-        "l__L_ ",
+        "|l_L_ ",
         "b____ ",
         "Ṫß___ ",
-        "(((__ ",
+        "|((__ ",
         "||||| "
       ],
       "palettes": [ "labyrinthine_base_palette" ]
@@ -487,10 +487,10 @@
       "mapgensize": [ 6, 6 ],
       "rows": [
         "||||| ",
-        "B__ϟ( ",
+        "|B_ϟ( ",
         "l____ ",
         "l____ ",
-        "B__ϟ( ",
+        "|B_ϟ( ",
         "||||| "
       ],
       "palettes": [ "labyrinthine_base_palette" ]
@@ -504,9 +504,9 @@
       "mapgensize": [ 5, 5 ],
       "rows": [
         "|||||",
-        "B___ ",
+        "|B__ ",
         "(L__ ",
-        "B___ ",
+        "|B__ ",
         "|||||"
       ],
       "palettes": [ "labyrinthine_base_palette" ]
@@ -520,9 +520,9 @@
       "mapgensize": [ 5, 5 ],
       "rows": [
         "|||||",
-        "b___ ",
+        "|b__ ",
         "l___ ",
-        "L_Ṫß ",
+        "|LṪß ",
         "|||||"
       ],
       "palettes": [ "labyrinthine_base_palette" ]
@@ -536,10 +536,10 @@
       "mapgensize": [ 6, 6 ],
       "rows": [
         " |||||",
-        " __L_l",
+        " __Ll|",
         " ____b",
         " ___ßṪ",
-        " __(((",
+        " __((|",
         " |||||"
       ],
       "palettes": [ "labyrinthine_base_palette" ]
@@ -553,10 +553,10 @@
       "mapgensize": [ 6, 6 ],
       "rows": [
         " |||||",
-        " _ϟ(_B",
+        " _ϟ(B|",
         " ____l",
         " ____l",
-        " _ϟ(_B",
+        " _ϟ(B|",
         " |||||"
       ],
       "palettes": [ "labyrinthine_base_palette" ]
@@ -570,9 +570,9 @@
       "mapgensize": [ 5, 5 ],
       "rows": [
         "|||||",
-        " ___B",
+        " __B|",
         " __L(",
-        " ___B",
+        " __B|",
         "|||||"
       ],
       "palettes": [ "labyrinthine_base_palette" ]
@@ -586,9 +586,9 @@
       "mapgensize": [ 5, 5 ],
       "rows": [
         "|||||",
-        "  __b",
+        "  _b|",
         " ___l",
-        " Ṫß_L",
+        " ṪßL|",
         "|||||"
       ],
       "palettes": [ "labyrinthine_base_palette" ]
