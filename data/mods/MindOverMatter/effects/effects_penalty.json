@@ -244,6 +244,7 @@
     "max_intensity": 10,
     "base_mods": { "str_mod": [ -2 ], "dex_mod": [ -2 ] },
     "scaling_mods": { "str_mod": [ -1.2 ], "dex_mod": [ -1.2 ] },
+    "enchantments": [ { "values": [ { "value": "MELEE_STAMINA_CONSUMPTION", "multiply": -0.15 } ] } ],
     "limb_score_mods": [
       { "limb_score": "lift", "modifier": 0.9, "resist_modifier": 1.0, "scaling": -0.05, "resist_scaling": -0.00125 },
       { "limb_score": "grip", "modifier": 0.8, "resist_modifier": 1.0, "scaling": -0.1, "resist_scaling": -0.025 },
@@ -346,7 +347,12 @@
     "remove_message": "The air feels much cooler now.",
     "rating": "bad",
     "base_mods": { "per_mod": [ -2 ], "health_min": [ -1 ], "health_chance": [ 25 ] },
-    "enchantments": [ "enchant_pyrokin_fever" ],
+    "enchantments": [
+      {
+        "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": { "math": [ "-15 - ( u_vitamin('vitamin_psionic_drain') / 10)" ] } } ]
+      },
+      { "values": [ { "value": "SWEAT_MULTIPLIER", "multiply": 5 } ] }
+    ],
     "limb_score_mods": [ { "limb_score": "breathing", "modifier": 0.7 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
@@ -394,6 +400,12 @@
     "max_intensity": 10,
     "base_mods": { "sleepiness_tick": [ 300 ], "sleepiness_min": [ 1 ], "health_min": [ -1 ], "health_tick": [ 400 ] },
     "scaling_mods": { "sleepiness_min": [ 1 ], "health_min": [ -1 ] },
+    "enchantments": [
+      {
+        "values": [ { "value": "REGEN_HP", "multiply": { "math": [ "u_effect_intensity('effect_vitakin_overload') *-0.1" ] } } ]
+      },
+      { "values": [ { "value": "MENDING_MODIFIER", "multiply": -0.5 } ] }
+    ],
     "limb_score_mods": [ { "limb_score": "breathing", "modifier": 0.8 }, { "limb_score": "manip", "modifier": 0.8 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
