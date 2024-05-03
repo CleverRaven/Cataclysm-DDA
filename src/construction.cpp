@@ -115,6 +115,7 @@ static const ter_str_id ter_t_dirt( "t_dirt" );
 static const ter_str_id ter_t_hole( "t_hole" );
 static const ter_str_id ter_t_ladder_up( "t_ladder_up" );
 static const ter_str_id ter_t_lava( "t_lava" );
+static const ter_str_id ter_t_open_air( "t_open_air" );
 static const ter_str_id ter_t_pit( "t_pit" );
 static const ter_str_id ter_t_ramp_down_high( "t_ramp_down_high" );
 static const ter_str_id ter_t_ramp_down_low( "t_ramp_down_low" );
