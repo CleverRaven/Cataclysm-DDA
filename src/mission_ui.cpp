@@ -59,7 +59,8 @@ class mission_ui_impl : public cataimgui::window
     public:
         std::string last_action;
         explicit mission_ui_impl() : cataimgui::window( _( "Your missions" ),
-                    ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoNav ) {
+                    ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoNav |
+                    ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse ) {
         }
 
     private:
@@ -111,6 +112,7 @@ void mission_ui::draw_mission_ui()
 
 void mission_ui_impl::draw_controls()
 {
+    ImGui::SetWindowSize( ImVec2( window_width, window_height ), ImGuiCond_Once );
     std::vector<mission *> umissions;
 
     static int selected_mission = 0;
@@ -222,7 +224,11 @@ void mission_ui_impl::draw_mission_names( std::vector<mission *> missions, int &
         bool &need_adjust ) const
 {
     const int num_missions = missions.size();
-    if( ImGui::BeginListBox( "##LISTBOX", ImVec2( table_column_width * 0.75, window_height ) ) ) {
+
+    // roughly 6 lines of header info. title+tab+objective+table headers+2 lines worth of padding between those four
+    const float header_height = ImGui::GetTextLineHeight() * 6;
+    if( ImGui::BeginListBox( "##LISTBOX", ImVec2( table_column_width * 0.75,
+                             window_height - header_height ) ) ) {
         for( int i = 0; i < num_missions; i++ ) {
             const bool is_selected = selected_mission == i;
             ImGui::PushID( i );
