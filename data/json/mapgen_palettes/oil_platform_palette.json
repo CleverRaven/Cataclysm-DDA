@@ -3,7 +3,7 @@
     "type": "palette",
     "id": "oil_platform_palette",
     "terrain": {
-      "~": "t_water_dp",
+      "~": "t_swater_dp",
       "/": "t_saltwater_cube",
       "^": "t_ladder_up",
       "v": "t_ladder_down",
@@ -263,9 +263,9 @@
       "▀": { "item": "pool_table", "chance": 60 }
     },
     "vehicles": {
-      "Ƨ": { "vehicle": "swivel_chair", "chance": 100, "rotation": [ 0, 240 ] },
-      "²": { "vehicle": "forklift", "chance": 100, "rotation": [ 0, 240 ] },
-      "→": { "vehicle": "helicopters", "chance": 20, "rotation": [ 0, 240 ] },
+      "Ƨ": { "vehicle": "swivel_chair", "chance": 100, "rotation": [ 0, 90, 180, 270 ] },
+      "²": { "vehicle": "forklift", "chance": 100, "rotation": [ 0, 90, 180, 270 ] },
+      "→": { "vehicle": "helicopters", "chance": 20, "rotation": [ 0, 90, 180, 270 ] },
       "n": { "vehicle": "inflatable_boat", "chance": 80 }
     },
     "vendingmachines": { "D": { "item_group": "vending_drink_items" }, "F": { "item_group": "vending_food_items" } },
