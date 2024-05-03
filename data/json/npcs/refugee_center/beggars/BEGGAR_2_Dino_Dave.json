@@ -409,7 +409,7 @@
     "update_mapgen_id": "cardboard_castle_1_main",
     "method": "json",
     "object": {
-      "translate_ter": [ { "from": "t_door_metal_locked", "to": "t_door_metal_c", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "place_ter_furn_transforms": [ { "transform": "unlock_door", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "place_nested": [ { "chunks": [ "cardboard_castle_1_main" ], "x": 0, "y": 17 } ],
       "set": [ { "point": "variable", "id": "dave_castle", "x": 4, "y": 19 } ]
     }
