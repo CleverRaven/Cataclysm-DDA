@@ -8598,10 +8598,10 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                     col = iter->example->color_in_inventory();
                 }
                 bool print_new = highlight_unread_items;
-                const std::string *new_str;
+                const std::string *new_str = nullptr;
                 // 1 make space between item description and right padding (distance)
                 int new_width = 1;
-                const nc_color *new_col;
+                const nc_color *new_col = nullptr;
                 if( print_new ) {
                     switch( check_items_newness( iter->example ) ) {
                         case content_newness::NEW:

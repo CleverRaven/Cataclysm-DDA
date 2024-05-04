@@ -29,28 +29,30 @@
     "symbol": ",",
     "color": "red",
     "flags": [ "NO_REPAIR" ],
-    "use_action": [ "PLAY_GAME" ]
-  },
-  {
-    "id": "uno",
-    "type": "GENERIC",
-    "copy-from": "deck_of_cards",
-    "name": { "str": "deck of Uno cards", "str_pl": "decks of Uno cards" },
-    "description": "A set of Uno cards meant to play a game of Uno with your companions.  Just don't yell Uno too loud to avoid attracting the undead."
-  },
-  {
-    "id": "onirim",
-    "type": "GENERIC",
-    "copy-from": "deck_of_cards",
-    "name": { "str": "deck of Shadowcaser cards", "str_pl": "decks of Shadowcaser cards" },
-    "description": "A set of cards used in the solo or two-player cooperative card game called Shadowcaser.  The deck consists of 76 unique cards.  Shadowcaser is a immersive card game set in a dream world where players find themselves trapped in a mysterious labyrinthine dream.  The objective of the game is for players to escape this dream world by unlocking eight doors before they run out of time or succumb to the nightmares haunting them."
-  },
-  {
-    "id": "deck_of_cards_makeshift",
-    "type": "GENERIC",
-    "copy-from": "deck_of_cards",
-    "name": { "str": "makeshift deck of cards", "str_pl": "makeshift decks of cards" },
-    "description": "A deck of 52 makeshift cards, made out of cardboard rectangles with simple designs drawn on them."
+    "use_action": [ "PLAY_GAME" ],
+    "variants": [
+      {
+        "id": "uno",
+        "name": { "str": "deck of Uno cards", "str_pl": "decks of Uno cards" },
+        "description": "A set of Uno cards meant to play a game of Uno with your companions.  Just don't yell Uno too loud to avoid attracting the undead."
+      },
+      {
+        "id": "onirim",
+        "name": { "str": "deck of Shadowcaser cards", "str_pl": "decks of Shadowcaser cards" },
+        "description": "A set of cards used in the solo or two-player cooperative card game called Shadowcaser.  The deck consists of 76 unique cards.  Shadowcaser is a immersive card game set in a dream world where players find themselves trapped in a mysterious labyrinthine dream.  The objective of the game is for players to escape this dream world by unlocking eight doors before they run out of time or succumb to the nightmares haunting them."
+      },
+      {
+        "id": "cards_magic",
+        "name": { "str": "deck of Sorcery cards", "str_pl": "decks of Sorcery cards" },
+        "description": "A set of cards meant to play the game \"Sorcery.\"  Each card has a fun picture of a different monster."
+      },
+      {
+        "id": "deck_of_cards_makeshift",
+        "name": { "str": "makeshift deck of cards", "str_pl": "makeshift decks of cards" },
+        "description": "A deck of 52 makeshift cards, made out of cardboard rectangles with simple designs drawn on them.",
+        "weight": 0
+      }
+    ]
   },
   {
     "id": "family_photo",
@@ -588,22 +590,6 @@
     "material": [ "wood" ],
     "symbol": "?",
     "color": "brown",
-    "flags": [ "NO_REPAIR" ],
-    "use_action": [ "PLAY_GAME" ]
-  },
-  {
-    "id": "cards_magic",
-    "type": "GENERIC",
-    "category": "other",
-    "name": { "str": "deck of Sorcery cards", "str_pl": "decks of Sorcery cards" },
-    "description": "A set of cards meant to play the game \"Sorcery.\"  Each card has a fun picture of a different monster.",
-    "weight": "210 g",
-    "volume": "250 ml",
-    "price": "23 USD",
-    "price_postapoc": "5 USD",
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "blue",
     "flags": [ "NO_REPAIR" ],
     "use_action": [ "PLAY_GAME" ]
   },

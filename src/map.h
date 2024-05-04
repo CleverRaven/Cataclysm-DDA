@@ -560,8 +560,11 @@ class map
         // TODO: fix point types (remove the first overload)
         bool impassable( const tripoint &p ) const;
         bool impassable( const tripoint_bub_ms &p ) const;
-        bool impassable( const point &p ) const {
+        bool impassable( const point &p ) const { // TODO: Get rid of untyped version
             return !passable( p );
+        }
+        bool impassable( const point_bub_ms &p ) const {
+            return !passable( p.raw() );
         }
         // TODO: fix point types (remove the first overload)
         bool passable( const tripoint &p ) const;
@@ -831,8 +834,12 @@ class map
                        bool avoid_creatures = false );
         bool furn_set( const tripoint_bub_ms &p, const furn_id &new_furniture,
                        bool furn_reset = false, bool avoid_creatures = false );
-        bool furn_set( const point &p, const furn_id &new_furniture, bool avoid_creatures = false ) {
+        bool furn_set( const point &p, const furn_id &new_furniture,
+                       bool avoid_creatures = false ) { // TODO: Get rid of untyped version.
             return furn_set( tripoint( p, abs_sub.z() ), new_furniture, false, avoid_creatures );
+        }
+        bool furn_set( const point_bub_ms &p, const furn_id &new_furniture, bool avoid_creatures = false ) {
+            return furn_set( tripoint_bub_ms( p, abs_sub.z() ), new_furniture, false, avoid_creatures );
         }
         void furn_clear( const tripoint &p ) {
             furn_set( p, furn_str_id( "f_clear" ) );
@@ -1020,9 +1027,14 @@ class map
             return has_flag( flag, tripoint( p, abs_sub.z() ) );
         }
         // Checks terrain
-        bool has_flag_ter( ter_furn_flag flag, const tripoint &p ) const;
-        bool has_flag_ter( ter_furn_flag flag, const point &p ) const {
+        bool has_flag_ter( ter_furn_flag flag,
+                           const tripoint &p ) const;  // TODO: Get rid of untyped version
+        bool has_flag_ter( ter_furn_flag flag, const tripoint_bub_ms &p ) const;
+        bool has_flag_ter( ter_furn_flag flag, const point &p ) const {  // TODO: Get rid of untyped version
             return has_flag_ter( flag, tripoint( p, abs_sub.z() ) );
+        }
+        bool has_flag_ter( ter_furn_flag flag, const point_bub_ms &p ) const {
+            return has_flag_ter( flag, tripoint_bub_ms( p, abs_sub.z() ) );
         }
         // Checks furniture
         // TODO: fix point types (remove the first overload)
@@ -1300,7 +1312,10 @@ class map
         void i_rem( const point &p, item *it ) {
             i_rem( tripoint( p, abs_sub.z() ), it );
         }
-        void spawn_artifact( const tripoint &p, const relic_procgen_id &id, int max_attributes = 5,
+        void spawn_artifact( const tripoint &p, const relic_procgen_id &id,
+                             int max_attributes = 5,  // TODO: Get rid of untyped version
+                             int power_level = 1000, int max_negative_power = -2000, bool is_resonant = false );
+        void spawn_artifact( const tripoint_bub_ms &p, const relic_procgen_id &id, int max_attributes = 5,
                              int power_level = 1000, int max_negative_power = -2000, bool is_resonant = false );
         void spawn_item( const tripoint &p, const itype_id &type_id,
                          unsigned quantity = 1, int charges = 0,
@@ -1492,7 +1507,10 @@ class map
             spawn_items( tripoint( p, abs_sub.z() ), new_items );
         }
 
-        void create_anomaly( const tripoint &p, artifact_natural_property prop, bool create_rubble = true );
+        void create_anomaly( const tripoint &p, artifact_natural_property prop,
+                             bool create_rubble = true );  //  TODO: Get rid of untyped version
+        void create_anomaly( const tripoint_bub_ms &p, artifact_natural_property prop,
+                             bool create_rubble = true );
         void create_anomaly( const point &cp, artifact_natural_property prop, bool create_rubble = true ) {
             create_anomaly( tripoint( cp, abs_sub.z() ), prop, create_rubble );
         }
@@ -1771,7 +1789,7 @@ class map
         // tripoint_abs_omt coordinate guarantees this will be fulfilled.
         void generate( const tripoint_abs_omt &p, const time_point &when );
         void place_spawns( const mongroup_id &group, int chance,
-                           const point &p1, const point &p2, float density,
+                           const point_bub_ms &p1, const point_bub_ms &p2, float density,
                            bool individual = false, bool friendly = false,
                            const std::optional<std::string> &name = std::nullopt,
                            int mission_id = -1 );
@@ -1784,13 +1802,13 @@ class map
         // places an NPC, if static NPCs are enabled or if force is true
         character_id place_npc( const point &p, const string_id<npc_template> &type );
         void apply_faction_ownership( const point &p1, const point &p2, const faction_id &id );
-        void add_spawn( const mtype_id &type, int count, const tripoint &p,
+        void add_spawn( const mtype_id &type, int count, const tripoint_bub_ms &p,
                         bool friendly = false, int faction_id = -1, int mission_id = -1,
                         const std::optional<std::string> &name = std::nullopt );
-        void add_spawn( const mtype_id &type, int count, const tripoint &p, bool friendly,
+        void add_spawn( const mtype_id &type, int count, const tripoint_bub_ms &p, bool friendly,
                         int faction_id, int mission_id, const std::optional<std::string> &name,
                         const spawn_data &data );
-        void add_spawn( const MonsterGroupResult &spawn_details, const tripoint &p );
+        void add_spawn( const MonsterGroupResult &spawn_details, const tripoint_bub_ms &p );
         void do_vehicle_caching( int z );
         // Note: in 3D mode, will actually build caches on ALL z-levels
         void build_map_cache( int zlev, bool skip_lightmap = false );
@@ -2429,28 +2447,36 @@ class tinymap : private map
         using map::is_main_cleanup_queued;
         using map::main_cleanup_override;
         using map::generate;
-        void place_spawns( const mongroup_id &group, int chance, // TODO: Convert to typed
-                           const point &p1, const point &p2, float density,
+        void place_spawns( const mongroup_id &group, int chance,
+                           const point_omt_ms &p1, const point_omt_ms &p2, float density,
                            bool individual = false, bool friendly = false,
                            const std::optional<std::string> &name = std::nullopt,
                            int mission_id = -1 ) {
-            map::place_spawns( group, chance, p1, p2, density, individual, friendly, name, mission_id );
+            map::place_spawns( group, chance, rebase_bub( p1 ), rebase_bub( p2 ), density, individual, friendly,
+                               name, mission_id );
         }
-        void add_spawn( const mtype_id &type, int count, const tripoint &p, // TODO: Make it typed
+        void add_spawn( const mtype_id &type, int count, const tripoint_omt_ms &p,
                         bool friendly = false, int faction_id = -1, int mission_id = -1,
                         const std::optional<std::string> &name = std::nullopt ) {
-            map::add_spawn( type, count, p, friendly, faction_id, mission_id, name );
+            map::add_spawn( type, count, rebase_bub( p ), friendly, faction_id, mission_id, name );
         }
 
         using map::translate;
         ter_id ter( const tripoint &p ) const {
             return map::ter( p );    // TODO: Make it typed
         }
+        ter_id ter( const tripoint_omt_ms &p ) const {
+            return map::ter( p.raw() );
+        }
         bool ter_set( const tripoint &p, const ter_id &new_terrain, bool avoid_creatures = false ) {
             return map::ter_set( p, new_terrain, avoid_creatures );    // TODO: Make it typed
         }
-        bool has_flag_ter( ter_furn_flag flag, const tripoint &p ) const {
+        bool has_flag_ter( ter_furn_flag flag,
+                           const tripoint &p ) const { // TODO: remove when usages converted
             return map::has_flag_ter( flag, p );
+        }
+        bool has_flag_ter( ter_furn_flag flag, const tripoint_omt_ms &p ) const {
+            return map::has_flag_ter( flag, p.raw() );
         }
         void draw_line_ter( const ter_id &type, const point &p1, const point &p2,
                             bool avoid_creature = false ) {
@@ -2465,6 +2491,9 @@ class tinymap : private map
         }
         furn_id furn( const tripoint &p ) const {
             return map::furn( p );    // TODO: Make it typed
+        }
+        furn_id furn( const tripoint_omt_ms &p ) const {
+            return map::furn( p.raw() );
         }
         bool has_furn( const tripoint &p ) const {
             return map::has_furn( p );    // TODO: Make it typed
@@ -2507,7 +2536,10 @@ class tinymap : private map
         tripoint_range<tripoint_omt_ms> points_in_rectangle(
             const tripoint_omt_ms &from, const tripoint_omt_ms &to ) const;
         tripoint_range<tripoint> points_in_radius(
-            const tripoint &center, size_t radius, size_t radiusz = 0 ) const; // TODO: Make it typed
+            const tripoint &center, size_t radius,
+            size_t radiusz = 0 ) const; // TODO: remove when usages converted.
+        tripoint_range<tripoint_omt_ms> points_in_radius(
+            const tripoint_omt_ms &center, size_t radius, size_t radiusz = 0 ) const;
         map_stack i_at( const tripoint &p ) {
             return map::i_at( p );    // TODO: Make it typed
         }
@@ -2585,8 +2617,14 @@ class tinymap : private map
         const trap &tr_at( const tripoint &p ) const {
             return map::tr_at( p );    // TODO: Make it typed
         }
+        const trap &tr_at( const tripoint_omt_ms &p ) const {
+            return map::tr_at( p.raw() );
+        }
         void trap_set( const tripoint &p, const trap_id &type ) {
             map::trap_set( p, type );    // TODO: Make it typed
+        }
+        void trap_set( const tripoint_omt_ms &p, const trap_id &type ) {
+            map::trap_set( p.raw(), type );
         }
         void set_signage( const tripoint &p, const std::string &message ) {
             map::set_signage( p, message );    // TODO: Make it typed
@@ -2599,6 +2637,9 @@ class tinymap : private map
         }
         optional_vpart_position veh_at( const tripoint &p ) const {
             return map::veh_at( p );    // TODO: Make it typed
+        }
+        optional_vpart_position veh_at( const tripoint_omt_ms &p ) const {
+            return map::veh_at( p.raw() );
         }
         vehicle *add_vehicle( const vproto_id &type, const tripoint &p, const units::angle &dir,
                               int init_veh_fuel = -1, int init_veh_status = -1, bool merge_wrecks = true ) {

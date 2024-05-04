@@ -389,7 +389,7 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
 
     vehicle *wreckage = m.add_vehicle( crashed_hull, wreckage_pos, dir1, rng( 1, 33 ), 1 );
 
-    const auto controls_at = []( vehicle * wreckage, const tripoint & pos ) {
+    const auto controls_at = []( vehicle * wreckage, const tripoint_bub_ms & pos ) {
         return !wreckage->get_parts_at( pos, "CONTROLS", part_status_flag::any ).empty() ||
                !wreckage->get_parts_at( pos, "CTRL_ELECTRONIC", part_status_flag::any ).empty();
     };
@@ -403,7 +403,7 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
             case 3:
                 // Full clown car
                 for( const vpart_reference &vp : wreckage->get_any_parts( VPFLAG_SEATBELT ) ) {
-                    const tripoint pos = vp.pos();
+                    const tripoint_bub_ms pos = vp.pos_bub();
                     // Spawn pilots in seats with controls.CTRL_ELECTRONIC
                     if( controls_at( wreckage, pos ) ) {
                         m.place_spawns( GROUP_MIL_PILOT, 1, pos.xy(), pos.xy(), 1, true );
@@ -417,7 +417,7 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
             case 5:
                 // 2/3rds clown car
                 for( const vpart_reference &vp : wreckage->get_any_parts( VPFLAG_SEATBELT ) ) {
-                    const tripoint pos = vp.pos();
+                    const tripoint_bub_ms pos = vp.pos_bub();
                     // Spawn pilots in seats with controls.
                     if( controls_at( wreckage, pos ) ) {
                         m.place_spawns( GROUP_MIL_PILOT, 1, pos.xy(), pos.xy(), 1, true );
@@ -430,7 +430,7 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
             case 6:
                 // Just pilots
                 for( const vpart_reference &vp : wreckage->get_any_parts( VPFLAG_CONTROLS ) ) {
-                    const tripoint pos = vp.pos();
+                    const tripoint_bub_ms pos = vp.pos_bub();
                     m.place_spawns( GROUP_MIL_PILOT, 1, pos.xy(), pos.xy(), 1, true );
                     delete_items_at_mount( *wreckage, vp.mount() ); // delete corpse items
                 }
@@ -1022,18 +1022,18 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
     static constexpr int min_coord = 9;
     static constexpr int max_coord = omt_size - 1 - min_coord;
     static_assert( min_coord < max_coord, "no space for randomness" );
-    const tripoint portal_location{
+    const tripoint_bub_ms portal_location{
         rng( min_coord, max_coord ), rng( min_coord, max_coord ), abs_sub.z };
-    const point p( portal_location.xy() );
+    const point_bub_ms p( portal_location.xy() );
 
     switch( rng( 1, 6 ) ) {
         //Mycus spreading through the portal
         case 1: {
             m.add_field( portal_location, fd_reality_tear, 3 );
             fungal_effects fe;
-            for( const tripoint &loc : m.points_in_radius( portal_location, 5 ) ) {
+            for( const tripoint_bub_ms &loc : m.points_in_radius( portal_location, 5 ) ) {
                 if( one_in( 3 ) ) {
-                    fe.marlossify( loc );
+                    fe.marlossify( loc.raw() ); // TODO: typify fungal effects.
                 }
             }
             //50% chance to spawn pouf-maker
@@ -1043,7 +1043,7 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
         //Netherworld monsters spawning around the portal
         case 2: {
             m.add_field( portal_location, fd_reality_tear, 3 );
-            for( const tripoint &loc : m.points_in_radius( portal_location, 5 ) ) {
+            for( const tripoint_bub_ms &loc : m.points_in_radius( portal_location, 5 ) ) {
                 m.place_spawns( GROUP_NETHER_PORTAL, 15, loc.xy(), loc.xy(), 1, true );
             }
             break;
@@ -1052,10 +1052,10 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
         case 3: {
             m.add_field( portal_location, fd_reality_tear, 3 );
             for( int i = 0; i < rng( 1, 10 ); i++ ) {
-                tripoint end_location = { rng( 0, SEEX * 2 - 1 ), rng( 0, SEEY * 2 - 1 ), abs_sub.z };
-                std::vector<tripoint> failure = line_to( portal_location, end_location );
-                for( tripoint &i : failure ) {
-                    m.ter_set( { i.xy(), abs_sub.z }, ter_t_pit );
+                tripoint_bub_ms end_location = { rng( 0, SEEX * 2 - 1 ), rng( 0, SEEY * 2 - 1 ), abs_sub.z };
+                std::vector<tripoint_bub_ms> failure = line_to( portal_location, end_location );
+                for( tripoint_bub_ms &i : failure ) {
+                    m.ter_set( tripoint_bub_ms{ i.xy(), abs_sub.z }, ter_t_pit );
                 }
             }
             break;
@@ -1064,9 +1064,9 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
         case 4: {
             m.add_field( portal_location, fd_reality_tear, 3 );
             const int rad = 5;
-            for( int i = p.x - rad; i <= p.x + rad; i++ ) {
-                for( int j = p.y - rad; j <= p.y + rad; j++ ) {
-                    if( trig_dist( p, point( i, j ) ) + rng( 0, 3 ) <= rad ) {
+            for( int i = p.x() - rad; i <= p.x() + rad; i++ ) {
+                for( int j = p.y() - rad; j <= p.y() + rad; j++ ) {
+                    if( trig_dist( p.raw(), point( i, j ) ) + rng( 0, 3 ) <= rad ) {
                         const tripoint loc( i, j, abs_sub.z );
                         dead_vegetation_parser( m, loc );
                         m.adjust_radiation( loc.xy(), rng( 20, 40 ) );
@@ -1144,7 +1144,7 @@ static bool mx_jabberwock( map &m, const tripoint &/*loc*/ )
     // into the monster group, but again the hardcoded rarity it had in the forest mapgen was
     // not easily replicated there.
     if( one_in( 50 ) ) {
-        m.place_spawns( GROUP_JABBERWOCK, 1, point_zero, { SEEX * 2, SEEY * 2 }, 1, true );
+        m.place_spawns( GROUP_JABBERWOCK, 1, point_bub_ms( point_zero ), { SEEX * 2, SEEY * 2 }, 1, true );
         return true;
     }
 
@@ -1267,7 +1267,7 @@ static bool mx_pond( map &m, const tripoint &abs_sub )
         }
     }
 
-    m.place_spawns( GROUP_FISH, 1, point_zero, point( width, height ), 0.15f );
+    m.place_spawns( GROUP_FISH, 1, point_bub_ms( point_zero ), point_bub_ms( width, height ), 0.15f );
 
     return true;
 }
@@ -2055,14 +2055,14 @@ static bool mx_corpses( map &m, const tripoint &abs_sub )
     }
     //10% chance to spawn a flock of stray dogs feeding on human flesh
     if( one_in( 10 ) && num_corpses <= 4 ) {
-        const tripoint corpse_location = { rng( 1, SEEX * 2 - 1 ), rng( 1, SEEY * 2 - 1 ), abs_sub.z };
+        const tripoint_bub_ms corpse_location = { rng( 1, SEEX * 2 - 1 ), rng( 1, SEEY * 2 - 1 ), abs_sub.z };
         const std::vector<item> gibs =
             item_group::items_from( Item_spawn_data_remains_human_generic,
                                     calendar::start_of_cataclysm );
         m.spawn_items( corpse_location, gibs );
         m.add_field( corpse_location, fd_gibs_flesh, rng( 1, 3 ) );
         //50% chance to spawn gibs and dogs in every tile around what's left of human corpse in 1-tile radius
-        for( const tripoint &loc : m.points_in_radius( corpse_location, 1 ) ) {
+        for( const tripoint_bub_ms &loc : m.points_in_radius( corpse_location, 1 ) ) {
             if( one_in( 2 ) ) {
                 m.add_field( { loc.xy(), abs_sub.z }, fd_gibs_flesh, rng( 1, 3 ) );
                 m.place_spawns( GROUP_STRAY_DOGS, 1, loc.xy(), loc.xy(), 1, true );
@@ -2094,11 +2094,11 @@ static bool mx_city_trap( map &/*m*/, const tripoint &abs_sub )
     tinymap compmap;
     compmap.load( road_omt, false );
 
-    const tripoint trap_center = { SEEX + rng( -5, 5 ), SEEY + rng( -5, 5 ), abs_sub.z };
+    const tripoint_omt_ms trap_center = { SEEX + rng( -5, 5 ), SEEY + rng( -5, 5 ), abs_sub.z };
     bool empty_3x3_square = false;
 
     //Then find an empty 3x3 pavement square (no other traps, furniture, or vehicles)
-    for( const tripoint &p : points_in_radius( trap_center, 1 ) ) {
+    for( const tripoint_omt_ms &p : points_in_radius( trap_center, 1 ) ) {
         if( ( compmap.ter( p ) == ter_t_pavement || compmap.ter( p ) == ter_t_pavement_y ) &&
             compmap.tr_at( p ).is_null() &&
             compmap.furn( p ) == furn_str_id::NULL_ID() &&
@@ -2110,7 +2110,7 @@ static bool mx_city_trap( map &/*m*/, const tripoint &abs_sub )
 
     //Finally, place a spinning blade trap...
     if( empty_3x3_square ) {
-        for( const tripoint &p : points_in_radius( trap_center, 1 ) ) {
+        for( const tripoint_omt_ms &p : points_in_radius( trap_center, 1 ) ) {
             compmap.trap_set( p, tr_blade );
         }
         compmap.trap_set( trap_center, tr_engine );
@@ -2123,9 +2123,9 @@ static bool mx_city_trap( map &/*m*/, const tripoint &abs_sub )
 static bool mx_fungal_zone( map &m, const tripoint &abs_sub )
 {
     // Find suitable location for fungal spire to spawn (grass, dirt etc)
-    const tripoint submap_center = { SEEX, SEEY, abs_sub.z };
-    std::vector<tripoint> suitable_locations;
-    for( const tripoint &loc : m.points_in_radius( submap_center, 10 ) ) {
+    const tripoint_bub_ms omt_center = { SEEX, SEEY, abs_sub.z };
+    std::vector<tripoint_bub_ms> suitable_locations;
+    for( const tripoint_bub_ms &loc : m.points_in_radius( omt_center, 10 ) ) {
         if( m.has_flag_ter( ter_furn_flag::TFLAG_DIGGABLE, loc ) ) {
             suitable_locations.push_back( loc );
         }
@@ -2136,7 +2136,7 @@ static bool mx_fungal_zone( map &m, const tripoint &abs_sub )
         return false;
     }
 
-    const tripoint suitable_location = random_entry( suitable_locations, submap_center );
+    const tripoint_bub_ms suitable_location = random_entry( suitable_locations, omt_center );
     m.add_spawn( mon_fungaloid_queen, 1, suitable_location );
     m.place_spawns( GROUP_FUNGI_FUNGALOID, 1,
                     suitable_location.xy() + point_north_west,
