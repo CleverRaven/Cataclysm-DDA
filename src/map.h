@@ -1788,7 +1788,7 @@ class map
         // tripoint_abs_omt coordinate guarantees this will be fulfilled.
         void generate( const tripoint_abs_omt &p, const time_point &when );
         void place_spawns( const mongroup_id &group, int chance,
-                           const point_bub_ms &p1, const point_bub_ms &p2, const int z_level, float density,
+                           const point_bub_ms &p1, const point_bub_ms &p2, int z_level, float density,
                            bool individual = false, bool friendly = false,
                            const std::optional<std::string> &name = std::nullopt,
                            int mission_id = -1 );
