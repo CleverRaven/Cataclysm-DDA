@@ -167,5 +167,76 @@
       ],
       "sentinel": "nre_trade"
     }
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_BUY_RIOT_GEAR",
+    "type": "talk_topic",
+    "dynamic_line": "[we got some bro that'll be $400]",
+    "responses": [
+      {
+        "text": "[8 HGC] Deal!",
+        "condition": { "u_has_items": { "item": "RobofacCoin", "count": 8 } },
+        "effect": [
+          { "u_sell_item": "RobofacCoin", "count": 8 },
+          { "u_spawn_item": "armor_riot", "count": 5 },
+          { "u_spawn_item": "helmet_riot", "count": 5 },
+          { "u_spawn_item": "armor_riot_arm", "count": 5 },
+          { "u_spawn_item": "armor_riot_leg", "count": 5 },
+          { "npc_add_var": "npc_bought_riot_gear", "type": "dialogue", "context": "intercom", "value": "yes" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      {
+        "text": "[ayo I aint got that cash can I buy on credit?]",
+        "condition": { "not": { "u_has_items": { "item": "RobofacCoin", "count": 8 } } },
+        "topic": "TALK_ROBOFAC_INTERCOM_BUY_RIOT_GEAR_NEGOTIATE"
+      },
+      { "text": "I'll have to give it some thought.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_BUY_RIOT_GEAR_NEGOTIATE",
+    "type": "talk_topic",
+    "dynamic_line": "[what have you got to offer?]",
+    "responses": [
+      {
+        "text": "[i can get you money and stuff]",
+        "effect": [ { "npc_add_var": "u_pay_back_on_cash", "type": "dialogue", "context": "intercom", "value": "yes" } ],
+        "topic": "TALK_ROBOFAC_INTERCOM_BUY_RIOT_GEAR_ON_CREDIT_ACCEPT"
+      },
+      {
+        "text": "[i can get you alien corpses and stuff plus a scout tower]",
+        "effect": [ { "npc_add_var": "u_pay_back_on_specimens", "type": "dialogue", "context": "intercom", "value": "yes" } ],
+        "topic": "TALK_ROBOFAC_INTERCOM_BUY_RIOT_GEAR_ON_CREDIT_ACCEPT"
+      },
+      { "text": "I'll have to give it some thought.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_BUY_RIOT_GEAR_ON_CREDIT_ACCEPT",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "npc_has_var": "u_pay_back_on_specimens",
+      "type": "dialogue",
+      "context": "intercom",
+      "value": "yes",
+      "yes": "[yeah that'd be interesting tell us when its clear.  you got 20 days to pay.]",
+      "no": "[okie dokie you got 20 days to pay]"
+    },
+    "responses": [
+      {
+        "text": "[thanks bro.]",
+        "effect": [
+          { "u_spawn_item": "armor_riot", "count": 5 },
+          { "u_spawn_item": "helmet_riot", "count": 5 },
+          { "u_spawn_item": "armor_riot_arm", "count": 5 },
+          { "u_spawn_item": "armor_riot_leg", "count": 5 },
+          { "assign_mission": "MISSION_HUB01_PAY_BACK_RIOT_GEAR" },
+          { "npc_add_var": "npc_bought_riot_gear", "type": "dialogue", "context": "intercom", "value": "yes" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      { "text": "I'll have to give it some thought.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
+    ]
   }
 ]
