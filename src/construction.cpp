@@ -406,7 +406,9 @@ static shared_ptr_fast<game::draw_callback_t> construction_preview_callback(
                         here.drawsq( g->w_terrain, loc,
                                      drawsq_params().highlight( true )
                                      .show_items( true )
-                                     .furniture_override( blink ? furn_str_id( post_id ) : furn_str_id::NULL_ID() ) );
+                                     .furniture_override( blink && preview
+                                                          ? furn_str_id( post_id )
+                                                          : furn_str_id::NULL_ID() ) );
                     }
                 } else {
                     if( is_draw_tiles_mode() ) {
@@ -418,7 +420,9 @@ static shared_ptr_fast<game::draw_callback_t> construction_preview_callback(
                         here.drawsq( g->w_terrain, loc,
                                      drawsq_params().highlight( true )
                                      .show_items( true )
-                                     .terrain_override( blink ? ter_str_id( post_id ) : ter_str_id::NULL_ID() ) );
+                                     .terrain_override( blink && preview
+                                                        ? ter_str_id( post_id )
+                                                        : ter_str_id::NULL_ID() ) );
                     }
                 }
             } else {
