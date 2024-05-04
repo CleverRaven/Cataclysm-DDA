@@ -2280,9 +2280,9 @@ static void draw_can_craft_indicator( const catacurses::window &w, const recipe 
     } else if( crafter.crafting_speed_multiplier( rec ) < 1.0f ) {
         int morale_modifier = crafter.morale_crafting_speed_multiplier( rec ) * 100;
         int lighting_modifier = crafter.lighting_craft_speed_multiplier( rec ) * 100;
-        int limb_modifier = ( rec.has_flag( flag_NO_MANIP ) ) ? 100 : crafter.get_limb_score(
+        int limb_modifier = rec.has_flag( flag_NO_MANIP ) ? 100 : crafter.get_limb_score(
                                 limb_score_manip ) * 100;
-        int pain_multi = ( rec.has_flag( flag_AFFECTED_BY_PAIN ) ) ? 100 * std::max( 0.0f,
+        int pain_multi = rec.has_flag( flag_AFFECTED_BY_PAIN ) ? 100 * std::max( 0.0f,
                          1.0f - ( crafter.get_perceived_pain() / 100.0f ) ) : 100;
 
         std::stringstream modifiers_list;
