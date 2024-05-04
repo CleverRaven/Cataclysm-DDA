@@ -106,6 +106,10 @@ Add u_wants_to_talk/npc_wants_to_talk EOC effects
 Player can eat from camp larder(always). Workers receive spent food from it when being assigned to work (requires NPC needs enabled).
 Implement IME pre-edit text for CJK text
 Allow effects disabling (conditional) limb flags
+Threshold substitutions
+Small scale anaerobic digestion system
+Shatter a zombie's torso armour with a good hard hit.
+Limbify Feathered Arms, rework gaining Bird Wings
 
 
 ## Content:
@@ -222,7 +226,13 @@ Eeeeven MOOORE mission context dialogue for Liam (Friends to the End).
 Adds a significant amount of extra dialogue and conditionals to Isherwood (Isherwood update part 1, 50% done)
 Add a new high danger Yrax construct
 Add poultry meat
-
+Adds ASCII Art to 619
+Created Map Extra that spawns monsters from the Group_Worm
+Adds a lot of mission-specific and chat/small-talk dialogue to Liam (Friends to the End scenario)
+Rework exoskeletons
+Adds still more mission-specific dialogue for Liam (Friends to the End)
+Add XL and XS versions for french maid clothes/aprons/hats
+Fridges and freezers. What do you mean 'we already have some'?
 
 
 ## Interface:
@@ -281,6 +291,7 @@ Tile cover is now named concealment, because that's all it actually does.
 When opening spellcasting menu, go to favorite spells tab if player has favorited spells
 AIM: when cannot wear, try to wield
 Separate keybinding to select default ammo for RELOAD_AND_SHOOT/RELOAD_ONE weapon
+
 
 
 ## Mods:
@@ -417,6 +428,17 @@ Tune conveyance spells with scaling modifier
 [Sky Island] Add buildable north chamber missions and mapgen
 [MoM] Add actual fear effect to Primal Terror telepathic power
 Aftershock: Add two crashed shuttle maps
+[Bombastic Perks] Add Stormwrought line of playstyle perks
+[MoM] Add pseudo tool to nether crystal outcroppings, add that tool as a possibility to contemplation recipes
+[Bombastic Perks] Yet more perks
+[MoM] Add zombie breaker, change MoM zombies to copy-from mon_zombie_base
+[MoM] Fix Force Shove to account for target weight
+[MoM] Add Astral Projection Clairsentient power
+[DinoMod] falcarius
+[Sky Island] Add west bunker room upgrades to possible mission
+[DinoMod] skeletal looks_like fix
+Technomancer pain ignoring spell
+[MoM] Add `city_sizes` parameter to city buildings
 
 
 ## Balance:
@@ -480,6 +502,9 @@ Instability no longer accumulates or decreases; it depends on how many mutations
 Pain is painful
 Pain was a bit too painful
 shoggoths cannot eat artifacts
+Removed palm metal plating on brigandine gloves
+City buildings are restricted to spawn in (more) appropriately sized cities
+Unattended crops that are ready to harvest will die if not harvested before their next growth period
 
 
 ## Bugfixes:
@@ -626,6 +651,15 @@ Fridges do not drop 999 kilo of copper when disassembled
 Cureall Effect (Panacea) now cures early stages of cold and flu
 Fixed arrows disappearing when unwielded
 Make pupating zombie explosion quieter
+Fixed issue where new ImGui popup does not obey the default option requested by user
+Fixed issue where the keybindings UI doesn't let you press the plus key to add a local keybinding
+Fix segfault-causing error in _characters_nearby
+Fix shotgun speedloader and speedloader chute
+Do not try to unload your bow when it is not loaded.
+Favorite ammo must be on the avatar.
+Fix split vehicles always using the incorrect pivot point
+Transformed active mutations (extended claws etc) properly cause instability
+Only count CONTAINER type pockets in the pickup inventory
 
 
 ## Performance:
@@ -731,6 +765,7 @@ Fix crash with imgui and CMake
 Add percentage-translated statistic to language selection
 Make furniture->lockpick_message translatable
 Add check to ensure translator comments are correctly located and extracted
+Add more English names and their translations to Simplified Chinese and Japanese
 
 
 # 0.G (Gaiman)

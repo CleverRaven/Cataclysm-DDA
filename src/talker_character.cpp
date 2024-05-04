@@ -392,6 +392,19 @@ int talker_character_const::get_spell_count( const trait_id &school ) const
     return count;
 }
 
+int talker_character_const::get_spell_sum( const trait_id &school, int min_level ) const
+{
+    int count = 0;
+
+    for( const spell *sp : me_chr_const->magic->get_spells() ) {
+        if( school.is_null() || ( sp->spell_class() == school &&
+                                  sp->get_effective_level() >= min_level ) ) {
+            count = count + sp->get_effective_level() ;
+        }
+    }
+    return count;
+}
+
 void talker_character::set_spell_level( const spell_id &sp, int new_level )
 {
     me_chr->magic->set_spell_level( sp, new_level, me_chr );
@@ -685,6 +698,11 @@ void talker_character::shout( const std::string &speech, bool order )
 int talker_character_const::pain_cur() const
 {
     return me_chr_const->get_pain();
+}
+
+int talker_character_const::perceived_pain_cur() const
+{
+    return me_chr_const->get_perceived_pain();
 }
 
 double talker_character_const::armor_at( damage_type_id &dt, bodypart_id &bp ) const

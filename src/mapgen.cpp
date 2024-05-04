@@ -3071,7 +3071,11 @@ class jmapgen_ter_furn_transform: public jmapgen_piece
             if( chosen_id.is_null() ) {
                 return;
             }
-            chosen_id->transform( dat.m, tripoint_bub_ms( x.get(), y.get(), dat.m.get_abs_sub().z() ) );
+            for( int ix = x.val; ix <= x.valmax; ix++ ) {
+                for( int iy = y.val; iy <= y.valmax; iy++ ) {
+                    chosen_id->transform( dat.m, tripoint_bub_ms( ix, iy, dat.m.get_abs_sub().z() ) );
+                }
+            }
         }
 
         void check( const std::string &oter_name, const mapgen_parameters &parameters,
@@ -3331,38 +3335,6 @@ class jmapgen_sealed_item : public jmapgen_piece
         }
         bool has_vehicle_collision( const mapgendata &dat, const point &p ) const override {
             return dat.m.veh_at( tripoint( p, dat.zlevel() ) ).has_value();
-        }
-};
-/**
- * Translate terrain from one ter_id to another.
- * "from": id of the starting terrain.
- * "to": id of the ending terrain
- * not useful for normal mapgen, very useful for mapgen_update
- */
-class jmapgen_translate : public jmapgen_piece
-{
-    public:
-        mapgen_value<ter_id> from;
-        mapgen_value<ter_id> to;
-        jmapgen_translate( const JsonObject &jsi, const std::string_view/*context*/ )
-            : from( jsi.get_member( "from" ) )
-            , to( jsi.get_member( "to" ) ) {
-        }
-        mapgen_phase phase() const override {
-            return mapgen_phase::transform;
-        }
-        void apply( const mapgendata &dat, const jmapgen_int &/*x*/, const jmapgen_int &/*y*/,
-                    const std::string &/*context*/ ) const override {
-            ter_id chosen_from = from.get( dat );
-            ter_id chosen_to = to.get( dat );
-            dat.m.translate( chosen_from, chosen_to );
-        }
-
-        void check( const std::string &oter_name, const mapgen_parameters &parameters,
-                    const jmapgen_int &/*x*/, const jmapgen_int &/*y*/
-                  ) const override {
-            from.check( oter_name, parameters );
-            to.check( oter_name, parameters );
         }
 };
 
@@ -4386,7 +4358,6 @@ mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, const std::s
     new_pal.load_place_mapings<jmapgen_liquid_item>( jo, "liquids", format_placings, c );
     new_pal.load_place_mapings<jmapgen_corpse>( jo, "corpses", format_placings, c );
     new_pal.load_place_mapings<jmapgen_graffiti>( jo, "graffiti", format_placings, c );
-    new_pal.load_place_mapings<jmapgen_translate>( jo, "translate", format_placings, c );
     new_pal.load_place_mapings<jmapgen_zone>( jo, "zones", format_placings, c );
     new_pal.load_place_mapings<jmapgen_ter_furn_transform>( jo, "ter_furn_transforms",
             format_placings, c );
@@ -4666,7 +4637,6 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
     objects.load_objects<jmapgen_computer>( jo, "place_computers", context_ );
     objects.load_objects<jmapgen_nested>( jo, "place_nested", context_ );
     objects.load_objects<jmapgen_graffiti>( jo, "place_graffiti", context_ );
-    objects.load_objects<jmapgen_translate>( jo, "translate_ter", context_ );
     objects.load_objects<jmapgen_zone>( jo, "place_zones", context_ );
     objects.load_objects<jmapgen_ter_furn_transform>( jo, "place_ter_furn_transforms", context_ );
     objects.load_objects<jmapgen_variable>( jo, "place_variables", context_ );

@@ -808,10 +808,22 @@ std::function<double( dialogue & )> moon_phase_eval( char /* scope */,
 }
 
 std::function<double( dialogue & )> pain_eval( char scope,
-        std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
+        std::vector<diag_value> const &/* params */, diag_kwargs const &kwargs )
 {
-    return [beta = is_beta( scope )]( dialogue const & d ) {
-        return d.actor( beta )->pain_cur();
+    diag_value format_value( std::string( "raw" ) );
+    if( kwargs.count( "type" ) != 0 ) {
+        format_value = *kwargs.at( "type" );
+    }
+    return [format_value, beta = is_beta( scope )]( dialogue const & d ) {
+        std::string format = format_value.str( d );
+        if( format == "perceived" ) {
+            return d.actor( beta )->perceived_pain_cur();
+        } else if( format == "raw" ) {
+            return d.actor( beta )->pain_cur();
+        } else {
+            debugmsg( R"(Unknown type "%s" for pain())", format );
+            return 0;
+        }
     };
 }
 
@@ -943,6 +955,28 @@ std::function<double( dialogue & )> spell_count_eval( char scope,
         std::string school_str = school_value.str( d );
         const trait_id scid = school_str.empty() ? trait_id::NULL_ID() : trait_id( school_str );
         return d.actor( beta )->get_spell_count( scid );
+    };
+}
+
+std::function<double( dialogue & )> spell_sum_eval( char scope,
+        std::vector<diag_value> const &/* params */, diag_kwargs const &kwargs )
+{
+    diag_value school_value( std::string{} );
+    diag_value min_level( 0.0 );
+
+    if( kwargs.count( "school" ) != 0 ) {
+        school_value = *kwargs.at( "school" );
+    }
+
+    if( kwargs.count( "level" ) != 0 ) {
+        min_level = *kwargs.at( "level" );
+    }
+
+    return[beta = is_beta( scope ), school_value, min_level]( dialogue const & d ) {
+        std::string school_str = school_value.str( d );
+        int const min_spell_level = min_level.dbl( d );
+        const trait_id scid = school_str.empty() ? trait_id::NULL_ID() : trait_id( school_str );
+        return d.actor( beta )->get_spell_sum( scid, min_spell_level );
     };
 }
 
@@ -1529,6 +1563,7 @@ std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "skill", { "un", 1, skill_eval } },
     { "skill_exp", { "un", 1, skill_exp_eval } },
     { "spell_count", { "un", 0, spell_count_eval}},
+    { "spell_level_sum", { "un", 0, spell_sum_eval}},
     { "spell_exp", { "un", 1, spell_exp_eval}},
     { "spell_exp_for_level", { "g", 1, spell_exp_for_level_eval}},
     { "spell_level", { "un", 1, spell_level_eval}},

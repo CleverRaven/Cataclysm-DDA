@@ -158,6 +158,7 @@ if (CURSES)
                 imtui
                 PRIVATE
                 -w
+                -DIMTUI
                 )
 
         target_link_libraries(
