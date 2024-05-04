@@ -71,8 +71,8 @@ class mission_ui_impl : public cataimgui::window
         mission_ui_tab_enum selected_tab = mission_ui_tab_enum::ACTIVE;
         mission_ui_tab_enum switch_tab = mission_ui_tab_enum::num_tabs;
 
-        size_t window_width = str_width_to_pixels( TERMX );
-        size_t window_height = str_height_to_pixels( TERMY );
+        size_t window_width = str_width_to_pixels( TERMX ) / 2;
+        size_t window_height = str_height_to_pixels( TERMY ) / 2;
         size_t table_column_width = window_width / 2;
 
     protected:
