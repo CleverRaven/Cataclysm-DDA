@@ -1643,6 +1643,231 @@
   },
   {
     "type": "mutation",
+    "id": "hair_twintails",
+    "name": { "str": "Hair: twin tails" },
+    "points": 0,
+    "description": "Two very long braids.",
+    "starting_trait": true,
+    "valid": false,
+    "purifiable": false,
+    "player_display": true,
+    "vanity": true,
+    "variants": [
+      {
+        "id": "black",
+        "name": { "str": "Hair: black, twin tails" },
+        "description": "Two very long black braids.",
+        "weight": 1
+      },
+      {
+        "id": "blond",
+        "name": { "str": "Hair: blond, twin tails" },
+        "description": "Two very long blond braids.",
+        "weight": 1
+      },
+      {
+        "id": "blue",
+        "name": { "str": "Hair: blue, twin tails" },
+        "description": "Two very long blue braids.",
+        "weight": 1
+      },
+      {
+        "id": "brown",
+        "name": { "str": "Hair: brown, twin tails" },
+        "description": "Two very long brown braids.",
+        "weight": 1
+      },
+      {
+        "id": "gray",
+        "name": { "str": "Hair: gray, twin tails" },
+        "description": "Two very long gray braids.",
+        "weight": 1
+      },
+      {
+        "id": "green",
+        "name": { "str": "Hair: green, twin tails" },
+        "description": "Two very long green braids.",
+        "weight": 1
+      },
+      {
+        "id": "pink",
+        "name": { "str": "Hair: pink, twin tails" },
+        "description": "Two very long pink braids.",
+        "weight": 1
+      },
+      {
+        "id": "purple",
+        "name": { "str": "Hair: purple, twin tails" },
+        "description": "Two very long purple braids.",
+        "weight": 1
+      },
+      {
+        "id": "red",
+        "name": { "str": "Hair: red, twin tails" },
+        "description": "Two very long red braids.",
+        "weight": 1
+      },
+      {
+        "id": "white",
+        "name": { "str": "Hair: white, twin tails" },
+        "description": "Two very long white braids.",
+        "weight": 1
+      }
+    ],
+    "types": [ "hair_style" ]
+  },
+  {
+    "type": "mutation",
+    "id": "hair_super_princess",
+    "name": { "str": "Hair: super princess" },
+    "points": 0,
+    "description": "Hair for the better princess.",
+    "starting_trait": true,
+    "valid": false,
+    "purifiable": false,
+    "player_display": true,
+    "vanity": true,
+    "variants": [
+      {
+        "id": "black",
+        "name": { "str": "Hair: black, super princess" },
+        "description": "Black hair for the better princess.",
+        "weight": 1
+      },
+      {
+        "id": "blond",
+        "name": { "str": "Hair: blond, super princess" },
+        "description": "Blond hair for the better princess.",
+        "weight": 1
+      },
+      {
+        "id": "blue",
+        "name": { "str": "Hair: blue, super princess" },
+        "description": "Blue hair for the better princess.",
+        "weight": 1
+      },
+      {
+        "id": "brown",
+        "name": { "str": "Hair: brown, super princess" },
+        "description": "Brown hair for the better princess.",
+        "weight": 1
+      },
+      {
+        "id": "gray",
+        "name": { "str": "Hair: gray, super princess" },
+        "description": "Gray hair for the better princess.",
+        "weight": 1
+      },
+      {
+        "id": "green",
+        "name": { "str": "Hair: green, super princess" },
+        "description": "Green hair for the better princess.",
+        "weight": 1
+      },
+      {
+        "id": "pink",
+        "name": { "str": "Hair: pink, super princess" },
+        "description": "Pink hair for the better princess.",
+        "weight": 1
+      },
+      {
+        "id": "purple",
+        "name": { "str": "Hair: purple, super princess" },
+        "description": "Purple hair for the better princess.",
+        "weight": 1
+      },
+      {
+        "id": "red",
+        "name": { "str": "Hair: red, super princess" },
+        "description": "Red hair for the better princess.",
+        "weight": 1
+      },
+      {
+        "id": "white",
+        "name": { "str": "Hair: white, super princess" },
+        "description": "White hair for the better princess.",
+        "weight": 1
+      }
+    ],
+    "types": [ "hair_style" ]
+  },
+  {
+    "type": "mutation",
+    "id": "hair_detective",
+    "name": { "str": "Hair: detective" },
+    "points": 0,
+    "description": "Hair for lawyers and crime solvers.",
+    "starting_trait": true,
+    "valid": false,
+    "purifiable": false,
+    "player_display": true,
+    "vanity": true,
+    "variants": [
+      {
+        "id": "black",
+        "name": { "str": "Hair: black, detective" },
+        "description": "Black hair for lawyers and crime solvers.",
+        "weight": 1
+      },
+      {
+        "id": "blond",
+        "name": { "str": "Hair: blond, detective" },
+        "description": "Blond hair for lawyers and crime solvers.",
+        "weight": 1
+      },
+      {
+        "id": "blue",
+        "name": { "str": "Hair: blue, detective" },
+        "description": "Blue hair for lawyers and crime solvers.",
+        "weight": 1
+      },
+      {
+        "id": "brown",
+        "name": { "str": "Hair: brown, detective" },
+        "description": "Brown hair for lawyers and crime solvers.",
+        "weight": 1
+      },
+      {
+        "id": "gray",
+        "name": { "str": "Hair: gray, detective" },
+        "description": "Gray hair for lawyers and crime solvers.",
+        "weight": 1
+      },
+      {
+        "id": "green",
+        "name": { "str": "Hair: green, detective" },
+        "description": "Green hair for lawyers and crime solvers.",
+        "weight": 1
+      },
+      {
+        "id": "pink",
+        "name": { "str": "Hair: pink, detective" },
+        "description": "Pink hair for lawyers and crime solvers.",
+        "weight": 1
+      },
+      {
+        "id": "purple",
+        "name": { "str": "Hair: purple, detective" },
+        "description": "Purple hair for lawyers and crime solvers.",
+        "weight": 1
+      },
+      {
+        "id": "red",
+        "name": { "str": "Hair: red, detective" },
+        "description": "Red hair for lawyers and crime solvers.",
+        "weight": 1
+      },
+      {
+        "id": "white",
+        "name": { "str": "Hair: white, detective" },
+        "description": "White hair for lawyers and crime solvers.",
+        "weight": 1
+      }
+    ],
+    "types": [ "hair_style" ]
+  },
+  {
+    "type": "mutation",
     "id": "natural_hair_color_black",
     "name": { "str": "Natural hair color: black" },
     "points": 0,

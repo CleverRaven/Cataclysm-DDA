@@ -125,6 +125,7 @@
           "hair_buzzcut",
           "hair_crewcut",
           "hair_curls",
+          "hair_detective",
           "hair_fro",
           "hair_long_over_eye",
           "hair_long",
@@ -137,7 +138,9 @@
           "hair_punk_long",
           "hair_short_no_fringe",
           "hair_short_over_eye",
-          "hair_short"
+          "hair_short",
+          "hair_super_princess",
+          "hair_twintails"
         ],
         "order": 1600
       },
