@@ -2760,8 +2760,8 @@ void options_manager::add_options_world_default()
 
     add_empty_line();
 
-    add_option_group( "world_default", Group( "spawn_time_opts", to_translation( "Spawn Time Options" ),
-                      to_translation( "Options regarding spawn time." ) ),
+    add_option_group( "world_default", Group( "spawn_time_opts", to_translation( "World Time Options" ),
+                      to_translation( "Options regarding the passage of time in the world." ) ),
     [&]( const std::string & page_id ) {
         add( "SEASON_LENGTH", page_id, to_translation( "Season length" ),
              to_translation( "Season length, in days.  Warning: Very little other than the duration of seasons scales with this value, so adjusting it may cause nonsensical results." ),
