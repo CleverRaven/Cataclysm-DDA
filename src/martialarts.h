@@ -26,7 +26,7 @@ class effect;
 class item;
 struct itype;
 
-static const matec_id tec_none( "tec_none" );
+const matec_id tec_none( "tec_none" );
 
 class weapon_category
 {

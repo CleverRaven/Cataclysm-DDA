@@ -605,14 +605,23 @@ void finalize_martial_arts()
         // bother us because ma_buff_effect_type does not have any members that can be sliced.
         effect_type::register_ma_buff_effect( new_eff );
     }
-    // Iterate through every attack vector and substitute similar limbs (as long as they have similar sublimbs
-    for( attack_vector vector : attack_vector_factory.get_all() ) {
+    attack_vector_factory.finalize();
+    for( const attack_vector &vector : attack_vector_factory.get_all() ) {
         // Check if this vector allows substitutions in the first place
         if( vector.strict_limb_definition ) {
             continue;
         }
+        // Add similar parts
+        // The vector needs both a limb and a contact area, so we can substitute safely
+        std::vector<bodypart_str_id> similar_bp;
+        for( const bodypart_str_id &bp : vector.limbs ) {
+            for( const bodypart_str_id &similar : bp->similar_bodyparts ) {
+                similar_bp.emplace_back( similar );
+            }
+        }
+        const_cast<attack_vector &>( vector ).limbs.insert( vector.limbs.end(), similar_bp.begin(),
+                similar_bp.end() );
 
-        // Begin by substituting similar subparts to ease filtering in the next step
         std::vector<sub_bodypart_str_id> similar_sbp;
         for( const sub_bodypart_str_id &sbp : vector.contact_area ) {
             for( const sub_bodypart_str_id &similar : sbp->similar_bodyparts ) {
@@ -620,23 +629,8 @@ void finalize_martial_arts()
             }
         }
 
-        vector.contact_area.insert( vector.contact_area.end(), similar_sbp.begin(), similar_sbp.end() );
-
-        // We now have the actually-hitting sublimbs, substitute the main parts
-        // But discard any part where we'd be similar without a similar contact subpart
-        std::vector<bodypart_str_id> similar_bp;
-        for( const bodypart_str_id &bp : vector.limbs ) {
-            for( const bodypart_str_id &similar : bp->similar_bodyparts ) {
-                std::vector<sub_bodypart_str_id> intersect;
-                std::set_intersection( similar->sub_parts.begin(), similar->sub_parts.end(),
-                                       vector.contact_area.begin(), vector.contact_area.end(), std::back_inserter( intersect ) );
-                if( !intersect.empty() ) {
-                    // We have a common element in our sublimb list and the contact area list
-                    similar_bp.emplace_back( similar );
-                }
-            }
-        }
-        vector.limbs.insert( vector.limbs.end(), similar_bp.begin(), similar_bp.end() );
+        const_cast<attack_vector &>( vector ).contact_area.insert( vector.contact_area.end(),
+                similar_sbp.begin(), similar_sbp.end() );
     }
 }
 
@@ -1496,7 +1490,7 @@ std::optional<std::pair<attack_vector_id, sub_bodypart_str_id>>
         std::vector<std::pair<sub_bodypart_str_id, float>> calc_vector;
         for( const bodypart_str_id &bp : vec->limbs ) {
             //const bodypart_str_id &bp = bp_id.id();
-            if( std::find( anat.begin(), anat.end(), bp ) != anat.end() ) {
+            if( std::find( anat.begin(), anat.end(), bp.id() ) != anat.end() ) {
                 add_msg_debug( debugmode::DF_MELEE, "Evaluating limb %s for vector %s", bp->name, vec.c_str() );
                 // Filter on limb flags early
                 bool allowed = true;
