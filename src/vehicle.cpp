@@ -3410,8 +3410,7 @@ units::mass vehicle::weight_on_wheels() const
         if( vp.info().fuel_type == fuel_type_animal )
         {
             monster *mon = get_monster( e );
-            if( mon != nullptr && mon->has_effect( effect_harnessed ))
-            {
+            if( mon != nullptr && mon->has_effect( effect_harnessed ) ) {
                 animal_mass += mon->get_weight();
             }
         }
