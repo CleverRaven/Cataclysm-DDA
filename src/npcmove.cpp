@@ -4079,6 +4079,11 @@ item *npc::evaluate_best_weapon() const
     // Fists aren't checked below
     double fist_value = evaluate_weapon( null_item_reference(), can_use_gun, use_silent );
 
+    if( fist_value > best_value ) {
+        best = &null_item_reference();
+        best_value = fist_value;
+    }
+
     //Now check through the NPC's inventory for melee weapons, guns, or holstered items
     visit_items( [this, can_use_gun, use_silent, &weap, &best_value, &best]( item * node, item * ) {
         double weapon_value = 0.0;
