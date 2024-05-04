@@ -359,11 +359,10 @@
     "parts": [ { "x": 0, "y": 0, "parts": [ "xlframe#vertical_2", "wheel_10", "bed" ] } ]
   },
   {
-    "id": "surgical_cart",
+    "id": "medical_cart",
     "type": "vehicle",
     "name": "Surgical Cart",
     "blueprint": [ "#" ],
-    "parts": [ { "x": 0, "y": 0, "parts": [ "xlframe#vertical_2", "wheel_caster", "metal_tray" ] } ],
-    "items": [ { "x": 0, "y": 0, "chance": 40, "item_groups": [ "gear_medical" ] } ]
+    "parts": [ { "x": 0, "y": 0, "parts": [ "xlframe#vertical_2", "wheel_caster", "metal_tray" ] } ]
   }
 ]
