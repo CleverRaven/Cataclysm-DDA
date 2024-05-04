@@ -185,7 +185,8 @@ void mission_ui_impl::draw_controls()
     }
 
     // This action needs to be after umissions is populated
-    if( last_action == "CONFIRM" && selected_tab == mission_ui_tab_enum::ACTIVE ) {
+    if( !umissions.empty() && last_action == "CONFIRM" &&
+        selected_tab == mission_ui_tab_enum::ACTIVE ) {
         get_avatar().set_active_mission( *umissions[selected_mission] );
     }
 
