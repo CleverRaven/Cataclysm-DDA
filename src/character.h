@@ -3129,7 +3129,7 @@ class Character : public Creature, public visitable
          *  @param gun item to fire (which does not necessary have to be in the players possession)
          *  @return number of shots actually fired
          */
-        int fire_gun( const tripoint &target, int shots, item &gun, item_location ammo = item_location() );
+        int fire_gun( const tripoint &target, int shots, item &gun );
         /** Execute a throw */
         dealt_projectile_attack throw_item( const tripoint &target, const item &to_throw,
                                             const std::optional<tripoint> &blind_throw_from_pos = std::nullopt );
