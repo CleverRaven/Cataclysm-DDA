@@ -1239,7 +1239,7 @@ static std::map<tripoint, int> display_npc_attack_potential()
     JsonValue jsin = json_loader::from_string( os.str() );
     jsin.read( avatar_as_npc );
     avatar_as_npc.regen_ai_cache();
-    avatar_as_npc.evaluate_best_weapon( nullptr );
+    avatar_as_npc.evaluate_best_attack( nullptr );
     std::map<tripoint, int> effectiveness_map;
     std::vector<npc_attack_rating> effectiveness =
         avatar_as_npc.get_current_attack()->all_evaluations( avatar_as_npc, nullptr );

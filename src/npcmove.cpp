@@ -1971,7 +1971,7 @@ npc_action npc::method_of_attack()
     // if there's enough of a threat to be here, power up the combat CBMs and any combat items.
     prepare_for_combat();
 
-    evaluate_best_weapon( critter );
+    evaluate_best_attack( critter );
 
     std::optional<int> potential = ai_cache.current_attack_evaluation.value();
     if( potential && *potential > 0 ) {
@@ -1982,7 +1982,7 @@ npc_action npc::method_of_attack()
     }
 }
 
-void npc::evaluate_best_weapon( const Creature *target )
+void npc::evaluate_best_attack( const Creature *target )
 {
     std::shared_ptr<npc_attack> best_attack;
     npc_attack_rating best_evaluated_attack;
