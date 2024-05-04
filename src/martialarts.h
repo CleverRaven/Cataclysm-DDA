@@ -26,7 +26,7 @@ class effect;
 class item;
 struct itype;
 
-extern const matec_id tec_none;
+static const matec_id tec_none( "tec_none" );
 
 class weapon_category
 {
@@ -78,6 +78,8 @@ struct attack_vector {
     bool strict_limb_definition = false;
     // The actual contact area for unarmed damage calcs
     std::vector<sub_bodypart_str_id> contact_area;
+    // If we have any bodypart count restrictions
+    std::vector<std::pair<body_part_type::type, int>> limb_req;
     // Do we care about armor damage bonuses
     bool armor_bonus = true;
 

@@ -92,6 +92,7 @@ void attack_vector::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "limbs", limbs );
     optional( jo, was_loaded, "strict_limb_definition", strict_limb_definition, false );
     optional( jo, was_loaded, "contact_area", contact_area );
+    optional( jo, was_loaded, "limb_req", limb_req );
     optional( jo, was_loaded, "armor_bonus", armor_bonus, true );
     optional( jo, was_loaded, "encumbrance_limit", encumbrance_limit, 100 );
     optional( jo, was_loaded, "bp_hp_limit", bp_hp_limit, 10 );
@@ -1469,6 +1470,27 @@ std::optional<std::pair<attack_vector_id, sub_bodypart_str_id>>
                            vec.c_str(), weight );
             continue;
         }
+        // Check if we have the required limbs
+        bool reqs = true;
+        for( const std::pair<body_part_type::type, int> &req : vec->limb_req ) {
+            int count = 0;
+            add_msg_debug( debugmode::DF_MELEE, "Checking limb requirements" );
+            for( const bodypart_id &bp : user.get_all_body_parts_of_type( req.first ) ) {
+                if( user.get_part_hp_cur( bp ) > bp->health_limit ) {
+                    count++;
+                }
+            }
+            if( count < req.second ) {
+                add_msg_debug( debugmode::DF_MELEE, "%d matching limbs found from %d req, vector discarded", count,
+                               req.second );
+                reqs = false;
+                break;
+            }
+        }
+        if( !reqs ) {
+            continue;
+        }
+
         // Smilar bodyparts get appended to the vector limb list in the finalization step
         // So we just need to check if we have a limb, a contact area sublimb and tally up the damages
         std::vector<std::pair<sub_bodypart_str_id, float>> calc_vector;

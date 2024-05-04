@@ -135,7 +135,9 @@ Attack vectors define which (sub)bodypart is used for the attack in question, al
     "required_limb_flags": [ "foo", "bar" ],  // List of character flags required for the bodypart to be eligable for this vector
     "forbidden_limb_flags": [ "foo", "bar" ], // List of character flags that disqualify a limb from being usable by this vector
     "encumbrance_limit": 15,          // Int, default 100, encumbrance of the limb above this will disqualify it from this vector
-    "bp_hp_limit": 75                 // Int, default 10, percent of bodypart limb HP necessary for the limbs to qualify for this vector. For minor (non-main) bodyparts the corresponding main part HP is taken into account.
+    "bp_hp_limit": 75 ,                // Int, default 10, percent of bodypart limb HP necessary for the limbs to qualify for this vector. For minor (non-main) bodyparts the corresponding main part HP is taken into account.
+    "limb_req": [ [ "arm", 2] ]        // Array of pairs. Limb type requirements for this vector. The character must have this many limbs of the given type above the limb's health limit (See JSON_INFO.md:Bodyparts). Requirements must all be met.
+
   }
 ]
 ```

@@ -770,6 +770,8 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
                 item *worn_weap = worn.current_unarmed_weapon( contact_area );
                 cur_weapon = worn_weap ? item_location( *this, worn_weap ) : item_location();
                 cur_weap = cur_weapon ? *cur_weapon : null_item_reference();
+                add_msg_debug( debugmode::DF_MELEE, "Vector allows armor damage calculation, chosen weapon %s",
+                               cur_weap.display_name() );
             }
         }
 

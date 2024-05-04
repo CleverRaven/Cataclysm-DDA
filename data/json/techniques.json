@@ -8,13 +8,34 @@
   },
   {
     "type": "technique",
+    "id": "tech_base_headbutt",
+    "name": "Headbutt",
+    "crit_ok": true,
+    "unarmed_allowed": true,
+    "messages": [ "You headbutt %s!", "<npcname> headbutts %s!" ],
+    "description": "A basic headbutt",
+    "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
+    "attack_vectors": [ "vector_headbutt" ]
+  },
+  {
+    "type": "technique",
     "id": "tech_base_punch",
-    "name": "Basic punch",
+    "name": "Punch",
     "crit_ok": true,
     "unarmed_allowed": true,
     "messages": [ "You punch %s!", "<npcname> punches %s!" ],
-    "description": "Just a basic punch",
+    "description": "A basic punch",
     "attack_vectors": [ "vector_punch" ]
+  },
+  {
+    "type": "technique",
+    "id": "tech_base_kick",
+    "name": "Kick",
+    "crit_ok": true,
+    "unarmed_allowed": true,
+    "messages": [ "You kick %s!", "<npcname> kicks %s!" ],
+    "description": "A basic kick",
+    "attack_vectors": [ "vector_foot_toes", "vector_knee", "vector_shin" ]
   },
   {
     "type": "technique",
