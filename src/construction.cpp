@@ -704,8 +704,10 @@ construction_id construction_menu( const bool blueprint )
         const window_dimensions norm_dims = get_window_dimensions( catacurses::stdscr );
         const int tile_height = g->is_tileset_isometric()
                                 ? ter_dims.scaled_font_size.x / 2 : ter_dims.scaled_font_size.y;
-        const int tile_extra_height = tilecontext->get_max_tile_extent().p_max.y * get_scaling_factor()
-                                      - tile_height;
+        const int tile_extra_height = use_tiles
+                                      ? tilecontext->get_max_tile_extent().p_max.y * get_scaling_factor()
+                                      - tile_height
+                                      : 0;
         // desired number of reserved lines from the construction menu.
         const int reserve_height = ( ( reserve_tile_height
                                        // reserve the minimum number of full tiles that makes the
