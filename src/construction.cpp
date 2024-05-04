@@ -753,19 +753,19 @@ construction_id construction_menu( const bool blueprint )
 
         w_con = catacurses::newwin( w_height, w_width, point( w_x0, w_y0 ) );
 
+        // center player tile in the visible part of main UI
 #if defined( TILES )
-        // center player tile in the visible part of main UI
-        const int y_shift = ( ter_dims.window_size_pixel.y - norm_dims.scaled_font_size.y * w_y0
-                              // shift up to reveal the full height of the topmost tile
-                              - ( tile_extra_height + tile_height - 1 ) / tile_height * tile_height
-                              + tile_height * 2 - 1 ) / ( tile_height * 2 );
-        if( g->is_tileset_isometric() ) {
-            player_character.view_offset = tripoint( -y_shift, y_shift, 0 );
-        } else {
-            player_character.view_offset = tripoint( 0, y_shift, 0 );
-        }
+        const point visible_center(
+            ter_dims.window_size_pixel.x / 2,
+            ( norm_dims.scaled_font_size.y * w_y0
+              // shift up to reveal the full height of the topmost tile
+              + ( tile_extra_height + tile_height - 1 ) / tile_height * tile_height ) / 2 );
+        const point_bub_ms target = cata_tiles::screen_to_player(
+                                        visible_center,
+                                        ter_dims.scaled_font_size, ter_dims.window_size_pixel,
+                                        player_character.pos_bub().xy(), g->is_tileset_isometric() );
+        player_character.view_offset = tripoint( ( player_character.pos_bub().xy() - target ).raw(), 0 );
 #else
-        // center player tile in the visible part of main UI
         player_character.view_offset = tripoint( 0, ( w_height + 1 ) / 2, 0 );
 #endif
         g->invalidate_main_ui_adaptor();
