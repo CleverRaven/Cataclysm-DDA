@@ -10,10 +10,13 @@
 #include "mtype.h"
 #include "npc.h"
 
+static const bodypart_str_id body_part_debug_tail( "debug_tail" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_grabbing( "grabbing" );
 static const efftype_id effect_stunned( "stunned" );
+
+static const enchantment_id enchantment_ENCH_TEST_BIRD_PARTS( "ENCH_TEST_BIRD_PARTS" );
 
 static const itype_id itype_club_wooden( "club_wooden" );
 static const itype_id itype_sword_crude( "sword_crude" );
@@ -24,10 +27,14 @@ static const matec_id test_tech_condition_knockback( "test_tech_condition_knockb
 static const matec_id test_tech_condition_stun( "test_tech_condition_stun" );
 static const matec_id test_tech_condition_sweep( "test_tech_condition_sweep" );
 static const matec_id test_technique( "test_technique" );
+static const matec_id test_vector_tech_1( "test_vector_tech_1" );
+static const matec_id test_vector_tech_2( "test_vector_tech_2" );
 static const matype_id test_style_ma1( "test_style_ma1" );
 
 static const species_id species_SLIME( "SLIME" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
+
+static const trait_id trait_DEBUG_TAIL( "DEBUG_TAIL" );
 
 static constexpr tripoint dude_pos( HALF_MAPSIZE_X, HALF_MAPSIZE_Y, 0 );
 
@@ -77,6 +84,53 @@ TEST_CASE( "Martial_art_required_weapon_categories", "[martial_arts]" )
         dude.martial_arts_data->add_martialart( test_style_ma1 );
         dude.martial_arts_data->set_style( test_style_ma1, false );
         CHECK( tec->is_valid_character( dude ) );
+    }
+}
+
+TEST_CASE( "Attack_vector_test", "[martial_arts][limb]" )
+{
+    clear_map();
+    standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
+    clear_character( dude );
+    dude.martial_arts_data->add_martialart( test_style_ma1 );
+    dude.martial_arts_data->set_style( test_style_ma1, false );
+    monster &target_1 = spawn_test_monster( "mon_zombie_fat", dude_pos + tripoint_east );
+    SECTION( "Limb requirements" ) {
+        const matec_id &tec = *test_style_ma1->techniques.find( test_vector_tech_1 );
+        REQUIRE( dude.get_all_body_parts_of_type( body_part_type::type::tail ).empty() );
+        // Can't trigger the tech without a tail
+        CHECK( !dude.evaluate_technique( tec, target_1, dude.used_weapon(), false, false,
+                                         false ) );
+        // Grow a tail, suddenly we can use it
+        dude.toggle_trait( trait_DEBUG_TAIL );
+        REQUIRE( !dude.get_all_body_parts_of_type( body_part_type::type::tail ).empty() );
+        CHECK( dude.evaluate_technique( tec, target_1, dude.used_weapon(), false, false,
+                                        false ) );
+        // Unless our tail breaks
+        REQUIRE( body_part_debug_tail->health_limit == 5 );
+        dude.set_part_hp_cur( body_part_debug_tail, 1 );
+        CHECK( !dude.evaluate_technique( tec, target_1, dude.used_weapon(), false, false,
+                                         false ) );
+        dude.set_part_hp_cur( body_part_debug_tail, 20 );
+        CHECK( dude.evaluate_technique( tec, target_1, dude.used_weapon(), false, false,
+                                        false ) );
+        // Lose our vector limb
+        dude.enchantment_cache->force_add( *enchantment_ENCH_TEST_BIRD_PARTS, dude );
+        dude.recalculate_bodyparts();
+        REQUIRE( !dude.has_part( body_part_hand_l ) );
+        CHECK( !dude.evaluate_technique( tec, target_1, dude.used_weapon(), false, false,
+                                         false ) );
+    }
+    SECTION( "Limb substitution" ) {
+        const matec_id &tec2 = *test_style_ma1->techniques.find( test_vector_tech_2 );
+        // Succeed before changing
+        CHECK( dude.evaluate_technique( tec2, target_1, dude.used_weapon(), false, false,
+                                        false ) );
+        // Beak substitution lets us succeed afterwards
+        dude.enchantment_cache->force_add( *enchantment_ENCH_TEST_BIRD_PARTS, dude );
+        dude.recalculate_bodyparts();
+        CHECK( dude.evaluate_technique( tec2, target_1, dude.used_weapon(), false, false,
+                                        false ) );
     }
 }
 

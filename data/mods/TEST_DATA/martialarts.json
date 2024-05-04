@@ -1,6 +1,37 @@
 [
   {
     "type": "technique",
+    "id": "test_vector_tech_1",
+    "name": "Test Vectors One",
+    "//": "Fails because of missing limbs of type other",
+    "unarmed_allowed": true,
+    "messages": [ "You tail-slap %s", "<npcname> tail-slaps %s" ],
+    "attack_vectors": [ "test_tail_req" ]
+  },
+  {
+    "type": "technique",
+    "id": "test_vector_tech_2",
+    "name": "Test Vectors Two",
+    "//": "Beaks get substituted, succeeds on birdperson",
+    "unarmed_allowed": true,
+    "messages": [ "You peck the %s", "<npcname> pecks the %s" ],
+    "attack_vectors": [ "test_beak" ]
+  },
+  {
+    "type": "attack_vector",
+    "id": "test_tail_req",
+    "limbs": [ "hand_l" ],
+    "contact_area": [ "hand_fingers_l" ],
+    "limb_req": [ [ "tail", 1 ] ]
+  },
+  {
+    "type": "attack_vector",
+    "id": "test_beak",
+    "limbs": [ "mouth" ],
+    "contact_area": [ "mouth_lips" ]
+  },
+  {
+    "type": "technique",
     "id": "test_technique",
     "name": "Test Technique",
     "melee_allowed": true,
@@ -121,7 +152,15 @@
         "weapon_categories_allowed": "KNIVES"
       }
     ],
-    "techniques": [ "test_technique", "test_tech_condition_sweep", "test_tech_condition_stun", "test_tech_condition_knockback" ],
+    "techniques": [
+      "test_technique",
+      "test_tech_condition_sweep",
+      "test_tech_condition_stun",
+      "test_tech_condition_knockback",
+      "test_vector_tech_1",
+      "test_vector_tech_2",
+      "test_vector_tech_3"
+    ],
     "weapon_category": [ "TEST_CAT1" ]
   }
 ]
