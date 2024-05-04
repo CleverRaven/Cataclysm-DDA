@@ -1433,7 +1433,7 @@
   {
     "type": "construction",
     "id": "constr_scrap_floor",
-    "group": "build_scrap_floor_with_roof",
+    "group": "build_scrap_floor_with_roof"
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 5 ] ],
     "time": "90 m",
