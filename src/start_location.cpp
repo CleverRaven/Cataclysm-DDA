@@ -593,7 +593,8 @@ static void add_monsters( const tripoint_abs_omt &omtstart, const mongroup_id &t
     m.load( omtstart, false );
     // map::place_spawns internally multiplies density by rng(10, 50)
     const float density = expected_points / ( ( 10 + 50 ) / 2.0 );
-    m.place_spawns( type, 1, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), density );
+    m.place_spawns( type, 1, point_omt_ms( point_zero ), point_omt_ms( SEEX * 2 - 1, SEEY * 2 - 1 ),
+                    density );
     m.save();
 }
 

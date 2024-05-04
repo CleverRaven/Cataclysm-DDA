@@ -72,7 +72,6 @@
   "attack_vectors": [ "WEAPON", "HAND" ] // What attack vector would be used for this technique; this field is order dependend, meaning in this example the game will try to use WEAPON first, and, if not possible, reject it and will use HAND instead; For more info see Attack vectors below
   "attack_vectors_random": [ "FOOT", "HEAD", "TORSO", "HEAD", "HEAD" ] // same as attack_vectors, but has no priority, and pick random vector from the list; it is used only if all choises from attack_vectors are rejected
   "unarmed_allowed": true,    // Can an unarmed character use this technique
-  "unarmed_weapons_allowed": true,    // Does this technique require the character to be actually unarmed or does it allow unarmed weapons
   "weapon_categories_allowed": [ "BLADES", "KNIVES" ], // Restrict technique to only these categories of weapons. If omitted, all weapon categories are allowed.
   "melee_allowed": true,      // Means that ANY melee weapon can be used, NOT just the martial art's weapons
   "powerful_knockback": true, //
@@ -173,7 +172,6 @@ List of attack vectors is currently hardcoded, and contain:
   "persists": false,                 // Allow buff to remain when changing to a new style
   "unarmed_allowed": true,           // Effect is applied when you have no weapon equipped
   "melee_allowed": true,             // Effect is applied when you have some melee weapon equipped
-  "unarmed_weapons_allowed": true,   // Does this buff require the character to be actually unarmed. If true, allows unarmed weapons (brass knuckles, punch daggers)
   "strictly_unarmed": true,          // Effect is applied only when you have no weapon whatsoever, even unarmed weapon
   "wall_adjacent": true,            // Effect is applied when you stand near the wall
   "weapon_categories_allowed": [ "BLADES", "KNIVES" ], // Restrict buff to only these categories of weapons. If omitted, all weapon categories are allowed.

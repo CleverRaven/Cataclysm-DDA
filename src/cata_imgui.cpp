@@ -35,7 +35,6 @@ struct pairs {
 std::array<RGBTuple, color_loader<RGBTuple>::COLOR_NAMES_COUNT> rgbPalette;
 std::array<pairs, 100> colorpairs;   //storage for pair'ed colored
 
-ImTui::TScreen *imtui_screen = nullptr;
 std::vector<std::pair<int, ImTui::mouse_event>> imtui_events;
 
 cataimgui::client::client()
@@ -44,7 +43,7 @@ cataimgui::client::client()
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
 
-    imtui_screen = ImTui_ImplNcurses_Init();
+    ImTui_ImplNcurses_Init();
     ImTui_ImplText_Init();
 
     ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
@@ -73,7 +72,7 @@ void cataimgui::client::end_frame()
 {
     ImGui::Render();
 
-    ImTui_ImplText_RenderDrawData( ImGui::GetDrawData(), imtui_screen );
+    ImTui_ImplText_RenderDrawData( ImGui::GetDrawData() );
     ImTui_ImplNcurses_DrawScreen();
 }
 
