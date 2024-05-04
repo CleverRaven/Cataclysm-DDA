@@ -3140,6 +3140,11 @@ bool map::has_flag_ter( const ter_furn_flag flag, const tripoint &p ) const
     return ter( p ).obj().has_flag( flag );
 }
 
+bool map::has_flag_ter( const ter_furn_flag flag, const tripoint_bub_ms &p ) const
+{
+    return ter( p ).obj().has_flag( flag );
+}
+
 bool map::has_flag_furn( const ter_furn_flag flag, const tripoint &p ) const
 {
     return furn( p ).obj().has_flag( flag );
@@ -5053,6 +5058,19 @@ std::vector<item *> map::spawn_items( const tripoint_bub_ms &p, const std::vecto
 }
 
 void map::spawn_artifact( const tripoint &p, const relic_procgen_id &id,
+                          const int max_attributes,
+                          const int power_level, const int max_negative_power, const bool is_resonant )
+{
+    relic_procgen_data::generation_rules rules;
+    rules.max_attributes = max_attributes;
+    rules.power_level = power_level;
+    rules.max_negative_power = max_negative_power;
+    rules.resonant = is_resonant;
+
+    add_item_or_charges( p, id->create_item( rules ) );
+}
+
+void map::spawn_artifact( const tripoint_bub_ms &p, const relic_procgen_id &id,
                           const int max_attributes,
                           const int power_level, const int max_negative_power, const bool is_resonant )
 {
@@ -8333,7 +8351,7 @@ void map::rotten_item_spawn( const item &item, const tripoint &pnt )
     if( rng( 0, 100 ) < comest->rot_spawn_chance ) {
         std::vector<MonsterGroupResult> spawn_details = MonsterGroupManager::GetResultFromGroup( mgroup );
         for( const MonsterGroupResult &mgr : spawn_details ) {
-            add_spawn( mgr, pnt );
+            add_spawn( mgr, tripoint_bub_ms( pnt ) );
         }
         if( get_player_view().sees( pnt ) ) {
             if( item.is_seed() ) {
@@ -9136,6 +9154,15 @@ tripoint_range<tripoint> tinymap::points_in_radius(
     const tripoint &center, size_t radius, size_t radiusz ) const
 {
     return map::points_in_radius( center, radius, radiusz );
+}
+
+tripoint_range<tripoint_omt_ms> tinymap::points_in_radius(
+    const tripoint_omt_ms &center, size_t radius, size_t radiusz ) const
+{
+    const tripoint_range<tripoint> preliminary_result = map::points_in_radius( center.raw(), radius,
+            radiusz );
+    return tripoint_range<tripoint_omt_ms>( tripoint_omt_ms( preliminary_result.min() ),
+                                            tripoint_omt_ms( preliminary_result.max() ) );
 }
 
 // set up a map just long enough scribble on it
