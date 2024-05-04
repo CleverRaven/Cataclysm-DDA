@@ -82,6 +82,25 @@
           ]
         },
         "topic": "TALK_EXODII_MERCHANT_Talk_Intro2a"
+      },
+      {
+        "text": "[can i buy riot armor?  I need 5 whole sets]",
+        "condition": {
+          "and": [
+            { "u_has_faction_trust": 2 },
+            { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_GEAR" },
+            { "math": [ "isherwood_gear_status", "<", "1" ] },
+            {
+              "not": { "npc_has_var": "npc_bought_riot_gear", "type": "dialogue", "context": "exodii", "value": "yes" }
+            }
+          ]
+        },
+        "topic": "TALK_EXODII_MERCHANT_You_Buy_Riot_Gear"
+      },
+      {
+        "text": "[i'm here to pay my riot gear off.]",
+        "condition": { "u_has_mission": "MISSION_EXODII_PAY_BACK_RIOT_GEAR" },
+        "topic": "TALK_EXODII_MERCHANT_You_Buy_Riot_Gear_Payback"
       }
     ]
   },
@@ -1296,6 +1315,81 @@
     "responses": [
       { "text": "I've got some stuff I'd like to install.", "topic": "TALK_DONE", "effect": "bionic_install" },
       { "text": "Would you be able to take out one of my implants?", "topic": "TALK_DONE", "effect": "bionic_remove" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_You_Buy_Riot_Gear",
+    "type": "talk_topic",
+    "dynamic_line": "[yeah i think we got some that'll be $400]",
+    "responses": [
+      {
+        "text": "[deal]",
+        "effect": [
+          {
+            "u_spend_cash": 40000,
+            "true_eocs": {
+              "id": "exodii_buy_riot_gear_success",
+              "effect": [
+                { "u_spawn_item": "armor_riot", "count": 5 },
+                { "u_spawn_item": "helmet_riot", "count": 5 },
+                { "u_spawn_item": "armor_riot_arm", "count": 5 },
+                { "u_spawn_item": "armor_riot_leg", "count": 5 },
+                { "npc_add_var": "npc_bought_riot_gear", "type": "dialogue", "context": "exodii", "value": "yes" }
+              ]
+            }
+          }
+        ],
+        "topic": "TALK_EXODII_MERCHANT_Talk"
+      },
+      {
+        "text": "[ayo I aint got that cash can I buy on credit?]",
+        "topic": "TALK_EXODII_MERCHANT_You_Buy_Riot_Gear_On_Credit"
+      },
+      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_You_Buy_Riot_Gear_On_Credit",
+    "type": "talk_topic",
+    "dynamic_line": "[okie dokie you got 20 days to pay me back.]",
+    "responses": [
+      {
+        "text": "[thanks bro.]",
+        "effect": [
+          { "u_spawn_item": "armor_riot", "count": 5 },
+          { "u_spawn_item": "helmet_riot", "count": 5 },
+          { "u_spawn_item": "armor_riot_arm", "count": 5 },
+          { "u_spawn_item": "armor_riot_leg", "count": 5 },
+          { "assign_mission": "MISSION_EXODII_PAY_BACK_RIOT_GEAR" },
+          { "npc_add_var": "npc_bought_riot_gear", "type": "dialogue", "context": "exodii", "value": "yes" }
+        ],
+        "topic": "TALK_EXODII_MERCHANT_Talk"
+      },
+      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_You_Buy_Riot_Gear_Payback",
+    "type": "talk_topic",
+    "dynamic_line": "[okay bro show me what u got.]",
+    "responses": [
+      {
+        "text": "[here it is]",
+        "effect": [
+          {
+            "u_spend_cash": 40000,
+            "true_eocs": {
+              "id": "exodii_pay_back_riot_gear_success",
+              "effect": [ { "finish_mission": "MISSION_EXODII_PAY_BACK_RIOT_GEAR", "success": true } ]
+            }
+          }
+        ],
+        "topic": "TALK_EXODII_MERCHANT_Talk"
+      },
+      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
   }
 ]
