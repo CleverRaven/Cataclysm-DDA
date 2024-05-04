@@ -3407,8 +3407,7 @@ units::mass vehicle::weight_on_wheels() const
     units::mass animal_mass = 0_gram;
     for( const int e : engines ) {
         const vehicle_part &vp = parts[e];
-        if( vp.info().fuel_type == fuel_type_animal )
-        {
+        if( vp.info().fuel_type == fuel_type_animal ) {
             monster *mon = get_monster( e );
             if( mon != nullptr && mon->has_effect( effect_harnessed ) ) {
                 animal_mass += mon->get_weight();
