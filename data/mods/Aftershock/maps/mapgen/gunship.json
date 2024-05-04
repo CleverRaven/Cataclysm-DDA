@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "afs_bounty_hunter_gunship" ],
+    "update_mapgen_id": "afs_bounty_hunter_gunship",
     "weight": 10,
     "object": {
       "predecessor_mapgen": "field",
