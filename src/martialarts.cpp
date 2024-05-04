@@ -1474,14 +1474,14 @@ std::optional<std::pair<attack_vector_id, sub_bodypart_str_id>>
         bool reqs = true;
         for( const std::pair<body_part_type::type, int> &req : vec->limb_req ) {
             int count = 0;
-            add_msg_debug( debugmode::DF_MELEE, "Checking limb requirements" );
             for( const bodypart_id &bp : user.get_all_body_parts_of_type( req.first ) ) {
                 if( user.get_part_hp_cur( bp ) > bp->health_limit ) {
                     count++;
                 }
             }
             if( count < req.second ) {
-                add_msg_debug( debugmode::DF_MELEE, "%d matching limbs found from %d req, vector discarded", count,
+                add_msg_debug( debugmode::DF_MELEE,
+                               "Limb type requirements: %d matching limbs found from %d req, vector discarded", count,
                                req.second );
                 reqs = false;
                 break;
@@ -1494,15 +1494,16 @@ std::optional<std::pair<attack_vector_id, sub_bodypart_str_id>>
         // Smilar bodyparts get appended to the vector limb list in the finalization step
         // So we just need to check if we have a limb, a contact area sublimb and tally up the damages
         std::vector<std::pair<sub_bodypart_str_id, float>> calc_vector;
-        for( const bodypart_id &bp_id : vec->limbs ) {
-            const bodypart_str_id &bp = bp_id.id();
+        for( const bodypart_str_id &bp : vec->limbs ) {
+            //const bodypart_str_id &bp = bp_id.id();
             if( std::find( anat.begin(), anat.end(), bp ) != anat.end() ) {
                 add_msg_debug( debugmode::DF_MELEE, "Evaluating limb %s for vector %s", bp->name, vec.c_str() );
                 // Filter on limb flags early
                 bool allowed = true;
                 for( const json_character_flag &req : vec->required_limb_flags ) {
                     if( !bp->has_flag( req ) ) {
-                        add_msg_debug( debugmode::DF_MELEE, "Required limb flag %s not found on limb %s", req.c_str(),
+                        add_msg_debug( debugmode::DF_MELEE, "Required limb flag %s not found on limb %s, limb discarded",
+                                       req.c_str(),
                                        bp->name );
                         allowed = false;
                         break;
@@ -1510,14 +1511,14 @@ std::optional<std::pair<attack_vector_id, sub_bodypart_str_id>>
                 }
                 for( const json_character_flag &forb : vec->forbidden_limb_flags ) {
                     if( bp->has_flag( forb ) ) {
-                        add_msg_debug( debugmode::DF_MELEE, "Forbidden limb flag %s found on limb %s", forb.c_str(),
+                        add_msg_debug( debugmode::DF_MELEE, "Forbidden limb flag %s found on limb %s, limb discarded",
+                                       forb.c_str(),
                                        bp->name );
                         allowed = false;
                         break;
                     }
                 }
                 if( !allowed ) {
-                    add_msg_debug( debugmode::DF_MELEE, "Limb %s disqualified for vector %s", bp->name, vec.c_str() );
                     continue;
                 }
 
@@ -1532,8 +1533,6 @@ std::optional<std::pair<attack_vector_id, sub_bodypart_str_id>>
                     for( const sub_bodypart_str_id &sbp : bp->sub_parts ) {
                         if( std::find( vec->contact_area.begin(), vec->contact_area.end(),
                                        sbp ) != vec->contact_area.end() ) {
-                            add_msg_debug( debugmode::DF_MELEE, "Contact area sbp %s on bodypart %s found", sbp->name,
-                                           bp->name );
                             current_contact = sbp;
                             break;
                         }
@@ -1552,7 +1551,7 @@ std::optional<std::pair<attack_vector_id, sub_bodypart_str_id>>
                 }
             }
         }
-        if( calc_vector.size() == 0 ) {
+        if( calc_vector.empty() ) {
             add_msg_debug( debugmode::DF_MELEE, "Vector %s found no eligable bodyparts, discarding",
                            vec.c_str() );
             continue;
@@ -1563,7 +1562,6 @@ std::optional<std::pair<attack_vector_id, sub_bodypart_str_id>>
         const std::pair<sub_bodypart_str_id, float> &b ) {
             return a.second < b.second;
         } );
-        int i = 0;
         list.add( vec, calc_vector.rbegin()->second );
         storage.emplace_back( vec, calc_vector.rbegin()->first );
         add_msg_debug( debugmode::DF_MELEE,
@@ -1578,7 +1576,6 @@ std::optional<std::pair<attack_vector_id, sub_bodypart_str_id>>
         for( auto &iterate : storage ) {
             if( iterate.first == ret ) {
                 return_set = iterate;
-                add_msg_debug( debugmode::DF_MELEE, "Return vector %s found in storage", return_set.first.c_str() );
                 break;
             }
         }
