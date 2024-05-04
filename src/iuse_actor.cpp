@@ -449,11 +449,11 @@ void iuse_transform::info( const item &it, std::vector<iteminfo> &dump ) const
                                string_format( _( "%s (%d %s)" ), dummy.tname(), amount, ammo_type->nname( amount ) ) );
         } else if( !container.is_empty() ) {
             dump.emplace_back( "TOOL", _( "<bold>Turns into</bold>: " ),
-                                           amount > 1 ?
-                                           string_format( _( "%s (%d %s)" ),
-                                                          container->nname( 1 ), amount, target->nname( amount ) ) :
-                                           string_format( _( "%s (%s)" ),
-                                                          container->nname( 1 ), target->nname( amount ) ) );
+                               amount > 1 ?
+                               string_format( _( "%s (%d %s)" ),
+                                              container->nname( 1 ), amount, target->nname( amount ) ) :
+                               string_format( _( "%s (%s)" ),
+                                              container->nname( 1 ), target->nname( amount ) ) );
         } else {
             dump.emplace_back( "TOOL", _( "<bold>Turns into</bold>: " ),
                                string_format( _( "%s (%d)" ), target->nname( amount ), amount ) );
