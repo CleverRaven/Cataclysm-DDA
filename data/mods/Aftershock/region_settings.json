@@ -21,7 +21,6 @@
       "road": {
         "chance": 75,
         "extras": {
-          "mx_truth_reconciliation": 1,
           "mx_gunship": 10,
           "mx_helicopter": 10,
           "mx_military": 50,
