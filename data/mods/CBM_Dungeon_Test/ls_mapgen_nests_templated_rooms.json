@@ -117,7 +117,7 @@
         "!|UUUU||vv....vvv||ṪṪṪ|!",
         "!||||||vvv....vvvv|||||!"
       ],
-      "palettes": [ "labyrinthine_base_palette" ]
+      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_bunk_room_tier0" ]
     }
   },
   {
@@ -313,7 +313,12 @@
         "U_ßß_U          U____U",
         "UUṪṪUU          UUU_UU"
       ],
-      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_utility_tier0" ],
+      "palettes": [
+        "labyrinthine_base_palette",
+        {
+          "distribution": [ [ "labyrinthine_item_palette_utility_tier0", 2 ], "labyrinthine_item_palette_dining_tier0" ]
+        }
+      ],
       "monsters": { "1": { "monster": "GROUP_Labyrinth_Turret", "density": 0.01 } }
     }
   },
@@ -390,7 +395,7 @@
         "1_____          _____1",
         "1L((L_          _L((L1"
       ],
-      "palettes": [ "labyrinthine_base_palette" ],
+      "palettes": [ "labyrinthine_base_palette", "labyrinthine_item_palette_dining_tier0" ],
       "monsters": { "1": { "monster": "GROUP_Labyrinth_Turret", "density": 0.01 } }
     }
   },

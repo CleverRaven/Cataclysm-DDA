@@ -51,6 +51,7 @@
       "c": { "item": "LS_SUS_crate_tier0_materials", "chance": 75 },
       "C": { "item": "LS_SUS_crate_tier0_machineparts", "chance": 75 },
       "U": { "item": "LS_SUS_shelf_tier0_tools", "chance": 35 },
+      "l": { "item": "LS_SUS_shelf_tier0_tools", "chance": 55 },
       "Ṫ": { "item": "LS_SUS_table_items_workspace", "chance": 25 }
     }
   },

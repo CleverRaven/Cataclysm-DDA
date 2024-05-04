@@ -128,9 +128,16 @@
       { "item": "ceramic_bowl" },
       { "item": "wine_glass" },
       { "item": "ceramic_mug" },
-      { "item": "pot", "prob": 50 },
-      { "item": "bone", "prob": 40 }
+      { "item": "pot" },
+      { "item": "bone" }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "LS_SUS_table_items_bunk_room",
+    "//": "Incomplete.  Make tables look interesting.",
+    "subtype": "distribution",
+    "entries": [ { "item": "emer_blanket" }, { "item": "scrap" }, { "item": "ceramic_mug" }, { "item": "bone" } ]
   },
   {
     "type": "item_group",
