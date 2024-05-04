@@ -1323,7 +1323,6 @@ dealt_projectile_attack Character::throw_item( const tripoint &target, const ite
         const std::optional<tripoint> &blind_throw_from_pos )
 {
     // Copy the item, we may alter it before throwing
-	debugmsg("%s throwing item %s", disp_name(), to_throw.tname()  );
     item thrown = to_throw;
 
     const int move_cost = throw_cost( *this, to_throw );
