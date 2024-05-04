@@ -236,7 +236,7 @@ class game
         };
         /* Add callback that would be called in `game::draw`. This can be used to
          * implement map overlays in game menus. If parameters of the callback changes
-         * during its lifetime, `invaliate_main_ui_adaptor` has to be called for
+         * during its lifetime, `invalidate_main_ui_adaptor` has to be called for
          * the changes to take effect immediately on the next call to `ui_manager::redraw`.
          * Otherwise the callback may not take effect until the main ui is invalidated
          * due to resizing or other menus closing. The callback is disabled once all

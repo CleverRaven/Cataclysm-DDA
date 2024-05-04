@@ -769,7 +769,8 @@ static void field_processor_monster_spawn( const tripoint &p, field_entry &cur,
                 [&pd]( const tripoint & n ) {
                 return pd.here.passable( n );
                 } ) ) {
-                    pd.here.add_spawn( mgr, *spawn_point );
+                    const tripoint_bub_ms pt = tripoint_bub_ms( spawn_point.value() );
+                    pd.here.add_spawn( mgr, pt );
                 }
             }
         }
