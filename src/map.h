@@ -1788,7 +1788,7 @@ class map
         // tripoint_abs_omt coordinate guarantees this will be fulfilled.
         void generate( const tripoint_abs_omt &p, const time_point &when );
         void place_spawns( const mongroup_id &group, int chance,
-                           const point_bub_ms &p1, const point_bub_ms &p2, float density,
+                           const point_bub_ms &p1, const point_bub_ms &p2, const int z_level, float density,
                            bool individual = false, bool friendly = false,
                            const std::optional<std::string> &name = std::nullopt,
                            int mission_id = -1 );
@@ -2450,11 +2450,12 @@ class tinymap : private map
         using map::main_cleanup_override;
         using map::generate;
         void place_spawns( const mongroup_id &group, int chance,
-                           const point_omt_ms &p1, const point_omt_ms &p2, float density,
+                           const point_omt_ms &p1, const point_omt_ms &p2, const int z_level, float density,
                            bool individual = false, bool friendly = false,
                            const std::optional<std::string> &name = std::nullopt,
                            int mission_id = -1 ) {
-            map::place_spawns( group, chance, rebase_bub( p1 ), rebase_bub( p2 ), density, individual, friendly,
+            map::place_spawns( group, chance, rebase_bub( p1 ), rebase_bub( p2 ), z_level, density, individual,
+                               friendly,
                                name, mission_id );
         }
         void add_spawn( const mtype_id &type, int count, const tripoint_omt_ms &p,

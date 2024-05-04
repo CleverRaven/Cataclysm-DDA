@@ -406,9 +406,9 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
                     const tripoint_bub_ms pos = vp.pos_bub();
                     // Spawn pilots in seats with controls.CTRL_ELECTRONIC
                     if( controls_at( wreckage, pos ) ) {
-                        m.place_spawns( GROUP_MIL_PILOT, 1, pos.xy(), pos.xy(), 1, true );
+                        m.place_spawns( GROUP_MIL_PILOT, 1, pos.xy(), pos.xy(), pos.z(), 1, true );
                     } else {
-                        m.place_spawns( GROUP_MIL_PASSENGER, 1, pos.xy(), pos.xy(), 1, true );
+                        m.place_spawns( GROUP_MIL_PASSENGER, 1, pos.xy(), pos.xy(), pos.z(), 1, true );
                     }
                     delete_items_at_mount( *wreckage, vp.mount() ); // delete corpse items
                 }
@@ -420,9 +420,9 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
                     const tripoint_bub_ms pos = vp.pos_bub();
                     // Spawn pilots in seats with controls.
                     if( controls_at( wreckage, pos ) ) {
-                        m.place_spawns( GROUP_MIL_PILOT, 1, pos.xy(), pos.xy(), 1, true );
+                        m.place_spawns( GROUP_MIL_PILOT, 1, pos.xy(), pos.xy(), pos.z(), 1, true );
                     } else {
-                        m.place_spawns( GROUP_MIL_WEAK, 2, pos.xy(), pos.xy(), 1, true );
+                        m.place_spawns( GROUP_MIL_WEAK, 2, pos.xy(), pos.xy(), pos.z(), 1, true );
                     }
                     delete_items_at_mount( *wreckage, vp.mount() ); // delete corpse items
                 }
@@ -431,7 +431,7 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
                 // Just pilots
                 for( const vpart_reference &vp : wreckage->get_any_parts( VPFLAG_CONTROLS ) ) {
                     const tripoint_bub_ms pos = vp.pos_bub();
-                    m.place_spawns( GROUP_MIL_PILOT, 1, pos.xy(), pos.xy(), 1, true );
+                    m.place_spawns( GROUP_MIL_PILOT, 1, pos.xy(), pos.xy(), pos.z(), 1, true );
                     delete_items_at_mount( *wreckage, vp.mount() ); // delete corpse items
                 }
                 break;
@@ -1037,14 +1037,15 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
                 }
             }
             //50% chance to spawn pouf-maker
-            m.place_spawns( GROUP_FUNGI_FUNGALOID, 2, p + point_north_west, p + point_south_east, 1, true );
+            m.place_spawns( GROUP_FUNGI_FUNGALOID, 2, p + point_north_west, p + point_south_east,
+                            portal_location.z(), 1, true );
             break;
         }
         //Netherworld monsters spawning around the portal
         case 2: {
             m.add_field( portal_location, fd_reality_tear, 3 );
             for( const tripoint_bub_ms &loc : m.points_in_radius( portal_location, 5 ) ) {
-                m.place_spawns( GROUP_NETHER_PORTAL, 15, loc.xy(), loc.xy(), 1, true );
+                m.place_spawns( GROUP_NETHER_PORTAL, 15, loc.xy(), loc.xy(), loc.z(), 1, true );
             }
             break;
         }
@@ -1144,7 +1145,8 @@ static bool mx_jabberwock( map &m, const tripoint &/*loc*/ )
     // into the monster group, but again the hardcoded rarity it had in the forest mapgen was
     // not easily replicated there.
     if( one_in( 50 ) ) {
-        m.place_spawns( GROUP_JABBERWOCK, 1, point_bub_ms( point_zero ), { SEEX * 2, SEEY * 2 }, 1, true );
+        m.place_spawns( GROUP_JABBERWOCK, 1, point_bub_ms( point_zero ), { SEEX * 2, SEEY * 2 },
+                        m.get_abs_sub().z(), 1, true );
         return true;
     }
 
@@ -1267,7 +1269,8 @@ static bool mx_pond( map &m, const tripoint &abs_sub )
         }
     }
 
-    m.place_spawns( GROUP_FISH, 1, point_bub_ms( point_zero ), point_bub_ms( width, height ), 0.15f );
+    m.place_spawns( GROUP_FISH, 1, point_bub_ms( point_zero ), point_bub_ms( width, height ), abs_sub.z,
+                    0.15f );
     return true;
 }
 
@@ -2064,7 +2067,7 @@ static bool mx_corpses( map &m, const tripoint &abs_sub )
         for( const tripoint_bub_ms &loc : m.points_in_radius( corpse_location, 1 ) ) {
             if( one_in( 2 ) ) {
                 m.add_field( { loc.xy(), abs_sub.z }, fd_gibs_flesh, rng( 1, 3 ) );
-                m.place_spawns( GROUP_STRAY_DOGS, 1, loc.xy(), loc.xy(), 1, true );
+                m.place_spawns( GROUP_STRAY_DOGS, 1, loc.xy(), loc.xy(), loc.z(), 1, true );
             }
         }
     }
@@ -2140,6 +2143,7 @@ static bool mx_fungal_zone( map &m, const tripoint &abs_sub )
     m.place_spawns( GROUP_FUNGI_FUNGALOID, 1,
                     suitable_location.xy() + point_north_west,
                     suitable_location.xy() + point_south_east,
+                    suitable_location.z(),
                     3, true );
     return true;
 }
