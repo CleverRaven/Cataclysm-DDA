@@ -3901,9 +3901,20 @@ static window_dimensions get_window_dimensions( const catacurses::window &win,
     // the window position is *always* in standard font dimensions!
     dim.window_pos_pixel = point( dim.window_pos_cell.x * fontwidth,
                                   dim.window_pos_cell.y * fontheight );
-    // But the size of the window is in the font dimensions of the window.
-    dim.window_size_pixel.x = dim.window_size_cell.x * dim.scaled_font_size.x;
-    dim.window_size_pixel.y = dim.window_size_cell.y * dim.scaled_font_size.y;
+    // But the size of the window might not be.
+    if( use_tiles && g && win == g->w_terrain ) {
+        // The terrain GUI has special size during rendering.
+        dim.window_size_pixel.x = TERRAIN_WINDOW_TERM_WIDTH * fontwidth;
+        dim.window_size_pixel.y = TERRAIN_WINDOW_TERM_HEIGHT * fontheight;
+    } else if( use_tiles && use_tiles_overmap && g && win == g->w_overmap ) {
+        // The overmap GUI has special size during rendering.
+        dim.window_size_pixel.x = OVERMAP_WINDOW_TERM_WIDTH * fontwidth;
+        dim.window_size_pixel.y = OVERMAP_WINDOW_TERM_HEIGHT * fontheight;
+    } else {
+        // Otherwise, the window size corresponds to the window font size.
+        dim.window_size_pixel.x = dim.window_size_cell.x * dim.scaled_font_size.x;
+        dim.window_size_pixel.y = dim.window_size_cell.y * dim.scaled_font_size.y;
+    }
 
     return dim;
 }
