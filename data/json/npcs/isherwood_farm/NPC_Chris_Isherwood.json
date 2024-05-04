@@ -56,8 +56,8 @@
         "text": "Have you had any ideas for what your family could do?",
         "condition": {
           "and": [
-            { "math": [ "npc_timer_thinking_about_plan", "==", "time('1 h')" ] },
-            { "math": [ "isherwood_barry_rescued", "!=", "1" ] }
+            { "math": [ "npc_timer_thinking_about_plan", ">=", "time('1 h')" ] },
+            { "math": [ "isherwood_barry_rescued", "==", "0" ] }
           ]
         },
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN"
@@ -68,10 +68,23 @@
           "and": [
             { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" },
             { "math": [ "isherwood_family_coming", "==", "0" ] },
-            { "math": [ "isherwood_barry_rescued", "!=", "1" ] }
+            { "math": [ "isherwood_barry_rescued", "!=", "1" ] },
+            { "math": [ "npc_isherwood_barry_rescue_attempts", ">=", "1" ] }
           ]
         },
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_CHRIS_JOINS"
+      },
+      {
+        "text": "Do you think we're ready to try this again?",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" },
+            { "math": [ "isherwood_family_coming", "==", "1" ] },
+            { "math": [ "isherwood_barry_rescued", "!=", "1" ] },
+            { "math": [ "npc_isherwood_barry_rescue_attempts", ">=", "1" ] }
+          ]
+        },
+        "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN2"
       },
       {
         "text": "[i got cop gear to turn over]",
@@ -112,7 +125,20 @@
       },
       {
         "text": "[LIE: someone took cop gear before I could. sorry]",
-        "condition": { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_GEAR" },
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_GEAR" },
+            {
+              "and": [
+                { "not": { "math": [ "isherwood_gear_retrival_armor_body_count", ">=", "1" ] } },
+                { "not": { "math": [ "isherwood_gear_retrival_helmet_count", ">=", "1" ] } },
+                { "not": { "math": [ "isherwood_gear_retrival_armor_arm_count", ">=", "1" ] } },
+                { "not": { "math": [ "isherwood_gear_retrival_armor_leg_count", ">=", "1" ] } }
+              ]
+            },
+            { "math": [ "isherwood_gear_status", "<", "1" ] }
+          ]
+        },
         "effect": { "finish_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_GEAR", "success": false },
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Fail"
       },
@@ -125,7 +151,10 @@
             { "math": [ "isherwood_wall_status", "<", "1" ] }
           ]
         },
-        "effect": { "finish_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_WALL_BAGS", "success": true },
+        "effect": [
+          { "u_sell_item": "bag_canvas", "count": 20 },
+          { "finish_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_WALL_BAGS", "success": true }
+        ],
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Wall_Done"
       },
       {
@@ -265,7 +294,9 @@
       {
         "text": "Yeah, I think we should work together on this.  Do you mind if I take the lead?  I've probably got more experience.",
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_CHRIS_JOINS"
-      }
+      },
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -274,7 +305,9 @@
     "dynamic_line": "*looks at you with obvious doubt.  \"You sure you know what you're getting into?  I can't stop you if you plan on going in solo, but it seems like a terrible idea.  Those things mean business.  I won't be able to go in and help you if you get trapped too.  It's probably better we pair up.\"",
     "responses": [
       { "text": "Trust me.  See you in a bit.", "topic": "TALK_DONE" },
-      { "text": "If you insist, yeah, we could team up.", "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_CHRIS_JOINS" }
+      { "text": "If you insist, yeah, we could team up.", "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_CHRIS_JOINS" },
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -289,7 +322,9 @@
       {
         "text": "It's all right.  We've got this, you get things ready for when we return with Barry.",
         "topic": "TALK_DONE"
-      }
+      },
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -299,7 +334,11 @@
     "responses": [
       {
         "text": "All right.  Let's kick some alien butt.",
-        "effect": [ { "math": [ "isherwood_family_coming", "=", "0" ] } ],
+        "effect": [
+          { "math": [ "isherwood_family_coming", "=", "0" ] },
+          { "run_eocs": "isherwood_mission_initialization_eoc" },
+          { "math": [ "npc_isherwood_barry_rescue_attempts", "++" ] }
+        ],
         "topic": "TALK_DONE"
       },
       {
@@ -309,7 +348,9 @@
       {
         "text": "You mentioned that Carlos, Eddie and Luke probably can't help in a firefight.  Is there any other way we could use them?",
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_THE_ISHERWOODS"
-      }
+      },
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -326,7 +367,16 @@
         "text": "You mentioned that Carlos, Eddie and Luke probably can't help in a firefight.  Is there any other way we could use them?",
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_THE_ISHERWOODS"
       },
-      { "text": "Well, I guess it's just us.  Let's go.", "topic": "TALK_DONE" }
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
+      {
+        "text": "Well, I guess it's just us.  Let's go.",
+        "effect": [
+          { "math": [ "isherwood_family_coming", "=", "0" ] },
+          { "run_eocs": "isherwood_mission_initialization_eoc" },
+          { "math": [ "npc_isherwood_barry_rescue_attempts", "++" ] }
+        ],
+        "topic": "TALK_DONE"
+      }
     ]
   },
   {
@@ -345,11 +395,14 @@
         "text": "You mentioned that Carlos, Eddie and Luke probably can't help in a firefight.  Is there any other way we could use them?",
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_THE_ISHERWOODS"
       },
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
       {
         "text": "All right.  Let's kick some alien butt.",
         "effect": [
           { "math": [ "isherwood_family_coming", "=", "0" ] },
-          { "queue_eocs": "isherwood_mission_lisa_coming", "time_in_future": "1 hour" }
+          { "queue_eocs": "isherwood_mission_lisa_coming", "time_in_future": "1 hour" },
+          { "run_eocs": "isherwood_mission_initialization_eoc" },
+          { "math": [ "npc_isherwood_barry_rescue_attempts", "++" ] }
         ],
         "topic": "TALK_DONE"
       },
@@ -376,6 +429,7 @@
         "text": "Is there anyone else around here that could help us?",
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_TAKE_LISA"
       },
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
       { "text": "OK.  Let's talk about it again in a bit.", "topic": "TALK_DONE" }
     ]
   },
@@ -412,7 +466,9 @@
           ]
         },
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Wall"
-      }
+      },
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -422,7 +478,11 @@
     "responses": [
       {
         "text": "Let's go get your uncle back.",
-        "effect": [ { "math": [ "isherwood_family_coming", "=", "1" ] }, { "run_eocs": "isherwood_mission_initialization_eoc" } ],
+        "effect": [
+          { "math": [ "isherwood_family_coming", "=", "1" ] },
+          { "run_eocs": "isherwood_mission_initialization_eoc" },
+          { "math": [ "npc_isherwood_barry_rescue_attempts", "++" ] }
+        ],
         "topic": "TALK_DONE"
       },
       {
@@ -443,7 +503,9 @@
           ]
         },
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Wall"
-      }
+      },
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -456,7 +518,9 @@
         "text": "[yeah bro i'll do it]",
         "effect": { "assign_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_GEAR" },
         "topic": "TALK_DONE"
-      }
+      },
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -507,27 +571,34 @@
         "effect": { "finish_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_GEAR", "success": true },
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Done"
       },
-      { "text": "That's all for now. Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS" },
-      { "text": "That's all for now. I'll see you later.", "topic": "TALK_DONE" }
+      { "text": "That's all for now.  Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
+      { "text": "That's all for now.  I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Done",
     "dynamic_line": "[sweet now we beefed up.]",
-    "responses": [ { "text": "[woo hoo]", "topic": "TALK_DONE" } ]
+    "responses": [
+      { "text": "[woo hoo]  Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
+      { "text": "[woo hoo]", "topic": "TALK_DONE" }
+    ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Fail",
     "dynamic_line": "[aw shucks that's bad. now no sweet armor.]",
-    "responses": [ { "text": "[sorry]", "topic": "TALK_DONE" } ]
+    "responses": [
+      { "text": "Sorry.  Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
+      { "text": "[sorry]", "topic": "TALK_DONE" }
+    ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Wall",
     "dynamic_line": "[yeah bro that sounds sweet. I got a plan Dutch, get 20 canvas bags 4 me. I get traps and we lay a wall with da truck]",
     "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
       { "text": "[nah bro let's not bother]", "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Cancel" },
       {
         "text": "[yeah bro i'll do it]",
@@ -540,7 +611,10 @@
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Wall_Done",
     "dynamic_line": "[sweet now we get something between us.  Give me 1 day and we ready]",
-    "responses": [ { "text": "[woo hoo]", "topic": "TALK_DONE" } ]
+    "responses": [
+      { "text": "[woo hoo]  Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
+      { "text": "[woo hoo]", "topic": "TALK_DONE" }
+    ]
   },
   {
     "type": "talk_topic",
@@ -549,7 +623,7 @@
     "responses": [
       {
         "text": "All right.  Let's kick some alien butt.",
-        "effect": [ { "run_eocs": "isherwood_mission_initialization_eoc" } ],
+        "effect": [ { "run_eocs": "isherwood_mission_initialization_eoc" }, { "math": [ "npc_isherwood_barry_rescue_attempts", "++" ] } ],
         "topic": "TALK_DONE"
       },
       {
@@ -559,7 +633,9 @@
       {
         "text": "You mentioned that Carlos, Eddie and Luke probably can't help in a firefight.  Is there any other way we could use them?",
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_THE_ISHERWOODS"
-      }
+      },
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -628,7 +704,12 @@
     "goal": "MGOAL_NULL",
     "difficulty": 1,
     "value": 0,
-    "end": { "effect": { "queue_eocs": "isherwood_mission_wall_finished", "time_in_future": "24 hours" } },
+    "end": {
+      "effect": [
+        { "queue_eocs": "isherwood_mission_wall_finished", "time_in_future": "24 hours" },
+        { "math": [ "isherwood_wall_status", "++" ] }
+      ]
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "//": "Dialogue for this mission is handled externally.",
