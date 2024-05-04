@@ -105,7 +105,7 @@
     "name": { "str": "Life Drain" },
     "description": "When even the grass rises against you, what hope do you have?",
     "flags": [ "NO_EXPLOSION_SFX" ],
-    "valid_targets": [ "ground", "hostile" ],
+    "valid_targets": [ "hostile" ],
     "shape": "blast",
     "min_accuracy": 20,
     "max_accuracy": 20,
