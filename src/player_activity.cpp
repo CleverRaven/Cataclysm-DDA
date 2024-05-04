@@ -50,6 +50,7 @@ static const activity_id ACT_NULL( "ACT_NULL" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
 static const activity_id ACT_PICKUP_MENU( "ACT_PICKUP_MENU" );
 static const activity_id ACT_READ( "ACT_READ" );
+static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 static const activity_id ACT_VIEW_RECIPE( "ACT_VIEW_RECIPE" );
@@ -196,6 +197,11 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
 
                 extra_info = string_format( "%d%%", percentage );
             }
+        }
+
+        if( type == ACT_SPELLCASTING ) {
+            const std::string spell_name = u.magic->get_spell( spell_id( name ) ).name();
+            extra_info = string_format( "%s …", spell_name );
         }
     }
 
