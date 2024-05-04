@@ -361,7 +361,7 @@
   {
     "id": "medical_cart",
     "type": "vehicle",
-    "name": "Surgical Cart",
+    "name": "Medical Cart",
     "blueprint": [ "#" ],
     "parts": [ { "x": 0, "y": 0, "parts": [ "xlframe#vertical_2", "wheel_caster", "metal_tray" ] } ]
   }
