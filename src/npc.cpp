@@ -3804,8 +3804,11 @@ void npc::update_missions_target( character_id old_character, character_id new_c
 
 const dialogue_chatbin_snippets &npc::chat_snippets() const
 {
+    if( idz.is_null() ) {
         static dialogue_chatbin_snippets dummy;
         return dummy;
+    }
+    return idz->snippets;
 }
 
 std::unique_ptr<talker> get_talker_for( npc &guy )
