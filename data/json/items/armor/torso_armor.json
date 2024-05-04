@@ -2178,7 +2178,7 @@
     "type": "ARMOR",
     "copy-from": "lc_mirror_armor",
     "name": { "str": "tempered steel mirror armor", "str_pl": "sets of tempered steel mirror armor" },
-    "description": "Mirror armor earns its name from its distinct shape and polished sheen.  Round and rectangular steel plates are fastened together to protect all four sides of the torso.  It can be worn on top of other armor like chainmail and brigandines.  Masterfully crafted with tempered steel, this set features a prominent circular plate on the front that has been polished to a mirrorlike sheen, flanked with supporting plates intricately joined to fit the body, all painstakingly decorated.  Will protect you from serious harm, as well as from the evil gazes of the undead.",
+    "description": "Mirror armor earns its name from its distinct shape and polished sheen.  Round and rectangular steel plates are fastened together to protect all four sides of the torso.  It can be worn on top of other armor like chainmail and brigandines.  Masterfully crafted with tempered steel, this set features a prominent circular plate on the front that has been polished to a mirrorlike sheen, flanked with supporting plates intricately joined to fit the body, all meticulously decorated.  Will protect you from serious harm, as well as from the evil gazes of the undead.",
     "replace_materials": { "lc_steel": "qt_steel" }
   },
   {
