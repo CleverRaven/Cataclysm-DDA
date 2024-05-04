@@ -727,7 +727,10 @@ npc_attack_rating npc_attack_throw::evaluate(
         // please don't throw your pants...
         return effectiveness;
     }
-    if( &thrown_item == source.evaluate_best_weapon() ) {
+    const inventory &available_weapons = source.crafting_inventory( -1 );
+    if( &thrown_item == source.evaluate_best_weapon() &&
+        available_weapons.amount_of( thrown_item.typeId() ) <= 1 &&
+        available_weapons.charges_of( thrown_item.typeId() ) <= 1 ) {
         // Don't throw if it's the best individual killy-thing we've got
         return effectiveness;
     }

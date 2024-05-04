@@ -225,7 +225,7 @@ TEST_CASE( "NPC_faces_zombies", "[npc_attack]" )
         }
 
         WHEN( "NPC only has a bunch of rocks" ) {
-            item weapon( "rock" );
+            item weapon( "rock", calendar::turn, 5 );
             main_npc.set_wielded_item( weapon );
             REQUIRE( main_npc.get_wielded_item()->typeId() == itype_rock );
 
