@@ -1888,8 +1888,7 @@ class map
         // TODO: fix point types (remove the first overload)
         tripoint_bub_ms bub_from_abs( const tripoint &p ) const;
         tripoint_bub_ms bub_from_abs( const tripoint_abs_ms &p ) const;
-        // TODO: fix point types (remove the first overload)
-        virtual bool inbounds( const tripoint &p ) const;
+        bool inbounds( const tripoint &p ) const;
         bool inbounds( const tripoint_bub_ms &p ) const;
         bool inbounds( const tripoint_abs_ms &p ) const;
         bool inbounds( const tripoint_abs_sm &p ) const {
@@ -1897,11 +1896,12 @@ class map
         }
         bool inbounds( const tripoint_abs_omt &p ) const;
         bool inbounds( const point &p ) const {
-            return inbounds( tripoint( p, 0 ) );
+            return inbounds( tripoint_bub_ms( p.x, p.y, 0 ) );
         }
 
         bool inbounds_z( const int z ) const {
-            return z >= -OVERMAP_DEPTH && z <= OVERMAP_HEIGHT;
+            return z >= -OVERMAP_DEPTH && z <= OVERMAP_HEIGHT &&
+                   ( zlevels || z == get_abs_sub().z() );
         }
 
         /** Clips the coordinates of p to fit the map bounds */
@@ -2431,8 +2431,12 @@ class tinymap : private map
 
     public:
         tinymap() : map( 2, false ) {}
-        bool inbounds( const tripoint &p ) const override;
-        bool inbounds( const tripoint_omt_ms &p ) const;
+        bool inbounds( const tripoint &p ) const {
+            return map::inbounds( p );
+        }
+        bool inbounds( const tripoint_omt_ms &p ) const {
+            return map::inbounds( p.raw() );
+        }
 
         map *cast_to_map() {
             return this;
