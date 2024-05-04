@@ -29,7 +29,8 @@
     ]
   },
   {
-    "result": "deck_of_cards_makeshift",
+    "result": "deck_of_cards",
+    "variant": "deck_of_cards_makeshift",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "category": "CC_OTHER",

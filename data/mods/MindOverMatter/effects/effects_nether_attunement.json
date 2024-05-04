@@ -80,5 +80,12 @@
     "name": [ "Feedback" ],
     "desc": [ "You feel a persistent itching that will not go away." ],
     "rating": "bad"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_observed_rate_limiter",
+    "//": "Hidden effect, used as a tracker",
+    "name": [ "" ],
+    "desc": [ "" ]
   }
 ]

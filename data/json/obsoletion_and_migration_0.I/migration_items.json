@@ -1344,5 +1344,29 @@
     "type": "MIGRATION",
     "replace": "con_mix_foldable",
     "reset_item_vars": true
+  },
+  {
+    "id": "uno",
+    "type": "MIGRATION",
+    "replace": "deck_of_cards",
+    "variant": "uno"
+  },
+  {
+    "id": "onirim",
+    "type": "MIGRATION",
+    "replace": "deck_of_cards",
+    "variant": "onirim"
+  },
+  {
+    "id": "cards_magic",
+    "type": "MIGRATION",
+    "replace": "deck_of_cards",
+    "variant": "cards_magic"
+  },
+  {
+    "id": "deck_of_cards_makeshift",
+    "type": "MIGRATION",
+    "replace": "deck_of_cards",
+    "variant": "deck_of_cards_makeshift"
   }
 ]
