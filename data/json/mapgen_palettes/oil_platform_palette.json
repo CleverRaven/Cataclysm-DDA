@@ -259,7 +259,8 @@
       ],
       "4": [ { "item": "SUS_oven", "chance": 85, "repeat": [ 0, 4 ] } ],
       "≡": [ { "item": "SUS_dishwasher", "chance": 85, "repeat": [ 0, 4 ] } ],
-      "♫": { "item": "oil_platform_drums", "chance": 30 },
+      "♫": { "item": "fuel_drums", "chance": 30 },
+      "`": { "item": "oil_drums", "chance": 40 },
       "▀": { "item": "pool_table", "chance": 60 }
     },
     "vehicles": {
@@ -276,18 +277,31 @@
     }
   },
   {
-    "id": "oil_platform_drums",
+    "id": "fuel_drums",
     "type": "item_group",
     "items": [
-      { "item": "salt_water", "container-item": "55gal_drum", "charges-min": 26, "charges-max": 126, "prob": 60 },
       { "item": "crude_oil", "container-item": "55gal_drum", "charges-min": 26, "charges-max": 126, "prob": 40 },
       { "item": "motor_oil", "container-item": "55gal_drum", "charges-min": 26, "charges-max": 126, "prob": 40 },
       { "item": "lamp_oil", "container-item": "55gal_drum", "charges-min": 26, "charges-max": 126, "prob": 40 },
-      { "item": "chem_toluene", "container-item": "55gal_drum", "charges-min": 26, "charges-max": 126, "prob": 40 },
       { "item": "gasoline", "container-item": "55gal_drum", "charges-min": 26, "charges-max": 126, "prob": 50 },
       { "item": "diesel", "container-item": "55gal_drum", "charges-min": 26, "charges-max": 126, "prob": 40 },
       { "item": "chem_benzene", "container-item": "55gal_drum", "charges-min": 26, "charges-max": 126, "prob": 40 },
-      { "item": "55gal_drum", "prob": 40 }
+      { "item": "crude_oil", "container-item": "metal_tank", "charges-min": 26, "charges-max": 55, "prob": 40 },
+      { "item": "motor_oil", "container-item": "metal_tank", "charges-min": 26, "charges-max": 55, "prob": 40 },
+      { "item": "lamp_oil", "container-item": "metal_tank", "charges-min": 26, "charges-max": 55, "prob": 40 },
+      { "item": "gasoline", "container-item": "metal_tank", "charges-min": 26, "charges-max": 55, "prob": 50 },
+      { "item": "diesel", "container-item": "metal_tank", "charges-min": 26, "charges-max": 55, "prob": 40 },
+      { "item": "chem_benzene", "container-item": "metal_tank", "charges-min": 26, "charges-max": 55, "prob": 40 },
+      { "item": "55gal_drum", "prob": 20 }
+    ]
+  },
+  {
+    "id": "oil_drums",
+    "type": "item_group",
+    "items": [
+      { "item": "crude_oil", "container-item": "55gal_drum", "charges-min": 26, "charges-max": 126, "prob": 40 },
+      { "item": "motor_oil", "container-item": "55gal_drum", "charges-min": 26, "charges-max": 126, "prob": 60 },
+      { "item": "55gal_drum", "prob": 20 }
     ]
   }
 ]
