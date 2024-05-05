@@ -9044,8 +9044,11 @@ bool map::inbounds( const tripoint &p ) const
 {
     return p.x >= 0 && p.x < my_MAPSIZE * SEEX &&
            p.y >= 0 && p.y < my_MAPSIZE * SEEY &&
-           p.z >= -OVERMAP_DEPTH && p.z <= OVERMAP_HEIGHT &&
-           ( zlevels || p.z == get_abs_sub().z() );
+           p.z >= -OVERMAP_DEPTH && p.z <= OVERMAP_HEIGHT;
+    // && ( zlevels || p.z == get_abs_sub().z() );
+    // Cannot actually let inbounds check the bounds for maps not supporting Z levels, as
+    // tests explicitly expect other Z level coordinates to return t_null when read
+    // and write terrain to the Z level of the map rather than fail or do nothing.
 }
 
 bool map::inbounds( const tripoint_abs_ms &p ) const
@@ -9055,7 +9058,7 @@ bool map::inbounds( const tripoint_abs_ms &p ) const
 
 bool map::inbounds( const tripoint_bub_ms &p ) const
 {
-    return map::inbounds( p.raw() );
+    return inbounds( p.raw() );
 }
 
 bool map::inbounds( const tripoint_abs_omt &p ) const
