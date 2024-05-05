@@ -189,5 +189,12 @@ if (CURSES)
                     PUBLIC
                     unofficial::pdcurses::pdcurses
             )
+            target_compile_definitions(
+                imtui
+                PUBLIC
+                PDC_RGB
+                PDC_WIDE
+                NCURSES_MOUSE_VERSION
+            )
         endif()
 endif ()
