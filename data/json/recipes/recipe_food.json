@@ -1139,6 +1139,24 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "poultry_smoked",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": "20 m",
+    "charges": 1,
+    "autolearn": true,
+    "batch_time_factors": [ 83, 9 ],
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "smoking_heat", 10, "LIST" ] ] ],
+    "//": "100g of meat for 10 smoking_heats",
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_curing" } ],
+    "components": [ [ [ "poultry", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "fried_froglegs",
     "category": "CC_FOOD",
@@ -1885,7 +1903,7 @@
     "//": "dogs can eat raw meat, but should cook this just to be safe. 2u for veggy, 10u for meat (red meat will be undercooked, not a big deal)",
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
     "components": [
-      [ [ "meat_red", 1, "LIST" ], [ "fish", 1 ], [ "lobster", 1 ] ],
+      [ [ "meat_nofish", 1, "LIST" ], [ "fish", 1 ], [ "lobster", 1 ] ],
       [ [ "veggy_green", 1, "LIST" ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
@@ -1904,7 +1922,7 @@
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "//": "cats can eat raw meat, but should cook this just to be safe. 20u for meat (red meat will be undercooked, not a big deal)",
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
-    "components": [ [ [ "meat_red", 2, "LIST" ], [ "fish", 2 ], [ "lobster", 2 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "meat_nofish", 2, "LIST" ], [ "fish", 2 ], [ "lobster", 2 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
