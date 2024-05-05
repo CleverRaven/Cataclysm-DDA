@@ -453,15 +453,7 @@
     "id": "meat_red_raw_steak",
     "type": "requirement",
     "//": "A whole slab of raw, red meat.  Substitutes pork and beef, but not chicken, in common recipes.",
-    "components": [
-      [
-        [ "meat", 1 ],
-        [ "mutant_meat", 1 ],
-        [ "human_flesh", 1 ],
-        [ "mutant_human_flesh", 1 ],
-        [ "demihuman_flesh", 1 ]
-      ]
-    ]
+    "components": [ [ [ "meat", 1 ], [ "mutant_meat", 1 ], [ "human_flesh", 1 ], [ "mutant_human_flesh", 1 ], [ "demihuman_flesh", 1 ] ] ]
   },
   {
     "id": "meat_raw_steak",
