@@ -120,6 +120,7 @@ static const std::string flag_BLIND_EASY( "BLIND_EASY" );
 static const std::string flag_BLIND_HARD( "BLIND_HARD" );
 static const std::string flag_FULL_MAGAZINE( "FULL_MAGAZINE" );
 static const std::string flag_NO_BENCH( "NO_BENCH" );
+static const std::string flag_NO_ENCHANTMENT( "NO_ENCHANTMENT" );
 static const std::string flag_NO_MANIP( "NO_MANIP" );
 static const std::string flag_NO_RESIZE( "NO_RESIZE" );
 
@@ -333,7 +334,8 @@ float Character::crafting_speed_multiplier( const item &craft,
                               workbench_crafting_speed_multiplier( craft, loc );
     const float bench_multi = rec.has_flag( flag_NO_BENCH ) ? 1.0f : bench_value;
     const float morale_multi = morale_crafting_speed_multiplier( rec );
-    const float mut_multi = 1.0 + enchantment_cache->get_value_multiply(
+    const float mut_multi = rec.has_flag( flag_NO_ENCHANTMENT ) ? 1.0f : 1.0 +
+                            enchantment_cache->get_value_multiply(
                                 enchant_vals::mod::CRAFTING_SPEED_MULTIPLIER );
     const float limb_score = rec.has_flag( flag_NO_MANIP ) ? 1.0f : get_limb_score(
                                  limb_score_manip );
