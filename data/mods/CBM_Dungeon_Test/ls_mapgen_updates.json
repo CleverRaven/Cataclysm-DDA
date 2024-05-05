@@ -3,48 +3,69 @@
     "type": "mapgen",
     "update_mapgen_id": "UM_LS_Unlock",
     "method": "json",
-    "object": { "translate_ter": [ { "from": "t_nl_door_l", "to": "t_nl_door_c", "x": [ 0, 23 ], "y": [ 0, 23 ] } ] }
+    "object": { "place_ter_furn_transforms": [ { "transform": "nl_unlock_door", "x": [ 0, 23 ], "y": [ 0, 23 ] } ] }
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "nl_unlock_door",
+    "//": "Should be merged with the one in aux_nested when moved to vanilla",
+    "terrain": [ { "result": "t_nl_door_c", "valid_terrain": [ "t_nl_door_l" ] } ]
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "UM_LS_Lock",
     "method": "json",
-    "object": {
-      "translate_ter": [
-        { "from": "t_nl_door_o", "to": "t_nl_door_l", "x": [ 0, 23 ], "y": [ 0, 23 ] },
-        { "from": "t_nl_door_c", "to": "t_nl_door_l", "x": [ 0, 23 ], "y": [ 0, 23 ] }
-      ]
-    }
+    "object": { "place_ter_furn_transforms": [ { "transform": "nl_lock_door", "x": [ 0, 23 ], "y": [ 0, 23 ] } ] }
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "nl_lock_door",
+    "//": "Should be merged with the one in aux_nested when moved to vanilla",
+    "terrain": [ { "result": "t_nl_door_l", "valid_terrain": [ "t_nl_door_c", "t_nl_door_o" ] } ]
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "UM_LS_ReallyUnlock",
     "method": "json",
-    "object": {
-      "translate_ter": [
-        { "from": "t_nl_door_l", "to": "t_nl_metal_floor", "x": [ 0, 23 ], "y": [ 0, 23 ] },
-        { "from": "t_nl_door_c", "to": "t_nl_metal_floor", "x": [ 0, 23 ], "y": [ 0, 23 ] },
-        { "from": "t_nl_door_o", "to": "t_nl_metal_floor", "x": [ 0, 23 ], "y": [ 0, 23 ] }
-      ]
-    }
+    "object": { "place_ter_furn_transforms": [ { "transform": "nl_door_to_floor", "x": [ 0, 23 ], "y": [ 0, 23 ] } ] }
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "nl_door_to_floor",
+    "terrain": [ { "result": "t_nl_metal_floor", "valid_terrain": [ "t_nl_door_l", "t_nl_door_c", "t_nl_door_o" ] } ]
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "UM_LS_Passcode_Generator_1",
     "method": "json",
-    "object": { "translate_ter": [ { "from": "t_nl_obelisk_0", "to": "t_nl_obelisk_1", "x": [ 0, 23 ], "y": [ 0, 23 ] } ] }
+    "object": { "place_ter_furn_transforms": [ { "transform": "nl_obelisk_0_to_1", "x": [ 0, 23 ], "y": [ 0, 23 ] } ] }
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "nl_obelisk_0_to_1",
+    "terrain": [ { "result": "t_nl_obelisk_1", "valid_terrain": [ "t_nl_obelisk_0" ] } ]
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "UM_LS_Passcode_Generator_2",
     "method": "json",
-    "object": { "translate_ter": [ { "from": "t_nl_obelisk_0", "to": "t_nl_obelisk_2", "x": [ 0, 23 ], "y": [ 0, 23 ] } ] }
+    "object": { "place_ter_furn_transforms": [ { "transform": "nl_obelisk_0_to_2", "x": [ 0, 23 ], "y": [ 0, 23 ] } ] }
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "nl_obelisk_0_to_2",
+    "terrain": [ { "result": "t_nl_obelisk_2", "valid_terrain": [ "t_nl_obelisk_0" ] } ]
   },
   {
     "type": "mapgen",
     "update_mapgen_id": "UM_LS_Passcode_Generator_3",
     "method": "json",
-    "object": { "translate_ter": [ { "from": "t_nl_obelisk_0", "to": "t_nl_obelisk_3", "x": [ 0, 23 ], "y": [ 0, 23 ] } ] }
+    "object": { "place_ter_furn_transforms": [ { "transform": "nl_obelisk_0_to_3", "x": [ 0, 23 ], "y": [ 0, 23 ] } ] }
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "nl_obelisk_0_to_3",
+    "terrain": [ { "result": "t_nl_obelisk_3", "valid_terrain": [ "t_nl_obelisk_0" ] } ]
   },
   {
     "type": "mapgen",
