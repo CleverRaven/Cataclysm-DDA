@@ -5058,6 +5058,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
@@ -5065,6 +5066,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
@@ -5072,6 +5074,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
@@ -5079,6 +5082,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
@@ -5086,6 +5090,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
@@ -5093,6 +5098,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
@@ -5100,6 +5106,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
@@ -5107,6 +5114,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
@@ -5114,6 +5122,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
@@ -5121,6 +5130,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
@@ -5128,6 +5138,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
@@ -5135,6 +5146,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
@@ -5142,6 +5154,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
@@ -5149,6 +5162,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
