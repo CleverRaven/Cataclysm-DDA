@@ -8820,7 +8820,11 @@
     "qualities": [ { "id": "COOK", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 22, "LIST" ] ] ],
     "//": "300g raw meat (20u) + 26g of flour (2u) for a total of 22",
-    "components": [ [ [ "flour_any", 2, "LIST" ] ], [ [ "meat_red", 1, "LIST" ], [ "poultry_raw_any", 2, "LIST" ], [ "dry_meat", 1 ] ], [ [ "water_clean", 1 ] ] ],
+    "components": [
+      [ [ "flour_any", 2, "LIST" ] ],
+      [ [ "meat_red", 1, "LIST" ], [ "poultry_raw_any", 2, "LIST" ], [ "dry_meat", 1 ] ],
+      [ [ "water_clean", 1 ] ]
+    ],
     "charges": 2
   },
   {
