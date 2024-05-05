@@ -1537,7 +1537,7 @@ std::optional<std::pair<attack_vector_id, sub_bodypart_str_id>>
                         // Give extra/damage-less vectors a base chance to be chosen
                         unarmed_damage = 1.0f;
                     }
-                    calc_vector.emplace_back( std::make_pair( current_contact, unarmed_damage ) );
+                    calc_vector.emplace_back( current_contact, unarmed_damage );
                     add_msg_debug( debugmode::DF_MELEE,
                                    "Bodypart %s eligable for attack vector %s weight %.1f (contact area %s)",
                                    bp.c_str(),

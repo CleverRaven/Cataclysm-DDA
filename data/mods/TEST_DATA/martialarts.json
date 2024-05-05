@@ -158,8 +158,7 @@
       "test_tech_condition_stun",
       "test_tech_condition_knockback",
       "test_vector_tech_1",
-      "test_vector_tech_2",
-      "test_vector_tech_3"
+      "test_vector_tech_2"
     ],
     "weapon_category": [ "TEST_CAT1" ]
   }

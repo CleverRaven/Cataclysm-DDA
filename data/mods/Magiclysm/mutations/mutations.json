@@ -788,6 +788,7 @@
     "ugliness": 3,
     "mixed_effect": true,
     "restricts_gear": [ "hand_l", "hand_r" ],
+    "integrated_armor": [ "integrated_dragon_talons_black" ],
     "destroys_gear": true,
     "description": "All of your fingers have developed into huge scaled talons.  They prevent wearing gloves, but you can use them to powerful effect in melee combat and you appear to have uncovered some secrets about black dragons.",
     "types": [ "CLAWS" ],
