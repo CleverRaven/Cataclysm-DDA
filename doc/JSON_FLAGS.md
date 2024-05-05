@@ -1328,6 +1328,7 @@ See [Character](#character)
 - ```SECRET``` Not automatically learned at character creation time based on high skill levels.
 - ```AFFECTED_BY_PAIN``` 1 unit of pain decreases the speed of craft for 1%. Recommended to not use in vanilla recipes
 - ```NO_MANIP``` Manipulation score do not affect crafting this recipe
+- ```NO_BENCH``` Workbench bonus or penalty do not apply to this recipe
 
 
 ### Crafting recipes
