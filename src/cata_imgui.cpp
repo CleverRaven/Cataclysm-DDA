@@ -393,20 +393,44 @@ void cataimgui::imvec2_to_point( ImVec2 *src, point *dest )
     }
 }
 
+static void PushOrPopColor( const std::string_view seg )
+{
+    color_tag_parse_result tag = get_color_from_tag( seg, report_color_error::yes );
+    switch( tag.type ) {
+        case color_tag_parse_result::open_color_tag:
+            ImGui::PushStyleColor( ImGuiCol_Text, tag.color );
+            break;
+        case color_tag_parse_result::close_color_tag:
+            ImGui::PopStyleColor();
+            break;
+        case color_tag_parse_result::non_color_tag:
+            // Do nothing
+            break;
+    }
+}
+
 void cataimgui::window::draw_colored_text( std::string const &text, const nc_color &color,
         float wrap_width, bool *is_selected, bool *is_focused, bool *is_hovered )
 {
     nc_color color_cpy = color;
-    draw_colored_text( text, color_cpy, wrap_width, is_selected, is_focused, is_hovered );
+    ImGui::PushStyleColor( ImGuiCol_Text, color_cpy );
+    draw_colored_text( text, wrap_width, is_selected, is_focused, is_hovered );
+    ImGui::PopStyleColor();
 }
 
 void cataimgui::window::draw_colored_text( std::string const &text, nc_color &color,
         float wrap_width, bool *is_selected, bool *is_focused, bool *is_hovered )
 {
+    ImGui::PushStyleColor( ImGuiCol_Text, color );
+    draw_colored_text( text, wrap_width, is_selected, is_focused, is_hovered );
+    ImGui::PopStyleColor();
+}
+
+void cataimgui::window::draw_colored_text( std::string const &text,
+        float wrap_width, bool *is_selected, bool *is_focused, bool *is_hovered )
+{
     ImGui::PushID( text.c_str() );
     ImGuiID itemId = GImGui->CurrentWindow->IDStack.back();
-    std::stack<nc_color> color_stack;
-    color_stack.push( color );
     size_t chars_per_line = size_t( wrap_width );
     if( chars_per_line == 0 ) {
         chars_per_line = SIZE_MAX;
@@ -418,7 +442,6 @@ void cataimgui::window::draw_colored_text( std::string const &text, nc_color &co
     std::vector<std::string> folded_msg = foldstring( text, chars_per_line );
 
     for( const std::string &line : folded_msg ) {
-
         const auto color_segments = split_by_color( line );
         if( is_selected != nullptr ) {
             ImGui::Selectable( "", is_selected );
@@ -431,18 +454,14 @@ void cataimgui::window::draw_colored_text( std::string const &text, nc_color &co
             }
 
             if( seg[0] == '<' ) {
-                const color_tag_parse_result::tag_type type =
-                    update_color_stack( color_stack, seg, report_color_error::yes );
-                if( type != color_tag_parse_result::non_color_tag ) {
-                    seg = rm_prefix( seg );
-                }
+                PushOrPopColor( seg );
+                seg = rm_prefix( seg );
             }
 
-            color = color_stack.empty() ? color : color_stack.top();
             if( i++ != 0 ) {
                 ImGui::SameLine( 0, 0 );
             }
-            ImGui::TextColored( color, "%s", seg.c_str() );
+            ImGui::TextUnformatted( seg.c_str() );
             GImGui->LastItemData.ID = itemId;
             if( is_focused && !*is_focused ) {
                 *is_focused = ImGui::IsItemFocused();
