@@ -174,8 +174,13 @@ if (CURSES)
                 imtui
                 PRIVATE
                 -w
-                -DIMTUI
                 )
+
+        target_compile_definitions(
+                imtui
+                PUBLIC
+                IMTUI
+        )
 
         target_link_libraries(
                 third-party
