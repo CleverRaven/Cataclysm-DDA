@@ -2,6 +2,7 @@
   {
     "type": "palette",
     "id": "oil_platform_palette",
+    "liquids": { "-": { "liquid": "salt_water", "amount": [ 1, 4 ], "chance": 140 } },
     "terrain": {
       "~": "t_swater_dp",
       "/": "t_saltwater_cube",
@@ -259,13 +260,13 @@
       ],
       "4": [ { "item": "SUS_oven", "chance": 85, "repeat": [ 0, 4 ] } ],
       "≡": [ { "item": "SUS_dishwasher", "chance": 85, "repeat": [ 0, 4 ] } ],
-      "♫": { "item": "fuel_drums", "chance": 30 },
-      "`": { "item": "oil_drums", "chance": 40 },
+      "`": { "item": "oil_drums", "chance": 60 },
+      "♫": { "item": "lubricant", "chance": 50 },
       "▀": { "item": "pool_table", "chance": 60 }
     },
     "vehicles": {
       "Ƨ": { "vehicle": "swivel_chair", "chance": 100, "rotation": [ 0, 90, 180, 270 ] },
-      "²": { "vehicle": "forklift", "chance": 100, "rotation": [ 0, 90, 180, 270 ] },
+      "²": { "vehicle": "trolley", "chance": 70, "rotation": [ 0, 90, 180, 270 ] },
       "→": { "vehicle": "helicopters", "chance": 20, "rotation": [ 0, 90, 180, 270 ] },
       "n": { "vehicle": "inflatable_boat", "chance": 80 }
     },
@@ -277,31 +278,20 @@
     }
   },
   {
-    "id": "fuel_drums",
+    "id": "lubricant",
     "type": "item_group",
     "items": [
-      { "item": "crude_oil", "container-item": "55gal_drum", "charges-min": 26, "charges-max": 126, "prob": 40 },
-      { "item": "motor_oil", "container-item": "55gal_drum", "charges-min": 26, "charges-max": 126, "prob": 40 },
-      { "item": "lamp_oil", "container-item": "55gal_drum", "charges-min": 26, "charges-max": 126, "prob": 40 },
-      { "item": "gasoline", "container-item": "55gal_drum", "charges-min": 26, "charges-max": 126, "prob": 50 },
-      { "item": "diesel", "container-item": "55gal_drum", "charges-min": 26, "charges-max": 126, "prob": 40 },
-      { "item": "chem_benzene", "container-item": "55gal_drum", "charges-min": 26, "charges-max": 126, "prob": 40 },
-      { "item": "crude_oil", "container-item": "metal_tank", "charges-min": 26, "charges-max": 55, "prob": 40 },
-      { "item": "motor_oil", "container-item": "metal_tank", "charges-min": 26, "charges-max": 55, "prob": 40 },
-      { "item": "lamp_oil", "container-item": "metal_tank", "charges-min": 26, "charges-max": 55, "prob": 40 },
-      { "item": "gasoline", "container-item": "metal_tank", "charges-min": 26, "charges-max": 55, "prob": 50 },
-      { "item": "diesel", "container-item": "metal_tank", "charges-min": 26, "charges-max": 55, "prob": 40 },
-      { "item": "chem_benzene", "container-item": "metal_tank", "charges-min": 26, "charges-max": 55, "prob": 40 },
-      { "item": "55gal_drum", "prob": 20 }
+      { "item": "motor_oil", "container-item": "metal_tank", "charges-min": 2000, "charges-max": 60000, "prob": 50 },
+      { "item": "motor_oil", "container-item": "jerrycan_big", "charges-min": 0, "charges-max": 20000, "prob": 30 },
+      { "item": "metal_tank", "prob": 20 }
     ]
   },
   {
     "id": "oil_drums",
     "type": "item_group",
     "items": [
-      { "item": "crude_oil", "container-item": "55gal_drum", "charges-min": 26, "charges-max": 126, "prob": 40 },
-      { "item": "motor_oil", "container-item": "55gal_drum", "charges-min": 26, "charges-max": 126, "prob": 60 },
-      { "item": "55gal_drum", "prob": 20 }
+      { "item": "crude_oil", "container-item": "55gal_drum", "charges-min": 180000, "charges-max": 200000, "prob": 60 },
+      { "item": "55gal_drum", "prob": 30 }
     ]
   }
 ]

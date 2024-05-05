@@ -221,11 +221,11 @@
     "sealed": false,
     "symbol": "=",
     "color": "black",
-    "material": [ "motor_oil" ],
-    "ammo_type": "motor_oil",
-    "range": 6,
-    "damage": { "damage_type": "heat", "amount": 2, "armor_penetration": 2 },
-    "effects": [ "FLAME", "STREAM" ]
+    "material": [ "crude_oil" ],
+    "ammo_type": "crude_oil",
+    "range": 3,
+    "damage": { "damage_type": "heat", "amount": 5, "armor_penetration": 5 },
+    "effects": [ "FLAME", "STREAM", "INCENDIARY" ]
   },
   {
     "id": "napalm",
