@@ -1452,7 +1452,8 @@
         "type": "mixed"
       },
       { "math": [ "u_using_appropriate_matrix_crystal_for_dissipation", "=", "1" ] }
-    ]
+    ],
+    "false_effect": [ { "math": [ "u_using_appropriate_matrix_crystal_for_dissipation", "=", "1" ] } ]
   },
   {
     "type": "effect_on_condition",
