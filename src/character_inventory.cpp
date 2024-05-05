@@ -471,7 +471,7 @@ bool Character::i_add_or_drop( item &it, int qty, const item *avoid,
         }
     }
 
-    for( int i = added; i < qty; ++i) {
+    for( int i = added; i < qty; ++i ) {
         retval &= !here.add_item_or_charges( pos(), it ).is_null();
     }
 
