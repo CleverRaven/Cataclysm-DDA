@@ -2125,8 +2125,8 @@ point_bub_ms cata_tiles::screen_to_player(
                             divide_round_down( scr_pos.y * 4, tile_size.x ) + 1 );
         const std::optional<point_bub_ms> player_1 = tile_to_player(
                     colrow, center, base_tile, iso );
-        //NOLINTNEXTLINE(cata-use-named-point-constants): the name would be confusing here (screen 'NSWE' are not map NSWE)
         const std::optional<point_bub_ms> player_2 = tile_to_player(
+                    //NOLINTNEXTLINE(cata-use-named-point-constants): the name would be confusing here (screen 'NSWE' are not map NSWE)
                     colrow + point( 1, 0 ), center, base_tile, iso );
         // We do not know the precise shape of the base tile, assuming rhombuses.
         // TODO: maybe let tilesets provide the exact shape of the base tile.

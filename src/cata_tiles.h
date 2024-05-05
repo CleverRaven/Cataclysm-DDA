@@ -709,7 +709,7 @@ class cata_tiles
         static point_bub_ms screen_to_player(
             const point &scr_pos, const point &tile_size,
             const point &win_size, const point_bub_ms &center,
-            const bool iso );
+            bool iso );
         static std::vector<options_manager::id_and_option> build_renderer_list();
         static std::vector<options_manager::id_and_option> build_display_list();
     private:
