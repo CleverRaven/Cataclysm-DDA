@@ -180,6 +180,7 @@ if (CURSES)
                 imtui
                 PUBLIC
                 IMTUI
+                $<$<BOOL:${MSYS2}>:NCURSES_INTERNALS>
         )
 
         target_link_libraries(
