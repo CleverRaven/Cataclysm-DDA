@@ -1153,7 +1153,7 @@
     "tools": [ [ [ "smoking_heat", 10, "LIST" ] ] ],
     "//": "100g of meat for 10 smoking_heats",
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_curing" } ],
-    "components": [ [ [ "poultry", 1, "LIST" ] ] ]
+    "components": [ [ [ "poultry_raw_any", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
