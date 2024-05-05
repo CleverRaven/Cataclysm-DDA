@@ -355,12 +355,12 @@
     "name": { "str_sp": "fermentable liquid mixture" },
     "volume": "500 ml",
     "weight": "500 g",
-    "description": "A mixture of various organic wastes and water.  Wait about two months for them to be fermented in a tank.",
+    "description": "A mixture of various organic wastes and water.  Wait about two months for them to be fermented in a tank.  Also, biogas production will start after one month.",
     "copy-from": "fertilizer_liquid",
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "flags": [ "NUTRIENT_OVERRIDE", "TRADER_AVOID" ],
-    "compostable": { "time": "60 days", "results": [ "fermented_fertilizer_liquid", "biogas" ] },
+    "compostable": { "time": "60 days", "results": { "fermented_fertilizer_liquid": 1, "biogas": 250 } },
     "charges": 1
   },
   {

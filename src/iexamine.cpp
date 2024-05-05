@@ -3943,12 +3943,13 @@ void iexamine::compost_full( Character &you, const tripoint &examp )
                     } else {
                         for( const std::pair<const itype_id, int> &result : results ) {
                             item biogas( result.first, gas_birthday );
-                            // 40L biogas for 1 KG of biomass over the whole anaerobic digestion process.
-                            // 1 unit of biomass(0.5 KG) for 80 units(0.25 mL for each unit) of biogas.
+                            // 40 L biogas for 1 KG of biomass over the whole anaerobic digestion process.
+                            // 1 unit of biomass(0.5 KG) for 80 units(0.25 L for each unit) of biogas.
                             int gas_amount = result.second * count * max_gas_gatherable * 80 / 30;
                             if( result.first->phase == phase_id::GAS ) {
-                                you.i_add_or_drop( biogas, gas_amount );
-                                add_msg( _( "Gathered %s units of biogas" ), gas_amount );
+                                biogas.charges = gas_amount;
+                                you.i_add_or_drop( biogas );
+                                add_msg( _( "Gathered %s units of biogas." ), gas_amount );
                             }
                         }
                     }
@@ -3977,11 +3978,12 @@ void iexamine::compost_full( Character &you, const tripoint &examp )
                     add_msg( _( "The %s is now ready for use." ), result.first->nname( amount ) );
                 } else if( result.first->phase == phase_id::GAS ) {
                     if( !max_gas_gatherable ) {
-                        add_msg( _( "You released gas in the tank." ) );
+                        add_msg( _( "You released some biogas from the tank." ) );
                     } else {
                         int gas_amount = result.second * count * max_gas_gatherable * 80 / 30;
-                        you.i_add_or_drop( compost, gas_amount );
-                        add_msg( _( "Gathered %s units of biogas" ), gas_amount );
+                        compost.charges = gas_amount;
+                        you.i_add_or_drop( compost );
+                        add_msg( _( "Gathered %s units of biogas." ), gas_amount );
                     }
                 } else {
                     you.i_add_or_drop( compost, amount );

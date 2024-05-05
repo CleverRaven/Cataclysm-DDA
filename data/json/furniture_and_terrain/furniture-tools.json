@@ -1345,11 +1345,10 @@
     "crafting_pseudo_item": "fake_digester_tank",
     "deconstruct": {
       "items": [
-        { "item": "brick", "count": 60 },
+        { "item": "brick", "count": [ 200, 400 ] },
         { "item": "pipe", "count": [ 6, 8 ] },
         { "item": "pipe_fittings", "count": [ 6, 8 ] },
         { "item": "sheet_metal_small", "count": [ 10, 20 ] },
-        { "item": "metal_tank", "count": 1 },
         { "item": "hose", "count": 1 }
       ]
     },
@@ -1376,11 +1375,10 @@
     "crafting_pseudo_item": "fake_digester_tank",
     "deconstruct": {
       "items": [
-        { "item": "brick", "count": 60 },
+        { "item": "brick", "count": [ 200, 400 ] },
         { "item": "pipe", "count": [ 6, 8 ] },
         { "item": "pipe_fittings", "count": [ 6, 8 ] },
         { "item": "sheet_metal_small", "count": [ 10, 20 ] },
-        { "item": "metal_tank", "count": 1 },
         { "item": "hose", "count": 1 }
       ]
     },
