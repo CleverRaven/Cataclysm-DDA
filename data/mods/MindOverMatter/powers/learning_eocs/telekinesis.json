@@ -2,7 +2,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEKIN_LEARNING_NOISEMAKER",
-    "recurrence": [ "12 hours", "24 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_low)" ] },
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "TELEKINETIC" },
@@ -63,7 +66,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEKIN_LEARNING_MOMENTUM",
-    "recurrence": [ "12 hours", "24 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_low)" ] },
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "TELEKINETIC" },
@@ -99,7 +105,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEKIN_LEARNING_SLOWFALL",
-    "recurrence": [ "12 hours", "24 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_low)" ] },
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "TELEKINETIC" },
@@ -130,7 +139,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEKIN_LEARNING_WAVE",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "TELEKINETIC" },
@@ -166,7 +178,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEKIN_LEARNING_STRENGTH",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "TELEKINETIC" },
@@ -207,7 +222,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEKIN_LEARNING_HAMMER",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "TELEKINETIC" },
@@ -248,7 +266,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEKIN_LEARNING_VEHICLE_LIFT",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "TELEKINETIC" },
@@ -289,7 +310,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEKIN_LEARNING_SHIELD",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "TELEKINETIC" },
@@ -325,7 +349,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEKIN_LEARNING_EXPLOSION",
-    "recurrence": [ "96 hours", "168 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "TELEKINETIC" },
@@ -371,7 +398,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEKIN_LEARNING_LEVITATION",
-    "recurrence": [ "96 hours", "168 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "TELEKINETIC" },
@@ -412,7 +442,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEKIN_LEARNING_MEGAKINESIS",
-    "recurrence": [ "96 hours", "168 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "TELEKINETIC" },
@@ -461,7 +494,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEKIN_LEARNING_AEGIS",
-    "recurrence": [ "96 hours", "168 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "TELEKINETIC" },
@@ -508,7 +544,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEKIN_LEARNING_EARTHSHAKER",
-    "recurrence": [ "96 hours", "168 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_telekinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "TELEKINETIC" },
