@@ -2,7 +2,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_LEARNING_OXYGEN_ABSORPTION",
-    "recurrence": [ "12 hours", "24 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_low)" ] },
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
@@ -38,7 +41,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_LEARNING_FLEXIBILITY",
-    "recurrence": [ "12 hours", "24 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_low)" ] },
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
@@ -66,7 +72,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_LEARNING_DASH",
-    "recurrence": [ "12 hours", "24 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_low)" ] },
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
@@ -110,7 +119,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_LEARNING_ARMOR_SKIN",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
@@ -156,7 +168,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_LEARNING_CLIMATE_CONTROL",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
@@ -197,7 +212,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_LEARNING_ADRENALINE",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
@@ -238,7 +256,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_LEARNING_ENHANCE_MOBILITY",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
@@ -286,7 +307,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_LEARNING_HAMMERHAND",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
@@ -322,7 +346,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_LEARNING_REFLEX_ENHANCE",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
@@ -364,7 +391,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_LEARNING_SEALED_SYSTEM",
-    "recurrence": [ "96 hours", "168 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
@@ -410,7 +440,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_LEARNING_METABOLISM_ENHANCE",
-    "recurrence": [ "96 hours", "168 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
@@ -451,7 +484,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_LEARNING_COMBAT_DANCE",
-    "recurrence": [ "96 hours", "168 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
@@ -493,7 +529,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_LEARNING_PERFECTED_MOTION",
-    "recurrence": [ "96 hours", "168 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
@@ -529,7 +568,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_LEARNING_HURRICANE_BLOWS",
-    "recurrence": [ "96 hours", "168 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_biokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "BIOKINETIC" },
