@@ -27,7 +27,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BIOKIN_MATRIX_AWAKENING_2",
-    "condition": { "x_in_y_chance": { "x": { "math": [ "100 - u_awakening_reducer" ] }, "y": 100 } },
+    "condition": { "test_eoc": "EOC_CONDITION_AWAKENING_X_IN_Y_CHANCE" },
     "effect": [ { "run_eocs": "EOC_BIOKIN_MATRIX_AWAKENING_SUCCESS" } ],
     "false_effect": [ { "run_eocs": "EOC_BIOKIN_MATRIX_AWAKENING_FAILURE" } ]
   },
@@ -88,7 +88,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CLAIR_MATRIX_AWAKENING_2",
-    "condition": { "x_in_y_chance": { "x": { "math": [ "100 - u_awakening_reducer" ] }, "y": 100 } },
+    "condition": { "test_eoc": "EOC_CONDITION_AWAKENING_X_IN_Y_CHANCE" },
     "effect": [ { "run_eocs": "EOC_CLAIR_MATRIX_AWAKENING_SUCCESS" } ],
     "false_effect": [ { "run_eocs": "EOC_CLAIR_MATRIX_AWAKENING_FAILURE" } ]
   },
@@ -149,7 +149,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ELECTRO_MATRIX_AWAKENING_2",
-    "condition": { "x_in_y_chance": { "x": { "math": [ "100 - u_awakening_reducer" ] }, "y": 100 } },
+    "condition": { "test_eoc": "EOC_CONDITION_AWAKENING_X_IN_Y_CHANCE" },
     "effect": [ { "run_eocs": "EOC_ELECTRO_MATRIX_AWAKENING_SUCCESS" } ],
     "false_effect": [ { "run_eocs": "EOC_ELECTRO_MATRIX_AWAKENING_FAILURE" } ]
   },
@@ -210,7 +210,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PHOTOKIN_MATRIX_AWAKENING_2",
-    "condition": { "x_in_y_chance": { "x": { "math": [ "100 - u_awakening_reducer" ] }, "y": 100 } },
+    "condition": { "test_eoc": "EOC_CONDITION_AWAKENING_X_IN_Y_CHANCE" },
     "effect": [ { "run_eocs": "EOC_PHOTOKIN_MATRIX_AWAKENING_SUCCESS" } ],
     "false_effect": [ { "run_eocs": "EOC_PHOTOKIN_MATRIX_AWAKENING_FAILURE" } ]
   },
@@ -273,7 +273,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PYROKIN_MATRIX_AWAKENING_2",
-    "condition": { "x_in_y_chance": { "x": { "math": [ "100 - u_awakening_reducer" ] }, "y": 100 } },
+    "condition": { "test_eoc": "EOC_CONDITION_AWAKENING_X_IN_Y_CHANCE" },
     "effect": [ { "run_eocs": "EOC_PYROKIN_MATRIX_AWAKENING_SUCCESS" } ],
     "false_effect": [ { "run_eocs": "EOC_PYROKIN_MATRIX_AWAKENING_FAILURE" } ]
   },
@@ -335,7 +335,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEKIN_MATRIX_AWAKENING_2",
-    "condition": { "x_in_y_chance": { "x": { "math": [ "100 - u_awakening_reducer" ] }, "y": 100 } },
+    "condition": { "test_eoc": "EOC_CONDITION_AWAKENING_X_IN_Y_CHANCE" },
     "effect": [ { "run_eocs": "EOC_TELEKIN_MATRIX_AWAKENING_SUCCESS" } ],
     "false_effect": [ { "run_eocs": "EOC_TELEKIN_MATRIX_AWAKENING_FAILURE" } ]
   },
@@ -396,7 +396,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TEEP_MATRIX_AWAKENING_2",
-    "condition": { "x_in_y_chance": { "x": { "math": [ "100 - u_awakening_reducer" ] }, "y": 100 } },
+    "condition": { "test_eoc": "EOC_CONDITION_AWAKENING_X_IN_Y_CHANCE" },
     "effect": [ { "run_eocs": "EOC_TEEP_MATRIX_AWAKENING_SUCCESS" } ],
     "false_effect": [ { "run_eocs": "EOC_TEEP_MATRIX_AWAKENING_FAILURE" } ]
   },
@@ -457,7 +457,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_MATRIX_AWAKENING_2",
-    "condition": { "x_in_y_chance": { "x": { "math": [ "100 - u_awakening_reducer" ] }, "y": 100 } },
+    "condition": { "test_eoc": "EOC_CONDITION_AWAKENING_X_IN_Y_CHANCE" },
     "effect": [ { "run_eocs": "EOC_TELEPORT_MATRIX_AWAKENING_SUCCESS" } ],
     "false_effect": [ { "run_eocs": "EOC_TELEPORT_MATRIX_AWAKENING_FAILURE" } ]
   },
@@ -520,7 +520,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_MATRIX_AWAKENING_2",
-    "condition": { "x_in_y_chance": { "x": { "math": [ "100 - u_awakening_reducer" ] }, "y": 100 } },
+    "condition": { "test_eoc": "EOC_CONDITION_AWAKENING_X_IN_Y_CHANCE" },
     "effect": [ { "run_eocs": "EOC_VITAKIN_MATRIX_AWAKENING_SUCCESS" } ],
     "false_effect": [ { "run_eocs": "EOC_VITAKIN_MATRIX_AWAKENING_FAILURE" } ]
   },
@@ -604,7 +604,7 @@
       "and": [
         "u_is_outside",
         { "is_weather": "distant_portal_storm" },
-        { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } },
+        { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" },
         { "not": { "u_has_effect": "sleep" } }
       ]
     },
@@ -636,7 +636,7 @@
       "and": [
         "u_is_outside",
         { "is_weather": "portal_storm" },
-        { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } },
+        { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" },
         { "not": { "u_has_effect": "sleep" } }
       ]
     },
@@ -668,7 +668,7 @@
       "and": [
         "u_is_outside",
         { "is_weather": "close_portal_storm" },
-        { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } },
+        { "test_eoc": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF" },
         { "not": { "u_has_effect": "sleep" } }
       ]
     },
@@ -703,7 +703,7 @@
       "and": [
         { "not": { "u_has_trait": "BIOKINETIC" } },
         { "not": { "u_has_effect": "psionic_awakened" } },
-        { "x_in_y_chance": { "x": { "math": [ "100 - u_awakening_reducer" ] }, "y": 100 } }
+        { "test_eoc": "EOC_CONDITION_AWAKENING_X_IN_Y_CHANCE" }
       ]
     },
     "effect": [
@@ -736,7 +736,7 @@
       "and": [
         { "not": { "u_has_trait": "CLAIRSENTIENT" } },
         { "not": { "u_has_effect": "psionic_awakened" } },
-        { "x_in_y_chance": { "x": { "math": [ "100 - u_awakening_reducer" ] }, "y": 100 } }
+        { "test_eoc": "EOC_CONDITION_AWAKENING_X_IN_Y_CHANCE" }
       ]
     },
     "effect": [
@@ -769,7 +769,7 @@
       "and": [
         { "not": { "u_has_trait": "ELECTROKINETIC" } },
         { "not": { "u_has_effect": "psionic_awakened" } },
-        { "x_in_y_chance": { "x": { "math": [ "100 - u_awakening_reducer" ] }, "y": 100 } }
+        { "test_eoc": "EOC_CONDITION_AWAKENING_X_IN_Y_CHANCE" }
       ]
     },
     "effect": [
@@ -801,7 +801,7 @@
       "and": [
         { "not": { "u_has_trait": "PHOTOKINETIC" } },
         { "not": { "u_has_effect": "psionic_awakened" } },
-        { "x_in_y_chance": { "x": { "math": [ "100 - u_awakening_reducer" ] }, "y": 100 } }
+        { "test_eoc": "EOC_CONDITION_AWAKENING_X_IN_Y_CHANCE" }
       ]
     },
     "effect": [
@@ -836,7 +836,7 @@
       "and": [
         { "not": { "u_has_trait": "PYROKINETIC" } },
         { "not": { "u_has_effect": "psionic_awakened" } },
-        { "x_in_y_chance": { "x": { "math": [ "100 - u_awakening_reducer" ] }, "y": 100 } }
+        { "test_eoc": "EOC_CONDITION_AWAKENING_X_IN_Y_CHANCE" }
       ]
     },
     "effect": [
@@ -856,6 +856,7 @@
         "u_message": "A roar fills your mind, louder even than the screaming madness of the portal storm.  Your head pounds in time with the kaleidoscoping sky as your skin prickles.  The air grows warm, then hot, and sweat springs from every pore.  The air around you takes on a lambent glow as the heat continues to rise, until your muscles give out and you collapse to your knees."
       },
       { "u_add_effect": "psionic_overload", "duration": { "math": [ "ps_str * time(' 1 h')" ] } },
+      { "u_add_effect": "effect_pyrokin_fever_burning", "duration": { "math": [ "ps_str * time(' 45 s')" ] } },
       { "u_add_effect": "effect_pyrokin_overload", "duration": { "math": [ "ps_str * time(' 2 h')" ] } },
       { "u_add_effect": "downed", "duration": { "math": [ "ps_str * time(' 1 s')" ] } },
       { "u_set_field": "fd_hot_air3", "outdoor_only": true },
@@ -869,7 +870,7 @@
       "and": [
         { "not": { "u_has_trait": "TELEKINETIC" } },
         { "not": { "u_has_effect": "psionic_awakened" } },
-        { "x_in_y_chance": { "x": { "math": [ "100 - u_awakening_reducer" ] }, "y": 100 } }
+        { "test_eoc": "EOC_CONDITION_AWAKENING_X_IN_Y_CHANCE" }
       ]
     },
     "effect": [
@@ -901,7 +902,7 @@
       "and": [
         { "not": { "u_has_trait": "TELEPATH" } },
         { "not": { "u_has_effect": "psionic_awakened" } },
-        { "x_in_y_chance": { "x": { "math": [ "100 - u_awakening_reducer" ] }, "y": 100 } }
+        { "test_eoc": "EOC_CONDITION_AWAKENING_X_IN_Y_CHANCE" }
       ]
     },
     "effect": [
@@ -934,7 +935,7 @@
       "and": [
         { "not": { "u_has_trait": "TELEPORTER" } },
         { "not": { "u_has_effect": "psionic_awakened" } },
-        { "x_in_y_chance": { "x": { "math": [ "100 - u_awakening_reducer" ] }, "y": 100 } }
+        { "test_eoc": "EOC_CONDITION_AWAKENING_X_IN_Y_CHANCE" }
       ]
     },
     "effect": [
@@ -955,6 +956,7 @@
       },
       { "u_add_effect": "psionic_overload", "duration": { "math": [ "ps_str * time(' 1 h')" ] } },
       { "u_add_effect": "effect_portal_storm_teleport", "duration": { "math": [ "ps_str * time(' 20 s')" ] } },
+      { "u_add_effect": "effect_teleporter_overload", "duration": { "math": [ "ps_str * time(' 2 h')" ] } },
       { "u_add_effect": "downed", "duration": { "math": [ "ps_str * time(' 1 s')" ] } },
       { "math": [ "u_val('stamina')", "-=", "4000" ] }
     ]
@@ -966,7 +968,7 @@
       "and": [
         { "not": { "u_has_trait": "VITAKINETIC" } },
         { "not": { "u_has_effect": "psionic_awakened" } },
-        { "x_in_y_chance": { "x": { "math": [ "100 - u_awakening_reducer" ] }, "y": 100 } }
+        { "test_eoc": "EOC_CONDITION_AWAKENING_X_IN_Y_CHANCE" }
       ]
     },
     "effect": [

@@ -16,10 +16,10 @@
     "difficulty": 2,
     "max_level": 15,
     "base_casting_time": 200,
-    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(100)" ] },
-    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(24000)" ] },
-    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(360000)" ] },
-    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(24000)" ] },
+    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(100, 1)" ] },
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(24000, 200)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(360000, 200)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(24000, 0.04)" ] },
     "extra_effects": [ { "id": "eoc_summon_setup" } ],
     "learn_spells": { "stonefist_plus": 15 }
   },
@@ -43,12 +43,12 @@
     "final_casting_time": 50,
     "casting_time_increment": -6,
     "extra_effects": [ { "id": "eoc_summon_setup" } ],
-    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(100)" ] },
-    "final_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(50)" ] },
-    "energy_increment": { "math": [ "summoning_proficiency_negate_calculate(-2)" ] },
-    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(360000)" ] },
-    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(2160000)" ] },
-    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(72000)" ] }
+    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(100, 0.5)" ] },
+    "final_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(50, 0.5)" ] },
+    "energy_increment": { "math": [ "summoning_proficiency_negate_calculate(-2, 0.04)" ] },
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(360000, 400)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(2160000, 400)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(72000, 0.07)" ] }
   },
   {
     "id": "seismic_stomp",
@@ -62,15 +62,15 @@
     "flags": [ "SOMATIC", "LOUD", "NO_PROJECTILE" ],
     "extra_effects": [ { "id": "eoc_evocation_setup" } ],
     "max_level": 10,
-    "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(2)" ] },
-    "max_damage": { "math": [ "evocation_proficiency_bonus_calculate(10)" ] },
-    "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(0.8)" ] },
+    "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(2, 0.2)" ] },
+    "max_damage": { "math": [ "evocation_proficiency_bonus_calculate(10, 0.2)" ] },
+    "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(0.8, 0.1)" ] },
     "min_aoe": 3,
     "max_aoe": 12,
     "aoe_increment": 1,
-    "min_duration": { "math": [ "evocation_proficiency_bonus_calculate(1000)" ] },
-    "max_duration": { "math": [ "evocation_proficiency_bonus_calculate(6000)" ] },
-    "duration_increment": { "math": [ "evocation_proficiency_bonus_calculate(500)" ] },
+    "min_duration": { "math": [ "evocation_proficiency_bonus_calculate(1000, 10)" ] },
+    "max_duration": { "math": [ "evocation_proficiency_bonus_calculate(6000, 10)" ] },
+    "duration_increment": { "math": [ "evocation_proficiency_bonus_calculate(500, 0.1)" ] },
     "spell_class": "EARTHSHAPER",
     "base_casting_time": 100,
     "base_energy_cost": 250,
@@ -93,13 +93,13 @@
     "damage_increment": 750,
     "max_level": 12,
     "spell_class": "EARTHSHAPER",
-    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(500)" ] },
-    "final_casting_time": { "math": [ "channeling_proficiency_negate_calculate(300)" ] },
-    "casting_time_increment": { "math": [ "channeling_proficiency_negate_calculate(-17)" ] },
+    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(500, 3)" ] },
+    "final_casting_time": { "math": [ "channeling_proficiency_negate_calculate(300, 3)" ] },
+    "casting_time_increment": { "math": [ "channeling_proficiency_negate_calculate(-17, 0.085)" ] },
     "energy_source": "MANA",
-    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(150)" ] },
-    "energy_increment": { "math": [ "channeling_proficiency_negate_calculate(75)" ] },
-    "final_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(1000)" ] },
+    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(150, 5)" ] },
+    "energy_increment": { "math": [ "channeling_proficiency_negate_calculate(75, 0.09)" ] },
+    "final_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(1000, 5)" ] },
     "difficulty": 5,
     "extra_effects": [ { "id": "eoc_channeling_setup" } ]
   },
@@ -119,9 +119,9 @@
     "base_casting_time": 100,
     "base_energy_cost": 100,
     "max_level": 20,
-    "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(30)" ] },
-    "max_damage": { "math": [ "evocation_proficiency_bonus_calculate(80)" ] },
-    "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(2.5)" ] },
+    "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(30, 0.5)" ] },
+    "max_damage": { "math": [ "evocation_proficiency_bonus_calculate(80, 0.5)" ] },
+    "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(2.5, 0.05)" ] },
     "extra_effects": [ { "id": "eoc_evocation_setup" } ],
     "damage_type": "cut",
     "min_aoe": 25,
@@ -149,9 +149,9 @@
     "base_energy_cost": 115,
     "difficulty": 2,
     "max_level": 20,
-    "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(20)" ] },
-    "max_damage": { "math": [ "evocation_proficiency_bonus_calculate(50)" ] },
-    "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(3)" ] },
+    "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(20, 0.5)" ] },
+    "max_damage": { "math": [ "evocation_proficiency_bonus_calculate(50, 0.5)" ] },
+    "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(3, 0.1)" ] },
     "extra_effects": [ { "id": "eoc_evocation_setup" } ],
     "damage_type": "stab",
     "min_range": 8,
@@ -165,9 +165,9 @@
     "description": "Creates an omnidirectional spray of razor sharp metal shards all around you.",
     "valid_targets": [ "hostile", "ally", "ground" ],
     "flags": [ "SOMATIC", "LOUD" ],
-    "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(20)" ] },
-    "max_damage": { "math": [ "evocation_proficiency_bonus_calculate(60)" ] },
-    "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(2.0)" ] },
+    "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(20, 0.5)" ] },
+    "max_damage": { "math": [ "evocation_proficiency_bonus_calculate(60, 0.5)" ] },
+    "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(2.0, 0.05)" ] },
     "extra_effects": [ { "id": "eoc_evocation_setup" } ],
     "damage_type": "cut",
     "min_aoe": 1,
@@ -189,10 +189,10 @@
     "description": "Fires a conjured stone projectile at high velocity.",
     "valid_targets": [ "hostile", "ally" ],
     "flags": [ "SOMATIC", "LOUD" ],
-    "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(5)" ] },
-    "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(1.5)" ] },
+    "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(5, 0.2)" ] },
+    "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(1.5, 0.07)" ] },
     "damage_type": "bash",
-    "max_damage": { "math": [ "evocation_proficiency_bonus_calculate(26)" ] },
+    "max_damage": { "math": [ "evocation_proficiency_bonus_calculate(26, 0.2)" ] },
     "min_range": 5,
     "range_increment": 0.5,
     "max_range": 15,
@@ -220,15 +220,15 @@
     "max_damage": 1,
     "damage_increment": -5,
     "aoe_increment": 0.25,
-    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(200)" ] },
+    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(200, 2)" ] },
     "spell_class": "EARTHSHAPER",
     "difficulty": 4,
     "max_level": 20,
     "min_range": 5,
     "max_range": 5,
-    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(1200)" ] },
-    "final_casting_time": { "math": [ "channeling_proficiency_negate_calculate(200)" ] },
-    "casting_time_increment": { "math": [ "channeling_proficiency_negate_calculate(-50)" ] },
+    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(1200, 3)" ] },
+    "final_casting_time": { "math": [ "channeling_proficiency_negate_calculate(200, 3)" ] },
+    "casting_time_increment": { "math": [ "channeling_proficiency_negate_calculate(-50, 0.05)" ] },
     "energy_source": "MANA",
     "shape": "blast",
     "effect": "ter_transform",
@@ -245,7 +245,7 @@
     "effect": "spawn_item",
     "effect_str": "rune_earthshaper",
     "shape": "blast",
-    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(5000)" ] },
+    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(5000, 10)" ] },
     "extra_effects": [ { "id": "eoc_channeling_setup" } ],
     "base_energy_cost": 5,
     "min_duration": 1,
@@ -272,8 +272,8 @@
     "max_aoe": 13,
     "aoe_increment": 0.5,
     "spell_class": "EARTHSHAPER",
-    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(350)" ] },
-    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(750)" ] },
+    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(350, 5)" ] },
+    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(750, 5)" ] },
     "energy_source": "MANA",
     "difficulty": 4,
     "field_id": "fd_clairvoyant",
@@ -294,13 +294,13 @@
     "energy_source": "MANA",
     "difficulty": 4,
     "base_casting_time": 300,
-    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(300)" ] },
+    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(300, 2)" ] },
     "max_level": 15,
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(24000)" ] },
-    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(360000)" ] },
-    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(24000)" ] },
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(24000, 200)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(360000, 200)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(24000, 0.04)" ] },
     "extra_effects": [ { "id": "eoc_summon_setup" } ],
     "learn_spells": { "earthshaper_stoneskin_plus": 15 }
   },
@@ -320,15 +320,15 @@
     "base_casting_time": 300,
     "final_casting_time": 100,
     "casting_time_increment": -8,
-    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(300)" ] },
-    "final_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(100)" ] },
-    "energy_increment": { "math": [ "summoning_proficiency_negate_calculate(-8)" ] },
+    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(300, 1)" ] },
+    "final_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(100, 1)" ] },
+    "energy_increment": { "math": [ "summoning_proficiency_negate_calculate(-8, 0.04)" ] },
     "max_level": 25,
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(360000)" ] },
-    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(2160000)" ] },
-    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(72000)" ] },
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(360000, 400)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(2160000, 400)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(72000, 0.071)" ] },
     "extra_effects": [ { "id": "eoc_summon_setup" } ]
   },
   {
@@ -345,10 +345,10 @@
     "spell_class": "EARTHSHAPER",
     "energy_source": "MANA",
     "difficulty": 3,
-    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(30000)" ] },
-    "final_casting_time": { "math": [ "channeling_proficiency_negate_calculate(6000)" ] },
-    "casting_time_increment": { "math": [ "channeling_proficiency_negate_calculate(-2400)" ] },
-    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(500)" ] },
+    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(30000, 50)" ] },
+    "final_casting_time": { "math": [ "channeling_proficiency_negate_calculate(6000, 50)" ] },
+    "casting_time_increment": { "math": [ "channeling_proficiency_negate_calculate(-2400, 0.1)" ] },
+    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(500, 5)" ] },
     "max_level": 10,
     "min_range": 3,
     "max_range": 6,
@@ -381,9 +381,9 @@
     "effect": "attack",
     "shape": "blast",
     "damage_type": "necrotic",
-    "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(10)" ] },
-    "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(2)" ] },
-    "max_damage": { "math": [ "evocation_proficiency_bonus_calculate(45)" ] },
+    "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(10, 0.5)" ] },
+    "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(2, 0.06)" ] },
+    "max_damage": { "math": [ "evocation_proficiency_bonus_calculate(45, 0.5)" ] },
     "min_range": 1,
     "max_range": 1,
     "base_energy_cost": 175,
@@ -410,15 +410,15 @@
     "min_damage": -1000,
     "max_damage": -1,
     "damage_increment": 50,
-    "min_dot": { "math": [ "evocation_proficiency_bonus_calculate(0)" ] },
-    "max_dot": { "math": [ "evocation_proficiency_bonus_calculate(10)" ] },
-    "dot_increment": { "math": [ "evocation_proficiency_bonus_calculate(0.5)" ] },
+    "min_dot": { "math": [ "evocation_proficiency_bonus_calculate(0, 0.2)" ] },
+    "max_dot": { "math": [ "evocation_proficiency_bonus_calculate(10, 0.2)" ] },
+    "dot_increment": { "math": [ "evocation_proficiency_bonus_calculate(0.5, 0.05)" ] },
     "max_level": 20
   },
   {
     "id": "reactive_armor",
     "type": "SPELL",
-    "name": "Reactive Armour",
+    "name": "Reactive Armor",
     "description": "Explode your stone skin, to deal massive damage to all enemies around.",
     "effect": "attack",
     "effect_str": "downed",
@@ -427,9 +427,9 @@
     "valid_targets": [ "hostile", "ground" ],
     "flags": [ "SOMATIC", "LOUD", "NO_HANDS", "RANDOM_DURATION" ],
     "max_level": 20,
-    "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(20)" ] },
-    "max_damage": { "math": [ "evocation_proficiency_bonus_calculate(200)" ] },
-    "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(9)" ] },
+    "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(20, 0.5)" ] },
+    "max_damage": { "math": [ "evocation_proficiency_bonus_calculate(200, 0.5)" ] },
+    "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(9, 0.05)" ] },
     "extra_effects": [ { "id": "eoc_evocation_setup" } ],
     "min_aoe": 2,
     "max_aoe": 12,
@@ -458,9 +458,9 @@
     "valid_targets": [ "hostile", "ground" ],
     "flags": [ "SOMATIC", "VERBAL", "NO_PROJECTILE", "NO_LEGS" ],
     "max_level": 20,
-    "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(16)" ] },
-    "max_damage": { "math": [ "evocation_proficiency_bonus_calculate(106)" ] },
-    "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(5)" ] },
+    "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(16, 0.5)" ] },
+    "max_damage": { "math": [ "evocation_proficiency_bonus_calculate(106, 0.5)" ] },
+    "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(5, 0.055)" ] },
     "min_aoe": 1,
     "max_aoe": 7,
     "aoe_increment": 0.3,
@@ -511,12 +511,12 @@
     "base_casting_time": 360000,
     "final_casting_time": 90000,
     "casting_time_increment": -18000,
-    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(600)" ] },
-    "final_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(200)" ] },
-    "energy_increment": { "math": [ "summoning_proficiency_negate_calculate(-30)" ] },
-    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(576000)" ] },
-    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(8640000)" ] },
-    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(576000)" ] }
+    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(600, 2)" ] },
+    "final_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(200, 2)" ] },
+    "energy_increment": { "math": [ "summoning_proficiency_negate_calculate(-30, 0.075)" ] },
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(576000, 3000)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(8640000, 3000)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(576000, 0.071)" ] }
   },
   {
     "type": "effect_on_condition",
@@ -579,8 +579,12 @@
     "effect": "spawn_item",
     "effect_str": "eshaper_hammer",
     "shape": "blast",
-    "min_duration": { "math": [ "( (u_spell_level('eshaper_spawn_tools') * 576000) + summoning_proficiency_bonus_calculate(576000))" ] },
-    "max_duration": { "math": [ "( (u_spell_level('eshaper_spawn_tools') * 576000) + summoning_proficiency_bonus_calculate(576000))" ] }
+    "min_duration": {
+      "math": [ "( (u_spell_level('eshaper_spawn_tools') * 576000) + summoning_proficiency_bonus_calculate(576000, 3000))" ]
+    },
+    "max_duration": {
+      "math": [ "( (u_spell_level('eshaper_spawn_tools') * 576000) + summoning_proficiency_bonus_calculate(576000, 3000))" ]
+    }
   },
   {
     "id": "eshaper_spawn_pickaxe",
@@ -594,8 +598,12 @@
     "effect": "spawn_item",
     "effect_str": "eshaper_pickaxe",
     "shape": "blast",
-    "min_duration": { "math": [ "( (u_spell_level('eshaper_spawn_tools') * 576000) + summoning_proficiency_bonus_calculate(576000))" ] },
-    "max_duration": { "math": [ "( (u_spell_level('eshaper_spawn_tools') * 576000) + summoning_proficiency_bonus_calculate(576000))" ] }
+    "min_duration": {
+      "math": [ "( (u_spell_level('eshaper_spawn_tools') * 576000) + summoning_proficiency_bonus_calculate(576000, 3000))" ]
+    },
+    "max_duration": {
+      "math": [ "( (u_spell_level('eshaper_spawn_tools') * 576000) + summoning_proficiency_bonus_calculate(576000, 3000))" ]
+    }
   },
   {
     "id": "eshaper_spawn_axe",
@@ -609,8 +617,12 @@
     "effect": "spawn_item",
     "effect_str": "eshaper_ax",
     "shape": "blast",
-    "min_duration": { "math": [ "( (u_spell_level('eshaper_spawn_tools') * 576000) + summoning_proficiency_bonus_calculate(576000))" ] },
-    "max_duration": { "math": [ "( (u_spell_level('eshaper_spawn_tools') * 576000) + summoning_proficiency_bonus_calculate(576000))" ] }
+    "min_duration": {
+      "math": [ "( (u_spell_level('eshaper_spawn_tools') * 576000) + summoning_proficiency_bonus_calculate(576000, 3000))" ]
+    },
+    "max_duration": {
+      "math": [ "( (u_spell_level('eshaper_spawn_tools') * 576000) + summoning_proficiency_bonus_calculate(576000, 3000))" ]
+    }
   },
   {
     "id": "eshaper_spawn_knife",
@@ -624,8 +636,12 @@
     "effect": "spawn_item",
     "effect_str": "eshaper_knife",
     "shape": "blast",
-    "min_duration": { "math": [ "( (u_spell_level('eshaper_spawn_tools') * 576000) + summoning_proficiency_bonus_calculate(576000))" ] },
-    "max_duration": { "math": [ "( (u_spell_level('eshaper_spawn_tools') * 576000) + summoning_proficiency_bonus_calculate(576000))" ] }
+    "min_duration": {
+      "math": [ "( (u_spell_level('eshaper_spawn_tools') * 576000) + summoning_proficiency_bonus_calculate(576000, 3000))" ]
+    },
+    "max_duration": {
+      "math": [ "( (u_spell_level('eshaper_spawn_tools') * 576000) + summoning_proficiency_bonus_calculate(576000, 3000))" ]
+    }
   },
   {
     "id": "eshaper_spawn_shovel",
@@ -639,8 +655,12 @@
     "effect": "spawn_item",
     "effect_str": "eshaper_shovel",
     "shape": "blast",
-    "min_duration": { "math": [ "( (u_spell_level('eshaper_spawn_tools') * 576000) + summoning_proficiency_bonus_calculate(576000))" ] },
-    "max_duration": { "math": [ "( (u_spell_level('eshaper_spawn_tools') * 576000) + summoning_proficiency_bonus_calculate(576000))" ] }
+    "min_duration": {
+      "math": [ "( (u_spell_level('eshaper_spawn_tools') * 576000) + summoning_proficiency_bonus_calculate(576000, 3000))" ]
+    },
+    "max_duration": {
+      "math": [ "( (u_spell_level('eshaper_spawn_tools') * 576000) + summoning_proficiency_bonus_calculate(576000, 3000))" ]
+    }
   },
   {
     "id": "eshaper_melee_damage",
@@ -656,16 +676,16 @@
     "energy_source": "MANA",
     "extra_effects": [ { "id": "eoc_enhancement_setup" } ],
     "difficulty": 6,
-    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(1500)" ] },
-    "final_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(500)" ] },
-    "casting_time_increment": { "math": [ "enhancement_proficiency_negate_calculate(-40)" ] },
+    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(1500, 6.67)" ] },
+    "final_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(500, 6.67)" ] },
+    "casting_time_increment": { "math": [ "enhancement_proficiency_negate_calculate(-40, 0.04)" ] },
     "base_energy_cost": 500,
     "final_energy_cost": 200,
     "energy_increment": -12,
     "max_level": 25,
-    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(14400)" ] },
-    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(360000)" ] },
-    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(14400)" ] }
+    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(14400, 2304)" ] },
+    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(360000, 2304)" ] },
+    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(14400, 0.042)" ] }
   },
   {
     "id": "eshaper_crystal_wrap",
@@ -684,13 +704,13 @@
     "base_casting_time": 1500,
     "final_casting_time": 500,
     "casting_time_increment": -40,
-    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(500)" ] },
-    "final_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(200)" ] },
-    "energy_increment": { "math": [ "summoning_proficiency_negate_calculate(-12)" ] },
+    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(500, 1.5)" ] },
+    "final_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(200, 1.5)" ] },
+    "energy_increment": { "math": [ "summoning_proficiency_negate_calculate(-12, 0.04)" ] },
     "max_level": 25,
-    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(14400)" ] },
-    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(360000)" ] },
-    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(14400)" ] }
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(14400, 200)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(360000, 200)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(14400, 0.042)" ] }
   },
   {
     "type": "SPELL",
@@ -723,12 +743,12 @@
     "energy_source": "MANA",
     "difficulty": 7,
     "max_level": 25,
-    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(500)" ] },
+    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(500, 2)" ] },
     "base_energy_cost": 350,
     "extra_effects": [ { "id": "eoc_enhancement_setup" } ],
-    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(2400)" ] },
-    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(60000)" ] },
-    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(2400)" ] }
+    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(2400, 384)" ] },
+    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(60000, 384)" ] },
+    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(2400, 0.042)" ] }
   },
   {
     "id": "summon_eshaper_golem",
@@ -745,9 +765,9 @@
     "effect_str": "mon_eshaper_golem",
     "shape": "blast",
     "energy_source": "MANA",
-    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(750)" ] },
-    "final_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(400)" ] },
-    "energy_increment": { "math": [ "summoning_proficiency_negate_calculate(-12)" ] },
+    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(750, 2)" ] },
+    "final_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(400, 2)" ] },
+    "energy_increment": { "math": [ "summoning_proficiency_negate_calculate(-12, 0.034)" ] },
     "extra_effects": [ { "id": "eoc_summon_setup" } ],
     "base_casting_time": 360000,
     "final_casting_time": 180000,
@@ -755,9 +775,9 @@
     "min_aoe": 1,
     "max_aoe": 1,
     "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE" ],
-    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(12000)" ] },
-    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(360000)" ] },
-    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(12000)" ] }
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(12000, 200)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(360000, 200)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(12000, 0.034)" ] }
   },
   {
     "id": "earthshaper_boulder",
@@ -772,10 +792,10 @@
     "spell_class": "EARTHSHAPER",
     "energy_source": "MANA",
     "difficulty": 3,
-    "base_casting_time": { "math": [ "summoning_proficiency_negate_calculate(360000)" ] },
-    "final_casting_time": { "math": [ "summoning_proficiency_negate_calculate(120000)" ] },
-    "casting_time_increment": { "math": [ "summoning_proficiency_negate_calculate(-24000)" ] },
-    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(500)" ] },
+    "base_casting_time": { "math": [ "summoning_proficiency_negate_calculate(360000, 200)" ] },
+    "final_casting_time": { "math": [ "summoning_proficiency_negate_calculate(120000, 200)" ] },
+    "casting_time_increment": { "math": [ "summoning_proficiency_negate_calculate(-24000, 0.034)" ] },
+    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(500, 2)" ] },
     "max_level": 10,
     "min_range": 1,
     "max_range": 1,
@@ -794,9 +814,9 @@
     "shape": "blast",
     "max_level": 15,
     "spell_class": "EARTHSHAPER",
-    "base_casting_time": { "math": [ "conveyance_proficiency_negate_calculate(6000)" ] },
+    "base_casting_time": { "math": [ "conveyance_proficiency_negate_calculate(6000, 40)" ] },
     "energy_source": "MANA",
-    "base_energy_cost": { "math": [ "conveyance_proficiency_negate_calculate(1000)" ] },
+    "base_energy_cost": { "math": [ "conveyance_proficiency_negate_calculate(1000, 6.7)" ] },
     "difficulty": 8
   },
   {
@@ -939,8 +959,8 @@
     "energy_source": "MANA",
     "difficulty": 3,
     "max_level": 10,
-    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(400)" ] },
-    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(350)" ] },
+    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(400, 5)" ] },
+    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(350, 3)" ] },
     "min_duration": 0,
     "max_duration": 300000,
     "duration_increment": 30000
@@ -988,9 +1008,9 @@
     "base_casting_time": 500,
     "base_energy_cost": 650,
     "max_level": 20,
-    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(360000)" ] },
-    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(2160000)" ] },
-    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(100000)" ] }
+    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(360000, 12000)" ] },
+    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(2160000, 12000)" ] },
+    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(100000, 0.055)" ] }
   },
   {
     "id": "earthshaper_turning_of_earth",
@@ -1007,10 +1027,10 @@
     "difficulty": 2,
     "effect": "ter_transform",
     "effect_str": "earthshaper_turning_earth",
-    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(1500)" ] },
-    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(800)" ] },
-    "final_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(350)" ] },
-    "energy_increment": { "math": [ "channeling_proficiency_negate_calculate(-37.5)" ] },
+    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(1500, 5)" ] },
+    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(800, 3)" ] },
+    "final_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(350, 3)" ] },
+    "energy_increment": { "math": [ "channeling_proficiency_negate_calculate(-37.5, 0.083)" ] },
     "min_range": 3,
     "max_range": 20,
     "range_increment": 1.2
@@ -1033,7 +1053,7 @@
     "base_casting_time": 150,
     "final_casting_time": 100,
     "casting_time_increment": -5,
-    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(750)" ] }
+    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(750, 2)" ] }
   },
   {
     "type": "effect_on_condition",
@@ -1128,8 +1148,8 @@
     "max_range": 20,
     "range_increment": 1,
     "energy_source": "MANA",
-    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(200)" ] },
-    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(1500)" ] }
+    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(200, 2.5)" ] },
+    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(1500, 10)" ] }
   },
   {
     "id": "earthshaper_sleep_in_earth",
@@ -1146,8 +1166,8 @@
     "shape": "blast",
     "energy_source": "MANA",
     "extra_effects": [ { "id": "eoc_enhancement_setup" } ],
-    "base_casting_time": { "math": [ "u_has_trait('EARTHSHAPER_STONE_SLEEP') ? 0 : enhancement_proficiency_negate_calculate(6000)" ] },
-    "base_energy_cost": { "math": [ "u_has_trait('EARTHSHAPER_STONE_SLEEP') ? 0 : enhancement_proficiency_negate_calculate(800)" ] }
+    "base_casting_time": { "math": [ "u_has_trait('EARTHSHAPER_STONE_SLEEP') ? 0 : enhancement_proficiency_negate_calculate(6000, 34.7)" ] },
+    "base_energy_cost": { "math": [ "u_has_trait('EARTHSHAPER_STONE_SLEEP') ? 0 : enhancement_proficiency_negate_calculate(800, 34.7)" ] }
   },
   {
     "type": "effect_on_condition",
@@ -1234,10 +1254,10 @@
     "difficulty": 4,
     "max_level": 20,
     "energy_source": "MANA",
-    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(600)" ] },
-    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(360000)" ] },
-    "final_casting_time": { "math": [ "channeling_proficiency_negate_calculate(90000)" ] },
-    "casting_time_increment": { "math": [ "channeling_proficiency_negate_calculate(-13500)" ] }
+    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(600, 5)" ] },
+    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(360000, 400)" ] },
+    "final_casting_time": { "math": [ "channeling_proficiency_negate_calculate(90000, 400)" ] },
+    "casting_time_increment": { "math": [ "channeling_proficiency_negate_calculate(-13500, 0.05)" ] }
   },
   {
     "type": "effect_on_condition",

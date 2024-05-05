@@ -1,6 +1,5 @@
 #include "game.h"
 
-#include <functional>
 #include <algorithm>
 #include <bitset>
 #include <chrono>
@@ -12,10 +11,13 @@
 #include <ctime>
 #include <cwctype>
 #include <exception>
+#include <functional>
 #include <iomanip>
 #include <iostream>
 #include <iterator>
 #include <limits>
+#include <list>
+#include <locale>
 #include <map>
 #include <memory>
 #include <numeric>
@@ -45,21 +47,25 @@
 #include "avatar_action.h"
 #include "basecamp.h"
 #include "bionics.h"
+#include "body_part_set.h"
 #include "bodygraph.h"
 #include "bodypart.h"
 #include "butchery_requirements.h"
 #include "cached_options.h"
+#include "cata_path.h"
 #include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "cata_variant.h"
 #include "catacharset.h"
 #include "character.h"
+#include "character_attire.h"
 #include "character_martial_arts.h"
 #include "city.h"
 #include "climbing.h"
 #include "clzones.h"
 #include "colony.h"
 #include "color.h"
+#include "computer.h"
 #include "computer_session.h"
 #include "construction.h"
 #include "construction_group.h"
@@ -72,10 +78,12 @@
 #include "damage.h"
 #include "debug.h"
 #include "dependency_tree.h"
+#include "dialogue.h"
 #include "dialogue_chatbin.h"
 #include "diary.h"
 #include "distraction_manager.h"
 #include "editmap.h"
+#include "effect.h"
 #include "effect_on_condition.h"
 #include "enums.h"
 #include "event.h"
@@ -86,6 +94,8 @@
 #include "field_type.h"
 #include "filesystem.h"
 #include "flag.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "game_ui.h"
@@ -93,14 +103,15 @@
 #include "gates.h"
 #include "get_version.h"
 #include "harvest.h"
-#include "help.h"
 #include "iexamine.h"
 #include "init.h"
 #include "input.h"
 #include "input_context.h"
+#include "input_enums.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_category.h"
+#include "item_contents.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "item_search.h"
@@ -116,8 +127,9 @@
 #include "line.h"
 #include "live_view.h"
 #include "loading_ui.h"
-#include "main_menu.h"
 #include "magic.h"
+#include "magic_enchantment.h"
+#include "main_menu.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_item_stack.h"
@@ -126,17 +138,20 @@
 #include "mapbuffer.h"
 #include "mapdata.h"
 #include "mapsharing.h"
+#include "maptile_fwd.h"
 #include "memorial_logger.h"
 #include "messages.h"
 #include "mission.h"
 #include "mod_manager.h"
 #include "monexamine.h"
+#include "mongroup.h"
+#include "monster.h"
 #include "monstergenerator.h"
 #include "move_mode.h"
 #include "mtype.h"
 #include "npc.h"
-#include "npctrade.h"
 #include "npc_class.h"
+#include "npctrade.h"
 #include "omdata.h"
 #include "options.h"
 #include "output.h"
@@ -144,7 +159,6 @@
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "panels.h"
-#include "past_games_info.h"
 #include "past_achievements_info.h"
 #include "path_info.h"
 #include "pathfinding.h"
@@ -152,6 +166,7 @@
 #include "player_activity.h"
 #include "popup.h"
 #include "profession.h"
+#include "proficiency.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "ret_val.h"
@@ -170,6 +185,8 @@
 #include "text_snippets.h"
 #include "tileray.h"
 #include "timed_event.h"
+#include "translation.h"
+#include "translation_cache.h"
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
@@ -182,8 +199,11 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "viewer.h"
+#include "visitable.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
+#include "wcwidth.h"
+#include "weakpoint.h"
 #include "weather.h"
 #include "weather_type.h"
 #include "worldfactory.h"
@@ -307,6 +327,14 @@ static const skill_id skill_survival( "survival" );
 static const species_id species_PLANT( "PLANT" );
 
 static const string_id<npc_template> npc_template_cyborg_rescued( "cyborg_rescued" );
+
+static const ter_str_id ter_t_elevator( "t_elevator" );
+static const ter_str_id ter_t_grave_new( "t_grave_new" );
+static const ter_str_id ter_t_lava( "t_lava" );
+static const ter_str_id ter_t_manhole( "t_manhole" );
+static const ter_str_id ter_t_manhole_cover( "t_manhole_cover" );
+static const ter_str_id ter_t_pit( "t_pit" );
+static const ter_str_id ter_t_pit_shallow( "t_pit_shallow" );
 
 static const trait_id trait_BADKNEES( "BADKNEES" );
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
@@ -852,6 +880,7 @@ bool game::start_game()
     const start_location &start_loc = u.random_start_location ? scen->random_start_location().obj() :
                                       u.start_location.obj();
     tripoint_abs_omt omtstart = overmap::invalid_tripoint;
+    std::unordered_map<std::string, std::string> associated_parameters;
     const bool select_starting_city = get_option<bool>( "SELECT_STARTING_CITY" );
     do {
         if( select_starting_city ) {
@@ -859,9 +888,13 @@ bool game::start_game()
                 u.starting_city = random_entry( city::get_all() );
                 u.world_origin = u.starting_city->pos_om;
             }
-            omtstart = start_loc.find_player_initial_location( u.starting_city.value() );
+            auto ret = start_loc.find_player_initial_location( u.starting_city.value() );
+            omtstart = ret.first;
+            associated_parameters = ret.second;
         } else {
-            omtstart = start_loc.find_player_initial_location( u.world_origin.value_or( point_abs_om() ) );
+            auto ret = start_loc.find_player_initial_location( u.world_origin.value_or( point_abs_om() ) );
+            omtstart = ret.first;
+            associated_parameters = ret.second;
         }
         if( omtstart == overmap::invalid_tripoint ) {
 
@@ -874,6 +907,9 @@ bool game::start_game()
             }
         }
     } while( omtstart == overmap::invalid_tripoint );
+
+    // Set parameter(s) if specified in chosen start_loc
+    start_loc.set_parameters( omtstart, associated_parameters );
 
     start_loc.prepare_map( omtstart );
 
@@ -1808,13 +1844,11 @@ static hint_rating rate_action_disassemble( avatar &you, const item &it )
 
 static hint_rating rate_action_view_recipe( avatar &you, const item &it )
 {
-    const inventory &inven = you.crafting_inventory();
-    const std::vector<Character *> helpers = you.get_crafting_group();
     if( it.is_craft() ) {
         const recipe &craft_recipe = it.get_making();
         if( craft_recipe.is_null() || !craft_recipe.ident().is_valid() ) {
             return hint_rating::cant;
-        } else if( you.get_available_recipes( inven, &helpers ).contains( &craft_recipe ) ) {
+        } else if( you.get_group_available_recipes().contains( &craft_recipe ) ) {
             return hint_rating::good;
         }
     } else {
@@ -1825,8 +1859,8 @@ static hint_rating rate_action_view_recipe( avatar &you, const item &it )
         for( const auto& [_, r] : recipe_dict ) {
             if( !r.obsolete && ( item == r.result() || r.in_byproducts( item ) ) ) {
                 is_byproduct = true;
-                // If if exists, do I know it?
-                if( you.get_available_recipes( inven, &helpers ).contains( &r ) ) {
+                // If a recipe exists, does my group know it?
+                if( you.get_group_available_recipes().contains( &r ) ) {
                     can_craft = true;
                     break;
                 }
@@ -2491,6 +2525,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "cast_spell" );
     ctxt.register_action( "fire_burst" );
     ctxt.register_action( "select_fire_mode" );
+    ctxt.register_action( "select_default_ammo" );
     ctxt.register_action( "drop" );
     ctxt.register_action( "unload_container" );
     ctxt.register_action( "drop_adj" );
@@ -2860,7 +2895,7 @@ void game::bury_screen() const
     sfx::fade_audio_group( sfx::group::weather, 2000 );
     sfx::fade_audio_group( sfx::group::time_of_day, 2000 );
     sfx::fade_audio_group( sfx::group::context_themes, 2000 );
-    sfx::fade_audio_group( sfx::group::fatigue, 2000 );
+    sfx::fade_audio_group( sfx::group::sleepiness, 2000 );
 
     for( size_t iY = 0; iY < vRip.size(); ++iY ) {
         size_t iX = 0;
@@ -6564,7 +6599,7 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
     print_furniture_info( lp, w_look, column, line );
 
     // Cover percentage from terrain and furniture next.
-    fold_and_print( w_look, point( column, ++line ), max_width, c_light_gray, _( "Cover: %d%%" ),
+    fold_and_print( w_look, point( column, ++line ), max_width, c_light_gray, _( "Concealment: %d%%" ),
                     m.coverage( lp ) );
 
     if( m.has_flag( ter_furn_flag::TFLAG_TREE, lp ) ) {
@@ -6675,7 +6710,7 @@ void game::print_fields_info( const tripoint &lp, const catacurses::window &w_lo
     for( const auto &fld : tmpfield ) {
         const field_entry &cur = fld.second;
         if( fld.first.obj().has_fire && ( m.has_flag( ter_furn_flag::TFLAG_FIRE_CONTAINER, lp ) ||
-                                          m.ter( lp ) == t_pit_shallow || m.ter( lp ) == t_pit ) ) {
+                                          m.ter( lp ) == ter_t_pit_shallow || m.ter( lp ) == ter_t_pit ) ) {
             const int max_width = getmaxx( w_look ) - column - 2;
             int lines = fold_and_print( w_look, point( column, ++line ), max_width, cur.color(),
                                         get_fire_fuel_string( lp ) ) - 1;
@@ -6803,7 +6838,7 @@ void game::print_graffiti_info( const tripoint &lp, const catacurses::window &w_
     const int max_width = getmaxx( w_look ) - column - 2;
     if( m.has_graffiti_at( lp ) ) {
         const int lines = fold_and_print( w_look, point( column, ++line ), max_width, c_light_gray,
-                                          m.ter( lp ) == t_grave_new ? _( "Graffiti: %s" ) : _( "Inscription: %s" ),
+                                          m.ter( lp ) == ter_t_grave_new ? _( "Graffiti: %s" ) : _( "Inscription: %s" ),
                                           m.graffiti_at( lp ) );
         line += lines - 1;
     }
@@ -7702,7 +7737,7 @@ look_around_result game::look_around(
 
     const int old_levz = m.get_abs_sub().z();
     const int min_levz = std::max( old_levz - fov_3d_z_range, -OVERMAP_DEPTH );
-    const int max_levz = std::min( old_levz + fov_3d_z_range, OVERMAP_HEIGHT - 1 );
+    const int max_levz = std::min( old_levz + fov_3d_z_range, OVERMAP_HEIGHT );
 
     m.update_visibility_cache( old_levz );
     const visibility_variables &cache = m.get_visibility_variables_cache();
@@ -8289,6 +8324,7 @@ void game::reset_item_list_state( const catacurses::window &window, int height, 
     tokens.emplace_back( _( "<C>ompare" ) );
     tokens.emplace_back( _( "<F>ilter" ) );
     tokens.emplace_back( _( "<+/->Priority" ) );
+    tokens.emplace_back( _( "<T>ravel to" ) );
 
     int gaps = tokens.size() + 1;
     letters = 0;
@@ -8364,21 +8400,56 @@ static std::string list_items_filter_history_help()
     return colorize( _( "UP: history, CTRL-U: clear line, ESC: abort, ENTER: save" ), c_green );
 }
 
+/// return content_newness based on if item is known and nested items are known
+static content_newness check_items_newness( const item *itm )
+{
+    if( !uistate.read_items.count( itm->typeId() ) ) {
+        return content_newness::NEW;
+    }
+    return itm->get_contents().get_content_newness( uistate.read_items );
+}
+
+/// add item and all visible nested items inside to known items
+static void mark_items_read_rec( const item *itm )
+{
+    uistate.read_items.insert( itm->typeId() );
+    for( const item *child : itm->all_known_contents() ) {
+        mark_items_read_rec( child );
+    }
+}
+
 game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
 {
     std::vector<map_item_stack> ground_items = item_list;
     int iInfoHeight = 0;
     int iMaxRows = 0;
     int width = 0;
+    int width_nob = 0;  // width without borders
     int max_name_width = 0;
+
+    const bool highlight_unread_items = get_option<bool>( "HIGHLIGHT_UNREAD_ITEMS" );
+    const nc_color item_new_col = c_light_green;
+    const nc_color item_maybe_new_col = c_light_gray;
+    const std::string item_new_str = pgettext( "crafting gui", "NEW!" );
+    const std::string item_maybe_new_str = pgettext( "crafting gui", "hides contents" );
+    const int item_new_str_width = utf8_width( item_new_str );
+    const int item_maybe_new_str_width = utf8_width( item_maybe_new_str );
+
+    // Constants for content that is always displayed in w_items
+    // on left: 1 space
+    const int left_padding = 1;
+    // on right: 2 digit distance 1 space 2 direction 1 space
+    const int right_padding = 2 + 1 + 2 + 1;
+    const int padding = left_padding + right_padding;
 
     //find max length of item name and resize window width
     for( const map_item_stack &cur_item : ground_items ) {
-        const int item_len = utf8_width( remove_color_tags( cur_item.example->display_name() ) ) + 15;
-        if( item_len > max_name_width ) {
-            max_name_width = item_len;
-        }
+        max_name_width = std::max( max_name_width,
+                                   utf8_width( remove_color_tags( cur_item.example->display_name() ) ) );
     }
+    // + 6 as estimate for `iThisPage` I guess
+    max_name_width = max_name_width + padding + 6 + ( highlight_unread_items ? std::max(
+                         item_new_str_width, item_maybe_new_str_width ) : 0 );
 
     tripoint active_pos;
     map_item_stack *activeItem = nullptr;
@@ -8393,11 +8464,12 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         iMaxRows = TERMY - iInfoHeight - 2;
 
         width = clamp( max_name_width, 55, TERMX / 3 );
+        width_nob = width - 2;
 
         const int offsetX = TERMX - width;
 
         w_items = catacurses::newwin( TERMY - 2 - iInfoHeight,
-                                      width - 2, point( offsetX + 1, 1 ) );
+                                      width_nob, point( offsetX + 1, 1 ) );
         w_items_border = catacurses::newwin( TERMY - iInfoHeight,
                                              width, point( offsetX, 0 ) );
         w_item_info = catacurses::newwin( iInfoHeight, width,
@@ -8483,8 +8555,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             werase( w_items );
             calcStartPos( iStartPos, iActive, iMaxRows, iItemNum );
             int iNum = 0;
-            bool high = false;
-            bool low = false;
+            // ITEM LIST
             int index = 0;
             int iCatSortOffset = 0;
 
@@ -8493,69 +8564,90 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                     iNum++;
                 }
             }
-            for( auto iter = filtered_items.begin(); iter != filtered_items.end(); ++index ) {
-                if( highPEnd > 0 && index < highPEnd + iCatSortOffset ) {
-                    high = true;
-                    low = false;
-                } else if( index >= lowPStart + iCatSortOffset ) {
-                    high = false;
-                    low = true;
-                } else {
-                    high = false;
-                    low = false;
-                }
-
-                if( iNum >= iStartPos && iNum < iStartPos + std::min( iMaxRows, iItemNum ) ) {
-                    int iThisPage = 0;
-                    if( !mSortCategory[iNum].empty() ) {
-                        iCatSortOffset++;
-                        mvwprintz( w_items, point( 1, iNum - iStartPos ), c_magenta, mSortCategory[iNum] );
-                    } else {
-                        if( iNum == iActive ) {
-                            iThisPage = page_num;
-                        }
-                        std::string sText;
-                        if( iter->vIG.size() > 1 ) {
-                            sText += string_format( "[%d/%d] (%d) ", iThisPage + 1, iter->vIG.size(), iter->totalcount );
-                        }
-                        sText += iter->example->tname();
-                        if( iter->vIG[iThisPage].count > 1 ) {
-                            sText += string_format( "[%d]", iter->vIG[iThisPage].count );
-                        }
-
-                        nc_color col = c_light_gray;
-                        if( iNum == iActive ) {
-                            col = hilite( c_white );
-                        } else if( high ) {
-                            col = c_yellow;
-                        } else if( low ) {
-                            col = c_red;
-                        } else {
-                            col = iter->example->color_in_inventory();
-                        }
-                        trim_and_print( w_items, point( 1, iNum - iStartPos ), width - 9, col, sText );
-                        const int numw = iItemNum > 9 ? 2 : 1;
-                        const point p( iter->vIG[iThisPage].pos.xy() );
-                        mvwprintz( w_items, point( width - 6 - numw, iNum - iStartPos ),
-                                   iNum == iActive ? c_light_green : c_light_gray,
-                                   "%*d %s", numw, rl_dist( point_zero, p ),
-                                   direction_name_short( direction_from( point_zero, p ) ) );
-                        ++iter;
-                    }
-                } else {
+            for( auto iter = filtered_items.begin(); iter != filtered_items.end(); ++index, iNum++ ) {
+                if( iNum < iStartPos || iNum >= iStartPos + std::min( iMaxRows, iItemNum ) ) {
                     ++iter;
+                    continue;
                 }
-                iNum++;
+                int iThisPage = 0;
+                if( !mSortCategory[iNum].empty() ) {
+                    iCatSortOffset++;
+                    mvwprintz( w_items, point( 1, iNum - iStartPos ), c_magenta, mSortCategory[iNum] );
+                    continue;
+                }
+                if( iNum == iActive ) {
+                    iThisPage = page_num;
+                }
+                std::string sText;
+                if( iter->vIG.size() > 1 ) {
+                    sText += string_format( "[%d/%d] (%d) ", iThisPage + 1, iter->vIG.size(), iter->totalcount );
+                }
+                sText += iter->example->tname();
+                if( iter->vIG[iThisPage].count > 1 ) {
+                    sText += string_format( "[%d]", iter->vIG[iThisPage].count );
+                }
+
+                nc_color col = c_light_gray;
+                if( iNum == iActive ) {
+                    col = hilite( c_white );
+                } else if( highPEnd > 0 && index < highPEnd + iCatSortOffset ) {  // priority high
+                    col = c_yellow;
+                } else if( index >= lowPStart + iCatSortOffset ) {  // priority low
+                    col = c_red;
+                } else {  // priority medium
+                    col = iter->example->color_in_inventory();
+                }
+                bool print_new = highlight_unread_items;
+                const std::string *new_str = nullptr;
+                // 1 make space between item description and right padding (distance)
+                int new_width = 1;
+                const nc_color *new_col = nullptr;
+                if( print_new ) {
+                    switch( check_items_newness( iter->example ) ) {
+                        case content_newness::NEW:
+                            new_str =  &item_new_str;
+                            // +1 make space between item description and "new"
+                            new_width += item_new_str_width + 1;
+                            new_col =  &item_new_col;
+                            break;
+                        case content_newness::MIGHT_BE_HIDDEN:
+                            new_str =  &item_maybe_new_str;
+                            new_width += item_maybe_new_str_width + 1;
+                            new_col =  &item_maybe_new_col;
+                            break;
+                        case content_newness::SEEN:
+                            print_new = false;
+                            break;
+                    }
+                }
+                trim_and_print( w_items, point( 1, iNum - iStartPos ), width_nob - padding - new_width, col,
+                                sText );
+                const point p( iter->vIG[iThisPage].pos.xy() );
+                if( print_new ) {
+                    // +1 move space between item description and "new"
+                    mvwprintz( w_items, point( width_nob - right_padding - new_width + 1, iNum - iStartPos ), *new_col,
+                               *new_str );
+                }
+                mvwprintz( w_items, point( width_nob - right_padding, iNum - iStartPos ),
+                           iNum == iActive ? c_light_green : c_light_gray,
+                           "%2d %s", rl_dist( point_zero, p ),
+                           direction_name_short( direction_from( point_zero, p ) ) );
+                ++iter;
             }
+            // ITEM DESCRIPTION
             iNum = 0;
             for( int i = 0; i < iActive; i++ ) {
                 if( !mSortCategory[i].empty() ) {
                     iNum++;
                 }
             }
-            mvwprintz( w_items_border, point( ( width - 9 ) / 2 + ( iItemNum > 9 ? 0 : 1 ), 0 ),
-                       c_light_green, " %*d", iItemNum > 9 ? 2 : 1, iItemNum > 0 ? iActive - iNum + 1 : 0 );
-            wprintz( w_items_border, c_white, " / %*d ", iItemNum > 9 ? 2 : 1, iItemNum - iCatSortNum );
+            const int current_i = iItemNum > 0 ? iActive - iNum + 1 : 0;
+            const int numd = current_i > 999 ? 4 :
+                             current_i > 99 ? 3 :
+                             current_i > 9 ? 2 : 1;
+            mvwprintz( w_items_border, point( width / 2 - numd - 2, 0 ), c_light_green, " %*d", numd,
+                       current_i );
+            wprintz( w_items_border, c_white, " / %*d ", numd, iItemNum - iCatSortNum );
             werase( w_item_info );
 
             if( iItemNum > 0 && activeItem ) {
@@ -8579,7 +8671,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         if( iItemNum > 0 && activeItem ) {
             // print info window title: < item name >
             mvwprintw( w_item_info, point( 2, 0 ), "< " );
-            trim_and_print( w_item_info, point( 4, 0 ), width - 8,
+            trim_and_print( w_item_info, point( 4, 0 ), width_nob - padding,
                             activeItem->vIG[page_num].it->color_in_inventory(),
                             activeItem->vIG[page_num].it->display_name() );
             wprintw( w_item_info, " >" );
@@ -8599,8 +8691,10 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
     add_draw_callback( trail_cb );
 
     do {
+        bool recalc_unread = false;
         if( action == "COMPARE" && activeItem ) {
             game_menus::inv::compare( u, active_pos );
+            recalc_unread = highlight_unread_items;
         } else if( action == "FILTER" ) {
             ui.invalidate_ui();
             string_input_popup()
@@ -8634,6 +8728,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             draw_item_info( [&]() -> catacurses::window {
                 return catacurses::newwin( TERMY, width - 5, point_zero );
             }, info_data );
+            recalc_unread = highlight_unread_items;
         } else if( action == "PRIORITY_INCREASE" ) {
             ui.invalidate_ui();
             list_item_upvote = string_input_popup()
@@ -8685,6 +8780,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             safe_route_to( u, u.pos_bub() + active_pos, 1, []( const std::string & msg ) {
                 popup( msg );
             } );
+            recalc_unread = highlight_unread_items;
             if( try_route.has_value() ) {
                 u.set_destination( *try_route );
                 break;
@@ -8745,6 +8841,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             if( iActive < 0 ) {
                 iActive = iItemNum - 1;
             }
+            recalc_unread = highlight_unread_items;
         } else if( action == "DOWN" ) {
             do {
                 iActive++;
@@ -8754,6 +8851,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             if( iActive >= iItemNum ) {
                 iActive = mSortCategory[0].empty() ? 0 : 1;
             }
+            recalc_unread = highlight_unread_items;
         } else if( action == "PAGE_DOWN" ) {
             iScrollPos = 0;
             page_num = 0;
@@ -8786,12 +8884,16 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                     page_num = activeItem->vIG.size() - 1;
                 }
             }
+            recalc_unread = highlight_unread_items;
         } else if( action == "LEFT" ) {
             page_num = std::max( 0, page_num - 1 );
+            recalc_unread = highlight_unread_items;
         } else if( action == "SCROLL_ITEM_INFO_UP" ) {
             iScrollPos -= item_info_scroll_lines;
+            recalc_unread = highlight_unread_items;
         } else if( action == "SCROLL_ITEM_INFO_DOWN" ) {
             iScrollPos += item_info_scroll_lines;
+            recalc_unread = highlight_unread_items;
         } else if( action == "zoom_in" ) {
             zoom_in();
             mark_main_ui_adaptor_resize();
@@ -8827,6 +8929,9 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             // call to `ui_manager::redraw`.
             //NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
             trail_end_x = true;
+            if( recalc_unread ) {
+                mark_items_read_rec( activeItem->example );
+            }
         } else {
             u.view_offset = stored_view_offset;
             trail_start = trail_end = std::nullopt;
@@ -9808,6 +9913,26 @@ void game::butcher()
     }
 }
 
+static item::reload_option favorite_ammo_or_select( avatar &u, item_location &loc, bool empty,
+        bool prompt )
+{
+    if( u.ammo_location ) {
+        std::vector<item::reload_option> ammo_list;
+        if( u.list_ammo( loc, ammo_list, false ) ) {
+            const auto is_favorite_and_compatible = [&loc, &u]( const item::reload_option & opt ) {
+                return opt.ammo == u.ammo_location && loc->can_reload_with( *u.ammo_location.get_item(), false );
+            };
+            auto it = std::find_if( ammo_list.begin(), ammo_list.end(), is_favorite_and_compatible );
+            if( it != ammo_list.end() ) {
+                return *it;
+            }
+        }
+    } else {
+        const_cast<item_location &>( u.ammo_location ) = item_location();
+    }
+    return u.select_ammo( loc, prompt, empty );
+}
+
 void game::reload( item_location &loc, bool prompt, bool empty )
 {
     // bows etc. do not need to reload. select favorite ammo for them instead
@@ -9816,9 +9941,13 @@ void game::reload( item_location &loc, bool prompt, bool empty )
         if( !opt ) {
             return;
         } else if( u.ammo_location && opt.ammo == u.ammo_location ) {
+            u.add_msg_if_player( _( "Cleared ammo preferences for %s." ), loc->tname() );
             u.ammo_location = item_location();
-        } else {
+        } else if( u.has_item( *opt.ammo ) ) {
+            u.add_msg_if_player( _( "Selected %s as default ammo for %s." ), opt.ammo->tname(), loc->tname() );
             u.ammo_location = opt.ammo;
+        } else {
+            u.add_msg_if_player( _( "You need to keep that ammo on you to select it as default ammo." ) );
         }
         return;
     }
@@ -9866,10 +9995,7 @@ void game::reload( item_location &loc, bool prompt, bool empty )
         loc = item_location( loc, &loc->only_item() );
     }
 
-    item::reload_option opt = u.ammo_location &&
-                              loc->can_reload_with( *u.ammo_location.get_item(), false ) ?
-                              item::reload_option( &u, loc, u.ammo_location ) :
-                              u.select_ammo( loc, prompt, empty );
+    item::reload_option opt = favorite_ammo_or_select( u, loc, empty, prompt );
 
     if( opt.ammo.get_item() == nullptr || ( opt.ammo.get_item()->is_frozen_liquid() &&
                                             !u.crush_frozen_liquid( opt.ammo ) ) ) {
@@ -10655,7 +10781,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
         if( !m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, dest_loc ) &&
             one_in( 80 + u.dex_cur + u.int_cur ) ) {
             add_msg( _( "Your tentacles stick to the ground, but you pull them free." ) );
-            u.mod_fatigue( 1 );
+            u.mod_sleepiness( 1 );
         }
     }
 
@@ -11437,7 +11563,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
 
     // Actually move the furniture.
     m.furn_set( fdest, m.furn( fpos ) );
-    m.furn_set( fpos, f_null, true );
+    m.furn_set( fpos, furn_str_id::NULL_ID(), true );
 
     if( fire_intensity == 1 && !pulling_furniture ) {
         m.remove_field( fpos, fd_fire );
@@ -11963,7 +12089,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
     if( z_after < -OVERMAP_DEPTH ) {
         add_msg( m_info, _( "Halfway down, the way down becomes blocked off." ) );
         return;
-    } else if( z_after >= OVERMAP_HEIGHT ) {
+    } else if( z_after > OVERMAP_HEIGHT ) {
         add_msg( m_info, _( "Halfway up, the way up becomes blocked off." ) );
         return;
     }
@@ -12188,9 +12314,9 @@ void game::vertical_move( int movez, bool force, bool peeking )
         }
     }
 
-    if( here.ter( stairs ) == t_manhole_cover ) {
+    if( here.ter( stairs ) == ter_t_manhole_cover ) {
         here.spawn_item( stairs + point( rng( -1, 1 ), rng( -1, 1 ) ), itype_manhole_cover );
-        here.ter_set( stairs, t_manhole );
+        here.ter_set( stairs, ter_t_manhole );
     }
 
     if( u.is_hauling() ) {
@@ -12286,8 +12412,8 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
             if( rl_dist( u.pos(), dest ) <= best &&
                 ( ( going_down_1 && mp.has_flag( ter_furn_flag::TFLAG_GOES_UP, dest ) ) ||
                   ( going_up_1 && ( mp.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, dest ) ||
-                                    mp.ter( dest ) == t_manhole_cover ) ) ||
-                  ( ( movez == 2 || movez == -2 ) && mp.ter( dest ) == t_elevator ) ) ) {
+                                    mp.ter( dest ) == ter_t_manhole_cover ) ) ||
+                  ( ( movez == 2 || movez == -2 ) && mp.ter( dest ) == ter_t_elevator ) ) ) {
                 stairs.emplace( dest );
                 best = rl_dist( u.pos(), dest );
             }
@@ -12332,7 +12458,7 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
     stairs.emplace( pos );
     stairs->z = z_after;
     // Check the destination area for lava.
-    if( mp.ter( *stairs ) == t_lava ) {
+    if( mp.ter( *stairs ) == ter_t_lava ) {
         if( movez < 0 &&
             !query_yn(
                 _( "There is a LOT of heat coming out of there, even the stairs have melted away.  Jump down?  You won't be able to get back up." ) ) ) {

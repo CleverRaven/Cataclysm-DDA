@@ -369,7 +369,7 @@
     "effect": [
       { "math": [ "u_hp('ALL')", "=", "999" ] },
       { "math": [ "u_hp('ALL_MAJOR')", "=", "45" ] },
-      { "math": [ "u_val('stored_kcal')", "=", "70000" ] },
+      { "math": [ "u_calories()", "=", "70000" ] },
       { "math": [ "u_val('thirst')", "=", "0" ] },
       { "math": [ "u_vitamin('redcells')", "=", "0" ] },
       { "math": [ "u_vitamin('bad_food')", "=", "0" ] },
@@ -405,7 +405,7 @@
       { "u_lose_trait": "ARVORE_PERENNIAL_REBIRTH_CASTED" },
       { "u_add_effect": "arvore_perennial_rebirth_cooldown", "duration": 2419200 },
       { "math": [ "u_pain()", "=", "0" ] },
-      { "math": [ "u_val('stored_kcal')", "=", "65000" ] },
+      { "math": [ "u_calories()", "=", "65000" ] },
       { "math": [ "u_val('thirst')", "=", "0" ] },
       {
         "foreach": "ids",
@@ -429,22 +429,20 @@
     "type": "effect_on_condition",
     "id": "EOC_SUN_FOODS_ON_KCAL",
     "//": "Numbers here based on 8 hours of time in the sun.  480 minutes * 7 kcals per minute = 3360 kcals, up to 5760 kcals per 8 hours if you're low.",
-    "condition": { "math": [ "u_val('stored_kcal')", ">=", "118000" ] },
+    "condition": { "math": [ "u_calories()", ">=", "118000" ] },
     "effect": [  ],
     "false_effect": {
       "run_eocs": [
         {
           "id": "EOC_SUN_FOODS_ON_KCAL_2",
-          "condition": {
-            "and": [ { "math": [ "u_val('stored_kcal')", "<=", "179999" ] }, { "math": [ "u_val('stored_kcal')", ">=", "75000" ] } ]
-          },
-          "effect": [ { "math": [ "u_val('stored_kcal')", "+=", "7" ] } ],
+          "condition": { "and": [ { "math": [ "u_calories()", "<=", "179999" ] }, { "math": [ "u_calories()", ">=", "75000" ] } ] },
+          "effect": [ { "math": [ "u_calories()", "+=", "7" ] } ],
           "false_effect": {
             "run_eocs": [
               {
                 "id": "EOC_SUN_FOODS_ON_KCAL_3",
-                "condition": { "math": [ "u_val('stored_kcal')", "<=", "74999" ] },
-                "effect": [ { "math": [ "u_val('stored_kcal')", "+=", "12" ] } ]
+                "condition": { "math": [ "u_calories()", "<=", "74999" ] },
+                "effect": [ { "math": [ "u_calories()", "+=", "12" ] } ]
               }
             ]
           }
@@ -701,14 +699,67 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ARVORE_VERDANT_IMPRISONMENT",
+    "condition": "u_is_outside",
+    "effect": [ { "run_eocs": "EOC_ARVORE_VERDANT_IMPRISONMENT_2" } ],
+    "false_effect": [ { "npc_message": "Your target must be outdoors to transform them into a tree." } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_VERDANT_IMPRISONMENT_2",
+    "condition": { "not": "u_is_npc" },
     "effect": [
+      { "math": [ "u_arvore_turn_into_tree_intelligence", "=", "( ( n_val('intelligence') + 10) / 20 )" ] },
+      { "math": [ "u_arvore_turn_into_tree_spell_level", "=", "n_spell_level('arvore_turn_into_tree')" ] },
       {
-        "npc_location_variable": { "global_val": "arvore_tree_transform_target" },
+        "u_location_variable": { "global_val": "arvore_tree_transform_target" },
         "x_adjust": 0,
         "y_adjust": 0,
-        "z_adjust": 0,
-        "monster": "",
+        "z_adjust": 0
+      },
+      { "u_cast_spell": { "id": "arvore_turn_into_tree_banish", "message": "" } },
+      {
+        "run_eoc_with": "EOC_NULL",
+        "beta_loc": { "global_val": "arvore_tree_transform_target" },
         "false_eocs": "EOC_ARVORE_VERDANT_IMPRISONMENT_SUCCESS"
+      }
+    ],
+    "false_effect": [
+      {
+        "math": [
+          "u_arvore_turn_into_tree_damage",
+          "=",
+          "rng(((25 + (n_spell_level('arvore_turn_into_tree') * 5)) * ( ( n_val('intelligence') + 10) / 20 )),((100 + (n_spell_level('arvore_turn_into_tree') * 15)) * ( ( n_val('intelligence') + 10) / 20 )))"
+        ]
+      },
+      {
+        "math": [
+          "u_health_comparison",
+          "=",
+          "(u_hp('arm_l') + u_hp('arm_r') + u_hp('leg_l') + u_hp('leg_r') + u_hp('torso') + u_hp('head')) / 3"
+        ]
+      },
+      {
+        "u_location_variable": { "global_val": "arvore_tree_transform_target" },
+        "x_adjust": 0,
+        "y_adjust": 0,
+        "z_adjust": 0
+      },
+      {
+        "if": { "math": [ "u_arvore_turn_into_tree_damage", ">", "u_health_comparison" ] },
+        "then": [
+          "u_die",
+          {
+            "u_map_run_item_eocs": "all",
+            "min_radius": 0,
+            "max_radius": 0,
+            "true_eocs": [ { "id": "EOC_ARVORE_VERDANT_IMPRISONMENT_DELETE_NPC_ITEMS", "effect": [ "npc_die" ] } ]
+          },
+          {
+            "run_eoc_with": "EOC_NULL",
+            "beta_loc": { "global_val": "arvore_tree_transform_target" },
+            "false_eocs": "EOC_ARVORE_VERDANT_IMPRISONMENT_SUCCESS"
+          }
+        ]
       }
     ]
   },
@@ -718,7 +769,7 @@
     "effect": [
       {
         "u_transform_radius": 0,
-        "ter_furn_transform": "ter_arvore_tree_transform",
+        "ter_furn_transform": "ter_arvore_verdant_tree_transform",
         "target_var": { "global_val": "arvore_tree_transform_target" }
       }
     ]
@@ -740,7 +791,7 @@
         }
       ]
     },
-    "effect": [ { "u_cast_spell": { "id": "arvore_forest_translocate_real" } } ],
+    "effect": [ { "u_cast_spell": { "id": "paraclesian_translocate" } } ],
     "false_effect": [ { "u_message": "You must be outdoors and within the depths of the forest to cast this spell.", "type": "mixed" } ]
   },
   {

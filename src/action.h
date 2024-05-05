@@ -13,6 +13,7 @@
 
 struct input_event;
 struct point;
+struct tripoint;
 
 /**
  * Enumerates all discrete actions that can be performed by player
@@ -182,6 +183,8 @@ enum action_id : int {
     ACTION_FIRE_BURST,
     /** Change fire mode of the current weapon */
     ACTION_SELECT_FIRE_MODE,
+    /** Change default ammo for current weapon */
+    ACTION_SELECT_DEFAULT_AMMO,
     /** Cast a spell (only if any spells are known) */
     ACTION_CAST_SPELL,
     /** Open the insert-item menu */

@@ -13,8 +13,8 @@
     "//": "<https://www.cleanammocans.com/new-m19a1-30-cal-ammo-can.html>",
     "//2": "External: 29.85 x 9.53 x 17.78 cm, Internal: 25.4 x 8.9 x 16.5 cm",
     "flags": [ "COLLAPSE_CONTENTS" ],
-    "price": 1930,
-    "price_postapoc": 10,
+    "price": "19 USD 30 cent",
+    "price_postapoc": "10 cent",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -48,7 +48,7 @@
         "id": "ammunition_can_30_300jhp_240",
         "name": { "str": "240 .300 win mag ammo can" },
         "weight": 0,
-        "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>1305-01-018-1547 A191\n240 CARTRIDGES .300 WM\nMATCH GRAGE\n220 GRAIN BULLET\nMk 248 Mod 1\"</color>"
+        "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>1305-01-018-1547 A191\n240 CARTRIDGES .300 WM\nMATCH GRADE\n220 GRAIN BULLET\nMk 248 Mod 1\"</color>"
       },
       {
         "id": "ammunition_can_30_300AAC_otmss_720",
@@ -108,7 +108,7 @@
     "longest_side": "299 mm",
     "//": "<https://www.cleanammocans.com/new-50-cal-m2a1-usgi-ammo-can.html>",
     "//2": "External: 29.85 x 15.24 x 19.05 cm, Internal: 27.94 x 13.97 x 17.78 cm ",
-    "price": 1999,
+    "price": "19 USD 99 cent",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -125,7 +125,7 @@
         "id": "ammunition_can_50_556tracer_820",
         "name": { "str": "820 5.56mm ammo can" },
         "weight": 0,
-        "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>1305-01-155-5457 A063\n820 CTGS 5.56MM\nTRACER M856</color>"
+        "description": "A solid metal ammo box with a small handle on top.  Front side has printed:\n<color_yellow>1305-01-155-5457 A063\n820 CRTGS 5.56MM\nTRACER M856</color>"
       },
       {
         "id": "ammunition_can_50_50bmg_4fmj1tracer_100",
@@ -195,7 +195,7 @@
     "longest_side": "318 mm",
     "//": "<https://www.cleanammocans.com/2-pack-new-fat-50-pa108-saw-ammo-cans.html>",
     "//2": "External: 31.75 x 18.42 x 21.59 cm, Internal: 29.85 x 17.15 x 20.96 cm ",
-    "price": 1999,
+    "price": "19 USD 99 cent",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -253,7 +253,7 @@
     "longest_side": "470 mm",
     "//": "<https://www.cleanammocans.com/2-pack-40mm-ammo-cans.html>",
     "//2": "External: 46.99 x 15.56 x 25.40 cm, Internal: 43.82 x 13.97 x 24.13 cm",
-    "price": 2500,
+    "price": "25 USD",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -579,7 +579,7 @@
     "id": "ammo_box_army_10_338",
     "type": "GENERIC",
     "copy-from": "ammo_box_3",
-    "name": { "str": "10 .338 lapua ammo box", "str_pl": "10 .338 lapua ammo boxes" },
+    "name": { "str": "10 .338 Lapua ammo box", "str_pl": "10 .338 Lapua ammo boxes" },
     "description": "Small, painted in white ammo box.  Black text, printed on the front, says:\n10 CARTRIDGES\n.338 LAPUA MAG.\nSWISS P TARGET\nHPBT",
     "color": "brown",
     "symbol": "#",
@@ -681,7 +681,7 @@
     "id": "ammo_box_army_20_338",
     "type": "GENERIC",
     "copy-from": "ammo_box_4",
-    "name": { "str": "20 .338 lapua ammo box", "str_pl": "20 .338 lapua ammo boxes" },
+    "name": { "str": "20 .338 Lapua ammo box", "str_pl": "20 .338 Lapua ammo boxes" },
     "description": "Small, painted in white ammo box.  Black text, printed on the front, says \"20 CARTRIDGES\n.338 LAPUA MAG.\nSWISS P TARGET\nHPBT\"",
     "color": "brown",
     "symbol": "#",
@@ -714,8 +714,8 @@
     "description": "A beige collapsible drum with a water valve and D-Rings.  Text on its top clearly says \"POTABLE WATER ONLY\".",
     "weight": "16 kg",
     "volume": "23 L",
-    "price": 39500,
-    "price_postapoc": 250,
+    "price": "395 USD",
+    "price_postapoc": "2 USD 50 cent",
     "//": "todo: replace with some better rubber material",
     "material": [ { "type": "rubber", "portion": 9 }, { "type": "steel", "portion": 1 } ],
     "symbol": "0",
@@ -740,8 +740,8 @@
     "description": "A black collapsible drum with a valve and D-Rings.  Yellow text on its top clearly says \"FLAMMABLE\".  Empty and collapsed, it could be moved elsewhere.",
     "weight": "125 kg",
     "volume": "180 L",
-    "price": 39500,
-    "price_postapoc": 250,
+    "price": "395 USD",
+    "price_postapoc": "2 USD 50 cent",
     "//": "todo: replace with some better rubber material",
     "use_action": { "type": "deploy_furn", "furn_type": "f_432gal_drum_rubber" },
     "material": [ { "type": "rubber", "portion": 9 }, { "type": "steel", "portion": 1 } ],

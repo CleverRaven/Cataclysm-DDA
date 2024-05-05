@@ -1753,10 +1753,6 @@ void options_manager::add_options_interface()
         this->add_empty_line( "interface" );
     };
 
-    add( "USE_IMGUI", "interface", to_translation( "Use ImGui UI" ),
-         to_translation( "Use new ImGui-based user interface (WARNING: EXPERIMENTAL)." ),
-         false );
-
     add_empty_line();
 
     add( "USE_LANG", "interface", to_translation( "Language" ),
@@ -1949,6 +1945,12 @@ void options_manager::add_options_interface()
         add( "HIGHLIGHT_UNREAD_RECIPES", page_id,
              to_translation( "Highlight unread recipes" ),
              to_translation( "If true, highlight unread recipes to allow tracking of newly learned recipes." ),
+             true
+           );
+
+        add( "HIGHLIGHT_UNREAD_ITEMS", page_id,
+             to_translation( "Highlight unread items" ),
+             to_translation( "If true, highlight unread items to allow tracking of newly discovered items." ),
              true
            );
 

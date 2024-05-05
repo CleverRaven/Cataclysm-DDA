@@ -12,7 +12,7 @@
     "healthy": 3,
     "calories": 3200,
     "description": "This egg laid by an owlbear seems almost indistinguishable from a large rock until you touch it and can feel the warm glow of potential life energy from within.  It's hard to believe that an owlbear could grow so quickly from something so small.  Perhaps you could carefully crack it open to get at the liquid golden goodness inside.",
-    "price": 300000,
+    "price": "3 kUSD",
     "material": [ "egg", "stone" ],
     "volume": "2500 ml",
     "fun": -18,
@@ -28,8 +28,8 @@
     "name": { "str_sp": "whiskey" },
     "copy-from": "whiskey",
     "//": "Normal whiskey has been greatly devalued in the apocalypse by the disproportionate quantity of endless whiskey flasks in comparison to the number of survivors.",
-    "price": 250,
-    "price_postapoc": 1
+    "price": "2 USD 50 cent",
+    "price_postapoc": "1 cent"
   },
   {
     "type": "COMESTIBLE",
@@ -55,7 +55,7 @@
     "symbol": "0",
     "name": { "str": "hairball" },
     "description": "A big, ugly ball of animal spit and licked-off hairs.  Don't swallow it.",
-    "price": 0,
+    "price": "0 cent",
     "flags": [ "TRADER_AVOID", "EDIBLE_FROZEN" ],
     "fun": -20
   },
@@ -73,7 +73,7 @@
     "copy-from": "mushroom",
     "name": { "str": "scream mushroom" },
     "description": "The mushrooms harvested from a dead shrieker.  Could be used in potions.",
-    "price": 1400
+    "price": "14 USD"
   },
   {
     "id": "tea_green",
@@ -81,7 +81,7 @@
     "copy-from": "tea_green",
     "name": { "str_sp": "green tea" },
     "//": "Same reason as whiskey",
-    "price_postapoc": 1
+    "price_postapoc": "1 cent"
   },
   {
     "id": "purified_meat",
@@ -90,7 +90,7 @@
     "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] },
     "name": { "str_sp": "purified meat" },
     "description": "Indistinguishable from pre-Cataclysm lab grown beef.  It should be excellent but somehow it's just edible.",
-    "price": 400
+    "price": "4 USD"
   },
   {
     "id": "impure_meat",
@@ -99,6 +99,6 @@
     "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] },
     "name": { "str_sp": "impure meat" },
     "description": "Not as tainted as previously and tastes like the real thing.  You do not want to cook this for your friends, though if you do they won't know the difference for a while.",
-    "price": 100
+    "price": "1 USD"
   }
 ]

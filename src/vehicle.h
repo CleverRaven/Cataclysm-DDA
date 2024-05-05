@@ -32,6 +32,7 @@
 #include "item_location.h"
 #include "item_stack.h"
 #include "line.h"
+#include "map.h"
 #include "point.h"
 #include "tileray.h"
 #include "type_id.h"
@@ -1061,7 +1062,8 @@ class vehicle
         bool merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int> &rack_parts );
         // merges vehicles together by copying parts, does not account for any vehicle complexities
         bool merge_vehicle_parts( vehicle *veh );
-        void merge_appliance_into_grid( vehicle &veh_target );
+        bool merge_appliance_into_grid( vehicle &veh_target );
+        void separate_from_grid( point mount );
 
         bool is_powergrid() const;
 
@@ -1251,6 +1253,8 @@ class vehicle
          *  @param condition enum to include unabled, unavailable, and broken parts
          */
         std::vector<vehicle_part *> get_parts_at( const tripoint &pos, const std::string &flag,
+                part_status_flag condition );  // TODO: Get rid of untyped operation.
+        std::vector<vehicle_part *> get_parts_at( const tripoint_bub_ms &pos, const std::string &flag,
                 part_status_flag condition );
         std::vector<const vehicle_part *> get_parts_at( const tripoint &pos,
                 const std::string &flag, part_status_flag condition ) const;

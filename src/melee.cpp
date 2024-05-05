@@ -95,7 +95,6 @@ static const efftype_id effect_amigara( "amigara" );
 static const efftype_id effect_beartrap( "beartrap" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_downed( "downed" );
-static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_fearparalyze( "fearparalyze" );
 static const efftype_id effect_heavysnare( "heavysnare" );
 static const efftype_id effect_hit_by_player( "hit_by_player" );
@@ -152,13 +151,13 @@ static const trait_id trait_CLAWS_TENTACLE( "CLAWS_TENTACLE" );
 static const trait_id trait_CLUMSY( "CLUMSY" );
 static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
 static const trait_id trait_DEFT( "DEFT" );
-static const trait_id trait_DRUNKEN( "DRUNKEN" );
-static const trait_id trait_KI_STRIKE( "KI_STRIKE" );
 static const trait_id trait_POISONOUS( "POISONOUS" );
 static const trait_id trait_POISONOUS2( "POISONOUS2" );
 static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
 static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
+
+static const weapon_category_id weapon_category_UNARMED( "UNARMED" );
 
 static void player_hit_message( Character *attacker, const std::string &message,
                                 Creature &t, int dam, bool crit = false, bool technique = false, const std::string &wp_hit = {} );
@@ -177,7 +176,7 @@ static std::string melee_message( const ma_technique &tec, Character &p,
  * HIT DETERMINATION
  * int hit_roll() - The player's hit roll, to be compared to a monster's or
  *   player's dodge_roll().  This handles weapon bonuses, weapon-specific
- *   skills, torso encumbrance penalties and drunken master bonuses.
+ *   skills.
  */
 
 item_location Character::used_weapon() const
@@ -579,6 +578,15 @@ bool Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
     return melee_attack_abstract( t, allow_special, force_technique, allow_unarmed, forced_movecost );
 }
 
+static const std::set<weapon_category_id> &wielded_weapon_categories( const Character &c )
+{
+    static const std::set<weapon_category_id> unarmed{ weapon_category_UNARMED };
+    if( c.get_wielded_item() ) {
+        return c.get_wielded_item()->typeId()->weapon_category;
+    }
+    return unarmed;
+}
+
 bool Character::melee_attack_abstract( Creature &t, bool allow_special,
                                        const matec_id &force_technique,
                                        bool allow_unarmed, int forced_movecost )
@@ -943,6 +951,13 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
                                enchant_vals::mod::MELEE_STAMINA_CONSUMPTION,
                                get_total_melee_stamina_cost() );
 
+    // Train weapon proficiencies
+    for( const weapon_category_id &cat : wielded_weapon_categories( *this ) ) {
+        for( const proficiency_id &prof : cat->category_proficiencies() ) {
+            practice_proficiency( prof, 1_seconds );
+        }
+    }
+
     burn_energy_arms( std::min( -50, total_stam + deft_bonus ) );
     add_msg_debug( debugmode::DF_MELEE, "Stamina burn base/total (capped at -50): %d/%d", base_stam,
                    total_stam + deft_bonus );
@@ -975,7 +990,23 @@ int Character::get_total_melee_stamina_cost( const item *weap ) const
                                !has_flag( json_flag_PSEUDOPOD_GRASP ) ) ? 50 : ( !has_flag( json_flag_PSEUDOPOD_GRASP ) &&
                                        ( !has_effect( effect_natural_stance ) && ( !unarmed_attack() ) ) && is_crouching() ? 20 : 0 );
 
-    return std::min( -50, mod_sta + melee - stance_malus );
+    float proficiency_multiplier = 1.f;
+    for( const weapon_category_id &cat : wielded_weapon_categories( *this ) ) {
+        float loss = 0.f;
+        for( const proficiency_id &prof : cat->category_proficiencies() ) {
+            if( !has_proficiency( prof ) ) {
+                continue;
+            }
+            std::optional<float> bonus = prof->bonus_for( "melee_attack", proficiency_bonus_type::stamina );
+            if( !bonus.has_value() ) {
+                continue;
+            }
+            loss += bonus.value();
+        }
+        proficiency_multiplier = std::clamp( 1.f - loss, 0.f, proficiency_multiplier );
+    }
+
+    return std::min<int>( -50, proficiency_multiplier * ( mod_sta + melee - stance_malus ) );
 }
 
 void Character::reach_attack( const tripoint &p, int forced_movecost )
@@ -1266,31 +1297,6 @@ static void roll_melee_damage_internal( const Character &u, const damage_type_id
         skill = BIO_CQB_LEVEL;
     }
 
-    // FIXME: Hardcoded damage type effects (bash)
-    if( dt == damage_bash ) {
-        if( u.has_trait( trait_KI_STRIKE ) && unarmed ) {
-            // Pure unarmed doubles the bonuses from unarmed skill
-            skill *= 2;
-        }
-
-        // Drunken Master damage bonuses
-        if( u.has_trait( trait_DRUNKEN ) && u.has_effect( effect_drunk ) ) {
-            // Remember, a single drink gives 600 levels of "drunk"
-            int mindrunk = 0;
-            int maxdrunk = 0;
-            const time_duration drunk_dur = u.get_effect_dur( effect_drunk );
-            if( unarmed ) {
-                mindrunk = drunk_dur / 1_hours;
-                maxdrunk = drunk_dur / 25_minutes;
-            } else {
-                mindrunk = drunk_dur / 90_minutes;
-                maxdrunk = drunk_dur / 40_minutes;
-            }
-
-            dmg += average ? ( mindrunk + maxdrunk ) * 0.5f : rng( mindrunk, maxdrunk );
-        }
-    }
-
     if( unarmed ) {
         bool bp_unrestricted;
 
@@ -1384,11 +1390,6 @@ static void roll_melee_damage_internal( const Character &u, const damage_type_id
         /** @EFFECT_UNARMED caps bash damage with unarmed weapons */
         if( u.is_melee_bash_damage_cap_bonus() ) {
             bash_cap += melee_bonus;
-        }
-
-        if( u.has_trait( trait_KI_STRIKE ) && unarmed ) {
-            /** @EFFECT_UNARMED increases bashing damage with unarmed weapons when paired with the Ki Strike trait */
-            weap_dam += skill;
         }
     }
 
@@ -2379,7 +2380,7 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
         weap.spill_contents( pos() );
         // Take damage
         damage_instance di = damage_instance();
-        di.add_damage( damage_cut, rng( 0, vol * 2 ) );
+        di.add_damage( damage_cut, std::clamp( rng( 0, vol * 2 ), 0, 7 ) );
         deal_damage( nullptr, bodypart_id( "arm_r" ), di );
         if( weap.is_two_handed( *this ) ) { // Hurt left arm too, if it was big
             //redeclare shatter_dam because deal_damage mutates it
@@ -2719,7 +2720,7 @@ void player_hit_message( Character *attacker, const std::string &message,
                      direction_from( point_zero, point( t.posx() - attacker->posx(), t.posy() - attacker->posy() ) ),
                      get_hp_bar( t.get_hp(), t.get_hp_max(), true ).first, m_good,
                      //~ "hit points", used in scrolling combat text
-                     _( "hp" ), m_neutral,
+                     _( "HP" ), m_neutral,
                      "hp" );
         } else {
             SCT.removeCreatureHP();

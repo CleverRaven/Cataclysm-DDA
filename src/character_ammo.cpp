@@ -1,13 +1,24 @@
-#include "ammo.h"
+#include "ammo.h"  // IWYU pragma: associated
 
+#include <algorithm>
+#include <cmath>
+#include <memory>
+#include <optional>
+#include <set>
 #include <utility>
+#include <vector>
 
+#include "cata_utility.h"
 #include "character.h"
-#include "character_modifier.h"
+#include "enums.h"
 #include "flag.h"
-#include "game.h"
+#include "item.h"
+#include "item_location.h"
 #include "itype.h"
-#include "output.h"
+#include "type_id.h"
+#include "units.h"
+#include "value_ptr.h"
+#include "visitable.h"
 
 static const character_modifier_id character_modifier_reloading_move_mod( "reloading_move_mod" );
 static const skill_id skill_gun( "gun" );

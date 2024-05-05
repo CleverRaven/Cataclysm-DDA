@@ -6,8 +6,8 @@
     "description": "The severed leg of a void weaver, turned into some macabre ornament.",
     "weight": "1 g",
     "volume": "250 ml",
-    "price": 3000,
-    "price_postapoc": 10000,
+    "price": "30 USD",
+    "price_postapoc": "100 USD",
     "symbol": "!",
     "color": "light_red",
     "use_action": {
@@ -372,10 +372,7 @@
     "type": "effect_on_condition",
     "id": "EOC_VOID_SPIDER_KILLED",
     "global": true,
-    "effect": [
-      { "math": [ "void_spider_killed", "=", "1" ] },
-      { "u_add_var": "killed_a_void_spider", "type": "general", "context": "talk", "value": "yes" }
-    ]
+    "effect": [ { "math": [ "void_spider_killed", "=", "1" ] }, { "u_add_var": "general_talk_killed_a_void_spider", "value": "yes" } ]
   },
   {
     "type": "effect_on_condition",

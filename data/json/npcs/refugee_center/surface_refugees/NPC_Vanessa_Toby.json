@@ -89,9 +89,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            {
-              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
-            }
+            { "not": { "npc_has_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" } }
           ]
         },
         "topic": "TALK_REFUGEE_Vanessa_Refuse_Boris_Mission_1"
@@ -106,7 +104,7 @@
           "and": [
             { "not": { "npc_has_effect": "vanessa_haircut_in_progress" } },
             { "not": { "npc_has_effect": "vanessa_shave_in_progress" } },
-            { "u_has_var": "Vanessa_Mission1", "type": "mission", "context": "flag", "value": "yes" }
+            { "u_has_var": "mission_flag_Vanessa_Mission1", "value": "yes" }
           ]
         }
       },
@@ -130,7 +128,7 @@
     "dynamic_line": "*looks you up and down for several seconds before speaking.  \"Oh, great.\"  Her voice is husky with years of smoking, and her glare suggests it's a habit she's recently given up.  \"Another new mouth to feed?  Just what we need.  Well, I'm Vanessa.\"",
     "speaker_effect": {
       "effect": [
-        { "u_add_var": "u_met_Vanessa_Toby", "type": "general", "context": "meeting", "value": "yes" },
+        { "u_add_var": "general_meeting_u_met_Vanessa_Toby", "value": "yes" },
         { "npc_first_topic": "TALK_REFUGEE_Vanessa_1a" }
       ]
     },
@@ -166,7 +164,7 @@
       {
         "text": "Could you give me a haircut?",
         "topic": "TALK_REFUGEE_Vanessa_Haircut_no",
-        "condition": { "not": { "u_has_var": "Vanessa_Mission1", "type": "mission", "context": "flag", "value": "yes" } }
+        "condition": { "not": { "u_has_var": "mission_flag_Vanessa_Mission1", "value": "yes" } }
       }
     ]
   },
@@ -181,17 +179,13 @@
           "no": "You want the sarcastic version, or the really sarcastic version?  I'm stuck in a dank shitty brick building with two dozen strangers, the world's dead"
         },
         {
-          "u_has_var": "tacoma_started",
-          "type": "knowledge",
-          "context": "flag",
+          "u_has_var": "knowledge_flag_tacoma_started",
           "value": "yes",
           "yes": ", and all anyone will talk about is this new ranch they're building, as though it'll solve all our food problems",
           "no": ", and there's not enough food to go around"
         },
         {
-          "u_has_var": "Vanessa_Mission1",
-          "type": "mission",
-          "context": "flag",
+          "u_has_var": "mission_flag_Vanessa_Mission1",
           "value": "yes",
           "no": ".  Why don't you fuckin' figure it out?\"",
           "yes": ".  At least I can do some work to keep me busy though, and the extra merch does go a long way to keeping my belly full.  People like getting a good haircut.\""
@@ -237,9 +231,9 @@
       {
         "text": "Actually, you owe me a free haircut, remember?",
         "topic": "TALK_CUT_YOUR_HAIR",
-        "condition": { "npc_has_var": "owed_haircut_1", "type": "mission", "context": "services", "value": "yes" },
+        "condition": { "npc_has_var": "mission_services_owed_haircut_1", "value": "yes" },
         "effect": [
-          { "npc_add_var": "owed_haircut_1", "type": "mission", "context": "services", "value": "no" },
+          { "npc_add_var": "mission_services_owed_haircut_1", "value": "no" },
           { "npc_add_effect": "vanessa_haircut_in_progress", "duration": 100 }
         ]
       },
@@ -263,7 +257,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Vanessa_Refuse_Boris_Mission_1",
     "dynamic_line": "Ha ha ha ha!  No.",
-    "speaker_effect": { "effect": { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" } },
+    "speaker_effect": { "effect": { "npc_add_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" } },
     "responses": [ { "text": "I don't know what I expected.", "topic": "TALK_DONE" } ]
   },
   {
@@ -288,8 +282,8 @@
     },
     "end": {
       "effect": [
-        { "u_add_var": "Vanessa_Mission1", "type": "mission", "context": "flag", "value": "yes" },
-        { "npc_add_var": "owed_haircut_1", "type": "mission", "context": "services", "value": "yes" },
+        { "u_add_var": "mission_flag_Vanessa_Mission1", "value": "yes" },
+        { "npc_add_var": "mission_services_owed_haircut_1", "value": "yes" },
         { "math": [ "u_counter_refugee_center_refugee_happiness", "+=", "2" ] }
       ]
     }

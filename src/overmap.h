@@ -450,7 +450,7 @@ class overmap
                 const overmap *south, const overmap *west );
 
         // City Building
-        overmap_special_id pick_random_building_to_place( int town_dist ) const;
+        overmap_special_id pick_random_building_to_place( int town_dist, int town_size ) const;
 
         // urbanity and forestosity are biome stats that can be used to trigger changes in biome.
         // NOLINTNEXTLINE(cata-serialize)
@@ -553,6 +553,7 @@ class overmap
         static void reset_oter_id_migrations();
         static bool is_oter_id_obsolete( const std::string &oterid );
         void migrate_oter_ids( const std::unordered_map<tripoint_om_omt, std::string> &points );
+        oter_id get_or_migrate_oter( const std::string &oterid );
 };
 
 bool is_river( const oter_id &ter );

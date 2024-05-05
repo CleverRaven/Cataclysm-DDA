@@ -83,19 +83,6 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "jug_plastic",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_CONTAINERS",
-    "skill_used": "fabrication",
-    "difficulty": 1,
-    "time": "30 m",
-    "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "duct_tape", 10 ] ], [ [ "bottle_plastic", 8 ], [ "bottle_bathroom", 8 ], [ "bottle_plastic_small", 16 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
     "result": "jerrycan",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
@@ -160,7 +147,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "plastic_chunk", 3 ] ] ]
+    "components": [ [ [ "plastic_chunk", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -400,12 +387,12 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
     "skill_used": "fabrication",
-    "difficulty": 8,
-    "time": "30 m",
+    "difficulty": 6,
+    "time": "1 h",
     "autolearn": true,
-    "using": [ [ "soldering_standard", 40 ] ],
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "duct_tape", 200 ], [ "superglue", 4 ] ], [ [ "jerrycan", 12 ] ] ]
+    "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
+    "using": [ [ "plastic_molding", 98 ] ],
+    "components": [ [ [ "plastic_chunk", 136 ] ] ]
   },
   {
     "type": "recipe",
@@ -445,7 +432,7 @@
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "forge", 75 ] ]
     ],
-    "components": [ [ [ "glass_shard", 3 ], [ "pipe_glass", 1 ], [ "flask_glass", 3 ], [ "test_tube", 6 ], [ "marble", 75 ] ] ]
+    "components": [ [ [ "glass_shard", 7 ], [ "pipe_glass", 4 ], [ "flask_glass", 11 ], [ "test_tube", 47 ], [ "marble", 171 ] ] ]
   },
   {
     "type": "recipe",
@@ -683,9 +670,9 @@
     "autolearn": true,
     "book_learn": [ [ "plastics_book", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
-    "tools": [ [ [ "surface_heat", 15, "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ],
     "using": [ [ "plastic_molding", 1 ] ],
-    "components": [ [ [ "plastic_chunk", 15 ] ] ]
+    "components": [ [ [ "plastic_chunk", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -1136,6 +1123,19 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "box_oversize_reinforced",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "12 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "box_oversize", 2 ], [ "box_oversize_folded", 2 ] ], [ [ "duct_tape", 80 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "box_small_wood",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -1466,5 +1466,53 @@
     "proficiencies": [ { "proficiency": "prof_pottery" }, { "proficiency": "prof_pottery_glazing" } ],
     "using": [ [ "cordage_short", 1 ], [ "glazing", 1 ], [ "earthenware_firing", 40 ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 2 ] ] ]
+  },
+  {
+    "result": "small_biogas_tank",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "1 m",
+    "autolearn": true,
+    "components": [ [ [ "small_propane_tank", 1 ] ] ]
+  },
+  {
+    "result": "medium_biogas_tank",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "1 m",
+    "autolearn": true,
+    "components": [ [ [ "medium_propane_tank", 1 ] ] ]
+  },
+  {
+    "result": "large_biogas_tank",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "1 m",
+    "autolearn": true,
+    "components": [ [ [ "large_biogas_tank", 1 ] ] ]
+  },
+  {
+    "result": "xl_biogas_tank",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "1 m",
+    "autolearn": true,
+    "components": [ [ [ "xl_propane_tank", 1 ] ] ]
   }
 ]

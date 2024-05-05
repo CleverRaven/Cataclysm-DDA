@@ -10,8 +10,8 @@
     "volume": "2720 ml",
     "longest_side": "1015 mm",
     "barrel_length": "514 mm",
-    "price": 23000,
-    "price_postapoc": 3000,
+    "price": "230 USD",
+    "price_postapoc": "30 USD",
     "variant_type": "gun",
     "variants": [
       {
@@ -51,7 +51,7 @@
       [ "stock accessory", 2 ],
       [ "underbarrel", 1 ]
     ],
-    "flags": [ "RELOAD_ONE" ],
+    "flags": [ "RELOAD_ONE", "NO_TURRET" ],
     "pocket_data": [
       { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "762R": 5 }, "allowed_speedloaders": [ "762R_clip" ] }
     ],
@@ -68,8 +68,8 @@
     "volume": "3120 ml",
     "longest_side": "1241 mm",
     "barrel_length": "1232 mm",
-    "price": 19000,
-    "price_postapoc": 3000,
+    "price": "190 USD",
+    "price_postapoc": "30 USD",
     "variant_type": "gun",
     "variants": [
       {
@@ -107,7 +107,7 @@
       [ "stock accessory", 2 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "RELOAD_ONE" ],
+    "flags": [ "RELOAD_ONE", "NO_TURRET" ],
     "pocket_data": [
       { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "762R": 5 }, "allowed_speedloaders": [ "762R_clip" ] }
     ],
@@ -125,8 +125,8 @@
     "volume": "7339 ml",
     "longest_side": "1150 mm",
     "barrel_length": "620 mm",
-    "price": 290000,
-    "price_postapoc": 4000,
+    "price": "2 kUSD 900 USD",
+    "price_postapoc": "40 USD",
     "to_hit": -1,
     "material": [ "steel", "wood" ],
     "color": "brown",

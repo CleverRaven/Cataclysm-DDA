@@ -96,21 +96,19 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            {
-              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
-            }
+            { "not": { "npc_has_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" } }
           ]
         },
         "topic": "TALK_REFUGEE_Refuse_Boris_Mission_1"
       },
       {
         "text": "What are you working on?",
-        "condition": { "not": { "u_has_var": "Jenny_mission_3", "type": "mission", "context": "completed", "value": "yes" } },
+        "condition": { "not": { "u_has_var": "mission_completed_Jenny_mission_3", "value": "yes" } },
         "topic": "TALK_REFUGEE_JENNY_Project1"
       },
       {
         "text": "How's everything going with that defense system?",
-        "condition": { "u_has_var": "Jenny_mission_3", "type": "mission", "context": "completed", "value": "yes" },
+        "condition": { "u_has_var": "mission_completed_Jenny_mission_3", "value": "yes" },
         "topic": "TALK_REFUGEE_JENNY_Project3"
       },
       { "text": "Tell me a bit about your background.", "topic": "TALK_REFUGEE_JENNY_Background1" },
@@ -121,7 +119,7 @@
         "condition": {
           "and": [
             { "math": [ "time_since(n_timer_flag_Jenny_teach)", ">", "time('1 d')" ] },
-            { "u_has_var": "Jenny_teach", "type": "knowledge", "context": "flag", "value": "yes" }
+            { "u_has_var": "knowledge_flag_Jenny_teach", "value": "yes" }
           ]
         }
       },
@@ -136,7 +134,7 @@
     "dynamic_line": "*is a thin woman in her early thirties, with the sort of pale, freckled skin that looks like it would burn if she thought too hard about the sun.  Her clothes and bearing suggest she might once have been carefully put-together, but she now has the harried look of someone with too many worries and too little sleep.  She looks up from a laptop and smiles as you approach.  \"Hi there.  Haven't see you around here before.  I'm Jenny, Jenny Forcette.\"",
     "speaker_effect": {
       "effect": [
-        { "u_add_var": "u_met_Jenny_Forcette", "type": "general", "context": "meeting", "value": "yes" },
+        { "u_add_var": "general_meeting_u_met_Jenny_Forcette", "value": "yes" },
         { "npc_first_topic": "TALK_REFUGEE_JENNY_1a" }
       ]
     },
@@ -181,13 +179,13 @@
         "condition": {
           "and": [
             { "math": [ "time_since(n_timer_flag_Jenny_teach)", ">", "time('1 d')" ] },
-            { "not": { "u_has_var": "Jenny_teach", "type": "knowledge", "context": "flag", "value": "yes" } }
+            { "not": { "u_has_var": "knowledge_flag_Jenny_teach", "value": "yes" } }
           ]
         }
       },
       {
         "text": "So, did anyone tell you there are actual no-kidding talking cyborg-robot people out there now?",
-        "condition": { "u_has_var": "u_met_Rubik", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "u_has_var": "general_meeting_u_met_Rubik", "value": "yes" },
         "topic": "TALK_REFUGEE_JENNY_Exodii"
       },
       { "text": "Sorry about your luck.  What were you saying before?", "topic": "TALK_NONE" },
@@ -229,7 +227,7 @@
     "responses": [
       {
         "text": "Well, I know they're cyborgs, from some other dimension.  I think they're humans underneath the machines though.  Some of them kinda speak English.",
-        "condition": { "u_has_var": "u_knows_exodiilore", "type": "knowledge", "context": "exodization", "value": "yes" },
+        "condition": { "u_has_var": "knowledge_exodization_u_knows_exodiilore", "value": "yes" },
         "topic": "TALK_REFUGEE_JENNY_Exodii2"
       },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
@@ -342,7 +340,7 @@
     "dynamic_line": "\"All right, fine.\"  Jenny sets aside the computer and gets up.  \"Grab some tools and do as I tell you.\"",
     "speaker_effect": {
       "effect": [
-        { "u_add_var": "Jenny_teach", "type": "knowledge", "context": "flag", "value": "yes" },
+        { "u_add_var": "knowledge_flag_Jenny_teach", "value": "yes" },
         { "math": [ "n_timer_flag_Jenny_teach", "=", "time('now')" ] }
       ]
     },
@@ -610,7 +608,7 @@
       "offer": "Before I get anything going, I'm going to need to set up a compressor.  I have a lot of the stuff for that, but I need a large tank for air, and a good sized electric motor - about 10 kg or so.  I'm also going to need a 60 liter tank, after that.",
       "accepted": "Great!  Bring it to me when you find one.",
       "rejected": "Oh well.  Thanks for offering anyway.",
-      "advice": "Try a basic hybrid car, or maybe farm equipment that uses an electric motor.  The kind on a bike would be too small, and the kind on those fance Edison sports cars is going to be too big.",
+      "advice": "Try a basic hybrid car, or maybe farm equipment that uses an electric motor.  The kind on a bike would be too small, and the kind on those fancy Edison sports cars is going to be too big.",
       "inquire": "Any sign of a motor I can use?",
       "success": "That's exactly what I need!  Want to talk about that tank now?  I saved a few merch for you, by the way.",
       "success_lie": "Huh.  This isn't going to work like I thought.",
@@ -619,7 +617,7 @@
     "end": {
       "effect": [
         { "u_spawn_item": "FMCNote", "count": 4 },
-        { "u_add_var": "Jenny_mission_2", "type": "mission", "context": "completed", "value": "yes" },
+        { "u_add_var": "mission_completed_Jenny_mission_2", "value": "yes" },
         { "math": [ "u_counter_refugee_center_refugee_happiness", "++" ] }
       ]
     }
@@ -648,7 +646,7 @@
     "end": {
       "effect": [
         { "u_spawn_item": "FMCNote", "count": 5 },
-        { "u_add_var": "Jenny_mission_2", "type": "mission", "context": "completed", "value": "yes" },
+        { "u_add_var": "mission_completed_Jenny_mission_2", "value": "yes" },
         { "math": [ "u_counter_refugee_center_refugee_happiness", "++" ] }
       ]
     }
@@ -677,7 +675,7 @@
     "end": {
       "effect": [
         { "u_spawn_item": "FMCNote", "count": 5 },
-        { "u_add_var": "Jenny_mission_3", "type": "mission", "context": "completed", "value": "yes" },
+        { "u_add_var": "mission_completed_Jenny_mission_3", "value": "yes" },
         { "math": [ "n_timer_flag_Jenny_project_timer", "=", "time('now')" ] },
         { "math": [ "u_counter_refugee_center_refugee_happiness", "++" ] }
       ]

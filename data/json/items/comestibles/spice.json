@@ -92,7 +92,6 @@
     "name": { "str_sp": "sugar" },
     "weight": "5 g",
     "color": "white",
-    "container": "box_small",
     "comestible_type": "FOOD",
     "symbol": "%",
     "description": "Sweet, sweet sugar.  Bad for your teeth and surprisingly not very tasty on its own.",
@@ -141,8 +140,8 @@
     "color": "brown",
     "name": { "str_sp": "soy sauce" },
     "description": "Salty fermented soybean sauce.",
-    "price": 190,
-    "price_postapoc": 25,
+    "price": "1 USD 90 cent",
+    "price_postapoc": "25 cent",
     "weight": "24 g",
     "volume": "250 ml",
     "calories": 17,
@@ -169,8 +168,8 @@
     "symbol": ",",
     "material": [ "veggy" ],
     "volume": "250 ml",
-    "price": 0,
-    "price_postapoc": 10
+    "price": "0 cent",
+    "price_postapoc": "10 cent"
   },
   {
     "id": "mustard_powder",

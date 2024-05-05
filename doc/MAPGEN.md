@@ -50,7 +50,6 @@
     * [Place messages with "graffiti"](#place-messages-with-graffiti)
     * [Place a zone for an NPC faction with "zones"](#place-a-zone-for-an-npc-faction-with-zones)
     * [Specify a player spawning location using "zones"](#specify-a-player-spawning-location-using-zones)
-    * [Translate terrain type with "translate_ter"](#translate-terrain-type-with-translate_ter)
     * [Apply mapgen transformation with "ter_furn_transforms"](#apply-mapgen-transformation-with-ter_furn_transforms)
   * [Mapgen values](#mapgen-values)
   * [Mapgen parameters](#mapgen-parameters)
@@ -289,7 +288,7 @@ optional.
 
 
 ## Fill terrain using "fill_ter"
-*required if "rows" is unset* Fill with the given terrain.
+Fill with the given terrain.
 
 Value: `"string"`: Valid terrain id from data/json/terrain.json
 
@@ -297,10 +296,11 @@ Example: `"fill_ter": "t_region_groundcover"`
 
 
 ## ASCII map using "rows" array
-*required if "fill_ter" is unset*
 
-Nested array of 24 (or 48) strings, each 24 (or 48) characters long, where each character is defined by "terrain" and
-optionally "furniture" or other entries below.
+Nested array usually of 24 strings, each 24 characters long but can vary for nests (in which case between 1 and 24)
+and defining multiple overmap terrains maps at once (in which case a multiple of 24),
+where each character is defined by "terrain" and optionally "furniture" or other entries below.
+Defaults to all spaces " " if unset.
 
 Usage:
 
@@ -878,7 +878,7 @@ Places a gas pump with fuel in it.
 
 | Field  | Description
 | ---    | ---
-| amount | (optional, integer or min/max array) the amount of fuel to be placed in the pump. If not specified, the amount is randomized between 10'000 and 50'000.
+| amount | (optional, integer or min/max array) the amount of fuel to be placed in the pump (multiplied by 100). If not specified, the amount is randomized between 10'000 and 50'000.
 | fuel   | (optional, string: "gasoline", "diesel", "jp8", or "avgas") the type of fuel to be placed in the pump. If not specified, the fuel is gasoline (75% chance) or diesel (25% chance).
 
 
@@ -887,7 +887,7 @@ Places a gas pump with fuel in it.
 | Field   | Description
 | ---     | ---
 | item    | (required, string or itemgroup object) the item group to use.
-| chance  | (optional, integer or min/max array) x in 100 chance that a loop will continue to spawn items from the group (which itself may spawn multiple items or not depending on its type, see `ITEM_SPAWN.md`), unless the chance is 100, in which case it will trigger the item group spawn exactly 1 time (see `map::place_items`). Default is 1 in 100 chance.
+| chance  | (optional, integer or min/max array) x in 100 chance that a loop will continue to spawn items from the group (which itself may spawn multiple items or not depending on its type, see `ITEM_SPAWN.md`), unless the chance is default 100, in which case it will trigger the item group spawn exactly 1 time (see `map::place_items`).
 | repeat  | (optional, integer or min/max array) the number of times to repeat this placement, default is 1.
 | faction | (optional, string) the faction that owns these items.
 
@@ -1123,24 +1123,18 @@ graffiti, and furniture from a tile.  This can be useful in e.g. nests or other
 update mapgen to clear out existing stuff that might exist but wouldn't make
 sense in the nest.
 
-
-### Translate terrain type with "translate_ter"
-
-Translates one type of terrain into another type of terrain.  There is no reason to do this with normal mapgen, but it
-is useful for setting a baseline with `update_mapgen`.
-
-| Field | Description
-| ---   | ---
-| from  | (required, string) the terrain id of the terrain to be transformed
-| to    | (required, string) the terrain id that the from terrain will transformed into
-
-
 ### Apply mapgen transformation with "ter_furn_transforms"
 
-Run a `ter_furn_transform` at the specified location.  This is mostly useful for applying transformations as part of
-an `update_mapgen`, as normal mapgen can just specify the terrain directly.
+Run a [ter_furn_transform](doc/TER_FURN_TRANSFORM.md) at the specified location that can change existing fields, furniture, terrain or traps into another of the same type including null values.
 
 - "transform": (required, string) the id of the `ter_furn_transform` to run.
+
+#### "place_ter_furn_transforms"
+
+- "x": (required, int or array in the form `[ min, max ]`)
+- "y": (required, int or array in the form `[ min, max ]`)
+
+If one or both are arrays it will apply the transform to all locations in that range.
 
 ### Spawn nested chunks based on overmap neighbors with "place_nested"
 

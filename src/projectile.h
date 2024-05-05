@@ -22,6 +22,8 @@ struct projectile {
         int range = 0;
         // Number of projectiles fired at a time, one except in cases like shotgun rounds.
         int count = 1;
+        // Whether ammo effects apply to all projectiles
+        bool multi_projectile_effects = false;
         // The potential dispersion between different projectiles fired from one round.
         int shot_spread = 0;
         // Damage dealt by a single shot.

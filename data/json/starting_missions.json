@@ -20,7 +20,7 @@
         "place_monster": [
           { "monster": "mon_feral_scientist_scalpel", "name": "The Target", "x": 11, "y": 11, "target": true },
           { "monster": "mon_feral_labsecurity_9mm", "name": "The Guard", "x": 12, "y": 12 },
-          { "monster": "mon_feral_soldier", "name": "The Colaborator", "x": 9, "y": 9 },
+          { "monster": "mon_feral_soldier", "name": "The Collaborator", "x": 9, "y": 9 },
           { "monster": "mon_feral_fancy_rapier", "name": "The Aristocrat", "x": 13, "y": 13 },
           { "monster": "mon_feral_maid_broom", "name": "The Servant", "x": 12, "y": 13 }
         ]
@@ -584,7 +584,6 @@
         { "u_has_item": "dnd" },
         { "u_has_item": "g_warhammer" },
         { "u_has_item": "g_warhammer40k" },
-        { "u_has_item": "cards_magic" },
         { "u_has_item": "deck_of_cards" },
         { "u_has_item": "chess" },
         { "u_has_item": "checkers" },
@@ -738,8 +737,21 @@
     "goal": "MGOAL_KILL_NEMESIS",
     "difficulty": 5,
     "value": 0,
+    "//": "monster_kill_goal MUST be 1 or else the mission will spawn a new nemesis on its death.",
+    "monster_kill_goal": 1,
     "start": "kill_nemesis",
     "end": { "effect": [ { "u_lose_trait": "HAS_NEMESIS" } ] },
+    "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
+    "id": "MISSION_SURVIVE_NEMESIS",
+    "type": "mission_definition",
+    "name": { "str": "Survive your pursuer" },
+    "description": "Since the start of the Cataclysm, something has been hunting you relentlessly.  You can fight it but never truly kill it.  It won't end until you die.",
+    "goal": "MGOAL_KILL_NEMESIS",
+    "difficulty": 10,
+    "value": 0,
+    "start": "kill_nemesis",
     "origins": [ "ORIGIN_GAME_START" ]
   }
 ]

@@ -6,32 +6,34 @@
 #include <cstdint>
 #include <cstdlib>
 #include <functional>
-#include <iosfwd>
+#include <iterator>
 #include <limits>
 #include <map>
 #include <memory>
-#include <new>
 #include <optional>
-#include <set>
 #include <string>
-#include <tuple>
-#include <type_traits>
 #include <utility>
 #include <vector>
 
 #include "activity_actor_definitions.h"
 #include "activity_handlers.h"
+#include "activity_type.h"
 #include "avatar.h"
-#include "bionics.h"
 #include "calendar.h"
 #include "cata_assert.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "character_attire.h"
+#include "character_id.h"
 #include "colony.h"
 #include "color.h"
+#include "coordinates.h"
 #include "craft_command.h"
 #include "crafting_gui.h"
+#include "creature.h"
 #include "debug.h"
+#include "dialogue.h"
+#include "effect_on_condition.h"
 #include "enum_traits.h"
 #include "enums.h"
 #include "faction.h"
@@ -42,11 +44,13 @@
 #include "handle_liquid.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_components.h"
 #include "item_location.h"
 #include "item_stack.h"
 #include "itype.h"
 #include "iuse.h"
 #include "line.h"
+#include "magic_enchantment.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_selector.h"
@@ -69,6 +73,7 @@
 #include "rng.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "talker.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
@@ -407,7 +412,7 @@ void Character::long_craft( const std::optional<tripoint> &loc, const recipe_id 
 bool Character::making_would_work( const recipe_id &id_to_make, int batch_size ) const
 {
     const recipe &making = *id_to_make;
-    if( !( making && crafting_allowed( *this, making ) ) ) {
+    if( !making || !crafting_allowed( *this, making ) ) {
         return false;
     }
 
@@ -573,7 +578,7 @@ bool Character::can_make( const recipe *r, int batch_size ) const
 {
     const inventory &crafting_inv = crafting_inventory();
 
-    if( !has_recipe( r, crafting_inv, get_crafting_group() ) ) {
+    if( !has_recipe( r ) ) {
         return false;
     }
 

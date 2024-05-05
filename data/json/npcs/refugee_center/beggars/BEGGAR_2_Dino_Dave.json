@@ -69,10 +69,7 @@
       { "condition": "has_assigned_mission", "text": "About that shopping list of yours…", "topic": "TALK_MISSION_INQUIRE" },
       {
         "condition": {
-          "and": [
-            { "npc_has_var": "cardboard_donor", "type": "mission", "context": "dinodave", "value": "yes" },
-            { "not": "has_no_available_mission" }
-          ]
+          "and": [ { "npc_has_var": "mission_dinodave_cardboard_donor", "value": "yes" }, { "not": "has_no_available_mission" } ]
         },
         "text": "Is there anything else I can do for you?",
         "topic": "TALK_MISSION_OFFER"
@@ -83,14 +80,11 @@
         },
         "text": "What are you going to do with all that cardboard now?",
         "topic": "TALK_REFUGEE_BEGGAR_2_JOBSDONE",
-        "effect": { "u_add_var": "dave_happy", "type": "general", "context": "recruit", "value": "yes" }
+        "effect": { "u_add_var": "general_recruit_dave_happy", "value": "yes" }
       },
       {
         "condition": {
-          "and": [
-            { "u_has_mission": "MISSION_BEGGAR_2_PERMISSION" },
-            { "u_has_var": "Dave_Permission", "type": "mission", "value": "yes" }
-          ]
+          "and": [ { "u_has_mission": "MISSION_BEGGAR_2_PERMISSION" }, { "u_has_var": "mission_Dave_Permission", "value": "yes" } ]
         },
         "text": "We've done it, Dave!  Smokes says you can build yourself a house up on the roof if you want.  You've got to keep it nice and clean, and help out the people down here by looking out for zombies, but you can still use the washrooms and things downstairs when you need to.  What do you say?",
         "topic": "TALK_REFUGEE_BEGGAR_2_PERMISSION"
@@ -163,7 +157,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_2_GIVECARDBOARD",
     "dynamic_line": "Kind of a question's that?  Yeah man, you got cardboard, I got a whole… a whole shopping list.  Got it here.",
-    "speaker_effect": { "effect": { "npc_add_var": "cardboard_donor", "type": "mission", "context": "dinodave", "value": "yes" } },
+    "speaker_effect": { "effect": { "npc_add_var": "mission_dinodave_cardboard_donor", "value": "yes" } },
     "responses": [
       { "text": "What's next on the list?", "topic": "TALK_MISSION_LIST" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
@@ -216,9 +210,7 @@
       "concatenate": [
         "Well… I had it all pretty together,\u0020",
         {
-          "u_has_var": "beggars_recruited",
-          "type": "general",
-          "context": "recruit",
+          "u_has_var": "general_recruit_beggars_recruited",
           "value": "yes",
           "yes": "but the others have left, and\u0020",
           "no": "and I feel bad with all the help you've given me already, but\u0020"
@@ -228,7 +220,7 @@
     },
     "responses": [
       {
-        "condition": { "not": { "u_has_var": "beggars_recruited", "type": "general", "context": "recruit", "value": "yes" } },
+        "condition": { "not": { "u_has_var": "general_recruit_beggars_recruited", "value": "yes" } },
         "text": "Why don't you leave this place?  Come with me, I could use some help out there.",
         "topic": "TALK_REFUGEE_BEGGAR_2_JOIN"
       },
@@ -389,7 +381,7 @@
     "difficulty": 1,
     "value": 0,
     "goal": "MGOAL_CONDITION",
-    "goal_condition": { "u_has_var": "Dave_Permission", "type": "mission", "value": "yes" },
+    "goal_condition": { "u_has_var": "mission_Dave_Permission", "value": "yes" },
     "count": 5,
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
@@ -417,7 +409,7 @@
     "update_mapgen_id": "cardboard_castle_1_main",
     "method": "json",
     "object": {
-      "translate_ter": [ { "from": "t_door_metal_locked", "to": "t_door_metal_c", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "place_ter_furn_transforms": [ { "transform": "unlock_door", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "place_nested": [ { "chunks": [ "cardboard_castle_1_main" ], "x": 0, "y": 17 } ],
       "set": [ { "point": "variable", "id": "dave_castle", "x": 4, "y": 19 } ]
     }

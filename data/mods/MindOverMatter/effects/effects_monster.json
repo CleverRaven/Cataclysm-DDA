@@ -87,6 +87,18 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_monster_hardened_skin",
+    "name": [ "Hardened Skin" ],
+    "desc": [ "You are more resilient than normal." ],
+    "show_in_info": true,
+    "enchantments": [
+      {
+        "values": [ { "value": "ARMOR_CUT", "add": -6 }, { "value": "ARMOR_BASH", "add": -9 }, { "value": "ARMOR_STAB", "add": -4 } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_pattern_screamer_rock_thrower",
     "name": [ "One Perfect Rock" ],
     "desc": [ "You are prepared to ruin the player's day with an inhumanly accurate thrown rock." ]

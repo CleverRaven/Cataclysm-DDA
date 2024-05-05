@@ -31,6 +31,7 @@
 #include "item.h"
 #include "json.h"
 #include "line.h"
+#include "localized_comparator.h"
 #include "magic_enchantment.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -2765,8 +2766,10 @@ int known_magic::select_spell( Character &guy )
 
     std::vector<std::pair<std::string, std::string>> categories;
     for( const spell *s : known_spells ) {
-        if( s->can_cast( guy ) && s->spell_class().is_valid() ) {
-            categories.emplace_back( s->spell_class().str(), s->spell_class().obj().name() );
+        if( s->can_cast( guy ) && ( s->spell_class().is_valid() || s->spell_class() == trait_NONE ) ) {
+            const std::string spell_class_name = s->spell_class() == trait_NONE ? _( "Classless" ) :
+                                                 s->spell_class().obj().name();
+            categories.emplace_back( s->spell_class().str(), spell_class_name );
             std::sort( categories.begin(), categories.end(), []( const std::pair<std::string, std::string> &a,
             const std::pair<std::string, std::string> &b ) {
                 return localized_compare( a.second, b.second );
@@ -2788,7 +2791,7 @@ int known_magic::select_spell( Character &guy )
         {
             return guy.magic->is_favorite( known_spells[entry.retval]->id() );
         }
-        return known_spells[entry.retval]->spell_class().is_valid() && known_spells[entry.retval]->spell_class().str() == key;
+        return ( known_spells[entry.retval]->spell_class().is_valid() || known_spells[entry.retval]->spell_class() == trait_NONE ) && known_spells[entry.retval]->spell_class().str() == key;
     } );
     if( !favorites.empty() ) {
         spell_menu.set_category( "favorites" );

@@ -1,9 +1,11 @@
 #include "active_item_cache.h"
 
 #include <algorithm>
+#include <numeric>
 #include <utility>
 
 #include "item.h"
+#include "item_pocket.h"
 #include "safe_reference.h"
 
 float item_reference::spoil_multiplier()

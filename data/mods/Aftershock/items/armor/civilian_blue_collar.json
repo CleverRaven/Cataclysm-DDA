@@ -75,7 +75,7 @@
     "copy-from": "tie_skinny",
     "looks_like": "tie_skinny",
     "name": { "str": "worker's tie" },
-    "description": "Calling this thin strip of dark fabric a tie would do it a favour."
+    "description": "Calling this thin strip of dark fabric a tie would do it a favor."
   },
   {
     "id": "spacer_jumpsuit",
@@ -109,8 +109,8 @@
     "weight": "600 g",
     "volume": "10 L",
     "looks_like": "tacvest",
-    "price": 7400,
-    "price_postapoc": 5000,
+    "price": "74 USD",
+    "price_postapoc": "50 USD",
     "material": [ "steel", "plastic" ],
     "symbol": "[",
     "color": "dark_gray",
@@ -143,17 +143,17 @@
       {
         "pocket_type": "CONTAINER",
         "min_item_volume": "2 L",
-        "max_contains_volume": "5 L",
+        "max_contains_volume": "10 L",
         "max_contains_weight": "30 kg",
-        "flag_restriction": [ "MAG_BULKY" ],
+        "flag_restriction": [ "MAG_BULKY", "HEAVY_TOOL" ],
         "moves": 60
       },
       {
         "pocket_type": "CONTAINER",
         "min_item_volume": "2 L",
-        "max_contains_volume": "5 L",
+        "max_contains_volume": "10 L",
         "max_contains_weight": "30 kg",
-        "flag_restriction": [ "MAG_BULKY" ],
+        "flag_restriction": [ "MAG_BULKY", "HEAVY_TOOL" ],
         "moves": 60
       }
     ],

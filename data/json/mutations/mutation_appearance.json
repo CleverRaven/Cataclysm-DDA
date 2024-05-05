@@ -347,7 +347,7 @@
     "id": "FACIAL_HAIR_TOOTHBRUSH",
     "type": "mutation",
     "name": { "str": "Facial hair: toothbrush moustache" },
-    "description": "Charlie Chaplin used to have this short patch of hair just under the nose, but then that other guy used it as a characteristic, and it became unwelcomed.",
+    "description": "Charlie Chaplin used to have this short patch of hair just under the nose, but then that other guy used it as a characteristic, and it became unwelcome.",
     "points": 0,
     "valid": false,
     "starting_trait": true,
