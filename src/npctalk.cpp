@@ -4631,9 +4631,9 @@ talk_effect_fun_t::func f_set_item_category_spawn_rates( const JsonObject &jo,
 {
     if( jo.has_array( member ) ) {
         std::set<std::pair<item_category_id, float>> rates;
-        for( const JsonObject &joi : jo.get_array( member ) ) {
-            item_category_id cat( joi.get_string( "id" ) );
-            float spawn_rate = joi.get_float( "spawn_rate" );
+        for( const JsonValue jv : jo.get_array( member ) ) {
+            item_category_id cat( jv.get_string( "id" ) );
+            float spawn_rate = jv.get_float( "spawn_rate" );
             rates.insert( std::make_pair( cat, spawn_rate ) );
         }
         return [rates]( dialogue const &/* d */ ) {
