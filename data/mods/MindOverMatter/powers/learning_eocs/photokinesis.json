@@ -2,7 +2,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PHOTOKIN_LEARNING_SNUFF_LIGHT",
-    "recurrence": [ "12 hours", "24 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_photokinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_low)" ] },
+      { "math": [ "jmath_photokinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "PHOTOKINETIC" },
@@ -38,7 +41,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PHOTO_LEARNING_LIGHT_DODGE",
-    "recurrence": [ "12 hours", "24 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_photokinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_low)" ] },
+      { "math": [ "jmath_photokinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "PHOTOKINETIC" },
@@ -74,7 +80,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PHOTO_LEARNING_LIGHT_BEAM",
-    "recurrence": [ "12 hours", "24 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_photokinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_low)" ] },
+      { "math": [ "jmath_photokinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "PHOTOKINETIC" },
@@ -110,7 +119,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PHOTO_LEARNING_CAMOUFLAGE",
-    "recurrence": [ "12 hours", "24 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_photokinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_low)" ] },
+      { "math": [ "jmath_photokinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "PHOTOKINETIC" },
@@ -141,7 +153,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PHOTO_LEARNING_RAD_IMMUNITY",
-    "recurrence": [ "12 hours", "24 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_photokinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_low)" ] },
+      { "math": [ "jmath_photokinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "PHOTOKINETIC" },
@@ -185,7 +200,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PHOTOKIN_LEARNING_LIGHT_ARMS",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_photokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_photokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "PHOTOKINETIC" },
@@ -222,7 +240,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PHOTOKIN_LEARNING_HIDE_UGLY",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_photokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_photokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "PHOTOKINETIC" },
@@ -258,7 +279,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PHOTOKIN_LEARNING_LIGHT_IMAGE",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_photokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_photokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "PHOTOKINETIC" },
@@ -299,7 +323,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PHOTOKIN_LEARNING_RADIO",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_photokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_photokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "PHOTOKINETIC" },
@@ -340,7 +367,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PHOTOKIN_LEARNING_INVISIBILITY",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_photokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_photokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "PHOTOKINETIC" },
@@ -389,7 +419,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PHOTOKIN_LEARNING_LIGHT_FLASH",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_photokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_photokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "PHOTOKINETIC" },
@@ -430,7 +463,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PHOTOKIN_LEARNING_LIGHT_BLINDING_GLARE",
-    "recurrence": [ "96 hours", "168 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_photokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_photokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "PHOTOKINETIC" },
@@ -474,7 +510,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PHOTOKIN_LEARNING_LIGHT_DISINTEGRATE",
-    "recurrence": [ "96 hours", "168 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_photokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_photokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "PHOTOKINETIC" },

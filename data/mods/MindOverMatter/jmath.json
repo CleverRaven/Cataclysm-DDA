@@ -89,5 +89,23 @@
     "id": "jmath_biokinesis_learning_eocs_modifiers",
     "num_args": 1,
     "return": "_0 * max(( 1 - ( ( ( u_val('intelligence') + 23.33) / 33.33 ) ) + 1 ),0.4) * (1 - (0.2 * u_has_proficiency('prof_contemplation_biokinesis')))"
+  },
+  {
+    "type": "jmath_function",
+    "id": "jmath_clairsentience_learning_eocs_modifiers",
+    "num_args": 1,
+    "return": "_0 * max(( 1 - ( ( ( u_val('intelligence') + 23.33) / 33.33 ) ) + 1 ),0.4) * (1 - (0.2 * u_has_proficiency('prof_contemplation_clairsentience')))"
+  },
+  {
+    "type": "jmath_function",
+    "id": "jmath_electrokinesis_learning_eocs_modifiers",
+    "num_args": 1,
+    "return": "_0 * max(( 1 - ( ( ( u_val('intelligence') + 23.33) / 33.33 ) ) + 1 ),0.4) * (1 - (0.2 * u_has_proficiency('prof_contemplation_electrokinesis')))"
+  },
+  {
+    "type": "jmath_function",
+    "id": "jmath_photokinesis_learning_eocs_modifiers",
+    "num_args": 1,
+    "return": "_0 * max(( 1 - ( ( ( u_val('intelligence') + 23.33) / 33.33 ) ) + 1 ),0.4) * (1 - (0.2 * u_has_proficiency('prof_contemplation_photokinesis')))"
   }
 ]
