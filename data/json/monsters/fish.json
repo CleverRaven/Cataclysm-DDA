@@ -236,7 +236,7 @@
     "weight": "275 g",
     "hp": 3,
     "speed": 150,
-    "dodge": 5,
+    "dodge": 8,
     "material": [ "flesh" ],
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "symbol": "f",
