@@ -2083,11 +2083,15 @@
     "max_duration": "5 hours",
     "base_mods": { "per_mod": [ -1 ], "int_mod": [ -1 ], "vomit_chance": [ 2000 ] },
     "enchantments": [
-      { "value": "SOCIAL_PERSUADE", "add": -10 },
-      { "value": "SOCIAL_LIE", "add": -4 },
-      { "value": "SOCIAL_INTIMIDATE", "add": 2 },
-      { "value": "UGLINESS", "add": 5 },
-      { "value": "SCENT_MASK", "add": 300 }
+      {
+        "values": [
+          { "value": "SOCIAL_PERSUADE", "add": -10 },
+          { "value": "SOCIAL_LIE", "add": -4 },
+          { "value": "SOCIAL_INTIMIDATE", "add": 2 },
+          { "value": "UGLINESS", "add": 5 },
+          { "value": "SCENT_MASK", "add": 300 }
+        ]
+      }
     ]
   },
   {
