@@ -87,5 +87,12 @@
     "//": "Hidden effect, used as a tracker",
     "name": [ "" ],
     "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_observed_rate_limiter",
+    "//": "Hidden effect, used as a tracker",
+    "name": [ "" ],
+    "desc": [ "" ]
   }
 ]

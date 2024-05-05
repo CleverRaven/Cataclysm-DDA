@@ -734,6 +734,23 @@ using coords::project_remain;
 using coords::project_combine;
 using coords::project_bounds;
 
+// Rebase relative coordinates to the base you know they're actually relative to.
+point_rel_ms rebase_rel( point_omt_ms p );
+point_rel_ms rebase_rel( point_bub_ms p );
+point_omt_ms rebase_omt( point_rel_ms p );
+point_bub_ms rebase_bub( point_rel_ms p );
+
+tripoint_rel_ms rebase_rel( tripoint_omt_ms p );
+tripoint_rel_ms rebase_rel( tripoint_bub_ms p );
+tripoint_omt_ms rebase_omt( tripoint_rel_ms p );
+tripoint_bub_ms rebase_bub( tripoint_rel_ms p );
+
+// 'Glue' rebase operations for when a tinymap is using the underlying map operation and when a tinymap
+// has to be cast to a map to access common functionality. Note that this doesn't actually change anything
+// as the reference remains the same location regardless, and the map operation still knows how large the map is.
+point_bub_ms rebase_bub( point_omt_ms p );
+tripoint_bub_ms rebase_bub( tripoint_omt_ms p );
+
 template<typename Point, coords::origin Origin, coords::scale Scale, bool LhsInBounds, bool RhsInBounds>
 inline int square_dist( const coords::coord_point<Point, Origin, Scale, LhsInBounds> &loc1,
                         const coords::coord_point<Point, Origin, Scale, RhsInBounds> &loc2 )

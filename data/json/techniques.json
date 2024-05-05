@@ -333,7 +333,6 @@
     "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
     "unarmed_allowed": true,
     "melee_allowed": true,
-    "unarmed_weapons_allowed": false,
     "required_buffs_all": [ "buff_aikido_onblock" ],
     "crit_ok": true,
     "//condition": "Humanoids of similar size and no flying",
@@ -375,7 +374,6 @@
     "messages": [ "You smoothly throw %s", "<npcname> dodges and smoothly throws %s!" ],
     "unarmed_allowed": true,
     "melee_allowed": true,
-    "unarmed_weapons_allowed": false,
     "required_buffs_all": [ "buff_aikido_ondodge" ],
     "crit_ok": true,
     "//condition": "Humanoids of similar size and no flying",
@@ -418,7 +416,6 @@
     "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
     "unarmed_allowed": true,
     "melee_allowed": true,
-    "unarmed_weapons_allowed": false,
     "required_buffs_all": [ "buff_aikido_onblock" ],
     "crit_ok": true,
     "disarms": true,
@@ -471,7 +468,6 @@
     "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
     "unarmed_allowed": true,
     "melee_allowed": true,
-    "unarmed_weapons_allowed": false,
     "required_buffs_all": [ "buff_aikido_ondodge" ],
     "crit_ok": true,
     "disarms": true,
@@ -527,7 +523,6 @@
     "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
     "unarmed_allowed": true,
     "melee_allowed": true,
-    "unarmed_weapons_allowed": false,
     "defensive": true,
     "grab_break": true
   },
@@ -1435,7 +1430,6 @@
     "messages": [ "You throw %s to the ground", "<npcname> throws %s to the ground!" ],
     "unarmed_allowed": true,
     "melee_allowed": true,
-    "unarmed_weapons_allowed": false,
     "crit_ok": true,
     "condition": {
       "and": [
@@ -1459,7 +1453,6 @@
     "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
     "unarmed_allowed": true,
     "melee_allowed": true,
-    "unarmed_weapons_allowed": false,
     "disarms": true,
     "tech_effects": [
       {
@@ -1492,7 +1485,6 @@
     "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
     "unarmed_allowed": true,
     "melee_allowed": true,
-    "unarmed_weapons_allowed": false,
     "crit_tec": true,
     "side_switch": true,
     "condition": {
@@ -3439,7 +3431,6 @@
     "id": "tec_debug_slow",
     "name": "slow strike",
     "unarmed_allowed": true,
-    "unarmed_weapons_allowed": false,
     "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
     "mult_bonuses": [
       { "stat": "damage", "type": "bash", "scale": 3.0 },

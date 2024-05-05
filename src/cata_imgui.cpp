@@ -35,7 +35,6 @@ struct pairs {
 std::array<RGBTuple, color_loader<RGBTuple>::COLOR_NAMES_COUNT> rgbPalette;
 std::array<pairs, 100> colorpairs;   //storage for pair'ed colored
 
-ImTui::TScreen *imtui_screen = nullptr;
 std::vector<std::pair<int, ImTui::mouse_event>> imtui_events;
 
 cataimgui::client::client()
@@ -44,7 +43,7 @@ cataimgui::client::client()
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
 
-    imtui_screen = ImTui_ImplNcurses_Init();
+    ImTui_ImplNcurses_Init();
     ImTui_ImplText_Init();
 
     ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
@@ -73,7 +72,7 @@ void cataimgui::client::end_frame()
 {
     ImGui::Render();
 
-    ImTui_ImplText_RenderDrawData( ImGui::GetDrawData(), imtui_screen );
+    ImTui_ImplText_RenderDrawData( ImGui::GetDrawData() );
     ImTui_ImplNcurses_DrawScreen();
 }
 
@@ -449,13 +448,6 @@ class cataimgui::window_impl
             window_adaptor->is_imgui = true;
             window_adaptor->on_redraw( [this]( ui_adaptor & ) {
                 win_base->draw();
-                point catapos;
-                point catasize;
-                ImVec2 impos = ImGui::GetWindowPos();
-                ImVec2 imsize = ImGui::GetWindowSize();
-                imvec2_to_point( &impos, &catapos );
-                imvec2_to_point( &imsize, &catasize );
-                window_adaptor->position_absolute( catapos, catasize );
             } );
             window_adaptor->on_screen_resize( [this]( ui_adaptor & ) {
                 is_resized = true;
@@ -580,6 +572,15 @@ void cataimgui::window::draw()
         draw_controls();
         if( p_impl->window_adaptor->is_on_top && !force_to_back ) {
             ImGui::BringWindowToDisplayFront( ImGui::GetCurrentWindow() );
+        }
+        if( handled_resize ) {
+            point catapos;
+            point catasize;
+            ImVec2 impos = ImGui::GetWindowPos();
+            ImVec2 imsize = ImGui::GetWindowSize();
+            imvec2_to_point( &impos, &catapos );
+            imvec2_to_point( &imsize, &catasize );
+            p_impl->window_adaptor->position_absolute( catapos, catasize );
         }
     }
     ImGui::End();

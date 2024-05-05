@@ -296,7 +296,8 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when )
                 random_point( *this, [this]( const tripoint & n ) {
                 return passable( n );
                 } ) ) {
-                    add_spawn( mgr, *pt );
+                    const tripoint_bub_ms pnt = tripoint_bub_ms( pt.value() );
+                    add_spawn( mgr, pnt );
                 }
             }
         }
@@ -2365,8 +2366,8 @@ class jmapgen_monster_group : public jmapgen_piece
             if( chosen_id.is_null() ) {
                 return;
             }
-            dat.m.place_spawns( chosen_id, chance.get(), point( x.val, y.val ),
-                                point( x.valmax, y.valmax ),
+            dat.m.place_spawns( chosen_id, chance.get(), point_bub_ms( x.val, y.val ),
+                                point_bub_ms( x.valmax, y.valmax ),
                                 density == -1.0f ? dat.monster_density() : density );
         }
 
@@ -3071,7 +3072,11 @@ class jmapgen_ter_furn_transform: public jmapgen_piece
             if( chosen_id.is_null() ) {
                 return;
             }
-            chosen_id->transform( dat.m, tripoint_bub_ms( x.get(), y.get(), dat.m.get_abs_sub().z() ) );
+            for( int ix = x.val; ix <= x.valmax; ix++ ) {
+                for( int iy = y.val; iy <= y.valmax; iy++ ) {
+                    chosen_id->transform( dat.m, tripoint_bub_ms( ix, iy, dat.m.get_abs_sub().z() ) );
+                }
+            }
         }
 
         void check( const std::string &oter_name, const mapgen_parameters &parameters,
@@ -3331,38 +3336,6 @@ class jmapgen_sealed_item : public jmapgen_piece
         }
         bool has_vehicle_collision( const mapgendata &dat, const point &p ) const override {
             return dat.m.veh_at( tripoint( p, dat.zlevel() ) ).has_value();
-        }
-};
-/**
- * Translate terrain from one ter_id to another.
- * "from": id of the starting terrain.
- * "to": id of the ending terrain
- * not useful for normal mapgen, very useful for mapgen_update
- */
-class jmapgen_translate : public jmapgen_piece
-{
-    public:
-        mapgen_value<ter_id> from;
-        mapgen_value<ter_id> to;
-        jmapgen_translate( const JsonObject &jsi, const std::string_view/*context*/ )
-            : from( jsi.get_member( "from" ) )
-            , to( jsi.get_member( "to" ) ) {
-        }
-        mapgen_phase phase() const override {
-            return mapgen_phase::transform;
-        }
-        void apply( const mapgendata &dat, const jmapgen_int &/*x*/, const jmapgen_int &/*y*/,
-                    const std::string &/*context*/ ) const override {
-            ter_id chosen_from = from.get( dat );
-            ter_id chosen_to = to.get( dat );
-            dat.m.translate( chosen_from, chosen_to );
-        }
-
-        void check( const std::string &oter_name, const mapgen_parameters &parameters,
-                    const jmapgen_int &/*x*/, const jmapgen_int &/*y*/
-                  ) const override {
-            from.check( oter_name, parameters );
-            to.check( oter_name, parameters );
         }
 };
 
@@ -4386,7 +4359,6 @@ mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, const std::s
     new_pal.load_place_mapings<jmapgen_liquid_item>( jo, "liquids", format_placings, c );
     new_pal.load_place_mapings<jmapgen_corpse>( jo, "corpses", format_placings, c );
     new_pal.load_place_mapings<jmapgen_graffiti>( jo, "graffiti", format_placings, c );
-    new_pal.load_place_mapings<jmapgen_translate>( jo, "translate", format_placings, c );
     new_pal.load_place_mapings<jmapgen_zone>( jo, "zones", format_placings, c );
     new_pal.load_place_mapings<jmapgen_ter_furn_transform>( jo, "ter_furn_transforms",
             format_placings, c );
@@ -4666,7 +4638,6 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
     objects.load_objects<jmapgen_computer>( jo, "place_computers", context_ );
     objects.load_objects<jmapgen_nested>( jo, "place_nested", context_ );
     objects.load_objects<jmapgen_graffiti>( jo, "place_graffiti", context_ );
-    objects.load_objects<jmapgen_translate>( jo, "translate_ter", context_ );
     objects.load_objects<jmapgen_zone>( jo, "place_zones", context_ );
     objects.load_objects<jmapgen_ter_furn_transform>( jo, "place_ter_furn_transforms", context_ );
     objects.load_objects<jmapgen_variable>( jo, "place_variables", context_ );
@@ -5456,7 +5427,7 @@ void map::draw_lab( mapgendata &dat )
             science_room( this, point( 2, 2 ), point( SEEX - 3, SEEY * 2 - 3 ), dat.zlevel(), 1 );
             science_room( this, point( SEEX + 2, 2 ), point( SEEX * 2 - 3, SEEY * 2 - 3 ), dat.zlevel(), 3 );
 
-            place_spawns( GROUP_TURRET, 1, point( SEEX, 5 ), point( SEEX, 5 ), 1, true );
+            place_spawns( GROUP_TURRET, 1, point_bub_ms( SEEX, 5 ), point_bub_ms( SEEX, 5 ), 1, true );
 
             if( dat.east()->get_type_id() == oter_type_road ) {
                 rotate( 1 );
@@ -5882,7 +5853,7 @@ void map::draw_lab( mapgendata &dat )
         }
 
         if( tower_lab ) {
-            place_spawns( GROUP_LAB, 1, point_zero, point( EAST_EDGE, EAST_EDGE ),
+            place_spawns( GROUP_LAB, 1, point_bub_ms( point_zero ), point_bub_ms( EAST_EDGE, SOUTH_EDGE ),
                           abs_sub.z() * 0.02f );
         }
 
@@ -6015,7 +5986,7 @@ void map::draw_lab( mapgendata &dat )
                             }
                         }
                     }
-                    tripoint center( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), abs_sub.z() );
+                    tripoint_bub_ms center( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), abs_sub.z() );
 
                     // Make a portal surrounded by more dense fungal stuff and a fungaloid.
                     draw_rough_circle( [this]( const point & p ) {
@@ -6034,7 +6005,7 @@ void map::draw_lab( mapgendata &dat )
                                 ter_set( p, ter_t_marloss );
                             }
                         }
-                    }, center.xy(), 3 );
+                    }, center.xy().raw(), 3 );
                     ter_set( center.xy(), ter_t_fungus_floor_in );
                     furn_set( center.xy(), furn_str_id::NULL_ID() );
                     trap_set( center, tr_portal );
@@ -6140,13 +6111,13 @@ void map::draw_lab( mapgendata &dat )
                 case 1:
                 case 2:
                     loot_variant = rng( 1, 100 ); //The variants have a 67/22/7/4 split.
-                    place_spawns( GROUP_ROBOT_SECUBOT, 1, point( 6, 6 ), point( 6, 6 ), 1, true );
-                    place_spawns( GROUP_ROBOT_SECUBOT, 1, point( SEEX * 2 - 7, 6 ),
-                                  point( SEEX * 2 - 7, 6 ), 1, true );
-                    place_spawns( GROUP_ROBOT_SECUBOT, 1, point( 6, SEEY * 2 - 7 ),
-                                  point( 6, SEEY * 2 - 7 ), 1, true );
-                    place_spawns( GROUP_ROBOT_SECUBOT, 1, point( SEEX * 2 - 7, SEEY * 2 - 7 ),
-                                  point( SEEX * 2 - 7, SEEY * 2 - 7 ), 1, true );
+                    place_spawns( GROUP_ROBOT_SECUBOT, 1, point_bub_ms( 6, 6 ), point_bub_ms( 6, 6 ), 1, true );
+                    place_spawns( GROUP_ROBOT_SECUBOT, 1, point_bub_ms( SEEX * 2 - 7, 6 ),
+                                  point_bub_ms( SEEX * 2 - 7, 6 ), 1, true );
+                    place_spawns( GROUP_ROBOT_SECUBOT, 1, point_bub_ms( 6, SEEY * 2 - 7 ),
+                                  point_bub_ms( 6, SEEY * 2 - 7 ), 1, true );
+                    place_spawns( GROUP_ROBOT_SECUBOT, 1, point_bub_ms( SEEX * 2 - 7, SEEY * 2 - 7 ),
+                                  point_bub_ms( SEEX * 2 - 7, SEEY * 2 - 7 ), 1, true );
                     spawn_item( point( SEEX - 4, SEEY - 2 ), "id_science" );
                     if( loot_variant <= 96 ) {
                         mtrap_set( this, point( SEEX - 3, SEEY - 3 ), tr_dissector );
@@ -6230,7 +6201,7 @@ void map::draw_lab( mapgendata &dat )
                                 } else if( ( i - lw ) % 2 == 0 || j == tw + 2 ) {
                                     ter_set( point( i, j ), ter_t_concrete_wall );
                                 } else { // Empty space holds monsters!
-                                    place_spawns( GROUP_NETHER, 1, point( i, j ), point( i, j ), 1, true );
+                                    place_spawns( GROUP_NETHER, 1, point_bub_ms( i, j ), point_bub_ms( i, j ), 1, true );
                                 }
                             }
                         }
@@ -6258,13 +6229,13 @@ void map::draw_lab( mapgendata &dat )
 
                 // Bionics
                 case 4: {
-                    place_spawns( GROUP_ROBOT_SECUBOT, 1, point( 6, 6 ), point( 6, 6 ), 1, true );
-                    place_spawns( GROUP_ROBOT_SECUBOT, 1, point( SEEX * 2 - 7, 6 ),
-                                  point( SEEX * 2 - 7, 6 ), 1, true );
-                    place_spawns( GROUP_ROBOT_SECUBOT, 1, point( 6, SEEY * 2 - 7 ),
-                                  point( 6, SEEY * 2 - 7 ), 1, true );
-                    place_spawns( GROUP_ROBOT_SECUBOT, 1, point( SEEX * 2 - 7, SEEY * 2 - 7 ),
-                                  point( SEEX * 2 - 7, SEEY * 2 - 7 ), 1, true );
+                    place_spawns( GROUP_ROBOT_SECUBOT, 1, point_bub_ms( 6, 6 ), point_bub_ms( 6, 6 ), 1, true );
+                    place_spawns( GROUP_ROBOT_SECUBOT, 1, point_bub_ms( SEEX * 2 - 7, 6 ),
+                                  point_bub_ms( SEEX * 2 - 7, 6 ), 1, true );
+                    place_spawns( GROUP_ROBOT_SECUBOT, 1, point_bub_ms( 6, SEEY * 2 - 7 ),
+                                  point_bub_ms( 6, SEEY * 2 - 7 ), 1, true );
+                    place_spawns( GROUP_ROBOT_SECUBOT, 1, point_bub_ms( SEEX * 2 - 7, SEEY * 2 - 7 ),
+                                  point_bub_ms( SEEX * 2 - 7, SEEY * 2 - 7 ), 1, true );
                     mtrap_set( this, point( SEEX - 2, SEEY - 2 ), tr_dissector );
                     mtrap_set( this, point( SEEX + 1, SEEY - 2 ), tr_dissector );
                     mtrap_set( this, point( SEEX - 2, SEEY + 1 ), tr_dissector );
@@ -6296,13 +6267,13 @@ void map::draw_lab( mapgendata &dat )
 
                 // CVD Forge
                 case 5:
-                    place_spawns( GROUP_ROBOT_SECUBOT, 1, point( 6, 6 ), point( 6, 6 ), 1, true );
-                    place_spawns( GROUP_ROBOT_SECUBOT, 1, point( SEEX * 2 - 7, 6 ),
-                                  point( SEEX * 2 - 7, 6 ), 1, true );
-                    place_spawns( GROUP_ROBOT_SECUBOT, 1, point( 6, SEEY * 2 - 7 ),
-                                  point( 6, SEEY * 2 - 7 ), 1, true );
-                    place_spawns( GROUP_ROBOT_SECUBOT, 1, point( SEEX * 2 - 7, SEEY * 2 - 7 ),
-                                  point( SEEX * 2 - 7, SEEY * 2 - 7 ), 1, true );
+                    place_spawns( GROUP_ROBOT_SECUBOT, 1, point_bub_ms( 6, 6 ), point_bub_ms( 6, 6 ), 1, true );
+                    place_spawns( GROUP_ROBOT_SECUBOT, 1, point_bub_ms( SEEX * 2 - 7, 6 ),
+                                  point_bub_ms( SEEX * 2 - 7, 6 ), 1, true );
+                    place_spawns( GROUP_ROBOT_SECUBOT, 1, point_bub_ms( 6, SEEY * 2 - 7 ),
+                                  point_bub_ms( 6, SEEY * 2 - 7 ), 1, true );
+                    place_spawns( GROUP_ROBOT_SECUBOT, 1, point_bub_ms( SEEX * 2 - 7, SEEY * 2 - 7 ),
+                                  point_bub_ms( SEEX * 2 - 7, SEEY * 2 - 7 ), 1, true );
                     line( this, ter_t_cvdbody, point( SEEX - 2, SEEY - 2 ), point( SEEX - 2, SEEY + 1 ) );
                     line( this, ter_t_cvdbody, point( SEEX - 1, SEEY - 2 ), point( SEEX - 1, SEEY + 1 ) );
                     line( this, ter_t_cvdbody, point( SEEX, SEEY - 1 ), point( SEEX, SEEY + 1 ) );
@@ -6395,14 +6366,14 @@ void map::draw_slimepit( const mapgendata &dat )
             // Align the stairs
             ter_set( point( 7, 9 ), ter_t_slope_up );
         }
-        place_spawns( GROUP_SLIME, 1, point( SEEX, SEEY ), point( SEEX, SEEY ), 0.15 );
+        place_spawns( GROUP_SLIME, 1, point_bub_ms( SEEX, SEEY ), point_bub_ms( SEEX, SEEY ), 0.15 );
         place_items( Item_spawn_data_sewer, 40, point_zero, point( EAST_EDGE, SOUTH_EDGE ), true,
                      calendar::start_of_cataclysm );
     }
 }
 
 void map::place_spawns( const mongroup_id &group, const int chance,
-                        const point &p1, const point &p2, const float density,
+                        const point_bub_ms &p1, const point_bub_ms &p2, const float density,
                         const bool individual, const bool friendly, const std::optional<std::string> &name,
                         const int mission_id )
 {
@@ -6434,12 +6405,11 @@ void map::place_spawns( const mongroup_id &group, const int chance,
     // GetResultFromGroup decrements num
     while( num > 0 ) {
         int tries = 10;
-        point p;
+        point_bub_ms p;
 
         // Pick a spot for the spawn
         do {
-            p.x = rng( p1.x, p2.x );
-            p.y = rng( p1.y, p2.y );
+            p = { rng( p1.x(), p2.x() ), rng( p1.y(), p2.y() ) };
             tries--;
         } while( impassable( p ) && tries > 0 );
 
@@ -6643,28 +6613,28 @@ std::vector<item *> map::put_items_from_loc( const item_group_id &group_id, cons
     return spawn_items( p, items );
 }
 
-void map::add_spawn( const MonsterGroupResult &spawn_details, const tripoint &p )
+void map::add_spawn( const MonsterGroupResult &spawn_details, const tripoint_bub_ms &p )
 {
     add_spawn( spawn_details.name, spawn_details.pack_size, p, false, -1, -1, std::nullopt,
                spawn_details.data );
 }
 
-void map::add_spawn( const mtype_id &type, int count, const tripoint &p, bool friendly,
+void map::add_spawn( const mtype_id &type, int count, const tripoint_bub_ms &p, bool friendly,
                      int faction_id, int mission_id, const std::optional<std::string> &name )
 {
     add_spawn( type, count, p, friendly, faction_id, mission_id, name, spawn_data() );
 }
 
 void map::add_spawn(
-    const mtype_id &type, int count, const tripoint &p, bool friendly, int faction_id,
+    const mtype_id &type, int count, const tripoint_bub_ms &p, bool friendly, int faction_id,
     int mission_id, const std::optional<std::string> &name, const spawn_data &data )
 {
-    if( p.x < 0 || p.x >= SEEX * my_MAPSIZE || p.y < 0 || p.y >= SEEY * my_MAPSIZE ) {
-        debugmsg( "Out of bounds add_spawn(%s, %d, %d, %d)", type.c_str(), count, p.x, p.y );
+    if( p.x() < 0 || p.x() >= SEEX * my_MAPSIZE || p.y() < 0 || p.y() >= SEEY * my_MAPSIZE ) {
+        debugmsg( "Out of bounds add_spawn(%s, %d, %d, %d)", type.c_str(), count, p.x(), p.y() );
         return;
     }
     point offset;
-    submap *place_on_submap = get_submap_at( p, offset );
+    submap *place_on_submap = get_submap_at( p.raw(), offset );
     if( place_on_submap == nullptr ) {
         debugmsg( "Tried to add spawn at (%d,%d) but the submap is not loaded", offset.x, offset.y );
         return;
@@ -6672,7 +6642,7 @@ void map::add_spawn(
 
     if( !place_on_submap ) {
         debugmsg( "centadodecamonant doesn't exist in grid; within add_spawn(%s, %d, %d, %d, %d)",
-                  type.c_str(), count, p.x, p.y, p.z );
+                  type.c_str(), count, p.x(), p.y(), p.z() );
         return;
     }
     if( MonsterGroupManager::monster_is_blacklisted( type ) ) {
@@ -7221,8 +7191,8 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                 tmpcomp->add_failure( COMPFAIL_ALARM );
                 tmpcomp->add_failure( COMPFAIL_DAMAGE );
                 m->place_spawns( GROUP_LAB_SECURITY, 1,
-                                 point( static_cast<int>( ( p1.x + p2.x ) / 2 ), desk ),
-                                 point( static_cast<int>( ( p1.x + p2.x ) / 2 ), desk ), 1, true );
+                                 point_bub_ms( static_cast<int>( ( p1.x + p2.x ) / 2 ), desk ),
+                                 point_bub_ms( static_cast<int>( ( p1.x + p2.x ) / 2 ), desk ), 1, true );
             } else {
                 int desk = p1.x + rng( static_cast<int>( height / 2 ) - static_cast<int>( height / 4 ),
                                        static_cast<int>( height / 2 ) + 1 );
@@ -7237,8 +7207,8 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                 tmpcomp->add_failure( COMPFAIL_ALARM );
                 tmpcomp->add_failure( COMPFAIL_DAMAGE );
                 m->place_spawns( GROUP_LAB_SECURITY, 1,
-                                 point( desk, static_cast<int>( ( p1.y + p2.y ) / 2 ) ),
-                                 point( desk, static_cast<int>( ( p1.y + p2.y ) / 2 ) ), 1, true );
+                                 point_bub_ms( desk, static_cast<int>( ( p1.y + p2.y ) / 2 ) ),
+                                 point_bub_ms( desk, static_cast<int>( ( p1.y + p2.y ) / 2 ) ), 1, true );
             }
             break;
         case room_chemistry:
@@ -7364,10 +7334,10 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
             mtrap_set( m, point( ( p1.x + p2.x ) / 2, static_cast<int>( ( p1.y + p2.y ) / 2 ) ),
                        tr_dissector );
             m->place_spawns( GROUP_LAB_CYBORG, 10,
-                             point( static_cast<int>( ( ( p1.x + p2.x ) / 2 ) + 1 ),
-                                    static_cast<int>( ( ( p1.y + p2.y ) / 2 ) + 1 ) ),
-                             point( static_cast<int>( ( ( p1.x + p2.x ) / 2 ) + 1 ),
-                                    static_cast<int>( ( ( p1.y + p2.y ) / 2 ) + 1 ) ), 1, true );
+                             point_bub_ms( static_cast<int>( ( ( p1.x + p2.x ) / 2 ) + 1 ),
+                                           static_cast<int>( ( ( p1.y + p2.y ) / 2 ) + 1 ) ),
+                             point_bub_ms( static_cast<int>( ( ( p1.x + p2.x ) / 2 ) + 1 ),
+                                           static_cast<int>( ( ( p1.y + p2.y ) / 2 ) + 1 ) ), 1, true );
             break;
 
         case room_bionics:
@@ -7588,10 +7558,10 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bo
             for( int i = c.x - 1; i <= c.x + 1; i++ ) {
                 for( int j = c.y - 1; j <= c.y + 1; j++ ) {
                     if( i == c.x && j == c.y ) {
-                        place_spawns( GROUP_BREATHER_HUB, 1, point( i, j ), point( i, j ), 1,
+                        place_spawns( GROUP_BREATHER_HUB, 1, point_bub_ms( i, j ), point_bub_ms( i, j ), 1,
                                       true );
                     } else {
-                        place_spawns( GROUP_BREATHER, 1, point( i, j ), point( i, j ), 1, true );
+                        place_spawns( GROUP_BREATHER, 1, point_bub_ms( i, j ), point_bub_ms( i, j ), 1, true );
                     }
                 }
             }
@@ -7669,6 +7639,11 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bo
         default:
             break;
     }
+}
+void map::create_anomaly( const tripoint_bub_ms &cp, artifact_natural_property prop,
+                          bool create_rubble )
+{
+    create_anomaly( cp.raw(), prop, create_rubble );
 }
 ///////////////////// part of map
 
