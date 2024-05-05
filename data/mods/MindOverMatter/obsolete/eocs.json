@@ -1,7 +1,7 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "EOC_MOM_GAMESTART_POWER_LEARNING_VARIABLES",
+    "id": "EOC_MOM_GAMELOAD_POWER_LEARNING_VARIABLES_UPDATER",
     "eoc_type": "EVENT",
     "required_event": "game_load",
     "condition": { "math": [ "global_updated_power_learning_variables", "!=", "1" ] },
