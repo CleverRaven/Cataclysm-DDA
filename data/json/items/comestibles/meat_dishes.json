@@ -1561,7 +1561,7 @@
     "copy-from": "dry_meat",
     "color": "white",
     "description": "Dehydrated flakes of bird meat.  With proper storage, this dried food will remain edible for an incredibly long time.",
-    "calories": 240
+    "calories": 220
   },
   {
     "type": "COMESTIBLE",

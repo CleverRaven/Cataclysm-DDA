@@ -726,7 +726,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "FINE_GRIND", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
-    "components": [ [ [ "dry_meat", 1 ], [ "dry_fish", 2 ], [ "dry_lobster", 2 ] ] ]
+    "components": [ [ [ "dry_meat", 1 ], [ "dry_fish", 2 ], [ "dry_lobster", 2 ], [ "dry_poultry", 2 ] ] ]
   },
   {
     "result": "protein_powder",
@@ -743,7 +743,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "food_processor", 20 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "dry_meat", 1 ], [ "dry_fish", 2 ], [ "dry_lobster", 2 ] ] ]
+    "components": [ [ [ "dry_meat", 1 ], [ "dry_fish", 2 ], [ "dry_lobster", 2 ], [ "dry_poultry", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -810,5 +810,37 @@
     "tools": [ [ [ "dehydrating_heat", 3, "LIST" ] ], [ [ "surface_heat", 3, "LIST" ] ] ],
     "//": "30 g acorns",
     "components": [ [ [ "acorns_blanched", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "dry_poultry",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRY",
+    "delete_flags": [ "BAD_TASTE" ],
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "12 m",
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "tools": [ [ [ "dehydrating_heat", 10, "LIST" ] ] ],
+    "//": "100g of stuff",
+    "components": [ [ [ "poultry_raw_any", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "dry_poultry",
+    "category": "CC_FOOD",
+    "id_suffix": "frozen_ingredients",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "18 m",
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "tools": [ [ [ "dehydrating_heat", 10, "LIST" ] ], [ [ "surface_heat", 7, "LIST" ] ] ],
+    "//": "100g of stuff, 6.6u to cook it",
+    "components": [ [ [ "poultry_raw_any", 1, "LIST" ] ] ]
   }
 ]

@@ -3538,7 +3538,8 @@
         [ "dry_fish", 2 ],
         [ "fish_smoked", 2 ],
         [ "dry_lobster", 2 ],
-        [ "lobster_smoked", 2 ]
+        [ "lobster_smoked", 2 ],
+        [ "poultry_smoked", 2 ]
       ],
       [
         [ "dry_fruit", 2 ],
