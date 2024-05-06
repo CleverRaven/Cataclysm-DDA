@@ -505,7 +505,12 @@
     "book_learn": [ [ "textbook_mesoam", 3 ] ],
     "using": [ [ "tailoring_cotton_patchwork", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_carpentry_basic" }, { "proficiency": "prof_carving" } ],
-    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "CHISEL_WOOD", "level": 2 }, { "id": "SAW_W", "level": 2 }, { "id": "FILE", "level": 1 } ],
+    "qualities": [
+      { "id": "CUT", "level": 2 },
+      { "id": "CHISEL_WOOD", "level": 2 },
+      { "id": "SAW_W", "level": 2 },
+      { "id": "FILE", "level": 1 }
+    ],
     "components": [ [ [ "log", 1 ] ], [ [ "2x4", 1 ] ], [ [ "feather", 50 ] ] ],
     "byproducts": [ [ "splinter", 200 ] ]
   },
