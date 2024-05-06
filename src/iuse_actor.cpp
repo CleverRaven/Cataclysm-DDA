@@ -1217,9 +1217,11 @@ void reveal_map_actor::reveal_targets( const tripoint_abs_omt &center,
     const auto places = overmap_buffer.find_all( center, target.first, radius, false,
                         target.second );
     for( const tripoint_abs_omt &place : places ) {
+        if( !overmap_buffer.seen( place ) ) {
+            // Should be replaced with the character using the item passed as an argument if NPCs ever learn to use maps
+            get_avatar().map_revealed_omts.emplace( place );
+        }
         overmap_buffer.reveal( place, reveal_distance );
-        // Should be replaced with the character using the item passed as an argument if NPCs ever learn to use maps
-        get_avatar().map_revealed_omts.emplace( place );
     }
 }
 
@@ -1243,6 +1245,9 @@ std::optional<int> reveal_map_actor::use( Character *p, item &it, const tripoint
     }
     if( !message.empty() ) {
         p->add_msg_if_player( m_good, "%s", message );
+    }
+    if( p->map_revealed_omts.empty() ) {
+        p->add_msg_if_player( _( "You didn't learn anything new from the %s." ), it.tname() );
     }
     it.mark_as_used_by_player( *p );
     return 0;
