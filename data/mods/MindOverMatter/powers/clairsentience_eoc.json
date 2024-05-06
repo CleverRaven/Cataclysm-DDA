@@ -1,6 +1,23 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_CLAIR_DISCERN_WEAKNESS",
+    "effect": [
+      { "math": [ "u_discern_weakness_clear_intelligence", "=", "( ( n_val('intelligence') + 10) / 20 )" ] },
+      { "math": [ "u_discern_weakness_clear_power_level", "=", "n_spell_level('clair_spot_weakness')" ] },
+      { "math": [ "u_nether_attunement_discern_weakness_scaling", "=", "n_nether_attunement_power_scaling" ] },
+      {
+        "u_add_effect": "effect_clair_weak_point",
+        "duration": {
+          "math": [
+            "rng( ( ( (u_discern_weakness_clear_power_level * 1.5) + 13.5) * u_discern_weakness_clear_intelligence * u_nether_attunement_discern_weakness_scaling),( ( (u_discern_weakness_clear_power_level * 2.5) + 30) * u_discern_weakness_clear_intelligence * u_nether_attunement_discern_weakness_scaling) )"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_CLAIR_RAD_SENSE",
     "effect": [
       {
