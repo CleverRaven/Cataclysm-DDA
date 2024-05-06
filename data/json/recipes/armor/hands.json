@@ -829,7 +829,7 @@
   },
   {
     "result": "gloves_wool_fingerless",
-	  "id_suffix": "from_patchwork",
+    "id_suffix": "from_patchwork",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "category": "CC_ARMOR",
