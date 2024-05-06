@@ -40,7 +40,7 @@
       {
         "id": "deck_of_cards_worn",
         "name": { "str": "worn deck of cards", "str_pl": "worn decks of cards" },
-        "description": "A deck of 52 playing cards. Judging by the bent, frayed edges and faded prints, it saw its share of games.",
+        "description": "A deck of 52 playing cards.  Judging by the bent, frayed edges and faded prints, it saw its share of games.",
         "weight": 6
       },
       {
