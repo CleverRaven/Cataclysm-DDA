@@ -551,8 +551,8 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "hardwood eagle helmet" },
-    "description": "A hardwood mesoamerican helmet that resembles the head of an eagle.  It was worn by the mesoamerican nobles both ceremonially and for protection.  Inside is lined with cotton; and it is ornamented with many feathers, carvings and colors.",
-    "weight": "1000 g",
+    "description": "A hardwood Mesoamerican helmet that resembles the head of an eagle.  It was worn by the renowned eagle warriors of the Aztec, both ceremonially and for protection.  Its inside is lined with cotton, and it is ornamented with many feathers, carvings and colors.",
+    "weight": "2240 g",
     "volume": "2500 ml",
     "symbol": "[",
     "color": "brown",
@@ -567,18 +567,18 @@
     "armor": [
       {
         "material": [
-          { "type": "wood", "covered_by_mat": 100, "thickness": 10 },
-          { "type": "cotton", "covered_by_mat": 95, "thickness": 3 }
+          { "type": "wood", "covered_by_mat": 100, "thickness": 6 },
+          { "type": "cotton", "covered_by_mat": 95, "thickness": 2 }
         ],
         "covers": [ "head" ],
         "specifically_covers": [ "head_forehead", "head_crown", "head_ear_l", "head_ear_r" ],
-        "encumbrance_modifiers": [ "NONE" ],
+        "encumbrance": 5,
         "coverage": 100
       },
       {
         "material": [
-          { "type": "wood", "covered_by_mat": 100, "thickness": 10 },
-          { "type": "cotton", "covered_by_mat": 95, "thickness": 3 }
+          { "type": "wood", "covered_by_mat": 100, "thickness": 6 },
+          { "type": "cotton", "covered_by_mat": 95, "thickness": 2 }
         ],
         "covers": [ "head" ],
         "specifically_covers": [ "head_nape" ],
@@ -587,8 +587,8 @@
       },
       {
         "material": [
-          { "type": "wood", "covered_by_mat": 100, "thickness": 10 },
-          { "type": "cotton", "covered_by_mat": 95, "thickness": 3 }
+          { "type": "wood", "covered_by_mat": 100, "thickness": 6 },
+          { "type": "cotton", "covered_by_mat": 95, "thickness": 2 }
         ],
         "covers": [ "mouth" ],
         "specifically_covers": [ "mouth_chin" ],
@@ -597,8 +597,8 @@
       },
       {
         "material": [
-          { "type": "wood", "covered_by_mat": 100, "thickness": 10 },
-          { "type": "cotton", "covered_by_mat": 95, "thickness": 3 }
+          { "type": "wood", "covered_by_mat": 100, "thickness": 6 },
+          { "type": "cotton", "covered_by_mat": 95, "thickness": 2 }
         ],
         "covers": [ "mouth" ],
         "specifically_covers": [ "mouth_cheeks" ],

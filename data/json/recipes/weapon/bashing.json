@@ -322,7 +322,7 @@
     "skill_used": "fabrication",
     "difficulty": 5,
     "time": "10 h",
-    "book_learn": [ [ "textbook_mesoam", 5 ] ],
+    "book_learn": [ [ "textbook_mesoam", 3 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -357,7 +357,7 @@
     "skill_used": "fabrication",
     "difficulty": 6,
     "time": "12 h",
-    "book_learn": [ [ "textbook_mesoam", 6 ] ],
+    "book_learn": [ [ "textbook_mesoam", 4 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -393,7 +393,7 @@
     "skill_used": "fabrication",
     "difficulty": 7,
     "time": "14 h",
-    "book_learn": [ [ "textbook_mesoam", 7 ] ],
+    "book_learn": [ [ "textbook_mesoam", 5 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -429,7 +429,7 @@
     "skill_used": "fabrication",
     "difficulty": 8,
     "time": "18 h",
-    "book_learn": [ [ "textbook_mesoam", 7 ] ],
+    "book_learn": [ [ "textbook_mesoam", 6 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -548,7 +548,7 @@
     "skill_used": "fabrication",
     "difficulty": 5,
     "time": "6 h",
-    "book_learn": [ [ "textbook_mesoam", 5 ] ],
+    "book_learn": [ [ "textbook_mesoam", 3 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -584,7 +584,7 @@
     "skill_used": "fabrication",
     "difficulty": 6,
     "time": "8 h",
-    "book_learn": [ [ "textbook_mesoam", 6 ] ],
+    "book_learn": [ [ "textbook_mesoam", 4 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -620,7 +620,7 @@
     "skill_used": "fabrication",
     "difficulty": 7,
     "time": "10 h",
-    "book_learn": [ [ "textbook_mesoam", 7 ] ],
+    "book_learn": [ [ "textbook_mesoam", 5 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -656,7 +656,7 @@
     "skill_used": "fabrication",
     "difficulty": 8,
     "time": "14 h",
-    "book_learn": [ [ "textbook_mesoam", 8 ] ],
+    "book_learn": [ [ "textbook_mesoam", 6 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -693,7 +693,7 @@
     "skill_used": "fabrication",
     "difficulty": 8,
     "time": "14 h",
-    "book_learn": [ [ "textbook_mesoam", 8 ] ],
+    "book_learn": [ [ "textbook_mesoam", 6 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
