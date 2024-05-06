@@ -2868,6 +2868,11 @@ void avatar::disarm( npc &target )
 
     item_location it = target.get_wielded_item();
     const item_location weapon = get_wielded_item();
+
+    if( it->has_flag( flag_INTEGRATED ) ) {
+        return;
+    };
+
     // roll your melee and target's dodge skills to check if grab/smash attack succeeds
     int hitspread = target.deal_melee_attack( this, hit_roll() );
     if( hitspread < 0 ) {
