@@ -234,5 +234,11 @@
     "method": "json",
     "update_mapgen_id": "truck_bomb_spawn",
     "object": { "place_item": [ { "item": "fake_dynamite_50lbs", "x": 17, "y": 18, "custom-flags": [ "ACTIVATE_ON_PLACE" ] } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "LUKE_REMOVE_TRUCK",
+    "method": "json",
+    "object": { "remove_vehicles": [ { "vehicles": [ "pickup" ], "x": [ 0, 23 ], "y": [ 0, 23 ] } ] }
   }
 ]
