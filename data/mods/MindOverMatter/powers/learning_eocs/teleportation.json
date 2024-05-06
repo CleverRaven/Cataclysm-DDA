@@ -2,7 +2,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_LEARNING_PHASE",
-    "recurrence": [ "12 hours", "24 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_teleportation_learning_eocs_modifiers(global_tier_one_power_learning_time_low)" ] },
+      { "math": [ "jmath_teleportation_learning_eocs_modifiers(global_tier_one_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "TELEPORTER" },
@@ -28,7 +31,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_LEARNING_STRIDE",
-    "recurrence": [ "12 hours", "24 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_teleportation_learning_eocs_modifiers(global_tier_one_power_learning_time_low)" ] },
+      { "math": [ "jmath_teleportation_learning_eocs_modifiers(global_tier_one_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "TELEPORTER" },
@@ -62,7 +68,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_LEARNING_TRANSPOSE",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_teleportation_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_teleportation_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "TELEPORTER" },
@@ -98,7 +107,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_LEARNING_DISPLACEMENT",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_teleportation_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_teleportation_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "TELEPORTER" },
@@ -134,7 +146,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_LEARNING_COLLAPSE",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_teleportation_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_teleportation_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "TELEPORTER" },
@@ -175,7 +190,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_LEARNING_FARSTEP",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_teleportation_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_teleportation_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "TELEPORTER" },
@@ -214,7 +232,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_LEARNING_BANISH",
-    "recurrence": [ "96 hours", "168 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_teleportation_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_teleportation_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "TELEPORTER" },
@@ -254,7 +275,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_LEARNING_GATEWAY",
-    "recurrence": [ "96 hours", "168 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_teleportation_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_teleportation_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "TELEPORTER" },
@@ -288,7 +312,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPORT_LEARNING_BREACH",
-    "recurrence": [ "96 hours", "168 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_teleportation_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_teleportation_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "TELEPORTER" },

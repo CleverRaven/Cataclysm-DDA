@@ -125,5 +125,17 @@
     "id": "jmath_telepathy_learning_eocs_modifiers",
     "num_args": 1,
     "return": "_0 * max(( 1 - ( ( ( u_val('intelligence') + 23.33) / 33.33 ) ) + 1 ),0.4) * (1 - (0.2 * u_has_proficiency('prof_contemplation_telepathy')))"
+  },
+  {
+    "type": "jmath_function",
+    "id": "jmath_teleportation_learning_eocs_modifiers",
+    "num_args": 1,
+    "return": "_0 * max(( 1 - ( ( ( u_val('intelligence') + 23.33) / 33.33 ) ) + 1 ),0.4) * (1 - (0.2 * u_has_proficiency('prof_contemplation_teleportation')))"
+  },
+  {
+    "type": "jmath_function",
+    "id": "jmath_vitakinesis_learning_eocs_modifiers",
+    "num_args": 1,
+    "return": "_0 * max(( 1 - ( ( ( u_val('intelligence') + 23.33) / 33.33 ) ) + 1 ),0.4) * (1 - (0.2 * u_has_proficiency('prof_contemplation_vitakinesis')))"
   }
 ]

@@ -2,7 +2,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_LEARNING_STOP_BLEEDING",
-    "recurrence": [ "12 hours", "24 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_vitakinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_low)" ] },
+      { "math": [ "jmath_vitakinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "VITAKINETIC" },
@@ -30,7 +33,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_LEARNING_HEALING_TOUCH",
-    "recurrence": [ "12 hours", "24 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_vitakinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_low)" ] },
+      { "math": [ "jmath_vitakinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "VITAKINETIC" },
@@ -58,7 +64,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_LEARNING_HURT_TOUCH",
-    "recurrence": [ "12 hours", "24 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_vitakinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_low)" ] },
+      { "math": [ "jmath_vitakinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "VITAKINETIC" },
@@ -92,7 +101,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_LEARNING_REMOVE_POISON",
-    "recurrence": [ "12 hours", "24 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_vitakinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_low)" ] },
+      { "math": [ "jmath_vitakinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "VITAKINETIC" },
@@ -133,7 +145,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_LEARNING_CURE_DISEASE",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_vitakinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_vitakinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "VITAKINETIC" },
@@ -161,7 +176,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_LEARNING_SLEEPING_TRANCE",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_vitakinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_vitakinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "VITAKINETIC" },
@@ -197,7 +215,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_LEARNING_PAIN_SPLIT",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_vitakinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_vitakinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "VITAKINETIC" },
@@ -241,7 +262,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_LEARNING_STOP_INFECTION",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_vitakinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_vitakinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "VITAKINETIC" },
@@ -269,7 +293,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_LEARNING_HEALING_TRANCE",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_vitakinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_vitakinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "VITAKINETIC" },
@@ -305,7 +332,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_LEARNING_ATTACK_TOUCH",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_vitakinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_vitakinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "VITAKINETIC" },
@@ -333,7 +363,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_LEARNING_BLOOD_PURGE",
-    "recurrence": [ "96 hours", "168 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_vitakinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_vitakinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "VITAKINETIC" },
@@ -374,7 +407,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_LEARNING_BANISH_ILLNESS",
-    "recurrence": [ "96 hours", "168 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_vitakinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_vitakinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "VITAKINETIC" },
@@ -415,7 +451,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_LEARNING_SUPER_HEAL",
-    "recurrence": [ "96 hours", "168 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_vitakinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_vitakinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "VITAKINETIC" },
@@ -460,7 +499,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_VITAKIN_LEARNING_RETURN_FROM_DEATH",
-    "recurrence": [ "96 hours", "168 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_vitakinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_vitakinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "VITAKINETIC" },
