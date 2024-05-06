@@ -533,7 +533,7 @@ void aim_activity_actor::unload_RAS_weapon()
                                   get_option<int>( "PLAYER_MAX_STAMINA_BASE" ) ) );
             return;
         }
-        if( gun->ammo_remaining() ){
+        if( gun->ammo_remaining() ) {
             item_location loc = item_location( you, gun.target );
             you.unload( loc, true );
             loaded_RAS_weapon = false;
