@@ -556,6 +556,7 @@
     "volume": "2500 ml",
     "symbol": "[",
     "color": "brown",
+    "looks_like": "helmet_plate",
     "price": "150 USD",
     "price_postapoc": "12 USD 50 cent",
     "material": [ "wood", "cotton" ],
