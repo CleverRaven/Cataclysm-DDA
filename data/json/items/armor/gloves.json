@@ -1038,12 +1038,17 @@
     "material_thickness": 3,
     "flags": [ "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
     "armor": [
-      { "encumbrance": 7,
+      { 
+        "encumbrance": 7,
         "coverage": 75,
         "covers": [ "hand_l", "hand_r" ],
         "specifically_covers": [ "hand_wrist_l", "hand_wrist_r", "hand_back_l", "hand_back_r" ]
       },
-      { "encumbrance": 7, "coverage": 100, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_palm_l", "hand_palm_r" ] },
+      { 
+        "encumbrance": 7, 
+        "coverage": 100, 
+        "covers": [ "hand_l", "hand_r" ], 
+        "specifically_covers": [ "hand_palm_l", "hand_palm_r" ] },
       {
         "coverage": 50,
         "covers": [ "hand_l", "hand_r" ],
