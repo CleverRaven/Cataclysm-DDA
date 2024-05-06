@@ -583,7 +583,6 @@
         ],
         "covers": [ "head" ],
         "specifically_covers": [ "head_nape" ],
-        "encumbrance_modifiers": [ "NONE" ],
         "coverage": 40
       },
       {
@@ -593,7 +592,6 @@
         ],
         "covers": [ "mouth" ],
         "specifically_covers": [ "mouth_chin" ],
-        "encumbrance_modifiers": [ "NONE" ],
         "coverage": 100
       },
       {
@@ -603,7 +601,6 @@
         ],
         "covers": [ "mouth" ],
         "specifically_covers": [ "mouth_cheeks" ],
-        "encumbrance_modifiers": [ "NONE" ],
         "coverage": 20
       }
     ]
