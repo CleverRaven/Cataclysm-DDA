@@ -407,8 +407,8 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
 
 void aim_activity_actor::canceled( player_activity &/*act*/, Character &/*who*/ )
 {
-    restore_view();
     unload_RAS_weapon();
+    restore_view();
 }
 
 void aim_activity_actor::serialize( JsonOut &jsout ) const
@@ -510,13 +510,10 @@ bool aim_activity_actor::load_RAS_weapon()
     }
 
     // Burn 0.6% max base stamina without cardio/BMI factored in x the strength required to fire.
-    // Stamina cost of RAS weapon is also calculated in ranged.cpp mod_stamina_archery, need to
-    // confirm if this formula should be removed.
     you.burn_energy_arms( - gun->get_min_str() * static_cast<int>( 0.006f *
                           get_option<int>( "PLAYER_MAX_STAMINA_BASE" ) ) );
 
     reload_loc = opt.ammo;
-    loaded_RAS_weapon = true;
     return true;
 }
 
@@ -524,16 +521,23 @@ void aim_activity_actor::unload_RAS_weapon()
 {
     avatar &you = get_avatar();
     item_location weapon = get_weapon();
-    if( !weapon || !loaded_RAS_weapon ) {
+    if( !weapon ) {
         return;
     }
 
-    // Refund stamina cost.
     gun_mode gun = weapon->gun_current_mode();
     if( gun->has_flag( flag_RELOAD_AND_SHOOT ) ) {
-        you.burn_energy_arms( gun->get_min_str() * static_cast<int>( 0.006f *
-                              get_option<int>( "PLAYER_MAX_STAMINA_BASE" ) ) );
-        loaded_RAS_weapon = false;
+        if( !loaded_RAS_weapon ) {
+            // Refund stamina cost if not loaded.
+            you.burn_energy_arms( gun->get_min_str() * static_cast<int>( 0.006f *
+                                  get_option<int>( "PLAYER_MAX_STAMINA_BASE" ) ) );
+            return;
+        }
+        if( gun->ammo_remaining() ){
+            item_location loc = item_location( you, gun.target );
+            you.unload( loc, true );
+            loaded_RAS_weapon = false;
+        }
     }
 }
 

@@ -157,6 +157,7 @@ static constexpr int AIF_DURATION_LIMIT = 10;
 static projectile make_gun_projectile( const item &gun );
 static int NPC_time_to_attack( const Character &p, const itype &firing );
 static int time_to_attack( const Character &p, const item &firing, const item_location &loc );
+int RAS_time = 0;
 /**
 * Handle spent ammo casings and linkages.
 * @param weap   Weapon.
@@ -1923,9 +1924,11 @@ static int print_ranged_chance( const catacurses::window &w, int line_number,
 
         for( const aim_type_prediction &out : sorted ) {
             std::string col_hl = out.is_default ? "light_green" : "light_gray";
-            std::string desc =
+            std::string desc = RAS_time ==  0 ?
                 string_format( "<color_white>[%s]</color> <color_%s>%s %s</color> | %s: <color_light_blue>%3d</color>",
-                               out.hotkey, col_hl, out.name, _( "Aim" ), _( "Moves to fire" ), out.moves );
+                               out.hotkey, col_hl, out.name, _( "Aim" ), _( "Moves to fire" ), out.moves ) :
+                string_format( "<color_white>[%s]</color> <color_%s>%s %s</color> | %s: <color_light_blue>%3d</color> (%d)",
+                               out.hotkey, col_hl, out.name, _( "Aim" ), _( "Moves to fire" ), out.moves, RAS_time );
 
             print_colored_text( w, point( 1, line_number++ ), col, col, desc );
 
@@ -2134,10 +2137,8 @@ int time_to_attack( const Character &p, const item &firing, const item_location 
 {
     const skill_id &skill_used = firing.type->gun->skill_used;
     const time_info_t &info = skill_used->time_to_attack();
-    int RAS_time = 0;
-    if( !loc ) {
-        RAS_time = 0;
-    } else {
+    RAS_time = 0;
+    if( loc ) {
         // At low stamina levels, firing starts getting slow.
         const item_location gun = p.get_wielded_item();
         int sta_percent = ( 100 * p.get_stamina() ) / p.get_stamina_max();
@@ -2688,6 +2689,15 @@ target_handler::trajectory target_ui::run()
                 loop_exit_code = ExitCode::Timeout;
                 break;
             }
+
+            if( you->get_wielded_item()->has_flag( flag_RELOAD_AND_SHOOT ) ) {
+                if( !you->get_wielded_item()->ammo_remaining() && activity->reload_loc ) {
+                    you->mod_moves( -RAS_time );
+                    you->get_wielded_item()->reload( get_avatar(), activity->reload_loc, 1 );
+                    activity->reload_loc = item_location();
+                    activity->loaded_RAS_weapon = true;
+                }
+            }
         } else if( action == "STOPAIM" ) {
             if( status != Status::Good ) {
                 continue;
@@ -2727,6 +2737,9 @@ target_handler::trajectory target_ui::run()
             if( mode != TargetMode::SelectOnly ) {
                 bool harmful = !( mode == TargetMode::Spell && casting->damage( player_character ) <= 0 );
                 on_target_accepted( harmful );
+            }
+            if( you->get_wielded_item()->has_flag( flag_RELOAD_AND_SHOOT ) ) {
+                activity->loaded_RAS_weapon = false;
             }
             break;
         }
