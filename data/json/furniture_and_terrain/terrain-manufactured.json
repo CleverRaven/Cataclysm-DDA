@@ -518,7 +518,7 @@
     "type": "terrain",
     "id": "t_drill_machinery",
     "name": "drilling machinery",
-    "description": "All the machinery required to operate and control de drill string and the drill bit down below. It is now inactive.",
+    "description": "All the machinery required to operate and control de drill string and the drill bit down below.  It is now inactive.",
     "symbol": "&",
     "color": "black",
     "looks_like": "f_machinery_heavy",
