@@ -628,6 +628,22 @@
   },
   {
     "type": "material",
+    "id": "cotton_salted",
+    "name": "Salt Hardened Cotton",
+    "copy-from": "cotton",
+    "repaired_with": "null",
+    "resist": { "bash": 2, "cut": 2, "acid": 5, "heat": 10, "bullet": 1.5 }
+  },
+  {
+    "type": "material",
+    "id": "cotton_quilted_salted",
+    "name": "Salt Hardened Quilted Cotton",
+    "copy-from": "cotton",
+    "repaired_with": "null",
+    "resist": { "bash": 3.5, "cut": 3.5, "acid": 5, "heat": 10, "bullet": 2 }
+  },
+  {
+    "type": "material",
     "id": "denim",
     "name": "Denim",
     "//": "Denim clothing is usually measured in oz rather than mm thickness.  For our purposes, assume 6 oz denim is equal to 0.4mm and scale up from there.",
