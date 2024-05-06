@@ -564,7 +564,7 @@
     "melee_damage": { "bash": 6 },
     "techniques": [ "WBLOCK_1" ],
     "warmth": 15,
-    "flags": [ "VARSIZE", "STURDY", "PADDED", "WATERPROOF" ],
+    "flags": [ "VARSIZE", "STURDY", "PADDED", "WATERPROOF", "NO_REPAIR" ],
     "armor": [
       {
         "material": [
