@@ -2309,7 +2309,7 @@
       { "item": "greatcoat", "prob": 15 },
       { "item": "gloves_light", "prob": 35 },
       { "item": "mittens", "prob": 30 },
-      { "item": "gloves_wool", "prob": 33 },      
+      { "item": "gloves_wool", "prob": 33 },
       { "item": "gloves_wool_fingerless", "prob": 10 },
       { "item": "thermal_socks", "prob": 2 },
       { "item": "thermal_gloves", "prob": 2 },
