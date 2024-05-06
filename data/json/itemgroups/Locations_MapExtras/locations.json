@@ -2484,6 +2484,7 @@
       [ "sweater", 75 ],
       [ "coat_winter", 50 ],
       [ "gloves_wool", 33 ],
+      [ "gloves_wool_fingerless", 10 ],
       [ "thermal_socks", 2 ],
       [ "thermal_gloves", 2 ],
       [ "thermal_suit", 2 ],
