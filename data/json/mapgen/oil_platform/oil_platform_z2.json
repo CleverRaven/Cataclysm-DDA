@@ -118,7 +118,7 @@
           { "liquid": "crude_oil", "amount": [ 1, 4 ], "chance": 120 }
         ],
         "…": { "liquid": "salt_water", "amount": [ 25000, 300000 ] },
-        "0": [ { "liquid": "crude_oil", "amount": [ 50000, 300000 ] } ]
+        "0": [ { "liquid": "crude_oil", "amount": [ 500, 3000 ] } ]
       },
       "furniture": { "♀": "f_sink", "☼": "f_catalytic_cracking_reactor" },
       "terrain": { "n": "t_bridge", "‼": "t_drill_string" },
