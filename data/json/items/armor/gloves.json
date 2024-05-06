@@ -1024,7 +1024,7 @@
     "id": "gloves_wool_fingerless",
     "type": "ARMOR",
     "name": { "str": "pair of fingerless wool gloves", "str_pl": "pairs of fingerless wool gloves" },
-    "description": "A warm pair of wool gloves without fingers. Less encumbering, but provides significantly less warmth.",
+    "description": "A warm pair of wool gloves without fingers.  Less encumbering, but provides significantly less warmth.",
     "weight": "75 g",
     "volume": "250 ml",
     "price": "35 USD",
