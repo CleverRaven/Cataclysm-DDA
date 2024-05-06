@@ -117,7 +117,7 @@
           { "liquid": "salt_water", "amount": [ 1, 4 ], "chance": 70 },
           { "liquid": "crude_oil", "amount": [ 1, 4 ], "chance": 120 }
         ],
-        "…": { "liquid": "salt_water", "amount": [ 25000, 300000 ] },
+        "…": { "liquid": "salt_water", "amount": [ 250, 3000 ] },
         "0": [ { "liquid": "crude_oil", "amount": [ 500, 3000 ] } ]
       },
       "furniture": { "♀": "f_sink", "☼": "f_catalytic_cracking_reactor" },
