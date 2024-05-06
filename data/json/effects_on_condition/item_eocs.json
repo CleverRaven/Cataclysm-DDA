@@ -156,7 +156,17 @@
       { "u_lose_trait": "hair_messy" },
       { "u_lose_trait": "hair_very_long" },
       { "u_lose_trait": "hair_extremely_long" },
-      { "u_lose_trait": "hair_body_length" }
+      { "u_lose_trait": "hair_body_length" },
+      { "u_lose_trait": "hair_modern" },
+      { "u_lose_trait": "hair_puff" },
+      { "u_lose_trait": "hair_beaded" },
+      { "u_lose_trait": "hair_curls" },
+      { "u_lose_trait": "hair_bun" },
+      { "u_lose_trait": "hair_punk_long" },
+      { "u_lose_trait": "hair_braid" },
+      { "u_lose_trait": "hair_detective" },
+      { "u_lose_trait": "hair_super_princess" },
+      { "u_lose_trait": "hair_twintails" }
     ]
   },
   {

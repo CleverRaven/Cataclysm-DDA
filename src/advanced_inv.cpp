@@ -987,7 +987,7 @@ bool advanced_inventory::fill_lists_with_pane_items( Character &player_character
         item_list.push_back( entry.second );
     }
     for( const move_all_entry &entry : unsorted_fav_list ) {
-        item_list.push_back( entry.second );
+        fav_list.push_back( entry.second );
     }
     return true;
 }
