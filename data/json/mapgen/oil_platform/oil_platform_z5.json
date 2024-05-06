@@ -129,8 +129,8 @@
         "τ": { "item": "laundry", "chance": 50, "repeat": [ 5, 15 ] }
       },
       "liquids": {
-        "…": { "liquid": "water_clean", "amount": [ 25000, 250000 ] },
-        "0": { "liquid": "water_sewage", "amount": [ 25000, 150000 ] }
+        "…": { "liquid": "water_clean", "amount": [ 250, 2500 ] },
+        "0": { "liquid": "water_sewage", "amount": [ 250, 1500 ] }
       }
     }
   }
