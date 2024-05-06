@@ -95,15 +95,17 @@ TEST_CASE( "Attack_vector_test", "[martial_arts][limb]" )
     dude.martial_arts_data->add_martialart( test_style_ma1 );
     dude.martial_arts_data->set_style( test_style_ma1, false );
     monster &target_1 = spawn_test_monster( "mon_zombie_fat", dude_pos + tripoint_east );
+    const matec_id &tec = *test_style_ma1->techniques.find( test_vector_tech_1 );
+    const matec_id &tec2 = *test_style_ma1->techniques.find( test_vector_tech_2 );
+    REQUIRE( !dude.evaluate_technique( tec, target_1, dude.used_weapon(), false, false,
+                                       false ) );
+    REQUIRE( dude.evaluate_technique( tec2, target_1, dude.used_weapon(), false, false,
+                                      false ) );
+    REQUIRE( dude.get_all_body_parts_of_type( body_part_type::type::tail ).empty() );
+
     SECTION( "Limb requirements" ) {
-        const matec_id &tec = *test_style_ma1->techniques.find( test_vector_tech_1 );
-        REQUIRE( dude.get_all_body_parts_of_type( body_part_type::type::tail ).empty() );
-        // Can't trigger the tech without a tail
-        CHECK( !dude.evaluate_technique( tec, target_1, dude.used_weapon(), false, false,
-                                         false ) );
         // Grow a tail, suddenly we can use it
         dude.toggle_trait( trait_DEBUG_TAIL );
-        REQUIRE( !dude.get_all_body_parts_of_type( body_part_type::type::tail ).empty() );
         CHECK( dude.evaluate_technique( tec, target_1, dude.used_weapon(), false, false,
                                         false ) );
         // Unless our tail breaks
@@ -111,22 +113,35 @@ TEST_CASE( "Attack_vector_test", "[martial_arts][limb]" )
         dude.set_part_hp_cur( body_part_debug_tail, 1 );
         CHECK( !dude.evaluate_technique( tec, target_1, dude.used_weapon(), false, false,
                                          false ) );
-        dude.set_part_hp_cur( body_part_debug_tail, 20 );
+    }
+    SECTION( "Missing contact" ) {
+        // Lose our vector limb
+        dude.toggle_trait( trait_DEBUG_TAIL );
         CHECK( dude.evaluate_technique( tec, target_1, dude.used_weapon(), false, false,
                                         false ) );
-        // Lose our vector limb
         dude.enchantment_cache->force_add( *enchantment_ENCH_TEST_BIRD_PARTS, dude );
         dude.recalculate_bodyparts();
         REQUIRE( !dude.has_part( body_part_hand_l ) );
         CHECK( !dude.evaluate_technique( tec, target_1, dude.used_weapon(), false, false,
                                          false ) );
     }
-    SECTION( "Limb substitution" ) {
-        const matec_id &tec2 = *test_style_ma1->techniques.find( test_vector_tech_2 );
-        // Succeed before changing
-        CHECK( dude.evaluate_technique( tec2, target_1, dude.used_weapon(), false, false,
+    SECTION( "Limb HP" ) {
+        dude.toggle_trait( trait_DEBUG_TAIL );
+        CHECK( dude.evaluate_technique( tec, target_1, dude.used_weapon(), false, false,
                                         false ) );
-        // Beak substitution lets us succeed afterwards
+        // Check bp hp limit (hands don't have HP so we check arms)
+        dude.set_part_hp_cur( body_part_arm_l, 1 );
+        CHECK( !dude.evaluate_technique( tec, target_1, dude.used_weapon(), false, false,
+                                         false ) );
+    }
+    SECTION( "Encumbrance" ) {
+        REQUIRE( dude.get_all_body_parts_of_type( body_part_type::type::tail ).empty() );
+        item test_eoc_armor_suit( "test_eoc_armor_suit" );
+        REQUIRE( dude.wear_item( test_eoc_armor_suit, false ) );
+        CHECK( !dude.evaluate_technique( tec, target_1, dude.used_weapon(), false, false,
+                                         false ) );
+    }
+    SECTION( "Limb substitution" ) {
         dude.enchantment_cache->force_add( *enchantment_ENCH_TEST_BIRD_PARTS, dude );
         dude.recalculate_bodyparts();
         CHECK( dude.evaluate_technique( tec2, target_1, dude.used_weapon(), false, false,

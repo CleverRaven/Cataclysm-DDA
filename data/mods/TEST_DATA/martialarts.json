@@ -22,6 +22,8 @@
     "id": "test_tail_req",
     "limbs": [ "hand_l" ],
     "contact_area": [ "hand_fingers_l" ],
+    "bp_hp_limit": 50,
+    "encumbrance_limit": 10,
     "limb_req": [ [ "tail", 1 ] ]
   },
   {
