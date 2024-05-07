@@ -456,8 +456,8 @@ bool Character::i_add_or_drop( item &it, int qty, const item *avoid,
     bool add = it.is_gun() || !it.is_irremovable();
     inv->assign_empty_invlet( it, *this );
     map &here = get_map();
-    drop |= !can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) || !can_pickVolume( it );
     for( int i = 0; i < qty; ++i ) {
+        drop |= !can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) || !can_pickVolume( it );
         if( drop ) {
             retval &= !here.add_item_or_charges( pos(), it ).is_null();
             if( !retval ) {
