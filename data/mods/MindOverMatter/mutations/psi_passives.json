@@ -104,7 +104,11 @@
     "points": 0,
     "description": "You naturally heat the air around you slightly, making it more comfortable in the cold.  It also helps prevent you from getting too wet.",
     "bodytemp_modifiers": [ 250, 750 ],
-    "enchantments": [ { "values": [ { "value": "BODYTEMP_SLEEP", "add": { "math": [ "0.05 * u_spell_level_sum('school': 'PYROKINETIC')" ] } } ] } ],
+    "enchantments": [
+      {
+        "values": [ { "value": "BODYTEMP_SLEEP", "add": { "math": [ "0.05 * u_spell_level_sum('school': 'PYROKINETIC')" ] } } ]
+      }
+    ],
     "wet_protection": [
       { "part": "head", "ignored": 10 },
       { "part": "leg_l", "ignored": 10 },
