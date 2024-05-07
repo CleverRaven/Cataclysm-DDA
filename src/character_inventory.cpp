@@ -461,7 +461,7 @@ bool Character::i_add_or_drop( item &it, int qty, const item *avoid,
         if( drop ) {
             retval &= !here.add_item_or_charges( pos(), it ).is_null();
             if( !retval ) {
-            // No need to loop now, we already knew that there isn't enough room for the item.
+                // No need to loop now, we already knew that there isn't enough room for the item.
                 break;
             }
         } else if( add ) {
