@@ -466,7 +466,8 @@ void debug_menu::wishbionics( Character *you )
     }
 }
 
-void debug_menu::wisheffect( Character &p )
+template<typename T>
+void debug_menu::wisheffect( T &p )
 {
     static bodypart_str_id effectbp = bodypart_str_id::NULL_ID();
     std::vector<effect> effects;
@@ -637,6 +638,8 @@ void debug_menu::wisheffect( Character &p )
         }
     } while( efmenu.ret != UILIST_CANCEL );
 }
+template void debug_menu::wisheffect<Character>( Character &p );
+template void debug_menu::wisheffect<monster>( monster &p );
 
 class wish_monster_callback: public uilist_callback
 {

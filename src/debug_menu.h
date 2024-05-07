@@ -109,7 +109,9 @@ enum class debug_menu_index : int {
     last
 };
 
-void wisheffect( Character &p );
+template<typename T>
+void wisheffect( T &p );
+
 void wishitem( Character *you = nullptr );
 void wishitem( Character *you, const tripoint & );
 void wishmonster( const std::optional<tripoint> &p );
