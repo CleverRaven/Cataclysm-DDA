@@ -8088,16 +8088,16 @@ std::optional<int> iuse::capture_monster_act( Character *p, item *it, const trip
 heating_requirements heating_requirements_for_weight( const units::mass &frozen,
         const units::mass &nfrozen, const units::volume &used_volume )
 {
-    // 1000w microwave can heat up 500 gram food in 2.5 minute .
-    // Accroding to the charge_per_use in game, microwave takes 35kJ per use, almost equal to 1000w microwave runs 2.5 minutes
-    // 1*2.5*60 = 150kJ, 5*35 = 175kJ, Ithat means every use of microwave takes about 30 seconds.
-    // The thermal efficiency of microwave is about 80%, 5*35*8.% = 140kJ, means 140kJ energy is given to the food.
-    // 140kJ can make 500 gram water incrase 66.6 centigrade, pretty convincing.
-    // And defrozen need 5 more minutes, 3 times total.
+    // Accroding to the charge_per_use in game, microwave takes 35kJ per use, almost equal to 800w microwave runs 2.5 minutes
+    // 1*2.5*60 = 150kJ, 6*25 = 150kJ, Ithat means every use of microwave takes about 25 seconds.
+    // The thermal efficiency of microwave is about 80%, 25*8.% = 20kJ, means every use of microwave, 20kJ energy is given to the food.
+    // We will use water heat capacity, 4.2kJ/(kg*K), it means 20Kj can increase 120g water 40K.
+    // So microwave can at least heat up 120 gram food in 25 second and cost 25kJ energy
     units::volume volume = used_volume;
-    int ammo = 3 * divide_round_up( frozen, 100_gram ) + divide_round_up( nfrozen, 100_gram );
-    int time = to_moves<int>( 90_seconds * ( frozen / 100_gram ) ) + to_moves<int>( 30_seconds *
-               ( nfrozen / 100_gram ) ) ;
+    // Retain one decimal place when dividing
+    int ammo = divide_round_up( int ( 3 * divide_round_up( frozen, 12_gram ) + divide_round_up( nfrozen,
+                                      12_gram ) ), 10 );
+    int time = to_moves<int>( 25_seconds * ammo );
     return {volume, ammo, time};
 }
 
