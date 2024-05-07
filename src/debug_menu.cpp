@@ -1445,7 +1445,7 @@ static void spawn_nested_mapgen()
         if( ptr == nullptr ) {
             return;
         }
-        ( *ptr )->nest( md, local_ms.xy(), "debug menu" );
+        ( *ptr )->nest( md, tripoint_rel_ms( local_ms.x, local_ms.y, 0 ), "debug menu" );
         target_map.save();
         g->load_npcs();
         here.invalidate_map_cache( here.get_abs_sub().z() );
