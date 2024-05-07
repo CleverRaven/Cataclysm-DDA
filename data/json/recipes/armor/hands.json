@@ -867,6 +867,12 @@
     "components": [ [ [ "xs_gloves_wool", 1 ] ] ]
   },
   {
+    "copy-from": "gloves_wool_fingerless",
+    "result": "xl_gloves_wool_fingerless",
+    "type": "recipe",
+    "using": [ [ "tailoring_wool_knitting", 93 ] ]
+  },
+  {
     "result": "xl_gloves_wool_fingerless",
     "id_suffix": "from_gloves",
     "type": "recipe",
