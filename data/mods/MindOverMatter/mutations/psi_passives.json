@@ -490,7 +490,11 @@
     "valid": false,
     "player_display": true,
     "purifiable": false,
-    "enchantments": [ { "values": [ { "value": "EVASION", "add": { "math": [ "(0.01 + (0.00025 * u_spell_level_sum('school': 'TELEPORTER')))" ] } } ] } ]
+    "enchantments": [
+      {
+        "values": [ { "value": "EVASION", "add": { "math": [ "(0.01 + (0.00025 * u_spell_level_sum('school': 'TELEPORTER')))" ] } } ]
+      }
+    ]
   },
   {
     "type": "mutation",
