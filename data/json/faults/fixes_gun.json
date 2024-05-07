@@ -33,6 +33,7 @@
     "success_msg": "You quickly swab your %s to remove black powder residue and prevent further corrosion.",
     "time": "1 m",
     "faults_removed": [ "fault_gun_blackpowder" ],
+    "faults_added": [ "fault_gun_blackpowder" ],
     "skills": { "mechanics": 1 },
     "set_variables": { "rust_timer": "0" },
     "adjust_variables_multiply": { "dirt": ".8" },
