@@ -333,6 +333,16 @@
   },
   {
     "type": "effect_type",
+    "id": "shattered",
+    "name": [ "Shattered Armor" ],
+    "//": "Intended for monsters, has no effect except to create a new weak point.",
+    "desc": [ "Your armor has been shattered by a heavy attack." ],
+    "apply_message": "Your armor has been shattered.",
+    "rating": "bad",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
     "id": "staggered",
     "name": [ "Staggered" ],
     "//": "Mainly for monsters",
@@ -471,6 +481,13 @@
       { "limb_score": "reaction", "modifier": 0.5 },
       { "limb_score": "block", "modifier": 0.5 }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "yrax_overcharged",
+    "name": [ "▙▜▛▜" ],
+    "desc": [ "▙▚▛▜▝▞▟" ],
+    "show_in_info": true
   },
   {
     "type": "effect_type",
@@ -3081,7 +3098,9 @@
       "infected",
       "asthma",
       "common_cold",
-      "flu"
+      "flu",
+      "pre_flu",
+      "pre_common_cold"
     ],
     "base_mods": { "pkill_min": [ 5 ] }
   },
@@ -4648,6 +4667,26 @@
     ]
   },
   {
+    "id": "nemesis_buff",
+    "type": "effect_type",
+    "max_duration": "1000 s",
+    "name": [ "SWOLE" ],
+    "desc": [ "If you see this description it is a bug." ],
+    "rating": "bad",
+    "show_intensity": false,
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "SPEED", "multiply": { "math": [ "Nemesis_iteration * 0.01" ] } },
+          { "value": "ARMOR_BASH", "add": { "math": [ "Nemesis_iteration * -1" ] } },
+          { "value": "ARMOR_STAB", "add": { "math": [ "Nemesis_iteration * -1" ] } },
+          { "value": "ARMOR_CUT", "add": { "math": [ "Nemesis_iteration * -1" ] } }
+        ]
+      }
+    ]
+  },
+  {
     "type": "effect_type",
     "id": "molting",
     "name": [ "Molting" ],
@@ -4885,5 +4924,13 @@
     "//": "yes it's actually called that.  It is also the strongest anti-clotting factor known to science.  It inhibits the synthesis of thrombin, so most earth animals/mutants should be affected, except maybe bugs.",
     "immune_flags": [ "DRACULIN_IMMUNE" ],
     "effect_dur_scaling": [ { "effect_id": "bleed", "modifier": 2.0, "same_bp": false } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "fragile_frog",
+    "name": [ "Fragile Frog" ],
+    "desc": [ "Applied by leap special attack of burned frog zombies, conditional for related spell." ],
+    "max_duration": "5 m",
+    "show_in_info": true
   }
 ]

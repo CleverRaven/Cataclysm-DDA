@@ -231,11 +231,6 @@ class query_popup
         mutable std::vector<std::string> folded_msg;
         mutable std::vector<button> buttons;
 
-        static std::vector<std::vector<std::string>> fold_query(
-                    const std::string &category,
-                    keyboard_mode pref_kbd_mode,
-                    const std::vector<query_option> &options,
-                    int max_width, int horz_padding );
         void invalidate_ui() const;
 
         template <typename ...Args>

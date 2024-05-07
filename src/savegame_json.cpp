@@ -4618,6 +4618,62 @@ void _write_rle_terrain( JsonOut &jsout, const std::string_view ter, int num )
 
 } // namespace
 
+static std::unordered_map<ter_str_id, std::pair<ter_str_id, furn_str_id>> ter_migrations;
+static std::unordered_map<furn_str_id, std::pair<ter_str_id, furn_str_id>> furn_migrations;
+
+void ter_furn_migrations::load( const JsonObject &jo )
+{
+    //TODO: Add support for migrating to items?
+    const bool is_ter_migration = jo.has_string( "from_ter" );
+    const bool is_furn_migration = jo.has_string( "from_furn" );
+    if( ( is_ter_migration && is_furn_migration ) || ( !is_ter_migration && !is_furn_migration ) ) {
+        debugmsg( "Should specify one of from_ter/from_furn" );
+        return;
+    }
+    ter_str_id to_ter = ter_str_id::NULL_ID();
+    furn_str_id to_furn = furn_str_id::NULL_ID();
+    if( is_ter_migration ) {
+        ter_str_id from_ter;
+        mandatory( jo, true, "from_ter", from_ter );
+        mandatory( jo, true, "to_ter", to_ter );
+        optional( jo, true, "to_furn", to_furn );
+        ter_migrations.insert( std::make_pair( from_ter, std::make_pair( to_ter, to_furn ) ) );
+    } else {
+        furn_str_id from_furn;
+        mandatory( jo, true, "from_furn", from_furn );
+        optional( jo, true, "to_ter", to_ter );
+        mandatory( jo, true, "to_furn", to_furn );
+        furn_migrations.insert( std::make_pair( from_furn, std::make_pair( to_ter, to_furn ) ) );
+    }
+}
+
+void ter_furn_migrations::reset()
+{
+    ter_migrations.clear();
+    furn_migrations.clear();
+}
+
+void ter_furn_migrations::check()
+{
+    auto check_to_ids_valid = []( const std::pair<ter_str_id, furn_str_id> &to_ids,
+    const std::string & context ) {
+        if( !to_ids.first.is_valid() ) {
+            debugmsg( "ter_furn_migration from '%s' specifies invalid to_ter id '%s'", context,
+                      to_ids.first.c_str() );
+        }
+        if( !to_ids.second.is_valid() ) {
+            debugmsg( "ter_furn_migration from '%s' specifies invalid to_furn id '%s'", context,
+                      to_ids.second.c_str() );
+        }
+    };
+    for( const auto &migration : ter_migrations ) {
+        check_to_ids_valid( migration.second, migration.first.c_str() );
+    }
+    for( const auto &migration : furn_migrations ) {
+        check_to_ids_valid( migration.second, migration.first.c_str() );
+    }
+}
+
 void submap::store( JsonOut &jsout ) const
 {
     jsout.member( "turn_last_touched", last_touched );
@@ -4881,29 +4937,32 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
         } else {
             // terrain is encoded using simple RLE
             int remaining = 0;
-            int_id<ter_t> iid;
+            int_id<ter_t> iid_ter;
+            int_id<furn_t> iid_furn;
             for( int j = 0; j < SEEY; j++ ) {
                 // NOLINTNEXTLINE(modernize-loop-convert)
                 for( int i = 0; i < SEEX; i++ ) {
                     if( !remaining ) {
                         JsonValue terrain_entry = terrain_json.next_value();
-                        if( terrain_entry.test_string() ) {
-                            const ter_str_id terstr( terrain_entry.get_string() );
-                            if( terstr.is_valid() ) {
-                                iid = terstr.id();
-                            } else {
-                                debugmsg( "invalid ter_str_id '%s'", terstr.str() );
-                                iid = ter_t_dirt;
+                        auto migrate_terstr = [&]( ter_str_id terstr ) {
+                            if( auto it = ter_migrations.find( terstr ); it != ter_migrations.end() ) {
+                                terstr = it->second.first;
+                                if( it->second.second != furn_str_id::NULL_ID() ) {
+                                    iid_furn = it->second.second.id();
+                                }
                             }
+                            if( terstr.is_valid() ) {
+                                iid_ter = terstr.id();
+                            } else {
+                                debugmsg( "invalid ter_str_id '%s'", terstr.c_str() );
+                                iid_ter = ter_t_dirt;
+                            }
+                        };
+                        if( terrain_entry.test_string() ) {
+                            migrate_terstr( ter_str_id( terrain_entry.get_string() ) );
                         } else if( terrain_entry.test_array() ) {
                             JsonArray terrain_rle = terrain_entry;
-                            const ter_str_id terstr( terrain_rle.next_string() );
-                            if( terstr.is_valid() ) {
-                                iid = terstr.id();
-                            } else {
-                                debugmsg( "invalid ter_str_id '%s'", terstr.str() );
-                                iid = ter_t_dirt;
-                            }
+                            migrate_terstr( ter_str_id( terrain_rle.next_string() ) );
                             remaining = terrain_rle.next_int() - 1;
                             if( terrain_rle.size() > 2 ) {
                                 terrain_rle.throw_error( "Too many values for terrain RLE" );
@@ -4914,7 +4973,10 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
                     } else {
                         --remaining;
                     }
-                    m->ter[i][j] = iid;
+                    m->ter[i][j] = iid_ter;
+                    if( iid_furn ) {
+                        m->frn[i][j] = iid_furn;
+                    }
                 }
             }
             if( remaining ) {
@@ -4935,11 +4997,26 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
             }
         }
     } else if( member_name == "furniture" ) {
+        int_id<ter_t> iid_ter;
+        int_id<furn_t> iid_furn;
         JsonArray furniture_json = jv;
         for( JsonArray furniture_entry : furniture_json ) {
             int i = furniture_entry.next_int();
             int j = furniture_entry.next_int();
-            m->frn[i][j] = furn_id( furniture_entry.next_string() );
+            furn_str_id furnstr( furniture_entry.next_string() );
+            if( auto it = furn_migrations.find( furnstr ); it != furn_migrations.end() ) {
+                furnstr = it->second.second;
+                if( it->second.first != ter_str_id::NULL_ID() ) {
+                    m->ter[i][j] = it->second.first.id();
+                }
+            }
+            if( furnstr.is_valid() ) {
+                iid_furn = furnstr.id();
+            } else {
+                debugmsg( "invalid furn_str_id '%s'", furnstr.c_str() );
+                iid_furn = furn_str_id::NULL_ID().id();
+            }
+            m->frn[i][j] = iid_furn;
             if( furniture_entry.size() > 3 ) {
                 furniture_entry.throw_error( "Too many values for furniture entry." );
             }

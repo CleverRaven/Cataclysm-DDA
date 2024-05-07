@@ -99,6 +99,24 @@
     "flags": [ "NO_ROTATE", "RISK_HIGH" ]
   },
   {
+    "id": "afs_crashed_cargo_shuttle",
+    "type": "overmap_terrain",
+    "name": "crashed cargo droneship",
+    "sym": "s",
+    "color": "i_red",
+    "see_cost": 2,
+    "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "id": "afs_crashed_cargo_shuttle_wraitheon",
+    "type": "overmap_terrain",
+    "name": "crashed military droneship",
+    "sym": "s",
+    "color": "light_green",
+    "see_cost": 2,
+    "flags": [ "RISK_HIGH", "SOURCE_GUN", "SOURCE_AMMO" ]
+  },
+  {
     "type": "overmap_terrain",
     "id": [ "afs_formless_ruins_dynamic" ],
     "name": "formless ruins",

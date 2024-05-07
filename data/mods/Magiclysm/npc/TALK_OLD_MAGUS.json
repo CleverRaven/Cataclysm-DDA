@@ -3,9 +3,7 @@
     "type": "talk_topic",
     "id": "TALK_OLD_MAGUS",
     "dynamic_line": {
-      "u_has_var": "talked_to_old_magus",
-      "type": "dialogue",
-      "context": "old_magus",
+      "u_has_var": "dialogue_old_magus_talked_to_old_magus",
       "value": "yes",
       "no": "Huh?  *mumble mumble* …Who are you?",
       "yes": "Oh, you again."
@@ -14,7 +12,7 @@
       {
         "text": "Hello <name_g>.",
         "topic": "TALK_OLD_MAGUS_INTRO",
-        "effect": { "u_add_var": "talked_to_old_magus", "type": "dialogue", "context": "old_magus", "value": "yes" }
+        "effect": { "u_add_var": "dialogue_old_magus_talked_to_old_magus", "value": "yes" }
       },
       { "text": "Wanna get outta here?", "topic": "TALK_SUGGEST_FOLLOW" },
       { "text": "Let's trade items.", "topic": "TALK_OLD_MAGUS", "effect": "start_trade" },
@@ -24,9 +22,7 @@
         "condition": {
           "and": [
             { "not": "has_assigned_mission" },
-            {
-              "not": { "npc_has_var": "npc_magus_book_done", "type": "dialogue", "context": "old_magus", "value": "yes" }
-            }
+            { "not": { "npc_has_var": "dialogue_old_magus_npc_magus_book_done", "value": "yes" } }
           ]
         }
       },

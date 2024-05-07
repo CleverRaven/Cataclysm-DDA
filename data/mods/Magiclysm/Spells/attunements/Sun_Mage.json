@@ -49,9 +49,9 @@
     "difficulty": 6,
     "max_level": 40,
     "base_casting_time": 150,
-    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(300)" ] },
-    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(1000000)" ] },
-    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(50000000)" ] },
-    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(1250000)" ] }
+    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(300, 3)" ] },
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(1000000, 4000)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(50000000, 4000)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(1250000, 0.003)" ] }
   }
 ]

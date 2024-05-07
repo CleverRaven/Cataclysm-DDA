@@ -244,6 +244,13 @@
     ]
   },
   {
+    "id": "mon_falcarius_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_gallimimus_hatchling",
+    "name": "green and magenta hatchling",
+    "upgrades": { "age_grow": 35, "into": "mon_falcarius_juvenile" }
+  },
+  {
     "id": "mon_therizinosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_gallimimus_hatchling",

@@ -2,25 +2,18 @@
   {
     "type": "talk_topic",
     "id": "TALK_NPC_EVAC_SURVIVOR",
-    "dynamic_line": {
-      "npc_has_var": "knows_u",
-      "type": "dialogue",
-      "context": "first_meeting",
-      "value": "yes",
-      "yes": "<greet>.",
-      "no": "Don't come any closer!"
-    },
-    "speaker_effect": { "effect": { "npc_add_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
+    "dynamic_line": { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes", "yes": "<greet>.", "no": "Don't come any closer!" },
+    "speaker_effect": { "effect": { "npc_add_var": "dialogue_first_meeting_knows_u", "value": "yes" } },
     "responses": [
       {
         "text": "What's wrong?",
         "topic": "TALK_NPC_EVAC_SURVIVOR_CALM",
-        "condition": { "not": { "npc_has_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+        "condition": { "not": { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" } }
       },
       {
         "text": "<greet>.",
         "topic": "TALK_NPC_EVAC_SURVIVOR_INTRO",
-        "condition": { "npc_has_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+        "condition": { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" }
       },
       { "text": "Bye.", "topic": "TALK_DONE" }
     ]
@@ -47,10 +40,7 @@
         "text": "I'd like to ask you a few questions.",
         "topic": "TALK_FRIEND_CONVERSATION",
         "condition": {
-          "and": [
-            { "math": [ "n_val('npc_trust')", ">=", "2" ] },
-            { "npc_has_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" }
-          ]
+          "and": [ { "math": [ "n_val('npc_trust')", ">=", "2" ] }, { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" } ]
         }
       },
       { "text": "Care to trade?", "topic": "TALK_NPC_EVAC_SURVIVOR_INTRO", "effect": "start_trade" },

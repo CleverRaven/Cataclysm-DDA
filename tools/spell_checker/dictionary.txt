@@ -629,6 +629,8 @@ bioelectricity
 bioforms
 biofuel
 biofuels
+biogas
+biogases
 biohacker
 biohazard
 biohazardous
@@ -798,6 +800,7 @@ Breece
 Breedlove
 Bren
 Brenda
+Breton
 Brett
 brewable
 Brewster
@@ -1895,6 +1898,7 @@ Fairbairn
 Fairhaven
 FAL
 Fala
+falcarius
 falcata
 Falmouth
 falx
@@ -2754,6 +2758,8 @@ icecream
 Icelandic
 Ichaival
 Ichaivals
+ichcahuipilli
+ichcahuipillis
 Ichi
 ichthyostega
 ichthys
@@ -3174,6 +3180,7 @@ kPa
 krabgek
 krabgeks
 Krag
+krampouezh
 krar
 krars
 Krav
@@ -3916,6 +3923,7 @@ Monegasque
 Mongolian
 Monica
 Monoco
+monocrop
 monocrystalline
 monogyna
 monometal
@@ -4118,10 +4126,14 @@ Nazirite
 Nazirites
 Nazis
 NBC
+ncrease
+nd
 NDA
+ndo
 Neal
 Nebraska
 NECC
+nearsightedness
 necco
 neccos
 neckbeard
@@ -4153,6 +4165,8 @@ Neptune
 nerf
 nerfs
 Nero
+nestmate
+nestmates
 netherium
 nethermancer
 nethermancers
@@ -5074,6 +5088,7 @@ Rochester
 Rockbolt
 rockclimbing
 Rockford
+rockin'
 Rockland
 Rockport
 rockwheel
@@ -5937,6 +5952,7 @@ SWD
 Swedish
 sweety
 Swiss
+swole
 swordfighting
 swording
 swordsmith
@@ -6451,6 +6467,7 @@ unselectable
 unsetting
 unsleeping
 unsmoked
+unspun
 unstocked
 untamable
 untampered

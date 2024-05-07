@@ -256,6 +256,8 @@ std::string action_ident( action_id act )
             return "cast_spell";
         case ACTION_SELECT_FIRE_MODE:
             return "select_fire_mode";
+        case ACTION_SELECT_DEFAULT_AMMO:
+            return "select_default_ammo";
         case ACTION_UNLOAD_CONTAINER:
             return "unload_container";
         case ACTION_DROP:
@@ -646,7 +648,7 @@ bool can_butcher_at( const tripoint &p )
 
 bool can_move_vertical_at( const tripoint &p, int movez )
 {
-    if( p.z + movez < -OVERMAP_DEPTH || p.z + movez >= OVERMAP_HEIGHT ) {
+    if( p.z + movez < -OVERMAP_DEPTH || p.z + movez > OVERMAP_HEIGHT ) {
         return false;
     }
     Character &player_character = get_player_character();
@@ -966,6 +968,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_RELOAD_WIELDED );
             REGISTER_ACTION( ACTION_CAST_SPELL );
             REGISTER_ACTION( ACTION_SELECT_FIRE_MODE );
+            REGISTER_ACTION( ACTION_SELECT_DEFAULT_AMMO );
             REGISTER_ACTION( ACTION_THROW );
             REGISTER_ACTION( ACTION_FIRE_BURST );
             REGISTER_ACTION( ACTION_PICK_STYLE );
@@ -1052,9 +1055,13 @@ action_id handle_main_menu()
     const input_context ctxt = get_default_mode_input_context();
     std::vector<uilist_entry> entries;
 
-    const auto REGISTER_ACTION = [&]( action_id name ) {
-        entries.emplace_back( name, true, hotkey_for_action( name, /*maximum_modifier_count=*/1 ),
-                              ctxt.get_action_name( action_ident( name ) ) );
+    const auto REGISTER_ACTION = [&]( action_id name, std::optional<char> kb = std::nullopt ) {
+        std::optional<input_event> hotkey = hotkey_for_action( name, /*maximum_modifier_count=*/1 );
+        if( hotkey.has_value() || !kb.has_value() ) {
+            entries.emplace_back( name, true, hotkey, ctxt.get_action_name( action_ident( name ) ) );
+        } else {
+            entries.emplace_back( name, true, kb.value(), ctxt.get_action_name( action_ident( name ) ) );
+        }
     };
 
     REGISTER_ACTION( ACTION_HELP );
@@ -1074,7 +1081,7 @@ action_id handle_main_menu()
     REGISTER_ACTION( ACTION_ACTIONMENU );
     REGISTER_ACTION( ACTION_QUICKSAVE );
     REGISTER_ACTION( ACTION_SAVE );
-    REGISTER_ACTION( ACTION_DEBUG );
+    REGISTER_ACTION( ACTION_DEBUG, 'd' );
 
     uilist smenu;
     smenu.settext( _( "MAIN MENU" ) );

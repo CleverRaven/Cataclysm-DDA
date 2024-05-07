@@ -532,7 +532,7 @@
         { "item": "cornmeal", "x": [ 41, 42 ], "y": 53, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "coffee_raw", "x": 40, "y": 53, "chance": 75, "repeat": [ 50, 150 ] },
         { "group": "tea_raw_bag_plastic_33", "x": 39, "y": 53, "chance": 75, "repeat": [ 50, 150 ] },
-        { "group": "sugar_packed", "x": 38, "y": 53, "chance": 75, "repeat": [ 50, 150 ] },
+        { "group": "sugar_various", "x": 38, "y": 53, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "salt", "x": 37, "y": 53, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "cooking_oil", "x": 36, "y": 53, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "meat_salted", "x": [ 45, 46 ], "y": 48, "chance": 75, "repeat": [ 50, 150 ] },
@@ -1130,7 +1130,7 @@
         "W": [ { "item": "mil_base_iv", "chance": 70 } ],
         "^": [ { "item": "mil_base_iv", "chance": 70 } ]
       },
-      "gaspumps": { "p": { "fuel": "jp8", "amount": [ 800, 4000 ] } },
+      "gaspumps": { "p": { "fuel": "jp8", "amount": [ 8, 40 ] } },
       "place_loot": [
         { "group": "mil_base_hmg", "x": 65, "y": 46, "chance": 10, "magazine": 100 },
         { "group": "SUS_janitors_closet", "x": 22, "y": 26, "chance": 90, "repeat": [ 1, 2 ] },

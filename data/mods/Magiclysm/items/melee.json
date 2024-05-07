@@ -10,7 +10,7 @@
     "material": [ "orichalcum_metal", "wood", "gold" ],
     "techniques": [ "WBLOCK_2", "BRUTAL" ],
     "volume": "2500 ml",
-    "price": 200000,
+    "price": "2 kUSD",
     "melee_damage": { "bash": 45, "stab": 23 }
   },
   {
@@ -23,7 +23,7 @@
     "material": [ "orichalcum_metal", "wood", "gold" ],
     "techniques": [ "WBLOCK_1", "IMPALE", "SWEEP" ],
     "volume": "3250 ml",
-    "price": 200000,
+    "price": "2 kUSD",
     "melee_damage": { "bash": 10, "cut": 35 }
   },
   {
@@ -36,7 +36,7 @@
     "material": [ "orichalcum_metal", "steel" ],
     "techniques": [ "WBLOCK_2", "PRECISE", "DIVIDE" ],
     "volume": "2000 ml",
-    "price": 200000,
+    "price": "2 kUSD",
     "melee_damage": { "bash": 6, "cut": 45 }
   },
   {
@@ -45,7 +45,7 @@
     "type": "GENERIC",
     "name": { "str": "Laevateinn" },
     "description": "Laevateinn, the staff of Loki.  Said to have been plucked from the gates of Hel by Loki.  Imbued with a mysterious magic, the magic of the trickster god himself.",
-    "price": 160000,
+    "price": "1 kUSD 600 USD",
     "material": [ "steel", "gold", "orichalcum_metal" ],
     "extend": { "flags": [ "MAGIC_FOCUS" ] },
     "techniques": [ "WBLOCK_2", "SPIN", "RAPID", "SWEEP" ],
@@ -93,7 +93,7 @@
     "material": [ "orichalcum_metal", "wood" ],
     "volume": "3250 ml",
     "relic_data": { "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "hit_you_effect": [ { "id": "wolfsbane" } ] } ] },
-    "price": 200000,
+    "price": "2 kUSD",
     "melee_damage": { "bash": 10, "cut": 35 }
   },
   {

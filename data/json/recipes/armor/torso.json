@@ -26,6 +26,30 @@
     "using": [ [ "tailoring_cotton_patchwork", 9 ] ]
   },
   {
+    "copy-from": "apron_cotton",
+    "result": "apron_cotton_xl",
+    "type": "recipe",
+    "using": [ [ "tailoring_cotton", 12 ] ]
+  },
+  {
+    "copy-from": "apron_cotton",
+    "result": "apron_cotton_xs",
+    "type": "recipe",
+    "using": [ [ "tailoring_cotton", 4 ] ]
+  },
+  {
+    "copy-from": "apron_cotton_xl",
+    "result": "apron_cotton_xl",
+    "type": "recipe",
+    "variant": "maid_apron_xl"
+  },
+  {
+    "copy-from": "apron_cotton_xs",
+    "result": "apron_cotton_xs",
+    "type": "recipe",
+    "variant": "maid_apron_xs"
+  },
+  {
     "result": "waist_apron_short",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -38,6 +62,30 @@
     "using": [ [ "tailoring_cotton_patchwork", 4 ] ]
   },
   {
+    "copy-from": "waist_apron_short",
+    "result": "waist_apron_short_xl",
+    "type": "recipe",
+    "using": [ [ "tailoring_cotton", 6 ] ]
+  },
+  {
+    "copy-from": "waist_apron_short",
+    "result": "waist_apron_short_xs",
+    "type": "recipe",
+    "using": [ [ "tailoring_cotton", 2 ] ]
+  },
+  {
+    "copy-from": "waist_apron_short_xl",
+    "result": "waist_apron_short_xl",
+    "type": "recipe",
+    "variant": "maid_apron_xl"
+  },
+  {
+    "copy-from": "waist_apron_short_xs",
+    "result": "waist_apron_short_xs",
+    "type": "recipe",
+    "variant": "maid_apron_xs"
+  },
+  {
     "result": "waist_apron_long",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -48,6 +96,30 @@
     "time": "2 h",
     "autolearn": true,
     "using": [ [ "tailoring_cotton_patchwork", 6 ] ]
+  },
+  {
+    "copy-from": "waist_apron_long",
+    "result": "waist_apron_long_xl",
+    "type": "recipe",
+    "using": [ [ "tailoring_cotton", 9 ] ]
+  },
+  {
+    "copy-from": "waist_apron_long",
+    "result": "waist_apron_long_xs",
+    "type": "recipe",
+    "using": [ [ "tailoring_cotton", 3 ] ]
+  },
+  {
+    "copy-from": "waist_apron_long_xl",
+    "result": "waist_apron_long_xl",
+    "type": "recipe",
+    "variant": "maid_apron_xl"
+  },
+  {
+    "copy-from": "waist_apron_long_xs",
+    "result": "waist_apron_long_xs",
+    "type": "recipe",
+    "variant": "maid_apron_xs"
   },
   {
     "result": "apron_plastic",
@@ -211,6 +283,43 @@
       [ [ "cordage", 8, "LIST" ], [ "duct_tape", 200 ] ]
     ],
     "qualities": [ { "id": "CUT", "level": 2 } ]
+  },
+  {
+    "result": "armor_aztec",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "//1": "Average ichcahuipilli was around 1 inch (~2.5 cm) thick. As cotton padding constituted the majority of its protective qualities, I'll consider the quilted part 0.5 cm thick.",
+    "//2": "This leaves us with 20 layers of cotton sheets, taking the thickness of a cotton sheet as 0.25 mm.",
+    "//3": "Average length of a human male is around 170 cm. Average weight of a human (in North America) is 80 kg. BSA calculation and rule of the nines gives us about 0,68 m^2 or 7,3 sq feet.",
+    "//3.5": "I'll round that down to 7 for ease, as well as compensating for average woman being shorter and thinner and americans being exceptionally fat.",
+    "//4": "Our cotton sheets are 1x2 feet. 20 layers x 7 sq ft / 2 sq ft of the sheets = 70 sheets. I know the outer layer of quilting would require more sheets because of the padding inbetween but I won't bother doing the maths for it",
+    "//5": "Cotton padding inbetween would make 0.065 ft (2 cm of cotton) x 7 sq ft of torso = 0,455 cube ft which is about 12,88 liters of cotton. Once again this calculation is off but again, I can't do the maths.",
+    "//5.5": "That's about… a lot of cotton, 1288 patches or 429 balls or 257 sheets to be precise. Byproducts I made up.",
+    "//6": "That's 70x0,04 + 1288x0,01 = 15,6 kgs and some more for leather and salt wtf",
+    "//7": "And 70x0,05 + 1288x0,01 = 16,3 L.",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "skills_required": [ "chemistry", 2 ],
+    "time": "110 h",
+    "book_learn": [ [ "textbook_mesoam", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_articulation" }, { "proficiency": "prof_quilting" } ],
+    "qualities": [ { "id": "SEW", "level": 2 }, { "id": "LEATHER_AWL", "level": 1 } ],
+    "tools": [ [ [ "metal_tank", -1 ] ] ],
+    "using": [ [ "tailoring_cotton_patchwork", 70 ], [ "filament", 100 ] ],
+    "components": [
+      [
+        [ "cotton_patchwork", 1288 ],
+        [ "scrap_cotton", 6000 ],
+        [ "cotton_ball", 429 ],
+        [ "sheet_cotton", 257 ],
+        [ "sheet_cotton_patchwork", 257 ]
+      ],
+      [ [ "salt_water", 80 ] ],
+      [ [ "sheet_leather", 5 ], [ "sheet_leather_patchwork", 5 ] ]
+    ],
+    "byproducts": [ [ "scrap_cotton", 250 ], [ "cotton_patchwork", 40 ] ]
   },
   {
     "result": "chestguard_metal_sheets",
@@ -951,6 +1060,26 @@
     "autolearn": true,
     "reversible": { "time": "25 m" },
     "using": [ [ "tailoring_cotton_patchwork", 40 ] ]
+  },
+  {
+    "result": "hoodie_cropped",
+    "copy-from": "hoodie",
+    "type": "recipe",
+    "using": [ [ "tailoring_cotton_patchwork", 25 ] ]
+  },
+  {
+    "result": "hoodie_cropped",
+    "id_suffix": "cutting",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "10 m",
+    "autolearn": true,
+    "components": [ [ [ "hoodie", 1 ] ] ],
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ]
   },
   {
     "result": "sweatshirt",
@@ -2155,6 +2284,18 @@
     "using": [ [ "tailoring_cotton", 8 ] ]
   },
   {
+    "copy-from": "maid_dress",
+    "result": "maid_dress_xl",
+    "type": "recipe",
+    "using": [ [ "tailoring_cotton", 12 ] ]
+  },
+  {
+    "copy-from": "maid_dress",
+    "result": "maid_dress_xs",
+    "type": "recipe",
+    "using": [ [ "tailoring_cotton", 4 ] ]
+  },
+  {
     "result": "maid_dress_short",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -2166,6 +2307,18 @@
     "reversible": true,
     "book_learn": [ [ "mag_animecon", 1 ] ],
     "using": [ [ "tailoring_cotton", 6 ] ]
+  },
+  {
+    "copy-from": "maid_dress_short",
+    "type": "recipe",
+    "result": "maid_dress_short_xl",
+    "using": [ [ "tailoring_cotton", 8 ] ]
+  },
+  {
+    "copy-from": "maid_dress_short",
+    "type": "recipe",
+    "result": "maid_dress_short_xs",
+    "using": [ [ "tailoring_cotton", 3 ] ]
   },
   {
     "result": "sweater",
@@ -2368,6 +2521,26 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "tailoring_cotton_patchwork", 3 ] ]
+  },
+  {
+    "result": "tshirt_cropped",
+    "copy-from": "tshirt",
+    "type": "recipe",
+    "using": [ [ "tailoring_cotton_patchwork", 2 ] ]
+  },
+  {
+    "result": "tshirt_cropped",
+    "id_suffix": "cutting",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "10 m",
+    "autolearn": true,
+    "components": [ [ [ "tshirt", 1 ] ] ],
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ]
   },
   {
     "result": "tshirt",

@@ -233,6 +233,8 @@
     "learn_difficulty": 10,
     "arm_block_with_bio_armor_arms": true,
     "leg_block_with_bio_armor_legs": true,
+    "arm_block": 2,
+    "leg_block": 3,
     "static_buffs": [
       {
         "id": "mma_buff_panzer_static1",

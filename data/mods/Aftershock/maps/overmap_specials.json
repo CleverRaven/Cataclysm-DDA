@@ -50,6 +50,26 @@
     "flags": [ "EXOPLANET" ]
   },
   {
+    "type": "overmap_special",
+    "id": "afs_crashed_cargo_shuttle",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "afs_crashed_cargo_shuttle_north" } ],
+    "locations": [ "land" ],
+    "city_distance": [ 5, -1 ],
+    "city_sizes": [ 0, -1 ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "EXOPLANET" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "afs_crashed_cargo_shuttle_wraitheon",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "afs_crashed_cargo_shuttle_wraitheon_north" } ],
+    "locations": [ "land" ],
+    "city_distance": [ 5, -1 ],
+    "city_sizes": [ 0, -1 ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "EXOPLANET", "GLOBALLY_UNIQUE" ]
+  },
+  {
     "id": "municipal_reactor",
     "type": "overmap_special",
     "connections": [ { "point": [ -1, 1, 0 ], "terrain": "road" } ],

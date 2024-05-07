@@ -82,6 +82,7 @@ For example, `{ "npc_has_effect": "Shadow_Reveal" }`, used by shadow lieutenant,
 | mutation: "deactivated_eocs"                     | character (Character)       | NONE                        |
 | mutation: "processed_eocs"                       | character (Character)       | NONE                        |
 | recipe: "result_eocs"                            | crafter (Character)         | NONE                        |
+| monster death: "death_function"                  | killed monster (monster)    | you (avatar)                |
 
 Using `use_action: "type": "effect_on_conditions"` automatically passes the context variable `id`, that stores the id of an item that was activated
 Using `bionics: "activated_eocs"` automatically passes the context variable `act_cost` that stores the value of `act_cost` field
@@ -475,7 +476,7 @@ alpha talker has bodytype `migo` , and beta has bodytype `human`
 #### Examples
 Checks do alpha talker has `u_met_sadie` variable
 ```json
-{ "u_has_var": "u_met_sadie", "type": "general", "context": "meeting", "value": "yes" }
+{ "u_has_var": "general_meeting_u_met_sadie", "value": "yes" }
 ```
 
 ### `expects_vars`
@@ -1835,14 +1836,14 @@ Set effects to be executed when conditions are met and when conditions are not m
 Displays a different message the first time it is run and the second time onwards
 ```json
 {
-  "if": { "u_has_var": "test", "type": "eoc_sample", "context": "if_else", "value": "yes" },
+  "if": { "u_has_var": "eoc_sample_if_else_test", "value": "yes" },
   "then": { "u_message": "You have variable." },
   "else": [
     { "u_message": "You don't have variable." },
     {
-      "if": { "not": { "u_has_var": "test", "type": "eoc_sample", "context": "if_else", "value": "yes" } },
+      "if": { "not": { "u_has_var": "eoc_sample_if_else_test", "value": "yes" } },
       "then": [
-        { "u_add_var": "test", "type": "eoc_sample", "context": "if_else", "value": "yes" },
+        { "u_add_var": "eoc_sample_if_else_test", "value": "yes" },
         { "u_message": "Vriable added." }
       ]
     }
@@ -2297,7 +2298,7 @@ Your character or the NPC will attempt to mutate; used in mutation system, for o
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
-| "u_mutate" / "npc_mutate" | **mandatory** | int, float or [variable object](##variable-object) | one in `int` chance of using the highest category, with 0 never using the highest category |
+| "u_mutate" / "npc_mutate" | **mandatory** | int, float or [variable object](##variable-object) | one in `int` chance of causing a random mutation, with 0 only using the highest category |
 | "use_vitamins" | optional | boolean | default true; if true, mutation require vitamins to work | 
 
 ##### Valid talkers:
@@ -2350,7 +2351,7 @@ Mutate towards Tail Stub (removing any incompatibilities) using the category set
 ```json
       {
         "u_mutate_towards": "TAIL_STUB",
-        "category": { "u_val": "mutation_category", "type": "upcoming", "context": "mutation" },
+        "category": { "u_val": "upcoming_mutation_category", },
         "use_vitamins": true
       },
 ```
@@ -2641,8 +2642,8 @@ Save a personal variable, that you can check later using `u_has_var`, `npc_has_v
 | "u_add_var" / "npc_add_var" | **mandatory** | string | name of variable, where the value would be stored |
 | "value" | **mandatory** | string | value, that would be stored in variable; **incompatible with "possible_values" and "time"** | 
 | "possible_values" | **mandatory** | string array | array of values, that could be picked to be stored in variable; **incompatible with "value" and "time"** | 
-| "time" | **mandatory** | boolean | default false; if true, the current time would be saved in variable; **incompatible with "value" and "possible_values"** | 
-| "type", "context" | optional | string | additional text to describe your variable, can be used in `u_lose_var` or in `math` syntax, as `type`\_`context`\_`variable_name` |  
+| "time" | **mandatory** | boolean | **DEPRECATED. use time() math syntax instead**. default false; if true, the current time would be saved in variable; **incompatible with "value" and "possible_values"** | 
+| "type", "context" | optional | string | **DEPRECATED. JUST USE _add_var to give the name of the variable**. additional text to describe your variable, can be used in `u_lose_var` or in `math` syntax, as `type`\_`context`\_`variable_name` |  
 
 ##### Valid talkers:
 
@@ -2655,20 +2656,13 @@ Note: numeric vars can be set (and check) to monsters via `math` functions.  See
 ##### Examples
 Saves personal variable `u_met_godco_jeremiah` with `general` type, `meeting` context, and value `yes
 ```json
-{ "u_add_var": "u_met_godco_jeremiah", "type": "general", "context": "meeting", "value": "yes" }
-```
-
-Saves personal variable `time_of_last_succession` with value of current time:
-```json
-{ "u_add_var": "time_of_last_succession", "type": "timer", "time": true }
+{ "u_add_var": "general_meeting_u_met_godco_jeremiah", "value": "yes" }
 ```
 
 NPC (in this case it's actually item, see Beta Talkers) saves a personal variable `function` with one of four values: `morale`, `focus`, `pain`, or `sleepiness` (used in mi-go bio tech to create four different versions of the same item, with different effects, that would be revealed upon activation)
 ```json
 {
-  "npc_add_var": "function",
-  "type": "mbt",
-  "context": "f",
+  "npc_add_var": "mbt_f_function",
   "possible_values": [ "morale", "focus", "pain", "sleepiness" ]
 }
 ```
@@ -2676,7 +2670,7 @@ NPC (in this case it's actually item, see Beta Talkers) saves a personal variabl
 Old variables, that was created in this way, could be migrated into `math`, using `u_`/`npc_`+`type`+`_`+`context`+`_`+`var`, for the sake of save compatibility between stable releases
 For example:
 ```json
-{ "u_add_var": "gunsmith_ammo_ammount", "type": "number", "context": "artisans", "value": "800" }
+{ "u_add_var": "number_artisans_gunsmith_ammo_ammount", "value": "800" }
 ```
 could be moved to:
 ```json  
@@ -2749,9 +2743,9 @@ Character remove variable `time_of_last_succession`
 { "u_lose_var": "time_of_last_succession" }
 ```
 
-Character remove variable `on` of type `bio` and context `blade_electric`
+Character remove variable `bio_blade_electric_on`
 ```json
-{ "u_lose_var": "on", "type": "bio", "context": "blade_electric" }
+{ "u_lose_var": "bio_blade_electric_on" }
 ```
 
 #### `set_string_var`

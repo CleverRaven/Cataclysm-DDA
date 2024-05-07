@@ -29,7 +29,7 @@
     "volume": "500 ml",
     "weight": "970 g",
     "to_hit": 2,
-    "price_postapoc": 124000,
+    "price_postapoc": "1 kUSD 240 USD",
     "qualities": [ [ "HAMMER", 1 ] ],
     "flags": [ "ONLY_ONE", "DURABLE_MELEE", "NONCONDUCTIVE", "FLAMING" ],
     "relic_data": {
@@ -91,7 +91,7 @@
     "volume": "1 L",
     "weight": "981 g",
     "to_hit": 1,
-    "price_postapoc": 145000,
+    "price_postapoc": "1 kUSD 450 USD",
     "qualities": [ [ "HAMMER", 2 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL" ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "OVERSIZE", "MESSY" ],

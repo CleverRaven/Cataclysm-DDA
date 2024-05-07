@@ -6,7 +6,7 @@
     "category": "manuals",
     "weight": "475 g",
     "volume": "500 ml",
-    "price": 4000,
+    "price": "40 USD",
     "material": [ "paper" ],
     "symbol": "?",
     "color": "white"
@@ -1143,7 +1143,7 @@
     "description": "This scroll details how a spell called 'Lightning Blast' which is commonly used among Stormshapers can be altered to become much more powerful, at a much higher mana cost.",
     "weight": "129 g",
     "volume": "500 ml",
-    "price": 25000,
+    "price": "250 USD",
     "symbol": "?",
     "color": "light_blue",
     "use_action": { "type": "learn_spell", "spells": [ "lightning_storm" ] }
@@ -2040,5 +2040,14 @@
     "name": { "str": "Scroll of Zoom Lens", "str_pl": "Scrolls of Zoom Lens" },
     "description": "Enchant a lens with the ability to see beyond the horizon.",
     "use_action": { "type": "learn_spell", "spells": [ "technomancer_far_sight" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_technomancer_pain_ignore",
+    "//": "Technomancer spell",
+    "name": { "str": "Scroll of The Body Mechanical", "str_pl": "Scrolls of The Body Mechanical" },
+    "description": "Grant yourself brief reprieves from the effects of pain.",
+    "use_action": { "type": "learn_spell", "spells": [ "technomancer_pain_ignore" ] }
   }
 ]

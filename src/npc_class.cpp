@@ -12,6 +12,7 @@
 #include "avatar.h"
 #include "condition.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "generic_factory.h"
 #include "item_group.h"
 #include "itype.h"

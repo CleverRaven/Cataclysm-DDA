@@ -21,6 +21,7 @@
 #include "cursesdef.h"
 #include "debug.h"
 #include "effect.h"
+#include "effect_on_condition.h"
 #include "effect_source.h"
 #include "event.h"
 #include "event_bus.h"
@@ -108,6 +109,7 @@ static const efftype_id effect_maimed_arm( "maimed_arm" );
 static const efftype_id effect_monster_armor( "monster_armor" );
 static const efftype_id effect_monster_saddled( "monster_saddled" );
 static const efftype_id effect_natures_commune( "natures_commune" );
+static const efftype_id effect_nemesis_buff( "nemesis_buff" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pacified( "pacified" );
@@ -596,9 +598,12 @@ void monster::try_reproduce()
         if( season_match && female && one_in( chance ) ) {
             int spawn_cnt = rng( 1, type->baby_count );
             if( type->baby_monster ) {
-                here.add_spawn( type->baby_monster, spawn_cnt, pos() );
+                here.add_spawn( type->baby_monster, spawn_cnt, pos_bub() );
             } else {
-                here.add_item_or_charges( pos(), item( type->baby_egg, *baby_timer, spawn_cnt ), true );
+                const item egg( type->baby_egg, *baby_timer );
+                for( int i = 0; i < spawn_cnt; i++ ) {
+                    here.add_item_or_charges( pos(), egg, true );
+                }
             }
         }
         *baby_timer += *type->baby_timer;
@@ -1340,6 +1345,11 @@ bool monster::has_intelligence() const
 std::vector<material_id> monster::get_absorb_material() const
 {
     return type->absorb_material;
+}
+
+std::vector<material_id> monster::get_no_absorb_material() const
+{
+    return type->no_absorb_material;
 }
 
 void monster::set_patrol_route( const std::vector<point> &patrol_pts_rel_ms )
@@ -2836,6 +2846,16 @@ void monster::die( Creature *nkiller )
         }
     }
 
+    if( type->mdeath_effect.eoc.has_value() ) {
+        //Not a hallucination, go process the death effects.
+        if( type->mdeath_effect.eoc.value().is_valid() ) {
+            dialogue d( get_talker_for( *this ), nullptr );
+            type->mdeath_effect.eoc.value()->activate( d );
+        } else {
+            debugmsg( "eoc id %s is not valid", type->mdeath_effect.eoc.value().str() );
+        }
+    }
+
     // scale overkill damage by enchantments
     if( nkiller && ( nkiller->is_npc() || nkiller->is_avatar() ) ) {
         int current_hp = get_hp();
@@ -3172,7 +3192,7 @@ void monster::process_one_effect( effect &it, bool is_new )
         for( const enchantment_id &ench_id : elem.first->enchantments ) {
             const enchantment &ench = ench_id.obj();
             if( ench.is_active( *this ) && ench.is_monster_relevant() ) {
-                enchantment_cache->force_add( ench );
+                enchantment_cache->force_add( ench, *this );
             }
         }
     }
@@ -3316,6 +3336,10 @@ void monster::process_effects()
                 }
             }
         }
+    }
+
+    if( is_nemesis() ) {
+        add_effect( effect_nemesis_buff, 1000_turns, true );
     }
 
     if( has_flag( mon_flag_PHOTOPHOBIC ) && get_map().ambient_light_at( pos() ) >= 30.0f ) {

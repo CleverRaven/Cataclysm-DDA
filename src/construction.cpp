@@ -20,21 +20,25 @@
 #include "construction_category.h"
 #include "construction_group.h"
 #include "coordinates.h"
+#include "creature.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "game.h"
 #include "game_constants.h"
 #include "input.h"
 #include "input_context.h"
 #include "inventory.h"
 #include "item.h"
-#include "iteminfo_query.h"
 #include "item_group.h"
 #include "item_stack.h"
+#include "iteminfo_query.h"
 #include "iuse.h"
+#include "json_error.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -45,14 +49,19 @@
 #include "npc.h"
 #include "options.h"
 #include "output.h"
+#include "overmap.h"
 #include "player_activity.h"
 #include "point.h"
 #include "requirements.h"
 #include "rng.h"
 #include "skill.h"
+#include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "translation_cache.h"
+#include "translations.h"
 #include "trap.h"
+#include "ui.h"
 #include "ui_manager.h"
 #include "uistate.h"
 #include "units.h"
@@ -148,9 +157,12 @@ static bool check_nothing( const tripoint_bub_ms & )
 static bool check_channel( const tripoint_bub_ms & ); // tile has adjacent flowing water
 static bool check_empty_lite( const tripoint_bub_ms & );
 static bool check_empty( const tripoint_bub_ms & ); // tile is empty
-static bool check_support( const tripoint_bub_ms & ); // at least two orthogonal supports
+static bool check_support( const tripoint_bub_ms
+                           & ); // at least two orthogonal supports or from below
 static bool check_support_below( const tripoint_bub_ms
-                                 & ); // at least two orthogonal supports at the level below
+                                 & ); // at least two orthogonal supports at the level below or from below
+static bool check_single_support( const tripoint_bub_ms
+                                  &p ); // Only support from directly below matters
 static bool check_stable( const tripoint_bub_ms & ); // tile below has a flag SUPPORTS_ROOF
 static bool check_nofloor_above( const tripoint_bub_ms & ); // tile above has a flag NO_FLOOR
 static bool check_deconstruct( const tripoint_bub_ms
@@ -162,6 +174,8 @@ static bool check_ramp_high( const tripoint_bub_ms
                              & ); // one of the adjacent tiles on the z-level above has a completed down ramp
 static bool check_no_wiring( const tripoint_bub_ms
                              & ); // tile doesn't contain appliances/vehicle parts with WIRING flag like ap_wall_wiring
+static bool check_matching_down_above( const tripoint_bub_ms
+                                       &p ); // tile above has the same base name but with the "down suffix
 
 // Special actions to be run post-terrain-mod
 static void done_nothing( const tripoint_bub_ms &, Character & ) {}
@@ -184,6 +198,9 @@ static void done_mark_firewood( const tripoint_bub_ms &, Character & );
 static void done_mark_practice_target( const tripoint_bub_ms &, Character & );
 static void done_ramp_low( const tripoint_bub_ms &, Character & );
 static void done_ramp_high( const tripoint_bub_ms &, Character & );
+static void add_matching_down_above( const tripoint_bub_ms &p, Character & );
+static void remove_above( const tripoint_bub_ms &p, Character & );
+static void add_roof( const tripoint_bub_ms &p, Character & );
 
 static void do_turn_shovel( const tripoint_bub_ms &, Character & );
 static void do_turn_exhume( const tripoint_bub_ms &, Character & );
@@ -1134,13 +1151,42 @@ void complete_construction( Character *you )
             here.furn_set( terp, furn_str_id( built.post_terrain ) );
         } else {
             here.ter_set( terp, ter_str_id( built.post_terrain ) );
-            // Make a roof if constructed terrain should have it and it's an open air
+            // Make a roof if constructed terrain should have it and it's an open space
             if( construct::check_up_OK( terp ) ) {
                 const int_id<ter_t> post_terrain = ter_id( built.post_terrain );
                 if( post_terrain->roof ) {
                     const tripoint_bub_ms top = terp + tripoint_above;
-                    if( here.ter( top ) == ter_t_open_air ) {
+                    if( here.ter( top )->has_flag( "EMPTY_SPACE" ) ) {
                         here.ter_set( top, ter_id( post_terrain->roof ) );
+                    }
+                }
+            }
+
+            if( ter_id( built.post_terrain )->has_flag( "EMPTY_SPACE" ) ) {
+                const tripoint_bub_ms below = terp + tripoint_below;
+                if( below.z() > -OVERMAP_DEPTH && here.ter( below ).obj().has_flag( "SUPPORTS_ROOF" ) ) {
+                    const map_bash_info bash_info = here.ter( below ).obj().bash;
+                    // ter_set_bashed_from_above should default to ter_set
+                    if( bash_info.ter_set_bashed_from_above.id() == t_null ) {
+                        if( below.z() >= -1 ) {
+                            // Stupid to set soil at above the ground level, but if they haven't defined
+                            // anything for the terrain that's what you'll get.
+                            // Trying to get the regional version of soil. There ought to be a sane way to do this...
+                            ter_id converted_terrain = ter_t_dirt;
+                            regional_settings settings = g->get_cur_om().get_settings();
+                            std::map<std::string, int> soil_map =
+                                settings.region_terrain_and_furniture.unfinalized_terrain.find( "t_region_soil" )->second;
+                            if( !soil_map.empty() ) {
+                                converted_terrain = ter_id(
+                                                        settings.region_terrain_and_furniture.unfinalized_terrain.find( "t_region_soil" )->second.begin()->first );
+                            }
+                            here.ter_set( below, converted_terrain );
+                        } else {
+                            // At the time of writing there doesn't seem to be any regional definition of "rock" (which would have to be smashed to get a floor).
+                            here.ter_set( below, ter_t_rock_floor );
+                        }
+                    } else {
+                        here.ter_set( below, bash_info.ter_set_bashed_from_above.id() );
                     }
                 }
             }
@@ -1213,9 +1259,16 @@ bool construct::check_support( const tripoint_bub_ms &p )
     }
     int num_supports = 0;
     for( const point &offset : four_adjacent_offsets ) {
-        if( here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p + offset ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p + offset ) &&
+            !here.has_flag( ter_furn_flag::TFLAG_SINGLE_SUPPORT, p + offset ) ) {
             num_supports++;
         }
+    }
+    // We want to find "walls" below (including windows and doors), but not open rooms and the like.
+    if( here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p + tripoint_below ) &&
+        ( here.has_flag( ter_furn_flag::TFLAG_WALL, p + tripoint_below ) ||
+          here.has_flag( ter_furn_flag::TFLAG_CONNECT_WITH_WALL, p + tripoint_below ) ) ) {
+        num_supports += 2;
     }
     return num_supports >= 2;
 }
@@ -1245,11 +1298,27 @@ bool construct::check_support_below( const tripoint_bub_ms &p )
     // need two or more orthogonally adjacent supports at the Z level below
     int num_supports = 0;
     for( const point &offset : four_adjacent_offsets ) {
-        if( here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p + offset + tripoint_below ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p + offset + tripoint_below ) &&
+            !here.has_flag( ter_furn_flag::TFLAG_SINGLE_SUPPORT, p + offset + tripoint_below ) ) {
             num_supports++;
         }
     }
+    // We want to find "walls" below (including windows and doors), but not open rooms and the like.
+    if( here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p + tripoint_below ) &&
+        ( here.has_flag( ter_furn_flag::TFLAG_WALL, p + tripoint_below ) ||
+          here.has_flag( ter_furn_flag::TFLAG_CONNECT_WITH_WALL, p + tripoint_below ) ) ) {
+        num_supports += 2;
+    }
     return num_supports >= 2;
+}
+
+bool construct::check_single_support( const tripoint_bub_ms &p )
+{
+    map &here = get_map();
+    if( here.impassable( p ) ) {
+        return false;
+    }
+    return here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p + tripoint_below );
 }
 
 bool construct::check_stable( const tripoint_bub_ms &p )
@@ -1313,6 +1382,16 @@ bool construct::check_no_wiring( const tripoint_bub_ms &p )
 
     const vehicle &veh_target = vp->vehicle();
     return !veh_target.has_tag( flag_WIRING );
+}
+
+bool construct::check_matching_down_above( const tripoint_bub_ms &p )
+{
+    map &here = get_map();
+    const std::string ter_here = here.ter( p ).id().str();
+    const std::string ter_above = here.ter( p + tripoint_above ).id().str();
+    const size_t separation = ter_here.find_last_of( '_' );
+    return separation > 0 &&
+           ter_here.substr( 0, separation + 1 ) + "down" == ter_above;
 }
 
 void construct::done_trunk_plank( const tripoint_bub_ms &/*p*/, Character &/*who*/ )
@@ -1551,11 +1630,7 @@ void construct::done_digormine_stair( const tripoint_bub_ms &p, bool dig,
                                       Character &player_character )
 {
     map &here = get_map();
-    const tripoint_abs_ms abs_pos = here.getglobal( p );
-    const tripoint_abs_omt pos_omt = project_to<coords::omt>( abs_pos );
-    tinymap tmpmap;
-    tmpmap.load( pos_omt + tripoint_below, false );
-    const tripoint local_tmp = tmpmap.getlocal( abs_pos );
+    const tripoint_bub_ms p_below = p + tripoint_below;
 
     bool dig_muts = player_character.has_trait( trait_PAINRESIST_TROGLO ) ||
                     player_character.has_trait( trait_STOCKY_TROGLO );
@@ -1566,7 +1641,7 @@ void construct::done_digormine_stair( const tripoint_bub_ms &p, bool dig,
     player_character.mod_thirst( 5 + mine_penalty + no_mut_penalty );
     player_character.mod_sleepiness( 10 + mine_penalty + no_mut_penalty );
 
-    if( tmpmap.ter( local_tmp ) == ter_t_lava ) {
+    if( here.ter( p_below ) == ter_t_lava ) {
         if( !query_yn( _( "The rock feels much warmer than normal.  Proceed?" ) ) ) {
             here.ter_set( p, ter_t_pit ); // You dug down a bit before detecting the problem
             unroll_digging( dig ? 8 : 12 );
@@ -1579,7 +1654,7 @@ void construct::done_digormine_stair( const tripoint_bub_ms &p, bool dig,
         return;
     }
 
-    bool impassable = tmpmap.impassable( local_tmp );
+    bool impassable = here.impassable( p_below );
     if( !impassable ) {
         add_msg( _( "You dig into a preexisting space, and improvise a ladder." ) );
     } else if( dig ) {
@@ -1588,11 +1663,8 @@ void construct::done_digormine_stair( const tripoint_bub_ms &p, bool dig,
         add_msg( _( "You drill out a passage, heading deeper underground." ) );
     }
     here.ter_set( p, ter_t_stairs_down ); // There's the top half
-    // Again, need to use submap-local coordinates.
-    tmpmap.ter_set( local_tmp, impassable ? ter_t_stairs_up :
-                    ter_t_ladder_up ); // and there's the bottom half.
-    // And save to the center coordinate of the current active map.
-    tmpmap.save();
+    here.ter_set( p_below, impassable ? ter_t_stairs_up :
+                  ter_t_ladder_up ); // and there's the bottom half.
 }
 
 void construct::done_dig_grave( const tripoint_bub_ms &p, Character &who )
@@ -1645,22 +1717,18 @@ void construct::done_mine_downstair( const tripoint_bub_ms &p, Character &who )
 void construct::done_mine_upstair( const tripoint_bub_ms &p, Character &player_character )
 {
     map &here = get_map();
-    const tripoint_abs_ms abs_pos = here.getglobal( p );
-    const tripoint_abs_omt pos_omt = project_to<coords::omt>( abs_pos );
-    tinymap tmpmap;
-    tmpmap.load( pos_omt + tripoint_above, false );
-    const tripoint local_tmp = tmpmap.getlocal( abs_pos );
+    const tripoint_bub_ms p_above = p + tripoint_above;
 
-    if( tmpmap.ter( local_tmp ) == ter_t_lava ) {
-        here.ter_set( p.xy(), ter_t_rock_floor ); // You dug a bit before discovering the problem
+    if( here.ter( p_above ) == ter_t_lava ) {
+        here.ter_set( p, ter_t_rock_floor ); // You dug a bit before discovering the problem
         add_msg( m_warning, _( "The rock overhead feels hot.  You decide *not* to mine magma." ) );
         unroll_digging( 12 );
         return;
     }
 
-    if( tmpmap.has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, local_tmp ) ||
-        tmpmap.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, local_tmp ) ) {
-        here.ter_set( p.xy(), ter_t_rock_floor ); // You dug a bit before discovering the problem
+    if( here.has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, p_above.raw() ) ||
+        here.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, p_above.raw() ) ) {
+        here.ter_set( p, ter_t_rock_floor ); // You dug a bit before discovering the problem
         add_msg( m_warning, _( "The rock above is rather damp.  You decide *not* to mine water." ) );
         unroll_digging( 12 );
         return;
@@ -1675,10 +1743,8 @@ void construct::done_mine_upstair( const tripoint_bub_ms &p, Character &player_c
     player_character.mod_sleepiness( 25 + no_mut_penalty );
 
     add_msg( _( "You drill out a passage, heading for the surface." ) );
-    here.ter_set( p.xy(), ter_t_stairs_up ); // There's the bottom half
-    // We need to write to submap-local coordinates.
-    tmpmap.ter_set( local_tmp, ter_t_stairs_down ); // and there's the top half.
-    tmpmap.save();
+    here.ter_set( p, ter_t_stairs_up ); // There's the bottom half
+    here.ter_set( p_above, ter_t_stairs_down ); // and there's the top half.
 }
 
 void construct::done_wood_stairs( const tripoint_bub_ms &p, Character &/*who*/ )
@@ -1736,6 +1802,34 @@ void construct::done_ramp_high( const tripoint_bub_ms &p, Character &/*who*/ )
 {
     const tripoint_bub_ms top = p + tripoint_above;
     get_map().ter_set( top, ter_t_ramp_down_high );
+}
+
+void construct::add_matching_down_above( const tripoint_bub_ms &p, Character &/*who*/ )
+{
+    map &here = get_map();
+    const std::string ter_here = here.ter( p ).id().str();
+    const std::string ter_above = here.ter( p + tripoint_above ).id().str();
+    const size_t separation = ter_here.find_last_of( '_' );
+    if( separation > 0 ) {
+        here.ter_set( p + tripoint_above, ter_id( ter_here.substr( 0, separation + 1 ) + "down" ) );
+    }
+}
+
+void construct::remove_above( const tripoint_bub_ms &p, Character &/*who*/ )
+{
+    map &here = get_map();
+    here.ter_set( p + tripoint_above, ter_t_open_air );
+}
+
+void construct::add_roof( const tripoint_bub_ms &p, Character &/*who*/ )
+{
+    map &here = get_map();
+    ter_id roof = here.ter( p ).obj().roof;
+    if( !roof ) {
+        debugmsg( "add_roof post_ter called on terrain lacking roof definition, %s.",
+                  here.ter( p ).id().c_str() );
+    }
+    here.ter_set( p + tripoint_above, roof );
 }
 
 void construct::do_turn_shovel( const tripoint_bub_ms &p, Character &who )
@@ -1911,6 +2005,7 @@ void load_construction( const JsonObject &jo )
             { "check_empty_lite", construct::check_empty_lite },
             { "check_support", construct::check_support },
             { "check_support_below", construct::check_support_below },
+            { "check_single_support", construct::check_single_support },
             { "check_stable", construct::check_stable },
             { "check_nofloor_above", construct::check_nofloor_above },
             { "check_deconstruct", construct::check_deconstruct },
@@ -1918,7 +2013,8 @@ void load_construction( const JsonObject &jo )
             { "check_down_OK", construct::check_down_OK },
             { "check_no_trap", construct::check_no_trap },
             { "check_ramp_high", construct::check_ramp_high },
-            { "check_no_wiring", construct::check_no_wiring }
+            { "check_no_wiring", construct::check_no_wiring },
+            { "check_matching_down_above", construct::check_matching_down_above }
         }
     };
     static const std::map<std::string, void( * )( const tripoint_bub_ms &, Character & )>
@@ -1941,7 +2037,11 @@ void load_construction( const JsonObject &jo )
             { "done_mark_firewood", construct::done_mark_firewood },
             { "done_mark_practice_target", construct::done_mark_practice_target },
             { "done_ramp_low", construct::done_ramp_low },
-            { "done_ramp_high", construct::done_ramp_high }
+            { "done_ramp_high", construct::done_ramp_high },
+            { "add_matching_down_above", construct::add_matching_down_above },
+            { "remove_above", construct::remove_above },
+            { "add_roof", construct::add_roof }
+
         }
     };
     static const std::map<std::string, void( * )( const tripoint_bub_ms &, Character & )>

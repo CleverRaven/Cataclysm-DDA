@@ -293,11 +293,6 @@
   },
   {
     "type": "MONSTER_FACTION",
-    "name": "worm",
-    "base_faction": "mutant"
-  },
-  {
-    "type": "MONSTER_FACTION",
     "name": "slug",
     "base_faction": "mutant"
   },
@@ -436,6 +431,11 @@
     "friendly": [ "attack_player_only" ],
     "neutral": [ "fish", "bot", "aquatic_predator" ],
     "by_mood": [ "insect" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "worm",
+    "base_faction": "insect"
   },
   {
     "type": "MONSTER_FACTION",

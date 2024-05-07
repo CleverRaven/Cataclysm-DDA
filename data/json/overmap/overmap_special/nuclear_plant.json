@@ -594,9 +594,9 @@
     ],
     "locations": [ "wilderness" ],
     "city_distance": [ 5, 15 ],
-    "city_sizes": [ 5, 99 ],
-    "//": "Inflated chance, effective rate ~25%",
+    "city_sizes": [ 5, -1 ],
     "occurrences": [ 900, 1000 ],
+    "priority": 1,
     "flags": [ "CLASSIC", "MAN_MADE", "GLOBALLY_UNIQUE" ]
   }
 ]

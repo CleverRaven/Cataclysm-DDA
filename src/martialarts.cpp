@@ -12,6 +12,7 @@
 #include "character.h"
 #include "character_martial_arts.h"
 #include "color.h"
+#include "condition.h"
 #include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
@@ -194,7 +195,6 @@ void ma_requirements::load( const JsonObject &jo, const std::string_view )
 {
     optional( jo, was_loaded, "unarmed_allowed", unarmed_allowed, false );
     optional( jo, was_loaded, "melee_allowed", melee_allowed, false );
-    optional( jo, was_loaded, "unarmed_weapons_allowed", unarmed_weapons_allowed, true );
     if( jo.has_string( "weapon_categories_allowed" ) ) {
         weapon_category_id tmp_id;
         mandatory( jo, was_loaded, "weapon_categories_allowed", tmp_id );
@@ -807,17 +807,9 @@ std::string ma_requirements::get_description( bool buff ) const
     if( unarmed_allowed && melee_allowed ) {
         dump += string_format( _( "* Can %s while <info>armed</info> or <info>unarmed</info>" ),
                                type ) + "\n";
-        if( unarmed_weapons_allowed ) {
-            dump += string_format( _( "* Can %s while using <info>any unarmed weapon</info>" ),
-                                   type ) + "\n";
-        }
     } else if( unarmed_allowed ) {
         dump += string_format( _( "* Can <info>only</info> %s while <info>unarmed</info>" ),
                                type ) + "\n";
-        if( unarmed_weapons_allowed ) {
-            dump += string_format( _( "* Can %s while using <info>any unarmed weapon</info>" ),
-                                   type ) + "\n";
-        }
     } else if( melee_allowed ) {
         dump += string_format( _( "* Can <info>only</info> %s while <info>armed</info>" ),
                                type ) + "\n";

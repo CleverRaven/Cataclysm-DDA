@@ -1,6 +1,8 @@
 #include "editmap.h"
 
+#include <algorithm>
 #include <cstdlib>
+#include <cstdint>
 #include <exception>
 #include <iosfwd>
 #include <map>
@@ -12,7 +14,6 @@
 #include <vector>
 
 #include "avatar.h"
-#include "cached_options.h" // IWYU pragma: keep
 #include "calendar.h"
 #include "cata_scope_helpers.h"
 #include "cata_utility.h"
@@ -25,20 +26,24 @@
 #include "cuboid_rectangle.h"
 #include "debug.h"
 #include "debug_menu.h"
+#include "demangle.h"
 #include "field.h"
 #include "field_type.h"
+#include "flexbuffer_json-inl.h"
 #include "game.h"
 #include "game_constants.h"
 #include "input_context.h"
+#include "input_enums.h"
 #include "item.h"
 #include "level_cache.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "mdarray.h"
 #include "memory_fast.h"
 #include "monster.h"
-#include "mtype.h"
+#include "mtype.h"  // IWYU pragma: keep
 #include "npc.h"
 #include "omdata.h"
 #include "options.h"
@@ -49,6 +54,7 @@
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "submap.h"
+#include "translation.h"
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
@@ -56,12 +62,6 @@
 #include "uistate.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-
-static constexpr tripoint editmap_boundary_min( 0, 0, -OVERMAP_DEPTH );
-static constexpr tripoint editmap_boundary_max( MAPSIZE_X, MAPSIZE_Y, OVERMAP_HEIGHT + 1 );
-
-static constexpr half_open_cuboid<tripoint> editmap_boundaries(
-    editmap_boundary_min, editmap_boundary_max );
 
 // NOLINTNEXTLINE(cata-static-int_id-constants)
 static const ter_id undefined_ter_id( -1 );
@@ -1589,7 +1589,7 @@ void editmap::recalc_target( shapetype shape )
             map &here = get_map();
             for( const tripoint &p : here.points_in_radius( origin, radius ) ) {
                 if( rl_dist( p, origin ) <= radius ) {
-                    if( editmap_boundaries.contains( p ) ) {
+                    if( here.inbounds( p ) ) {
                         target_list.push_back( p );
                     }
                 }
@@ -1618,7 +1618,7 @@ void editmap::recalc_target( shapetype shape )
                 for( int y = s.y; y <= e.y; y++ ) {
                     if( shape == editmap_rect_filled || x == s.x || x == e.x || y == s.y || y == e.y ) {
                         const tripoint p( x, y, z );
-                        if( editmap_boundaries.contains( p ) ) {
+                        if( get_map().inbounds( p ) ) {
                             target_list.push_back( p );
                         }
                     }
@@ -1660,7 +1660,8 @@ bool editmap::move_target( const std::string &action, int moveorigin )
     if( eget_direction( mp, action ) ) {
         target.x = limited_shift( target.x, mp.x, 0, MAPSIZE_X );
         target.y = limited_shift( target.y, mp.y, 0, MAPSIZE_Y );
-        target.z = limited_shift( target.z, mp.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT );
+        // OVERMAP_HEIGHT is the limit, not size of a 0 based vector, and limited_shift restricts to <, not <=
+        target.z = limited_shift( target.z, mp.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT + 1 );
         if( move_origin ) {
             origin += mp;
         }
@@ -2097,8 +2098,8 @@ void editmap::mapgen_retarget()
         if( const std::optional<tripoint> vec = ctxt.get_direction( action ) ) {
             point vec_ms = omt_to_ms_copy( vec->xy() );
             tripoint ptarget = target + vec_ms;
-            if( editmap_boundaries.contains( ptarget ) &&
-                editmap_boundaries.contains( ptarget + point( SEEX, SEEY ) ) ) {
+            if( get_map().inbounds( ptarget ) &&
+                get_map().inbounds( ptarget + point( SEEX, SEEY ) ) ) {
                 target = ptarget;
 
                 target_list.clear();

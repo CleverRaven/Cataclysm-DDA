@@ -11,8 +11,8 @@
     "material": [ "steel" ],
     "volume": "500 ml",
     "category": "veh_parts",
-    "price": 9000,
-    "price_postapoc": 100,
+    "price": "90 USD",
+    "price_postapoc": "1 USD",
     "melee_damage": { "bash": 10 }
   },
   {

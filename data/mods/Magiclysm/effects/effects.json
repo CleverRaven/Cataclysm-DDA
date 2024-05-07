@@ -549,6 +549,39 @@
     ]
   },
   {
+    "type": "effect_type",
+    "id": "effect_technomancer_pain_ignore",
+    "name": [ "The Body Mechanical" ],
+    "desc": [ "Your body functions through pain with mechanical efficiency." ],
+    "remove_message": "Pain suddenly hampers you again.",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "PAIN_PENALTY_MOD_STR",
+            "multiply": { "math": [ "((u_spell_level('technomancer_pain_ignore') * -0.02) - 0.7)" ] }
+          },
+          {
+            "value": "PAIN_PENALTY_MOD_DEX",
+            "multiply": { "math": [ "((u_spell_level('technomancer_pain_ignore') * -0.02) - 0.7)" ] }
+          },
+          {
+            "value": "PAIN_PENALTY_MOD_INT",
+            "multiply": { "math": [ "((u_spell_level('technomancer_pain_ignore') * -0.02) - 0.7)" ] }
+          },
+          {
+            "value": "PAIN_PENALTY_MOD_PER",
+            "multiply": { "math": [ "((u_spell_level('technomancer_pain_ignore') * -0.02) - 0.7)" ] }
+          },
+          {
+            "value": "PAIN_PENALTY_MOD_SPEED",
+            "multiply": { "math": [ "((u_spell_level('technomancer_pain_ignore') * -0.02) - 0.7)" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
     "id": "eshaper_crystal_wrap",
     "type": "effect_type",
     "name": [ "Crystal Wrapping" ],
@@ -1131,7 +1164,14 @@
     "id": "effect_biomancer_eat_tons_of_food",
     "name": [ "Gluttonous Consumption" ],
     "desc": [ "You feel like you could eat a horse." ],
-    "rating": "good"
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [
+          { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": { "math": [ "u_spell_level('biomancer_eat_tons_of_food') * 0.5" ] } }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_type",
@@ -1278,7 +1318,8 @@
       "effect_acid_res_aura_greater",
       "effect_thorns_electric",
       "effect_stormshaper_loud_voice",
-      "effect_technomancer_gain_electronics_computer"
+      "effect_technomancer_gain_electronics_computer",
+      "effect_technomancer_pain_ignore"
     ]
   },
   {
@@ -1404,6 +1445,7 @@
       "effect_spirit_walking",
       "effect_stormshaper_loud_voice",
       "effect_technomancer_gain_electronics_computer",
+      "effect_technomancer_pain_ignore",
       "haste",
       "synaptic_stim",
       "slow_freeze_effect",

@@ -173,19 +173,29 @@ static void load_forest_mapgen_settings( const JsonObject &jo,
                 if( forest_biome_ter_keys.empty() ) {
                     forest_biome_jo.throw_error( "Biome is not associated with any terrains." );
                 }
-                std::string first_ter = forest_biome_ter_keys.get_string( 0 );
-                load_forest_biome( forest_biome_jo, forest_mapgen_settings.unfinalized_biomes[first_ter],
-                                   overlay );
-                for( size_t biome_ter_idx = 1; biome_ter_idx < forest_biome_ter_keys.size(); biome_ter_idx++ ) {
+                std::string default_ter_name = member.name();
+                auto default_ter_it = forest_mapgen_settings.unfinalized_biomes.find( default_ter_name );
+                if( default_ter_it == forest_mapgen_settings.unfinalized_biomes.end() ) {
+                    if( overlay ) {
+                        forest_biome_jo.throw_error( "Terrain " + default_ter_name +
+                                                     " is not defined, cannot be used for forest biome." );
+                    }
+                    default_ter_it = forest_mapgen_settings.unfinalized_biomes.emplace( default_ter_name, forest_biome{} ).first;
+                }
+                forest_biome &default_ter = default_ter_it->second;
+                load_forest_biome( forest_biome_jo, default_ter, overlay );
+                for( size_t biome_ter_idx = 0; biome_ter_idx < forest_biome_ter_keys.size(); biome_ter_idx++ ) {
+                    std::string biome_ter_name = forest_biome_ter_keys.get_string( biome_ter_idx );
+                    if( biome_ter_name == default_ter_name ) {
+                        continue;
+                    }
                     forest_mapgen_settings.unfinalized_biomes.insert( std::pair<std::string, forest_biome>
-                            ( forest_biome_ter_keys.get_string( biome_ter_idx ),
-                              forest_mapgen_settings.unfinalized_biomes[first_ter] ) );
+                            ( forest_biome_ter_keys.get_string( biome_ter_idx ), default_ter ) );
                 }
             } else {
                 load_forest_biome( forest_biome_jo, forest_mapgen_settings.unfinalized_biomes[member.name()],
                                    overlay );
             }
-
         }
     }
 }

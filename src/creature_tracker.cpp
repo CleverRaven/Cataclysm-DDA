@@ -1,7 +1,10 @@
 #include "creature_tracker.h"
 
 #include <algorithm>
+#include <limits>
 #include <ostream>
+#include <string>
+#include <type_traits>
 #include <utility>
 
 #include "avatar.h"
@@ -10,12 +13,15 @@
 #include "flood_fill.h"
 #include "game.h"
 #include "map.h"
+#include "mapdata.h"
+#include "maptile_fwd.h"
 #include "mongroup.h"
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
+#include "point.h"
 #include "string_formatter.h"
-#include "submap.h"
+#include "submap.h"  // IWYU pragma: keep
 #include "type_id.h"
 
 static const efftype_id effect_ridden( "ridden" );

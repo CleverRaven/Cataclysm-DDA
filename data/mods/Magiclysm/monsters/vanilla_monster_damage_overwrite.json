@@ -1795,36 +1795,6 @@
   },
   {
     "type": "MONSTER",
-    "id": "mon_charred_nightmare",
-    "copy-from": "mon_charred_nightmare",
-    "extend": { "flags": [ "POISONPROOF" ], "armor": { "necrotic": -10 } }
-  },
-  {
-    "type": "MONSTER",
-    "id": "mon_irradiated_wanderer_1",
-    "copy-from": "mon_irradiated_wanderer_1",
-    "extend": { "flags": [ "POISONPROOF" ], "armor": { "necrotic": -10 } }
-  },
-  {
-    "type": "MONSTER",
-    "id": "mon_irradiated_wanderer_2",
-    "copy-from": "mon_irradiated_wanderer_2",
-    "extend": { "flags": [ "POISONPROOF" ], "armor": { "necrotic": -10 } }
-  },
-  {
-    "type": "MONSTER",
-    "id": "mon_irradiated_wanderer_3",
-    "copy-from": "mon_irradiated_wanderer_3",
-    "extend": { "flags": [ "POISONPROOF" ], "armor": { "necrotic": -10 } }
-  },
-  {
-    "type": "MONSTER",
-    "id": "mon_irradiated_wanderer_4",
-    "copy-from": "mon_irradiated_wanderer_4",
-    "extend": { "flags": [ "POISONPROOF" ], "armor": { "necrotic": -10 } }
-  },
-  {
-    "type": "MONSTER",
     "id": "mon_skeleton",
     "copy-from": "mon_skeleton",
     "extend": { "armor": { "necrotic": 8 } }

@@ -103,7 +103,8 @@ class vpart_position
          * `g->m.veh_at( this->pos() )->vehicle() == this->vehicle()` (it's this one)
          */
         // Name chosen to match Creature::pos
-        tripoint pos() const;
+        tripoint_bub_ms pos_bub() const;
+        tripoint pos() const; // TODO: Get rid if this untyped operation
         /**
          * Returns the mount point: the point in the vehicles own coordinate system.
          * This system is independent of movement / rotation.

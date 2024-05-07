@@ -470,7 +470,7 @@
     "charges": 60,
     "book_learn": [ [ "offalcooking", 3 ] ],
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT_FINE", "level": 1 } ],
-    "components": [ [ [ "bag_plastic", 1 ] ] ]
+    "components": [ [ [ "bag_plastic", 1 ], [ "bag_plastic_small", 1 ] ] ]
   },
   {
     "type": "recipe",

@@ -64,9 +64,9 @@
     "max_level": 40,
     "base_casting_time": 350,
     "base_energy_cost": 750,
-    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(100000)" ] },
-    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(2000000)" ] },
-    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(47500)" ] },
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(100000, 1000)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(2000000, 1000)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(47500, 0.025)" ] },
     "spell_class": "BOREAL_MAGE"
   }
 ]

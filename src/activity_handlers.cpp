@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <climits>
 #include <cmath>
+#include <cstdint>
 #include <cstdlib>
 #include <iterator>
 #include <memory>
@@ -13,9 +14,10 @@
 #include <stdexcept>
 #include <string>
 #include <type_traits>
+#include <unordered_map>
 #include <utility>
 
-#include "action.h"
+#include "activity_actor.h"
 #include "activity_type.h"
 #include "advanced_inv.h"
 #include "avatar.h"
@@ -26,6 +28,8 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "character_attire.h"
+#include "character_id.h"
 #include "character_martial_arts.h"
 #include "clzones.h"
 #include "colony.h"
@@ -34,15 +38,15 @@
 #include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
-#include "damage.h"
+#include "cuboid_rectangle.h"
 #include "debug.h"
-#include "effect_source.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
 #include "fault.h"
 #include "field_type.h"
 #include "flag.h"
+#include "flexbuffer_json-inl.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
@@ -50,6 +54,7 @@
 #include "harvest.h"
 #include "iexamine.h"
 #include "inventory.h"
+#include "inventory_ui.h"
 #include "item.h"
 #include "item_factory.h"
 #include "item_location.h"
@@ -62,10 +67,8 @@
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "map_selector.h"
 #include "mapdata.h"
 #include "martialarts.h"
-#include "memory_fast.h"
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
@@ -80,7 +83,7 @@
 #include "pocket_type.h"
 #include "point.h"
 #include "proficiency.h"
-#include "ranged.h"
+#include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
 #include "ret_val.h"
@@ -89,6 +92,7 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "text_snippets.h"
+#include "translation.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
@@ -97,6 +101,7 @@
 #include "veh_interact.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "weakpoint.h"
 #include "weather.h"
 
 enum class creature_size : int;
@@ -190,6 +195,8 @@ static const efftype_id effect_social_dissatisfied( "social_dissatisfied" );
 static const efftype_id effect_social_satisfied( "social_satisfied" );
 static const efftype_id effect_under_operation( "under_operation" );
 
+static const furn_str_id furn_f_compost_empty( "f_compost_empty" );
+static const furn_str_id furn_f_compost_full( "f_compost_full" );
 static const furn_str_id furn_f_fvat_empty( "f_fvat_empty" );
 static const furn_str_id furn_f_fvat_wood_empty( "f_fvat_wood_empty" );
 static const furn_str_id furn_f_fvat_wood_full( "f_fvat_wood_full" );
@@ -1570,6 +1577,15 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
                                 here.furn_set( source_pos, furn_f_fvat_empty );
                             }
                         }
+                    } else if( here.furn( source_pos )->has_examine( iexamine::compost_full ) ) {
+                        add_msg( _( "You squeeze the last drops of %s from the tank." ),
+                                 liquid.type_name( 1 ) );
+                        map_stack items_here = here.i_at( source_pos );
+                        if( items_here.empty() ) {
+                            if( here.furn( source_pos ) == furn_f_compost_full ) {
+                                here.furn_set( source_pos, furn_f_compost_empty );
+                            }
+                        }
                     }
                     act_ref.set_to_null();
                 }
@@ -2753,12 +2769,10 @@ void activity_handlers::view_recipe_do_turn( player_activity *act, Character *yo
 
     recipe_id id( act->name );
     std::string itname;
-    const inventory &inven = you->crafting_inventory();
-    const std::vector<Character *> &helpers = you->get_crafting_helpers();
     if( act->index != 0 ) {
         // act->name is recipe_id
         itname = id->result_name();
-        if( !you->get_available_recipes( inven, &helpers ).contains( &id.obj() ) ) {
+        if( !you->get_group_available_recipes().contains( &id.obj() ) ) {
             add_msg( m_info, _( "You don't know how to craft the %s!" ), itname );
             return;
         }
@@ -2775,8 +2789,8 @@ void activity_handlers::view_recipe_do_turn( player_activity *act, Character *yo
     for( const auto& [_, r] : recipe_dict ) {
         if( !r.obsolete && ( item == r.result() || r.in_byproducts( item ) ) ) {
             is_byproduct = true;
-            // If if exists, do I know it?
-            if( you->get_available_recipes( inven, &helpers ).contains( &r ) ) {
+            // If a recipe exists, does my group know it?
+            if( you->get_group_available_recipes().contains( &r ) ) {
                 can_craft = true;
                 break;
             }

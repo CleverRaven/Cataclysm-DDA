@@ -56,27 +56,20 @@
       {
         "text": "Hi, this is a nice farm, your family lives here?",
         "topic": "TALK_ISHERWOOD_LISA_TALK1",
+        "effect": [ { "u_add_var": "u_met_Lisa_Isherwood", "value": "yes" }, { "u_add_var": "u_met_an_isherwood", "value": "yes" } ],
         "condition": { "not": { "u_is_wearing": "badge_marshal" } }
       },
       {
         "text": "Hi, I'm looking for Jesse.",
         "topic": "TALK_LISA_JESSE",
-        "condition": {
-          "and": [
-            { "not": { "u_is_wearing": "badge_marshal" } },
-            { "u_has_var": "u_learned_about_jesse", "type": "general", "context": "meeting", "value": "yes" }
-          ]
-        }
+        "effect": [ { "u_add_var": "u_met_Lisa_Isherwood", "value": "yes" } ],
+        "condition": { "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "u_has_var": "u_learned_about_jesse", "value": "yes" } ] }
       },
       {
         "text": "Hi, I'm looking for Chris.",
         "topic": "TALK_LISA_CHRIS",
-        "condition": {
-          "and": [
-            { "not": { "u_is_wearing": "badge_marshal" } },
-            { "u_has_var": "u_heard_about_chris", "type": "general", "context": "meeting", "value": "yes" }
-          ]
-        }
+        "effect": [ { "u_add_var": "u_met_Lisa_Isherwood", "value": "yes" } ],
+        "condition": { "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "u_has_var": "u_heard_about_chris", "value": "yes" } ] }
       },
       {
         "text": "I'd better get going.",
@@ -118,7 +111,7 @@
     "type": "talk_topic",
     "id": "TALK_LISA_CHRIS2",
     "dynamic_line": "Well he's supposed to be hunting, but since you've been talking to Luke, I bet he mentioned Chris wants to learn more about the end of the world.  Sometimes he'll take off for a few days and I end up patching him up so my parents don't know he left the property.",
-    "speaker_effect": { "effect": { "u_add_var": "u_heard_about_lukefromlisa", "type": "general", "context": "meeting", "value": "yes" } },
+    "speaker_effect": { "effect": { "u_add_var": "u_heard_about_lukefromlisa", "value": "yes" } },
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LISA_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }

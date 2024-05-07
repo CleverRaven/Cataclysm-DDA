@@ -1147,6 +1147,11 @@ class item : public visitable
         /** The results of fermenting this item. */
         const std::map<itype_id, int> &brewing_results() const;
 
+        /** Time for this item to be fully fermented. */
+        time_duration composting_time() const;
+        /** The results of fermenting this item. */
+        const std::map<itype_id, int> &composting_results() const;
+
         /**
          * Detonates the item and adds remains (if any) to drops.
          * Returns true if the item actually detonated,
@@ -1626,6 +1631,7 @@ class item : public visitable
         bool is_bucket_nonempty() const;
 
         bool is_brewable() const;
+        bool is_compostable() const;
         bool is_engine() const;
         bool is_wheel() const;
         bool is_fuel() const;
@@ -1695,12 +1701,14 @@ class item : public visitable
         ret_val<void> can_contain( const item &it, bool nested = false,
                                    bool ignore_rigidity = false,
                                    bool ignore_pkt_settings = true,
+                                   bool is_pick_up_inv = false,
                                    const item_location &parent_it = item_location(),
                                    units::volume remaining_parent_volume = 10000000_ml,
                                    bool allow_nested = true ) const;
         ret_val<void> can_contain( const item &it, int &copies_remaining, bool nested = false,
                                    bool ignore_rigidity = false,
                                    bool ignore_pkt_settings = true,
+                                   bool is_pick_up_inv = false,
                                    const item_location &parent_it = item_location(),
                                    units::volume remaining_parent_volume = 10000000_ml,
                                    bool allow_nested = true ) const;
@@ -2039,10 +2047,10 @@ class item : public visitable
          */
         bool is_seed() const;
         /**
-         * Time it takes to grow from one stage to another. There are 4 plant stages:
+         * Time it takes to grow from one stage to another. There are normally 4 plant stages:
          * seed, seedling, mature and harvest. Non-seed items return 0.
          */
-        time_duration get_plant_epoch() const;
+        time_duration get_plant_epoch( int num_epochs = 3 ) const;
         /**
          * The name of the plant as it appears in the various informational menus. This should be
          * translated. Returns an empty string for non-seed items.

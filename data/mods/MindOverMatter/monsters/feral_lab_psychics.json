@@ -78,7 +78,7 @@
         "damage_max_instance": [ { "damage_type": "psi_telekinetic_damage", "amount": 20, "armor_penetration": 10 } ],
         "hitsize_min": 12,
         "range": 8,
-        "throw_strength": 100,
+        "throw_strength": 70,
         "dodgeable": false,
         "uncanny_dodgeable": true,
         "blockable": false,
@@ -131,7 +131,6 @@
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "dodge": 5,
-    "armor": { "bash": 8, "cut": 6, "stab": 6, "bullet": 10 },
     "harvest": "human",
     "dissect": "dissect_human_sample_single",
     "vision_day": 35,
@@ -150,7 +149,17 @@
         "condition": { "not": { "u_has_effect": "effect_psi_null" } }
       },
       [ "BIO_OP_DISARM", 15 ],
-      { "id": "bio_op_takedown", "cooldown": 20, "condition": { "not": { "u_has_effect": "effect_psi_null" } } }
+      { "id": "bio_op_takedown", "cooldown": 20, "condition": { "not": { "u_has_effect": "effect_psi_null" } } },
+      {
+        "id": "psi_biokin_guard_hardened_skin",
+        "type": "spell",
+        "spell_data": { "id": "biokinetic_hardened_skin_monster" },
+        "cooldown": 120,
+        "condition": {
+          "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "not": { "u_has_effect": "effect_monster_hardened_skin" } } ]
+        },
+        "monster_message": "%1$s's skin takes on a slightly waxen appearance."
+      }
     ],
     "flags": [
       "SEES",

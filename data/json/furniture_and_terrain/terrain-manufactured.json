@@ -583,7 +583,7 @@
     "name": "nanofabricator control panel",
     "symbol": "&",
     "description": "A small computer panel attached to a nanofabricator.  It has a single slot for reading templates.",
-    "allowed_template_ids": [ "standard_template_construct", "debug_template" ],
+    "allowed_template_ids": [ "standard_template_construct", "standard_template_construct_combat_exoskeleton", "debug_template" ],
     "color": "red",
     "looks_like": "f_console",
     "move_cost": 0,

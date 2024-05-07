@@ -77,11 +77,11 @@
     "//": "Portable tools used for luthier",
     "items": [
       { "item": "luthier_toolset", "prob": 100 },
-      { "item": "tonewood", "prob": 100, "count-min": 1, "count-max": 6 },
-      { "item": "tuning_pegs", "prob": 100, "count-min": 5, "count-max": 15 },
-      { "item": "piano_wire", "prob": 100, "count-min": 1, "count-max": 3 },
+      { "item": "tonewood", "prob": 100, "count": [ 1, 6 ] },
+      { "item": "tuning_pegs", "prob": 100, "count": [ 5, 15 ] },
+      { "item": "piano_wire", "prob": 100, "count": [ 1, 3 ] },
       [ "hand_drill", 20 ],
-      { "item": "superglue", "prob": 100, "count-min": 1, "count-max": 3 },
+      { "item": "superglue", "prob": 100, "count": [ 1, 3 ] },
       [ "chisel", 10 ],
       [ "sandpaper", 100 ]
     ]
@@ -118,7 +118,7 @@
       [ "rake", 15 ],
       [ "rake_plastic", 25 ],
       [ "aluminum_stepladder", 5 ],
-      { "item": "misc_repairkit", "prob": 25, "charges-min": 0 },
+      { "item": "misc_repairkit", "prob": 25, "charges": [ 0, -1 ] },
       [ "saw", 60 ],
       { "item": "bow_saw", "prob": 50 },
       { "group": "tools_common_small", "prob": 500 }
@@ -716,10 +716,10 @@
       [ "vac_mold", 10 ],
       [ "polycarbonate_sheet", 50 ],
       [ "scissors", 1000 ],
-      { "item": "sewing_kit", "prob": 120, "charges-min": 0 },
+      { "item": "sewing_kit", "prob": 120, "charges": [ 0, -1 ] },
       { "item": "shed_stick", "prob": 5 },
-      { "item": "tailors_kit", "prob": 10, "charges-min": 0 },
-      { "item": "electric_spinwheel", "prob": 10, "charges-min": 0 },
+      { "item": "tailors_kit", "prob": 10, "charges": [ 0, -1 ] },
+      { "item": "electric_spinwheel", "prob": 10, "charges": [ 0, -1 ] },
       [ "knitting_needles", 20 ],
       [ "kevlar_shears", 100 ]
     ]
@@ -731,8 +731,8 @@
       [ "awl_steel", 150 ],
       [ "needle_curved", 30 ],
       [ "scissors", 1000 ],
-      { "item": "sewing_kit", "prob": 10, "charges-min": 0 },
-      { "item": "tailors_kit", "prob": 120, "charges-min": 0 },
+      { "item": "sewing_kit", "prob": 10, "charges": [ 0, -1 ] },
+      { "item": "tailors_kit", "prob": 120, "charges": [ 0, -1 ] },
       [ "kevlar_shears", 40 ]
     ]
   },
@@ -781,8 +781,8 @@
       [ "microscope", 5 ],
       [ "microscope_dissecting", 5 ],
       [ "funnel_separation", 3 ],
-      { "item": "filter_paper_qualitative", "prob": 3, "charges-min": 10 },
-      { "item": "filter_paper_quantitative", "prob": 3, "charges-min": 10 },
+      { "item": "filter_paper_qualitative", "prob": 3, "charges": [ 10, -1 ] },
+      { "item": "filter_paper_quantitative", "prob": 3, "charges": [ 10, -1 ] },
       [ "burette", 3 ],
       [ "rotovap", 3 ],
       [ "still_lab", 3 ],
@@ -861,7 +861,7 @@
       [ "vac_mold", 10 ],
       [ "polycarbonate_sheet", 50 ],
       [ "duct_tape", 8 ],
-      { "item": "misc_repairkit", "prob": 15, "charges-min": 0 },
+      { "item": "misc_repairkit", "prob": 15, "charges": [ 0, -1 ] },
       { "item": "welder", "prob": 10 },
       { "item": "welding_blanket", "prob": 10, "count": [ 0, 1 ] },
       {
@@ -1039,7 +1039,7 @@
     "id": "quikclot_bag_plastic_5",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic",
+    "container-item": "bag_plastic_small",
     "entries": [ { "item": "quikclot", "container-item": "null", "count": 5 } ]
   },
   {
@@ -1055,7 +1055,7 @@
     "id": "quikclot_bag_plastic_0_5",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_plastic",
+    "container-item": "bag_plastic_small",
     "entries": [ { "item": "quikclot", "container-item": "null", "count": [ 0, 5 ] } ]
   },
   {

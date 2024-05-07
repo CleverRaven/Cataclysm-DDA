@@ -1,0 +1,65 @@
+[
+  {
+    "id": "telepathic_fear_self_effect",
+    "type": "SPELL",
+    "name": "[Ψ]Primal Terror Effect on self",
+    "description": "Use a target's own inner fears against them, paralyzing them with overwhelming terror.  The effect will not last long, but is completely immobilizing while it does, and it leaves a lingering horror behind in the target.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEPATH",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DAMAGE", "NO_PROJECTILE", "IGNORE_WALLS" ],
+    "difficulty": 6,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "mod_moves",
+    "shape": "blast",
+    "//": "Complicated formula here is to produce diminishing returns, since mod_moves for too long might as well just kill the target.  Level 1 minimum is 46.5 moves lost, level 20 maximum is 625, all before Intelligence scaling",
+    "min_damage": {
+      "math": [
+        "( ( ( (u_spell_level('telepathic_fear') * 0.25 ) * 6 ) /  ( (u_spell_level('telepathic_fear') * 0.25 ) + 3) ) * 100) * (scaling_factor(u_val('intelligence') ) ) * -1 * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_damage": {
+      "math": [
+        "( ( ( (u_spell_level('telepathic_fear') * 0.25 ) * 10 ) /  ( (u_spell_level('telepathic_fear') * 0.25 ) + 3) ) * 100) * (scaling_factor(u_val('intelligence') ) ) * -1 * u_nether_attunement_power_scaling"
+      ]
+    }
+  },
+  {
+    "id": "telepathic_fear_extra",
+    "type": "SPELL",
+    "name": "[Ψ]Primal Terror Effect",
+    "description": "Applies a longer debuff when using Primal Terror.  It's a bug if you have it directly.",
+    "message": "",
+    "teachable": false,
+    "flags": [ "PSIONIC", "SILENT", "RANDOM_DURATION", "NO_PROJECTILE", "IGNORE_WALLS" ],
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "valid_targets": [ "hostile", "ground" ],
+    "effect": "attack",
+    "effect_str": "effect_telepathic_primal_terror",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('telepathic_fear') * 75) + 200) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('telepathic_fear') * 175) + 500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "min_range": {
+      "math": [
+        "min( (( (u_spell_level('telepathic_fear') * 1.1) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 80)"
+      ]
+    },
+    "max_range": 80,
+    "min_aoe": {
+      "math": [
+        "min( (( (u_spell_level('telepathic_fear') * 0.15) + 0) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 4)"
+      ]
+    },
+    "ignored_monster_species": [ "PSI_NULL" ]
+  }
+]

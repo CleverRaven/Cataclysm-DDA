@@ -119,13 +119,13 @@
     "items": {
       "X": { "item": "SUS_gunstore_safe", "chance": 50, "repeat": [ 10, 20 ] },
       "O": { "item": "SUS_gunstore_safe_obscure", "chance": 75, "repeat": [ 3, 6 ] },
-      "s": { "item": "SUS_gunstore_crate", "chance": 75, "repeat": [ 1, 3 ] },
-      "S": { "item": "SUS_gunstore_crate", "chance": 5, "repeat": [ 1, 3 ] },
+      "s": { "item": "SUS_gunstore_crate", "chance": 80, "repeat": [ 1, 3 ] },
+      "S": { "item": "SUS_gunstore_crate", "chance": 50, "repeat": [ 1, 3 ] },
       "`": { "item": "SUS_gunstore_looted_floor", "chance": 20, "repeat": [ 1, 2 ] },
       "m": { "item": "SUS_gunstore_looted_storage", "chance": 20, "repeat": [ 1, 2 ] },
       "M": { "item": "SUS_gunstore_looted_storage", "chance": 20, "repeat": [ 1, 2 ] },
       "d": { "item": "SUS_gunstore_displaycase", "chance": 95 },
-      "p": { "item": "SUS_gunstore_displaycase", "chance": 25 },
+      "p": { "item": "SUS_gunstore_displaycase", "chance": 55 },
       "K": {
         "item": {
           "//": "gun books kept on racks in the FoH",

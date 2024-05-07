@@ -1,6 +1,7 @@
 #include "computer_session.h"
 
 #include <algorithm>
+#include <cmath>
 #include <cstdlib>
 #include <functional>
 #include <memory>
@@ -12,9 +13,9 @@
 #include "calendar.h"
 #include "character.h"
 #include "character_id.h"
-#include "computer.h"
 #include "colony.h"
 #include "color.h"
+#include "computer.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature.h"
@@ -31,9 +32,11 @@
 #include "game_inventory.h"
 #include "input.h"
 #include "input_context.h"
+#include "input_enums.h"
 #include "item.h"
 #include "item_location.h"
 #include "line.h"
+#include "localized_comparator.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -42,6 +45,8 @@
 #include "monster.h"
 #include "mtype.h"
 #include "mutation.h"
+#include "npc.h"
+#include "omdata.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
@@ -55,6 +60,7 @@
 #include "string_formatter.h"
 #include "text_snippets.h"
 #include "timed_event.h"
+#include "translation.h"
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"

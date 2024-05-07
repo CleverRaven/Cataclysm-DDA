@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_CHARACTER_MARTIAL_ARTS_H
 #define CATA_SRC_CHARACTER_MARTIAL_ARTS_H
 
-#include <iosfwd>
+#include <string>
 #include <vector>
 
 #include "martialarts.h"
@@ -11,8 +11,8 @@
 class Character;
 class JsonObject;
 class JsonOut;
-class avatar;
 class item;
+class item_location;
 
 class character_martial_arts
 {

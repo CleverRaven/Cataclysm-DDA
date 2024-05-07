@@ -3,22 +3,23 @@
 #include <algorithm>
 #include <climits>
 #include <cstdlib>
-#include <functional>
+#include <list>
 #include <map>
 #include <memory>
 #include <ostream>
 #include <set>
 #include <string>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
 #include "action.h"
 #include "activity_actor_definitions.h"
 #include "avatar.h"
-#include "bodypart.h"
-#include "cached_options.h"
+#include "body_part_set.h"
 #include "calendar.h"
 #include "character.h"
+#include "color.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "debug.h"
@@ -28,16 +29,18 @@
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
+#include "gun_mode.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "line.h"
+#include "magic_enchantment.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "math_defines.h"
-#include "memory_fast.h"
 #include "messages.h"
 #include "monster.h"
 #include "move_mode.h"
@@ -53,12 +56,10 @@
 #include "rng.h"
 #include "translations.h"
 #include "type_id.h"
-#include "value_ptr.h"
+#include "ui.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-
-class gun_mode;
 
 static const efftype_id effect_amigara( "amigara" );
 static const efftype_id effect_glowing( "glowing" );

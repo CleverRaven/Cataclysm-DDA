@@ -106,6 +106,34 @@
   },
   {
     "type": "EXTERNAL_OPTION",
+    "name": "PAIN_PENALTY_MOD_STR",
+    "info": "Scales how much pain decrease your stat.  0.005 means 0.5% of stat loss per one unit of pain.",
+    "stype": "float",
+    "value": 0.005
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "PAIN_PENALTY_MOD_DEX",
+    "info": "Scales how much pain decrease your stat.  0.0075 means 0.75% of stat loss per one unit of pain.",
+    "stype": "float",
+    "value": 0.0075
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "PAIN_PENALTY_MOD_INT",
+    "info": "Scales how much pain decrease your stat.  0.01 means 1% of stat loss per one unit of pain.",
+    "stype": "float",
+    "value": 0.01
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "PAIN_PENALTY_MOD_PER",
+    "info": "Scales how much pain decrease your stat.  0.01 means 1% of stat loss per one unit of pain.",
+    "stype": "float",
+    "value": 0.01
+  },
+  {
+    "type": "EXTERNAL_OPTION",
     "name": "SPAWN_CITY_HORDE_THRESHOLD",
     "info": "Minimum city size to guarantee extra zombies are spawned in cities.  0 means all cities spawn extra zombies.  Negative values disable extra city zombies.",
     "stype": "int",

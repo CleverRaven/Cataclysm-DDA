@@ -29,20 +29,20 @@
       { "group": "mil_surplus", "prob": 15 },
       { "group": "default_zombie_items_bags", "prob": 15 },
       { "group": "default_zombie_items_pockets", "prob": 15 },
-      { "item": "cash_card", "charges-min": 25000, "charges-max": 100000 },
+      { "item": "cash_card", "charges": [ 25000, 100000 ] },
       {
         "distribution": [ { "group": "full_survival_kit", "damage": [ 1, 4 ] }, { "group": "used_survival_kit", "damage": [ 1, 4 ] } ],
         "prob": 5
       },
       {
         "distribution": [
-          { "item": "teargas_sprayer", "prob": 10, "charges-min": 0, "charges-max": 5 },
+          { "item": "teargas_sprayer", "prob": 10, "charges": [ 0, 5 ] },
           {
             "collection": [ { "item": "holster" }, { "group": "guns_pistol_common_everyday_carry", "damage": [ 0, 2 ] } ],
             "prob": 10
           },
           {
-            "collection": [ { "item": "holster" }, { "item": "tazer", "damage": [ 0, 2 ], "charges-min": 0, "charges-max": 100 } ],
+            "collection": [ { "item": "holster" }, { "item": "tazer", "damage": [ 0, 2 ], "charges": [ 0, 100 ] } ],
             "prob": 5
           }
         ],
@@ -183,7 +183,7 @@
           { "group": "mil_surplus", "prob": 6 }
         ]
       },
-      { "item": "cash_card", "charges-min": 50000, "charges-max": 150000 }
+      { "item": "cash_card", "charges": [ 50000, 150000 ] }
     ]
   },
   {

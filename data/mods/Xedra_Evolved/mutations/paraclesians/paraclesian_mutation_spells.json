@@ -212,5 +212,16 @@
     "id": "effect_wants_to_talk",
     "name": [ "Seeming to want to talk to you" ],
     "desc": [ "This person wants to talk with you." ]
+  },
+  {
+    "id": "paraclesian_translocate",
+    "type": "SPELL",
+    "name": "Paraclesian Translocation",
+    "description": "The actual spell that transports you when Paraclesians use translocation spells.  It's a bug if you have it.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "flags": [ "VERBAL", "SOMATIC" ],
+    "effect": "translocate",
+    "shape": "blast"
   }
 ]

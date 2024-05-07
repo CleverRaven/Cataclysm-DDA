@@ -767,7 +767,7 @@ void mapgen_forest( mapgendata &dat )
     // In order to feather (blend) this overmap tile with adjacent ones, the general composition thereof must be known.
     // This can be calculated once from dat.t_nesw, and stored here:
     std::array<const forest_biome *, 8> adjacent_biomes;
-    for( int d = 0; d < 7; d++ ) {
+    for( int d = 0; d <= 7; d++ ) {
         auto lookup = dat.region.forest_composition.biomes.find( dat.t_nesw[d]->get_type_id() );
         if( lookup != dat.region.forest_composition.biomes.end() ) {
             adjacent_biomes[d] = &( lookup->second );
@@ -1022,7 +1022,12 @@ void mapgen_forest( mapgendata &dat )
                 return *dat.region.default_groundcover.pick();
             default:
                 if( adjacent_biomes[feather_selection] != nullptr ) {
-                    return *adjacent_biomes[feather_selection]->groundcover.pick();
+                    const ter_id *cover = adjacent_biomes[feather_selection]->groundcover.pick();
+                    if( cover ) {
+                        return *cover;
+                    }
+                    // Adjacent biome has no groundcover, use the region default.
+                    return *dat.region.default_groundcover.pick();
                 } else {
                     return *dat.region.default_groundcover.pick();
                 }

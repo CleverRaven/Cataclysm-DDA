@@ -10,7 +10,7 @@ Migration and obsoletion should happen in `\data\json\obsoletion_and_migration_<
 Any of item types (AMMO, GUN, ARMOR, PET_ARMOR, TOOL, TOOLMOD, TOOL_ARMOR, BOOK, COMESTIBLE, ENGINE, WHEEL, GUNMOD, MAGAZINE, GENERIC, BIONIC_ITEM) should be migrated to another item, then it can be removed with no issues
 AMMO and COMESTIBLE types require additional handling, explained in [Charge and temperature removal](#Charge_and_temperature_removal)
 
-```C++
+```json
 {
   "type": "MIGRATION", // type, mandatory
   "id": "arrowhead",  // id of item, that you want to migrate, mandatory
@@ -78,7 +78,7 @@ For bionics, you should use `bionic_migration` type. The migration happens when 
 
 A mutation migration can be used to migrate a mutation that formerly existed gracefully into a proficiency, another mutation (potentially a specific variant), or to simply remove it without any fuss.
 
-```c++
+```json
   {
     "type": "TRAIT_MIGRATION",      // Mandatory. String. Must be "TRAIT_MIGRATION"
     "id": "hair_red_mohawk",        // Mandatory. String. Id of the trait that has been removed.
@@ -113,6 +113,52 @@ Monster can be removed without migration, the game replace all critters without 
 # Recipe migration
 
 Recipes can be removed without migration, the game will simply delete the recipe when loaded
+
+# Terrain and furniture migration
+
+Terrain and furniture migration replace the provided id as submaps are loaded. You can use `f_null` with `to_furn` to remove furniture entirely without creating errors, however `from_ter` must specify a non null `to_ter`.
+
+```json
+{
+    "type": "ter_furn_migration",   // Mandatory. String. Must be "ter_furn_migration"
+    "from_ter": "t_old_ter",        // Optional*. String. Id of the terrain to replace.
+    "from_furn": "f_old_furn",      // Optional*. String. Id of the furniture to replace.
+    "to_ter": "t_new_ter",          // Mandatory if from_ter specified, optional otherwise. String. Id of new terrain to place. Overwrites existing ter when used with from_furn.
+    "to_furn": "f_new_furn",        // Mandatory if from_furn specified, optional otherwise. String. Id of new furniture to place.
+                                    // *Exactly one of these two must be specified.
+},
+```
+
+## Examples
+
+Replace a fence that bashes into t_dirt into a furniture that can be used seamlessly over all terrains
+
+```json
+  {
+    "type": "ter_furn_migration",
+    "from_ter": "t_fence_dirt",
+    "to_ter": "t_dirt",
+    "to_furn": "f_fence"
+  }
+```
+
+Move multiple ids that don't need to be unique any more to a single id
+
+```json
+  {
+    "type": "ter_furn_migration",
+    "from_furn": "f_underbrush_harvested_spring",
+    "to_furn": "f_underbrush_harvested"
+  }
+```
+...
+```json
+  {
+    "type": "ter_furn_migration",
+    "from_furn": "f_underbrush_harvested_winter",
+    "to_furn": "f_underbrush_harvested"
+  }
+```
 
 # Overmap terrain migration
 

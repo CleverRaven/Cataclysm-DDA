@@ -883,7 +883,7 @@
     "type": "effect_on_condition",
     "id": "EOC_VITA_SUPER_HEAL_DRAIN",
     "effect": [
-      { "math": [ "u_val('stored_kcal')", "-=", "rng( 150,650 )" ] },
+      { "math": [ "u_calories()", "-=", "rng( 150,650 )" ] },
       { "math": [ "u_vitamin('iron')", "-=", "rng( 50,200 )" ] },
       { "math": [ "u_vitamin('calcium')", "-=", "rng( 100,200 )" ] },
       { "math": [ "u_vitamin('vitC')", "-=", "rng( 20,80 )" ] },
@@ -905,7 +905,7 @@
     "id": "EOC_VITAKINESIS_RETURN_FROM_DEATH_START",
     "condition": { "u_has_effect": "effect_vita_return_from_death" },
     "effect": [
-      { "math": [ "u_val('stored_kcal')", "=", "u_vitakin_return_from_death_kcal * 0.8" ] },
+      { "math": [ "u_calories()", "=", "u_vitakin_return_from_death_kcal * 0.8" ] },
       { "math": [ "u_hp('torso')", "=", "max( u_hp('torso'), 5)" ] },
       { "math": [ "u_hp('head')", "=", "max( u_hp('head'), 5)" ] },
       { "math": [ "u_hp('arm_l')", "=", "max( u_hp('arm_l'), 5)" ] },
