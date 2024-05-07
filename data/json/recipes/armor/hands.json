@@ -839,7 +839,7 @@
     "time": "4 h",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_knitting" }, { "proficiency": "prof_knitting_speed" } ],
-    "using": [ [ "tailoring_wool_knitting", 67 ] ]
+    "using": [ [ "tailoring_wool_knitting", 84 ] ]
   },
   {
     "result": "gloves_wool_fingerless",
