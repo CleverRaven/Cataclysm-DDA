@@ -11,6 +11,14 @@
   },
   {
     "type": "item_group",
+    "id": "loaded_webbing_belt",
+    "subtype": "collection",
+    "entries": [
+      { "item": "webbing_belt", "contents-group": "molle_belt_contents" }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "molle_accessories",
     "subtype": "collection",
     "entries": [
@@ -88,5 +96,12 @@
     "//": "stuff that might be in a molle pack",
     "subtype": "collection",
     "entries": [ { "item": "camelbak", "prob": 40 }, { "group": "molle_accessories", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "molle_belt_contents",
+    "//": "stuff that might be clipped to a molle webbing belt",
+    "subtype": "collection",
+    "entries": [ { "group": "molle_accessories", "count": [ 1, 2 ] } ]
   }
 ]
