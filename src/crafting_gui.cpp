@@ -64,8 +64,10 @@
 
 static const limb_score_id limb_score_manip( "manip" );
 
+static const std::string flag_AFFECTED_BY_PAIN( "AFFECTED_BY_PAIN" );
 static const std::string flag_BLIND_EASY( "BLIND_EASY" );
 static const std::string flag_BLIND_HARD( "BLIND_HARD" );
+static const std::string flag_NO_MANIP( "NO_MANIP" );
 
 enum TAB_MODE {
     NORMAL,
@@ -2278,7 +2280,10 @@ static void draw_can_craft_indicator( const catacurses::window &w, const recipe 
     } else if( crafter.crafting_speed_multiplier( rec ) < 1.0f ) {
         int morale_modifier = crafter.morale_crafting_speed_multiplier( rec ) * 100;
         int lighting_modifier = crafter.lighting_craft_speed_multiplier( rec ) * 100;
-        int limb_modifier = crafter.get_limb_score( limb_score_manip ) * 100;
+        int limb_modifier = rec.has_flag( flag_NO_MANIP ) ? 100 : crafter.get_limb_score(
+                                limb_score_manip ) * 100;
+        int pain_multi = rec.has_flag( flag_AFFECTED_BY_PAIN ) ? 100 * std::max( 0.0f,
+                         1.0f - ( crafter.get_perceived_pain() / 100.0f ) ) : 100;
 
         std::stringstream modifiers_list;
         if( morale_modifier < 100 ) {
@@ -2295,6 +2300,12 @@ static void draw_can_craft_indicator( const catacurses::window &w, const recipe 
                 modifiers_list << ", ";
             }
             modifiers_list << _( "hands encumbrance/wounds" ) << " " << limb_modifier << "%";
+        }
+        if( pain_multi < 100 ) {
+            if( !modifiers_list.str().empty() ) {
+                modifiers_list << ", ";
+            }
+            modifiers_list << _( "pain" ) << " " << pain_multi << "%";
         }
 
         right_print( w, 0, 1, i_yellow,
