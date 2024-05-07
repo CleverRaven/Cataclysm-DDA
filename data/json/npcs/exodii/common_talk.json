@@ -50,7 +50,7 @@
       "concatenate": [
         "&You listen to the directions, and jot them down in your map",
         {
-          "and": [ { "math": [ "rng(1, 3)", ">", "1" ] }, { "follower_present": "NC_STARTINGNPC_LIAM" } ],
+          "and": [ { "one_in_chance": 2 }, { "follower_present": "NC_STARTINGNPC_LIAM" } ],
           "yes": ".  Liam looks over your shoulder, and nods.  \"I've got a good feeling about this one.\"",
           "no": "."
         }
