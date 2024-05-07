@@ -114,7 +114,6 @@ Unhardcode KI strike / Drunken master
 Make power grids easier to disconnect, reconnect, and merge parts to
 Beast mutants can mutate quills
 Adds a new trait, Tiny Stomach
-make army and marine bayonets look like national guard bayonets
 Add new hairstyles from Mawranth's Hair Salon
 
 
@@ -240,10 +239,7 @@ Adds still more mission-specific dialogue for Liam (Friends to the End)
 Add XL and XS versions for french maid clothes/aprons/hats
 Fridges and freezers. What do you mean 'we already have some'?
 New portal monsters: unviable life forms
-Add mushroom ketchup, fried pickled veggies and krampouezh
 Challenge start - hunted forever. Starts with the nemesis, but it comes back stronger everytime it dies
-Allows Medium Propane Tank to be installed in vehicles
-Add Oversize Reinforced Cardboard Box
 
 
 ## Interface:
@@ -454,22 +450,11 @@ Aftershock: Add two crashed shuttle maps
 [DinoMod] skeletal looks_like fix
 Technomancer pain ignoring spell
 [MoM] Add `city_sizes` parameter to city buildings
-[Xedra Evolved] Move Paraclesian eye traits to Personal layer
 Aftershock: New combat bionics
-[Magiclysm] Tune enhancement spells with a scaling modifier.
-[MoM] Limit Burst of Speed in some circumstances
 [Xedra Evolved] Even more paraclesian powers
-[Extra Mutated Scenarios] Update to include new mutation lines
-[MoM] Snippetathon part 3
 [Sky Island] Upgrade central skylight missions and mapgen
-[MoM] Add scaling to Internal Fire
 Aftershock: Add a space station clothes store
-[MoM] Tweak formula for gaining Observed so repeated channeling is the most important factor
-[MoM] Contemplation doesn't require light
-[MoM] VERDANT HAND combat protocols rework
-[MoM] Add better enchantments to some psionic overloads
 [MoM] Using psionics in or near the Nether is more powerful, but also more risky
-[MoM] Fix Discern Weakness
 
 
 ## Balance:
@@ -536,15 +521,9 @@ shoggoths cannot eat artifacts
 Removed palm metal plating on brigandine gloves
 City buildings are restricted to spawn in (more) appropriately sized cities
 Unattended crops that are ready to harvest will die if not harvested before their next growth period
-Both types of stone spears can be uncrafted
-Dragon's breath and incendiary ammo don't outclass literal flamethrowers
-Brandied Fruit is Alcoholic
 Make Quadcopter Drones Produce Sound
-Several balance changes to the Mansion Escape scenario and related monsters/spawns
 Make most plastic and glass containers transparent
 Added limb blocking to bionic styles
-Set exoskeleton prices to reasonable values
-Audit Prices for Canning Pots and Workshop Toolbox
 
 
 ## Bugfixes:
@@ -701,24 +680,11 @@ Fix split vehicles always using the incorrect pivot point
 Transformed active mutations (extended claws etc) properly cause instability
 Only count CONTAINER type pockets in the pickup inventory
 Allow select-all when highlighted item is non-selectable
-Fire axe weapon definition consistent
 Eddie can talk about his father.
-Adds Rubber to Materials Given by Broken Wheels
-Correctly give/remove warp vortext token recipe when selecting difficulty
-A typo within exodii_merchant_talk.json made Rubik give the player the silent treatment for quests. This fixes that.
 Fixes issue where ImGui popup doesnt wrap buttons to a new line when the overall length is too long
-fixing cmake build so that text is not garbled on curses builds in imgui screens
-Aftershock: Fix travel to Port Augustmoon
 Wet Towels No Longer Prompt to be Turned Off
 Maybe prevent rare crater generation error
-Add Disassembly Recipes for Other Pouch Versions of ballistic_vest_light
-Fixed issue where ImGui windows report the wrong size to ui_manager
-Fix summoned item granting excess encumbrance
-Fix obtain cost in reloading action, and a typo in item_handling_cost
-Not to try to set charges for item without charge.
 Now moving all items will not move favourite items, if other items are present.
-Make CZ 75 16 Round Mag Actually Hold 16 Rounds and Fix ID
-Fixes issue where lower-case key does not switch the option in the popup
 
 
 ## Performance:
@@ -801,7 +767,6 @@ Improve spell checker tokenization and reporting
 Deleted the ImGui enable/disable toggle, turns on ImGui globally in CDDA
 Use test enumerating item spawns to make assertions about the rate of appearance of different items.
 Add perceived kwarg to pain_eval math function, apply it in Mind Over Matter
-Variantize card games
 refactored ImTuis drawing code to fix a black screen issue, and to improve performance
 
 
