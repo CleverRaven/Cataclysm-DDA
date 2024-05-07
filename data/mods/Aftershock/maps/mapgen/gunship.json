@@ -3,9 +3,7 @@
     "type": "mapgen",
     "method": "json",
     "update_mapgen_id": "afs_bounty_hunter_gunship",
-    "weight": 10,
     "object": {
-      "predecessor_mapgen": "field",
       "rows": [
         "                        ",
         "         UUUUU          ",
