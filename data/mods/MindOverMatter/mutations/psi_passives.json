@@ -59,7 +59,10 @@
       {
         "values": [
           { "value": "HEARING_MULT", "multiply": 0.2 },
-          { "value": "SIGHT_RANGE_NETHER", "add": { "math": [ "(2 + (0.075 * u_spell_level_sum('school': 'CLAIRSENTIENT')))" ] } }
+          {
+            "value": "SIGHT_RANGE_NETHER",
+            "add": { "math": [ "(2 + (0.075 * u_spell_level_sum('school': 'CLAIRSENTIENT')))" ] }
+          }
         ]
       }
     ]
