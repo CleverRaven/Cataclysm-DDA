@@ -3136,7 +3136,7 @@
     "result": "knife_vegetable_cleaver",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "blade", 1 ] ], [ [ "scrap", 5 ] ] ]
+    "components": [ [ [ "blade", 1 ] ], [ [ "scrap", 1 ] ] ]
   },
   {
     "result": "laptop",
