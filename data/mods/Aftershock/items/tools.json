@@ -184,7 +184,6 @@
         "type": "transform"
       }
     ],
-    "tick_action": [ "MP3_ON" ],
     "extend": { "flags": [ "TRADER_AVOID", "LIGHT_25" ] }
   },
   {
