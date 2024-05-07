@@ -988,10 +988,10 @@ std::pair<std::string, nc_color> display::carry_weight_text_color( const avatar 
 {
     int carry_wt;
 
-    if (u.weight_capacity() > 0) { 
-        carry_wt = (100 * u.weight_carried()) / u.weight_capacity();
+    if( u.weight_capacity() > 0 ) {
+        carry_wt = ( 100 * u.weight_carried() ) / u.weight_capacity();
     } else {
-        carry_wt = 100; 
+        carry_wt = 100;
     }
 
     std::string weight_text = string_format( "%d%%", carry_wt );
