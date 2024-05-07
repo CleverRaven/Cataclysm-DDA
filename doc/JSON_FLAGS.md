@@ -219,6 +219,8 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```PERSONAL``` This item goes in the personal aura layer, intended for metaphysical effects.
 - ```POCKETS``` Increases warmth for hands if the player's hands are cold and the player is wielding nothing.
 - ```POWERARMOR_COMPATIBLE``` Makes item compatible with power armor despite other parameters causing failure.
+- ```PREFIX_XL``` Adds the XL prefix to the item name.
+- ```PREFIX_XS``` Adds the XS prefix to the item name.
 - ```PSYSHIELD_PARTIAL``` 25% chance to protect against `fear_paralyze` monster attack when worn.
 - ```RAD_PROOF``` This piece of clothing completely protects you from radiation.
 - ```RAD_RESIST``` This piece of clothing partially (75%) protects you from radiation.
