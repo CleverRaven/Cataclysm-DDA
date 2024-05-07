@@ -509,9 +509,6 @@ bool aim_activity_actor::load_RAS_weapon()
         return false;
     }
 
-    // Burn 0.6% max base stamina without cardio/BMI factored in x the strength required to fire.
-    you.burn_energy_arms( - gun->get_min_str() * static_cast<int>( 0.006f *
-                          get_option<int>( "PLAYER_MAX_STAMINA_BASE" ) ) );
 
     reload_loc = opt.ammo;
     return true;
@@ -527,12 +524,6 @@ void aim_activity_actor::unload_RAS_weapon()
 
     gun_mode gun = weapon->gun_current_mode();
     if( gun->has_flag( flag_RELOAD_AND_SHOOT ) ) {
-        if( !loaded_RAS_weapon ) {
-            // Refund stamina cost if not loaded.
-            you.burn_energy_arms( gun->get_min_str() * static_cast<int>( 0.006f *
-                                  get_option<int>( "PLAYER_MAX_STAMINA_BASE" ) ) );
-            return;
-        }
         if( gun->ammo_remaining() ) {
             item_location loc = item_location( you, gun.target );
             you.unload( loc, true );

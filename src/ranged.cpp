@@ -880,7 +880,7 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun, item_loca
         return 0;
     }
     if( gun.ammo_required() > 0 && !gun.ammo_remaining() && !ammo ) {
-        debugmsg( "%s's gun %s is empty and has no ammo for reloading.", gun.tname() );
+        debugmsg( "%s is empty and has no ammo for reloading.", gun.tname() );
         return 0;
     }
     bool is_mech_weapon = false;
@@ -931,7 +931,10 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun, item_loca
     int delay = 0; // delayed recoil that has yet to be applied
     while( curshot != shots ) {
         if( !!ammo && !gun.ammo_remaining() ) {
-            gun.reload( get_avatar(), ammo, 1 );
+            Character &you = get_avatar();
+            gun.reload( you, ammo, 1 );
+            you.burn_energy_arms( - gun.get_min_str() * static_cast<int>( 0.006f *
+                                  get_option<int>( "PLAYER_MAX_STAMINA_BASE" ) ) );
         }
         if( gun.faults.count( fault_gun_chamber_spent ) && curshot == 0 ) {
             mod_moves( -get_speed() * 0.5 );
@@ -2690,10 +2693,13 @@ target_handler::trajectory target_ui::run()
                 break;
             }
 
-            if( you->get_wielded_item()->has_flag( flag_RELOAD_AND_SHOOT ) ) {
-                if( !you->get_wielded_item()->ammo_remaining() && activity->reload_loc ) {
+            item_location weapon = activity->get_weapon();
+            if( weapon->has_flag( flag_RELOAD_AND_SHOOT ) ) {
+                if( !weapon->ammo_remaining() && activity->reload_loc ) {
                     you->mod_moves( -RAS_time );
-                    you->get_wielded_item()->reload( get_avatar(), activity->reload_loc, 1 );
+                    weapon->reload( get_avatar(), activity->reload_loc, 1 );
+                    you->burn_energy_arms( - weapon->get_min_str() * static_cast<int>( 0.006f *
+                                           get_option<int>( "PLAYER_MAX_STAMINA_BASE" ) ) );
                     activity->reload_loc = item_location();
                     activity->loaded_RAS_weapon = true;
                 }
