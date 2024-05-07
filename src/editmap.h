@@ -12,6 +12,7 @@
 #include "color.h"
 #include "coordinates.h"
 #include "cursesdef.h"
+#include "memory_fast.h"
 #include "point.h"
 #include "type_id.h"
 

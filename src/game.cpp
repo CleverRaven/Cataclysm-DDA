@@ -7025,7 +7025,7 @@ void game::zones_manager()
     }
 
     // get zones with distance between player and
-    // zone center point <= 60 or all zones, if show_all_zones is true
+    // zone center point <= MAX_VIEW_DISTANCE or all zones, if show_all_zones is true
     auto get_zones = [&]() {
         std::vector<zone_manager::ref_zone_data> zones;
         if( show_all_zones ) {
@@ -7034,7 +7034,7 @@ void game::zones_manager()
             const tripoint_abs_ms u_abs_pos = u.get_location();
             for( zone_manager::ref_zone_data &ref : mgr.get_zones( zones_faction ) ) {
                 const tripoint_abs_ms &zone_abs_pos = ref.get().get_center_point();
-                if( rl_dist( u_abs_pos, zone_abs_pos ) <= ACTIVITY_SEARCH_DISTANCE ) {
+                if( rl_dist( u_abs_pos, zone_abs_pos ) <= MAX_VIEW_DISTANCE ) {
                     zones.emplace_back( ref );
                 }
             }
@@ -7614,7 +7614,7 @@ std::optional<std::vector<tripoint_bub_ms>> game::safe_route_to( Character &who,
     };
     route_t shortest_route;
     std::unordered_set<tripoint> path_avoid;
-    for( const tripoint_bub_ms &p : points_in_radius( who.pos_bub(), 60 ) ) {
+    for( const tripoint_bub_ms &p : points_in_radius( who.pos_bub(), MAX_VIEW_DISTANCE ) ) {
         if( is_dangerous_tile( p.raw() ) ) {
             path_avoid.insert( p.raw() );
         }
@@ -8348,8 +8348,8 @@ void game::list_items_monsters()
 {
     // Search whole reality bubble because each function internally verifies
     // the visibility of the items / monsters in question.
-    std::vector<Creature *> mons = u.get_visible_creatures( 60 );
-    const std::vector<map_item_stack> items = find_nearby_items( 60 );
+    std::vector<Creature *> mons = u.get_visible_creatures( MAX_VIEW_DISTANCE );
+    const std::vector<map_item_stack> items = find_nearby_items( MAX_VIEW_DISTANCE );
 
     if( mons.empty() && items.empty() ) {
         add_msg( m_info, _( "You don't see any items or monsters around you!" ) );
