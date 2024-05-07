@@ -13957,7 +13957,7 @@ bool item::process_blackpowder_fouling( Character *carrier )
 {
     // Rust is deterministic. At a total modifier of 1 (the max): 12 hours for first rust, then 24 (36 total), then 36 (72 total) and finally 48 (120 hours to go to XX)
     // this speeds up by the amount the gun is dirty, 2-6x as fast depending on dirt level. At minimum dirt, the modifier is 0.3x the speed of the above mentioned figures.
-    set_var( "rust_timer", get_var( "rust_timer", 0 ) + std::max( 0.3 + get_var( "dirt", 0 ) / 200,
+    set_var( "rust_timer", get_var( "rust_timer", 0 ) + std::min( 0.3 + get_var( "dirt", 0 ) / 200,
              1.0 ) );
     double time_mult = 1.0 + ( 4.0 * static_cast<double>( damage() ) ) / static_cast<double>
                        ( max_damage() );
