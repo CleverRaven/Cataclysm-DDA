@@ -157,7 +157,7 @@ static constexpr int AIF_DURATION_LIMIT = 10;
 static projectile make_gun_projectile( const item &gun );
 static int NPC_time_to_attack( const Character &p, const itype &firing );
 static int time_to_attack( const Character &p, const item &firing, const item_location &loc );
-int RAS_time = 0;
+static int RAS_time = 0;
 /**
 * Handle spent ammo casings and linkages.
 * @param weap   Weapon.
