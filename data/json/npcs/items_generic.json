@@ -817,7 +817,7 @@
       [ "meth", 5 ],
       [ "milk_powder", 3 ],
       [ "mintpatties", 3 ],
-      { "item": "misc_repairkit", "prob": 5, "charges": [ 0, -1 ] },
+      { "item": "misc_repairkit", "prob": 5 },
       [ "ballistic_vest_esapi", 1 ],
       [ "molasses", 3 ],
       [ "money_strap_one", 10 ],
