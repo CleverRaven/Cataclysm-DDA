@@ -32,19 +32,34 @@
     "use_action": [ "PLAY_GAME" ],
     "variants": [
       {
+        "id": "generic_deck_of_cards",
+        "name": { "str": "deck of cards", "str_pl": "decks of cards" },
+        "description": "A fairly new, glossy deck of 52 playing cards.",
+        "weight": 30
+      },
+      {
+        "id": "deck_of_cards_worn",
+        "name": { "str": "worn deck of cards", "str_pl": "worn decks of cards" },
+        "description": "A deck of 52 playing cards.  Judging by the bent, frayed edges and faded prints, it saw its share of games.",
+        "weight": 6
+      },
+      {
         "id": "uno",
         "name": { "str": "deck of Uno cards", "str_pl": "decks of Uno cards" },
-        "description": "A set of Uno cards meant to play a game of Uno with your companions.  Just don't yell Uno too loud to avoid attracting the undead."
+        "description": "A set of Uno cards meant to play a game of Uno with your companions.  Just don't yell Uno too loud to avoid attracting the undead.",
+        "weight": 4
       },
       {
         "id": "onirim",
         "name": { "str": "deck of Shadowcaser cards", "str_pl": "decks of Shadowcaser cards" },
-        "description": "A set of cards used in the solo or two-player cooperative card game called Shadowcaser.  The deck consists of 76 unique cards.  Shadowcaser is a immersive card game set in a dream world where players find themselves trapped in a mysterious labyrinthine dream.  The objective of the game is for players to escape this dream world by unlocking eight doors before they run out of time or succumb to the nightmares haunting them."
+        "description": "A set of cards used in the solo or two-player cooperative card game called Shadowcaser.  The deck consists of 76 unique cards.  Shadowcaser is a immersive card game set in a dream world where players find themselves trapped in a mysterious labyrinthine dream.  The objective of the game is for players to escape this dream world by unlocking eight doors before they run out of time or succumb to the nightmares haunting them.",
+        "weight": 1
       },
       {
         "id": "cards_magic",
         "name": { "str": "deck of Sorcery cards", "str_pl": "decks of Sorcery cards" },
-        "description": "A set of cards meant to play the game \"Sorcery.\"  Each card has a fun picture of a different monster."
+        "description": "A set of cards meant to play the game \"Sorcery.\"  Each card has a fun picture of a different monster.",
+        "weight": 2
       },
       {
         "id": "deck_of_cards_makeshift",
