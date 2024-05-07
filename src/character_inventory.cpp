@@ -468,6 +468,7 @@ bool Character::i_add_or_drop( item &it, int qty, const item *avoid,
             i_add( it, true, avoid,
                    original_inventory_item, /*allow_drop=*/true, /*allow_wield=*/!has_wield_conflicts( it ) );
         } else {
+            retval = false;
             break;
         }
     }
