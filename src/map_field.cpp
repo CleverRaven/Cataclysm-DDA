@@ -17,6 +17,7 @@
 #include <utility>
 #include <vector>
 
+#include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -2104,10 +2105,11 @@ void map::emit_field( const tripoint &pos, const emit_id &src, float mul )
         return;
     }
 
-    const float chance = src->chance() * mul;
-    if( src.is_valid() &&  x_in_y( chance, 100 ) ) {
-        const int qty = chance > 100.0f ? roll_remainder( src->qty() * chance / 100.0f ) : src->qty();
-        propagate_field( pos, src->field(), qty, src->intensity() );
+    dialogue d( get_talker_for( get_avatar() ), nullptr );
+    const float chance = src->chance( d ) * mul;
+    if( x_in_y( chance, 100 ) ) {
+        const int qty = chance > 100.0f ? roll_remainder( src->qty( d ) * chance / 100.0f ) : src->qty( d );
+        propagate_field( pos, src->field( d ), qty, src->intensity( d ) );
     }
 }
 
