@@ -755,7 +755,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
                map_cache.seen_cache[target.x][target.y],
                map_cache.camera_cache[target.x][target.y]
              );
-    map::apparent_light_info al = map::apparent_light_helper( map_cache, target );
+    map::apparent_light_info al = map::apparent_light_helper( map_cache, tripoint_bub_ms( target ) );
     int apparent_light = static_cast<int>(
                              here.apparent_light_at( target, here.get_visibility_variables_cache() ) );
     mvwprintw( w_info, point( 1, off++ ), _( "outside: %d obstructed: %d floor: %d" ),

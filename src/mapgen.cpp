@@ -5537,9 +5537,10 @@ void map::draw_lab( mapgendata &dat )
                         return ter( p ) == ter_t_thconc_floor && furn( p ) == furn_str_id::NULL_ID() &&
                                tr_at( p ).is_null();
                     };
-                    const auto range =
-                    points_in_rectangle( { 0, 0, abs_sub.z() },
-                    { SEEX * 2 - 2, SEEY * 2 - 2, abs_sub.z() } );
+                    // Can't the tripoint_bub_ms because 'random_point' below only supports the untyped version.
+                    const tripoint_range<tripoint> range =
+                        points_in_rectangle( tripoint{ 0, 0, abs_sub.z() },
+                                             tripoint{ SEEX * 2 - 2, SEEY * 2 - 2, abs_sub.z() } );
 
                     if( const auto p = random_point( range, predicate ) ) {
                         ter_set( *p, t_stair_type );
@@ -5977,8 +5978,9 @@ void map::draw_lab( mapgendata &dat )
                 }
                 // portal with an artifact effect.
                 case 5: {
+                    // Can't use tripoint_bub_ms because 'random_point' below only supports the untyped version.
                     tripoint_range<tripoint> options =
-                    points_in_rectangle( { 6, 6, abs_sub.z() },
+                    points_in_rectangle( tripoint{ 6, 6, abs_sub.z() },
                     { SEEX * 2 - 7, SEEY * 2 - 7, abs_sub.z() } );
                     std::optional<tripoint> center = random_point(
                     options, [&]( const tripoint & p ) {
@@ -6347,7 +6349,8 @@ void map::draw_lab( mapgendata &dat )
                     return ter( p ) == ter_t_thconc_floor && furn( p ) == furn_str_id::NULL_ID() &&
                            tr_at( p ).is_null();
                 };
-                const auto range = points_in_rectangle( { 0, 0, abs_sub.z() },
+                // Can't use tripoint_bub_ms because 'random_point' below only supports the untyped version.
+                const tripoint_range<tripoint> range = points_in_rectangle( tripoint{ 0, 0, abs_sub.z() },
                 { SEEX * 2 - 2, SEEY * 2 - 2, abs_sub.z() } );
                 if( const auto p = random_point( range, predicate ) ) {
                     ter_set( *p, t_stair_type );

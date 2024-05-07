@@ -6636,7 +6636,7 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
 
     // Print light level on the selected tile.
     std::pair<std::string, nc_color> ll = get_light_level( std::max( 1.0,
-                                          LIGHT_AMBIENT_LIT - m.ambient_light_at( lp ) + 1.0 ) );
+                                          LIGHT_AMBIENT_LIT - m.ambient_light_at( tripoint_bub_ms( lp ) ) + 1.0 ) );
     mvwprintz( w_look, point( column, ++line ), c_light_gray, _( "Lighting: " ) );
     mvwprintz( w_look, point( column + utf8_width( _( "Lighting: " ) ), line ), ll.second, ll.first );
 
@@ -10547,7 +10547,8 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
     }
 
     const int ramp_adjust = via_ramp ? u.posz() : dest_loc.z;
-    const float dest_light_level = get_map().ambient_light_at( tripoint( dest_loc.xy(), ramp_adjust ) );
+    const float dest_light_level = get_map().ambient_light_at( tripoint_bub_ms( point_bub_ms(
+                                       dest_loc.xy() ), ramp_adjust ) );
 
     // Allow players with nyctophobia to move freely through cloudy and dark tiles
     const float nyctophobia_threshold = LIGHT_AMBIENT_LIT - 3.0f;

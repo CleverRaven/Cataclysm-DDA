@@ -1245,6 +1245,21 @@ bool avatar::cant_see( const tripoint &p )
     return aim_cache[p.x][p.y];
 }
 
+bool avatar::cant_see( const tripoint_bub_ms &p )
+{
+
+    // calc based on recoil
+    if( !last_target_pos.has_value() ) {
+        return false;
+    }
+
+    if( aim_cache_dirty ) {
+        rebuild_aim_cache();
+    }
+
+    return aim_cache[p.x()][p.y()];
+}
+
 void avatar::rebuild_aim_cache()
 {
     double pi = 2 * acos( 0.0 );
