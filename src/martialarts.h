@@ -164,6 +164,8 @@ class ma_technique
         ma_technique();
 
         void load( const JsonObject &jo, const std::string &src );
+        static void verify_ma_techniques();
+        void check() const;
 
         matec_id id;
         std::vector<std::pair<matec_id, mod_id>> src;

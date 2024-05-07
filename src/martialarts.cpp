@@ -314,9 +314,21 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
         has_condition = true;
     }
 
-    mandatory( jo, was_loaded, "attack_vectors", attack_vectors );
+    optional( jo, was_loaded, "attack_vectors", attack_vectors );
     reqs.load( jo, src );
     bonuses.load( jo );
+}
+
+void ma_technique::verify_ma_techniques()
+{
+    ma_techniques.check();
+}
+
+void ma_technique::check() const
+{
+    if( attack_vectors.empty() && !dummy && !defensive && !grab_break && !miss_recovery ) {
+        debugmsg( "MA technique %s is missing an attack vector", id.c_str() );
+    }
 }
 
 // Not implemented on purpose (martialart objects have no integer id)
