@@ -1,5 +1,6 @@
 #include "cata_catch.h"
 #include "clzones.h"
+#include "map.h"
 #include "map_helpers.h"
 
 static const zone_type_id zone_type_LOOT_CUSTOM( "LOOT_CUSTOM" );
@@ -26,7 +27,7 @@ TEST_CASE( "zones_custom", "[zones]" )
         item nested_batt( "test_battery_disposable" );
         int const num = GENERATE( 1, 2 );
         for( int i = 0; i < num; i++ ) {
-            bag_plastic.put_in( nested_batt, item_pocket::pocket_type::CONTAINER );
+            bag_plastic.put_in( nested_batt, pocket_type::CONTAINER );
         }
         CAPTURE( num, bag_plastic.display_name() );
 

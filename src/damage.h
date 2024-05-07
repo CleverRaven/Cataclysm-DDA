@@ -2,26 +2,28 @@
 #ifndef CATA_SRC_DAMAGE_H
 #define CATA_SRC_DAMAGE_H
 
-#include <array>
-#include <iosfwd>
 #include <map>
 #include <set>
+#include <string>
+#include <string_view>
+#include <unordered_map>
+#include <utility>
 #include <vector>
 
 #include "calendar.h"
 #include "color.h"
 #include "flat_set.h"
+#include "translation.h"
 #include "type_id.h"
 #include "units.h"
 
+class Creature;
 class JsonArray;
 class JsonObject;
 class JsonOut;
 class JsonValue;
-class Creature;
 class item;
 class monster;
-template<typename T> struct enum_traits;
 
 struct damage_type {
     damage_type_id id;
@@ -200,9 +202,9 @@ struct dealt_damage_instance {
 };
 
 struct resistances {
-    std::map<damage_type_id, float> resist_vals;
+    std::unordered_map<damage_type_id, float> resist_vals;
 
-    resistances();
+    resistances() = default;
 
     // If to_self is true, we want armor's own resistance, not one it provides to wearer
     explicit resistances( const item &armor, bool to_self = false, int roll = 0,
@@ -214,7 +216,13 @@ struct resistances {
 
     float get_effective_resist( const damage_unit &du ) const;
 
-    resistances &operator+=( const resistances &other );
+    resistances &operator+=( const resistances &other ) {
+        for( const auto &dam : other.resist_vals ) {
+            resist_vals[dam.first] += dam.second;
+        }
+
+        return *this;
+    }
     bool operator==( const resistances &other );
     resistances operator*( float mod ) const;
     resistances operator/( float mod ) const;
@@ -227,14 +235,16 @@ damage_instance load_damage_instance_inherit( const JsonObject &jo, const damage
 damage_instance load_damage_instance_inherit( const JsonArray &jarr,
         const damage_instance &parent );
 
+resistances extend_resistances_instance( resistances ret, const JsonObject &jo );
 resistances load_resistances_instance( const JsonObject &jo,
                                        const std::set<std::string> &ignored_keys = {} );
 
 // Returns damage or resistance data
 // Handles some shorthands
-std::map<damage_type_id, float> load_damage_map( const JsonObject &jo,
+std::unordered_map<damage_type_id, float> load_damage_map( const JsonObject &jo,
         const std::set<std::string> &ignored_keys = {} );
-void finalize_damage_map( std::map<damage_type_id, float> &damage_map, bool force_derive = false,
+void finalize_damage_map( std::unordered_map<damage_type_id, float> &damage_map,
+                          bool force_derive = false,
                           float default_value = 0.0f );
 
 #endif // CATA_SRC_DAMAGE_H

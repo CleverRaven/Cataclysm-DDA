@@ -1,13 +1,50 @@
+#include <algorithm>
+#include <bitset>
+#include <climits>
+#include <functional>
+#include <iterator>
+#include <limits>
+#include <list>
+#include <map>
+#include <memory>
+#include <optional>
+#include <ostream>
+#include <set>
+#include <string>
+#include <utility>
+#include <vector>
+
 #include "activity_actor_definitions.h"
 #include "activity_handlers.h"
 #include "catacharset.h"
 #include "character.h"
+#include "character_attire.h"
+#include "debug.h"
+#include "enums.h"
 #include "flag.h"
 #include "inventory.h"
+#include "item.h"
+#include "item_contents.h"
+#include "item_location.h"
+#include "item_pocket.h"
+#include "itype.h"
+#include "iuse.h"
 #include "iuse_actor.h"
+#include "line.h"
 #include "map.h"
+#include "map_selector.h"
 #include "options.h"
+#include "pimpl.h"
+#include "pocket_type.h"
+#include "point.h"
+#include "ret_val.h"
+#include "string_formatter.h"
+#include "translations.h"
+#include "type_id.h"
+#include "ui.h"
+#include "units_fwd.h"
 #include "vehicle.h"
+#include "visitable.h"
 #include "vpart_position.h"
 
 void Character::handle_contents_changed( const std::vector<item_location> &containers )
@@ -417,16 +454,25 @@ bool Character::i_add_or_drop( item &it, int qty, const item *avoid,
     bool retval = true;
     bool drop = it.made_of( phase_id::LIQUID );
     bool add = it.is_gun() || !it.is_irremovable();
+    int added = 0;
     inv->assign_empty_invlet( it, *this );
     map &here = get_map();
+    drop |= !can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) || !can_pickVolume( it );
     for( int i = 0; i < qty; ++i ) {
-        drop |= !can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) || !can_pickVolume( it );
         if( drop ) {
+            // No need to loop now, we already knew that there isn't enough room for the item.
             retval &= !here.add_item_or_charges( pos(), it ).is_null();
+            added++;
+            break;
         } else if( add ) {
             i_add( it, true, avoid,
                    original_inventory_item, /*allow_drop=*/true, /*allow_wield=*/!has_wield_conflicts( it ) );
+            added++;
         }
+    }
+
+    for( int i = added; i < qty; ++i ) {
+        retval &= !here.add_item_or_charges( pos(), it ).is_null();
     }
 
     return retval;
@@ -445,7 +491,7 @@ bool Character::i_drop_at( item &it, int qty )
 
 static void recur_internal_locations( item_location parent, std::vector<item_location> &list )
 {
-    for( item *it : parent->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+    for( item *it : parent->all_items_top( pocket_type::CONTAINER ) ) {
         item_location child( parent, it );
         recur_internal_locations( child, list );
     }
@@ -654,7 +700,7 @@ void outfit::holster_opts( std::vector<dispose_option> &opts, item_location obj,
                 guy.item_store_cost( *obj, e, false, e.insert_cost( *obj ) ),
                 [&guy, &e, obj] {
                     item &it = *item_location( obj );
-                    guy.store( e, it, false, e.insert_cost( it ), item_pocket::pocket_type::CONTAINER, true );
+                    guy.store( e, it, false, e.insert_cost( it ), pocket_type::CONTAINER, true );
                     return !guy.has_item( it );
                 }
             } );
@@ -666,7 +712,7 @@ void outfit::holster_opts( std::vector<dispose_option> &opts, item_location obj,
                 }
                 opts.emplace_back( dispose_option{
                     string_format( "  >%s", it->tname() ), true, it->invlet,
-                    guy.item_store_cost( *obj, *it, false, it->insert_cost( *it ) ),
+                    guy.item_store_cost( *obj, *it, false, it->insert_cost( *obj ) ),
                     [&guy, it, con, obj] {
                         item &i = *item_location( obj );
                         guy.store( con, i, false, it->insert_cost( i ) );
@@ -708,7 +754,7 @@ bool Character::dispose_item( item_location &&obj, const std::string &prompt )
                 return false;
             }
 
-            moves -= item_handling_cost( *obj );
+            mod_moves( -item_handling_cost( *obj ) );
             this->i_add( *obj, true, &*obj, &*obj );
             obj.remove_item();
             return true;

@@ -10,7 +10,7 @@
     "description": "With the mechanically-minded Technomancer and the sheer power of lightning from a Stormshaper, the Artificer has a unique confluence of skills and spells to be perfect for invention.  While modern inventions and machines have won out in a modern society, after a Cataclysm one has a chance to go back to roots of things.  To make weird gadgets that are just as likely to explode as explode the thing you're pointing at.",
     "prereqs": [ "STORMSHAPER", "TECHNOMANCER" ],
     "spells_learned": [ [ "spy_wasp", 5 ], [ "artificer_toolkit", 5 ] ],
-    "crafting_speed_multiplier": 1.2,
+    "enchantments": [ { "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.2 } ] } ],
     "cancels": [
       "ALCHEMIST",
       "BIOTEK",
@@ -90,7 +90,7 @@
     "description": "The Biotek is quite simply the marriage of technology and flesh.  It was not even discovered as an attunement until recent times due to the great advancements in technology in the last 50 years.  The Biotek is unique as it is the only known attunement that warps the Aethereum in such a way as to allow cybernetics to coincide with magical abilities, to an extent.",
     "prereqs": [ "BIOMANCER", "TECHNOMANCER" ],
     "spells_learned": [ [ "nitro_boost", 5 ], [ "biotek_healing", 5 ] ],
-    "bionic_mana_penalty": 0.5,
+    "enchantments": [ { "values": [ { "value": "BIONIC_MANA_PENALTY", "multiply": -0.5 } ] } ],
     "bionic_slot_bonuses": { "torso": 20 },
     "cancels": [
       "ARTIFICER",
@@ -211,7 +211,7 @@
     "valid": false,
     "description": "The Cleansing Flame is the fire that burns away the chaff, in preparation for the regrowth of new life.",
     "enchantments": [ "CLEANSING_FLAME" ],
-    "spells_learned": [ [ "immolate", 5 ], [ "cleansingflame_hermes_heal", 5 ] ],
+    "spells_learned": [ [ "immolate", 5 ], [ "cleansingflame_hermes_heal", 5 ], [ "burning_trail", 5 ] ],
     "prereqs": [ "DRUID", "KELVINIST" ],
     "cancels": [
       "ARTIFICER",
@@ -253,8 +253,7 @@
     "description": "The Crusader attunement is a clashing dichotomy of Man and Nature.  Utilizing man's propensity for tools and nature's resilience, the Crusader is a juggernaut in armed combat.",
     "prereqs": [ "DRUID", "TECHNOMANCER" ],
     "spells_learned": [ [ "holy_shield", 5 ], [ "judgement_sword", 5 ] ],
-    "passive_mods": { "dex_mod": 5 },
-    "hp_modifier": 1,
+    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": 1 }, { "value": "DEXTERITY", "add": 5 } ] } ],
     "cancels": [
       "ARTIFICER",
       "ALCHEMIST",
@@ -571,8 +570,7 @@
     "valid": false,
     "description": "The Technomancer specializes in augmenting humans without actually modifying them; and the Overclocker takes the heat aptitude of a Kelvinist and puts that to work.  You are able to think significantly faster, and are able to align your ley lines for spellcasting faster as a result.",
     "prereqs": [ "KELVINIST", "TECHNOMANCER" ],
-    "passive_mods": { "int_mod": 5 },
-    "casting_time_multiplier": 0.75,
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 5 }, { "value": "CASTING_TIME_MULTIPLIER", "multiply": -0.25 } ] } ],
     "spells_learned": [ [ "overaccelerate", 5 ], [ "overclocker_drive", 5 ] ],
     "cancels": [
       "ARTIFICER",

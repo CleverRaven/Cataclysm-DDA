@@ -21,17 +21,17 @@
   {
     "id": "TALK_GODCO_Zachary",
     "type": "talk_topic",
-    "dynamic_line": "I got my rights to be here, chum.  Squatter's rights!",
+    "dynamic_line": { "gendered_line": "I got my rights to be here, chum.  Squatter's rights!", "relevant_genders": [ "u" ] },
     "responses": [
       {
         "text": "Don't worry, I'm not going to hurt you.",
-        "effect": { "npc_add_var": "u_met_godco_zachary", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "npc_has_var": "u_met_godco_zachary", "type": "general", "context": "meeting", "value": "yes" } },
+        "effect": { "npc_add_var": "general_meeting_u_met_godco_zachary", "value": "yes" },
+        "condition": { "not": { "npc_has_var": "general_meeting_u_met_godco_zachary", "value": "yes" } },
         "topic": "TALK_GODCO_Zachary_Intro"
       },
       {
         "text": "Hey, good to see you're still around.",
-        "condition": { "npc_has_var": "u_met_godco_zachary", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "npc_has_var": "general_meeting_u_met_godco_zachary", "value": "yes" },
         "topic": "TALK_GODCO_Zachary_Intro_2"
       },
       { "text": "…", "topic": "TALK_DONE" }
@@ -50,9 +50,7 @@
       "u_has_mission": "MISSION_GODCO_ZACHARY_KILL_NIGHTMARE",
       "yes": "I ain't leaving, <name_g>.  Not until you or someone else has checked out that nightmare for me.",
       "no": {
-        "u_has_var": "zachary_willing_to_follow",
-        "type": "mission",
-        "context": "meeting",
+        "u_has_var": "mission_meeting_zachary_willing_to_follow",
         "value": "yes",
         "yes": "Thanks, <name_g>.  I sure owe you one.",
         "no": "I ain't leaving, <name_g>.  Not until that eldritch screeching nightmare is dead 'n buried."
@@ -64,9 +62,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "MISSION_GODCO_ZACHARY_KILL_NIGHTMARE" } },
-            {
-              "not": { "u_has_var": "zachary_willing_to_follow", "type": "mission", "context": "meeting", "value": "yes" }
-            }
+            { "not": { "u_has_var": "mission_meeting_zachary_willing_to_follow", "value": "yes" } }
           ]
         },
         "topic": "TALK_GODCO_Zachary_Nightmare"
@@ -77,7 +73,10 @@
   {
     "id": "TALK_GODCO_Zachary_Story0",
     "type": "talk_topic",
-    "dynamic_line": "That ain't the point here, chum.  Don'tcha get it?  This was MY territory, but they took it away from me.  Now they think of us as nothin' but a <swear> nuisance.",
+    "dynamic_line": {
+      "gendered_line": "That ain't the point here, chum.  Don'tcha get it?  This was MY territory, but they took it away from me.  Now they think of us as nothin' but a <swear> nuisance.",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [
       { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_GODCO_Zachary_Background" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
@@ -123,7 +122,10 @@
   {
     "id": "TALK_GODCO_Zachary_Result_rewardIcon",
     "type": "talk_topic",
-    "dynamic_line": "Ha ha ha!  Think before you speak, chum.  Eight icons for an honest day's work, I say the system's broken!",
+    "dynamic_line": {
+      "gendered_line": "Ha ha ha!  Think before you speak, chum.  Eight icons for an honest day's work, I say the system's broken!",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [
       { "text": "Sorry to hear that.  What were you saying before?", "topic": "TALK_NONE" },
       { "text": "No rest for the weary…", "topic": "TALK_DONE" }
@@ -132,7 +134,10 @@
   {
     "id": "TALK_GODCO_Zachary_Nightmare",
     "type": "talk_topic",
-    "dynamic_line": "Ain't you heard it?  It's been screeching out in the forest during the night for a while now, keeps me up sometimes.  I'm too scared to go out and see what that thing is.  If you'd kill it, I'd be in your debt forever.",
+    "dynamic_line": {
+      "gendered_line": "Ain't you heard it?  It's been screeching out in the forest during the night for a while now, keeps me up sometimes.  I'm too scared to go out and see what that thing is.  If you'd kill it, I'd be in your debt forever.",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [
       {
         "text": "I'll see what I can do.",
@@ -146,22 +151,23 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Zachary_Follow",
     "dynamic_line": {
-      "u_has_var": "zachary_willing_to_follow",
-      "type": "mission",
-      "context": "meeting",
+      "u_has_var": "mission_meeting_zachary_willing_to_follow",
       "value": "yes",
-      "yes": "After what you did for me, I'll follow you to the ends of the Earth!  No one around here's stood up for me like that, I owe ya one.",
+      "yes": {
+        "gendered_line": "After what you did for me, I'll follow you to the ends of the Earth!  No one around here's stood up for me like that, I owe ya one.",
+        "relevant_genders": [ "u" ]
+      },
       "no": "No chance!  Its not you, its the world out there I'm worried about.  All those <swear> monsters really give me the creeps, and as far as I know this church is the last bastion of humanity in the <the_cataclysm>."
     },
     "responses": [
       {
         "text": "That's understandable.",
-        "condition": { "not": { "u_has_var": "zachary_willing_to_follow", "type": "mission", "context": "meeting", "value": "yes" } },
+        "condition": { "not": { "u_has_var": "mission_meeting_zachary_willing_to_follow", "value": "yes" } },
         "topic": "TALK_GODCO_Zachary_Intro_2"
       },
       {
         "text": "Let's hit the road.",
-        "condition": { "u_has_var": "zachary_willing_to_follow", "type": "mission", "context": "meeting", "value": "yes" },
+        "condition": { "u_has_var": "mission_meeting_zachary_willing_to_follow", "value": "yes" },
         "effect": "follow",
         "topic": "TALK_DONE"
       }

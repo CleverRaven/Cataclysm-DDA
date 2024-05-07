@@ -85,15 +85,12 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            {
-              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
-            }
+            { "not": { "npc_has_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" } }
           ]
         },
         "topic": "TALK_REFUGEE_Refuse_Boris_Mission_1"
       },
       { "text": "What's your story?", "topic": "TALK_REFUGEE_Mandeep_Background" },
-      { "text": "What's your story?", "topic": "TALK_REFUGEE_Mandeep_World" },
       { "text": "How are things here?", "topic": "TALK_REFUGEE_Mandeep_Situation" }
     ]
   },
@@ -109,7 +106,7 @@
     },
     "speaker_effect": {
       "effect": [
-        { "u_add_var": "u_met_Mandeep_Singh", "type": "general", "context": "meeting", "value": "yes" },
+        { "u_add_var": "general_meeting_u_met_Mandeep_Singh", "value": "yes" },
         { "npc_first_topic": "TALK_REFUGEE_Mandeep_1a" }
       ]
     },
@@ -209,11 +206,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Mandeep_Situation",
     "dynamic_line": {
-      "u_compare_var": "refugee_happiness",
-      "type": "counter",
-      "context": "refugee_center",
-      "op": ">=",
-      "value": 5,
+      "math": [ "u_counter_refugee_center_refugee_happiness", ">=", "5" ],
       "yes": "The situation is tense, but it seems like things are slowly improving.  This place isn't home, but we're starting to become a community.  Perhaps, in time, I will call some of these people friends.  At least we don't feel like outsiders so much anymore.",
       "no": "It is hard for me to say.  No one is happy here.  I sense that some are frustrated that my family and I have escaped the end of the world apparently unscathed.  That, and perhaps some other things, have made it hard for us to make close friends here."
     },

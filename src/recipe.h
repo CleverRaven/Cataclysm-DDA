@@ -86,6 +86,7 @@ struct practice_recipe_data {
 class recipe
 {
         friend class recipe_dictionary;
+        friend struct mod_tracker;
 
     private:
         itype_id result_ = itype_id::NULL_ID();
@@ -100,7 +101,7 @@ class recipe
         recipe();
 
         bool is_null() const {
-            return ident_.is_null();
+            return id.is_null();
         }
 
         explicit operator bool() const {
@@ -152,7 +153,7 @@ class recipe
         }
 
         const recipe_id &ident() const {
-            return ident_;
+            return id;
         }
 
         bool is_blacklisted() const {
@@ -306,7 +307,8 @@ class recipe
         void incorporate_build_reqs();
         void add_requirements( const std::vector<std::pair<requirement_id, int>> &reqs );
 
-        recipe_id ident_ = recipe_id::NULL_ID();
+        recipe_id id = recipe_id::NULL_ID();
+        std::vector<std::pair<recipe_id, mod_id>> src;
 
         /** Abstract recipes can be inherited from but are themselves disposed of at finalization */
         bool abstract = false;
@@ -320,14 +322,17 @@ class recipe
         /** Does the container spawn sealed? */
         bool sealed = true;
 
+        /** What does the item spawn contained in? Unset ("null") means default container. */
+        itype_id container = itype_id::NULL_ID();
+
+        /** What variant of the above container should be used? Unset ("") means a randomly chosen variant if it has variants. */
+        std::string container_variant;
+
         /** Can recipe be used for disassembly of @ref result via @ref disassembly_requirements */
         bool reversible = false;
 
         /** Time (in moves) to disassemble if different to assembly. Requires `reversible = true` */
         int64_t uncraft_time = 0;
-
-        /** What does the item spawn contained in? Unset ("null") means default container. */
-        itype_id container = itype_id::NULL_ID();
 
         /** External requirements (via "using" syntax) where second field is multiplier */
         std::vector<std::pair<requirement_id, int>> reqs_external;

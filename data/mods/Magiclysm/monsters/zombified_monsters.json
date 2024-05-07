@@ -2,7 +2,7 @@
   {
     "id": "mon_were_zolf",
     "type": "MONSTER",
-    "name": { "str": "rotting wolf man" },
+    "name": { "str": "rotting wolf man", "str_pl": "rotting wolf men" },
     "description": "The classic half man half wolf of the movies, but with a new twist: UNDEATH!  This monster lopes along alternating between two and four legged gaits.  It's jet black eyes seething with insatiable hunger.  Now you will know why you fear the night.",
     "default_faction": "zombie",
     "bodytype": "dog",
@@ -33,7 +33,7 @@
   {
     "id": "mon_zorc",
     "type": "MONSTER",
-    "name": { "str": "Zorc" },
+    "name": { "str": "zorc" },
     "description": "This unholy beast looks at you with a piercing stare so strong it might scare your soul away.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -61,7 +61,7 @@
   {
     "type": "MONSTER",
     "id": "mon_owlbear_zombie",
-    "name": "Zowlbear",
+    "name": "zowlbear",
     "description": "This horrible mutant monster has been zombified.  Though it looks weaker than its living counterpart, you feel much more hostility from its black oily eyes.",
     "default_faction": "zombie",
     "bodytype": "bear",
@@ -108,7 +108,7 @@
     "type": "MONSTER",
     "id": "mon_owlbear_zombie_brute",
     "copy-from": "mon_owlbear_zombie",
-    "name": "Zowlbear Predator",
+    "name": "zowlbear predator",
     "description": "A once zombified owlbear, now faster and much bigger in size.  Its thick skin protects the monster from harm, a sharp beak capable of rending through metal and a fury in its eyes warns you to stay away.",
     "upgrades": false,
     "path_settings": { "max_dist": 0 },
@@ -131,7 +131,7 @@
     "type": "MONSTER",
     "id": "mon_troll_zombie",
     "copy-from": "mon_troll",
-    "name": "Undying",
+    "name": { "str_sp": "undying" },
     "description": "An enormous humanoid monster with a yellowish-green skin.  Trolls are renowned for their thick hides and natural regenerative ability.  After death, its pus filled body seems to have much grown stronger, it looks at you ferociously with hunger in its eyes.",
     "default_faction": "zombie",
     "harvest": "zombie",
@@ -144,17 +144,17 @@
       "melee_damage": -2,
       "vision_day": -13,
       "vision_night": 3,
-      "regenerates": 3,
-      "armor": { "bash": 2, "cut": 2, "bullet": 1 }
+      "armor": { "bash": 2, "cut": 2, "bullet": 1, "fire": -15, "acid": -15 }
     },
+    "regenerates": 15,
     "proportional": { "volume": 1.05, "weight": 1.07 },
     "extend": { "species": [ "ZOMBIE" ], "flags": [ "BASHES", "POISON", "NO_BREATHE", "REVIVES" ] },
-    "delete": { "flags": [ "PATH_AVOID_DANGER_1" ] }
+    "delete": { "flags": [ "PATH_AVOID_DANGER_1", "PATH_AVOID_FIRE" ] }
   },
   {
     "type": "MONSTER",
     "id": "mon_yulecat_zombie",
-    "name": "Zombified Yule Cat",
+    "name": "zombified Yule cat",
     "description": "A magical beast from Icelandic folklore, known for their catlike appearance and their hobby of eating Workshop Elves.  It creepily stumbles on its 4 legs with its squirming uneven body after meeting demise and being reborn just to eat you.",
     "looks_like": "mon_yulecat",
     "default_faction": "zombie",
@@ -188,8 +188,8 @@
     "type": "MONSTER",
     "id": "mon_yulecat_zombie_brute",
     "copy-from": "mon_yulecat_zombie",
-    "name": "Tod Cat",
-    "description": "Once used to its decomposed body, this nightmarish cat with thick teeth and razorshap claws seems to be looking around for things to \"play\" with.  Though its head is of a feline, it grins at you sadistically with a glint in its cold demonic eyes.",
+    "name": "Tod cat",
+    "description": "Once used to its decomposed body, this nightmarish cat with thick teeth and razor-sharp claws seems to be looking around for things to \"play\" with.  Though its head is of a feline, it grins at you sadistically with a glint in its cold demonic eyes.",
     "path_settings": { "max_dist": 17 },
     "relative": {
       "hp": 65,
@@ -207,58 +207,22 @@
     "extend": { "flags": [ "PATH_AVOID_DANGER_1" ], "special_attacks": [ { "type": "leap", "cooldown": 7, "max_range": 2 } ] }
   },
   {
-    "id": "mon_feral_human_magician",
-    "type": "MONSTER",
-    "name": { "str": "feral wizard" },
-    "description": "Stumbling about with strange ravings and odd motions, this crazed individual walks among the dead as one of their own.  Occasional flashes and sparks erupt from their twisted and grimy fingers as they perform arcane motions.",
-    "default_faction": "zombie",
-    "looks_like": "chud",
-    "bodytype": "human",
-    "species": [ "HUMAN" ],
-    "volume": "62500 ml",
-    "weight": "81500 g",
-    "hp": 80,
-    "speed": 100,
-    "material": [ "flesh" ],
-    "symbol": "@",
-    "color": "magenta",
-    "aggression": 30,
-    "morale": 100,
-    "melee_skill": 2,
-    "melee_dice": 1,
-    "melee_dice_sides": 3,
-    "weakpoint_sets": [ "wps_humanoid_body" ],
-    "families": [ "prof_intro_biology", "prof_physiology" ],
-    "dodge": 1,
-    "harvest": "human",
-    "dissect": "dissect_human_sample_single",
-    "vision_day": 30,
-    "vision_night": 3,
-    "path_settings": { "max_dist": 30, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
-    "special_attacks": [ { "type": "spell", "spell_data": { "id": "spell_feral_wizard_base" }, "cooldown": 10 } ],
-    "death_drops": {
-      "subtype": "distribution",
-      "items": [
-        { "group": "enchanted_small_items", "prob": 5 },
-        { "group": "feral_humans_death_drops_pipe", "prob": 100 },
-        { "group": "enchanted_wands_lesser", "prob": 3 }
-      ]
-    },
-    "upgrades": { "half_life": 90, "into_group": "GROUP_ZOMBIE_UPGRADE" },
-    "zombify_into": "mon_zombie",
-    "fungalize_into": "mon_feral_human_pipe_fungal_infected",
-    "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1" ]
-  },
-  {
     "id": "mon_feral_human_magician_fungal_corpse",
     "type": "MONSTER",
     "description": "Delicate fungal stalks sprout in rows from sores covering this person's body, and their facial expression is pure agony.",
     "copy-from": "mon_feral_human_magician",
     "default_faction": "fungus",
-    "upgrades": { "half_life": 14, "into_group": "GROUP_NULL", "into": "mon_fungaloid" },
+    "upgrades": { "half_life": 14, "into": "mon_fungaloid" },
     "special_attacks": [ [ "FUNGUS", 40 ] ],
     "death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
     "extend": { "flags": [ "NO_FUNG_DMG", "IMMOBILE" ] }
+  },
+  {
+    "id": "mon_wolf_feral_druid",
+    "copy-from": "mon_wolf",
+    "//": "Not technically a zombie, but allied with them as a feral druid summon.",
+    "type": "MONSTER",
+    "name": { "str": "wolf" },
+    "default_faction": "zombie"
   }
 ]

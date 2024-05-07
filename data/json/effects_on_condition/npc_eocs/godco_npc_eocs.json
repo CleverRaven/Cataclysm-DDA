@@ -35,8 +35,8 @@
         }
       ]
     },
-    "deactivate_condition": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" },
-    "effect": [ { "u_add_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } ]
+    "deactivate_condition": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" },
+    "effect": [ { "u_add_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } ]
   },
   {
     "type": "effect_on_condition",
@@ -45,15 +45,15 @@
     "global": true,
     "condition": {
       "and": [
-        { "u_has_var": "theresa_going_away", "type": "general", "context": "completed", "value": "yes" },
+        { "u_has_var": "general_completed_theresa_going_away", "value": "yes" },
         { "u_near_om_location": "godco_3", "range": 12 }
       ]
     },
-    "deactivate_condition": { "u_has_var": "theresa_gone", "type": "general", "context": "completed", "value": "yes" },
+    "deactivate_condition": { "u_has_var": "general_completed_theresa_gone", "value": "yes" },
     "effect": [
       { "mapgen_update": "theresa_remove", "om_terrain": "godco_3" },
-      { "u_lose_var": "theresa_going_away", "type": "general", "context": "completed" },
-      { "u_add_var": "theresa_gone", "type": "general", "context": "completed", "value": "yes" }
+      { "u_lose_var": "general_completed_theresa_going_away" },
+      { "u_add_var": "general_completed_theresa_gone", "value": "yes" }
     ]
   },
   {
@@ -64,7 +64,7 @@
     "condition": {
       "and": [
         { "math": [ "godco_met_merchants", "==", "0" ] },
-        { "days_since_cataclysm": 7 },
+        { "math": [ "time_since('cataclysm', 'unit':'days') >= 7" ] },
         { "u_near_om_location": "godco_enter", "range": 2 },
         { "not": { "u_near_om_location": "godco_enter", "range": 1 } }
       ]
@@ -99,7 +99,7 @@
     "eoc_type": "NPC_DEATH",
     "effect": [
       { "math": [ "godco_freemerch_representative_dead", "=", "0" ] },
-      { "u_lose_var": "u_think_suspicious_price", "type": "general", "context": "trade" },
+      { "u_lose_var": "general_trade_u_think_suspicious_price" },
       { "finish_mission": "MISSION_INVESTIGATE_TRADER", "success": false }
     ]
   },
@@ -109,13 +109,13 @@
     "condition": {
       "and": [
         { "math": [ "godco_has_canningpots", "==", "1" ] },
-        { "not": { "npc_has_var": "got_mission", "type": "dialogue", "context": "missions", "value": "yes" } }
+        { "not": { "npc_has_var": "dialogue_missions_got_mission", "value": "yes" } }
       ]
     },
-    "deactivate_condition": { "npc_has_var": "got_mission", "type": "dialogue", "context": "missions", "value": "yes" },
+    "deactivate_condition": { "npc_has_var": "dialogue_missions_got_mission", "value": "yes" },
     "effect": [
       { "offer_mission": "MISSION_GODCO_FOOD_GUARD_CANNING_STARTUP" },
-      { "npc_add_var": "got_mission", "type": "dialogue", "context": "missions", "value": "yes" }
+      { "npc_add_var": "dialogue_missions_got_mission", "value": "yes" }
     ]
   }
 ]

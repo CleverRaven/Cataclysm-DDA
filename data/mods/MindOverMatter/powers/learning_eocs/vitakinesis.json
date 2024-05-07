@@ -1,0 +1,501 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_LEARNING_STOP_BLEEDING",
+    "recurrence": [ "12 hours", "24 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "VITAKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [ { "x_in_y_chance": { "x": 1, "y": 20 } }, { "math": [ "u_spell_level('vita_slow_bleeding')", ">=", "5" ] } ]
+        },
+        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
+        { "math": [ "u_spell_level('vita_stop_bleeding')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_vita_stop_bleeding" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [ { "not": { "u_has_trait": "VITAKINETIC" } }, { "math": [ "u_spell_level('vita_stop_bleeding')", ">=", "1" ] } ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_vita_stop_bleeding" },
+      {
+        "u_message": "Use of your powers has led to an insight.  Rather than merely slowing your bleeding, you could stop it, and clean the wound to encourage healing too, if you can figure out the proper technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_LEARNING_HEALING_TOUCH",
+    "recurrence": [ "12 hours", "24 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "VITAKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [ { "x_in_y_chance": { "x": 1, "y": 20 } }, { "math": [ "u_spell_level('vita_health_power')", ">=", "6" ] } ]
+        },
+        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
+        { "math": [ "u_spell_level('vita_health_power_ally')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_vita_healing_touch" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [ { "not": { "u_has_trait": "VITAKINETIC" } }, { "math": [ "u_spell_level('vita_health_power_ally')", ">=", "1" ] } ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_vita_healing_touch" },
+      {
+        "u_message": "Use of your powers has led to an insight.  The same way you encourage your own healing and good health, you could use physical contact to provide that same bonus to an ally, if you can figure out the proper technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_LEARNING_HURT_TOUCH",
+    "recurrence": [ "12 hours", "24 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "VITAKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [
+            { "x_in_y_chance": { "x": 1, "y": 20 } },
+            {
+              "and": [
+                { "math": [ "u_spell_level('vita_health_power_ally')", ">=", "5" ] },
+                { "math": [ "u_spell_level('vita_slow_bleeding')", ">=", "5" ] }
+              ]
+            }
+          ]
+        },
+        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
+        { "math": [ "u_spell_level('vita_hurt_touch')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_vita_hurt_touch" } }
+      ]
+    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "VITAKINETIC" } }, { "math": [ "u_spell_level('vita_hurt_touch')", ">=", "1" ] } ] },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_vita_hurt_touch" },
+      {
+        "u_message": "Use of your powers has led to an insight.  Rather than speeding healing, you could slow it, causing damage and especially reducing the preternatural healing of some of the post-Cataclysm creatures out there, if you can figure out the proper technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_LEARNING_REMOVE_POISON",
+    "recurrence": [ "12 hours", "24 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "VITAKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [
+            { "x_in_y_chance": { "x": 1, "y": 20 } },
+            {
+              "and": [
+                { "math": [ "u_spell_level('vita_health_power')", ">=", "8" ] },
+                {
+                  "or": [
+                    { "math": [ "u_spell_level('vita_slow_bleeding')", ">=", "7" ] },
+                    { "math": [ "u_spell_level('vita_stop_bleeding')", ">=", "3" ] }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
+        { "math": [ "u_spell_level('vita_remove_poison')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_vita_remove_poison" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [ { "not": { "u_has_trait": "VITAKINETIC" } }, { "math": [ "u_spell_level('vita_remove_poison')", ">=", "1" ] } ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_vita_remove_poison" },
+      {
+        "u_message": "Use of your powers has led to an insight.  You could remove poison from your body, carrying it your skin and sweating it out, if you can figure out the proper technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_LEARNING_CURE_DISEASE",
+    "recurrence": [ "36 hours", "72 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "VITAKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [ { "x_in_y_chance": { "x": 1, "y": 40 } }, { "math": [ "u_spell_level('vita_remove_poison')", ">=", "5" ] } ]
+        },
+        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
+        { "math": [ "u_spell_level('vita_cure_disease')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_vita_cure_disease" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [ { "not": { "u_has_trait": "VITAKINETIC" } }, { "math": [ "u_spell_level('vita_cure_disease')", ">=", "1" ] } ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_vita_cure_disease" },
+      {
+        "u_message": "Use of your powers has led to an insight.  Instead of carrying poison to your skin, you could carry antibodies and white blood cells to diseased parts of your body, speeding your recovery time, if you can figure out the proper technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_LEARNING_SLEEPING_TRANCE",
+    "recurrence": [ "36 hours", "72 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "VITAKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [
+            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            {
+              "and": [
+                { "math": [ "u_spell_level('vita_health_power')", ">=", "8" ] },
+                { "math": [ "u_spell_level('vita_cure_disease')", ">=", "4" ] }
+              ]
+            }
+          ]
+        },
+        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
+        { "math": [ "u_spell_level('vita_sleeping_trance')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_vita_sleeping_trance" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [ { "not": { "u_has_trait": "VITAKINETIC" } }, { "math": [ "u_spell_level('vita_sleeping_trance')", ">=", "1" ] } ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_vita_sleeping_trance" },
+      {
+        "u_message": "Use of your powers has led to an insight.  You could enter a trance, allowing your mind and body to restore themselves more efficiently than natural sleep, if you can figure out the proper technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_LEARNING_PAIN_SPLIT",
+    "recurrence": [ "36 hours", "72 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "VITAKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [
+            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            {
+              "and": [
+                {
+                  "or": [
+                    { "math": [ "u_spell_level('vita_remove_poison')", ">=", "5" ] },
+                    { "math": [ "u_spell_level('vita_cure_disease')", ">=", "5" ] }
+                  ]
+                },
+                {
+                  "or": [
+                    { "math": [ "u_spell_level('vita_health_power')", ">=", "10" ] },
+                    { "math": [ "u_spell_level('vita_slow_bleeding')", ">=", "8" ] }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
+        { "math": [ "u_spell_level('vita_pain_split')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_vita_pain_split" } }
+      ]
+    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "VITAKINETIC" } }, { "math": [ "u_spell_level('vita_pain_split')", ">=", "1" ] } ] },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_vita_pain_split" },
+      {
+        "u_message": "Use of your powers has led to an insight.  You could reroute stem cells and blood flow to injured parts, speeding their healing at the expense of your uninjured areas, if you can figure out the proper technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_LEARNING_STOP_INFECTION",
+    "recurrence": [ "36 hours", "72 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "VITAKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [ { "x_in_y_chance": { "x": 1, "y": 40 } }, { "math": [ "u_spell_level('vita_cure_disease')", ">=", "7" ] } ]
+        },
+        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
+        { "math": [ "u_spell_level('vita_stop_infection')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_vita_stop_infection" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [ { "not": { "u_has_trait": "VITAKINETIC" } }, { "math": [ "u_spell_level('vita_stop_infection')", ">=", "1" ] } ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_vita_stop_infection" },
+      {
+        "u_message": "Use of your powers has led to an insight.  You could clean your wounds with an act of will, preventing infection or curing one before it leads to life-threatening problems, if you can figure out the proper technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_LEARNING_HEALING_TRANCE",
+    "recurrence": [ "36 hours", "72 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "VITAKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [
+            { "x_in_y_chance": { "x": 1, "y": 40 } },
+            {
+              "and": [
+                { "math": [ "u_spell_level('vita_stop_infection')", ">=", "5" ] },
+                { "math": [ "u_spell_level('vita_pain_split')", ">=", "6" ] }
+              ]
+            }
+          ]
+        },
+        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
+        { "math": [ "u_spell_level('vita_healing_trance')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_vita_healing_trance" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [ { "not": { "u_has_trait": "VITAKINETIC" } }, { "math": [ "u_spell_level('vita_healing_trance')", ">=", "1" ] } ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_vita_healing_trance" },
+      {
+        "u_message": "Use of your powers has led to an insight.  You could sink into a trance, focusing all of your energy on healing and speed your recovery hundreds of times, if you can figure out the proper technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_LEARNING_ATTACK_TOUCH",
+    "recurrence": [ "36 hours", "72 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "VITAKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [ { "x_in_y_chance": { "x": 1, "y": 40 } }, { "math": [ "u_spell_level('vita_hurt_touch')", ">=", "8" ] } ]
+        },
+        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
+        { "math": [ "u_spell_level('vita_attack_touch')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_vita_attack_touch" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [ { "not": { "u_has_trait": "VITAKINETIC" } }, { "math": [ "u_spell_level('vita_attack_touch')", ">=", "1" ] } ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_vita_attack_touch" },
+      {
+        "u_message": "Use of your powers has led to an insight.  Rather than merely slowing your enemies' healing, you could directly damage their cells, if you can figure out the proper technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_LEARNING_BLOOD_PURGE",
+    "recurrence": [ "96 hours", "168 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "VITAKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [
+            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            {
+              "and": [
+                { "math": [ "u_spell_level('vita_healing_trance')", ">=", "6" ] },
+                {
+                  "or": [
+                    { "math": [ "u_spell_level('vita_remove_poison')", ">=", "8" ] },
+                    { "math": [ "u_spell_level('vita_stop_infection')", ">=", "8" ] }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
+        { "math": [ "u_spell_level('vita_blood_purge')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_vita_blood_purge" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [ { "not": { "u_has_trait": "VITAKINETIC" } }, { "math": [ "u_spell_level('vita_blood_purge')", ">=", "1" ] } ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_vita_blood_purge" },
+      {
+        "u_message": "Use of your powers has led to an insight.  You could perform a full sweep of your bloodstream, purging all foreign contaminants, if you can figure out the proper technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_LEARNING_BANISH_ILLNESS",
+    "recurrence": [ "96 hours", "168 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "VITAKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [
+            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            {
+              "and": [
+                { "math": [ "u_spell_level('vita_stop_infection')", ">=", "12" ] },
+                {
+                  "or": [
+                    { "math": [ "u_spell_level('vita_pain_split')", ">=", "8" ] },
+                    { "math": [ "u_spell_level('vita_cure_disease')", ">=", "12" ] }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
+        { "math": [ "u_spell_level('vita_banish_illness')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_vita_banish_illness" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [ { "not": { "u_has_trait": "VITAKINETIC" } }, { "math": [ "u_spell_level('vita_banish_illness')", ">=", "1" ] } ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_vita_banish_illness" },
+      {
+        "u_message": "Use of your powers has led to an insight.  You could cure diseases directly, even long-term or chronic conditions, if you can figure out the proper technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_LEARNING_SUPER_HEAL",
+    "recurrence": [ "96 hours", "168 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "VITAKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [
+            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            {
+              "and": [
+                {
+                  "or": [
+                    { "math": [ "u_spell_level('vita_health_power')", ">=", "14" ] },
+                    { "math": [ "u_spell_level('vita_healing_trance')", ">=", "9" ] }
+                  ]
+                },
+                {
+                  "or": [
+                    { "math": [ "u_spell_level('vita_pain_split')", ">=", "10" ] },
+                    { "math": [ "u_spell_level('vita_remove_poison')", ">=", "7" ] },
+                    { "math": [ "u_spell_level('vita_blood_purge')", ">=", "5" ] }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
+        { "math": [ "u_spell_level('vita_super_heal')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_vita_super_heal" } }
+      ]
+    },
+    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "VITAKINETIC" } }, { "math": [ "u_spell_level('vita_super_heal')", ">=", "1" ] } ] },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_vita_super_heal" },
+      {
+        "u_message": "Use of your powers has led to an insight.  You could speed your healing rate thousands of times, closing wounds in minutes, albeit at a great physical cost to your body, if you can figure out the proper technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_LEARNING_RETURN_FROM_DEATH",
+    "recurrence": [ "96 hours", "168 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "VITAKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        {
+          "or": [
+            { "x_in_y_chance": { "x": 1, "y": 80 } },
+            {
+              "or": [
+                { "math": [ "u_spell_level('vita_super_heal')", ">=", "6" ] },
+                {
+                  "and": [
+                    { "math": [ "u_spell_level('vita_banish_illness')", ">=", "8" ] },
+                    { "math": [ "u_spell_level('vita_healing_trance')", ">=", "6" ] }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
+        { "math": [ "u_spell_level('vita_return_from_death')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_vita_return_from_death" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [ { "not": { "u_has_trait": "VITAKINETIC" } }, { "math": [ "u_spell_level('vita_return_from_death')", ">=", "1" ] } ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_vita_return_from_death" },
+      {
+        "u_message": "Use of your powers has led to an insight.  You could prepare for grievous or potentially-fatal injury, kicking your healing into overdrive and preventing yourself from dying, if you can figure out the proper technique.",
+        "popup": true
+      }
+    ]
+  }
+]

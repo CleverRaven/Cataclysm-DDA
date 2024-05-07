@@ -16,5 +16,12 @@
     "name": "EMP_DISABLE_ELECTRONICS",
     "stype": "bool",
     "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "CAPITALISM",
+    "info": "NPCs will accept your bank balance as payment in trades.",
+    "stype": "bool",
+    "value": true
   }
 ]

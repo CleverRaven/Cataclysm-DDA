@@ -3,7 +3,6 @@
     "method": "json",
     "om_terrain": "dinozoo_0_0",
     "type": "mapgen",
-    "weight": 100,
     "object": {
       "rows": [
         "___......______......___",
@@ -47,7 +46,7 @@
     "method": "json",
     "om_terrain": "dinozoo_0_1",
     "type": "mapgen",
-    "weight": 100,
+    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -134,7 +133,7 @@
     "om_terrain": "dinozoo_0_1",
     "//": "variant of dinozoo_0_1 with broken open bear cage",
     "type": "mapgen",
-    "weight": 100,
+    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -221,7 +220,6 @@
     "method": "json",
     "om_terrain": "dinozoo_0_2",
     "type": "mapgen",
-    "weight": 100,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -308,7 +306,6 @@
     "method": "json",
     "om_terrain": "dinozoo_1_0",
     "type": "mapgen",
-    "weight": 100,
     "object": {
       "rows": [
         "___......______......___",
@@ -352,7 +349,7 @@
     "method": "json",
     "om_terrain": "dinozoo_1_1",
     "type": "mapgen",
-    "weight": 100,
+    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -457,7 +454,7 @@
     "om_terrain": "dinozoo_1_1",
     "//": "variant of dinozoo_1_1 with broken open moose cage",
     "type": "mapgen",
-    "weight": 100,
+    "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -565,7 +562,6 @@
     "method": "json",
     "om_terrain": "dinozoo_1_2",
     "type": "mapgen",
-    "weight": 100,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -649,7 +645,6 @@
     "method": "json",
     "om_terrain": "dinozoo_2_0",
     "type": "mapgen",
-    "weight": 100,
     "object": {
       "fill_ter": "t_grass",
       "rows": [
@@ -693,7 +688,6 @@
     "method": "json",
     "om_terrain": "dinozoo_2_1",
     "type": "mapgen",
-    "weight": 100,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -791,7 +785,6 @@
     "method": "json",
     "om_terrain": "dinozoo_2_2",
     "type": "mapgen",
-    "weight": 100,
     "object": {
       "fill_ter": "t_floor",
       "rows": [

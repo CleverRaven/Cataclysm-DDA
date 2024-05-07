@@ -4,7 +4,6 @@
 <color_white>访问官网：</color>
 
 <color_light_gray>* 主页：</color><color_cyan>https://cataclysmdda.org</color>
-<color_light_gray>* 维基：</color><color_cyan>https://cddawiki.chezzo.com/cdda_wiki</color>
 
 <color_white>报告BUG，提交建议及跟进开发进度：</color>
 
@@ -16,7 +15,6 @@
 <color_light_gray>* 论坛            ：</color><color_cyan>https://discourse.cataclysmdda.org/</color>
 <color_light_gray>* 讨论组          ：</color><color_cyan>https://discord.gg/jFEc7Yp</color>
 <color_light_gray>* IRC             ：</color><color_cyan>#CataclysmDDA at libera.chat</color>
-<color_light_gray>* Lemmy (Fediverse):         </color><color_cyan>https://cdda.social/</color>
 
 <color_light_gray>官网主页上还提供了其他有用的链接。</color>
 

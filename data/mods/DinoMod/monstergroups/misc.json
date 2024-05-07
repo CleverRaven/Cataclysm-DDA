@@ -153,6 +153,7 @@
       { "monster": "mon_gallimimus", "weight": 5 },
       { "monster": "mon_struthiomimus", "weight": 5 },
       { "monster": "mon_ornithomimus", "weight": 5 },
+      { "monster": "mon_falcarius", "weight": 5 },
       { "monster": "mon_pachycephalosaurus", "weight": 3 },
       { "monster": "mon_tenontosaurus", "weight": 10 },
       { "monster": "mon_dryosaurus", "weight": 10 },

@@ -7,6 +7,7 @@
 #include <utility>
 #include <vector>
 
+#include "coordinates.h"
 #include "units_fwd.h"
 
 class Character;
@@ -15,7 +16,6 @@ class JsonObject;
 class item;
 class monster;
 class translation;
-struct tripoint;
 template <typename E> struct enum_traits;
 
 namespace sounds
@@ -23,6 +23,7 @@ namespace sounds
 enum class sound_t : int {
     background = 0,
     weather,
+    sensory, // Sonar etc. Ensures this sound will usually get a visual marker so the player can see it.
     music,
     movement,
     speech,
@@ -52,10 +53,18 @@ enum class sound_t : int {
  * @param variant Variant of sound effect given in id
  * @returns true if the player could hear the sound.
  */
+// TODO: Get rid of untyped overload.
 void sound( const tripoint &p, int vol, sound_t category, const std::string &description,
             bool ambient = false, const std::string &id = "",
             const std::string &variant = "default" );
+void sound( const tripoint_bub_ms &p, int vol, sound_t category, const std::string &description,
+            bool ambient = false, const std::string &id = "",
+            const std::string &variant = "default" );
+// TODO: Get rid of untyped overload.
 void sound( const tripoint &p, int vol, sound_t category, const translation &description,
+            bool ambient = false, const std::string &id = "",
+            const std::string &variant = "default" );
+void sound( const tripoint_bub_ms &p, int vol, sound_t category, const translation &description,
             bool ambient = false, const std::string &id = "",
             const std::string &variant = "default" );
 /** Functions identical to sound(..., true). */
@@ -132,7 +141,7 @@ enum class group : int {
     weather = 1,    //SFX related to weather
     time_of_day,    //SFX related to time of day
     context_themes, //SFX related to context themes
-    fatigue         //SFX related to fatigue
+    sleepiness         //SFX related to sleepiness
 };
 
 void load_sound_effects( const JsonObject &jsobj );
@@ -182,7 +191,7 @@ void stop_sound_effect_fade( channel channel, int duration );
 void stop_sound_effect_timed( channel channel, int time );
 int set_channel_volume( channel channel, int volume );
 void do_player_death_hurt( const Character &target, bool death );
-void do_fatigue();
+void do_sleepiness();
 // @param obst should be string id of obstacle terrain or vehicle part
 void do_obstacle( const std::string &obst = "" );
 } // namespace sfx

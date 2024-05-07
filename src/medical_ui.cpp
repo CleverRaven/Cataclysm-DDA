@@ -1,12 +1,9 @@
 #include <algorithm>
 #include <cmath>
 #include <cstdlib>
-#include <numeric>
-#include <set>
 #include <string>
 #include <utility>
 
-#include "action.h"
 #include "addiction.h"
 #include "avatar_action.h"
 #include "creature.h"
@@ -16,9 +13,9 @@
 #include "effect.h"
 #include "flag.h"
 #include "game.h"
+#include "input_context.h"
 #include "output.h"
 #include "ui_manager.h"
-#include "vitamin.h"
 #include "weather.h"
 
 static const efftype_id effect_bite( "bite" );
@@ -26,7 +23,6 @@ static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_mending( "mending" );
 
-static const json_character_flag json_flag_ECTOTHERM( "ECTOTHERM" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 
 static const trait_id trait_SUNLIGHT_DEPENDENT( "SUNLIGHT_DEPENDENT" );
@@ -269,7 +265,7 @@ static void draw_medical_titlebar( const catacurses::window &window, avatar *pla
 
     const std::pair<std::string, nc_color> hunger_pair = display::hunger_text_color( you );
     const std::pair<std::string, nc_color> thirst_pair = display::thirst_text_color( you );
-    const std::pair<std::string, nc_color> fatigue_pair = display::fatigue_text_color( you );
+    const std::pair<std::string, nc_color> sleepiness_pair = display::sleepiness_text_color( you );
 
     // Hunger
     if( !hunger_pair.first.empty() ) {
@@ -299,9 +295,9 @@ static void draw_medical_titlebar( const catacurses::window &window, avatar *pla
         right_indent += utf8_width( thirst_pair.first ) + 3;
     }
 
-    // Fatigue
-    if( !fatigue_pair.first.empty() ) {
-        cur_str_pos = right_print( window, 1, right_indent, fatigue_pair.second, fatigue_pair.first );
+    // Sleepiness
+    if( !sleepiness_pair.first.empty() ) {
+        cur_str_pos = right_print( window, 1, right_indent, sleepiness_pair.second, sleepiness_pair.first );
 
         // Borders
         for( int i = 1; i < getmaxy( window ) - 1; i++ ) {
@@ -310,7 +306,7 @@ static void draw_medical_titlebar( const catacurses::window &window, avatar *pla
         mvwputch( window, point( cur_str_pos - 2, 0 ), BORDER_COLOR, LINE_OXXX ); // ^|^
         mvwputch( window, point( cur_str_pos - 2, 2 ), BORDER_COLOR, LINE_XXOX ); // _|_
 
-        right_indent += utf8_width( fatigue_pair.first ) + 3;
+        right_indent += utf8_width( sleepiness_pair.first ) + 3;
     }
 
     // Hotkey Helper
@@ -637,26 +633,6 @@ static medical_column draw_stats_summary( const int column_count, avatar *player
         pen = ( g->light_level( player->posz() ) >= 12 ? 5 : 10 );
         pge_str = pgettext( "speed penalty", "Out of Sunlight " );
         speed_detail_str += colorize( string_format( _( "%s     -%2d%%\n" ), pge_str, pen ), c_red );
-    }
-
-    const float temperature_speed_modifier = player->mutation_value( "temperature_speed_modifier" );
-    if( temperature_speed_modifier != 0 ) {
-        nc_color pen_color;
-        std::string pen_sign;
-        const units::temperature player_local_temp = get_weather().get_temperature( player->pos() );
-        if( player->has_flag( json_flag_ECTOTHERM ) && player_local_temp > units::from_fahrenheit( 65 ) ) {
-            pen_color = c_green;
-            pen_sign = "+";
-        } else if( player_local_temp < units::from_fahrenheit( 65 ) ) {
-            pen_color = c_red;
-            pen_sign = "-";
-        }
-        if( !pen_sign.empty() ) {
-            pen = ( units::to_fahrenheit( player_local_temp ) - 65 ) * temperature_speed_modifier;
-            pge_str = pgettext( "speed modifier", "Cold-Blooded " );
-            speed_detail_str += colorize( string_format( _( "%s     %s%2d%%\n" ), pge_str, pen_sign,
-                                          std::abs( pen ) ), pen_color );
-        }
     }
 
     std::map<std::string, int> speed_effects;

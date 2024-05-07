@@ -113,7 +113,7 @@
     "type": "vehicle_part",
     "copy-from": "frame_abstract",
     "item": "frame",
-    "//": "assuming about 50 cm square for a frame's welds (200cm total) plus 50cm per damage quadrant for repair",
+    "//": "assuming about 50 cm square for a frame's welds (200 cm total) plus 50 cm per damage quadrant for repair",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 1 ] ],
@@ -278,6 +278,19 @@
       },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "9 m", "using": [ [ "repair_welding_alloys", 5 ] ] }
     },
+    "damage_reduction": { "all": 7 }
+  },
+  {
+    "id": "frame_concrete_mix",
+    "type": "vehicle_part",
+    "copy-from": "frame_abstract",
+    "name": { "str": "concrete mixer chassis" },
+    "item": "frame_concrete_mix",
+    "durability": 150,
+    "description": "The chassis of a concrete mixer.",
+    "folded_volume": "10 L",
+    "breaks_into": [ { "item": "steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 5, 25 ] } ],
+    "extend": { "flags": [ "NO_INSTALL_HIDDEN", "CABLE_PORTS" ] },
     "damage_reduction": { "all": 7 }
   }
 ]

@@ -171,10 +171,14 @@ void mission::on_creature_death( Creature &poor_dead_dude )
             avatar &player_character = get_avatar();
             for( std::pair<const int, mission> &e : world_missions ) {
                 mission &i = e.second;
-
-                if( i.type->goal == MGOAL_KILL_NEMESIS && player_character.getID() == i.player_id ) {
-                    i.step_complete( 1 );
-                    return;
+                if( i.type->monster_kill_goal == 1 ) {
+                    if( i.type->goal == MGOAL_KILL_NEMESIS && player_character.getID() == i.player_id ) {
+                        i.step_complete( 1 );
+                        return;
+                    }
+                } else {
+                    // Recurring nemesis!!
+                    mission_start::kill_nemesis( &i );
                 }
             }
         }
@@ -507,6 +511,9 @@ bool mission::is_complete( const character_id &_npc_id ) const
             if( npc_id.is_valid() && npc_id != _npc_id ) {
                 return false;
             }
+            if( player_character.activity ) {
+                return false;
+            }
             item item_sought( type->item_id );
             map &here = get_map();
             int found_quantity = 0;
@@ -767,7 +774,7 @@ character_id mission::get_npc_id() const
     return npc_id;
 }
 
-const std::vector<std::pair<int, itype_id>> &mission::get_likely_rewards() const
+const talk_effect_fun_t::likely_rewards_t &mission::get_likely_rewards() const
 {
     return type->likely_rewards;
 }

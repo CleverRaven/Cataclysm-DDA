@@ -4,32 +4,6 @@
     "method": "json",
     "update_mapgen_id": "mx_glass_and_crystal",
     "object": {
-      "rows": [
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        "
-      ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "place_nested": [ { "chunks": [ "glass_and_crystal_chunk" ], "x": [ 2, 15 ], "y": [ 2, 15 ] } ],
       "monsters": { " ": { "monster": "GROUP_CRYSTAL_FIELD", "chance": 1, "density": 0.0001 } }
@@ -91,7 +65,7 @@
       "rows": [ "X" ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { "X": "t_nether_stone" },
-      "place_fields": [ { "field": "fd_fatigue", "x": 0, "y": 0, "intensity": 3 } ]
+      "place_fields": [ { "field": "fd_reality_tear", "x": 0, "y": 0, "intensity": 3 } ]
     }
   }
 ]

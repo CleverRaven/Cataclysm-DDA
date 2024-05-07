@@ -259,7 +259,7 @@
       [ [ "motor_small", 1 ], [ "alternator_bicycle", 1 ], [ "alternator_motorbike", 1 ] ],
       [ [ "2x4", 5 ], [ "frame_wood", 1 ] ],
       [ [ "sheet_metal_small", 3 ] ],
-      [ [ "nail", 20 ] ],
+      [ [ "nails", 20, "LIST" ] ],
       [ [ "pipe", 4 ] ]
     ]
   },
@@ -302,7 +302,7 @@
         [ "motor", 2 ],
         [ "motor_large", 1 ]
       ],
-      [ [ "nail", 120 ] ],
+      [ [ "nails", 120, "LIST" ] ],
       [ [ "pipe", 20 ] ],
       [ [ "nuts_bolts", 50 ] ],
       [ [ "pipe_fittings", 10 ] ]
@@ -339,7 +339,7 @@
       [ [ "motor_small", 1 ], [ "alternator_bicycle", 1 ], [ "alternator_motorbike", 1 ] ],
       [ [ "2x4", 20 ], [ "frame_wood", 3 ] ],
       [ [ "sheet_metal_small", 6 ] ],
-      [ [ "nail", 80 ] ],
+      [ [ "nails", 80, "LIST" ] ],
       [ [ "pipe", 8 ] ],
       [ [ "wheel_wood_b", 2 ] ],
       [ [ "nuts_bolts", 20 ] ],
@@ -362,7 +362,7 @@
       [ [ "motor_small", 1 ], [ "alternator_bicycle", 1 ], [ "alternator_motorbike", 1 ] ],
       [ [ "2x4", 20 ], [ "frame_wood", 3 ] ],
       [ [ "sheet_metal_small", 6 ] ],
-      [ [ "nail", 80 ] ],
+      [ [ "nails", 80, "LIST" ] ],
       [ [ "pipe", 8 ] ],
       [ [ "wheel_wood_b", 2 ] ],
       [ [ "nuts_bolts", 20 ] ],
@@ -407,7 +407,7 @@
         [ "motor", 2 ],
         [ "motor_large", 1 ]
       ],
-      [ [ "nail", 240 ] ],
+      [ [ "nails", 240, "LIST" ] ],
       [ [ "pipe", 24 ] ],
       [ [ "wheel_wood_b", 6 ] ],
       [ [ "nuts_bolts", 42 ] ],
@@ -438,7 +438,7 @@
         [ "motor", 2 ],
         [ "motor_large", 1 ]
       ],
-      [ [ "nail", 240 ] ],
+      [ [ "nails", 240, "LIST" ] ],
       [ [ "pipe", 24 ] ],
       [ [ "wheel_wood_b", 6 ] ],
       [ [ "nuts_bolts", 42 ] ],

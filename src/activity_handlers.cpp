@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <climits>
 #include <cmath>
+#include <cstdint>
 #include <cstdlib>
 #include <iterator>
 #include <memory>
@@ -13,9 +14,10 @@
 #include <stdexcept>
 #include <string>
 #include <type_traits>
+#include <unordered_map>
 #include <utility>
 
-#include "action.h"
+#include "activity_actor.h"
 #include "activity_type.h"
 #include "advanced_inv.h"
 #include "avatar.h"
@@ -26,6 +28,8 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "character_attire.h"
+#include "character_id.h"
 #include "character_martial_arts.h"
 #include "clzones.h"
 #include "colony.h"
@@ -34,15 +38,15 @@
 #include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
-#include "damage.h"
+#include "cuboid_rectangle.h"
 #include "debug.h"
-#include "effect_source.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
 #include "fault.h"
 #include "field_type.h"
 #include "flag.h"
+#include "flexbuffer_json-inl.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
@@ -50,22 +54,21 @@
 #include "harvest.h"
 #include "iexamine.h"
 #include "inventory.h"
+#include "inventory_ui.h"
 #include "item.h"
 #include "item_factory.h"
 #include "item_location.h"
-#include "item_pocket.h"
 #include "item_stack.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "line.h"
 #include "magic.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "map_selector.h"
 #include "mapdata.h"
 #include "martialarts.h"
-#include "memory_fast.h"
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
@@ -77,9 +80,10 @@
 #include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player_activity.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "proficiency.h"
-#include "ranged.h"
+#include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
 #include "ret_val.h"
@@ -88,6 +92,7 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "text_snippets.h"
+#include "translation.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
@@ -96,6 +101,7 @@
 #include "veh_interact.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "weakpoint.h"
 #include "weather.h"
 
 enum class creature_size : int;
@@ -178,13 +184,23 @@ static const damage_type_id damage_bash( "bash" );
 static const damage_type_id damage_cut( "cut" );
 static const damage_type_id damage_stab( "stab" );
 
+static const efftype_id effect_asocial_dissatisfied( "asocial_dissatisfied" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_controlled( "controlled" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_social_dissatisfied( "social_dissatisfied" );
+static const efftype_id effect_social_satisfied( "social_satisfied" );
 static const efftype_id effect_under_operation( "under_operation" );
+
+static const furn_str_id furn_f_compost_empty( "f_compost_empty" );
+static const furn_str_id furn_f_compost_full( "f_compost_full" );
+static const furn_str_id furn_f_fvat_empty( "f_fvat_empty" );
+static const furn_str_id furn_f_fvat_wood_empty( "f_fvat_wood_empty" );
+static const furn_str_id furn_f_fvat_wood_full( "f_fvat_wood_full" );
+static const furn_str_id furn_f_plant_seed( "f_plant_seed" );
 
 static const harvest_drop_type_id harvest_drop_blood( "blood" );
 static const harvest_drop_type_id harvest_drop_bone( "bone" );
@@ -196,14 +212,17 @@ static const itype_id itype_animal( "animal" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_burnt_out_bionic( "burnt_out_bionic" );
 static const itype_id itype_muscle( "muscle" );
+static const itype_id itype_pseudo_magazine( "pseudo_magazine" );
 
+static const json_character_flag json_flag_ASOCIAL1( "ASOCIAL1" );
+static const json_character_flag json_flag_ASOCIAL2( "ASOCIAL2" );
 static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
 static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
 static const json_character_flag json_flag_SILENT_SPELL( "SILENT_SPELL" );
-
-static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
+static const json_character_flag json_flag_SOCIAL1( "SOCIAL1" );
+static const json_character_flag json_flag_SOCIAL2( "SOCIAL2" );
 
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 
@@ -217,8 +236,12 @@ static const skill_id skill_computer( "computer" );
 static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_survival( "survival" );
 
+static const species_id species_FERAL( "FERAL" );
 static const species_id species_HUMAN( "HUMAN" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
+
+static const ter_str_id ter_t_dirt( "t_dirt" );
+static const ter_str_id ter_t_tree( "t_tree" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
@@ -260,15 +283,8 @@ activity_handlers::do_turn_functions = {
     { ACT_ATM, atm_do_turn },
     { ACT_FISH, fish_do_turn },
     { ACT_REPAIR_ITEM, repair_item_do_turn },
-    { ACT_BLEED, butcher_do_turn },
-    { ACT_BUTCHER, butcher_do_turn },
-    { ACT_BUTCHER_FULL, butcher_do_turn },
     { ACT_TRAVELLING, travel_do_turn },
-    { ACT_FIELD_DRESS, butcher_do_turn },
-    { ACT_SKIN, butcher_do_turn },
-    { ACT_QUARTER, butcher_do_turn },
-    { ACT_DISMEMBER, butcher_do_turn },
-    { ACT_DISSECT, butcher_do_turn },
+    { ACT_DISMEMBER, dismember_do_turn },
     { ACT_TIDY_UP, tidy_up_do_turn },
     { ACT_TIDY_UP, tidy_up_do_turn },
     { ACT_JACKHAMMER, jackhammer_do_turn },
@@ -352,12 +368,25 @@ std::string enum_to_string<butcher_type>( butcher_type data )
 
 } // namespace io
 
+static void assign_multi_activity( Character &you, const player_activity &act )
+{
+    const bool requires_actor = activity_actors::deserialize_functions.find( act.id() ) !=
+                                activity_actors::deserialize_functions.end();
+    if( requires_actor ) {
+        // the activity uses `activity_actor` and requires `player_activity::actor` to be set
+        you.assign_activity( player_activity( act ) );
+    } else {
+        // the activity uses the older type of player_activity where `player_activity::actor` is not used
+        you.assign_activity( act.id() );
+    }
+}
+
 bool activity_handlers::resume_for_multi_activities( Character &you )
 {
     if( !you.backlog.empty() ) {
         player_activity &back_act = you.backlog.front();
         if( back_act.is_multi_type() ) {
-            you.assign_activity( you.backlog.front().id() );
+            assign_multi_activity( you, back_act );
             you.backlog.clear();
             return true;
         }
@@ -515,7 +544,9 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
         }
     }
 
-    const bool is_human = corpse.id == mtype_id::NULL_ID() || ( corpse.in_species( species_HUMAN ) &&
+
+    const bool is_human = corpse.id == mtype_id::NULL_ID() || ( ( corpse.in_species( species_HUMAN ) ||
+                          corpse.in_species( species_FERAL ) ) &&
                           !corpse.in_species( species_ZOMBIE ) );
 
     // applies to all butchery actions except for dissections
@@ -827,7 +858,7 @@ static std::vector<item> create_charge_items( const itype *drop, int count,
     std::vector<item> objs;
     while( count > 0 ) {
         item obj( drop, calendar::turn, 1 );
-        obj.charges = std::min( count, 1000_liter / obj.volume() );
+        obj.charges = std::min( count, DEFAULT_TILE_VOLUME / obj.volume() );
         count -= obj.charges;
 
         if( obj.has_temperature() ) {
@@ -877,6 +908,14 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
                                    _( "You salvage what you can from the corpse, but it is badly damaged." ) );
         }
     }
+    if( corpse_item->has_flag( flag_UNDERFED ) ) {
+        monster_weight = std::round( 0.9 * monster_weight );
+        if( action != butcher_type::FIELD_DRESS && action != butcher_type::SKIN &&
+            action != butcher_type::DISSECT ) {
+            you.add_msg_if_player( m_bad,
+                                   _( "The corpse looks a little underweight…" ) );
+        }
+    }
     if( corpse_item->has_flag( flag_SKINNED ) ) {
         monster_weight = std::round( 0.85 * monster_weight );
     }
@@ -893,7 +932,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
     if( action == butcher_type::DISSECT )    {
         int dissectable_practice = 0;
         int dissectable_num = 0;
-        for( item *item : corpse_item->all_items_top( item_pocket::pocket_type::CORPSE ) ) {
+        for( item *item : corpse_item->all_items_top( pocket_type::CORPSE ) ) {
             dissectable_num++;
             const int skill_level = butchery_dissect_skill_level( you, tool_quality,
                                     item->dropped_from );
@@ -942,6 +981,9 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
         if( corpse_item->has_flag( flag_GIBBED ) && ( entry.type == harvest_drop_flesh ||
                 entry.type == harvest_drop_bone ) ) {
             roll /= 2;
+        }
+        if( corpse_item->has_flag( flag_UNDERFED ) && ( entry.type == harvest_drop_flesh ) ) {
+            roll /= 1.6;
         }
 
         if( corpse_item->has_flag( flag_SKINNED ) && entry.type == harvest_drop_skin ) {
@@ -1137,14 +1179,16 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
         const int item_charges = monster_weight_remaining / to_gram( item::find_type(
                                      leftover_id )->weight );
         if( item_charges > 0 ) {
-            item ruined_parts( leftover_id, calendar::turn, item_charges );
+            item ruined_parts( leftover_id, calendar::turn );
             ruined_parts.set_mtype( &mt );
             ruined_parts.set_item_temperature( corpse_item->temperature );
             ruined_parts.set_rot( corpse_item->get_rot() );
             if( !you.backlog.empty() && you.backlog.front().id() == ACT_MULTIPLE_BUTCHER ) {
                 ruined_parts.set_var( "activity_var", you.name );
             }
-            here.add_item_or_charges( you.pos(), ruined_parts );
+            for( int i = 0; i < item_charges; ++i ) {
+                here.add_item_or_charges( you.pos(), ruined_parts );
+            }
         }
     }
 
@@ -1162,7 +1206,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
     // reveal hidden items / hidden content
     if( action != butcher_type::FIELD_DRESS && action != butcher_type::SKIN &&
         action != butcher_type::BLEED ) {
-        for( item *content : corpse_item->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+        for( item *content : corpse_item->all_items_top( pocket_type::CONTAINER ) ) {
             if( ( roll_butchery_dissect( round( you.get_average_skill_level( skill_survival ) ), you.dex_cur,
                                          tool_quality ) + 10 ) * 5 > rng( 0, 100 ) ) {
                 //~ %1$s - item name, %2$s - monster name
@@ -1367,6 +1411,9 @@ void activity_handlers::butcher_finish( player_activity *act, Character *you )
 
     you->recoil = MAX_RECOIL;
 
+    get_event_bus().send<event_type::character_butchered_corpse>( you->getID(),
+            corpse_item.get_mtype()->id, act->id().str() );
+
     // Ready to move on to the next item, if there is one (for example if multibutchering)
     act->index = true;
     // if it's mutli-tile butchering, then restart the backlog.
@@ -1524,10 +1571,19 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
                                  liquid.type_name( 1 ) );
                         map_stack items_here = here.i_at( source_pos );
                         if( items_here.empty() ) {
-                            if( here.furn( source_pos ) == f_fvat_wood_full ) {
-                                here.furn_set( source_pos, f_fvat_wood_empty );
+                            if( here.furn( source_pos ) == furn_f_fvat_wood_full ) {
+                                here.furn_set( source_pos, furn_f_fvat_wood_empty );
                             } else {
-                                here.furn_set( source_pos, f_fvat_empty );
+                                here.furn_set( source_pos, furn_f_fvat_empty );
+                            }
+                        }
+                    } else if( here.furn( source_pos )->has_examine( iexamine::compost_full ) ) {
+                        add_msg( _( "You squeeze the last drops of %s from the tank." ),
+                                 liquid.type_name( 1 ) );
+                        map_stack items_here = here.i_at( source_pos );
+                        if( items_here.empty() ) {
+                            if( here.furn( source_pos ) == furn_f_compost_full ) {
+                                here.furn_set( source_pos, furn_f_compost_empty );
                             }
                         }
                     }
@@ -1640,7 +1696,7 @@ void activity_handlers::pickaxe_finish( player_activity *act, Character *you )
     if( you->is_avatar() ) {
         const int helpersize = get_player_character().get_num_crafting_helpers( 3 );
         if( here.is_bashable( pos ) && here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, pos ) &&
-            here.ter( pos ) != t_tree ) {
+            here.ter( pos ) != ter_t_tree ) {
             // Tunneling through solid rock is sweaty, backbreaking work
             // Betcha wish you'd opted for the J-Hammer
             if( you->has_trait( trait_STOCKY_TROGLO ) ) {
@@ -1733,7 +1789,8 @@ void activity_handlers::pulp_do_turn( player_activity *act, Character *you )
                 here.add_splatter_trail( type_blood, pos, dest );
             }
 
-            you->mod_stamina( -pulp_effort );
+            // mixture of isaac clarke stomps and swinging your weapon
+            you->burn_energy_all( -pulp_effort );
             you->recoil = MAX_RECOIL;
 
             if( one_in( 4 ) ) {
@@ -1745,12 +1802,12 @@ void activity_handlers::pulp_do_turn( player_activity *act, Character *you )
             moves += 100 / std::max( 0.25f,
                                      stamina_ratio ) * you->exertion_adjusted_move_multiplier( act->exertion_level() );
             if( stamina_ratio < 0.33 || you->is_npc() ) {
-                you->moves = std::min( 0, you->moves - moves );
+                you->set_moves( std::min( 0, you->get_moves() - moves ) );
                 return;
             }
-            if( moves >= you->moves ) {
+            if( moves >= you->get_moves() ) {
                 // Enough for this turn;
-                you->moves -= moves;
+                you->mod_moves( -moves );
                 return;
             }
         }
@@ -1774,6 +1831,7 @@ void activity_handlers::pulp_finish( player_activity *act, Character *you )
     if( you->is_npc() ) {
         npc *guy = dynamic_cast<npc *>( you );
         guy->revert_after_activity();
+        guy->pulp_location.reset();
     } else {
         act->set_to_null();
     }
@@ -1873,7 +1931,7 @@ void activity_handlers::start_fire_do_turn( player_activity *act, Character *you
         return;
     }
 
-    you->mod_moves( -you->moves );
+    you->mod_moves( -you->get_moves() );
     const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
     const float light = actor->light_mod( you->pos() );
     act->moves_left -= light * 100;
@@ -2076,7 +2134,7 @@ void activity_handlers::hand_crank_do_turn( player_activity *act, Character *you
             add_msg( m_info, _( "You've charged the battery completely." ) );
         }
     }
-    if( you->get_fatigue() >= fatigue_levels::DEAD_TIRED ) {
+    if( you->get_sleepiness() >= sleepiness_levels::DEAD_TIRED ) {
         act->moves_left = 0;
         add_msg( m_info, _( "You're too exhausted to keep cranking." ) );
     }
@@ -2108,7 +2166,7 @@ void activity_handlers::vibe_do_turn( player_activity *act, Character *you )
         }
     }
     // Dead Tired: different kind of relaxation needed
-    if( you->get_fatigue() >= fatigue_levels::DEAD_TIRED ) {
+    if( you->get_sleepiness() >= sleepiness_levels::DEAD_TIRED ) {
         act->moves_left = 0;
         add_msg( m_info, _( "You're too tired to continue." ) );
     }
@@ -2279,11 +2337,29 @@ struct weldrig_hack {
             // null item should be handled just fine
             return null_item_reference();
         }
-
-        item pseudo_magazine( pseudo.magazine_default() );
-        pseudo.put_in( pseudo_magazine, item_pocket::pocket_type::MAGAZINE_WELL );
+        pseudo.set_flag( STATIC( flag_id( "PSEUDO" ) ) );
+        item mag_mod( "pseudo_magazine_mod" );
+        mag_mod.set_flag( STATIC( flag_id( "IRREMOVABLE" ) ) );
+        if( !pseudo.put_in( mag_mod, pocket_type::MOD ).success() ) {
+            debugmsg( "tool %s has no space for a %s, this is likely a bug",
+                      pseudo.typeId().str(), mag_mod.type->nname( 1 ) );
+        }
+        itype_id mag_type;
+        if( pseudo.can_link_up() ) {
+            mag_type = itype_pseudo_magazine;
+        } else {
+            mag_type = pseudo.magazine_default();
+        }
+        item mag( mag_type );
+        mag.clear_items(); // no initial ammo
+        if( !pseudo.put_in( mag, pocket_type::MAGAZINE_WELL ).success() ) {
+            debugmsg( "inserting %s into %s's MAGAZINE_WELL pocket failed",
+                      mag.typeId().str(), pseudo.typeId().str() );
+            return null_item_reference();
+        }
         pseudo.ammo_set( itype_battery, part->vehicle().drain( itype_battery,
-                         pseudo.ammo_capacity( ammo_battery ) ) );
+                         pseudo.ammo_capacity( ammo_battery ),
+                         return_true< vehicle_part &>, false ) ); // no cable loss since all of this is virtual
         return pseudo;
     }
 
@@ -2292,7 +2368,8 @@ struct weldrig_hack {
             return;
         }
 
-        part->vehicle().charge_battery( pseudo.ammo_remaining() ); // return unused charges
+        part->vehicle().charge_battery( pseudo.ammo_remaining(),
+                                        false ); // return unused charges without cable loss
     }
 
     ~weldrig_hack() {
@@ -2447,7 +2524,7 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
                                            fix.tname() );
         ammotype current_ammo;
         std::string ammo_name;
-        if( used_tool->link || used_tool->has_flag( flag_USE_UPS ) ) {
+        if( used_tool->has_flag( flag_USE_UPS ) || used_tool->has_link_data() ) {
             ammo_name = _( "battery" );
             current_ammo = ammo_battery;
         } else if( used_tool->has_flag( flag_USES_BIONIC_POWER ) ) {
@@ -2515,7 +2592,7 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
                 you->activity.targets.pop_back();
                 return;
             }
-            if( repeat == repeat_type::FULL && fix.damage() <= fix.degradation() ) {
+            if( repeat == repeat_type::FULL && fix.damage() <= fix.degradation() && !can_refit ) {
                 const char *msg = fix.damage_level() > 0 ?
                                   _( "Your %s is repaired as much as possible, considering the degradation." ) :
                                   _( "Your %s is already fully repaired." );
@@ -2645,7 +2722,7 @@ void activity_handlers::toolmod_add_finish( player_activity *act, Character *you
     you->add_msg_if_player( m_good, _( "You successfully attached the %1$s to your %2$s." ),
                             mod.tname(), tool.tname() );
     mod.set_flag( flag_IRREMOVABLE );
-    tool.put_in( mod, item_pocket::pocket_type::MOD );
+    tool.put_in( mod, pocket_type::MOD );
     tool.on_contents_changed();
     act->targets[1].remove_item();
 }
@@ -2692,12 +2769,10 @@ void activity_handlers::view_recipe_do_turn( player_activity *act, Character *yo
 
     recipe_id id( act->name );
     std::string itname;
-    const inventory &inven = you->crafting_inventory();
-    const std::vector<Character *> &helpers = you->get_crafting_helpers();
     if( act->index != 0 ) {
         // act->name is recipe_id
         itname = id->result_name();
-        if( !you->get_available_recipes( inven, &helpers ).contains( &id.obj() ) ) {
+        if( !you->get_group_available_recipes().contains( &id.obj() ) ) {
             add_msg( m_info, _( "You don't know how to craft the %s!" ), itname );
             return;
         }
@@ -2714,8 +2789,8 @@ void activity_handlers::view_recipe_do_turn( player_activity *act, Character *yo
     for( const auto& [_, r] : recipe_dict ) {
         if( !r.obsolete && ( item == r.result() || r.in_byproducts( item ) ) ) {
             is_byproduct = true;
-            // If if exists, do I know it?
-            if( you->get_available_recipes( inven, &helpers ).contains( &r ) ) {
+            // If a recipe exists, does my group know it?
+            if( you->get_group_available_recipes().contains( &r ) ) {
                 can_craft = true;
                 break;
             }
@@ -2887,19 +2962,19 @@ void activity_handlers::repair_item_do_turn( player_activity *act, Character *yo
 {
     // Moves are decremented based on a combination of speed and good vision (not in the dark, farsighted, etc)
     const float exertion_mult = you->exertion_adjusted_move_multiplier( act->exertion_level() );
-    const int effective_moves = you->moves / ( you->fine_detail_vision_mod() * exertion_mult );
+    const int effective_moves = you->get_moves() / ( you->fine_detail_vision_mod() * exertion_mult );
     if( effective_moves <= act->moves_left ) {
         act->moves_left -= effective_moves;
-        you->moves = 0;
+        you->set_moves( 0 );
     } else {
-        you->moves -= act->moves_left * you->fine_detail_vision_mod();
+        you->mod_moves( -act->moves_left * you->fine_detail_vision_mod() );
         act->moves_left = 0;
     }
 }
 
-void activity_handlers::butcher_do_turn( player_activity * /*act*/, Character *you )
+void activity_handlers::dismember_do_turn( player_activity * /*act*/, Character *you )
 {
-    you->mod_stamina( -20 );
+    you->burn_energy_arms( -20 );
 }
 
 void activity_handlers::wait_finish( player_activity *act, Character *you )
@@ -3222,9 +3297,9 @@ void activity_handlers::plant_seed_finish( player_activity *act, Character *you 
         if( here.has_flag_furn( seed_id->seed->required_terrain_flag, examp ) ) {
             here.furn_set( examp, furn_str_id( here.furn( examp )->plant->transform ) );
         } else if( seed_id->seed->required_terrain_flag == ter_furn_flag::TFLAG_PLANTABLE ) {
-            here.set( examp, t_dirt, f_plant_seed );
+            here.set( examp, ter_t_dirt, furn_f_plant_seed );
         } else {
-            here.furn_set( examp, f_plant_seed );
+            here.furn_set( examp, furn_f_plant_seed );
         }
         you->add_msg_player_or_npc( _( "You plant some %s." ), _( "<npcname> plants some %s." ),
                                     item::nname( seed_id ) );
@@ -3477,7 +3552,7 @@ static void perform_zone_activity_turn(
             // we are at destination already
             /* Perform action */
             tile_action( *you, tile_loc );
-            if( you->moves <= 0 ) {
+            if( you->get_moves() <= 0 ) {
                 return;
             }
         }
@@ -3667,6 +3742,19 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, Character 
                 you->add_morale( MORALE_TREE_COMMUNION, 1, 15, 2_hours, 1_hours );
             }
             if( one_in( 128 ) ) {
+                if( one_in( 256 ) ) {
+                    if( you->has_effect( effect_social_dissatisfied ) ) {
+                        you->remove_effect( effect_social_dissatisfied );
+                    }
+                    if( ( you->has_flag( json_flag_SOCIAL1 ) || you->has_flag( json_flag_SOCIAL2 ) ) &&
+                        !you->has_effect( effect_social_satisfied ) ) {
+                        you->add_effect( effect_social_satisfied, 3_hours, false, 1 );
+                    }
+                    if( ( you->has_flag( json_flag_ASOCIAL1 ) || you->has_flag( json_flag_ASOCIAL2 ) ) &&
+                        !you->has_effect( effect_asocial_dissatisfied ) ) {
+                        you->add_effect( effect_asocial_dissatisfied, 3_hours, false, 1 );
+                    }
+                }
                 you->add_msg_if_player( "%s", SNIPPET.random_from_category( "tree_communion" ).value_or(
                                             translation() ) );
             }
@@ -3764,11 +3852,12 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
             // spells with the components in hand.
             spell_being_cast.use_components( *you );
 
+            // pay the cost.  Allows ternaries based on having an effect or trait to calculate cost correctly
+            int cost = spell_being_cast.energy_cost( *you );
+
             spell_being_cast.cast_all_effects( *you, *target );
 
             if( act->get_value( 2 ) != 0 ) {
-                // pay the cost
-                int cost = spell_being_cast.energy_cost( *you );
                 switch( spell_being_cast.energy_source() ) {
                     case magic_energy_type::mana:
                         you->magic->mod_mana( *you, -cost );
@@ -3777,7 +3866,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
                         you->mod_stamina( -cost );
                         break;
                     case magic_energy_type::bionic:
-                        you->mod_power_level( -units::from_kilojoule( cost ) );
+                        you->mod_power_level( -units::from_kilojoule( static_cast<std::int64_t>( cost ) ) );
                         break;
                     case magic_energy_type::hp:
                         blood_magic( you, cost );
@@ -3810,9 +3899,9 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
                 }
             }
             if( !act->targets.empty() ) {
-                item &it = *act->targets.front();
-                if( !it.has_flag( flag_USE_PLAYER_ENERGY ) ) {
-                    you->consume_charges( it, it.type->charges_to_use() );
+                item *it = act->targets.front().get_item();
+                if( it && !it->has_flag( flag_USE_PLAYER_ENERGY ) ) {
+                    you->consume_charges( *it, it->type->charges_to_use() );
                 }
             }
             get_event_bus().send<event_type::spellcasting_finish>( you->getID(), true, sp,

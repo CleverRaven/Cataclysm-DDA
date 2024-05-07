@@ -2,11 +2,14 @@
 #ifndef CATA_SRC_EFFECT_H
 #define CATA_SRC_EFFECT_H
 
-#include <iosfwd>
+#include <array>
+#include <cstddef>
+#include <cstdint>
 #include <map>
+#include <optional>
 #include <set>
 #include <string>
-#include <tuple>
+#include <string_view>
 #include <unordered_map>
 #include <utility>
 #include <vector>
@@ -14,17 +17,16 @@
 #include "calendar.h"
 #include "color.h"
 #include "effect_source.h"
+#include "enums.h"
+#include "event.h"
 #include "flat_set.h"
-#include "hash_utils.h"
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 
-class effect_type;
-
-enum game_message_type : int;
-enum class event_type : int;
+class Character;
 class JsonObject;
 class JsonOut;
+class effect_type;
 
 /** Handles the large variety of weed messages. */
 void weed_msg( Character &p );
@@ -85,6 +87,15 @@ struct limb_score_effect {
     float red_mod;
     float scaling;
     float red_scaling;
+
+    void load( const JsonObject &jo );
+    void deserialize( const JsonObject &jo );
+};
+
+struct effect_dur_mod {
+    efftype_id effect_id;
+    float modifier;
+    bool same_bp;
 
     void load( const JsonObject &jo );
     void deserialize( const JsonObject &jo );
@@ -232,6 +243,7 @@ class effect_type
         std::unordered_map<std::string, std::unordered_map<uint32_t, modifier_value_arr>> mod_data;
         std::vector<vitamin_rate_effect> vitamin_data;
         std::vector<limb_score_effect> limb_score_data;
+        std::vector<effect_dur_mod> effect_dur_scaling;
         std::vector<std::pair<int, int>> kill_chance;
         std::vector<std::pair<int, int>> red_kill_chance;
 };
@@ -376,6 +388,8 @@ class effect
 
         // Extract limb score modifiers for descriptions
         std::vector<limb_score_effect> get_limb_score_data() const;
+
+        std::vector<effect_dur_mod> get_effect_dur_scaling() const;
 
         bool kill_roll( bool reduced ) const;
         std::string get_death_message() const;

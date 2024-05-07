@@ -29,15 +29,11 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Greenwood_1",
     "dynamic_line": {
-      "u_has_var": "godco_notalk_to_u",
-      "type": "dialogue",
-      "context": "godco",
+      "u_has_var": "dialogue_godco_godco_notalk_to_u",
       "value": "yes",
       "yes": "The Lord be with you…  You don't seem all too well, I pray for you.",
       "no": {
-        "npc_has_var": "u_met_godco_greenwood",
-        "type": "general",
-        "context": "meeting",
+        "npc_has_var": "general_meeting_u_met_godco_greenwood",
         "value": "yes",
         "yes": {
           "u_male": true,
@@ -54,26 +50,26 @@
     "responses": [
       {
         "text": "Nice to meet you too, Reverend.",
-        "effect": { "npc_add_var": "u_met_godco_greenwood", "type": "general", "context": "meeting", "value": "yes" },
+        "effect": { "npc_add_var": "general_meeting_u_met_godco_greenwood", "value": "yes" },
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "u_met_godco_greenwood", "type": "general", "context": "meeting", "value": "yes" } },
-            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+            { "not": { "npc_has_var": "general_meeting_u_met_godco_greenwood", "value": "yes" } },
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
         "topic": "TALK_GODCO_Greenwood_Firstmeet"
       },
       {
         "text": "Good to see you again, Reverend.  I wanted to talk.",
-        "condition": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" },
+        "condition": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" },
         "topic": "TALK_GODCO_Greenwood_2"
       },
       {
         "text": "I'm looking for work.  Can I do anything for your congregation?",
         "condition": {
           "and": [
-            { "npc_has_var": "u_met_godco_greenwood", "type": "general", "context": "meeting", "value": "yes" },
-            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+            { "npc_has_var": "general_meeting_u_met_godco_greenwood", "value": "yes" },
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
         "topic": "TALK_MISSION_LIST"
@@ -81,21 +77,21 @@
       {
         "text": "Nice meeting you, Reverend.  I'd best get going though.",
         "topic": "TALK_DONE",
-        "effect": { "npc_add_var": "u_met_godco_greenwood", "type": "general", "context": "meeting", "value": "yes" },
+        "effect": { "npc_add_var": "general_meeting_u_met_godco_greenwood", "value": "yes" },
         "condition": {
           "and": [
-            { "npc_has_var": "u_met_godco_greenwood", "type": "general", "context": "meeting", "value": "yes" },
-            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+            { "npc_has_var": "general_meeting_u_met_godco_greenwood", "value": "yes" },
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         }
       },
       {
         "text": "What's wrong with me, if you could say?",
-        "effect": { "npc_add_var": "u_met_godco_greenwood", "type": "general", "context": "meeting", "value": "yes" },
+        "effect": { "npc_add_var": "general_meeting_u_met_godco_greenwood", "value": "yes" },
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "u_met_godco_greenwood", "type": "general", "context": "meeting", "value": "yes" } },
-            { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" }
+            { "not": { "npc_has_var": "general_meeting_u_met_godco_greenwood", "value": "yes" } },
+            { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" }
           ]
         },
         "topic": "TALK_GODCO_Greenwood_You_Mutant"
@@ -160,7 +156,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Greenwood_NECC",
-    "dynamic_line": "The full name is the New England Community Church.  Helenas father started it about twenty years ago.  The flock may be small, but we've always helped each other when times were tough; we're like a family now.",
+    "dynamic_line": "The full name is the New England Community Church.  Helena's father started it about twenty years ago.  The flock may be small, but we've always helped each other when times were tough; we're like a family now.",
     "responses": [
       { "text": "Could I ask you a few more questions?", "topic": "TALK_GODCO_Greenwood_2" },
       { "text": "What do you think about Helena?", "topic": "TALK_GODCO_Greenwood_Helena" },

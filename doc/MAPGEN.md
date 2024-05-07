@@ -50,7 +50,6 @@
     * [Place messages with "graffiti"](#place-messages-with-graffiti)
     * [Place a zone for an NPC faction with "zones"](#place-a-zone-for-an-npc-faction-with-zones)
     * [Specify a player spawning location using "zones"](#specify-a-player-spawning-location-using-zones)
-    * [Translate terrain type with "translate_ter"](#translate-terrain-type-with-translate_ter)
     * [Apply mapgen transformation with "ter_furn_transforms"](#apply-mapgen-transformation-with-ter_furn_transforms)
   * [Mapgen values](#mapgen-values)
   * [Mapgen parameters](#mapgen-parameters)
@@ -243,7 +242,9 @@ in [`ants.json`](../data/json/mapgen/bugs/ants.json).
 ### Define mapgen "weight"
 
 (optional) When the game randomly picks mapgen functions, each function's weight value determines how rare it is. 1000
-is the default, so adding something with weight '500' will make it appear about half as often as others using the default weight. (An insanely high value like 10000000 is useful for testing.)
+is the default, so having two maps with the same `"om_terrain"` id, one using the default weight and the other with weight '500',
+the latter will appear half as often. Changing this to non-zero values does nothing if only one map uses the `om_terrain` id.
+(An insanely high value like 10000000 is useful for testing.)
 
 Values: number or [variable object](NPCs.md#variable-object) - *0 disables*
 
@@ -258,7 +259,7 @@ Examples:
     "//3": "evaluated dynamically from global variable"
     "weight": { "global_val": "my_weight" },
     "//4": "evaluated dynamically from math expression"
-    "weight": { "math": [ "my_weight * u_val('time_since_cataclysm: days')" ] }
+    "weight": { "math": [ "my_weight * time_since('cataclysm', 'unit': 'days')" ] }
 ```
 
 
@@ -287,7 +288,7 @@ optional.
 
 
 ## Fill terrain using "fill_ter"
-*required if "rows" is unset* Fill with the given terrain.
+Fill with the given terrain.
 
 Value: `"string"`: Valid terrain id from data/json/terrain.json
 
@@ -295,10 +296,11 @@ Example: `"fill_ter": "t_region_groundcover"`
 
 
 ## ASCII map using "rows" array
-*required if "fill_ter" is unset*
 
-Nested array of 24 (or 48) strings, each 24 (or 48) characters long, where each character is defined by "terrain" and
-optionally "furniture" or other entries below.
+Nested array usually of 24 strings, each 24 characters long but can vary for nests (in which case between 1 and 24)
+and defining multiple overmap terrains maps at once (in which case a multiple of 24),
+where each character is defined by "terrain" and optionally "furniture" or other entries below.
+Defaults to all spaces " " if unset.
 
 Usage:
 
@@ -559,6 +561,7 @@ Value: `[ array of {objects} ]: [ { "monster": ... } ]`
 | one_or_none | Do not allow more than one to spawn due to high spawn density. If repeat is not defined or pack size is defined this defaults to true, otherwise this defaults to false. Ignored when spawning from a group.
 | friendly    | Set true to make the monster friendly. Default false.
 | name        | Extra name to display on the monster.
+| random_name | Options for generating a name for this monster. If not set, the value of name will be used. If set to "random", "female", or "male", a random unisex/female/male given name will be used. If set to "snippet", any snippets in `name` will be expanded, and that will be the name given.
 | target      | Set to true to make this into mission target. Only works when the monster is spawned from a mission.
 | spawn_data  | An optional object that contains additional details for spawning the monster.
 | use_pack_size | An optional bool, defaults to false.  If it is true and `group` is used then pack_size values from the monster group will be used.
@@ -832,7 +835,7 @@ Example:
 
 ### Place signs with "signs"
 
-Places a sign (furniture `f_sign`) with a message written on it. Either "signage" or "snippet" must be defined.  The
+Places a sign with a message written on it. Either "signage" or "snippet" must be defined.  The
 message may include tags like `<full_name>`, `<given_name>`, and `<family_name>` that will insert a randomly generated
 name, or `<city>` that will insert the nearest city name.
 
@@ -875,7 +878,7 @@ Places a gas pump with fuel in it.
 
 | Field  | Description
 | ---    | ---
-| amount | (optional, integer or min/max array) the amount of fuel to be placed in the pump. If not specified, the amount is randomized between 10'000 and 50'000.
+| amount | (optional, integer or min/max array) the amount of fuel to be placed in the pump (multiplied by 100). If not specified, the amount is randomized between 10'000 and 50'000.
 | fuel   | (optional, string: "gasoline", "diesel", "jp8", or "avgas") the type of fuel to be placed in the pump. If not specified, the fuel is gasoline (75% chance) or diesel (25% chance).
 
 
@@ -884,7 +887,7 @@ Places a gas pump with fuel in it.
 | Field   | Description
 | ---     | ---
 | item    | (required, string or itemgroup object) the item group to use.
-| chance  | (optional, integer or min/max array) x in 100 chance that a loop will continue to spawn items from the group (which itself may spawn multiple items or not depending on its type, see `ITEM_SPAWN.md`), unless the chance is 100, in which case it will trigger the item group spawn exactly 1 time (see `map::place_items`).
+| chance  | (optional, integer or min/max array) x in 100 chance that a loop will continue to spawn items from the group (which itself may spawn multiple items or not depending on its type, see `ITEM_SPAWN.md`), unless the chance is default 100, in which case it will trigger the item group spawn exactly 1 time (see `map::place_items`).
 | repeat  | (optional, integer or min/max array) the number of times to repeat this placement, default is 1.
 | faction | (optional, string) the faction that owns these items.
 
@@ -1120,24 +1123,18 @@ graffiti, and furniture from a tile.  This can be useful in e.g. nests or other
 update mapgen to clear out existing stuff that might exist but wouldn't make
 sense in the nest.
 
-
-### Translate terrain type with "translate_ter"
-
-Translates one type of terrain into another type of terrain.  There is no reason to do this with normal mapgen, but it
-is useful for setting a baseline with `update_mapgen`.
-
-| Field | Description
-| ---   | ---
-| from  | (required, string) the terrain id of the terrain to be transformed
-| to    | (required, string) the terrain id that the from terrain will transformed into
-
-
 ### Apply mapgen transformation with "ter_furn_transforms"
 
-Run a `ter_furn_transform` at the specified location.  This is mostly useful for applying transformations as part of
-an `update_mapgen`, as normal mapgen can just specify the terrain directly.
+Run a [ter_furn_transform](doc/TER_FURN_TRANSFORM.md) at the specified location that can change existing fields, furniture, terrain or traps into another of the same type including null values.
 
 - "transform": (required, string) the id of the `ter_furn_transform` to run.
+
+#### "place_ter_furn_transforms"
+
+- "x": (required, int or array in the form `[ min, max ]`)
+- "y": (required, int or array in the form `[ min, max ]`)
+
+If one or both are arrays it will apply the transform to all locations in that range.
 
 ### Spawn nested chunks based on overmap neighbors with "place_nested"
 
@@ -1152,6 +1149,7 @@ Place_nested allows for conditional spawning of chunks based on the `"id"`s and/
 | flags              | (optional) Any overmap terrain flags that should be checked before placing the chunk.  Each direction is associated with a list of `oter_flags` flags.
 | flags_any          | (optional) Identical to flags except only requires a single direction to pass.  Useful to check if there's at least one of a flag in cardinal or orthoganal directions etc.
 | predecessors       | (optional) Any of the maps' predecessors that should be checked before placing the chunk. Only useful if using fallback_predecessor_mapgen.
+| z                  | (optional, array of ints ) Any number of z-levels that should be checked before placing the chunk.
 
 
 The adjacent overmaps which can be checked in this manner are:
@@ -1171,7 +1169,8 @@ Example:
     { "chunks": [ "nest4" ], "x": 0, "y": 0, "flags": { "north": [ "RIVER" ] }, "flags_any": { "north_east": [ "RIVER" ], "north_west": [ "RIVER" ] } },
     { "else_chunks": [ "nest5" ], "x": 0, "y": 0, "flags": { "north_west": [ "RIVER", "LAKE", "LAKE_SHORE" ] } },
     { "chunks": [ "nest6" ], "x": 0, "y": 0, "predecessors": [ "field", { "om_terrain": "river", "om_terrain_match_type": "PREFIX" } ] },
-    { "chunks": [ "nest7" ], "x": 0, "y": 0, "neighbors": { "north": [  { "om_terrain": "road_curved", "om_terrain_match_type": "SUBTYPE" } ] } }
+    { "chunks": [ "nest7" ], "x": 0, "y": 0, "neighbors": { "north": [  { "om_terrain": "road_curved", "om_terrain_match_type": "SUBTYPE" } ] } },
+    { "chunks": [ "nest8" ], "x": 0, "y": 0, "neighbors": { "z": [ -3, 1, 3, 5 ] } }
   ],
 ```
 The code excerpt above will place chunks as follows:
@@ -1182,6 +1181,7 @@ The code excerpt above will place chunks as follows:
 * `"nest5"` if the north west neighboring overmap terrain has neither the `"RIVER"`, `"LAKE"` nor `"LAKE_SHORE"` flags.
 * `"nest6"` if the there's a predecessor present of either `"field"` or any overmap with the prefix `"river"`.
 * `"nest7"` if the north neighbor's om terrain is one of `"road_ne"`, `"road_es"`, `"road_sw"` and `"road_wn"`.
+* `"nest8"` if the omt's z-level is either -3, 1, 3 or 5.
 
 
 ### Place monster corpse from a monster group with "place_corpses"

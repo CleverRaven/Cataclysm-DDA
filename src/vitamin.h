@@ -110,7 +110,12 @@ class vitamin
          */
         float RDA_to_default( int percent ) const;
 
+        /** Returns how many of this vitamin (in units) can be absorbed in one day */
+        int units_absorption_per_day() const;
+
         int units_from_mass( vitamin_units::mass val ) const;
+        // First is value, second is units (g, mg, etc)
+        std::pair<std::string, std::string> mass_str_from_units( int units ) const;
 
     private:
         vitamin_id id_;

@@ -2,14 +2,14 @@
 #ifndef CATA_SRC_GATES_H
 #define CATA_SRC_GATES_H
 
-#include <iosfwd>
 #include <string>
+
+#include "coordinates.h"
 
 class Character;
 class Creature;
 class JsonObject;
 class map;
-struct tripoint;
 
 namespace gates
 {
@@ -19,9 +19,9 @@ void check();
 void reset();
 
 /** opens the gate via player's activity */
-void open_gate( const tripoint &pos, Character &p );
+void open_gate( const tripoint_bub_ms &pos, Character &p );
 /** opens the gate immediately */
-void open_gate( const tripoint &pos );
+void open_gate( const tripoint_bub_ms &pos );
 
 } // namespace gates
 
@@ -32,7 +32,7 @@ namespace doors
  * Handles deducting moves, printing messages (only non-NPCs cause messages), actually closing it,
  * checking if it can be closed, etc.
 */
-void close_door( map &m, Creature &who, const tripoint &closep );
+void close_door( map &m, Creature &who, const tripoint_bub_ms &closep );
 /**
  * Locks a door at "lockp" as "who."
  *
@@ -42,7 +42,7 @@ void close_door( map &m, Creature &who, const tripoint &closep );
  *
  * @returns whether a door was actually locked
  */
-bool lock_door( map &m, Creature &who, const tripoint &lockp );
+bool lock_door( map &m, Creature &who, const tripoint_bub_ms &lockp );
 
 /**
  * Unlocks a door at "lockp" as "who."
@@ -52,16 +52,16 @@ bool lock_door( map &m, Creature &who, const tripoint &lockp );
  *
  * @returns whether a door was actually unlocked
  */
-bool unlock_door( map &m, Creature &who, const tripoint &lockp );
+bool unlock_door( map &m, Creature &who, const tripoint_bub_ms &lockp );
 
 /**
 * Whether a door at "lockp" can be locked by "who."
 */
-bool can_lock_door( const map &m, const Creature &who, const tripoint &lockp );
+bool can_lock_door( const map &m, const Creature &who, const tripoint_bub_ms &lockp );
 /**
 * Whether a door at "lockp" can be unlocked by "who."
 */
-bool can_unlock_door( const map &m, const Creature &who, const tripoint &lockp );
+bool can_unlock_door( const map &m, const Creature &who, const tripoint_bub_ms &lockp );
 
 } // namespace doors
 

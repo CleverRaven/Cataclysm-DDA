@@ -41,6 +41,7 @@
 #include "rng.h"
 #include "text_snippets.h"
 #include "translations.h"
+#include "uistate.h"
 #include "units.h"
 
 static const activity_id ACT_PULL_CREATURE( "ACT_PULL_CREATURE" );
@@ -59,6 +60,8 @@ static const json_character_flag json_flag_SMALL( "SMALL" );
 static const json_character_flag json_flag_TINY( "TINY" );
 static const json_character_flag json_flag_TREE_COMMUNION_PLUS( "TREE_COMMUNION_PLUS" );
 
+static const move_mode_id move_mode_prone( "prone" );
+
 static const mtype_id mon_player_blob( "mon_player_blob" );
 
 static const mutation_category_id mutation_category_ANY( "ANY" );
@@ -67,26 +70,21 @@ static const trait_id trait_ARVORE_FOREST_MAPPING( "ARVORE_FOREST_MAPPING" );
 static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_BURROWLARGE( "BURROWLARGE" );
 static const trait_id trait_CHAOTIC_BAD( "CHAOTIC_BAD" );
-static const trait_id trait_DEX_ALPHA( "DEX_ALPHA" );
+static const trait_id trait_ECHOLOCATION( "ECHOLOCATION" );
 static const trait_id trait_GASTROPOD_EXTREMITY2( "GASTROPOD_EXTREMITY2" );
 static const trait_id trait_GASTROPOD_EXTREMITY3( "GASTROPOD_EXTREMITY3" );
 static const trait_id trait_GLASSJAW( "GLASSJAW" );
-static const trait_id trait_INT_ALPHA( "INT_ALPHA" );
-static const trait_id trait_INT_SLIME( "INT_SLIME" );
 static const trait_id trait_LONG_TONGUE2( "LONG_TONGUE2" );
 static const trait_id trait_M_BLOOM( "M_BLOOM" );
 static const trait_id trait_M_FERTILE( "M_FERTILE" );
 static const trait_id trait_M_PROVENANCE( "M_PROVENANCE" );
 static const trait_id trait_NAUSEA( "NAUSEA" );
-static const trait_id trait_PER_ALPHA( "PER_ALPHA" );
+static const trait_id trait_ROBUST( "ROBUST" );
 static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
 static const trait_id trait_SNAIL_TRAIL( "SNAIL_TRAIL" );
-static const trait_id trait_STR_ALPHA( "STR_ALPHA" );
 static const trait_id trait_TREE_COMMUNION( "TREE_COMMUNION" );
 static const trait_id trait_VOMITOUS( "VOMITOUS" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
-
-static const vitamin_id vitamin_instability( "instability" );
 
 namespace io
 {
@@ -174,6 +172,51 @@ bool Character::has_base_trait( const trait_id &b ) const
     return my_traits.find( b ) != my_traits.end();
 }
 
+int Character::get_instability_per_category( const mutation_category_id &categ ) const
+{
+    int mut_count = 0;
+    bool robust = has_trait( trait_ROBUST );
+    // For each and every trait we have...
+    for( const trait_id &mut : get_mutations() ) {
+        // only count muts that have 0 or more points, aren't a threshold, have a category, and aren't a base trait.
+        if( mut.obj().points > -1 && !mut.obj().threshold && !mut.obj().category.empty() &&
+            !has_base_trait( mut ) ) {
+            bool in_categ = false;
+            // If among all allowed categories the mutation has, the input category is one of them.
+            for( const mutation_category_id &Ch_cat : mut.obj().category ) {
+                if( Ch_cat == categ ) {
+                    in_categ = true;
+                }
+            }
+
+            const int height = mutation_height( mut );
+
+            // Thus add 1 point if it's in the tree we mutate into, otherwise add 2 points
+            // or, if we have Robust Genetics, treat all mutations as in-tree.
+            if( in_categ || robust ) {
+                mut_count += height * 1;
+            } else {
+                mut_count += height * 2;
+            }
+        }
+    }
+    return mut_count;
+}
+
+int get_total_nonbad_in_category( const mutation_category_id &categ )
+{
+    int mut_count = 0;
+
+    // Iterate through all available traits in this category and count every one that isn't bad or the threshold.
+    for( const trait_id &traits_iter : mutations_category[categ] ) {
+        const mutation_branch &mdata = traits_iter.obj();
+        if( mdata.points > -1 && !mdata.threshold ) {
+            mut_count += 1;
+        }
+    }
+    return mut_count;
+}
+
 void Character::toggle_trait( const trait_id &trait_, const std::string &var_ )
 {
     // Take copy of argument because it might be a reference into a container
@@ -197,6 +240,7 @@ void Character::toggle_trait( const trait_id &trait_, const std::string &var_ )
     if( not_found_in_mutations ) {
         set_mutation( trait, trait->variant( var_ ) );
     } else {
+        get_event_bus().send<event_type::loses_mutation>( getID(), trait );
         unset_mutation( trait );
     }
 }
@@ -292,9 +336,9 @@ bool Character::can_power_mutation( const trait_id &mut ) const
 {
     bool hunger = mut->hunger && get_kcal_percent() < 0.5f;
     bool thirst = mut->thirst && get_thirst() >= 260;
-    bool fatigue = mut->fatigue && get_fatigue() >= fatigue_levels::EXHAUSTED;
+    bool sleepiness = mut->sleepiness && get_sleepiness() >= sleepiness_levels::EXHAUSTED;
 
-    return !hunger && !fatigue && !thirst;
+    return !hunger && !sleepiness && !thirst;
 }
 
 void Character::mutation_reflex_trigger( const trait_id &mut )
@@ -460,31 +504,6 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
 {
     if( mut == trait_GLASSJAW ) {
         recalc_hp();
-
-    } else if( mut == trait_STR_ALPHA ) {
-        if( str_max < 16 ) {
-            str_max = 8 + str_max / 2;
-        }
-        apply_mods( mut, true );
-        recalc_hp();
-    } else if( mut == trait_DEX_ALPHA ) {
-        if( dex_max < 16 ) {
-            dex_max = 8 + dex_max / 2;
-        }
-        apply_mods( mut, true );
-    } else if( mut == trait_INT_ALPHA ) {
-        if( int_max < 16 ) {
-            int_max = 8 + int_max / 2;
-        }
-        apply_mods( mut, true );
-    } else if( mut == trait_INT_SLIME ) {
-        int_max *= 2; // Now, can you keep it? :-)
-
-    } else if( mut == trait_PER_ALPHA ) {
-        if( per_max < 16 ) {
-            per_max = 8 + per_max / 2;
-        }
-        apply_mods( mut, true );
     } else {
         apply_mods( mut, true );
     }
@@ -492,10 +511,6 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
     recalculate_size();
 
     const mutation_branch &branch = mut.obj();
-    if( branch.hp_modifier.has_value() || branch.hp_modifier_secondary.has_value() ||
-        branch.hp_adjustment.has_value() ) {
-        recalc_hp();
-    }
 
     for( const itype_id &armor : branch.integrated_armor ) {
         item tmparmor( armor );
@@ -569,31 +584,6 @@ void Character::mutation_loss_effect( const trait_id &mut )
 {
     if( mut == trait_GLASSJAW ) {
         recalc_hp();
-
-    } else if( mut == trait_STR_ALPHA ) {
-        apply_mods( mut, false );
-        if( str_max < 16 ) {
-            str_max = 2 * ( str_max - 8 );
-        }
-        recalc_hp();
-    } else if( mut == trait_DEX_ALPHA ) {
-        apply_mods( mut, false );
-        if( dex_max < 16 ) {
-            dex_max = 2 * ( dex_max - 8 );
-        }
-    } else if( mut == trait_INT_ALPHA ) {
-        apply_mods( mut, false );
-        if( int_max < 16 ) {
-            int_max = 2 * ( int_max - 8 );
-        }
-    } else if( mut == trait_INT_SLIME ) {
-        int_max /= 2; // In case you have a freak accident with the debug menu ;-)
-
-    } else if( mut == trait_PER_ALPHA ) {
-        apply_mods( mut, false );
-        if( per_max < 16 ) {
-            per_max = 2 * ( per_max - 8 );
-        }
     } else {
         apply_mods( mut, false );
     }
@@ -601,10 +591,6 @@ void Character::mutation_loss_effect( const trait_id &mut )
     recalculate_size();
 
     const mutation_branch &branch = mut.obj();
-    if( branch.hp_modifier.has_value() || branch.hp_modifier_secondary.has_value() ||
-        branch.hp_adjustment.has_value() ) {
-        recalc_hp();
-    }
 
     for( const itype_id &popped_armor : branch.integrated_armor ) {
         remove_worn_items_with( [&]( item & armor ) {
@@ -704,16 +690,6 @@ bool Character::is_category_allowed( const mutation_category_id &category ) cons
     return allowed;
 }
 
-bool Character::is_weak_to_water() const
-{
-    for( const trait_id &mut : get_mutations() ) {
-        if( mut.obj().weakness_to_water > 0 ) {
-            return true;
-        }
-    }
-    return false;
-}
-
 bool Character::can_use_heal_item( const item &med ) const
 {
     const itype_id heal_id = med.typeId();
@@ -766,7 +742,7 @@ void Character::activate_mutation( const trait_id &mut )
     trait_data &tdata = my_mutations[mut];
     int cost = mdata.cost;
     // You can take yourself halfway to Near Death levels of hunger/thirst.
-    // Fatigue can go to Exhausted.
+    // Sleepiness can go to Exhausted.
     if( !can_power_mutation( mut ) ) {
         // Insufficient Foo to *maintain* operation is handled in player::suffer
         add_msg_if_player( m_warning, _( "You feel like using your %s would kill you!" ),
@@ -788,8 +764,8 @@ void Character::activate_mutation( const trait_id &mut )
         if( mdata.thirst ) {
             mod_thirst( cost );
         }
-        if( mdata.fatigue ) {
-            mod_fatigue( cost );
+        if( mdata.sleepiness ) {
+            mod_sleepiness( cost );
         }
         tdata.powered = true;
         recalc_sight_limits();
@@ -873,13 +849,15 @@ void Character::activate_mutation( const trait_id &mut )
         blossoms();
         tdata.powered = false;
         return;
+    } else if( mut == trait_ECHOLOCATION ) {
+        echo_pulse();
+        deactivate_mutation( mut );
     } else if( mut == trait_TREE_COMMUNION || mut == trait_ARVORE_FOREST_MAPPING ) {
         tdata.powered = false;
         if( !overmap_buffer.ter( global_omt_location() ).obj().is_wooded() ) {
             add_msg_if_player( m_info, _( "You can only do that in a wooded area." ) );
             return;
-        }
-        // Check for adjacent trees.
+        }        // Check for adjacent trees.
         bool adjacent_tree = false;
         map &here = get_map();
         for( const tripoint &p2 : here.points_in_radius( pos(), 1 ) ) {
@@ -887,6 +865,7 @@ void Character::activate_mutation( const trait_id &mut )
                 adjacent_tree = true;
             }
         }
+
         if( !adjacent_tree ) {
             add_msg_if_player( m_info, _( "You can only do that next to a tree." ) );
             return;
@@ -898,6 +877,7 @@ void Character::activate_mutation( const trait_id &mut )
                    has_flag( json_flag_CHLOROMORPH ) ) {
             add_msg_if_player( _( "You reach out to the trees with your roots." ) );
         } else {
+            set_movement_mode( move_mode_prone );
             add_msg_if_player(
                 _( "You lay next to the trees letting your hair roots tangle with the trees." ) );
         }
@@ -1047,27 +1027,30 @@ bool Character::mutation_ok( const trait_id &mutation, bool allow_good, bool all
     return true;
 }
 
-bool Character::roll_bad_mutation() const
+bool Character::roll_bad_mutation( const mutation_category_id &categ ) const
 {
+    // We will never have worse odds than this no matter our instability
+    float MAX_BAD_CHANCE = 0.67;
+    // or, if we have Robust, cap it lower.
+
     bool ret = false;
-    //Instability value at which bad mutations become possible
-    const float I0 = 900.0;
-    //Instability value at which good and bad mutations are equally likely
-    const float I50 = 2800.0;
 
-    //Static to avoid recalculating this every time - std::log is not constexpr
-    static const float exp = std::log( 2 ) / std::log( I50 / I0 );
+    // The following values are, respectively, the total number of non-bad traits in a category and
+    int muts_max = get_total_nonbad_in_category( categ );
+    // how many good mutations we have in total. Mutations which don't belong to the tree we're mutating towards count double for this value. Starting traits don't count at all.
+    int insta_actual = get_instability_per_category( categ );
 
-    if( vitamin_get( vitamin_instability ) == 0 ) {
-        add_msg_debug( debugmode::DF_MUTATION, "No instability, no bad mutations allowed" );
+    if( insta_actual == 0 ) {
+        add_msg_debug( debugmode::DF_MUTATION, "No mutations yet, no bad mutations allowed" );
         return ret;
     } else {
-        //A curve that is 0 until I0, crosses 0.5 at I50, then slowly approaches 1
-        float chance = std::max( 0.0f, 1 - std::pow( I0 / vitamin_get( vitamin_instability ), exp ) );
+        // When we have a total instability score equal to the number of non-bad mutations in the tree, our odds of good/bad are 50/50.
+        float chance = 0.5 * static_cast<float>( insta_actual ) / static_cast<float>( muts_max );
+        chance = std::min( chance, MAX_BAD_CHANCE );
         ret = rng_float( 0, 1 ) < chance;
         add_msg_debug( debugmode::DF_MUTATION,
-                       "Bad mutation chance caused by instability %.1f, roll_bad_mutation returned %s", chance,
-                       ret ? "true" : "false" );
+                       "%s is the instability category chosen, which has %d total good traits.  Adjusted instability score for the category is %d, giving a chance of bad mut of %.3f.",
+                       categ.c_str(), muts_max, insta_actual, chance );
         return ret;
     }
 }
@@ -1090,12 +1073,6 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
         allow_good = true;
         allow_bad = true;
         try_opposite = false;
-    } else if( roll_bad_mutation() ) {
-        // If we picked bad, mutation can be bad or neutral
-        allow_bad = true;
-    } else {
-        // Otherwise, can be good or neutral
-        allow_good = true;
     }
 
     add_msg_debug( debugmode::DF_MUTATION, "mutate: true_random_chance %d",
@@ -1113,6 +1090,14 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
         cat = *cat_list.pick();
         cat_list.add_or_replace( cat, 0 );
         add_msg_debug( debugmode::DF_MUTATION, "Picked category %s", cat.c_str() );
+        // Only decide if it's good or bad after we pick the category.
+        if( roll_bad_mutation( cat ) ) {
+            // If we picked bad, mutation can be bad or neutral.
+            allow_bad = true;
+        } else {
+            // Otherwise, can be good or neutral.
+            allow_good = true;
+        }
     } else {
         // This is fairly direct in explaining why it fails - hopefully it'll help folks to learn the system without needing to read docs
         add_msg_if_player( m_bad,
@@ -1306,7 +1291,7 @@ void Character::mutate_category( const mutation_category_id &cat, const bool use
         // Mutation selector and true_random overrides good / bad mutation rolls
         allow_good = true;
         allow_bad = true;
-    } else if( roll_bad_mutation() ) {
+    } else if( roll_bad_mutation( cat ) ) {
         // If we picked bad, mutation can be bad or neutral
         allow_bad = true;
     } else {
@@ -1653,6 +1638,19 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
                            threshreq[i].c_str() );
             c_has_threshreq = true;
         }
+        for( const trait_id &subst : threshreq[i]->threshold_substitutes ) {
+            if( has_trait( subst ) ) {
+                add_msg_debug( debugmode::DF_MUTATION, "mutate_towards: substitute threshold %s found",
+                               subst.c_str() );
+                if( mdata.strict_threshreq ) {
+                    add_msg_debug( debugmode::DF_MUTATION,
+                                   "mutate_towards: …but no threshold substitutions allowed for trait %s",
+                                   subst.c_str(), mdata.name() );
+                    continue;
+                }
+                c_has_threshreq = true;
+            }
+        }
     }
 
     // No crossing The Threshold by simply not having it
@@ -1678,8 +1676,6 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
                            mut_vit.c_str(), vitamin_get( mut_vit ), vitamin_cost );
             vitamin_mod( mut_vit, -vitamin_cost );
             add_msg_debug( debugmode::DF_MUTATION, "mutate_towards: vitamin level %d", vitamin_get( mut_vit ) );
-            // No instability necessary for true random mutations - they are, after all, true random
-            vitamin_mod( vitamin_instability, vitamin_cost );
         } else {
             add_msg_debug( debugmode::DF_MUTATION, "mutate_towards: vitamin %s level %d below vitamin cost %d",
                            mut_vit.c_str(), vitamin_get( mut_vit ), vitamin_cost );
@@ -1768,6 +1764,7 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
             do_interrupt = false;
         }
         get_event_bus().send<event_type::evolves_mutation>( getID(), replace_mdata.id, mdata.id );
+        get_event_bus().send<event_type::loses_mutation>( getID(), replace_mdata.id );
         unset_mutation( replacing );
         mutation_replaced = true;
     }
@@ -1808,6 +1805,7 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
             do_interrupt = false;
         }
         get_event_bus().send<event_type::evolves_mutation>( getID(), replace_mdata.id, mdata.id );
+        get_event_bus().send<event_type::loses_mutation>( getID(), replace_mdata.id );
         unset_mutation( replacing2 );
         mutation_replaced = true;
     }
@@ -1836,6 +1834,7 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
                                    lost_name );
         }
         get_event_bus().send<event_type::evolves_mutation>( getID(), cancel_mdata.id, mdata.id );
+        get_event_bus().send<event_type::loses_mutation>( getID(), cancel_mdata.id );
         unset_mutation( i );
         mutation_replaced = true;
     }
@@ -2070,6 +2069,7 @@ void Character::remove_mutation( const trait_id &mut, bool silent )
     }
 
     // This should revert back to a removed base trait rather than simply removing the mutation
+    get_event_bus().send<event_type::loses_mutation>( getID(), mut );
     unset_mutation( mut );
 
     bool mutation_replaced = false;
@@ -2253,6 +2253,7 @@ void Character::test_crossing_threshold( const mutation_category_id &mutation_ca
                                    _( "Something strains mightily for a moment… and then… you're… FREE!" ) );
                 // Thresholds can cancel unpurifiable traits
                 for( const trait_id &canceled : thrdata.cancels ) {
+                    get_event_bus().send<event_type::loses_mutation>( getID(), canceled );
                     unset_mutation( canceled );
                 }
                 set_mutation( mutation_thresh );
@@ -2325,6 +2326,7 @@ void Character::give_all_mutations( const mutation_category_trait &category,
 void Character::unset_all_mutations()
 {
     for( const trait_id &mut : get_mutations() ) {
+        get_event_bus().send<event_type::loses_mutation>( getID(), mut );
         unset_mutation( mut );
     }
 }
@@ -2364,12 +2366,11 @@ void Character::customize_appearance( customize_appearance_choice choice )
                 char_has_trait = true;
             }
 
-            const std::string &entry_name = mutation_name( trait );
+            const std::string has_it = char_has_trait ? " *" : "";
 
             amenu.addentry(
                 i, true, MENU_AUTOASSIGN,
-                char_has_trait ? entry_name + " *" : entry_name
-            );
+                trait->variants.empty() ? mutation_name( trait ) + has_it : trait->name() + has_it );
         }
     };
 
@@ -2415,7 +2416,12 @@ void Character::customize_appearance( customize_appearance_choice choice )
         if( has_trait( current_trait ) ) {
             remove_mutation( current_trait );
         }
-        set_mutation( trait_selected );
+        if( !trait_selected->variants.empty() ) {
+            const mutation_variant *variant = trait_selected->pick_variant_menu();
+            set_mutation( trait_selected, variant );
+        } else {
+            set_mutation( trait_selected );
+        }
         if( one_in( 3 ) ) {
             add_msg( m_neutral, end_message );
         }
@@ -2437,4 +2443,3 @@ std::string Character::visible_mutations( const int visibility_cap ) const
         return std::string();
     } );
 }
-

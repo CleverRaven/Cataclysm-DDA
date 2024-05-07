@@ -69,7 +69,7 @@
     "description": "Creates a magical light.",
     "valid_targets": [ "self" ],
     "skill": "deduction",
-    "flags": [ "NO_LEGS", "CONCENTRATE" ],
+    "flags": [ "NO_LEGS" ],
     "min_range": 0,
     "max_range": 0,
     "min_damage": 1,
@@ -94,7 +94,7 @@
     "name": "Light",
     "description": "Creates a magical light.",
     "valid_targets": [ "self" ],
-    "flags": [ "NO_LEGS", "CONCENTRATE" ],
+    "flags": [ "NO_LEGS" ],
     "min_range": 0,
     "max_range": 0,
     "min_damage": 1,
@@ -135,20 +135,16 @@
     "flags": [ "SOMATIC", "VERBAL", "NO_EXPLOSION_SFX" ],
     "valid_targets": [ "self" ],
     "skill": "deduction",
-    "max_level": 15,
+    "max_level": 25,
     "effect": "effect_on_condition",
     "effect_str": "EOC_APPLY_PARACLESIAN_DODGE_BONUS",
     "shape": "blast",
     "difficulty": 5,
     "min_duration": {
-      "math": [
-        "( ( (u_val('spell_level', 'spell: paraclesian_spell_dodge_bonus') * 3000) + 30000) * (scaling_factor(u_val('perception') ) ) )"
-      ]
+      "math": [ "( ( (u_spell_level('paraclesian_spell_dodge_bonus') * 3000) + 30000) * (scaling_factor(u_val('perception') ) ) )" ]
     },
     "max_duration": {
-      "math": [
-        "( ( (u_val('spell_level', 'spell: paraclesian_spell_dodge_bonus') * 3000) + 30000) * (scaling_factor(u_val('perception') ) ) )"
-      ]
+      "math": [ "( ( (u_spell_level('paraclesian_spell_dodge_bonus') * 3000) + 30000) * (scaling_factor(u_val('perception') ) ) )" ]
     },
     "energy_source": "MANA",
     "base_energy_cost": 600,
@@ -161,7 +157,7 @@
     "type": "SPELL",
     "name": "Weave Gossamer",
     "description": "Under the light of the moon, you can weave cotton into gossamer.",
-    "flags": [ "CONCENTRATE", "SOMATIC", "VERBAL", "NO_EXPLOSION_SFX" ],
+    "flags": [ "SOMATIC", "VERBAL", "NO_EXPLOSION_SFX" ],
     "valid_targets": [ "self" ],
     "components": "spell_components_paraclesian_spell_make_gossamer",
     "skill": "deduction",
@@ -193,7 +189,39 @@
     "effect": "spawn_item",
     "effect_str": "gossamer_patchwork",
     "shape": "blast",
-    "min_damage": { "math": [ "(u_val('spell_level', 'spell: paraclesian_spell_make_gossamer') )" ] },
-    "max_damage": { "math": [ "(u_val('spell_level', 'spell: paraclesian_spell_make_gossamer') )" ] }
+    "min_damage": { "math": [ "(u_spell_level('paraclesian_spell_make_gossamer') )" ] },
+    "max_damage": { "math": [ "(u_spell_level('paraclesian_spell_make_gossamer') )" ] }
+  },
+  {
+    "id": "homullus_spell_wish_to_converse",
+    "type": "SPELL",
+    "name": { "str": "Wish to Converse" },
+    "description": "When this spell is cast, the target will somehow begin to care about you very much and can't not help but talk to.",
+    "valid_targets": [ "hostile" ],
+    "max_level": 1,
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "base_casting_time": 75,
+    "min_range": 15,
+    "max_range": 15,
+    "shape": "blast",
+    "effect": "attack",
+    "effect_str": "effect_wants_to_talk"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_wants_to_talk",
+    "name": [ "Seeming to want to talk to you" ],
+    "desc": [ "This person wants to talk with you." ]
+  },
+  {
+    "id": "paraclesian_translocate",
+    "type": "SPELL",
+    "name": "Paraclesian Translocation",
+    "description": "The actual spell that transports you when Paraclesians use translocation spells.  It's a bug if you have it.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "flags": [ "VERBAL", "SOMATIC" ],
+    "effect": "translocate",
+    "shape": "blast"
   }
 ]

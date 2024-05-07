@@ -67,6 +67,12 @@
     "components": [ [ [ "sling", 1 ] ] ]
   },
   {
+    "id": "spell_components_haste",
+    "type": "requirement",
+    "//": "Mercury for the Haste spell",
+    "components": [ [ [ "mercury", 50 ] ] ]
+  },
+  {
     "id": "spell_components_causticaura",
     "type": "requirement",
     "//": "Strong acids suitable for the Caustic Aura spell",
@@ -173,5 +179,121 @@
     "type": "requirement",
     "//": "Sticks to turn into a bramble spear",
     "components": [ [ [ "stick", 1 ], [ "stick_long", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_druid_anti_heat",
+    "type": "requirement",
+    "//": "Water for Water's Cooling Touch",
+    "components": [ [ [ "water", 2 ], [ "water_clean", 2 ], [ "salt_water", 2 ], [ "water_mineral", 2 ] ] ]
+  },
+  {
+    "id": "spell_components_flames_of_passion",
+    "type": "requirement",
+    "//": "Alcohol for Flames of Passion",
+    "components": [ [ [ "hard_liquor", 1, "LIST" ], [ "cheap_wine", 1, "LIST" ], [ "worthy_wine", 1, "LIST" ] ] ]
+  },
+  {
+    "id": "spell_components_spirit_walking",
+    "type": "requirement",
+    "//": "Spell components for the Body of Spirit spell",
+    "components": [ [ [ "lead", 1 ] ], [ [ "gold_small", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_freshen_up",
+    "type": "requirement",
+    "//": "Water and soap / lye for Freshen Up",
+    "components": [
+      [ [ "water", 1 ], [ "water_clean", 1 ], [ "water_mineral", 1 ] ],
+      [ [ "soap", 5 ], [ "detergent", 5 ], [ "liquid_soap", 3 ], [ "lye", 1 ], [ "lye_powder", 1 ] ]
+    ]
+  },
+  {
+    "id": "spell_components_invisibility",
+    "type": "requirement",
+    "//": "glass shard suitable for the Invisibility spell",
+    "components": [ [ [ "glass_shard", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_shape_of_dust",
+    "type": "requirement",
+    "//": "non-food powder suitable for the Shape of Dust spell",
+    "components": [
+      [
+        [ "magnesium", 5 ],
+        [ "chem_aluminium_powder", 5 ],
+        [ "material_cement", 5 ],
+        [ "chem_nickel_powder", 5 ],
+        [ "meal_chitin_piece", 5 ],
+        [ "chem_nickel_powder", 5 ],
+        [ "chem_black_powder", 5 ]
+      ]
+    ]
+  },
+  {
+    "id": "spell_components_luck_bone",
+    "type": "requirement",
+    "//": "A bone for the Osseous Luck spell",
+    "components": [ [ [ "bone", 1 ], [ "bone_human", 1 ], [ "bone_demihuman", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_easy_sleep",
+    "type": "requirement",
+    "//": "Chamomile for the Peaceful Rest spell",
+    "components": [ [ [ "chamomile", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_technomancer_gain_electronics_computer",
+    "type": "requirement",
+    "//": "A wire for the Machine Mind spell",
+    "components": [ [ [ "cable", 1 ], [ "copper_wire", 1 ], [ "solder_wire", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_baking_hands",
+    "type": "requirement",
+    "//": "Coal or charcoal for the Baking Hands spell",
+    "components": [ [ [ "coal_lump", 1 ], [ "charcoal", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_diamond_imbuement",
+    "type": "requirement",
+    "//": "Diamonds for the Diamond Imbuement spell",
+    "components": [ [ [ "diamond", 5 ] ] ]
+  },
+  {
+    "id": "spell_components_slow_food_rotting",
+    "type": "requirement",
+    "//": "Herbs and sulfur for the Abjure Spirits of Rot spell",
+    "components": [ [ [ "wild_herbs", 15 ] ], [ [ "chem_sulphur", 20 ] ] ]
+  },
+  {
+    "id": "spell_components_repair_metal_stone",
+    "type": "requirement",
+    "//": "Metal, stone, and dirt for the Fault-Mending Chant spell",
+    "components": [
+      [ [ "material_soil", 1 ] ],
+      [ [ "rock", 1 ] ],
+      [
+        [ "lead", 5 ],
+        [ "platinum_small", 5 ],
+        [ "copper", 5 ],
+        [ "gold_small", 5 ],
+        [ "silver_small", 5 ],
+        [ "scrap_cast_iron", 5 ],
+        [ "chunk_cast_iron", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "spell_components_create_ups_connection",
+    "type": "requirement",
+    "//": "Fuel oils for the Power Linkage spell",
+    "components": [ [ [ "crude_lamp_oil", 120 ], [ "lamp_oil", 120 ], [ "gasoline", 120 ], [ "diesel", 120 ] ] ]
+  },
+  {
+    "id": "spell_components_technomancer_far_sight",
+    "type": "requirement",
+    "//": "Lens, chisel, and mana focus for the Zoom Lens spell",
+    "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "MANA_FOCUS", "level": 1 } ],
+    "components": [ [ [ "lens", 1 ] ] ]
   }
 ]

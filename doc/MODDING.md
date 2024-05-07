@@ -133,7 +133,7 @@ Items are where you really want to read the [JSON_INFO.md](JSON_INFO.md) file, j
     "description": "A photo of a smiling family on a camping trip.  One of the parents looks like a cleaner, happier version of the person you know.",
     "weight": "1 g",
     "volume": 0,
-    "price": 800,
+    "price": "8 USD",
     "material": [ "paper" ],
     "symbol": "*",
     "color": "light_gray"
@@ -260,6 +260,23 @@ The format is as follows:
 ```
 Valid values for `subtype` are `whitelist` and `blacklist`.
 `scenarios` is an array of the scenario ids that you want to blacklist or whitelist.
+
+### Disabling certain professions or hobbies
+The `profession_blacklist` can be either a blacklist or a whitelist.
+When it is a whitelist, only the professions/hobbies specified may be chosen.
+No more than one blacklist can be specified at one time - this is in all json loaded for a particular game (all mods + base game), not just your specific mod.
+The format is as follows:
+```json
+[
+  {
+    "type": "profession_blacklist",
+    "subtype": "blacklist",
+    "professions": [ "caffiend", "unemployed" ]
+  }
+]
+```
+Valid values for `subtype` are `whitelist` and `blacklist`.
+`professions` is an array of the profession/hobby ids that you want to blacklist or whitelist.
 
 ### Adding dialogue to existing NPCs
 

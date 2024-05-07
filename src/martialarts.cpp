@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <cstdlib>
-#include <functional>
 #include <iterator>
 #include <map>
 #include <memory>
@@ -13,6 +12,7 @@
 #include "character.h"
 #include "character_martial_arts.h"
 #include "color.h"
+#include "condition.h"
 #include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
@@ -20,11 +20,10 @@
 #include "enums.h"
 #include "game_constants.h"
 #include "generic_factory.h"
-#include "input.h"
+#include "input_context.h"
 #include "item.h"
 #include "item_factory.h"
 #include "itype.h"
-#include "json.h"
 #include "localized_comparator.h"
 #include "map.h"
 #include "output.h"
@@ -40,12 +39,12 @@ static const bionic_id bio_armor_arms( "bio_armor_arms" );
 static const bionic_id bio_armor_legs( "bio_armor_legs" );
 static const bionic_id bio_cqb( "bio_cqb" );
 
+static const flag_id json_flag_PROVIDES_TECHNIQUES( "PROVIDES_TECHNIQUES" );
+
 static const json_character_flag json_flag_ALWAYS_BLOCK( "ALWAYS_BLOCK" );
 static const json_character_flag json_flag_NONSTANDARD_BLOCK( "NONSTANDARD_BLOCK" );
 
 static const limb_score_id limb_score_block( "block" );
-
-static const matec_id tec_none( "tec_none" );
 
 static const skill_id skill_unarmed( "unarmed" );
 
@@ -85,6 +84,21 @@ void weapon_category::reset()
 void weapon_category::load( const JsonObject &jo, const std::string_view )
 {
     mandatory( jo, was_loaded, "name", name_ );
+    optional( jo, was_loaded, "proficiencies", proficiencies_ );
+}
+
+void weapon_category::verify_weapon_categories()
+{
+    weapon_category_factory.check();
+}
+
+void weapon_category::check() const
+{
+    for( const proficiency_id &prof : proficiencies_ ) {
+        if( !prof.is_valid() ) {
+            debugmsg( "Proficiency %s does not exist in weapon category %s", prof.str(), id.str() );
+        }
+    }
 }
 
 const std::vector<weapon_category> &weapon_category::get_all()
@@ -181,7 +195,6 @@ void ma_requirements::load( const JsonObject &jo, const std::string_view )
 {
     optional( jo, was_loaded, "unarmed_allowed", unarmed_allowed, false );
     optional( jo, was_loaded, "melee_allowed", melee_allowed, false );
-    optional( jo, was_loaded, "unarmed_weapons_allowed", unarmed_weapons_allowed, true );
     if( jo.has_string( "weapon_categories_allowed" ) ) {
         weapon_category_id tmp_id;
         mandatory( jo, was_loaded, "weapon_categories_allowed", tmp_id );
@@ -219,6 +232,7 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "crit_tec", crit_tec, false );
     optional( jo, was_loaded, "crit_ok", crit_ok, false );
+    optional( jo, was_loaded, "crit_tec_id", crit_tec_id, tec_none );
     optional( jo, was_loaded, "attack_override", attack_override, false );
     optional( jo, was_loaded, "wall_adjacent", wall_adjacent, false );
     optional( jo, was_loaded, "reach_tec", reach_tec, false );
@@ -793,17 +807,9 @@ std::string ma_requirements::get_description( bool buff ) const
     if( unarmed_allowed && melee_allowed ) {
         dump += string_format( _( "* Can %s while <info>armed</info> or <info>unarmed</info>" ),
                                type ) + "\n";
-        if( unarmed_weapons_allowed ) {
-            dump += string_format( _( "* Can %s while using <info>any unarmed weapon</info>" ),
-                                   type ) + "\n";
-        }
     } else if( unarmed_allowed ) {
         dump += string_format( _( "* Can <info>only</info> %s while <info>unarmed</info>" ),
                                type ) + "\n";
-        if( unarmed_weapons_allowed ) {
-            dump += string_format( _( "* Can %s while using <info>any unarmed weapon</info>" ),
-                                   type ) + "\n";
-        }
     } else if( melee_allowed ) {
         dump += string_format( _( "* Can <info>only</info> %s while <info>armed</info>" ),
                                type ) + "\n";
@@ -821,6 +827,7 @@ ma_technique::ma_technique()
 {
     crit_tec = false;
     crit_ok = false;
+    crit_tec_id = tec_none; // if not tec_none, use this tech instead when a crit procs
     defensive = false;
     side_switch = false; // moves the target behind user
     dummy = false;
@@ -1321,6 +1328,13 @@ std::vector<matec_id> character_martial_arts::get_all_techniques( const item_loc
         const auto &weapon_techs = weap->get_techniques();
         tecs.insert( tecs.end(), weapon_techs.begin(), weapon_techs.end() );
     }
+    // If we have any items that also provide techniques
+    const std::vector<const item *> tech_providing_items = u.cache_get_items_with(
+                json_flag_PROVIDES_TECHNIQUES );
+    for( const item *it : tech_providing_items ) {
+        const std::set<matec_id> &item_techs = it->get_techniques();
+        tecs.insert( tecs.end(), item_techs.begin(), item_techs.end() );
+    }
     // and martial art techniques
     tecs.insert( tecs.end(), style.techniques.begin(), style.techniques.end() );
     // And limb techniques
@@ -1382,6 +1396,7 @@ bool character_martial_arts::can_use_attack_vector( const Character &user,
     bool healthy_arm = arm_r_hp > 0 || arm_l_hp > 0;
     bool healthy_arms = arm_r_hp > 0 && arm_l_hp > 0;
     bool healthy_legs = leg_r_hp > 0 && leg_l_hp > 0;
+    bool mouth_ok = ( av == "MOUTH" ) && !user.natural_attack_restricted_on( bodypart_id( "mouth" ) );
     bool always_ok = av == "HEAD" || av == "TORSO";
     bool weapon_ok = av == "WEAPON" && valid_weapon && healthy_arm;
     bool arm_ok = ( av == "HAND" || av == "FINGER" || av == "WRIST" || av == "ARM" || av == "ELBOW" ||
@@ -1389,7 +1404,7 @@ bool character_martial_arts::can_use_attack_vector( const Character &user,
     bool arms_ok = ( av == "GRAPPLE" || av == "THROW" ) && healthy_arms;
     bool legs_ok = ( av == "FOOT" || av == "LOWER_LEG" || av == "KNEE" || av == "HIP" ) && healthy_legs;
 
-    return always_ok || weapon_ok || arm_ok || arms_ok || legs_ok;
+    return always_ok || weapon_ok || mouth_ok || arm_ok || arms_ok || legs_ok;
 }
 
 bool character_martial_arts::can_leg_block( const Character &owner ) const

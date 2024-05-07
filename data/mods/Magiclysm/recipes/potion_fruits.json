@@ -11,9 +11,9 @@
     "batch_time_factors": [ 15, 2 ],
     "autolearn": [ [ "spellcraft", 6 ], [ "cooking", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_alchemy" }, { "proficiency": "prof_botanical_enchantment" } ],
-    "book_learn": [ [ "history_botanical_enchantment", 3 ] ],
+    "book_learn": [ [ "history_botanical_enchantment", 3 ], [ "druid_healing_power_spellbook", 3 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
-    "components": [ [ [ "apple", 1 ], [ "mana_dust", 10 ] ] ]
+    "components": [ [ [ "apple", 1 ] ], [ [ "mana_dust", 10 ] ] ]
   },
   {
     "result": "potion_fruit_peach",
@@ -27,9 +27,9 @@
     "batch_time_factors": [ 15, 2 ],
     "autolearn": [ [ "spellcraft", 7 ], [ "cooking", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_alchemy" }, { "proficiency": "prof_botanical_enchantment" } ],
-    "book_learn": [ [ "history_botanical_enchantment", 3 ] ],
+    "book_learn": [ [ "history_botanical_enchantment", 3 ], [ "druid_healing_power_spellbook", 3 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
-    "components": [ [ [ "peach", 1 ], [ "mana_dust", 10 ] ] ]
+    "components": [ [ [ "peach", 1 ] ], [ [ "mana_dust", 10 ] ] ]
   },
   {
     "result": "potion_fruit_pear",
@@ -45,7 +45,7 @@
     "proficiencies": [ { "proficiency": "prof_alchemy" }, { "proficiency": "prof_botanical_enchantment" } ],
     "book_learn": [ [ "history_botanical_enchantment", 3 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
-    "components": [ [ [ "pear", 1 ], [ "mana_dust", 10 ] ] ]
+    "components": [ [ [ "pear", 1 ] ], [ [ "mana_dust", 10 ] ] ]
   },
   {
     "result": "potion_fruit_blackberries",
@@ -61,7 +61,7 @@
     "proficiencies": [ { "proficiency": "prof_alchemy" }, { "proficiency": "prof_botanical_enchantment" } ],
     "book_learn": [ [ "history_botanical_enchantment", 3 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
-    "components": [ [ [ "blackberries", 1 ], [ "mana_dust", 10 ] ] ]
+    "components": [ [ [ "blackberries", 1 ] ], [ [ "mana_dust", 10 ] ] ]
   },
   {
     "result": "potion_fruit_raspberries",
@@ -77,7 +77,7 @@
     "proficiencies": [ { "proficiency": "prof_alchemy" }, { "proficiency": "prof_botanical_enchantment" } ],
     "book_learn": [ [ "history_botanical_enchantment", 3 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
-    "components": [ [ [ "raspberries", 1 ], [ "mana_dust", 10 ] ] ]
+    "components": [ [ [ "raspberries", 1 ] ], [ [ "mana_dust", 10 ] ] ]
   },
   {
     "result": "potion_fruit_strawberries",
@@ -93,7 +93,7 @@
     "proficiencies": [ { "proficiency": "prof_alchemy" }, { "proficiency": "prof_botanical_enchantment" } ],
     "book_learn": [ [ "history_botanical_enchantment", 3 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
-    "components": [ [ [ "strawberries", 1 ], [ "mana_dust", 10 ] ] ]
+    "components": [ [ [ "strawberries", 1 ] ], [ [ "mana_dust", 10 ] ] ]
   },
   {
     "result": "potion_fruit_elderberries",
@@ -109,7 +109,7 @@
     "proficiencies": [ { "proficiency": "prof_alchemy" }, { "proficiency": "prof_botanical_enchantment" } ],
     "book_learn": [ [ "history_botanical_enchantment", 3 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
-    "components": [ [ [ "elderberries", 1 ], [ "mana_dust", 10 ] ] ]
+    "components": [ [ [ "elderberries", 1 ] ], [ [ "mana_dust", 10 ] ] ]
   },
   {
     "result": "potion_fruit_blueberries",
@@ -125,7 +125,7 @@
     "proficiencies": [ { "proficiency": "prof_alchemy" }, { "proficiency": "prof_botanical_enchantment" } ],
     "book_learn": [ [ "history_botanical_enchantment", 3 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
-    "components": [ [ [ "blueberries", 1 ], [ "mana_dust", 10 ] ] ]
+    "components": [ [ [ "blueberries", 1 ] ], [ [ "mana_dust", 10 ] ] ]
   },
   {
     "result": "potion_fruit_cranberries",
@@ -139,9 +139,9 @@
     "batch_time_factors": [ 15, 2 ],
     "autolearn": [ [ "spellcraft", 7 ], [ "cooking", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_alchemy" }, { "proficiency": "prof_botanical_enchantment" } ],
-    "book_learn": [ [ "history_botanical_enchantment", 3 ] ],
+    "book_learn": [ [ "history_botanical_enchantment", 3 ], [ "druid_healing_power_spellbook", 3 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
-    "components": [ [ [ "cranberries", 1 ], [ "mana_dust", 10 ] ] ]
+    "components": [ [ [ "cranberries", 1 ] ], [ [ "mana_dust", 10 ] ] ]
   },
   {
     "result": "potion_fruit_huckleberries",
@@ -157,7 +157,7 @@
     "proficiencies": [ { "proficiency": "prof_alchemy" }, { "proficiency": "prof_botanical_enchantment" } ],
     "book_learn": [ [ "history_botanical_enchantment", 3 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
-    "components": [ [ [ "huckleberries", 1 ], [ "mana_dust", 10 ] ] ]
+    "components": [ [ [ "huckleberries", 1 ] ], [ [ "mana_dust", 10 ] ] ]
   },
   {
     "result": "potion_fruit_wintergreen",
@@ -173,7 +173,7 @@
     "proficiencies": [ { "proficiency": "prof_alchemy" }, { "proficiency": "prof_botanical_enchantment" } ],
     "book_learn": [ [ "history_botanical_enchantment", 3 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
-    "components": [ [ [ "wintergreen_berry", 1 ], [ "mana_dust", 10 ] ] ]
+    "components": [ [ [ "wintergreen_berry", 1 ] ], [ [ "mana_dust", 10 ] ] ]
   },
   {
     "result": "potion_fruit_cherry",
@@ -187,9 +187,9 @@
     "batch_time_factors": [ 15, 2 ],
     "autolearn": [ [ "spellcraft", 5 ], [ "cooking", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_alchemy" }, { "proficiency": "prof_botanical_enchantment" } ],
-    "book_learn": [ [ "history_botanical_enchantment", 3 ] ],
+    "book_learn": [ [ "history_botanical_enchantment", 3 ], [ "druid_healing_power_spellbook", 3 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
-    "components": [ [ [ "cherries", 1 ], [ "mana_dust", 10 ] ] ]
+    "components": [ [ [ "cherries", 1 ] ], [ [ "mana_dust", 10 ] ] ]
   },
   {
     "result": "potion_fruit_apricot",
@@ -205,7 +205,7 @@
     "proficiencies": [ { "proficiency": "prof_alchemy" }, { "proficiency": "prof_botanical_enchantment" } ],
     "book_learn": [ [ "history_botanical_enchantment", 3 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
-    "components": [ [ [ "apricot", 1 ], [ "mana_dust", 10 ] ] ]
+    "components": [ [ [ "apricot", 1 ] ], [ [ "mana_dust", 10 ] ] ]
   },
   {
     "result": "potion_fruit_mayapple",
@@ -221,7 +221,7 @@
     "proficiencies": [ { "proficiency": "prof_alchemy" }, { "proficiency": "prof_botanical_enchantment" } ],
     "book_learn": [ [ "history_botanical_enchantment", 3 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
-    "components": [ [ [ "mayapple", 1 ], [ "mana_dust", 10 ] ] ]
+    "components": [ [ [ "mayapple", 1 ] ], [ [ "mana_dust", 10 ] ] ]
   },
   {
     "result": "potion_fruit_grapes",
@@ -237,6 +237,22 @@
     "proficiencies": [ { "proficiency": "prof_alchemy" }, { "proficiency": "prof_botanical_enchantment" } ],
     "book_learn": [ [ "history_botanical_enchantment", 3 ] ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
-    "components": [ [ [ "grapes", 1 ], [ "mana_dust", 10 ] ] ]
+    "components": [ [ [ "grapes", 1 ] ], [ [ "mana_dust", 10 ] ] ]
+  },
+  {
+    "result": "potion_fruit_m_stellatum_berries",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "spellcraft",
+    "difficulty": 4,
+    "time": "60 m",
+    "batch_time_factors": [ 15, 2 ],
+    "autolearn": [ [ "spellcraft", 5 ], [ "cooking", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_alchemy" }, { "proficiency": "prof_botanical_enchantment" } ],
+    "book_learn": [ [ "history_botanical_enchantment", 3 ] ],
+    "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
+    "components": [ [ [ "m_stellatum_berries", 1 ] ], [ [ "mana_dust", 10 ] ] ]
   }
 ]

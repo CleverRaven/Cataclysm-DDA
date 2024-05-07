@@ -20,7 +20,8 @@
         { "u_is_in_field": "fd_hot_air2" },
         { "u_is_in_field": "fd_hot_air3" },
         { "u_is_in_field": "fd_hot_air4" },
-        { "u_is_in_field": "fd_fire" }
+        { "u_is_in_field": "fd_fire" },
+        { "math": [ "weather('temperature')", ">=", "from_fahrenheit( 80 )" ] }
       ]
     },
     "effect": [ { "u_cast_spell": { "id": "cultivate_goblin_fruit_real" } } ],
@@ -33,11 +34,11 @@
     "effect": [
       {
         "u_add_effect": "effect_salamander_levitation",
-        "duration": { "math": [ "( 12 + (u_val('spell_level', 'spell: salamander_fire_fly') * rng(2,4) )) " ] }
+        "duration": { "math": [ "( 12 + (u_spell_level('salamander_fire_fly') * rng(2,4) )) " ] }
       },
       {
         "u_add_effect": "effect_salamander_featherfall",
-        "duration": { "math": [ "( 15 + (u_val('spell_level', 'spell: salamander_fire_fly') * 4 )) " ] }
+        "duration": { "math": [ "( 15 + (u_spell_level('salamander_fire_fly') * 4 )) " ] }
       },
       { "u_cast_spell": { "id": "salamander_fire_fly_real" }, "targeted": true }
     ],
@@ -73,7 +74,7 @@
       },
       { "run_eocs": [ "EOC_PERENNIAL_REBIRTH_HEAL" ] },
       { "u_add_effect": "effect_salamander_prevented_death", "duration": 1209600 },
-      { "math": [ "u_val('stored_kcal')", "+=", "40000" ] }
+      { "math": [ "u_calories()", "+=", "40000" ] }
     ],
     "false_effect": {
       "run_eocs": [
@@ -93,7 +94,7 @@
               "popup": true
             },
             { "run_eocs": [ "EOC_PERENNIAL_REBIRTH_HEAL" ] },
-            { "math": [ "u_val('stored_kcal')", "+=", "40000" ] }
+            { "math": [ "u_calories()", "+=", "40000" ] }
           ]
         }
       ]
@@ -102,7 +103,17 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SALAMANDER_NO_SLEEP",
-    "effect": [ { "math": [ "u_val('fatigue')", "=", "0" ] }, { "math": [ "u_val('sleep_deprivation')", "=", "0" ] } ]
+    "effect": [ { "math": [ "u_val('sleepiness')", "=", "0" ] }, { "math": [ "u_val('sleep_deprivation')", "=", "0" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SALAMANDER_GRANT_COOKING_HEAT",
+    "condition": { "not": { "u_has_item": "item_salamander_cooking_heat" } },
+    "effect": [ { "u_spawn_item": "item_salamander_cooking_heat" }, { "u_message": "Your hands grow warm.", "type": "good" } ],
+    "false_effect": [
+      { "u_remove_item_with": "item_salamander_cooking_heat" },
+      { "u_message": "The heat from your hands fades away.", "type": "neutral" }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -110,7 +121,7 @@
     "condition": { "math": [ "u_val('mana')", ">=", "4" ] },
     "effect": [
       { "math": [ "u_val('mana')", "-=", "4" ] },
-      { "u_add_effect": "effect_flame_immunity", "duration": "2 s" },
+      { "u_add_effect": "effect_hidden_flame_immunity", "duration": "2 s" },
       { "u_set_field": "fd_fire", "radius": 0, "hit_player": false }
     ],
     "false_effect": [ { "u_message": "You do not have enough mana to fuel your searing footsteps!", "type": "bad" } ]
@@ -135,7 +146,8 @@
     "id": "EOC_SALAMANDER_SMOKE_FORM_ON",
     "effect": [
       { "u_add_effect": "effect_salamander_smoke_form", "duration": "PERMANENT" },
-      { "u_add_trait": "SALAMANDER_SMOKE_FORM_ASCEND" }
+      { "u_add_trait": "SALAMANDER_SMOKE_FORM_ASCEND" },
+      { "u_add_trait": "SALAMANDER_SMOKE_FORM_APPEARANCE" }
     ]
   },
   {
@@ -144,6 +156,7 @@
     "effect": [
       { "u_lose_effect": "effect_salamander_smoke_form" },
       { "u_lose_trait": "SALAMANDER_SMOKE_FORM_ASCEND" },
+      { "u_lose_trait": "SALAMANDER_SMOKE_FORM_APPEARANCE" },
       { "u_add_effect": "effect_salamander_smoke_immunity", "duration": "15 s" }
     ]
   },
@@ -169,7 +182,7 @@
     "condition": "u_is_outside",
     "effect": [
       { "u_location_variable": { "u_val": "salamander_smoke_form_ascend" }, "z_adjust": 2, "outdoor_only": true },
-      { "u_message": "You soar upward on the rising smoke", "type": "good" },
+      { "u_message": "You soar upward on the rising smoke.", "type": "good" },
       { "u_teleport": { "u_val": "salamander_smoke_form_ascend" } }
     ],
     "false_effect": [ { "u_message": "The ceiling above blocks your attempt to rise!", "type": "bad" } ]

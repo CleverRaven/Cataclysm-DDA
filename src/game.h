@@ -7,12 +7,12 @@
 #include <ctime>
 #include <functional>
 #include <iosfwd>
-#include <list>
+#include <map>
 #include <memory>
-#include <queue>
-#include <new>
 #include <optional>
 #include <set>
+#include <string>
+#include <unordered_map>
 #include <unordered_set>
 #include <utility>
 #include <vector>
@@ -20,6 +20,7 @@
 #include "calendar.h"
 #include "character.h"
 #include "character_id.h"
+#include "color.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "cursesdef.h"
@@ -28,22 +29,11 @@
 #include "global_vars.h"
 #include "item_location.h"
 #include "memory_fast.h"
-#include "monster.h"
 #include "pimpl.h"
 #include "point.h"
 #include "type_id.h"
-#include "uistate.h"
 #include "units_fwd.h"
 #include "weather.h"
-
-class Character;
-class creature_tracker;
-class JsonValue;
-class item;
-class location;
-class eoc_events;
-class spell_events;
-class viewer;
 
 constexpr int DEFAULT_TILESET_ZOOM = 16;
 
@@ -76,32 +66,40 @@ enum safe_mode_type {
 
 enum action_id : int;
 
+class JsonValue;
 class achievements_tracker;
 class avatar;
+class cata_path;
+class creature_tracker;
+class eoc_events;
 class event_bus;
 class faction_manager;
+class field_entry;
+class item;
 class kill_tracker;
+class live_view;
+class loading_ui;
 class map;
 class map_item_stack;
 class memorial_logger;
+class monster;
 class npc;
+class npc_template;
+class overmap;
 class save_t;
 class scenario;
-class stats_tracker;
-class vehicle;
-struct WORLD;
-struct special_game;
-template<typename Tripoint>
-class tripoint_range;
-class exosuit_interact;
-class live_view;
-class loading_ui;
-class overmap;
 class scent_map;
+class spell_events;
 class static_popup;
+class stats_tracker;
 class timed_event_manager;
 class ui_adaptor;
+class uilist;
+class vehicle;
+class viewer;
+struct special_game;
 struct visibility_variables;
+template <typename Tripoint> class tripoint_range;
 
 using item_filter = std::function<bool ( const item & )>;
 using item_location_filter = std::function<bool ( const item_location & )>;
@@ -238,7 +236,7 @@ class game
         };
         /* Add callback that would be called in `game::draw`. This can be used to
          * implement map overlays in game menus. If parameters of the callback changes
-         * during its lifetime, `invaliate_main_ui_adaptor` has to be called for
+         * during its lifetime, `invalidate_main_ui_adaptor` has to be called for
          * the changes to take effect immediately on the next call to `ui_manager::redraw`.
          * Otherwise the callback may not take effect until the main ui is invalidated
          * due to resizing or other menus closing. The callback is disabled once all
@@ -510,6 +508,8 @@ class game
          * If reviving failed, the item is unchanged, as is the environment (no new monsters).
          */
         bool revive_corpse( const tripoint &p, item &it );
+        // same as above, but with relaxed placement radius.
+        bool revive_corpse( const tripoint &p, item &it, int radius );
         /**Turns Broken Cyborg monster into Cyborg NPC via surgery*/
         void save_cyborg( item *cyborg, const tripoint &couch_pos, Character &installer );
         /** Asks if the player wants to cancel their activity, and if so cancels it. */
@@ -742,7 +742,9 @@ class game
 
         /**@}*/
 
+        // TODO: Get rid of untyped overload.
         void open_gate( const tripoint &p );
+        void open_gate( const tripoint_bub_ms &p );
 
         // Knockback functions: knock target at t along a line, either calculated
         // from source position s using force parameter or passed as an argument;
@@ -822,7 +824,9 @@ class game
         // will do so, if bash_dmg is greater than 0, items won't stop the door
         // from closing at all.
         // If the door gets closed the items on the door tile get moved away or destroyed.
+        // TODO: Get rid of untyped overload.
         bool forced_door_closing( const tripoint &p, const ter_id &door_type, int bash_dmg );
+        bool forced_door_closing( const tripoint_bub_ms &p, const ter_id &door_type, int bash_dmg );
 
         /** Attempt to load first valid save (if any) in world */
         bool load( const std::string &world );
@@ -1053,6 +1057,7 @@ class game
 
         void move_save_to_graveyard();
         bool save_player_data();
+        bool save_achievements();
         // ########################## DATA ################################
         // May be a bit hacky, but it's probably better than the header spaghetti
         pimpl<map> map_ptr; // NOLINT(cata-serialize)
@@ -1088,14 +1093,6 @@ class game
         void unique_npc_despawn( const std::string &id );
         std::vector<effect_on_condition_id> inactive_global_effect_on_condition_vector;
         queued_eocs queued_global_effect_on_conditions;
-
-        // setting that specifies which reachability zone cache to display
-        struct debug_reachability_zones_display {
-            public:
-                bool r_cache_vertical;
-                reachability_cache_quadrant quadrant;
-        } debug_rz_display = {}; // NOLINT(cata-serialize)
-        void display_reachability_zones(); // Displays reachability zones
 
         spell_events &spell_events_subscriber();
 

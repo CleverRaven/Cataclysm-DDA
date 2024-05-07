@@ -44,6 +44,32 @@ int kill_tracker::kill_count( const species_id &spec ) const
     return result;
 }
 
+int kill_tracker::guilt_kill_count( const mtype_id &mon ) const
+{
+    int count = 0;
+    mon_flag_id flag;
+    if( mon->has_flag( mon_flag_GUILT_ANIMAL ) ) {
+        flag = mon_flag_GUILT_ANIMAL;
+    } else if( mon->has_flag( mon_flag_GUILT_CHILD ) ) {
+        flag = mon_flag_GUILT_CHILD;
+    } else if( mon->has_flag( mon_flag_GUILT_HUMAN ) ) {
+        flag = mon_flag_GUILT_HUMAN;
+    } else if( mon->has_flag( mon_flag_GUILT_OTHERS ) ) {
+        flag = mon_flag_GUILT_OTHERS;
+    } else { // worst case scenario when no guilt flags are found
+        auto noflag = kills.find( mon );
+        if( noflag != kills.end() ) {
+            return noflag->second;
+        }
+    }
+    for( const auto &it : kills ) {
+        if( it.first->has_flag( flag ) ) {
+            count += it.second;
+        }
+    }
+    return count;
+}
+
 int kill_tracker::monster_kill_count() const
 {
     int result = 0;
@@ -130,11 +156,6 @@ static Character *get_avatar_or_follower( const character_id &id )
     return nullptr;
 }
 
-static int compute_kill_xp( const mtype_id &mon_type )
-{
-    return mon_type->difficulty + mon_type->difficulty_base;
-}
-
 static constexpr int npc_kill_xp = 10;
 
 void kill_tracker::notify( const cata::event &e )
@@ -145,7 +166,7 @@ void kill_tracker::notify( const cata::event &e )
             if( Character *killer = get_avatar_or_follower( killer_id ) ) {
                 const mtype_id victim_type = e.get<mtype_id>( "victim_type" );
                 kills[victim_type]++;
-                killer->kill_xp += compute_kill_xp( victim_type );
+                killer->kill_xp += e.get<int>( "exp" );
                 victim_type.obj().families.practice_kill( *killer );
             }
             break;

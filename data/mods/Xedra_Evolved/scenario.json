@@ -2,7 +2,21 @@
   {
     "copy-from": "heli_crash",
     "type": "scenario",
-    "extend": { "map_special": "mx_helicopter", "professions": [ "zebra_investigator", "spy", "fbi_investigator" ] },
+    "extend": {
+      "map_special": "mx_helicopter",
+      "professions": [
+        "zebra_investigator",
+        "spy",
+        "fbi_investigator",
+        "xe_jotunn_hunter",
+        "xe_troll_slayer",
+        "xe_specter",
+        "xe_eater",
+        "xe_dreamer",
+        "xe_inventor",
+        "xe_dreamsmith"
+      ]
+    },
     "id": "heli_crash"
   },
   {
@@ -17,7 +31,7 @@
     "name": "Paraclesian Birth",
     "flags": [ "LONE_START" ],
     "points": 0,
-    "description": "Your first moments of life.  An elemental fae birth on a dying world.  Now you have to figure out how to survive on your own.  (Select the location that matches your profession or you may have a short journey)  P.S. This scenario is still in development, PRs for additional content welcomed.",
+    "description": "Your first moments of life.  An elemental fae birth on a dying world.  Now you have to figure out how to survive on your own.  (Select the location that matches your profession or you may have a short journey)  P.S. This scenario is still in development, PRs for additional content welcome.",
     "start_name": "Paraclesian Birth",
     "allowed_locs": [ "sloc_undine", "sloc_ierde", "sloc_salamander", "sloc_sylph", "sloc_arvore", "sloc_homullus" ],
     "professions": [

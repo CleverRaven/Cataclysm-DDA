@@ -1,5 +1,13 @@
 #include "assign.h"
 
+#include <algorithm>
+#include <cstdint>
+#include <vector>
+
+#include "color.h"
+#include "debug.h"
+#include "json_error.h"
+
 void report_strict_violation( const JsonObject &jo, const std::string &message,
                               const std::string_view name )
 {
@@ -30,10 +38,10 @@ bool assign( const JsonObject &jo, const std::string_view name, bool &val, bool 
     return true;
 }
 
-bool assign( const JsonObject &jo, const std::string &name, units::volume &val, bool strict,
+bool assign( const JsonObject &jo, const std::string_view name, units::volume &val, bool strict,
              const units::volume lo, const units::volume hi )
 {
-    const auto parse = [&name]( const JsonObject & obj, units::volume & out ) {
+    const auto parse = [name]( const JsonObject & obj, units::volume & out ) {
         if( obj.has_int( name ) ) {
             out = obj.get_int( name ) * units::legacy_volume_factor;
             return true;

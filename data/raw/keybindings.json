@@ -40,7 +40,7 @@
     "id": "SHOW_DESCRIPTION",
     "category": "MELEE_STYLE_PICKER",
     "name": "Show description of melee style",
-    "bindings": [ { "input_method": "keyboard_any", "key": "F1" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "d" } ]
   },
   {
     "type": "keybinding",
@@ -742,6 +742,13 @@
   },
   {
     "type": "keybinding",
+    "id": "CHOOSE_CRAFTER",
+    "category": "CRAFTING",
+    "name": "Choose crafter",
+    "bindings": [ { "input_method": "keyboard_any", "key": "c" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "CYCLE_BATCH",
     "category": "CRAFTING",
     "name": "Batch crafting",
@@ -1159,6 +1166,13 @@
   },
   {
     "type": "keybinding",
+    "id": "TOGGLE_MAP_REVEALS",
+    "category": "OVERMAP",
+    "name": "Toggle highlighting map reveals",
+    "bindings": [ { "input_method": "keyboard_char", "key": "V" }, { "input_method": "keyboard_code", "key": "v", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
     "id": "TOGGLE_HORDES",
     "category": "OVERMAP",
     "name": "Toggle hordes",
@@ -1205,6 +1219,13 @@
     "category": "OVERMAP",
     "name": "Set overmap special arguments",
     "bindings": [ { "input_method": "keyboard_any", "key": "a" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "LONG_TELEPORT",
+    "category": "OVERMAP",
+    "name": "Teleport to cursor",
+    "bindings": [ { "input_method": "keyboard_any", "key": "d" } ]
   },
   {
     "type": "keybinding",
@@ -1486,6 +1507,12 @@
   },
   {
     "type": "keybinding",
+    "id": "CHANGE_OUTFIT",
+    "name": "Change outfit",
+    "bindings": [ { "input_method": "keyboard_char", "key": "$" }, { "input_method": "keyboard_code", "key": "4", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
     "id": "SWITCH_GENDER",
     "name": "Customize character",
     "bindings": [ { "input_method": "keyboard_any", "key": "y" } ]
@@ -1733,17 +1760,10 @@
   },
   {
     "type": "keybinding",
-    "id": "UNPLUG",
+    "id": "DISCONNECT_GRID",
     "category": "APP_INTERACT",
-    "name": "Unplug power connections",
-    "bindings": [ { "input_method": "keyboard_any", "key": "u" } ]
-  },
-  {
-    "type": "keybinding",
-    "id": "MERGE",
-    "category": "APP_INTERACT",
-    "name": "Merge power grids",
-    "bindings": [ { "input_method": "keyboard_any", "key": "m" } ]
+    "name": "Separate from power grid",
+    "bindings": [ { "input_method": "keyboard_any", "key": "c" } ]
   },
   {
     "type": "keybinding",
@@ -2122,8 +2142,7 @@
     "type": "keybinding",
     "id": "SHOW_HIDE_CONTENTS_ALL",
     "category": "INVENTORY",
-    "name": "Show/hide all contents",
-    "bindings": [ { "input_method": "keyboard_char", "key": "E" }, { "input_method": "keyboard_code", "key": "e", "mod": [ "shift" ] } ]
+    "name": "Show/hide all contents"
   },
   {
     "type": "keybinding",
@@ -2358,6 +2377,12 @@
   },
   {
     "type": "keybinding",
+    "name": "Quick toggle hauling",
+    "category": "DEFAULTMODE",
+    "id": "haul_toggle"
+  },
+  {
+    "type": "keybinding",
     "name": "Zone activities",
     "category": "DEFAULTMODE",
     "id": "loot",
@@ -2551,6 +2576,13 @@
     "category": "DEFAULTMODE",
     "id": "select_fire_mode",
     "bindings": [ { "input_method": "keyboard_char", "key": "F" }, { "input_method": "keyboard_code", "key": "f", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "Select default ammo for wielded weapon which do not use a magazine",
+    "category": "DEFAULTMODE",
+    "id": "select_default_ammo",
+    "bindings": [ { "input_method": "keyboard_any", "key": "F3" } ]
   },
   {
     "type": "keybinding",
@@ -3123,8 +3155,9 @@
   {
     "type": "keybinding",
     "id": "cast_spell",
-    "name": "Spellcasting",
-    "category": "DEFAULTMODE"
+    "name": "Supernatural Abilities",
+    "category": "DEFAULTMODE",
+    "bindings": [ { "input_method": "keyboard_any", "key": "]" } ]
   },
   {
     "type": "keybinding",
@@ -3335,6 +3368,17 @@
   },
   {
     "type": "keybinding",
+    "id": "RESET",
+    "category": "HELP_KEYBINDINGS",
+    "name": "Reset keybinding",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "*" },
+      { "input_method": "keyboard_code", "key": "8", "mod": [ "shift" ] },
+      { "input_method": "keyboard_code", "key": "KEYPAD_MULTIPLY" }
+    ]
+  },
+  {
+    "type": "keybinding",
     "id": "ADD_LOCAL",
     "category": "HELP_KEYBINDINGS",
     "name": "Add local keybinding",
@@ -3418,6 +3462,17 @@
       { "input_method": "keyboard_any", "key": "m" },
       { "input_method": "keyboard_char", "key": "M" },
       { "input_method": "keyboard_code", "key": "m", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_ZONE_DISPLAY",
+    "category": "ZONES_MANAGER",
+    "name": "Toggle display of zone markers",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "t" },
+      { "input_method": "keyboard_char", "key": "T" },
+      { "input_method": "keyboard_code", "key": "t", "mod": [ "shift" ] }
     ]
   },
   {
@@ -3671,6 +3726,13 @@
     "category": "INVENTORY",
     "name": "Auto balance trade using highlighted item",
     "bindings": [ { "input_method": "keyboard_any", "key": "F1" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "BANK_BALANCE",
+    "category": "INVENTORY",
+    "name": "Auto balance trade using bank account",
+    "bindings": [ { "input_method": "keyboard_any", "key": "F2" } ]
   },
   {
     "type": "keybinding",
@@ -4385,49 +4447,49 @@
     "category": "PLAYER_INFO",
     "id": "SELECT_STATS_TAB",
     "name": "Select stats tab",
-    "bindings": [ { "input_method": "keyboard_any", "key": "F1" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "w" } ]
   },
   {
     "type": "keybinding",
     "category": "PLAYER_INFO",
     "id": "SELECT_ENCUMBRANCE_TAB",
     "name": "Select encumbrance tab",
-    "bindings": [ { "input_method": "keyboard_any", "key": "F2" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "e" } ]
   },
   {
     "type": "keybinding",
     "category": "PLAYER_INFO",
     "id": "SELECT_SKILLS_TAB",
     "name": "Select skills tab",
-    "bindings": [ { "input_method": "keyboard_any", "key": "F3" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "r" } ]
   },
   {
     "type": "keybinding",
     "category": "PLAYER_INFO",
     "id": "SELECT_TRAITS_TAB",
     "name": "Select traits tab",
-    "bindings": [ { "input_method": "keyboard_any", "key": "F4" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "t" } ]
   },
   {
     "type": "keybinding",
     "category": "PLAYER_INFO",
     "id": "SELECT_BIONICS_TAB",
     "name": "Select bionics tab",
-    "bindings": [ { "input_method": "keyboard_any", "key": "F5" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "x" } ]
   },
   {
     "type": "keybinding",
     "category": "PLAYER_INFO",
     "id": "SELECT_EFFECTS_TAB",
     "name": "Select effects tab",
-    "bindings": [ { "input_method": "keyboard_any", "key": "F6" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "c" } ]
   },
   {
     "type": "keybinding",
     "category": "PLAYER_INFO",
     "id": "SELECT_PROFICIENCIES_TAB",
     "name": "Select proficiencies tab",
-    "bindings": [ { "input_method": "keyboard_any", "key": "F7" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "v" } ]
   },
   {
     "type": "keybinding",
@@ -4498,6 +4560,13 @@
     "id": "SIZE_UP_STATS",
     "name": "Size up stats",
     "bindings": [ { "input_method": "keyboard_char", "key": "S" }, { "input_method": "keyboard_code", "key": "s", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "category": "DIALOGUE_CHOOSE_RESPONSE",
+    "id": "ASSESS_PERSONALITY",
+    "name": "Assess personality",
+    "bindings": [ { "input_method": "keyboard_char", "key": "A" }, { "input_method": "keyboard_code", "key": "a", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",

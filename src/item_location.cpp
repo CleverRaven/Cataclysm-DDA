@@ -89,6 +89,7 @@ class item_location::impl
             return nullptr;
         }
         virtual tripoint position() const = 0;
+        virtual Character *carrier() const = 0;
         virtual std::string describe( const Character * ) const = 0;
         virtual item_location obtain( Character &, int ) = 0;
         virtual units::volume volume_capacity() const = 0;
@@ -141,6 +142,10 @@ class item_location::impl::nowhere : public item_location::impl
         tripoint position() const override {
             debugmsg( "invalid use of nowhere item_location" );
             return tripoint_min;
+        }
+
+        Character *carrier() const override {
+            return nullptr;
         }
 
         std::string describe( const Character * ) const override {
@@ -218,6 +223,10 @@ class item_location::impl::item_on_map : public item_location::impl
             return cur.pos();
         }
 
+        Character *carrier() const override {
+            return nullptr;
+        }
+
         std::string describe( const Character *ch ) const override {
             std::string res = get_map().name( cur.pos() );
             if( ch ) {
@@ -227,7 +236,7 @@ class item_location::impl::item_on_map : public item_location::impl
         }
 
         item_location obtain( Character &ch, int qty ) override {
-            ch.moves -= obtain_cost( ch, qty );
+            ch.mod_moves( -obtain_cost( ch, qty ) );
 
             on_contents_changed();
             item obj = target()->split( qty );
@@ -341,6 +350,13 @@ class item_location::impl::item_on_person : public item_location::impl
                 return tripoint_zero;
             }
             return who->pos();
+        }
+
+        Character *carrier() const override {
+            if( !ensure_who_unpacked() ) {
+                return nullptr;
+            }
+            return who;
         }
 
         std::string describe( const Character *ch ) const override {
@@ -469,6 +485,10 @@ class item_location::impl::item_on_vehicle : public item_location::impl
             return cur.veh.global_part_pos3( cur.part );
         }
 
+        Character *carrier() const override {
+            return nullptr;
+        }
+
         std::string describe( const Character *ch ) const override {
             const vpart_position part_pos( cur.veh, cur.part );
             std::string res;
@@ -487,7 +507,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
         }
 
         item_location obtain( Character &ch, int qty ) override {
-            ch.moves -= obtain_cost( ch, qty );
+            ch.mod_moves( -obtain_cost( ch, qty ) );
 
             on_contents_changed();
             item obj = target()->split( qty );
@@ -613,6 +633,10 @@ class item_location::impl::item_in_container : public item_location::impl
             }
         }
 
+        Character *carrier() const override {
+            return container.carrier();
+        }
+
         std::string describe( const Character * ) const override {
             if( !target() ) {
                 return std::string();
@@ -693,8 +717,9 @@ class item_location::impl::item_in_container : public item_location::impl
                 return 0;
             }
 
-            int primary_cost = ch.mutation_value( "obtain_cost_multiplier" ) * ch.item_handling_cost( *target(),
-                               true, container_mv );
+            int primary_cost = ch.item_handling_cost( *target(), true, container_mv, qty );
+            primary_cost = ch.enchantment_cache->modify_value( enchant_vals::mod::OBTAIN_COST_MULTIPLIER,
+                           primary_cost );
             int parent_obtain_cost = container.obtain_cost( ch, qty );
             if( container->get_use( "holster" ) ) {
                 if( ch.is_worn( *container ) ) {
@@ -908,7 +933,7 @@ ret_val<int> item_location::max_charges_by_parent_recursive( const item &it ) co
     float weight_multiplier = 1.0f;
     float volume_multiplier = 1.0f;
     units::mass max_weight = 1000_kilogram;
-    units::volume max_volume = 1000_liter;
+    units::volume max_volume = MAX_ITEM_VOLUME;
     item_location current_location = *this;
     //item_location class cannot return current pocket so use first pocket for innermost container
     //Only used for weight and volume multipliers
@@ -1074,15 +1099,14 @@ void item_location::set_should_stack( bool should_stack ) const
     ptr->should_stack = should_stack;
 }
 
+Character *item_location::carrier() const
+{
+    return ptr->carrier();
+}
+
 bool item_location::held_by( Character const &who ) const
 {
-    if( where() == type::character &&
-        get_creature_tracker().creature_at<Character>( position() ) == &who ) {
-        return true;
-    } else if( has_parent() ) {
-        return parent_item().held_by( who );
-    }
-    return false;
+    return carrier() == &who;
 }
 
 units::volume item_location::volume_capacity() const

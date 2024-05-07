@@ -2,15 +2,17 @@
 #ifndef CATA_SRC_ANATOMY_H
 #define CATA_SRC_ANATOMY_H
 
-#include <iosfwd>
+#include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
 #include "bodypart.h"
-#include "string_id.h"
+#include "type_id.h"
 
+class Creature;
 class JsonObject;
 class anatomy;
-class Creature;
 
 using anatomy_id = string_id<anatomy>;
 
@@ -47,6 +49,8 @@ class anatomy
                                           bool nonstandard ) const;
         std::vector<bodypart_id> get_all_eligable_parts( int min_hit, int max_hit,
                 bool can_attack_high ) const;
+        // Find the body part with the biggest hitsize - we will treat this as the center of mass for targeting
+        bodypart_id get_max_hitsize_bodypart() const;
         // Based on the value provided (which is between range_min and range_max),
         // select an appropriate body part to hit with a projectile attack
         bodypart_id select_body_part_projectile_attack( double range_min, double range_max,
@@ -55,6 +59,7 @@ class anatomy
         std::vector<bodypart_id> get_bodyparts() const;
         float get_size_ratio( const anatomy_id &base ) const;
         float get_hit_size_sum() const;
+        float get_organic_size_sum() const;
         float get_base_hit_size_sum( const anatomy_id &base ) const;
         void add_body_part( const bodypart_str_id &new_bp );
         // TODO: remove_body_part

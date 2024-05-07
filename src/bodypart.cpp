@@ -1,19 +1,25 @@
 #include "bodypart.h"
 
-#include <cstdlib>
+#include <algorithm>
 #include <set>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
 #include <vector>
 
+#include "assign.h"
 #include "body_part_set.h"
 #include "debug.h"
 #include "enum_conversions.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "subbodypart.h"
+#include "init.h"
 #include "json.h"
+#include "json_error.h"
+#include "localized_comparator.h"
 #include "rng.h"
+#include "subbodypart.h"
 
 const bodypart_str_id body_part_arm_l( "arm_l" );
 const bodypart_str_id body_part_arm_r( "arm_r" );
@@ -312,8 +318,7 @@ void body_part_type::load( const JsonObject &jo, const std::string_view )
 
     mandatory( jo, was_loaded, "drench_capacity", drench_max );
     optional( jo, was_loaded, "drench_increment", drench_increment, 2 );
-    optional( jo, was_loaded, "drying_chance", drying_chance, drench_max );
-    optional( jo, was_loaded, "drying_increment", drying_increment, 1 );
+    optional( jo, was_loaded, "drying_rate", drying_rate, 1.0f );
 
     optional( jo, was_loaded, "wet_morale", wet_morale, 0 );
 
@@ -389,6 +394,8 @@ void body_part_type::load( const JsonObject &jo, const std::string_view )
     }
     mandatory( jo, was_loaded, "opposite_part", opposite_part );
 
+    optional( jo, was_loaded, "windage_effect", windage_effect, efftype_id::NULL_ID() );
+    optional( jo, was_loaded, "no_power_effect", no_power_effect, efftype_id::NULL_ID() );
     optional( jo, was_loaded, "smash_message", smash_message );
     optional( jo, was_loaded, "smash_efficiency", smash_efficiency, 0.5f );
 
@@ -412,6 +419,10 @@ void body_part_type::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "technique_encumbrance_limit", technique_enc_limit, 50 );
     optional( jo, was_loaded, "bmi_encumbrance_threshold", bmi_encumbrance_threshold, 999 );
     optional( jo, was_loaded, "bmi_encumbrance_scalar", bmi_encumbrance_scalar, 0 );
+
+    optional( jo, was_loaded, "power_efficiency", power_efficiency, 0 );
+
+    optional( jo, was_loaded, "similar_bodyparts", similar_bodyparts );
 
     if( jo.has_member( "limb_scores" ) ) {
         limb_scores.clear();
@@ -889,6 +900,11 @@ float bodypart::get_wetness_percentage() const
     }
 }
 
+efftype_id bodypart::get_windage_effect() const
+{
+    return id->windage_effect;
+}
+
 int bodypart::get_encumbrance_threshold() const
 {
     return id->encumbrance_threshold;
@@ -1051,6 +1067,16 @@ float bodypart::get_bmi_encumbrance_scalar() const
 std::array<int, NUM_WATER_TOLERANCE> bodypart::get_mut_drench() const
 {
     return mut_drench;
+}
+
+float bodypart::get_hit_size() const
+{
+    return id->hit_size;
+}
+
+int bodypart::get_power_efficiency() const
+{
+    return id->power_efficiency;
 }
 
 void bodypart::set_hp_cur( int set )

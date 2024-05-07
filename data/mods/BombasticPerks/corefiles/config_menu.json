@@ -17,16 +17,16 @@
     "responses": [
       {
         "text": "Yes",
-        "effect": [ { "arithmetic": [ { "u_val": "var", "var_name": "no_notifications" }, "=", { "const": 0 } ] } ],
-        "condition": { "compare_num": [ { "u_val": "var", "var_name": "no_notifications" }, "!=", { "const": 0 } ] },
+        "effect": { "math": [ "u_no_notifications", "=", "0" ] },
+        "condition": { "math": [ "u_no_notifications", "!=", "0" ] },
         "failure_explanation": "Current Setting",
         "failure_topic": "TALK_PERK_MENU_CONFIG",
         "topic": "TALK_PERK_MENU_CONFIG"
       },
       {
         "text": "No",
-        "effect": [ { "arithmetic": [ { "u_val": "var", "var_name": "no_notifications" }, "=", { "const": 1 } ] } ],
-        "condition": { "compare_num": [ { "u_val": "var", "var_name": "no_notifications" }, "!=", { "const": 1 } ] },
+        "effect": { "math": [ "u_no_notifications", "=", "1" ] },
+        "condition": { "math": [ "u_no_notifications", "!=", "1" ] },
         "failure_explanation": "Current Setting",
         "failure_topic": "TALK_PERK_MENU_CONFIG",
         "topic": "TALK_PERK_MENU_CONFIG"
@@ -37,36 +37,36 @@
   {
     "type": "talk_topic",
     "id": "TALK_PERK_MENU_CONFIG_EXP_TO_LEVEL",
-    "dynamic_line": "Set exp required per level.  Does not effect levels already gained, or current level.",
+    "dynamic_line": "Set exp required per level.  Does not affect levels already gained, or current level.",
     "responses": [
       {
         "text": "None (0 exp)",
-        "effect": [ { "arithmetic": [ { "u_val": "var", "var_name": "exp_per_level" }, "=", { "const": 0 } ] } ],
-        "condition": { "compare_num": [ { "u_val": "var", "var_name": "exp_per_level" }, "!=", { "const": 0 } ] },
+        "effect": { "math": [ "u_exp_per_level", "=", "0" ] },
+        "condition": { "math": [ "u_exp_per_level", "!=", "0" ] },
         "failure_explanation": "Current Setting",
         "failure_topic": "TALK_PERK_MENU_CONFIG",
         "topic": "TALK_PERK_MENU_CONFIG"
       },
       {
-        "text": "Normal (300 xp)",
-        "effect": [ { "arithmetic": [ { "u_val": "var", "var_name": "exp_per_level" }, "=", { "const": 300 } ] } ],
-        "condition": { "compare_num": [ { "u_val": "var", "var_name": "exp_per_level" }, "!=", { "const": 300 } ] },
+        "text": "Normal (300 XP)",
+        "effect": { "math": [ "u_exp_per_level", "=", "300" ] },
+        "condition": { "math": [ "u_exp_per_level", "!=", "300" ] },
         "failure_explanation": "Current Setting",
         "failure_topic": "TALK_PERK_MENU_CONFIG",
         "topic": "TALK_PERK_MENU_CONFIG"
       },
       {
-        "text": "Large (1000 xp)",
-        "effect": [ { "arithmetic": [ { "u_val": "var", "var_name": "exp_per_level" }, "=", { "const": 1000 } ] } ],
-        "condition": { "compare_num": [ { "u_val": "var", "var_name": "exp_per_level" }, "!=", { "const": 1000 } ] },
+        "text": "Large (1000 XP)",
+        "effect": { "math": [ "u_exp_per_level", "=", "1000" ] },
+        "condition": { "math": [ "u_exp_per_level", "!=", "1000" ] },
         "failure_explanation": "Current Setting",
         "failure_topic": "TALK_PERK_MENU_CONFIG",
         "topic": "TALK_PERK_MENU_CONFIG"
       },
       {
-        "text": "Very Large (10000 xp)",
-        "effect": [ { "arithmetic": [ { "u_val": "var", "var_name": "exp_per_level" }, "=", { "const": 10000 } ] } ],
-        "condition": { "compare_num": [ { "u_val": "var", "var_name": "exp_per_level" }, "!=", { "const": 10000 } ] },
+        "text": "Very Large (10000 XP)",
+        "effect": { "math": [ "u_exp_per_level", "=", "10000" ] },
+        "condition": { "math": [ "u_exp_per_level", "!=", "10000" ] },
         "failure_explanation": "Current Setting",
         "failure_topic": "TALK_PERK_MENU_CONFIG",
         "topic": "TALK_PERK_MENU_CONFIG"
@@ -81,16 +81,16 @@
     "responses": [
       {
         "text": "Prerequisites",
-        "effect": [ { "arithmetic": [ { "u_val": "var", "var_name": "no_prerecs" }, "=", { "const": 0 } ] } ],
-        "condition": { "compare_num": [ { "u_val": "var", "var_name": "no_prerecs" }, "!=", { "const": 0 } ] },
+        "effect": { "math": [ "u_no_prerecs", "=", "0" ] },
+        "condition": { "math": [ "u_no_prerecsl", "!=", "0" ] },
         "failure_explanation": "Current Setting",
         "failure_topic": "TALK_PERK_MENU_CONFIG",
         "topic": "TALK_PERK_MENU_CONFIG"
       },
       {
         "text": "No Prerequisites",
-        "effect": [ { "arithmetic": [ { "u_val": "var", "var_name": "no_prerecs" }, "=", { "const": 1 } ] } ],
-        "condition": { "compare_num": [ { "u_val": "var", "var_name": "no_prerecs" }, "!=", { "const": 1 } ] },
+        "effect": { "math": [ "u_no_prerecs", "=", "1" ] },
+        "condition": { "math": [ "u_no_prerecsl", "!=", "1" ] },
         "failure_explanation": "Current Setting",
         "failure_topic": "TALK_PERK_MENU_CONFIG",
         "topic": "TALK_PERK_MENU_CONFIG"

@@ -2,9 +2,9 @@
 
 #include <algorithm>
 #include <array>
-#include <climits>
 #include <cmath>
-#include <cstdlib>
+#include <cstddef>
+#include <functional>
 #include <iterator>
 #include <list>
 #include <map>
@@ -15,18 +15,17 @@
 #include <utility>
 
 #include "action.h"
-#include "activity_type.h"
 #include "activity_actor_definitions.h"
-#include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_assert.h"
+#include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
-#include "clzones.h"
 #include "color.h"
+#include "creature.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "diary.h"
@@ -36,19 +35,22 @@
 #include "event_bus.h"
 #include "faction.h"
 #include "field_type.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "game.h"
 #include "game_constants.h"
+#include "game_inventory.h"
 #include "help.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
 #include "iuse.h"
-#include "kill_tracker.h"
-#include "make_static.h"
-#include "magic_enchantment.h"
+#include "json.h"
+#include "line.h"
 #include "map.h"
 #include "map_memory.h"
+#include "mapdata.h"
 #include "martialarts.h"
 #include "messages.h"
 #include "mission.h"
@@ -57,24 +59,24 @@
 #include "move_mode.h"
 #include "mutation.h"
 #include "npc.h"
-#include "options.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "pathfinding.h"
 #include "pimpl.h"
-#include "player_activity.h"
 #include "profession.h"
 #include "ranged.h"
+#include "recipe.h"
 #include "ret_val.h"
 #include "rng.h"
+#include "scenario.h"
 #include "skill.h"
 #include "stomach.h"
 #include "string_formatter.h"
 #include "talker.h"
 #include "talker_avatar.h"
-#include "translations.h"
 #include "timed_event.h"
+#include "translations.h"
 #include "trap.h"
 #include "type_id.h"
 #include "ui.h"
@@ -83,6 +85,8 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+
+class monfaction;
 
 static const bionic_id bio_cloak( "bio_cloak" );
 static const bionic_id bio_soporific( "bio_soporific" );
@@ -94,6 +98,7 @@ static const efftype_id effect_happy( "happy" );
 static const efftype_id effect_irradiated( "irradiated" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pkill( "pkill" );
+static const efftype_id effect_psi_stunned( "psi_stunned" );
 static const efftype_id effect_relax_gas( "relax_gas" );
 static const efftype_id effect_sad( "sad" );
 static const efftype_id effect_sleep( "sleep" );
@@ -119,6 +124,13 @@ static const move_mode_id move_mode_walk( "walk" );
 
 static const string_id<monfaction> monfaction_player( "player" );
 
+static const ter_str_id ter_t_dirt( "t_dirt" );
+static const ter_str_id ter_t_dirtmound( "t_dirtmound" );
+static const ter_str_id ter_t_floor( "t_floor" );
+static const ter_str_id ter_t_grass( "t_grass" );
+static const ter_str_id ter_t_pit( "t_pit" );
+static const ter_str_id ter_t_pit_shallow( "t_pit_shallow" );
+
 static const trait_id trait_ARACHNID_ARMS( "ARACHNID_ARMS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
@@ -137,6 +149,7 @@ static const trait_id trait_SHELL3( "SHELL3" );
 static const trait_id trait_STIMBOOST( "STIMBOOST" );
 static const trait_id trait_THICK_SCALES( "THICK_SCALES" );
 static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
+static const trait_id trait_UNDINE_SLEEP_WATER( "UNDINE_SLEEP_WATER" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
 static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
@@ -335,7 +348,8 @@ void avatar::set_active_mission( mission &cur_mission )
 {
     const auto iter = std::find( active_missions.begin(), active_missions.end(), &cur_mission );
     if( iter == active_missions.end() ) {
-        debugmsg( "new active mission %d is not in the active_missions list", cur_mission.get_id() );
+        debugmsg( "new objective %s is not in the active_missions list",
+                  cur_mission.mission_id().c_str() );
     } else {
         active_mission = &cur_mission;
     }
@@ -363,7 +377,8 @@ void avatar::on_mission_finished( mission &cur_mission )
     }
     const auto iter = std::find( active_missions.begin(), active_missions.end(), &cur_mission );
     if( iter == active_missions.end() ) {
-        debugmsg( "completed mission %d was not in the active_missions list", cur_mission.get_id() );
+        debugmsg( "completed mission %s was not in the active_missions list",
+                  cur_mission.mission_id().c_str() );
     } else {
         active_missions.erase( iter );
     }
@@ -376,12 +391,23 @@ void avatar::on_mission_finished( mission &cur_mission )
     }
 }
 
+bool avatar::has_mission_id( const mission_type_id &miss_id )
+{
+    for( mission *miss : active_missions ) {
+        if( miss->mission_id() == miss_id ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 void avatar::remove_active_mission( mission &cur_mission )
 {
     cur_mission.remove_active_world_mission( cur_mission );
     const auto iter = std::find( active_missions.begin(), active_missions.end(), &cur_mission );
     if( iter == active_missions.end() ) {
-        debugmsg( "removed mission %d was not in the active_missions list", cur_mission.get_id() );
+        debugmsg( "removed mission %s was not in the active_missions list",
+                  cur_mission.mission_id().c_str() );
     } else {
         active_missions.erase( iter );
     }
@@ -552,7 +578,7 @@ bool avatar::read( item_location &book, item_location ereader )
         }
 
         if( !learners.empty() ) {
-            add_header( _( "Read until this Character gains a level:" ) );
+            add_header( _( "Read until this character gains a level:" ) );
             for( const std::pair<Character *const, std::string> &elem : learners ) {
                 menu.addentry( 2 + elem.first->getID().get_value(), true, -1,
                                get_text( learners, elem ) );
@@ -806,9 +832,6 @@ void avatar::clear_identified()
 void avatar::wake_up()
 {
     if( has_effect( effect_sleep ) ) {
-        if( calendar::turn - get_effect( effect_sleep ).get_start_time() > 2_hours ) {
-            print_health();
-        }
         // alarm was set and player hasn't slept through the alarm.
         if( has_effect( effect_alarm_clock ) && !has_effect( effect_slept_through_alarm ) ) {
             add_msg( _( "It looks like you woke up before your alarm." ) );
@@ -886,6 +909,9 @@ nc_color avatar::basic_symbol_color() const
     if( has_effect( effect_stunned ) ) {
         return c_light_blue;
     }
+    if( has_effect( effect_psi_stunned ) ) {
+        return c_light_blue;
+    }
     if( has_effect( effect_boomered ) ) {
         return c_pink;
     }
@@ -918,20 +944,20 @@ void avatar::disp_morale()
 {
     int equilibrium = calc_focus_equilibrium();
 
-    int fatigue_penalty = 0;
-    const int fatigue_cap = focus_equilibrium_fatigue_cap( equilibrium );
+    int sleepiness_penalty = 0;
+    const int sleepiness_cap = focus_equilibrium_sleepiness_cap( equilibrium );
 
-    if( fatigue_cap < equilibrium ) {
-        fatigue_penalty = equilibrium - fatigue_cap;
-        equilibrium = fatigue_cap;
+    if( sleepiness_cap < equilibrium ) {
+        sleepiness_penalty = equilibrium - sleepiness_cap;
+        equilibrium = sleepiness_cap;
     }
 
     int pain_penalty = 0;
     if( get_perceived_pain() && !has_trait( trait_CENOBITE ) ) {
-        pain_penalty = calc_focus_equilibrium( true ) - equilibrium - fatigue_penalty;
+        pain_penalty = calc_focus_equilibrium( true ) - equilibrium - sleepiness_penalty;
     }
 
-    morale->display( equilibrium, pain_penalty, fatigue_penalty );
+    morale->display( equilibrium, pain_penalty, sleepiness_penalty );
 }
 
 void avatar::reset_stats()
@@ -1286,6 +1312,8 @@ void avatar::set_movement_mode( const move_mode_id &new_mode )
         }
         add_msg( new_mode->change_message( true, get_steed_type() ) );
         move_mode = new_mode;
+        // Enchantments based on move modes can stack inappropriately without a recalc here
+        recalculate_enchantment_cache();
         // crouching affects visibility
         get_map().set_seen_cache_dirty( pos().z );
         recoil = MAX_RECOIL;
@@ -1407,7 +1435,7 @@ bool avatar::wield( item &target, const int obtain_cost )
     }
 
     add_msg_debug( debugmode::DF_AVATAR, "wielding took %d moves", mv );
-    moves -= mv;
+    mod_moves( -mv );
 
     if( has_item( target ) ) {
         item removed = i_rem( &target );
@@ -1439,6 +1467,16 @@ bool avatar::wield( item &target, const int obtain_cost )
     inv->update_cache_with_item( *weapon );
 
     return true;
+}
+
+item::reload_option avatar::select_ammo( const item_location &base, bool prompt,
+        bool empty )
+{
+    if( !base ) {
+        return item::reload_option();
+    }
+
+    return game_menus::inv::select_ammo( *this, base, prompt, empty );
 }
 
 bool avatar::invoke_item( item *used, const tripoint &pt, int pre_obtain_moves )
@@ -1500,7 +1538,7 @@ bool avatar::invoke_item( item *used, const std::string &method, const tripoint 
                           int pre_obtain_moves )
 {
     if( pre_obtain_moves == -1 ) {
-        pre_obtain_moves = moves;
+        pre_obtain_moves = get_moves();
     }
     return Character::invoke_item( used, method, pt, pre_obtain_moves );
 }
@@ -1518,6 +1556,10 @@ void avatar::update_cardio_acc()
     // Cardio goal is 1000 times the ratio of kcals spent versus bmr,
     // giving a default of 1000 for no extra activity.
     const int bmr = get_bmr();
+    if( bmr == 0 ) {
+        set_cardio_acc( clamp( get_cardio_acc(), get_cardio_acc_base(), get_cardio_acc_base() * 3 ) );
+        return;
+    }
     const int last_24h_kcal = calorie_diary.front().spent;
 
     const int cardio_goal = ( last_24h_kcal * get_cardio_acc_base() ) / bmr;
@@ -1762,7 +1804,15 @@ std::unique_ptr<talker> get_talker_for( avatar *me )
 void avatar::randomize_hobbies()
 {
     hobbies.clear();
-    std::vector<profession_id> choices = profession::get_all_hobbies();
+    std::vector<profession_id> choices = get_scenario()->permitted_hobbies();
+    choices.erase( std::remove_if( choices.begin(), choices.end(),
+    [this]( const string_id<profession> &hobby ) {
+        return !prof->allows_hobby( hobby );
+    } ), choices.end() );
+    if( choices.empty() ) {
+        debugmsg( "Why would you blacklist all hobbies?" );
+        choices = profession::get_all_hobbies();
+    };
 
     int random = rng( 0, 5 );
 
@@ -1889,14 +1939,13 @@ void avatar::try_to_sleep( const time_duration &dur )
     bool watersleep = false;
     if( has_trait( trait_CHLOROMORPH ) ) {
         plantsleep = true;
-        if( ( ter_at_pos == t_dirt || ter_at_pos == t_pit ||
-              ter_at_pos == t_dirtmound || ter_at_pos == t_pit_shallow ||
-              ter_at_pos == t_grass ) && !vp &&
-            furn_at_pos == f_null ) {
+        const std::unordered_set<ter_str_id> comfy_ters = { ter_t_dirt, ter_t_dirtmound, ter_t_grass, ter_t_pit, ter_t_pit_shallow };
+        if( comfy_ters.find( ter_at_pos.id() ) != comfy_ters.end() && !vp &&
+            furn_at_pos == furn_str_id::NULL_ID() ) {
             add_msg_if_player( m_good, _( "You relax as your roots embrace the soil." ) );
         } else if( vp ) {
             add_msg_if_player( m_bad, _( "It's impossible to sleep in this wheeled pot!" ) );
-        } else if( furn_at_pos != f_null ) {
+        } else if( furn_at_pos != furn_str_id::NULL_ID() ) {
             add_msg_if_player( m_bad,
                                _( "The humans' furniture blocks your roots.  You can't get comfortable." ) );
         } else { // Floor problems
@@ -1946,7 +1995,7 @@ void avatar::try_to_sleep( const time_duration &dur )
         // Your shell's interior is a comfortable place to sleep.
         in_shell = true;
     }
-    if( has_trait( trait_WATERSLEEP ) ) {
+    if( has_trait( trait_WATERSLEEP ) || has_trait( trait_UNDINE_SLEEP_WATER ) ) {
         if( underwater ) {
             add_msg_if_player( m_good,
                                _( "You lay beneath the waves' embrace, gazing up through the water's surface…" ) );
@@ -1964,7 +2013,7 @@ void avatar::try_to_sleep( const time_duration &dur )
                          vp.part_with_feature( "BED", true ) ) ) {
         add_msg_if_player( m_good, _( "This is a comfortable place to sleep." ) );
     } else if( !plantsleep && !fungaloid_cosplay && !watersleep ) {
-        if( !vp && ter_at_pos != t_floor ) {
+        if( !vp && ter_at_pos != ter_t_floor ) {
             add_msg_if_player( ter_at_pos.obj().movecost <= 2 ?
                                _( "It's a little hard to get to sleep on this %s." ) :
                                _( "It's hard to get to sleep on this %s." ),

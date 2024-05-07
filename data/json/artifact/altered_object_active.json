@@ -60,7 +60,7 @@
     "description": "Causes you to teleport uncontrollably.",
     "message": "The world loses coherence, with images of nearby places forming and disappearing around you.",
     "valid_targets": [ "self" ],
-    "effect": "spawn_item",
+    "effect": "attack",
     "effect_str": "artifact_teleportitis_aura",
     "shape": "blast",
     "flags": [ "NO_EXPLOSION_SFX" ],
@@ -75,7 +75,7 @@
     "description": "Slows you for a few turns.",
     "message": "The world shifts blue, and reality accelerates around you.",
     "valid_targets": [ "self" ],
-    "effect": "spawn_item",
+    "effect": "attack",
     "effect_str": "artifact_slow_aura",
     "shape": "blast",
     "flags": [ "NO_EXPLOSION_SFX" ],
@@ -136,6 +136,6 @@
     "flags": [ "IGNORE_WALLS", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "shape": "blast",
     "effect": "remove_field",
-    "effect_str": "fd_fatigue"
+    "effect_str": "fd_reality_tear"
   }
 ]

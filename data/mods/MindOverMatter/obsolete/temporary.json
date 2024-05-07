@@ -1,0 +1,44 @@
+[
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "CLAIR_SPEED_READ",
+    "//": "remove after 0.I",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "PHOTOKINETIC_CAMOUFLAGE_1",
+    "//": "remove after 0.I",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "PHOTOKINETIC_CAMOUFLAGE_2",
+    "//": "remove after 0.I",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "PHOTOKINETIC_CAMOUFLAGE_3",
+    "//": "remove after 0.I",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "PHOTOKINETIC_CAMOUFLAGE_4",
+    "//": "remove after 0.I",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "PHOTOKINETIC_CAMOUFLAGE_5",
+    "//": "remove after 0.I",
+    "remove": true
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "PHOTOKINETIC_CAMOUFLAGE_6",
+    "//": "remove after 0.I",
+    "remove": true
+  }
+]

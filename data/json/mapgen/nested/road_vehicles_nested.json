@@ -114,6 +114,26 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "24x24_bridge_road_vehicles",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0 ],
+      "place_nested": [ { "chunks": [ [ "24x24_bridge_road_vehicles_country", 1 ], [ "null", 9 ] ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_bridgehead_ground_vehicles",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0 ],
+      "place_nested": [ { "chunks": [ [ "24x24_bridgehead_ground_vehicles_country", 1 ], [ "null", 19 ] ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "24x24_road_straight_vehicles_country",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -125,6 +145,36 @@
           "y": 0
         }
       ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_bridge_road_vehicles_country",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0 ],
+      "place_nested": [
+        {
+          "chunks": [
+            [ "24x24_road_vehicles_country_out_of_fuel_north", 396 ],
+            [ "24x24_road_vehicles_country_out_of_fuel_south", 396 ],
+            [ "24x24_road_vehicles_bridge_special", 12 ]
+          ],
+          "x": 0,
+          "y": 0
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_bridgehead_ground_vehicles_country",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0 ],
+      "place_nested": [ { "chunks": [ "24x24_road_vehicles_country_out_of_fuel_north" ], "x": 0, "y": 0 } ]
     }
   },
   {
@@ -915,6 +965,16 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "24x24_road_vehicles_bridge_special",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0 ],
+      "place_nested": [ { "chunks": [ "24x24_road_vehicles_bridge_semi_crash" ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_city_jack-knifed_semi",
     "object": {
       "mapgensize": [ 24, 24 ],
@@ -936,13 +996,59 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "24x24_road_vehicles_bridge_semi_crash",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0 ],
+      "place_nested": [
+        {
+          "chunks": [ "24x24_road_vehicles_bridge_semi_crash_north", "24x24_road_vehicles_bridge_semi_crash_south" ],
+          "x": 0,
+          "y": 0
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_road_vehicles_bridge_semi_crash_north",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0 ],
+      "place_vehicles": [
+        { "vehicle": "semi_truck", "x": 3, "y": 15, "fuel": -1, "status": 1, "chance": 100, "rotation": 140 },
+        { "vehicle": "truck_trailer", "x": 7, "y": 4, "fuel": -1, "status": 1, "chance": 100, "rotation": 110 },
+        { "vehicle": "4x4_car", "x": 11, "y": 10, "fuel": -1, "status": 1, "chance": 100, "rotation": 290 }
+      ],
+      "place_nested": [ { "chunks": [ "8x8_hole" ], "x": 0, "y": 10 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_road_vehicles_bridge_semi_crash_south",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0 ],
+      "place_vehicles": [
+        { "vehicle": "semi_truck", "x": 3, "y": 15, "fuel": -1, "status": 1, "chance": 100, "rotation": 140 },
+        { "vehicle": "truck_trailer", "x": 7, "y": 4, "fuel": -1, "status": 1, "chance": 100, "rotation": 110 },
+        { "vehicle": "4x4_car", "x": 11, "y": 10, "fuel": -1, "status": 1, "chance": 100, "rotation": 290 }
+      ],
+      "place_nested": [ { "chunks": [ "8x8_hole" ], "x": 0, "y": 10 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "24x24_road_vehicles_city_jack-knifed_semi_north",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rotation": [ 0 ],
       "place_vehicles": [
         { "vehicle": "semi_truck", "x": 15, "y": 4, "fuel": -1, "status": 1, "chance": 100, "rotation": 290 },
-        { "vehicle": "truck_trailer", "x": 18, "y": 12, "fuel": -1, "status": 1, "chance": 100, "rotation": 20 }
+        { "vehicle": "truck_trailer", "x": 18, "y": 12, "fuel": -1, "status": 1, "chance": 100, "rotation": 200 }
       ]
     }
   },
@@ -955,7 +1061,7 @@
       "rotation": [ 0 ],
       "place_vehicles": [
         { "vehicle": "semi_truck", "x": 19, "y": 15, "fuel": -1, "status": 1, "chance": 100, "rotation": 20 },
-        { "vehicle": "truck_trailer", "x": 11, "y": 18, "fuel": -1, "status": 1, "chance": 100, "rotation": 110 }
+        { "vehicle": "truck_trailer", "x": 11, "y": 18, "fuel": -1, "status": 1, "chance": 100, "rotation": 290 }
       ]
     }
   },
@@ -968,7 +1074,7 @@
       "rotation": [ 0 ],
       "place_vehicles": [
         { "vehicle": "semi_truck", "x": 8, "y": 19, "fuel": -1, "status": 1, "chance": 100, "rotation": 110 },
-        { "vehicle": "truck_trailer", "x": 5, "y": 11, "fuel": -1, "status": 1, "chance": 100, "rotation": 200 }
+        { "vehicle": "truck_trailer", "x": 5, "y": 11, "fuel": -1, "status": 1, "chance": 100, "rotation": 20 }
       ]
     }
   },
@@ -981,7 +1087,7 @@
       "rotation": [ 0 ],
       "place_vehicles": [
         { "vehicle": "semi_truck", "x": 4, "y": 8, "fuel": -1, "status": 1, "chance": 100, "rotation": 200 },
-        { "vehicle": "truck_trailer", "x": 12, "y": 5, "fuel": -1, "status": 1, "chance": 100, "rotation": 290 }
+        { "vehicle": "truck_trailer", "x": 12, "y": 5, "fuel": -1, "status": 1, "chance": 100, "rotation": 110 }
       ]
     }
   },

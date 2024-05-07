@@ -2,25 +2,18 @@
   {
     "type": "talk_topic",
     "id": "TALK_NPC_EVAC_SURVIVOR",
-    "dynamic_line": {
-      "npc_has_var": "knows_u",
-      "type": "dialogue",
-      "context": "first_meeting",
-      "value": "yes",
-      "yes": "<greet>.",
-      "no": "Don't come any closer!"
-    },
-    "speaker_effect": { "effect": { "npc_add_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
+    "dynamic_line": { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes", "yes": "<greet>.", "no": "Don't come any closer!" },
+    "speaker_effect": { "effect": { "npc_add_var": "dialogue_first_meeting_knows_u", "value": "yes" } },
     "responses": [
       {
         "text": "What's wrong?",
         "topic": "TALK_NPC_EVAC_SURVIVOR_CALM",
-        "condition": { "not": { "npc_has_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+        "condition": { "not": { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" } }
       },
       {
         "text": "<greet>.",
         "topic": "TALK_NPC_EVAC_SURVIVOR_INTRO",
-        "condition": { "npc_has_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+        "condition": { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" }
       },
       { "text": "Bye.", "topic": "TALK_DONE" }
     ]
@@ -28,7 +21,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_NPC_EVAC_SURVIVOR_CALM",
-    "dynamic_line": "Oh, you're not one of them.  Those <zombies>, I mean.  Come on in, just don't cause any trouble.",
+    "dynamic_line": {
+      "gendered_line": "Oh, you're not one of them.  Those <zombies>, I mean.  Come on in, just don't cause any trouble.",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [
       { "text": "Alright, let's chat.", "topic": "TALK_NPC_EVAC_SURVIVOR_INTRO" },
       { "text": "I'll be back later.", "topic": "TALK_DONE" }
@@ -40,6 +36,13 @@
     "dynamic_line": "So, what's up?",
     "responses": [
       { "text": "What are you doing here?", "topic": "TALK_NPC_EVAC_SURVIVOR_STORY" },
+      {
+        "text": "I'd like to ask you a few questions.",
+        "topic": "TALK_FRIEND_CONVERSATION",
+        "condition": {
+          "and": [ { "math": [ "n_val('npc_trust')", ">=", "2" ] }, { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" } ]
+        }
+      },
       { "text": "Care to trade?", "topic": "TALK_NPC_EVAC_SURVIVOR_INTRO", "effect": "start_trade" },
       {
         "text": "Why don't you come with me?",
@@ -58,7 +61,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_NPC_EVAC_SURVIVOR_STORY",
-    "dynamic_line": "When shit hit the fan, I ran out here to this emergency shelter.  Fortunately, the place hadn't been looted yet and there weren't any <zombies> lurking around.",
+    "dynamic_line": {
+      "gendered_line": "I found this emergency shelter when I was running from the chaos back in the cities.  Fortunately, the place hadn't been looted yet and there weren't any <zombies> lurking around; just the spot to stay 'till who knows when.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [ { "text": "Wow.", "topic": "TALK_NONE" } ]
   }
 ]

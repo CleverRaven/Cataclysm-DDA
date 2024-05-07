@@ -105,6 +105,24 @@
     "entries": [ { "drop": "withered", "base_num": [ 1, 2 ] }, { "drop": "lotus", "base_num": [ 1, 2 ] } ]
   },
   {
+    "id": "lotus_summer_harv",
+    "type": "harvest",
+    "entries": [
+      { "drop": "withered", "base_num": [ 1, 2 ] },
+      { "drop": "lotus", "base_num": [ 1, 2 ] },
+      { "drop": "seed_lotus", "base_num": [ 1, 2 ] }
+    ]
+  },
+  {
+    "id": "lotus_autumn_harv",
+    "type": "harvest",
+    "entries": [
+      { "drop": "withered", "base_num": [ 1, 2 ] },
+      { "drop": "lotus", "base_num": [ 1, 2 ] },
+      { "drop": "lotus_rhizome", "base_num": [ 1, 2 ] }
+    ]
+  },
+  {
     "id": "bluebell_harv",
     "type": "harvest",
     "entries": [ { "drop": "withered", "base_num": [ 1, 2 ] }, { "drop": "seed_flower", "base_num": [ 1, 2 ] } ]
@@ -147,7 +165,7 @@
   {
     "id": "shrub_rose_harv",
     "type": "harvest",
-    "entries": [ { "drop": "rose_hips", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ]
+    "entries": [ { "drop": "rose_hips", "base_num": [ 1, 3 ], "scale_num": [ 0, 0.5 ] } ]
   },
   {
     "id": "shrub_grape_harv",
@@ -280,6 +298,11 @@
     "id": "apple_harv",
     "type": "harvest",
     "entries": [ { "drop": "apple", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ]
+  },
+  {
+    "id": "crabapple_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "crabapple", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ]
   },
   {
     "id": "sassafras_harv",
@@ -453,6 +476,7 @@
     "type": "harvest",
     "message": "You search for any salvageable hardware in what's left of this flesh and metal monster.  Much of it is just scrap metal, but some of the electronics look surprisingly intact.",
     "entries": [
+      { "drop": "skull_human_tainted", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.1 },
       { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.04 },
@@ -1083,7 +1107,7 @@
     "id": "bird_tiny",
     "type": "harvest",
     "entries": [
-      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.4 },
+      { "drop": "poultry_scrap", "type": "flesh", "mass_ratio": 0.4 },
       { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "feather", "type": "skin", "mass_ratio": 0.01 },
       { "drop": "down_feather", "type": "skin", "mass_ratio": 0.005 }
@@ -1093,9 +1117,9 @@
     "id": "bird_small",
     "type": "harvest",
     "entries": [
-      { "drop": "meat", "type": "flesh", "mass_ratio": 0.3 },
+      { "drop": "poultry", "type": "flesh", "mass_ratio": 0.3 },
       { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
-      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.05 },
+      { "drop": "poultry_scrap", "type": "flesh", "mass_ratio": 0.05 },
       { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
       { "drop": "feather", "type": "skin", "mass_ratio": 0.01 },
       { "drop": "down_feather", "type": "skin", "mass_ratio": 0.005 }
@@ -1105,9 +1129,9 @@
     "id": "bird_large",
     "type": "harvest",
     "entries": [
-      { "drop": "meat", "type": "flesh", "mass_ratio": 0.3 },
+      { "drop": "poultry", "type": "flesh", "mass_ratio": 0.3 },
       { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 },
-      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
+      { "drop": "poultry_scrap", "type": "flesh", "mass_ratio": 0.03 },
       { "drop": "fat", "type": "flesh", "mass_ratio": 0.18 },
       { "drop": "feather", "type": "skin", "mass_ratio": 0.02 },
       { "drop": "down_feather", "type": "skin", "mass_ratio": 0.01 },
@@ -1153,9 +1177,14 @@
     "type": "harvest",
     "message": "You messily hack apart the hulking mass of fused, rancid flesh, taking note of anything that stands out.",
     "entries": [
+      { "drop": "skull_human_tainted", "type": "bone", "base_num": [ 0, 2 ] },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.33 },
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.01 },
+      { "drop": "tainted_marrow", "type": "bone", "mass_ratio": 0.005 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
       { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "tainted_innards", "type": "offal", "mass_ratio": 0.25 },
       { "drop": "flesh_golem_heart", "base_num": [ 0, 1 ], "scale_num": [ 0.6, 0.9 ], "max": 3, "type": "offal" }
     ]
   },
@@ -1164,9 +1193,18 @@
     "type": "harvest",
     "message": "You messily hack apart the colossal mass of fused, rancid flesh, taking note of anything that stands out.",
     "entries": [
+      { "drop": "skull_human_tainted", "type": "bone", "base_num": [ 0, 3 ] },
+      { "drop": "skull_moose", "type": "bone", "base_num": [ 0, 1 ] },
+      { "drop": "skull_cervine_spideer", "type": "bone", "base_num": [ 0, 1 ] },
+      { "drop": "skull_canis_triclopean", "type": "bone", "base_num": [ 0, 1 ] },
+      { "drop": "skull_rodent", "type": "bone", "base_num": [ 0, 6 ] },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.33 },
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "tainted_marrow", "type": "bone", "mass_ratio": 0.005 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
       { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "tainted_innards", "type": "offal", "mass_ratio": 0.25 },
       { "drop": "jabberwock_heart", "base_num": [ 0, 1 ], "scale_num": [ 0.6, 0.9 ], "max": 3, "type": "offal" }
     ],
     "//": "what, you thought jabberwocks only had one heart?"
@@ -1444,9 +1482,11 @@
     "entries": [
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "tainted_innards", "type": "offal", "mass_ratio": 0.15 },
       { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
       { "drop": "tainted_marrow", "type": "bone", "mass_ratio": 0.005 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
       { "drop": "raw_tainted_leather", "type": "skin", "mass_ratio": 0.02 }
     ]
   },
@@ -1458,9 +1498,11 @@
     "entries": [
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "tainted_innards", "type": "offal", "mass_ratio": 0.15 },
       { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
       { "drop": "tainted_marrow", "type": "bone", "mass_ratio": 0.005 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
       { "drop": "raw_tainted_fur", "type": "skin", "mass_ratio": 0.02 }
     ]
   },
@@ -1472,9 +1514,11 @@
     "entries": [
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "tainted_innards", "type": "offal", "mass_ratio": 0.15 },
       { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
       { "drop": "tainted_marrow", "type": "bone", "mass_ratio": 0.005 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
       { "drop": "raw_tainted_fur", "type": "skin", "mass_ratio": 0.02 }
     ]
   },
@@ -1495,11 +1539,14 @@
     "type": "harvest",
     "message": "<zombie_humanoid_generic_harvest>",
     "entries": [
+      { "drop": "skull_human_tainted", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "tainted_innards", "type": "offal", "mass_ratio": 0.15 },
       { "drop": "tainted_marrow", "type": "bone", "mass_ratio": 0.005 },
-      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 }
     ]
   },
   {
@@ -1508,11 +1555,61 @@
     "type": "harvest",
     "message": "<zombie_humanoid_generic_harvest>",
     "entries": [
+      { "drop": "skull_human_tainted", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "tainted_innards", "type": "offal", "mass_ratio": 0.15 },
       { "drop": "tainted_marrow", "type": "bone", "mass_ratio": 0.005 },
-      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 }
+    ]
+  },
+  {
+    "id": "zombie_rust",
+    "type": "harvest",
+    "entries": [
+      { "drop": "skull_human_tainted", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
+      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.175 },
+      { "drop": "steel_chunk", "type": "flesh", "mass_ratio": 0.075 },
+      { "drop": "scrap", "type": "flesh", "mass_ratio": 0.025 },
+      { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "tainted_innards", "type": "offal", "mass_ratio": 0.15 },
+      { "drop": "tainted_marrow", "type": "bone", "mass_ratio": 0.005 },
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.075 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 }
+    ]
+  },
+  {
+    "id": "zombie_humanoid_headless",
+    "//": "humanoid zombies without a skull",
+    "type": "harvest",
+    "message": "<zombie_humanoid_headless_harvest>",
+    "entries": [
+      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
+      { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "tainted_innards", "type": "offal", "mass_ratio": 0.15 },
+      { "drop": "tainted_marrow", "type": "bone", "mass_ratio": 0.005 },
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 }
+    ]
+  },
+  {
+    "id": "zombie_humanoid_multiple",
+    "//": "multiple humanoid zombies fused together",
+    "type": "harvest",
+    "message": "<zombie_humanoid_generic_harvest>",
+    "entries": [
+      { "drop": "skull_human_tainted", "type": "bone", "base_num": [ 2, 5 ] },
+      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
+      { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "tainted_innards", "type": "offal", "mass_ratio": 0.15 },
+      { "drop": "tainted_marrow", "type": "bone", "mass_ratio": 0.005 },
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 }
     ]
   },
   {
@@ -1524,8 +1621,10 @@
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "tainted_innards", "type": "offal", "mass_ratio": 0.15 },
       { "drop": "tainted_marrow", "type": "bone", "mass_ratio": 0.005 },
-      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 }
     ]
   },
   {
@@ -1534,11 +1633,14 @@
     "type": "harvest",
     "message": "<zombie_humanoid_acid_harvest>",
     "entries": [
+      { "drop": "skull_human_tainted", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "blood_acid", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "tainted_innards", "type": "offal", "mass_ratio": 0.15 },
       { "drop": "tainted_marrow", "type": "bone", "mass_ratio": 0.005 },
-      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 }
     ]
   },
   {
@@ -1549,9 +1651,11 @@
     "entries": [
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "tainted_innards", "type": "offal", "mass_ratio": 0.15 },
       { "drop": "blood_acid", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
-      { "drop": "tainted_marrow", "type": "bone", "mass_ratio": 0.005 }
+      { "drop": "tainted_marrow", "type": "bone", "mass_ratio": 0.005 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 }
     ]
   },
   {
@@ -1562,9 +1666,11 @@
     "entries": [
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "tainted_innards", "type": "offal", "mass_ratio": 0.15 },
       { "drop": "blood_acid", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
-      { "drop": "tainted_marrow", "type": "bone", "mass_ratio": 0.005 }
+      { "drop": "tainted_marrow", "type": "bone", "mass_ratio": 0.005 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 }
     ]
   },
   {
@@ -1573,11 +1679,14 @@
     "type": "harvest",
     "message": "<zombie_screamer_harvest>",
     "entries": [
+      { "drop": "skull_human_tainted", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.15 },
       { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.03 },
+      { "drop": "tainted_innards", "type": "offal", "mass_ratio": 0.1 },
       { "drop": "tainted_marrow", "type": "bone", "mass_ratio": 0.005 },
-      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 }
     ]
   },
   {
@@ -1586,11 +1695,14 @@
     "type": "harvest",
     "message": "<zombie_grabber_harvest>",
     "entries": [
+      { "drop": "skull_human_tainted", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "tainted_innards", "type": "offal", "mass_ratio": 0.15 },
       { "drop": "tainted_marrow", "type": "bone", "mass_ratio": 0.005 },
-      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 }
     ]
   },
   {
@@ -1599,11 +1711,14 @@
     "type": "harvest",
     "message": "<zombie_humanoid_electric_harvest>",
     "entries": [
+      { "drop": "skull_human_tainted", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "tainted_innards", "type": "offal", "mass_ratio": 0.15 },
       { "drop": "tainted_marrow", "type": "bone", "mass_ratio": 0.005 },
-      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 }
     ]
   },
   {
@@ -1615,8 +1730,10 @@
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "tainted_innards", "type": "offal", "mass_ratio": 0.15 },
       { "drop": "tainted_marrow", "type": "bone", "mass_ratio": 0.005 },
-      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 }
     ]
   },
   {
@@ -1625,11 +1742,14 @@
     "type": "harvest",
     "message": "<zombie_pupating_harvest>",
     "entries": [
+      { "drop": "skull_human_tainted", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "tainted_innards", "type": "offal", "mass_ratio": 0.15 },
       { "drop": "tainted_marrow", "type": "bone", "mass_ratio": 0.005 },
-      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 }
     ]
   },
   {
@@ -1638,11 +1758,14 @@
     "type": "harvest",
     "message": "<zombie_humanoid_mushroom_harvest>",
     "entries": [
+      { "drop": "skull_human_tainted", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "veggy_tainted", "type": "offal", "mass_ratio": 0.15 },
       { "drop": "tainted_marrow", "type": "bone", "mass_ratio": 0.005 },
-      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 }
     ]
   },
   {
@@ -1654,8 +1777,10 @@
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "veggy_tainted", "type": "offal", "mass_ratio": 0.15 },
       { "drop": "tainted_marrow", "type": "bone", "mass_ratio": 0.005 },
-      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 }
     ]
   },
   {
@@ -1664,11 +1789,14 @@
     "type": "harvest",
     "message": "<zombie_humanoid_shadow_harvest>",
     "entries": [
+      { "drop": "skull_human_tainted", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "tainted_innards", "type": "offal", "mass_ratio": 0.15 },
       { "drop": "tainted_marrow", "type": "bone", "mass_ratio": 0.005 },
-      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 }
     ]
   },
   {
@@ -1677,11 +1805,14 @@
     "type": "harvest",
     "message": "<zombie_pupating_shadow_harvest>",
     "entries": [
+      { "drop": "skull_human_tainted", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.18 },
       { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.8 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.06 },
+      { "drop": "tainted_innards", "type": "offal", "mass_ratio": 0.08 },
       { "drop": "tainted_marrow", "type": "bone", "mass_ratio": 0.003 },
-      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.08 }
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.08 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 }
     ]
   },
   {
@@ -1693,8 +1824,10 @@
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "tainted_innards", "type": "offal", "mass_ratio": 0.15 },
       { "drop": "tainted_marrow", "type": "bone", "mass_ratio": 0.005 },
-      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 }
     ]
   },
   {
@@ -1705,9 +1838,11 @@
     "entries": [
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "tainted_innards", "type": "offal", "mass_ratio": 0.15 },
       { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
       { "drop": "tainted_marrow", "type": "bone", "mass_ratio": 0.005 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
       { "drop": "raw_tainted_fur", "type": "skin", "mass_ratio": 0.02 }
     ]
   },
@@ -1717,11 +1852,14 @@
     "type": "harvest",
     "message": "<zombie_hulk_harvest>",
     "entries": [
+      { "drop": "skull_human_tainted", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "tainted_innards", "type": "offal", "mass_ratio": 0.15 },
       { "drop": "tainted_marrow", "type": "bone", "mass_ratio": 0.005 },
-      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 }
     ]
   },
   {
@@ -1730,11 +1868,14 @@
     "type": "harvest",
     "message": "<zombie_pupating_hulk_harvest>",
     "entries": [
+      { "drop": "skull_human_tainted", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.18 },
       { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.8 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.06 },
+      { "drop": "tainted_innards", "type": "offal", "mass_ratio": 0.08 },
       { "drop": "tainted_marrow", "type": "bone", "mass_ratio": 0.003 },
-      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.07 }
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.07 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 }
     ]
   },
   {
@@ -1744,8 +1885,10 @@
     "entries": [
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.2 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.05 },
+      { "drop": "tainted_innards", "type": "offal", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
       { "drop": "tainted_marrow", "type": "bone", "mass_ratio": 0.005 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
       { "drop": "stick_fiber", "type": "bone", "mass_ratio": 0.1 }
     ]
   },
@@ -1755,10 +1898,13 @@
     "type": "harvest",
     "message": "<zombie_humanoid_kevlar_harvest>",
     "entries": [
+      { "drop": "skull_human_tainted", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "tainted_innards", "type": "offal", "mass_ratio": 0.15 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
       { "drop": "tainted_marrow", "type": "bone", "mass_ratio": 0.005 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
       { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "kevlar_patch", "type": "skin", "mass_ratio": 0.02, "flags": [ "FILTHY" ] },
       { "drop": "sheet_kevlar", "type": "skin", "mass_ratio": 0.01, "flags": [ "FILTHY" ] },
@@ -1772,10 +1918,13 @@
     "type": "harvest",
     "message": "<zombie_kevlar_hulk_harvest>",
     "entries": [
+      { "drop": "skull_human_tainted", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "tainted_innards", "type": "offal", "mass_ratio": 0.15 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
       { "drop": "tainted_marrow", "type": "bone", "mass_ratio": 0.005 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
       { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "kevlar_patch", "type": "skin", "mass_ratio": 0.02, "flags": [ "FILTHY" ] },
       { "drop": "sheet_kevlar", "type": "skin", "mass_ratio": 0.01, "flags": [ "FILTHY" ] },
@@ -1811,6 +1960,7 @@
     "type": "harvest",
     "message": "<zombie_humanoid_bone_harvest>",
     "entries": [
+      { "drop": "skull_human_tainted", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
       { "drop": "bone_tainted", "type": "flesh", "mass_ratio": 0.5 },
       { "drop": "tainted_marrow", "type": "bone", "mass_ratio": 0.005 },
       { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.01 },
@@ -1823,6 +1973,7 @@
     "type": "harvest",
     "message": "<zombie_bone_hulk_harvest>",
     "entries": [
+      { "drop": "skull_human_tainted", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
       { "drop": "bone_tainted", "type": "flesh", "mass_ratio": 0.5 },
       { "drop": "tainted_marrow", "type": "bone", "mass_ratio": 0.005 },
       { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.01 },
@@ -1859,6 +2010,7 @@
     "type": "harvest",
     "message": "<zombie_humanoid_moldy_bone_harvest>",
     "entries": [
+      { "drop": "skull_human_tainted", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
       { "drop": "bone_tainted", "type": "flesh", "mass_ratio": 0.5 },
       { "drop": "tainted_marrow", "type": "bone", "mass_ratio": 0.005 },
       { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.01 },
@@ -1967,6 +2119,7 @@
   {
     "id": "fungaloid",
     "type": "harvest",
+    "message": "<fungaloid_harvest>",
     "entries": [
       { "drop": "veggy_tainted", "type": "flesh", "mass_ratio": 0.5 },
       { "drop": "plant_sac", "type": "offal", "mass_ratio": 0.2 },
@@ -1987,6 +2140,7 @@
   {
     "id": "flesh_plant",
     "type": "harvest",
+    "message": "<power_leech_harvest>",
     "entries": [
       { "drop": "meat_bark", "type": "flesh", "mass_ratio": 0.05 },
       { "drop": "meat_frond", "type": "flesh", "mass_ratio": 0.5 }
@@ -2004,6 +2158,7 @@
   {
     "id": "biollante",
     "type": "harvest",
+    "message": "<triffid_harvest>",
     "//": "todo: add biollante item",
     "entries": [
       { "drop": "stick_fiber", "type": "bone", "mass_ratio": 0.5 },
@@ -2014,6 +2169,7 @@
   {
     "id": "triffid_small",
     "type": "harvest",
+    "message": "<triffid_harvest>",
     "entries": [
       { "drop": "stick_fiber", "type": "bone", "mass_ratio": 0.5 },
       { "drop": "veggy", "type": "flesh", "mass_ratio": 0.2 },
@@ -2023,6 +2179,7 @@
   {
     "id": "triffid_paralytic",
     "type": "harvest",
+    "message": "<triffid_harvest>",
     "entries": [
       { "drop": "stick_fiber", "type": "bone", "mass_ratio": 0.4 },
       { "drop": "veggy", "type": "flesh", "mass_ratio": 0.2 },
@@ -2035,6 +2192,7 @@
     "id": "triffid_acid",
     "//": "acid blood type for plant based creaturs.",
     "type": "harvest",
+    "message": "<triffid_harvest>",
     "entries": [
       { "drop": "blood_acid_plant", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "stick_fiber", "type": "bone", "mass_ratio": 0.5 },
@@ -2045,6 +2203,7 @@
   {
     "id": "triffid_fungal_fighter",
     "type": "harvest",
+    "message": "<triffid_harvest>",
     "entries": [
       { "drop": "stick_fiber", "type": "bone", "mass_ratio": 0.4 },
       { "drop": "veggy", "type": "flesh", "mass_ratio": 0.2 },
@@ -2057,6 +2216,7 @@
   {
     "id": "triffid_queen",
     "type": "harvest",
+    "message": "<triffid_harvest>",
     "entries": [
       { "drop": "log", "type": "bone", "mass_ratio": 0.35 },
       { "drop": "stick_fiber", "type": "bone", "mass_ratio": 0.15 },
@@ -2092,6 +2252,15 @@
       { "drop": "skull_canis_medium", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.5 },
       { "drop": "animal_blood", "type": "blood", "mass_ratio": 0.1 }
+    ]
+  },
+  {
+    "id": "dog_small_with_skull_mutant",
+    "type": "harvest",
+    "entries": [
+      { "drop": "skull_canis_medium", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
+      { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.5 },
+      { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 }
     ]
   },
   {
@@ -2373,6 +2542,23 @@
     ]
   },
   {
+    "id": "dog_with_skull_fur_mutant",
+    "type": "harvest",
+    "entries": [
+      { "drop": "skull_canis", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
+      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.28 },
+      { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.05 },
+      { "drop": "mutant_lung", "type": "flesh", "mass_ratio": 0.0035 },
+      { "drop": "mutant_liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "mutant_brain", "type": "flesh", "mass_ratio": 0.005 },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "raw_fur", "type": "skin", "mass_ratio": 0.02 },
+      { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.07 }
+    ]
+  },
+  {
     "id": "dog_with_skull_leather",
     "type": "harvest",
     "entries": [
@@ -2472,6 +2658,23 @@
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
       { "drop": "raw_fur", "type": "skin", "mass_ratio": 0.02 },
       { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 }
+    ]
+  },
+  {
+    "id": "raccoon_with_skull_mutant",
+    "type": "harvest",
+    "entries": [
+      { "drop": "skull_raccoon", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
+      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.28 },
+      { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.05 },
+      { "drop": "mutant_lung", "type": "flesh", "mass_ratio": 0.0035 },
+      { "drop": "mutant_liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "mutant_brain", "type": "flesh", "mass_ratio": 0.005 },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "raw_fur", "type": "skin", "mass_ratio": 0.02 },
+      { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.07 }
     ]
   },
   {
@@ -2614,5 +2817,11 @@
       { "drop": "blood_mi-go", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "bone_mi-go", "type": "bone", "mass_ratio": 0.1 }
     ]
+  },
+  {
+    "id": "bullfrog",
+    "//": "Frog legs, but the rest of the frog is mostly inedible",
+    "type": "harvest",
+    "entries": [ { "drop": "froglegs", "type": "flesh", "scale_num": [ 1, 1 ], "max": 1 } ]
   }
 ]

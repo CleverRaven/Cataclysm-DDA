@@ -51,6 +51,15 @@ static const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
 
 static const spell_id spell_dks_summon_alrp( "dks_summon_alrp" );
 
+static const ter_str_id ter_t_fault( "t_fault" );
+static const ter_str_id ter_t_grate( "t_grate" );
+static const ter_str_id ter_t_rock_floor( "t_rock_floor" );
+static const ter_str_id ter_t_root_wall( "t_root_wall" );
+static const ter_str_id ter_t_stairs_down( "t_stairs_down" );
+static const ter_str_id ter_t_underbrush( "t_underbrush" );
+static const ter_str_id ter_t_water_dp( "t_water_dp" );
+static const ter_str_id ter_t_water_sh( "t_water_sh" );
+
 timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_ms p,
                           int s, std::string key )
     : type( e_t )
@@ -134,9 +143,10 @@ void timed_event::actualize()
             std::optional<tripoint> fault_point;
             bool horizontal = false;
             for( const tripoint &p : here.points_on_zlevel() ) {
-                if( here.ter( p ) == t_fault ) {
+                if( here.ter( p ) == ter_t_fault ) {
                     fault_point = p;
-                    horizontal = here.ter( p + tripoint_east ) == t_fault || here.ter( p + tripoint_west ) == t_fault;
+                    horizontal = here.ter( p + tripoint_east ) == ter_t_fault ||
+                                 here.ter( p + tripoint_west ) == ter_t_fault;
                     break;
                 }
             }
@@ -146,7 +156,7 @@ void timed_event::actualize()
                     if( horizontal ) {
                         monp.x = rng( fault_point->x, fault_point->x + 2 * SEEX - 8 );
                         for( int n = -1; n <= 1; n++ ) {
-                            if( here.ter( point( monp.x, fault_point->y + n ) ) == t_rock_floor ) {
+                            if( here.ter( point( monp.x, fault_point->y + n ) ) == ter_t_rock_floor ) {
                                 monp.y = fault_point->y + n;
                             }
                         }
@@ -154,7 +164,7 @@ void timed_event::actualize()
                         // Vertical fault
                         monp.y = rng( fault_point->y, fault_point->y + 2 * SEEY - 8 );
                         for( int n = -1; n <= 1; n++ ) {
-                            if( here.ter( point( fault_point->x + n, monp.y ) ) == t_rock_floor ) {
+                            if( here.ter( point( fault_point->x + n, monp.y ) ) == ter_t_rock_floor ) {
                                 monp.x = fault_point->x + n;
                             }
                         }
@@ -170,8 +180,8 @@ void timed_event::actualize()
         case timed_event_type::ROOTS_DIE:
             get_event_bus().send<event_type::destroys_triffid_grove>();
             for( const tripoint &p : here.points_on_zlevel() ) {
-                if( here.ter( p ) == t_root_wall && one_in( 3 ) ) {
-                    here.ter_set( p, t_underbrush );
+                if( here.ter( p ) == ter_t_root_wall && one_in( 3 ) ) {
+                    here.ter_set( p, ter_t_underbrush );
                 }
             }
             break;
@@ -180,8 +190,8 @@ void timed_event::actualize()
             get_event_bus().send<event_type::opens_temple>();
             bool saw_grate = false;
             for( const tripoint &p : here.points_on_zlevel() ) {
-                if( here.ter( p ) == t_grate ) {
-                    here.ter_set( p, t_stairs_down );
+                if( here.ter( p ) == ter_t_grate ) {
+                    here.ter_set( p, ter_t_stairs_down );
                     if( !saw_grate && player_character.sees( p ) ) {
                         saw_grate = true;
                     }
@@ -201,28 +211,28 @@ void timed_event::actualize()
                 flood_buf[p.x][p.y] = here.ter( p );
             }
             for( const tripoint &p : here.points_on_zlevel() ) {
-                if( here.ter( p ) == t_water_sh ) {
+                if( here.ter( p ) == ter_t_water_sh ) {
                     bool deepen = false;
                     for( const tripoint &w : points_in_radius( p, 1 ) ) {
-                        if( here.ter( w ) == t_water_dp ) {
+                        if( here.ter( w ) == ter_t_water_dp ) {
                             deepen = true;
                             break;
                         }
                     }
                     if( deepen ) {
-                        flood_buf[p.x][p.y] = t_water_dp;
+                        flood_buf[p.x][p.y] = ter_t_water_dp;
                         flooded = true;
                     }
-                } else if( here.ter( p ) == t_rock_floor ) {
+                } else if( here.ter( p ) == ter_t_rock_floor ) {
                     bool flood = false;
                     for( const tripoint &w : points_in_radius( p, 1 ) ) {
-                        if( here.ter( w ) == t_water_dp || here.ter( w ) == t_water_sh ) {
+                        if( here.ter( w ) == ter_t_water_dp || here.ter( w ) == ter_t_water_sh ) {
                             flood = true;
                             break;
                         }
                     }
                     if( flood ) {
-                        flood_buf[p.x][p.y] = t_water_sh;
+                        flood_buf[p.x][p.y] = ter_t_water_sh;
                         flooded = true;
                     }
                 }
@@ -234,7 +244,7 @@ void timed_event::actualize()
             // Check if we should print a message
             if( flood_buf[player_character.posx()][player_character.posy()] != here.ter(
                     player_character.pos() ) ) {
-                if( flood_buf[player_character.posx()][player_character.posy()] == t_water_sh ) {
+                if( flood_buf[player_character.posx()][player_character.posy()] == ter_t_water_sh ) {
                     add_msg( m_warning, _( "Water quickly floods up to your knees." ) );
                     get_memorial().add(
                         pgettext( "memorial_male", "Water level reached knees." ),
@@ -275,9 +285,10 @@ void timed_event::actualize()
                 fake_spell summoning( spell_dks_summon_alrp, true, 12 );
                 summoning.get_spell( player_character ).cast_all_effects( dispatcher, spot );
             } else {
+                const tripoint_abs_omt omt_point = project_to<coords::omt>( map_point );
                 tinymap mx_map;
-                mx_map.load( map_point, false );
-                MapExtras::apply_function( map_extra_mx_dsa_alrp, mx_map, map_point );
+                mx_map.load( omt_point, false );
+                MapExtras::apply_function( map_extra_mx_dsa_alrp, mx_map, omt_point );
                 g->load_npcs();
                 here.invalidate_map_cache( map_point.z() );
             }
@@ -336,7 +347,7 @@ void timed_event::per_turn()
         case timed_event_type::AMIGARA_WHISPERS: {
             bool faults = false;
             for( const tripoint &p : here.points_on_zlevel() ) {
-                if( here.ter( p ) == t_fault ) {
+                if( here.ter( p ) == ter_t_fault ) {
                     faults = true;
                     break;
                 }

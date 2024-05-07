@@ -4,7 +4,6 @@
 <color_white>Посетите нас:</color>
 
 <color_light_gray>* Официальный сайт:</color>    <color_cyan>https://cataclysmdda.org</color>
-<color_light_gray>* Wiki:</color>        <color_cyan>https://cddawiki.chezzo.com/cdda_wiki</color>
 
 <color_white>Сообщайте о багах, выдвигайте предложения и следите за разработкой:</color>
 
@@ -16,7 +15,6 @@
 <color_light_gray>* Discourse:                 </color><color_cyan>https://discourse.cataclysmdda.org/</color>
 <color_light_gray>* Discord:                   </color><color_cyan>https://discord.gg/jFEc7Yp</color>
 <color_light_gray>* IRC:                       </color><color_cyan>#CataclysmDDA at libera.chat</color>
-<color_light_gray>* Lemmy (Федивёрс) </color><color_cyan>https://cdda.social/</color>
 
 <color_light_gray>Другие полезные ссылки можно найти на нашем сайте.</color>
 

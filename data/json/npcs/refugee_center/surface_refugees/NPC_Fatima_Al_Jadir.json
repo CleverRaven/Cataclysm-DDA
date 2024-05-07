@@ -84,9 +84,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            {
-              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
-            }
+            { "not": { "npc_has_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" } }
           ]
         },
         "topic": "TALK_REFUGEE_Refuse_Boris_Mission_1"
@@ -97,7 +95,7 @@
       {
         "text": "Hey, you free for a bit of teaching?",
         "topic": "TALK_REFUGEE_Fatima_Teach",
-        "condition": { "u_has_var": "Fatima_Teacher", "type": "knowledge", "context": "trade", "value": "yes" }
+        "condition": { "u_has_var": "knowledge_trade_Fatima_Teacher", "value": "yes" }
       },
       { "text": "Is there anything I can do to help you out?", "topic": "TALK_MISSION_LIST" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
@@ -110,7 +108,7 @@
     "dynamic_line": "*is a fit young woman dressed in smudged coveralls.  She looks at you with interest and concern.  \"Oh, hey, a new face.  Hi, I'm Fatima.  Just visiting I hope?  It's nice to meet new people but there are no beds to share.\"",
     "speaker_effect": {
       "effect": [
-        { "u_add_var": "u_met_Fatima_al_Jadir", "type": "general", "context": "meeting", "value": "yes" },
+        { "u_add_var": "general_meeting_u_met_Fatima_al_Jadir", "value": "yes" },
         { "npc_first_topic": "TALK_REFUGEE_Fatima_1a" }
       ]
     },
@@ -167,21 +165,20 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Fatima_Teach",
     "dynamic_line": {
-      "u_has_var": "Fatima_barter_success",
-      "type": "barter",
-      "context": "flag",
+      "u_has_var": "barter_flag_Fatima_barter_success",
       "value": "yes",
       "yes": "Sure.  As agreed, 3 merch.",
       "no": {
-        "u_has_var": "Fatima_Mission1",
-        "type": "mission",
-        "context": "flag",
+        "u_has_var": "mission_flag_Fatima_Mission1",
         "value": "yes",
         "no": "Sure, I could teach you the basics, I'll have to charge you though.  Let's say, 5 merch for a teaching session, plus a bit in trade depending on how in-depth you're looking for?",
-        "yes": "Sure, I could teach you the basics, it'll cost you merch though.  Since you helped me out, I can shave a bit off the price, let's say 4 merch, plus a bit in trade depending on how in-depth you're looking for?"
+        "yes": {
+          "gendered_line": "Sure, I could teach you the basics, it'll cost you merch though.  Since you helped me out, I can shave a bit off the price, let's say 4 merch, plus a bit in trade depending on how in-depth you're looking for?",
+          "relevant_genders": [ "u" ]
+        }
       }
     },
-    "speaker_effect": { "effect": { "u_add_var": "Fatima_Teacher", "type": "knowledge", "context": "trade", "value": "yes" } },
+    "speaker_effect": { "effect": { "u_add_var": "knowledge_trade_Fatima_Teacher", "value": "yes" } },
     "responses": [
       {
         "//": "5 merch if player has not bartered nor finished mission",
@@ -189,8 +186,8 @@
         "topic": "TALK_TRAIN",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "Fatima_barter_success", "type": "barter", "context": "flag", "value": "yes" } },
-            { "not": { "u_has_var": "Fatima_Mission1", "type": "mission", "context": "flag", "value": "yes" } },
+            { "not": { "u_has_var": "barter_flag_Fatima_barter_success", "value": "yes" } },
+            { "not": { "u_has_var": "mission_flag_Fatima_Mission1", "value": "yes" } },
             { "u_has_items": { "item": "FMCNote", "count": 5 } }
           ]
         },
@@ -202,8 +199,8 @@
         "topic": "TALK_TRAIN",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "Fatima_barter_success", "type": "barter", "context": "flag", "value": "yes" } },
-            { "u_has_var": "Fatima_Mission1", "type": "mission", "context": "flag", "value": "yes" },
+            { "not": { "u_has_var": "barter_flag_Fatima_barter_success", "value": "yes" } },
+            { "u_has_var": "mission_flag_Fatima_Mission1", "value": "yes" },
             { "u_has_items": { "item": "FMCNote", "count": 4 } }
           ]
         },
@@ -215,7 +212,7 @@
         "topic": "TALK_TRAIN",
         "condition": {
           "and": [
-            { "u_has_var": "Fatima_barter_success", "type": "barter", "context": "flag", "value": "yes" },
+            { "u_has_var": "barter_flag_Fatima_barter_success", "value": "yes" },
             { "u_has_items": { "item": "FMCNote", "count": 3 } }
           ]
         },
@@ -225,11 +222,9 @@
         "text": "[BARTER] Come on, I'm serious here.",
         "condition": {
           "and": [
-            {
-              "not": { "u_compare_time_since_var": "Fatima_barter_fail", "type": "timer", "context": "flag", "op": "<=", "time": "1 day" }
-            },
-            { "not": { "u_has_var": "Fatima_barter_success", "type": "barter", "context": "flag", "value": "yes" } },
-            { "not": { "u_has_var": "Fatima_Mission1", "type": "mission", "context": "flag", "value": "yes" } }
+            { "math": [ "time_since(n_timer_flag_Fatima_barter_fail)", ">", "time('1 d')" ] },
+            { "not": { "u_has_var": "barter_flag_Fatima_barter_success", "value": "yes" } },
+            { "not": { "u_has_var": "mission_flag_Fatima_Mission1", "value": "yes" } }
           ]
         },
         "trial": { "type": "PERSUADE", "difficulty": 35 },
@@ -240,11 +235,9 @@
         "text": "[BARTER] That's still pretty steep, I risked my neck out there for your book.  Can't you manage a little lower?",
         "condition": {
           "and": [
-            {
-              "not": { "u_compare_time_since_var": "Fatima_barter_fail", "type": "timer", "context": "flag", "op": "<=", "time": "1 day" }
-            },
-            { "not": { "u_has_var": "Fatima_barter_success", "type": "barter", "context": "flag", "value": "yes" } },
-            { "u_has_var": "Fatima_Mission1", "type": "mission", "context": "flag", "value": "yes" }
+            { "math": [ "time_since(n_timer_flag_Fatima_barter_fail)", ">", "time('1 d')" ] },
+            { "not": { "u_has_var": "barter_flag_Fatima_barter_success", "value": "yes" } },
+            { "u_has_var": "mission_flag_Fatima_Mission1", "value": "yes" }
           ]
         },
         "trial": { "type": "PERSUADE", "difficulty": 15 },
@@ -259,7 +252,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Fatima_Teach_nobarter",
     "dynamic_line": "Hey, I appreciate that, but I know what I've got, and I can make good money with that time.  Sorry, my price stands.",
-    "speaker_effect": { "effect": { "u_add_var": "Fatima_barter_fail", "type": "timer", "context": "flag", "time": true } },
+    "speaker_effect": { "effect": { "math": [ "n_timer_flag_Fatima_barter_fail", "=", "time('now')" ] } },
     "responses": [
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
@@ -269,7 +262,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Fatima_Teach_yesbarter",
     "dynamic_line": "Oh, fine, you weasel.  I suppose I can manage for 3 notes.  I seriously can't go lower though, we'll be using up my resources and time and I gotta pay for the gas and the food somehow.",
-    "speaker_effect": { "effect": { "u_add_var": "Fatima_barter_success", "type": "barter", "context": "flag", "value": "yes" } },
+    "speaker_effect": { "effect": { "u_add_var": "barter_flag_Fatima_barter_success", "value": "yes" } },
     "responses": [
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
@@ -284,9 +277,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Fatima_Situation",
     "dynamic_line": {
-      "u_has_var": "Jenny_mission_2",
-      "type": "mission",
-      "context": "completed",
+      "u_has_var": "mission_completed_Jenny_mission_2",
       "value": "yes",
       "no": "It's tense here.  I know I'd feel a lot better if I had something to do with my skills, or even if I just had a quiet place to pray sometimes.  I feel a bit self-conscious praying in the common areas.  Jenny was talking about some project ideas she had that could get me doing my job again, but I admit I'm pretty nervous about going outside.",
       "yes": "Things are still tense, but I've been busy lately.  Jenny's had her project going and got me started helping her out with it, and for some reason that seems to have been the tipping point: I'm getting chances to do a lot more welding work now.  It's helping.  I feel a bit self-conscious praying in the common areas, and of course, we don't go outside if we can help it."
@@ -315,8 +306,8 @@
     "end": {
       "effect": [
         { "u_spawn_item": "FMCNote", "count": 5 },
-        { "u_add_var": "Fatima_Mission1", "type": "mission", "context": "flag", "value": "yes" },
-        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 1 }
+        { "u_add_var": "mission_flag_Fatima_Mission1", "value": "yes" },
+        { "math": [ "u_counter_refugee_center_refugee_happiness", "++" ] }
       ]
     }
   }

@@ -61,8 +61,12 @@
       { "group": "enchanted_melee_weapons_plus2", "prob": 20 },
       { "group": "enchanted_rings_common", "prob": 20 },
       { "group": "enchanted_rings_uncommon", "prob": 5 },
+      { "group": "enchanted_arrows", "prob": 15, "count": [ 1, 2 ] },
+      { "group": "group_potion_fruits", "prob": 10, "count": [ 1, 4 ] },
       { "group": "enchanted_bracelets", "prob": 4 },
       { "group": "enchanted_belts", "prob": 2 },
+      { "group": "items_of_elvenkind", "prob": 1 },
+      { "group": "parabolan_armor", "prob": 15 },
       { "group": "spellbook_loot_1", "prob": 35, "count": [ 1, 3 ] }
     ]
   },
@@ -128,9 +132,7 @@
     "id": "TALK_FORGE_LORD_DOING",
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_var": "u_met_FORGE_LORD",
-      "type": "general",
-      "context": "meeting",
+      "u_has_var": "general_meeting_u_met_FORGE_LORD",
       "value": "yes",
       "no": "Well here and now I am the law, and the law here is that people purchase my goods, they take them out into the world and they die; or they return to buy more of my goods.  Either way, I write poetry about them.",
       "yes": "Once I was lost in the throes of love, now I've built an empire of material goods."
@@ -138,8 +140,8 @@
     "responses": [
       {
         "text": "Good day, sir.",
-        "effect": { "u_add_var": "u_met_FORGE_LORD", "type": "general", "context": "meeting", "value": "yes" },
-        "condition": { "not": { "u_has_var": "u_met_FORGE_LORD", "type": "general", "context": "meeting", "value": "yes" } },
+        "effect": { "u_add_var": "general_meeting_u_met_FORGE_LORD", "value": "yes" },
+        "condition": { "not": { "u_has_var": "general_meeting_u_met_FORGE_LORD", "value": "yes" } },
         "topic": "TALK_FORGE_LORD"
       }
     ]

@@ -3,31 +3,29 @@
     "type": "talk_topic",
     "id": "TALK_NPC_PREPPER_SURVIVOR",
     "dynamic_line": {
-      "npc_has_var": "knows_u",
-      "type": "dialogue",
-      "context": "first_meeting",
+      "npc_has_var": "dialogue_first_meeting_knows_u",
       "value": "yes",
       "yes": "<greet>",
       "no": "Freeze you <swear> <zombies>!"
     },
-    "speaker_effect": { "effect": { "npc_add_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
+    "speaker_effect": { "effect": { "npc_add_var": "dialogue_first_meeting_knows_u", "value": "yes" } },
     "responses": [
       {
         "text": "&Hold up your hands.  \"Don't worry, I'm not going to hurt you\"",
         "topic": "TALK_NPC_PREPPER_SURVIVOR_CALM",
-        "condition": { "not": { "npc_has_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+        "condition": { "not": { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" } }
       },
       {
         "text": "Hand over your stuff!  Don't make any sudden moves, or you die!",
         "trial": { "type": "INTIMIDATE", "difficulty": 30 },
         "success": { "topic": "TALK_WEAPON_DROPPED", "effect": "drop_weapon", "opinion": { "trust": -4, "fear": 3 } },
         "failure": { "topic": "TALK_DONE", "effect": "hostile" },
-        "condition": { "not": { "npc_has_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+        "condition": { "not": { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" } }
       },
       {
         "text": "<greet>",
         "topic": "TALK_NPC_PREPPER_SURVIVOR_INTRO",
-        "condition": { "npc_has_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+        "condition": { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" }
       },
       { "text": "Bye.", "topic": "TALK_DONE" }
     ]
@@ -35,7 +33,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_NPC_PREPPER_SURVIVOR_CALM",
-    "dynamic_line": "Oh, you're not one of the <zombies>.  Come on in, just don't cause any trouble.",
+    "dynamic_line": {
+      "gendered_line": "Oh, you're not one of the <zombies>.  Come on in, just don't cause any trouble.",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [
       { "text": "Alright, let's chat.", "topic": "TALK_NPC_PREPPER_SURVIVOR_INTRO" },
       { "text": "I'll be back later.", "topic": "TALK_DONE" }
@@ -47,6 +48,13 @@
     "dynamic_line": "What can I do for you?",
     "responses": [
       { "text": "What are you doing here?", "topic": "TALK_NPC_PREPPER_SURVIVOR_STORY" },
+      {
+        "text": "I'd like to ask you a few questions.",
+        "topic": "TALK_FRIEND_CONVERSATION",
+        "condition": {
+          "and": [ { "math": [ "n_val('npc_trust')", ">=", "2" ] }, { "npc_has_var": "dialogue_first_meeting_knows_u", "value": "yes" } ]
+        }
+      },
       {
         "text": "Would you be interested in bartering?",
         "topic": "TALK_NPC_PREPPER_SURVIVOR_INTRO",
@@ -70,7 +78,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_NPC_PREPPER_SURVIVOR_STORY",
-    "dynamic_line": "They all said I was crazy for preparing for <the_cataclysm>.  Now, they're all dead, and I'm still kickin'.  When the riots turned to hordes, I was ready; all I had to do was dodge a few <zombies> to get back to my bastion.  I've been living safely here ever since.",
+    "dynamic_line": {
+      "gendered_line": "They all said I was crazy for preparing for <the_cataclysm>.  Now, they're all dead, and I'm still kickin'.  When the riots turned to hordes, I was ready; all I had to do was dodge a few <zombies> to get back to my bastion.  I've been living safely here ever since.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "Interesting.", "topic": "TALK_NPC_PREPPER_SURVIVOR_INTRO" },
       { "text": "Can I stay here for a while?", "topic": "TALK_NPC_PREPPER_SURVIVOR_STAY" }

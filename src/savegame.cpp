@@ -1,6 +1,5 @@
 #include "game.h" // IWYU pragma: associated
 
-#include <clocale>
 #include <algorithm>
 #include <fstream>
 #include <map>
@@ -18,11 +17,11 @@
 #include "cata_io.h"
 #include "cata_path.h"
 #include "city.h"
-#include "coordinate_conversions.h"
 #include "creature_tracker.h"
 #include "debug.h"
 #include "faction.h"
 #include "hash_utils.h"
+#include "input.h"
 #include "json.h"
 #include "json_loader.h"
 #include "kill_tracker.h"
@@ -51,6 +50,10 @@ static const oter_str_id oter_lake_bed( "lake_bed" );
 static const oter_str_id oter_lake_shore( "lake_shore" );
 static const oter_str_id oter_lake_surface( "lake_surface" );
 static const oter_str_id oter_lake_water_cube( "lake_water_cube" );
+static const oter_str_id oter_ocean_bed( "ocean_bed" );
+static const oter_str_id oter_ocean_shore( "ocean_shore" );
+static const oter_str_id oter_ocean_surface( "ocean_surface" );
+static const oter_str_id oter_ocean_water_cube( "ocean_water_cube" );
 static const oter_str_id oter_omt_obsolete( "omt_obsolete" );
 
 static const string_id<overmap_connection> overmap_connection_local_road( "local_road" );
@@ -658,7 +661,21 @@ void overmap::unserialize( const JsonObject &jsobj )
             }
         } else if( name == "predecessors" ) {
             std::vector<std::pair<tripoint_om_omt, std::vector<oter_id>>> flattened_predecessors;
-            om_member.read( flattened_predecessors, true );
+            JsonArray predecessors_json = om_member;
+            for( JsonArray point_and_predecessors : predecessors_json ) {
+                if( point_and_predecessors.size() != 2 ) {
+                    point_and_predecessors.throw_error( 2,
+                                                        "Invalid overmap predecessors: expected a point and an array" );
+                }
+                tripoint_om_omt point;
+                point_and_predecessors.read( 0, point, true );
+                std::vector<oter_id> predecessors;
+                for( std::string oterid : point_and_predecessors.get_array( 1 ) ) {
+                    predecessors.push_back( get_or_migrate_oter( oterid ) );
+                }
+                flattened_predecessors.emplace_back( point, std::move( predecessors ) );
+            }
+
             std::vector<oter_id> om_predecessors;
 
             for( auto& [p, serialized_predecessors] : flattened_predecessors ) {
@@ -731,6 +748,7 @@ void overmap::unserialize_omap( const JsonValue &jsin, const cata_path &json_pat
     JsonArray jal = jo.get_array( "layers" );
 
     std::vector<tripoint_om_omt> lake_points;
+    std::vector<tripoint_om_omt> ocean_points;
     std::vector<tripoint_om_omt> forest_points;
 
     if( type == "overmap" ) {
@@ -763,6 +781,9 @@ void overmap::unserialize_omap( const JsonValue &jsin, const cata_path &json_pat
                     layer[z + OVERMAP_DEPTH].terrain[i][j] = tmp_otid;
                     if( tmp_otid == oter_lake_shore || tmp_otid == oter_lake_surface ) {
                         lake_points.emplace_back( i, j, z );
+                    }
+                    if( tmp_otid == oter_ocean_shore || tmp_otid == oter_ocean_surface ) {
+                        ocean_points.emplace_back( i, j, z );
                     }
                     if( tmp_otid == oter_forest || tmp_otid == oter_forest_thick ) {
                         forest_points.emplace_back( i, j, z );
@@ -804,7 +825,36 @@ void overmap::unserialize_omap( const JsonValue &jsin, const cata_path &json_pat
             layer[p.z() + OVERMAP_DEPTH].terrain[p.x()][p.y()] = oter_lake_surface;
         }
     }
+    std::unordered_set<tripoint_om_omt> ocean_set;
+    for( auto &p : ocean_points ) {
+        ocean_set.emplace( p );
+    }
+    for( auto &p : ocean_points ) {
+        if( !inbounds( p ) ) {
+            continue;
+        }
 
+        bool shore = false;
+        for( int ni = -1; ni <= 1 && !shore; ni++ ) {
+            for( int nj = -1; nj <= 1 && !shore; nj++ ) {
+                const tripoint_om_omt n = p + point( ni, nj );
+                if( inbounds( n, 1 ) && ocean_set.find( n ) == ocean_set.end() ) {
+                    shore = true;
+                }
+            }
+        }
+
+        ter_set( tripoint_om_omt( p ), shore ? oter_ocean_shore : oter_ocean_surface );
+
+        // If this is not a shore, we'll make our subsurface ocean cubes and beds.
+        if( !shore ) {
+            for( int z = -1; z > settings->overmap_ocean.ocean_depth; z-- ) {
+                ter_set( tripoint_om_omt( p.xy(), z ), oter_ocean_water_cube );
+            }
+            ter_set( tripoint_om_omt( p.xy(), settings->overmap_ocean.ocean_depth ), oter_ocean_bed );
+            layer[p.z() + OVERMAP_DEPTH].terrain[p.x()][p.y()] = oter_ocean_surface;
+        }
+    }
     std::unordered_set<tripoint_om_omt> forest_set;
     for( auto &p : forest_points ) {
         forest_set.emplace( p );
@@ -932,7 +982,7 @@ void overmap::unserialize_view( const JsonObject &jsobj )
 template<typename MdArray>
 static void serialize_array_to_compacted_sequence( JsonOut &json, const MdArray &array )
 {
-    static_assert( std::is_same<typename MdArray::value_type, bool>::value,
+    static_assert( std::is_same_v<typename MdArray::value_type, bool>,
                    "This implementation assumes bool, in that the initial value of lastval has "
                    "to not be a valid value of the content" );
     int count = 0;
@@ -1386,6 +1436,8 @@ void game::unserialize_master( const JsonValue &jv )
             weather_manager::unserialize_all( jsin );
         } else if( name == "timed_events" ) {
             timed_event_manager::unserialize_all( jsin );
+        } else if( name == "overmapbuffer" ) {
+            overmap_buffer.deserialize_overmap_global_state( jsin );
         } else if( name == "placed_unique_specials" ) {
             overmap_buffer.deserialize_placed_unique_specials( jsin );
         }
@@ -1512,8 +1564,8 @@ void game::serialize_master( std::ostream &fout )
 
         json.member( "active_missions" );
         mission::serialize_all( json );
-        json.member( "placed_unique_specials" );
-        overmap_buffer.serialize_placed_unique_specials( json );
+        json.member( "overmapbuffer" );
+        overmap_buffer.serialize_overmap_global_state( json );
 
         json.member( "timed_events" );
         timed_event_manager::serialize_all( json );
@@ -1648,9 +1700,26 @@ void creature_tracker::serialize( JsonOut &jsout ) const
     jsout.end_array();
 }
 
-void overmapbuffer::serialize_placed_unique_specials( JsonOut &json ) const
+void overmapbuffer::serialize_overmap_global_state( JsonOut &json ) const
 {
+    json.start_object();
+    json.member( "placed_unique_specials" );
     json.write_as_array( placed_unique_specials );
+    json.member( "overmap_count", overmap_buffer.overmap_count );
+    json.member( "unique_special_count", unique_special_count );
+    json.end_object();
+}
+
+void overmapbuffer::deserialize_overmap_global_state( const JsonObject &json )
+{
+    placed_unique_specials.clear();
+    JsonArray ja = json.get_array( "placed_unique_specials" );
+    for( const JsonValue &special : ja ) {
+        placed_unique_specials.emplace( special.get_string() );
+    }
+    unique_special_count.clear();
+    json.read( "unique_special_count", unique_special_count );
+    json.read( "overmap_count", overmap_count );
 }
 
 void overmapbuffer::deserialize_placed_unique_specials( const JsonValue &jsin )

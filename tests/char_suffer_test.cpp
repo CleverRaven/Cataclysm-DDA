@@ -15,11 +15,14 @@
 #include "item.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "options_helpers.h"
 #include "player_helpers.h"
 #include "test_statistics.h"
 #include "type_id.h"
 
 static const efftype_id effect_grabbed( "grabbed" );
+
+static const ter_str_id ter_t_rock_wall( "t_rock_wall" );
 
 static const trait_id trait_ALBINO( "ALBINO" );
 static const trait_id trait_SUNBURN( "SUNBURN" );
@@ -101,9 +104,10 @@ static int test_suffer_pain_felt( Character &dummy, const time_duration &dur )
 TEST_CASE( "suffering_from_albinism", "[char][suffer][albino]" )
 {
     clear_map();
+    clear_avatar();
+    set_time_to_day();
+    scoped_weather_override clear_weather( WEATHER_CLEAR );
     avatar &dummy = get_avatar();
-    clear_character( dummy );
-    g->reset_light_level();
 
     int focus_lost = 0;
     // TODO: The random chance of pain is too unprectable to test reliably.
@@ -123,7 +127,6 @@ TEST_CASE( "suffering_from_albinism", "[char][suffer][albino]" )
     item longshirt( "test_longshirt" );
 
     GIVEN( "avatar is in sunlight with the albino trait" ) {
-        calendar::turn = calendar::turn_zero + 12_hours;
         REQUIRE( g->is_in_sunlight( dummy.pos() ) );
 
         dummy.toggle_trait( trait_ALBINO );
@@ -207,8 +210,9 @@ TEST_CASE( "suffering_from_sunburn", "[char][suffer][sunburn]" )
 {
     clear_map();
     clear_avatar();
+    set_time_to_day();
+    scoped_weather_override clear_weather( WEATHER_CLEAR );
     Character &dummy = get_player_character();
-    g->reset_light_level();
     const std::vector<bodypart_id> body_parts_with_hp = dummy.get_all_body_parts(
                 get_body_part_flags::only_main );
 
@@ -221,7 +225,6 @@ TEST_CASE( "suffering_from_sunburn", "[char][suffer][sunburn]" )
     item longshirt( "test_longshirt" );
 
     GIVEN( "avatar is in sunlight with the solar sensitivity trait" ) {
-        calendar::turn = calendar::turn_zero + 12_hours;
         REQUIRE( g->is_in_sunlight( dummy.pos() ) );
 
         dummy.toggle_trait( trait_SUNBURN );
@@ -506,8 +509,8 @@ TEST_CASE( "suffering_from_asphyxiation", "[char][suffer][oxygen][grab]" )
 
         map &here = get_map();
         WHEN( "crushed against two walls by two grabbers" ) {
-            here.ter_set( dummy.pos() + tripoint_south, t_rock_wall );
-            here.ter_set( dummy.pos() + tripoint_north, t_rock_wall );
+            here.ter_set( dummy.pos() + tripoint_south, ter_t_rock_wall );
+            here.ter_set( dummy.pos() + tripoint_north, ter_t_rock_wall );
             REQUIRE( here.impassable( dummy.pos() + tripoint_south ) );
             REQUIRE( here.impassable( dummy.pos() + tripoint_north ) );
 

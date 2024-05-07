@@ -135,6 +135,7 @@ extern const field_type_str_id fd_blood_insect;
 extern const field_type_str_id fd_blood_invertebrate;
 extern const field_type_str_id fd_blood_veggy;
 extern const field_type_str_id fd_churned_earth;
+extern const field_type_str_id fd_construction_site;
 extern const field_type_str_id fd_cold_air2;
 extern const field_type_str_id fd_cold_air3;
 extern const field_type_str_id fd_cold_air4;
@@ -142,7 +143,7 @@ extern const field_type_str_id fd_dazzling;
 extern const field_type_str_id fd_electricity;
 extern const field_type_str_id fd_electricity_unlit;
 extern const field_type_str_id fd_extinguisher;
-extern const field_type_str_id fd_fatigue;
+extern const field_type_str_id fd_reality_tear;
 extern const field_type_str_id fd_fire;
 extern const field_type_str_id fd_fire_vent;
 extern const field_type_str_id fd_flame_burst;
@@ -209,7 +210,7 @@ struct field_type {
         map_bash_info bash_info;
 
         // chance, issue, duration, speech
-        std::tuple<int, std::string, time_duration, std::string> npc_complain_data;
+        std::tuple<int, std::string, time_duration, translation> npc_complain_data;
         field_immunity_data immunity_data;
 
         std::set<mtype_id> immune_mtypes;

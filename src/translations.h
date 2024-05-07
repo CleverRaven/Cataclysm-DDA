@@ -35,7 +35,7 @@
 #  define ATTRIBUTE_FORMAT_ARG(a)
 #endif
 
-void select_language();
+std::string select_language();
 
 // For code analysis purposes in our clang-tidy plugin we need to be able to
 // detect when something is the argument to a translation function.  The _

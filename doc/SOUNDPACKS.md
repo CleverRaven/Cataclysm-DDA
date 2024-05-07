@@ -189,10 +189,10 @@ Divided by sections for clarity.
 
 Triggered by seeing large numbers of zombies.
 
-* `danger_low`
-* `danger_medium`
-* `danger_high`
-* `danger_extreme`
+* `danger_low` when seeing 5-9 enemies.
+* `danger_medium` when seeing 10-14 enemies.
+* `danger_high` when seeing 15-19 enemies.
+* `danger_extreme` when seeing ≥ 20 enemies.
 
 ### Chainsaw pack
 
@@ -225,7 +225,7 @@ Example: if `plmove|t_grass_long` is defined it will be played before default `p
 
 ### Fatigue
 
-* `plmove fatigue_m_low|fatigue_m_med|fatigue_m_high|fatigue_f_low|fatigue_f_med|fatigue_f_high`
+* `plmove sleepiness_m_low|sleepiness_m_med|sleepiness_m_high|sleepiness_f_low|sleepiness_f_med|sleepiness_f_high`
 
 ### Player hurt
 

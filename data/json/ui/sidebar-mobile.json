@@ -95,66 +95,66 @@
   {
     "id": "l_bp_HD",
     "width": 3,
-    "style": "symbol",
+    "style": "text",
     "bodypart": "head",
     "clauses": [
-      { "id": "healthy", "sym": "HD:", "color": "c_light_gray", "condition": { "not": { "u_has_effect": "infected" } } },
-      { "id": "infected", "sym": "HD:", "color": "c_green", "condition": { "u_has_effect": "infected" } }
+      { "id": "healthy", "text": "HD:", "color": "c_light_gray", "condition": { "not": { "u_has_effect": "infected" } } },
+      { "id": "infected", "text": "HD:", "color": "c_green", "condition": { "u_has_effect": "infected" } }
     ],
     "type": "widget"
   },
   {
     "id": "l_bp_CT",
     "width": 3,
-    "style": "symbol",
+    "style": "text",
     "bodypart": "torso",
     "clauses": [
-      { "id": "healthy", "sym": "CT:", "color": "c_light_gray", "condition": { "not": { "u_has_effect": "infected" } } },
-      { "id": "infected", "sym": "CT:", "color": "c_green", "condition": { "u_has_effect": "infected" } }
+      { "id": "healthy", "text": "CT:", "color": "c_light_gray", "condition": { "not": { "u_has_effect": "infected" } } },
+      { "id": "infected", "text": "CT:", "color": "c_green", "condition": { "u_has_effect": "infected" } }
     ],
     "type": "widget"
   },
   {
     "id": "l_bp_LA",
     "width": 3,
-    "style": "symbol",
+    "style": "text",
     "bodypart": "arm_l",
     "clauses": [
-      { "id": "healthy", "sym": "LA:", "color": "c_light_gray", "condition": { "not": { "u_has_effect": "infected" } } },
-      { "id": "infected", "sym": "LA:", "color": "c_green", "condition": { "u_has_effect": "infected" } }
+      { "id": "healthy", "text": "LA:", "color": "c_light_gray", "condition": { "not": { "u_has_effect": "infected" } } },
+      { "id": "infected", "text": "LA:", "color": "c_green", "condition": { "u_has_effect": "infected" } }
     ],
     "type": "widget"
   },
   {
     "id": "l_bp_RA",
     "width": 3,
-    "style": "symbol",
+    "style": "text",
     "bodypart": "arm_r",
     "clauses": [
-      { "id": "healthy", "sym": "RA:", "color": "c_light_gray", "condition": { "not": { "u_has_effect": "infected" } } },
-      { "id": "infected", "sym": "RA:", "color": "c_green", "condition": { "u_has_effect": "infected" } }
+      { "id": "healthy", "text": "RA:", "color": "c_light_gray", "condition": { "not": { "u_has_effect": "infected" } } },
+      { "id": "infected", "text": "RA:", "color": "c_green", "condition": { "u_has_effect": "infected" } }
     ],
     "type": "widget"
   },
   {
     "id": "l_bp_LL",
     "width": 3,
-    "style": "symbol",
+    "style": "text",
     "bodypart": "leg_l",
     "clauses": [
-      { "id": "healthy", "sym": "LL:", "color": "c_light_gray", "condition": { "not": { "u_has_effect": "infected" } } },
-      { "id": "infected", "sym": "LL:", "color": "c_green", "condition": { "u_has_effect": "infected" } }
+      { "id": "healthy", "text": "LL:", "color": "c_light_gray", "condition": { "not": { "u_has_effect": "infected" } } },
+      { "id": "infected", "text": "LL:", "color": "c_green", "condition": { "u_has_effect": "infected" } }
     ],
     "type": "widget"
   },
   {
     "id": "l_bp_RL",
     "width": 3,
-    "style": "symbol",
+    "style": "text",
     "bodypart": "leg_r",
     "clauses": [
-      { "id": "healthy", "sym": "RL:", "color": "c_light_gray", "condition": { "not": { "u_has_effect": "infected" } } },
-      { "id": "infected", "sym": "RL:", "color": "c_green", "condition": { "u_has_effect": "infected" } }
+      { "id": "healthy", "text": "RL:", "color": "c_light_gray", "condition": { "not": { "u_has_effect": "infected" } } },
+      { "id": "infected", "text": "RL:", "color": "c_green", "condition": { "u_has_effect": "infected" } }
     ],
     "type": "widget"
   },
@@ -542,7 +542,7 @@
         "condition": {
           "and": [
             { "u_has_effect": "bleed", "intensity": 1 },
-            { "compare_num": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 11 } ] }
+            { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget)", "<", "11" ] }
           ]
         }
       },
@@ -553,7 +553,7 @@
         "condition": {
           "and": [
             { "u_has_effect": "bleed", "intensity": 11 },
-            { "compare_num": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 21 } ] }
+            { "math": [ "u_effect_intensity('bleed', 'bodypart': _widget)", "<", "21" ] }
           ]
         }
       },
@@ -633,12 +633,12 @@
       {
         "id": "broken",
         "widgets": [ "l_nw", "l_bp_LA", "l_nc_cl", "i_bp_LA_broken_sym", "l_ne" ],
-        "condition": { "compare_num": [ { "u_val": "hp" }, "==", { "const": 0 } ] }
+        "condition": { "math": [ "u_hp(_widget) == 0" ] }
       },
       {
         "id": "intact",
         "widgets": [ "l_nw", "l_bp_LA", "l_nc_cl", "i_bp_LA_hp_graph", "l_ne" ],
-        "condition": { "compare_num": [ { "u_val": "hp" }, ">", { "const": 0 } ] }
+        "condition": { "math": [ "u_hp(_widget) > 0" ] }
       }
     ],
     "type": "widget"
@@ -654,12 +654,12 @@
       {
         "id": "broken",
         "widgets": [ "l_nw", "l_bp_HD", "l_nc_cl", "i_bp_HD_broken_sym", "l_ne" ],
-        "condition": { "compare_num": [ { "u_val": "hp" }, "==", { "const": 0 } ] }
+        "condition": { "math": [ "u_hp(_widget) == 0" ] }
       },
       {
         "id": "intact",
         "widgets": [ "l_nw", "l_bp_HD", "l_nc_cl", "i_bp_HD_hp_graph", "l_ne" ],
-        "condition": { "compare_num": [ { "u_val": "hp" }, ">", { "const": 0 } ] }
+        "condition": { "math": [ "u_hp(_widget) > 0" ] }
       }
     ],
     "type": "widget"
@@ -675,12 +675,12 @@
       {
         "id": "broken",
         "widgets": [ "l_nw", "l_bp_RA", "l_nc_cl", "i_bp_RA_broken_sym", "l_ne" ],
-        "condition": { "compare_num": [ { "u_val": "hp" }, "==", { "const": 0 } ] }
+        "condition": { "math": [ "u_hp(_widget) == 0" ] }
       },
       {
         "id": "intact",
         "widgets": [ "l_nw", "l_bp_RA", "l_nc_cl", "i_bp_RA_hp_graph", "l_ne" ],
-        "condition": { "compare_num": [ { "u_val": "hp" }, ">", { "const": 0 } ] }
+        "condition": { "math": [ "u_hp(_widget) > 0" ] }
       }
     ],
     "type": "widget"
@@ -696,12 +696,12 @@
       {
         "id": "broken",
         "widgets": [ "l_nw", "l_bp_LL", "l_nc_cl", "i_bp_LL_broken_sym", "l_ne" ],
-        "condition": { "compare_num": [ { "u_val": "hp" }, "==", { "const": 0 } ] }
+        "condition": { "math": [ "u_hp(_widget) == 0" ] }
       },
       {
         "id": "intact",
         "widgets": [ "l_nw", "l_bp_LL", "l_nc_cl", "i_bp_LL_hp_graph", "l_ne" ],
-        "condition": { "compare_num": [ { "u_val": "hp" }, ">", { "const": 0 } ] }
+        "condition": { "math": [ "u_hp(_widget) > 0" ] }
       }
     ],
     "type": "widget"
@@ -717,12 +717,12 @@
       {
         "id": "broken",
         "widgets": [ "l_nw", "l_bp_CT", "l_nc_cl", "i_bp_CT_broken_sym", "l_ne" ],
-        "condition": { "compare_num": [ { "u_val": "hp" }, "==", { "const": 0 } ] }
+        "condition": { "math": [ "u_hp(_widget) == 0" ] }
       },
       {
         "id": "intact",
         "widgets": [ "l_nw", "l_bp_CT", "l_nc_cl", "i_bp_CT_hp_graph", "l_ne" ],
-        "condition": { "compare_num": [ { "u_val": "hp" }, ">", { "const": 0 } ] }
+        "condition": { "math": [ "u_hp(_widget) > 0" ] }
       }
     ],
     "type": "widget"
@@ -738,12 +738,12 @@
       {
         "id": "broken",
         "widgets": [ "l_nw", "l_bp_RL", "l_nc_cl", "i_bp_RL_broken_sym", "l_ne" ],
-        "condition": { "compare_num": [ { "u_val": "hp" }, "==", { "const": 0 } ] }
+        "condition": { "math": [ "u_hp(_widget) == 0" ] }
       },
       {
         "id": "intact",
         "widgets": [ "l_nw", "l_bp_RL", "l_nc_cl", "i_bp_RL_hp_graph", "l_ne" ],
-        "condition": { "compare_num": [ { "u_val": "hp" }, ">", { "const": 0 } ] }
+        "condition": { "math": [ "u_hp(_widget) > 0" ] }
       }
     ],
     "type": "widget"
@@ -941,95 +941,90 @@
     "width": 5,
     "style": "symbol",
     "clauses": [
-      {
-        "id": "new_moon",
-        "sym": "⎛   ⎞",
-        "color": "c_light_gray",
-        "condition": { "compare_num": [ "moon", "==", { "const": 0 } ] }
-      },
+      { "id": "new_moon", "sym": "⎛   ⎞", "color": "c_light_gray", "condition": { "math": [ "moon_phase() == 0" ] } },
       {
         "id": "waxing_crescent1",
         "sym": "⎛  ",
         "color": "c_light_gray",
-        "condition": { "compare_num": [ "moon", "==", { "const": 1 } ] }
+        "condition": { "math": [ "moon_phase() == 1" ] }
       },
       {
         "id": "waxing_crescent2",
         "sym": "▊⎞",
         "color": "c_black_white",
-        "condition": { "compare_num": [ "moon", "==", { "const": 1 } ] }
+        "condition": { "math": [ "moon_phase() == 1" ] }
       },
       {
         "id": "half_moon1",
         "sym": "⎛ ▐",
         "color": "c_light_gray",
-        "condition": { "compare_num": [ "moon", "==", { "const": 2 } ] }
+        "condition": { "math": [ "moon_phase() == 2" ] }
       },
       {
         "id": "half_moon2",
         "sym": "⡡⎞",
         "color": "c_black_white",
-        "condition": { "compare_num": [ "moon", "==", { "const": 2 } ] }
+        "condition": { "math": [ "moon_phase() == 2" ] }
       },
       {
         "id": "waxing_gibbous1",
         "sym": "⎛",
         "color": "c_light_gray",
-        "condition": { "compare_num": [ "moon", "==", { "const": 3 } ] }
+        "condition": { "math": [ "moon_phase() == 3" ] }
       },
       {
         "id": "waxing_gibbous2",
         "sym": "▎⢁⡡⎞",
         "color": "c_black_white",
-        "condition": { "compare_num": [ "moon", "==", { "const": 3 } ] }
+        "condition": { "math": [ "moon_phase() == 4" ] }
       },
       {
         "id": "full_moon",
         "sym": "⎛⡐⢁⡡⎞",
         "color": "c_black_white",
-        "condition": { "compare_num": [ "moon", "==", { "const": 4 } ] }
+        "condition": { "math": [ "moon_phase() == 4" ] }
       },
       {
         "id": "waning_gibbous1",
         "sym": "⎛⡐⢁",
         "color": "c_black_white",
-        "condition": { "compare_num": [ "moon", "==", { "const": 5 } ] }
+        "condition": { "math": [ "moon_phase() == 5" ] }
       },
       {
         "id": "waning_gibbous2",
         "sym": "▎⎞",
         "color": "c_light_gray",
-        "condition": { "compare_num": [ "moon", "==", { "const": 5 } ] }
+        "condition": { "math": [ "moon_phase() == 5" ] }
       },
       {
         "id": "half_moon1",
         "sym": "⎛⡐",
         "color": "c_black_white",
-        "condition": { "compare_num": [ "moon", "==", { "const": 6 } ] }
+        "condition": { "math": [ "moon_phase() == 6" ] }
       },
       {
         "id": "half_moon2",
         "sym": "▌ ⎞",
         "color": "c_light_gray",
-        "condition": { "compare_num": [ "moon", "==", { "const": 6 } ] }
+        "condition": { "math": [ "moon_phase() == 6" ] }
       },
       {
         "id": "waning_crescent1",
         "sym": "⎛",
         "color": "c_black_white",
-        "condition": { "compare_num": [ "moon", "==", { "const": 7 } ] }
+        "condition": { "math": [ "moon_phase() == 7" ] }
       },
       {
         "id": "waning_crescent2",
         "sym": "▎  ⎞",
         "color": "c_light_gray",
-        "condition": { "compare_num": [ "moon", "==", { "const": 7 } ] }
+        "condition": { "math": [ "moon_phase() == 7" ] }
       },
       {
         "id": "dark_moon",
         "sym": "⎛   ⎞",
         "color": "c_light_gray",
-        "condition": { "compare_num": [ "moon", "==", { "const": 8 } ] }
+        "condition": { "math": [ "moon_phase() == 8" ] }
       }
     ],
     "type": "widget"
@@ -1122,31 +1117,31 @@
         "id": "bright",
         "text": "☼☼☼☼☼",
         "color": "c_white",
-        "condition": { "compare_num": [ { "u_val": "fine_detail_vision_mod" }, "<=", { "const": 1 } ] }
+        "condition": { "math": [ "u_val('fine_detail_vision_mod')", "<=", "1" ] }
       },
       {
         "id": "cloudy",
         "text": "☼☼☼☼",
         "color": "c_yellow",
-        "condition": { "compare_num": [ { "u_val": "fine_detail_vision_mod" }, "==", { "const": 2 } ] }
+        "condition": { "math": [ "u_val('fine_detail_vision_mod')", "==", "2" ] }
       },
       {
         "id": "shady",
         "text": "☼☼☼",
         "color": "c_light_gray",
-        "condition": { "compare_num": [ { "u_val": "fine_detail_vision_mod" }, "==", { "const": 3 } ] }
+        "condition": { "math": [ "u_val('fine_detail_vision_mod')", "==", "3" ] }
       },
       {
         "id": "dark",
         "text": "☼☼",
         "color": "c_dark_gray",
-        "condition": { "compare_num": [ { "u_val": "fine_detail_vision_mod" }, "==", { "const": 4 } ] }
+        "condition": { "math": [ "u_val('fine_detail_vision_mod')", "==", "4" ] }
       },
       {
         "id": "very dark",
         "text": "☼",
         "color": "c_dark_gray",
-        "condition": { "compare_num": [ { "u_val": "fine_detail_vision_mod" }, ">=", { "const": 5 } ] }
+        "condition": { "math": [ "u_val('fine_detail_vision_mod')", ">=", "5" ] }
       }
     ],
     "type": "widget"
@@ -1237,7 +1232,7 @@
     "id": "l_str",
     "width": 2,
     "copy-from": "t_label",
-    "string": "S:",
+    "string": { "ctxt": "label_strength", "str": "S:" },
     "type": "widget"
   },
   {
@@ -1307,35 +1302,30 @@
     "style": "text",
     "colors": [ "h_yellow" ],
     "clauses": [
-      {
-        "id": "20%",
-        "color": "h_yellow",
-        "sym": "1",
-        "condition": { "compare_num": [ { "u_val": "power_percentage" }, ">", { "const": 19 } ] }
-      },
+      { "id": "20%", "color": "h_yellow", "sym": "1", "condition": { "math": [ "u_val('power_percentage')", ">", "19" ] } },
       {
         "id": "40%",
         "color": "h_yellow",
         "sym": "2",
-        "condition": { "compare_num": [ { "u_val": "power_percentage" }, ">", { "const": 39 } ] }
+        "condition": { "math": [ "u_val('power_percentage')", ">", "39" ] }
       },
       {
         "id": "60%",
         "color": "h_yellow",
         "sym": "3",
-        "condition": { "compare_num": [ { "u_val": "power_percentage" }, ">", { "const": 59 } ] }
+        "condition": { "math": [ "u_val('power_percentage')", ">", "59" ] }
       },
       {
         "id": "80%",
         "color": "h_yellow",
         "sym": "4",
-        "condition": { "compare_num": [ { "u_val": "power_percentage" }, ">", { "const": 79 } ] }
+        "condition": { "math": [ "u_val('power_percentage')", ">", "79" ] }
       },
       {
         "id": "99%",
         "color": "h_yellow",
         "sym": "5",
-        "condition": { "compare_num": [ { "u_val": "power_percentage" }, ">", { "const": 99 } ] }
+        "condition": { "math": [ "u_val('power_percentage')", ">", "99" ] }
       }
     ],
     "default_clause": { "text": "     " },
@@ -1476,17 +1466,14 @@
         "id": "turgid",
         "text": "o⁰ₒ○",
         "color": "c_light_green_green",
-        "condition": { "compare_num": [ { "u_val": "instant_thirst" }, "<", { "const": -60 } ] }
+        "condition": { "math": [ "u_val('instant_thirst')", "<", "-60" ] }
       },
       {
         "id": "hydrated",
         "text": "████",
         "color": "h_green",
         "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "instant_thirst" }, ">=", { "const": -60 } ] },
-            { "compare_num": [ { "u_val": "instant_thirst" }, "<", { "const": -20 } ] }
-          ]
+          "and": [ { "math": [ "u_val('instant_thirst')", ">=", "-60" ] }, { "math": [ "u_val('instant_thirst')", "<", "-20" ] } ]
         }
       },
       {
@@ -1494,10 +1481,7 @@
         "text": "  ██",
         "color": "h_green",
         "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "instant_thirst" }, ">=", { "const": -20 } ] },
-            { "compare_num": [ { "u_val": "instant_thirst" }, "<", { "const": 0 } ] }
-          ]
+          "and": [ { "math": [ "u_val('instant_thirst')", ">=", "-20" ] }, { "math": [ "u_val('instant_thirst')", "<", "0" ] } ]
         }
       },
       {
@@ -1505,10 +1489,7 @@
         "text": "    ",
         "color": "h_green",
         "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "instant_thirst" }, ">=", { "const": 0 } ] },
-            { "compare_num": [ { "u_val": "instant_thirst" }, "<=", { "const": 40 } ] }
-          ]
+          "and": [ { "math": [ "u_val('instant_thirst')", ">=", "0" ] }, { "math": [ "u_val('instant_thirst')", "<=", "40" ] } ]
         }
       },
       {
@@ -1516,10 +1497,7 @@
         "text": "█   ",
         "color": "h_yellow",
         "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "instant_thirst" }, ">", { "const": 40 } ] },
-            { "compare_num": [ { "u_val": "instant_thirst" }, "<=", { "const": 80 } ] }
-          ]
+          "and": [ { "math": [ "u_val('instant_thirst')", ">", "40" ] }, { "math": [ "u_val('instant_thirst')", "<=", "80" ] } ]
         }
       },
       {
@@ -1527,10 +1505,7 @@
         "text": "██  ",
         "color": "h_yellow",
         "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "instant_thirst" }, ">", { "const": 80 } ] },
-            { "compare_num": [ { "u_val": "instant_thirst" }, "<=", { "const": 240 } ] }
-          ]
+          "and": [ { "math": [ "u_val('instant_thirst')", ">", "80" ] }, { "math": [ "u_val('instant_thirst')", "<=", "240" ] } ]
         }
       },
       {
@@ -1538,10 +1513,7 @@
         "text": "███ ",
         "color": "h_red",
         "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "instant_thirst" }, ">", { "const": 240 } ] },
-            { "compare_num": [ { "u_val": "instant_thirst" }, "<=", { "const": 450 } ] }
-          ]
+          "and": [ { "math": [ "u_val('instant_thirst')", ">", "240" ] }, { "math": [ "u_val('instant_thirst')", "<=", "450" ] } ]
         }
       },
       {
@@ -1549,17 +1521,14 @@
         "text": "████",
         "color": "h_red",
         "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "instant_thirst" }, ">", { "const": 450 } ] },
-            { "compare_num": [ { "u_val": "instant_thirst" }, "<=", { "const": 520 } ] }
-          ]
+          "and": [ { "math": [ "u_val('instant_thirst')", ">", "450" ] }, { "math": [ "u_val('instant_thirst')", "<=", "520" ] } ]
         }
       },
       {
         "id": "parched",
         "text": "XXXX",
         "color": "i_red",
-        "condition": { "compare_num": [ { "u_val": "instant_thirst" }, ">", { "const": 520 } ] }
+        "condition": { "math": [ "u_val('instant_thirst')", ">", "520" ] }
       }
     ],
     "type": "widget"
@@ -1577,83 +1546,48 @@
     "width": 1,
     "style": "symbol",
     "clauses": [
-      {
-        "id": "sk",
-        "sym": "ₒ",
-        "color": "c_red",
-        "condition": { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 1000 } ] }
-      },
+      { "id": "sk", "sym": "ₒ", "color": "c_red", "condition": { "math": [ "u_val('bmi_permil')", "<=", "1000" ] } },
       {
         "id": "e",
         "sym": "ₒ",
         "color": "c_light_red",
-        "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 1000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 2000 } ] }
-          ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "1000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "2000" ] } ] }
       },
       {
         "id": "u_w",
         "sym": "ₒ",
         "color": "c_yellow",
-        "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 2000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 3000 } ] }
-          ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "2000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "3000" ] } ] }
       },
       {
         "id": "n",
         "sym": "ₒ",
         "color": "c_brown",
-        "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 3000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 5000 } ] }
-          ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "3000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "5000" ] } ] }
       },
       {
         "id": "o_w",
         "sym": "ₒ",
         "color": "c_yellow",
-        "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 5000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 10000 } ] }
-          ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "5000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "10000" ] } ] }
       },
       {
         "id": "o",
         "sym": "ₒ",
         "color": "c_light_red",
-        "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 10000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 15000 } ] }
-          ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "10000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "15000" ] } ] }
       },
       {
         "id": "v_o",
         "sym": "ₒ",
         "color": "c_red",
-        "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 15000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 20000 } ] }
-          ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "15000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "20000" ] } ] }
       },
       {
         "id": "m_o",
         "sym": "ₒ",
         "color": "c_white",
-        "condition": { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 20000 } ] }
+        "condition": { "math": [ "u_val('bmi_permil')", ">", "20000" ] }
       }
     ],
     "type": "widget"
@@ -1663,239 +1597,144 @@
     "width": 5,
     "style": "symbol",
     "clauses": [
-      {
-        "id": "sk",
-        "sym": "⎻⎺",
-        "color": "c_brown",
-        "condition": { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 1000 } ] }
-      },
+      { "id": "sk", "sym": "⎻⎺", "color": "c_brown", "condition": { "math": [ "u_val('bmi_permil')", "<=", "1000" ] } },
       {
         "id": "sk",
         "sym": "ₗ",
         "color": "c_yellow",
-        "condition": { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 1000 } ] }
+        "condition": { "math": [ "u_val('bmi_permil')", "<=", "1000" ] }
       },
       {
         "id": "sk",
         "sym": "  ",
         "color": "c_brown",
-        "condition": { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 1000 } ] }
+        "condition": { "math": [ "u_val('bmi_permil')", "<=", "1000" ] }
       },
       {
         "id": "e",
         "sym": "∕ʻ",
         "color": "c_brown",
-        "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 1000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 2000 } ] }
-          ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "1000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "2000" ] } ] }
       },
       {
         "id": "e",
         "sym": " ",
         "color": "c_yellow",
-        "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 1000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 2000 } ] }
-          ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "1000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "2000" ] } ] }
       },
       {
         "id": "e",
         "sym": "  ",
         "color": "c_brown",
-        "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 1000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 2000 } ] }
-          ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "1000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "2000" ] } ] }
       },
       {
         "id": "unw",
         "sym": " ╱",
         "color": "c_brown",
-        "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 2000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 3000 } ] }
-          ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "2000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "3000" ] } ] }
       },
       {
         "id": "unw",
         "sym": " ",
         "color": "c_yellow",
-        "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 2000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 3000 } ] }
-          ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "2000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "3000" ] } ] }
       },
       {
         "id": "unw",
         "sym": "  ",
         "color": "c_brown",
-        "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 2000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 3000 } ] }
-          ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "2000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "3000" ] } ] }
       },
       {
         "id": "nrm",
         "sym": "  ",
         "color": "c_brown",
-        "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 3000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 5000 } ] }
-          ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "3000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "5000" ] } ] }
       },
       {
         "id": "nrm",
         "sym": "╿",
         "color": "c_brown",
-        "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 3000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 5000 } ] }
-          ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "3000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "5000" ] } ] }
       },
       {
         "id": "nrm",
         "sym": "  ",
         "color": "c_brown",
-        "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 3000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 5000 } ] }
-          ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "3000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "5000" ] } ] }
       },
       {
         "id": "ovw",
         "sym": "  ",
         "color": "c_brown",
-        "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 5000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 10000 } ] }
-          ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "5000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "10000" ] } ] }
       },
       {
         "id": "ovw",
         "sym": " ",
         "color": "c_yellow",
-        "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 5000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 10000 } ] }
-          ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "5000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "10000" ] } ] }
       },
       {
         "id": "ovw",
         "sym": "╲ ",
         "color": "c_brown",
-        "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 5000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 10000 } ] }
-          ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "5000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "10000" ] } ] }
       },
       {
         "id": "o",
         "sym": "  ",
         "color": "c_brown",
-        "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 10000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 15000 } ] }
-          ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "10000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "15000" ] } ] }
       },
       {
         "id": "o",
         "sym": " ",
         "color": "c_yellow",
-        "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 10000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 15000 } ] }
-          ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "10000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "15000" ] } ] }
       },
       {
         "id": "o",
         "sym": "ʽ∖",
         "color": "c_brown",
-        "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 10000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 15000 } ] }
-          ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "10000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "15000" ] } ] }
       },
       {
         "id": "v_o",
         "sym": "  ",
         "color": "c_brown",
-        "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 15000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 20000 } ] }
-          ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "15000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "20000" ] } ] }
       },
       {
         "id": "v_o",
         "sym": "ₕ",
         "color": "c_yellow",
-        "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 15000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 20000 } ] }
-          ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "15000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "20000" ] } ] }
       },
       {
         "id": "v_o",
         "sym": "⎺⎻",
         "color": "c_brown",
-        "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 15000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 20000 } ] }
-          ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "15000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "20000" ] } ] }
       },
       {
         "id": "m_o",
         "sym": "  ",
         "color": "c_brown",
-        "condition": { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 20000 } ] }
+        "condition": { "math": [ "u_val('bmi_permil')", ">", "20000" ] }
       },
       {
         "id": "m_o",
         "sym": "ₕ",
         "color": "c_red",
-        "condition": { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 20000 } ] }
+        "condition": { "math": [ "u_val('bmi_permil')", ">", "20000" ] }
       },
       {
         "id": "m_o",
         "sym": " ⎺",
         "color": "c_brown",
-        "condition": { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 20000 } ] }
+        "condition": { "math": [ "u_val('bmi_permil')", ">", "20000" ] }
       }
     ],
     "type": "widget"
@@ -2004,7 +1843,7 @@
     "id": "l_stamina",
     "width": 2,
     "copy-from": "t_label",
-    "string": "S:",
+    "string": { "ctxt": "label_stamina", "str": "S:" },
     "type": "widget"
   },
   {
@@ -2064,7 +1903,7 @@
     "id": "i_rest_graph",
     "width": 4,
     "copy-from": "t_horiz_graph",
-    "var": "fatigue",
+    "var": "sleepiness",
     "colors": [ "h_light_gray", "h_light_red" ],
     "type": "widget"
   },
@@ -2093,37 +1932,37 @@
         "id": "none",
         "text": "None       ",
         "color": "light_gray",
-        "condition": { "compare_num": [ { "u_val": "activity_level" }, "==", { "const": 0 } ] }
+        "condition": { "math": [ "u_val('activity_level')", "==", "0" ] }
       },
       {
         "id": "light",
         "text": "Light      ",
         "color": "yellow",
-        "condition": { "compare_num": [ { "u_val": "activity_level" }, "==", { "const": 1 } ] }
+        "condition": { "math": [ "u_val('activity_level')", "==", "1" ] }
       },
       {
         "id": "moderate",
         "text": "Moderate   ",
         "color": "yellow",
-        "condition": { "compare_num": [ { "u_val": "activity_level" }, "==", { "const": 2 } ] }
+        "condition": { "math": [ "u_val('activity_level')", "==", "2" ] }
       },
       {
         "id": "brisk",
         "text": "Brisk      ",
         "color": "light_red",
-        "condition": { "compare_num": [ { "u_val": "activity_level" }, "==", { "const": 3 } ] }
+        "condition": { "math": [ "u_val('activity_level')", "==", "3" ] }
       },
       {
         "id": "active",
         "text": "Active     ",
         "color": "light_red",
-        "condition": { "compare_num": [ { "u_val": "activity_level" }, "==", { "const": 4 } ] }
+        "condition": { "math": [ "u_val('activity_level')", "==", "4" ] }
       },
       {
         "id": "extreme",
         "text": "Extreme    ",
         "color": "red",
-        "condition": { "compare_num": [ { "u_val": "activity_level" }, ">=", { "const": 5 } ] }
+        "condition": { "math": [ "u_val('activity_level')", ">=", "5" ] }
       }
     ],
     "type": "widget"
@@ -2162,7 +2001,7 @@
     "id": "l_weary",
     "width": 2,
     "copy-from": "t_label",
-    "string": "W:",
+    "string": { "ctxt": "label_weary", "str": "W:" },
     "type": "widget"
   },
   {
@@ -2185,7 +2024,7 @@
     "id": "l_wtrns",
     "width": 2,
     "copy-from": "t_label",
-    "string": "W:",
+    "string": { "ctxt": "label_weary_transition_level", "str": "W:" },
     "type": "widget"
   },
   {

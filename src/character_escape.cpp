@@ -1,8 +1,20 @@
+#include <algorithm>
+#include <memory>
+#include <vector>
+
+#include "bodypart.h"
+#include "calendar.h"
 #include "character.h"
 #include "character_attire.h"
 #include "character_martial_arts.h"
 #include "creature_tracker.h"
+#include "damage.h"
+#include "debug.h"
+#include "effect.h"
+#include "enums.h"
 #include "flag.h"
+#include "item.h"
+#include "item_pocket.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "martialarts.h"
@@ -10,6 +22,12 @@
 #include "monster.h"
 #include "mtype.h"
 #include "output.h"
+#include "pimpl.h"
+#include "point.h"
+#include "rng.h"
+#include "translation.h"
+#include "translations.h"
+#include "type_id.h"
 
 static const character_modifier_id
 character_modifier_grab_break_limb_mod( "grab_break_limb_mod" );
@@ -278,7 +296,7 @@ bool Character::try_remove_grab( bool attacking )
             }
 
             // Every attempt burns some stamina - maybe some moves?
-            mod_stamina( -5 * eff.get_intensity() );
+            burn_energy_arms( -5 * eff.get_intensity() );
             if( x_in_y( escape_chance, grabber_roll ) ) {
                 grabber->remove_grab( eff.get_bp().id() );
                 add_msg_debug( debugmode::DF_MATTACK, "Removed grab effect %s from monster %s",

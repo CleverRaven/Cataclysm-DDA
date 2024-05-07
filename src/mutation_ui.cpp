@@ -3,7 +3,6 @@
 #include <algorithm> //std::min
 #include <cstddef>
 #include <functional>
-#include <new>
 #include <string>
 #include <unordered_map>
 
@@ -11,7 +10,7 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "enums.h"
-#include "input.h"
+#include "input_context.h"
 #include "inventory.h"
 #include "mutation.h"
 #include "output.h"
@@ -49,14 +48,14 @@ static const auto shortcut_desc = []( const std::string_view comment, const std:
 
 // needs extensive improvement
 
-static trait_id GetTrait( const std::vector<trait_id> &active,
-                          const std::vector<trait_id> &passive,
-                          int cursor, mutation_tab_mode tab_mode )
+static std::optional<trait_id> GetTrait( const std::vector<trait_id> &active,
+        const std::vector<trait_id> &passive,
+        int cursor, mutation_tab_mode tab_mode )
 {
-    trait_id mut_id;
+    std::optional<trait_id> mut_id;
     if( tab_mode == mutation_tab_mode::active ) {
         mut_id = active[cursor];
-    } else {
+    } else if( tab_mode == mutation_tab_mode::passive ) {
         mut_id = passive[cursor];
     }
     return mut_id;
@@ -82,7 +81,7 @@ static void show_mutations_titlebar( const catacurses::window &window,
                                   ctxt.get_desc( "TOGGLE_EXAMINE" ) );
     }
     if( menu_mode == mutation_menu_mode::hiding ) {
-        desc += colorize( _( "Hidding" ), c_cyan ) + "  " + shortcut_desc( _( "%s Activate, " ),
+        desc += colorize( _( "Hiding" ), c_cyan ) + "  " + shortcut_desc( _( "%s Activate, " ),
                 ctxt.get_desc( "TOGGLE_EXAMINE" ) );
     }
     if( menu_mode != mutation_menu_mode::reassigning ) {
@@ -160,10 +159,10 @@ void avatar::power_mutations()
     int half_list_view_location = 0;
     mutation_menu_mode menu_mode = mutation_menu_mode::activating;
     mutation_tab_mode tab_mode;
-    if( !passive.empty() ) {
-        tab_mode = mutation_tab_mode::passive;
-    } else if( !active.empty() ) {
+    if( !active.empty() ) {
         tab_mode = mutation_tab_mode::active;
+    } else if( !passive.empty() ) {
+        tab_mode = mutation_tab_mode::passive;
     } else {
         tab_mode = mutation_tab_mode::none;
     }
@@ -309,18 +308,18 @@ void avatar::power_mutations()
                 }
                 if( md.thirst ) {
                     if( number_of_resource > 0 ) {
-                        //~ Resources consumed by a mutation: "kcal & thirst & fatigue"
+                        //~ Resources consumed by a mutation: "kcal & thirst & sleepiness"
                         resource_unit += _( " &" );
                     }
                     resource_unit += _( " thirst" );
                     number_of_resource++;
                 }
-                if( md.fatigue ) {
+                if( md.sleepiness ) {
                     if( number_of_resource > 0 ) {
-                        //~ Resources consumed by a mutation: "kcal & thirst & fatigue"
+                        //~ Resources consumed by a mutation: "kcal & thirst & sleepiness"
                         resource_unit += _( " &" );
                     }
-                    resource_unit += _( " fatigue" );
+                    resource_unit += _( " sleepiness" );
                 }
                 mut_desc += mutation_name( md.id );
                 if( md.cost > 0 && md.cooldown > 0_turns ) {
@@ -430,7 +429,7 @@ void avatar::power_mutations()
                                 exit = true;
                             } else if( ( !mut_data.hunger || get_kcal_percent() >= 0.8f ) &&
                                        ( !mut_data.thirst || get_thirst() <= 400 ) &&
-                                       ( !mut_data.fatigue || get_fatigue() <= 400 ) ) {
+                                       ( !mut_data.sleepiness || get_sleepiness() <= 400 ) ) {
                                 add_msg_if_player( m_neutral, _( "You activate your %s." ), mutation_name( mut_data.id ) );
                                 // Reset menu in advance
                                 ui.reset();
@@ -603,7 +602,7 @@ void avatar::power_mutations()
                                     exit = true;
                                 } else if( ( !mut_data.hunger || get_kcal_percent() >= 0.8f ) &&
                                            ( !mut_data.thirst || get_thirst() <= 400 ) &&
-                                           ( !mut_data.fatigue || get_fatigue() <= 400 ) ) {
+                                           ( !mut_data.sleepiness || get_sleepiness() <= 400 ) ) {
                                     add_msg_if_player( m_neutral, _( "You activate your %s." ), mutation_name( mut_data.id ) );
                                     // Reset menu in advance
                                     ui.reset();

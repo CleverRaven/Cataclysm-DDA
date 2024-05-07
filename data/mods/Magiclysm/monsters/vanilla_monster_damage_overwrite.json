@@ -1,0 +1,1838 @@
+[
+  {
+    "type": "MONSTER",
+    "id": "mon_broken_cyborg",
+    "copy-from": "mon_broken_cyborg",
+    "extend": { "armor": { "poison": 20, "necrotic": 8, "psionic": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_prototype_cyborg",
+    "copy-from": "mon_prototype_cyborg",
+    "extend": { "armor": { "poison": 15, "necrotic": 6, "psionic": 10 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_exodii_worker",
+    "copy-from": "mon_exodii_worker",
+    "extend": { "flags": [ "POISONPROOF", "PSIONICPROOF" ], "armor": { "necrotic": 20 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_exodii_quad",
+    "copy-from": "mon_exodii_quad",
+    "extend": { "flags": [ "POISONPROOF", "PSIONICPROOF" ], "armor": { "necrotic": 20 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zomborg",
+    "copy-from": "mon_zomborg",
+    "extend": { "poison": 15, "nether": 4, "necrotic": 8, "psionic": 14 }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zomborg_devourer",
+    "copy-from": "mon_zomborg_devourer",
+    "extend": { "flags": [ "PSIONICPROOF" ], "armor": { "nether": 20, "necrotic": 20, "poison": 20 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_secubot",
+    "copy-from": "mon_secubot",
+    "extend": { "flags": [ "POISONPROOF", "PSIONICPROOF" ], "armor": { "necrotic": 20 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_talon_m202a1",
+    "copy-from": "mon_talon_m202a1",
+    "extend": { "flags": [ "POISONPROOF", "PSIONICPROOF" ], "armor": { "necrotic": 20 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_secubot_america",
+    "copy-from": "mon_secubot_america",
+    "extend": { "flags": [ "POISONPROOF", "PSIONICPROOF" ], "armor": { "necrotic": 20 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_skitterbot",
+    "copy-from": "mon_skitterbot",
+    "extend": { "flags": [ "POISONPROOF", "PSIONICPROOF" ], "armor": { "necrotic": 20 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_science_bot",
+    "copy-from": "mon_science_bot",
+    "extend": { "flags": [ "POISONPROOF", "PSIONICPROOF" ], "armor": { "necrotic": 20 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_robofac_prototype",
+    "copy-from": "mon_robofac_prototype",
+    "extend": { "flags": [ "POISONPROOF", "PSIONICPROOF" ], "armor": { "necrotic": 20 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_dispatch",
+    "copy-from": "mon_dispatch",
+    "extend": { "flags": [ "POISONPROOF", "PSIONICPROOF" ], "armor": { "necrotic": 20 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_dispatch_military",
+    "copy-from": "mon_dispatch_military",
+    "extend": { "flags": [ "POISONPROOF", "PSIONICPROOF" ], "armor": { "necrotic": 20 } }
+  },
+  {
+    "type": "MONSTER",
+    "abstract": "base_drone",
+    "copy-from": "base_drone",
+    "extend": { "flags": [ "POISONPROOF", "PSIONICPROOF" ], "armor": { "necrotic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "exodii_sniper_drone",
+    "copy-from": "exodii_sniper_drone",
+    "extend": { "flags": [ "POISONPROOF", "PSIONICPROOF" ], "armor": { "necrotic": 20, "nether": 4 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_chud",
+    "copy-from": "mon_chud",
+    "extend": { "armor": { "poison": 4 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_feral_human_crowbar_fungal_infected",
+    "copy-from": "mon_feral_human_crowbar_fungal_infected",
+    "extend": { "armor": { "poison": 8, "nether": 4 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_feral_human_axe_fungal_infected",
+    "copy-from": "mon_feral_human_axe_fungal_infected",
+    "extend": { "armor": { "poison": 8, "nether": 4 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_feral_human_pipe_fungal_corpse",
+    "copy-from": "mon_feral_human_pipe_fungal_corpse",
+    "extend": { "armor": { "poison": 8, "nether": 4, "psionic": 4 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_feral_human_crowbar_fungal_corpse",
+    "copy-from": "mon_feral_human_crowbar_fungal_corpse",
+    "extend": { "armor": { "poison": 8, "nether": 4, "psionic": 4 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_feral_human_axe_fungal_corpse",
+    "copy-from": "mon_feral_human_axe_fungal_corpse",
+    "extend": { "armor": { "poison": 8, "nether": 4, "psionic": 4 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_feral_cop_fungal_infected",
+    "copy-from": "mon_feral_cop_fungal_infected",
+    "extend": { "armor": { "poison": 8, "nether": 4 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_fungal_blossom",
+    "copy-from": "mon_fungal_blossom",
+    "extend": { "armor": { "poison": 20, "nether": 10, "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_fungal_hedgerow",
+    "copy-from": "mon_fungal_hedgerow",
+    "extend": { "armor": { "poison": 20, "nether": 10, "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_fungal_tendril",
+    "copy-from": "mon_fungal_tendril",
+    "extend": { "armor": { "poison": 20, "nether": 10, "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_fungal_wall",
+    "copy-from": "mon_fungal_wall",
+    "extend": { "armor": { "poison": 20, "nether": 10, "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_fungaloid",
+    "copy-from": "mon_fungaloid",
+    "extend": { "armor": { "poison": 20, "nether": 4, "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_fungaloid_shambler",
+    "copy-from": "mon_fungaloid_shambler",
+    "extend": { "armor": { "poison": 20, "nether": 4, "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_fungaloid_queen",
+    "copy-from": "mon_fungaloid_queen",
+    "extend": { "armor": { "poison": 20, "nether": 14, "psionic": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_fungaloid_seeder",
+    "copy-from": "mon_fungaloid_seeder",
+    "extend": { "armor": { "poison": 20, "nether": 14, "psionic": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_fungaloid_tower",
+    "copy-from": "mon_fungaloid_tower",
+    "extend": { "armor": { "poison": 20, "nether": 14, "psionic": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_fungaloid_young",
+    "copy-from": "mon_fungaloid_young",
+    "extend": { "armor": { "poison": 20, "nether": 4, "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_spore",
+    "copy-from": "mon_spore",
+    "extend": { "armor": { "poison": 20, "nether": 4, "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_ant_fungus",
+    "copy-from": "mon_ant_fungus",
+    "extend": { "armor": { "poison": 20, "nether": 4, "psionic": 9 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_spider_fungus",
+    "copy-from": "mon_spider_fungus",
+    "extend": { "armor": { "poison": 20, "nether": 4, "psionic": 9 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_wasp_small_fungus",
+    "copy-from": "mon_wasp_small_fungus",
+    "extend": { "armor": { "poison": 20, "nether": 4, "psionic": 9 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_wasp_small_guard_fungus",
+    "copy-from": "mon_wasp_small_guard_fungus",
+    "extend": { "armor": { "poison": 20, "nether": 4, "psionic": 9 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_wasp_queen_fungus",
+    "copy-from": "mon_wasp_queen_fungus",
+    "extend": { "armor": { "poison": 20, "nether": 4, "psionic": 9 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_wasp_fungus",
+    "copy-from": "mon_wasp_fungus",
+    "extend": { "armor": { "poison": 20, "nether": 4, "psionic": 9 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_wasp_guard_fungus",
+    "copy-from": "mon_wasp_guard_fungus",
+    "extend": { "armor": { "poison": 20, "nether": 4, "psionic": 9 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_wasp_mega_fungus",
+    "copy-from": "mon_wasp_mega_fungus",
+    "extend": { "armor": { "poison": 20, "nether": 4, "psionic": 9 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_bee_fungus",
+    "copy-from": "mon_bee_fungus",
+    "extend": { "armor": { "poison": 20, "nether": 4, "psionic": 9 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_bee_mega_fungus",
+    "copy-from": "mon_bee_mega_fungus",
+    "extend": { "armor": { "poison": 20, "nether": 4, "psionic": 9 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_fungus",
+    "copy-from": "mon_zombie_fungus",
+    "extend": { "armor": { "poison": 14, "nether": 6, "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_gasbag_fungus",
+    "copy-from": "mon_zombie_gasbag_fungus",
+    "extend": { "armor": { "poison": 14, "nether": 6, "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_smoker_fungus",
+    "copy-from": "mon_zombie_smoker_fungus",
+    "extend": { "armor": { "poison": 14, "nether": 6, "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_skeleton_fungus",
+    "copy-from": "mon_skeleton_fungus",
+    "extend": { "armor": { "poison": 14, "nether": 6, "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_skeleton_brute_fungus",
+    "copy-from": "mon_skeleton_brute_fungus",
+    "extend": { "armor": { "poison": 14, "nether": 6, "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_skeleton_hulk_fungus",
+    "copy-from": "mon_skeleton_hulk_fungus",
+    "extend": { "armor": { "poison": 14, "nether": 6, "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_child_fungus",
+    "copy-from": "mon_zombie_child_fungus",
+    "extend": { "armor": { "poison": 14, "nether": 6, "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_boomer_fungus",
+    "copy-from": "mon_boomer_fungus",
+    "extend": { "armor": { "poison": 14, "nether": 6, "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_fungal_wretch",
+    "copy-from": "mon_fungal_wretch",
+    "extend": { "armor": { "poison": 14, "nether": 6, "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_fungal_raptor",
+    "copy-from": "mon_fungal_raptor",
+    "extend": { "armor": { "poison": 14, "nether": 6, "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_runner_fungal",
+    "copy-from": "mon_zombie_runner_fungal",
+    "extend": { "armor": { "poison": 14, "nether": 6, "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_rot_fungal",
+    "copy-from": "mon_zombie_rot_fungal",
+    "extend": { "armor": { "poison": 14, "nether": 6, "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_tough_fungal",
+    "copy-from": "mon_zombie_tough_fungal",
+    "extend": { "armor": { "poison": 14, "nether": 6, "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_crawler_fungal",
+    "copy-from": "mon_zombie_crawler_fungal",
+    "extend": { "armor": { "poison": 14, "nether": 6, "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_fat_fungus",
+    "copy-from": "mon_zombie_fat_fungus",
+    "extend": { "armor": { "poison": 14, "nether": 6, "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_beekeeper_fungal",
+    "copy-from": "mon_beekeeper_fungal",
+    "extend": { "armor": { "poison": 14, "nether": 6, "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_fungus_acidic",
+    "copy-from": "mon_zombie_fungus_acidic",
+    "extend": { "armor": { "poison": 14, "nether": 6, "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_dog_fungus",
+    "copy-from": "mon_zombie_dog_fungus",
+    "extend": { "armor": { "poison": 14, "nether": 6, "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zoose_fungus",
+    "copy-from": "mon_zoose_fungus",
+    "extend": { "armor": { "poison": 14, "nether": 6, "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zougar_fungus",
+    "copy-from": "mon_zougar_fungus",
+    "extend": { "armor": { "poison": 14, "nether": 6, "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_horse_fungus",
+    "copy-from": "mon_zombie_horse_fungus",
+    "extend": { "armor": { "poison": 14, "nether": 6, "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_ziger_fungus",
+    "copy-from": "mon_ziger_fungus",
+    "extend": { "armor": { "poison": 14, "nether": 6, "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zeer_fungus",
+    "copy-from": "mon_zeer_fungus",
+    "extend": { "armor": { "poison": 14, "nether": 6, "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zeindeer_fungus",
+    "copy-from": "mon_zeindeer_fungus",
+    "extend": { "armor": { "poison": 14, "nether": 6, "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_larva_abstract",
+    "copy-from": "mon_larva_abstract",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_dark_wyrm",
+    "copy-from": "mon_dark_wyrm",
+    "extend": { "armor": { "psionic": 6 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_graboid",
+    "copy-from": "mon_graboid",
+    "extend": { "armor": { "psionic": 8, "poison": 6 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_halfworm",
+    "copy-from": "mon_halfworm",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_worm",
+    "copy-from": "mon_worm",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_worm_small",
+    "copy-from": "mon_worm_small",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_worm_larva",
+    "copy-from": "mon_worm_larva",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_large_cockroach",
+    "copy-from": "mon_large_cockroach",
+    "extend": { "armor": { "psionic": 14, "poison": 8, "necrotic": 4 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_skittering_plague",
+    "copy-from": "mon_skittering_plague",
+    "extend": { "armor": { "psionic": 14, "poison": 12, "necrotic": 4 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_plague_nymph",
+    "copy-from": "mon_plague_nymph",
+    "extend": { "armor": { "psionic": 14, "poison": 12, "necrotic": 4 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_plague_vector",
+    "copy-from": "mon_plague_vector",
+    "extend": { "armor": { "psionic": 14, "poison": 12, "necrotic": 4 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_giant_cockroach",
+    "copy-from": "mon_giant_cockroach",
+    "extend": { "armor": { "psionic": 14, "poison": 8, "necrotic": 4 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_giant_cockroach_nymph",
+    "copy-from": "mon_giant_cockroach_nymph",
+    "extend": { "armor": { "psionic": 14, "poison": 8, "necrotic": 4 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_pregnant_giant_cockroach",
+    "copy-from": "mon_pregnant_giant_cockroach",
+    "extend": { "armor": { "psionic": 14, "poison": 8, "necrotic": 4 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_bee_small",
+    "copy-from": "mon_bee_small",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_bee",
+    "copy-from": "mon_bee",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_bee_mega",
+    "copy-from": "mon_bee_mega",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_centipede_small",
+    "copy-from": "mon_centipede_small",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_centipede_giant",
+    "copy-from": "mon_centipede_giant",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_centipede_larva",
+    "copy-from": "mon_centipede_larva",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_centipede_mom",
+    "copy-from": "mon_centipede_mom",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_centipede_mega",
+    "copy-from": "mon_centipede_mega",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_dragonfly_naiad",
+    "copy-from": "mon_dragonfly_naiad",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_dragonfly_giant",
+    "copy-from": "mon_dragonfly_giant",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_dragonfly_mega",
+    "copy-from": "mon_dragonfly_mega",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_firefly",
+    "copy-from": "mon_firefly",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_fly_small",
+    "copy-from": "mon_fly_small",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_fly",
+    "copy-from": "mon_fly",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_mosquito_giant",
+    "copy-from": "mon_mosquito_giant",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_spider_cellar_giant",
+    "copy-from": "mon_spider_cellar_giant",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_spider_cellar_leg",
+    "copy-from": "mon_spider_cellar_leg",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_spider_jumping_giant",
+    "copy-from": "mon_spider_jumping_giant",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_spider_trapdoor_giant",
+    "copy-from": "mon_spider_trapdoor_giant",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_spider_web",
+    "copy-from": "mon_spider_web",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_spider_widow_giant",
+    "copy-from": "mon_spider_widow_giant",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_spider_wolf_giant",
+    "copy-from": "mon_spider_wolf_giant",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_wasp_pupa",
+    "copy-from": "mon_wasp_pupa",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_wasp_small",
+    "copy-from": "mon_wasp_small",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_wasp_queen",
+    "copy-from": "mon_wasp_queen",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_wasp",
+    "copy-from": "mon_wasp",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_wasp_guard",
+    "copy-from": "mon_wasp_guard",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_wasp_mega",
+    "copy-from": "mon_wasp_mega",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_dermatik",
+    "copy-from": "mon_dermatik",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_ant",
+    "copy-from": "mon_ant",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_ant_acid",
+    "copy-from": "mon_ant_acid",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_ant_acid_queen",
+    "copy-from": "mon_ant_acid_queen",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_ant_acid_soldier",
+    "copy-from": "mon_ant_acid_soldier",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_ant_acid_soldier_mega",
+    "copy-from": "mon_ant_acid_soldier_mega",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_ant_queen",
+    "copy-from": "mon_ant_queen",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_ant_soldier",
+    "copy-from": "mon_ant_soldier",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_ant_soldier_mega",
+    "copy-from": "mon_ant_soldier_mega",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_locust",
+    "copy-from": "mon_locust",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_aphid",
+    "copy-from": "mon_aphid",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_mantis_small",
+    "copy-from": "mon_mantis_small",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_mantis_giant",
+    "copy-from": "mon_mantis_giant",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_mantis_mega",
+    "copy-from": "mon_mantis_mega",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_mole_cricket",
+    "copy-from": "mon_mole_cricket",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_lady_bug",
+    "copy-from": "mon_lady_bug",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_lady_bug_giant",
+    "copy-from": "mon_lady_bug_giant",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_grasshopper_giant",
+    "copy-from": "mon_grasshopper_giant",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_stag_beetle_larva",
+    "copy-from": "mon_stag_beetle_larva",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_stag_beetle_small",
+    "copy-from": "mon_stag_beetle_small",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_stag_beetle_giant",
+    "copy-from": "mon_stag_beetle_giant",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_stag_beetle_mega",
+    "copy-from": "mon_stag_beetle_mega",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_antlion_larva",
+    "copy-from": "mon_antlion_larva",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_antlion_giant",
+    "copy-from": "mon_antlion_giant",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_strider_giant",
+    "copy-from": "mon_strider_giant",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_butterfly",
+    "copy-from": "mon_butterfly",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_butterfly_giant",
+    "copy-from": "mon_butterfly_giant",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_moth",
+    "copy-from": "mon_moth",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_moth_giant",
+    "copy-from": "mon_moth_giant",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_butterfly_cocoon",
+    "copy-from": "mon_butterfly_cocoon",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_moth_cocoon",
+    "copy-from": "mon_moth_cocoon",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_cicada",
+    "copy-from": "mon_cicada",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_woodlouse",
+    "copy-from": "mon_woodlouse",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_diving_larva",
+    "copy-from": "mon_diving_larva",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_diving_beetle_small",
+    "copy-from": "mon_diving_beetle_small",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_water_scorpion",
+    "copy-from": "mon_water_scorpion",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_fleshy_shambler",
+    "copy-from": "mon_fleshy_shambler",
+    "extend": { "armor": { "nether": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_flesh_golem",
+    "copy-from": "mon_flesh_golem",
+    "extend": { "armor": { "nether": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_jabberwock",
+    "copy-from": "mon_jabberwock",
+    "extend": { "armor": { "nether": 14, "psionic": 8, "necrotic": 4, "sonic": -10 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_lab_security_drone_GM",
+    "copy-from": "mon_lab_security_drone_GM",
+    "extend": { "flags": [ "PSIONICPROOF", "POISONPROOF" ], "armor": { "necrotic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_lab_security_drone_YM",
+    "copy-from": "mon_lab_security_drone_YM",
+    "extend": { "flags": [ "PSIONICPROOF", "POISONPROOF" ], "armor": { "necrotic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_lab_security_drone_BM",
+    "copy-from": "mon_lab_security_drone_BM",
+    "extend": { "flags": [ "PSIONICPROOF", "POISONPROOF" ], "armor": { "necrotic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_lab_security_drone_BM2",
+    "copy-from": "mon_lab_security_drone_BM2",
+    "extend": { "flags": [ "PSIONICPROOF", "POISONPROOF" ], "armor": { "necrotic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_lab_security_drone_GR",
+    "copy-from": "mon_lab_security_drone_GR",
+    "extend": { "flags": [ "PSIONICPROOF", "POISONPROOF" ], "armor": { "necrotic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_marloss_zealot_f",
+    "copy-from": "mon_marloss_zealot_f",
+    "extend": { "armor": { "poison": 20, "nether": 4, "psionic": 9 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_marloss_zealot_m",
+    "copy-from": "mon_marloss_zealot_m",
+    "extend": { "armor": { "poison": 20, "nether": 4, "psionic": 9 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_mech_recon",
+    "copy-from": "mon_mech_recon",
+    "extend": { "flags": [ "PSIONICPROOF", "POISONPROOF" ], "armor": { "necrotic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_mech_combat",
+    "copy-from": "mon_mech_combat",
+    "extend": { "flags": [ "PSIONICPROOF", "POISONPROOF" ], "armor": { "necrotic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_mech_lifter",
+    "copy-from": "mon_mech_lifter",
+    "extend": { "flags": [ "PSIONICPROOF", "POISONPROOF" ], "armor": { "necrotic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_mi_go",
+    "copy-from": "mon_mi_go",
+    "extend": { "armor": { "nether": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_mi_go_slaver",
+    "copy-from": "mon_mi_go_slaver",
+    "extend": { "armor": { "nether": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_mi_go_surgeon",
+    "copy-from": "mon_mi_go_surgeon",
+    "extend": { "armor": { "nether": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_mi_go_guard",
+    "copy-from": "mon_mi_go_guard",
+    "extend": { "armor": { "nether": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_mi_go_myrmidon",
+    "copy-from": "mon_mi_go_myrmidon",
+    "extend": { "armor": { "nether": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_mi_go_captured",
+    "copy-from": "mon_mi_go_captured",
+    "extend": { "armor": { "nether": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_mi_go_scout",
+    "copy-from": "mon_mi_go_scout",
+    "extend": { "armor": { "nether": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_amigara_horror",
+    "copy-from": "mon_amigara_horror",
+    "extend": { "flags": [ "TIMELESS" ], "armor": { "nether": 30 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_blank",
+    "copy-from": "mon_blank",
+    "extend": { "armor": { "nether": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_breather",
+    "copy-from": "mon_breather",
+    "extend": { "flags": [ "PSIONICPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_breather_hub",
+    "copy-from": "mon_breather_hub",
+    "extend": { "flags": [ "PSIONICPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_shrapnel_swarm",
+    "copy-from": "mon_shrapnel_swarm",
+    "extend": { "flags": [ "PSIONICPROOF", "POISONPROOF" ], "armor": { "nether": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_structural_spur",
+    "copy-from": "mon_structural_spur",
+    "extend": { "flags": [ "PSIONICPROOF", "POISONPROOF" ], "armor": { "nether": 8, "sonic": 80 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_void_spider",
+    "copy-from": "mon_void_spider",
+    "extend": { "armor": { "light": -100, "nether": 10 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_void_spider_maw",
+    "copy-from": "mon_void_spider_maw",
+    "extend": { "armor": { "light": -100, "nether": 10 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_void_spider_limb",
+    "copy-from": "mon_void_spider_limb",
+    "extend": { "armor": { "light": -100, "nether": 10 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_void_spider_spiderling",
+    "copy-from": "mon_void_spider_spiderling",
+    "extend": { "armor": { "light": -100, "nether": 10 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_darkman",
+    "copy-from": "mon_darkman",
+    "extend": { "armor": { "light": -100, "nether": 10 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_flaming_eye",
+    "copy-from": "mon_flaming_eye",
+    "extend": { "armor": { "light": -50, "nether": 20 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_flying_polyp",
+    "copy-from": "mon_flying_polyp",
+    "extend": { "armor": { "nether": 20, "necrotic": 10 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_star_vampire",
+    "copy-from": "mon_star_vampire",
+    "extend": { "flags": [ "TIMELESS" ], "armor": { "nether": 20 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_unseen_hunter",
+    "copy-from": "mon_unseen_hunter",
+    "extend": { "armor": { "nether": 10 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_gracke",
+    "copy-from": "mon_gracke",
+    "extend": { "flags": [ "TIMELESS" ], "armor": { "nether": 40 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_hound_tindalos",
+    "copy-from": "mon_hound_tindalos",
+    "extend": { "armor": { "nether": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_hunting_horror",
+    "copy-from": "mon_hunting_horror",
+    "extend": { "armor": { "nether": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_kreck",
+    "copy-from": "mon_kreck",
+    "extend": { "armor": { "nether": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_shadow",
+    "copy-from": "mon_shadow",
+    "extend": { "armor": { "light": -60, "nether": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_shadow_snake",
+    "copy-from": "mon_shadow_snake",
+    "extend": { "armor": { "light": -60, "nether": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_shoggoth",
+    "copy-from": "mon_shoggoth",
+    "extend": { "armor": { "nether": 40, "necrotic": -20 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_thing",
+    "copy-from": "mon_thing",
+    "extend": { "armor": { "nether": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_vortex",
+    "copy-from": "mon_vortex",
+    "extend": { "flags": [ "TIMELESS", "PSIONICPROOF" ], "armor": { "nether": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_shifting_mass",
+    "copy-from": "mon_shifting_mass",
+    "extend": { "armor": { "nether": 40, "necrotic": -20 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_impossible_shape",
+    "copy-from": "mon_impossible_shape",
+    "extend": { "armor": { "nether": 40, "necrotic": -20 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_absence",
+    "copy-from": "mon_absence",
+    "extend": { "flags": [ "TIMELESS", "PSIONICPROOF" ], "armor": { "nether": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_flatlander",
+    "copy-from": "mon_flatlander",
+    "extend": { "armor": { "nether": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_memory",
+    "copy-from": "mon_memory",
+    "extend": { "armor": { "nether": 40, "necrotic": -20 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_swarm_structure",
+    "copy-from": "mon_swarm_structure",
+    "extend": { "flags": [ "PSIONICPROOF", "POISONPROOF" ], "armor": { "nether": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_twisting_blade",
+    "copy-from": "mon_twisting_blade",
+    "extend": { "flags": [ "PSIONICPROOF", "POISONPROOF" ], "armor": { "nether": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_archunk_weak",
+    "copy-from": "mon_archunk_weak",
+    "extend": { "flags": [ "PSIONICPROOF", "POISONPROOF" ], "armor": { "nether": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_archunk_medium",
+    "copy-from": "mon_archunk_weak",
+    "extend": { "flags": [ "PSIONICPROOF", "POISONPROOF" ], "armor": { "nether": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_archunk_strong",
+    "copy-from": "mon_archunk_weak",
+    "extend": { "flags": [ "PSIONICPROOF", "POISONPROOF" ], "armor": { "nether": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_pale_reflection",
+    "copy-from": "mon_twisting_blade",
+    "extend": { "flags": [ "PSIONICPROOF", "POISONPROOF" ], "armor": { "nether": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_tainted_shadow",
+    "copy-from": "mon_tainted_shadow",
+    "extend": { "flags": [ "PSIONICPROOF", "POISONPROOF" ], "armor": { "light": -100, "nether": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_nether_spearfisher",
+    "copy-from": "mon_nether_spearfisher",
+    "extend": { "armor": { "nether": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_nether_leech",
+    "copy-from": "mon_nether_leech",
+    "extend": { "armor": { "nether": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_nether_fish",
+    "copy-from": "mon_nether_fish",
+    "extend": { "armor": { "nether": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_nuckalavee",
+    "copy-from": "mon_nuckalavee",
+    "extend": { "flags": [ "POISONPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_cat_mutant_prism",
+    "copy-from": "mon_cat_mutant_prism",
+    "extend": { "armor": { "light": 20 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_cat_void",
+    "copy-from": "mon_cat_void",
+    "extend": { "armor": { "light": -20 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_dog_antimemetic",
+    "copy-from": "mon_dog_antimemetic",
+    "extend": { "armor": { "nether": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_leech_blossom",
+    "copy-from": "mon_leech_blossom",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_leech_stalk",
+    "copy-from": "mon_leech_stalk",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_leech_pod_cluster",
+    "copy-from": "mon_leech_pod_cluster",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_leech_root_runner",
+    "copy-from": "mon_leech_root_runner",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_leech_root_drone",
+    "copy-from": "mon_leech_root_drone",
+    "extend": { "armor": { "psionic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_robofac_laserturret_mk1",
+    "copy-from": "mon_robofac_laserturret_mk1",
+    "extend": { "flags": [ "POISONPROOF", "PSIONICPROOF" ], "armor": { "necrotic": 20 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_robofac_camspy",
+    "copy-from": "mon_robofac_camspy",
+    "extend": { "flags": [ "POISONPROOF", "PSIONICPROOF" ], "armor": { "necrotic": 20 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_robofac_skittergun",
+    "copy-from": "mon_robofac_skittergun",
+    "extend": { "flags": [ "POISONPROOF", "PSIONICPROOF" ], "armor": { "necrotic": 20 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_blob",
+    "copy-from": "mon_blob",
+    "extend": { "flags": [ "POISONPROOF", "PSIONICPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_blob_brain",
+    "copy-from": "mon_blob_brain",
+    "extend": { "flags": [ "POISONPROOF", "PSIONICPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_blob_large",
+    "copy-from": "mon_blob_large",
+    "extend": { "flags": [ "POISONPROOF", "PSIONICPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_blob_small",
+    "copy-from": "mon_blob_small",
+    "extend": { "flags": [ "POISONPROOF", "PSIONICPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_gelatin",
+    "copy-from": "mon_gelatin",
+    "extend": { "flags": [ "PSIONICPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_player_blob",
+    "copy-from": "mon_player_blob",
+    "extend": { "flags": [ "POISONPROOF", "PSIONICPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_slime_ocularium",
+    "copy-from": "mon_slime_ocularium",
+    "extend": { "flags": [ "PSIONICPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_biollante_sprig",
+    "copy-from": "mon_biollante_sprig",
+    "extend": { "armor": { "poison": 4 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_biollante",
+    "copy-from": "mon_biollante",
+    "extend": { "armor": { "poison": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_creeper_hub",
+    "copy-from": "mon_creeper_hub",
+    "extend": { "armor": { "poison": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_creeper_vine",
+    "copy-from": "mon_creeper_vine",
+    "extend": { "armor": { "poison": 4 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_triffid_sprig",
+    "copy-from": "mon_triffid_sprig",
+    "extend": { "armor": { "poison": 4 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_triffid_young",
+    "copy-from": "mon_triffid_young",
+    "extend": { "armor": { "poison": 4 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_triffid",
+    "copy-from": "mon_triffid",
+    "extend": { "armor": { "poison": 10 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_triffid_queen",
+    "copy-from": "mon_triffid_queen",
+    "extend": { "armor": { "poison": 30 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_vinebeast",
+    "copy-from": "mon_vinebeast",
+    "extend": { "armor": { "poison": 10 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_fungal_fighter",
+    "copy-from": "mon_fungal_fighter",
+    "extend": { "armor": { "poison": 40 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_triffid_flower",
+    "copy-from": "mon_triffid_flower",
+    "extend": { "armor": { "poison": 10 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_triffid_heart",
+    "copy-from": "mon_triffid_heart",
+    "extend": { "armor": { "poison": 10 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_turret",
+    "copy-from": "mon_turret",
+    "extend": { "flags": [ "POISONPROOF", "PSIONICPROOF" ], "armor": { "necrotic": 20 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_turret_searchlight",
+    "copy-from": "mon_turret_searchlight",
+    "extend": { "flags": [ "POISONPROOF", "PSIONICPROOF" ], "armor": { "necrotic": 20 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_turret_bmg",
+    "copy-from": "mon_turret_bmg",
+    "extend": { "flags": [ "POISONPROOF", "PSIONICPROOF" ], "armor": { "necrotic": 20 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_turret_rifle",
+    "copy-from": "mon_turret_rifle",
+    "extend": { "flags": [ "POISONPROOF", "PSIONICPROOF" ], "armor": { "necrotic": 20 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_crows_m240",
+    "copy-from": "mon_crows_m240",
+    "extend": { "flags": [ "POISONPROOF", "PSIONICPROOF" ], "armor": { "necrotic": 20 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_turret_riot",
+    "copy-from": "mon_turret_riot",
+    "extend": { "flags": [ "POISONPROOF", "PSIONICPROOF" ], "armor": { "necrotic": 20 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_turret_speaker",
+    "copy-from": "mon_turret_speaker",
+    "extend": { "flags": [ "POISONPROOF", "PSIONICPROOF" ], "armor": { "necrotic": 20 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_exodii_turret",
+    "copy-from": "mon_exodii_turret",
+    "extend": { "flags": [ "POISONPROOF", "PSIONICPROOF" ], "armor": { "necrotic": 20 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_turret_artisans",
+    "copy-from": "mon_turret_artisans",
+    "extend": { "flags": [ "POISONPROOF", "PSIONICPROOF" ], "armor": { "necrotic": 20 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_grocerybot",
+    "copy-from": "mon_grocerybot",
+    "extend": { "flags": [ "POISONPROOF", "PSIONICPROOF" ], "armor": { "necrotic": 20 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_grocerybot_busted",
+    "copy-from": "mon_grocerybot_busted",
+    "extend": { "flags": [ "POISONPROOF", "PSIONICPROOF" ], "armor": { "necrotic": 20 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_hazmatbot",
+    "copy-from": "mon_hazmatbot",
+    "extend": { "flags": [ "POISONPROOF", "PSIONICPROOF" ], "armor": { "necrotic": 20 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_molebot",
+    "copy-from": "mon_molebot",
+    "extend": { "flags": [ "POISONPROOF", "PSIONICPROOF" ], "armor": { "necrotic": 20 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_nursebot",
+    "copy-from": "mon_nursebot",
+    "extend": { "flags": [ "POISONPROOF", "PSIONICPROOF" ], "armor": { "necrotic": 20 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_nursebot_defective",
+    "copy-from": "mon_nursebot_defective",
+    "extend": { "flags": [ "POISONPROOF", "PSIONICPROOF" ], "armor": { "necrotic": 20 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_yrax_trifacet",
+    "copy-from": "mon_yrax_trifacet",
+    "extend": { "flags": [ "POISONPROOF", "PSIONICPROOF" ], "armor": { "necrotic": 20 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_yrax_sphenocorona",
+    "copy-from": "mon_yrax_sphenocorona",
+    "extend": { "flags": [ "POISONPROOF", "PSIONICPROOF" ], "armor": { "necrotic": 20 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_golden_monolith",
+    "copy-from": "mon_golden_monolith",
+    "extend": { "flags": [ "POISONPROOF", "PSIONICPROOF" ], "armor": { "necrotic": 20 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_yrax_apeirogon",
+    "copy-from": "mon_yrax_apeirogon",
+    "extend": { "flags": [ "POISONPROOF", "PSIONICPROOF" ], "armor": { "necrotic": 20 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_yrax_delta",
+    "copy-from": "mon_yrax_delta",
+    "extend": { "flags": [ "POISONPROOF", "PSIONICPROOF" ], "armor": { "necrotic": 20 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_dog_skeleton",
+    "copy-from": "mon_dog_skeleton",
+    "extend": { "armor": { "necrotic": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_dog_skeleton_brute",
+    "copy-from": "mon_dog_skeleton_brute",
+    "extend": { "armor": { "necrotic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_wolf_skeleton",
+    "copy-from": "mon_wolf_skeleton",
+    "extend": { "armor": { "necrotic": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombear_skeleton",
+    "copy-from": "mon_zombear_skeleton",
+    "extend": { "armor": { "necrotic": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_horse_white",
+    "copy-from": "mon_zombie_horse_white",
+    "extend": { "armor": { "poison": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_horse_pale",
+    "copy-from": "mon_zombie_horse_pale",
+    "extend": { "armor": { "necrotic": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_snotgobbler",
+    "copy-from": "mon_zombie_snotgobbler",
+    "extend": { "armor": { "poison": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_sproglodyte",
+    "copy-from": "mon_zombie_sproglodyte",
+    "extend": { "armor": { "light": -5 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_wretch",
+    "copy-from": "mon_zombie_wretch",
+    "extend": { "armor": { "poison": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_skeleton_master",
+    "copy-from": "mon_skeleton_master",
+    "extend": { "armor": { "nether": 14, "necrotic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_skeleton_necro",
+    "copy-from": "mon_skeleton_necro",
+    "extend": { "armor": { "nether": 30, "necrotic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_boomer",
+    "copy-from": "mon_boomer",
+    "extend": { "armor": { "poison": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_boomer_huge",
+    "copy-from": "mon_boomer_huge",
+    "extend": { "armor": { "poison": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_gas_zombie",
+    "copy-from": "mon_gas_zombie",
+    "extend": { "armor": { "poison": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_gasbag",
+    "copy-from": "mon_zombie_gasbag",
+    "extend": { "armor": { "poison": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_relax_gasbag",
+    "copy-from": "mon_zombie_relax_gasbag",
+    "extend": { "armor": { "poison": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_tear_gasbag",
+    "copy-from": "mon_zombie_tear_gasbag",
+    "extend": { "armor": { "poison": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_boomer_glutton",
+    "copy-from": "mon_boomer_glutton",
+    "extend": { "armor": { "poison": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_boomer_claymore",
+    "copy-from": "mon_boomer_claymore",
+    "extend": { "armor": { "poison": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_rust",
+    "copy-from": "mon_zombie_rust",
+    "extend": { "armor": { "necrotic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_shell",
+    "copy-from": "mon_zombie_shell",
+    "extend": { "armor": { "necrotic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_plated",
+    "copy-from": "mon_zombie_plated",
+    "extend": { "armor": { "necrotic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_urchin",
+    "copy-from": "mon_zombie_urchin",
+    "extend": { "armor": { "necrotic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_hammer_hands",
+    "copy-from": "mon_zombie_hammer_hands",
+    "extend": { "armor": { "necrotic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_devourer",
+    "copy-from": "mon_devourer",
+    "extend": { "armor": { "necrotic": 14, "poison": 10, "psionic": 10, "nether": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_gasbag_immobile",
+    "copy-from": "mon_zombie_gasbag_immobile",
+    "extend": { "armor": { "poison": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_gasbag_crawler",
+    "copy-from": "mon_zombie_gasbag_crawler",
+    "extend": { "armor": { "poison": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_gasbag_impaler",
+    "copy-from": "mon_zombie_gasbag_impaler",
+    "extend": { "armor": { "poison": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_phase_skulker",
+    "copy-from": "mon_zombie_phase_skulker",
+    "extend": { "armor": { "nether": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_phase_shrike",
+    "copy-from": "mon_zombie_phase_shrike",
+    "extend": { "armor": { "nether": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_lieutenant_shadow",
+    "copy-from": "mon_lieutenant_shadow",
+    "extend": { "armor": { "light": -40, "nether": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_frog_mother",
+    "copy-from": "mon_frog_mother",
+    "extend": { "armor": { "nether": 14, "necrotic": -20, "poison": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_brainless",
+    "copy-from": "mon_zombie_brainless",
+    "extend": { "flags": [ "PSIONICPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_afs_headless_horror",
+    "copy-from": "mon_afs_headless_horror",
+    "extend": { "flags": [ "PSIONICPROOF" ] }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_grue",
+    "copy-from": "mon_zombie_grue",
+    "extend": { "armor": { "light": -10, "nether": 20 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_ears",
+    "copy-from": "mon_zombie_ears",
+    "extend": { "flags": [ "PSIONICPROOF" ], "armor": { "sonic": -20 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_nemesis",
+    "copy-from": "mon_zombie_nemesis",
+    "extend": { "armor": { "nether": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_master",
+    "copy-from": "mon_zombie_master",
+    "extend": { "armor": { "nether": 20 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_necro",
+    "copy-from": "mon_zombie_necro",
+    "extend": { "armor": { "nether": 30 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_necro_boomer",
+    "copy-from": "mon_zombie_necro_boomer",
+    "extend": { "armor": { "nether": 30, "poison": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_regenerating",
+    "copy-from": "mon_zombie_regenerating",
+    "extend": { "armor": { "necrotic": -14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_shady",
+    "copy-from": "mon_zombie_shady",
+    "extend": { "armor": { "light": -14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_skull",
+    "copy-from": "mon_zombie_skull",
+    "extend": { "flags": [ "PSIONICPROOF" ], "armor": { "sonic": -10 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_skeleton",
+    "copy-from": "mon_skeleton",
+    "extend": { "armor": { "necrotic": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_skeleton_brute",
+    "copy-from": "mon_skeleton_brute",
+    "extend": { "armor": { "necrotic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_skeleton_electric",
+    "copy-from": "mon_skeleton_electric",
+    "extend": { "armor": { "necrotic": 8 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_skeleton_hulk",
+    "copy-from": "mon_skeleton_hulk",
+    "extend": { "armor": { "necrotic": 30 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_kevlar_2",
+    "copy-from": "mon_zombie_kevlar_2",
+    "extend": { "armor": { "necrotic": 14 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_medical_regenerating",
+    "copy-from": "mon_zombie_medical_regenerating",
+    "extend": { "armor": { "necrotic": -10 } }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_skeleton_medical",
+    "copy-from": "mon_skeleton_medical",
+    "extend": { "armor": { "necrotic": 14 } }
+  }
+]

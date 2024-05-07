@@ -3,12 +3,13 @@
 #define CATA_SRC_ACTION_H
 
 #include <functional>
-#include <iosfwd>
 #include <map>
 #include <optional>
 #include <set>
 #include <string>
 #include <vector>
+
+#include "coordinates.h"
 
 struct input_event;
 struct point;
@@ -118,6 +119,8 @@ enum action_id : int {
     ACTION_GRAB,
     /** Haul pile of items, or let go of them */
     ACTION_HAUL,
+    /** Quickly toggle hauling on/off */
+    ACTION_HAUL_TOGGLE,
     /** Butcher or disassemble objects in current square */
     ACTION_BUTCHER,
     /** Chat with something */
@@ -180,6 +183,8 @@ enum action_id : int {
     ACTION_FIRE_BURST,
     /** Change fire mode of the current weapon */
     ACTION_SELECT_FIRE_MODE,
+    /** Change default ammo for current weapon */
+    ACTION_SELECT_DEFAULT_AMMO,
     /** Cast a spell (only if any spells are known) */
     ACTION_CAST_SPELL,
     /** Open the insert-item menu */
@@ -340,8 +345,6 @@ enum action_id : int {
     ACTION_DISPLAY_TRANSPARENCY,
     /** Toggle retracted/transparent high sprites */
     ACTION_TOGGLE_PREVENT_OCCLUSION,
-    /** Toggle reachability zones map */
-    ACTION_DISPLAY_REACHABILITY_ZONES,
     ACTION_DISPLAY_NPC_ATTACK_POTENTIAL,
     /** Toggle timing of the game hours */
     ACTION_TOGGLE_HOUR_TIMER,
@@ -464,7 +467,11 @@ bool can_action_change_worldstate( action_id act );
  * @param[in] allow_vertical Allows player to select tiles above/below them if true
  */
 std::optional<tripoint> choose_adjacent( const std::string &message, bool allow_vertical = false );
+// TODO: Get rid of untyped overload.
 std::optional<tripoint> choose_adjacent( const tripoint &pos, const std::string &message,
+        bool allow_vertical = false );
+std::optional<tripoint_bub_ms> choose_adjacent( const tripoint_bub_ms &pos,
+        const std::string &message,
         bool allow_vertical = false );
 
 /**
@@ -478,7 +485,10 @@ std::optional<tripoint> choose_adjacent( const tripoint &pos, const std::string 
  * @param[in] message Message used in assembling the prompt to the player
  * @param[in] allow_vertical Allows direction vector to have vertical component if true
  */
+// TODO: Get rid of untyped version and typed name extension.
 std::optional<tripoint> choose_direction( const std::string &message,
+        bool allow_vertical = false );
+std::optional<tripoint_rel_ms> choose_direction_rel_ms( const std::string &message,
         bool allow_vertical = false );
 
 /**
@@ -497,7 +507,11 @@ std::optional<tripoint> choose_direction( const std::string &message,
  * @param[in] allow_vertical Allows direction vector to have vertical component if true
  * @param[in] allow_autoselect Automatically select location if there's only one valid option and the appropriate setting is enabled
  */
+// TODO: Get rid of untyped version and change name of typed one.
 std::optional<tripoint> choose_adjacent_highlight( const std::string &message,
+        const std::string &failure_message, action_id action,
+        bool allow_vertical = false, bool allow_autoselect = true );
+std::optional<tripoint_bub_ms> choose_adjacent_highlight_bub_ms( const std::string &message,
         const std::string &failure_message, action_id action,
         bool allow_vertical = false, bool allow_autoselect = true );
 
@@ -518,11 +532,20 @@ std::optional<tripoint> choose_adjacent_highlight( const std::string &message,
  * @param[in] allow_vertical Allows direction vector to have vertical component if true
  * @param[in] allow_autoselect Automatically select location if there's only one valid option and the appropriate setting is enabled
  */
+// TODO: Get rid of untyped overload.
 std::optional<tripoint> choose_adjacent_highlight( const std::string &message,
         const std::string &failure_message, const std::function<bool( const tripoint & )> &allowed,
         bool allow_vertical = false, bool allow_autoselect = true );
+std::optional<tripoint_bub_ms> choose_adjacent_highlight( const std::string &message,
+        const std::string &failure_message, const std::function<bool( const tripoint_bub_ms & )> &allowed,
+        bool allow_vertical = false, bool allow_autoselect = true );
+// TODO: Get rid of untyped overload.
 std::optional<tripoint> choose_adjacent_highlight( const tripoint &pos, const std::string &message,
         const std::string &failure_message, const std::function<bool( const tripoint & )> &allowed,
+        bool allow_vertical = false, bool allow_autoselect = true );
+std::optional<tripoint_bub_ms> choose_adjacent_highlight( const tripoint_bub_ms &pos,
+        const std::string &message,
+        const std::string &failure_message, const std::function<bool( const tripoint_bub_ms & )> &allowed,
         bool allow_vertical = false, bool allow_autoselect = true );
 
 // (Press X (or Y)|Try) to Z
@@ -599,7 +622,9 @@ action_id handle_main_menu();
  * @param p Point to perform test at
  * @returns true if movement is possible in the indicated direction
  */
+// TODO: Get rid of untyped overload.
 bool can_interact_at( action_id action, const tripoint &p );
+bool can_interact_at( action_id action, const tripoint_bub_ms &p );
 
 /**
  * Test whether it is possible to perform butcher action

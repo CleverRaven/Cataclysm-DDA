@@ -16,7 +16,7 @@
     "bash": {
       "str_min": 5,
       "str_max": 16,
-      "sound": "glass breaking",
+      "sound": "glass breaking!",
       "sound_fail": "whack!",
       "sound_vol": 16,
       "furn_set": "f_bigmirror_b",
@@ -129,7 +129,8 @@
     "coverage": 40,
     "required_str": 5,
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "FLAMMABLE", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [ { "item": "mannequin", "count": 1 } ] },
+    "deployed_item": "mannequin",
+    "examine_action": "deployed_furniture",
     "bash": {
       "str_min": 6,
       "str_max": 40,
@@ -296,7 +297,7 @@
   {
     "type": "furniture",
     "id": "f_styling_station",
-    "name": "Styling station",
+    "name": "styling station",
     "symbol": "}",
     "description": "A styling station, is a countertop with a mirror mounted above it and just enough room and cubbies to store a stylist's equipment on it.",
     "color": "white",
@@ -309,7 +310,7 @@
     "bash": {
       "str_min": 7,
       "str_max": 16,
-      "sound": "glass breaking",
+      "sound": "glass breaking!",
       "sound_fail": "whack!",
       "sound_vol": 16,
       "items": [ { "item": "glass_shard", "count": [ 25, 50 ] }, { "item": "splinter", "count": [ 5, 15 ] } ]

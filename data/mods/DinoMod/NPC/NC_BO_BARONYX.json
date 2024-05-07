@@ -37,37 +37,33 @@
     "type": "talk_topic",
     "id": "TALK_SWAMPER",
     "dynamic_line": {
-      "u_has_var": "talked_to_swamper",
-      "type": "dialogue",
-      "context": "first_meeting",
+      "u_has_var": "dialogue_first_meeting_talked_to_swamper",
       "value": "yes",
       "no": "You look hungry friend.  So much hunger in this world.  This is the time of the eaters.",
       "yes": {
-        "u_has_var": "asked_about_eating",
-        "type": "dialogue",
-        "context": "eating",
+        "u_has_var": "dialogue_eating_asked_about_eating",
         "value": "yes",
         "no": "Welcome.  Are you hungry friend?",
         "yes": "The eaters will be fed."
       }
     },
-    "speaker_effect": { "effect": { "u_add_var": "talked_to_swamper", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
+    "speaker_effect": { "effect": { "u_add_var": "dialogue_first_meeting_talked_to_swamper", "value": "yes" } },
     "responses": [
       {
         "text": "Hello.  Who are the eaters?",
         "topic": "TALK_SWAMPER_EATING",
-        "condition": { "not": { "u_has_var": "asked_about_eating", "type": "dialogue", "context": "eating", "value": "yes" } },
-        "effect": { "u_add_var": "asked_about_eating", "type": "dialogue", "context": "eating", "value": "yes" }
+        "condition": { "not": { "u_has_var": "dialogue_eating_asked_about_eating", "value": "yes" } },
+        "effect": { "u_add_var": "dialogue_eating_asked_about_eating", "value": "yes" }
       },
       {
         "text": "So about the eaters…",
         "topic": "TALK_SWAMPER_EATING",
-        "condition": { "u_has_var": "asked_about_eating", "type": "dialogue", "context": "eating", "value": "yes" }
+        "condition": { "u_has_var": "dialogue_eating_asked_about_eating", "value": "yes" }
       },
       {
         "text": "You mentioned some pretenders before.  What does that mean?",
         "topic": "TALK_SWAMPER_PRETENDER",
-        "condition": { "u_has_var": "NC_SWAMPER_MISSION_1", "type": "general", "context": "mission", "value": "yes" }
+        "condition": { "u_has_var": "general_mission_NC_SWAMPER_MISSION_1", "value": "yes" }
       },
       {
         "text": "Would you like to join me on my travels?",
@@ -78,7 +74,7 @@
       {
         "text": "Is there a way I can help feed the eaters?",
         "topic": "TALK_MISSION_LIST_SWAMPER",
-        "condition": { "u_has_var": "asked_about_eating", "type": "dialogue", "context": "eating", "value": "yes" }
+        "condition": { "u_has_var": "dialogue_eating_asked_about_eating", "value": "yes" }
       },
       { "text": "I have to get going.  Take care, CEO Baronyx.", "topic": "TALK_DONE" }
     ]
@@ -156,7 +152,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "end": {
       "effect": [
-        { "u_add_var": "NC_SWAMPER_MISSION_1", "type": "general", "context": "mission", "value": "yes" },
+        { "u_add_var": "general_mission_NC_SWAMPER_MISSION_1", "value": "yes" },
         { "u_buy_monster": "mon_eoraptor", "count": 1, "name": "Bamm-Bamm" }
       ]
     },
@@ -290,7 +286,7 @@
     "size": 25,
     "power": 20,
     "currency": "icon",
-    "food_supply": 87500,
+    "fac_food_supply": { "calories": 87500, "vitamins": {  } },
     "wealth": 82500,
     "relations": {
       "free_merchants": {

@@ -32,7 +32,7 @@
     "dynamic_line": "How much more experience should be required to get to each additional level?",
     "responses": [
       {
-        "text": "Default (300 xp)",
+        "text": "Default (300 XP)",
         "effect": [ { "math": [ "u_exp_per_level", "=", "300" ] } ],
         "topic": "TALK_PERK_MENU_WELCOME_REQUIREMENTS"
       },
@@ -52,26 +52,16 @@
       {
         "text": "Prerequisites (default)",
         "effect": [
-          { "arithmetic": [ { "u_val": "var", "var_name": "no_prerecs" }, "=", { "const": 0 } ] },
-          {
-            "u_add_var": "prereq_note",
-            "type": "dialogue",
-            "context": "perks",
-            "value": "Perks will have requirements."
-          }
+          { "math": [ "u_no_prerecs", "=", "0" ] },
+          { "u_add_var": "dialogue_perks_prereq_note", "value": "Perks will have requirements." }
         ],
         "topic": "TALK_PERK_MENU_WELCOME_PLAYSTYLE"
       },
       {
         "text": "No Prerequisites",
         "effect": [
-          { "arithmetic": [ { "u_val": "var", "var_name": "no_prerecs" }, "=", { "const": 1 } ] },
-          {
-            "u_add_var": "prereq_note",
-            "type": "dialogue",
-            "context": "perks",
-            "value": "Perks will not have requirements."
-          }
+          { "math": [ "u_no_prerecs", "=", "1" ] },
+          { "u_add_var": "dialogue_perks_prereq_note", "value": "Perks will not have requirements." }
         ],
         "topic": "TALK_PERK_MENU_WELCOME_PLAYSTYLE"
       },
@@ -88,12 +78,7 @@
         "effect": [
           { "math": [ "u_playstyle_cost", "=", "3" ] },
           { "math": [ "u_no_playstyle", "=", "0" ] },
-          {
-            "u_add_var": "playstyle_note",
-            "type": "dialogue",
-            "context": "perks",
-            "value": "I can select playstyle perks for 4 perk points."
-          }
+          { "u_add_var": "dialogue_perks_playstyle_note", "value": "I can select playstyle perks for 4 perk points." }
         ],
         "topic": "TALK_PERK_MENU_WELCOME_CONFIRM"
       },
@@ -102,12 +87,7 @@
         "effect": [
           { "math": [ "u_playstyle_cost", "=", "num_input('Playstyle Perks Cost?', 4) - 1" ] },
           { "math": [ "u_no_playstyle", "=", "0" ] },
-          {
-            "u_add_var": "playstyle_note",
-            "type": "dialogue",
-            "context": "perks",
-            "value": "I can select playstyle perks for a custom cost."
-          }
+          { "u_add_var": "dialogue_perks_playstyle_note", "value": "I can select playstyle perks for a custom cost." }
         ],
         "topic": "TALK_PERK_MENU_WELCOME_CONFIRM"
       },
@@ -115,12 +95,7 @@
         "text": "Disabled",
         "effect": [
           { "math": [ "u_no_playstyle", "=", "1" ] },
-          {
-            "u_add_var": "playstyle_note",
-            "type": "dialogue",
-            "context": "perks",
-            "value": "I cannot select playstyle perks."
-          }
+          { "u_add_var": "dialogue_perks_playstyle_note", "value": "I cannot select playstyle perks." }
         ],
         "topic": "TALK_PERK_MENU_WELCOME_CONFIRM"
       },
@@ -135,9 +110,9 @@
       {
         "text": "Confirm",
         "effect": [
-          { "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "const": 0 } ] },
-          { "arithmetic": [ { "u_val": "var", "var_name": "available_exp" }, "=", { "const": 0 } ] },
-          { "arithmetic": [ { "u_val": "var", "var_name": "current_level" }, "=", { "const": 0 } ] },
+          { "math": [ "u_num_perks", "=", "0" ] },
+          { "math": [ "u_available_exp", "=", "0" ] },
+          { "math": [ "u_current_level", "=", "0" ] },
           { "u_add_trait": "perk_perk_menu" }
         ],
         "topic": "TALK_DONE"

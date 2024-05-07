@@ -16,12 +16,12 @@
   {
     "id": "TALK_EXODII_MERCHANT_Stock_Medieval",
     "type": "talk_topic",
-    "dynamic_line": "That be a right welcher, eh?  Afore us'n were to this land, the preface were on a half-score century by the reckonin'.  Landed us in amidst of a war'd turned wrong, for an' as the dead had come back in.  By the butcher's block, not much an unusual case, really.  The enemy makes us fight.  By an' by, we came in, an' by then the killin' fields were plump and ready to harvest the bronze.  'Tain't no steel-of-the-lake, but 'tis a good dross metal for holdin' off a nibblin' mouth, so we kept a few o' their vestments an' stickers for to trade.\"\n\n[TRANSLATE:] \"It's a bit of a surprise, isn't it?  Before we came here, we were in a place about 600 years earlier in time, or so.  We landed in the middle of a war that turned wrong when the dead started joining back in.  Truth be told, not a very unusual situation.  The enemy makes us fight.  By and by, we came in, and by then the killing fields were ready for us to harvest their bronze.  It's no steel-of-the-lake, but it's a good strong metal for stopping a nibbling mouth, so we kept some of their armour and weapons to trade."
+    "dynamic_line": "That be a right welcher, eh?  Afore us'n were to this land, the preface were on a half-score century by the reckonin'.  Landed us in amidst of a war'd turned wrong, for an' as the dead had come back in.  By the butcher's block, not much an unusual case, really.  The enemy makes us fight.  By an' by, we came in, an' by then the killin' fields were plump and ready to harvest the bronze.  'Tain't no steel-of-the-lake, but 'tis a good dross metal for holdin' off a nibblin' mouth, so we kept a few o' their vestments an' stickers for to trade.\"\n\n[TRANSLATE:] \"It's a bit of a surprise, isn't it?  Before we came here, we were in a place about 600 years earlier in time, or so.  We landed in the middle of a war that turned wrong when the dead started joining back in.  Truth be told, not a very unusual situation.  The enemy makes us fight.  By and by, we came in, and by then the killing fields were ready for us to harvest their bronze.  It's no steel-of-the-lake, but it's a good strong metal for stopping a nibbling mouth, so we kept some of their armor and weapons to trade."
   },
   {
     "id": "TALK_EXODII_MERCHANT_Stock_Nomad",
     "type": "talk_topic",
-    "dynamic_line": "Ah, a real monger's eye, ye be.  Them's the mettle o' many a year of trials.  Us'n've been clashin wi' the enemy for a long an' then, an' o'er the turns us've worked out some vestments for the job.  Keep's a walker walkin' longer, an I'm ken.  This'n keeps some o' the parst in an' around, but ye'd be tassed to make the vestment with the grease o' your own brow.\"\n\n[TRANSLATE:] \"Ah, you've got a discerning eye.  They're the result of many years of work.  We've been fighting the enemy for a long time, and over the years we've worked out some armour for the job.  Keeps you going a bit longer in the field, if you ask me.  I keep some of the parts in stock, but you'll have to put it together yourself."
+    "dynamic_line": "Ah, a real monger's eye, ye be.  Them's the mettle o' many a year of trials.  Us'n've been clashin wi' the enemy for a long an' then, an' o'er the turns us've worked out some vestments for the job.  Keep's a walker walkin' longer, an I'm ken.  This'n keeps some o' the parst in an' around, but ye'd be tassed to make the vestment with the grease o' your own brow.\"\n\n[TRANSLATE:] \"Ah, you've got a discerning eye.  They're the result of many years of work.  We've been fighting the enemy for a long time, and over the years we've worked out some armor for the job.  Keeps you going a bit longer in the field, if you ask me.  I keep some of the parts in stock, but you'll have to put it together yourself."
   },
   {
     "id": "TALK_EXODII_MERCHANT_Stock_Nomad2",
@@ -37,9 +37,7 @@
     "id": "TALK_EXODII_MERCHANT_Talk",
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_var": "rubik_intro",
-      "type": "dialogue",
-      "context": "started",
+      "u_has_var": "dialogue_started_rubik_intro",
       "value": "yes",
       "yes": "Sure as you c'n try.  Us're not the greatest yarker, nor do it all for gratis, kennit.\"\n\n[TRANSLATE:] \"You can surely try.  I'm not the greatest speaker, and I won't just chat forever for free, you know.",
       "no": "Oy, c'n I bark you summat first?\"\n\n[TRANSLATE:] \"Hey, can I ask you something first?"
@@ -213,7 +211,7 @@
   {
     "id": "TALK_EXODII_MERCHANT_Purpose2",
     "type": "talk_topic",
-    "dynamic_line": "Aside from jus' livin' in such a cozy nook?  Us be minin', ye kennit.  Pickin' the scraps, seein' if for your otherland has any tech worth an upside-down.  No sense lettin' good scraps go to waste.  If we’re lucky, pickin' a few new Exodii afore we wobble out.  Pickin' up the pieces of our sweet, shattered dreams, suchlike.\"\n\n[TRANSLATE:] \"English: Aside from just having a safe place to live?  We're here to mine, you understand.  Picking the scraps, seeing if this world has any tech worth reverse engineering.  No sense letting good scraps go to waste.  If we're lucky, maybe we'll get some new Exodii before we teleport out.  Pickin' up the pieces of our sweet, shattered dreams, such as they are."
+    "dynamic_line": "Aside from jus' livin' in such a cozy nook?  Us be minin', ye kennit.  Pickin' the scraps, seein' if for your otherland has any tech worth an upside-down.  No sense lettin' good scraps go to waste.  If we're lucky, pickin' a few new Exodii afore we wobble out.  Pickin' up the pieces of our sweet, shattered dreams, suchlike.\"\n\n[TRANSLATE:] \"English: Aside from just having a safe place to live?  We're here to mine, you understand.  Picking the scraps, seeing if this world has any tech worth reverse engineering.  No sense letting good scraps go to waste.  If we're lucky, maybe we'll get some new Exodii before we teleport out.  Pickin' up the pieces of our sweet, shattered dreams, such as they are."
   },
   {
     "id": "TALK_EXODII_MERCHANT_Purpose3",
@@ -228,12 +226,12 @@
   {
     "id": "TALK_EXODII_MERCHANT_Survival",
     "type": "talk_topic",
-    "dynamic_line": "Oh, us can wobble along as needs.  Sends the scrap back, brings in the foods, and shakes off a willie or three, kennit.  No good for you, won’t take too much meat-an'-bone.\"\n\n[TRANSLATE:] \"English: Oh, we can teleport along as we need to.  We send the scrap along, then the food, and shake off some baddies, you understand.  It's no good for you though, it won't take too much flesh and bone."
+    "dynamic_line": "Oh, us can wobble along as needs.  Sends the scrap back, brings in the foods, and shakes off a willie or three, kennit.  No good for you, won't take too much meat-an'-bone.\"\n\n[TRANSLATE:] \"English: Oh, we can teleport along as we need to.  We send the scrap along, then the food, and shake off some baddies, you understand.  It's no good for you though, it won't take too much flesh and bone."
   },
   {
     "id": "TALK_EXODII_MERCHANT_Survival2",
     "type": "talk_topic",
-    "dynamic_line": "Haha, not mostly, mate.  Not worth riskin’ the willies, innit?  I keep what's Rubik, but the rest is all solid.\"\n\n[TRANSLATE:] \"Haha, not mostly, mate.  It's not worth risking the side effects, you see?  I keep the parts of me that make me Rubik, but the rest is all solid."
+    "dynamic_line": "Haha, not mostly, mate.  Not worth riskin' the willies, innit?  I keep what's Rubik, but the rest is all solid.\"\n\n[TRANSLATE:] \"Haha, not mostly, mate.  It's not worth risking the side effects, you see?  I keep the parts of me that make me Rubik, but the rest is all solid."
   },
   {
     "id": "TALK_EXODII_MERCHANT_Survival3",
@@ -254,7 +252,7 @@
     "id": "TALK_EXODII_MERCHANT_Exodize",
     "type": "talk_topic",
     "dynamic_line": {
-      "compare_num": [ { "u_val": "sold" }, ">=", { "const": 100 } ],
+      "math": [ "n_val('sold')", ">=", "100" ],
       "yes": "Oh HO!  Well, well.  Now you're yarkin' the King's Anglic.  Aye, us'n can fix ye good, if'n ye're tassed to repay it in kind.  Us'll speak it as clear-like as this Rubik can.  If ye'n use it to put the dead back in the ground, us'n can fix ye with some goods like this, aye.  Stuck in the flesh and to the bone, wired into the brain.  Ye kennit?  If no, us'll speak to the Great Grey for a pint o' the ol' clarity-draught.\"\n\n[TRANSLATE:] \"Oh HO!  Well, now you're speaking my language.  We can fix you up good, if you're willing to pay us back.  I'll say it as clearly as I can.  If you help us kill the undead, we can help you get fixed up like us, yeah.  Stuck right into your flesh and bone and wired into your brain.  You understand?  If not, we'll ask the Great Grey to help clear it up.",
       "no": {
         "u_has_faction_trust": 5,

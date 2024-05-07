@@ -2,24 +2,25 @@
   {
     "id": "BOSS_NC_SURVIVOR_CHEF_Story1",
     "type": "talk_topic",
-    "dynamic_line": "I found a cell phone a while ago and it started ringing.  I picked it up and just listened.  It was this cook, and they just kept talking on and on about some restaurant and all the good food there and asking to be rescued.  Maybe they were just dialing random numbers?  I don't know.  But they might still be out there, and I wouldn't mind a good meal.",
+    "dynamic_line": {
+      "gendered_line": "I found a cell phone a while ago and it started ringing.  I picked it up and just listened.  It was this cook, and they just kept talking on and on about some restaurant and all the good food there and asking to be rescued.  Maybe they were just dialing random numbers?  I don't know.  But they might still be out there, and I wouldn't mind a good meal.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       {
         "text": "Let's see how to get there and go check on them.",
         "topic": "BOSS_NC_SURVIVOR_CHEF_Story2",
         "condition": {
           "and": [
-            {
-              "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 1 } ]
-            },
+            { "math": [ "npc_randomize_dialogue_direction", "==", "1" ] },
             { "npc_has_trait": "BOSS_NC_SURVIVOR_CHEF_01" },
-            { "not": { "u_has_var": "directions", "type": "BOSS", "context": "mission", "value": "chef" } }
+            { "not": { "u_has_var": "BOSS_mission_directions", "value": "chef" } }
           ]
         },
         "effect": { "assign_mission": "directions_chef" },
         "switch": true
       },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -39,7 +40,7 @@
     "value": 0,
     "start": {
       "assign_mission_target": { "om_terrain": "s_restaurant", "om_special": "restraunt", "reveal_radius": 5, "search_range": 400 },
-      "effect": { "u_add_var": "directions", "type": "BOSS", "context": "mission", "value": "chef" }
+      "effect": { "u_add_var": "BOSS_mission_directions", "value": "chef" }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {

@@ -1,14 +1,11 @@
 #include "dialogue_win.h"
 
-#include <algorithm>
 #include <string>
 #include <vector>
 
-#include "catacharset.h"
-#include "input.h"
+#include "input_context.h"
 #include "output.h"
 #include "point.h"
-#include "string_formatter.h"
 #include "translations.h"
 #include "ui_manager.h"
 
@@ -69,6 +66,11 @@ void dialogue_window::draw( const std::string &npc_name )
         print_colored_text( d_win, point( actions_xoffset, ycurrent ), cur_color, c_magenta,
                             formatted_text );
         ++ycurrent;
+        formatted_text = formatted_hotkey( ctxt.get_desc( "ASSESS_PERSONALITY", 1 ),
+                                           cur_color ).append( _( "Assess personality" ) );
+        print_colored_text( d_win, point( actions_xoffset, ycurrent ), cur_color, c_magenta,
+                            formatted_text );
+        ++ycurrent;
         formatted_text = formatted_hotkey( ctxt.get_desc( "YELL", 1 ), cur_color ).append( _( "Yell" ) );
         print_colored_text( d_win, point( actions_xoffset, ycurrent ), cur_color, c_magenta,
                             formatted_text );
@@ -110,6 +112,7 @@ void dialogue_window::set_up_scrolling( input_context &ctxt ) const
     if( !is_computer && !is_not_conversation ) {
         ctxt.register_action( "LOOK_AT" );
         ctxt.register_action( "SIZE_UP_STATS" );
+        ctxt.register_action( "ASSESS_PERSONALITY" );
         ctxt.register_action( "YELL" );
         ctxt.register_action( "CHECK_OPINION" );
     }

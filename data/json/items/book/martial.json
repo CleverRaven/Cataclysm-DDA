@@ -4,7 +4,7 @@
     "copy-from": "book_martial",
     "type": "BOOK",
     "name": { "str": "The Spirit of Aikido", "str_pl": "copies of The Spirit of Aikido" },
-    "price_postapoc": 2000,
+    "price_postapoc": "20 USD",
     "description": "A complete guide to Aikido.",
     "martial_art": "style_aikido"
   },
@@ -17,10 +17,12 @@
       "str_pl": "copies of Las Nueve Reglas de la Montante",
       "//~": "Don't translate name, this book is in archaic Spanish with translations in the margins."
     },
-    "price": 11000,
-    "price_postapoc": 3000,
-    "//~": "Spanish description should change to say that this is archaic text and should mention explanations of archaic words instead of translations.",
-    "description": "Thankfully, someone has scrawled translations in the margins of this guide to Barbaran Montante.  Judging by the notation, this greatsword and war hammer training manual is also a form of poem.",
+    "price": "110 USD",
+    "price_postapoc": "30 USD",
+    "description": {
+      "//~": "Spanish description should change to say that this is archaic text and should mention explanations of archaic words instead of translations.",
+      "str": "Thankfully, someone has scrawled translations in the margins of this guide to Barbaran Montante.  Judging by the notation, this greatsword and war hammer training manual is also a form of poem."
+    },
     "martial_art": "style_barbaran"
   },
   {
@@ -28,7 +30,7 @@
     "copy-from": "book_martial",
     "type": "BOOK",
     "name": { "str": "Practical Pugilism", "str_pl": "copies of Practical Pugilism" },
-    "price_postapoc": 2000,
+    "price_postapoc": "20 USD",
     "description": "A complete guide to boxing.  Let's get ready to rough-up some ruffians!",
     "martial_art": "style_boxing"
   },
@@ -37,7 +39,7 @@
     "copy-from": "book_martial",
     "type": "BOOK",
     "name": { "str": "Capoeira 100", "str_pl": "copies of Capoeira 100" },
-    "price_postapoc": 2000,
+    "price_postapoc": "20 USD",
     "description": "A complete guide to Capoeira.",
     "martial_art": "style_capoeira"
   },
@@ -47,7 +49,7 @@
     "type": "BOOK",
     "name": { "str": "The Centipede Lu Feng", "str_pl": "copies of The Centipede Lu Feng" },
     "//": "Could be moved to Mythical Martial Arts mod after 0.G.",
-    "price_postapoc": 2000,
+    "price_postapoc": "20 USD",
     "description": "A complete guide to Centipede Kung Fu.",
     "martial_art": "style_centipede"
   },
@@ -56,7 +58,7 @@
     "copy-from": "book_martial",
     "type": "BOOK",
     "name": { "str": "The Red Crane", "str_pl": "copies of The Red Crane" },
-    "price_postapoc": 2000,
+    "price_postapoc": "20 USD",
     "description": "A complete guide to Crane Kung Fu.",
     "martial_art": "style_crane"
   },
@@ -65,7 +67,7 @@
     "copy-from": "book_martial",
     "type": "BOOK",
     "name": { "str": "The Jade Dragon", "str_pl": "copies of The Jade Dragon" },
-    "price_postapoc": 2000,
+    "price_postapoc": "20 USD",
     "description": "A complete guide to Dragon Kung Fu.",
     "martial_art": "style_dragon"
   },
@@ -74,7 +76,7 @@
     "copy-from": "book_martial",
     "type": "BOOK",
     "name": { "str": "Practical Eskrima", "str_pl": "copies of Practical Eskrima" },
-    "price_postapoc": 3000,
+    "price_postapoc": "30 USD",
     "description": "A complete guide to Eskrima.",
     "martial_art": "style_eskrima"
   },
@@ -83,7 +85,7 @@
     "copy-from": "book_martial",
     "type": "BOOK",
     "name": { "str": "The Modern Swordsman", "str_pl": "copies of The Modern Swordsman" },
-    "price_postapoc": 3000,
+    "price_postapoc": "30 USD",
     "description": "A complete guide to Fencing.",
     "martial_art": "style_fencing"
   },
@@ -92,7 +94,7 @@
     "copy-from": "book_martial",
     "type": "BOOK",
     "name": { "str": "Kodokan Judo", "str_pl": "copies of Kodokan Judo" },
-    "price_postapoc": 2000,
+    "price_postapoc": "20 USD",
     "description": "A complete guide to Judo.",
     "martial_art": "style_judo"
   },
@@ -101,7 +103,7 @@
     "copy-from": "book_martial",
     "type": "BOOK",
     "name": { "str": "The Shōtōkan Karate Handbook", "str_pl": "copies of The Shōtōkan Karate Handbook" },
-    "price_postapoc": 2000,
+    "price_postapoc": "20 USD",
     "description": "A complete guide to Shōtōkan Karate.",
     "martial_art": "style_karate"
   },
@@ -109,9 +111,9 @@
     "id": "manual_bojutsu",
     "copy-from": "book_martial",
     "type": "BOOK",
-    "name": { "str": "Bojutsu The Matsumoto System", "str_pl": "copies of Bojutsu The Matsumoto System" },
-    "price_postapoc": 2000,
-    "description": "A complete guide to Bojutsu.",
+    "name": { "str": "Bōjutsu The Matsumoto System", "str_pl": "copies of Bōjutsu The Matsumoto System" },
+    "price_postapoc": "20 USD",
+    "description": "A complete guide to Bōjutsu.",
     "martial_art": "style_bojutsu"
   },
   {
@@ -119,7 +121,7 @@
     "copy-from": "book_martial",
     "type": "BOOK",
     "name": { "str": "The Ultimate Guide to Kickboxing", "str_pl": "copies of Ultimate Guide to Kickboxing" },
-    "price_postapoc": 2000,
+    "price_postapoc": "20 USD",
     "description": "The ultimate guide to learning and mastering kickboxing, from beginner to black belt.",
     "martial_art": "style_kickboxing"
   },
@@ -128,7 +130,7 @@
     "copy-from": "book_martial",
     "type": "BOOK",
     "name": { "str": "Complete Krav Maga", "str_pl": "copies of Complete Krav Maga" },
-    "price_postapoc": 2000,
+    "price_postapoc": "20 USD",
     "description": "A complete guide to Krav Maga.",
     "martial_art": "style_krav_maga"
   },
@@ -137,7 +139,7 @@
     "copy-from": "book_martial",
     "type": "BOOK",
     "name": { "str": "The Deaf Leopard", "str_pl": "copies of The Deaf Leopard" },
-    "price_postapoc": 2000,
+    "price_postapoc": "20 USD",
     "description": "A complete guide to Leopard Kung Fu.",
     "martial_art": "style_leopard"
   },
@@ -147,7 +149,7 @@
     "type": "BOOK",
     "name": { "str": "The Lizard Kuo Chui", "str_pl": "copies of The Lizard Kuo Chui" },
     "//": "Could be moved to Mythical Martial Arts mod after 0.G.",
-    "price_postapoc": 2000,
+    "price_postapoc": "20 USD",
     "description": "A complete guide to Lizard Kung Fu.",
     "martial_art": "style_lizard"
   },
@@ -156,7 +158,7 @@
     "copy-from": "book_martial",
     "type": "BOOK",
     "name": { "str": "Ultimate Muay Thai", "str_pl": "copies of Ultimate Muay Thai" },
-    "price_postapoc": 2000,
+    "price_postapoc": "20 USD",
     "description": "A complete guide to Muay Thai.",
     "martial_art": "style_muay_thai"
   },
@@ -165,7 +167,7 @@
     "copy-from": "book_martial",
     "type": "BOOK",
     "name": { "str": "Essence of Ninjutsu", "str_pl": "copies of Essence of Ninjutsu" },
-    "price_postapoc": 3000,
+    "price_postapoc": "30 USD",
     "description": "A complete guide to Ninjutsu.",
     "martial_art": "style_ninjutsu"
   },
@@ -174,7 +176,7 @@
     "copy-from": "book_martial",
     "type": "BOOK",
     "name": { "str": "The Book of Five Rings", "str_pl": "copies of The Book of Five Rings" },
-    "price_postapoc": 3000,
+    "price_postapoc": "30 USD",
     "description": "A primer on Miyamoto Musashi's style of combat and philosophy, Niten Ichi-Ryu.",
     "martial_art": "style_niten"
   },
@@ -183,7 +185,7 @@
     "copy-from": "book_martial",
     "type": "BOOK",
     "name": { "str": "The Modern Pankratiast", "str_pl": "copies of The Modern Pankratiast" },
-    "price_postapoc": 2000,
+    "price_postapoc": "20 USD",
     "description": "A complete guide to Pankration.",
     "martial_art": "style_pankration"
   },
@@ -193,7 +195,7 @@
     "type": "BOOK",
     "name": { "str": "The Scorpion Sun Chien", "str_pl": "copies of The Scorpion Sun Chien" },
     "//": "Could be moved to Mythical Martial Arts mod after 0.G.",
-    "price_postapoc": 2000,
+    "price_postapoc": "20 USD",
     "description": "A complete guide to Scorpion Kung Fu.",
     "martial_art": "style_scorpion"
   },
@@ -202,7 +204,7 @@
     "copy-from": "book_martial",
     "type": "BOOK",
     "name": { "str": "The Indonesian Warrior", "str_pl": "copies of The Indonesian Warrior" },
-    "price_postapoc": 3000,
+    "price_postapoc": "30 USD",
     "description": "A complete guide to Pencak Silat.",
     "martial_art": "style_silat"
   },
@@ -211,7 +213,7 @@
     "copy-from": "book_martial",
     "type": "BOOK",
     "name": { "str": "The Black Snake", "str_pl": "copies of The Black Snake" },
-    "price_postapoc": 2000,
+    "price_postapoc": "20 USD",
     "description": "A complete guide to Snake Kung Fu.",
     "martial_art": "style_snake"
   },
@@ -220,7 +222,7 @@
     "copy-from": "book_martial",
     "type": "BOOK",
     "name": { "str": "Official Taekwondo Training Manual", "str_pl": "copies of Official Taekwondo Training Manual" },
-    "price_postapoc": 2000,
+    "price_postapoc": "20 USD",
     "description": "A complete guide to Taekwondo.",
     "martial_art": "style_taekwondo"
   },
@@ -229,7 +231,7 @@
     "copy-from": "book_martial",
     "type": "BOOK",
     "name": { "str": "Becoming One with the Tao", "str_pl": "copies of Becoming One with the Tao" },
-    "price_postapoc": 2000,
+    "price_postapoc": "20 USD",
     "description": "A complete guide to T'ai Chi Ch'uan.",
     "martial_art": "style_tai_chi"
   },
@@ -238,7 +240,7 @@
     "copy-from": "book_martial",
     "type": "BOOK",
     "name": { "str": "The White Tiger", "str_pl": "copies of The White Tiger" },
-    "price_postapoc": 2000,
+    "price_postapoc": "20 USD",
     "description": "A complete guide to Tiger Kung Fu.",
     "martial_art": "style_tiger"
   },
@@ -248,7 +250,7 @@
     "type": "BOOK",
     "name": { "str": "The Toad Lo Mang", "str_pl": "copies of The Toad Lo Mang" },
     "//": "Could be moved to Mythical Martial Arts mod after 0.G.",
-    "price_postapoc": 2000,
+    "price_postapoc": "20 USD",
     "description": "A complete guide to Toad Kung Fu.",
     "martial_art": "style_toad"
   },
@@ -258,7 +260,7 @@
     "type": "BOOK",
     "name": { "str": "The Viper Wei Pai", "str_pl": "copies of The Viper Wei Pai" },
     "//": "Could be moved to Mythical Martial Arts mod after 0.G.",
-    "price_postapoc": 2000,
+    "price_postapoc": "20 USD",
     "description": "A complete guide to Viper Kung Fu.",
     "martial_art": "style_venom_snake"
   },
@@ -267,7 +269,7 @@
     "copy-from": "book_martial",
     "type": "BOOK",
     "name": { "str": "Zui Quan and You", "str_pl": "copies of Zui Quan and You" },
-    "price_postapoc": 2000,
+    "price_postapoc": "20 USD",
     "description": "A complete guide to Zui Quan.",
     "martial_art": "style_zui_quan"
   },
@@ -276,7 +278,7 @@
     "copy-from": "book_martial",
     "type": "BOOK",
     "name": { "str": "The Way of the Spear", "str_pl": "copies of The Way of the Spear" },
-    "price_postapoc": 3000,
+    "price_postapoc": "30 USD",
     "description": "A complete guide to Sōjutsu.",
     "martial_art": "style_sojutsu"
   },
@@ -285,7 +287,7 @@
     "copy-from": "book_martial",
     "type": "BOOK",
     "name": { "str": "Beautiful Springtime", "str_pl": "copies of Beautiful Springtime" },
-    "price_postapoc": 2000,
+    "price_postapoc": "20 USD",
     "description": "A complete guide to Wing Chun Kung-fu.",
     "martial_art": "style_wingchun"
   },
@@ -294,7 +296,7 @@
     "copy-from": "book_martial",
     "type": "BOOK",
     "name": { "ctxt": "book", "str": "Fior Di Battaglia", "str_pl": "copies of Fior Di Battaglia" },
-    "price_postapoc": 3000,
+    "price_postapoc": "30 USD",
     "description": "A completely translated medieval guide teaching various techniques with polearms.  There is a chapter about the many variations of common polearms… there are even pictures!",
     "martial_art": "style_medievalpole"
   },
@@ -303,7 +305,7 @@
     "copy-from": "book_martial",
     "type": "BOOK",
     "name": { "str": "Historic European Swordfighting", "str_pl": "copies of Historic European Swordfighting" },
-    "price_postapoc": 3000,
+    "price_postapoc": "30 USD",
     "description": "A complete guide to medieval swordsmanship.  Compares the German and Italian traditions for a multitude of swords, in and out of armor, with and without shield.",
     "martial_art": "style_swordsmanship"
   }

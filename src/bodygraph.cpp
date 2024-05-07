@@ -1,12 +1,39 @@
-#include "avatar.h"
 #include "bodygraph.h"
+
+#include <algorithm>
+#include <cstddef>
+#include <initializer_list>
+#include <memory>
+#include <set>
+#include <tuple>
+
 #include "bodypart.h"
+#include "cata_utility.h"
+#include "catacharset.h"
+#include "character.h"
+#include "character_attire.h"
+#include "creature.h"
 #include "cursesdef.h"
 #include "damage.h"
+#include "debug.h"
+#include "enums.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "input.h"
+#include "init.h"
+#include "input_context.h"
+#include "json_error.h"
 #include "make_static.h"
+#include "memory_fast.h"
+#include "output.h"
+#include "point.h"
+#include "string_formatter.h"
+#include "subbodypart.h"
+#include "translation.h"
+#include "translations.h"
+#include "ui.h"
 #include "ui_manager.h"
+#include "units.h"
 #include "weather.h"
 
 #define BPGRAPH_MAXROWS 20

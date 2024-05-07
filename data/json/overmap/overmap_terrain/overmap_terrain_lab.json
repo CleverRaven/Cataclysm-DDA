@@ -149,6 +149,22 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [
+      "office_tower_lab_a1_roof",
+      "office_tower_lab_a2_roof",
+      "office_tower_open_air_corner_roof",
+      "office_tower_lab_b1_roof",
+      "office_tower_lab_b2_roof",
+      "office_tower_lab_b3_roof"
+    ],
+    "name": "science lab tower roof",
+    "sym": "L",
+    "color": "cyan",
+    "see_cost": 2,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": "lab_train_depot",
     "name": "science train depot",
     "sym": "L",

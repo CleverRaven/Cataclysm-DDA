@@ -1,4 +1,4 @@
-name: Clang-tidy 16
+name: Clang-tidy 17
 
 on:
   push:
@@ -52,39 +52,39 @@ jobs:
     runs-on: ubuntu-22.04
     env:
         CMAKE: 1
-        CLANG: clang++-16
-        COMPILER: clang++-16
+        CLANG: clang++-17
+        COMPILER: clang++-17
         CATA_CLANG_TIDY: plugin
         CATA_CLANG_TIDY_SUBSET: ${{ matrix.subset }}
         TILES: 1
         SOUND: 1
         RELEASE: 1
     steps:
-    - name: install LLVM 16
+    - name: install LLVM 17
       run: |
           wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
-          sudo apt-add-repository "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-16 main"
+          sudo apt-add-repository "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-17 main"
           sudo apt update
-          sudo apt install llvm-16 llvm-16-dev llvm-16-tools clang-16 clang-tidy-16 clang-tools-16 \
-            libclang-16-dev libflac-dev libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev \
+          sudo apt install llvm-17 llvm-17-dev llvm-17-tools clang-17 clang-tidy-17 clang-tools-17 \
+            libclang-17-dev libflac-dev libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev \
             libpulse-dev ccache gettext jq
     - name: install dependencies
       run: |
           sudo apt install python3-pip libncursesw5-dev ninja-build cmake gettext
           pip3 install --user lit
-    - name: ensure clang-tidy and FileCheck commands point to LLVM 16
+    - name: ensure clang-tidy and FileCheck commands point to LLVM 17
       run: |
           mkdir ~/llvm-command-override
-          ln -s /usr/bin/clang-tidy-16 ~/llvm-command-override/clang-tidy
-          ln -s /usr/bin/FileCheck-16 ~/llvm-command-override/FileCheck
+          ln -s /usr/bin/clang-tidy-17 ~/llvm-command-override/clang-tidy
+          ln -s /usr/bin/FileCheck-17 ~/llvm-command-override/FileCheck
           echo "$HOME/llvm-command-override" >> $GITHUB_PATH
     - name: checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
     - name: prepare
       run: bash ./build-scripts/requirements.sh
     - name: determine changed files
       if: ${{ github.event_name == 'pull_request' }}
-      uses: actions/github-script@v6.3.3
+      uses: actions/github-script@v7
       with:
         script: |
           var fs = require('fs');

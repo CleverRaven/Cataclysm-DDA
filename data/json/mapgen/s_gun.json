@@ -60,10 +60,10 @@
         "  -..................-  ",
         "  -..................-  ",
         "  -..................-  ",
-        "  5...............###-  ",
-        "  -...............#v#-  ",
-        "  -...............#_#-  ",
-        "  -...............#+#-  ",
+        "  5..............####-  ",
+        "  -..............+_v#-  ",
+        "  -..............####-  ",
+        "  -..................-  ",
         "  -..............-----  ",
         "  -..............-      ",
         "  -..............-      ",
@@ -96,7 +96,7 @@
             [ "roof_6x6_survivor", 20 ],
             [ "roof_6x6_utility", 20 ]
           ],
-          "x": [ 4, 11 ],
+          "x": [ 4, 10 ],
           "y": [ 12, 16 ]
         }
       ]
@@ -200,7 +200,7 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
       "palettes": [ "gun_store_palette" ],
-      "vendingmachines": { "V": { "item_group": "vending_ammo", "lootable": false } },
+      "vendingmachines": { "V": { "item_group": "vending_drink", "lootable": false } },
       "terrain": { ";": "t_sidewalk" },
       "place_loot": [
         { "group": "cash_register_random", "x": [ 4, 6 ], "y": 5 },
@@ -306,7 +306,7 @@
       ],
       "palettes": [ "gun_store_palette" ],
       "terrain": { ";": "t_sidewalk" },
-      "vendingmachines": { "V": { "item_group": "vending_ammo", "lootable": true } },
+      "vendingmachines": { "V": { "item_group": "vending_drink", "lootable": true } },
       "nested": {
         "#": { "chunks": [ [ "general_graffiti", 15 ], [ "null", 75 ] ] },
         "m": { "chunks": [ [ "destroyed_furniture", 40 ], [ "null", 80 ] ] },

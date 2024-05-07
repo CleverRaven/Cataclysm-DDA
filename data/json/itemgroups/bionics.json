@@ -8,7 +8,6 @@
       [ "bio_ethanol", 10 ],
       [ "bio_torsionratchet", 10 ],
       [ "bio_fuel_cell_gasoline", 10 ],
-      [ "bio_trickle", 10 ],
       [ "bio_lampoil", 10 ],
       [ "bio_tools", 10 ],
       [ "bio_ups", 10 ],
@@ -94,6 +93,7 @@
       [ "bio_ar", 10 ],
       [ "bio_fitnessband", 10 ],
       [ "bio_radio", 10 ],
+      [ "bio_sonar", 10 ],
       [ "bio_synlungs", 10 ],
       [ "bio_taser", 10 ]
     ]
@@ -107,7 +107,6 @@
       [ "bio_tools", 10 ],
       [ "bio_flashlight", 10 ],
       [ "bio_fuel_cell_gasoline", 10 ],
-      [ "bio_trickle", 10 ],
       [ "bio_lampoil", 10 ],
       [ "bio_tattoo_led", 10 ],
       [ "bio_lighter", 10 ],
@@ -166,6 +165,7 @@
       [ "bio_radscrubber", 10 ],
       [ "bio_ads", 10 ],
       [ "bio_ods", 10 ],
+      [ "bio_sonar", 10 ],
       [ "bio_uncanny_dodge", 10 ],
       [ "bio_laser", 10 ],
       [ "bio_emp", 10 ],

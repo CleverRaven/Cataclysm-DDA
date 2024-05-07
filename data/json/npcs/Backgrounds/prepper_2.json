@@ -2,7 +2,10 @@
   {
     "id": "BGSS_PREPPER_2_STORY1",
     "type": "talk_topic",
-    "dynamic_line": "Oh, man.  I thought I was ready.  I had it all planned out.  Bug out bags.  Loaded guns.  Maps of escape routes.  Bunker in the back yard.",
+    "dynamic_line": {
+      "gendered_line": "Oh, man.  I thought I was ready.  I had it all planned out.  Bug out bags.  Loaded guns.  Maps of escape routes.  Bunker in the back yard.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "Sounds like it didn't work out.", "topic": "BGSS_PREPPER_2_STORY2" },
       {
@@ -10,14 +13,17 @@
         "topic": "BGSS_PREPPER_2_MAPS",
         "condition": { "not": { "npc_has_effect": "player_BGSS_SAIDYES" } }
       },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "BGSS_PREPPER_2_STORY2",
     "type": "talk_topic",
-    "dynamic_line": "Depends on your definition.  I'm alive, aren't I?  When Hell itself came down from the skies and monsters started attacking the cities, I grabbed my stuff and crammed into the bunker.  My surface cameras stayed online for days; I could see everything happening up there.  I watched those things stride past.  I still have nightmares about the way their bodies moved, like they broke the world just to be here.  I had nothing better to do.  I watched them rip up the cops and the military, watched the dead rise back up and start fighting the living.  I watched the nice old lady down the street rip the head off my neighbor's dog.  I saw a soldier's body twitch and grow into some kind of electrified hulk beast.  I watched it all happen.",
+    "dynamic_line": {
+      "gendered_line": "Depends on your definition.  I'm alive, aren't I?  When Hell itself came down from the skies and monsters started attacking the cities, I grabbed my stuff and crammed into the bunker.  My surface cameras stayed online for days; I could see everything happening up there.  I watched those things stride past.  I still have nightmares about the way their bodies moved, like they broke the world just to be here.  I had nothing better to do.  I watched them rip up the cops and the military, watched the dead rise back up and start fighting the living.  I watched the nice old lady down the street rip the head off my neighbor's dog.  I saw a soldier's body twitch and grow into some kind of electrified hulk beast.  I watched it all happen.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "Why did you leave your bunker?", "topic": "BGSS_PREPPER_2_STORY3" },
       {
@@ -25,21 +31,24 @@
         "topic": "BGSS_PREPPER_2_MAPS",
         "condition": { "not": { "npc_has_effect": "player_BGSS_SAIDYES" } }
       },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "BGSS_PREPPER_2_STORY3",
     "type": "talk_topic",
-    "dynamic_line": "Honestly?  I was planning to die.  After what I'd seen, I went a little crazy.  I thought it was over for sure, I figured there was no point in fighting it.  I thought I wouldn't last a minute out here, but I couldn't bring myself to end it down there.  I headed out, planning to let the <zombies> finish me off, but what can I say?  Survival instinct is a funny thing, and I killed the ones outside the bunker.  I guess the adrenaline was what I needed.  It's kept me going since then.",
+    "dynamic_line": {
+      "gendered_line": "Honestly?  I was planning to die.  After what I'd seen, I went a little crazy.  I thought it was over for sure, I figured there was no point in fighting it.  I thought I wouldn't last a minute out here, but I couldn't bring myself to end it down there.  I headed out, planning to let the <zombies> finish me off, but what can I say?  Survival instinct is a funny thing, and I killed the ones outside the bunker.  I guess the adrenaline was what I needed.  It's kept me going since then.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       {
         "text": "Hey, I'd really be interested in seeing those maps.",
         "topic": "BGSS_PREPPER_2_MAPS",
         "condition": { "not": { "npc_has_effect": "player_BGSS_SAIDYES" } }
       },
-      { "text": "Thanks for telling me that.  <done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "Thanks for telling me that.  <done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "Thanks for telling me that.  <end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -69,7 +78,7 @@
         "failure": { "topic": "BGSS_PREPPER_2_NOSALE" }
       },
       { "text": "Sorry for changing the subject.  What was it you were saying?", "topic": "TALK_NONE" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -86,7 +95,7 @@
       {
         "text": "Thanks!  <done_conversation_section>",
         "effect": [ { "npc_add_effect": "player_BGSS_SAIDYES", "duration": "PERMANENT" }, { "u_spawn_item": "survivormap" } ],
-        "topic": "TALK_FRIEND"
+        "topic": "TALK_FRIEND_CONVERSATION"
       },
       {
         "text": "Thanks!  <end_talking>",
@@ -108,7 +117,7 @@
       {
         "text": "<done_conversation_section>",
         "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": "PERMANENT" },
-        "topic": "TALK_FRIEND"
+        "topic": "TALK_FRIEND_CONVERSATION"
       },
       {
         "text": "<end_talking>",

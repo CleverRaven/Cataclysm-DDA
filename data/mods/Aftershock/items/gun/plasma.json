@@ -29,7 +29,7 @@
   {
     "id": "afs_magnadrive_230k",
     "type": "GUN",
-    "name": { "str": "Magnadrive 230K" },
+    "name": { "str_sp": "Magnadrive 230K" },
     "copy-from": "afs_plasma_base",
     "looks_like": "plasma_gun",
     "description": "A heavy plasma railgun that easily defeats most forms of conventional armor and flash-incinerates anything  behind it.  Its large size and liability to overheat make it unsuitable for infantry use, but it is a common sight on military vehicles and in the hands of power-armored troops, especially when heavy armor is expected.",
@@ -113,7 +113,7 @@
     "charges_per_use": 2,
     "use_action": [ "OXYTORCH" ],
     "qualities": [ [ "WELD", 2 ] ],
-    "flags": [ "ALLOWS_REMOTE_USE", "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE", "OVERHEATS" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE", "OVERHEATS", "BELT_CLIP" ],
     "gun_data": {
       "dispersion": 1500,
       "ammo_to_fire": 2,

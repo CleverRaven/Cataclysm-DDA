@@ -103,6 +103,25 @@
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
+    "id": "mon_cougar_kitten",
+    "type": "MONSTER",
+    "copy-from": "mon_cougar_kitten",
+    "name": { "str": "cougar kitten" },
+    "petfood": {
+      "food": [ "CATFOOD" ],
+      "feed": "The %s seems to tolerate you!  Or maybe it just won't eat you for now.  This is not a housecat.",
+      "pet": "The %s softly chuffs as you pet it.  It brushes against you."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_cougar",
+    "type": "MONSTER",
+    "copy-from": "mon_cougar",
+    "name": { "str": "cougar" },
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
+  },
+  {
     "id": "mon_deer_fawn",
     "type": "MONSTER",
     "copy-from": "mon_deer_fawn",

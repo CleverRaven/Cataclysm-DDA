@@ -43,11 +43,11 @@ struct spawn_point {
     int faction_id;
     int mission_id;
     bool friendly;
-    std::string name;
+    std::optional<std::string> name;
     spawn_data data;
     explicit spawn_point( const mtype_id &T = mtype_id::NULL_ID(), int C = 0, point P = point_zero,
                           int FAC = -1, int MIS = -1, bool F = false,
-                          const std::string &N = "NONE", const spawn_data &SD = spawn_data() ) :
+                          const std::optional<std::string> &N = std::nullopt, const spawn_data &SD = spawn_data() ) :
         pos( P ), count( C ), type( T ), faction_id( FAC ),
         mission_id( MIS ), friendly( F ), name( N ), data( SD ) {}
 };
@@ -79,7 +79,7 @@ class submap
             if( is_uniform() ) {
                 m = std::make_unique<maptile_soa>();
                 std::uninitialized_fill_n( &m->ter[0][0], elements, uniform_ter );
-                std::uninitialized_fill_n( &m->frn[0][0], elements, f_null );
+                std::uninitialized_fill_n( &m->frn[0][0], elements, furn_str_id::NULL_ID() );
                 std::uninitialized_fill_n( &m->lum[0][0], elements, 0 );
                 std::uninitialized_fill_n( &m->trp[0][0], elements, tr_null );
                 std::uninitialized_fill_n( &m->rad[0][0], elements, 0 );
@@ -109,7 +109,7 @@ class submap
 
         furn_id get_furn( const point &p ) const {
             if( is_uniform() ) {
-                return f_null;
+                return furn_str_id::NULL_ID();
             }
             return m->frn[p.x][p.y];
         }
@@ -122,6 +122,17 @@ class submap
         void set_all_furn( const furn_id &furn ) {
             ensure_nonuniform();
             std::uninitialized_fill_n( &m->frn[0][0], elements, furn );
+        }
+        int get_map_damage( const point_sm_ms &p ) const {
+            auto it = ephemeral_data.find( p );
+            if( it != ephemeral_data.end() ) {
+                return it->second.damage;
+            }
+            return 0;
+        }
+
+        void set_map_damage( const point_sm_ms &p, int dmg ) {
+            ephemeral_data[p] = { dmg };
         }
 
         ter_id get_ter( const point &p ) const {
@@ -284,6 +295,7 @@ class submap
 
         int field_count = 0;
         time_point last_touched = calendar::turn_zero;
+        bool reverted = false; // NOLINT(cata-serialize)
         std::vector<spawn_point> spawns;
         /**
          * Vehicles on this submap (their (0,0) point is on this submap).
@@ -294,14 +306,16 @@ class submap
         std::map<tripoint_sm_ms, partial_con> partial_constructions;
         std::unique_ptr<basecamp> camp;  // only allowing one basecamp per submap
 
+        struct tile_data {
+            int damage;
+        };
+
     private:
+        std::map<point_sm_ms, tile_data> ephemeral_data;
         std::map<point, computer> computers;
-        std::unique_ptr<computer> legacy_computer;
         std::unique_ptr<maptile_soa> m;
         ter_id uniform_ter = t_null;
         int temperature_mod = 0; // delta in F
-
-        void update_legacy_computer();
 
         static constexpr size_t elements = SEEX * SEEY;
 };
@@ -317,7 +331,7 @@ class submap
 template<typename Submap>
 class maptile_impl
 {
-        static_assert( std::is_same<std::remove_const_t<Submap>, submap>::value,
+        static_assert( std::is_same_v<std::remove_const_t<Submap>, submap>,
                        "Submap should be either submap or const submap" );
     private:
         friend map; // To allow "sliding" the tile in x/y without bounds checks

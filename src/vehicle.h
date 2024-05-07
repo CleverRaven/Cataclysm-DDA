@@ -32,6 +32,7 @@
 #include "item_location.h"
 #include "item_stack.h"
 #include "line.h"
+#include "map.h"
 #include "point.h"
 #include "tileray.h"
 #include "type_id.h"
@@ -306,6 +307,9 @@ struct vehicle_part {
 
         /** Maximum amount of fuel, charges or ammunition that can be contained by a part */
         int ammo_capacity( const ammotype &ammo ) const;
+
+        /** Maximum amount of fuel, charges or ammunition that can be contained by a part */
+        int item_capacity( const itype_id &stuffing_id ) const;
 
         /** Amount of fuel, charges or ammunition currently contained by a part */
         int ammo_remaining() const;
@@ -994,8 +998,6 @@ class vehicle
         // Stop any kind of automatic vehicle control and apply the brakes.
         void stop_autodriving( bool apply_brakes = true );
 
-        item init_cord( const tripoint &pos );
-        void plug_in( const tripoint &pos );
         void connect( const tripoint &source_pos, const tripoint &target_pos );
 
         bool precollision_check( units::angle &angle, map &here, bool follow_protocol );
@@ -1019,7 +1021,7 @@ class vehicle
         ret_val<void> can_mount( const point &dp, const vpart_info &vpi ) const;
 
         // @returns true if part \p vp_to_remove can be uninstalled
-        ret_val<void> can_unmount( const vehicle_part &vp_to_remove ) const;
+        ret_val<void> can_unmount( const vehicle_part &vp_to_remove, bool allow_splits = false ) const;
 
         // install a part of type \p type at mount \p dp
         // @return installed part index or -1 if can_mount(...) failed
@@ -1060,7 +1062,8 @@ class vehicle
         bool merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int> &rack_parts );
         // merges vehicles together by copying parts, does not account for any vehicle complexities
         bool merge_vehicle_parts( vehicle *veh );
-        void merge_appliance_into_grid( vehicle &veh_target );
+        bool merge_appliance_into_grid( vehicle &veh_target );
+        void separate_from_grid( point mount );
 
         bool is_powergrid() const;
 
@@ -1114,8 +1117,7 @@ class vehicle
          * Useful for, e.g. power cables that have a vehicle part on both sides.
          * @param vp_local Vehicle part that is connected to the remote part.
          */
-        std::optional<std::pair<vehicle *, vehicle_part *>> get_remote_part(
-                    const vehicle_part &vp_local ) const;
+        std::optional<vpart_reference> get_remote_part( const vehicle_part &vp_local ) const;
         /**
          * Remove the part on a targeted remote vehicle that a part is targeting.
          */
@@ -1217,6 +1219,16 @@ class vehicle
         *  @returns part index or -1
         */
         int avail_part_with_feature( int p, vpart_bitflags f ) const;
+        /**
+        *  Returns index of part at mount point \p pt which has link connection
+        *  and is_available(), or -1 if no such part or it's not is_available()
+        *  @note does not use relative_parts cache
+        *  @param pt only returns parts from this mount point
+        *  @param to_ports if true, look for part with CABLE_PORTS flag. If false, BATTERY.
+        *  Either way, will also look for APPLIANCE
+        *  @returns part index or -1
+        */
+        int avail_linkable_part( const point &pt, bool to_ports ) const;
 
         /**
          *  Check if vehicle has at least one unbroken part with specified flag
@@ -1241,6 +1253,8 @@ class vehicle
          *  @param condition enum to include unabled, unavailable, and broken parts
          */
         std::vector<vehicle_part *> get_parts_at( const tripoint &pos, const std::string &flag,
+                part_status_flag condition );  // TODO: Get rid of untyped operation.
+        std::vector<vehicle_part *> get_parts_at( const tripoint_bub_ms &pos, const std::string &flag,
                 part_status_flag condition );
         std::vector<const vehicle_part *> get_parts_at( const tripoint &pos,
                 const std::string &flag, part_status_flag condition ) const;
@@ -1414,8 +1428,9 @@ class vehicle
         // drains a fuel type (e.g. for the kitchen unit)
         // returns amount actually drained, does not engage reactor
         int drain( const itype_id &ftype, int amount,
-                   const std::function<bool( vehicle_part & )> &filter = return_true< vehicle_part &> );
-        int drain( int index, int amount );
+                   const std::function<bool( vehicle_part & )> &filter = return_true< vehicle_part &>,
+                   bool apply_loss = true );
+        int drain( int index, int amount, bool apply_loss = true );
         /**
          * Consumes enough fuel by energy content. Does not support cable draining.
          * @param ftype Type of fuel
@@ -1766,6 +1781,8 @@ class vehicle
         * @return amount of ammo in the `pseudo_magazine` or 0
         */
         int prepare_tool( item &tool ) const;
+        static bool use_vehicle_tool( vehicle &veh, const tripoint &vp_pos, const itype_id &tool_type,
+                                      bool no_invoke = false );
         /**
         * if \p tool is not an itype with tool != nullptr this returns { itype::NULL_ID(), 0 } pair
         * @param tool the item to examine
@@ -1849,6 +1866,16 @@ class vehicle
          * @param dst Future vehicle position, used for calculating cable length when shed_cables == trinary::SOME.
          */
         void shed_loose_parts( trinary shed_cables = trinary::NONE, const tripoint_bub_ms *dst = nullptr );
+        /**
+         * Disconnect cables attached to the specified mount point.
+         * @param mount The mount point to detach cables from.
+         * @param remover The character disconnecting the cables.
+         * @param unlink_items If extension cord and device items should be unlinked.
+         * @param unlink_tow_cables If tow cables should be unlinked.
+         * @param unlink_power_cords If power grid cables (power_cord) should be unlinked.
+         */
+        void unlink_cables( const point &mount, Character &remover, bool unlink_items = false,
+                            bool unlink_tow_cables = false, bool unlink_power_cords = false );
 
         /**
          * @name Vehicle turrets

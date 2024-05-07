@@ -83,9 +83,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            {
-              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
-            }
+            { "not": { "npc_has_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" } }
           ]
         },
         "topic": "TALK_REFUGEE_Refuse_Boris_Mission_1"
@@ -97,12 +95,12 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_John_1",
-    "dynamic_line": "*turns to look at you, lifting an enormous cowboy hat off his eyes.  He appears to be in the process of growing out a set of bushy muttonchops and a handlebar moustache.  Bright blue eyes peer out from his wrinkled face.  \"Howdy, pardner.  They call me Clemens.  John Clemens.  I'm an ol' cowhand.\"",
+    "dynamic_line": {
+      "gendered_line": "*turns to look at you, lifting an enormous cowboy hat off his eyes.  He appears to be in the process of growing out a set of bushy muttonchops and a handlebar moustache.  Bright blue eyes peer out from his wrinkled face.  \"Howdy, pardner.  They call me Clemens.  John Clemens.  I'm an ol' cowhand.\"",
+      "relevant_genders": [ "u" ]
+    },
     "speaker_effect": {
-      "effect": [
-        { "u_add_var": "u_met_John_Clemens", "type": "general", "context": "meeting", "value": "yes" },
-        { "npc_first_topic": "TALK_REFUGEE_John_1a" }
-      ]
+      "effect": [ { "u_add_var": "general_meeting_u_met_John_Clemens", "value": "yes" }, { "npc_first_topic": "TALK_REFUGEE_John_1a" } ]
     },
     "responses": [
       { "text": "Nice to meet you, John.", "topic": "TALK_REFUGEE_John_1_firstmeet" },
@@ -112,7 +110,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_John_1a",
-    "dynamic_line": "*tips his cowboy hat and sets his feet far apart as he faces you.  \"Howdy, pardner.\"",
+    "dynamic_line": {
+      "gendered_line": "*tips his cowboy hat and sets his feet far apart as he faces you.  \"Howdy, pardner.\"",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [
       { "text": "Hi, John.  Got a minute?", "topic": "TALK_REFUGEE_John_2" },
       { "text": "Hi John.  I can't stay to talk.", "topic": "TALK_DONE" }
@@ -169,11 +170,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_John_Situation",
     "dynamic_line": {
-      "u_compare_var": "refugee_happiness",
-      "type": "counter",
-      "context": "refugee_center",
-      "op": ">=",
-      "value": 7,
+      "math": [ "u_counter_refugee_center_refugee_happiness", ">=", "7" ],
       "yes": "\"I reckon I've done my job here.  Goan' be time to ride out into the sunset soon, if'n you catch m'drift.\"  He tilts his hat melodramatically.  \"Folks're comin' around to this here new world we live in.\"",
       "no": "Folks don't like bein' kept from the blue sky for too long.  Cooped up like cattle in a barn… we need pastures to run free, if'n y'get my drift.  'Til we got 'em, it's gonna be tense in here."
     },

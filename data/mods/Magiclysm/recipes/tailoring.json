@@ -40,7 +40,7 @@
     "reversible": true,
     "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ], [ "mag_beauty", 1 ] ],
     "using": [ [ "sewing_standard", 20 ] ],
-    "components": [ [ [ "parabolan_felt_patch", 14 ] ], [ [ "parabolan_yarn", 4 ] ] ]
+    "components": [ [ [ "parabolan_felt_patch", 120 ] ], [ [ "parabolan_yarn", 40 ] ] ]
   },
   {
     "result": "parabolan_breeches",
@@ -55,6 +55,197 @@
     "reversible": true,
     "using": [ [ "sewing_standard", 20 ], [ "fastener_small", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ],
-    "components": [ [ [ "parabolan_felt_patch", 20 ] ], [ [ "parabolan_yarn", 4 ] ] ]
+    "components": [ [ [ "parabolan_felt_patch", 104 ] ], [ [ "parabolan_yarn", 40 ] ] ]
+  },
+  {
+    "result": "gambeson_parabolan",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_articulation" }, { "proficiency": "prof_quilting" } ],
+    "difficulty": 5,
+    "time": "65 h",
+    "autolearn": true,
+    "using": [ [ "fastener_large", 2 ], [ "fastener_small", 10 ] ],
+    "qualities": [ { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
+    "components": [
+      [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ],
+      [ [ "parabolan_felt_patch", 2370 ] ],
+      [ [ "parabolan_yarn", 1500 ] ]
+    ]
+  },
+  {
+    "result": "xl_gambeson_parabolan",
+    "type": "recipe",
+    "copy-from": "gambeson_parabolan",
+    "time": "97 h",
+    "using": [ [ "fastener_large", 2 ], [ "fastener_small", 15 ] ],
+    "components": [
+      [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ],
+      [ [ "parabolan_felt_patch", 3555 ] ],
+      [ [ "parabolan_yarn", 2250 ] ]
+    ]
+  },
+  {
+    "result": "xs_gambeson_parabolan",
+    "type": "recipe",
+    "copy-from": "gambeson_parabolan",
+    "time": "49 h",
+    "using": [ [ "fastener_large", 2 ], [ "fastener_small", 8 ] ],
+    "components": [
+      [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ],
+      [ [ "parabolan_felt_patch", 1777 ] ],
+      [ [ "parabolan_yarn", 1125 ] ]
+    ]
+  },
+  {
+    "result": "gambeson_parabolan_thinsleeved",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_articulation" }, { "proficiency": "prof_quilting" } ],
+    "difficulty": 5,
+    "time": "58 h",
+    "autolearn": true,
+    "using": [ [ "fastener_large", 2 ], [ "fastener_small", 10 ] ],
+    "qualities": [ { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
+    "components": [
+      [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ],
+      [ [ "parabolan_felt_patch", 2096 ] ],
+      [ [ "parabolan_yarn", 1250 ] ]
+    ]
+  },
+  {
+    "result": "xl_gambeson_parabolan_thinsleeved",
+    "type": "recipe",
+    "copy-from": "gambeson_parabolan_thinsleeved",
+    "time": "87 h",
+    "using": [ [ "fastener_large", 2 ], [ "fastener_small", 15 ] ],
+    "components": [
+      [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ],
+      [ [ "parabolan_felt_patch", 3114 ] ],
+      [ [ "parabolan_yarn", 1875 ] ]
+    ]
+  },
+  {
+    "result": "xs_gambeson_parabolan_thinsleeved",
+    "type": "recipe",
+    "copy-from": "gambeson_parabolan_thinsleeved",
+    "time": "44 h",
+    "using": [ [ "fastener_large", 2 ], [ "fastener_small", 8 ] ],
+    "components": [
+      [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ],
+      [ [ "parabolan_felt_patch", 1572 ] ],
+      [ [ "parabolan_yarn", 937 ] ]
+    ]
+  },
+  {
+    "result": "gambeson_parabolan_vest",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_quilting" } ],
+    "difficulty": 5,
+    "time": "36 h",
+    "autolearn": true,
+    "using": [ [ "fastener_large", 2 ] ],
+    "qualities": [ { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
+    "components": [
+      [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ],
+      [ [ "parabolan_felt_patch", 1824 ] ],
+      [ [ "parabolan_yarn", 1125 ] ]
+    ]
+  },
+  {
+    "result": "xl_gambeson_parabolan_vest",
+    "type": "recipe",
+    "copy-from": "gambeson_parabolan_vest",
+    "time": "54 h",
+    "using": [ [ "fastener_large", 2 ] ],
+    "components": [
+      [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ],
+      [ [ "parabolan_felt_patch", 2736 ] ],
+      [ [ "parabolan_yarn", 1687 ] ]
+    ]
+  },
+  {
+    "result": "xs_gambeson_parabolan_vest",
+    "type": "recipe",
+    "copy-from": "gambeson_parabolan_vest",
+    "time": "27 h",
+    "using": [ [ "fastener_large", 2 ] ],
+    "components": [
+      [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ],
+      [ [ "parabolan_felt_patch", 1368 ] ],
+      [ [ "parabolan_yarn", 843 ] ]
+    ]
+  },
+  {
+    "result": "gambeson_pants_parabolan",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "tailor",
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_articulation" }, { "proficiency": "prof_quilting" } ],
+    "difficulty": 5,
+    "time": "40 h",
+    "autolearn": true,
+    "using": [ [ "fastener_small", 5 ] ],
+    "qualities": [ { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
+    "components": [ [ [ "parabolan_felt_patch", 547 ] ], [ [ "parabolan_yarn", 400 ] ] ]
+  },
+  {
+    "result": "xl_gambeson_pants_parabolan",
+    "type": "recipe",
+    "copy-from": "gambeson_pants_parabolan",
+    "time": "60 h",
+    "using": [ [ "fastener_small", 7 ] ],
+    "components": [ [ [ "parabolan_felt_patch", 820 ] ], [ [ "parabolan_yarn", 600 ] ] ]
+  },
+  {
+    "result": "xs_gambeson_pants_parabolan",
+    "type": "recipe",
+    "copy-from": "gambeson_pants_parabolan",
+    "time": "30 h",
+    "using": [ [ "fastener_small", 5 ] ],
+    "components": [ [ [ "parabolan_felt_patch", 410 ] ], [ [ "parabolan_yarn", 300 ] ] ]
+  },
+  {
+    "result": "gambeson_gloves_parabolan",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HANDS",
+    "skill_used": "tailor",
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_articulation" }, { "proficiency": "prof_quilting" } ],
+    "difficulty": 5,
+    "time": "8 h",
+    "autolearn": true,
+    "using": [ [ "fastener_small", 2 ] ],
+    "qualities": [ { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
+    "components": [ [ [ "parabolan_felt_patch", 116 ] ], [ [ "parabolan_yarn", 90 ] ] ]
+  },
+  {
+    "result": "xl_gambeson_gloves_parabolan",
+    "type": "recipe",
+    "copy-from": "gambeson_gloves_parabolan",
+    "time": "12 h",
+    "using": [ [ "fastener_small", 3 ] ],
+    "components": [ [ [ "parabolan_felt_patch", 174 ] ], [ [ "parabolan_yarn", 135 ] ] ]
+  },
+  {
+    "result": "xs_gambeson_gloves_parabolan",
+    "type": "recipe",
+    "copy-from": "gambeson_gloves_parabolan",
+    "time": "6 h",
+    "using": [ [ "fastener_small", 2 ] ],
+    "components": [ [ [ "parabolan_felt_patch", 87 ] ], [ [ "parabolan_yarn", 67 ] ] ]
   }
 ]

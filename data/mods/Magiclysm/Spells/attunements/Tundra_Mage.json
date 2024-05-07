@@ -3,15 +3,15 @@
     "type": "SPELL",
     "id": "cold_snap",
     "name": "Cold Snap",
-    "description": "With a snap of your fingers, a target takes cold damage and freezes in place.",
+    "description": "With a snap of your fingers, the target takes cold damage and freezes in place.",
     "effect": "attack",
     "shape": "blast",
     "damage_type": "cold",
     "spell_class": "TUNDRA_MAGE",
     "max_level": 35,
-    "min_damage": 0,
-    "max_damage": 140,
-    "damage_increment": 4,
+    "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(0, 0.5)" ] },
+    "max_damage": { "math": [ "evocation_proficiency_bonus_calculate(140, 0.5)" ] },
+    "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(4, 0.03)" ] },
     "min_range": 4,
     "max_range": 10,
     "range_increment": 0.2,
@@ -22,7 +22,7 @@
     "flags": [ "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
     "sound_description": "crack",
     "valid_targets": [ "hostile" ],
-    "extra_effects": [ { "id": "cold_snap_freeze" } ]
+    "extra_effects": [ { "id": "cold_snap_freeze" }, { "id": "eoc_evocation_setup" } ]
   },
   {
     "type": "SPELL",
@@ -52,18 +52,19 @@
     "spell_class": "TUNDRA_MAGE",
     "effect": "summon",
     "effect_str": "mon_winter_wolf",
+    "extra_effects": [ { "id": "eoc_summon_setup" } ],
     "shape": "blast",
     "energy_source": "MANA",
-    "base_energy_cost": 600,
+    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(600, 4)" ] },
     "base_casting_time": 300,
     "min_range": 5,
     "max_range": 7,
     "range_increment": 0.2,
     "min_aoe": 2,
     "max_aoe": 2,
-    "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE", "MUST_HAVE_CLASS_TO_LEARN" ],
-    "min_duration": 36000,
-    "max_duration": 180000,
-    "duration_increment": 5000
+    "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE", "MUST_HAVE_CLASS_TO_LEARN", "NO_CORPSE_QUIET" ],
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(36000, 100)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(180000, 100)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(5000, 0.03)" ] }
   }
 ]

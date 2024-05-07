@@ -134,6 +134,7 @@ class uistatedata
         bool overmap_show_land_use_codes = false; // toggle land use code sym/color for terrain
         bool overmap_show_city_labels = true;
         bool overmap_show_hordes = true;
+        bool overmap_show_revealed_omts = true;
         bool overmap_show_forest_trails = true;
         bool overmap_visible_weather = false;
         bool overmap_debug_weather = false;
@@ -159,6 +160,7 @@ class uistatedata
 
         // V Menu Stuff
         int list_item_sort = 0;
+        std::set<itype_id> read_items;
 
         // These three aren't serialized because deserialize can extraect them
         // from the history

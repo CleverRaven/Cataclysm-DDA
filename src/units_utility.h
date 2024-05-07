@@ -37,7 +37,7 @@ int angle_to_dir4( units::angle direction );
 // convert angle to nearest of 0=north 1=NE 2=east 3=SE...
 int angle_to_dir8( units::angle direction );
 
-template<typename T, typename U, std::enable_if_t<std::is_floating_point<T>::value>* = nullptr>
+template<typename T, typename U, std::enable_if_t<std::is_floating_point_v<T>>* = nullptr>
 units::quantity<T, U> round_to_multiple_of( units::quantity<T, U> val, units::quantity<T, U> of )
 {
     int multiple = std::lround( val / of );
@@ -48,8 +48,6 @@ struct lat_long {
     units::angle latitude;
     units::angle longitude;
 };
-
-constexpr lat_long location_boston{ 42.36_degrees, -71.06_degrees };
 
 /**
  * Create a units label for a weight value.
@@ -106,6 +104,13 @@ double convert_length_cm_in( const units::length &length );
 /** convert a mass unit to a string readable by a human */
 std::string weight_to_string( const units::mass &weight, bool compact = false,
                               bool remove_trailing_zeroes = false );
+
+/**
+ * Convert high-definition weight/mass to readable format
+ * Always metric units. First is value as string, second is unit
+ */
+std::pair<std::string, std::string> weight_to_string( const
+        units::quantity<int, units::mass_in_microgram_tag> &weight );
 
 /**
  * Convert volume from ml to units defined by user.

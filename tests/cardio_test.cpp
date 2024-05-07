@@ -37,6 +37,8 @@ static const move_mode_id move_mode_run( "run" );
 
 static const skill_id skill_swimming( "swimming" );
 
+static const ter_str_id ter_t_pavement( "t_pavement" );
+
 // Base cardio for default character
 static const int base_cardio = 1000;
 // Base stamina
@@ -53,7 +55,7 @@ static void verify_default_cardio_options()
 }
 
 // Count the number of steps (tiles) until character runs out of stamina or becomes winded.
-static int running_steps( Character &they, const ter_id &terrain = t_pavement )
+static int running_steps( Character &they, const ter_str_id &terrain = ter_t_pavement )
 {
     map &here = get_map();
     // Please take off your shoes when entering, and no NPCs allowed
@@ -75,7 +77,7 @@ static int running_steps( Character &they, const ter_id &terrain = t_pavement )
     int last_moves = they.get_speed();
     int last_stamina = they.get_stamina_max();
     // Take a deep breath and start running
-    they.moves = last_moves;
+    they.set_moves( last_moves );
     they.set_stamina( last_stamina );
     they.set_movement_mode( move_mode_run );
     // Run as long as possible
@@ -91,12 +93,12 @@ static int running_steps( Character &they, const ter_id &terrain = t_pavement )
         ++steps;
 
         // Ensure moves are decreasing, or else a turn will never pass
-        REQUIRE( they.moves < last_moves );
-        const int move_cost = last_moves - they.moves;
+        REQUIRE( they.get_moves() < last_moves );
+        const int move_cost = last_moves - they.get_moves();
         // When moves run out, one turn has passed
-        if( they.moves <= 0 ) {
+        if( they.get_moves() <= 0 ) {
             // Get "speed" moves back each turn
-            they.moves += they.get_speed();
+            they.mod_moves( they.get_speed() );
             calendar::turn += 1_turns;
             turns += 1;
 
@@ -111,7 +113,7 @@ static int running_steps( Character &they, const ter_id &terrain = t_pavement )
             REQUIRE( they.get_stamina() < last_stamina );
             last_stamina = they.get_stamina();
         }
-        last_moves = they.moves;
+        last_moves = they.get_moves();
     }
     // Reset to starting position
     they.setpos( left );
@@ -152,6 +154,11 @@ TEST_CASE( "base_cardio", "[cardio][base]" )
     REQUIRE( static_cast<int>( they.get_skill_level( skill_swimming ) ) == 0 );
     // Ensure starting cardio are what we expect
     REQUIRE( they.get_cardiofit() == 1000 );
+    // Ensure that the character has the correct leg configuration
+    they.recalc_limb_energy_usage();
+    REQUIRE( they.get_working_leg_count() == 2 );
+    REQUIRE( they.get_legs_power_use() == 0 );
+    REQUIRE( they.get_legs_stam_mult() == 1 );
 
     SECTION( "Base character with no traits" ) {
         // pre-Cardio, could run 96 steps
@@ -167,13 +174,13 @@ TEST_CASE( "base_cardio", "[cardio][base]" )
 //
 // Some traits affect cardio fitness directly:
 //
-// - cardio_multiplier: Multiplies maximum cardio
+// - CARDIO_MULTIPLIER: Multiplies maximum cardio
 //   - Languorous: Bad cardio, less total stamina
 //   - Indefatigable, Hyperactive: Good cardio, more total stamina
 //
 // Some traits affect stamina regen and total running distance without affecting cardio:
 //
-// - stamina_regen_modifier
+// - STAMINA_REGEN_MOD
 //   - Fast Metabolism, Persistence Hunter: Increased stamina regeneration
 //
 TEST_CASE( "cardio_is_and_is_not_affected_by_certain_traits", "[cardio][traits]" )
@@ -189,6 +196,11 @@ TEST_CASE( "cardio_is_and_is_not_affected_by_certain_traits", "[cardio][traits]"
     REQUIRE( static_cast<int>( they.get_skill_level( skill_swimming ) ) == 0 );
     // Ensure starting cardio are what we expect
     REQUIRE( they.get_cardiofit() == 1000 );
+    // Ensure that the character has the correct leg configuration
+    they.recalc_limb_energy_usage();
+    REQUIRE( they.get_working_leg_count() == 2 );
+    REQUIRE( they.get_legs_power_use() == 0 );
+    REQUIRE( they.get_legs_stam_mult() == 1 );
 
     SECTION( "Base character with no traits" ) {
         // pre-Cardio, could run 96 steps
@@ -203,7 +215,7 @@ TEST_CASE( "cardio_is_and_is_not_affected_by_certain_traits", "[cardio][traits]"
         check_trait_cardio_stamina_run( they, "HUGE", base_cardio, base_stamina, 81 );
     }
 
-    SECTION( "Traits with cardio_multiplier" ) {
+    SECTION( "Traits with CARDIO_MULTIPLIER" ) {
         // These traits were formerly implemented by max_stamina_modifier, which multiplied
         // maximum stamina. Now that cardio fitness is actually implemented, these traits
         // directly affect total cardio fitness, and thus maximum stamina (and running distance).
@@ -215,7 +227,7 @@ TEST_CASE( "cardio_is_and_is_not_affected_by_certain_traits", "[cardio][traits]"
         check_trait_cardio_stamina_run( they, "GOODCARDIO2", 1.6 * base_cardio, 11500, 121 );
     }
 
-    SECTION( "Traits with metabolism_modifier AND stamina_regen_modifier" ) {
+    SECTION( "Traits with metabolism_modifier AND STAMINA_REGEN_MOD" ) {
         // Fast Metabolism
         check_trait_cardio_stamina_run( they, "HUNGER", base_cardio, base_stamina, 83 );
         // Very Fast Metabolism
@@ -224,7 +236,7 @@ TEST_CASE( "cardio_is_and_is_not_affected_by_certain_traits", "[cardio][traits]"
         check_trait_cardio_stamina_run( they, "HUNGER3", base_cardio, base_stamina, 88 );
     }
 
-    SECTION( "Traits with ONLY stamina_regen_modifier" ) {
+    SECTION( "Traits with ONLY STAMINA_REGEN_MOD" ) {
         check_trait_cardio_stamina_run( they, "PERSISTENCE_HUNTER", base_cardio, base_stamina, 83 );
         check_trait_cardio_stamina_run( they, "PERSISTENCE_HUNTER2", base_cardio, base_stamina, 84 );
     }

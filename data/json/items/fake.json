@@ -3,13 +3,21 @@
     "abstract": "fake_item",
     "type": "GENERIC",
     "name": { "str": "fake item" },
-    "description": "Dummy item.  If you see this, then something went wrong.",
+    "description": "Dummy item.",
     "//": "Include ZERO_WEIGHT flag to avoid errors when instantiating pseudo items.",
-    "flags": [ "ZERO_WEIGHT" ],
+    "flags": [ "ZERO_WEIGHT", "TRADER_AVOID", "DEBUG_ONLY" ],
     "weight": "1 g",
     "volume": "1 ml",
     "symbol": "@",
     "color": "red"
+  },
+  {
+    "id": "fake_crafting_tool",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "fake crafting tool" },
+    "description": "Used for practice recipes and the like.",
+    "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ] }
   },
   {
     "id": "fake_arcfurnace",
@@ -195,7 +203,6 @@
   {
     "abstract": "fake_appliance_tool",
     "name": { "str": "fake appliance tool" },
-    "description": "Dummy item.  If you see this, then something went wrong.",
     "type": "TOOL",
     "copy-from": "fake_item",
     "ammo": [ "battery" ],
@@ -279,82 +286,74 @@
     "id": "pseudo_exercise_machine",
     "type": "TOOL",
     "name": { "str": "exercise machine" },
-    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "copy-from": "fake_crafting_tool",
     "material": [ "steel" ],
     "symbol": "T",
-    "color": "dark_gray",
-    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
+    "color": "dark_gray"
   },
   {
     "id": "pseudo_punching_bag",
     "type": "TOOL",
     "name": { "str": "heavy punching bag" },
-    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "copy-from": "fake_crafting_tool",
     "symbol": "0",
-    "color": "dark_gray",
-    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
+    "color": "dark_gray"
   },
   {
     "id": "pseudo_ergometer_mechanical",
     "type": "TOOL",
     "name": { "str": "mechanical ergometer" },
-    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "copy-from": "fake_crafting_tool",
     "symbol": "5",
-    "color": "dark_gray",
-    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
+    "color": "dark_gray"
   },
   {
     "id": "pseudo_treadmill_mechanical",
     "type": "TOOL",
     "name": { "str": "gravity treadmill" },
-    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "copy-from": "fake_crafting_tool",
     "symbol": "L",
-    "color": "dark_gray",
-    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
+    "color": "dark_gray"
   },
   {
     "id": "pseudo_training_dummy_light",
     "type": "TOOL",
     "name": { "str": "training dummy", "str_pl": "training dummies" },
-    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "copy-from": "fake_crafting_tool",
     "symbol": "@",
-    "color": "brown",
-    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
+    "color": "brown"
   },
   {
     "id": "pseudo_training_dummy_heavy",
     "type": "TOOL",
     "name": { "str": "armored training dummy", "str_pl": "armored training dummies" },
-    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "copy-from": "fake_crafting_tool",
     "symbol": "@",
-    "color": "brown",
-    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
+    "color": "brown"
   },
   {
     "id": "pseudo_archery_target_box",
     "type": "TOOL",
     "name": { "str": "box archery target" },
-    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "copy-from": "fake_crafting_tool",
     "symbol": "@",
-    "color": "brown",
-    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
+    "color": "brown"
   },
   {
     "id": "pseudo_archery_target_bale",
     "type": "TOOL",
     "name": { "str": "bale archery target" },
-    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "copy-from": "fake_crafting_tool",
     "symbol": "@",
-    "color": "yellow",
-    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
+    "color": "yellow"
   },
   {
     "id": "pseudo_magazine",
     "type": "MAGAZINE",
     "category": "spare_parts",
     "name": { "str": "pseudo magazine" },
-    "description": "Pseudo magazine for use in dirty vehicle hacks.  If you see this, then something went wrong",
-    "flags": [ "PSEUDO", "ZERO_WEIGHT", "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD" ],
+    "description": "Pseudo magazine for use in dirty vehicle hacks.",
+    "flags": [ "PSEUDO", "ZERO_WEIGHT", "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "DEBUG_ONLY" ],
     "ammo_type": [ "battery" ],
     "capacity": 1000000,
     "pocket_data": [
@@ -371,54 +370,48 @@
   },
   {
     "id": "fake_lift_light",
-    "copy-from": "fake_item",
+    "copy-from": "fake_crafting_tool",
     "type": "TOOL",
     "name": { "str": "light hoist" },
-    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ],
     "qualities": [ [ "LIFT", 2 ], [ "ROPE", 2 ], [ "SUSPENDING", 2 ] ]
   },
   {
     "id": "fake_lift_medium",
-    "copy-from": "fake_item",
+    "copy-from": "fake_crafting_tool",
     "type": "TOOL",
     "name": { "str": "sturdy hoist" },
-    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ],
     "qualities": [ [ "LIFT", 8 ], [ "ROPE", 2 ], [ "SUSPENDING", 2 ] ]
   },
   {
     "id": "fake_lift_heavy",
-    "copy-from": "fake_item",
+    "copy-from": "fake_crafting_tool",
     "type": "TOOL",
     "name": { "str": "heavy-duty hoist" },
-    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ],
     "qualities": [ [ "LIFT", 40 ], [ "ROPE", 2 ], [ "SUSPENDING", 2 ] ]
   },
   {
     "id": "pseudo_app_oxygen_concentrator",
     "type": "TOOL",
+    "name": { "str": "oxygen concentrator" },
+    "copy-from": "fake_crafting_tool",
     "ammo": [ "battery" ],
-    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO", "ZERO_WEIGHT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ],
-    "description": "Dummy item.  If you see this, then something went wrong.",
-    "weight": "1 g",
-    "volume": "1 ml",
-    "symbol": "@",
-    "color": "red",
-    "name": { "str": "oxygen concentrator" }
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ]
   },
   {
     "id": "pseudo_app_hd_compressor_unit",
     "type": "TOOL",
-    "ammo": [ "battery" ],
-    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO", "ZERO_WEIGHT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ],
-    "description": "Dummy item.  If you see this, then something went wrong.",
-    "weight": "1 g",
-    "volume": "1 ml",
-    "symbol": "@",
-    "color": "red",
     "name": { "str": "high pressure compressor unit" },
+    "copy-from": "fake_crafting_tool",
+    "ammo": [ "battery" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ],
     "charges_per_use": 100,
     "charged_qualities": [ [ "PRESSURIZATION", 10 ] ]
+  },
+  {
+    "id": "concrete_mix_tool",
+    "type": "TOOL",
+    "name": { "str": "concrete mixer" },
+    "copy-from": "fake_appliance_tool",
+    "charges_per_use": 20
   }
 ]

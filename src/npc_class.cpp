@@ -12,6 +12,7 @@
 #include "avatar.h"
 #include "condition.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "generic_factory.h"
 #include "item_group.h"
 #include "itype.h"
@@ -252,7 +253,7 @@ std::string shopkeeper_item_group::get_refusal() const
         return _( "<npcname> does not trust you enough" );
     }
 
-    return refusal;
+    return refusal.translated();
 }
 
 void shopkeeper_item_group::deserialize( const JsonObject &jo )
@@ -277,6 +278,11 @@ void npc_class::load( const JsonObject &jo, const std::string_view )
     bonus_dex = load_distribution( jo, "bonus_dex" );
     bonus_int = load_distribution( jo, "bonus_int" );
     bonus_per = load_distribution( jo, "bonus_per" );
+
+    bonus_aggression = load_distribution( jo, "bonus_aggression" );
+    bonus_bravery = load_distribution( jo, "bonus_bravery" );
+    bonus_collector = load_distribution( jo, "bonus_collector" );
+    bonus_altruism = load_distribution( jo, "bonus_altruism" );
 
     if( jo.has_member( "shopkeeper_item_group" ) ) {
         if( jo.has_array( "shopkeeper_item_group" ) &&
@@ -466,6 +472,26 @@ int npc_class::roll_intelligence() const
 int npc_class::roll_perception() const
 {
     return bonus_per.roll();
+}
+
+int npc_class::roll_aggression() const
+{
+    return bonus_aggression.roll();
+}
+
+int npc_class::roll_bravery() const
+{
+    return bonus_bravery.roll();
+}
+
+int npc_class::roll_collector() const
+{
+    return bonus_collector.roll();
+}
+
+int npc_class::roll_altruism() const
+{
+    return bonus_altruism.roll();
 }
 
 int npc_class::roll_skill( const skill_id &sid ) const

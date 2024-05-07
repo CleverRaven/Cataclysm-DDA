@@ -34,7 +34,7 @@ static const efftype_id effect_test_fatalism( "test_fatalism" );
 static const efftype_id effect_test_int_remove( "test_int_remove" );
 static const efftype_id effect_test_vitamineff( "test_vitamineff" );
 
-static const mtype_id debug_mon( "debug_mon" );
+static const mtype_id pseudo_debug_mon( "pseudo_debug_mon" );
 
 static const vitamin_id vitamin_test_vitv( "test_vitv" );
 static const vitamin_id vitamin_test_vitx( "test_vitx" );
@@ -736,7 +736,7 @@ static void test_deadliness( const effect &applied, const int expected_dead, con
         for( int j = 0; j < 10; ++j ) {
             tripoint cursor( i + 20, j + 20, 0 );
 
-            mons.push_back( g->place_critter_at( debug_mon, cursor ) );
+            mons.push_back( g->place_critter_at( pseudo_debug_mon, cursor ) );
             // make sure they're there!
             CHECK( creatures.creature_at<Creature>( cursor ) != nullptr );
         }

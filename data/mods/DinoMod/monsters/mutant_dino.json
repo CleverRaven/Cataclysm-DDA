@@ -15,7 +15,7 @@
     "morale": 25,
     "melee_skill": 4,
     "dodge": 4,
-    "families": [ "prof_intro_biology", "prof_wp_dino" ],
+    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_dino" ],
     "weakpoint_sets": [ "wps_dinosaur_body" ],
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 1 },
@@ -70,7 +70,7 @@
     "hp": 200,
     "melee_dice": 4,
     "description": "A bulky, beaked dinosaur with hooved front legs and two heads.  The four eyes are wide and rolling.",
-    "upgrades": {  },
+    "upgrades": false,
     "harvest": "mutant_bird_flightless"
   }
 ]

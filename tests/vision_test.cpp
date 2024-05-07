@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 
+#include "avatar.h"
 #include "cached_options.h"
 #include "calendar.h"
 #include "cata_catch.h"
@@ -20,6 +21,7 @@
 #include "mapdata.h"
 #include "mtype.h"
 #include "options_helpers.h"
+#include "player_helpers.h"
 #include "point.h"
 #include "type_id.h"
 #include "units.h"
@@ -197,13 +199,8 @@ struct vision_test_case {
             player_character.set_mutation( trait_MYOPIC );
         }
 
-        // test both 2d and 3d cases
-        restore_on_out_of_scope<bool> restore_fov_3d( fov_3d );
-        fov_3d = GENERATE( false, true );
-
         std::stringstream section_name;
         section_name << section_prefix;
-        section_name << ( fov_3d ? "3d" : "2d" ) << "_casting__";
         section_name << t.generate_transform_combinations();
 
         // Sanity check on player placement in relation to `t`
@@ -1139,4 +1136,15 @@ TEST_CASE( "vision_inside_meth_lab", "[shadowcasting][vision][moncam]" )
 
     t.test_all();
     clear_vehicles();
+}
+
+TEST_CASE( "pl_sees-oob-nocrash", "[vision]" )
+{
+    // oob crash from game::place_player_overmap() or game::start_game(), simplified
+    clear_avatar();
+    get_map().load( project_to<coords::sm>( get_avatar().get_location() ) + point_south_east, false,
+                    false );
+    get_avatar().sees( tripoint_zero ); // CRASH?
+
+    clear_avatar();
 }

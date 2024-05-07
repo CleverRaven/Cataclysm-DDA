@@ -2,7 +2,7 @@
   {
     "type": "tool_quality",
     "id": "CUT",
-    "name": { "str": "cutting" },
+    "name": { "ctxt": "tool_quality", "str": "cutting" },
     "usages": [ [ 1, [ "salvage", "inscribe" ] ] ]
   },
   {
@@ -75,6 +75,11 @@
   },
   {
     "type": "tool_quality",
+    "id": "HACK",
+    "name": { "str": "hacking" }
+  },
+  {
+    "type": "tool_quality",
     "id": "HAMMER",
     "name": { "str": "hammering" }
   },
@@ -129,6 +134,11 @@
     "type": "tool_quality",
     "id": "SIEVE",
     "name": { "str": "sieving" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "WINNOW",
+    "name": { "str": "winnowing" }
   },
   {
     "type": "tool_quality",
@@ -302,6 +312,12 @@
   },
   {
     "type": "tool_quality",
+    "id": "LUTHIER",
+    "name": { "str": "luthier" },
+    "//": "Tools specifically for turning wood into musical instruments.  Used for a complete tool kit of objects required for this process."
+  },
+  {
+    "type": "tool_quality",
     "id": "GRIND",
     "name": { "str": "grinding" }
   },
@@ -430,11 +446,6 @@
     "type": "tool_quality",
     "id": "MOP",
     "name": { "str": "mopping" }
-  },
-  {
-    "type": "tool_quality",
-    "id": "BLOW_AIR",
-    "name": { "str": "air blowing" }
   },
   {
     "type": "tool_quality",

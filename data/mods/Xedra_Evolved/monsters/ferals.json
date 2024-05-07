@@ -41,7 +41,7 @@
         "fake_dex": 8,
         "fake_per": 10,
         "ranges": [ [ 2, 14, "DEFAULT" ] ],
-        "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
+        "condition": { "test_eoc": "is_disarmed" },
         "require_targeting_player": false,
         "description": "The deranged agent fires their Five-seveN!"
       }

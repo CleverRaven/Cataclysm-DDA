@@ -44,9 +44,34 @@
     "description": "A photo of a jovial, old wizard, he seems to be dancing with a coat rack in this basement.  There is a stack of suitcases in the background.",
     "weight": "1 g",
     "volume": "10 ml",
-    "price": 800,
+    "price": "8 USD",
     "material": [ "paper" ],
     "symbol": "*",
     "color": "light_gray"
+  },
+  {
+    "type": "BOOK",
+    "id": "book_nonf_magic_origin_of_species",
+    "name": {
+      "str": "On the Origin of Species by Means of Natural and Supernatural Selection",
+      "str_pl": "copies of On the Origin of Species by Means of Natural and Supernatural Selection"
+    },
+    "description": "This is a mass-market paperback copy of Charles Darwin's famous book where he laid out his theory of evolution and the way that magic influences the course of speciation.  The book was extremely controversial when it came out for positing a recent common ancestor for humans and dwarves and for claiming that elves as a distinct species only date back to 3 million years before present.",
+    "intelligence": 8,
+    "symbol": "?",
+    "looks_like": "story_book",
+    "color": "green",
+    "time": "15 m",
+    "chapters": 18,
+    "//": "Extra chapters to account for talking about magic",
+    "fun": 2,
+    "weight": "484 g",
+    "volume": "654 ml",
+    "longest_side": "23 cm",
+    "price": "43 USD 99 cent",
+    "price_postapoc": "15 USD",
+    "material": [ "paper" ],
+    "copy-from": "book_nonf_soft_tpl",
+    "melee_damage": { "bash": 2 }
   }
 ]

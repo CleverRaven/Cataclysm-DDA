@@ -7,26 +7,39 @@
 #include <limits>
 #include <list>
 #include <string>
+#include <utility>
 
 #include "activity_actor_definitions.h"
 #include "character.h"
 #include "crafting.h"
 #include "debug.h"
 #include "enum_conversions.h"
+#include "enum_traits.h"
 #include "flag.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "game_constants.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_components.h"
+#include "item_contents.h"
+#include "item_location.h"
+#include "item_pocket.h"
+#include "itype.h"
 #include "json.h"
+#include "line.h"
+#include "map.h"
 #include "map_iterator.h"
 #include "output.h"
+#include "pocket_type.h"
 #include "recipe.h"
 #include "requirements.h"
 #include "translations.h"
 #include "type_id.h"
 #include "uistate.h"
-#include "vpart_range.h"
+#include "vehicle.h"
 #include "visitable.h"
+#include "vpart_position.h"
 
 static const itype_id itype_candle( "candle" );
 
@@ -254,7 +267,7 @@ bool craft_command::continue_prompt_liquids( const std::function<bool( const ite
         const std::vector<pocket_data> it_pkt = it.comp.type->pockets;
         if( ( item::count_by_charges( it.comp.type ) && it.comp.count > 0 ) ||
         !std::any_of( it_pkt.begin(), it_pkt.end(), []( const pocket_data & p ) {
-        return p.type == item_pocket::pocket_type::CONTAINER && p.watertight;
+        return p.type == pocket_type::CONTAINER && p.watertight;
     } ) ) {
             continue;
         }
@@ -346,9 +359,10 @@ static std::list<item> sane_consume_items( const comp_selection<item_comp> &it, 
     const std::vector<pocket_data> it_pkt = it.comp.type->pockets;
     if( ( item::count_by_charges( it.comp.type ) && it.comp.count > 0 ) ||
     !std::any_of( it_pkt.begin(), it_pkt.end(), []( const pocket_data & p ) {
-    return p.type == item_pocket::pocket_type::CONTAINER && p.watertight;
+    return p.type == pocket_type::CONTAINER && p.watertight;
 } ) ) {
-        return crafter->consume_items( it, batch, filter );
+        std::list<item> consumed = crafter->consume_items( it, batch, filter );
+        return consumed;
     }
 
     // Everything below only occurs for item components that are liquid containers
@@ -392,9 +406,9 @@ bool craft_command::safe_to_unload_comp( const item &it )
     const std::function<bool( const item &i )> filter = []( const item & i ) {
         return !i.has_flag( flag_ZERO_WEIGHT ) && !i.has_flag( flag_NO_DROP );
     };
-    const bool valid = it.get_contents().has_any_with( filter, item_pocket::pocket_type::CONTAINER ) ||
-                       it.get_contents().has_any_with( filter, item_pocket::pocket_type::MAGAZINE ) ||
-                       it.get_contents().has_any_with( filter, item_pocket::pocket_type::MAGAZINE_WELL );
+    const bool valid = it.get_contents().has_any_with( filter, pocket_type::CONTAINER ) ||
+                       it.get_contents().has_any_with( filter, pocket_type::MAGAZINE ) ||
+                       it.get_contents().has_any_with( filter, pocket_type::MAGAZINE_WELL );
     if( valid ) {
         return true;
     }

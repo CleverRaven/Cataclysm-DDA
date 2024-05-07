@@ -1,0 +1,85 @@
+[
+  {
+    "type": "npc_class",
+    "id": "NC_AUGUSTMOON_GUNTRADER",
+    "name": { "str": "Gun trader " },
+    "job_description": "Gun trader",
+    "common": false,
+    "traits": [ { "group": "BG_survival_story_POLICE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "bonus_str": { "rng": [ 0, 1 ] },
+    "bonus_dex": { "rng": [ 0, 2 ] },
+    "bonus_int": { "rng": [ -2, 0 ] },
+    "bonus_per": { "rng": [ 0, 2 ] },
+    "worn_override": "AUGUSTMOON_GUNTRADER_worn",
+    "carry_override": "afs_civilian_armory",
+    "weapon_override": "EMPTY_GROUP",
+    "skills": [
+      { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -3 } ] } },
+      { "skill": "gun", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "pistol", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 2, 4 ] } }
+    ],
+    "//": "All guns are more expensive here.",
+    "shopkeeper_item_group": [
+      { "group": "afs_augustmoon_guntrader", "rigid": true },
+      { "group": "augustmoon_shop_money", "rigid": true },
+      {
+        "group": "afs_augustmoon_guntrader_military",
+        "rigid": true,
+        "condition": { "u_has_proficiency": "prof_armament_license" },
+        "refusal": "You need an armament license to buy this."
+      }
+    ],
+    "shopkeeper_price_rules": [ { "group": "afs_general_armory", "fixed_adj": 0 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_augustmoon_guntrader",
+    "subtype": "collection",
+    "items": [ { "group": "afs_civilian_armory", "count": [ 14, 28 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_augustmoon_guntrader_military",
+    "subtype": "collection",
+    "items": [
+      { "group": "afs_augustmoon_guntrader_military_gun", "count": [ 0, 2 ] },
+      { "group": "afs_augustmoon_guntrader_military_ammo", "count": [ 0, 2 ] },
+      { "group": "afs_any_hand_grenade", "count": [ 4, 8 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "AUGUSTMOON_GUNTRADER_worn",
+    "subtype": "collection",
+    "items": [
+      { "group": "military_ballistic_vest_pristine" },
+      { "item": "legpouch_large" },
+      { "item": "pants_army" },
+      { "item": "afs_company_jacket" },
+      { "item": "boots_combat" },
+      { "item": "under_armor" },
+      { "item": "under_armor_shorts" },
+      { "item": "fancy_sunglasses" }
+    ]
+  },
+  {
+    "type": "npc",
+    "id": "augustmoon_gun_trader",
+    "name_suffix": "gun trader",
+    "class": "NC_AUGUSTMOON_GUNTRADER",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_AUGUSTMOON_GUNTRADER",
+    "faction": "UICA"
+  },
+  {
+    "id": [ "TALK_AUGUSTMOON_GUNTRADER" ],
+    "type": "talk_topic",
+    "dynamic_line": "&You find the clerk leaning before an almost impressive collection of weaponry, most of it neatly displayed in racks or hanging from the curved prefab ceiling.  <mypronoun> barely acknowledges your approach, it doesn't seem like customer service is a priority here.",
+    "responses": [
+      { "text": "You sell guns here right?", "topic": "TALK_DONE", "effect": "start_trade" },
+      { "text": "Maybe later.", "topic": "TALK_DONE" }
+    ]
+  }
+]

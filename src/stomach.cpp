@@ -6,6 +6,7 @@
 
 #include "cata_utility.h"
 #include "character.h"
+#include "itype.h"
 #include "json.h"
 #include "stomach.h"
 #include "units.h"
@@ -190,17 +191,50 @@ nutrients &nutrients::operator*=( int r )
     return *this;
 }
 
+nutrients &nutrients::operator*=( double r )
+{
+    if( !finalized ) {
+        debugmsg( "Nutrients not finalized when *= called!" );
+    }
+    calories *= r;
+    for( const std::pair<const vitamin_id, std::variant<int, vitamin_units::mass>> &vit : vitamins_ ) {
+        std::variant<int, vitamin_units::mass> &here = vitamins_[vit.first];
+        // Note well: This truncates the result!
+        here = static_cast<int>( std::get<int>( here ) * r );
+    }
+    return *this;
+}
+
 nutrients &nutrients::operator/=( int r )
 {
     if( !finalized ) {
         debugmsg( "Nutrients not finalized when -= called!" );
     }
-    calories = divide_round_up( calories, r );
+    calories = divide_round_up<int64_t>( calories, r );
     for( const std::pair<const vitamin_id, std::variant<int, vitamin_units::mass>> &vit : vitamins_ ) {
         std::variant<int, vitamin_units::mass> &here = vitamins_[vit.first];
         here = divide_round_up( std::get<int>( here ), r );
     }
     return *this;
+}
+
+void nutrients::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "calories", calories );
+    jsout.member( "vitamins", vitamins() );
+    jsout.end_object();
+}
+
+void nutrients::deserialize( const JsonObject &jo )
+{
+    jo.read( "calories", calories );
+    std::map<vitamin_id, int> vit_map;
+    jo.read( "vitamins", vit_map );
+    for( auto &vit : vit_map ) {
+        //rebuild vitamins_
+        set_vitamin( vit.first, vit.second );
+    }
 }
 
 stomach_contents::stomach_contents() = default;
@@ -270,7 +304,8 @@ void stomach_contents::deserialize( const JsonObject &jo )
 
 units::volume stomach_contents::capacity( const Character &owner ) const
 {
-    return max_volume * owner.mutation_value( "stomach_size_multiplier" );
+    return owner.enchantment_cache->modify_value( enchant_vals::mod::STOMACH_SIZE_MULTIPLIER,
+            max_volume );
 }
 
 units::volume stomach_contents::stomach_remaining( const Character &owner ) const
@@ -313,14 +348,21 @@ food_summary stomach_contents::digest( const Character &owner, const needs_rates
     // Digest kCal -- use min_kcal by default, but no more than what's in stomach,
     // and no less than percentage_kcal of what's in stomach.
     int kcal_fraction = std::lround( nutr.kcal() * rates.percent_kcal );
-    digested.nutr.calories = half_hours * clamp( rates.min_calories, kcal_fraction * 1000,
+    digested.nutr.calories = half_hours * clamp<int64_t>( rates.min_calories, kcal_fraction * 1000,
                              nutr.calories );
 
     // Digest vitamins just like we did kCal, but we need to do one at a time.
     for( const std::pair<const vitamin_id, int> &vit : nutr.vitamins() ) {
-        int vit_fraction = std::lround( vit.second * rates.percent_vitamin );
-        digested.nutr.set_vitamin( vit.first, half_hours * clamp( rates.min_vitamin, vit_fraction,
-                                   vit.second ) );
+        if( vit.first->type() != vitamin_type::DRUG ) {
+            int vit_fraction = std::lround( vit.second * rates.percent_vitamin );
+            digested.nutr.set_vitamin( vit.first, half_hours * clamp( rates.min_vitamin, vit_fraction,
+                                       vit.second ) );
+        }
+        // drug vitamins are absorbed to the blood instantly after the first stomach step.
+        // this makes the drug vitamins easier to balance (no need to account for slow trickle-ing in of the drug)
+        else if( vit.first->type() == vitamin_type::DRUG && stomach ) {
+            digested.nutr.set_vitamin( vit.first, vit.second );
+        }
     }
 
     nutr -= digested.nutr;
@@ -373,7 +415,7 @@ void stomach_contents::mod_calories( int kcal )
 void stomach_contents::mod_nutr( int nutr )
 {
     // nutr is legacy type code, this function simply converts old nutrition to new kcal
-    mod_calories( -1 * std::round( nutr * 2500.0f / ( 12 * 24 ) ) );
+    mod_calories( -1 * std::round( nutr * base_metabolic_rate / ( 12 * 24 ) ) );
 }
 
 void stomach_contents::mod_water( const units::volume &h2o )

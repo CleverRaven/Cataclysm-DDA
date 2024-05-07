@@ -82,13 +82,31 @@
     "name": "bark",
     "description": "A solid piece of bark covers the floor here.",
     "symbol": ".",
-    "color": "cyan",
+    "color": "brown",
     "move_cost": 2,
-    "roof": "t_barkfloor",
+    "roof": "t_barkfloor_noroof",
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
     "bash": {
       "sound": "SMASH!",
       "ter_set": "t_dirt",
+      "str_min": 50,
+      "str_max": 400,
+      "str_min_supported": 100,
+      "items": [ { "item": "splinter", "count": [ 2, 8 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_barkfloor_noroof",
+    "name": "bark",
+    "description": "A solid piece of bark covers the floor here.",
+    "symbol": ".",
+    "color": "brown",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "COLLAPSES", "FLAT", "ROAD" ],
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_open_air",
       "str_min": 50,
       "str_max": 400,
       "str_min_supported": 100,
@@ -161,7 +179,7 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 95,
-    "roof": "t_flat_roof",
+    "roof": "t_barkfloor_noroof",
     "flags": [ "FLAMMABLE_ASH", "DOOR", "NOITEM", "BARRICADABLE_DOOR", "CONNECT_WITH_WALL", "BLOCK_WIND" ],
     "open": "t_bramble_door_o",
     "bash": {
@@ -181,7 +199,7 @@
     "symbol": "'",
     "color": "brown",
     "move_cost": 2,
-    "roof": "t_flat_roof",
+    "roof": "t_barkfloor_noroof",
     "flags": [ "FLAMMABLE_ASH", "TRANSPARENT", "FLAT", "BARRICADABLE_DOOR", "CONNECT_WITH_WALL", "ROAD" ],
     "close": "t_bramble_door_c",
     "bash": {

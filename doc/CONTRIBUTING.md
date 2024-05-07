@@ -139,6 +139,8 @@ Helpful pages:
 
 1. [Fork](https://github.com/CleverRaven/Cataclysm-DDA/fork) this repository here on GitHub.
 
+**Note:** Fork is different from branch, branches are covered [later](#make-your-changes).
+
 2. Clone your fork locally.
 
     ```bash
@@ -366,7 +368,7 @@ Bring up the keybindings menu (press `Escape` then `1`), scroll down almost to t
 └───────────────────────────────────────────────────────────────────────────┘
 ```
 
-With these commands, you should be able to recreate the proper conditions to test your changes. You can find some more information about the debug menu on [the official wiki](http://cddawiki.chezzo.com/cdda_wiki/index.php).
+With these commands, you should be able to recreate the proper conditions to test your changes.
 
 ## Frequently Asked Questions
 

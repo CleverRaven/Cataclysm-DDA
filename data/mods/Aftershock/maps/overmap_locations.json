@@ -1,6 +1,12 @@
 [
   {
     "type": "start_location",
+    "id": "sloc_augustmoon_docking",
+    "name": "Port Augustmoon",
+    "terrain": [ "augustmoon_docking_arm" ]
+  },
+  {
+    "type": "start_location",
     "id": "sloc_escape_pod",
     "name": "Crashed escape pod",
     "terrain": [ "afs_crashed_escape_pod" ]

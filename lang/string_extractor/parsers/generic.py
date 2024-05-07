@@ -6,8 +6,6 @@ from ..write_text import write_text
 def parse_generic(json, origin):
     name = ""
     comment = []
-    if "//" in json:
-        comment.append(json["//"])
     if "//isbn13" in json:
         comment.append("ISBN {}".format(json["//isbn13"]))
 
@@ -24,6 +22,8 @@ def parse_generic(json, origin):
 
     if "use_action" in json:
         parse_use_action(json["use_action"], origin, name)
+    if "tick_action" in json:
+        parse_use_action(json["tick_action"], origin, name)
 
     for cname in json.get("conditional_names", []):
         write_text(cname["name"], origin,

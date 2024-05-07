@@ -12,7 +12,7 @@
     "flags": [ "FULL_MAGAZINE" ],
     "tools": [ [ [ "lighter", 5 ], [ "ref_lighter", 5 ], [ "surface_heat", 2, "LIST" ] ] ],
     "components": [
-      [ [ "wax_any", 1, "LIST" ], [ "any_tallow", 4, "LIST" ], [ "edible_lard", 1, "LIST" ] ],
+      [ [ "wax_any", 2, "LIST" ], [ "any_tallow", 8, "LIST" ], [ "edible_lard", 8, "LIST" ] ],
       [ [ "cordage_short", 1, "LIST" ] ]
     ]
   },
@@ -98,9 +98,7 @@
         [ "can_food", 1 ],
         [ "canister_empty", 1 ],
         [ "bottle_glass", 1 ],
-        [ "bottle_plastic", 1 ],
-        [ "bottle_bathroom", 1 ],
-        [ "bottle_plastic_small", 1 ]
+        [ "plastic_bottles_any", 1, "LIST" ]
       ],
       [ [ "lightstrip_inactive", 1 ], [ "light_bulb", 1 ] ],
       [ [ "cable", 10 ] ]
@@ -231,6 +229,30 @@
         [ "cordage", 1, "LIST" ],
         [ "duct_tape", 10 ],
         [ "medical_tape", 20 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "wearable_big_light",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "5 m",
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "book_learn": [ [ "textbook_fabrication", 0 ], [ "manual_fabrication", 0 ], [ "mag_electronics", 0 ] ],
+    "components": [
+      [ [ "heavy_flashlight", 1 ] ],
+      [
+        [ "cotton_patchwork", 4 ],
+        [ "leather", 4 ],
+        [ "duct_tape", 20 ],
+        [ "medical_tape", 40 ],
+        [ "cordage", 1, "LIST" ]
       ]
     ]
   },

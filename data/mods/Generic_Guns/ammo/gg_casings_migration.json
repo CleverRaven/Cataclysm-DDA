@@ -1,6 +1,14 @@
 [
   {
-    "id": [ "40x46mm_m118_casing", "40x46mm_m199_casing", "40x46mm_m195_casing", "40x46mm_m212casing", "40x53mm_m169_casing" ],
+    "id": [
+      "40x46mm_m118_casing",
+      "40x46mm_m199_casing",
+      "40x46mm_m195_casing",
+      "40x46mm_m212casing",
+      "40x53mm_m169_casing",
+      "40x46mm_hornets_nest_22lr_casing",
+      "40x46mm_hornets_nest_410_casing"
+    ],
     "type": "MIGRATION",
     "replace": "grenade_casing"
   },
@@ -43,6 +51,7 @@
       "223_casing",
       "270win_casing",
       "303_casing",
+      "77arisaka_casing",
       "300blk_casing",
       "3006_casing",
       "308_casing",
@@ -62,7 +71,7 @@
     "replace": "rifle_casing"
   },
   {
-    "id": [ "50_casing", "700nx_casing" ],
+    "id": [ "50_casing", "458wm_casing", "700nx_casing" ],
     "type": "MIGRATION",
     "replace": "rifle_huge_casing"
   },

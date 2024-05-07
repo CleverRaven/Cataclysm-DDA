@@ -1,6 +1,98 @@
 [
   {
     "type": "snippet",
+    "category": "tainted_innards_desc",
+    "text": [
+      {
+        "id": "tainted_innards_1",
+        "text": "An unidentifiable selection of rotted innards that barely hold their form.  It is revolting and certainly no longer healthy to eat."
+      },
+      {
+        "id": "tainted_innards_2",
+        "text": "This looks like a stomach and length of intestine, if they were made of lung tissue.  Every now and then you notice it expanding or contracting slightly.  It looks dangerous to eat, maybe even to handle."
+      },
+      {
+        "id": "tainted_innards_3",
+        "text": "A clump of rotten entrails.  The sallow membranes that link these lobes of flesh together are lined with blackened veins and capillaries.  A caul of slime coats them all in a greasy sheen.  You should not put this anywhere near your mouth."
+      },
+      {
+        "id": "tainted_innards_4",
+        "text": "Zombie guts.  Your appetite may have been spoiled by one look at the twisted, compacted tubes and sacs that form this clump of foul entrails.  Why then does it make you think of frozen spaghetti and meatballs?"
+      },
+      {
+        "id": "tainted_innards_5",
+        "text": "The inner contents of the walking dead.  It's hard to tell exactly what kind of tissue this may have once been.  Several structures appear to have molded together."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "skull_human_tainted_desc",
+    "text": [
+      {
+        "id": "skull_human_tainted_1",
+        "text": "The stained skull of what was once a human being.  It is rotted and noticeably warped from its living form."
+      },
+      {
+        "id": "skull_human_tainted_2",
+        "text": "The stained skull of a former human.  Whatever turned their flesh to walking in death, it left its mark on their bones."
+      },
+      {
+        "id": "skull_human_tainted_3",
+        "text": "A rotted skull from a human zombie.  It feels more flexible than it should, like stiff leather, no longer natural bone."
+      },
+      {
+        "id": "skull_human_tainted_4",
+        "text": "The brain has ossified inside this tainted skull.  It doesn't feel noticeably heavier and you surmise that the brain-turned-bone must be deeply porous or hollow itself."
+      },
+      {
+        "id": "skull_human_tainted_5",
+        "text": "This pitted human skull is filled with teeth, few of them where they should be.  You can see them growing in the hollows that have developed, their roots grown long and winding, more like those of a tree."
+      },
+      {
+        "id": "skull_human_tainted_6",
+        "text": "The teeth of this lopsided human skull have melded together like hot wax and joined with the maxilla.  The eye sockets are drooping and canted to the side as if shaped while soft.  Most of the suture joints of the cranium are fused over with thick lines of growth as if soldered together with bone."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "arm_zed_desc",
+    "text": [
+      {
+        "id": "arm_zed_1",
+        "text": "A rotted and then shredded arm.  Not much use unless you want to scrape the rancid meat from the bones."
+      },
+      {
+        "id": "arm_zed_2",
+        "text": "Little tainted meat remains on whatever limb bones these were.  It still bends at the joint but doesn't look to be moving on its own anymore."
+      },
+      {
+        "id": "arm_zed_3",
+        "text": "This jaundiced zombie's arm still bears a full sleeve tattoo.  Quality work from what you can tell through all the rot."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "leg_zed_desc",
+    "text": [
+      {
+        "id": "leg_zed_1",
+        "text": "What's left of some zombie's limb.  Most likely a leg based on the proportions.  Though it's rotted, there is quite a bit of meat still on it."
+      },
+      {
+        "id": "leg_zed_2",
+        "text": "You think this decaying severed limb ends in a foot.  It's actually hard to tell after the hell it's been through."
+      },
+      {
+        "id": "leg_zed_3",
+        "text": "A fat zombie haunch.  It doesn't look tasty but the shape is undeniably close to a large fried chicken leg.  The skin is even the right texture, though for the wrong reasons."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "<zombie_humanoid_harvest_general>",
     "text": [
       "As you make your first cut into its skin, a pressurized jet of decaying blood almost hits your face.",
@@ -43,11 +135,37 @@
       "Organs in the lower abdomen, mainly the kidneys and the reproductive organs, are absent.",
       "The heart makes an odd, swallowing sound on occasion as you work around it.",
       "You try pulling out some teeth to better analyze them, only to find they've fused with the jawbone.",
-      "Inside the chest is some unfamiliar organ, a frankenstein of nearby tissues and black veins.",
+      "Inside the chest is some unfamiliar organ, a Frankenstein of nearby tissues and black veins.",
       "Inside the chest is some unfamiliar organ, fatty and wrinkled like brain tissue.",
       "Your search nets you no explanation as to how the creature's black blood still circulates through it, and you come to the disturbing conclusion it moves on its own.",
       "The vestibular organs seem to be nonfunctional, but your question of how the creature balances itself is answered by an odd mass in the center of the brain, that you liken to a gyroscope.",
       "While some parts of the blackened brain have lost their wrinkles, in others the wrinkles are surprisingly uniform.",
+      "You find a clump of malformed tissue leading deeper inwards, at the center of which is a bullet.",
+      "Its tissue has significant trouble separating from the bone in some spots.",
+      "The skin is loose on the muscle in some places and melded with it in others.",
+      "The thing's innards churn slightly even as you dig through them.",
+      "As you finish up, you notice your earliest cuts seem to be the tiniest bit smaller.",
+      "To your \"delight,\" you find a tapeworm in its gut, turgid but seemingly dead.",
+      "As you cut into its stomach, the insane fragmentary remains of some creature it devoured, which appears to have melded with its own tissues, attempt to claw at your hand before you bludgeon them until they cease moving."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_humanoid_harvest_headless_deeper>",
+    "text": [
+      "The majority of the digestive tract seems to have reshaped into a singular stomach.",
+      "Some organs have atrophied or outright dissolved entirely.",
+      "The heart is overtaken by a mass of fistulas and other growths.",
+      "The thing's innards resemble one giant tumor more than the body of a human being.",
+      "The thing's feet are entirely calloused and the smaller toes are completely vestigal, simply a bump with a dead nail on them.",
+      "This person had a tattoo on their arm - said tattoo has reappeared in multiple spots along the inner tissues and the walls of organs.",
+      "While its individual fingers appear to be losing their dexterity, the zombie's flexor muscles are tense and swollen.",
+      "This person had an artificial hip, but it's completely overgrown with bone now.",
+      "Organs in the lower abdomen, mainly the kidneys and the reproductive organs, are absent.",
+      "The heart makes an odd, swallowing sound on occasion as you work around it.",
+      "Inside the chest is some unfamiliar organ, a Frankenstein of nearby tissues and black veins.",
+      "Inside the chest is some unfamiliar organ, fatty and wrinkled like brain tissue.",
+      "Your search nets you no explanation as to how the creature's black blood still circulates through it, and you come to the disturbing conclusion it moves on its own.",
       "You find a clump of malformed tissue leading deeper inwards, at the center of which is a bullet.",
       "Its tissue has significant trouble separating from the bone in some spots.",
       "The skin is loose on the muscle in some places and melded with it in others.",
@@ -69,7 +187,7 @@
       "Organs in the lower abdomen, mainly the kidneys and the reproductive organs, are absent.",
       "The heart makes an odd, swallowing sound on occasion as you work around it.",
       "You try pulling out some teeth to better analyze them, only to find they've fused with the jawbone.",
-      "Inside the chest is some unfamiliar organ, a frankenstein of nearby tissues and black veins.",
+      "Inside the chest is some unfamiliar organ, a Frankenstein of nearby tissues and black veins.",
       "Inside the chest is some unfamiliar organ, fatty and wrinkled like brain tissue.",
       "Your search nets you no explanation as to how the creature's black blood still circulates through it, and you come to the disturbing conclusion it moves on its own.",
       "The vestibular organs seem to be nonfunctional, but your question of how the creature balances itself is answered by an odd mass in the center of the brain, that you liken to a gyroscope.",
@@ -96,7 +214,7 @@
   },
   {
     "type": "snippet",
-    "category": "<zombie__humanoid_harvest_bone_general>",
+    "category": "<zombie_humanoid_harvest_bone_general>",
     "text": [
       "Removing its bone plates proves more arduous than you would have thought, requiring you to almost put your entire weight on your tool to pry them off.",
       "Black liquid bubbles in the places where you managed to remove its skeletal growths.",
@@ -169,12 +287,12 @@
     "text": [
       "The inner tissues are a mosaic of somewhat normal flesh and flesh interlaced with fibers of the armor.",
       "Separating what is flesh and what is synthetic is difficult, as some parts appear to be between the two.",
-      "Fibers of kevlar-like material spread through the body like a cobweb, originating from a tiny entry wound in the abdomen.",
+      "Fibers of Kevlar-like material spread through the body like a cobweb, originating from a tiny entry wound in the abdomen.",
       "You cut off some scraps of the uniform that were still adhered to the body, finding tendrils of flesh anchored into them.",
-      "Upon closer examination, some of the kevlar isn't kevlar - its off color and composition suggest it's the creature's flesh reformed to imitate it.",
+      "Upon closer examination, some of the Kevlar isn't Kevlar - its off color and composition suggest it's the creature's flesh reformed to imitate it.",
       "Some strands of the bulletproof material snake deep into the body like roots of an invading organism.",
       "Strong fibers run alongside the muscles in a way that you want to compare to marbling.",
-      "Under the skin, crushing against the ribcage, you find a thick growth of flesh and kevlar formed from a mutated diaphragm."
+      "Under the skin, crushing against the ribcage, you find a thick growth of flesh and Kevlar formed from a mutated diaphragm."
     ]
   },
   {
@@ -256,7 +374,7 @@
     "text": [
       "The cavities of this creature are filled with lethargic winged creatures hanging off tubes oozing a greyish milky substance.",
       "The corpse is inundated with smaller forms, increasing in complexity and size as you near its central cavity where they wait for their release in neat clusters.",
-      "The inside of this carcass ressembles more an industrial production line than anything vaguely natural.",
+      "The inside of this carcass resembles more an industrial production line than anything vaguely natural.",
       "You find several unfinished creatures inside the main cavity, you have a vague feeling something greater discarded them, founding them wanting.",
       "You are almost certain this zombie was pregnant before its undeath, the fetus within the womb having been twisted into the abomination it was carrying."
     ]
@@ -268,6 +386,15 @@
       "<zombie_humanoid_harvest_general>",
       "<zombie_humanoid_harvest_general_deeper>",
       "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<zombie_humanoid_headless_harvest>",
+    "text": [
+      "<zombie_humanoid_harvest_general>",
+      "<zombie_humanoid_harvest_headless_deeper>",
+      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_headless_deeper>"
     ]
   },
   {
@@ -462,7 +589,7 @@
     "text": [
       "<zombie_humanoid_harvest_general>",
       "<zombie_humanoid_harvest_mushroom_general>",
-      "<zombie_humanoid_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>",
       "<zombie_humanoid_harvest_mushroom_general>  <zombie_humanoid_harvest_general_deeper>"
     ]
   },
@@ -481,7 +608,7 @@
     "category": "<zombie_humanoid_moldy_bone_harvest>",
     "text": [
       "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_bone_general>",
-      "<zombie_humanoid_harvest_bone_general>  <zombie_humanoid_mushroom_harvest_general>",
+      "<zombie_humanoid_harvest_bone_general>  <zombie_humanoid_harvest_mushroom_general>",
       "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>",
       "<zombie_humanoid_harvest_bone_general>  <zombie_humanoid_harvest_general_deeper>"
     ]
@@ -503,7 +630,7 @@
       "<zombie_humanoid_harvest_general>  <zombie_harvest_pupating_general>",
       "<zombie_harvest_pupating_general>  <zombie_humanoid_harvest_shadow_general>",
       "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>",
-      "<zombie_humanoid_harvest_pupating_general>  <zombie_humanoid_harvest_general_deeper>"
+      "<zombie_harvest_pupating_general>  <zombie_humanoid_harvest_general_deeper>"
     ]
   },
   {
@@ -515,7 +642,7 @@
       "<zombie_harvest_pupating_general>",
       "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>",
       "<zombie_harvest_hulk_general>  <zombie_humanoid_harvest_general_deeper>",
-      "<zombie_harvest_humanoid_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>",
       "<zombie_harvest_hulk_general>  <zombie_harvest_pupating_general>"
     ]
   }

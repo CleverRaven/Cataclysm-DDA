@@ -86,23 +86,21 @@
     "color": "brown"
   },
   {
+    "//": "Our recipes have traditionally been standardized against sugar units of 5 mg. Refer also to the sugar_standard item group for more sugar-related items and their ratios to one another. Density is now accurate.",
     "type": "COMESTIBLE",
     "id": "sugar",
     "name": { "str_sp": "sugar" },
     "weight": "5 g",
     "color": "white",
-    "container": "box_small",
     "comestible_type": "FOOD",
     "symbol": "%",
     "description": "Sweet, sweet sugar.  Bad for your teeth and surprisingly not very tasty on its own.",
     "price": "5 cent",
     "price_postapoc": "4 cent",
-    "material": [ "powder", "junk" ],
-    "primary_material": "powder",
-    "volume": "3 ml",
+    "material": [ "sugar" ],
+    "volume": "6 ml",
     "calories": 19,
-    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
-    "//": "a tbsp is 4.2g of sugar, meaning the volume needed to be adjusted."
+    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ]
   },
   {
     "type": "COMESTIBLE",
@@ -142,8 +140,8 @@
     "color": "brown",
     "name": { "str_sp": "soy sauce" },
     "description": "Salty fermented soybean sauce.",
-    "price": 190,
-    "price_postapoc": 25,
+    "price": "1 USD 90 cent",
+    "price_postapoc": "25 cent",
     "weight": "24 g",
     "volume": "250 ml",
     "calories": 17,
@@ -159,7 +157,7 @@
   {
     "type": "COMESTIBLE",
     "id": "thyme",
-    "name": { "str": "thyme" },
+    "name": { "str_sp": "thyme" },
     "description": "A stalk of thyme.  Smells delicious.",
     "comestible_type": "FOOD",
     "calories": 9,
@@ -170,8 +168,8 @@
     "symbol": ",",
     "material": [ "veggy" ],
     "volume": "250 ml",
-    "price": 0,
-    "price_postapoc": 10
+    "price": "0 cent",
+    "price_postapoc": "10 cent"
   },
   {
     "id": "mustard_powder",
@@ -179,14 +177,15 @@
     "type": "COMESTIBLE",
     "name": { "str_sp": "mustard powder" },
     "description": "A fragrant yellow powder.  Not edible in this form.",
-    "color": "red"
+    "color": "yellow"
   },
   {
     "id": "artificial_sweetener",
     "copy-from": "sugar",
     "type": "COMESTIBLE",
-    "name": { "str": "artificial sweetener" },
+    "name": { "str_sp": "artificial sweetener" },
     "description": "Sweet, sweet sugar?  No, it is bitter-sweet artificial sweetener.  No calories, no worries.",
+    "material": [ "powder" ],
     "calories": 0
   }
 ]

@@ -26,7 +26,6 @@
 #include "weather.h"
 #include "weather_type.h"
 #include "game.h"
-#include "type_id.h"
 #include "units.h"
 
 static const efftype_id effect_bleed( "bleed" );
@@ -92,7 +91,6 @@ static void test_monster_attack( const tripoint &target_offset, bool expect_atta
     // Trigger basic attack.
     CAPTURE( attacker_location );
     CAPTURE( target_location );
-    CAPTURE( fov_3d );
     CHECK( test_monster.sees( target_location ) == expect_vision );
     if( special_attack == nullptr ) {
         CHECK( test_monster.attack_at( target_location ) == expect_attack );
@@ -113,25 +111,32 @@ static void test_monster_attack( const tripoint &target_offset, bool expect_atta
 
 static void monster_attack_zlevel( const std::string &title, const tripoint &offset,
                                    const std::string &monster_ter, const std::string &target_ter,
-                                   bool expected )
+                                   const bool ledge, const bool expected_vertical, const bool expected_adjacent )
 {
     clear_map();
     map &here = get_map();
-    restore_on_out_of_scope<bool> restore_fov_3d( fov_3d );
-    fov_3d = GENERATE( false, true );
-    override_option opt( "FOV_3D", fov_3d ? "true" : "false" );
 
-    std::stringstream section_name;
-    section_name << title;
-    section_name << " " << ( fov_3d ? "3d" : "2d" );
+    SECTION( title ) {
+        const ter_id attacker_ledge = offset.z > 0 ? ter_id( "t_floor" ) : ter_id( "t_open_air" );
+        const ter_id target_ledge = offset.z > 0 ? ter_id( "t_open_air" ) : ter_id( "t_floor" );
 
-    SECTION( section_name.str() ) {
+        const tripoint target_location = attacker_location + offset;
         here.ter_set( attacker_location, ter_id( monster_ter ) );
-        here.ter_set( attacker_location + offset, ter_id( target_ter ) );
-        test_monster_attack( offset, expected && fov_3d, fov_3d );
+        here.ter_set( target_location, ter_id( target_ter ) );
+        if( ledge ) {
+            for( const tripoint &more_offset : eight_horizontal_neighbors ) {
+                here.ter_set( attacker_location + more_offset, attacker_ledge );
+                here.ter_set( target_location + more_offset, target_ledge );
+            }
+        }
+        test_monster_attack( offset, expected_vertical, expected_vertical );
+        if( ledge ) {
+            here.ter_set( target_location, target_ledge );
+        }
+
         for( const tripoint &more_offset : eight_horizontal_neighbors ) {
             here.ter_set( attacker_location + offset + more_offset, ter_id( "t_floor" ) );
-            test_monster_attack( offset + more_offset, false, expected && fov_3d );
+            test_monster_attack( offset + more_offset, false, expected_adjacent );
         }
     }
 }
@@ -167,13 +172,19 @@ TEST_CASE( "monster_attack", "[vision][reachability]" )
         test_monster_attack( { -2, -2, 0 }, false, true );
     }
 
-    monster_attack_zlevel( "attack_up_stairs", tripoint_above, "t_stairs_up", "t_stairs_down", true );
-    monster_attack_zlevel( "attack_down_stairs", tripoint_below, "t_stairs_down", "t_stairs_up", true );
-    monster_attack_zlevel( "attack through ceiling", tripoint_above, "t_floor", "t_floor", false );
-    monster_attack_zlevel( "attack through floor", tripoint_below, "t_floor", "t_floor", false );
+    monster_attack_zlevel( "attack_up_stairs", tripoint_above, "t_stairs_up", "t_stairs_down",
+                           false, true, true );
+    monster_attack_zlevel( "attack_down_stairs", tripoint_below, "t_stairs_down", "t_stairs_up",
+                           false, true, true );
+    monster_attack_zlevel( "attack through ceiling", tripoint_above, "t_floor", "t_floor",
+                           false, false, false );
+    monster_attack_zlevel( "attack through floor", tripoint_below, "t_floor", "t_floor",
+                           false, false, false );
 
-    monster_attack_zlevel( "attack up ledge", tripoint_above, "t_floor", "t_floor", false );
-    monster_attack_zlevel( "attack down ledge", tripoint_below, "t_floor", "t_floor", false );
+    monster_attack_zlevel( "attack up ledge", tripoint_above, "t_floor", "t_floor",
+                           true, false, true );
+    monster_attack_zlevel( "attack down ledge", tripoint_below, "t_floor", "t_floor",
+                           true, false, true );
 }
 
 TEST_CASE( "monster_special_attack", "[vision][reachability]" )
@@ -182,15 +193,12 @@ TEST_CASE( "monster_special_attack", "[vision][reachability]" )
     restore_on_out_of_scope<time_point> restore_calendar_turn( calendar::turn );
     calendar::turn = daylight_time( calendar::turn ) + 2_hours;
     scoped_weather_override weather_clear( WEATHER_CLEAR );
-    restore_on_out_of_scope<bool> restore_fov_3d( fov_3d );
-    fov_3d = GENERATE( false, true );
-    override_option opt( "FOV_3D", fov_3d ? "true" : "false" );
     get_map().ter_set( attacker_location + tripoint{ 2, 0, 0 }, ter_id( "t_wall" ) );
     get_map().ter_set( attacker_location + tripoint{ 2, 0, 1 }, ter_id( "t_floor" ) );
     get_map().ter_set( attacker_location + tripoint_east, ter_id( "t_wall" ) );
     get_map().ter_set( attacker_location + tripoint{ 1, 0, 1 }, ter_id( "t_floor" ) );
     // Adjacent should be visible if 3d vision is on, but it's too close to attack.
-    //test_monster_attack( { 1, 0, 1 },  false, fov_3d, mattack::stretch_attack );
+    // test_monster_attack( { 1, 0, 1 }, false, true, mattack::stretch_attack );
     // At a distance of 2, the ledge should block los and line of attack.
     test_monster_attack( { 2, 0, 1 },  false, false, mattack::stretch_attack );
 }

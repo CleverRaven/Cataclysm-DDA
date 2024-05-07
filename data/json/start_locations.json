@@ -130,7 +130,6 @@
       "house_03",
       "house_04",
       "house_05",
-      "house_05ab",
       "house_06",
       "house_07",
       "house_08",
@@ -348,6 +347,12 @@
     "id": "sloc_cabin",
     "name": "Cabin",
     "terrain": [ "cabin" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_liam_cabin",
+    "name": "Liam's Cabin",
+    "terrain": [ "cabin_liam" ]
   },
   {
     "type": "start_location",
@@ -798,12 +803,26 @@
     "type": "start_location",
     "id": "sloc_middle_of_nowhere",
     "name": "Middle of Nowhere",
-    "terrain": [ "state_park_1_0", "sewage_treatment_1_0_0", "pwr_sub_s", "derelict_property", "ws_regional_dump_2_0", "waiting_area" ]
+    "terrain": [
+      "state_park_1_0",
+      "sewage_treatment_1_0_0",
+      "pwr_sub_s",
+      { "om_terrain": "derelict_property", "om_terrain_match_type": "TYPE" },
+      "ws_regional_dump_2_0",
+      "waiting_area"
+    ]
   },
   {
     "type": "start_location",
     "id": "sloc_sewer",
     "name": "Sewer",
     "terrain": [ "sewer" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_nesw_manhole",
+    "name": "Intersection",
+    "terrain": [ { "om_terrain": "road_nesw_manhole", "om_terrain_match_type": "PREFIX" } ],
+    "flags": [ "ALLOW_OUTSIDE" ]
   }
 ]

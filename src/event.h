@@ -4,16 +4,15 @@
 
 #include <array>
 #include <cstddef>
-#include <cstdlib>
 #include <iosfwd>
 #include <map>
-#include <type_traits>
+#include <string>
 #include <unordered_map>
 #include <utility>
+#include <vector>
 
 #include "calendar.h"
 #include "cata_variant.h"
-#include "debug.h"
 
 template <typename E> struct enum_traits;
 
@@ -59,6 +58,8 @@ enum class event_type : int {
     character_starts_activity,
     character_takes_damage,
     character_triggers_trap,
+    character_attempt_to_fall_asleep,
+    character_falls_asleep,
     character_wakes_up,
     character_wields_item,
     character_wears_item,
@@ -89,6 +90,7 @@ enum class event_type : int {
     fuel_tank_explodes,
     gains_addiction,
     gains_mutation,
+    gains_proficiency,
     gains_skill_level,
     game_avatar_death,
     game_avatar_new,
@@ -101,6 +103,7 @@ enum class event_type : int {
     installs_faulty_cbm,
     learns_martial_art,
     loses_addiction,
+    loses_mutation,
     npc_becomes_hostile,
     opens_portal,
     opens_spellbook,
@@ -122,6 +125,7 @@ enum class event_type : int {
     uses_debug_menu,
     u_var_changed,
     vehicle_moves,
+    character_butchered_corpse,
     num_event_types // last
 };
 
@@ -182,7 +186,7 @@ struct event_spec_character_item {
     };
 };
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 97,
+static_assert( static_cast<int>( event_type::num_event_types ) == 102,
                "This static_assert is to remind you to add a specialization for your new "
                "event_type below" );
 
@@ -342,9 +346,10 @@ struct event_spec<event_type::character_heals_damage> {
 
 template<>
 struct event_spec<event_type::character_kills_monster> {
-    static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 3> fields = {{
             { "killer", cata_variant_type::character_id },
             { "victim_type", cata_variant_type::mtype_id },
+            { "exp", cata_variant_type::int_},
         }
     };
 };
@@ -370,8 +375,9 @@ struct event_spec<event_type::character_learns_spell> {
 
 template<>
 struct event_spec<event_type::character_loses_effect> {
-    static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 3> fields = {{
             { "character", cata_variant_type::character_id },
+            { "bodypart", cata_variant_type::body_part},
             { "effect", cata_variant_type::efftype_id },
         }
     };
@@ -463,6 +469,33 @@ template<>
 struct event_spec<event_type::character_wakes_up> {
     static constexpr std::array<std::pair<const char *, cata_variant_type>, 1> fields = {{
             { "character", cata_variant_type::character_id },
+        }
+    };
+};
+
+template<>
+struct event_spec<event_type::character_falls_asleep> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
+            { "character", cata_variant_type::character_id },
+            { "duration", cata_variant_type::int_ },
+        }
+    };
+};
+
+template<>
+struct event_spec<event_type::character_attempt_to_fall_asleep> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 1> fields = {{
+            { "character", cata_variant_type::character_id },
+        }
+    };
+};
+
+template<>
+struct event_spec<event_type::character_butchered_corpse> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 3> fields = { {
+            { "character", cata_variant_type::character_id },
+            { "monster_id", cata_variant_type::mtype_id },
+            { "butcher_type", cata_variant_type::string },
         }
     };
 };
@@ -603,6 +636,15 @@ struct event_spec<event_type::gains_mutation> {
 };
 
 template<>
+struct event_spec<event_type::gains_proficiency> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
+            { "character", cata_variant_type::character_id },
+            { "proficiency", cata_variant_type::proficiency_id },
+        }
+    };
+};
+
+template<>
 struct event_spec<event_type::gains_skill_level> {
     static constexpr std::array<std::pair<const char *, cata_variant_type>, 3> fields = {{
             { "character", cata_variant_type::character_id },
@@ -714,6 +756,14 @@ struct event_spec<event_type::loses_addiction> {
         }
     };
 };
+template<>
+struct event_spec<event_type::loses_mutation> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = { {
+            { "character", cata_variant_type::character_id },
+            { "trait", cata_variant_type::trait_id },
+        }
+    };
+};
 
 template<>
 struct event_spec<event_type::npc_becomes_hostile> {
@@ -761,10 +811,11 @@ struct event_spec<event_type::player_gets_achievement> {
 
 template<>
 struct event_spec<event_type::player_levels_spell> {
-    static constexpr std::array<std::pair<const char *, cata_variant_type>, 3> fields = {{
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 4> fields = {{
             { "character", cata_variant_type::character_id },
             { "spell", cata_variant_type::spell_id },
             { "new_level", cata_variant_type::int_ },
+            { "school", cata_variant_type::trait_id },
         }
     };
 };
@@ -879,6 +930,7 @@ class event
             , time_( time )
             , data_( std::move( data ) )
         {}
+        event() : type_( event_type::num_event_types ) {}
 
         // Call this to construct an event in a type-safe manner.  It will
         // verify that the types you pass match the expected types for the
@@ -888,7 +940,7 @@ class event
             using Spec = event_detail::event_spec<Type>;
             // Using is_empty mostly just to verify that the type is defined at
             // all, but it so happens that it ought to be empty too.
-            static_assert( std::is_empty<Spec>::value,
+            static_assert( std::is_empty_v<Spec>,
                            "spec for this event type must be defined and empty" );
             static_assert( sizeof...( Args ) == Spec::fields.size(),
                            "wrong number of arguments for event type" );
@@ -897,6 +949,10 @@ class event
                    Type, std::make_index_sequence<sizeof...( Args )>
                    > ()( calendar::turn, std::forward<Args>( args )... );
         }
+
+        // Call this to construct an event from a runtime-defined type and string arguments.
+        // All arguments will be converted to the respective types with the same index in the event spec
+        static event make_dyn( event_type type, std::vector<std::string> &args );
 
         using fields_type = std::unordered_map<std::string, cata_variant_type>;
         static fields_type get_fields( event_type );

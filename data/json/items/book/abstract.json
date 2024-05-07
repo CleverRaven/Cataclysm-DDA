@@ -31,8 +31,8 @@
     "weight": "1000 g",
     "volume": "1100 ml",
     "longest_side": "23 cm",
-    "price": 1999,
-    "price_postapoc": 1500,
+    "price": "19 USD 99 cent",
+    "price_postapoc": "15 USD",
     "material": [ "paper", "cardboard" ],
     "copy-from": "book_fict_tpl",
     "melee_damage": { "bash": 2 }
@@ -45,8 +45,8 @@
     "weight": "425 g",
     "volume": "662 ml",
     "longest_side": "18 cm",
-    "price": 799,
-    "price_postapoc": 1500,
+    "price": "7 USD 99 cent",
+    "price_postapoc": "15 USD",
     "material": [ "paper" ],
     "flags": [  ],
     "copy-from": "book_fict_tpl",
@@ -59,8 +59,8 @@
     "description": "template for hard bound nonfiction book",
     "weight": "1 kg",
     "volume": "1100 ml",
-    "price": 1450,
-    "price_postapoc": 2900,
+    "price": "14 USD 50 cent",
+    "price_postapoc": "29 USD",
     "material": [ "paper", "cardboard" ],
     "chapters": 18,
     "copy-from": "book_nonf_tpl",
@@ -73,8 +73,8 @@
     "description": "template for a paperback nonfiction book",
     "weight": "460 g",
     "volume": "500 ml",
-    "price": 990,
-    "price_postapoc": 2700,
+    "price": "9 USD 90 cent",
+    "price_postapoc": "27 USD",
     "material": [ "paper" ],
     "chapters": 18,
     "copy-from": "book_nonf_tpl",
@@ -138,8 +138,8 @@
     "name": { "str": "dodge skillbook abstract" },
     "description": "An ordinary book.  Or is it?  It is.",
     "weight": "600 g",
-    "price": 1000,
-    "price_postapoc": 200,
+    "price": "10 USD",
+    "price_postapoc": "2 USD",
     "skill": "dodge",
     "intelligence": 4,
     "time": "10 m",
@@ -154,7 +154,7 @@
     "fun": 1,
     "time": "36 m",
     "copy-from": "book_nonf_hard_tpl",
-    "relative": { "price": 500, "price_postapoc": -2500, "intelligence": 3 }
+    "relative": { "price": "5 USD", "price_postapoc": -2500, "intelligence": 3 }
   },
   {
     "abstract": "book_nonf_soft_phil_tpl",
@@ -164,7 +164,7 @@
     "fun": 1,
     "time": "36 m",
     "copy-from": "book_nonf_soft_tpl",
-    "relative": { "price": 400, "price_postapoc": -2600, "intelligence": 3 }
+    "relative": { "price": "4 USD", "price_postapoc": -2600, "intelligence": 3 }
   },
   {
     "abstract": "book_pulp_newage_tpl",
@@ -173,7 +173,7 @@
     "description": "This is a template for pulp new-age books.  They're theoretically nonfiction.",
     "copy-from": "book_fict_soft_pulp_tpl",
     "weight": "250 g",
-    "relative": { "chapters": -6, "price": 2500, "price_postapoc": -100 }
+    "relative": { "chapters": -6, "price": "25 USD", "price_postapoc": -100 }
   },
   {
     "abstract": "book_nonf_hard_sports_tpl",
@@ -214,8 +214,8 @@
     "description": "An ordinary paperback book.  Or is it?  Is that a glimmer of higher truth?",
     "weight": "371 g",
     "volume": "700 ml",
-    "price": 750,
-    "price_postapoc": 2900,
+    "price": "7 USD 50 cent",
+    "price_postapoc": "29 USD",
     "material": [ "paper" ],
     "symbol": "?",
     "looks_like": "story_book",
@@ -296,7 +296,7 @@
     "description": "template for mass produced satirical fiction",
     "copy-from": "book_fict_soft_tpl",
     "time": "20 m",
-    "relative": { "intelligence": 3, "price": 249 }
+    "relative": { "intelligence": 3, "price": "2 USD 49 cent" }
   },
   {
     "abstract": "book_nonf_zine",
@@ -306,8 +306,8 @@
     "intelligence": 4,
     "weight": "60 g",
     "volume": "250 ml",
-    "price": 400,
-    "price_postapoc": 100,
+    "price": "4 USD",
+    "price_postapoc": "1 USD",
     "material": [ "paper" ],
     "symbol": "?",
     "color": "pink",
@@ -359,7 +359,7 @@
     "name": { "str": "martial art manual" },
     "weight": "150 g",
     "volume": "250 ml",
-    "price": 20000,
+    "price": "200 USD",
     "material": [ "paper" ],
     "symbol": "?",
     "color": "green",
@@ -367,35 +367,5 @@
     "use_action": [ "MA_MANUAL" ],
     "intelligence": 9,
     "time": "10 m"
-  },
-  {
-    "type": "GENERIC",
-    "id": "book_ruined",
-    "category": "books",
-    "symbol": ",",
-    "color": "white",
-    "name": { "str": "ruined book" },
-    "description": "A ruined book.  Someone has thoroughly ruined this book by ripping pages out and covering the remainder in… is that paint?",
-    "price": 0,
-    "price_postapoc": 0,
-    "material": [ "paper" ],
-    "flags": [ "TRADER_AVOID" ],
-    "weight": "1587 g",
-    "volume": "1500 ml"
-  },
-  {
-    "type": "GENERIC",
-    "id": "book_pieces",
-    "category": "books",
-    "symbol": ",",
-    "color": "white",
-    "name": { "str_sp": "pieces of books" },
-    "description": "Scraps of paper that used to be part of a book.  Completely useless now.",
-    "price": 0,
-    "price_postapoc": 0,
-    "material": [ "paper" ],
-    "flags": [ "TRADER_AVOID" ],
-    "weight": "120 g",
-    "volume": "200 ml"
   }
 ]

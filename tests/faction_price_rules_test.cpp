@@ -1,6 +1,7 @@
 #include "avatar.h"
 #include "cata_catch.h"
 #include "itype.h"
+#include "map_selector.h"
 #include "npc.h"
 #include "npctrade.h"
 #include "player_helpers.h"
@@ -28,7 +29,7 @@ TEST_CASE( "basic_price_check", "[npc][trade]" )
         seller = &u;
     }
 
-    item m4( "m4_carbine" );
+    item m4( "modular_m4_carbine" );
     item mag( m4.magazine_default() );
     int const ammo_amount = mag.remaining_ammo_capacity();
     item ammo( mag.ammo_default(), calendar::turn, ammo_amount );
@@ -41,12 +42,12 @@ TEST_CASE( "basic_price_check", "[npc][trade]" )
                                adjusted_price( &ammo, ammo_amount, *buyer, *seller ) +
                                adjusted_price( &backpack, 1, *buyer, *seller );
 
-    mag.put_in( ammo, item_pocket::pocket_type::MAGAZINE );
-    m4.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
-    backpack.put_in( m4, item_pocket::pocket_type::CONTAINER );
+    mag.put_in( ammo, pocket_type::MAGAZINE );
+    m4.put_in( mag, pocket_type::MAGAZINE_WELL );
+    backpack.put_in( m4, pocket_type::CONTAINER );
     if( !u_buy ) {
         REQUIRE( !guy.wants_to_buy( bomba ) );
-        backpack.put_in( bomba, item_pocket::pocket_type::CONTAINER );
+        backpack.put_in( bomba, pocket_type::CONTAINER );
     }
 
     trade_selector::entry_t bck_entry{

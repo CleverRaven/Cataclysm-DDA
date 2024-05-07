@@ -1,0 +1,33 @@
+[
+  {
+    "type": "snippet",
+    "category": "<abstract_art_type>",
+    "text": [
+      { "id": "abstract_art_type_0001", "text": "a <random_color> <random_shape_any> on a <random_color> background" },
+      {
+        "id": "abstract_art_type_0002",
+        "text": "a series <random_color> <random_shape_any>s which connect together on a <random_color> background"
+      },
+      {
+        "id": "abstract_art_type_0003",
+        "text": "a multitude of <random_color> <random_shape_any>s which form a gradient pattern, covering the canvas"
+      },
+      {
+        "id": "abstract_art_type_0004",
+        "text": "a <random_color> <random_shape_any> with a <random_color> <random_shape_any> running through it, on a <random_color> background"
+      },
+      {
+        "id": "abstract_art_type_0005",
+        "text": "a <random_color> <random_shape_any> with a <random_color> <random_shape_any> behind it, on a <random_color> background"
+      },
+      {
+        "id": "abstract_art_type_0006",
+        "text": "a <random_color> <random_shape_any> with a <random_color> <random_shape_any> in front of it, on a <random_color> background"
+      },
+      {
+        "id": "abstract_art_type_0007",
+        "text": "a series of <random_color> squiggling lines on a <random_color> background"
+      }
+    ]
+  }
+]

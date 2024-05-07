@@ -2,13 +2,14 @@
 #include <vector>
 
 #include "activity_actor_definitions.h"
+#include "avatar.h"
 #include "cata_catch.h"
 #include "clzones.h"
 #include "item.h"
 #include "item_category.h"
-#include "item_pocket.h"
 #include "map_helpers.h"
 #include "player_helpers.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "ret_val.h"
 #include "type_id.h"
@@ -189,7 +190,7 @@ TEST_CASE( "zone_sorting_comestibles_", "[zones][items][food][activities]" )
 
             WHEN( "sorting within an unsealed container" ) {
                 item container( "test_watertight_open_sealed_container_250ml" );
-                REQUIRE( container.put_in( nonperishable_food, item_pocket::pocket_type::CONTAINER ).success() );
+                REQUIRE( container.put_in( nonperishable_food, pocket_type::CONTAINER ).success() );
                 REQUIRE( !container.any_pockets_sealed() );
 
                 THEN( "should put in the food zone" ) {
@@ -199,7 +200,7 @@ TEST_CASE( "zone_sorting_comestibles_", "[zones][items][food][activities]" )
 
             WHEN( "sorting within a sealed container" ) {
                 item container( "test_watertight_open_sealed_container_250ml" );
-                REQUIRE( container.put_in( nonperishable_food, item_pocket::pocket_type::CONTAINER ).success() );
+                REQUIRE( container.put_in( nonperishable_food, pocket_type::CONTAINER ).success() );
                 REQUIRE( container.seal() );
                 REQUIRE( container.get_all_contained_pockets().front()->spoil_multiplier() ==
                          0.0f );
@@ -223,7 +224,7 @@ TEST_CASE( "zone_sorting_comestibles_", "[zones][items][food][activities]" )
 
             WHEN( "sorting within an unsealed container" ) {
                 item container( "test_watertight_open_sealed_container_250ml" );
-                REQUIRE( container.put_in( nonperishable_drink, item_pocket::pocket_type::CONTAINER ).success() );
+                REQUIRE( container.put_in( nonperishable_drink, pocket_type::CONTAINER ).success() );
                 REQUIRE( !container.any_pockets_sealed() );
 
                 THEN( "should put in the drink zone" ) {
@@ -233,7 +234,7 @@ TEST_CASE( "zone_sorting_comestibles_", "[zones][items][food][activities]" )
 
             WHEN( "sorting within a sealed container" ) {
                 item container( "test_watertight_open_sealed_container_250ml" );
-                REQUIRE( container.put_in( nonperishable_drink, item_pocket::pocket_type::CONTAINER ).success() );
+                REQUIRE( container.put_in( nonperishable_drink, pocket_type::CONTAINER ).success() );
                 REQUIRE( container.seal() );
                 REQUIRE( container.get_all_contained_pockets().front()->spoil_multiplier() ==
                          0.0f );
@@ -257,7 +258,7 @@ TEST_CASE( "zone_sorting_comestibles_", "[zones][items][food][activities]" )
 
             WHEN( "sorting within an unsealed container" ) {
                 item container( "test_watertight_open_sealed_container_250ml" );
-                REQUIRE( container.put_in( perishable_food, item_pocket::pocket_type::CONTAINER ).success() );
+                REQUIRE( container.put_in( perishable_food, pocket_type::CONTAINER ).success() );
                 REQUIRE( !container.any_pockets_sealed() );
 
                 THEN( "should put in the perishable food zone" ) {
@@ -267,7 +268,7 @@ TEST_CASE( "zone_sorting_comestibles_", "[zones][items][food][activities]" )
 
             WHEN( "sorting within a sealed container" ) {
                 item container( "test_watertight_open_sealed_container_250ml" );
-                REQUIRE( container.put_in( perishable_food, item_pocket::pocket_type::CONTAINER ).success() );
+                REQUIRE( container.put_in( perishable_food, pocket_type::CONTAINER ).success() );
                 REQUIRE( container.seal() );
                 REQUIRE( container.get_all_contained_pockets().front()->spoil_multiplier() ==
                          0.0f );
@@ -291,7 +292,7 @@ TEST_CASE( "zone_sorting_comestibles_", "[zones][items][food][activities]" )
 
             WHEN( "sorting within an unsealed container" ) {
                 item container( "test_watertight_open_sealed_container_250ml" );
-                REQUIRE( container.put_in( perishable_drink, item_pocket::pocket_type::CONTAINER ).success() );
+                REQUIRE( container.put_in( perishable_drink, pocket_type::CONTAINER ).success() );
                 REQUIRE( !container.any_pockets_sealed() );
 
                 THEN( "should put in the perishable drink zone" ) {
@@ -301,7 +302,7 @@ TEST_CASE( "zone_sorting_comestibles_", "[zones][items][food][activities]" )
 
             WHEN( "sorting within a sealed container" ) {
                 item container( "test_watertight_open_sealed_container_250ml" );
-                REQUIRE( container.put_in( perishable_drink, item_pocket::pocket_type::CONTAINER ).success() );
+                REQUIRE( container.put_in( perishable_drink, pocket_type::CONTAINER ).success() );
                 REQUIRE( container.seal() );
                 REQUIRE( container.get_all_contained_pockets().front()->spoil_multiplier() ==
                          0.0f );

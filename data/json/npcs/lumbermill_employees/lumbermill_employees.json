@@ -27,13 +27,14 @@
     "common": false,
     "job_description": "I felled trees before the apocalypse.  Zombies shouldn't be as tough.",
     "traits": [
-      { "group": "BG_survival_story_RURAL" },
+      { "group": "BG_survival_story_LUMBERMILL" },
       { "group": "NPC_starting_traits" },
       { "group": "Appearance_demographics" },
       { "trait": "NO_BASH" },
       { "trait": "RETURN_TO_START_POS" },
       { "trait": "GETS_RANDOM_MISSION_NOMOVE" }
     ],
+    "worn_override": "NC_LUMBERJACK_worn",
     "weapon_override": "NC_LUMBERJACK_tools",
     "bonus_str": { "rng": [ 1, 2 ] },
     "skills": [
@@ -50,13 +51,14 @@
     "name": { "str": "Lumberjack" },
     "job_description": "I felled trees before the apocalypse.  Zombies shouldn't be as tough.",
     "traits": [
-      { "group": "BG_survival_story_RURAL" },
+      { "group": "BG_survival_story_LUMBERMILL" },
       { "group": "NPC_starting_traits" },
       { "group": "Appearance_demographics" },
       { "trait": "IGNORE_SOUND" },
       { "trait": "NO_BASH" },
       { "trait": "RETURN_TO_START_POS" }
     ],
+    "worn_override": "NC_LUMBERJACK_worn",
     "weapon_override": "NC_LUMBERJACK_tools",
     "bonus_str": { "rng": [ 1, 2 ] },
     "common": false,
@@ -66,7 +68,7 @@
       {
         "group": "NC_LUMBERJACK_tools",
         "rigid": true,
-        "condition": { "compare_num": [ { "npc_val": "var", "var_name": "NEVER" }, "==", { "const": 1 } ] },
+        "condition": { "math": [ "n_NEVER", "==", "1" ] },
         "refusal": "<npcname> will never sell this"
       }
     ],
@@ -83,10 +85,60 @@
     "id": "NC_LUMBERJACK_tools",
     "subtype": "distribution",
     "entries": [
-      { "item": "ax", "prob": 70 },
-      { "item": "saw", "prob": 10 },
-      { "prob": 10, "group": "can_beans_can_medium_2" },
-      { "item": "chainsaw_off", "prob": 10 }
+      { "item": "ax", "damage": [ 0, 2 ], "prob": 70 },
+      { "item": "hatchet", "damage": [ 0, 2 ], "prob": 30 },
+      { "item": "saw", "damage": [ 0, 2 ], "prob": 10 },
+      { "item": "chainsaw_off", "damage": [ 0, 2 ], "prob": 25, "charges": [ 250, 500 ] },
+      { "item": "elec_chainsaw_off", "damage": [ 0, 2 ], "prob": 25, "charges": [ 250, 500 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_LUMBERJACK_worn",
+    "subtype": "collection",
+    "entries": [
+      { "distribution": [ { "group": "clothing_work_boots" }, { "item": "boots_combat" }, { "item": "boots_denim" } ] },
+      {
+        "distribution": [
+          { "item": "hat_hard" },
+          { "group": "hat_hard_modified" },
+          { "item": "hat_hard_hooded" },
+          { "group": "hat_hard_hooded_modified" },
+          { "item": "hat_ball" }
+        ],
+        "prob": 70
+      },
+      {
+        "distribution": [ { "item": "gloves_leather" }, { "item": "gloves_work" }, { "item": "gloves_cut_resistant" } ],
+        "prob": 70
+      },
+      { "distribution": [ { "group": "clothing_glasses" }, { "item": "glasses_safety" } ], "prob": 70 },
+      { "group": "clothing_watch", "prob": 70 },
+      { "item": "tool_belt", "prob": 60 },
+      { "group": "underwear" },
+      { "group": "socks_unisex" },
+      {
+        "distribution": [
+          { "item": "apron_cut_resistant" },
+          { "item": "apron_leather" },
+          { "item": "chaps_cut_resistant" },
+          { "item": "chaps_leather" }
+        ],
+        "prob": 60
+      },
+      {
+        "distribution": [
+          {
+            "collection": [
+              { "distribution": [ { "group": "clothing_work_pants" }, { "item": "pants_cargo" }, { "item": "jeans" } ] },
+              { "group": "clothing_work_torso" }
+            ],
+            "prob": 80
+          },
+          { "item": "technician_coveralls", "prob": 15 },
+          { "item": "technician_coveralls_h", "prob": 5 }
+        ]
+      }
     ]
   }
 ]

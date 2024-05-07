@@ -20,15 +20,11 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Maria",
     "dynamic_line": {
-      "u_has_var": "godco_notalk_to_u",
-      "type": "dialogue",
-      "context": "godco",
+      "u_has_var": "dialogue_godco_godco_notalk_to_u",
       "value": "yes",
       "yes": "Ahh!  What the <swear> are you?  Get the <swear> away from me!",
       "no": {
-        "npc_has_var": "u_met_godco_maria",
-        "type": "general",
-        "context": "meeting",
+        "npc_has_var": "general_meeting_u_met_godco_maria",
         "value": "yes",
         "yes": [ "Hey <name_g>!  Nice to see you again!", "Hey <u_name>!  Nice to see you again!" ],
         "no": "I don't think I've met you before, have I?  I'm Maria Serrano, it's nice to see an new face."
@@ -37,11 +33,11 @@
     "responses": [
       {
         "text": "It's a pleasure to meet you, Maria.",
-        "effect": { "npc_add_var": "u_met_godco_maria", "type": "general", "context": "meeting", "value": "yes" },
+        "effect": { "npc_add_var": "general_meeting_u_met_godco_maria", "value": "yes" },
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "u_met_godco_maria", "type": "general", "context": "meeting", "value": "yes" } },
-            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+            { "not": { "npc_has_var": "general_meeting_u_met_godco_maria", "value": "yes" } },
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
         "topic": "TALK_GODCO_Maria_Feeling"
@@ -50,20 +46,20 @@
         "text": "Hey Maria.  What's up?",
         "condition": {
           "and": [
-            { "npc_has_var": "u_met_godco_maria", "type": "general", "context": "meeting", "value": "yes" },
-            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+            { "npc_has_var": "general_meeting_u_met_godco_maria", "value": "yes" },
+            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
           ]
         },
         "topic": "TALK_GODCO_Maria_2"
       },
       {
         "text": "Hey Maria.  I can't stay to talk right now.",
-        "condition": { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } },
+        "condition": { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } },
         "topic": "TALK_DONE"
       },
       {
         "text": "Alright, alright, chill the <swear> out, I'm leaving!",
-        "condition": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" },
+        "condition": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" },
         "topic": "TALK_DONE"
       }
     ]
@@ -76,12 +72,12 @@
       { "text": "Is there anything I can do for you?", "topic": "TALK_MISSION_LIST" },
       {
         "text": "Could you sew something for me?",
-        "condition": { "npc_has_var": "can_sew_for_u", "type": "general", "context": "trade", "value": "yes" },
+        "condition": { "npc_has_var": "general_trade_can_sew_for_u", "value": "yes" },
         "topic": "TALK_GODCO_Maria_Tailor_Something"
       },
       {
         "text": "How's my order going?",
-        "condition": { "npc_has_var": "can_sew_for_u", "type": "general", "context": "trade", "value": "yes" },
+        "condition": { "npc_has_var": "general_trade_can_sew_for_u", "value": "yes" },
         "topic": "TALK_GODCO_Maria_Retrieve_Order"
       },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -90,7 +86,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Maria_Story",
-    "dynamic_line": "I arrived a bit later than everyone else, I was at my studio when <the_cataclysm> came.  Had to dodge a big horde of <zombies> on my way out of town, totaled ny car, and hiked the rest of the way.",
+    "dynamic_line": "I arrived a bit later than everyone else, I was at my studio when <the_cataclysm> came.  Had to dodge a big horde of <zombies> on my way out of town, totaled my car, and hiked the rest of the way.",
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Maria_2" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -131,7 +127,7 @@
     "responses": [
       {
         "text": "Could you sew something for me?",
-        "effect": [ { "npc_add_var": "can_sew_for_u", "type": "general", "context": "trade", "value": "yes" } ],
+        "effect": [ { "npc_add_var": "general_trade_can_sew_for_u", "value": "yes" } ],
         "topic": "TALK_GODCO_Maria_Tailor_What"
       },
       { "text": "Let's talk about something else.", "topic": "TALK_GODCO_Maria_2" },
@@ -147,8 +143,8 @@
         "text": "I'll have a t-shirt.",
         "condition": { "u_has_items": { "item": "icon", "count": 4 } },
         "effect": [
-          { "npc_add_var": "u_want_tshirt", "type": "general", "context": "trade", "value": "yes" },
-          { "npc_add_var": "knitting", "type": "timer", "context": "trade", "time": true },
+          { "npc_add_var": "general_trade_u_want_tshirt", "value": "yes" },
+          { "math": [ "n_timer_trade_knitting", "=", "time('now')" ] },
           { "u_sell_item": "icon", "count": 4 }
         ],
         "topic": "TALK_GODCO_Maria_Tailor_Start"
@@ -157,8 +153,8 @@
         "text": "I'll have a pair of pants.",
         "condition": { "u_has_items": { "item": "icon", "count": 4 } },
         "effect": [
-          { "npc_add_var": "u_want_pants", "type": "general", "context": "trade", "value": "yes" },
-          { "npc_add_var": "knitting", "type": "timer", "context": "trade", "time": true },
+          { "npc_add_var": "general_trade_u_want_pants", "value": "yes" },
+          { "math": [ "n_timer_trade_knitting", "=", "time('now')" ] },
           { "u_sell_item": "icon", "count": 4 }
         ],
         "topic": "TALK_GODCO_Maria_Tailor_Start"
@@ -167,8 +163,8 @@
         "text": "I'll have a jacket.",
         "condition": { "u_has_items": { "item": "icon", "count": 4 } },
         "effect": [
-          { "npc_add_var": "u_want_jacket", "type": "general", "context": "trade", "value": "yes" },
-          { "npc_add_var": "knitting", "type": "timer", "context": "trade", "time": true },
+          { "npc_add_var": "general_trade_u_want_jacket", "value": "yes" },
+          { "math": [ "n_timer_trade_knitting", "=", "time('now')" ] },
           { "u_sell_item": "icon", "count": 4 }
         ],
         "topic": "TALK_GODCO_Maria_Tailor_Start"
@@ -177,8 +173,8 @@
         "text": "I'll have a dress.",
         "condition": { "u_has_items": { "item": "icon", "count": 4 } },
         "effect": [
-          { "npc_add_var": "u_want_dress", "type": "general", "context": "trade", "value": "yes" },
-          { "npc_add_var": "knitting", "type": "timer", "context": "trade", "time": true },
+          { "npc_add_var": "general_trade_u_want_dress", "value": "yes" },
+          { "math": [ "n_timer_trade_knitting", "=", "time('now')" ] },
           { "u_sell_item": "icon", "count": 4 }
         ],
         "topic": "TALK_GODCO_Maria_Tailor_Start"
@@ -187,8 +183,8 @@
         "text": "I'll have a duster.",
         "condition": { "u_has_items": { "item": "icon", "count": 6 } },
         "effect": [
-          { "npc_add_var": "u_want_duster", "type": "general", "context": "trade", "value": "yes" },
-          { "npc_add_var": "knitting", "type": "timer", "context": "trade", "time": true },
+          { "npc_add_var": "general_trade_u_want_duster", "value": "yes" },
+          { "math": [ "n_timer_trade_knitting", "=", "time('now')" ] },
           { "u_sell_item": "icon", "count": 6 }
         ],
         "topic": "TALK_GODCO_Maria_Tailor_Start"
@@ -197,8 +193,8 @@
         "text": "I'll have a trench coat.",
         "condition": { "u_has_items": { "item": "icon", "count": 6 } },
         "effect": [
-          { "npc_add_var": "u_want_trenchcoat", "type": "general", "context": "trade", "value": "yes" },
-          { "npc_add_var": "knitting", "type": "timer", "context": "trade", "time": true },
+          { "npc_add_var": "general_trade_u_want_trenchcoat", "value": "yes" },
+          { "math": [ "n_timer_trade_knitting", "=", "time('now')" ] },
           { "u_sell_item": "icon", "count": 6 }
         ],
         "topic": "TALK_GODCO_Maria_Tailor_Start"
@@ -207,8 +203,8 @@
         "text": "I'll have a backpack.",
         "condition": { "u_has_items": { "item": "icon", "count": 6 } },
         "effect": [
-          { "npc_add_var": "u_want_backpack", "type": "general", "context": "trade", "value": "yes" },
-          { "npc_add_var": "knitting", "type": "timer", "context": "trade", "time": true },
+          { "npc_add_var": "general_trade_u_want_backpack", "value": "yes" },
+          { "math": [ "n_timer_trade_knitting", "=", "time('now')" ] },
           { "u_sell_item": "icon", "count": 6 }
         ],
         "topic": "TALK_GODCO_Maria_Tailor_Start"
@@ -217,8 +213,8 @@
         "text": "I'll have a gambeson.",
         "condition": { "u_has_items": { "item": "icon", "count": 15 } },
         "effect": [
-          { "npc_add_var": "u_want_gambeson", "type": "general", "context": "trade", "value": "yes" },
-          { "npc_add_var": "knitting", "type": "timer", "context": "trade", "time": true },
+          { "npc_add_var": "general_trade_u_want_gambeson", "value": "yes" },
+          { "math": [ "n_timer_trade_knitting", "=", "time('now')" ] },
           { "u_sell_item": "icon", "count": 15 }
         ],
         "topic": "TALK_GODCO_Maria_Tailor_Start"
@@ -239,19 +235,13 @@
         "text": "I ordered a t-shirt.",
         "condition": {
           "and": [
-            { "npc_has_var": "u_want_tshirt", "type": "general", "context": "trade", "value": "yes" },
-            {
-              "npc_compare_time_since_var": "knitting",
-              "type": "timer",
-              "context": "trade",
-              "op": ">=",
-              "time": "2 d"
-            }
+            { "npc_has_var": "general_trade_u_want_tshirt", "value": "yes" },
+            { "math": [ "time_since(n_timer_trade_knitting)", ">=", "time('2 d')" ] }
           ]
         },
         "effect": [
-          { "npc_lose_var": "u_want_tshirt", "type": "general", "context": "trade" },
-          { "npc_lose_var": "knitting", "type": "timer", "context": "trade" },
+          { "npc_lose_var": "general_trade_u_want_tshirt" },
+          { "npc_lose_var": "timer_trade_knitting" },
           { "u_spawn_item": "tshirt" }
         ],
         "topic": "TALK_GODCO_Maria_Tailor_Done"
@@ -260,19 +250,13 @@
         "text": "I ordered a pair of pants.",
         "condition": {
           "and": [
-            { "npc_has_var": "u_want_pants", "type": "general", "context": "trade", "value": "yes" },
-            {
-              "npc_compare_time_since_var": "knitting",
-              "type": "timer",
-              "context": "trade",
-              "op": ">=",
-              "time": "2 d"
-            }
+            { "npc_has_var": "general_trade_u_want_pants", "value": "yes" },
+            { "math": [ "time_since(n_timer_trade_knitting)", ">=", "time('2 d')" ] }
           ]
         },
         "effect": [
-          { "npc_lose_var": "u_want_pants", "type": "general", "context": "trade" },
-          { "npc_lose_var": "knitting", "type": "timer", "context": "trade" },
+          { "npc_lose_var": "general_trade_u_want_pants" },
+          { "npc_lose_var": "timer_trade_knitting" },
           { "u_spawn_item": "pants" }
         ],
         "topic": "TALK_GODCO_Maria_Tailor_Done"
@@ -281,19 +265,13 @@
         "text": "I ordered a jacket.",
         "condition": {
           "and": [
-            { "npc_has_var": "u_want_jacket", "type": "general", "context": "trade", "value": "yes" },
-            {
-              "npc_compare_time_since_var": "knitting",
-              "type": "timer",
-              "context": "trade",
-              "op": ">=",
-              "time": "2 d"
-            }
+            { "npc_has_var": "general_trade_u_want_jacket", "value": "yes" },
+            { "math": [ "time_since(n_timer_trade_knitting)", ">=", "time('2 d')" ] }
           ]
         },
         "effect": [
-          { "npc_lose_var": "u_want_jacket", "type": "general", "context": "trade" },
-          { "npc_lose_var": "knitting", "type": "timer", "context": "trade" },
+          { "npc_lose_var": "general_trade_u_want_jacket" },
+          { "npc_lose_var": "timer_trade_knitting" },
           { "u_spawn_item": "jacket_leather" }
         ],
         "topic": "TALK_GODCO_Maria_Tailor_Done"
@@ -302,19 +280,13 @@
         "text": "I ordered a dress.",
         "condition": {
           "and": [
-            { "npc_has_var": "u_want_dress", "type": "general", "context": "trade", "value": "yes" },
-            {
-              "npc_compare_time_since_var": "knitting",
-              "type": "timer",
-              "context": "trade",
-              "op": ">=",
-              "time": "2 d"
-            }
+            { "npc_has_var": "general_trade_u_want_dress", "value": "yes" },
+            { "math": [ "time_since(n_timer_trade_knitting)", ">=", "time('2 d')" ] }
           ]
         },
         "effect": [
-          { "npc_lose_var": "u_want_dress", "type": "general", "context": "trade" },
-          { "npc_lose_var": "knitting", "type": "timer", "context": "trade" },
+          { "npc_lose_var": "general_trade_u_want_dress" },
+          { "npc_lose_var": "timer_trade_knitting" },
           { "u_spawn_item": "dress" }
         ],
         "topic": "TALK_GODCO_Maria_Tailor_Done"
@@ -323,19 +295,13 @@
         "text": "I ordered a duster.",
         "condition": {
           "and": [
-            { "npc_has_var": "u_want_duster", "type": "general", "context": "trade", "value": "yes" },
-            {
-              "npc_compare_time_since_var": "knitting",
-              "type": "timer",
-              "context": "trade",
-              "op": ">=",
-              "time": "4 d"
-            }
+            { "npc_has_var": "general_trade_u_want_duster", "value": "yes" },
+            { "math": [ "time_since(n_timer_trade_knitting)", ">=", "time('4 d')" ] }
           ]
         },
         "effect": [
-          { "npc_lose_var": "u_want_duster", "type": "general", "context": "trade" },
-          { "npc_lose_var": "knitting", "type": "timer", "context": "trade" },
+          { "npc_lose_var": "general_trade_u_want_duster" },
+          { "npc_lose_var": "timer_trade_knitting" },
           { "u_spawn_item": "duster" }
         ],
         "topic": "TALK_GODCO_Maria_Tailor_Done"
@@ -344,19 +310,13 @@
         "text": "I ordered a trench coat.",
         "condition": {
           "and": [
-            { "npc_has_var": "u_want_trenchcoat", "type": "general", "context": "trade", "value": "yes" },
-            {
-              "npc_compare_time_since_var": "knitting",
-              "type": "timer",
-              "context": "trade",
-              "op": ">=",
-              "time": "4 d"
-            }
+            { "npc_has_var": "general_trade_u_want_trenchcoat", "value": "yes" },
+            { "math": [ "time_since(n_timer_trade_knitting)", ">=", "time('4 d')" ] }
           ]
         },
         "effect": [
-          { "npc_lose_var": "u_want_trenchcoat", "type": "general", "context": "trade" },
-          { "npc_lose_var": "knitting", "type": "timer", "context": "trade" },
+          { "npc_lose_var": "general_trade_u_want_trenchcoat" },
+          { "npc_lose_var": "timer_trade_knitting" },
           { "u_spawn_item": "trenchcoat" }
         ],
         "topic": "TALK_GODCO_Maria_Tailor_Done"
@@ -365,19 +325,13 @@
         "text": "I ordered a backpack.",
         "condition": {
           "and": [
-            { "npc_has_var": "u_want_backpack", "type": "general", "context": "trade", "value": "yes" },
-            {
-              "npc_compare_time_since_var": "knitting",
-              "type": "timer",
-              "context": "trade",
-              "op": ">=",
-              "time": "4 d"
-            }
+            { "npc_has_var": "general_trade_u_want_backpack", "value": "yes" },
+            { "math": [ "time_since(n_timer_trade_knitting)", ">=", "time('4 d')" ] }
           ]
         },
         "effect": [
-          { "npc_lose_var": "u_want_backpack", "type": "general", "context": "trade" },
-          { "npc_lose_var": "knitting", "type": "timer", "context": "trade" },
+          { "npc_lose_var": "general_trade_u_want_backpack" },
+          { "npc_lose_var": "timer_trade_knitting" },
           { "u_spawn_item": "backpack" }
         ],
         "topic": "TALK_GODCO_Maria_Tailor_Done"
@@ -386,19 +340,13 @@
         "text": "I ordered a gambeson.",
         "condition": {
           "and": [
-            { "npc_has_var": "u_want_gambeson", "type": "general", "context": "trade", "value": "yes" },
-            {
-              "npc_compare_time_since_var": "knitting",
-              "type": "timer",
-              "context": "trade",
-              "op": ">=",
-              "time": "4 d"
-            }
+            { "npc_has_var": "general_trade_u_want_gambeson", "value": "yes" },
+            { "math": [ "time_since(n_timer_trade_knitting)", ">=", "time('4 d')" ] }
           ]
         },
         "effect": [
-          { "npc_lose_var": "u_want_gambeson", "type": "general", "context": "trade" },
-          { "npc_lose_var": "knitting", "type": "timer", "context": "trade" },
+          { "npc_lose_var": "general_trade_u_want_gambeson" },
+          { "npc_lose_var": "timer_trade_knitting" },
           { "u_spawn_item": "gambeson" }
         ],
         "topic": "TALK_GODCO_Maria_Tailor_Done"

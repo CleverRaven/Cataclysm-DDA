@@ -34,7 +34,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_CARAVAN_MERCHANT_PREDATORY_Job",
-    "dynamic_line": "I'm a businessman, and business is my game.  I came out here to help these poor, poor people who are doing without in such a bad time.",
+    "dynamic_line": {
+      "gendered_line": "I'm a businessman, and business is my game.  I came out here to help these poor, poor people who are doing without in such a bad time.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "Sure, let's trade.", "topic": "TALK_CARAVAN_MERCHANT_PREDATORY_Trade", "effect": "start_trade" },
       { "text": "That's it?  What's your story?", "topic": "TALK_CARAVAN_MERCHANT_PREDATORY_Story" },
@@ -44,7 +47,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_CARAVAN_MERCHANT_PREDATORY_Story",
-    "dynamic_line": "I'm just a man looking to help some poor folks out, caught word of this place from one of those old FEMA bunkers, a group's holed up there.  I figured I'd come out here and help these people out.",
+    "dynamic_line": {
+      "gendered_line": "I'm just a man looking to help some poor folks out, caught word of this place from one of those old FEMA bunkers, a group's holed up there.  I figured I'd come out here and help these people out.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       {
         "text": "That's interesting.  Well, let's trade.",
@@ -96,8 +102,11 @@
   {
     "type": "talk_topic",
     "id": "TALK_CARAVAN_MERCHANT_PREDATORY_Price",
-    "dynamic_line": "Like I said, I'm a businessman and business is my job.  Those other yahoos you've been talkin' to don't know what they're doing.",
-    "speaker_effect": { "effect": { "u_add_var": "u_think_suspicious_price", "type": "general", "context": "trade", "value": "yes" } },
+    "dynamic_line": {
+      "gendered_line": "Like I said, I'm a businessman and business is my job.  Those other yahoos you've been talkin' to don't know what they're doing.",
+      "relevant_genders": [ "npc" ]
+    },
+    "speaker_effect": { "effect": { "u_add_var": "general_trade_u_think_suspicious_price", "value": "yes" } },
     "responses": [
       {
         "text": "Alright.  I'd like to buy something.",
@@ -118,7 +127,7 @@
     "type": "talk_topic",
     "id": "TALK_CARAVAN_MERCHANT_PREDATORY_Pricegouge_Win",
     "dynamic_line": "Woah woah woah, cool your jets.  I can't let this spread about me, so name your price and keep quiet, and I might give you a discount.",
-    "speaker_effect": { "effect": { "npc_add_var": "u_paidoff", "type": "general", "context": "meeting", "value": "yes" } },
+    "speaker_effect": { "effect": { "npc_add_var": "general_meeting_u_paidoff", "value": "yes" } },
     "responses": [
       { "text": "50 merch and you have a deal.", "effect": { "u_spawn_item": "FMCNote", "count": 50 }, "topic": "TALK_DONE" },
       {

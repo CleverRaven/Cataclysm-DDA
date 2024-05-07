@@ -10,9 +10,10 @@
 #include "activity_handlers.h"
 #include "assign.h"
 #include "debug.h"
-#include "enum_conversions.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "json.h"
+#include "json_error.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "translations.h"
@@ -94,8 +95,7 @@ void activity_type::load( const JsonObject &jo )
     assign( jo, "verb", result.verb_, true );
     assign( jo, "interruptable", result.interruptable_, true );
     assign( jo, "interruptable_with_kb", result.interruptable_with_kb_, true );
-    assign( jo, "suspendable", result.suspendable_, true );
-    assign( jo, "no_resume", result.no_resume_, true );
+    assign( jo, "can_resume", result.can_resume_, true );
     assign( jo, "multi_activity", result.multi_activity_, false );
     assign( jo, "refuel_fires", result.refuel_fires, false );
     assign( jo, "auto_needs", result.auto_needs, false );

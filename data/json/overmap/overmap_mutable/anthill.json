@@ -21,7 +21,7 @@
     "flags": [ "ANT", "UNIQUE", "WILDERNESS" ],
     "spawns": { "group": "GROUP_ANT_SURFACE", "population": [ 1000, 2000 ], "radius": [ 10, 30 ] },
     "check_for_locations": [
-      [ [ 0, 0, 0 ], [ "land" ] ],
+      [ [ 0, 0, 0 ], [ "land", "agricultural" ] ],
       [ [ 0, 0, -1 ], [ "subterranean_empty" ] ],
       [ [ 1, 0, -1 ], [ "subterranean_empty" ] ],
       [ [ 0, 1, -1 ], [ "subterranean_empty" ] ],
@@ -30,11 +30,11 @@
     ],
     "joins": [
       { "id": "surface_to_tunnel", "opposite": "tunnel_to_surface" },
-      { "id": "tunnel_to_surface", "opposite": "surface_to_tunnel", "into_locations": [ "land" ] },
+      { "id": "tunnel_to_surface", "opposite": "surface_to_tunnel", "into_locations": [ "land", "agricultural" ] },
       "tunnel_to_tunnel"
     ],
     "overmaps": {
-      "surface": { "overmap": "anthill_north", "below": "surface_to_tunnel", "locations": [ "land" ] },
+      "surface": { "overmap": "anthill_north", "below": "surface_to_tunnel", "locations": [ "land", "agricultural" ] },
       "below_entrance": {
         "overmap": "ants_nesw",
         "above": "tunnel_to_surface",
@@ -94,7 +94,7 @@
     "flags": [ "ANT", "UNIQUE", "WILDERNESS" ],
     "spawns": { "group": "GROUP_ACID_ANT_SURFACE", "population": [ 1000, 2000 ], "radius": [ 10, 30 ] },
     "check_for_locations": [
-      [ [ 0, 0, 0 ], [ "land" ] ],
+      [ [ 0, 0, 0 ], [ "land", "agricultural" ] ],
       [ [ 0, 0, -1 ], [ "subterranean_empty" ] ],
       [ [ 1, 0, -1 ], [ "subterranean_empty" ] ],
       [ [ 0, 1, -1 ], [ "subterranean_empty" ] ],
@@ -103,11 +103,11 @@
     ],
     "joins": [
       { "id": "surface_to_tunnel", "opposite": "tunnel_to_surface" },
-      { "id": "tunnel_to_surface", "opposite": "surface_to_tunnel", "into_locations": [ "land" ] },
+      { "id": "tunnel_to_surface", "opposite": "surface_to_tunnel", "into_locations": [ "land", "agricultural" ] },
       "tunnel_to_tunnel"
     ],
     "overmaps": {
-      "surface": { "overmap": "anthill_north", "below": "surface_to_tunnel", "locations": [ "land" ] },
+      "surface": { "overmap": "anthill_north", "below": "surface_to_tunnel", "locations": [ "land", "agricultural" ] },
       "below_entrance": {
         "overmap": "acid_ants_nesw",
         "above": "tunnel_to_surface",

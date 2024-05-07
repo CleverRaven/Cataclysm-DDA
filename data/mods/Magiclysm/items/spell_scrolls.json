@@ -6,7 +6,7 @@
     "category": "manuals",
     "weight": "475 g",
     "volume": "500 ml",
-    "price": 4000,
+    "price": "40 USD",
     "material": [ "paper" ],
     "symbol": "?",
     "color": "white"
@@ -89,7 +89,7 @@
     "id": "spell_scroll_recover_mana",
     "//": "Animist spell",
     "name": { "str": "Scroll of Life Conversion", "str_pl": "Scrolls of Life Conversion" },
-    "description": "You channel your life force itself into your spiritual energy.  You spend hp to regain mana.",
+    "description": "You channel your life force itself into your spiritual energy.  You spend HP to regain mana.",
     "use_action": { "type": "learn_spell", "spells": [ "recover_mana" ] }
   },
   {
@@ -328,11 +328,11 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
-    "id": "spell_scroll_recover_fatigue",
+    "id": "spell_scroll_recover_sleepiness",
     "//": "Druid spell",
     "name": { "str": "Scroll of Nature's Trance", "str_pl": "Scrolls of Nature's Trance" },
-    "description": "Your connection to living things allows you to go into a magical trance.  This allows you to recover fatigue quickly in exchange for mana.",
-    "use_action": { "type": "learn_spell", "spells": [ "recover_fatigue" ] }
+    "description": "Your connection to living things allows you to go into a magical trance.  This allows you to recover from fatigue quickly in exchange for mana.",
+    "use_action": { "type": "learn_spell", "spells": [ "recover_sleepiness" ] }
   },
   {
     "type": "BOOK",
@@ -492,7 +492,7 @@
     "copy-from": "spell_scroll",
     "id": "spell_scroll_reactive_armor",
     "//": "Earthshaper spell",
-    "name": { "str": "Scroll of Reactive Armour", "str_pl": "Scrolls of Reactive Armour" },
+    "name": { "str": "Scroll of Reactive Armor", "str_pl": "Scrolls of Reactive Armor" },
     "description": "Explode your stone skin, to deal massive damage to all enemies around.",
     "use_action": { "type": "learn_spell", "spells": [ "reactive_armor" ] }
   },
@@ -853,7 +853,7 @@
     "id": "spell_scroll_explosive_decompression",
     "//": "Stormshaper spell",
     "name": { "str": "Scroll of Explosive Decompression", "str_pl": "Scrolls of Explosive Decompression" },
-    "description": "Create a high-pressure zone originating from the selected point.  Shortly after, a massive pressure wave will crush everything inside, inflicting barotrarumatic injuries on everyone affected.",
+    "description": "Create a high-pressure zone originating from the selected point.  Shortly after, a massive pressure wave will crush everything inside, inflicting barotraumatic injuries on everyone affected.",
     "use_action": { "type": "learn_spell", "spells": [ "explosive_decompression" ] }
   },
   {
@@ -862,7 +862,7 @@
     "id": "spell_scroll_vacuum_decompression",
     "//": "Stormshaper spell",
     "name": { "str": "Scroll of Vacuum Decompression", "str_pl": "Scrolls of Vacuum Decompression" },
-    "description": "Create a high-pressure zone originating from the selected point.  Shortly after, a massive pressure wave will crush everything inside, inflicting barotrarumatic injuries on everyone affected.  The pressure differential will also pull unprepared creatures inside the zone before collapsing.",
+    "description": "Create a high-pressure zone originating from the selected point.  Shortly after, a massive pressure wave will crush everything inside, inflicting barotraumatic injuries on everyone affected.  The pressure differential will also pull unprepared creatures inside the zone before collapsing.",
     "use_action": { "type": "learn_spell", "spells": [ "vacuum_decompression" ] }
   },
   {
@@ -1143,7 +1143,7 @@
     "description": "This scroll details how a spell called 'Lightning Blast' which is commonly used among Stormshapers can be altered to become much more powerful, at a much higher mana cost.",
     "weight": "129 g",
     "volume": "500 ml",
-    "price": 25000,
+    "price": "250 USD",
     "symbol": "?",
     "color": "light_blue",
     "use_action": { "type": "learn_spell", "spells": [ "lightning_storm" ] }
@@ -1698,5 +1698,356 @@
     "name": { "str": "Scroll of Disjunction", "str_pl": "Scrolls of Disjunction" },
     "description": "Remove all magic from your target, even rare or powerful spells.  Who's the archmage now?",
     "use_action": { "type": "learn_spell", "spells": [ "classless_disjunction" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_biomancer_hyper_regeneration",
+    "//": "Biomancer spell",
+    "name": { "str": "Scroll of Rapid Regeneration", "str_pl": "Scrolls of Rapid Regeneration" },
+    "description": "Cuts?  Lacerations?  Torn organs?  Fix all that with this handy spell.",
+    "use_action": { "type": "learn_spell", "spells": [ "biomancer_hyper_regeneration" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_biomancer_slow_bleeding",
+    "//": "Biomancer spell",
+    "name": { "str": "Scroll of Halt Bleeding", "str_pl": "Scrolls of Halt Bleeding" },
+    "description": "Keep all that blood in your body.",
+    "use_action": { "type": "learn_spell", "spells": [ "biomancer_slow_bleeding" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_biomancer_scalpel_fingers",
+    "//": "Biomancer spell",
+    "name": { "str": "Scroll of Flensing Fingers", "str_pl": "Scrolls of Flensing Fingers" },
+    "description": "Turn your fingers into myriad bone knives.",
+    "use_action": { "type": "learn_spell", "spells": [ "biomancer_scalpel_fingers" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_biomancer_caustic_blood",
+    "//": "Biomancer spell",
+    "name": { "str": "Scroll of Caustic Blood", "str_pl": "Scrolls of Caustic Blood" },
+    "description": "Turn your blood into acid, just like that movie you used to watch all that time.",
+    "use_action": { "type": "learn_spell", "spells": [ "biomancer_caustic_blood" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_druid_renew_forest_spell",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Renew the Forest", "str_pl": "Scrolls of Renew the Forest" },
+    "description": "Grow an entire forest from nothing, given enough time and mana.  There were druids who made good money doing this for industrial logging, the ethics of which were always good to start an argument at a party.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_renew_forest_spell" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_druid_wood_living_tree_spell",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Shape Wood", "str_pl": "Scrolls of Shape Wood" },
+    "description": "Grow a log from a living tree and prune it without violence.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_wood_living_tree_spell" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_druid_anti_heat",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Water's Cooling Touch", "str_pl": "Scrolls of Water's Cooling Touch" },
+    "description": "Using a bit of water, transfer water's refreshing chill to yourself.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_anti_heat" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_druid_breathing_underwater",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Aquatic Mantle", "str_pl": "Scrolls of Aquatic Mantle" },
+    "description": "Grow magical seaweed to form a protective coating, allowing you to travel the depths.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_breathing_underwater" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_druid_disinfectant",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Wash the Wounds Clean", "str_pl": "Scrolls of Wash the Wounds Clean" },
+    "description": "Disinfect your wounds with just a bit of water and magic.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_disinfectant" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_druid_water_walking",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Water Strider's Walk", "str_pl": "Scrolls of Water Strider's Walk" },
+    "description": "Walk on water using the power of your magic.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_water_walking" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_technomancer_recharge_vehicle",
+    "//": "Technomancer spell",
+    "name": { "str": "Scroll of Imbue with Lightning", "str_pl": "Scrolls of Imbue with Lightning" },
+    "description": "Charge a battery using only your mana!  Once of niche use, now a vital skill.",
+    "use_action": { "type": "learn_spell", "spells": [ "technomancer_recharge_vehicle" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_kelvinist_persuasion_spell",
+    "//": "Kelvinist spell",
+    "name": { "str": "Scroll of Flames of Passion", "str_pl": "Scrolls of Flames of Passion" },
+    "description": "Fire yourself up to give a persuasive speech with this spell.",
+    "use_action": { "type": "learn_spell", "spells": [ "kelvinist_persuasion_spell" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_kelvinist_extinguish_fire_spell",
+    "//": "Kelvinist spell",
+    "name": { "str": "Scroll of Extinguish", "str_pl": "Scrolls of Extinguish" },
+    "description": "Turn a fire directly into cold, putting it out.  Once one of the most commonly-known spells in the world, the lack of open flames in daily life has lead to a steep decline in its use.",
+    "use_action": { "type": "learn_spell", "spells": [ "kelvinist_extinguish_fire_spell" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_kelvinist_summon_freezer_spell",
+    "//": "Kelvinist spell",
+    "name": { "str": "Scroll of Freezer Field", "str_pl": "Scrolls of Freezer Field" },
+    "description": "Summon a sphere of ice to preserve your food inside.  Once a vital spell to keep food from rotting, then a party trick to keep drinks cold at the beach, and now back to vital once again.",
+    "use_action": { "type": "learn_spell", "spells": [ "kelvinist_summon_freezer_spell" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_earthshaper_harden_earth",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of Harden Earth", "str_pl": "Scrolls of Harden Earth" },
+    "description": "Turn dirt into solid rock.  Useful for making a fortress or a castle in a fraction of the time.",
+    "use_action": { "type": "learn_spell", "spells": [ "earthshaper_harden_earth" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_earthshaper_sleep_in_earth",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of Stone Slumber", "str_pl": "Scrolls of Stone Slumber" },
+    "description": "Sink into the depths of the earth to heal more quickly and make sleep more restful.  You don't need to eat or drink either…  Say, how many earthshapers are still asleep down there?",
+    "use_action": { "type": "learn_spell", "spells": [ "earthshaper_sleep_in_earth" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_classless_clean_clothing_and_self",
+    "//": "Classless spell",
+    "name": { "str": "Scroll of Freshen Up", "str_pl": "Scrolls of Freshen Up" },
+    "description": "The single most well-known spell in the entire world before the Cataclysm.  Why take a shower and do your laundry if you can get magic to do it for you?",
+    "use_action": { "type": "learn_spell", "spells": [ "classless_clean_clothing_and_self" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_animist_spirit_walking",
+    "//": "Animist spell",
+    "name": { "str": "Scroll of Body of Spirit", "str_pl": "Scrolls of Body of Spirit" },
+    "description": "Highly restricted before the Cataclysm, this spell allows you to turn into pure spirit and pass through the physical world unseen and insubstantial.",
+    "use_action": { "type": "learn_spell", "spells": [ "animist_spirit_walking" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_magus_stop_attack_shield",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of Mageshield", "str_pl": "Scrolls of Mageshield" },
+    "description": "A common protective spell even before the Cataclysm, Mageshield will render you completely invincible…against a single attack.",
+    "use_action": { "type": "learn_spell", "spells": [ "magus_stop_attack_shield" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_druid_traverse_the_wilds",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Traverse the Wilds", "str_pl": "Scrolls of Traverse the Wilds" },
+    "description": "A favored spell of those hiking the Appalachian Trail, this spell increases your speed in the wilderness.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_traverse_the_wilds" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_kelvinist_no_emotion_spell",
+    "//": "Kelvinist spell",
+    "name": { "str": "Scroll of The Rime-Covered Heart", "str_pl": "Scrolls of The Rime-Covered Heart" },
+    "description": "Highly-restricted before the Cataclysm, this spell prevents you from feeling any emotion for the duration.",
+    "use_action": { "type": "learn_spell", "spells": [ "kelvinist_no_emotion_spell" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_magus_far_hand_pull",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of Sorcerer's Hand", "str_pl": "Scrolls of Sorcerer's Hand" },
+    "description": "Pull a distant creature or item toward you.  The ultimate spell for the couch potato mage.",
+    "use_action": { "type": "learn_spell", "spells": [ "magus_far_hand_pull" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_animist_mass_hiding_aoe",
+    "//": "Animist spell",
+    "name": { "str": "Scroll of A Shadow in the Crowd", "str_pl": "Scrolls of A Shadow in the Crowd" },
+    "description": "Cut yourself off from your fellows, and also make yourself invisible to them.",
+    "use_action": { "type": "learn_spell", "spells": [ "animist_mass_hiding_aoe" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_animist_luck_bone",
+    "//": "Animist spell",
+    "name": { "str": "Scroll of Osseous Luck", "str_pl": "Scrolls of Osseous Luck" },
+    "description": "Summon benevolent spirits into a bone, granting minor benefits.",
+    "use_action": { "type": "learn_spell", "spells": [ "animist_luck_bone" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_druid_bearmantle",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Bearmantle", "str_pl": "Scrolls of Bearmantle" },
+    "description": "Take on some of the characteristics of the bear, making it much easier to survive the winter.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_bearmantle" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_biomancer_eat_tons_of_food",
+    "//": "Biomancer spell",
+    "name": { "str": "Scroll of Gluttonous Consumption", "str_pl": "Scrolls of Gluttonous Consumption" },
+    "description": "For when you don't know where your next meal is coming from and you want to make sure absolutely nothing goes to waste.",
+    "use_action": { "type": "learn_spell", "spells": [ "biomancer_eat_tons_of_food" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_classless_easy_sleep_spell",
+    "//": "Classless spell",
+    "name": { "str": "Scroll of Peaceful Rest", "str_pl": "Scrolls of Peaceful Rest" },
+    "description": "Never spend any time tossing and turning again with one of the most popular pre-Cataclysm spells.",
+    "use_action": { "type": "learn_spell", "spells": [ "classless_easy_sleep_spell" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_kelvinist_firebolt",
+    "//": "Kelvinist spell",
+    "name": { "str": "Scroll of Firebolt", "str_pl": "Scrolls of Firebolt" },
+    "description": "Hurls a bolt of fire at the target, just like the name implies.",
+    "use_action": { "type": "learn_spell", "spells": [ "kelvinist_firebolt" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_stormshaper_loud_voice_spell",
+    "//": "Kelvinist spell",
+    "name": { "str": "Scroll of Thundering Voice", "str_pl": "Scrolls of Thundering Voice" },
+    "description": "Greatly increases the volume of the caster's voice while also making them immune to any hearing damage the resulting noise would cause.  Very popular at pre-Cataclysm metal concerts, both on and off the stage.",
+    "use_action": { "type": "learn_spell", "spells": [ "stormshaper_loud_voice_spell" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_magus_ranged_increase",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of Arrowflight", "str_pl": "Scrolls of Arrowflight" },
+    "description": "Manipulate gravity, atmospheric drag, and friction to increase the effective ranged of ranged weapons, both bows and firearms.",
+    "use_action": { "type": "learn_spell", "spells": [ "magus_ranged_increase" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_animist_add_evasion_spell",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of Guardian Spirit", "str_pl": "Scrolls of Guardian Spirit" },
+    "description": "Summon a benevolent spirit to watch over the caster and warn them of imminent attack.",
+    "use_action": { "type": "learn_spell", "spells": [ "animist_add_evasion_spell" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_technomancer_gain_electronics_computer_spell",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of Machine Mind", "str_pl": "Scrolls of Machine Mind" },
+    "description": "Gain an intuitive understanding of computers and electronics, allowing an easier time repairing or using them.",
+    "use_action": { "type": "learn_spell", "spells": [ "technomancer_gain_electronics_computer_spell" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_kelvinist_heat_food",
+    "//": "Kelvinist spell",
+    "name": { "str": "Scroll of Baking Hands", "str_pl": "Scrolls of Baking Hands" },
+    "description": "Warm up your food using pure mana.",
+    "use_action": { "type": "learn_spell", "spells": [ "kelvinist_heat_food" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_magus_diamond_imbuement",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of Diamond Imbuement", "str_pl": "Scrolls of Diamond Imbuement" },
+    "description": "Enchant a weapon with the metaphysical essence of diamonds, greatly increasing its power.",
+    "use_action": { "type": "learn_spell", "spells": [ "magus_diamond_imbuement" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_animist_slow_food_rotting_spell",
+    "//": "Animist spell",
+    "name": { "str": "Scroll of Abjure Spirits of Rot", "str_pl": "Scrolls of Abjure Spirits of Rot" },
+    "description": "Banish the decay spirits from the food you're carrying, making it last much longer before going bad.",
+    "use_action": { "type": "learn_spell", "spells": [ "animist_slow_food_rotting_spell" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_earthshaper_repair_metal_stone",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of Fault-Mending Chant", "str_pl": "Scrolls of Fault-Mending Chant" },
+    "description": "With some earth and stone and a song, repair and item made of natural stone or metal.",
+    "use_action": { "type": "learn_spell", "spells": [ "earthshaper_repair_metal_stone" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_technomancer_create_ups_connection",
+    "//": "Technomancer spell",
+    "name": { "str": "Scroll of Power Linkage", "str_pl": "Scrolls of Power Linkage" },
+    "description": "Enchant a tool to accept power wirelessly from a compatible source.",
+    "use_action": { "type": "learn_spell", "spells": [ "technomancer_create_ups_connection" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_technomancer_far_sight",
+    "//": "Technomancer spell",
+    "name": { "str": "Scroll of Zoom Lens", "str_pl": "Scrolls of Zoom Lens" },
+    "description": "Enchant a lens with the ability to see beyond the horizon.",
+    "use_action": { "type": "learn_spell", "spells": [ "technomancer_far_sight" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_technomancer_pain_ignore",
+    "//": "Technomancer spell",
+    "name": { "str": "Scroll of The Body Mechanical", "str_pl": "Scrolls of The Body Mechanical" },
+    "description": "Grant yourself brief reprieves from the effects of pain.",
+    "use_action": { "type": "learn_spell", "spells": [ "technomancer_pain_ignore" ] }
   }
 ]

@@ -1,8 +1,35 @@
 [
   {
     "type": "snippet",
+    "category": "<lt>",
+    "text": [ { "text": { "ctxt": "less than symbol", "str": "<", "//~": "Escape sequence, do not translate" } } ],
+    "//": "used to escape < to avoid it intefering with tag parsing"
+  },
+  {
+    "type": "snippet",
+    "category": "<gt>",
+    "text": [ { "text": { "ctxt": "greater than symbol", "str": ">", "//~": "Escape sequence, do not translate" } } ],
+    "//": "used to escape > to avoid it intefering with tag parsing"
+  },
+  {
+    "type": "snippet",
     "category": "<number>",
     "text": [ "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" ]
+  },
+  {
+    "type": "snippet",
+    "category": "<random_direction>",
+    "text": [ "north", "northeast", "northwest", "south", "southeast", "southwest", "east", "west" ]
+  },
+  {
+    "type": "snippet",
+    "category": "<up_or_down>",
+    "text": [ "and above you", "and below you" ]
+  },
+  {
+    "type": "snippet",
+    "category": "<random_sound>",
+    "text": [ "a huge explosion!", "bang!", "blam!", "crash!", "SMASH!" ]
   },
   {
     "type": "snippet",
@@ -58,7 +85,12 @@
       {
         "id": "charsheet_9",
         "text": "It's a Dungeons & Dragons 6th Edition character sheet.  This one is for a sorcerer."
-      }
+      },
+      { "id": "charsheet_10", "text": "It's a Dawn of Man 2nd Edition character sheet.  This one is for a hunter." },
+      { "id": "charsheet_11", "text": "It's a Dawn of Man 2nd Edition character sheet.  This one is for a cannibal." },
+      { "id": "charsheet_12", "text": "It's a Dawn of Man 2nd Edition character sheet.  This one is for a fisher." },
+      { "id": "charsheet_13", "text": "It's a Dawn of Man 2nd Edition character sheet.  This one is for a spearman." },
+      { "id": "charsheet_14", "text": "It's a Dawn of Man 2nd Edition character sheet.  This one is for an elder." }
     ]
   },
   {
@@ -286,22 +318,22 @@
     "text": [
       {
         "id": "artisan_prototypes_1",
-        "effect_on_examine": [ { "u_add_var": "seen_blacksmith_sketches", "type": "dialogue", "context": "artisans", "value": "yes" } ],
+        "effect_on_examine": [ { "u_add_var": "dialogue_artisans_seen_blacksmith_sketches", "value": "yes" } ],
         "text": "A collection of sketches and CAD designs marked up with a pencil.  They depict a classic rifle and several diagrams of curved wooden maces.  The word 'OBREZ?' is written clearly on the front sheet.  There are two distinct sets of handwriting making notes."
       },
       {
         "id": "artisan_prototypes_2",
-        "effect_on_examine": [ { "u_add_var": "seen_blacksmith_sketches", "type": "dialogue", "context": "artisans", "value": "yes" } ],
+        "effect_on_examine": [ { "u_add_var": "dialogue_artisans_seen_blacksmith_sketches", "value": "yes" } ],
         "text": "A collection of sketches and CAD designs marked up with a pencil.  They depict a large mace with an internal gas reservoir and venting holes between the steel segments.  There are additional diagrams labeled 'IGNITION SYSTEM' and 'TRIGGER?'.  There are two distinct sets of handwriting making notes."
       },
       {
         "id": "artisan_prototypes_3",
-        "effect_on_examine": [ { "u_add_var": "seen_blacksmith_sketches", "type": "dialogue", "context": "artisans", "value": "yes" } ],
+        "effect_on_examine": [ { "u_add_var": "dialogue_artisans_seen_blacksmith_sketches", "value": "yes" } ],
         "text": "A collection of sketches and CAD designs marked up with a pencil.  They depict a bladed weapon with some audio equipment implanted.  Doodles of hair metal rock stars line the page, as well as the words 'LETS, HEAR IT FOR FRANKY'.  There are two distinct sets of handwriting making notes."
       },
       {
         "id": "artisan_prototypes_4",
-        "effect_on_examine": [ { "u_add_var": "seen_blacksmith_sketches", "type": "dialogue", "context": "artisans", "value": "yes" } ],
+        "effect_on_examine": [ { "u_add_var": "dialogue_artisans_seen_blacksmith_sketches", "value": "yes" } ],
         "text": "A collection of sketches and CAD designs marked up with a pencil.  They depict a sledgehammer with a moving center.  There is a references doc for a powder actuated nail gun stapled to the sheets.  There are two distinct sets of handwriting making notes."
       }
     ]
@@ -535,7 +567,7 @@
       { "id": "dog_name_0170", "text": "Sarge" },
       { "id": "dog_name_0171", "text": "Sasha" },
       { "id": "dog_name_0172", "text": "Sassy" },
-      { "id": "dog_name_0173", "text": "Scout" },
+      { "id": "dog_name_0173", "text": { "ctxt": "dog_name", "str": "Scout" } },
       { "id": "dog_name_0174", "text": "Shadow" },
       { "id": "dog_name_0175", "text": "Sheba" },
       { "id": "dog_name_0176", "text": "Shelby" },
@@ -576,6 +608,63 @@
       { "id": "dog_name_0211", "text": "Ziggy" },
       { "id": "dog_name_0212", "text": "Zoe" },
       { "id": "dog_name_0213", "text": "Zoey" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<blood_type_caps>",
+    "//": "weighted according to <https://en.wikipedia.org/wiki/Blood_type_distribution_by_country>, US part",
+    "text": [
+      { "id": "blood_type_opos", "text": "O POS", "weight": 374 },
+      { "id": "blood_type_oneg", "text": "O NEG", "weight": 66 },
+      { "id": "blood_type_apos", "text": "A POS", "weight": 357 },
+      { "id": "blood_type_aneg", "text": "A NEG", "weight": 63 },
+      { "id": "blood_type_bpos", "text": "B POS", "weight": 85 },
+      { "id": "blood_type_bneg", "text": "B NEG", "weight": 15 },
+      { "id": "blood_type_abpos", "text": "AB POS", "weight": 34 },
+      { "id": "blood_type_abneg", "text": "AB NEG", "weight": 6 }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<religion_caps>",
+    "//": "weighted according to <https://en.wikipedia.org/wiki/Religion_in_the_United_States>",
+    "text": [
+      { "id": "protestant", "text": "PROTESTANT", "weight": 34 },
+      { "id": "catholic", "text": "CATHOLIC", "weight": 23 },
+      { "id": "christian", "text": "CHRISTIAN", "weight": 11 },
+      { "id": "mormon", "text": "MORMON", "weight": 2 },
+      { "id": "jew", "text": "JEW", "weight": 2 },
+      { "id": "atheist", "text": "ATHEIST", "weight": 21 },
+      { "id": "norelpref", "text": "NORELPREF", "weight": 7 }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<given_name_army>",
+    "//": "weighted according to <https://en.wikipedia.org/wiki/Women_in_the_United_States_Army>",
+    "text": [ { "text": "<male_given_name>", "weight": 16 }, { "text": "<female_given_name>", "weight": 84 } ]
+  },
+  {
+    "type": "snippet",
+    "category": "<color>",
+    "text": [
+      { "id": "black", "text": "black" },
+      { "id": "white", "text": "white" },
+      { "id": "red", "text": "red" },
+      { "id": "lime", "text": "lime" },
+      { "id": "blue", "text": "blue" },
+      { "id": "yellow", "text": "yellow" },
+      { "id": "cyan", "text": "cyan" },
+      { "id": "magenta", "text": "magenta" },
+      { "id": "silver", "text": "silver" },
+      { "id": "gray", "text": "gray" },
+      { "id": "maroon", "text": "maroon" },
+      { "id": "olive", "text": "olive" },
+      { "id": "green", "text": "green" },
+      { "id": "purple", "text": "purple" },
+      { "id": "teal", "text": "teal" },
+      { "id": "navy", "text": "navy" }
     ]
   }
 ]

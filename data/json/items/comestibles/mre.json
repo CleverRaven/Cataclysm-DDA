@@ -3,15 +3,15 @@
     "abstract": "mre_entree",
     "type": "COMESTIBLE",
     "name": { "str": "MRE entree" },
-    "weight": "125 g",
+    "weight": "227 g",
     "color": "brown",
     "spoils_in": "3 days 8 hours",
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 320,
     "description": "A generic MRE entree, you shouldn't see this.",
-    "price": 1250,
-    "price_postapoc": 300,
+    "price": "12 USD 50 cent",
+    "price_postapoc": "3 USD",
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "RAD_STERILIZED", "DECAY_EXPOSED_ATMOSPHERE" ],
     "looks_like": "mre_beef",
@@ -290,7 +290,7 @@
     "name": { "str": "frankfurters & beans entree" },
     "calories": 254,
     "description": "The dreaded four fingers of death.  It seems to be several decades old.",
-    "price": 850,
+    "price": "8 USD 50 cent",
     "material": [ "flesh", "junk", "bean" ],
     "fun": -6
   },
@@ -301,7 +301,7 @@
     "name": { "str": "cheese pizza entree" },
     "calories": 261,
     "description": "The pizza entree from an MRE, now in vegetarian form.",
-    "price": 850,
+    "price": "8 USD 50 cent",
     "material": [ "wheat", "milk" ],
     "fun": 1
   },
@@ -314,5 +314,115 @@
     "description": "The pizza entree from an MRE, featuring pepperoni slices and cheese.",
     "material": [ "flesh", "wheat", "milk" ],
     "fun": 3
+  },
+  {
+    "abstract": "mre_side",
+    "type": "COMESTIBLE",
+    "name": { "str": "MRE side" },
+    "weight": "142 g",
+    "color": "brown",
+    "spoils_in": "3 days 8 hours",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 220,
+    "description": "A generic MRE side, you shouldn't see this.",
+    "price": "12 USD 50 cent",
+    "price_postapoc": "3 USD",
+    "volume": "250 ml",
+    "flags": [ "EATEN_HOT", "RAD_STERILIZED", "DECAY_EXPOSED_ATMOSPHERE" ],
+    "looks_like": "mre_beef",
+    "fun": 2
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mre_potato",
+    "copy-from": "mre_side",
+    "name": { "str": "potatoes, Au Gratin" },
+    "description": "Golden-fried potatoes.",
+    "material": [ "veggy" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mre_fried_rice",
+    "copy-from": "mre_side",
+    "name": { "str_sp": "fried rice(small portion)" },
+    "description": "Fried rice, a simple dish made by stir-frying rice with other ingredients.",
+    "material": [ "wheat" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mre_zapplesauce",
+    "copy-from": "mre_side",
+    "name": { "str": "zapplesauce" },
+    "description": "Golden, jelly-like food with the flavor of apples.",
+    "material": [ "fruit" ],
+    "fun": 5
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mre_blackbeans",
+    "copy-from": "mre_side",
+    "name": { "str": "black beans in sauce" },
+    "description": "A savory and flavorful combination of black beans and sauce.",
+    "material": [ "bean" ],
+    "calories": 130
+  },
+  {
+    "abstract": "mre_dessert",
+    "type": "COMESTIBLE",
+    "name": { "str": "MRE dessert" },
+    "weight": "52 g",
+    "color": "brown",
+    "spoils_in": "3 days 8 hours",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 270,
+    "description": "A generic MRE dessert, you shouldn't see this.",
+    "price": "12 USD 50 cent",
+    "price_postapoc": "3 USD",
+    "volume": "125 ml",
+    "flags": [ "RAD_STERILIZED", "DECAY_EXPOSED_ATMOSPHERE" ],
+    "looks_like": "cookies",
+    "fun": 4
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mre_carrot_cake",
+    "name": { "str_sp": "carrot pound cake" },
+    "copy-from": "mre_dessert",
+    "description": "Delicious cake with carrots blended seamlessly."
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mre_poppyseed_cake",
+    "copy-from": "mre_carrot_cake",
+    "name": { "str_sp": "lemon poppy seed pound cake" },
+    "calories": 290,
+    "description": "Cake filled with the goodness of lemon and poppy seeds."
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mre_chocolate_pudding",
+    "copy-from": "mre_dessert",
+    "name": { "str_sp": "chocolate pudding" },
+    "calories": 300,
+    "weight": "75 g",
+    "description": "Pudding made with chocolate.  Yummy!"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mre_chocolate_cake",
+    "copy-from": "mre_dessert",
+    "name": { "str_sp": "chocolate chip toaster pastry" },
+    "calories": 210,
+    "description": "Pastry with chocolate chips."
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mre_strawberry_cake",
+    "copy-from": "mre_dessert",
+    "name": { "str_sp": "strawberry toaster pastry" },
+    "calories": 210,
+    "description": "Strawberry-flavor pastry."
   }
 ]

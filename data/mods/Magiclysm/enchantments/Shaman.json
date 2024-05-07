@@ -33,7 +33,11 @@
     "values": [
       { "value": "SOCIAL_INTIMIDATE", "add": 20 },
       { "value": "SOCIAL_LIE", "add": 20 },
-      { "value": "SOCIAL_PERSUADE", "add": 20 }
+      { "value": "SOCIAL_PERSUADE", "add": 20 },
+      {
+        "value": "MOTION_VISION_RANGE",
+        "add": { "math": [ "10 + (( u_spell_count('school': 'ANIMIST') + u_spell_count('school': 'DRUID')) / 2)" ] }
+      }
     ],
     "intermittent_activation": { "effects": [ { "frequency": "5 seconds", "spell_effects": [ { "id": "mind_read" } ] } ] }
   },
@@ -44,16 +48,11 @@
     "condition": {
       "and": [
         { "u_has_trait": "SHAMAN" },
-        {
-          "not": { "u_has_var": "u_got_shaman_attunement", "type": "attunement", "context": "attunement", "value": "yes" }
-        }
+        { "not": { "u_has_var": "attunement_attunement_u_got_shaman_attunement", "value": "yes" } }
       ]
     },
     "deactivate_condition": { "not": { "u_has_trait": "SHAMAN" } },
-    "effect": [
-      { "u_add_trait": "MIND_READ_OFF" },
-      { "u_add_var": "u_got_shaman_attunement", "type": "attunement", "context": "attunement", "value": "yes" }
-    ]
+    "effect": [ { "u_add_trait": "MIND_READ_OFF" }, { "u_add_var": "attunement_attunement_u_got_shaman_attunement", "value": "yes" } ]
   },
   {
     "type": "mutation",
@@ -65,7 +64,12 @@
     "points": 0,
     "active": true,
     "description": "You can feel the living energy of creatures around you, which allows you to predict their movements or words.  You suppress it now.",
-    "transform": { "target": "MIND_READ_ON", "msg_transform": "Living creatures around you are crushed!", "active": true, "moves": 10 }
+    "transform": {
+      "target": "MIND_READ_ON",
+      "msg_transform": "You reach out with your powers, seeking nearby living beings.",
+      "active": true,
+      "moves": 10
+    }
   },
   {
     "type": "mutation",

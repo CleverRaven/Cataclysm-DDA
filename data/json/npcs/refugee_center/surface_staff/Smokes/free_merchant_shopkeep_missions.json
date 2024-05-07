@@ -14,13 +14,11 @@
         "om_special": "hub_01",
         "reveal_radius": 1,
         "random": true,
-        "search_range": 500
+        "search_range": 1000
       }
     },
-    "end": {
-      "effect": { "arithmetic": [ { "global_val": "var", "var_name": "free_merchants_hub_trade_route" }, "=", { "const": 1 } ] }
-    },
-    "goal_condition": { "u_has_var": "completed_free_merchants_hub_delivery_1", "type": "dialogue", "context": "intercom", "value": "yes" },
+    "end": { "effect": { "math": [ "free_merchants_hub_trade_route", "=", "1" ] } },
+    "goal_condition": { "u_has_var": "dialogue_intercom_completed_free_merchants_hub_delivery_1", "value": "yes" },
     "value": 5000,
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
@@ -58,8 +56,8 @@
     "end": {
       "effect": [
         { "u_spawn_item": "FMCNote", "count": 25 },
-        { "u_add_var": "FMShopkeep_Mission1", "type": "mission", "context": "flag", "value": "yes" },
-        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 3 }
+        { "u_add_var": "mission_flag_FMShopkeep_Mission1", "value": "yes" },
+        { "math": [ "u_counter_refugee_center_refugee_happiness", "+=", "3" ] }
       ],
       "update_mapgen": {
         "om_terrain": "evac_center_9",
@@ -155,10 +153,7 @@
       }
     },
     "end": {
-      "effect": [
-        { "u_spawn_item": "FMCNote", "count": 30 },
-        { "u_add_var": "FMShopkeep_Mission2", "type": "mission", "context": "flag", "value": "yes" }
-      ]
+      "effect": [ { "u_spawn_item": "FMCNote", "count": 30 }, { "u_add_var": "mission_flag_FMShopkeep_Mission2", "value": "yes" } ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_FREE_MERCHANTS_EVAC_3",
@@ -191,13 +186,10 @@
           { "class": "ranch_construction_1", "x": 9, "y": 17 }
         ]
       },
-      "effect": [ { "u_add_var": "tacoma_started", "type": "knowledge", "context": "flag", "value": "yes" } ]
+      "effect": [ { "u_add_var": "knowledge_flag_tacoma_started", "value": "yes" } ]
     },
     "end": {
-      "effect": [
-        { "u_spawn_item": "FMCNote", "count": 50 },
-        { "u_add_var": "FMShopkeep_Mission3", "type": "mission", "context": "flag", "value": "yes" }
-      ],
+      "effect": [ { "u_spawn_item": "FMCNote", "count": 50 }, { "u_add_var": "mission_flag_FMShopkeep_Mission3", "value": "yes" } ],
       "update_mapgen": {
         "om_terrain": "evac_center_8",
         "set": [
@@ -233,10 +225,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_FREE_MERCHANTS_EVAC_5",
     "end": {
-      "effect": [
-        { "u_spawn_item": "FMCNote", "count": 100 },
-        { "u_add_var": "FMShopkeep_Mission4", "type": "mission", "context": "flag", "value": "yes" }
-      ]
+      "effect": [ { "u_spawn_item": "FMCNote", "count": 100 }, { "u_add_var": "mission_flag_FMShopkeep_Mission4", "value": "yes" } ]
     },
     "dialogue": {
       "describe": "We need help…",
@@ -254,17 +243,14 @@
     "id": "MISSION_FREE_MERCHANTS_EVAC_5",
     "type": "mission_definition",
     "name": { "str": "In a Pickle" },
-    "description": "Deliver 100 0.5L glass jars to the Free Merchants to kickstart their food storage plans.",
+    "description": "Deliver 100 0.5 L glass jars to the Free Merchants to kickstart their food storage plans.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 3,
     "value": 400000,
     "item": "jar_glass_sealed",
     "count": 100,
     "end": {
-      "effect": [
-        { "u_spawn_item": "FMCNote", "count": 25 },
-        { "u_add_var": "FMShopkeep_Mission5", "type": "mission", "context": "flag", "value": "yes" }
-      ]
+      "effect": [ { "u_spawn_item": "FMCNote", "count": 25 }, { "u_add_var": "mission_flag_FMShopkeep_Mission5", "value": "yes" } ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
@@ -307,12 +293,7 @@
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_Robofac_Start",
         "effect": [
           { "add_mission": "MISSION_FREE_MERCHANTS_HUB_DELIVERY_1" },
-          {
-            "u_add_var": "u_hub01_breadcrumb_accepted",
-            "type": "general",
-            "context": "free_merchants",
-            "value": "yes"
-          }
+          { "u_add_var": "general_free_merchants_u_hub01_breadcrumb_accepted", "value": "yes" }
         ]
       },
       {
@@ -339,8 +320,8 @@
         "text": "[5 merch] Five merch for someone sounds fair to me.",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 5 } },
         "effect": [
-          { "u_adjust_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "adjustment": 1 },
-          { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" },
+          { "math": [ "u_mission_cleanup_promises_Boris_mission_1", "++" ] },
+          { "npc_add_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" },
           { "u_consume_item": "FMCNote", "count": 5, "popup": true }
         ],
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_BorisCleanup1"
@@ -349,8 +330,8 @@
         "text": "[10 merch] How about ten merch to do it?",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 10 } },
         "effect": [
-          { "u_adjust_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "adjustment": 3 },
-          { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" },
+          { "math": [ "u_mission_cleanup_promises_Boris_mission_1", "+=", "3" ] },
+          { "npc_add_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" },
           { "u_consume_item": "FMCNote", "count": 10, "popup": true }
         ],
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_BorisCleanup2"
@@ -401,7 +382,7 @@
     "type": "talk_topic",
     "id": "TALK_FREE_MERCHANTS_MERCHANT_DavePermission3",
     "dynamic_line": "*rubs his chin.  \"It's probably technically a fire hazard, but there's not much to light up there besides what Dave brings.  And a few of the guards are pretty attached to him, so we could maybe send folks up to keep an eye on him and make sure he's doing okay.  That wouldn't interfere with comings and goings, either.\"  He pauses a moment, looking at his ledger as if it contains answers.  \"You know what?  Sure.  If Dave is okay with it, I can talk the others into letting him have rooftop access to build himself a little shelter, as long as he continues to keep it clean up there like he has in here.\"",
-    "speaker_effect": { "effect": { "u_add_var": "Dave_Permission", "type": "mission", "value": "yes" } },
+    "speaker_effect": { "effect": { "u_add_var": "mission_Dave_Permission", "value": "yes" } },
     "responses": [ { "text": "Thanks.  I'll go let him know.", "topic": "TALK_DONE" } ]
   }
 ]

@@ -14,8 +14,8 @@
     "type": "GENERIC",
     "name": { "str_sp": "misc software" },
     "description": "A miscellaneous piece of hobby software.  Probably useless.",
-    "price": 300,
-    "price_postapoc": 0
+    "price": "3 USD",
+    "price_postapoc": "0 cent"
   },
   {
     "id": "software_hacking",
@@ -23,8 +23,8 @@
     "type": "GENERIC",
     "name": { "str_sp": "hackPRO" },
     "description": "A piece of hacking software.",
-    "price": 800,
-    "price_postapoc": 2000
+    "price": "8 USD",
+    "price_postapoc": "20 USD"
   },
   {
     "id": "software_medical",
@@ -32,8 +32,8 @@
     "type": "GENERIC",
     "name": { "str_sp": "MediSoft" },
     "description": "A piece of medical software.",
-    "price": 600,
-    "price_postapoc": 0
+    "price": "6 USD",
+    "price_postapoc": "0 cent"
   },
   {
     "id": "software_math",
@@ -41,8 +41,8 @@
     "type": "GENERIC",
     "name": { "str_sp": "MatheMAX" },
     "description": "A piece of mathematical software.",
-    "price": 500,
-    "price_postapoc": 0
+    "price": "5 USD",
+    "price_postapoc": "0 cent"
   },
   {
     "id": "software_blood_data",
@@ -50,8 +50,8 @@
     "type": "GENERIC",
     "name": { "str_sp": "infection data" },
     "description": "Medical data on zombie blood.",
-    "price": 200,
-    "price_postapoc": 0
+    "price": "2 USD",
+    "price_postapoc": "0 cent"
   },
   {
     "id": "software_lab_data",
@@ -59,8 +59,8 @@
     "type": "GENERIC",
     "name": { "str_sp": "lab data" },
     "description": "Research archives from a government laboratory.",
-    "price": 200,
-    "price_postapoc": 0
+    "price": "2 USD",
+    "price_postapoc": "0 cent"
   },
   {
     "id": "software_electronics_reference",
@@ -68,7 +68,7 @@
     "type": "GENERIC",
     "name": { "str": "integrated circuit datasheet archives", "str_pl": "misc software" },
     "description": "Huge archives of numerous IC circuit datasheets from several major manufacturers.  Probably valuable to the right person, as it would be hard to salvage and reuse these components without them.",
-    "price": 40000,
-    "price_postapoc": 0
+    "price": "400 USD",
+    "price_postapoc": "0 cent"
   }
 ]

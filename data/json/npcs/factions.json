@@ -8,7 +8,7 @@
     "known_by_u": true,
     "size": 1,
     "power": 100,
-    "food_supply": 0,
+    "fac_food_supply": { "calories": 0, "vitamins": {  } },
     "wealth": 0,
     "relations": {
       "your_followers": {
@@ -34,7 +34,7 @@
     "known_by_u": false,
     "size": 1,
     "power": 100,
-    "food_supply": 0,
+    "fac_food_supply": { "calories": 0, "vitamins": {  } },
     "wealth": 0,
     "relations": {
       "your_followers": { "kill on sight": true, "knows your voice": true },
@@ -60,7 +60,7 @@
     "known_by_u": false,
     "size": 100,
     "power": 100,
-    "food_supply": 115200,
+    "fac_food_supply": { "calories": 115200, "vitamins": { "iron": 800, "calcium": 800, "vitC": 600 } },
     "wealth": 100000000,
     "currency": "RobofacCoin",
     "price_rules": [ { "group": "NC_ROBOFAC_gear", "markup": 2 } ],
@@ -91,7 +91,7 @@
     "known_by_u": false,
     "size": 70,
     "power": 100,
-    "food_supply": 115200,
+    "fac_food_supply": { "calories": 115200, "vitamins": {  } },
     "wealth": 75000,
     "currency": "RobofacCoin",
     "relations": {
@@ -117,7 +117,7 @@
     "known_by_u": false,
     "size": 100,
     "power": 100,
-    "food_supply": 201600,
+    "fac_food_supply": { "calories": 201600, "vitamins": {  } },
     "wealth": 100000000,
     "relations": {
       "old_guard": {
@@ -155,7 +155,7 @@
     "known_by_u": false,
     "size": 100,
     "power": 100,
-    "food_supply": 115200,
+    "fac_food_supply": { "calories": 115200, "vitamins": {  } },
     "wealth": 75000000,
     "currency": "FMCNote",
     "price_rules": [
@@ -164,7 +164,7 @@
       {
         "item": "RobofacCoin",
         "fixed_adj": 0.15,
-        "condition": { "compare_num": [ { "global_val": "var", "var_name": "free_merchants_hub_trade_route" }, "==", { "const": 2 } ] }
+        "condition": { "math": [ "free_merchants_hub_trade_route", "==", "2" ] }
       },
       { "group": "NC_ROBOFAC_gear", "markup": 2.5 },
       { "group": "games_board_all", "premium": 2.5 }
@@ -241,7 +241,7 @@
     "known_by_u": false,
     "size": 5,
     "power": 0,
-    "food_supply": 1152,
+    "fac_food_supply": { "calories": 1152, "vitamins": {  } },
     "wealth": 100,
     "relations": {
       "lobby_beggars": {
@@ -301,7 +301,7 @@
     "known_by_u": false,
     "size": 100,
     "power": 100,
-    "food_supply": 115200,
+    "fac_food_supply": { "calories": 115200, "vitamins": {  } },
     "wealth": 10000000,
     "currency": "FMCNote",
     "price_rules": [ { "item": "money_strap_FMCNote", "fixed_adj": 0 }, { "item": "money_bundle_FMCNote", "fixed_adj": 0 } ],
@@ -331,7 +331,7 @@
     "known_by_u": false,
     "size": 2,
     "power": 5,
-    "food_supply": 4000,
+    "fac_food_supply": { "calories": 4000, "vitamins": {  } },
     "wealth": 100000,
     "currency": "FMCNote",
     "price_rules": [ { "item": "money_strap_FMCNote", "fixed_adj": 0 }, { "item": "money_bundle_FMCNote", "fixed_adj": 0 } ],
@@ -361,7 +361,7 @@
     "known_by_u": false,
     "size": 100,
     "power": 100,
-    "food_supply": 172800,
+    "fac_food_supply": { "calories": 172800, "vitamins": {  } },
     "wealth": 25000,
     "relations": {
       "marloss": {
@@ -385,7 +385,7 @@
     "known_by_u": false,
     "size": 1,
     "power": 1,
-    "food_supply": 1,
+    "fac_food_supply": { "calories": 1, "vitamins": {  } },
     "lone_wolf_faction": true,
     "wealth": 1,
     "relations": {
@@ -406,7 +406,7 @@
     "known_by_u": false,
     "size": 100,
     "power": 100,
-    "food_supply": 172800,
+    "fac_food_supply": { "calories": 172800, "vitamins": {  } },
     "wealth": 2500000,
     "relations": {
       "lobby_beggars": { "knows your voice": true },
@@ -430,7 +430,7 @@
     "known_by_u": false,
     "size": 100,
     "power": 100,
-    "food_supply": 230400,
+    "fac_food_supply": { "calories": 230400, "vitamins": {  } },
     "wealth": 45000000,
     "relations": {
       "hells_raiders": {
@@ -470,7 +470,7 @@
     "known_by_u": false,
     "size": 1,
     "power": 1,
-    "food_supply": 1,
+    "fac_food_supply": { "calories": 1, "vitamins": {  } },
     "wealth": 1,
     "relations": {
       "slaves": {
@@ -499,46 +499,6 @@
   },
   {
     "type": "faction",
-    "id": "valhallists",
-    "name": "Norse Evangelicals",
-    "likes_u": 2,
-    "respects_u": 0,
-    "known_by_u": false,
-    "size": 100,
-    "power": 100,
-    "food_supply": 172800,
-    "wealth": 25000,
-    "currency": "signed_chit",
-    "relations": {
-      "valhallists": {
-        "kill on sight": false,
-        "watch your back": true,
-        "share my stuff": true,
-        "guard your stuff": true,
-        "lets you in": true,
-        "defends your space": true,
-        "knows your voice": true
-      },
-      "your_followers": {
-        "kill on sight": false,
-        "watch your back": false,
-        "share my stuff": false,
-        "guard your stuff": false,
-        "lets you in": true,
-        "defends your space": false,
-        "knows your voice": false
-      },
-      "marloss": { "kill on sight": true },
-      "hells_raiders": { "kill on sight": true }
-    },
-    "epilogues": [
-      { "power_min": 0, "power_max": 149, "id": "epilogue_faction_valhallists_0" },
-      { "power_min": 150, "id": "epilogue_faction_valhallists_150" }
-    ],
-    "description": "A band of people practicing 'Asatro' or 'Forn Sidr'; the worship of the Norse pantheon.  Thay have the common goal of recruiting new members, entering Valhalla, and exterminating the Marloss Evangelists; whom they deem heretics."
-  },
-  {
-    "type": "faction",
     "id": "apis_hive",
     "name": "Mutants Bees",
     "likes_u": -25,
@@ -546,7 +506,7 @@
     "known_by_u": false,
     "size": 1,
     "power": 10,
-    "food_supply": 2304,
+    "fac_food_supply": { "calories": 2304, "vitamins": {  } },
     "wealth": 0,
     "relations": {
       "apis_hive": {
@@ -574,7 +534,7 @@
     "size": 7,
     "power": 10,
     "currency": "signed_chit",
-    "food_supply": 115200,
+    "fac_food_supply": { "calories": 115200, "vitamins": {  } },
     "wealth": 75000,
     "relations": {
       "free_merchants": {
@@ -647,7 +607,7 @@
     "size": 25,
     "power": 20,
     "currency": "icon",
-    "food_supply": 87500,
+    "fac_food_supply": { "calories": 87500, "vitamins": {  } },
     "wealth": 82500,
     "relations": {
       "gods_community": {
@@ -739,7 +699,7 @@
     "size": 1,
     "power": 1,
     "currency": "fur",
-    "food_supply": 87500,
+    "fac_food_supply": { "calories": 87500, "vitamins": {  } },
     "wealth": 82500,
     "relations": {
       "free_merchants": {
@@ -821,7 +781,7 @@
     "known_by_u": false,
     "size": 3,
     "power": 3,
-    "food_supply": 100,
+    "fac_food_supply": { "calories": 100, "vitamins": {  } },
     "wealth": 20000,
     "relations": {
       "free_merchants": { "knows your voice": true },
@@ -840,7 +800,7 @@
     "known_by_u": true,
     "size": 100,
     "power": 100,
-    "food_supply": 230400,
+    "fac_food_supply": { "calories": 230400, "vitamins": {  } },
     "wealth": 45000000,
     "relations": {
       "hells_raiders": {
@@ -872,7 +832,7 @@
     "mon_faction": "exodii",
     "size": 100,
     "power": 100,
-    "food_supply": 115200,
+    "fac_food_supply": { "calories": 115200, "vitamins": {  } },
     "wealth": 75000000,
     "price_rules": [ { "group": "games_board_all", "premium": 2.5 } ],
     "relations": {
@@ -955,7 +915,7 @@
     "known_by_u": false,
     "size": 100,
     "power": 100,
-    "food_supply": 115200,
+    "fac_food_supply": { "calories": 115200, "vitamins": {  } },
     "wealth": 25000000,
     "currency": "FlatCoin",
     "price_rules": [

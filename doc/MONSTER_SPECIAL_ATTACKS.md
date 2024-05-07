@@ -8,6 +8,7 @@
     - [Hardcoded special attacks](#hardcoded-special-attacks)
     - [JSON special attacks](#json-special-attacks)
         - [`bite`](#bite)
+        - [`grab`](#grab-attacks)
     - [Non-melee special attacks](#non-melee-special-attacks)
         - [`gun`](#gun)
         - [`spell`](#spell)
@@ -73,14 +74,14 @@ In the case of separately defined attacks the object has to contain at least an 
     { "id": "impale", "cooldown": 5, "min_mul": 1, "max_mul": 3 }
 ]
 ```
-This monster can attempt a grab every ten turns, a leap with a maximum range of 4 every eight and an impale attack with 1-3x damage multiplier every five turns.
+This monster can attempt an acid attack every ten turns, a leap with a maximum range of 4 every eight and an impale attack with 1-3x damage multiplier every five turns.
 
 
 ## Hardcoded special attacks
 
 These special attacks are mostly hardcoded in C++ and are generally not configurable with JSON (unless otherwise documented).  JSON-declared replacements are mentioned when available.
 
-- ```ABSORB_ITEMS``` Consumes objects it moves over to gain HP.  A movement cost per ml consumed can be enforced with `absorb_move_cost_per_ml` (default 0.025). The movement cost can have a minimum and maximum value specified by `absorb_move_cost_min` (default 1) and `absorb_move_cost_max` (default -1 for no limit). The volume in milliliters the monster must consume to gain 1 HP can be specified with `absorb_ml_per_hp` (default 250 ml). A list of materials that the monster can absorb can be specified with `absorb_materials` (can be string or string array, not specified = absorb all materials).
+- ```ABSORB_ITEMS``` Consumes objects it moves over to gain HP.  A movement cost per ml consumed can be enforced with `absorb_move_cost_per_ml` (default 0.025). The movement cost can have a minimum and maximum value specified by `absorb_move_cost_min` (default 1) and `absorb_move_cost_max` (default -1 for no limit). The volume in milliliters the monster must consume to gain 1 HP can be specified with `absorb_ml_per_hp` (default 250 ml). A list of materials that the monster can absorb can be specified with `absorb_materials` (can be string or string array, not specified = absorb all materials) and forbidden with `no_absorb_materials` (can be string or string array, not specified = absorb all materials specified by absorb_materials).
 - ```ABSORB_MEAT``` Absorbs adjacent meat items (maximum absorbable item volume depends on the monster's volume), regenerating health in the process.
 - ```ACID``` Spits acid.
 - ```ACID_ACCURATE``` Shoots acid that is accurate at long ranges, but less so up close.
@@ -93,6 +94,7 @@ These special attacks are mostly hardcoded in C++ and are generally not configur
 - ```BOOMER_GLOW``` Spits glowing bile.
 - ```BOOMER``` Spits bile.
 - ```BRANDISH``` Brandishes a knife at the player.
+- ```BROWSE``` The monster will eat harvestable foods from BROWSABLE trees and plants when they're in season.
 - ```BREATHE``` Spawns a `breather`.  Note: `breather hub` only!
 - ```CALLBLOBS``` Calls 2/3 of nearby blobs to defend this monster, and sends 1/3 of nearby blobs after the player.
 - ```CHICKENBOT``` Robot can attack with tazer, M4, or MGL depending on distance.  Note: Legacy special attack.
@@ -103,7 +105,7 @@ These special attacks are mostly hardcoded in C++ and are generally not configur
 - ```DISAPPEAR``` Hallucination (or other unusual monster) disappears.
 - ```DOGTHING``` The dog _thing_ spawns into a tentacle dog.
 - ```EAT_CARRION``` The monster will nibble on organic corpses, including zombies and plants, damaging them and filling its stomach if it has the EATS flag.
-- ```EAT_CROP``` The monster eats an adjacent planted crop.
+- ```EAT_CROP``` The monster eats an adjacent planted crop or CATTLE flagged comestible.
 - ```EAT_FOOD``` The monster eats an adjacent non-seed food item (apart from their own eggs and food with fun < -20). If paired with the EATS flag, this will fill its stomach.
 - ```EVOLVE_KILL_STRIKE``` Damages the target's torso (damage scales with monster's melee dice), if it succeeds in killing a fleshy target the monster will upgrade to its next evolution.
 - ```FEAR_PARALYZE``` Paralyzes the player with fear.
@@ -121,6 +123,7 @@ These special attacks are mostly hardcoded in C++ and are generally not configur
 - ```FUNGUS_INJECT``` Performs a needle attack that can cause fungal infections.
 - ```FUNGUS_SPROUT``` Grows a fungal wall.
 - ```FUNGAL_TRAIL``` Spreads fungal terrain.
+- ```GRAZE``` The monster eats grass, shrubs and flowers.
 - ```GENE_STING``` Shoots a dart at the player that causes a mutation if it connects.
 - ```GENERATOR``` Regenerates health, hums.
 - ```GRENADIER``` Deploys tear gas/pacification/flashbang/c4 hacks from its ammo.
@@ -128,11 +131,9 @@ These special attacks are mostly hardcoded in C++ and are generally not configur
 - ```GROWPLANTS``` Spawns underbrush, or promotes it to `> young tree > tree`.  Can destroy bashable terrain or do damage if it hits something.
 - ```GROW_VINE``` Grows creeper vines.
 - ```HOWL``` "an ear-piercing howl!".
-- ```IMPALE``` Stabbing attack against the target's torso, with a chance to inflict `downed`.  Note: superseded by the JSON-defined `"impale"`.
 - ```JACKSON``` Converts zombies into zombie dancers (until its death).
 - ```KAMIKAZE``` Detonates its defined ammo after a countdown (calculated automatically to hopefully almost catch up to a running player).
 - ```LEECH_SPAWNER``` Spawns root runners or root drones, low chance of upgrading itself into a leech stalk.
-- ```LONGSWIPE``` Claw attack with 3-10 cut damage, which can even hit 3 tiles away.  If targeting an adjacent enemy it always hits the head and causes heavy bleeding.  JSON equivalents of the two elements are `"longswipe"` and `"cut_throat"` respectively.
 - ```LUNGE``` Performs a jumping attack from some distance away, which can inflict `downed` to the target.
 - ```MON_LEECH_EVOLUTION``` Evolves a leech plant into a leech blossom if no other blossoms are in sight.
 - ```MULTI_ROBOT``` Robot can attack with tazer, flamethrower, M4, MGL, or 120mm cannon depending on distance.
@@ -161,10 +162,8 @@ These special attacks are mostly hardcoded in C++ and are generally not configur
 - ```SPLIT``` Creates a copy of itself if it has twice the maximum HP that it should normally have.  This can be achieved by combining this with `ABSORB_ITEMS`.
 - ```STARE``` Stares at the player and inflicts ramping debuffs (`taint>tindrift`).
 - ```STRETCH_ATTACK``` Ranged (3 tiles) piercing attack, dealing 5-10 damage.  JSON equivalent is `"stretch_attack"`
-- ```STRETCH_BITE``` Ranged (3 tiles) bite attack, dealing stab damage and potentially infecting without grabbing.  JSON equivalent (without the chance of deep bites) is `"stretch_bite"`.
 - ```SUICIDE``` Dies after attacking.
 - ```TAZER``` Shocks the player.
-- ```TENTACLE``` Lashes a tentacle at an enemy, doing bash damage at 3 tiles range. JSON equivalent is `"tentacle"`.
 - ```TINDALOS_TELEPORT``` Spawns afterimages, teleports to corners nearer to its target.
 - ```TRIFFID_GROWTH``` Young triffid grows into an adult.
 - ```TRIFFID_HEARTBEAT``` Grows and crumbles root walls around the player, and spawns more monsters.
@@ -302,8 +301,8 @@ Makes the monster leap a few tiles over passable terrain as long as it can see i
 | `prefer_leap`           | Leap even when adjacent to target, will still choose the closest acceptable destination.             |
 | `random_leap`           | Disregard target location entirely when leaping, leading to completely random jumps.                 |
 | `ignore_dest_terrain`   | Leap even if the destination is terrain that it doesn't usually move on.                             |
-| `ignore_dest_danger`    | Leap even if the destination is tiles that it would usually avoid, such fire, traps.                 |
-| `allow_no_target`       | Default `false` prevents monster from using the ability without a hostile target at its destination. |
+| `ignore_dest_danger`    | Leap even if the destination is tiles that it would usually avoid, such as fire or traps.            |
+| `allow_no_target`       | Default `false`.  Prevents the monster from using the ability without a hostile target at its destination.
 | `move_cost`             | Moves needed to complete special attack. 100 move_cost with 100 speed is equal to 1 second/turn.     |
 | `min_consider_range`    | Minimal distance to target to consider for using specific attack.                                    |
 | `max_consider_range`    | Maximal distance to target to consider for using specific attack.        

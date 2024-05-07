@@ -39,15 +39,7 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "mapgen_test_nested",
-    "object": {
-      "mapgensize": [ 2, 2 ],
-      "rows": [
-        "  ",
-        "  "
-      ],
-      "terrain": { " ": "t_region_groundcover" },
-      "furniture": { " ": "f_armchair" }
-    }
+    "object": { "mapgensize": [ 2, 2 ], "terrain": { " ": "t_region_groundcover" }, "furniture": { " ": "f_armchair" } }
   },
   {
     "type": "mapgen",

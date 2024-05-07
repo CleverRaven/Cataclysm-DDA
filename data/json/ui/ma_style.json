@@ -140,6 +140,11 @@
         "text": "Enhanced Blocking"
       },
       {
+        "condition": { "u_has_effect": "mabuff:buff_brawling_onpause" },
+        "id": "buff_brawling_onpause",
+        "text": "Preparation to Hit"
+      },
+      {
         "//": "Barbaran Montante   ----------------------------------",
         "condition": { "u_has_effect": "mabuff:buff_barbaran_static" },
         "id": "buff_barbaran_static",
@@ -435,7 +440,7 @@
       {
         "condition": { "u_has_effect": "mabuff:buff_snake_onpause" },
         "id": "buff_snake_onpause",
-        "text": "Snake's Coi"
+        "text": "Snake's Coil"
       },
       {
         "//": "Tiger Kung Fu   -------------- 30 ----------------",
@@ -571,6 +576,201 @@
         "condition": { "u_has_effect": "mabuff:buff_kickboxing_stance_static" },
         "id": "buff_kickboxing_stance_static",
         "text": "Kick stance"
+      },
+      {
+        "//": "Desert Wind   ------------------------------------",
+        "condition": { "u_has_effect": "mabuff:mma_buff_desert_wind_ondodge" },
+        "id": "buff_desert_wind_ondodge",
+        "text": "Zephyr Dance"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:mma_buff_desert_wind_onmove" },
+        "id": "buff_desert_wind_onmove",
+        "text": "Wind Stride"
+      },
+      {
+        "//": "Diamond Mind   -----------------------------------",
+        "condition": { "u_has_effect": "mabuff:mma_buff_diamond_mind_static" },
+        "id": "buff_diamond_mind_static",
+        "text": "Stance of Alacrity"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:mma_buff_diamond_mind_ondodge" },
+        "id": "buff_diamond_mind_ondodge",
+        "text": "Pearl of Black Doubt"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:mma_buff_diamond_mind_ongethit" },
+        "id": "buff_diamond_mind_ongethit",
+        "text": "Mind over Body"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:mma_buff_diamond_mind_onpause" },
+        "id": "buff_diamond_mind_onpause",
+        "text": "Quicksilver Motion"
+      },
+      {
+        "//": "Hylian Swordsmanship   ---------------------------",
+        "condition": { "u_has_effect": "mabuff:mma_buff_hylian_static1" },
+        "id": "buff_hylian_static1",
+        "text": "Combat Acrobat"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:mma_buff_hylian_static2" },
+        "id": "buff_hylian_static2",
+        "text": "Intermediate Combat Acrobat"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:mma_buff_hylian_static3" },
+        "id": "buff_hylian_static3",
+        "text": "Master Combat Acrobat"
+      },
+      { "condition": { "u_has_effect": "mabuff:mma_buff_hylian_spin" }, "id": "buff_hylian_spin", "text": "Spinning" },
+      {
+        "condition": { "u_has_effect": "mabuff:mma_buff_hylian_ondodge" },
+        "id": "buff_hylian_ondodge",
+        "text": "Flurry Rush"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:mma_buff_hylian_onmove" },
+        "id": "buff_hylian_onmove",
+        "text": "Dash Attack"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:mma_buff_hylian_onpause" },
+        "id": "buff_hylian_onpause",
+        "text": "Charge Up"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:mma_buff_hylian_onpause_2" },
+        "id": "buff_hylian_onpause_2",
+        "text": "Greater Charge Up"
+      },
+      {
+        "//": "Panzer Kunst   -----------------------------------",
+        "condition": { "u_has_effect": "mabuff:mma_buff_panzer_ondodge" },
+        "id": "buff_panzer_kunst_ondodge",
+        "text": "Einzug Rüstungen"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:mma_buff_panzer_static1" },
+        "id": "buff_panzer_kunst_static1",
+        "text": "Schatten Folgen"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:mma_buff_panzer_static2" },
+        "id": "buff_panzer_kunst_static2",
+        "text": "Seinerweisen"
+      },
+      {
+        "//": "Pokken   -----------------------------------------",
+        "condition": { "u_has_effect": "mabuff:mma_buff_pokken_oncrit" },
+        "id": "buff_pokken_oncrit",
+        "text": "Sniper"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:mma_buff_pokken_ongethit" },
+        "id": "buff_pokken_ongethit",
+        "text": "Stamina"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:mma_buff_pokken_onkill" },
+        "id": "buff_pokken_onkill",
+        "text": "Moxie"
+      },
+      {
+        "//": "Setting Sun   ------------------------------------",
+        "condition": { "u_has_effect": "mabuff:mma_buff_setting_sun_onblock" },
+        "id": "buff_setting_sun_onblock",
+        "text": "Fool's Strike"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:mma_buff_setting_sun_ondodge" },
+        "id": "buff_setting_sun_ondodge",
+        "text": "Feigned Opening"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:mma_buff_setting_sun_onpause" },
+        "id": "buff_setting_sun_onpause",
+        "text": "Baffling Defense"
+      },
+      {
+        "//": "Shii-Cho   ---------------------------------------",
+        "condition": { "u_has_effect": "mabuff:mma_buff_shii_cho_static1" },
+        "id": "buff_shii_cho_static1",
+        "text": "Determination"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:mma_buff_shii_cho_static2" },
+        "id": "buff_shii_cho_static2",
+        "text": "Apprentice Training"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:mma_buff_shii_cho_static3" },
+        "id": "buff_shii_cho_static3",
+        "text": "Knight Training"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:mma_buff_shii_cho_static4" },
+        "id": "buff_shii_cho_static4",
+        "text": "Master Training"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:mma_buff_shii_cho_onblock" },
+        "id": "buff_shii_cho_onblock",
+        "text": "Flowing Water"
+      },
+      {
+        "//": "Stone Dragon   -----------------------------------",
+        "condition": { "u_has_effect": "mabuff:mma_buff_stone_dragon_static" },
+        "id": "buff_stone_dragon_static",
+        "text": "Stonefoot Stance"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:mma_buff_stone_dragon_oncrit" },
+        "id": "buff_stone_dragon_oncrit",
+        "text": "Iron Bones"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:mma_buff_stone_dragon_onhit" },
+        "id": "buff_stone_dragon_onhit",
+        "text": "Stone Bones"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:mma_buff_stone_dragon_onmove1" },
+        "id": "buff_stone_dragon_onmove1",
+        "text": "Cracked Stone"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:mma_buff_stone_dragon_onmove2" },
+        "id": "buff_stone_dragon_onmove2",
+        "text": "Shattered Stone"
+      },
+      {
+        "//": "Tiger Claw   -------------------------------------",
+        "condition": { "u_has_effect": "mabuff:mma_buff_tiger_claw_static" },
+        "id": "buff_tiger_claw_static",
+        "text": "Improved Critical"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:mma_buff_tiger_claw_oncrit" },
+        "id": "buff_tiger_claw_oncrit",
+        "text": "Blood In The Water"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:mma_buff_tiger_claw_ongethit" },
+        "id": "buff_tiger_claw_ongethit",
+        "text": "Cornered Predator"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:mma_buff_tiger_claw_onkill" },
+        "id": "buff_tiger_claw_onkill",
+        "text": "Prey on the Weak"
+      },
+      {
+        "condition": { "u_has_effect": "mabuff:mma_buff_tiger_claw_onmove" },
+        "id": "buff_tiger_claw_onmove",
+        "text": "Pouncing Charge"
       }
     ],
     "default_clause": { "text": "---" }

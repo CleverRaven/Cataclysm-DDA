@@ -56,9 +56,9 @@ tripoint_abs_omt talker_item_const::global_omt_location() const
     return get_player_character().global_omt_location();
 }
 
-std::string talker_item_const::get_value( const std::string &var_name ) const
+std::optional<std::string> talker_item_const::maybe_get_value( const std::string &var_name ) const
 {
-    return me_it_const->get_item()->get_var( var_name );
+    return me_it_const->get_item()->maybe_get_var( var_name );
 }
 
 bool talker_item_const::has_flag( const flag_id &f ) const
@@ -87,6 +87,11 @@ int talker_item_const::get_cur_hp( const bodypart_id & ) const
 int talker_item_const::get_hp_max( const bodypart_id & ) const
 {
     return me_it_const->get_item()->max_damage();
+}
+
+int talker_item_const::get_count() const
+{
+    return me_it_const->get_item()->count();
 }
 
 int talker_item_const::coverage_at( bodypart_id &id ) const

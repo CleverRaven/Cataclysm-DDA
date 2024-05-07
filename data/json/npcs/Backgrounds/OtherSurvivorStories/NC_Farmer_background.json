@@ -2,24 +2,25 @@
   {
     "id": "BOSS_NC_FARMER_Story1",
     "type": "talk_topic",
-    "dynamic_line": "Actually, I ran into another survivor once - survivalist, total nutcase.  He was headed for a military bunker to try and loot it, guessing that didn't go well.  Anyway, he mentioned a pack of survivors who camped out at a farm around here, some of them actually knew about farming.  There's a chance they're still out there, could be worth looking for.",
+    "dynamic_line": {
+      "gendered_line": "Actually, I ran into another survivor once - survivalist, total nutcase.  He was headed for a military bunker to try and loot it, guessing that didn't go well.  Anyway, he mentioned a pack of survivors who camped out at a farm around here, some of them actually knew about farming.  There's a chance they're still out there, could be worth looking for.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       {
         "text": "Let's see how to get there and go check on them.",
         "topic": "BOSS_NC_FARMER_Story2",
         "condition": {
           "and": [
-            {
-              "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 1 } ]
-            },
+            { "math": [ "npc_randomize_dialogue_direction", "==", "1" ] },
             { "npc_has_trait": "BOSS_NC_FARMER_01" },
-            { "not": { "u_has_var": "directions", "type": "BOSS", "context": "mission", "value": "farmer" } }
+            { "not": { "u_has_var": "BOSS_mission_directions", "value": "farmer" } }
           ]
         },
         "effect": { "assign_mission": "directions_farmer" },
         "switch": true
       },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -39,7 +40,7 @@
     "value": 0,
     "start": {
       "assign_mission_target": { "om_special": "Farm Mutable", "om_terrain": "farm_2", "reveal_radius": 5, "search_range": 400 },
-      "effect": { "u_add_var": "directions", "type": "BOSS", "context": "mission", "value": "farmer" }
+      "effect": { "u_add_var": "BOSS_mission_directions", "value": "farmer" }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {

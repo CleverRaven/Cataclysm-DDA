@@ -83,9 +83,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            {
-              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
-            }
+            { "not": { "npc_has_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" } }
           ]
         },
         "trial": { "type": "PERSUADE", "difficulty": 10 },
@@ -96,7 +94,7 @@
       { "text": "How are things here?", "topic": "TALK_REFUGEE_Uyen_Situation" },
       {
         "text": "Could you teach me a bit about first aid?",
-        "condition": { "u_has_var": "Uyen_teach", "type": "knowledge", "context": "flag", "value": "yes" },
+        "condition": { "u_has_var": "knowledge_flag_Uyen_teach", "value": "yes" },
         "topic": "TALK_REFUGEE_Uyen_Teach"
       },
       { "text": "What do you think happened to the world?", "topic": "TALK_REFUGEE_Uyen_World" },
@@ -108,12 +106,12 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Uyen_1",
-    "dynamic_line": "*studies you with interest, her eyes lined with fatigue but still alert.  She brushes a lock of hair off her forehead.  \"Hi there.  You look new, nice to meet you.  My name's Uyen.\"",
+    "dynamic_line": {
+      "gendered_line": "*studies you with interest, her eyes lined with fatigue but still alert.  She brushes a lock of hair off her forehead.  \"Hi there.  You look new, nice to meet you.  My name's Uyen.\"",
+      "relevant_genders": [ "npc" ]
+    },
     "speaker_effect": {
-      "effect": [
-        { "u_add_var": "u_met_Uyen_Tran", "type": "general", "context": "meeting", "value": "yes" },
-        { "npc_first_topic": "TALK_REFUGEE_Uyen_1a" }
-      ]
+      "effect": [ { "u_add_var": "general_meeting_u_met_Uyen_Tran", "value": "yes" }, { "npc_first_topic": "TALK_REFUGEE_Uyen_1a" } ]
     },
     "responses": [
       { "text": "Nice to meet you too, Uyen.", "topic": "TALK_REFUGEE_Uyen_1_firstmeet" },
@@ -241,7 +239,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Uyen_Teach",
     "dynamic_line": "Sure, I don't see why not.  It's always good to have more people who can do it.  I'll need a bit of payment for my time, of course.",
-    "speaker_effect": { "effect": { "u_add_var": "Uyen_teach", "type": "knowledge", "context": "flag", "value": "yes" } },
+    "speaker_effect": { "effect": { "u_add_var": "knowledge_flag_Uyen_teach", "value": "yes" } },
     "responses": [
       { "text": "All right, let's do it!", "topic": "TALK_TRAIN" },
       { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
@@ -255,18 +253,12 @@
       "concatenate": [
         "\"We've got it okay, I guess",
         {
-          "u_compare_var": "refugee_happiness",
-          "type": "counter",
-          "context": "refugee_center",
-          "op": ">=",
-          "value": 6,
+          "math": [ "u_counter_refugee_center_refugee_happiness", ">=", "6" ],
           "yes": ".  Things have been getting better.  I wasn't even sure it was possible",
           "no": ", as long as this doesn't last too long."
         },
         {
-          "u_has_var": "Boris_mission_1",
-          "type": "mission",
-          "context": "completed",
+          "u_has_var": "mission_completed_Boris_mission_1",
           "value": "yes",
           "yes": ".  With the back room cleared, we've had some chances to come and go, and spread out a bit.  It's made a huge difference to morale.\"  She looks around at the other refugees.  \"We'll have to see what the future holds.\"",
           "no": ".  The situation is pretty tight, though.\"  She glances around at the huddled crowds of people in the room.  \"If we're stuck here for too long people are going to start getting a bit stir crazy.\""
@@ -300,8 +292,8 @@
     "end": {
       "effect": [
         { "u_spawn_item": "FMCNote", "count": 8 },
-        { "u_add_var": "Uyen_Mission1", "type": "mission", "context": "flag", "value": "yes" },
-        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 1 }
+        { "u_add_var": "mission_flag_Uyen_Mission1", "value": "yes" },
+        { "math": [ "u_counter_refugee_center_refugee_happiness", "++" ] }
       ]
     }
   },
@@ -331,8 +323,8 @@
     "end": {
       "effect": [
         { "u_spawn_item": "FMCNote", "count": 7 },
-        { "u_add_var": "Uyen_Mission2", "type": "mission", "context": "flag", "value": "yes" },
-        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 1 }
+        { "u_add_var": "mission_flag_Uyen_Mission2", "value": "yes" },
+        { "math": [ "u_counter_refugee_center_refugee_happiness", "++" ] }
       ]
     }
   },
@@ -361,8 +353,8 @@
     "end": {
       "effect": [
         { "u_spawn_item": "FMCNote", "count": 5 },
-        { "u_add_var": "Uyen_Mission3", "type": "mission", "context": "flag", "value": "yes" },
-        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 3 }
+        { "u_add_var": "mission_flag_Uyen_Mission3", "value": "yes" },
+        { "math": [ "u_counter_refugee_center_refugee_happiness", "+=", "3" ] }
       ]
     }
   }

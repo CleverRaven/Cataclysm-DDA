@@ -10,15 +10,16 @@
     "variants": [
       {
         "id": "ppsh",
-        "name": { "str": "PPSh-41" },
+        "name": { "str": "PPSh-41 submachine gun" },
         "description": "A bulky and simple Second World War submachine gun of Russian manufacture, composed from a basic wooden buttstock, steel barrel shroud, and the hopes and prayers of Soviet soldiers under threat of German invasion.  Designed for mass production with limited materials, the weapon is notable for its high-capacity drum magazines, capability of rapidly depleting said magazines, and vicious 7.62x25mm chambering."
       }
     ],
     "weight": "3640 g",
     "volume": "2873 ml",
     "longest_side": "844 mm",
-    "price": 280000,
-    "price_postapoc": 2250,
+    "barrel_length": "269 mm",
+    "price": "2 kUSD 800 USD",
+    "price_postapoc": "22 USD 50 cent",
     "to_hit": -2,
     "material": [ "steel", "wood" ],
     "symbol": "(",
@@ -36,7 +37,7 @@
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
@@ -55,12 +56,12 @@
     "looks_like": "glock_17",
     "type": "GUN",
     "name": { "str": "Tokarev handgun" },
-    "description": "A symbol of Soviet pride and favoured sidearm of Red Army officers, this is a compact pistol firing the punchy 7.62x25mm cartridge.  featuring an uncomfortable grip angle reminiscent of brandishing an unusually irate capital L at one’s opponents, it is nevertheless a commendably accurate and durable handgun.",
+    "description": "A symbol of Soviet pride and favored sidearm of Red Army officers, this is a compact pistol firing the punchy 7.62x25mm cartridge.  featuring an uncomfortable grip angle reminiscent of brandishing an unusually irate capital L at one's opponents, it is nevertheless a commendably accurate and durable handgun.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "tokarev",
-        "name": { "str_sp": "Tokarev TT-33" },
+        "name": { "str": "Tokarev TT-33 pistol" },
         "//": "And it's therefore expensive.",
         "description": "The Tokarev TT-33 is an antique Russian semiautomatic pistol, famous for its durability, accuracy, and uncomfortable grip angle.  It was chambered for the 7.62x25mm due to the popularity of the C96 pistol among Russian revolutionaries."
       }
@@ -68,8 +69,9 @@
     "weight": "870 g",
     "volume": "251 ml",
     "longest_side": "220 mm",
-    "price": 100000,
-    "price_postapoc": 1250,
+    "barrel_length": "116 mm",
+    "price": "1 kUSD",
+    "price_postapoc": "12 USD 50 cent",
     "to_hit": -2,
     "material": [ "steel", "plastic" ],
     "ammo": [ "762x25" ],

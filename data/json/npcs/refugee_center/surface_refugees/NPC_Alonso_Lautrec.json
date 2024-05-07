@@ -86,34 +86,32 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            {
-              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
-            }
+            { "not": { "npc_has_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" } }
           ]
         },
         "topic": "TALK_REFUGEE_Alonso_Refuse_Boris_Mission_1"
       },
       { "text": "You seem a little forward…", "topic": "TALK_REFUGEE_Alonso_Forward" },
       {
-        "text": "[PERCEPTION 10] What is up with you?  What's with the fake accent, and speaking in the third person?",
+        "text": "[PER 10] What is up with you?  What's with the fake accent, and speaking in the third person?",
         "topic": "TALK_REFUGEE_Alonso_CalledOut1",
         "condition": {
           "and": [
             { "u_has_perception": 10 },
-            { "not": { "npc_has_var": "Alonso_accent", "type": "general", "context": "none", "value": "asked" } },
-            { "not": { "npc_has_var": "Alonso_accent", "type": "general", "context": "none", "value": "accepted" } }
+            { "not": { "npc_has_var": "general_none_Alonso_accent", "value": "asked" } },
+            { "not": { "npc_has_var": "general_none_Alonso_accent", "value": "accepted" } }
           ]
         }
       },
       {
         "text": "Why aren't you wearing any pants?",
         "topic": "TALK_REFUGEE_Alonso_Pants1",
-        "condition": { "not": { "u_has_var": "Alonso_pants", "type": "mission", "context": "flag", "value": "yes" } }
+        "condition": { "not": { "u_has_var": "mission_flag_Alonso_pants", "value": "yes" } }
       },
       {
         "text": "About those special pants a sexy clown hid in a shop for mysterious reasons…",
         "topic": "TALK_MISSION_INQUIRE",
-        "condition": { "u_has_var": "Alonso_pants", "type": "mission", "context": "flag", "value": "in_progress" }
+        "condition": { "u_has_var": "mission_flag_Alonso_pants", "value": "in_progress" }
       },
       { "text": "What's your story?", "topic": "TALK_REFUGEE_Alonso_Background" },
       { "text": "How are things here?", "topic": "TALK_REFUGEE_Alonso_Situation" },
@@ -177,7 +175,7 @@
     },
     "speaker_effect": {
       "effect": [
-        { "u_add_var": "u_met_Alonso_Lautrec", "type": "general", "context": "meeting", "value": "yes" },
+        { "u_add_var": "general_meeting_u_met_Alonso_Lautrec", "value": "yes" },
         { "npc_first_topic": "TALK_REFUGEE_Alonso_1a" }
       ]
     },
@@ -189,7 +187,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Alonso_1a",
-    "dynamic_line": "*leans casually against the brick wall of the shelter.  \"Hello again, gorgeous\"",
+    "dynamic_line": {
+      "gendered_line": "*leans casually against the brick wall of the shelter.  \"Hello again, gorgeous\"",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [
       { "text": "Hi, Alonso.  What's up?", "topic": "TALK_REFUGEE_Alonso_2" },
       { "text": "Hi Alonso.  I can't stay to talk.", "topic": "TALK_DONE" }
@@ -208,9 +209,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Alonso_2",
     "dynamic_line": {
-      "npc_has_var": "Alonso_accent",
-      "type": "general",
-      "context": "none",
+      "npc_has_var": "general_none_Alonso_accent",
       "value": "asked",
       "no": "Now that you are here, everything.  Is there anything Alonso can… *do for you*?",
       "yes": "Well, it's a lot better now that you're here.  Nice to see a familiar face."
@@ -224,9 +223,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Alonso_Forward",
     "dynamic_line": {
-      "npc_has_var": "Alonso_accent",
-      "type": "general",
-      "context": "none",
+      "npc_has_var": "general_none_Alonso_accent",
       "value": "asked",
       "no": "Alonso cannot help himself, in the face of someone so fine as you.",
       "yes": "You know me, I gotta be me, right?"
@@ -259,14 +256,14 @@
       {
         "text": "Just stop talking like that around me, maybe?  It's really obnoxious.",
         "topic": "TALK_REFUGEE_Alonso_CalledOut3",
-        "effect": { "npc_add_var": "Alonso_accent", "type": "general", "context": "none", "value": "asked" }
+        "effect": { "npc_add_var": "general_none_Alonso_accent", "value": "asked" }
       },
       {
         "text": "You know what?  You do you.  It's all good.",
         "topic": "TALK_REFUGEE_Alonso_CalledOut3",
         "effect": [
-          { "npc_add_var": "Alonso_accent", "type": "general", "context": "none", "value": "accepted" },
-          { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 1 }
+          { "npc_add_var": "general_none_Alonso_accent", "value": "accepted" },
+          { "math": [ "u_counter_refugee_center_refugee_happiness", "++" ] }
         ]
       },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
@@ -277,9 +274,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Alonso_CalledOut3",
     "dynamic_line": {
-      "npc_has_var": "Alonso_accent",
-      "type": "general",
-      "context": "none",
+      "npc_has_var": "general_none_Alonso_accent",
       "value": "asked",
       "yes": "Fine.  As a favor to you, I'll be a guy from Brooklyn.",
       "no": "Alonso thanks you for your kindness, and will remain his glorious self."
@@ -290,9 +285,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Alonso_Background",
     "dynamic_line": {
-      "npc_has_var": "Alonso_accent",
-      "type": "general",
-      "context": "none",
+      "npc_has_var": "general_none_Alonso_accent",
       "value": "asked",
       "no": "Alonso has many a tale to tell, all slow and drawn-out like, a sensual seduction of the -- how you say?  Ears.  There are dark days ahead, but perhaps together we can bring a little light?  Or at least a little heat.  This is a science joke I make for you.  Friction, it is the joke.",
       "yes": "I'm tryin' ta forget, y'know?  Don't like thinkin' about the past.  Better to plan for the future, even if the future looks grim."
@@ -306,11 +299,9 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Alonso_Pants1",
     "dynamic_line": {
-      "npc_has_var": "Alonso_accent",
-      "type": "general",
-      "context": "none",
+      "npc_has_var": "general_none_Alonso_accent",
       "value": "asked",
-      "no": "Why were you looking though?  I kid, I know she is hard to miss!  In English, the special package she is a woman no?  No.  I see.  And so do you it seems.  Yes.  There was such a clown, a clown of enormous physical beauty.  The pale, perfect skin, the ruby red lips, amazing hair, and what a sense of humor.  I laugh still, though I have lost everything.  My pants, my money, my many illegal imported triple magnum condoms I stole from a priest.  All lost to that one beautiful night.  The candles, the balloons, the singing.  It was the most romantic childrens' birthday party you could hope to imagine.  I would do it all again, and there was so much we did.  It was the end of that party, but the beginning of something beautiful, for several hours in that open minivan we found.  But you do not want to hear of such pleasures, I do not want to get you excited, for what can I do when I look so foolish, and lack the protection needed for more serious excitement.  Though and you must understand, Alonso's tongue is good for more than just the telling of long and saucy stories yes?",
+      "no": "Why were you looking though?  I kid, I know she is hard to miss!  In English, the special package she is a woman no?  No.  I see.  And so do you it seems.  Yes.  There was such a clown, a clown of enormous physical beauty.  The pale, perfect skin, the ruby red lips, amazing hair, and what a sense of humor.  I laugh still, though I have lost everything.  My pants, my money, my many illegal imported triple magnum condoms I stole from a priest.  All lost to that one beautiful night.  The candles, the balloons, the singing.  It was the most romantic children's birthday party you could hope to imagine.  I would do it all again, and there was so much we did.  It was the end of that party, but the beginning of something beautiful, for several hours in that open minivan we found.  But you do not want to hear of such pleasures, I do not want to get you excited, for what can I do when I look so foolish, and lack the protection needed for more serious excitement.  Though and you must understand, Alonso's tongue is good for more than just the telling of long and saucy stories yes?",
       "yes": "Yeah, I fucked up and got drunk at a kiddy party I crashed, broke into a van with the party clown I was seein' (hey don't judge me, it took me a long time to make that happen, clowns are very givin' lovers) and I lost my pants, includin' all my money and all my triple magnum condoms I stole off a dead priest at a bar.  I'd be mad, but at least I'm safe, I made it here.  But I got no game here y'know?  I look like the clown when I should be knee deep in hotness here.  Look around, it's straight hotties!"
     },
     "responses": [
@@ -323,9 +314,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Alonso_Situation",
     "dynamic_line": {
-      "npc_has_var": "Alonso_accent",
-      "type": "general",
-      "context": "none",
+      "npc_has_var": "general_none_Alonso_accent",
       "value": "asked",
       "no": "Here in the center, Alonso is a bit lonely.  We get a few brave, strong travelers like yourself, though, and seeing them brightens Alonso's day.  Normally I am more popular, but something seems to be troubling the spirits of these people during these terrible times.",
       "yes": "Could be better.  I don't really got any friends here in the center, but seeing travelers like you always brightens my day."
@@ -347,12 +336,12 @@
     "start": {
       "assign_mission_target": { "om_terrain": "cs_sex_shop", "reveal_radius": 1, "random": true, "search_range": 120 },
       "update_mapgen": { "om_terrain": "cs_sex_shop", "place_item": [ { "item": "pants_leather", "x": 19, "y": 20 } ] },
-      "effect": { "u_add_var": "Alonso_pants", "type": "mission", "context": "flag", "value": "in_progress" }
+      "effect": { "u_add_var": "mission_flag_Alonso_pants", "value": "in_progress" }
     },
     "end": {
       "effect": [
-        { "u_add_var": "Alonso_pants", "type": "mission", "context": "flag", "value": "yes" },
-        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 2 },
+        { "u_add_var": "mission_flag_Alonso_pants", "value": "yes" },
+        { "math": [ "u_counter_refugee_center_refugee_happiness", "+=", "2" ] },
         { "npc_add_effect": "Alonso_pants_restored", "duration": "PERMANENT" }
       ]
     },
@@ -373,12 +362,10 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Alonso_Pretty_Action",
     "dynamic_line": {
-      "npc_has_var": "Alonso_accent",
-      "type": "general",
-      "context": "none",
+      "npc_has_var": "general_none_Alonso_accent",
       "value": "asked",
       "no": "My jewel of the New England, I give to you my biggest prize.",
-      "yes": "Yo, you're crazy hot!  I'm not stupid!"
+      "yes": { "gendered_line": "Yo, you're crazy hot!  I'm not stupid!", "relevant_genders": [ "u" ] }
     },
     "speaker_effect": {
       "sentinel": "service_provided",
@@ -393,9 +380,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Alonso_Normal_Action",
     "dynamic_line": {
-      "npc_has_var": "Alonso_accent",
-      "type": "general",
-      "context": "none",
+      "npc_has_var": "general_none_Alonso_accent",
       "value": "asked",
       "no": "I give to you what of I got.  And this is Alonso so I mean it's a lot.",
       "yes": "Yeeeeah it's on!"
@@ -413,12 +398,10 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Alonso_Ugly_Action",
     "dynamic_line": {
-      "npc_has_var": "Alonso_accent",
-      "type": "general",
-      "context": "none",
+      "npc_has_var": "general_none_Alonso_accent",
       "value": "asked",
       "no": "My jewel of the New England, I give to you my biggest prize.",
-      "yes": "Yo, you're crazy hot!  I'm not stupid!"
+      "yes": { "gendered_line": "Yo, you're crazy hot!  I'm not stupid!", "relevant_genders": [ "u" ] }
     },
     "speaker_effect": {
       "sentinel": "service_provided",
@@ -433,9 +416,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Alonso_Too_Young",
     "dynamic_line": {
-      "npc_has_var": "Alonso_accent",
-      "type": "general",
-      "context": "none",
+      "npc_has_var": "general_none_Alonso_accent",
       "value": "asked",
       "no": "Alonso thinks maybe we should wait a few years?",
       "yes": "Sorry kid, you're younger than my little sister was.  Seems wrong."
@@ -446,14 +427,12 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Alonso_Refuse_Boris_Mission_1",
     "dynamic_line": {
-      "npc_has_var": "Alonso_accent",
-      "type": "general",
-      "context": "none",
+      "npc_has_var": "general_none_Alonso_accent",
       "value": "asked",
       "no": "Alonso, alas, is sorry, but he cannot sully his hands with blood.  It is not that he does not wish to prove his strength, but he… he is not strong enough.",
       "yes": "I'm sorry.  I… saw things back there, when it all went sideways.  I can't go back, not for anything."
     },
-    "speaker_effect": { "effect": { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" } },
+    "speaker_effect": { "effect": { "npc_add_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" } },
     "responses": [
       { "text": "Thanks anyway.  What were you saying before?", "topic": "TALK_NONE" },
       { "text": "Well, thanks anyway.", "topic": "TALK_DONE" }

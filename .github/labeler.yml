@@ -62,8 +62,8 @@
 "EOC: Effects On Condition":
   - "**/**effect_on_condition**"
   - "**/effect_on_condition**"
-  - "**/**eocs**"
-  - "**/eocs**"
+  - "**/**eoc**"
+  - "**/eoc**"
   - "**/condition**"
 
 "Fields / Furniture / Terrain / Traps":
@@ -135,14 +135,17 @@
   - "**/appliance**"
 
 "Monsters":
+  - "**/**monster**"
+  - "**/monster**"
   - "**/**monsters**"
   - "**/monsters**"
 
 "Mutations / Traits / Professions/ Hobbies":
   - "**/**profession**"
   - "**/profession**"
-  - "**/**mutations**"
+  - "**/**mutation**"
   - "**/mutation**"
+  - data/mods/extra_mut_scen/**/*
   - "**/hobbies**"
 
 "Lore":
@@ -178,6 +181,7 @@
   - "**/**overmap**"
   - "**/overmap**"
   - "**/overmap/**"
+  - "data/json/regional_map_settings.json"
 
 "Martial Arts":
   - "**/martialart**"
@@ -229,6 +233,9 @@
 
 "Mods: DinoMod":
   - data/mods/DinoMod/**/*
+
+"Mods: Extra Mutated Scenarios":
+  - data/mods/extra_mut_scen/**/*
 
 "Mods: Generic Guns":
   - data/mods/Generic_Guns/**/*
@@ -285,3 +292,7 @@
  
 "Game: Defense Mode":
   - "data/mods/Defense_Mode/**"
+
+"ImGui":
+  - "src/third-party/imgui/**"
+  - "src/third-party/imtui/**"

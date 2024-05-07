@@ -14,7 +14,6 @@
 #include "game.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_pocket.h"
 #include "itype.h"
 #include "make_static.h"
 #include "map.h"
@@ -22,6 +21,7 @@
 #include "pimpl.h"
 #include "player_activity.h"
 #include "player_helpers.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "profession.h"
 #include "ret_val.h"
@@ -94,7 +94,7 @@ void clear_character( Character &dummy, bool skip_nutrition )
     }
 
     // This sets HP to max, clears addictions and morale,
-    // and sets hunger, thirst, fatigue and such to zero
+    // and sets hunger, thirst, sleepiness and such to zero
     dummy.environmental_revert_effect();
     // However, the above does not set stored kcal
     dummy.set_stored_kcal( dummy.get_healthy_kcal() );
@@ -194,7 +194,7 @@ void arm_shooter( Character &shooter, const std::string &gun_type,
         gun->reload( shooter, magazine, magazine->ammo_capacity( type_of_ammo ) );
     }
     for( const std::string &mod : mods ) {
-        gun->put_in( item( itype_id( mod ) ), item_pocket::pocket_type::MOD );
+        gun->put_in( item( itype_id( mod ) ), pocket_type::MOD );
     }
     shooter.wield( *gun );
 }
@@ -205,6 +205,7 @@ void clear_avatar()
     clear_character( avatar );
     avatar.clear_identified();
     avatar.clear_nutrition();
+    avatar.reset_all_missions();
 }
 
 void equip_shooter( npc &shooter, const std::vector<std::string> &apparel )
@@ -220,8 +221,8 @@ void equip_shooter( npc &shooter, const std::vector<std::string> &apparel )
 void process_activity( Character &dummy )
 {
     do {
-        dummy.moves += dummy.get_speed();
-        while( dummy.moves > 0 && dummy.activity ) {
+        dummy.mod_moves( dummy.get_speed() );
+        while( dummy.get_moves() > 0 && dummy.activity ) {
             dummy.activity.do_turn( dummy );
         }
     } while( dummy.activity );
@@ -292,7 +293,7 @@ item tool_with_ammo( const std::string &tool, const int qty )
     } else if( !tool_it.magazine_default().is_null() ) {
         item tool_it_mag( tool_it.magazine_default() );
         tool_it_mag.ammo_set( tool_it_mag.ammo_default(), qty );
-        tool_it.put_in( tool_it_mag, item_pocket::pocket_type::MAGAZINE_WELL );
+        tool_it.put_in( tool_it_mag, pocket_type::MAGAZINE_WELL );
     }
     return tool_it;
 }

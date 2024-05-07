@@ -9,17 +9,15 @@
         "topic": "BOSS_Lapin_01_Story2",
         "condition": {
           "and": [
-            {
-              "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 1 } ]
-            },
+            { "math": [ "npc_randomize_dialogue_direction", "==", "1" ] },
             { "npc_has_trait": "BOSS_Lapin_01" },
-            { "not": { "u_has_var": "directions", "type": "BOSS", "context": "mission", "value": "lapin" } }
+            { "not": { "u_has_var": "BOSS_mission_directions", "value": "lapin" } }
           ]
         },
         "effect": { "assign_mission": "directions_lapin" },
         "switch": true
       },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -39,7 +37,7 @@
     "value": 0,
     "start": {
       "assign_mission_target": { "om_special": "Cabin_Lapin", "om_terrain": "cabin_lapin", "reveal_radius": 5, "search_range": 400 },
-      "effect": { "u_add_var": "directions", "type": "BOSS", "context": "mission", "value": "lapin" }
+      "effect": { "u_add_var": "BOSS_mission_directions", "value": "lapin" }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {

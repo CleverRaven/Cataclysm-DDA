@@ -4,7 +4,6 @@
 #include <climits>
 #include <clocale>
 #include <iterator>
-#include <new>
 #include <stdexcept>
 
 #include "cached_options.h"
@@ -19,7 +18,7 @@
 #include "game.h"
 #include "game_constants.h"
 #include "generic_factory.h"
-#include "input.h"
+#include "input_context.h"
 #include "json.h"
 #include "lang_stats.h"
 #include "line.h"
@@ -770,9 +769,29 @@ std::string options_manager::cOpt::getValue( bool classis_locale ) const
     return "";
 }
 
-template<>
-std::string options_manager::cOpt::value_as<std::string>() const
+template<typename T>
+std::optional<T> options_manager::cOpt::_convert() const
 {
+    if constexpr( std::is_same_v<T, std::string> ) {
+        return getValue( true );
+    } else {
+        if( eType == CVT_BOOL ) {
+            return static_cast<T>( bSet );
+        } else if( eType == CVT_FLOAT ) {
+            return static_cast<T>( fSet );
+        } else if( eType == CVT_INT ) {
+            return static_cast<T>( iSet );
+        }
+    }
+    return std::nullopt;
+}
+
+template<>
+std::string options_manager::cOpt::value_as<std::string>( bool convert ) const
+{
+    if( std::optional<std::string> ret = _convert<std::string>(); convert && ret ) {
+        return *ret;
+    }
     if( eType != CVT_STRING ) {
         debugmsg( "%s tried to get string value from option of type %s", sName, sType );
     }
@@ -780,8 +799,11 @@ std::string options_manager::cOpt::value_as<std::string>() const
 }
 
 template<>
-bool options_manager::cOpt::value_as<bool>() const
+bool options_manager::cOpt::value_as<bool>( bool convert ) const
 {
+    if( std::optional<bool> ret = _convert<bool>(); convert && ret ) {
+        return *ret;
+    }
     if( eType != CVT_BOOL ) {
         debugmsg( "%s tried to get boolean value from option of type %s", sName, sType );
     }
@@ -789,8 +811,11 @@ bool options_manager::cOpt::value_as<bool>() const
 }
 
 template<>
-float options_manager::cOpt::value_as<float>() const
+float options_manager::cOpt::value_as<float>( bool convert ) const
 {
+    if( std::optional<float> ret = _convert<float>(); convert && ret ) {
+        return *ret;
+    }
     if( eType != CVT_FLOAT ) {
         debugmsg( "%s tried to get float value from option of type %s", sName, sType );
     }
@@ -798,8 +823,11 @@ float options_manager::cOpt::value_as<float>() const
 }
 
 template<>
-int options_manager::cOpt::value_as<int>() const
+int options_manager::cOpt::value_as<int>( bool convert ) const
 {
+    if( std::optional<int> ret = _convert<int>(); convert && ret ) {
+        return *ret;
+    }
     if( eType != CVT_INT ) {
         debugmsg( "%s tried to get integer value from option of type %s", sName, sType );
     }
@@ -1334,7 +1362,7 @@ std::vector<options_manager::id_and_option> options_manager::get_lang_options()
             { "ru", R"(Русский)" },
             { "sr", R"(Српски)" },
             { "tr", R"(Türkçe)" },
-            { "uk_UA", R"(український)" },
+            { "uk_UA", R"(Українська)" },
             { "zh_CN", R"(中文 (天朝))" },
             { "zh_TW", R"(中文 (台灣))" },
         }
@@ -1725,6 +1753,8 @@ void options_manager::add_options_interface()
         this->add_empty_line( "interface" );
     };
 
+    add_empty_line();
+
     add( "USE_LANG", "interface", to_translation( "Language" ),
          to_translation( "Switch language.  Each percentage is the fraction of strings translated "
                          "for that language." ),
@@ -1773,6 +1803,9 @@ void options_manager::add_options_interface()
             { "24h", to_translation( "24h" ) }
         },
         "12h" );
+        add( "SHOW_VITAMIN_MASS", page_id, to_translation( "Show vitamin masses" ),
+             to_translation( "Display the masses of vitamins in addition to units/RDA values in item descriptions." ),
+             true );
     } );
 
     add_empty_line();
@@ -1808,6 +1841,9 @@ void options_manager::add_options_interface()
     add_option_group( "interface", Group( "naming_opts", to_translation( "Naming Options" ),
                                           to_translation( "Options regarding the naming of items." ) ),
     [&]( const std::string & page_id ) {
+        add( "SHOW_DRUG_VARIANTS", page_id, to_translation( "Show drug brand names" ),
+             to_translation( "If true, show brand names for drugs, instead of generic functional names - 'Adderall', instead of 'prescription stimulant'." ),
+             false );
         add( "SHOW_GUN_VARIANTS", page_id, to_translation( "Show gun brand names" ),
              to_translation( "If true, show brand names for guns, instead of generic functional names - 'm4a1' or 'h&k416a5' instead of 'NATO assault rifle'." ),
              false );
@@ -1910,6 +1946,18 @@ void options_manager::add_options_interface()
              to_translation( "Highlight unread recipes" ),
              to_translation( "If true, highlight unread recipes to allow tracking of newly learned recipes." ),
              true
+           );
+
+        add( "HIGHLIGHT_UNREAD_ITEMS", page_id,
+             to_translation( "Highlight unread items" ),
+             to_translation( "If true, highlight unread items to allow tracking of newly discovered items." ),
+             true
+           );
+
+        add( "SCREEN_READER_MODE", page_id, to_translation( "Screen reader mode" ),
+             to_translation( "On supported UI screens, tweaks display of text to optimize for screen readers.  Targeted towards using the open-source screen reader 'orca' using curses for display." ),
+             // See doc/USER_INTERFACE_AND_ACCESSIBILITY.md for testing and implementation notes
+             false
            );
     } );
 
@@ -2276,7 +2324,7 @@ void options_manager::add_options_graphics()
 
         add( "FONT_WIDTH", page_id, to_translation( "Font width" ),
              to_translation( "Set the font width.  Requires restart." ),
-             8, 100, 8, COPT_CURSES_HIDE
+             6, 100, 8, COPT_CURSES_HIDE
            );
 
         add( "FONT_HEIGHT", page_id, to_translation( "Font height" ),
@@ -2291,7 +2339,7 @@ void options_manager::add_options_graphics()
 
         add( "MAP_FONT_WIDTH", page_id, to_translation( "Map font width" ),
              to_translation( "Set the map font width.  Requires restart." ),
-             8, 100, 16, COPT_CURSES_HIDE
+             6, 100, 16, COPT_CURSES_HIDE
            );
 
         add( "MAP_FONT_HEIGHT", page_id, to_translation( "Map font height" ),
@@ -2306,7 +2354,7 @@ void options_manager::add_options_graphics()
 
         add( "OVERMAP_FONT_WIDTH", page_id, to_translation( "Overmap font width" ),
              to_translation( "Set the overmap font width.  Requires restart." ),
-             8, 100, 16, COPT_CURSES_HIDE
+             6, 100, 16, COPT_CURSES_HIDE
            );
 
         add( "OVERMAP_FONT_HEIGHT", page_id, to_translation( "Overmap font height" ),
@@ -2681,7 +2729,7 @@ void options_manager::add_options_world_default()
            );
 
         add( "MONSTER_UPGRADE_FACTOR", page_id,
-             to_translation( "Monster evolution scaling factor" ),
+             to_translation( "Monster evolution slowdown" ),
              to_translation( "A scaling factor that determines the time between monster upgrades.  A higher number means slower evolution.  Set to 0.00 to turn off monster upgrades." ),
              0.0, 100, 4.0, 0.01
            );
@@ -2772,8 +2820,14 @@ void options_manager::add_options_world_default()
 
     add_empty_line();
 
-    add( "META_PROGRESS", "world_default", to_translation( "Meta Progression" ),
-         to_translation( "Will you need to complete certain achievements to enable certain scenarios and professions?  Achievements are tracked from your memorial file so characters from any world will be checked.  Disabling this will spoil factions and situations you may otherwise stumble upon naturally.  Some scenarios are frustrating for the uninitiated and some professions skip portions of the games content.  If new to the game meta progression will help you be introduced to mechanics at a reasonable pace." ),
+    add( "META_PROGRESS", "world_default", to_translation( "Meta Progression" ), to_translation(
+             "Will you need to complete certain achievements to enable certain scenarios "
+             "and professions?  Achievements of saved characters from any world will be "
+             "checked.  Disabling this will spoil factions and situations you may otherwise "
+             "stumble upon naturally while playing.  Some scenarios are frustrating for the "
+             "uninitiated, and some professions skip portions of the game's content.  If "
+             "new to the game, meta progression will help you be introduced to mechanics at "
+             "a reasonable pace." ),
          true
        );
 }
@@ -2838,19 +2892,15 @@ void options_manager::add_options_debug()
        );
 
     add_empty_line();
-    add_option_group( "debug", Group( "3dfov_opts", to_translation( "3D Field Of Vision Options" ),
-                                      to_translation( "Options regarding 3D field of vision." ) ),
-    [&]( const std::string & page_id ) {
-        add( "FOV_3D", page_id, to_translation( "Experimental 3D field of vision" ),
-             to_translation( "If true and the world is in Z-level mode, the vision will extend beyond current Z-level.  If false, vision is limited to current Z-level." ),
-             false
-           );
 
-        add( "FOV_3D_Z_RANGE", page_id, to_translation( "Vertical range of 3D field of vision" ),
-             to_translation( "How many levels up and down the experimental 3D field of vision reaches and is drawn on screen.  (This many levels up, this many levels down.)  3D vision of the full height of the world can slow the game down a lot.  Seeing fewer Z-levels is faster." ),
-             0, OVERMAP_LAYERS, 4
-           );
-    } );
+    add( "FOV_3D_Z_RANGE", "debug", to_translation( "Vertical range of 3D field of vision" ),
+         to_translation(
+             "How many levels up and down the 3D field of vision reaches.  (This many levels up, this many levels down.)  "
+             "3D vision of the full height of the world can slow the game down a lot.  Seeing fewer Z-levels is faster.  "
+             "Setting this to 0 disables vertical vision.  In tiles mode this also affects how many levels up and down are "
+             "drawn on screen, and setting this to 0 displays only one level below with colored blocks instead." ),
+         0, OVERMAP_LAYERS, 4
+       );
 
     add_empty_line();
 
@@ -2885,9 +2935,18 @@ void options_manager::add_options_debug()
              to_translation( "Maximum distance for auto occlusion handling.  Values above zero overwrite tileset settings." ),
              0.0, 60.0, 0.0, 0.1
            );
-
-        get_option( "FOV_3D_Z_RANGE" ).setPrerequisite( "FOV_3D" );
     } );
+
+    add_empty_line();
+
+    add( "SKIP_VERIFICATION", "debug", to_translation( "Skip verification step during loading" ),
+         to_translation( "If enabled, this skips the JSON verification step during loading.  This may give a faster loading time, but risks JSON errors not being caught until runtime." ),
+#if defined(EMSCRIPTEN)
+         true
+#else
+         false
+#endif
+       );
 }
 
 void options_manager::add_options_android()
@@ -3571,7 +3630,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
             trim_and_print( w_options, point( value_col, line_pos ), value_width,
                             name_value.second.col, name_value.second.s );
 
-            opt_line_map.emplace( i, inclusive_rectangle<point>( point( name_col, line_pos ),
+            opt_line_map.emplace( visible_items[i], inclusive_rectangle<point>( point( name_col, line_pos ),
                                   point( value_col + value_width - 1, line_pos ) ) );
         }
 
@@ -3645,6 +3704,13 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
 
         const auto on_select_option = [&]() {
             cOpt &current_opt = cOPTIONS[curr_item.data];
+
+#if defined(LOCALIZE)
+            if( current_opt.getName() == "USE_LANG" ) {
+                current_opt.setValue( select_language() );
+                return;
+            }
+#endif
 
             bool hasPrerequisite = current_opt.hasPrerequisite();
             bool hasPrerequisiteFulfilled = current_opt.checkPrerequisite();
@@ -3920,7 +3986,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
     calendar::set_eternal_night( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "night" );
     calendar::set_eternal_day( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "day" );
 
-#if !defined(__ANDROID__) && (defined(TILES) || defined(_WIN32))
+#if !defined(EMSCRIPTEN) && !defined(__ANDROID__) && (defined(TILES) || defined(_WIN32))
     if( terminal_size_changed ) {
         int scaling_factor = get_scaling_factor();
         point TERM( ::get_option<int>( "TERMINAL_X" ), ::get_option<int>( "TERMINAL_Y" ) );
@@ -4022,7 +4088,6 @@ void options_manager::update_options_cache()
     log_from_top = ::get_option<std::string>( "LOG_FLOW" ) == "new_top";
     message_ttl = ::get_option<int>( "MESSAGE_TTL" );
     message_cooldown = ::get_option<int>( "MESSAGE_COOLDOWN" );
-    fov_3d = ::get_option<bool>( "FOV_3D" );
     fov_3d_z_range = ::get_option<int>( "FOV_3D_Z_RANGE" );
     keycode_mode = ::get_option<std::string>( "SDL_KEYBOARD_MODE" ) == "keycode";
     use_pinyin_search = ::get_option<bool>( "USE_PINYIN_SEARCH" );

@@ -178,7 +178,8 @@
       "STUMBLES",
       "NO_BREED",
       "CANPLAY",
-      "CAN_BE_CULLED"
+      "CAN_BE_CULLED",
+      "GUILT_ANIMAL"
     ],
     "harvest": "bird_tiny"
   },
@@ -202,7 +203,8 @@
       "CANPLAY",
       "STUMBLES",
       "NO_BREED",
-      "CAN_BE_CULLED"
+      "CAN_BE_CULLED",
+      "GUILT_ANIMAL"
     ]
   },
   {
@@ -237,8 +239,16 @@
       "CANPLAY",
       "STUMBLES",
       "NO_BREED",
-      "CAN_BE_CULLED"
+      "CAN_BE_CULLED",
+      "GUILT_ANIMAL"
     ]
+  },
+  {
+    "id": "mon_falcarius_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_gallimimus_hatchling",
+    "name": "green and magenta hatchling",
+    "upgrades": { "age_grow": 35, "into": "mon_falcarius_juvenile" }
   },
   {
     "id": "mon_therizinosaurus_hatchling",
@@ -525,6 +535,13 @@
     "upgrades": { "age_grow": 20, "into": "mon_camptosaurus_juvenile" }
   },
   {
+    "id": "mon_iguanodon_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_camptosaurus_hatchling",
+    "name": "dark gray and magenta hatchling",
+    "upgrades": { "age_grow": 30, "into": "mon_iguanodon_juvenile" }
+  },
+  {
     "id": "mon_hadrosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_camptosaurus_hatchling",
@@ -718,7 +735,8 @@
       "CANPLAY",
       "STUMBLES",
       "NO_BREED",
-      "CAN_BE_CULLED"
+      "CAN_BE_CULLED",
+      "GUILT_ANIMAL"
     ]
   },
   {
@@ -758,6 +776,19 @@
     "default_faction": "mosasaurus_hatchling",
     "harvest": "mammal_tiny",
     "upgrades": { "age_grow": 30, "into": "mon_mosasaurus_juvenile" },
+    "death_function": { "effect": { "id": "death_guilt", "min_level": 3 } },
+    "petfood": { "food": [ "DINOFOOD_B" ] },
+    "extend": { "flags": [ "AQUATIC", "WATER_CAMOUFLAGE" ] }
+  },
+  {
+    "id": "mon_plesiosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_spinosaurus_hatchling",
+    "name": "plesiosaurus neonate",
+    "description": "A tiny aquatic reptile neonate with huge shiny eyes, a long neck, and pointy little teeth.",
+    "default_faction": "plesiosaurus",
+    "harvest": "mammal_tiny",
+    "upgrades": { "age_grow": 30, "into": "mon_plesiosaurus_juvenile" },
     "death_function": { "effect": { "id": "death_guilt", "min_level": 3 } },
     "petfood": { "food": [ "DINOFOOD_B" ] },
     "extend": { "flags": [ "AQUATIC", "WATER_CAMOUFLAGE" ] }

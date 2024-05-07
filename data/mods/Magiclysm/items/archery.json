@@ -7,7 +7,7 @@
     "color": "white",
     "name": { "str": "Ichaival" },
     "description": "Ichaival, the bow of Odin.  Rumored to fire 10 arrows with every pull of the string.  It has gold and silver ornaments on it, as well as an ornate Raven.",
-    "price": 160000,
+    "price": "1 kUSD 600 USD",
     "material": [ "orichalcum_metal", "gold", "wood" ],
     "flags": [
       "FIRE_TWOHAND",
@@ -57,7 +57,7 @@
   {
     "type": "AMMO",
     "id": "arrow_odin",
-    "price": 3500,
+    "price": "35 USD",
     "name": "orichalcum arrow",
     "symbol": "=",
     "color": "white",
@@ -76,5 +76,128 @@
     "critical_multiplier": 10,
     "effects": [ "RECOVER_65" ],
     "melee_damage": { "bash": 12 }
+  },
+  {
+    "id": "arrow_druid_crafted",
+    "type": "AMMO",
+    "price": "250 USD",
+    "name": { "str": "tangler arrow" },
+    "symbol": "=",
+    "color": "green",
+    "looks_like": "arrow_heavy_fire_hardened_fletched",
+    "description": "An arrow with a fragment of a druid rune in the arrowhead.  It unleashes a storm of entangling vegetation when it strikes.",
+    "material": [ { "type": "wood", "portion": 81 }, { "type": "steel", "portion": 19 } ],
+    "volume": "90 ml",
+    "price_postapoc": "1 USD",
+    "weight": "32 g",
+    "longest_side": "76 cm",
+    "melee_damage": { "bash": 3, "cut": 1 },
+    "ammo_type": "arrow",
+    "damage": { "damage_type": "stab", "constant_damage_multiplier": 1.45, "armor_penetration": 1 },
+    "dispersion": 110,
+    "loudness": 0,
+    "show_stats": true,
+    "critical_multiplier": 10,
+    "effects": [ "TANGLE", "RECOVER_7" ]
+  },
+  {
+    "id": "arrow_stormshaper_crafted",
+    "type": "AMMO",
+    "copy-from": "arrow_druid_crafted",
+    "name": { "str": "thunderclap arrow" },
+    "color": "magenta",
+    "description": "An arrow with a fragment of a stormshaper rune in the arrowhead.  It trails lightning and explodes with a crash of thunder.",
+    "effects": [ "LIGHTNING", "FLASHBANG", "RECOVER_7" ]
+  },
+  {
+    "id": "arrow_earthshaper_crafted",
+    "type": "AMMO",
+    "copy-from": "arrow_druid_crafted",
+    "name": { "str": "avalanche arrow" },
+    "color": "light_gray",
+    "description": "An arrow with a fragment of a earthshaper rune in the arrowhead.  It hits the target with the force of an avalanche.",
+    "effects": [ "LARGE_BEANBAG", "RECOVER_7" ]
+  },
+  {
+    "id": "arrow_kelvinist_crafted",
+    "type": "AMMO",
+    "copy-from": "arrow_druid_crafted",
+    "name": { "str": "fireball arrow" },
+    "color": "red",
+    "description": "An arrow with a fragment of a kelvinist rune in the arrowhead.  It explodes into a firestorm.",
+    "effects": [ "NAPALM", "RECOVER_7" ]
+  },
+  {
+    "id": "arrow_biomancer_crafted",
+    "type": "AMMO",
+    "copy-from": "arrow_druid_crafted",
+    "name": { "str": "visceral arrow" },
+    "color": "green",
+    "material": [ "bone" ],
+    "description": "A disturbing bone arrow with a fragment of a biomancer rune in the arrowhead.  It showers its target in acid.",
+    "effects": [ "ACIDBOMB", "RECOVER_7" ]
+  },
+  {
+    "id": "arrow_technomancer_crafted",
+    "type": "AMMO",
+    "copy-from": "arrow_druid_crafted",
+    "name": { "str": "sparking arrow" },
+    "color": "white",
+    "description": "A metallic arrow with a fragment of a technomancer rune in the arrowhead.  It destroys electronic targets.",
+    "effects": [ "EMP", "DRAW_LASER_BEAM", "RECOVER_7" ]
+  },
+  {
+    "id": "arrow_magus_crafted",
+    "type": "AMMO",
+    "copy-from": "arrow_druid_crafted",
+    "//": "I'd like this to cause massive knockback but I'm limited by the available ammo flags.",
+    "name": { "str": "gravity arrow" },
+    "color": "black",
+    "description": "An arrow with a fragment of a magus rune in the arrowhead.  It reverses flight briefly after striking its target and then hits another one.",
+    "effects": [ "BOUNCE", "RECOVER_7" ]
+  },
+  {
+    "id": "arrow_animist_crafted",
+    "type": "AMMO",
+    "copy-from": "arrow_druid_crafted",
+    "//": "I'd like this to drain life but see above.",
+    "name": { "str": "enervating arrow" },
+    "color": "cyan",
+    "description": "An arrow with a fragment of an animist rune in the arrowhead.  It unleashes a cloud of enervating gas.",
+    "effects": [ "PARALYZEPOISON", "TOXICGAS", "RECOVER_7" ]
+  },
+  {
+    "id": "quiver_of_holding_plus_one",
+    "type": "ARMOR",
+    "name": { "str": "quiver of holding +1", "str_pl": "quivers of holding +1" },
+    "description": "A quiver enchanted to hold 40 arrows or bolts while not taking up any more space than a normal quiver.  Rarely made after the invention of firearms.",
+    "copy-from": "quiver",
+    "price": "500 USD",
+    "price_postapoc": "20 USD",
+    "looks_like": "quiver",
+    "pocket_data": [
+      {
+        "ammo_restriction": { "arrow": 40, "bolt": 40, "arrow_orichalcum": 40 },
+        "weight_multiplier": 0.5,
+        "volume_multiplier": 0.5,
+        "moves": 20
+      }
+    ],
+    "extend": { "flags": [ "TARDIS" ] }
+  },
+  {
+    "id": "quiver_of_holding_plus_two",
+    "type": "ARMOR",
+    "name": { "str": "quiver of holding +2", "str_pl": "quivers of holding +2" },
+    "description": "A quiver enchanted to hold 80 arrows or bolts while not taking up any more space than a normal quiver.  Rarely made after the invention of firearms.",
+    "copy-from": "quiver_of_holding_plus_one",
+    "pocket_data": [
+      {
+        "ammo_restriction": { "arrow": 80, "bolt": 80, "arrow_orichalcum": 80 },
+        "weight_multiplier": 0.25,
+        "volume_multiplier": 0.25,
+        "moves": 20
+      }
+    ]
   }
 ]

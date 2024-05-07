@@ -22,6 +22,8 @@ class Character;
 class recipe;
 struct tripoint;
 class vehicle;
+struct mutation_variant;
+enum class get_body_part_flags;
 
 using bodytype_id = std::string;
 
@@ -137,6 +139,9 @@ class talker
         virtual int get_hp_max( const bodypart_id & ) const {
             return 0;
         }
+        virtual int get_count() const {
+            return 0;
+        }
         virtual units::temperature get_cur_part_temp( const bodypart_id & ) const {
             return 0_K;
         }
@@ -210,6 +215,9 @@ class talker
         virtual int get_spell_count( const trait_id & ) const {
             return 0;
         }
+        virtual int get_spell_sum( const trait_id &, int ) const {
+            return 0;
+        }
         virtual void set_spell_level( const spell_id &, int ) {}
         virtual void set_spell_exp( const spell_id &, int ) {}
         virtual void set_skill_level( const skill_id &, int ) {}
@@ -224,11 +232,12 @@ class talker
         virtual void forget_recipe( const recipe_id & ) {}
         virtual void mutate( const int &, const bool & ) {}
         virtual void mutate_category( const mutation_category_id &, const bool & ) {}
-        virtual void set_mutation( const trait_id & ) {}
+        virtual void mutate_towards( const trait_id &, const mutation_category_id &, const bool & ) {};
+        virtual void set_mutation( const trait_id &, const mutation_variant * = nullptr ) {}
         virtual void unset_mutation( const trait_id & ) {}
         virtual void activate_mutation( const trait_id & ) {}
         virtual void deactivate_mutation( const trait_id & ) {}
-        virtual void set_fatigue( int ) {};
+        virtual void set_sleepiness( int ) {};
         virtual bool has_flag( const json_character_flag & ) const {
             return false;
         }
@@ -263,6 +272,7 @@ class talker
             return 0_seconds;
         }
         virtual void set_proficiency_practiced_time( const proficiency_id &, int ) {}
+        virtual void train_proficiency_for( const proficiency_id &, int ) {}
         virtual std::vector<skill_id> skills_offered_to( const talker & ) const {
             return {};
         }
@@ -328,16 +338,22 @@ class talker
         virtual bool can_see() const {
             return false;
         }
+        virtual bool can_see_location( const tripoint & ) const {
+            return false;
+        }
         virtual bool is_mute() const {
             return false;
         }
         virtual void add_effect( const efftype_id &, const time_duration &, const std::string &, bool, bool,
                                  int ) {}
-        virtual void remove_effect( const efftype_id & ) {}
+        virtual void remove_effect( const efftype_id &, const std::string & ) {}
         virtual void add_bionic( const bionic_id & ) {}
         virtual void remove_bionic( const bionic_id & ) {}
-        virtual std::string get_value( const std::string & ) const {
-            return "";
+        virtual std::string get_value( const std::string &key ) const {
+            return maybe_get_value( key ).value_or( std::string{} );
+        }
+        virtual std::optional<std::string> maybe_get_value( const std::string & ) const {
+            return std::nullopt;
         }
         virtual void set_value( const std::string &, const std::string & ) {}
         virtual void remove_value( const std::string & ) {}
@@ -472,6 +488,9 @@ class talker
         virtual std::string evaluation_by( const talker & ) const {
             return "";
         }
+        virtual std::string view_personality_traits() const {
+            return "";
+        }
         virtual std::string short_description() const {
             return "";
         }
@@ -488,7 +507,7 @@ class talker
         virtual int get_activity_level() const {
             return 0;
         }
-        virtual int get_fatigue() const {
+        virtual int get_sleepiness() const {
             return 0;
         }
         virtual int get_hunger() const {
@@ -545,6 +564,9 @@ class talker
         virtual void mod_pain( int ) {}
         virtual void set_pain( int ) {}
         virtual int pain_cur() const {
+            return 0;
+        }
+        virtual int perceived_pain_cur() const {
             return 0;
         }
         virtual void attack_target( Creature &, bool, const matec_id &,
@@ -678,7 +700,7 @@ class talker
         virtual units::temperature_delta get_body_temp_delta() const {
             return 0_C_delta;
         }
-        virtual std::vector<bodypart_id> get_all_body_parts( bool, bool ) const {
+        virtual std::vector<bodypart_id> get_all_body_parts( get_body_part_flags /* flags */ ) const {
             return std::vector<bodypart_id>();
         }
         virtual int get_part_hp_cur( const bodypart_id & ) const {
@@ -701,6 +723,12 @@ class talker
         }
         virtual bool using_martial_art( const matype_id & ) const {
             return false;
+        }
+        virtual int climate_control_str_heat() const {
+            return 0;
+        }
+        virtual int climate_control_str_chill() const {
+            return 0;
         }
 };
 template <class T, class B = talker>

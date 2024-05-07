@@ -1,21 +1,19 @@
 #include "editmap.h"
 
+#include <algorithm>
 #include <cstdlib>
+#include <cstdint>
 #include <exception>
 #include <iosfwd>
 #include <map>
 #include <memory>
-#include <new>
-#include <ostream>
 #include <set>
 #include <string>
-#include <type_traits>
 #include <typeinfo>
 #include <utility>
 #include <vector>
 
 #include "avatar.h"
-#include "cached_options.h" // IWYU pragma: keep
 #include "calendar.h"
 #include "cata_scope_helpers.h"
 #include "cata_utility.h"
@@ -28,20 +26,24 @@
 #include "cuboid_rectangle.h"
 #include "debug.h"
 #include "debug_menu.h"
+#include "demangle.h"
 #include "field.h"
 #include "field_type.h"
+#include "flexbuffer_json-inl.h"
 #include "game.h"
 #include "game_constants.h"
-#include "input.h"
+#include "input_context.h"
+#include "input_enums.h"
 #include "item.h"
 #include "level_cache.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "mdarray.h"
 #include "memory_fast.h"
 #include "monster.h"
-#include "mtype.h"
+#include "mtype.h"  // IWYU pragma: keep
 #include "npc.h"
 #include "omdata.h"
 #include "options.h"
@@ -52,6 +54,7 @@
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "submap.h"
+#include "translation.h"
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
@@ -60,14 +63,10 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
-static constexpr tripoint editmap_boundary_min( 0, 0, -OVERMAP_DEPTH );
-static constexpr tripoint editmap_boundary_max( MAPSIZE_X, MAPSIZE_Y, OVERMAP_HEIGHT + 1 );
-
-static constexpr half_open_cuboid<tripoint> editmap_boundaries(
-    editmap_boundary_min, editmap_boundary_max );
-
 // NOLINTNEXTLINE(cata-static-int_id-constants)
 static const ter_id undefined_ter_id( -1 );
+
+static const ter_str_id ter_t_grave_new( "t_grave_new" );
 
 static std::vector<std::string> fld_string( const std::string &str, int width )
 {
@@ -828,7 +827,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
 
     if( here.has_graffiti_at( target ) ) {
         mvwprintw( w_info, point( 1, off ),
-                   here.ter( target ) == t_grave_new ? _( "Graffiti: %s" ) : _( "Inscription: %s" ),
+                   here.ter( target ) == ter_t_grave_new ? _( "Graffiti: %s" ) : _( "Inscription: %s" ),
                    here.graffiti_at( target ) );
     }
 
@@ -1590,7 +1589,7 @@ void editmap::recalc_target( shapetype shape )
             map &here = get_map();
             for( const tripoint &p : here.points_in_radius( origin, radius ) ) {
                 if( rl_dist( p, origin ) <= radius ) {
-                    if( editmap_boundaries.contains( p ) ) {
+                    if( here.inbounds( p ) ) {
                         target_list.push_back( p );
                     }
                 }
@@ -1619,7 +1618,7 @@ void editmap::recalc_target( shapetype shape )
                 for( int y = s.y; y <= e.y; y++ ) {
                     if( shape == editmap_rect_filled || x == s.x || x == e.x || y == s.y || y == e.y ) {
                         const tripoint p( x, y, z );
-                        if( editmap_boundaries.contains( p ) ) {
+                        if( get_map().inbounds( p ) ) {
                             target_list.push_back( p );
                         }
                     }
@@ -1661,6 +1660,7 @@ bool editmap::move_target( const std::string &action, int moveorigin )
     if( eget_direction( mp, action ) ) {
         target.x = limited_shift( target.x, mp.x, 0, MAPSIZE_X );
         target.y = limited_shift( target.y, mp.y, 0, MAPSIZE_Y );
+        // OVERMAP_HEIGHT is the limit, not size of a 0 based vector, and limited_shift restricts to <, not <=
         target.z = limited_shift( target.z, mp.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT + 1 );
         if( move_origin ) {
             origin += mp;
@@ -1845,9 +1845,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
     tinymap tmpmap;
     // TODO: add a do-not-save-generated-submaps parameter
     // TODO: keep track of generated submaps to delete them properly and to avoid memory leaks
-    // TODO: fix point types
-    tmpmap.generate( tripoint( project_to<coords::sm>( omt_pos.xy() ).raw(), target.z ),
-                     calendar::turn );
+    tmpmap.generate( omt_pos, calendar::turn );
 
     gmenu.border_color = c_light_gray;
     gmenu.hilight_color = c_black_white;
@@ -1890,10 +1888,8 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
             lastsel = gmenu.selected;
             overmap_buffer.ter_set( omt_pos, oter_id( gmenu.selected ) );
             cleartmpmap( tmpmap );
-            // TODO: fix point types
-            tmpmap.generate(
-                tripoint( project_to<coords::sm>( omt_pos.xy() ).raw(), target.z ),
-                calendar::turn );
+            tmpmap.generate( omt_pos,
+                             calendar::turn );
         }
 
         if( showpreview ) {
@@ -1917,10 +1913,8 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
 
         if( gpmenu.ret == 0 ) {
             cleartmpmap( tmpmap );
-            // TODO: fix point types
-            tmpmap.generate(
-                tripoint( project_to<coords::sm>( omt_pos.xy() ).raw(), target.z ),
-                calendar::turn );
+            tmpmap.generate( omt_pos,
+                             calendar::turn );
         } else if( gpmenu.ret == 1 ) {
             tmpmap.rotate( 1 );
         } else if( gpmenu.ret == 2 ) {
@@ -2006,7 +2000,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
 vehicle *editmap::mapgen_veh_query( const tripoint_abs_omt &omt_tgt )
 {
     tinymap target_bay;
-    target_bay.load( project_to<coords::sm>( omt_tgt ), false );
+    target_bay.load( omt_tgt, false );
 
     std::vector<vehicle *> possible_vehicles;
     for( int x = 0; x < 2; x++ ) {
@@ -2045,7 +2039,7 @@ bool editmap::mapgen_veh_destroy( const tripoint_abs_omt &omt_tgt, vehicle *car_
 {
     map &here = get_map();
     tinymap target_bay;
-    target_bay.load( project_to<coords::sm>( omt_tgt ), false );
+    target_bay.load( omt_tgt, false );
     for( int x = 0; x < 2; x++ ) {
         for( int y = 0; y < 2; y++ ) {
             submap *destsm = target_bay.get_submap_at_grid( { x, y, target.z } );
@@ -2104,8 +2098,8 @@ void editmap::mapgen_retarget()
         if( const std::optional<tripoint> vec = ctxt.get_direction( action ) ) {
             point vec_ms = omt_to_ms_copy( vec->xy() );
             tripoint ptarget = target + vec_ms;
-            if( editmap_boundaries.contains( ptarget ) &&
-                editmap_boundaries.contains( ptarget + point( SEEX, SEEY ) ) ) {
+            if( get_map().inbounds( ptarget ) &&
+                get_map().inbounds( ptarget + point( SEEX, SEEY ) ) ) {
                 target = ptarget;
 
                 target_list.clear();

@@ -10,7 +10,6 @@
 #include <cstdlib>
 #include <cstring>
 #include <map>
-#include <new>
 #include <sstream>
 #include <stack>
 #include <stdexcept>
@@ -25,9 +24,9 @@
 #include "cursesdef.h"
 #include "game_constants.h"
 #include "input.h"
+#include "input_context.h"
 #include "item.h"
 #include "line.h"
-#include "name.h"
 #include "game.h"
 #include "options.h"
 #include "point.h"
@@ -1037,6 +1036,7 @@ static const std::vector<ItemFilterPrefix> item_filter_prefixes = {
     { 'm', to_translation( "iron" ), to_translation( "<color_cyan>material</color> item is made of" ) },
     { 'q', to_translation( "hammering" ), to_translation( "<color_cyan>quality</color> provided by tool" ) },
     { 'n', to_translation( "toolshelf" ), to_translation( "<color_cyan>notes</color> written on item" ) },
+    { 'f', to_translation( "freezerburn" ), to_translation( "<color_cyan>hidden flags</color> of an item" ) },
     { 's', to_translation( "devices" ), to_translation( "<color_cyan>skill</color> taught by books" ) },
     { 'd', to_translation( "pipe" ), to_translation( "<color_cyan>disassembled</color> components" ) },
     { 'v', to_translation( "hand" ), to_translation( "covers <color_cyan>body part</color>" ) },
@@ -2486,27 +2486,6 @@ std::string cata::string_formatter::raw_string_format( const char *format, ... )
 #endif
 }
 #endif
-
-void replace_name_tags( std::string &input )
-{
-    // these need to replace each tag with a new randomly generated name
-    while( input.find( "<full_name>" ) != std::string::npos ) {
-        replace_substring( input, "<full_name>", Name::get( nameFlags::IsFullName ),
-                           false );
-    }
-    while( input.find( "<family_name>" ) != std::string::npos ) {
-        replace_substring( input, "<family_name>", Name::get( nameFlags::IsFamilyName ),
-                           false );
-    }
-    while( input.find( "<given_name>" ) != std::string::npos ) {
-        replace_substring( input, "<given_name>", Name::get( nameFlags::IsGivenName ),
-                           false );
-    }
-    while( input.find( "<town_name>" ) != std::string::npos ) {
-        replace_substring( input, "<town_name>", Name::get( nameFlags::IsTownName ),
-                           false );
-    }
-}
 
 void replace_city_tag( std::string &input, const std::string &name )
 {

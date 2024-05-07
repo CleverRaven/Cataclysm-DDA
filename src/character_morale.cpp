@@ -1,7 +1,29 @@
+#include <cmath>
+#include <list>
+#include <map>
+#include <memory>
+#include <unordered_map>
+#include <utility>
+#include <vector>
+
+#include "bodypart.h"
+#include "calendar.h"
+#include "cata_utility.h"
 #include "character.h"
+#include "character_attire.h"
+#include "coordinates.h"
+#include "debug.h"
+#include "effect.h"
+#include "map_iterator.h"
 #include "messages.h"
 #include "morale.h"
-#include "map_iterator.h"
+#include "morale_types.h"
+#include "pimpl.h"
+#include "type_id.h"
+#include "units.h"
+
+class item;
+struct itype;
 
 static const efftype_id effect_took_prozac( "took_prozac" );
 static const efftype_id effect_took_xanax( "took_xanax" );
@@ -14,6 +36,7 @@ static const trait_id trait_NOMAD( "NOMAD" );
 static const trait_id trait_NOMAD2( "NOMAD2" );
 static const trait_id trait_NOMAD3( "NOMAD3" );
 static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
+static const trait_id trait_THRESH_SPECIES_RAVENFOLK( "THRESH_SPECIES_RAVENFOLK" );
 
 void Character::update_morale()
 {
@@ -34,6 +57,8 @@ void Character::hoarder_morale_penalty()
     }
     if( has_effect( effect_took_xanax ) ) {
         pen = pen / 7;
+    } else if( has_trait( trait_THRESH_SPECIES_RAVENFOLK ) ) {
+        pen = pen / 4;
     } else if( has_effect( effect_took_prozac ) ) {
         pen = pen / 2;
     }
@@ -167,7 +192,7 @@ void Character::check_and_recover_morale()
 
     test_morale.on_stat_change( "hunger", get_hunger() );
     test_morale.on_stat_change( "thirst", get_thirst() );
-    test_morale.on_stat_change( "fatigue", get_fatigue() );
+    test_morale.on_stat_change( "sleepiness", get_sleepiness() );
     test_morale.on_stat_change( "pain", get_pain() );
     test_morale.on_stat_change( "pkill", get_painkiller() );
     test_morale.on_stat_change( "perceived_pain", get_perceived_pain() );
