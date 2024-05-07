@@ -8088,7 +8088,7 @@ std::optional<int> iuse::capture_monster_act( Character *p, item *it, const trip
 heating_requirements heating_requirements_for_weight( const units::mass &frozen,
         const units::mass &nfrozen, const units::volume &used_volume )
 {
-    // Accroding to the charge_per_use in game, microwave takes 35kJ per use, almost equal to 800w microwave runs 2.5 minutes
+    // Accroding to the charge_per_use in game, microwave takes 25kJ per use, almost equal to 1000w microwave runs 2.5 minutes
     // 1*2.5*60 = 150kJ, 6*25 = 150kJ, Ithat means every use of microwave takes about 25 seconds.
     // The thermal efficiency of microwave is about 80%, 25*8.% = 20kJ, means every use of microwave, 20kJ energy is given to the food.
     // We will use water heat capacity, 4.2kJ/(kg*K), it means 20Kj can increase 120g water 40K.
