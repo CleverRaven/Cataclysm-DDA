@@ -2692,9 +2692,9 @@ void activity_handlers::mend_item_finish( player_activity *act, Character *you )
     for( const auto &[var_name, var_value] : fix.adjust_variables_multiply ) {
         const std::string var_value_multiplier = var_value;
         const std::string var_oldvalue = target.get_var( var_name );
-        const int var_oldvalue_int = std::stoi(var_oldvalue);
-        const double var_value_multiplier_double = std::stod(var_value_multiplier);
-        target.set_var( var_name, round (var_oldvalue_int * var_value_multiplier_double ) );
+        const int var_oldvalue_int = std::stoi( var_oldvalue );
+        const double var_value_multiplier_double = std::stod( var_value_multiplier );
+        target.set_var( var_name, round( var_oldvalue_int * var_value_multiplier_double ) );
     }
 
     const std::string start_durability = target.durability_indicator( true );
