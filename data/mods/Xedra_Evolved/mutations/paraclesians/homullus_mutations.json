@@ -68,17 +68,6 @@
   },
   {
     "type": "mutation",
-    "id": "CHARM_FERAL",
-    "name": { "str": "Whispers of Sanity" },
-    "points": 0,
-    "visibility": 0,
-    "ugliness": 0,
-    "description": "The Dollkin gains the ability to speak whispers into the remaining thoughts of a feral and convince the feral in question that you are not a foe.",
-    "category": [ "HOMULLUS" ],
-    "spells_learned": [ [ "charm_feral", 1 ] ]
-  },
-  {
-    "type": "mutation",
     "id": "NAMASTE_AWAY",
     "name": { "str": "Namaste Away" },
     "points": 0,
