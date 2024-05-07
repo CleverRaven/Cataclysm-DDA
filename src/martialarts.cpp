@@ -314,9 +314,7 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
         has_condition = true;
     }
 
-    if( jo.has_array( "attack_vectors" ) ) {
-        optional( jo, was_loaded, "attack_vectors", attack_vectors );
-    }
+    mandatory( jo, was_loaded, "attack_vectors", attack_vectors );
     reqs.load( jo, src );
     bonuses.load( jo );
 }
