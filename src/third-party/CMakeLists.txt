@@ -168,6 +168,7 @@ if (CURSES)
                         PUBLIC
                         ${CURSES_INCLUDE_DIR}/ncurses
                 )
+        endif ()
         target_compile_options(
                 imtui
                 PRIVATE
