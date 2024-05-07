@@ -16,6 +16,7 @@
 #include <type_traits>
 #include <unordered_map>
 #include <utility>
+#include "try_parse_integer.h"
 
 #include "activity_actor.h"
 #include "activity_type.h"
@@ -2689,10 +2690,11 @@ void activity_handlers::mend_item_finish( player_activity *act, Character *you )
         target.set_var( var_name, var_value );
     }
     for( const auto &[var_name, var_value] : fix.adjust_variables_multiply ) {
-        target.set_var( var_name, target.get_var( var_name ) * var_value );
-    }
-    for( const auto &[var_name, var_value] : fix.adjust_variables_add ) {
-        target.set_var( var_name, std::stoi( target.get_var( var_name ) ) + std::stoi( var_value ) );
+        const std::string var_value_multiplier = var_value;
+        const std::string var_oldvalue = target.get_var( var_name );
+        const int var_oldvalue_int = std::stoi(var_oldvalue);
+        const double var_value_multiplier_double = std::stod(var_value_multiplier);
+        target.set_var( var_name, round (var_oldvalue_int * var_value_multiplier_double ) );
     }
 
     const std::string start_durability = target.durability_indicator( true );

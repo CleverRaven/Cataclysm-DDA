@@ -25,7 +25,6 @@ class fault_fix
         time_duration time;
         std::map<std::string, std::string> set_variables; // item vars applied to item
         std::map<std::string, std::string> adjust_variables_multiply; // item vars adjustment(s) applied to item via multiplication
-        std::map<std::string, std::string> adjust_variables_add; // item vars adjustment(s) applied to item via addition
         std::map<skill_id, int> skills; // map of skill_id to required level
         std::set<fault_id> faults_removed; // which faults are removed on applying
         std::set<fault_id> faults_added; // which faults are added on applying

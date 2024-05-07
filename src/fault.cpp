@@ -166,7 +166,7 @@ void fault_fix::load( const JsonObject &jo )
     assign( jo, "success_msg", f.success_msg, true );
     assign( jo, "time", f.time, false );
     assign( jo, "set_variables", f.set_variables, true );
-    assign( jo, "adjust_variables", f.adjust_variables, true );
+    assign( jo, "adjust_variables_multiply", f.adjust_variables_multiply, true );
     assign( jo, "skills", f.skills, true );
     assign( jo, "faults_removed", f.faults_removed );
     assign( jo, "faults_added", f.faults_added );
