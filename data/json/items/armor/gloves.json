@@ -1064,7 +1064,7 @@
     "copy-from": "gloves_wool_fingerless",
     "looks_like": "gloves_wool",
     "name": { "str": "pair of XS fingerless wool gloves", "str_pl": "pairs of XS fingerless wool gloves" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "proportional": { "weight": 0.75, "volume": 0.75 },
     "flags": [ "UNDERSIZE" ]
   },
   {
