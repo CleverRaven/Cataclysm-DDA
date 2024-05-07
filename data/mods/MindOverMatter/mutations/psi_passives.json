@@ -488,7 +488,10 @@
       {
         "values": [
           { "value": "REGEN_HP", "multiply": { "math": [ "(0.1 + (0.0005 * u_spell_level_sum('school': 'VITAKINETIC')))" ] } },
-          { "value": "MAX_HP", "multiply": { "math": [ "(0.05 + (0.0005 * u_spell_level_sum('school': 'VITAKINETIC')))" ] } }
+          {
+            "value": "MAX_HP",
+            "multiply": { "math": [ "(0.05 + (0.0005 * u_spell_level_sum('school': 'VITAKINETIC')))" ] }
+          }
         ]
       }
     ]
