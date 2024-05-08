@@ -9750,7 +9750,7 @@
     "description": "You have a simple mind and you enjoy the inner peace that comes with it.",
     "mixed_effect": true,
     "types": [ "INT", "ATTITUDE" ],
-    "category": [ "SPIDER", "INSECT", "PLANT", "CRUSTACEAN" ],
+    "category": [ "SPIDER", "GASTROPOD", "INSECT", "PLANT", "CRUSTACEAN" ],
     "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": -3 } ] } ],
     "cancels": [ "SCHIZOPHRENIC", "MOODSWINGS" ]
   }
