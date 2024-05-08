@@ -498,6 +498,20 @@
   },
   {
     "type": "mutation",
+    "id": "perk_firstest_aid",
+    "name": { "str": "Firstest Aid" },
+    "points": 0,
+    "description": "It's called \"First Aid\", right, so obviously it's better the faster you apply it.  Your bandages are 50% better at stopping bleeding, but only if you apply them within 2 minutes of taking damage.",
+    "category": [ "perk" ],
+    "enchantments": [
+      {
+        "condition": { "u_has_effect": "effect_perk_firstest_aid" },
+        "values": [ { "value": "BLEED_STOP_BONUS", "multiply": 0.5 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_absit_invidia",
     "name": { "str": "Absit Invidia" },
     "points": 0,
