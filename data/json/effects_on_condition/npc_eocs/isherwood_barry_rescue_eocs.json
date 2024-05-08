@@ -146,7 +146,7 @@
     "effect": [
       { "finish_mission": "MISSION_ISHERWOOD_CHRIS_1", "success": true },
       {
-        "u_message": "Barry turns about and tells you, \"I know where I am now, I'll go on ahead.  They'll be so happy to see me, thank you for everything!  Come drop by the farm sometime, we'll have something for you!\"",
+        "u_message": "Barry raises a hand to signal you to stop.  \"This is it.  Thank you so much.  I can't believe I'm here, alive.  It almost feels like I'm dreaming, like it can't be real.\"  He stares at you, his eyes glistening.  \"Whoever you are, thank you.  I'm going to head the rest of the way now and catch up to my family.  Come by and talk to me later when I've had a moment to rest.\"",
         "type": "good",
         "popup": true
       },
