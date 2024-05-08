@@ -13,9 +13,7 @@
     "type": "item_group",
     "id": "loaded_webbing_belt",
     "subtype": "collection",
-    "entries": [
-      { "item": "webbing_belt", "contents-group": "molle_belt_contents" }
-    ]
+    "entries": [ { "item": "webbing_belt", "contents-group": "molle_belt_contents" } ]
   },
   {
     "type": "item_group",
