@@ -311,7 +311,7 @@ void create_destroy_curses_windows(std::vector<WINDOW*> &windows)
         } else {
             WINDOW* win = windows[cursesWinIdx];
             
-            if(win->_begx != short(imwin->Pos.x) || win->_begy != short(imwin->Pos.y) || win->_maxx != short(imwin->Size.x) || win->_maxy != imwin->Size.y) {
+            if(getbegx( win ) != short(imwin->Pos.x) || getbegy( win ) != short(imwin->Pos.y) || getmaxx(win) != short(imwin->Size.x) || getmaxy(win) != imwin->Size.y) {
                 delwin(win);
                 windows[cursesWinIdx] = newwin(short(imwin->Size.y), short(imwin->Size.x), short(imwin->Pos.y), short(imwin->Pos.x));
             }
@@ -343,11 +343,11 @@ void ImTui_ImplNcurses_DrawScreen( bool active )
         int nx = g_screen.nx;
         int ny = g_screen.ny;
 
-        for( int y = cursesWin->_begy; y <= (cursesWin->_begy + cursesWin->_maxy); ++y ) {
+        for( int y = getbegy(cursesWin); y <= (getbegy(cursesWin) + getmaxy(cursesWin)); ++y ) {
             constexpr int no_lastp = 0x7FFFFFFF;
             int lastp = no_lastp;
-            wmove(cursesWin, y - cursesWin->_begy, 0);
-            for( int x = cursesWin->_begx; x <= (cursesWin->_begx +  cursesWin->_maxx); ++x ) {
+            wmove(cursesWin, y - getbegy(cursesWin), 0);
+            for( int x = getbegx(cursesWin); x <= (getbegx(cursesWin) +  getmaxx(cursesWin)); ++x ) {
                 const auto cell = g_screen.data[y * nx + x];
                 const uint16_t f = ( cell & 0x00FF0000 ) >> 16;
                 const uint16_t b = ( cell & 0xFF000000 ) >> 24;
