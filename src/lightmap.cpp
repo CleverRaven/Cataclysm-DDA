@@ -219,8 +219,10 @@ bool map::build_vision_transparency_cache( const int zlev )
             vision_transparency_cache[p.x][p.y] = LIGHT_TRANSPARENCY_OPEN_AIR;
         } else if( ( is_crouching || is_prone || low_profile ) && coverage( loc ) >= 30 ) {
             // If we're crouching or prone behind an obstacle, we can't see past it.
-            vision_transparency_cache[loc.x][loc.y] = LIGHT_TRANSPARENCY_SOLID;
-            dirty = true;
+            if( vision_transparency_cache[loc.x][loc.y] != LIGHT_TRANSPARENCY_SOLID ) {
+                vision_transparency_cache[loc.x][loc.y] = LIGHT_TRANSPARENCY_SOLID;
+                dirty = true;
+            }
         }
     }
 
