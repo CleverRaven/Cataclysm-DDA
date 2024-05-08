@@ -547,6 +547,7 @@
       { "item": "armguard_hard", "prob": 20 },
       { "item": "legguard_hard", "prob": 15 },
       { "item": "gloves_wool", "prob": 33 },
+      { "item": "gloves_wool_fingerless", "prob": 15 },
       { "item": "thermal_socks", "prob": 2 },
       { "item": "thermal_gloves", "prob": 2 },
       { "item": "thermal_suit", "prob": 2 },

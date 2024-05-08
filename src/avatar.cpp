@@ -348,7 +348,7 @@ void avatar::set_active_mission( mission &cur_mission )
 {
     const auto iter = std::find( active_missions.begin(), active_missions.end(), &cur_mission );
     if( iter == active_missions.end() ) {
-        debugmsg( "new active mission %s is not in the active_missions list",
+        debugmsg( "new objective %s is not in the active_missions list",
                   cur_mission.mission_id().c_str() );
     } else {
         active_mission = &cur_mission;

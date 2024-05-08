@@ -55,7 +55,17 @@
     "type": "item_group",
     "id": "afs_armor_military_infantry_g",
     "subtype": "collection",
-    "entries": [ { "item": "afs_military_vest", "prob": 70 }, { "item": "afs_military_cloak", "prob": 40 } ]
+    "entries": [
+      {
+        "distribution": [ { "item": "afs_military_vest", "prob": 20 }, { "item": "afs_military_vestxl", "prob": 1 } ],
+        "prob": 100
+      },
+      {
+        "distribution": [ { "item": "tac_fullhelmet_uicas", "prob": 20 }, { "item": "tac_helmet_uicas", "prob": 1 } ],
+        "prob": 40
+      },
+      { "item": "afs_military_cloak", "prob": 40 }
+    ]
   },
   {
     "type": "item_group",

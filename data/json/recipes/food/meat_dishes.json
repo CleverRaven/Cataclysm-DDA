@@ -64,7 +64,7 @@
     "tools": [ [ [ "surface_heat", 40, "LIST" ] ] ],
     "components": [
       [ [ "flatbread", 1 ] ],
-      [ [ "meat_red_raw", 1, "LIST" ] ],
+      [ [ "meat_red_raw", 1, "LIST" ], [ "poultry_raw_any", 2, "LIST" ] ],
       [ [ "salt", 1 ] ],
       [ [ "onion", 1 ] ],
       [ [ "tomato", 1 ] ],

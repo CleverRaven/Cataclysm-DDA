@@ -10,6 +10,8 @@
     ],
     "arm_block_with_bio_armor_arms": true,
     "leg_block_with_bio_armor_legs": true,
+    "arm_block": 2,
+    "leg_block": 3,
     "static_buffs": [
       {
         "id": "buff_biojutsu_static",
@@ -395,7 +397,6 @@
     "name": "Measured Strike (unarmed)",
     "messages": [ "You make an efficient strike against %s!", "<npcname> makes an efficient strike against %s!" ],
     "unarmed_allowed": true,
-    "unarmed_weapons_allowed": false,
     "crit_ok": true,
     "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ],
     "attack_vectors": [ "HAND" ]
@@ -423,7 +424,6 @@
     "messages": [ "You kick and slam %s to the ground!", "<npcname> kicks and slams %s to the ground!" ],
     "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
     "unarmed_allowed": true,
-    "unarmed_weapons_allowed": false,
     "weighting": 2,
     "crit_ok": true,
     "condition": { "not": { "npc_has_effect": "downed" } },

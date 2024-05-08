@@ -39,6 +39,44 @@
   },
   {
     "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbml_2_coop_roof_construction",
+    "object": {
+      "parameters": {
+        "fbml_2_construction_palette": {
+          "type": "palette_id",
+          "scope": "omt",
+          "default": {
+            "distribution": [
+              "fbml_2_concrete_palette",
+              "fbml_2_log_palette",
+              "fbml_2_metal_palette",
+              "fbml_2_migo_resin_palette",
+              "fbml_2_rammed_earth_palette",
+              "fbml_2_rock_palette",
+              "fbml_2_wad_palette",
+              "fbml_2_wood_palette"
+            ]
+          }
+        }
+      },
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "rrrrrrr ",
+        "rrrrrrr ",
+        "rrrrrrr ",
+        "rrrrrrr ",
+        "rrrrrrr ",
+        "rrrrrrr ",
+        "rrrrrrr ",
+        "r     r "
+      ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ { "param": "fbml_2_construction_palette" } ]
+    }
+  },
+  {
+    "type": "mapgen",
     "update_mapgen_id": "fbml_2_coop_construction",
     "method": "json",
     "object": { "place_nested": [ { "chunks": [ "fbml_2_coop_construction" ], "x": 13, "y": 0 } ] }
