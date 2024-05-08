@@ -6347,7 +6347,7 @@
     "skill_used": "cooking",
     "difficulty": 5,
     "time": "1 h 30 m",
-    "charges": 13,
+    "charges": 10,
     "batch_time_factors": [ 20, 1 ],
     "book_learn": {
       "adv_chemistry": { "skill_level": 6 },
@@ -6837,6 +6837,8 @@
         [ "dahlia_baked", 1 ],
         [ "cucumber", 1 ],
         [ "cucumber_cut", 1 ],
+        [ "gherkin_cut", 1 ],
+        [ "gherkin", 1 ],
         [ "veggy_pickled", 1 ],
         [ "cooked_cattail_stalk", 1 ],
         [ "cooked_burdock_stalk", 1 ],
@@ -6910,6 +6912,8 @@
         [ "dahlia_baked", 1 ],
         [ "cucumber", 1 ],
         [ "cucumber_cut", 1 ],
+        [ "gherkin_cut", 1 ],
+        [ "gherkin", 1 ],
         [ "veggy_pickled", 1 ],
         [ "cooked_cattail_stalk", 1 ],
         [ "cooked_burdock_stalk", 1 ],
@@ -7746,7 +7750,7 @@
       [ [ "vinegar", 1 ] ],
       [ [ "saline", 1 ], [ "salt", 2 ] ],
       [ [ "jar_glass_sealed", 1 ] ],
-      [ [ "cucumber", 1 ], [ "cucumber_cut", 1 ] ]
+      [ [ "gherkin", 1 ], [ "gherkin_cut", 1 ] ]
     ]
   },
   {
@@ -9266,6 +9270,7 @@
         [ "seed_carrot", 3 ],
         [ "seed_chili_pepper", 3 ],
         [ "seed_cucumber", 3 ],
+        [ "seed_gherkin", 3 ],
         [ "seed_weed", 3 ],
         [ "seed_thyme", 3 ],
         [ "seed_canola", 1 ],
@@ -10035,7 +10040,7 @@
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ], [ "food_processor", 20 ] ] ],
     "components": [
-      [ [ "tomato", 5 ] ],
+      [ [ "tomato", 10 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "sugar", 1 ], [ "artificial_sweetener", 1 ] ],
       [ [ "salt", 1 ], [ "seasoning_salt", 1 ] ]
@@ -10266,7 +10271,7 @@
     "tools": [ [ [ "surface_heat", 44, "LIST" ] ] ],
     "qualities": [ { "id": "COOK", "level": 3 }, { "id": "CUT", "level": 2 } ],
     "components": [
-      [ [ "eggplant", 2 ], [ "eggplant_cut", 2 ] ],
+      [ [ "eggplant_cut", 2 ] ],
       [ [ "garlic_clove", 4 ], [ "rehydrated_garlic", 4 ], [ "wild_garlic", 4 ], [ "garlic_powder", 18 ] ],
       [ [ "salt", 1 ], [ "seasoning_salt", 1 ] ],
       [ [ "seasoning_mild", 1, "LIST" ], [ "chilly-p", 1 ] ],
@@ -10293,7 +10298,7 @@
     "tools": [ [ [ "surface_heat", 44, "LIST" ], [ "food_processor", 20 ] ] ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "components": [
-      [ [ "eggplant", 2 ], [ "eggplant_cut", 2 ] ],
+      [ [ "eggplant_cut", 2 ] ],
       [ [ "garlic_clove", 4 ], [ "rehydrated_garlic", 4 ], [ "wild_garlic", 4 ], [ "garlic_powder", 18 ] ],
       [ [ "salt", 1 ], [ "seasoning_salt", 1 ] ],
       [ [ "seasoning_mild", 1, "LIST" ], [ "chilly-p", 1 ] ],
