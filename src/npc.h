@@ -1147,7 +1147,7 @@ class npc : public Character
         // Returns true if did something and we should end turn
         bool scan_new_items();
         // Returns score for how well this weapon might kill things
-        double evaluate_weapon( item &it, bool can_use_gun, bool use_silent ) const;
+        double evaluate_weapon( item &maybe_weapon, bool can_use_gun, bool use_silent ) const;
         // Returns best weapon. Can return null (fists)
         item *evaluate_best_weapon() const;
         // Returns true if did wield it
