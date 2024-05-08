@@ -314,9 +314,9 @@
       { "distribution": [ { "item": "backpack_leather" }, { "item": "wicker_backpack" }, { "item": "slingpack" } ] },
       { "item": "armor_riot" },
       {
-        "collection": [ { "item": "3006", "container-item": "ammo_pouch" }, { "item": "3006", "charges": [ 4, 8 ] } ]
+        "collection": [ { "item": "3006", "container-item": "ammo_pouch" }, { "item": "3006", "charges": [ 24, 28 ] } ]
       },
-      { "item": "3006", "charges": [ 4, 8 ] },
+      { "item": "3006", "charges": [ 24, 28 ] },
       { "distribution": [ { "item": "boxer_briefs" }, { "item": "boxer_shorts" }, { "item": "briefs" } ] },
       { "distribution": [ { "item": "tshirt" }, { "item": "undershirt" } ] },
       { "distribution": [ { "item": "jeans" }, { "item": "pants_cargo" }, { "item": "pants_leather" } ] },
