@@ -9,7 +9,7 @@
       },
     "responses": [
       {
-        "text": "I've got Barry, let's get out of here.",
+        "text": "We've got him, let's get out of here.",
         "condition": {
           "and": [
             { "math": [ "isherwood_family_coming", "==", "1" ] },
