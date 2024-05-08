@@ -42,7 +42,7 @@
     "id": "TALK_ISHERWOOD_FAMILY_DUPLICATES_CHRIS",
     "dynamic_line": "*eyes you up and down with a nervous smile.  \"I almost didn't expect you to show up.\"  He hesitates, letting out a soft laugh.  \"That sounds bad.  I just mean, I can't really believe we're doing this.  Thank you… for doing this.  You ready to get Uncle Barry?\"",
     "responses": [
-      { "text": "Let's do this!", "effect": "follow_only", "topic": "TALK_DONE" },
+      { "text": "You got it, let's go!", "effect": "follow_only", "topic": "TALK_DONE" },
       { "text": "Not yet, just give me a minute.", "topic": "TALK_DONE" }
     ]
   }
