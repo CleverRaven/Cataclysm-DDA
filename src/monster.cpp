@@ -3078,12 +3078,15 @@ void monster::drop_items_on_death( item *corpse )
     }
 }
 
-void monster::spawn_dissectables_on_death( item *corpse )
+void monster::spawn_dissectables_on_death( item *corpse ) const
 {
     if( is_hallucination() ) {
         return;
     }
     if( type->dissect.is_empty() ) {
+        return;
+    }
+    if( !corpse ) {
         return;
     }
 
@@ -3101,8 +3104,6 @@ void monster::spawn_dissectables_on_death( item *corpse )
             }
             if( corpse ) {
                 corpse->put_in( dissectable, pocket_type::CORPSE );
-            } else {
-                get_map().add_item_or_charges( pos(), dissectable );
             }
         }
     }
