@@ -229,7 +229,7 @@
     },
     "effect": [
       {
-        "u_message": "Are you leaving?  Fine then, we're heading home too!  Meet us back there!",
+        "u_message": "Chris sees you leaving the tower, and gives you a harsh look.  \"Where are you going?  Dammit, we're backing out?  Fine.  I'll make sure everyone knows.\"",
         "type": "bad",
         "popup": true
       },
