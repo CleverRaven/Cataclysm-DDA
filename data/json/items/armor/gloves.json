@@ -431,7 +431,7 @@
   {
     "id": "gloves_fingerless",
     "type": "ARMOR",
-    "name": { "str": "pair of fingerless gloves", "str_pl": "pairs of fingerless gloves" },
+    "name": { "str": "pair of fingerless leather gloves", "str_pl": "pairs of fingerless leather gloves" },
     "description": "A pair of leather gloves without fingers.",
     "weight": "100 g",
     "volume": "250 ml",
@@ -463,7 +463,7 @@
     "id": "gloves_fingerless_mod",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "pair of armored fingerless gloves", "str_pl": "pairs of armored fingerless gloves" },
+    "name": { "str": "pair of armored fingerless leather gloves", "str_pl": "pairs of armored fingerless leather gloves" },
     "description": "A pair of leather gloves without fingers.  These have been crudely reinforced with steel guards across the back.",
     "weight": "380 g",
     "volume": "500 ml",
@@ -1018,6 +1018,53 @@
     "name": { "str": "pair of wool gloves", "str_pl": "pairs of wool gloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "flags": [ "UNDERSIZE", "PREFIX_XS" ]
+  },
+  {
+    "id": "gloves_wool_fingerless",
+    "type": "ARMOR",
+    "name": { "str": "pair of fingerless wool gloves", "str_pl": "pairs of fingerless wool gloves" },
+    "description": "A warm pair of wool gloves without fingers.  Less encumbering, but provides significantly less warmth.",
+    "weight": "75 g",
+    "volume": "250 ml",
+    "price": "35 USD",
+    "price_postapoc": "50 cent",
+    "to_hit": 1,
+    "material": [ "wool" ],
+    "symbol": "[",
+    "looks_like": "gloves_wool",
+    "color": "blue",
+    "warmth": 40,
+    "material_thickness": 3,
+    "flags": [ "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
+    "armor": [
+      {
+        "encumbrance": 7,
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r", "hand_back_l", "hand_back_r", "hand_palm_l", "hand_palm_r" ]
+      },
+      {
+        "coverage": 67,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
+      }
+    ]
+  },
+  {
+    "id": "xl_gloves_wool_fingerless",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL fingerless wool gloves", "str_pl": "pairs of XL fingerless wool gloves" },
+    "copy-from": "gloves_wool_fingerless",
+    "proportional": { "weight": 1.4, "volume": 1.4 },
+    "flags": [ "OVERSIZE" ]
+  },
+  {
+    "id": "xs_gloves_wool_fingerless",
+    "type": "ARMOR",
+    "copy-from": "gloves_wool_fingerless",
+    "name": { "str": "pair of XS fingerless wool gloves", "str_pl": "pairs of XS fingerless wool gloves" },
+    "proportional": { "weight": 0.75, "volume": 0.75 },
+    "flags": [ "UNDERSIZE" ]
   },
   {
     "id": "gloves_work",

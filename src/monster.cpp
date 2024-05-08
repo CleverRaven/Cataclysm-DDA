@@ -3197,8 +3197,8 @@ void monster::process_one_effect( effect &it, bool is_new )
         }
     }
     //Reset max speed
-    this->set_speed_base( calculate_by_enchantment( this->get_speed_base(), enchant_vals::mod::SPEED,
-                          true ) );
+    set_speed_bonus( calculate_by_enchantment( get_speed_base(), enchant_vals::mod::SPEED,
+                     true ) - get_speed_base() );
 }
 
 void monster::process_effects()
