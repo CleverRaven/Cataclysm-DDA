@@ -1351,6 +1351,11 @@
     "reset_item_vars": true
   },
   {
+    "id": "raw_lentils",
+    "type": "MIGRATION",
+    "replace": "dry_lentils"
+  },
+  {
     "id": "uno",
     "type": "MIGRATION",
     "replace": "deck_of_cards",
