@@ -306,7 +306,7 @@
     "global": true,
     "effect": [
       {
-        "u_message": "It's too hairy out here, we've got to go!  Meet us back home and regroup!",
+        "u_message": "You hear a horn honk, and one of the Isherwoods calling out from their truck.  \"We're swarmed out here!  We're going to have to head back and regroup!\"  The horn bleats again, and there's a sound of an engine revving, followed by the fleshy 'smack' of something large hitting a windshield.",
         "type": "bad",
         "popup": true
       },
