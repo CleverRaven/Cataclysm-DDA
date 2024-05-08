@@ -175,10 +175,8 @@
   {
     "type": "effect_on_condition",
     "id": "isherwood_mission_large_damage_retreat",
-    "eoc_type": "EVENT",
-    "required_event": "character_takes_damage",
-    "//": "I cant get this one to work right now, and I have no idea what's wrong.  It will need to be fixed.",
-    "condition": { "and": [ { "math": [ "currently_invading_map", "==", "1" ] } ] },
+    "recurrence": 1,
+    "condition": { "math": [ "currently_invading_map", "==", "1" ] },
     "effect": [
       {
         "if": { "math": [ "isherwood_family_coming", "==", "1" ] },
@@ -186,14 +184,21 @@
           "u_run_npc_eocs": [
             {
               "id": "EOC_ISHERWOODS_TOO_MUCH_DAMAGE_FLEE",
-              "condition": { "math": [ "u_hp('ALL')", "<=", "(u_hp_max('bp_null') * 0.7)" ] },
+              "condition": {
+                "or": [
+                  { "math": [ "u_hp('ALL')", "<=", "(u_hp_max('bp_null') * 0.7)" ] },
+                  { "math": [ "u_effect_intensity('bleed')", ">=", "3" ] }
+                ]
+              },
               "effect": [
                 { "u_teleport": { "global_val": "_teleport_pos" }, "force": true },
                 {
                   "mapgen_update": "isherwood_rescue_remove_npcs",
                   "om_terrain": "rural_road",
                   "om_special": "Barry's Mi-Go Scout Tower"
-                }
+                },
+                { "math": [ "currently_invading_map", "=", "0" ] },
+                { "queue_eocs": "isherwood_mission_damage_flee_message", "time_in_future": 1 }
               ]
             }
           ],
@@ -245,7 +250,16 @@
         "unique_ids": [ "CHRIS_MISSION", "LISA_MISSION", "CARLOS_MISSION", "EDDIE_MISSION", "LUKE_MISSION", "JESSE_MISSION" ]
       },
       { "math": [ "currently_invading_map", "=", "0" ] },
-      { "math": [ "is_isherwood_flee_eoc_activated", "=", "0" ] }
+      { "math": [ "is_isherwood_flee_eoc_activated", "=", "0" ] },
+      {
+        "u_location_variable": { "global_val": "isherwood_mission_sucess_return_map" },
+        "target_params": { "om_terrain": "horse_farm_isherwood_13", "search_range": 500, "z": 0 },
+        "furniture": "f_sofa",
+        "target_max_radius": 30,
+        "min_radius": 0,
+        "max_radius": 0
+      },
+      { "u_teleport": { "global_val": "isherwood_mission_sucess_return_map" }, "force": true }
     ]
   },
   {
@@ -295,7 +309,16 @@
         "u_message": "It's too hairy out here, we've got to go!  Meet us back home and regroup!",
         "type": "bad",
         "popup": true
-      }
+      },
+      {
+        "u_location_variable": { "global_val": "isherwood_mission_sucess_return_map" },
+        "target_params": { "om_terrain": "horse_farm_isherwood_13", "search_range": 500, "z": 0 },
+        "furniture": "f_sofa",
+        "target_max_radius": 30,
+        "min_radius": 0,
+        "max_radius": 0
+      },
+      { "u_teleport": { "global_val": "isherwood_mission_sucess_return_map" }, "force": true }
     ]
   },
   {
