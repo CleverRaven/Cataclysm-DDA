@@ -541,18 +541,5 @@
         "search_range": 180
       }
     }
-  },
-  {
-    "id": "MISSION_FORGE_DIVINER_OTHER_FORGE",
-    "type": "mission_definition",
-    "name": { "str": "Visit the other Forge of Wonders" },
-    "goal": "MGOAL_GO_TO_TYPE",
-    "difficulty": 0,
-    "value": 0,
-    "description": "The diviner told you that there would be another Forge of Wonders here.  Or perhaps it's the same forge, but a different time?  They weren't entirely clear what was going on here.",
-    "destination": "forge_1A_north",
-    "start": {
-      "assign_mission_target": { "om_terrain": "forge_1A_north", "reveal_radius": 3, "cant_see": true, "search_range": 400 }
-    }
   }
 ]
