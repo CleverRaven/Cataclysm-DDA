@@ -2603,7 +2603,7 @@ std::vector<int> vehicle::parts_at_relative( const point &dp, const bool use_cac
 
 std::optional<vpart_reference> vpart_position::obstacle_at_part() const
 {
-    std::optional<vpart_reference> part = part_with_feature( VPFLAG_OBSTACLE, true );
+    std::optional<vpart_reference> part = part_with_feature( VPFLAG_OBSTACLE, true, true );
     if( !part ) {
         return std::nullopt; // No obstacle here
     }
@@ -2663,9 +2663,9 @@ std::optional<vpart_reference> vpart_position::cargo() const
 }
 
 std::optional<vpart_reference> vpart_position::part_with_feature( const std::string &f,
-        const bool unbroken ) const
+        bool unbroken, bool include_fake ) const
 {
-    const int i = vehicle().part_with_feature( mount(), f, unbroken );
+    const int i = vehicle().part_with_feature( mount(), f, unbroken, include_fake );
     if( i < 0 ) {
         return std::nullopt;
     }
@@ -2673,9 +2673,9 @@ std::optional<vpart_reference> vpart_position::part_with_feature( const std::str
 }
 
 std::optional<vpart_reference> vpart_position::part_with_feature( const vpart_bitflags f,
-        const bool unbroken ) const
+        bool unbroken, bool include_fake ) const
 {
-    const int i = vehicle().part_with_feature( part_index(), f, unbroken );
+    const int i = vehicle().part_with_feature( part_index(), f, unbroken, include_fake );
     if( i < 0 ) {
         return std::nullopt;
     }
@@ -2756,13 +2756,14 @@ std::string optional_vpart_position::extended_description() const
     return desc;
 }
 
-int vehicle::part_with_feature( int part, vpart_bitflags flag, bool unbroken ) const
+int vehicle::part_with_feature( int part, vpart_bitflags flag, bool unbroken,
+                                bool include_fake ) const
 {
     const vehicle_part &vp = this->part( part );
     if( vp.info().has_flag( flag ) && !( unbroken && vp.is_broken() ) ) {
         return part;
     }
-    for( const int p : parts_at_relative( vp.mount, /* use_cache = */ true ) ) {
+    for( const int p : parts_at_relative( vp.mount, /* use_cache = */ true, include_fake ) ) {
         const vehicle_part &vp_here = this->part( p );
         if( vp_here.info().has_flag( flag ) && !( unbroken && vp_here.is_broken() ) ) {
             return p;
@@ -2771,9 +2772,10 @@ int vehicle::part_with_feature( int part, vpart_bitflags flag, bool unbroken ) c
     return -1;
 }
 
-int vehicle::part_with_feature( const point &pt, vpart_bitflags f, bool unbroken ) const
+int vehicle::part_with_feature( const point &pt, vpart_bitflags f, bool unbroken,
+                                bool include_fake ) const
 {
-    for( const int p : parts_at_relative( pt, /* use_cache = */ true ) ) {
+    for( const int p : parts_at_relative( pt, /* use_cache = */ true, include_fake ) ) {
         const vehicle_part &vp_here = this->part( p );
         if( vp_here.info().has_flag( f ) && !( unbroken && vp_here.is_broken() ) ) {
             return p;
@@ -2782,9 +2784,10 @@ int vehicle::part_with_feature( const point &pt, vpart_bitflags f, bool unbroken
     return -1;
 }
 
-int vehicle::part_with_feature( const point &pt, const std::string &flag, bool unbroken ) const
+int vehicle::part_with_feature( const point &pt, const std::string &flag, bool unbroken,
+                                bool include_fake ) const
 {
-    for( const int p : parts_at_relative( pt, /* use_cache = */ false ) ) {
+    for( const int p : parts_at_relative( pt, /* use_cache = */ false, include_fake ) ) {
         const vehicle_part &vp_here = this->part( p );
         if( vp_here.info().has_flag( flag ) && !( unbroken && vp_here.is_broken() ) ) {
             return p;
