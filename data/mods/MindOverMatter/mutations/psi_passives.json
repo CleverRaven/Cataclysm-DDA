@@ -25,7 +25,6 @@
     "name": { "str": "Efficient System" },
     "points": 0,
     "description": "Thanks to your powers, you need less food and drink than the average person and are more efficient at processing it.",
-    "vitamins_absorb_multi": [ [ "all", [ [ "vitA", 1.05 ], [ "vitB", 1.05 ], [ "vitC", 1.05 ], [ "calcium", 1.05 ], [ "iron", 1.05 ] ] ] ],
     "player_display": true,
     "valid": false,
     "purifiable": false,
@@ -40,6 +39,10 @@
           {
             "value": "METABOLISM",
             "multiply": { "math": [ "(-0.03 - (0.00075 * u_spell_level_sum('school': 'BIOKINETIC')))" ] }
+          },
+          {
+            "value": "VITAMIN_ABSORB_MOD",
+            "multiply": { "math": [ "(0.03 + (0.00075 * u_spell_level_sum('school': 'BIOKINETIC')))" ] }
           }
         ]
       }
