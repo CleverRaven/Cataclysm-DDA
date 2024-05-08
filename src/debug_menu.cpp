@@ -509,6 +509,29 @@ static void monster_ammo_edit( monster &mon )
     }
 }
 
+static void run_eoc_menu( Creature *target = nullptr, bool target_as_alpha = false )
+{
+    if( !target && target_as_alpha ) {
+        return;
+    }
+    const std::vector<effect_on_condition> &eocs = effect_on_conditions::get_all();
+    uilist eoc_menu;
+    for( const effect_on_condition &eoc : eocs ) {
+        eoc_menu.addentry( -1, true, -1, eoc.id.str() );
+    }
+    eoc_menu.query();
+
+    if( eoc_menu.ret >= 0 && eoc_menu.ret < static_cast<int>( eocs.size() ) ) {
+        dialogue newDialog;
+        if( target_as_alpha ) {
+            newDialog = dialogue( get_talker_for( target ), get_talker_for( get_avatar() ) );
+        } else {
+            newDialog = dialogue( get_talker_for( get_avatar() ), target ? get_talker_for( target ) : nullptr );
+        }
+        eocs[eoc_menu.ret].activate( newDialog );
+    }
+}
+
 static int creature_uilist()
 {
     std::vector<uilist_entry> uilist_initializer = {
@@ -604,7 +627,7 @@ static void monster_edit_menu()
     }
 
     enum {
-        D_HP, D_MORALE, D_AGGRO, D_ADD_EFFECT, D_ADD_AMMO, D_TELE, D_WANDER_DES, D_WANDER
+        D_HP, D_MORALE, D_AGGRO, D_ADD_EFFECT, D_ADD_AMMO, D_TELE, D_WANDER_DES, D_WANDER, D_ALPHA_EOC, D_BETA_EOC
     };
     nmenu.addentry( D_HP, true, 'h', "%s", _( "Set hit points" ) );
     nmenu.addentry( D_MORALE, true, 'o', "%s", _( "Set morale" ) );
@@ -615,6 +638,10 @@ static void monster_edit_menu()
     nmenu.addentry( D_WANDER_DES, true, 'W', "%s",
                     _( "Set wander destination (also sets wander desire to 1000 turns)" ) );
     nmenu.addentry( D_WANDER, true, 'w', "%s", _( "Set wander desire" ) );
+    nmenu.addentry( D_ALPHA_EOC, true, 'r', "%s",
+                    _( "Run EOC with monster as alpha talker (avatar as beta)" ) );
+    nmenu.addentry( D_BETA_EOC, true, 't', "%s",
+                    _( "Run EOC with monster as beta talker (avatar as alpha)" ) );
 
     nmenu.query();
     switch( nmenu.ret ) {
@@ -670,7 +697,12 @@ static void monster_edit_menu()
             }
             break;
         }
-
+        case D_ALPHA_EOC:
+            run_eoc_menu( critter, true );
+            break;
+        case D_BETA_EOC:
+            run_eoc_menu( critter );
+            break;
     }
 }
 
@@ -3887,17 +3919,7 @@ void debug()
             static_cast<void>( raise( SIGSEGV ) );
             break;
         case debug_menu_index::ACTIVATE_EOC: {
-            const std::vector<effect_on_condition> &eocs = effect_on_conditions::get_all();
-            uilist eoc_menu;
-            for( const effect_on_condition &eoc : eocs ) {
-                eoc_menu.addentry( -1, true, -1, eoc.id.str() );
-            }
-            eoc_menu.query();
-
-            if( eoc_menu.ret >= 0 && eoc_menu.ret < static_cast<int>( eocs.size() ) ) {
-                dialogue newDialog( get_talker_for( get_avatar() ), nullptr );
-                eocs[eoc_menu.ret].activate( newDialog );
-            }
+            run_eoc_menu();
         }
         break;
         case debug_menu_index::MAP_EXTRA:
