@@ -13,6 +13,7 @@
     "type": "effect_type",
     "id": "effect_perk_firstest_aid",
     "//": "Hidden effect used as a tracker",
+    "max_duration": "2 m",
     "name": [ "" ],
     "desc": [ "" ]
   }
