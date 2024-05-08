@@ -480,7 +480,7 @@ static void monster_ammo_edit( monster &mon )
     uilist smenu;
     int pos = 0;
     char hotkey = 'a';
-    auto &ammo_map = mon.type->starting_ammo;
+    const auto &ammo_map = mon.type->starting_ammo;
     std::vector<itype_id> ammos;
     for( const std::pair<const itype_id, int> &pair : ammo_map ) {
         ammos.emplace_back( pair.first );
@@ -570,7 +570,7 @@ static void monster_edit_menu()
     if( critter ) {
         std::string size_string = "DEBUG";
         // This existing map isn't already extracted for translation...?
-        for( const std::pair<const std::string, creature_size> &size_pair : critter->size_map ) {
+        for( const std::pair<const std::string, creature_size> &size_pair : monster::size_map ) {
             if( size_pair.second == critter->get_size() ) {
                 size_string = size_pair.first;
                 break;

@@ -9,6 +9,7 @@
 #include <string_view>
 
 class Character;
+class Creature;
 struct tripoint;
 template <typename E> struct enum_traits;
 
@@ -110,9 +111,7 @@ enum class debug_menu_index : int {
     last
 };
 
-template<typename T>
-void wisheffect( T &p );
-
+void wisheffect( Creature &p );
 void wishitem( Character *you = nullptr );
 void wishitem( Character *you, const tripoint & );
 void wishmonster( const std::optional<tripoint> &p );
