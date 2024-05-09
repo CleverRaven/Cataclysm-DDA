@@ -4106,7 +4106,7 @@
     "color": "brown",
     "name": { "str": "training dummy", "str_pl": "training dummies" },
     "category": "other",
-    "description": "A hand-made humanoid figure, useful for training in close quarters combat.  This one is made from wood and it some duct tape to mark the striking points.  You need to embed it into the ground for training.",
+    "description": "A hand-made humanoid figure, useful for training in close quarters combat.  This one is made from wood and has some duct tape to mark the striking points.  You need to embed it into the ground for training.",
     "price": "150 USD",
     "price_postapoc": "6 USD",
     "material": [ "wood" ],
