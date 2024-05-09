@@ -7665,6 +7665,7 @@ void heat_activity_actor::finish( player_activity &act, Character &p )
                 liquid_handler::handle_all_liquid( *cold_item, PICKUP_RANGE );
             } else {
                 p.i_add_or_drop( *cold_item );
+                cold_item.remove_item();
             }
         }
     }
