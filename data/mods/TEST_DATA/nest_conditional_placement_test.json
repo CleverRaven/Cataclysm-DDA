@@ -138,7 +138,7 @@
     "name": "nest conditional placement test",
     "sym": ".",
     "color": "white",
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
