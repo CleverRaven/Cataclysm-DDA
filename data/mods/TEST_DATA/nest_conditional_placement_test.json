@@ -79,8 +79,8 @@
         },
         { "chunks": [ "1x1_ncpt" ], "predecessors": [ "ncpt_predecessors" ], "x": 5, "y": 0 },
         { "chunks": [ "1x1_ncpt" ], "predecessors": [ "field" ], "x": 5, "y": 1 },
-        { "chunks": [ "1x1_ncpt" ], "z_check": [ 0, 2, 4 ], "x": 6, "y": 0 },
-        { "chunks": [ "1x1_ncpt" ], "z_check": [ -1, 1, 3 ], "x": 6, "y": 1 },
+        { "chunks": [ "1x1_ncpt" ], "check_z": [ 0, 2, 4 ], "x": 6, "y": 0 },
+        { "chunks": [ "1x1_ncpt" ], "check_z": [ -1, 1, 3 ], "x": 6, "y": 1 },
         {
           "chunks": [ "1x1_ncpt" ],
           "neighbors": {
