@@ -1939,8 +1939,8 @@ void Character::on_try_dodge()
 
     const int base_burn_rate = get_option<int>( STATIC( "PLAYER_BASE_STAMINA_BURN_RATE" ) );
     const float dodge_skill_modifier = ( 20.0f - get_skill_level( skill_dodge ) ) / 20.0f;
-    burn_energy_legs( std::floor( static_cast<float>( base_burn_rate ) * 6.0f *
-                                  dodge_skill_modifier ) );
+    burn_energy_legs( - std::floor( static_cast<float>( base_burn_rate ) * 6.0f *
+                                    dodge_skill_modifier ) );
     set_activity_level( EXTRA_EXERCISE );
 }
 
