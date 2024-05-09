@@ -2098,7 +2098,7 @@
     "type": "effect_type",
     "id": "skunk_spray_neutralizer",
     "name": [ "Skunk Spray Neutralized" ],
-    "description": [ "A solution that neutralizes skunk odors." ],
+    "desc": [ "A solution that neutralizes skunk odors." ],
     "rating": "good",
     "apply_message": "As you apply the solution, the skunk odor dissipates.",
     "max_duration": "2 minutes",

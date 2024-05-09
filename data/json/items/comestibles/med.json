@@ -350,7 +350,6 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You cover yourself in the solution everywhere the spray touched your body.",
-      "move_cost": 2000,
       "effects": [ { "id": "skunk_spray_neutralizer" } ]
     }
   },
