@@ -1429,7 +1429,6 @@ conditional_t::func f_npc_train_spells( bool is_npc )
 
 conditional_t::func f_follower_present( const JsonObject &jo, std::string_view member )
 {
-    dbl_or_var empty;
     const std::string &var_name = jo.get_string( std::string( member ) );
     return [var_name]( dialogue const & d ) {
         npc *npc_to_check = nullptr;
