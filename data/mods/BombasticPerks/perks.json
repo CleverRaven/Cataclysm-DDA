@@ -255,6 +255,19 @@
   },
   {
     "type": "mutation",
+    "id": "perk_big_eater",
+    "name": { "str": "Big Eater" },
+    "points": 0,
+    "description": "You can really put it away.  You eat food 10% faster and can eat 33% more food at a time.",
+    "category": [ "perk" ],
+    "enchantments": [
+      {
+        "values": [ { "value": "CONSUME_TIME_MOD", "multiply": -0.1 }, { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 0.33 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_tuck_and_roll",
     "name": { "str": "Tuck and Roll" },
     "points": 0,
