@@ -55,20 +55,21 @@ TEST_CASE( "nest_conditional_placement", "[map][nest]" )
     tm.load( tinymap_point, false );
 
     //The y0 row has conditions that should result in t_linoleum_white being placed while the y1 row has conditions that should always fail to place t_linoleum_white
-    const bool unconditional_success = tm.ter( { 0, 0, 0 } ) == ter_t_linoleum_white &&
-                                       tm.ter( { 0, 1, 0 } ) == ter_t_linoleum_gray;
-    const bool neighbors_success = tm.ter( { 1, 0, 0 } ) == ter_t_linoleum_white &&
-                                   tm.ter( { 1, 1, 0 } ) == ter_t_linoleum_gray;
-    const bool joins_success = tm.ter( { 2, 0, 0 } ) == ter_t_linoleum_white &&
-                               tm.ter( { 2, 1, 0 } ) == ter_t_linoleum_gray;
-    const bool flags_success = tm.ter( { 3, 0, 0 } ) == ter_t_linoleum_white &&
-                               tm.ter( { 3, 1, 0 } ) == ter_t_linoleum_gray;
-    const bool flags_any_success = tm.ter( { 4, 0, 0 } ) == ter_t_linoleum_white &&
-                                   tm.ter( { 4, 1, 0 } ) == ter_t_linoleum_gray;
-    const bool predecessors_success = tm.ter( { 5, 0, 0 } ) == ter_t_linoleum_white &&
-                                      tm.ter( { 5, 1, 0 } ) == ter_t_linoleum_gray;
-    const bool z_check_success = tm.ter( { 6, 0, 0 } ) == ter_t_linoleum_white &&
-                                 tm.ter( { 6, 1, 0 } ) == ter_t_linoleum_gray;
+    //Can remove tripoint_omt_ms disambiguation once tinymap::ter raw tripoint overload is removed
+    const bool unconditional_success = tm.ter( tripoint_omt_ms{ 0, 0, 0 } ) == ter_t_linoleum_white &&
+                                       tm.ter( tripoint_omt_ms{ 0, 1, 0 } ) == ter_t_linoleum_gray;
+    const bool neighbors_success = tm.ter( tripoint_omt_ms{ 1, 0, 0 } ) == ter_t_linoleum_white &&
+                                   tm.ter( tripoint_omt_ms{ 1, 1, 0 } ) == ter_t_linoleum_gray;
+    const bool joins_success = tm.ter( tripoint_omt_ms{ 2, 0, 0 } ) == ter_t_linoleum_white &&
+                               tm.ter( tripoint_omt_ms{ 2, 1, 0 } ) == ter_t_linoleum_gray;
+    const bool flags_success = tm.ter( tripoint_omt_ms{ 3, 0, 0 } ) == ter_t_linoleum_white &&
+                               tm.ter( tripoint_omt_ms{ 3, 1, 0 } ) == ter_t_linoleum_gray;
+    const bool flags_any_success = tm.ter( tripoint_omt_ms{ 4, 0, 0 } ) == ter_t_linoleum_white &&
+                                   tm.ter( tripoint_omt_ms{ 4, 1, 0 } ) == ter_t_linoleum_gray;
+    const bool predecessors_success = tm.ter( tripoint_omt_ms{ 5, 0, 0 } ) == ter_t_linoleum_white &&
+                                      tm.ter( tripoint_omt_ms{ 5, 1, 0 } ) == ter_t_linoleum_gray;
+    const bool z_check_success = tm.ter( tripoint_omt_ms{ 6, 0, 0 } ) == ter_t_linoleum_white &&
+                                 tm.ter( tripoint_omt_ms{ 6, 1, 0 } ) == ter_t_linoleum_gray;
     CHECK( unconditional_success );
     CHECK( neighbors_success );
     CHECK( joins_success );
@@ -79,11 +80,13 @@ TEST_CASE( "nest_conditional_placement", "[map][nest]" )
     if( unconditional_success && neighbors_success && joins_success && flags_success &&
         flags_any_success && predecessors_success && z_check_success ) {
         //Check the neighbors condition works with om_terrain_match_type
-        const bool om_terrain_match_type_success = tm.ter( { 22, 0, 0 } ) == ter_t_linoleum_white &&
-                tm.ter( { 22, 1, 0 } ) == ter_t_linoleum_gray;
+        const bool om_terrain_match_type_success = tm.ter( tripoint_omt_ms{ 22, 0, 0 } ) ==
+                ter_t_linoleum_white &&
+                tm.ter( tripoint_omt_ms{ 22, 1, 0 } ) == ter_t_linoleum_gray;
         //Check that all conditions are required when multiple are specified
-        const bool multiconditional_success = tm.ter( { 23, 0, 0 } ) == ter_t_linoleum_white &&
-                                              tm.ter( { 23, 1, 0 } ) == ter_t_linoleum_gray;
+        const bool multiconditional_success = tm.ter( tripoint_omt_ms{ 23, 0, 0 } ) == ter_t_linoleum_white
+                                              &&
+                                              tm.ter( tripoint_omt_ms{ 23, 1, 0 } ) == ter_t_linoleum_gray;
         CHECK( om_terrain_match_type_success );
         CHECK( multiconditional_success );
     }
