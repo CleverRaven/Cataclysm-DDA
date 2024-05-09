@@ -25,7 +25,7 @@
         "distribution": [ { "item": "canteen_pouch" }, { "item": "h2o_pouch" }, { "item": "gas_mask_pouch" } ],
         "prob": 10
       },
-      { "group": "molle_accessories"}
+      { "group": "molle_accessories" }
     ]
   },
   {
@@ -60,7 +60,8 @@
     "subtype": "collection",
     "entries": [
       { "item": "tactical_holster", "prob": 60 },
-      { "distribution": [ { "item": "canteen_pouch" }, { "item": "h2o_pouch" }, { "item": "gas_mask_pouch" } ],
+      { 
+        "distribution": [ { "item": "canteen_pouch" }, { "item": "h2o_pouch" }, { "item": "gas_mask_pouch" } ],
         "prob": 70
       },
       { "group": "molle_accessories", "count": [ 1, 3 ] }
