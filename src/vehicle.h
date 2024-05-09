@@ -1178,27 +1178,32 @@ class vehicle
         *  @param pt only returns parts from this mount point
         *  @param f required flag in part's vpart_info flags collection
         *  @param unbroken if true also requires the part to be !is_broken
+        *  @param include_fake if true fake parts are included
         *  @returns part index or -1
         */
-        int part_with_feature( const point &pt, const std::string &f, bool unbroken ) const;
+        int part_with_feature( const point &pt, const std::string &f, bool unbroken,
+                               bool include_fake = false ) const;
         /**
         *  Returns part index at mount point \p pt which has given \p f flag
         *  @note uses relative_parts cache
         *  @param pt only returns parts from this mount point
         *  @param f required flag in part's vpart_info flags collection
         *  @param unbroken if true also requires the part to be !is_broken()
+        *  @param include_fake if true fake parts are included
         *  @returns part index or -1
         */
-        int part_with_feature( const point &pt, vpart_bitflags f, bool unbroken ) const;
+        int part_with_feature( const point &pt, vpart_bitflags f, bool unbroken,
+                               bool include_fake = false ) const;
         /**
         *  Returns \p p or part index at mount point \p pt which has given \p f flag
         *  @note uses relative_parts cache
         *  @param p index of part to start searching from
         *  @param f required flag in part's vpart_info flags collection
         *  @param unbroken if true also requires the part to be !is_broken()
+        *  @param include_fake if true fake parts are included
         *  @returns part index or -1
         */
-        int part_with_feature( int p, vpart_bitflags f, bool unbroken ) const;
+        int part_with_feature( int p, vpart_bitflags f, bool unbroken, bool include_fake = false ) const;
         /**
         *  Returns index of part at mount point \p pt which has given \p f flag
         *  and is_available(), or -1 if no such part or it's not is_available()

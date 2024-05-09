@@ -70,9 +70,11 @@ class vpart_position
         // @return reference to unbroken CARGO part at this position or std::nullopt
         std::optional<vpart_reference> cargo() const;
         /// @see vehicle::part_with_feature
-        std::optional<vpart_reference> part_with_feature( const std::string &f, bool unbroken ) const;
+        std::optional<vpart_reference> part_with_feature( const std::string &f, bool unbroken,
+                bool include_fake = false ) const;
         /// @see vehicle::part_with_feature
-        std::optional<vpart_reference> part_with_feature( vpart_bitflags f, bool unbroken ) const;
+        std::optional<vpart_reference> part_with_feature( vpart_bitflags f, bool unbroken,
+                bool include_fake = false ) const;
         /// @see vehicle::part_with_feature
         std::optional<vpart_reference> avail_part_with_feature( const std::string &f ) const;
         /// @see vehicle::part_with_feature
