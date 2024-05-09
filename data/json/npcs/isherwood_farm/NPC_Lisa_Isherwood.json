@@ -8,6 +8,13 @@
     "class": "NC_ISHERWOOD_LISA",
     "attitude": 0,
     "mission": 7,
+    "age": 20,
+    "height": 170,
+    "str": 8,
+    "dex": 9,
+    "int": 10,
+    "per": 9,
+    "personality": { "aggression": 1, "bravery": 5, "collector": 1, "altruism": 3 },
     "chat": "TALK_ISHERWOOD_LISA",
     "faction": "isherwood_family"
   },
@@ -17,13 +24,14 @@
     "name": { "str": "Lisa Isherwood" },
     "job_description": "Part of the Isherwood family",
     "traits": [
-      { "group": "NPC_starting_traits" },
+      { "trait": "ANIMALEMPATH" },
+      { "trait": "ANTIJUNK" },
+      { "trait": "PRETTY" },
       { "group": "Appearance_demographics" },
       { "trait": "NO_BASH" },
       { "trait": "RETURN_TO_START_POS" }
     ],
     "common": false,
-    "bonus_per": { "one_in": 4 },
     "worn_override": "NC_Isherwood_female_worn",
     "weapon_override": "NC_ISHERWOOD_rifle",
     "skills": [

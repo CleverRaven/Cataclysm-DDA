@@ -9,6 +9,13 @@
     "class": "NC_ISHERWOOD_EDDIE",
     "attitude": 0,
     "mission": 7,
+    "age": 41,
+    "height": 179,
+    "str": 9,
+    "dex": 7,
+    "int": 7,
+    "per": 8,
+    "personality": { "aggression": -4, "bravery": -1, "collector": 1, "altruism": 1 },
     "chat": "TALK_ISHERWOOD_EDDIE",
     "mission_offered": "MISSION_ISHERWOOD_EDDIE_1",
     "faction": "isherwood_family"
@@ -19,8 +26,12 @@
     "name": { "str": "Eddie Isherwood" },
     "job_description": "I'm a dairy farmer, part of the Isherwood family",
     "traits": [
-      { "group": "NPC_starting_traits" },
-      { "group": "Appearance_demographics" },
+      { "trait": "ASTHMA" },
+      { "trait": "JITTERY" },
+      { "trait": "OPTIMISTIC" },
+      { "trait": "SKIN_TAN" },
+      { "trait": "eye_color", "variant": "hazel" },
+      { "trait": "hair_short", "variant": "black" },
       { "trait": "NO_BASH" },
       { "trait": "RETURN_TO_START_POS" }
     ],
