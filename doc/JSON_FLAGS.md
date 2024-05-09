@@ -205,7 +205,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```HELMET_NAPE_PROTECTOR``` Item can be worn with different hard helmets, as attachment; specifically can be put in pocket for armor with this flag restriction.
 - ```HOOD``` Allow this clothing to conditionally cover the head, for additional warmth or water protection, if the player's head isn't encumbered.
 - ```HYGROMETER``` This gear is equipped with an accurate hygrometer (which is used to measure humidity).
-- ```INTEGRATED``` This item represents a part of you granted by mutations or bionics.  It will always fit, cannot be unequipped (aside from losing the source), and won't drop on death, but otherwise behaves like normal armor with regards to function, encumbrance, layer conflicts and so on.
+- ```INTEGRATED``` This item represents a part of you granted by mutations or bionics.  It will always fit, will not conflict with armor-blocking mutations, cannot be unequipped (aside from losing the source), and won't drop on death, but otherwise behaves like normal armor with regards to function, encumbrance, layer conflicts and so on.
 - ```IR_EFFECT``` Being worn, this item will give an infrared vision.
 - ```MUTE``` Makes the player mute.
 - ```NORMAL``` Items worn like normal clothing.  This is assumed as default.
