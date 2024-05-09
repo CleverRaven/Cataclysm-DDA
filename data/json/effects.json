@@ -2103,7 +2103,7 @@
     "apply_message": "As you apply the solution, the skunk odor dissipates.",
     "max_duration": "2 minutes",
     "removes_effects": [ "skunk_spray" ]
-  }
+  },
   {
     "type": "effect_type",
     "id": "invisibility",
