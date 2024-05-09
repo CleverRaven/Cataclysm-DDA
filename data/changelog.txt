@@ -110,6 +110,11 @@ Threshold substitutions
 Small scale anaerobic digestion system
 Shatter a zombie's torso armour with a good hard hit.
 Limbify Feathered Arms, rework gaining Bird Wings
+Unhardcode KI strike / Drunken master
+Make power grids easier to disconnect, reconnect, and merge parts to
+Beast mutants can mutate quills
+Adds a new trait, Tiny Stomach
+Add new hairstyles from Mawranth's Hair Salon
 
 
 ## Content:
@@ -233,6 +238,8 @@ Rework exoskeletons
 Adds still more mission-specific dialogue for Liam (Friends to the End)
 Add XL and XS versions for french maid clothes/aprons/hats
 Fridges and freezers. What do you mean 'we already have some'?
+New portal monsters: unviable life forms
+Challenge start - hunted forever. Starts with the nemesis, but it comes back stronger everytime it dies
 
 
 ## Interface:
@@ -291,6 +298,10 @@ Tile cover is now named concealment, because that's all it actually does.
 When opening spellcasting menu, go to favorite spells tab if player has favorited spells
 AIM: when cannot wear, try to wield
 Separate keybinding to select default ammo for RELOAD_AND_SHOOT/RELOAD_ONE weapon
+Show NEW! in List Items menu
+Adding spell name to the casting... widget
+Adding Classless as a supernatural category
+Mission UI migrated to imGUI
 
 
 
@@ -439,6 +450,11 @@ Aftershock: Add two crashed shuttle maps
 [DinoMod] skeletal looks_like fix
 Technomancer pain ignoring spell
 [MoM] Add `city_sizes` parameter to city buildings
+Aftershock: New combat bionics
+[Xedra Evolved] Even more paraclesian powers
+[Sky Island] Upgrade central skylight missions and mapgen
+Aftershock: Add a space station clothes store
+[MoM] Using psionics in or near the Nether is more powerful, but also more risky
 
 
 ## Balance:
@@ -505,6 +521,9 @@ shoggoths cannot eat artifacts
 Removed palm metal plating on brigandine gloves
 City buildings are restricted to spawn in (more) appropriately sized cities
 Unattended crops that are ready to harvest will die if not harvested before their next growth period
+Make Quadcopter Drones Produce Sound
+Make most plastic and glass containers transparent
+Added limb blocking to bionic styles
 
 
 ## Bugfixes:
@@ -660,6 +679,12 @@ Favorite ammo must be on the avatar.
 Fix split vehicles always using the incorrect pivot point
 Transformed active mutations (extended claws etc) properly cause instability
 Only count CONTAINER type pockets in the pickup inventory
+Allow select-all when highlighted item is non-selectable
+Eddie can talk about his father.
+Fixes issue where ImGui popup doesnt wrap buttons to a new line when the overall length is too long
+Wet Towels No Longer Prompt to be Turned Off
+Maybe prevent rare crater generation error
+AIM: Now moving all items will not move favourite items, if other items are present.
 
 
 ## Performance:
@@ -741,6 +766,8 @@ EOC proficiency adjustments use normal training route by default
 Improve spell checker tokenization and reporting
 Deleted the ImGui enable/disable toggle, turns on ImGui globally in CDDA
 Use test enumerating item spawns to make assertions about the rate of appearance of different items.
+Add perceived kwarg to pain_eval math function, apply it in Mind Over Matter
+refactored ImTuis drawing code to fix a black screen issue, and to improve performance
 
 
 ## Build:
