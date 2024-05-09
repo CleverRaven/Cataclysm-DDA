@@ -559,7 +559,7 @@ void game::draw_bullet( const tripoint_bub_ms &t, const int i,
 void game::draw_bullet( const tripoint &t, const int i, const std::vector<tripoint> &trajectory,
                         const char bullet )
 {
-    draw_bullet_curses( m, tripoint_bub_ms( t ), bullet, &tripoint_bub_ms( trajectory[i] ) );
+    draw_bullet_curses( m, tripoint_bub_ms( t ), bullet, tripoint_bub_ms( trajectory[i] ) );
 }
 #endif
 
@@ -734,6 +734,18 @@ void game::draw_line( const tripoint &p, const tripoint &center,
 
     tilecontext->init_draw_line( tripoint_bub_ms( p ), temp, "line_target", true );
 }
+
+void game::draw_line( const tripoint_bub_ms &p, const tripoint_bub_ms &center,
+                      const std::vector<tripoint_bub_ms> &points, bool noreveal )
+{
+    std::vector<tripoint> raw_points;
+    std::transform( points.begin(), points.end(), std::back_inserter( raw_points ),
+    []( const tripoint_bub_ms & t ) {
+        return t.raw();
+    } );
+    draw_line( p.raw(), center.raw(), raw_points, noreveal );
+}
+
 #else
 void game::draw_line( const tripoint_bub_ms &p, const tripoint_bub_ms &center,
                       const std::vector<tripoint_bub_ms> &points, bool noreveal )
@@ -759,17 +771,6 @@ void game::draw_line( const tripoint &p, const tripoint &center,
     draw_line_curses( *this, tripoint_bub_ms( center ), temp, noreveal );
 }
 #endif
-
-void game::draw_line( const tripoint_bub_ms &p, const tripoint_bub_ms &center,
-                      const std::vector<tripoint_bub_ms> &points, bool noreveal )
-{
-    std::vector<tripoint> raw_points;
-    std::transform( points.begin(), points.end(), std::back_inserter( raw_points ),
-    []( const tripoint_bub_ms & t ) {
-        return t.raw();
-    } );
-    draw_line( p.raw(), center.raw(), raw_points, noreveal );
-}
 
 namespace
 {
@@ -798,11 +799,6 @@ void game::draw_line( const tripoint &p, const std::vector<tripoint> &points )
     tilecontext->init_draw_line( tripoint_bub_ms( p ), temp, "line_trail", false );
 }
 #else
-void game::draw_line( const tripoint_bub_ms &/*p*/, const std::vector<tripoint_bub_ms> &points )
-{
-    draw_line_curses( *this, points );
-}
-
 void game::draw_line( const tripoint &/*p*/, const std::vector<tripoint> &points )
 {
     std::vector<tripoint_bub_ms> temp;
