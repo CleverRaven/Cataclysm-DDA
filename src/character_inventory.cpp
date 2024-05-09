@@ -454,16 +454,25 @@ bool Character::i_add_or_drop( item &it, int qty, const item *avoid,
     bool retval = true;
     bool drop = it.made_of( phase_id::LIQUID );
     bool add = it.is_gun() || !it.is_irremovable();
+    int added = 0;
     inv->assign_empty_invlet( it, *this );
     map &here = get_map();
+    drop |= !can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) || !can_pickVolume( it );
     for( int i = 0; i < qty; ++i ) {
-        drop |= !can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) || !can_pickVolume( it );
         if( drop ) {
+            // No need to loop now, we already knew that there isn't enough room for the item.
             retval &= !here.add_item_or_charges( pos(), it ).is_null();
+            added++;
+            break;
         } else if( add ) {
             i_add( it, true, avoid,
                    original_inventory_item, /*allow_drop=*/true, /*allow_wield=*/!has_wield_conflicts( it ) );
+            added++;
         }
+    }
+
+    for( int i = added; i < qty; ++i ) {
+        retval &= !here.add_item_or_charges( pos(), it ).is_null();
     }
 
     return retval;

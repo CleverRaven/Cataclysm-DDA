@@ -584,7 +584,6 @@
         { "u_has_item": "dnd" },
         { "u_has_item": "g_warhammer" },
         { "u_has_item": "g_warhammer40k" },
-        { "u_has_item": "cards_magic" },
         { "u_has_item": "deck_of_cards" },
         { "u_has_item": "chess" },
         { "u_has_item": "checkers" },

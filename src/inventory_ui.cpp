@@ -366,6 +366,7 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "overmap_show_forest_trails", overmap_show_forest_trails );
     json.member( "vmenu_show_items", vmenu_show_items );
     json.member( "list_item_sort", list_item_sort );
+    json.member( "read_items", read_items );
     json.member( "list_item_filter_active", list_item_filter_active );
     json.member( "list_item_downvote_active", list_item_downvote_active );
     json.member( "list_item_priority_active", list_item_priority_active );
@@ -476,6 +477,7 @@ void uistatedata::deserialize( const JsonObject &jo )
     }
 
     jo.read( "list_item_sort", list_item_sort );
+    jo.read( "read_items", read_items );
     jo.read( "list_item_filter_active", list_item_filter_active );
     jo.read( "list_item_downvote_active", list_item_downvote_active );
     jo.read( "list_item_priority_active", list_item_priority_active );

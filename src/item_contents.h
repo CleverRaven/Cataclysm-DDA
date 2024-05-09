@@ -27,6 +27,13 @@ class iteminfo_query;
 struct iteminfo;
 struct tripoint;
 
+/// NEW!ness to player, if they seen such item already
+enum class content_newness {
+    NEW,  // at least one item is new
+    MIGHT_BE_HIDDEN,  // at least one item might be hidden and none are NEW
+    SEEN
+};
+
 class item_contents
 {
     public:
@@ -125,6 +132,9 @@ class item_contents
         // returns all the ablative armor in pockets
         std::list<item *> all_ablative_armor();
         std::list<const item *> all_ablative_armor() const;
+
+        /// don't check top level item, do check its pockets, do check all nested
+        content_newness get_content_newness( const std::set<itype_id> &read_items ) const;
 
         /** gets all gunmods in the item */
         std::vector<item *> gunmods();

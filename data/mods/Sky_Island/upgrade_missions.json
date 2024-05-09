@@ -2296,6 +2296,197 @@
     ]
   },
   {
+    "id": "SKYISLAND_BUILD_centralskylight2",
+    "type": "mission_definition",
+    "name": "Construct: Central Skylight 2",
+    "description": "Completing this mission will instantly build a new structure on your home island.\n\nCraft a Glass Figurine from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Structure: Central Skylight 2.  A larger skylight above your main room, allowing more light to enter in.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "buildkey_centralskylight2",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "buildkey_centralskylight2" },
+        {
+          "u_message": "Now that you have a bunker under the island, you have a place to live.  But the small glass roof doesn't let in a lot of light; a larger skylight would be ideal.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nNew Structure: Central Skylight 2.  A larger skylight over the main room.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "skyisland_build_centralskylight", "=", "1" ] },
+        { "u_forget_recipe": "buildkey_centralskylight2" },
+        { "run_eocs": "EOC_skyisland_build_centralskylight2" },
+        { "u_message": "Construction complete.  The skylight above the central room has expanded.", "popup": true }
+      ]
+    }
+  },
+  {
+    "id": "buildkey_centralskylight2",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "Glass Figurine" },
+    "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: Central Skylight 2",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "buildkey_centralskylight2",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "qualities": [ { "id": "DIG", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "2x4", 4 ] ],
+      [ [ "glass_shard", 150 ] ],
+      [ [ "chunk_rubber", 5 ] ],
+      [ [ "superglue", 2 ] ],
+      [ [ "cordage", 5, "LIST" ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_BUILD_centralskylight3",
+    "type": "mission_definition",
+    "name": "Construct: Central Skylight 3",
+    "description": "Completing this mission will instantly build a new structure on your home island.\n\nCraft a Crystalline Mirror from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Structure: Central Skylight 3.  Expand the central room's skylight to allow even more light.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "buildkey_centralskylight3",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "buildkey_centralskylight3" },
+        {
+          "u_message": "The central room could use even more natural light.  Time to get to work.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nNew Structure: Central Skylight 3.  Expand the skylight over the central room.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "skyisland_build_centralskylight", "=", "2" ] },
+        { "u_forget_recipe": "buildkey_centralskylight3" },
+        { "run_eocs": "EOC_skyisland_build_centralskylight3" },
+        { "u_message": "Construction complete.  The skylight over the central room has grown.", "popup": true }
+      ]
+    }
+  },
+  {
+    "id": "buildkey_centralskylight3",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "Crystalline Mirror" },
+    "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: Central Skylight 3",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "buildkey_centralskylight3",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "DRILL", "level": 1 } ],
+    "components": [
+      [ [ "aquamarine", 4 ], [ "citrine", 4 ], [ "garnet", 4 ], [ "peridot", 4 ], [ "tourmaline", 4 ], [ "blue_topaz", 4 ] ],
+      [ [ "glass_sheet", 3 ] ],
+      [ [ "mirror", 1 ] ],
+      [ [ "superglue", 5 ] ],
+      [ [ "frame_wood", 2 ] ],
+      [ [ "cordage", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "id": "SKYISLAND_BUILD_centralskylight4",
+    "type": "mission_definition",
+    "name": "Construct: Central Skylight 4",
+    "description": "Completing this mission will instantly build a new structure on your home island.\n\nCraft a Transparent Cube from simple tools and common building materials.  The Heart of the Island has already placed the recipe inside your mind.\n\nNew Structure: Central Skylight 4.  Expand the central skylight to very generous dimensions.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "buildkey_centralskylight4",
+    "count": 1,
+    "difficulty": 0,
+    "value": 0,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [
+        { "u_learn_recipe": "buildkey_centralskylight4" },
+        {
+          "u_message": "The central skylight should be enormous to allow in as much light as possible.  Time to get to work.\nA new recipe has been learned.  Craft this artifact to permanently upgrade the island.\n\nNew Structure: Central Skaylight 4.  Expand the central skylight to very generous dimensions.",
+          "popup": true
+        }
+      ]
+    },
+    "end": {
+      "effect": [
+        { "math": [ "skyisland_build_centralskylight", "=", "3" ] },
+        { "u_forget_recipe": "buildkey_centralskylight4" },
+        { "run_eocs": "EOC_skyisland_build_centralskylight4" },
+        { "u_message": "Construction complete.  The central skylight has grown even further.", "popup": true }
+      ]
+    }
+  },
+  {
+    "id": "buildkey_centralskylight4",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "Transparent Cube" },
+    "description": "This strange metaphysical artifact is used to build a structure on the island.  Will be used automatically upon crafting, and can only be used once.\n\nASSOCIATED BUILD: Central Skylight 4",
+    "volume": "25000 ml",
+    "weight": "15000 g",
+    "longest_side": "90 cm",
+    "material": [ "stone" ],
+    "symbol": "V",
+    "color": "white"
+  },
+  {
+    "result": "buildkey_centralskylight4",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_WARP",
+    "subcategory": "CSC_WARP_UPGRADES",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": "15 m",
+    "flags": [ "SECRET", "BLIND_EASY" ],
+    "reversible": false,
+    "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
+    "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "DRILL", "level": 1 } ],
+    "components": [
+      [ [ "bigmirror", 1 ] ],
+      [ [ "tempered_glass_sheet", 4 ] ],
+      [ [ "frame", 4 ] ],
+      [ [ "rubber_cement", 8 ] ],
+      [ [ "diamond", 8 ], [ "ruby", 8 ], [ "emerald", 8 ], [ "sapphire", 8 ] ],
+      [ [ "cordage", 1, "LIST" ] ]
+    ]
+  },
+  {
     "id": "SKYISLAND_BUILD_westroom1",
     "type": "mission_definition",
     "name": "Construct: West Room 1",

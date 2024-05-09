@@ -433,7 +433,8 @@ void iuse_transform::finalize( const itype_id & )
 
 void iuse_transform::info( const item &it, std::vector<iteminfo> &dump ) const
 {
-    item dummy( target, calendar::turn, std::max( ammo_qty, 1 ) );
+    int amount = std::max( ammo_qty, 1 );
+    item dummy( target, calendar::turn, target->count_by_charges() ? amount : 1 );
     dummy.set_itype_variant( variant_type );
     // If the variant is to be randomized, use default no-variant name
     if( variant_type == "<any>" ) {
@@ -442,8 +443,27 @@ void iuse_transform::info( const item &it, std::vector<iteminfo> &dump ) const
     if( it.has_flag( flag_FIT ) ) {
         dummy.set_flag( flag_FIT );
     }
-    dump.emplace_back( "TOOL", string_format( _( "<bold>Turns into</bold>: %s" ),
-                       dummy.tname() ) );
+    if( target->count_by_charges() || !ammo_type.is_empty() ) {
+        if( !ammo_type.is_empty() ) {
+            dump.emplace_back( "TOOL", _( "<bold>Turns into</bold>: " ),
+                               string_format( _( "%s (%d %s)" ), dummy.tname(), amount, ammo_type->nname( amount ) ) );
+        } else if( !container.is_empty() ) {
+            dump.emplace_back( "TOOL", _( "<bold>Turns into</bold>: " ),
+                               amount > 1 ?
+                               string_format( _( "%s (%d %s)" ),
+                                              container->nname( 1 ), amount, target->nname( amount ) ) :
+                               string_format( _( "%s (%s)" ),
+                                              container->nname( 1 ), target->nname( amount ) ) );
+        } else {
+            dump.emplace_back( "TOOL", _( "<bold>Turns into</bold>: " ),
+                               string_format( _( "%s (%d)" ), target->nname( amount ), amount ) );
+        }
+    } else {
+        dump.emplace_back( "TOOL", _( "<bold>Turns into</bold>: " ),
+                           amount > 1 ?
+                           string_format( _( "%d %s" ), amount, target->nname( amount ) ) :
+                           string_format( _( "%s" ), target->nname( amount ) ) );
+    }
 
     if( target_timer > 0_seconds ) {
         dump.emplace_back( "TOOL", _( "Countdown: " ), to_seconds<int>( target_timer ) );
@@ -1197,9 +1217,11 @@ void reveal_map_actor::reveal_targets( const tripoint_abs_omt &center,
     const auto places = overmap_buffer.find_all( center, target.first, radius, false,
                         target.second );
     for( const tripoint_abs_omt &place : places ) {
+        if( !overmap_buffer.seen( place ) ) {
+            // Should be replaced with the character using the item passed as an argument if NPCs ever learn to use maps
+            get_avatar().map_revealed_omts.emplace( place );
+        }
         overmap_buffer.reveal( place, reveal_distance );
-        // Should be replaced with the character using the item passed as an argument if NPCs ever learn to use maps
-        get_avatar().map_revealed_omts.emplace( place );
     }
 }
 
@@ -1223,6 +1245,9 @@ std::optional<int> reveal_map_actor::use( Character *p, item &it, const tripoint
     }
     if( !message.empty() ) {
         p->add_msg_if_player( m_good, "%s", message );
+    }
+    if( p->map_revealed_omts.empty() ) {
+        p->add_msg_if_player( _( "You didn't learn anything new from the %s." ), it.tname() );
     }
     it.mark_as_used_by_player( *p );
     return 0;

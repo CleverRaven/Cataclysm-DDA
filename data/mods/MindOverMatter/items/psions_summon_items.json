@@ -339,13 +339,12 @@
     "flags": [
       "INTEGRATED",
       "UNBREAKABLE",
-      "SKINTIGHT",
       "SOFT",
       "WATER_FRIENDLY",
       "SUN_GLASSES",
       "NO_REPAIR",
       "NO_SALVAGE",
-      "AURA",
+      "PERSONAL",
       "SEMITANGIBLE"
     ],
     "armor": [
