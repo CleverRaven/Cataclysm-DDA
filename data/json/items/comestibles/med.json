@@ -336,7 +336,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": { "str_sp": "skunk spray neutralizing solution" },
-    "description": "A combination of hyrdogen peroxide, baking soda, and dish soap that works together to transform skunk spray thiocetates into odorless acids.",
+    "description": "A combination of hydrogen peroxide, baking soda, and dish soap that works together to transform skunk spray thiocetates into odorless acids.",
     "weight": "28 g",
     "volume": "250 ml",
     "price": "1 USD",

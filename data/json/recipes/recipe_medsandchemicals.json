@@ -1044,11 +1044,7 @@
     "skills_required": [ "survival", 1 ],
     "difficulty": 1,
     "time": "5 m",
-    "book_learn": [
-      [ "pocket_survival", 3 ],
-      [ "survival_book", 3 ],
-      [ "isherwood_herbal_remedies", 2 ]
-    ],
+    "book_learn": [ [ "pocket_survival", 3 ], [ "survival_book", 3 ], [ "isherwood_herbal_remedies", 2 ] ],
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "components": [ [ [ "chem_hydrogen_peroxide", 4 ] ], [ [ "chem_baking_soda", 83 ], [ "liquid_soap", 2 ] ] ],
     "charges": 4
