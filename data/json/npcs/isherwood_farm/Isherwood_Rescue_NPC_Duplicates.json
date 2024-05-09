@@ -2,11 +2,16 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_FAMILY_DUPLICATES",
-    "dynamic_line": { 
+    "dynamic_line": {
       "follower_present": "NC_ISHERWOOD_BARRY",
-      "no": [ "What's up?  Change of plans?", "Everything OK?", "Not really a good time for a chat.", "I can't believe this is happening." ]
+      "no": [
+        "What's up?  Change of plans?",
+        "Everything OK?",
+        "Not really a good time for a chat.",
+        "I can't believe this is happening."
+      ],
       "yes": [ "Barry!  Oh my god, you found him!", "Barry!  You're okay!", "Oh god, oh thank god.  Let's get Barry out of here." ]
-      },
+    },
     "responses": [
       {
         "text": "We've got him, let's get out of here.",
