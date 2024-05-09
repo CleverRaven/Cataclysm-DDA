@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "update_mapgen_id": "afs_bounty_hunter_gunship",
+    "update_mapgen_id": "mx_gunship",
     "object": {
       "rows": [
         "                        ",
