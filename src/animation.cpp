@@ -559,7 +559,8 @@ void game::draw_bullet( const tripoint_bub_ms &t, const int i,
 void game::draw_bullet( const tripoint &t, const int i, const std::vector<tripoint> &trajectory,
                         const char bullet )
 {
-    draw_bullet_curses( m, tripoint_bub_ms( t ), bullet, tripoint_bub_ms( trajectory[i] ) );
+    const tripoint_bub_ms temp = tripoint_bub_ms( trajectory[i] );
+    draw_bullet_curses( m, tripoint_bub_ms( t ), bullet, &temp ) );
 }
 #endif
 
