@@ -91,7 +91,8 @@
     "known_by_u": false,
     "size": 70,
     "power": 100,
-    "fac_food_supply": { "calories": 115200, "vitamins": {  } },
+    "//": "No food supply, they eat off of robofac's",
+    "fac_food_supply": { "calories": 0, "vitamins": {  } },
     "wealth": 75000,
     "currency": "RobofacCoin",
     "relations": {
@@ -117,6 +118,7 @@
     "known_by_u": false,
     "size": 100,
     "power": 100,
+    "//": "FIXME: No camp! One character spawns at the refugee center but can't eat out of their stores",
     "fac_food_supply": { "calories": 201600, "vitamins": {  } },
     "wealth": 100000000,
     "relations": {
@@ -241,7 +243,8 @@
     "known_by_u": false,
     "size": 5,
     "power": 0,
-    "fac_food_supply": { "calories": 1152, "vitamins": {  } },
+    "//": "No camp, on purpose! These guys will literally starve.",
+    "fac_food_supply": { "calories": 0, "vitamins": {  } },
     "wealth": 100,
     "relations": {
       "lobby_beggars": {
@@ -361,6 +364,7 @@
     "known_by_u": false,
     "size": 100,
     "power": 100,
+    "//": "No camp, on purpose! The pilgrim group should probably be full marloss, and not need to eat?",
     "fac_food_supply": { "calories": 172800, "vitamins": {  } },
     "wealth": 25000,
     "relations": {
@@ -534,6 +538,7 @@
     "size": 7,
     "power": 10,
     "currency": "signed_chit",
+    "//": "FOUR camps.",
     "fac_food_supply": { "calories": 115200, "vitamins": {  } },
     "wealth": 75000,
     "relations": {
@@ -781,6 +786,7 @@
     "known_by_u": false,
     "size": 3,
     "power": 3,
+    "//": "FIXME: Currently no camps! Spawns via % chance in a bit of nested mapgen, then moves to an existing lighthouse (with no way to know which lighthouse during mapgen!). Will probably need some dynamic camp placement to support.",
     "fac_food_supply": { "calories": 100, "vitamins": {  } },
     "wealth": 20000,
     "relations": {
