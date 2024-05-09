@@ -1977,7 +1977,7 @@ void iexamine::bulletin_board( Character &you, const tripoint &examp )
     std::optional<basecamp *> bcp = overmap_buffer.find_camp( omt );
     if( bcp ) {
         basecamp *temp_camp = *bcp;
-        if( temp_camp->get_owner() != get_avatar().get_faction()->id ) {
+        if( !temp_camp->allowed_access_by( you ) ) {
             you.add_msg_if_player( _( "You don't run this camp, the board is useless to you." ) );
             return;
         }

@@ -4538,6 +4538,9 @@ bool npc::consume_food_from_camp()
         return false;
     }
     basecamp *bcp = *potential_bc;
+    if( !bcp->allowed_access_by( *this ) ) {
+        return false;
+    }
     if( get_thirst() > 40 && bcp->has_water() ) {
         complain_about( "camp_water_thanks", 1_hours,
                         chat_snippets().snip_camp_water_thanks.translated(), false );

@@ -271,6 +271,7 @@ class basecamp
         /// Changes the faction opinion for you by @ref change, returns opinion
         int camp_morale( int change = 0 ) const;
 
+        bool allowed_access_by( Character &guy ) const;
         // recipes, gathering, and craft support functions
         // from a direction
         std::map<recipe_id, translation> recipe_deck( const point &dir ) const;

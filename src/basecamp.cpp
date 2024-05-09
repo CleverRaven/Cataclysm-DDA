@@ -324,6 +324,19 @@ bool basecamp::has_water() const
     return has_provides( "water_well" ) || has_provides( "fbmh_well_north" );
 }
 
+bool basecamp::allowed_access_by( Character &guy ) const
+{
+    // The owner can always access their own camp.
+    if( fac() == guy.get_faction() ) {
+        return true;
+    }
+    // Sharing stuff also means sharing access.
+    if( fac()->has_relationship( guy.get_faction()->id, npc_factions::share_my_stuff ) ) {
+        return true;
+    }
+    return false;
+}
+
 std::vector<basecamp_upgrade> basecamp::available_upgrades( const point &dir )
 {
     std::vector<basecamp_upgrade> ret_data;

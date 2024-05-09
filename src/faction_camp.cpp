@@ -5585,6 +5585,10 @@ void basecamp::feed_workers( const std::vector<std::reference_wrapper <Character
     food /= num_workers;
     for( const auto &worker_reference : workers ) {
         Character &worker = worker_reference.get();
+        if( !allowed_access_by( worker ) ) {
+            debugmsg( "Character %s improperly tried to access food stores at camp %s, please report this error.",
+                      worker.disp_name(), name );
+        }
         item food_item = make_fake_food( food );
         // Handle allergies and other stuff
         bool query_player = !worker.is_npc();
