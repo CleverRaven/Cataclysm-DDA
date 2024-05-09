@@ -256,7 +256,7 @@
               { "not": { "u_has_effect": "effect_monster_inertial_barrier" } }
             ]
           },
-          "monster_message": "The air around %1$s disorts."
+          "monster_message": "The air around %1$s distorts."
         },
         {
           "id": "nemesis_primal_fear",
@@ -267,6 +267,8 @@
           "monster_message": "%1$s stares at %3$s and they freeze like a frightened rabbit!"
         },
         {
+          "type": "monster_attack",
+          "attack_type": "melee",
           "id": "telekinetic_smash_throw",
           "move_cost": 80,
           "cooldown": 15,

@@ -492,9 +492,10 @@
   {
     "id": "telekinetic_pull_monster",
     "type": "SPELL",
-    "name": "[Ψ]Far Hand Monster",
-    "description": "Pull a target or set of items to you.",
-    "message": "You reach out and pull your target to you.",
+    "name": "telekinetic powers",
+    "//": "Name is so it displays properly in the message log.",
+    "description": "Pull a target or set of items to you.  This power is for monster usage",
+    "message": "",
     "valid_targets": [ "hostile" ],
     "spell_class": "TELEKINETIC",
     "flags": [ "CONCENTRATE", "NO_HANDS", "NO_LEGS" ],
