@@ -6394,6 +6394,11 @@ const field &map::field_at( const tripoint &p ) const
     return current_submap->get_field( l );
 }
 
+const field &map::field_at( const tripoint_bub_ms &p ) const
+{
+    return field_at( p.raw() );
+}
+
 /*
  * As above, except not const
  */
@@ -7378,6 +7383,13 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range, bool with
 {
     int dummy = 0;
     return sees( F, T, range, dummy, with_fields );
+}
+
+bool map::sees( const tripoint_bub_ms &F, const tripoint_bub_ms &T, const int range,
+                bool with_fields ) const
+{
+    int dummy = 0;
+    return sees( F.raw(), T.raw(), range, dummy, with_fields );
 }
 
 point map::sees_cache_key( const tripoint &from, const tripoint &to ) const
@@ -9579,7 +9591,7 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
     seen_cache_dirty |= player_prev_pos != p || sr != player_prev_range || camera_cache_dirty;
     if( seen_cache_dirty ) {
         if( inbounds( p ) ) {
-            build_seen_cache( getlocal( p ), zlev, sr );
+            build_seen_cache( bub_from_abs( p ), zlev, sr );
         }
         player_prev_pos = p;
         player_prev_range = sr;
@@ -9597,7 +9609,7 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
         for( Character::cached_moncam const &mon : u.moncam_cache ) {
             if( inbounds( mon.second ) ) {
                 int const range = mon.first->type->vision_day;
-                build_seen_cache( getlocal( mon.second ), mon.second.z(), range, cumulative,
+                build_seen_cache( bub_from_abs( mon.second ), mon.second.z(), range, cumulative,
                                   true, std::max( 60 - range, 0 ) );
                 cumulative = true;
             }
@@ -10104,6 +10116,18 @@ tripoint_range<tripoint> map::points_in_rectangle( const tripoint &from, const t
                         std::min( SEEX * my_MAPSIZE - 1, std::max( from.y, to.y ) ), std::min( OVERMAP_HEIGHT,
                                 std::max( from.z, to.z ) ) );
     return tripoint_range<tripoint>( min, max );
+}
+
+tripoint_range<tripoint_bub_ms> map::points_in_rectangle( const tripoint_bub_ms &from,
+        const tripoint_bub_ms &to ) const
+{
+    const tripoint_bub_ms min( std::max( 0, std::min( from.x(), to.x() ) ), std::max( 0,
+                               std::min( from.y(),
+                                         to.y() ) ), std::max( -OVERMAP_DEPTH, std::min( from.z(), to.z() ) ) );
+    const tripoint_bub_ms max( std::min( SEEX * my_MAPSIZE - 1, std::max( from.x(), to.x() ) ),
+                               std::min( SEEX * my_MAPSIZE - 1, std::max( from.y(), to.y() ) ), std::min( OVERMAP_HEIGHT,
+                                       std::max( from.z(), to.z() ) ) );
+    return tripoint_range<tripoint_bub_ms>( min, max );
 }
 
 tripoint_range<tripoint> map::points_in_radius( const tripoint &center, size_t radius,

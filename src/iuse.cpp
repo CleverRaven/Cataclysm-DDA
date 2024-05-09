@@ -318,6 +318,7 @@ static const proficiency_id proficiency_prof_lockpicking_expert( "prof_lockpicki
 
 static const quality_id qual_AXE( "AXE" );
 static const quality_id qual_GLARE( "GLARE" );
+static const quality_id qual_HOTPLATE( "HOTPLATE" );
 static const quality_id qual_LOCKPICK( "LOCKPICK" );
 static const quality_id qual_PRY( "PRY" );
 static const quality_id qual_SCREW_FINE( "SCREW_FINE" );
@@ -4886,6 +4887,7 @@ static bool heat_item( Character &p )
     }
     p.add_msg_if_player( m_info, _( "You start heating up the food." ) );
     p.assign_activity( ACT_HEATING, duration );
+    p.i_add_or_drop( *heat );
     p.activity.targets.emplace_back( p, heat );
     return true;
 }
@@ -8081,6 +8083,253 @@ std::optional<int> iuse::capture_monster_act( Character *p, item *it, const trip
         }
     }
     return 0;
+}
+
+heating_requirements heating_requirements_for_weight( const units::mass &frozen,
+        const units::mass &nfrozen, const units::volume &used_volume )
+{
+    // Accroding to the charge_per_use in game, microwave takes 25kJ per use, almost equal to 1000w microwave runs 2.5 minutes
+    // 1*2.5*60 = 150kJ, 6*25 = 150kJ, Ithat means every use of microwave takes about 25 seconds.
+    // The thermal efficiency of microwave is about 80%, 25*8.% = 20kJ, means every use of microwave, 20kJ energy is given to the food.
+    // We will use water heat capacity, 4.2kJ/(kg*K), it means 20Kj can increase 120g water 40K.
+    // So microwave can at least heat up 120 gram food in 25 second and cost 25kJ energy
+    units::volume volume = used_volume;
+    // Retain one decimal place when dividing
+    int ammo = divide_round_up( int ( 3 * divide_round_up( frozen, 12_gram ) + divide_round_up( nfrozen,
+                                      12_gram ) ), 10 );
+    int time = to_moves<int>( 25_seconds * ammo );
+    return {volume, ammo, time};
+}
+
+heater find_heater( Character *p, item *it )
+{
+    bool consume_flag = true;
+    int available_heater = 1;
+    int heating_effect = 0;
+    item_location loc = item_location( *p, it );
+    if( get_map().has_nearby_fire( p->pos() ) && !it->has_quality( qual_HOTPLATE ) ) {
+        p->add_msg_if_player( m_info, _( "You put %1$s on fire to start heating." ), it->tname() );
+        return {loc, false, 1, 0};
+    } else if( it->has_quality( qual_HOTPLATE ) ) {
+        if( it->ammo_remaining() >= it->type->charges_to_use() ) {
+            p->add_msg_if_player( m_info, _( "You use %1$s to start heating." ), loc->tname() );
+        } else if( !it->has_no_links() ) {
+            p->add_msg_if_player( m_info, _( "You use %1$s to start heating." ), loc->tname() );
+        } else if( it->has_flag( flag_USE_UPS ) &&
+                   units::to_kilojoule( p->available_ups() ) >= it->type->charges_to_use() ) {
+            p->add_msg_if_player( m_info, _( "You use %1$s to start heating." ), loc->tname() );
+        } else {
+            p->add_msg_if_player( m_info, _( "The %s has been used up." ), it->tname() );
+            return {loc, true, -1, 0};
+        }
+    } else if( !it->has_quality( qual_HOTPLATE ) ) {
+        auto filter = [p]( const item & e ) {
+            if( e.has_quality( qual_HOTPLATE, 2 ) && e.ammo_remaining() >= e.type->charges_to_use() ) {
+                return true;
+            }
+            if( e.has_quality( qual_HOTPLATE, 2 ) && ( !e.has_no_links() ) ) {
+                if( e.link().t_veh->connected_battery_power_level().first >= e.type->charges_to_use() ) {
+                    return true;
+                }
+            }
+            if( e.has_quality( qual_HOTPLATE, 2 ) && e.has_flag( flag_USE_UPS ) ) {
+                if( units::to_kilojoule( p->available_ups() ) >= e.type->charges_to_use() ) {
+                    return true;
+                }
+            }
+            return false;
+        };
+        loc = g->inv_map_splice( filter, _( "Select a tool to heat:" ), 1,
+                                 _( "You don't have proper heating source." ) );
+        if( !loc ) {
+            return {loc, true, -1, 0};
+        }
+        p->add_msg_if_player( m_info, _( "You put %1$s on %2$s to start heating." ), it->tname(),
+                              loc->tname() );
+    }
+    heating_effect = loc->type->charges_to_use();
+    if( !loc->has_no_links() ) {
+        available_heater = loc->link().t_veh->connected_battery_power_level().first;
+    } else if( !loc->has_flag( flag_USE_UPS ) ) {
+        available_heater = loc->ammo_remaining();
+    } else if( loc->has_flag( flag_USE_UPS ) ) {
+        available_heater = units::to_kilojoule( p->available_ups() );
+    }
+    return {loc, consume_flag, available_heater, heating_effect};
+}
+
+static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_items )
+{
+    p->inv->restack( *p );
+    heater h = find_heater( p, it );
+    if( h.available_heater == -1 ) {
+        add_msg( m_info, _( "Never mind." ) );
+        return false;
+    }
+    //Hotplate can only use it self as heat source
+    bool multiple = it->has_pocket_type( pocket_type::CONTAINER );
+    drop_locations to_heat;
+    units::volume used_volume = 0_ml;
+    units::volume available_volume = 0_ml;
+    units::mass frozen_weight = 0_gram;
+    units::mass not_frozen_weight = 0_gram;
+    if( multiple == false ) {
+        item_location loc = g->inv_map_splice( []( const item_location & itm ) {
+            return itm->has_temperature() && !itm->has_own_flag( flag_HOT ) &&
+                   ( !itm->made_of_from_type( phase_id::LIQUID ) ||
+                     itm.where() == item_location::type::container ||
+                     get_map().has_flag_furn( ter_furn_flag::TFLAG_LIQUIDCONT, itm.position() ) );
+        }, _( "Heat up what?" ), 1, _( "You don't have any appropriate food to heat up." ) );
+        to_heat = {{loc, 1}};
+        if( to_heat.empty() ) {
+            return false;
+        }
+    } else if( multiple == true ) {
+        available_volume = it->max_containable_volume();
+        const inventory_filter_preset preset( [liquid_items,
+        solid_items]( const item_location & location ) {
+            return location->has_temperature() && !location->has_own_flag( flag_HOT ) &&
+                   ( ( liquid_items && location->made_of_from_type( phase_id::LIQUID ) && location.has_parent() ) ||
+                     ( solid_items && !location->made_of_from_type( phase_id::LIQUID ) ) );
+        } );
+        auto make_raw_stats = [available_volume,
+                               h]( const std::vector<std::pair<item_location, int>> &locs
+        ) {
+            units::volume used_volume = 0_ml;
+            units::mass frozen_weight = 0_gram;
+            units::mass not_frozen_weight = 0_gram;
+            for( const auto &pair : locs ) {
+                used_volume +=  pair.first->volume( false, true, pair.second );
+                if( pair.first->has_own_flag( flag_FROZEN ) && !pair.first->has_own_flag( flag_EATEN_COLD ) ) {
+                    frozen_weight +=  pair.first->weight( false, false ) * pair.second ;
+                } else {
+                    not_frozen_weight +=  pair.first->weight( false, false ) * pair.second;
+                }
+            }
+            heating_requirements required = heating_requirements_for_weight( frozen_weight, not_frozen_weight,
+                                            used_volume );
+            const std::string time = colorize( to_string( time_duration::from_moves( required.time ), true ),
+                                               c_light_gray );
+            auto to_string = []( int val ) -> std::string {
+                if( val == INT_MAX )
+                {
+                    return pgettext( "short for infinity", "inf" );
+                }
+                return string_format( "%3d", val );
+            };
+            const std::string volume = string_join( display_stat( "", used_volume.value(),
+                                                    available_volume.value(),
+                                                    to_string ), "" );
+            const std::string ammo = string_join( display_stat( "", required.ammo * h.heating_effect,
+                                                  h.available_heater,
+                                                  to_string ), "" );
+            using stats = inventory_selector::stats;
+            return stats{{
+                    {{ _( "Container" ), volume }},
+                    {{ _( "Fuel" ), ammo }},
+                    {{ _( "Estimated time" ), time }}
+                }};
+        };
+        inventory_multiselector inv_s( *p, preset, _( "ITEMS TO HEAT" ),
+                                       make_raw_stats, /*allow_select_contained=*/true );
+        inv_s.add_character_items( *p );
+        inv_s.add_nearby_items( PICKUP_RANGE );
+        inv_s.set_title( _( "Heat menu" ) );
+        inv_s.set_hint( _( "To heat x items, type a number before selecting." ) );
+        if( inv_s.empty() ) {
+            popup( std::string( _( "You have nothing to heat." ) ), PF_GET_KEY );
+            return false;
+        }
+        to_heat = inv_s.execute();
+        if( to_heat.empty() ) {
+            return false;
+        }
+    }
+    for( const auto &pair : to_heat ) {
+        used_volume +=  pair.first->volume( false, true, pair.second );
+        if( pair.first->has_own_flag( flag_FROZEN ) && !pair.first->has_own_flag( flag_EATEN_COLD ) ) {
+            frozen_weight +=  pair.first->weight( false, false ) * pair.second ;
+        } else {
+            not_frozen_weight +=  pair.first->weight( false, false ) * pair.second;
+        }
+    }
+    heating_requirements required = heating_requirements_for_weight( frozen_weight, not_frozen_weight,
+                                    used_volume );
+    if( multiple ? used_volume > available_volume : false ) {
+        p->add_msg_if_player( _( "You need more space to contain these items." ) );
+        return false;
+    } else if( h.available_heater < required.ammo * h.heating_effect ) {
+        p->add_msg_if_player( _( "You need more energy to heat these items." ) );
+        return false;
+    }
+    const std::vector<Character *> helpers = p->get_crafting_helpers();
+    const std::size_t helpersize = p->get_num_crafting_helpers( 3 );
+    required.time *= ( 1.0f - ( helpersize / 10.0f ) );
+    for( std::size_t i = 0; i < helpersize; i++ ) {
+        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
+    }
+    p->assign_activity( heat_activity_actor( to_heat, required, h ) );
+    return true;
+}
+
+std::optional<int> iuse::heat_solid_items( Character *p, item *it, const tripoint & )
+{
+    if( p->fine_detail_vision_mod() > 4 ) {
+        p->add_msg_if_player( _( "You can't see to do that!" ) );
+        return std::nullopt;
+    }
+    if( p->cant_do_mounted() ) {
+        return std::nullopt;
+    }
+    if( !it->container_type_pockets_empty() ) {
+        p->add_msg_if_player( _( "You need an empty container to heat items." ) );
+        return std::nullopt;
+    }
+    //If *it don't have container,such like COOK level 1 tools(tongs,spear), you can only heat one solid item a time(and can't be liquid), but no volume limit on each batch.
+    if( heat_items( p, it, true, true ) ) {
+        return 0;
+    }
+    return std::nullopt;
+}
+
+std::optional<int> iuse::heat_liquid_items( Character *p, item *it, const tripoint & )
+{
+    if( p->fine_detail_vision_mod() > 4 ) {
+        p->add_msg_if_player( _( "You can't see to do that!" ) );
+        return std::nullopt;
+    }
+    if( p->cant_do_mounted() ) {
+        return std::nullopt;
+    }
+    if( !it->container_type_pockets_empty() ) {
+        p->add_msg_if_player( _( "You need an empty container to heat items." ) );
+        return std::nullopt;
+    }
+    //If *it don't have container,such like COOK level 1 tools(tongs,spear), you can only heat one solid item a time(and can't be liquid), but no volume limit on each batch.
+    if( heat_items( p, it, true, true ) ) {
+        return 0;
+    }
+    return std::nullopt;
+}
+
+std::optional<int> iuse::heat_all_items( Character *p, item *it, const tripoint & )
+{
+    if( p->fine_detail_vision_mod() > 4 ) {
+        p->add_msg_if_player( _( "You can't see to do that!" ) );
+        return std::nullopt;
+    }
+    if( p->cant_do_mounted() ) {
+        return std::nullopt;
+    }
+    if( !it->container_type_pockets_empty() ) {
+        p->add_msg_if_player( _( "You need an empty container to heat items." ) );
+        return std::nullopt;
+    }
+    //If *it don't have container,such like COOK level 1 tools(tongs,spear), you can only heat one solid item a time(and can't be liquid), but no volume limit on each batch.
+    if( heat_items( p, it, true, true ) ) {
+        return 0;
+    }
+    return std::nullopt;
 }
 
 washing_requirements washing_requirements_for_volume( const units::volume &vol )

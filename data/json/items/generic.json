@@ -667,6 +667,7 @@
     "volume": "263 ml",
     "to_hit": -1,
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1150,7 +1151,8 @@
     "volume": "25 ml",
     "to_hit": -5,
     "milling": { "into": "meal_bone_tainted", "recipe": "meal_bone_tainted_mill_6_1" },
-    "qualities": [ [ "COOK", 1 ] ]
+    "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ]
   },
   {
     "type": "GENERIC",

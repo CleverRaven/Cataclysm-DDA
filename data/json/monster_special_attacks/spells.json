@@ -734,6 +734,22 @@
     "furniture": [ { "result": [ "f_null" ], "valid_furniture": [ "f_absence" ] } ]
   },
   {
+    "id": "skunk_squirt",
+    "type": "SPELL",
+    "name": { "str": "Skunk Spray" },
+    "description": "Skunk spray defense mechanism.",
+    "valid_targets": [ "hostile" ],
+    "effect": "attack",
+    "shape": "cone",
+    "min_range": 4,
+    "max_range": 4,
+    "//": "Duration is 3-5 hours, can't seem to write it in hours, had to write it in moves which is terrible",
+    "min_duration": 1080000,
+    "max_duration": 1800000,
+    "flags": [ "RANDOM_DURATION" ],
+    "effect_str": "skunk_spray"
+  },
+  {
     "id": "boomer_claymore_initial",
     "type": "SPELL",
     "//": "exist because zed try to use boomer_claymore on max range except trying to minimize the distance (ty venera for idea)",

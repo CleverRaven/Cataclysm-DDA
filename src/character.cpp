@@ -353,8 +353,6 @@ static const limb_score_id limb_score_night_vis( "night_vis" );
 static const limb_score_id limb_score_reaction( "reaction" );
 static const limb_score_id limb_score_vision( "vision" );
 
-const matec_id tec_none( "tec_none" );
-
 static const material_id material_budget_steel( "budget_steel" );
 static const material_id material_ch_steel( "ch_steel" );
 static const material_id material_flesh( "flesh" );
@@ -1252,7 +1250,7 @@ int Character::sight_range( float light_level ) const
      */
 
     int range = static_cast<int>( -std::log( get_vision_threshold( get_map().ambient_light_at(
-                                      pos() ) ) / light_level ) / LIGHT_TRANSPARENCY_OPEN_AIR );
+                                      pos_bub() ) ) / light_level ) / LIGHT_TRANSPARENCY_OPEN_AIR );
 
     // Clamp to [1, sight_max].
     return clamp( range, 1, sight_max );
@@ -1349,7 +1347,7 @@ int Character::clairvoyance() const
 
 bool Character::sight_impaired() const
 {
-    const bool in_light = get_map().ambient_light_at( pos() ) > LIGHT_AMBIENT_LIT;
+    const bool in_light = get_map().ambient_light_at( pos_bub() ) > LIGHT_AMBIENT_LIT;
     return ( ( has_effect( effect_boomered ) || has_effect( effect_no_sight ) ||
                has_effect( effect_darkness ) ) &&
              ( !has_trait( trait_PER_SLIME_OK ) ) ) ||
@@ -1941,8 +1939,8 @@ void Character::on_try_dodge()
 
     const int base_burn_rate = get_option<int>( STATIC( "PLAYER_BASE_STAMINA_BURN_RATE" ) );
     const float dodge_skill_modifier = ( 20.0f - get_skill_level( skill_dodge ) ) / 20.0f;
-    burn_energy_legs( std::floor( static_cast<float>( base_burn_rate ) * 6.0f *
-                                  dodge_skill_modifier ) );
+    burn_energy_legs( - std::floor( static_cast<float>( base_burn_rate ) * 6.0f *
+                                    dodge_skill_modifier ) );
     set_activity_level( EXTRA_EXERCISE );
 }
 
@@ -1974,7 +1972,7 @@ void Character::on_dodge( Creature *source, float difficulty, float training_lev
 
     // For adjacent attackers check for techniques usable upon successful dodge
     if( source && square_dist( pos(), source->pos() ) == 1 ) {
-        matec_id tec = pick_technique( *source, used_weapon(), false, true, false );
+        matec_id tec = std::get<0>( pick_technique( *source, used_weapon(), false, true, false ) );
 
         if( tec != tec_none && !is_dead_state() ) {
             if( get_stamina() < get_stamina_max() / 3 ) {
@@ -2090,7 +2088,8 @@ std::set<matec_id> Character::get_limb_techs() const
 {
     std::set<matec_id> result;
     for( const bodypart_id &part : get_all_body_parts() ) {
-        if( !natural_attack_restricted_on( part ) ) {
+        const bodypart *bp = get_part( part );
+        if( !bp->is_limb_overencumbered() && bp->get_hp_cur() > part->health_limit ) {
             std::set<matec_id> part_tech = get_part( part )->get_limb_techs();
             result.insert( part_tech.begin(), part_tech.end() );
         }
@@ -2518,7 +2517,7 @@ void Character::recalc_sight_limits()
 {
     sight_max = 9999;
     vision_mode_cache.reset();
-    const bool in_light = get_map().ambient_light_at( pos() ) > LIGHT_AMBIENT_LIT;
+    const bool in_light = get_map().ambient_light_at( pos_bub() ) > LIGHT_AMBIENT_LIT;
     bool in_shell = has_active_mutation( trait_SHELL2 ) ||
                     has_active_mutation( trait_SHELL3 );
 
@@ -2805,9 +2804,10 @@ float Character::fine_detail_vision_mod( const tripoint &p ) const
 
     // Same calculation as above, but with a result 3 lower.
     float ambient_light{};
-    tripoint const check_p = p == tripoint_min ? pos() : p;
+    tripoint_bub_ms const check_p = tripoint_bub_ms( p ) == tripoint_bub_ms(
+                                        tripoint_min ) ? pos_bub() : tripoint_bub_ms( p );
     tripoint const avatar_p = get_avatar().pos();
-    if( is_avatar() || check_p.z == avatar_p.z ) {
+    if( is_avatar() || check_p.z() == avatar_p.z ) {
         ambient_light = std::max( 1.0f,
                                   LIGHT_AMBIENT_LIT - get_map().ambient_light_at( check_p ) + 1.0f );
     } else {

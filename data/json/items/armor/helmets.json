@@ -16,6 +16,7 @@
     "warmth": 5,
     "material_thickness": 2,
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
+    "use_action": [ "HEAT_ALL_ITEMS" ],
     "techniques": [ "WBLOCK_1" ],
     "armor": [
       {
@@ -46,6 +47,7 @@
     "warmth": 70,
     "material_thickness": 1,
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 1 ] ],
+    "use_action": [ "HEAT_ALL_ITEMS" ],
     "techniques": [ "WBLOCK_1" ],
     "armor": [
       {
