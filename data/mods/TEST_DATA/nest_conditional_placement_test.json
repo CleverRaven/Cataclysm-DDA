@@ -80,7 +80,43 @@
         { "chunks": [ "1x1_ncpt" ], "predecessors": [ "ncpt_predecessors" ], "x": 5, "y": 0 },
         { "chunks": [ "1x1_ncpt" ], "predecessors": [ "field" ], "x": 5, "y": 1 },
         { "chunks": [ "1x1_ncpt" ], "z_check": [ 0, 2, 4 ], "x": 6, "y": 0 },
-        { "chunks": [ "1x1_ncpt" ], "z_check": [ -1, 1, 3 ], "x": 6, "y": 1 }
+        { "chunks": [ "1x1_ncpt" ], "z_check": [ -1, 1, 3 ], "x": 6, "y": 1 },
+        {
+          "chunks": [ "1x1_ncpt" ],
+          "neighbors": {
+            "north": [ { "om_terrain": "ncpt", "om_terrain_match_type": "PREFIX" } ],
+            "east": [ { "om_terrain": "ncpt", "om_terrain_match_type": "PREFIX" } ],
+            "south": [ { "om_terrain": "ncpt", "om_terrain_match_type": "PREFIX" } ],
+            "west": [ { "om_terrain": "ncpt", "om_terrain_match_type": "PREFIX" } ]
+          },
+          "x": 22,
+          "y": 0
+        },
+        {
+          "chunks": [ "1x1_ncpt" ],
+          "neighbors": {
+            "above": [ { "om_terrain": "ncpt", "om_terrain_match_type": "PREFIX" } ],
+            "below": [ { "om_terrain": "ncpt", "om_terrain_match_type": "PREFIX" } ]
+          },
+          "x": 22,
+          "y": 1
+        },
+        {
+          "chunks": [ "1x1_ncpt" ],
+          "neighbors": { "north": [ "ncpt_neighbors" ], "east": [ "ncpt_neighbors" ] },
+          "joins": { "north": [ "ncpt_joins" ], "east": [ "ncpt_joins" ] },
+          "flags": { "south": [ "RISK_HIGH" ], "west": [ "RISK_HIGH" ] },
+          "x": 23,
+          "y": 0
+        },
+        {
+          "chunks": [ "1x1_ncpt" ],
+          "neighbors": { "north": [ "ncpt_neighbors" ], "east": [ "ncpt_neighbors" ] },
+          "joins": { "north": [ "ncpt_joins" ], "east": [ "ncpt_joins" ] },
+          "flags": { "south": [ "RISK_LOW" ], "west": [ "RISK_LOW" ] },
+          "x": 23,
+          "y": 1
+        }
       ]
     }
   },

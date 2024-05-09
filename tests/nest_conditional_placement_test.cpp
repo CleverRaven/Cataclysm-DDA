@@ -73,4 +73,16 @@ TEST_CASE( "nest_conditional_placement", "[map][nest]" )
     CHECK( flags_success );
     CHECK( flags_any_success );
     CHECK( z_check_success );
+    //Only run more advanced checks if we passed all the basic ones so as to not muddy more basic issues
+    if( unconditional_success && neighbors_success && joins_success && flags_success &&
+        flags_any_success && predecessors_success && z_check_success ) {
+        //Check the neighbors condition works with om_terrain_match_type
+        const bool om_terrain_match_type_success = tm.ter( { 22, 0, 0 } ) == placed &&
+                tm.ter( { 22, 1, 0 } ) == unplaced;
+        //Check that all conditions are required when multiple are specified
+        const bool multiconditional_success = tm.ter( { 23, 0, 0 } ) == placed &&
+                                              tm.ter( { 23, 1, 0 } ) == unplaced;
+        CHECK( om_terrain_match_type_success );
+        CHECK( multiconditional_success );
+    }
 }
