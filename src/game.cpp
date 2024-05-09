@@ -9467,6 +9467,23 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
         }
         return to_string_clipped( time_duration::from_moves( time_to_cut ) );
     };
+    auto progress_str = [&]( butcher_type bt ) {
+        std::string result;
+        if( index != -1 ) {
+            const double progress = butcher_get_progress( *corpses[index], bt );
+            if( progress > 0 ) {
+                result = string_format( _( "%d%% complete" ), static_cast<int>( 100 * progress ) );
+            }
+        } else {
+            for( const map_stack::iterator &it : corpses ) {
+                const double progress = butcher_get_progress( *it, bt );
+                if( progress > 0 ) {
+                    result = _( "partially complete" );
+                }
+            }
+        }
+        return result.empty() ? "" : ( " " + colorize( result, c_dark_gray ) );
+    };
     const bool enough_light = player_character.fine_detail_vision_mod() <= 4;
 
     const int factor = player_character.max_quality( qual_BUTCHER, PICKUP_RANGE );
@@ -9529,7 +9546,8 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
     const std::string cannot_see = colorize( _( "can't see!" ), c_red );
 
     smenu.addentry_col( static_cast<int>( butcher_type::QUICK ), enough_light,
-                        'B', _( "Quick butchery" ),
+                        'B', _( "Quick butchery" )
+                        + progress_str( butcher_type::QUICK ),
                         enough_light ? cut_time( butcher_type::QUICK ) : cannot_see,
                         string_format( "%s  %s",
                                        _( "This technique is used when you are in a hurry, "
@@ -9539,7 +9557,8 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
                                           "Prevents zombies from raising." ),
                                        msgFactor ) );
     smenu.addentry_col( static_cast<int>( butcher_type::FULL ), enough_light,
-                        'b', _( "Full butchery" ),
+                        'b', _( "Full butchery" )
+                        + progress_str( butcher_type::FULL ),
                         enough_light ? cut_time( butcher_type::FULL ) : cannot_see,
                         string_format( "%s  %s",
                                        _( "This technique is used to properly butcher a corpse, "
@@ -9549,7 +9568,8 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
                                           "but it is time consuming." ),
                                        msgFactor ) );
     smenu.addentry_col( static_cast<int>( butcher_type::FIELD_DRESS ), enough_light && has_organs,
-                        'f', _( "Field dress corpse" ),
+                        'f', _( "Field dress corpse" )
+                        + progress_str( butcher_type::FIELD_DRESS ),
                         enough_light ? ( has_organs ? cut_time( butcher_type::FIELD_DRESS ) :
                                          colorize( _( "has no organs" ), c_red ) ) : cannot_see,
                         string_format( "%s  %s",
@@ -9560,7 +9580,8 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
                                           "better effects." ),
                                        msgFactor ) );
     smenu.addentry_col( static_cast<int>( butcher_type::SKIN ), enough_light && has_skin,
-                        's', _( "Skin corpse" ),
+                        's', _( "Skin corpse" )
+                        + progress_str( butcher_type::SKIN ),
                         enough_light ? ( has_skin ? cut_time( butcher_type::SKIN ) : colorize( _( "has no skin" ),
                                          c_red ) ) : cannot_see,
                         string_format( "%s  %s",
@@ -9571,7 +9592,8 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
                                           "scraps that can be used in other ways." ),
                                        msgFactor ) );
     smenu.addentry_col( static_cast<int>( butcher_type::BLEED ), enough_light && has_blood,
-                        'l', _( "Bleed corpse" ),
+                        'l', _( "Bleed corpse" )
+                        + progress_str( butcher_type::BLEED ),
                         enough_light ? ( has_blood ? cut_time( butcher_type::BLEED ) : colorize( _( "has no blood" ),
                                          c_red ) ) : cannot_see,
                         string_format( "%s  %s",
@@ -9581,7 +9603,8 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
                                           "to do a good job." ),
                                        msgFactor ) );
     smenu.addentry_col( static_cast<int>( butcher_type::QUARTER ), enough_light,
-                        'k', _( "Quarter corpse" ),
+                        'k', _( "Quarter corpse" )
+                        + progress_str( butcher_type::QUARTER ),
                         enough_light ? cut_time( butcher_type::QUARTER ) : cannot_see,
                         string_format( "%s  %s",
                                        _( "By quartering a previously field dressed corpse you will "
@@ -9591,7 +9614,8 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
                                           "harvest them later." ),
                                        msgFactor ) );
     smenu.addentry_col( static_cast<int>( butcher_type::DISMEMBER ), true,
-                        'm', _( "Dismember corpse" ),
+                        'm', _( "Dismember corpse" )
+                        + progress_str( butcher_type::DISMEMBER ),
                         cut_time( butcher_type::DISMEMBER ),
                         string_format( "%s  %s",
                                        _( "If you're aiming to just destroy a body outright and don't "
@@ -9599,7 +9623,8 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
                                           "in a very short amount of time but yields little to no usable flesh." ),
                                        msgFactor ) );
     smenu.addentry_col( static_cast<int>( butcher_type::DISSECT ), enough_light,
-                        'd', _( "Dissect corpse" ),
+                        'd', _( "Dissect corpse" )
+                        + progress_str( butcher_type::DISSECT ),
                         enough_light ? cut_time( butcher_type::DISSECT ) : cannot_see,
                         string_format( "%s  %s%s",
                                        _( "By careful dissection of the corpse, you will examine it for "
