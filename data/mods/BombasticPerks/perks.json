@@ -346,7 +346,7 @@
     "id": "perk_static_stockpile",
     "name": { "str": "Static Stockpile" },
     "points": 0,
-    "description": "You can't touch a door without zapping yourself. Whenever there is a shocker or a robot within 15 squares, or you are outside during a storm, you gain 500J of bionic power per second and your melee attacks will do a small amount of extra electrical damage.",
+    "description": "You can't touch a door without zapping yourself.  Whenever there is a shocker or a robot within 15 squares, or you are outside during a storm, you gain 500J of bionic power per second and your melee attacks will do a small amount of extra electrical damage.",
     "category": [ "perk" ],
     "enchantments": [
       {
@@ -397,7 +397,7 @@
     "id": "perk_early_to_rise",
     "name": { "str": "Early to Rise" },
     "points": 0,
-    "description": "That health, wealth, and wisdom is coming any day now. When you wake up between 4 and 7 a.m., you gain a mood boost for that morning.",
+    "description": "That health, wealth, and wisdom is coming any day now.  When you wake up between 4 and 7 a.m., you gain a mood boost for that morning.",
     "category": [ "perk" ]
   },
   {
