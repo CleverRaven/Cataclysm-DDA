@@ -224,7 +224,7 @@
     "id": "perk_vengeful",
     "name": { "str": "Vengeful" },
     "points": 0,
-    "description": "Oh, they're not getting away with THAT.\n\nYou do +15% damage for two turns after you're hit.",
+    "description": "Oh, they're not getting away with THAT.  You do +15% damage for two turns after you're hit.",
     "category": [ "perk" ],
     "enchantments": [ "perk_ench_vengeful" ]
   },
@@ -362,7 +362,7 @@
             }
           ]
         },
-        "values": [ { "value": "POWER_TRICKLE", "add": 500 }, { "value": "ITEM_DAMAGE_ELEC", "add": 3 } ]
+        "values": [ { "value": "POWER_TRICKLE", "add": 250 }, { "value": "ITEM_DAMAGE_ELEC", "add": 3 } ]
       }
     ]
   },
@@ -391,6 +391,14 @@
     "description": "You've always been able to fall asleep within a few minutes of closing your eyes, no matter what else is going on around you.  You have a much easier time falling asleep.",
     "category": [ "perk" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SLEEPY", "add": 15 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_early_to_rise",
+    "name": { "str": "Early to Rise" },
+    "points": 0,
+    "description": "That health, wealth, and wisdom is coming any day now. When you wake up between 4 and 7 a.m., you gain a mood boost for that morning.",
+    "category": [ "perk" ]
   },
   {
     "type": "mutation",
