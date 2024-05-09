@@ -684,7 +684,7 @@ Eddie can talk about his father.
 Fixes issue where ImGui popup doesnt wrap buttons to a new line when the overall length is too long
 Wet Towels No Longer Prompt to be Turned Off
 Maybe prevent rare crater generation error
-Now moving all items will not move favourite items, if other items are present.
+AIM: Now moving all items will not move favourite items, if other items are present.
 
 
 ## Performance:
