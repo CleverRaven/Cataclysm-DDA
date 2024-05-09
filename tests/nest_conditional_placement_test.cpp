@@ -15,7 +15,7 @@ static const ter_str_id placed( "t_linoleum_white" );
 static const ter_str_id unplaced( "t_linoleum_gray" );
 
 //Check unconditional nests place and that each nest condition works as intended
-TEST_CASE( "nest_conditional_placement", "[overmap]" )
+TEST_CASE( "nest_conditional_placement", "[map][nest]" )
 {
     //Create a fresh overmap with no specials to guarentee no preexisting joins. Placed at an arbitary point so it doesn't overwrite other tests overmaps
     const point_abs_om overmap_point( 122, 122 );
