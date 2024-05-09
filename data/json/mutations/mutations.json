@@ -270,6 +270,7 @@
       "NARCOLEPTIC",
       "NOPAIN",
       "SCHIZOPHRENIC",
+      "SEASONAL_AFFECTIVE",
       "TOLERANCE",
       "TREE_COMMUNION",
       "VANITY"
@@ -466,7 +467,6 @@
     "points": -1,
     "description": "You tend to have bouts of depression during the fall and especially winter.  Taking antidepressants can help.",
     "starting_trait": true,
-    "types": [ "ATTITUDE" ],
     "category": [ "PLANT", "ELFA", "MEDICAL" ]
   },
   {
@@ -9751,7 +9751,7 @@
     "mixed_effect": true,
     "types": [ "INT", "ATTITUDE" ],
     "category": [ "SPIDER", "GASTROPOD", "INSECT", "PLANT", "CRUSTACEAN" ],
-    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": -3 } ] } ],
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": -2 } ] } ],
     "cancels": [ "SCHIZOPHRENIC", "MOODSWINGS" ]
   }
 ]
