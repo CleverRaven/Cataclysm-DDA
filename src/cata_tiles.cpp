@@ -1619,7 +1619,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                         }
 
                         if( g->display_overlay_state( ACTION_DISPLAY_TRANSPARENCY ) ) {
-                            const float tr = here.light_transparency( {x, y, center.z} );
+                            const float tr = here.light_transparency( tripoint_bub_ms{x, y, center.z} );
                             int intensity =  tr <= LIGHT_TRANSPARENCY_SOLID ? 10 :  static_cast<int>
                                              ( ( tr - LIGHT_TRANSPARENCY_OPEN_AIR ) * 8 );
                             draw_debug_tile( intensity, string_format( "%.2f", tr ) );

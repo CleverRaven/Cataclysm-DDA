@@ -425,7 +425,7 @@ static std::vector<tripoint> shrapnel( const Creature *source, const tripoint &s
 
     castLightAll<fragment_cloud, fragment_cloud, shrapnel_calc, shrapnel_check,
                  update_fragment_cloud, accumulate_fragment_cloud>
-                 ( visited_cache, obstacle_cache, src.xy(), 0, initial_cloud );
+                 ( visited_cache, obstacle_cache, point_bub_ms( src.xy() ), 0, initial_cloud );
 
     creature_tracker &creatures = get_creature_tracker();
     Creature *mutable_source = source == nullptr ? nullptr : creatures.creature_at( source->pos() );

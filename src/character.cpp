@@ -1252,7 +1252,7 @@ int Character::sight_range( float light_level ) const
      */
 
     int range = static_cast<int>( -std::log( get_vision_threshold( get_map().ambient_light_at(
-                                      pos() ) ) / light_level ) / LIGHT_TRANSPARENCY_OPEN_AIR );
+                                      pos_bub() ) ) / light_level ) / LIGHT_TRANSPARENCY_OPEN_AIR );
 
     // Clamp to [1, sight_max].
     return clamp( range, 1, sight_max );
@@ -1349,7 +1349,7 @@ int Character::clairvoyance() const
 
 bool Character::sight_impaired() const
 {
-    const bool in_light = get_map().ambient_light_at( pos() ) > LIGHT_AMBIENT_LIT;
+    const bool in_light = get_map().ambient_light_at( pos_bub() ) > LIGHT_AMBIENT_LIT;
     return ( ( has_effect( effect_boomered ) || has_effect( effect_no_sight ) ||
                has_effect( effect_darkness ) ) &&
              ( !has_trait( trait_PER_SLIME_OK ) ) ) ||
@@ -2518,7 +2518,7 @@ void Character::recalc_sight_limits()
 {
     sight_max = 9999;
     vision_mode_cache.reset();
-    const bool in_light = get_map().ambient_light_at( pos() ) > LIGHT_AMBIENT_LIT;
+    const bool in_light = get_map().ambient_light_at( pos_bub() ) > LIGHT_AMBIENT_LIT;
     bool in_shell = has_active_mutation( trait_SHELL2 ) ||
                     has_active_mutation( trait_SHELL3 );
 
@@ -2805,9 +2805,10 @@ float Character::fine_detail_vision_mod( const tripoint &p ) const
 
     // Same calculation as above, but with a result 3 lower.
     float ambient_light{};
-    tripoint const check_p = p == tripoint_min ? pos() : p;
+    tripoint_bub_ms const check_p = tripoint_bub_ms( p ) == tripoint_bub_ms(
+                                        tripoint_min ) ? pos_bub() : tripoint_bub_ms( p );
     tripoint const avatar_p = get_avatar().pos();
-    if( is_avatar() || check_p.z == avatar_p.z ) {
+    if( is_avatar() || check_p.z() == avatar_p.z ) {
         ambient_light = std::max( 1.0f,
                                   LIGHT_AMBIENT_LIT - get_map().ambient_light_at( check_p ) + 1.0f );
     } else {
