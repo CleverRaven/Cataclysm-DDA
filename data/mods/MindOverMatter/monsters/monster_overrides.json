@@ -161,18 +161,18 @@
           "monster_message": "%1$s's touches %3$s with a jolt!"
         },
         {
-          "id": "nemesis_momentum_alteration",
+          "id": "nemesis_telegrab",
           "type": "spell",
-          "spell_data": { "id": "telekinetic_momentum_monster" },
-          "cooldown": 10,
+          "spell_data": { "id": "telekinetic_pull_monster", "min_level": 6 },
+          "cooldown": 20,
           "condition": {
             "and": [
               { "not": { "u_has_effect": "effect_psi_null" } },
-              { "math": [ "Nemesis_iteration", ">=", "6" ] },
-              { "not": { "u_has_effect": "effect_monster_momentum_alteration" } }
+              { "not": { "npc_has_flag": "TELEKIN_SHIELD" } },
+              { "math": [ "Nemesis_iteration", ">=", "6" ] }
             ]
           },
-          "monster_message": "The air around %1$s wavers."
+          "monster_message": "%1$s stares at %3$s and %3$s is lifted up and pulled towards them!"
         },
         {
           "id": "nemesis_telepathic_confusion",
@@ -183,18 +183,18 @@
           "monster_message": "A roar fills %3$s's mind and the world is blotted out!"
         },
         {
-          "id": "nemesis_telegrab",
+          "id": "nemesis_momentum_alteration",
           "type": "spell",
-          "spell_data": { "id": "telekinetic_pull_monster", "min_level": 6 },
-          "cooldown": 20,
+          "spell_data": { "id": "telekinetic_momentum_monster" },
+          "cooldown": 10,
           "condition": {
             "and": [
               { "not": { "u_has_effect": "effect_psi_null" } },
-              { "not": { "npc_has_flag": "TELEKIN_SHIELD" } },
-              { "math": [ "Nemesis_iteration", ">=", "10" ] }
+              { "math": [ "Nemesis_iteration", ">=", "10" ] },
+              { "not": { "u_has_effect": "effect_monster_momentum_alteration" } }
             ]
           },
-          "monster_message": "%1$s stares at %3$s and %3$s is lifted up and pulled towards them!"
+          "monster_message": "The air around %1$s wavers."
         },
         {
           "id": "nemesis_regeneration",
@@ -267,7 +267,7 @@
           "monster_message": "%1$s stares at %3$s and they freeze like a frightened rabbit!"
         },
         {
-          "id": "smash",
+          "id": "telekinetic_smash_throw",
           "move_cost": 80,
           "cooldown": 15,
           "damage_max_instance": [ { "damage_type": "psi_telekinetic_damage", "amount": 25, "armor_penetration": 10 } ],
