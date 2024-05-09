@@ -1531,10 +1531,7 @@
         "encumbrance": 1
       }
     ],
-    "melee_damage": { "cut": 9 },
-    "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ATTACK_SPEED", "add": -20 } ] } ]
-    }
+    "melee_damage": { "cut": 9 }
   },
   {
     "id": "integrated_claws_rat",
@@ -1560,10 +1557,7 @@
         "encumbrance": 3
       }
     ],
-    "melee_damage": { "cut": 10 },
-    "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ATTACK_SPEED", "add": -20 } ] } ]
-    }
+    "melee_damage": { "cut": 10 }
   },
   {
     "id": "integrated_claws_st",
@@ -1589,10 +1583,7 @@
         "encumbrance": 5
       }
     ],
-    "melee_damage": { "cut": 11 },
-    "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ATTACK_SPEED", "add": -20 } ] } ]
-    }
+    "melee_damage": { "cut": 11 }
   },
   {
     "id": "integrated_talons",
@@ -1618,10 +1609,7 @@
         "encumbrance": 7
       }
     ],
-    "melee_damage": { "cut": 16 },
-    "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ATTACK_SPEED", "add": -20 } ] } ]
-    }
+    "melee_damage": { "cut": 16 }
   },
   {
     "id": "integrated_fangs",
@@ -1638,16 +1626,18 @@
     "color": "white",
     "warmth": 5,
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 4 ] ],
-    "techniques": [ "FANGS_BITE", "FANGS_BITE_NATURAL" ],
+    "techniques": [ "FANGS_BITE", "FANGS_BITE_NATURAL", "FANGS_BITE_CRIT" ],
     "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "PADDED", "PROVIDES_TECHNIQUES" ],
     "armor": [
       {
         "material": [ { "type": "bone", "covered_by_mat": 100, "thickness": 3.2 } ],
         "covers": [ "mouth" ],
-        "coverage": 0,
+        "specifically_covers": [ "mouth_lips" ],
+        "coverage": 100,
         "encumbrance": 0
       }
-    ]
+    ],
+    "melee_damage": { "stab": 9 }
   },
   {
     "id": "integrated_vampire_fangs",
@@ -1664,15 +1654,17 @@
     "color": "white",
     "warmth": 5,
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 4 ] ],
-    "techniques": [ "VAMPIRE_BITE", "VAMPIRE_BITE_NATURAL" ],
+    "techniques": [ "VAMPIRE_BITE", "VAMPIRE_BITE_NATURAL", "VAMPIRE_BITE_CRIT" ],
     "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "PADDED", "PROVIDES_TECHNIQUES" ],
     "armor": [
       {
         "material": [ { "type": "bone", "covered_by_mat": 100, "thickness": 3.2 } ],
         "covers": [ "mouth" ],
-        "coverage": 0,
+        "specifically_covers": [ "mouth_lips" ],
+        "coverage": 100,
         "encumbrance": 0
       }
-    ]
+    ],
+    "melee_damage": { "stab": 15 }
   }
 ]
