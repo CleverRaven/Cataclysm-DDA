@@ -75,7 +75,16 @@
   {
     "id": "TALK_FREE_MERCHANTS_MERCHANT_Intro",
     "type": "talk_topic",
-    "dynamic_line": "Before you ask, we're full.  You're right about the refugee part, but we're way over capacity right now.  We don't have the food or space to take on anyone else.\"  He softens a little.  \"As for me, I do a lot of things here, but mostly I keep tabs on our supplies.  You can call me Smokes, or Gavin; whichever you prefer.  I also trade with people from outside, like you.  If you're in the market for hardware, we're selling, and if you have food, we are very much buying.  Anyways, uh, what can I do for you?",
+    "dynamic_line": {
+      "concatenate": [
+        "Before you ask, we're full.  You're right about the refugee part, but we're way over capacity right now.  We don't have the food or space to take on anyone else.\"  He softens a little.  \"As for me, I do a lot of things here, but mostly I keep tabs on our supplies.  You can call me Smokes, or Gavin; whichever you prefer.  I also trade with people from outside, like you.  If you're in the market for hardware, we're selling, and if you have food, we are very much buying.  Anyways, uh, what can I do for you",
+        {
+          "follower_present": "NC_STARTINGNPC_LIAM",
+          "yes": "?\"\n\nLiam looks around at the crowded room, speaking in a soft voice for just your ears.  \"Can't honestly believe people are trying to crowd in here.  They're all so scared, this is a death trap.",
+          "no": "?"
+        }
+      ]
+    },
     "speaker_effect": [
       {
         "sentinel": "has_onetime_greeting_effect",
@@ -204,7 +213,16 @@
   {
     "id": "TALK_FREE_MERCHANTS_MERCHANT_Beggars2",
     "type": "talk_topic",
-    "dynamic_line": "I don't know, why don't you ask them?  I haven't pried, but where else do they have to go?  You've seen how bad it is out there.  We don't have the space for them, but it won't kill us to give them some shelter as long as they aren't too much of a drain on resources."
+    "dynamic_line": {
+      "concatenate": [
+        "I don't know, why don't you ask them?  I haven't pried, but where else do they have to go?  You've seen how bad it is out there.  We don't have the space for them, but it won't kill us to give them some shelter as long as they aren't too much of a drain on resources",
+        {
+          "follower_present": "NC_STARTINGNPC_LIAM",
+          "yes": ".\"\n\n\"Don't you guys have, like, scavengers and things?\"  Liam sounds like he's trying not to get irritated with Smokes.  \"Can't these guys help out in some way in exchange for food?  It seems insane to just keep them sitting in your entry way.\"\n\nSmokes gives him a long-suffering look.  \"Like I said, ask them.  We can't take them in, though.  It's not just them.  We've had to turn away dozens of people, if we started making exceptions we'd be dead meat.  These guys are just the ones who didn't try their luck out there, they've got their reasons I guess.  I don't like this any more than you do.",
+          "no": "."
+        }
+      ]
+    }
   },
   {
     "id": "TALK_FREE_MERCHANTS_MERCHANT_Beggars3",
@@ -214,7 +232,16 @@
   {
     "id": "TALK_FREE_MERCHANTS_MERCHANT_Beggars_Reward",
     "type": "talk_topic",
-    "dynamic_line": "We don't have a lot to share, but… well, I guess it's not safe for them.  At best, it's a health hazard waiting to happen.  We could pay you in merch if you can clear them out without anyone getting hurt, yeah.",
+    "dynamic_line": {
+      "concatenate": [
+        "And so we did.\"  Smokes reaches under their table, counts out some money, and slides it through a slot in the glass.  \"Here's five merch a head for the folks you found a new home for.  We won't forget it",
+        {
+          "follower_present": "NC_BEGGAR_3",
+          "yes": ".\"\n\nLuo puts her hands on her hips.  \"You're getting *paid* for… ah, fuck it.  I should be pissed, but honestly I'm so glad to be out of this place, I can't even be mad.  That's really saying something, coming from me.",
+          "no": "."
+        }
+      ]
+    },
     "responses": [
       {
         "text": "I'll see what I can do.  What's merch?",

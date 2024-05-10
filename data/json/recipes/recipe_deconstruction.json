@@ -5974,11 +5974,11 @@
     "components": [ [ [ "scrap_aluminum", 1 ], [ "plastic_chunk", 2 ] ] ]
   },
   {
-    "result": "cards_magic",
+    "result": "deck_of_cards",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
     "time": "2 s",
-    "components": [ [ [ "paper", 20 ] ] ],
+    "components": [ [ [ "cardboard", 20 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {

@@ -105,9 +105,23 @@
     "points": 1,
     "description": "What was to be a routine cargo transfer ended in tragedy when, in a brief moment of chaos, your space ship was intercepted and destroyed by a StO missile.  As soon as the MAW alarm flared to life, you scrambled to the nearest escape pod and barely managed to reach the uncertain safety of the planet below.",
     "allowed_locs": [ "sloc_escape_pod" ],
-    "professions": [ "afs_espatier", "afs_rating" ],
+    "professions": [ "afs_espatier", "afs_rating", "afs_vatgrown_bodyguard" ],
     "flags": [ "LONE_START" ],
     "start_name": "Escape Pod"
+  },
+  {
+    "type": "scenario",
+    "id": "last_dance",
+    "name": "One Last Dance on the Ice",
+    "points": 1,
+    "description": "You've chased your quarry from the tragedies they left behind in the core of civilized space; all the way out here to the fringes of inhabited space.  You caught up with their ship here in the Salus system, and heavily damaged it, but the combat didn't leave your ship unscathed.  Opportunistic scavengers or pirates you don't know which ambushed you as you were harrying your mark's ship and forcing it to ground.  You know they'll have crash landed somewhere on this planet but your ship, Truth and Reconciliation will never fly again.  You won't even walk away from this icy wreck if you can't destroy the squad of drones and scavenger bots that have dropped in to finish you off.",
+    "professions": [ "afs_espatier", "afs_captain_bearman", "afs_holo_fighter", "afs_mastadon_swat", "afs_bio_operator" ],
+    "start_name": "Last stop for Truth and Reconciliation",
+    "allowed_locs": [ "sloc_forest" ],
+    "map_extra": "mx_gunship",
+    "missions": [ "MISSION_LAST_DANCE" ],
+    "surround_groups": [ [ "GROUP_PIRATE__BOT_AMBUSH", 70.0 ] ],
+    "flags": [ "LONE_START" ]
   },
   {
     "type": "scenario",

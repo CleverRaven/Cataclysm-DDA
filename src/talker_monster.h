@@ -43,6 +43,8 @@ class talker_monster_const: public talker_cloner<talker_monster_const>
 
         int pain_cur() const override;
 
+        int perceived_pain_cur() const override;
+
         // effects and values
         bool has_effect( const efftype_id &effect_id, const bodypart_id &bp ) const override;
         effect get_effect( const efftype_id &effect_id, const bodypart_id &bp ) const override;

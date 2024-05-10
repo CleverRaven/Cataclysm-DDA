@@ -700,6 +700,11 @@ int talker_character_const::pain_cur() const
     return me_chr_const->get_pain();
 }
 
+int talker_character_const::perceived_pain_cur() const
+{
+    return me_chr_const->get_perceived_pain();
+}
+
 double talker_character_const::armor_at( damage_type_id &dt, bodypart_id &bp ) const
 {
     return me_chr_const->worn.damage_resist( dt, bp );
@@ -1210,8 +1215,9 @@ void talker_character::die()
 matec_id talker_character::get_random_technique( Creature &t, bool crit,
         bool dodge_counter, bool block_counter, const std::vector<matec_id> &blacklist ) const
 {
-    return me_chr->pick_technique( t, me_chr->used_weapon(), crit, dodge_counter, block_counter,
-                                   blacklist );
+    return std::get<0>( me_chr->pick_technique( t, me_chr->used_weapon(), crit, dodge_counter,
+                        block_counter,
+                        blacklist ) );
 }
 
 void talker_character::attack_target( Creature &t, bool allow_special,

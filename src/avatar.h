@@ -283,7 +283,9 @@ class avatar : public Character
         std::string preferred_aiming_mode;
 
         // checks if the point is blocked based on characters current aiming state
+        // TODO Remove untyped overload
         bool cant_see( const tripoint &p );
+        bool cant_see( const tripoint_bub_ms &p );
 
         // rebuilds the full aim cache for the character if it is dirty
         void rebuild_aim_cache();

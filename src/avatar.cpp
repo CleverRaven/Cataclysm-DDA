@@ -348,7 +348,7 @@ void avatar::set_active_mission( mission &cur_mission )
 {
     const auto iter = std::find( active_missions.begin(), active_missions.end(), &cur_mission );
     if( iter == active_missions.end() ) {
-        debugmsg( "new active mission %s is not in the active_missions list",
+        debugmsg( "new objective %s is not in the active_missions list",
                   cur_mission.mission_id().c_str() );
     } else {
         active_mission = &cur_mission;
@@ -1232,6 +1232,11 @@ bool avatar::is_obeying( const Character &p ) const
 
 bool avatar::cant_see( const tripoint &p )
 {
+    return cant_see( tripoint_bub_ms( p ) );
+}
+
+bool avatar::cant_see( const tripoint_bub_ms &p )
+{
 
     // calc based on recoil
     if( !last_target_pos.has_value() ) {
@@ -1242,7 +1247,7 @@ bool avatar::cant_see( const tripoint &p )
         rebuild_aim_cache();
     }
 
-    return aim_cache[p.x][p.y];
+    return aim_cache[p.x()][p.y()];
 }
 
 void avatar::rebuild_aim_cache()

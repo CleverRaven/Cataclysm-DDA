@@ -1743,9 +1743,9 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "400 ml",
-        "max_contains_weight": "250 g",
-        "max_item_length": "8 cm",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "600 g",
+        "max_item_length": "9 cm",
         "moves": 150
       }
     ],

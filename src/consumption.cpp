@@ -715,7 +715,9 @@ float Character::metabolic_rate_base() const
 {
     static const std::string hunger_rate_string( "PLAYER_HUNGER_RATE" );
     float hunger_rate = get_option< float >( hunger_rate_string );
-    return enchantment_cache->modify_value( enchant_vals::mod::METABOLISM, hunger_rate );
+    const float final_hunger_rate = enchantment_cache->modify_value( enchant_vals::mod::METABOLISM,
+                                    hunger_rate );
+    return std::clamp( final_hunger_rate, 0.0f, float_max );
 }
 
 // TODO: Make this less chaotic to let NPC retroactive catch up work here

@@ -16,10 +16,10 @@
         "   w....bbbb....bbbb.w  ",
         "   #................y#  ",
         "   ##+##cc%##++#######  ",
-        "   #s.#d.h.y#..#Scc.y#  ",
+        "   #s.#d.h.y#..#Scc^y#  ",
         "   #&.#d.......!....I#  ",
         "   ##########..#.tt.I#  ",
-        "   #f.f#I.th#..#....I#  ",
+        "   #f.f#I^th#..#....I#  ",
         "   #f.f#I...+..#######  ",
         "   #f.f#IccS#..#HHllO#  ",
         "   ##+#######..#H...O#  ",
@@ -42,7 +42,8 @@
         "c": { "item": "gear_medical", "chance": 60, "repeat": [ 2, 4 ] },
         "e": { "item": "SUS_fridge_breakroom", "chance": 80 },
         "t": { "item": "gear_medical", "chance": 60, "repeat": [ 2, 4 ] },
-        "f": { "item": "office_paper", "chance": 70, "repeat": [ 1, 3 ] }
+        "f": { "item": "office_paper", "chance": 70, "repeat": [ 1, 3 ] },
+        "^": { "item": "gear_medical", "chance": 60, "repeat": [ 1, 2 ] }
       },
       "place_items": [ { "item": "record_patient", "x": 7, "y": 6, "chance": 50 } ],
       "place_loot": [ { "item": "anesthetic_kit", "x": 16, "y": [ 14, 17 ], "chance": 75, "ammo": 100 } ],
@@ -136,10 +137,10 @@
         "   #.y#..+........ht#   ",
         "   #B.#..#9999#..####   ",
         "   #s.#..#%c%c#..#By#   ",
-        "   #..+..#....#..#.c#   ",
+        "   #^.+..#....#..#.c#   ",
         "   #cc#..#h...#..+.c#   ",
         "   ####..###+##..####   ",
-        "   #$$#..co..h%..#By#   ",
+        "   #$$#..co^.h%..#By#   ",
         "   #..!......hc..#.c#   ",
         "   #$$#..%h...c..+.c#   ",
         "   ####..ccc.cc..####   ",
@@ -153,6 +154,7 @@
         "                        "
       ],
       "palettes": [ "office_doctor" ],
+      "items": { "^": { "item": "gear_medical", "chance": 60, "repeat": [ 1, 2 ] } },
       "place_loot": [
         { "group": "waitingroom", "x": 14, "y": 3, "chance": 70, "repeat": [ 1, 3 ] },
         { "group": "waitingroom", "x": 19, "y": 3, "chance": 70, "repeat": [ 1, 3 ] },
@@ -248,14 +250,14 @@
         " #&...+............+.I# ",
         " #r..S#............#.I# ",
         " #######!########!##### ",
-        " #S.ol#...#lo.S#.....f# ",
+        " #S^ol#...#lo^S#.....f# ",
         " #....!...!....#.hh..f# ",
         " 0...t#...#t...#.ddd..0 ",
         " #.W.B#...#B.W.#yrA..o# ",
         " #######!############## ",
         "  #u!...........X....H# ",
         "  ####+###+####5#....H# ",
-        "    #c..#....c###OOO.H# ",
+        "    #c..#...^c###OOO.H# ",
         "    #S..'.?/..c######## ",
         "    #S..#.....c#4       ",
         "    ############        ",
@@ -296,7 +298,8 @@
           { "item": "drugs_rare", "chance": 60 },
           { "item": "surgery", "chance": 60 }
         ],
-        "?": { "item": "autodoc_supplies", "chance": 100 }
+        "?": { "item": "autodoc_supplies", "chance": 100 },
+        "^": { "item": "gear_medical", "chance": 60, "repeat": [ 1, 2 ] }
       },
       "place_loot": [
         { "group": "waitingroom", "x": 12, "y": 3, "chance": 70, "repeat": [ 1, 3 ] },
