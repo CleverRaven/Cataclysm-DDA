@@ -26,7 +26,7 @@
       {
         "text": "From the portals…like you, right?  You've seen this before?",
         "topic": "TALK_EXODII_MERCHANT_alien_flora_source",
-        "condition": { "u_has_var": "u_knows_exodiilore", "type": "knowledge", "context": "exodii_transdimensional", "value": "yes" }
+        "condition": { "u_has_var": "knowledge_exodii_transdimensional_u_knows_exodiilore", "value": "yes" }
       },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
@@ -54,7 +54,7 @@
     "type": "talk_topic",
     "dynamic_line": {
       "//~": "You could burn it, but the portals will just bring it back.  No, there's no stopping it at this point.  Even if you burned every single one you found, you're just one person and there's an endless supply of them, so it's futile.  There's only one way this goes.",
-      "str": "Aye, mayhap, but more'll dribble through the wobbles.  You can't athwart all o' the bridges.  If'n you light each and every, you're a wolf alone an' their banks'll flow over.  'Twould be no point.  The road only goes south."
+      "str": "Aye, mayhap, but more'll dribble through the wobbles.  You can't athwart all o' the bridges.  If'n you light each and every, you're only one against many.  'Twould be no point.  The road only goes one way."
     },
     "responses": [
       { "text": "Well, we'll see about that.  Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
@@ -66,7 +66,7 @@
     "type": "talk_topic",
     "dynamic_line": {
       "//~": "Many times.  It doesn't always go the same, and sometimes they only show up right before we leave the world, but they always do.",
-      "str": "Time an' time.\"  Rubik pauses for a moment.  \""
+      "str": "Time an' time.  \"  Rubik pauses for a moment.  \""
     },
     "responses": [
       {
