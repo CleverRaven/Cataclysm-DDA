@@ -207,17 +207,17 @@
     "id": "xl_chestrig",
     "type": "ARMOR",
     "copy-from": "chestrig",
-    "name": { "str": "XL chest rig" },
+    "name": { "str": "chest rig" },
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_chestrig",
     "type": "ARMOR",
     "copy-from": "chestrig",
-    "name": { "str": "XS chest rig" },
+    "name": { "str": "chest rig" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "javelin_bag",
@@ -666,17 +666,17 @@
     "id": "xl_tacvest",
     "type": "ARMOR",
     "copy-from": "tacvest",
-    "name": { "str": "XL tac vest" },
+    "name": { "str": "tac vest" },
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_tacvest",
     "type": "ARMOR",
     "copy-from": "tacvest",
-    "name": { "str": "XS tac vest" },
+    "name": { "str": "tac vest" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "light_load_bearing_vest",
@@ -1245,7 +1245,7 @@
     "id": "xlkevlar",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "XL Kevlar vest" },
+    "name": { "str": "Kevlar vest" },
     "description": "A massive handmade imitation of a proper ballistic vest for abnormally large folks.  Large and heavy, but will still fit under an abnormally large coat.",
     "weight": "4210 g",
     "volume": "8 L",
@@ -1257,7 +1257,7 @@
     "color": "light_gray",
     "warmth": 20,
     "material_thickness": 5,
-    "flags": [ "STURDY", "OVERSIZE" ],
+    "flags": [ "STURDY", "OVERSIZE", "PREFIX_XL" ],
     "armor": [
       {
         "material": [

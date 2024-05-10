@@ -808,10 +808,22 @@ std::function<double( dialogue & )> moon_phase_eval( char /* scope */,
 }
 
 std::function<double( dialogue & )> pain_eval( char scope,
-        std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
+        std::vector<diag_value> const &/* params */, diag_kwargs const &kwargs )
 {
-    return [beta = is_beta( scope )]( dialogue const & d ) {
-        return d.actor( beta )->pain_cur();
+    diag_value format_value( std::string( "raw" ) );
+    if( kwargs.count( "type" ) != 0 ) {
+        format_value = *kwargs.at( "type" );
+    }
+    return [format_value, beta = is_beta( scope )]( dialogue const & d ) {
+        std::string format = format_value.str( d );
+        if( format == "perceived" ) {
+            return d.actor( beta )->perceived_pain_cur();
+        } else if( format == "raw" ) {
+            return d.actor( beta )->pain_cur();
+        } else {
+            debugmsg( R"(Unknown type "%s" for pain())", format );
+            return 0;
+        }
     };
 }
 

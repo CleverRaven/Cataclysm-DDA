@@ -1,6 +1,25 @@
 [
   {
     "type": "body_part",
+    "id": "mouth",
+    "copy-from": "mouth",
+    "name": "mouth",
+    "similar_bodyparts": [ "test_corvid_beak" ],
+    "limb_type": "mouth",
+    "limb_scores": [ [ "breathing", 1.0 ], [ "manip", 0.05, 0.2 ] ]
+  },
+  {
+    "type": "sub_body_part",
+    "id": "mouth_lips",
+    "copy-from": "mouth_lips",
+    "similar_bodyparts": [ "sub_limb_test_corvid_beak" ],
+    "opposite": "mouth_lips",
+    "side": 0,
+    "name": "lips",
+    "name_multiple": "lips"
+  },
+  {
+    "type": "body_part",
     "id": "test_arm_l",
     "name": "left arm",
     "copy-from": "arm_l",

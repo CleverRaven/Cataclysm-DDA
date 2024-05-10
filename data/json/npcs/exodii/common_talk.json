@@ -46,7 +46,19 @@
     "type": "talk_topic",
     "id": "TALK_Directions_exodii_true",
     "//": "For exodii 'find warehouse' mission, used by NPCs giving directions.",
-    "dynamic_line": "&You listen to the directions, and jot them down in your map.",
+    "dynamic_line": [
+      {
+        "concatenate": [
+          "&You listen to the directions, and jot them down in your map",
+          {
+            "follower_present": "NC_STARTINGNPC_LIAM",
+            "yes": ".  Liam looks over your shoulder, and nods.  \"I've got a good feeling about this one.\"",
+            "no": "."
+          }
+        ]
+      },
+      "&You listen to the directions, and jot them down in your map."
+    ],
     "speaker_effect": { "effect": { "assign_mission": "mission_exodii_wh_directions" } },
     "responses": [ { "text": "Thanks.", "topic": "TALK_DONE" } ]
   },
@@ -54,7 +66,27 @@
     "type": "talk_topic",
     "id": "TALK_Directions_exodii_false",
     "//": "For exodii 'find warehouse' mission, used by NPCs giving directions.",
-    "dynamic_line": "&You listen to the directions, and jot them down in your map.",
+    "dynamic_line": [
+      {
+        "concatenate": [
+          "&You listen to the directions, and jot them down in your map",
+          {
+            "follower_present": "NC_SCAVENGER_MERC",
+            "yes": ".  The Merc looks at the map with an eyeroll.  \"This ain't it, chief.\"",
+            "no": {
+              "follower_present": "NC_BEGGAR_5",
+              "yes": ".  Yusuke studies the drawing for a moment, then raises an eyebrow.  \"I've been out that way scavenging before, and I don't remember seeing anything like the warehouse we're looking for.\"",
+              "no": {
+                "follower_present": "NC_ISHERWOOD_CHRIS",
+                "yes": ".  Chris watches over your shoulder, frowning slightly.  \"I think I know that area, and I'm not quite sure that's what we're looking for.\"",
+                "no": "."
+              }
+            }
+          }
+        ]
+      },
+      "&You listen to the directions, and jot them down in your map."
+    ],
     "speaker_effect": {
       "effect": {
         "switch": { "math": [ "rng(1, 3)" ] },

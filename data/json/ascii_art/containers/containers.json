@@ -2164,6 +2164,15 @@
   },
   {
     "type": "ascii_art",
+    "id": "condom_sealed",
+    "picture": [
+      "<color_dark_gray>╔↔↔↔╗",
+      "║( )║",
+      "╚↔↔↔╝"
+    ]
+  },
+  {
+    "type": "ascii_art",
     "id": "balloon",
     "picture": [
       " <color_red>,.",

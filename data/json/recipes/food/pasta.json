@@ -49,9 +49,9 @@
     "charges": 3,
     "book_learn": [ [ "cookbook_italian", 3 ] ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 12, "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 28, "LIST" ] ] ],
     "//": "There are ways to cook pasta that don't require boiling the water, and they are a lot more efficient, so this uses surface_heat",
-    "//1": "pasta by weight is 5u flour, 1u for sauce, 4u for meat + heating the water (2u)",
+    "//1": "pasta by weight is 5u flour, 1u for sauce, 20u for meat + heating the water (2u)",
     "components": [
       [ [ "spaghetti_raw", 1 ] ],
       [ [ "water_clean", 1 ] ],
@@ -63,7 +63,7 @@
         [ "can_tomato", 1 ],
         [ "wild_herbs", 10 ]
       ],
-      [ [ "meat_cooked", 1, "LIST" ], [ "can_chicken", 1 ], [ "dry_meat", 1 ], [ "meatball", 2 ] ]
+      [ [ "meat_red", 1, "LIST" ], [ "meatball", 2 ] ]
     ]
   },
   {
@@ -192,21 +192,7 @@
     "//": "pasta by weight is 5u flour, 2u for the cheese, 4u for meat + heating the water (2u)",
     "components": [
       [ [ "spaghetti_raw", 1 ], [ "macaroni_raw", 1 ], [ "noodles_fast", 1 ] ],
-      [
-        [ "meat_cooked", 1, "LIST" ],
-        [ "dry_meat", 1 ],
-        [ "can_chicken", 1 ],
-        [ "fish", 1 ],
-        [ "dry_fish", 1 ],
-        [ "rehydrated_fish", 1 ],
-        [ "fish_canned", 1 ],
-        [ "can_salmon", 1 ],
-        [ "can_tuna", 1 ],
-        [ "bacon", 1 ],
-        [ "can_spam", 2 ],
-        [ "sausage", 1 ],
-        [ "bratwurst_sausage", 1 ]
-      ],
+      [ [ "meat_red_cooked", 1, "LIST" ] ],
       [ [ "cheese_standard", 2, "LIST" ], [ "cheese_powder", 2 ] ],
       [ [ "water_clean", 1 ] ]
     ]
@@ -222,15 +208,15 @@
     "time": "25 m",
     "book_learn": [ [ "cookbook_italian", 3 ] ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 13, "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 31, "LIST" ] ] ],
     "//": "There are ways to cook pasta that don't require boiling the water, and they are a lot more efficient, so this uses surface_heat",
-    "//1": "pasta by weight is 5u flour, 1u for cheese, 2u of egg, 2u for meat, heating the water (2u)",
+    "//1": "pasta by weight is 5u flour, 1u for cheese, 2u of egg, 20u for meat, heating the water (2u)",
     "components": [
       [ [ "spaghetti_raw", 1 ] ],
       [ [ "water_clean", 1 ] ],
       [ [ "eggs_any_shape", 3, "LIST" ] ],
       [ [ "cheese_standard", 1, "LIST" ], [ "pecorino_cheese", 1 ] ],
-      [ [ "meat_cooked", 1, "LIST" ], [ "dry_meat", 1 ], [ "bacon", 1 ] ]
+      [ [ "meat_red", 1, "LIST" ], [ "bacon", 1 ] ]
     ],
     "charges": 4
   },
@@ -245,15 +231,15 @@
     "time": "25 m",
     "book_learn": [ [ "cookbook_italian", 3 ] ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 13, "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 31, "LIST" ] ] ],
     "//": "There are ways to cook pasta that don't require boiling the water, and they are a lot more efficient, so this uses surface_heat",
-    "//1": "pasta by weight is 5u flour, 1u for cheese, 4u of red sauce, 2u for meat, heating the water (2u)",
+    "//1": "pasta by weight is 5u flour, 1u for cheese, 4u of red sauce, 20u for meat, heating the water (2u)",
     "components": [
       [ [ "spaghetti_raw", 1 ] ],
       [ [ "water_clean", 1 ] ],
       [ [ "sauce_red", 3 ] ],
       [ [ "cheese_standard", 1, "LIST" ], [ "pecorino_cheese", 1 ] ],
-      [ [ "meat_cooked", 1, "LIST" ], [ "dry_meat", 1 ], [ "bacon", 1 ] ]
+      [ [ "meat_red", 1, "LIST" ], [ "bacon", 1 ] ]
     ],
     "charges": 4
   }

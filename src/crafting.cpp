@@ -115,9 +115,13 @@ static const trait_id trait_DEBUG_CNF( "DEBUG_CNF" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_INT_ALPHA( "INT_ALPHA" );
 
+static const std::string flag_AFFECTED_BY_PAIN( "AFFECTED_BY_PAIN" );
 static const std::string flag_BLIND_EASY( "BLIND_EASY" );
 static const std::string flag_BLIND_HARD( "BLIND_HARD" );
 static const std::string flag_FULL_MAGAZINE( "FULL_MAGAZINE" );
+static const std::string flag_NO_BENCH( "NO_BENCH" );
+static const std::string flag_NO_ENCHANTMENT( "NO_ENCHANTMENT" );
+static const std::string flag_NO_MANIP( "NO_MANIP" );
 static const std::string flag_NO_RESIZE( "NO_RESIZE" );
 
 class basecamp;
@@ -294,9 +298,15 @@ float Character::workbench_crafting_speed_multiplier( const item &craft,
 
 float Character::crafting_speed_multiplier( const recipe &rec ) const
 {
+
+    const float limb_score = rec.has_flag( flag_NO_MANIP ) ? 1.0f : get_limb_score(
+                                 limb_score_manip );
+    const float pain_multi = rec.has_flag( flag_AFFECTED_BY_PAIN ) ? std::max( 0.0f,
+                             1.0f - ( get_perceived_pain() / 100.0f ) ) : 1.0f;
+
     float crafting_speed = morale_crafting_speed_multiplier( rec ) *
                            lighting_craft_speed_multiplier( rec ) *
-                           get_limb_score( limb_score_manip );
+                           limb_score * pain_multi;
 
     const float result = enchantment_cache->modify_value( enchant_vals::mod::CRAFTING_SPEED_MULTIPLIER,
                          crafting_speed );
@@ -319,15 +329,21 @@ float Character::crafting_speed_multiplier( const item &craft,
     const recipe &rec = craft.get_making();
 
     const float light_multi = lighting_craft_speed_multiplier( rec );
-    const float bench_multi = ( use_cached_workbench_multiplier ||
+    const float bench_value = ( use_cached_workbench_multiplier ||
                                 cached_workbench_multiplier > 0.0f ) ? cached_workbench_multiplier :
                               workbench_crafting_speed_multiplier( craft, loc );
+    const float bench_multi = rec.has_flag( flag_NO_BENCH ) ? 1.0f : bench_value;
     const float morale_multi = morale_crafting_speed_multiplier( rec );
-    const float mut_multi = 1.0 + enchantment_cache->get_value_multiply(
+    const float mut_multi = rec.has_flag( flag_NO_ENCHANTMENT ) ? 1.0f : 1.0 +
+                            enchantment_cache->get_value_multiply(
                                 enchant_vals::mod::CRAFTING_SPEED_MULTIPLIER );
+    const float limb_score = rec.has_flag( flag_NO_MANIP ) ? 1.0f : get_limb_score(
+                                 limb_score_manip );
+    const float pain_multi = rec.has_flag( flag_AFFECTED_BY_PAIN ) ? std::max( 0.0f,
+                             1.0f - ( get_perceived_pain() / 100.0f ) ) : 1.0f ;
 
-    const float total_multi = light_multi * bench_multi * morale_multi * mut_multi *
-                              get_limb_score( limb_score_manip );
+    const float total_multi = light_multi * bench_multi * morale_multi * mut_multi * limb_score *
+                              pain_multi;
 
     if( light_multi <= 0.0f ) {
         add_msg_if_player( m_bad, _( "You can no longer see well enough to keep crafting." ) );
@@ -343,7 +359,11 @@ float Character::crafting_speed_multiplier( const item &craft,
         return 0.0f;
     }
 
-    // If we're working below 20% speed, just give up
+    if( pain_multi <= 0.1f ) {
+        add_msg_if_player( m_bad, _( "You can't continue due the immense pain in your body." ) );
+        return 0.0f;
+    }
+
     if( total_multi <= 0.2f ) {
         add_msg_if_player( m_bad, _( "Your progress is so slow that you give up in frustration." ) );
         return 0.0f;

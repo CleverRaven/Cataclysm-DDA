@@ -40,7 +40,7 @@
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_telepathy", -1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_CONCENTRATION",
@@ -72,7 +72,7 @@
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_telepathy", -1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_MIND_SENSE",
@@ -104,7 +104,7 @@
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_telepathy", -1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_SHIELD",
@@ -183,7 +183,7 @@
     "autolearn": false,
     "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_telepathy", -1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_MORALE",
@@ -263,7 +263,7 @@
     "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_telepathy", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_telepath_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATHIC_BLAST",
@@ -343,7 +343,7 @@
     "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_telepathy", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_telepath_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATHIC_ANIMAL_MIND_CONTROL",
@@ -423,7 +423,7 @@
     "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_telepathy", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_telepath_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_CONFUSION",
@@ -503,7 +503,7 @@
     "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_telepathy", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_telepath_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_OBSCURITY",
@@ -583,7 +583,7 @@
     "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_telepathy", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_telepath_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_PRIMAL_FEAR",
@@ -663,7 +663,7 @@
     "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_telepathy", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_telepath_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_SCREAM_RADIUS",
@@ -743,7 +743,7 @@
     "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_telepathy", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_telepath_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_BEAST_TAMING",
@@ -823,7 +823,7 @@
     "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_telepathy", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_telepath_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_MIND_CONTROL",
@@ -903,7 +903,7 @@
     "proficiencies": [ { "proficiency": "prof_contemplation_telepathy", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_telepathy", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_telepath_dust", 1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEPATH_NETWORK_EFFECT",

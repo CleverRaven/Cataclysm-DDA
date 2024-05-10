@@ -115,6 +115,7 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "melee_damage": { "bash": 10 }
   },
@@ -170,6 +171,7 @@
       }
     ],
     "qualities": [ [ "COOK", 1 ], [ "CHEM", 1 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "use_action": [ "HEAT_ALL_ITEMS" ],
     "melee_damage": { "bash": 10 }
   },
   {
@@ -196,6 +198,7 @@
       }
     ],
     "qualities": [ [ "COOK", 1 ], [ "CHEM", 1 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "use_action": [ "HEAT_ALL_ITEMS" ],
     "melee_damage": { "bash": 10 }
   },
   {
@@ -406,7 +409,7 @@
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "COOK", 1 ] ],
-    "use_action": [ "HEAT_FOOD" ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "flags": [ "BELT_CLIP", "ALLOWS_REMOTE_USE" ],
     "melee_damage": { "bash": 3 },
     "//": "Based on https://www.amazon.com/dp/B07Q5CJDM9"
@@ -432,7 +435,7 @@
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "COOK", 1 ] ],
-    "use_action": [ "HEAT_FOOD" ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "flags": [ "BELT_CLIP", "ALLOWS_REMOTE_USE" ],
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "uneven" },
     "melee_damage": { "bash": 9 },
