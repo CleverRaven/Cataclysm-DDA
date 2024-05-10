@@ -1070,7 +1070,7 @@
     "id": "animist_magic_fissile",
     "type": "SPELL",
     "name": "Magic Fissile",
-    "description": "I cast Magic... Fissile?  At the darkness?",
+    "description": "I cast Magic… Fissile?  At the darkness?",
     "valid_targets": [ "hostile" ],
     "flags": [ "VERBAL", "SOMATIC", "NO_LEGS", "SILENT", "NO_PROJECTILE" ],
     "extra_effects": [ { "id": "animist_radiation_bolt", "hit_self": false }, { "id": "eoc_evocation_setup" } ],
