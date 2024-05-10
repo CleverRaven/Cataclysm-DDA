@@ -362,7 +362,7 @@
             }
           ]
         },
-        "values": [ { "value": "POWER_TRICKLE", "add": 250 }, { "value": "ITEM_DAMAGE_ELEC", "add": 3 } ]
+        "values": [ { "value": "POWER_TRICKLE", "add": 250000 }, { "value": "ITEM_DAMAGE_ELEC", "add": 3 } ]
       }
     ]
   },
