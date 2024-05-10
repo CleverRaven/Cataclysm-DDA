@@ -5600,6 +5600,7 @@ void basecamp::feed_workers( const std::vector<std::reference_wrapper <Character
                 // I'd like to use consume_activity_actor here, but our little trick with make_fake_food() requires that the
                 // item be consumed immediately.
                 worker.consume( food_item );
+                worker.update_stomach( calendar::turn, calendar::turn ); //Handles setting hunger appropriately
                 break;
             case TOO_FULL:
                 worker.add_msg_player_or_npc( m_neutral,
