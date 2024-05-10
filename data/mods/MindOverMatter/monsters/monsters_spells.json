@@ -476,6 +476,25 @@
     "aoe_increment": 1
   },
   {
+    "id": "pyrokinetic_flame_armor_ally_monster",
+    "type": "SPELL",
+    "name": "[Ψ]Flame Immunity Monster",
+    "description": "Power for monsters to make each other immune to fire.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ally" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "max_level": 20,
+    "effect": "attack",
+    "effect_str": "effect_monster_pyrokinetic_fire_immunity",
+    "shape": "blast",
+    "min_range": 2,
+    "max_range": 22,
+    "aoe_range": 1,
+    "min_duration": 3000,
+    "max_duration": 12000
+  },
+  {
     "id": "pyrokinetic_blast_monster",
     "type": "SPELL",
     "name": "[Ψ]Conflagration Monster",

@@ -4,7 +4,7 @@
     "copy-from": "mon_triffid",
     "type": "MONSTER",
     "name": { "str": "triffid flamebreaker" },
-    "description": "A creeping mobile plant, as tall as a moose.  It has a single bark-covered stalk supporting a flowery head with a paralyzing sting concealed within.  The air around them wavers slightly, like a summer haze.",
+    "description": "A creeping mobile plant, as tall as a moose.  It has a single bark-covered stalk supporting a flowery head with a paralyzing sting concealed within.  The air around it wavers slightly, like a summer haze.",
     "extend": {
       "flags": [ "FIREPROOF" ],
       "special_attacks": [
@@ -38,9 +38,14 @@
         {
           "id": "psi_triffid_flamebreaker_no_flame_buff",
           "type": "spell",
-          "spell_data": { "id": "pyrokinetic_flame_armor_ally_monster", "min_level": 4 },
+          "spell_data": { "id": "pyrokinetic_flame_armor_ally_monster", "min_level": 8 },
           "cooldown": 20,
-          "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+          "condition": {
+            "and": [
+              { "not": { "u_has_effect": "effect_psi_null" } },
+              { "not": { "npc_has_effect": "effect_monster_pyrokinetic_fire_immunity" } }
+            ]
+          },
           "monster_message": "%1$s waves its fronds at %3$s."
         }
       ]
