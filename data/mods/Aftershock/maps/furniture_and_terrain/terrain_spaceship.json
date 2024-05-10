@@ -168,6 +168,7 @@
     "description": "An open hatch in the wall of a spaceship.",
     "roof": "t_metal_flat_roof",
     "flags": [ "SUPPORTS_ROOF", "MINEABLE" ],
+    "move_cost": 2,
     "symbol": "_",
     "color": "white",
     "close": "t_afs_gun_ship_hull_hatch_c",
