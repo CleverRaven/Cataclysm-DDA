@@ -8007,6 +8007,7 @@ std::optional<int> iuse::capture_monster_act( Character *p, item *it, const trip
         const std::string contained_name = it->get_var( "contained_name", "" );
 
         if( it->release_monster( pos ) ) {
+            p->invalidate_weight_carried_cache();
             // It's been activated somewhere where there isn't a player or monster, good.
             return 0;
         }
@@ -8024,6 +8025,7 @@ std::optional<int> iuse::capture_monster_act( Character *p, item *it, const trip
             }
             if( it->release_monster( *pos_ ) ) {
                 p->add_msg_if_player( _( "You release the %s." ), contained_name );
+                p->invalidate_weight_carried_cache();
                 return 0;
             }
             p->add_msg_if_player( m_info, _( "You can't place the %s there!" ), contained_name );
@@ -8071,6 +8073,7 @@ std::optional<int> iuse::capture_monster_act( Character *p, item *it, const trip
             if( f.friendly != 0 || one_in( chance ) ) {
                 p->add_msg_if_player( _( "You capture the %1$s in your %2$s." ),
                                       f.type->nname(), it->tname() );
+                p->invalidate_weight_carried_cache();
                 return it->contain_monster( target );
             } else {
                 p->add_msg_if_player( m_bad, _( "The %1$s avoids your attempts to put it in the %2$s." ),
