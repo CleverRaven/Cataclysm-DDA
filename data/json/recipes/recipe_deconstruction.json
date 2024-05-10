@@ -3087,7 +3087,7 @@
     "result": "knife_carving",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap", 1 ] ] ]
+    "components": [ [ [ "spike", 1 ] ], [ [ "scrap", 1 ] ] ]
   },
   {
     "type": "uncraft",
