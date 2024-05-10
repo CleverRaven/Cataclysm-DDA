@@ -447,6 +447,7 @@ void basecamp::update_resources( const std::string &bldg )
 void basecamp::update_provides( const std::string &bldg, expansion_data &e_data )
 {
     if( !recipe_id( bldg ).is_valid() ) {
+        debugmsg( "Invalid basecamp recipe %s", bldg );
         return;
     }
 

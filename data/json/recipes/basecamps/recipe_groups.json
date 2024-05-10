@@ -111,7 +111,6 @@
       },
       {
         "id": "faction_base_bare_bones_basecamp_0",
-        "//": "Hardcoded reference in function 'place'(overmap.cpp). Please be mindful if changing the ID.",
         "description": "Faction Base Bare Bones Basecamp.  Manually add bulletin board to use.  No construction.  Can be constructed anywhere.  Access to crafting recipes using Supplies zone covered furniture and appliances.",
         "om_terrains": [ "ANY" ]
       }

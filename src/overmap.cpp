@@ -1444,7 +1444,7 @@ struct fixed_overmap_special_data : overmap_special_data {
                         temp_camp->set_owner( elem.camp_owner.value() );
                         temp_camp->set_name( elem.camp_name );
                         // FIXME? Camp types are raw strings! Not ideal.
-                        temp_camp->define_camp( camp_loc, "faction_base_bare_bones_basecamp_0", false );
+                        temp_camp->define_camp( camp_loc, "faction_base_bare_bones_NPC_camp_0", false );
                     }
                 }
                 if( blob ) {
