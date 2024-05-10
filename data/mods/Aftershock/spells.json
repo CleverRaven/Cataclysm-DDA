@@ -78,7 +78,7 @@
     "min_aoe": 48,
     "max_aoe": 48,
     "aoe_increment": 48,
-    "flags": [ "SILENT" ]
+    "flags": [ "SILENT", "IGNORE_WALLS" ]
   },
   {
     "id": "prison_cell_open",
