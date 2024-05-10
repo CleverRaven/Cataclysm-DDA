@@ -439,7 +439,7 @@
     "id": "mon_mink_tadpole",
     "type": "MONSTER",
     "copy-from": "mon_proxy_tadpole",
-    "description": "broad bodies and tails, brown and speckled",
+    "description": "A brown and tan speckled tadpole with a wide body and very broad, feather-shaped tail.",
     "name": { "str": "tadpole" },
     "upgrades": { "age_grow": 91, "into": "mon_mink_frog" }
   },
@@ -459,7 +459,7 @@
     "id": "mon_pickerel_tadpole",
     "type": "MONSTER",
     "copy-from": "mon_proxy_tadpole",
-    "description": "yellow to yellow-brown, cream underbelly, pointed nose, close eyes.",
+    "description": "This yellowish tadpole is covered in flecks of brown and cream coloring.  Its eyes rest close together on a notably pointed face.",
     "name": { "str": "tadpole" },
     "color": "yellow",
     "upgrades": { "age_grow": 22, "into": "mon_pickerel_frog" },
@@ -479,7 +479,7 @@
     "id": "mon_green_tadpole",
     "type": "MONSTER",
     "copy-from": "mon_proxy_tadpole",
-    "description": "corpulent, light green and speckled.",
+    "description": "A corpulent green tadpole with a yellow underbelly and black speckles.",
     "name": { "str": "tadpole" },
     "color": "green",
     "upgrades": { "age_grow": 22, "into": "mon_green_frog" }
@@ -488,7 +488,7 @@
     "id": "mon_wood_tadpole",
     "type": "MONSTER",
     "copy-from": "mon_proxy_tadpole",
-    "description": "high, peaked mouth and low round belly.",
+    "description": "This mottled brown tadpole appears rather typical until you can get a glimpse from the side.  Then its high, peaked mouth and low round belly stand out in profile.",
     "name": { "str": "tadpole" },
     "upgrades": { "age_grow": 15, "into": "mon_wood_frog" }
   },
@@ -496,7 +496,7 @@
     "id": "mon_spade_tadpole",
     "type": "MONSTER",
     "copy-from": "mon_proxy_tadpole",
-    "description": "a description goes here.",
+    "description": "A squat and wide-bellied tadpole with wide-set eyes.",
     "name": { "str": "tadpole" },
     "upgrades": { "age_grow": 8, "into": "mon_spade_frog" },
     "extend": { "flags": [ "POISON" ] }
