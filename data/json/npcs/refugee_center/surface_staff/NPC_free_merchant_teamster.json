@@ -70,6 +70,17 @@
         "default": true
       },
       {
+        "text": "I'm looking for a specific, strange building.  I wonder if you've heard anything about it?",
+        "topic": "TALK_FREE_MERCHANT_TEAMSTER_EXODII_MISSION_WAREHOUSE",
+        "condition": {
+          "and": [
+            { "u_has_mission": "EXODII_MISSION_WAREHOUSE" },
+            { "not": { "npc_has_var": "asked_about_exodii_warehouse_mission", "value": "yes" } }
+          ]
+        },
+        "effect": { "run_eocs": [ "EOC_exodii_mission_wh_directions_chance" ] }
+      },
+      {
         "text": "Do you know anything about a trader near the New England Church Community, claims to be from here?",
         "condition": {
           "and": [
@@ -229,6 +240,34 @@
     "type": "talk_topic",
     "dynamic_line": "*shows you on your map where to find it.  \"That should get you there.  Good luck, I 'spect you'll need it.",
     "responses": [ { "text": "Thanks for the directions.  I'll check it out.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FREE_MERCHANT_TEAMSTER_EXODII_MISSION_WAREHOUSE",
+    "dynamic_line": {
+      "concatenate": [
+        "&You describe the warehouse to the best of your ability.  The teamster considers for a moment",
+        {
+          "npc_has_var": "exodii_mission_wh_correct",
+          "value": "no",
+          "yes": ", then frowns.  \"I don't believe I've heard about anything like that, no.  Sorry.\"",
+          "no": ", looking thoughtful.  \"Hmm.  I'm not sure, but I've heard of an odd building that's a bit like you're describing.\""
+        }
+      ]
+    },
+    "speaker_effect": { "effect": { "npc_add_var": "asked_about_exodii_warehouse_mission", "value": "yes" } },
+    "responses": [
+      {
+        "//": "The other responses are stored in common_talk.json in the exodii folder, to avoid repetition.",
+        "text": "Oh well.  Thanks anyway.  I'll go ask around.",
+        "topic": "TALK_DONE",
+        "condition": { "npc_has_var": "exodii_mission_wh_correct", "value": "no" },
+        "effect": [
+          { "math": [ "exodii_mission_wh_chance", "-=", "1" ] },
+          { "math": [ "exodii_mission_wh_chance", "=", "max( exodii_mission_wh_chance, 1 )" ] }
+        ]
+      }
+    ]
   },
   {
     "type": "talk_topic",

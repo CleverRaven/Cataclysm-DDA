@@ -151,6 +151,18 @@
     }
   },
   {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_boarded_up",
+    "object": { "mapgensize": [ 1, 1 ], "place_ter_furn_transforms": [ { "transform": "boarded_up", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_boarded_up_rushed",
+    "object": { "mapgensize": [ 1, 1 ], "place_ter_furn_transforms": [ { "transform": "boarded_up_rushed", "x": 0, "y": 0 } ] }
+  },
+  {
     "type": "ter_furn_transform",
     "id": "damaged_window",
     "//": "Should include the bash result for every standard_domestic_palette window",
@@ -258,6 +270,29 @@
   },
   {
     "type": "ter_furn_transform",
+    "id": "boarded_up",
+    "terrain": [
+      { "result": "t_door_boarded", "valid_flags": [ "DOOR" ] },
+      { "result": "t_window_boarded", "valid_flags": [ "WINDOW" ] },
+      { "result": "t_scrap_wall", "valid_terrain": [ "t_wall_glass" ] }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "boarded_up_rushed",
+    "terrain": [
+      { "result": "t_door_locked", "valid_flags": [ "DOOR" ] },
+      { "result": "t_window_taped", "valid_flags": [ "WINDOW" ] }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "cut_foliage",
+    "terrain": [ { "result": "t_dirt", "valid_flags": [ "SHRUB" ], "valid_terrain": [ "t_grass", "t_grass_dead" ] } ],
+    "furniture": [ { "result": "f_null", "valid_flags": [ "FLOWER" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
     "id": "destroyed_metal_door",
     "terrain": [ { "result": "t_mdoor_frame", "valid_terrain": [ "t_door_metal_pickable", "t_door_metal_o", "t_door_metal_c" ] } ]
   },
@@ -273,6 +308,11 @@
   },
   {
     "type": "ter_furn_transform",
+    "id": "fit_door",
+    "terrain": [ { "result": "t_door_c", "valid_terrain": [ "t_door_frame" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
     "id": "looted_gunsafe",
     "furniture": [ { "result": "f_gunsafe_o", "valid_furniture": [ "f_gunsafe_ml", "f_gunsafe_o" ] } ]
   },
@@ -285,6 +325,34 @@
     "type": "ter_furn_transform",
     "id": "open_gunsafe",
     "furniture": [ { "result": "f_gunsafe_o", "valid_furniture": [ "f_gunsafe_ml" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "unlock_door",
+    "terrain": [
+      {
+        "result": "t_door_c",
+        "valid_terrain": [ "t_door_locked_interior", "t_door_locked", "t_door_elocked", "t_door_locked_alarm", "t_door_elocked_alarm" ]
+      },
+      { "result": "t_door_c_peep", "valid_terrain": [ "t_door_locked_peep" ] },
+      { "result": "t_door_metal_c", "valid_terrain": [ "t_door_metal_locked", "t_door_metal_interior_locked" ] },
+      { "result": "t_door_bar_o", "valid_terrain": [ "t_door_bar_locked" ] }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ranch_wall_upgrade1",
+    "terrain": [ { "result": "t_wall_wood", "valid_terrain": [ "t_wall_half" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ranch_wall_upgrade2",
+    "terrain": [ { "result": "t_wall", "valid_terrain": [ "t_wall_wood" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ranch_window_upgrade1",
+    "terrain": [ { "result": "t_window_boarded_noglass", "valid_terrain": [ "t_window_empty" ] } ]
   },
   {
     "type": "mapgen",

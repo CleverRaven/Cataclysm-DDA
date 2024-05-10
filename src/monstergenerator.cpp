@@ -981,7 +981,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     }
 
     optional( jo, was_loaded, "starting_ammo", starting_ammo );
-    optional( jo, was_loaded, "luminance", luminance, 0 );
+    assign( jo, "luminance", luminance, true );
     optional( jo, was_loaded, "revert_to_itype", revert_to_itype, itype_id() );
     optional( jo, was_loaded, "mech_weapon", mech_weapon, itype_id() );
     optional( jo, was_loaded, "mech_str_bonus", mech_str_bonus, 0 );

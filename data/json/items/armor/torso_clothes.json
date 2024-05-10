@@ -104,13 +104,13 @@
     "id": "waist_apron_long_xl",
     "copy-from": "waist_apron_long",
     "type": "ARMOR",
-    "name": { "str": "XL long waist apron" },
-    "extend": { "flags": [ "OVERSIZE" ] },
+    "name": { "str": "long waist apron" },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
     "proportional": { "weight": 1.5, "volume": 1.5 },
     "variants": [
       {
         "id": "maid_apron_xl",
-        "name": { "str": "XL maid long waist apron" },
+        "name": { "str": "maid long waist apron" },
         "description": "It's colored white with black frilly decorations, commonly used with a maid dress or alone for nighttime activities.",
         "append": true
       }
@@ -120,13 +120,13 @@
     "id": "waist_apron_long_xs",
     "copy-from": "waist_apron_long",
     "type": "ARMOR",
-    "name": { "str": "XS long waist apron" },
-    "extend": { "flags": [ "UNDERSIZE" ] },
+    "name": { "str": "long waist apron" },
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
     "proportional": { "weight": 0.5, "volume": 0.5 },
     "variants": [
       {
         "id": "maid_apron_xs",
-        "name": { "str": "XS maid long waist apron" },
+        "name": { "str": "maid long waist apron" },
         "description": "It's colored white with black frilly decorations, commonly used with a maid dress or alone for nighttime activities.",
         "append": true
       }
@@ -237,13 +237,13 @@
     "id": "waist_apron_short_xl",
     "copy-from": "waist_apron_short",
     "type": "ARMOR",
-    "name": { "str": "XL short waist apron" },
-    "extend": { "flags": [ "OVERSIZE" ] },
+    "name": { "str": "short waist apron" },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
     "proportional": { "weight": 1.5, "volume": 1.5 },
     "variants": [
       {
         "id": "maid_apron_xl",
-        "name": { "str": "XL maid short waist apron" },
+        "name": { "str": "maid short waist apron" },
         "description": "It's colored white with black frilly decorations, commonly used with a maid dress or alone for nighttime activities.",
         "append": true
       }
@@ -253,13 +253,13 @@
     "id": "waist_apron_short_xs",
     "copy-from": "waist_apron_short",
     "type": "ARMOR",
-    "name": { "str": "XS short waist apron" },
-    "extend": { "flags": [ "UNDERSIZE" ] },
+    "name": { "str": "short waist apron" },
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
     "proportional": { "weight": 0.5, "volume": 0.5 },
     "variants": [
       {
         "id": "maid_apron_xs",
-        "name": { "str": "XS maid short waist apron" },
+        "name": { "str": "maid short waist apron" },
         "description": "It's colored white with black frilly decorations, commonly used with a maid dress or alone for nighttime activities.",
         "append": true
       }
@@ -361,13 +361,13 @@
     "id": "apron_cotton_xl",
     "copy-from": "apron_cotton",
     "type": "ARMOR",
-    "name": { "str": "XL cotton apron" },
-    "extend": { "flags": [ "OVERSIZE" ] },
+    "name": { "str": "cotton apron" },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
     "proportional": { "weight": 1.5, "volume": 1.5 },
     "variants": [
       {
         "id": "maid_apron_xl",
-        "name": { "str": "XL maid apron" },
+        "name": { "str": "maid apron" },
         "description": "It's colored white with black frilly decorations, commonly used with a maid dress or alone for nighttime activities.",
         "append": true
       }
@@ -377,13 +377,13 @@
     "id": "apron_cotton_xs",
     "copy-from": "apron_cotton",
     "type": "ARMOR",
-    "name": { "str": "XS cotton apron" },
-    "extend": { "flags": [ "UNDERSIZE" ] },
+    "name": { "str": "cotton apron" },
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
     "proportional": { "weight": 0.5, "volume": 0.5 },
     "variants": [
       {
         "id": "maid_apron_xs",
-        "name": { "str": "XS maid apron" },
+        "name": { "str": "maid apron" },
         "description": "It's colored white with black frilly decorations, commonly used with a maid dress or alone for nighttime activities.",
         "append": true
       }
@@ -953,6 +953,18 @@
     ]
   },
   {
+    "id": "hoodie_cropped",
+    "copy-from": "hoodie",
+    "type": "ARMOR",
+    "name": { "str": "cropped hoodie" },
+    "description": "A sweatshirt with a hood, cropped to expose the stomach.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "warmth": 0.75 },
+    "armor": [
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95, "encumbrance": 4 },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": 6 }
+    ]
+  },
+  {
     "id": "jersey",
     "type": "ARMOR",
     "name": { "str": "sports jersey" },
@@ -1137,16 +1149,16 @@
     "id": "maid_dress_xl",
     "copy-from": "maid_dress",
     "type": "ARMOR",
-    "name": { "str_sp": "XL French maid clothes" },
-    "extend": { "flags": [ "OVERSIZE" ] },
+    "name": { "str_sp": "French maid clothes" },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
     "proportional": { "weight": 1.5, "volume": 1.5 }
   },
   {
     "id": "maid_dress_xs",
     "copy-from": "maid_dress",
     "type": "ARMOR",
-    "name": { "str_sp": "XS French maid clothes" },
-    "extend": { "flags": [ "UNDERSIZE" ] },
+    "name": { "str_sp": "French maid clothes" },
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
     "proportional": { "weight": 0.5, "volume": 0.5 }
   },
   {
@@ -1197,16 +1209,16 @@
     "id": "maid_dress_short_xl",
     "copy-from": "maid_dress_short",
     "type": "ARMOR",
-    "name": { "str_sp": "XL short French maid clothes" },
-    "extend": { "flags": [ "OVERSIZE" ] },
+    "name": { "str_sp": "short French maid clothes" },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
     "proportional": { "weight": 1.5, "volume": 1.5 }
   },
   {
     "id": "maid_dress_short_xs",
     "copy-from": "maid_dress_short",
     "type": "ARMOR",
-    "name": { "str_sp": "XS short French maid clothes" },
-    "extend": { "flags": [ "UNDERSIZE" ] },
+    "name": { "str_sp": "short French maid clothes" },
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
     "proportional": { "weight": 0.5, "volume": 0.5 }
   },
   {
@@ -1841,6 +1853,23 @@
     "flags": [ "VARSIZE", "SKINTIGHT" ],
     "armor": [
       { "coverage": 90, "covers": [ "torso" ] },
+      {
+        "coverage": 100,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ]
+      },
+      { "coverage": 50, "covers": [ "arm_l", "arm_r" ], "specifically_covers": [ "arm_upper_l", "arm_upper_r" ] }
+    ]
+  },
+  {
+    "id": "tshirt_cropped",
+    "copy-from": "tshirt",
+    "type": "ARMOR",
+    "name": { "str": "crop top" },
+    "description": "A short-sleeved cotton shirt, cropped to expose the stomach.",
+    "proportional": { "weight": 0.5, "volume": 0.5, "warmth": 0.5 },
+    "armor": [
+      { "coverage": 90, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] },
       {
         "coverage": 100,
         "covers": [ "arm_l", "arm_r" ],

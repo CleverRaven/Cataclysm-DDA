@@ -1652,7 +1652,7 @@
     "weight": "30 g",
     "color": "brown",
     "spoils_in": 1080,
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -2,

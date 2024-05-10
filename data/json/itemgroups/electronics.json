@@ -34,7 +34,7 @@
       { "item": "polycarbonate_sheet", "prob": 39 },
       [ "battery_ups", 15 ],
       { "item": "cell_phone", "prob": 5, "charges": [ 0, 150 ] },
-      { "item": "smart_phone", "prob": 31, "charges-min": 0 },
+      { "item": "smart_phone", "prob": 31, "charges": [ 0, -1 ] },
       { "item": "waterproof_smart_phone_case", "prob": 11 },
       { "item": "eink_tablet_pc", "prob": 8, "charges": [ 0, 100 ] },
       { "item": "laptop", "prob": 20, "charges": [ 0, 500 ] },
@@ -104,7 +104,7 @@
       [ "recipe_augs", 4 ],
       [ "cable", 60 ],
       { "item": "vac_sealer", "prob": 10 },
-      { "item": "smart_phone", "prob": 50, "charges-min": 0 },
+      { "item": "smart_phone", "prob": 50, "charges": [ 0, -1 ] },
       { "item": "eink_tablet_pc", "prob": 15, "charges": [ 0, 100 ] },
       { "item": "laptop", "prob": 30, "charges": [ 0, 500 ] },
       { "item": "smart_lamp", "prob": 10, "charges": [ 0, 100 ] },
@@ -136,20 +136,17 @@
     "subtype": "distribution",
     "id": "phones_case",
     "container-item": "waterproof_smart_phone_case",
-    "items": [
-      { "item": "smart_phone", "prob": 17, "charges-min": 0, "charges-max": 15 },
-      { "item": "smart_phone", "prob": 1, "charges-min": 130, "charges-max": 130 }
-    ]
+    "items": [ { "item": "smart_phone", "prob": 17, "charges": [ 0, 15 ] }, { "item": "smart_phone", "prob": 1, "charges": 130 } ]
   },
   {
     "type": "item_group",
     "subtype": "distribution",
     "id": "phones_no_case",
     "items": [
-      { "item": "cell_phone", "prob": 2, "charges-min": 0, "charges-max": 15 },
-      { "item": "cell_phone", "prob": 1, "charges-min": 150, "charges-max": 150 },
-      { "item": "smart_phone", "prob": 17, "charges-min": 0, "charges-max": 15 },
-      { "item": "smart_phone", "prob": 1, "charges-min": 130, "charges-max": 130 }
+      { "item": "cell_phone", "prob": 2, "charges": [ 0, 15 ] },
+      { "item": "cell_phone", "prob": 1, "charges": 150 },
+      { "item": "smart_phone", "prob": 17, "charges": [ 0, 15 ] },
+      { "item": "smart_phone", "prob": 1, "charges": 130 }
     ]
   },
   {

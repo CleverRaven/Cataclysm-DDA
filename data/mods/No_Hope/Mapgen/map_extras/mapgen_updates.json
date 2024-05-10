@@ -279,15 +279,7 @@
         "                        ",
         "                        "
       ],
-      "terrain": { " ": "t_null" },
-      "translate_ter": [
-        { "from": "t_door_locked_interior", "to": "t_door_boarded", "x": [ 0, 23 ], "y": [ 0, 23 ] },
-        { "from": "t_door_locked", "to": "t_door_boarded", "x": [ 0, 23 ], "y": [ 0, 23 ] },
-        { "from": "t_window", "to": "t_window_taped", "x": [ 0, 23 ], "y": [ 0, 23 ] },
-        { "from": "t_window_domestic", "to": "t_window_boarded", "x": [ 0, 23 ], "y": [ 0, 23 ] },
-        { "from": "t_curtains", "to": "t_window_boarded", "x": [ 0, 23 ], "y": [ 0, 23 ] },
-        { "from": "t_wall_glass", "to": "t_window_boarded", "x": [ 0, 23 ], "y": [ 0, 23 ] }
-      ],
+      "nested": { " ": { "chunks": [ [ "1x1_boarded_up", 2 ], [ "1x1_boarded_up_rushed", 1 ] ] } },
       "place_zones": [
         { "type": "NPC_NO_INVESTIGATE", "faction": "hells_raiders", "x": [ 0, 23 ], "y": [ 0, 6 ] },
         { "type": "NPC_NO_INVESTIGATE", "faction": "hells_raiders", "x": [ 0, 23 ], "y": [ 17, 23 ] },

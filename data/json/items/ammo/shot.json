@@ -178,7 +178,7 @@
     "price": "10 USD",
     "price_postapoc": "16 USD",
     "proportional": { "damage": { "damage_type": "bullet", "amount": 0.2 }, "recoil": 0.6, "loudness": 0.8, "range": 0.5 },
-    "extend": { "effects": [ "INCENDIARY", "STREAM", "NOGIB" ] }
+    "extend": { "effects": [ "INCENDIARY", "STREAM_TINY", "PYROTECHNIC_DISPLAY", "NOGIB" ] }
   },
   {
     "id": "shot_flechette",

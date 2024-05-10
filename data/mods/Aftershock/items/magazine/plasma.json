@@ -13,7 +13,7 @@
     "symbol": "o",
     "color": "light_blue",
     "ammo_type": [ "afs_shydrogen" ],
-    "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
+    "flags": [ "NO_UNLOAD", "NO_RELOAD", "MAG_COMPACT" ],
     "capacity": 4,
     "reload_time": 10,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "airtight": true, "ammo_restriction": { "afs_shydrogen": 4 } } ]
@@ -32,7 +32,7 @@
     "symbol": "o",
     "color": "light_blue",
     "ammo_type": [ "afs_shydrogen" ],
-    "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
+    "flags": [ "NO_UNLOAD", "NO_RELOAD", "MAG_COMPACT" ],
     "capacity": 4,
     "reload_time": 10,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "airtight": true, "ammo_restriction": { "afs_shydrogen": 20 } } ]
@@ -51,7 +51,7 @@
     "symbol": "o",
     "color": "light_red",
     "ammo_type": [ "afs_shydrogen" ],
-    "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
+    "flags": [ "NO_UNLOAD", "NO_RELOAD", "MAG_COMPACT" ],
     "capacity": 40,
     "reload_time": 40,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "airtight": true, "ammo_restriction": { "afs_shydrogen": 40 } } ]

@@ -764,6 +764,70 @@
     }
   },
   {
+    "id": "telekinetic_move_large_weight",
+    "type": "SPELL",
+    "name": "[Ψ]Megakinesis",
+    "description": "Telekinesis on a grand scale, this power allows you to move truly enormous amounts of weight, hurling a human-sized target at lethal speeds or picking up and throwing something monstrously large.  The amount of weight you can move is dependent on the power level.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 8,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEKINETIC_MOVE_LARGE_WEIGHT_SELECTOR",
+    "shape": "blast",
+    "energy_source": "STAMINA",
+    "base_energy_cost": 9500,
+    "final_energy_cost": 5000,
+    "energy_increment": -175,
+    "base_casting_time": 80,
+    "final_casting_time": 25,
+    "casting_time_increment": -5
+  },
+  {
+    "id": "telekinetic_move_large_weight_pushing",
+    "type": "SPELL",
+    "name": "[Ψ]Megakinesis Pushing Power",
+    "description": "Starts the push effect EoC for Megakinesis.  It's a bug if you have it.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ally", "hostile" ],
+    "spell_class": "TELEKINETIC",
+    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEKINETIC_MOVE_LARGE_WEIGHT_PUSH_CHECKER",
+    "shape": "blast",
+    "min_range": {
+      "math": [
+        "min( ( ( (u_spell_level('telekinetic_move_large_weight') * 0.9) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 55)"
+      ]
+    },
+    "max_range": 55
+  },
+  {
+    "id": "telekinetic_move_large_weight_pulling",
+    "type": "SPELL",
+    "name": "[Ψ]Megakinesis Pulling Power",
+    "description": "Starts the pull effect EoC for Megakinesis.  It's a bug if you have it.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ally", "hostile" ],
+    "spell_class": "TELEKINETIC",
+    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEKINETIC_MOVE_LARGE_WEIGHT_PULL_CHECKER",
+    "shape": "blast",
+    "min_range": {
+      "math": [
+        "min( ( ( (u_spell_level('telekinetic_move_large_weight') * 0.9) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 55)"
+      ]
+    },
+    "max_range": 55
+  },
+  {
     "id": "telekinetic_aegis",
     "type": "SPELL",
     "name": "[Ψ]Aegis",

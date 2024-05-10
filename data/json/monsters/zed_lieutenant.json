@@ -105,7 +105,7 @@
     "name": { "str": "Life Drain" },
     "description": "When even the grass rises against you, what hope do you have?",
     "flags": [ "NO_EXPLOSION_SFX" ],
-    "valid_targets": [ "ground", "hostile" ],
+    "valid_targets": [ "hostile" ],
     "shape": "blast",
     "min_accuracy": 20,
     "max_accuracy": 20,
@@ -395,7 +395,13 @@
     "type": "effect_on_condition",
     "id": "EOC_LIEUTENANT_SPAWN_SHADOW_MESSAGE",
     "effect": [
-      { "u_message": "You shiver as the night closes in…", "type": "bad", "popup": true, "popup_w_interrupt_query": true }
+      {
+        "u_message": "You shiver as the night closes in…",
+        "type": "bad",
+        "popup": true,
+        "popup_w_interrupt_query": true,
+        "interrupt_type": "eoc"
+      }
     ]
   },
   {

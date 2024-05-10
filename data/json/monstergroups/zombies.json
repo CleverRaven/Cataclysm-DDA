@@ -539,22 +539,57 @@
     ]
   },
   {
+    "name": "GROUP_SCENARIO_PANICROOM",
+    "type": "monstergroup",
+    "//": "Flavor spawn group for scenario panic rooms for better story-telling.  Improved chance of dogs, fancy dogs, and (still) breathing people and children.",
+    "monsters": [
+      { "monster": "mon_zombie_child", "weight": 180 },
+      { "group": "GROUP_CIVILIANS_STANDARD", "weight": 200 },
+      { "group": "GROUP_PET_DOGS", "weight": 100, "cost_multiplier": 2 },
+      { "monster": "mon_dog_rottweiler", "weight": 100, "cost_multiplier": 2 },
+      { "monster": "mon_dog_gpyrenees", "weight": 100, "cost_multiplier": 2 }
+    ]
+  },
+  {
+    "name": "GROUP_PANICROOM",
+    "type": "monstergroup",
+    "//": "Same as above, but more lethal.",
+    "monsters": [
+      { "monster": "mon_zombie", "weight": 120, "cost_multiplier": 2 },
+      { "group": "GROUP_SCENARIO_PANICROOM", "weight": 680 },
+      { "group": "GROUP_FERAL", "weight": 150, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_dog", "weight": 20 }
+    ]
+  },
+  {
     "type": "monstergroup",
     "name": "GROUP_ZOMBULL_FROG_UPGRADE",
     "monsters": [
       { "monster": "mon_zombullfrog", "weight": 100, "cost_multiplier": 3 },
+      { "monster": "mon_frog_mummy", "weight": 25, "cost_multiplier": 3 },
       { "monster": "mon_frog_dad", "weight": 75, "cost_multiplier": 3 },
-      { "monster": "mon_frog_mother", "weight": 25, "cost_multiplier": 1 }
+      { "monster": "mon_frog_mother", "weight": 25, "cost_multiplier": 1 },
+      { "monster": "mon_frog_smoker_hulk", "weight": 15, "cost_multiplier": 3 }
     ]
   },
   {
     "type": "monstergroup",
     "name": "GROUP_DEADTOAD_UPGRADE",
     "monsters": [
+      { "monster": "mon_toad_zombie", "weight": 25, "cost_multiplier": 1 },
+      { "monster": "mon_toad_bloat", "weight": 50, "cost_multiplier": 1 },
+      { "monster": "mon_frog_mummy", "weight": 25, "cost_multiplier": 3 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_BLOAT_TOAD_UPGRADE",
+    "monsters": [
       { "monster": "mon_toad_bloat", "weight": 25, "cost_multiplier": 1 },
       { "monster": "mon_toad_wart", "weight": 25, "cost_multiplier": 1 },
       { "monster": "mon_toad_bone", "weight": 25, "cost_multiplier": 1 },
-      { "monster": "mon_gastro_bufo", "weight": 25, "cost_multiplier": 1 }
+      { "monster": "mon_gastro_bufo", "weight": 25, "cost_multiplier": 1 },
+      { "monster": "mon_frog_smoker_hulk", "weight": 15, "cost_multiplier": 3 }
     ]
   },
   {
@@ -562,7 +597,8 @@
     "name": "GROUP_ZOMBTREEFROG_UPGRADE",
     "monsters": [
       { "monster": "mon_zombtreefrog", "weight": 75, "cost_multiplier": 3 },
-      { "monster": "mon_frog_shadow", "weight": 25, "cost_multiplier": 3 }
+      { "monster": "mon_frog_shadow", "weight": 25, "cost_multiplier": 3 },
+      { "monster": "mon_frog_husk", "weight": 25, "cost_multiplier": 3 }
     ]
   },
   {

@@ -41,7 +41,7 @@
     "components": [
       [ [ "water_clean", 1 ] ],
       [ [ "jar_glass_sealed", 1 ] ],
-      [ [ "meat_red_raw", 1, "LIST" ], [ "fish", 1 ], [ "lobster", 1 ] ],
+      [ [ "meat_nofish", 1, "LIST" ], [ "fish", 1 ], [ "lobster", 1 ] ],
       [ [ "veggy_green", 1, "LIST" ] ]
     ]
   },
@@ -66,7 +66,7 @@
     "components": [
       [ [ "water_clean", 6 ] ],
       [ [ "jar_3l_glass_sealed", 1 ] ],
-      [ [ "meat_red_raw", 6, "LIST" ], [ "fish", 6 ], [ "lobster", 6 ] ],
+      [ [ "meat_nofish", 6, "LIST" ], [ "fish", 6 ], [ "lobster", 6 ] ],
       [ [ "veggy_green", 6, "LIST" ] ]
     ]
   },
@@ -91,7 +91,7 @@
     "components": [
       [ [ "water_clean", 1 ] ],
       [ [ "jar_glass_sealed", 1 ] ],
-      [ [ "meat_red_raw", 4, "LIST" ], [ "fish", 4 ], [ "fish", 4 ] ]
+      [ [ "meat_nofish", 4, "LIST" ], [ "fish", 4 ], [ "fish", 4 ] ]
     ]
   },
   {
@@ -115,7 +115,7 @@
     "components": [
       [ [ "water_clean", 6 ] ],
       [ [ "jar_3l_glass_sealed", 1 ] ],
-      [ [ "meat_red_raw", 24, "LIST" ], [ "fish", 24 ], [ "lobster", 24 ] ]
+      [ [ "meat_nofish", 24, "LIST" ], [ "fish", 24 ], [ "lobster", 24 ] ]
     ]
   },
   {
@@ -237,6 +237,26 @@
     "using": [ [ "canning_high_heat", 1, "LIST" ] ],
     "//1": "pressure canning is measured in 0.5 liter quantities, so 1u of canning_high_heat.",
     "components": [ [ [ "water_clean", 1 ] ], [ [ "jar_glass_sealed", 1 ] ], [ [ "mushroom", 4 ], [ "veggy_any_uncooked", 2, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "can_chicken",
+    "id_suffix": "jarred",
+    "byproducts": [ [ "water_clean", 2 ] ],
+    "container": "jar_glass_sealed",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": "30 m",
+    "book_learn": [ [ "cookbook", 4 ], [ "manual_canning", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
+    "batch_time_factors": [ 83, 5 ],
+    "charges": 2,
+    "using": [ [ "canning_high_heat", 1, "LIST" ] ],
+    "//1": "pressure canning is measured in 0.5 liter quantities, so 1u of canning_high_heat.",
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "jar_glass_sealed", 1 ] ], [ [ "poultry_raw_any", 4, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -509,6 +529,26 @@
       [ [ "jar_3l_glass_sealed", 1 ] ],
       [ [ "beans_cooked", 12 ], [ "dry_beans", 12 ], [ "raw_beans", 12 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "can_chicken",
+    "id_suffix": "jarred_3l",
+    "byproducts": [ [ "water_clean", 12 ] ],
+    "container": "jar_3l_glass_sealed",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": "40 m",
+    "charges": 12,
+    "book_learn": [ [ "cookbook", 4 ], [ "manual_canning", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
+    "batch_time_factors": [ 83, 5 ],
+    "using": [ [ "canning_high_heat", 6, "LIST" ] ],
+    "//1": "pressure canning is measured in 0.5 liter quantities, so 6u of canning_high_heat.",
+    "components": [ [ [ "water_clean", 6 ] ], [ [ "jar_3l_glass_sealed", 1 ] ], [ [ "poultry_raw_any", 24, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -960,6 +1000,8 @@
         [ "zucchini", 2 ],
         [ "cucumber_cut", 2 ],
         [ "cucumber", 2 ],
+        [ "gherkin_cut", 2 ],
+        [ "gherkin", 2 ],
         [ "veggy_potatolike", 2, "LIST" ],
         [ "corn", 2 ],
         [ "onion", 2 ],
@@ -1003,6 +1045,8 @@
         [ "zucchini", 12 ],
         [ "cucumber_cut", 12 ],
         [ "cucumber", 12 ],
+        [ "gherkin_cut", 12 ],
+        [ "gherkin", 12 ],
         [ "veggy_potatolike", 12, "LIST" ],
         [ "corn", 12 ],
         [ "onion", 12 ],
@@ -1518,7 +1562,7 @@
     "batch_time_factors": [ 83, 5 ],
     "components": [
       [ [ "water_clean", 1 ] ],
-      [ [ "meat_red_raw", 1, "LIST" ], [ "fish", 1 ], [ "lobster", 1 ] ],
+      [ [ "meat_nofish", 1, "LIST" ], [ "fish", 1 ], [ "lobster", 1 ] ],
       [ [ "veggy_green", 1, "LIST" ] ]
     ],
     "using": [ [ "canning_metal", 2, "LIST" ], [ "tincan_medium", 1 ] ],
@@ -1542,7 +1586,7 @@
     "batch_time_factors": [ 83, 5 ],
     "components": [
       [ [ "water_clean", 1 ] ],
-      [ [ "meat_red_raw", 6, "LIST" ], [ "fish", 6 ], [ "lobster", 6 ] ],
+      [ [ "meat_nofish", 6, "LIST" ], [ "fish", 6 ], [ "lobster", 6 ] ],
       [ [ "veggy_green", 6, "LIST" ] ]
     ],
     "using": [ [ "canning_metal", 12, "LIST" ], [ "tincan_large", 1 ] ],
@@ -1563,7 +1607,7 @@
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
     "contained": true,
     "batch_time_factors": [ 83, 5 ],
-    "components": [ [ [ "water_clean", 1 ] ], [ [ "meat_red_raw", 2, "LIST" ], [ "fish", 2 ], [ "lobster", 2 ] ] ],
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "meat_nofish", 2, "LIST" ], [ "fish", 2 ], [ "lobster", 2 ] ] ],
     "using": [ [ "canning_metal", 1, "LIST" ], [ "tincan_small", 1 ] ],
     "//1": "tincan canning is measured in 0.25 liter quantities, so 1u of canning_metal.",
     "byproducts": [ [ "water_clean", 1 ] ]
@@ -1583,7 +1627,7 @@
     "container": "can_medium",
     "charges": 2,
     "batch_time_factors": [ 83, 5 ],
-    "components": [ [ [ "water_clean", 1 ] ], [ [ "meat_red_raw", 4, "LIST" ], [ "fish", 4 ], [ "lobster", 4 ] ] ],
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "meat_nofish", 4, "LIST" ], [ "fish", 4 ], [ "lobster", 4 ] ] ],
     "using": [ [ "canning_metal", 2, "LIST" ], [ "tincan_medium", 1 ] ],
     "//1": "tincan canning is measured in 0.25 liter quantities, so 2u of canning_metal.",
     "byproducts": [ [ "water_clean", 1 ] ]
@@ -1604,7 +1648,7 @@
     "charges": 12,
     "batch_time_factors": [ 83, 5 ],
     "tools": [ [ [ "surface_heat", 60, "LIST" ] ] ],
-    "components": [ [ [ "water_clean", 1 ] ], [ [ "meat_red_raw", 24, "LIST" ], [ "fish", 24 ], [ "lobster", 24 ] ] ],
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "meat_nofish", 24, "LIST" ], [ "fish", 24 ], [ "lobster", 24 ] ] ],
     "using": [ [ "canning_metal", 12, "LIST" ], [ "tincan_large", 1 ] ],
     "//1": "tincan canning is measured in 0.25 liter quantities, so 12u of canning_metal.",
     "byproducts": [ [ "water_clean", 6 ] ]
@@ -2053,6 +2097,64 @@
     "charges": 12,
     "batch_time_factors": [ 83, 5 ],
     "components": [ [ [ "water_clean", 1 ] ], [ [ "beans_cooked", 12 ], [ "dry_beans", 12 ], [ "raw_beans", 12 ] ] ],
+    "using": [ [ "canning_metal", 12, "LIST" ], [ "tincan_large", 1 ] ],
+    "//1": "tincan canning is measured in 0.25 liter quantities, so 12u of canning_metal.",
+    "byproducts": [ [ "water_clean", 6 ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "can_chicken",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 5,
+    "time": "20 m",
+    "book_learn": [ [ "manual_sealing", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
+    "contained": true,
+    "batch_time_factors": [ 83, 5 ],
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "poultry_raw_any", 2, "LIST" ] ] ],
+    "using": [ [ "canning_metal", 1, "LIST" ], [ "tincan_small", 1 ] ],
+    "//1": "tincan canning is measured in 0.25 liter quantities, so 1u of canning_metal.",
+    "byproducts": [ [ "water_clean", 1 ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "can_chicken",
+    "id_suffix": "canned_medium",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 5,
+    "time": "24 m",
+    "book_learn": [ [ "manual_sealing", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
+    "container": "can_medium",
+    "charges": 2,
+    "batch_time_factors": [ 83, 5 ],
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "poultry_raw_any", 4, "LIST" ] ] ],
+    "using": [ [ "canning_metal", 2, "LIST" ], [ "tincan_medium", 1 ] ],
+    "//1": "tincan canning is measured in 0.25 liter quantities, so 2u of canning_metal.",
+    "byproducts": [ [ "water_clean", 1 ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "can_chicken",
+    "id_suffix": "canned_big",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 5,
+    "time": "48 m",
+    "book_learn": [ [ "manual_sealing", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_canning" } ],
+    "container": "can_food_big",
+    "charges": 12,
+    "batch_time_factors": [ 83, 5 ],
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "poultry_raw_any", 24, "LIST" ] ] ],
     "using": [ [ "canning_metal", 12, "LIST" ], [ "tincan_large", 1 ] ],
     "//1": "tincan canning is measured in 0.25 liter quantities, so 12u of canning_metal.",
     "byproducts": [ [ "water_clean", 6 ] ]

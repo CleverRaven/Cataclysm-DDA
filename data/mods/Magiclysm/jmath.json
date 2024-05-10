@@ -38,14 +38,15 @@
   {
     "type": "jmath_function",
     "id": "enhancement_proficiency_bonus_calculate",
-    "num_args": 1,
-    "return": "_0 + ((u_proficiency('prof_magic_enhancement_beginner', 'format': 'percent') * 1) / 10) + ((u_proficiency('prof_magic_enhancement_apprentice', 'format': 'percent') * 1) / 10) + ((u_proficiency('prof_magic_enhancement_master', 'format': 'percent') * 1) / 10)"
+    "num_args": 2,
+    "return": "_0 + (((((u_proficiency('prof_magic_enhancement_beginner', 'format': 'percent') * 1) / 10) + ((u_proficiency('prof_magic_enhancement_apprentice', 'format': 'percent') * 1) / 10) + ((u_proficiency('prof_magic_enhancement_master', 'format': 'percent') * 1) / 10))) * _1 )"
   },
   {
     "type": "jmath_function",
     "id": "enhancement_proficiency_negate_calculate",
-    "num_args": 1,
-    "return": "_0 - ((u_proficiency('prof_magic_enhancement_beginner', 'format': 'percent') * 1) / 10) - ((u_proficiency('prof_magic_enhancement_apprentice', 'format': 'percent') * 1) / 10) - ((u_proficiency('prof_magic_enhancement_master', 'format': 'percent') * 1) / 10)"
+    "//": "As a general rule, this jmath should give a 20% bonus to a spell when all 3 proficiencies are at max level.",
+    "num_args": 2,
+    "return": "_0 - (((((u_proficiency('prof_magic_enhancement_beginner', 'format': 'percent') * 1) / 10) - ((u_proficiency('prof_magic_enhancement_apprentice', 'format': 'percent') * 1) / 10) - ((u_proficiency('prof_magic_enhancement_master', 'format': 'percent') * 1) / 10))) * _1 )"
   },
   {
     "type": "jmath_function",

@@ -67,7 +67,8 @@
         "rigid": true,
         "condition": { "math": [ "n_NEVER", "==", "1" ] },
         "refusal": "<npcname> will never sell this"
-      }
+      },
+      { "group": "fridges_and_freezers_tradeable" }
     ],
     "shopkeeper_consumption_rates": "basic_shop_rates",
     "shopkeeper_price_rules": [
@@ -90,7 +91,8 @@
       { "item": "magnesium", "price": 2000, "fixed_adj": 0 },
       { "item": "silver_small", "price": 5600, "fixed_adj": 0 },
       { "item": "gold_small", "price": 20000, "fixed_adj": 0 },
-      { "item": "platinum_small", "price": 30000, "fixed_adj": 0 }
+      { "item": "platinum_small", "price": 30000, "fixed_adj": 0 },
+      { "group": "fridges_and_freezers_tradeable", "markup": 50 }
     ]
   },
   {
@@ -245,6 +247,17 @@
     "responses": [
       { "text": "What's your story?", "topic": "TALK_NPC_SCRAP_TRADER_STORY" },
       { "text": "Why stay here of all places?", "topic": "TALK_NPC_SCRAP_TRADER_FORT" },
+      {
+        "text": "I'm looking for a specific, strange building.  I wonder if you've come across it in your travels?",
+        "topic": "TALK_NPC_SCRAP_TRADER_EXODII_MISSION_WAREHOUSE",
+        "condition": {
+          "and": [
+            { "u_has_mission": "EXODII_MISSION_WAREHOUSE" },
+            { "not": { "npc_has_var": "asked_about_exodii_warehouse_mission", "value": "yes" } }
+          ]
+        },
+        "effect": { "run_eocs": [ "EOC_exodii_mission_wh_directions_chance" ] }
+      },
       { "text": "Nah, see ya.", "topic": "TALK_DONE" }
     ]
   },
@@ -287,6 +300,34 @@
     "id": "TALK_NPC_SCRAP_TRADER_HOME_STAY",
     "dynamic_line": "Sure, I'm fine with it.  There's a spare bed in the shed next door for anyone who needs it.  Just don't hog it.  Someone else might come along.",
     "responses": [ { "text": "Thanks, <name_g>.", "topic": "TALK_NPC_SCRAP_TRADER_INTRO" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_SCRAP_TRADER_EXODII_MISSION_WAREHOUSE",
+    "dynamic_line": {
+      "concatenate": [
+        "&You describe the warehouse to the best of your ability.  The scrap trader nods along, listening",
+        {
+          "npc_has_var": "exodii_mission_wh_correct",
+          "value": "no",
+          "yes": ", then shrugs.  \"No, sorry, not ringing any bells.\"",
+          "no": ", then raises one eyebrow.  \"Not making any promises, but I did catch just a glimpse of a weird building one time that might be what you're looking for.\""
+        }
+      ]
+    },
+    "speaker_effect": { "effect": { "npc_add_var": "asked_about_exodii_warehouse_mission", "value": "yes" } },
+    "responses": [
+      {
+        "//": "The other responses are stored in common_talk.json in the exodii folder, to avoid repetition.",
+        "text": "Oh well.  Thanks anyway.  I'll go ask around.",
+        "topic": "TALK_DONE",
+        "condition": { "npc_has_var": "exodii_mission_wh_correct", "value": "no" },
+        "effect": [
+          { "math": [ "exodii_mission_wh_chance", "-=", "1" ] },
+          { "math": [ "exodii_mission_wh_chance", "=", "max( exodii_mission_wh_chance, 1 )" ] }
+        ]
+      }
+    ]
   },
   {
     "id": "TALK_SCRAP_TRADER_BULK_SELL",

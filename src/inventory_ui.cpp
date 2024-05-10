@@ -366,6 +366,7 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "overmap_show_forest_trails", overmap_show_forest_trails );
     json.member( "vmenu_show_items", vmenu_show_items );
     json.member( "list_item_sort", list_item_sort );
+    json.member( "read_items", read_items );
     json.member( "list_item_filter_active", list_item_filter_active );
     json.member( "list_item_downvote_active", list_item_downvote_active );
     json.member( "list_item_priority_active", list_item_priority_active );
@@ -476,6 +477,7 @@ void uistatedata::deserialize( const JsonObject &jo )
     }
 
     jo.read( "list_item_sort", list_item_sort );
+    jo.read( "read_items", read_items );
     jo.read( "list_item_filter_active", list_item_filter_active );
     jo.read( "list_item_downvote_active", list_item_downvote_active );
     jo.read( "list_item_priority_active", list_item_priority_active );
@@ -3619,7 +3621,8 @@ void inventory_multiselector::toggle_entries( int &count, const toggle_mode mode
 
     // Deal with entries that can be highlighted but not selected (e.g. items too large to pick up)
     inventory_entry &highlighted_entry = get_active_column().get_highlighted();
-    if( !highlighted_entry.is_selectable() && highlighted_entry.is_item() ) {
+    if( mode == toggle_mode::SELECTED
+        && !highlighted_entry.is_selectable() && highlighted_entry.is_item() ) {
         cata_assert( highlighted_entry.denial.has_value() );
         const std::string &denial = *highlighted_entry.denial;
 

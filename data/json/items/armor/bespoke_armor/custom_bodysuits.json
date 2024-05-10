@@ -191,18 +191,18 @@
   {
     "id": "xl_lsurvivor_jumpsuit",
     "type": "ARMOR",
-    "name": { "str": "XL light Kevlar jumpsuit" },
+    "name": { "str": "light Kevlar jumpsuit" },
     "copy-from": "lsurvivor_jumpsuit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_lsurvivor_jumpsuit",
     "type": "ARMOR",
-    "name": { "str": "XS light Kevlar jumpsuit" },
+    "name": { "str": "light Kevlar jumpsuit" },
     "copy-from": "lsurvivor_jumpsuit",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "survivor_jumpsuit",
@@ -260,18 +260,18 @@
   {
     "id": "xlsurvivor_jumpsuit",
     "type": "ARMOR",
-    "name": { "str": "XL Kevlar jumpsuit" },
+    "name": { "str": "Kevlar jumpsuit" },
     "copy-from": "survivor_jumpsuit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xssurvivor_jumpsuit",
     "type": "ARMOR",
-    "name": { "str": "XS Kevlar jumpsuit" },
+    "name": { "str": "Kevlar jumpsuit" },
     "copy-from": "survivor_jumpsuit",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "hsurvivor_jumpsuit",
@@ -314,18 +314,18 @@
   {
     "id": "xl_hsurvivor_jumpsuit",
     "type": "ARMOR",
-    "name": { "str": "XL steel-plated Kevlar jumpsuit" },
+    "name": { "str": "steel-plated Kevlar jumpsuit" },
     "copy-from": "hsurvivor_jumpsuit",
     "proportional": { "weight": 1.13, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_hsurvivor_jumpsuit",
     "type": "ARMOR",
-    "name": { "str": "XS steel-plated Kevlar jumpsuit" },
+    "name": { "str": "steel-plated Kevlar jumpsuit" },
     "copy-from": "hsurvivor_jumpsuit",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "wsurvivor_jumpsuit",
@@ -367,18 +367,18 @@
   {
     "id": "xl_wsurvivor_jumpsuit",
     "type": "ARMOR",
-    "name": { "str": "XL fur Kevlar jumpsuit" },
+    "name": { "str": "fur Kevlar jumpsuit" },
     "copy-from": "wsurvivor_jumpsuit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_wsurvivor_jumpsuit",
     "type": "ARMOR",
-    "name": { "str": "XS fur Kevlar jumpsuit" },
+    "name": { "str": "fur Kevlar jumpsuit" },
     "copy-from": "wsurvivor_jumpsuit",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "wsurvivor_jumpsuit_nofur",
@@ -405,18 +405,18 @@
   {
     "id": "xs_wsurvivor_jumpsuit_nofur",
     "type": "ARMOR",
-    "name": { "str": "XS faux fur Kevlar jumpsuit" },
+    "name": { "str": "faux fur Kevlar jumpsuit" },
     "copy-from": "wsurvivor_jumpsuit_nofur",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "xl_wsurvivor_jumpsuit_nofur",
     "type": "ARMOR",
-    "name": { "str": "XL faux fur Kevlar jumpsuit" },
+    "name": { "str": "faux fur Kevlar jumpsuit" },
     "copy-from": "wsurvivor_jumpsuit_nofur",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "h20survivor_jumpsuit",
@@ -491,18 +491,18 @@
   {
     "id": "xs_h20survivor_jumpsuit",
     "type": "ARMOR",
-    "name": { "str": "XS Kevlar wetsuit" },
+    "name": { "str": "Kevlar wetsuit" },
     "copy-from": "h20survivor_jumpsuit",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "xl_h20survivor_jumpsuit",
     "type": "ARMOR",
-    "name": { "str": "XL Kevlar wetsuit" },
+    "name": { "str": "Kevlar wetsuit" },
     "copy-from": "h20survivor_jumpsuit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "h20survivor_jumpsuit_light",
@@ -577,18 +577,18 @@
   {
     "id": "xs_h20survivor_jumpsuit_light",
     "type": "ARMOR",
-    "name": { "str": "XS light Kevlar wetsuit oversuit" },
+    "name": { "str": "light Kevlar wetsuit oversuit" },
     "copy-from": "h20survivor_jumpsuit_light",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "xl_h20survivor_jumpsuit_light",
     "type": "ARMOR",
-    "name": { "str": "XL light Kevlar wetsuit oversuit" },
+    "name": { "str": "light Kevlar wetsuit oversuit" },
     "copy-from": "h20survivor_jumpsuit_light",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "thick_h20survivor_jumpsuit",
@@ -663,18 +663,18 @@
   {
     "id": "xs_thick_h20survivor_jumpsuit",
     "type": "ARMOR",
-    "name": { "str": "XS thick Kevlar wetsuit" },
+    "name": { "str": "thick Kevlar wetsuit" },
     "copy-from": "thick_h20survivor_jumpsuit",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "xl_thick_h20survivor_jumpsuit",
     "type": "ARMOR",
-    "name": { "str": "XL thick Kevlar wetsuit" },
+    "name": { "str": "thick Kevlar wetsuit" },
     "copy-from": "thick_h20survivor_jumpsuit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "fsurvivor_jumpsuit",
@@ -715,17 +715,17 @@
   {
     "id": "xs_fsurvivor_jumpsuit",
     "type": "ARMOR",
-    "name": { "str": "XS Kevlar firesuit" },
+    "name": { "str": "Kevlar firesuit" },
     "copy-from": "fsurvivor_jumpsuit",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "xl_fsurvivor_jumpsuit",
     "type": "ARMOR",
-    "name": { "str": "XL Kevlar firesuit" },
+    "name": { "str": "Kevlar firesuit" },
     "copy-from": "fsurvivor_jumpsuit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   }
 ]

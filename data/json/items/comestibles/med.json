@@ -1608,7 +1608,7 @@
     "material": [ "powder" ],
     "symbol": "!",
     "color": "light_gray",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": { "type": "heal", "bleed": 20, "move_cost": 2000 }
   },
@@ -1689,7 +1689,7 @@
     "price_postapoc": "25 cent",
     "symbol": "!",
     "color": "brown",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "stim": 1,
     "healthy": -2,
     "fun": 5,

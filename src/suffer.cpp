@@ -1521,7 +1521,7 @@ void suffer::from_nyctophobia( Character &you )
 {
     const float nyctophobia_threshold = LIGHT_AMBIENT_LIT - 3.0f;
 
-    const bool in_darkness = get_map().ambient_light_at( you.pos() ) < nyctophobia_threshold;
+    const bool in_darkness = get_map().ambient_light_at( you.pos_bub() ) < nyctophobia_threshold;
     if( in_darkness ) {
         if( one_in( 80 ) && !you.has_effect( effect_shakes ) ) {
             you.add_msg_if_player( m_bad,

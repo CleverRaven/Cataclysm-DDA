@@ -156,7 +156,7 @@
         "using": [ [ "repair_welding_standard", 3 ], [ "soldering_standard", 5 ] ]
       }
     },
-    "breaks_into": [ { "group": "heavy_duty_fridge_destroyed" } ],
+    "breaks_into": [ { "group": "display_fridge_destroyed" } ],
     "flags": [ "CARGO", "OBSTACLE", "FRIDGE", "COVERED", "ENABLED_DRAINS_EPOWER", "APPLIANCE", "CTRL_ELECTRONIC" ]
   },
   {

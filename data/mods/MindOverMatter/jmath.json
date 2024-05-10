@@ -57,7 +57,7 @@
     "type": "jmath_function",
     "id": "contemplation_factor",
     "num_args": 1,
-    "return": "(u_val('focus') * 9) * (_0)"
+    "return": "(u_val('focus') * 18) * (_0)"
   },
   {
     "type": "jmath_function",
@@ -73,62 +73,69 @@
   },
   {
     "type": "jmath_function",
-    "id": "difficulty_one_contemplation",
+    "id": "jmath_psi_learning_counter_time_low",
     "num_args": 1,
-    "return": "_0 * 49417"
+    "//": "Reduces time between insight moments by 3% per point of Intelligence above 10 (increase by 3% per point below 10), to a max of 60% faster from intelligence, and by 5% per point of Metaphysics skill above 5.",
+    "return": "_0 * max(( 1 - ( ( ( u_val('intelligence') + 23.33) / 33.33 ) ) + 1 ),0.4) * clamp(( 1 - (((u_skill('metaphysics') - 4) + 20 ) / 21) + 1),0.75,1)"
   },
   {
     "type": "jmath_function",
-    "id": "difficulty_two_contemplation",
+    "id": "jmath_psi_learning_counter_time_high",
     "num_args": 1,
-    "return": "_0 * 49417"
+    "return": "_0 * max(( 1 - ( ( ( u_val('intelligence') + 23.33) / 33.33 ) ) + 1 ),0.4) * clamp(( 1 - (((u_skill('metaphysics') - 4) + 20 ) / 21) + 1),0.75,1)"
   },
   {
     "type": "jmath_function",
-    "id": "difficulty_three_contemplation",
+    "id": "jmath_biokinesis_learning_eocs_modifiers",
     "num_args": 1,
-    "return": "_0 * 49417"
+    "return": "_0 * max(( 1 - ( ( ( u_val('intelligence') + 23.33) / 33.33 ) ) + 1 ),0.4) * (1 - (0.2 * u_has_proficiency('prof_contemplation_biokinesis')))"
   },
   {
     "type": "jmath_function",
-    "id": "difficulty_four_contemplation",
+    "id": "jmath_clairsentience_learning_eocs_modifiers",
     "num_args": 1,
-    "return": "_0 * 35278"
+    "return": "_0 * max(( 1 - ( ( ( u_val('intelligence') + 23.33) / 33.33 ) ) + 1 ),0.4) * (1 - (0.2 * u_has_proficiency('prof_contemplation_clairsentience')))"
   },
   {
     "type": "jmath_function",
-    "id": "difficulty_five_contemplation",
+    "id": "jmath_electrokinesis_learning_eocs_modifiers",
     "num_args": 1,
-    "return": "_0 * 35278"
+    "return": "_0 * max(( 1 - ( ( ( u_val('intelligence') + 23.33) / 33.33 ) ) + 1 ),0.4) * (1 - (0.2 * u_has_proficiency('prof_contemplation_electrokinesis')))"
   },
   {
     "type": "jmath_function",
-    "id": "difficulty_six_contemplation",
+    "id": "jmath_photokinesis_learning_eocs_modifiers",
     "num_args": 1,
-    "return": "_0 * 20513"
+    "return": "_0 * max(( 1 - ( ( ( u_val('intelligence') + 23.33) / 33.33 ) ) + 1 ),0.4) * (1 - (0.2 * u_has_proficiency('prof_contemplation_photokinesis')))"
   },
   {
     "type": "jmath_function",
-    "id": "difficulty_seven_contemplation",
+    "id": "jmath_pyrokinesis_learning_eocs_modifiers",
     "num_args": 1,
-    "return": "_0 * 20513"
+    "return": "_0 * max(( 1 - ( ( ( u_val('intelligence') + 23.33) / 33.33 ) ) + 1 ),0.4) * (1 - (0.2 * u_has_proficiency('prof_contemplation_pyrokinesis')))"
   },
   {
     "type": "jmath_function",
-    "id": "difficulty_eight_contemplation",
+    "id": "jmath_telekinesis_learning_eocs_modifiers",
     "num_args": 1,
-    "return": "_0 * 13722"
+    "return": "_0 * max(( 1 - ( ( ( u_val('intelligence') + 23.33) / 33.33 ) ) + 1 ),0.4) * (1 - (0.2 * u_has_proficiency('prof_contemplation_telekinesis')))"
   },
   {
     "type": "jmath_function",
-    "id": "difficulty_nine_contemplation",
+    "id": "jmath_telepathy_learning_eocs_modifiers",
     "num_args": 1,
-    "return": "_0 * 13722"
+    "return": "_0 * max(( 1 - ( ( ( u_val('intelligence') + 23.33) / 33.33 ) ) + 1 ),0.4) * (1 - (0.2 * u_has_proficiency('prof_contemplation_telepathy')))"
   },
   {
     "type": "jmath_function",
-    "id": "difficulty_ten_contemplation",
+    "id": "jmath_teleportation_learning_eocs_modifiers",
     "num_args": 1,
-    "return": "_0 * 13722"
+    "return": "_0 * max(( 1 - ( ( ( u_val('intelligence') + 23.33) / 33.33 ) ) + 1 ),0.4) * (1 - (0.2 * u_has_proficiency('prof_contemplation_teleportation')))"
+  },
+  {
+    "type": "jmath_function",
+    "id": "jmath_vitakinesis_learning_eocs_modifiers",
+    "num_args": 1,
+    "return": "_0 * max(( 1 - ( ( ( u_val('intelligence') + 23.33) / 33.33 ) ) + 1 ),0.4) * (1 - (0.2 * u_has_proficiency('prof_contemplation_vitakinesis')))"
   }
 ]

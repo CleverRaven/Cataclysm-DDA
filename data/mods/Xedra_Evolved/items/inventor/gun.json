@@ -99,7 +99,7 @@
       [ "stock accessory", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "ammo_effects": [ "LASER", "INCENDIARY" ],
+    "ammo_effects": [ "LASER", "IGNITE" ],
     "faults": [ "fault_overheat_explosion", "fault_overheat_venting", "fault_overheat_melting", "fault_overheat_safety" ],
     "flags": [
       "NEVER_JAMS",
@@ -162,7 +162,7 @@
       [ "stock accessory", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "ammo_effects": [ "LASER", "INCENDIARY" ],
+    "ammo_effects": [ "LASER", "IGNITE" ],
     "faults": [ "fault_overheat_explosion", "fault_overheat_venting", "fault_overheat_melting", "fault_overheat_safety" ],
     "flags": [
       "NEVER_JAMS",
@@ -222,7 +222,7 @@
       [ "stock accessory", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "ammo_effects": [ "LASER", "PLASMA_BUBBLE", "INCENDIARY" ],
+    "ammo_effects": [ "LASER", "PLASMA_BUBBLE", "IGNITE" ],
     "faults": [ "fault_overheat_explosion", "fault_overheat_venting", "fault_overheat_melting", "fault_overheat_safety" ],
     "flags": [
       "NEVER_JAMS",

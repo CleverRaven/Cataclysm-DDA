@@ -24,18 +24,18 @@
   {
     "id": "xl_boots_fsurvivor",
     "type": "ARMOR",
-    "name": { "str": "pair of XL survivor fireboots", "str_pl": "pairs of XL survivor fireboots" },
+    "name": { "str": "pair of survivor fireboots", "str_pl": "pairs of survivor fireboots" },
     "copy-from": "boots_fsurvivor",
     "proportional": { "weight": 1.5, "volume": 1.5 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_boots_fsurvivor",
     "type": "ARMOR",
     "copy-from": "boots_fsurvivor",
-    "name": { "str": "pair of XS survivor fireboots", "str_pl": "pairs of XS survivor fireboots" },
+    "name": { "str": "pair of survivor fireboots", "str_pl": "pairs of survivor fireboots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "boots_hsurvivor",
@@ -62,18 +62,18 @@
   {
     "id": "xl_boots_hsurvivor",
     "type": "ARMOR",
-    "name": { "str": "pair of XL heavy survivor boots", "str_pl": "pairs of XL heavy survivor boots" },
+    "name": { "str": "pair of heavy survivor boots", "str_pl": "pairs of heavy survivor boots" },
     "copy-from": "boots_hsurvivor",
     "proportional": { "weight": 1.2, "volume": 1.2 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_boots_hsurvivor",
     "type": "ARMOR",
     "copy-from": "boots_hsurvivor",
-    "name": { "str": "pair of XS heavy survivor boots", "str_pl": "pairs of XS heavy survivor boots" },
+    "name": { "str": "pair of heavy survivor boots", "str_pl": "pairs of heavy survivor boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "gloves_hsurvivor",
@@ -99,18 +99,18 @@
   {
     "id": "xl_gloves_hsurvivor",
     "type": "ARMOR",
-    "name": { "str": "pair of XL heavy survivor gloves", "str_pl": "pairs of XL heavy survivor gloves" },
+    "name": { "str": "pair of heavy survivor gloves", "str_pl": "pairs of heavy survivor gloves" },
     "copy-from": "gloves_hsurvivor",
     "proportional": { "weight": 1.5, "volume": 1.5 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_gloves_hsurvivor",
     "type": "ARMOR",
     "copy-from": "gloves_hsurvivor",
-    "name": { "str": "pair of XS heavy survivor gloves", "str_pl": "pairs of XS heavy survivor gloves" },
+    "name": { "str": "pair of heavy survivor gloves", "str_pl": "pairs of heavy survivor gloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "gloves_fsurvivor",
@@ -136,18 +136,18 @@
   {
     "id": "xl_gloves_fsurvivor",
     "type": "ARMOR",
-    "name": { "str": "pair of XL survivor firegloves", "str_pl": "pairs of XL survivor firegloves" },
+    "name": { "str": "pair of survivor firegloves", "str_pl": "pairs of survivor firegloves" },
     "copy-from": "gloves_fsurvivor",
     "proportional": { "weight": 1.5, "volume": 1.5 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_gloves_fsurvivor",
     "type": "ARMOR",
     "copy-from": "gloves_fsurvivor",
-    "name": { "str": "pair of XS survivor firegloves", "str_pl": "pairs of XS survivor firegloves" },
+    "name": { "str": "pair of survivor firegloves", "str_pl": "pairs of survivor firegloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "hood_fsurvivor",
@@ -175,17 +175,17 @@
     "id": "xl_hood_fsurvivor",
     "type": "ARMOR",
     "copy-from": "hood_fsurvivor",
-    "name": { "str": "XL survivor firehood" },
+    "name": { "str": "survivor firehood" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_hood_fsurvivor",
     "type": "ARMOR",
     "copy-from": "hood_fsurvivor",
-    "name": { "str": "XS survivor firehood" },
+    "name": { "str": "survivor firehood" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "fsurvivor_suit",
@@ -225,18 +225,18 @@
   {
     "id": "xl_fsurvivor_suit",
     "type": "ARMOR",
-    "name": { "str": "XL survivor firesuit" },
+    "name": { "str": "survivor firesuit" },
     "copy-from": "fsurvivor_suit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_fsurvivor_suit",
     "type": "ARMOR",
     "copy-from": "fsurvivor_suit",
-    "name": { "str": "XS survivor firesuit" },
+    "name": { "str": "survivor firesuit" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "hsurvivor_suit",
@@ -274,17 +274,17 @@
     "id": "xlhsurvivor_suit",
     "type": "ARMOR",
     "copy-from": "hsurvivor_suit",
-    "name": { "str": "XL heavy survivor suit" },
+    "name": { "str": "heavy survivor suit" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xshsurvivor_suit",
     "type": "ARMOR",
     "copy-from": "hsurvivor_suit",
-    "name": { "str": "XS heavy survivor suit" },
+    "name": { "str": "heavy survivor suit" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "lsurvivor_armor",
@@ -380,18 +380,18 @@
   {
     "id": "xl_lsurvivor_armor",
     "type": "ARMOR",
-    "name": { "str": "XL mercenary body armor" },
+    "name": { "str": "mercenary body armor" },
     "copy-from": "lsurvivor_armor",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_lsurvivor_armor",
     "type": "ARMOR",
     "copy-from": "lsurvivor_armor",
-    "name": { "str": "XS mercenary body armor" },
+    "name": { "str": "mercenary body armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "lsurvivor_suit",
@@ -426,10 +426,10 @@
   {
     "id": "xl_lsurvivor_suit",
     "type": "ARMOR",
-    "name": { "str": "XL light survivor suit" },
+    "name": { "str": "light survivor suit" },
     "copy-from": "lsurvivor_suit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "survivor_suit",
@@ -466,7 +466,7 @@
     "id": "xlsurvivor_suit",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "XL survivor suit" },
+    "name": { "str": "survivor suit" },
     "description": "A massive hand-built combination armor made from a bulletproof vest and a reinforced leather jumpsuit.  Protects from the elements as well as from harm.",
     "weight": "12400 g",
     "volume": "18 L",
@@ -494,7 +494,7 @@
     "material_thickness": 4,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 3,
-    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OBSOLETE" ],
+    "flags": [ "OVERSIZE", "PREFIX_XL", "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OBSOLETE" ],
     "melee_damage": { "bash": 6 }
   },
   {
@@ -533,10 +533,10 @@
   {
     "id": "xl_wsurvivor_suit",
     "type": "ARMOR",
-    "name": { "str": "XL winter survivor suit" },
+    "name": { "str": "winter survivor suit" },
     "copy-from": "wsurvivor_suit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "wsurvivor_suit_nofur",
@@ -553,13 +553,13 @@
   {
     "id": "xl_wsurvivor_suit_nofur",
     "type": "ARMOR",
-    "name": { "str": "XL winter survivor suit" },
+    "name": { "str": "winter survivor suit" },
     "copy-from": "wsurvivor_suit",
     "material": [ "kevlar_layered", "faux_fur" ],
     "color": "pink",
     "warmth": 65,
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "h20survivor_suit",

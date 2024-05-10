@@ -587,7 +587,6 @@
     "diff": 40,
     "speed": 150,
     "color": "pink",
-    "luminance": 20,
     "extend": { "flags": [ "FIREPROOF" ] },
     "starting_ammo": { "plasma": 100 },
     "special_attacks": [
@@ -626,7 +625,6 @@
     "speed": 100,
     "color": "light_red",
     "morale": 20,
-    "luminance": 20,
     "tracking_distance": 20,
     "extend": { "flags": [ "FIREPROOF", "PACIFIST", "KEEP_DISTANCE", "FLIES" ] },
     "special_attacks": [

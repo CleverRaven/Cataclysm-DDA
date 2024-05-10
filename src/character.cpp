@@ -353,8 +353,6 @@ static const limb_score_id limb_score_night_vis( "night_vis" );
 static const limb_score_id limb_score_reaction( "reaction" );
 static const limb_score_id limb_score_vision( "vision" );
 
-const matec_id tec_none( "tec_none" );
-
 static const material_id material_budget_steel( "budget_steel" );
 static const material_id material_ch_steel( "ch_steel" );
 static const material_id material_flesh( "flesh" );
@@ -457,7 +455,6 @@ static const trait_id trait_NOMAD( "NOMAD" );
 static const trait_id trait_NOMAD2( "NOMAD2" );
 static const trait_id trait_NOMAD3( "NOMAD3" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
-static const trait_id trait_PADDED_FEET( "PADDED_FEET" );
 static const trait_id trait_PARAIMMUNE( "PARAIMMUNE" );
 static const trait_id trait_PAWS( "PAWS" );
 static const trait_id trait_PAWS_LARGE( "PAWS_LARGE" );
@@ -1253,7 +1250,7 @@ int Character::sight_range( float light_level ) const
      */
 
     int range = static_cast<int>( -std::log( get_vision_threshold( get_map().ambient_light_at(
-                                      pos() ) ) / light_level ) / LIGHT_TRANSPARENCY_OPEN_AIR );
+                                      pos_bub() ) ) / light_level ) / LIGHT_TRANSPARENCY_OPEN_AIR );
 
     // Clamp to [1, sight_max].
     return clamp( range, 1, sight_max );
@@ -1350,7 +1347,7 @@ int Character::clairvoyance() const
 
 bool Character::sight_impaired() const
 {
-    const bool in_light = get_map().ambient_light_at( pos() ) > LIGHT_AMBIENT_LIT;
+    const bool in_light = get_map().ambient_light_at( pos_bub() ) > LIGHT_AMBIENT_LIT;
     return ( ( has_effect( effect_boomered ) || has_effect( effect_no_sight ) ||
                has_effect( effect_darkness ) ) &&
              ( !has_trait( trait_PER_SLIME_OK ) ) ) ||
@@ -1942,8 +1939,8 @@ void Character::on_try_dodge()
 
     const int base_burn_rate = get_option<int>( STATIC( "PLAYER_BASE_STAMINA_BURN_RATE" ) );
     const float dodge_skill_modifier = ( 20.0f - get_skill_level( skill_dodge ) ) / 20.0f;
-    burn_energy_legs( std::floor( static_cast<float>( base_burn_rate ) * 6.0f *
-                                  dodge_skill_modifier ) );
+    burn_energy_legs( - std::floor( static_cast<float>( base_burn_rate ) * 6.0f *
+                                    dodge_skill_modifier ) );
     set_activity_level( EXTRA_EXERCISE );
 }
 
@@ -1975,7 +1972,7 @@ void Character::on_dodge( Creature *source, float difficulty, float training_lev
 
     // For adjacent attackers check for techniques usable upon successful dodge
     if( source && square_dist( pos(), source->pos() ) == 1 ) {
-        matec_id tec = pick_technique( *source, used_weapon(), false, true, false );
+        matec_id tec = std::get<0>( pick_technique( *source, used_weapon(), false, true, false ) );
 
         if( tec != tec_none && !is_dead_state() ) {
             if( get_stamina() < get_stamina_max() / 3 ) {
@@ -2091,7 +2088,8 @@ std::set<matec_id> Character::get_limb_techs() const
 {
     std::set<matec_id> result;
     for( const bodypart_id &part : get_all_body_parts() ) {
-        if( !natural_attack_restricted_on( part ) ) {
+        const bodypart *bp = get_part( part );
+        if( !bp->is_limb_overencumbered() && bp->get_hp_cur() > part->health_limit ) {
             std::set<matec_id> part_tech = get_part( part )->get_limb_techs();
             result.insert( part_tech.begin(), part_tech.end() );
         }
@@ -2519,7 +2517,7 @@ void Character::recalc_sight_limits()
 {
     sight_max = 9999;
     vision_mode_cache.reset();
-    const bool in_light = get_map().ambient_light_at( pos() ) > LIGHT_AMBIENT_LIT;
+    const bool in_light = get_map().ambient_light_at( pos_bub() ) > LIGHT_AMBIENT_LIT;
     bool in_shell = has_active_mutation( trait_SHELL2 ) ||
                     has_active_mutation( trait_SHELL3 );
 
@@ -2806,9 +2804,10 @@ float Character::fine_detail_vision_mod( const tripoint &p ) const
 
     // Same calculation as above, but with a result 3 lower.
     float ambient_light{};
-    tripoint const check_p = p == tripoint_min ? pos() : p;
+    tripoint_bub_ms const check_p = tripoint_bub_ms( p ) == tripoint_bub_ms(
+                                        tripoint_min ) ? pos_bub() : tripoint_bub_ms( p );
     tripoint const avatar_p = get_avatar().pos();
-    if( is_avatar() || check_p.z == avatar_p.z ) {
+    if( is_avatar() || check_p.z() == avatar_p.z ) {
         ambient_light = std::max( 1.0f,
                                   LIGHT_AMBIENT_LIT - get_map().ambient_light_at( check_p ) + 1.0f );
     } else {
@@ -7288,7 +7287,7 @@ int Character::item_handling_cost( const item &it, bool penalties, int base_cost
 {
     int mv = base_cost;
     if( penalties ) {
-        // 40 moves per liter, up to 200 at 5 liters
+        // 50 moves per liter, up to 200 at 4 liters
         mv += std::min( 200, it.volume( false, false, charges_in_it ) / 20_ml );
     }
 
@@ -10320,14 +10319,6 @@ std::vector<run_cost_effect> Character::run_cost_effects( float &movecost ) cons
         run_cost_effect_mul( flatground_mult, _( "Flat Ground Mut." ) );
     }
 
-    if( has_trait( trait_PADDED_FEET ) && is_barefoot() ) {
-        run_cost_effect_mul( 0.9f, _( "Bare Padded Feet" ) );
-    }
-
-    if( worn_with_flag( flag_SLOWS_MOVEMENT ) ) {
-        run_cost_effect_mul( 1.1f, _( "Tight Clothing" ) );
-    }
-
     if( worn_with_flag( flag_FIN ) ) {
         run_cost_effect_mul( 1.5f, _( "Swim Fins" ) );
     }
@@ -13011,7 +13002,8 @@ void Character::store( item &container, item &put, bool penalties, int base_cost
     if( check_best_pkt && pk_type == pocket_type::CONTAINER &&
         container.get_all_contained_pockets().size() > 1 ) {
         // Bypass pocket settings (assuming the item is manually stored)
-        container.fill_with( i_rem( &put ), put.count_by_charges() ? put.charges : 1, false, false, true );
+        int charges = put.count_by_charges() ? put.charges : 1;
+        container.fill_with( i_rem( &put ), charges, false, false, true );
     } else {
         container.put_in( i_rem( &put ), pk_type );
     }

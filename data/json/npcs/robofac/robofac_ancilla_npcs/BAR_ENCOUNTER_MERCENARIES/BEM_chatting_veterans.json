@@ -48,7 +48,7 @@
     "responses": [
       {
         "text": "Recall that time when you rescued a farmer's son from a citadel full of alien horrors.",
-        "condition": { "u_has_var": "general_meeting_u_saved_barry", "value": "yes" },
+        "condition": { "u_has_var": "u_saved_barry_isherwood", "value": "yes" },
         "topic": "BEM_CHATTING_VETERANS_TELL_STORY_IMPRESSIVE"
       },
       {

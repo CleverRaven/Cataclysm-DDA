@@ -313,13 +313,19 @@
   {
     "type": "palette",
     "id": "car_theater_full",
-    "palettes": [ "car_theater" ],
+    "palettes": [ "car_theater", "commercial" ],
     "vehicles": { "1": { "vehicle": "cars_only", "chance": 80, "rotation": 270 } },
     "monster": { "_": { "group": "GROUP_MALL", "chance": 1 } }
   },
   {
     "type": "palette",
     "id": "car_theater",
+    "parameters": {
+      "display_fridge": {
+        "type": "furn_str_id",
+        "default": { "distribution": [ [ "f_glass_fridge", 1 ], [ "f_glass_fridge_double", 1 ], [ "f_display_fridge", 1 ] ] }
+      }
+    },
     "terrain": {
       "│": "t_hole",
       ".": "t_region_groundcover",
@@ -363,7 +369,7 @@
       "i": "f_filing_cabinet",
       "r": "f_utility_shelf",
       "N": "f_bulletin",
-      "m": "f_glass_fridge",
+      "m": { "param": "display_fridge", "fallback": "f_glass_fridge" },
       "M": "f_fridge",
       "O": "f_oven",
       "x": "f_cardboard_box",
