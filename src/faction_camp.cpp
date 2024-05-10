@@ -5534,7 +5534,7 @@ nutrients basecamp::camp_food_supply( nutrients &change )
         double percent_consumed = std::abs( static_cast<double>( change.calories ) ) /
                                   fac()->food_supply.calories;
         consumed = fac()->food_supply;
-        if( std::abs( change.calories ) > fac()->food_supply.calories ) {
+        if( std::abs( change.calories ) > fac()->food_supply.calories && fac()->consumes_food ) {
             //Whoops, we don't have enough food. Empty the larder! No crumb shall go un-eaten!
             fac()->food_supply += change;
             faction *yours = get_player_character().get_faction();
@@ -5547,8 +5547,10 @@ nutrients basecamp::camp_food_supply( nutrients &change )
             return consumed;
         }
         consumed *= percent_consumed;
-        // Subtraction since we use the absolute value of change's calories to get the percent
-        fac()->food_supply -= consumed;
+        if( fac()->consumes_food ) {
+            // Subtraction since we use the absolute value of change's calories to get the percent
+            fac()->food_supply -= consumed;
+        }
         return consumed;
     }
     fac()->food_supply += change;

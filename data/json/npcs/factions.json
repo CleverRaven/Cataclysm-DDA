@@ -9,6 +9,7 @@
     "size": 1,
     "power": 100,
     "fac_food_supply": { "calories": 0, "vitamins": {  } },
+    "consumes_food": true,
     "wealth": 0,
     "relations": {
       "your_followers": {
