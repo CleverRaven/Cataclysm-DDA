@@ -172,7 +172,8 @@
     "size": 100,
     "power": 100,
     "currency": "",
-    "fac_food_supply": { "calories": 115200, "vitamins": {  } },
+    "//": "Doesn't actually have NPCs, so no camp or food supply is necessary.",
+    "fac_food_supply": { "calories": 0, "vitamins": {  } },
     "wealth": 75000,
     "relations": {
       "free_merchants": {
@@ -252,7 +253,8 @@
     "known_by_u": false,
     "size": 15,
     "power": 20,
-    "fac_food_supply": { "calories": 1200, "vitamins": {  } },
+    "//": "Doesn't actually have *spawned* NPCs, so no camp or food supply is necessary.",
+    "fac_food_supply": { "calories": 0, "vitamins": {  } },
     "wealth": 7500,
     "relations": {
       "free_merchants": {

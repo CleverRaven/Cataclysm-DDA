@@ -286,6 +286,7 @@
     "size": 25,
     "power": 20,
     "currency": "icon",
+    "//": "Fixme: Not placed as a special, so can't put a camp down for them!",
     "fac_food_supply": { "calories": 87500, "vitamins": {  } },
     "wealth": 82500,
     "relations": {
