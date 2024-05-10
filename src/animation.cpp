@@ -321,7 +321,7 @@ void explosion_handler::draw_custom_explosion( const tripoint &,
         const std::map<tripoint, nc_color> &all_area, const std::optional<std::string> &tile_id )
 {
     std::map<tripoint_bub_ms, nc_color> temp;
-    for( auto &it : all_area ) {
+    for( const auto &it : all_area ) {
         temp.insert( std::pair<tripoint_bub_ms, nc_color>( tripoint_bub_ms( it.first ), it.second ) );
     }
     explosion_handler::draw_custom_explosion( temp, tile_id );
@@ -544,8 +544,9 @@ void game::draw_bullet( const tripoint &t, const int i,
                         const std::vector<tripoint> &trajectory, const char bullet )
 {
     std::vector<tripoint_bub_ms> temp;
+    temp.resize( trajectory.size() );
     for( const tripoint &it : trajectory ) {
-        temp.push_back( tripoint_bub_ms( it ) );
+        temp.emplace_back( tripoint_bub_ms( it ) );
     }
     game::draw_bullet( tripoint_bub_ms( t ), i, temp, bullet );
 }
@@ -724,8 +725,9 @@ void game::draw_line( const tripoint &p, const tripoint &center,
     }
 
     std::vector<tripoint_bub_ms> temp;
+    temp.resize( points.size() );
     for( const tripoint &it : points ) {
-        temp.push_back( tripoint_bub_ms( it ) );
+        temp.emplace_back( tripoint_bub_ms( it ) );
     }
 
     if( !use_tiles ) {
@@ -793,8 +795,9 @@ void draw_line_curses( game &g, const std::vector<tripoint_bub_ms> &points )
 void game::draw_line( const tripoint &p, const std::vector<tripoint> &points )
 {
     std::vector<tripoint_bub_ms> temp;
+    temp.resize( points.size() );
     for( const tripoint &it : points ) {
-        temp.push_back( tripoint_bub_ms( it ) );
+        temp.emplace_back( tripoint_bub_ms( it ) );
     }
     draw_line_curses( *this, temp );
     tilecontext->init_draw_line( tripoint_bub_ms( p ), temp, "line_trail", false );
@@ -803,8 +806,9 @@ void game::draw_line( const tripoint &p, const std::vector<tripoint> &points )
 void game::draw_line( const tripoint &/*p*/, const std::vector<tripoint> &points )
 {
     std::vector<tripoint_bub_ms> temp;
+    temp.resize( points.size() );
     for( const tripoint &it : points ) {
-        temp.push_back( tripoint_bub_ms( it ) );
+        temp.emplace_back( tripoint_bub_ms( it ) );
     }
     draw_line_curses( *this, temp );
 }
