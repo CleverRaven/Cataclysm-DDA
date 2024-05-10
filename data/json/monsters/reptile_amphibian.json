@@ -592,6 +592,7 @@
     "vision_night": 30,
     "special_attacks": [ { "type": "leap", "cooldown": 32, "max_range": 4, "allow_no_target": true } ],
     "fear_triggers": [ "PLAYER_CLOSE", "FIRE", "HURT", "FRIEND_ATTACKED", "SOUND" ],
+    "baby_flags": [ "SPRING", "SUMMER" ],
     "flags": [ "FISHABLE", "SEES", "SMELLS", "HEARS", "SWIMS", "WATER_CAMOUFLAGE", "SMALL_HIDER", "SWARMS" ]
   },
   {
@@ -600,8 +601,7 @@
     "copy-from": "mon_proxy_frog",
     "description": "Leopard frogs are named for the brown spots on their backs and legs.  Although limited by size, they too are voracious predators.",
     "name": { "str": "leopard frog" },
-    "reproduction": { "baby_egg": "egg_leo_frog", "baby_count": 6, "baby_timer": 20 },
-    "baby_flags": [ "SPRING", "SUMMER" ]
+    "reproduction": { "baby_egg": "egg_leo_frog", "baby_count": 6, "baby_timer": 20 }
   },
   {
     "id": "mon_pattern_frog",
@@ -626,8 +626,7 @@
     "hp": 4,
     "color": "green",
     "harvest": "bullfrog",
-    "reproduction": { "baby_egg": "egg_bullfrog_frog", "baby_count": 16, "baby_timer": 26 },
-    "baby_flags": [ "SPRING", "SUMMER" ]
+    "reproduction": { "baby_egg": "egg_bullfrog_frog", "baby_count": 16, "baby_timer": 26 }
   },
   {
     "id": "mon_strange_frog",
@@ -649,7 +648,6 @@
     "description": "Fowler's toads secrete a harmful and distasteful compound from their backs.  This helps safeguard them from predators and also gives them a distinctive odor like boiled peanuts.",
     "name": { "str": "Fowler's toad" },
     "reproduction": { "baby_egg": "egg_fowler_toad", "baby_count": 8, "baby_timer": 36 },
-    "baby_flags": [ "SPRING", "SUMMER" ],
     "extend": { "flags": [ "POISON" ] }
   },
   {
@@ -671,7 +669,6 @@
     "description": "American toads can vary greatly in appearance.  Individual toads will shift their coloration and patterning throughout the seasons to better camouflage.",
     "name": { "str": "American toad" },
     "reproduction": { "baby_egg": "egg_freedom_toad", "baby_count": 8, "baby_timer": 36 },
-    "baby_flags": [ "SPRING", "SUMMER" ],
     "extend": { "flags": [ "POISON" ] }
   },
   {
@@ -696,9 +693,8 @@
     "volume": "20 ml",
     "weight": "4 g",
     "hp": 1,
-    "special_attacks": [ [ "PARROT", 100 ] ],
-    "reproduction": { "baby_egg": "egg_peeper_frog", "baby_count": 8, "baby_timer": 20 },
-    "baby_flags": [ "SPRING", "SUMMER" ]
+    "special_attacks": [ [ "PARROT", 30 ], { "type": "leap", "cooldown": 32, "max_range": 4, "allow_no_target": true } ],
+    "reproduction": { "baby_egg": "egg_peeper_frog", "baby_count": 8, "baby_timer": 20 }
   },
   {
     "id": "mon_vocal_frog",
@@ -708,7 +704,6 @@
     "name": { "str": "vocal treefrog" },
     "categories": [ "NULL" ],
     "harvest": "mutant_tiny",
-    "special_attacks": [ [ "PARROT", 30 ] ],
     "upgrades": { "age_grow": 15, "into_group": "GROUP_FROGS_UPGRADE_VOCAL" }
   },
   {
@@ -722,7 +717,6 @@
     "hp": 2,
     "color": "light_gray",
     "reproduction": { "baby_egg": "egg_gray_frog", "baby_count": 8, "baby_timer": 26 },
-    "baby_flags": [ "SPRING", "SUMMER" ],
     "extend": { "flags": [ "CAMOUFLAGE" ] }
   },
   {
