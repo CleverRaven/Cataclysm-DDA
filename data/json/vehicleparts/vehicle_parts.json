@@ -709,7 +709,7 @@
     "breaks_into": [
       { "item": "steel_lump", "count": [ 8, 13 ] },
       { "item": "steel_chunk", "count": [ 8, 13 ] },
-      { "item": "scrap", "count": [ 8, 13 ] },
+      { "item": "scrap", "charges": [ 8, 13 ] },
       { "item": "hose", "prob": 50 },
       { "item": "scrap_copper", "prob": 15 },
       { "item": "cable", "charges": [ 1, 3 ] },
@@ -747,7 +747,7 @@
     "breaks_into": [
       { "item": "steel_lump", "count": [ 8, 13 ] },
       { "item": "steel_chunk", "count": [ 8, 13 ] },
-      { "item": "scrap", "count": [ 8, 13 ] },
+      { "item": "scrap", "charges": [ 8, 13 ] },
       { "item": "hose", "prob": 50 },
       { "item": "scrap_copper", "prob": 15 },
       { "item": "cable", "charges": [ 1, 3 ] },
@@ -780,7 +780,7 @@
     "breaks_into": [
       { "item": "steel_lump", "count": [ 8, 13 ] },
       { "item": "steel_chunk", "count": [ 8, 13 ] },
-      { "item": "scrap", "count": [ 8, 13 ] },
+      { "item": "scrap", "charges": [ 8, 13 ] },
       { "item": "hose", "prob": 50 },
       { "item": "scrap_copper", "prob": 15 },
       { "item": "cable", "charges": [ 1, 3 ] },
