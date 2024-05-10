@@ -751,8 +751,7 @@
     "volume": "150 ml",
     "weight": "10 g",
     "hp": 2,
-    "harvest": "mutant_tiny",
-    "upgrades": { "age_grow": 15, "into": "mon_tail_bigfrog" }
+    "harvest": "mutant_tiny"
   },
   {
     "id": "mon_pickerel_frog",
@@ -775,7 +774,6 @@
     "categories": [ "NULL" ],
     "color": "magenta",
     "harvest": "mutant_tiny",
-    "upgrades": { "age_grow": 15, "into": "mon_palette_bigfrog" },
     "extend": { "flags": [ "POISON" ] }
   },
   {
@@ -823,8 +821,7 @@
     "categories": [ "NULL" ],
     "dissect": "dissect_batrachian_worm_single",
     "harvest": "mutant_tiny",
-    "special_attacks": [ { "type": "leap", "cooldown": 32, "max_range": 4, "allow_no_target": true, "random_leap": true } ],
-    "upgrades": { "age_grow": 15, "into": "mon_worm_bigfrog" }
+    "special_attacks": [ { "type": "leap", "cooldown": 32, "max_range": 4, "allow_no_target": true, "random_leap": true } ]
   },
   {
     "id": "mon_green_worm",
@@ -835,8 +832,7 @@
     "categories": [ "NULL" ],
     "dissect": "dissect_batrachian_worm_single",
     "harvest": "mutant_tiny",
-    "special_attacks": [ { "type": "leap", "cooldown": 32, "max_range": 4, "allow_no_target": true, "random_leap": true } ],
-    "upgrades": { "age_grow": 15, "into": "mon_worm_bigfrog" }
+    "special_attacks": [ { "type": "leap", "cooldown": 32, "max_range": 4, "allow_no_target": true, "random_leap": true } ]
   },
   {
     "id": "mon_wood_worm",
@@ -847,8 +843,7 @@
     "categories": [ "NULL" ],
     "dissect": "dissect_batrachian_worm_single",
     "harvest": "mutant_tiny",
-    "special_attacks": [ { "type": "leap", "cooldown": 32, "max_range": 4, "allow_no_target": true, "random_leap": true } ],
-    "upgrades": { "age_grow": 15, "into": "mon_worm_bigfrog" }
+    "special_attacks": [ { "type": "leap", "cooldown": 32, "max_range": 4, "allow_no_target": true, "random_leap": true } ]
   },
   {
     "abstract": "mon_proxy_bigfrog",
@@ -1091,101 +1086,6 @@
     "//": "Give climbing (Z axis) ability when available."
   },
   {
-    "id": "mon_tail_bigfrog",
-    "type": "MONSTER",
-    "name": { "str": "musk frog" },
-    "description": "This overlarge, musky smelling frog has the circumference of a truck tire.  All except for its accentuated, paddle-like tail that fills an even wider space behind it.  Despite being aligned vertically rather than horizontally it bears obvious comparison to that of a beaver.",
-    "copy-from": "mon_proxy_bigfrog",
-    "volume": "30 L",
-    "weight": "20 kg",
-    "hp": 40,
-    "symbol": "g",
-    "color": "green",
-    "melee_dice_sides": 4,
-    "weakpoints": {
-      "id": "tail",
-      "name": "the tail",
-      "coverage": 8,
-      "coverage_mult": { "point": 0.75 },
-      "crit_mult": { "all": 0.75 },
-      "difficulty": { "melee": 2, "ranged": 3 },
-      "//": "Disable tail slams, apply STUMBLE flag if possible",
-      "effects": [
-        {
-          "effect": "maimed_tail",
-          "chance": 10,
-          "duration": [ 5, 25 ],
-          "message": "The %s's tail goes limp!",
-          "damage_required": [ 1, 20 ]
-        },
-        {
-          "effect": "maimed_tail",
-          "chance": 25,
-          "duration": [ 15, 50 ],
-          "message": "The %s's tail goes limp!",
-          "damage_required": [ 1, 40 ]
-        },
-        {
-          "effect": "maimed_tail",
-          "chance": 25,
-          "permanent": true,
-          "message": "The %s's tail is permanently damaged!",
-          "damage_required": [ 41, 100 ]
-        }
-      ]
-    },
-    "zombify_into": "mon_zombtreefrog",
-    "reproduction": { "baby_monster": "mon_tail_tadpole", "baby_count": 4, "baby_timer": 30 }
-  },
-  {
-    "id": "mon_palette_bigfrog",
-    "type": "MONSTER",
-    "name": { "str": "poison painter frog" },
-    "description": "Brightly ostentatious and the size of a bean bag chair, this frog seems unconcerned with being noticed.  Its back is a patchwork of bright splotches of varying colors intermingled like an abstract painting.",
-    "copy-from": "mon_proxy_bigfrog",
-    "volume": "30 L",
-    "weight": "20 kg",
-    "hp": 40,
-    "symbol": "m",
-    "color": "magenta",
-    "melee_dice_sides": 4,
-    "zombify_into": "mon_zombtreefrog",
-    "reproduction": { "baby_egg": "egg_palette_frog", "baby_count": 12, "baby_timer": 20 },
-    "extend": { "flags": [ "POISON" ] },
-    "//": "Give it a poison stream (gun?) attack with limited ammo/long cooldown, maybe spraying trail on flight?"
-  },
-  {
-    "id": "mon_worm_bigfrog",
-    "type": "MONSTER",
-    "name": { "str": "skittering frog" },
-    "description": "Larger than a bobcat, this mutated frog skitters about on an odd array of altered limbs.  Most of them look ill-suited to locomotion but together they achieve a respectable speed.  It seems most inclined to use this talent for escape and shows no signs of hostility.",
-    "copy-from": "mon_proxy_bigfrog",
-    "default_faction": "worm",
-    "species": [ "AMPHIBIAN", "WORM" ],
-    "hp": 80,
-    "regenerates": 4,
-    "speed": 90,
-    "color": "white",
-    "aggression": -15,
-    "morale": 20,
-    "melee_skill": 4,
-    "melee_dice": 2,
-    "melee_dice_sides": 6,
-    "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
-    "dodge": 1,
-    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_basic_amphibian", "prof_wp_basic_bug" ],
-    "dissect": "dissect_batrachian_worm_small",
-    "harvest": "mutant_animal_frog_worm",
-    "vision_night": 15,
-    "grab_strength": 8,
-    "fear_triggers": [ "HURT", "FIRE", "SOUND" ],
-    "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
-    "upgrades": { "age_grow": 30, "into": "mon_worm_giganfrog" },
-    "zombify_into": "mon_meat_cocoon_small",
-    "biosignature": { "biosig_item": "egg_worm", "biosig_timer": 12 },
-    "//": "Add extra leg weakpoints, Give short cd leap with random direction, remove maimed leg conditional; tongue pull?, add to list for MoM regen blockage."
-  },
-  {
     "abstract": "mon_proxy_giganfrog",
     "type": "MONSTER",
     "name": { "str": "giant proxy frog" },
@@ -1355,36 +1255,6 @@
     "reproduction": { "baby_egg": "egg_foul_bigfrog", "baby_count": 18, "baby_timer": 20 },
     "extend": { "flags": [ "POISON", "NO_BREATHE", "SWARMS" ] },
     "//": "When possible, add ability to dig furrows (lines of shallow pits) and wallow.  NO_BREATHE flag is to prevent gassing by younger of its kind."
-  },
-  {
-    "id": "mon_worm_giganfrog",
-    "type": "MONSTER",
-    "name": { "str": "wormhost frog" },
-    "description": "You face a nightmare blob of an amphibian, distorted and infested to bursting with flesh-colored flatworms.  This aberrant frog may no longer be in control of itself.  The pale worms hang out from its orifices like extra tongues, ocassionally reaching out to investigate.  Its core form has warped so much that you can hardly tell which end is its front.  The many, many legs beneath it still move spasmodically.",
-    "copy-from": "mon_proxy_giganfrog",
-    "default_faction": "worm",
-    "species": [ "AMPHIBIAN", "WORM" ],
-    "hp": 240,
-    "regenerates": 8,
-    "speed": 80,
-    "symbol": "W",
-    "color": "white",
-    "aggression": 20,
-    "morale": 40,
-    "melee_skill": 4,
-    "melee_dice": 2,
-    "melee_dice_sides": 8,
-    "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
-    "dodge": 1,
-    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_basic_amphibian", "prof_wp_basic_bug" ],
-    "dissect": "dissect_batrachian_worm_large",
-    "harvest": "mutant_animal_frog_worm",
-    "vision_night": 15,
-    "grab_strength": 40,
-    "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
-    "zombify_into": "mon_meat_cocoon_med",
-    "biosignature": { "biosig_item": "egg_worm", "biosig_timer": 3 },
-    "//": "Add extra leg weakpoints; give short cd leap with random direction, remove maimed leg conditional; tongue pull with cut damage and parasite implantation; add to list for MoM regen blockage."
   },
   {
     "abstract": "mon_proxy_megafrog",
