@@ -35,7 +35,6 @@ struct pairs {
 std::array<RGBTuple, color_loader<RGBTuple>::COLOR_NAMES_COUNT> rgbPalette;
 std::array<pairs, 100> colorpairs;   //storage for pair'ed colored
 
-ImTui::TScreen *imtui_screen = nullptr;
 std::vector<std::pair<int, ImTui::mouse_event>> imtui_events;
 
 cataimgui::client::client()
@@ -44,7 +43,7 @@ cataimgui::client::client()
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
 
-    imtui_screen = ImTui_ImplNcurses_Init();
+    ImTui_ImplNcurses_Init();
     ImTui_ImplText_Init();
 
     ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
@@ -73,8 +72,13 @@ void cataimgui::client::end_frame()
 {
     ImGui::Render();
 
-    ImTui_ImplText_RenderDrawData( ImGui::GetDrawData(), imtui_screen );
+    ImTui_ImplText_RenderDrawData( ImGui::GetDrawData() );
     ImTui_ImplNcurses_DrawScreen();
+    ImGuiIO &io = ImGui::GetIO();
+    for( const int &code : cata_input_trail ) {
+        io.AddKeyEvent( cata_key_to_imgui( code ), false );
+    }
+    cata_input_trail.clear();
 }
 
 void cataimgui::client::upload_color_pair( int p, int f, int b )
@@ -262,6 +266,11 @@ void cataimgui::client::end_frame()
 {
     ImGui::Render();
     ImGui_ImplSDLRenderer2_RenderDrawData( ImGui::GetDrawData() );
+    ImGuiIO &io = ImGui::GetIO();
+    for( const int &code : cata_input_trail ) {
+        io.AddKeyEvent( cata_key_to_imgui( code ), false );
+    }
+    cata_input_trail.clear();
 }
 
 void cataimgui::client::process_input( void *input )
@@ -329,7 +338,7 @@ void cataimgui::client::process_cata_input( const input_event &event )
         int code = event.get_first_input();
         ImGuiIO &io = ImGui::GetIO();
         io.AddKeyEvent( cata_key_to_imgui( code ), true );
-        io.AddKeyEvent( cata_key_to_imgui( code ), false );
+        cata_input_trail.push_back( code );
     }
 }
 

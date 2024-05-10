@@ -8,7 +8,7 @@ All powers have a kCal cost equal to (Difficulty of power * 5) times a randomize
 # Biokinesis
 **Note**: No biokinetic powers have a target listed because they only affect the psion. 
 
-**Passive Power: Efficient System**: Reduces hunger, thirst, and metabolic burn rate by 3% plus 1.5% times the highest single biokinetic power the psion knows.
+**Passive Power: Efficient System**: Reduces hunger, thirst, and metabolic burn rate by 3% plus 0.075% times the sum total levels of the psion's biokinetic powers, and increases the number of vitamins absorbed from food by a similar amount.
 
 ## Overcome Pain (C)
 *Difficulty*: 1<br />
@@ -149,7 +149,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 
 # Clairsentience
 
-**Passive Power: Psionic Senses**: Enhances mundane senses, allowing farther overmap sight, enhanced hearing, and the ability to always know the exact time even without a watch.  The psion can also sense Nether creaturs within a radius of 2 squares plus 1.5 squares times the level of the psion's highest-level clairsentience power.
+**Passive Power: Psionic Senses**: Enhances mundane senses, allowing farther overmap sight, enhanced hearing, and the ability to always know the exact time even without a watch.  The psion can also sense Nether creatures within a radius of 2 squares plus 0.075 squares times the sum total of the levels of the psion's clairsentience powers.
 
 ## Night Eyes (C)
 *Difficulty*: 1<br />
@@ -297,7 +297,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 
 # Electrokinesis
 
-**Passive Power: Galvanic Armor**: Reduces incoming electrical damage by 1 per four levels of the psion's highest-leveled electrokinetic power and reduces incoming pain by 0.7% times the level of the psion's highest-level electrokinetic power.
+**Passive Power: Galvanic Armor**: Reduces incoming electrical damage by 0.2 per level of the psion's electrokinetic powers and reduces incoming pain by 0.035% times the sum total of the psion's levels in electrokinetic powers.
 
 ## Spark Sight (C)
 *Difficulty*: 1<br />
@@ -596,7 +596,7 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 
 # Pyrokinesis
 
-**Passive Power: Internal Fire**: The pyrokinetic slightly heats the air around themselves, gaining a small amount of warmth at all times (and more in colder temperatures) and becoming more comfortable when sleeping, as well as ignoring the first 10 points of wetness on any part of their body.
+**Passive Power: Internal Fire**: The pyrokinetic slightly heats the air around themselves, gaining a small amount of warmth at all times (and more in colder temperatures) and increasing their temperature when sleeping by 0.05 times the total levels in the psion's pyrokinetic powers, as well as ignoring the first 10 points of wetness on any part of their body.
 
 ## Brilliant Flash
 *Difficulty*: 1<br />
@@ -726,7 +726,7 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 
 # Telekinesis
 
-**Passive Power: Lifting Hand**: The telekinetic may carry a single item next to them in a field of telekinetic force. The item's weight increases proportional to their highest telekinetic power, though they must use the recipe Contemplate Lifting Field to increase it.
+**Passive Power: Lifting Hand**: The telekinetic may carry a single item next to them in a field of telekinetic force. The item's weight increases proportional to their total levels in their telekinetic powers, increasing by one rank per 8 total telekinetic levels, though they must use the recipe Contemplate Lifting Field to increase it.
 
 Powers causing telekinetic damage have a 40% chance to stagger the target for 2 seconds and a 20% chance to down the target. Each of these is checked independently.
 
@@ -876,7 +876,7 @@ Powers causing telekinetic damage have a 40% chance to stagger the target for 2 
 
 # Telepathy
 
-**Passive Power: Telepathic Suggestion**: Influence the attitude of those the psion is speaking to, increasing Persuade, Lie, and Intimidate chances by 5% plus 1.5% times the psion's highest-leveled telepathy power.
+**Passive Power: Telepathic Suggestion**: Influence the attitude of those the psion is speaking to, increasing Persuade, Lie, and Intimidate chances by 5% plus 0.075% times the psion's total levels in telepathic powers.
 
 Powers causing telepathic damage have a 5% chance to down the target, a 33% chance to stun the target for 1 second, and a 66% chance to daze the target for 1 second. Each of these is checked independently.
 
@@ -999,7 +999,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 
 # Teleportation
 
-**Passive Power: Spacial Recalibration**: Immunity to teleglow and a small chance to avoid incoming damage: a 1% chance per attack plus 0.5% times the psion's highest-leveled teleportation power.
+**Passive Power: Spacial Recalibration**: Immunity to teleglow and a small chance to avoid incoming damage: a 1% chance per attack plus 0.025% times the psion's total levels in teleportation powers.
 
 ## Blink 
 *Difficulty*: 1<br />
@@ -1102,7 +1102,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 
 # Vitakinesis
 
-**Passive Power: Bloom of Vitality**: Increased max HP equal to 5% plus 1% times the psion's highest-leveled vitakinetic power, faster healing equal to 10% plus 1% times the psion's highest-leveled vitakinetic power, the ability to heal broken limbs without a splint, and 5x faster processing of mutant toxins.
+**Passive Power: Bloom of Vitality**: Increased max HP equal to 5% plus 0.05% times the psion's total levels in vitakinetic powers, faster healing equal to 10% plus 0.05% times the psion's total levels in vitakinetic powers, the ability to heal broken limbs without a splint, and 5x faster processing of mutant toxins.
 
 ## Healthy Glow (C) 
 *Difficulty*: 1<br />

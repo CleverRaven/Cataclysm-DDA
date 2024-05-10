@@ -11,13 +11,13 @@
         {
           "or": [
             { "test_eoc": "EOC_CONDITION_CAUGHT_IN_NETHER_WEATHER" },
-            { "test_eoc": "EOC_CONDITION_NEAR_NETHER_RELATED_LOCATION" }
+            { "test_eoc": "EOC_CONDITION_NEAR_NETHER_RELATED_LOCATION" },
+            { "test_eoc": "EOC_CONDITION_YOU_ARE_IN_NETHER_LOCATION" }
           ]
         }
       ]
     },
     "effect": [
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand( 1 )" ] },
       {
         "run_eocs": [
           {

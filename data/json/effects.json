@@ -2075,6 +2075,27 @@
   },
   {
     "type": "effect_type",
+    "id": "skunk_spray",
+    "name": [ "Skunk Spray" ],
+    "desc": [ "You were sprayed by a skunk!" ],
+    "apply_message": "You're covered in a foul smelling fluid!",
+    "rating": "bad",
+    "max_duration": "5 hours",
+    "base_mods": { "per_mod": [ -1 ], "int_mod": [ -1 ], "vomit_chance": [ 2000 ] },
+    "enchantments": [
+      {
+        "values": [
+          { "value": "SOCIAL_PERSUADE", "add": -10 },
+          { "value": "SOCIAL_LIE", "add": -4 },
+          { "value": "SOCIAL_INTIMIDATE", "add": 2 },
+          { "value": "UGLINESS", "add": 5 },
+          { "value": "SCENT_MASK", "add": 300 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "invisibility",
     "name": [ "Invisible" ],
     "desc": [ "You are invisible." ],
@@ -4924,5 +4945,13 @@
     "//": "yes it's actually called that.  It is also the strongest anti-clotting factor known to science.  It inhibits the synthesis of thrombin, so most earth animals/mutants should be affected, except maybe bugs.",
     "immune_flags": [ "DRACULIN_IMMUNE" ],
     "effect_dur_scaling": [ { "effect_id": "bleed", "modifier": 2.0, "same_bp": false } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "fragile_frog",
+    "name": [ "Fragile Frog" ],
+    "desc": [ "Applied by leap special attack of burned frog zombies, conditional for related spell." ],
+    "max_duration": "5 m",
+    "show_in_info": true
   }
 ]

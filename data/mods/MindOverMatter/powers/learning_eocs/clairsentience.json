@@ -2,7 +2,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CLAIR_LEARNING_PREMONITION",
-    "recurrence": [ "12 hours", "24 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_clairsentience_learning_eocs_modifiers(global_tier_one_power_learning_time_low)" ] },
+      { "math": [ "jmath_clairsentience_learning_eocs_modifiers(global_tier_one_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "CLAIRSENTIENT" },
@@ -27,7 +30,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CLAIR_LEARNING_SPOT_WEAKNESS",
-    "recurrence": [ "12 hours", "24 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_clairsentience_learning_eocs_modifiers(global_tier_one_power_learning_time_low)" ] },
+      { "math": [ "jmath_clairsentience_learning_eocs_modifiers(global_tier_one_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "CLAIRSENTIENT" },
@@ -63,7 +69,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CLAIR_LEARNING_AURA_SIGHT",
-    "recurrence": [ "12 hours", "24 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_clairsentience_learning_eocs_modifiers(global_tier_one_power_learning_time_low)" ] },
+      { "math": [ "jmath_clairsentience_learning_eocs_modifiers(global_tier_one_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "CLAIRSENTIENT" },
@@ -99,7 +108,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CLAIR_LEARNING_RANGED_ENHANCE",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_clairsentience_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_clairsentience_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "CLAIRSENTIENT" },
@@ -127,7 +139,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CLAIR_LEARNING_VOYANCE",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_clairsentience_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_clairsentience_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "CLAIRSENTIENT" },
@@ -166,7 +181,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CLAIR_LEARNING_DODGE_POWER",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_clairsentience_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_clairsentience_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "CLAIRSENTIENT" },
@@ -208,7 +226,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CLAIR_LEARNING_CRAFT_BONUS",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_clairsentience_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_clairsentience_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "CLAIRSENTIENT" },
@@ -245,7 +266,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CLAIR_LEARNING_PERFECT_SHOT",
-    "recurrence": [ "96 hours", "168 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_clairsentience_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_clairsentience_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "CLAIRSENTIENT" },
@@ -273,7 +297,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CLAIR_LEARNING_SEE_MAP",
-    "recurrence": [ "96 hours", "168 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_clairsentience_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_clairsentience_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "CLAIRSENTIENT" },
@@ -312,7 +339,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CLAIR_LEARNING_CLEAR_SIGHT",
-    "recurrence": [ "96 hours", "168 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_clairsentience_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_clairsentience_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "CLAIRSENTIENT" },
@@ -354,7 +384,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CLAIR_LEARNING_ASTRAL_PROJECTION",
-    "recurrence": [ "96 hours", "168 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_clairsentience_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_clairsentience_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "CLAIRSENTIENT" },
@@ -400,7 +433,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CLAIR_LEARNING_GROUP_TACTICS",
-    "recurrence": [ "96 hours", "168 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_clairsentience_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_clairsentience_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "CLAIRSENTIENT" },
@@ -437,7 +473,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CLAIR_LEARNING_OMNISCIENCE",
-    "recurrence": [ "96 hours", "168 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_clairsentience_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_clairsentience_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "CLAIRSENTIENT" },
