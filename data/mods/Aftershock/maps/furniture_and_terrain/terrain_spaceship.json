@@ -121,11 +121,11 @@
     "description": "This patch of hull has more holes in it than an ancient terran cheese.  It may provide some cover or it might get shot through.",
     "roof": "t_metal_flat_roof",
     "copy-from": "t_wall_metal",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "TRANSPARENT", "WALL", "MINEABLE" ],
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "TRANSPARENT", "PERMEABLE", "MINEABLE" ],
     "symbol": "LINE_OXOX",
     "color": "white",
     "bash": {
-      "str_min": 50,
+      "str_min": 20,
       "str_max": 80,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
