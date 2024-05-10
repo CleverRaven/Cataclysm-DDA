@@ -175,7 +175,7 @@
           { "value": "ARMOR_BASH", "multiply": -0.1 },
           { "value": "ARMOR_STAB", "multiply": -0.1 },
           { "value": "ARMOR_BULLET", "multiply": -0.1 },
-          { "value": "SPEED", "multiply": 0.1 }
+          { "value": "SPEED", "multiply": 0.03 }
         ]
       }
     ]
