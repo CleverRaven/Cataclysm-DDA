@@ -44,6 +44,9 @@ enum class dialog_result {
 class client
 {
         std::vector<int> cata_input_trail;
+#if defined(TILES) || defined(WIN32)
+        std::unordered_map<uint32_t, unsigned char> sdlColorsToCata;
+#endif
     public:
 #if !(defined(TILES) || defined(WIN32))
         client();
