@@ -1916,9 +1916,10 @@ void cata_tiles::draw_minimap( const point &dest, const tripoint &center, int wi
     minimap->draw( SDL_Rect{ dest.x, dest.y, width, height }, center );
 }
 
-point cata_tiles::get_window_base_tile_counts( const point &size ) const
+point cata_tiles::get_window_base_tile_counts(
+    const point &size, const point &tile_size, const bool iso )
 {
-    if( is_isometric() ) {
+    if( iso ) {
         //  |---sx---|
         //  w        |
         //  ~
@@ -1951,16 +1952,22 @@ point cata_tiles::get_window_base_tile_counts( const point &size ) const
         // rows = 1 + divide_round_up(sy, h)
         // ||
         // \/
-        const int columns = divide_round_up( size.x * 2, tile_width ) + 1;
-        const int rows = divide_round_up( size.y * 4, tile_width ) + 1;
+        const int columns = divide_round_up( size.x * 2, tile_size.x ) + 1;
+        const int rows = divide_round_up( size.y * 4, tile_size.x ) + 1;
         return point( columns, rows );
     } else {
         // Only the area from (0, 0) to (tile_width, tile_height) is considered
         // when checking which tiles are on-screen.
-        const int columns = divide_round_up( size.x, tile_width );
-        const int rows = divide_round_up( size.y, tile_height );
+        const int columns = divide_round_up( size.x, tile_size.x );
+        const int rows = divide_round_up( size.y, tile_size.y );
         return point( columns, rows );
     }
+}
+
+point cata_tiles::get_window_base_tile_counts( const point &size ) const
+{
+    return get_window_base_tile_counts(
+               size, point( tile_width, tile_height ), is_isometric() );
 }
 
 half_open_rectangle<point> cata_tiles::get_window_any_tile_range(
@@ -2027,25 +2034,39 @@ half_open_rectangle<point> cata_tiles::get_window_full_base_tile_range( const po
     }
 }
 
-std::optional<point> cata_tiles::tile_to_player( const point &colrow ) const
+std::optional<point_bub_ms> cata_tiles::tile_to_player(
+    const point &colrow, const point_bub_ms &o, const point &base_tile_cnt,
+    const bool iso )
 {
-    if( is_isometric() ) {
+    if( iso ) {
         // (following comments in get_window_base_tile_counts)
         //
         // Based on the screen tile pattern, the player position can be calculated
         // from the column and row numbers as follows
-        if( modulo( colrow.y - screentile_height / 2, 2 )
-            != modulo( colrow.x - screentile_width / 2, 2 ) ) {
+        if( modulo( colrow.y - base_tile_cnt.y / 2, 2 )
+            != modulo( colrow.x - base_tile_cnt.x / 2, 2 ) ) {
             return std::nullopt;
         }
-        return o + point {
-            divide_round_down( colrow.x - colrow.y - screentile_width / 2
-                               + screentile_height / 2, 2 ),
-            divide_round_down( colrow.y + colrow.x - screentile_height / 2
-                               - screentile_width / 2, 2 ),
+        return o + point_rel_ms {
+            divide_round_down( colrow.x - colrow.y - base_tile_cnt.x / 2
+                               + base_tile_cnt.y / 2, 2 ),
+            divide_round_down( colrow.y + colrow.x - base_tile_cnt.y / 2
+                               - base_tile_cnt.x / 2, 2 ),
         };
     } else {
-        return colrow + o;
+        return point_rel_ms( colrow ) + o;
+    }
+}
+
+std::optional<point> cata_tiles::tile_to_player( const point &colrow ) const
+{
+    std::optional<point_bub_ms> ret = tile_to_player(
+                                          colrow, point_bub_ms( o ),
+                                          point( screentile_width, screentile_height ), is_isometric() );
+    if( ret.has_value() ) {
+        return ret.value().raw();
+    } else {
+        return std::nullopt;
     }
 }
 
@@ -2084,6 +2105,69 @@ point cata_tiles::player_to_screen( const point &pos ) const
         };
     } else {
         return op + point { colrow.x * tile_width, colrow.y * tile_height };
+    }
+}
+
+point_bub_ms cata_tiles::screen_to_player(
+    const point &scr_pos, const point &tile_size,
+    const point &win_size, const point_bub_ms &center,
+    const bool iso )
+{
+    // `scr_pos` is the offset from the window origin
+    const point base_tile = get_window_base_tile_counts( win_size, tile_size, iso );
+    if( iso ) {
+        // Unlike `player_to_screen`, not shifting vertically here because only
+        // the base tile is considered.
+        //
+        // col = round_down( x / ( tw / 2.0 ) ) + 1 =>
+        // row = round_down( y / ( tw / 4.0 ) ) + 1 =>
+        const point colrow( divide_round_down( scr_pos.x * 2, tile_size.x ) + 1,
+                            divide_round_down( scr_pos.y * 4, tile_size.x ) + 1 );
+        const std::optional<point_bub_ms> player_1 = tile_to_player(
+                    colrow, center, base_tile, iso );
+        const std::optional<point_bub_ms> player_2 = tile_to_player(
+                    //NOLINTNEXTLINE(cata-use-named-point-constants): the name would be confusing here (screen 'NSWE' are not map NSWE)
+                    colrow + point( 1, 0 ), center, base_tile, iso );
+        // We do not know the precise shape of the base tile, assuming rhombuses.
+        // TODO: maybe let tilesets provide the exact shape of the base tile.
+        if( player_1.has_value() ) {
+            // cell at `colrow` => |/|
+            const point pos_in_cell = scr_pos - point(
+                                          // relative to top-right of the cell:
+                                          // dx = x - col * ( tw / 2.0 ) =>
+                                          divide_round_down( colrow.x * tile_size.x, 2 ),
+                                          // dy = y - ( row - 1 ) * ( tw / 4.0 ) =>
+                                          divide_round_down( ( colrow.y - 1 ) * tile_size.x, 4 ) );
+            if( pos_in_cell.y * 2 <= -pos_in_cell.x ) {
+                // top-left of the cell, which is one tile north of player_1
+                return player_1.value() + point_rel_ms( 0, -1 );
+            } else {
+                // lower-right of the cell, which is player_1
+                return player_1.value();
+            }
+        } else {
+            // cell at `colrow` => |\|
+            const point pos_in_cell = scr_pos - point(
+                                          // relative to top-left of the cell:
+                                          // dx = x - ( col - 1 ) * ( tw / 2.0 ) =>
+                                          divide_round_down( ( colrow.x - 1 ) * tile_size.x, 2 ),
+                                          // dy = y - ( row - 1 ) * ( tw / 4.0 ) =>
+                                          divide_round_down( ( colrow.y - 1 ) * tile_size.x, 4 ) );
+            if( pos_in_cell.y * 2 <= pos_in_cell.x ) {
+                // top-right of the cell, which is one tile north of player_2
+                return player_2.value() + point_rel_ms( 0, -1 );
+            } else {
+                // lower-left of the cell, which is one tile northwest of player_2
+                return player_2.value() + point_rel_ms( -1, -1 );
+            }
+        }
+    } else {
+        return tile_to_player( point( divide_round_down( scr_pos.x, tile_size.x ),
+                                      divide_round_down( scr_pos.y, tile_size.y ) ),
+                               // similar to the subtraction by `POSX`/`POSY` in cata_tiles::draw
+                               center - point_rel_ms( win_size.x / tile_size.x / 2,
+                                       win_size.y / tile_size.y / 2 ),
+                               base_tile, iso ).value();
     }
 }
 
@@ -2369,6 +2453,11 @@ bool cata_tiles::find_overlay_looks_like( const bool male, const std::string &ov
     return exists;
 }
 
+void cata_tiles::set_disable_occlusion( const bool val )
+{
+    disable_occlusion = val;
+}
+
 bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEGORY category,
         const std::string &subcategory, const tripoint &pos,
         int subtile, int rota, lit_level ll, int retract,
@@ -2388,7 +2477,7 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
     const point screen_pos = player_to_screen( pos.xy() );
 
     if( retract < 0 && ( prevent_occlusion_transp || prevent_occlusion_retract ) ) {
-        if( prevent_occlusion == 0 ) {
+        if( prevent_occlusion == 0 || disable_occlusion ) {
             retract = 0;
         } else if( prevent_occlusion == 1 ) {
             retract = 100;
