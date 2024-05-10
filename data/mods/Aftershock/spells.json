@@ -73,12 +73,12 @@
     "shape": "blast",
     "targeted_monster_species": [ "ROBOT" ],
     "damage_type": "pure",
-    "min_damage": 34,
+    "min_damage": 14,
     "max_damage": 84,
     "min_aoe": 48,
     "max_aoe": 48,
     "aoe_increment": 48,
-    "flags": [ "SILENT", "IGNORE_WALLS" ]
+    "flags": [ "SILENT", "IGNORE_WALLS", "RANDOM_DAMAGE" ]
   },
   {
     "id": "prison_cell_open",
