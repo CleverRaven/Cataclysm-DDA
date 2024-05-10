@@ -19,7 +19,17 @@
     "dummy": true,
     "category": [ "HUMAN" ],
     "types": [ "BIOLUM", "HORNS", "HAIR", "TAIL", "WHISKERS", "WINGS", "TUSKS", "BODY_ARMOR_MOD" ],
-    "cancels": [ "ARM_FEATHERS", "CF_HAIR", "HAIRROOTS", "INK_GLANDS", "THORNS", "TRANSPIRATION", "WEB_RAPPEL", "WEB_ROPE" ],
+    "cancels": [
+      "ARM_FEATHERS",
+      "CF_HAIR",
+      "HAIRROOTS",
+      "INK_GLANDS",
+      "THORNS",
+      "TRANSPIRATION",
+      "WEB_RAPPEL",
+      "WEB_ROPE",
+      "ELECTROCYTES"
+    ],
     "description": "You don't have any tails, whiskers, horns, or miscellaneous extra bits."
   },
   {
@@ -9730,25 +9740,18 @@
     "type": "mutation",
     "id": "ELECTROCYTES",
     "name": { "str": "Electrocytes" },
-    "description": "TODO.",
-    "types": [ "TODO" ],
-    "category": [ "TODO" ],
-    "points": 1,
-    "visibility": 1,
-    "ugliness": 1
+    "description": "Electrocytes, their energy can't be spent at that point.",
+    "points": 1
   },
   {
     "type": "mutation",
     "id": "SHOCK_TOUCH",
     "name": { "str": "Shock touch" },
-    "description": "TODO.",
+    "description": "Uses stored energy from your electrocytes to release powerful shocks.",
     "prereqs": [ "ELECTROCYTES" ],
-    "threshreq": [ "TODO" ],
-    "types": [ "TODO" ],
-    "category": [ "TODO" ],
-    "points": 1,
+    "types": [ "CLAWS" ],
+    "points": 2,
     "visibility": 1,
-    "ugliness": 1,
-    "enchantments": [ { "//": "TODO" } ]
+    "ugliness": 1
   }
 ]
