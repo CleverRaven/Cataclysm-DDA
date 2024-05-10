@@ -549,7 +549,7 @@
           "condition": { "u_query": "Do you want to open the cell?", "default": true },
           "effect": [
             { "u_message": "The cell grates retract into the floor and ceiling.", "popup": true },
-            { "u_cast_spell": { "id": "prison_cell_open" } }
+            { "u_transform_radius": 5, "ter_furn_transform": "transform_gratings" }
           ]
         }
       ]
