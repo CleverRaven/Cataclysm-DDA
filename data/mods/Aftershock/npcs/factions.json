@@ -10,7 +10,8 @@
     "size": 15,
     "power": 20,
     "currency": "crypto_coin",
-    "fac_food_supply": { "calories": 115200, "vitamins": {  } },
+    "//": "90 days worth of food for 1 person, at 3000kcal/day and full RDA of iron/calcium/vitC",
+    "fac_food_supply": { "calories": 270000000, "vitamins": { "iron": 8640, "calcium": 8640, "vitC": 8640 } },
     "wealth": 75000,
     "relations": {
       "free_merchants": {
@@ -91,7 +92,8 @@
       { "item": "UICA_1000d", "fixed_adj": 0 },
       { "item": "UICA_10000d", "fixed_adj": 0 }
     ],
-    "fac_food_supply": { "calories": 115200, "vitamins": {  } },
+    "//": "90 days worth of food for 10 people, at 3000kcal/day and full RDA of iron/calcium/vitC",
+    "fac_food_supply": { "calories": 2700000000, "vitamins": { "iron": 86400, "calcium": 86400, "vitC": 86400 } },
     "wealth": 75000,
     "relations": {
       "free_merchants": {
