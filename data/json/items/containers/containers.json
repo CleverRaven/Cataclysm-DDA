@@ -3767,6 +3767,23 @@
     "properties": { "burst_when_filled": "75" }
   },
   {
+    "id": "condom_sealed",
+    "type": "GENERIC",
+    "looks_like": "condom",
+    "name": { "str": "sealed condom" },
+    "description": "A sealed condom wrapper, activate to open it.",
+    "ascii_picture": "condom_sealed",
+    "weight": "5 g",
+    "volume": "15 ml",
+    "price": "0 cent",
+    "price_postapoc": "25 cent",
+    "material": [ "plastic" ],
+    "symbol": ")",
+    "color": "white",
+    "use_action": { "menu_text": "open", "type": "transform", "target": "condom", "msg": "You rip open the wrapped condom." },
+    "flags": [ "BANK_NOTE_SHAPED" ]
+  },
+  {
     "id": "balloon",
     "type": "GENERIC",
     "looks_like": "condom",
