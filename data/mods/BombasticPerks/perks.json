@@ -752,6 +752,22 @@
   },
   {
     "type": "mutation",
+    "id": "perk_nocturnal",
+    "name": { "str": "perk_nocturnal" },
+    "points": 0,
+    "description": "Darkness is your ally. Others have merely adopted the dark, but you were born in it, molded by it. You gain +2 Perception and +1 Intelligence at night, and have a much easier time sleeping during the day. However, you also suffer -2 Perception when outdoors during the day and have a harder time sleeping at night.",
+    "category": [ "perk" ],
+    "enchantments": [
+      {
+        "condition": { "not": "is_day" },
+        "values": [ { "value": "PERCEPTION", "add": 2 }, { "value": "INTELLIGENCE", "add": 1 }, { "value": "SLEEPY", "add": -30 } ]
+      },
+      { "condition": "is_day", "values": [ { "value": "SLEEPY", "add": 50 } ] },
+      { "condition": { "and": [ "is_day", "u_is_outside" ] }, "values": [ { "value": "PERCEPTION", "add": -2 } ] }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_ascetic_empowerment",
     "name": { "str": "Ascetic Empowerment" },
     "points": 0,
