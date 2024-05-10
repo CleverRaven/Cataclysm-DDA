@@ -1755,7 +1755,8 @@ class map
         computer *add_computer( const tripoint &p, const std::string &name, int security );
 
         // Camps
-        void add_camp( const tripoint_abs_omt &omt_pos, const std::string &name, bool need_validate = true );
+        void add_camp( const tripoint_abs_omt &omt_pos, const std::string &name,
+                       bool need_validate = true );
         void remove_submap_camp( const tripoint & );
         basecamp hoist_submap_camp( const tripoint &p );
         bool point_within_camp( const tripoint &point_check ) const;
