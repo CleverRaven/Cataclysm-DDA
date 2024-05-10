@@ -755,7 +755,7 @@
     "id": "perk_nocturnal",
     "name": { "str": "perk_nocturnal" },
     "points": 0,
-    "description": "Darkness is your ally. Others have merely adopted the dark, but you were born in it, molded by it. You gain +2 Perception and +1 Intelligence at night, and have a much easier time sleeping during the day. However, you also suffer -2 Perception when outdoors during the day and have a harder time sleeping at night.",
+    "description": "Darkness is your ally.  Others have merely adopted the dark, but you were born in it, molded by it.  You gain +2 Perception and +1 Intelligence at night, and have a much easier time sleeping during the day.  However, you also suffer -2 Perception when outdoors during the day and have a harder time sleeping at night.",
     "category": [ "perk" ],
     "enchantments": [
       {
