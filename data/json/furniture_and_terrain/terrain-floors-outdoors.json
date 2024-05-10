@@ -146,7 +146,7 @@
     "connects_to": "DIRT",
     "move_cost": 3,
     "coverage": 40,
-    "flags": [ "DIGGABLE", "SUPPORTS_ROOF", "HIDE_PLACE" ],
+    "flags": [ "TRANSPARENT" ],
     "bash": {
       "sound": "thump",
       "ter_set": "t_null",
