@@ -3985,7 +3985,6 @@ void overmap::load_oter_id_camp_migration( const JsonObject &jo )
     std::string name;
     oter_type_str_id oter;
     faction_id owner;
-    jo.read( "id", name ); // Dummy read to suppress error, FIXME
     JsonObject jsobj = jo.get_object( "camp_migrations" );
     jsobj.read( "name", name );
     jsobj.read( "overmap_terrain", oter );
