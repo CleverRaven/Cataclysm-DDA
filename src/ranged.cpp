@@ -2701,7 +2701,6 @@ target_handler::trajectory target_ui::run()
                     you->burn_energy_arms( - weapon->get_min_str() * static_cast<int>( 0.006f *
                                            get_option<int>( "PLAYER_MAX_STAMINA_BASE" ) ) );
                     activity->reload_loc = item_location();
-                    activity->loaded_RAS_weapon = true;
                 }
             }
         } else if( action == "STOPAIM" ) {
@@ -2743,9 +2742,6 @@ target_handler::trajectory target_ui::run()
             if( mode != TargetMode::SelectOnly ) {
                 bool harmful = !( mode == TargetMode::Spell && casting->damage( player_character ) <= 0 );
                 on_target_accepted( harmful );
-            }
-            if( you->get_wielded_item()->has_flag( flag_RELOAD_AND_SHOOT ) ) {
-                activity->loaded_RAS_weapon = false;
             }
             break;
         }

@@ -421,7 +421,6 @@ void aim_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "aif_duration", aif_duration );
     jsout.member( "aiming_at_critter", aiming_at_critter );
     jsout.member( "snap_to_target", snap_to_target );
-    jsout.member( "loaded_RAS_weapon", loaded_RAS_weapon );
     jsout.member( "reload_loc", reload_loc );
     jsout.member( "shifting_view", shifting_view );
     jsout.member( "initial_view_offset", initial_view_offset );
@@ -444,7 +443,6 @@ std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonValue &jsin
     data.read( "aif_duration", actor.aif_duration );
     data.read( "aiming_at_critter", actor.aiming_at_critter );
     data.read( "snap_to_target", actor.snap_to_target );
-    data.read( "loaded_RAS_weapon", actor.loaded_RAS_weapon );
     data.read( "reload_loc", actor.reload_loc );
     data.read( "shifting_view", actor.shifting_view );
     data.read( "initial_view_offset", actor.initial_view_offset );
@@ -527,7 +525,6 @@ void aim_activity_actor::unload_RAS_weapon()
         if( gun->ammo_remaining() ) {
             item_location loc = item_location( you, gun.target );
             you.unload( loc, true );
-            loaded_RAS_weapon = false;
         }
     }
 }
