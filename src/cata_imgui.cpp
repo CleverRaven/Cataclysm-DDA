@@ -238,7 +238,7 @@ void cataimgui::client::load_fonts( const std::unique_ptr<Font> &cata_font,
         io.Fonts->Fonts[0] = cfg.DstFont;
         ImGui_ImplSDLRenderer2_SetFallbackGlyphDrawCallback( [&]( const ImFontGlyphToDraw & glyph ) {
             std::string uni_string = std::string( glyph.uni_str );
-            point p( int( glyph.pos.x ), int( glyph.pos.y - 5 ) );
+            point p( int( glyph.pos.x ), int( glyph.pos.y - 3 ) );
             unsigned char col = 0;
             auto it = activeFont->sdlColorsToCata.find( glyph.col & 0xFFFFFF );
             if( it != activeFont->sdlColorsToCata.end() ) {
