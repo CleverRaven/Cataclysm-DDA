@@ -6388,7 +6388,7 @@ void vehicle::refresh( const bool remove_fakes )
     }
 
     const auto need_fake_part = [&]( const point & real_mount, const std::string & flag ) {
-        int real = part_with_feature( real_mount, flag, true );
+        int real = part_with_feature( real_mount, flag, false );
         if( real >= 0 && real < part_count() ) {
             return real;
         }
