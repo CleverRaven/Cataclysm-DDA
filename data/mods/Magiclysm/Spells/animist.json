@@ -1094,7 +1094,7 @@
     "id": "animist_radiation_bolt",
     "type": "SPELL",
     "name": "Magic Fissile Radiation",
-    "description": "Spawns a radiation field near the target. It's a bug if you have it directly.",
+    "description": "Spawns a radiation field near the target.  It's a bug if you have it directly.",
     "flags": [ "NO_EXPLOSION_SFX" ],
     "valid_targets": [ "self" ],
     "effect": "emit",
