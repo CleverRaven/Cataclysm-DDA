@@ -9725,5 +9725,30 @@
     "threshreq": [ "THRESH_CHIROPTERAN" ],
     "category": [ "CHIROPTERAN" ],
     "integrated_armor": [ "integrated_vampire_fangs" ]
+  },
+  {
+    "type": "mutation",
+    "id": "ELECTROCYTES",
+    "name": { "str": "Electrocytes" },
+    "description": "TODO.",
+    "types": [ "TODO" ],
+    "category": [ "TODO" ],
+    "points": 1,
+    "visibility": 1,
+    "ugliness": 1
+  },
+  {
+    "type": "mutation",
+    "id": "SHOCK_TOUCH",
+    "name": { "str": "Shock touch" },
+    "description": "TODO.",
+    "prereqs": [ "ELECTROCYTES" ],
+    "threshreq": [ "TODO" ],
+    "types": [ "TODO" ],
+    "category": [ "TODO" ],
+    "points": 1,
+    "visibility": 1,
+    "ugliness": 1,
+    "enchantments": [ { "//": "TODO" } ]
   }
 ]

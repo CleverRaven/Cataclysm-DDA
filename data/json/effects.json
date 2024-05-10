@@ -4924,5 +4924,19 @@
     "//": "yes it's actually called that.  It is also the strongest anti-clotting factor known to science.  It inhibits the synthesis of thrombin, so most earth animals/mutants should be affected, except maybe bugs.",
     "immune_flags": [ "DRACULIN_IMMUNE" ],
     "effect_dur_scaling": [ { "effect_id": "bleed", "modifier": 2.0, "same_bp": false } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "shock_touch_effect",
+    "name": [ "Depleted ink", "Deflated ink glands", "Inky glands", "Bulged ink glands" ],
+    "show_intensity": true,
+    "desc": [
+      "Your ink glands are empty.  Given some time and hydration they will recharge.",
+      "Your ink glands are almost empty.  Given some time and hydration they will recharge.",
+      "Your ink glands have some ink inside.  Given some time and hydration, more ink will be generated.",
+      "Your ink glands are bulged and full.  No more ink is being created."
+    ],
+    "max_intensity": 4,
+    "rating": "neutral"
   }
 ]

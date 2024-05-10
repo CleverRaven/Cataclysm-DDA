@@ -566,5 +566,52 @@
       ]
     },
     "effect": [ { "u_lose_effect": "asocial_dissatisfied" }, { "u_lose_effect": "social_dissatisfied" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_shock_touch",
+    "//": "will cast 'ink_gland_spray' spell when player has stored ink charges",
+    "condition": { "math": [ "u_effect_intensity('ink_gland_ink')", ">", "1" ] },
+    "effect": [
+      { "u_cast_spell": { "id": "ink_gland_spray" } },
+      { "u_message": "Your ink glands spray some ink into your attacker's eyes!", "type": "good" },
+      {
+        "u_add_effect": "ink_gland_ink",
+        "duration": "PERMANENT",
+        "intensity": { "math": [ "u_effect_intensity('ink_gland_ink') - 1" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_shock_touch_recharge_timer",
+    "//": "will regenerate ink for ink glands to spray ~3 charges per hour",
+    "recurrence": [ "18 minutes", "22 minutes" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "INK_GLANDS" },
+        { "not": { "u_has_effect": "ink_gland_ink", "intensity": 4 } },
+        { "math": [ "u_calories('format': 'percent')", ">", "33" ] },
+        { "math": [ "u_val('instant_thirst')", "<", "240" ] }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_calories()", "-=", "47" ] },
+      { "math": [ "u_val('thirst')", "+=", "4" ] },
+      {
+        "u_add_effect": "ink_gland_ink",
+        "duration": "PERMANENT",
+        "intensity": { "math": [ "u_effect_intensity('ink_gland_ink') + 1" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_shock_touch_cleanup",
+    "eoc_type": "EVENT",
+    "required_event": "loses_mutation",
+    "//": "will remove ink_gland_ink effect when the mutation is lost",
+    "condition": { "and": [ { "u_has_effect": "ink_gland_ink" }, { "compare_string": [ "INK_GLANDS", { "context_val": "trait" } ] } ] },
+    "effect": [ { "u_lose_effect": "ink_gland_ink" } ]
   }
 ]
