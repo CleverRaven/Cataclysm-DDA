@@ -3484,6 +3484,22 @@ units::mass vehicle::total_mass() const
     return mass_cache;
 }
 
+units::mass vehicle::weight_on_wheels() const
+{
+    const units::mass vehicle_mass = total_mass();
+    units::mass animal_mass = 0_gram;
+    for( const int e : engines ) {
+        const vehicle_part &vp = parts[e];
+        if( vp.info().fuel_type == fuel_type_animal ) {
+            monster *mon = get_monster( e );
+            if( mon != nullptr && mon->has_effect( effect_harnessed ) ) {
+                animal_mass += mon->get_weight();
+            }
+        }
+    }
+    return vehicle_mass - animal_mass;
+}
+
 const point &vehicle::rotated_center_of_mass() const
 {
     // TODO: Bring back caching of this point
@@ -4576,7 +4592,7 @@ float vehicle::k_traction( float wheel_traction_area ) const
     if( fraction_without_traction == 0 ) {
         return 1.0f;
     }
-    const float mass_penalty = fraction_without_traction * to_kilogram( total_mass() );
+    const float mass_penalty = fraction_without_traction * to_kilogram( weight_on_wheels() );
     float traction = std::min( 1.0f, wheel_traction_area / mass_penalty );
     add_msg_debug( debugmode::DF_VEHICLE, "%s has traction %.2f", name, traction );
 
