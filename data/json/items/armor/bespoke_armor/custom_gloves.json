@@ -23,18 +23,18 @@
   {
     "id": "xl_gloves_lsurvivor",
     "type": "ARMOR",
-    "name": { "str": "pair of XL light survivor gloves", "str_pl": "pairs of XL light survivor gloves" },
+    "name": { "str": "pair of light survivor gloves", "str_pl": "pairs of light survivor gloves" },
     "copy-from": "gloves_lsurvivor",
     "proportional": { "weight": 1.5, "volume": 1.5 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_gloves_lsurvivor",
     "type": "ARMOR",
     "copy-from": "gloves_lsurvivor",
-    "name": { "str": "pair of XS light survivor gloves", "str_pl": "pairs of XS light survivor gloves" },
+    "name": { "str": "pair of light survivor gloves", "str_pl": "pairs of light survivor gloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "gloves_lsurvivor_fingerless",
@@ -73,18 +73,18 @@
   {
     "id": "xl_gloves_lsurvivor_fingerless",
     "type": "ARMOR",
-    "name": { "str": "pair of XL fingerless light survivor gloves", "str_pl": "pairs of XL fingerless light survivor gloves" },
+    "name": { "str": "pair of fingerless light survivor gloves", "str_pl": "pairs of fingerless light survivor gloves" },
     "copy-from": "gloves_lsurvivor_fingerless",
     "proportional": { "weight": 1.5, "volume": 1.5 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_gloves_lsurvivor_fingerless",
     "type": "ARMOR",
     "copy-from": "gloves_lsurvivor_fingerless",
-    "name": { "str": "pair of XS fingerless light survivor gloves", "str_pl": "pairs of XS fingerless light survivor gloves" },
+    "name": { "str": "pair of fingerless light survivor gloves", "str_pl": "pairs of fingerless light survivor gloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "gloves_survivor_fingerless",
@@ -123,18 +123,18 @@
   {
     "id": "xl_gloves_survivor_fingerless",
     "type": "ARMOR",
-    "name": { "str": "pair of XL fingerless survivor gloves", "str_pl": "pairs of XL fingerless survivor gloves" },
+    "name": { "str": "pair of fingerless survivor gloves", "str_pl": "pairs of fingerless survivor gloves" },
     "copy-from": "gloves_survivor_fingerless",
     "proportional": { "weight": 1.5, "volume": 1.5 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_gloves_survivor_fingerless",
     "type": "ARMOR",
     "copy-from": "gloves_survivor_fingerless",
-    "name": { "str": "pair of XS fingerless survivor gloves", "str_pl": "pairs of XS fingerless survivor gloves" },
+    "name": { "str": "pair of fingerless survivor gloves", "str_pl": "pairs of fingerless survivor gloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "gloves_survivor",
@@ -161,17 +161,17 @@
     "id": "xl_gloves_survivor",
     "type": "ARMOR",
     "copy-from": "gloves_survivor",
-    "name": { "str": "pair of XL survivor gloves", "str_pl": "pairs of XL survivor gloves" },
+    "name": { "str": "pair of survivor gloves", "str_pl": "pairs of survivor gloves" },
     "proportional": { "weight": 1.5, "volume": 1.5 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_gloves_survivor",
     "type": "ARMOR",
     "copy-from": "gloves_survivor",
-    "name": { "str": "pair of XS survivor gloves", "str_pl": "pairs of XS survivor gloves" },
+    "name": { "str": "pair of survivor gloves", "str_pl": "pairs of survivor gloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "gloves_wsurvivor",
@@ -197,18 +197,18 @@
   {
     "id": "xl_gloves_wsurvivor",
     "type": "ARMOR",
-    "name": { "str": "pair of XL winter survivor gloves", "str_pl": "pairs of XL winter survivor gloves" },
+    "name": { "str": "pair of winter survivor gloves", "str_pl": "pairs of winter survivor gloves" },
     "copy-from": "gloves_wsurvivor",
     "proportional": { "weight": 1.5, "volume": 1.5 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_gloves_wsurvivor",
     "type": "ARMOR",
     "copy-from": "gloves_wsurvivor",
-    "name": { "str": "pair of XS winter survivor gloves", "str_pl": "pairs of XS winter survivor gloves" },
+    "name": { "str": "pair of winter survivor gloves", "str_pl": "pairs of winter survivor gloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "gloves_wsurvivor_nofur",
@@ -225,18 +225,18 @@
   {
     "id": "xl_gloves_wsurvivor_nofur",
     "type": "ARMOR",
-    "name": { "str": "pair of XL faux fur winter survivor gloves", "str_pl": "pairs of XL faux fur winter survivor gloves" },
+    "name": { "str": "pair of faux fur winter survivor gloves", "str_pl": "pairs of faux fur winter survivor gloves" },
     "copy-from": "gloves_wsurvivor_nofur",
     "proportional": { "weight": 1.5, "volume": 1.5 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_gloves_wsurvivor_nofur",
     "type": "ARMOR",
     "copy-from": "gloves_wsurvivor_nofur",
-    "name": { "str": "pair of XS faux fur winter survivor gloves", "str_pl": "pairs of XS faux fur winter survivor gloves" },
+    "name": { "str": "pair of faux fur winter survivor gloves", "str_pl": "pairs of faux fur winter survivor gloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "gloves_h20survivor",
@@ -273,17 +273,17 @@
     "id": "xl_gloves_h20survivor",
     "type": "ARMOR",
     "copy-from": "gloves_h20survivor",
-    "name": { "str": "pair of XL Kevlar wetsuit gloves", "str_pl": "pairs of XL Kevlar wetsuit gloves" },
+    "name": { "str": "pair of Kevlar wetsuit gloves", "str_pl": "pairs of Kevlar wetsuit gloves" },
     "proportional": { "weight": 1.3, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_gloves_h20survivor",
     "type": "ARMOR",
     "copy-from": "gloves_h20survivor",
-    "name": { "str": "pair of XS Kevlar wetsuit gloves", "str_pl": "pairs of XS Kevlar wetsuit gloves" },
+    "name": { "str": "pair of Kevlar wetsuit gloves", "str_pl": "pairs of Kevlar wetsuit gloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "gloves_h20survivor_light",
@@ -321,17 +321,17 @@
     "id": "xl_gloves_h20survivor_light",
     "type": "ARMOR",
     "copy-from": "gloves_h20survivor_light",
-    "name": { "str": "pair of XL light Kevlar wetsuit overgloves", "str_pl": "pairs of XL light Kevlar wetsuit overgloves" },
+    "name": { "str": "pair of light Kevlar wetsuit overgloves", "str_pl": "pairs of light Kevlar wetsuit overgloves" },
     "proportional": { "weight": 1.3, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_gloves_h20survivor_light",
     "type": "ARMOR",
     "copy-from": "gloves_h20survivor_light",
-    "name": { "str": "pair of XS light Kevlar wetsuit overgloves", "str_pl": "pairs of XS light Kevlar wetsuit overgloves" },
+    "name": { "str": "pair of light Kevlar wetsuit overgloves", "str_pl": "pairs of light Kevlar wetsuit overgloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "gloves_h20survivor_thick",
@@ -368,16 +368,16 @@
     "id": "xl_gloves_h20survivor_thick",
     "type": "ARMOR",
     "copy-from": "gloves_h20survivor_thick",
-    "name": { "str": "pair of XL Kevlar wetsuit gloves", "str_pl": "pairs of XL Kevlar wetsuit gloves" },
+    "name": { "str": "pair of Kevlar wetsuit gloves", "str_pl": "pairs of Kevlar wetsuit gloves" },
     "proportional": { "weight": 1.3, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_gloves_h20survivor_thick",
     "type": "ARMOR",
     "copy-from": "gloves_h20survivor_thick",
-    "name": { "str": "pair of XS Kevlar wetsuit gloves", "str_pl": "pairs of XS Kevlar wetsuit gloves" },
+    "name": { "str": "pair of Kevlar wetsuit gloves", "str_pl": "pairs of Kevlar wetsuit gloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   }
 ]

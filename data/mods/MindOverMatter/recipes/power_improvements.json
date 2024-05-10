@@ -4,15 +4,17 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "contemplation: lifting field",
     "id": "improve_telekinesis_lifting_field",
-    "description": "WARNING: DO NOT USE IF YOUR LIFTING FIELD CONTAINS ANYTHING.\n\nContemplate your powers and update your ability to carry objects for long periods of time to a level commensurate with your overall telekinetic mastery.\n\nWARNING: DO NOT USE IF YOUR LIFTING FIELD CONTAINS ANYTHING.",
+    "description": "WARNING: DO NOT USE IF YOUR LIFTING FIELD CONTAINS ANYTHING.\n\nContemplate your powers and update your ability to carry objects for long periods of time to a level commensurate with your overall telekinetic mastery.  The capability of your lifting field is based on your total levels in telekinetic powers.\n\nWARNING: DO NOT USE IF YOUR LIFTING FIELD CONTAINS ANYTHING.",
     "category": "CC_PSIONIC",
     "subcategory": "CSC_PSIONIC_OTHER",
     "skill_used": "metaphysics",
     "difficulty": 0,
     "time": "1 h",
     "autolearn": false,
-    "tools": [ [ [ "matrix_crystal_drained", -1 ] ] ],
-    "flags": [ "SECRET", "BLIND_HARD" ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_telekinesis", -1 ] ]
+    ],
+    "flags": [ "SECRET", "BLIND_EASY" ],
     "result_eocs": [ "EOC_TELEKINETIC_LIFTER" ]
   }
 ]

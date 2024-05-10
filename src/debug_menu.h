@@ -9,6 +9,7 @@
 #include <string_view>
 
 class Character;
+class Creature;
 struct tripoint;
 template <typename E> struct enum_traits;
 
@@ -33,8 +34,10 @@ enum class debug_menu_index : int {
     LEARN_MA,
     UNLOCK_RECIPES,
     FORGET_ALL_RECIPES,
+    FORGET_ALL_ITEMS,
     UNLOCK_ALL,
     EDIT_PLAYER,
+    EDIT_MONSTER,
     CONTROL_NPC,
     SPAWN_ARTIFACT,
     SPAWN_CLAIRVOYANCE,
@@ -108,7 +111,7 @@ enum class debug_menu_index : int {
     last
 };
 
-void wisheffect( Character &p );
+void wisheffect( Creature &p );
 void wishitem( Character *you = nullptr );
 void wishitem( Character *you, const tripoint & );
 void wishmonster( const std::optional<tripoint> &p );

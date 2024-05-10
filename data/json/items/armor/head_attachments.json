@@ -319,17 +319,17 @@
     "id": "xl_lc_chainmail_face",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_face",
-    "name": { "str": "XL mild steel chainmail partial aventail" },
+    "name": { "str": "mild steel chainmail partial aventail" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_lc_chainmail_face",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_face",
-    "name": { "str": "XS mild steel chainmail partial aventail" },
+    "name": { "str": "mild steel chainmail partial aventail" },
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "mc_chainmail_face",
@@ -342,17 +342,17 @@
     "id": "xl_mc_chainmail_face",
     "type": "ARMOR",
     "copy-from": "mc_chainmail_face",
-    "name": { "str": "XL medium steel chainmail partial aventail" },
+    "name": { "str": "medium steel chainmail partial aventail" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_mc_chainmail_face",
     "type": "ARMOR",
     "copy-from": "mc_chainmail_face",
-    "name": { "str": "XS medium steel chainmail partial aventail" },
+    "name": { "str": "medium steel chainmail partial aventail" },
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "hc_chainmail_face",
@@ -365,17 +365,17 @@
     "id": "xl_hc_chainmail_face",
     "type": "ARMOR",
     "copy-from": "hc_chainmail_face",
-    "name": { "str": "XL high steel chainmail partial aventail" },
+    "name": { "str": "high steel chainmail partial aventail" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_hc_chainmail_face",
     "type": "ARMOR",
     "copy-from": "hc_chainmail_face",
-    "name": { "str": "XS high steel chainmail partial aventail" },
+    "name": { "str": "high steel chainmail partial aventail" },
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "qt_chainmail_face",
@@ -388,17 +388,17 @@
     "id": "xl_qt_chainmail_face",
     "type": "ARMOR",
     "copy-from": "qt_chainmail_face",
-    "name": { "str": "XL tempered steel chainmail partial aventail" },
+    "name": { "str": "tempered steel chainmail partial aventail" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_qt_chainmail_face",
     "type": "ARMOR",
     "copy-from": "qt_chainmail_face",
-    "name": { "str": "XS tempered steel chainmail partial aventail" },
+    "name": { "str": "tempered steel chainmail partial aventail" },
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "ch_chainmail_face",
@@ -412,17 +412,17 @@
     "id": "xl_ch_chainmail_face",
     "type": "ARMOR",
     "copy-from": "ch_chainmail_face",
-    "name": { "str": "XL hardened steel chainmail partial aventail" },
+    "name": { "str": "hardened steel chainmail partial aventail" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_ch_chainmail_face",
     "type": "ARMOR",
     "copy-from": "ch_chainmail_face",
-    "name": { "str": "XS hardened steel chainmail partial aventail" },
+    "name": { "str": "hardened steel chainmail partial aventail" },
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "lc_chainmail_aventail",
@@ -460,17 +460,17 @@
     "id": "xl_lc_chainmail_aventail",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_aventail",
-    "name": { "str": "XL mild steel chainmail aventail" },
+    "name": { "str": "mild steel chainmail aventail" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_lc_chainmail_aventail",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_aventail",
-    "name": { "str": "XS mild steel chainmail aventail" },
+    "name": { "str": "mild steel chainmail aventail" },
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "mc_chainmail_aventail",
@@ -483,17 +483,17 @@
     "id": "xl_mc_chainmail_aventail",
     "type": "ARMOR",
     "copy-from": "mc_chainmail_aventail",
-    "name": { "str": "XL medium steel chainmail aventail" },
+    "name": { "str": "medium steel chainmail aventail" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_mc_chainmail_aventail",
     "type": "ARMOR",
     "copy-from": "mc_chainmail_aventail",
-    "name": { "str": "XS medium steel chainmail aventail" },
+    "name": { "str": "medium steel chainmail aventail" },
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "hc_chainmail_aventail",
@@ -506,17 +506,17 @@
     "id": "xl_hc_chainmail_aventail",
     "type": "ARMOR",
     "copy-from": "hc_chainmail_aventail",
-    "name": { "str": "XL high steel chainmail aventail" },
+    "name": { "str": "high steel chainmail aventail" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_hc_chainmail_aventail",
     "type": "ARMOR",
     "copy-from": "hc_chainmail_aventail",
-    "name": { "str": "XS high steel chainmail aventail" },
+    "name": { "str": "high steel chainmail aventail" },
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "qt_chainmail_aventail",
@@ -529,17 +529,17 @@
     "id": "xl_qt_chainmail_aventail",
     "type": "ARMOR",
     "copy-from": "qt_chainmail_aventail",
-    "name": { "str": "XL tempered steel chainmail aventail" },
+    "name": { "str": "tempered steel chainmail aventail" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_qt_chainmail_aventail",
     "type": "ARMOR",
     "copy-from": "qt_chainmail_aventail",
-    "name": { "str": "XS tempered steel chainmail aventail" },
+    "name": { "str": "tempered steel chainmail aventail" },
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "ch_chainmail_aventail",
@@ -552,17 +552,17 @@
     "id": "xl_ch_chainmail_aventail",
     "type": "ARMOR",
     "copy-from": "ch_chainmail_aventail",
-    "name": { "str": "XL hardened steel chainmail aventail" },
+    "name": { "str": "hardened steel chainmail aventail" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_ch_chainmail_aventail",
     "type": "ARMOR",
     "copy-from": "ch_chainmail_aventail",
-    "name": { "str": "XS hardened steel chainmail aventail" },
+    "name": { "str": "hardened steel chainmail aventail" },
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "lc_steel_facemask",
@@ -600,17 +600,17 @@
     "id": "xl_lc_steel_facemask",
     "type": "ARMOR",
     "copy-from": "lc_steel_facemask",
-    "name": { "str": "XL mild steel armored face mask" },
+    "name": { "str": "mild steel armored face mask" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_lc_steel_facemask",
     "type": "ARMOR",
     "copy-from": "lc_steel_facemask",
-    "name": { "str": "XS mild steel armored face mask" },
+    "name": { "str": "mild steel armored face mask" },
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "mc_steel_facemask",
@@ -624,17 +624,17 @@
     "id": "xl_mc_steel_facemask",
     "type": "ARMOR",
     "copy-from": "mc_steel_facemask",
-    "name": { "str": "XL medium steel armored face mask" },
+    "name": { "str": "medium steel armored face mask" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_mc_steel_facemask",
     "type": "ARMOR",
     "copy-from": "mc_steel_facemask",
-    "name": { "str": "XS medium steel armored face mask" },
+    "name": { "str": "medium steel armored face mask" },
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "hc_steel_facemask",
@@ -648,17 +648,17 @@
     "id": "xl_hc_steel_facemask",
     "type": "ARMOR",
     "copy-from": "hc_steel_facemask",
-    "name": { "str": "XL high steel armored face mask" },
+    "name": { "str": "high steel armored face mask" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_hc_steel_facemask",
     "type": "ARMOR",
     "copy-from": "hc_steel_facemask",
-    "name": { "str": "XS high steel armored face mask" },
+    "name": { "str": "high steel armored face mask" },
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "qt_steel_facemask",
@@ -684,17 +684,17 @@
     "id": "xl_qt_steel_facemask",
     "type": "ARMOR",
     "copy-from": "qt_steel_facemask",
-    "name": { "str": "XL tempered steel armored face mask" },
+    "name": { "str": "tempered steel armored face mask" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_qt_steel_facemask",
     "type": "ARMOR",
     "copy-from": "qt_steel_facemask",
-    "name": { "str": "XS tempered steel armored face mask" },
+    "name": { "str": "tempered steel armored face mask" },
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "ch_steel_facemask",
@@ -729,16 +729,16 @@
     "id": "xl_ch_steel_facemask",
     "type": "ARMOR",
     "copy-from": "ch_steel_facemask",
-    "name": { "str": "XL hardened steel armored face mask" },
+    "name": { "str": "hardened steel armored face mask" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_ch_steel_facemask",
     "type": "ARMOR",
     "copy-from": "ch_steel_facemask",
-    "name": { "str": "XS hardened steel armored face mask" },
+    "name": { "str": "hardened steel armored face mask" },
     "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   }
 ]

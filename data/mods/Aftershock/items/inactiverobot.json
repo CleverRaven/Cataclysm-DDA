@@ -120,6 +120,22 @@
   },
   {
     "type": "GENERIC",
+    "id": "broken_scavbot_needle",
+    "symbol": ",",
+    "color": "green",
+    "name": { "str": "broken Scavbot Skorpion" },
+    "category": "other",
+    "description": "A broken Scavbot Skorpion.  Now that its legs lie broken and immobile, the world seems a little less threatening.  Could be gutted for parts.",
+    "price": "10 USD",
+    "material": [ "steel", "plastic" ],
+    "volume": "12500 ml",
+    "weight": "10500 g",
+    "to_hit": -2,
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
+    "melee_damage": { "bash": 10, "cut": 6 }
+  },
+  {
+    "type": "GENERIC",
     "id": "broken_tankbot",
     "symbol": ",",
     "color": "green",

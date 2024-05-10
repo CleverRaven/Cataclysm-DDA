@@ -65,14 +65,12 @@
 
 ### Techniques
 
-```C++
+```JSON
 {
   "id": "tec_debug_arpen",    // Unique ID. Must be one continuous word
   "name": "phasing strike",   // In-game name displayed
-  "attack_vectors": [ "WEAPON", "HAND" ] // What attack vector would be used for this technique; this field is order dependend, meaning in this example the game will try to use WEAPON first, and, if not possible, reject it and will use HAND instead; For more info see Attack vectors below
-  "attack_vectors_random": [ "FOOT", "HEAD", "TORSO", "HEAD", "HEAD" ] // same as attack_vectors, but has no priority, and pick random vector from the list; it is used only if all choises from attack_vectors are rejected
+  "attack_vectors": [ "vector_1", "vector_2" ], // What attack vector would be used for this technique; For more info see Attack vectors below
   "unarmed_allowed": true,    // Can an unarmed character use this technique
-  "unarmed_weapons_allowed": true,    // Does this technique require the character to be actually unarmed or does it allow unarmed weapons
   "weapon_categories_allowed": [ "BLADES", "KNIVES" ], // Restrict technique to only these categories of weapons. If omitted, all weapon categories are allowed.
   "melee_allowed": true,      // Means that ANY melee weapon can be used, NOT just the martial art's weapons
   "powerful_knockback": true, //
@@ -84,14 +82,13 @@
   "forbidden_buffs_all": [ "eskrima_hit_buff" ],    // This technique is forbidden if all of the named buffs are active
   "req_flags": [ "" ],        // List of item flags the used weapon needs to be eligible for the technique
   "required_char_flags": [ "" ],    // List of "character" (bionic, trait, effect or bodypart) flags the character needs to be able to use this technique
-  "required_char_flags_all": [ ""], // This technique requires all of the listed character flags to trigger
+  "required_char_flags_all": [ "" ], // This technique requires all of the listed character flags to trigger
   "forbidden_char_flags": [ "" ],   // List of character flags disabling this technique
   "needs_ammo": true,         // Technique works only if weapon is loaded; Consume 1 charge per attack 
   "crit_tec": true,           // This technique only works on a critical hit
   "crit_ok": true,            // This technique works on both normal and critical hits
   "reach_tec": true,          // This technique only works on a reach attack hit
   "reach_ok": true,           // This technique works on both normal and reach attack hits
-  "attack_override": false,   // This technique replaces the base attack it triggered on, nulling damage and movecost (instead using the tech's flat_bonuses), and counts as unarmed for the purposes of skill training and special melee effects
   "condition": "u_is_outside",// Optional (array of) dialog conditions the attack requires to trigger.  Failing these will disqualify the tech from being selected
   "condition_desc": "Needs X",// Description string describing the conditions of this attack (since dialog conditions can't be automatically evaluated)       
   "repeat_min": 1,            // Technique's damage and any added effects are repeated rng(repeat_min, repeat_max) times. The target's armor and the effect's chances are applied for each repeat.
@@ -124,28 +121,26 @@
 
 ### Attack vectors
 
-Attack vector is a way for game to separate which techniques could be used by character, and which could not - it would be odd to see player is unable to kick because their arm is broken
+Attack vectors define which (sub)bodypart is used for the attack in question, allow filtering of eligable bodyparts and apply the relevant worn armor's unarmed damage to the attack. Note for the (sub)part to apply its unarmed damage it needs unrestricted natural attacks.
 
-List of attack vectors is currently hardcoded, and contain:
+```JSON
+[ 
+  {
+    "type": "attack_vector",          // Always attack_vector
+    "id": "vector_hand",              // ID
+    "limbs": [ "hand_l", "hand_r" ],  // List of bodyparts used in this attack (relevant for HP/encumbrance/flag filtering)
+    "contact_area": [ "hand_fingers_l", "hand_fingers_r" ],  // List of subbodyparts that can be used as a strike surface in the attack using the sbp's armor or intrinsic unarmed damage
+    "strict_limb_definition": false,  // Bool, default false. When true *only* the bodyparts defined above are used for the vector, otherwise similar bodyparts can be used as long as both the contact area and the defined limb are similar, see JSON_INFO.md/Bodyparts for bodypart similarity
+    "armor_bonus": true,              // Bool, default true, defines if the vector takes the unarmed damage bonus of the armor worn on the contact area into account
+    "required_limb_flags": [ "foo", "bar" ],  // List of character flags required for the bodypart to be eligable for this vector
+    "forbidden_limb_flags": [ "foo", "bar" ], // List of character flags that disqualify a limb from being usable by this vector
+    "encumbrance_limit": 15,          // Int, default 100, encumbrance of the limb above this will disqualify it from this vector
+    "bp_hp_limit": 75 ,                // Int, default 10, percent of bodypart limb HP necessary for the limbs to qualify for this vector. For minor (non-main) bodyparts the corresponding main part HP is taken into account.
+    "limb_req": [ [ "arm", 2] ]        // Array of pairs. Limb type requirements for this vector. The character must have this many limbs of the given type above the limb's health limit (See JSON_INFO.md:Bodyparts). Requirements must all be met.
 
-- `HAND` - Any technique that hits with any part of the hand (backhand, jab, hammer fist). Can be used as long as at least one hand/arm limb is not broken.
-- `FINGERS` - Any technique that hits with the fingers (eye gouge, spearhand). Can be used as long as at least one hand/arm limb is not broken.
-- `PALM` - Any technique that hits with the palm of the hand(palm strike). Can be used as long as at least one hand/arm limb is not broken.
-- `HAND_BACK` - Any technique that hits with the back of the hand(backfist, backhand slap). Can be used as long as at least one hand/arm limb is not broken.
-- `WRIST` - Any technique that hits with the wrist (crane strike). Can be used as long as at least one hand/arm limb is not broken.
-- `ARM` - Any technique that hits with the arm itself (clothesline). Can be used as long as at least one hand/arm limb is not broken.
-- `ELBOW` - Any technique that hits with an elbow (elbow strike). Can be used as long as at least one hand/arm limb is not broken.
-- `SHOULDER` - Any technique that hits with the upper part of the arm (shoulder check). Can be used as long as at least one hand/arm limb is not broken.
-- `FOOT` - Any technique that hits with any part of the foot (roundhouse kick, foot stomp, heel drop). Can be used only if both legs are not broken. You need one functional leg to perform the attack and another functional leg to balance on.
-- `LOWER_LEG` - Any technique that hits with shin (Muay Thai kicks). Can be used only if both legs are not broken. You need one functional leg to perform the attack and another functional leg to balance on.
-- `KNEE` - Any technique that hits with the knee (knee bash). Can be used only if both legs are not broken. You need one functional leg to perform the attack and another functional leg to balance on.
-- `HIP` - Any technique that hits with the hips or buttocks (Peach Bomber, R. Mika's Flying Peach). Can be used only if both legs are not broken. You need one functional leg to perform the attack and another functional leg to balance on.
-- `TORSO` - Any technique that hits with the center mass of the user's body (flying body splash, throwing yourself at an enemy). Can always be used because if your Torso is broken, you are dead.  // Shouldn't it requre both legs? can't really use a whole body if legs are broken, no way to deliver the momentum ain't it?
-- `HEAD` - Any technique that hits with the user's head such as a headbutt. Can always be used because if your Head is broken, you are dead.
-- `WEAPON` - Any technique the requires a held item to perform (see any weapon style). Can be used if the user is holding a valid style weapon for their martial art and at least one hand/arm is not broken.
-- `THROW` - Any technique that forcefully moves an opponent (judo throws, suplex). Can be used only if both hands/arms are not broken.
-- `GRAPPLE` - Any technique that maintains contact with an opponent and squeezes (chock, headlock), bends (Krav Maga's Arm Breaker), or twists (arm twist) some part of the opponent. Can be used only if both hands/arms are not broken.
-- `MOUTH` - A technique that uses the mouth to bite or spit on an opponent. Can be used only if the mouth is not covered by anything not flagged with ALLOWS_NATURAL_ATTACKS.
+  }
+]
+```
 
 ### Tech effects
 ```C++
@@ -173,7 +168,6 @@ List of attack vectors is currently hardcoded, and contain:
   "persists": false,                 // Allow buff to remain when changing to a new style
   "unarmed_allowed": true,           // Effect is applied when you have no weapon equipped
   "melee_allowed": true,             // Effect is applied when you have some melee weapon equipped
-  "unarmed_weapons_allowed": true,   // Does this buff require the character to be actually unarmed. If true, allows unarmed weapons (brass knuckles, punch daggers)
   "strictly_unarmed": true,          // Effect is applied only when you have no weapon whatsoever, even unarmed weapon
   "wall_adjacent": true,            // Effect is applied when you stand near the wall
   "weapon_categories_allowed": [ "BLADES", "KNIVES" ], // Restrict buff to only these categories of weapons. If omitted, all weapon categories are allowed.

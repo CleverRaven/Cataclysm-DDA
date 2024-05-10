@@ -196,6 +196,7 @@
     "ugliness": 0,
     "description": "Upon gaining this ability the Homullus gains the ability to travel along a road to any bastion of civilization they have attuned to.",
     "category": [ "HOMULLUS" ],
+    "threshreq": [ "THRESH_HOMULLUS" ],
     "prereqs": [ "HOMULLUS_CITY_STRIDER" ],
     "prereqs2": [ "HOMULLUS_GAIN_BIONIC_POWER_AND_MANA" ],
     "spells_learned": [ [ "homullus_road_translocate_spell", 1 ], [ "homullus_road_translocate_attune", 1 ] ]
