@@ -1630,6 +1630,27 @@ void avatar::add_gained_calories( int cal )
     calorie_diary.front().gained += cal;
 }
 
+int avatar::get_daily_calories( const int day, std::string type ) const
+{
+    std::list<avatar::daily_calories> calorie_diary;
+    std::list<avatar::daily_calories>::iterator iterator = calorie_diary.end();
+    std::advance( iterator, day * -1 );
+
+    int result{};
+
+    if( type == "spent" ) {
+        result = iterator->spent;
+    } else if( type == "gained" ) {
+        result = iterator->gained;
+    } else if( type == "ingested" ) {
+        result = iterator->ingested;
+    } else if( type == "total" ) {
+        result = iterator->total();
+    }
+
+    return result;
+}
+
 void avatar::log_activity_level( float level )
 {
     calorie_diary.front().activity_levels[level]++;
