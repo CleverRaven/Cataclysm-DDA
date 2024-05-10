@@ -44,7 +44,7 @@
         "text": "Is there any way to stop it?  Can we cut them down or burn them or something?",
         "topic": "TALK_EXODII_MERCHANT_alien_flora_burn"
       },
-      { "text": "The course? What's going to happen?", "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmTimeline" },
+      { "text": "The course?  What's going to happen?", "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmTimeline" },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
       { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
     ]
