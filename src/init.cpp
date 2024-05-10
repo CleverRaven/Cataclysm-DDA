@@ -615,6 +615,7 @@ void DynamicDataLoader::unload_data()
     overmap_special_migration::reset();
     overmap_terrains::reset();
     overmap::reset_oter_id_migrations();
+    overmap::reset_oter_id_camp_migrations();
     profession::reset();
     profession_blacklist::reset();
     proficiency::reset();
