@@ -1433,7 +1433,7 @@
   {
     "type": "construction",
     "id": "constr_scrap_floor",
-    "group": "build_metal_roof",
+    "group": "build_scrap_floor_with_roof",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 5 ] ],
     "time": "90 m",
@@ -1447,7 +1447,7 @@
   {
     "type": "construction",
     "id": "constr_ov_smreb_cage_thconc_floor",
-    "group": "build_concrete_roof",
+    "group": "build_concrete_floor_with_roof",
     "//": "Step 1: rebar cage & supports",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 5 ] ],
@@ -1460,7 +1460,7 @@
   {
     "type": "construction",
     "id": "constr_thconc_floor",
-    "group": "build_concrete_roof",
+    "group": "build_concrete_floor_with_roof",
     "//": "Step 2: roof & floor",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 5 ] ],
@@ -1474,7 +1474,7 @@
   {
     "type": "construction",
     "id": "constr_ov_reb_cage_strconc_floor",
-    "group": "build_reinforced_concrete_roof",
+    "group": "build_reinforced_concrete_floor_with_roof",
     "//": "Step 1: rebar cage & supports",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ] ],
@@ -1488,7 +1488,7 @@
   {
     "type": "construction",
     "id": "constr_strconc_floor_halfway",
-    "group": "build_reinforced_concrete_roof",
+    "group": "build_reinforced_concrete_floor_with_roof",
     "//": "Step 2: start roof & floor",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ] ],
@@ -1502,7 +1502,7 @@
   {
     "type": "construction",
     "id": "constr_strconc_floor",
-    "group": "build_reinforced_concrete_roof",
+    "group": "build_reinforced_concrete_floor_with_roof",
     "//": "Step 3: finish roof & floor",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ] ],
@@ -1596,7 +1596,7 @@
   {
     "type": "construction",
     "id": "constr_floor",
-    "group": "build_roof",
+    "group": "build_floor_with_treated_roof",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "120 m",
@@ -1609,7 +1609,7 @@
   {
     "type": "construction",
     "id": "constr_dirtfloor_thatchroof",
-    "group": "build_thatched_roof",
+    "group": "build_dirt_floor_with_thatched_roof",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ], [ "survival", 7 ] ],
     "time": "360 m",
@@ -1626,7 +1626,7 @@
   {
     "type": "construction",
     "id": "constr_floor_primitive",
-    "group": "build_log_sod_roof",
+    "group": "build_primitive_floor_with_log_sod_roof",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "120 m",
@@ -1644,7 +1644,7 @@
   {
     "type": "construction",
     "id": "constr_dirtfloor",
-    "group": "build_roof_over_dirt_floor",
+    "group": "build_dirt_floor_with_shingle_roof",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "60 m",
@@ -9211,5 +9211,191 @@
       { "item": "stick", "count": 2 },
       { "item": "rope_30", "count": 2 }
     ]
+  },
+  {
+    "type": "construction",
+    "id": "constr_brick_roof",
+    "group": "build_brick_roof",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "120 m",
+    "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
+    "components": [ [ [ "brick", 15 ] ], [ [ "mortar_build", 1 ], [ "mortar_lime", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ],
+    "pre_note": "Must be supported directly from below or on at least two sides.",
+    "pre_special": [ "check_support", "check_unblocked" ],
+    "post_terrain": "t_brick_roof"
+  },
+  {
+    "type": "construction",
+    "id": "constr_concrete_roof",
+    "group": "build_concrete_roof",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 5 ] ],
+    "time": "60 m",
+    "tools": [ [ [ "concrete_mix_tool", 25 ] ] ],
+    "qualities": [ [ { "id": "SMOOTH", "level": 2 } ] ],
+    "components": [ [ [ "concrete", 2 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ],
+    "pre_note": "Must be supported directly from below or on at least two sides.",
+    "pre_special": [ "check_support", "check_unblocked" ],
+    "post_terrain": "t_concrete_roof"
+  },
+  {
+    "type": "construction",
+    "id": "constr_flat_roof",
+    "group": "build_flat_roof",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+    "components": [ [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "2x4", 6 ] ], [ [ "nails", 40, "LIST" ] ] ],
+    "pre_note": "Must be supported directly from below or on at least two sides.",
+    "pre_special": [ "check_support", "check_unblocked" ],
+    "post_terrain": "t_flat_roof"
+  },
+  {
+    "type": "construction",
+    "id": "constr_log_sod_roof",
+    "group": "build_log_sod_roof",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 4 ] ],
+    "time": "120 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [
+      [ [ "log", 2 ] ],
+      [ [ "stick", 4 ], [ "2x4", 8 ], [ "stick_long", 2 ] ],
+      [ [ "material_soil", 40 ] ],
+      [ [ "birchbark", 12 ], [ "pine_bough", 12 ] ]
+    ],
+    "pre_note": "Must be supported directly from below or on at least two sides.",
+    "pre_special": [ "check_support", "check_unblocked" ],
+    "post_terrain": "t_log_sod_roof"
+  },
+  {
+    "type": "construction",
+    "id": "constr_metal_roof",
+    "group": "build_metal_roof",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 4 ], [ "mechanics", 4 ] ],
+    "time": "60 m",
+    "tools": [ [ [ "oxy_torch", 5 ], [ "welder", 25 ], [ "welder_crude", 40 ], [ "toolset", 40 ] ] ],
+    "qualities": [ [ { "id": "SAW_M", "level": 2 } ], [ { "id": "GLARE", "level": 1 } ] ],
+    "components": [ [ [ "steel_lump", 4 ], [ "steel_chunk", 12 ], [ "scrap", 36 ] ], [ [ "sheet_metal", 10 ] ] ],
+    "pre_note": "Must be supported directly from below or on at least two sides.",
+    "pre_special": [ "check_support", "check_unblocked" ],
+    "post_terrain": "t_metal_roof"
+  },
+  {
+    "type": "construction",
+    "id": "constr_metal_flat_roof",
+    "group": "build_metal_flat_roof",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 5 ] ],
+    "time": "45 m",
+    "qualities": [ { "id": "GLARE", "level": 1 } ],
+    "tools": [ [ [ "oxy_torch", 5 ], [ "welder", 25 ], [ "welder_crude", 40 ], [ "toolset", 40 ] ] ],
+    "components": [ [ [ "steel_plate", 2 ] ] ],
+    "pre_note": "Must be supported directly from below or on at least two sides.",
+    "pre_special": [ "check_support", "check_unblocked" ],
+    "post_terrain": "t_metal_flat_roof"
+  },
+  {
+    "type": "construction",
+    "id": "constr_resin_roof",
+    "group": "extrude_resin_roof",
+    "category": "CONSTRUCT",
+    "skill": "fabrication",
+    "difficulty": 1,
+    "time": "60 m",
+    "//": "Fairly time consuming as you have to extrude the resin slowly and wait for it to dry, then layer it on itself",
+    "components": [ [ [ "alien_pod_resin", 1 ] ] ],
+    "pre_note": "Must be supported directly from below or on at least two sides.",
+    "pre_special": [ "check_support", "check_unblocked" ],
+    "post_terrain": "t_resin_roof"
+  },
+  {
+    "type": "construction",
+    "id": "constr_shingle_flat_roof",
+    "group": "build_shingle_flat_roof",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+    "components": [ [ [ "wood_panel", 1 ] ], [ [ "2x4", 8 ] ], [ [ "nails", 20, "LIST" ] ] ],
+    "pre_note": "Must be supported directly from below or on at least two sides.",
+    "pre_special": [ "check_support", "check_unblocked" ],
+    "post_terrain": "t_shingle_flat_roof"
+  },
+  {
+    "type": "construction",
+    "id": "constr_thatched_roof",
+    "group": "build_thatched_roof",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ], [ "survival", 7 ] ],
+    "time": "300 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [
+      [ [ "2x4", 5 ], [ "stick", 10 ], [ "stick_long", 5 ] ],
+      [ [ "straw_pile", 60 ], [ "withered", 60 ] ],
+      [ [ "cordage", 8, "LIST" ] ]
+    ],
+    "pre_note": "Must be supported directly from below or on at least two sides.",
+    "pre_special": [ "check_support", "check_unblocked" ],
+    "post_terrain": "t_thatch_roof"
+  },
+  {
+    "type": "construction",
+    "id": "constr_treated_wood_roof",
+    "group": "build_treated_wood_roof",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+    "components": [ [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "2x4", 6 ] ], [ [ "nails", 40, "LIST" ] ] ],
+    "pre_note": "Must be supported directly from below or on at least two sides.",
+    "pre_special": [ "check_support", "check_unblocked" ],
+    "post_terrain": "t_wood_treated_roof"
+  },
+  {
+    "type": "construction",
+    "id": "constr_wood_roof",
+    "group": "build_wood_roof",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+    "components": [ [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "2x4", 6 ] ], [ [ "nails", 40, "LIST" ] ] ],
+    "pre_note": "Must be supported directly from below or on at least two sides.",
+    "pre_special": [ "check_support", "check_unblocked" ],
+    "post_terrain": "t_wood_roof"
+  },
+  {
+    "type": "construction",
+    "id": "constr_chimney",
+    "group": "build_chimney",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "2 h",
+    "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
+    "components": [
+      [ [ "brick", 30 ] ],
+      [ [ "mortar_build", 1 ], [ "mortar_lime", 1 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "sheet_metal", 2 ] ]
+    ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_chimney"
+  },
+  {
+    "type": "construction",
+    "id": "constr_vent_pipe",
+    "group": "build_vent_pipe",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "30 m",
+    "tools": [ [ [ "oxy_torch", 4 ], [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ] ] ],
+    "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "GLARE", "level": 1 } ] ],
+    "components": [ [ [ "pipe", 3 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_vent_pipe"
   }
 ]
