@@ -238,9 +238,15 @@
     "cancels": [ "SMALL", "SMALL2", "LARGE", "LARGE_OK", "HUGE", "HUGE_OK" ],
     "changes_to": [ "LARGE_OK_DRAGON", "HUGE_DRAGON" ],
     "category": [ "DRAGON_BLACK" ],
-    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 2 } ] } ],
-    "weight_capacity_modifier": 1.05,
-    "stomach_size_multiplier": 1.5,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "STRENGTH", "add": 2 },
+          { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 0.5 },
+          { "value": "CARRY_WEIGHT", "multiply": 0.05 }
+        ]
+      }
+    ],
     "anger_relations": [ [ "HUMAN", 10 ] ]
   },
   {
@@ -258,9 +264,15 @@
     "threshreq": [ "THRESH_DRAGON_BLACK" ],
     "changes_to": [ "HUGE_DRAGON" ],
     "category": [ "DRAGON_BLACK" ],
-    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 2 } ] } ],
-    "weight_capacity_modifier": 1.05,
-    "stomach_size_multiplier": 1.5,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "STRENGTH", "add": 2 },
+          { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 0.5 },
+          { "value": "CARRY_WEIGHT", "multiply": 0.05 }
+        ]
+      }
+    ],
     "anger_relations": [ [ "HUMAN", 20 ] ]
   },
   {
@@ -279,12 +291,19 @@
     "cancels": [ "SMALL", "SMALL2", "LARGE", "LARGE_OK", "HUGE", "HUGE_OK" ],
     "changes_to": [ "HUGE_OK_DRAGON" ],
     "category": [ "DRAGON_BLACK" ],
-    "enchantments": [ { "values": [ { "value": "MAX_HP", "add": -6 }, { "value": "STRENGTH", "add": 4 } ] } ],
-    "fatigue_modifier": 0.15,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MAX_HP", "add": -6 },
+          { "value": "STRENGTH", "add": 4 },
+          { "value": "SLEEPINESS", "multiply": 0.15 },
+          { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 1 },
+          { "value": "CARRY_WEIGHT", "multiply": 0.1 }
+        ]
+      }
+    ],
     "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
     "destroys_gear": true,
-    "weight_capacity_modifier": 1.1,
-    "stomach_size_multiplier": 2.0,
     "anger_relations": [ [ "HUMAN", 30 ] ]
   },
   {
@@ -355,11 +374,17 @@
     "cancels": [ "SMALL", "SMALL2", "LARGE", "LARGE_OK", "HUGE", "HUGE_OK" ],
     "threshreq": [ "THRESH_DRAGON_BLACK" ],
     "category": [ "DRAGON_BLACK" ],
-    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 4 } ] } ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "STRENGTH", "add": 4 },
+          { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 1 },
+          { "value": "CARRY_WEIGHT", "multiply": 0.1 }
+        ]
+      }
+    ],
     "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
     "destroys_gear": true,
-    "weight_capacity_modifier": 1.1,
-    "stomach_size_multiplier": 2.0,
     "anger_relations": [ [ "HUMAN", 40 ] ]
   },
   {
@@ -452,7 +477,9 @@
     "type": "mutation",
     "id": "ARM_FEATHERS",
     "copy-from": "ARM_FEATHERS",
-    "extend": { "category": [ "SPECIES_RAVENFOLK" ] }
+    "valid": true,
+    "extend": { "category": [ "SPECIES_RAVENFOLK" ] },
+    "delete": { "prereqs2": [ "PRE_ARM_FEATHERS" ] }
   },
   {
     "type": "mutation",
@@ -472,7 +499,7 @@
     "prereqs": [ "WINGS_STUB" ],
     "category": [ "DRAGON_BLACK" ],
     "threshreq": [ "THRESH_DRAGON_BLACK" ],
-    "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": -3 } ] } ],
+    "enchantments": [ { "values": [ { "value": "DODGE_CHANCE", "add": -3 } ] } ],
     "attacks": {
       "attack_text_u": "You bash %s with your powerful wings!",
       "attack_text_npc": "%1$s bashes %2$s with their powerful wings!",
@@ -511,7 +538,7 @@
     "points": -3,
     "prereqs": [ "NAUSEA" ],
     "category": [ "DRAGON_BLACK", "SLIME" ],
-    "metabolism_modifier": 0.5,
+    "enchantments": [ { "values": [ { "value": "METABOLISM", "multiply": 0.5 } ] } ],
     "vitamins_absorb_multi": [ [ "all", [ [ "vitC", 0.5 ], [ "calcium", 0.5 ], [ "iron", 0.5 ] ] ] ]
   },
   {
@@ -554,7 +581,7 @@
     "changes_to": [ "DRAGONBLOOD2" ],
     "types": [ "METABOLISM" ],
     "category": [ "DRAGON_BLACK" ],
-    "temperature_speed_modifier": 0.2
+    "enchantments": [ { "values": [ { "value": "SPEED", "add": { "math": [ "temperature_speed_mod(65, 0.2)" ] } } ] } ]
   },
   {
     "type": "mutation",
@@ -566,8 +593,14 @@
     "changes_to": [ "DRAGONBLOOD3" ],
     "types": [ "METABOLISM" ],
     "category": [ "DRAGON_BLACK" ],
-    "temperature_speed_modifier": 0.333,
-    "metabolism_modifier": 0.25
+    "enchantments": [
+      {
+        "values": [
+          { "value": "METABOLISM", "multiply": 0.25 },
+          { "value": "SPEED", "add": { "math": [ "temperature_speed_mod(65, 0.333)" ] } }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -581,8 +614,14 @@
     "purifiable": false,
     "types": [ "METABOLISM" ],
     "category": [ "DRAGON_BLACK" ],
-    "temperature_speed_modifier": 0.5,
-    "metabolism_modifier": 0.5
+    "enchantments": [
+      {
+        "values": [
+          { "value": "METABOLISM", "multiply": 0.5 },
+          { "value": "SPEED", "add": { "math": [ "temperature_speed_mod(65, 0.5)" ] } }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -601,9 +640,8 @@
     "threshreq": [ "THRESH_DRAGON_BLACK" ],
     "prereqs": [ "MANA_MULT3" ],
     "purifiable": false,
-    "mana_modifier": 250,
     "spells_learned": [ [ "dragon_terror", 1 ] ],
-    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 2 } ] } ]
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 2 }, { "value": "MAX_MANA", "add": 250 } ] } ]
   },
   {
     "type": "mutation",
@@ -615,8 +653,7 @@
     "threshreq": [ "THRESH_DRAGON_BLACK" ],
     "prereqs": [ "DRAGON_MAGIC" ],
     "spells_learned": [ [ "dragon_terror", 0 ], [ "dragon_boost", 1 ] ],
-    "mana_modifier": 750,
-    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 4 } ] } ]
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 4 }, { "value": "MAX_MANA", "add": 750 } ] } ]
   },
   {
     "type": "mutation",
@@ -731,14 +768,7 @@
     "points": 2,
     "visibility": 4,
     "ugliness": 3,
-    "enchantments": [
-      {
-        "condition": { "not": "u_has_weapon" },
-        "values": [ { "value": "ITEM_DAMAGE_CUT", "add": 5 }, { "value": "ITEM_DAMAGE_STAB", "add": 5 } ]
-      }
-    ],
-    "butchering_quality": 4,
-    "flags": [ "UNARMED_BONUS" ],
+    "integrated_armor": [ "integrated_scaled_hands" ],
     "mixed_effect": true,
     "restricts_gear": [ "hand_l", "hand_r" ],
     "destroys_gear": true,
@@ -756,16 +786,9 @@
     "points": 2,
     "visibility": 4,
     "ugliness": 3,
-    "enchantments": [
-      {
-        "condition": { "not": "u_has_weapon" },
-        "values": [ { "value": "ITEM_DAMAGE_CUT", "add": 10 }, { "value": "ITEM_DAMAGE_STAB", "add": 10 } ]
-      }
-    ],
-    "butchering_quality": 4,
-    "flags": [ "UNARMED_BONUS" ],
     "mixed_effect": true,
     "restricts_gear": [ "hand_l", "hand_r" ],
+    "integrated_armor": [ "integrated_dragon_talons_black" ],
     "destroys_gear": true,
     "description": "All of your fingers have developed into huge scaled talons.  They prevent wearing gloves, but you can use them to powerful effect in melee combat and you appear to have uncovered some secrets about black dragons.",
     "types": [ "CLAWS" ],

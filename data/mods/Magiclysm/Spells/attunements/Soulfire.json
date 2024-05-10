@@ -10,9 +10,9 @@
     "effect": "attack",
     "shape": "blast",
     "damage_type": "heat",
-    "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(30)" ] },
-    "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(10.0)" ] },
-    "max_damage": { "math": [ "evocation_proficiency_bonus_calculate(380)" ] },
+    "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(30, 0.5)" ] },
+    "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(10.0, 0.03)" ] },
+    "max_damage": { "math": [ "evocation_proficiency_bonus_calculate(380, 0.5)" ] },
     "min_range": 3,
     "range_increment": 0.1,
     "max_range": 6,
@@ -43,9 +43,9 @@
     "max_damage": 0,
     "valid_targets": [ "self" ],
     "max_level": 35,
-    "min_duration": { "math": [ "enhancement_proficiency_negate_calculate(1080000)" ] },
-    "max_duration": { "math": [ "enhancement_proficiency_negate_calculate(540000)" ] },
-    "duration_increment": { "math": [ "enhancement_proficiency_negate_calculate(-30000)" ] }
+    "min_duration": { "math": [ "enhancement_proficiency_negate_calculate(1080000, 3600)" ] },
+    "max_duration": { "math": [ "enhancement_proficiency_negate_calculate(540000, 3600)" ] },
+    "duration_increment": { "math": [ "enhancement_proficiency_negate_calculate(-30000, 0.055)" ] }
   },
   {
     "id": "soul_burn",

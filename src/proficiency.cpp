@@ -58,6 +58,7 @@ std::string enum_to_string<proficiency_bonus_type>( const proficiency_bonus_type
         case proficiency_bonus_type::dexterity: return "dexterity";
         case proficiency_bonus_type::intelligence: return "intelligence";
         case proficiency_bonus_type::perception: return "perception";
+        case proficiency_bonus_type::stamina: return "stamina";
         case proficiency_bonus_type::last: break;
         // *INDENT-ON*
     }
@@ -220,6 +221,22 @@ std::vector<proficiency_bonus> proficiency::get_bonuses( const std::string &cate
     return bonus_it->second;
 }
 
+std::optional<float> proficiency::bonus_for( const std::string &category,
+        proficiency_bonus_type type ) const
+{
+    auto bonus_it = _bonuses.find( category );
+    if( bonus_it == _bonuses.end() ) {
+        return std::nullopt;
+    }
+    for( const proficiency_bonus &b : bonus_it->second ) {
+        if( b.type == type ) {
+            return b.value;
+        }
+    }
+
+    return std::nullopt;
+}
+
 learning_proficiency &proficiency_set::fetch_learning( const proficiency_id &target )
 {
     for( learning_proficiency &cursor : learning ) {
@@ -287,7 +304,7 @@ std::vector<display_proficiency> proficiency_set::display() const
 }
 
 bool proficiency_set::practice( const proficiency_id &practicing, const time_duration &amount,
-                                const std::optional<time_duration> &max )
+                                float remainder, const std::optional<time_duration> &max )
 {
     if( has_learned( practicing ) || !practicing->can_learn() || !has_prereqs( practicing ) ) {
         return false;
@@ -303,6 +320,11 @@ bool proficiency_set::practice( const proficiency_id &practicing, const time_dur
     }
 
     current.practiced += amount;
+    current.remainder += remainder;
+    if( current.remainder > 1.f ) {
+        current.practiced += 1_seconds;
+        current.remainder -= 1.f;
+    }
 
     if( current.practiced >= practicing->time_to_learn() ) {
         for( std::vector<learning_proficiency>::iterator it = learning.begin(); it != learning.end(); ) {
@@ -533,19 +555,13 @@ void proficiency_set::deserialize( const JsonObject &jsobj )
     jsobj.read( "learning", learning );
 }
 
-void proficiency_set::deserialize_legacy( const JsonArray &jo )
-{
-    for( const std::string prof : jo ) {
-        known.insert( proficiency_id( prof ) );
-    }
-}
-
 void learning_proficiency::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
 
     jsout.member( "id", id );
     jsout.member( "practiced", practiced );
+    jsout.member( "remainder", remainder );
 
     jsout.end_object();
 }
@@ -554,6 +570,7 @@ void learning_proficiency::deserialize( const JsonObject &jo )
 {
     jo.read( "id", id );
     jo.read( "practiced", practiced );
+    jo.read( "remainder", remainder, 0.f );
 }
 
 void book_proficiency_bonus::deserialize( const JsonObject &jo )

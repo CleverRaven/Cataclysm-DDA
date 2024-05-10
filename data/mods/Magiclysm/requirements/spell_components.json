@@ -288,5 +288,12 @@
     "type": "requirement",
     "//": "Fuel oils for the Power Linkage spell",
     "components": [ [ [ "crude_lamp_oil", 120 ], [ "lamp_oil", 120 ], [ "gasoline", 120 ], [ "diesel", 120 ] ] ]
+  },
+  {
+    "id": "spell_components_technomancer_far_sight",
+    "type": "requirement",
+    "//": "Lens, chisel, and mana focus for the Zoom Lens spell",
+    "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "MANA_FOCUS", "level": 1 } ],
+    "components": [ [ [ "lens", 1 ] ] ]
   }
 ]

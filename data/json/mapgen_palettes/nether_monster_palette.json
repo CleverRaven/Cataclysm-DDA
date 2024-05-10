@@ -22,6 +22,6 @@
       "Z": "f_nm_nether_lichen"
     },
     "traps": { "P": "tr_portal" },
-    "fields": { "q": { "field": "fd_fatigue", "intensity": 1 }, "Q": { "field": "fd_fatigue", "intensity": 2 } }
+    "fields": { "q": { "field": "fd_reality_tear", "intensity": 1 }, "Q": { "field": "fd_reality_tear", "intensity": 2 } }
   }
 ]

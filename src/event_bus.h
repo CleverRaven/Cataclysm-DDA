@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_EVENT_BUS_H
 #define CATA_SRC_EVENT_BUS_H
 
-#include <type_traits>
+#include <utility>
 #include <vector>
 
 #include "event.h"
@@ -10,7 +10,6 @@
 class Creature;
 class event_subscriber;
 class item_location;
-class talker;
 
 class event_bus
 {

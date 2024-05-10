@@ -269,7 +269,8 @@
           }
         ]
       }
-    ]
+    ],
+    "flags": [ "TOUGH_FEET" ]
   },
   {
     "type": "effect_type",
@@ -399,7 +400,7 @@
             }
           },
           {
-            "value": "FATIGUE",
+            "value": "SLEEPINESS",
             "multiply": {
               "math": [
                 "max((( -0.25 + ( u_spell_level('biokin_metabolism_enhance') * -0.02 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), -0.7)"
@@ -669,31 +670,31 @@
         "values": [
           {
             "value": "ARMOR_CUT",
-            "add": { "math": [ "( ( ( u_spell_level('clair_spot_weakness') * 1) + 4) * (scaling_factor(u_val('intelligence') ) ) )" ] }
+            "add": { "math": [ "( ( u_discern_weakness_clear_power_level * 1.5) + 2) * u_discern_weakness_clear_intelligence" ] }
           },
           {
             "value": "ARMOR_BASH",
-            "add": { "math": [ "( ( ( u_spell_level('clair_spot_weakness') * 1) + 4) * (scaling_factor(u_val('intelligence') ) ) )" ] }
+            "add": { "math": [ "( ( u_discern_weakness_clear_power_level * 1.5) + 2) * u_discern_weakness_clear_intelligence" ] }
           },
           {
             "value": "ARMOR_STAB",
-            "add": { "math": [ "( ( ( u_spell_level('clair_spot_weakness') * 1) + 4) * (scaling_factor(u_val('intelligence') ) ) )" ] }
+            "add": { "math": [ "( ( u_discern_weakness_clear_power_level * 1.5) + 2) * u_discern_weakness_clear_intelligence" ] }
           },
           {
             "value": "ARMOR_BULLET",
-            "add": { "math": [ "( ( ( u_spell_level('clair_spot_weakness') * 1) + 4) * (scaling_factor(u_val('intelligence') ) ) )" ] }
+            "add": { "math": [ "( ( u_discern_weakness_clear_power_level * 1.5) + 2) * u_discern_weakness_clear_intelligence" ] }
           },
           {
             "value": "ARMOR_ELEC",
-            "add": { "math": [ "( ( ( u_spell_level('clair_spot_weakness') * 1) + 4) * (scaling_factor(u_val('intelligence') ) ) )" ] }
+            "add": { "math": [ "( ( u_discern_weakness_clear_power_level * 1.5) + 2) * u_discern_weakness_clear_intelligence" ] }
           },
           {
             "value": "ARMOR_HEAT",
-            "add": { "math": [ "( ( ( u_spell_level('clair_spot_weakness') * 1) + 4) * (scaling_factor(u_val('intelligence') ) ) )" ] }
+            "add": { "math": [ "( ( u_discern_weakness_clear_power_level * 1.5) + 2) * u_discern_weakness_clear_intelligence" ] }
           },
           {
             "value": "ARMOR_COLD",
-            "add": { "math": [ "( ( ( u_spell_level('clair_spot_weakness') * 1) + 4) * (scaling_factor(u_val('intelligence') ) ) )" ] }
+            "add": { "math": [ "( ( u_discern_weakness_clear_power_level * 1.5) + 2) * u_discern_weakness_clear_intelligence" ] }
           }
         ]
       }
@@ -794,7 +795,21 @@
     ],
     "rating": "good",
     "max_duration": "7 days",
-    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": 3 } ] } ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MOVE_COST", "multiply": 3 },
+          {
+            "value": "CRAFTING_SPEED_MULTIPLIER",
+            "multiply": {
+              "math": [
+                "( 0.04 + ( u_spell_level('clair_craft_bonus') * 0.01 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+              ]
+            }
+          }
+        ]
+      }
+    ],
     "flags": [ "MYOPIC" ]
   },
   {
@@ -834,6 +849,26 @@
       "snow_glare",
       "venom_blind"
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_clair_astral_projection",
+    "name": [ "Astrally Projecting" ],
+    "desc": [ "Your spirit wanders the world." ],
+    "apply_message": "",
+    "remove_message": "",
+    "rating": "good",
+    "base_mods": { "stamina_min": [ -50 ], "stamina_chance": [ 1 ] },
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MOVE_COST", "multiply": -0.96 },
+          { "value": "EVASION", "add": 1 },
+          { "value": "REGEN_STAMINA", "multiply": -1 }
+        ]
+      }
+    ],
+    "flags": [ "ETHEREAL", "INVISIBLE", "FEATHER_FALL", "CLIMB_NO_LADDER", "LEVITATION", "NO_PSIONICS" ]
   },
   {
     "type": "effect_type",
@@ -1643,7 +1678,7 @@
       "psi_stunned",
       "telepathic_ignorance"
     ],
-    "flags": [ "PORTAL_PROOF", "TEEPSHIELD" ]
+    "flags": [ "TEEPSHIELD" ]
   },
   {
     "type": "effect_type",
@@ -1656,6 +1691,13 @@
     "show_in_info": true,
     "base_mods": { "speed_mod": [ -30 ], "dodge_mod": [ -2 ], "hit_mod": [ -2 ], "bash_mod": [ -8 ] },
     "immune_flags": [ "TEEPSHIELD", "TEEP_IMMUNE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_telepath_primal_terror_attitude_modified",
+    "//": "A tracker effect to prevent the target's morale or fear from being modified more than once in a period of time",
+    "name": [ "" ],
+    "desc": [ "" ]
   },
   {
     "type": "effect_type",
@@ -1774,17 +1816,45 @@
     "rating": "good",
     "remove_message": "For just a moment, you feel your blood rushing through your veins.",
     "max_duration": "7 days",
-    "flags": [ "BLEEDSLOW" ]
+    "flags": [ "BLEEDSLOW" ],
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "BLEED_STOP_BONUS",
+            "multiply": {
+              "math": [
+                "( ( u_spell_level('vita_slow_bleeding') * 0.05 ) + 0.15 ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
+              ]
+            }
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_type",
-    "id": "effect_vitakin_slow_bleeding_01",
+    "id": "effect_vitakin_slow_bleeding_02",
     "name": [ "Coagulation" ],
     "desc": [ "You bleed much less than normal." ],
     "rating": "good",
     "remove_message": "For just a moment, you feel your blood rushing through your veins.",
     "max_duration": "7 days",
-    "flags": [ "BLEEDSLOW2" ]
+    "flags": [ "BLEEDSLOW2" ],
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "BLEED_STOP_BONUS",
+            "multiply": {
+              "math": [
+                "( ( u_spell_level('vita_slow_bleeding') * 0.05 ) + 0.15 ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
+              ]
+            }
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_type",
@@ -1795,7 +1865,21 @@
     "remove_message": "For just a moment, you feel your blood rushing through your veins.",
     "max_duration": "7 days",
     "blocks_effects": [ "bleed" ],
-    "flags": [ "BLEEDSLOW2" ]
+    "flags": [ "BLEEDSLOW2" ],
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "BLEED_STOP_BONUS",
+            "multiply": {
+              "math": [
+                "( ( u_spell_level('vita_slow_bleeding') * 0.05 ) + 0.15 ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
+              ]
+            }
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_type",
@@ -1831,6 +1915,36 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_vitakin_healing_trance",
+    "name": [ "Revitalizing Meditation" ],
+    "desc": [ "Thanks to your meditations you are healing much more quickly" ],
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "REGEN_HP",
+            "multiply": {
+              "math": [
+                "( ( u_spell_level('vita_healing_trance') * 0.75 ) + 4 ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
+              ]
+            }
+          },
+          {
+            "value": "MENDING_MODIFIER",
+            "multiply": {
+              "math": [
+                "( ( u_spell_level('vita_healing_trance') * 0.25 ) + 1 ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
+              ]
+            }
+          },
+          { "value": "REGEN_HP_AWAKE", "multiply": 1 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_vitakin_hurt",
     "name": [ "Enervating Touch" ],
     "desc": [ "This reduces monsters' regeneration.  It's a bug if you have it." ],
@@ -1863,9 +1977,9 @@
       "health_min": [ 0 ],
       "health_chance": [ 1000 ],
       "health_tick": [ 60 ],
-      "fatigue_min": [ 0 ],
-      "fatigue_chance": [ 500 ],
-      "fatigue_tick": [ 60 ],
+      "sleepiness_min": [ 0 ],
+      "sleepiness_chance": [ 500 ],
+      "sleepiness_tick": [ 60 ],
       "vomit_chance": [ 1000 ],
       "vomit_tick": [ 60 ]
     },
@@ -1877,8 +1991,8 @@
       "pain_chance": [ -1 ],
       "health_min": [ -1 ],
       "health_chance": [ -135 ],
-      "fatigue_min": [ 0.6 ],
-      "fatigue_chance": [ -65 ],
+      "sleepiness_min": [ 0.6 ],
+      "sleepiness_chance": [ -65 ],
       "vomit_chance": [ -150 ]
     }
   },

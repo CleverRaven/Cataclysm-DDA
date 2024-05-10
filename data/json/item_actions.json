@@ -502,6 +502,21 @@
   },
   {
     "type": "item_action",
+    "id": "HEAT_LIQUID_ITEMS",
+    "name": { "str": "Heat up liquid items" }
+  },
+  {
+    "type": "item_action",
+    "id": "HEAT_SOLID_ITEMS",
+    "name": { "str": "Heat up solid items" }
+  },
+  {
+    "type": "item_action",
+    "id": "HEAT_ALL_ITEMS",
+    "name": { "str": "Heat up solid or liquid items" }
+  },
+  {
+    "type": "item_action",
     "id": "HONEYCOMB",
     "name": { "str": "Consume" }
   },
@@ -734,16 +749,6 @@
     "type": "item_action",
     "id": "MANAGE_EXOSUIT",
     "name": { "str": "Manage exosuit modules" }
-  },
-  {
-    "type": "item_action",
-    "id": "RM13ARMOR_OFF",
-    "name": { "str": "Turn on" }
-  },
-  {
-    "type": "item_action",
-    "id": "RM13ARMOR_ON",
-    "name": { "str": "Turn off" }
   },
   {
     "type": "item_action",

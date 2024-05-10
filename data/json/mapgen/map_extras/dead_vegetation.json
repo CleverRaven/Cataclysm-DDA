@@ -1,0 +1,96 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_dead_vegetation",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "15x15_dead_vegetation" ], "x": [ 4, 5 ], "y": [ 4, 5 ] },
+        { "chunks": [ "15x15_dead_vegetation" ], "x": [ 0, 4 ], "y": [ 0, 9 ] },
+        { "chunks": [ "15x15_dead_vegetation" ], "x": [ 5, 9 ], "y": [ 0, 9 ] },
+        { "chunks": [ "15x15_dead_vegetation" ], "x": [ 0, 9 ], "y": [ 0, 4 ] },
+        { "chunks": [ "15x15_dead_vegetation" ], "x": [ 0, 9 ], "y": [ 5, 9 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_point_dead_vegetation",
+    "object": { "place_nested": [ { "chunks": [ "15x15_dead_vegetation" ], "x": [ 0, 9 ], "y": [ 0, 9 ] } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "15x15_dead_vegetation",
+    "object": {
+      "mapgensize": [ 15, 15 ],
+      "place_nested": [
+        { "chunks": [ "7x7_dead_vegetation" ], "x": [ 0, 8 ], "y": [ 0, 8 ] },
+        { "chunks": [ "7x7_dead_vegetation" ], "x": [ 0, 8 ], "y": [ 0, 8 ] },
+        { "chunks": [ "7x7_dead_vegetation" ], "x": [ 0, 8 ], "y": [ 0, 8 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "7x7_dead_vegetation",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "  xxx  ",
+        " xXXXx ",
+        "xXXXXXx",
+        "xXXXXXx",
+        "xXXXXXx",
+        " xXXXx ",
+        "  xxx  "
+      ],
+      "nested": { "X": { "chunks": [ "1x1_dead_vegetation" ] }, "x": { "chunks": [ "1x1_dead_vegetation", "null" ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_dead_vegetation",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "ter_furn_transforms": { " ": { "transform": "dead_vegetation" } },
+      "place_items": [ { "item": "dead_vegetation", "x": 0, "y": 0, "chance": 1 } ]
+    }
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "dead_vegetation",
+    "//": "Ideally place withered plant item somehow",
+    "furniture": [
+      {
+        "result": "f_null",
+        "valid_flags": [ "PLANT", "FLOWER", "ORGANIC" ],
+        "//": "Ideally place a withered plant, for now we just place items randomly"
+      }
+    ],
+    "terrain": [
+      {
+        "result": "t_grass_dead",
+        "valid_terrain": [ "t_grass", "t_grass_long", "t_grass_tall", "t_grass_golf", "t_grass_white", "t_moss", "t_forestfloor" ]
+      },
+      { "result": "t_tree_deadpine", "valid_terrain": [ "t_tree_pine" ] },
+      { "result": "t_tree_birch_harvested", "valid_terrain": [ "t_tree_birch" ] },
+      { "result": "t_tree_dead", "valid_terrain": [ "t_tree_willow" ] },
+      { "result": "t_tree_hickory_dead", "valid_terrain": [ "t_tree_hickory", "t_tree_hickory_harvested" ] },
+      {
+        "result": "t_dirt",
+        "valid_flags": [ "SHRUB" ],
+        "//": "Ideally place sticks half the time, for now we just place items randomly"
+      },
+      {
+        "result": "t_dirt",
+        "valid_flags": [ "YOUNG" ],
+        "//": "Ideally place a long stick half the time, for now we just place items randomly"
+      },
+      { "result": [ [ "t_tree_dead", 9 ], [ "t_trunk", 4 ], [ "t_stump", 3 ] ], "valid_flags": [ "TREE" ] }
+    ]
+  }
+]

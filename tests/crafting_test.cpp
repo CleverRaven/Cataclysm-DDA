@@ -47,6 +47,8 @@ static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 static const flag_id json_flag_ITEM_BROKEN( "ITEM_BROKEN" );
 static const flag_id json_flag_USE_UPS( "USE_UPS" );
 
+static const furn_str_id furn_f_smoking_rack( "f_smoking_rack" );
+
 static const itype_id itype_awl_bone( "awl_bone" );
 static const itype_id itype_candle( "candle" );
 static const itype_id itype_cash_card( "cash_card" );
@@ -344,7 +346,7 @@ TEST_CASE( "crafting_with_a_companion", "[.]" )
 
         REQUIRE( std::find( helpers.begin(), helpers.end(), &who ) != helpers.end() );
         dummy.invalidate_crafting_inventory();
-        REQUIRE_FALSE( dummy.get_available_recipes( dummy.crafting_inventory(), &helpers ).contains( r ) );
+        REQUIRE_FALSE( dummy.get_group_available_recipes().contains( r ) );
         REQUIRE_FALSE( who.knows_recipe( r ) );
 
         WHEN( "you have the required skill" ) {
@@ -355,7 +357,7 @@ TEST_CASE( "crafting_with_a_companion", "[.]" )
 
                 THEN( "he helps you" ) {
                     dummy.invalidate_crafting_inventory();
-                    CHECK( dummy.get_available_recipes( dummy.crafting_inventory(), &helpers ).contains( r ) );
+                    CHECK( dummy.get_group_available_recipes().contains( r ) );
                 }
             }
             AND_WHEN( "he has the cookbook in his inventory" ) {
@@ -366,7 +368,7 @@ TEST_CASE( "crafting_with_a_companion", "[.]" )
 
                 THEN( "he shows it to you" ) {
                     dummy.invalidate_crafting_inventory();
-                    CHECK( dummy.get_available_recipes( dummy.crafting_inventory(), &helpers ).contains( r ) );
+                    CHECK( dummy.get_group_available_recipes().contains( r ) );
                 }
             }
         }
@@ -479,8 +481,7 @@ static void setup_test_craft( const recipe_id &rid )
 
     // This really shouldn't be needed, but for some reason the tests fail for mingw builds without it
     player_character.learn_recipe( &rec );
-    const inventory &inv = player_character.crafting_inventory();
-    REQUIRE( player_character.has_recipe( &rec, inv, player_character.get_crafting_helpers() ) );
+    REQUIRE( player_character.has_recipe( &rec ) );
     player_character.remove_weapon();
     REQUIRE( !player_character.is_armed() );
     player_character.make_craft( rid, 1 );
@@ -507,7 +508,7 @@ static int actually_test_craft( const recipe_id &rid, int interrupt_after_turns,
             set_time( midnight ); // Kill light to interrupt crafting
         }
         ++turns;
-        player_character.moves = 100;
+        player_character.set_moves( 100 );
         player_character.activity.do_turn( player_character );
         if( turns % 60 == 0 ) {
             player_character.update_mental_focus();
@@ -528,7 +529,7 @@ static int test_craft_for_prof( const recipe_id &rid, const proficiency_id &prof
             set_time( midnight );
         }
 
-        player_character.moves = 100;
+        player_character.set_moves( 100 );
         player_character.set_focus( 100 );
         player_character.activity.do_turn( player_character );
         ++turns;
@@ -1027,7 +1028,7 @@ static int resume_craft()
     int turns = 0;
     while( player_character.activity.id() == ACT_CRAFT ) {
         ++turns;
-        player_character.moves = 100;
+        player_character.set_moves( 100 );
         player_character.activity.do_turn( player_character );
         if( turns % 60 == 0 ) {
             player_character.update_mental_focus();
@@ -2298,7 +2299,7 @@ TEST_CASE( "pseudo_tools_in_crafting_inventory", "[crafting][tools]" )
     const tripoint furn1_pos( 60, 57, 0 );
     const tripoint furn2_pos( 60, 56, 0 );
 
-    const itype_id pseudo_tool = f_smoking_rack.obj().crafting_pseudo_item;
+    const itype_id pseudo_tool = furn_f_smoking_rack.obj().crafting_pseudo_item;
 
     GIVEN( "a vehicle with a liquid tank" ) {
         vehicle *veh = here.add_vehicle( vehicle_prototype_test_rv, veh_pos, 0_degrees, 0, 0 );
@@ -2341,7 +2342,7 @@ TEST_CASE( "pseudo_tools_in_crafting_inventory", "[crafting][tools]" )
         clear_vehicles();
     }
     GIVEN( "a smoking rack" ) {
-        REQUIRE( here.furn_set( furn1_pos, f_smoking_rack ) );
+        REQUIRE( here.furn_set( furn1_pos, furn_f_smoking_rack ) );
         WHEN( "the smoking rack does not contain any charcoal" ) {
             REQUIRE( here.i_at( furn1_pos ).empty() );
             THEN( "crafting inventory contains pseudo tool for the smoker, but without any ammo" ) {
@@ -2364,7 +2365,7 @@ TEST_CASE( "pseudo_tools_in_crafting_inventory", "[crafting][tools]" )
                 CHECK( rack.ammo_remaining() == 200 );
             }
             GIVEN( "an additional smoking rack" ) {
-                REQUIRE( here.furn_set( furn2_pos, f_smoking_rack ) );
+                REQUIRE( here.furn_set( furn2_pos, furn_f_smoking_rack ) );
                 WHEN( "the second smoking rack does not contain any charcoal" ) {
                     REQUIRE( here.i_at( furn2_pos ).empty() );
                     THEN( "crafting inventory contains pseudo tool for smoking rack, with ammo" ) {

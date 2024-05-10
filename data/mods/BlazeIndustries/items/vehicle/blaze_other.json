@@ -11,8 +11,8 @@
     "material": [ "steel", "plastic" ],
     "volume": "200 L",
     "category": "veh_parts",
-    "price": 80000,
-    "price_postapoc": 1000,
+    "price": "800 USD",
+    "price_postapoc": "10 USD",
     "melee_damage": { "bash": 2 }
   },
   {
@@ -25,8 +25,8 @@
     "color": "white",
     "weight": "142882 g",
     "volume": "300 L",
-    "price": 40000,
-    "price_postapoc": 10000,
+    "price": "400 USD",
+    "price_postapoc": "100 USD",
     "material": [ "steel" ],
     "to_hit": -4,
     "flags": [ "DURABLE_MELEE" ],
@@ -54,7 +54,7 @@
     "weight": "66 kg",
     "volume": "500 L",
     "longest_side": "116cm",
-    "price": 0,
-    "price_postapoc": 10
+    "price": "0 cent",
+    "price_postapoc": "10 cent"
   }
 ]

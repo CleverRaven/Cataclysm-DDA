@@ -65,9 +65,8 @@ static const ammotype ammo_NULL( "NULL" );
 static const damage_type_id damage_bash( "bash" );
 static const damage_type_id damage_bullet( "bullet" );
 
-static const furn_str_id furn_f_plant_harvest( "f_plant_harvest" );
-static const furn_str_id furn_f_plant_mature( "f_plant_mature" );
-static const furn_str_id furn_f_plant_seedling( "f_plant_seedling" );
+static const flag_id json_flag_NO_RELOAD( "NO_RELOAD" );
+static const flag_id json_flag_NO_UNLOAD( "NO_UNLOAD" );
 
 static const gun_mode_id gun_mode_DEFAULT( "DEFAULT" );
 static const gun_mode_id gun_mode_MELEE( "MELEE" );
@@ -782,6 +781,18 @@ void Item_factory::finalize_post( itype &obj )
         }
     }
 
+    if( obj.has_flag( json_flag_NO_UNLOAD ) ) {
+        for( pocket_data &pocket : obj.pockets ) {
+            pocket._no_unload = true;
+        }
+    }
+
+    if( obj.has_flag( json_flag_NO_RELOAD ) ) {
+        for( pocket_data &pocket : obj.pockets ) {
+            pocket._no_reload = true;
+        }
+    }
+
     // go through each pocket and assign the name as a fallback definition
     for( pocket_data &pocket : obj.pockets ) {
         pocket.name = obj.name;
@@ -800,6 +811,7 @@ void Item_factory::finalize_post( itype &obj )
 
 void Item_factory::finalize_post_armor( itype &obj )
 {
+    // Tally up all the hard-defined similar BPs
     for( armor_portion_data &data : obj.armor->sub_data ) {
         body_part_set similar_bp;
         if( data.covers.has_value() ) {
@@ -812,6 +824,7 @@ void Item_factory::finalize_post_armor( itype &obj )
         data.covers->unify_set( similar_bp );
     }
 
+    // Add sublimb coverage when missing explicit definition
     for( armor_portion_data &data : obj.armor->sub_data ) {
         // if no sub locations are specified assume it covers everything
         if( data.covers.has_value() && data.sub_coverage.empty() ) {
@@ -837,7 +850,17 @@ void Item_factory::finalize_post_armor( itype &obj )
             }
         }
         data.sub_coverage.merge( similar_sbp );
+        // We populated substitutes
+        // Handle incomplete matches (ie defined sub coverage without parent coverage)
+        if( !data.sub_coverage.empty() ) {
+            for( const sub_bodypart_str_id &sbp : data.sub_coverage ) {
+                if( !data.covers->test( sbp->parent ) ) {
+                    data.covers->set( sbp->parent );
+                }
+            }
+        }
     }
+
 
     // if this armor doesn't have material info should try to populate it with base item materials
     for( armor_portion_data &data : obj.armor->sub_data ) {
@@ -1829,8 +1852,6 @@ void Item_factory::init()
     add_iuse( "REMOTEVEH", &iuse::remoteveh );
     add_iuse( "REMOTEVEH_TICK", &iuse::remoteveh_tick );
     add_iuse( "REMOVE_ALL_MODS", &iuse::remove_all_mods );
-    add_iuse( "RM13ARMOR_OFF", &iuse::rm13armor_off );
-    add_iuse( "RM13ARMOR_ON", &iuse::rm13armor_on );
     add_iuse( "ROBOTCONTROL", &iuse::robotcontrol );
     add_iuse( "SEED", &iuse::seed );
     add_iuse( "SEWAGE", &iuse::sewage );
@@ -1858,6 +1879,9 @@ void Item_factory::init()
     add_iuse( "WASH_SOFT_ITEMS", &iuse::wash_soft_items );
     add_iuse( "WASH_HARD_ITEMS", &iuse::wash_hard_items );
     add_iuse( "WASH_ALL_ITEMS", &iuse::wash_all_items );
+    add_iuse( "HEAT_LIQUID_ITEMS", &iuse::heat_liquid_items );
+    add_iuse( "HEAT_SOLID_ITEMS", &iuse::heat_solid_items );
+    add_iuse( "HEAT_ALL_ITEMS", &iuse::heat_all_items );
     add_iuse( "WATER_PURIFIER", &iuse::water_purifier );
     add_iuse( "WEAK_ANTIBIOTIC", &iuse::weak_antibiotic );
     add_iuse( "WEATHER_TOOL", &iuse::weather_tool );
@@ -2213,6 +2237,21 @@ void Item_factory::check_definitions() const
             }
 
             for( const std::pair<const itype_id, int> &b : type->brewable->results ) {
+                if( !has_template( b.first ) ) {
+                    msg += string_format( "invalid result id %s\n", b.first.c_str() );
+                }
+            }
+        }
+        if( type->compostable ) {
+            if( type->compostable->time < 1_turns ) {
+                msg += "fermenting time is less than 1 turn\n";
+            }
+
+            if( type->compostable->results.empty() ) {
+                msg += "empty product list\n";
+            }
+
+            for( const std::pair<const itype_id, int> &b : type->compostable->results ) {
                 if( !has_template( b.first ) ) {
                     msg += string_format( "invalid result id %s\n", b.first.c_str() );
                 }
@@ -2643,6 +2682,7 @@ void islot_ammo::load( const JsonObject &jo )
     assign( jo, "drop_chance", drop_chance, strict, 0.0f, 1.0f );
     optional( jo, was_loaded, "drop_active", drop_active, true );
     optional( jo, was_loaded, "projectile_count", count, 1 );
+    optional( jo, was_loaded, "multi_projectile_effects", multi_projectile_effects, false );
     optional( jo, was_loaded, "shot_spread", shot_spread, 0 );
     assign( jo, "shot_damage", shot_damage, strict );
     // Damage instance assign reader handles pierce and prop_damage
@@ -3049,8 +3089,6 @@ void islot_armor::load( const JsonObject &jo )
     optional( jo, was_loaded, "warmth", warmth, 0 );
     optional( jo, was_loaded, "non_functional", non_functional, itype_id() );
     optional( jo, was_loaded, "damage_verb", damage_verb );
-    optional( jo, was_loaded, "weight_capacity_modifier", weight_capacity_modifier, 1.0 );
-    optional( jo, was_loaded, "weight_capacity_bonus", weight_capacity_bonus, mass_reader{}, 0_gram );
     optional( jo, was_loaded, "power_armor", power_armor, false );
     optional( jo, was_loaded, "valid_mods", valid_mods );
 }
@@ -3254,7 +3292,7 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
     assign( jo, "quench", slot.quench, strict );
     assign( jo, "fun", slot.fun, strict );
     assign( jo, "stim", slot.stim, strict );
-    assign( jo, "fatigue_mod", slot.fatigue_mod, strict );
+    assign( jo, "sleepiness_mod", slot.sleepiness_mod, strict );
     assign( jo, "healthy", slot.healthy, strict );
     assign( jo, "parasites", slot.parasites, strict, 0 );
     assign( jo, "freezing_point", slot.freeze_point, strict );
@@ -3395,6 +3433,23 @@ void islot_brewable::deserialize( const JsonObject &jo )
     load( jo );
 }
 
+void islot_compostable::load( const JsonObject &jo )
+{
+    optional( jo, was_loaded, "time", time, 1_turns );
+    if( jo.has_array( "results" ) ) {
+        for( std::string entry : jo.get_string_array( "results" ) ) {
+            results[itype_id( entry )] = 1;
+        }
+    } else {
+        mandatory( jo, was_loaded, "results", results );
+    }
+}
+
+void islot_compostable::deserialize( const JsonObject &jo )
+{
+    load( jo );
+}
+
 void Item_factory::load_comestible( const JsonObject &jo, const std::string &src )
 {
     itype def;
@@ -3413,9 +3468,6 @@ void islot_seed::load( const JsonObject &jo )
     mandatory( jo, was_loaded, "fruit", fruit_id );
     optional( jo, was_loaded, "seeds", spawn_seeds, true );
     optional( jo, was_loaded, "byproducts", byproducts );
-    optional( jo, was_loaded, "seedling_form", seedling_form, furn_f_plant_seedling );
-    optional( jo, was_loaded, "mature_form", mature_form, furn_f_plant_mature );
-    optional( jo, was_loaded, "harvestable_form", harvestable_form, furn_f_plant_harvest );
     optional( jo, was_loaded, "required_terrain_flag", required_terrain_flag,
               ter_furn_flag::TFLAG_PLANTABLE );
 }
@@ -3593,11 +3645,9 @@ void Item_factory::load_generic( const JsonObject &jo, const std::string &src )
 // Set for all items (not just food and clothing) to avoid edge cases
 void Item_factory::set_allergy_flags( itype &item_template )
 {
-    static const std::array<std::pair<material_id, flag_id>, 31> all_pairs = { {
+    static const std::array<std::pair<material_id, flag_id>, 29> all_pairs = { {
             // First allergens:
             // An item is an allergen even if it has trace amounts of allergenic material
-            { material_hflesh, flag_CANNIBALISM },
-            { material_hblood, flag_CANNIBALISM },
             { material_hflesh, flag_ALLERGEN_MEAT },
             { material_iflesh, flag_ALLERGEN_MEAT },
             { material_bread, flag_ALLERGEN_BREAD },
@@ -3642,6 +3692,7 @@ void Item_factory::set_allergy_flags( itype &item_template )
 
 // Migration helper: turns human flesh into generic flesh
 // Don't call before making sure that the cannibalism flag is set
+// Cannibalism is vitamin based now but how old is this? Is it still useful?
 void hflesh_to_flesh( itype &item_template )
 {
     auto &mats = item_template.materials;
@@ -4395,6 +4446,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "ammo_data", def.ammo, src == "dda" );
     assign( jo, "seed_data", def.seed, src == "dda" );
     assign( jo, "brewable", def.brewable, src == "dda" );
+    assign( jo, "compostable", def.compostable, src == "dda" );
     load_slot_optional( def.relic_data, jo, "relic_data", src );
     assign( jo, "milling", def.milling_data, src == "dda" );
 
@@ -4548,35 +4600,8 @@ itype_id Item_factory::migrate_id( const itype_id &id )
     return parent != nullptr ? parent->replace : id;
 }
 
-void Item_factory::migrate_item( const itype_id &id, item &obj )
+static void apply_migration( const migration *migrant, item &obj )
 {
-    auto iter = migrations.find( id );
-    if( iter == migrations.end() ) {
-        return;
-    }
-    bool convert = false;
-    const migration *migrant = nullptr;
-    for( const migration &m : iter->second ) {
-        if( m.from_variant && obj.has_itype_variant() && obj.itype_variant().id == *m.from_variant ) {
-            migrant = &m;
-            // This is not the variant that the item has already been convert to
-            // So we'll convert it again.
-            convert = true;
-            break;
-        }
-        // When we find a migration that doesn't care about variants, keep it around
-        if( !m.from_variant ) {
-            migrant = &m;
-        }
-    }
-    if( migrant == nullptr ) {
-        return;
-    }
-
-    if( convert ) {
-        obj.convert( migrant->replace );
-    }
-
     if( migrant->reset_item_vars ) {
         obj.clear_vars();
         for( const auto &pair : migrant->replace.obj().item_variables ) {
@@ -4611,6 +4636,54 @@ void Item_factory::migrate_item( const itype_id &id, item &obj )
 
     if( !migrant->contents.empty() && migrant->sealed ) {
         obj.seal();
+    }
+}
+
+void Item_factory::migrate_item( const itype_id &id, item &obj )
+{
+    auto iter = migrations.find( id );
+    if( iter == migrations.end() ) {
+        return;
+    }
+    bool convert = false;
+    const migration *migrant = nullptr;
+    for( const migration &m : iter->second ) {
+        if( m.from_variant && obj.has_itype_variant() && obj.itype_variant().id == *m.from_variant ) {
+            migrant = &m;
+            // This is not the variant that the item has already been convert to
+            // So we'll convert it again.
+            convert = true;
+            break;
+        }
+        // When we find a migration that doesn't care about variants, keep it around
+        if( !m.from_variant ) {
+            migrant = &m;
+        }
+    }
+    if( migrant == nullptr ) {
+        return;
+    }
+
+    if( convert ) {
+        obj.convert( migrant->replace );
+    }
+
+    apply_migration( migrant, obj );
+}
+
+void Item_factory::migrate_item_from_variant( item &obj, const std::string &from_variant )
+{
+    auto iter = migrations.find( obj.typeId() );
+    if( iter == migrations.end() ) {
+        return;
+    }
+    for( const migration &m : iter->second ) {
+        if( !m.from_variant.has_value() || m.from_variant.value() != from_variant ) {
+            continue;
+        }
+        obj.convert( m.replace );
+        apply_migration( &m, obj );
+        break;
     }
 }
 
@@ -4735,6 +4808,10 @@ void Item_factory::clear()
     migrated_magazines.clear();
     migrations.clear();
 
+    /* Avoid unvisited member errors when iterating on json */
+    for( std::pair<JsonObject, std::string> &deferred_json : deferred ) {
+        deferred_json.first.allow_omitted_members();
+    }
     deferred.clear();
 
     frozen = false;
@@ -4940,6 +5017,15 @@ void Item_factory::add_entry( Item_group &ig, const JsonObject &obj, const std::
         sptr->container_item_variant = jo.get_string( "variant" );
     } else {
         use_modifier |= load_sub_ref( modifier.container, obj, "container", ig );
+    }
+    if( obj.has_array( "components" ) ) {
+        JsonArray ja = obj.get_array( "components" );
+        std::vector<itype_id> made_of;
+        for( JsonValue sub : ja ) {
+            itype_id component = itype_id( sub );
+            made_of.emplace_back( component );
+        }
+        sptr->components_items = made_of;
     }
     use_modifier |= load_sub_ref( modifier.contents, obj, "contents", ig );
     use_modifier |= load_str_arr( modifier.snippets, obj, "snippets" );

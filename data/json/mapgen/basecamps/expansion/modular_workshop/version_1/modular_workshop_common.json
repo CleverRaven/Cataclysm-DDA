@@ -3,18 +3,7 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbmw_0",
-    "object": {
-      "mapgensize": [ 6, 6 ],
-      "rows": [
-        "      ",
-        "      ",
-        "      ",
-        "      ",
-        "      ",
-        "      "
-      ],
-      "palettes": [ "fbmw_common_palette" ]
-    }
+    "object": { "mapgensize": [ 6, 6 ], "palettes": [ "fbmw_common_palette" ] }
   },
   {
     "type": "mapgen",

@@ -1,4 +1,3 @@
-#if !defined(__ANDROID__)
 #include "cata_imgui.h"
 
 #include <stack>
@@ -11,6 +10,9 @@
 #include "input.h"
 #include "output.h"
 #include "ui_manager.h"
+#include "input_context.h"
+
+static ImGuiKey cata_key_to_imgui( int cata_key );
 
 #if !(defined(TILES) || defined(WIN32))
 #include <curses.h>
@@ -33,7 +35,6 @@ struct pairs {
 std::array<RGBTuple, color_loader<RGBTuple>::COLOR_NAMES_COUNT> rgbPalette;
 std::array<pairs, 100> colorpairs;   //storage for pair'ed colored
 
-ImTui::TScreen *imtui_screen = nullptr;
 std::vector<std::pair<int, ImTui::mouse_event>> imtui_events;
 
 cataimgui::client::client()
@@ -42,7 +43,7 @@ cataimgui::client::client()
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
 
-    imtui_screen = ImTui_ImplNcurses_Init();
+    ImTui_ImplNcurses_Init();
     ImTui_ImplText_Init();
 
     ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
@@ -71,8 +72,13 @@ void cataimgui::client::end_frame()
 {
     ImGui::Render();
 
-    ImTui_ImplText_RenderDrawData( ImGui::GetDrawData(), imtui_screen );
+    ImTui_ImplText_RenderDrawData( ImGui::GetDrawData() );
     ImTui_ImplNcurses_DrawScreen();
+    ImGuiIO &io = ImGui::GetIO();
+    for( const int &code : cata_input_trail ) {
+        io.AddKeyEvent( cata_key_to_imgui( code ), false );
+    }
+    cata_input_trail.clear();
 }
 
 void cataimgui::client::upload_color_pair( int p, int f, int b )
@@ -88,6 +94,9 @@ void cataimgui::client::set_alloced_pair_count( short count )
 
 void cataimgui::client::process_input( void *input )
 {
+    if( !any_window_shown() ) {
+        return;
+    }
     if( input ) {
         input_event *curses_input = static_cast<input_event *>( input );
         ImTui::mouse_event new_mouse_event = ImTui::mouse_event();
@@ -157,28 +166,87 @@ RGBTuple color_loader<RGBTuple>::from_rgb( const int r, const int g, const int b
 }
 #else
 #include "sdl_utils.h"
+#include "sdl_font.h"
+#include "font_loader.h"
+#include "wcwidth.h"
 #include <imgui/imgui_impl_sdl2.h>
 #include <imgui/imgui_impl_sdlrenderer2.h>
 
-SDL_Renderer *cataimgui::client::sdl_renderer = nullptr;
-SDL_Window *cataimgui::client::sdl_window = nullptr;
+struct CataImFont : public ImFont {
+    std::unordered_map<ImU32, unsigned char> sdlColorsToCata;
+    const cataimgui::client &imclient;
+    const std::unique_ptr<Font> &cata_font;
+    CataImFont( const cataimgui::client &imclient, const std::unique_ptr<Font> &cata_font ) :
+        imclient( imclient ), cata_font( cata_font ) {
+    }
 
-cataimgui::client::client()
+    // this function QUEUES a character to be drawn
+    bool CanRenderFallbackChar( const char *s_begin, const char *s_end ) const override {
+        return s_begin != nullptr && s_end != nullptr;
+    }
+
+    int GetFallbackCharWidth( const char *s_begin, const char *s_end,
+                              const float scale ) const override {
+        return cata_font->width * utf8_width( std::string( s_begin, s_end ) ) * int( scale );
+    }
+
+    int GetFallbackCharWidth( ImWchar c, const float scale ) const override {
+        return cata_font->width * mk_wcwidth( c ) * scale;
+    }
+};
+static CataImFont *activeFont;
+
+cataimgui::client::client( const SDL_Renderer_Ptr &sdl_renderer, const SDL_Window_Ptr &sdl_window,
+                           const GeometryRenderer_Ptr &sdl_geometry ) :
+    sdl_renderer( sdl_renderer ),
+    sdl_window( sdl_window ),
+    sdl_geometry( sdl_geometry )
 {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO &io = ImGui::GetIO();
-    ( void )io;
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+    io.ConfigInputTrickleEventQueue = false;
 
     io.IniFilename = nullptr;
     io.LogFilename = nullptr;
 
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
-    ImGui_ImplSDL2_InitForSDLRenderer( sdl_window, sdl_renderer );
-    ImGui_ImplSDLRenderer2_Init( sdl_renderer );
+    ImGui_ImplSDL2_InitForSDLRenderer( sdl_window.get(), sdl_renderer.get() );
+    ImGui_ImplSDLRenderer2_Init( sdl_renderer.get() );
+}
+
+void cataimgui::client::load_fonts( const std::unique_ptr<Font> &cata_font,
+                                    const std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> &windowsPalette )
+{
+    ImGuiIO &io = ImGui::GetIO();
+    if( ImGui::GetIO().FontDefault == nullptr ) {
+        std::vector<std::string> typefaces;
+        ensure_unifont_loaded( typefaces );
+
+        ImFontConfig cfg;
+        cfg.DstFont = activeFont = new CataImFont( *this, cata_font );
+        for( size_t index = 0; index < color_loader<SDL_Color>::COLOR_NAMES_COUNT; index++ ) {
+            SDL_Color sdlCol = windowsPalette[index];
+            ImU32 rgb = sdlCol.b << 16 | sdlCol.g << 8 | sdlCol.r;
+            activeFont->sdlColorsToCata[rgb] = index;
+        }
+        io.FontDefault = io.Fonts->AddFontFromFileTTF( typefaces[0].c_str(), cata_font->height, &cfg,
+                         io.Fonts->GetGlyphRangesDefault() );
+        io.Fonts->Fonts[0] = cfg.DstFont;
+        ImGui_ImplSDLRenderer2_SetFallbackGlyphDrawCallback( [&]( const ImFontGlyphToDraw & glyph ) {
+            std::string uni_string = std::string( glyph.uni_str );
+            point p( int( glyph.pos.x ), int( glyph.pos.y - 3 ) );
+            unsigned char col = 0;
+            auto it = activeFont->sdlColorsToCata.find( glyph.col & 0xFFFFFF );
+            if( it != activeFont->sdlColorsToCata.end() ) {
+                col = it->second;
+            }
+            cata_font->OutputChar( sdl_renderer, sdl_geometry, glyph.uni_str, p, col );
+        } );
+    }
 }
 
 cataimgui::client::~client()
@@ -198,14 +266,81 @@ void cataimgui::client::end_frame()
 {
     ImGui::Render();
     ImGui_ImplSDLRenderer2_RenderDrawData( ImGui::GetDrawData() );
+    ImGuiIO &io = ImGui::GetIO();
+    for( const int &code : cata_input_trail ) {
+        io.AddKeyEvent( cata_key_to_imgui( code ), false );
+    }
+    cata_input_trail.clear();
 }
 
 void cataimgui::client::process_input( void *input )
 {
-    ImGui_ImplSDL2_ProcessEvent( static_cast<const SDL_Event *>( input ) );
+    if( any_window_shown() ) {
+        ImGui_ImplSDL2_ProcessEvent( static_cast<const SDL_Event *>( input ) );
+    }
 }
 
 #endif
+
+bool cataimgui::client::auto_size_frame_active()
+{
+    for( const ImGuiWindow *window : GImGui->Windows ) {
+        if( ( window->ContentSize.x == 0 || window->ContentSize.y == 0 ) && ( window->AutoFitFramesX > 0 ||
+                window->AutoFitFramesY > 0 ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool cataimgui::client::any_window_shown()
+{
+    bool any_window_shown = false;
+    for( const ImGuiWindow *window : GImGui->Windows ) {
+        if( window->Active && !window->Hidden ) {
+            any_window_shown = true;
+            break;
+        }
+    }
+    return any_window_shown;
+}
+
+static ImGuiKey cata_key_to_imgui( int cata_key )
+{
+    switch( cata_key ) {
+        case KEY_UP:
+            return ImGuiKey_UpArrow;
+        case KEY_DOWN:
+            return ImGuiKey_DownArrow;
+        case KEY_LEFT:
+            return ImGuiKey_LeftArrow;
+        case KEY_RIGHT:
+            return ImGuiKey_RightArrow;
+        case KEY_ENTER:
+            return ImGuiKey_Enter;
+        case KEY_ESCAPE:
+            return ImGuiKey_Escape;
+        default:
+            if( cata_key >= 'a' && cata_key <= 'z' ) {
+                return static_cast<ImGuiKey>( ImGuiKey_A + ( cata_key - 'a' ) );
+            } else if( cata_key >= 'A' && cata_key <= 'Z' ) {
+                return static_cast<ImGuiKey>( ImGuiKey_A + ( cata_key - 'A' ) );
+            } else if( cata_key >= '0' && cata_key <= '9' ) {
+                return static_cast<ImGuiKey>( ImGuiKey_A + ( cata_key - '0' ) );
+            }
+            return ImGuiKey_None;
+    }
+}
+
+void cataimgui::client::process_cata_input( const input_event &event )
+{
+    if( event.type == input_event_t::keyboard_code || event.type == input_event_t::keyboard_char ) {
+        int code = event.get_first_input();
+        ImGuiIO &io = ImGui::GetIO();
+        io.AddKeyEvent( cata_key_to_imgui( code ), true );
+        cata_input_trail.push_back( code );
+    }
+}
 
 void cataimgui::point_to_imvec2( point *src, ImVec2 *dest )
 {
@@ -323,19 +458,19 @@ class cataimgui::window_impl
             window_adaptor->is_imgui = true;
             window_adaptor->on_redraw( [this]( ui_adaptor & ) {
                 win_base->draw();
-                point catapos;
-                point catasize;
-                ImVec2 impos = ImGui::GetWindowPos();
-                ImVec2 imsize = ImGui::GetWindowSize();
-                imvec2_to_point( &impos, &catapos );
-                imvec2_to_point( &imsize, &catasize );
-                window_adaptor->position( catapos, catasize );
             } );
             window_adaptor->on_screen_resize( [this]( ui_adaptor & ) {
                 is_resized = true;
                 win_base->on_resized();
             } );
         }
+};
+
+class cataimgui::filter_box_impl
+{
+    public:
+        std::array<char, 255> text;
+        ImGuiID id;
 };
 
 cataimgui::window::window( int window_flags )
@@ -354,8 +489,17 @@ cataimgui::window::window( const std::string &id_, int window_flags ) : window( 
     is_open = true;
 }
 
-
-cataimgui::window::~window() = default;
+cataimgui::window::~window()
+{
+    p_impl.reset();
+    if( GImGui ) {
+        ImGui::ClearWindowSettings( id.c_str() );
+        if( !ui_adaptor::has_imgui() ) {
+            ImGui::GetIO().ClearInputKeys();
+            GImGui->InputEventsQueue.resize( 0 );
+        }
+    }
+}
 
 bool cataimgui::window::is_bounds_changed()
 {
@@ -427,7 +571,7 @@ void cataimgui::window::draw()
         if( cached_bounds.y != -1.f ) {
             center.y = cached_bounds.y;
         }
-        ImGui::SetNextWindowPos( center, ImGuiCond_Appearing, { cached_bounds.x == -1.f ? 0.5f : 0.f,  cached_bounds.y == -1.f ? 0.5f : 0.f } );
+        ImGui::SetNextWindowPos( center, ImGuiCond_Always, { cached_bounds.x == -1.f ? 0.5f : 0.f,  cached_bounds.y == -1.f ? 0.5f : 0.f } );
     } else if( cached_bounds.x >= 0 && cached_bounds.y >= 0 ) {
         ImGui::SetNextWindowPos( { cached_bounds.x, cached_bounds.y } );
     }
@@ -436,8 +580,17 @@ void cataimgui::window::draw()
     }
     if( ImGui::Begin( id.c_str(), &is_open, window_flags ) ) {
         draw_controls();
-        if( p_impl->window_adaptor->is_on_top ) {
+        if( p_impl->window_adaptor->is_on_top && !force_to_back ) {
             ImGui::BringWindowToDisplayFront( ImGui::GetCurrentWindow() );
+        }
+        if( handled_resize ) {
+            point catapos;
+            point catasize;
+            ImVec2 impos = ImGui::GetWindowPos();
+            ImVec2 imsize = ImGui::GetWindowSize();
+            imvec2_to_point( &impos, &catapos );
+            imvec2_to_point( &imsize, &catasize );
+            p_impl->window_adaptor->position_absolute( catapos, catasize );
         }
     }
     ImGui::End();
@@ -476,4 +629,51 @@ cataimgui::bounds cataimgui::window::get_bounds()
 {
     return { -1.f, -1.f, -1.f, -1.f };
 }
-#endif // #if defined(__ANDROID__)
+
+void cataimgui::window::draw_filter( const input_context &ctxt, bool filtering_active )
+{
+    if( !filter_impl ) {
+        filter_impl = std::make_unique<cataimgui::filter_box_impl>();
+        filter_impl->id = 0;
+        filter_impl->text[0] = '\0';
+    }
+
+    if( !filtering_active ) {
+        action_button( "FILTER", ctxt.get_button_text( "FILTER" ) );
+        ImGui::SameLine();
+        action_button( "RESET_FILTER", ctxt.get_button_text( "RESET_FILTER" ) );
+        ImGui::SameLine();
+    } else {
+        action_button( "QUIT", ctxt.get_button_text( "QUIT", _( "Cancel" ) ) );
+        ImGui::SameLine();
+        action_button( "TEXT.CONFIRM", ctxt.get_button_text( "TEXT.CONFIRM", _( "OK" ) ) );
+        ImGui::SameLine();
+    }
+    ImGui::BeginDisabled( !filtering_active );
+    ImGui::InputText( "##FILTERBOX", filter_impl->text.data(),
+                      filter_impl->text.size() );
+    ImGui::EndDisabled();
+    if( !filter_impl->id ) {
+        filter_impl->id = GImGui->LastItemData.ID;
+    }
+}
+
+std::string cataimgui::window::get_filter()
+{
+    if( filter_impl ) {
+        return std::string( filter_impl->text.data() );
+    } else {
+        return std::string();
+    }
+}
+
+void cataimgui::window::clear_filter()
+{
+    if( filter_impl && filter_impl->id != 0 ) {
+        ImGuiInputTextState *input_state = ImGui::GetInputTextState( filter_impl->id );
+        if( input_state ) {
+            input_state->ClearText();
+            filter_impl->text[0] = '\0';
+        }
+    }
+}

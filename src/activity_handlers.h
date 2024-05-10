@@ -2,23 +2,24 @@
 #ifndef CATA_SRC_ACTIVITY_HANDLERS_H
 #define CATA_SRC_ACTIVITY_HANDLERS_H
 
+#include <algorithm>
 #include <functional>
 #include <list>
 #include <map>
-#include <new>
 #include <optional>
+#include <string>
 #include <unordered_set>
 #include <vector>
 
 #include "coordinates.h"
-#include "item_location.h"
-#include "type_id.h"
 #include "requirements.h"
+#include "type_id.h"
+#include "units_fwd.h"
 
 class Character;
 class item;
+class item_location;
 class player_activity;
-struct tripoint;
 
 template<typename Point, typename Container>
 std::vector<Point> get_sorted_tiles_by_distance( const Point &center, const Container &tiles )
@@ -64,6 +65,7 @@ enum class do_activity_reason : int {
     NO_ZONE,                // There is no required zone anymore
     ALREADY_DONE,           // the activity is done already ( maybe by someone else )
     UNKNOWN_ACTIVITY,       // This is probably an error - got to the end of function with no previous reason
+    NEEDS_CLEARING,         // For farming - tile was neglected and became overgrown, can be cleared.
     NEEDS_HARVESTING,       // For farming - tile is harvestable now.
     NEEDS_PLANTING,         // For farming - tile can be planted
     NEEDS_TILLING,          // For farming - tile can be tilled
@@ -84,6 +86,37 @@ enum class do_activity_reason : int {
     NEEDS_CRAFT,             // There is at least one item to craft.
     NEEDS_DISASSEMBLE        // There is at least one item to disassemble.
 
+};
+
+// Vector because of style demands => no built in consistency check when number of enum elements change.
+const std::vector<std::string> do_activity_reason_string = {
+    "CAN_DO_CONSTRUCTION",
+    "CAN_DO_FETCH",
+    "NO_COMPONENTS",
+    "DONT_HAVE_SKILL",
+    "NO_ZONE",
+    "ALREADY_DONE",
+    "UNKNOWN_ACTIVITY",
+    "NEEDS_CLEARING",
+    "NEEDS_HARVESTING",
+    "NEEDS_PLANTING",
+    "NEEDS_TILLING",
+    "BLOCKING_TILE",
+    "NEEDS_BOOK_TO_LEARN",
+    "NEEDS_CHOPPING",
+    "NEEDS_TREE_CHOPPING",
+    "NEEDS_BIG_BUTCHERING",
+    "NEEDS_BUTCHERING",
+    "NEEDS_CUT_HARVESTING",
+    "ALREADY_WORKING",
+    "NEEDS_VEH_DECONST",
+    "NEEDS_VEH_REPAIR",
+    "WOULD_PREVENT_VEH_FLYING",
+    "NEEDS_MINING",
+    "NEEDS_MOP",
+    "NEEDS_FISHING",
+    "NEEDS_CRAFT",
+    "NEEDS_DISASSEMBLE"
 };
 
 struct activity_reason_info {
@@ -162,7 +195,7 @@ void adv_inventory_do_turn( player_activity *act, Character *you );
 void armor_layers_do_turn( player_activity *act, Character *you );
 void atm_do_turn( player_activity *act, Character *you );
 void build_do_turn( player_activity *act, Character *you );
-void butcher_do_turn( player_activity *act, Character *you );
+void dismember_do_turn( player_activity *act, Character *you );
 void chop_trees_do_turn( player_activity *act, Character *you );
 void consume_drink_menu_do_turn( player_activity *act, Character *you );
 void consume_food_menu_do_turn( player_activity *act, Character *you );
@@ -188,7 +221,6 @@ void multiple_fish_do_turn( player_activity *act, Character *you );
 void multiple_read_do_turn( player_activity *act, Character *you );
 void multiple_mine_do_turn( player_activity *act, Character *you );
 void multiple_mop_do_turn( player_activity *act, Character *you );
-void mutant_tree_communion_do_turn( player_activity *act, Character *you );
 void operation_do_turn( player_activity *act, Character *you );
 void pickaxe_do_turn( player_activity *act, Character *you );
 void pulp_do_turn( player_activity *act, Character *you );
@@ -219,7 +251,6 @@ void gunmod_add_finish( player_activity *act, Character *you );
 void heat_item_finish( player_activity *act, Character *you );
 void jackhammer_finish( player_activity *act, Character *you );
 void mend_item_finish( player_activity *act, Character *you );
-void mutant_tree_communion_finish( player_activity *act, Character *you );
 void operation_finish( player_activity *act, Character *you );
 void pickaxe_finish( player_activity *act, Character *you );
 void plant_seed_finish( player_activity *act, Character *you );

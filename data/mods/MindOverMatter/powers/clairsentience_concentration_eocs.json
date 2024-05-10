@@ -7,7 +7,6 @@
       { "u_message": "You open your senses to the world.", "type": "good" },
       { "run_eocs": [ "EOC_POWER_MAINTENANCE_PLUS_ONE" ] },
       { "u_add_effect": "effect_clair_night_eyes", "duration": "PERMANENT" },
-      { "u_cast_spell": { "id": "psionic_drained_difficulty_one", "hit_self": true } },
       {
         "queue_eocs": "EOC_CLAIR_NIGHT_EYES_DRAIN",
         "time_in_future": [
@@ -48,8 +47,9 @@
     "id": "EOC_CLAIR_NIGHT_EYES_DRAIN",
     "condition": { "u_has_effect": "effect_clair_night_eyes" },
     "effect": [
-      { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_one", "hit_self": true } },
-      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(1)" ] },
+      { "math": [ "u_latest_channeled_power_difficulty", "=", "1" ] },
+      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
+      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(1)" ] },
       { "math": [ "u_spell_exp('clair_night_vision')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -77,7 +77,6 @@
     "effect": [
       { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
       { "u_message": "You feel like sitting down with a good book.", "type": "good" },
-      { "u_cast_spell": { "id": "psionic_drained_difficulty_two", "hit_self": true } },
       { "u_add_effect": "effect_clair_speed_reader", "duration": "PERMANENT" },
       {
         "queue_eocs": "EOC_CLAIR_SPEED_READING_DRAIN",
@@ -112,8 +111,9 @@
     "id": "EOC_CLAIR_SPEED_READING_DRAIN",
     "condition": { "u_has_effect": "effect_clair_speed_reader" },
     "effect": [
-      { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_two", "hit_self": true } },
-      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(2)" ] },
+      { "math": [ "u_latest_channeled_power_difficulty", "=", "2" ] },
+      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
+      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(2)" ] },
       { "math": [ "u_spell_exp('clair_speed_reading')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -142,7 +142,6 @@
       { "u_message": "Swirling colors coalesce around others' bodies", "type": "good" },
       { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
       { "u_add_effect": "effect_clair_see_auras", "duration": "PERMANENT" },
-      { "u_cast_spell": { "id": "psionic_drained_difficulty_three", "hit_self": true } },
       {
         "queue_eocs": "EOC_CLAIR_SEE_AURAS_DRAIN",
         "time_in_future": [
@@ -172,8 +171,9 @@
     "id": "EOC_CLAIR_SEE_AURAS_DRAIN",
     "condition": { "u_has_effect": "effect_clair_see_auras" },
     "effect": [
-      { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_three", "hit_self": true } },
-      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(3)" ] },
+      { "math": [ "u_latest_channeled_power_difficulty", "=", "3" ] },
+      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
+      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(3)" ] },
       { "math": [ "u_spell_exp('clair_see_auras')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -202,7 +202,6 @@
       { "u_message": "You open your senses to the dangers of the world.", "type": "good" },
       { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
       { "u_add_effect": "effect_clair_premonition", "duration": "PERMANENT" },
-      { "u_cast_spell": { "id": "psionic_drained_difficulty_two", "hit_self": true } },
       {
         "queue_eocs": "EOC_CLAIR_DANGER_SENSE_DRAIN",
         "time_in_future": [
@@ -232,8 +231,9 @@
     "id": "EOC_CLAIR_DANGER_SENSE_DRAIN",
     "condition": { "u_has_effect": "effect_clair_premonition" },
     "effect": [
-      { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_two", "hit_self": true } },
-      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(2)" ] },
+      { "math": [ "u_latest_channeled_power_difficulty", "=", "2" ] },
+      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
+      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(2)" ] },
       { "math": [ "u_spell_exp('clair_danger_sense')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -262,7 +262,6 @@
       { "u_message": "Distances seem to narrow and your enemies' movements seem to slow.", "type": "good" },
       { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
       { "u_add_effect": "effect_clair_ranged_enhance", "duration": "PERMANENT" },
-      { "u_cast_spell": { "id": "psionic_drained_difficulty_four", "hit_self": true } },
       {
         "queue_eocs": "EOC_CLAIR_RANGED_ENHANCE_DRAIN",
         "time_in_future": [
@@ -292,8 +291,9 @@
     "id": "EOC_CLAIR_RANGED_ENHANCE_DRAIN",
     "condition": { "u_has_effect": "effect_clair_ranged_enhance" },
     "effect": [
-      { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_four", "hit_self": true } },
-      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(4)" ] },
+      { "math": [ "u_latest_channeled_power_difficulty", "=", "4" ] },
+      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
+      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(4)" ] },
       { "math": [ "u_spell_exp('clair_ranged_enhance')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -322,7 +322,6 @@
       { "u_message": "You can see a premonition of your enemies' attacks like a ghostly image.", "type": "good" },
       { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
       { "u_add_effect": "effect_clair_dodge", "duration": "PERMANENT" },
-      { "u_cast_spell": { "id": "psionic_drained_difficulty_six", "hit_self": true } },
       {
         "queue_eocs": "EOC_CLAIR_DODGE_POWER_DRAIN",
         "time_in_future": [
@@ -352,8 +351,9 @@
     "id": "EOC_CLAIR_DODGE_POWER_DRAIN",
     "condition": { "u_has_effect": "effect_clair_dodge" },
     "effect": [
-      { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_six", "hit_self": true } },
-      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(6)" ] },
+      { "math": [ "u_latest_channeled_power_difficulty", "=", "6" ] },
+      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
+      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(6)" ] },
       { "math": [ "u_spell_exp('clair_dodge_power')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -380,9 +380,8 @@
     "condition": { "not": { "u_has_effect": "effect_clair_craft_bonus" } },
     "effect": [
       { "u_message": "You can see how it all fits together, and how it *should* fit together.", "type": "good" },
-      { "run_eocs": [ "EOC_POWER_MAINTENANCE_PLUS_ONE" ] },
+      { "run_eocs": [ "EOC_POWER_MAINTENANCE_PLUS_ONE", "EOC_CLAIR_CRAFT_BONUS_SWITCHER" ] },
       { "u_add_effect": "effect_clair_craft_bonus", "duration": "PERMANENT" },
-      { "u_cast_spell": { "id": "psionic_drained_difficulty_six", "hit_self": true } },
       {
         "queue_eocs": "EOC_CLAIR_CRAFT_BONUS_DRAIN",
         "time_in_future": [
@@ -400,6 +399,21 @@
       }
     ],
     "false_effect": [ { "run_eocs": "EOC_CLAIR_REMOVE_CRAFT_BONUS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLAIR_CRAFT_BONUS_SWITCHER",
+    "effect": {
+      "switch": { "math": [ "u_spell_level('clair_craft_bonus')" ] },
+      "cases": [
+        { "case": 0, "effect": { "u_add_trait": "CLAIR_CRAFT_BONUS_01" } },
+        { "case": 4, "effect": { "u_add_trait": "CLAIR_CRAFT_BONUS_02" } },
+        { "case": 8, "effect": { "u_add_trait": "CLAIR_CRAFT_BONUS_03" } },
+        { "case": 12, "effect": { "u_add_trait": "CLAIR_CRAFT_BONUS_04" } },
+        { "case": 16, "effect": { "u_add_trait": "CLAIR_CRAFT_BONUS_05" } },
+        { "case": 20, "effect": { "u_add_trait": "CLAIR_CRAFT_BONUS_06" } }
+      ]
+    }
   },
   {
     "type": "effect_on_condition",
@@ -421,8 +435,9 @@
     "id": "EOC_CLAIR_CRAFT_BONUS_DRAIN",
     "condition": { "u_has_effect": "effect_clair_craft_bonus" },
     "effect": [
-      { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_six", "hit_self": true } },
-      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(6)" ] },
+      { "math": [ "u_latest_channeled_power_difficulty", "=", "6" ] },
+      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
+      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(6)" ] },
       { "math": [ "u_spell_exp('clair_craft_bonus')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -451,7 +466,6 @@
       { "u_message": "Your senses sharpen and all distractions vanish.", "type": "good" },
       { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
       { "u_add_effect": "effect_clair_clear_sight", "duration": "PERMANENT" },
-      { "u_cast_spell": { "id": "psionic_drained_difficulty_eight", "hit_self": true } },
       {
         "queue_eocs": "EOC_CLAIR_CLEAR_SIGHT_DRAIN",
         "time_in_future": [
@@ -481,8 +495,9 @@
     "id": "EOC_CLAIR_CLEAR_SIGHT_DRAIN",
     "condition": { "u_has_effect": "effect_clair_clear_sight" },
     "effect": [
-      { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_eight", "hit_self": true } },
-      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(8)" ] },
+      { "math": [ "u_latest_channeled_power_difficulty", "=", "8" ] },
+      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
+      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(8)" ] },
       { "math": [ "u_spell_exp('clair_clear_sight')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -514,7 +529,6 @@
       },
       { "run_eocs": [ "EOC_POWER_MAINTENANCE_PLUS_ONE", "EOC_POWER_MAINTENANCE_PLUS_ONE" ] },
       { "u_add_effect": "effect_clair_group_tactics_self", "duration": "PERMANENT" },
-      { "u_cast_spell": { "id": "psionic_drained_difficulty_nine", "hit_self": true } },
       {
         "queue_eocs": "EOC_CLAIR_GROUP_TACTICS_DRAIN",
         "time_in_future": [
@@ -547,8 +561,9 @@
     "id": "EOC_CLAIR_GROUP_TACTICS_DRAIN",
     "condition": { "u_has_effect": "effect_clair_group_tactics_self" },
     "effect": [
-      { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_nine", "hit_self": true } },
-      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(9)" ] },
+      { "math": [ "u_latest_channeled_power_difficulty", "=", "9" ] },
+      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
+      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(9)" ] },
       { "math": [ "u_spell_exp('clair_group_tactics')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {

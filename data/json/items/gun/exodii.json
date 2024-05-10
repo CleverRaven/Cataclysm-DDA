@@ -11,8 +11,8 @@
     "volume": "1775 ml",
     "longest_side": "428 mm",
     "barrel_length": "212 mm",
-    "price": 850000,
-    "price_postapoc": 2800,
+    "price": "8 kUSD 500 USD",
+    "price_postapoc": "28 USD",
     "variant_type": "gun",
     "variants": [
       {
@@ -54,8 +54,8 @@
     "weight": "7700 g",
     "volume": "2980 ml",
     "longest_side": "110 cm",
-    "price": 660000,
-    "price_postapoc": 3000,
+    "price": "6 kUSD 600 USD",
+    "price_postapoc": "30 USD",
     "variant_type": "gun",
     "variants": [
       {
@@ -91,8 +91,8 @@
     "weight": "5900 g",
     "volume": "1930 ml",
     "longest_side": "980 mm",
-    "price": 1320000,
-    "price_postapoc": 10000,
+    "price": "13 kUSD 200 USD",
+    "price_postapoc": "100 USD",
     "variant_type": "gun",
     "variants": [
       {
@@ -138,8 +138,8 @@
     "//": "barrel should be a bit shorter than the pamd71z as it's less accurate",
     "longest_side": "1000 mm",
     "barrel_length": "508 mm",
-    "price": 350000,
-    "price_postapoc": 4000,
+    "price": "3 kUSD 500 USD",
+    "price_postapoc": "40 USD",
     "variant_type": "gun",
     "variants": [
       {
@@ -158,11 +158,10 @@
     "modes": [ [ "DEFAULT", "burst", 2 ], [ "SEMI", "semi-auto", 1 ], [ "AUTO", "auto", 5 ] ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bore", 1 ],
       [ "bayonet lug", 1 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
@@ -188,8 +187,8 @@
     "//": "around the length of other long 30-06 rifles and heavier AR's",
     "longest_side": "1100 mm",
     "barrel_length": "610 mm",
-    "price": 80000,
-    "price_postapoc": 3250,
+    "price": "800 USD",
+    "price_postapoc": "32 USD 50 cent",
     "variant_type": "gun",
     "variants": [
       {

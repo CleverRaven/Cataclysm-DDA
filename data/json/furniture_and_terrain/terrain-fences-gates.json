@@ -79,13 +79,13 @@
     "oxytorch": {
       "result": "t_dirt",
       "duration": "9 seconds",
-      "byproducts": [ { "item": "pipe", "count": [ 1, 4 ] }, { "item": "wire", "count": [ 4, 16 ] } ]
+      "byproducts": [ { "item": "pipe", "count": [ 1, 4 ] }, { "item": "lc_wire", "count": [ 4, 16 ] } ]
     },
     "hacksaw": {
       "result": "t_dirt",
       "duration": "10 minutes",
       "message": "You finish cutting the metal.",
-      "byproducts": [ { "item": "pipe", "count": 6 }, { "item": "wire", "count": [ 4, 20 ] } ]
+      "byproducts": [ { "item": "pipe", "count": 6 }, { "item": "lc_wire", "count": [ 4, 20 ] } ]
     },
     "bash": {
       "str_min": 10,
@@ -95,7 +95,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_null",
-      "items": [ { "item": "wire", "count": [ 8, 20 ] }, { "item": "scrap", "count": [ 0, 12 ] } ]
+      "items": [ { "item": "lc_wire", "count": [ 8, 20 ] }, { "item": "scrap", "count": [ 0, 12 ] } ]
     }
   },
   {
@@ -112,14 +112,14 @@
     "oxytorch": {
       "result": "t_dirt",
       "duration": "9 seconds",
-      "byproducts": [ { "item": "pipe", "count": [ 1, 4 ] }, { "item": "wire", "count": [ 4, 16 ] } ]
+      "byproducts": [ { "item": "pipe", "count": [ 1, 4 ] }, { "item": "lc_wire", "count": [ 4, 16 ] } ]
     },
     "open": "t_chaingate_o",
     "hacksaw": {
       "result": "t_dirt",
       "duration": "10 minutes",
       "message": "You finish cutting the metal.",
-      "byproducts": [ { "item": "pipe", "count": 6 }, { "item": "wire", "count": [ 4, 20 ] } ]
+      "byproducts": [ { "item": "pipe", "count": 6 }, { "item": "lc_wire", "count": [ 4, 20 ] } ]
     },
     "bash": {
       "str_min": 10,
@@ -130,7 +130,7 @@
       "sound_fail": "clang!",
       "ter_set": "t_null",
       "items": [
-        { "item": "wire", "count": [ 6, 15 ] },
+        { "item": "lc_wire", "count": [ 6, 15 ] },
         { "item": "pipe", "count": [ 6, 15 ] },
         { "item": "scrap", "count": [ 0, 12 ] }
       ]
@@ -151,13 +151,13 @@
     "oxytorch": {
       "result": "t_dirt",
       "duration": "9 seconds",
-      "byproducts": [ { "item": "pipe", "count": [ 1, 4 ] }, { "item": "wire", "count": [ 4, 16 ] } ]
+      "byproducts": [ { "item": "pipe", "count": [ 1, 4 ] }, { "item": "lc_wire", "count": [ 4, 16 ] } ]
     },
     "hacksaw": {
       "result": "t_dirt",
       "duration": "10 minutes",
       "message": "You finish cutting the metal.",
-      "byproducts": [ { "item": "pipe", "count": 6 }, { "item": "wire", "count": [ 4, 20 ] } ]
+      "byproducts": [ { "item": "pipe", "count": 6 }, { "item": "lc_wire", "count": [ 4, 20 ] } ]
     },
     "bash": {
       "str_min": 5,
@@ -166,7 +166,7 @@
       "sound_fail": "clang!",
       "ter_set": "t_null",
       "items": [
-        { "item": "wire", "count": [ 6, 15 ] },
+        { "item": "lc_wire", "count": [ 6, 15 ] },
         { "item": "pipe", "count": [ 6, 15 ] },
         { "item": "scrap", "count": [ 0, 12 ] }
       ]
@@ -435,7 +435,7 @@
       "ter_set": "t_dirt",
       "items": [
         { "item": "2x4", "count": 5 },
-        { "item": "wire", "count": 10 },
+        { "item": "lc_wire", "count": 10 },
         { "item": "nail", "charges": 20 },
         { "item": "hinge", "count": [ 1, 2 ] }
       ]
@@ -448,7 +448,11 @@
       "sound": "rattle!",
       "sound_fail": "thump!",
       "ter_set": "t_null",
-      "items": [ { "item": "wire", "count": [ 4, 6 ] }, { "item": "2x4", "count": [ 2, 4 ] }, { "item": "hinge", "count": [ 1, 2 ] } ]
+      "items": [
+        { "item": "lc_wire", "count": [ 4, 6 ] },
+        { "item": "2x4", "count": [ 2, 4 ] },
+        { "item": "hinge", "count": [ 1, 2 ] }
+      ]
     }
   },
   {
@@ -468,7 +472,7 @@
       "ter_set": "t_dirt",
       "items": [
         { "item": "2x4", "count": 5 },
-        { "item": "wire", "count": 10 },
+        { "item": "lc_wire", "count": 10 },
         { "item": "nail", "charges": 20 },
         { "item": "hinge", "count": [ 1, 2 ] }
       ]
@@ -479,7 +483,11 @@
       "sound": "rattle!",
       "sound_fail": "thump!",
       "ter_set": "t_null",
-      "items": [ { "item": "wire", "count": [ 4, 6 ] }, { "item": "2x4", "count": [ 2, 4 ] }, { "item": "hinge", "count": [ 1, 2 ] } ]
+      "items": [
+        { "item": "lc_wire", "count": [ 4, 6 ] },
+        { "item": "2x4", "count": [ 2, 4 ] },
+        { "item": "hinge", "count": [ 1, 2 ] }
+      ]
     }
   },
   {
@@ -590,7 +598,7 @@
       "result": "t_chainfence_posts",
       "duration": "5 seconds",
       "sound": "Snick, snick, gachunk!",
-      "byproducts": [ { "item": "wire", "count": 20 } ]
+      "byproducts": [ { "item": "lc_wire", "count": 20 } ]
     },
     "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "PERMEABLE", "UNSTABLE", "CLIMBABLE", "AUTO_WALL_SYMBOL", "BURROWABLE" ],
     "connect_groups": "CHAINFENCE",
@@ -599,13 +607,13 @@
     "oxytorch": {
       "result": "t_dirt",
       "duration": "9 seconds",
-      "byproducts": [ { "item": "pipe", "count": [ 1, 4 ] }, { "item": "wire", "count": [ 4, 16 ] } ]
+      "byproducts": [ { "item": "pipe", "count": [ 1, 4 ] }, { "item": "lc_wire", "count": [ 4, 16 ] } ]
     },
     "hacksaw": {
       "result": "t_dirt",
       "duration": "10 minutes",
       "message": "You finish cutting the metal.",
-      "byproducts": [ { "item": "pipe", "count": 6 }, { "item": "wire", "count": [ 4, 16 ] } ]
+      "byproducts": [ { "item": "pipe", "count": 6 }, { "item": "lc_wire", "count": [ 4, 16 ] } ]
     },
     "bash": {
       "str_min": 10,
@@ -613,7 +621,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_chainfence_posts",
-      "items": [ { "item": "wire", "count": [ 8, 15 ] } ]
+      "items": [ { "item": "lc_wire", "count": [ 8, 15 ] } ]
     }
   },
   {
@@ -747,12 +755,12 @@
     "color": "blue",
     "move_cost": 4,
     "flags": [ "TRANSPARENT", "THIN_OBSTACLE", "SHORT", "EASY_DECONSTRUCT", "BURROWABLE" ],
-    "deconstruct": { "ter_set": "t_fence_post", "items": [ { "item": "wire", "count": 2 } ] },
+    "deconstruct": { "ter_set": "t_fence_post", "items": [ { "item": "lc_wire", "count": 2 } ] },
     "boltcut": {
       "result": "t_fence_post",
       "duration": "10 seconds",
       "sound": "Snick, snick, gachunk!",
-      "byproducts": [ { "item": "wire", "count": 2 } ]
+      "byproducts": [ { "item": "lc_wire", "count": 2 } ]
     },
     "bash": {
       "str_min": 8,
@@ -760,7 +768,7 @@
       "sound": "crack.",
       "sound_fail": "whump.",
       "ter_set": "t_null",
-      "items": [ { "item": "pointy_stick", "count": [ 0, 2 ] }, { "item": "wire", "count": [ 0, 2 ] } ]
+      "items": [ { "item": "pointy_stick", "count": [ 0, 2 ] }, { "item": "lc_wire", "count": [ 0, 2 ] } ]
     }
   },
   {

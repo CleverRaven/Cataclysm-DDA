@@ -25,6 +25,7 @@
 #include "debug.h"
 #include "display.h"
 #include "effect.h"
+#include "effect_on_condition.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
@@ -59,6 +60,7 @@
 #include "text_snippets.h"
 #include "translations.h"
 #include "type_id.h"
+#include "uistate.h"
 #include "units.h"
 #include "weather.h"
 #include "weather_type.h"
@@ -131,30 +133,21 @@ static const trait_id trait_ASTHMA( "ASTHMA" );
 static const trait_id trait_CHAOTIC( "CHAOTIC" );
 static const trait_id trait_CHAOTIC_BAD( "CHAOTIC_BAD" );
 static const trait_id trait_CHEMIMBALANCE( "CHEMIMBALANCE" );
-static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_DEBUG_NOTEMP( "DEBUG_NOTEMP" );
 static const trait_id trait_FRESHWATEROSMOSIS( "FRESHWATEROSMOSIS" );
 static const trait_id trait_HAS_NEMESIS( "HAS_NEMESIS" );
-static const trait_id trait_JAUNDICE( "JAUNDICE" );
 static const trait_id trait_JITTERY( "JITTERY" );
 static const trait_id trait_KILLER( "KILLER" );
 static const trait_id trait_LEAVES( "LEAVES" );
 static const trait_id trait_LEAVES2( "LEAVES2" );
-static const trait_id trait_LEAVES2_FALL( "LEAVES2_FALL" );
 static const trait_id trait_LEAVES3( "LEAVES3" );
-static const trait_id trait_LEAVES3_FALL( "LEAVES3_FALL" );
 static const trait_id trait_MOODSWINGS( "MOODSWINGS" );
 static const trait_id trait_MUCUS_SECRETION( "MUCUS_SECRETION" );
 static const trait_id trait_M_BLOSSOMS( "M_BLOSSOMS" );
 static const trait_id trait_M_SPORES( "M_SPORES" );
 static const trait_id trait_NARCOLEPTIC( "NARCOLEPTIC" );
 static const trait_id trait_NONADDICTIVE( "NONADDICTIVE" );
-static const trait_id trait_NO_LEFT_ARM( "NO_LEFT_ARM" );
-static const trait_id trait_NO_LEFT_LEG( "NO_LEFT_LEG" );
-static const trait_id trait_NO_RIGHT_ARM( "NO_RIGHT_ARM" );
-static const trait_id trait_NO_RIGHT_LEG( "NO_RIGHT_LEG" );
 static const trait_id trait_PER_SLIME( "PER_SLIME" );
-static const trait_id trait_PLANTSKIN( "PLANTSKIN" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_RADIOACTIVE1( "RADIOACTIVE1" );
 static const trait_id trait_RADIOACTIVE2( "RADIOACTIVE2" );
@@ -174,9 +167,6 @@ static const trait_id trait_TROGLO2( "TROGLO2" );
 static const trait_id trait_TROGLO3( "TROGLO3" );
 static const trait_id trait_UNDINE_ABSORB_WATER( "UNDINE_ABSORB_WATER" );
 static const trait_id trait_UNSTABLE( "UNSTABLE" );
-static const trait_id trait_VINES1( "VINES1" );
-static const trait_id trait_VINES2( "VINES2" );
-static const trait_id trait_VINES3( "VINES3" );
 static const trait_id trait_VOMITOUS( "VOMITOUS" );
 static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
@@ -187,8 +177,8 @@ static const vitamin_id vitamin_vitC( "vitC" );
 namespace suffer
 {
 static void from_sunburn( Character &you, bool severe );
-static void in_sunlight( Character &you, outfit &worn );
-static void water_damage( Character &you, const trait_id &mut_id );
+static void in_sunlight( Character &you );
+static void water_damage( Character &you );
 static void mutation_power( Character &you, const trait_id &mut_id );
 static void while_underwater( Character &you );
 static void while_grabbed( Character &you );
@@ -218,17 +208,19 @@ static float addiction_scaling( float at_min, float at_max, float add_lvl )
     return lerp( at_min, at_max, ( add_lvl - MIN_ADDICTION_LEVEL ) / MAX_ADDICTION_LEVEL );
 }
 
-void suffer::water_damage( Character &you, const trait_id &mut_id )
+void suffer::water_damage( Character &you )
 {
     for( const std::pair<const bodypart_str_id, bodypart> &elem : you.get_body() ) {
         const float wetness_percentage = elem.second.get_wetness_percentage();
-        const int dmg = mut_id->weakness_to_water * wetness_percentage;
+        float dmg_float = you.enchantment_cache->modify_value( enchant_vals::mod::WEAKNESS_TO_WATER,
+                          0 ) * wetness_percentage / 100;
+        const int dmg = roll_remainder( dmg_float );
         if( dmg > 0 ) {
             you.apply_damage( nullptr, elem.first, dmg );
             you.add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the water." ),
                                        _( "<npcname>'s %s is damaged by the water." ),
                                        body_part_name( elem.first ) );
-        } else if( dmg < 0 && elem.second.is_at_max_hp() ) {
+        } else if( dmg < 0 && !elem.second.is_at_max_hp() ) {
             you.heal( elem.first, std::abs( dmg ) );
             you.add_msg_player_or_npc( m_good, _( "Your %s is healed by the water." ),
                                        _( "<npcname>'s %s is healed by the water." ),
@@ -269,15 +261,15 @@ void suffer::mutation_power( Character &you, const trait_id &mut_id )
                 you.mod_thirst( mut_id->cost );
             }
         }
-        if( mut_id->fatigue ) {
+        if( mut_id->sleepiness ) {
             // Exhausted
-            if( you.get_fatigue() >= fatigue_levels::EXHAUSTED ) {
+            if( you.get_sleepiness() >= sleepiness_levels::EXHAUSTED ) {
                 you.add_msg_if_player( m_warning,
                                        _( "You're too exhausted to keep your %s going." ),
                                        you.mutation_name( mut_id ) );
                 you.deactivate_mutation( mut_id );
             } else {
-                you.mod_fatigue( mut_id->cost );
+                you.mod_sleepiness( mut_id->cost );
             }
         }
 
@@ -499,7 +491,7 @@ void suffer::from_chemimbalance( Character &you )
     }
     if( one_turn_in( 6_hours ) && !you.has_effect( effect_sleep ) ) {
         you.add_msg_if_player( m_bad, _( "You feel dizzy for a moment." ) );
-        you.moves -= rng( 10, 30 );
+        you.mod_moves( -to_moves<int>( 1_seconds ) * rng_float( 0.1, 0.3 ) );
     }
     if( one_turn_in( 6_hours ) ) {
         int hungadd = 5 * rng( -1, 3 );
@@ -515,8 +507,8 @@ void suffer::from_chemimbalance( Character &you )
         you.mod_thirst( 5 * rng( 1, 3 ) );
     }
     if( one_turn_in( 6_hours ) ) {
-        you.add_msg_if_player( m_good, _( "You feel fatigued all of a sudden." ) );
-        you.mod_fatigue( 10 * rng( 2, 4 ) );
+        you.add_msg_if_player( m_good, _( "You feel sleepy all of a sudden." ) );
+        you.mod_sleepiness( 10 * rng( 2, 4 ) );
     }
     if( one_turn_in( 8_hours ) ) {
         if( one_in( 3 ) ) {
@@ -619,7 +611,7 @@ void suffer::from_asthma( Character &you, const int current_stim )
     } else if( auto_use ) {
         int charges = 0;
         if( you.use_charges_if_avail( itype_inhaler, 1 ) ) {
-            you.moves -= 40;
+            you.mod_moves( -to_moves<int>( 1_seconds ) * 0.4 );
             charges = you.charges_of( itype_inhaler );
             if( charges == 0 ) {
                 you.add_msg_if_player( m_bad, _( "You use your last inhaler charge." ) );
@@ -633,7 +625,7 @@ void suffer::from_asthma( Character &you, const int current_stim )
             you.add_effect( effect_took_antiasthmatic, rng( 6_hours, 12_hours ) );
         } else if( you.use_charges_if_avail( itype_oxygen_tank, 1 ) ||
                    you.use_charges_if_avail( itype_smoxygen_tank, 1 ) ) {
-            you.moves -= 500; // synched with use action
+            you.mod_moves( -to_moves<int>( 5_seconds ) ); // synched with use action
             charges = you.charges_of( itype_oxygen_tank ) + you.charges_of( itype_smoxygen_tank );
             if( charges == 0 ) {
                 you.add_msg_if_player( m_bad, _( "You breathe in the last bit of oxygen "
@@ -655,7 +647,7 @@ void suffer::from_asthma( Character &you, const int current_stim )
     }
 }
 
-void suffer::in_sunlight( Character &you, outfit &worn )
+void suffer::in_sunlight( Character &you )
 {
     const tripoint position = you.pos();
 
@@ -665,134 +657,26 @@ void suffer::in_sunlight( Character &you, outfit &worn )
 
     const bool leafy = you.has_trait( trait_LEAVES ) ||
                        you.has_trait( trait_LEAVES2 ) ||
-                       you.has_trait( trait_LEAVES2_FALL ) ||
-                       you.has_trait( trait_LEAVES3 ) ||
-                       you.has_trait( trait_LEAVES3_FALL ) ||
-                       you.has_trait( trait_PLANTSKIN ) ||
-                       you.has_trait( trait_JAUNDICE );
-    float phelloderm_surface = 0.0;
-    float exposure = 0.0;
+                       you.has_trait( trait_LEAVES3 );
     int sunlight_nutrition = 0;
     if( leafy ) {
-        // Phelloderm and bark photosynthesize.
-        if( you.has_trait( trait_PLANTSKIN ) || you.has_trait( trait_JAUNDICE ) ) {
-            std::map<bodypart_id, float> bp_exposure = you.bodypart_exposure();
-            for( auto &bp_exp : bp_exposure ) {
-                bodypart_id bp = bp_exp.first;
-                exposure = bp_exp.second;
-                if( ( ( ( bp == body_part_arm_l ) || ( bp == body_part_hand_l ) ) &&
-                      you.has_trait( trait_NO_LEFT_ARM ) )
-                    || ( ( ( bp == body_part_arm_r ) || ( bp == body_part_hand_r ) ) &&
-                         you.has_trait( trait_NO_RIGHT_ARM ) )
-                    || ( ( ( bp == body_part_leg_l ) || ( bp == body_part_foot_l ) ) &&
-                         you.has_trait( trait_NO_LEFT_LEG ) )
-                    || ( ( ( bp == body_part_leg_r ) || ( bp == body_part_foot_r ) ) &&
-                         you.has_trait( trait_NO_RIGHT_LEG ) ) ) {
-                    exposure = 0.0;
-                }
-                phelloderm_surface += exposure;
-            }
-            // The Jaundice mutation means you have some chloroplasts in your skin, but not as many.
-            if( you.has_trait( trait_JAUNDICE ) ) {
-                phelloderm_surface *= .5;
-            };
-            // Multiply phelloderm_surface here so we can average it with head_exposure later.
-            phelloderm_surface *= 8.33;
-        }
-        // The Jaundice mutation means you have some chloroplasts in your skin, but not as many.
-        if( you.has_trait( trait_JAUNDICE ) ) {
-            phelloderm_surface *= .5;
-        }
-        // Multiply phelloderm_surface here so we can average it with head_exposure later.
-        phelloderm_surface *= 8.33;
-        const bool leafier = you.has_trait( trait_LEAVES2 ) || you.has_trait( trait_LEAVES2_FALL );
-        const bool leafiest = you.has_trait( trait_LEAVES3 ) || you.has_trait( trait_LEAVES3_FALL );
-        const bodypart_id left_arm( "arm_l" );
-        const bodypart_id right_arm( "arm_r" );
-        const bodypart_id head( "head" );
-        // TODO: Limbify vines and give them some way to be covered. For now they will use the average of your arm coverage.
-        // We'll assume they poke out of your sleeves to do their thing.
-        float head_leaf_surface = 100 - worn.coverage_with_flags_exclude( head, { flag_INTEGRATED, flag_TRANSPARENT } );
-        float rarm_leaf_surface = .5 - ( worn.coverage_with_flags_exclude( right_arm, { flag_INTEGRATED, flag_TRANSPARENT } )
-                                         * .005 );
-        float larm_leaf_surface = .5 - ( worn.coverage_with_flags_exclude( left_arm, { flag_INTEGRATED, flag_TRANSPARENT } )
-                                         * .005 );
-        float vine_leaf_surface = rarm_leaf_surface + larm_leaf_surface;
-        if( you.has_trait( trait_NO_LEFT_ARM ) ) {
-            larm_leaf_surface = .0;
-        }
-        if( you.has_trait( trait_NO_RIGHT_ARM ) ) {
-            rarm_leaf_surface = .0;
-        }
-        if( you.has_trait( trait_VINES1 ) ) {
-            vine_leaf_surface = vine_leaf_surface * 0.5;
-        }
-        if( !you.has_trait( trait_VINES1 ) && !you.has_trait( trait_VINES2 ) &&
-            !you.has_trait( trait_VINES3 ) ) {
-            vine_leaf_surface = 0;
-        }
+        const bool leafier = you.has_trait( trait_LEAVES2 );
+        const bool leafiest = you.has_trait( trait_LEAVES3 );
+        const double sleeve_factor = you.armwear_factor();
+        const bool has_hat = you.wearing_something_on( bodypart_id( "head" ) );
         const float weather_factor = std::min( incident_sun_irradiance( get_weather().weather_id,
                                                calendar::turn ) / irradiance::moderate, 1.f );
         const int player_local_temp = units::to_fahrenheit( get_weather().get_temperature( position ) );
-        int flux = ( player_local_temp - 32 ) / 5;
-        // Efficiency rapidly falls off when it's too hot due to photosynthesis being an enzymatic process.
-        // Some tropical plants can overcome this with specific adaptations, but that would probably be its own mutation.
-        if( player_local_temp > 104 ) {
-            flux -= ( player_local_temp - 104 ) * 3;
+        const int flux = ( player_local_temp - 65 ) / 2;
+        if( !has_hat ) {
+            sunlight_nutrition += ( 100 + flux ) * weather_factor;
         }
-        if( you.has_trait( trait_LEAVES ) ) {
-            head_leaf_surface *= .5;
-        }
-        if( you.has_trait( trait_LEAVES3 ) ) {
-            head_leaf_surface *= 1.5;
-        }
-        if( you.has_trait( trait_LEAVES3 ) ) {
-            head_leaf_surface *= 1.75;
-        }
-        if( you.has_trait( trait_LEAVES2_FALL ) || you.has_trait( trait_LEAVES3_FALL ) ) {
-            vine_leaf_surface *= .9;
-            larm_leaf_surface *= .9;
-            rarm_leaf_surface *= .9;
-            head_leaf_surface *= .9;
-        }
-        if( !you.has_trait( trait_LEAVES ) && !you.has_trait( trait_LEAVES2 ) &&
-            !you.has_trait( trait_LEAVES2_FALL ) && !you.has_trait( trait_LEAVES3 ) &&
-            !you.has_trait( trait_LEAVES3_FALL ) ) {
-            head_leaf_surface = 0;
-        }
-        sunlight_nutrition += ( ( 20 + flux ) * weather_factor ) * ( ( head_leaf_surface +
-                              phelloderm_surface ) / 200 );
         if( leafier || leafiest ) {
-            const int rate = std::max( round( 7 * ( ( larm_leaf_surface + rarm_leaf_surface +
-                                                    vine_leaf_surface ) / 2 ) + flux ), 0.0f ) * 2;
-            sunlight_nutrition += rate * ( leafiest ? 1.75 : 1.5 ) * weather_factor;
+            const int rate = ( 100 * sleeve_factor + flux ) * 2;
+            sunlight_nutrition += rate * ( leafiest ? 2 : 1 ) * weather_factor;
         }
-        you.get_size();
-        // Multiply by the proportional difference in average height, as height roughly determines armspan,
-        // and that's how far out our branches extend.
-        if( you.get_size() == creature_size::tiny ) {
-            sunlight_nutrition *= .015;
-        }
-        if( you.get_size() == creature_size::small ) {
-            sunlight_nutrition *= .7;
-        }
-        if( you.get_size() == creature_size::large ) {
-            sunlight_nutrition *= 1.54;
-        }
-        if( you.get_size() == creature_size::huge ) {
-            sunlight_nutrition *= 2.35;
-        }
-        // Chloromorph makes photosynthesis more efficient while the animal parts are in sleep mode.
-        if( you.has_effect( effect_sleep ) && you.has_trait( trait_CHLOROMORPH ) ) {
-            sunlight_nutrition *= 1.1;
-        }
-
-        if( x_in_y( sunlight_nutrition, 12000 ) ) {
+        if( x_in_y( sunlight_nutrition, 18000 ) ) {
             you.vitamin_mod( vitamin_vitC, 1 );
-            you.mod_hunger( -1 );
-            // Photosynthesis absorbs kcal directly.
-            you.mod_stored_kcal( 1 );
-            you.stomach.ate();
         }
     }
     if( you.has_flag( json_flag_SUNBURN ) ) {
@@ -951,30 +835,20 @@ void suffer::from_sunburn( Character &you, bool severe )
             }
             // If no UV-/glare-protection gear is worn the eyes should be treated as unprotected
             exposure = 1.0;
-        } else if( ( you.get_wielded_item() && you.get_wielded_item()->has_flag( flag_RAIN_PROTECT ) &&
-                     !you.get_wielded_item()->has_flag( flag_TRANSPARENT ) )
+        } else if( ( you.get_wielded_item() && you.get_wielded_item()->has_flag( flag_RAIN_PROTECT ) )
                    || ( ( bp == body_part_hand_l || bp == body_part_hand_r )
                         && you.worn_with_flag( flag_POCKETS )
                         && you.can_use_pockets() )
                    || ( bp == body_part_head
                         && you.worn_with_flag( flag_HOOD )
                         && you.can_use_hood() )
-                   || ( ( ( bp == body_part_arm_l ) || ( bp == body_part_hand_l ) ) &&
-                        you.has_trait( trait_NO_LEFT_ARM ) )
-                   || ( ( ( bp == body_part_arm_r ) || ( bp == body_part_hand_r ) ) &&
-                        you.has_trait( trait_NO_RIGHT_ARM ) )
-                   || ( ( ( bp == body_part_leg_l ) || ( bp == body_part_foot_l ) ) &&
-                        you.has_trait( trait_NO_LEFT_LEG ) )
-                   || ( ( ( bp == body_part_leg_r ) || ( bp == body_part_foot_r ) ) &&
-                        you.has_trait( trait_NO_RIGHT_LEG ) )
                    || ( bp == body_part_mouth
                         && you.worn_with_flag( flag_COLLAR )
                         && you.can_use_collar() ) ) {
             // Eyes suffer even in the presence of the checks in this branch!
-            // Umbrellas can keep the sun off all bodyparts, unless you grabbed a clear one
+            // Umbrellas can keep the sun off all bodyparts
             // Pockets can keep the sun off your hands if you don't wield a too large item
             // Hoods can keep the sun off your unencumbered head
-            // Missing limbs can't get sunburned
             // Collars can keep the sun off your unencumbered mouth
             continue;
         }
@@ -1347,7 +1221,7 @@ void suffer::from_bad_bionics( Character &you )
         } else {
             you.add_msg_if_player( m_bad, _( "You experience an electrical discharge!" ) );
         }
-        you.moves -= 150;
+        you.mod_moves( -to_moves<int>( 1_seconds ) * 1.5 );
         you.mod_power_level( -bio_dis_shock->power_trigger );
 
         item_location weapon = you.get_wielded_item();
@@ -1448,7 +1322,7 @@ void suffer::from_stimulants( Character &you, const int current_stim )
     if( current_stim < -60 || you.get_painkiller() > 130 ) {
         if( calendar::once_every( 10_minutes ) ) {
             you.add_msg_if_player( m_warning, _( "You feel tired…" ) );
-            you.mod_fatigue( rng( 1, 2 ) );
+            you.mod_sleepiness( rng( 1, 2 ) );
         }
     }
 }
@@ -1573,7 +1447,7 @@ void suffer::without_sleep( Character &you, const int sleep_deprivation )
     if( sleep_deprivation >= SLEEP_DEPRIVATION_MINOR ) {
         if( one_turn_in( 75_minutes ) ) {
             you.add_msg_if_player( m_warning, _( "You feel lightheaded for a moment." ) );
-            you.moves -= 10;
+            you.mod_moves( -to_moves<int>( 1_seconds ) * 0.1 );
         }
         if( one_turn_in( 100_minutes ) ) {
             you.add_msg_if_player( m_warning, _( "Your muscles spasm uncomfortably." ) );
@@ -1588,7 +1462,7 @@ void suffer::without_sleep( Character &you, const int sleep_deprivation )
     if( sleep_deprivation >= SLEEP_DEPRIVATION_SERIOUS ) {
         if( one_turn_in( 75_minutes ) ) {
             you.add_msg_if_player( m_bad, _( "Your mind lapses into unawareness briefly." ) );
-            you.moves -= rng( 20, 80 );
+            you.mod_moves( -to_moves<int>( 1_seconds ) * rng_float( 0.2, 0.8 ) );
         }
         if( one_turn_in( 125_minutes ) ) {
             you.add_msg_if_player( m_bad, _( "Your muscles ache in stressfully unpredictable ways." ) );
@@ -1616,7 +1490,7 @@ void suffer::without_sleep( Character &you, const int sleep_deprivation )
                                              "trouble keeping your balance." ) );
             you.add_effect( effect_shakes, 15_minutes );
         } else if( you.has_effect( effect_shakes ) && one_turn_in( 75_seconds ) ) {
-            you.moves -= 10;
+            you.mod_moves( -to_moves<int>( 1_seconds ) * 0.1 );
             you.add_msg_player_or_npc( m_warning, _( "Your shaking legs make you stumble." ),
                                        _( "<npcname> stumbles." ) );
             if( !you.is_on_ground() && one_in( 10 ) ) {
@@ -1647,7 +1521,7 @@ void suffer::from_nyctophobia( Character &you )
 {
     const float nyctophobia_threshold = LIGHT_AMBIENT_LIT - 3.0f;
 
-    const bool in_darkness = get_map().ambient_light_at( you.pos() ) < nyctophobia_threshold;
+    const bool in_darkness = get_map().ambient_light_at( you.pos_bub() ) < nyctophobia_threshold;
     if( in_darkness ) {
         if( one_in( 80 ) && !you.has_effect( effect_shakes ) ) {
             you.add_msg_if_player( m_bad,
@@ -1693,7 +1567,7 @@ void suffer::from_artifact_resonance( Character &you, int amt )
                 you.add_msg_player_or_npc( m_bad, _( "Reality gives way under your feet like rotten scaffolding." ),
                                            _( "Reality gives way under <npcname>'s feet like rotten scaffolding." ) );
                 map &here = get_map();
-                here.add_field( you.pos(), fd_fatigue, 1 );
+                here.add_field( you.pos(), fd_reality_tear, 1 );
             } else if( rng_outcome == 3 ) {
                 you.add_msg_player_or_npc( m_bad, _( "You suddenly lose all substance and corporeality." ),
                                            _( "<npcname> suddenly loses all substance and corporeality." ) );
@@ -1770,8 +1644,10 @@ void Character::suffer()
     }
 
     for( const trait_id &mut_id : get_mutations() ) {
-        if( calendar::once_every( 1_minutes ) && mut_id->weakness_to_water != 0 ) {
-            suffer::water_damage( *this, mut_id );
+        if( calendar::once_every( 1_seconds ) &&
+            enchantment_cache->modify_value( enchant_vals::mod::WEAKNESS_TO_WATER,
+                                             0 ) != 0 ) {
+            suffer::water_damage( *this );
         }
         if( has_active_mutation( mut_id ) || ( !mut_id->activated && !mut_id->processed_eocs.empty() ) ) {
             suffer::mutation_power( *this, mut_id );
@@ -1796,7 +1672,7 @@ void Character::suffer()
         suffer::from_asthma( *this, current_stim );
     }
 
-    suffer::in_sunlight( *this, worn );
+    suffer::in_sunlight( *this );
     suffer::from_exertion( *this );
     suffer::from_item_dropping( *this );
     suffer::from_other_mutations( *this );
@@ -1935,7 +1811,7 @@ void Character::mend( int rate_multiplier )
     // Bed rest speeds up mending
     if( has_effect( effect_sleep ) ) {
         healing_factor *= 4.0;
-    } else if( get_fatigue() > fatigue_levels::DEAD_TIRED ) {
+    } else if( get_sleepiness() > sleepiness_levels::DEAD_TIRED ) {
         // but being dead tired does not...
         healing_factor *= 0.75;
     } else {
@@ -1955,8 +1831,6 @@ void Character::mend( int rate_multiplier )
 
     // Mutagenic healing factor!
     bool needs_splint = true;
-
-    healing_factor *= mutation_value( "mending_modifier" );
 
     healing_factor = enchantment_cache->modify_value( enchant_vals::mod::MENDING_MODIFIER,
                      healing_factor );
@@ -2047,8 +1921,10 @@ void Character::drench( int saturation, const body_part_set &flags, bool ignore_
         restore_scent();
     }
 
-    if( is_weak_to_water() ) {
+    if( enchantment_cache->modify_value( enchant_vals::mod::WEAKNESS_TO_WATER, 0 ) > 0 ) {
         add_msg_if_player( m_bad, _( "You feel the water burning your skin." ) );
+    } else if( enchantment_cache->modify_value( enchant_vals::mod::WEAKNESS_TO_WATER, 0 ) < 0 ) {
+        add_msg_if_player( m_bad, _( "You feel the water runs on your skin, making you feel better." ) );
     }
 
     // Remove onfire effect

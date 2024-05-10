@@ -1,36 +1,38 @@
 #include "basecamp.h"
 
 #include <algorithm>
-#include <functional>
 #include <map>
-#include <new>
 #include <sstream>
 #include <string>
+#include <unordered_map>
 #include <unordered_set>
 #include <utility>
 #include <vector>
 
 #include "avatar.h"
+#include "build_reqs.h"
 #include "calendar.h"
+#include "cata_assert.h"
+#include "cata_utility.h"
 #include "character.h"
 #include "character_id.h"
 #include "clzones.h"
-#include "colony.h"
 #include "color.h"
 #include "debug.h"
+#include "faction.h"
 #include "faction_camp.h"
 #include "game.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_group.h"
-#include "itype.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "mapdata.h"
 #include "npc.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
+#include "pimpl.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "recipe_groups.h"
@@ -930,26 +932,7 @@ void basecamp_action_components::consume_components()
     }
     for( const comp_selection<item_comp> &sel : item_selections_ ) {
         std::list<item> empty_consumed = player_character.consume_items( target_map, sel, batch_size_,
-                                         is_preferred_crafting_component, src );
-        int left_to_consume = 0;
-
-        if( !empty_consumed.empty() && empty_consumed.front().count_by_charges() ) {
-            int consumed = 0;
-            for( item &itm : empty_consumed ) {
-                consumed += itm.charges;
-            }
-            left_to_consume = sel.comp.count * batch_size_ - consumed;
-        } else if( empty_consumed.size() < static_cast<size_t>( sel.comp.count ) * batch_size_ ) {
-            left_to_consume = static_cast<size_t>( sel.comp.count ) * batch_size_ - empty_consumed.size();
-        }
-
-        if( left_to_consume > 0 ) {
-            comp_selection<item_comp> remainder = sel;
-            remainder.comp.count = 1;
-            player_character.consume_items( target_map, remainder,
-                                            batch_size_ * static_cast<size_t>( sel.comp.count ) - empty_consumed.size(), is_crafting_component,
-                                            src );
-        }
+                                         is_crafting_component, src );
     }
     // this may consume pseudo-resources from fake items
     for( const comp_selection<tool_comp> &sel : tool_selections_ ) {

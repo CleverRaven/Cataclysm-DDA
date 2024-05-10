@@ -35,7 +35,8 @@
       { "part": "hand_r", "ignored": 1 },
       { "part": "torso", "ignored": 6 }
     ],
-    "integrated_armor": [ "integrated_pebbled" ]
+    "integrated_armor": [ "integrated_pebbled" ],
+    "flags": [ "TOUGH_FEET" ]
   },
   {
     "type": "mutation",
@@ -62,7 +63,8 @@
       { "part": "hand_r", "ignored": 4 },
       { "part": "torso", "ignored": 30 }
     ],
-    "integrated_armor": [ "integrated_granite_skin" ]
+    "integrated_armor": [ "integrated_granite_skin" ],
+    "flags": [ "TOUGH_FEET" ]
   },
   {
     "type": "mutation",
@@ -108,7 +110,7 @@
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
-    "description": "Upon gaining this ability the Ierde gains the ability to rest and recover energy as though sleeping, while underground.  Activate to to begin the vigil.",
+    "description": "Upon gaining this ability the Ierde gains the ability to, while underground, rest and recover energy as though sleeping.  Activate to to begin the vigil.",
     "prereqs": [ "IERDE_EYES" ],
     "category": [ "IERDE" ],
     "activated_is_setup": false,
@@ -122,7 +124,7 @@
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
-    "description": "Upon gaining this ability the Ierde gains the ability to sense the movements of nearby creatures, as long as the Ierde maintains contact with natural earth or stone, or is underground.",
+    "description": "Upon gaining this ability the Ierde gains the ability to sense the movements of nearby creatures, as long as they maintains contact with natural earth or stone, or are underground.",
     "prereqs": [ "IERDE_EYES" ],
     "prereqs2": [ "IERDE_EARS" ],
     "category": [ "IERDE" ],
@@ -181,6 +183,18 @@
   },
   {
     "type": "mutation",
+    "id": "IERDE_SLOW_ENEMIES",
+    "name": { "str": "Rigidity of Stone" },
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Ierde may infuse the rigidity of stone into their enemies, slowing their movements.",
+    "category": [ "IERDE" ],
+    "prereqs": [ "IERDE_RESHAPE_THE_EARTH" ],
+    "spells_learned": [ [ "ierde_slow_enemies_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "IERDE_RESHAPE_THE_EARTH",
     "name": { "str": "Reshape the Living Earth" },
     "points": 4,
@@ -228,6 +242,19 @@
   },
   {
     "type": "mutation",
+    "id": "IERDE_BUFF_ARMOR_ALLIES",
+    "name": { "str": "Skin of the Mountains" },
+    "points": 6,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "When gaining this ability, the Ierde gains the ability to infuse the resilience of the earth into one of their allies.",
+    "prereqs": [ "IERDE_IRON_ARMOR" ],
+    "prereqs2": [ "IERDE_SLOW_ENEMIES" ],
+    "category": [ "IERDE" ],
+    "spells_learned": [ [ "ierde_buff_armor_allies_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "IERDE_NO_SCENT_AND_IRON",
     "name": {
       "//~": "The name is a reference to Chapter 63 of Bleak House by Charles Dickens",
@@ -251,7 +278,7 @@
     "changes_to": [ "IERDE_CARDIO2" ],
     "category": [ "IERDE" ],
     "prereqs": [ "IERDE_SKIN_1", "IERDE_SKIN_2", "IERDE_SKIN_3" ],
-    "cardio_multiplier": 1.6
+    "enchantments": [ { "values": [ { "value": "CARDIO_MULTIPLIER", "multiply": 0.6 } ] } ]
   },
   {
     "type": "mutation",
@@ -262,7 +289,7 @@
     "changes_to": [ "IERDE_CARDIO3" ],
     "category": [ "IERDE" ],
     "prereqs": [ "IERDE_SKIN_2", "IERDE_SKIN_3" ],
-    "cardio_multiplier": 2.4
+    "enchantments": [ { "values": [ { "value": "CARDIO_MULTIPLIER", "multiply": 1.4 } ] } ]
   },
   {
     "type": "mutation",
@@ -273,7 +300,7 @@
     "category": [ "IERDE" ],
     "threshreq": [ "THRESH_IERDE" ],
     "prereqs": [ "IERDE_SKIN_3" ],
-    "cardio_multiplier": 3.5
+    "enchantments": [ { "values": [ { "value": "CARDIO_MULTIPLIER", "multiply": 2.5 } ] } ]
   },
   {
     "type": "mutation",
@@ -370,16 +397,16 @@
     "description": "You are resting in the depths of the earth.  You should never actually see this.",
     "player_display": false,
     "points": 0,
-    "fatigue_regen_modifier": 0.5,
-    "healing_awake": 0.8,
-    "healing_multiplier": 2.5,
-    "mending_modifier": 16,
     "enchantments": [
       {
         "values": [
           { "value": "HUNGER", "multiply": -1.0 },
           { "value": "THIRST", "multiply": -1.0 },
-          { "value": "METABOLISM", "multiply": -1.0 }
+          { "value": "METABOLISM", "multiply": -1.0 },
+          { "value": "SLEEPINESS_REGEN", "multiply": 0.5 },
+          { "value": "MENDING_MODIFIER", "multiply": 15 },
+          { "value": "REGEN_HP", "multiply": 1.5 },
+          { "value": "REGEN_HP_AWAKE", "multiply": 0.8 }
         ]
       }
     ]
@@ -555,5 +582,46 @@
     "category": [ "IERDE" ],
     "threshreq": [ "THRESH_IERDE" ],
     "enchantments": [ "ench_ierde_no_mind_problems" ]
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_TUNNEL_TRANSLOCATION",
+    "name": { "str": "Traveling the Veins of the Earth" },
+    "points": 10,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Ierde gains the ability to travel through stone to another underground location they have previously been to.",
+    "category": [ "IERDE" ],
+    "threshreq": [ "THRESH_IERDE" ],
+    "prereqs": [ "IERDE_SINK_INTO_EARTH" ],
+    "prereqs2": [ "IERDE_STOP_BLEEDING" ],
+    "spells_learned": [ [ "ierde_tunnel_translocation_spell", 1 ], [ "ierde_tunnel_translocation_attune", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_STONE_FORM",
+    "name": { "str": "Form of the Solid Earth" },
+    "points": 8,
+    "description": "The Ierde may transform into rock and earth.  They become incredibly resilient and nearly immune to some forms of damage, but will be much, much slower.",
+    "prereqs": [ "IERDE_NO_KNOCKBACK" ],
+    "prereqs2": [ "IERDE_FEEL_NO_PAIN" ],
+    "category": [ "IERDE" ],
+    "threshreq": [ "THRESH_IERDE" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_IERDE_STONE_FORM_ON" ],
+    "processed_eocs": [ "EOC_IERDE_STONE_FORM_PER_TURN" ],
+    "deactivated_eocs": [ "EOC_IERDE_STONE_FORM_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_STONE_FORM_TRAITS",
+    "name": { "str": "Earthen Form" },
+    "description": "You are a mass of stone and earth.  You are incredibly resilient, but you are extremely slow.",
+    "points": 10,
+    "valid": false,
+    "enchantments": [ "ench_ierde_stone_form" ],
+    "override_look": { "id": "mon_stonegolem", "tile_category": "monster" },
+    "flags": [ "ACID_IMMUNE", "BIO_IMMUNE", "COLD_IMMUNE", "STAB_IMMUNE", "BULLET_IMMUNE" ]
   }
 ]

@@ -26,7 +26,6 @@ static void wield_check_from_inv( avatar &guy, const itype_id &item_name, const 
     item backpack( "backpack" );
     REQUIRE( backpack.can_contain( spawned_item ).success() );
     auto item_iter = guy.worn.wear_item( guy, backpack, false, false );
-    REQUIRE( guy.mutation_value( "obtain_cost_multiplier" ) == 1.0 );
 
     item_location backpack_loc( guy, & **item_iter );
     backpack_loc->put_in( spawned_item, pocket_type::CONTAINER );
@@ -36,10 +35,10 @@ static void wield_check_from_inv( avatar &guy, const itype_id &item_name, const 
     CAPTURE( item_loc->typeId() );
 
     guy.set_moves( 1000 );
-    const int old_moves = guy.moves;
+    const int old_moves = guy.get_moves();
     REQUIRE( guy.wield( item_loc ) );
     CAPTURE( guy.get_wielded_item()->typeId() );
-    int move_cost = old_moves - guy.moves;
+    int move_cost = old_moves - guy.get_moves();
 
     INFO( "Strength:" << guy.get_str() );
     CHECK( Approx( expected_moves ).epsilon( 0.1f ) == move_cost );
@@ -71,7 +70,6 @@ TEST_CASE( "Wield_time_test", "[wield]" )
         item_location backpack_loc( guy, & **item_iter );
         backpack_loc->put_in( plastic_bag, pocket_type::CONTAINER );
         REQUIRE( backpack_loc->num_item_stacks() == 1 );
-        REQUIRE( guy.mutation_value( "obtain_cost_multiplier" ) == 1.0 );
 
         item_location plastic_bag_loc( backpack_loc, &backpack_loc->only_item() );
         plastic_bag_loc->put_in( cargo_pants, pocket_type::CONTAINER );
@@ -97,7 +95,6 @@ TEST_CASE( "Wield_time_test", "[wield]" )
     SECTION( "Wielding without hand encumbrance" ) {
         avatar guy;
         clear_character( guy );
-        REQUIRE( guy.mutation_value( "obtain_cost_multiplier" ) == 1.0 );
 
         wield_check_from_inv( guy, itype_aspirin, 300 );
         clear_character( guy );

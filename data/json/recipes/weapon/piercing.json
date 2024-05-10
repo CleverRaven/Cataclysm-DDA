@@ -217,6 +217,7 @@
     "skills_required": [ "fabrication", 2 ],
     "difficulty": 6,
     "time": "3 h",
+    "reversible": { "time": "5 m" },
     "autolearn": true,
     "qualities": [
       { "id": "PUNCH", "level": 1 },
@@ -241,6 +242,7 @@
     "skills_required": [ "fabrication", 2 ],
     "difficulty": 6,
     "time": "3 h",
+    "reversible": { "time": "5 m" },
     "autolearn": true,
     "qualities": [
       { "id": "PUNCH", "level": 1 },

@@ -4,12 +4,44 @@
 <color_white>오리지널 제작자:</color>    <color_white>프로젝트 매니저:</color>
 <color_yellow>Whales</color> (<color_dark_gray>은퇴</color>)    <color_yellow>KevinGranade</color>
 
-<color_white>Current Main Developers:</color>
+<color_white>현재 개발자들:</color>
+<color_yellow>I-am-Erk</color> - Ultica 타일셋, 로어, 아이디어 제공.
+<color_yellow>KorGgenT</color> - 야크 면도 전문가.
+
+<color_white>도움을 주신 분들:</color>
+<color_yellow>anothersimulacrum</color> - 힘든 일들을 도와줌.
+<color_yellow>BombasticSlacks</color> - 방어구 시스템 건축에 도움을 줌.
+<color_yellow>Fris0uman</color> - 냉장고 고쳐줌.
+<color_yellow>John-Candlebury</color> - 허브 01과 아름다운 맵들을 만듬.
+<color_yellow>jbytheway</color> - 맵젠 시스템 최적화에 도움을 줌.
+<color_yellow>BrettDong</color> - 번역 도움과 이상한 버그 잡아줌.
+<color_yellow>wapcaplet</color> - 사이드바 재건축.
+<color_yellow>ZhilkinSerg</color> - PR 머징을 도와줌.
+<color_yellow>Rivet-the-Zombie</color> - 연속 1일1머지 기록을 유지해줌.
+<color_yellow>Night-Pryanik</color> - 수많은 버그픽스와 스탯부여 시스템을 만듬.
+<color_yellow>Qrox</color> - UI 기반 최적화에 도움을 줌.
+<color_yellow>Ramza13</color> - JSON을 튜링 완전 언어로 바꿔버림.
+<color_yellow>Drew4484</color> - 강철.
+<color_yellow>LyleSY</color> - 공룡!
+<color_yellow>irwiss</color>, <color_yellow>Maleclypse</color>, <color_yellow>Venera3</color>, <color_yellow>MylieDaniels</color>, <color_yellow>andrei8l</color>, <color_yellow>mqrause</color>, 그리고 <color_yellow>Eltank</color>.
+
+<color_white>타일셋 등에 도움을 주신 분들:</color>
+<color_yellow>Fris0uman</color>, <color_yellow>Golfavel</color>, <color_yellow>vetall812</color>, <color_yellow>Dandy-boy</color>, 등...
+
+<color_white>전체 기여자 목록:</color>
+<color_cyan>https://github.com/CleverRaven/Cataclysm-DDA/contributors</color>
+
+<color_light_cyan>Cataclysm</color>: <color_light_blue>Dark Days Ahead</color> is released under <color_white>CC-BY-SA 3.0</color>:
+<color_cyan>https://creativecommons.org/licenses/by-sa/3.0/</color>
+
+******************************************************************************
+
+<color_white>Main Developers (<color_cyan>0.F</color>):</color>
 <color_yellow>mlangsdorf</color> - Vehicles, boats, basecamps and modding guides.
 <color_yellow>I-am-Erk</color> - Ultica legacy lives on.
 <color_yellow>KorGgenT</color> - Not letting me know where to put my two-by-fours.
 
-<color_white>Special thanks to:</color>
+<color_white>Special thanks to (<color_cyan>0.F</color>):</color>
 <color_yellow>Aivean</color> - For outstanding performance.
 <color_yellow>anothersimulacrum</color> - For making me weary.
 <color_yellow>jbytheway</color> - For making me achieve things.
@@ -17,10 +49,10 @@
 <color_yellow>Qrox</color> - For showing location of error messages.
 <color_yellow>LyleSY</color> - For dinosaurrrs.
 
-<color_white>Special thanks for art contributions:</color>
+<color_white>Special thanks for art contributions (<color_cyan>0.F</color>):</color>
 <color_yellow>acepleiades</color>, <color_yellow>barsoosayque</color>, <color_yellow>Fris0uman</color>, <color_yellow>int-ua</color>, and many more.
 
-<color_white>For a full list of contributors please see:</color>
+<color_white>전체 기여자 목록:</color>
 <color_cyan>https://github.com/CleverRaven/Cataclysm-DDA/contributors</color>
 
 <color_light_cyan>Cataclysm</color>: <color_light_blue>Dark Days Ahead</color> is released under <color_white>CC-BY-SA 3.0</color>:

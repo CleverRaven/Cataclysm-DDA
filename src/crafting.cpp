@@ -6,32 +6,34 @@
 #include <cstdint>
 #include <cstdlib>
 #include <functional>
-#include <iosfwd>
+#include <iterator>
 #include <limits>
 #include <map>
 #include <memory>
-#include <new>
 #include <optional>
-#include <set>
 #include <string>
-#include <tuple>
-#include <type_traits>
 #include <utility>
 #include <vector>
 
 #include "activity_actor_definitions.h"
 #include "activity_handlers.h"
+#include "activity_type.h"
 #include "avatar.h"
-#include "bionics.h"
 #include "calendar.h"
 #include "cata_assert.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "character_attire.h"
+#include "character_id.h"
 #include "colony.h"
 #include "color.h"
+#include "coordinates.h"
 #include "craft_command.h"
 #include "crafting_gui.h"
+#include "creature.h"
 #include "debug.h"
+#include "dialogue.h"
+#include "effect_on_condition.h"
 #include "enum_traits.h"
 #include "enums.h"
 #include "faction.h"
@@ -42,11 +44,13 @@
 #include "handle_liquid.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_components.h"
 #include "item_location.h"
 #include "item_stack.h"
 #include "itype.h"
 #include "iuse.h"
 #include "line.h"
+#include "magic_enchantment.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_selector.h"
@@ -69,6 +73,7 @@
 #include "rng.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "talker.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
@@ -110,9 +115,13 @@ static const trait_id trait_DEBUG_CNF( "DEBUG_CNF" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_INT_ALPHA( "INT_ALPHA" );
 
+static const std::string flag_AFFECTED_BY_PAIN( "AFFECTED_BY_PAIN" );
 static const std::string flag_BLIND_EASY( "BLIND_EASY" );
 static const std::string flag_BLIND_HARD( "BLIND_HARD" );
 static const std::string flag_FULL_MAGAZINE( "FULL_MAGAZINE" );
+static const std::string flag_NO_BENCH( "NO_BENCH" );
+static const std::string flag_NO_ENCHANTMENT( "NO_ENCHANTMENT" );
+static const std::string flag_NO_MANIP( "NO_MANIP" );
 static const std::string flag_NO_RESIZE( "NO_RESIZE" );
 
 class basecamp;
@@ -137,6 +146,14 @@ static bool crafting_allowed( const Character &p, const recipe &rec )
             add_msg_if_player_sees( p.pos(), m_info, _( "%s can't see to craft!" ),
                                     p.get_name() );
         }
+        return false;
+    }
+
+    if( p.is_driving() ) {
+        // One day, NPCs may be able to drive.
+        p.add_msg_player_or_npc( m_info,
+                                 _( "You can't craft while driving!" ),
+                                 _( "<npcname> refuses to violate road safety guidelines by crafting while driving!" ) );
         return false;
     }
 
@@ -281,9 +298,15 @@ float Character::workbench_crafting_speed_multiplier( const item &craft,
 
 float Character::crafting_speed_multiplier( const recipe &rec ) const
 {
+
+    const float limb_score = rec.has_flag( flag_NO_MANIP ) ? 1.0f : get_limb_score(
+                                 limb_score_manip );
+    const float pain_multi = rec.has_flag( flag_AFFECTED_BY_PAIN ) ? std::max( 0.0f,
+                             1.0f - ( get_perceived_pain() / 100.0f ) ) : 1.0f;
+
     float crafting_speed = morale_crafting_speed_multiplier( rec ) *
                            lighting_craft_speed_multiplier( rec ) *
-                           get_limb_score( limb_score_manip );
+                           limb_score * pain_multi;
 
     const float result = enchantment_cache->modify_value( enchant_vals::mod::CRAFTING_SPEED_MULTIPLIER,
                          crafting_speed );
@@ -306,14 +329,21 @@ float Character::crafting_speed_multiplier( const item &craft,
     const recipe &rec = craft.get_making();
 
     const float light_multi = lighting_craft_speed_multiplier( rec );
-    const float bench_multi = ( use_cached_workbench_multiplier ||
+    const float bench_value = ( use_cached_workbench_multiplier ||
                                 cached_workbench_multiplier > 0.0f ) ? cached_workbench_multiplier :
                               workbench_crafting_speed_multiplier( craft, loc );
+    const float bench_multi = rec.has_flag( flag_NO_BENCH ) ? 1.0f : bench_value;
     const float morale_multi = morale_crafting_speed_multiplier( rec );
-    const float mut_multi = mutation_value( "crafting_speed_multiplier" );
+    const float mut_multi = rec.has_flag( flag_NO_ENCHANTMENT ) ? 1.0f : 1.0 +
+                            enchantment_cache->get_value_multiply(
+                                enchant_vals::mod::CRAFTING_SPEED_MULTIPLIER );
+    const float limb_score = rec.has_flag( flag_NO_MANIP ) ? 1.0f : get_limb_score(
+                                 limb_score_manip );
+    const float pain_multi = rec.has_flag( flag_AFFECTED_BY_PAIN ) ? std::max( 0.0f,
+                             1.0f - ( get_perceived_pain() / 100.0f ) ) : 1.0f ;
 
-    const float total_multi = light_multi * bench_multi * morale_multi * mut_multi *
-                              get_limb_score( limb_score_manip );
+    const float total_multi = light_multi * bench_multi * morale_multi * mut_multi * limb_score *
+                              pain_multi;
 
     if( light_multi <= 0.0f ) {
         add_msg_if_player( m_bad, _( "You can no longer see well enough to keep crafting." ) );
@@ -329,7 +359,11 @@ float Character::crafting_speed_multiplier( const item &craft,
         return 0.0f;
     }
 
-    // If we're working below 20% speed, just give up
+    if( pain_multi <= 0.1f ) {
+        add_msg_if_player( m_bad, _( "You can't continue due the immense pain in your body." ) );
+        return 0.0f;
+    }
+
     if( total_multi <= 0.2f ) {
         add_msg_if_player( m_bad, _( "Your progress is so slow that you give up in frustration." ) );
         return 0.0f;
@@ -398,7 +432,7 @@ void Character::long_craft( const std::optional<tripoint> &loc, const recipe_id 
 bool Character::making_would_work( const recipe_id &id_to_make, int batch_size ) const
 {
     const recipe &making = *id_to_make;
-    if( !( making && crafting_allowed( *this, making ) ) ) {
+    if( !making || !crafting_allowed( *this, making ) ) {
         return false;
     }
 
@@ -564,7 +598,7 @@ bool Character::can_make( const recipe *r, int batch_size ) const
 {
     const inventory &crafting_inv = crafting_inventory();
 
-    if( !has_recipe( r, crafting_inv, get_crafting_group() ) ) {
+    if( !has_recipe( r ) ) {
         return false;
     }
 
@@ -1995,13 +2029,7 @@ static void empty_buckets( Character &p )
 std::list<item> Character::consume_items( const comp_selection<item_comp> &is, int batch,
         const std::function<bool( const item & )> &filter, bool select_ind )
 {
-    return consume_items( get_map(), is, batch, filter, pos(), PICKUP_RANGE, select_ind );
-}
-
-std::list<item> Character::consume_items( map &m, const comp_selection<item_comp> &is, int batch,
-        const std::function<bool( const item & )> &filter, const tripoint &origin, int radius,
-        bool select_ind )
-{
+    map &m = get_map();
     std::list<item> ret;
 
     if( has_trait( trait_DEBUG_HS ) ) {
@@ -2009,7 +2037,7 @@ std::list<item> Character::consume_items( map &m, const comp_selection<item_comp
     }
     // populate a grid of spots that can be reached
     std::vector<tripoint> reachable_pts;
-    m.reachable_flood_steps( reachable_pts, origin, radius, 1, 100 );
+    m.reachable_flood_steps( reachable_pts, pos(), PICKUP_RANGE, 1, 100 );
     return consume_items( m, is, batch, filter, reachable_pts, select_ind );
 }
 
@@ -2017,6 +2045,10 @@ std::list<item> Character::consume_items( map &m, const comp_selection<item_comp
         const std::function<bool( const item & )> &filter, const std::vector<tripoint> &reachable_pts,
         bool select_ind )
 {
+    auto preferred_filter = [&filter]( const item & it ) {
+        return filter( it ) && is_preferred_component( it );
+    };
+
     std::list<item> ret;
 
     if( has_trait( trait_DEBUG_HS ) ) {
@@ -2029,28 +2061,62 @@ std::list<item> Character::consume_items( map &m, const comp_selection<item_comp
     // Count given to use_amount/use_charges, changed by those functions!
     int real_count = ( selected_comp.count > 0 ) ? selected_comp.count * batch : std::abs(
                          selected_comp.count );
-    // First try to get everything from the map, than (remaining amount) from player
+
+    // First try to get everything from the map, then (remaining amount) from player in two passes, first using preferred items and then remainder ones.
     if( is.use_from & usage_from::map ) {
         if( by_charges ) {
-            std::list<item> tmp = m.use_charges( reachable_pts, selected_comp.type, real_count, filter );
+            std::list<item> tmp = m.use_charges( reachable_pts, selected_comp.type, real_count,
+                                                 preferred_filter );
             ret.splice( ret.end(), tmp );
         } else {
-            std::list<item> tmp = m.use_amount( reachable_pts, selected_comp.type, real_count, filter,
+            std::list<item> tmp = m.use_amount( reachable_pts, selected_comp.type, real_count, preferred_filter,
                                                 select_ind );
             remove_ammo( tmp, *this );
             ret.splice( ret.end(), tmp );
         }
     }
+
     if( is.use_from & usage_from::player ) {
         if( by_charges ) {
-            std::list<item> tmp = use_charges( selected_comp.type, real_count, filter );
+            std::list<item> tmp = use_charges( selected_comp.type, real_count, preferred_filter );
+            for( const item &it : tmp ) {
+                real_count -= it.charges;  // The use_charges operation above doesn't deduct what's been used...
+            }
             ret.splice( ret.end(), tmp );
         } else {
-            std::list<item> tmp = use_amount( selected_comp.type, real_count, filter, select_ind );
+            std::list<item> tmp = use_amount( selected_comp.type, real_count, preferred_filter, select_ind );
+            real_count -= tmp.size();  // The use_amount operation above doesn't deduct what's been used...
             remove_ammo( tmp, *this );
             ret.splice( ret.end(), tmp );
         }
     }
+
+    if( real_count > 0 ) {
+        if( is.use_from & usage_from::map ) {
+            if( by_charges ) {
+                std::list<item> tmp = m.use_charges( reachable_pts, selected_comp.type, real_count, filter );
+                ret.splice( ret.end(), tmp );
+            } else {
+                std::list<item> tmp = m.use_amount( reachable_pts, selected_comp.type, real_count, filter,
+                                                    select_ind );
+                remove_ammo( tmp, *this );
+                ret.splice( ret.end(), tmp );
+            }
+        }
+        if( is.use_from & usage_from::player ) {
+            if( by_charges ) {
+                std::list<item> tmp = use_charges( selected_comp.type, real_count, filter );
+                // The use_charges operation above doesn't deduct what's been used, but we're not going to use real_count again.
+                ret.splice( ret.end(), tmp );
+            } else {
+                std::list<item> tmp = use_amount( selected_comp.type, real_count, filter, select_ind );
+                // The use_amount operation above doesn't deduct what's been used, but we're not going to use real_count again.
+                remove_ammo( tmp, *this );
+                ret.splice( ret.end(), tmp );
+            }
+        }
+    }
+
     // Merge charges for items that stack with each other
     if( by_charges && ret.size() > 1 ) {
         for( auto outer = std::begin( ret ); outer != std::end( ret ); ++outer ) {

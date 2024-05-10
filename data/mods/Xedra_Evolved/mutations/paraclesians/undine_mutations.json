@@ -100,6 +100,19 @@
   },
   {
     "type": "mutation",
+    "id": "UNDINE_ACID_RESIST_ALLY",
+    "name": { "str": "Caustic Cloak" },
+    "points": 0,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Undine gains the ability to weave an enchantment on an ally which will protect them from acid and causes anything who attacks that ally to be splashed with acid themselves.",
+    "prereqs": [ "ACIDIC_MIST" ],
+    "prereqs2": [ "RESIST_ACID" ],
+    "category": [ "UNDINE" ],
+    "spells_learned": [ [ "undine_acid_resist_ally_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "UNDINE_CULTIVATE_GOBLIN_FRUIT",
     "name": { "str": "Cultivate Goblin Fruit" },
     "points": 3,
@@ -435,8 +448,7 @@
     "prereqs": [ "UNDINE_DEX_UP_1" ],
     "changes_to": [ "UNDINE_DEX_UP_3" ],
     "category": [ "UNDINE" ],
-    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 4 } ] } ],
-    "thirst_modifier": 0.15
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 4 }, { "value": "THIRST", "multiply": 0.15 } ] } ]
   },
   {
     "type": "mutation",
@@ -449,8 +461,7 @@
     "prereqs": [ "UNDINE_DEX_UP_2" ],
     "prereqs2": [ "UNDINE_WATER_BODY" ],
     "category": [ "UNDINE" ],
-    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 6 } ] } ],
-    "thirst_modifier": 0.25
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 6 }, { "value": "THIRST", "multiply": 0.25 } ] } ]
   },
   {
     "type": "mutation",
@@ -486,8 +497,7 @@
     "description": "Even the Undine's internal organs are becoming more liquid.  Bashing and cutting damage is reduced even further, and ballistic damage is halved.  However, the Undine needs to drink more water.",
     "prereqs": [ "UNDINE_SKIN_2", "UNDINE_SKIN_3" ],
     "category": [ "UNDINE" ],
-    "thirst_modifier": 0.25,
-    "enchantments": [ "ench_undine_water_body" ]
+    "enchantments": [ "ench_undine_water_body", { "values": [ { "value": "THIRST", "multiply": 0.25 } ] } ]
   },
   {
     "type": "mutation",

@@ -244,6 +244,13 @@
     ]
   },
   {
+    "id": "mon_falcarius_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_gallimimus_hatchling",
+    "name": "green and magenta hatchling",
+    "upgrades": { "age_grow": 35, "into": "mon_falcarius_juvenile" }
+  },
+  {
     "id": "mon_therizinosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_gallimimus_hatchling",
@@ -526,6 +533,13 @@
     "copy-from": "mon_dyoplosaurus_hatchling",
     "name": "light green and yellow hatchling",
     "upgrades": { "age_grow": 20, "into": "mon_camptosaurus_juvenile" }
+  },
+  {
+    "id": "mon_iguanodon_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_camptosaurus_hatchling",
+    "name": "dark gray and magenta hatchling",
+    "upgrades": { "age_grow": 30, "into": "mon_iguanodon_juvenile" }
   },
   {
     "id": "mon_hadrosaurus_hatchling",

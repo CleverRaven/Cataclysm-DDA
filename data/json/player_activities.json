@@ -739,6 +739,14 @@
     "based_on": "speed"
   },
   {
+    "id": "ACT_HEAT",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "heating",
+    "rooted": true,
+    "based_on": "time"
+  },
+  {
     "id": "ACT_HACKSAW",
     "type": "activity_type",
     "activity_level": "MODERATE_EXERCISE",
@@ -902,15 +910,6 @@
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
     "verb": "communing with the trees",
-    "rooted": true,
-    "based_on": "time",
-    "can_resume": false
-  },
-  {
-    "id": "ACT_MUTANT_TREE_COMMUNION",
-    "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
-    "verb": "communing with the mutant tree",
     "rooted": true,
     "based_on": "time",
     "can_resume": false

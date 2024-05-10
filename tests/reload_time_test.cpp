@@ -36,9 +36,9 @@ static void check_reload_time( const std::string &weapon, const std::string &amm
     CAPTURE( shooter.item_handling_cost( *shooter.used_weapon(), true, 0 ) );
     CAPTURE( shooter.used_weapon()->get_reload_time() );
     aim_activity_actor act = aim_activity_actor::use_wielded();
-    int moves_before = shooter.moves;
+    int moves_before = shooter.get_moves();
     REQUIRE( act.load_RAS_weapon() );
-    int moves_after = shooter.moves;
+    int moves_after = shooter.get_moves();
     int spent_moves = moves_before - moves_after;
     int expected_upper = expected_moves * 1.05;
     int expected_lower = expected_moves * 0.95;

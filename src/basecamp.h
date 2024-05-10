@@ -2,13 +2,17 @@
 #ifndef CATA_SRC_BASECAMP_H
 #define CATA_SRC_BASECAMP_H
 
+#include <algorithm>
 #include <cstddef>
+#include <functional>
 #include <list>
 #include <map>
 #include <memory>
 #include <optional>
 #include <set>
 #include <string>
+#include <string_view>
+#include <unordered_set>
 #include <vector>
 
 #include "coordinates.h"
@@ -17,21 +21,28 @@
 #include "game_inventory.h"
 #include "inventory.h"
 #include "map.h"
+#include "mapgendata.h"
 #include "mission_companion.h"
 #include "point.h"
 #include "requirements.h"
 #include "stomach.h"
+#include "translation.h"
 #include "type_id.h"
+#include "units_fwd.h"
 
+class Character;
 class JsonObject;
 class JsonOut;
+class basecamp;
 class character_id;
+class faction;
+class item;
 class npc;
+class recipe;
 class time_duration;
 class zone_data;
-enum class farm_ops : int;
-class item;
-class recipe;
+struct MonsterGroupResult;
+enum class farm_ops;
 
 using faction_id = string_id<faction>;
 
@@ -242,6 +253,7 @@ class basecamp
         /// Helper, forwards to above
         void feed_workers( Character &worker, nutrients food, bool is_player_meal = false );
         void player_eats_meal();
+        item make_fake_food( const nutrients &to_use ) const;
         /// Takes all the food from the camp_food zone and increases the faction
         /// food_supply
         bool distribute_food();
@@ -286,6 +298,7 @@ class basecamp
          * if skill is higher, an item or corpse is spawned
          */
         void hunting_results( int skill, const mission_id &miss_id, int attempts, int difficulty );
+        void make_corpse_from_group( const std::vector<MonsterGroupResult> &group );
         inline const tripoint_abs_ms &get_dumping_spot() const {
             return dumping_spot;
         }

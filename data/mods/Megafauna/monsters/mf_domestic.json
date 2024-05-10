@@ -432,8 +432,8 @@
   {
     "id": "mon_camelops",
     "type": "MONSTER",
-    "name": { "str": "Camelops", "str_pl": "camelops" },
-    "description": "A huge, woolly two-humped camel that roams far and wide across the american continent.  It looks at you irritated, chewing on some long grass.",
+    "name": { "str_sp": "Camelops" },
+    "description": "A huge, woolly two-humped camel that roams far and wide across the American continent.  It looks at you irritated, chewing on some long grass.",
     "default_faction": "mega_herbivore",
     "bodytype": "horse",
     "categories": [ "WILDLIFE" ],

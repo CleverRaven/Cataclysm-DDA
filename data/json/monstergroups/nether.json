@@ -24,7 +24,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_NETHER_FATIGUE_FIELD",
+    "name": "GROUP_NETHER_REALITY_TEAR_FIELD",
     "default": "mon_blank",
     "monsters": [
       { "monster": "mon_flying_polyp", "weight": 100, "cost_multiplier": 0 },
@@ -75,6 +75,18 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_NETHER_UNVIABLE",
+    "default": "mon_nether_unviable_bug",
+    "monsters": [
+      { "monster": "mon_nether_unviable_bug", "weight": 4, "cost_multiplier": 0, "pack_size": [ 2, 6 ] },
+      { "monster": "mon_nether_unviable_chunk", "weight": 3, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_nether_unviable_root", "weight": 3, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_nether_unviable_butterfly", "weight": 2, "cost_multiplier": 0 },
+      { "monster": "mon_nether_unviable_stomper", "weight": 1, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_NETHER_PORTAL",
     "default": "mon_gracke",
     "monsters": [
@@ -83,7 +95,8 @@
       { "monster": "mon_kreck", "weight": 200, "cost_multiplier": 0 },
       { "monster": "mon_gracke", "weight": 200, "cost_multiplier": 0 },
       { "monster": "mon_unseen_hunter", "weight": 100, "cost_multiplier": 0, "starts": "30 days" },
-      { "monster": "mon_blank", "weight": 200, "cost_multiplier": 0 }
+      { "monster": "mon_blank", "weight": 200, "cost_multiplier": 0 },
+      { "group": "GROUP_NETHER_UNVIABLE", "weight": 500, "cost_multiplier": 0 }
     ]
   },
   {

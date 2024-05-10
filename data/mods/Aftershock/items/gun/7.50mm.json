@@ -1,11 +1,42 @@
 [
   {
+    "id": "afs_marsec_t72",
+    "type": "GUN",
+    "copy-from": "sw629",
+    "name": { "str": "MarSec. T72" },
+    "description": "A massive, unwieldy revolver, using combined magnetic and chemical propulsion to fire 7.50mm rounds at energies that rival a sniping platform.  It additionally features a secondary barrel for a single 00 shot shell.\n\nThe T72 remains a relic of the early hyperspace era, meant to be used by and against the posthuman.  Its perhaps most notable for its use by fictional rebel figures than for any sort of actual combat effectiveness.",
+    "weight": "2204 g",
+    "volume": "1750 ml",
+    "longest_side": "25 cm",
+    "price": "6400 USD",
+    "price_postapoc": "6400 USD",
+    "material": [ "superalloy", "ceramic" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": [ "afs_7.50mm" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -4 },
+    "dispersion": 175,
+    "durability": 9,
+    "min_strength": 16,
+    "clip_size": 9,
+    "flags": [ "WATERPROOF_GUN", "RELOAD_ONE", "NEVER_JAMS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "holster": true,
+        "ammo_restriction": { "afs_7.50mm": 9 },
+        "allowed_speedloaders": [ "afs_marsect72_speedloader9" ]
+      }
+    ],
+    "built_in_mods": [ "afs_marsec_t72_shotgun" ]
+  },
+  {
     "id": "afs_landfall_gun",
     "type": "GUN",
     "copy-from": "rifle_22",
     "name": { "str": "landfall survival gun" },
-    "description": "A lightweight, bolt-action gun that is barely more than a 6.55mm barrel mounted within a flimsy metal assembly.  Cheaply made and outdated in all respects, it's only useful in the most extenuating of circumstances.",
-    "price": 5000,
+    "description": "A lightweight, bolt-action gun that is barely more than a 7.50mm barrel mounted within a flimsy metal assembly.  Cheaply made and outdated in all respects, it's only useful in the most extenuating of circumstances.",
+    "price": "50 USD",
     "material": [ "steel", "plastic" ],
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ],
     "dispersion": 250,
@@ -27,7 +58,7 @@
     "weight": "7500 g",
     "volume": "10610 ml",
     "longest_side": "1035 mm",
-    "price": 750000,
+    "price": "7 kUSD 500 USD",
     "to_hit": -1,
     "material": [ "superalloy", "plastic" ],
     "symbol": "(",
@@ -41,10 +72,9 @@
     "built_in_mods": [ "bipod" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bore", 1 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
@@ -73,7 +103,7 @@
     "weight": "3170 g",
     "volume": "3100 ml",
     "longest_side": "630 mm",
-    "price": 125000,
+    "price": "1 kUSD 250 USD",
     "to_hit": -1,
     "material": [ "superalloy", "plastic" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -7 },
@@ -95,5 +125,59 @@
     ],
     "melee_damage": { "bash": 12 },
     "weapon_category": [ "AUTOMATIC_RIFLES" ]
+  },
+  {
+    "id": "afs_sr77",
+    "copy-from": "fn_p90",
+    "type": "GUN",
+    "reload_noise_volume": 10,
+    "name": { "str": "G&W SR-P77" },
+    "description": "Compact and powerful, the SR-77 serves as the current main firearm of UICA assault teams, having replaced the SR-P9 in the very last decade of the reclamation wars.  Designed for combat withing the tight confines of spacecraft and habitats, the SR-77 is a bullpup carbine with a top-mounted magazine and a high rate of fire.  Performance in open terrain is subpar.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "military",
+        "name": { "str": "G&W SR-P77" },
+        "description": "Compact and powerful, the SR-77 serves as the current main firearm of UICA assault teams, having replaced the SR-P9 in the very last decade of the reclamation wars.  Designed for combat withing the tight confines of spacecraft and habitats, the SR-77 is a bullpup carbine with a top-mounted magazine and a high rate of fire.  Performance in open terrain is subpar.",
+        "weight": 3
+      },
+      {
+        "id": "branded",
+        "name": { "str": "Gibson-77 Sentinel" },
+        "description": "A rare version of the m90-UASTA PDW built to its original private market specifications, featuring an ergonomic bullpup design and a large magazine capacity underneath a sleek white and chromed finish.  Actual combat performance is slightly improved over the more common military model, due to the use of higher-quality materials within the barrel and ETC ignition system.",
+        "weight": 0
+      }
+    ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -10 },
+    "range": -4,
+    "weight": "2640 g",
+    "volume": "3817 ml",
+    "longest_side": "511 mm",
+    "barrel_length": "264 mm",
+    "price": "3 kUSD 500 USD",
+    "price_postapoc": "35 USD",
+    "to_hit": -2,
+    "material": [ "superalloy", "plastic" ],
+    "symbol": "(",
+    "color": "light_gray",
+    "ammo": [ "afs_7.50mm" ],
+    "skill": "smg",
+    "dispersion": 260,
+    "durability": 10,
+    "min_cycle_recoil": 1350,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "burst", 5 ], [ "AUTO", "auto", 15 ] ],
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 2 ]
+    ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "pocket_data": [ { "magazine_well": "500 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "afs_sr77_45mag" ] } ],
+    "melee_damage": { "bash": 10 }
   }
 ]

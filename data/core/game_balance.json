@@ -57,8 +57,8 @@
   },
   {
     "type": "EXTERNAL_OPTION",
-    "name": "PLAYER_FATIGUE_RATE",
-    "info": "Set base fatigue rate per 5 minutes.  Default: 1.0",
+    "name": "PLAYER_SLEEPINESS_RATE",
+    "info": "Set base sleepiness rate per 5 minutes.  Default: 1.0",
     "stype": "float",
     "value": 1.0
   },
@@ -103,6 +103,34 @@
     "info": "Enables CBM slots mechanics.  If true CBM slots are enabled.",
     "stype": "bool",
     "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "PAIN_PENALTY_MOD_STR",
+    "info": "Scales how much pain decrease your stat.  0.005 means 0.5% of stat loss per one unit of pain.",
+    "stype": "float",
+    "value": 0.005
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "PAIN_PENALTY_MOD_DEX",
+    "info": "Scales how much pain decrease your stat.  0.0075 means 0.75% of stat loss per one unit of pain.",
+    "stype": "float",
+    "value": 0.0075
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "PAIN_PENALTY_MOD_INT",
+    "info": "Scales how much pain decrease your stat.  0.01 means 1% of stat loss per one unit of pain.",
+    "stype": "float",
+    "value": 0.01
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "PAIN_PENALTY_MOD_PER",
+    "info": "Scales how much pain decrease your stat.  0.01 means 1% of stat loss per one unit of pain.",
+    "stype": "float",
+    "value": 0.01
   },
   {
     "type": "EXTERNAL_OPTION",

@@ -21,6 +21,7 @@
 #include "cursesdef.h"
 #include "debug.h"
 #include "effect.h"
+#include "effect_on_condition.h"
 #include "effect_source.h"
 #include "event.h"
 #include "event_bus.h"
@@ -108,6 +109,7 @@ static const efftype_id effect_maimed_arm( "maimed_arm" );
 static const efftype_id effect_monster_armor( "monster_armor" );
 static const efftype_id effect_monster_saddled( "monster_saddled" );
 static const efftype_id effect_natures_commune( "natures_commune" );
+static const efftype_id effect_nemesis_buff( "nemesis_buff" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pacified( "pacified" );
@@ -118,7 +120,6 @@ static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_psi_stunned( "psi_stunned" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_run( "run" );
-static const efftype_id effect_slippery_terrain( "slippery_terrain" );
 static const efftype_id effect_spooked( "spooked" );
 static const efftype_id effect_spooked_recent( "spooked_recent" );
 static const efftype_id effect_stunned( "stunned" );
@@ -249,6 +250,9 @@ static void armor_enchantment_adjust( monster &mon, damage_unit &du )
         du.amount = mon.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_STAB );
     } else if( du.type == STATIC( damage_type_id( "bullet" ) ) ) {
         du.amount = mon.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_BULLET );
+    }
+    if( du.type != STATIC( damage_type_id( "pure" ) ) ) {
+        du.amount = mon.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_ALL );
     }
     du.amount = std::max( 0.0f, du.amount );
 }
@@ -594,9 +598,12 @@ void monster::try_reproduce()
         if( season_match && female && one_in( chance ) ) {
             int spawn_cnt = rng( 1, type->baby_count );
             if( type->baby_monster ) {
-                here.add_spawn( type->baby_monster, spawn_cnt, pos() );
+                here.add_spawn( type->baby_monster, spawn_cnt, pos_bub() );
             } else {
-                here.add_item_or_charges( pos(), item( type->baby_egg, *baby_timer, spawn_cnt ), true );
+                const item egg( type->baby_egg, *baby_timer );
+                for( int i = 0; i < spawn_cnt; i++ ) {
+                    here.add_item_or_charges( pos(), egg, true );
+                }
             }
         }
         *baby_timer += *type->baby_timer;
@@ -1091,7 +1098,7 @@ std::string monster::extended_description() const
         ss += string_format( _( "Friendly: %1$d" ), friendly ) + "\n";
         ss += string_format( _( "Morale: %1$d" ), morale ) + "\n";
         if( aggro_character ) {
-            ss += string_format( _( "<color_red>Agressive towards characters</color>" ) ) + "\n";
+            ss += string_format( _( "<color_red>Aggressive towards characters</color>" ) ) + "\n";
         }
 
         const time_duration current_time = calendar::turn - calendar::turn_zero;
@@ -1338,6 +1345,11 @@ bool monster::has_intelligence() const
 std::vector<material_id> monster::get_absorb_material() const
 {
     return type->absorb_material;
+}
+
+std::vector<material_id> monster::get_no_absorb_material() const
+{
+    return type->no_absorb_material;
 }
 
 void monster::set_patrol_route( const std::vector<point> &patrol_pts_rel_ms )
@@ -1656,7 +1668,7 @@ void monster::process_triggers()
     process_trigger( mon_trigger::BRIGHT_LIGHT, [this]() {
         int ret = 0;
         static const int dim_light = round( .75 * default_daylight_level() );
-        int light = round( get_map().ambient_light_at( pos() ) );
+        int light = round( get_map().ambient_light_at( pos_bub() ) );
         if( light >= dim_light ) {
             ret += 10;
         }
@@ -2743,6 +2755,9 @@ void monster::die( Creature *nkiller )
     set_killer( nkiller );
     if( get_killer() != nullptr ) {
         Character *ch = get_killer()->as_character();
+        if( ch == nullptr && get_killer()->get_summoner() != nullptr ) {
+            ch = get_killer()->get_summoner()->as_character();
+        }
         if( !is_hallucination() && ch != nullptr ) {
             cata::event e = cata::event::make<event_type::character_kills_monster>( ch->getID(), type->id,
                             compute_kill_xp( type->id ) );
@@ -2828,6 +2843,16 @@ void monster::die( Creature *nkiller )
             death_spell.cast_all_effects( *this, killer->pos() );
         } else if( type->mdeath_effect.sp.self ) {
             death_spell.cast_all_effects( *this, pos() );
+        }
+    }
+
+    if( type->mdeath_effect.eoc.has_value() ) {
+        //Not a hallucination, go process the death effects.
+        if( type->mdeath_effect.eoc.value().is_valid() ) {
+            dialogue d( get_talker_for( *this ), nullptr );
+            type->mdeath_effect.eoc.value()->activate( d );
+        } else {
+            debugmsg( "eoc id %s is not valid", type->mdeath_effect.eoc.value().str() );
         }
     }
 
@@ -3053,12 +3078,15 @@ void monster::drop_items_on_death( item *corpse )
     }
 }
 
-void monster::spawn_dissectables_on_death( item *corpse )
+void monster::spawn_dissectables_on_death( item *corpse ) const
 {
     if( is_hallucination() ) {
         return;
     }
     if( type->dissect.is_empty() ) {
+        return;
+    }
+    if( !corpse ) {
         return;
     }
 
@@ -3076,8 +3104,6 @@ void monster::spawn_dissectables_on_death( item *corpse )
             }
             if( corpse ) {
                 corpse->put_in( dissectable, pocket_type::CORPSE );
-            } else {
-                get_map().add_item_or_charges( pos(), dissectable );
             }
         }
     }
@@ -3167,13 +3193,13 @@ void monster::process_one_effect( effect &it, bool is_new )
         for( const enchantment_id &ench_id : elem.first->enchantments ) {
             const enchantment &ench = ench_id.obj();
             if( ench.is_active( *this ) && ench.is_monster_relevant() ) {
-                enchantment_cache->force_add( ench );
+                enchantment_cache->force_add( ench, *this );
             }
         }
     }
     //Reset max speed
-    this->set_speed_base( calculate_by_enchantment( this->get_speed_base(), enchant_vals::mod::SPEED,
-                          true ) );
+    set_speed_bonus( calculate_by_enchantment( get_speed_base(), enchant_vals::mod::SPEED,
+                     true ) - get_speed_base() );
 }
 
 void monster::process_effects()
@@ -3220,8 +3246,8 @@ void monster::process_effects()
         add_msg_if_player_sees( *this, m_warning, healing_format_string, name() );
     }
 
-    if( type->regenerates_in_dark ) {
-        const float light = get_map().ambient_light_at( pos() );
+    if( type->regenerates_in_dark && !g->is_in_sunlight( pos() ) ) {
+        const float light = get_map().ambient_light_at( pos_bub() );
         // Magic number 10000 was chosen so that a floodlight prevents regeneration in a range of 20 tiles
         const float dHP = 50.0 * std::exp( - light * light / 10000 );
         if( heal( static_cast<int>( dHP ) ) > 0 && one_in( 2 ) ) {
@@ -3313,7 +3339,11 @@ void monster::process_effects()
         }
     }
 
-    if( has_flag( mon_flag_PHOTOPHOBIC ) && get_map().ambient_light_at( pos() ) >= 30.0f ) {
+    if( is_nemesis() ) {
+        add_effect( effect_nemesis_buff, 1000_turns, true );
+    }
+
+    if( has_flag( mon_flag_PHOTOPHOBIC ) && get_map().ambient_light_at( pos_bub() ) >= 30.0f ) {
         add_msg_if_player_sees( *this, m_good, _( "The shadow withers in the light!" ), name() );
         add_effect( effect_photophobia, 5_turns, true );
     }
@@ -3324,26 +3354,6 @@ void monster::process_effects()
         apply_damage( nullptr, bodypart_id( "torso" ), 100 );
         if( hp < 0 ) {
             hp = 0;
-        }
-    }
-
-    // Check to see if critter slips on bile or whatever.
-    if( has_effect( effect_slippery_terrain ) && !is_immune_effect( effect_downed ) && !flies() &&
-        !digging() && !has_effect( effect_downed ) ) {
-        map &here = get_map();
-        if( here.has_flag( ter_furn_flag::TFLAG_FLAT, pos() ) ) {
-            int intensity = get_effect_int( effect_slippery_terrain );
-            intensity -= 1;
-            //ROAD tiles are hard, flat surfaces, and easier to slip on.
-            if( here.has_flag( ter_furn_flag::TFLAG_ROAD, pos() ) ) {
-                intensity++;
-            }
-            int slipchance = ( round( get_speed() / 50 ) - round( get_dodge() / 3 ) );
-            if( intensity + slipchance > dice( 1, 12 ) ) {
-                add_effect( effect_downed, rng( 1_turns, 2_turns ) );
-                add_msg_if_player_sees( pos(), m_info, _( "The %1s slips and falls!" ),
-                                        name() );
-            }
         }
     }
 
@@ -3979,7 +3989,7 @@ std::unordered_set<tripoint> monster::get_path_avoid() const
     std::unordered_set<tripoint> ret;
 
     map &here = get_map();
-    int radius = std::min( sight_range( here.ambient_light_at( pos() ) ), 5 );
+    int radius = std::min( sight_range( here.ambient_light_at( pos_bub() ) ), 5 );
 
     for( const tripoint &p : here.points_in_radius( pos(), radius ) ) {
         if( !can_move_to( p ) ) {

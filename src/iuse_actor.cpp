@@ -135,6 +135,7 @@ static const itype_id itype_stock_none( "stock_none" );
 static const itype_id itype_syringe( "syringe" );
 
 static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
+static const json_character_flag json_flag_MANUAL_CBM_INSTALLATION( "MANUAL_CBM_INSTALLATION" );
 
 static const proficiency_id proficiency_prof_traps( "prof_traps" );
 static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
@@ -252,7 +253,8 @@ std::optional<int> iuse_transform::use( Character *p, item &it, const tripoint &
         p->add_msg_if_player( m_neutral, msg_transform, it.tname() );
     }
 
-    p->moves -= moves;
+    // Uses the moves specified by iuse_actor's definition
+    p->mod_moves( -moves );
 
     if( need_fire && p->has_trait( trait_PYROMANIA ) ) {
         if( one_in( 2 ) ) {
@@ -343,6 +345,8 @@ void iuse_transform::do_transform( Character *p, item &it, const std::string &va
             p->on_worn_item_transform( obj_copy, *obj );
         }
     }
+
+    p->clear_inventory_search_cache();
 }
 
 ret_val<void> iuse_transform::can_use( const Character &p, const item &it,
@@ -429,7 +433,8 @@ void iuse_transform::finalize( const itype_id & )
 
 void iuse_transform::info( const item &it, std::vector<iteminfo> &dump ) const
 {
-    item dummy( target, calendar::turn, std::max( ammo_qty, 1 ) );
+    int amount = std::max( ammo_qty, 1 );
+    item dummy( target, calendar::turn, target->count_by_charges() ? amount : 1 );
     dummy.set_itype_variant( variant_type );
     // If the variant is to be randomized, use default no-variant name
     if( variant_type == "<any>" ) {
@@ -438,8 +443,27 @@ void iuse_transform::info( const item &it, std::vector<iteminfo> &dump ) const
     if( it.has_flag( flag_FIT ) ) {
         dummy.set_flag( flag_FIT );
     }
-    dump.emplace_back( "TOOL", string_format( _( "<bold>Turns into</bold>: %s" ),
-                       dummy.tname() ) );
+    if( target->count_by_charges() || !ammo_type.is_empty() ) {
+        if( !ammo_type.is_empty() ) {
+            dump.emplace_back( "TOOL", _( "<bold>Turns into</bold>: " ),
+                               string_format( _( "%s (%d %s)" ), dummy.tname(), amount, ammo_type->nname( amount ) ) );
+        } else if( !container.is_empty() ) {
+            dump.emplace_back( "TOOL", _( "<bold>Turns into</bold>: " ),
+                               amount > 1 ?
+                               string_format( _( "%s (%d %s)" ),
+                                              container->nname( 1 ), amount, target->nname( amount ) ) :
+                               string_format( _( "%s (%s)" ),
+                                              container->nname( 1 ), target->nname( amount ) ) );
+        } else {
+            dump.emplace_back( "TOOL", _( "<bold>Turns into</bold>: " ),
+                               string_format( _( "%s (%d)" ), target->nname( amount ), amount ) );
+        }
+    } else {
+        dump.emplace_back( "TOOL", _( "<bold>Turns into</bold>: " ),
+                           amount > 1 ?
+                           string_format( _( "%d %s" ), amount, target->nname( amount ) ) :
+                           string_format( _( "%s" ), target->nname( amount ) ) );
+    }
 
     if( target_timer > 0_seconds ) {
         dump.emplace_back( "TOOL", _( "Countdown: " ), to_seconds<int>( target_timer ) );
@@ -817,7 +841,8 @@ std::optional<int> consume_drug_iuse::use( Character *p, item &it, const tripoin
         p->i_add_or_drop( used_up );
     }
 
-    p->moves -= moves;
+    // Uses the moves specified by iuse_actor's definition
+    p->mod_moves( -moves );
     return 1;
 }
 
@@ -903,7 +928,8 @@ std::optional<int> place_monster_iuse::use( Character *p, item &it, const tripoi
             return std::nullopt;
         }
     }
-    p->moves -= moves;
+    // Uses the moves specified by iuse_actor's definition
+    p->mod_moves( -moves );
 
     newmon.ammo = newmon.type->starting_ammo;
     if( !newmon.has_flag( mon_flag_INTERIOR_AMMO ) ) {
@@ -972,7 +998,7 @@ std::optional<int> place_npc_iuse::use( Character *p, item &, const tripoint & )
     map &here = get_map();
     const tripoint_range<tripoint> target_range = place_randomly ?
             points_in_radius( p->pos(), radius ) :
-            points_in_radius( choose_adjacent( _( "Place npc where?" ) ).value_or( p->pos() ), 0 );
+            points_in_radius( choose_adjacent( _( "Place NPC where?" ) ).value_or( p->pos() ), 0 );
 
     const std::optional<tripoint> target_pos =
     random_point( target_range, [&here]( const tripoint & t ) {
@@ -981,7 +1007,7 @@ std::optional<int> place_npc_iuse::use( Character *p, item &, const tripoint & )
     } );
 
     if( !target_pos.has_value() ) {
-        p->add_msg_if_player( m_info, _( "There is no square to spawn npc in!" ) );
+        p->add_msg_if_player( m_info, _( "There is no square to spawn NPC in!" ) );
         return std::nullopt;
     }
 
@@ -1102,7 +1128,7 @@ static ret_val<tripoint> check_deploy_square( Character *p, item &it, const trip
                 here.mop_spills( tripoint_bub_ms( pnt ) );
                 p->add_msg_if_player( m_info, _( "You mopped up the spill with a nearby mop when deploying a %s." ),
                                       it.tname() );
-                p->moves -= 15;
+                p->mod_moves( -to_moves<int>( 15_seconds ) );
             } else {
                 return ret_val<tripoint>::make_failure( pos,
                                                         _( "You need a mop to clean up liquids before deploying the %s." ), it.tname() );
@@ -1153,8 +1179,8 @@ std::optional<int> deploy_appliance_actor::use( Character *p, item &it, const tr
         return std::nullopt;
     }
 
-    place_appliance( suitable.value(), vpart_appliance_from_item( appliance_base ) );
     it.spill_contents( suitable.value() );
+    place_appliance( suitable.value(), vpart_appliance_from_item( appliance_base ), it );
     p->mod_moves( -to_moves<int>( 2_seconds ) );
     return 1;
 }
@@ -1191,9 +1217,11 @@ void reveal_map_actor::reveal_targets( const tripoint_abs_omt &center,
     const auto places = overmap_buffer.find_all( center, target.first, radius, false,
                         target.second );
     for( const tripoint_abs_omt &place : places ) {
+        if( !overmap_buffer.seen( place ) ) {
+            // Should be replaced with the character using the item passed as an argument if NPCs ever learn to use maps
+            get_avatar().map_revealed_omts.emplace( place );
+        }
         overmap_buffer.reveal( place, reveal_distance );
-        // Should be replaced with the character using the item passed as an argument if NPCs ever learn to use maps
-        get_avatar().map_revealed_omts.emplace( place );
     }
 }
 
@@ -1217,6 +1245,9 @@ std::optional<int> reveal_map_actor::use( Character *p, item &it, const tripoint
     }
     if( !message.empty() ) {
         p->add_msg_if_player( m_good, "%s", message );
+    }
+    if( p->map_revealed_omts.empty() ) {
+        p->add_msg_if_player( _( "You didn't learn anything new from the %s." ), it.tname() );
     }
     it.mark_as_used_by_player( *p );
     return 0;
@@ -1727,7 +1758,7 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
         int amount = salvaged_mat.second;
         if( amount > 0 ) {
             // Time based on number of components.
-            p.moves -= moves_per_part;
+            p.mod_moves( -moves_per_part );
             if( result.count_by_charges() ) {
                 result.charges = amount;
                 amount = 1;
@@ -1924,7 +1955,8 @@ std::optional<int> fireweapon_off_actor::use( Character *p, item &it,
         return std::nullopt;
     }
 
-    p->moves -= moves;
+    // Uses the moves specified by iuse_actor's definition
+    p->mod_moves( -moves );
     if( rng( 0, 10 ) - it.damage_level() > success_chance && !p->is_underwater() ) {
         if( noise > 0 ) {
             sounds::sound( p->pos(), noise, sounds::sound_t::combat, success_message );
@@ -2020,7 +2052,8 @@ std::unique_ptr<iuse_actor> manualnoise_actor::clone() const
 
 std::optional<int> manualnoise_actor::use( Character *p, item &, const tripoint & ) const
 {
-    p->moves -= moves;
+    // Uses the moves specified by iuse_actor's definition
+    p->mod_moves( -moves );
     if( noise > 0 ) {
         sounds::sound( p->pos(), noise, sounds::sound_t::activity,
                        noise_message.empty() ? _( "Hsss" ) : noise_message.translated(), true, noise_id, noise_variant );
@@ -2558,10 +2591,12 @@ std::optional<int> holster_actor::use( Character *you, item &it, const tripoint 
     if( pos >= 0 ) {
         item_location weapon =  you->get_wielded_item();
         if( weapon && weapon.get_item()->has_flag( flag_NO_UNWIELD ) ) {
-            you->add_msg_if_player( m_bad, _( "You can't unwield your %s." ), weapon.get_item()->tname() );
-            return std::nullopt;
+            std::optional<bionic *> bio_opt = you->find_bionic_by_uid( you->get_weapon_bionic_uid() );
+            if( !bio_opt || !you->deactivate_bionic( **bio_opt ) ) {
+                you->add_msg_if_player( m_bad, _( "You can't unwield your %s." ), weapon.get_item()->tname() );
+                return std::nullopt;
+            }
         }
-
         // worn holsters ignore penalty effects (e.g. GRABBED) when determining number of moves to consume
         if( you->is_worn( it ) ) {
             you->wield_contents( it, internal_item, false, it.obtain_cost( *internal_item ) );
@@ -2834,7 +2869,7 @@ static std::pair<int, bool> find_repair_difficulty( const itype &it )
 
     if( !it.materials.empty() ) {
         for( const auto &mats : it.materials ) {
-            if( mats.first->repair_difficulty() && difficulty < mats.first->repair_difficulty() ) {
+            if( difficulty < mats.first->repair_difficulty() ) {
                 difficulty = mats.first->repair_difficulty();
                 difficulty_defined = true;
             }
@@ -3309,7 +3344,7 @@ std::optional<int> heal_actor::use( Character *p, item &it, const tripoint &pos 
     // NPC: Will only use its inventory for first aid items.
     p->activity.targets.emplace_back( *p, &it );
     p->activity.str_values.emplace_back( hpp.c_str() );
-    p->moves = 0;
+    p->set_moves( 0 );
     return 0;
 }
 
@@ -3508,7 +3543,7 @@ int heal_actor::finish_using( Character &healer, Character &patient, item &it,
         int bandages_intensity = get_bandaged_level( healer );
         patient.add_effect( effect_bandaged, 1_turns, healed );
         effect &e = patient.get_effect( effect_bandaged, healed );
-        e.set_duration( e.get_int_dur_factor() * bandages_intensity );
+        e.set_duration( e.get_int_dur_factor() * ( bandages_intensity + 0.5f ) );
         patient.set_part_damage_bandaged( healed,
                                           patient.get_part_hp_max( healed ) - patient.get_part_hp_cur( healed ) );
         practice_amount += 2 * bandages_intensity;
@@ -3517,7 +3552,7 @@ int heal_actor::finish_using( Character &healer, Character &patient, item &it,
         int disinfectant_intensity = get_disinfected_level( healer );
         patient.add_effect( effect_disinfected, 1_turns, healed );
         effect &e = patient.get_effect( effect_disinfected, healed );
-        e.set_duration( e.get_int_dur_factor() * disinfectant_intensity );
+        e.set_duration( e.get_int_dur_factor() * ( disinfectant_intensity + 0.5f ) );
         patient.set_part_damage_disinfected( healed,
                                              patient.get_part_hp_max( healed ) - patient.get_part_hp_cur( healed ) );
         practice_amount += 2 * disinfectant_intensity;
@@ -4149,7 +4184,7 @@ std::optional<int> install_bionic_actor::use( Character *p, item &it,
         const tripoint & ) const
 {
     if( p->can_install_bionics( *it.type, *p, false ) ) {
-        if( !p->has_trait( trait_DEBUG_BIONICS ) ) {
+        if( !p->has_trait( trait_DEBUG_BIONICS ) && !p->has_flag( json_flag_MANUAL_CBM_INSTALLATION ) ) {
             p->consume_installation_requirement( it.type->bionic->id );
             p->consume_anesth_requirement( *it.type, *p );
         }
@@ -4171,7 +4206,7 @@ ret_val<void> install_bionic_actor::can_use( const Character &p, const item &it,
         return ret_val<void>::make_failure( _( "You can't install bionics while mounted." ) );
     }
     if( !p.has_trait( trait_DEBUG_BIONICS ) ) {
-        if( bid->installation_requirement.is_empty() ) {
+        if( bid->installation_requirement.is_empty() && !p.has_flag( json_flag_MANUAL_CBM_INSTALLATION ) ) {
             return ret_val<void>::make_failure( _( "You can't self-install this CBM." ) );
         } else  if( it.has_flag( flag_FILTHY ) ) {
             return ret_val<void>::make_failure( _( "You can't install a filthy CBM!" ) );
@@ -4707,7 +4742,7 @@ std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint &p
 
         it.update_link_traits();
         it.process( here, p, p->pos() );
-        p->moves -= move_cost;
+        p->mod_moves( -move_cost );
         return 0;
 
     } else if( choice == 21 ) {
@@ -4743,7 +4778,7 @@ std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint &p
         loc->set_var( "cable", "plugged_in" );
         it.update_link_traits();
         it.process( here, p, p->pos() );
-        p->moves -= move_cost;
+        p->mod_moves( -move_cost );
         return 0;
 
     } else if( choice == 22 ) {
@@ -4779,7 +4814,7 @@ std::optional<int> link_up_actor::use( Character *p, item &it, const tripoint &p
         loc->set_var( "cable", "plugged_in" );
         it.update_link_traits();
         it.process( here, p, p->pos() );
-        p->moves -= move_cost;
+        p->mod_moves( -move_cost );
         return 0;
     }
     return std::nullopt;
@@ -4848,27 +4883,40 @@ std::optional<int> link_up_actor::link_to_veh_app( Character *p, item &it,
         }
 
         it.process( here, p, p->pos() );
-        p->moves -= move_cost;
+        p->mod_moves( -move_cost );
         return 0;
 
     } else {
 
         // Connecting two vehicles together.
+        const bool using_power_cord = it.typeId() == itype_power_cord;
+        if( using_power_cord && it.link().t_veh->is_powergrid() && sel_vp->vehicle().is_powergrid() ) {
+            // If both vehicles are adjacent power grids, try to merge them together first.
+            const point prev_pos = here.bub_from_abs( it.link().t_veh->coord_translate( it.link().t_mount ) +
+                                   it.link().t_abs_pos ).xy().raw();
+            if( selection.xy().distance( prev_pos ) <= 1.5f &&
+                it.link().t_veh->merge_appliance_into_grid( sel_vp->vehicle() ) ) {
+                it.link().t_veh->part_removal_cleanup();
+                p->add_msg_if_player( _( "You merge the two power grids." ) );
+                return 1;
+            }
+            // Unable to merge, so connect them with a power cord instead.
+        }
         ret_val<void> result = it.link_to( sel_vp, to_ports ? link_state::vehicle_port :
                                            link_state::vehicle_battery );
         if( !result.success() ) {
             p->add_msg_if_player( m_bad, result.str() );
             return 0;
         }
-        if( p->has_item( it ) ) {
+        if( using_power_cord || p->has_item( it ) ) {
             p->add_msg_if_player( m_good, result.str() );
         }
 
-        if( it.typeId() != itype_power_cord ) {
+        if( using_power_cord ) {
             // Remove linked_flag from attached parts - the just-added cable vehicle parts do the same thing.
             it.reset_link( true, p );
         }
-        p->moves -= move_cost;
+        p->mod_moves( -move_cost );
         return 1; // Let the cable be destroyed.
     }
 }
@@ -4917,7 +4965,7 @@ std::optional<int> link_up_actor::link_tow_cable( Character *p, item &it,
                               sel_vp->vehicle().name );
 
         it.process( here, p, p->pos() );
-        p->moves -= move_cost;
+        p->mod_moves( -move_cost );
         return 0;
 
     } else {
@@ -4932,7 +4980,7 @@ std::optional<int> link_up_actor::link_tow_cable( Character *p, item &it,
             p->add_msg_if_player( m_good, result.str() );
         }
 
-        p->moves -= move_cost;
+        p->mod_moves( -move_cost );
         return 1; // Let the cable be destroyed.
     }
 }
@@ -5015,7 +5063,7 @@ std::optional<int> link_up_actor::link_extend_cable( Character *p, item &it,
     if( extended_copy ) {
         // Check if there's another pocket on the same container that can hold the extended item, respecting pocket settings.
         item_location parent = extended.parent_item();
-        if( parent->can_contain( *extended_ptr, false, false, false,
+        if( parent->can_contain( *extended_ptr, false, false, false, false,
                                  item_location(), 10000000_ml, false ).success() ) {
             if( !parent->put_in( *extended_ptr, pocket_type::CONTAINER ).success() ) {
                 debugmsg( "Failed to put %s inside %s!", extended_ptr->type_name(),
@@ -5039,7 +5087,7 @@ std::optional<int> link_up_actor::link_extend_cable( Character *p, item &it,
     extension.remove_item();
     p->invalidate_inventory_validity_cache();
     p->drop_invalid_inventory();
-    p->moves -= move_cost;
+    p->mod_moves( -move_cost );
     return 0;
 }
 
@@ -5086,7 +5134,7 @@ std::optional<int> link_up_actor::remove_extensions( Character *p, item &it ) co
     }
 
     p->i_add_or_drop( cable_main_copy );
-    p->moves -= move_cost;
+    p->mod_moves( -move_cost );
     return 0;
 }
 
@@ -5399,7 +5447,7 @@ std::optional<int> sew_advanced_actor::use( Character *p, item &it, const tripoi
 
     std::vector<item_comp> comps;
     comps.emplace_back( repair_item, items_needed );
-    p->moves -= to_moves<int>( 30_seconds * p->fine_detail_vision_mod() );
+    p->mod_moves( -to_moves<int>( 30_seconds * p->fine_detail_vision_mod() ) );
     p->practice( used_skill, items_needed * 3 + 3 );
     /** @EFFECT_TAILOR randomly improves clothing modification efforts */
     int rn = dice( 3, 2 + round( p->get_skill_level( used_skill ) ) ); // Skill
@@ -5538,7 +5586,7 @@ std::optional<int> effect_on_conditons_actor::use( Character *p, item &it,
 
     item_location loc( *p->as_character(), &it );
     dialogue d( get_talker_for( char_ptr ), get_talker_for( loc ) );
-    write_var_value( var_type::context, "npctalk_var_id", nullptr, &d, it.typeId().str() );
+    write_var_value( var_type::context, "npctalk_var_id", &d, it.typeId().str() );
     for( const effect_on_condition_id &eoc : eocs ) {
         if( eoc->type == eoc_type::ACTIVATION ) {
             eoc->activate( d );

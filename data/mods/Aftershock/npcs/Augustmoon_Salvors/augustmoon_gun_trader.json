@@ -20,7 +20,16 @@
       { "skill": "rifle", "bonus": { "rng": [ 2, 4 ] } }
     ],
     "//": "All guns are more expensive here.",
-    "shopkeeper_item_group": [ { "group": "afs_augustmoon_guntrader", "rigid": true }, { "group": "augustmoon_shop_money", "rigid": true } ],
+    "shopkeeper_item_group": [
+      { "group": "afs_augustmoon_guntrader", "rigid": true },
+      { "group": "augustmoon_shop_money", "rigid": true },
+      {
+        "group": "afs_augustmoon_guntrader_military",
+        "rigid": true,
+        "condition": { "u_has_proficiency": "prof_armament_license" },
+        "refusal": "You need an armament license to buy this."
+      }
+    ],
     "shopkeeper_price_rules": [ { "group": "afs_general_armory", "fixed_adj": 0 } ]
   },
   {
@@ -28,6 +37,16 @@
     "id": "afs_augustmoon_guntrader",
     "subtype": "collection",
     "items": [ { "group": "afs_civilian_armory", "count": [ 14, 28 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_augustmoon_guntrader_military",
+    "subtype": "collection",
+    "items": [
+      { "group": "afs_augustmoon_guntrader_military_gun", "count": [ 0, 2 ] },
+      { "group": "afs_augustmoon_guntrader_military_ammo", "count": [ 0, 2 ] },
+      { "group": "afs_any_hand_grenade", "count": [ 4, 8 ] }
+    ]
   },
   {
     "type": "item_group",

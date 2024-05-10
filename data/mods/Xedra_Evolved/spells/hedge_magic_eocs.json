@@ -1,0 +1,220 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_MAGIC_REMOVE_MOVEMENT_EFFECTS",
+    "effect": [ { "u_lose_trait": "HEDGE_FOREST_BUSH_SHAPE" }, { "u_lose_effect": "effect_hedge_no_nightmares" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_MAGIC_REMOVE_ATTACK_EFFECTS",
+    "effect": [ { "u_remove_item_with": "hedge_witchlight" }, { "u_lose_trait": "HEDGE_FOREST_BUSH_SHAPE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_MAGIC_MOVEMENT_CANCEL",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": { "or": [ { "u_has_trait": "HEDGE_FOREST_BUSH_SHAPE" }, { "u_has_effect": "effect_hedge_no_nightmares" } ] },
+    "effect": [ { "run_eocs": [ "EOC_HEDGE_MAGIC_REMOVE_MOVEMENT_EFFECTS" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_MAGIC_MELEE_EOC_CONDITIONS",
+    "condition": { "or": [ { "u_has_trait": "HEDGE_FOREST_BUSH_SHAPE" }, { "u_has_item": "hedge_witchlight" } ] },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_MAGIC_MELEE_MONSTER_CANCEL",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_monster",
+    "condition": { "test_eoc": "EOC_HEDGE_MAGIC_MELEE_EOC_CONDITIONS" },
+    "effect": [ { "run_eocs": [ "EOC_HEDGE_MAGIC_REMOVE_ATTACK_EFFECTS" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_MAGIC_MELEE_CHARACTER_CANCEL",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_character",
+    "condition": { "test_eoc": "EOC_HEDGE_MAGIC_MELEE_EOC_CONDITIONS" },
+    "effect": [ { "run_eocs": [ "EOC_HEDGE_MAGIC_REMOVE_ATTACK_EFFECTS" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_MAGIC_RANGED_MONSTER_CANCEL",
+    "eoc_type": "EVENT",
+    "required_event": "character_ranged_attacks_monster",
+    "condition": { "test_eoc": "EOC_HEDGE_MAGIC_MELEE_EOC_CONDITIONS" },
+    "effect": [ { "run_eocs": [ "EOC_HEDGE_MAGIC_REMOVE_ATTACK_EFFECTS" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_MAGIC_RANGED_CHARACTER_CANCEL",
+    "eoc_type": "EVENT",
+    "required_event": "character_ranged_attacks_character",
+    "condition": { "test_eoc": "EOC_HEDGE_MAGIC_MELEE_EOC_CONDITIONS" },
+    "effect": [ { "run_eocs": [ "EOC_HEDGE_MAGIC_REMOVE_ATTACK_EFFECTS" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ITEM_HEDGE_WITCHLIGHT_DISMISS_ACTUAL",
+    "effect": [ { "u_message": "The witchlight vanishes without a sound." }, { "u_remove_item_with": "item_hedge_witchlight" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_LIGHT_FIRE",
+    "effect": [
+      { "u_spawn_item": "hedge_fire_starter", "suppress_message": true },
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "id": "hedge_fire_starter" } ],
+        "true_eocs": [ { "id": "EOC_HEDGE_LIGHT_FIRE_ACTIVATE", "effect": { "u_activate": "firestarter" } } ]
+      },
+      { "u_remove_item_with": "hedge_fire_starter" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_MAKE_PLANTS_GROW",
+    "condition": { "or": [ { "u_is_on_terrain": "t_dirt" }, { "u_is_on_terrain": "t_dirtmound" } ] },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_HEDGE_MAKE_PLANTS_GROW_2",
+            "condition": {
+              "and": [
+                { "math": [ "time_since('midnight', 'unit': 'hours') > 11" ] },
+                { "math": [ "time_since('midnight', 'unit': 'hours') < 13" ] }
+              ]
+            },
+            "effect": [
+              { "u_spawn_item": "item_hedge_make_plants_grow", "suppress_message": true },
+              {
+                "u_message": "As you finish the words of the charm, the magic takes hold.  (E)xamine a nearby crop to fertilize it.",
+                "type": "good"
+              },
+              { "queue_eocs": "EOC_HEDGE_MAKE_PLANTS_GROW_REMOVE", "time_in_future": 3 }
+            ],
+            "false_effect": [ { "u_message": "You must complete the charm within one hour of noon for it to be effective.", "type": "bad" } ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "u_message": "You must be standing on soil for the charm to be effective.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_MAKE_PLANTS_GROW_REMOVE",
+    "effect": [ { "u_remove_item_with": "item_hedge_make_plants_grow" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_SEE_NETHER_EYE_PASTE",
+    "effect": [ { "u_add_effect": "effect_hedge_nether_eye_paste", "duration": { "math": [ "1800 * rng(0.6,1.4)" ] } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_STUNNING_SPELL",
+    "condition": "u_is_outside",
+    "effect": [ { "u_cast_spell": { "id": "hedge_stunning_spell_real", "hit_self": false }, "targeted": true } ],
+    "false_effect": [ { "u_message": "You must be outside to use the charm.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_CLAIRVOYANCE_CONE",
+    "effect": [
+      { "u_add_effect": "bleed", "intensity": 1, "target_part": "head", "duration": "5 minutes" },
+      { "math": [ "u_hp('head')", "-=", "1" ] },
+      { "u_cast_spell": { "id": "hedge_clairvoyance_cone_real", "hit_self": false }, "targeted": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_DRINK_CURE_DISEASE_TEA_COLD",
+    "eoc_type": "EVENT",
+    "required_event": "character_consumes_item",
+    "condition": {
+      "and": [
+        { "compare_string": [ "item_hedge_cure_cold_or_flu", { "context_val": "itype" } ] },
+        { "or": [ { "u_has_effect": "pre_common_cold" }, { "u_has_effect": "common_cold" } ] }
+      ]
+    },
+    "effect": [ { "u_add_effect": "effect_hedge_cure_cold_or_flu", "duration": "10 days" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_DRINK_CURE_DISEASE_TEA_FLU",
+    "eoc_type": "EVENT",
+    "required_event": "character_consumes_item",
+    "condition": {
+      "and": [
+        { "compare_string": [ "item_hedge_cure_cold_or_flu", { "context_val": "itype" } ] },
+        { "x_in_y_chance": { "x": 9, "y": 10 } },
+        { "or": [ { "u_has_effect": "flu" }, { "u_has_effect": "pre_flu" } ] }
+      ]
+    },
+    "effect": [ { "u_add_effect": "effect_hedge_cure_cold_or_flu", "duration": "10 days" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_ACTIVITY_TYPE_BREAKS_INCREASE_HEALING_RATE",
+    "eoc_type": "EVENT",
+    "required_event": "character_starts_activity",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_hedge_increase_healing_rate" },
+        {
+          "or": [
+            { "compare_string": [ "ACT_MULTIPLE_MINE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_PICKAXE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_CHURN", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MULTIPLE_CONSTRUCTION", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MOP", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MULTIPLE_MOP", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_VEHICLE_DECONSTRUCTION", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MULTIPLE_CHOP_PLANKS", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MULTIPLE_CHOP_TREES", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_PULP", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_BUILD", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_FERTILIZE_PLOT", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_CLEAR_RUBBLE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_HACKSAW", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_PRYING", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_CHOP_TREE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_CHOP_LOGS", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_CHOP_PLANKS", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_JACKHAMMER", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_WORKOUT_HARD", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_WORKOUT_ACTIVE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_WORKOUT_MODERATE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_JACKHAMMER", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_TIDY_UP", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_VEHICLE_REPAIR", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_DISASSEMBLE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MULTIPLE_DIS", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MULTIPLE_BUTCHER", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_BUTCHER", { "context_val": "activity" } ] }
+          ]
+        }
+      ]
+    },
+    "effect": [ { "u_lose_effect": "effect_hedge_increase_healing_rate" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_ACTIVITY_LEVEL_BREAKS_INCREASE_HEALING_RATE",
+    "recurrence": 1,
+    "condition": {
+      "and": [ { "u_has_effect": "effect_hedge_increase_healing_rate" }, { "math": [ "u_val('activity_level')", ">=", "3" ] } ]
+    },
+    "effect": [ { "u_lose_effect": "effect_hedge_increase_healing_rate" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_HIDE_IN_FOREST",
+    "condition": { "and": [ "u_is_outside", { "or": [ { "u_at_om_location": "forest_thick" }, { "u_at_om_location": "forest" } ] } ] },
+    "effect": [ { "u_add_trait": "HEDGE_FOREST_BUSH_SHAPE" } ],
+    "false_effect": [ { "u_message": "Without being in a forest, the charm has no effect." } ]
+  }
+]

@@ -309,11 +309,11 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool
         info.total_bulk_volume += loc->volume( false, false, quantity );
         if( !is_bulk_load( pre_info, info ) ) {
             // Cost to take an item from a container or map
-            player_character.moves -= loc.obtain_cost( player_character, quantity );
+            player_character.mod_moves( -loc.obtain_cost( player_character, quantity ) );
         } else {
             // Pure cost to handling item excluding overhead.
-            player_character.moves -= std::max( player_character.item_handling_cost( *loc, true, 0, quantity,
-                                                true ), 1 );
+            player_character.mod_moves( -std::max( player_character.item_handling_cost( *loc, true, 0, quantity,
+                                                   true ), 1 ) );
         }
         contents_change_handler handler;
         handler.unseal_pocket_containing( loc );
@@ -348,7 +348,7 @@ bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &q
     PickupMap mapPickup;
 
     bool problem = false;
-    while( !problem && player_character.moves >= 0 && !targets.empty() ) {
+    while( !problem && player_character.get_moves() >= 0 && !targets.empty() ) {
         item_location target = std::move( targets.back() );
         int quantity = quantities.back();
         // Whether we pick the item up or not, we're done trying to do so,

@@ -82,9 +82,10 @@ For example, `{ "npc_has_effect": "Shadow_Reveal" }`, used by shadow lieutenant,
 | mutation: "deactivated_eocs"                     | character (Character)       | NONE                        |
 | mutation: "processed_eocs"                       | character (Character)       | NONE                        |
 | recipe: "result_eocs"                            | crafter (Character)         | NONE                        |
+| monster death: "death_function"                  | killed monster (monster)    | you (avatar)                |
 
-Note, that using `use_action: "type": "effect_on_conditions"` automatically passes the context variable `id`, that stores the id of an item that was activated
-
+Using `use_action: "type": "effect_on_conditions"` automatically passes the context variable `id`, that stores the id of an item that was activated
+Using `bionics: "activated_eocs"` automatically passes the context variable `act_cost` that stores the value of `act_cost` field
 ## Value types
 
 Effect on Condition uses a huge variety of different values for effects or for conditions to check against, so to standardize it, most of them are explained here
@@ -112,7 +113,19 @@ Variable object is a value, that changes due some conditions. Variable can be in
 - `global_val` - variable, that is store in the world, and won't be lost until you delete said world
 - `context_val` - variable, that was delivered from some another entity; For example, EVENT type EoCs can deliver specific variables contributor can use to perform specific checks:
 `character_casts_spell` event, that is called every time, you guess it, character cast spell, it also store information about spell name, difficulty and damage, so contributor can create a specific negative effect for every spell casted, depending on this values; Generalized EoCs can also create and use context variables; math equivalent is variable name with `_`
-- `var_val` - var_val is a unique variable object in the fact that it attempts to resolve the variable stored inside a context variable. So if you had
+- `var_val` - var_val is a unique variable object in the fact that it attempts to resolve the variable stored inside a context variable. The values for var_val use the same syntax for scope that math [variables](NPCs.md#variables) do.
+
+| Prefix of the value in var_val| Resolved as      |
+|------------------|------------------|
+| No Prefix or `g_`| global_val       |
+| `_`              | context_val      |
+| `u_`             | u_val            |
+| `n_`             | npc_val          |
+| `v_`             | var_val          |
+
+In practice, `{ "var_val": "name" }` can be understood as `{ "global_val/context_val/u_val/npc_val": { "context_val": "name" } }`.
+
+So if you had
 
 | Name | Type | Value |
 | --- | --- | --- |
@@ -124,10 +137,8 @@ Variable object is a value, that changes due some conditions. Variable can be in
 - If you access "ref" as a context val it will have the value of "key1", if you access it as a var_val it will have a value of "SOME TEXT". 
 - If you access "ref2" as a context val it will have the value of "u_key2", if you access it as a var_val it will have a value of "SOME OTHER TEXT". 
 
-For example, imagine you have context variable `{ "context_val": "my_best_spell" }`, and this `my_best_gun` variable contain text `any_random_gun`; also you have a `{ "global_val": "any_random_gun" }`, and this `any_random_gun` variable happened to contain text `ak47`
+For example, imagine you have context variable `{ "context_val": "my_best_gun" }`, and this `my_best_gun` variable contain text `any_random_gun`; also you have a `{ "global_val": "any_random_gun" }`, and this `any_random_gun` variable happened to contain text `ak47`
 With both of this, you can use effect `"u_spawn_item": { "var_val": "my_best_gun" }`, and the game will spawn `ak47`, since it is what is stored inside `my_best_gun` global variable
-
-The values for var_val use the same syntax for scope that math [variables](#variables) do.
 
 Examples:
 
@@ -465,7 +476,7 @@ alpha talker has bodytype `migo` , and beta has bodytype `human`
 #### Examples
 Checks do alpha talker has `u_met_sadie` variable
 ```json
-{ "u_has_var": "u_met_sadie", "type": "general", "context": "meeting", "value": "yes" }
+{ "u_has_var": "general_meeting_u_met_sadie", "value": "yes" }
 ```
 
 ### `expects_vars`
@@ -1021,6 +1032,37 @@ Check the north terrain or furniture has `TRANSPARENT` flag.
 },
 ```
 
+### `map_terrain_id`, `map_furniture_id`
+- type: string or [variable object](##variable-object)
+- return true if the terrain or furniture has specific id
+- `loc` will specify location of terrain or furniture (**mandatory**)
+
+#### Valid talkers:
+
+No talker is needed.
+
+#### Examples
+Runs a query, allowing you to pick specific tile around. When picked, stores coordinates of this tile in `check_terrain` variable, and then check is it a `t_grass`. If yes, `effect` is run, otherwise `false_effect` is run
+```json
+{
+  "type": "effect_on_condition",
+  "id": "EOC_TEST_QUERY",
+  "condition": {
+    "and": [
+      {
+        "u_query_tile": "line_of_sight",
+        "target_var": { "context_val": "check_terrain" },
+        "message": "Check what terrain it is",
+        "range": 10
+      },
+      { "map_terrain_id": "t_grass", "loc": { "context_val": "check_terrain" } }
+    ]
+  },
+  "effect": [ { "u_message": "it is a grass" } ],
+  "false_effect": [ { "u_message": "it is NOT a grass" } ]
+}
+```
+
 ### `map_in_city`
 - type: location string or [variable object](##variable-object)
 - return true if the location is in a city
@@ -1129,6 +1171,7 @@ Every event EOC passes context vars with each of their key value pairs that the 
 | broken_bone_mends | Triggered when `mending` effect is removed by expiry (Character::mend) | { "character", `character_id` },<br/> { "part", `body_part` }, | character / NONE |
 | buries_corpse | Triggers when item with flag CORPSE is located on same tile as construction with post-special `done_grave` is completed | { "character", `character_id` },<br/> { "corpse_type", `mtype_id` },<br/> { "corpse_name", `string` }, | character / NONE |
 | causes_resonance_cascade | Triggers when resonance cascade option is activated via "old lab" finale's computer | NONE | avatar / NONE |
+| character_butchered_corpse | Triggers after succesful butchering action. Possible values of butcher_type are `ACT_BLEED`, `ACT_BUTCHER`, `ACT_BUTCHER_FULL`, `ACT_FIELD_DRESS`, `ACT_SKIN`, `ACT_QUARTER`, `ACT_DISMEMBER`, `ACT_DISSECT` | { "character", `character_id` }, { "monster_id", `mtype_id` }, { "butcher_type", `string` }, | character / NONE |
 | character_casts_spell | Triggers when a character casts spells. When a spell with multiple effects is cast, the number of effects will be triggered | { "character", `character_id` },<br/> { "spell", `spell_id` },<br/> { "school", `trait_id` },<br/> { "difficulty", `int` },<br/> { "cost", `int` },<br/> { "cast_time", `int` },<br/> { "damage", `int` }, | character / NONE |
 | character_consumes_item |  | { "character", `character_id` },<br/> { "itype", `itype_id` }, | character / NONE |
 | character_dies |  | { "character", `character_id` }, | character / NONE |
@@ -1152,7 +1195,7 @@ Every event EOC passes context vars with each of their key value pairs that the 
 | character_triggers_trap | | { "character", `character_id` },<br/> { "trap", `trap_str_id` }, | character / NONE |
 | character_wakes_up | triggers in the moment player lost it's sleep effect and wakes up | { "character", `character_id` }, | character / NONE |
 | character_attempt_to_fall_asleep | triggers in the moment character tries to fall asleep, after confirming and setting an alarm, but before "you lie down" | { "character", `character_id` }, | character / NONE |
-| character_falls_asleep | triggers in the moment character actually falls asleep; trigger includes cases where character sleep for a short time because of fatigue or drugn; duration of the sleep can be changed mid sleep because of hurt/noise/light/pain thresholds and another factors | { "character", `character_id` }, { "duration", `int_` (in seconds) } | character / NONE |
+| character_falls_asleep | triggers in the moment character actually falls asleep; trigger includes cases where character sleep for a short time because of sleepiness or drugs; duration of the sleep can be changed mid sleep because of hurt/noise/light/pain thresholds and another factors | { "character", `character_id` }, { "duration", `int_` (in seconds) } | character / NONE |
 | character_wields_item | | { "character", `character_id` },<br/> { "itype", `itype_id` }, | character / item to wield |
 | character_wears_item | | { "character", `character_id` },<br/> { "itype", `itype_id` }, | character / item to wear |
 | consumes_marloss_item | | { "character", `character_id` },<br/> { "itype", `itype_id` }, | character / NONE |
@@ -1793,14 +1836,14 @@ Set effects to be executed when conditions are met and when conditions are not m
 Displays a different message the first time it is run and the second time onwards
 ```json
 {
-  "if": { "u_has_var": "test", "type": "eoc_sample", "context": "if_else", "value": "yes" },
+  "if": { "u_has_var": "eoc_sample_if_else_test", "value": "yes" },
   "then": { "u_message": "You have variable." },
   "else": [
     { "u_message": "You don't have variable." },
     {
-      "if": { "not": { "u_has_var": "test", "type": "eoc_sample", "context": "if_else", "value": "yes" } },
+      "if": { "not": { "u_has_var": "eoc_sample_if_else_test", "value": "yes" } },
       "then": [
-        { "u_add_var": "test", "type": "eoc_sample", "context": "if_else", "value": "yes" },
+        { "u_add_var": "eoc_sample_if_else_test", "value": "yes" },
         { "u_message": "Vriable added." }
       ]
     }
@@ -1949,6 +1992,52 @@ Move refugee center guards `GUARD1` - `GUARD7` to the `_First` position - EoC fo
 }
 ```
 
+#### `u_run_monster_eocs`, `npc_run_monster_eocs`
+Monsters run EoCs, provided by this effect; only works inside reality bubble
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "u_run_monster_eocs"/ "npc_run_monster_eocs" | **mandatory** | array of eocs | EoCs that would be run by monsters |
+| "mtype_ids" | optional | array or [variable objects](#variable-object) | mtype_id(s) that should be affected |
+| "monster_range" | optional | int or [variable object](#variable-object) | if used, only monsters in this range are affected |
+| "monster_must_see" | optional | boolean | default false; if true, only monsters you can see are affected | 
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ❌ | ❌ | ❌ | ✔️ | ❌ | ❌ |
+
+##### Examples
+
+Run EOC_KILL_SHADOW on half the monsters in a 36 range around u_mansion_centre
+```json
+  { "run_eoc_with": "EOC_BANISH_MANSION_MONSTERS", "beta_loc": { "u_val": "mansion_centre" } },
+```
+...
+```json
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BANISH_MANSION_MONSTERS",
+    "//": "Banish half the mapgen monsters from the mansion to make room for special scenario ferals",
+    "eoc_type": "ACTIVATION",
+    "effect": [
+      {
+        "npc_run_monster_eocs": [ { "id": "EOC_BANISH_MONSTERS_AROUND_MANSION_CENTER", "condition": { "math": [ "rand(1)", "==", "0" ] }, "effect": { "run_eocs": "EOC_KILL_SHADOW" } } ],
+        "monster_range": 36
+      }
+    ]
+  },
+```
+
+Run EOC_KILL_SHADOW on any mon_zombie_dog, mon_dog_zombie_cop or mon_dog_zombie_rot in a 12 range around the alpha talker
+```json
+  {
+    "u_run_monster_eocs": [ { "id": "EOC_BANISH_ZOMBIE_DOGS_AROUND_PLAYER", "effect": { "run_eocs": "EOC_KILL_SHADOW" } } ],
+    "mtype_ids": [ "mon_zombie_dog", "mon_dog_zombie_cop", "mon_dog_zombie_rot" ]
+    "monster_range": 12
+  }
+```
 
 #### `u_run_inv_eocs`, `npc_run_inv_eocs`
 Run EOCs on items in your or NPC's inventory
@@ -1956,7 +2045,7 @@ Run EOCs on items in your or NPC's inventory
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
 | "u_run_inv_eocs" / "npc_run_inv_eocs" | **mandatory** | string or [variable object](#variable-object) | way the item would be picked; <br/>values can be:<br/>`all` - all items that match the conditions are picked;<br/> `random` - from all items that match the conditions, one picked;<br/>`manual` - menu is open with all items that can be picked, and you can choose one;<br/>`manual_mult` - same as `manual`, but multiple items can be picked |
-| "search_data" | optional | `search_data` | sets the condition for the target item; lack of search_data means any item can be picked; conditions can be:<br/>`id` - id of a specific item;<br/>`category` - category of an item (case sensitive, should always be in lower case);<br/>`flags`- flag or flags the item has<br/>`excluded_flags`- flag or flags the item doesn't have<br/>`material` - material of an item;<br/>`worn_only` - if true, return only items, that are worn;<br/>`wielded_only` - if true, return only wielded items | 
+| "search_data" | optional | `search_data` | sets the condition for the target item; lack of search_data means any item can be picked; conditions can be:<br/>`id` - id of a specific item;<br/>`category` - category of an item (case sensitive, should always be in lower case);<br/>`flags`- flag or flags the item has<br/>`excluded_flags`- flag or flags the item doesn't have<br/>`material` - material of an item;<br/>`worn_only` - if true, return only items, that are worn;<br/>`wielded_only` - if true, return only wielded items;<br/>`calories` - minimum amount of kcal of an item | 
 | "title" | optional | string or [variable object](#variable-object) | name of the menu, that would be shown, if `manual` or `manual_mult` is used | 
 | "true_eocs" / "false_eocs" | optional | string, [variable object](##variable-object), inline EoC, or range of all of them | if item was picked successfully, all EoCs from `true_eocs` are run, otherwise all EoCs from `false_eocs` are run; picked item is returned as npc; for example, `n_hp()` return hp of an item | 
 
@@ -2209,7 +2298,7 @@ Your character or the NPC will attempt to mutate; used in mutation system, for o
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
-| "u_mutate" / "npc_mutate" | **mandatory** | int, float or [variable object](##variable-object) | one in `int` chance of using the highest category, with 0 never using the highest category |
+| "u_mutate" / "npc_mutate" | **mandatory** | int, float or [variable object](##variable-object) | one in `int` chance of causing a random mutation, with 0 only using the highest category |
 | "use_vitamins" | optional | boolean | default true; if true, mutation require vitamins to work | 
 
 ##### Valid talkers:
@@ -2262,7 +2351,7 @@ Mutate towards Tail Stub (removing any incompatibilities) using the category set
 ```json
       {
         "u_mutate_towards": "TAIL_STUB",
-        "category": { "u_val": "mutation_category", "type": "upcoming", "context": "mutation" },
+        "category": { "u_val": "upcoming_mutation_category", },
         "use_vitamins": true
       },
 ```
@@ -2553,8 +2642,8 @@ Save a personal variable, that you can check later using `u_has_var`, `npc_has_v
 | "u_add_var" / "npc_add_var" | **mandatory** | string | name of variable, where the value would be stored |
 | "value" | **mandatory** | string | value, that would be stored in variable; **incompatible with "possible_values" and "time"** | 
 | "possible_values" | **mandatory** | string array | array of values, that could be picked to be stored in variable; **incompatible with "value" and "time"** | 
-| "time" | **mandatory** | boolean | default false; if true, the current time would be saved in variable; **incompatible with "value" and "possible_values"** | 
-| "type", "context" | optional | string | additional text to describe your variable, can be used in `u_lose_var` or in `math` syntax, as `type`\_`context`\_`variable_name` |  
+| "time" | **mandatory** | boolean | **DEPRECATED. use time() math syntax instead**. default false; if true, the current time would be saved in variable; **incompatible with "value" and "possible_values"** | 
+| "type", "context" | optional | string | **DEPRECATED. JUST USE _add_var to give the name of the variable**. additional text to describe your variable, can be used in `u_lose_var` or in `math` syntax, as `type`\_`context`\_`variable_name` |  
 
 ##### Valid talkers:
 
@@ -2567,28 +2656,21 @@ Note: numeric vars can be set (and check) to monsters via `math` functions.  See
 ##### Examples
 Saves personal variable `u_met_godco_jeremiah` with `general` type, `meeting` context, and value `yes
 ```json
-{ "u_add_var": "u_met_godco_jeremiah", "type": "general", "context": "meeting", "value": "yes" }
+{ "u_add_var": "general_meeting_u_met_godco_jeremiah", "value": "yes" }
 ```
 
-Saves personal variable `time_of_last_succession` with value of current time:
-```json
-{ "u_add_var": "time_of_last_succession", "type": "timer", "time": true }
-```
-
-NPC (in this case it's actually item, see Beta Talkers) saves a personal variable `function` with one of four values: `morale`, `focus`, `pain`, or `fatigue` (used in mi-go bio tech to create four different versions of the same item, with different effects, that would be revealed upon activation)
+NPC (in this case it's actually item, see Beta Talkers) saves a personal variable `function` with one of four values: `morale`, `focus`, `pain`, or `sleepiness` (used in mi-go bio tech to create four different versions of the same item, with different effects, that would be revealed upon activation)
 ```json
 {
-  "npc_add_var": "function",
-  "type": "mbt",
-  "context": "f",
-  "possible_values": [ "morale", "focus", "pain", "fatigue" ]
+  "npc_add_var": "mbt_f_function",
+  "possible_values": [ "morale", "focus", "pain", "sleepiness" ]
 }
 ```
 
 Old variables, that was created in this way, could be migrated into `math`, using `u_`/`npc_`+`type`+`_`+`context`+`_`+`var`, for the sake of save compatibility between stable releases
 For example:
 ```json
-{ "u_add_var": "gunsmith_ammo_ammount", "type": "number", "context": "artisans", "value": "800" }
+{ "u_add_var": "number_artisans_gunsmith_ammo_ammount", "value": "800" }
 ```
 could be moved to:
 ```json  
@@ -2661,9 +2743,9 @@ Character remove variable `time_of_last_succession`
 { "u_lose_var": "time_of_last_succession" }
 ```
 
-Character remove variable `on` of type `bio` and context `blade_electric`
+Character remove variable `bio_blade_electric_on`
 ```json
-{ "u_lose_var": "on", "type": "bio", "context": "blade_electric" }
+{ "u_lose_var": "bio_blade_electric_on" }
 ```
 
 #### `set_string_var`
@@ -3283,7 +3365,8 @@ You teleport to `grass_place` with message `Yay!`; as `force` boolean is `true`,
 ```
 
 #### `u_die`, `npc_die`
-You or NPC will instantly die
+You or an NPC will instantly die.
+If the target is an item, it will be deleted.
 
 ##### Valid talkers:
 
@@ -3293,11 +3376,6 @@ You or NPC will instantly die
 
 ##### Examples
 
-You die
-```json
-"u_die"
-```
-
 You and NPC both die
 ```json
 {
@@ -3306,6 +3384,33 @@ You and NPC both die
   "effect": [ "u_die", "npc_die" ]
 }
 ```
+
+Removes a corpse around you (corpses are handled as items)
+
+```json
+  {
+    "id": "EOC_CORPSE_REMOVAL",
+    "type": "effect_on_condition",
+    "effect": [
+      {
+        "if": { "message": "Select target", "u_query_tile": "around", "target_var": { "global_val": "delete_this_corpse" } },
+        "then": [
+          {
+            "u_map_run_item_eocs": "all",
+            "search_data": [ { "id": "corpse" } ],
+            "loc": { "global_val": "delete_this_corpse" },
+            "min_radius": 0,
+            "max_radius": 0,
+            "true_eocs": [ { "id": "EOC_CORPSE_REMOVAL_SUCCESS", "effect": [ "npc_die", { "u_message": "*poof*", "type": "good" } ] } ],
+            "false_eocs": [ { "id": "EOC_CORPSE_REMOVAL_FAIL", "effect": [ { "u_message": "There is no corpse there.", "type": "bad" } ] } ]
+          }
+        ],
+        "else": [ { "u_message": "Canceled" } ]
+      }
+    ]
+  }
+```
+
 
 #### `u_prevent_death`, `npc_prevent_death`
 You or NPC will be prevented from death. Intended for use in EoCs has `NPC_DEATH` or `EVENT(character_dies)` type (Take care that u will be the dying npc in these events).
@@ -3696,6 +3801,7 @@ Spawn some monsters around you, NPC or `target_var`
 | "target_range" | optional | int, [variable object](##variable-object) or value between two | if `_spawn_monster` is empty, pick a random hostile critter from this amount of tiles from target | 
 | "lifespan" | optional | int, duration, [variable object](##variable-object) or value between two | if used, critters would live that amount of time, and disappear in the end | 
 | "target_var" | optional | [variable object](##variable-object) | if used, the monster would spawn from this location instead of you or NPC | 
+| "temporary_drop_items" | optional | boolean | default false; if true, monsters summoned with a lifespan will still drop items and leave a corpse.
 | "spawn_message", "spawn_message_plural" | optional | string or [variable object](##variable-object) | if you see monster or monsters that was spawned, related message would be printed | 
 | "true_eocs", "false_eocs" | optional | string, [variable object](##variable-object), inline EoC, or range of all of them | if at least 1 monster was spawned, all EoCs from `true_eocs` are run, otherwise all EoCs from `false_eocs` are run | 
 

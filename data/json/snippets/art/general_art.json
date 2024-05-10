@@ -1,0 +1,110 @@
+[
+  {
+    "type": "snippet",
+    "category": "<random_flat_direction>",
+    "text": [
+      { "id": "random_flat_direction_0001", "text": "left" },
+      { "id": "random_flat_direction_0002", "text": "right" },
+      { "id": "random_flat_direction_0003", "text": "top" },
+      { "id": "random_flat_direction_0004", "text": "bottom" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<painting_type_with_style>",
+    "text": [ { "id": "painting_type_with_style_0001", "text": "<painting_type> in the <painting_style> style" } ]
+  },
+  {
+    "type": "snippet",
+    "category": "<painting_type>",
+    "text": [
+      { "id": "painting_type_0001", "text": "painted using water colors" },
+      { "id": "painting_type_0002", "text": "painted using oil-based pigments" },
+      { "id": "painting_type_0003", "text": "created using gouache coloring" },
+      { "id": "painting_type_0004", "text": "created with a spray-painting technique" },
+      { "id": "painting_type_0005", "text": "created using pastels" },
+      { "id": "painting_type_0006", "text": "created using digital technology" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<painting_style>",
+    "text": [
+      { "id": "painting_style_0001", "text": "baroque" },
+      { "id": "painting_style_0002", "text": "impressionist" },
+      { "id": "painting_style_0003", "text": "realist" },
+      { "id": "painting_style_0004", "text": "abstract" },
+      { "id": "painting_style_0005", "text": "photorealist" },
+      { "id": "painting_style_0006", "text": "expressionist" },
+      { "id": "painting_style_0007", "text": "surrealist" },
+      { "id": "painting_style_0008", "text": "pop art" },
+      { "id": "painting_style_0009", "text": "minimalist" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<artist_identifying_info>",
+    "text": [
+      {
+        "id": "artist_identifying_info_0001",
+        "text": "The artist's name is signed at the bottom in cursive, \"<full_name>\""
+      },
+      { "id": "artist_identifying_info_0002", "text": "The artist's name is written nearby, \"<full_name>\"" },
+      {
+        "id": "artist_identifying_info_0003",
+        "text": "This work was once signed, but the name has been smudged to illegibility"
+      },
+      { "id": "artist_identifying_info_0004", "text": "The artist's name is signed in ink, \"<given_name>\"" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<random_color>",
+    "//": "There can potentially be hundreds of these if so desired, with how many different colors there are.  A list can be found here: https://en.wikipedia.org/wiki/List_of_colors:_A%E2%80%93F",
+    "text": [
+      { "id": "random_color_0001", "text": "red" },
+      { "id": "random_color_0002", "text": "white" },
+      { "id": "random_color_0003", "text": "blue" },
+      { "id": "random_color_0004", "text": "green" },
+      { "id": "random_color_0005", "text": "orange" },
+      { "id": "random_color_0006", "text": "brown" },
+      { "id": "random_color_0007", "text": "pink" },
+      { "id": "random_color_0008", "text": "purple" },
+      { "id": "random_color_0009", "text": "gray" },
+      { "id": "random_color_0010", "text": "black" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<random_shape_any>",
+    "text": [
+      { "id": "random_shape_any_0001", "text": "<random_shape_2d>" },
+      { "id": "random_shape_any_0002", "text": "<random_shape_3d>" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<random_shape_2d>",
+    "text": [
+      { "id": "random_shape_2d_0001", "text": "square" },
+      { "id": "random_shape_2d_0002", "text": "circle" },
+      { "id": "random_shape_2d_0003", "text": "triangle" },
+      { "id": "random_shape_2d_0004", "text": "star" },
+      { "id": "random_shape_2d_0005", "text": "trapezoid" },
+      { "id": "random_shape_2d_0006", "text": "rectangle" },
+      { "id": "random_shape_2d_0007", "text": "hexagon" },
+      { "id": "random_shape_2d_0008", "text": "parallelogram" },
+      { "id": "random_shape_2d_0009", "text": "square" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<random_shape_3d>",
+    "text": [
+      { "id": "random_shape_3d_0001", "text": "cone" },
+      { "id": "random_shape_3d_0002", "text": "sphere" },
+      { "id": "random_shape_3d_0003", "text": "cube" },
+      { "id": "random_shape_3d_0004", "text": "tube" }
+    ]
+  }
+]

@@ -28,5 +28,11 @@
     "dmg_adj": [ "marked", "chipped", "cracked", "shattered" ],
     "bash_dmg_verb": "chipped",
     "cut_dmg_verb": "scratched"
+  },
+  {
+    "type": "material",
+    "id": "light",
+    "name": "Light",
+    "copy-from": "sunlight"
   }
 ]

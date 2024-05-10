@@ -3,18 +3,7 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbmf_0",
-    "object": {
-      "mapgensize": [ 6, 6 ],
-      "rows": [
-        "      ",
-        "      ",
-        "      ",
-        "      ",
-        "      ",
-        "      "
-      ],
-      "palettes": [ "acidia_camp_palette" ]
-    }
+    "object": { "mapgensize": [ 6, 6 ], "palettes": [ "acidia_camp_palette" ] }
   },
   {
     "type": "mapgen",

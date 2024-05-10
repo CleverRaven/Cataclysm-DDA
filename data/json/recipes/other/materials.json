@@ -13,6 +13,7 @@
     "batch_time_factors": [ 75, 4 ],
     "book_learn": [ [ "concrete_book", 3 ], [ "adv_chemistry", 3 ], [ "textbook_chemistry", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
+    "charges": 20,
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 250 ], [ "oxy_torch", 50 ] ] ],
     "components": [ [ [ "material_limestone", 50 ], [ "chem_slaked_lime", 500 ] ] ]
   },
@@ -450,9 +451,9 @@
         [ "bag_zipper", 25 ],
         [ "cup_plastic", 25 ],
         [ "bag_plastic", 10 ],
+        [ "bag_plastic_small", 20 ],
         [ "plastic_sheet_small", 10 ],
         [ "tumbler_plastic", 4 ],
-        [ "bowl_plastic", 4 ],
         [ "plastic_bowl_kids", 8 ],
         [ "sippy_cup", 4 ],
         [ "gasket_plastic", 1 ]
@@ -1713,7 +1714,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "cotton_patchwork", -1 ] ] ],
-    "components": [ [ [ "bag_plastic", 1 ] ] ]
+    "components": [ [ [ "bag_plastic", 1 ], [ "bag_plastic_small", 1 ] ] ]
   },
   {
     "type": "recipe",

@@ -68,7 +68,7 @@
     "id": "debug_kill_spell",
     "type": "SPELL",
     "name": "Debug Kill Creature",
-    "description": "Deal damage equal to 100% of monster's hp.",
+    "description": "Deal damage equal to 100% of monster's HP.",
     "valid_targets": [ "self", "ally", "hostile", "ground" ],
     "min_damage": 100,
     "max_damage": 100,

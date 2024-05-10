@@ -2,7 +2,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PYROKIN_LEARNING_CAUTERIZE",
-    "recurrence": [ "12 hours", "24 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_pyrokinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_low)" ] },
+      { "math": [ "jmath_pyrokinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "PYROKINETIC" },
@@ -43,7 +46,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PYROKIN_LEARNING_CALL_FLAMES",
-    "recurrence": [ "12 hours", "24 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_pyrokinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_low)" ] },
+      { "math": [ "jmath_pyrokinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "PYROKINETIC" },
@@ -74,7 +80,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PYROKIN_LEARNING_QUELL_FLAMES",
-    "recurrence": [ "12 hours", "24 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_pyrokinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_low)" ] },
+      { "math": [ "jmath_pyrokinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "PYROKINETIC" },
@@ -105,7 +114,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PYROKIN_LEARNING_CLOAK",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_pyrokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_pyrokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "PYROKINETIC" },
@@ -141,7 +153,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PYROKIN_LEARNING_FLAMETHROWER",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_pyrokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_pyrokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "PYROKINETIC" },
@@ -177,7 +192,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PYROKIN_LEARNING_LANCE",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_pyrokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_pyrokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "PYROKINETIC" },
@@ -218,7 +236,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PYROKIN_LEARNING_THERMOGENESIS",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_pyrokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_pyrokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "PYROKINETIC" },
@@ -259,7 +280,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PYROKIN_LEARNING_AURA",
-    "recurrence": [ "36 hours", "72 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_pyrokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
+      { "math": [ "jmath_pyrokinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "PYROKINETIC" },
@@ -301,7 +325,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PYROKIN_LEARNING_FLAME_IMMUNITY",
-    "recurrence": [ "96 hours", "168 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_pyrokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_pyrokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "PYROKINETIC" },
@@ -345,7 +372,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PYROKIN_LEARNING_BLAST",
-    "recurrence": [ "96 hours", "168 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_pyrokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_pyrokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "PYROKINETIC" },
@@ -391,7 +421,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PYROKIN_LEARNING_AOE_BLAST",
-    "recurrence": [ "96 hours", "168 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_pyrokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_pyrokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "PYROKINETIC" },
@@ -437,7 +470,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PYROKIN_LEARNING_INCINERATION",
-    "recurrence": [ "96 hours", "168 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_pyrokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_low)" ] },
+      { "math": [ "jmath_pyrokinesis_learning_eocs_modifiers(global_tier_three_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         { "u_has_trait": "PYROKINETIC" },

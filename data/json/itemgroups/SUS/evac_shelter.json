@@ -154,12 +154,12 @@
             "collection": [
               { "item": "detergent", "count": [ 0, 2 ] },
               { "item": "brush", "prob": 85 },
-              { "item": "bleach", "charges-min": 1, "prob": 45 },
+              { "item": "bleach", "charges": [ 1, -1 ], "prob": 45 },
               { "item": "box_small", "prob": 5 },
               { "item": "bag_plastic", "prob": 5 },
               { "item": "bowl_plastic", "prob": 5 },
-              { "item": "ammonia_hydroxide", "charges-min": 1, "prob": 15 },
-              { "item": "chem_washing_soda", "charges-min": 1, "prob": 10 }
+              { "item": "ammonia_hydroxide", "charges": [ 1, -1 ], "prob": 15 },
+              { "item": "chem_washing_soda", "charges": [ 1, -1 ], "prob": 10 }
             ],
             "prob": 15
           },

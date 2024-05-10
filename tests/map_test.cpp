@@ -125,7 +125,8 @@ TEST_CASE( "tinymap_bounds_checking" )
     clear_map();
     tinymap m;
     tripoint_abs_sm point_away_from_real_map( get_map().get_abs_sub() + point( MAPSIZE_X, 0 ) );
-    m.load( point_away_from_real_map, false );
+    m.load( project_to<coords::omt>( point_away_from_real_map + point_east ),
+            false ); // Add submap to ensure to OMT lies beyond the reality bubble
     for( int x = -1; x <= SEEX * 2; ++x ) {
         for( int y = -1; y <= SEEY * 2; ++y ) {
             for( int z = -OVERMAP_DEPTH - 1; z <= OVERMAP_HEIGHT + 1; ++z ) {

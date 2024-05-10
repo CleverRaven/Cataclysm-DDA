@@ -94,7 +94,7 @@ void clear_character( Character &dummy, bool skip_nutrition )
     }
 
     // This sets HP to max, clears addictions and morale,
-    // and sets hunger, thirst, fatigue and such to zero
+    // and sets hunger, thirst, sleepiness and such to zero
     dummy.environmental_revert_effect();
     // However, the above does not set stored kcal
     dummy.set_stored_kcal( dummy.get_healthy_kcal() );
@@ -221,8 +221,8 @@ void equip_shooter( npc &shooter, const std::vector<std::string> &apparel )
 void process_activity( Character &dummy )
 {
     do {
-        dummy.moves += dummy.get_speed();
-        while( dummy.moves > 0 && dummy.activity ) {
+        dummy.mod_moves( dummy.get_speed() );
+        while( dummy.get_moves() > 0 && dummy.activity ) {
             dummy.activity.do_turn( dummy );
         }
     } while( dummy.activity );

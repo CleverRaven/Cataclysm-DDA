@@ -11,8 +11,10 @@
 
 #include "coordinates.h"
 
+class input_context;
 struct input_event;
 struct point;
+struct tripoint;
 
 /**
  * Enumerates all discrete actions that can be performed by player
@@ -182,6 +184,8 @@ enum action_id : int {
     ACTION_FIRE_BURST,
     /** Change fire mode of the current weapon */
     ACTION_SELECT_FIRE_MODE,
+    /** Change default ammo for current weapon */
+    ACTION_SELECT_DEFAULT_AMMO,
     /** Cast a spell (only if any spells are known) */
     ACTION_CAST_SPELL,
     /** Open the insert-item menu */
@@ -462,14 +466,22 @@ bool can_action_change_worldstate( action_id act );
  *
  * @param[in] message Message used in assembling the prompt to the player
  * @param[in] allow_vertical Allows player to select tiles above/below them if true
+ * @param[in] timeout Makes a timeout event happen every this many milliseconds.
+ *            A negative value disables the timeout.
+ * @param[in] action_cb A callback that is called on every input event that does
+ *            not cause the function to exit. The callback should return a pair
+ *            of bool and optional tripoint. If the bool is true, this function
+ *            exits with the return value set to the tripoint, or std::nullopt
+ *            if the tripoint is not a valid adjacent location.
  */
 std::optional<tripoint> choose_adjacent( const std::string &message, bool allow_vertical = false );
 // TODO: Get rid of untyped overload.
 std::optional<tripoint> choose_adjacent( const tripoint &pos, const std::string &message,
         bool allow_vertical = false );
 std::optional<tripoint_bub_ms> choose_adjacent( const tripoint_bub_ms &pos,
-        const std::string &message,
-        bool allow_vertical = false );
+        const std::string &message, bool allow_vertical = false, int timeout = -1,
+        const std::function<std::pair<bool, std::optional<tripoint_bub_ms>>(
+            const input_context &ctxt, const std::string &action )> &action_cb = nullptr );
 
 /**
  * Request player input of a direction, possibly including vertical component
@@ -481,12 +493,24 @@ std::optional<tripoint_bub_ms> choose_adjacent( const tripoint_bub_ms &pos,
  *
  * @param[in] message Message used in assembling the prompt to the player
  * @param[in] allow_vertical Allows direction vector to have vertical component if true
+ * @param[in] allow_mouse Allows mouse movement and clicks. This function does not handle
+ *            the mouse events, because it does not know where the center position is.
+ *            Use `choose_adjacent` instead to handle mouse automatically.
+ * @param[in] timeout Makes a timeout event happen every this many milliseconds.
+ *            A negative value disables the timeout.
+ * @param[in] action_cb A callback that is called on every input event that does
+ *            not cause the function to exit. The callback should return a pair
+ *            of bool and optional tripoint. If the bool is true, this function
+ *            exits with the return value set to the tripoint, or std::nullopt
+ *            if the tripoint is not a valid direction.
  */
 // TODO: Get rid of untyped version and typed name extension.
 std::optional<tripoint> choose_direction( const std::string &message,
         bool allow_vertical = false );
 std::optional<tripoint_rel_ms> choose_direction_rel_ms( const std::string &message,
-        bool allow_vertical = false );
+        bool allow_vertical = false, bool allow_mouse = false, int timeout = -1,
+        const std::function<std::pair<bool, std::optional<tripoint_rel_ms>>(
+            const input_context &ctxt, const std::string &action )> &action_cb = nullptr );
 
 /**
  * Request player input of adjacent tile with highlighting, possibly on different z-level

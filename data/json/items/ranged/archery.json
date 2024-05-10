@@ -4,8 +4,8 @@
     "id": "arrow_fire_hardened_fletched",
     "copy-from": "arrow_field_point_fletched",
     "relative": { "dispersion": 100 },
-    "price": 0,
-    "price_postapoc": 10,
+    "price": "0 cent",
+    "price_postapoc": "10 cent",
     "name": { "str": "crude wooden arrow" },
     "symbol": "=",
     "color": "green",
@@ -24,8 +24,8 @@
     "description": "A fletched wooden arrow shaft with a pointed tip.",
     "material": [ { "type": "wood", "portion": 81 }, { "type": "steel", "portion": 19 } ],
     "volume": "90 ml",
-    "price": 1000,
-    "price_postapoc": 30,
+    "price": "10 USD",
+    "price_postapoc": "30 cent",
     "weight": "32 g",
     "longest_side": "76 cm",
     "ammo_type": "arrow",
@@ -45,8 +45,8 @@
     "description": "A fletched wooden arrow shaft with a blunt rubber tip.  Can stun weaker enemies.",
     "copy-from": "arrow_field_point_fletched",
     "relative": { "dispersion": 100 },
-    "price": 500,
-    "price_postapoc": 2,
+    "price": "5 USD",
+    "price_postapoc": "2 cent",
     "material": [ { "type": "wood", "portion": 81 }, { "type": "rubber", "portion": 19 } ],
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 0.2 },
     "critical_multiplier": 1,
@@ -61,7 +61,7 @@
     "description": "A simple fletched wooden arrow shaft with a blunted tip.  Useful for hunting small woodland creatures without splattering them all over the ground.",
     "material": [ "wood" ],
     "copy-from": "arrow_field_point_fletched",
-    "price_postapoc": 15,
+    "price_postapoc": "15 cent",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 0.5 },
     "effects": [ "RECOVER_10", "NOGIB" ]
   },
@@ -74,7 +74,7 @@
     "description": "A fletched wooden arrow shaft with a bladed tip.",
     "copy-from": "arrow_field_point_fletched",
     "relative": { "dispersion": -40 },
-    "price": 2000,
+    "price": "20 USD",
     "damage": { "damage_type": "stab", "armor_penetration": 1, "constant_damage_multiplier": 1.5 },
     "effects": [ "RECOVER_25" ],
     "melee_damage": { "bash": 2, "cut": 1 }
@@ -82,7 +82,7 @@
   {
     "type": "AMMO",
     "id": "arrow_heavy_fire_hardened_fletched",
-    "price": 300,
+    "price": "3 USD",
     "name": { "str": "simple wooden arrow" },
     "symbol": "=",
     "color": "green",
@@ -95,13 +95,13 @@
   {
     "type": "AMMO",
     "id": "arrow_heavy_field_point_fletched",
-    "price": 1000,
+    "price": "10 USD",
     "name": { "str": "wooden small game arrow" },
     "symbol": "=",
     "color": "green",
     "description": "A fletched wooden arrow shaft with a blunt tip.  Useful for hunting small woodland creatures without splattering them all over the ground.",
     "copy-from": "arrow_field_point_fletched",
-    "price_postapoc": 25,
+    "price_postapoc": "25 cent",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 0.5 },
     "effects": [ "RECOVER_35", "NOGIB" ]
   },
@@ -114,8 +114,8 @@
     "description": "A simple fletched wooden arrow shaft with a makeshift arrowhead.",
     "material": [ "wood" ],
     "copy-from": "arrow_field_point_fletched",
-    "price": 0,
-    "price_postapoc": 15,
+    "price": "0 cent",
+    "price_postapoc": "15 cent",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 1.25 },
     "show_stats": true,
     "effects": [ "RECOVER_8" ]
@@ -128,8 +128,8 @@
     "color": "green",
     "description": "A simple fletched wooden arrow shaft with a sharpened makeshift tip.",
     "copy-from": "arrow_field_point_fletched",
-    "price": 0,
-    "price_postapoc": 20,
+    "price": "0 cent",
+    "price_postapoc": "20 cent",
     "damage": { "damage_type": "stab", "armor_penetration": 1 },
     "show_stats": true,
     "effects": [ "RECOVER_20" ],
@@ -145,7 +145,7 @@
     "material": [ { "type": "aluminum", "portion": 81 }, { "type": "steel", "portion": 19 } ],
     "copy-from": "arrow_field_point_fletched",
     "relative": { "dispersion": -75 },
-    "price_postapoc": 40,
+    "price_postapoc": "40 cent",
     "damage": { "damage_type": "stab", "armor_penetration": 1, "constant_damage_multiplier": 1.5 },
     "range": 2,
     "effects": [ "RECOVER_35" ],
@@ -161,7 +161,7 @@
     "material": [ { "type": "aluminum", "portion": 81 }, { "type": "steel", "portion": 19 } ],
     "copy-from": "arrow_field_point_fletched",
     "relative": { "dispersion": -75 },
-    "price_postapoc": 40,
+    "price_postapoc": "40 cent",
     "damage": { "damage_type": "stab", "armor_penetration": 3 },
     "range": 2,
     "effects": [ "RECOVER_40" ],
@@ -170,7 +170,7 @@
   {
     "type": "AMMO",
     "id": "arrow_metal_target",
-    "price": 1200,
+    "price": "12 USD",
     "name": { "str": "aluminum small game arrow" },
     "symbol": "=",
     "color": "green",
@@ -193,8 +193,8 @@
     "material": [ { "type": "kevlar_rigid", "portion": 81 }, { "type": "steel", "portion": 19 } ],
     "copy-from": "arrow_field_point_fletched",
     "relative": { "dispersion": -100 },
-    "price": 1600,
-    "price_postapoc": 50,
+    "price": "16 USD",
+    "price_postapoc": "50 cent",
     "damage": { "damage_type": "stab", "constant_damage_multiplier": 1.75 },
     "range": 4,
     "effects": [ "RECOVER_30" ],
@@ -203,7 +203,7 @@
   {
     "type": "AMMO",
     "id": "arrow_meteor",
-    "price": 2000,
+    "price": "20 USD",
     "name": { "str": "emerald arrow" },
     "symbol": "=",
     "color": "light_green",
@@ -211,7 +211,7 @@
     "description": "A fletched lance carved from inscrutable green stone.  Impractically heavy, its difficult to imagine who or what could have fired it from a bow.",
     "material": [ "monolith_heavy" ],
     "volume": "100 ml",
-    "price_postapoc": 1000,
+    "price_postapoc": "10 USD",
     "weight": "27 kg",
     "longest_side": "105 cm",
     "ammo_type": "strange_arrow",
@@ -233,8 +233,8 @@
     "weight": "75 g",
     "volume": "100 ml",
     "longest_side": "76 cm",
-    "price": 3500,
-    "price_postapoc": 10,
+    "price": "35 USD",
+    "price_postapoc": "10 cent",
     "material": [ { "type": "wood", "portion": 77 }, { "type": "steel", "portion": 19 }, { "type": "cotton", "portion": 4 } ],
     "symbol": "=",
     "color": "brown",
@@ -277,7 +277,7 @@
     "color": "yellow",
     "name": { "str": "survival bow" },
     "description": "A weak bow crudely crafted from a single uncured wood stave.  Weak and wildly inaccurate, but easy to make.",
-    "price": 150,
+    "price": "1 USD 50 cent",
     "//": "30 lb draw weight, 52in, 20in draw, 0.259 slugs of momentum with a 30g arrow.",
     "material": [ "wood" ],
     "flags": [
@@ -299,7 +299,7 @@
     "weight": "1360 g",
     "volume": "2500 ml",
     "longest_side": "140 cm",
-    "price_postapoc": 50,
+    "price_postapoc": "50 cent",
     "armor_data": {
       "armor": [
         {
@@ -330,7 +330,7 @@
     "color": "yellow",
     "name": { "str": "short bow" },
     "description": "Emphasizing portability and agility over power, this all-wood bow is suitable for small game and harassing enemies.",
-    "price": 16000,
+    "price": "160 USD",
     "//": "52in Elm Shortbow at 24in draw with 26in, 0.077 lb aspen arrow: 45J, 50 lbs draw, 0.35 slugs with 30g arrow.",
     "material": [ "wood" ],
     "flags": [
@@ -350,7 +350,7 @@
     "weight": "340 g",
     "volume": "1500 ml",
     "longest_side": "132 cm",
-    "price_postapoc": 500,
+    "price_postapoc": "5 USD",
     "armor_data": {
       "armor": [
         {
@@ -383,7 +383,7 @@
     "color": "yellow",
     "name": { "str": "compound hunting bow" },
     "description": "A high-powered bow with shaped cams and extra cables for high-velocity shots that can be used effectively by fairly strong archers.  Currently set to a medium weight.",
-    "price": 55000,
+    "price": "550 USD",
     "//": "60 lb draw weight 24in draw, 100J, 0.55 slugs of momentum with a 30g arrow.",
     "material": [ "steel", "plastic" ],
     "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "SHEATH_BOW", "WATERPROOF_GUN", "NEVER_JAMS" ],
@@ -394,7 +394,7 @@
     "weight": "907 g",
     "volume": "1500 ml",
     "longest_side": "150 cm",
-    "price_postapoc": 3500,
+    "price_postapoc": "35 USD",
     "to_hit": 1,
     "reload_noise_volume": 3,
     "loudness": 10,
@@ -461,7 +461,7 @@
     "color": "yellow",
     "name": { "str": "composite bow (heavy)", "str_pl": "composite bows (heavy)" },
     "description": "A traditionally-constructed bow made from wood, bone, and sinew.  It has a rather high draw weight.",
-    "price": 32000,
+    "price": "320 USD",
     "//": "90 lb draw weight, 28in draw, 70J, 0.464 slugs of momentum with a 0.066lb arrow.",
     "material": [ "wood", "bone" ],
     "flags": [
@@ -481,7 +481,7 @@
     "weight": "400 g",
     "volume": "1750 ml",
     "longest_side": "152 cm",
-    "price_postapoc": 3000,
+    "price_postapoc": "30 USD",
     "armor_data": {
       "armor": [
         {
@@ -517,7 +517,7 @@
     "color": "yellow",
     "name": { "str": "composite bow (light)", "str_pl": "composite bows (light)" },
     "description": "A traditionally-constructed bow made from wood, horn and sinew.  It has a moderate draw weight.",
-    "price": 42000,
+    "price": "420 USD",
     "//": "60in bamboo, horn and sinew reflex bow, 70 lbs draw, 50J, 0.40 slugs with a 30g arrow.",
     "material": [ "wood" ],
     "flags": [
@@ -537,7 +537,7 @@
     "weight": "400 g",
     "volume": "1500 ml",
     "longest_side": "183 cm",
-    "price_postapoc": 2000,
+    "price_postapoc": "20 USD",
     "armor_data": {
       "armor": [
         {
@@ -570,7 +570,7 @@
     "color": "yellow",
     "name": { "str": "modern recurve bow" },
     "description": "A modern fiberglass bow that can be used effectively by those of somewhat above-average strength.",
-    "price": 38000,
+    "price": "380 USD",
     "//": "60in Fiberglass recurved bow at 26in draw, 80lb draw, 54J, 0.403 slugs with 30g arrow.",
     "material": [ "steel", "fiberglass" ],
     "flags": [
@@ -590,7 +590,7 @@
     "weight": "540 g",
     "volume": "2500 ml",
     "longest_side": "152 cm",
-    "price_postapoc": 2000,
+    "price_postapoc": "20 USD",
     "armor_data": {
       "armor": [
         {
@@ -626,7 +626,7 @@
     "color": "light_gray",
     "name": { "str": "takedown recurve bow" },
     "description": "A modern fiberglass bow that can be taken down for storage.  For use by those of somewhat above-average strength.  Use it to disassemble it for storage.",
-    "price": 38000,
+    "price": "380 USD",
     "//": "Most stats copied from the recurve bow, can be adjusted later to reflect a different model.",
     "material": [ "steel", "fiberglass" ],
     "flags": [
@@ -647,7 +647,7 @@
     "volume": "2500 ml",
     "longest_side": "152 cm",
     "//2": "When mounted.",
-    "price_postapoc": 2200,
+    "price_postapoc": "22 USD",
     "armor_data": {
       "armor": [
         {
@@ -693,14 +693,14 @@
     "color": "light_gray",
     "name": { "str": "takedown recurve bow (folded)", "str_pl": "takedown recurve bows (folded)" },
     "description": "A modern fiberglass bow that has been taken down for storage.  For use by those of somewhat above-average strength.  Use it to assemble it into shape.",
-    "price": 38000,
+    "price": "380 USD",
     "//": "Most stats copied from the recurve bow, can be adjusted later to reflect a different model.",
     "material": [ "steel", "fiberglass" ],
     "weight": "540 g",
     "volume": "2500 ml",
     "longest_side": "60 cm",
     "//2": "When taken down.",
-    "price_postapoc": 2200,
+    "price_postapoc": "22 USD",
     "flags": [ "NO_TURRET" ],
     "modes": [ [ "DEFAULT", "disassembled", 0, [ "MELEE" ] ] ],
     "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "stabilizer", 1 ], [ "dampening", 1 ], [ "arrow rest", 1 ] ],
@@ -722,7 +722,7 @@
     "color": "yellow",
     "name": { "str": "longbow" },
     "description": "A six-foot wooden hunting bow in the English style.  It can be used effectively by those of above-average strength.",
-    "price": 50000,
+    "price": "500 USD",
     "//": "70in Yew Longbow at 28in, 70 lbs draw, 60J, 0.41 slugs with 30g arrow",
     "material": [ "wood" ],
     "flags": [
@@ -742,7 +742,7 @@
     "weight": "680 g",
     "volume": "3500 ml",
     "longest_side": "183 cm",
-    "price_postapoc": 3000,
+    "price_postapoc": "30 USD",
     "armor_data": {
       "armor": [
         {
@@ -773,13 +773,13 @@
     "type": "GUN",
     "name": { "str": "wooden greatbow" },
     "description": "An extremely large, stiff longbow, made with enormous limbs and a thick string to take an immense amount of energy.  Takes incredible strength to draw.",
-    "price": 150000,
+    "price": "1 kUSD 500 USD",
     "//": "78in Yew Longbow at 30in draw with 31in, 145 lbs draw, 0.51 slugs with 30g arrow.",
     "min_strength": 17,
     "weight": "3200 g",
     "volume": "6250 ml",
     "longest_side": "198 cm",
-    "price_postapoc": 2000,
+    "price_postapoc": "20 USD",
     "armor_data": {
       "armor": [
         {
@@ -809,7 +809,7 @@
     "weight": "22 kg",
     "volume": "6250 ml",
     "longest_side": "218 cm",
-    "price_postapoc": 2000,
+    "price_postapoc": "20 USD",
     "armor_data": {
       "armor": [
         {
@@ -838,7 +838,7 @@
     "color": "yellow",
     "name": { "str": "compound greatbow" },
     "description": "An extremely large, powerful compound bow, made with enormous limbs and a thick string to take an immense amount of energy.  Takes incredible strength to draw.",
-    "price": 160000,
+    "price": "1 kUSD 600 USD",
     "//": "120 lb draw weight, very efficient, 0.5 slugs of momentum with a 30g arrow.",
     "material": [ "steel", "plastic" ],
     "flags": [ "FIRE_TWOHAND", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "SHEATH_BOW", "WATERPROOF_GUN", "NEVER_JAMS" ],
@@ -849,7 +849,7 @@
     "weight": "2000 g",
     "volume": "4 L",
     "longest_side": "198 cm",
-    "price_postapoc": 3000,
+    "price_postapoc": "30 USD",
     "reload_noise_volume": 4,
     "loudness": 20,
     "durability": 8,
@@ -871,7 +871,7 @@
     "color": "yellow",
     "name": { "str": "Olympic style target bow" },
     "description": "A highly refined, modern bow, but not all that useful, as the draw weight is very low.",
-    "price": 72000,
+    "price": "720 USD",
     "//": "60in, fiberglass limbs, aluminum riser, 28in draw, 50lb draw, 52J, 0.4 slugs",
     "material": [ "wood" ],
     "flags": [
@@ -891,7 +891,7 @@
     "weight": "450 g",
     "volume": "2 L",
     "longest_side": "150 cm",
-    "price_postapoc": 6000,
+    "price_postapoc": "60 USD",
     "armor_data": {
       "armor": [
         {

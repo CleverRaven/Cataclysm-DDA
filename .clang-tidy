@@ -48,12 +48,12 @@ cert-*,\
 -cert-dcl37-c,\
 -cert-dcl51-cpp,\
 -cert-err58-cpp,\
-clang-diagnostic-*,\
 -clang-analyzer-core.CallAndMessage,\
 -clang-analyzer-core.DivideZero,\
 -clang-analyzer-core.NonNullParamChecker,\
 -clang-analyzer-core.UndefinedBinaryOperatorResult,\
 -clang-analyzer-cplusplus.NewDelete,\
+clang-diagnostic-*,\
 cppcoreguidelines-slicing,\
 google-explicit-constructor,\
 llvm-namespace-comment,\
@@ -62,9 +62,6 @@ modernize-*,\
 -modernize-use-auto,\
 -modernize-use-trailing-return-type,\
 performance-*,\
--performance-avoid-endl,\
--performance-noexcept-swap,\
--performance-no-automatic-move,\
 readability-*,\
 -bugprone-assignment-in-if-condition,\
 -bugprone-easily-swappable-parameters,\
@@ -88,6 +85,9 @@ readability-*,\
 -modernize-return-braced-init-list,\
 -modernize-use-default-member-init,\
 -modernize-use-nodiscard,\
+-performance-avoid-endl,\
+-performance-noexcept-swap,\
+-performance-no-automatic-move,\
 -readability-avoid-unconditional-preprocessor-if,\
 -readability-container-data-pointer,\
 -readability-convert-member-functions-to-static,\

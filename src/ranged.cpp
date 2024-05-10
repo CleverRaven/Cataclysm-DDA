@@ -850,7 +850,7 @@ void npc::pretend_fire( npc *source, int shots, item &gun )
 
         add_msg_if_player_sees( *source, m_warning, _( "You hear %s." ), data.sound );
         curshot++;
-        moves -= 100;
+        mod_moves( -get_speed() );
     }
 }
 
@@ -919,7 +919,7 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
     int delay = 0; // delayed recoil that has yet to be applied
     while( curshot != shots ) {
         if( gun.faults.count( fault_gun_chamber_spent ) && curshot == 0 ) {
-            moves -= 50;
+            mod_moves( -get_speed() * 0.5 );
             gun.faults.erase( fault_gun_chamber_spent );
             add_msg_if_player( _( "You cycle your %s manually." ), gun.tname() );
         }
@@ -955,6 +955,9 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
         bool multishot = proj.count > 1;
         std::map< Creature *, std::pair < int, int >> targets_hit;
         for( int projectile_number = 0; projectile_number < proj.count; ++projectile_number ) {
+            if( !first && !proj.multi_projectile_effects ) {
+                proj.proj_effects.erase( proj.proj_effects.begin(), proj.proj_effects.end() );
+            }
             dealt_projectile_attack shot = projectile_attack( proj, pos(), aim,
                                            dispersion, this, in_veh, wp_attack, first );
             first = false;
@@ -1054,7 +1057,7 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
         }
     }
     // Use different amounts of time depending on the type of gun and our skill
-    moves -= time_to_attack( *this, *gun_id );
+    mod_moves( -time_to_attack( *this, *gun_id ) );
 
     const islot_gun &firing = *gun.type->gun;
     for( const std::pair<const bodypart_str_id, int> &hurt_part : firing.hurt_part_when_fired ) {
@@ -1128,7 +1131,7 @@ int throw_cost( const Character &c, const item &to_throw )
     move_cost *= stamina_penalty;
     move_cost += skill_cost;
     move_cost -= dexbonus;
-    move_cost *= c.mutation_value( "attackcost_modifier" );
+    move_cost = c.enchantment_cache->modify_value( enchant_vals::mod::ATTACK_SPEED, move_cost );
 
     return std::max( 25, move_cost );
 }
@@ -1523,7 +1526,7 @@ static void do_aim( Character &you, const item &relevant, const double min_recoi
             practice_archery_proficiency( you, relevant );
 
             // Only drain stamina on initial draw
-            if( you.moves == 1 ) {
+            if( you.get_moves() == 1 ) {
                 mod_stamina_archery( you, relevant );
             }
         }
@@ -1605,7 +1608,7 @@ Target_attributes::Target_attributes( tripoint src, tripoint target )
            target_critter->ranged_target_size() :
            get_map().ranged_target_size( target );
     size_in_moa = target_size_in_moa( range, size ) ;
-    light = get_map().ambient_light_at( target );
+    light = get_map().ambient_light_at( tripoint_bub_ms( target ) );
     visible = shooter->sees( target );
 
 }
@@ -1991,7 +1994,8 @@ static void draw_throw_aim( const target_ui &ui, const Character &you, const cat
     const target_ui::TargetMode throwing_target_mode = is_blind_throw ?
             target_ui::TargetMode::ThrowBlind :
             target_ui::TargetMode::Throw;
-    Target_attributes attributes( range, target_size, get_map().ambient_light_at( target_pos ),
+    Target_attributes attributes( range, target_size,
+                                  get_map().ambient_light_at( tripoint_bub_ms( target_pos ) ),
                                   you.sees( target_pos ) );
 
     const std::vector<aim_type_prediction> aim_chances = calculate_ranged_chances( ui, you,
@@ -2080,6 +2084,10 @@ static projectile make_gun_projectile( const item &gun )
         const auto &ammo = gun.ammo_data()->ammo;
         proj.critical_multiplier = ammo->critical_multiplier;
         proj.count = ammo->count;
+        proj.multi_projectile_effects = ammo->multi_projectile_effects;
+        if( fx.count( "MULTI_EFFECTS" ) ) {
+            proj.multi_projectile_effects = true;
+        }
         proj.shot_spread = ammo->shot_spread * gun.gun_shot_spread_multiplier();
         if( !ammo->drop.is_null() && x_in_y( ammo->drop_chance, 1.0 ) ) {
             item drop( ammo->drop );
@@ -2863,7 +2871,7 @@ bool target_ui::set_cursor_pos( const tripoint &new_pos )
     map &here = get_map();
     if( new_pos != src ) {
         // On Z axis, make sure we do not exceed map boundaries
-        valid_pos.z = clamp( valid_pos.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT - 1 );
+        valid_pos.z = clamp( valid_pos.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT );
         // Or current view range
         valid_pos.z = clamp( valid_pos.z - src.z, -fov_3d_z_range, fov_3d_z_range ) + src.z;
 
@@ -3222,7 +3230,7 @@ void target_ui::cycle_targets( int direction )
 void target_ui::set_view_offset( const tripoint &new_offset ) const
 {
     tripoint new_( new_offset.xy(), clamp( new_offset.z, -fov_3d_z_range, fov_3d_z_range ) );
-    new_.z = clamp( new_.z + src.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT - 1 ) - src.z;
+    new_.z = clamp( new_.z + src.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT ) - src.z;
 
     bool changed_z = you->view_offset.z != new_.z;
     you->view_offset = new_;
@@ -3423,7 +3431,7 @@ bool target_ui::action_aim()
     // We've changed pc.recoil, update penalty
     recalc_aim_turning_penalty();
 
-    return you->moves > 0;
+    return you->get_moves() > 0;
 }
 
 bool target_ui::action_drop_aim()
@@ -3454,7 +3462,7 @@ bool target_ui::action_aim_and_shoot( const std::string &action )
     const double min_recoil = calculate_aim_cap( *you, dst );
     do {
         do_aim( *you, relevant ? *relevant : null_item_reference(), min_recoil );
-    } while( you->moves > 0 && you->recoil > aim_threshold &&
+    } while( you->get_moves() > 0 && you->recoil > aim_threshold &&
              you->recoil - sight_dispersion > min_recoil );
 
     // If we made it under the aim threshold, go ahead and fire.

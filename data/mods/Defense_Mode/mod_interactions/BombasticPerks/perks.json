@@ -60,7 +60,7 @@
     "points": 0,
     "description": "Your time exercising has gotten you used to being winded, and has vastly expanded your stamina.  You can go for longer and harder now.",
     "category": [ "perk" ],
-    "cardio_multiplier": 1.8
+    "enchantments": [ { "values": [ { "value": "CARDIO_MULTIPLIER", "multiply": 0.8 } ] } ]
   },
   {
     "type": "mutation",

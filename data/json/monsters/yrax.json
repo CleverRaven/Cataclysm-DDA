@@ -62,7 +62,7 @@
   {
     "id": "mon_yrax_sphenocorona",
     "type": "MONSTER",
-    "name": { "str": "Yrax sphenocorona" },
+    "name": { "str": "Yrax sphenocorona", "str_pl": "Yrax sphenocoronae" },
     "description": "Manipulator arrays seamlessly protract from asymmetric facets, their testing spaces undisturbed by the forces affixing it to the sky.",
     "default_faction": "yrax",
     "volume": "930 L",
@@ -181,7 +181,7 @@
   {
     "id": "mon_yrax_apeirogon",
     "type": "MONSTER",
-    "name": { "str": "Yrax apeirohedra" },
+    "name": { "str": "Yrax apeirohedron", "str_pl": "Yrax apeirohedra" },
     "description": "Its uncountable surfaces flow against each other in a dazzling sea of gold.",
     "default_faction": "yrax",
     "volume": "50 L",
@@ -216,6 +216,95 @@
     "armor": { "bash": 1000, "cut": 1000, "acid": 100, "heat": 100, "bullet": 1000 }
   },
   {
+    "id": "mon_yrax_quadraphract",
+    "type": "MONSTER",
+    "name": "Yrax quadraphract",
+    "description": "A gleaming, burnished gold, four legged structure the size of a small vehicle, but much taller; this looks vaguely robotic, but too smooth and perfect to fit in this world.  Its legs are smooth faceted figures, with no visible joints, and hold its gem-like body aloft with an eery, sculpted grace.  At the peak of the gem-body is a deep, goblet-shaped crown that slowly swivels about, pointing at nothing in specific.  Though nothing about its appearance is familiar to you, it nevertheless strikes you with a mixture of awe and dread.",
+    "default_faction": "yrax",
+    "volume": "930 L",
+    "//": "A lot of gold in this bad boy.",
+    "weight": "8282 kg",
+    "diff": 40,
+    "speed": 60,
+    "material": [ "gold", "steel" ],
+    "symbol": "A",
+    "aggression": 70,
+    "aggro_character": false,
+    "color": "yellow",
+    "luminance": 20,
+    "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
+    "//2": "Takes at least two Carl Gustaff HEDP shells to kill.",
+    "hp": 2400,
+    "flags": [
+      "SEES",
+      "HEARS",
+      "GOODHEARING",
+      "NOHEAD",
+      "NO_BREATHE",
+      "PACIFIST",
+      "PATH_AVOID_DANGER_2",
+      "PRIORITIZE_TARGETS",
+      "ELECTRONIC",
+      "CLIMBS",
+      "NOT_HALLUCINATION",
+      "ALWAYS_SEES_YOU",
+      "FIREPROOF"
+    ],
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "quadraphract_control", "min_level": 1, "hit_self": true },
+        "allow_no_target": true,
+        "monster_message": "",
+        "cooldown": 3
+      },
+      {
+        "type": "gun",
+        "cooldown": 20,
+        "gun_type": "yrax_metaljet_cannon",
+        "move_cost": 60,
+        "fake_skills": [ [ "gun", 10 ], [ "rifle", 5 ] ],
+        "fake_dex": 10,
+        "ranges": [ [ 5, 40, "DEFAULT" ] ],
+        "require_targeting_npc": true,
+        "targeting_cost": 180,
+        "laser_lock": true,
+        "targeting_timeout": 15,
+        "description": "reality seems to warp around the quadraphract's crown as it fires.",
+        "targeting_timeout_extend": 0,
+        "targeting_sound": "a deep thrumming sound.",
+        "targeting_volume": 50
+      }
+    ],
+    "death_function": { "corpse_type": "BROKEN", "message": "The quadraphract collapses, dead at last.", "eoc": "EOC_QUADRAPHRACT_DIES" },
+    "weakpoint_sets": [ "wps_yrax_quadraphract" ],
+    "armor": { "bash": 1000, "cut": 2000, "acid": 100, "heat": 500, "electric": 100, "bullet": 1000 }
+  },
+  {
+    "id": "mon_yrax_quadraphract_leg",
+    "type": "MONSTER",
+    "name": { "str": "quadraphract leg" },
+    "description": "A morphing lune of burnished gold attached to the greater structure.  Seemingly jointless it moves with a fluid grace, allowing the quadraphract to glide aboveground with a speed and agility that belies its size.",
+    "default_faction": "yrax",
+    "copy-from": "mon_yrax_quadraphract",
+    "symbol": "(",
+    "hp": 400,
+    "proportional": { "dodge": 0.25, "speed": 1.2 },
+    "melee_dice": 6,
+    "melee_dice_sides": 15,
+    "melee_skill": 4,
+    "special_attacks": [ { "id": "smash", "throw_strength": 96 } ],
+    "armor": { "bash": 1000, "cut": 2000, "acid": 100, "heat": 500, "electric": 100, "bullet": 1000 },
+    "death_function": {
+      "corpse_type": "BROKEN",
+      "message": "The quadraphract stumbles as one of its legs looses coherence and collapses.",
+      "eoc": "EOC_QUADRAPHRACT_HURT"
+    },
+    "weakpoint_sets": [ "wps_yrax_quadraphract_leg" ],
+    "delete": { "flags": [ "PACIFIST" ] },
+    "extend": { "flags": [ "DESTROYS" ] }
+  },
+  {
     "id": "mon_yrax_delta",
     "copy-from": "base_drone",
     "type": "MONSTER",
@@ -240,6 +329,30 @@
     "death_function": { "corpse_type": "BROKEN" },
     "extend": { "flags": [ "HIT_AND_RUN" ] },
     "delete": { "flags": [ "PACIFIST" ] },
-    "armor": { "bash": 12, "cut": 18, "acid": 12, "heat": 8, "bullet": 1 }
+    "special_attacks": [
+      {
+        "type": "gun",
+        "cooldown": 5,
+        "move_cost": 100,
+        "gun_type": "yrax_delta_laser_gun",
+        "fake_skills": [ [ "gun", 5 ] ],
+        "fake_dex": 4,
+        "ranges": [ [ 0, 25, "DEFAULT" ] ],
+        "targeting_sound": "a fast sequence of clicking tones.",
+        "targeting_volume": 50,
+        "targeting_cost": 200,
+        "targeting_timeout_extend": -10,
+        "condition": { "u_has_effect": "yrax_overcharged" }
+      },
+      {
+        "type": "spell",
+        "id": "shock_cone",
+        "spell_data": { "id": "shock_cone", "min_level": 1 },
+        "monster_message": "A bolt of electricity arcs from %s!",
+        "cooldown": 15,
+        "condition": { "u_has_effect": "yrax_overcharged" }
+      }
+    ],
+    "armor": { "bash": 12, "cut": 18, "acid": 12, "electric": 100, "heat": 8, "bullet": 1 }
   }
 ]

@@ -355,11 +355,11 @@
   {
     "id": "MISSION_FORGE_DIVINER_EXODII",
     "type": "mission_definition",
-    "name": { "str": "Visit the exodii" },
+    "name": { "str": "Visit the Exodii" },
     "goal": "MGOAL_GO_TO_TYPE",
     "difficulty": 0,
     "value": 0,
-    "description": "The diviner told you that there would be exodii here.",
+    "description": "The diviner told you that there would be Exodii here.",
     "destination": "exodii_base_x0y0z0",
     "start": {
       "assign_mission_target": {
