@@ -77,6 +77,7 @@
         "defends your space": true,
         "knows your voice": true
       },
+      "robofac_auxiliaries": { "share my stuff": true },
       "marloss": { "kill on sight": true }
     },
     "epilogues": [
@@ -208,6 +209,7 @@
         "kill on sight": false,
         "watch your back": true,
         "share my stuff": false,
+        "share public goods": true,
         "guard your stuff": true,
         "lets you in": false,
         "defends your space": false,

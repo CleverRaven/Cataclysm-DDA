@@ -104,10 +104,9 @@ Flag                   | Meaning
 ---------------------- | --
 `"kill on sight"`      | Members of the acting faction are always hostile to members of the object faction.
 `"watch your back"`    | Members of the acting faction will treat attacks on members of the object faction as attacks on themselves.
-`"share my stuff"`     | Members of the acting faction will not object if members of the object faction take items owned by the acting faction.
+`"share my stuff"`     | Members of the acting faction will not object if members of the object faction take items owned by the acting faction. Camps of the acting faction will allow members of the object faction to eat from their food stores (including water access).
+`"share public goods"` | Camps of the acting faction will allow members of the object faction to drink from camp water wells. Irrelevant if the relationship already allows "share my stuff".
 `"guard your stuff"`   | Members of the acting faction will object if someone takes items owned by the object faction.
-`"lets you in"`        | Members of the acting faction will not object if a member of the object faction enters territory controlled by the acting faction.
-`"defends your space"` | Members of the acting faction will become hostile if someone enters territory controlled by the object faction.
+`"lets you in"`        | Members of the acting faction will not object if a member of the object faction enters territory controlled by the acting faction. No current gameplay effect.
+`"defends your space"` | Members of the acting faction will become hostile if someone enters territory controlled by the object faction. No current gameplay effect.
 `"knows your voice"`   | Members of the acting faction will not comment on speech by members of the object faction.
-
-So far, only `"kill on sight"`, `"knows your voice"`, and `"watch your back"` have been implemented.

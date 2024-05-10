@@ -4535,10 +4535,9 @@ bool npc::consume_food_from_camp()
         return false;
     }
     basecamp *bcp = *potential_bc;
-    if( !bcp->allowed_access_by( *this ) ) {
-        return false;
-    }
-    if( get_thirst() > 40 && bcp->has_water() ) {
+
+    // Handle water
+    if( get_thirst() > 40 && bcp->has_water() && bcp->allowed_access_by( *this, true ) ) {
         complain_about( "camp_water_thanks", 1_hours,
                         chat_snippets().snip_camp_water_thanks.translated(), false );
         // TODO: Stop skipping the stomach for this, actually put the water in there.
@@ -4546,9 +4545,10 @@ bool npc::consume_food_from_camp()
         return true;
     }
 
+    // Handle food
     int current_kcals = get_stored_kcal() + stomach.get_calories() + guts.get_calories();
     int kcal_threshold = get_healthy_kcal() * 19 / 20;
-    if( get_hunger() > 0 && current_kcals < kcal_threshold ) {
+    if( get_hunger() > 0 && current_kcals < kcal_threshold && bcp->allowed_access_by( *this ) ) {
         // Try to eat a bit more than the bare minimum so that we're not eating every 5 minutes
         // but also don't try to eat a week's worth of food in one sitting
         int desired_kcals = std::min( static_cast<int>( base_metabolic_rate ), std::max( 0,
@@ -4581,7 +4581,7 @@ bool npc::consume_food()
     const std::vector<item *> inv_food = cache_get_items_with( "is_food", &item::is_food );
 
     if( inv_food.empty() ) {
-        if( !is_player_ally() ) {
+        if( !needs_food() ) {
             // TODO: Remove this and let player "exploit" hungry NPCs
             set_hunger( 0 );
             set_thirst( 0 );

@@ -324,7 +324,7 @@ bool basecamp::has_water() const
     return has_provides( "water_well" ) || has_provides( "fbmh_well_north" );
 }
 
-bool basecamp::allowed_access_by( Character &guy ) const
+bool basecamp::allowed_access_by( Character &guy, bool water_request ) const
 {
     // The owner can always access their own camp.
     if( fac() == guy.get_faction() ) {
@@ -332,6 +332,11 @@ bool basecamp::allowed_access_by( Character &guy ) const
     }
     // Sharing stuff also means sharing access.
     if( fac()->has_relationship( guy.get_faction()->id, npc_factions::share_my_stuff ) ) {
+        return true;
+    }
+    // Some factions will share access to infinite water sources, but not food
+    if( water_request &&
+        fac()->has_relationship( guy.get_faction()->id, npc_factions::share_public_goods ) ) {
         return true;
     }
     return false;
