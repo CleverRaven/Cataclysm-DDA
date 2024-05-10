@@ -9746,12 +9746,12 @@
     "type": "mutation",
     "id": "SIMPLE_MIND",
     "name": { "str": "Simple Mind" },
-    "points": 0,
+    "points": -1,
     "description": "You have a simple mind and you enjoy the inner peace that comes with it.",
     "mixed_effect": true,
     "types": [ "INT", "ATTITUDE" ],
-    "category": [ "SPIDER", "GASTROPOD", "INSECT", "PLANT", "CRUSTACEAN" ],
-    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": -2 } ] } ],
+    "category": [ "GASTROPOD", "INSECT", "PLANT", "CRUSTACEAN" ],
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": -1 } ] } ],
     "cancels": [ "SCHIZOPHRENIC", "MOODSWINGS" ]
   }
 ]
