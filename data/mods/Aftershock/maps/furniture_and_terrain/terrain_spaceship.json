@@ -406,7 +406,7 @@
       ]
     }
   },
-    {
+  {
     "type": "terrain",
     "id": "t_afs_gun_ship_engine_console_burnt",
     "name": "Iblis Interplanetary Drive Console",
@@ -422,9 +422,7 @@
         {
           "id": "EOC_AFS_GUNSHIP_DRIVE_OVERLOADED",
           "condition": { "u_query": "Do you want to overload the ship's drive?", "default": true },
-          "effect": [
-            { "u_message": "The engine is burnt out and worthless.", "popup": true }
-          ]
+          "effect": [ { "u_message": "The engine is burnt out and worthless.", "popup": true } ]
         }
       ]
     },
