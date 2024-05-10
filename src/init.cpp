@@ -409,6 +409,7 @@ void DynamicDataLoader::initialize()
     add( "climbing_aid", &climbing_aid::load_climbing_aid );
     add( "effect_type", &load_effect_type );
     add( "oter_id_migration", &overmap::load_oter_id_migration );
+    add( "camp_migration", &overmap::load_oter_id_camp_migration );
     add( "overmap_terrain", &overmap_terrains::load );
     add( "construction_category", &construction_categories::load );
     add( "construction_group", &construction_groups::load );
