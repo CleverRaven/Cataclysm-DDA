@@ -553,9 +553,9 @@ class overmap
         static void load_oter_id_migration( const JsonObject &jo );
         static void reset_oter_id_camp_migrations();
         static void reset_oter_id_migrations();
-        static bool oter_id_should_have_camp( const oter_type_str_id oter );
+        static bool oter_id_should_have_camp( const oter_type_str_id &oter );
         static bool is_oter_id_obsolete( const std::string &oterid );
-        void migrate_camps( const std::vector<tripoint_abs_omt> &points );
+        void migrate_camps( const std::vector<tripoint_abs_omt> &points ) const;
         void migrate_oter_ids( const std::unordered_map<tripoint_om_omt, std::string> &points );
         oter_id get_or_migrate_oter( const std::string &oterid );
 };

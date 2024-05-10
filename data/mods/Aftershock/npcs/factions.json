@@ -92,8 +92,8 @@
       { "item": "UICA_1000d", "fixed_adj": 0 },
       { "item": "UICA_10000d", "fixed_adj": 0 }
     ],
-    "//": "90 days worth of food for 10 people, at 3000kcal/day and full RDA of iron/calcium/vitC",
-    "fac_food_supply": { "calories": 2700000000, "vitamins": { "iron": 86400, "calcium": 86400, "vitC": 86400 } },
+    "//": "Being an interplantary authority with effectively unlimited resources to draw upon, these numbers are here only as a technical limit. Vitamins are capped at ~90% of the max for a 32-bit integer and calories scaled to match.",
+    "fac_food_supply": { "calories": 62500000000000, "vitamins": { "iron": 2000000000, "calcium": 2000000000, "vitC": 2000000000 } },
     "wealth": 75000,
     "relations": {
       "free_merchants": {

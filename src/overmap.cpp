@@ -4002,7 +4002,7 @@ void overmap::reset_oter_id_migrations()
     oter_id_migrations.clear();
 }
 
-bool overmap::oter_id_should_have_camp( const oter_type_str_id oter )
+bool overmap::oter_id_should_have_camp( const oter_type_str_id &oter )
 {
     return camp_map.count( oter ) > 0;
 }
@@ -4029,7 +4029,7 @@ void overmap::migrate_oter_ids( const std::unordered_map<tripoint_om_omt, std::s
     }
 }
 
-void overmap::migrate_camps( const std::vector<tripoint_abs_omt> &points )
+void overmap::migrate_camps( const std::vector<tripoint_abs_omt> &points ) const
 {
     for( const tripoint_abs_omt &point : points ) {
         std::optional<basecamp *> bcp = overmap_buffer.find_camp( point.xy() );
