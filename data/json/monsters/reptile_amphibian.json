@@ -819,7 +819,7 @@
     "description": "You see a whole leopard frog and then some.  This poor thing must have almost a dozen extra legs sticking off of it.  It is difficult to determine an exact number as most of them are underdeveloped or otherwise malformed.",
     "name": { "str": "many-legged frog" },
     "categories": [ "NULL" ],
-    "dissect": "dissect_batrachian_worm_single",
+    "dissect": "dissect_worm_frog_single",
     "harvest": "mutant_tiny",
     "special_attacks": [ { "type": "leap", "cooldown": 32, "max_range": 4, "allow_no_target": true, "random_leap": true } ]
   },
@@ -830,7 +830,7 @@
     "description": "A green frog that has suffered some kind of mutation.  At its hips it has clusters of extra legs, some are complete but others lack feet or end at the first joint.",
     "name": { "str": "many-legged frog" },
     "categories": [ "NULL" ],
-    "dissect": "dissect_batrachian_worm_single",
+    "dissect": "dissect_worm_frog_single",
     "harvest": "mutant_tiny",
     "special_attacks": [ { "type": "leap", "cooldown": 32, "max_range": 4, "allow_no_target": true, "random_leap": true } ]
   },
@@ -841,7 +841,7 @@
     "description": "This cream and brown frog looks more like a great insect in profile.  It has evidently mutated, growing many additional, spindly legs that rise high before attempting to bend back downwards.",
     "name": { "str": "many-legged frog" },
     "categories": [ "NULL" ],
-    "dissect": "dissect_batrachian_worm_single",
+    "dissect": "dissect_worm_frog_single",
     "harvest": "mutant_tiny",
     "special_attacks": [ { "type": "leap", "cooldown": 32, "max_range": 4, "allow_no_target": true, "random_leap": true } ]
   },
