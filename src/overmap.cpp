@@ -4052,6 +4052,16 @@ void overmap::migrate_camps( const std::vector<tripoint_abs_omt> &points )
     }
 }
 
+oter_id overmap::get_or_migrate_oter( const std::string &oterid )
+{
+    auto migration = oter_id_migrations.find( oterid );
+    if( migration != oter_id_migrations.end() ) {
+        return oter_id( migration->second );
+    } else {
+        return oter_id( oterid );
+    }
+}
+
 void overmap::place_special_forced( const overmap_special_id &special_id,
                                     const tripoint_om_omt &p,
                                     om_direction::type dir )

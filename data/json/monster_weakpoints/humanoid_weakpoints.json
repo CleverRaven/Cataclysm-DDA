@@ -290,21 +290,21 @@
           {
             "effect": "shattered",
             "chance": 25,
-            "message": "The armor is shattered!",
+            "message": "The %s's armor is shattered!",
             "damage_required": [ 1, 10 ],
             "permanent": true
           },
           {
             "effect": "shattered",
             "chance": 50,
-            "message": "The armor is shattered!",
+            "message": "The %s's armor is shattered!",
             "damage_required": [ 11, 30 ],
             "permanent": true
           },
           {
             "effect": "shattered",
             "chance": 75,
-            "message": "The armor is shattered!",
+            "message": "The %s's armor is shattered!",
             "damage_required": [ 31, 200 ],
             "permanent": true
           }

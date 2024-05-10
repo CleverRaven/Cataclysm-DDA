@@ -1183,6 +1183,7 @@ class Creature : public viewer
         void clear_killer();
         // summoned creatures via spells
         void set_summon_time( const time_duration &length );
+        time_point get_summon_time();
         // handles removing the creature if the timer runs out
         void decrement_summon_timer();
         void set_summoner( Creature *summoner );

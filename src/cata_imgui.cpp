@@ -35,7 +35,6 @@ struct pairs {
 std::array<RGBTuple, color_loader<RGBTuple>::COLOR_NAMES_COUNT> rgbPalette;
 std::array<pairs, 100> colorpairs;   //storage for pair'ed colored
 
-ImTui::TScreen *imtui_screen = nullptr;
 std::vector<std::pair<int, ImTui::mouse_event>> imtui_events;
 
 cataimgui::client::client()
@@ -44,7 +43,7 @@ cataimgui::client::client()
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
 
-    imtui_screen = ImTui_ImplNcurses_Init();
+    ImTui_ImplNcurses_Init();
     ImTui_ImplText_Init();
 
     ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
@@ -73,8 +72,13 @@ void cataimgui::client::end_frame()
 {
     ImGui::Render();
 
-    ImTui_ImplText_RenderDrawData( ImGui::GetDrawData(), imtui_screen );
+    ImTui_ImplText_RenderDrawData( ImGui::GetDrawData() );
     ImTui_ImplNcurses_DrawScreen();
+    ImGuiIO &io = ImGui::GetIO();
+    for( const int &code : cata_input_trail ) {
+        io.AddKeyEvent( cata_key_to_imgui( code ), false );
+    }
+    cata_input_trail.clear();
 }
 
 void cataimgui::client::upload_color_pair( int p, int f, int b )
@@ -234,7 +238,7 @@ void cataimgui::client::load_fonts( const std::unique_ptr<Font> &cata_font,
         io.Fonts->Fonts[0] = cfg.DstFont;
         ImGui_ImplSDLRenderer2_SetFallbackGlyphDrawCallback( [&]( const ImFontGlyphToDraw & glyph ) {
             std::string uni_string = std::string( glyph.uni_str );
-            point p( int( glyph.pos.x ), int( glyph.pos.y - 5 ) );
+            point p( int( glyph.pos.x ), int( glyph.pos.y - 3 ) );
             unsigned char col = 0;
             auto it = activeFont->sdlColorsToCata.find( glyph.col & 0xFFFFFF );
             if( it != activeFont->sdlColorsToCata.end() ) {
@@ -262,6 +266,11 @@ void cataimgui::client::end_frame()
 {
     ImGui::Render();
     ImGui_ImplSDLRenderer2_RenderDrawData( ImGui::GetDrawData() );
+    ImGuiIO &io = ImGui::GetIO();
+    for( const int &code : cata_input_trail ) {
+        io.AddKeyEvent( cata_key_to_imgui( code ), false );
+    }
+    cata_input_trail.clear();
 }
 
 void cataimgui::client::process_input( void *input )
@@ -329,7 +338,7 @@ void cataimgui::client::process_cata_input( const input_event &event )
         int code = event.get_first_input();
         ImGuiIO &io = ImGui::GetIO();
         io.AddKeyEvent( cata_key_to_imgui( code ), true );
-        io.AddKeyEvent( cata_key_to_imgui( code ), false );
+        cata_input_trail.push_back( code );
     }
 }
 
@@ -449,13 +458,6 @@ class cataimgui::window_impl
             window_adaptor->is_imgui = true;
             window_adaptor->on_redraw( [this]( ui_adaptor & ) {
                 win_base->draw();
-                point catapos;
-                point catasize;
-                ImVec2 impos = ImGui::GetWindowPos();
-                ImVec2 imsize = ImGui::GetWindowSize();
-                imvec2_to_point( &impos, &catapos );
-                imvec2_to_point( &imsize, &catasize );
-                window_adaptor->position_absolute( catapos, catasize );
             } );
             window_adaptor->on_screen_resize( [this]( ui_adaptor & ) {
                 is_resized = true;
@@ -580,6 +582,15 @@ void cataimgui::window::draw()
         draw_controls();
         if( p_impl->window_adaptor->is_on_top && !force_to_back ) {
             ImGui::BringWindowToDisplayFront( ImGui::GetCurrentWindow() );
+        }
+        if( handled_resize ) {
+            point catapos;
+            point catasize;
+            ImVec2 impos = ImGui::GetWindowPos();
+            ImVec2 imsize = ImGui::GetWindowSize();
+            imvec2_to_point( &impos, &catapos );
+            imvec2_to_point( &imsize, &catasize );
+            p_impl->window_adaptor->position_absolute( catapos, catasize );
         }
     }
     ImGui::End();

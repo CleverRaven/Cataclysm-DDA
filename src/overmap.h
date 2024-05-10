@@ -557,6 +557,7 @@ class overmap
         static bool is_oter_id_obsolete( const std::string &oterid );
         void migrate_camps( const std::vector<tripoint_abs_omt> &points );
         void migrate_oter_ids( const std::unordered_map<tripoint_om_omt, std::string> &points );
+        oter_id get_or_migrate_oter( const std::string &oterid );
 };
 
 bool is_river( const oter_id &ter );

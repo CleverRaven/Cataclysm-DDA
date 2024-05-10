@@ -1126,45 +1126,6 @@
   },
   {
     "type": "mapgen",
-    "update_mapgen_id": "tacoma_commune_crop_overseer_field_1_fence_legacy",
-    "method": "json",
-    "object": {
-      "set": [
-        { "square": "terrain", "id": "t_fence", "x": 4, "y": 3, "x2": 16, "y2": 3 },
-        { "square": "terrain", "id": "t_fence", "x": 4, "y": 15, "x2": 16, "y2": 15 },
-        { "square": "terrain", "id": "t_fence", "x": 4, "y": 4, "x2": 4, "y2": 14 },
-        { "square": "terrain", "id": "t_fence", "x": 16, "y": 4, "x2": 16, "y2": 14 },
-        { "point": "terrain", "id": "t_fencegate_c", "x": 10, "y": 3 },
-        { "point": "terrain", "id": "t_fencegate_c", "x": 10, "y": 15 },
-        { "point": "terrain", "id": "t_fencegate_c", "x": 4, "y": 9 }
-      ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "update_mapgen_id": "tacoma_commune_crop_overseer_field_1_legacy_clear",
-    "method": "json",
-    "object": {
-      "translate_ter": [ { "from": "t_dirtmound", "to": "t_dirt", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
-      "set": [
-        { "square": "furniture", "id": "f_clear", "x": 0, "y": 0, "x2": 23, "y2": 23 },
-        { "square": "item_remove", "x": 0, "y": 0, "x2": 23, "y2": 23 }
-      ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "update_mapgen_id": "tacoma_commune_crop_overseer_field_1_fence_legacy_clear",
-    "method": "json",
-    "object": {
-      "translate_ter": [
-        { "from": "t_fence", "to": "t_dirt", "x": [ 0, 23 ], "y": [ 0, 23 ] },
-        { "from": "t_fencegate_c", "to": "t_dirt", "x": [ 0, 23 ], "y": [ 0, 23 ] }
-      ]
-    }
-  },
-  {
-    "type": "mapgen",
     "update_mapgen_id": "tacoma_commune_crop_overseer_field_1_plant",
     "method": "json",
     "object": {
