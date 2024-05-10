@@ -1,0 +1,49 @@
+[
+  {
+    "id": "mon_triffidZ_pyrokinetic",
+    "copy-from": "mon_triffid",
+    "type": "MONSTER",
+    "name": { "str": "triffid flamebreaker" },
+    "description": "A creeping mobile plant, as tall as a moose.  It has a single bark-covered stalk supporting a flowery head with a paralyzing sting concealed within.  The air around them wavers slightly, like a summer haze.",
+    "extend": {
+      "flags": [ "FIREPROOF" ],
+      "special_attacks": [
+        {
+          "type": "monster_attack",
+          "attack_type": "melee",
+          "id": "mon_fountain_of_flames",
+          "cooldown": 10,
+          "move_cost": 80,
+          "range": 4,
+          "damage_max_instance": [ { "damage_type": "heat", "amount": 20 } ],
+          "dodgeable": true,
+          "blockable": false,
+          "effects": [ { "id": "onfire", "duration": 60, "chance": 50, "affect_hit_bp": true } ],
+          "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+          "hit_dmg_u": "%1$s waves its fronds and your %2$s is engulfed in flames!",
+          "hit_dmg_npc": "%1$s waves its fronds and <npcname>'s %2$s is engulfed in flames!",
+          "miss_msg_u": "%1$s waves its fronds and you narrowly avoid a burst of flame!",
+          "miss_msg_npc": "%1$s waves its fronds and <npcname> narrowly avoids a burst of flame!",
+          "no_dmg_msg_u": "%1$s waves its fronds and your %2$s is engulfed in flames, but they do not burn you.",
+          "no_dmg_msg_npc": "%1$s waves its fronds and <npcname>'s %2$s is engulfed in flames, but it does not burn them."
+        },
+        {
+          "id": "psi_triffid_flamebreaker_quell",
+          "type": "spell",
+          "spell_data": { "id": "pyrokinetic_quell_flames_monster", "min_level": 4 },
+          "cooldown": 1,
+          "condition": { "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "u_is_in_field": "fd_fire" } ] },
+          "monster_message": "%1$s waves its fronds and the flames gutter and die."
+        },
+        {
+          "id": "psi_triffid_flamebreaker_no_flame_buff",
+          "type": "spell",
+          "spell_data": { "id": "pyrokinetic_flame_armor_ally_monster", "min_level": 4 },
+          "cooldown": 20,
+          "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+          "monster_message": "%1$s waves its fronds at %3$s."
+        }
+      ]
+    }
+  }
+]
