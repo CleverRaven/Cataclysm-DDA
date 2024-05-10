@@ -546,7 +546,8 @@ void game::draw_bullet( const tripoint &t, const int i,
     std::vector<tripoint_bub_ms> temp;
     temp.resize( trajectory.size() );
     for( const tripoint &it : trajectory ) {
-        temp.emplace_back( tripoint_bub_ms( it ) );
+        const tripoint_bub_ms tmp = tripoint_bub_ms( it );
+        temp.emplace_back( tmp );
     }
     game::draw_bullet( tripoint_bub_ms( t ), i, temp, bullet );
 }
@@ -727,7 +728,8 @@ void game::draw_line( const tripoint &p, const tripoint &center,
     std::vector<tripoint_bub_ms> temp;
     temp.resize( points.size() );
     for( const tripoint &it : points ) {
-        temp.emplace_back( tripoint_bub_ms( it ) );
+        const tripoint_bub_ms tmp = tripoint_bub_ms( it );
+        temp.emplace_back( tmp );
     }
 
     if( !use_tiles ) {
@@ -769,7 +771,8 @@ void game::draw_line( const tripoint &p, const tripoint &center,
 
     std::vector<tripoint_bub_ms> temp;
     for( const tripoint &it : points ) {
-        temp.push_back( tripoint_bub_ms( it ) );
+        const tripoint_bub_ms tmp = tripoint_bub_ms( it );
+        temp.push_back( tmp );
     }
     draw_line_curses( *this, tripoint_bub_ms( center ), temp, noreveal );
 }
@@ -797,7 +800,8 @@ void game::draw_line( const tripoint &p, const std::vector<tripoint> &points )
     std::vector<tripoint_bub_ms> temp;
     temp.resize( points.size() );
     for( const tripoint &it : points ) {
-        temp.emplace_back( tripoint_bub_ms( it ) );
+        const tripoint_bub_ms tmp = tripoint_bub_ms( it );
+        temp.emplace_back( tmp );
     }
     draw_line_curses( *this, temp );
     tilecontext->init_draw_line( tripoint_bub_ms( p ), temp, "line_trail", false );
@@ -808,7 +812,8 @@ void game::draw_line( const tripoint &/*p*/, const std::vector<tripoint> &points
     std::vector<tripoint_bub_ms> temp;
     temp.resize( points.size() );
     for( const tripoint &it : points ) {
-        temp.emplace_back( tripoint_bub_ms( it ) );
+        const tripoint_bub_ms tmp = tripoint_bub_ms( it );
+        temp.emplace_back( tmp );
     }
     draw_line_curses( *this, temp );
 }

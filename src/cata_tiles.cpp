@@ -4329,7 +4329,7 @@ void cata_tiles::init_custom_explosion_layer( const std::map<tripoint, explosion
 {
     do_draw_custom_explosion = true;
     std::map<tripoint_bub_ms, explosion_tile> temp;
-    for( auto &it : layer ) {
+    for( const auto &it : layer ) {
         temp.insert( std::pair<tripoint_bub_ms, explosion_tile>( tripoint_bub_ms( it.first ), it.second ) );
     }
     custom_explosion_layer = temp;
