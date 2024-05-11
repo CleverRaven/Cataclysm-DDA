@@ -84,7 +84,7 @@
     "//3": "about 15% of the total reaction becomes kerosene-like hydrocarbons and about 50% becomes diesel-like hydrocarbons. So it is intentional that this produces 3x the diesel as kerosene.",
     "//4": "Thus the whole recipe produces about 5 kg of diesel (6000 ml) and 1.5 liters of kerosene (1800 ml)",
     "//5": "These reactors operate at 10-15 KW power levels for long periods of time and each batch is processing a pretty large amount of material. Specific heats give us about 40 MJ just to get to temp (550c)",
-    "tools": [ [ [ "catalytic_cracking_reactor", 50000 ] ], [ [ "water", 40 ], [ "water_clean", 40 ] ] ],
+    "tools": [ [ [ "catalytic_cracking_reactor_tool", 50000 ] ], [ [ "water", 40 ], [ "water_clean", 40 ] ] ],
     "components": [
       [ [ "chem_washing_soda", 40 ] ],
       [
