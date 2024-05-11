@@ -142,11 +142,10 @@
     "looks_like": "t_dirtmound",
     "symbol": "#",
     "color": "brown",
-    "connect_groups": "DIRT",
+    "connect_groups": [ "DIRT", "INDOORFLOOR" ],
     "connects_to": "DIRT",
     "move_cost": 3,
     "coverage": 40,
-    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "DIGGABLE", "MOUNTABLE", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS" ],
     "bash": {
       "sound": "thump",

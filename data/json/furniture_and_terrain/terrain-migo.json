@@ -31,9 +31,8 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_resin_roof",
-    "connect_groups": "WALL",
+    "connect_groups": [ "INDOORFLOOR", "WALL" ],
     "connects_to": "WALL",
-    "connect_groups": "INDOORFLOOR",
     "flags": [ "NOITEM", "WALL", "PERMEABLE", "TRANSPARENT", "INDOORS", "MINEABLE", "SUPPORTS_ROOF" ],
     "bash": {
       "str_min": 70,

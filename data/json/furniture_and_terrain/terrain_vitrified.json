@@ -207,9 +207,8 @@
     "move_cost": 0,
     "coverage": 60,
     "roof": "t_vitrified_roof",
-    "connect_groups": "WALL",
+    "connect_groups": [ "INDOORFLOOR", "WALL" ],
     "connects_to": "WALL",
-    "connect_groups": "INDOORFLOOR",
     "flags": [ "NOITEM", "REDUCE_SCENT", "INDOORS", "SUPPORTS_ROOF" ],
     "bash": {
       "str_min": 5,
@@ -232,9 +231,8 @@
     "color": "dark_gray",
     "looks_like": "t_chainfence",
     "move_cost": 0,
-    "connect_groups": "INDOORFLOOR",
     "flags": [ "SUPPORTS_ROOF", "TRANSPARENT", "INDOORS", "NOITEM", "PERMEABLE", "SHARP", "AUTO_WALL_SYMBOL", "CLIMBABLE" ],
-    "connect_groups": "CHAINFENCE",
+    "connect_groups": [ "CHAINFENCE", "INDOORFLOOR" ],
     "connects_to": "CHAINFENCE",
     "examine_action": "chainfence",
     "bash": {
@@ -299,10 +297,9 @@
     "description": "A pile of glass ground so finely that the slightest breeze bears it aloft into mesmerizing clouds.",
     "symbol": "~",
     "color": "light_gray",
-    "connect_groups": "SANDGLASS",
+    "connect_groups": [ "INDOORFLOOR", "SANDGLASS" ],
     "connects_to": "SANDGLASS",
     "move_cost": 3,
-    "connect_groups": "INDOORFLOOR",
     "flags": [ "SUPPORTS_ROOF", "TRANSPARENT", "INDOORS", "DIGGABLE", "FLAT", "SHARP" ],
     "bash": { "sound": "crunch", "ter_set": "t_sand", "str_min": 25, "str_max": 100, "str_min_supported": 100, "bash_below": true }
   },
@@ -440,9 +437,8 @@
     "looks_like": "t_water_pool",
     "color": "black",
     "move_cost": 7,
-    "connect_groups": "INDOORFLOOR",
     "flags": [ "SUPPORTS_ROOF", "TRANSPARENT", "INDOORS", "LIQUID", "NO_SCENT", "SWIMMABLE", "SHARP" ],
-    "connect_groups": "POOLWATER",
+    "connect_groups": [ "INDOORFLOOR", "POOLWATER" ],
     "connects_to": "POOLWATER"
   },
   {
@@ -570,7 +566,6 @@
     "looks_like": "t_gutter",
     "color": "light_gray",
     "move_cost": 3,
-    "connect_groups": "INDOORFLOOR",
     "flags": [
       "SUPPORTS_ROOF",
       "TRANSPARENT",
@@ -582,7 +577,7 @@
       "UNSTABLE",
       "CLIMBABLE"
     ],
-    "connect_groups": "RAILING",
+    "connect_groups": [ "INDOORFLOOR", "RAILING" ],
     "connects_to": "RAILING",
     "bash": {
       "str_min": 5,
