@@ -328,7 +328,7 @@
     "name": { "str": "tadpole" },
     "description": "A speckled, grey-brown tadpole.  Its tail is broad and paddle-like, and its body rotund.  Sometime soon it will grow legs and lose its tail entirely.",
     "color": "dark_gray",
-    "upgrades": { "age_grow": 22, "into": "mon_leo_frog" }
+    "upgrades": { "age_grow": 22, "into_group": "GROUP_TADPOLE_LEO" }
   },
   {
     "id": "mon_pattern_tadpole",
@@ -482,7 +482,7 @@
     "description": "A corpulent green tadpole with a yellow underbelly and black speckles.",
     "name": { "str": "tadpole" },
     "color": "green",
-    "upgrades": { "age_grow": 22, "into": "mon_green_frog" }
+    "upgrades": { "age_grow": 22, "into_group": "GROUP_TADPOLE_GREEN" }
   },
   {
     "id": "mon_wood_tadpole",
@@ -490,7 +490,7 @@
     "copy-from": "mon_proxy_tadpole",
     "description": "This mottled brown tadpole appears rather typical until you can get a glimpse from the side.  Then its high, peaked mouth and low round belly stand out in profile.",
     "name": { "str": "tadpole" },
-    "upgrades": { "age_grow": 15, "into": "mon_wood_frog" }
+    "upgrades": { "age_grow": 15, "into_group": "GROUP_TADPOLE_WOOD" }
   },
   {
     "id": "mon_spade_tadpole",
