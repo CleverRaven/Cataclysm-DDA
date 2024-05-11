@@ -2,6 +2,7 @@
 #include <cstddef>
 #include <memory>
 #include <string>
+#include <vector>
 
 class nc_color;
 struct input_event;
