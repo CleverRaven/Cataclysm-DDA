@@ -29,6 +29,7 @@ on:
     - 'tools/**'
     - '!tools/format/**'
     - 'utilities/**'
+    types: [opened, reopened, synchronize, ready_for_review]
 
 # We only care about the latest revision of a PR, so cancel previous instances.
 concurrency:
