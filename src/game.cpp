@@ -3884,12 +3884,12 @@ static shared_ptr_fast<game::draw_callback_t> create_zone_callback(
             }
 #endif
 
-            const tripoint start( std::min( zone_start->x, zone_end->x ),
-                                  std::min( zone_start->y, zone_end->y ),
-                                  zone_end->z );
-            const tripoint end( std::max( zone_start->x, zone_end->x ),
-                                std::max( zone_start->y, zone_end->y ),
-                                zone_end->z );
+            const tripoint_bub_ms start( std::min( zone_start->x, zone_end->x ),
+                                         std::min( zone_start->y, zone_end->y ),
+                                         zone_end->z );
+            const tripoint_bub_ms end( std::max( zone_start->x, zone_end->x ),
+                                       std::max( zone_start->y, zone_end->y ),
+                                       zone_end->z );
             g->draw_zones( start, end, offset );
         }
     } );
@@ -3909,7 +3909,7 @@ static shared_ptr_fast<game::draw_callback_t> create_trail_callback(
     } );
 }
 
-void game::init_draw_async_anim_curses( const tripoint &p, const std::string &ncstr,
+void game::init_draw_async_anim_curses( const tripoint_bub_ms &p, const std::string &ncstr,
                                         const nc_color &nccol )
 {
     std::pair <std::string, nc_color> anim( ncstr, nccol );
@@ -3921,12 +3921,12 @@ void game::draw_async_anim_curses()
     // game::draw_async_anim_curses can be called multiple times, storing each animation to be played in async_anim_layer_curses
     // Iterate through every animation in async_anim_layer
     for( const auto &anim : async_anim_layer_curses ) {
-        const tripoint p = anim.first - u.view_offset + tripoint( POSX - u.posx(), POSY - u.posy(),
-                           -u.posz() );
+        const tripoint_bub_ms p = anim.first - u.view_offset + tripoint( POSX - u.posx(), POSY - u.posy(),
+                                  -u.posz() );
         const std::string ncstr = anim.second.first;
         const nc_color nccol = anim.second.second;
 
-        mvwprintz( w_terrain, p.xy(), nccol, ncstr );
+        mvwprintz( w_terrain, p.xy().raw(), nccol, ncstr );
     }
 }
 
@@ -4119,12 +4119,12 @@ void game::draw_critter( const Creature &critter, const tripoint &center )
     }
 }
 
-bool game::is_in_viewport( const tripoint &p, int margin ) const
+bool game::is_in_viewport( const tripoint_bub_ms &p, int margin ) const
 {
-    const tripoint diff( u.pos() + u.view_offset - p );
+    const tripoint_rel_ms diff( u.pos_bub() + u.view_offset - p );
 
-    return ( std::abs( diff.x ) <= getmaxx( w_terrain ) / 2 - margin ) &&
-           ( std::abs( diff.y ) <= getmaxy( w_terrain ) / 2 - margin );
+    return ( std::abs( diff.x() ) <= getmaxx( w_terrain ) / 2 - margin ) &&
+           ( std::abs( diff.y() ) <= getmaxy( w_terrain ) / 2 - margin );
 }
 
 void game::draw_ter( const bool draw_sounds )
