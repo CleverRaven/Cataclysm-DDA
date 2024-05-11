@@ -9767,5 +9767,17 @@
     "points": 2,
     "visibility": 1,
     "ugliness": 1
+  },
+    {
+    "type": "mutation",
+    "id": "ISOLATIONFAT",
+    "//": "Like an eel, your innards are padded and isolated from your own shocks. In tandem with Slimy, will act to lead away runaway shocking attempts rather than have them stream straight through for example your Electroreceptors.",
+    "name": {
+      "str": "Resistive Innards"
+    },
+    "points": 2,
+    "description": "Your innards can resist shock.",
+    "prereqs": [ "SLIMY" ],
+    "category": [ "FISH" ]
   }
 ]
