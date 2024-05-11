@@ -39,7 +39,7 @@
     "purifiable": false,
     "profession": true
   },
-    {
+  {
     "type": "mutation",
     "id": "PROF_CHURL",
     "name": { "str": "Rediscovered Tribal" },
