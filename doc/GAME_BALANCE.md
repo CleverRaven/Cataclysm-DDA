@@ -42,8 +42,16 @@ Notable skill: 6 (competent/carnivore; bear, wolf, police/survivor zeds)
 
 Very high skill: 8 (dangerous opponent; dark wyrm, vinebeast)
 
-Maximal skill: 10 (highest for balance purposes; jabberwock, tribot, shoggoth, gracken)
+Maximal skill: 10 (highest for balance purposes; jabberwock, shoggoth, gracken)
 
+# Monster dodge skill scaling:
+Minimum skill: 0 (no dodge potential; zombie, turret, fungaloid, fused dragonfly)
+
+Nominal skill: 2 (clumsy dodger; cow, missile spider, horse, feral marine)
+
+Notable skill: 4 (natural dodging ability; wolf, feral soldier; mi-go, vinebeast)
+
+Maximal skill: 8 (highest for balance purposes; giant jumping spider, dermatik, liquid cat, atlantic salmon)
 
 # Monster maximum damage scaling:
 Minimum damage: 0 (no damage potential; spore cloud, hallucination)
