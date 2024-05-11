@@ -8,7 +8,6 @@
     "damage_modifier": 70,
     "description": "A sheet of glass that lets you see outside the vehicle.",
     "durability": 50,
-    "rotates_to": "INDOORFLOOR",
     "flags": [ "WINDSHIELD", "OBSTACLE", "WINDOW" ],
     "item": "glass_sheet",
     "location": "center",
