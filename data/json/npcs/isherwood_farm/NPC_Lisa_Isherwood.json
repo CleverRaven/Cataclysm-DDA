@@ -81,14 +81,14 @@
         "condition": { "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "u_has_var": "u_heard_about_chris", "value": "yes" } ] }
       },
       {
-        "text": "[chris tell about plan?  we get barry back need u.]",
+        "text": "I talked to Chris about rescuing Barry.  He thinks you might be able to help.",
         "topic": "TALK_ISHERWOOD_CHRIS_TALKED_TO_LISA",
         "condition": {
           "and": [ { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" }, { "math": [ "timer_chris_talked_to_lisa", ">=", "time('1 h')" ] } ]
         }
       },
       {
-        "text": "[chris tell about plan?  we get barry back need u.]",
+        "text": "I talked to Chris about rescuing Barry.  He thinks you might be able to help.",
         "topic": "TALK_ISHERWOOD_CHRIS_NOT_TALKED_TO_LISA",
         "condition": {
           "and": [ { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" }, { "math": [ "timer_chris_talked_to_lisa", "<", "time('1 h')" ] } ]
@@ -153,13 +153,13 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CHRIS_TALKED_TO_LISA",
-    "dynamic_line": "[yeah he did im in on it lets kick ass]",
+    "dynamic_line": "Yeah, Chris talked to me a minute ago.\"  She touches the shoulder strap on her rifle.  \"I can't believe he's not trying to talk me out of it, really, but I'd do anything to save Uncle Barry.  I'll be ready at the tower, when you need me.",
     "responses": [ { "text": "[sweet see u then]", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CHRIS_NOT_TALKED_TO_LISA",
-    "dynamic_line": "[no he didnt whats the plan]",
+    "dynamic_line": "He did?\"  She touches the shoulder strap on her rifle.  \"Like, action?  Yeah, I'm a pretty good shot, and I'd do anything to save Uncle Barry.  I'm surprised Chris didn't try to go all protective older brother on me.  What's the plan?\"  She listens intently as you explain.  \"All right.  I'll be ready at the tower when you need me.",
     "responses": [ { "text": "[que expalnation of plan. u want in?]", "topic": "TALK_ISHERWOOD_LISA_JOIN_RESCUE" } ]
   },
   {
