@@ -80,7 +80,7 @@ endif ()
 
 if ("${CMAKE_SYSTEM_NAME}" MATCHES "FreeBSD"
     OR "${CMAKE_SYSTEM_NAME}" MATCHES "NetBSD"
-    OR "${CMAKE_SYSTEM_NAME}" MATCHES "OpenBSD")l
+    OR "${CMAKE_SYSTEM_NAME}" MATCHES "OpenBSD")
     set(_OS_BSD_ 1)
 endif ()
 
