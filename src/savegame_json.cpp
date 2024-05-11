@@ -5184,7 +5184,7 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
             if( spawn_entry.has_more() ) {
                 spawn_entry.throw_error( "Too many values for spawn" );
             }
-            spawn_point tmp( type, count, p, faction_id, mission_id, friendly, name );
+            spawn_point tmp( type, count, p, faction_id, mission_id, friendly, *name );
             spawns.push_back( tmp );
         }
     } else if( member_name == "vehicles" ) {
