@@ -2,8 +2,7 @@ name: Cataclysm Windows build
 
 on:
   push:
-    branches:
-    - master
+    branches: [ 0.H-build ]
     paths-ignore:
     - 'android/**'
     - 'build-data/osx/**'
@@ -16,8 +15,7 @@ on:
     - '!tools/format/**'
     - 'utilities/**'
   pull_request:
-    branches:
-    - master
+    branches: [ 0.H-build ]
     paths-ignore:
     - 'android/**'
     - 'build-data/osx/**'
@@ -111,7 +109,7 @@ jobs:
         # double-dash after compiler is not a typo, it is to disambiguate between g++-<date> and g++-11-<date> for restore key prefix matching
         key: ccache-${{ github.ref_name }}-${{ runner.os }}-msvc--${{ steps.get-vars.outputs.datetime }}
         restore-keys: |
-          ccache-master-${{ runner.os }}-msvc--
+          ccache-0.H-build-${{ runner.os }}-msvc--
 
     - name: Configure ccache
       run: |
@@ -138,7 +136,7 @@ jobs:
         ${{ env.CDDA_CCACHE_PATH }}\ccache.exe -s -v
 
     - name: clear ccache on PRs
-      if: ${{ github.ref_name != 'master' }}
+      if: ${{ github.ref_name != '0.H-build' }}
       run: |
         ${{ env.CDDA_CCACHE_PATH }}\ccache.exe -C
 
@@ -162,20 +160,20 @@ jobs:
         }
 
     - name: Compile .mo files for localization
-      if: ${{ github.ref_name != 'master' }}
+      if: ${{ github.ref_name != '0.H-build' }}
       run: |
           & "C:\msys64\mingw64\bin\mingw32-make" -C lang -j2
           mkdir -p ./data/mods/TEST_DATA/lang/mo/ru/LC_MESSAGES -ErrorAction SilentlyContinue
           msgfmt -f -o ./data/mods/TEST_DATA/lang/mo/ru/LC_MESSAGES/TEST_DATA.mo ./data/mods/TEST_DATA/lang/po/ru.po
 
     - name: Enable GitHub Actions problem matchers
-      if: ${{ github.ref_name != 'master' }}
+      if: ${{ github.ref_name != '0.H-build' }}
       run: |
           Write-Output "::add-matcher::build-scripts/problem-matchers/catch2.json"
           Write-Output "::add-matcher::build-scripts/problem-matchers/debugmsg.json"
 
     - name: Run tests
-      if: ${{ github.ref_name != 'master' }}
+      if: ${{ github.ref_name != '0.H-build' }}
       run: |
           .\Cataclysm-test-vcpkg-static-Release-x64.exe --min-duration 20 --rng-seed time
 
@@ -196,7 +194,7 @@ jobs:
       shell: bash
 
     - name: Don't upload vcpkg cache on failure or PRs
-      if: ${{ failure() || cancelled() || github.ref_name != 'master' }}
+      if: ${{ failure() || cancelled() || github.ref_name != '0.H-build' }}
       run: |
         echo "RUNVCPKG_NO_CACHE=1" >> $GITHUB_ENV
       shell: bash
