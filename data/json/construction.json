@@ -6239,6 +6239,20 @@
   },
   {
     "type": "construction",
+    "id": "constr_extract_dirt_mound",
+    "group": "extract_dirt",
+    "//": "Step 1 : extract dirt",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "byproducts": [ { "item": "material_soil", "count": [ 100, 200 ] } ],
+    "pre_terrain": "t_dirtmoundfloor",
+    "post_terrain": "t_dirt",
+    "activity_level": "EXTRA_EXERCISE"
+  },
+  {
+    "type": "construction",
     "id": "constr_kiln_empty",
     "group": "build_charcoal_kiln",
     "category": "FURN",

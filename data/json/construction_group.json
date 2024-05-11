@@ -1006,6 +1006,11 @@
   },
   {
     "type": "construction_group",
+    "id": "extract_dirt",
+    "name": "Extract Dirt"
+  },
+  {
+    "type": "construction_group",
     "id": "extrude_resin_floor_and_roof",
     "name": "Extrude Resin Floor and Roof"
   },
