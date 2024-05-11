@@ -11,8 +11,6 @@
     "coverage": 100,
     "connect_groups": "WALL",
     "connects_to": "WALL",
-    "connect_groups": "WALL",
-    "connects_to": "WALL",
     "flags": [ "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ]
   },
   {
@@ -27,8 +25,6 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_obsidian_roof",
-    "connect_groups": "WALL",
-    "connects_to": "WALL",
     "connect_groups": "WALL",
     "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
@@ -48,11 +44,10 @@
     "description": "A relatively flat area of igneous rock.  Looks stable enough to be mined with the proper mining gear.",
     "symbol": ".",
     "color": "light_gray",
-    "connect_groups": "OBSIDIANFLOOR",
+    "connect_groups": [ "OBSIDIANFLOOR", "INDOORFLOOR" ],
     "connects_to": "OBSIDIANFLOOR",
     "move_cost": 2,
     "roof": "t_obsidian_roof",
-    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "INDOORS", "COLLAPSES", "SUPPORTS_ROOF", "FLAT", "ROAD" ],
     "bash": { "ter_set": "t_null", "str_min": 75, "str_max": 400, "str_min_supported": 100, "bash_below": true }
   },

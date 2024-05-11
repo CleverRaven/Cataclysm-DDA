@@ -48,8 +48,6 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_flat_roof",
-    "connect_groups": "WALL",
-    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "connect_groups": "WALL",
     "connects_to": "WALL"
