@@ -124,8 +124,8 @@
     "color": "red",
     "name": { "str": "demon chitin dog mesh harness", "str_pl": "demon chitin dog mesh harnesses" },
     "description": "A makeshift harness of demon chitin fitted to a thin mesh protecting the neck to flank of canines.  You could put this on a friendly dog.",
-    "price": 50000,
-    "price_postapoc": 5000,
+    "price": "500 USD",
+    "price_postapoc": "50 USD",
     "material": [ "demon_chitin" ],
     "weight": "4862 g",
     "environmental_protection": 8
@@ -137,12 +137,89 @@
     "color": "green",
     "name": { "str": "demon chitin horse armor" },
     "description": "A makeshift assembly of criniere, peytral and croupiere made from demon chitin fitted to a thin mesh.  You could put this on a friendly horse.",
-    "price": 120000,
-    "price_postapoc": 12000,
+    "price": "1 kUSD 200 USD",
+    "price_postapoc": "120 USD",
     "material": [ "demon_chitin", "steel" ],
     "weight": "31500 g",
     "volume": "150 L",
     "material_thickness": 6,
     "environmental_protection": 8
+  },
+  {
+    "id": "integrated_scaled_hands",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "talons" },
+    "description": "Your scales have grown to cover your hands and elongate the tips in to jagged claws that can be serviceable as cutting and piercing weapons in unarmed combat.",
+    "weight": "100 g",
+    "volume": "350 ml",
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 6 ] ],
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "black_dragon_scales" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "PADDED", "NO_SALVAGE" ],
+    "armor": [
+      {
+        "material": [ { "type": "black_dragon_scales", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "hand_l", "hand_r" ],
+        "coverage": 100,
+        "encumbrance": 5
+      }
+    ],
+    "melee_damage": { "cut": 5, "stab": 5 }
+  },
+  {
+    "id": "integrated_demon_claws",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "talons" },
+    "description": "Your index fingers have become talons.  They make for wicked natural daggers.  Unfortunately, they get in the way of everything including gloves.",
+    "weight": "100 g",
+    "volume": "350 ml",
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 12 ] ],
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "demon_chitin" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "PADDED", "NO_SALVAGE" ],
+    "armor": [
+      {
+        "material": [ { "type": "demon_chitin", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "coverage": 10,
+        "encumbrance": 3
+      }
+    ],
+    "melee_damage": { "cut": 10 }
+  },
+  {
+    "id": "integrated_dragon_talons_black",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "talons" },
+    "description": "All of your fingers have developed into huge scaled talons.  They prevent wearing gloves, but you can use them to powerful effect in melee combat and you appear to have uncovered some secrets about black dragons.",
+    "weight": "100 g",
+    "volume": "350 ml",
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 12 ] ],
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "black_dragon_scales" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "PADDED", "NO_SALVAGE" ],
+    "armor": [
+      {
+        "material": [ { "type": "black_dragon_scales", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "coverage": 100,
+        "encumbrance": 7
+      }
+    ],
+    "melee_damage": { "cut": 10, "stab": 10 }
   }
 ]

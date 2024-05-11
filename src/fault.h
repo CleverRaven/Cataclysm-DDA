@@ -2,21 +2,19 @@
 #ifndef CATA_SRC_FAULT_H
 #define CATA_SRC_FAULT_H
 
-#include <iosfwd>
 #include <list>
 #include <map>
-#include <new>
-#include <optional>
+#include <memory>
 #include <set>
 #include <string>
 
 #include "calendar.h"
 #include "memory_fast.h"
-#include "translations.h"
+#include "requirements.h"
+#include "translation.h"
 #include "type_id.h"
 
 class JsonObject;
-struct requirement_data;
 
 class fault_fix
 {

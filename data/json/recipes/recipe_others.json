@@ -477,15 +477,7 @@
     "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [
-      [
-        [ "jug_plastic", 1 ],
-        [ "bottle_plastic", 3 ],
-        [ "bottle_bathroom", 3 ],
-        [ "bottle_plastic_small", 6 ],
-        [ "aluminum_foil", 6 ]
-      ]
-    ]
+    "components": [ [ [ "plastic_bottles_4l", 1, "LIST" ], [ "bottle_bathroom", 3 ], [ "aluminum_foil", 6 ] ] ]
   },
   {
     "type": "recipe",
@@ -1177,7 +1169,7 @@
     "reversible": true,
     "book_learn": [ [ "fun_survival", 1 ], [ "manual_fabrication", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "can_drink", 2 ] ], [ [ "bottle_plastic", 1 ], [ "bottle_bathroom", 1 ] ] ]
+    "components": [ [ [ "can_drink", 2 ] ], [ [ "plastic_bottles_2l", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1703,7 +1695,7 @@
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "forge", 25 ] ]
     ],
-    "components": [ [ [ "glass_shard", 3 ], [ "bottle_glass", 1 ], [ "flask_glass", 3 ], [ "test_tube", 6 ], [ "marble", 75 ] ] ]
+    "components": [ [ [ "glass_shard", 3 ], [ "flask_glass", 3 ], [ "test_tube", 6 ], [ "marble", 75 ] ] ]
   },
   {
     "type": "recipe",
@@ -1850,10 +1842,7 @@
     "time": "10 m",
     "book_learn": [ [ "mag_survival", 2 ], [ "textbook_survival", 2 ], [ "survival_book", 1 ], [ "pocket_survival", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [
-      [ [ "jug_plastic", 2 ], [ "bottle_plastic", 10 ], [ "bottle_bathroom", 10 ], [ "bottle_plastic_small", 20 ] ],
-      [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ], [ "medical_tape", 25 ] ]
-    ]
+    "components": [ [ [ "plastic_bottles_4l", 2, "LIST" ] ], [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ], [ "medical_tape", 25 ] ] ]
   },
   {
     "type": "recipe",
@@ -3133,6 +3122,19 @@
     "autolearn": true,
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "propane_lantern", 1 ] ], [ [ "pilot_light", 1 ] ], [ [ "metal_tank_little", 1 ] ], [ [ "duct_tape", 50 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "biogas_cooker",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "1 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "propane_cooker", 1 ] ] ]
   },
   {
     "type": "recipe",

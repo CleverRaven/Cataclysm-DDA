@@ -15,7 +15,7 @@
     "type": "MIGRATION",
     "//": "remove after 0.I",
     "id": "afs_fridge",
-    "replace": "fridge"
+    "replace": "apartment_fridge"
   },
   {
     "type": "vehicle_part_migration",

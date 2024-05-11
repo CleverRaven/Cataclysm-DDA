@@ -104,7 +104,7 @@ if (TILES)
                 -w
                 )
 
-        add_definitions(-DIMGUI_DISABLE_OBSOLETE_KEYIO)
+        target_compile_definitions(imgui PUBLIC IMGUI_DISABLE_OBSOLETE_KEYIO)
 
         if (NOT DYNAMIC_LINKING)
             target_link_libraries(imgui PUBLIC
@@ -152,12 +152,28 @@ if (CURSES)
                 SYSTEM
                 PUBLIC
                 ${THIRD_PARTY_SOURCE_DIR}
+                ${CURSES_INCLUDE_DIR}
                 )
-
+        if (CURSES_NEED_WIDE)
+                target_include_directories(
+                        imtui
+                        SYSTEM
+                        PUBLIC
+                        ${CURSES_INCLUDE_DIR}/ncursesw
+                )
+        else ()
+                target_include_directories(
+                        imtui
+                        SYSTEM
+                        PUBLIC
+                        ${CURSES_INCLUDE_DIR}/ncurses
+                )
+        endif ()
         target_compile_options(
                 imtui
                 PRIVATE
                 -w
+                -DIMTUI
                 )
 
         target_link_libraries(

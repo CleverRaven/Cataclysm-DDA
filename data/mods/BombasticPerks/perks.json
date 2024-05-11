@@ -95,6 +95,18 @@
   },
   {
     "type": "mutation",
+    "id": "perk_sight_beyond_sight",
+    "name": { "str": "Sight Beyond Sight" },
+    "points": 0,
+    "description": "You have an instinctive sense for the uncanny and unearthy.  Activate this perk to close your eyes and become aware of nearby Nether creatures.",
+    "category": [ "perk" ],
+    "activated_is_setup": true,
+    "active": true,
+    "activated_eocs": [ "EOC_perk_sight_beyond_sight_ON" ],
+    "deactivated_eocs": [ "EOC_perk_sight_beyond_sight_ON" ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_holdout_pocket",
     "name": { "str": "Holdout Pocket" },
     "points": 0,
@@ -109,22 +121,7 @@
     "points": 0,
     "description": "You're like a walking tank!  Take 5% less damage from all sources.",
     "category": [ "perk" ],
-    "enchantments": [
-      {
-        "condition": "ALWAYS",
-        "values": [
-          { "value": "ARMOR_ACID", "multiply": -0.05 },
-          { "value": "ARMOR_BASH", "multiply": -0.05 },
-          { "value": "ARMOR_BIO", "multiply": -0.05 },
-          { "value": "ARMOR_BULLET", "multiply": -0.05 },
-          { "value": "ARMOR_COLD", "multiply": -0.05 },
-          { "value": "ARMOR_CUT", "multiply": -0.05 },
-          { "value": "ARMOR_ELEC", "multiply": -0.05 },
-          { "value": "ARMOR_HEAT", "multiply": -0.05 },
-          { "value": "ARMOR_STAB", "multiply": -0.05 }
-        ]
-      }
-    ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "ARMOR_ALL", "multiply": -0.05 } ] } ]
   },
   {
     "type": "mutation",
@@ -168,6 +165,14 @@
       { "part": "hand_r", "neutral": 12 },
       { "part": "torso", "neutral": 10 }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_bellringer",
+    "name": { "//~": " 'To have your bell rung' means to be hit on the head.", "str": "Bellringer" },
+    "points": 0,
+    "description": "You're very good at the follow-through when your enemies are reeling.  When in melee combat with an enemy that is dazed or stunned, you do +33% extra bash damage.",
+    "category": [ "perk" ]
   },
   {
     "type": "mutation",
@@ -219,9 +224,47 @@
     "id": "perk_vengeful",
     "name": { "str": "Vengeful" },
     "points": 0,
-    "description": "Oh, they're not getting away with THAT.\n\nYou do +15% damage for two turns after you're hit.",
+    "description": "Oh, they're not getting away with THAT.  You do +15% damage for two turns after you're hit.",
     "category": [ "perk" ],
     "enchantments": [ "perk_ench_vengeful" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_undying_loyalty",
+    "name": {
+      "//~": "This is a pun, based on undying literally meaning 'does not die' but also the figurative meaning of an emotion that lasts forever.",
+      "str": "Undying Loyalty"
+    },
+    "points": 0,
+    "description": "You inspire your allies to protect you when you're seriously injured.  If attacked when your head or torso health are at 50% or lower, all allies within 15 meters will take 20% reduced damage for one minute.  This effect can only trigger once every five minutes.",
+    "category": [ "perk" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_ghost_stealth",
+    "name": { "str": "Ghost" },
+    "points": 0,
+    "description": "You've gotten pretty good at sneaking up on people.  When you have no allies within 20 squares, enemies' vision detection range is reduced by 15%.",
+    "category": [ "perk" ],
+    "enchantments": [
+      {
+        "condition": { "math": [ "u_characters_nearby('radius': 20, 'attitude': 'allies')", "==", "0" ] },
+        "values": [ { "value": "STEALTH_MODIFIER", "add": 15 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_big_eater",
+    "name": { "str": "Big Eater" },
+    "points": 0,
+    "description": "You can really put it away.  You eat food 10% faster and can eat 33% more food at a time.",
+    "category": [ "perk" ],
+    "enchantments": [
+      {
+        "values": [ { "value": "CONSUME_TIME_MOD", "multiply": -0.1 }, { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 0.33 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -231,6 +274,17 @@
     "description": "At some point you got really good at falling off rooftops.  Take 40% less fall damage.",
     "category": [ "perk" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "FALL_DAMAGE", "multiply": -0.4 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_grit_your_teeth",
+    "name": { "str": "Grit Your Teeth" },
+    "points": 0,
+    "description": "When you have to you can wipe the blood off your chin, grit your teeth, and get it done.  Use to reduce your pain by 30 or half (whichever is greater) for 3 minutes.\n\nThe cooldown on this perk scales based on your pain at the time you used it.",
+    "category": [ "perk" ],
+    "active": true,
+    "activated_is_setup": false,
+    "activated_eocs": [ "EOC_PERK_GRIT_YOUR_TEETH" ]
   },
   {
     "type": "mutation",
@@ -289,6 +343,31 @@
   },
   {
     "type": "mutation",
+    "id": "perk_static_stockpile",
+    "name": { "str": "Static Stockpile" },
+    "points": 0,
+    "description": "You can't touch a door without zapping yourself.  Whenever there is a shocker or a robot within 15 squares, or you are outside during a storm, you gain 500J of bionic power per second and your melee attacks will do a small amount of extra electrical damage.",
+    "category": [ "perk" ],
+    "enchantments": [
+      {
+        "condition": {
+          "or": [
+            { "and": [ "u_is_outside", { "or": [ { "is_weather": "lightning" }, { "is_weather": "thunder" } ] } ] },
+            {
+              "math": [
+                "u_monsters_nearby('mon_zombie_brute_shocker', 'mon_zombie_electric', 'mon_skeleton_electric', 'mon_frog_shocker', 'mon_zombie_static', 'mon_amalgamation_zapper', 'mon_zombie_nullfield', 'mon_exodii_worker', 'mon_exodii_quad', 'mon_zomborg', 'mon_zomborg_devourer', 'mon_robofac_skittergun', 'mon_EMP_hack', 'mon_c4_hack', 'mon_flashbang_hack', 'mon_gasbomb_hack', 'mon_grenade_hack', 'mon_manhack', 'exodii_sniper_drone', 'mon_tazer_hack', 'mon_lab_security_drone_GM', 'mon_lab_security_drone_YM', 'mon_lab_security_drone_BM', 'mon_lab_security_drone_BM2', 'mon_lab_security_drone_GR', 'mon_lab_security_drone_BS', 'mon_secubot', 'mon_talon_m202a1', 'mon_secubot_america', 'mon_skitterbot', 'mon_science_bot', 'mon_robofac_prototype', 'mon_dispatch', 'mon_dispatch_military', 'radius': 15)",
+                ">",
+                "0"
+              ]
+            }
+          ]
+        },
+        "values": [ { "value": "POWER_TRICKLE", "add": 250000 }, { "value": "ITEM_DAMAGE_ELEC", "add": 3 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_jumpy",
     "name": { "str": "Jumpy" },
     "points": 0,
@@ -309,9 +388,25 @@
     "id": "perk_sleepy",
     "name": { "str": "Easy Sleeper" },
     "points": 0,
-    "description": "You've always been able to fall asleep within a few minutes of closing your eyes, no matter what else is going on around you.  You have a much easier time falling asleep.'",
+    "description": "You've always been able to fall asleep within a few minutes of closing your eyes, no matter what else is going on around you.  You have a much easier time falling asleep.",
     "category": [ "perk" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SLEEPY", "add": 15 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_early_to_rise",
+    "name": { "str": "Early to Rise" },
+    "points": 0,
+    "description": "That health, wealth, and wisdom is coming any day now.  When you wake up between 4 and 7 a.m., you gain a mood boost for that morning.",
+    "category": [ "perk" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_duck_and_weave",
+    "name": { "str": "Duck and Weave" },
+    "points": 0,
+    "description": "Run without rhythm.  After a short wind-up period, you gain 5 effective dodge and +1 bonus dodge attempt as long as you keep running.",
+    "category": [ "perk" ]
   },
   {
     "type": "mutation",
@@ -321,6 +416,56 @@
     "description": "No work, no social obligations, lots of time to focus on your hobbies.  You feel like you've been picking up skills faster recently.",
     "category": [ "perk" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "LEARNING_FOCUS", "add": 5.0 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_non_combatant",
+    "name": { "str": "Non-Combatant" },
+    "points": 0,
+    "description": "Hey, that's against the Geneva Convention!  When not wielding a weapon, or object that could be used as an improvised weapon, you take -25% reduced damage.",
+    "category": [ "perk" ],
+    "//": "u_has_weapon checks if you're wielding ANYTHNG, not a weapon specifically, hence the long condition below.",
+    "enchantments": [
+      {
+        "condition": {
+          "and": [
+            { "not": { "u_has_wielded_with_weapon_category": "AUTOMATIC_PISTOLS" } },
+            { "not": { "u_has_wielded_with_weapon_category": "SHIVS" } },
+            { "not": { "u_has_wielded_with_weapon_category": "QUARTERSTAVES" } },
+            { "not": { "u_has_wielded_with_weapon_category": "HOOKING_WEAPONRY" } },
+            { "not": { "u_has_wielded_with_weapon_category": "AUTOMATIC_RIFLES" } },
+            { "not": { "u_has_wielded_with_weapon_category": "KNIVES" } },
+            { "not": { "u_has_wielded_with_weapon_category": "MEDIUM_SWORDS" } },
+            { "not": { "u_has_wielded_with_weapon_category": "GREAT_HAMMERS" } },
+            { "not": { "u_has_wielded_with_weapon_category": "GREAT_AXES" } },
+            { "not": { "u_has_wielded_with_weapon_category": "MACES" } },
+            { "not": { "u_has_wielded_with_weapon_category": "SPEARS" } },
+            { "not": { "u_has_wielded_with_weapon_category": "FENCING_WEAPONRY" } },
+            { "not": { "u_has_wielded_with_weapon_category": "LONG_SWORDS" } },
+            { "not": { "u_has_wielded_with_weapon_category": "GREAT_SWORDS" } },
+            { "not": { "u_has_wielded_with_weapon_category": "BIONIC_WEAPONRY" } },
+            { "not": { "u_has_wielded_with_weapon_category": "SHORT_SWORDS" } },
+            { "not": { "u_has_wielded_with_weapon_category": "HAND_AXES" } },
+            { "not": { "u_has_wielded_with_weapon_category": "BATONS" } },
+            { "not": { "u_has_wielded_with_weapon_category": "FLAILS" } },
+            { "not": { "u_has_wielded_with_weapon_category": "POLEARMS" } },
+            { "not": { "u_has_wielded_with_weapon_category": "LONG_THRUSTING_SWORDS" } },
+            { "not": { "u_has_wielded_with_weapon_category": "BIONIC_SWORDS" } },
+            { "not": { "u_has_wielded_with_flag": "OLD_GUN" } },
+            { "not": { "u_has_wielded_with_flag": "NEVER_JAMS" } },
+            { "not": { "u_has_wielded_with_flag": "NON_FOULING" } },
+            { "not": { "u_has_wielded_with_flag": "RELOAD_AND_SHOOT" } },
+            { "not": { "u_has_wielded_with_flag": "RELOAD_EJECT" } },
+            { "not": { "u_has_wielded_with_flag": "RELOAD_ONE" } },
+            { "not": { "u_has_wielded_with_flag": "STR_DRAW" } },
+            { "not": { "u_has_wielded_with_flag": "DURABLE_MELEE" } },
+            { "not": { "u_has_wielded_with_flag": "BIONIC_WEAPON" } },
+            { "not": { "u_has_wielded_with_flag": "POLEARM" } }
+          ]
+        },
+        "values": [ { "value": "ARMOR_ALL", "multiply": -0.25 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -365,7 +510,7 @@
     "id": "perk_frakenstein",
     "name": { "str": "Playing God" },
     "points": 0,
-    "description": "You've been dissecting critters since high school.  Last night a voice gave you an idea for how to bring them back to life activate the perk to gain insight into the nature of life itself!",
+    "description": "You've been dissecting critters since high school.  Last night a voice gave you an idea for how to bring them back to life.  Activate the perk to gain insight into the nature of life itself!",
     "category": [ "perk" ],
     "active": true,
     "activated_eocs": [ "EOC_frankenstein_insight" ]
@@ -396,6 +541,28 @@
     "description": "You always ate your carrots, that good eyesight is paying off.  You can use ranged weapons effectively up to 4 more tiles away.",
     "category": [ "perk" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "RANGE", "add": 4 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_firstest_aid",
+    "name": { "str": "Firstest Aid" },
+    "points": 0,
+    "description": "It's called \"First Aid\", right, so obviously it's better the faster you apply it.  Your bandages are 50% better at stopping bleeding, but only if you apply them within 2 minutes of taking damage.",
+    "category": [ "perk" ],
+    "enchantments": [
+      {
+        "condition": { "u_has_effect": "effect_perk_firstest_aid" },
+        "values": [ { "value": "BLEED_STOP_BONUS", "multiply": 0.5 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_absit_invidia",
+    "name": { "str": "Absit Invidia" },
+    "points": 0,
+    "description": "Your Nana told you about the evil eye and how to protect yourself when you were a small child.  You don't remember her telling you the evil eye was giant, disembodied, and on fire, but some of the things she taught you work all the same.  You are immune to the Tainted Mind effect as long as you're wearing a holy symbol necklace, and can use some salt to remove it if you do acquire it.",
+    "category": [ "perk" ]
   },
   {
     "type": "mutation",
@@ -577,6 +744,30 @@
   },
   {
     "type": "mutation",
+    "id": "perk_moonstruck",
+    "name": { "str": "Moonstruck" },
+    "points": 0,
+    "description": "You've always been greatly affected by the phases of the moon.  During a full moon, you gain a +3 bonus to all stats.  During a waxing moon, you gain a +1 bonus to all stats, and during a new moon, you suffer a -2 penalty to all stats.",
+    "category": [ "perk" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_nocturnal",
+    "name": { "str": "Nocturnal" },
+    "points": 0,
+    "description": "Darkness is your ally.  Others have merely adopted the dark, but you were born in it, molded by it.  You gain +2 Perception and +1 Intelligence at night, and have a much easier time sleeping during the day.  However, you also suffer -2 Perception when outdoors during the day and have a harder time sleeping at night.",
+    "category": [ "perk" ],
+    "enchantments": [
+      {
+        "condition": { "not": "is_day" },
+        "values": [ { "value": "PERCEPTION", "add": 2 }, { "value": "INTELLIGENCE", "add": 1 }, { "value": "SLEEPY", "add": -30 } ]
+      },
+      { "condition": "is_day", "values": [ { "value": "SLEEPY", "add": 50 } ] },
+      { "condition": { "and": [ "is_day", "u_is_outside" ] }, "values": [ { "value": "PERCEPTION", "add": -2 } ] }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_ascetic_empowerment",
     "name": { "str": "Ascetic Empowerment" },
     "points": 0,
@@ -586,10 +777,10 @@
       {
         "condition": "ALWAYS",
         "values": [
-          { "value": "STRENGTH", "add": { "math": [ "(u_val('thirst')/120) + (u_val('fatigue')/150)" ] } },
-          { "value": "DEXTERITY", "add": { "math": [ "(u_val('thirst')/120) + (u_val('fatigue')/150)" ] } },
-          { "value": "INTELLIGENCE", "add": { "math": [ "(u_val('thirst')/120) + (u_val('fatigue')/150)" ] } },
-          { "value": "PERCEPTION", "add": { "math": [ "(u_val('thirst')/120) + (u_val('fatigue')/150)" ] } },
+          { "value": "STRENGTH", "add": { "math": [ "(u_val('thirst')/120) + (u_val('sleepiness')/150)" ] } },
+          { "value": "DEXTERITY", "add": { "math": [ "(u_val('thirst')/120) + (u_val('sleepiness')/150)" ] } },
+          { "value": "INTELLIGENCE", "add": { "math": [ "(u_val('thirst')/120) + (u_val('sleepiness')/150)" ] } },
+          { "value": "PERCEPTION", "add": { "math": [ "(u_val('thirst')/120) + (u_val('sleepiness')/150)" ] } },
           { "value": "SPEED", "add": { "math": [ "clamp(( (u_val('thirst') - 80 ) / 10 ) , 0, 50)" ] } }
         ]
       },
@@ -630,5 +821,53 @@
         ]
       }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_portal_storm_mutator_bird",
+    "name": { "str": "Stormwrought: Bird" },
+    "points": 0,
+    "description": "Exposure to portal storms and related phenomena causes your body change along predictable lines.  When out in a portal storm without any protection, you periodically have a chance to mutate.",
+    "category": [ "perk" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_portal_storm_mutator_feline",
+    "name": { "str": "Stormwrought: Feline" },
+    "points": 0,
+    "description": "Exposure to portal storms and related phenomena causes your body change along predictable lines.  When out in a portal storm without any protection, you periodically have a chance to mutate.",
+    "category": [ "perk" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_portal_storm_mutator_insect",
+    "name": { "str": "Stormwrought: Insect" },
+    "points": 0,
+    "description": "Exposure to portal storms and related phenomena causes your body change along predictable lines.  When out in a portal storm without any protection, you periodically have a chance to mutate.",
+    "category": [ "perk" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_portal_storm_mutator_lupine",
+    "name": { "str": "Stormwrought: Lupine" },
+    "points": 0,
+    "description": "Exposure to portal storms and related phenomena causes your body change along predictable lines.  When out in a portal storm without any protection, you periodically have a chance to mutate.",
+    "category": [ "perk" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_portal_storm_mutator_plant",
+    "name": { "str": "Stormwrought: Plant" },
+    "points": 0,
+    "description": "Exposure to portal storms and related phenomena causes your body change along predictable lines.  When out in a portal storm without any protection, you periodically have a chance to mutate.",
+    "category": [ "perk" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_portal_storm_mutator_spider",
+    "name": { "str": "Stormwrought: Spider" },
+    "points": 0,
+    "description": "Exposure to portal storms and related phenomena causes your body change along predictable lines.  When out in a portal storm without any protection, you periodically have a chance to mutate.",
+    "category": [ "perk" ]
   }
 ]

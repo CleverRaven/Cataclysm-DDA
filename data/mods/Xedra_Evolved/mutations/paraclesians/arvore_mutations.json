@@ -949,7 +949,7 @@
         "values": [
           { "value": "ATTACK_SPEED", "multiply": 900 },
           { "value": "METABOLISM", "multiply": -0.5 },
-          { "value": "FATIGUE_REGEN", "multiply": 0.5 },
+          { "value": "SLEEPINESS_REGEN", "multiply": 0.5 },
           { "value": "MENDING_MODIFIER", "multiply": 15 },
           { "value": "REGEN_HP", "multiply": 1.5 },
           { "value": "REGEN_HP_AWAKE", "multiply": 0.8 }

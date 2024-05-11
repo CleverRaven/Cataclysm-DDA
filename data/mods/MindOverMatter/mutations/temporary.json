@@ -312,7 +312,7 @@
     "name": { "str": "Elixir PK Surge (active)" },
     "copy-from": "TELELIXIRDOWN",
     "description": "You are lashing out with your elixir-forged telekinetic powers.",
-    "fatigue": true,
+    "sleepiness": true,
     "cost": 1,
     "time": "1 m",
     "activated_eocs": [ "EOC_TELELIXIR_CAST" ],

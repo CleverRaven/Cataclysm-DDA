@@ -41,6 +41,7 @@
 #include "rng.h"
 #include "text_snippets.h"
 #include "translations.h"
+#include "uistate.h"
 #include "units.h"
 
 static const activity_id ACT_PULL_CREATURE( "ACT_PULL_CREATURE" );
@@ -177,8 +178,9 @@ int Character::get_instability_per_category( const mutation_category_id &categ )
     bool robust = has_trait( trait_ROBUST );
     // For each and every trait we have...
     for( const trait_id &mut : get_mutations() ) {
-        // only count muts that have 0 or more points, aren't a threshold, are valid, and aren't a base trait.
-        if( mut.obj().points > -1 && !mut.obj().threshold && mut.obj().valid && !has_base_trait( mut ) ) {
+        // only count muts that have 0 or more points, aren't a threshold, have a category, and aren't a base trait.
+        if( mut.obj().points > -1 && !mut.obj().threshold && !mut.obj().category.empty() &&
+            !has_base_trait( mut ) ) {
             bool in_categ = false;
             // If among all allowed categories the mutation has, the input category is one of them.
             for( const mutation_category_id &Ch_cat : mut.obj().category ) {
@@ -334,9 +336,9 @@ bool Character::can_power_mutation( const trait_id &mut ) const
 {
     bool hunger = mut->hunger && get_kcal_percent() < 0.5f;
     bool thirst = mut->thirst && get_thirst() >= 260;
-    bool fatigue = mut->fatigue && get_fatigue() >= fatigue_levels::EXHAUSTED;
+    bool sleepiness = mut->sleepiness && get_sleepiness() >= sleepiness_levels::EXHAUSTED;
 
-    return !hunger && !fatigue && !thirst;
+    return !hunger && !sleepiness && !thirst;
 }
 
 void Character::mutation_reflex_trigger( const trait_id &mut )
@@ -740,7 +742,7 @@ void Character::activate_mutation( const trait_id &mut )
     trait_data &tdata = my_mutations[mut];
     int cost = mdata.cost;
     // You can take yourself halfway to Near Death levels of hunger/thirst.
-    // Fatigue can go to Exhausted.
+    // Sleepiness can go to Exhausted.
     if( !can_power_mutation( mut ) ) {
         // Insufficient Foo to *maintain* operation is handled in player::suffer
         add_msg_if_player( m_warning, _( "You feel like using your %s would kill you!" ),
@@ -762,8 +764,8 @@ void Character::activate_mutation( const trait_id &mut )
         if( mdata.thirst ) {
             mod_thirst( cost );
         }
-        if( mdata.fatigue ) {
-            mod_fatigue( cost );
+        if( mdata.sleepiness ) {
+            mod_sleepiness( cost );
         }
         tdata.powered = true;
         recalc_sight_limits();
@@ -1635,6 +1637,19 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
             add_msg_debug( debugmode::DF_MUTATION, "mutate_towards: necessary threshold %s found",
                            threshreq[i].c_str() );
             c_has_threshreq = true;
+        }
+        for( const trait_id &subst : threshreq[i]->threshold_substitutes ) {
+            if( has_trait( subst ) ) {
+                add_msg_debug( debugmode::DF_MUTATION, "mutate_towards: substitute threshold %s found",
+                               subst.c_str() );
+                if( mdata.strict_threshreq ) {
+                    add_msg_debug( debugmode::DF_MUTATION,
+                                   "mutate_towards: …but no threshold substitutions allowed for trait %s",
+                                   subst.c_str(), mdata.name() );
+                    continue;
+                }
+                c_has_threshreq = true;
+            }
         }
     }
 

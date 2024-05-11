@@ -74,7 +74,7 @@
       },
       { "run_eocs": [ "EOC_PERENNIAL_REBIRTH_HEAL" ] },
       { "u_add_effect": "effect_salamander_prevented_death", "duration": 1209600 },
-      { "math": [ "u_val('stored_kcal')", "+=", "40000" ] }
+      { "math": [ "u_calories()", "+=", "40000" ] }
     ],
     "false_effect": {
       "run_eocs": [
@@ -94,7 +94,7 @@
               "popup": true
             },
             { "run_eocs": [ "EOC_PERENNIAL_REBIRTH_HEAL" ] },
-            { "math": [ "u_val('stored_kcal')", "+=", "40000" ] }
+            { "math": [ "u_calories()", "+=", "40000" ] }
           ]
         }
       ]
@@ -103,7 +103,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SALAMANDER_NO_SLEEP",
-    "effect": [ { "math": [ "u_val('fatigue')", "=", "0" ] }, { "math": [ "u_val('sleep_deprivation')", "=", "0" ] } ]
+    "effect": [ { "math": [ "u_val('sleepiness')", "=", "0" ] }, { "math": [ "u_val('sleep_deprivation')", "=", "0" ] } ]
   },
   {
     "type": "effect_on_condition",

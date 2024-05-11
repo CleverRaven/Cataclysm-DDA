@@ -522,6 +522,21 @@
   },
   {
     "type": "ascii_art",
+    "id": "bottle_plastic_seasoning",
+    "picture": [
+      "<color_red>.-'''''-.</color>",
+      "<color_red>|'-----'|</color>",
+      "<color_red>|-.....-|</color>",
+      "|       |",
+      "|       |",
+      "|       |",
+      "|       |",
+      "|       |",
+      "`'-----'`"
+    ]
+  },
+  {
+    "type": "ascii_art",
     "id": "bowl_clay",
     "picture": [
       "<color_brown>.────────.",
@@ -2143,6 +2158,15 @@
     "id": "condom_flavored_jalapeno",
     "picture": [
       "<color_light_green>╔↔↔↔╗",
+      "║( )║",
+      "╚↔↔↔╝"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "condom_sealed",
+    "picture": [
+      "<color_dark_gray>╔↔↔↔╗",
       "║( )║",
       "╚↔↔↔╝"
     ]

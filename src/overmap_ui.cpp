@@ -1168,7 +1168,7 @@ static void draw_om_sidebar(
 
     if( has_target ) {
         const int distance = rl_dist( center, target );
-        mvwprintz( wbar, point( 1, ++lines ), c_white, _( "Distance to active mission:" ) );
+        mvwprintz( wbar, point( 1, ++lines ), c_white, _( "Distance to current objective:" ) );
         mvwprintz( wbar, point( 1, ++lines ), c_white, _( "%d tiles" ), distance );
 
         const int above_below = target.z() - orig.z();
@@ -2136,7 +2136,7 @@ void ui::omap::setup_cities_menu( uilist &cities_menu, std::vector<city> &cities
         cities_menu.desc_enabled = true;
         cities_menu.title = _( "Select a starting city" );
         for( const city &c : cities_container ) {
-            uilist_entry entry( c.database_id, true, -1, c.name,
+            uilist_entry entry( c.database_id, true, -1, string_format( _( "%s (size: %d)" ), c.name, c.size ),
                                 string_format(
                                     _( "Location: <color_white>%s</color>:<color_white>%s</color>" ),
                                     c.pos_om.to_string(), c.pos.to_string() ),

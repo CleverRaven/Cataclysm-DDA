@@ -3,22 +3,23 @@
 #include <algorithm>
 #include <climits>
 #include <cstdlib>
-#include <functional>
+#include <list>
 #include <map>
 #include <memory>
 #include <ostream>
 #include <set>
 #include <string>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
 #include "action.h"
 #include "activity_actor_definitions.h"
 #include "avatar.h"
-#include "bodypart.h"
-#include "cached_options.h"
+#include "body_part_set.h"
 #include "calendar.h"
 #include "character.h"
+#include "color.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "debug.h"
@@ -28,16 +29,18 @@
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
+#include "gun_mode.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "line.h"
+#include "magic_enchantment.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "math_defines.h"
-#include "memory_fast.h"
 #include "messages.h"
 #include "monster.h"
 #include "move_mode.h"
@@ -53,12 +56,10 @@
 #include "rng.h"
 #include "translations.h"
 #include "type_id.h"
-#include "value_ptr.h"
+#include "ui.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-
-class gun_mode;
 
 static const efftype_id effect_amigara( "amigara" );
 static const efftype_id effect_glowing( "glowing" );
@@ -71,6 +72,8 @@ static const efftype_id effect_psi_stunned( "psi_stunned" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_winded( "winded" );
+
+static const furn_str_id furn_f_safe_c( "f_safe_c" );
 
 static const itype_id itype_swim_fins( "swim_fins" );
 
@@ -523,7 +526,8 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         return true;
     }
 
-    if( m.furn( dest_loc ) != f_safe_c && m.open_door( you, dest_loc, !m.is_outside( you.pos() ) ) ) {
+    if( m.furn( dest_loc ) != furn_f_safe_c &&
+        m.open_door( you, dest_loc, !m.is_outside( you.pos() ) ) ) {
         you.mod_moves( -you.get_speed() );
         if( veh1 != nullptr ) {
             //~ %1$s - vehicle name, %2$s - part name
@@ -901,7 +905,7 @@ bool avatar_action::eat_here( avatar &you )
             add_msg( _( "You're too full to eat the %s." ), here.ter( you.pos() )->name() );
             return true;
         } else {
-            here.furn_set( you.pos(), f_null );
+            here.furn_set( you.pos(), furn_str_id::NULL_ID() );
             item food( "small_plant", calendar::turn, 1 );
             you.assign_activity( consume_activity_actor( food ) );
             return true;

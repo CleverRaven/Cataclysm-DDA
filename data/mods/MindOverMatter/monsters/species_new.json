@@ -7,6 +7,12 @@
   },
   {
     "type": "SPECIES",
+    "id": "TELEKIN_PUSHPULL_NULL",
+    "description": "a being immune to being thrown telekinetically",
+    "//": "This is an extra species to attach to any monster that is supposed to be immune to telekinetic push or pull.  Immunity to telekinetic damage is handled by flags."
+  },
+  {
+    "type": "SPECIES",
     "id": "YRAX_CONSTRUCT",
     "description": "a robot, maybe, but one far more advanced than anything Earth could dream of producing"
   }

@@ -79,8 +79,8 @@
     "base_mods": {
       "thirst_tick": [ 580 ],
       "thirst_min": [ 1 ],
-      "fatigue_tick": [ 300 ],
-      "fatigue_min": [ 1 ],
+      "sleepiness_tick": [ 300 ],
+      "sleepiness_min": [ 1 ],
       "str_mod": [ -2, -1 ],
       "dex_mod": [ -1, 0 ],
       "per_mod": [ -1, 0 ],
@@ -432,9 +432,9 @@
       "stamina_min": [ -100 ],
       "stamina_max": [ -200 ],
       "stamina_chance": [ 9000 ],
-      "fatigue_min": [ 10 ],
-      "fatigue_max": [ 20 ],
-      "fatigue_chance": [ 9000 ],
+      "sleepiness_min": [ 10 ],
+      "sleepiness_max": [ 20 ],
+      "sleepiness_chance": [ 9000 ],
       "h_mod_min": [ -1 ],
       "h_mod_min_val": [ 0 ],
       "h_mod_chance": [ 9000 ]
@@ -442,9 +442,9 @@
     "scaling_mods": {
       "str_mod": [ -2 ],
       "stamina_max": [ -500 ],
-      "fatigue_max": [ 20 ],
+      "sleepiness_max": [ 20 ],
       "stamina_chance": [ -300 ],
-      "fatigue_chance": [ -300 ],
+      "sleepiness_chance": [ -300 ],
       "h_mod_min": [ -1 ],
       "h_mod_min_val": [ -50 ],
       "h_mod_chance": [ -200 ]
@@ -710,9 +710,9 @@
       "per_mod": [ -2 ],
       "health_chance": [ 20 ],
       "health_tick": [ 30 ],
-      "fatigue_tick": [ 30 ],
-      "fatigue_chance": [ 20 ],
-      "fatigue_min": [ 1 ]
+      "sleepiness_tick": [ 30 ],
+      "sleepiness_chance": [ 20 ],
+      "sleepiness_min": [ 1 ]
     },
     "scaling_mods": {
       "hit_mod": [ -0.5 ],
@@ -722,8 +722,8 @@
       "per_mod": [ -0.6 ],
       "health_chance": [ -3 ],
       "health_tick": [ -5 ],
-      "fatigue_chance": [ -3 ],
-      "fatigue_tick": [ -5 ]
+      "sleepiness_chance": [ -3 ],
+      "sleepiness_tick": [ -5 ]
     }
   },
   {
@@ -946,6 +946,27 @@
     "remove_message": "Nearby enemies twitch and start turning towards you.",
     "rating": "good",
     "enchantments": [ { "values": [ { "value": "STEALTH_MODIFIER", "add": 50 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_homullus_add_learning_focus",
+    "name": [ "Scholar's Regard" ],
+    "desc": [ "It's time for a study session" ],
+    "apply_message": "",
+    "remove_message": "You were just on the cusp of something as your enhanced focus fades.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "LEARNING_FOCUS",
+            "add": {
+              "math": [ "( ( u_spell_level('homullus_add_learning_focus_spell') * 1.5 ) + 5 ) * scaling_factor(u_val('intelligence') )" ]
+            }
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_type",

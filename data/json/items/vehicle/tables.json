@@ -13,8 +13,8 @@
     "volume": "13500 ml",
     "longest_side": "110 cm",
     "category": "veh_parts",
-    "price": 20000,
-    "price_postapoc": 100,
+    "price": "200 USD",
+    "price_postapoc": "1 USD",
     "melee_damage": { "bash": 6 }
   },
   {
@@ -46,8 +46,8 @@
     "description": "A sturdy metal workbench, perfect for crafting large and heavy things.  It also has a built-in battery charger for your phone.",
     "weight": "20370 g",
     "flags": [ "TRADER_AVOID" ],
-    "price": 40000,
-    "price_postapoc": 100,
+    "price": "400 USD",
+    "price_postapoc": "1 USD",
     "copy-from": "workbench"
   }
 ]

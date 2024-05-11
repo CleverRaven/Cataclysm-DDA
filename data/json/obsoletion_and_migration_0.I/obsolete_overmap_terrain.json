@@ -55,6 +55,11 @@
   },
   {
     "type": "oter_id_migration",
+    "//": "migrated in 0.I",
+    "oter_ids": { "city_center": "road_nesw_manhole" }
+  },
+  {
+    "type": "oter_id_migration",
     "//": "obsoleted in 0.G, but no migration in 0.G so to be removed after 0.I stable",
     "oter_ids": {
       "apartments_con_tower_001_east": "omt_obsolete",
@@ -182,6 +187,11 @@
       "cabin_liam_driveway": "rural_road_forest_ns",
       "cabin_liam_driveway_north": "rural_road_forest_ns"
     }
+  },
+  {
+    "type": "oter_id_migration",
+    "//": "migrated in 0.I, were stopped from spawning in 2019 but never obsoleted/migrated so just adding this to be safe",
+    "oter_ids": { "hellmouth": "empty_rock", "rift": "empty_rock" }
   },
   {
     "type": "oter_id_migration",

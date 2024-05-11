@@ -3,9 +3,7 @@
     "id": "TALK_FREE_MERCHANTS_MERCHANT",
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_var": "u_met_Gavin",
-      "type": "general",
-      "context": "meeting",
+      "u_has_var": "general_meeting_u_met_Gavin",
       "value": "yes",
       "yes": [ "Welcome back.", "Hello again.  What do you need?", "*looks up.  \"Hey.\"" ],
       "no": "*waves you over.  \"I haven't seen you before.  Welcome to our little homely house.\""
@@ -14,29 +12,40 @@
       {
         "text": "Who are you?  This is a refugee center, right?",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_Intro",
-        "condition": { "not": { "u_has_var": "u_met_Gavin", "type": "general", "context": "meeting", "value": "yes" } },
-        "effect": { "u_add_var": "u_met_Gavin", "type": "general", "context": "meeting", "value": "yes" }
+        "condition": { "not": { "u_has_var": "general_meeting_u_met_Gavin", "value": "yes" } },
+        "effect": { "u_add_var": "general_meeting_u_met_Gavin", "value": "yes" }
+      },
+      {
+        "text": "I'm looking for a specific, strange building.  I wonder if you've heard anything about it, maybe from some of the traders coming through?",
+        "topic": "TALK_EVAC_MERCHANT_EXODII_MISSION_WAREHOUSE",
+        "condition": {
+          "and": [
+            { "u_has_mission": "EXODII_MISSION_WAREHOUSE" },
+            { "not": { "npc_has_var": "asked_about_exodii_warehouse_mission", "value": "yes" } }
+          ]
+        },
+        "effect": { "run_eocs": [ "EOC_exodii_mission_wh_directions_chance" ] }
       },
       {
         "text": "Just passing through, don't mind me.",
         "topic": "TALK_DONE",
-        "condition": { "not": { "u_has_var": "u_met_Gavin", "type": "general", "context": "meeting", "value": "yes" } }
+        "condition": { "not": { "u_has_var": "general_meeting_u_met_Gavin", "value": "yes" } }
       },
       {
         "text": "I wanted to talk.",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk",
-        "condition": { "u_has_var": "u_met_Gavin", "type": "general", "context": "meeting", "value": "yes" }
+        "condition": { "u_has_var": "general_meeting_u_met_Gavin", "value": "yes" }
       },
       {
         "text": "Let's trade.",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_DoneTrading",
-        "condition": { "u_has_var": "u_met_Gavin", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "u_has_var": "general_meeting_u_met_Gavin", "value": "yes" },
         "effect": "start_trade"
       },
       {
         "text": "Just saying hello.  Keep safe.",
         "topic": "TALK_DONE",
-        "condition": { "u_has_var": "u_met_Gavin", "type": "general", "context": "meeting", "value": "yes" }
+        "condition": { "u_has_var": "general_meeting_u_met_Gavin", "value": "yes" }
       }
     ]
   },
@@ -66,7 +75,16 @@
   {
     "id": "TALK_FREE_MERCHANTS_MERCHANT_Intro",
     "type": "talk_topic",
-    "dynamic_line": "Before you ask, we're full.  You're right about the refugee part, but we're way over capacity right now.  We don't have the food or space to take on anyone else.\"  He softens a little.  \"As for me, I do a lot of things here, but mostly I keep tabs on our supplies.  You can call me Smokes, or Gavin; whichever you prefer.  I also trade with people from outside, like you.  If you're in the market for hardware, we're selling, and if you have food, we are very much buying.  Anyways, uh, what can I do for you?",
+    "dynamic_line": {
+      "concatenate": [
+        "Before you ask, we're full.  You're right about the refugee part, but we're way over capacity right now.  We don't have the food or space to take on anyone else.\"  He softens a little.  \"As for me, I do a lot of things here, but mostly I keep tabs on our supplies.  You can call me Smokes, or Gavin; whichever you prefer.  I also trade with people from outside, like you.  If you're in the market for hardware, we're selling, and if you have food, we are very much buying.  Anyways, uh, what can I do for you",
+        {
+          "follower_present": "NC_STARTINGNPC_LIAM",
+          "yes": "?\"\n\nLiam looks around at the crowded room, speaking in a soft voice for just your ears.  \"Can't honestly believe people are trying to crowd in here.  They're all so scared, this is a death trap.",
+          "no": "?"
+        }
+      ]
+    },
     "speaker_effect": [
       {
         "sentinel": "has_onetime_greeting_effect",
@@ -95,9 +113,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            {
-              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
-            }
+            { "not": { "npc_has_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" } }
           ]
         },
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_BorisCleanup"
@@ -118,18 +134,18 @@
       { "text": "You mentioned you were selling hardware?", "topic": "TALK_FREE_MERCHANTS_MERCHANT_SellingHardware" },
       {
         "text": "What's with these people in the lobby?  Are they with you?",
-        "condition": { "not": { "u_has_var": "beggars_recruited", "type": "general", "context": "recruit", "value": "yes" } },
+        "condition": { "not": { "u_has_var": "general_recruit_beggars_recruited", "value": "yes" } },
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_Beggars"
       },
       {
         "text": "I took care of your beggar problem.",
         "condition": {
           "and": [
-            { "u_has_var": "beggars_recruited", "type": "general", "context": "recruit", "value": "yes" },
-            { "npc_has_var": "beggars_reward_agreed", "type": "general", "context": "recruit", "value": "yes" }
+            { "u_has_var": "general_recruit_beggars_recruited", "value": "yes" },
+            { "npc_has_var": "general_recruit_beggars_reward_agreed", "value": "yes" }
           ]
         },
-        "effect": { "npc_lose_var": "beggars_reward_agreed", "type": "general", "context": "recruit" },
+        "effect": { "npc_lose_var": "general_recruit_beggars_reward_agreed" },
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_BeggarsRecruited"
       },
       { "text": "Who's in charge here?", "topic": "TALK_FREE_MERCHANTS_MERCHANT_WhosInCharge" },
@@ -138,7 +154,7 @@
         "text": "What's with these 'Free Merchant certified notes'?",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_AboutMerch",
         "condition": { "u_has_item": "FMCNote" },
-        "effect": { "u_add_var": "u_knows_about_merch", "type": "general", "context": "free_merchants", "value": "yes" }
+        "effect": { "u_add_var": "general_free_merchants_u_knows_about_merch", "value": "yes" }
       },
       { "text": "What's your story?", "topic": "TALK_FREE_MERCHANTS_MERCHANT_AboutMe" },
       {
@@ -184,7 +200,7 @@
         "text": "[Social 1] If I could look into clearing them out of here, would you be able to pay me back?",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_Beggars_Reward",
         "condition": { "math": [ "u_skill('speech')", ">=", "1" ] },
-        "effect": { "npc_add_var": "beggars_reward_agreed", "type": "general", "context": "recruit", "value": "yes" }
+        "effect": { "npc_add_var": "general_recruit_beggars_reward_agreed", "value": "yes" }
       },
       { "text": "Why haven't they gone anywhere else?", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Beggars2" },
       {
@@ -197,7 +213,16 @@
   {
     "id": "TALK_FREE_MERCHANTS_MERCHANT_Beggars2",
     "type": "talk_topic",
-    "dynamic_line": "I don't know, why don't you ask them?  I haven't pried, but where else do they have to go?  You've seen how bad it is out there.  We don't have the space for them, but it won't kill us to give them some shelter as long as they aren't too much of a drain on resources."
+    "dynamic_line": {
+      "concatenate": [
+        "I don't know, why don't you ask them?  I haven't pried, but where else do they have to go?  You've seen how bad it is out there.  We don't have the space for them, but it won't kill us to give them some shelter as long as they aren't too much of a drain on resources",
+        {
+          "follower_present": "NC_STARTINGNPC_LIAM",
+          "yes": ".\"\n\n\"Don't you guys have, like, scavengers and things?\"  Liam sounds like he's trying not to get irritated with Smokes.  \"Can't these guys help out in some way in exchange for food?  It seems insane to just keep them sitting in your entry way.\"\n\nSmokes gives him a long-suffering look.  \"Like I said, ask them.  We can't take them in, though.  It's not just them.  We've had to turn away dozens of people, if we started making exceptions we'd be dead meat.  These guys are just the ones who didn't try their luck out there, they've got their reasons I guess.  I don't like this any more than you do.",
+          "no": "."
+        }
+      ]
+    }
   },
   {
     "id": "TALK_FREE_MERCHANTS_MERCHANT_Beggars3",
@@ -207,12 +232,21 @@
   {
     "id": "TALK_FREE_MERCHANTS_MERCHANT_Beggars_Reward",
     "type": "talk_topic",
-    "dynamic_line": "We don't have a lot to share, but… well, I guess it's not safe for them.  At best, it's a health hazard waiting to happen.  We could pay you in merch if you can clear them out without anyone getting hurt, yeah.",
+    "dynamic_line": {
+      "concatenate": [
+        "And so we did.\"  Smokes reaches under their table, counts out some money, and slides it through a slot in the glass.  \"Here's five merch a head for the folks you found a new home for.  We won't forget it",
+        {
+          "follower_present": "NC_BEGGAR_3",
+          "yes": ".\"\n\nLuo puts her hands on her hips.  \"You're getting *paid* for… ah, fuck it.  I should be pissed, but honestly I'm so glad to be out of this place, I can't even be mad.  That's really saying something, coming from me.",
+          "no": "."
+        }
+      ]
+    },
     "responses": [
       {
         "text": "I'll see what I can do.  What's merch?",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_AboutMerch",
-        "condition": { "not": { "u_has_var": "u_knows_about_merch", "type": "general", "context": "free_merchants", "value": "yes" } }
+        "condition": { "not": { "u_has_var": "general_free_merchants_u_knows_about_merch", "value": "yes" } }
       },
       { "text": "No guarantees, but I'll see what I can do.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" }
     ]
@@ -248,12 +282,8 @@
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_Robofac",
         "condition": {
           "and": [
-            {
-              "not": { "u_has_var": "u_hub01_breadcrumb_accepted", "type": "general", "context": "free_merchants", "value": "yes" }
-            },
-            {
-              "not": { "u_has_var": "completed_robofac_intercom_2", "type": "dialogue", "context": "intercom", "value": "yes" }
-            }
+            { "not": { "u_has_var": "general_free_merchants_u_hub01_breadcrumb_accepted", "value": "yes" } },
+            { "not": { "u_has_var": "dialogue_intercom_completed_robofac_intercom_2", "value": "yes" } }
           ]
         }
       },
@@ -262,8 +292,8 @@
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_OutsideWorld2",
         "condition": {
           "or": [
-            { "u_has_var": "u_hub01_breadcrumb_accepted", "type": "general", "context": "free_merchants", "value": "yes" },
-            { "u_has_var": "completed_robofac_intercom_2", "type": "dialogue", "context": "intercom", "value": "yes" }
+            { "u_has_var": "general_free_merchants_u_hub01_breadcrumb_accepted", "value": "yes" },
+            { "u_has_var": "dialogue_intercom_completed_robofac_intercom_2", "value": "yes" }
           ]
         }
       },
@@ -278,8 +308,8 @@
       {
         "text": "Wait, basement?  I didn't know this place had a basement.",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_Basement",
-        "condition": { "not": { "u_has_var": "u_knows_about_basement", "type": "general", "context": "free_merchants", "value": "yes" } },
-        "effect": { "u_add_var": "u_knows_about_basement", "type": "general", "context": "free_merchants", "value": "yes" }
+        "condition": { "not": { "u_has_var": "general_free_merchants_u_knows_about_basement", "value": "yes" } },
+        "effect": { "u_add_var": "general_free_merchants_u_knows_about_basement", "value": "yes" }
       },
       {
         "text": "Mind if I take a look at your stock?",
@@ -303,8 +333,8 @@
       {
         "text": "I don't see that many of you around.",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_Basement",
-        "condition": { "not": { "u_has_var": "u_knows_about_basement", "type": "general", "context": "free_merchants", "value": "yes" } },
-        "effect": { "u_add_var": "u_knows_about_basement", "type": "general", "context": "free_merchants", "value": "yes" }
+        "condition": { "not": { "u_has_var": "general_free_merchants_u_knows_about_basement", "value": "yes" } },
+        "effect": { "u_add_var": "general_free_merchants_u_knows_about_basement", "value": "yes" }
       },
       { "text": "I'll keep that in mind.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_Talk" }
     ]
@@ -342,6 +372,34 @@
         "text": "Well, how about 200 merch for 75 pounds of…",
         "effect": { "u_spawn_item": "trade_writ" },
         "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_EVAC_MERCHANT_EXODII_MISSION_WAREHOUSE",
+    "dynamic_line": {
+      "concatenate": [
+        "&You describe the warehouse to the best of your ability.  Smokes listens",
+        {
+          "npc_has_var": "exodii_mission_wh_correct",
+          "value": "no",
+          "yes": ", then shakes his head.  \"Not ringing a bell, I think I'd remember if I'd heard about something like that.\"",
+          "no": ", then nods slowly.  \"This sounds a bit familiar, I remember a scavenger coming through a while ago with a weird story about a place like that.  Might be nothing though.\""
+        }
+      ]
+    },
+    "speaker_effect": { "effect": { "npc_add_var": "asked_about_exodii_warehouse_mission", "value": "yes" } },
+    "responses": [
+      {
+        "//": "The other responses are stored in common_talk.json in the exodii folder, to avoid repetition.",
+        "text": "Oh well.  Thanks anyway.  I'll go ask around.",
+        "topic": "TALK_DONE",
+        "condition": { "npc_has_var": "exodii_mission_wh_correct", "value": "no" },
+        "effect": [
+          { "math": [ "exodii_mission_wh_chance", "-=", "1" ] },
+          { "math": [ "exodii_mission_wh_chance", "=", "max( exodii_mission_wh_chance, 1 )" ] }
+        ]
       }
     ]
   }

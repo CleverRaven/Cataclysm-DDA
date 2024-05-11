@@ -9,7 +9,7 @@
     "move_cost": 2,
     "roof": "t_flat_roof",
     "trap": "tr_ledge",
-    "flags": [ "TRANSPARENT", "NO_FLOOR" ],
+    "flags": [ "TRANSPARENT", "NO_FLOOR", "EMPTY_SPACE" ],
     "examine_action": "ledge"
   },
   {
@@ -24,7 +24,7 @@
     "roof": "t_flat_roof",
     "examine_action": "ledge",
     "connect_groups": "INDOORFLOOR",
-    "flags": [ "TRANSPARENT", "NO_FLOOR", "INDOORS" ]
+    "flags": [ "TRANSPARENT", "NO_FLOOR", "INDOORS", "EMPTY_SPACE" ]
   },
   {
     "type": "terrain",
@@ -35,7 +35,7 @@
     "color": "i_cyan",
     "move_cost": 2,
     "trap": "tr_ledge",
-    "flags": [ "TRANSPARENT", "NO_FLOOR" ],
+    "flags": [ "TRANSPARENT", "NO_FLOOR", "EMPTY_SPACE" ],
     "examine_action": "ledge"
   },
   {

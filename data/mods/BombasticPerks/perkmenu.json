@@ -153,6 +153,28 @@
         "topic": "TALK_PERK_MENU_SELECT"
       },
       {
+        "condition": { "not": { "u_has_trait": "perk_sight_beyond_sight" } },
+        "text": "Gain [<trait_name:perk_sight_beyond_sight>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_sight_beyond_sight>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_sight_beyond_sight>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_sight_beyond_sight", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires perception 13",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": { "math": [ "u_val('perception_base') + u_val('perception_bonus')", ">=", "13" ] }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
         "condition": { "not": { "u_has_trait": "perk_holdout_pocket" } },
         "text": "Gain [<trait_name:perk_holdout_pocket>]",
         "effect": [
@@ -244,6 +266,28 @@
             "i18n": true
           },
           { "set_condition": "perk_condition", "condition": { "math": [ "u_skill('swimming')", ">=", "3" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_bellringer" } },
+        "text": "Gain [<trait_name:perk_bellringer>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_bellringer>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_bellringer>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_bellringer", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires unarmed 4 or bashing weapons 4",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": { "or": [ { "math": [ "u_skill('bashing')", ">=", "4" ] }, { "math": [ "u_skill('unarmed')", ">=", "4" ] } ] }
+          }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
@@ -503,6 +547,71 @@
         "topic": "TALK_PERK_MENU_SELECT"
       },
       {
+        "condition": { "not": { "u_has_trait": "perk_undying_loyalty" } },
+        "text": "Gain [<trait_name:perk_undying_loyalty>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_undying_loyalty>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_undying_loyalty>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_undying_loyalty", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must have the Extrovert or Sociable trait\n\nMust not have the Culler, Hunter, Predator, Apex Predator, or Sapiovore traits.",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": {
+              "and": [
+                { "or": [ { "u_has_trait": "SOCIAL1" }, { "u_has_trait": "SOCIAL2" } ] },
+                { "not": { "u_has_any_trait": [ "PRED1", "PRED2", "PRED3", "PRED4", "SAPIOVORE" ] } }
+              ]
+            }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_ghost_stealth" } },
+        "text": "Gain [<trait_name:perk_ghost_stealth>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_ghost_stealth>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_ghost_stealth>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_ghost_stealth", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "No Requirements",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_big_eater" } },
+        "text": "Gain [<trait_name:perk_big_eater>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_big_eater>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_big_eater>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_big_eater", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "No Requirements",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
         "condition": { "not": { "u_has_trait": "perk_tuck_and_roll" } },
         "text": "Gain [<trait_name:perk_tuck_and_roll>]",
         "effect": [
@@ -518,6 +627,30 @@
             "i18n": true
           },
           { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_grit_your_teeth" } },
+        "text": "Gain [<trait_name:perk_grit_your_teeth>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_grit_your_teeth>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_grit_your_teeth>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_grit_your_teeth", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must have the Built Tough perk.\n\nMust not have the Pain Sensitive, Hyperalgesia, or Extreme Hyperalgesia Traits",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": {
+              "and": [ { "u_has_trait": "perk_built_tough" }, { "not": { "u_has_any_trait": [ "MORE_PAIN", "MORE_PAIN2", "MORE_PAIN3" ] } } ]
+            }
+          }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
@@ -560,6 +693,25 @@
         "topic": "TALK_PERK_MENU_SELECT"
       },
       {
+        "condition": { "not": { "u_has_trait": "perk_static_stockpile" } },
+        "text": "Gain [<trait_name:perk_static_stockpile>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_static_stockpile>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_static_stockpile>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_static_stockpile", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must have the Tingly perk",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "u_has_trait": "perk_tingly" } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
         "condition": { "not": { "u_has_trait": "perk_jumpy" } },
         "text": "Gain [<trait_name:perk_jumpy>]",
         "effect": [
@@ -590,7 +742,10 @@
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "u_val('dexterity_base')", ">=", "10" ] } }
+          {
+            "set_condition": "perk_condition",
+            "condition": { "math": [ "u_val('dexterity_base') + u_val('dexterity_bonus')", ">=", "10" ] }
+          }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
@@ -610,6 +765,25 @@
             "i18n": true
           },
           { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_non_combatant" } },
+        "text": "Gain [<trait_name:perk_non_combatant>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_non_combatant>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_non_combatant>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_non_combatant", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must have the Pacifist trait",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "u_has_trait": "PACIFIST" } }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
@@ -647,7 +821,48 @@
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "u_val('perception_base')", ">=", "10" ] } }
+          {
+            "set_condition": "perk_condition",
+            "condition": { "math": [ "u_val('perception_base') + u_val('perception_bonus')", ">=", "10" ] }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_absit_invidia" } },
+        "text": "Gain [<trait_name:perk_absit_invidia>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_absit_invidia>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_absit_invidia>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_absit_invidia", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires the Spiritual trait",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "u_has_trait": "SPIRITUAL" } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_firstest_aid" } },
+        "text": "Gain [<trait_name:perk_firstest_aid>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_firstest_aid>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_firstest_aid>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_firstest_aid", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires health care 4",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "u_skill('firstaid')", ">=", "4" ] } }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
@@ -705,6 +920,47 @@
             "i18n": true
           },
           { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_early_to_rise" } },
+        "text": "Gain [<trait_name:perk_early_to_rise>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_early_to_rise>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_early_to_rise>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_early_to_rise", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "No Requirements",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_duck_and_weave" } },
+        "text": "Gain [<trait_name:perk_duck_and_weave>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_duck_and_weave>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_duck_and_weave>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_duck_and_weave", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Requires dexterity 12",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": { "math": [ "u_val('dexterity_base') + u_val('dexterity_bonus')", ">=", "12" ] }
+          }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
@@ -923,6 +1179,44 @@
         "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
       },
       {
+        "condition": { "not": { "u_has_trait": "perk_moonstruck" } },
+        "text": "Gain [<trait_name:perk_moonstruck>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_moonstruck>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_moonstruck>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_moonstruck", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "No Requirements",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_nocturnal" } },
+        "text": "Gain [<trait_name:perk_nocturnal>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_nocturnal>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_nocturnal>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_nocturnal", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "No Requirements",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
+      },
+      {
         "condition": { "not": { "u_has_trait": "perk_skeleton" } },
         "text": "Gain [<trait_name:perk_skeleton>]",
         "effect": [
@@ -960,6 +1254,216 @@
         ],
         "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
       },
+      { "text": "Playstyle Perks: Stormwrought", "topic": "TALK_PERK_MENU_PLAYSTYLE_STORMWROUGHT" },
+      { "text": "Lifestyle Perks", "topic": "TALK_PERK_MENU_MAIN" },
+      { "text": "Settings", "topic": "TALK_PERK_MENU_CONFIG" },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_PLAYSTYLE_STORMWROUGHT",
+    "dynamic_line": "Stormwrought Playstyle Perks:\nLevel <u_val:current_level>.\n<u_val:num_perks> perk points to spend.\nCurrent EXP: <u_val:available_exp>.\nEXP to next level: <u_val:exp_to_perk>.",
+    "responses": [
+      {
+        "condition": { "not": { "u_has_trait": "perk_portal_storm_mutator_bird" } },
+        "text": "Gain [<trait_name:perk_portal_storm_mutator_bird>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_portal_storm_mutator_bird>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_portal_storm_mutator_bird>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_portal_storm_mutator_bird", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must not have another Stormwrought perk.",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": {
+              "not": {
+                "u_has_any_trait": [
+                  "perk_portal_storm_mutator_bird",
+                  "perk_portal_storm_mutator_feline",
+                  "perk_portal_storm_mutator_insect",
+                  "perk_portal_storm_mutator_lupine",
+                  "perk_portal_storm_mutator_plant",
+                  "perk_portal_storm_mutator_spider"
+                ]
+              }
+            }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_portal_storm_mutator_feline" } },
+        "text": "Gain [<trait_name:perk_portal_storm_mutator_feline>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_portal_storm_mutator_feline>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_portal_storm_mutator_feline>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_portal_storm_mutator_feline", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must not have another Stormwrought perk.",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": {
+              "not": {
+                "u_has_any_trait": [
+                  "perk_portal_storm_mutator_bird",
+                  "perk_portal_storm_mutator_feline",
+                  "perk_portal_storm_mutator_insect",
+                  "perk_portal_storm_mutator_lupine",
+                  "perk_portal_storm_mutator_plant",
+                  "perk_portal_storm_mutator_spider"
+                ]
+              }
+            }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_portal_storm_mutator_insect" } },
+        "text": "Gain [<trait_name:perk_portal_storm_mutator_insect>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_portal_storm_mutator_insect>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_portal_storm_mutator_insect>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_portal_storm_mutator_insect", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must not have another Stormwrought perk.",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": {
+              "not": {
+                "u_has_any_trait": [
+                  "perk_portal_storm_mutator_bird",
+                  "perk_portal_storm_mutator_feline",
+                  "perk_portal_storm_mutator_insect",
+                  "perk_portal_storm_mutator_lupine",
+                  "perk_portal_storm_mutator_plant",
+                  "perk_portal_storm_mutator_spider"
+                ]
+              }
+            }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_portal_storm_mutator_lupine" } },
+        "text": "Gain [<trait_name:perk_portal_storm_mutator_lupine>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_portal_storm_mutator_lupine>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_portal_storm_mutator_lupine>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_portal_storm_mutator_lupine", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must not have another Stormwrought perk.",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": {
+              "not": {
+                "u_has_any_trait": [
+                  "perk_portal_storm_mutator_bird",
+                  "perk_portal_storm_mutator_feline",
+                  "perk_portal_storm_mutator_insect",
+                  "perk_portal_storm_mutator_lupine",
+                  "perk_portal_storm_mutator_plant",
+                  "perk_portal_storm_mutator_spider"
+                ]
+              }
+            }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_portal_storm_mutator_plant" } },
+        "text": "Gain [<trait_name:perk_portal_storm_mutator_plant>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_portal_storm_mutator_plant>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_portal_storm_mutator_plant>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_portal_storm_mutator_plant", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must not have another Stormwrought perk.",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": {
+              "not": {
+                "u_has_any_trait": [
+                  "perk_portal_storm_mutator_bird",
+                  "perk_portal_storm_mutator_feline",
+                  "perk_portal_storm_mutator_insect",
+                  "perk_portal_storm_mutator_lupine",
+                  "perk_portal_storm_mutator_plant",
+                  "perk_portal_storm_mutator_spider"
+                ]
+              }
+            }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_portal_storm_mutator_spider" } },
+        "text": "Gain [<trait_name:perk_portal_storm_mutator_spider>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_portal_storm_mutator_spider>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_portal_storm_mutator_spider>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_portal_storm_mutator_spider", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must not have another Stormwrought perk.",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": {
+              "not": {
+                "u_has_any_trait": [
+                  "perk_portal_storm_mutator_bird",
+                  "perk_portal_storm_mutator_feline",
+                  "perk_portal_storm_mutator_insect",
+                  "perk_portal_storm_mutator_lupine",
+                  "perk_portal_storm_mutator_plant",
+                  "perk_portal_storm_mutator_spider"
+                ]
+              }
+            }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
+      },
+      { "text": "Playstyle Perks", "topic": "TALK_PERK_MENU_PLAYSTYLE" },
       { "text": "Lifestyle Perks", "topic": "TALK_PERK_MENU_MAIN" },
       { "text": "Settings", "topic": "TALK_PERK_MENU_CONFIG" },
       { "text": "Quit.", "topic": "TALK_DONE" }

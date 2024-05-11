@@ -55,57 +55,12 @@
           { "value": "HUNGER", "multiply": -1.0 },
           { "value": "THIRST", "multiply": -1.0 },
           { "value": "METABOLISM", "multiply": -1.0 },
-          { "value": "FATIGUE_REGEN", "multiply": 0.5 },
+          { "value": "SLEEPINESS_REGEN", "multiply": 0.5 },
           { "value": "MENDING_MODIFIER", "multiply": 15 },
           { "value": "REGEN_HP", "multiply": 1.5 },
           { "value": "REGEN_HP_AWAKE", "multiply": 0.8 }
         ]
       }
     ]
-  },
-  {
-    "type": "mutation",
-    "id": "BIOMANCER_EAT_TONS_OF_FOOD_01",
-    "name": { "str": "Gluttonous Consumption 1" },
-    "description": "You can eat tons of food.  You should never actually see this.",
-    "player_display": false,
-    "points": 0,
-    "enchantments": [ { "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 1 } ] } ]
-  },
-  {
-    "type": "mutation",
-    "id": "BIOMANCER_EAT_TONS_OF_FOOD_02",
-    "name": { "str": "Gluttonous Consumption 2" },
-    "description": "You can eat tons of food.  You should never actually see this.",
-    "player_display": false,
-    "points": 0,
-    "enchantments": [ { "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 3 } ] } ]
-  },
-  {
-    "type": "mutation",
-    "id": "BIOMANCER_EAT_TONS_OF_FOOD_03",
-    "name": { "str": "Gluttonous Consumption 3" },
-    "description": "You can eat tons of food.  You should never actually see this.",
-    "player_display": false,
-    "points": 0,
-    "enchantments": [ { "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 5 } ] } ]
-  },
-  {
-    "type": "mutation",
-    "id": "BIOMANCER_EAT_TONS_OF_FOOD_04",
-    "name": { "str": "Gluttonous Consumption 4" },
-    "description": "You can eat tons of food.  You should never actually see this.",
-    "player_display": false,
-    "points": 0,
-    "enchantments": [ { "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 7 } ] } ]
-  },
-  {
-    "type": "mutation",
-    "id": "BIOMANCER_EAT_TONS_OF_FOOD_05",
-    "name": { "str": "Gluttonous Consumption 5" },
-    "description": "You can eat tons of food.  You should never actually see this.",
-    "player_display": false,
-    "points": 0,
-    "enchantments": [ { "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 9 } ] } ]
   }
 ]

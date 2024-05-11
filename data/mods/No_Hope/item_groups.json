@@ -99,8 +99,8 @@
     "type": "item_group",
     "id": "nohope_fuel_jp8",
     "items": [
-      { "item": "jp8", "prob": 70, "charges-min": 0, "charges-max": 5000, "container-item": "jerrycan" },
-      { "item": "jp8", "prob": 30, "charges-min": 0, "charges-max": 5000, "container-item": "jerrycan_big" }
+      { "item": "jp8", "prob": 70, "charges": [ 0, 5000 ], "container-item": "jerrycan" },
+      { "item": "jp8", "prob": 30, "charges": [ 0, 5000 ], "container-item": "jerrycan_big" }
     ]
   },
   {
@@ -128,8 +128,8 @@
       [ "cig_butt", 15 ],
       { "item": "cotton_patchwork", "prob": 8, "custom-flags": [ "FILTHY" ] },
       { "item": "syringe", "prob": 5, "custom-flags": [ "FILTHY" ] },
-      { "item": "lighter", "prob": 5, "charges-min": 0, "charges-max": 10 },
-      { "item": "matches", "prob": 5, "charges-min": 0, "charges-max": 20 },
+      { "item": "lighter", "prob": 5, "charges": [ 0, 10 ] },
+      { "item": "matches", "prob": 5, "charges": [ 0, 20 ] },
       { "group": "newspaper", "prob": 10 },
       [ "handflare_dead", 3 ]
     ]
@@ -161,7 +161,7 @@
     "id": "tankbot",
     "items": [
       [ "tazer", 3 ],
-      { "item": "flamethrower", "prob": 1, "charges-min": 0, "charges-max": 3000 },
+      { "item": "flamethrower", "prob": 1, "charges": [ 0, 3000 ] },
       [ "556", 8 ],
       [ "alloy_plate", 10 ],
       [ "sheet_kevlar_layered", 10 ],
@@ -174,7 +174,7 @@
     "type": "item_group",
     "id": "tripod",
     "items": [
-      { "item": "flamethrower", "prob": 1, "charges-min": 0, "charges-max": 3000 },
+      { "item": "flamethrower", "prob": 1, "charges": [ 0, 3000 ] },
       [ "sheet_kevlar_layered", 10 ],
       [ "ceramic_armor", 15 ],
       [ "alloy_plate", 10 ],
@@ -332,7 +332,7 @@
     "id": "mon_zombie_flamer",
     "ammo": 50,
     "magazine": 100,
-    "entries": [ { "item": "flamethrower", "charges-min": 0, "charges-max": 500 } ]
+    "entries": [ { "item": "flamethrower", "charges": [ 0, 500 ] } ]
   },
   {
     "type": "item_group",

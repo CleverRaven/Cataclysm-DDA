@@ -293,11 +293,6 @@
   },
   {
     "type": "MONSTER_FACTION",
-    "name": "worm",
-    "base_faction": "mutant"
-  },
-  {
-    "type": "MONSTER_FACTION",
     "name": "slug",
     "base_faction": "mutant"
   },
@@ -309,11 +304,6 @@
     "base_faction": "mutant",
     "by_mood": [ "mutant", "mutant_piscivores" ],
     "hate": [ "fish" ]
-  },
-  {
-    "type": "MONSTER_FACTION",
-    "name": "gator",
-    "base_faction": "mutant_piscivores"
   },
   {
     "type": "MONSTER_FACTION",
@@ -407,7 +397,6 @@
       "frog",
       "slug",
       "mutant_piscivores",
-      "gator",
       "molerat",
       "amigara",
       "mutant_with_vortex",
@@ -436,6 +425,11 @@
     "friendly": [ "attack_player_only" ],
     "neutral": [ "fish", "bot", "aquatic_predator" ],
     "by_mood": [ "insect" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "worm",
+    "base_faction": "insect"
   },
   {
     "type": "MONSTER_FACTION",

@@ -36,7 +36,7 @@
     "start": {
       "assign_mission_target": { "om_terrain": "boann_sidhe_island", "om_special": "Boann's Island", "reveal_radius": 6, "search_range": 360 }
     },
-    "goal_condition": { "u_has_var": "u_met_boann_sidhe", "type": "general", "context": "meeting", "value": "yes" },
+    "goal_condition": { "u_has_var": "general_meeting_u_met_boann_sidhe", "value": "yes" },
     "value": 5000,
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {

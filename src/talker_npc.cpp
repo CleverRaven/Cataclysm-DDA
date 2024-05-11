@@ -773,19 +773,19 @@ std::string talker_npc::evaluation_by( const talker &alpha ) const
         info += string_format( _( "  Per %d - %d" ), per_min, per_min + per_range );
     }
     needs_rates rates = me_npc->calc_needs_rates();
-    if( ability >= 100 - ( get_fatigue() / 10 ) ) {
+    if( ability >= 100 - ( get_sleepiness() / 10 ) ) {
         std::string how_tired;
-        if( get_fatigue() > fatigue_levels::EXHAUSTED ) {
+        if( get_sleepiness() > sleepiness_levels::EXHAUSTED ) {
             how_tired = _( "Exhausted" );
-        } else if( get_fatigue() > fatigue_levels::DEAD_TIRED ) {
+        } else if( get_sleepiness() > sleepiness_levels::DEAD_TIRED ) {
             how_tired = _( "Dead tired" );
-        } else if( get_fatigue() > fatigue_levels::TIRED ) {
+        } else if( get_sleepiness() > sleepiness_levels::TIRED ) {
             how_tired = _( "Tired" );
         } else {
             how_tired = _( "Not tired" );
             if( ability >= 100 ) {
-                time_duration sleep_at = 5_minutes * ( fatigue_levels::TIRED -
-                                                       get_fatigue() ) / rates.fatigue;
+                time_duration sleep_at = 5_minutes * ( sleepiness_levels::TIRED -
+                                                       get_sleepiness() ) / rates.sleepiness;
                 how_tired += _( ".  Will need sleep in " ) + to_string_approx( sleep_at );
             }
         }

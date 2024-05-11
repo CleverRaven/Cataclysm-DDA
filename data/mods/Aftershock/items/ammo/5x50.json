@@ -6,7 +6,7 @@
     "description": "Designed to defeat modern body armor, the Rivtech 5x50mm flechette round features a biodegradable sabot and a single, fin-stabilized penetrator.",
     "weight": "8 g",
     "volume": "144 ml",
-    "price": 1125,
+    "price": "11 USD 25 cent",
     "material": [ "plastic", "powder", "steel" ],
     "symbol": "=",
     "color": "green",
@@ -19,7 +19,7 @@
     "dispersion": 60,
     "recoil": 400,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "price_postapoc": 1800,
+    "price_postapoc": "18 USD",
     "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
   },
   {
@@ -29,8 +29,8 @@
     "name": { "str": "RA119 5x50mm penetrator" },
     "description": "Designed to defeat modern body armor, the Rivtech 5x50mm RA119 penetrator round features a biodegradable sabot and a single, fin-stabilized tungsten alloy projectile.",
     "weight": "9 g",
-    "price": 1688,
-    "price_postapoc": 2400,
+    "price": "16 USD 88 cent",
+    "price_postapoc": "24 USD",
     "relative": { "range": -10, "damage": { "damage_type": "bullet", "amount": 5, "armor_penetration": 20 }, "dispersion": 20 },
     "proportional": { "recoil": 1.1 }
   },
@@ -39,7 +39,7 @@
     "copy-from": "afs_5x50dart",
     "type": "AMMO",
     "name": { "str": "5x50mm flechette, reloaded", "str_pl": "5x50mm flechettes, reloaded" },
-    "price_postapoc": 1200,
+    "price_postapoc": "12 USD",
     "description": "Designed to defeat modern body armor, the Rivtech 5x50mm flechette round features a biodegradable sabot and a single, fin-stabilized penetrator.  This one has been hand-reloaded by a lucky survivor or perhaps a pre-Cataclysm corporate spy, leading to slightly inferior performance compared to factory-produced ammo.",
     "effects": [ "COOKOFF", "RECYCLED" ],
     "relative": { "range": -15, "dispersion": 40 },

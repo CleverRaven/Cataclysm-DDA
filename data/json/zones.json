@@ -46,7 +46,7 @@
     "type": "LOOT_ZONE",
     "name": "Disassembly Work",
     "display_field": "fd_disassembly_work_zone",
-    "description": "Items in this zone are marked for disassembly"
+    "description": "Items in this zone are marked for disassembly."
   },
   {
     "id": "FARM_PLOT",

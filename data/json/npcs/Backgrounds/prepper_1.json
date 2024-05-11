@@ -12,24 +12,22 @@
       {
         "text": "You said you could tell me more about the shelter if I wanted.  How did these things get built?",
         "topic": "BGSS_PREPPER_1_LMOE2",
-        "condition": { "u_has_var": "prepper_1_finished_quest", "type": "mission", "context": "BGSS", "value": "yes" }
+        "condition": { "u_has_var": "mission_BGSS_prepper_1_finished_quest", "value": "yes" }
       },
       {
         "text": "What do you think happened?  You must have some interesting theories on why everything went to shit.",
         "//": "If the player already confronted the Prepper about their shelter and is gated out of that part of the conversation, this allows the player to still have a fun chat about apocalypse theories with them.",
         "topic": "BGSS_PREPPER_1_FOUND_LMOE7",
-        "condition": { "u_has_var": "prepper_1_asked_about_shelter", "type": "mission", "context": "BGSS", "value": "yes" }
+        "condition": { "u_has_var": "mission_BGSS_prepper_1_asked_about_shelter", "value": "yes" }
       },
       {
         "text": "Hey, uh…  I noticed you left a computer down in your shelter.  I didn't intend to pry, but you said I could go through everything.  So, I read a little of what you wrote.  You wanna talk about it?",
         "topic": "BGSS_PREPPER_1_FOUND_LMOE6",
         "condition": {
           "and": [
-            { "u_has_var": "prepper_1_found_computer", "type": "mission", "context": "BGSS", "value": "yes" },
-            {
-              "not": { "u_has_var": "prepper_1_asked_about_shelter", "type": "mission", "context": "BGSS", "value": "yes" }
-            },
-            { "u_has_var": "prepper_1_finished_quest", "type": "mission", "context": "BGSS", "value": "yes" }
+            { "u_has_var": "mission_BGSS_prepper_1_found_computer", "value": "yes" },
+            { "not": { "u_has_var": "mission_BGSS_prepper_1_asked_about_shelter", "value": "yes" } },
+            { "u_has_var": "mission_BGSS_prepper_1_finished_quest", "value": "yes" }
           ]
         }
       },
@@ -68,9 +66,7 @@
     "id": "BGSS_PREPPER_1_LMOE",
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_var": "prepper_1_started_quest",
-      "type": "mission",
-      "context": "BGSS",
+      "u_has_var": "mission_BGSS_prepper_1_started_quest",
       "value": "yes",
       "no": {
         "gendered_line": "I never made it there and can't imagine I ever will.  Every time I've tried I've been headed off by the <zombies>.",
@@ -86,16 +82,12 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "directions_prepper_1_SHELTER" } },
-            {
-              "not": { "u_has_var": "prepper_1_found_computer", "type": "mission", "context": "BGSS", "value": "yes" }
-            },
-            {
-              "not": { "u_has_var": "prepper_1_finished_quest", "type": "mission", "context": "BGSS", "value": "yes" }
-            },
+            { "not": { "u_has_var": "mission_BGSS_prepper_1_found_computer", "value": "yes" } },
+            { "not": { "u_has_var": "mission_BGSS_prepper_1_finished_quest", "value": "yes" } },
             {
               "not": {
                 "and": [
-                  { "u_has_var": "prepper_1_asked_about_quest", "type": "general", "context": "BGSS", "value": "yes" },
+                  { "u_has_var": "general_BGSS_prepper_1_asked_about_quest", "value": "yes" },
                   { "math": [ "time_since(u_timer_timers_prepper_1_asked_about_quest)", "<", "time('8 h')" ] }
                 ]
               }
@@ -119,7 +111,7 @@
           "opinion": { "trust": -2 },
           "effect": [
             { "math": [ "u_timer_timers_prepper_1_asked_about_quest", "=", "time('now')" ] },
-            { "u_add_var": "prepper_1_asked_about_quest", "type": "general", "context": "BGSS", "value": "yes" }
+            { "u_add_var": "general_BGSS_prepper_1_asked_about_quest", "value": "yes" }
           ]
         }
       },
@@ -128,16 +120,12 @@
         "topic": "BGSS_PREPPER_1_FOUND_LMOE1",
         "condition": {
           "and": [
-            { "u_has_var": "prepper_1_found_computer", "type": "mission", "context": "BGSS", "value": "yes" },
-            {
-              "not": { "u_has_var": "prepper_1_asked_about_shelter", "type": "mission", "context": "BGSS", "value": "yes" }
-            },
-            {
-              "not": { "u_has_var": "prepper_1_finished_quest", "type": "mission", "context": "BGSS", "value": "yes" }
-            }
+            { "u_has_var": "mission_BGSS_prepper_1_found_computer", "value": "yes" },
+            { "not": { "u_has_var": "mission_BGSS_prepper_1_asked_about_shelter", "value": "yes" } },
+            { "not": { "u_has_var": "mission_BGSS_prepper_1_finished_quest", "value": "yes" } }
           ]
         },
-        "effect": { "u_add_var": "prepper_1_asked_about_shelter", "type": "mission", "context": "BGSS", "value": "yes" }
+        "effect": { "u_add_var": "mission_BGSS_prepper_1_asked_about_shelter", "value": "yes" }
       },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
@@ -160,21 +148,19 @@
         "text": "You wouldn't keep ALL your tricks and secrets from me, though, would you?  After everything we've been through?",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "prepper_1_asked_about_secrets", "type": "mission", "context": "BGSS", "value": "yes" } },
-            {
-              "not": { "u_has_var": "prepper_1_found_computer", "type": "mission", "context": "BGSS", "value": "yes" }
-            }
+            { "not": { "u_has_var": "mission_BGSS_prepper_1_asked_about_secrets", "value": "yes" } },
+            { "not": { "u_has_var": "mission_BGSS_prepper_1_found_computer", "value": "yes" } }
           ]
         },
         "//": "Even though material possessions have been made trivially easy to obtain in the apocalypse, the prepper still values their stash, hence the difficult trial here.",
         "trial": { "type": "PERSUADE", "difficulty": -75, "mod": [ [ "TRUST", 1 ], [ "VALUE", 1 ], [ "ANGER", -8 ] ] },
         "success": {
           "topic": "BGSS_PREPPER_1_SHARELOOTSUCCESS",
-          "effect": { "u_add_var": "prepper_1_asked_about_secrets", "type": "mission", "context": "BGSS", "value": "yes" }
+          "effect": { "u_add_var": "mission_BGSS_prepper_1_asked_about_secrets", "value": "yes" }
         },
         "failure": {
           "topic": "BGSS_PREPPER_1_SHARELOOTFAILURE",
-          "effect": { "u_add_var": "prepper_1_asked_about_secrets", "type": "mission", "context": "BGSS", "value": "yes" },
+          "effect": { "u_add_var": "mission_BGSS_prepper_1_asked_about_secrets", "value": "yes" },
           "opinion": { "trust": -6, "value": -3, "anger": 5 }
         }
       },
@@ -592,7 +578,7 @@
       {
         "text": "I met this woman who was… uh… obsessed with bones?  She said that since <the_cataclysm>, the bones of living things 'hum' with some kind of special power and that she wants to collect lots of them to either end the world or save the world.  I'm honestly still not entirely clear how or what's supposed to happen…  How about that idea?  Did THAT ever cross your mind?",
         "//": "This option only shows if you've asked Brigitte LaCroix, the Boneseer, about her theory on the Cataclysm.",
-        "condition": { "u_has_var": "asked_about_song", "type": "dialogue", "context": "song", "value": "yes" },
+        "condition": { "u_has_var": "dialogue_song_asked_about_song", "value": "yes" },
         "topic": "BGSS_PREPPER_1_FOUND_LMOE9_BONE_SEER"
       },
       {
@@ -780,7 +766,7 @@
     "//": "Assigns the mission through an EOC to avoid having to bring the NPC along with the player.",
     "effect": [
       { "assign_mission": "directions_prepper_1_SHELTER" },
-      { "u_add_var": "prepper_1_started_quest", "type": "mission", "context": "BGSS", "value": "yes" }
+      { "u_add_var": "mission_BGSS_prepper_1_started_quest", "value": "yes" }
     ]
   },
   {
@@ -802,7 +788,7 @@
           "popup": true
         },
         { "mapgen_update": "LMOE_unlock_door", "om_terrain": "lmoe_prepperquest" },
-        { "u_add_var": "prepper_1_finished_quest", "type": "mission", "context": "BGSS", "value": "yes" }
+        { "u_add_var": "mission_BGSS_prepper_1_finished_quest", "value": "yes" }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -822,6 +808,6 @@
     "type": "mapgen",
     "update_mapgen_id": "LMOE_unlock_door",
     "method": "json",
-    "object": { "translate_ter": [ { "from": "t_door_metal_locked", "to": "t_door_metal_c", "x": 0, "y": 0 } ] }
+    "object": { "place_ter_furn_transforms": [ { "transform": "unlock_door", "x": 0, "y": 0 } ] }
   }
 ]

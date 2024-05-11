@@ -1,52 +1,5 @@
 [
   {
-    "id": "mon_gator",
-    "type": "MONSTER",
-    "name": { "str": "sewer gator" },
-    "description": "In the late 20th century, there was an urban legend about pet alligators getting flushed down the toilet and growing to adulthood in the sewers.  If this large specimen was ever someone's pet, it doesn't look like it sees humans as anything other than a meal now.",
-    "default_faction": "gator",
-    "bodytype": "gator",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "REPTILE" ],
-    "volume": "108500 ml",
-    "weight": "120 kg",
-    "hp": 90,
-    "speed": 90,
-    "material": [ "flesh" ],
-    "symbol": "A",
-    "color": "light_green",
-    "aggression": 30,
-    "morale": 50,
-    "melee_skill": 4,
-    "melee_dice": 1,
-    "melee_dice_sides": 10,
-    "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],
-    "dodge": 2,
-    "vision_day": 3,
-    "vision_night": 35,
-    "families": [ "prof_intro_biology", "prof_physiology" ],
-    "harvest": "mutant_mammal_large_leather",
-    "dissect": "dissect_lizard_sample_large",
-    "path_settings": { "max_dist": 8 },
-    "grab_strength": 50,
-    "special_attacks": [
-      {
-        "id": "bite_grab",
-        "cooldown": 20,
-        "accuracy": 6,
-        "damage_max_instance": [
-          { "damage_type": "stab", "amount": 9, "armor_multiplier": 0.5 },
-          { "damage_type": "bash", "amount": 27, "armor_multiplier": 0.5 }
-        ],
-        "infection_chance": 50
-      }
-    ],
-    "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
-    "fear_triggers": [ "FIRE", "HURT" ],
-    "flags": [ "SEES", "HEARS", "GRABS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "PUSH_MON", "SWIMS" ],
-    "armor": { "bash": 6, "cut": 8, "bullet": 6 }
-  },
-  {
     "id": "mon_rattlesnake_s",
     "type": "MONSTER",
     "name": { "str_sp": "rattlesnake snakelet" },
@@ -160,7 +113,7 @@
     "aggression": -30,
     "upgrades": { "age_grow": 365, "into": "mon_rattlesnake_big" },
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
-    "harvest": "mammal_tiny",
+    "harvest": "mutant_tiny",
     "biosignature": { "biosig_item": "shed_snakeskin", "biosig_timer": 180 },
     "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "KEENNOSE", "CLIMBS", "PATH_AVOID_DANGER_1", "ANIMAL", "SWIMS" ]
   },
@@ -305,8 +258,8 @@
     "bodytype": "fish",
     "categories": [ "WILDLIFE" ],
     "species": [ "AMPHIBIAN" ],
-    "volume": "25 ml",
-    "weight": "10 g",
+    "volume": "5 ml",
+    "weight": "3 g",
     "hp": 1,
     "speed": 70,
     "material": [ "flesh" ],
@@ -314,11 +267,13 @@
     "color": "brown",
     "aggression": -60,
     "morale": -5,
-    "dodge": 5,
+    "dodge": 10,
+    "melee_training_cap": 0,
     "families": [ "prof_intro_biology", "prof_physiology" ],
-    "harvest": "mammal_tiny",
+    "harvest": "exempt",
     "vision_night": 30,
-    "fear_triggers": [ "PLAYER_CLOSE", "FIRE", "HURT", "FRIEND_ATTACKED", "SOUND" ],
+    "fear_triggers": [ "PLAYER_CLOSE", "HURT", "FRIEND_ATTACKED", "SOUND" ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s is smashed to non-recognizable pieces." },
     "flags": [ "FISHABLE", "SEES", "SMELLS", "HEARS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE", "SWARMS" ]
   },
   {
@@ -455,6 +410,7 @@
     "melee_dice": 1,
     "melee_dice_sides": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+    "melee_training_cap": 1,
     "dodge": 6,
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "dissect": "dissect_batrachian_sample_single",
@@ -541,11 +497,12 @@
     "id": "mon_pattern_frog",
     "type": "MONSTER",
     "copy-from": "mon_leo_frog",
-    "description": "This large frog is covered in chaotic markings like a fractal river map over a background of tv static.  While most lose their gills during metamorphosis, this frog seems to have retained them, or something like them.",
+    "description": "This large frog is covered in chaotic markings like a fractal river map over a background of TV static.  While most lose their gills during metamorphosis, this frog seems to have retained them, or something like them.",
     "name": { "str": "strangely-patterned frog" },
     "categories": [ "NULL" ],
     "harvest": "mutant_tiny",
     "upgrades": { "age_grow": 15, "into": "mon_pattern_bigfrog" },
+    "reproduction": { "baby_egg": "egg_pattern_frog", "baby_count": 6, "baby_timer": 20 },
     "//": "When possible, add effect for rare flicker of very low luminance."
   },
   {
@@ -580,7 +537,7 @@
     "type": "MONSTER",
     "copy-from": "mon_proxy_frog",
     "description": "Fowler's toads secrete a harmful and distasteful compound from their backs.  This helps safeguard them from predators and also gives them a distinctive odor like boiled peanuts.",
-    "name": { "str": "fowler's toad" },
+    "name": { "str": "Fowler's toad" },
     "reproduction": { "baby_egg": "egg_fowler_toad", "baby_count": 8, "baby_timer": 36 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "extend": { "flags": [ "POISON" ] }
@@ -602,7 +559,7 @@
     "type": "MONSTER",
     "copy-from": "mon_proxy_frog",
     "description": "American toads can vary greatly in appearance.  Individual toads will shift their coloration and patterning throughout the seasons to better camouflage.",
-    "name": { "str": "american toad" },
+    "name": { "str": "American toad" },
     "reproduction": { "baby_egg": "egg_freedom_toad", "baby_count": 8, "baby_timer": 36 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "extend": { "flags": [ "POISON" ] }
@@ -711,6 +668,7 @@
     ],
     "fear_triggers": [ "FRIEND_DIED", "FIRE", "SOUND" ],
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE", "MATING_SEASON" ],
+    "burn_into": "mon_frog_husk",
     "baby_flags": [ "SPRING", "SUMMER" ],
     "flags": [ "FISHABLE", "SEES", "SMELLS", "HEARS", "SWARMS", "SWIMS", "WATER_CAMOUFLAGE", "CLIMBS" ]
   },
@@ -760,7 +718,7 @@
     "special_when_hit": [ "ZAPBACK", 100 ],
     "upgrades": { "age_grow": 30, "into_group": "GROUP_FROGS_UPGRADE_PATTERN" },
     "zombify_into": "mon_frog_shocker",
-    "reproduction": { "baby_egg": "egg_pattern_frog", "baby_count": 12, "baby_timer": 20 }
+    "reproduction": { "baby_egg": "egg_pattern_bigfrog", "baby_count": 12, "baby_timer": 20 }
   },
   {
     "id": "mon_foul_bigfrog",
@@ -915,6 +873,7 @@
     ],
     "fear_triggers": [ "FIRE" ],
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE", "MATING_SEASON" ],
+    "burn_into": "mon_frog_mummy",
     "baby_flags": [ "SPRING", "SUMMER" ],
     "flags": [ "FISHABLE", "SEES", "SMELLS", "HEARS", "GRABS", "SWIMS", "WATER_CAMOUFLAGE", "CLIMBS", "BASHES" ]
   },
@@ -985,7 +944,7 @@
     "special_when_hit": [ "ZAPBACK", 100 ],
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE", "MATING_SEASON", "FRIEND_ATTACKED" ],
     "zombify_into": "mon_frog_shocker",
-    "reproduction": { "baby_egg": "egg_pattern_frog", "baby_count": 18, "baby_timer": 20 },
+    "reproduction": { "baby_egg": "egg_pattern_bigfrog", "baby_count": 18, "baby_timer": 20 },
     "extend": { "flags": [ "SWARMS" ] }
   },
   {
@@ -1086,6 +1045,7 @@
     ],
     "fear_triggers": [ "FIRE" ],
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE", "MATING_SEASON" ],
+    "burn_into": "mon_frog_smoker_hulk",
     "baby_flags": [ "SPRING", "SUMMER" ],
     "flags": [ "SEES", "SMELLS", "GRABS", "HEARS", "SWIMS", "DESTROYS" ]
   },

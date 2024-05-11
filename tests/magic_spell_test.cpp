@@ -646,7 +646,7 @@ TEST_CASE( "spell_effect_-_recover_energy", "[magic][spell][effect][recover_ener
     // BIONIC: p.mod_power_level (positive) OR p.mod_stamina (negative)
     //
     // For these effects, negative "damage" is good (reducing the amount of a bad thing)
-    // FATIGUE: p.mod_fatigue
+    // sleepiness: p.mod_sleepiness
     // PAIN: p.mod_pain_resist or p_mod_pain
 
     // NOTE: This spell effect cannot be used for healing HP.

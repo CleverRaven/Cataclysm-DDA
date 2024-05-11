@@ -1,5 +1,6 @@
 #include "faction.h"
 
+#include <algorithm>
 #include <bitset>
 #include <cstdlib>
 #include <limits>
@@ -12,6 +13,7 @@
 
 #include "avatar.h"
 #include "basecamp.h"
+#include "calendar.h"
 #include "catacharset.h"
 #include "character.h"
 #include "coordinates.h"
@@ -19,11 +21,15 @@
 #include "debug.h"
 #include "display.h"
 #include "faction_camp.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "game.h"
 #include "game_constants.h"
 #include "input_context.h"
+#include "json_error.h"
 #include "line.h"
 #include "localized_comparator.h"
+#include "mission_companion.h"
 #include "mtype.h"
 #include "npc.h"
 #include "output.h"
@@ -31,10 +37,11 @@
 #include "pimpl.h"
 #include "point.h"
 #include "skill.h"
-#include "text_snippets.h"
 #include "string_formatter.h"
+#include "text_snippets.h"
 #include "translations.h"
 #include "type_id.h"
+#include "ui.h"
 #include "ui_manager.h"
 
 static const faction_id faction_no_faction( "no_faction" );
@@ -769,14 +776,14 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     mvwprintz( fac_w, point( width, ++y ), condition.second, _( "Condition: " ) + condition.first );
     const std::pair <std::string, nc_color> hunger_pair = display::hunger_text_color( *this );
     const std::pair <std::string, nc_color> thirst_pair = display::thirst_text_color( *this );
-    const std::pair <std::string, nc_color> fatigue_pair = display::fatigue_text_color( *this );
+    const std::pair <std::string, nc_color> sleepiness_pair = display::sleepiness_text_color( *this );
     const std::string nominal = pgettext( "needs", "Nominal" );
     mvwprintz( fac_w, point( width, ++y ), hunger_pair.second,
                _( "Hunger: " ) + ( hunger_pair.first.empty() ? nominal : hunger_pair.first ) );
     mvwprintz( fac_w, point( width, ++y ), thirst_pair.second,
                _( "Thirst: " ) + ( thirst_pair.first.empty() ? nominal : thirst_pair.first ) );
-    mvwprintz( fac_w, point( width, ++y ), fatigue_pair.second,
-               _( "Fatigue: " ) + ( fatigue_pair.first.empty() ? nominal : fatigue_pair.first ) );
+    mvwprintz( fac_w, point( width, ++y ), sleepiness_pair.second,
+               _( "Sleepiness: " ) + ( sleepiness_pair.first.empty() ? nominal : sleepiness_pair.first ) );
     int lines = fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, c_white,
                                 _( "Wielding: " ) + weapname_simple() );
     y += lines;

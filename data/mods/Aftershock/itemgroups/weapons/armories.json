@@ -66,6 +66,12 @@
     ]
   },
   {
+    "id": "afs_wraitheon_smart_rifle_cache",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "item": "afs_wa2519" }, { "item": "afs_25mm_smart", "count": [ 15, 25 ] } ]
+  },
+  {
     "id": "afs_augustmoon_guntrader_military_ammo",
     "type": "item_group",
     "subtype": "distribution",

@@ -29,6 +29,7 @@ on:
     - 'tools/**'
     - '!tools/format/**'
     - 'utilities/**'
+    types: [opened, reopened, synchronize, ready_for_review]
 
 # We only care about the latest revision of a PR, so cancel previous instances.
 concurrency:
@@ -55,6 +56,7 @@ jobs:
   build_catatclysm:
     name: Build
     runs-on: windows-2019
+    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
 
     steps:
     - uses: actions/checkout@v4
@@ -68,7 +70,7 @@ jobs:
           make
 
     - name: Add msbuild to PATH
-      uses: microsoft/setup-msbuild@v1.3.1
+      uses: microsoft/setup-msbuild@v2
 
     - name: Use GNU tar to enable zstd for actions/cache
       run: |
@@ -91,7 +93,7 @@ jobs:
         vcpkg integrate install --vcpkg-root '${{ runner.workspace }}\b\vcpkg'
 
     - name: Download ccache
-      uses: robinraju/release-downloader@v1.4
+      uses: robinraju/release-downloader@v1.9
       with:
         repository: 'ccache/ccache'
         tag: 'v4.6.1'

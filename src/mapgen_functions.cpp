@@ -37,8 +37,6 @@
 #include "weighted_list.h"
 #include "creature_tracker.h"
 
-static const oter_str_id oter_hellmouth( "hellmouth" );
-static const oter_str_id oter_rift( "rift" );
 static const oter_str_id oter_river_c_not_nw( "river_c_not_nw" );
 static const oter_str_id oter_river_c_not_se( "river_c_not_se" );
 static const oter_str_id oter_river_c_not_sw( "river_c_not_sw" );
@@ -56,7 +54,6 @@ static const ter_str_id ter_t_buffer_stop( "t_buffer_stop" );
 static const ter_str_id ter_t_clay( "t_clay" );
 static const ter_str_id ter_t_dirt( "t_dirt" );
 static const ter_str_id ter_t_grass( "t_grass" );
-static const ter_str_id ter_t_lava( "t_lava" );
 static const ter_str_id ter_t_open_air( "t_open_air" );
 static const ter_str_id ter_t_railroad_rubble( "t_railroad_rubble" );
 static const ter_str_id ter_t_railroad_tie( "t_railroad_tie" );
@@ -67,7 +64,6 @@ static const ter_str_id ter_t_railroad_track_on_tie( "t_railroad_track_on_tie" )
 static const ter_str_id ter_t_rock( "t_rock" );
 static const ter_str_id ter_t_rock_floor( "t_rock_floor" );
 static const ter_str_id ter_t_sand( "t_sand" );
-static const ter_str_id ter_t_slope_down( "t_slope_down" );
 static const ter_str_id ter_t_swater_dp( "t_swater_dp" );
 static const ter_str_id ter_t_swater_sh( "t_swater_sh" );
 static const ter_str_id ter_t_swater_surf( "t_swater_surf" );
@@ -115,18 +111,12 @@ tripoint rotate_point( const tripoint &p, int rotations )
 building_gen_pointer get_mapgen_cfunction( const std::string &ident )
 {
     static const std::map<std::string, building_gen_pointer> pointers = { {
-            { "null",             &mapgen_null },
             { "forest",           &mapgen_forest },
             { "river_center", &mapgen_river_center },
             { "river_curved_not", &mapgen_river_curved_not },
             { "river_straight",   &mapgen_river_straight },
             { "river_curved",     &mapgen_river_curved },
-            { "open_air", &mapgen_open_air },
-            { "rift", &mapgen_rift },
-            { "hellmouth", &mapgen_hellmouth },
-            // New rock function - should be default, but isn't yet for compatibility reasons (old overmaps)
-            { "empty_rock", &mapgen_rock },
-            // Old rock behavior, for compatibility and near caverns and slime pits
+            // Old rock behavior, only used around slime pits
             { "rock", &mapgen_rock_partial },
 
             { "subway_straight",    &mapgen_subway },
@@ -159,21 +149,6 @@ ter_str_id clay_or_sand()
         return ter_t_sand;
     }
     return ter_t_clay;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-///// builtin terrain-specific mapgen functions. big multi-overmap-tile terrains are located in
-///// mapgen_functions_big.cpp
-
-void mapgen_null( mapgendata &dat )
-{
-    debugmsg( "Generating null terrain, please report this as a bug" );
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            dat.m.ter_set( point( i, j ), ter_str_id::NULL_ID() );
-            dat.m.set_radiation( point( i, j ), 0 );
-        }
-    }
 }
 
 int terrain_type_to_nesw_array( oter_id terrain_type, std::array<bool, 4> &array )
@@ -215,6 +190,9 @@ void nesw_array_rotate( std::array<T, N> &array, size_t dist )
         }
     }
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+///// builtin terrain-specific mapgen functions.
 
 void mapgen_subway( mapgendata &dat )
 {
@@ -392,12 +370,12 @@ void mapgen_subway( mapgendata &dat )
                                                 ter_t_railroad_track_d,
                                                 ter_t_railroad_track ),
                                         mapf::furn_bind( ". # ^ / D X",
-                                                f_null,
-                                                f_null,
-                                                f_null,
-                                                f_null,
-                                                f_null,
-                                                f_null ) );
+                                                furn_str_id::NULL_ID(),
+                                                furn_str_id::NULL_ID(),
+                                                furn_str_id::NULL_ID(),
+                                                furn_str_id::NULL_ID(),
+                                                furn_str_id::NULL_ID(),
+                                                furn_str_id::NULL_ID() ) );
             break;
         case 3:
             // tee
@@ -436,14 +414,14 @@ void mapgen_subway( mapgendata &dat )
                                                 ter_t_railroad_tie_d,
                                                 ter_t_railroad_track_d ),
                                         mapf::furn_bind( ". # ^ | X x / D",
-                                                f_null,
-                                                f_null,
-                                                f_null,
-                                                f_null,
-                                                f_null,
-                                                f_null,
-                                                f_null,
-                                                f_null ) );
+                                                furn_str_id::NULL_ID(),
+                                                furn_str_id::NULL_ID(),
+                                                furn_str_id::NULL_ID(),
+                                                furn_str_id::NULL_ID(),
+                                                furn_str_id::NULL_ID(),
+                                                furn_str_id::NULL_ID(),
+                                                furn_str_id::NULL_ID(),
+                                                furn_str_id::NULL_ID() ) );
             break;
         case 2:
             // straight or diagonal
@@ -479,10 +457,10 @@ void mapgen_subway( mapgendata &dat )
                                                     ter_t_railroad_rubble,
                                                     ter_t_railroad_track_d ),
                                             mapf::furn_bind( ". # ^ D",
-                                                    f_null,
-                                                    f_null,
-                                                    f_null,
-                                                    f_null ) );
+                                                    furn_str_id::NULL_ID(),
+                                                    furn_str_id::NULL_ID(),
+                                                    furn_str_id::NULL_ID(),
+                                                    furn_str_id::NULL_ID() ) );
             } else { // normal subway drawing
                 mapf::formatted_set_simple( m, point_zero,
                                             "...^X^^^X^....^X^^^X^...\n"
@@ -517,12 +495,12 @@ void mapgen_subway( mapgendata &dat )
                                                     ter_t_railroad_track,
                                                     ter_t_railroad_track_on_tie ),
                                             mapf::furn_bind( ". # ^ - X x",
-                                                    f_null,
-                                                    f_null,
-                                                    f_null,
-                                                    f_null,
-                                                    f_null,
-                                                    f_null ) );
+                                                    furn_str_id::NULL_ID(),
+                                                    furn_str_id::NULL_ID(),
+                                                    furn_str_id::NULL_ID(),
+                                                    furn_str_id::NULL_ID(),
+                                                    furn_str_id::NULL_ID(),
+                                                    furn_str_id::NULL_ID() ) );
             }
             break;
         case 1:
@@ -563,15 +541,15 @@ void mapgen_subway( mapgendata &dat )
                                                 ter_t_railroad_track,
                                                 ter_t_railroad_track_on_tie ),
                                         mapf::furn_bind( ". # S ^ - / D X x",
-                                                f_null,
-                                                f_null,
-                                                f_null,
-                                                f_null,
-                                                f_null,
-                                                f_null,
-                                                f_null,
-                                                f_null,
-                                                f_null ) );
+                                                furn_str_id::NULL_ID(),
+                                                furn_str_id::NULL_ID(),
+                                                furn_str_id::NULL_ID(),
+                                                furn_str_id::NULL_ID(),
+                                                furn_str_id::NULL_ID(),
+                                                furn_str_id::NULL_ID(),
+                                                furn_str_id::NULL_ID(),
+                                                furn_str_id::NULL_ID(),
+                                                furn_str_id::NULL_ID() ) );
             VehicleSpawn::apply( VehicleSpawn_default_subway_deadend, *m, "subway" );
             break;
     }
@@ -627,11 +605,11 @@ void mapgen_river_straight( mapgendata &dat )
     for( int x = 0; x < SEEX * 2; x++ ) {
         int ground_edge = rng( 1, 3 );
         int shallow_edge = rng( 4, 6 );
-        line( m, grass_or_dirt(), point( x, 0 ), point( x, ground_edge ) );
+        line( m, grass_or_dirt(), point( x, 0 ), point( x, ground_edge ), dat.zlevel() );
         if( one_in( 25 ) ) {
             m->ter_set( point( x, ++ground_edge ), clay_or_sand() );
         }
-        line( m, ter_t_water_moving_sh, point( x, ++ground_edge ), point( x, shallow_edge ) );
+        line( m, ter_t_water_moving_sh, point( x, ++ground_edge ), point( x, shallow_edge ), dat.zlevel() );
     }
 
     if( dat.terrain_type() == oter_river_east ) {
@@ -653,20 +631,20 @@ void mapgen_river_curved( mapgendata &dat )
     for( int x = 0; x < SEEX * 2; x++ ) {
         int ground_edge = rng( 1, 3 );
         int shallow_edge = rng( 4, 6 );
-        line( m, grass_or_dirt(), point( x, 0 ), point( x, ground_edge ) );
+        line( m, grass_or_dirt(), point( x, 0 ), point( x, ground_edge ), dat.zlevel() );
         if( one_in( 25 ) ) {
             m->ter_set( point( x, ++ground_edge ), clay_or_sand() );
         }
-        line( m, ter_t_water_moving_sh, point( x, ++ground_edge ), point( x, shallow_edge ) );
+        line( m, ter_t_water_moving_sh, point( x, ++ground_edge ), point( x, shallow_edge ), dat.zlevel() );
     }
     for( int y = 0; y < SEEY * 2; y++ ) {
         int ground_edge = rng( 19, 21 );
         int shallow_edge = rng( 16, 18 );
-        line( m, grass_or_dirt(), point( ground_edge, y ), point( SEEX * 2 - 1, y ) );
+        line( m, grass_or_dirt(), point( ground_edge, y ), point( SEEX * 2 - 1, y ), dat.zlevel() );
         if( one_in( 25 ) ) {
             m->ter_set( point( --ground_edge, y ), clay_or_sand() );
         }
-        line( m, ter_t_water_moving_sh, point( shallow_edge, y ), point( --ground_edge, y ) );
+        line( m, ter_t_water_moving_sh, point( shallow_edge, y ), point( --ground_edge, y ), dat.zlevel() );
     }
 
     if( dat.terrain_type() == oter_river_se ) {
@@ -700,173 +678,6 @@ void mapgen_rock_partial( mapgendata &dat )
             }
         }
     }
-}
-
-void mapgen_rock( mapgendata &dat )
-{
-    fill_background( &dat.m, ter_t_rock );
-}
-
-void mapgen_open_air( mapgendata &dat )
-{
-    fill_background( &dat.m, ter_t_open_air );
-}
-
-void mapgen_rift( mapgendata &dat )
-{
-    map *const m = &dat.m;
-
-    if( dat.north() != oter_rift && dat.north() != oter_hellmouth ) {
-        if( connects_to( dat.north(), 2 ) ) {
-            dat.n_fac = rng( -6, -2 );
-        } else {
-            dat.n_fac = rng( 2, 6 );
-        }
-    }
-    if( dat.east() != oter_rift && dat.east() != oter_hellmouth ) {
-        if( connects_to( dat.east(), 3 ) ) {
-            dat.e_fac = rng( -6, -2 );
-        } else {
-            dat.e_fac = rng( 2, 6 );
-        }
-    }
-    if( dat.south() != oter_rift && dat.south() != oter_hellmouth ) {
-        if( connects_to( dat.south(), 0 ) ) {
-            dat.s_fac = rng( -6, -2 );
-        } else {
-            dat.s_fac = rng( 2, 6 );
-        }
-    }
-    if( dat.west() != oter_rift && dat.west() != oter_hellmouth ) {
-        if( connects_to( dat.west(), 1 ) ) {
-            dat.w_fac = rng( -6, -2 );
-        } else {
-            dat.w_fac = rng( 2, 6 );
-        }
-    }
-    // Negative *_fac values indicate rock floor connection, otherwise solid rock
-    // Of course, if we connect to a rift, *_fac = 0, and thus lava extends all the
-    //  way.
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            if( ( dat.n_fac < 0 && j < dat.n_fac * -1 ) || ( dat.s_fac < 0 && j >= SEEY * 2 - dat.s_fac ) ||
-                ( dat.w_fac < 0 && i < dat.w_fac * -1 ) || ( dat.e_fac < 0 && i >= SEEX * 2 - dat.e_fac ) ) {
-                m->ter_set( point( i, j ), ter_t_rock_floor );
-            } else if( j < dat.n_fac || j >= SEEY * 2 - dat.s_fac ||
-                       i < dat.w_fac || i >= SEEX * 2 - dat.e_fac ) {
-                m->ter_set( point( i, j ), ter_t_rock );
-            } else {
-                m->ter_set( point( i, j ), ter_t_lava );
-            }
-        }
-    }
-
-}
-
-void mapgen_hellmouth( mapgendata &dat )
-{
-    map *const m = &dat.m;
-    // what is this, doom?
-    // .. seriously, though...
-    for( int i = 0; i < 4; i++ ) {
-        if( dat.t_nesw[i] != oter_rift && dat.t_nesw[i] != oter_hellmouth ) {
-            dat.dir( i ) = 6;
-        }
-    }
-
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            if( j < dat.n_fac || j >= SEEY * 2 - dat.s_fac || i < dat.w_fac || i >= SEEX * 2 - dat.e_fac ||
-                ( i >= 6 && i < SEEX * 2 - 6 && j >= 6 && j < SEEY * 2 - 6 ) ) {
-                m->ter_set( point( i, j ), ter_t_rock_floor );
-            } else {
-                m->ter_set( point( i, j ), ter_t_lava );
-            }
-            if( i >= SEEX - 1 && i <= SEEX && j >= SEEY - 1 && j <= SEEY ) {
-                m->ter_set( point( i, j ), ter_t_slope_down );
-            }
-        }
-    }
-    switch( rng( 0, 4 ) ) { // Randomly chosen "altar" design
-        case 0:
-            for( int i = 7; i <= 16; i += 3 ) {
-                m->ter_set( point( i, 6 ), ter_t_rock );
-                m->ter_set( point( i, 17 ), ter_t_rock );
-                m->ter_set( point( 6, i ), ter_t_rock );
-                m->ter_set( point( 17, i ), ter_t_rock );
-                if( i > 7 && i < 16 ) {
-                    m->ter_set( point( i, 10 ), ter_t_rock );
-                    m->ter_set( point( i, 13 ), ter_t_rock );
-                } else {
-                    m->ter_set( point( i - 1, 6 ), ter_t_rock );
-                    m->ter_set( point( i - 1, 10 ), ter_t_rock );
-                    m->ter_set( point( i - 1, 13 ), ter_t_rock );
-                    m->ter_set( point( i - 1, 17 ), ter_t_rock );
-                }
-            }
-            break;
-        case 1:
-            for( int i = 6; i < 11; i++ ) {
-                m->ter_set( point( i, i ), ter_t_lava );
-                m->ter_set( point( SEEX * 2 - 1 - i, i ), ter_t_lava );
-                m->ter_set( point( i, SEEY * 2 - 1 - i ), ter_t_lava );
-                m->ter_set( point( SEEX * 2 - 1 - i, SEEY * 2 - 1 - i ), ter_t_lava );
-                if( i < 10 ) {
-                    m->ter_set( point( i + 1, i ), ter_t_lava );
-                    m->ter_set( point( SEEX * 2 - i, i ), ter_t_lava );
-                    m->ter_set( point( i + 1, SEEY * 2 - 1 - i ), ter_t_lava );
-                    m->ter_set( point( SEEX * 2 - i, SEEY * 2 - 1 - i ), ter_t_lava );
-
-                    m->ter_set( point( i, i + 1 ), ter_t_lava );
-                    m->ter_set( point( SEEX * 2 - 1 - i, i + 1 ), ter_t_lava );
-                    m->ter_set( point( i, SEEY * 2 - i ), ter_t_lava );
-                    m->ter_set( point( SEEX * 2 - 1 - i, SEEY * 2 - i ), ter_t_lava );
-                }
-                if( i < 9 ) {
-                    m->ter_set( point( i + 2, i ), ter_t_rock );
-                    m->ter_set( point( SEEX * 2 - i + 1, i ), ter_t_rock );
-                    m->ter_set( point( i + 2, SEEY * 2 - 1 - i ), ter_t_rock );
-                    m->ter_set( point( SEEX * 2 - i + 1, SEEY * 2 - 1 - i ), ter_t_rock );
-
-                    m->ter_set( point( i, i + 2 ), ter_t_rock );
-                    m->ter_set( point( SEEX * 2 - 1 - i, i + 2 ), ter_t_rock );
-                    m->ter_set( point( i, SEEY * 2 - i + 1 ), ter_t_rock );
-                    m->ter_set( point( SEEX * 2 - 1 - i, SEEY * 2 - i + 1 ), ter_t_rock );
-                }
-            }
-            break;
-        case 2:
-            for( int i = 7; i < 17; i++ ) {
-                m->ter_set( point( i, 6 ), ter_t_rock );
-                m->ter_set( point( 6, i ), ter_t_rock );
-                m->ter_set( point( i, 17 ), ter_t_rock );
-                m->ter_set( point( 17, i ), ter_t_rock );
-                if( i != 7 && i != 16 && i != 11 && i != 12 ) {
-                    m->ter_set( point( i, 8 ), ter_t_rock );
-                    m->ter_set( point( 8, i ), ter_t_rock );
-                    m->ter_set( point( i, 15 ), ter_t_rock );
-                    m->ter_set( point( 15, i ), ter_t_rock );
-                }
-                if( i == 11 || i == 12 ) {
-                    m->ter_set( point( i, 10 ), ter_t_rock );
-                    m->ter_set( point( 10, i ), ter_t_rock );
-                    m->ter_set( point( i, 13 ), ter_t_rock );
-                    m->ter_set( point( 13, i ), ter_t_rock );
-                }
-            }
-            break;
-        case 3:
-            for( int i = 6; i < 11; i++ ) {
-                for( int j = 6; j < 11; j++ ) {
-                    m->ter_set( point( i, j ), ter_t_lava );
-                    m->ter_set( point( SEEX * 2 - 1 - i, j ), ter_t_lava );
-                    m->ter_set( point( i, SEEY * 2 - 1 - j ), ter_t_lava );
-                    m->ter_set( point( SEEX * 2 - 1 - i, SEEY * 2 - 1 - j ), ter_t_lava );
-                }
-            }
-            break;
-    }
-
 }
 
 void mapgen_forest( mapgendata &dat )
@@ -956,7 +767,7 @@ void mapgen_forest( mapgendata &dat )
     // In order to feather (blend) this overmap tile with adjacent ones, the general composition thereof must be known.
     // This can be calculated once from dat.t_nesw, and stored here:
     std::array<const forest_biome *, 8> adjacent_biomes;
-    for( int d = 0; d < 7; d++ ) {
+    for( int d = 0; d <= 7; d++ ) {
         auto lookup = dat.region.forest_composition.biomes.find( dat.t_nesw[d]->get_type_id() );
         if( lookup != dat.region.forest_composition.biomes.end() ) {
             adjacent_biomes[d] = &( lookup->second );
@@ -1211,7 +1022,12 @@ void mapgen_forest( mapgendata &dat )
                 return *dat.region.default_groundcover.pick();
             default:
                 if( adjacent_biomes[feather_selection] != nullptr ) {
-                    return *adjacent_biomes[feather_selection]->groundcover.pick();
+                    const ter_id *cover = adjacent_biomes[feather_selection]->groundcover.pick();
+                    if( cover ) {
+                        return *cover;
+                    }
+                    // Adjacent biome has no groundcover, use the region default.
+                    return *dat.region.default_groundcover.pick();
                 } else {
                     return *dat.region.default_groundcover.pick();
                 }
@@ -1319,7 +1135,7 @@ void mapgen_forest( mapgendata &dat )
     // Place items on this terrain as defined in the biome.
     for( int i = 0; i < self_biome.item_spawn_iterations; i++ ) {
         m->place_items( self_biome.item_group, self_biome.item_group_chance,
-                        point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
+                        point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), dat.zlevel(), true, dat.when() );
     }
 }
 
@@ -1713,7 +1529,7 @@ void mapgen_lake_shore( mapgendata &dat )
                 // Use t_null for now instead of t_water_sh, because sometimes our extended terrain
                 // has put down a t_water_sh, and we need to be able to flood-fill over that.
                 m->ter_set( bp, ter_str_id::NULL_ID() );
-                m->furn_set( bp, f_null );
+                m->furn_set( bp, furn_str_id::NULL_ID() );
             }
         }
     };
@@ -1758,7 +1574,7 @@ void mapgen_lake_shore( mapgendata &dat )
                                           should_fill );
         for( point &wp : water_points ) {
             m->ter_set( wp, ter_t_water_dp );
-            m->furn_set( wp, f_null );
+            m->furn_set( wp, furn_str_id::NULL_ID() );
         }
     };
 
@@ -2149,7 +1965,7 @@ void mapgen_ocean_shore( mapgendata &dat )
                     continue;
                 }
                 m->ter_set( bp, ter_t_swater_sh );
-                m->furn_set( bp, f_null );
+                m->furn_set( bp, furn_str_id::NULL_ID() );
             }
         }
     };
@@ -2164,7 +1980,7 @@ void mapgen_ocean_shore( mapgendata &dat )
                 // Use t_null for now instead of t_sand, because sometimes our extended terrain
                 // has put down a t_sand, and we need to be able to flood-fill over that.
                 m->ter_set( bp, ter_str_id::NULL_ID() );
-                m->furn_set( bp, f_null );
+                m->furn_set( bp, furn_str_id::NULL_ID() );
             }
             for( const point &bp : closest_points_first( p, sand_margin + 1 ) ) {
                 if( !map_boundaries.contains( bp ) ) {
@@ -2224,7 +2040,7 @@ void mapgen_ocean_shore( mapgendata &dat )
                                           should_fill );
         for( point &wp : water_points ) {
             m->ter_set( wp, ter_t_swater_dp );
-            m->furn_set( wp, f_null );
+            m->furn_set( wp, furn_str_id::NULL_ID() );
         }
     };
 
@@ -2297,7 +2113,7 @@ void mapgen_ravine_edge( mapgendata &dat )
     if( straight ) {
         for( int x = 0; x < SEEX * 2; x++ ) {
             int ground_edge = 12 + rng( 1, 3 );
-            line( m, ter_str_id::NULL_ID(), point( x, ++ground_edge ), point( x, SEEY * 2 ) );
+            line( m, ter_str_id::NULL_ID(), point( x, ++ground_edge ), point( x, SEEY * 2 ), dat.zlevel() );
         }
         if( w_ravine ) {
             m->rotate( 1 );
@@ -2311,7 +2127,7 @@ void mapgen_ravine_edge( mapgendata &dat )
     } else if( interior_corner ) {
         for( int x = 0; x < SEEX * 2; x++ ) {
             int ground_edge = 12 + rng( 1, 3 ) + x;
-            line( m, ter_str_id::NULL_ID(), point( x, ++ground_edge ), point( x, SEEY * 2 ) );
+            line( m, ter_str_id::NULL_ID(), point( x, ++ground_edge ), point( x, SEEY * 2 ), dat.zlevel() );
         }
         if( nw_ravine ) {
             m->rotate( 1 );
@@ -2325,7 +2141,7 @@ void mapgen_ravine_edge( mapgendata &dat )
     } else if( exterior_corner ) {
         for( int x = 0; x < SEEX * 2; x++ ) {
             int ground_edge =  12  + rng( 1, 3 ) - x;
-            line( m, ter_str_id::NULL_ID(), point( x, --ground_edge ), point( x, SEEY * 2 - 1 ) );
+            line( m, ter_str_id::NULL_ID(), point( x, --ground_edge ), point( x, SEEY * 2 - 1 ), dat.zlevel() );
         }
         if( w_ravine && s_ravine ) {
             m->rotate( 1 );
@@ -2346,26 +2162,23 @@ void mapgen_ravine_edge( mapgendata &dat )
     }
 }
 
-void mremove_trap( map *m, const point &p, trap_id type )
+void mremove_trap( map *m, const tripoint_bub_ms &p, trap_id type )
 {
-    tripoint actual_location( p, m->get_abs_sub().z() );
-    const trap_id trap_at_loc = m->maptile_at( actual_location ).get_trap().id();
+    const trap_id trap_at_loc = m->maptile_at( p ).get_trap().id();
     if( type == tr_null || trap_at_loc == type ) {
-        m->remove_trap( actual_location );
+        m->remove_trap( p );
     }
 }
 
-void mtrap_set( map *m, const point &p, trap_id type, bool avoid_creatures )
+void mtrap_set( map *m, const tripoint_bub_ms &p, trap_id type, bool avoid_creatures )
 {
     if( avoid_creatures ) {
-        Creature *c = get_creature_tracker().creature_at( tripoint_abs_ms( m->getabs( tripoint( p,
-                      m->get_abs_sub().z() ) ) ), true );
+        Creature *c = get_creature_tracker().creature_at( tripoint_abs_ms( m->getabs( p ) ), true );
         if( c ) {
             return;
         }
     }
-    tripoint actual_location( p, m->get_abs_sub().z() );
-    m->trap_set( actual_location, type );
+    m->trap_set( p, type );
 }
 
 void mtrap_set( tinymap *m, const point &p, trap_id type, bool avoid_creatures )
@@ -2387,10 +2200,9 @@ void madd_field( map *m, const point &p, field_type_id type, int intensity )
     m->add_field( actual_location, type, intensity, 0_turns );
 }
 
-void mremove_fields( map *m, const point &p )
+void mremove_fields( map *m, const tripoint_bub_ms &p )
 {
-    tripoint actual_location( p, m->get_abs_sub().z() );
-    m->clear_fields( actual_location );
+    m->clear_fields( p.raw() );
 }
 
 void resolve_regional_terrain_and_furniture( const mapgendata &dat )

@@ -76,18 +76,13 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Draco_1",
     "dynamic_line": {
-      "u_has_var": "u_met_Draco_Dune",
-      "type": "general",
-      "context": "meeting",
+      "u_has_var": "general_meeting_u_met_Draco_Dune",
       "value": "yes",
       "yes": { "gendered_line": "Always good to see you, friend.", "relevant_genders": [ "u" ] },
       "no": "Well now, good to see another new face!  Welcome to the center, friend, I'm Draco."
     },
     "speaker_effect": {
-      "effect": [
-        { "u_add_var": "u_met_Draco_Dune", "type": "general", "context": "meeting", "value": "yes" },
-        { "npc_first_topic": "TALK_REFUGEE_Draco_1a" }
-      ]
+      "effect": [ { "u_add_var": "general_meeting_u_met_Draco_Dune", "value": "yes" }, { "npc_first_topic": "TALK_REFUGEE_Draco_1a" } ]
     },
     "responses": [
       { "text": "Nice to meet you, Draco.", "topic": "TALK_REFUGEE_Draco_1_firstmeet" },
@@ -103,10 +98,8 @@
         "text": "Hi, Draco, how are you doing?",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "3" } },
-            {
-              "not": { "u_has_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "7" }
-            }
+            { "not": { "u_has_var": "general_meeting_Draco_Dune_convo_depth", "value": "3" } },
+            { "not": { "u_has_var": "general_meeting_Draco_Dune_convo_depth", "value": "7" } }
           ]
         },
         "topic": "TALK_REFUGEE_Draco_2"
@@ -115,17 +108,15 @@
         "text": "Hi again, Draco, nice to see you too.",
         "condition": {
           "and": [
-            { "u_has_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "3" },
-            {
-              "not": { "u_has_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "7" }
-            }
+            { "u_has_var": "general_meeting_Draco_Dune_convo_depth", "value": "3" },
+            { "not": { "u_has_var": "general_meeting_Draco_Dune_convo_depth", "value": "7" } }
           ]
         },
         "topic": "TALK_REFUGEE_Draco_5a"
       },
       {
         "text": "Hi again, Draco, nice to see you too.",
-        "condition": { "u_has_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "7" },
+        "condition": { "u_has_var": "general_meeting_Draco_Dune_convo_depth", "value": "7" },
         "topic": "TALK_REFUGEE_Draco_7"
       },
       { "text": "Hi Draco, nice to see you too.  I gotta go though.", "topic": "TALK_DONE" }
@@ -258,9 +249,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Draco_7",
     "dynamic_line": {
-      "u_has_var": "NC_REFUGEE_Draco_has_guitar",
-      "type": "general",
-      "context": "mission",
+      "u_has_var": "general_mission_NC_REFUGEE_Draco_has_guitar",
       "value": "yes",
       "yes": {
         "gendered_line": "My savior!  My patron of the arts!  You're always welcome here, friend.",
@@ -273,22 +262,22 @@
       {
         "text": "Let's talk about getting you that guitar.",
         "topic": "TALK_MISSION_LIST",
-        "condition": { "not": { "u_has_var": "NC_REFUGEE_Draco_has_guitar", "type": "general", "context": "mission", "value": "yes" } }
+        "condition": { "not": { "u_has_var": "general_mission_NC_REFUGEE_Draco_has_guitar", "value": "yes" } }
       },
       {
         "text": "I've been thinking about that deal you mentioned.",
-        "condition": { "u_has_var": "NC_REFUGEE_Draco_offered_weed_deal", "type": "general", "context": "barter", "value": "yes" },
+        "condition": { "u_has_var": "general_barter_NC_REFUGEE_Draco_offered_weed_deal", "value": "yes" },
         "topic": "TALK_REFUGEE_Draco_10_approve"
       },
       {
         "text": "Anything you buying or selling, by chance?",
-        "condition": { "not": { "u_has_var": "NC_REFUGEE_Draco_offered_weed_deal", "type": "general", "context": "barter", "value": "yes" } },
-        "effect": { "u_add_var": "NC_REFUGEE_Draco_offered_weed_deal", "type": "general", "context": "barter", "value": "yes" },
+        "condition": { "not": { "u_has_var": "general_barter_NC_REFUGEE_Draco_offered_weed_deal", "value": "yes" } },
+        "effect": { "u_add_var": "general_barter_NC_REFUGEE_Draco_offered_weed_deal", "value": "yes" },
         "topic": "TALK_REFUGEE_Draco_8"
       },
       {
         "text": "Do you know any tunes good to dance to?",
-        "condition": { "u_has_var": "NC_REFUGEE_Draco_has_guitar", "type": "general", "context": "mission", "value": "yes" },
+        "condition": { "u_has_var": "general_mission_NC_REFUGEE_Draco_has_guitar", "value": "yes" },
         "topic": "TALK_REFUGEE_Draco_Dance"
       },
       { "text": "See you around, Draco.", "topic": "TALK_DONE" }
@@ -360,9 +349,7 @@
         "condition": {
           "and": [
             { "u_has_items": { "item": "weed", "count": 5 } },
-            {
-              "not": { "u_has_var": "NC_REFUGEE_Draco_has_guitar", "type": "general", "context": "mission", "value": "yes" }
-            },
+            { "not": { "u_has_var": "general_mission_NC_REFUGEE_Draco_has_guitar", "value": "yes" } },
             { "not": { "npc_has_effect": "u_sold_to_Draco" } }
           ]
         },
@@ -378,7 +365,7 @@
         "condition": {
           "and": [
             { "u_has_items": { "item": "weed", "count": 5 } },
-            { "u_has_var": "NC_REFUGEE_Draco_has_guitar", "type": "general", "context": "mission", "value": "yes" },
+            { "u_has_var": "general_mission_NC_REFUGEE_Draco_has_guitar", "value": "yes" },
             { "not": { "npc_has_effect": "u_sold_to_Draco" } }
           ]
         },
@@ -394,9 +381,7 @@
         "condition": {
           "and": [
             { "u_has_items": { "item": "joint", "count": 5 } },
-            {
-              "not": { "u_has_var": "NC_REFUGEE_Draco_has_guitar", "type": "general", "context": "mission", "value": "yes" }
-            },
+            { "not": { "u_has_var": "general_mission_NC_REFUGEE_Draco_has_guitar", "value": "yes" } },
             { "not": { "npc_has_effect": "u_sold_to_Draco" } }
           ]
         },
@@ -412,7 +397,7 @@
         "condition": {
           "and": [
             { "u_has_items": { "item": "joint", "count": 5 } },
-            { "u_has_var": "NC_REFUGEE_Draco_has_guitar", "type": "general", "context": "mission", "value": "yes" },
+            { "u_has_var": "general_mission_NC_REFUGEE_Draco_has_guitar", "value": "yes" },
             { "not": { "npc_has_effect": "u_sold_to_Draco" } }
           ]
         },
@@ -451,7 +436,7 @@
     "id": "TALK_REFUGEE_Draco_Dance",
     "dynamic_line": { "gendered_line": "Sure thing, friend!  Let's see how you can move to this one.", "relevant_genders": [ "u" ] },
     "responses": [
-      { "text": "Just a sec, got somethig I need to do first.", "topic": "TALK_DONE" },
+      { "text": "Just a sec, got something I need to do first.", "topic": "TALK_DONE" },
       {
         "text": "[Shuffle back and forth a little]",
         "topic": "TALK_REFUGEE_Draco_Dance_1",
@@ -547,7 +532,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "end": {
       "effect": [
-        { "u_add_var": "NC_REFUGEE_Draco_has_guitar", "type": "general", "context": "mission", "value": "yes" },
+        { "u_add_var": "general_mission_NC_REFUGEE_Draco_has_guitar", "value": "yes" },
         { "math": [ "u_counter_refugee_center_refugee_happiness", "+=", "2" ] }
       ]
     },
@@ -555,7 +540,7 @@
       "describe": "Yeah, sure, imagine how things would be if we had some live music around here?  I don't know how much I could thank you, though, if you're looking for payment.  You'd sure be improving the mood, though.",
       "offer": "I just want a functional acoustic guitar.  Preferably one that hasn't been used to cave in any zombie skulls.",
       "accepted": "Great!  We'll be makin' music in no time!",
-      "rejected": "Oh well.  I understand your reluctancy… I guess.",
+      "rejected": "Oh well.  I understand your reluctance… I guess.",
       "advice": "Well, I'll let you in on a little secret.  Guitars COULD be found at a music store.  Let that one sink in a bit.",
       "inquire": "How's my guitar comin', friend?",
       "success": "Hell yeah, bud!  You just made a lot of people really happy!  In thanks, I'll have enough cash to offer you more recompense for our little dealings.",

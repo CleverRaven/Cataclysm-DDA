@@ -3,8 +3,10 @@
 #include <set>
 
 #include "debug.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "json.h"
+#include "init.h"
 
 generic_factory<ammo_effect> &get_all_ammo_effects()
 {

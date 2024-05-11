@@ -29,7 +29,7 @@
     "description": "Internal tank for vampire blood power generator bionic.",
     "volume": "251 ml",
     "weight": "1 g",
-    "price": 0,
+    "price": "0 cent",
     "material": [ "plastic" ],
     "symbol": "(",
     "color": "magenta",

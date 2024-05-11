@@ -571,7 +571,6 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "grab_strength": 100,
     "dodge": 5,
-    "luminance": 0,
     "harvest": "fae_changeling",
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_wp_demihuman" ],

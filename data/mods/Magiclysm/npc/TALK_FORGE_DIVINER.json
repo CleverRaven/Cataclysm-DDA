@@ -108,7 +108,7 @@
     "dynamic_line": "Seeking to pick around your civilization's corpse?",
     "responses": [
       { "text": "A lab.", "topic": "TALK_FORGE_LORD_DIVINER_LAB" },
-      { "text": "An exodii location.", "topic": "TALK_FORGE_LORD_DIVINER_EXODII" },
+      { "text": "An Exodii location.", "topic": "TALK_FORGE_LORD_DIVINER_EXODII" },
       { "text": "A strange temple.", "topic": "TALK_FORGE_LORD_DIVINER_TEMPLE" },
       { "text": "An attunement altar.", "topic": "TALK_FORGE_LORD_DIVINER_ATTUNEMENT" },
       { "text": "A magic academy.", "topic": "TALK_FORGE_LORD_DIVINER_ACADEMY" },
@@ -287,7 +287,7 @@
   {
     "id": "TALK_FORGE_LORD_DIVINER_SPIDERS_DEMON",
     "type": "talk_topic",
-    "dynamic_line": "Fasinating creatures, really.  They have evolved a way to channel their innate mana into potent fire spells.  Some demonic spider queens collect magical items as well.  Perhaps they have a way of absorbing the mana in them and use it for themselves?  I'll mark the lair of such a queen on your map for one denarius.  You might want to bring fire resistant clothing.",
+    "dynamic_line": "Fascinating creatures, really.  They have evolved a way to channel their innate mana into potent fire spells.  Some demonic spider queens collect magical items as well.  Perhaps they have a way of absorbing the mana in them and use it for themselves?  I'll mark the lair of such a queen on your map for one denarius.  You might want to bring fire resistant clothing.",
     "responses": [
       {
         "text": "It's a deal.",

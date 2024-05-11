@@ -17,6 +17,7 @@
             "IERDE_EARTH_SHIELD",
             "IERDE_BUFF_ARMOR_ALLIES",
             "IERDE_SUMMON_EARTH_ELEMENTAL",
+            "IERDE_TUNNEL_TRANSLOCATION",
             "IERDE_CULTIVATE_GOBLIN_FRUIT",
             "PARACLESIAN_MAKE_GOSSAMER"
           ]
@@ -60,9 +61,11 @@
         { "math": [ "u_spell_level('ierde_iron_armor_spell')", "<", "per_to_level(1)" ] },
         { "math": [ "u_spell_level('ierde_reshape_the_earth_spell')", "<", "per_to_level(1)" ] },
         { "math": [ "u_spell_level('ierde_slow_enemies_spell')", "<", "str_to_level(1)" ] },
+        { "math": [ "u_spell_level('ierde_entrap_target_in_stone')", "<", "per_to_level(1)" ] },
         { "math": [ "u_spell_level('ierde_earthen_shield_spell')", "<", "str_to_level(1)" ] },
         { "math": [ "u_spell_level('ierde_buff_armor_allies_spell')", "<", "str_to_level(1)" ] },
         { "math": [ "u_spell_level('ierde_summon_earth_spirit')", "<", "35" ] },
+        { "math": [ "u_spell_level('ierde_tunnel_translocation_spell')", "<", "per_to_level(1)" ] },
         { "math": [ "u_spell_level('ierde_cultivate_goblin_fruit')", "<", "str_to_level(1)" ] },
         { "math": [ "u_spell_level('paraclesian_spell_make_gossamer')", "<", "8" ] }
       ]
@@ -75,9 +78,11 @@
         [ "EOC_LEVELER_IERDE_IRON_ARMOR", 6 ],
         [ "EOC_LEVELER_IERDE_RESHAPE_THE_EARTH", 7 ],
         [ "EOC_LEVELER_IERDE_SLOW_ENEMIES", 5 ],
+        [ "EOC_LEVELER_IERDE_ENTRAP_TARGET_IN_STONE", 4 ],
         [ "EOC_LEVELER_IERDE_EARTHEN_SHIELD", 3 ],
         [ "EOC_LEVELER_IERDE_BUFF_ARMOR_ALLIES", 5 ],
         [ "EOC_LEVELER_IERDE_SUMMON_EARTH_SPIRIT", 8 ],
+        [ "EOC_LEVELER_IERDE_TUNNEL_TRANSLOCATE", 2 ],
         [ "EOC_LEVELER_IERDE_CULTIVATE_GOBLIN_FRUIT", 3 ],
         [ "EOC_LEVELER_IERDE_MAKE_GOSSAMER", 4 ]
       ]
@@ -193,6 +198,24 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_LEVELER_IERDE_ENTRAP_TARGET_IN_STONE",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('ierde_entrap_target_in_stone')", ">=", "0" ] },
+        { "math": [ "u_spell_level('ierde_entrap_target_in_stone')", "<", "per_to_level(1)" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent surrounded by the living earth has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('ierde_entrap_target_in_stone')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_IERDE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_LEVELER_IERDE_EARTHEN_SHIELD",
     "condition": {
       "and": [
@@ -242,6 +265,24 @@
         "type": "good"
       },
       { "math": [ "u_spell_exp('ierde_summon_earth_spirit')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_IERDE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_IERDE_TUNNEL_TRANSLOCATE",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('ierde_tunnel_translocation_spell')", ">=", "0" ] },
+        { "math": [ "u_spell_level('ierde_tunnel_translocation_spell')", "<", "per_to_level(1)" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent surrounded by the living earth has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      { "math": [ "u_spell_exp('ierde_tunnel_translocation_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
     ],
     "false_effect": [ { "run_eocs": "EOC_IERDE_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },

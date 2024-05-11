@@ -126,16 +126,7 @@
       "and": [
         { "u_has_trait": "HOMULLUS_DREAMWALKER" },
         { "x_in_y_chance": { "x": { "math": [ "1 + u_has_trait('THRESH_HOMULLUS')" ] }, "y": 10 } },
-        {
-          "or": [
-            { "npc_allies": 1 },
-            { "u_near_om_location": "evac_center_13", "range": 3 },
-            { "u_near_om_location": "robofachq_surface_entrance", "range": 3 },
-            { "u_near_om_location": "isolated_road_field_0", "range": 2 },
-            { "u_near_om_location": "ranch_camp_41", "range": 3 },
-            { "u_near_om_location": "godco_5", "range": 2 }
-          ]
-        }
+        { "math": [ "u_characters_nearby('radius': 30, 'attitude': 'any')", ">", "0" ] }
       ]
     },
     "effect": [
@@ -338,5 +329,60 @@
       { "u_add_trait": "HOMULLUS_DOLL_FORM_ANGER_RELATIONS" }
     ],
     "false_effect": [ { "u_lose_trait": "HOMULLUS_DOLL_FORM_ANGER_RELATIONS_ATTACKER" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_ALL_ROADS_TRANSLOCATE_CHECK",
+    "condition": {
+      "and": [
+        "u_is_outside",
+        {
+          "or": [
+            { "u_at_om_location": "road_curved" },
+            { "u_at_om_location": "road_tee" },
+            { "u_at_om_location": "road_four_way" },
+            { "u_at_om_location": "road_end" },
+            { "u_at_om_location": "road_sw" },
+            { "u_at_om_location": "road_ne" },
+            { "u_at_om_location": "road_ew" },
+            { "u_at_om_location": "road_ns" },
+            { "u_at_om_location": "road_nesw" },
+            { "u_at_om_location": "road" },
+            { "u_at_om_location": "road_straight" }
+          ]
+        },
+        { "u_is_on_terrain_with_flag": "ROAD" }
+      ]
+    },
+    "effect": [ { "u_cast_spell": { "id": "paraclesian_translocate" } } ],
+    "false_effect": [ { "u_message": "You must be standing on a road to cast this spell.", "type": "mixed" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_ALL_ROADS_ATTUNEMENT_CHECK",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "u_near_om_location": "evac_center_13", "range": 3 },
+            { "u_near_om_location": "evac_center_09", "range": 3 },
+            { "u_near_om_location": "robofachq_surface_entrance", "range": 3 },
+            { "u_near_om_location": "isolated_road_field_0", "range": 1 },
+            { "u_near_om_location": "lumbermill_0_0_ocu", "range": 1 },
+            { "u_near_om_location": "ranch_camp_41", "range": 3 },
+            { "u_near_om_location": "ranch_camp_35", "range": 3 },
+            { "u_near_om_location": "ranch_camp_22", "range": 3 },
+            { "u_near_om_location": "ranch_camp_11", "range": 3 },
+            { "u_near_om_location": "godco_5", "range": 3 },
+            { "u_at_om_location": "FACTION_CAMP_ANY" },
+            { "math": [ "u_characters_nearby('radius': 50, 'attitude': 'any')", ">=", "15" ] }
+          ]
+        }
+      ]
+    },
+    "effect": [ { "u_cast_spell": { "id": "homullus_civilization_translocate_attune_real" }, "targeted": true } ],
+    "false_effect": [
+      { "u_message": "You must be within one of the remaining bastions of civilization to cast this spell.", "type": "mixed" }
+    ]
   }
 ]

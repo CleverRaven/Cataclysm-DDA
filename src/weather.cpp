@@ -43,6 +43,7 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "trap.h"
+#include "uistate.h"
 #include "units.h"
 #include "weather_gen.h"
 

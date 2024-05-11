@@ -374,7 +374,7 @@
         "A": "f_utility_shelf",
         "B": "f_utility_shelf",
         "C": "f_utility_shelf",
-        "D": "f_fridge"
+        "D": "f_freezer"
       },
       "items": {
         "9": { "item": "SUS_pantry", "chance": 95 },

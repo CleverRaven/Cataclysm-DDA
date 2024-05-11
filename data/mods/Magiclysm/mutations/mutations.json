@@ -296,7 +296,7 @@
         "values": [
           { "value": "MAX_HP", "add": -6 },
           { "value": "STRENGTH", "add": 4 },
-          { "value": "FATIGUE", "multiply": 0.15 },
+          { "value": "SLEEPINESS", "multiply": 0.15 },
           { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 1 },
           { "value": "CARRY_WEIGHT", "multiply": 0.1 }
         ]
@@ -477,7 +477,9 @@
     "type": "mutation",
     "id": "ARM_FEATHERS",
     "copy-from": "ARM_FEATHERS",
-    "extend": { "category": [ "SPECIES_RAVENFOLK" ] }
+    "valid": true,
+    "extend": { "category": [ "SPECIES_RAVENFOLK" ] },
+    "delete": { "prereqs2": [ "PRE_ARM_FEATHERS" ] }
   },
   {
     "type": "mutation",
@@ -497,7 +499,7 @@
     "prereqs": [ "WINGS_STUB" ],
     "category": [ "DRAGON_BLACK" ],
     "threshreq": [ "THRESH_DRAGON_BLACK" ],
-    "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": -3 } ] } ],
+    "enchantments": [ { "values": [ { "value": "DODGE_CHANCE", "add": -3 } ] } ],
     "attacks": {
       "attack_text_u": "You bash %s with your powerful wings!",
       "attack_text_npc": "%1$s bashes %2$s with their powerful wings!",
@@ -766,14 +768,7 @@
     "points": 2,
     "visibility": 4,
     "ugliness": 3,
-    "enchantments": [
-      {
-        "condition": { "not": "u_has_weapon" },
-        "values": [ { "value": "ITEM_DAMAGE_CUT", "add": 5 }, { "value": "ITEM_DAMAGE_STAB", "add": 5 } ]
-      }
-    ],
-    "butchering_quality": 4,
-    "flags": [ "UNARMED_BONUS" ],
+    "integrated_armor": [ "integrated_scaled_hands" ],
     "mixed_effect": true,
     "restricts_gear": [ "hand_l", "hand_r" ],
     "destroys_gear": true,
@@ -791,16 +786,9 @@
     "points": 2,
     "visibility": 4,
     "ugliness": 3,
-    "enchantments": [
-      {
-        "condition": { "not": "u_has_weapon" },
-        "values": [ { "value": "ITEM_DAMAGE_CUT", "add": 10 }, { "value": "ITEM_DAMAGE_STAB", "add": 10 } ]
-      }
-    ],
-    "butchering_quality": 4,
-    "flags": [ "UNARMED_BONUS" ],
     "mixed_effect": true,
     "restricts_gear": [ "hand_l", "hand_r" ],
+    "integrated_armor": [ "integrated_dragon_talons_black" ],
     "destroys_gear": true,
     "description": "All of your fingers have developed into huge scaled talons.  They prevent wearing gloves, but you can use them to powerful effect in melee combat and you appear to have uncovered some secrets about black dragons.",
     "types": [ "CLAWS" ],

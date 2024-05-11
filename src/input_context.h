@@ -223,6 +223,27 @@ class input_context
                               const input_event_filter &evt_filter = allow_all_keys ) const;
 
         /**
+         * Get a description for the action parameter along with a printable hotkey
+         * for the description in the format [%s] %s
+         *
+         * @param action_descriptor The action descriptor for which to return
+         *                          a description of the bound keys.
+         */
+        std::string get_button_text( const std::string &action_descriptor ) const;
+
+        /**
+         * Get a description for the action parameter along with a printable hotkey
+         * for the description in the format [%s] %s
+         *
+         * @param action_descriptor The action descriptor for which to return
+         *                          a description of the bound keys.
+         *
+         * @param action_text The human readable description of the action.
+         */
+        std::string get_button_text( const std::string &action_descriptor,
+                                     const std::string &action_text ) const;
+
+        /**
          * Get a description based on `text`. If a bound key for `action_descriptor`
          * satisfying `evt_filter` is contained in `text`, surround the key with
          * brackets and change the case if necessary (e.g. "(Y)es"). Otherwise
@@ -457,9 +478,6 @@ class input_context
          */
         std::vector<std::string> filter_strings_by_phrase( const std::vector<std::string> &strings,
                 std::string_view phrase ) const;
-
-        action_id display_menu_legacy( bool permit_execute_action );
-        action_id display_menu_imgui( bool permit_execute_action );
 };
 
 class hotkey_queue

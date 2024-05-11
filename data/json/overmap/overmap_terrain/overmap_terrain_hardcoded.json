@@ -148,7 +148,7 @@
   {
     "type": "overmap_terrain",
     "id": "rock",
-    "//": "This is old rock type, new one (below) will replace it in new overmaps",
+    "//": "This is old rock type replaced by empty_rock/deep_rock, now only used for edges of slimepits",
     "name": "solid rock",
     "looks_like": "empty_rock",
     "sym": "%",
@@ -165,24 +165,6 @@
     "see_cost": 5,
     "travel_cost_type": "impassable",
     "flags": [ "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "rift",
-    "name": "rift",
-    "sym": "^",
-    "color": "red",
-    "see_cost": 2,
-    "flags": [ "NO_ROTATE", "RISK_HIGH", "SHOULD_NOT_SPAWN" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hellmouth",
-    "name": "hellmouth",
-    "sym": "^",
-    "color": "light_red",
-    "see_cost": 2,
-    "flags": [ "KNOWN_DOWN", "NO_ROTATE", "RISK_HIGH", "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",

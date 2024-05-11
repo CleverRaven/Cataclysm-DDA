@@ -380,8 +380,8 @@
       {
         "values": [
           { "value": "STAMINA_REGEN_MOD", "add": 0.1 },
-          { "value": "FATIGUE_REGEN", "multiply": 0.25 },
-          { "value": "FATIGUE", "multiply": -0.25 },
+          { "value": "SLEEPINESS_REGEN", "multiply": 0.25 },
+          { "value": "SLEEPINESS", "multiply": -0.25 },
           { "value": "METABOLISM", "multiply": 0.33 }
         ]
       }
@@ -401,8 +401,8 @@
       {
         "values": [
           { "value": "STAMINA_REGEN_MOD", "add": 0.2 },
-          { "value": "FATIGUE_REGEN", "multiply": 0.5 },
-          { "value": "FATIGUE", "multiply": -0.5 },
+          { "value": "SLEEPINESS_REGEN", "multiply": 0.5 },
+          { "value": "SLEEPINESS", "multiply": -0.5 },
           { "value": "METABOLISM", "multiply": 0.66 }
         ]
       }
@@ -424,8 +424,8 @@
       {
         "values": [
           { "value": "STAMINA_REGEN_MOD", "add": 0.3 },
-          { "value": "FATIGUE_REGEN", "multiply": 0.5 },
-          { "value": "FATIGUE", "multiply": -0.5 },
+          { "value": "SLEEPINESS_REGEN", "multiply": 0.5 },
+          { "value": "SLEEPINESS", "multiply": -0.5 },
           { "value": "METABOLISM", "multiply": 1 }
         ]
       }

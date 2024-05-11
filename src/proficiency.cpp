@@ -555,13 +555,6 @@ void proficiency_set::deserialize( const JsonObject &jsobj )
     jsobj.read( "learning", learning );
 }
 
-void proficiency_set::deserialize_legacy( const JsonArray &jo )
-{
-    for( const std::string prof : jo ) {
-        known.insert( proficiency_id( prof ) );
-    }
-}
-
 void learning_proficiency::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();

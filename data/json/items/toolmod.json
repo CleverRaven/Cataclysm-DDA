@@ -8,7 +8,7 @@
     "material": [ "plastic", "ceramic" ],
     "symbol": ";",
     "color": "dark_gray",
-    "price": 100,
+    "price": "1 USD",
     "acceptable_ammo": [ "battery" ]
   },
   {

@@ -72,6 +72,9 @@ static const fault_id fault_engine_starter( "fault_engine_starter" );
 
 static const flag_id json_flag_FILTHY( "FILTHY" );
 
+static const furn_str_id furn_f_plant_harvest( "f_plant_harvest" );
+static const furn_str_id furn_f_plant_seed( "f_plant_seed" );
+
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id fuel_type_none( "null" );
@@ -962,7 +965,7 @@ void vehicle::crash_terrain_around()
         const tripoint start_pos = vp.pos();
         const vpslot_terrain_transform &ttd = *vp.info().transform_terrain_info;
         for( size_t i = 0; i < eight_horizontal_neighbors.size() &&
-             !here.inbounds_z( crush_target.z ); i++ ) {
+             crush_target.z == -OVERMAP_LAYERS; i++ ) {
             tripoint cur_pos = start_pos + eight_horizontal_neighbors[i];
             bool busy_pos = false;
             for( const vpart_reference &vp_tmp : get_all_parts() ) {
@@ -976,7 +979,7 @@ void vehicle::crash_terrain_around()
             }
         }
         //target chosen
-        if( here.inbounds_z( crush_target.z ) ) {
+        if( crush_target.z != -OVERMAP_LAYERS ) {
             velocity = 0;
             cruise_velocity = 0;
             here.destroy( crush_target );
@@ -1005,7 +1008,7 @@ void vehicle::transform_terrain()
                 here.ter_set( start_pos, new_ter );
             }
             const furn_id new_furn = furn_id( ttd.post_furniture );
-            if( new_furn != f_null ) {
+            if( new_furn != furn_str_id::NULL_ID() ) {
                 here.furn_set( start_pos, new_furn );
             }
             const field_type_id new_field = field_type_id( ttd.post_field );
@@ -1030,7 +1033,7 @@ void vehicle::operate_reaper()
         const int plant_produced = rng( 1, vp.info().bonus );
         const int seed_produced = rng( 1, 3 );
         const units::volume max_pickup_volume = vp.info().size / 20;
-        if( here.furn( reaper_pos ) != f_plant_harvest ) {
+        if( here.furn( reaper_pos ) != furn_f_plant_harvest ) {
             continue;
         }
         // Can't use item_stack::only_item() since there might be fertilizer
@@ -1043,7 +1046,7 @@ void vehicle::operate_reaper()
             // Otherworldly plants, the earth-made reaper can not handle those.
             continue;
         }
-        here.furn_set( reaper_pos, f_null );
+        here.furn_set( reaper_pos, furn_str_id::NULL_ID() );
         // Secure the seed type before i_clear destroys the item.
         const itype &seed_type = *seed->type;
         here.i_clear( reaper_pos );
@@ -1080,7 +1083,7 @@ void vehicle::operate_planter()
                     //then don't put the item there.
                     break;
                 } else if( here.ter( loc ) == ter_t_dirtmound ) {
-                    here.set( loc, ter_t_dirt, f_plant_seed );
+                    here.set( loc, ter_t_dirt, furn_f_plant_seed );
                 } else if( !here.has_flag( ter_furn_flag::TFLAG_PLOWABLE, loc ) ) {
                     //If it isn't plowable terrain, then it will most likely be damaged.
                     damage( here, planter_id, rng( 1, 10 ), damage_bash, false );
@@ -1844,12 +1847,13 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
     const bool player_inside = get_map().veh_at( get_player_character().pos() ) ?
                                &get_map().veh_at( get_player_character().pos() )->vehicle() == this :
                                false;
-    bool power_grid = false;
-    bool cable_linked = false;
+    bool power_linked = false;
+    bool item_linked = false;
+    bool tow_linked = false;
     for( vehicle_part *vp_part : vp_parts ) {
-        power_grid = power_grid ? true : vp_part->info().has_flag( VPFLAG_POWER_TRANSFER );
-        cable_linked = cable_linked ? true : vp_part->has_flag( vp_flag::linked_flag ) ||
-                       vp_part->info().has_flag( "TOW_CABLE" );
+        power_linked = power_linked || vp_part->info().has_flag( VPFLAG_POWER_TRANSFER );
+        item_linked = item_linked || vp_part->has_flag( vp_flag::linked_flag );
+        tow_linked = tow_linked || vp_part->info().has_flag( "TOW_CABLE" );
     }
 
     if( !is_appliance() ) {
@@ -2071,10 +2075,10 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         }
     }
 
-    if( power_grid ) {
-        menu.add( is_appliance() ? _( "Disconnect from power grid" ) : _( "Disconnect power connections" ) )
-        .enable( !cable_linked )
-        .desc( string_format( !cable_linked ? "" : _( "Remove other cables first" ) ) )
+    if( power_linked ) {
+        menu.add( _( "Disconnect power connections" ) )
+        .enable( !item_linked && !tow_linked )
+        .desc( string_format( !item_linked && !tow_linked ? "" : _( "Remove other cables first" ) ) )
         .skip_locked_check()
         .hotkey( "DISCONNECT_CABLES" )
         .on_submit( [this, vp] {
@@ -2082,8 +2086,10 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
             get_player_character().pause();
         } );
     }
-    if( cable_linked ) {
-        menu.add( _( "Disconnect cables" ) )
+    if( item_linked || tow_linked ) {
+        std::string menu_text = item_linked && tow_linked ? _( "Disconnect items and tow cables" ) :
+                                item_linked ? _( "Disconnect items" ) : _( "Disconnect tow cables" );
+        menu.add( menu_text )
         .skip_locked_check()
         .hotkey( "DISCONNECT_CABLES" )
         .on_submit( [this, vp] {
@@ -2104,9 +2110,10 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
                 builtin_tool_types.insert( tool_type );
             }
 
+            std::vector<item> &stored_tools = vp_toolstation->part().tools;
             std::vector<item> tools_to_remove;
             // Tool is incompatible if it's not in allowed types and isn't a pseudo tool
-            for( const auto &[tool_item, _] : vp.get_tools() ) {
+            for( const item &tool_item : stored_tools ) {
                 const itype_id &tool_type = tool_item.typeId();
                 if( builtin_tool_types.find( tool_type ) != builtin_tool_types.end() ) {
                     continue;
@@ -2124,7 +2131,6 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
                     you.add_or_drop_with_msg( tool_to_remove );
                 }
 
-                std::vector<item> &stored_tools = vp_toolstation->part().tools;
                 stored_tools.erase( std::remove_if( stored_tools.begin(),
                                                     stored_tools.end(),
                 [&tools_to_remove]( const item & item_to_remove ) {

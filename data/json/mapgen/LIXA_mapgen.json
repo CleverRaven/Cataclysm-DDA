@@ -1090,7 +1090,7 @@
         { "point": "trap", "id": "tr_LIXA_back_16", "x": 21, "y": 0 }
       ],
       "palettes": [ "LIXA_unfolded_palette" ],
-      "place_monster": [ { "monster": "LIXA_eigenspectre_1", "x": [ 8, 21 ], "y": [ 2, 21 ], "repeat": 2 } ]
+      "place_monster": [ { "monster": "mon_eigenspectre_1", "x": [ 8, 21 ], "y": [ 2, 21 ], "repeat": 2 } ]
     }
   },
   {
@@ -1160,7 +1160,7 @@
         { "point": "trap", "id": "tr_LIXA_forward_16", "x": 21, "y": 23 }
       ],
       "palettes": [ "LIXA_unfolded_palette" ],
-      "place_monster": [ { "monster": "LIXA_eigenspectre_1", "x": [ 8, 21 ], "y": [ 2, 21 ], "pack_size": 1, "repeat": 1 } ]
+      "place_monster": [ { "monster": "mon_eigenspectre_1", "x": [ 8, 21 ], "y": [ 2, 21 ], "pack_size": 1, "repeat": 1 } ]
     }
   },
   {
@@ -1231,7 +1231,7 @@
       ],
       "palettes": [ "LIXA_unfolded_palette" ],
       "terrain": { "2": [ "t_LIXA_unfolded_tube", "t_LIXA_unfolded_tube_broken" ] },
-      "place_monster": [ { "monster": "LIXA_eigenspectre_1", "x": [ 8, 21 ], "y": [ 2, 21 ], "pack_size": 1, "repeat": 1 } ]
+      "place_monster": [ { "monster": "mon_eigenspectre_1", "x": [ 8, 21 ], "y": [ 2, 21 ], "pack_size": 1, "repeat": 1 } ]
     }
   },
   {
@@ -1301,8 +1301,8 @@
         { "point": "trap", "id": "tr_LIXA_forward_16", "x": 21, "y": 23 }
       ],
       "place_monster": [
-        { "monster": "LIXA_eigenspectre_1", "x": [ 8, 21 ], "y": [ 2, 21 ], "pack_size": 1 },
-        { "monster": "LIXA_eigenspectre_2", "x": [ 8, 21 ], "y": [ 2, 21 ], "pack_size": 1 }
+        { "monster": "mon_eigenspectre_1", "x": [ 8, 21 ], "y": [ 2, 21 ], "pack_size": 1 },
+        { "monster": "mon_eigenspectre_2", "x": [ 8, 21 ], "y": [ 2, 21 ], "pack_size": 1 }
       ],
       "palettes": [ "LIXA_unfolded_palette" ],
       "terrain": { "2": [ "t_LIXA_unfolded_tube", "t_LIXA_unfolded_tube_broken" ] }
@@ -1375,8 +1375,8 @@
         { "point": "trap", "id": "tr_LIXA_back_16", "x": 21, "y": 0 }
       ],
       "place_monster": [
-        { "monster": "LIXA_eigenspectre_1", "x": [ 8, 21 ], "y": [ 2, 21 ], "pack_size": 1 },
-        { "monster": "LIXA_eigenspectre_2", "x": [ 8, 21 ], "y": [ 2, 21 ], "pack_size": 1 }
+        { "monster": "mon_eigenspectre_1", "x": [ 8, 21 ], "y": [ 2, 21 ], "pack_size": 1 },
+        { "monster": "mon_eigenspectre_2", "x": [ 8, 21 ], "y": [ 2, 21 ], "pack_size": 1 }
       ],
       "palettes": [ "LIXA_unfolded_palette" ],
       "terrain": {
@@ -1453,8 +1453,8 @@
       ],
       "palettes": [ "LIXA_unfolded_palette" ],
       "place_monster": [
-        { "monster": "LIXA_eigenspectre_3", "x": [ 8, 21 ], "y": [ 7, 18 ], "pack_size": 1 },
-        { "monster": "LIXA_eigenspectre_1", "x": [ 8, 21 ], "y": [ 7, 18 ], "pack_size": 1 }
+        { "monster": "mon_eigenspectre_3", "x": [ 8, 21 ], "y": [ 7, 18 ], "pack_size": 1 },
+        { "monster": "mon_eigenspectre_1", "x": [ 8, 21 ], "y": [ 7, 18 ], "pack_size": 1 }
       ],
       "terrain": {
         "2": [ "t_LIXA_unfolded_tube", "t_LIXA_unfolded_tube_broken" ],
@@ -1529,8 +1529,8 @@
         { "point": "trap", "id": "tr_LIXA_back_16", "x": 21, "y": 0 }
       ],
       "place_monster": [
-        { "monster": "LIXA_eigenspectre_1", "x": [ 8, 21 ], "y": [ 2, 21 ], "pack_size": 1 },
-        { "monster": "LIXA_eigenspectre_3", "x": [ 8, 21 ], "y": [ 2, 21 ], "pack_size": 1 }
+        { "monster": "mon_eigenspectre_1", "x": [ 8, 21 ], "y": [ 2, 21 ], "pack_size": 1 },
+        { "monster": "mon_eigenspectre_3", "x": [ 8, 21 ], "y": [ 2, 21 ], "pack_size": 1 }
       ],
       "palettes": [ "LIXA_unfolded_palette" ],
       "terrain": {
@@ -1606,8 +1606,8 @@
         { "point": "trap", "id": "tr_LIXA_forward_16", "x": 21, "y": 23 }
       ],
       "place_monster": [
-        { "monster": "LIXA_eigenspectre_2", "x": [ 8, 21 ], "y": [ 2, 21 ], "pack_size": 1 },
-        { "monster": "LIXA_eigenspectre_4", "x": [ 8, 21 ], "y": [ 2, 21 ], "pack_size": 1 }
+        { "monster": "mon_eigenspectre_2", "x": [ 8, 21 ], "y": [ 2, 21 ], "pack_size": 1 },
+        { "monster": "mon_eigenspectre_4", "x": [ 8, 21 ], "y": [ 2, 21 ], "pack_size": 1 }
       ],
       "palettes": [ "LIXA_unfolded_palette" ],
       "terrain": {
@@ -1757,10 +1757,10 @@
       ],
       "palettes": [ "LIXA_unfolded_palette" ],
       "place_monster": [
-        { "monster": "LIXA_eigenspectre_2", "x": [ 7, 18 ], "y": [ 2, 21 ], "pack_size": 1, "repeat": 1 },
-        { "monster": "LIXA_eigenspectre_3", "x": [ 7, 18 ], "y": [ 2, 21 ], "pack_size": 1 },
-        { "monster": "LIXA_eigenspectre_4", "x": [ 7, 18 ], "y": [ 2, 21 ], "pack_size": 1 },
-        { "monster": "LIXA_living_vector", "x": [ 7, 18 ], "y": [ 2, 21 ], "pack_size": 1 }
+        { "monster": "mon_eigenspectre_2", "x": [ 7, 18 ], "y": [ 2, 21 ], "pack_size": 1, "repeat": 1 },
+        { "monster": "mon_eigenspectre_3", "x": [ 7, 18 ], "y": [ 2, 21 ], "pack_size": 1 },
+        { "monster": "mon_eigenspectre_4", "x": [ 7, 18 ], "y": [ 2, 21 ], "pack_size": 1 },
+        { "monster": "mon_living_vector", "x": [ 7, 18 ], "y": [ 2, 21 ], "pack_size": 1 }
       ],
       "terrain": {
         "2": [ "t_LIXA_unfolded_tube", "t_LIXA_unfolded_tube_broken" ],
