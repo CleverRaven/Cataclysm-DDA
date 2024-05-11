@@ -7972,7 +7972,7 @@ bool apply_construction_marker( const update_mapgen_id &update_mapgen_id,
         return false;
     }
 
-    fake_map tmp_map( ter_t_grass );
+    small_fake_map tmp_map( ter_t_grass );
 
     mapgendata base_fake_md( *tmp_map.cast_to_map(), mapgendata::dummy_settings );
     mapgendata fake_md( base_fake_md, args );
@@ -8029,21 +8029,23 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
         return std::make_pair( terrains, furnitures );
     }
 
-    fake_map tmp_map( base_ter );
+    small_fake_map tmp_map( base_ter );
 
     mapgendata base_fake_md( *tmp_map.cast_to_map(), mapgendata::dummy_settings );
     mapgendata fake_md( base_fake_md, mapgen_args );
     fake_md.skip = { mapgen_phase::zones };
 
     if( update_function->second.funcs()[0]->update_map( fake_md ) ) {
-        for( const tripoint &pos : tmp_map.points_on_zlevel( fake_map::fake_map_z ) ) {
-            ter_id ter_at_pos = tmp_map.ter( pos );
-            if( ter_at_pos != base_ter ) {
-                terrains[ter_at_pos] += 1;
-            }
-            if( tmp_map.has_furn( pos ) ) {
-                furn_id furn_at_pos = tmp_map.furn( pos );
-                furnitures[furn_at_pos] += 1;
+        for( int z = -OVERMAP_DEPTH; z <= OVERMAP_DEPTH; z++ ) {
+            for( const tripoint &pos : tmp_map.points_on_zlevel( z ) ) {
+                ter_id ter_at_pos = tmp_map.ter( pos );
+                if( ter_at_pos != base_ter ) {
+                    terrains[ter_at_pos] += 1;
+                }
+                if( tmp_map.has_furn( pos ) ) {
+                    furn_id furn_at_pos = tmp_map.furn( pos );
+                    furnitures[furn_at_pos] += 1;
+                }
             }
         }
     }

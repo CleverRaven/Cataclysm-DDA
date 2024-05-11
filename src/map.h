@@ -2735,7 +2735,7 @@ class fake_map : public tinymap
 
 /**
 * Smallmap is similar to tinymap in that it covers a single overmap terrain (OMT) tile, but differs
-* from it in that it covers all Z levels, not just a single one. It's intended usage is for cases
+* from it in that it covers all Z levels, not just a single one. Its intended usage is for cases
 * where you need to operate on an OMT, but cannot guarantee you needs are restricted to a single
 * Z level.
 * The smallmap's natural relative reference system is the tripoint_omt_ms one.
@@ -2749,4 +2749,14 @@ class smallmap : public tinymap
             tinymap::cut_down_tree( p, dir );
         };
 };
+
+class small_fake_map : public smallmap
+{
+    private:
+        std::vector<std::unique_ptr<submap>> temp_submaps_;
+    public:
+        explicit small_fake_map( const ter_id &ter_type = ter_str_id( "t_dirt" ).id() );
+        ~small_fake_map() override;
+};
+
 #endif // CATA_SRC_MAP_H
