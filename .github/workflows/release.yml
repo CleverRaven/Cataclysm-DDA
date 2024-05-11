@@ -3,7 +3,7 @@ concurrency: release
 on:
   push:
     branches:
-      - master
+      - 0.H-branch
     paths:
       - '.github/workflows/release.yml'
       - 'android/**'
@@ -36,8 +36,8 @@ jobs:
       - name: Generate environmental variables
         id: generate_env_vars
         run: |
-          echo "tag_name=cdda-experimental-${{ steps.get-timestamp.outputs.time }}" >> $GITHUB_OUTPUT
-          echo "release_name=Cataclysm-DDA experimental build ${{ steps.get-timestamp.outputs.time }}" >> $GITHUB_OUTPUT
+          echo "tag_name=cdda-0.H-${{ steps.get-timestamp.outputs.time }}" >> $GITHUB_OUTPUT
+          echo "release_name=Cataclysm-DDA 0.H release candidate ${{ steps.get-timestamp.outputs.time }}" >> $GITHUB_OUTPUT
       - uses: actions/checkout@v3
       - run: |
           gh release create ${{ steps.generate_env_vars.outputs.tag_name }} --generate-notes --prerelease --title "${{ steps.generate_env_vars.outputs.release_name }}"
