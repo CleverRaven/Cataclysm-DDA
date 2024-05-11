@@ -38,13 +38,13 @@ std::array<pairs, 100> colorpairs;   //storage for pair'ed colored
 
 std::vector<std::pair<int, ImTui::mouse_event>> imtui_events;
 
-int GetFallbackStrWidth( const char *s_begin, const char *s_end,
-                         const float scale )
+static int GetFallbackStrWidth( const char *s_begin, const char *s_end,
+                                const float scale )
 {
     return utf8_width( std::string( s_begin, s_end ) ) * int( scale );
 }
 
-int GetFallbackCharWidth( ImWchar c, const float scale )
+static int GetFallbackCharWidth( ImWchar c, const float scale )
 {
     return mk_wcwidth( c ) * scale;
 }
@@ -212,18 +212,18 @@ cataimgui::client::client( const SDL_Renderer_Ptr &sdl_renderer, const SDL_Windo
 }
 
 // this function QUEUES a character to be drawn
-bool CanRenderFallbackChar( ImWchar wch )
+static bool CanRenderFallbackChar( ImWchar wch )
 {
     return wch != 0;
 }
 
-int GetFallbackStrWidth( const char *s_begin, const char *s_end,
-                         const float scale )
+static int GetFallbackStrWidth( const char *s_begin, const char *s_end,
+                                const float scale )
 {
     return fontwidth * utf8_width( std::string( s_begin, s_end ) ) * int( scale );
 }
 
-int GetFallbackCharWidth( ImWchar c, const float scale )
+static int GetFallbackCharWidth( ImWchar c, const float scale )
 {
     return fontwidth * mk_wcwidth( c ) * scale;
 }
