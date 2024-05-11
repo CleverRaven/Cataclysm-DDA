@@ -33,7 +33,7 @@
           "t_grass_dead": 1000,
           "t_grass_long": 15000,
           "t_grass_tall": 10000,
-          "t_dirt": 1250,
+          "t_dirt": 950,
           "t_shrub": 650,
           "t_underbrush": 650
         },
