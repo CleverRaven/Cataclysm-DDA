@@ -7337,6 +7337,14 @@
     ]
   },
   {
+    "result": "v_table",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "PRY", "level": 1 } ],
+    "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 14 ] ], [ [ "wood_panel", 1 ] ], [ [ "plank_short", 1 ] ], [ [ "splinter", 4 ] ] ]
+  },
+  {
     "result": "chair_wood",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
