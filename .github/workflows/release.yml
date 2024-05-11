@@ -391,3 +391,8 @@ jobs:
           fi
       - run: |
           gh release upload cdda-experimental-${{ needs.release.outputs.timestamp }} cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.${{ matrix.ext }}
+  emscripten:
+    needs: [ builds ]
+    if: ${{ success() }}
+    uses: ./.github/workflows/emscripten.yml
+    secrets: inherit
