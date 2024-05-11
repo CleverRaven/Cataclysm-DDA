@@ -10,6 +10,36 @@
     "threshold": true
   },
   {
+    "type": "mutation",
+    "id": "PROF_POLICE",
+    "name": { "str": "Local System Security" },
+    "points": 0,
+    "description": "You are a duly sworn law enforcement officer, with jurisdiction that technically extends to the Salus System.  Whether you can find anyone who that matters to is questionable.",
+    "valid": false,
+    "purifiable": false,
+    "profession": true
+  },
+  {
+    "type": "mutation",
+    "id": "PROF_SWAT",
+    "name": { "str": "Pinkerton" },
+    "points": 0,
+    "description": "You are a corporate security professional, with jurisdiction that technically extends to the Salus System.  Whether you can find anyone who that matters to is questionable.",
+    "valid": false,
+    "purifiable": false,
+    "profession": true
+  },
+  {
+    "type": "mutation",
+    "id": "PROF_MED",
+    "name": { "str": "MD" },
+    "points": 0,
+    "description": "You're a doctor who went out to space and has somehow ended up out on the frontier in the Salus System.  At least out here you get a lot more hands on life or death work compared to the core UICA worlds.",
+    "valid": false,
+    "purifiable": false,
+    "profession": true
+  },
+  {
     "type": "mutation_category",
     "id": "MIGO",
     "name": "YUGGOTH",
