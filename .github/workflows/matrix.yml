@@ -2,11 +2,9 @@ name: General build matrix
 
 on:
   push:
-    branches:
-    - master
+    branches: [master, 0.H-branch]
   pull_request:
-    branches:
-    - master
+    branches: [master, 0.H-branch]
     types: [opened, reopened, synchronize, ready_for_review]
 
 # We only care about the latest revision of a PR, so cancel all previous instances.
@@ -45,7 +43,7 @@ jobs:
       should_skip_code: ${{ steps.skip_check.outputs.should_skip }}
     steps:
       - id: skip_check
-        uses: fkirc/skip-duplicate-actions@master
+        uses: fkirc/skip-duplicate-actions@
         with:
           paths_ignore: '["android/**", "build-data/osx/**", "doc/**", "doxygen_doc/**", "lgtm/**", "msvc-**", "object_creator/**", "tools/**", "utilities/**", "data/**", "lang/**"]'
   skip-duplicates-data:
@@ -56,7 +54,7 @@ jobs:
       should_skip_data: ${{ steps.skip_check.outputs.should_skip }}
     steps:
       - id: skip_check
-        uses: fkirc/skip-duplicate-actions@master
+        uses: fkirc/skip-duplicate-actions@
         with:
           paths_ignore: '["android/**", "build-data/osx/**", "doc/**", "doxygen_doc/**", "lgtm/**", "msvc-**", "object_creator/**", "tools/**", "utilities/**"]'
   matrix-variables:
@@ -71,9 +69,9 @@ jobs:
     steps:
       - id: matrix_vars
         run: |
-          echo "fail_fast=$([ "$GITHUB_REF_NAME" = "master" ] && echo false || echo true)" >> $GITHUB_OUTPUT
-          echo "skip_tests=$([ "$GITHUB_REF_NAME" = "master" ] && echo true || echo false)" >> $GITHUB_OUTPUT
-          echo "max_parallel=$([ "$GITHUB_REF_NAME" = "master" ] && echo 20 || echo 1)" >> $GITHUB_OUTPUT
+          echo "fail_fast=$(([ "$GITHUB_REF_NAME" = "master" ] || [ "$GITHUB_REF_NAME" = "0.H-branch" ] ) && echo false || echo true)" >> $GITHUB_OUTPUT
+          echo "skip_tests=$(([ "$GITHUB_REF_NAME" = "master" ] || [ "$GITHUB_REF_NAME" = "0.H-branch" ] ) && echo true || echo false)" >> $GITHUB_OUTPUT
+          echo "max_parallel=$(([ "$GITHUB_REF_NAME" = "master" ] || [ "$GITHUB_REF_NAME" = "0.H-branch" ] ) && echo 20 || echo 1)" >> $GITHUB_OUTPUT
   varied_builds:
     needs: [ skip-duplicates-code, skip-duplicates-data, matrix-variables ]
     strategy:
