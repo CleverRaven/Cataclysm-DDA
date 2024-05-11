@@ -46,8 +46,7 @@ jobs:
           npm install @actions/github
           node build-scripts/generate-release-notes.js '${{ secrets.GITHUB_TOKEN }}' '${{ steps.generate_env_vars.outputs.tag_name }}' "$(git log -1 --format='%H')" > notes.txt
       - run: |
-          gh release create ${{ steps.generate_env_vars.outputs.tag_name }} --notes-file notes.txt --prerelease --title "${{ steps.generate_env_vars.outputs.release_name }}" --target "$(git log -1 --for
-mat='%H')"
+          gh release create ${{ steps.generate_env_vars.outputs.tag_name }} --notes-file notes.txt --prerelease --title "${{ steps.generate_env_vars.outputs.release_name }}" --target "$(git log -1 --format='%H')"
 
   builds:
     needs: release
