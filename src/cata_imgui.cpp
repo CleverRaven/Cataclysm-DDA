@@ -39,7 +39,7 @@ std::array<pairs, 100> colorpairs;   //storage for pair'ed colored
 std::vector<std::pair<int, ImTui::mouse_event>> imtui_events;
 
 static int GetFallbackStrWidth( const char *s_begin, const char *s_end,
-                         const float scale )
+                                const float scale )
 {
     return utf8_width( std::string( s_begin, s_end ) ) * int( scale );
 }
@@ -218,7 +218,7 @@ static bool CanRenderFallbackChar( ImWchar wch )
 }
 
 static int GetFallbackStrWidth( const char *s_begin, const char *s_end,
-                         const float scale )
+                                const float scale )
 {
     return fontwidth * utf8_width( std::string( s_begin, s_end ) ) * int( scale );
 }
