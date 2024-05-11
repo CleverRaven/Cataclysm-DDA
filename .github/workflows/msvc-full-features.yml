@@ -55,6 +55,7 @@ jobs:
   build_catatclysm:
     name: Build
     runs-on: windows-2019
+    if: ${{ github.event_name == 'pull_request_target' && github.event.pull_request.draft == false }}
 
     steps:
     - uses: actions/checkout@v4
