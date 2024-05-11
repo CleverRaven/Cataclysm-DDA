@@ -9761,6 +9761,7 @@
     "id": "SHOCK_TOUCH",
     "name": { "str": "Shock touch" },
     "description": "Uses stored energy from your electrocytes to release powerful shocks.",
+    "enchantments": [ { "condition": "ACTIVE", "hit_you_effect": [ { "id": "shock_touch_primer"} ] } ],
     "prereqs": [ "ELECTROCYTES" ],
     "types": [ "CLAWS" ],
     "points": 2,
