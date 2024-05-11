@@ -440,6 +440,8 @@ class cata_tiles
          ** basic x range of [0, tile_width) and the basic y range of
          ** [0, tile_width / 2) (isometric) or [0, tile_height) (non-isometric) **/
         point get_window_base_tile_counts( const point &size ) const;
+        static point get_window_base_tile_counts(
+            const point &size, const point &tile_size, bool iso );
         /** Coordinate range of tiles at the given relative z-level that fit
          ** into the given dimensions, fully or partially shown, according to
          ** the maximum tile extent. May be negative, and 0 corresponds to the
@@ -664,6 +666,8 @@ class cata_tiles
 
         bool has_draw_override( const tripoint &p ) const;
 
+        void set_disable_occlusion( bool val );
+
         /**
          * Initialize the current tileset (load tile images, load mapping), using the current
          * tileset as it is set in the options.
@@ -697,8 +701,15 @@ class cata_tiles
         }
         void do_tile_loading_report();
         std::optional<point> tile_to_player( const point &colrow ) const;
+        static std::optional<point_bub_ms> tile_to_player(
+            const point &colrow, const point_bub_ms &o,
+            const point &base_tile_cnt, bool iso );
         point player_to_tile( const point &pos ) const;
         point player_to_screen( const point &pos ) const;
+        static point_bub_ms screen_to_player(
+            const point &scr_pos, const point &tile_size,
+            const point &win_size, const point_bub_ms &center,
+            bool iso );
         static std::vector<options_manager::id_and_option> build_renderer_list();
         static std::vector<options_manager::id_and_option> build_display_list();
     private:
@@ -753,6 +764,8 @@ class cata_tiles
         int fog_alpha = 0;
 
         bool in_animation = false;
+
+        bool disable_occlusion = false;
 
         bool do_draw_explosion = false;
         bool do_draw_custom_explosion = false;

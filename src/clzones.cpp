@@ -1515,13 +1515,17 @@ void zone_manager::rotate_zones( map &target_map, const int turns )
     }
 
     for( zone_data &zone : zones ) {
-        if( !zone.get_is_personal() ) {
+        if( !zone.get_is_personal() && target_map.inbounds_z( zone.get_center_point().z() ) ) {
             _rotate_zone( target_map, zone, turns );
         }
     }
 
-    for( zone_data *zone : target_map.get_vehicle_zones( target_map.get_abs_sub().z() ) ) {
-        _rotate_zone( target_map, *zone, turns );
+    for( int z_level = target_map.supports_zlevels() ? -OVERMAP_DEPTH : target_map.get_abs_sub().z();
+         z_level <= ( target_map.supports_zlevels() ? OVERMAP_HEIGHT : target_map.get_abs_sub().z() );
+         z_level++ ) {
+        for( zone_data *zone : target_map.get_vehicle_zones( z_level ) ) {
+            _rotate_zone( target_map, *zone, turns );
+        }
     }
 }
 

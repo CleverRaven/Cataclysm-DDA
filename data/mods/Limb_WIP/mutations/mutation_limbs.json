@@ -358,6 +358,7 @@
       [ "crawl", 0.2 ]
     ],
     "smash_message": "You buffet the %s with your wing.",
+    "techniques": [ "tech_wing_slap" ],
     "side": "left",
     "base_hp": 45,
     "sub_parts": [

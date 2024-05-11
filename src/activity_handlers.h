@@ -166,6 +166,7 @@ bool generic_multi_activity_handler( player_activity &act, Character &you,
 void activity_on_turn_fetch( player_activity &, Character *you );
 int get_auto_consume_moves( Character &you, bool food );
 bool try_fuel_fire( player_activity &act, Character &you, bool starting_fire = false );
+double butcher_get_progress( const item &corpse_item, butcher_type action );
 
 enum class item_drop_reason : int {
     deliberate,
@@ -195,6 +196,7 @@ void adv_inventory_do_turn( player_activity *act, Character *you );
 void armor_layers_do_turn( player_activity *act, Character *you );
 void atm_do_turn( player_activity *act, Character *you );
 void build_do_turn( player_activity *act, Character *you );
+void butcher_do_turn( player_activity *act, Character *you );
 void dismember_do_turn( player_activity *act, Character *you );
 void chop_trees_do_turn( player_activity *act, Character *you );
 void consume_drink_menu_do_turn( player_activity *act, Character *you );

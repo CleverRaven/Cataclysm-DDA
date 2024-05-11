@@ -1948,6 +1948,12 @@ void options_manager::add_options_interface()
              true
            );
 
+        add( "HIGHLIGHT_UNREAD_ITEMS", page_id,
+             to_translation( "Highlight unread items" ),
+             to_translation( "If true, highlight unread items to allow tracking of newly discovered items." ),
+             true
+           );
+
         add( "SCREEN_READER_MODE", page_id, to_translation( "Screen reader mode" ),
              to_translation( "On supported UI screens, tweaks display of text to optimize for screen readers.  Targeted towards using the open-source screen reader 'orca' using curses for display." ),
              // See doc/USER_INTERFACE_AND_ACCESSIBILITY.md for testing and implementation notes
@@ -2754,8 +2760,8 @@ void options_manager::add_options_world_default()
 
     add_empty_line();
 
-    add_option_group( "world_default", Group( "spawn_time_opts", to_translation( "Spawn Time Options" ),
-                      to_translation( "Options regarding spawn time." ) ),
+    add_option_group( "world_default", Group( "spawn_time_opts", to_translation( "World Time Options" ),
+                      to_translation( "Options regarding the passage of time in the world." ) ),
     [&]( const std::string & page_id ) {
         add( "SEASON_LENGTH", page_id, to_translation( "Season length" ),
              to_translation( "Season length, in days.  Warning: Very little other than the duration of seasons scales with this value, so adjusting it may cause nonsensical results." ),

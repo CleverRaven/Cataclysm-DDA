@@ -3846,7 +3846,14 @@
     "name": "cardboard boxes",
     "description": "Recipes related to constructing cardboard boxes.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "box_small_crafted", "box_medium_crafted", "box_large_crafted", "box_large_reinforced", "box_oversize_crafted" ],
+    "nested_category_data": [
+      "box_small_crafted",
+      "box_medium_crafted",
+      "box_large_crafted",
+      "box_large_reinforced",
+      "box_oversize_crafted",
+      "box_oversize_reinforced"
+    ],
     "difficulty": 1
   },
   {

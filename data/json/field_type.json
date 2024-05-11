@@ -334,6 +334,21 @@
     "display_field": true
   },
   {
+    "id": "fd_fire_FAKE",
+    "looks_like": "fd_fire",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "glittering embers", "sym": "4", "color": "yellow", "light_emitted": 5, "translucency": 0.7 },
+      { "name": "spark shower", "color": "light_red", "light_emitted": 15, "translucency": 0.4 },
+      { "name": "wall of flames", "color": "red", "light_emitted": 40, "translucency": 0.1 }
+    ],
+    "priority": 4,
+    "half_life": "1 seconds",
+    "phase": "plasma",
+    "display_items": false,
+    "display_field": true
+  },
+  {
     "id": "fd_extinguisher",
     "type": "field_type",
     "intensity_levels": [

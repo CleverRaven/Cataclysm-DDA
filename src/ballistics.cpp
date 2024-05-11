@@ -240,6 +240,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     const auto &proj_effects = proj.proj_effects;
 
     const bool stream = proj_effects.count( "STREAM" ) > 0 ||
+                        proj_effects.count( "STREAM_TINY" ) > 0 ||
                         proj_effects.count( "STREAM_BIG" ) > 0 ||
                         proj_effects.count( "JET" ) > 0;
     const char bullet = stream ? '#' : '*';

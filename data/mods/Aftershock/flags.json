@@ -3,5 +3,9 @@
     "id": "OLD_TSKBEM_CARD",
     "type": "json_flag",
     "info": "This item is an access card for ancient industrial locations."
+  },
+  {
+    "id": "HEAVY_TOOL",
+    "type": "json_flag"
   }
 ]
