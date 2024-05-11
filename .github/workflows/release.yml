@@ -1,5 +1,5 @@
 name: "Experimental Release"
-concurrency: release
+concurrency: release-candidate
 on:
   push:
     branches:
