@@ -61,6 +61,18 @@
   },
   {
     "type": "construction",
+    "id": "constr_place_table_fancy",
+    "group": "place_table",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "1 m",
+    "components": [ [ [ "v_table", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_table_fancy",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
     "id": "constr_place_workbench",
     "group": "place_workbench",
     "category": "FURN",
