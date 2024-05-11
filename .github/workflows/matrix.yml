@@ -347,5 +347,5 @@ jobs:
   emscripten:
     needs: [ varied_builds ]
     uses: ./.github/workflows/emscripten.yml
-    if: ${{ github.event.pull_request.draft == false }}
+    if: ${{ success() && github.event.pull_request.draft == false }}
     secrets: inherit
