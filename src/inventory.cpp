@@ -535,20 +535,24 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
         }
         const furn_t &f = m.furn( p ).obj();
         if( item *furn_item = provide_pseudo_item( f.crafting_pseudo_item ) ) {
-            const itype *ammo = f.crafting_ammo_item_type();
-            if( furn_item->has_pocket_type( pocket_type::MAGAZINE ) ) {
-                // NOTE: This only works if the pseudo item has a MAGAZINE pocket, not a MAGAZINE_WELL!
-                const bool using_ammotype = f.has_flag( ter_furn_flag::TFLAG_AMMOTYPE_RELOAD );
-                int amount = 0;
-                itype_id ammo_id = ammo->get_id();
-                // Some furniture can consume more than one item type.
-                if( using_ammotype ) {
-                    amount = count_charges_in_list( &ammo->ammo->type, m.i_at( p ), ammo_id );
-                } else {
-                    amount = count_charges_in_list( ammo, m.i_at( p ) );
+            for( const itype *ammo : f.crafting_ammo_item_types() ) {
+                if( furn_item->has_pocket_type( pocket_type::MAGAZINE ) ) {
+                    // NOTE: This only works if the pseudo item has a MAGAZINE pocket, not a MAGAZINE_WELL!
+                    const bool using_ammotype = f.has_flag( ter_furn_flag::TFLAG_AMMOTYPE_RELOAD );
+                    int amount = 0;
+                    itype_id ammo_id = ammo->get_id();
+                    // Some furniture can consume more than one item type.
+                    // This might be redundant now that we iterate over the ammotypes.
+                    if( using_ammotype ) {
+                        amount = count_charges_in_list( &ammo->ammo->type, m.i_at( p ), ammo_id );
+                    } else {
+                        amount = count_charges_in_list( ammo, m.i_at( p ) );
+                    }
+                    if( amount > 0 ) {
+                        item furn_ammo( ammo_id, calendar::turn, amount );
+                        furn_item->put_in( furn_ammo, pocket_type::MAGAZINE );
+                    }
                 }
-                item furn_ammo( ammo_id, calendar::turn, amount );
-                furn_item->put_in( furn_ammo, pocket_type::MAGAZINE );
             }
         }
         if( m.accessible_items( p ) ) {
