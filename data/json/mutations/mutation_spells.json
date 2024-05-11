@@ -185,6 +185,23 @@
     "energy_source": "NONE",
     "damage_type": "biological"
   },
+    {
+    "id": "shock_touch_primer",
+    "type": "SPELL",
+    "name": { "str": "Shocking primer" },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_shock_touch",
+    "shape": "blast",
+    "valid_targets": [ "self" ],
+    "min_damage": 0,
+    "max_damage": 0,
+    "min_range": 1,
+    "max_range": 1,
+    "spell_class": "NONE",
+    "difficulty": -20,
+    "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "energy_source": "NONE"
+  },
   {
     "id": "shock_touch",
     "type": "SPELL",
