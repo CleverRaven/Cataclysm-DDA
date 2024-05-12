@@ -4728,6 +4728,8 @@ polearms
 poleyns
 polkadotted
 polyaramid
+polybolos
+polyboloi
 polymorph
 polymorphed
 polypous
