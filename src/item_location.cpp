@@ -1164,7 +1164,7 @@ bool item_location::can_reload_with( const item_location &ammo, bool now ) const
         return false;
     } else if( reloadable->is_magazine() ) {
         if( reloadable.has_parent() ) {
-            if( reloadable.parent_item()->is_gun() && !reloadable.parent_item()->ammo_default() ){
+            if( reloadable.parent_item()->is_gun() && !reloadable.parent_item()->ammo_default() ) {
                 return false;
             }
         }
