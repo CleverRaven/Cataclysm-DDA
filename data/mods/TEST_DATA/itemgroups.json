@@ -47,5 +47,43 @@
     "type": "item_group",
     "subtype": "collection",
     "entries": [ { "item": "test_battery_disposable", "prob": 100 } ]
+  },
+  {
+    "id": "test_EOC_spawn_item_group_collection",
+    "type": "item_group",
+    "//": "This is for testing u_spawn_item",
+    "subtype": "collection",
+    "entries": [
+      { "item": "bodysuit_lycra", "variant": "superhero_suit_purple" },
+      { "item": "mask_bal", "prob": 50 },
+      { "item": "long_patchwork_scarf", "count": [ 2, 4 ] },
+      { "item": "rock", "charges": [ 2, 4 ] }
+    ]
+  },
+  {
+    "id": "test_EOC_spawn_item_group_distribution",
+    "type": "item_group",
+    "//": "This is for testing u_spawn_item",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "bodysuit_lycra", "variant": "superhero_suit_purple" },
+      { "item": "mask_bal", "prob": 50 },
+      { "item": "long_patchwork_scarf", "count": [ 2, 4 ] },
+      { "item": "rock", "charges": [ 2, 4 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "test_NPC_guns",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "item": "modular_m4_carbine",
+        "variant": "modular_m4a1",
+        "prob": 100,
+        "charges": [ 30, 30 ],
+        "contents-group": "issued_carbine_mods"
+      }
+    ]
   }
 ]
