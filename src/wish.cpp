@@ -466,7 +466,7 @@ void debug_menu::wishbionics( Character *you )
     }
 }
 
-void debug_menu::wisheffect( Character &p )
+void debug_menu::wisheffect( Creature &p )
 {
     static bodypart_str_id effectbp = bodypart_str_id::NULL_ID();
     std::vector<effect> effects;

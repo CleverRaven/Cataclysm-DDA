@@ -4626,6 +4626,31 @@ talk_effect_fun_t::func f_set_condition( const JsonObject &jo, std::string_view 
     };
 }
 
+talk_effect_fun_t::func f_set_item_category_spawn_rates( const JsonObject &jo,
+        std::string_view member )
+{
+    if( jo.has_array( member ) ) {
+        std::set<std::pair<item_category_id, float>> rates;
+        for( const JsonObject joi : jo.get_array( member ) ) {
+            item_category_id cat( joi.get_string( "id" ) );
+            float spawn_rate = joi.get_float( "spawn_rate" );
+            rates.insert( std::make_pair( cat, spawn_rate ) );
+        }
+        return [rates]( dialogue const &/* d */ ) {
+            for( const std::pair<item_category_id, float> &rate : rates ) {
+                rate.first.obj().set_spawn_rate( rate.second );
+            }
+        };
+    } else {
+        JsonObject joi = jo.get_member( member );
+        item_category_id cat( joi.get_string( "id" ) );
+        float spawn_rate = joi.get_float( "spawn_rate" );
+        return [cat, spawn_rate]( dialogue const &/* d */ ) {
+            cat.obj().set_spawn_rate( spawn_rate );
+        };
+    }
+}
+
 talk_effect_fun_t::func f_assign_mission( const JsonObject &jo, std::string_view member )
 {
     str_or_var mission_name = get_str_or_var( jo.get_member( member ), member, true );
@@ -6397,6 +6422,7 @@ parsers = {
     { "give_equipment", jarg::object, &talk_effect_fun::f_give_equipment },
     { "set_string_var", jarg::member | jarg::array, &talk_effect_fun::f_set_string_var },
     { "set_condition", jarg::member, &talk_effect_fun::f_set_condition },
+    { "set_item_category_spawn_rates", jarg::member | jarg::array, &talk_effect_fun::f_set_item_category_spawn_rates },
     { "open_dialogue", jarg::member, &talk_effect_fun::f_open_dialogue },
     { "take_control", jarg::member, &talk_effect_fun::f_take_control },
     { "trigger_event", jarg::member, &talk_effect_fun::f_trigger_event },

@@ -3904,9 +3904,20 @@ static window_dimensions get_window_dimensions( const catacurses::window &win,
     // the window position is *always* in standard font dimensions!
     dim.window_pos_pixel = point( dim.window_pos_cell.x * fontwidth,
                                   dim.window_pos_cell.y * fontheight );
-    // But the size of the window is in the font dimensions of the window.
-    dim.window_size_pixel.x = dim.window_size_cell.x * dim.scaled_font_size.x;
-    dim.window_size_pixel.y = dim.window_size_cell.y * dim.scaled_font_size.y;
+    // But the size of the window might not be.
+    if( use_tiles && g && win == g->w_terrain ) {
+        // The terrain GUI has special size during rendering.
+        dim.window_size_pixel.x = TERRAIN_WINDOW_TERM_WIDTH * fontwidth;
+        dim.window_size_pixel.y = TERRAIN_WINDOW_TERM_HEIGHT * fontheight;
+    } else if( use_tiles && use_tiles_overmap && g && win == g->w_overmap ) {
+        // The overmap GUI has special size during rendering.
+        dim.window_size_pixel.x = OVERMAP_WINDOW_TERM_WIDTH * fontwidth;
+        dim.window_size_pixel.y = OVERMAP_WINDOW_TERM_HEIGHT * fontheight;
+    } else {
+        // Otherwise, the window size corresponds to the window font size.
+        dim.window_size_pixel.x = dim.window_size_cell.x * dim.scaled_font_size.x;
+        dim.window_size_pixel.y = dim.window_size_cell.y * dim.scaled_font_size.y;
+    }
 
     return dim;
 }
@@ -3945,34 +3956,24 @@ std::optional<tripoint> input_context::get_coordinates( const catacurses::window
     const catacurses::window &capture_win = capture_win_ ? capture_win_ : g->w_terrain;
     const window_dimensions dim = get_window_dimensions( capture_win );
 
-    const int &fw = dim.scaled_font_size.x;
-    const int &fh = dim.scaled_font_size.y;
     const point &win_min = dim.window_pos_pixel;
     const point &win_size = dim.window_size_pixel;
     const point win_max = win_min + win_size;
 
     // Translate mouse coordinates to map coordinates based on tile size
     // Check if click is within bounds of the window we care about
-    const inclusive_rectangle<point> win_bounds( win_min, win_max );
+    const half_open_rectangle<point> win_bounds( win_min, win_max );
     if( !win_bounds.contains( coordinate ) ) {
         return std::nullopt;
     }
 
     const point screen_pos = coordinate - win_min;
-    point p;
-    if( g->is_tileset_isometric() ) {
-        const float win_mid_x = win_min.x + win_size.x / 2.0f;
-        const float win_mid_y = -win_min.y + win_size.y / 2.0f;
-        const int screen_col = std::round( ( screen_pos.x - win_mid_x ) / ( fw / 2.0 ) );
-        const int screen_row = std::round( ( screen_pos.y - win_mid_y ) / ( fw / 4.0 ) );
-        const point selected( ( screen_col - screen_row ) / 2, ( screen_row + screen_col ) / 2 );
-        p = offset + selected;
-    } else {
-        const point selected( screen_pos.x / fw, screen_pos.y / fh );
-        p = offset + selected - dim.window_size_cell / 2;
-    }
 
-    return tripoint( p, get_map().get_abs_sub().z() );
+    const point_bub_ms p = cata_tiles::screen_to_player(
+                               screen_pos, dim.scaled_font_size, win_size,
+                               point_bub_ms( offset ), g->is_tileset_isometric() );
+
+    return tripoint( p.raw(), get_map().get_abs_sub().z() );
 }
 
 int get_terminal_width()

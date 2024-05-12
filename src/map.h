@@ -168,6 +168,8 @@ struct bash_params {
 struct drawsq_params {
     private:
         tripoint view_center = tripoint_min;
+        ter_str_id ter_override = ter_str_id::NULL_ID();
+        furn_str_id furn_override = furn_str_id::NULL_ID();
         bool do_highlight = false;
         bool do_show_items = true;
         bool do_low_light = false;
@@ -176,7 +178,7 @@ struct drawsq_params {
         bool do_output = true;
 
     public:
-        constexpr drawsq_params() = default;
+        drawsq_params() = default;
 
         /**
          * Highlight the tile. On TILES, draws an overlay; on CURSES, inverts color.
@@ -277,6 +279,23 @@ struct drawsq_params {
             return *this;
         }
         tripoint center() const;
+        //@}
+
+        /**
+         * Set terrain or furniture override.
+         * Default: no override.
+         */
+        //@{
+        drawsq_params &terrain_override( const ter_str_id &id ) {
+            ter_override = id;
+            return *this;
+        }
+        drawsq_params &furniture_override( const furn_str_id &id ) {
+            furn_override = id;
+            return *this;
+        }
+        const ter_str_id &terrain_override() const;
+        const furn_str_id &furniture_override() const;
         //@}
 };
 
@@ -430,14 +449,16 @@ class map
         /** Helper function for light calculation; exposed here for map editor
          */
         static apparent_light_info apparent_light_helper( const level_cache &map_cache,
-                const tripoint &p );
+                const tripoint_bub_ms &p );
         /** Determine the visible light level for a tile, based on light_at
          * for the tile, vision distance, etc
          *
          * @param p The tile on this map to draw.
          * @param cache Currently cached visibility parameters
          */
+        // TODO: Get rid of untyped overload
         lit_level apparent_light_at( const tripoint &p, const visibility_variables &cache ) const;
+        lit_level apparent_light_at( const tripoint_bub_ms &p, const visibility_variables &cache ) const;
         visibility_type get_visibility( lit_level ll,
                                         const visibility_variables &cache ) const;
 
@@ -613,7 +634,10 @@ class map
         /**
         * Returns whether `F` sees `T` with a view range of `range`.
         */
+        // TODO: Get rid of untyped overload.
         bool sees( const tripoint &F, const tripoint &T, int range, bool with_fields = true ) const;
+        bool sees( const tripoint_bub_ms &F, const tripoint_bub_ms &T, int range,
+                   bool with_fields = true ) const;
     private:
         /**
          * Don't expose the slope adjust outside map functions.
@@ -872,8 +896,9 @@ class map
         // terrain. Additional overrides can be passed in to override terrain
         // at specific positions. This is used to display terrain overview in
         // the map editor.
-        uint8_t get_known_connections( const tripoint &p, const std::bitset<NUM_TERCONN> &connect_group,
-                                       const std::map<tripoint, ter_id> &override = {} ) const;
+        uint8_t get_known_connections( const tripoint_bub_ms &p,
+                                       const std::bitset<NUM_TERCONN> &connect_group,
+                                       const std::map<tripoint_bub_ms, ter_id> &override = {} ) const;
         // as above, but for furniture
         uint8_t get_known_connections_f( const tripoint &p, const std::bitset<NUM_TERCONN> &connect_group,
                                          const std::map<tripoint, furn_id> &override = {} ) const;
@@ -885,8 +910,9 @@ class map
         // Based on the true terrain.
         // Additional overrides can be passed in to override terrain
         // at specific positions.
-        uint8_t get_known_rotates_to( const tripoint &p, const std::bitset<NUM_TERCONN> &rotate_to_group,
-                                      const std::map<tripoint, ter_id> &override = {} ) const;
+        uint8_t get_known_rotates_to( const tripoint_bub_ms &p,
+                                      const std::bitset<NUM_TERCONN> &rotate_to_group,
+                                      const std::map<tripoint_bub_ms, ter_id> &override = {} ) const;
         // as above, but for furniture (considers neighbouring terrain and furniture)
         uint8_t get_known_rotates_to_f( const tripoint &p, const std::bitset<NUM_TERCONN> &rotate_to_group,
                                         const std::map<tripoint, ter_id> &override = {},
@@ -1575,7 +1601,9 @@ class map
          * one can not change the fields.
          * @param p The local map coordinates, if out of bounds, returns an empty field.
          */
+        // TODO: fix point types (remove the first overload)
         const field &field_at( const tripoint &p ) const;
+        const field &field_at( const tripoint_bub_ms &p ) const;
         /**
          * Gets fields that are here. Both for querying and edition.
          */
@@ -1836,11 +1864,13 @@ class map
                               int init_veh_fuel = -1, int init_veh_status = -1, bool merge_wrecks = true );
 
         // Light/transparency
+        // TODO: Remove untyped overload
         float light_transparency( const tripoint &p ) const;
+        float light_transparency( const tripoint_bub_ms &p ) const;
         // Assumes 0,0 is light map center
         lit_level light_at( const tripoint &p ) const;
         // Raw values for tilesets
-        float ambient_light_at( const tripoint &p ) const;
+        float ambient_light_at( const tripoint_bub_ms &p ) const;
         /**
          * Returns whether the tile at `p` is transparent(you can look past it).
          */
@@ -1856,7 +1886,9 @@ class map
          * @param max_range All squares that are further away than this are invisible.
          * Ignored if smaller than 0.
          */
+        // TODO: Get rid of untyped overload.
         bool pl_sees( const tripoint &t, int max_range ) const;
+        bool pl_sees( const tripoint_bub_ms &t, int max_range ) const;
 
         std::set<vehicle *> dirty_vehicle_list;
 
@@ -2039,7 +2071,7 @@ class map
 
     protected:
         void generate_lightmap( int zlev );
-        void build_seen_cache( const tripoint &origin, int target_z, int extension_range = 60,
+        void build_seen_cache( const tripoint_bub_ms &origin, int target_z, int extension_range = 60,
                                bool cumulative = false,
                                bool camera = false, int penalty = 0 );
         void apply_character_light( Character &p );
@@ -2206,17 +2238,17 @@ class map
 
         int determine_wall_corner( const tripoint &p ) const;
         // apply a circular light pattern immediately, however it's best to use...
-        void apply_light_source( const tripoint &p, float luminance );
+        void apply_light_source( const tripoint_bub_ms &p, float luminance );
         // ...this, which will apply the light after at the end of generate_lightmap, and prevent redundant
         // light rays from causing massive slowdowns, if there's a huge amount of light.
-        void add_light_source( const tripoint &p, float luminance );
+        void add_light_source( const tripoint_bub_ms &p, float luminance );
         // Handle just cardinal directions and 45 deg angles.
-        void apply_directional_light( const tripoint &p, int direction, float luminance );
-        void apply_light_arc( const tripoint &p, const units::angle &angle, float luminance,
+        void apply_directional_light( const tripoint_bub_ms &p, int direction, float luminance );
+        void apply_light_arc( const tripoint_bub_ms &p, const units::angle &angle, float luminance,
                               const units::angle &wideangle = 30_degrees );
         void apply_light_ray( cata::mdarray<bool, point_bub_ms, MAPSIZE_X, MAPSIZE_Y> &lit,
                               const tripoint &s, const tripoint &e, float luminance );
-        void add_light_from_items( const tripoint &p, const item_stack &items );
+        void add_light_from_items( const tripoint_bub_ms &p, const item_stack &items );
         std::unique_ptr<vehicle> add_vehicle_to_map( std::unique_ptr<vehicle> veh, bool merge_wrecks );
 
         // Internal methods used to bash just the selected features
@@ -2352,8 +2384,11 @@ class map
             return submaps_with_active_items;
         }
         // Clips the area to map bounds
+        // TODO: fix point types (remove the first overload)
         tripoint_range<tripoint> points_in_rectangle(
             const tripoint &from, const tripoint &to ) const;
+        tripoint_range<tripoint_bub_ms> points_in_rectangle(
+            const tripoint_bub_ms &from, const tripoint_bub_ms &to ) const;
         // TODO: fix point types (remove the first overload)
         tripoint_range<tripoint> points_in_radius(
             const tripoint &center, size_t radius, size_t radiusz = 0 ) const;
@@ -2702,7 +2737,7 @@ class fake_map : public tinymap
 
 /**
 * Smallmap is similar to tinymap in that it covers a single overmap terrain (OMT) tile, but differs
-* from it in that it covers all Z levels, not just a single one. It's intended usage is for cases
+* from it in that it covers all Z levels, not just a single one. Its intended usage is for cases
 * where you need to operate on an OMT, but cannot guarantee you needs are restricted to a single
 * Z level.
 * The smallmap's natural relative reference system is the tripoint_omt_ms one.
@@ -2716,4 +2751,14 @@ class smallmap : public tinymap
             tinymap::cut_down_tree( p, dir );
         };
 };
+
+class small_fake_map : public smallmap
+{
+    private:
+        std::vector<std::unique_ptr<submap>> temp_submaps_;
+    public:
+        explicit small_fake_map( const ter_id &ter_type = ter_str_id( "t_dirt" ).id() );
+        ~small_fake_map() override;
+};
+
 #endif // CATA_SRC_MAP_H

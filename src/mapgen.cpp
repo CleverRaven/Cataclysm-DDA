@@ -5537,9 +5537,10 @@ void map::draw_lab( mapgendata &dat )
                         return ter( p ) == ter_t_thconc_floor && furn( p ) == furn_str_id::NULL_ID() &&
                                tr_at( p ).is_null();
                     };
-                    const auto range =
-                    points_in_rectangle( { 0, 0, abs_sub.z() },
-                    { SEEX * 2 - 2, SEEY * 2 - 2, abs_sub.z() } );
+                    // Can't the tripoint_bub_ms because 'random_point' below only supports the untyped version.
+                    const tripoint_range<tripoint> range =
+                        points_in_rectangle( tripoint{ 0, 0, abs_sub.z() },
+                                             tripoint{ SEEX * 2 - 2, SEEY * 2 - 2, abs_sub.z() } );
 
                     if( const auto p = random_point( range, predicate ) ) {
                         ter_set( *p, t_stair_type );
@@ -5977,8 +5978,9 @@ void map::draw_lab( mapgendata &dat )
                 }
                 // portal with an artifact effect.
                 case 5: {
+                    // Can't use tripoint_bub_ms because 'random_point' below only supports the untyped version.
                     tripoint_range<tripoint> options =
-                    points_in_rectangle( { 6, 6, abs_sub.z() },
+                    points_in_rectangle( tripoint{ 6, 6, abs_sub.z() },
                     { SEEX * 2 - 7, SEEY * 2 - 7, abs_sub.z() } );
                     std::optional<tripoint> center = random_point(
                     options, [&]( const tripoint & p ) {
@@ -6347,7 +6349,8 @@ void map::draw_lab( mapgendata &dat )
                     return ter( p ) == ter_t_thconc_floor && furn( p ) == furn_str_id::NULL_ID() &&
                            tr_at( p ).is_null();
                 };
-                const auto range = points_in_rectangle( { 0, 0, abs_sub.z() },
+                // Can't use tripoint_bub_ms because 'random_point' below only supports the untyped version.
+                const tripoint_range<tripoint> range = points_in_rectangle( tripoint{ 0, 0, abs_sub.z() },
                 { SEEX * 2 - 2, SEEY * 2 - 2, abs_sub.z() } );
                 if( const auto p = random_point( range, predicate ) ) {
                     ter_set( *p, t_stair_type );
@@ -7969,7 +7972,7 @@ bool apply_construction_marker( const update_mapgen_id &update_mapgen_id,
         return false;
     }
 
-    fake_map tmp_map( ter_t_grass );
+    small_fake_map tmp_map( ter_t_grass );
 
     mapgendata base_fake_md( *tmp_map.cast_to_map(), mapgendata::dummy_settings );
     mapgendata fake_md( base_fake_md, args );
@@ -8026,21 +8029,23 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
         return std::make_pair( terrains, furnitures );
     }
 
-    fake_map tmp_map( base_ter );
+    small_fake_map tmp_map( base_ter );
 
     mapgendata base_fake_md( *tmp_map.cast_to_map(), mapgendata::dummy_settings );
     mapgendata fake_md( base_fake_md, mapgen_args );
     fake_md.skip = { mapgen_phase::zones };
 
     if( update_function->second.funcs()[0]->update_map( fake_md ) ) {
-        for( const tripoint &pos : tmp_map.points_on_zlevel( fake_map::fake_map_z ) ) {
-            ter_id ter_at_pos = tmp_map.ter( pos );
-            if( ter_at_pos != base_ter ) {
-                terrains[ter_at_pos] += 1;
-            }
-            if( tmp_map.has_furn( pos ) ) {
-                furn_id furn_at_pos = tmp_map.furn( pos );
-                furnitures[furn_at_pos] += 1;
+        for( int z = -OVERMAP_DEPTH; z <= OVERMAP_DEPTH; z++ ) {
+            for( const tripoint &pos : tmp_map.points_on_zlevel( z ) ) {
+                ter_id ter_at_pos = tmp_map.ter( pos );
+                if( ter_at_pos != base_ter ) {
+                    terrains[ter_at_pos] += 1;
+                }
+                if( tmp_map.has_furn( pos ) ) {
+                    furn_id furn_at_pos = tmp_map.furn( pos );
+                    furnitures[furn_at_pos] += 1;
+                }
             }
         }
     }

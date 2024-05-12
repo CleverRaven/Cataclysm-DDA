@@ -1163,6 +1163,7 @@ coffeetable
 coffeetree
 Cohasset
 coilgun
+coilpistol
 coilguns
 coincidently
 coipo
@@ -2861,6 +2862,14 @@ Irishman
 irising
 Ironfist
 ironshod
+irradiance
+irremovable
+irrecoverable
+irritants
+isable
+isassembled
+isk
+isopod
 Irradiants
 Isaac
 isekai
@@ -4975,6 +4984,7 @@ reenabled
 reenactor
 reenactors
 refuelable
+refurb
 regenerators
 Reggie
 regia

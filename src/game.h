@@ -248,12 +248,12 @@ class game
 
     public:
         // Curses counterpart of the async_anim functions in cata_tiles
-        void init_draw_async_anim_curses( const tripoint &p, const std::string &ncstr,
+        void init_draw_async_anim_curses( const tripoint_bub_ms &p, const std::string &ncstr,
                                           const nc_color &nccol );
         void draw_async_anim_curses();
         void void_async_anim_curses();
     protected:
-        std::map<tripoint, std::pair <std::string, nc_color>>
+        std::map<tripoint_bub_ms, std::pair <std::string, nc_color>>
                 async_anim_layer_curses; // NOLINT(cata-serialize)
 
     public:
@@ -756,44 +756,75 @@ class game
         void knockback( std::vector<tripoint> &traj, int stun, int dam_mult );
 
         // Animation related functions
+        // TODO: Get rid of untyped overload
         void draw_bullet( const tripoint &t, int i, const std::vector<tripoint> &trajectory,
                           char bullet );
+        void draw_bullet( const tripoint_bub_ms &t, int i, const std::vector<tripoint_bub_ms> &trajectory,
+                          char bullet );
+        // TODO: Get rid of untyped overload
         void draw_hit_mon( const tripoint &p, const monster &m, bool dead = false );
+        void draw_hit_mon( const tripoint_bub_ms &p, const monster &m, bool dead = false );
         void draw_hit_player( const Character &p, int dam );
         // TODO: fix point types (remove the first overload)
         void draw_line( const tripoint &p, const tripoint &center_point,
                         const std::vector<tripoint> &points, bool noreveal = false );
         void draw_line( const tripoint_bub_ms &p, const tripoint_bub_ms &center_point,
                         const std::vector<tripoint_bub_ms> &points, bool noreveal = false );
+        // TODO: Change to typed when single user is updated.
         void draw_line( const tripoint &p, const std::vector<tripoint> &points );
         void draw_weather( const weather_printable &wPrint ) const;
         void draw_sct() const;
-        void draw_zones( const tripoint &start, const tripoint &end, const tripoint &offset ) const;
+        void draw_zones( const tripoint_bub_ms &start, const tripoint_bub_ms &end,
+                         const tripoint &offset ) const;
         // Draw critter (if visible!) on its current position into w_terrain.
         // @param center the center of view, same as when calling map::draw
         void draw_critter( const Creature &critter, const tripoint &center );
+        // TODO: Get rid of untyped overload
         void draw_cursor( const tripoint &p ) const;
+        void draw_cursor( const tripoint_bub_ms &p ) const;
         // Draw a highlight graphic at p, for example when examining something.
         // TILES only, in curses this does nothing
+        // TODO: Get rid of untyped overload
         void draw_highlight( const tripoint &p );
+        void draw_highlight( const tripoint_bub_ms &p );
         // Draws an asynchronous animation at p with tile_id as its sprite. If ncstr is specified, it will also be displayed in curses.
+        // TODO: Get rid of untyped overload
         void draw_async_anim( const tripoint &p, const std::string &tile_id, const std::string &ncstr = "",
                               const nc_color &nccol = c_black );
-        void draw_radiation_override( const tripoint &p, int rad );
+        void draw_async_anim( const tripoint_bub_ms &p, const std::string &tile_id,
+                              const std::string &ncstr = "",
+                              const nc_color &nccol = c_black );
+        void draw_radiation_override( const tripoint_bub_ms &p, int rad );
+        // TODO: Get rid of untyped overload
         void draw_terrain_override( const tripoint &p, const ter_id &id );
+        void draw_terrain_override( const tripoint_bub_ms &p, const ter_id &id );
+        // TODO: Get rid of untyped overload
         void draw_furniture_override( const tripoint &p, const furn_id &id );
-        void draw_graffiti_override( const tripoint &p, bool has );
+        void draw_furniture_override( const tripoint_bub_ms &p, const furn_id &id );
+        void draw_graffiti_override( const tripoint_bub_ms &p, bool has );
+        // TODO: Get rid of untyped overload
         void draw_trap_override( const tripoint &p, const trap_id &id );
+        void draw_trap_override( const tripoint_bub_ms &p, const trap_id &id );
+        // TODO: Get rid of untyped overload
         void draw_field_override( const tripoint &p, const field_type_id &id );
+        void draw_field_override( const tripoint_bub_ms &p, const field_type_id &id );
+        // TODO: Get rid of untyped overload
         void draw_item_override( const tripoint &p, const itype_id &id, const mtype_id &mid,
                                  bool hilite );
+        void draw_item_override( const tripoint_bub_ms &p, const itype_id &id, const mtype_id &mid,
+                                 bool hilite );
+        // TODO: Get rid of untyped overload
         void draw_vpart_override( const tripoint &p, const vpart_id &id, int part_mod,
                                   const units::angle &veh_dir, bool hilite, const point &mount );
+        void draw_vpart_override( const tripoint_bub_ms &p, const vpart_id &id, int part_mod,
+                                  const units::angle &veh_dir, bool hilite, const point &mount );
+        // TODO: Get rid of untyped overload
         void draw_below_override( const tripoint &p, bool draw );
-        void draw_monster_override( const tripoint &p, const mtype_id &id, int count,
+        void draw_below_override( const tripoint_bub_ms &p, bool draw );
+        void draw_monster_override( const tripoint_bub_ms &p, const mtype_id &id, int count,
                                     bool more, Creature::Attitude att );
 
-        bool is_in_viewport( const tripoint &p, int margin = 0 ) const;
+        bool is_in_viewport( const tripoint_bub_ms &p, int margin = 0 ) const;
         /**
          * Check whether movement is allowed according to safe mode settings.
          * @return true if the movement is allowed, otherwise false.

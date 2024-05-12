@@ -1970,15 +1970,15 @@ void map::set_map_damage( const tripoint_bub_ms &p, int dmg )
     return current_submap->set_map_damage( l, dmg );
 }
 
-uint8_t map::get_known_connections( const tripoint &p,
+uint8_t map::get_known_connections( const tripoint_bub_ms &p,
                                     const std::bitset<NUM_TERCONN> &connect_group,
-                                    const std::map<tripoint, ter_id> &override ) const
+                                    const std::map<tripoint_bub_ms, ter_id> &override ) const
 {
     if( connect_group.none() ) {
         return 0;
     }
 
-    const level_cache &ch = access_cache( p.z );
+    const level_cache &ch = access_cache( p.z() );
     uint8_t val = 0;
     std::function<bool( const tripoint & )> is_memorized;
     avatar &player_character = get_avatar();
@@ -1999,11 +1999,11 @@ uint8_t map::get_known_connections( const tripoint &p,
 #endif
 
     const bool overridden = override.find( p ) != override.end();
-    const bool is_transparent = ch.transparency_cache[p.x][p.y] > LIGHT_TRANSPARENCY_SOLID;
+    const bool is_transparent = ch.transparency_cache[p.x()][p.y()] > LIGHT_TRANSPARENCY_SOLID;
 
     // populate connection information
     for( int i = 0; i < 4; ++i ) {
-        tripoint neighbour = p + offsets[i];
+        tripoint_bub_ms neighbour = p + offsets[i];
         if( !inbounds( neighbour ) ) {
             continue;
         }
@@ -2011,10 +2011,10 @@ uint8_t map::get_known_connections( const tripoint &p,
         const bool neighbour_overridden = neighbour_override != override.end();
         // if there's some non-memory terrain to show at the neighboring tile
         const bool may_connect = neighbour_overridden ||
-                                 get_visibility( ch.visibility_cache[neighbour.x][neighbour.y],
+                                 get_visibility( ch.visibility_cache[neighbour.x()][neighbour.y()],
                                          get_visibility_variables_cache() ) == visibility_type::CLEAR ||
                                  // or if an actual center tile is transparent or next to a memorized tile
-                                 ( !overridden && ( is_transparent || is_memorized( neighbour ) ) );
+                                 ( !overridden && ( is_transparent || is_memorized( neighbour.raw() ) ) );
         if( may_connect ) {
             const ter_t &neighbour_terrain = neighbour_overridden ?
                                              neighbour_override->second.obj() : ter( neighbour ).obj();
@@ -2027,9 +2027,9 @@ uint8_t map::get_known_connections( const tripoint &p,
     return val;
 }
 
-uint8_t map::get_known_rotates_to( const tripoint &p,
+uint8_t map::get_known_rotates_to( const tripoint_bub_ms &p,
                                    const std::bitset<NUM_TERCONN> &rotate_to_group,
-                                   const std::map<tripoint, ter_id> &override ) const
+                                   const std::map<tripoint_bub_ms, ter_id> &override ) const
 {
     if( rotate_to_group.none() ) {
         return CHAR_MAX;
@@ -2039,7 +2039,7 @@ uint8_t map::get_known_rotates_to( const tripoint &p,
 
     // populate connection information
     for( int i = 0; i < 4; ++i ) {
-        tripoint neighbour = p + offsets[i];
+        tripoint_bub_ms neighbour = p + offsets[i];
         if( !inbounds( neighbour ) ) {
             continue;
         }
@@ -6394,6 +6394,11 @@ const field &map::field_at( const tripoint &p ) const
     return current_submap->get_field( l );
 }
 
+const field &map::field_at( const tripoint_bub_ms &p ) const
+{
+    return field_at( p.raw() );
+}
+
 /*
  * As above, except not const
  */
@@ -7106,8 +7111,10 @@ bool map::draw_maptile( const catacurses::window &w, const tripoint &p,
 {
     drawsq_params param = params;
     nc_color tercol;
-    const ter_t &curr_ter = curr_maptile.get_ter_t();
-    const furn_t &curr_furn = curr_maptile.get_furn_t();
+    const ter_t &curr_ter = params.terrain_override().is_null()
+                            ? curr_maptile.get_ter_t() : params.terrain_override().obj();
+    const furn_t &curr_furn = params.furniture_override().is_null()
+                              ? curr_maptile.get_furn_t() : params.furniture_override().obj();
     const trap &curr_trap = curr_maptile.get_trap().obj();
     const field &curr_field = curr_maptile.get_field();
     int sym;
@@ -7378,6 +7385,13 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range, bool with
 {
     int dummy = 0;
     return sees( F, T, range, dummy, with_fields );
+}
+
+bool map::sees( const tripoint_bub_ms &F, const tripoint_bub_ms &T, const int range,
+                bool with_fields ) const
+{
+    int dummy = 0;
+    return sees( F.raw(), T.raw(), range, dummy, with_fields );
 }
 
 point map::sees_cache_key( const tripoint &from, const tripoint &to ) const
@@ -9150,6 +9164,29 @@ fake_map::fake_map( const ter_id &ter_type )
 
 fake_map::~fake_map() = default;
 
+small_fake_map::small_fake_map( const ter_id &ter_type )
+{
+    set_abs_sub( tripoint_abs_sm( tripoint_zero ) );
+
+    for( int gridx = 0; gridx < get_my_MAPSIZE(); gridx++ ) {
+        for( int gridy = 0; gridy < get_my_MAPSIZE(); gridy++ ) {
+            for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
+                std::unique_ptr<submap> sm = std::make_unique<submap>();
+
+                sm->set_all_ter( ter_type );
+                sm->set_all_furn( furn_str_id::NULL_ID() );
+                sm->set_all_traps( tr_null );
+
+                setsubmap( get_nonant( { gridx, gridy, gridz } ), sm.get() );
+
+                temp_submaps_.emplace_back( std::move( sm ) );
+            }
+        }
+    }
+}
+
+small_fake_map::~small_fake_map() = default;
+
 void map::set_graffiti( const tripoint &p, const std::string &contents )
 {
     if( !inbounds( p ) ) {
@@ -9211,7 +9248,7 @@ bool map::has_graffiti_at( const tripoint &p ) const
 int map::determine_wall_corner( const tripoint &p ) const
 {
     const std::bitset<NUM_TERCONN> &test_connect_group = ter( p ).obj().connect_to_groups;
-    uint8_t connections = get_known_connections( p, test_connect_group );
+    uint8_t connections = get_known_connections( tripoint_bub_ms( p ), test_connect_group );
     // The bits in connections are SEWN, whereas the characters in LINE_
     // constants are NESW, so we want values in 8 | 2 | 1 | 4 order.
     switch( connections ) {
@@ -9579,7 +9616,7 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
     seen_cache_dirty |= player_prev_pos != p || sr != player_prev_range || camera_cache_dirty;
     if( seen_cache_dirty ) {
         if( inbounds( p ) ) {
-            build_seen_cache( getlocal( p ), zlev, sr );
+            build_seen_cache( bub_from_abs( p ), zlev, sr );
         }
         player_prev_pos = p;
         player_prev_range = sr;
@@ -9597,7 +9634,7 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
         for( Character::cached_moncam const &mon : u.moncam_cache ) {
             if( inbounds( mon.second ) ) {
                 int const range = mon.first->type->vision_day;
-                build_seen_cache( getlocal( mon.second ), mon.second.z(), range, cumulative,
+                build_seen_cache( bub_from_abs( mon.second ), mon.second.z(), range, cumulative,
                                   true, std::max( 60 - range, 0 ) );
                 cumulative = true;
             }
@@ -10106,6 +10143,18 @@ tripoint_range<tripoint> map::points_in_rectangle( const tripoint &from, const t
     return tripoint_range<tripoint>( min, max );
 }
 
+tripoint_range<tripoint_bub_ms> map::points_in_rectangle( const tripoint_bub_ms &from,
+        const tripoint_bub_ms &to ) const
+{
+    const tripoint_bub_ms min( std::max( 0, std::min( from.x(), to.x() ) ), std::max( 0,
+                               std::min( from.y(),
+                                         to.y() ) ), std::max( -OVERMAP_DEPTH, std::min( from.z(), to.z() ) ) );
+    const tripoint_bub_ms max( std::min( SEEX * my_MAPSIZE - 1, std::max( from.x(), to.x() ) ),
+                               std::min( SEEX * my_MAPSIZE - 1, std::max( from.y(), to.y() ) ), std::min( OVERMAP_HEIGHT,
+                                       std::max( from.z(), to.z() ) ) );
+    return tripoint_range<tripoint_bub_ms>( min, max );
+}
+
 tripoint_range<tripoint> map::points_in_radius( const tripoint &center, size_t radius,
         size_t radiusz ) const
 {
@@ -10554,4 +10603,14 @@ tripoint drawsq_params::center() const
     } else {
         return view_center;
     }
+}
+
+const ter_str_id &drawsq_params::terrain_override() const
+{
+    return ter_override;
+}
+
+const furn_str_id &drawsq_params::furniture_override() const
+{
+    return furn_override;
 }

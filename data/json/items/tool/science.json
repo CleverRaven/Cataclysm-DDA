@@ -54,8 +54,8 @@
     "flags": [ "WATER_BREAK", "ALLOWS_REMOTE_USE" ],
     "sub": "hotplate",
     "charges_per_use": 1,
-    "qualities": [ [ "DISTILL", 1 ], [ "CHEM", 3 ], [ "BOIL", 1 ] ],
-    "use_action": [ "HOTPLATE", { "type": "link_up", "cable_length": 7, "charge_rate": "1 kW" } ],
+    "qualities": [ [ "DISTILL", 1 ], [ "CHEM", 3 ], [ "BOIL", 1 ], [ "HOTPLATE", 2 ] ],
+    "use_action": [ { "type": "link_up", "cable_length": 7, "charge_rate": "1 kW" } ],
     "melee_damage": { "bash": 2 }
   },
   {

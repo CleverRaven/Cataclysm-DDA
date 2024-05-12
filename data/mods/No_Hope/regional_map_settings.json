@@ -2,6 +2,7 @@
   {
     "type": "region_settings",
     "id": "default",
+    "//": "TODO: Change to an overlay",
     "default_oter": [
       "open_air",
       "open_air",

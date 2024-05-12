@@ -240,7 +240,7 @@
     "type": "effect_on_condition",
     "id": "EOC_SUMMON_ZOMBIE_SWARM",
     "effect": {
-      "switch": { "math": [ "u_spell_level('summon_undead')" ] },
+      "switch": { "math": [ "u_spell_level('summon_undead_swarm')" ] },
       "cases": [
         { "case": 0, "effect": { "u_cast_spell": { "id": "summon_zombie_dog" } } },
         { "case": 5, "effect": { "u_cast_spell": { "id": "summon_dog_skeleton" } } },
@@ -1065,5 +1065,40 @@
         ]
       }
     ]
+  },
+  {
+    "id": "animist_magic_fissile",
+    "type": "SPELL",
+    "name": "Magic Fissile",
+    "description": "I cast Magic… Fissile?  At the darkness?",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "VERBAL", "SOMATIC", "NO_LEGS", "SILENT", "NO_PROJECTILE" ],
+    "extra_effects": [ { "id": "animist_radiation_bolt", "hit_self": false }, { "id": "eoc_evocation_setup" } ],
+    "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(1, 0.2)" ] },
+    "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(1.5, 0.083)" ] },
+    "damage_type": "necrotic",
+    "max_damage": { "math": [ "evocation_proficiency_bonus_calculate(20, 0.2)" ] },
+    "min_range": 8,
+    "range_increment": 0.8,
+    "max_range": 20,
+    "base_energy_cost": 50,
+    "spell_class": "ANIMIST",
+    "difficulty": 1,
+    "max_level": 15,
+    "base_casting_time": 100,
+    "energy_source": "MANA",
+    "shape": "blast",
+    "effect": "attack"
+  },
+  {
+    "id": "animist_radiation_bolt",
+    "type": "SPELL",
+    "name": "Magic Fissile Radiation",
+    "description": "Spawns a radiation field near the target.  It's a bug if you have it directly.",
+    "flags": [ "NO_EXPLOSION_SFX" ],
+    "valid_targets": [ "self" ],
+    "effect": "emit",
+    "effect_str": "emit_rad_leak",
+    "shape": "blast"
   }
 ]

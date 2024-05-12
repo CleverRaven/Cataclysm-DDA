@@ -4042,21 +4042,21 @@ bool npc::do_player_activity()
     return moves != old_moves;
 }
 
-double npc::evaluate_weapon( item &it, bool can_use_gun, bool use_silent ) const
+double npc::evaluate_weapon( item &maybe_weapon, bool can_use_gun, bool use_silent ) const
 {
-    bool allowed = can_use_gun && it.is_gun() && ( !use_silent || it.is_silent() );
+    bool allowed = can_use_gun && maybe_weapon.is_gun() && ( !use_silent || maybe_weapon.is_silent() );
     // According to unmodified evaluation score, NPCs almost always prioritize wielding guns if they have one.
     // This is relatively reasonable, as players can issue commands to NPCs when we do not want them to use ranged weapons.
     // Conversely, we cannot directly issue commands when we want NPCs to prioritize ranged weapons.
     // Note that the scoring method here is different from the 'weapon_value' used elsewhere.
-    double val_gun = allowed ? gun_value( it, it.shots_remaining( this ) ) : 0;
+    double val_gun = allowed ? gun_value( maybe_weapon, maybe_weapon.shots_remaining( this ) ) : 0;
     add_msg_debug( debugmode::DF_NPC_ITEMAI,
                    "%s %s valued at <color_light_cyan>%1.2f as a ranged weapon to wield</color>.",
-                   disp_name( true ), it.type->get_id().str(), val_gun );
-    double val_melee = melee_value( it );
+                   disp_name( true ), maybe_weapon.type->get_id().str(), val_gun );
+    double val_melee = melee_value( maybe_weapon );
     add_msg_debug( debugmode::DF_NPC_ITEMAI,
                    "%s %s valued at <color_light_cyan>%1.2f as a melee weapon to wield</color>.", disp_name( true ),
-                   it.type->get_id().str(), val_melee );
+                   maybe_weapon.type->get_id().str(), val_melee );
     double val = std::max( val_gun, val_melee );
     return val;
 }

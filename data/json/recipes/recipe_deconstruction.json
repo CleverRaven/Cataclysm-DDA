@@ -3087,7 +3087,7 @@
     "result": "knife_carving",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap", 1 ] ] ]
+    "components": [ [ [ "spike", 1 ] ], [ [ "scrap", 1 ] ] ]
   },
   {
     "type": "uncraft",
@@ -7311,6 +7311,15 @@
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "bone", 6 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "skull_skunk",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "components": [ [ [ "bone", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {

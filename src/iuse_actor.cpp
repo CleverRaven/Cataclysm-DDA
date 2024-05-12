@@ -367,7 +367,8 @@ ret_val<void> iuse_transform::can_use( const Character &p, const item &it,
 
     if( p.is_worn( it ) ) {
         item tmp = item( target );
-        if( !tmp.has_flag( flag_OVERSIZE ) && !tmp.has_flag( flag_SEMITANGIBLE ) ) {
+        if( !tmp.has_flag( flag_OVERSIZE ) && !tmp.has_flag( flag_INTEGRATED ) &&
+            !tmp.has_flag( flag_SEMITANGIBLE ) ) {
             for( const trait_id &mut : p.get_mutations() ) {
                 const mutation_branch &branch = mut.obj();
                 if( branch.conflicts_with_item( tmp ) ) {
@@ -1179,8 +1180,8 @@ std::optional<int> deploy_appliance_actor::use( Character *p, item &it, const tr
         return std::nullopt;
     }
 
-    place_appliance( suitable.value(), vpart_appliance_from_item( appliance_base ) );
     it.spill_contents( suitable.value() );
+    place_appliance( suitable.value(), vpart_appliance_from_item( appliance_base ), it );
     p->mod_moves( -to_moves<int>( 2_seconds ) );
     return 1;
 }

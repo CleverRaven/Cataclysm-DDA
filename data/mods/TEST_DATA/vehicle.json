@@ -308,6 +308,19 @@
     ]
   },
   {
+    "id": "obstacle_test",
+    "type": "vehicle",
+    "name": "TEST obstacle boards",
+    "blueprint": [ "===" ],
+    "parts": [
+      { "x": -2, "y": 0, "parts": [ "frame", "board" ] },
+      { "x": -1, "y": 0, "parts": [ "frame", "board" ] },
+      { "x": 0, "y": 0, "parts": [ "frame", "board", "omnicam" ] },
+      { "x": 1, "y": 0, "parts": [ "frame", "board" ] },
+      { "x": 2, "y": 0, "parts": [ "frame", "board" ] }
+    ]
+  },
+  {
     "id": "scooter_test",
     "type": "vehicle",
     "name": "TEST Scooter",

@@ -1427,6 +1427,33 @@ conditional_t::func f_npc_train_spells( bool is_npc )
     };
 }
 
+conditional_t::func f_follower_present( const JsonObject &jo, std::string_view member )
+{
+    const std::string &var_name = jo.get_string( std::string( member ) );
+    return [var_name]( dialogue const & d ) {
+        npc *npc_to_check = nullptr;
+        for( npc &guy : g->all_npcs() ) {
+            if( guy.myclass.str() == var_name ) {
+                npc_to_check = &guy;
+                break;
+            }
+        }
+        npc *d_npc = d.actor( true )->get_npc();
+        if( npc_to_check == nullptr || d_npc == nullptr ) {
+            return false;
+        }
+        const std::set<character_id> followers = g->get_follower_list();
+        if( !std::any_of( followers.begin(), followers.end(), [&npc_to_check]( const character_id & id ) {
+        return id == npc_to_check->getID();
+        } ) ||
+        !npc_to_check->is_following() ) {
+            return false;
+        }
+        return rl_dist( npc_to_check->pos_bub().raw(), d_npc->pos_bub().raw() ) < 5 &&
+               get_map().clear_path( npc_to_check->pos_bub().raw(), d_npc->pos_bub().raw(), 5, 0, 100 );
+    };
+}
+
 conditional_t::func f_at_safe_space( bool is_npc )
 {
     return [is_npc]( dialogue const & d ) {
@@ -2399,6 +2426,7 @@ parsers = {
     {"u_at_om_location", "npc_at_om_location", jarg::member, &conditional_fun::f_at_om_location },
     {"u_near_om_location", "npc_near_om_location", jarg::member, &conditional_fun::f_near_om_location },
     {"u_has_var", "npc_has_var", jarg::string, &conditional_fun::f_has_var },
+    { "follower_present", jarg::string, &conditional_fun::f_follower_present},
     {"expects_vars", jarg::member, &conditional_fun::f_expects_vars },
     {"npc_role_nearby", jarg::string, &conditional_fun::f_npc_role_nearby },
     {"npc_allies", jarg::member | jarg::array, &conditional_fun::f_npc_allies },
