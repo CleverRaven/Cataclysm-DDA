@@ -1456,7 +1456,7 @@
     "id": "egg_green_frog",
     "copy-from": "egg_proxy_frog",
     "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
-    "description": "A thin sheet of clear, gelatinous eggs with black embryos peppered throughout.",
+    "description": "A thin sheet of clear, gelatinous eggs with dark embryos peppered throughout.",
     "rot_spawn": "GROUP_EGG_GREEN_FROG"
   },
   {
@@ -1464,7 +1464,7 @@
     "id": "egg_wood_frog",
     "copy-from": "egg_proxy_frog",
     "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
-    "description": "This gelatinous, softball-sized mass of eggs clings together like a bunch of soft, transparent grapes.  The \"seeds\" inside these appear to be growing legs.",
+    "description": "This softball-sized mass of gooey eggs clings together like a bunch of soft, transparent grapes.  The \"seeds\" inside these appear to be growing legs.",
     "rot_spawn": "GROUP_EGG_WOOD_FROG"
   },
   {
@@ -1472,7 +1472,7 @@
     "id": "egg_spade_frog",
     "copy-from": "egg_proxy_frog",
     "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
-    "description": "A short strand of tightly clustered black eggs connected together by their gooey coverings.",
+    "description": "Several short strands of tightly clustered black eggs connected together by their viscous coverings.",
     "use_action": [ "POISON" ],
     "rot_spawn": "GROUP_EGG_SPADE_FROG"
   },
