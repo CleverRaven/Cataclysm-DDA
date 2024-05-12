@@ -250,6 +250,18 @@
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
+    "id": "mon_skunk",
+    "type": "MONSTER",
+    "copy-from": "mon_skunk",
+    "name": { "str": "skunk" },
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s smacks its lips repetitively as you give its head a small scritch."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
     "id": "mon_otter",
     "type": "MONSTER",
     "copy-from": "mon_otter",

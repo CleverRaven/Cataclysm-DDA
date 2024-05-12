@@ -290,7 +290,7 @@ jobs:
           make -j$((`nproc`+0)) TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=1 LIBBACKTRACE=${{ matrix.libbacktrace }} PCH=0 bindist
           mv cataclysmdda-0.I.tar.gz cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.tar.gz
       - name: Build CDDA (WebAssembly)
-        if: matrix.wasm
+        if: matrix.wasm && success()
         run: |
           ./build-scripts/build-emscripten.sh
           ./build-scripts/prepare-web.sh

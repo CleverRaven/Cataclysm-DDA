@@ -245,7 +245,7 @@
     "category": "container",
     "name": { "str": "garbage bag" },
     "looks_like": "bag_canvas",
-    "description": "A hefty plastic bag, made to carry lots of trash.  It's sturdy and waterproof, and could easily be repurposed.",
+    "description": "A hefty plastic bag, made to carry lots of trash.  It's sturdy and water-resistant; this could easily be repurposed.",
     "ascii_picture": "bag_garbage",
     "weight": "40 g",
     "volume": "42 ml",
@@ -292,7 +292,15 @@
     "ascii_picture": "bag_garbage_reinforced",
     "weight": "400 g",
     "volume": "500 ml",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "98 L", "max_contains_weight": "46 kg", "moves": 400 } ]
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "98 L",
+        "watertight": true,
+        "max_contains_weight": "46 kg",
+        "moves": 400
+      }
+    ]
   },
   {
     "id": "bag_paper_powder",
