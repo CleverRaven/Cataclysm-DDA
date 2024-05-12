@@ -328,7 +328,7 @@ void create_destroy_curses_windows(std::vector<WINDOW*> &windows)
         windows.erase(windows.begin() + lastIndex, windows.end());
     }
 }
-wchar_t strTmp[] = {0, 0};
+
 void ImTui_ImplNcurses_DrawScreen( bool active )
 {
     ImTui::ImplImtui_Data* bd = ImTui::ImTui_Impl_GetBackendData();
@@ -364,8 +364,9 @@ void ImTui_ImplNcurses_DrawScreen( bool active )
                     wattron( cursesWin, COLOR_PAIR( colPairs[p].second ) );
                     lastp = p;
                 }
-                strTmp[0] = cell.ch;
-                waddwstr( cursesWin, strTmp );
+                std::string tmpStr;
+                wctomb( tmpStr.data(), cell.ch );
+                waddstr( cursesWin, tmpStr.c_str() );
                 
                 if(cell.chwidth > 1)
                 {
