@@ -44,6 +44,7 @@ Very high skill: 8 (dangerous opponent; dark wyrm, vinebeast)
 
 Maximal skill: 10 (highest for balance purposes; jabberwock, shoggoth, gracken)
 
+
 # Monster dodge skill scaling:
 Minimum skill: 0 (no dodge potential; zombie, turret, fungaloid, fused dragonfly)
 
@@ -52,6 +53,20 @@ Nominal skill: 2 (clumsy dodger; cow, missile spider, horse, feral marine)
 Notable skill: 4 (natural dodging ability; wolf, feral soldier; mi-go, vinebeast)
 
 Maximal skill: 8 (highest for balance purposes; giant jumping spider, dermatik, liquid cat, atlantic salmon)
+
+
+# Monster armor scaling:
+
+Minimum armor: 0 (no armor at all; zombie, feral, blank body, giant fly, bulldog)
+
+Civilian grade: 6 (some armor; zombie cop, firefighter zombie, alpha bee, dark wyrm, zombie brute)
+
+Military grade: 20 (specialized for modern war; zombie soldier, super soldier ant, SWAT zombie's ballistic armor)
+
+Supernatural: 40 (late game threat; skeletal juggernaut, hound of Tindalos )
+
+Maximum armor: 80 (highest for balance purposes; melded task force's fire armor )
+
 
 # Monster maximum damage scaling:
 Minimum damage: 0 (no damage potential; spore cloud, hallucination)
