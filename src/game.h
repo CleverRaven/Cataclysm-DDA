@@ -607,7 +607,7 @@ class game
 
         void peek();
         void peek( const tripoint &p );
-        std::optional<tripoint> look_debug();
+        std::optional<tripoint_bub_ms> look_debug();
 
         bool check_zone( const zone_type_id &type, const tripoint &where ) const;
         /** Checks whether or not there is a zone of particular type nearby */
