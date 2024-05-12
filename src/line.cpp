@@ -7,8 +7,8 @@
 #include <utility>
 
 #include "cata_assert.h"
-//#include "coordinates.h"
 #include "enums.h"
+#include "line_coordinates.h"
 #include "math_defines.h"
 #include "output.h"
 #include "string_formatter.h"
@@ -267,7 +267,8 @@ std::vector <tripoint_bub_ms> line_to( const tripoint_bub_ms &loc1, const tripoi
     const std::vector<tripoint> intermediate = line_to( loc1.raw(), loc2.raw(), t, t2 );
     line.resize( intermediate.size() );
     for( const tripoint &p : intermediate ) {
-        line.emplace_back( tripoint_bub_ms( p ) );
+        const tripoint_bub_ms tmp = tripoint_bub_ms( p );
+        line.emplace_back( &tmp );
     }
     return line;
 }
