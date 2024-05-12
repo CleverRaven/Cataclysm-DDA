@@ -60,7 +60,7 @@ void item_category::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "priority_zones", zone_priority_ );
     optional( jo, was_loaded, "zone", zone_, std::nullopt );
     float spawn_rate = 1.0f;
-    optional( jo, was_loaded, "spawn_rate", spawn_rate );
+    optional( jo, was_loaded, "spawn_rate", spawn_rate, 1.0f );
     set_spawn_rate( spawn_rate );
 }
 
