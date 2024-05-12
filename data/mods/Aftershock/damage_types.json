@@ -18,30 +18,33 @@
     "ablative_info": { "order": 307, "show_type": true }
   },
   {
-    "id": "afs_toxin",
+    "id": "afs_toxin_pierce",
     "type": "damage_type",
     "physical": true,
     "edged": true,
     "magic_color": "light_green",
-    "name": "toxin",
-    "immune_flags": { "character": [ "BIO_IMMUNE" ], "monster": [ "BIOLOGICALPROOF" ] },
+    "name": "toxic pierce",
+    "skill": "stabbing",
+    "derived_from": [ "stab", 1 ],
+    "immune_flags": { "character": [ "STAB_IMMUNE" ] },
     "ondamage_eocs": [ "AFS_TOXIN_DAMAGE_EFFECTS" ]
   },
   {
     "type": "effect_on_condition",
     "id": "AFS_TOXIN_DAMAGE_EFFECTS",
     "eoc_type": "ACTIVATION",
+    "condition": { "or": [ { "not": { "npc_has_flag": "BIO_IMMUNE" } }, { "not": { "npc_has_flag": "BIOLOGICALPROOF" } } ] },
     "effect": [ { "npc_add_effect": "afs_badpoison", "duration": "5 m", "target_part": "torso" } ]
   },
   {
-    "id": "afs_toxin",
+    "id": "afs_toxin_pierce",
     "type": "damage_info_order",
     "info_display": "basic",
-    "verb": "plasma",
+    "verb": "toxic piercing",
     "bionic_info": { "order": 407, "show_type": false },
     "protection_info": { "order": 307, "show_type": false },
     "pet_prot_info": { "order": 307, "show_type": false },
-    "melee_combat_info": { "order": 407, "show_type": false },
+    "melee_combat_info": { "order": 407, "show_type": true },
     "ablative_info": { "order": 307, "show_type": false }
   }
 ]
