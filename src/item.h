@@ -2484,6 +2484,8 @@ class item : public visitable
         bool ammo_sufficient( const Character *carrier, int qty = 1 ) const;
         bool ammo_sufficient( const Character *carrier, const std::string &method, int qty = 1 ) const;
 
+        int ammo_consume( int qty, item magazine, const tripoint &pos, Character *carrier );
+
         /**
          * Consume ammo (if available) and return the amount of ammo that was consumed
          * Consume order: loaded items, UPS, bionic

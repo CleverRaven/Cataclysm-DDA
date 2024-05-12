@@ -11124,7 +11124,7 @@ bool item::ammo_sufficient( const Character *carrier, const std::string &method,
     return ammo_sufficient( carrier, qty );
 }
 
-int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
+int item::ammo_consume( int qty, item magazine, const tripoint &pos, Character *carrier ) //HOW?
 {
     if( qty < 0 ) {
         debugmsg( "Cannot consume negative quantity of ammo for %s", tname() );
