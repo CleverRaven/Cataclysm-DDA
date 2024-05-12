@@ -292,6 +292,7 @@
     "material": [ "hc_steel", "plastic" ],
     "symbol": ";",
     "color": "dark_gray",
+    "looks_like": "knife_combat",
     "gunmod_data": {
       "location": "bayonet lug",
       "mod_targets": [ "pistol", "smg", "rifle", "shotgun", "launcher", "crossbow" ],
@@ -365,6 +366,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "dark_gray",
+    "looks_like": "knife_combat",
     "gunmod_data": {
       "location": "bayonet lug",
       "mod_targets": [ "pistol", "smg", "rifle", "shotgun", "launcher", "crossbow" ],
