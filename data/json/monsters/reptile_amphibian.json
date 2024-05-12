@@ -447,7 +447,6 @@
     "id": "mon_tail_tadpole",
     "type": "MONSTER",
     "copy-from": "mon_mink_tadpole",
-    "description": "a description goes here.",
     "name": { "str": "tadpole" },
     "categories": [ "NULL" ],
     "speed": 80,
