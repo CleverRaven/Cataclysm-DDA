@@ -9998,7 +9998,7 @@ static item::reload_option favorite_ammo_or_select( avatar &u, item_location &lo
         std::vector<item::reload_option> ammo_list;
         if( u.list_ammo( loc, ammo_list, false ) ) {
             const auto is_favorite_and_compatible = [&loc, &u]( const item::reload_option & opt ) {
-                return opt.ammo == u.ammo_location && loc->can_reload_with( *u.ammo_location.get_item(), false );
+                return opt.ammo == u.ammo_location && loc.can_reload_with( u.ammo_location, false );
             };
             auto it = std::find_if( ammo_list.begin(), ammo_list.end(), is_favorite_and_compatible );
             if( it != ammo_list.end() ) {
