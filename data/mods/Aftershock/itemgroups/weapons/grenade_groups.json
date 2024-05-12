@@ -5,6 +5,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "afs_electroshock_grenade_1", "count": [ 1, 3 ] },
+      { "item": "afs_toxic_grenade_1", "count": [ 1, 3 ] },
       { "item": "grenade_cryo", "count": [ 1, 3 ] },
       { "item": "grenade", "count": [ 1, 3 ] },
       { "item": "afs_HE_grenade", "count": [ 1, 3 ] },
