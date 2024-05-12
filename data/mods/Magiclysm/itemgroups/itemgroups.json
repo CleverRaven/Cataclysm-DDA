@@ -216,7 +216,12 @@
     "type": "item_group",
     "copy-from": "trash",
     "extend": {
-      "items": [ [ "summon_scroll_smudged", 5 ], [ "spell_scroll_tornskin", 5 ], [ "spell_scroll_stormshaper_cloak_of_frog", 5 ] ]
+      "items": [
+        [ "summon_scroll_smudged", 5 ],
+        [ "spell_scroll_tornskin", 5 ],
+        [ "spell_scroll_stormshaper_cloak_of_frog", 5 ],
+        [ "spell_scroll_animist_magic_fissile", 5 ]
+      ]
     }
   },
   {
