@@ -265,7 +265,7 @@ std::vector <tripoint_bub_ms> line_to( const tripoint_bub_ms &loc1, const tripoi
     // Crap implementation, but the bresenham stuff is hostile to other tritypes. It's possible a macro (or 'lambda')
     // version of bresenham capable of handling all tripoint types can be created.
     const std::vector<tripoint> intermediate = line_to( loc1.raw(), loc2.raw(), t, t2 );
-    line.resize( intermediate.size() );
+    line.reserve( intermediate.size() );
     for( const tripoint &p : intermediate ) {
         const tripoint_bub_ms tmp = tripoint_bub_ms( p );
         line.emplace_back( &tmp );
