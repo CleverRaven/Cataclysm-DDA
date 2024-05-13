@@ -647,7 +647,7 @@
     "use_action": [ "PLAY_GAME" ]
   },
   {
-  "id": "ouija",
+    "id": "ouija",
     "type": "GENERIC",
     "category": "other",
     "name": { "str": "Ouija board" },
