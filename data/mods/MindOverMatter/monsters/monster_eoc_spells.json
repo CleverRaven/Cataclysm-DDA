@@ -10,7 +10,7 @@
     "difficulty": 1,
     "max_level": 20,
     "effect": "effect_on_condition",
-    "damage_type": "EOC_EATER_DRAIN",
+    "effect_str": "EOC_EATER_DRAIN",
     "shape": "blast",
     "min_range": 30
   },
