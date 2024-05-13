@@ -39,9 +39,51 @@
   },
   {
     "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbml_2_coop_roof_construction",
+    "object": {
+      "parameters": {
+        "fbml_2_construction_palette": {
+          "type": "palette_id",
+          "scope": "omt",
+          "default": {
+            "distribution": [
+              "fbml_2_concrete_palette",
+              "fbml_2_log_palette",
+              "fbml_2_metal_palette",
+              "fbml_2_migo_resin_palette",
+              "fbml_2_rammed_earth_palette",
+              "fbml_2_rock_palette",
+              "fbml_2_wad_palette",
+              "fbml_2_wood_palette"
+            ]
+          }
+        }
+      },
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "rrrrrrr ",
+        "rrrrrrr ",
+        "rrrrrrr ",
+        "rrrrrrr ",
+        "rrrrrrr ",
+        "rrrrrrr ",
+        "rrrrrrr ",
+        "r     r "
+      ],
+      "palettes": [ { "param": "fbml_2_construction_palette" } ]
+    }
+  },
+  {
+    "type": "mapgen",
     "update_mapgen_id": "fbml_2_coop_construction",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbml_2_coop_construction" ], "x": 13, "y": 0 } ] }
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbml_2_coop_construction" ], "x": 13, "y": 0, "z": 0 },
+        { "chunks": [ "fbml_2_coop_roof_construction" ], "x": 13, "y": 0, "z": 1 }
+      ]
+    }
   },
   {
     "type": "mapgen",
@@ -80,12 +122,47 @@
   },
   {
     "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbml_2_shack_roof_construction",
+    "object": {
+      "parameters": {
+        "fbml_2_construction_palette": {
+          "type": "palette_id",
+          "scope": "omt",
+          "default": {
+            "distribution": [
+              "fbml_2_concrete_palette",
+              "fbml_2_log_palette",
+              "fbml_2_metal_palette",
+              "fbml_2_migo_resin_palette",
+              "fbml_2_rammed_earth_palette",
+              "fbml_2_rock_palette",
+              "fbml_2_wad_palette",
+              "fbml_2_wood_palette"
+            ]
+          }
+        }
+      },
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "rrrrr",
+        "rrrrr",
+        "rrrrr",
+        "rrrrr",
+        "rrrrr"
+      ],
+      "palettes": [ { "param": "fbml_2_construction_palette" } ]
+    }
+  },
+  {
+    "type": "mapgen",
     "update_mapgen_id": "fbml_2_shack_construction",
     "method": "json",
     "object": {
       "place_nested": [
-        { "chunks": [ "fbml_2_shack_construction" ], "x": 15, "y": 18 },
-        { "chunks": [ "fbml_2_shack_furniture" ], "x": 16, "y": 19 }
+        { "chunks": [ "fbml_2_shack_construction" ], "x": 15, "y": 18, "z": 0 },
+        { "chunks": [ "fbml_2_shack_furniture" ], "x": 16, "y": 19, "z": 0 },
+        { "chunks": [ "fbml_2_shack_roof_construction" ], "x": 15, "y": 18, "z": 1 }
       ]
     }
   },
@@ -127,12 +204,48 @@
   },
   {
     "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbml_2_stall_1_roof_construction",
+    "object": {
+      "parameters": {
+        "fbml_2_construction_palette": {
+          "type": "palette_id",
+          "scope": "omt",
+          "default": {
+            "distribution": [
+              "fbml_2_concrete_palette",
+              "fbml_2_log_palette",
+              "fbml_2_metal_palette",
+              "fbml_2_migo_resin_palette",
+              "fbml_2_rammed_earth_palette",
+              "fbml_2_rock_palette",
+              "fbml_2_wad_palette",
+              "fbml_2_wood_palette"
+            ]
+          }
+        }
+      },
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "rrrrrr",
+        "rrrrrr",
+        "rrrrrr",
+        "rrrrrr",
+        "rrrrrr",
+        "      "
+      ],
+      "palettes": [ { "param": "fbml_2_construction_palette" } ]
+    }
+  },
+  {
+    "type": "mapgen",
     "update_mapgen_id": "fbml_2_stall_1_construction",
     "method": "json",
     "object": {
       "place_nested": [
-        { "chunks": [ "fbml_2_stall_1_construction" ], "x": 0, "y": 18 },
-        { "chunks": [ "fbml_2_stall_1" ], "x": 3, "y": 19 }
+        { "chunks": [ "fbml_2_stall_1_construction" ], "x": 0, "y": 18, "z": 0 },
+        { "chunks": [ "fbml_2_stall_1" ], "x": 3, "y": 19, "z": 0 },
+        { "chunks": [ "fbml_2_stall_1_roof_construction" ], "x": 0, "y": 18, "z": 1 }
       ]
     }
   },
@@ -174,12 +287,48 @@
   },
   {
     "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbml_2_stall_2_3_4_roof_construction",
+    "object": {
+      "parameters": {
+        "fbml_2_construction_palette": {
+          "type": "palette_id",
+          "scope": "omt",
+          "default": {
+            "distribution": [
+              "fbml_2_concrete_palette",
+              "fbml_2_log_palette",
+              "fbml_2_metal_palette",
+              "fbml_2_migo_resin_palette",
+              "fbml_2_rammed_earth_palette",
+              "fbml_2_rock_palette",
+              "fbml_2_wad_palette",
+              "fbml_2_wood_palette"
+            ]
+          }
+        }
+      },
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "rrrrrr",
+        "rrrrrr",
+        "rrrrrr",
+        "rrrrrr",
+        "      ",
+        "      "
+      ],
+      "palettes": [ { "param": "fbml_2_construction_palette" } ]
+    }
+  },
+  {
+    "type": "mapgen",
     "update_mapgen_id": "fbml_2_stall_2_construction",
     "method": "json",
     "object": {
       "place_nested": [
-        { "chunks": [ "fbml_2_stall_2_4_construction" ], "x": 0, "y": 14 },
-        { "chunks": [ "fbml_2_stall_bench" ], "x": 3, "y": 15 }
+        { "chunks": [ "fbml_2_stall_2_4_construction" ], "x": 0, "y": 14, "z": 0 },
+        { "chunks": [ "fbml_2_stall_bench" ], "x": 3, "y": 15, "z": 0 },
+        { "chunks": [ "fbml_2_stall_2_3_4_roof_construction" ], "x": 0, "y": 14, "z": 1 }
       ]
     }
   },
@@ -225,8 +374,9 @@
     "method": "json",
     "object": {
       "place_nested": [
-        { "chunks": [ "fbml_2_stall_3_construction" ], "x": 0, "y": 10 },
-        { "chunks": [ "fbml_2_stall_3" ], "x": 3, "y": 11 }
+        { "chunks": [ "fbml_2_stall_3_construction" ], "x": 0, "y": 10, "z": 0 },
+        { "chunks": [ "fbml_2_stall_3" ], "x": 3, "y": 11, "z": 0 },
+        { "chunks": [ "fbml_2_stall_2_3_4_roof_construction" ], "x": 0, "y": 10, "z": 1 }
       ]
     }
   },
@@ -236,8 +386,9 @@
     "method": "json",
     "object": {
       "place_nested": [
-        { "chunks": [ "fbml_2_stall_2_4_construction" ], "x": 0, "y": 6 },
-        { "chunks": [ "fbml_2_stall_bench" ], "x": 3, "y": 7 }
+        { "chunks": [ "fbml_2_stall_2_4_construction" ], "x": 0, "y": 6, "z": 0 },
+        { "chunks": [ "fbml_2_stall_bench" ], "x": 3, "y": 7, "z": 0 },
+        { "chunks": [ "fbml_2_stall_2_3_4_roof_construction" ], "x": 0, "y": 6, "z": 1 }
       ]
     }
   },
@@ -279,10 +430,49 @@
   },
   {
     "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbml_2_stall_5_roof_construction",
+    "object": {
+      "parameters": {
+        "fbml_2_construction_palette": {
+          "type": "palette_id",
+          "scope": "omt",
+          "default": {
+            "distribution": [
+              "fbml_2_concrete_palette",
+              "fbml_2_log_palette",
+              "fbml_2_metal_palette",
+              "fbml_2_migo_resin_palette",
+              "fbml_2_rammed_earth_palette",
+              "fbml_2_rock_palette",
+              "fbml_2_wad_palette",
+              "fbml_2_wood_palette"
+            ]
+          }
+        }
+      },
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "rrrrrr",
+        "rrrrrr",
+        "rrrrrr",
+        "rrrrrr",
+        "rrrrrr",
+        "rrrrrr"
+      ],
+      "palettes": [ { "param": "fbml_2_construction_palette" } ]
+    }
+  },
+  {
+    "type": "mapgen",
     "update_mapgen_id": "fbml_2_stall_5_construction",
     "method": "json",
     "object": {
-      "place_nested": [ { "chunks": [ "fbml_2_stall_5_construction" ], "x": 0, "y": 0 }, { "chunks": [ "fbml_2_stall_5" ], "x": 3, "y": 1 } ]
+      "place_nested": [
+        { "chunks": [ "fbml_2_stall_5_construction" ], "x": 0, "y": 0, "z": 0 },
+        { "chunks": [ "fbml_2_stall_5" ], "x": 3, "y": 1, "z": 0 },
+        { "chunks": [ "fbml_2_stall_5_roof_construction" ], "x": 0, "y": 0, "z": 1 }
+      ]
     }
   }
 ]

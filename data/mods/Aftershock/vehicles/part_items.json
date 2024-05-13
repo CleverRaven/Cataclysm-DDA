@@ -13,7 +13,7 @@
     "techniques": [ "DEF_DISARM" ],
     "volume": "7500 ml",
     "category": "veh_parts",
-    "price": 4000,
+    "price": "40 USD",
     "melee_damage": { "bash": 15 }
   },
   {
@@ -36,7 +36,7 @@
     "material": [ "plastic", "steel" ],
     "volume": "6 L",
     "category": "veh_parts",
-    "price": 60000,
+    "price": "600 USD",
     "melee_damage": { "bash": 2 }
   },
   {
@@ -47,7 +47,7 @@
     "to_hit": -5,
     "material": [ "glass", "steel" ],
     "volume": "4500 ml",
-    "price": 900000,
+    "price": "9 kUSD",
     "copy-from": "solar_panel"
   }
 ]

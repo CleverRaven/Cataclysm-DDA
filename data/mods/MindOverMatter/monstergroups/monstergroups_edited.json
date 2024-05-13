@@ -68,12 +68,9 @@
     ]
   },
   {
-    "name": "GROUP_MANSION",
+    "name": "GROUP_MANSION_START",
     "type": "monstergroup",
-    "monsters": [
-      { "monster": "mon_feral_human_clair", "weight": 2, "cost_multiplier": 10 },
-      { "monster": "mon_feral_human_teep", "weight": 1, "cost_multiplier": 10 }
-    ]
+    "monsters": [ { "monster": "mon_feral_human_clair", "weight": 40 }, { "monster": "mon_feral_human_teep", "weight": 40 } ]
   },
   {
     "name": "FERAL_HUMANS",
@@ -163,7 +160,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_NETHER_FATIGUE_FIELD",
+    "name": "GROUP_NETHER_REALITY_TEAR_FIELD",
     "monsters": [ { "monster": "mon_nether_eater", "weight": 100, "cost_multiplier": 0 } ]
   },
   {

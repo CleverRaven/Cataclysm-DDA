@@ -26,15 +26,17 @@ class effect;
 class item;
 struct itype;
 
-extern const matec_id tec_none;
+const matec_id tec_none( "tec_none" );
 
 class weapon_category
 {
     public:
         static void load_weapon_categories( const JsonObject &jo, const std::string &src );
+        static void verify_weapon_categories();
         static void reset();
 
         void load( const JsonObject &jo, std::string_view src );
+        void check() const;
 
         static const std::vector<weapon_category> &get_all();
 
@@ -46,12 +48,17 @@ class weapon_category
             return name_;
         }
 
+        const std::vector<proficiency_id> &category_proficiencies() const {
+            return proficiencies_;
+        }
+
     private:
         friend class generic_factory<weapon_category>;
         friend struct mod_tracker;
 
         weapon_category_id id;
         std::vector<std::pair<weapon_category_id, mod_id>> src;
+        std::vector<proficiency_id> proficiencies_;
         bool was_loaded = false;
 
         translation name_;
@@ -59,12 +66,43 @@ class weapon_category
 
 matype_id martial_art_learned_from( const itype & );
 
+struct attack_vector {
+    attack_vector_id id;
+
+    // Used with a weapon, otherwise use unarmed damage calc
+    bool weapon = false;
+
+    // Explicit bodypart definitions
+    std::vector<bodypart_str_id> limbs;
+    // If true no limb substitution step happens
+    bool strict_limb_definition = false;
+    // The actual contact area for unarmed damage calcs
+    std::vector<sub_bodypart_str_id> contact_area;
+    // If we have any bodypart count restrictions
+    std::vector<std::pair<body_part_type::type, int>> limb_req;
+    // Do we care about armor damage bonuses
+    bool armor_bonus = true;
+
+    cata::flat_set<flag_id> required_limb_flags;
+    cata::flat_set<flag_id> forbidden_limb_flags;
+
+    // Encumbrance limit in absolute encumbrance
+    int encumbrance_limit = 100;
+    // Percent of bodypart HP required
+    int bp_hp_limit = 10;
+
+    bool was_loaded = false;
+
+    static void load_attack_vectors( const JsonObject &jo, const std::string &src );
+    static void reset();
+    void load( const JsonObject &jo, std::string_view );
+};
+
 struct ma_requirements {
     bool was_loaded = false;
 
     bool unarmed_allowed; // does this bonus work when unarmed?
     bool melee_allowed; // what about with a melee weapon?
-    bool unarmed_weapons_allowed; // If unarmed, what about unarmed weapons?
     bool strictly_unarmed; // Ignore force_unarmed?
     bool wall_adjacent; // Does it only work near a wall?
 
@@ -92,7 +130,6 @@ struct ma_requirements {
     ma_requirements() {
         unarmed_allowed = false;
         melee_allowed = false;
-        unarmed_weapons_allowed = true;
         strictly_unarmed = false;
         wall_adjacent = false;
     }
@@ -127,6 +164,8 @@ class ma_technique
         ma_technique();
 
         void load( const JsonObject &jo, const std::string &src );
+        static void verify_ma_techniques();
+        void check() const;
 
         matec_id id;
         std::vector<std::pair<matec_id, mod_id>> src;
@@ -154,17 +193,11 @@ class ma_technique
         bool crit_ok = false;
         bool reach_tec = false; // only possible to use during a reach attack
         bool reach_ok = false; // possible to use during a reach attack
-        bool attack_override = false; // The attack replaces the one it triggered off of
-
-        // performs the listed technique if this attack procs a crit. tec_none skips this behavior.
-        // requires crit_ok to be true
-        matec_id crit_tec_id = tec_none;
 
         ma_requirements reqs;
 
         // What way is the technique delivered to the target?
-        std::vector<std::string> attack_vectors; // by priority
-        std::vector<std::string> attack_vectors_random; // randomly
+        std::vector<attack_vector_id> attack_vectors;
 
         int repeat_min = 1;    // Number of times the technique is repeated on a successful proc
         int repeat_max = 1;

@@ -1,11 +1,13 @@
 #include "game.h" // IWYU pragma: associated
 
 #include <algorithm>
+#include <initializer_list>
 #include <map>
 #include <string>
 #include <utility>
 #include <vector>
 
+#include "catacharset.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "diary.h"

@@ -131,6 +131,15 @@ void ui_adaptor::position( const point &topleft, const point &size )
     ui_manager::invalidate( old_dimensions, false );
 }
 
+void ui_adaptor::position_absolute( const point &topleft, const point &size )
+{
+    const rectangle<point> old_dimensions = dimensions;
+    // ensure position is updated before calling invalidate
+    dimensions = rectangle<point>( topleft, topleft + size );
+    invalidated = true;
+    ui_manager::invalidate( old_dimensions, false );
+}
+
 void ui_adaptor::on_redraw( const redraw_callback_t &fun )
 {
     redraw_cb = fun;
@@ -453,6 +462,12 @@ void ui_adaptor::redraw_invalidated( )
 
     imclient->end_frame();
     imgui_frame_started = false;
+
+    // if any ImGui window needed to calculate the size of its contents,
+    //  it needs an extra frame to draw. We do that here.
+    if( imclient->auto_size_frame_active() ) {
+        redraw_invalidated();
+    }
 }
 
 void ui_adaptor::screen_resized()

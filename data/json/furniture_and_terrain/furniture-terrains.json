@@ -1366,7 +1366,7 @@
         { "item": "twig", "count": [ 1, 5 ] }
       ]
     },
-    "plant_data": { "transform": "f_dirtmound_shallow", "base": "f_dirtmound_shallow" },
+    "plant_data": { "transform": "f_plant_unharvested_overgrown", "base": "f_dirtmound_shallow" },
     "examine_action": "harvest_plant_ex"
   },
   {
@@ -1548,7 +1548,7 @@
         { "item": "twig", "count": [ 1, 5 ] }
       ]
     },
-    "plant_data": { "transform": "f_dirtmound_pile", "base": "f_dirtmound_pile" },
+    "plant_data": { "transform": "f_plant_unharvested_overgrown", "base": "f_dirtmound_pile" },
     "examine_action": "harvest_plant_ex"
   },
   {

@@ -431,23 +431,23 @@ TEST_CASE( "item_rigidity", "[iteminfo][rigidity]" )
 
             CHECK( item_info_str( waterskin, rigidity ) ==
                    "--\n"
-                   "* This items pockets are <color_c_cyan>not rigid</color>."
+                   "* This item's pockets are <color_c_cyan>not rigid</color>."
                    "  Its volume and encumbrance increase with contents.\n" );
 
             CHECK( item_info_str( backpack, rigidity ) ==
                    "--\n"
-                   "* This items pockets are <color_c_cyan>not rigid</color>."
+                   "* This item's pockets are <color_c_cyan>not rigid</color>."
                    "  Its volume and encumbrance increase with contents.\n" );
 
             CHECK( item_info_str( quiver, rigidity ) ==
                    "--\n"
-                   "* This items pockets are <color_c_cyan>not rigid</color>."
+                   "* This item's pockets are <color_c_cyan>not rigid</color>."
                    "  Its volume and encumbrance increase with contents.\n" );
 
             // Non-armor item - volume increases, but not encumbrance
             CHECK( item_info_str( condom, rigidity ) ==
                    "--\n"
-                   "* This items pockets are <color_c_cyan>not rigid</color>."
+                   "* This item's pockets are <color_c_cyan>not rigid</color>."
                    "  Its volume increases with contents.\n" );
         }
 
@@ -1922,7 +1922,7 @@ TEST_CASE( "nutrients_in_food", "[iteminfo][food]" )
                "--\n"
                "Nutrition will <color_cyan>vary with chosen ingredients</color>.\n"
                "Vitamins (RDA): 63-354 mg Calcium (6-35%), 0-23 mg Iron (0-128%),"
-               " and 0-49 mg Vitamin C (0-54%)\n" );
+               " and 0-45 mg Vitamin C (0-50%)\n" );
     }
 }
 

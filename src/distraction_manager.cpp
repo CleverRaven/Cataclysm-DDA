@@ -1,6 +1,8 @@
 #include "distraction_manager.h"
 
+#include <memory>
 #include <string>
+#include <vector>
 
 #include "color.h"
 #include "cursesdef.h"

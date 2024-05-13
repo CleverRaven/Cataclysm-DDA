@@ -271,7 +271,8 @@
     "base_casting_time": 100,
     "base_energy_cost": 800,
     "final_energy_cost": 500,
-    "energy_increment": -40
+    "energy_increment": -40,
+    "learn_spells": { "arvore_create_living_tent_spell": 4 }
   },
   {
     "id": "arvore_verdant_infusion",
@@ -301,7 +302,7 @@
     "min_duration": 30000,
     "max_duration": 1080000,
     "duration_increment": 16500,
-    "learn_spells": { "arvore_summon_preservation_container": 9 }
+    "learn_spells": { "arvore_summon_preservation_container": 9, "arvore_turn_into_tree": 18 }
   },
   {
     "id": "arvore_roots_crack_the_foundation",
@@ -506,7 +507,8 @@
     "energy_increment": -10,
     "base_casting_time": 200,
     "final_casting_time": 100,
-    "casting_time_increment": -5
+    "casting_time_increment": -5,
+    "learn_spells": { "arvore_turn_into_tree": 15 }
   },
   {
     "id": "arvore_anti_plant_spell_fungicide",
@@ -591,7 +593,7 @@
     "base_energy_cost": 600,
     "final_energy_cost": 350,
     "energy_increment": -15,
-    "learn_spells": { "arvore_tree_singing_spell": 6 }
+    "learn_spells": { "arvore_tree_singing_spell": 6, "arvore_create_living_tent_spell": 8, "arvore_turn_into_tree": 12 }
   },
   {
     "id": "arvore_growing_wood_walls_wall",
@@ -682,7 +684,33 @@
     "energy_increment": -25,
     "base_casting_time": 150,
     "final_casting_time": 75,
-    "casting_time_increment": -5
+    "casting_time_increment": -5,
+    "learn_spells": { "arvore_create_living_tent_spell": 10 }
+  },
+  {
+    "type": "SPELL",
+    "id": "arvore_create_living_tent_spell",
+    "name": "Den of Brambles",
+    "description": "When outside on diggable ground, create a small structure of wood near the Arvore, offering shelter against the elements.",
+    "flags": [ "SOMATIC", "VERBAL", "NO_FAIL" ],
+    "valid_targets": [ "ground" ],
+    "skill": "deduction",
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "difficulty": 5,
+    "teachable": false,
+    "spell_class": "ARVORE",
+    "effect": "ter_transform",
+    "effect_str": "ter_arvore_living_tent",
+    "shape": "blast",
+    "min_range": 1,
+    "max_range": 1,
+    "energy_source": "MANA",
+    "base_energy_cost": 500,
+    "final_energy_cost": 250,
+    "energy_increment": -20,
+    "base_casting_time": 12000,
+    "final_casting_time": 1500,
+    "casting_time_increment": -150
   },
   {
     "id": "arvore_roots_spell",
@@ -759,7 +787,7 @@
     "base_casting_time": 500,
     "final_casting_time": 250,
     "casting_time_increment": -8,
-    "learn_spells": { "arvore_tree_singing_spell": 5, "arvore_damage_zombies_heal_living": 8 }
+    "learn_spells": { "arvore_tree_singing_spell": 5, "arvore_turn_into_tree": 9, "arvore_damage_zombies_heal_living": 12 }
   },
   {
     "id": "arvore_overgrowth_spell_real",
@@ -886,21 +914,6 @@
     "base_casting_time": 30000
   },
   {
-    "id": "arvore_forest_translocate_real",
-    "type": "SPELL",
-    "name": "From Root to Root the Forest Is Joined Real",
-    "description": "The actual spell that transports you for From Root to Root the Forest Is Joined.  It's a bug if you have it.",
-    "teachable": false,
-    "valid_targets": [ "self" ],
-    "spell_class": "ARVORE",
-    "skill": "deduction",
-    "flags": [ "VERBAL", "SOMATIC" ],
-    "difficulty": 9,
-    "max_level": { "math": [ "per_to_level(1)" ] },
-    "effect": "translocate",
-    "shape": "blast"
-  },
-  {
     "id": "arvore_forest_translocate_attune",
     "type": "SPELL",
     "name": "Root to Root Attunement",
@@ -935,6 +948,50 @@
     "effect_str": "ter_arvore_translocate_location_attune",
     "shape": "blast",
     "min_range": 1
+  },
+  {
+    "id": "arvore_turn_into_tree",
+    "type": "SPELL",
+    "name": "Verdant Imprisonment",
+    "description": "The ultimate expression of nature's power, you can turn your target into a tree that might have stood for a century or more.  It works best on an already-weakened target, and does not work at all on non-organic targets.",
+    "valid_targets": [ "hostile" ],
+    "skill": "deduction",
+    "flags": [ "VERBAL", "SOMATIC", "SILENT", "RANDOM_DAMAGE" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ARVORE_VERDANT_IMPRISONMENT",
+    "shape": "blast",
+    "difficulty": 10,
+    "spell_class": "ARVORE",
+    "teachable": false,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_range": { "math": [ "(3 + (u_spell_level('arvore_turn_into_tree') * 1.2) * (scaling_factor(u_val('perception') ) ) )" ] },
+    "max_range": 70,
+    "energy_source": "MANA",
+    "base_energy_cost": 1750,
+    "energy_increment": -50,
+    "final_energy_cost": 850,
+    "base_casting_time": 200,
+    "casting_time_increment": -5,
+    "final_casting_time": 100,
+    "ignored_monster_species": [ "NETHER_EMANATION", "ROBOT" ]
+  },
+  {
+    "id": "arvore_turn_into_tree_banish",
+    "type": "SPELL",
+    "name": "Verdant Imprisonment Self",
+    "description": "This is the banishment that the target casts on themselves.",
+    "valid_targets": [ "self" ],
+    "skill": "deduction",
+    "flags": [ "VERBAL", "SOMATIC", "SILENT", "RANDOM_DAMAGE" ],
+    "effect": "banishment",
+    "shape": "blast",
+    "spell_class": "ARVORE",
+    "teachable": false,
+    "min_damage": { "math": [ "(25 + (u_arvore_turn_into_tree_spell_level * 5)) * u_arvore_turn_into_tree_intelligence" ] },
+    "max_damage": { "math": [ "(100 + (u_arvore_turn_into_tree_spell_level * 15)) * u_arvore_turn_into_tree_intelligence" ] },
+    "min_range": 0,
+    "max_range": 0,
+    "ignored_monster_species": [ "NETHER_EMANATION", "ROBOT" ]
   },
   {
     "id": "arvore_reduce_thirst_spell",

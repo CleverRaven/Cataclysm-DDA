@@ -195,7 +195,7 @@ jobs:
         uses: lukka/get-cmake@latest
       - name: Install dependencies (windows msvc) (1/4)
         if: runner.os == 'Windows'
-        uses: microsoft/setup-msbuild@v1.3.1
+        uses: microsoft/setup-msbuild@v2
       - name: Install dependencies (windows msvc) (2/4)
         if: runner.os == 'Windows'
         uses: lukka/run-vcpkg@v11
@@ -249,7 +249,7 @@ jobs:
         uses: mymindstorm/setup-emsdk@v13
       - name: Install runtime dependencies (mac)
         if: runner.os == 'macOS'
-        uses: BrettDong/setup-sdl2-frameworks@v1
+        uses: BrettDong/setup-sdl2-frameworks@v2
         with:
           sdl2: latest
           sdl2-ttf: latest
@@ -290,14 +290,14 @@ jobs:
           make -j$((`nproc`+0)) TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=1 LIBBACKTRACE=${{ matrix.libbacktrace }} PCH=0 bindist
           mv cataclysmdda-0.I.tar.gz cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.tar.gz
       - name: Build CDDA (WebAssembly)
-        if: matrix.wasm
+        if: matrix.wasm && success()
         run: |
           ./build-scripts/build-emscripten.sh
           ./build-scripts/prepare-web.sh
           (cd build && zip ../cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.${{ matrix.ext }} *)
       - name: Login to GitHub Container Registry
         if: matrix.artifact == 'windows-objectcreator-x64' || matrix.artifact == 'linux-objectcreator-x64'
-        uses: docker/login-action@v2 
+        uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -357,7 +357,7 @@ jobs:
           mv Cataclysm.dmg cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.dmg
       - name: Set up JDK 8 (android)
         if: runner.os == 'Linux' && matrix.android != 'none' && matrix.mxe == 'none'
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: '11'
           distribution: 'adopt'   

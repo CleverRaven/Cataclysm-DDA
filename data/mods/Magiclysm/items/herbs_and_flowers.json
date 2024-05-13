@@ -11,7 +11,7 @@
     "symbol": "%",
     "calories": 100,
     "description": "A fractal corolla winds inward in mathematical harmony, reflecting beauty in its ideal form.",
-    "price_postapoc": 600,
+    "price_postapoc": "6 USD",
     "material": "veggy",
     "volume": "50 ml",
     "weight": "50 g",
@@ -30,7 +30,7 @@
     "comestible_type": "FOOD",
     "calories": 156,
     "description": "A handful of moonflowers glitter like tiny stars and faintly smell of morning dew.  Properly harvested, they will never wilt or wither.",
-    "price_postapoc": 2000,
+    "price_postapoc": "20 USD",
     "volume": "250 ml",
     "vitamins": [ [ "iron", 5 ], [ "vitC", 3 ], [ "redcells", 2 ] ]
   },
@@ -42,7 +42,7 @@
     "color": "blue",
     "symbol": "o",
     "description": "A small rod of curled white petals, delicately shielding toxic pollen that will lead to an agonizing, if mercifully quick death.  Infamously used by romantic assassins, when an artistic death is deemed more important than practicality.",
-    "price_postapoc": 700,
+    "price_postapoc": "7 USD",
     "volume": "5 ml",
     "weight": "5 g",
     "material": "veggy"
@@ -53,7 +53,7 @@
     "name": { "str": "olieribos sheaf", "str_pl": "olieribos sheaves" },
     "description": "Dark colored leaves and bitter roots, firmly tied together in a small sheaf.  It's not toxic, but many people have died trying to taste it, due to the airway obstruction.",
     "//": "armor' and 'summon' related",
-    "price_postapoc": 400,
+    "price_postapoc": "4 USD",
     "flags": [ "NONCONDUCTIVE" ],
     "material": "veggy",
     "symbol": "o",
@@ -68,7 +68,7 @@
     "name": { "str_sp": "glowing mushroom caps" },
     "//": "'light' related, partially 'speed'",
     "description": "Slim stripes cut from a bioluminescent mushroom, still surrounded by a faint glowing aura.",
-    "price_postapoc": 970,
+    "price_postapoc": "9 USD 70 cent",
     "symbol": "o",
     "color": "light_cyan",
     "weight": "70 g",
@@ -85,7 +85,7 @@
     "name": { "str_sp": "horn moss capsules" },
     "//": "'healing' related",
     "description": "Pure white moss capsules, shaped like a goat's horn.  The fine spores contained within are a powerful magical reagent, and can be consumed to recover small amounts of health.",
-    "price_postapoc": 1250,
+    "price_postapoc": "12 USD 50 cent",
     "symbol": "o",
     "color": "white",
     "weight": "35 g",
@@ -108,7 +108,7 @@
     "comestible_type": "FOOD",
     "looks_like": "wheat",
     "description": "Stalks cut from a golden reed.  They have a strong, spiced aroma.",
-    "price_postapoc": 780,
+    "price_postapoc": "7 USD 80 cent",
     "vitamins": [ [ "calcium", 12 ], [ "vitC", 3 ], [ "redcells", 2 ] ]
   },
   {
@@ -123,7 +123,7 @@
     "comestible_type": "FOOD",
     "looks_like": "egg",
     "description": "Heavy wooden shells surrounding a diminutive white fruit.",
-    "price_postapoc": 1000,
+    "price_postapoc": "10 USD",
     "vitamins": [ [ "calcium", 8 ], [ "vitC", 5 ], [ "redcells", 3 ] ]
   },
   {
@@ -138,7 +138,7 @@
     "comestible_type": "FOOD",
     "looks_like": "egg",
     "description": "Knife sharp thorns from a dragonail bush.  Eating them raw would be a dangerous challenge.",
-    "price_postapoc": 890,
+    "price_postapoc": "8 USD 90 cent",
     "vitamins": [ [ "iron", 7 ], [ "vitC", 4 ], [ "calcium", 1 ] ]
   },
   {
@@ -152,7 +152,7 @@
     "calories": 67,
     "comestible_type": "FOOD",
     "description": "The black root of a moly plant, extracted from the ground through great effort.  Rumored to grant protection to those who consume it.",
-    "price_postapoc": 300,
+    "price_postapoc": "3 USD",
     "vitamins": [ [ "calcium", 13 ], [ "iron", 7 ] ]
   },
   {
@@ -167,7 +167,7 @@
     "use_action": { "type": "cast_spell", "spell_id": "flower_fern_spell", "no_fail": true, "level": 0 },
     "comestible_type": "FOOD",
     "description": "A small flower cut from a fern, it has a faint honeyed aroma.  Believed to bring good luck to whoever finds it.",
-    "price_postapoc": 1200,
+    "price_postapoc": "12 USD",
     "vitamins": [ [ "calcium", 8 ], [ "vitC", 4 ], [ "iron", 2 ] ]
   },
   {
@@ -182,7 +182,7 @@
     "use_action": { "type": "cast_spell", "spell_id": "funnelcap_spell", "no_fail": true, "level": 0 },
     "comestible_type": "FOOD",
     "description": "Large chunks of funnelcap meat, still leaking fine amounts of clear sap.",
-    "price_postapoc": 60,
+    "price_postapoc": "60 cent",
     "vitamins": [ [ "vitC", 5 ], [ "iron", 3 ], [ "redcells", 2 ] ]
   },
   {
@@ -197,7 +197,7 @@
     "use_action": { "type": "cast_spell", "spell_id": "sojourners_palm_spell", "no_fail": true, "level": 0 },
     "comestible_type": "FOOD",
     "description": "A red puffball flower cut from a sojourner's palm.  When wind wafts between its petals, you can hear the sounds of faraway places.",
-    "price_postapoc": 1400,
+    "price_postapoc": "14 USD",
     "volume": "10 ml",
     "weight": "10 g",
     "vitamins": [ [ "iron", 5 ], [ "vitC", 3 ], [ "redcells", 2 ] ]
@@ -214,7 +214,7 @@
     "use_action": { "type": "cast_spell", "spell_id": "whiskflower_spell", "no_fail": true, "level": 0 },
     "comestible_type": "FOOD",
     "description": "A pink whisk shaped flower with a powerful alcoholic smell.",
-    "price_postapoc": 110,
+    "price_postapoc": "1 USD 10 cent",
     "volume": "10 ml",
     "weight": "10 g",
     "vitamins": [ [ "iron", 5 ], [ "vitC", 3 ], [ "redcells", 2 ] ]

@@ -6,11 +6,7 @@
     "junk_threshold": "10 cent",
     "rates": [
       { "item": "bow_saw", "rate": 2 },
-      {
-        "item": "bow_saw",
-        "rate": 99,
-        "condition": { "npc_has_var": "bow_saw_eater", "type": "bool", "context": "dinner", "value": "yes" }
-      },
+      { "item": "bow_saw", "rate": 99, "condition": { "npc_has_var": "bool_dinner_bow_saw_eater", "value": "yes" } },
       { "category": "currency", "rate": 10 },
       { "group": "test_event_item_spawn", "rate": 100 },
       { "group": "test_event_item_spawn", "category": "tools", "rate": 50 }
@@ -25,12 +21,7 @@
   {
     "id": "test_blacklist",
     "type": "shopkeeper_blacklist",
-    "entries": [
-      {
-        "item": "bow_saw",
-        "condition": { "npc_has_var": "hates_bow_saws", "type": "bool", "context": "bigotry", "value": "yes" }
-      }
-    ]
+    "entries": [ { "item": "bow_saw", "condition": { "npc_has_var": "bool_bigotry_hates_bow_saws", "value": "yes" } } ]
   },
   {
     "type": "npc_class",
@@ -41,23 +32,16 @@
     "shopkeeper_consumption_rates": "test_shop_rates",
     "shopkeeper_item_group": [
       { "group": "test_event_item_spawn" },
-      {
-        "group": "test_tools_group",
-        "condition": { "u_has_var": "tools_access", "type": "bool", "context": "test", "value": "yes" }
-      },
+      { "group": "test_tools_group", "condition": { "u_has_var": "bool_test_tools_access", "value": "yes" } },
       {
         "group": "test_multitool_group",
         "strict": true,
-        "condition": { "u_has_var": "multitool_access", "type": "bool", "context": "test", "value": "yes" }
+        "condition": { "u_has_var": "bool_test_multitool_access", "value": "yes" }
       }
     ],
     "shopkeeper_blacklist": "test_blacklist",
     "shopkeeper_price_rules": [
-      {
-        "item": "test_pants_fur",
-        "markup": -100,
-        "condition": { "npc_has_var": "vegan", "type": "bool", "context": "preference", "value": "yes" }
-      },
+      { "item": "test_pants_fur", "markup": -100, "condition": { "npc_has_var": "bool_preference_vegan", "value": "yes" } },
       { "item": "battery", "price": 100 }
     ],
     "restock_interval": "99 days"

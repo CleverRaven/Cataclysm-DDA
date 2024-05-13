@@ -886,7 +886,11 @@ void Item_factory::finalize_post_armor( itype &obj )
         if( data.max_encumber == -1 ) {
             units::volume total_nonrigid_volume = 0_ml;
             for( const pocket_data &pocket : obj.pockets ) {
-                if( !pocket.rigid ) {
+                // Reimplementation of item_pocket::is_standard_type()
+                bool pocket_is_standard = pocket.type == pocket_type::CONTAINER ||
+                                          pocket.type == pocket_type::MAGAZINE ||
+                                          pocket.type == pocket_type::MAGAZINE_WELL;
+                if( !pocket.rigid && pocket_is_standard ) {
                     // include the modifier for each individual pocket
                     total_nonrigid_volume += pocket.max_contains_volume() * pocket.volume_encumber_modifier;
                 }
@@ -1805,6 +1809,7 @@ void Item_factory::init()
     add_iuse( "MACE", &iuse::mace );
     add_iuse( "MAGIC_8_BALL", &iuse::magic_8_ball );
     add_iuse( "MEASURE_RESONANCE", &iuse::measure_resonance );
+    add_iuse( "CHANGE_OUTFIT", &iuse::change_outfit );
     add_iuse( "PLAY_GAME", &iuse::play_game );
     add_iuse( "MAKEMOUND", &iuse::makemound );
     add_iuse( "DIG_CHANNEL", &iuse::dig_channel );
@@ -1879,6 +1884,9 @@ void Item_factory::init()
     add_iuse( "WASH_SOFT_ITEMS", &iuse::wash_soft_items );
     add_iuse( "WASH_HARD_ITEMS", &iuse::wash_hard_items );
     add_iuse( "WASH_ALL_ITEMS", &iuse::wash_all_items );
+    add_iuse( "HEAT_LIQUID_ITEMS", &iuse::heat_liquid_items );
+    add_iuse( "HEAT_SOLID_ITEMS", &iuse::heat_solid_items );
+    add_iuse( "HEAT_ALL_ITEMS", &iuse::heat_all_items );
     add_iuse( "WATER_PURIFIER", &iuse::water_purifier );
     add_iuse( "WEAK_ANTIBIOTIC", &iuse::weak_antibiotic );
     add_iuse( "WEATHER_TOOL", &iuse::weather_tool );
@@ -2234,6 +2242,21 @@ void Item_factory::check_definitions() const
             }
 
             for( const std::pair<const itype_id, int> &b : type->brewable->results ) {
+                if( !has_template( b.first ) ) {
+                    msg += string_format( "invalid result id %s\n", b.first.c_str() );
+                }
+            }
+        }
+        if( type->compostable ) {
+            if( type->compostable->time < 1_turns ) {
+                msg += "fermenting time is less than 1 turn\n";
+            }
+
+            if( type->compostable->results.empty() ) {
+                msg += "empty product list\n";
+            }
+
+            for( const std::pair<const itype_id, int> &b : type->compostable->results ) {
                 if( !has_template( b.first ) ) {
                     msg += string_format( "invalid result id %s\n", b.first.c_str() );
                 }
@@ -2664,6 +2687,7 @@ void islot_ammo::load( const JsonObject &jo )
     assign( jo, "drop_chance", drop_chance, strict, 0.0f, 1.0f );
     optional( jo, was_loaded, "drop_active", drop_active, true );
     optional( jo, was_loaded, "projectile_count", count, 1 );
+    optional( jo, was_loaded, "multi_projectile_effects", multi_projectile_effects, false );
     optional( jo, was_loaded, "shot_spread", shot_spread, 0 );
     assign( jo, "shot_damage", shot_damage, strict );
     // Damage instance assign reader handles pierce and prop_damage
@@ -3273,7 +3297,7 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
     assign( jo, "quench", slot.quench, strict );
     assign( jo, "fun", slot.fun, strict );
     assign( jo, "stim", slot.stim, strict );
-    assign( jo, "fatigue_mod", slot.fatigue_mod, strict );
+    assign( jo, "sleepiness_mod", slot.sleepiness_mod, strict );
     assign( jo, "healthy", slot.healthy, strict );
     assign( jo, "parasites", slot.parasites, strict, 0 );
     assign( jo, "freezing_point", slot.freeze_point, strict );
@@ -3410,6 +3434,23 @@ void islot_brewable::load( const JsonObject &jo )
 }
 
 void islot_brewable::deserialize( const JsonObject &jo )
+{
+    load( jo );
+}
+
+void islot_compostable::load( const JsonObject &jo )
+{
+    optional( jo, was_loaded, "time", time, 1_turns );
+    if( jo.has_array( "results" ) ) {
+        for( std::string entry : jo.get_string_array( "results" ) ) {
+            results[itype_id( entry )] = 1;
+        }
+    } else {
+        mandatory( jo, was_loaded, "results", results );
+    }
+}
+
+void islot_compostable::deserialize( const JsonObject &jo )
 {
     load( jo );
 }
@@ -4410,6 +4451,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "ammo_data", def.ammo, src == "dda" );
     assign( jo, "seed_data", def.seed, src == "dda" );
     assign( jo, "brewable", def.brewable, src == "dda" );
+    assign( jo, "compostable", def.compostable, src == "dda" );
     load_slot_optional( def.relic_data, jo, "relic_data", src );
     assign( jo, "milling", def.milling_data, src == "dda" );
 
@@ -4563,35 +4605,8 @@ itype_id Item_factory::migrate_id( const itype_id &id )
     return parent != nullptr ? parent->replace : id;
 }
 
-void Item_factory::migrate_item( const itype_id &id, item &obj )
+static void apply_migration( const migration *migrant, item &obj )
 {
-    auto iter = migrations.find( id );
-    if( iter == migrations.end() ) {
-        return;
-    }
-    bool convert = false;
-    const migration *migrant = nullptr;
-    for( const migration &m : iter->second ) {
-        if( m.from_variant && obj.has_itype_variant() && obj.itype_variant().id == *m.from_variant ) {
-            migrant = &m;
-            // This is not the variant that the item has already been convert to
-            // So we'll convert it again.
-            convert = true;
-            break;
-        }
-        // When we find a migration that doesn't care about variants, keep it around
-        if( !m.from_variant ) {
-            migrant = &m;
-        }
-    }
-    if( migrant == nullptr ) {
-        return;
-    }
-
-    if( convert ) {
-        obj.convert( migrant->replace );
-    }
-
     if( migrant->reset_item_vars ) {
         obj.clear_vars();
         for( const auto &pair : migrant->replace.obj().item_variables ) {
@@ -4626,6 +4641,54 @@ void Item_factory::migrate_item( const itype_id &id, item &obj )
 
     if( !migrant->contents.empty() && migrant->sealed ) {
         obj.seal();
+    }
+}
+
+void Item_factory::migrate_item( const itype_id &id, item &obj )
+{
+    auto iter = migrations.find( id );
+    if( iter == migrations.end() ) {
+        return;
+    }
+    bool convert = false;
+    const migration *migrant = nullptr;
+    for( const migration &m : iter->second ) {
+        if( m.from_variant && obj.has_itype_variant() && obj.itype_variant().id == *m.from_variant ) {
+            migrant = &m;
+            // This is not the variant that the item has already been convert to
+            // So we'll convert it again.
+            convert = true;
+            break;
+        }
+        // When we find a migration that doesn't care about variants, keep it around
+        if( !m.from_variant ) {
+            migrant = &m;
+        }
+    }
+    if( migrant == nullptr ) {
+        return;
+    }
+
+    if( convert ) {
+        obj.convert( migrant->replace );
+    }
+
+    apply_migration( migrant, obj );
+}
+
+void Item_factory::migrate_item_from_variant( item &obj, const std::string &from_variant )
+{
+    auto iter = migrations.find( obj.typeId() );
+    if( iter == migrations.end() ) {
+        return;
+    }
+    for( const migration &m : iter->second ) {
+        if( !m.from_variant.has_value() || m.from_variant.value() != from_variant ) {
+            continue;
+        }
+        obj.convert( m.replace );
+        apply_migration( &m, obj );
+        break;
     }
 }
 

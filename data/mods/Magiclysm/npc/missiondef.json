@@ -10,7 +10,7 @@
     "start": {
       "effect": [ { "npc_remove_item_with": "magus_spellbook" }, "assign_guard", { "clear_npc_rule": "investigate_noises" } ]
     },
-    "end": { "effect": [ { "npc_add_var": "npc_magus_book_done", "type": "dialogue", "context": "old_magus", "value": "yes" } ] },
+    "end": { "effect": [ { "npc_add_var": "dialogue_old_magus_npc_magus_book_done", "value": "yes" } ] },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "Where did I put that blasted…",

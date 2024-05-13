@@ -10,8 +10,8 @@
     "volume": "1400 ml",
     "symbol": "@",
     "color": "white",
-    "price": 0,
-    "price_postapoc": 10,
+    "price": "0 cent",
+    "price_postapoc": "10 cent",
     "material": [ "bone" ]
   },
   {
@@ -129,6 +129,16 @@
     "weight": "45 g",
     "volume": "275 ml",
     "longest_side": "11 cm"
+  },
+  {
+    "type": "GENERIC",
+    "id": "skull_skunk",
+    "name": { "str": "skunk skull" },
+    "description": "The skull of a skunk.",
+    "copy-from": "skull_abstract",
+    "weight": "56 g",
+    "volume": "300 ml",
+    "longest_side": "8 cm"
   },
   {
     "type": "GENERIC",

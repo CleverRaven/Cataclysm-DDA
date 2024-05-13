@@ -1638,7 +1638,7 @@
     "type": "overmap_terrain",
     "id": "fema_entrance",
     "copy-from": "fema_entrance",
-    "name": "fema camp",
+    "name": "FEMA camp",
     "sym": "F",
     "color": "i_red"
   },
@@ -1646,7 +1646,7 @@
     "type": "overmap_terrain",
     "id": "fema",
     "copy-from": "fema",
-    "name": "fema camp",
+    "name": "FEMA camp",
     "sym": "f",
     "color": "i_red"
   },
@@ -2112,22 +2112,6 @@
     "name": "solid rock",
     "sym": "%",
     "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "rift",
-    "copy-from": "rift",
-    "name": "rift",
-    "sym": "^",
-    "color": "red"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hellmouth",
-    "copy-from": "hellmouth",
-    "name": "hellmouth",
-    "sym": "^",
-    "color": "light_red"
   },
   {
     "type": "overmap_terrain",

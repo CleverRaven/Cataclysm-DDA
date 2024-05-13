@@ -137,6 +137,16 @@
   },
   {
     "type": "terrain",
+    "id": "test_t_migration_new_id",
+    "name": "Terrain Test Migration",
+    "description": "Id to test migration from it's invalid counterpart test_t_migration_old_id to.",
+    "symbol": "t",
+    "color": "blue",
+    "move_cost": 1,
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
     "id": "test_t_bash_persist",
     "name": "Bash persistence furniture",
     "description": "Testing that bashing data does not persist when terrain changes",

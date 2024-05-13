@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_ADVANCED_INV_LISTITEM_H
 #define CATA_SRC_ADVANCED_INV_LISTITEM_H
 
-#include <iosfwd>
+#include <string>
 #include <vector>
 
 #include "item_location.h"

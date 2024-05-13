@@ -11,9 +11,9 @@
     "effect_str": "blind",
     "shape": "line",
     "damage_type": "light",
-    "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(40)" ] },
-    "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(15.0)" ] },
-    "max_damage": { "math": [ "evocation_proficiency_bonus_calculate(565)" ] },
+    "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(40, 0.5)" ] },
+    "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(15.0, 0.03)" ] },
+    "max_damage": { "math": [ "evocation_proficiency_bonus_calculate(565, 0.5)" ] },
     "min_range": 8,
     "max_range": 8,
     "min_duration": 0,
@@ -51,13 +51,13 @@
     "base_casting_time": 400,
     "final_casting_time": 100,
     "casting_time_increment": -10,
-    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(400)" ] },
-    "final_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(200)" ] },
-    "energy_increment": { "math": [ "summoning_proficiency_negate_calculate(-6)" ] },
+    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(400, 2)" ] },
+    "final_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(200, 2)" ] },
+    "energy_increment": { "math": [ "summoning_proficiency_negate_calculate(-6, 0.03)" ] },
     "max_level": 35,
-    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(3500)" ] },
-    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(126000)" ] },
-    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(3500)" ] }
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(3500, 10)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(126000, 10)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(3500, 0.4)" ] }
   },
   {
     "id": "illusionist_transposition",
@@ -76,11 +76,11 @@
     "base_casting_time": 150,
     "casting_time_increment": -5,
     "final_casting_time": 0,
-    "base_energy_cost": { "math": [ "conveyance_proficiency_negate_calculate(250)" ] },
-    "energy_increment": { "math": [ "conveyance_proficiency_negate_calculate(-5)" ] },
-    "final_energy_cost": { "math": [ "conveyance_proficiency_negate_calculate(100)" ] },
-    "min_range": { "math": [ "conveyance_proficiency_bonus_calculate(25)" ] },
-    "max_range": { "math": [ "conveyance_proficiency_bonus_calculate(60)" ] },
-    "range_increment": { "math": [ "conveyance_proficiency_bonus_calculate(1)" ] }
+    "base_energy_cost": { "math": [ "conveyance_proficiency_negate_calculate(250, 1)" ] },
+    "energy_increment": { "math": [ "conveyance_proficiency_negate_calculate(-5, 0.033)" ] },
+    "final_energy_cost": { "math": [ "conveyance_proficiency_negate_calculate(100, 1)" ] },
+    "min_range": { "math": [ "conveyance_proficiency_bonus_calculate(25, 0.23)" ] },
+    "max_range": { "math": [ "conveyance_proficiency_bonus_calculate(60, 0.23)" ] },
+    "range_increment": { "math": [ "conveyance_proficiency_bonus_calculate(1, 0.03)" ] }
   }
 ]

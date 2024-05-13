@@ -13,9 +13,10 @@
     "material": [ "lc_steel" ],
     "volume": "1 L",
     "category": "spare_parts",
-    "price": 6000,
-    "price_postapoc": 100,
+    "price": "60 USD",
+    "price_postapoc": "1 USD",
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 5 }
   },
   {
@@ -30,8 +31,8 @@
     "material": [ "wood" ],
     "volume": "3 L",
     "category": "veh_parts",
-    "price": 12000,
-    "price_postapoc": 100,
+    "price": "120 USD",
+    "price_postapoc": "1 USD",
     "melee_damage": { "bash": 10 }
   },
   {
@@ -46,9 +47,10 @@
     "material": [ "steel" ],
     "volume": "3 L",
     "category": "veh_parts",
-    "price": 12000,
-    "price_postapoc": 250,
+    "price": "120 USD",
+    "price_postapoc": "2 USD 50 cent",
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 6 }
   },
   {
@@ -63,9 +65,10 @@
     "material": [ "superalloy" ],
     "volume": "6 L",
     "category": "veh_parts",
-    "price": 18500,
-    "price_postapoc": 500,
+    "price": "185 USD",
+    "price_postapoc": "5 USD",
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 6 }
   },
   {
@@ -80,9 +83,10 @@
     "material": [ "superalloy" ],
     "volume": "500 ml",
     "category": "veh_parts",
-    "price": 8500,
-    "price_postapoc": 500,
-    "qualities": [ [ "COOK", 1 ] ]
+    "price": "85 USD",
+    "price_postapoc": "5 USD",
+    "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ]
   },
   {
     "type": "GENERIC",
@@ -97,9 +101,10 @@
     "volume": "3500 ml",
     "flags": [  ],
     "category": "veh_parts",
-    "price": 18500,
-    "price_postapoc": 250,
+    "price": "185 USD",
+    "price_postapoc": "2 USD 50 cent",
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 6, "stab": 3 }
   },
   {
@@ -114,9 +119,10 @@
     "material": [ "qt_steel" ],
     "volume": "3 L",
     "category": "veh_parts",
-    "price": 16000,
-    "price_postapoc": 500,
+    "price": "160 USD",
+    "price_postapoc": "5 USD",
     "qualities": [ [ "COOK", 1 ], [ "ANVIL", 2 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 6 }
   },
   {
@@ -131,10 +137,11 @@
     "material": [ "qt_steel", "ceramic" ],
     "volume": "3 L",
     "category": "veh_parts",
-    "price": 16000,
-    "price_postapoc": 750,
+    "price": "160 USD",
+    "price_postapoc": "7 USD 50 cent",
     "flags": [ "NO_REPAIR" ],
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 8 }
   },
   {
@@ -144,8 +151,8 @@
     "color": "yellow",
     "name": { "str": "chitin armor kit" },
     "description": "A piece of light chitin plating made for a vehicle.",
-    "price": 1200,
-    "price_postapoc": 250,
+    "price": "12 USD",
+    "price_postapoc": "2 USD 50 cent",
     "material": [ "chitin" ],
     "weight": "2000 g",
     "volume": "5500 ml",
@@ -173,8 +180,8 @@
     "material": [ "steel" ],
     "volume": "330 L",
     "longest_side": "110 cm",
-    "price": 12000,
-    "price_postapoc": 250,
+    "price": "120 USD",
+    "price_postapoc": "2 USD 50 cent",
     "category": "veh_parts",
     "qualities": [ [ "ANVIL", 2 ] ],
     "melee_damage": { "bash": 25 }

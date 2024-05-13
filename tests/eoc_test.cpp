@@ -137,6 +137,9 @@ static const skill_id skill_survival( "survival" );
 
 static const spell_id spell_test_eoc_spell( "test_eoc_spell" );
 
+static const ter_str_id ter_t_dirt( "t_dirt" );
+static const ter_str_id ter_t_grass( "t_grass" );
+
 static const trait_id trait_process_mutation( "process_mutation" );
 static const trait_id trait_process_mutation_two( "process_mutation_two" );
 
@@ -284,19 +287,19 @@ TEST_CASE( "EOC_transform_radius", "[eoc][timed_event]" )
     clear_map();
     tripoint_abs_ms const start = get_avatar().get_location();
     dialogue newDialog( get_talker_for( get_avatar() ), nullptr );
-    check_ter_in_radius( start, eoc_range, t_grass );
+    check_ter_in_radius( start, eoc_range, ter_t_grass );
     effect_on_condition_EOC_TEST_TRANSFORM_RADIUS->activate( newDialog );
-    check_ter_in_radius( start, eoc_range, t_dirt );
+    check_ter_in_radius( start, eoc_range, ter_t_dirt );
 
     g->place_player_overmap( project_to<coords::omt>( start ) + point{ 60, 60 } );
     REQUIRE( !get_map().inbounds( start ) );
 
     calendar::turn += delay - 1_seconds;
     get_timed_events().process();
-    check_ter_in_radius( start, eoc_range, t_dirt );
+    check_ter_in_radius( start, eoc_range, ter_t_dirt );
     calendar::turn += 2_seconds;
     get_timed_events().process();
-    check_ter_in_radius( start, eoc_range, t_grass );
+    check_ter_in_radius( start, eoc_range, ter_t_grass );
 }
 
 TEST_CASE( "EOC_transform_line", "[eoc][timed_event]" )
@@ -313,9 +316,9 @@ TEST_CASE( "EOC_transform_line", "[eoc][timed_event]" )
     tripoint_abs_ms const start = get_avatar().get_location();
     tripoint_abs_ms const end = npc.get_location();
     dialogue newDialog( get_talker_for( get_avatar() ), get_talker_for( npc ) );
-    check_ter_in_line( start, end, t_grass );
+    check_ter_in_line( start, end, ter_t_grass );
     effect_on_condition_EOC_TEST_TRANSFORM_LINE->activate( newDialog );
-    check_ter_in_line( start, end, t_dirt );
+    check_ter_in_line( start, end, ter_t_dirt );
 }
 
 TEST_CASE( "EOC_activity_finish", "[eoc][timed_event]" )
@@ -811,17 +814,21 @@ TEST_CASE( "EOC_string_var_var", "[eoc]" )
 {
     clear_avatar();
     clear_map();
-
-    dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+    standard_npc dude;
+    dialogue d( get_talker_for( get_avatar() ), get_talker_for( &dude ) );
     global_variables &globvars = get_globals();
     globvars.clear_global_values();
 
     REQUIRE( globvars.get_global_value( "npctalk_var_key1" ).empty() );
     REQUIRE( globvars.get_global_value( "npctalk_var_key2" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key3" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key4" ).empty() );
 
     CHECK( effect_on_condition_EOC_string_var_var->activate( d ) );
-    CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "Works" );
-    CHECK( globvars.get_global_value( "npctalk_var_key2" ) == "Works" );
+    CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "Works_global" );
+    CHECK( globvars.get_global_value( "npctalk_var_key2" ) == "Works_context" );
+    CHECK( globvars.get_global_value( "npctalk_var_key3" ) == "Works_u" );
+    CHECK( globvars.get_global_value( "npctalk_var_key4" ) == "Works_npc" );
 }
 
 TEST_CASE( "EOC_run_with_test", "[eoc]" )

@@ -13,8 +13,6 @@
 #include "units.h"
 #include "vehicle.h"
 
-static const furn_str_id furn_f_console( "f_console" );
-
 void maptile_soa::swap_soa_tile( const point &p1, const point &p2 )
 {
     std::swap( ter[p1.x][p1.y], ter[p2.x][p2.y] );
@@ -140,24 +138,9 @@ void submap::delete_signage( const point &p )
     }
 }
 
-void submap::update_legacy_computer()
-{
-    if( !is_uniform() && legacy_computer ) {
-        for( int x = 0; x < SEEX; ++x ) {
-            for( int y = 0; y < SEEY; ++y ) {
-                if( m->frn[x][y] == furn_f_console ) {
-                    computers.emplace( point( x, y ), *legacy_computer );
-                }
-            }
-        }
-        legacy_computer.reset();
-    }
-}
-
 bool submap::has_computer( const point &p ) const
 {
-    return !is_uniform() && ( computers.find( p ) != computers.end() ||
-                              ( legacy_computer && m->frn[p.x][p.y] == furn_f_console ) );
+    return !is_uniform() && computers.find( p ) != computers.end();
 }
 
 const computer *submap::get_computer( const point &p ) const
@@ -168,17 +151,11 @@ const computer *submap::get_computer( const point &p ) const
     if( it != computers.end() ) {
         return &it->second;
     }
-    if( !is_uniform() && legacy_computer && m->frn[p.x][p.y] == furn_f_console ) {
-        return legacy_computer.get();
-    }
     return nullptr;
 }
 
 computer *submap::get_computer( const point &p )
 {
-    // need to update to std::map first so modifications to the returned object
-    // only affects the exact point p
-    //update_legacy_computer();
     const auto it = computers.find( p );
     if( it != computers.end() ) {
         return &it->second;
@@ -188,7 +165,6 @@ computer *submap::get_computer( const point &p )
 
 void submap::set_computer( const point &p, const computer &c )
 {
-    //update_legacy_computer();
     const auto it = computers.find( p );
     if( it != computers.end() ) {
         it->second = c;
@@ -199,7 +175,6 @@ void submap::set_computer( const point &p, const computer &c )
 
 void submap::delete_computer( const point &p )
 {
-    update_legacy_computer();
     computers.erase( p );
 }
 

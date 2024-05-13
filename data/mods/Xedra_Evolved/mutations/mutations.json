@@ -23,6 +23,14 @@
   },
   {
     "type": "mutation",
+    "id": "DREAMLESS",
+    "name": { "str": "Dreamless" },
+    "points": 0,
+    "valid": false,
+    "description": "You live firmly in reality and never experience extremely vivid dreams about choices that have real world consequences.  ( You will be unable to gain Dream magicks from sleeping after strange events)"
+  },
+  {
+    "type": "mutation",
     "id": "MANIFEST_DESTINY_GOBLIN",
     "name": { "str": "Transforming into Goblin" },
     "points": 0,
@@ -71,7 +79,8 @@
     "description": "The ancient arts of drunken brawling come naturally to you!  While under the influence of alcohol, your melee skill will rise considerably, especially unarmed combat.",
     "starting_trait": true,
     "valid": false,
-    "cancels": [ "LIGHTWEIGHT" ]
+    "cancels": [ "LIGHTWEIGHT" ],
+    "enchantments": [ "DRUNKEN_ARMED", "DRUNKEN_UNARMED" ]
   },
   {
     "type": "mutation",
@@ -80,7 +89,8 @@
     "points": 2,
     "description": "Who needs weapons?  You deal more melee damage while fighting barehanded and without gloves.  This damage improves as your unarmed skill increases.",
     "starting_trait": true,
-    "valid": false
+    "valid": false,
+    "enchantments": [ "KI_STRIKE" ]
   },
   {
     "type": "mutation",
@@ -188,8 +198,8 @@
     "flags": [ "CANNIBAL", "ALBINO" ],
     "attacks": [
       {
-        "attack_text_u": "You sink your fangs into %s",
-        "attack_text_npc": "%1$s sinks their fangs into %2$s",
+        "attack_text_u": "You sink your fangs into %s!",
+        "attack_text_npc": "%1$s sinks their fangs into %2$s!",
         "blocker_mutations": [ "MUZZLE", "MUZZLE_LONG", "MUZZLE_RAT" ],
         "body_part": "mouth",
         "chance": 20,

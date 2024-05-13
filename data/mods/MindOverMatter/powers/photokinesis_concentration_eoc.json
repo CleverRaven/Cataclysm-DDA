@@ -37,7 +37,7 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty", "=", "1" ] },
       { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
-      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(1)" ] },
+      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(1)" ] },
       { "math": [ "u_spell_exp('photokinetic_light_local')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -97,7 +97,7 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty", "=", "3" ] },
       { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
-      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(3)" ] },
+      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(3)" ] },
       { "math": [ "u_spell_exp('photokinetic_rad_immunity')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -166,7 +166,7 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty", "=", "3" ] },
       { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
-      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(3)" ] },
+      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(3)" ] },
       { "math": [ "u_spell_exp('photokinetic_camouflage')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -253,7 +253,7 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty", "=", "4" ] },
       { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
-      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(4)" ] },
+      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(4)" ] },
       { "math": [ "u_spell_exp('photokinetic_hide_ugly')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -319,7 +319,7 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty", "=", "5" ] },
       { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
-      { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(5)" ] },
+      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(5)" ] },
       { "math": [ "u_spell_exp('photokinetic_radio')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {

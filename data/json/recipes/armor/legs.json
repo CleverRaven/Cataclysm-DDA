@@ -1030,6 +1030,7 @@
     "difficulty": 3,
     "time": "8 h",
     "decomp_learn": 2,
+    "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 2 ], [ "manual_tailor", 2 ] ],
     "using": [ [ "tailoring_cotton_patchwork", 20 ], [ "fastener_small", 3 ] ],
     "byproducts": [ [ "cotton_patchwork", 5 ] ],

@@ -312,7 +312,7 @@
     "name": { "str": "Elixir PK Surge (active)" },
     "copy-from": "TELELIXIRDOWN",
     "description": "You are lashing out with your elixir-forged telekinetic powers.",
-    "fatigue": true,
+    "sleepiness": true,
     "cost": 1,
     "time": "1 m",
     "activated_eocs": [ "EOC_TELELIXIR_CAST" ],
@@ -381,7 +381,7 @@
     "points": 5,
     "visibility": 0,
     "ugliness": 0,
-    "player_display": true,
+    "player_display": false,
     "valid": false,
     "flags": [ "NO_PSIONICS" ]
   },
@@ -395,6 +395,6 @@
     "ugliness": 0,
     "player_display": true,
     "valid": false,
-    "flags": [ "TEEPSHIELD", "PORTAL_PROOF" ]
+    "flags": [ "TEEPSHIELD" ]
   }
 ]

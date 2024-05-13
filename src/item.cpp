@@ -124,6 +124,8 @@ static const ammotype ammo_bolt( "bolt" );
 static const ammotype ammo_money( "money" );
 static const ammotype ammo_plutonium( "plutonium" );
 
+static const attack_vector_id attack_vector_vector_null( "vector_null" );
+
 static const bionic_id bio_digestion( "bio_digestion" );
 
 static const bodygraph_id bodygraph_full_body_iteminfo( "full_body_iteminfo" );
@@ -157,6 +159,7 @@ static const item_category_id item_category_spare_parts( "spare_parts" );
 static const item_category_id item_category_tools( "tools" );
 static const item_category_id item_category_weapons( "weapons" );
 
+static const itype_id itype_arredondo_chute( "arredondo_chute" );
 static const itype_id itype_barrel_small( "barrel_small" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_blood( "blood" );
@@ -191,11 +194,11 @@ static const material_id material_wool( "wool" );
 
 static const morale_type morale_null( "morale_null" );
 
-static const mtype_id debug_mon( "debug_mon" );
 static const mtype_id mon_human( "mon_human" );
 static const mtype_id mon_zombie_smoker( "mon_zombie_smoker" );
-static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
-static const mtype_id mon_zombie_survivor( "mon_zombie_survivor" );
+static const mtype_id mon_zombie_soldier_no_weakpoints( "mon_zombie_soldier_no_weakpoints" );
+static const mtype_id mon_zombie_survivor_no_weakpoints( "mon_zombie_survivor_no_weakpoints" );
+static const mtype_id pseudo_debug_mon( "pseudo_debug_mon" );
 
 static const quality_id qual_BOIL( "BOIL" );
 static const quality_id qual_JACK( "JACK" );
@@ -204,7 +207,6 @@ static const quality_id qual_LIFT( "LIFT" );
 static const skill_id skill_cooking( "cooking" );
 static const skill_id skill_melee( "melee" );
 static const skill_id skill_survival( "survival" );
-static const skill_id skill_throw( "throw" );
 static const skill_id skill_weapon( "weapon" );
 
 static const species_id species_ROBOT( "ROBOT" );
@@ -313,7 +315,11 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
     }
 
     if( qty >= 0 ) {
-        charges = qty;
+        if( type->can_have_charges() ) {
+            charges = qty;
+        } else if( qty > 1 ) {
+            debugmsg( "Tried to set charges for item %s that could not have them!", tname() );
+        }
     } else {
         if( type->tool && type->tool->rand_charges.size() > 1 ) {
             const int charge_roll = rng( 1, type->tool->rand_charges.size() - 1 );
@@ -511,12 +517,14 @@ static void inherit_rot_from_components( item &it )
         const time_duration shortest_lifespan = get_shortest_lifespan_from_components( it );
         if( shortest_lifespan > 0_turns && shortest_lifespan < it.get_shelf_life() ) {
             it.set_rot( it.get_shelf_life() - shortest_lifespan );
+            return;
         }
-    } else {
-        const item *most_rotten = get_most_rotten_component( it );
-        if( most_rotten ) {
-            it.set_relative_rot( most_rotten->get_relative_rot() );
-        }
+        // Fallthrough: shortest_lifespan <= 0_turns (all components are rotten)
+    }
+
+    const item *most_rotten = get_most_rotten_component( it );
+    if( most_rotten ) {
+        it.set_relative_rot( most_rotten->get_relative_rot() );
     }
 }
 
@@ -1797,7 +1805,7 @@ ret_val<void> item::put_in( const item &payload, pocket_type pk_type,
 void item::force_insert_item( const item &it, pocket_type pk_type )
 {
     contents.force_insert_item( it, pk_type );
-    update_inherited_flags();
+    on_contents_changed();
 }
 
 void item::set_var( const std::string &name, const int value )
@@ -2273,7 +2281,8 @@ double item::effective_dps( const Character &guy, Creature &mon ) const
         Creature *temp_mon = &mon;
         double subtotal_damage = 0;
         damage_instance base_damage;
-        guy.roll_all_damage( crit, base_damage, true, *this, "WEAPON", &mon, bp );
+        guy.roll_all_damage( crit, base_damage, true, *this, attack_vector_vector_null,
+                             sub_body_part_sub_limb_debug, &mon, bp );
         damage_instance dealt_damage = base_damage;
         // TODO: Modify DPS calculation to consider weakpoints.
         resistances r = resistances( *static_cast<monster *>( temp_mon ) );
@@ -2298,7 +2307,8 @@ double item::effective_dps( const Character &guy, Creature &mon ) const
         if( has_technique( RAPID ) ) {
             Creature *temp_rs_mon = &mon;
             damage_instance rs_base_damage;
-            guy.roll_all_damage( crit, rs_base_damage, true, *this, "WEAPON", &mon, bp );
+            guy.roll_all_damage( crit, rs_base_damage, true, *this, attack_vector_vector_null,
+                                 sub_body_part_sub_limb_debug, &mon, bp );
             damage_instance dealt_rs_damage = rs_base_damage;
             for( damage_unit &dmg_unit : dealt_rs_damage.damage_units ) {
                 dmg_unit.damage_multiplier *= 0.66;
@@ -2342,10 +2352,10 @@ struct dps_comp_data {
 };
 
 static const std::vector<std::pair<translation, dps_comp_data>> dps_comp_monsters = {
-    { to_translation( "Best" ), { debug_mon, true, false } },
+    { to_translation( "Best" ), { pseudo_debug_mon, true, false } },
     { to_translation( "Vs. Agile" ), { mon_zombie_smoker, true, true } },
-    { to_translation( "Vs. Armored" ), { mon_zombie_soldier, true, true } },
-    { to_translation( "Vs. Mixed" ), { mon_zombie_survivor, false, true } },
+    { to_translation( "Vs. Armored" ), { mon_zombie_soldier_no_weakpoints, true, true } },
+    { to_translation( "Vs. Mixed" ), { mon_zombie_survivor_no_weakpoints, false, true } },
 };
 
 std::map<std::string, double> item::dps( const bool for_display, const bool for_calc,
@@ -3081,9 +3091,9 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
             }
         }
     }
-    if( ammo.ammo_effects.count( "INCENDIARY" ) &&
+    if( ( ammo.ammo_effects.count( "INCENDIARY" ) || ammo.ammo_effects.count( "IGNITE" ) ) &&
         parts->test( iteminfo_parts::AMMO_FX_INCENDIARY ) ) {
-        fx.emplace_back( _( "This ammo <neutral>starts fires</neutral>." ) );
+        fx.emplace_back( _( "This ammo <neutral>may start fires</neutral>." ) );
     }
     if( !fx.empty() ) {
         insert_separation_line( info );
@@ -5578,9 +5588,11 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
           ( !dmg_types.empty() || type->m_to_hit > 0 ) ) || debug_mode ) {
         bodypart_id bp = bodypart_id( "torso" );
         damage_instance non_crit;
-        player_character.roll_all_damage( false, non_crit, true, *this, "WEAPON", nullptr, bp );
+        player_character.roll_all_damage( false, non_crit, true, *this, attack_vector_vector_null,
+                                          sub_body_part_sub_limb_debug, nullptr, bp );
         damage_instance crit;
-        player_character.roll_all_damage( true, crit, true, *this, "WEAPON", nullptr, bp );
+        player_character.roll_all_damage( true, crit, true, *this, attack_vector_vector_null,
+                                          sub_body_part_sub_limb_debug, nullptr, bp );
         int attack_cost = player_character.attack_speed( *this );
         insert_separation_line( info );
         if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG ) ) {
@@ -5695,14 +5707,14 @@ void item::properties_info( std::vector<iteminfo> &info, const iteminfo_query *p
             } );
             if( any_encumb_increase ) {
                 info.emplace_back( "BASE",
-                                   _( "* This items pockets are <info>not rigid</info>.  Its"
+                                   _( "* This item's pockets are <info>not rigid</info>.  Its"
                                       " volume and encumbrance increase with contents." ) );
                 not_rigid = true;
             }
         }
         if( !not_rigid && !all_pockets_rigid() && !is_corpse() ) {
             info.emplace_back( "BASE",
-                               _( "* This items pockets are <info>not rigid</info>.  Its"
+                               _( "* This item's pockets are <info>not rigid</info>.  Its"
                                   " volume increases with contents." ) );
         }
     }
@@ -5888,6 +5900,36 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
     }
 
+    if( is_compostable() ) {
+        const item &composted = *this;
+        if( parts->test( iteminfo_parts::DESCRIPTION_COMPOSTABLE_DURATION ) ) {
+            const time_duration btime = composted.composting_time();
+            int btime_i = to_days<int>( btime );
+            if( btime <= 2_days ) {
+                btime_i = to_hours<int>( btime );
+                info.emplace_back( "DESCRIPTION",
+                                   string_format( n_gettext( "* Once set in an anaerobic digester, this "
+                                                  "will ferment in around %d hour.",
+                                                  "* Once set in an anaerobic digester, this will ferment in "
+                                                  "around %d hours.", btime_i ), btime_i ) );
+            } else {
+                info.emplace_back( "DESCRIPTION",
+                                   string_format( n_gettext( "* Once set in an anaerobic digester, this "
+                                                  "will ferment in around %d day.",
+                                                  "* Once set in an anaerobic digester, this will ferment in "
+                                                  "around %d days.", btime_i ), btime_i ) );
+            }
+        }
+        if( parts->test( iteminfo_parts::DESCRIPTION_COMPOSTABLE_PRODUCTS ) ) {
+            for( const std::pair<const itype_id, int> &res : composted.composting_results() ) {
+                info.emplace_back( "DESCRIPTION",
+                                   string_format( _( "* Fermenting this will produce "
+                                                     "<neutral>%s</neutral>." ),
+                                                  res.first->nname( res.second ) ) );
+            }
+        }
+    }
+
     if( parts->test( iteminfo_parts::DESCRIPTION_FAULTS ) ) {
         for( const fault_id &e : faults ) {
             //~ %1$s is the name of a fault and %2$s is the description of the fault
@@ -5988,8 +6030,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         // with the inventory display allowing you to select items, showing the things you could make with contained items could be confusing.
         const itype_id &tid = typeId();
         const inventory &crafting_inv = player_character.crafting_inventory();
-        const recipe_subset available_recipe_subset = player_character.get_available_recipes(
-                    crafting_inv );
+        const recipe_subset available_recipe_subset = player_character.get_group_available_recipes();
         const std::set<const recipe *> &item_recipes = available_recipe_subset.of_component( tid );
 
         insert_separation_line( info );
@@ -6854,7 +6895,9 @@ std::string item::display_name( unsigned int quantity ) const
             max_amount = mag->ammo_capacity( item_controller->find_template(
                                                  mag->ammo_default() )->ammo->type );
         }
-
+    } else if( is_tool() && has_flag( flag_USES_NEARBY_AMMO ) ) {
+        show_amt = true;
+        amount = ammo_remaining( player_character.as_character() );
     } else if( !ammo_types().empty() ) {
         // anything that can be reloaded including tools, magazines, guns and auxiliary gunmods
         // but excluding bows etc., which have ammo, but can't be reloaded
@@ -8475,6 +8518,17 @@ const std::map<itype_id, int> &item::brewing_results() const
     return is_brewable() ? type->brewable->results : nulresult;
 }
 
+time_duration item::composting_time() const
+{
+    return is_compostable() ? type->compostable->time * calendar::season_from_default_ratio() : 0_turns;
+}
+
+const std::map<itype_id, int> &item::composting_results() const
+{
+    static const std::map<itype_id, int> nulresult{};
+    return is_compostable() ? type->compostable->results : nulresult;
+}
+
 bool item::can_revive() const
 {
     return is_corpse() && ( corpse->has_flag( mon_flag_REVIVES ) || has_var( "zombie_form" ) ) &&
@@ -9458,6 +9512,11 @@ bool item::is_brewable() const
     return !!type->brewable;
 }
 
+bool item::is_compostable() const
+{
+    return !!type->compostable;
+}
+
 bool item::is_food_container() const
 {
     return ( !is_food() && has_item_with( []( const item & food ) {
@@ -9645,6 +9704,11 @@ bool item::has_any_with( const std::function<bool( const item & )> &filter,
 bool item::all_pockets_rigid() const
 {
     return contents.all_pockets_rigid();
+}
+
+bool item::container_type_pockets_empty() const
+{
+    return contents.container_type_pockets_empty();
 }
 
 std::vector<const item_pocket *> item::get_all_contained_pockets() const
@@ -10044,22 +10108,24 @@ ret_val<void> item::is_compatible( const item &it ) const
 
 ret_val<void> item::can_contain_directly( const item &it ) const
 {
-    return can_contain( it, false, false, true, item_location(), 10000000_ml, false );
+    return can_contain( it, false, false, true, false, item_location(), 10000000_ml, false );
 }
 
 ret_val<void> item::can_contain( const item &it, const bool nested, const bool ignore_rigidity,
-                                 const bool ignore_pkt_settings, const item_location &parent_it,
+                                 const bool ignore_pkt_settings, const bool is_pick_up_inv,
+                                 const item_location &parent_it,
                                  units::volume remaining_parent_volume, const bool allow_nested ) const
 {
     int copies = 1;
     return can_contain( it, copies, nested, ignore_rigidity,
-                        ignore_pkt_settings, parent_it,
+                        ignore_pkt_settings, is_pick_up_inv, parent_it,
                         remaining_parent_volume, allow_nested );
 }
 
 ret_val<void> item::can_contain( const item &it, int &copies_remaining, const bool nested,
                                  const bool ignore_rigidity, const bool ignore_pkt_settings,
-                                 const item_location &parent_it, units::volume remaining_parent_volume,
+                                 const bool is_pick_up_inv, const item_location &parent_it,
+                                 units::volume remaining_parent_volume,
                                  const bool allow_nested ) const
 {
     if( copies_remaining <= 0 ) {
@@ -10104,7 +10170,8 @@ ret_val<void> item::can_contain( const item &it, int &copies_remaining, const bo
                     continue;
                 }
                 auto ret = internal_it->can_contain( it, copies_remaining, true, ignore_nested_rigidity,
-                                                     ignore_pkt_settings, parent_it, pkt->remaining_volume() );
+                                                     ignore_pkt_settings, is_pick_up_inv, parent_it,
+                                                     pkt->remaining_volume() );
                 if( copies_remaining <= 0 ) {
                     return ret;
                 }
@@ -10113,8 +10180,9 @@ ret_val<void> item::can_contain( const item &it, int &copies_remaining, const bo
     }
 
     return nested && !ignore_rigidity ?
-           contents.can_contain_rigid( it, copies_remaining, ignore_pkt_settings ) :
-           contents.can_contain( it, copies_remaining, ignore_pkt_settings, remaining_parent_volume );
+           contents.can_contain_rigid( it, copies_remaining, ignore_pkt_settings, is_pick_up_inv ) :
+           contents.can_contain( it, copies_remaining, ignore_pkt_settings, is_pick_up_inv,
+                                 remaining_parent_volume );
 }
 
 ret_val<void> item::can_contain( const itype &tp ) const
@@ -10137,7 +10205,7 @@ ret_val<void> item::can_contain_partial_directly( const item &it ) const
     if( i_copy.count_by_charges() ) {
         i_copy.charges = 1;
     }
-    return can_contain( i_copy, false, false, true, item_location(), 10000000_ml, false );
+    return can_contain( i_copy, false, false, true, false, item_location(), 10000000_ml, false );
 }
 
 std::pair<item_location, item_pocket *> item::best_pocket( const item &it, item_location &this_loc,
@@ -10625,6 +10693,14 @@ int item::shots_remaining( const Character *carrier ) const
 int item::ammo_remaining( const std::set<ammotype> &ammo, const Character *carrier,
                           const bool include_linked ) const
 {
+    const bool is_tool_with_carrier = carrier != nullptr && is_tool();
+
+    if( is_tool_with_carrier && has_flag( flag_USES_NEARBY_AMMO ) && !ammo.empty() ) {
+        const inventory &crafting_inventory = carrier->crafting_inventory();
+        const ammotype &a = *ammo.begin();
+        return crafting_inventory.charges_of( a->default_ammotype(), INT_MAX );
+    }
+
     int ret = 0;
 
     // Magazine in the item
@@ -10670,7 +10746,7 @@ int item::ammo_remaining( const std::set<ammotype> &ammo, const Character *carri
 
     // UPS/bionic power can replace ammo requirement.
     // Only for tools. Guns should always use energy_drain for electricity use.
-    if( carrier != nullptr && type->tool ) {
+    if( is_tool_with_carrier ) {
         if( has_flag( flag_USES_BIONIC_POWER ) ) {
             ret += units::to_kilojoule( carrier->get_power_level() );
         }
@@ -10827,6 +10903,23 @@ int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
         return 0;
     }
     const int wanted_qty = qty;
+    const bool is_tool_with_carrier = carrier != nullptr && is_tool();
+
+    if( is_tool_with_carrier && has_flag( flag_USES_NEARBY_AMMO ) ) {
+        const ammotype ammo = ammo_type();
+        if( !ammo.is_null() ) {
+            const inventory &carrier_inventory = carrier->crafting_inventory();
+            itype_id ammo_type = ammo->default_ammotype();
+            const int charges_avalable = carrier_inventory.charges_of( ammo_type, INT_MAX );
+
+            qty = std::min( wanted_qty, charges_avalable );
+
+            std::vector<item_comp> components;
+            components.emplace_back( ammo_type, qty );
+            carrier->consume_items( components, 1 );
+            return wanted_qty - qty;
+        }
+    }
 
     // Consume power from appliances/vehicles connected with cables
     if( has_link_data() ) {
@@ -10862,10 +10955,11 @@ int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
         qty -= charg_used;
     }
 
+    bool is_off_grid_powered = has_flag( flag_USE_UPS ) || has_flag( flag_USES_BIONIC_POWER );
+
     // Modded tools can consume UPS/bionic energy instead of ammo.
     // Guns handle energy in energy_consume()
-    if( carrier != nullptr && type->tool &&
-        ( has_flag( flag_USE_UPS ) || has_flag( flag_USES_BIONIC_POWER ) ) ) {
+    if( is_tool_with_carrier && is_off_grid_powered ) {
         units::energy wanted_energy = units::from_kilojoule( static_cast<std::int64_t>( qty ) );
 
         if( has_flag( flag_USE_UPS ) ) {
@@ -10969,6 +11063,9 @@ itype_id item::ammo_current() const
     if( ammo ) {
         return ammo->get_id();
     }
+    if( is_tool() && has_flag( flag_USES_NEARBY_AMMO ) ) {
+        return ammo_default();
+    }
 
     return itype_id::NULL_ID();
 }
@@ -11012,6 +11109,11 @@ std::set<ammotype> item::ammo_types( bool conversion ) const
     if( is_gun() ) {
         return type->gun->ammo;
     }
+
+    if( is_tool() && has_flag( flag_USES_NEARBY_AMMO ) ) {
+        return type->tool->ammo_id;
+    }
+
     return contents.ammo_types();
 }
 
@@ -11020,6 +11122,14 @@ ammotype item::ammo_type() const
     if( is_ammo() ) {
         return type->ammo->type;
     }
+
+    if( is_tool() && has_flag( flag_USES_NEARBY_AMMO ) ) {
+        const std::set<ammotype> ammo_type_choices = ammo_types();
+        if( !ammo_type_choices.empty() ) {
+            return *ammo_type_choices.begin();
+        }
+    }
+
     return ammotype::NULL_ID();
 }
 
@@ -11248,6 +11358,31 @@ ret_val<void> item::is_gunmod_compatible( const item &mod ) const
                !mod.has_flag( flag_PUMP_RAIL_COMPATIBLE ) && has_flag( flag_PUMP_ACTION ) ) {
         return ret_val<void>::make_failure( _( "can only accept small mods on that slot" ) );
 
+    } else if( mod.typeId() == itype_waterproof_gunmod && has_flag( flag_WATERPROOF_GUN ) ) {
+        return ret_val<void>::make_failure( _( "is already waterproof" ) );
+
+    } else if( mod.typeId() == itype_tuned_mechanism && has_flag( flag_NEVER_JAMS ) ) {
+        return ret_val<void>::make_failure( _( "is already eminently reliable" ) );
+
+    } else if( mod.typeId() == itype_brass_catcher && has_flag( flag_RELOAD_EJECT ) ) {
+        return ret_val<void>::make_failure( _( "cannot have a brass catcher" ) );
+
+    } else if( ( mod.type->gunmod->location.name() == "magazine" ||
+                 mod.type->gunmod->location.name() == "mechanism" ||
+                 mod.type->gunmod->location.name() == "loading port" ||
+                 mod.type->gunmod->location.name() == "bore" ) &&
+               ( ammo_remaining() > 0 || magazine_current() ) ) {
+        return ret_val<void>::make_failure( _( "must be unloaded before installing this mod" ) );
+
+    } else if( gunmod_find( itype_stock_none ) &&
+               mod.type->gunmod->location.name() == "stock accessory" ) {
+        return ret_val<void>::make_failure( _( "doesn't have a stock to attach this mod" ) );
+
+    } else if( mod.typeId() == itype_arredondo_chute ) {
+        return ret_val<void>::make_failure( _( "chute needs modification before attaching" ) );
+
+        // Acceptable_ammo check is kinda weird now, if it is passed, checks after it will be ignored.
+        // Moved it here as a workaround.
     } else if( !mod.type->mod->acceptable_ammo.empty() ) {
         bool compat_ammo = false;
         for( const ammotype &at : mod.type->mod->acceptable_ammo ) {
@@ -11259,23 +11394,6 @@ ret_val<void> item::is_gunmod_compatible( const item &mod ) const
             return ret_val<void>::make_failure(
                        _( "%1$s cannot be used on item with no compatible ammo types" ), mod.tname( 1 ) );
         }
-    } else if( mod.typeId() == itype_waterproof_gunmod && has_flag( flag_WATERPROOF_GUN ) ) {
-        return ret_val<void>::make_failure( _( "is already waterproof" ) );
-
-    } else if( mod.typeId() == itype_tuned_mechanism && has_flag( flag_NEVER_JAMS ) ) {
-        return ret_val<void>::make_failure( _( "is already eminently reliable" ) );
-
-    } else if( mod.typeId() == itype_brass_catcher && has_flag( flag_RELOAD_EJECT ) ) {
-        return ret_val<void>::make_failure( _( "cannot have a brass catcher" ) );
-
-    } else if( ( mod.type->gunmod->location.name() == "magazine" ||
-                 mod.type->gunmod->location.name() == "mechanism" ) &&
-               ( ammo_remaining() > 0 || magazine_current() ) ) {
-        return ret_val<void>::make_failure( _( "must be unloaded before installing this mod" ) );
-
-    } else if( gunmod_find( itype_stock_none ) &&
-               mod.type->gunmod->location.name() == "stock accessory" ) {
-        return ret_val<void>::make_failure( _( "doesn't have a stock to attach this mod" ) );
     }
 
     for( const gunmod_location &slot : mod.type->gunmod->blacklist_slot ) {
@@ -11960,6 +12078,13 @@ bool item::use_amount( const itype_id &it, int &quantity, std::list<item> &used,
     }
 
     for( item *removed : removed_items ) {
+        // Handle cases where items are removed but the pocket isn't emptied
+        item *parent = this->find_parent( *removed );
+        for( item_pocket *pocket : parent->get_all_standard_pockets() ) {
+            if( pocket->has_item( *removed ) ) {
+                pocket->unseal();
+            }
+        }
         this->remove_item( *removed );
     }
 
@@ -13309,7 +13434,7 @@ ret_val<void> item::link_to( vehicle &veh, const point &mount, link_state link_t
         } else if( !veh.is_external_part( veh.mount_to_tripoint( mount ) ) ) {
             return ret_val<void>::make_failure( _( "You can't attach a tow-line to an internal part." ) );
         } else {
-            const int part_at = veh.part_at( mount );
+            const int part_at = veh.part_at( veh.coord_translate( mount ) );
             if( part_at != -1 && !veh.part( part_at ).carried_stack.empty() ) {
                 return ret_val<void>::make_failure( _( "You can't attach a tow-line to a racked part." ) );
             }
@@ -14133,7 +14258,7 @@ bool item::is_seed() const
     return !!type->seed;
 }
 
-time_duration item::get_plant_epoch() const
+time_duration item::get_plant_epoch( int num_epochs ) const
 {
     if( !type->seed ) {
         return 0_turns;
@@ -14142,9 +14267,9 @@ time_duration item::get_plant_epoch() const
     // the default in-game season length to give
     // more accuracy for longer season lengths
     // Also note that seed->grow is the time it takes from seeding to harvest, this is
-    // divided by 3 to get the time it takes from one plant state to the next.
+    // divided by number of growth stages (usually 3) to get the time it takes from one plant state to the next.
     // TODO: move this into the islot_seed
-    return type->seed->grow * calendar::season_ratio() / 3;
+    return type->seed->grow * calendar::season_ratio() / num_epochs;
 }
 
 std::string item::get_plant_name() const
@@ -14599,9 +14724,6 @@ bool item::on_drop( const tripoint &pos, map &m )
     }
 
     avatar &player_character = get_avatar();
-
-    // set variable storing information of character dropping item
-    dropped_char_stats.throwing = player_character.get_skill_level( skill_throw );
 
     return type->drop_action && type->drop_action.call( &player_character, *this, pos );
 }

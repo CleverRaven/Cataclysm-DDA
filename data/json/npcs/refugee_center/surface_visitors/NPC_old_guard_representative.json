@@ -20,9 +20,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            {
-              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
-            }
+            { "not": { "npc_has_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" } }
           ]
         },
         "trial": { "type": "PERSUADE", "difficulty": 15 },
@@ -38,12 +36,7 @@
         "condition": {
           "or": [
             { "u_has_mission": "MISSION_OLD_GUARD_REP_3" },
-            {
-              "u_has_var": "oldguard-exodii",
-              "type": "factional_questline",
-              "context": "mission",
-              "value": "encountered_base"
-            }
+            { "u_has_var": "factional_questline_mission_oldguard-exodii", "value": "encountered_base" }
           ]
         }
       },
@@ -51,10 +44,7 @@
         "text": "I think I can already tell you what you want to know about those 'robots'.",
         "topic": "TALK_OLD_GUARD_REP_MISSION_3_Predone",
         "condition": {
-          "and": [
-            { "u_has_mission": "MISSION_OLD_GUARD_REP_3" },
-            { "u_has_var": "u_met_Rubik", "type": "general", "context": "meeting", "value": "yes" }
-          ]
+          "and": [ { "u_has_mission": "MISSION_OLD_GUARD_REP_3" }, { "u_has_var": "general_meeting_u_met_Rubik", "value": "yes" } ]
         }
       },
       { "text": "Does the Old Guard need anything?", "topic": "TALK_MISSION_LIST" },
@@ -129,7 +119,7 @@
       {
         "text": "Actually, I've met them.  They seem open to trade and things.  Thought you might want to know.",
         "topic": "TALK_OLD_GUARD_REP_EXODII_2",
-        "condition": { "u_has_var": "u_met_Rubik", "type": "general", "context": "meeting", "value": "yes" }
+        "condition": { "u_has_var": "general_meeting_u_met_Rubik", "value": "yes" }
       },
       { "text": "Can we talk about something else?", "topic": "TALK_OLD_GUARD_REP" }
     ]
@@ -164,7 +154,7 @@
     "id": "TALK_OLD_GUARD_REP_Refuse_Boris_Mission_1",
     "type": "talk_topic",
     "dynamic_line": "I'm sorry, but I can't leave my post here, and I just don't have the human resources even for a project like that.",
-    "speaker_effect": { "effect": { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" } },
+    "speaker_effect": { "effect": { "npc_add_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" } },
     "responses": [ { "text": "Well, thanks anyway…", "topic": "TALK_OLD_GUARD_REP" } ]
   },
   {
@@ -173,7 +163,7 @@
     "dynamic_line": "It's your lucky day: I just made contact with a couple volunteers like yourself, and that's exactly the sort of project I can put them to.",
     "speaker_effect": {
       "effect": [
-        { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" },
+        { "npc_add_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" },
         { "math": [ "u_mission_cleanup_promises_Boris_mission_1", "+=", "2" ] }
       ]
     },
@@ -250,7 +240,7 @@
     "name": { "str": "Find Source of Robots" },
     "description": "Go to the supposed source of the weird robots marked on your map and report back to the Old Guard representative what you've seen.",
     "goal": "MGOAL_CONDITION",
-    "goal_condition": { "u_has_var": "u_scouted_exodii", "type": "missions", "context": "old_guard", "value": "yes" },
+    "goal_condition": { "u_has_var": "missions_old_guard_u_scouted_exodii", "value": "yes" },
     "difficulty": 2,
     "value": 10000,
     "start": {
@@ -270,9 +260,7 @@
       "success_lie": "That's a shame, a damn shame.  Wish you could have learned more.  Thanks for trying.",
       "failure": "Damn… let's hope we can try again sometime."
     },
-    "end": {
-      "effect": [ { "u_add_var": "oldguard-exodii", "type": "factional_questline", "context": "mission", "value": "encountered_base" } ]
-    }
+    "end": { "effect": [ { "u_add_var": "factional_questline_mission_oldguard-exodii", "value": "encountered_base" } ] }
   },
   {
     "id": "MISSION_OLD_GUARD_REP_4",
@@ -285,10 +273,7 @@
     "start": {
       "assign_mission_target": { "om_terrain": "field", "reveal_radius": 5, "random": true, "search_range": 30 },
       "update_mapgen": {
-        "place_monster": [
-          { "monster": "mon_graboid", "name": "Little Guy", "x": 12, "y": 12, "target": true },
-          { "monster": "mon_graboid", "x": [ 9, 15 ], "y": [ 9, 15 ] }
-        ]
+        "place_monster": [ { "monster": "mon_spider_trapdoor_small", "x": 12, "y": 12, "target": true, "repeat": [ 3, 5 ] } ]
       }
     },
     "origins": [ "ORIGIN_SECONDARY" ],

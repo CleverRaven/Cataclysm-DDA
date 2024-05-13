@@ -23,7 +23,7 @@ Some examples:
 Combat in CDDA should always feel deadly.  In particular, the player should never feel safe being surrounded by multiple zombies, no matter how far in the game they are.  At first this means "regular" zombies; later, as the player approaches transhumanism, it may take multiple transhuman enemies to threaten the player, but at no time should a player be able to shrug off a horde. 
 
 - Zombies should have a "rend" mechanic, allowing groups of them to tear at armour and damage it more effectively than a single zombie might.  This would be enhanced if they can overwhelm and knock down a foe.
-- Almost all players should be limited heavily by fatigue and stamina as they attempt to fight off hordes.
+- Almost all players should be limited heavily by sleepiness and stamina as they attempt to fight off hordes.
 - Even with 'enhanced healing', wounds in CDDA should be severe and limiting.  We are not trying to model a power fantasy.
 - Cities should represent the primary 'dungeons' of CDDA in a roguelike sense (we are not at all near this at the time of this writing).  It should not be possible to clear a city: putting down hundreds of thousands of zombies is not a feasible task.  Even if it were, that high a concentration of pulped zombie-meat should do something: pulping it prevents regeneration, but doesn't make it inert.
 

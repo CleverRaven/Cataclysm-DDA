@@ -9,19 +9,19 @@
     "id": "alpha_sample_small",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "alpha_sample", "count-min": 1, "count-max": 3 } ]
+    "entries": [ { "item": "alpha_sample", "count": [ 1, 3 ] } ]
   },
   {
     "id": "alpha_sample_large",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "alpha_sample", "count-min": 3, "count-max": 6 } ]
+    "entries": [ { "item": "alpha_sample", "count": [ 3, 6 ] } ]
   },
   {
     "id": "alpha_sample_huge",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "alpha_sample", "count-min": 10, "count-max": 20 } ]
+    "entries": [ { "item": "alpha_sample", "count": [ 10, 20 ] } ]
   },
   {
     "id": "batrachian_sample_single",
@@ -33,19 +33,19 @@
     "id": "batrachian_sample_small",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "batrachian_sample", "count-min": 1, "count-max": 3 } ]
+    "entries": [ { "item": "batrachian_sample", "count": [ 1, 3 ] } ]
   },
   {
     "id": "batrachian_sample_large",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "batrachian_sample", "count-min": 3, "count-max": 6 } ]
+    "entries": [ { "item": "batrachian_sample", "count": [ 3, 6 ] } ]
   },
   {
     "id": "batrachian_sample_huge",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "batrachian_sample", "count-min": 10, "count-max": 20 } ]
+    "entries": [ { "item": "batrachian_sample", "count": [ 10, 20 ] } ]
   },
   {
     "id": "beast_sample_single",
@@ -57,19 +57,19 @@
     "id": "beast_sample_small",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "beast_sample", "count-min": 1, "count-max": 3 } ]
+    "entries": [ { "item": "beast_sample", "count": [ 1, 3 ] } ]
   },
   {
     "id": "beast_sample_large",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "beast_sample", "count-min": 3, "count-max": 6 } ]
+    "entries": [ { "item": "beast_sample", "count": [ 3, 6 ] } ]
   },
   {
     "id": "beast_sample_huge",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "beast_sample", "count-min": 10, "count-max": 20 } ]
+    "entries": [ { "item": "beast_sample", "count": [ 10, 20 ] } ]
   },
   {
     "id": "bird_sample_single",
@@ -81,19 +81,19 @@
     "id": "bird_sample_small",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "bird_sample", "count-min": 1, "count-max": 3 } ]
+    "entries": [ { "item": "bird_sample", "count": [ 1, 3 ] } ]
   },
   {
     "id": "bird_sample_large",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "bird_sample", "count-min": 3, "count-max": 6 } ]
+    "entries": [ { "item": "bird_sample", "count": [ 3, 6 ] } ]
   },
   {
     "id": "bird_sample_huge",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "bird_sample", "count-min": 10, "count-max": 20 } ]
+    "entries": [ { "item": "bird_sample", "count": [ 10, 20 ] } ]
   },
   {
     "id": "cattle_sample_single",
@@ -105,19 +105,19 @@
     "id": "cattle_sample_small",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "cattle_sample", "count-min": 1, "count-max": 3 } ]
+    "entries": [ { "item": "cattle_sample", "count": [ 1, 3 ] } ]
   },
   {
     "id": "cattle_sample_large",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "cattle_sample", "count-min": 3, "count-max": 6 } ]
+    "entries": [ { "item": "cattle_sample", "count": [ 3, 6 ] } ]
   },
   {
     "id": "cattle_sample_huge",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "cattle_sample", "count-min": 10, "count-max": 20 } ]
+    "entries": [ { "item": "cattle_sample", "count": [ 10, 20 ] } ]
   },
   {
     "id": "cephalopod_sample_single",
@@ -129,19 +129,19 @@
     "id": "cephalopod_sample_small",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "cephalopod_sample", "count-min": 1, "count-max": 3 } ]
+    "entries": [ { "item": "cephalopod_sample", "count": [ 1, 3 ] } ]
   },
   {
     "id": "cephalopod_sample_large",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "cephalopod_sample", "count-min": 3, "count-max": 6 } ]
+    "entries": [ { "item": "cephalopod_sample", "count": [ 3, 6 ] } ]
   },
   {
     "id": "cephalopod_sample_huge",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "cephalopod_sample", "count-min": 10, "count-max": 20 } ]
+    "entries": [ { "item": "cephalopod_sample", "count": [ 10, 20 ] } ]
   },
   {
     "id": "chimera_sample_single",
@@ -153,19 +153,19 @@
     "id": "chimera_sample_small",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "chimera_sample", "count-min": 1, "count-max": 3 } ]
+    "entries": [ { "item": "chimera_sample", "count": [ 1, 3 ] } ]
   },
   {
     "id": "chimera_sample_large",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "chimera_sample", "count-min": 3, "count-max": 6 } ]
+    "entries": [ { "item": "chimera_sample", "count": [ 3, 6 ] } ]
   },
   {
     "id": "chimera_sample_huge",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "chimera_sample", "count-min": 10, "count-max": 20 } ]
+    "entries": [ { "item": "chimera_sample", "count": [ 10, 20 ] } ]
   },
   {
     "id": "chiropteran_sample_single",
@@ -177,19 +177,19 @@
     "id": "chiropteran_sample_small",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "chiropteran_sample", "count-min": 1, "count-max": 3 } ]
+    "entries": [ { "item": "chiropteran_sample", "count": [ 1, 3 ] } ]
   },
   {
     "id": "chiropteran_sample_large",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "chiropteran_sample", "count-min": 3, "count-max": 6 } ]
+    "entries": [ { "item": "chiropteran_sample", "count": [ 3, 6 ] } ]
   },
   {
     "id": "chiropteran_sample_huge",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "chiropteran_sample", "count-min": 10, "count-max": 20 } ]
+    "entries": [ { "item": "chiropteran_sample", "count": [ 10, 20 ] } ]
   },
   {
     "id": "elfa_sample_single",
@@ -201,19 +201,19 @@
     "id": "elfa_sample_small",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "elfa_sample", "count-min": 1, "count-max": 3 } ]
+    "entries": [ { "item": "elfa_sample", "count": [ 1, 3 ] } ]
   },
   {
     "id": "elfa_sample_large",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "elfa_sample", "count-min": 3, "count-max": 6 } ]
+    "entries": [ { "item": "elfa_sample", "count": [ 3, 6 ] } ]
   },
   {
     "id": "elfa_sample_huge",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "elfa_sample", "count-min": 10, "count-max": 20 } ]
+    "entries": [ { "item": "elfa_sample", "count": [ 10, 20 ] } ]
   },
   {
     "id": "feline_sample_single",
@@ -225,19 +225,19 @@
     "id": "feline_sample_small",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "feline_sample", "count-min": 1, "count-max": 3 } ]
+    "entries": [ { "item": "feline_sample", "count": [ 1, 3 ] } ]
   },
   {
     "id": "feline_sample_large",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "feline_sample", "count-min": 3, "count-max": 6 } ]
+    "entries": [ { "item": "feline_sample", "count": [ 3, 6 ] } ]
   },
   {
     "id": "feline_sample_huge",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "feline_sample", "count-min": 10, "count-max": 20 } ]
+    "entries": [ { "item": "feline_sample", "count": [ 10, 20 ] } ]
   },
   {
     "id": "fish_sample_single",
@@ -249,19 +249,19 @@
     "id": "fish_sample_small",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "fish_sample", "count-min": 1, "count-max": 3 } ]
+    "entries": [ { "item": "fish_sample", "count": [ 1, 3 ] } ]
   },
   {
     "id": "fish_sample_large",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "fish_sample", "count-min": 3, "count-max": 6 } ]
+    "entries": [ { "item": "fish_sample", "count": [ 3, 6 ] } ]
   },
   {
     "id": "fish_sample_huge",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "fish_sample", "count-min": 10, "count-max": 20 } ]
+    "entries": [ { "item": "fish_sample", "count": [ 10, 20 ] } ]
   },
   {
     "id": "gastropod_sample_single",
@@ -273,19 +273,19 @@
     "id": "gastropod_sample_small",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "gastropod_sample", "count-min": 1, "count-max": 3 } ]
+    "entries": [ { "item": "gastropod_sample", "count": [ 1, 3 ] } ]
   },
   {
     "id": "gastropod_sample_large",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "gastropod_sample", "count-min": 3, "count-max": 6 } ]
+    "entries": [ { "item": "gastropod_sample", "count": [ 3, 6 ] } ]
   },
   {
     "id": "gastropod_sample_huge",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "gastropod_sample", "count-min": 10, "count-max": 20 } ]
+    "entries": [ { "item": "gastropod_sample", "count": [ 10, 20 ] } ]
   },
   {
     "id": "human_sample_single",
@@ -297,19 +297,19 @@
     "id": "human_sample_small",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "human_sample", "count-min": 1, "count-max": 3 } ]
+    "entries": [ { "item": "human_sample", "count": [ 1, 3 ] } ]
   },
   {
     "id": "human_sample_large",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "human_sample", "count-min": 3, "count-max": 6 } ]
+    "entries": [ { "item": "human_sample", "count": [ 3, 6 ] } ]
   },
   {
     "id": "human_sample_huge",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "human_sample", "count-min": 10, "count-max": 20 } ]
+    "entries": [ { "item": "human_sample", "count": [ 10, 20 ] } ]
   },
   {
     "id": "insect_sample_single",
@@ -321,19 +321,19 @@
     "id": "insect_sample_small",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "insect_sample", "count-min": 1, "count-max": 3 } ]
+    "entries": [ { "item": "insect_sample", "count": [ 1, 3 ] } ]
   },
   {
     "id": "insect_sample_large",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "insect_sample", "count-min": 3, "count-max": 6 } ]
+    "entries": [ { "item": "insect_sample", "count": [ 3, 6 ] } ]
   },
   {
     "id": "insect_sample_huge",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "insect_sample", "count-min": 10, "count-max": 20 } ]
+    "entries": [ { "item": "insect_sample", "count": [ 10, 20 ] } ]
   },
   {
     "id": "lizard_sample_single",
@@ -345,19 +345,19 @@
     "id": "lizard_sample_small",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "lizard_sample", "count-min": 1, "count-max": 3 } ]
+    "entries": [ { "item": "lizard_sample", "count": [ 1, 3 ] } ]
   },
   {
     "id": "lizard_sample_large",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "lizard_sample", "count-min": 3, "count-max": 6 } ]
+    "entries": [ { "item": "lizard_sample", "count": [ 3, 6 ] } ]
   },
   {
     "id": "lizard_sample_huge",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "lizard_sample", "count-min": 10, "count-max": 20 } ]
+    "entries": [ { "item": "lizard_sample", "count": [ 10, 20 ] } ]
   },
   {
     "id": "lupine_sample_single",
@@ -369,19 +369,19 @@
     "id": "lupine_sample_small",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "lupine_sample", "count-min": 1, "count-max": 3 } ]
+    "entries": [ { "item": "lupine_sample", "count": [ 1, 3 ] } ]
   },
   {
     "id": "lupine_sample_large",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "lupine_sample", "count-min": 3, "count-max": 6 } ]
+    "entries": [ { "item": "lupine_sample", "count": [ 3, 6 ] } ]
   },
   {
     "id": "lupine_sample_huge",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "lupine_sample", "count-min": 10, "count-max": 20 } ]
+    "entries": [ { "item": "lupine_sample", "count": [ 10, 20 ] } ]
   },
   {
     "id": "medical_sample_single",
@@ -393,19 +393,19 @@
     "id": "medical_sample_small",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "medical_sample", "count-min": 1, "count-max": 3 } ]
+    "entries": [ { "item": "medical_sample", "count": [ 1, 3 ] } ]
   },
   {
     "id": "medical_sample_large",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "medical_sample", "count-min": 3, "count-max": 6 } ]
+    "entries": [ { "item": "medical_sample", "count": [ 3, 6 ] } ]
   },
   {
     "id": "medical_sample_huge",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "medical_sample", "count-min": 10, "count-max": 20 } ]
+    "entries": [ { "item": "medical_sample", "count": [ 10, 20 ] } ]
   },
   {
     "id": "mouse_sample_single",
@@ -417,19 +417,19 @@
     "id": "mouse_sample_small",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "mouse_sample", "count-min": 1, "count-max": 3 } ]
+    "entries": [ { "item": "mouse_sample", "count": [ 1, 3 ] } ]
   },
   {
     "id": "mouse_sample_large",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "mouse_sample", "count-min": 3, "count-max": 6 } ]
+    "entries": [ { "item": "mouse_sample", "count": [ 3, 6 ] } ]
   },
   {
     "id": "mouse_sample_huge",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "mouse_sample", "count-min": 10, "count-max": 20 } ]
+    "entries": [ { "item": "mouse_sample", "count": [ 10, 20 ] } ]
   },
   {
     "id": "plant_sample_single",
@@ -441,19 +441,19 @@
     "id": "plant_sample_small",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "plant_sample", "count-min": 1, "count-max": 3 } ]
+    "entries": [ { "item": "plant_sample", "count": [ 1, 3 ] } ]
   },
   {
     "id": "plant_sample_large",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "plant_sample", "count-min": 3, "count-max": 6 } ]
+    "entries": [ { "item": "plant_sample", "count": [ 3, 6 ] } ]
   },
   {
     "id": "plant_sample_huge",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "plant_sample", "count-min": 10, "count-max": 20 } ]
+    "entries": [ { "item": "plant_sample", "count": [ 10, 20 ] } ]
   },
   {
     "id": "rabbit_sample_single",
@@ -465,19 +465,19 @@
     "id": "rabbit_sample_small",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "rabbit_sample", "count-min": 1, "count-max": 3 } ]
+    "entries": [ { "item": "rabbit_sample", "count": [ 1, 3 ] } ]
   },
   {
     "id": "rabbit_sample_large",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "rabbit_sample", "count-min": 3, "count-max": 6 } ]
+    "entries": [ { "item": "rabbit_sample", "count": [ 3, 6 ] } ]
   },
   {
     "id": "rabbit_sample_huge",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "rabbit_sample", "count-min": 10, "count-max": 20 } ]
+    "entries": [ { "item": "rabbit_sample", "count": [ 10, 20 ] } ]
   },
   {
     "id": "raptor_sample_single",
@@ -489,19 +489,19 @@
     "id": "raptor_sample_small",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "raptor_sample", "count-min": 1, "count-max": 3 } ]
+    "entries": [ { "item": "raptor_sample", "count": [ 1, 3 ] } ]
   },
   {
     "id": "raptor_sample_large",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "raptor_sample", "count-min": 3, "count-max": 6 } ]
+    "entries": [ { "item": "raptor_sample", "count": [ 3, 6 ] } ]
   },
   {
     "id": "raptor_sample_huge",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "raptor_sample", "count-min": 10, "count-max": 20 } ]
+    "entries": [ { "item": "raptor_sample", "count": [ 10, 20 ] } ]
   },
   {
     "id": "rat_sample_single",
@@ -513,19 +513,19 @@
     "id": "rat_sample_small",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "rat_sample", "count-min": 1, "count-max": 3 } ]
+    "entries": [ { "item": "rat_sample", "count": [ 1, 3 ] } ]
   },
   {
     "id": "rat_sample_large",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "rat_sample", "count-min": 3, "count-max": 6 } ]
+    "entries": [ { "item": "rat_sample", "count": [ 3, 6 ] } ]
   },
   {
     "id": "rat_sample_huge",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "rat_sample", "count-min": 10, "count-max": 20 } ]
+    "entries": [ { "item": "rat_sample", "count": [ 10, 20 ] } ]
   },
   {
     "id": "slime_sample_single",
@@ -537,19 +537,19 @@
     "id": "slime_sample_small",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "slime_sample", "count-min": 1, "count-max": 3 } ]
+    "entries": [ { "item": "slime_sample", "count": [ 1, 3 ] } ]
   },
   {
     "id": "slime_sample_large",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "slime_sample", "count-min": 3, "count-max": 6 } ]
+    "entries": [ { "item": "slime_sample", "count": [ 3, 6 ] } ]
   },
   {
     "id": "slime_sample_huge",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "slime_sample", "count-min": 10, "count-max": 20 } ]
+    "entries": [ { "item": "slime_sample", "count": [ 10, 20 ] } ]
   },
   {
     "id": "spider_sample_single",
@@ -561,19 +561,19 @@
     "id": "spider_sample_small",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "spider_sample", "count-min": 1, "count-max": 3 } ]
+    "entries": [ { "item": "spider_sample", "count": [ 1, 3 ] } ]
   },
   {
     "id": "spider_sample_large",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "spider_sample", "count-min": 3, "count-max": 6 } ]
+    "entries": [ { "item": "spider_sample", "count": [ 3, 6 ] } ]
   },
   {
     "id": "spider_sample_huge",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "spider_sample", "count-min": 10, "count-max": 20 } ]
+    "entries": [ { "item": "spider_sample", "count": [ 10, 20 ] } ]
   },
   {
     "id": "troglobite_sample_single",
@@ -585,19 +585,19 @@
     "id": "troglobite_sample_small",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "troglobite_sample", "count-min": 1, "count-max": 3 } ]
+    "entries": [ { "item": "troglobite_sample", "count": [ 1, 3 ] } ]
   },
   {
     "id": "troglobite_sample_large",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "troglobite_sample", "count-min": 3, "count-max": 6 } ]
+    "entries": [ { "item": "troglobite_sample", "count": [ 3, 6 ] } ]
   },
   {
     "id": "troglobite_sample_huge",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "troglobite_sample", "count-min": 10, "count-max": 20 } ]
+    "entries": [ { "item": "troglobite_sample", "count": [ 10, 20 ] } ]
   },
   {
     "id": "ursine_sample_single",
@@ -609,36 +609,36 @@
     "id": "ursine_sample_small",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "ursine_sample", "count-min": 1, "count-max": 3 } ]
+    "entries": [ { "item": "ursine_sample", "count": [ 1, 3 ] } ]
   },
   {
     "id": "ursine_sample_large",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "ursine_sample", "count-min": 3, "count-max": 6 } ]
+    "entries": [ { "item": "ursine_sample", "count": [ 3, 6 ] } ]
   },
   {
     "id": "ursine_sample_huge",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "ursine_sample", "count-min": 10, "count-max": 20 } ]
+    "entries": [ { "item": "ursine_sample", "count": [ 10, 20 ] } ]
   },
   {
     "id": "crustacean_sample_single",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "crustacean_sample", "count-min": 1, "count-max": 1 } ]
+    "entries": [ { "item": "crustacean_sample", "count": [ 1, 1 ] } ]
   },
   {
     "id": "crustacean_sample_small",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "crustacean_sample", "count-min": 1, "count-max": 3 } ]
+    "entries": [ { "item": "crustacean_sample", "count": [ 1, 3 ] } ]
   },
   {
     "id": "crustacean_sample_large",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "crustacean_sample", "count-min": 3, "count-max": 6 } ]
+    "entries": [ { "item": "crustacean_sample", "count": [ 3, 6 ] } ]
   }
 ]

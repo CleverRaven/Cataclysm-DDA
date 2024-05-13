@@ -7,7 +7,7 @@
     "weight": "253 g",
     "color": "magenta",
     "addiction_type": "alcohol",
-    "fatigue_mod": 112,
+    "sleepiness_mod": 112,
     "stim": 34,
     "container": "jug_plastic",
     "comestible_type": "DRINK",
@@ -17,8 +17,8 @@
     "addiction_potential": 6,
     "calories": 157,
     "description": "An incredibly alcoholic and caffeinated drink.  This probably isn't healthy.",
-    "price": 170,
-    "price_postapoc": 50,
+    "price": "1 USD 70 cent",
+    "price_postapoc": "50 cent",
     "material": [ "alcohol" ],
     "primary_material": "water",
     "volume": "250 ml",
@@ -35,8 +35,8 @@
     "description": "Sixdust, for when you must scorch the earth.  A sprayable anti-fungal/anti-insecticidal ammo for the chemical thrower.  Best used with some kind of mask or mouth protection.",
     "weight": "3 g",
     "volume": "250 ml",
-    "price": 600,
-    "price_postapoc": 500,
+    "price": "6 USD",
+    "price_postapoc": "5 USD",
     "material": [ "water" ],
     "symbol": "=",
     "color": "yellow_red",
@@ -130,13 +130,13 @@
     "comestible_type": "MED",
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ],
     "material": [ "powder" ],
-    "price": 2500
+    "price": "25 USD"
   },
   {
     "id": "charm_of_marzanna",
     "copy-from": "garnet_silver_pendant_necklace",
     "type": "ARMOR",
-    "name": { "str": "charm of Marzanna" },
+    "name": { "str": "charm of Marzanna", "str_pl": "charms of Marzanna" },
     "description": "A tiny effigy of a woman with singed extremities and a waterlogged face.",
     "color": "light_blue",
     "relic_data": { "passive_effects": [ { "id": "ench_climate_control_marzanna" } ] }
@@ -219,6 +219,38 @@
     "relic_data": { "passive_effects": [ { "id": "ench_climate_periapta_spider" } ] }
   },
   {
+    "id": "väinämöinens_kantele_imitation",
+    "looks_like": "kantele",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "Väinämöinen's Kantele, imitation", "str_pl": "Väinämöinen's Kanteles, imitation" },
+    "description": "A traditional Finnish string instrument.  According to myth the first one was fashioned from a great pike's jawbone.  Does it glimmer in the light?  Do its notes echo and linger more than normal?",
+    "weight": "550 g",
+    "volume": "3000 ml",
+    "longest_side": "46 cm",
+    "price": "55 USD",
+    "price_postapoc": "2 USD 50 cent",
+    "to_hit": 1,
+    "material": [ "wood" ],
+    "symbol": "(",
+    "color": "brown",
+    "use_action": [ { "type": "cast_spell", "spell_id": "kantele_spell", "no_fail": true, "level": 3 }, { "type": "play_instrument" } ],
+    "tick_action": {
+      "type": "musical_instrument",
+      "volume": 10,
+      "fun": -5,
+      "fun_bonus": 2,
+      "speed_penalty": 13,
+      "description_frequency": 20,
+      "player_descriptions": [
+        "You play a haunting melody on your kantele, you sing tragic poetry while you play.",
+        "You play an enchanting composition on your kantele, the words you sing along speak of the mysteries of the forest and sea.",
+        "You play a somber piece on your kantele, you sing of a land you can never return to, the past."
+      ]
+    },
+    "melee_damage": { "bash": 4 }
+  },
+  {
     "id": "life_extension_potion",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
@@ -259,7 +291,7 @@
     "calories": 25,
     "use_action": { "type": "cast_spell", "spell_id": "wicked_quick_hands", "no_fail": true, "level": 0 },
     "color": "green",
-    "price": 3000
+    "price": "30 USD"
   },
   {
     "id": "potion_strength",

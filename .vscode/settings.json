@@ -33,6 +33,25 @@
             ]
         },
         {
+            "name" : "Linux - X64 - Curses - Release",
+            "makeArgs": [
+                "-j4",
+                "CLANG=1",
+                "CCACHE=1",
+                "NATIVE=linux64", 
+                "RELEASE=1"
+            ]
+        },
+        {
+            "name" : "Linux - X64 - Curses - Debug",
+            "makeArgs": [
+                "-j4", 
+                "CLANG=1",
+                "CCACHE=1", 
+                "NATIVE=linux64"
+            ]
+        },
+        {
             "name" : "Windows - X64 - Tiles/Sound - Release",
             "makeArgs": [
                 "-j4",
@@ -64,4 +83,5 @@
     "github-actions.remote-name": "upstream",
     // NOTE: This disable the plugins formatting so astyle is used.
     "C_Cpp.formatting": "disabled",
+    "astyle.astylerc": "${workspaceRoot}/.astylerc"
 }

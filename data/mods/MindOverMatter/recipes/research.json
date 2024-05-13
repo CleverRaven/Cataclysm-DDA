@@ -201,6 +201,7 @@
             "type": "good"
           },
           { "u_add_trait": "PSI_EXTENDED_CHANNELING" },
+          { "u_forget_recipe": "psi_research_extended_channeling" },
           { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
         ],
         "false_effect": [

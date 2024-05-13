@@ -3,9 +3,7 @@
     "id": "TALK_GODCO_chloe",
     "type": "talk_topic",
     "dynamic_line": {
-      "npc_has_var": "u_met_chloe",
-      "type": "general",
-      "context": "meeting",
+      "npc_has_var": "general_meeting_u_met_chloe",
       "value": "yes",
       "yes": "Aw hey, it's you again, <u_name>.",
       "no": "Oh… hi.  I don't know you.  My name's Chloe."
@@ -14,29 +12,29 @@
       {
         "text": "Nice to meet you, Chloe.  What's up?",
         "topic": "TALK_GODCO_chloe_2",
-        "condition": { "not": { "npc_has_var": "u_met_chloe", "type": "general", "context": "meeting", "value": "yes" } },
-        "effect": { "npc_add_var": "u_met_chloe", "type": "general", "context": "meeting", "value": "yes" }
+        "condition": { "not": { "npc_has_var": "general_meeting_u_met_chloe", "value": "yes" } },
+        "effect": { "npc_add_var": "general_meeting_u_met_chloe", "value": "yes" }
       },
       {
         "text": "Hi.  I can't stay and chat right now.",
         "topic": "TALK_DONE",
-        "condition": { "not": { "npc_has_var": "u_met_chloe", "type": "general", "context": "meeting", "value": "yes" } },
-        "effect": { "npc_add_var": "u_met_chloe", "type": "general", "context": "meeting", "value": "yes" }
+        "condition": { "not": { "npc_has_var": "general_meeting_u_met_chloe", "value": "yes" } },
+        "effect": { "npc_add_var": "general_meeting_u_met_chloe", "value": "yes" }
       },
       {
         "text": "Do you wanna shoot the breeze?",
         "topic": "TALK_GODCO_chloe_idle_chat",
-        "condition": { "npc_has_var": "u_met_chloe", "type": "general", "context": "meeting", "value": "yes" }
+        "condition": { "npc_has_var": "general_meeting_u_met_chloe", "value": "yes" }
       },
       {
         "text": "Do you need any help?",
-        "condition": { "npc_has_var": "u_met_chloe", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "npc_has_var": "general_meeting_u_met_chloe", "value": "yes" },
         "topic": "TALK_GODCO_chloe_help"
       },
       {
         "text": "Just saying hello.  Keep safe.",
         "topic": "TALK_DONE",
-        "condition": { "npc_has_var": "u_met_chloe", "type": "general", "context": "meeting", "value": "yes" }
+        "condition": { "npc_has_var": "general_meeting_u_met_chloe", "value": "yes" }
       }
     ]
   },
@@ -47,19 +45,19 @@
     "responses": [
       {
         "text": "Really, what's your story?",
-        "condition": { "not": { "npc_has_var": "told_backstory", "type": "general", "context": "meeting", "value": "yes" } },
+        "condition": { "not": { "npc_has_var": "general_meeting_told_backstory", "value": "yes" } },
         "trial": { "type": "PERSUADE", "difficulty": 30 },
         "failure": { "topic": "TALK_GODCO_chloe_nochat" },
         "success": { "topic": "TALK_GODCO_chloe_past_2" }
       },
       {
         "text": "How'd you and Sonia come to meet?",
-        "condition": { "not": { "npc_has_var": "told_about_sonia", "type": "general", "context": "meeting", "value": "yes" } },
+        "condition": { "not": { "npc_has_var": "general_meeting_told_about_sonia", "value": "yes" } },
         "topic": "TALK_GODCO_chloe_sonia"
       },
       {
         "text": "How'd you and Sonia come to meet again?",
-        "condition": { "npc_has_var": "told_about_sonia", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "npc_has_var": "general_meeting_told_about_sonia", "value": "yes" },
         "topic": "TALK_GODCO_chloe_sonia"
       },
       { "text": "Aren't you a bit young to be carrying a knife?", "topic": "TALK_GODCO_chloe_knife" },
@@ -90,7 +88,7 @@
       "relevant_genders": [ "u" ]
     },
     "responses": [
-      { "text": "I'm sorry for your loss.  Mabey we should talk about something else.", "topic": "TALK_GODCO_chloe" },
+      { "text": "I'm sorry for your loss.  Maybe we should talk about something else.", "topic": "TALK_GODCO_chloe" },
       { "text": "Yeah, that's enough for me.", "topic": "TALK_DONE" }
     ]
   },
@@ -101,7 +99,7 @@
     "responses": [
       {
         "text": "Where do you think your parents are now?",
-        "effect": { "npc_add_var": "told_backstory", "type": "general", "context": "meeting", "value": "yes" },
+        "effect": { "npc_add_var": "general_meeting_told_backstory", "value": "yes" },
         "topic": "TALK_GODCO_chloe_parents_where"
       }
     ]
@@ -113,17 +111,17 @@
     "responses": [
       {
         "text": "Aren't you a bit young to be carrying a knife?",
-        "effect": { "npc_add_var": "told_about_sonia", "type": "general", "context": "meeting", "value": "yes" },
+        "effect": { "npc_add_var": "general_meeting_told_about_sonia", "value": "yes" },
         "topic": "TALK_GODCO_chloe_knife"
       },
       {
         "text": "Thanks for the info.  Let's chat about something else.",
-        "effect": { "npc_add_var": "told_about_sonia", "type": "general", "context": "meeting", "value": "yes" },
+        "effect": { "npc_add_var": "general_meeting_told_about_sonia", "value": "yes" },
         "topic": "TALK_GODCO_chloe_idle_chat"
       },
       {
         "text": "Thanks for the info.",
-        "effect": { "npc_add_var": "told_about_sonia", "type": "general", "context": "meeting", "value": "yes" },
+        "effect": { "npc_add_var": "general_meeting_told_about_sonia", "value": "yes" },
         "topic": "TALK_DONE"
       }
     ]

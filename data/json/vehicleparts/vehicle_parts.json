@@ -151,7 +151,12 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": "vehicle_weld_removal" },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 1 ] ] }
     },
-    "breaks_into": "ig_vp_frame",
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 3, 5 ] },
+      { "item": "steel_chunk", "count": [ 3, 5 ] },
+      { "item": "scrap", "charges": [ 4, 8 ] },
+      { "item": "splinter", "count": [ 5, 9 ] }
+    ],
     "flags": [
       "ENGINE",
       "BOARDABLE",
@@ -229,7 +234,14 @@
       }
     },
     "flags": [ "BED", "BOARDABLE", "CARGO", "MOUNTABLE", "NONBELTABLE" ],
-    "breaks_into": "ig_vp_seat",
+    "breaks_into": [
+      { "count": [ 0, 2 ], "item": "sheet_cotton" },
+      { "count": [ 0, 5 ], "item": "cotton_patchwork" },
+      { "count": [ 9, 50 ], "item": "scrap_cotton" },
+      { "count": [ 0, 1 ], "item": "spring" },
+      { "count": [ 0, 2 ], "item": "wire" },
+      { "charges": [ 3, 8 ], "item": "scrap" }
+    ],
     "damage_reduction": { "all": 3, "bash": 5 },
     "variants": [ { "symbols": "#", "symbols_broken": "*" } ]
   },
@@ -252,11 +264,7 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 1 ] ] }
     },
     "flags": [ "MOUNTABLE" ],
-    "breaks_into": [
-      { "item": "steel_lump", "count": [ 4, 6 ] },
-      { "item": "steel_chunk", "count": [ 4, 6 ] },
-      { "item": "scrap", "count": [ 4, 6 ] }
-    ],
+    "breaks_into": [ { "item": "steel_chunk", "count": [ 0, 1 ] }, { "item": "scrap", "charges": [ 3, 7 ] } ],
     "damage_reduction": { "all": 5 },
     "variants": [ { "symbols": "^", "symbols_broken": "#" } ]
   },
@@ -293,7 +301,11 @@
     "description": "A pair of handles.  You can mount other items on top of it.",
     "item": "frame_wood_light",
     "location": "structure",
-    "breaks_into": [ { "item": "splinter", "count": [ 3, 5 ] }, { "item": "string_36", "count": [ 10, 15 ] } ],
+    "breaks_into": [
+      { "item": "splinter", "count": [ 5, 8 ] },
+      { "item": "string_36", "count": [ 1, 3 ] },
+      { "item": "string_6", "count": [ 1, 4 ] }
+    ],
     "requirements": {
       "install": { "skills": [ [ "fabrication", 0 ] ], "time": "10 m", "using": [ [ "rope_natural_short", 1 ] ] },
       "repair": { "skills": [ [ "fabrication", 1 ] ], "time": "5 m", "using": [ [ "adhesive", 1 ] ] }
@@ -327,7 +339,12 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "6 m", "using": [ [ "repair_welding_standard", 5 ] ] }
     },
     "flags": [ "AISLE", "BOARDABLE", "CARGO" ],
-    "breaks_into": "ig_vp_sheet_metal",
+    "breaks_into": [
+      { "item": "sheet_metal_small", "count": [ 0, 1 ] },
+      { "item": "steel_lump", "count": [ 1, 2 ] },
+      { "item": "steel_chunk", "count": [ 1, 3 ] },
+      { "item": "scrap", "charges": [ 4, 8 ] }
+    ],
     "damage_reduction": { "all": 28 },
     "variants": [
       { "id": "horizontal", "label": "Horizontal", "symbols": "┃┃━┃┃┃━┃", "symbols_broken": "#" },
@@ -360,6 +377,7 @@
     "description": "A collapsible aisle.",
     "folded_volume": "12500 ml",
     "item": "foldwoodframe",
+    "breaks_into": [ { "item": "splinter", "count": [ 7, 11 ] }, { "item": "nail", "charges": [ 5, 10 ] } ],
     "flags": [ "AISLE", "BOARDABLE", "CARGO" ]
   },
   {
@@ -389,7 +407,12 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 6 ] ] }
     },
     "flags": [ "AISLE", "BOARDABLE", "CARGO", "CARGO_PASSABLE", "LOCKABLE_CARGO", "COVERED" ],
-    "breaks_into": "ig_vp_sheet_metal",
+    "breaks_into": [
+      { "item": "sheet_metal_small", "count": [ 1, 3 ] },
+      { "item": "steel_lump", "count": [ 2, 4 ] },
+      { "item": "steel_chunk", "count": [ 2, 8 ] },
+      { "item": "scrap", "charges": [ 11, 17 ] }
+    ],
     "damage_reduction": { "all": 28 },
     "variants": [ { "symbols": "=", "symbols_broken": "#" } ]
   },
@@ -496,9 +519,13 @@
       "removal": { "skills": [ [ "mechanics", 3 ] ], "qualities": [ { "id": "SCREW", "level": 1 } ] }
     },
     "breaks_into": [
-      { "item": "steel_lump", "prob": 50 },
-      { "item": "steel_chunk", "count": [ 1, 2 ] },
-      { "item": "scrap", "count": [ 0, 3 ] }
+      { "item": "RAM", "prob": 10 },
+      { "item": "steel_lump", "count": [ 0, 2 ] },
+      { "item": "steel_chunk", "count": [ 2, 4 ] },
+      { "item": "scrap", "charges": [ 5, 12 ] },
+      { "item": "e_scrap", "count": [ 2, 5 ] },
+      { "item": "plastic_chunk", "count": [ 3, 6 ] },
+      { "item": "cable", "charges": [ 9, 17 ] }
     ],
     "damage_reduction": { "all": 8 },
     "variants": [ { "symbols": "A", "symbols_broken": "#" } ]
@@ -626,76 +653,32 @@
   {
     "type": "vehicle_part",
     "id": "minifridge",
-    "name": { "str": "minifridge" },
-    "looks_like": "f_fridge",
-    "categories": [ "cargo" ],
-    "color": "light_blue",
-    "broken_color": "light_blue",
-    "damage_modifier": 80,
-    "durability": 100,
-    "description": "A small fridge.  When turned on, it will cool the food inside, extending the time until the food spoils.",
-    "//": "Use average consumption, not the max on the appliance rating plate. For big fridge 30 W ~ 260 kWh per annum is good, but for mini variant with decrased volume by ~ 6 time, surface area ~ 3-4 times and insulation thickness only by 2 time 10 W is good too and very close to real world variant ",
-    "epower": "-24 W",
-    "size": "75 L",
-    "item": "minifridge",
-    "location": "center",
-    "//1": "20 cm weld per quadrant of damage",
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": {
-        "skills": [ [ "mechanics", 4 ] ],
-        "time": "20 m",
-        "using": [ [ "repair_welding_standard", 4 ], [ "soldering_standard", 5 ] ]
-      }
-    },
-    "flags": [ "CARGO", "OBSTACLE", "FRIDGE", "COVERED", "ENABLED_DRAINS_EPOWER" ],
-    "breaks_into": [
-      { "item": "steel_lump", "count": [ 8, 13 ] },
-      { "item": "steel_chunk", "count": [ 8, 13 ] },
-      { "item": "scrap", "count": [ 8, 13 ] },
-      { "item": "plastic_chunk", "count": [ 3, 6 ] },
-      { "item": "hose", "prob": 50 },
-      { "item": "motor_tiny", "prob": 25 }
-    ],
-    "damage_reduction": { "all": 32 },
-    "variants": [ { "symbols": "H", "symbols_broken": "#" } ]
+    "delete": { "flags": [ "APPLIANCE", "CTRL_ELECTRONIC" ] },
+    "copy-from": "ap_minifridge"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "big_portable_fridge",
+    "delete": { "flags": [ "APPLIANCE", "CTRL_ELECTRONIC" ] },
+    "copy-from": "ap_big_portable_fridge"
   },
   {
     "type": "vehicle_part",
     "id": "minifreezer",
-    "name": { "str": "minifreezer" },
-    "categories": [ "cargo" ],
-    "color": "light_blue",
-    "broken_color": "blue",
-    "looks_like": "minifridge",
-    "damage_modifier": 80,
-    "durability": 100,
-    "epower": "-36 W",
-    "size": "75 L",
-    "item": "minifreezer",
-    "location": "center",
-    "//1": "20 cm weld per quadrant of damage",
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": {
-        "skills": [ [ "mechanics", 4 ] ],
-        "time": "20 m",
-        "using": [ [ "repair_welding_standard", 4 ], [ "soldering_standard", 5 ] ]
-      }
-    },
-    "flags": [ "CARGO", "OBSTACLE", "FREEZER", "COVERED", "ENABLED_DRAINS_EPOWER" ],
-    "breaks_into": [
-      { "item": "steel_lump", "count": [ 8, 13 ] },
-      { "item": "steel_chunk", "count": [ 8, 13 ] },
-      { "item": "scrap", "count": [ 8, 13 ] },
-      { "item": "plastic_chunk", "count": [ 5, 8 ] },
-      { "item": "hose", "prob": 50 },
-      { "item": "motor_tiny", "prob": 25 }
-    ],
-    "damage_reduction": { "all": 32 },
-    "variants": [ { "symbols": "H", "symbols_broken": "#" } ]
+    "delete": { "flags": [ "APPLIANCE", "CTRL_ELECTRONIC" ] },
+    "copy-from": "ap_minifreezer"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "chest_minifreezer",
+    "delete": { "flags": [ "APPLIANCE", "CTRL_ELECTRONIC" ] },
+    "copy-from": "ap_chest_minifreezer"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "big_portable_freezer",
+    "delete": { "flags": [ "APPLIANCE", "CTRL_ELECTRONIC" ] },
+    "copy-from": "ap_big_portable_freezer"
   },
   {
     "type": "vehicle_part",
@@ -726,8 +709,11 @@
     "breaks_into": [
       { "item": "steel_lump", "count": [ 8, 13 ] },
       { "item": "steel_chunk", "count": [ 8, 13 ] },
-      { "item": "scrap", "count": [ 8, 13 ] },
-      { "item": "hose", "prob": 50 }
+      { "item": "scrap", "charges": [ 8, 13 ] },
+      { "item": "hose", "prob": 50 },
+      { "item": "scrap_copper", "prob": 15 },
+      { "item": "cable", "charges": [ 1, 3 ] },
+      { "item": "copper", "charges": [ 7, 30 ] }
     ],
     "damage_reduction": { "all": 32 },
     "variants": [ { "symbols": "H", "symbols_broken": "#" } ]
@@ -761,8 +747,11 @@
     "breaks_into": [
       { "item": "steel_lump", "count": [ 8, 13 ] },
       { "item": "steel_chunk", "count": [ 8, 13 ] },
-      { "item": "scrap", "count": [ 8, 13 ] },
-      { "item": "hose", "prob": 50 }
+      { "item": "scrap", "charges": [ 8, 13 ] },
+      { "item": "hose", "prob": 50 },
+      { "item": "scrap_copper", "prob": 15 },
+      { "item": "cable", "charges": [ 1, 3 ] },
+      { "item": "copper", "charges": [ 7, 30 ] }
     ],
     "variants": [ { "symbols": "d", "symbols_broken": "#" } ]
   },
@@ -789,10 +778,13 @@
     },
     "flags": [ "CARGO", "OBSTACLE", "AUTOCLAVE", "COVERED", "ENABLED_DRAINS_EPOWER" ],
     "breaks_into": [
-      { "item": "steel_lump", "count": [ 6, 10 ] },
-      { "item": "steel_chunk", "count": [ 6, 10 ] },
-      { "item": "scrap", "count": [ 6, 10 ] },
-      { "item": "hose", "prob": 50 }
+      { "item": "steel_lump", "count": [ 8, 13 ] },
+      { "item": "steel_chunk", "count": [ 8, 13 ] },
+      { "item": "scrap", "charges": [ 8, 13 ] },
+      { "item": "hose", "prob": 50 },
+      { "item": "scrap_copper", "prob": 15 },
+      { "item": "cable", "charges": [ 1, 3 ] },
+      { "item": "copper", "charges": [ 7, 30 ] }
     ],
     "variants": [ { "symbols": "A", "symbols_broken": "#" } ]
   },
@@ -876,7 +868,11 @@
     "item": "frame_wood_light",
     "location": "center",
     "flags": [ "CARGO", "BOARDABLE", "COVERED", "HUGE_OK", "CARGO_PASSABLE" ],
-    "breaks_into": [ { "item": "splinter", "count": [ 3, 5 ] }, { "item": "string_36", "count": [ 10, 15 ] } ],
+    "breaks_into": [
+      { "item": "splinter", "count": [ 5, 8 ] },
+      { "item": "string_36", "count": [ 1, 3 ] },
+      { "item": "string_6", "count": [ 1, 4 ] }
+    ],
     "requirements": {
       "install": { "time": "10 m", "using": [ [ "rope_natural_short", 1 ] ] },
       "repair": { "time": "5 m", "using": [ [ "adhesive", 1 ] ] }
@@ -927,7 +923,7 @@
       "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
     },
     "flags": [ "CARGO", "BOARDABLE", "COVERED", "LOCKABLE_CARGO", "CARGO_PASSABLE" ],
-    "breaks_into": [ { "item": "splinter", "count": [ 3, 5 ] }, { "item": "nail", "charges": [ 10, 15 ] } ],
+    "breaks_into": [ { "item": "splinter", "count": [ 4, 7 ] }, { "item": "nail", "charges": [ 10, 15 ] } ],
     "damage_reduction": { "all": 4 },
     "variants": [ { "symbols": "o", "symbols_broken": "#" } ]
   },
@@ -949,11 +945,7 @@
       "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "15 m", "using": [ [ "adhesive", 2 ] ] }
     },
     "flags": [ "CARGO", "OBSTACLE", "FLAT_SURF", "WORKBENCH" ],
-    "breaks_into": [
-      { "item": "2x4", "count": [ 1, 6 ] },
-      { "item": "splinter", "count": [ 4, 6 ] },
-      { "item": "nail", "charges": [ 4, 7 ] }
-    ],
+    "breaks_into": [ { "item": "2x4", "prob": 5 }, { "item": "splinter", "count": [ 4, 8 ] }, { "item": "nail", "charges": [ 4, 7 ] } ],
     "workbench": { "multiplier": 1.1, "mass": 150000, "volume": "20 L" },
     "damage_reduction": { "all": 24 },
     "variants": [ { "symbols": "#", "symbols_broken": "#" } ]
@@ -976,11 +968,7 @@
       "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "15 m", "using": [ [ "adhesive", 2 ] ] }
     },
     "flags": [ "CARGO", "OBSTACLE", "FLAT_SURF", "WORKBENCH" ],
-    "breaks_into": [
-      { "item": "2x4", "count": [ 1, 6 ] },
-      { "item": "splinter", "count": [ 4, 6 ] },
-      { "item": "nail", "charges": [ 4, 7 ] }
-    ],
+    "breaks_into": [ { "item": "2x4", "prob": 5 }, { "item": "splinter", "count": [ 4, 8 ] }, { "item": "nail", "charges": [ 4, 7 ] } ],
     "workbench": { "multiplier": 1.1, "mass": 150000, "volume": "20 L" },
     "damage_reduction": { "all": 16 },
     "variants": [ { "symbols": "#", "symbols_broken": "#" } ]
@@ -1004,11 +992,7 @@
       "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "15 m", "using": [ [ "adhesive", 2 ] ] }
     },
     "flags": [ "CARGO", "OBSTACLE", "FLAT_SURF" ],
-    "breaks_into": [
-      { "item": "2x4", "count": [ 1, 6 ] },
-      { "item": "splinter", "count": [ 4, 6 ] },
-      { "item": "nail", "charges": [ 4, 7 ] }
-    ],
+    "breaks_into": [ { "item": "splinter", "count": [ 4, 7 ] }, { "item": "nail", "charges": [ 10, 15 ] } ],
     "damage_reduction": { "all": 16 },
     "variants": [ { "symbols": "#", "symbols_broken": "#" } ]
   },
@@ -2990,8 +2974,9 @@
     "durability": 200,
     "description": "A plow.  Use the vehicle controls to turn it on or off.  When turned on, it will create a furrow in any dirt it travels over, making it suitable for planting seeds.  It should be placed in front of any seed drills on the vehicle.",
     "item": "v_plow_item",
-    "location": "under",
-    "power": "-300 W",
+    "location": "structure",
+    "power": "-6000 W",
+    "//2": "~8 hp for a moldboard plow depth of 8 inches",
     "//1": "200 cm weld to install and 60 cm weld per damage quadrant to repair",
     "transform_terrain": { "pre_flags": [ "PLOWABLE" ], "post_terrain": "t_dirtmound" },
     "requirements": {
@@ -3025,7 +3010,8 @@
     "item": "v_planter_item",
     "location": "structure",
     "size": "12500 ml",
-    "power": "-700 W",
+    "power": "-1200 W",
+    "//2": "~1.5 hp for seed drill depth of 1.5 inches",
     "//1": "200 cm weld to install and 60 cm weld per damage quadrant to repair",
     "requirements": {
       "install": {
@@ -3058,6 +3044,7 @@
     "item": "v_planter_item_advanced",
     "location": "structure",
     "power": "-700 W",
+    "epower": "-1 W",
     "size": "17500 ml",
     "//1": "200 cm weld to install and 60 cm weld per damage quadrant to repair",
     "requirements": {
@@ -3073,7 +3060,7 @@
       },
       "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 6 ] ] }
     },
-    "flags": [ "PLANTER", "PROTRUSION", "CARGO", "ADVANCED_PLANTER", "EXTRA_DRAG", "CARGO_PASSABLE" ],
+    "flags": [ "PLANTER", "PROTRUSION", "CARGO", "ADVANCED_PLANTER", "EXTRA_DRAG", "CARGO_PASSABLE", "ENABLED_DRAINS_EPOWER" ],
     "breaks_into": [
       { "item": "cable", "charges": [ 3, 6 ] },
       { "item": "e_scrap", "count": [ 4, 10 ] },
@@ -3091,7 +3078,8 @@
     "broken_color": "light_blue",
     "damage_modifier": 120,
     "bonus": 7,
-    "power": "-700 W",
+    "power": "-1500 W",
+    "//2": "about 2 hp",
     "durability": 200,
     "description": "An automatic reaper.  Use the vehicle controls to turn it on or off.  When on, it will cut down plants that it travels over.  It should be placed in front of any plows in the vehicle for efficient operation.  It does not include cargo space, so harvested plants will end up on the ground.",
     "item": "v_reaper_item",
@@ -3123,13 +3111,13 @@
     "broken_color": "light_blue",
     "damage_modifier": 120,
     "bonus": 7,
-    "power": "-1050 W",
+    "power": "-2000 W",
     "durability": 200,
     "//": "No need to mention re drag - already provided by EXTRA_DRAG flag.",
     "description": "An automatic reaper.  Use the vehicle controls to turn it on or off.  When on, it will cut down plants and store them in the vehicle's cargo.  It should be placed in front of any plows in the vehicle for efficient operation.  It has internal cargo space for collecting the harvest.",
     "item": "v_reaper_item_advanced",
     "//1": "200 cm weld to install and 60 cm weld per damage quadrant to repair",
-    "location": "under",
+    "location": "structure",
     "size": "87500 ml",
     "requirements": {
       "install": {

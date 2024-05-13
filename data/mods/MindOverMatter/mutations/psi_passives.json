@@ -25,16 +25,25 @@
     "name": { "str": "Efficient System" },
     "points": 0,
     "description": "Thanks to your powers, you need less food and drink than the average person and are more efficient at processing it.",
-    "vitamins_absorb_multi": [ [ "all", [ [ "vitA", 1.05 ], [ "vitB", 1.05 ], [ "vitC", 1.05 ], [ "calcium", 1.05 ], [ "iron", 1.05 ] ] ] ],
     "player_display": true,
     "valid": false,
     "purifiable": false,
     "enchantments": [
       {
         "values": [
-          { "value": "HUNGER", "multiply": { "math": [ "(-0.03 - (0.015 * u_school_level('BIOKINETIC')))" ] } },
-          { "value": "THIRST", "multiply": { "math": [ "(-0.03 - (0.015 * u_school_level('BIOKINETIC')))" ] } },
-          { "value": "METABOLISM", "multiply": { "math": [ "(-0.03 - (0.015 * u_school_level('BIOKINETIC')))" ] } }
+          { "value": "HUNGER", "multiply": { "math": [ "(-0.03 - (0.00075 * u_spell_level_sum('school': 'BIOKINETIC')))" ] } },
+          {
+            "value": "THIRST",
+            "multiply": { "math": [ "(-0.03 - (0.00075 * u_spell_level_sum('school': 'BIOKINETIC')))" ] }
+          },
+          {
+            "value": "METABOLISM",
+            "multiply": { "math": [ "(-0.03 - (0.00075 * u_spell_level_sum('school': 'BIOKINETIC')))" ] }
+          },
+          {
+            "value": "VITAMIN_ABSORB_MOD",
+            "multiply": { "math": [ "(0.03 + (0.00075 * u_spell_level_sum('school': 'BIOKINETIC')))" ] }
+          }
         ]
       }
     ]
@@ -53,7 +62,10 @@
       {
         "values": [
           { "value": "HEARING_MULT", "multiply": 0.2 },
-          { "value": "SIGHT_RANGE_NETHER", "add": { "math": [ "(2 + (1.5 * u_school_level('CLAIRSENTIENT')))" ] } }
+          {
+            "value": "SIGHT_RANGE_NETHER",
+            "add": { "math": [ "(2 + (0.075 * u_spell_level_sum('school': 'CLAIRSENTIENT')))" ] }
+          }
         ]
       }
     ]
@@ -70,8 +82,8 @@
     "enchantments": [
       {
         "values": [
-          { "value": "ARMOR_ELEC", "add": { "math": [ "u_school_level('ELECTROKINETIC') / -4" ] } },
-          { "value": "PAIN", "multiply": { "math": [ "u_school_level('ELECTROKINETIC') * -0.007" ] } }
+          { "value": "ARMOR_ELEC", "add": { "math": [ "u_spell_level_sum('school': 'ELECTROKINETIC') / -0.2" ] } },
+          { "value": "PAIN", "multiply": { "math": [ "u_spell_level_sum('school': 'ELECTROKINETIC') * -0.00035" ] } }
         ]
       }
     ]
@@ -83,6 +95,7 @@
     "points": 0,
     "description": "Your powers passively filter the amount of photons your eyes receive.",
     "flags": [ "FLASH_PROTECTION", "SEESLEEP", "GLARE_RESIST" ],
+    "integrated_armor": [ "integrated_photo_eyes" ],
     "player_display": true,
     "valid": false,
     "purifiable": false
@@ -94,7 +107,11 @@
     "points": 0,
     "description": "You naturally heat the air around you slightly, making it more comfortable in the cold.  It also helps prevent you from getting too wet.",
     "bodytemp_modifiers": [ 250, 750 ],
-    "enchantments": [ { "values": [ { "value": "BODYTEMP_SLEEP", "add": 1 } ] } ],
+    "enchantments": [
+      {
+        "values": [ { "value": "BODYTEMP_SLEEP", "add": { "math": [ "0.05 * u_spell_level_sum('school': 'PYROKINETIC')" ] } } ]
+      }
+    ],
     "wet_protection": [
       { "part": "head", "ignored": 10 },
       { "part": "leg_l", "ignored": 10 },
@@ -453,9 +470,15 @@
     "enchantments": [
       {
         "values": [
-          { "value": "SOCIAL_INTIMIDATE", "add": { "math": [ "(5 + (1.5 * u_school_level('TELEPATHIC')))" ] } },
-          { "value": "SOCIAL_LIE", "add": { "math": [ "(5 + (1.5 * u_school_level('TELEPATHIC')))" ] } },
-          { "value": "SOCIAL_PERSUADE", "add": { "math": [ "(5 + (1.5 * u_school_level('TELEPATHIC')))" ] } }
+          { "value": "SOCIAL_INTIMIDATE", "add": { "math": [ "(5 + (0.075 * u_spell_level_sum('school': 'TELEPATHIC')))" ] } },
+          {
+            "value": "SOCIAL_LIE",
+            "add": { "math": [ "(5 + (0.075 * u_spell_level_sum('school': 'TELEPATHIC')))" ] }
+          },
+          {
+            "value": "SOCIAL_PERSUADE",
+            "add": { "math": [ "(5 + (0.075 * u_spell_level_sum('school': 'TELEPATHIC')))" ] }
+          }
         ]
       }
     ]
@@ -470,7 +493,11 @@
     "valid": false,
     "player_display": true,
     "purifiable": false,
-    "enchantments": [ { "values": [ { "value": "EVASION", "add": { "math": [ "(0.01 + (0.005 * u_school_level('TELEPORTER')))" ] } } ] } ]
+    "enchantments": [
+      {
+        "values": [ { "value": "EVASION", "add": { "math": [ "(0.01 + (0.00025 * u_spell_level_sum('school': 'TELEPORTER')))" ] } } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -486,8 +513,11 @@
     "enchantments": [
       {
         "values": [
-          { "value": "REGEN_HP", "multiply": { "math": [ "(0.1 + (0.01 * u_school_level('VITAKINETIC')))" ] } },
-          { "value": "MAX_HP", "multiply": { "math": [ "(0.05 + (0.01 * u_school_level('VITAKINETIC')))" ] } }
+          { "value": "REGEN_HP", "multiply": { "math": [ "(0.1 + (0.0005 * u_spell_level_sum('school': 'VITAKINETIC')))" ] } },
+          {
+            "value": "MAX_HP",
+            "multiply": { "math": [ "(0.05 + (0.0005 * u_spell_level_sum('school': 'VITAKINETIC')))" ] }
+          }
         ]
       }
     ]

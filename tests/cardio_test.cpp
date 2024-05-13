@@ -37,6 +37,8 @@ static const move_mode_id move_mode_run( "run" );
 
 static const skill_id skill_swimming( "swimming" );
 
+static const ter_str_id ter_t_pavement( "t_pavement" );
+
 // Base cardio for default character
 static const int base_cardio = 1000;
 // Base stamina
@@ -53,7 +55,7 @@ static void verify_default_cardio_options()
 }
 
 // Count the number of steps (tiles) until character runs out of stamina or becomes winded.
-static int running_steps( Character &they, const ter_id &terrain = t_pavement )
+static int running_steps( Character &they, const ter_str_id &terrain = ter_t_pavement )
 {
     map &here = get_map();
     // Please take off your shoes when entering, and no NPCs allowed

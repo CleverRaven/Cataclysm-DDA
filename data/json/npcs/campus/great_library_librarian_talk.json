@@ -3,9 +3,7 @@
     "id": "TALK_GREAT_LIBRARY_LIBRARIAN",
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_var": "u_met_Elvira",
-      "type": "general",
-      "context": "meeting",
+      "u_has_var": "general_meeting_u_met_Elvira",
       "value": "yes",
       "yes": [
         "*whispering.  \"Welcome back to the Library.\"",
@@ -18,29 +16,29 @@
       {
         "text": "Hello, who are you?  This is a library, is it?",
         "topic": "TALK_GREAT_LIBRARY_LIBRARIAN_Intro",
-        "condition": { "not": { "u_has_var": "u_met_Elvira", "type": "general", "context": "meeting", "value": "yes" } },
-        "effect": { "u_add_var": "u_met_Elvira", "type": "general", "context": "meeting", "value": "yes" }
+        "condition": { "not": { "u_has_var": "general_meeting_u_met_Elvira", "value": "yes" } },
+        "effect": { "u_add_var": "general_meeting_u_met_Elvira", "value": "yes" }
       },
       {
         "text": "Oh sorry, I'm not interested right now.",
         "topic": "TALK_DONE",
-        "condition": { "not": { "u_has_var": "u_met_Elvira", "type": "general", "context": "meeting", "value": "yes" } }
+        "condition": { "not": { "u_has_var": "general_meeting_u_met_Elvira", "value": "yes" } }
       },
       {
         "text": "I wanted to talk.",
         "topic": "TALK_GREAT_LIBRARY_LIBRARIAN_Talk",
-        "condition": { "u_has_var": "u_met_Elvira", "type": "general", "context": "meeting", "value": "yes" }
+        "condition": { "u_has_var": "general_meeting_u_met_Elvira", "value": "yes" }
       },
       {
         "text": "Let me see what you have.",
         "topic": "TALK_GREAT_LIBRARY_LIBRARIAN_DoneTrading",
-        "condition": { "u_has_var": "u_met_Elvira", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "u_has_var": "general_meeting_u_met_Elvira", "value": "yes" },
         "effect": "start_trade"
       },
       {
         "text": "Just saying hello.",
         "topic": "TALK_DONE",
-        "condition": { "u_has_var": "u_met_Elvira", "type": "general", "context": "meeting", "value": "yes" }
+        "condition": { "u_has_var": "general_meeting_u_met_Elvira", "value": "yes" }
       }
     ]
   },
@@ -138,12 +136,8 @@
         "topic": "TALK_GREAT_LIBRARY_LIBRARIAN_Robofac",
         "condition": {
           "and": [
-            {
-              "not": { "u_has_var": "u_hub01_breadcrumb_accepted", "type": "general", "context": "free_merchants", "value": "yes" }
-            },
-            {
-              "not": { "u_has_var": "completed_robofac_intercom_2", "type": "dialogue", "context": "intercom", "value": "yes" }
-            }
+            { "not": { "u_has_var": "general_free_merchants_u_hub01_breadcrumb_accepted", "value": "yes" } },
+            { "not": { "u_has_var": "dialogue_intercom_completed_robofac_intercom_2", "value": "yes" } }
           ]
         }
       },
@@ -152,8 +146,8 @@
         "topic": "TALK_GREAT_LIBRARY_LIBRARIAN_OutsideWorld2",
         "condition": {
           "or": [
-            { "u_has_var": "u_hub01_breadcrumb_accepted", "type": "general", "context": "free_merchants", "value": "yes" },
-            { "u_has_var": "completed_robofac_intercom_2", "type": "dialogue", "context": "intercom", "value": "yes" }
+            { "u_has_var": "general_free_merchants_u_hub01_breadcrumb_accepted", "value": "yes" },
+            { "u_has_var": "dialogue_intercom_completed_robofac_intercom_2", "value": "yes" }
           ]
         }
       },

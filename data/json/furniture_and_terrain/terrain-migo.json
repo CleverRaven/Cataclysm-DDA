@@ -55,6 +55,7 @@
       "sound": "boom!",
       "sound_fail": "whack!",
       "ter_set": "t_null",
+      "ter_set_bashed_from_above": "t_platform_resin",
       "items": [ { "item": "resin_chunk", "count": [ 10, 40 ] } ]
     }
   },

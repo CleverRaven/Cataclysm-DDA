@@ -5,13 +5,13 @@
 #include <cstddef>
 #include <functional>
 #include <optional>
-#include <iosfwd>
-#include <string> // IWYU pragma: keep
-
-struct tripoint;
-template <typename E> struct enum_traits;
+#include <string>
+#include <string_view>
 
 class Character;
+class Creature;
+struct tripoint;
+template <typename E> struct enum_traits;
 
 namespace debug_menu
 {
@@ -33,8 +33,11 @@ enum class debug_menu_index : int {
     CHANGE_THEORY,
     LEARN_MA,
     UNLOCK_RECIPES,
+    FORGET_ALL_RECIPES,
+    FORGET_ALL_ITEMS,
     UNLOCK_ALL,
     EDIT_PLAYER,
+    EDIT_MONSTER,
     CONTROL_NPC,
     SPAWN_ARTIFACT,
     SPAWN_CLAIRVOYANCE,
@@ -104,10 +107,11 @@ enum class debug_menu_index : int {
     NORMALIZE_BODY_STAT,
     SIX_MILLION_DOLLAR_SURVIVOR,
     EDIT_FACTION,
+    WRITE_CITY_LIST,
     last
 };
 
-void wisheffect( Character &p );
+void wisheffect( Creature &p );
 void wishitem( Character *you = nullptr );
 void wishitem( Character *you, const tripoint & );
 void wishmonster( const std::optional<tripoint> &p );

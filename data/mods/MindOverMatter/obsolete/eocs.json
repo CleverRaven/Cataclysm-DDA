@@ -1,36 +1,20 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "EOC_PHOTOKIN_CAMOUFLAGE_SWITCHER",
+    "id": "EOC_MOM_GAMELOAD_POWER_LEARNING_VARIABLES_UPDATER",
+    "eoc_type": "EVENT",
+    "required_event": "game_load",
+    "condition": { "math": [ "global_updated_power_learning_variables", "!=", "1" ] },
     "effect": [
-      {
-        "switch": { "math": [ "u_spell_level('photokinetic_camouflage')" ] },
-        "cases": [
-          { "case": 0, "effect": { "u_add_trait": "PHOTOKINETIC_CAMOUFLAGE_1" } },
-          { "case": 4, "effect": { "u_add_trait": "PHOTOKINETIC_CAMOUFLAGE_2" } },
-          { "case": 8, "effect": { "u_add_trait": "PHOTOKINETIC_CAMOUFLAGE_3" } },
-          { "case": 12, "effect": { "u_add_trait": "PHOTOKINETIC_CAMOUFLAGE_4" } },
-          { "case": 16, "effect": { "u_add_trait": "PHOTOKINETIC_CAMOUFLAGE_5" } },
-          { "case": 20, "effect": { "u_add_trait": "PHOTOKINETIC_CAMOUFLAGE_6" } }
-        ]
-      }
+      { "math": [ "global_insight_power_learning_time_low", "=", "43200" ] },
+      { "math": [ "global_insight_power_learning_time_high", "=", "604800" ] },
+      { "math": [ "global_tier_one_power_learning_time_low", "=", "43200" ] },
+      { "math": [ "global_tier_one_power_learning_time_high", "=", "86400" ] },
+      { "math": [ "global_tier_two_power_learning_time_low", "=", "129600" ] },
+      { "math": [ "global_tier_two_power_learning_time_high", "=", "259200" ] },
+      { "math": [ "global_tier_three_power_learning_time_low", "=", "345600" ] },
+      { "math": [ "global_tier_three_power_learning_time_high", "=", "604800" ] },
+      { "math": [ "global_updated_power_learning_variables", "=", "1" ] }
     ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_CLAIR_NIGHT_EYES_SWITCHER",
-    "effect": {
-      "switch": { "math": [ "u_spell_level('clair_night_vision')" ] },
-      "cases": [
-        { "case": 0, "effect": { "u_add_effect": "effect_clair_night_eyes_1", "duration": "PERMANENT" } },
-        { "case": 3, "effect": { "u_add_effect": "effect_clair_night_eyes_2", "duration": "PERMANENT" } },
-        { "case": 6, "effect": { "u_add_effect": "effect_clair_night_eyes_3", "duration": "PERMANENT" } },
-        { "case": 9, "effect": { "u_add_effect": "effect_clair_night_eyes_4", "duration": "PERMANENT" } },
-        { "case": 12, "effect": { "u_add_effect": "effect_clair_night_eyes_5", "duration": "PERMANENT" } },
-        { "case": 15, "effect": { "u_add_effect": "effect_clair_night_eyes_6", "duration": "PERMANENT" } },
-        { "case": 18, "effect": { "u_add_effect": "effect_clair_night_eyes_7", "duration": "PERMANENT" } },
-        { "case": 21, "effect": { "u_add_effect": "effect_clair_night_eyes_8", "duration": "PERMANENT" } }
-      ]
-    }
   }
 ]

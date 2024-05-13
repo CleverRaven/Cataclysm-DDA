@@ -67,7 +67,7 @@
         "fake_skills": [ [ "gun", 8 ], [ "rifle", 8 ] ],
         "fake_dex": 8,
         "fake_per": 8,
-        "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
+        "condition": { "test_eoc": "is_disarmed" },
         "require_targeting_player": false,
         "ranges": [ [ 2, 10, "DEFAULT" ] ],
         "description": "The hunter hurls a barbed javelin at you!"
@@ -127,14 +127,58 @@
     "id": "mon_crocodile",
     "type": "MONSTER",
     "name": "crocodile",
-    "copy-from": "mon_gator",
-    "//": "A copy of the standard mon_gator (from reptile_amphibian.json) with a different description to match the lizardfolk lore.  Lizardfolk Shamans are able to shapeshift into crocodile form.",
     "description": "A once-and-future lizardfolk shaman, this large crocodile no longer has any hint of any humanoid characteristics and looks very, very dangerous.",
+    "//": "A copy of the standard mon_gator (now from Crazy Cataclysm) with a different description to match the lizardfolk lore.  Lizardfolk Shamans are able to shapeshift into crocodile form.",
     "default_faction": "lizardfolk",
+    "bodytype": "gator",
     "species": [ "LIZARDFOLK" ],
+    "volume": "108500 ml",
+    "weight": "120 kg",
+    "hp": 90,
+    "speed": 90,
+    "material": [ "flesh" ],
     "symbol": "C",
+    "color": "light_green",
+    "aggression": 30,
+    "morale": 50,
+    "melee_skill": 4,
+    "melee_dice": 1,
+    "melee_dice_sides": 10,
+    "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],
+    "dodge": 2,
+    "vision_day": 3,
+    "vision_night": 35,
+    "families": [ "prof_intro_biology", "prof_physiology" ],
     "harvest": "lizardfolk",
+    "dissect": "dissect_lizard_sample_large",
+    "grab_strength": 50,
+    "special_attacks": [
+      {
+        "id": "bite_grab",
+        "cooldown": 20,
+        "accuracy": 6,
+        "damage_max_instance": [
+          { "damage_type": "stab", "amount": 9, "armor_multiplier": 0.5 },
+          { "damage_type": "bash", "amount": 27, "armor_multiplier": 0.5 }
+        ],
+        "infection_chance": 50
+      }
+    ],
+    "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
+    "fear_triggers": [ "FIRE", "HURT" ],
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
-    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "GROUP_MORALE", "NO_BREATHE" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "GRABS",
+      "SMELLS",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "PUSH_MON",
+      "SWIMS",
+      "GROUP_MORALE",
+      "NO_BREATHE"
+    ],
+    "armor": { "bash": 6, "cut": 8, "bullet": 6 }
   }
 ]

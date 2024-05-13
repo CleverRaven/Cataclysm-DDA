@@ -1297,7 +1297,7 @@
     "alias": [ "t_strconcr_h_brown", "t_strconc_v_brown" ],
     "name": "reinforced brown concrete wall",
     "looks_like": "t_wall_brown",
-    "description": "Reinfoced concrete wall painted brown.",
+    "description": "Reinforced concrete wall painted brown.",
     "symbol": "LINE_OXOX",
     "color": "brown",
     "move_cost": 0,

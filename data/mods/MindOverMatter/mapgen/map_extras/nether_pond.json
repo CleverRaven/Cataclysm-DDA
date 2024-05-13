@@ -4,32 +4,6 @@
     "method": "json",
     "update_mapgen_id": "mx_nether_pond",
     "object": {
-      "rows": [
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        "
-      ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
       "place_nested": [ { "chunks": [ "nether_pond_chunk" ], "x": [ 2, 11 ], "y": [ 2, 11 ] } ]
     }

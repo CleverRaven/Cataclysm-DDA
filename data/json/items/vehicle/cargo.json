@@ -12,8 +12,8 @@
     "techniques": [ "DEF_DISARM" ],
     "volume": "22500 ml",
     "category": "veh_parts",
-    "price": 10000,
-    "price_postapoc": 50,
+    "price": "100 USD",
+    "price_postapoc": "50 cent",
     "qualities": [ [ "COOK", 1 ] ],
     "melee_damage": { "bash": 20 }
   },
@@ -24,8 +24,8 @@
     "description": "A collection of pipes, cams, and straps, mounted on the edge of a vehicle and used to support another vehicle for transport.  It must be mounted on a vehicle to be used.",
     "weight": "4000 g",
     "volume": "6250 ml",
-    "price": 16000,
-    "price_postapoc": 50,
+    "price": "160 USD",
+    "price_postapoc": "50 cent",
     "category": "veh_parts",
     "material": [ "steel", "plastic" ],
     "symbol": "]",
@@ -44,8 +44,8 @@
     "category": "veh_parts",
     "weight": "500 g",
     "volume": "250 ml",
-    "price": 800,
-    "price_postapoc": 50
+    "price": "8 USD",
+    "price_postapoc": "50 cent"
   },
   {
     "type": "GENERIC",
@@ -62,8 +62,8 @@
     "description": "A simple bike basket.  It is small and foldable.",
     "weight": "1200 g",
     "volume": "5 L",
-    "price": 3500,
-    "price_postapoc": 50,
+    "price": "35 USD",
+    "price_postapoc": "50 cent",
     "copy-from": "basket"
   },
   {
@@ -78,8 +78,8 @@
     "material": [ "steel", "plastic" ],
     "volume": "50 L",
     "category": "veh_parts",
-    "price": 40000,
-    "price_postapoc": 500,
+    "price": "400 USD",
+    "price_postapoc": "5 USD",
     "melee_damage": { "bash": 2 }
   },
   {
@@ -93,8 +93,8 @@
     "volume": "50 L",
     "material": [ "steel", "plastic" ],
     "category": "veh_parts",
-    "price": 20000,
-    "price_postapoc": 500,
+    "price": "200 USD",
+    "price_postapoc": "5 USD",
     "melee_damage": { "bash": 2 }
   },
   {
@@ -104,8 +104,8 @@
     "description": "A heavy frame outfitted with tie-downs and attachment points for carrying cargo, with additional railings to keep a large animal in place.  It is meant to hold large animals for transport.  Use it on a suitable animal to capture, use it on an empty tile to release.",
     "weight": "96000 g",
     "volume": "62500 ml",
-    "price": 48000,
-    "price_postapoc": 750,
+    "price": "480 USD",
+    "price_postapoc": "7 USD 50 cent",
     "category": "veh_parts",
     "material": [ "steel", "plastic" ],
     "symbol": "]",
@@ -126,8 +126,8 @@
     "category": "veh_parts",
     "weight": "27600 g",
     "volume": "18750 ml",
-    "price": 37500,
-    "price_postapoc": 750
+    "price": "375 USD",
+    "price_postapoc": "7 USD 50 cent"
   },
   {
     "id": "animal_locker",

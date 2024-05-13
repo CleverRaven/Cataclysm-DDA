@@ -31,6 +31,7 @@
 #include "item.h"
 #include "json.h"
 #include "line.h"
+#include "localized_comparator.h"
 #include "magic_enchantment.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -2487,23 +2488,45 @@ void spellcasting_callback::spell_info_text( const spell &sp, int width )
     info_txt.emplace_back( );
 
     const bool cost_encumb = sp.energy_cost_encumbered( pc );
-    std::string cost_string = cost_encumb ? _( "Casting Cost (impeded)" ) : _( "Casting Cost" );
-    std::string energy_cur = sp.energy_source() == magic_energy_type::hp ? "" :
-                             string_format( _( " (%s current)" ), sp.energy_cur_string( pc ) );
-    if( !pc.magic->has_enough_energy( pc, sp ) ) {
-        cost_string = colorize( _( "Not Enough Energy" ), c_red );
-        energy_cur.clear();
-    }
-    info_txt.emplace_back(
-        colorize( string_format( "%s: %s %s%s", cost_string, sp.energy_cost_string( pc ),
-                                 sp.energy_string(), energy_cur ), c_light_gray ) );
-
+    const bool is_psi = sp.has_flag( spell_flag::PSIONIC );
+    if( is_psi ) {
+        std::string cost_string = cost_encumb ? _( "Channeling Cost (impeded)" ) : _( "Channeling Cost" );
+        std::string energy_cur = sp.energy_source() == magic_energy_type::hp ? "" :
+                                 string_format( _( " (%s current)" ), sp.energy_cur_string( pc ) );
+        if( !pc.magic->has_enough_energy( pc, sp ) ) {
+            cost_string = colorize( _( "Not Enough Stamina" ), c_red );
+            energy_cur.clear();
+        }
+        info_txt.emplace_back(
+            colorize( string_format( "%s: %s %s%s", cost_string, sp.energy_cost_string( pc ),
+                                     sp.energy_string(), energy_cur ), c_light_gray ) );
+    } else {
+        std::string cost_string = cost_encumb ? _( "Casting Cost (impeded)" ) : _( "Casting Cost" );
+        std::string energy_cur = sp.energy_source() == magic_energy_type::hp ? "" :
+                                 string_format( _( " (%s current)" ), sp.energy_cur_string( pc ) );
+        if( !pc.magic->has_enough_energy( pc, sp ) ) {
+            cost_string = colorize( _( "Not Enough Energy" ), c_red );
+            energy_cur.clear();
+        }
+        info_txt.emplace_back(
+            colorize( string_format( "%s: %s %s%s", cost_string, sp.energy_cost_string( pc ),
+                                     sp.energy_string(), energy_cur ), c_light_gray ) );
+    };
     const bool c_t_encumb = sp.casting_time_encumbered( pc );
-    info_txt.emplace_back(
-        colorize( string_format( "%s: %s", c_t_encumb ? _( "Casting Time (impeded)" ) : _( "Casting Time" ),
-                                 moves_to_string( sp.casting_time( pc ) ) ), c_t_encumb  ? c_red : c_light_gray ) );
+    if( is_psi ) {
+        info_txt.emplace_back(
+            colorize( string_format( "%s: %s",
+                                     c_t_encumb ? _( "Channeling Time (impeded)" ) : _( "Channeling Time" ),
+                                     moves_to_string( sp.casting_time( pc ) ) ), c_t_encumb  ? c_red : c_light_gray ) );
 
-    info_txt.emplace_back( );
+        info_txt.emplace_back( );
+    } else {
+        info_txt.emplace_back(
+            colorize( string_format( "%s: %s", c_t_encumb ? _( "Casting Time (impeded)" ) : _( "Casting Time" ),
+                                     moves_to_string( sp.casting_time( pc ) ) ), c_t_encumb  ? c_red : c_light_gray ) );
+
+        info_txt.emplace_back( );
+    };
 
     std::string targets;
     if( sp.is_valid_target( spell_target::none ) ) {
@@ -2743,8 +2766,10 @@ int known_magic::select_spell( Character &guy )
 
     std::vector<std::pair<std::string, std::string>> categories;
     for( const spell *s : known_spells ) {
-        if( s->can_cast( guy ) && s->spell_class().is_valid() ) {
-            categories.emplace_back( s->spell_class().str(), s->spell_class().obj().name() );
+        if( s->can_cast( guy ) && ( s->spell_class().is_valid() || s->spell_class() == trait_NONE ) ) {
+            const std::string spell_class_name = s->spell_class() == trait_NONE ? _( "Classless" ) :
+                                                 s->spell_class().obj().name();
+            categories.emplace_back( s->spell_class().str(), spell_class_name );
             std::sort( categories.begin(), categories.end(), []( const std::pair<std::string, std::string> &a,
             const std::pair<std::string, std::string> &b ) {
                 return localized_compare( a.second, b.second );
@@ -2766,9 +2791,13 @@ int known_magic::select_spell( Character &guy )
         {
             return guy.magic->is_favorite( known_spells[entry.retval]->id() );
         }
-        return known_spells[entry.retval]->spell_class().is_valid() && known_spells[entry.retval]->spell_class().str() == key;
+        return ( known_spells[entry.retval]->spell_class().is_valid() || known_spells[entry.retval]->spell_class() == trait_NONE ) && known_spells[entry.retval]->spell_class().str() == key;
     } );
-    spell_menu.set_category( "all" );
+    if( !favorites.empty() ) {
+        spell_menu.set_category( "favorites" );
+    } else {
+        spell_menu.set_category( "all" );
+    }
 
     std::set<int> used_invlets{ cb.reserved_invlets };
 

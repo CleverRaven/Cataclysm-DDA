@@ -179,6 +179,10 @@ struct mutation_branch {
         bool purifiable = false;
         // True if it's a threshold itself, and shouldn't be obtained *easily* (False by default).
         bool threshold = false;
+        // Other threshold traits that are taken as acceptable replacements for this threshold
+        std::vector<trait_id> threshold_substitutes;
+        // Disallow threshold substitution for this trait in particular
+        bool strict_threshreq = false;
         // True if this is a trait associated with professional training/experience, so profession/quest ONLY.
         bool profession = false;
         // True if the mutation is obtained through the debug menu
@@ -200,7 +204,7 @@ struct mutation_branch {
         // Allow soft (fabric) gear on restricted body parts
         bool allow_soft_gear  = false;
         // IF any of the four are true, it drains that as the "cost"
-        bool fatigue       = false;
+        bool sleepiness       = false;
         bool hunger        = false;
         bool thirst        = false;
         // How many points it costs in character creation
@@ -554,6 +558,7 @@ bool b_is_higher_trait_of_a( const trait_id &trait_a, const trait_id &trait_b );
 bool are_opposite_traits( const trait_id &trait_a, const trait_id &trait_b );
 bool are_same_type_traits( const trait_id &trait_a, const trait_id &trait_b );
 bool contains_trait( std::vector<string_id<mutation_branch>> traits, const trait_id &trait );
+int get_total_nonbad_in_category( const mutation_category_id &categ );
 
 enum class mutagen_technique : int {
     consumed_mutagen,

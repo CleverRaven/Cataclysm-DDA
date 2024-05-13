@@ -22,6 +22,8 @@
 
 static const efftype_id effect_grabbed( "grabbed" );
 
+static const ter_str_id ter_t_rock_wall( "t_rock_wall" );
+
 static const trait_id trait_ALBINO( "ALBINO" );
 static const trait_id trait_SUNBURN( "SUNBURN" );
 
@@ -507,8 +509,8 @@ TEST_CASE( "suffering_from_asphyxiation", "[char][suffer][oxygen][grab]" )
 
         map &here = get_map();
         WHEN( "crushed against two walls by two grabbers" ) {
-            here.ter_set( dummy.pos() + tripoint_south, t_rock_wall );
-            here.ter_set( dummy.pos() + tripoint_north, t_rock_wall );
+            here.ter_set( dummy.pos() + tripoint_south, ter_t_rock_wall );
+            here.ter_set( dummy.pos() + tripoint_north, ter_t_rock_wall );
             REQUIRE( here.impassable( dummy.pos() + tripoint_south ) );
             REQUIRE( here.impassable( dummy.pos() + tripoint_north ) );
 

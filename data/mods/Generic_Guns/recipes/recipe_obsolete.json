@@ -266,42 +266,12 @@
   },
   {
     "type": "recipe",
-    "result": "rifle_9mm",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "rifle_40",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "rifle_44",
     "obsolete": true
   },
   {
     "type": "recipe",
-    "result": "rifle_45",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "rifle_38",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "rifle_380",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "rifle_32",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "rifle_9x18",
     "obsolete": true
   },
   {

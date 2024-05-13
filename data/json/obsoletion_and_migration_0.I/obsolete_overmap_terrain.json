@@ -55,6 +55,11 @@
   },
   {
     "type": "oter_id_migration",
+    "//": "migrated in 0.I",
+    "oter_ids": { "city_center": "road_nesw_manhole" }
+  },
+  {
+    "type": "oter_id_migration",
     "//": "obsoleted in 0.G, but no migration in 0.G so to be removed after 0.I stable",
     "oter_ids": {
       "apartments_con_tower_001_east": "omt_obsolete",
@@ -175,12 +180,18 @@
       "rural_road_3way_forest_east": "rural_road_forest_esw",
       "rural_road_3way_forest_south": "rural_road_forest_nsw",
       "rural_road_3way_forest_west": "rural_road_forest_new",
-      "dirt_road_forest_3way_north": "rural_road_forest_esw",
-      "dirt_road_forest_3way_east": "rural_road_forest_nsw",
-      "dirt_road_forest_3way_south": "rural_road_forest_new",
-      "dirt_road_forest_3way_west": "rural_road_forest_nes",
-      "cabin_liam_driveway": "rural_road_forest_ns"
+      "dirt_road_3way_forest_north": "rural_road_forest_esw",
+      "dirt_road_3way_forest_east": "rural_road_forest_nsw",
+      "dirt_road_3way_forest_south": "rural_road_forest_new",
+      "dirt_road_3way_forest_west": "rural_road_forest_nes",
+      "cabin_liam_driveway": "rural_road_forest_ns",
+      "cabin_liam_driveway_north": "rural_road_forest_ns"
     }
+  },
+  {
+    "type": "oter_id_migration",
+    "//": "migrated in 0.I, were stopped from spawning in 2019 but never obsoleted/migrated so just adding this to be safe",
+    "oter_ids": { "hellmouth": "empty_rock", "rift": "empty_rock" }
   },
   {
     "type": "oter_id_migration",

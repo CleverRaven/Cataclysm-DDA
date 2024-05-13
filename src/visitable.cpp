@@ -475,7 +475,7 @@ VisitResponse map_cursor::visit_items(
     tripoint p = pos();
 
     // check furniture pseudo items
-    if( here.furn( p ) != f_null ) {
+    if( here.furn( p ) != furn_str_id::NULL_ID() ) {
         itype_id it_id = here.furn( p )->crafting_pseudo_item;
         if( it_id.is_valid() ) {
             item it( it_id );

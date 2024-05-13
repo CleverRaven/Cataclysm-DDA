@@ -41,6 +41,7 @@
 #include "rng.h"
 #include "text_snippets.h"
 #include "translations.h"
+#include "uistate.h"
 #include "units.h"
 
 static const activity_id ACT_PULL_CREATURE( "ACT_PULL_CREATURE" );
@@ -78,13 +79,12 @@ static const trait_id trait_M_BLOOM( "M_BLOOM" );
 static const trait_id trait_M_FERTILE( "M_FERTILE" );
 static const trait_id trait_M_PROVENANCE( "M_PROVENANCE" );
 static const trait_id trait_NAUSEA( "NAUSEA" );
+static const trait_id trait_ROBUST( "ROBUST" );
 static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
 static const trait_id trait_SNAIL_TRAIL( "SNAIL_TRAIL" );
 static const trait_id trait_TREE_COMMUNION( "TREE_COMMUNION" );
 static const trait_id trait_VOMITOUS( "VOMITOUS" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
-
-static const vitamin_id vitamin_instability( "instability" );
 
 namespace io
 {
@@ -170,6 +170,51 @@ bool Character::has_base_trait( const trait_id &b ) const
 {
     // Look only at base traits
     return my_traits.find( b ) != my_traits.end();
+}
+
+int Character::get_instability_per_category( const mutation_category_id &categ ) const
+{
+    int mut_count = 0;
+    bool robust = has_trait( trait_ROBUST );
+    // For each and every trait we have...
+    for( const trait_id &mut : get_mutations() ) {
+        // only count muts that have 0 or more points, aren't a threshold, have a category, and aren't a base trait.
+        if( mut.obj().points > -1 && !mut.obj().threshold && !mut.obj().category.empty() &&
+            !has_base_trait( mut ) ) {
+            bool in_categ = false;
+            // If among all allowed categories the mutation has, the input category is one of them.
+            for( const mutation_category_id &Ch_cat : mut.obj().category ) {
+                if( Ch_cat == categ ) {
+                    in_categ = true;
+                }
+            }
+
+            const int height = mutation_height( mut );
+
+            // Thus add 1 point if it's in the tree we mutate into, otherwise add 2 points
+            // or, if we have Robust Genetics, treat all mutations as in-tree.
+            if( in_categ || robust ) {
+                mut_count += height * 1;
+            } else {
+                mut_count += height * 2;
+            }
+        }
+    }
+    return mut_count;
+}
+
+int get_total_nonbad_in_category( const mutation_category_id &categ )
+{
+    int mut_count = 0;
+
+    // Iterate through all available traits in this category and count every one that isn't bad or the threshold.
+    for( const trait_id &traits_iter : mutations_category[categ] ) {
+        const mutation_branch &mdata = traits_iter.obj();
+        if( mdata.points > -1 && !mdata.threshold ) {
+            mut_count += 1;
+        }
+    }
+    return mut_count;
 }
 
 void Character::toggle_trait( const trait_id &trait_, const std::string &var_ )
@@ -291,9 +336,9 @@ bool Character::can_power_mutation( const trait_id &mut ) const
 {
     bool hunger = mut->hunger && get_kcal_percent() < 0.5f;
     bool thirst = mut->thirst && get_thirst() >= 260;
-    bool fatigue = mut->fatigue && get_fatigue() >= fatigue_levels::EXHAUSTED;
+    bool sleepiness = mut->sleepiness && get_sleepiness() >= sleepiness_levels::EXHAUSTED;
 
-    return !hunger && !fatigue && !thirst;
+    return !hunger && !sleepiness && !thirst;
 }
 
 void Character::mutation_reflex_trigger( const trait_id &mut )
@@ -697,7 +742,7 @@ void Character::activate_mutation( const trait_id &mut )
     trait_data &tdata = my_mutations[mut];
     int cost = mdata.cost;
     // You can take yourself halfway to Near Death levels of hunger/thirst.
-    // Fatigue can go to Exhausted.
+    // Sleepiness can go to Exhausted.
     if( !can_power_mutation( mut ) ) {
         // Insufficient Foo to *maintain* operation is handled in player::suffer
         add_msg_if_player( m_warning, _( "You feel like using your %s would kill you!" ),
@@ -719,8 +764,8 @@ void Character::activate_mutation( const trait_id &mut )
         if( mdata.thirst ) {
             mod_thirst( cost );
         }
-        if( mdata.fatigue ) {
-            mod_fatigue( cost );
+        if( mdata.sleepiness ) {
+            mod_sleepiness( cost );
         }
         tdata.powered = true;
         recalc_sight_limits();
@@ -982,27 +1027,30 @@ bool Character::mutation_ok( const trait_id &mutation, bool allow_good, bool all
     return true;
 }
 
-bool Character::roll_bad_mutation() const
+bool Character::roll_bad_mutation( const mutation_category_id &categ ) const
 {
+    // We will never have worse odds than this no matter our instability
+    float MAX_BAD_CHANCE = 0.67;
+    // or, if we have Robust, cap it lower.
+
     bool ret = false;
-    //Instability value at which bad mutations become possible
-    const float I0 = 900.0;
-    //Instability value at which good and bad mutations are equally likely
-    const float I50 = 2800.0;
 
-    //Static to avoid recalculating this every time - std::log is not constexpr
-    static const float exp = std::log( 2 ) / std::log( I50 / I0 );
+    // The following values are, respectively, the total number of non-bad traits in a category and
+    int muts_max = get_total_nonbad_in_category( categ );
+    // how many good mutations we have in total. Mutations which don't belong to the tree we're mutating towards count double for this value. Starting traits don't count at all.
+    int insta_actual = get_instability_per_category( categ );
 
-    if( vitamin_get( vitamin_instability ) == 0 ) {
-        add_msg_debug( debugmode::DF_MUTATION, "No instability, no bad mutations allowed" );
+    if( insta_actual == 0 ) {
+        add_msg_debug( debugmode::DF_MUTATION, "No mutations yet, no bad mutations allowed" );
         return ret;
     } else {
-        //A curve that is 0 until I0, crosses 0.5 at I50, then slowly approaches 1
-        float chance = std::max( 0.0f, 1 - std::pow( I0 / vitamin_get( vitamin_instability ), exp ) );
+        // When we have a total instability score equal to the number of non-bad mutations in the tree, our odds of good/bad are 50/50.
+        float chance = 0.5 * static_cast<float>( insta_actual ) / static_cast<float>( muts_max );
+        chance = std::min( chance, MAX_BAD_CHANCE );
         ret = rng_float( 0, 1 ) < chance;
         add_msg_debug( debugmode::DF_MUTATION,
-                       "Bad mutation chance caused by instability %.1f, roll_bad_mutation returned %s", chance,
-                       ret ? "true" : "false" );
+                       "%s is the instability category chosen, which has %d total good traits.  Adjusted instability score for the category is %d, giving a chance of bad mut of %.3f.",
+                       categ.c_str(), muts_max, insta_actual, chance );
         return ret;
     }
 }
@@ -1025,12 +1073,6 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
         allow_good = true;
         allow_bad = true;
         try_opposite = false;
-    } else if( roll_bad_mutation() ) {
-        // If we picked bad, mutation can be bad or neutral
-        allow_bad = true;
-    } else {
-        // Otherwise, can be good or neutral
-        allow_good = true;
     }
 
     add_msg_debug( debugmode::DF_MUTATION, "mutate: true_random_chance %d",
@@ -1048,6 +1090,14 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
         cat = *cat_list.pick();
         cat_list.add_or_replace( cat, 0 );
         add_msg_debug( debugmode::DF_MUTATION, "Picked category %s", cat.c_str() );
+        // Only decide if it's good or bad after we pick the category.
+        if( roll_bad_mutation( cat ) ) {
+            // If we picked bad, mutation can be bad or neutral.
+            allow_bad = true;
+        } else {
+            // Otherwise, can be good or neutral.
+            allow_good = true;
+        }
     } else {
         // This is fairly direct in explaining why it fails - hopefully it'll help folks to learn the system without needing to read docs
         add_msg_if_player( m_bad,
@@ -1241,7 +1291,7 @@ void Character::mutate_category( const mutation_category_id &cat, const bool use
         // Mutation selector and true_random overrides good / bad mutation rolls
         allow_good = true;
         allow_bad = true;
-    } else if( roll_bad_mutation() ) {
+    } else if( roll_bad_mutation( cat ) ) {
         // If we picked bad, mutation can be bad or neutral
         allow_bad = true;
     } else {
@@ -1588,6 +1638,19 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
                            threshreq[i].c_str() );
             c_has_threshreq = true;
         }
+        for( const trait_id &subst : threshreq[i]->threshold_substitutes ) {
+            if( has_trait( subst ) ) {
+                add_msg_debug( debugmode::DF_MUTATION, "mutate_towards: substitute threshold %s found",
+                               subst.c_str() );
+                if( mdata.strict_threshreq ) {
+                    add_msg_debug( debugmode::DF_MUTATION,
+                                   "mutate_towards: …but no threshold substitutions allowed for trait %s",
+                                   subst.c_str(), mdata.name() );
+                    continue;
+                }
+                c_has_threshreq = true;
+            }
+        }
     }
 
     // No crossing The Threshold by simply not having it
@@ -1613,8 +1676,6 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
                            mut_vit.c_str(), vitamin_get( mut_vit ), vitamin_cost );
             vitamin_mod( mut_vit, -vitamin_cost );
             add_msg_debug( debugmode::DF_MUTATION, "mutate_towards: vitamin level %d", vitamin_get( mut_vit ) );
-            // No instability necessary for true random mutations - they are, after all, true random
-            vitamin_mod( vitamin_instability, vitamin_cost );
         } else {
             add_msg_debug( debugmode::DF_MUTATION, "mutate_towards: vitamin %s level %d below vitamin cost %d",
                            mut_vit.c_str(), vitamin_get( mut_vit ), vitamin_cost );

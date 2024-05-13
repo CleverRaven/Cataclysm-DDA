@@ -46,7 +46,7 @@
       { "group": "default_zombie_clothes", "prob": 100 },
       { "group": "wallets", "prob": 80 },
       { "group": "homebooks", "prob": 5 },
-      { "item": "heavy_flashlight", "prob": 80, "charges-min": 12, "charges-max": 74 },
+      { "item": "heavy_flashlight", "prob": 80, "charges": [ 12, 74 ] },
       { "group": "default_zombie_items_bags_small", "prob": 50 },
       { "group": "default_zombie_items_pockets", "count": [ 1, 2 ], "prob": 50 },
       { "group": "feral_humans_crystal_drops_photo", "prob": 30 }
@@ -60,7 +60,7 @@
       { "group": "default_zombie_clothes", "prob": 100 },
       { "group": "wallets", "prob": 80 },
       { "group": "homebooks", "prob": 5 },
-      { "item": "lighter", "count": [ 1, 3 ], "prob": 80, "charges-min": 12, "charges-max": 74 },
+      { "item": "lighter", "count": [ 1, 3 ], "prob": 80, "charges": [ 12, 74 ] },
       { "group": "default_zombie_items_bags_small", "prob": 50 },
       { "group": "default_zombie_items_pockets", "count": [ 1, 2 ], "prob": 50 },
       { "group": "feral_humans_crystal_drops_pyro", "prob": 30 }
