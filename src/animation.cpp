@@ -843,6 +843,18 @@ void game::draw_cursor( const tripoint &p ) const
 }
 #endif
 
+void game::draw_cursor_unobscuring( const tripoint_bub_ms &p ) const
+{
+    const tripoint_rel_ms rp = relative_view_pos( *this, p );
+    mvwputch_inv( w_terrain, ( rp.xy() + point_north_east ).raw(), c_cyan, "↙" );
+    mvwputch_inv( w_terrain, ( rp.xy() + point_south_east ).raw(), c_cyan, "↖" );
+    mvwputch_inv( w_terrain, ( rp.xy() + point_north_west ).raw(), c_cyan, "↘" );
+    mvwputch_inv( w_terrain, ( rp.xy() + point_south_west ).raw(), c_cyan, "↗" );
+#if defined(TILES)
+    tilecontext->init_draw_cursor( p );
+#endif
+}
+
 #if defined(TILES)
 void game::draw_highlight( const tripoint_bub_ms &p )
 {
