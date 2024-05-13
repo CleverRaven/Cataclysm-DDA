@@ -512,6 +512,20 @@
   },
   {
     "type": "EXTERNAL_OPTION",
+    "name": "DAYS_PER_EXTRA_NPC_SKILL_LEVEL",
+    "info": "How many days post-cataclysm need to pass for each extra skill level increase for randomly generated NPCs.",
+    "stype": "int",
+    "value": 7
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "EXTRA_NPC_SKILL_LEVEL_CAP",
+    "info": "The maximum skill level randomly generated NPCs can get from DAYS_PER_EXTRA_NPC_SKILL_LEVEL.",
+    "stype": "int",
+    "value": 7
+  },
+  {
+    "type": "EXTERNAL_OPTION",
     "name": "ETERNAL_WEATHER",
     "info": "Sets eternal weather.  Possible values are 'normal', 'clear', 'cloudy', 'light_drizzle', 'drizzle', 'rain', 'rainstorm', 'thunder', 'lightning', 'flurries', 'snowing', 'snowstorm', 'early_portal_storm', 'portal_storm'.  'normal' clears all eternal weather overrides and sets normal weather pattern.  Requires restart of the game after changing value to take effect.",
     "stype": "string_input",

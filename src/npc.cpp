@@ -144,7 +144,6 @@ static const skill_id skill_pistol( "pistol" );
 static const skill_id skill_rifle( "rifle" );
 static const skill_id skill_shotgun( "shotgun" );
 static const skill_id skill_smg( "smg" );
-static const skill_id skill_speech( "speech" );
 static const skill_id skill_stabbing( "stabbing" );
 static const skill_id skill_throw( "throw" );
 static const skill_id skill_unarmed( "unarmed" );
@@ -633,10 +632,25 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
         set_skill_level( skill.ident(), level );
     }
 
-    //A universal barter boost to keep NPCs competitive with players
-    //The int boost from trade wasn't active... now that it is, most
-    //players will vastly outclass npcs in trade without a little help.
-    mod_skill_level( skill_speech, rng( 2, 4 ) );
+    const int cataclysm_days = to_days<int>( calendar::turn - calendar::start_of_cataclysm );
+    const int days_per_level = get_option<int>( "DAYS_PER_EXTRA_NPC_SKILL_LEVEL" );
+    const int npc_levels_gained = cataclysm_days / days_per_level;
+    const int level_cap = get_option<int>( "EXTRA_NPC_SKILL_LEVEL_CAP" );
+
+    for( int i = 0; i < npc_levels_gained; i++ ) {
+        const SkillLevelMap &skills_map = get_all_skills();
+        const std::pair<const skill_id, SkillLevel> &pair = random_entry( skills_map );
+        int level = get_skill_level( pair.first );
+        if( level >= level_cap ) {
+            // no skills for you today, roll is wasted
+            // It gets harder and harder to level as they get more skilled
+            continue;
+        } else {
+            set_skill_level( pair.first, level + 1 ); //add one to the level
+        }
+
+    }
+
 
     set_body();
     recalc_hp();
