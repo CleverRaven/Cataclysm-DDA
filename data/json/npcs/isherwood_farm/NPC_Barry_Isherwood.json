@@ -11,7 +11,8 @@
     "mission": 7,
     "chat": "TALK_ISHERWOOD_BARRY_RESCUE",
     "mission_offered": "MISSION_ISHERWOOD_BARRY_1",
-    "faction": "isherwood_family"
+    "faction": "isherwood_family",
+    "death_eocs": [ "EOC_BARRY_ISHERWOOD_DIE" ]
   },
   {
     "type": "npc_class",

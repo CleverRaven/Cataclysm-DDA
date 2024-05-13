@@ -347,5 +347,37 @@
       { "math": [ "isherwood_luke_truck_status", "++" ] }
     ],
     "false_effect": [ { "queue_eocs": "EOC_LUKE_RETRIEVE_TRUCK_END", "time_in_future": 100 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BARRY_ISHERWOOD_DIE",
+    "eoc_type": "NPC_DEATH",
+    "effect": [ { "queue_eocs": "EOC_BARRY_ISHERWOOD_DIE_TRUE_EFFECT", "time_in_future": 1 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BARRY_ISHERWOOD_DIE_TRUE_EFFECT",
+    "global": true,
+    "effect": [
+      { "finish_mission": "MISSION_ISHERWOOD_CHRIS_1", "success": false },
+      { "set_string_var": "true", "target_var": { "global_val": "is_barry_dead" } },
+      {
+        "if": { "math": [ "isherwood_family_coming", "==", "1" ] },
+        "then": [
+          { "set_string_var": "blames_themselves", "target_var": { "global_val": "isherwood_barry_death_opinion" } },
+          { "mapgen_update": "isherwood_rescue_remove_npcs", "om_terrain": "rural_road" },
+          {
+            "u_location_variable": { "global_val": "isherwood_mission_sucess_return_map" },
+            "target_params": { "om_terrain": "horse_farm_isherwood_13", "search_range": 500, "z": 0 },
+            "furniture": "f_sofa",
+            "target_max_radius": 30,
+            "min_radius": 0,
+            "max_radius": 0
+          },
+          { "u_teleport": { "global_val": "isherwood_mission_sucess_return_map" }, "force": true }
+        ],
+        "else": { "set_string_var": "blames_you", "target_var": { "global_val": "isherwood_barry_death_opinion" } }
+      }
+    ]
   }
 ]
