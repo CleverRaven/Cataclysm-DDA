@@ -63,7 +63,7 @@
       },
       {
       "id": "deck_of_tarot_cards",
-        "name": { "str": "Deck of tarot cards", "str_pl": "Decks tarot of cards" },
+        "name": { "str": "deck of tarot cards", "str_pl": "decks tarot of cards" },
         "description": "A deck of tarot cards. Commonly used for the practice of divination. Each card has a unique and highly symbolic picture.",
         "weight": 2
       },
@@ -658,7 +658,7 @@
     "price": "20 USD",
     "price_postapoc": "5 USD",
     "material": [ "wood" ],
-    "symbol": "o",
+    "symbol": "?",
     "color": "red",
     "flags": [ "NO_REPAIR" ],
     "use_action": [ "PLAY_GAME" ],
