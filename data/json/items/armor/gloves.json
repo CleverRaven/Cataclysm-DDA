@@ -1053,18 +1053,18 @@
   {
     "id": "xl_gloves_wool_fingerless",
     "type": "ARMOR",
-    "name": { "str": "pair of XL fingerless wool gloves", "str_pl": "pairs of XL fingerless wool gloves" },
+    "name": { "str": "pair of fingerless wool gloves", "str_pl": "pairs of fingerless wool gloves" },
     "copy-from": "gloves_wool_fingerless",
     "proportional": { "weight": 1.4, "volume": 1.4 },
-    "flags": [ "OVERSIZE" ]
+    "flags": [ "OVERSIZE", "PREFIX_XL" ]
   },
   {
     "id": "xs_gloves_wool_fingerless",
     "type": "ARMOR",
     "copy-from": "gloves_wool_fingerless",
-    "name": { "str": "pair of XS fingerless wool gloves", "str_pl": "pairs of XS fingerless wool gloves" },
+    "name": { "str": "pair of fingerless wool gloves", "str_pl": "pairs of fingerless wool gloves" },
     "proportional": { "weight": 0.75, "volume": 0.75 },
-    "flags": [ "UNDERSIZE" ]
+    "flags": [ "UNDERSIZE", "PREFIX_XS" ]
   },
   {
     "id": "gloves_work",

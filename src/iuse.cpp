@@ -4887,7 +4887,6 @@ static bool heat_item( Character &p )
     }
     p.add_msg_if_player( m_info, _( "You start heating up the food." ) );
     p.assign_activity( ACT_HEATING, duration );
-    p.i_add_or_drop( *heat );
     p.activity.targets.emplace_back( p, heat );
     return true;
 }
@@ -8183,10 +8182,10 @@ static bool heat_items( Character *p, item *it, bool liquid_items, bool solid_it
                      itm.where() == item_location::type::container ||
                      get_map().has_flag_furn( ter_furn_flag::TFLAG_LIQUIDCONT, itm.position() ) );
         }, _( "Heat up what?" ), 1, _( "You don't have any appropriate food to heat up." ) );
-        to_heat = {{loc, 1}};
-        if( to_heat.empty() ) {
+        if( !loc ) {
             return false;
         }
+        to_heat = {{loc, 1}};
     } else if( multiple == true ) {
         available_volume = it->max_containable_volume();
         const inventory_filter_preset preset( [liquid_items,
@@ -8784,6 +8783,19 @@ std::optional<int> iuse::measure_resonance( Character *p, item *it, const tripoi
 
 
     return 0;
+}
+
+std::optional<int> iuse::change_outfit( Character *p, item *it, const tripoint & )
+{
+    if( !p->is_avatar() ) {
+        debugmsg( "NPC %s tried to swap outfit", p->get_name() );
+        return std::nullopt;
+    }
+
+    p->assign_activity( outfit_swap_actor( item_location{*p, it} ) );
+
+    // Deleting the item we activated is handled in outfit_swap_actor::finish
+    return std::nullopt;
 }
 
 std::optional<int> iuse::electricstorage( Character *p, item *it, const tripoint & )

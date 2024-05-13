@@ -10,7 +10,7 @@ users:
     - casswedson
     # curator
     - Maleclypse
-    # voluntiers
+    # volunteers
     - Termineitor244
     - Faalagorn
     - Ilysen
@@ -47,6 +47,7 @@ users:
     - Bobtron
     - DPavonis
     - Amnestasia
+    - TealcOneill
 
 keywords:
   - name: confirm-bug

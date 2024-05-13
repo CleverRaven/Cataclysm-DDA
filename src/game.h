@@ -782,6 +782,9 @@ class game
         // TODO: Get rid of untyped overload
         void draw_cursor( const tripoint &p ) const;
         void draw_cursor( const tripoint_bub_ms &p ) const;
+        // Tiles: equivalent to draw_cusor
+        // Curses: draws diagonal arrows pointing at the tile so the target tile isn't obscured
+        void draw_cursor_unobscuring( const tripoint_bub_ms &p ) const;
         // Draw a highlight graphic at p, for example when examining something.
         // TILES only, in curses this does nothing
         // TODO: Get rid of untyped overload
