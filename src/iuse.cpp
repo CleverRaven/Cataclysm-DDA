@@ -8786,6 +8786,19 @@ std::optional<int> iuse::measure_resonance( Character *p, item *it, const tripoi
     return 0;
 }
 
+std::optional<int> iuse::change_outfit( Character *p, item *it, const tripoint & )
+{
+    if( !p->is_avatar() ) {
+        debugmsg( "NPC %s tried to swap outfit", p->get_name() );
+        return std::nullopt;
+    }
+
+    p->assign_activity( outfit_swap_actor( item_location{*p, it} ) );
+
+    // Deleting the item we activated is handled in outfit_swap_actor::finish
+    return std::nullopt;
+}
+
 std::optional<int> iuse::electricstorage( Character *p, item *it, const tripoint & )
 {
     // From item processing

@@ -163,6 +163,33 @@
     ]
   },
   {
+    "id": "outfit_storage",
+    "type": "TOOL",
+    "category": "container",
+    "name": { "str": "set of clothes", "str_pl": "sets of clothes" },
+    "description": "A bundle of presses, coat hangars, and other miscellaneous items needed to store and keep a good change of clothes.  You can interact with it to swap to the clothes it's currently containing, or disassemble it to get the clothes back.",
+    "weight": "1 kg",
+    "volume": "1 L",
+    "longest_side": "150 cm",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": -3,
+    "use_action": [ "CHANGE_OUTFIT" ],
+    "material": [ "plastic" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "100 L",
+        "max_contains_weight": "100 kg",
+        "rigid": false,
+        "moves": 1000
+      }
+    ],
+    "symbol": "#",
+    "color": "black",
+    "flags": [ "SINGLE_USE", "NO_SALVAGE", "NO_RELOAD" ]
+  },
+  {
     "id": "box_paper_small",
     "type": "GENERIC",
     "category": "container",
