@@ -26,7 +26,7 @@
     "id": "EOC_EATER_DRAIN_2",
     "condition": { "math": [ "u_val('mana')", ">=", "150" ] },
     "effect": [ { "u_cast_spell": { "id": "eater_drain_mana" } }, { "u_message": "You feel a sudden emptiness.", "type": "bad" } ],
-    "false_effect": [ { "run_eocs": "EOC_EATER_DRAIN_2" } ]
+    "false_effect": [ { "run_eocs": "EOC_EATER_DRAIN_3" } ]
   },
   {
     "type": "effect_on_condition",
