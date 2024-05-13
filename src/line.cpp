@@ -8,7 +8,7 @@
 
 #include "cata_assert.h"
 #include "enums.h"
-#include "line_coordinates.h"
+//####include "line_coordinates.h"
 #include "math_defines.h"
 #include "output.h"
 #include "string_formatter.h"
@@ -223,7 +223,7 @@ void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
 
 //Trying to pull points out of a tripoint vector is messy and
 //probably slow, so leaving two full functions for now
-std::vector<point> line_to( const point &p1, const point &p2, int t )
+std::vector<point> line_to( const point &p1, const point &p2, int t, int t2 )
 {
     std::vector<point> line;
     // Preallocate the number of cells we need instead of allocating them piecewise.
@@ -253,22 +253,6 @@ std::vector <tripoint> line_to( const tripoint &loc1, const tripoint &loc2, int 
             line.push_back( new_point );
             return true;
         } );
-    }
-    return line;
-}
-
-std::vector <tripoint_bub_ms> line_to( const tripoint_bub_ms &loc1, const tripoint_bub_ms &loc2,
-                                       int t, int t2 )
-{
-    std::vector<tripoint_bub_ms> line;
-
-    // Crap implementation, but the bresenham stuff is hostile to other tritypes. It's possible a macro (or 'lambda')
-    // version of bresenham capable of handling all tripoint types can be created.
-    const std::vector<tripoint> intermediate = line_to( loc1.raw(), loc2.raw(), t, t2 );
-    line.reserve( intermediate.size() );
-    for( const tripoint &p : intermediate ) {
-        const tripoint_bub_ms tmp = tripoint_bub_ms( p );
-        line.emplace_back( &tmp );
     }
     return line;
 }

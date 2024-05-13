@@ -37,7 +37,6 @@
 #include "item.h"
 #include "level_cache.h"
 #include "line.h"
-#include "line_coordinates.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -1630,7 +1629,7 @@ void editmap::recalc_target( shapetype shape )
         }
         break;
         case editmap_line:
-            target_list = line_to( origin, target, 0, 0 );
+            target_list = line_to( origin, target );
             break;
     }
 }
