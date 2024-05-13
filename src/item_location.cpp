@@ -1157,3 +1157,17 @@ std::unique_ptr<talker> get_talker_for( item_location *it )
     return std::make_unique<talker_item>( it );
 }
 
+bool item_location::can_reload_with( const item_location &ammo, bool now ) const
+{
+    const item_location reloadable = *this;
+    if( reloadable->is_gun() && !reloadable->ammo_default() ) {
+        return false;
+    } else if( reloadable->is_magazine() ) {
+        if( reloadable.has_parent() ) {
+            if( reloadable.parent_item()->is_gun() && !reloadable.parent_item()->ammo_default() ) {
+                return false;
+            }
+        }
+    }
+    return reloadable->can_reload_with( *ammo, now );
+}

@@ -2049,5 +2049,14 @@
     "name": { "str": "Scroll of The Body Mechanical", "str_pl": "Scrolls of The Body Mechanical" },
     "description": "Grant yourself brief reprieves from the effects of pain.",
     "use_action": { "type": "learn_spell", "spells": [ "technomancer_pain_ignore" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_animist_magic_fissile",
+    "//": "Animist spell",
+    "name": { "str": "Rewritten Scroll" },
+    "description": "This scroll has been scribbled over again and again in the handwriting of more than one person.  The notes in the margins imply some sort of departmental competition, but no matter the results you can still make out a functional spell in the mess.",
+    "use_action": { "type": "learn_spell", "spells": [ "animist_magic_fissile" ] }
   }
 ]

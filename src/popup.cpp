@@ -59,7 +59,7 @@ void query_popup_impl::draw_controls()
 
     for( const std::string &line : parent->folded_msg ) {
         nc_color col = parent->default_text_color;
-        draw_colored_text( line, col, float( msg_width ) );
+        draw_colored_text( line, col );
     }
 
     if( !parent->buttons.empty() ) {
@@ -87,10 +87,10 @@ void query_popup_impl::on_resized()
     size_t frame_padding = size_t( ImGui::GetStyle().FramePadding.x * 2 );
     size_t item_padding = size_t( ImGui::GetStyle().ItemSpacing.x );
     // constexpr size_t vert_padding = 1;
-    size_t max_line_width = str_width_to_pixels( FULL_SCREEN_WIDTH );
+    size_t max_line_width = str_width_to_pixels( FULL_SCREEN_WIDTH - 3 );
 
     // Fold message text
-    parent->folded_msg = foldstring( parent->text, max_line_width );
+    parent->folded_msg = foldstring( parent->text, FULL_SCREEN_WIDTH - 3 );
 
     // Fold query buttons
     const auto &folded_query = fold_query( parent->category, parent->pref_kbd_mode,

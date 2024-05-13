@@ -68,6 +68,7 @@
 #include "units_utility.h"
 #include "value_ptr.h"
 #include "veh_type.h"
+#include "veh_shape.h"
 #include "veh_utils.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
@@ -129,8 +130,17 @@ static void act_vehicle_unload_fuel( vehicle *veh );
 
 player_activity veh_interact::serialize_activity()
 {
-    const auto *pt = sel_vehicle_part;
-    const auto *vp = sel_vpart_info;
+    const vehicle_part *pt = sel_vehicle_part;
+    const vpart_info *vp = sel_vpart_info;
+
+    if( sel_cmd == 'p' ) {
+        if( !parts_here.empty() ) {
+            const vpart_reference part_here( *veh, parts_here[0] );
+            const vpart_reference displayed_part( *veh, veh->part_displayed_at( part_here.mount() ) );
+            return veh_shape( *veh ).start( tripoint_bub_ms( displayed_part.pos() ) );
+        }
+        return player_activity();
+    }
 
     if( sel_cmd == 'q' || sel_cmd == ' ' || !vp ) {
         return player_activity();
@@ -550,8 +560,7 @@ void veh_interact::do_main_loop()
                 finish = do_unload();
             }
         } else if( action == "CHANGE_SHAPE" ) {
-            // purely comestic
-            do_change_shape();
+            sel_cmd = 'p';
         } else if( action == "ASSIGN_CREW" ) {
             if( owned_by_player ) {
                 do_assign_crew();
@@ -1981,42 +1990,6 @@ static void do_change_shape_menu( vehicle_part &vp )
     smenu.query();
     if( smenu.ret >= 0 ) {
         vp.variant = variants[smenu.ret];
-    }
-}
-
-void veh_interact::do_change_shape()
-{
-    if( cant_do( 'p' ) == task_reason::INVALID_TARGET ) {
-        msg = _( "No valid vehicle parts here." );
-        return;
-    }
-
-    restore_on_out_of_scope<std::optional<std::string>> prev_title( title );
-    title = _( "Choose part to change shape:" );
-
-    shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
-    restore_on_out_of_scope<int> prev_hilight_part( highlight_part );
-
-    int part_selected = 0;
-
-    while( true ) {
-        vehicle_part &vp = veh->part( parts_here[part_selected] );
-
-        highlight_part = part_selected;
-        overview_enable = [this, part_selected]( const vehicle_part & pt ) {
-            return &pt == &veh->part( part_selected );
-        };
-
-        ui_manager::redraw();
-        const std::string action = main_context.handle_input();
-
-        if( action == "QUIT" ) {
-            break;
-        } else if( action == "CONFIRM" || action == "CHANGE_SHAPE" ) {
-            do_change_shape_menu( vp );
-        } else {
-            move_in_list( part_selected, action, parts_here.size() );
-        }
     }
 }
 

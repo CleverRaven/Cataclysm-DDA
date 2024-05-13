@@ -626,14 +626,14 @@ void editmap::draw_main_ui_overlay()
                 for( int y = 0; y < SEEY * 2; y++ ) {
                     const tripoint tmp_p( x, y, target.z );
                     const tripoint map_p = origin_p + tmp_p;
-                    g->draw_radiation_override( map_p, tmpmap.get_radiation( tmp_p ) );
+                    g->draw_radiation_override( tripoint_bub_ms( map_p ), tmpmap.get_radiation( tmp_p ) );
                     // scent is managed in `game` instead of `map`, so there's no override for it
                     // temperature is managed in `game` instead of `map`, so there's no override for it
                     // TODO: visibility could be affected by both the actual map and the preview map,
                     // which complicates calculation, so there's no override for it (yet)
                     g->draw_terrain_override( map_p, tmpmap.ter( tmp_p ) );
                     g->draw_furniture_override( map_p, tmpmap.furn( tmp_p ) );
-                    g->draw_graffiti_override( map_p, tmpmap.has_graffiti_at( tmp_p ) );
+                    g->draw_graffiti_override( tripoint_bub_ms( map_p ), tmpmap.has_graffiti_at( tmp_p ) );
                     g->draw_trap_override( map_p, tmpmap.tr_at( tmp_p ).loadid );
                     g->draw_field_override( map_p, tmpmap.field_at( tmp_p ).displayed_field_type() );
                     const maptile &tile = tmpmap.maptile_at( tmp_p );
@@ -659,7 +659,7 @@ void editmap::draw_main_ui_overlay()
                     } else {
                         g->draw_vpart_override( map_p, vpart_id::NULL_ID(), 0, 0_degrees, false, point_zero );
                     }
-                    g->draw_below_override( map_p,
+                    g->draw_below_override( tripoint_bub_ms( map_p ),
                                             tmpmap.ter( tmp_p ).obj().has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) );
                 }
             }
@@ -684,7 +684,8 @@ void editmap::draw_main_ui_overlay()
                 }
             }
             for( const auto &it : spawns ) {
-                g->draw_monster_override( it.first, std::get<0>( it.second ), std::get<1>( it.second ),
+                g->draw_monster_override( tripoint_bub_ms( it.first ), std::get<0>( it.second ),
+                                          std::get<1>( it.second ),
                                           std::get<2>( it.second ), std::get<3>( it.second ) );
             }
         } else {
