@@ -1970,15 +1970,15 @@ void map::set_map_damage( const tripoint_bub_ms &p, int dmg )
     return current_submap->set_map_damage( l, dmg );
 }
 
-uint8_t map::get_known_connections( const tripoint &p,
+uint8_t map::get_known_connections( const tripoint_bub_ms &p,
                                     const std::bitset<NUM_TERCONN> &connect_group,
-                                    const std::map<tripoint, ter_id> &override ) const
+                                    const std::map<tripoint_bub_ms, ter_id> &override ) const
 {
     if( connect_group.none() ) {
         return 0;
     }
 
-    const level_cache &ch = access_cache( p.z );
+    const level_cache &ch = access_cache( p.z() );
     uint8_t val = 0;
     std::function<bool( const tripoint & )> is_memorized;
     avatar &player_character = get_avatar();
@@ -1999,11 +1999,11 @@ uint8_t map::get_known_connections( const tripoint &p,
 #endif
 
     const bool overridden = override.find( p ) != override.end();
-    const bool is_transparent = ch.transparency_cache[p.x][p.y] > LIGHT_TRANSPARENCY_SOLID;
+    const bool is_transparent = ch.transparency_cache[p.x()][p.y()] > LIGHT_TRANSPARENCY_SOLID;
 
     // populate connection information
     for( int i = 0; i < 4; ++i ) {
-        tripoint neighbour = p + offsets[i];
+        tripoint_bub_ms neighbour = p + offsets[i];
         if( !inbounds( neighbour ) ) {
             continue;
         }
@@ -2011,10 +2011,10 @@ uint8_t map::get_known_connections( const tripoint &p,
         const bool neighbour_overridden = neighbour_override != override.end();
         // if there's some non-memory terrain to show at the neighboring tile
         const bool may_connect = neighbour_overridden ||
-                                 get_visibility( ch.visibility_cache[neighbour.x][neighbour.y],
+                                 get_visibility( ch.visibility_cache[neighbour.x()][neighbour.y()],
                                          get_visibility_variables_cache() ) == visibility_type::CLEAR ||
                                  // or if an actual center tile is transparent or next to a memorized tile
-                                 ( !overridden && ( is_transparent || is_memorized( neighbour ) ) );
+                                 ( !overridden && ( is_transparent || is_memorized( neighbour.raw() ) ) );
         if( may_connect ) {
             const ter_t &neighbour_terrain = neighbour_overridden ?
                                              neighbour_override->second.obj() : ter( neighbour ).obj();
@@ -2027,9 +2027,9 @@ uint8_t map::get_known_connections( const tripoint &p,
     return val;
 }
 
-uint8_t map::get_known_rotates_to( const tripoint &p,
+uint8_t map::get_known_rotates_to( const tripoint_bub_ms &p,
                                    const std::bitset<NUM_TERCONN> &rotate_to_group,
-                                   const std::map<tripoint, ter_id> &override ) const
+                                   const std::map<tripoint_bub_ms, ter_id> &override ) const
 {
     if( rotate_to_group.none() ) {
         return CHAR_MAX;
@@ -2039,7 +2039,7 @@ uint8_t map::get_known_rotates_to( const tripoint &p,
 
     // populate connection information
     for( int i = 0; i < 4; ++i ) {
-        tripoint neighbour = p + offsets[i];
+        tripoint_bub_ms neighbour = p + offsets[i];
         if( !inbounds( neighbour ) ) {
             continue;
         }
@@ -9164,6 +9164,29 @@ fake_map::fake_map( const ter_id &ter_type )
 
 fake_map::~fake_map() = default;
 
+small_fake_map::small_fake_map( const ter_id &ter_type )
+{
+    set_abs_sub( tripoint_abs_sm( tripoint_zero ) );
+
+    for( int gridx = 0; gridx < get_my_MAPSIZE(); gridx++ ) {
+        for( int gridy = 0; gridy < get_my_MAPSIZE(); gridy++ ) {
+            for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
+                std::unique_ptr<submap> sm = std::make_unique<submap>();
+
+                sm->set_all_ter( ter_type );
+                sm->set_all_furn( furn_str_id::NULL_ID() );
+                sm->set_all_traps( tr_null );
+
+                setsubmap( get_nonant( { gridx, gridy, gridz } ), sm.get() );
+
+                temp_submaps_.emplace_back( std::move( sm ) );
+            }
+        }
+    }
+}
+
+small_fake_map::~small_fake_map() = default;
+
 void map::set_graffiti( const tripoint &p, const std::string &contents )
 {
     if( !inbounds( p ) ) {
@@ -9225,7 +9248,7 @@ bool map::has_graffiti_at( const tripoint &p ) const
 int map::determine_wall_corner( const tripoint &p ) const
 {
     const std::bitset<NUM_TERCONN> &test_connect_group = ter( p ).obj().connect_to_groups;
-    uint8_t connections = get_known_connections( p, test_connect_group );
+    uint8_t connections = get_known_connections( tripoint_bub_ms( p ), test_connect_group );
     // The bits in connections are SEWN, whereas the characters in LINE_
     // constants are NESW, so we want values in 8 | 2 | 1 | 4 order.
     switch( connections ) {

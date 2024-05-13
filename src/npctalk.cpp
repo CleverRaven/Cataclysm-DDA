@@ -103,6 +103,8 @@ static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_under_operation( "under_operation" );
 
+static const flag_id json_flag_NO_UNLOAD( "NO_UNLOAD" );
+
 static const itype_id fuel_type_animal( "animal" );
 static const itype_id itype_foodperson_mask( "foodperson_mask" );
 static const itype_id itype_foodperson_mask_on( "foodperson_mask_on" );
@@ -4000,91 +4002,143 @@ talk_effect_fun_t::func f_bulk_trade_accept( const JsonObject &jo, std::string_v
     } else {
         dov_quantity.min.dbl_val = -1;
     }
+
     bool is_trade = member == "u_bulk_trade_accept" || member == "npc_bulk_trade_accept";
+
     return [is_trade, is_npc, dov_quantity]( dialogue & d ) {
         talker *seller = d.actor( is_npc );
         talker *buyer = d.actor( !is_npc );
-        item tmp( d.cur_item );
-        int quantity = dov_quantity.evaluate( d );
-        int seller_has = 0;
-        int seller_has_loose = 0;
-        std::vector<item> seller_cans;
-        auto is_canned_item = [&tmp]( const item & e ) {
-            std::vector<const item_pocket *> pockets = e.get_all_contained_pockets();
-            return pockets.size() == 1 &&
-                   pockets[0]->size() == 1 &&
-                   pockets[0]->sealed() &&
-                   pockets[0]->front().type == tmp.type;
-        };
-        if( tmp.count_by_charges() ) {
-            seller_has = seller->charges_of( d.cur_item );
-        } else {
-            std::vector<item *> cans_tmp = seller->items_with( is_canned_item );
-            for( item *it : cans_tmp ) {
-                seller_cans.emplace_back( *it );
-            }
-            seller_has_loose = seller->items_with( [&tmp,
-            &cans_tmp]( const item & e ) {
-                return tmp.type == e.type &&
-                !std::any_of( cans_tmp.begin(), cans_tmp.end(), [&e]( const item * n ) {
-                    return &n->get_all_contained_pockets()[0]->front() == &e;
-                } );
-            } ).size();
-            seller_has = cans_tmp.size() + seller_has_loose;
+        itype_id traded_itype_id = d.cur_item;
+        int number_to_transfer = dov_quantity.evaluate( d );
 
-        }
-        seller_has = ( quantity == -1 ) ? seller_has : std::min( seller_has, quantity );
-        tmp.charges = seller_has;
-        if( is_trade ) {
-            const int npc_debt = d.actor( true )->debt();
-            int price = total_price( *seller, d.cur_item ) * ( is_npc ? -1 : 1 ) + npc_debt;
-            if( d.actor( true )->get_faction() && !d.actor( true )->get_faction()->currency.is_empty() ) {
-                const itype_id &pay_in = d.actor( true )->get_faction()->currency;
-                item pay( pay_in );
-                const int value = d.actor( true )->value( pay );
-                if( value > 0 ) {
-                    int required = price / value;
-                    int buyer_has = required;
-                    if( is_npc ) {
-                        buyer_has = std::min( buyer_has, buyer->charges_of( pay_in ) );
-                        buyer->use_charges( pay_in, buyer_has );
-                    } else {
-                        if( buyer_has == 1 ) {
-                            //~ %1%s is the NPC name, %2$s is an item
-                            popup( _( "%1$s gives you a %2$s." ), buyer->disp_name(),
-                                   pay.tname() );
-                        } else if( buyer_has > 1 ) {
-                            //~ %1%s is the NPC name, %2$d is a number of items, %3$s are items
-                            popup( _( "%1$s gives you %2$d %3$s." ), buyer->disp_name(), buyer_has,
-                                   pay.tname() );
-                        }
-                    }
-                    for( int i = 0; i < buyer_has; i++ ) {
-                        seller->i_add( pay );
-                        price -= value;
-                    }
+        // Use a set! No duplicates! Duplicate pointers will be bad(crash) when we try to remove the item later.
+        std::set<item *> items_to_transfer;
+
+        seller->get_character()->visit_items( [&]( item * visited, item * parent ) {
+            if( visited->typeId() == traded_itype_id ) {
+                if( parent && ( parent->all_pockets_sealed() || visited->made_of( phase_id::LIQUID ) ||
+                                parent->has_flag( json_flag_NO_UNLOAD ) ) ) {
+                    items_to_transfer.emplace( parent );
                 } else {
-                    debugmsg( "%s pays in bulk_trade_accept with faction currency worth 0!",
-                              d.actor( true )->disp_name() );
+                    items_to_transfer.emplace( visited );
                 }
-            } else {
+            }
+            return VisitResponse::NEXT;
+        } );
+
+        if( seller->get_character()->is_avatar() ) {
+            std::string warning = _( "Really continue?  You will hand over the following items:" );
+            int num_warnings = 0;
+            for( item *checked_item : items_to_transfer ) {
+                warning += "\n" + checked_item->tname();
+                num_warnings++;
+                if( !is_trade && num_warnings >= number_to_transfer ) {
+                    break; // bulk donate has a variable number to transfer but bulk trade always takes everything
+                }
+            }
+            if( !query_yn( warning ) ) {
+                return;
+            }
+        }
+
+        if( is_trade ) {
+
+            const int npc_debt = d.actor( true )->debt();
+            int price = total_price( *seller, traded_itype_id ) * ( is_npc ? -1 : 1 ) + npc_debt;
+            if( d.actor( true )->get_faction() && d.actor( true )->get_faction()->currency.is_empty() ) {
                 debugmsg( "%s has no faction currency to pay with in bulk_trade_accept!",
                           d.actor( true )->disp_name() );
+                return; // Fatal, no reasonable way to recover.
             }
+
+            // This can be very confusing, so for the benefit of future contributors I have elected to make the variable names
+            // terribly verbose.
+            const itype_id &currency_type = d.actor( true )->get_faction()->currency;
+            item one_currency_unit( currency_type );
+            const int int_value_of_one_currency_unit = d.actor( true )->value( one_currency_unit );
+            if( int_value_of_one_currency_unit <= 0 ) {
+                debugmsg( "%s pays in bulk_trade_accept with faction currency worth %d!",
+                          d.actor( true )->disp_name(), int_value_of_one_currency_unit );
+                return; // Fatal, no reasonable way to recover.
+            }
+
+            int num_transferred_currency_units = price / int_value_of_one_currency_unit;
+            if( is_npc ) {
+                num_transferred_currency_units = std::min( num_transferred_currency_units,
+                                                 buyer->charges_of( currency_type ) );
+                buyer->use_charges( currency_type, num_transferred_currency_units );
+            } else {
+
+                if( num_transferred_currency_units == 1 ) {
+                    //~ %1%s is the NPC name, %2$s is an item
+                    popup( _( "%1$s gives you a %2$s." ), buyer->disp_name(),
+                           one_currency_unit.tname() );
+                } else if( num_transferred_currency_units > 1 ) {
+                    //~ %1%s is the NPC name, %2$d is a number of items, %3$s are items
+                    popup( _( "%1$s gives you %2$d %3$s." ), buyer->disp_name(), num_transferred_currency_units,
+                           one_currency_unit.tname() );
+                }
+
+            }
+
+            // Currency is actually transferred
+            for( int i = 0; i < num_transferred_currency_units; i++ ) {
+                seller->i_add( one_currency_unit );
+                price -= int_value_of_one_currency_unit;
+            }
+
+            // Tally up debts
             d.actor( true )->add_debt( -npc_debt );
             d.actor( true )->add_debt( price );
-        }
-        if( tmp.count_by_charges() ) {
-            seller->use_charges( d.cur_item, seller_has );
-        } else {
-            seller->use_amount( d.cur_item, seller_has_loose );
-            seller->remove_items_with( is_canned_item );
-        }
-        if( seller_cans.size() != size_t( seller_has ) ) {
-            buyer->i_add( tmp );
-        }
-        for( const item &it : seller_cans ) {
-            buyer->i_add( it );
+
+            // Now let's actually transfer the items!
+            for( item *transferred : items_to_transfer ) {
+                item transfer_copy( *transferred );
+                buyer->i_add_or_drop( transfer_copy );
+
+                auto remove_items_filter = [&]( const item & it ) {
+                    return &it == const_cast<const item *>( transferred );
+                };
+
+                seller->remove_items_with( remove_items_filter );
+            }
+
+
+        } else { // u_bulk_donate
+
+            int number_transferred = 0;
+            for( item *transferred : items_to_transfer ) {
+                item transfer_copy( *transferred );
+                buyer->i_add_or_drop( transfer_copy );
+
+                // Count now, while the item still exists
+                if( transferred->typeId() != traded_itype_id ) {
+                    // Container traded over
+                    if( item( traded_itype_id ).count_by_charges() ) {
+                        number_transferred += transferred->charges_of( traded_itype_id );
+                    } else {
+                        number_transferred += transferred->amount_of( traded_itype_id );
+                    }
+                } else {
+                    // Loose items traded over
+                    if( transferred->count_by_charges() ) {
+                        number_transferred += transferred->charges;
+                    } else {
+                        number_transferred++;
+                    }
+                }
+
+                auto remove_items_filter = [&]( const item & it ) {
+                    return &it == const_cast<const item *>( transferred );
+                };
+
+                seller->remove_items_with( remove_items_filter );
+
+                if( number_transferred >= number_to_transfer ) {
+                    return;
+                }
+            }
+
         }
     };
 }
@@ -4624,6 +4678,31 @@ talk_effect_fun_t::func f_set_condition( const JsonObject &jo, std::string_view 
     return [value, cond]( dialogue & d ) {
         d.set_conditional( value.evaluate( d ), cond );
     };
+}
+
+talk_effect_fun_t::func f_set_item_category_spawn_rates( const JsonObject &jo,
+        std::string_view member )
+{
+    if( jo.has_array( member ) ) {
+        std::set<std::pair<item_category_id, float>> rates;
+        for( const JsonObject joi : jo.get_array( member ) ) {
+            item_category_id cat( joi.get_string( "id" ) );
+            float spawn_rate = joi.get_float( "spawn_rate" );
+            rates.insert( std::make_pair( cat, spawn_rate ) );
+        }
+        return [rates]( dialogue const &/* d */ ) {
+            for( const std::pair<item_category_id, float> &rate : rates ) {
+                rate.first.obj().set_spawn_rate( rate.second );
+            }
+        };
+    } else {
+        JsonObject joi = jo.get_member( member );
+        item_category_id cat( joi.get_string( "id" ) );
+        float spawn_rate = joi.get_float( "spawn_rate" );
+        return [cat, spawn_rate]( dialogue const &/* d */ ) {
+            cat.obj().set_spawn_rate( spawn_rate );
+        };
+    }
 }
 
 talk_effect_fun_t::func f_assign_mission( const JsonObject &jo, std::string_view member )
@@ -6397,6 +6476,7 @@ parsers = {
     { "give_equipment", jarg::object, &talk_effect_fun::f_give_equipment },
     { "set_string_var", jarg::member | jarg::array, &talk_effect_fun::f_set_string_var },
     { "set_condition", jarg::member, &talk_effect_fun::f_set_condition },
+    { "set_item_category_spawn_rates", jarg::member | jarg::array, &talk_effect_fun::f_set_item_category_spawn_rates },
     { "open_dialogue", jarg::member, &talk_effect_fun::f_open_dialogue },
     { "take_control", jarg::member, &talk_effect_fun::f_take_control },
     { "trigger_event", jarg::member, &talk_effect_fun::f_trigger_event },

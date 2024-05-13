@@ -1100,7 +1100,7 @@
     "flags": [ "BLIND_EASY" ],
     "components": [
       [ [ "xacto", 1 ] ],
-      [ [ "saw", 1 ], [ "bow_saw", 1 ] ],
+      [ [ "saw", 1 ], [ "bow_saw", 1 ], [ "saw_bronze", 1 ] ],
       [ [ "leather", 1 ], [ "fur", 1 ], [ "faux_fur", 1 ], [ "felt_patch", 1 ], [ "cotton_patchwork", 1 ] ]
     ]
   },

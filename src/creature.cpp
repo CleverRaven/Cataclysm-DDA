@@ -3004,6 +3004,12 @@ void Creature::draw( const catacurses::window &w, const tripoint &origin, bool i
     }
 }
 
+void Creature::draw( const catacurses::window &w, const tripoint_bub_ms &origin,
+                     bool inverted ) const
+{
+    Creature::draw( w, origin.raw(), inverted );
+}
+
 bool Creature::is_symbol_highlighted() const
 {
     return false;

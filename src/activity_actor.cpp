@@ -5568,6 +5568,87 @@ std::unique_ptr<activity_actor> reel_cable_activity_actor::deserialize( JsonValu
     return actor.clone();
 }
 
+void outfit_swap_actor::start( player_activity &act, Character &who )
+{
+    item fake_storage( outfit_item->typeId() );
+    for( const item_location &worn_item : who.get_visible_worn_items() ) {
+        act.moves_total += who.item_handling_cost( *worn_item ); // Cost of taking it off
+        act.moves_total += who.item_store_cost( *worn_item, fake_storage ); // And putting it away
+    }
+    for( const item *clothing : outfit_item->all_items_top() ) {
+        auto ret = who.can_wear( *clothing );
+        // Note this is checking if we can put something new on, but it might conflict with our current clothing, causing a
+        // spurious failure. Maybe we should strip the player first?
+        if( ret.success() ) {
+            act.moves_total += who.item_wear_cost( *clothing );
+        } else {
+            act.moves_total += who.item_retrieve_cost( *clothing, *outfit_item );
+            // Dropping takes no time? So I guess that's all we need
+        }
+    }
+    act.moves_left = act.moves_total;
+}
+
+void outfit_swap_actor::finish( player_activity &act, Character &who )
+{
+    map &here = get_map();
+    // First, make a new outfit and shove all our existing clothes into it.
+    item new_outfit( outfit_item->typeId() );
+    item_location ground = here.add_item_ret_loc( who.pos(), new_outfit, true );
+    if( !ground ) {
+        debugmsg( "Failed to swap outfits during outfit_swap_actor::finish" );
+        act.set_to_null();
+        return;
+    }
+    // Taken-off items are put in this temporary list, then naturally deleted from the world when the function returns.
+    std::list<item> it_list;
+    for( item_location &worn_item : who.get_visible_worn_items() ) {
+        item outfit_component( *worn_item );
+        if( who.takeoff( worn_item, &it_list ) ) {
+            ground->force_insert_item( outfit_component, pocket_type::CONTAINER );
+        }
+    }
+
+    // Now we have to take clothes out of the one we activated
+    for( item *component : outfit_item->all_items_top() ) {
+        auto ret = who.can_wear( *component );
+        if( ret.success() ) {
+            item_location new_clothes( who, component );
+            who.wear( new_clothes );
+        } else {
+            // For some reason we couldn't wear this item. Maybe the player mutated in the meanwhile, but
+            // drop the item instead of deleting it.
+            here.add_item( who.pos(), *component );
+        }
+    }
+
+    who.i_rem( outfit_item.get_item() );
+
+    // Now we just did a whole bunch of wearing and taking off at once, but we had already paid that movecost by doing the activity
+    // So we reset our moves
+    who.set_moves( 0 );
+    // TODO: Granularize this and allow resumable swapping if you were interrupted during the activity
+
+    act.set_to_null();
+}
+
+void outfit_swap_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "outfit_item", outfit_item );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> outfit_swap_actor::deserialize( JsonValue &jsin )
+{
+    outfit_swap_actor actor( {} );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "outfit_item", actor.outfit_item );
+    return actor.clone();
+}
+
 void meditate_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = to_moves<int>( 20_minutes );
