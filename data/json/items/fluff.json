@@ -62,7 +62,7 @@
         "weight": 2
       },
       {
-      "id": "deck_of_tarot_cards",
+        "id": "deck_of_tarot_cards",
         "name": { "str": "deck of tarot cards", "str_pl": "decks tarot of cards" },
         "description": "A deck of tarot cards. Commonly used for the practice of divination. Each card has a unique and highly symbolic picture.",
         "weight": 2
