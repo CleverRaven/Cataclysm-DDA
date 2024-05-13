@@ -14469,7 +14469,8 @@ bool item::is_reloadable() const
 {
     if( has_flag( flag_NO_RELOAD ) && !has_flag( flag_VEHICLE ) ) {
         return false; // turrets ignore NO_RELOAD flag
-
+    } else if( is_gun() && !ammo_default() ) {
+        return false; // don't show guns without default ammo defined in reload ui
     }
 
     for( const item_pocket *pocket : contents.get_all_reloadable_pockets() ) {
