@@ -2,6 +2,7 @@
 
 #include <type_traits>
 #include <utility>
+#include <vector>
 
 #include "debug.h"
 #include "generic_factory.h"
@@ -17,13 +18,18 @@ generic_factory<fault_fix> fault_fixes_factory( "fault_fix", "id" );
 std::multimap<fault_fix_id, std::pair<std::string, int>> reqs_temp_storage;
 
 // Have a list of faults by type, the type right now is item prefix to avoid adding more JSON data
-std::map<std::string, std::list<fault_id>> faults_by_type;
+std::map<std::string, std::vector<fault_id>> faults_by_type;
 
 } // namespace
 
-const std::list<fault_id> &faults::get_by_type( const std::string &type )
+const fault_id &faults::random_of_type( const std::string &type )
 {
-    return faults_by_type.at( type );
+    const auto &typed = faults_by_type.find( type );
+    if( typed == faults_by_type.end() ) {
+        debugmsg( "there are no faults with type '%s'", type );
+        return fault_id::NULL_ID();
+    }
+    return random_entry_ref( typed->second );
 }
 
 void faults::load_fault( const JsonObject &jo, const std::string &src )
@@ -40,6 +46,7 @@ void faults::reset()
 {
     fault_factory.reset();
     fault_fixes_factory.reset();
+    faults_by_type.clear();
 }
 
 void faults::finalize()
@@ -51,6 +58,11 @@ void faults::finalize()
     for( const fault_fix &const_fix : fault_fixes_factory.get_all() ) {
         fault_fix &fix = const_cast<fault_fix &>( const_fix );
         fix.finalize();
+    }
+    for( const fault &f : fault_factory.get_all() ) {
+        if( !f.type().empty() ) {
+            faults_by_type[f.type()].emplace_back( f.id.str() );
+        }
     }
     reqs_temp_storage.clear();
 }
@@ -133,9 +145,6 @@ void fault::load( const JsonObject &jo, std::string_view )
     optional( jo, was_loaded, "fault_type", type_ );
     optional( jo, was_loaded, "flags", flags );
     optional( jo, was_loaded, "price_modifier", price_modifier, 1.0 );
-    if( !type_.empty() ) {
-        faults_by_type[ std::string( type_ ) ].push_back( id );
-    }
 }
 
 void fault::check() const

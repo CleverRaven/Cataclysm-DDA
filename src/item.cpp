@@ -14132,9 +14132,9 @@ bool item::process_internal( map &here, Character *carrier, const tripoint &pos,
 
         if( wetness && has_flag( flag_WATER_BREAK ) ) {
             deactivate();
-            set_fault( random_entry( faults::get_by_type( std::string( "wet" ) ) ) );
+            set_fault( faults::random_of_type( "wet" ) );
             if( has_flag( flag_ELECTRONIC ) ) {
-                set_fault( random_entry( faults::get_by_type( std::string( "shorted" ) ) ) );
+                set_fault( faults::random_of_type( "shorted" ) );
             }
         }
 

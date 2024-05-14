@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_FAULT_H
 #define CATA_SRC_FAULT_H
 
-#include <list>
 #include <map>
 #include <memory>
 #include <set>
@@ -30,7 +29,7 @@ void reset();
 void finalize();
 void check_consistency();
 
-const std::list<fault_id> &get_by_type( const std::string &type );
+const fault_id &random_of_type( const std::string &type );
 } // namespace faults
 
 class fault_fix
