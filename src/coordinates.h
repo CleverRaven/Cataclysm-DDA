@@ -812,7 +812,7 @@ std::vector < coords::coord_point < Point, Origin, Scale, LhsInBounds && RhsInBo
 
 template<typename Point, coords::origin Origin, coords::scale Scale, bool LhsInBounds, bool RhsInBounds,
          std::enable_if_t<std::is_same_v<Point, tripoint>, int> = 0>
-std::vector < coords::coord_point < Point, Origin, Scale, LhsInBounds &&RhsInBounds >>
+std::vector < coords::coord_point < Point, Origin, Scale, LhsInBounds && RhsInBounds >>
         line_to( const coords::coord_point<Point, Origin, Scale, LhsInBounds> &loc1,
                  const coords::coord_point<Point, Origin, Scale, RhsInBounds> &loc2,
                  const int t = 0, const int t2 = 0 )
