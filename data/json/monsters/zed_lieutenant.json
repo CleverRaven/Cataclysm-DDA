@@ -350,7 +350,8 @@
         "u_message": "You shiver as the night closes in…",
         "type": "bad",
         "popup": true,
-        "popup_w_interrupt_query": true
+        "popup_w_interrupt_query": true,
+        "interrupt_type": "eoc"
       }
     ]
   },
