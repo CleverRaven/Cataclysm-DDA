@@ -104,7 +104,7 @@
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN2"
       },
       {
-        "text": "[i got cop gear to turn over]",
+        "text": "I've got some SWAT gear that should work for the assault.",
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_GEAR" },
@@ -122,7 +122,7 @@
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Turn_Over"
       },
       {
-        "text": "[got all cop gear]",
+        "text": "I've got enough SWAT gear to set everyone up for the assault.",
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_GEAR" },
@@ -141,7 +141,7 @@
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Done"
       },
       {
-        "text": "[LIE: someone took cop gear before I could. sorry]",
+        "text": "[LIE] I tried to get the SWAT gear, but it looks like someone looted it before I could get there.",
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_GEAR" },
@@ -160,7 +160,7 @@
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Fail"
       },
       {
-        "text": "[got da 20 bags]",
+        "text": "I've got enough bags to set up a defensive wall.",
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_WALL_BAGS" },
