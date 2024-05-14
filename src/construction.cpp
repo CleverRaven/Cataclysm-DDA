@@ -952,7 +952,7 @@ construction_id construction_menu( const bool blueprint )
 
         if( select < 0 || static_cast<size_t>( select ) >= constructs.size()
             || con_preview_group != constructs[select] ) {
-            con_preview_group = ( select >= 0 || static_cast<size_t>( select ) < constructs.size() )
+            con_preview_group = ( select >= 0 && static_cast<size_t>( select ) < constructs.size() )
                                 ? constructs[select] : construction_group_str_id::NULL_ID();
             if( con_preview_group.is_null() ) {
                 con_preview.clear();
