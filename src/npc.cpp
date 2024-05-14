@@ -647,7 +647,7 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
         // will have that reflected by the *actual* gained exp.
         mod_focus( calc_focus_equilibrium( true ) - get_focus() );
 
-        practice( pair.first, npc_exp_gained, level_cap );
+        practice( pair.first, npc_exp_gained, level_cap, false, true );
     }
 
 
