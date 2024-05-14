@@ -1750,19 +1750,29 @@
     "responses": [
       {
         "text": "Do you think you know enough to handle the technical side?",
-        "topic": "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_Skills"
+        "condition": { "or": [ { "math": [ "npc_skill('mechanics')", ">=", "5" ] }, { "math": [ "npc_skill('electronics')", ">=", "5" ] } ] },
+        "topic": "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_Skills_hasskills"
+      },
+      {
+        "text": "Do you think you know enough to handle the technical side?",
+        "condition": {
+          "not": { "or": [ { "math": [ "npc_skill('mechanics')", ">=", "5" ] }, { "math": [ "npc_skill('electronics')", ">=", "5" ] } ] }
+        },
+        "topic": "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_Skills_noskills"
       },
       { "text": "Yeah.  I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" }
     ]
   },
   {
     "type": "talk_topic",
-    "id": "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_Skills",
-    "dynamic_line": {
-      "or": [ { "math": [ "npc_skill('mechanics')", ">=", "5" ] }, { "math": [ "npc_skill('electronics')", ">=", "5" ] } ],
-      "yes": "Maybe?  It's hard to say without seeing the machine, but I know my way around enough to at least try.",
-      "no": "What?  Me?  Dismantle a *robot*?  I love that you've got this kind of faith in me, my friend, but my contribution here is going to be a lot more smashy-smashy, less thinky-thinky."
-    },
+    "id": "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_Skills_hasskills",
+    "dynamic_line": "Maybe?  It's hard to say without seeing the machine, but I know my way around enough to at least try.",
+    "responses": [ { "text": "Gotcha.  I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_Liam_Opinions_MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_Skills_noskills",
+    "dynamic_line": "What?  Me?  Dismantle a *robot*?  I love that you've got this kind of faith in me, my friend, but my contribution here is going to be a lot more smashy-smashy, less thinky-thinky.",
     "responses": [ { "text": "Gotcha.  I'd like your opinion on something else.", "topic": "TALK_Liam_Opinions" } ]
   },
   {
@@ -1790,7 +1800,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_Liam_Opinions_BEM_jabberwock_mission",
-    "dynamic_line": "I'm always a fan of a good monster hunt.  Anything that could shake up a merc like that is gonna be pretty serious business, though.  We better pack some heat.",
+    "dynamic_line": "I'm always a fan of a good monster hunt.  Anything that could shake up a merc like that is gonna be pretty serious business, though.  We better pack some heat.  Probably something we can use to take it on at range, I'm not keen to go toe-to-toe with something like that.",
     "responses": [
       {
         "text": "That's your advice for everything.  I'd like your opinion on something else.",
