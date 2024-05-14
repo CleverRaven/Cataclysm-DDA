@@ -182,7 +182,7 @@
           { "value": "ARMOR_BASH", "multiply": -0.1 },
           { "value": "ARMOR_STAB", "multiply": -0.1 },
           { "value": "ARMOR_BULLET", "multiply": -0.1 },
-          { "value": "SPEED", "multiply": 0.1 }
+          { "value": "SPEED", "multiply": 0.03 }
         ]
       }
     ]
@@ -192,7 +192,7 @@
     "id": "effect_monster_inertial_barrier",
     "name": [ "Inertial Barrier" ],
     "desc": [ "A barrier of telekinetic force is protecting you." ],
-    "rating": "good",
+    "show_in_info": true,
     "flags": [ "TELEKIN_SHIELD" ],
     "enchantments": [
       {

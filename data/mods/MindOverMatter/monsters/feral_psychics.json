@@ -1222,6 +1222,19 @@
         "miss_msg_u": "%s stares at you, and you feel a crushing pressure for a moment before the feeling vanishes!",
         "miss_msg_npc": "%s stares at <npcname> but nothing happens!"
       },
+      {
+        "id": "psi_telekin1_momentum_alteration",
+        "type": "spell",
+        "spell_data": { "id": "telekinetic_momentum_monster" },
+        "cooldown": 10,
+        "condition": {
+          "and": [
+            { "not": { "u_has_effect": "effect_psi_null" } },
+            { "not": { "u_has_effect": "effect_monster_momentum_alteration" } }
+          ]
+        },
+        "monster_message": "The air around %1$s wavers."
+      },
       [ "PULL_METAL_WEAPON", 15 ]
     ],
     "flags": [
@@ -1265,7 +1278,6 @@
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "dodge": 3,
-    "armor": { "bash": 15, "cut": 10, "stab": 5, "bullet": 35 },
     "harvest": "human",
     "dissect": "dissect_human_sample_single",
     "vision_day": 45,
@@ -1322,6 +1334,29 @@
         "hit_dmg_npc": "%1$s stares at <npcname> and a powerful force hurls them through the air!",
         "miss_msg_u": "%s stares at you, and you feel a crushing pressure for a moment before the feeling vanishes!",
         "miss_msg_npc": "%s stares at <npcname> but nothing happens!"
+      },
+      {
+        "id": "psi_telekin2_momentum_alteration",
+        "type": "spell",
+        "spell_data": { "id": "telekinetic_momentum_monster" },
+        "cooldown": 1,
+        "condition": {
+          "and": [
+            { "not": { "u_has_effect": "effect_psi_null" } },
+            { "not": { "u_has_effect": "effect_monster_momentum_alteration" } }
+          ]
+        },
+        "monster_message": "The air around %1$s wavers."
+      },
+      {
+        "id": "psi_telekin2_inertial_barrier",
+        "type": "spell",
+        "spell_data": { "id": "telekinetic_barrier_monster" },
+        "cooldown": 1,
+        "condition": {
+          "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "not": { "u_has_effect": "effect_monster_inertial_barrier" } } ]
+        },
+        "monster_message": "The air around %1$s distorts."
       },
       [ "PULL_METAL_WEAPON", 10 ]
     ],
