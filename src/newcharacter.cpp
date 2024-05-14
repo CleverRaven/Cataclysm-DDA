@@ -453,7 +453,6 @@ void avatar::randomize( const bool random_scenario, bool play_now )
 
     prof = get_scenario()->weighted_random_profession();
     init_age = rng( this->prof->age_lower, this->prof->age_upper );
-    randomize_hobbies();
     starting_city = std::nullopt;
     world_origin = std::nullopt;
     random_start_location = true;
@@ -464,6 +463,7 @@ void avatar::randomize( const bool random_scenario, bool play_now )
     per_max = rng( 6, HIGH_STAT - 2 );
 
     set_body();
+    randomize_hobbies();
 
     int num_gtraits = 0;
     int num_btraits = 0;
