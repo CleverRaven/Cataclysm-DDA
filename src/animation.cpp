@@ -491,7 +491,7 @@ void draw_bullet_curses( map &m, const tripoint_bub_ms &t, const char bullet,
 
     shared_ptr_fast<game::draw_callback_t> bullet_cb = make_shared_fast<game::draw_callback_t>( [&]() {
         if( p != nullptr && p->z() == vp.z() ) {
-            m.drawsq( g->w_terrain, *p, drawsq_params().center( vp.raw() ) );
+            m.drawsq( g->w_terrain, *p, drawsq_params().center( vp ) );
         }
         mvwputch( g->w_terrain, t.xy().raw() - vp.xy().raw() + point( POSX, POSY ), c_red, bullet );
     } );
@@ -693,7 +693,7 @@ void draw_line_curses( game &g, const tripoint_bub_ms &center,
 
     avatar &player_character = get_avatar();
     map &here = get_map();
-    drawsq_params params = drawsq_params().highlight( true ).center( center.raw() );
+    drawsq_params params = drawsq_params().highlight( true ).center( center );
     creature_tracker &creatures = get_creature_tracker();
     for( const tripoint_bub_ms &p : ret ) {
         const Creature *critter = creatures.creature_at( p, true );

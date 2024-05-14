@@ -2374,6 +2374,11 @@ std::string map::features( const tripoint &p ) const
     return result;
 }
 
+std::string map::features( const tripoint_bub_ms &p ) const
+{
+    return map::features( p.raw() );
+}
+
 int map::move_cost_internal( const furn_t &furniture, const ter_t &terrain, const field &field,
                              const vehicle *veh,
                              const int vpart ) const
@@ -2698,6 +2703,11 @@ bool map::has_floor( const tripoint &p ) const
     }
     return !has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) &&
            !has_flag( ter_furn_flag::TFLAG_NO_FLOOR_WATER, p );
+}
+
+bool map::has_floor( const tripoint_bub_ms &p ) const
+{
+    return map::has_floor( p.raw() );
 }
 
 bool map::has_floor_or_water( const tripoint &p ) const
@@ -3400,6 +3410,11 @@ bool map::is_outside( const tripoint &p ) const
 
     const auto &outside_cache = get_cache_ref( p.z ).outside_cache;
     return outside_cache[p.x][p.y];
+}
+
+bool map::is_outside( const tripoint_bub_ms &p ) const
+{
+    return map::is_outside( p.raw() );
 }
 
 bool map::is_last_ter_wall( const bool no_furn, const point &p,
@@ -4912,6 +4927,11 @@ int map::get_radiation( const tripoint &p ) const
     return current_submap->get_radiation( l );
 }
 
+int map::get_radiation( const tripoint_bub_ms &p ) const
+{
+    return map::get_radiation( p.raw() );
+}
+
 void map::set_radiation( const tripoint &p, const int value )
 {
     if( !inbounds( p ) ) {
@@ -5858,7 +5878,7 @@ bool map::sees_some_items( const tripoint &p, const Creature &who ) const
     return has_items( p ) && could_see_items( p, who.pos() );
 }
 
-bool map::sees_some_items( const tripoint &p, const tripoint &from ) const
+bool map::sees_some_items( const tripoint_bub_ms &p, const tripoint_bub_ms &from ) const
 {
     return has_items( p ) && could_see_items( p, from );
 }
@@ -5885,6 +5905,11 @@ bool map::could_see_items( const tripoint &p, const tripoint &from ) const
                std::abs( p.z - from.z ) <= 1;
     }
     return true;
+}
+
+bool map::could_see_items( const tripoint_bub_ms &p, const tripoint_bub_ms &from ) const
+{
+    return map::could_see_items( p.raw(), from.raw() );
 }
 
 bool map::has_items( const tripoint &p ) const
@@ -6465,6 +6490,13 @@ int map::set_field_intensity( const tripoint &p, const field_type_id &type,
     }
 
     return 0;
+}
+
+int map::set_field_intensity( const tripoint_bub_ms &p, const field_type_id &type,
+                              const int new_intensity,
+                              bool isoffset )
+{
+    return map::set_field_intensity( p.raw(), type, new_intensity, isoffset );
 }
 
 time_duration map::get_field_age( const tripoint &p, const field_type_id &type ) const
@@ -7076,9 +7108,9 @@ void map::drawsq( const catacurses::window &w, const tripoint &p,
         return;
     }
 
-    const tripoint view_center = params.center();
-    const int k = p.x + getmaxx( w ) / 2 - view_center.x;
-    const int j = p.y + getmaxy( w ) / 2 - view_center.y;
+    const tripoint_bub_ms view_center = params.center();
+    const int k = p.x + getmaxx( w ) / 2 - view_center.x();
+    const int j = p.y + getmaxy( w ) / 2 - view_center.y();
     if( k < 0 || k >= getmaxx( w ) || j < 0 || j >= getmaxy( w ) ) {
         return;
     }
@@ -9140,6 +9172,12 @@ tripoint_range<tripoint_omt_ms> tinymap::points_in_radius(
                                             tripoint_omt_ms( preliminary_result.max() ) );
 }
 
+maptile tinymap::maptile_at( const tripoint_omt_ms &p )
+{
+    return map::maptile_at( rebase_bub( p ) );
+}
+
+
 // set up a map just long enough scribble on it
 // this tinymap should never, ever get saved
 fake_map::fake_map( const ter_id &ter_type )
@@ -9231,6 +9269,11 @@ const std::string &map::graffiti_at( const tripoint &p ) const
     return current_submap->get_graffiti( l );
 }
 
+const std::string &map::graffiti_at( const tripoint_bub_ms &p ) const
+{
+    return map::graffiti_at( p.raw() );
+}
+
 bool map::has_graffiti_at( const tripoint &p ) const
 {
     if( !inbounds( p ) ) {
@@ -9243,6 +9286,11 @@ bool map::has_graffiti_at( const tripoint &p ) const
         return false;
     }
     return current_submap->has_graffiti( l );
+}
+
+bool map::has_graffiti_at( const tripoint_bub_ms &p ) const
+{
+    return map::has_graffiti_at( p.raw() );
 }
 
 int map::determine_wall_corner( const tripoint &p ) const
@@ -9921,6 +9969,11 @@ field &map::get_field( const tripoint &p )
     return field_at( p );
 }
 
+field &map::get_field( const tripoint_bub_ms &p )
+{
+    return field_at( p );
+}
+
 void map::creature_on_trap( Creature &c, const bool may_avoid ) const
 {
     // gliding or boarded in a vehicle means the player is above the trap
@@ -10595,11 +10648,11 @@ std::vector<item_location> map::get_haulable_items( const tripoint &pos )
     return target_items;
 }
 
-tripoint drawsq_params::center() const
+tripoint_bub_ms drawsq_params::center() const
 {
-    if( view_center == tripoint_min ) {
+    if( view_center.raw() == tripoint_min ) {
         avatar &player_character = get_avatar();
-        return player_character.pos() + player_character.view_offset;
+        return player_character.pos_bub() + player_character.view_offset;
     } else {
         return view_center;
     }
