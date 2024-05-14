@@ -56,13 +56,9 @@
           "id": "psi_triffid_flamebreaker_quell",
           "type": "spell",
           "spell_data": { "id": "pyrokinetic_quell_flames_monster", "min_level": 10 },
+          "allow_no_target": true,
           "cooldown": 1,
-          "condition": {
-            "and": [
-              { "not": { "u_has_effect": "effect_psi_null" } },
-              { "or": [ { "npc_is_in_field": "fd_fire" }, { "u_is_in_field": "fd_fire" } ] }
-            ]
-          },
+          "condition": { "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "u_is_in_field": "fd_fire" } ] },
           "monster_message": "%1$s waves its fronds and the flames gutter and die."
         },
         {
