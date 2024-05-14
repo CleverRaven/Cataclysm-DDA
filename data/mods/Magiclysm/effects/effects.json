@@ -86,9 +86,11 @@
     "name": [ "Ethereal Hold" ],
     "desc": [ "Ghostly arms are trying to hold you in place!" ],
     "max_intensity": 4,
+    "int_add_val": 1,
     "apply_message": "Ethereal arms shoot out of the ground and grab onto you!",
     "remove_message": "The ghostly arms fade away.",
-    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": { "math": [ "((u_spell_level('ethereal_grasp') * -0.02) + -0.1)" ] } } ] } ],
+    "base_mods": { "speed_mod": [ -40 ] },
+    "scaling_mods": { "speed_mod": [ -10 ] }
   },
   {
     "type": "effect_type",
@@ -158,9 +160,11 @@
     "name": [ "Root Impale" ],
     "desc": [ "Roots and vines entangle your foes." ],
     "max_intensity": 4,
+    "int_add_val": 1,
     "apply_message": "Roots rip out from the ground and impale your enemies!",
     "remove_message": "The roots wither up and die.",
-    "enchantments": [ { "values": [ { "value": "SPEED", "add": { "math": [ "((u_spell_level('druid_rootstrike') * -1.5) + -10)" ] } } ] } ],
+    "base_mods": { "speed_mod": [ -30 ] },
+    "scaling_mods": { "speed_mod": [ -5 ] }
   },
   {
     "type": "effect_type",
