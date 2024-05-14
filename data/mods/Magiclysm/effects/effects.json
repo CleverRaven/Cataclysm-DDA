@@ -110,9 +110,9 @@
     "enchantments": [
       {
         "values": [
-          { "value": "PERCEPTION", "add": { "math": [ "((u_spell_level('bless') / 6) + 1)" ] } },
-          { "value": "DEXTERITY", "add": { "math": [ "((u_spell_level('bless') / 6) + 1)" ] } },
-          { "value": "STRENGTH", "add": { "math": [ "((u_spell_level('bless') / 6) + 1)" ] } },
+          { "value": "PERCEPTION", "add": { "math": [ "((u_spell_level('bless') / 8) + 1)" ] } },
+          { "value": "DEXTERITY", "add": { "math": [ "((u_spell_level('bless') / 8) + 1)" ] } },
+          { "value": "STRENGTH", "add": { "math": [ "((u_spell_level('bless') / 8) + 1)" ] } },
           { "value": "SPEED", "add": { "math": [ "((u_spell_level('bless') ) + 5)" ] } }
         ]
       }
