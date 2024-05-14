@@ -413,7 +413,7 @@ item::item( const itype_id &id, time_point turn, solitary_tag tag )
 
 safe_reference<item> item::get_safe_reference()
 {
-    return anchor.reference_to( this );
+    return anchor->reference_to( this );
 }
 
 static const item *get_most_rotten_component( const item &craft )
@@ -587,10 +587,10 @@ item::item( const recipe *rec, int qty, item &component )
 }
 
 item::item( const item & ) = default;
-item::item( item && ) noexcept( map_is_noexcept ) = default;
+item::item( item && ) noexcept = default;
 item::~item() = default;
 item &item::operator=( const item & ) = default;
-item &item::operator=( item && ) noexcept( list_is_noexcept ) = default;
+item &item::operator=( item && ) noexcept = default;
 
 item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &name,
                         const int upgrade_time )
@@ -1436,7 +1436,8 @@ bool item::stacks_with( const item &rhs, bool check_components, bool combine_liq
           itype_variant().id != rhs.itype_variant().id ) ) {
         return false;
     }
-    if( ammo_remaining() != 0 && rhs.ammo_remaining() != 0 && is_money() ) {
+    const std::set<ammotype> ammo = ammo_types();
+    if( is_money( ammo ) && ammo_remaining( ammo ) != 0 && rhs.ammo_remaining() != 0 ) {
         // Dealing with nonempty cash cards
         // TODO: Fix cash cards not showing total value. Until that is fixed do not stack cash cards.
         // When that is fixed just change this to true.
@@ -1488,11 +1489,11 @@ bool item::stacks_with( const item &rhs, bool check_components, bool combine_liq
     }
     // Guns that differ only by dirt/shot_counter can still stack,
     // but other item_vars such as label/note will prevent stacking
-    const std::vector<std::string> ignore_keys = { "dirt", "shot_counter", "spawn_location_omt" };
-    if( map_without_keys( item_vars, ignore_keys ) != map_without_keys( rhs.item_vars, ignore_keys ) ) {
+    static const std::set<std::string> ignore_keys = { "dirt", "shot_counter", "spawn_location_omt" };
+    if( !map_equal_ignoring_keys( item_vars, rhs.item_vars, ignore_keys ) ) {
         return false;
     }
-    const std::string omt_loc_var = "spawn_location_omt";
+    static const std::string omt_loc_var = "spawn_location_omt";
     const bool this_has_location = has_var( omt_loc_var );
     const bool that_has_location = has_var( omt_loc_var );
     if( this_has_location != that_has_location ) {
@@ -8601,7 +8602,12 @@ bool item::ready_to_revive( map &here, const tripoint &pos ) const
 
 bool item::is_money() const
 {
-    return ammo_types().count( ammo_money );
+    return is_money( ammo_types() );
+}
+
+bool item::is_money( const std::set<ammotype> &ammo ) const
+{
+    return ammo.count( ammo_money );
 }
 
 bool item::is_cash_card() const
@@ -10670,7 +10676,8 @@ int item::shots_remaining( const Character *carrier ) const
     return ret;
 }
 
-int item::ammo_remaining( const Character *carrier, const bool include_linked ) const
+int item::ammo_remaining( const std::set<ammotype> &ammo, const Character *carrier,
+                          const bool include_linked ) const
 {
     int ret = 0;
 
@@ -10692,7 +10699,6 @@ int item::ammo_remaining( const Character *carrier, const bool include_linked ) 
         }
     }
 
-    std::set<ammotype> ammo = ammo_types();
     // Non ammo using item that uses charges
     if( ammo.empty() ) {
         ret += charges;
@@ -10728,6 +10734,11 @@ int item::ammo_remaining( const Character *carrier, const bool include_linked ) 
     }
 
     return ret;
+}
+int item::ammo_remaining( const Character *carrier, const bool include_linked ) const
+{
+    std::set<ammotype> ammo = ammo_types();
+    return ammo_remaining( ammo, carrier, include_linked );
 }
 
 int item::ammo_remaining( const bool include_linked ) const
