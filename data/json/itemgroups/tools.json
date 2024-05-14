@@ -1070,6 +1070,6 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "dynamite_shipment",
-    "items": [ { "item": "dynamite", "count": [ 5, 9 ] } ]
+    "items": [ { "item": "dynamite", "count": [ 2, 3 ] } ]
   }
 ]
