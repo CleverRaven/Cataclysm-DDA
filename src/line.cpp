@@ -223,7 +223,7 @@ void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
 
 //Trying to pull points out of a tripoint vector is messy and
 //probably slow, so leaving two full functions for now
-std::vector<point> line_to( const point &p1, const point &p2, int t, int /*dummy*/ )
+std::vector<point> line_to( const point &p1, const point &p2, int t )
 {
     std::vector<point> line;
     // Preallocate the number of cells we need instead of allocating them piecewise.
