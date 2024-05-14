@@ -104,6 +104,7 @@
     "subcategory": "CSC_APPLIANCE_UTILITY",
     "copy-from": "minifreezer",
     "skills_required": [ "fabrication", 4 ],
+    "using": [ [ "welding_standard", 600 ] ],
     "proficiencies": [
       { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.1, "learning_time_multiplier": 0.1 },
       { "proficiency": "prof_appliance_repair", "required": false, "skill_penalty": 0 }
@@ -119,9 +120,9 @@
       [ [ "sheet_metal", 30 ] ],
       [ [ "condensor_coil", 1 ] ],
       [ [ "evaporator_coil", 1 ] ],
-      [ [ "cable", 3 ] ],
+      [ [ "cable", 5 ] ],
       [ [ "hose", 1 ] ],
-      [ [ "pipe_fittings", 6 ] ],
+      [ [ "pipe_fittings", 9 ] ],
       [ [ "thermostat", 1 ] ],
       [ [ "motor_tiny", 1 ] ],
       [ [ "refrigerant_tank", 1 ] ],
