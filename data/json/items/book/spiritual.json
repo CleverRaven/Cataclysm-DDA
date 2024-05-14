@@ -675,7 +675,7 @@
     "name": { "str": "Historia Augusta", "str_pl": "copies of the Historia Augusta" },
     "description": "A large, rare hardcover English translation of the Historia Augusta, a collection of biographies of Roman emperors.  It also contains information about the Imperial Roman Cult, including its rituals, symbols, and the role of such emperors in the cult.",
     "weight": "600 g",
-    "volume": "1300 L",
+    "volume": "1300 ml",
     "copy-from": "holybook_abstract"
   },
   {
@@ -723,7 +723,7 @@
     "name": { "str": "Tripitaka Koreana", "str_pl": "copies of the Tripitaka Koreana" },
     "description": "An extremely large, huge English translation of the Tripitaka Koreana, a Korean collection of the Tripitaka that can be considered as the Korean Canon.",
     "weight": "15000 g",
-    "volume": "20000 L",
+    "volume": "20000 ml",
     "copy-from": "holybook_abstract"
   },
   {
@@ -814,7 +814,7 @@
     "name": { "str": "The Four Books and Five Classics", "str_pl": "copies of The Four Books and Five Classics" },
     "description": "A large hardcover book containing the two collections of ancient Chinese texts that have played a significant role in shaping Chinese culture, education, and philosophy.  These texts are considered foundational works in Confucianism and have been studied by scholars and students for centuries.",
     "weight": "1000 g",
-    "volume": "1700 L",
+    "volume": "1700 ml",
     "copy-from": "holybook_abstract"
   },
   {
