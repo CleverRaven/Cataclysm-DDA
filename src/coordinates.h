@@ -814,7 +814,8 @@ template<typename Point, coords::origin Origin, coords::scale Scale, bool LhsInB
          std::enable_if_t<std::is_same_v<Point, tripoint>, int> = 0>
 std::vector < coords::coord_point < Point, Origin, Scale, LhsInBounds &&RhsInBounds >>
         line_to( const coords::coord_point<Point, Origin, Scale, LhsInBounds> &loc1,
-                 const coords::coord_point<Point, Origin, Scale, RhsInBounds> &loc2, int t = 0, int t2 = 0 )
+                 const coords::coord_point<Point, Origin, Scale, RhsInBounds> &loc2,
+                 const int t = 0, const int t2 = 0 )
 {
     std::vector<Point> raw_result = line_to( loc1.raw(), loc2.raw(), t, t2 );
     std::vector < coords::coord_point < Point, Origin, Scale, LhsInBounds &&RhsInBounds >> result;
