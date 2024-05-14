@@ -164,6 +164,13 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_monster_pyrokinetic_fire_immunity",
+    "name": [ "Flame Immunity" ],
+    "desc": [ "You are immune to fire." ],
+    "enchantments": [ { "values": [ { "value": "ARMOR_HEAT", "multiply": -1 } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_monster_momentum_alteration",
     "name": [ "Momentum Alteration" ],
     "desc": [ "You are altering the motion of nearby objects in your favor." ],
