@@ -1606,9 +1606,9 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "30 m",
-    "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 10 ] ], [ [ "clockworks", 2 ] ] ]
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "sheet_metal", 1 ] ], [ [ "clockworks", 3 ] ] ]
   },
   {
     "type": "recipe",
