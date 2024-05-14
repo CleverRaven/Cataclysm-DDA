@@ -810,18 +810,18 @@ std::vector < coords::coord_point < Point, Origin, Scale, LhsInBounds && RhsInBo
     return result;
 }
 
-template<typename Point, coords::origin Origin, coords::scale Scale, bool LhsInBounds, bool RhsInBounds,
-         std::enable_if_t<std::is_same_v<Point, tripoint>, int> = 0>
-std::vector < coords::coord_point < Point, Origin, Scale, LhsInBounds && RhsInBounds >>
-        line_to( const coords::coord_point<Point, Origin, Scale, LhsInBounds> &loc1,
-                 const coords::coord_point<Point, Origin, Scale, RhsInBounds> &loc2,
+template<typename Tripoint, coords::origin Origin, coords::scale Scale, bool LhsInBounds, bool RhsInBounds,
+         std::enable_if_t<std::is_same_v<Tripoint, tripoint>, int> = 0>
+std::vector < coords::coord_point < Tripoint, Origin, Scale, LhsInBounds && RhsInBounds >>
+        line_to( const coords::coord_point<Tripoint, Origin, Scale, LhsInBounds> &loc1,
+                 const coords::coord_point<Tripoint, Origin, Scale, RhsInBounds> &loc2,
                  const int t = 0, const int t2 = 0 )
 {
-    std::vector<Point> raw_result = line_to( loc1.raw(), loc2.raw(), t, t2 );
-    std::vector < coords::coord_point < Point, Origin, Scale, LhsInBounds &&RhsInBounds >> result;
+    std::vector<Tripoint> raw_result = line_to( loc1.raw(), loc2.raw(), t, t2 );
+    std::vector < coords::coord_point < Tripoint, Origin, Scale, LhsInBounds &&RhsInBounds >> result;
     std::transform( raw_result.begin(), raw_result.end(), std::back_inserter( result ),
-    []( const Point & p ) {
-        return coords::coord_point < Point, Origin, Scale, LhsInBounds &&
+    []( const Tripoint & p ) {
+        return coords::coord_point < Tripoint, Origin, Scale, LhsInBounds &&
                RhsInBounds >::make_unchecked( p );
     } );
     return result;
