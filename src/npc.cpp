@@ -633,22 +633,21 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
     }
 
     const int cataclysm_days = to_days<int>( calendar::turn - calendar::start_of_cataclysm );
-    const int days_per_level = get_option<int>( "DAYS_PER_EXTRA_NPC_SKILL_LEVEL" );
-    const int npc_levels_gained = cataclysm_days / days_per_level;
     const int level_cap = get_option<int>( "EXTRA_NPC_SKILL_LEVEL_CAP" );
+    const SkillLevelMap &skills_map = get_all_skills();
+    // Exp actually multiplied by 100 in Character::practice
+    const int min_exp = get_option<int>( "MIN_CATCHUP_EXP_PER_POST_CATA_DAY" );
+    const int max_exp = get_option<int>( "MAX_CATCHUP_EXP_PER_POST_CATA_DAY" );
 
-    for( int i = 0; i < npc_levels_gained; i++ ) {
-        const SkillLevelMap &skills_map = get_all_skills();
+    for( int i = 0; i < cataclysm_days; i++ ) {
+        const int npc_exp_gained = rng( min_exp, max_exp );
         const std::pair<const skill_id, SkillLevel> &pair = random_entry( skills_map );
-        int level = get_skill_level( pair.first );
-        if( level >= level_cap ) {
-            // no skills for you today, roll is wasted
-            // It gets harder and harder to level as they get more skilled
-            continue;
-        } else {
-            set_skill_level( pair.first, level + 1 ); //add one to the level
-        }
 
+        // This resets focus to equilibrium before every practice, so NPCs with bonus learning/focus
+        // will have that reflected by the *actual* gained exp.
+        mod_focus( calc_focus_equilibrium( true ) - get_focus() );
+
+        practice( pair.first, npc_exp_gained, level_cap );
     }
 
 

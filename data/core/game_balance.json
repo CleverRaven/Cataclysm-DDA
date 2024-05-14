@@ -512,15 +512,22 @@
   },
   {
     "type": "EXTERNAL_OPTION",
-    "name": "DAYS_PER_EXTRA_NPC_SKILL_LEVEL",
-    "info": "How many days post-cataclysm need to pass for each extra skill level increase for randomly generated NPCs.",
+    "name": "MIN_CATCHUP_EXP_PER_POST_CATA_DAY",
+    "info": "NPCs generated post-cataclysm will, when initially generated, receive this amount of exp to a random skill for each day that has passed since the Cataclysm.",
     "stype": "int",
-    "value": 7
+    "value": 50
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "MAX_CATCHUP_EXP_PER_POST_CATA_DAY",
+    "info": "Same as above.  This is the second value of rng(min, max) to determine base exp (before other character modifiers).",
+    "stype": "int",
+    "value": 150
   },
   {
     "type": "EXTERNAL_OPTION",
     "name": "EXTRA_NPC_SKILL_LEVEL_CAP",
-    "info": "The maximum skill level randomly generated NPCs can get from DAYS_PER_EXTRA_NPC_SKILL_LEVEL.",
+    "info": "The maximum skill level randomly generated NPCs can achieve via MIN_CATCHUP_EXP_PER_POST_CATA_DAY and MAX_CATCHUP_EXP_PER_POST_CATA_DAY.",
     "stype": "int",
     "value": 7
   },
