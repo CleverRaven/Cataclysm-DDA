@@ -793,7 +793,25 @@ direction direction_from( const coords::coord_point<Point, Origin, Scale, LhsInB
     return direction_from( loc1.raw(), loc2.raw() );
 }
 
-template<typename Point, coords::origin Origin, coords::scale Scale, bool LhsInBounds, bool RhsInBounds>
+template<typename Point, coords::origin Origin, coords::scale Scale, bool LhsInBounds, bool RhsInBounds,
+         std::enable_if_t<std::is_same_v<Point, point>, int> = 0>
+std::vector < coords::coord_point < Point, Origin, Scale, LhsInBounds && RhsInBounds >>
+        line_to( const coords::coord_point<Point, Origin, Scale, LhsInBounds> &loc1,
+                 const coords::coord_point<Point, Origin, Scale, RhsInBounds> &loc2,
+                 const int t = 0 )
+{
+    std::vector<Point> raw_result = line_to( loc1.raw(), loc2.raw(), t );
+    std::vector < coords::coord_point < Point, Origin, Scale, LhsInBounds &&RhsInBounds >> result;
+    std::transform( raw_result.begin(), raw_result.end(), std::back_inserter( result ),
+    []( const Point & p ) {
+        return coords::coord_point < Point, Origin, Scale, LhsInBounds &&
+               RhsInBounds >::make_unchecked( p );
+    } );
+    return result;
+}
+
+template<typename Point, coords::origin Origin, coords::scale Scale, bool LhsInBounds, bool RhsInBounds,
+         std::enable_if_t<std::is_same_v<Point, tripoint>, int> = 0>
 std::vector < coords::coord_point < Point, Origin, Scale, LhsInBounds &&RhsInBounds >>
         line_to( const coords::coord_point<Point, Origin, Scale, LhsInBounds> &loc1,
                  const coords::coord_point<Point, Origin, Scale, RhsInBounds> &loc2, int t = 0, int t2 = 0 )
