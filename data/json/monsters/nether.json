@@ -1427,6 +1427,7 @@
     "families": [ "prof_wp_netherium_abomination" ],
     "weakpoint_sets": [ "wps_netherium_abomination" ],
     "harvest": "exempt",
+    "death_function": { "corpse_type": "NO_CORPSE", "eoc": "EOC_YUGG_DEATH" },
     "special_attacks": [ [ "GENE_STING", 20 ] ],
     "flags": [
       "SEES",
