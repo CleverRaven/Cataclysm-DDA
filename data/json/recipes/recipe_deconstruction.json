@@ -2148,6 +2148,13 @@
     "components": [ [ [ "scrap", 3 ] ], [ [ "clockworks", 2 ] ] ]
   },
   {
+    "result": "bathroom_scale",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "6 m",
+    "components": [ [ [ "sheet_metal_small", 22 ] ], [ [ "clockworks", 3 ] ], [ [ "scrap", 3 ] ] ]
+  },
+  {
     "result": "collarpin",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
