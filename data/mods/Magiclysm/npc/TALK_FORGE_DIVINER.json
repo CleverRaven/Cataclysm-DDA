@@ -756,14 +756,14 @@
         "text": "It's a deal.",
         "topic": "TALK_DONE",
         "condition": { "u_has_item": "denarius" },
-        "effect": [ 
-                    { 
-                      "if": { "one_in_chance": 2 },
-                      "then": { "assign_mission": "MISSION_FORGE_DIVINER_TOWER1" },
-                      "else": { "assign_mission": "MISSION_FORGE_DIVINER_TOWER2" }
-                    }, 
-                    { "u_consume_item": "denarius" } 
-                  ]
+        "effect": [
+          {
+            "if": { "one_in_chance": 2 },
+            "then": { "assign_mission": "MISSION_FORGE_DIVINER_TOWER1" },
+            "else": { "assign_mission": "MISSION_FORGE_DIVINER_TOWER2" }
+          },
+          { "u_consume_item": "denarius" }
+        ]
       },
       {
         "text": "I can't afford that right now.",
