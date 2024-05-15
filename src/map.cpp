@@ -5228,7 +5228,7 @@ item_location map::add_item_ret_loc( const tripoint &pos, item obj, bool overflo
 
 item_location map::add_item_ret_loc( const tripoint_bub_ms &pos, item obj, bool overflow )
 {
-    return map::add_item_ret_loc( pos.raw(), obj, overflow );
+    return map::add_item_ret_loc( pos.raw(), std::move( obj ), overflow );
 }
 
 item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
@@ -5386,7 +5386,7 @@ item &map::add_item( const tripoint &p, item new_item )
 
 item &map::add_item( const tripoint_bub_ms &p, item new_item )
 {
-    return map::add_item( p.raw(), new_item );
+    return map::add_item( p.raw(), std::move( new_item ) );
 }
 
 item &map::add_item( const tripoint &p, item new_item, int copies )
