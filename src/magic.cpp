@@ -2118,6 +2118,8 @@ spell &known_magic::get_spell( const spell_id &sp )
 {
     if( !knows_spell( sp ) ) {
         debugmsg( "ERROR: Tried to get unknown spell" );
+        static spell null_spell_reference( spell_id::NULL_ID() );
+        return null_spell_reference; // Don't make up new spells in our spellbook
     }
     spell &temp_spell = spellbook[ sp ];
     return temp_spell;

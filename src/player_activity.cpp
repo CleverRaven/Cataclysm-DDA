@@ -200,7 +200,7 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
         }
 
         if( type == ACT_SPELLCASTING ) {
-            const std::string spell_name = u.magic->get_spell( spell_id( name ) ).name();
+            const std::string spell_name = spell_id( name )->name.translated();
             extra_info = string_format( "%s …", spell_name );
         }
     }
