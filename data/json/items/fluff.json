@@ -62,6 +62,12 @@
         "weight": 2
       },
       {
+        "id": "deck_of_tarot_cards",
+        "name": { "str": "deck of tarot cards", "str_pl": "decks of tarot cards" },
+        "description": "A deck of tarot cards.  Commonly used for the practice of divination.  Each card has a unique and highly symbolic picture.",
+        "weight": 2
+      },
+      {
         "id": "deck_of_cards_makeshift",
         "name": { "str": "makeshift deck of cards", "str_pl": "makeshift decks of cards" },
         "description": "A deck of 52 makeshift cards, made out of cardboard rectangles with simple designs drawn on them.",
@@ -635,6 +641,23 @@
     "price": "99 cent",
     "price_postapoc": "5 USD",
     "material": [ "plastic" ],
+    "symbol": "?",
+    "color": "red",
+    "flags": [ "NO_REPAIR" ],
+    "use_action": [ "PLAY_GAME" ]
+  },
+  {
+    "id": "ouija",
+    "type": "GENERIC",
+    "category": "other",
+    "name": { "str": "Ouija board" },
+    "description": "A wooden board with the alphabet and numbers on its face.  Commonly used for communing with spirits of the dead.  A planchette is included in the set.",
+    "weight": "357 g",
+    "volume": "1000 ml",
+    "longest_side": "36 cm",
+    "price": "20 USD",
+    "price_postapoc": "5 USD",
+    "material": [ "wood" ],
     "symbol": "?",
     "color": "red",
     "flags": [ "NO_REPAIR" ],
