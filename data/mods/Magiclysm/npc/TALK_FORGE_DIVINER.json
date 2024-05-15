@@ -903,10 +903,7 @@
     "id": "TALK_FORGE_LORD_DIVINER_OTHER_FORGE",
     "type": "talk_topic",
     "dynamic_line": "There is only one Forge of Wonders, it's not like this a multidimensional franchise opportunity.",
-    "responses": [
-      { "text": "About something else…", "topic": "TALK_NONE" },
-      { "text": "Nevermind.", "topic": "TALK_DONE" }
-    ]
+    "responses": [ { "text": "About something else…", "topic": "TALK_NONE" }, { "text": "Nevermind.", "topic": "TALK_DONE" } ]
   },
   {
     "id": "TALK_FORGE_LORD_DIVINER_LOVECRAFTIAN",
