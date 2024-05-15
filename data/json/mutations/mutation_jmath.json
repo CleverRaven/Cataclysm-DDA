@@ -18,5 +18,14 @@
     "//example3": "temperature_speed_mod(65, 0.2), but character has mutation, that gives CLIMATE_CONTROL_HEAT 5; it would make you lose 0.2 speed, if temperature around is lower than 60 F; temperature of 55 F would result in `(65-5-55)*0.2 = 5*0.2 = 1` 1 move speed decrease",
     "num_args": 2,
     "return": "min((fahrenheit(weather('temperature')) - _0 + u_climate_control_str_heat()) * _1, 0)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "temperature_sleepiness_mod",
+    "//": "Increases need for sleep, if it's below of some temperature. Never negative",
+    "//_0": "Temperature limit, after which sleepiness starts to change, in farenheit",
+    "//_1": "How many percentage units the sleepiness changes per 1 degree",
+    "num_args": 2,
+    "return": "max(min((fahrenheit(weather('temperature')) - _0 + u_climate_control_str_heat()) * _1, 0), 0)"
   }
 ]

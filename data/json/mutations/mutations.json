@@ -3424,7 +3424,7 @@
     "ugliness": 3,
     "description": "All the hair on your body has turned to long, grass-like leaves.  Apart from being physically striking, these provide you with a minor amount of nutrients while in sunlight when your head is uncovered.  Slightly reduces wet effects.",
     "types": [ "HAIR" ],
-    "prereqs": [ "PLANTSKIN", "BARK" ],
+    "prereqs": [ "PLANTSKIN", "BARK", "BARK2_a", "BARK2_b", "BARK2_c" ],
     "changes_to": [ "LEAVES2" ],
     "category": [ "PLANT", "ELFA" ],
     "wet_protection": [ { "part": "head", "ignored": 1 } ]
@@ -3470,7 +3470,7 @@
     "visibility": 0,
     "ugliness": 0,
     "description": "You body has begun moving nutrients via the evaporation of water.  This increases your thirst when it's hot, but reduces it when it's cold.",
-    "prereqs": [ "PLANTSKIN", "BARK" ],
+    "prereqs": [ "PLANTSKIN", "BARK", "BARK2_a", "BARK2_b", "BARK2_c" ],
     "prereqs2": [ "LEAVES" ],
     "threshreq": [ "THRESH_PLANT" ],
     "category": [ "PLANT" ]
@@ -3483,7 +3483,7 @@
     "visibility": 10,
     "ugliness": -4,
     "description": "You've started blooming where your scalp used to be.  Your blossoms have a pleasant aroma, are visually striking, and are quite sensitive.",
-    "prereqs": [ "PLANTSKIN", "BARK" ],
+    "prereqs": [ "PLANTSKIN", "BARK", "BARK2_a", "BARK2_b", "BARK2_c" ],
     "prereqs2": [ "HAIRROOTS" ],
     "types": [ "SCENT" ],
     "threshreq": [ "THRESH_PLANT", "THRESH_ELFA" ],
@@ -4035,7 +4035,7 @@
     "points": 1,
     "visibility": 1,
     "description": "Your extremities have gained strength but lost fine motor skills.  -1 Dexterity +2 Strength.",
-    "changes_to": [ "GASTROPOD_EXTREMITY2" ],
+    "leads_to": [ "GASTROPOD_EXTREMITY2" ],
     "category": [ "GASTROPOD" ],
     "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 2 }, { "value": "DEXTERITY", "add": -1 } ] } ]
   },
@@ -7497,7 +7497,7 @@
     "ugliness": 5,
     "description": "You have developed several vines sprouting from your shoulder area.  They're bulky, and get in the way.",
     "types": [ "WINGS" ],
-    "prereqs": [ "PLANTSKIN", "BARK" ],
+    "prereqs": [ "PLANTSKIN", "BARK", "BARK2_a", "BARK2_b", "BARK2_c" ],
     "changes_to": [ "VINES2" ],
     "category": [ "PLANT" ],
     "encumbrance_always": [ [ "torso", 10 ] ]
@@ -7511,7 +7511,7 @@
     "ugliness": 5,
     "description": "You've developed the ability to control your vines; they make good lashes.  You can even rappel down sheer drops using them, but disconnecting HURTS.",
     "types": [ "WINGS" ],
-    "prereqs": [ "PLANTSKIN", "BARK" ],
+    "prereqs": [ "PLANTSKIN", "BARK", "BARK2_a", "BARK2_b", "BARK2_c" ],
     "prereqs2": [ "VINES1" ],
     "changes_to": [ "VINES3" ],
     "category": [ "PLANT" ],
@@ -7534,7 +7534,7 @@
     "ugliness": 6,
     "description": "You have full control of your vines, and can grow new ones and detach old ones more or less at will.",
     "types": [ "WINGS" ],
-    "prereqs": [ "PLANTSKIN", "BARK" ],
+    "prereqs": [ "PLANTSKIN", "BARK", "BARK2_a", "BARK2_b", "BARK2_c" ],
     "prereqs2": [ "VINES2" ],
     "threshreq": [ "THRESH_PLANT" ],
     "category": [ "PLANT" ],
@@ -7716,17 +7716,19 @@
     "name": { "str": "Ectothermic" },
     "points": 0,
     "mixed_effect": true,
-    "description": "Your body has become permanently cold-blooded.  Your speed lowers or raises 1% for every 2 (1.1) degrees below or above 65 F (18.3 C).  You eat much less than you otherwise would.",
+    "description": "Your body has become permanently cold-blooded.  Your speed lowers or raises 1% for every 2 (1.1) degrees below or above 65 F (18.3 C).  You eat much less than you otherwise would, and your body has developed trouble staying active and alert while trying to endure extreme cold.",
     "types": [ "ECTOTHERMIC" ],
     "prereqs": [ "COLDBLOOD3" ],
     "threshreq": [ "THRESH_LIZARD", "THRESH_PLANT", "THRESH_BATRACHIAN" ],
     "purifiable": false,
+    "leads_to": [ "RESISTCHILL_RESISTWARM" ],
     "category": [ "LIZARD", "PLANT", "BATRACHIAN" ],
     "enchantments": [
       {
         "values": [
           { "value": "METABOLISM", "multiply": -0.5 },
-          { "value": "SPEED", "add": { "math": [ "temperature_speed_mod(65, 0.5)" ] } }
+          { "value": "SPEED", "add": { "math": [ "temperature_speed_mod(65, 0.5)" ] } },
+          { "value": "SLEEPINESS", "multiply": { "math": [ "temperature_sleepiness_mod(65, -2.5)" ] } }
         ]
       }
     ]
@@ -9533,6 +9535,7 @@
     "description": "You are now even less bothered by the heat and it is harder for you to overheat or even sweat.  When you do though, it'll hit just as hard as it did before.",
     "prereqs": [ "RESISTWARM" ],
     "types": [ "ACCLIMATIZATION" ],
+    "changes_to": [ "RESISTCHILL_RESISTWARM" ],
     "category": [ "FISH", "CEPHALOPOD", "GASTROPOD", "LIZARD", "BATRACHIAN", "PLANT" ],
     "threshreq": [ "THRESH_FISH", "THRESH_CEPHALOPOD", "THRESH_GASTROPOD", "THRESH_LIZARD", "THRESH_BATRACHIAN" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 25 } ] } ]
@@ -9587,7 +9590,9 @@
     "points": 5,
     "valid": true,
     "description": "You are now not at all bothered by the heat and it is harder for you to overheat or freeze at all.  When you do though, it'll hit just as hard as it did before.",
-    "prereqs": [ "RESISTWARM" ],
+    "prereqs": [ "STRONGER_RESISTWARM" ],
+    "prereqs2": [ "COLDBLOOD4" ],
+    "purifiable": false,
     "types": [ "ACCLIMATIZATION" ],
     "category": [ "PLANT" ],
     "threshreq": [ "THRESH_PLANT" ],
