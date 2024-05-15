@@ -147,6 +147,7 @@
     "looks_like": "warhammer",
     "material": [ "concentrated_mana" ],
     "techniques": [ "WBLOCK_2", "BRUTAL", "SWEEP" ],
+    "weapon_category": [ "HOOKING_WEAPONRY", "GREAT_HAMMERS" ],
     "flags": [
       "NONCONDUCTIVE",
       "BELT_CLIP",
@@ -943,6 +944,7 @@
     "type": "GENERIC",
     "copy-from": "longsword",
     "name": { "str": "mage blade" },
+    "weapon_category": [ "MEDIUM_SWORDS" ],
     "description": "This is a summoned mana sword, between the lighter arming sword and later two-handed swords in size.  It glows shiny, and its edge is sharper the more spell level and intelligence you have.",
     "material": [ "concentrated_mana" ],
     "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS", "TRADER_AVOID" ],
