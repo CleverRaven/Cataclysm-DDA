@@ -1,18 +1,6 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "EOC_TEST_TEST_TEST",
-    "effect": [
-      { "math": [ "test_var2", "=", "get_calories_daily() * 0.001" ] },
-      { "u_message": "get_calories_daily():  <global_val:test_var2>" },
-      { "math": [ "test_var", "=", "get_calories_daily('type': 'gained', 'day': '3') * 0.001" ] },
-      { "u_message": "get_calories_daily('type': 'gained', 'day': '3'):  <global_val:test_var>" },
-      { "math": [ "test_var3", "=", "get_calories_daily('type': 'gained', 'day': '-3') * 0.001" ] },
-      { "u_message": "get_calories_daily('type': 'gained', 'day': '-3'):  <global_val:test_var3>" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_selector_test",
     "effect": [
       { "set_string_var": "EOC Selector Test", "target_var": { "context_val": "title" }, "i18n": true },

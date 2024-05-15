@@ -1635,11 +1635,16 @@ void avatar::add_gained_calories( int cal )
     calorie_diary.front().gained += cal;
 }
 
-int avatar::get_daily_calories( const int day, std::string type ) const
+int avatar::get_daily_calories( unsigned days_ago, std::string const &type ) const
 {
-    std::list<avatar::daily_calories> calorie_diary;
-    std::list<avatar::daily_calories>::iterator iterator = calorie_diary.end();
-    std::advance( iterator, day * -1 );
+    auto iterator = calorie_diary.begin();
+    if( days_ago > calorie_diary.size() ) {
+        debugmsg(
+            "trying to access calorie diary from %d days ago, but the diary only contains %d days",
+            days_ago, calorie_diary.size() );
+        return 0;
+    }
+    std::advance( iterator, days_ago );
 
     int result{};
 

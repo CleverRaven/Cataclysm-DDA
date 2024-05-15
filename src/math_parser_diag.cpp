@@ -903,12 +903,13 @@ std::function<double( dialogue & )> get_daily_calories( char scope,
         type_val = *kwargs.at( "type" );
     }
 
-    return[beta = is_beta(scope), day_val, type_val ](dialogue const& d) {
-        std::string type = type_val.str(d);
-        int const day = day_val.dbl(d);
-
-        add_msg_debug(debugmode::DF_ACT_BUTCHER, _("Skill: %s"), type );
-        add_msg_debug(debugmode::DF_ACT_BUTCHER, _("Skill: %i"), day );
+    return[beta = is_beta( scope ), day_val, type_val ]( dialogue const & d ) {
+        std::string type = type_val.str( d );
+        int const day = day_val.dbl( d );
+        if( day < 0 ) {
+            debugmsg( "get_daily_calories(): cannot access calorie diary from the future (day < 0)" );
+            return 0;
+        }
 
         return static_cast<talker const *>( d.actor( beta ) )->get_daily_calories( day, type );
     };
