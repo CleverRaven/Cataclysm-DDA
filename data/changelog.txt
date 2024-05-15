@@ -118,10 +118,7 @@ Add new hairstyles from Mawranth's Hair Salon
 Unhardcode and limbify attack vectors
 Add new function follower_present for use in JSON
 Graphical construction preview
-The player's overmap destination is now a valid destination for telling NPCs to go-to
-Adding support for ImTui to draw unicode characters
 Resume butchering
-Provides new utility to mounds of upturned dirt, as well as fixing inconsistencies with its counterpart.
 
 
 ## Content:
@@ -247,12 +244,6 @@ Add XL and XS versions for french maid clothes/aprons/hats
 Fridges and freezers. What do you mean 'we already have some'?
 New portal monsters: unviable life forms
 Challenge start - hunted forever. Starts with the nemesis, but it comes back stronger everytime it dies
-adds Aztec armor
-Adds three new amphibian zombies for burned or dried out giant amphibians
-Add Recipe for Portable Soldering Iron
-Added Fingerless Wool Gloves, in XL and XS sizes and recipes for it. Additionally, renamed the Fingerless Gloves to Fingerless Leather Gloves.
-Adds a medical cart to medical facilities (doctors offices, hospital, veterinarian, nursing homes) and new metal tray vehicle part
-Added Skunks
 
 
 ## Interface:
@@ -315,9 +306,6 @@ Show NEW! in List Items menu
 Adding spell name to the casting... widget
 Adding Classless as a supernatural category
 Mission UI migrated to imGUI
-Overmap only highlights newly revealed OMTs for maps
-Use wash interface to remake a batch heat menu
-Change world setting 'Spawn Time Options' to 'Spawn Time Options'
 
 
 
@@ -471,18 +459,7 @@ Aftershock: New combat bionics
 [Sky Island] Upgrade central skylight missions and mapgen
 Aftershock: Add a space station clothes store
 [MoM] Using psionics in or near the Nether is more powerful, but also more risky
-[MoM] Contemplation recipes are not affected by hand encumbrance anymore, but affected by pain
-[MoM] Jmathify and variable-ize power learning times
-[MoM] Rework Passive traits to use spell_level_sum
-add greater dimensional bag  to be spawned
-[MoM] Mindhunter scenario
-Bounty Hunter Scenario for Aftershock
-[Bombastic Perks] More perks
 [No Hope] Adds a difficulty setting prompt to determine item spawn rates
-[MoM] Normalize feral biokinetic HP
-[MoM] Increase feral clairsentient dodge
-New joke spell
-Tamable Skunks
 
 
 ## Balance:
@@ -552,14 +529,6 @@ Unattended crops that are ready to harvest will die if not harvested before thei
 Make Quadcopter Drones Produce Sound
 Make most plastic and glass containers transparent
 Added limb blocking to bionic styles
-Fix meat ingredient in several recipes
-Assess and Change Vehicle Part breaks_into Entries
-Splits star vampires into a fast-blood-sucking and a strong-grabbing version.
-You Can Smash Skunk Skulls
-document monster dodge balance
-Reinforced garbage bags are now watertight
-Added Bronze Wood Saw to Misc Repair Kit Craft
-Make pupating explosion quieter
 
 
 ## Bugfixes:
@@ -721,36 +690,8 @@ Fixes issue where ImGui popup doesnt wrap buttons to a new line when the overall
 Wet Towels No Longer Prompt to be Turned Off
 Maybe prevent rare crater generation error
 AIM: Now moving all items will not move favourite items, if other items are present.
-Fix anaerobic digester
-Add Combat Exoskeleton template to Aftershock Nanofabricator
-Allow Ankle Wallet Pouch to Accommodate Larger Wallets
-Update Target Dummies to Require Diggable Terrain
-Re-add generic cards, make the MoM Magician start with only generic cards
-NPCs won't throw their last, best weapon
-[Aftershock] Remove spaces in TALK_AUGUSTMOON_OUTFITTER chat topic
-Allows the Atomic Smartphone flashlight to be used without also activating its music
 Misc repair kit draws ammo from around player and inventory, opposed to an internal ammunition pocket.
-Monster enchantments set bonus speed, not base (stops infinite feedback loop)
-Fix moat
-[Sky Island] Fix rock outside of windows
-Changed 'hansom' to 'handsome' on the Coyote Combat Jacket
 Fixed issue where Android gesture inputs were not recognized by ImGui windows
-Fix stamina regains when dodging
-clang-tidy readability-inconsistent-declaration-parameter-name
-Fix Character::i_add_or_drop
-Fixing issue where CJK text draws just a couple pixels too high on ImGui
-Fixed items being inside condoms in wallets
-Muscle-powered vehicles counting animal weight for traction purposes
-krakens swim
-Fix integrated armor being incompatible with some mutations
-Add molle accessories to webbing belt
-Fixing a clang-tidy error from a recent ImTui-related PR
-Tutorial screen popup text no longer cuts off
-Rotten ingredients correctly result in rotten products
-Fixes power grid teleportation, crashes, and other buggy interactions
-NPCs will prioritize wielding ranged weapons when allowed
-Define Rubik's personality values
-Not to try to reload a gun without default ammo type defined
 
 
 ## Performance:
@@ -834,8 +775,6 @@ Deleted the ImGui enable/disable toggle, turns on ImGui globally in CDDA
 Use test enumerating item spawns to make assertions about the rate of appearance of different items.
 Add perceived kwarg to pain_eval math function, apply it in Mind Over Matter
 refactored ImTuis drawing code to fix a black screen issue, and to improve performance
-Dynamically compose some item names through suffixes/prefixes in JSON tags
-fix forward declaration of imgui ImVec2
 
 
 ## Build:
@@ -854,8 +793,6 @@ CMake: Add LLVM build for Windows and other linker fixes
 Use one precompiled header
 Fix zlib old-style-cast build breakage
 Fix crash with imgui and CMake
-Defer emscripten builds until after matrix builds succeed
-Fix netbsd ncurses build. The ncurses include path is set with CURSES_INCLUDE_DIRS
 
 
 ## I18N and A11Y:
