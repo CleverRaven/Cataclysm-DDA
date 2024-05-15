@@ -12965,6 +12965,11 @@ void game::display_om_pathfinding_progress( size_t /* open_set */, size_t /* kno
     inp_mngr.pump_events();
 }
 
+void game::wait_popup_reset()
+{
+    wait_popup.reset();
+}
+
 bool game::display_overlay_state( const action_id action )
 {
     return displaying_overlays && *displaying_overlays == action;
