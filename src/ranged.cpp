@@ -3476,14 +3476,14 @@ bool target_ui::action_aim_and_shoot( const std::string &action )
 
 void target_ui::draw_terrain_overlay()
 {
-    tripoint center = you->pos() + you->view_offset;
+    tripoint_bub_ms center = you->pos_bub() + you->view_offset;
 
     // Removes parts that don't belong to currently visible Z level
     const auto filter_this_z = [&center]( const std::vector<tripoint> &traj ) {
         std::vector<tripoint> this_z = traj;
         this_z.erase( std::remove_if( this_z.begin(), this_z.end(),
         [&center]( const tripoint & p ) {
-            return p.z != center.z;
+            return p.z != center.z();
         } ), this_z.end() );
         return this_z;
     };
@@ -3506,11 +3506,11 @@ void target_ui::draw_terrain_overlay()
         // we can draw it even if the player can't see some parts
         points.erase( dst ); // Workaround for fake cursor on TILES
         std::vector<tripoint> l( points.begin(), points.end() );
-        if( dst.z == center.z ) {
+        if( dst.z == center.z() ) {
             // Workaround for fake cursor bug on TILES
             l.push_back( dst );
         }
-        g->draw_line( src, center, l, true );
+        g->draw_line( src, center.raw(), l, true );
     }
 
     // Draw trajectory
@@ -3520,12 +3520,12 @@ void target_ui::draw_terrain_overlay()
         // Draw a highlighted trajectory only if we can see the endpoint.
         // Provides feedback to the player, but avoids leaking information
         // about tiles they can't see.
-        g->draw_line( dst, center, this_z );
+        g->draw_line( dst, center.raw(), this_z );
     }
 
     // Since draw_line does nothing if destination is not visible,
     // cursor also disappears. Draw it explicitly.
-    if( dst.z == center.z ) {
+    if( dst.z == center.z() ) {
         g->draw_cursor( dst );
     }
 
@@ -3533,7 +3533,7 @@ void target_ui::draw_terrain_overlay()
     if( mode == TargetMode::Spell ) {
         drawsq_params params = drawsq_params().highlight( true ).center( center );
         for( const tripoint &tile : spell_aoe ) {
-            if( tile.z != center.z ) {
+            if( tile.z != center.z() ) {
                 continue;
             }
 #ifdef TILES

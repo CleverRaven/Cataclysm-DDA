@@ -4138,11 +4138,8 @@ bool cata_tiles::draw_critter_above( const tripoint &p, lit_level ll, int &heigh
     Character &you = get_player_character();
     const Creature *pcritter = nullptr;
     // Search for a creature above
-    while( pcritter == nullptr && !here.dont_draw_lower_floor( scan_p ) &&
+    while( pcritter == nullptr && scan_p.z <= OVERMAP_HEIGHT && !here.dont_draw_lower_floor( scan_p ) &&
            scan_p.z - you.pos().z <= fov_3d_z_range ) {
-        if( scan_p.z > OVERMAP_HEIGHT ) {
-            break;
-        }
         pcritter = get_creature_tracker().creature_at( scan_p, true );
         scan_p.z++;
     }
@@ -4417,15 +4414,6 @@ void cata_tiles::init_explosion( const tripoint_bub_ms &p, int radius )
     exp_pos = p;
     exp_rad = radius;
 }
-void cata_tiles::init_custom_explosion_layer( const std::map<tripoint, explosion_tile> &layer )
-{
-    do_draw_custom_explosion = true;
-    std::map<tripoint_bub_ms, explosion_tile> temp;
-    for( const auto &it : layer ) {
-        temp.insert( std::pair<tripoint_bub_ms, explosion_tile>( tripoint_bub_ms( it.first ), it.second ) );
-    }
-    custom_explosion_layer = temp;
-}
 void cata_tiles::init_custom_explosion_layer( const std::map<tripoint_bub_ms, explosion_tile>
         &layer )
 {
@@ -4457,10 +4445,6 @@ void cata_tiles::init_draw_cursor( const tripoint_bub_ms &p )
 {
     do_draw_cursor = true;
     cursors.emplace_back( p );
-}
-void cata_tiles::init_draw_highlight( const tripoint &p )
-{
-    cata_tiles::init_draw_highlight( tripoint_bub_ms( p ) );
 }
 void cata_tiles::init_draw_highlight( const tripoint_bub_ms &p )
 {

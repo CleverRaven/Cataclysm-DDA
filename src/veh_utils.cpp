@@ -443,7 +443,9 @@ bool veh_menu::query()
     veh_menu_cb cb( locations );
 
     cb.on_select = [this, &menu]() {
-        items[menu.selected]._on_select();
+        if( items[menu.selected]._on_select ) {
+            items[menu.selected]._on_select();
+        }
     };
 
     if( locations.size() == items.size() ) { // all items have valid location attached
@@ -454,7 +456,7 @@ bool veh_menu::query()
     }
 
     if( last_selected.has_value() ) { // have selection from previous query
-        menu.selected = std::max( static_cast<int>( items.size() ), last_selected.value() );
+        menu.selected = std::min( static_cast<int>( items.size() ), last_selected.value() );
     } else { // find first element with select enabled
         for( menu.selected = 0; menu.selected < static_cast<int>( items.size() ); menu.selected++ ) {
             if( items[menu.selected]._selected ) {
@@ -484,6 +486,7 @@ bool veh_menu::query()
 
     veh.refresh();
     map &m = get_map();
+    m.invalidate_visibility_cache();
     m.invalidate_map_cache( m.get_abs_sub().z() );
 
     return chosen._keep_menu_open;
