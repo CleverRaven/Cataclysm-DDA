@@ -66,7 +66,7 @@ int talker_avatar::trial_chance_mod( const std::string &trial_type ) const
 
 int talker_avatar::get_daily_calories( int day, std::string const &type ) const
 {
-    return me_chr_const->as_avatar()->get_daily_calories( day , type );
+    return me_chr_const->as_avatar()->get_daily_calories( day, type );
 }
 
 bool talker_avatar::buy_monster( talker &seller, const mtype_id &mtype, int cost,
