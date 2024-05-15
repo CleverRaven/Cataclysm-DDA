@@ -2998,11 +2998,19 @@
     "price_postapoc": "2 USD 50 cent",
     "material": [ "wool" ],
     "volume": "250 ml",
-    "warmth": 45,
+    "warmth": 25,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
     "material_thickness": 1,
     "environmental_protection": 2,
-    "armor": [ { "encumbrance": 10, "coverage": 80, "covers": [ "head", "mouth" ] } ]
+    "armor": [
+      {
+        "encumbrance": 10,
+        "coverage": 100,
+        "covers": [
+          "head, mouth"
+        ]
+      }
+    ]
   },
   {
     "type": "TOOL_ARMOR",
@@ -3025,10 +3033,23 @@
     "material": [ "wool" ],
     "volume": "250 ml",
     "warmth": 25,
-    "flags": [ "VARSIZE", "SKINTIGHT" ],
+    "flags": [ "VARSIZE", "SKINTIGHT", "COLLAR" ],
     "material_thickness": 1,
     "environmental_protection": 1,
-    "armor": [ { "encumbrance": 10, "coverage": 60, "covers": [ "head", "mouth" ] } ]
+    "armor": [
+      {
+        "encumbrance": 10,
+        "coverage": 80,
+        "covers": [
+          "head"
+        ],
+        "specifically_covers": [
+          "head_nape",
+          "head_throat"
+        ],
+        "cover_vitals": 90
+      }
+    ]
   },
   {
     "type": "TOOL_ARMOR",
