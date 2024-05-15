@@ -64,7 +64,7 @@
         ".": "t_soil",
         "°": "t_wall_metal",
         ";": [ "t_door_metal_locked", "t_door_metal_elocked" ],
-        "˽": "t_card_reader_broken",
+        "˽": "t_card_science",
         "-": "t_metal_floor",
         "/": "t_secretdoor_strconcrete_c"
       },
