@@ -92,6 +92,8 @@
 #  make RUNTESTS=1
 # Build source files in order of how often the matching header is included
 #  make HEADERPOPULARITY=1
+# Serializing the game and test sub-builds avoids putting pressure on memory
+#  make SERIALIZE_TEST_BUILD=1
 
 # comment these to toggle them as one sees fit.
 # DEBUG is best turned on if you plan to debug in gdb -- please do!
@@ -220,12 +222,22 @@ endif
 
 # Can't run tests if we aren't going to build them
 ifeq ($(TESTS), 1)
-  ifeq ($(RUNTESTS), 1)
-    # Build and run the tests
-    TESTSTARGET = check
+  ifeq ($(SERIALIZE_TEST_BUILD), 1)
+    ifeq ($(RUNTESTS), 1)
+      # Build and run the tests, sequentially with the game
+      TESTSTARGET = check-no-parallel
+    else
+      # Only build the tests, sequentially with the game
+      TESTSTARGET = tests-no-parallel
+    endif
   else
-    # Only build the tests
-    TESTSTARGET = tests
+    ifeq ($(RUNTESTS), 1)
+      # Build and run the tests
+      TESTSTARGET = check
+    else
+      # Only build the tests
+      TESTSTARGET = tests
+    endif
   endif
 endif
 
@@ -1392,10 +1404,16 @@ $(JSON_FORMATTER_BIN): $(JSON_FORMATTER_SOURCES)
 python-check:
 	flake8
 
-tests: version $(BUILD_PREFIX)cataclysm.a $(LOCALIZE_TEST_DEPS)
+tests: version $(BUILD_PREFIX)cataclysm.a $(LOCALIZE_TEST_DEPS) | $(TARGET)
+	$(MAKE) -C tests
+
+tests-no-parallel: version $(BUILD_PREFIX)cataclysm.a $(LOCALIZE_TEST_DEPS) | $(TARGET)
 	$(MAKE) -C tests
 
 check: version $(BUILD_PREFIX)cataclysm.a $(LOCALIZE_TEST_DEPS)
+	$(MAKE) -C tests check
+
+check-no-parallel: version $(BUILD_PREFIX)cataclysm.a $(LOCALIZE_TEST_DEPS)
 	$(MAKE) -C tests check
 
 clean-tests:
