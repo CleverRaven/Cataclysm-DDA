@@ -21,7 +21,9 @@
       "build-options": {
         "append-path": "/usr/lib/sdk/llvm16/bin",
         "prepend-ld-library-path": "/usr/lib/sdk/llvm16/lib",
-        "env": { "MAKE_ARGS": "PREFIX=/app LANGUAGES=all CLANG=1 USE_XDG_DIR=1 TILES=1 SOUND=1 RELEASE=1 TESTS=0 ASTYLE=0 LINTJSON=0" }
+        "env": {
+          "MAKE_ARGS": "PREFIX=/app LANGUAGES=all CLANG=1 CCACHE=1 USE_XDG_DIR=1 TILES=1 SOUND=1 RELEASE=1 TESTS=0 ASTYLE=0 LINTJSON=0"
+        }
       },
       "build-commands": [
         "mv soundpack/sound/CC-Sounds/ data/sound/",
@@ -30,7 +32,7 @@
         "make $MAKE_ARGS install"
       ],
       "sources": [
-        { "type": "git", "url": "https://github.com/CleverRaven/Cataclysm-DDA", "branch": "0.H-branch" },
+        { "type": "git", "url": "https://github.com/CleverRaven/Cataclysm-DDA", "branch": "master" },
         {
           "type": "git",
           "url": "https://github.com/Fris0uman/CDDA-Soundpacks",
