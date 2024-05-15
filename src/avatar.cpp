@@ -1534,6 +1534,11 @@ bool avatar::invoke_item( item *used, const tripoint &pt, int pre_obtain_moves )
     return invoke_item( used, method, pt, pre_obtain_moves );
 }
 
+bool avatar::invoke_item( item *used, const tripoint_bub_ms &pt, int pre_obtain_moves )
+{
+    return avatar::invoke_item( used, pt.raw(), pre_obtain_moves );
+}
+
 bool avatar::invoke_item( item *used )
 {
     return Character::invoke_item( used );

@@ -3236,6 +3236,11 @@ bool npc::invoke_item( item *used, const tripoint &pt, int )
     return false;
 }
 
+bool npc::invoke_item( item *used, const tripoint_bub_ms &pt, int pre_obtain_moves )
+{
+    return npc::invoke_item( used, pt.raw(), pre_obtain_moves );
+}
+
 bool npc::invoke_item( item *used, const std::string &method )
 {
     return Character::invoke_item( used, method );

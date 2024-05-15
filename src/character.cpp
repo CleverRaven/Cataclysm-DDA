@@ -7153,6 +7153,11 @@ bool Character::invoke_item( item *, const tripoint &, int )
     return false;
 }
 
+bool Character::invoke_item( item *, const tripoint_bub_ms &, int )
+{
+    return false;
+}
+
 bool Character::invoke_item( item *used, const std::string &method )
 {
     return invoke_item( used, method, pos() );
