@@ -1,0 +1,18 @@
+[
+  {
+    "type": "trap",
+    "id": "tr_nl_chasm",
+    "name": "sparkling chasm",
+    "color": "dark_gray",
+    "action": "spell",
+    "copy-from": "tr_swirling_vortex",
+    "spell_data": { "id": "sparkling_chasm_exit" }
+  },
+  {
+    "type": "SPELL",
+    "id": "sparkling_chasm_exit",
+    "name": "sparkling chasm exit",
+    "copy-from": "trap_base",
+    "effect_str": "EOC_LS_Exit_labyrinth_force"
+  }
+]

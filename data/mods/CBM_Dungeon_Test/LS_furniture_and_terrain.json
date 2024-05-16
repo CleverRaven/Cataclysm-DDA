@@ -18,7 +18,8 @@
     "symbol": "*",
     "color": "dark_gray",
     "move_cost": -1,
-    "//": "Future: stepping on this should teleport you out of the labyrinth",
+    "coverage": 100,
+    "trap": "tr_nl_chasm",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT", "NOITEM" ]
   },
   {
