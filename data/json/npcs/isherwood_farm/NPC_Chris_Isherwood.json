@@ -250,7 +250,7 @@
     "dynamic_line": "They made their way to this weird spire like structure, I've never seen anything like it, it glistened in the sun like something organic.  I think they could be holding Barry there, I've seen them arrive and leave with other humans.",
     "responses": [
       {
-        "text": "[NEW MISSION LINE] I might be able to help you get Barry back, but we've got to plan this out.",
+        "text": "[START MISSION] I might be able to help you get Barry back, but we've got to plan this out.",
         "condition": {
           "and": [ { "math": [ "isherwood_barry_rescued", "!=", "1" ] }, { "not": { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" } } ]
         },
@@ -475,7 +475,7 @@
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear"
       },
       {
-        "text": "[lets build a wall.]",
+        "text": "I think we need some kind of secure fallback point for the family, maybe a defensive wall?",
         "condition": {
           "and": [
             { "not": { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_WALL_BAGS" } },
@@ -512,7 +512,7 @@
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear"
       },
       {
-        "text": "[lets build a wall.]",
+        "text": "I think we need some kind of secure fallback point for the family, maybe a defensive wall?",
         "condition": {
           "and": [
             { "not": { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_WALL_BAGS" } },
@@ -543,34 +543,34 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Turn_Over",
-    "dynamic_line": "[ok what u got?]",
+    "dynamic_line": "*smiles slightly.  \"Awesome, getting our team kitted out better will go a long way to making this possible.\"",
     "responses": [
       {
-        "text": "[bod armor]",
+        "text": "[5 RIOT ARMOR] I've got enough riot armor for everyone.",
         "condition": { "and": [ { "u_has_item": "armor_riot" }, { "math": [ "isherwood_gear_retrival_armor_body_count", "<", "5" ] } ] },
         "effect": [ { "u_consume_item": "armor_riot" }, { "math": [ "isherwood_gear_retrival_armor_body_count", "++" ] } ],
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Turn_Over"
       },
       {
-        "text": "[helmet]",
+        "text": "[5 RIOT HELMET] These crowd control helmets should help a lot.",
         "condition": { "and": [ { "u_has_item": "helmet_riot" }, { "math": [ "isherwood_gear_retrival_helmet_count", "<", "5" ] } ] },
         "effect": [ { "u_consume_item": "helmet_riot" }, { "math": [ "isherwood_gear_retrival_helmet_count", "++" ] } ],
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Turn_Over"
       },
       {
-        "text": "[arm armor]",
+        "text": "[5 RIOT ARMGUARD] I hope these armguards won't interfere with people's aim.",
         "condition": { "and": [ { "u_has_item": "armor_riot_arm" }, { "math": [ "isherwood_gear_retrival_armor_arm_count", "<", "5" ] } ] },
         "effect": [ { "u_consume_item": "armor_riot_arm" }, { "math": [ "isherwood_gear_retrival_armor_arm_count", "++" ] } ],
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Turn_Over"
       },
       {
-        "text": "[leg armor]",
+        "text": "[5 RIOT LEGGUARD] I've got these leg guards to keep people from getting hobbled.",
         "condition": { "and": [ { "u_has_item": "armor_riot_leg" }, { "math": [ "isherwood_gear_retrival_armor_leg_count", "<", "5" ] } ] },
         "effect": [ { "u_consume_item": "armor_riot_leg" }, { "math": [ "isherwood_gear_retrival_armor_leg_count", "++" ] } ],
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Turn_Over"
       },
       {
-        "text": "[got all cop gear]",
+        "text": "We have enough full sets of riot control armor to cover everyone, head to toe.",
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_GEAR" },
@@ -595,30 +595,33 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Done",
-    "dynamic_line": "[sweet now we beefed up.]",
+    "dynamic_line": "*nods intently, looking at the assembled pile of equipment.  \"Like I said, I'll get this distributed to everyone who's coming.  It's starting to feel more real, but less impossible.  Thanks for doing this.\"",
     "responses": [
-      { "text": "[woo hoo]  Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
-      { "text": "[woo hoo]", "topic": "TALK_DONE" }
+      { "text": "Before you get on to that, I wanted to talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
+      { "text": "I'll let you get on that.", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Fail",
-    "dynamic_line": "[aw shucks that's bad. now no sweet armor.]",
+    "dynamic_line": "*nods slowly.  \"I understand.  You tried.  We could maybe… no, nevermind.  Time is important here, we can't spend forever hoping to get everything in place if we want to get Uncle Barry back alive.  Let's do it without the gear.\"",
     "responses": [
       { "text": "Sorry.  Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
-      { "text": "[sorry]", "topic": "TALK_DONE" }
+      { "text": "I'm sorry.  I'm going to go take care of a few more things.", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Wall",
-    "dynamic_line": "[yeah bro that sounds sweet. I got a plan Dutch, get 20 canvas bags 4 me. I get traps and we lay a wall with da truck]",
+    "dynamic_line": "Good idea.  A sandbag wall would be easy enough, we've had to do those a few times when we've had flooding and everyone knows the drill.  Back then we just grabbed supplies from the hardware store, though.  Maybe you'd be able to make a run for those?  Something like 20 canvas bags would probably do it.  We can fill them up in advance and toss them out of the truck to get a decent barricade.",
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
-      { "text": "[nah bro let's not bother]", "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Cancel" },
       {
-        "text": "[yeah bro i'll do it]",
+        "text": "I think this is going to take too long, honestly.  Let's just stick with the truck.",
+        "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Cancel"
+      },
+      {
+        "text": "I know where to find those canvas bags, I'll go get them.",
         "effect": { "assign_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_WALL_BAGS" },
         "topic": "TALK_DONE"
       }
@@ -627,16 +630,16 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Wall_Done",
-    "dynamic_line": "[sweet now we get something between us.  Give me 1 day and we ready]",
+    "dynamic_line": "All right.  I think that's everything we need.  Let me get it out to the family and we'll have it all prepped by tomorrow.",
     "responses": [
-      { "text": "[woo hoo]  Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
-      { "text": "[woo hoo]", "topic": "TALK_DONE" }
+      { "text": "Before I go, let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
+      { "text": "I'll let you get on that, I've got my own preparations to take care of.", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_CHRIS_TRY_AGAIN",
-    "dynamic_line": "[yeah let's go]",
+    "dynamic_line": "If you think we're ready, I think we can try another go.  Even… even if it's too late for Uncle Barry, I think we've got to try to take that damn tower out of commission.",
     "responses": [
       {
         "text": "All right.  Let's kick some alien butt.",
