@@ -79,17 +79,6 @@
     "effect": [
       { "u_learn_recipe": "practice_telekinetic_pull" },
       { "u_learn_recipe": "practice_telekinetic_push" },
-      { "u_learn_recipe": "practice_telekinetic_momentum" },
-      { "u_learn_recipe": "practice_telekinetic_slowfall" },
-      { "u_learn_recipe": "practice_telekinetic_wave" },
-      { "u_learn_recipe": "practice_telekinetic_strength" },
-      { "u_learn_recipe": "practice_telekinetic_hammer" },
-      { "u_learn_recipe": "practice_telekinetic_vehicle_lift" },
-      { "u_learn_recipe": "practice_telekinetic_shield" },
-      { "u_learn_recipe": "practice_telekinetic_explosion" },
-      { "u_learn_recipe": "practice_telekinetic_levitation" },
-      { "u_learn_recipe": "practice_telekinetic_aegis" },
-      { "u_learn_recipe": "practice_telekinetic_earthshaker" },
       { "u_learn_recipe": "improve_telekinesis_lifting_field" }
     ]
   },
@@ -185,7 +174,7 @@
     "eoc_type": "EVENT",
     "required_event": "game_begin",
     "condition": { "u_has_trait": "TELEKINETIC" },
-    "effect": [ { "queue_eocs": "EOC_TEACH_TELEKIN_CONTEMPLATE_RECIPES", "time_in_future": [ "10 seconds", "15 seconds" ] } ]
+    "effect": [ { "queue_eocs": "EOC_TEACH_TELEKIN_CONTEMPLATE_RECIPES", "time_in_future": [ "1 seconds", "1 seconds" ] } ]
   },
   {
     "type": "effect_on_condition",

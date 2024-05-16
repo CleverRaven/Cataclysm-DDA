@@ -94,12 +94,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [
-      [ "telekinetic_pull", 2 ],
-      [ "telekinetic_push", 2 ],
-      [ "telekinetic_momentum", 2 ],
-      [ "classless_toggleable_concentration_end", 1 ]
-    ]
+    "spells_learned": [ [ "telekinetic_pull", 2 ], [ "telekinetic_push", 2 ], [ "classless_toggleable_concentration_end", 1 ] ]
   },
   {
     "type": "mutation",

@@ -222,6 +222,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Prerequisites*: Voltaic Strikes 8 *or* Static Touch 12, Electrical Discharge 8<br />
 
 ## Re-energize
+## Re-energize
 *Difficulty*: 6<br />
 *Target*: Adjacent vehicle or appliance<br />
 *Duration*: Instant<br />
@@ -231,6 +232,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Prerequisites*: Electron Overflow 10, Electrical Discharge 9 *or* Neural Spasms 7<br />
 
 ## Analgesic Block
+## Analgesic Block
 *Difficulty*: 6<br />
 *Target*: Self<br />
 *Duration*: 60 seconds to 2 minutes 30 seconds, plus 8 seconds to 13 seconds per power level<br />
@@ -239,6 +241,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Effects*: Removes all pain and makes the psion immune to pain for the power's duration. When the duration ends, the psion receives all the pain they put off, plus an additional 10%, back all at once.<br />
 *Prerequisites*: Pain Suppression 9<br />
 
+## Neuro-acceleration
 ## Neuro-acceleration
 *Difficulty*: 6<br />
 *Target*: Self or ally within 1 square<br />
@@ -258,6 +261,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Prerequisites*: Re-energize 8 *or* Electrocutioner 8 *or* Voltaic Strikes 13, Spark Sight 8<br />
 
 ## Galvanic Aura
+## Galvanic Aura
 *Difficulty*: 8<br />
 *Target*: Self<br />
 *Duration*: 60 seconds to 4 minutes 10 seconds, plus 15 seconds to 25 seconds per power level<br />
@@ -266,6 +270,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Effects*: Supercharges the air around the psion, releasing blasts of 12 fields of intensity 10 lightning every few seconds. It also provides electric armor equal to the power level and makes the psion and their gear immune to EMP blasts.<br />
 *Prerequisites*: Electrical Discharge 12, Electron Overflow 15 *or* Re-energize 6<br />
 
+## Ion Blast
 ## Ion Blast
 *Difficulty*: 9<br />
 *Target*: Line stretching 2 squares plus 0.7 squares per power level, causing an explosion with an AoE of 1 plus 1 per 4 power levels<br />
@@ -276,6 +281,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Prerequisites*: Electrocutioner 10 *or* Short Circuit 6, Voltaic Strikes 8 *or* Static Touch 12<br />
 
 ## Revivification
+## Revivification
 *Difficulty*: 10<br />
 *Target*: One corpse within 2 squares plus 1 square per 4 power levels<br />
 *Duration*: Random but no longer than 12 minutes. The target has an escalating chance to collapse every turn of the effect, beginning at 0.0005% per second in the first minute, climbing to 0.01% per second at minute 4, 1% per second at minute 8, and reaching certainty at minute 12<br />
@@ -283,6 +289,240 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Channeling Time*: 250 moves, minus 6 moves per level to a minimum of 125<br />
 *Effects*: Revives a single target with the REVIVES flag, charms it, and heals it for 50% to 80% of its hit points. The revived monster will be allied to you for the power's duration. You may repeatedly use Revivification on the same target as long as it's not pulped.<br />
 *Prerequisites*: Neuro-acceleration 8, Analgesic Block 6 *or* Pain Suppression 13<br />
+
+# Telekinesis
+
+**Passive Power: Lifting Hand**: The telekinetic may carry a single item next to them in a field of telekinetic force. The item's weight increases proportional to their highest telekinetic power, thogh they must use the recipe Contemplate Lifting Field to increase it.
+
+## Far Hand 
+*Difficulty*: 1<br />
+*Target*: One enemy, ally, or the items in a space up to 3 squares away plus 0.9 squares per power level<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 1750, minus 80 per level to a minimum of 750<br />
+*Channeling Time*: 50 moves, minus 4 moves per level to a minimum of 10<br />
+*Effects*: The psion reaches out and pulls the target toward them, moving it 1 to 6 squares closer plus 0.5 to 1.5 squares per power level.<br />
+*Prerequisites*: Starting power<br />
+
+## Force Shove 
+*Difficulty*: 1<br />
+*Target*: One enemy, ally, or the items in a space up to 1 square away plus 0.9 squares per power level<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 1750, minus 80 per level to a minimum of 750<br />
+*Channeling Time*: 50 moves, minus 4 moves per level to a minimum of 10<br />
+*Effects*: The psion shoves a single target away, moving it 2 to 4 squares plus 0.5 to 1 squares per power level.<br />
+*Prerequisites*: Starting power<br />
+
+## Knockdown
+*Difficulty*: 2<br />
+*Target*: One target within to 2 squares away plus 0.5 squares per power level<br />
+*Duration*: From 100 to 400 moves, plus 25 to 95 moves per power level<br />
+*Stamina Cost*: 3000, minus 80 per level to a minimum of 1250<br />
+*Channeling Time*: 75 moves, minus 4 moves per level to a minimum of 30<br />
+*Effects*: Slam a single target to the ground, doing 5 to 15 telekinetic damage plus 0.5 plus 1.2 damage per power level, and downing the target for the power's duration.<br />
+*Prerequisites*: Force Shove 4<br />
+
+## Momentum Alteration (C)
+*Difficulty*: 3<br />
+*Target*: Self<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 3500, minus 125 per level to a minimum of 1750<br />
+*Channeling Time*: 300 moves, minus 7.5 moves per level to a minimum of 125<br />
+*Effects*: Manipulate local momentum to the psion's advantage, speeding their own movements and slowing incoming dangerous objects. Reduces move cost by 0.5% per power level to a maximum of 15%, increases attack speed by 1% per power level, reduces incoming cutting and piercing damage by 0.5% per power level, reduces incoming bashing damage by 1% per power level, and reduces incoming ballistic damage by 2% per power level.<br />
+*Prerequisites*: Far Hand 5, Force Shove 5<br />
+
+## Slowfall (C)
+*Difficulty*: 3<br />
+*Target*: Self<br />
+*Duration*: From 3 to 15 seconds, plus 1 to 4 seconds per power level<br />
+*Stamina Cost*: 2250, minus 85 per level to a minimum of 650<br />
+*Channeling Time*: 85 moves, minus 4.5 moves per level to a minimum of 25<br />
+*Effects*: Reduce the psion's falling speed, taking 50% less falling damage, plus 4% per level to a maximum of 95% lower falling damage.  Also makes swimming 3 times easier due to increased buoyancy.<br />
+*Prerequisites*: Momentum Alteration 6<br />
+
+## Wave of Force
+*Difficulty*: 4<br />
+*Target*: All targets within range 1<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 4500, minus 125 per level to a minimum of 2250<br />
+*Channeling Time*: 50 moves, minus 4 moves per level to a minimum of 20<br />
+*Effects*: Unleash an indiscriminate wave of force, knocking back everything nearby by 2 to 6 squares, plus 1 square per 10 power levels to 1 square per four power levels. This power affects item and allies as well as enemies.<br />
+*Prerequisites*: Force Shove 7, Knockdown 4 <br />
+
+## Enhance Strength (C)
+*Difficulty*: 5<br />
+*Target*: Self<br />
+*Duration*: From 30 seconds to 2 minutes, plus 15 to 30 seconds per power level<br />
+*Stamina Cost*: 5000, minus 150 per level to a minimum of 2000<br />
+*Channeling Time*: 300 moves<br />
+*Effects*: Use telekinesis to enhance the psion's strength by 15 plus 3 per power level. This enhanced strength requires more intense concentration and cannot be sustained in combat.<br />
+*Prerequisites*: Force Shove 6 *or* Far Hand 6, Momentum Alteration 5<br />
+
+## Mindhammer (C)
+*Difficulty*: 5<br />
+*Target*: One target within 3 squares plus 0.9 squares per power level<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 3750, minus 135 per level to a minimum of 1750<br />
+*Channeling Time*: 50 moves, minus 2.5 moves per level to a minimum of 25<br />
+*Effects*: Smashes a single target with a fist of telekinetic force, doing 18 to 55 telekinetic damage plus 1.25 to 3.5 damage per power level. Also smashes the terrain at the target tile for 25 to 55 bash damage plus 1.5 to 3 damage per power level.<br />
+*Prerequisites*: Knockdown 6, Wave of Force 4 *or* Force Shove 8<br />
+
+## Lift Vehicle (C)
+*Difficulty*: 6<br />
+*Target*: Self<br />
+*Duration*: From 10 minutes to 25 minutes, plus 3 minutes and 10 seconds to 7 minutes per power level<br />
+*Stamina Cost*: 6500, minus 200 per level to a minimum of 3250<br />
+*Channeling Time*: 250 moves, minus 8 moves per level to a minimum of 125<br />
+*Effects*: Create a field to lift up a vehicle just enough to work on the wheels or undercarriage. This field requires more intense concentration and cannot be sustained in combat.<br />
+*Prerequisites*: Enhance Strength 10 *or* Far Hand 8 AND Slowfall 8<br />
+
+## Inertial Barrier (C)
+*Difficulty*: 6<br />
+*Target*: Self<br />
+*Duration*: From 4 minutes and 40 seconds to 12 minutes, plus 14 to 37 seconds per power level<br />
+*Stamina Cost*: 8000, minus 185 per level to a minimum of 3250<br />
+*Channeling Time*: 250 moves, minus 8 moves per level to a minimum of 65<br />
+*Effects*: Summon a telekinetic barrier around the psion, blunting incoming damage. Reduces bashing damage by 2 plus 0.5 per power level, cutting damage by 3 plus 1 per power level, piercing damage by 5 plus 1.5 per power level, and ballistic damage by 12 plus 2.5 per power level.<br />
+*Prerequisites*: Wave of Force 8, Momentum Alteration 10<br />
+
+## Wrecking Ball
+*Difficulty*: 7<br />
+*Target*: An area of effect of 2 squares plus 0.3 squares per power level, to a maximum AoE of 30, within 4 squares plus 0.9 squares per power level, to a maximum range of 60<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 8500, minus 200 per level to a minimum of 4500<br />
+*Channeling Time*: 200 moves, minus 7.5 moves per level to a minimum of 75<br />
+*Effects*: Thrashes an area with an explosion of telekinetic force, doing 22 to 99 telekinetic damage plus 3 to 7.5 to everything within the power's area of effect. It also smashes terrain for the same amount of damage.<br />
+*Prerequisites*: Knockdown 12 *or* Mindhammer 7, Force Shove 10 *or* Far Hand 10<br />
+
+## Levitation (C)
+*Difficulty*: 7<br />
+*Target*: Self<br />
+*Duration*: 1 to 5 seconds, plus 0.75 to 2 seconds per power level<br />
+*Stamina Cost*: 7500, minus 165 per level to a minimum of 3500<br />
+*Channeling Time*: 75 moves, minus 5.5 moves per level to a minimum of 15<br />
+*Effects*: The psion can lift themselves with telekinesis. While not true flight since they are incapable of ascent, they can travel horizontally as long as they want and descend in complete safety. This power requires more intense concentration and cannot be sustained in combat.<br />
+*Prerequisites*: Slowfall 9, Force Push 12 *or* Lift Vehicle 5<br />
+
+## Aegis
+*Difficulty*: 9<br />
+*Target*: Self<br />
+*Duration*: 1 second to 2 seconds, plus 1 second maximum possible duration per 5 power levels (minimum does not change)<br />
+*Stamina Cost*: 9500, minus 225 per level to a minimum of 5500<br />
+*Channeling Time*: 125 moves, minus 5 moves per level to a minimum of 55<br />
+*Effects*: Put up a nearly-impenetrable barrier of telekinetic force capable of withstanding the blast wave of a nuclear detonation (though not the heat or the radiation). Reduces all bashing, cutting, piercing, and ballistic damage by 100,000. The psion is unable to move while Aegis is in effect.<br />
+*Prerequisites*: Inertial Barrier 7, Wave of Force 8 *or* Slowfall 9, Momentum Alteration 12 *or* Enhance Strength 8<br />
+
+## Earthshaker
+*Difficulty*: 10<br />
+*Target*: A radius around the psion of 5 squares plus 0.8 squares per power level<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 11500, minus 200 per level to a minimum of 7000<br />
+*Channeling Time*: 150 moves, minus 6 moves per level to a minimum of 45<br />
+*Effects*: Grab the ground and *wrench* it with telekinesis, knocking everyone nearby off their feet and doing 30 to 80 plus 2.5 to 7 bash damage to the entirety of the terrain in the area of effect. Terrain in the area also has a 10% chance of cracking, becoming rubble or a pit.<br />
+*Prerequisites*: Wrecking Ball 8 *or* Wave of Force 13, Mindhammer 10 *or* Enhance Strength 12 <br />
+
+# Teleportation
+
+**Passive Power: Spacial Recalibration**: Immunity to teleglow and a small chance to avoid incoming damage: a 1% chance per attack plus 0.5% times the psion's highest-leveled teleportation power.
+
+## Blink 
+*Difficulty*: 1<br />
+*Target*: Between 5 and 15 squares away, with a variance of 1 to 5 squares from the initial point<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 900, minus 55 per level to a minimum of 350<br />
+*Channeling Time*: 50 moves, minus 3.5 moves per level to a minimum of 5<br />
+*Effects*: The psion vanishes and reappears nearby. They cannot control exactly where they end up. While there is no danger of teleporting into a wall or solid rock, if above ground level it is possible to teleport into open air, after which the psion will fall normally.<br />
+*Prerequisites*: Starting power<br />
+
+## Stutterstep 
+*Difficulty*: 2<br />
+*Target*: One target within 3 squares plus 1.2 squares per power level, with an AoE increasing by 1 per 5 power levels<br />
+*Duration*: 1.25 seconds to 15 seconds, plus 0.75 to 2 seconds per power level<br />
+*Stamina Cost*: 2000, minus 75 per level to a minimum of 750<br />
+*Channeling Time*: 80 moves, minus 4.5 moves per level to a minimum of 35<br />
+*Effects*: Warp space around the target, increasing relative distances and reducing their speed by 40.<br />
+*Prerequisites*: Starting power<br />
+
+## Phase 
+*Difficulty*: 2<br />
+*Target*: 2 squares plus 1 square per 10 power levels to a maximum of 4 squares<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 2500, minus 65 per level to a minimum of 1250<br />
+*Channeling Time*: 65 moves, minus 3 moves per level to a minimum of 15<br />
+*Effects*: Travel a short distance through the Nether and re-emerge nearby, allowing the psion to bypass a door or travel from the ground floor to the second floor.<br />
+*Prerequisites*: Blink 6<br />
+
+## Extended Stride (C)
+*Difficulty*: 3<br />
+*Target*: Self<br />
+*Duration*: 30 seconds to 5 minutes, plus 11 to 37 seconds per power level<br />
+*Stamina Cost*: 3500, minus 95 per level to a minimum of 1750<br />
+*Channeling Time*: 85 moves, minus 7 moves per level to a minimum of 25<br />
+*Effects*: Shorten relative distances nearby, allowing the psions to travel faster than their stride would indicate. Reduces move cost by 5% plus 2% per power level to a maximum of 60% reduced move cost.<br />
+*Prerequisites*: Phase 4, Stutterstep 6<br />
+
+## Transposition 
+*Difficulty*: 4<br />
+*Target*: One target within 1 square plus 1.5 squares per power levels<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 2750, minus 85 per level to a minimum of 1500<br />
+*Channeling Time*: 75 moves, minus 2.5 moves per level to a minimum of 30<br />
+*Effects*: Extangle the psion's position with the target's and then swap places, exchanging positions.<br />
+*Prerequisites*: Displacement 5, Extended Stride 5<br />
+
+## Displacement 
+*Difficulty*: 4<br />
+*Target*: One target within range 1<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 4000, minus 65 per level to a minimum of 1750<br />
+*Channeling Time*: 95 moves, minus 4 moves per level to a minimum of 25<br />
+*Effects*: Touch a single target and teleport them through the Nether, sending them anywhere within 5 to 15 squares with a variance of 1 to 5 squares from that point (the same as Blink).<br />
+*Prerequisites*: Stutterstep 10, Phase 5 <br />
+
+## Spacial Vortex 
+*Difficulty*: 5<br />
+*Target*: An area of 3 squares plus 1 square per 4 power levels, with a range of 5 squares plus 1.2 squares per power level<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 5500, minus 75 per level to a minimum of 3000<br />
+*Channeling Time*: 80 moves, minus 2 moves per level to a minimum of 45<br />
+*Effects*: Warp space and draw everyone within toward the central point. All targets within the AoE are pulled toward the center by 1 square per 4 power levels, to a maximum of 8 squares toward the center.<br />
+*Prerequisites*: Stutterstep 10 *or* Transposition 6, Extended Stride 4<br />
+
+## Farstep 
+*Difficulty*: 6<br />
+*Target*: Anywhere within 2 square plus 1.5 squares per power level<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 6500, minus 105 per level to a minimum of 2750<br />
+*Channeling Time*: 75 moves, minus 3 moves per level to a minimum of 30<br />
+*Effects*: Step into the Nether and re-emerge at a location nearby.  Farstep works through walls and across Z levels.<br />
+*Prerequisites*: Phase 10, Extended Stride 8 *or* Spacial Vortex 6 <br />
+
+## Oubliette 
+*Difficulty*: 7<br />
+*Target*: A single target within 2 squares plus 1.5 squares per power level<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 7500, minus 170 per level to a minimum of 4600<br />
+*Channeling Time*: 150 moves, minus 5.5 moves per level to a minimum of 75<br />
+*Effects*: Teleports a single monster somewhere *else*, removing them and anything they might drop. The monster must have HP lower than 15 to 350, plus 15 to 35 per power level, randomly determined when the power is used.  Oubliette cannot currently affect NPCs.<br />
+*Prerequisites*: Displacement 10, Farstep 6 *or* Transposition 8 *or * Spacial Vortex 8<br />
+
+## Gateway 
+*Difficulty*: 8<br />
+*Target*: One attuned location<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 10000, minus 200 per level to a minimum of 6000<br />
+*Channeling Time*: 200 moves, minus 5.5 moves per level to a minimum of 75. Attunement takes 8 hours, minus 30 minutes per power level of Gateway to a minimum of 30 minutes<br />
+*Effects*: Transport yourself through the Nether to an attuned location. This power works at any distance..<br />
+*Prerequisites*: Farstep 10, Extended Stride 10 <br />
+
+## Breach 
+*Difficulty*: 7<br />
+*Target*: A single target within 2 squares plus 1.3 squares per power level<br />
+*Duration*: Indefinitet<br />
+*Stamina Cost*: 9000, minus 250 per level to a minimum of 4500<br />
+*Channeling Time*: 250 moves, minus 6.5 moves per level to a minimum of 125<br />
+*Effects*: Opens a portal to the Nether and allows something to come through: from 1 to 3 monsters from the GROUP_NETHER_BREACH monster group. The psion has no control over what exactly comes through and no control over what they do when they arrive.<br />
+*Prerequisites*: Displacement 12 *or* Oubliette 7, Gateway 6<br />
+
 
 # Teleportation
 
