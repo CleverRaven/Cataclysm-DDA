@@ -200,7 +200,8 @@
         "max_contains_weight": "500 g",
         "moves": 250,
         "description": "Pocket for a face shield or a shield visor.",
-        "flag_restriction": [ "HELMET_FACE_SHIELD" ]
+        "flag_restriction": [ "HELMET_FACE_SHIELD" ],
+        "inherits_flags": true
       },
       {
         "pocket_type": "CONTAINER",
