@@ -1013,7 +1013,7 @@ void add_msg_if_player_sees( const tripoint &target, std::string msg )
 
 void add_msg_if_player_sees( const tripoint_bub_ms &target, std::string msg )
 {
-    add_msg_if_player_sees( target.raw(), msg );
+    add_msg_if_player_sees( target.raw(), std::move( msg ) );
 }
 
 void add_msg_if_player_sees( const Creature &target, std::string msg )
@@ -1034,7 +1034,7 @@ void add_msg_if_player_sees( const tripoint &target, const game_message_params &
 void add_msg_if_player_sees( const tripoint_bub_ms &target, const game_message_params &params,
                              std::string msg )
 {
-    add_msg_if_player_sees( target.raw(), params, msg );
+    add_msg_if_player_sees( target.raw(), params, std::move( msg ) );
 }
 
 void add_msg_if_player_sees( const Creature &target, const game_message_params &params,
