@@ -156,7 +156,10 @@
   {
     "id": "mon_secubot_america_refurbished",
     "type": "MONSTER",
-    "name": { "str": "refurbished autonomous TALON UGV Liberty Edition", "str_pl": "refurbished autonomous TALON UGVs Liberty Edition" },
+    "name": {
+      "str": "refurbished autonomous TALON UGV Liberty Edition",
+      "str_pl": "refurbished autonomous TALON UGVs Liberty Edition"
+    },
     "description": "Once a Talon UGV bot converted to shoot fireworks at trespassers, this has been refurbished and uses it's M16A4 once more.  It still has the American flag decal from it's service as a trespass deterrent.",
     "default_faction": "defense_bot",
     "species": [ "ROBOT" ],
