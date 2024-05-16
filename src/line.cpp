@@ -8,7 +8,6 @@
 
 #include "cata_assert.h"
 #include "enums.h"
-//####include "line_coordinates.h"
 #include "math_defines.h"
 #include "output.h"
 #include "string_formatter.h"

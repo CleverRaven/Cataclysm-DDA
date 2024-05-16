@@ -1565,7 +1565,7 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp, const bool adjust_
             // Place passenger on the new part location
             tripoint_bub_ms psgp( dst + next_pos + tripoint( 0, 0, psg_offset_z ) );
             // someone is in the way so try again
-            if( creatures.creature_at( psgp.raw() ) ) {//###
+            if( creatures.creature_at( psgp ) ) {
                 complete = false;
                 continue;
             }
@@ -3869,7 +3869,7 @@ void map::collapse_at( const tripoint_bub_ms &p, const bool silent, const bool w
                 if( !has_flag( ter_furn_flag::TFLAG_WALL, t ) ) {
                     furn_set( tz, furn_str_id::NULL_ID() );
                     ter_set( tz, ter_t_open_air );
-                    Creature *critter = get_creature_tracker().creature_at( tz.raw() );//###
+                    Creature *critter = get_creature_tracker().creature_at( tz );
                     if( critter != nullptr ) {
                         creature_on_trap( *critter );
                     }
@@ -4468,7 +4468,7 @@ void map::batter( const tripoint &p, int power, int tries, const bool silent )
 void map::crush( const tripoint_bub_ms &p )
 {
     creature_tracker &creatures = get_creature_tracker();
-    Character *crushed_player = creatures.creature_at<Character>( p.raw() );//###
+    Character *crushed_player = creatures.creature_at<Character>( p );
 
     if( crushed_player != nullptr ) {
         bool player_inside = false;
@@ -4505,7 +4505,7 @@ void map::crush( const tripoint_bub_ms &p )
         }
     }
 
-    if( monster *const monhit = creatures.creature_at<monster>( p.raw() ) ) {//###
+    if( monster *const monhit = creatures.creature_at<monster>( p ) ) {
         // 25 ~= 60 * .45 (torso)
         monhit->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_bash, rng( 0,
                              25 ) ) );

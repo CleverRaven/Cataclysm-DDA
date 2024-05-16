@@ -1342,7 +1342,7 @@ void hacksaw_activity_actor::do_turn( player_activity &/*act*/, Character &who )
             if( who.is_avatar() ) {
                 who.add_msg_if_player( m_bad, _( "Your %1$s ran out of charges." ), tool->tname() );
             } else { // who.is_npc()
-                add_msg_if_player_sees( who.pos(), _( "%1$s %2$s ran out of charges." ), who.disp_name( false, //###
+                add_msg_if_player_sees( who.pos_bub(), _( "%1$s %2$s ran out of charges." ), who.disp_name( false,
                                         true ), tool->tname() );
             }
             who.cancel_activity();
@@ -1365,7 +1365,7 @@ void hacksaw_activity_actor::do_turn( player_activity &/*act*/, Character &who )
             if( who.is_avatar() ) {
                 who.add_msg_if_player( m_bad, _( "Your %1$s ran out of charges." ), type.value()->nname( 1 ) );
             } else { // who.is_npc()
-                add_msg_if_player_sees( who.pos(), _( "%1$s %2$s ran out of charges." ), who.disp_name( false,//###
+                add_msg_if_player_sees( who.pos_bub(), _( "%1$s %2$s ran out of charges." ), who.disp_name( false,
                                         true ), type.value()->nname( 1 ) );
             }
             who.cancel_activity();
@@ -1608,7 +1608,7 @@ void glide_activity_actor::do_turn( player_activity &act, Character &you )
         act.set_to_null();
         return;
     }
-    Creature *creature_ahead = get_creature_tracker().creature_at( newpos.raw() );//###
+    Creature *creature_ahead = get_creature_tracker().creature_at( newpos );
     if( creature_ahead && creature_ahead->get_size() >= creature_size::medium &&
         you.get_size() >= creature_size::medium ) {
         // Zombies are too stupid to avoid midair collision
@@ -2563,7 +2563,7 @@ void boltcutting_activity_actor::do_turn( player_activity &/*act*/, Character &w
         if( who.is_avatar() ) {
             who.add_msg_if_player( m_bad, _( "Your %1$s ran out of charges." ), tool->tname() );
         } else { // who.is_npc()
-            add_msg_if_player_sees( who.pos(), _( "%1$s %2$s ran out of charges." ), who.disp_name( false,//###
+            add_msg_if_player_sees( who.pos_bub(), _( "%1$s %2$s ran out of charges." ), who.disp_name( false,
                                     true ), tool->tname() );
         }
         who.cancel_activity();
@@ -2894,13 +2894,9 @@ std::optional<tripoint_bub_ms> lockpick_activity_actor::select_location( avatar 
     }
 
     const ter_id terr_type = get_map().ter( *target );
-    std::optional<tripoint> work_around;//###
-    if( target.has_value() ) {
-        work_around = target.value().raw();
-    }
     if( *target == you.pos_bub() ) {
         you.add_msg_if_player( m_info, _( "You pick your nose and your sinuses swing open." ) );
-    } else if( get_creature_tracker().creature_at<npc>( *work_around ) ) {//###
+    } else if( get_creature_tracker().creature_at<npc>( *target ) ) {
         you.add_msg_if_player( m_info,
                                _( "You can pick your friends, and you can\npick your nose, but you can't pick\nyour friend's nose." ) );
     } else if( terr_type == ter_t_door_c ) {
@@ -4354,7 +4350,7 @@ void stash_activity_actor::do_turn( player_activity &, Character &who )
 {
     const tripoint_bub_ms pos = placement + who.pos_bub();
 
-    monster *pet = get_creature_tracker().creature_at<monster>( pos.raw() );//###
+    monster *pet = get_creature_tracker().creature_at<monster>( pos );
     if( pet != nullptr && pet->has_effect( effect_pet ) ) {
         stash_on_pet( obtain_activity_items( items, handler, who, current_bulk_unload ),
                       *pet, who );
@@ -4932,7 +4928,7 @@ void milk_activity_actor::do_turn( player_activity &act, Character &who )
     }
     map &here = get_map();
     const tripoint_bub_ms source_pos = here.bub_from_abs( monster_coords.at( 0 ) );
-    monster *source_mon = get_creature_tracker().creature_at<monster>( source_pos.raw() );//###
+    monster *source_mon = get_creature_tracker().creature_at<monster>( source_pos );
     if( source_mon == nullptr ) {
         // We might end up here if the creature dies while being milked
         who.add_msg_if_player( m_bad, _( "The udders slip out of your hands." ) );
@@ -4949,7 +4945,7 @@ void milk_activity_actor::finish( player_activity &act, Character &who )
     }
     map &here = get_map();
     const tripoint_bub_ms source_pos = here.bub_from_abs( monster_coords.at( 0 ) );
-    monster *source_mon = get_creature_tracker().creature_at<monster>( source_pos.raw() );//###
+    monster *source_mon = get_creature_tracker().creature_at<monster>( source_pos );
     if( source_mon == nullptr ) {
         debugmsg( "could not find source creature for liquid transfer" );
         return;
@@ -5339,7 +5335,7 @@ void oxytorch_activity_actor::do_turn( player_activity &/*act*/, Character &who 
         if( who.is_avatar() ) {
             who.add_msg_if_player( m_bad, _( "Your %1$s ran out of charges." ), tool->tname() );
         } else { // who.is_npc()
-            add_msg_if_player_sees( who.pos(), _( "%1$s %2$s ran out of charges." ), who.disp_name( false,//###
+            add_msg_if_player_sees( who.pos_bub(), _( "%1$s %2$s ran out of charges." ), who.disp_name( false,
                                     true ), tool->tname() );
         }
         who.cancel_activity();
@@ -5803,7 +5799,7 @@ void prying_activity_actor::do_turn( player_activity &/*act*/, Character &who )
         if( who.is_avatar() ) {
             who.add_msg_if_player( m_bad, _( "Your %1$s ran out of charges." ), tool->tname() );
         } else { // who.is_npc()
-            add_msg_if_player_sees( who.pos(), _( "%1$s %2$s ran out of charges." ), who.disp_name( false,//###
+            add_msg_if_player_sees( who.pos_bub(), _( "%1$s %2$s ran out of charges." ), who.disp_name( false,
                                     true ), tool->tname() );
         }
         who.cancel_activity();
@@ -6520,7 +6516,7 @@ void chop_tree_activity_actor::finish( player_activity &act, Character &who )
             tripoint_bub_ms proposed_to = pos + point( 3 * direc.x, 3 * direc.y );
             std::vector<tripoint_bub_ms> rough_tree_line = line_to( pos, proposed_to );
             for( const tripoint_bub_ms &elem : rough_tree_line ) {
-                if( creatures.creature_at( elem.raw() ) ) {//###
+                if( creatures.creature_at( elem ) ) {
                     cantuse = true;
                     break;
                 }

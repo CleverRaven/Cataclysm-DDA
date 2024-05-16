@@ -100,11 +100,12 @@ inline void add_msg_if_player_sees( const tripoint &target, const char *const ms
     return add_msg_if_player_sees( target, string_format( msg, std::forward<Args>( args )... ) );
 }
 template<typename ...Args>
-//###inline void add_msg_if_player_sees(const tripoint_bub_ms& target, const char* const msg, Args &&... args)
-//###{
-//###    return add_msg_if_player_sees(target, string_format(msg, std::forward<Args>(args)...));
-//###}
-//###template<typename ...Args>
+inline void add_msg_if_player_sees( const tripoint_bub_ms &target, const char *const msg,
+                                    Args &&... args )
+{
+    return add_msg_if_player_sees( target, string_format( msg, std::forward<Args>( args )... ) );
+}
+template<typename ...Args>
 inline void add_msg_if_player_sees( const Creature &target, const char *const msg, Args &&... args )
 {
     return add_msg_if_player_sees( target, string_format( msg, std::forward<Args>( args )... ) );
