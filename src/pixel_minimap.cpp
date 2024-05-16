@@ -305,7 +305,7 @@ void pixel_minimap::update_cache_at( const tripoint &sm_pos )
 {
     const map &here = get_map();
     const level_cache &access_cache = here.access_cache( sm_pos.z );
-    const auto& vision_modes = get_player_character().get_vision_modes();
+    const auto &vision_modes = get_player_character().get_vision_modes();
     const bool nv_goggle = vision_modes[NV_GOGGLES] || vision_modes[NG_GOGGLES_FAR];
 
     // TODO: fix point types
