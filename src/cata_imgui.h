@@ -2,6 +2,7 @@
 #include <cstddef>
 #include <memory>
 #include <string>
+#include <vector>
 
 class nc_color;
 struct input_event;
@@ -13,7 +14,7 @@ struct input_event;
 #endif
 
 struct point;
-class ImVec2;
+struct ImVec2;
 class Font;
 class input_context;
 
@@ -43,6 +44,10 @@ enum class dialog_result {
 
 class client
 {
+        std::vector<int> cata_input_trail;
+#if defined(TILES) || defined(WIN32)
+        std::unordered_map<uint32_t, unsigned char> sdlColorsToCata;
+#endif
     public:
 #if !(defined(TILES) || defined(WIN32))
         client();

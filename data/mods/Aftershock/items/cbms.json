@@ -38,6 +38,24 @@
     "difficulty": 5
   },
   {
+    "id": "afs_bio_blood_plus",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Synthblood Biofactory CBM" },
+    "description": "A Mercurial Genomics brand biofactory that replaces the user's blood with a synthetic substitute.  Primarily designed to boost combat performance, its common among the corporation's own security forces.  The biofactory can't be removed once integrated with a host.",
+    "price_postapoc": "15 kUSD",
+    "difficulty": 5
+  },
+  {
+    "id": "afs_bio_blood_brain",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Blood Neurology CBM" },
+    "description": "A radical nanite treatment that allows its host's circulatory system to function as a secondary nervous system, greatly increasing their mental acuity and allowing them to survive trauma that would otherwise be fatal.  A cybernetic enhancement of this category is a rare find and could be easily traded for significant favors and resources.",
+    "price_postapoc": "475 kUSD",
+    "difficulty": 5
+  },
+  {
     "id": "afs_bio_linguistic_coprocessor",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",

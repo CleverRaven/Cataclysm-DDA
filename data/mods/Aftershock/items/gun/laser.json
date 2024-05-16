@@ -72,7 +72,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "ammo_effects": [ "LASER", "INCENDIARY" ],
+    "ammo_effects": [ "LASER", "IGNITE" ],
     "flags": [ "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "USE_UPS" ],
     "melee_damage": { "bash": 4 }
   },
@@ -168,7 +168,7 @@
     "overheat_threshold": 150,
     "modes": [ [ "DEFAULT", "pulse", 1 ], [ "BURST", "2s sequence", 2 ] ],
     "ammo_to_fire": 0,
-    "ammo_effects": [ "INCENDIARY", "DAZZLE_BEAM", "PLASMA_BUBBLE" ],
+    "ammo_effects": [ "IGNITE", "DAZZLE_BEAM", "PLASMA_BUBBLE" ],
     "delete": { "flags": [ "NO_UNLOAD", "NO_RELOAD" ] },
     "energy_drain": "30 kJ",
     "built_in_mods": [ "afs_holo_aim_assist" ],
@@ -227,7 +227,8 @@
     "overheat_threshold": 100,
     "cooling_value": 1,
     "heat_per_shot": 20,
-    "volume": "3 L",
+    "volume": "8 L",
+    "longest_side": "1065 mm",
     "range": 37,
     "modes": [ [ "DEFAULT", "pulse", 1 ], [ "BURST", "2s sequence", 2 ], [ "AUTO", "3s sequence", 3 ] ],
     "extend": { "ammo_effects": [ "TACTICAL_LASER_EXPLOSION" ] },

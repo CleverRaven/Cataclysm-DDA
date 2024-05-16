@@ -955,6 +955,9 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
         bool multishot = proj.count > 1;
         std::map< Creature *, std::pair < int, int >> targets_hit;
         for( int projectile_number = 0; projectile_number < proj.count; ++projectile_number ) {
+            if( !first && !proj.multi_projectile_effects ) {
+                proj.proj_effects.erase( proj.proj_effects.begin(), proj.proj_effects.end() );
+            }
             dealt_projectile_attack shot = projectile_attack( proj, pos(), aim,
                                            dispersion, this, in_veh, wp_attack, first );
             first = false;
@@ -1605,7 +1608,7 @@ Target_attributes::Target_attributes( tripoint src, tripoint target )
            target_critter->ranged_target_size() :
            get_map().ranged_target_size( target );
     size_in_moa = target_size_in_moa( range, size ) ;
-    light = get_map().ambient_light_at( target );
+    light = get_map().ambient_light_at( tripoint_bub_ms( target ) );
     visible = shooter->sees( target );
 
 }
@@ -1991,7 +1994,8 @@ static void draw_throw_aim( const target_ui &ui, const Character &you, const cat
     const target_ui::TargetMode throwing_target_mode = is_blind_throw ?
             target_ui::TargetMode::ThrowBlind :
             target_ui::TargetMode::Throw;
-    Target_attributes attributes( range, target_size, get_map().ambient_light_at( target_pos ),
+    Target_attributes attributes( range, target_size,
+                                  get_map().ambient_light_at( tripoint_bub_ms( target_pos ) ),
                                   you.sees( target_pos ) );
 
     const std::vector<aim_type_prediction> aim_chances = calculate_ranged_chances( ui, you,
@@ -2080,6 +2084,10 @@ static projectile make_gun_projectile( const item &gun )
         const auto &ammo = gun.ammo_data()->ammo;
         proj.critical_multiplier = ammo->critical_multiplier;
         proj.count = ammo->count;
+        proj.multi_projectile_effects = ammo->multi_projectile_effects;
+        if( fx.count( "MULTI_EFFECTS" ) ) {
+            proj.multi_projectile_effects = true;
+        }
         proj.shot_spread = ammo->shot_spread * gun.gun_shot_spread_multiplier();
         if( !ammo->drop.is_null() && x_in_y( ammo->drop_chance, 1.0 ) ) {
             item drop( ammo->drop );
@@ -2863,7 +2871,7 @@ bool target_ui::set_cursor_pos( const tripoint &new_pos )
     map &here = get_map();
     if( new_pos != src ) {
         // On Z axis, make sure we do not exceed map boundaries
-        valid_pos.z = clamp( valid_pos.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT - 1 );
+        valid_pos.z = clamp( valid_pos.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT );
         // Or current view range
         valid_pos.z = clamp( valid_pos.z - src.z, -fov_3d_z_range, fov_3d_z_range ) + src.z;
 
@@ -3222,7 +3230,7 @@ void target_ui::cycle_targets( int direction )
 void target_ui::set_view_offset( const tripoint &new_offset ) const
 {
     tripoint new_( new_offset.xy(), clamp( new_offset.z, -fov_3d_z_range, fov_3d_z_range ) );
-    new_.z = clamp( new_.z + src.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT - 1 ) - src.z;
+    new_.z = clamp( new_.z + src.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT ) - src.z;
 
     bool changed_z = you->view_offset.z != new_.z;
     you->view_offset = new_;
@@ -3468,14 +3476,14 @@ bool target_ui::action_aim_and_shoot( const std::string &action )
 
 void target_ui::draw_terrain_overlay()
 {
-    tripoint center = you->pos() + you->view_offset;
+    tripoint_bub_ms center = you->pos_bub() + you->view_offset;
 
     // Removes parts that don't belong to currently visible Z level
     const auto filter_this_z = [&center]( const std::vector<tripoint> &traj ) {
         std::vector<tripoint> this_z = traj;
         this_z.erase( std::remove_if( this_z.begin(), this_z.end(),
         [&center]( const tripoint & p ) {
-            return p.z != center.z;
+            return p.z != center.z();
         } ), this_z.end() );
         return this_z;
     };
@@ -3498,11 +3506,11 @@ void target_ui::draw_terrain_overlay()
         // we can draw it even if the player can't see some parts
         points.erase( dst ); // Workaround for fake cursor on TILES
         std::vector<tripoint> l( points.begin(), points.end() );
-        if( dst.z == center.z ) {
+        if( dst.z == center.z() ) {
             // Workaround for fake cursor bug on TILES
             l.push_back( dst );
         }
-        g->draw_line( src, center, l, true );
+        g->draw_line( src, center.raw(), l, true );
     }
 
     // Draw trajectory
@@ -3512,12 +3520,12 @@ void target_ui::draw_terrain_overlay()
         // Draw a highlighted trajectory only if we can see the endpoint.
         // Provides feedback to the player, but avoids leaking information
         // about tiles they can't see.
-        g->draw_line( dst, center, this_z );
+        g->draw_line( dst, center.raw(), this_z );
     }
 
     // Since draw_line does nothing if destination is not visible,
     // cursor also disappears. Draw it explicitly.
-    if( dst.z == center.z ) {
+    if( dst.z == center.z() ) {
         g->draw_cursor( dst );
     }
 
@@ -3525,7 +3533,7 @@ void target_ui::draw_terrain_overlay()
     if( mode == TargetMode::Spell ) {
         drawsq_params params = drawsq_params().highlight( true ).center( center );
         for( const tripoint &tile : spell_aoe ) {
-            if( tile.z != center.z ) {
+            if( tile.z != center.z() ) {
                 continue;
             }
 #ifdef TILES

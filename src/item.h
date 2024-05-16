@@ -836,6 +836,8 @@ class item : public visitable
         /** True if every pocket is rigid or we have no pockets */
         bool all_pockets_rigid() const;
 
+        bool container_type_pockets_empty() const;
+
         // gets all pockets contained in this item
         std::vector<const item_pocket *> get_all_contained_pockets() const;
         std::vector<item_pocket *> get_all_contained_pockets();
@@ -1740,9 +1742,10 @@ class item : public visitable
         bool can_reload_with( const item &ammo, bool now ) const;
 
         /**
-          * Returns true if any of the contents are not frozen or not empty if it's liquid
+          * Returns true if it doesn't have flag NO_UNLOAD,
+          * and any of the contents are not frozen or not empty if it's liquid
           */
-        bool can_unload_liquid() const;
+        bool can_unload() const;
 
         /**
          * Returns true if none of the contents are solid

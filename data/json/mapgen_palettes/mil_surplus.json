@@ -212,7 +212,7 @@
           "subtype": "distribution",
           "entries": [
             { "item": "hat_boonie", "prob": 1 },
-            { "item": "webbing_belt", "prob": 1 },
+            { "group": "loaded_webbing_belt", "prob": 1 },
             { "item": "pants_army", "prob": 1 },
             { "item": "jacket_army", "prob": 1 },
             { "item": "winter_pants_army", "prob": 1 },

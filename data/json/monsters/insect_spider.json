@@ -84,7 +84,6 @@
     "bleed_rate": 60,
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_basic_bug" ],
     "harvest": "mutant_meatslug",
-    "dissect": "dissect_troglobite_sample_large",
     "reproduction": { "baby_egg": "egg_worm", "baby_count": 1, "baby_timer": 30 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "death_function": {
@@ -104,8 +103,9 @@
     "copy-from": "mon_graboid",
     "proportional": { "hp": 0.4, "speed": 0.67, "volume": 0.475, "weight": 0.475 },
     "morale": -5,
-    "dissect": "dissect_troglobite_sample_large",
+    "death_function": {  },
     "upgrades": { "age_grow": 10, "into": "mon_graboid" },
+    "dissect": "dissect_troglobite_sample_large",
     "zombify_into": "mon_meat_cocoon_large",
     "armor": { "bash": 12, "cut": 4, "bullet": 2 },
     "extend": { "flags": [ "NO_BREED" ] }
@@ -119,6 +119,7 @@
     "proportional": { "hp": 0.4, "speed": 0.67, "volume": 0.475, "weight": 0.475 },
     "morale": -15,
     "dissect": "dissect_troglobite_sample_single",
+    "death_function": {  },
     "upgrades": { "age_grow": 10, "into": "mon_worm" },
     "zombify_into": "mon_meat_cocoon_small",
     "armor": { "bash": 4 },
@@ -147,7 +148,6 @@
     "special_attacks": [ [ "EAT_FOOD", 60 ], [ "EAT_CARRION", 60 ], [ "EAT_CROP", 60 ] ],
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_basic_bug" ],
     "harvest": "mutant_meatslug",
-    "dissect": "dissect_troglobite_sample_small",
     "reproduction": { "baby_egg": "egg_worm", "baby_count": 1, "baby_timer": 30 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "death_function": {
@@ -166,7 +166,6 @@
     "description": "A disturbingly large wriggling earthworm with the moist earth still clinging to its slimy body.  Despite its size it appears to be peaceful, a refreshing change for once.",
     "copy-from": "mon_worm",
     "proportional": { "hp": 0.85, "speed": 0.85, "volume": 0.67, "weight": 0.67 },
-    "dissect": "dissect_troglobite_sample_single",
     "upgrades": { "age_grow": 30, "into": "mon_worm" },
     "death_function": {
       "message": "The %s splits in two!",
@@ -184,8 +183,9 @@
     "copy-from": "mon_worm_small",
     "proportional": { "hp": 0.4, "speed": 0.67, "volume": 0.475, "weight": 0.475 },
     "morale": -15,
-    "dissect": "dissect_troglobite_sample_single",
+    "death_function": {  },
     "upgrades": { "age_grow": 10, "into": "mon_worm_small" },
+    "dissect": "dissect_troglobite_sample_single",
     "zombify_into": "mon_meat_cocoon_small",
     "armor": { "bash": 3 }
   },

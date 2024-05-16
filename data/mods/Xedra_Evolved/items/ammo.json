@@ -98,7 +98,7 @@
     "range": 12,
     "count": 1,
     "recoil": 900,
-    "effects": [ "INCENDIARY" ],
+    "effects": [ "IGNITE" ],
     "flags": [ "ZERO_WEIGHT" ]
   },
   {

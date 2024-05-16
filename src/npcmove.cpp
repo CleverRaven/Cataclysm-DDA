@@ -78,6 +78,7 @@
 #include "vehicle.h"
 #include "viewer.h"
 #include "visitable.h"
+#include "vehicle_selector.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 
@@ -1970,7 +1971,7 @@ npc_action npc::method_of_attack()
     // if there's enough of a threat to be here, power up the combat CBMs and any combat items.
     prepare_for_combat();
 
-    evaluate_best_weapon( critter );
+    evaluate_best_attack( critter );
 
     std::optional<int> potential = ai_cache.current_attack_evaluation.value();
     if( potential && *potential > 0 ) {
@@ -1981,7 +1982,7 @@ npc_action npc::method_of_attack()
     }
 }
 
-void npc::evaluate_best_weapon( const Creature *target )
+void npc::evaluate_best_attack( const Creature *target )
 {
     std::shared_ptr<npc_attack> best_attack;
     npc_attack_rating best_evaluated_attack;
@@ -3504,7 +3505,7 @@ void npc::find_item()
     }
 
     fetching_item = false;
-    wanted_item = nullptr;
+    wanted_item = {};
     int best_value = minimum_item_value();
     // Not perfect, but has to mirror pickup code
     units::volume volume_allowed = volume_capacity() - volume_carried();
@@ -3514,8 +3515,6 @@ void npc::find_item()
     //int range = sight_range( g->light_level( posz() ) );
     //range = std::max( 1, std::min( 12, range ) );
 
-    const item *wanted = wanted_item;
-
     if( volume_allowed <= 0_ml || weight_allowed <= 0_gram ) {
         add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s considered picking something up, but no storage left.",
                        name );
@@ -3523,13 +3522,14 @@ void npc::find_item()
     }
 
     const auto consider_item =
-        [&wanted, &best_value, this]
+        [&best_value, this]
     ( const item & it, const tripoint & p ) {
         if( ::good_for_pickup( it, *this, p ) ) {
             wanted_item_pos = p;
-            wanted_item = &it;
-            wanted = wanted_item;
             best_value = has_item_whitelist() ? 1000 : value( it );
+            return true;
+        } else {
+            return false;
         }
     };
 
@@ -3537,9 +3537,9 @@ void npc::find_item()
     // Harvest item doesn't exist, so we'll be checking by its name
     std::string wanted_name;
     const auto consider_terrain =
-    [ this, volume_allowed, &wanted, &wanted_name, &here ]( const tripoint & p ) {
+    [ this, volume_allowed, &wanted_name, &here ]( const tripoint & p ) {
         // We only want to pick plants when there are no items to pick
-        if( !has_item_whitelist() || wanted != nullptr || !wanted_name.empty() ||
+        if( !has_item_whitelist() || wanted_item.get_item() != nullptr || !wanted_name.empty() ||
             volume_allowed < 250_ml ) {
             return;
         }
@@ -3566,7 +3566,7 @@ void npc::find_item()
         const tripoint abs_p = get_location().raw() - pos() + p;
         const int prev_num_items = ai_cache.searched_tiles.get( abs_p, -1 );
         // Prefetch the number of items present so we can bail out if we already checked here.
-        const map_stack m_stack = here.i_at( p );
+        map_stack m_stack = here.i_at( p );
         int num_items = m_stack.size();
         const optional_vpart_position vp = here.veh_at( p );
         if( vp ) {
@@ -3577,16 +3577,18 @@ void npc::find_item()
         if( prev_num_items == num_items ) {
             continue;
         }
-        auto cache_tile = [this, &abs_p, num_items, &wanted]() {
-            if( wanted == nullptr ) {
+        auto cache_tile = [this, &abs_p, num_items]() {
+            if( wanted_item.get_item() == nullptr ) {
                 ai_cache.searched_tiles.insert( 1000, abs_p, num_items );
             }
         };
         bool can_see = false;
         if( here.sees_some_items( p, *this ) && sees( p ) ) {
             can_see = true;
-            for( const item &it : m_stack ) {
-                consider_item( it, p );
+            for( item &it : m_stack ) {
+                if( consider_item( it, p ) ) {
+                    wanted_item = item_location{ map_cursor{p}, &it };
+                }
             }
         }
 
@@ -3614,14 +3616,16 @@ void npc::find_item()
             continue;
         }
 
-        for( const item &it : cargo->items() ) {
-            consider_item( it, p );
+        for( item &it : cargo->items() ) {
+            if( consider_item( it, p ) ) {
+                wanted_item = {  vehicle_cursor{ cargo->vehicle(), static_cast<ptrdiff_t>( cargo->part_index() ) }, &it };
+            }
         }
         cache_tile();
     }
 
-    if( wanted != nullptr ) {
-        wanted_name = wanted->tname();
+    if( wanted_item.get_item() != nullptr ) {
+        wanted_name = wanted_item->tname();
     }
 
     if( wanted_name.empty() ) {
@@ -3640,7 +3644,7 @@ void npc::find_item()
     if( path.empty() && dist_to_item > 1 ) {
         // Item not reachable, let's just totally give up for now
         fetching_item = false;
-        wanted_item = nullptr;
+        wanted_item = {};
     }
 
     if( fetching_item && rl_dist( wanted_item_pos, pos() ) > 1 && is_walking_with() ) {
@@ -3657,7 +3661,7 @@ void npc::pick_up_item()
     if( !rules.has_flag( ally_rule::allow_pick_up ) && is_player_ally() ) {
         add_msg_debug( debugmode::DF_NPC, "%s::pick_up_item(); Canceling on player's request", get_name() );
         fetching_item = false;
-        wanted_item = nullptr;
+        wanted_item = {};
         mod_moves( -1 );
         return;
     }
@@ -3673,7 +3677,7 @@ void npc::pick_up_item()
         // Items we wanted no longer exist and we can see it
         // Or player who is leading us doesn't want us to pick it up
         fetching_item = false;
-        wanted_item = nullptr;
+        wanted_item = {};
         move_pause();
         add_msg_debug( debugmode::DF_NPC, "Canceling pickup - no items or new zone" );
         return;
@@ -3681,12 +3685,12 @@ void npc::pick_up_item()
 
     // Check: Is the item owned? Has the situation changed since we last moved? Am 'I' now
     // standing in front of the shopkeeper/player that I am about to steal from?
-    if( wanted_item != nullptr ) {
+    if( wanted_item ) {
         if( !::good_for_pickup( *wanted_item, *this, wanted_item_pos ) ) {
             add_msg_debug( debugmode::DF_NPC_ITEMAI,
                            "%s canceling pickup - situation changed since they decided to take item", get_name() );
             fetching_item = false;
-            wanted_item = nullptr;
+            wanted_item = {};
             move_pause();
             return;
         }
@@ -3710,7 +3714,7 @@ void npc::pick_up_item()
         add_msg_debug( debugmode::DF_NPC, "Can't find path" );
         // This can happen, always do something
         fetching_item = false;
-        wanted_item = nullptr;
+        wanted_item = {};
         move_pause();
         return;
     }
@@ -3729,7 +3733,7 @@ void npc::pick_up_item()
             // Note: we didn't actually pick up anything, just spawned items
             // but we want the item picker to find new items
             fetching_item = false;
-            wanted_item = nullptr;
+            wanted_item = {};
             return;
         }
     }
@@ -3759,7 +3763,7 @@ void npc::pick_up_item()
     }
 
     fetching_item = false;
-    wanted_item = nullptr;
+    wanted_item = {};
     has_new_items = true;
 }
 
@@ -4038,9 +4042,27 @@ bool npc::do_player_activity()
     return moves != old_moves;
 }
 
-bool npc::wield_better_weapon()
+double npc::evaluate_weapon( item &maybe_weapon, bool can_use_gun, bool use_silent ) const
 {
-    // TODO: Allow wielding weaker weapons against weaker targets
+    bool allowed = can_use_gun && maybe_weapon.is_gun() && ( !use_silent || maybe_weapon.is_silent() );
+    // According to unmodified evaluation score, NPCs almost always prioritize wielding guns if they have one.
+    // This is relatively reasonable, as players can issue commands to NPCs when we do not want them to use ranged weapons.
+    // Conversely, we cannot directly issue commands when we want NPCs to prioritize ranged weapons.
+    // Note that the scoring method here is different from the 'weapon_value' used elsewhere.
+    double val_gun = allowed ? gun_value( maybe_weapon, maybe_weapon.shots_remaining( this ) ) : 0;
+    add_msg_debug( debugmode::DF_NPC_ITEMAI,
+                   "%s %s valued at <color_light_cyan>%1.2f as a ranged weapon to wield</color>.",
+                   disp_name( true ), maybe_weapon.type->get_id().str(), val_gun );
+    double val_melee = melee_value( maybe_weapon );
+    add_msg_debug( debugmode::DF_NPC_ITEMAI,
+                   "%s %s valued at <color_light_cyan>%1.2f as a melee weapon to wield</color>.", disp_name( true ),
+                   maybe_weapon.type->get_id().str(), val_melee );
+    double val = std::max( val_gun, val_melee );
+    return val;
+}
+
+item *npc::evaluate_best_weapon() const
+{
     bool can_use_gun = !is_player_ally() || rules.has_flag( ally_rule::use_guns );
     bool use_silent = is_player_ally() && rules.has_flag( ally_rule::use_silent );
 
@@ -4049,45 +4071,32 @@ bool npc::wield_better_weapon()
 
     // Check if there's something better to wield
     item *best = &weap;
-    double best_value = -100.0;
+    double best_value = evaluate_weapon( weap, can_use_gun, use_silent );
 
-    const auto compare_weapon =
-    [this, &weap, &best, &best_value, can_use_gun, use_silent]( const item & it ) {
-        bool allowed = can_use_gun && it.is_gun() && ( !use_silent || it.is_silent() );
-        // According to unmodified evaluation score, NPCs almost always prioritize wielding guns if they have one.
-        // This is relatively reasonable, as players can issue commands to NPCs when we do not want them to use ranged weapons.
-        // Conversely, we cannot directly issue commands when we want NPCs to prioritize ranged weapons.
-        // Note that the scoring method here is different from the 'weapon_value' used elsewhere.
-        double val_gun = allowed ? gun_value( it, it.shots_remaining( this ) ) : 0;
-        add_msg_debug( debugmode::DF_NPC_ITEMAI,
-                       "%s %s valued at <color_light_cyan>%1.2f as a ranged weapon to wield</color>.",
-                       disp_name( true ), it.type->get_id().str(), val_gun );
-        double val_melee = melee_value( it );
-        add_msg_debug( debugmode::DF_NPC_ITEMAI,
-                       "%s %s valued at <color_light_cyan>%1.2f as a melee weapon to wield</color>.", disp_name( true ),
-                       it.type->get_id().str(), val_melee );
-        double val = std::max( val_gun, val_melee );
-        bool using_same_type_bionic_weapon = is_using_bionic_weapon()
-                                             && &it != &weap
-                                             && it.type->get_id() == weap.type->get_id();
-
-        if( val > best_value && !using_same_type_bionic_weapon ) {
-            best = const_cast<item *>( &it );
-            best_value = val;
-        }
-    };
-
-    compare_weapon( weap );
     // To prevent changing to barely better stuff
     best_value *= std::max<float>( 1.0f, ai_cache.danger_assessment / 10.0f );
 
     // Fists aren't checked below
-    compare_weapon( null_item_reference() );
+    double fist_value = evaluate_weapon( null_item_reference(), can_use_gun, use_silent );
 
-    visit_items( [&compare_weapon]( item * node, item * ) {
-        // Only compare melee weapons, guns, or holstered items
+    if( fist_value > best_value ) {
+        best = &null_item_reference();
+        best_value = fist_value;
+    }
+
+    //Now check through the NPC's inventory for melee weapons, guns, or holstered items
+    visit_items( [this, can_use_gun, use_silent, &weap, &best_value, &best]( item * node, item * ) {
+        double weapon_value = 0.0;
+        bool using_same_type_bionic_weapon = is_using_bionic_weapon()
+                                             && node != &weap
+                                             && node->type->get_id() == weap.type->get_id();
+
         if( node->is_melee() || node->is_gun() ) {
-            compare_weapon( *node );
+            weapon_value = evaluate_weapon( *node, can_use_gun, use_silent );
+            if( weapon_value > best_value && !using_same_type_bionic_weapon ) {
+                best = const_cast<item *>( node );
+                best_value = weapon_value;
+            }
             return VisitResponse::SKIP;
         } else if( node->get_use( "holster" ) && !node->empty() ) {
             // we just recur to the next farther down
@@ -4096,21 +4105,37 @@ bool npc::wield_better_weapon()
         return VisitResponse::NEXT;
     } );
 
-    // TODO: Reimplement switching to empty guns
-    // Needs to check reload speed, RELOAD_ONE etc.
-    // Until then, the NPCs should reload the guns as a last resort
+    return best;
+}
 
-    if( best == &weap ) {
+bool npc::wield_better_weapon()
+{
+    // These are also assigned here so npc::evaluate_best_weapon() can be called by itself
+    bool can_use_gun = !is_player_ally() || rules.has_flag( ally_rule::use_guns );
+    bool use_silent = is_player_ally() && rules.has_flag( ally_rule::use_silent );
+
+    item_location weapon = get_wielded_item();
+    item &weap = weapon ? *weapon : null_item_reference();
+    item *best = &weap;
+
+    item *better_weapon = evaluate_best_weapon();
+
+    if( best == better_weapon ) {
         add_msg_debug( debugmode::DF_NPC, "Wielded %s is best at %.1f, not switching",
                        best->type->get_id().str(),
-                       best_value );
+                       evaluate_weapon( *better_weapon, can_use_gun, use_silent ) );
         return false;
     }
 
-    add_msg_debug( debugmode::DF_NPC, "Wielding %s at value %.1f", best->type->get_id().str(),
-                   best_value );
+    add_msg_debug( debugmode::DF_NPC, "Wielding %s at value %.1f", better_weapon->type->get_id().str(),
+                   evaluate_weapon( *better_weapon, can_use_gun, use_silent ) );
 
-    wield( *best );
+    // Always returns true, but future proof
+    bool wield_success = wield( *better_weapon );
+    if( !wield_success ) {
+        debugmsg( "NPC failed to wield better weapon %s", better_weapon->tname() );
+        return false;
+    }
     return true;
 }
 

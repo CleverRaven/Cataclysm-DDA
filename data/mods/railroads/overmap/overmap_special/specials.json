@@ -37,6 +37,7 @@
     "city_distance": [ -1, 20 ],
     "city_sizes": [ 3, 12 ],
     "occurrences": [ 50, 100 ],
+    "priority": 1,
     "flags": [ "CLASSIC", "UNIQUE", "URBAN", "MAN_MADE" ]
   }
 ]

@@ -11,7 +11,7 @@
       { "group": "newspaper_recent", "prob": 60 },
       { "group": "brochures", "prob": 15 },
       { "group": "pamphlets", "prob": 5 },
-      { "item": "flyer", "prob": 30, "count-max": 2 },
+      { "item": "flyer", "prob": 30, "count": [ 0, 2 ] },
       { "item": "survnote", "prob": 3 }
     ]
   },

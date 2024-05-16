@@ -55,8 +55,8 @@
     "id": "NC_SOLDIER_QMASTER_misc",
     "subtype": "collection",
     "items": [
-      { "item": "RobofacCoin", "count-min": 5, "count-max": 30, "prob": 30 },
-      { "item": "FMCNote", "count-min": 30, "count-max": 300, "prob": 10 },
+      { "item": "RobofacCoin", "count": [ 5, 30 ], "prob": 30 },
+      { "item": "FMCNote", "count": [ 30, 300 ], "prob": 10 },
       { "group": "ammo_milspec", "count": [ 2, 5 ] },
       { "group": "mags_milspec", "count": [ 1, 3 ] },
       { "group": "mags_military", "count": [ 3, 7 ] },

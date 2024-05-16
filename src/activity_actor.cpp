@@ -138,6 +138,7 @@ static const activity_id ACT_HACKING( "ACT_HACKING" );
 static const activity_id ACT_HACKSAW( "ACT_HACKSAW" );
 static const activity_id ACT_HAIRCUT( "ACT_HAIRCUT" );
 static const activity_id ACT_HARVEST( "ACT_HARVEST" );
+static const activity_id ACT_HEAT( "ACT_HEAT" );
 static const activity_id ACT_HOTWIRE_CAR( "ACT_HOTWIRE_CAR" );
 static const activity_id ACT_INSERT_ITEM( "ACT_INSERT_ITEM" );
 static const activity_id ACT_INVOKE_ITEM( "ACT_INVOKE_ITEM" );
@@ -5567,6 +5568,87 @@ std::unique_ptr<activity_actor> reel_cable_activity_actor::deserialize( JsonValu
     return actor.clone();
 }
 
+void outfit_swap_actor::start( player_activity &act, Character &who )
+{
+    item fake_storage( outfit_item->typeId() );
+    for( const item_location &worn_item : who.get_visible_worn_items() ) {
+        act.moves_total += who.item_handling_cost( *worn_item ); // Cost of taking it off
+        act.moves_total += who.item_store_cost( *worn_item, fake_storage ); // And putting it away
+    }
+    for( const item *clothing : outfit_item->all_items_top() ) {
+        auto ret = who.can_wear( *clothing );
+        // Note this is checking if we can put something new on, but it might conflict with our current clothing, causing a
+        // spurious failure. Maybe we should strip the player first?
+        if( ret.success() ) {
+            act.moves_total += who.item_wear_cost( *clothing );
+        } else {
+            act.moves_total += who.item_retrieve_cost( *clothing, *outfit_item );
+            // Dropping takes no time? So I guess that's all we need
+        }
+    }
+    act.moves_left = act.moves_total;
+}
+
+void outfit_swap_actor::finish( player_activity &act, Character &who )
+{
+    map &here = get_map();
+    // First, make a new outfit and shove all our existing clothes into it.
+    item new_outfit( outfit_item->typeId() );
+    item_location ground = here.add_item_ret_loc( who.pos(), new_outfit, true );
+    if( !ground ) {
+        debugmsg( "Failed to swap outfits during outfit_swap_actor::finish" );
+        act.set_to_null();
+        return;
+    }
+    // Taken-off items are put in this temporary list, then naturally deleted from the world when the function returns.
+    std::list<item> it_list;
+    for( item_location &worn_item : who.get_visible_worn_items() ) {
+        item outfit_component( *worn_item );
+        if( who.takeoff( worn_item, &it_list ) ) {
+            ground->force_insert_item( outfit_component, pocket_type::CONTAINER );
+        }
+    }
+
+    // Now we have to take clothes out of the one we activated
+    for( item *component : outfit_item->all_items_top() ) {
+        auto ret = who.can_wear( *component );
+        if( ret.success() ) {
+            item_location new_clothes( who, component );
+            who.wear( new_clothes );
+        } else {
+            // For some reason we couldn't wear this item. Maybe the player mutated in the meanwhile, but
+            // drop the item instead of deleting it.
+            here.add_item( who.pos(), *component );
+        }
+    }
+
+    who.i_rem( outfit_item.get_item() );
+
+    // Now we just did a whole bunch of wearing and taking off at once, but we had already paid that movecost by doing the activity
+    // So we reset our moves
+    who.set_moves( 0 );
+    // TODO: Granularize this and allow resumable swapping if you were interrupted during the activity
+
+    act.set_to_null();
+}
+
+void outfit_swap_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "outfit_item", outfit_item );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> outfit_swap_actor::deserialize( JsonValue &jsin )
+{
+    outfit_swap_actor actor( {} );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "outfit_item", actor.outfit_item );
+    return actor.clone();
+}
+
 void meditate_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = to_moves<int>( 20_minutes );
@@ -7602,6 +7684,107 @@ std::unique_ptr<activity_actor> vehicle_unfolding_activity_actor::deserialize( J
     return actor.clone();
 }
 
+int heat_activity_actor::get_available_heater( Character &p, item_location &loc ) const
+{
+    int available_heater = 0;
+    if( !loc->has_no_links() ) {
+        available_heater = loc->link().t_veh->connected_battery_power_level().first;
+    } else if( !loc->has_flag( flag_USE_UPS ) ) {
+        available_heater = loc->ammo_remaining();
+    } else if( loc->has_flag( flag_USE_UPS ) ) {
+        available_heater = units::to_kilojoule( p.available_ups() );
+    }
+    return available_heater;
+}
+
+void heat_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = requirements.time;
+    act.moves_left = requirements.time;
+}
+
+void heat_activity_actor::do_turn( player_activity &act, Character &p )
+{
+    if( !h.loc ) {
+        p.add_msg_if_player( _( "You can't find the heater any more." ) );
+        act.set_to_null();
+    }
+    for( drop_location &ait : to_heat ) {
+        if( !ait.first ) {
+            p.add_msg_if_player( _( "Some of the food you selected is gone." ) );
+            act.set_to_null();
+        }
+    }
+    if( get_available_heater( p, h.loc ) < requirements.ammo * h.heating_effect ) {
+        p.add_msg_if_player( _( "You need more energy to heat these items." ) );
+        act.set_to_null();
+    }
+}
+
+void heat_activity_actor::finish( player_activity &act, Character &p )
+{
+    for( drop_location &ait : to_heat ) {
+        item_location cold_item = ait.first;
+        if( cold_item->count_by_charges() ) {
+            item copy( *cold_item );
+            copy.charges = ait.second;
+            copy.unset_flag( flag_FROZEN );
+            copy.set_flag( flag_HOT );
+            cold_item->charges -= ait.second;
+            if( cold_item->charges <= 0 ) {
+                cold_item.remove_item();
+            }
+            if( copy.made_of( phase_id::LIQUID ) ) {
+                liquid_handler::handle_all_liquid( copy, PICKUP_RANGE );
+            } else {
+                p.i_add_or_drop( copy );
+            }
+        } else {
+            cold_item->unset_flag( flag_FROZEN );
+            cold_item->set_flag( flag_HOT );
+            if( cold_item.get_item()->made_of( phase_id::LIQUID ) ) {
+                liquid_handler::handle_all_liquid( *cold_item, PICKUP_RANGE );
+            } else {
+                p.i_add_or_drop( *cold_item );
+                cold_item.remove_item();
+            }
+        }
+    }
+    if( h.consume_flag == true ) {
+        h.loc->activation_consume( requirements.ammo, h.loc.position(), &p );
+    }
+    p.add_msg_if_player( m_good, _( "You heated your items." ) );
+
+    p.invalidate_crafting_inventory();
+
+    act.set_to_null();
+}
+
+void heat_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "to_heat", to_heat );
+    jsout.member( "heating_effect", h.heating_effect );
+    jsout.member( "loc", h.loc );
+    jsout.member( "consume_flag", h.consume_flag );
+    jsout.member( "time", requirements.time );
+    jsout.member( "ammo", requirements.ammo );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> heat_activity_actor::deserialize( JsonValue &jsin )
+{
+    heat_activity_actor actor;
+    JsonObject data = jsin.get_object();
+    data.read( "to_heat", actor.to_heat );
+    data.read( "heating_effect", actor.h.heating_effect );
+    data.read( "loc", actor.h.loc );
+    data.read( "consume_flag", actor.h.consume_flag );
+    data.read( "time", actor.requirements.time );
+    data.read( "ammo", actor.requirements.ammo );
+    return actor.clone();
+}
+
 void wash_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = requirements.time;
@@ -7722,6 +7905,7 @@ deserialize_functions = {
     { ACT_HACKSAW, &hacksaw_activity_actor::deserialize },
     { ACT_HAIRCUT, &haircut_activity_actor::deserialize },
     { ACT_HARVEST, &harvest_activity_actor::deserialize},
+    { ACT_HEAT, &heat_activity_actor::deserialize },
     { ACT_HOTWIRE_CAR, &hotwire_car_activity_actor::deserialize },
     { ACT_INSERT_ITEM, &insert_item_activity_actor::deserialize },
     { ACT_INVOKE_ITEM, &invoke_item_activity_actor::deserialize },

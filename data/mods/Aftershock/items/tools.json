@@ -184,7 +184,6 @@
         "type": "transform"
       }
     ],
-    "tick_action": [ "MP3_ON" ],
     "extend": { "flags": [ "TRADER_AVOID", "LIGHT_25" ] }
   },
   {
@@ -587,7 +586,7 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "battery": 5000 } } ],
     "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "1 h", "regenerate_ammo": true } },
     "material": [ "superalloy" ],
-    "flags": [ "DURABLE_MELEE" ],
+    "flags": [ "DURABLE_MELEE", "HEAVY_TOOL" ],
     "melee_damage": { "bash": 5 }
   },
   {
