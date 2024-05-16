@@ -1,6 +1,25 @@
 [
   {
     "type": "body_part",
+    "id": "mouth",
+    "copy-from": "mouth",
+    "name": "mouth",
+    "similar_bodyparts": [ "test_corvid_beak" ],
+    "limb_type": "mouth",
+    "limb_scores": [ [ "breathing", 1.0 ], [ "manip", 0.05, 0.2 ], [ "consume_liquid", 1.0 ], [ "consume_solid", 1.0 ] ]
+  },
+  {
+    "type": "sub_body_part",
+    "id": "mouth_lips",
+    "copy-from": "mouth_lips",
+    "similar_bodyparts": [ "sub_limb_test_corvid_beak" ],
+    "opposite": "mouth_lips",
+    "side": 0,
+    "name": "lips",
+    "name_multiple": "lips"
+  },
+  {
+    "type": "body_part",
     "id": "test_arm_l",
     "name": "left arm",
     "copy-from": "arm_l",
@@ -102,7 +121,7 @@
     "hit_size": 0.5,
     "hit_difficulty": 1.15,
     "limb_types": [ [ "mouth", 1.0 ], [ "hand", 0.1 ] ],
-    "limb_scores": [ [ "breathing", 1.0 ], [ "manip", 0.05, 0.2 ] ],
+    "limb_scores": [ [ "breathing", 1.0 ], [ "manip", 0.05, 0.2 ], [ "consume_liquid", 0.5 ], [ "consume_solid", 2.0 ] ],
     "side": "both",
     "stylish_bonus": 2,
     "hot_morale_mod": 2,
