@@ -3652,7 +3652,7 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     const int assistants = crafter.available_assistant_count( craft.get_making() );
 
     if( crafting_speed <= 0.0f ) {
-        craft.erase_var("crafter");
+        craft.erase_var( "crafter" );
         crafter.cancel_activity();
         return;
     }
