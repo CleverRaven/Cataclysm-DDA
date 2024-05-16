@@ -7057,87 +7057,90 @@ void overmap::place_mongroups()
         }
     }
 
-    // Figure out where rivers and lakes are, and place appropriate critters
-    for( int x = 3; x < OMAPX - 3; x += 7 ) {
-        for( int y = 3; y < OMAPY - 3; y += 7 ) {
-            int river_count = 0;
-            for( int sx = x - 3; sx <= x + 3; sx++ ) {
-                for( int sy = y - 3; sy <= y + 3; sy++ ) {
-                    if( is_lake_or_river( ter( { sx, sy, 0 } ) ) ) {
-                        river_count++;
+    if( get_option<bool>( "OVERMAP_PLACE_RIVERS" ) || get_option<bool>( "OVERMAP_PLACE_LAKES" ) ) {
+        // Figure out where rivers and lakes are, and place appropriate critters
+        for( int x = 3; x < OMAPX - 3; x += 7 ) {
+            for( int y = 3; y < OMAPY - 3; y += 7 ) {
+                int river_count = 0;
+                for( int sx = x - 3; sx <= x + 3; sx++ ) {
+                    for( int sy = y - 3; sy <= y + 3; sy++ ) {
+                        if( is_lake_or_river( ter( { sx, sy, 0 } ) ) ) {
+                            river_count++;
+                        }
                     }
                 }
-            }
-            if( river_count >= 25 && is_lake_or_river( ter( { x, y, 0 } ) ) ) {
-                tripoint_om_omt p( x, y, 0 );
-                float norm_factor = std::abs( GROUP_RIVER->freq_total / 1000.0f );
-                unsigned int pop =
-                    std::round( norm_factor * rng( river_count * 8, river_count * 25 ) );
-                spawn_mon_group(
-                    mongroup( GROUP_RIVER, project_combine( pos(), project_to<coords::sm>( p ) ),
-                              pop ), 3 );
+                if( river_count >= 25 && is_lake_or_river( ter( { x, y, 0 } ) ) ) {
+                    tripoint_om_omt p( x, y, 0 );
+                    float norm_factor = std::abs( GROUP_RIVER->freq_total / 1000.0f );
+                    unsigned int pop =
+                        std::round( norm_factor * rng( river_count * 8, river_count * 25 ) );
+                    spawn_mon_group(
+                        mongroup( GROUP_RIVER, project_combine( pos(), project_to<coords::sm>( p ) ),
+                                  pop ), 3 );
+                }
             }
         }
     }
+    if( get_option<bool>( "OVERMAP_PLACE_OCEANS" ) ) {
+        // Now place ocean mongroup. Weights may need to be altered.
+        const om_noise::om_noise_layer_ocean f( global_base_point(), g->get_seed() );
+        const point_abs_om this_om = pos();
+        const int northern_ocean = settings->overmap_ocean.ocean_start_north;
+        const int eastern_ocean = settings->overmap_ocean.ocean_start_east;
+        const int western_ocean = settings->overmap_ocean.ocean_start_west;
+        const int southern_ocean = settings->overmap_ocean.ocean_start_south;
 
-    // Now place ocean mongroup. Weights may need to be altered.
-    const om_noise::om_noise_layer_ocean f( global_base_point(), g->get_seed() );
-    const point_abs_om this_om = pos();
-    const int northern_ocean = settings->overmap_ocean.ocean_start_north;
-    const int eastern_ocean = settings->overmap_ocean.ocean_start_east;
-    const int western_ocean = settings->overmap_ocean.ocean_start_west;
-    const int southern_ocean = settings->overmap_ocean.ocean_start_south;
+        // noise threshold adjuster for deep ocean. Increase to make deep ocean move further from the shore.
+        constexpr float DEEP_OCEAN_THRESHOLD_ADJUST = 1.25;
 
-    // noise threshold adjuster for deep ocean. Increase to make deep ocean move further from the shore.
-    constexpr float DEEP_OCEAN_THRESHOLD_ADJUST = 1.25;
+        // code taken from place_oceans, but noise threshold increased to determine "deep ocean".
+        const auto is_deep_ocean = [&]( const point_om_omt & p ) {
+            // credit to ehughsbaird for thinking up this inbounds solution to infinite flood fill lag.
+            if( northern_ocean == 0 && eastern_ocean == 0 && western_ocean == 0 && southern_ocean == 0 ) {
+                // you know you could just turn oceans off in global_settings.json right?
+                return false;
+            }
+            bool inbounds = p.x() > -5 && p.y() > -5 && p.x() < OMAPX + 5 && p.y() < OMAPY + 5;
+            if( !inbounds ) {
+                return false;
+            }
+            float ocean_adjust = calculate_ocean_gradient( p, this_om );
+            if( ocean_adjust == 0.0f ) {
+                // It's too soon!  Too soon for an ocean!!  ABORT!!!
+                return false;
+            }
+            return f.noise_at( p ) + ocean_adjust > settings->overmap_ocean.noise_threshold_ocean *
+                   DEEP_OCEAN_THRESHOLD_ADJUST;
+        };
 
-    // code taken from place_oceans, but noise threshold increased to determine "deep ocean".
-    const auto is_deep_ocean = [&]( const point_om_omt & p ) {
-        // credit to ehughsbaird for thinking up this inbounds solution to infinite flood fill lag.
-        if( northern_ocean == 0 && eastern_ocean == 0 && western_ocean == 0 && southern_ocean == 0 ) {
-            // you know you could just turn oceans off in global_settings.json right?
-            return false;
-        }
-        bool inbounds = p.x() > -5 && p.y() > -5 && p.x() < OMAPX + 5 && p.y() < OMAPY + 5;
-        if( !inbounds ) {
-            return false;
-        }
-        float ocean_adjust = calculate_ocean_gradient( p, this_om );
-        if( ocean_adjust == 0.0f ) {
-            // It's too soon!  Too soon for an ocean!!  ABORT!!!
-            return false;
-        }
-        return f.noise_at( p ) + ocean_adjust > settings->overmap_ocean.noise_threshold_ocean *
-               DEEP_OCEAN_THRESHOLD_ADJUST;
-    };
-
-    for( int x = 3; x < OMAPX - 3; x += 7 ) {
-        for( int y = 3; y < OMAPY - 3; y += 7 ) {
-            int ocean_count = 0;
-            for( int sx = x - 3; sx <= x + 3; sx++ ) {
-                for( int sy = y - 3; sy <= y + 3; sy++ ) {
-                    if( is_ocean( ter( { sx, sy, 0 } ) ) ) {
-                        ocean_count++;
+        for( int x = 3; x < OMAPX - 3; x += 7 ) {
+            for( int y = 3; y < OMAPY - 3; y += 7 ) {
+                int ocean_count = 0;
+                for( int sx = x - 3; sx <= x + 3; sx++ ) {
+                    for( int sy = y - 3; sy <= y + 3; sy++ ) {
+                        if( is_ocean( ter( { sx, sy, 0 } ) ) ) {
+                            ocean_count++;
+                        }
                     }
                 }
-            }
-            bool am_deep = is_deep_ocean( { x, y } );
-            if( ocean_count >= 25 ) {
-                tripoint_om_omt p( x, y, 0 );
-                if( am_deep ) {
-                    float norm_factor = std::abs( GROUP_OCEAN_DEEP->freq_total / 1000.0f );
-                    unsigned int pop =
-                        std::round( norm_factor * rng( ocean_count * 8, ocean_count * 25 ) );
-                    spawn_mon_group(
-                        mongroup( GROUP_OCEAN_DEEP, project_combine( pos(), project_to<coords::sm>( p ) ),
-                                  pop ), 3 );
-                } else {
-                    float norm_factor = std::abs( GROUP_OCEAN_SHORE->freq_total / 1000.0f );
-                    unsigned int pop =
-                        std::round( norm_factor * rng( ocean_count * 8, ocean_count * 25 ) );
-                    spawn_mon_group(
-                        mongroup( GROUP_OCEAN_SHORE, project_combine( pos(), project_to<coords::sm>( p ) ),
-                                  pop ), 3 );
+                bool am_deep = is_deep_ocean( { x, y } );
+                if( ocean_count >= 25 ) {
+                    tripoint_om_omt p( x, y, 0 );
+                    if( am_deep ) {
+                        float norm_factor = std::abs( GROUP_OCEAN_DEEP->freq_total / 1000.0f );
+                        unsigned int pop =
+                            std::round( norm_factor * rng( ocean_count * 8, ocean_count * 25 ) );
+                        spawn_mon_group(
+                            mongroup( GROUP_OCEAN_DEEP, project_combine( pos(), project_to<coords::sm>( p ) ),
+                                      pop ), 3 );
+                    } else {
+                        float norm_factor = std::abs( GROUP_OCEAN_SHORE->freq_total / 1000.0f );
+                        unsigned int pop =
+                            std::round( norm_factor * rng( ocean_count * 8, ocean_count * 25 ) );
+                        spawn_mon_group(
+                            mongroup( GROUP_OCEAN_SHORE, project_combine( pos(), project_to<coords::sm>( p ) ),
+                                      pop ), 3 );
+                    }
                 }
             }
         }
