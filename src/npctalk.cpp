@@ -3821,12 +3821,31 @@ void talk_effect_fun_t::set_bulk_trade_accept( const JsonObject &jo, std::string
         item tmp( d.cur_item );
         int quantity = dov_quantity.evaluate( d );
         int seller_has = 0;
+        int seller_has_loose = 0;
+        std::vector<item> seller_cans;
+        auto is_canned_item = [&tmp]( const item & e ) {
+            std::vector<const item_pocket *> pockets = e.get_all_contained_pockets();
+            return pockets.size() == 1 &&
+                   pockets[0]->size() == 1 &&
+                   pockets[0]->sealed() &&
+                   pockets[0]->front().type == tmp.type;
+        };
         if( tmp.count_by_charges() ) {
             seller_has = seller->charges_of( d.cur_item );
         } else {
-            seller_has = seller->items_with( [&tmp]( const item & e ) {
-                return tmp.type == e.type;
+            std::vector<item *> cans_tmp = seller->items_with( is_canned_item );
+            for( item *it : cans_tmp ) {
+                seller_cans.emplace_back( *it );
+            }
+            seller_has_loose = seller->items_with( [&tmp,
+            &cans_tmp]( const item & e ) {
+                return tmp.type == e.type &&
+                !std::any_of( cans_tmp.begin(), cans_tmp.end(), [&e]( const item * n ) {
+                    return &n->get_all_contained_pockets()[0]->front() == &e;
+                } );
             } ).size();
+            seller_has = cans_tmp.size() + seller_has_loose;
+
         }
         seller_has = ( quantity == -1 ) ? seller_has : std::min( seller_has, quantity );
         tmp.charges = seller_has;
@@ -3872,9 +3891,15 @@ void talk_effect_fun_t::set_bulk_trade_accept( const JsonObject &jo, std::string
         if( tmp.count_by_charges() ) {
             seller->use_charges( d.cur_item, seller_has );
         } else {
-            seller->use_amount( d.cur_item, seller_has );
+            seller->use_amount( d.cur_item, seller_has_loose );
+            seller->remove_items_with( is_canned_item );
         }
-        buyer->i_add( tmp );
+        if( seller_cans.size() != size_t( seller_has ) ) {
+            buyer->i_add( tmp );
+        }
+        for( const item &it : seller_cans ) {
+            buyer->i_add( it );
+        }
     };
 }
 
