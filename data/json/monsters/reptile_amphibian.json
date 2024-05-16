@@ -735,9 +735,9 @@
     "copy-from": "mon_proxy_frog",
     "description": "This pungent frog is named for the mammal with which it shares both name and odor.  Its skin is light green underneath a heavy spatter of almost black mottling.",
     "name": { "str": "mink frog" },
-    "volume": "20 ml",
-    "weight": "4 g",
-    "hp": 1,
+    "volume": "150 ml",
+    "weight": "10 g",
+    "hp": 2,
     "color": "green",
     "reproduction": { "baby_egg": "egg_mink_frog", "baby_count": 8, "baby_timer": 26 }
   },
