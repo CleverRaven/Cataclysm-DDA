@@ -10218,7 +10218,8 @@ std::pair<item_location, item_pocket *> item::best_pocket( const item &it, item_
 
 bool item::spill_contents( Character &c )
 {
-    if( !is_container() || is_container_empty() ) {
+    if( ( !is_container() && !is_magazine() && !uses_magazine() ) ||
+        is_container_empty() ) {
         return true;
     }
 
@@ -10234,7 +10235,8 @@ bool item::spill_contents( Character &c )
 
 bool item::spill_contents( const tripoint &pos )
 {
-    if( !is_container() || is_container_empty() ) {
+    if( ( !is_container() && !is_magazine() && !uses_magazine() ) ||
+        is_container_empty() ) {
         return true;
     }
     return contents.spill_contents( pos );
