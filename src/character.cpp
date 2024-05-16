@@ -2550,8 +2550,13 @@ void Character::recalc_sight_limits()
     if( has_trait( trait_DEBUG_NIGHTVISION ) ) {
         vision_mode_cache.set( DEBUG_NIGHTVISION );
     }
-    if( has_nv() ) {
-        vision_mode_cache.set( NV_GOGGLES );
+    if( has_nv()) {
+        if (worn_with_flag( flag_GNV_EFFECT_FAR )) {
+            vision_mode_cache.set( NV_GOGGLES_FAR );
+        }
+        else {
+            vision_mode_cache.set( NV_GOGGLES );
+        }
     }
     if( has_active_mutation( trait_NIGHTVISION3 ) || is_wearing( itype_rm13_armor_on ) ||
         ( is_mounted() && mounted_creature->has_flag( mon_flag_MECH_RECON_VISION ) ) ) {
@@ -2617,7 +2622,9 @@ float Character::get_vision_threshold( float light_level ) const
                                      ( LIGHT_AMBIENT_LIT - LIGHT_AMBIENT_MINIMAL ) );
 
     float range = get_per() / 3.0f;
-    if( vision_mode_cache[NV_GOGGLES] || vision_mode_cache[NIGHTVISION_3] ||
+    if ( vision_mode_cache[NV_GOGGLES_FAR]) {
+        range += 13;
+    } else if( vision_mode_cache[NV_GOGGLES] || vision_mode_cache[NIGHTVISION_3] ||
         vision_mode_cache[FULL_ELFA_VISION] || vision_mode_cache[CEPH_VISION] ) {
         range += 10;
     } else if( vision_mode_cache[NIGHTVISION_2] || vision_mode_cache[FELINE_VISION] ||
@@ -3852,6 +3859,7 @@ bool Character::has_nv()
     if( !nv_cached ) {
         nv_cached = true;
         nv = ( worn_with_flag( flag_GNV_EFFECT ) ||
+                worn_with_flag( flag_GNV_EFFECT_FAR ) ||
                has_flag( json_flag_NIGHT_VISION ) );
     }
 

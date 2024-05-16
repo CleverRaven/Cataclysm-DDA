@@ -7310,6 +7310,8 @@ bool map::draw_maptile( const catacurses::window &w, const tripoint &p,
         tercol = c_magenta;
     } else if( u_vision[NV_GOGGLES] ) {
         tercol = param.bright_light() ? c_white : c_light_green;
+    } else if( u_vision[NV_GOGGLES_FAR] ) {
+        tercol = param.bright_light() ? c_white : c_light_gray_white;
     } else if( param.low_light() || u_vision[DARKNESS] ) {
         tercol = c_dark_gray;
     }
@@ -7400,6 +7402,8 @@ void map::draw_from_above( const catacurses::window &w, const tripoint &p,
         tercol = c_magenta;
     } else if( u_vision[NV_GOGGLES] ) {
         tercol = params.bright_light() ? c_white : c_light_green;
+    } else if( u_vision[NV_GOGGLES_FAR] ) {
+        tercol = params.bright_light() ? c_white : c_light_gray_white;
     } else if( params.low_light() || u_vision[DARKNESS] ) {
         tercol = c_dark_gray;
     }

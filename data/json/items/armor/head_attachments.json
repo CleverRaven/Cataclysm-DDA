@@ -207,7 +207,7 @@
     "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "eyes", "mouth" ] } ]
   },
   {
-    "id": "night_vision_goggles",
+    "id": "military_nvg",
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "night vision goggles" },
@@ -225,7 +225,7 @@
     "use_action": {
       "type": "transform",
       "msg": "You activate your %s.",
-      "target": "night_vision_goggles_on",
+      "target": "military_nvg_on",
       "active": true,
       "need_charges": 1,
       "need_charges_msg": "The %s's batteries are dead."
@@ -245,24 +245,140 @@
     "armor": [ { "encumbrance": 10, "coverage": 100, "covers": [ "eyes" ] } ]
   },
   {
-    "id": "night_vision_goggles_on",
+    "id": "military_nvg_on",
     "type": "TOOL_ARMOR",
-    "copy-from": "night_vision_goggles",
+    "copy-from": "military_nvg",
     "name": { "str": "night vision goggles (on)" },
-    "description": "Older generation double-tube night vision device, designed to be mounted to a helmet. Very limited field of view while activated.  It is turned on, and continually draining batteries.  Use it to turn them off.",
+    "description": "Older generation double-tube night vision device, designed to be mounted to a helmet. Very limited field of view while activated. It is turned on, and continually draining batteries. Use it to turn them off.",
     "flags": [ "HELMET_FACE_SHIELD", "GNV_EFFECT", "CANT_WEAR", "TRADER_AVOID", "OUTER", "ELECTRONIC" ],
     "//": "put some note here for source stats",
     "power_draw": "100 mW",
-    "revert_to": "night_vision_goggles",
+    "revert_to": "military_nvg",
     "use_action": {
       "ammo_scale": 0,
       "type": "transform",
       "menu_text": "Turn off",
       "msg": "Your %s deactivates.",
-      "target": "night_vision_goggles"
+      "target": "military_nvg"
     },
     "warmth": 15,
-    "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "eyes" ], "rigid_layer_only": true } ]
+    "armor": [ { "encumbrance": 30, "coverage": 100, "covers": [ "eyes" ] } ]
+  },
+  {
+    "id": "advanced_gpnvg",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "name": { "str": "advanced night vision goggles" },
+    "description": "Advanced GPNVG with four tubes, allowing for higher field of view. White phosphor view color, and designed to be mounted to a helmet. Currently raised up and out of the way.",
+    "weight": "120 g",
+    "volume": "250 ml",
+    "price": "10000 USD",
+    "price_postapoc": "200 USD",
+    "material": [ "plastic", "steel" ],
+    "symbol": "[",
+    "color": "green",
+    "to_hit": -3,
+    "charges_per_use": 1,
+    "ammo": "battery",
+    "use_action": {
+      "type": "transform",
+      "msg": "You activate your %s.",
+      "target": "advanced_gpnvg_on",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The %s's batteries are dead."
+    },
+    "warmth": 10,
+    "environmental_protection": 3,
+    "material_thickness": 2,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT" ],
+        "default_magazine": "light_plus_battery_cell"
+      }
+    ],
+    "flags": [ "HELMET_FACE_SHIELD", "CANT_WEAR", "OUTER", "ELECTRONIC" ],
+    "armor": [ { "encumbrance": 10, "coverage": 100, "covers": [ "eyes" ] } ]
+  },
+  {
+    "id": "advanced_gpnvg_on",
+    "type": "TOOL_ARMOR",
+    "copy-from": "advanced_gpnvg",
+    "name": { "str": "advanced night vision goggles (on)" },
+    "description": "Advanced GPNVG with four tubes, allowing for higher field of view. Has a nice white phosphor view color, and designed to be mounted to a helmet. It is turned on, and continually draining batteries. Use it to turn them off.",
+    "flags": [ "HELMET_FACE_SHIELD", "GNV_EFFECT_FAR", "CANT_WEAR", "TRADER_AVOID", "OUTER", "ELECTRONIC" ],
+    "//": "put some note here for source stats",
+    "power_draw": "100 mW",
+    "revert_to": "advanced_gpnvg",
+    "use_action": {
+      "ammo_scale": 0,
+      "type": "transform",
+      "menu_text": "Turn off",
+      "msg": "Your %s deactivates.",
+      "target": "advanced_gpnvg"
+    },
+    "warmth": 15,
+    "armor": [ { "encumbrance": 30, "coverage": 100, "covers": [ "eyes" ] } ]
+  },
+  {
+    "id": "infrared_nvg",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "name": { "str": "infrared night vision goggles" },
+    "description": "High-resolution thermal imaging device, designed to be mounted to a helmet. Detects heat signatures emitted by (un)living organisms. Currently raised up and out of the way.",
+    "weight": "120 g",
+    "volume": "250 ml",
+    "price": "40000 USD",
+    "price_postapoc": "500 USD",
+    "material": [ "plastic", "steel" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "to_hit": -3,
+    "charges_per_use": 1,
+    "ammo": "battery",
+    "use_action": {
+      "type": "transform",
+      "msg": "You activate your %s.",
+      "target": "infrared_nvg_on",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The %s's batteries are dead."
+    },
+    "warmth": 10,
+    "environmental_protection": 3,
+    "material_thickness": 2,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT" ],
+        "default_magazine": "light_plus_battery_cell"
+      }
+    ],
+    "flags": [ "HELMET_FACE_SHIELD", "CANT_WEAR", "OUTER", "ELECTRONIC" ],
+    "armor": [ { "encumbrance": 10, "coverage": 100, "covers": [ "eyes" ] } ]
+  },
+  {
+    "id": "infrared_nvg_on",
+    "type": "TOOL_ARMOR",
+    "copy-from": "infrared_nvg",
+    "name": { "str": "infrared night vision goggles (on)" },
+    "description": "High-resolution thermal imaging device, designed to be mounted to a helmet. Detects heat signatures emitted by (un)living organisms. It is turned on, and continually draining batteries. Use it to turn them off.",
+    "flags": [ "HELMET_FACE_SHIELD", "IR_EFFECT", "GNV_EFFECT", "CANT_WEAR", "TRADER_AVOID", "OUTER", "ELECTRONIC" ],
+    "//": "put some note here for source stats",
+    "power_draw": "1 W",
+    "revert_to": "infrared_nvg",
+    "use_action": {
+      "ammo_scale": 0,
+      "type": "transform",
+      "menu_text": "Turn off",
+      "msg": "Your %s deactivates.",
+      "target": "infrared_nvg"
+    },
+    "warmth": 15,
+    "armor": [ { "encumbrance": 35, "coverage": 100, "covers": [ "eyes" ] } ]
   },
   {
     "id": "nape_protector",

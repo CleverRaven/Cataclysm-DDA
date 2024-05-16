@@ -152,6 +152,7 @@ const flag_id flag_GAS_DISCOUNT( "GAS_DISCOUNT" );
 const flag_id flag_GAS_PROOF( "GAS_PROOF" );
 const flag_id flag_GIBBED( "GIBBED" );
 const flag_id flag_GNV_EFFECT( "GNV_EFFECT" );
+const flag_id flag_GNV_EFFECT_FAR( "GNV_EFFECT_FAR" );
 const flag_id flag_HARD( "HARD" );
 const flag_id flag_HEAT_IMMUNE( "HEAT_IMMUNE" );
 const flag_id flag_HEMOVORE_FUN( "HEMOVORE_FUN" );

@@ -131,6 +131,7 @@ constexpr float KCAL_PER_KG = 3500 * 2.20462;
 enum vision_modes {
     DEBUG_NIGHTVISION,
     NV_GOGGLES,
+    NV_GOGGLES_FAR,
     NIGHTVISION_1,
     NIGHTVISION_2,
     NIGHTVISION_3,
