@@ -9878,7 +9878,7 @@ bool item::is_magazine_full() const
     return contents.is_magazine_full();
 }
 
-bool item::can_unload_liquid() const
+bool item::can_unload() const
 {
     if( has_flag( flag_NO_UNLOAD ) ) {
         return false;
