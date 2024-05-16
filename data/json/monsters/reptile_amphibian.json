@@ -748,9 +748,6 @@
     "description": "This very large, funky frog has an accentuated, paddle-like tail that accounts for half its body mass.  It is green with many brown spots scattering across its back.",
     "name": { "str": "tailed frog" },
     "categories": [ "NULL" ],
-    "volume": "150 ml",
-    "weight": "10 g",
-    "hp": 2,
     "harvest": "mutant_tiny"
   },
   {
