@@ -94,8 +94,6 @@
     "effect": "attack",
     "effect_str": "dark_sight",
     "shape": "blast",
-    "min_range": 1,
-    "max_range": 1,
     "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(100, 1)" ] },
     "base_energy_cost": 175,
     "energy_source": "MANA",
