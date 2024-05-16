@@ -2130,7 +2130,10 @@ std::list<item> Character::consume_items( map &m, const comp_selection<item_comp
         }
     }
     for( item &it : ret ) {
-        it.spill_contents( *this );
+        // leave battery/liquids/gases in their containers, spill out solids
+        if( !it.contains_no_solids() ) {
+            it.spill_contents( *this );
+        }
         // todo: make a proper solution that overflows with the proper item_location
         it.overflow( pos() );
     }
