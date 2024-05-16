@@ -1876,6 +1876,11 @@
   },
   {
     "type": "construction_group",
+    "id": "place_travel_toilet",
+    "name": "Place Travel Toilet"
+  },
+  {
+    "type": "construction_group",
     "id": "place_oxygen_concentrator",
     "name": "Place Oxygen Concentrator"
   },
