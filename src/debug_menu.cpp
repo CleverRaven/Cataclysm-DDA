@@ -194,6 +194,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::FORGET_ALL_RECIPES: return "FORGET_ALL_RECIPES";
         case debug_menu::debug_menu_index::FORGET_ALL_ITEMS: return "FORGET_ALL_ITEMS";
         case debug_menu::debug_menu_index::EDIT_PLAYER: return "EDIT_PLAYER";
+        case debug_menu::debug_menu_index::EDIT_MONSTER: return "EDIT_MONSTER";
         case debug_menu::debug_menu_index::CONTROL_NPC: return "CONTROL_NPC";
         case debug_menu::debug_menu_index::SPAWN_ARTIFACT: return "SPAWN_ARTIFACT";
         case debug_menu::debug_menu_index::SPAWN_CLAIRVOYANCE: return "SPAWN_CLAIRVOYANCE";
@@ -474,6 +475,237 @@ static int player_uilist()
     return uilist( _( "Player…" ), uilist_initializer );
 }
 
+static void monster_ammo_edit( monster &mon )
+{
+    uilist smenu;
+    int pos = 0;
+    char hotkey = 'a';
+    const auto &ammo_map = mon.type->starting_ammo;
+    std::vector<itype_id> ammos;
+    for( const std::pair<const itype_id, int> &pair : ammo_map ) {
+        ammos.emplace_back( pair.first );
+        const itype *display_type = item::find_type( pair.first );
+        smenu.addentry( pos, true, hotkey, "%s: %d", display_type->nname( 1 ), mon.ammo[pair.first] );
+        pos++;
+        hotkey++;
+    }
+    smenu.query();
+
+    if( smenu.ret > static_cast<int>( ammo_map.size() ) || smenu.ret < 0 ) {
+        return;
+    }
+    itype_id new_ammo;
+    new_ammo = ammos[smenu.ret];
+    if( new_ammo.is_valid() ) {
+        int value;
+        const itype *display_type = item::find_type( new_ammo );
+        if( query_int( value, _( "Set %s to how much ammo?  Currently: %d" ), display_type->nname( 1 ),
+                       mon.ammo[new_ammo] ) )  {
+            if( value < 0 ) {
+                value = 0;
+            }
+            mon.ammo[new_ammo] = value;
+        }
+    }
+}
+
+static void run_eoc_menu( Creature *target = nullptr, bool target_as_alpha = false )
+{
+    if( !target && target_as_alpha ) {
+        return;
+    }
+    const std::vector<effect_on_condition> &eocs = effect_on_conditions::get_all();
+    uilist eoc_menu;
+    for( const effect_on_condition &eoc : eocs ) {
+        eoc_menu.addentry( -1, true, -1, eoc.id.str() );
+    }
+    eoc_menu.query();
+
+    if( eoc_menu.ret >= 0 && eoc_menu.ret < static_cast<int>( eocs.size() ) ) {
+        dialogue newDialog;
+        if( target_as_alpha ) {
+            newDialog = dialogue( get_talker_for( target ), get_talker_for( get_avatar() ) );
+        } else {
+            newDialog = dialogue( get_talker_for( get_avatar() ), target ? get_talker_for( target ) : nullptr );
+        }
+        eocs[eoc_menu.ret].activate( newDialog );
+    }
+}
+
+static int creature_uilist()
+{
+    std::vector<uilist_entry> uilist_initializer = {
+        { uilist_entry( debug_menu_index::EDIT_MONSTER, true, 'c', _( "Edit monster" ) ) },
+    };
+
+    return uilist( _( "Monster…" ), uilist_initializer );
+}
+
+static void monster_edit_menu()
+{
+    std::vector<tripoint> locations;
+    uilist monster_menu;
+    int charnum = 0;
+    for( const monster &mon : g->all_monsters() ) {
+        monster_menu.addentry( charnum++, true, MENU_AUTOASSIGN, mon.disp_name() );
+        locations.emplace_back( mon.pos() );
+    }
+
+    if( locations.empty() ) {
+        popup( _( "No monsters found inside the bubble, aborting." ) );
+        return;
+    }
+
+    pointmenu_cb callback( locations );
+    monster_menu.callback = &callback;
+    monster_menu.w_y_setup = 0;
+    monster_menu.query();
+    if( monster_menu.ret < 0 || static_cast<size_t>( monster_menu.ret ) >= locations.size() ) {
+        return;
+    }
+    const size_t index = monster_menu.ret;
+    monster *critter = get_creature_tracker().creature_at<monster>( locations[index], true );
+    uilist nmenu;
+
+    if( critter ) {
+        std::string size_string = "DEBUG";
+        // This existing map isn't already extracted for translation...?
+        for( const std::pair<const std::string, creature_size> &size_pair : monster::size_map ) {
+            if( size_pair.second == critter->get_size() ) {
+                size_string = size_pair.first;
+                break;
+            }
+        }
+        std::stringstream data;
+        data << string_format( _( "Monster %s of type %s" ), critter->disp_name(),
+                               critter->type->id.c_str() ) << std::endl;
+        if( Creature *summoner = critter->get_summoner() ) {
+            data << string_format( _( "Summoned by: %s" ), summoner->disp_name() ) << std::endl;
+        }
+        if( critter->get_summon_time() != calendar::turn_zero ) {
+            data << string_format( _( "Expires in: %s" ),
+                                   to_string( critter->get_summon_time() - calendar::turn ) ) << std::endl;
+        }
+        data << string_format( _( "Faction: %s" ), critter->get_monster_faction().id().str() ) << std::endl;
+        data << string_format( _( "HP(max): %d (%d)" ), critter->get_hp(),
+                               critter->get_hp_max() ) << std::endl;
+        data << string_format( _( "Volume: %sL (size %s)" ), units::to_liter( critter->get_volume() ),
+                               size_string ) << std::endl;
+        data << string_format( _( "Speed(base): %d (%d)" ), critter->get_speed(),
+                               critter->get_speed_base() ) << std::endl;
+        data << string_format( _( "Aggression(base): %d (%d)" ), critter->anger,
+                               critter->type->agro ) << std::endl;
+        data << string_format( _( "Morale(base): %d (%d)" ), critter->morale,
+                               critter->type->morale ) << std::endl;
+        if( !critter->ammo.empty() ) {
+            for( auto &ammos : critter->ammo ) {
+                data << string_format( _( "Ammo: %s rounds of %s" ), ammos.second,
+                                       ammos.first.c_str() ) << std::endl;
+            }
+        }
+        if( critter->wander_pos != critter->get_location() && critter->wander_pos != tripoint_abs_ms() ) {
+            data << string_format( _( "Wandering towards: %s" ), critter->wander_pos.to_string() ) << std::endl;
+            data << string_format( _( "From cur location: %s" ),
+                                   critter->get_location().to_string() ) << std::endl;
+            data << string_format( _( "Desire to wander: %d" ), critter->wandf ) << std::endl;
+        }
+        // TODO: Move these out into a sub-menu, this is too many lines!
+        if( !critter->inv.empty() ) {
+            for( item &drop : critter->inv ) {
+                data << string_format( _( "Cached item drop: %s" ), drop.tname() ) << std::endl;
+            }
+        }
+        if( !critter->dissectable_inv.empty() ) {
+            for( item &harvest : critter->dissectable_inv ) {
+                data << string_format( _( "Cached dissection result: %s" ), harvest.tname() ) << std::endl;
+            }
+        }
+
+        nmenu.text = data.str();
+    } else {
+        return; //No monster, no editing!
+    }
+
+    enum {
+        D_HP, D_MORALE, D_AGGRO, D_ADD_EFFECT, D_ADD_AMMO, D_TELE, D_WANDER_DES, D_WANDER, D_ALPHA_EOC, D_BETA_EOC
+    };
+    nmenu.addentry( D_HP, true, 'h', "%s", _( "Set hit points" ) );
+    nmenu.addentry( D_MORALE, true, 'o', "%s", _( "Set morale" ) );
+    nmenu.addentry( D_AGGRO, true, 'a', "%s", _( "Set aggression" ) );
+    nmenu.addentry( D_ADD_EFFECT, true, 'E', "%s", _( "Add an effect" ) );
+    nmenu.addentry( D_ADD_AMMO, true, 'A', "%s", _( "Modify ammo" ) );
+    nmenu.addentry( D_TELE, true, 'e', "%s", _( "Teleport" ) );
+    nmenu.addentry( D_WANDER_DES, true, 'W', "%s",
+                    _( "Set wander destination (also sets wander desire to 1000 turns)" ) );
+    nmenu.addentry( D_WANDER, true, 'w', "%s", _( "Set wander desire" ) );
+    nmenu.addentry( D_ALPHA_EOC, true, 'r', "%s",
+                    _( "Run EOC with monster as alpha talker (avatar as beta)" ) );
+    nmenu.addentry( D_BETA_EOC, true, 't', "%s",
+                    _( "Run EOC with monster as beta talker (avatar as alpha)" ) );
+
+    nmenu.query();
+    switch( nmenu.ret ) {
+        case D_HP: {
+            int value = 0;
+            if( query_int( value,  _( "Set the hitpoints to?  Currently: %d" ), critter->get_hp() ) ) {
+                critter->set_hp( value );
+            }
+        }
+        break;
+        case D_MORALE: {
+            int value = 0;
+            if( query_int( value, _( "Set the morale to?  Currently: %d" ), critter->morale ) ) {
+                critter->morale = value;
+            }
+        }
+        break;
+        case D_AGGRO: {
+            int value = 0;
+            if( query_int( value, _( "Set aggression to?  Currently: %d" ), critter->anger ) ) {
+                critter->anger = value;
+            }
+        }
+        break;
+        case D_ADD_EFFECT: {
+            wisheffect( *critter->as_monster() );
+            break;
+        }
+        case D_ADD_AMMO: {
+            if( critter->ammo.empty() )  {
+                popup( _( "This monster doesn't have any defined ammo." ) );
+                break;
+            }
+            monster_ammo_edit( *critter );
+            break;
+        }
+        case D_TELE: {
+            if( const std::optional<tripoint> newpos = g->look_around() ) {
+                critter->setpos( *newpos );
+            }
+            break;
+        }
+        case D_WANDER_DES: {
+            if( const std::optional<tripoint> newpos = g->look_around() ) {
+                critter->wander_to( get_map().getglobal( *newpos ), 1000 );
+            }
+            break;
+        }
+        case D_WANDER: {
+            int value = 0;
+            if( query_int( value, _( "Set wander desire to?  Currently: %d" ), critter->wandf ) ) {
+                critter->wandf = value;
+            }
+            break;
+        }
+        case D_ALPHA_EOC:
+            run_eoc_menu( critter, true );
+            break;
+        case D_BETA_EOC:
+            run_eoc_menu( critter );
+            break;
+    }
+}
+
 static int info_uilist( bool display_all_entries = true )
 {
     // always displayed
@@ -636,7 +868,7 @@ static int faction_uilist()
 static std::optional<debug_menu_index> debug_menu_uilist( bool display_all_entries = true )
 {
     enum {
-        D_INFO, D_GAME, D_SPAWNING, D_PLAYER, D_FACTION, D_VEHICLE, D_TELEPORT, D_MAP, D_QUICK_SETUP
+        D_INFO, D_GAME, D_SPAWNING, D_PLAYER, D_MONSTER, D_FACTION, D_VEHICLE, D_TELEPORT, D_MAP, D_QUICK_SETUP
     };
 
     std::vector<uilist_entry> menu = {
@@ -648,6 +880,7 @@ static std::optional<debug_menu_index> debug_menu_uilist( bool display_all_entri
             { uilist_entry( D_GAME,        true, 'g', _( "Game…" ) ) },
             { uilist_entry( D_SPAWNING,    true, 's', _( "Spawning…" ) ) },
             { uilist_entry( D_PLAYER,      true, 'p', _( "Player…" ) ) },
+            { uilist_entry( D_MONSTER,     true, 'c', _( "Monster…" ) ) },
             { uilist_entry( D_FACTION,     true, 'f', _( "Faction…" ) ) },
             { uilist_entry( D_VEHICLE,     true, 'v', _( "Vehicle…" ) ) },
             { uilist_entry( D_TELEPORT,    true, 't', _( "Teleport…" ) ) },
@@ -680,6 +913,9 @@ static std::optional<debug_menu_index> debug_menu_uilist( bool display_all_entri
                 break;
             case D_PLAYER:
                 action = player_uilist();
+                break;
+            case D_MONSTER:
+                action = creature_uilist();
                 break;
             case D_FACTION:
                 action = faction_uilist();
@@ -1445,7 +1681,7 @@ static void spawn_nested_mapgen()
         if( ptr == nullptr ) {
             return;
         }
-        ( *ptr )->nest( md, local_ms.xy(), "debug menu" );
+        ( *ptr )->nest( md, tripoint_rel_ms( local_ms.x, local_ms.y, 0 ), "debug menu" );
         target_map.save();
         g->load_npcs();
         here.invalidate_map_cache( here.get_abs_sub().z() );
@@ -2551,7 +2787,7 @@ void mission_debug::remove_mission( mission &m )
 
     if( player_character.active_mission == &m ) {
         player_character.active_mission = nullptr;
-        add_msg( _( "Unsetting active mission" ) );
+        add_msg( _( "Unsetting current objective" ) );
     }
 
     npc *giver = g->find_npc( m.npc_id );
@@ -3519,6 +3755,10 @@ void debug()
             character_edit_menu();
             break;
 
+        case debug_menu_index::EDIT_MONSTER:
+            monster_edit_menu();
+            break;
+
         case debug_menu_index::CONTROL_NPC:
             control_npc_menu();
             break;
@@ -3679,17 +3919,7 @@ void debug()
             static_cast<void>( raise( SIGSEGV ) );
             break;
         case debug_menu_index::ACTIVATE_EOC: {
-            const std::vector<effect_on_condition> &eocs = effect_on_conditions::get_all();
-            uilist eoc_menu;
-            for( const effect_on_condition &eoc : eocs ) {
-                eoc_menu.addentry( -1, true, -1, eoc.id.str() );
-            }
-            eoc_menu.query();
-
-            if( eoc_menu.ret >= 0 && eoc_menu.ret < static_cast<int>( eocs.size() ) ) {
-                dialogue newDialog( get_talker_for( get_avatar() ), nullptr );
-                eocs[eoc_menu.ret].activate( newDialog );
-            }
+            run_eoc_menu();
         }
         break;
         case debug_menu_index::MAP_EXTRA:

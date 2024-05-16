@@ -32,19 +32,40 @@
     "use_action": [ "PLAY_GAME" ],
     "variants": [
       {
+        "id": "generic_deck_of_cards",
+        "name": { "str": "deck of cards", "str_pl": "decks of cards" },
+        "description": "A fairly new, glossy deck of 52 playing cards.",
+        "weight": 30
+      },
+      {
+        "id": "deck_of_cards_worn",
+        "name": { "str": "worn deck of cards", "str_pl": "worn decks of cards" },
+        "description": "A deck of 52 playing cards.  Judging by the bent, frayed edges and faded prints, it saw its share of games.",
+        "weight": 6
+      },
+      {
         "id": "uno",
         "name": { "str": "deck of Uno cards", "str_pl": "decks of Uno cards" },
-        "description": "A set of Uno cards meant to play a game of Uno with your companions.  Just don't yell Uno too loud to avoid attracting the undead."
+        "description": "A set of Uno cards meant to play a game of Uno with your companions.  Just don't yell Uno too loud to avoid attracting the undead.",
+        "weight": 4
       },
       {
         "id": "onirim",
         "name": { "str": "deck of Shadowcaser cards", "str_pl": "decks of Shadowcaser cards" },
-        "description": "A set of cards used in the solo or two-player cooperative card game called Shadowcaser.  The deck consists of 76 unique cards.  Shadowcaser is a immersive card game set in a dream world where players find themselves trapped in a mysterious labyrinthine dream.  The objective of the game is for players to escape this dream world by unlocking eight doors before they run out of time or succumb to the nightmares haunting them."
+        "description": "A set of cards used in the solo or two-player cooperative card game called Shadowcaser.  The deck consists of 76 unique cards.  Shadowcaser is a immersive card game set in a dream world where players find themselves trapped in a mysterious labyrinthine dream.  The objective of the game is for players to escape this dream world by unlocking eight doors before they run out of time or succumb to the nightmares haunting them.",
+        "weight": 1
       },
       {
         "id": "cards_magic",
         "name": { "str": "deck of Sorcery cards", "str_pl": "decks of Sorcery cards" },
-        "description": "A set of cards meant to play the game \"Sorcery.\"  Each card has a fun picture of a different monster."
+        "description": "A set of cards meant to play the game \"Sorcery.\"  Each card has a fun picture of a different monster.",
+        "weight": 2
+      },
+      {
+        "id": "deck_of_tarot_cards",
+        "name": { "str": "deck of tarot cards", "str_pl": "decks of tarot cards" },
+        "description": "A deck of tarot cards.  Commonly used for the practice of divination.  Each card has a unique and highly symbolic picture.",
+        "weight": 2
       },
       {
         "id": "deck_of_cards_makeshift",
@@ -620,6 +641,23 @@
     "price": "99 cent",
     "price_postapoc": "5 USD",
     "material": [ "plastic" ],
+    "symbol": "?",
+    "color": "red",
+    "flags": [ "NO_REPAIR" ],
+    "use_action": [ "PLAY_GAME" ]
+  },
+  {
+    "id": "ouija",
+    "type": "GENERIC",
+    "category": "other",
+    "name": { "str": "Ouija board" },
+    "description": "A wooden board with the alphabet and numbers on its face.  Commonly used for communing with spirits of the dead.  A planchette is included in the set.",
+    "weight": "357 g",
+    "volume": "1000 ml",
+    "longest_side": "36 cm",
+    "price": "20 USD",
+    "price_postapoc": "5 USD",
+    "material": [ "wood" ],
     "symbol": "?",
     "color": "red",
     "flags": [ "NO_REPAIR" ],
@@ -1604,7 +1642,7 @@
     "name": { "str_sp": "sketch" },
     "description": "A piece of graphite-based artwork someone has drawn on a spare sheet of paper.",
     "price": "0 cent",
-    "price_postapoc": "5 USD",
+    "price_postapoc": "5 cent",
     "variants": [
       {
         "id": "sketch_goofy_doodles",
@@ -1645,7 +1683,7 @@
     "name": { "str_sp": "painting" },
     "description": "A painting that someone has made.",
     "price": "100 USD",
-    "price_postapoc": "200 USD",
+    "price_postapoc": "1 USD",
     "variants": [
       {
         "id": "painting_character",
@@ -1687,7 +1725,7 @@
     "volume": "20813 ml",
     "longest_side": "30 cm",
     "price": "1 kUSD",
-    "price_postapoc": "300 USD",
+    "price_postapoc": "1 USD",
     "to_hit": -2,
     "variants": [
       {
@@ -1738,7 +1776,7 @@
     "volume": "94 ml",
     "longest_side": "30 cm",
     "price": "800 USD",
-    "price_postapoc": "150 USD",
+    "price_postapoc": "25 cent",
     "to_hit": -2,
     "variants": [
       {

@@ -87,7 +87,7 @@
     "class": "NC_AUGUSTMOON_OUTFITTER",
     "attitude": 0,
     "mission": 3,
-    "chat": "TALK_AUGUSTMOON_OUTFITTER  ",
+    "chat": "TALK_AUGUSTMOON_OUTFITTER",
     "faction": "UICA"
   },
   {

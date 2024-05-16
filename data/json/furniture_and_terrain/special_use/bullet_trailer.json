@@ -250,7 +250,18 @@
     "description": "A tiny plastic toilet for use in a travel trailer.  Unlike a normal toilet, it doesn't store water locally for you to siphon out.",
     "symbol": "b",
     "color": "white",
-    "copy-from": "f_toilet"
+    "move_cost_mod": 2,
+    "coverage": 15,
+    "required_str": 6,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "MOUNTABLE", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "toilet_travel", "count": 1 } ] },
+    "bash": {
+      "str_min": 6,
+      "str_max": 15,
+      "sound": "plastic cracking!",
+      "sound_fail": "whump!",
+      "items": [ { "item": "plastic_chunk", "count": [ 4, 8 ] } ]
+    }
   },
   {
     "type": "furniture",

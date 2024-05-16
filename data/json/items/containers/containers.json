@@ -96,6 +96,7 @@
       }
     ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "flags": [ "COLLAPSE_CONTENTS" ],
     "melee_damage": { "bash": 8 }
   },
@@ -125,6 +126,7 @@
       }
     ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "flags": [ "COLLAPSE_CONTENTS" ],
     "melee_damage": { "bash": 8 }
   },
@@ -243,7 +245,7 @@
     "category": "container",
     "name": { "str": "garbage bag" },
     "looks_like": "bag_canvas",
-    "description": "A hefty plastic bag, made to carry lots of trash.  It's sturdy and waterproof, and could easily be repurposed.",
+    "description": "A hefty plastic bag, made to carry lots of trash.  It's sturdy and water-resistant; this could easily be repurposed.",
     "ascii_picture": "bag_garbage",
     "weight": "40 g",
     "volume": "42 ml",
@@ -290,7 +292,15 @@
     "ascii_picture": "bag_garbage_reinforced",
     "weight": "400 g",
     "volume": "500 ml",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "98 L", "max_contains_weight": "46 kg", "moves": 400 } ]
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "98 L",
+        "watertight": true,
+        "max_contains_weight": "46 kg",
+        "moves": 400
+      }
+    ]
   },
   {
     "id": "bag_paper_powder",
@@ -525,6 +535,7 @@
       }
     ],
     "qualities": [ [ "BOIL", 1 ] ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "flags": [ "COLLAPSE_CONTENTS" ],
     "melee_damage": { "bash": 2 },
     "//2": "Based on https://www.amazon.com/dp/B09K2VQLZV"
@@ -859,6 +870,7 @@
         "max_contains_weight": "3 kg"
       }
     ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
@@ -1555,6 +1567,7 @@
         "max_contains_weight": "20 kg"
       }
     ],
+    "use_action": [ "HEAT_ALL_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
@@ -1619,7 +1632,7 @@
     "description": "A slim and lightweight insulated plastic bladder worn on the back or within a hydration pouch in a backpack.  It has a large pocket and a capped mouth for filling with liquid, with a hose that allows the wearer to drink hands-free.",
     "ascii_picture": "camelbak",
     "weight": "286 g",
-    "volume": "3001 ml",
+    "volume": "250 ml",
     "price": "100 USD",
     "price_postapoc": "2 USD 50 cent",
     "to_hit": -1,
@@ -1680,6 +1693,7 @@
       }
     ],
     "qualities": [ [ "BOIL", 1 ] ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "flags": [ "COLLAPSE_CONTENTS" ],
     "melee_damage": { "bash": 2 }
   },
@@ -1825,6 +1839,7 @@
       }
     ],
     "qualities": [ [ "BOIL", 1 ] ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
@@ -1850,6 +1865,7 @@
       }
     ],
     "qualities": [ [ "BOIL", 1 ] ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "volume": "525 ml",
     "flags": [ "COLLAPSE_CONTENTS" ]
   },
@@ -1947,6 +1963,7 @@
         "max_contains_weight": "1 kg"
       }
     ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
@@ -1974,6 +1991,7 @@
         "max_contains_weight": "25 kg"
       }
     ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "melee_damage": { "bash": 1 }
   },
@@ -2002,6 +2020,7 @@
         "max_contains_weight": "50 kg"
       }
     ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
@@ -2056,6 +2075,7 @@
       }
     ],
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "flags": [ "SOFT", "NO_REPAIR", "COLLAPSE_CONTENTS" ]
   },
   {
@@ -2086,6 +2106,7 @@
       }
     ],
     "qualities": [ [ "BOIL", 1 ] ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "flags": [ "COLLAPSE_CONTENTS" ],
     "melee_damage": { "bash": 3 }
   },
@@ -2117,6 +2138,7 @@
       }
     ],
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "flags": [ "COLLAPSE_CONTENTS" ],
     "melee_damage": { "bash": 1 }
   },
@@ -2148,6 +2170,7 @@
       }
     ],
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
@@ -2180,6 +2203,7 @@
       }
     ],
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
@@ -2209,6 +2233,7 @@
       }
     ],
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
@@ -2250,6 +2275,7 @@
       ]
     },
     "qualities": [ [ "BOIL", 1 ] ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "COLLAPSE_CONTENTS" ],
     "melee_damage": { "bash": 3 }
   },
@@ -2376,6 +2402,7 @@
       }
     ],
     "qualities": [ [ "BOIL", 1 ] ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "flags": [ "COLLAPSE_CONTENTS" ],
     "melee_damage": { "bash": 4 }
   },
@@ -2403,6 +2430,7 @@
         "max_contains_weight": "2 kg"
       }
     ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ],
     "melee_damage": { "bash": 1 }
   },
@@ -2496,6 +2524,7 @@
         "max_contains_weight": "100 kg"
       }
     ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "flags": [ "COLLAPSE_CONTENTS" ],
     "melee_damage": { "bash": 10 }
@@ -2526,6 +2555,7 @@
         "max_contains_weight": "120 kg"
       }
     ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "flags": [ "COLLAPSE_CONTENTS" ],
     "melee_damage": { "bash": 10 }
@@ -2581,6 +2611,7 @@
         "max_contains_weight": "120 kg"
       }
     ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "flags": [ "COLLAPSE_CONTENTS" ],
     "melee_damage": { "bash": 6 }
@@ -2612,6 +2643,7 @@
         "max_contains_weight": "4 kg"
       }
     ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "flags": [ "COLLAPSE_CONTENTS" ],
     "melee_damage": { "bash": 5 }
@@ -3514,6 +3546,7 @@
     "//2": "mathematically perfect sprehe out of sheet is 2110 ml, but we are less than perfect",
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "6 kg" } ],
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "flags": [ "SOFT", "NO_REPAIR", "COLLAPSE_CONTENTS" ]
   },
   {
@@ -3742,6 +3775,23 @@
     "properties": { "burst_when_filled": "75" }
   },
   {
+    "id": "condom_sealed",
+    "type": "GENERIC",
+    "looks_like": "condom",
+    "name": { "str": "sealed condom" },
+    "description": "A sealed condom wrapper, activate to open it.",
+    "ascii_picture": "condom_sealed",
+    "weight": "5 g",
+    "volume": "15 ml",
+    "price": "0 cent",
+    "price_postapoc": "25 cent",
+    "material": [ "plastic" ],
+    "symbol": ")",
+    "color": "white",
+    "use_action": { "menu_text": "open", "type": "transform", "target": "condom", "msg": "You rip open the wrapped condom." },
+    "flags": [ "BANK_NOTE_SHAPED" ]
+  },
+  {
     "id": "balloon",
     "type": "GENERIC",
     "looks_like": "condom",
@@ -3777,6 +3827,7 @@
       }
     ],
     "qualities": [ [ "BOIL", 1 ] ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
@@ -3803,6 +3854,7 @@
         "max_contains_weight": "4000 g"
       }
     ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "CONTAIN", 1 ], [ "BOIL", 2 ] ]
   },
   {
@@ -4684,6 +4736,7 @@
         "max_contains_weight": "250 kg"
       }
     ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "flags": [ "COLLAPSE_CONTENTS" ],
     "melee_damage": { "bash": 8 }
@@ -4713,6 +4766,7 @@
         "max_contains_weight": "500 kg"
       }
     ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "flags": [ "COLLAPSE_CONTENTS" ],
     "melee_damage": { "bash": 8 }
@@ -4839,6 +4893,7 @@
       }
     ],
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
@@ -5058,6 +5113,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
@@ -5065,6 +5121,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
@@ -5072,6 +5129,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
@@ -5079,6 +5137,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
@@ -5086,6 +5145,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
@@ -5093,6 +5153,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
@@ -5100,6 +5161,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
@@ -5107,6 +5169,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
@@ -5114,6 +5177,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
@@ -5121,6 +5185,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
@@ -5128,6 +5193,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
@@ -5135,6 +5201,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
@@ -5142,6 +5209,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150
@@ -5149,6 +5217,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "transparent": true,
         "max_contains_volume": "30 ml",
         "max_contains_weight": "60 g",
         "moves": 150

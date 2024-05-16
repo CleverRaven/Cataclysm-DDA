@@ -31,7 +31,7 @@
     "name": "WraitheonRobotics",
     "base_faction": "robofac",
     "neutral": [ "cop_bot", "defense_bot", "utility_bot", "animal", "UPLIFT", "robofac" ],
-    "hate": [ "zombie", "fungus", "cult", "alien_predator", "triffid", "nether", "PrepNet", "moxie", "bio_machine" ],
+    "hate": [ "zombie", "fungus", "cult", "alien_predator", "triffid", "nether", "PrepNet", "moxie", "bio_machine", "reavers" ],
     "by_mood": [ "human" ]
   },
   {
@@ -62,7 +62,7 @@
     "base_faction": "human",
     "neutral": [ "herbivore", "robofac" ],
     "by_mood": [ "insect", "small_animal", "human", "bee" ],
-    "hate": [ "zombie" ]
+    "hate": [ "zombie", "player", "UICA_mil", "moxie" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -77,7 +77,7 @@
     "base_faction": "mutant",
     "neutral": [ "bio_machine", "zombie" ],
     "by_mood": [ "small_animal", "herbivore" ],
-    "hate": [ "insect", "human", "mutant", "WraitheonRobotics", "bot" ]
+    "hate": [ "insect", "human", "mutant", "WraitheonRobotics", "bot", "reavers" ]
   },
   {
     "type": "MONSTER_FACTION",

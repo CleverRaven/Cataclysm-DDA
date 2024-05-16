@@ -278,7 +278,7 @@
     "apply_message": "Your reflexes are heightened!",
     "remove_message": "Your reflexes return to normal.",
     "rating": "good",
-    "removes_effects": [ "eagles_sight", "eagles_sight", "foxs_cunning" ],
+    "removes_effects": [ "eagles_sight", "ogres_strength", "foxs_cunning" ],
     "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": { "math": [ "( u_spell_level('eagles_sight') / 4 ) + 2" ] } } ] } ]
   },
   {

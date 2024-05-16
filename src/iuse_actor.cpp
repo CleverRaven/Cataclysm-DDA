@@ -367,7 +367,8 @@ ret_val<void> iuse_transform::can_use( const Character &p, const item &it,
 
     if( p.is_worn( it ) ) {
         item tmp = item( target );
-        if( !tmp.has_flag( flag_OVERSIZE ) && !tmp.has_flag( flag_SEMITANGIBLE ) ) {
+        if( !tmp.has_flag( flag_OVERSIZE ) && !tmp.has_flag( flag_INTEGRATED ) &&
+            !tmp.has_flag( flag_SEMITANGIBLE ) ) {
             for( const trait_id &mut : p.get_mutations() ) {
                 const mutation_branch &branch = mut.obj();
                 if( branch.conflicts_with_item( tmp ) ) {
@@ -1179,8 +1180,8 @@ std::optional<int> deploy_appliance_actor::use( Character *p, item &it, const tr
         return std::nullopt;
     }
 
-    place_appliance( suitable.value(), vpart_appliance_from_item( appliance_base ) );
     it.spill_contents( suitable.value() );
+    place_appliance( suitable.value(), vpart_appliance_from_item( appliance_base ), it );
     p->mod_moves( -to_moves<int>( 2_seconds ) );
     return 1;
 }
@@ -1217,9 +1218,11 @@ void reveal_map_actor::reveal_targets( const tripoint_abs_omt &center,
     const auto places = overmap_buffer.find_all( center, target.first, radius, false,
                         target.second );
     for( const tripoint_abs_omt &place : places ) {
+        if( !overmap_buffer.seen( place ) ) {
+            // Should be replaced with the character using the item passed as an argument if NPCs ever learn to use maps
+            get_avatar().map_revealed_omts.emplace( place );
+        }
         overmap_buffer.reveal( place, reveal_distance );
-        // Should be replaced with the character using the item passed as an argument if NPCs ever learn to use maps
-        get_avatar().map_revealed_omts.emplace( place );
     }
 }
 
@@ -1243,6 +1246,9 @@ std::optional<int> reveal_map_actor::use( Character *p, item &it, const tripoint
     }
     if( !message.empty() ) {
         p->add_msg_if_player( m_good, "%s", message );
+    }
+    if( p->map_revealed_omts.empty() ) {
+        p->add_msg_if_player( _( "You didn't learn anything new from the %s." ), it.tname() );
     }
     it.mark_as_used_by_player( *p );
     return 0;
