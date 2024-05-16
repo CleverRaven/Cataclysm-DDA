@@ -221,7 +221,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Effects*: Hurls a lightning bolt at a target within range, doing 20 to 45 electrical damage plus 2 to 4 per power level and leaving intensity 1 to 2 lightning fields in its wake.  This power causes additional sound at the target location.<br />
 *Prerequisites*: Voltaic Strikes 8 *or* Static Touch 12, Electrical Discharge 8<br />
 
-# Re-energize
+## Re-energize
 *Difficulty*: 6<br />
 *Target*: Adjacent vehicle or appliance<br />
 *Duration*: Instant<br />
@@ -230,7 +230,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Effects*: Recharges the batteries of a vehicle or an electrical grid, restoring 250 to 500 power plus 125 to 250 per power level.<br />
 *Prerequisites*: Electron Overflow 10, Electrical Discharge 9 *or* Neural Spasms 7<br />
 
-# Analgesic Block
+## Analgesic Block
 *Difficulty*: 6<br />
 *Target*: Self<br />
 *Duration*: 60 seconds to 2 minutes 30 seconds, plus 8 seconds to 13 seconds per power level<br />
@@ -239,7 +239,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Effects*: Removes all pain and makes the psion immune to pain for the power's duration. When the duration ends, the psion receives all the pain they put off, plus an additional 10%, back all at once.<br />
 *Prerequisites*: Pain Suppression 9<br />
 
-# Neuro-acceleration
+## Neuro-acceleration
 *Difficulty*: 6<br />
 *Target*: Self or ally within 1 square<br />
 *Duration*: 1 minute 30 seconds to 7 minutes 30 seconds, plus 15 to 27 seconds per level<br />
@@ -257,7 +257,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Effects*: Overloads a robot or cyborg, completely short-circuiting it and destroying it, and releasing a cloud of sparks within 1 square of the target plus 0.4 squares per power level.  Yrax constructs do not function based on electricity and are immune to this power.<br />
 *Prerequisites*: Re-energize 8 *or* Electrocutioner 8 *or* Voltaic Strikes 13, Spark Sight 8<br />
 
-# Galvanic Aura
+## Galvanic Aura
 *Difficulty*: 8<br />
 *Target*: Self<br />
 *Duration*: 60 seconds to 4 minutes 10 seconds, plus 15 seconds to 25 seconds per power level<br />
@@ -266,7 +266,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Effects*: Supercharges the air around the psion, releasing blasts of 12 fields of intensity 10 lightning every few seconds. It also provides electric armor equal to the power level and makes the psion and their gear immune to EMP blasts.<br />
 *Prerequisites*: Electrical Discharge 12, Electron Overflow 15 *or* Re-energize 6<br />
 
-# Ion Blast
+## Ion Blast
 *Difficulty*: 9<br />
 *Target*: Line stretching 2 squares plus 0.7 squares per power level, causing an explosion with an AoE of 1 plus 1 per 4 power levels<br />
 *Duration*: Instant<br />
@@ -275,7 +275,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Effects*: Unleashes a lightning bolt that explodes at the target point. The explosion does 25 to 90 electrical damage plus 2 to 4.5 per power level. The bolt does 5 to 25 plus 0.5 to 2.5 per power level. Both the bolt and the explosion release lightning fields of intensity 3 to 7.<br />
 *Prerequisites*: Electrocutioner 10 *or* Short Circuit 6, Voltaic Strikes 8 *or* Static Touch 12<br />
 
-# Revivification
+## Revivification
 *Difficulty*: 10<br />
 *Target*: One corpse within 2 squares plus 1 square per 4 power levels<br />
 *Duration*: Random but no longer than 12 minutes. The target has an escalating chance to collapse every turn of the effect, beginning at 0.0005% per second in the first minute, climbing to 0.01% per second at minute 4, 1% per second at minute 8, and reaching certainty at minute 12<br />
@@ -283,3 +283,106 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Channeling Time*: 250 moves, minus 6 moves per level to a minimum of 125<br />
 *Effects*: Revives a single target with the REVIVES flag, charms it, and heals it for 50% to 80% of its hit points. The revived monster will be allied to you for the power's duration. You may repeatedly use Revivification on the same target as long as it's not pulped.<br />
 *Prerequisites*: Neuro-acceleration 8, Analgesic Block 6 *or* Pain Suppression 13<br />
+
+# Teleportation
+
+**Passive Power: Spacial Recalibration**: Immunity to teleglow and a small chance to avoid incoming damage: a 1% chance per attack plus 0.5% times the psion's highest-leveled teleportation power.
+
+## Blink 
+*Difficulty*: 1<br />
+*Target*: Between 5 and 15 squares away, with a variance of 1 to 5 squares from the initial point<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 900, minus 55 per level to a minimum of 350<br />
+*Channeling Time*: 50 moves, minus 3.5 moves per level to a minimum of 5<br />
+*Effects*: The psion vanishes and reappears nearby. They cannot control exactly where they end up. While there is no danger of teleporting into a wall or solid rock, if above ground level it is possible to teleport into open air, after which the psion will fall normally.<br />
+*Prerequisites*: Starting power<br />
+
+## Stutterstep 
+*Difficulty*: 2<br />
+*Target*: One target within 3 squares plus 1.2 squares per power level, with an AoE increasing by 1 per 5 power levels<br />
+*Duration*: 1.25 seconds to 15 seconds, plus 0.75 to 2 seconds per power level<br />
+*Stamina Cost*: 2000, minus 75 per level to a minimum of 750<br />
+*Channeling Time*: 80 moves, minus 4.5 moves per level to a minimum of 35<br />
+*Effects*: Warp space around the target, increasing relative distances and reducing their speed by 40.<br />
+*Prerequisites*: Starting power<br />
+
+## Phase 
+*Difficulty*: 2<br />
+*Target*: 2 squares plus 1 square per 10 power levels to a maximum of 4 squares<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 2500, minus 65 per level to a minimum of 1250<br />
+*Channeling Time*: 65 moves, minus 3 moves per level to a minimum of 15<br />
+*Effects*: Travel a short distance through the Nether and re-emerge nearby, allowing the psion to bypass a door or travel from the ground floor to the second floor.<br />
+*Prerequisites*: Blink 6<br />
+
+## Extended Stride (C)
+*Difficulty*: 3<br />
+*Target*: Self<br />
+*Duration*: 30 seconds to 5 minutes, plus 11 to 37 seconds per power level<br />
+*Stamina Cost*: 3500, minus 95 per level to a minimum of 1750<br />
+*Channeling Time*: 85 moves, minus 7 moves per level to a minimum of 25<br />
+*Effects*: Shorten relative distances nearby, allowing the psions to travel faster than their stride would indicate. Reduces move cost by 5% plus 2% per power level to a maximum of 60% reduced move cost.<br />
+*Prerequisites*: Phase 4, Stutterstep 6<br />
+
+## Transposition 
+*Difficulty*: 4<br />
+*Target*: One target within 1 square plus 1.5 squares per power levels<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 2750, minus 85 per level to a minimum of 1500<br />
+*Channeling Time*: 75 moves, minus 2.5 moves per level to a minimum of 30<br />
+*Effects*: Extangle the psion's position with the target's and then swap places, exchanging positions.<br />
+*Prerequisites*: Displacement 5, Extended Stride 5<br />
+
+## Displacement 
+*Difficulty*: 4<br />
+*Target*: One target within range 1<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 4000, minus 65 per level to a minimum of 1750<br />
+*Channeling Time*: 95 moves, minus 4 moves per level to a minimum of 25<br />
+*Effects*: Touch a single target and teleport them through the Nether, sending them anywhere within 5 to 15 squares with a variance of 1 to 5 squares from that point (the same as Blink).<br />
+*Prerequisites*: Stutterstep 10, Phase 5 <br />
+
+## Spacial Vortex 
+*Difficulty*: 5<br />
+*Target*: An area of 3 squares plus 1 square per 4 power levels, with a range of 5 squares plus 1.2 squares per power level<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 5500, minus 75 per level to a minimum of 3000<br />
+*Channeling Time*: 80 moves, minus 2 moves per level to a minimum of 45<br />
+*Effects*: Warp space and draw everyone within toward the central point. All targets within the AoE are pulled toward the center by 1 square per 4 power levels, to a maximum of 8 squares toward the center.<br />
+*Prerequisites*: Stutterstep 10 *or* Transposition 6, Extended Stride 4<br />
+
+## Farstep 
+*Difficulty*: 6<br />
+*Target*: Anywhere within 2 square plus 1.5 squares per power level<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 6500, minus 105 per level to a minimum of 2750<br />
+*Channeling Time*: 75 moves, minus 3 moves per level to a minimum of 30<br />
+*Effects*: Step into the Nether and re-emerge at a location nearby.  Farstep works through walls and across Z levels.<br />
+*Prerequisites*: Phase 10, Extended Stride 8 *or* Spacial Vortex 6 <br />
+
+## Oubliette 
+*Difficulty*: 7<br />
+*Target*: A single target within 2 squares plus 1.5 squares per power level<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 7500, minus 170 per level to a minimum of 4600<br />
+*Channeling Time*: 150 moves, minus 5.5 moves per level to a minimum of 75<br />
+*Effects*: Teleports a single monster somewhere *else*, removing them and anything they might drop. The monster must have HP lower than 15 to 350, plus 15 to 35 per power level, randomly determined when the power is used.  Oubliette cannot currently affect NPCs.<br />
+*Prerequisites*: Displacement 10, Farstep 6 *or* Transposition 8 *or * Spacial Vortex 8<br />
+
+## Gateway 
+*Difficulty*: 8<br />
+*Target*: One attuned location<br />
+*Duration*: Instant<br />
+*Stamina Cost*: 10000, minus 200 per level to a minimum of 6000<br />
+*Channeling Time*: 200 moves, minus 5.5 moves per level to a minimum of 75. Attunement takes 8 hours, minus 30 minutes per power level of Gateway to a minimum of 30 minutes<br />
+*Effects*: Transport yourself through the Nether to an attuned location. This power works at any distance..<br />
+*Prerequisites*: Farstep 10, Extended Stride 10 <br />
+
+## Breach 
+*Difficulty*: 7<br />
+*Target*: A single target within 2 squares plus 1.3 squares per power level<br />
+*Duration*: Indefinitet<br />
+*Stamina Cost*: 9000, minus 250 per level to a minimum of 4500<br />
+*Channeling Time*: 250 moves, minus 6.5 moves per level to a minimum of 125<br />
+*Effects*: Opens a portal to the Nether and allows something to come through: from 1 to 3 monsters from the GROUP_NETHER_BREACH monster group. The psion has no control over what exactly comes through and no control over what they do when they arrive.<br />
+*Prerequisites*: Displacement 12 *or* Oubliette 7, Gateway 6<br />
