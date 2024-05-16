@@ -196,11 +196,11 @@
         "pocket_type": "CONTAINER",
         "ablative": true,
         "volume_encumber_modifier": 0,
-        "max_contains_volume": "500 ml",
-        "max_contains_weight": "500 g",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "800 g",
         "moves": 250,
-        "description": "Pocket for a face shield or a shield visor.",
-        "flag_restriction": [ "HELMET_FACE_SHIELD" ],
+        "description": "Pocket for a face shield, or a front night vision attachment.",
+        "flag_restriction": [ "HELMET_FACE_SHIELD", "HELMET_FRONT_ATTACHMENT" ],
         "inherits_flags": true
       },
       {
@@ -404,11 +404,12 @@
         "pocket_type": "CONTAINER",
         "ablative": true,
         "volume_encumber_modifier": 0,
-        "max_contains_volume": "500 ml",
-        "max_contains_weight": "500 g",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "800 g",
         "moves": 250,
-        "description": "Pocket for a face shield or a shield visor.",
-        "flag_restriction": [ "HELMET_FACE_SHIELD" ]
+        "description": "Pocket for a face shield, or a front night vision attachment.",
+        "flag_restriction": [ "HELMET_FACE_SHIELD", "HELMET_FRONT_ATTACHMENT" ],
+        "inherits_flags": true
       },
       {
         "pocket_type": "CONTAINER",
@@ -2858,11 +2859,12 @@
         "pocket_type": "CONTAINER",
         "ablative": true,
         "volume_encumber_modifier": 0,
-        "max_contains_volume": "500 ml",
-        "max_contains_weight": "500 g",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "800 g",
         "moves": 250,
-        "description": "Pocket for a face shield or a shield visor.",
-        "flag_restriction": [ "HELMET_FACE_SHIELD" ]
+        "description": "Pocket for a face shield, or a front night vision attachment.",
+        "flag_restriction": [ "HELMET_FACE_SHIELD", "HELMET_FRONT_ATTACHMENT" ],
+        "inherits_flags": true
       },
       {
         "pocket_type": "CONTAINER",
