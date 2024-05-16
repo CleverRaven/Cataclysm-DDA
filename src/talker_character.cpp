@@ -1,5 +1,6 @@
 #include <memory>
 
+#include "avatar.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
 #include "effect.h"
