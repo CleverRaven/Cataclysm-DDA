@@ -276,10 +276,7 @@
   {
     "type": "item_group",
     "id": "guns_pistol_rare_223",
-    "items": [
-      { "group": "nested_ar_pistol", "prob": 1 },
-      { "group": "nested_minidraco556", "prob": 1 }
-    ]
+    "items": [ { "group": "nested_ar_pistol", "prob": 1 }, { "group": "nested_minidraco556", "prob": 1 } ]
   },
   {
     "type": "item_group",

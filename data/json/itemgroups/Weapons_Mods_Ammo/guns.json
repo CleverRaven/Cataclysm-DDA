@@ -260,11 +260,7 @@
     "id": "guns_smg_obscure",
     "subtype": "distribution",
     "//": "Imported or otherwise very obscure SMGs.",
-    "items": [
-      { "item": "ppsh", "prob": 50 },
-      { "item": "hk_mp5_10_semi", "prob": 1 },
-      { "item": "greasegun", "prob": 150 }
-    ]
+    "items": [ { "item": "ppsh", "prob": 50 }, { "item": "hk_mp5_10_semi", "prob": 1 }, { "item": "greasegun", "prob": 150 } ]
   },
   {
     "type": "item_group",
