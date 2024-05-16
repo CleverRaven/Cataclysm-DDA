@@ -490,6 +490,15 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Cancel",
+    "dynamic_line": "*looks crestfallen for a moment, then straightens up.  \"All right.  Yeah, maybe better not to put them at risk I guess.  So we're back to going in without them.  Maybe that's better, I don't want to lose anyone else.\"",
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN2",
     "dynamic_line": "Can you think of anything else we might need, or should we put this into action?",
     "responses": [
