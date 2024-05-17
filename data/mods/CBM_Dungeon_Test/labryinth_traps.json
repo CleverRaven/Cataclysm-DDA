@@ -13,6 +13,6 @@
     "id": "sparkling_chasm_exit",
     "name": "sparkling chasm exit",
     "copy-from": "trap_base",
-    "effect_str": "EOC_LS_Exit_labyrinth_force"
+    "effect_str": "EOC_LS_Exit_labyrinth_sparkling_chasm"
   }
 ]
