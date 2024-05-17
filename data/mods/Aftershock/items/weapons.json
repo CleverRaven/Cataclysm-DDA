@@ -248,6 +248,24 @@
     "weapon_category": [ "KNIVES" ]
   },
   {
+    "id": "afs_toxic_knife",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "neurotoxic knife", "str_pl": "neurotoxic knives" },
+    "description": "A broad white-ceramic knife that is constantly kept coated in neurotoxic oil by a handle mounted reservoir.  Don't cut yourself.",
+    "weight": "390 g",
+    "volume": "250 ml",
+    "price": "40 USD",
+    "material": [ "ceramic", "plastic" ],
+    "symbol": "/",
+    "color": "white",
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 5 ] ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "NPC_THROWN", "ALLOWS_BODY_BLOCK", "NO_SALVAGE" ],
+    "weapon_category": [ "KNIVES" ],
+    "thrown_damage": [ { "damage_type": "afs_toxin_pierce", "amount": 14 } ],
+    "melee_damage": { "afs_toxin_pierce": 21 }
+  },
+  {
     "type": "GENERIC",
     "id": "trident",
     "looks_like": "pitchfork",
