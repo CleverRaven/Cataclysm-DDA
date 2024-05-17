@@ -120,7 +120,7 @@
     "category": "traps",
     "properties": { "capture_species": "NETHER" },
     "description": "A metallic pentagram full of mystic symbols.  Will trap creatures from other dimensions if they wander into it.",
-    "weight": "1 Kg",
+    "weight": "1 kg",
     "volume": "1000 ml",
     "longest_side": "1 m",
     "price": "250 USD",
