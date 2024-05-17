@@ -10039,9 +10039,9 @@ float Character::adjust_for_focus( float amount ) const
     return amount * ( effective_focus / 100.0f );
 }
 
-std::set<tripoint> Character::get_path_avoid() const
+std::unordered_set<tripoint> Character::get_path_avoid() const
 {
-    std::set<tripoint> ret;
+    std::unordered_set<tripoint> ret;
     for( npc &guy : g->all_npcs() ) {
         if( sees( guy ) ) {
             ret.insert( guy.pos() );
