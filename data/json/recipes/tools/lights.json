@@ -354,7 +354,7 @@
     "book_learn": [ [ "textbook_fabrication", 6 ] ],
     "qualities": [ 
     { "id": "WRENCH", "level": 1 }, 
-    { "id": "SAW_M", "level": 1 } 
+    { "id": "SAW_M", "level": 1 }, 
     { "id": "HAMMER", "level": 2 } ],
     "using": [ [ "welding_standard", 50 ] ],
     "proficiencies": [ { "proficiency": "prof_welding_basic" }, { "proficiency": "prof_welding" } ],
