@@ -92,7 +92,7 @@
       { "text": "Let's trade.", "effect": "start_trade", "topic": "TALK_FORGE_LORD" },
       { "text": "What are you doing here?", "topic": "TALK_FORGE_LORD_DOING" },
       { "text": "I have some stories for you.", "topic": "TALK_FORGE_LORD_BOOKS_DELIVER" },
-      [ "text": "Anything interesting being worked on?", "topic": "TALK_FORGE_LORD_ASK_INTERVAL" },
+      { "text": "Anything interesting being worked on?", "topic": "TALK_FORGE_LORD_ASK_INTERVAL" },
       { "text": "Well, bye.", "topic": "TALK_DONE" }
     ]
   },
