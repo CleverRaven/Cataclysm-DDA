@@ -270,7 +270,7 @@
         "u_run_npc_eocs": [
           {
             "id": "isherwood_mission_set_teleport_position_effect",
-            "effect": { "u_location_variable": { "global_val": "_teleport_pos" }, "unique_id": true }
+            "effect": { "u_location_variable": { "global_val": "_teleport_pos" } }
           }
         ],
         "unique_ids": [ "CHRIS_MISSION", "LISA_MISSION", "CARLOS_MISSION", "EDDIE_MISSION", "LUKE_MISSION", "JESSE_MISSION" ]
