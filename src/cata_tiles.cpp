@@ -1380,7 +1380,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
     //retrieve night vision goggle status once per draw
     auto vision_cache = you.get_vision_modes();
-    nv_goggles_activated = vision_cache[NV_GOGGLES] || vision_cache[NV_GOGGLES_FAR];
+    nv_goggles_activated = vision_cache[NV_GOGGLES] || vision_cache[NV_GOGGLES_FAR] || vision_cache[NV_GOGGLES_CLOSE];
 
     // check that the creature for which we'll draw the visibility map is still alive at that point
     if( g->display_overlay_state( ACTION_DISPLAY_VISIBILITY ) &&

@@ -1834,7 +1834,7 @@
           { "item": "wetsuit" },
           { "item": "pants_army" },
           { "item": "wetsuit_hood" },
-          { "item": "tac_helmet" },
+          { "group": "tac_helmet_nvg" },
           { "item": "wetsuit_gloves" },
           { "item": "gloves_tactical" },
           { "item": "socks" },

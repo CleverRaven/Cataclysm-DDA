@@ -159,6 +159,7 @@ extern const flag_id flag_GAS_DISCOUNT;
 extern const flag_id flag_GAS_PROOF;
 extern const flag_id flag_GIBBED;
 extern const flag_id flag_GNV_EFFECT;
+extern const flag_id flag_GNV_EFFECT_CLOSE;
 extern const flag_id flag_GNV_EFFECT_FAR;
 extern const flag_id flag_HARVEST_SEEDS;
 extern const flag_id flag_HEAT_IMMUNE;

@@ -7308,10 +7308,10 @@ bool map::draw_maptile( const catacurses::window &w, const tripoint &p,
     const auto u_vision = player_character.get_vision_modes();
     if( u_vision[BOOMERED] ) {
         tercol = c_magenta;
-    } else if( u_vision[NV_GOGGLES] ) {
+    } else if( u_vision[NV_GOGGLES] || u_vision[NV_GOGGLES_CLOSE] ) {
         tercol = param.bright_light() ? c_white : c_light_green;
     } else if( u_vision[NV_GOGGLES_FAR] ) {
-        tercol = param.bright_light() ? c_white : c_light_gray_white;
+        tercol = param.bright_light() ? c_white : c_light_gray;
     } else if( param.low_light() || u_vision[DARKNESS] ) {
         tercol = c_dark_gray;
     }
@@ -7400,10 +7400,10 @@ void map::draw_from_above( const catacurses::window &w, const tripoint &p,
     const std::bitset<NUM_VISION_MODES> &u_vision = get_player_character().get_vision_modes();
     if( u_vision[BOOMERED] ) {
         tercol = c_magenta;
-    } else if( u_vision[NV_GOGGLES] ) {
+    } else if( u_vision[NV_GOGGLES] || u_vision[NV_GOGGLES_CLOSE] ) {
         tercol = params.bright_light() ? c_white : c_light_green;
     } else if( u_vision[NV_GOGGLES_FAR] ) {
-        tercol = params.bright_light() ? c_white : c_light_gray_white;
+        tercol = params.bright_light() ? c_white : c_light_gray;
     } else if( params.low_light() || u_vision[DARKNESS] ) {
         tercol = c_dark_gray;
     }
