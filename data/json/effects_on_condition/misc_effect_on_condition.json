@@ -162,5 +162,23 @@
     "id": "morale_dislikes_sewer",
     "type": "morale_type",
     "text": "Dislikes being in sewer"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "sundawn_morale_buff",
+    "recurrence": { "math": [ "time_until('sunrise')" ] },
+    "global": true,
+    "run_for_npcs": true,
+    "condition": { "u_is_outside": "true" },
+    "effect": { "u_add_morale": "morale_sunrise", "bonus": 20, "max_bonus": 20 }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "sunset_morale_buff",
+    "recurrence": { "math": [ "time_until('sunset')" ] },
+    "global": true,
+    "run_for_npcs": true,
+    "condition": "u_is_outside",
+    "effect": { "u_add_morale": "morale_sunset", "bonus": 20, "max_bonus": 20 }
   }
 ]
