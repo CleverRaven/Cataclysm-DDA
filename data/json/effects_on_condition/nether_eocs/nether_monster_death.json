@@ -10,11 +10,11 @@
           {
             "case": 0,
             "effect": [
-              { "map_spawn_item": "glass_shard", "loc": { "context_val": "death_loc" }, "count": [ 750, 2250 ] },
+              { "map_spawn_item": "black_glass_shard", "loc": { "context_val": "death_loc" }, "count": [ 750, 2250 ] },
               {
                 "if": "player_see_u",
                 "then": {
-                  "message": "As it stops moving, the creature quickly begins to turn translucent and shatters like glass.",
+                  "message": "As it stops moving, the creature quickly begins to darken and turn translucent, shattering like glass soon after.",
                   "type": "info"
                 }
               }
