@@ -2965,7 +2965,7 @@
       { "item": "goggles_nv", "prob": 1, "charges": [ 0, 100 ] },
       { "item": "goggles_ir", "prob": 1, "charges": [ 0, 100 ] },
       { "item": "military_nvg", "prob": 1, "charges": [ 0, 100 ] },
-      { "item": "advanced_nvg", "prob": 1, "charges": [ 0, 100 ] },
+      { "item": "advanced_gpnvg", "prob": 1, "charges": [ 0, 100 ] },
       { "item": "enhanced_nvg", "prob": 1, "charges": [ 0, 100 ] },
       [ "optical_cloak", 1 ],
       { "item": "holo_cloak", "prob": 1, "charges": [ 0, 1000 ] },

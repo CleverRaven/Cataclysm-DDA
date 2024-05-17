@@ -2545,19 +2545,11 @@ void Character::recalc_sight_limits()
         vision_mode_cache.set( DARKNESS );
         sight_max = 10;
     }
-
+    
+    update_nv();
     // Debug-only NV, by vache's request
     if( has_trait( trait_DEBUG_NIGHTVISION ) ) {
         vision_mode_cache.set( DEBUG_NIGHTVISION );
-    }
-    if( has_nv() ) {
-        if( worn_with_flag( flag_GNV_EFFECT_FAR ) ) {
-            vision_mode_cache.set( NV_GOGGLES_FAR );
-        } else if( worn_with_flag( flag_GNV_EFFECT_CLOSE ) ) {
-            vision_mode_cache.set( NV_GOGGLES_CLOSE );
-        } {
-            vision_mode_cache.set( NV_GOGGLES );
-        }
     }
     if( has_active_mutation( trait_NIGHTVISION3 ) || is_wearing( itype_rm13_armor_on ) ||
         ( is_mounted() && mounted_creature->has_flag( mon_flag_MECH_RECON_VISION ) ) ) {
@@ -3854,19 +3846,22 @@ void Character::reset()
     reset_stats();
 }
 
-bool Character::has_nv()
+void Character::update_nv()
 {
-    static bool nv = false;
-
     if( !nv_cached ) {
         nv_cached = true;
-        nv = ( worn_with_flag( flag_GNV_EFFECT ) ||
-               worn_with_flag( flag_GNV_EFFECT_FAR ) ||
-               worn_with_flag( flag_GNV_EFFECT_CLOSE ) ||
-               has_flag( json_flag_NIGHT_VISION ) );
+        // item item_nv = item_worn_with_flag( flag_GNV_EFFECT );
+        // item item_nv_f = item_worn_with_flag( flag_GNV_EFFECT_FAR );
+        // item item_nv_c = item_worn_with_flag( flag_GNV_EFFECT_CLOSE );
+        if ( worn_with_flag( flag_GNV_EFFECT ) || has_flag( json_flag_NIGHT_VISION ) ) {
+            vision_mode_cache.set( NV_GOGGLES );
+            //item_nv->update_inherited_flags();
+        } else if ( worn_with_flag( flag_GNV_EFFECT_FAR ) ) {
+            vision_mode_cache.set( NV_GOGGLES_FAR );
+        } else if ( worn_with_flag( flag_GNV_EFFECT_CLOSE ) ) {
+            vision_mode_cache.set( NV_GOGGLES_CLOSE );
+        }
     }
-
-    return nv;
 }
 
 void Character::calc_discomfort()
