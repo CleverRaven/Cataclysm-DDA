@@ -122,7 +122,7 @@
     "description": "A metallic pentagram full of mystic symbols.  Will trap creatures from other dimensions if they wander into it.",
     "weight": "1 kg",
     "volume": "1000 ml",
-    "longest_side": "1 m",
+    "longest_side": "60 cm",
     "price": "250 USD",
     "price_postapoc": "5 USD",
     "material": "lead",
