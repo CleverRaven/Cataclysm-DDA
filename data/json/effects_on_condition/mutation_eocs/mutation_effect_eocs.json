@@ -567,7 +567,7 @@
     "recurrence": [ "1 days", "7 days" ],
     "condition": { "and": [ { "is_season": "summer" }, { "u_has_trait": "LUPINE_FUR" } ] },
     "effect": [
-      { "u_message": "You've been shedding for a while, and your coat feels noticably lighter.", "type": "good" },
+      { "u_message": "You've been shedding for a while, and your coat feels noticeably lighter.", "type": "good" },
       { "u_lose_trait": "LUPINE_FUR" },
       { "u_add_trait": "LUPINE_FUR_SUMMER" }
     ]
@@ -589,7 +589,7 @@
     "recurrence": [ "1 days", "7 days" ],
     "condition": { "and": [ { "is_season": "summer" }, { "u_has_trait": "URSINE_FUR" } ] },
     "effect": [
-      { "u_message": "You've been shedding for a while, and your coat feels noticably lighter.", "type": "good" },
+      { "u_message": "You've been shedding for a while, and your coat feels noticeably lighter.", "type": "good" },
       { "u_lose_trait": "URSINE_FUR" },
       { "u_add_trait": "URSINE_FUR_SUMMER" }
     ]
