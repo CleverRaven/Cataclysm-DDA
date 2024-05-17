@@ -567,13 +567,13 @@
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Turn_Over"
       },
       {
-        "text": "[5 RIOT ARMGUARD] I hope these armguards won't interfere with people's aim.",
+        "text": "[5 RIOT ARM GUARD] I hope these armguards won't interfere with people's aim.",
         "condition": { "and": [ { "u_has_item": "armor_riot_arm" }, { "math": [ "isherwood_gear_retrival_armor_arm_count", "<", "5" ] } ] },
         "effect": [ { "u_consume_item": "armor_riot_arm" }, { "math": [ "isherwood_gear_retrival_armor_arm_count", "++" ] } ],
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Turn_Over"
       },
       {
-        "text": "[5 RIOT LEGGUARD] I've got these leg guards to keep people from getting hobbled.",
+        "text": "[5 RIOT LEG GUARD] I've got these leg guards to keep people from getting hobbled.",
         "condition": { "and": [ { "u_has_item": "armor_riot_leg" }, { "math": [ "isherwood_gear_retrival_armor_leg_count", "<", "5" ] } ] },
         "effect": [ { "u_consume_item": "armor_riot_leg" }, { "math": [ "isherwood_gear_retrival_armor_leg_count", "++" ] } ],
         "topic": "TALK_ISHERWOOD_CHRIS_RESCUE_BARRY_PLAN_Gear_Turn_Over"
