@@ -355,12 +355,7 @@
     "qualities": [ { "id": "WRENCH", "level": 1 }, { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
     "using": [ [ "welding_standard", 50 ] ],
     "proficiencies": [ { "proficiency": "prof_welding_basic" }, { "proficiency": "prof_welding" } ],
-    "components": [
-      [ [ "scrap", 2 ] ],
-      [ [ "pipe", 2 ] ],
-      [ [ "pipe_fittings", 4 ] ],
-      [ [ "pilot_light", 1 ] ]
-    ]
+    "components": [ [ [ "scrap", 2 ] ], [ [ "pipe", 2 ] ], [ [ "pipe_fittings", 4 ] ], [ [ "pilot_light", 1 ] ] ]
   },
   {
     "type": "recipe",
