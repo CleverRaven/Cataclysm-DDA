@@ -232,7 +232,6 @@ struct trap {
         bool is_trivial_to_spot() const;
 
         void set_trap_data( itype_id trap_item_type_id );
-        
         /**
          * Some traps are part of the terrain (e.g. pits) and can therefore not be disarmed
          * via the usual mechanics. They can be "disarmed" by changing the terrain they are part of.
