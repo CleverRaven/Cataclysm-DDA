@@ -165,11 +165,11 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "sundawn_morale_buff",
+    "id": "sunrise_morale_buff",
     "recurrence": { "math": [ "time_until('sunrise')" ] },
     "global": true,
     "run_for_npcs": true,
-    "condition": { "u_is_outside": "true" },
+    "condition": { "and": [ "u_is_outside", "u_can_see" ] },
     "effect": { "u_add_morale": "morale_sunrise", "bonus": 20, "max_bonus": 20 }
   },
   {
@@ -178,7 +178,7 @@
     "recurrence": { "math": [ "time_until('sunset')" ] },
     "global": true,
     "run_for_npcs": true,
-    "condition": "u_is_outside",
+    "condition": { "and": [ "u_is_outside", "u_can_see" ] },
     "effect": { "u_add_morale": "morale_sunset", "bonus": 20, "max_bonus": 20 }
   }
 ]
