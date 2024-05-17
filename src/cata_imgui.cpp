@@ -430,6 +430,7 @@ void cataimgui::window::draw_colored_text( std::string const &text,
         float wrap_width, bool *is_selected, bool *is_focused, bool *is_hovered )
 {
     ImGui::PushID( text.c_str() );
+    int startColorStackCount = GImGui->ColorStack.Size;
     ImGuiID itemId = GImGui->CurrentWindow->IDStack.back();
     size_t chars_per_line = size_t( wrap_width );
     if( chars_per_line == 0 ) {
@@ -472,7 +473,10 @@ void cataimgui::window::draw_colored_text( std::string const &text,
 
         }
     }
-
+    for( int curColorStackCount = GImGui->ColorStack.Size; curColorStackCount > startColorStackCount;
+         curColorStackCount-- ) {
+        ImGui::PopStyleColor();
+    }
     ImGui::PopID();
 }
 
