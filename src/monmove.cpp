@@ -282,7 +282,8 @@ bool monster::know_danger_at( const tripoint &p ) const
             }
 
             // Some things are only avoided if we're not attacking
-            if( attitude( &get_player_character() ) != MATT_ATTACK ) {
+            if( get_player_character().get_location() != get_dest() ||
+                attitude( &get_player_character() ) != MATT_ATTACK ) {
                 // Sharp terrain is ignored while attacking
                 if( avoid_sharp && here.has_flag( ter_furn_flag::TFLAG_SHARP, p ) &&
                     !( type->size == creature_size::tiny || flies() ||
@@ -1068,7 +1069,25 @@ void monster::move()
             if( pf_settings.max_dist >= rl_dist( get_location(), get_dest() ) &&
                 ( path.empty() || rl_dist( pos(), path.front() ) >= 2 || path.back() != local_dest ) ) {
                 // We need a new path
-                path = here.route( pos(), local_dest, pf_settings, get_path_avoid() );
+                if( can_pathfind() ) {
+                    path = here.route( pos(), local_dest, pf_settings, get_path_avoid() );
+                    if( path.empty() ) {
+                        increment_pathfinding_cd();
+                    }
+                } else {
+                    path = here.straight_route( pos(), local_dest );
+                    if( !path.empty() ) {
+                        std::unordered_set<tripoint> closed = get_path_avoid();
+                        if( std::any_of( path.begin(), path.end(), [&closed]( const tripoint & p ) {
+                        return closed.count( p );
+                        } ) ) {
+                            path.clear();
+                        }
+                    }
+                }
+                if( !path.empty() ) {
+                    reset_pathfinding_cd();
+                }
             }
 
             // Try to respect old paths, even if we can't pathfind at the moment
