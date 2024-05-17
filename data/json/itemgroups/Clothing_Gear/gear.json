@@ -37,6 +37,31 @@
     ]
   },
   {
+    "type": "item_group",
+    "id": "army_helmet_nvg",
+    "subtype": "collection",
+    "entries": [ { "item": "helmet_army", "contents-group": "nvg_distribution" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "tac_helmet_nvg",
+    "subtype": "collection",
+    "entries": [ { "item": "tac_helmet", "contents-group": "nvg_distribution" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "nvg_distribution",
+    "items": [
+      {
+        "distribution": [
+          { "item": "military_nvg", "prob": 60, "charges": [ 0, 100 ] },
+          { "item": "advanced_gpnvg", "prob": 30, "charges": [ 0, 100 ] },
+          { "item": "enhanced_nvg", "prob": 10, "charges": [ 0, 100 ] }
+        ]
+      }
+    ]
+  },
+  {
     "id": "gear_medical",
     "type": "item_group",
     "//": "Medical equipment including consumables but not major painkillers",

@@ -356,7 +356,7 @@
   {
     "id": "HELMET_FRONT_ATTACHMENT",
     "type": "json_flag",
-    "info": "This item is attachable in the front of <info>military helmets</info> and in front of eyes/face.",
+    "info": "This item is attachable in the front of <info>military helmets</info>.",
     "restriction": "Item must be some kind of frontal helmet attachment"
   },
   {
