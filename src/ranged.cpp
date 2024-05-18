@@ -155,9 +155,8 @@ static const std::set<material_id> ferric = { material_iron, material_steel, mat
 static constexpr int AIF_DURATION_LIMIT = 10;
 
 static projectile make_gun_projectile( const item &gun );
-static int NPC_time_to_attack( const Character &p, const itype &firing );
-static int time_to_attack( const Character &p, const item &firing, const item_location &loc );
-static int RAS_time = 0;
+static int time_to_attack( const Character &p, const itype &firing );
+static int RAS_time( const Character &p, const item &firing, const item_location &loc );
 /**
 * Handle spent ammo casings and linkages.
 * @param weap   Weapon.
@@ -921,7 +920,7 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun, item_loca
                               static_cast<float>( MAX_SKILL ) ) / static_cast<double>( MAX_SKILL * 2 );
 
     itype_id gun_id = gun.typeId();
-    int attack_moves = time_to_attack( *this, gun, ammo );
+    int attack_moves = time_to_attack( *this, *gun_id ) + RAS_time( *this, gun, ammo );
     skill_id gun_skill = gun.gun_skill();
     add_msg_debug( debugmode::DF_RANGED, "Gun skill (%s) %g", gun_skill.c_str(),
                    get_skill_level( gun_skill ) ) ;
@@ -1742,8 +1741,8 @@ static std::vector<aim_type_prediction> calculate_ranged_chances(
             prediction.moves = throw_moves;
         } else {
             prediction.moves = predict_recoil( you, weapon, target, ui.get_sight_dispersion(), aim_type,
-                                               you.recoil ).moves + time_to_attack( you, weapon,
-                                                       load_loc );
+                                               you.recoil ).moves + time_to_attack( you, *weapon.type )
+                                               + RAS_time( you, weapon, load_loc );
         }
 
         // if the default method is "behind" the selected; e.g. you are in immediate
@@ -1822,7 +1821,7 @@ static void print_confidence_rating_bar( const catacurses::window &w,
 }
 
 static int print_ranged_chance( const catacurses::window &w, int line_number,
-                                const std::vector<aim_type_prediction> &aim_chances )
+                                const std::vector<aim_type_prediction> &aim_chances, const int time )
 {
     std::vector<aim_type_prediction> sorted = aim_chances;
 
@@ -1927,11 +1926,11 @@ static int print_ranged_chance( const catacurses::window &w, int line_number,
 
         for( const aim_type_prediction &out : sorted ) {
             std::string col_hl = out.is_default ? "light_green" : "light_gray";
-            std::string desc = RAS_time ==  0 ?
+            std::string desc = time ==  0 ?
                                string_format( "<color_white>[%s]</color> <color_%s>%s %s</color> | %s: <color_light_blue>%3d</color>",
                                               out.hotkey, col_hl, out.name, _( "Aim" ), _( "Moves to fire" ), out.moves ) :
                                string_format( "<color_white>[%s]</color> <color_%s>%s %s</color> | %s: <color_light_blue>%3d</color> (%d)",
-                                              out.hotkey, col_hl, out.name, _( "Aim" ), _( "Moves to fire" ), out.moves, RAS_time );
+                                              out.hotkey, col_hl, out.name, _( "Aim" ), _( "Moves to fire" ), out.moves, time );
 
             print_colored_text( w, point( 1, line_number++ ), col, col, desc );
 
@@ -1983,7 +1982,9 @@ static int print_aim( const target_ui &ui, Character &you, const catacurses::win
             target_ui::TargetMode::Fire, ctxt, weapon, dispersion, confidence_config,
             Target_attributes( you.pos(), pos ), pos, load_loc );
 
-    return print_ranged_chance( w, line_number, aim_chances );
+    int time = RAS_time( you, weapon, load_loc );
+
+    return print_ranged_chance( w, line_number, aim_chances, time );
 }
 
 static void draw_throw_aim( const target_ui &ui, const Character &you, const catacurses::window &w,
@@ -2024,7 +2025,7 @@ static void draw_throw_aim( const target_ui &ui, const Character &you, const cat
             throwing_target_mode, ctxt, weapon, dispersion, confidence_config, attributes, target_pos,
             item_location() );
 
-    text_y = print_ranged_chance( w, text_y, aim_chances );
+    text_y = print_ranged_chance( w, text_y, aim_chances, 0 );
 }
 
 std::vector<aim_type> Character::get_aim_types( const item &gun ) const
@@ -2128,7 +2129,7 @@ static projectile make_gun_projectile( const item &gun )
     return proj;
 }
 
-int NPC_time_to_attack( const Character &p, const itype &firing )
+int time_to_attack( const Character &p, const itype &firing )
 {
     const skill_id &skill_used = firing.gun->skill_used;
     const time_info_t &info = skill_used->time_to_attack();
@@ -2137,22 +2138,18 @@ int NPC_time_to_attack( const Character &p, const itype &firing )
                                            skill_used ) ) ) );
 }
 
-int time_to_attack( const Character &p, const item &firing, const item_location &loc )
+int RAS_time( const Character &p, const item &firing, const item_location &loc )
 {
-    const skill_id &skill_used = firing.type->gun->skill_used;
-    const time_info_t &info = skill_used->time_to_attack();
-    RAS_time = 0;
+    int time = 0;
     if( loc ) {
         // At low stamina levels, firing starts getting slow.
         const item_location gun = p.get_wielded_item();
         int sta_percent = ( 100 * p.get_stamina() ) / p.get_stamina_max();
-        RAS_time += ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;
+        time += ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;
         item::reload_option opt = item::reload_option( &p, gun, loc );
-        RAS_time += opt.moves();
+        time += opt.moves();
     }
-    return std::max( info.min_time,
-                     static_cast<int>( round( info.base_time - info.time_reduction_per_level * p.get_skill_level(
-                                           skill_used ) ) ) + RAS_time );
+    return time;
 }
 
 static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos )
@@ -2424,7 +2421,7 @@ double Character::gun_value( const item &weap, int ammo ) const
         damage_factor += 0.5f * gun_damage.damage_units.front().res_pen;
     }
 
-    int move_cost = NPC_time_to_attack( *this, *weap.type );
+    int move_cost = time_to_attack( *this, *weap.type );
     if( gun.clip != 0 && gun.clip < 10 ) {
         // TODO: RELOAD_ONE should get a penalty here
         int reload_cost = gun.reload_time + encumb( bodypart_id( "hand_l" ) ) + encumb(
@@ -2694,12 +2691,11 @@ target_handler::trajectory target_ui::run()
                 break;
             }
 
-            item_location weapon = activity->get_weapon();
-            if( weapon->has_flag( flag_RELOAD_AND_SHOOT ) ) {
-                if( !weapon->ammo_remaining() && activity->reload_loc ) {
-                    you->mod_moves( -RAS_time );
-                    weapon->reload( get_avatar(), activity->reload_loc, 1 );
-                    you->burn_energy_arms( - weapon->get_min_str() * static_cast<int>( 0.006f *
+            if( relevant->has_flag( flag_RELOAD_AND_SHOOT ) ) {
+                if( !relevant->ammo_remaining() && activity->reload_loc ) {
+                    you->mod_moves( -RAS_time( *you, *relevant, activity->reload_loc ) );
+                    relevant->reload( get_avatar(), activity->reload_loc, 1 );
+                    you->burn_energy_arms( - relevant->get_min_str() * static_cast<int>( 0.006f *
                                            get_option<int>( "PLAYER_MAX_STAMINA_BASE" ) ) );
                     activity->reload_loc = item_location();
                 }
