@@ -1526,6 +1526,9 @@ class vehicle
 
         // get the total mass of vehicle, including cargo and passengers
         units::mass total_mass() const;
+        // Get the total mass of the vehicle minus the weight of any creatures that are
+        // powering it; ie, the mass of the vehicle that the wheels are supporting
+        units::mass weight_on_wheels() const;
 
         // Gets the center of mass calculated for precalc[0] coordinates
         const point &rotated_center_of_mass() const;

@@ -2679,7 +2679,8 @@ std::vector<const item *> Character::get_pseudo_items() const
     return pseudo_items;
 }
 
-bool Character::practice( const skill_id &id, int amount, int cap, bool suppress_warning )
+bool Character::practice( const skill_id &id, int amount, int cap, bool suppress_warning,
+                          bool allow_multilevel )
 {
     SkillLevel &level = get_skill_level_object( id );
     const Skill &skill = id.obj();
@@ -2735,7 +2736,8 @@ bool Character::practice( const skill_id &id, int amount, int cap, bool suppress
     if( amount > 0 && level.isTraining() ) {
         int old_practical_level = static_cast<int>( get_skill_level( id ) );
         int old_theoretical_level = get_knowledge_level( id );
-        get_skill_level_object( id ).train( amount, catchup_modifier, knowledge_modifier );
+        get_skill_level_object( id ).train( amount, catchup_modifier, knowledge_modifier,
+                                            allow_multilevel );
         int new_practical_level = static_cast<int>( get_skill_level( id ) );
         int new_theoretical_level = get_knowledge_level( id );
         std::string skill_name = skill.name();
@@ -6260,10 +6262,10 @@ std::string Character::extended_description() const
     ss += "\n";
     ss += _( "Wearing:" ) + std::string( " " );
 
-    const std::list<item> visible_worn_items = get_visible_worn_items();
+    const std::list<item_location> visible_worn_items = get_visible_worn_items();
     std::string worn_string = enumerate_as_string( visible_worn_items.begin(), visible_worn_items.end(),
-    []( const item & it ) {
-        return it.tname();
+    []( const item_location & it ) {
+        return it.get_item()->tname();
     } );
     ss += !worn_string.empty() ? worn_string : _( "Nothing" );
 
@@ -6734,7 +6736,7 @@ void Character::mend_item( item_location &&obj, bool interactive )
         const fault_fix &fix = opt.fix;
         assign_activity( ACT_MEND_ITEM, to_moves<int>( opt.time_to_fix ) );
         activity.name = opt.fault.str();
-        activity.str_values.emplace_back( fix.id_ );
+        activity.str_values.emplace_back( fix.id.str() );
         activity.targets.push_back( std::move( obj ) );
     }
 }
@@ -10390,7 +10392,8 @@ std::vector<run_cost_effect> Character::run_cost_effects( float &movecost ) cons
 
     run_cost_effect_add( enchantment_cache->get_value_add( enchant_vals::mod::MOVE_COST ),
                          _( "Enchantments" ) );
-    run_cost_effect_mul( 1.0 + enchantment_cache->get_value_multiply( enchant_vals::mod::MOVE_COST ),
+    run_cost_effect_mul( std::max( 0.01,
+                                   1.0 + enchantment_cache->get_value_multiply( enchant_vals::mod::MOVE_COST ) ),
                          _( "Enchantments" ) );
 
     run_cost_effect_mul( 1.0 / get_modifier( character_modifier_stamina_move_cost_mod ),
@@ -10751,11 +10754,11 @@ std::vector<std::string> Character::short_description_parts() const
     if( is_armed() ) {
         result.push_back( _( "Wielding: " ) + weapon.tname() );
     }
-    const std::list<item> visible_worn_items = get_visible_worn_items();
+    const std::list<item_location> visible_worn_items = get_visible_worn_items();
     const std::string worn_str = enumerate_as_string( visible_worn_items.begin(),
                                  visible_worn_items.end(),
-    []( const item & it ) {
-        return it.tname();
+    []( const item_location & it ) {
+        return it.get_item()->tname();
     } );
     if( !worn_str.empty() ) {
         result.push_back( _( "Wearing: " ) + worn_str );
@@ -11629,8 +11632,8 @@ bool Character::unload( item_location &loc, bool bypass_activity,
             add_msg( m_info, _( "The %s is already empty!" ), it.tname() );
             return false;
         }
-        if( !it.can_unload_liquid() ) {
-            add_msg( m_info, _( "The liquid can't be unloaded in its current state!" ) );
+        if( !it.can_unload() ) {
+            add_msg( m_info, _( "The item can't be unloaded in its current state!" ) );
             return false;
         }
 

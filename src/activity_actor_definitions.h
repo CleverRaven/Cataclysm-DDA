@@ -1412,6 +1412,32 @@ class oxytorch_activity_actor : public activity_actor
         }
 };
 
+class outfit_swap_actor : public activity_actor
+{
+    public:
+        explicit outfit_swap_actor( const item_location &outfit_item ) : outfit_item( outfit_item ) {};
+        activity_id get_type() const override {
+            return activity_id( "ACT_OUTFIT_SWAP" );
+        }
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &, Character & ) override {}
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<outfit_swap_actor>( *this );
+        }
+
+        void serialize( JsonOut & ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue & );
+    private:
+        item_location outfit_item;
+
+        bool can_resume_with_internal( const activity_actor &, const Character & ) const override {
+            return false;
+        }
+};
+
 class meditate_activity_actor : public activity_actor
 {
     public:

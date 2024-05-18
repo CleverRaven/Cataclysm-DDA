@@ -1240,7 +1240,8 @@ class Character : public Creature, public visitable
     public:
 
         /** This handles giving xp for a skill. Returns true on level-up. */
-        bool practice( const skill_id &id, int amount, int cap = 99, bool suppress_warning = false );
+        bool practice( const skill_id &id, int amount, int cap = 99, bool suppress_warning = false,
+                       bool allow_multilevel = false );
         /** This handles warning the player that there current activity will not give them xp */
         void handle_skill_warning( const skill_id &id, bool force_warning = false );
 
@@ -3418,7 +3419,7 @@ class Character : public Creature, public visitable
         bool is_worn_item_visible( std::list<item>::const_iterator ) const;
 
         /** Returns all worn items visible to an outside observer */
-        std::list<item> get_visible_worn_items() const;
+        std::list<item_location> get_visible_worn_items() const;
 
         /** Swap side on which item is worn; returns false on fail. If interactive is false, don't alert player or drain moves */
         bool change_side( item &it, bool interactive = true );

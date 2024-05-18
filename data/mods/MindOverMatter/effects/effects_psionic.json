@@ -661,7 +661,8 @@
     "id": "effect_clair_weak_point",
     "name": [ "Weaknesses Discerned" ],
     "desc": [ "Your vulnerabilities have been laid open." ],
-    "apply_message": "",
+    "apply_message": "You suddenly feel terribly vulnerable.",
+    "remove_message": "You no longer feel so exposed.",
     "rating": "bad",
     "max_duration": "1 minutes",
     "show_in_info": true,
@@ -766,25 +767,25 @@
       {
         "values": [
           {
-            "value": "BONUS_DODGE",
+            "value": "EVASION",
             "add": {
               "math": [
-                "(1 + ( u_spell_level('clair_dodge_power') / 6) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+                "min(((0.25 + ( u_spell_level('clair_dodge_power') * 0.015) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 0.7)"
               ]
             }
           },
           {
-            "value": "BONUS_BLOCK",
+            "value": "DODGE_CHANCE",
             "add": {
               "math": [
-                "(1 + ( u_spell_level('clair_dodge_power') / 6) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+                "min((( ( u_spell_level('clair_dodge_power') * 0.5) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 10)"
               ]
             }
           }
         ]
       }
     ],
-    "flags": [ "UNCANNY_DODGE" ]
+    "flags": [ "HARDTOHIT" ]
   },
   {
     "type": "effect_type",

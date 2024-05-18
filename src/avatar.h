@@ -360,6 +360,7 @@ class avatar : public Character
         void update_cardio_acc() override;
         void add_spent_calories( int cal ) override;
         void add_gained_calories( int cal ) override;
+        int get_daily_calories( unsigned days_ago, std::string const &type ) const;
         void log_activity_level( float level ) override;
         std::string total_daily_calories_string() const;
         //set 0-3 random hobbies, with 1 and 2 being twice as likely as 0 and 3

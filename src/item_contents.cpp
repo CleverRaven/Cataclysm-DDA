@@ -1374,7 +1374,7 @@ const item &item_contents::first_ammo() const
 bool item_contents::will_spill() const
 {
     for( const item_pocket &pocket : contents ) {
-        if( pocket.is_type( pocket_type::CONTAINER ) && pocket.will_spill() ) {
+        if( pocket.is_standard_type() && pocket.will_spill() ) {
             return true;
         }
     }
@@ -1384,8 +1384,7 @@ bool item_contents::will_spill() const
 bool item_contents::will_spill_if_unsealed() const
 {
     for( const item_pocket &pocket : contents ) {
-        if( pocket.is_type( pocket_type::CONTAINER )
-            && pocket.will_spill_if_unsealed() ) {
+        if( pocket.is_standard_type() && pocket.will_spill_if_unsealed() ) {
             return true;
         }
     }
@@ -1395,7 +1394,7 @@ bool item_contents::will_spill_if_unsealed() const
 bool item_contents::spill_open_pockets( Character &guy, const item *avoid )
 {
     for( item_pocket &pocket : contents ) {
-        if( pocket.is_type( pocket_type::CONTAINER ) && pocket.will_spill() ) {
+        if( pocket.is_standard_type() && pocket.will_spill() ) {
             pocket.handle_liquid_or_spill( guy, avoid );
             if( !pocket.empty() ) {
                 return false;
@@ -1408,7 +1407,7 @@ bool item_contents::spill_open_pockets( Character &guy, const item *avoid )
 void item_contents::handle_liquid_or_spill( Character &guy, const item *const avoid )
 {
     for( item_pocket &pocket : contents ) {
-        if( pocket.is_type( pocket_type::CONTAINER ) ) {
+        if( pocket.is_standard_type() ) {
             pocket.handle_liquid_or_spill( guy, avoid );
         }
     }

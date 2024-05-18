@@ -167,7 +167,9 @@ struct bash_params {
 /** Draw parameters used by map::drawsq() and similar methods. */
 struct drawsq_params {
     private:
-        tripoint view_center = tripoint_min;
+        tripoint_bub_ms view_center = tripoint_bub_ms( tripoint_min );
+        ter_str_id ter_override = ter_str_id::NULL_ID();
+        furn_str_id furn_override = furn_str_id::NULL_ID();
         bool do_highlight = false;
         bool do_show_items = true;
         bool do_low_light = false;
@@ -176,7 +178,7 @@ struct drawsq_params {
         bool do_output = true;
 
     public:
-        constexpr drawsq_params() = default;
+        drawsq_params() = default;
 
         /**
          * Highlight the tile. On TILES, draws an overlay; on CURSES, inverts color.
@@ -268,15 +270,32 @@ struct drawsq_params {
          * Default: uses avatar's current view center.
          */
         //@{
-        constexpr drawsq_params &center( const tripoint &p ) {
+        constexpr drawsq_params &center( const tripoint_bub_ms &p ) {
             view_center = p;
             return *this;
         }
         constexpr drawsq_params &center_at_avatar() {
-            view_center = tripoint_min;
+            view_center = tripoint_bub_ms( tripoint_min );
             return *this;
         }
-        tripoint center() const;
+        tripoint_bub_ms center() const;
+        //@}
+
+        /**
+         * Set terrain or furniture override.
+         * Default: no override.
+         */
+        //@{
+        drawsq_params &terrain_override( const ter_str_id &id ) {
+            ter_override = id;
+            return *this;
+        }
+        drawsq_params &furniture_override( const furn_str_id &id ) {
+            furn_override = id;
+            return *this;
+        }
+        const ter_str_id &terrain_override() const;
+        const furn_str_id &furniture_override() const;
         //@}
 };
 
@@ -520,6 +539,7 @@ class map
 
         const_maptile maptile_at( const tripoint &p ) const;
         const_maptile maptile_at( const tripoint_bub_ms &p ) const;
+        // TODO: Get rid of untyped overload
         maptile maptile_at( const tripoint &p );
         maptile maptile_at( const tripoint_bub_ms &p );
     private:
@@ -877,8 +897,9 @@ class map
         // terrain. Additional overrides can be passed in to override terrain
         // at specific positions. This is used to display terrain overview in
         // the map editor.
-        uint8_t get_known_connections( const tripoint &p, const std::bitset<NUM_TERCONN> &connect_group,
-                                       const std::map<tripoint, ter_id> &override = {} ) const;
+        uint8_t get_known_connections( const tripoint_bub_ms &p,
+                                       const std::bitset<NUM_TERCONN> &connect_group,
+                                       const std::map<tripoint_bub_ms, ter_id> &override = {} ) const;
         // as above, but for furniture
         uint8_t get_known_connections_f( const tripoint &p, const std::bitset<NUM_TERCONN> &connect_group,
                                          const std::map<tripoint, furn_id> &override = {} ) const;
@@ -890,8 +911,9 @@ class map
         // Based on the true terrain.
         // Additional overrides can be passed in to override terrain
         // at specific positions.
-        uint8_t get_known_rotates_to( const tripoint &p, const std::bitset<NUM_TERCONN> &rotate_to_group,
-                                      const std::map<tripoint, ter_id> &override = {} ) const;
+        uint8_t get_known_rotates_to( const tripoint_bub_ms &p,
+                                      const std::bitset<NUM_TERCONN> &rotate_to_group,
+                                      const std::map<tripoint_bub_ms, ter_id> &override = {} ) const;
         // as above, but for furniture (considers neighbouring terrain and furniture)
         uint8_t get_known_rotates_to_f( const tripoint &p, const std::bitset<NUM_TERCONN> &rotate_to_group,
                                         const std::map<tripoint, ter_id> &override = {},
@@ -948,15 +970,18 @@ class map
          * - check for CONTAINER flag (makes items only visible when
          * the creature is at p or at an adjacent square).
          */
+        // TODO: Get rid of untyped overload
         bool sees_some_items( const tripoint &p, const Creature &who ) const;
-        bool sees_some_items( const tripoint &p, const tripoint &from ) const;
+        bool sees_some_items( const tripoint_bub_ms &p, const tripoint_bub_ms &from ) const;
         /**
          * Check if the creature could see items at p if there were
          * any items. This is similar to @ref sees_some_items, but it
          * does not check that there are actually any items.
          */
         bool could_see_items( const tripoint &p, const Creature &who ) const;
+        // TODO: Get rid of untyped overload
         bool could_see_items( const tripoint &p, const tripoint &from ) const;
+        bool could_see_items( const tripoint_bub_ms &p, const tripoint_bub_ms &from ) const;
         /**
          * Checks for existence of items. Faster than i_at(p).empty
          */
@@ -980,7 +1005,9 @@ class map
 
         // Flags
         // Words relevant to terrain (sharp, etc)
+        // TODO: Get rid of untyped overload
         std::string features( const tripoint &p ) const;
+        std::string features( const tripoint_bub_ms &p ) const;
         std::string features( const point &p ) {
             return features( tripoint( p, abs_sub.z() ) );
         }
@@ -1105,7 +1132,9 @@ class map
             make_rubble( p, furn_str_id( "f_rubble" ), false, ter_str_id( "t_dirt" ).id(), false );
         }
 
+        // TODO: Get rid of untyped overload
         bool is_outside( const tripoint &p ) const;
+        bool is_outside( const tripoint_bub_ms &p ) const;
         bool is_outside( const point &p ) const {
             return is_outside( tripoint( p, abs_sub.z() ) );
         }
@@ -1265,7 +1294,9 @@ class map
         void delete_signage( const tripoint_bub_ms &p );
 
         // Radiation
+        // TODO: Get rid of untyped overload
         int get_radiation( const tripoint &p ) const;
+        int get_radiation( const tripoint_bub_ms &p ) const;
         void set_radiation( const tripoint &p, int value );
         void set_radiation( const point &p, const int value ) {
             set_radiation( tripoint( p, abs_sub.z() ), value );
@@ -1636,7 +1667,10 @@ class map
          * if false, the existing intensity is ignored and overridden.
          * @return resulting intensity, or 0 for not present (either removed or not created at all).
          */
+        // TODO: Get rid of untyped overload
         int set_field_intensity( const tripoint &p, const field_type_id &type, int new_intensity,
+                                 bool isoffset = false );
+        int set_field_intensity( const tripoint_bub_ms &p, const field_type_id &type, int new_intensity,
                                  bool isoffset = false );
 
         // returns true, if there **might** be a field at `p`
@@ -1741,8 +1775,12 @@ class map
         basecamp hoist_submap_camp( const tripoint &p );
         bool point_within_camp( const tripoint &point_check ) const;
         // Graffiti
+        // TODO: Get rid of untyped overload
         bool has_graffiti_at( const tripoint &p ) const;
+        bool has_graffiti_at( const tripoint_bub_ms &p ) const;
+        // TODO: Get rid of untyped oveload
         const std::string &graffiti_at( const tripoint &p ) const;
+        const std::string &graffiti_at( const tripoint_bub_ms &p ) const;
         void set_graffiti( const tripoint &p, const std::string &contents );
         void delete_graffiti( const tripoint &p );
 
@@ -1764,7 +1802,9 @@ class map
         // Returns true if terrain at p has NO flag ter_furn_flag::TFLAG_NO_FLOOR
         // and ter_furn_flag::TFLAG_NO_FLOOR_WATER,
         // if we're not in z-levels mode or if we're at lowest level
+        // TODO: Get rid of untyped overload
         bool has_floor( const tripoint &p ) const;
+        bool has_floor( const tripoint_bub_ms &p ) const;
         bool has_floor_or_water( const tripoint &p ) const;
         /** Does this tile support vehicles and furniture above it */
         bool supports_above( const tripoint &p ) const;
@@ -1884,12 +1924,17 @@ class map
         // TODO: fix point types (remove the first overload)
         tripoint_abs_ms getglobal( const tripoint &p ) const;
         tripoint_abs_ms getglobal( const tripoint_bub_ms &p ) const;
+        // TODO: Get rid of untyped overload
         point getabs( const point &p ) const {
             return getabs( tripoint( p, abs_sub.z() ) ).xy();
+        }
+        point getabs( const point_bub_ms &p ) const {
+            return getabs( tripoint_bub_ms( p, abs_sub.z() ) ).xy();
         }
         /**
          * Inverse of @ref getabs
          */
+        // TODO: Get rid of these and use bub_from_abs instead
         tripoint getlocal( const tripoint &p ) const;
         tripoint getlocal( const tripoint_abs_ms &p ) const;
         point getlocal( const point &p ) const {
@@ -1898,6 +1943,9 @@ class map
         // TODO: fix point types (remove the first overload)
         tripoint_bub_ms bub_from_abs( const tripoint &p ) const;
         tripoint_bub_ms bub_from_abs( const tripoint_abs_ms &p ) const;
+        point_bub_ms bub_from_abs( const point_abs_ms &p ) const {
+            return bub_from_abs( tripoint_abs_ms( p, abs_sub.z() ) ).xy();
+        }
         bool inbounds( const tripoint &p ) const;
         bool inbounds( const tripoint_bub_ms &p ) const;
         bool inbounds( const tripoint_abs_ms &p ) const;
@@ -2074,7 +2122,9 @@ class map
         void set_abs_sub( const tripoint_abs_sm &p );
 
     private:
+        // TODO: Get rid of untyped overload
         field &get_field( const tripoint &p );
+        field &get_field( const tripoint_bub_ms &p );
 
         /**
          * Get the submap pointer with given index in @ref grid, the index must be valid!
@@ -2689,6 +2739,19 @@ class tinymap : private map
         bool is_outside( const tripoint &p ) const {
             return map::is_outside( p );    // TODO: Make it typed
         }
+        int get_radiation( const tripoint_omt_ms &p ) const {
+            return map::get_radiation( rebase_bub( p ) );
+        }
+        bool has_graffiti_at( const tripoint_omt_ms &p ) const {
+            return map::has_graffiti_at( rebase_bub( p ) );
+        }
+        field &field_at( const tripoint_omt_ms &p ) {
+            return map::field_at( rebase_bub( p ) );
+        }
+        maptile maptile_at( const tripoint_omt_ms &p );
+        bool sees_some_items( const tripoint_omt_ms &p, const tripoint_omt_ms &from ) const {
+            return map::sees_some_items( rebase_bub( p ), rebase_bub( from ) );
+        }
 
         using map::rotate;
         using map::mirror;
@@ -2716,7 +2779,7 @@ class fake_map : public tinymap
 
 /**
 * Smallmap is similar to tinymap in that it covers a single overmap terrain (OMT) tile, but differs
-* from it in that it covers all Z levels, not just a single one. It's intended usage is for cases
+* from it in that it covers all Z levels, not just a single one. Its intended usage is for cases
 * where you need to operate on an OMT, but cannot guarantee you needs are restricted to a single
 * Z level.
 * The smallmap's natural relative reference system is the tripoint_omt_ms one.
@@ -2730,4 +2793,14 @@ class smallmap : public tinymap
             tinymap::cut_down_tree( p, dir );
         };
 };
+
+class small_fake_map : public smallmap
+{
+    private:
+        std::vector<std::unique_ptr<submap>> temp_submaps_;
+    public:
+        explicit small_fake_map( const ter_id &ter_type = ter_str_id( "t_dirt" ).id() );
+        ~small_fake_map() override;
+};
+
 #endif // CATA_SRC_MAP_H

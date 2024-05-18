@@ -939,8 +939,10 @@ class Creature : public viewer
         virtual std::unordered_set<tripoint> get_path_avoid() const = 0;
 
         bool underwater;
-        void draw( const catacurses::window &w, const point &origin, bool inverted ) const;
+        void draw( const catacurses::window &w, const point_bub_ms &origin, bool inverted ) const;
+        // TODO: Get rid of the untyped overload
         void draw( const catacurses::window &w, const tripoint &origin, bool inverted ) const;
+        void draw( const catacurses::window &w, const tripoint_bub_ms &origin, bool inverted ) const;
         /**
          * Write information about this creature.
          * @param w the window to print the text into.

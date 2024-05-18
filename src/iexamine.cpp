@@ -4063,7 +4063,7 @@ void iexamine::keg( Character &you, const tripoint &examp )
     const units::volume keg_cap = get_keg_capacity( examp );
 
     const bool has_container_with_liquid = map_cursor( examp ).has_item_with( []( const item & it ) {
-        return !it.is_container_empty() && it.can_unload_liquid();
+        return !it.is_container_empty() && it.can_unload();
     } );
     const bool liquid_present = map_cursor( examp ).has_item_with( []( const item & it ) {
         return it.made_of_from_type( phase_id::LIQUID );
