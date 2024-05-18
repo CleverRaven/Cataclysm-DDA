@@ -66,5 +66,10 @@
     "neutral": [ "bot", "plant", "nether", "human", "gummy_bears", "marshmallow_boys" ],
     "by_mood": [ "insect", "player", "animal", "cookies", "licorice_snakes" ],
     "base_faction": "herbivore"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "gator",
+    "base_faction": "mutant_piscivores"
   }
 ]
