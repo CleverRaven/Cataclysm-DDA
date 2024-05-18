@@ -431,7 +431,7 @@ void debug_menu::wishbionics( Character *you )
                 int new_value = 0;
                 if( query_int( new_value, _( "Set the value to (in kJ)?  Currently: %s" ),
                                units::display( power_max ) ) ) {
-                    you->set_max_power_level( units::from_kilojoule( new_value ) );
+                    you->set_max_power_level( units::from_kilojoule( static_cast<std::int64_t>( new_value ) ) );
                     you->set_power_level( you->get_power_level() );
                 }
                 break;
@@ -440,7 +440,7 @@ void debug_menu::wishbionics( Character *you )
                 int new_value = 0;
                 if( query_int( new_value, _( "Set the value to (in J)?  Currently: %s" ),
                                units::display( power_max ) ) ) {
-                    you->set_max_power_level( units::from_joule( new_value ) );
+                    you->set_max_power_level( units::from_joule( static_cast<std::int64_t>( new_value ) ) );
                     you->set_power_level( you->get_power_level() );
                 }
                 break;
@@ -449,7 +449,7 @@ void debug_menu::wishbionics( Character *you )
                 int new_value = 0;
                 if( query_int( new_value, _( "Set the value to (in kJ)?  Currently: %s" ),
                                units::display( power_level ) ) ) {
-                    you->set_power_level( units::from_kilojoule( new_value ) );
+                    you->set_power_level( units::from_kilojoule( static_cast<std::int64_t>( new_value ) ) );
                 }
                 break;
             }
@@ -457,7 +457,7 @@ void debug_menu::wishbionics( Character *you )
                 int new_value = 0;
                 if( query_int( new_value, _( "Set the value to (in J)?  Currently: %s" ),
                                units::display( power_level ) ) ) {
-                    you->set_power_level( units::from_joule( new_value ) );
+                    you->set_power_level( units::from_joule( static_cast<std::int64_t>( new_value ) ) );
                 }
                 break;
             }

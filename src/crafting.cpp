@@ -2367,7 +2367,7 @@ void Character::consume_tools( map &m, const comp_selection<tool_comp> &tool, in
         m.use_charges( reachable_pts, tool.comp.type, quantity, return_true<item>, bcp );
         // Map::use_charges() does not handle UPS charges.
         if( quantity > 0 ) {
-            m.consume_ups( reachable_pts, units::from_kilojoule( quantity ) );
+            m.consume_ups( reachable_pts, units::from_kilojoule( static_cast<std::int64_t>( quantity ) ) );
         }
     }
 
