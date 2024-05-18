@@ -10,7 +10,8 @@
     "material": [ "rubber" ],
     "price_postapoc": "10 USD",
     "volume": "600 L",
-    "weight": "500 kg"
+    "weight": "500 kg",
+    "flags": [ "NO_SALVAGE" ]
   },
   {
     "type": "GENERIC",
