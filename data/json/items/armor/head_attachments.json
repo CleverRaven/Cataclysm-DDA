@@ -213,7 +213,7 @@
     "name": { "str": "night vision goggles", "str_pl": "night vision goggles" },
     "description": "Last generation double-tube night vision device, designed to be mounted to a helmet. Currently raised up and out of the way.",
     "weight": "680 g",
-    "volume": "700 ml",
+    "volume": "1200 ml",
     "price": "10000 USD",
     "price_postapoc": "150 USD",
     "material": [ "plastic", "steel", "glass" ],
@@ -239,8 +239,9 @@
         "default_magazine": "light_plus_battery_cell"
       }
     ],
-    "flags": [ "HELMET_FRONT_ATTACHMENT", "CANT_WEAR", "OUTER", "ELECTRONIC" ],
-    "armor": [ { "covers": [ "head" ], "coverage": 30, "encumbrance": 8 } ]
+    "relic_data": { "passive_effects": [ { "id": "nvg_good" } ] },
+    "flags": [ "HELMET_FRONT_ATTACHMENT", "CANT_WEAR", "OUTER", "ELECTRONIC", "MUNDANE" ],
+    "armor": [ { "covers": [ "head" ], "encumbrance": 8, "coverage": 70, "specifically_covers": [ "head_forehead" ] } ]
   },
   {
     "id": "military_nvg_on",
@@ -248,7 +249,6 @@
     "copy-from": "military_nvg",
     "name": { "str": "night vision goggles (on)", "str_pl": "night vision goggles (on)" },
     "description": "Last generation double-tube night vision device, designed to be mounted to a helmet. Very limited field of view while activated. It is turned on, and continually draining batteries. Use it to turn them off.",
-    "extend": { "flags": [ "GNV_EFFECT" ] },
     "//": "AN/PVS-7",
     "power_draw": "100 mW",
     "revert_to": "military_nvg",
@@ -259,20 +259,17 @@
       "msg": "Your %s deactivates.",
       "target": "military_nvg"
     },
-    "armor": [
-      { "covers": [ "head" ], "coverage": 20, "encumbrance": 5 },
-      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 20 }
-    ]
+    "armor": [ { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 20 } ]
   },
   {
     "id": "advanced_gpnvg",
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "panoramic night vision goggles", "str_pl": "panoramic night vision goggles" },
-    "description": "Advanced GPNVG with four image intensifier tubes, allowing for a large field of view at night. Bulky but has a nicer white phosphor view color, and is designed to be mounted to a helmet. Currently raised up and out of the way.",
+    "description": "Advanced GPNVG with four image intensifier tubes, allowing for a large field of view at night. Is designed to be mounted to a helmet. Currently raised up and out of the way.",
     "weight": "765 g",
-    "volume": "800 ml",
-    "price": "30000 USD",
+    "volume": "1600 ml",
+    "price": "47000 USD",
     "price_postapoc": "300 USD",
     "material": [ "plastic", "steel", "glass" ],
     "symbol": "[",
@@ -293,20 +290,22 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT" ],
-        "default_magazine": "light_plus_battery_cell"
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_plus_battery_cell"
       }
     ],
-    "flags": [ "HELMET_FRONT_ATTACHMENT", "CANT_WEAR", "OUTER", "ELECTRONIC" ],
-    "armor": [ { "covers": [ "head" ], "coverage": 30, "encumbrance": 12 } ]
+    "relic_data": { "passive_effects": [ { "id": "nvg_normal" } ] },
+    "flags": [ "HELMET_FRONT_ATTACHMENT", "CANT_WEAR", "OUTER", "ELECTRONIC", "MUNDANE" ],
+    "armor": [
+      { "covers": [ "head" ], "encumbrance": 12, "coverage": 80, "specifically_covers": [ "head_forehead", "head_crown" ] }
+    ]
   },
   {
     "id": "advanced_gpnvg_on",
     "type": "TOOL_ARMOR",
     "copy-from": "advanced_gpnvg",
     "name": { "str": "panoramic night vision goggles (on)", "str_pl": "panoramic night vision goggles (on)" },
-    "description": "Advanced GPNVG with four image intensifier tubes, allowing for a large field of view at night. Bulky but has a nicer white phosphor view color, and is designed to be mounted to a helmet. It is turned on, and continually draining batteries. Use it to turn them off.",
-    "extend": { "flags": [ "GNV_EFFECT_FAR" ] },
+    "description": "Advanced GPNVG with four image intensifier tubes, allowing for a large field of view at night. Is designed to be mounted to a helmet. It is turned on, and continually draining batteries. Use it to turn them off.",
     "//": "GPNVG-18",
     "power_draw": "150 mW",
     "revert_to": "advanced_gpnvg",
@@ -318,8 +317,8 @@
       "target": "advanced_gpnvg"
     },
     "armor": [
-      { "covers": [ "head" ], "coverage": 20, "encumbrance": 8 },
-      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 12 }
+      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 15 },
+      { "covers": [ "head" ], "encumbrance": 3, "coverage": 80, "specifically_covers": [ "head_crown" ] }
     ]
   },
   {
@@ -327,10 +326,10 @@
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "enhanced night vision goggles", "str_pl": "enhanced night vision goggles" },
-    "description": "Rare and expensive high-resolution thermal NVG device, designed to be mounted to a helmet. Lets you see in the dark, and detects heat signatures emitted by (un)living organisms. Currently raised up and out of the way.",
+    "description": "New and rare high-resolution thermal NVG device, designed to be mounted to a helmet. Lets you see in the dark, and detects heat signatures emitted by (un)living organisms. Currently raised up and out of the way.",
     "weight": "720 g",
-    "volume": "800 ml",
-    "price": "40000 USD",
+    "volume": "1400 ml",
+    "price": "10000 USD",
     "price_postapoc": "350 USD",
     "material": [ "plastic", "steel", "glass" ],
     "symbol": "[",
@@ -351,20 +350,23 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT" ],
-        "default_magazine": "light_plus_battery_cell"
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_plus_battery_cell"
       }
     ],
-    "flags": [ "HELMET_FRONT_ATTACHMENT", "CANT_WEAR", "OUTER", "ELECTRONIC" ],
-    "armor": [ { "covers": [ "head" ], "coverage": 20, "encumbrance": 8 } ]
+    "relic_data": { "passive_effects": [ { "id": "nvg_normal" } ] },
+    "flags": [ "HELMET_FRONT_ATTACHMENT", "CANT_WEAR", "OUTER", "ELECTRONIC", "MUNDANE" ],
+    "armor": [
+      { "covers": [ "head" ], "encumbrance": 10, "coverage": 70, "specifically_covers": [ "head_forehead", "head_crown" ] }
+    ]
   },
   {
     "id": "enhanced_nvg_on",
     "type": "TOOL_ARMOR",
     "copy-from": "enhanced_nvg",
     "name": { "str": "enhanced night vision goggles (on)", "str_pl": "enhanced night vision goggles (on)" },
-    "description": "Rare and expensive high-resolution thermal NVG device, designed to be mounted to a helmet. Lets you see in the dark, and detects heat signatures emitted by (un)living organisms. It is turned on, and continually draining batteries. Use it to turn them off.",
-    "extend": { "flags": [ "GNV_EFFECT", "IR_EFFECT" ] },
+    "description": "New and rare high-resolution thermal NVG device, designed to be mounted to a helmet. Lets you see in the dark, and detects heat signatures emitted by (un)living organisms. It is turned on, and continually draining batteries. Use it to turn them off.",
+    "extend": { "flags": [ "IR_EFFECT" ] },
     "//": "AN/PSQ-42",
     "power_draw": "250 W",
     "revert_to": "enhanced_nvg",
@@ -376,8 +378,8 @@
       "target": "enhanced_nvg"
     },
     "armor": [
-      { "covers": [ "head" ], "coverage": 20, "encumbrance": 8 },
-      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 15 }
+      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 10 },
+      { "covers": [ "head" ], "encumbrance": 3, "coverage": 80, "specifically_covers": [ "head_crown" ] }
     ]
   },
   {
