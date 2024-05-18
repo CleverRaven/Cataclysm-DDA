@@ -3022,12 +3022,6 @@
         "coverage": 100,
         "covers": [
           "mouth"
-        ],
-        "specifically_covers": [
-          "mouth_nose",
-          "mouth_lips",
-          "mouth_cheeks",
-          "mouth_chin"
         ]
       }
     ]
