@@ -156,7 +156,7 @@ static constexpr int AIF_DURATION_LIMIT = 10;
 
 static projectile make_gun_projectile( const item &gun );
 static int time_to_attack( const Character &p, const itype &firing );
-static int RAS_time( const Character &p, const item &firing, const item_location &loc );
+static int RAS_time( const Character &p, const item_location &loc );
 /**
 * Handle spent ammo casings and linkages.
 * @param weap   Weapon.
@@ -920,7 +920,7 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun, item_loca
                               static_cast<float>( MAX_SKILL ) ) / static_cast<double>( MAX_SKILL * 2 );
 
     itype_id gun_id = gun.typeId();
-    int attack_moves = time_to_attack( *this, *gun_id ) + RAS_time( *this, gun, ammo );
+    int attack_moves = time_to_attack( *this, *gun_id ) + RAS_time( *this, ammo );
     skill_id gun_skill = gun.gun_skill();
     add_msg_debug( debugmode::DF_RANGED, "Gun skill (%s) %g", gun_skill.c_str(),
                    get_skill_level( gun_skill ) ) ;
@@ -1744,7 +1744,7 @@ static std::vector<aim_type_prediction> calculate_ranged_chances(
         } else {
             prediction.moves = predict_recoil( you, weapon, target, ui.get_sight_dispersion(), aim_type,
                                                you.recoil ).moves + time_to_attack( you, *weapon.type )
-                               + RAS_time( you, weapon, load_loc );
+                               + RAS_time( you, load_loc );
         }
 
         // if the default method is "behind" the selected; e.g. you are in immediate
@@ -1984,7 +1984,7 @@ static int print_aim( const target_ui &ui, Character &you, const catacurses::win
             target_ui::TargetMode::Fire, ctxt, weapon, dispersion, confidence_config,
             Target_attributes( you.pos(), pos ), pos, load_loc );
 
-    int time = RAS_time( you, weapon, load_loc );
+    int time = RAS_time( you, load_loc );
 
     return print_ranged_chance( w, line_number, aim_chances, time );
 }
@@ -2140,7 +2140,7 @@ int time_to_attack( const Character &p, const itype &firing )
                                            skill_used ) ) ) );
 }
 
-int RAS_time( const Character &p, const item &firing, const item_location &loc )
+int RAS_time( const Character &p, const item_location &loc )
 {
     int time = 0;
     if( loc ) {
@@ -2695,7 +2695,7 @@ target_handler::trajectory target_ui::run()
 
             if( relevant->has_flag( flag_RELOAD_AND_SHOOT ) ) {
                 if( !relevant->ammo_remaining() && activity->reload_loc ) {
-                    you->mod_moves( -RAS_time( *you, *relevant, activity->reload_loc ) );
+                    you->mod_moves( -RAS_time( *you, activity->reload_loc ) );
                     relevant->reload( get_avatar(), activity->reload_loc, 1 );
                     you->burn_energy_arms( - relevant->get_min_str() * static_cast<int>( 0.006f *
                                            get_option<int>( "PLAYER_MAX_STAMINA_BASE" ) ) );
