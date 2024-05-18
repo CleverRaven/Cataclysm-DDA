@@ -256,8 +256,7 @@
       { "item": "holybook_satanic", "prob": 15 },
       { "item": "book_judaica_siddur", "prob": 15 },
       { "item": "holybook_mozilla", "prob": 1 },
-      { "item": "holybook_frog", "prob": 1 },
-      { "item": "holybook_asatru", "prob": 10 }
+      { "item": "holybook_frog", "prob": 1 }
     ]
   },
   {
