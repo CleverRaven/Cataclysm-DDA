@@ -115,6 +115,10 @@ Make power grids easier to disconnect, reconnect, and merge parts to
 Beast mutants can mutate quills
 Adds a new trait, Tiny Stomach
 Add new hairstyles from Mawranth's Hair Salon
+Unhardcode and limbify attack vectors
+Add new function follower_present for use in JSON
+Graphical construction preview
+Resume butchering
 
 
 ## Content:
@@ -455,6 +459,7 @@ Aftershock: New combat bionics
 [Sky Island] Upgrade central skylight missions and mapgen
 Aftershock: Add a space station clothes store
 [MoM] Using psionics in or near the Nether is more powerful, but also more risky
+[No Hope] Adds a difficulty setting prompt to determine item spawn rates
 
 
 ## Balance:
@@ -685,6 +690,8 @@ Fixes issue where ImGui popup doesnt wrap buttons to a new line when the overall
 Wet Towels No Longer Prompt to be Turned Off
 Maybe prevent rare crater generation error
 AIM: Now moving all items will not move favourite items, if other items are present.
+Misc repair kit draws ammo from around player and inventory, opposed to an internal ammunition pocket.
+Fixed issue where Android gesture inputs were not recognized by ImGui windows
 
 
 ## Performance:
