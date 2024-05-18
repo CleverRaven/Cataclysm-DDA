@@ -198,6 +198,9 @@
     "type": "monstergroup",
     "name": "GROUP_Labyrinth_Turret",
     "//": "Stationary turrets for labyrinthine structures.",
-    "monsters": [ { "monster": "mon_labyrinth_turret_weak", "weight": 1000 } ]
+    "monsters": [
+      { "monster": "mon_labyrinth_turret_weak", "weight": 1000 },
+      { "monster": "mon_labyrinth_turret_oneshot_uncharged", "weight": 1000 }
+    ]
   }
 ]

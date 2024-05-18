@@ -2373,6 +2373,61 @@
     "armor": { "bash": 10, "bullet": 2, "cut": 14, "stab": 20 }
   },
   {
+    "id": "mon_labyrinth_turret_oneshot_uncharged",
+    "type": "MONSTER",
+    "name": { "str": "flash turret" },
+    "description": "A cylinder of metal engraved with engraved, circuit like patterns.",
+    "looks_like": "mon_turret",
+    "default_faction": "nether_hate_humans",
+    "species": [ "ROBOT" ],
+    "weight": "126 kg",
+    "volume": "60000 ml",
+    "hp": 260,
+    "speed": 100,
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "aggression": 100,
+    "morale": 100,
+    "vision_day": 20,
+    "vision_night": 20,
+    "weakpoint_sets": [ "wps_turret" ],
+    "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "labyrinth_turret_charge_up", "hit_self": true },
+        "cooldown": 500,
+        "monster_message": "The patterns on the cylindrical turret begin to glow an angry red, and it emits an ominous hum!"
+      }
+    ],
+    "death_drops": { "subtype": "collection", "groups": [ [ "robots", 80 ] ] },
+    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "BIOLOGICALPROOF", "COLDPROOF", "IMMOBILE", "NO_BREATHE" ],
+    "armor": { "bash": 30, "bullet": 42, "cut": 54, "stab": 50 }
+  },
+  {
+    "id": "mon_labyrinth_turret_oneshot_charged",
+    "type": "MONSTER",
+    "name": { "str": "flash turret" },
+    "description": "A cylinder of metal engraved with engraved, circuit like patterns that glow an ominous red.  A short, deadly looking barrel protrudes from a narrow gap in the shell and appears ready to fire.",
+    "copy-from": "mon_labyrinth_turret_oneshot_uncharged",
+    "hp": 60,
+    "vision_day": 25,
+    "vision_night": 25,
+    "weakpoint_sets": [ "wps_turret" ],
+    "luminance": 2,
+    "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "labyrinth_turret_fire", "hit_self": true },
+        "cooldown": 500,
+        "monster_message": "The turret fires!"
+      }
+    ],
+    "armor": { "bash": 10, "bullet": 12, "cut": 14, "stab": 10 }
+  },
+  {
     "id": "mon_stiltwalker_weak",
     "type": "MONSTER",
     "name": { "str": "Stiltwalker" },
