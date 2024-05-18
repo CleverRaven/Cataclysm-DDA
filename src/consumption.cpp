@@ -1770,9 +1770,9 @@ time_duration Character::get_consume_time( const item &it ) const
                                             1 ) ); //Consume 15 mL (1 tablespoon) per second
         consume_time_modifier = enchantment_cache->modify_value( enchant_vals::mod::CONSUME_TIME_MOD,
                                 consume_time_modifier );
-        consume_time_modifier *=  it.made_of_from_type( phase_id::LIQUID ) ? get_modifier(
-                                      character_modifier_liquid_consume_mod ) :
-                                  consume_time_modifier *= get_modifier( character_modifier_solid_consume_mod );
+        consume_time_modifier *=  it.made_of_from_type( phase_id::LIQUID ) ?
+                                  get_modifier( character_modifier_liquid_consume_mod ) :
+                                  get_modifier( character_modifier_solid_consume_mod );
     }
 
     // Minimum consumption time, without mutations, is always 1 second.
