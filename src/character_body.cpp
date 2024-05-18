@@ -461,7 +461,8 @@ void Character::update_bodytemp()
     int bp_windpower = get_local_windpower( weather_man.windspeed + vehwindspeed, cur_om_ter,
                                             get_location(), weather_man.winddirection, sheltered );
     // Let's cache this not to check it for every bodyparts
-    const bool has_bark = has_trait( trait_BARK ) || has_trait( trait_BARK2_a ) || has_trait( trait_BARK2_b ) || has_trait( trait_BARK2_c );
+    const bool has_bark = has_trait( trait_BARK ) || has_trait( trait_BARK2_a ) ||
+                          has_trait( trait_BARK2_b ) || has_trait( trait_BARK2_c );
     const bool has_sleep = has_effect( effect_sleep );
     const bool has_sleep_state = has_sleep || in_sleep_state();
     const bool heat_immune = has_flag( json_flag_HEAT_IMMUNE );
