@@ -30,5 +30,18 @@
     "material": [ "ceramic" ],
     "relative": { "range": -1, "damage": { "damage_type": "bullet", "amount": 14, "armor_penetration": -18 }, "dispersion": 20 },
     "proportional": { "recoil": 0.9 }
+  },
+  {
+    "id": "3x35toxic",
+    "copy-from": "3x35dart",
+    "type": "AMMO",
+    "name": { "str": "GG Fang 3x35mm NTX flechette" },
+    "description": "Gibson Gear Fang flechettes loading a small ampoule of neurotoxic poison within a hollow cobalt dart.  Although principally designed to neutralize the heavily augmented, they are effective against most organic targets.",
+    "weight": "6 g",
+    "price": "1600 USD",
+    "relative": { "range": -1, "dispersion": 20 },
+    "damage": { "damage_type": "afs_toxin_bullet", "amount": 8, "armor_penetration": 20 },
+    "proportional": { "recoil": 0.9 },
+    "effects": [ "NEVER_MISFIRES" ]
   }
 ]

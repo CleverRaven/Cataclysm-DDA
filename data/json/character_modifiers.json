@@ -22,6 +22,20 @@
   },
   {
     "type": "character_mod",
+    "id": "solid_consume_mod",
+    "description": "Consume time multiplier for solid foods.",
+    "mod_type": "x",
+    "value": { "limb_score": "consume_solid", "max": 10, "nominator": 1.0 }
+  },
+  {
+    "type": "character_mod",
+    "id": "liquid_consume_mod",
+    "description": "Consume time multiplier for drinks.",
+    "mod_type": "x",
+    "value": { "limb_score": "consume_liquid", "max": 10, "nominator": 1.0 }
+  },
+  {
+    "type": "character_mod",
     "id": "melee_thrown_move_lift_mod",
     "description": "Melee and thrown attack movement point modifier <color_dark_gray>(Lift)</color>",
     "mod_type": "x",
