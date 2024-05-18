@@ -3494,6 +3494,9 @@ bool target_ui::action_switch_ammo()
             ammo = item::find_type( turret->ammo_current() );
             range = turret->range();
         }
+    } else if( mode == TargetMode::Fire && relevant->has_flag( flag_RELOAD_AND_SHOOT ) ) {
+        activity->load_RAS_weapon();
+        update_ammo_range_from_gun_mode();
     } else {
         // Leave aiming UI and open reloading UI since
         // reloading annihilates our aim anyway
