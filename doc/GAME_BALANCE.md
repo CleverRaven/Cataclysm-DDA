@@ -57,7 +57,7 @@ Maximal skill: 8 (highest for balance purposes; giant jumping spider, dermatik, 
 
 # Monster armor scaling:
 
-Minimum armor: 0 (no armor at all; zombie, feral, blank body, giant fly, bulldog)
+Minimum armor: 0 (no armor at all; zombie, feral, blank body, bulldog)
 
 Civilian grade: 6 (some armor; zombie cop, firefighter zombie, alpha bee, dark wyrm, zombie brute)
 
