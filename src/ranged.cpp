@@ -929,6 +929,8 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun, item_loca
     int hits = 0; // total shots on target
     int delay = 0; // delayed recoil that has yet to be applied
     while( curshot != shots ) {
+        // Special handling for weapons where we supply the ammo separately (i.e. ammo is populated)
+        // instead of it being loaded into the weapon, reload right before firing.
         if( !!ammo && !gun.ammo_remaining() ) {
             Character &you = get_avatar();
             gun.reload( you, ammo, 1 );
@@ -1742,7 +1744,7 @@ static std::vector<aim_type_prediction> calculate_ranged_chances(
         } else {
             prediction.moves = predict_recoil( you, weapon, target, ui.get_sight_dispersion(), aim_type,
                                                you.recoil ).moves + time_to_attack( you, *weapon.type )
-                                               + RAS_time( you, weapon, load_loc );
+                               + RAS_time( you, weapon, load_loc );
         }
 
         // if the default method is "behind" the selected; e.g. you are in immediate
