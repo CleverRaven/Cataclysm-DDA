@@ -2334,7 +2334,7 @@ class jmapgen_monster : public jmapgen_piece
         jmapgen_int pack_size;
         bool one_or_none;
         bool friendly;
-        std::string name;
+        translation name;
         std::string random_name_str;
         bool target;
         bool use_pack_size;
@@ -2346,10 +2346,13 @@ class jmapgen_monster : public jmapgen_piece
                                          !( jsi.has_member( "repeat" ) ||
                                             jsi.has_member( "pack_size" ) ) ) )
             , friendly( jsi.get_bool( "friendly", false ) )
-            , name( jsi.get_string( "name", "NONE" ) )
+            , name( no_translation( "NONE" ) )
             , random_name_str( jsi.get_string( "random_name", "" ) )
             , target( jsi.get_bool( "target", false ) )
             , use_pack_size( jsi.get_bool( "use_pack_size", false ) ) {
+
+            jsi.read( "name", name );
+
             if( jsi.has_member( "group" ) ) {
                 jsi.read( "group", m_id );
             } else if( jsi.has_array( "monster" ) ) {
@@ -2431,7 +2434,7 @@ class jmapgen_monster : public jmapgen_piece
             }
 
             mongroup_id chosen_group = m_id.get( dat );
-            std::string chosen_name = _( name );
+            std::string chosen_name = name.translated();
             if( !random_name_str.empty() ) {
                 if( random_name_str == "female" ) {
                     chosen_name = SNIPPET.expand( "<female_given_name>" );
@@ -2440,7 +2443,7 @@ class jmapgen_monster : public jmapgen_piece
                 } else if( random_name_str == "random" ) {
                     chosen_name = SNIPPET.expand( "<given_name>" );
                 } else if( random_name_str == "snippet" ) {
-                    chosen_name = SNIPPET.expand( name );
+                    chosen_name = SNIPPET.expand( name.translated() );
                 }
             }
             if( !chosen_group.is_null() ) {
@@ -3398,7 +3401,7 @@ class jmapgen_remove_npcs : public jmapgen_piece
             for( auto const &npc : overmap_buffer.get_npcs_near_omt(
                      project_to<coords::omt>( dat.m.get_abs_sub() ), 0 ) ) {
                 if( !npc->is_dead() &&
-                    ( npc_class.empty() || npc->idz == npc_class_id( npc_class ) ) &&
+                    ( npc_class.empty() || npc->idz == string_id<npc_template>( npc_class ) ) &&
                     ( unique_id.empty() || unique_id == npc->get_unique_id() ) ) {
                     overmap_buffer.remove_npc( npc->getID() );
                     if( !unique_id.empty() ) {

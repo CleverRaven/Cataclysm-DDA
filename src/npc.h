@@ -1314,7 +1314,7 @@ class npc : public Character
         // #############   VALUES   ################
         activity_id current_activity_id = activity_id::NULL_ID();
         npc_class_id myclass; // What's our archetype?
-        npc_class_id idz; // actual npc template used
+        string_id<npc_template> idz; // actual npc template used
         // A temp variable used to link to the correct mission
         std::vector<mission_type_id> miss_ids;
         std::optional<tripoint_abs_omt> assigned_camp = std::nullopt;
@@ -1322,6 +1322,8 @@ class npc : public Character
         // accessors to ai_cache functions
         const std::vector<weak_ptr_fast<Creature>> &get_cached_friends() const;
         std::optional<int> closest_enemy_to_friendly_distance() const;
+
+        const dialogue_chatbin_snippets &chat_snippets() const;
 
     private:
         npc_attitude attitude = NPCATT_NULL; // What we want to do to the player
@@ -1473,6 +1475,7 @@ class npc_template
         npc_template() = default;
 
         npc guy;
+        dialogue_chatbin_snippets snippets;
         translation name_unique;
         translation name_suffix;
         enum class gender : int {
