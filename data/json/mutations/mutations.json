@@ -3330,6 +3330,7 @@
   {
     "type": "mutation",
     "id": "BARK",
+    "flags": [ "BARKY" ],
     "name": { "str": "Protective Bark" },
     "points": 5,
     "visibility": 10,
@@ -3344,6 +3345,7 @@
   {
     "type": "mutation",
     "id": "BARK2_a",
+    "flags": [ "BARKY" ],
     "name": { "str": "Shifting Bark (Distributed)" },
     "points": 6,
     "visibility": 10,
@@ -3366,6 +3368,7 @@
   {
     "type": "mutation",
     "id": "BARK2_b",
+    "flags": [ "BARKY" ],
     "name": { "str": "Shifting Bark (Consolidated)" },
     "points": 6,
     "visibility": 10,
@@ -3386,6 +3389,7 @@
   {
     "type": "mutation",
     "id": "BARK2_c",
+    "flags": [ "BARKY" ],
     "name": { "str": "Shifting Bark (Latticed)" },
     "points": 6,
     "visibility": 10,
@@ -3424,7 +3428,7 @@
     "ugliness": 3,
     "description": "All the hair on your body has turned to long, grass-like leaves.  Apart from being physically striking, these provide you with a minor amount of nutrients while in sunlight when your head is uncovered.  Slightly reduces wet effects.",
     "types": [ "HAIR" ],
-    "prereqs": [ "PLANTSKIN", "BARK" ],
+    "prereqs": [ "PLANTSKIN", "BARK", "BARK2_a", "BARK2_b", "BARK2_c" ],
     "changes_to": [ "LEAVES2" ],
     "category": [ "PLANT", "ELFA" ],
     "wet_protection": [ { "part": "head", "ignored": 1 } ]
@@ -3470,7 +3474,7 @@
     "visibility": 0,
     "ugliness": 0,
     "description": "You body has begun moving nutrients via the evaporation of water.  This increases your thirst when it's hot, but reduces it when it's cold.",
-    "prereqs": [ "PLANTSKIN", "BARK" ],
+    "prereqs": [ "PLANTSKIN", "BARK", "BARK2_a", "BARK2_b", "BARK2_c" ],
     "prereqs2": [ "LEAVES" ],
     "threshreq": [ "THRESH_PLANT" ],
     "category": [ "PLANT" ]
@@ -3483,7 +3487,7 @@
     "visibility": 10,
     "ugliness": -4,
     "description": "You've started blooming where your scalp used to be.  Your blossoms have a pleasant aroma, are visually striking, and are quite sensitive.",
-    "prereqs": [ "PLANTSKIN", "BARK" ],
+    "prereqs": [ "PLANTSKIN", "BARK", "BARK2_a", "BARK2_b", "BARK2_c" ],
     "prereqs2": [ "HAIRROOTS" ],
     "types": [ "SCENT" ],
     "threshreq": [ "THRESH_PLANT", "THRESH_ELFA" ],
@@ -7497,7 +7501,7 @@
     "ugliness": 5,
     "description": "You have developed several vines sprouting from your shoulder area.  They're bulky, and get in the way.",
     "types": [ "WINGS" ],
-    "prereqs": [ "PLANTSKIN", "BARK" ],
+    "prereqs": [ "PLANTSKIN", "BARK", "BARK2_a", "BARK2_b", "BARK2_c" ],
     "changes_to": [ "VINES2" ],
     "category": [ "PLANT" ],
     "encumbrance_always": [ [ "torso", 10 ] ]
@@ -7511,7 +7515,7 @@
     "ugliness": 5,
     "description": "You've developed the ability to control your vines; they make good lashes.  You can even rappel down sheer drops using them, but disconnecting HURTS.",
     "types": [ "WINGS" ],
-    "prereqs": [ "PLANTSKIN", "BARK" ],
+    "prereqs": [ "PLANTSKIN", "BARK", "BARK2_a", "BARK2_b", "BARK2_c" ],
     "prereqs2": [ "VINES1" ],
     "changes_to": [ "VINES3" ],
     "category": [ "PLANT" ],
@@ -7534,7 +7538,7 @@
     "ugliness": 6,
     "description": "You have full control of your vines, and can grow new ones and detach old ones more or less at will.",
     "types": [ "WINGS" ],
-    "prereqs": [ "PLANTSKIN", "BARK" ],
+    "prereqs": [ "PLANTSKIN", "BARK", "BARK2_a", "BARK2_b", "BARK2_c" ],
     "prereqs2": [ "VINES2" ],
     "threshreq": [ "THRESH_PLANT" ],
     "category": [ "PLANT" ],
