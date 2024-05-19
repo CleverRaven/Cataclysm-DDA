@@ -1,6 +1,6 @@
 [
   {
-    "type": "palette"
+    "type": "palette",
     "id": "GMLODGEPALETTE",
     "terrain": {
       "_": "t_region_groundcover_barren",
