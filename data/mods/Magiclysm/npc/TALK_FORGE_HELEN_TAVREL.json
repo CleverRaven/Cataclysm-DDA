@@ -125,7 +125,7 @@
       "yes": [
         "Do you think me a fool, to tell an officer of the law my current plans?",
         "Not even trying to ask me that undercover?  By the seventeen seas, officers of the law really ARE made worse these days.",
-        "The end of times is here and that's what you're worried about? You should get your priorities straight."
+        "The end of times is here and that's what you're worried about?  You should get your priorities straight."
       ],
       "no": "Well you obviously aren't an officer so here's the deal.  There's a mighty fine galleon making land in <interval>, I'm certain to have something good by then."
     },
