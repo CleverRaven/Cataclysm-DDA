@@ -4065,7 +4065,7 @@ void iexamine::keg( Character &you, const tripoint &examp )
 
     const bool has_container_with_liquid = map_cursor( tripoint_bub_ms( examp ) ).has_item_with( [](
     const item & it ) {
-        return !it.is_container_empty() && it.can_unload_liquid();
+        return !it.is_container_empty() && it.can_unload();
     } );
     const bool liquid_present = map_cursor( tripoint_bub_ms( examp ) ).has_item_with( [](
     const item & it ) {

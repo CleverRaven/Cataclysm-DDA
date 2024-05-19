@@ -1792,7 +1792,7 @@ void advanced_inventory::display()
         player_character.inv->restack( player_character );
 
         recalc = true;
-        g->wait_popup.reset();
+        g->wait_popup_reset();
     }
 
     if( !ui ) {

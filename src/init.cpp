@@ -249,8 +249,8 @@ void DynamicDataLoader::initialize()
     add( "jmath_function", &jmath_func::load_func );
     add( "var_migration", &global_variables::load_migrations );
     add( "connect_group", &connect_group::load );
-    add( "fault", &fault::load );
-    add( "fault_fix", &fault_fix::load );
+    add( "fault", &faults::load_fault );
+    add( "fault_fix", &faults::load_fix );
     add( "relic_procgen_data", &relic_procgen_data::load_relic_procgen_data );
     add( "effect_on_condition", &effect_on_conditions::load );
     add( "field_type", &field_types::load );
@@ -579,8 +579,7 @@ void DynamicDataLoader::unload_data()
     effect_on_conditions::reset();
     event_transformation::reset();
     faction_template::reset();
-    fault_fix::reset();
-    fault::reset();
+    faults::reset();
     field_types::reset();
     gates::reset();
     harvest_drop_type::reset();
@@ -757,7 +756,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Achievements" ), &achievement::finalize },
             { _( "Damage info orders" ), &damage_info_order::finalize_all },
             { _( "Widgets" ), &widget::finalize },
-            { _( "Fault fixes" ), &fault_fix::finalize },
+            { _( "Faults" ), &faults::finalize },
 #if defined(TILES)
             { _( "Tileset" ), &load_tileset },
 #endif
@@ -811,8 +810,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
                 }
             },
             { _( "Materials" ), &materials::check },
-            { _( "Faults" ), &fault::check_consistency },
-            { _( "Fault fixes" ), &fault_fix::check_consistency },
+            { _( "Faults" ), &faults::check_consistency },
             { _( "Vehicle parts" ), &vehicles::parts::check },
             { _( "Vehicle part migrations" ), &vpart_migration::check },
             { _( "Mapgen definitions" ), &check_mapgen_definitions },

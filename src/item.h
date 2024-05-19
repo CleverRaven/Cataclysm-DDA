@@ -1742,9 +1742,10 @@ class item : public visitable
         bool can_reload_with( const item &ammo, bool now ) const;
 
         /**
-          * Returns true if any of the contents are not frozen or not empty if it's liquid
+          * Returns true if it doesn't have flag NO_UNLOAD,
+          * and any of the contents are not frozen or not empty if it's liquid
           */
-        bool can_unload_liquid() const;
+        bool can_unload() const;
 
         /**
          * Returns true if none of the contents are solid

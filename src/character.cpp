@@ -6736,7 +6736,7 @@ void Character::mend_item( item_location &&obj, bool interactive )
         const fault_fix &fix = opt.fix;
         assign_activity( ACT_MEND_ITEM, to_moves<int>( opt.time_to_fix ) );
         activity.name = opt.fault.str();
-        activity.str_values.emplace_back( fix.id_ );
+        activity.str_values.emplace_back( fix.id.str() );
         activity.targets.push_back( std::move( obj ) );
     }
 }
@@ -10397,7 +10397,8 @@ std::vector<run_cost_effect> Character::run_cost_effects( float &movecost ) cons
 
     run_cost_effect_add( enchantment_cache->get_value_add( enchant_vals::mod::MOVE_COST ),
                          _( "Enchantments" ) );
-    run_cost_effect_mul( 1.0 + enchantment_cache->get_value_multiply( enchant_vals::mod::MOVE_COST ),
+    run_cost_effect_mul( std::max( 0.01,
+                                   1.0 + enchantment_cache->get_value_multiply( enchant_vals::mod::MOVE_COST ) ),
                          _( "Enchantments" ) );
 
     run_cost_effect_mul( 1.0 / get_modifier( character_modifier_stamina_move_cost_mod ),
@@ -11636,8 +11637,8 @@ bool Character::unload( item_location &loc, bool bypass_activity,
             add_msg( m_info, _( "The %s is already empty!" ), it.tname() );
             return false;
         }
-        if( !it.can_unload_liquid() ) {
-            add_msg( m_info, _( "The liquid can't be unloaded in its current state!" ) );
+        if( !it.can_unload() ) {
+            add_msg( m_info, _( "The item can't be unloaded in its current state!" ) );
             return false;
         }
 

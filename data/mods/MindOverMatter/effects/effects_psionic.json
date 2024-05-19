@@ -1773,7 +1773,7 @@
     "rating": "bad",
     "max_duration": 3000,
     "dur_add_perc": 5,
-    "base_mods": { "speed_mod": [ -40 ] },
+    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": -0.25 } ] } ],
     "immune_flags": [ "DIMENSIONAL_ANCHOR", "TELESTOP", "TELEPORT_IMMUNE" ]
   },
   {
