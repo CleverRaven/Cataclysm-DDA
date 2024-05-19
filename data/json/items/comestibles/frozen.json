@@ -84,7 +84,7 @@
   {
     "type": "COMESTIBLE",
     "id": "snowcone",
-    "name": { "str": "snowcone" },
+    "name": { "str": "snow cone" },
     "conditional_names": [
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "apple_cider", "name": { "str_sp": "apple cider %s" } },
       { "type": "COMPONENT_ID", "condition": "apple", "name": { "str_sp": "apple %s" } },
