@@ -1753,7 +1753,8 @@ class map
         void generate( const tripoint_abs_sm &p, const time_point &when );
         void place_spawns( const mongroup_id &group, int chance,
                            const point &p1, const point &p2, float density,
-                           bool individual = false, bool friendly = false, const std::string &name = "NONE",
+                           bool individual = false, bool friendly = false,
+                           const std::optional<std::string> &name = std::nullopt,
                            int mission_id = -1 );
         void place_gas_pump( const point &p, int charges, const itype_id &fuel_type );
         void place_gas_pump( const point &p, int charges );
@@ -1766,9 +1767,9 @@ class map
         void apply_faction_ownership( const point &p1, const point &p2, const faction_id &id );
         void add_spawn( const mtype_id &type, int count, const tripoint &p,
                         bool friendly = false, int faction_id = -1, int mission_id = -1,
-                        const std::string &name = "NONE" );
+                        const std::optional<std::string> &name = std::nullopt );
         void add_spawn( const mtype_id &type, int count, const tripoint &p, bool friendly,
-                        int faction_id, int mission_id, const std::string &name,
+                        int faction_id, int mission_id, const std::optional<std::string> &name,
                         const spawn_data &data );
         void add_spawn( const MonsterGroupResult &spawn_details, const tripoint &p );
         void do_vehicle_caching( int z );

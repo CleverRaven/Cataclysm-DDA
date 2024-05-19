@@ -8799,8 +8799,8 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight, bool spa
                     found_mission->register_kill_needed();
                 }
             }
-            if( i.name != "NONE" ) {
-                tmp.unique_name = i.name;
+            if( i.name.has_value() ) {
+                tmp.unique_name = i.name.value();
             }
             if( i.friendly ) {
                 tmp.friendly = -1;
