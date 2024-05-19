@@ -23,7 +23,7 @@ There are three* general methods of having items taken apart into other items:
 
 The first two are able to be altered through JSON, while the other can only be enabled or disabled, with the type and amount of items it gives being calculated by the game from the item's JSON definition.
 
-* Technically you could argue that butchery is a separate method as well, but given its highly unique nature, and the fact that it's not possible for it to violate the conservation of mass, it has been omitted for the purpose of this file.
+*Technically you could argue that butchery is a separate method as well, but given its highly unique nature, and the fact that it's not possible for it to violate the conservation of mass, it has been omitted for the purpose of this file.
 
 ## Uncraft recipes
 They are the most common and well known way of defining an item disassembly. With a syntax not unlike that of regular crafting recipes, they're fairly self-explanatory and easy to grasp.
@@ -49,7 +49,7 @@ They are the most common and well known way of defining an item disassembly. Wit
 |---                            |---
 | `result`                      | (Mandatory) The ID of the item being disassembled
 | `type`                        | (Mandatory) The type of the recipe; if we want an uncraft recipe, it should always be ``uncraft``
-| `activity_level`              | (Mandatory) How energy intensive of an activity this craft is. Options are NO_EXERCISE, LIGHT_EXERCISE, MODERATE_EXERCISE, BRISK_EXERCISE, ACTIVE_EXERCISE, EXTRA_EXERCISE.
+| `activity_level`              | (Mandatory) How energy intensive of an activity this craft is. Options are ``NO_EXERCISE``, ``LIGHT_EXERCISE``, ``MODERATE_EXERCISE``, ``BRISK_EXERCISE``, ``ACTIVE_EXERCISE``, ``EXTRA_EXERCISE``
 | `skill_used`                  | Skill trained and used for success checks
 | `difficulty`                  | Difficulty of success check, connected to ``skill_used``
 | `skills_required`             | Skills required to unlock recipe
@@ -63,4 +63,4 @@ They are the most common and well known way of defining an item disassembly. Wit
 Things to note:
 - Simple disassemblies, such as smashing a skull or simply cutting apart metal with a hacksaw, should likely not use any skills.
 - It is not possible to obtain items with ``UNRECOVERABLE`` flag through disassembly, either through uncraft recipes or reversible crafting recipes, however, defining them in the ``components`` field does not cause errors. They will simply be ignored.
-- ``copy-from`` support for uncraft recipes is extremely limited and it is best to avoid it where possible
+- ``copy-from`` support for uncraft recipes is extremely limited and it is best to avoid it where possible.
