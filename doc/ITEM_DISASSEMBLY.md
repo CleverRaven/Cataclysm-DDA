@@ -66,11 +66,11 @@ Things to note:
 - ``copy-from`` support for uncraft recipes is extremely limited and it is best to avoid it where possible
 - for the purposes of keeping things easy to find, future uncraft recipes should be included inside the ``uncraft`` folder inside of ``data/json``
 - uncraft recipes do not support component lists, the syntax shown below does **NOT** work - only the first item read by the game has any effect
-- due to not supporting component lists, and not remembering what items were used to craft the item that is being disassembled, uncraft recipes can be used to transmute resources by the players
-
 ```json
 "components": [ [ [ "burnt_out_bionic", 1 ], [ "scrap", 1 ] ] ],
 ```
+
+- due to not supporting component lists, and not remembering what items were used to craft the item that is being disassembled, uncraft recipes can be used to transmute resources by the players
 
 ## Reversible crafting recipes
 A reversible recipe and an uncraft recipe are almost indistinguishable in game, with the only potential way to tell them apart being items crafted by the player through a reversible crafting recipe, may yield different items upon disassembly than items of the same ID found spawned in the world. Having said that, they are quite different from the JSON side.
