@@ -350,7 +350,8 @@ bool Character::ablative_armor_absorb( damage_unit &du, item &armor, const sub_b
                 if( ablative_armor.find_armor_data()->non_functional != itype_id() ) {
                     // if the item transforms on destruction damage it that way
                     // ablative armor is concerned with incoming damage not mitigated damage
-                    damaged = ablative_armor.damage_armor_transforms( pre_mitigation );
+                    damaged = ablative_armor.damage_armor_transforms( pre_mitigation, calculate_by_enchantment( 1,
+                              enchant_vals::mod::EQUIPMENT_DAMAGE_CHANCE ) );
                 } else {
                     damaged = ablative_armor.damage_armor_durability( du, bp->parent, calculate_by_enchantment( 1,
                               enchant_vals::mod::EQUIPMENT_DAMAGE_CHANCE ) );
