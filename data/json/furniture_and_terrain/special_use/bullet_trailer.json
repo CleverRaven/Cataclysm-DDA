@@ -16,6 +16,8 @@
     "name": "bullet trailer exterior wall",
     "copy-from": "t_scrap_wall",
     "description": "A smooth wall of gleaming chrome, slightly dusty from the road.",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "SUPPORTS_ROOF", "WALL", "REDUCE_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "symbol": "LINE_OXOX",
     "color": "light_gray"
@@ -33,6 +35,8 @@
     "symbol": "LINE_OXOX",
     "color": "light_gray",
     "looks_like": "t_window",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "SUPPORTS_ROOF", "WALL", "REDUCE_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND", "TRANSPARENT" ],
     "copy-from": "t_bullettrailer_nwall_westcorner"
   },
@@ -102,7 +106,10 @@
     "symbol": "-",
     "color": "light_gray",
     "looks_like": "t_door_metal_c",
-    "flags": [ "TRANSPARENT", "DOOR", "NOITEM", "CONNECT_WITH_WALL", "MINEABLE", "BLOCK_WIND", "SUPPORTS_ROOF" ],
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
+    "flags": [ "TRANSPARENT", "DOOR", "NOITEM", "MINEABLE", "BLOCK_WIND", "SUPPORTS_ROOF" ],
     "open": "t_bullettrailer_swall_door_o",
     "copy-from": "t_bullettrailer_swall_westcorner"
   },
@@ -113,7 +120,10 @@
     "color": "dark_gray",
     "move_cost": 2,
     "looks_like": "t_door_metal_o",
-    "flags": [ "TRANSPARENT", "DOOR", "NOITEM", "CONNECT_WITH_WALL", "MINEABLE", "BLOCK_WIND", "SUPPORTS_ROOF" ],
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "rotates_to": "INDOORFLOOR",
+    "flags": [ "TRANSPARENT", "DOOR", "NOITEM", "MINEABLE", "BLOCK_WIND", "SUPPORTS_ROOF" ],
     "copy-from": "t_bullettrailer_swall_westcorner",
     "close": "t_bullettrailer_swall_door"
   },
@@ -200,6 +210,7 @@
     "symbol": "|",
     "color": "light_gray",
     "coverage": 100,
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "NOITEM", "FLAMMABLE_ASH", "BLOCK_WIND", "REDUCE_SCENT", "DOOR" ],
     "looks_like": "t_door_metal_c",
     "open": "t_bullettrailer_inner_door_o",
@@ -227,6 +238,7 @@
     "coverage": 30,
     "looks_like": "t_door_metal_o",
     "description": "A gray textured door, rimmed in chrome, like a very tacky version of a ship's hatch.",
+    "rotates_to": "INDOORFLOOR",
     "flags": [ "NOITEM", "FLAMMABLE_ASH", "BLOCK_WIND", "DOOR", "MOUNTABLE", "TRANSPARENT" ],
     "close": "t_bullettrailer_inner_door",
     "bash": {
@@ -250,7 +262,18 @@
     "description": "A tiny plastic toilet for use in a travel trailer.  Unlike a normal toilet, it doesn't store water locally for you to siphon out.",
     "symbol": "b",
     "color": "white",
-    "copy-from": "f_toilet"
+    "move_cost_mod": 2,
+    "coverage": 15,
+    "required_str": 6,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "MOUNTABLE", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "toilet_travel", "count": 1 } ] },
+    "bash": {
+      "str_min": 6,
+      "str_max": 15,
+      "sound": "plastic cracking!",
+      "sound_fail": "whump!",
+      "items": [ { "item": "plastic_chunk", "count": [ 4, 8 ] } ]
+    }
   },
   {
     "type": "furniture",

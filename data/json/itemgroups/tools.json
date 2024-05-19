@@ -118,7 +118,7 @@
       [ "rake", 15 ],
       [ "rake_plastic", 25 ],
       [ "aluminum_stepladder", 5 ],
-      { "item": "misc_repairkit", "prob": 25, "charges": [ 0, -1 ] },
+      { "item": "misc_repairkit", "prob": 25 },
       [ "saw", 60 ],
       { "item": "bow_saw", "prob": 50 },
       { "group": "tools_common_small", "prob": 500 }
@@ -861,7 +861,7 @@
       [ "vac_mold", 10 ],
       [ "polycarbonate_sheet", 50 ],
       [ "duct_tape", 8 ],
-      { "item": "misc_repairkit", "prob": 15, "charges": [ 0, -1 ] },
+      { "item": "misc_repairkit", "prob": 15 },
       { "item": "welder", "prob": 10 },
       { "item": "welding_blanket", "prob": 10, "count": [ 0, 1 ] },
       {

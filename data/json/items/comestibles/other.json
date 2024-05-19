@@ -665,7 +665,7 @@
   {
     "type": "GENERIC",
     "id": "cardboard",
-    "name": { "str": "cardboard" },
+    "name": { "str": "piece of cardboard", "str_pl": "pieces of cardboard" },
     "looks_like": "paper",
     "category": "spare_parts",
     "weight": "10 g",
@@ -1003,7 +1003,7 @@
     "type": "COMESTIBLE",
     "id": "can_tomato",
     "name": { "str_sp": "canned tomato" },
-    "weight": "128 g",
+    "weight": "120 g",
     "color": "red",
     "spoils_in": "3 days 18 hours",
     "container": "can_food",
@@ -1011,13 +1011,13 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 3,
-    "calories": 55,
+    "calories": 26,
     "description": "Canned tomato.  A staple in many pantries, and useful for many recipes.",
     "price": "175 cent",
     "price_postapoc": "50 cent",
     "material": [ "tomato" ],
     "volume": "125 ml",
-    "vitamins": [ [ "vitC", 26 ], [ "calcium", 9 ], [ "iron", 18 ] ],
+    "vitamins": [ [ "vitC", "11 mg" ], [ "iron", "1600 μg" ], [ "calcium", "40800 μg" ] ],
     "flags": [ "RAW" ]
   },
   {
@@ -1613,7 +1613,7 @@
   {
     "id": "swarm_bees",
     "type": "COMESTIBLE",
-    "comestible_type": "FOOD",
+    "comestible_type": "INVALID",
     "name": { "str": "swarm of bees", "str_pl": "swarms of bees" },
     "description": "A swarm of honey bees, displaced from the hive.  Without the support and nutrients of an apiary, or taking root somewhere, they will die in a few days.",
     "//": "While bees have mass and volume, it is easier to round to zero for the purposes of the game.",
@@ -1623,7 +1623,6 @@
     "flags": [ "ZERO_WEIGHT", "INEDIBLE" ],
     "volume": "500 ml",
     "symbol": "B",
-    "color": "yellow",
-    "calories": 0
+    "color": "yellow"
   }
 ]

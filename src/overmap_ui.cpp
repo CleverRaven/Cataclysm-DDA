@@ -1168,7 +1168,7 @@ static void draw_om_sidebar(
 
     if( has_target ) {
         const int distance = rl_dist( center, target );
-        mvwprintz( wbar, point( 1, ++lines ), c_white, _( "Distance to active mission:" ) );
+        mvwprintz( wbar, point( 1, ++lines ), c_white, _( "Distance to current objective:" ) );
         mvwprintz( wbar, point( 1, ++lines ), c_white, _( "%d tiles" ), distance );
 
         const int above_below = target.z() - orig.z();

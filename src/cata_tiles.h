@@ -440,6 +440,8 @@ class cata_tiles
          ** basic x range of [0, tile_width) and the basic y range of
          ** [0, tile_width / 2) (isometric) or [0, tile_height) (non-isometric) **/
         point get_window_base_tile_counts( const point &size ) const;
+        static point get_window_base_tile_counts(
+            const point &size, const point &tile_size, bool iso );
         /** Coordinate range of tiles at the given relative z-level that fit
          ** into the given dimensions, fully or partially shown, according to
          ** the maximum tile extent. May be negative, and 0 corresponds to the
@@ -512,16 +514,16 @@ class cata_tiles
         void get_tile_values_with_ter( const tripoint &p, int t, const std::array<int, 4> &tn,
                                        int &subtile, int &rotation,
                                        const std::bitset<NUM_TERCONN> &rotate_to_group );
-        static void get_connect_values( const tripoint &p, int &subtile, int &rotation,
+        static void get_connect_values( const tripoint_bub_ms &p, int &subtile, int &rotation,
                                         const std::bitset<NUM_TERCONN> &connect_group,
                                         const std::bitset<NUM_TERCONN> &rotate_to_group,
-                                        const std::map<tripoint, ter_id> &ter_override );
+                                        const std::map<tripoint_bub_ms, ter_id> &ter_override );
         static void get_furn_connect_values( const tripoint &p, int &subtile, int &rotation,
                                              const std::bitset<NUM_TERCONN> &connect_group,
                                              const std::bitset<NUM_TERCONN> &rotate_to_group,
                                              const std::map<tripoint, furn_id> &furn_override );
-        void get_terrain_orientation( const tripoint &p, int &rota, int &subtile,
-                                      const std::map<tripoint, ter_id> &ter_override,
+        void get_terrain_orientation( const tripoint_bub_ms &p, int &rota, int &subtile,
+                                      const std::map<tripoint_bub_ms, ter_id> &ter_override,
                                       const std::array<bool, 5> &invisible,
                                       const std::bitset<NUM_TERCONN> &rotate_group );
 
@@ -581,35 +583,35 @@ class cata_tiles
 
     public:
         // Animation layers
-        void init_explosion( const tripoint &p, int radius );
+        void init_explosion( const tripoint_bub_ms &p, int radius );
         void draw_explosion_frame();
         void void_explosion();
 
-        void init_custom_explosion_layer( const std::map<tripoint, explosion_tile> &layer );
+        void init_custom_explosion_layer( const std::map<tripoint_bub_ms, explosion_tile> &layer );
         void draw_custom_explosion_frame();
         void void_custom_explosion();
 
-        void init_draw_bullet( const tripoint &p, std::string name );
+        void init_draw_bullet( const tripoint_bub_ms &p, std::string name );
         void draw_bullet_frame();
         void void_bullet();
 
-        void init_draw_hit( const tripoint &p, std::string name );
+        void init_draw_hit( const tripoint_bub_ms &p, std::string name );
         void draw_hit_frame();
         void void_hit();
 
         void draw_footsteps_frame( const tripoint &center );
 
         // pseudo-animated layer, not really though.
-        void init_draw_line( const tripoint &p, std::vector<tripoint> trajectory,
+        void init_draw_line( const tripoint_bub_ms &p, std::vector<tripoint_bub_ms> trajectory,
                              std::string line_end_name, bool target_line );
         void draw_line();
         void void_line();
 
-        void init_draw_cursor( const tripoint &p );
+        void init_draw_cursor( const tripoint_bub_ms &p );
         void draw_cursor();
         void void_cursor();
 
-        void init_draw_highlight( const tripoint &p );
+        void init_draw_highlight( const tripoint_bub_ms &p );
         void draw_highlight();
         void void_highlight();
 
@@ -621,48 +623,51 @@ class cata_tiles
         void draw_sct_frame( std::multimap<point, formatted_text> &overlay_strings );
         void void_sct();
 
-        void init_draw_zones( const tripoint &start, const tripoint &end, const tripoint &offset );
+        void init_draw_zones( const tripoint_bub_ms &start, const tripoint_bub_ms &end,
+                              const tripoint &offset );
         void draw_zones_frame();
         void void_zones();
 
-        void init_draw_async_anim( const tripoint &p, const std::string &tile_id );
+        void init_draw_async_anim( const tripoint_bub_ms &p, const std::string &tile_id );
         void draw_async_anim();
         void void_async_anim();
 
-        void init_draw_radiation_override( const tripoint &p, int rad );
+        void init_draw_radiation_override( const tripoint_bub_ms &p, int rad );
         void void_radiation_override();
 
-        void init_draw_terrain_override( const tripoint &p, const ter_id &id );
+        void init_draw_terrain_override( const tripoint_bub_ms &p, const ter_id &id );
         void void_terrain_override();
 
-        void init_draw_furniture_override( const tripoint &p, const furn_id &id );
+        void init_draw_furniture_override( const tripoint_bub_ms &p, const furn_id &id );
         void void_furniture_override();
 
-        void init_draw_graffiti_override( const tripoint &p, bool has );
+        void init_draw_graffiti_override( const tripoint_bub_ms &p, bool has );
         void void_graffiti_override();
 
-        void init_draw_trap_override( const tripoint &p, const trap_id &id );
+        void init_draw_trap_override( const tripoint_bub_ms &p, const trap_id &id );
         void void_trap_override();
 
-        void init_draw_field_override( const tripoint &p, const field_type_id &id );
+        void init_draw_field_override( const tripoint_bub_ms &p, const field_type_id &id );
         void void_field_override();
 
-        void init_draw_item_override( const tripoint &p, const itype_id &id, const mtype_id &mid,
+        void init_draw_item_override( const tripoint_bub_ms &p, const itype_id &id, const mtype_id &mid,
                                       bool hilite );
         void void_item_override();
 
-        void init_draw_vpart_override( const tripoint &p, const vpart_id &id, int part_mod,
+        void init_draw_vpart_override( const tripoint_bub_ms &p, const vpart_id &id, int part_mod,
                                        const units::angle &veh_dir, bool hilite, const point &mount );
         void void_vpart_override();
 
-        void init_draw_below_override( const tripoint &p, bool draw );
+        void init_draw_below_override( const tripoint_bub_ms &p, bool draw );
         void void_draw_below_override();
 
-        void init_draw_monster_override( const tripoint &p, const mtype_id &id, int count,
+        void init_draw_monster_override( const tripoint_bub_ms &p, const mtype_id &id, int count,
                                          bool more, Creature::Attitude att );
         void void_monster_override();
 
         bool has_draw_override( const tripoint &p ) const;
+
+        void set_disable_occlusion( bool val );
 
         /**
          * Initialize the current tileset (load tile images, load mapping), using the current
@@ -697,8 +702,15 @@ class cata_tiles
         }
         void do_tile_loading_report();
         std::optional<point> tile_to_player( const point &colrow ) const;
+        static std::optional<point_bub_ms> tile_to_player(
+            const point &colrow, const point_bub_ms &o,
+            const point &base_tile_cnt, bool iso );
         point player_to_tile( const point &pos ) const;
         point player_to_screen( const point &pos ) const;
+        static point_bub_ms screen_to_player(
+            const point &scr_pos, const point &tile_size,
+            const point &win_size, const point_bub_ms &center,
+            bool iso );
         static std::vector<options_manager::id_and_option> build_renderer_list();
         static std::vector<options_manager::id_and_option> build_display_list();
     private:
@@ -754,6 +766,8 @@ class cata_tiles
 
         bool in_animation = false;
 
+        bool disable_occlusion = false;
+
         bool do_draw_explosion = false;
         bool do_draw_custom_explosion = false;
         bool do_draw_bullet = false;
@@ -766,31 +780,31 @@ class cata_tiles
         bool do_draw_zones = false;
         bool do_draw_async_anim = false;
 
-        tripoint exp_pos;
+        tripoint_bub_ms exp_pos;
         int exp_rad = 0;
 
-        std::map<tripoint, explosion_tile> custom_explosion_layer;
-        std::map<tripoint, std::string> async_anim_layer;
+        std::map<tripoint_bub_ms, explosion_tile> custom_explosion_layer;
+        std::map<tripoint_bub_ms, std::string> async_anim_layer;
 
-        tripoint bul_pos;
+        tripoint_bub_ms bul_pos;
         std::string bul_id;
 
-        tripoint hit_pos;
+        tripoint_bub_ms hit_pos;
         std::string hit_entity_id;
 
-        tripoint line_pos;
+        tripoint_bub_ms line_pos;
         bool is_target_line = false;
-        std::vector<tripoint> line_trajectory;
+        std::vector<tripoint_bub_ms> line_trajectory;
         std::string line_endpoint_id;
 
-        std::vector<tripoint> cursors;
-        std::vector<tripoint> highlights;
+        std::vector<tripoint_bub_ms> cursors;
+        std::vector<tripoint_bub_ms> highlights;
 
         weather_printable anim_weather;
         std::string weather_name;
 
-        tripoint zone_start;
-        tripoint zone_end;
+        tripoint_bub_ms zone_start;
+        tripoint_bub_ms zone_end;
         tripoint zone_offset;
 
         // offset values, in tile coordinates, not pixels
@@ -798,20 +812,20 @@ class cata_tiles
         // offset for drawing, in pixels.
         point op;
 
-        std::map<tripoint, int> radiation_override;
-        std::map<tripoint, ter_id> terrain_override;
-        std::map<tripoint, furn_id> furniture_override;
-        std::map<tripoint, bool> graffiti_override;
-        std::map<tripoint, trap_id> trap_override;
-        std::map<tripoint, field_type_id> field_override;
+        std::map<tripoint_bub_ms, int> radiation_override;
+        std::map<tripoint_bub_ms, ter_id> terrain_override;
+        std::map<tripoint_bub_ms, furn_id> furniture_override;
+        std::map<tripoint_bub_ms, bool> graffiti_override;
+        std::map<tripoint_bub_ms, trap_id> trap_override;
+        std::map<tripoint_bub_ms, field_type_id> field_override;
         // bool represents item highlight
-        std::map<tripoint, std::tuple<itype_id, mtype_id, bool>> item_override;
+        std::map<tripoint_bub_ms, std::tuple<itype_id, mtype_id, bool>> item_override;
         // int, angle, bool represents part_mod, veh_dir, and highlight respectively
         // point represents the mount direction
-        std::map<tripoint, std::tuple<vpart_id, int, units::angle, bool, point>> vpart_override;
-        std::map<tripoint, bool> draw_below_override;
+        std::map<tripoint_bub_ms, std::tuple<vpart_id, int, units::angle, bool, point>> vpart_override;
+        std::map<tripoint_bub_ms, bool> draw_below_override;
         // int represents spawn count
-        std::map<tripoint, std::tuple<mtype_id, int, bool, Creature::Attitude>> monster_override;
+        std::map<tripoint_bub_ms, std::tuple<mtype_id, int, bool, Creature::Attitude>> monster_override;
 
     private:
         /**

@@ -2240,6 +2240,16 @@ drop_locations game_menus::inv::pickup( avatar &you,
     return pick_s.execute();
 }
 
+drop_locations game_menus::inv::pickup( avatar &you,
+                                        const std::optional<tripoint_bub_ms> &target, const std::vector<drop_location> &selection )
+{
+    std::optional<tripoint> tmp;
+    if( target.has_value() ) {
+        tmp = target.value().raw();
+    }
+    return game_menus::inv::pickup( you, tmp, selection );
+}
+
 class smokable_selector_preset : public inventory_selector_preset
 {
     public:
@@ -2803,7 +2813,7 @@ class select_ammo_inventory_preset : public inventory_selector_preset
 
             append_cell( [&you, target]( const item_location & loc ) {
                 for( const item_location &opt : get_possible_reload_targets( target ) ) {
-                    if( opt->can_reload_with( *loc, true ) ) {
+                    if( opt.can_reload_with( loc, true ) ) {
                         if( opt == target ) {
                             return std::string();
                         }
@@ -2871,11 +2881,11 @@ class select_ammo_inventory_preset : public inventory_selector_preset
 
             for( item_location &p : opts ) {
                 if( ( loc->has_flag( flag_SPEEDLOADER ) && p->allows_speedloader( loc->typeId() ) &&
-                      loc->ammo_remaining() > 1 && p->ammo_remaining() < 1 ) && p->can_reload_with( *loc, true ) ) {
+                      loc->ammo_remaining() > 1 && p->ammo_remaining() < 1 ) && p.can_reload_with( loc, true ) ) {
                     return true;
                 }
 
-                if( p->can_reload_with( *loc, true ) ) {
+                if( p.can_reload_with( loc, true ) ) {
                     return true;
                 }
             }
@@ -2944,7 +2954,7 @@ item::reload_option game_menus::inv::select_ammo( Character &you, const item_loc
 
     item_location target_loc;
     for( const item_location &opt : get_possible_reload_targets( loc ) ) {
-        if( opt->can_reload_with( *selected.first, true ) ) {
+        if( opt.can_reload_with( selected.first, true ) ) {
             target_loc = opt;
             break;
         }

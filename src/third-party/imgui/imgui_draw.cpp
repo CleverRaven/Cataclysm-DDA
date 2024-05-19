@@ -3130,6 +3130,9 @@ ImFont::ImFont()
     Ascent = Descent = 0.0f;
     MetricsTotalSurface = 0;
     memset(Used4kPagesMap, 0, sizeof(Used4kPagesMap));
+    GetFallbackTextSizeCallback = nullptr;
+    GetFallbackCharSizeCallback = nullptr;
+    RenderFallbackCharCallback = nullptr;
 }
 
 ImFont::~ImFont()
@@ -3573,19 +3576,22 @@ void ImFont::RenderChar(ImDrawList* draw_list, float size, const ImVec2& pos, Im
     draw_list->PrimRectUV(ImVec2(x + glyph->X0 * scale, y + glyph->Y0 * scale), ImVec2(x + glyph->X1 * scale, y + glyph->Y1 * scale), ImVec2(glyph->U0, glyph->V0), ImVec2(glyph->U1, glyph->V1), col);
 }
 
-bool ImFont::CanRenderFallbackChar(const char *s_begin, const char *s_end) const
-{
-    return false;
-}
-
 int ImFont::GetFallbackCharWidth( const char* s_begin, const char* s_end, const float scale ) const 
 {
-    return FallbackAdvanceX * scale;
+    if(GetFallbackTextSizeCallback != nullptr) {
+        return GetFallbackTextSizeCallback(s_begin, s_end, scale);
+    } else {
+        return FallbackAdvanceX * scale;
+    }
 }
 
 int ImFont::GetFallbackCharWidth(ImWchar c, const float scale) const
 {
-    return FallbackAdvanceX * scale;
+    if(GetFallbackCharSizeCallback != nullptr) {
+        return GetFallbackCharSizeCallback(c, scale);
+    } else {
+        return FallbackAdvanceX * scale;
+    }
 }
 
 // Note: as with every ImDrawList drawing function, this expects that the font atlas texture is bound.
@@ -3709,7 +3715,7 @@ void ImFont::RenderText(ImDrawList* draw_list, float size, const ImVec2& pos, Im
             // We don't do a second finer clipping test on the Y axis as we've already skipped anything before clip_rect.y and exit once we pass clip_rect.w
 #ifdef IMTUI
             float x1 = x;
-            float x2 = x + 1.0;
+            float x2 = x + 1.0f;
             float y1 = y - 0.5f;
             float y2 = y - 0.5f;
 #else
@@ -3763,21 +3769,20 @@ void ImFont::RenderText(ImDrawList* draw_list, float size, const ImVec2& pos, Im
                 // Support for untinted glyphs
                 ImU32 glyph_col = glyph->Colored ? col_untinted : col;
 
-                if(glyph == FallbackGlyph)
+#ifndef IMTUI
+                if(glyph == FallbackGlyph && RenderFallbackCharCallback != nullptr && RenderFallbackCharCallback(c))
                 {
-                    if(CanRenderFallbackChar(s_orig, s))
-                    {
-                        ImFontGlyphToDraw glyphToDraw;
-                        size_t len = s - s_orig;
-                        memcpy(glyphToDraw.uni_str, s_orig, len);
-                        glyphToDraw.uni_str[len] = 0;
-                        glyphToDraw.pos = { x1, y1 };
-                        glyphToDraw.col = glyph_col;
-                        draw_list->FallbackGlyphs.push_back(glyphToDraw);
-                    }
+                    ImFontGlyphToDraw glyphToDraw;
+                    size_t len = s - s_orig;
+                    memcpy(glyphToDraw.uni_str, s_orig, len);
+                    glyphToDraw.uni_str[len] = 0;
+                    glyphToDraw.pos = { x1, y1 };
+                    glyphToDraw.col = glyph_col;
+                    draw_list->FallbackGlyphs.push_back(glyphToDraw);
                     glyph = NULL;
                 }
                 else
+#endif
                 // We are NOT calling PrimRectUV() here because non-inlined causes too much overhead in a debug builds. Inlined here:
                 {
                     vtx_write[0].pos.x = x1; vtx_write[0].pos.y = y1; vtx_write[0].col = glyph_col; vtx_write[0].uv.x = u1; vtx_write[0].uv.y = v1;
@@ -3786,6 +3791,10 @@ void ImFont::RenderText(ImDrawList* draw_list, float size, const ImVec2& pos, Im
                     vtx_write[3].pos.x = x1; vtx_write[3].pos.y = y2; vtx_write[3].col = glyph_col; vtx_write[3].uv.x = u1; vtx_write[3].uv.y = v2;
                     idx_write[0] = (ImDrawIdx)(vtx_index); idx_write[1] = (ImDrawIdx)(vtx_index + 1); idx_write[2] = (ImDrawIdx)(vtx_index + 2);
                     idx_write[3] = (ImDrawIdx)(vtx_index); idx_write[4] = (ImDrawIdx)(vtx_index + 2); idx_write[5] = (ImDrawIdx)(vtx_index + 3);
+#ifdef IMTUI
+                    vtx_write[1].col = c;
+                    vtx_write[2].col = (ImU32)char_width;
+#endif
                     vtx_write += 4;
                     vtx_index += 4;
                     idx_write += 6;

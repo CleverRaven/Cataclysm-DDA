@@ -118,12 +118,22 @@
   },
   {
     "type": "mutation",
-    "id": "KI_STRIKE",
+    "id": "VERDANT_HAND_PROTOCOLS",
     "name": { "str": "VERDANT HAND Combat Protocols" },
     "points": 2,
-    "description": "Who needs weapons?  Thanks to your biokinesis, you deal more melee damage while fighting with your bare hands.  This damage improves as your unarmed skill increases.",
+    "description": "Who needs weapons?  Thanks to your biokinesis, you deal more melee damage while fighting with your bare hands.  This damage improves as your unarmed skill and biokinetic prowess increase.",
     "starting_trait": false,
-    "valid": false
+    "valid": false,
+    "enchantments": [
+      {
+        "condition": { "not": "u_has_weapon" },
+        "values": [ { "value": "ITEM_DAMAGE_BASH", "add": { "math": [ "u_skill('unarmed') / 2" ] } } ]
+      },
+      {
+        "condition": { "not": "u_has_weapon" },
+        "values": [ { "value": "ITEM_DAMAGE_BASH", "multiply": { "math": [ "u_spell_level_sum('school': 'BIOKINETIC') * 0.01" ] } } ]
+      }
+    ]
   },
   {
     "type": "mutation",

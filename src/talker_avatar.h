@@ -25,6 +25,7 @@ class talker_avatar: public talker_cloner<talker_avatar, talker_character>
         std::vector<std::string> get_topics( bool ) override;
         int parse_mod( const std::string &attribute, int factor ) const override;
         int trial_chance_mod( const std::string &trial_type ) const override;
+        int get_daily_calories( int, std::string const & ) const override;
 
         // inventory and such
         bool buy_monster( talker &seller, const mtype_id &mtype, int cost,

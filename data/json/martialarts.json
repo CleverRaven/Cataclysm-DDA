@@ -39,7 +39,6 @@
         "name": "Aikido Stance",
         "description": "By disregarding offense in favor of defense, you are better at protecting yourself.\n\nBlocked damage reduced by 100% of Dexterity, +2 blocking effectiveness, +1.0 Dodging skill.",
         "unarmed_allowed": true,
-        "unarmed_weapons_allowed": false,
         "melee_allowed": true,
         "flat_bonuses": [
           { "stat": "block", "scaling-stat": "dex", "scale": 1.0 },
@@ -52,7 +51,6 @@
         "name": "Intermediate Aikido",
         "description": "An intermediate Aikido practitioner can protect themselves against multiple opponents.\n\nBlocked damage reduced by 100% of Dexterity, +1 blocking effectiveness, +1 block attempt, +1 dodge attempt.",
         "unarmed_allowed": true,
-        "unarmed_weapons_allowed": false,
         "melee_allowed": true,
         "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
         "bonus_dodges": 1,
@@ -64,7 +62,6 @@
         "name": "Advanced Aikido",
         "description": "An advanced Aikido practitioner can protect themselves against even more opponents than normal.\n\n+1 blocking effectiveness, +1 block attempt, +1 dodge attempt.",
         "unarmed_allowed": true,
-        "unarmed_weapons_allowed": false,
         "melee_allowed": true,
         "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
         "bonus_dodges": 1,
@@ -79,7 +76,6 @@
         "description": "After a smooth block, you prepare to counter your foe.\n\n-10% move cost.\nLasts 1 turn.",
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "unarmed_allowed": true,
-        "unarmed_weapons_allowed": false,
         "melee_allowed": true,
         "buff_duration": 1,
         "mult_bonuses": [ { "stat": "movecost", "scale": 0.9 } ]
@@ -91,7 +87,6 @@
         "name": "Fluid Dodging",
         "description": "After a smooth dodge, you prepare to counter your foe.\n\n-10% move cost.\nLasts 1 turn.",
         "unarmed_allowed": true,
-        "unarmed_weapons_allowed": false,
         "melee_allowed": true,
         "buff_duration": 1,
         "mult_bonuses": [ { "stat": "movecost", "scale": 0.9 } ]
@@ -685,7 +680,6 @@
         "description": "Your knowledge of grappling allows you to recover from knockdown effects instantly.  In addition, you can counter grabs and takedown attacks with a judo throw.",
         "unarmed_allowed": true,
         "melee_allowed": true,
-        "unarmed_weapons_allowed": false,
         "flags": [ "DOWNED_RECOVERY" ]
       }
     ],

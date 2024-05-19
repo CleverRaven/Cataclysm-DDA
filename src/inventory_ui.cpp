@@ -366,6 +366,7 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "overmap_show_forest_trails", overmap_show_forest_trails );
     json.member( "vmenu_show_items", vmenu_show_items );
     json.member( "list_item_sort", list_item_sort );
+    json.member( "read_items", read_items );
     json.member( "list_item_filter_active", list_item_filter_active );
     json.member( "list_item_downvote_active", list_item_downvote_active );
     json.member( "list_item_priority_active", list_item_priority_active );
@@ -476,6 +477,7 @@ void uistatedata::deserialize( const JsonObject &jo )
     }
 
     jo.read( "list_item_sort", list_item_sort );
+    jo.read( "read_items", read_items );
     jo.read( "list_item_filter_active", list_item_filter_active );
     jo.read( "list_item_downvote_active", list_item_downvote_active );
     jo.read( "list_item_priority_active", list_item_priority_active );
@@ -3379,7 +3381,7 @@ void ammo_inventory_selector::set_all_entries_chosen_count()
         for( inventory_entry *entry : col->get_entries( return_item, true ) ) {
             for( const item_location &loc : get_possible_reload_targets( reload_loc ) ) {
                 item_location it = entry->any_item();
-                if( loc->can_reload_with( *it, true ) ) {
+                if( loc.can_reload_with( it, true ) ) {
                     item::reload_option tmp_opt( &u, loc, it );
                     int count = entry->get_available_count();
                     if( it->has_flag( flag_SPEEDLOADER ) || it->has_flag( flag_SPEEDLOADER_CLIP ) ) {
@@ -3400,7 +3402,7 @@ void ammo_inventory_selector::mod_chosen_count( inventory_entry &entry, int valu
         return;
     }
     for( const item_location &loc : get_possible_reload_targets( reload_loc ) ) {
-        if( loc->can_reload_with( *entry.any_item(), true ) ) {
+        if( loc.can_reload_with( entry.any_item(), true ) ) {
             item::reload_option tmp_opt( &u, loc, entry.any_item() );
             tmp_opt.qty( entry.chosen_count + value );
             entry.chosen_count = tmp_opt.qty();

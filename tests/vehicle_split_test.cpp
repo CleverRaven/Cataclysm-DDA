@@ -85,10 +85,14 @@ TEST_CASE( "vehicle_split_section", "[vehicle]" )
 TEST_CASE( "conjoined_vehicles", "[vehicle]" )
 {
     map &here = get_map();
-    here.add_vehicle( vehicle_prototype_car, { 40, 40, here.get_abs_sub().z() }, 0_degrees );
-    here.add_vehicle( vehicle_prototype_car, { 42, 42, here.get_abs_sub().z() }, 0_degrees );
-    here.add_vehicle( vehicle_prototype_car, { 44, 44, here.get_abs_sub().z() }, 45_degrees );
-    here.add_vehicle( vehicle_prototype_car, { 48, 44, here.get_abs_sub().z() }, 45_degrees );
+    here.add_vehicle( vehicle_prototype_car, tripoint_bub_ms( 40, 40, here.get_abs_sub().z() ),
+                      0_degrees );
+    here.add_vehicle( vehicle_prototype_car, tripoint_bub_ms( 42, 42, here.get_abs_sub().z() ),
+                      0_degrees );
+    here.add_vehicle( vehicle_prototype_car, tripoint_bub_ms( 44, 44, here.get_abs_sub().z() ),
+                      45_degrees );
+    here.add_vehicle( vehicle_prototype_car, tripoint_bub_ms( 48, 44, here.get_abs_sub().z() ),
+                      45_degrees );
 }
 
 TEST_CASE( "crater_crash", "[vehicle]" )

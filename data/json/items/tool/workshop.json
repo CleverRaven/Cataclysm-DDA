@@ -758,7 +758,6 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "tape" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "tape": 200 } } ],
     "charges_per_use": 5,
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 2 ], [ "AXE", 1 ], [ "SAW_W", 2 ], [ "BUTCHER", 7 ], [ "FABRIC_CUT", 1 ] ],
     "use_action": [
@@ -772,7 +771,7 @@
         "move_cost": 1000
       }
     ],
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "USES_NEARBY_AMMO" ],
     "melee_damage": { "bash": 2 }
   },
   {
@@ -1335,7 +1334,7 @@
     "volume": "34400 ml",
     "longest_side": "66 cm",
     "price": "140 USD 99 cent",
-    "price_postapoc": "32 USD 50 cent",
+    "price_postapoc": "4 USD 50 cent",
     "to_hit": -2,
     "material": [ "steel" ],
     "symbol": ";",
@@ -1670,7 +1669,7 @@
     "id": "propane_torch",
     "type": "TOOL",
     "name": { "str": "propane torch", "str_pl": "propane torches" },
-    "description": "A compact tool kit intended for cutting metal, this portable propane torch includes a torch handle and cutting attachment in an easy-to-carry tote.  It needs to be connected to a pressurized propane cylinder before use.  While not appropriate for welding, you can activate it in order to destroy metal barriers.",
+    "description": "A compact tool kit intended for heating metal, this portable propane torch includes a torch handle and accessories in an easy-to-carry tote.  It needs to be connected to a pressurized propane cylinder before use.",
     "weight": "1600 g",
     "volume": "1 L",
     "price": "200 USD",
@@ -1679,10 +1678,6 @@
     "symbol": ";",
     "color": "red",
     "ammo": [ "propane" ],
-    "charges_per_use": 64,
-    "//0": "above is for 1/2 kg of steel - currently a door is 7 kg of material to cut",
-    "//": "power usage: propane torch delivers about 2.5 kj per ml adjusted for efficiency, needs about 800 degrees c to ignite steel, which is specific heat 420j so to ignite a kg of steel, it is about 128 units of propane",
-    "use_action": [ "OXYTORCH" ],
     "flags": [ "ALLOWS_REMOTE_USE", "FIRESTARTER" ],
     "pocket_data": [
       {

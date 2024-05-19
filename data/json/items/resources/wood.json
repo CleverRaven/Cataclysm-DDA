@@ -31,6 +31,7 @@
     "longest_side": "30 cm",
     "to_hit": 1,
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "flags": [ "NO_SALVAGE", "TRADER_AVOID", "FIREWOOD" ],
     "melee_damage": { "bash": 4 }
   },

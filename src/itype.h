@@ -993,6 +993,10 @@ struct islot_ammo : common_ranged_data {
      */
     int count = 1;
     /**
+     * Whether this multi-projectile shot has its effects applied to all projectiles
+     */
+    bool multi_projectile_effects = false;
+    /**
      * Spread/dispersion between projectiles fired from the same round.
      */
     int shot_spread = 0;

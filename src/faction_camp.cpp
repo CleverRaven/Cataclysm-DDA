@@ -669,10 +669,6 @@ faction *basecamp::fac() const
 recipe_id base_camps::select_camp_option( const std::map<recipe_id, translation> &pos_options,
         const std::string &option )
 {
-    if( pos_options.size() == 1 ) {
-        return pos_options.begin()->first;
-    }
-
     std::vector<std::string> pos_names;
     int choice = 0;
 

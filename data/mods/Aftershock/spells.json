@@ -64,6 +64,36 @@
     "damage_type": "electric"
   },
   {
+    "id": "gunship_drive_overload",
+    "type": "SPELL",
+    "name": { "str": "Damage Robots EMP" },
+    "description": "Damages all robots",
+    "valid_targets": [ "hostile", "ally" ],
+    "effect": "attack",
+    "shape": "blast",
+    "targeted_monster_species": [ "ROBOT" ],
+    "damage_type": "pure",
+    "min_damage": 14,
+    "max_damage": 84,
+    "min_aoe": 48,
+    "max_aoe": 48,
+    "aoe_increment": 48,
+    "flags": [ "SILENT", "IGNORE_WALLS", "RANDOM_DAMAGE" ]
+  },
+  {
+    "id": "prison_cell_open",
+    "type": "SPELL",
+    "name": { "str": "Open prison gratings" },
+    "description": "Open prison gratings",
+    "valid_targets": [ "ground" ],
+    "effect": "ter_transform",
+    "shape": "blast",
+    "effect_str": "transform_gratings",
+    "min_aoe": 4,
+    "max_aoe": 4,
+    "flags": [ "SILENT" ]
+  },
+  {
     "id": "afs_generic_free_turn",
     "type": "SPELL",
     "name": "Aftershock Extra Turn",

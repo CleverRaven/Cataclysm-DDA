@@ -206,7 +206,7 @@ void vehicle::control_doors()
     veh_menu menu( this, _( "Select door to toggle" ) );
 
     do {
-        menu.reset();
+        menu.reset( /* keep_last_selected = */ true );
 
         menu.add( _( "Open all curtains" ) )
         .hotkey_auto()
@@ -965,7 +965,7 @@ void vehicle::crash_terrain_around()
         const tripoint start_pos = vp.pos();
         const vpslot_terrain_transform &ttd = *vp.info().transform_terrain_info;
         for( size_t i = 0; i < eight_horizontal_neighbors.size() &&
-             !here.inbounds_z( crush_target.z ); i++ ) {
+             crush_target.z == -OVERMAP_LAYERS; i++ ) {
             tripoint cur_pos = start_pos + eight_horizontal_neighbors[i];
             bool busy_pos = false;
             for( const vpart_reference &vp_tmp : get_all_parts() ) {
@@ -979,7 +979,7 @@ void vehicle::crash_terrain_around()
             }
         }
         //target chosen
-        if( here.inbounds_z( crush_target.z ) ) {
+        if( crush_target.z != -OVERMAP_LAYERS ) {
             velocity = 0;
             cruise_velocity = 0;
             here.destroy( crush_target );
@@ -1778,7 +1778,8 @@ int vehicle::prepare_tool( item &tool ) const
     return ammo_count;
 }
 
-bool vehicle::use_vehicle_tool( vehicle &veh, const tripoint &vp_pos, const itype_id &tool_type,
+bool vehicle::use_vehicle_tool( vehicle &veh, const tripoint_bub_ms &vp_pos,
+                                const itype_id &tool_type,
                                 bool no_invoke )
 {
     item tool( tool_type, calendar::turn );
@@ -1803,7 +1804,7 @@ bool vehicle::use_vehicle_tool( vehicle &veh, const tripoint &vp_pos, const ityp
           tool_type == itype_large_repairkit
         ) ) {
         act.index = INT_MIN; // tell activity the item doesn't really exist
-        act.coords.push_back( vp_pos ); // tell it to search for the tool on `pos`
+        act.coords.push_back( vp_pos.raw() ); // tell it to search for the tool on `pos`
         act.str_values.push_back( tool_type.str() ); // specific tool on the rig
     }
 
@@ -1847,12 +1848,13 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
     const bool player_inside = get_map().veh_at( get_player_character().pos() ) ?
                                &get_map().veh_at( get_player_character().pos() )->vehicle() == this :
                                false;
-    bool power_grid = false;
-    bool cable_linked = false;
+    bool power_linked = false;
+    bool item_linked = false;
+    bool tow_linked = false;
     for( vehicle_part *vp_part : vp_parts ) {
-        power_grid = power_grid ? true : vp_part->info().has_flag( VPFLAG_POWER_TRANSFER );
-        cable_linked = cable_linked ? true : vp_part->has_flag( vp_flag::linked_flag ) ||
-                       vp_part->info().has_flag( "TOW_CABLE" );
+        power_linked = power_linked || vp_part->info().has_flag( VPFLAG_POWER_TRANSFER );
+        item_linked = item_linked || vp_part->has_flag( vp_flag::linked_flag );
+        tow_linked = tow_linked || vp_part->info().has_flag( "TOW_CABLE" );
     }
 
     if( !is_appliance() ) {
@@ -2074,10 +2076,10 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         }
     }
 
-    if( power_grid ) {
-        menu.add( is_appliance() ? _( "Disconnect from power grid" ) : _( "Disconnect power connections" ) )
-        .enable( !cable_linked )
-        .desc( string_format( !cable_linked ? "" : _( "Remove other cables first" ) ) )
+    if( power_linked ) {
+        menu.add( _( "Disconnect power connections" ) )
+        .enable( !item_linked && !tow_linked )
+        .desc( string_format( !item_linked && !tow_linked ? "" : _( "Remove other cables first" ) ) )
         .skip_locked_check()
         .hotkey( "DISCONNECT_CABLES" )
         .on_submit( [this, vp] {
@@ -2085,8 +2087,10 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
             get_player_character().pause();
         } );
     }
-    if( cable_linked ) {
-        menu.add( _( "Disconnect cables" ) )
+    if( item_linked || tow_linked ) {
+        std::string menu_text = item_linked && tow_linked ? _( "Disconnect items and tow cables" ) :
+                                item_linked ? _( "Disconnect items" ) : _( "Disconnect tow cables" );
+        menu.add( menu_text )
         .skip_locked_check()
         .hotkey( "DISCONNECT_CABLES" )
         .on_submit( [this, vp] {
@@ -2157,7 +2161,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         .enable( ammo_amount >= tool_item.typeId()->charges_to_use() )
         .hotkey( hk )
         .skip_locked_check( tool_ammo.is_null() || tool_ammo->ammo->type != ammo_battery )
-        .on_submit( [this, vppos, tool_type] { use_vehicle_tool( *this, vppos, tool_type ); } );
+        .on_submit( [this, vppos, tool_type] { use_vehicle_tool( *this, tripoint_bub_ms( vppos ), tool_type ); } );
     }
 
     const std::optional<vpart_reference> vp_autoclave = vp.avail_part_with_feature( "AUTOCLAVE" );

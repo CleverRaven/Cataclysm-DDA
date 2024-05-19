@@ -77,6 +77,9 @@ static const bionic_id bio_faulty_grossfood( "bio_faulty_grossfood" );
 static const bionic_id bio_syringe( "bio_syringe" );
 static const bionic_id bio_taste_blocker( "bio_taste_blocker" );
 
+static const character_modifier_id character_modifier_liquid_consume_mod( "liquid_consume_mod" );
+static const character_modifier_id character_modifier_solid_consume_mod( "solid_consume_mod" );
+
 static const efftype_id effect_bloodworms( "bloodworms" );
 static const efftype_id effect_brainworms( "brainworms" );
 static const efftype_id effect_common_cold( "common_cold" );
@@ -715,7 +718,9 @@ float Character::metabolic_rate_base() const
 {
     static const std::string hunger_rate_string( "PLAYER_HUNGER_RATE" );
     float hunger_rate = get_option< float >( hunger_rate_string );
-    return enchantment_cache->modify_value( enchant_vals::mod::METABOLISM, hunger_rate );
+    const float final_hunger_rate = enchantment_cache->modify_value( enchant_vals::mod::METABOLISM,
+                                    hunger_rate );
+    return std::clamp( final_hunger_rate, 0.0f, float_max );
 }
 
 // TODO: Make this less chaotic to let NPC retroactive catch up work here
@@ -1722,10 +1727,12 @@ time_duration Character::get_consume_time( const item &it ) const
         time = time_duration::from_seconds( volume / 5 ); //Eat 5 mL (1 teaspoon) per second
         consume_time_modifier = enchantment_cache->modify_value( enchant_vals::mod::CONSUME_TIME_MOD,
                                 consume_time_modifier );
+        consume_time_modifier *= get_modifier( character_modifier_solid_consume_mod );
     } else if( !eat_verb && comest_type == "DRINK" ) {
         time = time_duration::from_seconds( volume / 15 ); //Drink 15 mL (1 tablespoon) per second
         consume_time_modifier = enchantment_cache->modify_value( enchant_vals::mod::CONSUME_TIME_MOD,
                                 consume_time_modifier );
+        consume_time_modifier *= get_modifier( character_modifier_liquid_consume_mod );
     } else if( use_function const *fun = it.type->get_use( "heal" ) ) {
         time = time_duration::from_moves( dynamic_cast<heal_actor const *>
                                           ( fun->get_actor_ptr() )->move_cost );
@@ -1763,6 +1770,9 @@ time_duration Character::get_consume_time( const item &it ) const
                                             1 ) ); //Consume 15 mL (1 tablespoon) per second
         consume_time_modifier = enchantment_cache->modify_value( enchant_vals::mod::CONSUME_TIME_MOD,
                                 consume_time_modifier );
+        consume_time_modifier *=  it.made_of_from_type( phase_id::LIQUID ) ?
+                                  get_modifier( character_modifier_liquid_consume_mod ) :
+                                  get_modifier( character_modifier_solid_consume_mod );
     }
 
     // Minimum consumption time, without mutations, is always 1 second.

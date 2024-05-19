@@ -1427,6 +1427,57 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_mink_frog",
+    "copy-from": "egg_proxy_frog",
+    "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
+    "description": "A tight, spherical cluster of eggs, often found near submerged vegetation.  This cluster is polar, with dark pigment collected near the tops of the eggs and white left on the underside.",
+    "rot_spawn": "GROUP_EGG_MINK_FROG"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_pickerel_frog",
+    "copy-from": "egg_proxy_frog",
+    "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
+    "description": "A globular mass of frog's eggs.  The individual eggs are colored a dark brown on top and a yellow-cream on the bottom.",
+    "use_action": [ "POISON" ],
+    "rot_spawn": "GROUP_EGG_PICKEREL_FROG"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_palette_frog",
+    "copy-from": "egg_pickerel_frog",
+    "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
+    "use_action": [ "POISON" ],
+    "rot_spawn": "GROUP_EGG_PALETTE_FROG",
+    "vitamins": [ [ "iron", 4 ], [ "mutant_toxin", 8 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_green_frog",
+    "copy-from": "egg_proxy_frog",
+    "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
+    "description": "A thin sheet of clear, gelatinous eggs with dark embryos peppered throughout.",
+    "rot_spawn": "GROUP_EGG_GREEN_FROG"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_wood_frog",
+    "copy-from": "egg_proxy_frog",
+    "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
+    "description": "This softball-sized mass of gooey eggs clings together like a bunch of soft, transparent grapes.  The \"seeds\" inside these appear to be growing legs.",
+    "rot_spawn": "GROUP_EGG_WOOD_FROG"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_spade_frog",
+    "copy-from": "egg_proxy_frog",
+    "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
+    "description": "Several short strands of tightly clustered black eggs connected together by their viscous coverings.",
+    "use_action": [ "POISON" ],
+    "rot_spawn": "GROUP_EGG_SPADE_FROG"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_proxy_bigfrog",
     "copy-from": "egg_proxy_frog",
     "name": { "str": "cluster of giant frog's eggs", "str_pl": "clusters of giant frog's eggs" },

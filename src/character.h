@@ -1128,13 +1128,14 @@ class Character : public Creature, public visitable
         item_location best_shield();
         /** Calculates melee weapon wear-and-tear through use, returns true if item is destroyed. */
         bool handle_melee_wear( item_location shield, float wear_multiplier = 1.0f );
-        /** Returns a random valid technique */
-        matec_id pick_technique( Creature &t, const item_location &weap,
-                                 bool crit, bool dodge_counter, bool block_counter, const std::vector<matec_id> &blacklist = {} );
-        // Houses the actual picking logic and returns the vector of eligable techniques
-        std::vector<matec_id> evaluate_techniques( Creature &t, const item_location &weap,
-                bool crit = false, bool dodge_counter = false, bool block_counter = false,
-                const std::vector<matec_id> &blacklist = {} );
+        /** Returns a random technique/vector/contact area set from the  possible techs */
+        std::tuple<matec_id, attack_vector_id, sub_bodypart_str_id> pick_technique(
+            Creature &t, const item_location &weap,
+            bool crit, bool dodge_counter, bool block_counter, const std::vector<matec_id> &blacklist = {} );
+        // Filter techniques per tech, return a tech/vector/sublimb set
+        std::optional<std::tuple<matec_id, attack_vector_id, sub_bodypart_str_id>>
+                evaluate_technique( const matec_id &tec_id, Creature &t, const item_location &weap,
+                                    bool crit = false, bool dodge_counter = false, bool block_counter = false );
         void perform_technique( const ma_technique &technique, Creature &t, damage_instance &di,
                                 int &move_cost, item_location &cur_weapon );
 
@@ -1204,10 +1205,11 @@ class Character : public Creature, public visitable
         // If average == true, adds expected values of random rolls instead of rolling.
         /** Adds all 3 types of physical damage to instance */
         void roll_all_damage( bool crit, damage_instance &di, bool average, const item &weap,
-                              const std::string &attack_vector,
+                              const attack_vector_id &attack_vector, const sub_bodypart_str_id &contact,
                               const Creature *target, const bodypart_id &bp ) const;
         void roll_damage( const damage_type_id &dt, bool crit, damage_instance &di, bool average,
-                          const item &weap, const std::string &attack_vector, float crit_mod ) const;
+                          const item &weap, const attack_vector_id &attack_vector, const sub_bodypart_str_id &contact,
+                          float crit_mod ) const;
 
         /** Returns true if the player should be dead */
         bool is_dead_state() const override;
@@ -1238,7 +1240,8 @@ class Character : public Creature, public visitable
     public:
 
         /** This handles giving xp for a skill. Returns true on level-up. */
-        bool practice( const skill_id &id, int amount, int cap = 99, bool suppress_warning = false );
+        bool practice( const skill_id &id, int amount, int cap = 99, bool suppress_warning = false,
+                       bool allow_multilevel = false );
         /** This handles warning the player that there current activity will not give them xp */
         void handle_skill_warning( const skill_id &id, bool force_warning = false );
 
@@ -1920,7 +1923,9 @@ class Character : public Creature, public visitable
          * Returns true if it destroys the item. Consumes charges from the item.
          * Multi-use items are ONLY supported when all use_methods are iuse_actor!
          */
+        // TODO: Get rid of untyped overload
         virtual bool invoke_item( item *, const tripoint &pt, int pre_obtain_moves = -1 );
+        virtual bool invoke_item( item *, const tripoint_bub_ms &pt, int pre_obtain_moves = -1 );
         /** As above, but with a pre-selected method. Debugmsg if this item doesn't have this method. */
         virtual bool invoke_item( item *, const std::string &, const tripoint &pt,
                                   int pre_obtain_moves = -1 );
@@ -3129,7 +3134,7 @@ class Character : public Creature, public visitable
          *  @param gun item to fire (which does not necessary have to be in the players possession)
          *  @return number of shots actually fired
          */
-        int fire_gun( const tripoint &target, int shots, item &gun, item_location ammo = item_location() );
+        int fire_gun( const tripoint &target, int shots, item &gun );
         /** Execute a throw */
         dealt_projectile_attack throw_item( const tripoint &target, const item &to_throw,
                                             const std::optional<tripoint> &blind_throw_from_pos = std::nullopt );
@@ -3416,7 +3421,7 @@ class Character : public Creature, public visitable
         bool is_worn_item_visible( std::list<item>::const_iterator ) const;
 
         /** Returns all worn items visible to an outside observer */
-        std::list<item> get_visible_worn_items() const;
+        std::list<item_location> get_visible_worn_items() const;
 
         /** Swap side on which item is worn; returns false on fail. If interactive is false, don't alert player or drain moves */
         bool change_side( item &it, bool interactive = true );
@@ -3520,14 +3525,21 @@ class Character : public Creature, public visitable
         float morale_crafting_speed_multiplier( const recipe &rec ) const;
         float lighting_craft_speed_multiplier( const recipe &rec, const tripoint &p = tripoint_min ) const;
         float crafting_speed_multiplier( const recipe &rec ) const;
+        // TODO: Get rid of untyped overload
         float workbench_crafting_speed_multiplier( const item &craft,
                 const std::optional<tripoint> &loc )const;
+        float workbench_crafting_speed_multiplier( const item &craft,
+                const std::optional<tripoint_bub_ms> &loc )const;
         /** For use with in progress crafts.
          *  Workbench multiplier calculation (especially finding lifters nearby)
          *  is expensive when numorous items are around.
          *  So use pre-calculated cache if possible.
          */
+        // TODO: Get rid of untyped overload
         float crafting_speed_multiplier( const item &craft, const std::optional<tripoint> &loc,
+                                         bool use_cached_workbench_multiplier = false, float cached_workbench_multiplier = 0.0f
+                                       ) const;
+        float crafting_speed_multiplier( const item &craft, const std::optional<tripoint_bub_ms> &loc,
                                          bool use_cached_workbench_multiplier = false, float cached_workbench_multiplier = 0.0f
                                        ) const;
         int available_assistant_count( const recipe &rec ) const;
@@ -3581,7 +3593,9 @@ class Character : public Creature, public visitable
         float item_destruction_chance( const recipe &making ) const;
         craft_roll_data recipe_success_roll_data( const recipe &making ) const;
         craft_roll_data recipe_failure_roll_data( const recipe &making ) const;
+        // TODO: Get rid of untyped overload
         void complete_craft( item &craft, const std::optional<tripoint> &loc );
+        void complete_craft( item &craft, const std::optional<tripoint_bub_ms> &loc );
         /**
          * Check if the player meets the requirements to continue the in progress craft and if
          * unable to continue print messages explaining the reason.

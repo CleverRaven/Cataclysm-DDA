@@ -240,7 +240,7 @@
     "type": "effect_on_condition",
     "id": "EOC_SUMMON_ZOMBIE_SWARM",
     "effect": {
-      "switch": { "math": [ "u_spell_level('summon_undead')" ] },
+      "switch": { "math": [ "u_spell_level('summon_undead_swarm')" ] },
       "cases": [
         { "case": 0, "effect": { "u_cast_spell": { "id": "summon_zombie_dog" } } },
         { "case": 5, "effect": { "u_cast_spell": { "id": "summon_dog_skeleton" } } },
@@ -635,9 +635,9 @@
     "energy_source": "MANA",
     "difficulty": 5,
     "max_level": 20,
-    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(100)" ] },
-    "casting_time_increment": { "math": [ "enhancement_proficiency_negate_calculate(-2.5)" ] },
-    "final_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(50)" ] },
+    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(100, 0.33)" ] },
+    "casting_time_increment": { "math": [ "enhancement_proficiency_negate_calculate(-2.5, 0.05)" ] },
+    "final_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(50, 0.33)" ] },
     "base_energy_cost": 300,
     "energy_increment": -5.0,
     "final_energy_cost": 200,
@@ -877,10 +877,10 @@
     "difficulty": 5,
     "max_level": 15,
     "base_energy_cost": 500,
-    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(90000)" ] },
-    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(900000)" ] },
-    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(60000)" ] },
-    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(1500)" ] },
+    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(90000, 5400)" ] },
+    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(900000, 5400)" ] },
+    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(60000, 0.074)" ] },
+    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(1500, 10)" ] },
     "extra_effects": [ { "id": "eoc_enhancement_setup" } ]
   },
   {
@@ -987,11 +987,11 @@
     "components": "spell_components_spirit_walking",
     "max_level": 20,
     "difficulty": 8,
-    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(3000)" ] },
-    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(9000)" ] },
-    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(300)" ] },
+    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(3000, 40)" ] },
+    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(9000, 40)" ] },
+    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(300, 0.05)" ] },
     "energy_source": "MANA",
-    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(300)" ] },
+    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(300, 2)" ] },
     "base_energy_cost": 1200,
     "final_energy_cost": 850,
     "energy_increment": -17.5,
@@ -1026,10 +1026,10 @@
     "difficulty": 4,
     "max_level": 15,
     "base_energy_cost": 350,
-    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(30000)" ] },
-    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(480000)" ] },
-    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(30000)" ] },
-    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(250)" ] },
+    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(30000, 3000)" ] },
+    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(480000, 3000)" ] },
+    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(30000, 0.07)" ] },
+    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(250, 2)" ] },
     "extra_effects": [ { "id": "eoc_enhancement_setup" } ]
   },
   {
@@ -1065,5 +1065,40 @@
         ]
       }
     ]
+  },
+  {
+    "id": "animist_magic_fissile",
+    "type": "SPELL",
+    "name": "Magic Fissile",
+    "description": "I cast Magic… Fissile?  At the darkness?",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "VERBAL", "SOMATIC", "NO_LEGS", "SILENT", "NO_PROJECTILE" ],
+    "extra_effects": [ { "id": "animist_radiation_bolt", "hit_self": false }, { "id": "eoc_evocation_setup" } ],
+    "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(1, 0.2)" ] },
+    "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(1.5, 0.083)" ] },
+    "damage_type": "necrotic",
+    "max_damage": { "math": [ "evocation_proficiency_bonus_calculate(20, 0.2)" ] },
+    "min_range": 8,
+    "range_increment": 0.8,
+    "max_range": 20,
+    "base_energy_cost": 50,
+    "spell_class": "ANIMIST",
+    "difficulty": 1,
+    "max_level": 15,
+    "base_casting_time": 100,
+    "energy_source": "MANA",
+    "shape": "blast",
+    "effect": "attack"
+  },
+  {
+    "id": "animist_radiation_bolt",
+    "type": "SPELL",
+    "name": "Magic Fissile Radiation",
+    "description": "Spawns a radiation field near the target.  It's a bug if you have it directly.",
+    "flags": [ "NO_EXPLOSION_SFX" ],
+    "valid_targets": [ "self" ],
+    "effect": "emit",
+    "effect_str": "emit_rad_leak",
+    "shape": "blast"
   }
 ]
