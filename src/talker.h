@@ -231,6 +231,9 @@ class talker
         virtual void learn_recipe( const recipe_id & ) {}
         virtual void forget_recipe( const recipe_id & ) {}
         virtual void mutate( const int &, const bool & ) {}
+        virtual int get_daily_calories( int, std::string const & ) const {
+            return 0;
+        }
         virtual void mutate_category( const mutation_category_id &, const bool & ) {}
         virtual void mutate_towards( const trait_id &, const mutation_category_id &, const bool & ) {};
         virtual void set_mutation( const trait_id &, const mutation_variant * = nullptr ) {}
@@ -564,6 +567,9 @@ class talker
         virtual void mod_pain( int ) {}
         virtual void set_pain( int ) {}
         virtual int pain_cur() const {
+            return 0;
+        }
+        virtual int perceived_pain_cur() const {
             return 0;
         }
         virtual void attack_target( Creature &, bool, const matec_id &,

@@ -112,7 +112,7 @@ class outfit
         // get the best blocking value with the flag that allows worn.
         item *best_shield();
         // find the best clothing weapon when unarmed modifies
-        item *current_unarmed_weapon( const std::string &attack_vector );
+        item *current_unarmed_weapon( const sub_bodypart_str_id &contact_area );
         item_location first_item_covering_bp( Character &guy, bodypart_id bp );
         void inv_dump( std::vector<item *> &ret );
         void inv_dump( std::vector<const item *> &ret ) const;
@@ -122,7 +122,7 @@ class outfit
          */
         void item_encumb( std::map<bodypart_id, encumbrance_data> &vals, const item &new_item,
                           const Character &guy ) const;
-        std::list<item> get_visible_worn_items( const Character &guy ) const;
+        std::list<item_location> get_visible_worn_items( const Character &guy );
         int swim_modifier( int swim_skill ) const;
         bool natural_attack_restricted_on( const bodypart_id &bp ) const;
         bool natural_attack_restricted_on( const sub_bodypart_id &bp ) const;

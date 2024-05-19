@@ -886,7 +886,11 @@ void Item_factory::finalize_post_armor( itype &obj )
         if( data.max_encumber == -1 ) {
             units::volume total_nonrigid_volume = 0_ml;
             for( const pocket_data &pocket : obj.pockets ) {
-                if( !pocket.rigid ) {
+                // Reimplementation of item_pocket::is_standard_type()
+                bool pocket_is_standard = pocket.type == pocket_type::CONTAINER ||
+                                          pocket.type == pocket_type::MAGAZINE ||
+                                          pocket.type == pocket_type::MAGAZINE_WELL;
+                if( !pocket.rigid && pocket_is_standard ) {
                     // include the modifier for each individual pocket
                     total_nonrigid_volume += pocket.max_contains_volume() * pocket.volume_encumber_modifier;
                 }
@@ -1805,6 +1809,7 @@ void Item_factory::init()
     add_iuse( "MACE", &iuse::mace );
     add_iuse( "MAGIC_8_BALL", &iuse::magic_8_ball );
     add_iuse( "MEASURE_RESONANCE", &iuse::measure_resonance );
+    add_iuse( "CHANGE_OUTFIT", &iuse::change_outfit );
     add_iuse( "PLAY_GAME", &iuse::play_game );
     add_iuse( "MAKEMOUND", &iuse::makemound );
     add_iuse( "DIG_CHANNEL", &iuse::dig_channel );
@@ -1879,6 +1884,9 @@ void Item_factory::init()
     add_iuse( "WASH_SOFT_ITEMS", &iuse::wash_soft_items );
     add_iuse( "WASH_HARD_ITEMS", &iuse::wash_hard_items );
     add_iuse( "WASH_ALL_ITEMS", &iuse::wash_all_items );
+    add_iuse( "HEAT_LIQUID_ITEMS", &iuse::heat_liquid_items );
+    add_iuse( "HEAT_SOLID_ITEMS", &iuse::heat_solid_items );
+    add_iuse( "HEAT_ALL_ITEMS", &iuse::heat_all_items );
     add_iuse( "WATER_PURIFIER", &iuse::water_purifier );
     add_iuse( "WEAK_ANTIBIOTIC", &iuse::weak_antibiotic );
     add_iuse( "WEATHER_TOOL", &iuse::weather_tool );

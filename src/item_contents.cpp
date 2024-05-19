@@ -1374,7 +1374,7 @@ const item &item_contents::first_ammo() const
 bool item_contents::will_spill() const
 {
     for( const item_pocket &pocket : contents ) {
-        if( pocket.is_type( pocket_type::CONTAINER ) && pocket.will_spill() ) {
+        if( pocket.is_standard_type() && pocket.will_spill() ) {
             return true;
         }
     }
@@ -1384,8 +1384,7 @@ bool item_contents::will_spill() const
 bool item_contents::will_spill_if_unsealed() const
 {
     for( const item_pocket &pocket : contents ) {
-        if( pocket.is_type( pocket_type::CONTAINER )
-            && pocket.will_spill_if_unsealed() ) {
+        if( pocket.is_standard_type() && pocket.will_spill_if_unsealed() ) {
             return true;
         }
     }
@@ -1395,7 +1394,7 @@ bool item_contents::will_spill_if_unsealed() const
 bool item_contents::spill_open_pockets( Character &guy, const item *avoid )
 {
     for( item_pocket &pocket : contents ) {
-        if( pocket.is_type( pocket_type::CONTAINER ) && pocket.will_spill() ) {
+        if( pocket.is_standard_type() && pocket.will_spill() ) {
             pocket.handle_liquid_or_spill( guy, avoid );
             if( !pocket.empty() ) {
                 return false;
@@ -1408,7 +1407,7 @@ bool item_contents::spill_open_pockets( Character &guy, const item *avoid )
 void item_contents::handle_liquid_or_spill( Character &guy, const item *const avoid )
 {
     for( item_pocket &pocket : contents ) {
-        if( pocket.is_type( pocket_type::CONTAINER ) ) {
+        if( pocket.is_standard_type() ) {
             pocket.handle_liquid_or_spill( guy, avoid );
         }
     }
@@ -1711,6 +1710,32 @@ std::list<const item *> item_contents::all_items_top( const
         }
     }
     return all_items_internal;
+}
+
+content_newness item_contents::get_content_newness( const std::set<itype_id> &read_items ) const
+{
+    content_newness ret = content_newness::SEEN;
+    for( const item_pocket *pocket : get_all_standard_pockets() ) {
+        // taking transparent from item_contents::all_known_contents()
+        if( !pocket->transparent() ) {
+            ret = content_newness::MIGHT_BE_HIDDEN;
+            continue;
+        }
+        for( const item *itm : pocket->all_items_top() ) {
+            if( !read_items.count( itm->typeId() ) ) {
+                return content_newness::NEW;
+            }
+            switch( itm->get_contents().get_content_newness( read_items ) ) {
+                case content_newness::NEW:
+                    return content_newness::NEW;
+                case content_newness::MIGHT_BE_HIDDEN:
+                    ret = content_newness::MIGHT_BE_HIDDEN;
+                case content_newness::SEEN:
+                    break;
+            }
+        }
+    }
+    return ret;
 }
 
 std::list<const item *> item_contents::all_items_top( pocket_type pk_type ) const
@@ -2534,6 +2559,19 @@ bool item_contents::all_pockets_rigid() const
             continue;
         }
         if( !pocket.rigid() ) {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool item_contents::container_type_pockets_empty() const
+{
+    for( const item_pocket &pocket : contents ) {
+        if( !pocket.is_type( pocket_type::CONTAINER ) ) {
+            continue;
+        }
+        if( !pocket.empty() ) {
             return false;
         }
     }

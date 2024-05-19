@@ -10,7 +10,7 @@
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT", "ROAD" ],
     "emissions": [ "afs_emit_geovent" ],
-    "connect_groups": "CONCRETE",
+    "connect_groups": [ "INDOORFLOOR", "CONCRETE" ],
     "connects_to": "CONCRETE",
     "bash": {
       "sound": "SMASH!",

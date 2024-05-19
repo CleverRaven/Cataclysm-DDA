@@ -206,7 +206,7 @@ void vehicle::control_doors()
     veh_menu menu( this, _( "Select door to toggle" ) );
 
     do {
-        menu.reset();
+        menu.reset( /* keep_last_selected = */ true );
 
         menu.add( _( "Open all curtains" ) )
         .hotkey_auto()
@@ -965,7 +965,7 @@ void vehicle::crash_terrain_around()
         const tripoint start_pos = vp.pos();
         const vpslot_terrain_transform &ttd = *vp.info().transform_terrain_info;
         for( size_t i = 0; i < eight_horizontal_neighbors.size() &&
-             !here.inbounds_z( crush_target.z ); i++ ) {
+             crush_target.z == -OVERMAP_LAYERS; i++ ) {
             tripoint cur_pos = start_pos + eight_horizontal_neighbors[i];
             bool busy_pos = false;
             for( const vpart_reference &vp_tmp : get_all_parts() ) {
@@ -979,7 +979,7 @@ void vehicle::crash_terrain_around()
             }
         }
         //target chosen
-        if( here.inbounds_z( crush_target.z ) ) {
+        if( crush_target.z != -OVERMAP_LAYERS ) {
             velocity = 0;
             cruise_velocity = 0;
             here.destroy( crush_target );
@@ -1778,7 +1778,8 @@ int vehicle::prepare_tool( item &tool ) const
     return ammo_count;
 }
 
-bool vehicle::use_vehicle_tool( vehicle &veh, const tripoint &vp_pos, const itype_id &tool_type,
+bool vehicle::use_vehicle_tool( vehicle &veh, const tripoint_bub_ms &vp_pos,
+                                const itype_id &tool_type,
                                 bool no_invoke )
 {
     item tool( tool_type, calendar::turn );
@@ -1803,7 +1804,7 @@ bool vehicle::use_vehicle_tool( vehicle &veh, const tripoint &vp_pos, const ityp
           tool_type == itype_large_repairkit
         ) ) {
         act.index = INT_MIN; // tell activity the item doesn't really exist
-        act.coords.push_back( vp_pos ); // tell it to search for the tool on `pos`
+        act.coords.push_back( vp_pos.raw() ); // tell it to search for the tool on `pos`
         act.str_values.push_back( tool_type.str() ); // specific tool on the rig
     }
 
@@ -2160,7 +2161,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         .enable( ammo_amount >= tool_item.typeId()->charges_to_use() )
         .hotkey( hk )
         .skip_locked_check( tool_ammo.is_null() || tool_ammo->ammo->type != ammo_battery )
-        .on_submit( [this, vppos, tool_type] { use_vehicle_tool( *this, vppos, tool_type ); } );
+        .on_submit( [this, vppos, tool_type] { use_vehicle_tool( *this, tripoint_bub_ms( vppos ), tool_type ); } );
     }
 
     const std::optional<vpart_reference> vp_autoclave = vp.avail_part_with_feature( "AUTOCLAVE" );

@@ -6,11 +6,8 @@
     "messages": [ "You sting %s with your bug-laden tail", "<npcname> stings %s with their bug-laden tail" ],
     "unarmed_allowed": true,
     "melee_allowed": true,
-    "attack_override": true,
-    "weighting": -2,
+    "weighting": 200,
     "crit_ok": true,
-    "required_char_flags": [ "SEESLEEP" ],
-    "forbidden_char_flags": [ "EYE_MEMBRANE" ],
     "repeat_min": 1,
     "repeat_max": 5,
     "mult_bonuses": [ { "stat": "damage", "type": "bullet", "scale": 15 } ],
@@ -30,6 +27,206 @@
         "message": "You bleed the %s dry!"
       },
       { "id": "downed", "chance": 50, "duration": 2, "message": "You bonk the %s real good", "req_flag": "DREAMY" }
+    ],
+    "attack_vectors": [ "test_test" ]
+  },
+  {
+    "type": "technique",
+    "id": "FANGS_BITE",
+    "name": "Fang Bite",
+    "melee_allowed": true,
+    "messages": [ "You bite %s", "<npcname> bites %s!" ],
+    "unarmed_allowed": true,
+    "weighting": -5,
+    "reach_ok": false,
+    "attack_vectors": [ "vector_bite" ],
+    "condition": {
+      "and": [
+        { "not": { "u_has_effect": "natural_stance" } },
+        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] }
+      ]
+    },
+    "tech_effects": [
+      {
+        "id": "anticoagulant_draculin",
+        "chance": 70,
+        "duration": 3000,
+        "on_damage": true,
+        "message": "Saliva glistens across %s's wound!",
+        "req_flag": "DRACULIN_VENOM"
+      }
+    ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 1.0 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.06 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "FANGS_BITE_NATURAL",
+    "name": "Fang Bite",
+    "melee_allowed": true,
+    "messages": [ "You bite %s", "<npcname> bites %s!" ],
+    "unarmed_allowed": true,
+    "weighting": -2,
+    "reach_ok": false,
+    "attack_vectors": [ "vector_bite" ],
+    "condition": {
+      "and": [
+        {
+          "or": [ { "u_has_effect": "natural_stance" }, { "and": [ { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" } ] } ]
+        }
+      ]
+    },
+    "tech_effects": [
+      {
+        "id": "anticoagulant_draculin",
+        "chance": 70,
+        "duration": 3000,
+        "on_damage": true,
+        "message": "Saliva glistens across %s's wound!",
+        "req_flag": "DRACULIN_VENOM"
+      }
+    ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 1.0 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.06 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "FANGS_BITE_CRIT",
+    "name": "Critical Fang Bite",
+    "melee_allowed": true,
+    "messages": [ "You deliver a wicked bite to %s", "<npcname> delivers a wicked bite to %s!" ],
+    "unarmed_allowed": true,
+    "reach_ok": false,
+    "crit_tec": true,
+    "attack_vectors": [ "vector_bite" ],
+    "tech_effects": [
+      {
+        "id": "anticoagulant_draculin",
+        "chance": 90,
+        "duration": 6000,
+        "on_damage": true,
+        "message": "Saliva glistens across %s's wound!",
+        "req_flag": "DRACULIN_VENOM"
+      }
+    ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 4.4 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.24 },
+      { "stat": "arpen", "type": "bash", "scaling-stat": "unar,ed", "scale": 1 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "unarmed", "scale": 1 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "VAMPIRE_BITE",
+    "name": "Vampire Bite",
+    "melee_allowed": true,
+    "messages": [ "You bite %s", "<npcname> bites %s!" ],
+    "unarmed_allowed": true,
+    "weighting": -5,
+    "reach_ok": false,
+    "attack_vectors": [ "vector_bite" ],
+    "condition": {
+      "and": [
+        { "not": { "u_has_effect": "natural_stance" } },
+        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] }
+      ]
+    },
+    "tech_effects": [
+      {
+        "id": "anticoagulant_draculin",
+        "chance": 90,
+        "duration": 3000,
+        "on_damage": true,
+        "message": "Saliva glistens across %s's wound!",
+        "req_flag": "DRACULIN_VENOM"
+      }
+    ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 1.0 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.06 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "VAMPIRE_BITE_NATURAL",
+    "name": "Vampire Bite",
+    "melee_allowed": true,
+    "messages": [ "You bite %s", "<npcname> bites %s!" ],
+    "unarmed_allowed": true,
+    "weighting": -2,
+    "reach_ok": false,
+    "attack_vectors": [ "vector_bite" ],
+    "tech_effects": [
+      {
+        "id": "anticoagulant_draculin",
+        "chance": 90,
+        "duration": 3000,
+        "on_damage": true,
+        "message": "Saliva glistens across %s's wound!",
+        "req_flag": "DRACULIN_VENOM"
+      }
+    ],
+    "condition": {
+      "and": [
+        {
+          "or": [ { "u_has_effect": "natural_stance" }, { "and": [ { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" } ] } ]
+        }
+      ]
+    },
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 1.0 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.06 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "VAMPIRE_BITE_CRIT",
+    "name": "Critical Vampire Bite",
+    "melee_allowed": true,
+    "messages": [ "You sink your fangs deep into %s!", "<npcname> sinks their fangs deep into %s!" ],
+    "unarmed_allowed": true,
+    "weighting": -4,
+    "reach_ok": false,
+    "crit_tec": true,
+    "tech_effects": [
+      {
+        "id": "anticoagulant_draculin",
+        "chance": 100,
+        "duration": 6000,
+        "on_damage": true,
+        "message": "Saliva glistens across %s's wound!",
+        "req_flag": "DRACULIN_VENOM"
+      }
+    ],
+    "attack_vectors": [ "vector_bite" ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 4.4 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.24 },
+      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 1 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "unarmed", "scale": 1 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
     ]
   }
 ]

@@ -120,6 +120,7 @@
         "max_contains_weight": "4 kg"
       }
     ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
@@ -161,6 +162,7 @@
         "max_contains_weight": "4 kg"
       }
     ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
@@ -511,6 +513,7 @@
         "max_contains_weight": "4 kg"
       }
     ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
@@ -822,6 +825,53 @@
     "weapon_category": [ "FENCING_WEAPONRY" ],
     "use_action": { "menu_text": "Collapse", "type": "transform", "target": "teleumbrella", "msg": "You collapse your umbrella." },
     "melee_damage": { "bash": 6, "stab": 4 }
+  },
+  {
+    "id": "toilet_travel",
+    "type": "TOOL",
+    "name": { "str": "travel toilet" },
+    "description": "A portable plastic toilet, designed to use plastic bags for waste instead of plumbing.",
+    "weight": "1587 g",
+    "volume": "27651 ml",
+    "longest_side": "33 cm",
+    "price": "25 USD",
+    "price_postapoc": "4 USD",
+    "material": [ "plastic" ],
+    "symbol": ";",
+    "color": "white",
+    "use_action": {
+      "menu_text": "Collapse",
+      "type": "transform",
+      "target": "toilet_travel_folded",
+      "msg": "You collapse the toilet for transport."
+    },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": false,
+        "rigid": true,
+        "open_container": true,
+        "max_item_length": "28 cm",
+        "max_contains_volume": "22712 ml",
+        "max_contains_weight": "6 kg"
+      }
+    ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
+  },
+  {
+    "id": "toilet_travel_folded",
+    "type": "TOOL",
+    "name": { "str": "folded travel toilet" },
+    "description": "A portable plastic toilet.  It has been collapsed for easy transport.",
+    "weight": "1587 g",
+    "volume": "2 L",
+    "longest_side": "28 cm",
+    "price": "25 USD",
+    "price_postapoc": "4 USD",
+    "material": [ "plastic" ],
+    "symbol": ";",
+    "color": "white",
+    "use_action": { "menu_text": "Collapse", "type": "transform", "target": "toilet_travel", "msg": "You unfold the travel toilet." }
   },
   {
     "id": "testflames",

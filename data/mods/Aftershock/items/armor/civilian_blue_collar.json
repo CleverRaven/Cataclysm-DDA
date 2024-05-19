@@ -143,17 +143,17 @@
       {
         "pocket_type": "CONTAINER",
         "min_item_volume": "2 L",
-        "max_contains_volume": "5 L",
+        "max_contains_volume": "10 L",
         "max_contains_weight": "30 kg",
-        "flag_restriction": [ "MAG_BULKY" ],
+        "flag_restriction": [ "MAG_BULKY", "HEAVY_TOOL" ],
         "moves": 60
       },
       {
         "pocket_type": "CONTAINER",
         "min_item_volume": "2 L",
-        "max_contains_volume": "5 L",
+        "max_contains_volume": "10 L",
         "max_contains_weight": "30 kg",
-        "flag_restriction": [ "MAG_BULKY" ],
+        "flag_restriction": [ "MAG_BULKY", "HEAVY_TOOL" ],
         "moves": 60
       }
     ],

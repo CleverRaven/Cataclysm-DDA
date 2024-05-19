@@ -1127,7 +1127,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PSI_LEARNING_VITAMIN_COUNTER",
-    "recurrence": [ "12 hours", "168 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_psi_learning_counter_time_low(global_insight_power_learning_time_low)" ] },
+      { "math": [ "jmath_psi_learning_counter_time_high(global_insight_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
         {

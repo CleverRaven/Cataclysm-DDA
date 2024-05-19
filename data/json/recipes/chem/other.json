@@ -64,7 +64,13 @@
     "components": [
       [ [ "chem_acetone", 1 ], [ "chem_chloroform", 250 ], [ "ammonia_hydroxide", 1 ], [ "chem_toluene", 250 ] ],
       [ [ "chem_ethanol", 10 ], [ "denat_alcohol", 10 ], [ "methed_alcohol", 10 ], [ "chem_methanol", 10 ] ],
-      [ [ "balloon", 3 ], [ "shredded_rubber", 20 ], [ "gloves_medical", 2 ], [ "latex", 2 ], [ "condom", 3 ] ]
+      [
+        [ "balloon", 3 ],
+        [ "shredded_rubber", 20 ],
+        [ "gloves_medical", 2 ],
+        [ "latex", 2 ],
+        [ "any_condom", 3, "LIST" ]
+      ]
     ]
   },
   {

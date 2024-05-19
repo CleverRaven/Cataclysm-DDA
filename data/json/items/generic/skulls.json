@@ -132,6 +132,16 @@
   },
   {
     "type": "GENERIC",
+    "id": "skull_skunk",
+    "name": { "str": "skunk skull" },
+    "description": "The skull of a skunk.",
+    "copy-from": "skull_abstract",
+    "weight": "56 g",
+    "volume": "300 ml",
+    "longest_side": "8 cm"
+  },
+  {
+    "type": "GENERIC",
     "id": "skull_rodent",
     "name": { "str": "rodent skull" },
     "description": "The skull of a small rodent, most likely a rat.",

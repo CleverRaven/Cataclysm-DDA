@@ -808,10 +808,22 @@ std::function<double( dialogue & )> moon_phase_eval( char /* scope */,
 }
 
 std::function<double( dialogue & )> pain_eval( char scope,
-        std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
+        std::vector<diag_value> const &/* params */, diag_kwargs const &kwargs )
 {
-    return [beta = is_beta( scope )]( dialogue const & d ) {
-        return d.actor( beta )->pain_cur();
+    diag_value format_value( std::string( "raw" ) );
+    if( kwargs.count( "type" ) != 0 ) {
+        format_value = *kwargs.at( "type" );
+    }
+    return [format_value, beta = is_beta( scope )]( dialogue const & d ) {
+        std::string format = format_value.str( d );
+        if( format == "perceived" ) {
+            return d.actor( beta )->perceived_pain_cur();
+        } else if( format == "raw" ) {
+            return d.actor( beta )->pain_cur();
+        } else {
+            debugmsg( R"(Unknown type "%s" for pain())", format );
+            return 0;
+        }
     };
 }
 
@@ -874,6 +886,32 @@ std::function<void( dialogue &, double )> school_level_adjustment_ass( char scop
             }
         }
         return 0.0;
+    };
+}
+
+std::function<double( dialogue & )> get_daily_calories( char scope,
+        std::vector<diag_value> const &/* params */, diag_kwargs const &kwargs )
+{
+    diag_value type_val( std::string( "total" ) );
+    diag_value day_val( 0.0 );
+
+    if( kwargs.count( "day" ) != 0 ) {
+        day_val = *kwargs.at( "day" );
+    }
+
+    if( kwargs.count( "type" ) != 0 ) {
+        type_val = *kwargs.at( "type" );
+    }
+
+    return[beta = is_beta( scope ), day_val, type_val ]( dialogue const & d ) {
+        std::string type = type_val.str( d );
+        int const day = day_val.dbl( d );
+        if( day < 0 ) {
+            debugmsg( "get_daily_calories(): cannot access calorie diary from the future (day < 0)" );
+            return 0;
+        }
+
+        return static_cast<talker const *>( d.actor( beta ) )->get_daily_calories( day, type );
     };
 }
 
@@ -1548,6 +1586,7 @@ std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "pain", { "un", 0, pain_eval } },
     { "school_level", { "un", 1, school_level_eval}},
     { "school_level_adjustment", { "un", 1, school_level_adjustment_eval } },
+    { "get_calories_daily", { "g", 0, get_daily_calories } },
     { "skill", { "un", 1, skill_eval } },
     { "skill_exp", { "un", 1, skill_exp_eval } },
     { "spell_count", { "un", 0, spell_count_eval}},

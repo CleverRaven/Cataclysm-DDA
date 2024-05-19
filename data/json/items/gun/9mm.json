@@ -349,52 +349,6 @@
     "melee_damage": { "bash": 8 }
   },
   {
-    "id": "mp18",
-    "copy-from": "smg_base",
-    "looks_like": "hk_mp5",
-    "type": "GUN",
-    "name": { "str": "MP 18 submachine gun" },
-    "description": "An early German submachine gun introduced near the end of the First World War, the MP 18 chambers 9x19mm cartridges and makes use of Luger magazines.  Sporting a fixed wooden stock, the weapon more than likely entered the US as a personal holdover from the Great War.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "mp18",
-        "name": { "str": "Bergmann MP 18 submachine gun" },
-        "description": "An incredibly rare German automatic firearm developed by Hugo Schmeisser whilst working under Bergmann Waffenfabrik during 1918; the MP 18 holds the reputation of being the world's first proper and practical submachine gun.  Chambered for 9x19mm and designed for use in close quarters trench-based combat by assault troops, a role in which it excelled, the weapon was outlawed from military use by the Versailles treaty and was relegated to police and counterinsurgency use in the interwar period.  More than likely entering the US as a personal holdover from the Great War, this century-old grandfather to most classic SMGs just might be better off coming out of retirement now that the world's entered the true greatest war."
-      }
-    ],
-    "weight": "4180 g",
-    "volume": "2630 ml",
-    "longest_side": "832 mm",
-    "barrel_length": "200 mm",
-    "price": "20 kUSD",
-    "price_postapoc": "15 USD",
-    "material": [ "steel", "wood" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": [ "9mm" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
-    "range": 2,
-    "dispersion": 360,
-    "durability": 6,
-    "min_cycle_recoil": 450,
-    "modes": [ [ "DEFAULT", "burst", 4 ] ],
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "brass catcher", 1 ],
-      [ "mechanism", 2 ],
-      [ "muzzle", 1 ],
-      [ "sling", 1 ],
-      [ "stock mount", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
-    "pocket_data": [ { "magazine_well": "30 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "p08mag_32rd", "p08mag_8rd" ] } ],
-    "melee_damage": { "bash": 10 }
-  },
-  {
     "id": "mauser_c96",
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
@@ -1220,7 +1174,7 @@
       {
         "magazine_well": "230 ml",
         "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "cz75mag_12rd", "cz75mag_20rd", "cz75mag_26rd" ]
+        "item_restriction": [ "cz75mag_16rd", "cz75mag_20rd", "cz75mag_26rd" ]
       }
     ],
     "melee_damage": { "bash": 8 }
