@@ -864,7 +864,7 @@
     "id": "snow_machine_home",
     "type": "TOOL",
     "name": { "str": "home snow machine" },
-    "description": "A snow machine, which freezes water and shreds it into \"snow\", designed to be used from the comfort of your own home!  Useful for making snowcones.",
+    "description": "A snow machine, which freezes water and shreds it into \"snow\", designed to be used from the comfort of your own home!  Useful for making snow cones.",
     "weight": "1360 g",
     "volume": "12585 ml",
     "longest_side": "30 cm",
