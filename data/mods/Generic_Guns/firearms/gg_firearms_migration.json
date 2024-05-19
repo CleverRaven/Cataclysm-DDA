@@ -174,7 +174,6 @@
       "bt_apc9k",
       "colt_ro635",
       "mp40",
-      "mp18",
       "greasegun"
     ],
     "type": "MIGRATION",
@@ -191,7 +190,7 @@
     "replace": "pistol_tiny_target"
   },
   {
-    "id": [ "moss_brownie", "rifle_22", "j22" ],
+    "id": [ "rifle_22", "j22" ],
     "type": "MIGRATION",
     "replace": "pistol_tiny_zip"
   },
@@ -209,7 +208,6 @@
       "m27_assault_rifle",
       "modular_m16_auto_rifle",
       "m16_auto_rifle",
-      "m231pfw",
       "scar_h",
       "scar_l",
       "sig_mcx_rattler_sbr",
@@ -310,7 +308,6 @@
       "m60_semi",
       "modular_ar15",
       "ar15",
-      "oa93",
       "ar15_223long",
       "ar15_223medium",
       "ar15_223short",
@@ -355,8 +352,7 @@
       "zpap85",
       "papm77",
       "rfb_308",
-      "rdb_223",
-      "plr16"
+      "rdb_223"
     ],
     "type": "MIGRATION",
     "replace": "rifle_sporter"
