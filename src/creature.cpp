@@ -1296,6 +1296,19 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         }
     }
 
+    if( attack.proj.proj_effects.count( "LIQUID" ) > 0 ) {
+        if( Character *char_target = as_character() ) {
+            // clothing_wetness_mult returns the effective permeability of the armor on bp_hit
+            // as a float between 0 and 1
+            // 0 permeability means no liquid touches the skin and the damage is negated
+            // 1 permeability means all liquid touches the skin and no damage is negated
+            float permeability = char_target->worn.clothing_wetness_mult( hit_selection.bp_hit );
+            permeability = std::clamp( permeability, 0.0f, 1.0f );
+
+            impact.mult_damage( permeability );
+        }
+    }
+
     dealt_dam = deal_damage( source, hit_selection.bp_hit, impact, wp_attack_copy );
     // Force damage instance to match the selected body point
     dealt_dam.bp_hit = hit_selection.bp_hit;
