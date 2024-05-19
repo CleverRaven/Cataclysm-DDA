@@ -3330,6 +3330,7 @@
   {
     "type": "mutation",
     "id": "BARK",
+    "flags": [ "BARKY" ],
     "name": { "str": "Protective Bark" },
     "points": 5,
     "visibility": 10,
@@ -3344,6 +3345,7 @@
   {
     "type": "mutation",
     "id": "BARK2_a",
+    "flags": [ "BARKY" ],
     "name": { "str": "Shifting Bark (Distributed)" },
     "points": 6,
     "visibility": 10,
@@ -3366,6 +3368,7 @@
   {
     "type": "mutation",
     "id": "BARK2_b",
+    "flags": [ "BARKY" ],
     "name": { "str": "Shifting Bark (Consolidated)" },
     "points": 6,
     "visibility": 10,
@@ -3386,6 +3389,7 @@
   {
     "type": "mutation",
     "id": "BARK2_c",
+    "flags": [ "BARKY" ],
     "name": { "str": "Shifting Bark (Latticed)" },
     "points": 6,
     "visibility": 10,
