@@ -152,6 +152,7 @@
     "comestible_type": "FOOD",
     "symbol": "~",
     "calories": 0,
+    "quench": 40,
     "charges": 1,
     "fun": 6,
     "description": "A summer treat of chopped ice and sweet flavoring!",
