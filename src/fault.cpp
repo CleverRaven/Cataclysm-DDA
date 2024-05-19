@@ -164,6 +164,7 @@ const requirement_data &fault_fix::get_requirements() const
 
 void fault_fix::load( const JsonObject &jo, std::string_view )
 {
+    fault_fix f;
     mandatory( jo, was_loaded, "name", name );
     optional( jo, was_loaded, "success_msg", success_msg );
     optional( jo, was_loaded, "time", time );
