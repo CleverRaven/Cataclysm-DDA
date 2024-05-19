@@ -90,7 +90,7 @@ static const efftype_id effect_wet( "wet" );
 
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 
-static const json_character_flag json_flag_BARKY ( "BARKY" );
+static const json_character_flag json_flag_BARKY( "BARKY" );
 static const json_character_flag json_flag_COLDBLOOD( "COLDBLOOD" );
 static const json_character_flag json_flag_COLDBLOOD2( "COLDBLOOD2" );
 static const json_character_flag json_flag_COLDBLOOD3( "COLDBLOOD3" );
