@@ -595,7 +595,9 @@ class map
         }
         bool is_wall_adjacent( const tripoint &center ) const;
 
+        // TODO: Get rid of untyped overload
         bool is_open_air( const tripoint & ) const;
+        bool is_open_air( const tripoint_bub_ms &p ) const;
 
         /**
         * Similar behavior to `move_cost()`, but ignores vehicles.
@@ -781,7 +783,9 @@ class map
         vehicle *veh_at_internal( const tripoint &p, int &part_num );
         const vehicle *veh_at_internal( const tripoint &p, int &part_num ) const;
         // Put player on vehicle at x,y
+        // TODO: get rid of untyped overload
         void board_vehicle( const tripoint &p, Character *pl );
+        void board_vehicle( const tripoint_bub_ms &p, Character *pl );
         // Remove given passenger from given vehicle part.
         // If dead_passenger, then null passenger is acceptable.
         void unboard_vehicle( const vpart_reference &, Character *passenger,
@@ -1089,12 +1093,16 @@ class map
             return is_bashable( tripoint( p, abs_sub.z() ) );
         }
         /** Returns true if the terrain at p is bashable */
+        // TODO: Get rid of untyped overload
         bool is_bashable_ter( const tripoint &p, bool allow_floor = false ) const;
+        bool is_bashable_ter( const tripoint_bub_ms &p, bool allow_floor = false ) const;
         bool is_bashable_ter( const point &p ) const {
             return is_bashable_ter( tripoint( p, abs_sub.z() ) );
         }
         /** Returns true if the furniture at p is bashable */
+        //TODO: Get rid of untyped overload
         bool is_bashable_furn( const tripoint &p ) const;
+        bool is_bashable_furn( const tripoint_bub_ms &p ) const;
         bool is_bashable_furn( const point &p ) const {
             return is_bashable_furn( tripoint( p, abs_sub.z() ) );
         }
@@ -1123,12 +1131,17 @@ class map
         // Rubble
         /** Generates rubble at the given location, if overwrite is true it just writes on top of what currently exists
          *  floor_type is only used if there is a non-bashable wall at the location or with overwrite = true */
-        void make_rubble( const tripoint &p, const furn_id &rubble_type, bool items,
+        void make_rubble( const tripoint_bub_ms &p, const furn_id &rubble_type, bool items,
                           const ter_id &floor_type, bool overwrite = false );
         void make_rubble( const tripoint &p, const furn_id &rubble_type, bool items ) {
-            make_rubble( p, rubble_type, items, ter_str_id( "t_dirt" ).id(), false );
+            make_rubble( tripoint_bub_ms( p ), rubble_type, items, ter_str_id( "t_dirt" ).id(), false );
         }
+        // TODO: Get rid of untyped overload
         void make_rubble( const tripoint &p ) {
+            make_rubble( tripoint_bub_ms( p ), furn_str_id( "f_rubble" ), false, ter_str_id( "t_dirt" ).id(),
+                         false );
+        }
+        void make_rubble( const tripoint_bub_ms &p ) {
             make_rubble( p, furn_str_id( "f_rubble" ), false, ter_str_id( "t_dirt" ).id(), false );
         }
 
@@ -1228,17 +1241,19 @@ class map
         /** bash a square for a set number of times at set power.  Does not destroy */
         void batter( const tripoint &p, int power, int tries = 1, bool silent = false );
         /** Keeps bashing a square until it can't be bashed anymore */
+        // TODO: Get rid of untyped overload
         void destroy( const tripoint &p, bool silent = false );
+        void destroy( const tripoint_bub_ms &p, bool silent = false );
         /** Keeps bashing a square until there is no more furniture */
         // TODO: fix point types (remove the first overload)
         void destroy_furn( const tripoint &p, bool silent = false );
         void destroy_furn( const tripoint_bub_ms &, bool silent = false );
-        void crush( const tripoint &p );
+        void crush( const tripoint_bub_ms &p );
         void shoot( const tripoint &p, projectile &proj, bool hit_items );
         /** Checks if a square should collapse, returns the X for the one_in(X) collapse chance */
-        int collapse_check( const tripoint &p ) const;
+        int collapse_check( const tripoint_bub_ms &p ) const;
         /** Causes a collapse at p, such as from destroying a wall */
-        void collapse_at( const tripoint &p, bool silent, bool was_supporting = false,
+        void collapse_at( const tripoint_bub_ms &p, bool silent, bool was_supporting = false,
                           bool destroy_pos = true );
         /** Tries to smash the items at the given tripoint. Used by the explosion code */
         void smash_items( const tripoint &p, int power, const std::string &cause_message );
@@ -1352,7 +1367,13 @@ class map
                              int power_level = 1000, int max_negative_power = -2000, bool is_resonant = false );
         void spawn_artifact( const tripoint_bub_ms &p, const relic_procgen_id &id, int max_attributes = 5,
                              int power_level = 1000, int max_negative_power = -2000, bool is_resonant = false );
+        // TODO: Get rid of untyped overload
         void spawn_item( const tripoint &p, const itype_id &type_id,
+                         unsigned quantity = 1, int charges = 0,
+                         const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0,
+                         const std::set<flag_id> &flags = {}, const std::string &variant = "",
+                         const std::string &faction = "" );
+        void spawn_item( const tripoint_bub_ms &p, const itype_id &type_id,
                          unsigned quantity = 1, int charges = 0,
                          const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0,
                          const std::set<flag_id> &flags = {}, const std::string &variant = "",
@@ -1401,6 +1422,7 @@ class map
          */
         // TODO: fix point types (remove the first overload)
         item_location add_item_ret_loc( const tripoint &pos, item obj, bool overflow = true );
+        item_location add_item_ret_loc( const tripoint_bub_ms &pos, item obj, bool overflow = true );
         item &add_item_or_charges( const tripoint &pos, item obj, bool overflow = true );
         item &add_item_or_charges( const tripoint &pos, item obj, int &copies_remaining,
                                    bool overflow = true );
@@ -1425,9 +1447,11 @@ class map
          * @returns The item that got added, or nulitem.
          */
         item &add_item( const tripoint &p, item new_item, int copies );
+        // TODO: Get rid of untyped overload
         item &add_item( const tripoint &p, item new_item );
+        item &add_item( const tripoint_bub_ms &p, item new_item );
         void add_item( const point &p, const item &new_item ) {
-            add_item( tripoint( p, abs_sub.z() ), new_item );
+            add_item( tripoint_bub_ms( p.x, p.y, abs_sub.z() ), new_item );
         }
 
         /**
@@ -1529,8 +1553,12 @@ class map
         * @param turn The birthday that the created items shall have.
         * @return Vector of pointers to placed items (can be empty, but no nulls).
         */
+        // TODO: Get rid of untyped overload
         std::vector<item *> put_items_from_loc(
             const item_group_id &group_id, const tripoint &p,
+            const time_point &turn = calendar::start_of_cataclysm );
+        std::vector<item *> put_items_from_loc(
+            const item_group_id &group_id, const tripoint_bub_ms &p,
             const time_point &turn = calendar::start_of_cataclysm );
 
         // Places a list of items, or nothing if the list is empty.
@@ -1879,7 +1907,10 @@ class map
         //                          can be overriden by VEHICLE_STATUS_AT_SPAWN EXTERNAL_OPTION
         // @param merge_wrecks      if true and vehicle overlaps another then both turn into wrecks
         //                          if false and vehicle will overlap aborts and returns nullptr
+        // TODO: Get rid of untyped overload
         vehicle *add_vehicle( const vproto_id &type, const tripoint &p, const units::angle &dir,
+                              int init_veh_fuel = -1, int init_veh_status = -1, bool merge_wrecks = true );
+        vehicle *add_vehicle( const vproto_id &type, const tripoint_bub_ms &p, const units::angle &dir,
                               int init_veh_fuel = -1, int init_veh_status = -1, bool merge_wrecks = true );
 
         // Light/transparency
@@ -2453,8 +2484,10 @@ class map
         const level_cache &access_cache( int zlev ) const;
         bool dont_draw_lower_floor( const tripoint &p ) const;
 
-        bool has_haulable_items( const tripoint &pos );
+        bool has_haulable_items( const tripoint_bub_ms &pos );
+        // TODO: Get rid of untyped overload
         std::vector<item_location> get_haulable_items( const tripoint &pos );
+        std::vector<item_location> get_haulable_items( const tripoint_bub_ms &pos );
 
 #if defined(TILES)
         bool draw_points_cache_dirty = true;
@@ -2722,7 +2755,7 @@ class tinymap : private map
         void collapse_at( const tripoint &p, bool silent,
                           bool was_supporting = false, // TODO: Make it typed
                           bool destroy_pos = true ) {
-            map::collapse_at( p, silent, was_supporting, destroy_pos );
+            map::collapse_at( tripoint_bub_ms( p ), silent, was_supporting, destroy_pos );
         }
         tripoint getlocal( const tripoint &p ) const {
             return map::getlocal( p );    // TODO: Make it typed

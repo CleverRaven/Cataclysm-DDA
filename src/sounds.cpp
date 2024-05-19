@@ -315,6 +315,12 @@ void sounds::ambient_sound( const tripoint &p, int vol, sound_t category,
     sound( p, vol, category, description, true );
 }
 
+void sounds::ambient_sound( const tripoint_bub_ms &p, int vol, sound_t category,
+                            const std::string &description )
+{
+    sounds::ambient_sound( p.raw(), vol, category, description );
+}
+
 void sounds::sound( const tripoint &p, int vol, sound_t category, const std::string &description,
                     bool ambient, const std::string &id, const std::string &variant )
 {
@@ -2053,6 +2059,11 @@ int sfx::get_heard_volume( const tripoint &source )
     }
     heard_volume *= g_sfx_volume_multiplier;
     return heard_volume;
+}
+
+int sfx::get_heard_volume( const tripoint_bub_ms &source )
+{
+    return sfx::get_heard_volume( source.raw() );
 }
 
 units::angle sfx::get_heard_angle( const tripoint &source )

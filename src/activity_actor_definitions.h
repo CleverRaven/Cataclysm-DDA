@@ -177,10 +177,10 @@ class gunmod_remove_activity_actor : public activity_actor
 class hacksaw_activity_actor : public activity_actor
 {
     public:
-        explicit hacksaw_activity_actor( const tripoint &target,
+        explicit hacksaw_activity_actor( const tripoint_bub_ms &target,
                                          const item_location &tool ) : target( target ), tool( tool ) {};
-        explicit hacksaw_activity_actor( const tripoint &target, const itype_id &type,
-                                         const tripoint &veh_pos ) : target( target ), type( type ), veh_pos( veh_pos ) {};
+        explicit hacksaw_activity_actor( const tripoint_bub_ms &target, const itype_id &type,
+                                         const tripoint_bub_ms &veh_pos ) : target( target ), type( type ), veh_pos( veh_pos ) {};
         activity_id get_type() const override {
             return activity_id( "ACT_HACKSAW" );
         }
@@ -199,10 +199,10 @@ class hacksaw_activity_actor : public activity_actor
         // debugmsg causes a backtrace when fired during cata_test
         bool testing = false;  // NOLINT(cata-serialize)
     private:
-        tripoint target;
+        tripoint_bub_ms target;
         item_location tool;
         std::optional<itype_id> type;
-        std::optional<tripoint> veh_pos;
+        std::optional<tripoint_bub_ms> veh_pos;
         bool can_resume_with_internal( const activity_actor &other,
                                        const Character &/*who*/ ) const override;
 };
@@ -323,7 +323,7 @@ class hotwire_car_activity_actor : public activity_actor
          * Position of first vehicle part; used to identify the vehicle
          * TODO: find something more reliable (to cover cases when vehicle is moved/damaged)
          */
-        tripoint target;
+        tripoint_abs_ms target;
 
         bool can_resume_with_internal( const activity_actor &other, const Character & ) const override {
             const hotwire_car_activity_actor &a = static_cast<const hotwire_car_activity_actor &>( other );
@@ -542,12 +542,12 @@ class pickup_activity_actor : public activity_actor
          * (e.g. if the player is in a moving vehicle). This should be null
          * if not grabbing from the ground.
          */
-        std::optional<tripoint> starting_pos;
+        std::optional<tripoint_bub_ms> starting_pos;
 
     public:
         pickup_activity_actor( const std::vector<item_location> &target_items,
                                const std::vector<int> &quantities,
-                               const std::optional<tripoint> &starting_pos,
+                               const std::optional<tripoint_bub_ms> &starting_pos,
                                bool autopickup ) : target_items( target_items ),
             quantities( quantities ), starting_pos( starting_pos ), stash_successful( true ),
             autopickup( autopickup ) {}
@@ -625,7 +625,7 @@ class lockpick_activity_actor : public activity_actor
         int moves_total;
         std::optional<item_location> lockpick;
         std::optional<item> fake_lockpick;
-        tripoint target;
+        tripoint_abs_ms target;
 
         lockpick_activity_actor(
             int moves_total,
@@ -656,7 +656,7 @@ class lockpick_activity_actor : public activity_actor
         void do_turn( player_activity &, Character & ) override {}
         void finish( player_activity &act, Character &who ) override;
 
-        static std::optional<tripoint> select_location( avatar &you );
+        static std::optional<tripoint_bub_ms> select_location( avatar &you );
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<lockpick_activity_actor>( *this );
@@ -977,7 +977,7 @@ class workout_activity_actor : public activity_actor
         bool disable_query = false; // disables query, continue as long as possible
         bool rest_mode = false; // work or rest during training session
         time_duration duration;
-        tripoint location;
+        tripoint_bub_ms location;
         time_point stop_time; // can resume if time apart is not above
         activity_id act_id = activity_id( "ACT_WORKOUT_LIGHT" ); // variable activities
         int intensity_modifier = 1;
@@ -1535,11 +1535,11 @@ class tent_deconstruct_activity_actor : public activity_actor
     private:
         int moves_total;
         int radius;
-        tripoint target;
+        tripoint_bub_ms target;
         itype_id tent;
 
     public:
-        tent_deconstruct_activity_actor( int moves_total, int radius, tripoint target,
+        tent_deconstruct_activity_actor( int moves_total, int radius, tripoint_bub_ms target,
                                          itype_id tent ) : moves_total( moves_total ), radius( radius ), target( target ), tent( tent ) {}
 
         activity_id get_type() const override {

@@ -10981,6 +10981,11 @@ int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
     return wanted_qty - qty;
 }
 
+int item::ammo_consume( int qty, const tripoint_bub_ms &pos, Character *carrier )
+{
+    return item::ammo_consume( qty, pos.raw(), carrier );
+}
+
 units::energy item::energy_consume( units::energy qty, const tripoint &pos, Character *carrier,
                                     float fuel_efficiency )
 {
