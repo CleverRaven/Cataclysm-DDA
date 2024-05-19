@@ -10,9 +10,9 @@ Use the `Home` key to return to the top.
 - [The three methods](#the-three-methods)
   - [Uncraft recipes](#uncraft-recipes)
   - [Reversible crafting recipes](#reversible-crafting-recipes)
-  - [Salvaging / Cutting Up](#salvaging-/-cutting-up)
+  - [Salvaging / Cutting Up](#salvaging-cutting-up)
 - [Choosing the method](#choosing-the-method)
-- [Closing words (Or what you should remember when working with item disassembly in general)](#closing-words-(or-what-you-should-remember-when-working-with-item-disassembly-in-general))
+- [Closing words (Or what you should remember when working with item disassembly in general)](#closing-words-or-what-you-should-remember-when-working-with-item-disassembly-in-general)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
