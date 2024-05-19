@@ -861,6 +861,27 @@
     "melee_damage": { "bash": 4 }
   },
   {
+    "id": "snow_machine_home",
+    "type": "TOOL",
+    "name": { "str": "home snow machine" },
+    "description": "A snow machine, which freezes water and shreds it into \"snow\", designed to be used from the comfort of your own home!  Useful for making snowcones.",
+    "weight": "1360 g",
+    "volume": "12585 ml",
+    "longest_side": "30 cm",
+    "price": "50 USD",
+    "price_postapoc": "1 USD 50 cent",
+    "to_hit": -3,
+    "material": [ "plastic", "steel" ],
+    "symbol": ";",
+    "color": "white",
+    "ammo": [ "battery" ],
+    "charged_qualities": [ [ "SNOW_MAKING", 1 ] ],
+    "charges_per_use": 8,
+    "use_action": [ { "type": "link_up", "menu_text": "Plug in / Unplug", "ammo_scale": 0, "cable_length": 3, "charge_rate": "55 W" } ],
+    "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK", "ELECTRONIC" ],
+    "melee_damage": { "bash": 2 }
+  },
+  {
     "id": "sieve_primitive",
     "type": "GENERIC",
     "category": "tools",
