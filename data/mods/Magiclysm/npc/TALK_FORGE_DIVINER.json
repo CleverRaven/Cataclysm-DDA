@@ -42,7 +42,7 @@
   {
     "id": "TALK_FORGE_LORD_DIVINER",
     "type": "talk_topic",
-    "dynamic_line": "Are you looking for something? I can help with anything but your own stuff. You'll have to ask your mother for help with that.",
+    "dynamic_line": "Are you looking for something?  I can help with anything but your own stuff. You'll have to ask your mother for help with that.",
     "responses": [
       { "text": "Can you help me find something?", "topic": "TALK_FORGE_DIVINER_FIND_WHAT" },
       { "text": "What are you doing here?", "topic": "TALK_FORGE_DIVINER_DOING" },
@@ -52,7 +52,7 @@
   {
     "id": "TALK_FORGE_DIVINER_DOING",
     "type": "talk_topic",
-    "dynamic_line": "What are any of us really doing here in this dead and dying world? I specialize in scrying, and while I wish I could say I'm in it to help lost souls find their way, the collective pockets of a thousand realities is a very good incentive. I can help you find any number of things, but I take no responsibility for what happens when you find what you're looking for.",
+    "dynamic_line": "What are any of us really doing here in this dead and dying world?  I specialize in scrying, and while I wish I could say I'm in it to help lost souls find their way, the collective pockets of a thousand realities is a very good incentive.  I can help you find any number of things, but I take no responsibility for what happens when you find what you're looking for.",
     "responses": [ { "text": "Let's talk business then.", "topic": "TALK_FORGE_LORD_DIVINER" } ]
   },
   {
@@ -103,7 +103,7 @@
   {
     "id": "TALK_FORGE_LORD_DIVINER_MAN_MADE",
     "type": "talk_topic",
-    "dynamic_line": "Seeking to pick around your civilization's corpse? You're not the first and you won't be the last.",
+    "dynamic_line": "Seeking to pick around your civilization's corpse?  You're not the first and you won't be the last.",
     "responses": [
       { "text": "A lab.", "topic": "TALK_FORGE_LORD_DIVINER_LAB" },
       { "text": "An Exodii location.", "topic": "TALK_FORGE_LORD_DIVINER_EXODII" },
@@ -486,7 +486,7 @@
   {
     "id": "TALK_FORGE_LORD_DIVINER_GOBLIN",
     "type": "talk_topic",
-    "dynamic_line": "Good choice.  It seems that shortly before the world started to end, a few of them got it in their heads to just leave civilization alone for a bit and go live in the woods with other goblins. And wargs.  Not a terrible idea if you ask me.  Anyways, theres a few different types of places they gather, are you looking for an encampment or an outpost?",
+    "dynamic_line": "Good choice.  It seems that shortly before the world started to end, a few of them got it in their heads to just leave civilization alone for a bit and go live in the woods with other goblins.  And wargs.  Not a terrible idea if you ask me.  Anyways, theres a few different types of places they gather, are you looking for an encampment or an outpost?",
     "responses": [
       { "text": "An encampment.", "topic": "TALK_FORGE_LORD_DIVINER_GOBLIN_ENCAMPMENT" },
       { "text": "An outpost.", "topic": "TALK_FORGE_LORD_DIVINER_GOBLIN_OUTPOST" },
@@ -497,7 +497,7 @@
   {
     "id": "TALK_FORGE_LORD_DIVINER_GOBLIN_ENCAMPMENT",
     "type": "talk_topic",
-    "dynamic_line": "You've got a long walk deep into the forest ahead of you.  Oh, and did I mention the wargs?  They've got these wargs that are absolutely adorable. Of course they'll maul you if you try to pet them, but the temptation is always there.  I'll mark one of their camps on your map for one denarius.",
+    "dynamic_line": "You've got a long walk deep into the forest ahead of you.  Oh, and did I mention the wargs?  They've got these wargs that are absolutely adorable.  Of course they'll maul you if you try to pet them, but the temptation is always there.  I'll mark one of their camps on your map for one denarius.",
     "responses": [
       {
         "text": "It's a deal.",
