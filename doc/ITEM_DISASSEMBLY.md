@@ -75,7 +75,7 @@ Things to note:
 ## Reversible crafting recipes
 A reversible recipe and an uncraft recipe are almost indistinguishable in game, with the only potential way to tell them apart being items crafted by the player through a reversible crafting recipe may yield different items upon disassembly than items of the same ID found spawned in the world. Having said that, they are quite different from the JSON side.
 
-The first thing that comes to mind is - reversible crafting recipes are created through a singular field. Adding ``"reversible": "true`` to the recipe definition automatically creates a disassembly for the item the recipe is for. It is worth noting that unlike uncraft recipes, reversible crafting recipes support ingredient lists, ***but only in regards to items crafted by the player***. If the item in question was crafted by the player, disassembling it will yield items used to craft it. If the item was spawned in the world, however, the disassembly will instead yield the first component combination the game reads off the recipe definition.
+The first thing that comes to mind is - reversible crafting recipes are created through a singular field. Adding ``"reversible": "true`` to the recipe definition automatically creates a disassembly for the item the recipe is for. It is worth noting that unlike uncraft recipes, reversible crafting recipes support ingredient lists, **but only in regards to items crafted by the player**. If the item in question was crafted by the player, disassembling it will yield items used to craft it. If the item was spawned in the world, however, the disassembly will instead yield the first component combination the game reads off the recipe definition.
 Reversible crafting recipes also have their time, skills used, difficulty, and tools taken from the same crafting recipe they're created as a part of. **Out of all those, time is the only one that can be overwritten.** ``"reversible": { "time": "3 m" },`` will make the disassembly take 3 minutes, regardless of how long the craft takes.
 
 Things to note:
@@ -86,7 +86,7 @@ Things to note:
 ## Salvaging / Cutting Up
 This process is entirely hardcoded, and is impossible to edit through JSON by any means. The only way to make an item that's normally salvageable not-salvageable is by either editing its material or adding the ``NO_SALVAGE`` flag.
 
-To salvage an item with **at least one material listed in the sourcecode** you must have a tool with the ``CUTTING`` quality. This process can only grant a singular type of resource, with the amount calculated from the item's weight. How long the process takes is calculated from the item's size as well.
+To salvage an item with **at least one material listed in the sourcecode** you must have a tool with the ``CUTTING`` quality. This process can only grant a singular type of resource (per material), with the amount calculated from the item's weight. How long the process takes is calculated from the item's size as well.
 
 The following materials can be salvaged:
 
@@ -104,4 +104,4 @@ Things to note:
 - A tool with 1 ``CUTTING`` quality is enough to salvage any item which is at least partially the listed material. As such, items that should require more powerful tools should be given the ``NO_SALVAGE`` flag
 - If an item has more than one material that can be salvaged, it will give resources corresponding to all of its materials. However, **if the item is partially a material that cannot be salvaged, that material will be ignored, and no resources from it will be given**
 - It is the only listed here method of taking an item apart which cannot be done through the ``disassemble`` option or menu
-- It does not work with charges well. Multiple charge-based item will be treated as a singular bigger item for the purpose of salvaging. **100 charge-based items weighing 1g is equal to 1 normal item weighing 100g**
+- It does not work with charges well. Multiple charge-based item will be treated as a singular bigger item for the purpose of salvaging. **100 charge-based items weighing 1g equals to 1 normal item weighing 100g**
