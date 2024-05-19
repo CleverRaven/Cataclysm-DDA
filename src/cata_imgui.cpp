@@ -393,7 +393,7 @@ void cataimgui::imvec2_to_point( ImVec2 *src, point *dest )
     }
 }
 
-static void PushOrPopColor( const std::string_view seg )
+static void PushOrPopColor( const std::string_view seg, int minimumColorStackSize )
 {
     color_tag_parse_result tag = get_color_from_tag( seg, report_color_error::yes );
     switch( tag.type ) {
@@ -401,7 +401,9 @@ static void PushOrPopColor( const std::string_view seg )
             ImGui::PushStyleColor( ImGuiCol_Text, tag.color );
             break;
         case color_tag_parse_result::close_color_tag:
-            ImGui::PopStyleColor();
+            if( GImGui->ColorStack.Size > minimumColorStackSize ) {
+                ImGui::PopStyleColor();
+            }
             break;
         case color_tag_parse_result::non_color_tag:
             // Do nothing
@@ -455,7 +457,7 @@ void cataimgui::window::draw_colored_text( std::string const &text,
             }
 
             if( seg[0] == '<' ) {
-                PushOrPopColor( seg );
+                PushOrPopColor( seg, startColorStackCount );
                 seg = rm_prefix( seg );
             }
 
