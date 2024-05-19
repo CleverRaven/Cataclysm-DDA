@@ -159,21 +159,18 @@ static std::multimap<fault_fix_id, std::pair<std::string, int>> reqs_temp_storag
 
 void fault_fix::load( const JsonObject &jo )
 {
-    fault_fix f;
-
-    assign( jo, "id", f.id_, true );
-    assign( jo, "name", f.name, true );
-    assign( jo, "success_msg", f.success_msg, true );
-    assign( jo, "time", f.time, false );
-    assign( jo, "set_variables", f.set_variables, true );
-    assign( jo, "adjust_variables_multiply", f.adjust_variables_multiply, true );
-    assign( jo, "skills", f.skills, true );
-    assign( jo, "faults_removed", f.faults_removed );
-    assign( jo, "faults_added", f.faults_added );
-    assign( jo, "mod_damage", f.mod_damage );
-    assign( jo, "mod_degradation", f.mod_degradation );
-    assign( jo, "time_save_profs", f.time_save_profs, false );
-    assign( jo, "time_save_flags", f.time_save_flags, false );
+    mandatory( jo, was_loaded, "name", name );
+    optional( jo, was_loaded, "success_msg", success_msg );
+    optional( jo, was_loaded, "time", time );
+    optional( jo, was_loaded, "set_variables", set_variables );
+    optional( jo, was_loaded, "adjust_variables_multiply", adjust_variables_multiply );
+    optional( jo, was_loaded, "skills", skills );
+    optional( jo, was_loaded, "faults_removed", faults_removed );
+    optional( jo, was_loaded, "faults_added", faults_added );
+    optional( jo, was_loaded, "mod_damage", mod_damage );
+    optional( jo, was_loaded, "mod_degradation", mod_degradation );
+    optional( jo, was_loaded, "time_save_profs", time_save_profs );
+    optional( jo, was_loaded, "time_save_flags", time_save_flags );
 
     if( jo.has_array( "requirements" ) ) {
         for( const JsonValue &jv : jo.get_array( "requirements" ) ) {
