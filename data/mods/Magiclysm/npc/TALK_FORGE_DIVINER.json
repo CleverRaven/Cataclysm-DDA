@@ -42,7 +42,7 @@
   {
     "id": "TALK_FORGE_LORD_DIVINER",
     "type": "talk_topic",
-    "dynamic_line": "Are you looking for something?  I can help with anything but your own stuff. You'll have to ask your mother for help with that.",
+    "dynamic_line": "Are you looking for something?  I can help with anything but your own stuff.  You'll have to ask your mother for help with that.",
     "responses": [
       { "text": "Can you help me find something?", "topic": "TALK_FORGE_DIVINER_FIND_WHAT" },
       { "text": "What are you doing here?", "topic": "TALK_FORGE_DIVINER_DOING" },
@@ -517,7 +517,7 @@
   {
     "id": "TALK_FORGE_LORD_DIVINER_GOBLIN_OUTPOST",
     "type": "talk_topic",
-    "dynamic_line": "Contrary to popular belief, goblins are not actually orcs.  Its the other way around.  Orcs are goblins who have taken one too many unlabeled potions and lived to tell the tale.  Sometimes this awakens powers much like my own.  Well, not exactly, if it did I'd be out of a job faster than a Magus could cast Phase Door.  Luckily for you, you shouldn't have to delve too deep into a forest to see for yourself. I'll mark one of their outposts on your map for one denarius.",
+    "dynamic_line": "Contrary to popular belief, goblins are not actually orcs.  Its the other way around.  Orcs are goblins who have taken one too many unlabeled potions and lived to tell the tale.  Sometimes this awakens powers much like my own.  Well, not exactly, if it did I'd be out of a job faster than a Magus could cast Phase Door.  Luckily for you, you shouldn't have to delve too deep into a forest to see for yourself.  I'll mark one of their outposts on your map for one denarius.",
     "responses": [
       {
         "text": "It's a deal.",
