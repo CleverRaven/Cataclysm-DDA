@@ -1,7 +1,7 @@
 [
   {
     "id": [ "TALK_EXODII_MERCHANT_Talk" ],
-    "type": "talk_topic"
+    "type": "talk_topic",
     "insert_before_standard_exits": true,
     "responses": [
       {
