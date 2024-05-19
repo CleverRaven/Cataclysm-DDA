@@ -902,22 +902,8 @@
   {
     "id": "TALK_FORGE_LORD_DIVINER_OTHER_FORGE",
     "type": "talk_topic",
-    "dynamic_line": "Valzain is powerful, all right?  He has built his forge in every country in every reality.  Or at least the realities we have access to.  If you travel far enough in either direction, you are bound to run into another forge somewhere else.  Except in reality, it's the same forge.  There would even be a 'me' there.  If you go there, feel free to give my regards to myself.  Confusing?  I agree.  It's all part of Valzain's master plan, I think.  He needs a near infinity of something do do something about something.  I haven't been able to pry much details out of him.  You know it wasn't that long ago that I was not part of any of the forges.  And now I have suddenly always been part of all of them.  Yeah, I don't fully understand it either, but if you want me to point you to another instance of the forge, I can do so for one denarius.",
-    "responses": [
-      {
-        "text": "It's a deal?",
-        "topic": "TALK_DONE",
-        "condition": { "u_has_item": "denarius" },
-        "effect": [ { "assign_mission": "MISSION_FORGE_DIVINER_OTHER_FORGE" }, { "u_consume_item": "denarius" } ]
-      },
-      {
-        "text": "I can't afford that right now.",
-        "topic": "TALK_FORGE_LORD_DIVINER_GET_MONEY",
-        "condition": { "not": { "u_has_item": "denarius" } }
-      },
-      { "text": "About something else…", "topic": "TALK_NONE" },
-      { "text": "Nevermind.", "topic": "TALK_DONE" }
-    ]
+    "dynamic_line": "There is only one Forge of Wonders, it's not like this a multidimensional franchise opportunity.",
+    "responses": [ { "text": "About something else…", "topic": "TALK_NONE" }, { "text": "Nevermind.", "topic": "TALK_DONE" } ]
   },
   {
     "id": "TALK_FORGE_LORD_DIVINER_LOVECRAFTIAN",
