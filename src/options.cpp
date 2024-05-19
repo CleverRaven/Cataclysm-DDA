@@ -3574,7 +3574,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
             trim_and_print( w_options, point( value_col, line_pos ), value_width,
                             name_value.second.col, name_value.second.s );
 
-            opt_line_map.emplace( i, inclusive_rectangle<point>( point( name_col, line_pos ),
+            opt_line_map.emplace( visible_items[i], inclusive_rectangle<point>( point( name_col, line_pos ),
                                   point( value_col + value_width - 1, line_pos ) ) );
         }
 
