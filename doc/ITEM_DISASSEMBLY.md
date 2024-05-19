@@ -9,6 +9,10 @@ Use the `Home` key to return to the top.
 - [Introduction](#introduction)
 - [The three methods](#the-three-methods)
   - [Uncraft recipes](#uncraft-recipes)
+  - [Reversible crafting recipes](#reversible-crafting-recipes)
+  - [Salvaging / Cutting Up](#salvaging-/-cutting-up)
+- [Choosing the method](#choosing-the-method)
+- [Closing words (Or what you should remember when working with item disassembly in general)](#closing-words-(or-what-you-should-remember-when-working-with-item-disassembly-in-general))
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -105,3 +109,19 @@ Things to note:
 - If an item has more than one material that can be salvaged, it will give resources corresponding to all of its materials. However, **if the item is partially a material that cannot be salvaged, that material will be ignored, and no resources from it will be given**
 - It is the only listed here method of taking an item apart which cannot be done through the ``disassemble`` option or menu
 - It does not work with charges well. Multiple charge-based item will be treated as a singular bigger item for the purpose of salvaging. **100 charge-based items weighing 1g equals to 1 normal item weighing 100g**
+
+# Choosing the method
+
+So you want to make a new disassembly recipe? First of all, I'm proud of you, but you probably should have some vague idea of which of the methods above you should pick, because they all have their pros and cons. Except salvaging, that's all cons - we're ignoring it for this part of the documentation.
+
+You should use reversible crafting recipes if:
+- The item has a crafting recipe in the first place, which should be fairly self-explanatory
+- The recipe for this item does not produce byproducts
+- **The tools needed for the craft make sense to be required for its disassembly as well.** This disqualifies most of blacksmithing and metalworking as a whole, because needing a crucible to take apart tongs is ridiculous
+
+If the following three are **NOT** true, you likely want a manually defined uncraft recipe, as you can ommit skills and define tools required as you please.
+
+# Closing words (Or what you should remember when working with item disassembly in general)
+1. Conservation of mass is pretty damn important. You won't always be able to make sure there is no mass loss or generation - it is just not possible in more complex crafts due to our generic nature of resource items - but you should still try to minimize the amount of mass lost or generated whenever you're working on a recipe. After getting your recipe done, calculate the mass of the ingredients and compare it to the mass of the item to make sure you're not violating physics.
+2. Double check the syntax when it comes to uncraft recipes. They do not support lists, but the game doesn't realize that. You will not get an error, it is only on **YOU** to catch your missing brackets.
+3. It is not possible to have both an uncraft and a reversible recipe defined for the same item. The same goes for more than one uncraft. If this occurs, the game will only read one and ignore everything else altogether.
