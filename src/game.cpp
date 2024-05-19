@@ -11377,8 +11377,13 @@ point game::place_player( const tripoint &dest_loc, bool quick )
     return submap_shift;
 }
 
-void game::place_player_overmap( const tripoint_abs_omt &om_dest, bool move_player )
+void game::place_player_overmap( const tripoint_abs_ms &ms_dest, bool move_player )
 {
+    if( ms_dest == project_to<coords::ms>( u.global_sm_location() - point( HALF_MAPSIZE,
+                                           HALF_MAPSIZE ) ) + u.pos() ) {
+        return; // Already there
+    }
+
     // if player is teleporting around, they don't bring their horse with them
     if( u.is_mounted() ) {
         u.remove_effect( effect_riding );
@@ -11401,11 +11406,10 @@ void game::place_player_overmap( const tripoint_abs_omt &om_dest, bool move_play
     m.access_cache( m.get_abs_sub().z() ).map_memory_cache_ter.reset();
     // Set this now, if game::place_player fails we'll need it to recover.
     const tripoint_abs_sm tele_from = u.global_sm_location();
-    // offset because load_map expects the coordinates of the top left corner, but the
-    // player will be centered in the middle of the map.
+    // The subtraction is to get the reality bubble NW corner from the center position.
     const tripoint_abs_sm map_sm_pos =
-        project_to<coords::sm>( om_dest ) - point( HALF_MAPSIZE, HALF_MAPSIZE );
-    const tripoint player_pos( u.pos().xy(), map_sm_pos.z() );
+        project_to<coords::sm>( ms_dest ) - point( HALF_MAPSIZE, HALF_MAPSIZE );
+    const tripoint_bub_ms player_pos( u.pos_bub().xy(), map_sm_pos.z() );
     load_map( map_sm_pos );
     load_npcs();
     m.spawn_monsters( true ); // Static monsters
@@ -11413,20 +11417,37 @@ void game::place_player_overmap( const tripoint_abs_omt &om_dest, bool move_play
     // update weather now as it could be different on the new location
     weather.nextweather = calendar::turn;
     if( move_player ) {
-        place_player( player_pos );
+        place_player( player_pos.raw() );
     }
-    tripoint_abs_sm tele_to = u.global_sm_location();
+    const tripoint_abs_sm tele_to = u.global_sm_location();
     if( tele_from != tele_to || !move_player ) {
         return;
     } // else tele_from == tele_to !!!
     // We've failed to teleport for some reason (probably monsters occupying destination squares).
     // Let's try to recover gracefully. But also throw a warning, this is bad!
-    debugmsg( "Failed to place player at destination. If you see this outside of debug teleporting it is a bug." );
-    bool z_level_shifted = tele_from.z() != tele_to.z();
-    update_map( u, z_level_shifted );
+    debugmsg( "Failed to place player at destination.  If you see this outside of debug teleporting it is a bug." );
+    update_map( u, ms_dest.z() != tele_from.z() );
     // This recursive call safely calls map::load_map() again after making sure everything has been unloaded properly.
     // Basically, its only purpose it to reset the z-level to the z-level you teleported *from*. Otherwise, it's redundant after update_map
-    place_player_overmap( project_to<coords::omt>( tele_from ) );
+    // Again, translate the reality bubble reference to a mapsquare one.
+    place_player_overmap( project_to<coords::ms>( tele_from - point( HALF_MAPSIZE,
+                          HALF_MAPSIZE ) ) + player_pos.raw() );
+}
+
+void game::place_player_overmap( const tripoint_abs_omt &om_dest, bool move_player )
+{
+    // Project the bubble reference to a submap reference.
+    tripoint offset = u.pos() - point( 5 * SEEX, 5 * SEEY );
+
+    // And then on to an overmap one.
+    if( abs( u.global_sm_location().x() ) % 2 == 1 ) {
+        offset.x += SEEX;
+    }
+    if( abs( u.global_sm_location().y() ) % 2 == 1 ) {
+        offset.y += SEEY;
+    }
+
+    place_player_overmap( project_to<coords::ms>( om_dest ) + offset, move_player );
 }
 
 bool game::phasing_move( const tripoint &dest_loc, const bool via_ramp )
