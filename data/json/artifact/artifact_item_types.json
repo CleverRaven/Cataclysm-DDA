@@ -365,7 +365,7 @@
     "copy-from": "club_wooden",
     "name": { "str": "ancient club" },
     "description": "A misshapen rod of gnarled, knotted wood.  The knots in the wood exhibit a strange fractal pattern.  It is the only one of its kind.\nIt may have unknown powers; try activating them."
-  }
+  },
   {
     "id": "art_bomorrean",
     "type": "GENERIC",
