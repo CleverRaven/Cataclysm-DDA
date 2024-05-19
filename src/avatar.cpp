@@ -1254,7 +1254,7 @@ void avatar::rebuild_aim_cache()
 {
     double pi = 2 * acos( 0.0 );
 
-    const tripoint local_last_target = get_map().getlocal( last_target_pos.value() );
+    const tripoint local_last_target = get_map().bub_from_abs( last_target_pos.value() ).raw();
 
     float base_angle = atan2f( local_last_target.y - posy(),
                                local_last_target.x - posx() );

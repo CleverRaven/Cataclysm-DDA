@@ -2171,7 +2171,7 @@ void basecamp::abandon_camp()
     const tripoint ms_pos = sm_to_ms_copy( sm_pos );
     // We cannot use bb_pos here, because bb_pos may be {0,0,0} if you haven't examined the bulletin board on camp ever.
     // here.remove_submap_camp( here.getlocal( bb_pos ) );
-    here.remove_submap_camp( here.getlocal( ms_pos ) );
+    here.remove_submap_camp( here.bub_from_abs( ms_pos ) );
     add_msg( m_info, _( "You abandon %s." ), name );
 }
 
@@ -5960,7 +5960,7 @@ int basecamp::camp_morale( int change ) const
 void basecamp::place_results( const item &result )
 {
     map &target_bay = get_camp_map();
-    form_storage_zones( target_bay, target_bay.getglobal( target_bay.getlocal( bb_pos ) ) );
+    form_storage_zones( target_bay, bb_pos );
     tripoint new_spot = target_bay.getlocal( get_dumping_spot() );
     // Special handling for liquids
     // find any storage-zoned LIQUIDCONT we can dump them in, set that as the item's destination instead

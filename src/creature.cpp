@@ -192,6 +192,11 @@ void Creature::setpos( const tripoint &p )
     on_move( old_loc );
 }
 
+void Creature::setpos( const tripoint_bub_ms &p )
+{
+    Creature::setpos( p.raw() );
+}
+
 void Creature::move_to( const tripoint_abs_ms &loc )
 {
     const tripoint_abs_ms old_loc = get_location();

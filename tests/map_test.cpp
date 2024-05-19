@@ -57,7 +57,7 @@ TEST_CASE( "map_coordinate_conversion_functions" )
     // Verify consistency between different implementations
     CHECK( here.getabs( test_bub ) == here.getabs( test_bub.raw() ) );
     CHECK( here.getglobal( test_bub ) == here.getglobal( test_bub.raw() ) );
-    CHECK( here.getlocal( test_abs ) == here.getlocal( test_abs.raw() ) );
+    CHECK( here.getlocal( test_abs ) == here.bub_from_abs( test_abs ).raw() );
     CHECK( here.bub_from_abs( test_abs ) == here.bub_from_abs( test_abs.raw() ) );
 
     CHECK( here.getabs( test_bub ) == here.getglobal( test_bub ).raw() );
@@ -197,7 +197,7 @@ TEST_CASE( "inactive_container_with_active_contents", "[active_item][map]" )
 
     item &bp = here.add_item( test_loc, bottle_plastic );
     here.update_submaps_with_active_items();
-    item_location bp_loc( map_cursor( test_loc ), &bp );
+    item_location bp_loc( map_cursor( tripoint_bub_ms( test_loc ) ), &bp );
     item_location dis_loc( bp_loc, &bp.only_item() );
 
     REQUIRE( here.get_submaps_with_active_items().count( test_loc_sm ) != 0 );

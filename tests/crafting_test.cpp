@@ -790,7 +790,7 @@ TEST_CASE( "UPS_modded_tools", "[crafting][ups]" )
     if( ups_on_ground ) {
         item &ups_on_map = get_map().add_item( test_loc, ups );
         REQUIRE( !ups_on_map.is_null() );
-        ups_loc = item_location( map_cursor( test_loc ), &ups_on_map );
+        ups_loc = item_location( map_cursor( tripoint_bub_ms( test_loc ) ), &ups_on_map );
     } else {
         ups_loc = dummy.i_add( ups );
         REQUIRE( dummy.has_item( *ups_loc ) );

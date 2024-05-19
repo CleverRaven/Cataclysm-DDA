@@ -317,7 +317,9 @@ class Creature : public viewer
         inline int posz() const {
             return get_location().z();
         }
+        // TODO: Get rid of untyped overload
         void setpos( const tripoint &p );
+        void setpos( const tripoint_bub_ms &p );
         /** Moves the creature to the given location and calls the on_move() handler. */
         void move_to( const tripoint_abs_ms &loc );
 
