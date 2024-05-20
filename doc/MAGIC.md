@@ -820,6 +820,7 @@ Character status value  | Description
 `DISINFECTANT_BONUS`    | Affects the `disinfectant_power` you have when applying medicine.
 `DODGE_CHANCE`          | Modifies the probability to dodge an attack. Default is 0, so better to use `add`
 `EFFECTIVE_HEALTH_MOD`  | If this is anything other than zero (which it defaults to) you will use it instead of your actual health mod.
+`EQUIPMENT_DAMAGE_CHANCE` | Modifies the likelihood that weapons and armor take durability damage.  Since it's a percent, using 'multiply' is recommended.  Positive values increase likelihood of damage while negative values decrease likelihood.  `multiply`: -1 and below result in indestructible equipment.
 `EXTRA_ACID`            | EXTRA_TYPE increases received damage of the selected type.
 `EXTRA_BASH`            | 
 `EXTRA_BIO`             | 
