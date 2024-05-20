@@ -119,6 +119,8 @@ Unhardcode and limbify attack vectors
 Add new function follower_present for use in JSON
 Graphical construction preview
 Resume butchering
+The player can swap between defined outfits with the 'set of clothes' item
+Limbify consumption times
 
 
 ## Content:
@@ -244,6 +246,13 @@ Add XL and XS versions for french maid clothes/aprons/hats
 Fridges and freezers. What do you mean 'we already have some'?
 New portal monsters: unviable life forms
 Challenge start - hunted forever. Starts with the nemesis, but it comes back stronger everytime it dies
+Add More Nightmares
+Adds a new  globally unique special to spawn in the ocean : an Oil Platform !
+Added tarot cards as a variant of playing cards and added Ouija board as a playable board game.
+Overhaul and flesh out Barry Isherwood's rescue mission
+gas forge recipe learned from fabrication books
+Adds the last remaining natural frog species native to New England.
+Prepper Militia Community
 
 
 ## Interface:
@@ -306,6 +315,10 @@ Show NEW! in List Items menu
 Adding spell name to the casting... widget
 Adding Classless as a supernatural category
 Mission UI migrated to imGUI
+Provide a visual UI for changing vehicle part shapes
+Don't show gun without default ammo defined as an option in reload ui
+Rename cover ---> concealment
+Updates the Terminus font
 
 
 
@@ -460,6 +473,15 @@ Aftershock: New combat bionics
 Aftershock: Add a space station clothes store
 [MoM] Using psionics in or near the Nether is more powerful, but also more risky
 [No Hope] Adds a difficulty setting prompt to determine item spawn rates
+[MoM] Rework Combat Sense with modern enchants
+[MoM] Add triffid psions
+[MoM] Feral telekinetics have no inherent armor, they use their powers instead
+[MA] Starting a new game works again
+[MoM] EoC-ify Eater drain attack
+Aftershock: Add poison based bullets, grenades and 'toxic flamethrower'
+Give Liam opinions in XE
+[Magiclysm] Update Dark Sight to scale with spell level
+[MoM] Switch Stutterstep effect to an enchant percentage
 
 
 ## Balance:
@@ -529,6 +551,13 @@ Unattended crops that are ready to harvest will die if not harvested before thei
 Make Quadcopter Drones Produce Sound
 Make most plastic and glass containers transparent
 Added limb blocking to bionic styles
+Tweak Wind Turbine Recipe Learning
+Land prisons also keep you out
+The average skill level of NPCs will rise over time
+Fix Up Travel Toilets
+Add Craft, Uncraft, Furniture version, and Construction to Fancy Tables
+Finished Auditing vehicle parts json for breaks_into
+Adjust Pile of Leaves Deconstruct/Smash
 
 
 ## Bugfixes:
@@ -692,6 +721,23 @@ Maybe prevent rare crater generation error
 AIM: Now moving all items will not move favourite items, if other items are present.
 Misc repair kit draws ammo from around player and inventory, opposed to an internal ammunition pocket.
 Fixed issue where Android gesture inputs were not recognized by ImGui windows
+Fix heat func fault, correct the null check, remove the original heat_food duplicate bug.
+xs_gloves_wool_fingerless and xl_gloves_wool_fingerless did not have relevant PREFIX flags.
+Fix health dreams when you are ill
+Fixed arrows disappearing when unwielded
+fix assert in diary info panel clamp
+fix draw_critter_above bounds check
+Check validity of Win32 file names
+Duct tape described as liquid
+Gives an explanation for why the TALON UGV Liberty Edition turns into the regular TALON UGV M16A4.
+Added the Ouija board to appropriate loot pools.
+Fix crash from reachability zones checking dead NPCs and mark reachability zones for hallucinations
+The old wool staple recipe resulted in mass and yarn duplication. We respect the law of conservation of energy here. 
+Fix for massive slowdown when NPC crafting speed drops below 0.0
+Fix a typo in consumption.cpp
+Removes MP18, PLR 16, OA 93, M231, Mossberg Brownie
+Pseudo terrain appearing in fields when using mods is fixed (won't affect existing fields)
+Add foraging activity to outpost faction camp
 
 
 ## Performance:
@@ -719,6 +765,7 @@ Skip MGOAL_Find_Item if the player is busy.
 Avoid wasteful loop in map special road connections
 Decrease memory overhead by about 200MB or about 15% by slimming down mapgen data structure.
 Faster ascii overmap drawing
+Optimize item::stacks as well as allocation patterns in item and elsewhere
 
 
 ## Infrastructure:
@@ -775,6 +822,7 @@ Deleted the ImGui enable/disable toggle, turns on ImGui globally in CDDA
 Use test enumerating item spawns to make assertions about the rate of appearance of different items.
 Add perceived kwarg to pain_eval math function, apply it in Mind Over Matter
 refactored ImTuis drawing code to fix a black screen issue, and to improve performance
+Adjust how `open_container` affects `Character::dispose_item`
 
 
 ## Build:
@@ -793,6 +841,7 @@ CMake: Add LLVM build for Windows and other linker fixes
 Use one precompiled header
 Fix zlib old-style-cast build breakage
 Fix crash with imgui and CMake
+Update Flatpak manifest to use clang and include the default soundpack
 
 
 ## I18N and A11Y:
