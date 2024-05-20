@@ -248,7 +248,7 @@
     "type": "TOOL_ARMOR",
     "copy-from": "military_nvg",
     "name": { "str_sp": "night vision goggles (on)" },
-    "description": "Last generation double-tube night vision device, designed to be mounted to a helmet.  Very limited field of view while activated. It is turned on, and continually draining batteries.  Use it to turn it off.",
+    "description": "Last generation double-tube night vision device, designed to be mounted to a helmet.  Very limited field of view while activated.  It is turned on, and continually draining batteries.  Use it to turn it off.",
     "//": "AN/PVS-7",
     "power_draw": "100 mW",
     "revert_to": "military_nvg",

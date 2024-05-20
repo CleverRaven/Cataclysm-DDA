@@ -1476,14 +1476,6 @@
     "type": "json_flag"
   },
   {
-    "id": "GNV_EFFECT_CLOSE",
-    "type": "json_flag"
-  },
-  {
-    "id": "GNV_EFFECT_FAR",
-    "type": "json_flag"
-  },
-  {
     "id": "HIDDEN_ITEM",
     "type": "json_flag"
   },
