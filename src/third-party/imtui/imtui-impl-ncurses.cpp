@@ -6,6 +6,11 @@
 #include "imgui/imgui_internal.h"
 #include "imtui-impl-ncurses.h"
 
+#define NCURSES_NOMACROS
+#if !defined(__APPLE__)
+#define NCURSES_WIDECHAR 1
+#endif
+
 #ifdef _WIN32
 #define NCURSES_MOUSE_VERSION
 #include <curses.h>
