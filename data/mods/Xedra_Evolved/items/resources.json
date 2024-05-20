@@ -321,14 +321,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "obsidian_rock",
-    "copy-from": "rock",
-    "name": { "str": "chunk of obsidian", "str_pl": "chunks of obsidian" },
-    "color": "black",
-    "description": "A chunk of obsidian, smashed from a larger rock vein.  It has several wickedly sharp edges and could probably be formed into a weapon with some work."
-  },
-  {
-    "type": "GENERIC",
     "id": "shadow_singularity_piece",
     "copy-from": "rock",
     "name": { "str": "piece of the darkest shadow", "str_pl": "pieces of the darkest shadow" },
@@ -420,5 +412,28 @@
     "material": [ "monolith" ],
     "looks_like": "material_shrd_limestone",
     "description": "A strange object you brought back from the insides of the Abyssal Hunger."
+  },
+  {
+    "type": "GENERIC",
+    "id": "obsidian_rock",
+    "copy-from": "rock",
+    "name": { "str": "chunk of obsidian", "str_pl": "chunks of obsidian" },
+    "color": "black_red",
+    "description": "A chunk of obsidian, smashed from a larger rock vein.  It has several wickedly sharp edges and could probably be formed into a weapon with some work.",
+    "symbol": "*",
+    "category": "spare_parts",
+    "material": [ "obsidian" ],
+    "ammo_type": "rock",
+    "flags": [ "TRADER_AVOID", "NPC_THROWN" ],
+    "weight": "657 g",
+    "volume": "250 ml",
+    "longest_side": "8 cm",
+    "damage": { "damage_type": "stab", "amount": 9 },
+    "range": 10,
+    "dispersion": 14,
+    "loudness": 0,
+    "to_hit": -1,
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_60" ],
+    "melee_damage": { "stab": 9 }
   }
 ]
