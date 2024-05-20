@@ -2540,6 +2540,7 @@ void monster::load( const JsonObject &data )
     data.read( "anger", anger );
     data.read( "morale", morale );
     data.read( "hallucination", hallucination );
+    data.read( "aggro_character", aggro_character );
     data.read( "fish_population", fish_population );
     //for older saves convert summon time limit to lifespan end
     std::optional<time_duration> summon_time_limit;
@@ -2623,6 +2624,7 @@ void monster::store( JsonOut &json ) const
     json.member( "anger", anger );
     json.member( "morale", morale );
     json.member( "hallucination", hallucination );
+    json.member( "aggro_character", aggro_character );
     if( tied_item ) {
         json.member( "tied_item", *tied_item );
     }
