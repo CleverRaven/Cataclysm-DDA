@@ -899,7 +899,7 @@
         "om_special": "physics_lab_LIXA",
         "reveal_radius": 1,
         "random": true,
-        "search_range": 180,
+        "search_range": 800,
         "z": 0
       }
     },
