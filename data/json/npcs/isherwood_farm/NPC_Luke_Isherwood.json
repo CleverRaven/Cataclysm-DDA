@@ -101,10 +101,10 @@
       },
       {
         "text": "Chris and I have a little project for you that we've cooked up, if you're interested.",
-        "//": "This should require that you first suggest the idea to Chris during mission planning.",
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1" },
+            { "u_has_var": "chris_planned_for_bomb", "value": "yes" },
             {
               "and": [
                 { "not": { "u_has_mission": "MISSION_LUKE_RETRIEVE_TRUCK" } },
