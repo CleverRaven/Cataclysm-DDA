@@ -9187,7 +9187,8 @@
     "name": { "str": "Mute" },
     "points": 0,
     "valid": false,
-    "description": "Trait that makes it impossible to say anything."
+    "description": "Trait that makes it impossible to say anything.",
+    "flags": [ "MUTE" ]
   },
   {
     "type": "mutation",
