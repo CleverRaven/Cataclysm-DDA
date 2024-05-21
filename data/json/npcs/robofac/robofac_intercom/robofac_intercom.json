@@ -81,7 +81,10 @@
         "group": "NC_ROBOFAC_INTERCOM_trade_hm12",
         "rigid": true,
         "strict": true,
-        "condition": { "u_has_var": "dialogue_hub_rnd_completed_robofac_intercom_robot_sm_1", "value": "yes" }
+        "condition": {
+          "u_has_var": "dialogue_intercom_completed_robofac_intercom_robot_sm_1",
+          "value": "yes"
+        }
       },
       {
         "group": "NC_ROBOFAC_INTERCOM_trade_envirosuit",
@@ -107,7 +110,7 @@
     "type": "item_group",
     "id": "NC_ROBOFAC_INTERCOM_trade_hm12",
     "subtype": "collection",
-    "entries": [ { "item": "hm12", "count": 1, "prob": 50 } ]
+    "entries": [ { "item": "hm12", "count": 1, "prob": 100 } ]
   },
   {
     "type": "item_group",

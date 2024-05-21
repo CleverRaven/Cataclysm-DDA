@@ -63,10 +63,31 @@
     "price_postapoc": "0 cent"
   },
   {
+    "id": "software_encryption_codes",
+    "copy-from": "software",
+    "type": "GENERIC",
+    "name": { "str_sp": "encryption codes" },
+    "description": "Large amount of security keys with dates for potenial future access to encrypted arhived data.",
+    "price": "2 USD",
+    "price_postapoc": "0 cent"
+  },
+  {
+    "id": "software_archived_data",
+    "copy-from": "software",
+    "type": "GENERIC",
+    "name": { "str_sp": "archive data" },
+    "description": "Extremly compressed research data, observation and experiment statistic.Only pattern you manage to recognise is increase in report amount closer to Cataclysm but also reduction in number of facilities still submiting reports.",
+    "price": "2 USD",
+    "price_postapoc": "0 cent"
+  },
+  {
     "id": "software_electronics_reference",
     "copy-from": "software",
     "type": "GENERIC",
-    "name": { "str": "integrated circuit datasheet archives", "str_pl": "misc software" },
+    "name": {
+      "str": "integrated circuit datasheet archives",
+      "str_pl": "misc software"
+    },
     "description": "Huge archives of numerous IC circuit datasheets from several major manufacturers.  Probably valuable to the right person, as it would be hard to salvage and reuse these components without them.",
     "price": "400 USD",
     "price_postapoc": "0 cent"

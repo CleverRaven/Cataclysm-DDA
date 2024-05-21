@@ -543,7 +543,6 @@
           { "item": "LIXA_lab_postit", "chance": 3, "repeat": 1 },
           { "item": "LIXA_lab_file", "chance": 7, "repeat": 2 },
           { "item": "software_math", "chance": 3, "repeat": 1 },
-          { "item": "software_lab_data", "chance": 2, "repeat": 4 },
           { "item": "software_electronics_reference", "chance": 4, "repeat": 2 }
         ],
         "q": [ { "item": "adderall", "amount": [ 2, 5 ] } ],
