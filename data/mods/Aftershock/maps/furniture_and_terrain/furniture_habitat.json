@@ -214,7 +214,7 @@
 	"type": "furniture",
 	"id": "f_sealed_intermodal_crate",
 	"name": "sealed intermodal crate",
-	"description": "A sealed metal crate used to ferry cargo to and from orbit. This one appears to be secured with an electic lock.",
+	"description": "A sealed metal crate used to ferry cargo to and from orbit. This one appears to be secured with an electric lock.",
 	"required_str": 12,
     "symbol": "O",
     "bgcolor": "brown",
