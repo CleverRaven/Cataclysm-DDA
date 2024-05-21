@@ -13,14 +13,14 @@
 				"       ñññññññññññ                              ",
 				"       -_-_-  -__-   ññññññ      ñññññññ        ",
 				"     ---ojU----II--- -_- --!--   -__-__-        ",
-				"   ---yh...U-L...hc---c---...-----G.H.G--       ",
-				"   #.#yh..ss-E........hq-l...l-22-G...G----     ",
-				"   ---......!..f-_---..q-l...l-..---1---hc_     ",
+				"   ---yh...U-LL..qq---I---...-----G.H.G--       ",
+				"   #.#yh..ss-E.........q-l...l-22-G...G----     ",
+				"   ---B.....!..f-_---..q-l...l-..---1---hc_     ",
 				"     --!--ee-.hc_3!.1...!.....-....5..!..c_     ",
 				"   ---$.$----..f-_---7.q-l....!.......--hc_     ",
 				"   #.#...-Ti-E.........q-l....-6f4....f----     ",
-				"   ---$$.!..-L...hc---.---...-----fL.fE--       ",
-				"     ---$-S----II--- -_- --!--   -__-__-        ",
+				"   ---$$.!..-LL..qq---I---...-----fL.fE--       ",
+				"     ---W-S----II--- -_- --!--   -__-__-        ",
 				"       -_-_-  -__-   ññññññ      ñññññññ        ",
 				"       ñññññññññññ                              ",
 				"                                                ",
@@ -50,20 +50,25 @@
 				"6": "f_3dprinter",
 				"2": "f_drone_recharge_station",
 				"H": "f_exo_gantry",
-				"G": "f_rack"
+				"G": "f_rack",
+				"B": "f_bookcase"
 			},
+			"place_item":[
+				{ "item": "television", "repeat": 1, "x": 10, "y": 10 }
+			],
 			"items": {
 				"3": { "item": "nuclear_reactor" },
 				"2": { "item": "old_industrial_bot_storage", "chance": 20 },
 				"H": { "item": "afs_exosuit_worker", "chance": 60},
 				"G": { "item": "afs_civilian_armory", "chance": 80, "repeat": [ 1, 3 ] },
-				"I": { "item": "afs_crate_civ_rand"}
+				"I": { "item": "afs_crate_civ_rand"},
+				"B": { "item": "homebooks", "repeat": [2, 3 ] }
 			},
 			"place_monster": [
-				{ "group": "AFS_GROUP_ROBOT_LOW_RISK", "x": [ 7, 23 ], "y": [ 7, 13 ], "pack_size": [ 1, 4 ], "chance": 30 },
+				{ "group": "AFS_GROUP_ROBOT_LOW_RISK", "x": [ 7, 23 ], "y": [ 7, 13 ], "pack_size": [ 1, 4 ], "chance": 40 },
 				{ "group": "AFS_GROUP_RUIN_MOXIE", "x": [ 0, 23 ], "y": [ 0, 3 ], "pack_size": [ 1, 4 ], "chance": 50 },
-				{ "group": "AFS_GROUP_RUIN_MOXIE", "x": [ 0, 23 ], "y": [ 17, 23 ], "pack_size": [ 1, 2 ], "chance": 50 },
-				{ "group": "AFS_GROUP_RUIN_MOXIE", "x": [ 24, 47 ], "y": [ 17, 23 ], "pack_size": [ 1, 2 ], "chance": 50 }
+				{ "group": "AFS_GROUP_RUIN_MOXIE", "x": [ 0, 23 ], "y": [ 17, 23 ], "pack_size": [ 1, 2 ], "chance": 100 },
+				{ "group": "AFS_GROUP_RUIN_MOXIE", "x": [ 24, 47 ], "y": [ 17, 23 ], "pack_size": [ 1, 2 ], "chance": 70 }
 			],
 			"computers": {
 				"7": {
