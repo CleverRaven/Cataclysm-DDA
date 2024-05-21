@@ -110,7 +110,7 @@
     "type": "item_group",
     "id": "NC_ROBOFAC_INTERCOM_trade_hm12",
     "subtype": "collection",
-    "entries": [ { "item": "hm12", "count": 1, "prob": 100 } ]
+    "entries": [ { "item": "hm12", "count": 1, "prob": 50 } ]
   },
   {
     "type": "item_group",
