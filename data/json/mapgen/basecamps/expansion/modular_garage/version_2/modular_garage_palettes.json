@@ -2,8 +2,15 @@
   {
     "type": "palette",
     "id": "fbmg_2_common_palette",
-    "terrain": { "p": "t_palisade", "P": "t_palisade_pulley", "G": "t_palisade_gate", ";": "t_dirt", ",": "t_dirtfloor" },
-    "furniture": { "c": "f_counter", "I": "f_rack", ";": "f_clear" }
+    "terrain": {
+      ",": "t_dirtfloor",
+      ";": "t_dirt",
+      "G": "t_palisade_gate",
+      "p": "t_palisade",
+      "P": "t_palisade_pulley",
+      "r": "t_shingle_flat_roof"
+    },
+    "furniture": { ";": "f_clear", "c": "f_counter", "I": "f_rack" }
   },
   {
     "type": "palette",
