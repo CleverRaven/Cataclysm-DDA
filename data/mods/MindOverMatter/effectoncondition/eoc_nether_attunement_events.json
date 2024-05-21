@@ -1061,7 +1061,7 @@
       ]
     },
     "effect": [
-      { "u_set_field": "fd_reality_tear", "radius": 0, "intensity": 3, "hit_player": false },
+      { "u_set_field": "fd_fatigue", "radius": 0, "intensity": 3, "hit_player": false },
       { "u_message": "As you unleash your powers, the air around you twists and warps in on itself.", "type": "bad" }
     ]
   },
