@@ -2734,6 +2734,11 @@ void activity_handlers::mend_item_finish( player_activity *act, Character *you )
     for( const auto &[var_name, var_value] : fix.set_variables ) {
         target.set_var( var_name, var_value );
     }
+    for( const auto &[var_name, var_value] : fix.adjust_variables_multiply ) {
+        const double var_value_multiplier = var_value;
+        const double var_oldvalue = target.get_var( var_name, 0.0 );
+        target.set_var( var_name, std::round( var_oldvalue * var_value_multiplier ) );
+    }
 
     const std::string start_durability = target.durability_indicator( true );
 
