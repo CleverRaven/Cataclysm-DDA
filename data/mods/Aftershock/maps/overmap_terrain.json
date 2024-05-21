@@ -424,5 +424,36 @@
 	  "see_cost": 3,
 	  "mondensity": 2,
 	  "flags": [ "SIDEWALK" ]
+  },
+  {
+	  "type": "overmap_terrain",
+	  "name": "Malamute Transport Wreck",
+	  "spawns": { "group": "GROUP_ZOMBIE", "population": [ 2, 5 ], "chance": 80 },
+	  "id": [
+		"afs_freight_transport_a1",
+		"afs_freight_transport_a2",
+		"afs_freight_transport_roof_a1",
+		"afs_freight_transport_roof_a2"
+	  ],
+	  "sym": "M",
+	  "color": "light_gray",
+	  "see_cost": 3,
+	  "mondensity": 2,
+	  "flags": [ "SIDEWALK" ]
+  },
+  {
+	  "type": "overmap_terrain",
+	  "name": "General Store",
+	  "spawns": { "group": "GROUP_ZOMBIE", "population": [ 2, 5 ], "chance": 80 },
+	  "id": [
+		"afs_general_store_n1",
+		"afs_general_store_n2",
+		"afs_general_store_n3"
+	  ],
+	  "sym": "g",
+	  "color": "light_green",
+	  "see_cost": 3,
+	  "mondensity": 2,
+	  "flags": [ "SIDEWALK" ]
   }
 ]
