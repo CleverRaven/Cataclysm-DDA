@@ -67,7 +67,7 @@
     "copy-from": "software",
     "type": "GENERIC",
     "name": { "str_sp": "encryption codes" },
-    "description": "Large amount of security keys with dates for potenial future access to encrypted arhived data.",
+    "description": "There are numerous security keys with dates for potential future access to encrypted archived data.",
     "price": "2 USD",
     "price_postapoc": "0 cent"
   },
@@ -76,7 +76,7 @@
     "copy-from": "software",
     "type": "GENERIC",
     "name": { "str_sp": "archive data" },
-    "description": "Extremly compressed research data, observation and experiment statistic.Only pattern you manage to recognise is increase in report amount closer to Cataclysm but also reduction in number of facilities still submiting reports.",
+    "description": "Extremely compressed research data, observation and experiment statistics. The only pattern you manage to recognize is an increase in report amount closer to Cataclysm, but also a reduction in the number of facilities still submitting reports.",
     "price": "2 USD",
     "price_postapoc": "0 cent"
   },
