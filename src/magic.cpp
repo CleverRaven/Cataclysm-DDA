@@ -1100,7 +1100,7 @@ bool spell::can_cast( const Character &guy ) const
         return false;
     }
 
-    if( guy.is_mute() && has_flag( spell_flag::VERBAL ) ) {
+    if( guy.is_mute() && !guy.has_flag( json_flag_SILENT_SPELL ) && has_flag( spell_flag::VERBAL ) ) {
         return false;
     }
 
