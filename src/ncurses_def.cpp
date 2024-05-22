@@ -1,4 +1,4 @@
-#if !(defined(TILES) || defined(_WIN32))
+#if !(defined(TILES))
 
 // input.h must be include *before* the ncurses header. The latter has some macro
 // defines that clash with the constants defined in input.h (e.g. KEY_UP).
