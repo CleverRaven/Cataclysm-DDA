@@ -106,7 +106,7 @@
         "                        "
       ],
       "palettes": [ "afs_habitat_structure", "afs_habitat_residential_furnishing" ],
-      "terrain": { "'": "t_flat_roof", "r": "t_carpet_red", ",": "t_metal_floor_olight_inactive" },
+      "terrain": { " ": "t_open_air", "'": "t_flat_roof", "r": "t_carpet_red", ",": "t_metal_floor_olight_inactive" },
       "furniture": {
         "b": "f_habitat_bathroom",
         "e": "f_entertainment_center",
