@@ -477,7 +477,12 @@ void activity_handlers::butcher_do_turn( player_activity *act, Character * )
     const butcher_type action = get_butcher_type( act );
     const double progress = static_cast<double>( act->moves_total - act->moves_left ) /
                             act->moves_total;
-    item &corpse_item = *act->targets.back();
+    item_location target = act->targets.back();
+    if( !target || !target->is_corpse() ) {
+        act->set_to_null();
+        return;
+    }
+    item &corpse_item = *target;
     corpse_item.set_var( butcher_progress_var( action ), progress );
 }
 
