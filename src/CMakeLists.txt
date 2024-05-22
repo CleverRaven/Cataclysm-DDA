@@ -171,6 +171,12 @@ if (CURSES)
                 ${MAIN_CPP}
                 ${MESSAGES_CPP}
                 ${RESOURCE_RC})
+        if(NOT MINGW)
+            # Use only our RT_MANIFEST from resource.rc
+            target_link_options(cataclysm PRIVATE
+                "LINKER:/MANIFEST:NO"
+            )
+        endif()
     else ()
         add_executable(cataclysm
                 ${MAIN_CPP}
