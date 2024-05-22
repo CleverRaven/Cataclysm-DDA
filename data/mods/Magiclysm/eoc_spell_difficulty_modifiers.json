@@ -16,7 +16,7 @@
       ]
     },
     "effect": [
-      { "math": [ "u_spellcasting_adjustment('difficulty', 'flag_whitelist': 'SOMATIC' )", "=", "(u_effect_intensity('grabbed', 'bodypart': 'arm_l') + u_effect_intensity('grabbed', 'bodypart': 'arm_r') ) / 10" ] }
+      { "math": [ "u_spellcasting_adjustment('difficulty', 'mod': 'magiclysm', 'flag_whitelist': 'SOMATIC' )", "=", "(u_effect_intensity('grabbed', 'bodypart': 'arm_l') + u_effect_intensity('grabbed', 'bodypart': 'arm_r') ) / 10" ] }
     ]
   }
 ]
