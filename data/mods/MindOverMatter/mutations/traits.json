@@ -177,7 +177,7 @@
     "activated_is_setup": true,
     "valid": false,
     "activated_eocs": [ "EOC_PSI_EXTENDED_CHANNELING_ON" ],
-    "deactivated_eocs": [ "EOC_PSI_EXTENDED_CHANNELING_OFF" ],
+    "deactivated_eocs": [ "EOC_PSI_EXTENDED_CHANNELING_ON" ],
   },
   {
     "type": "mutation",
@@ -199,7 +199,7 @@
     "activated_is_setup": true,
     "valid": false,
     "activated_eocs": [ "EOC_PSI_TORRENTIAL_CHANNELING_ON" ],
-    "deactivated_eocs": [ "EOC_PSI_TORRENTIAL_CHANNELING_OFF" ],
+    "deactivated_eocs": [ "EOC_PSI_TORRENTIAL_CHANNELING_ON" ],
   },
   {
     "type": "mutation",
