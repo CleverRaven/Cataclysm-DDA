@@ -181,7 +181,7 @@
   },
   {
     "type": "mutation",
-    "id": "PSI_EXTENDED_CHANNELING_ACTIVE",
+    "id": "PSI_EXTENDED_CHANNELING_active",
     "name": { "str": "Extended Channeling Active" },
     "points": 0,
     "description": "The active trait for Extended Channeling.  It's a bug if you can see it.",
@@ -203,7 +203,7 @@
   },
   {
     "type": "mutation",
-    "id": "PSI_TORRENTIAL_CHANNELING_ACTIVE",
+    "id": "PSI_TORRENTIAL_CHANNELING_active",
     "name": { "str": "Torrential Channeling Active" },
     "points": 0,
     "description": "The active trait for Torrential Channeling.  It's a bug if you can see it.",
