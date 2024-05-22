@@ -10,6 +10,8 @@ struct input_event;
 #if defined(IMTUI) || !(defined(WIN32) || defined(TILES))
 #   define TUI
 #endif
+
+#ifndef TUI
 #include "sdl_geometry.h"
 #include "sdl_wrappers.h"
 #include "color_loader.h"
