@@ -12,15 +12,15 @@
         "                                                ",
         "       ñññññññññññ                              ",
         "       -_-_-  -__-   ññññññ      ñññññññ        ",
-        "     ---ojU----II--- -_- --!--   -__-__-        ",
+        "     ---Foj----II--- -_- --!--   -__-__-        ",
         "   ---yh...U-LL..qq---I---...-----G.H.G--       ",
         "   #.#yh..ss-E.........q-l...l-22-G...G----     ",
         "   ---B.....!..f-_---..q-l...l-..---1---hc_     ",
-        "     --!--ee-.hc_3!.1...!.....-....5..!..c_     ",
+        "     --!--ee-.hS_3!.1...!.....-....5..!..c_     ",
         "   ---$.$----..f-_---7.q-l....!.......--hc_     ",
-        "   #.#...-Ti-E.........q-l....-6f4....f----     ",
-        "   ---$$.!..-LL..qq---I---...-----fL.fE--       ",
-        "     ---W-S----II--- -_- --!--   -__-__-        ",
+        "   #.#...-OP-E.........q-l....-6f4....f----     ",
+        "   ---$$.!.i-LL..qq---I---...-----fL.fE--       ",
+        "     ---W-T----II--- -_- --!--   -__-__-        ",
         "       -_-_-  -__-   ññññññ      ñññññññ        ",
         "       ñññññññññññ                              ",
         "                                                ",
@@ -41,17 +41,18 @@
       "furniture": {
         "I": "f_sealed_intermodal_crate",
         "$": "f_sleep_pod",
-        "S": "f_shower",
-        "T": "f_toilet",
-        "i": "f_sink",
         "e": "f_entertainment_center",
         "4": "f_monomolecularsaw",
         "6": "f_3dprinter",
         "2": "f_drone_recharge_station",
         "H": "f_exo_gantry",
         "G": "f_rack",
-        "B": "f_bookcase"
+        "B": "f_bookcase",
+        "T": "f_habitat_bathroom",
+        "S": "f_atmospheric_control",
+        "i": "f_water_heater"
       },
+      "liquids": { "i": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
       "place_item": [ { "item": "television", "repeat": 1, "x": 10, "y": 10 } ],
       "items": {
         "3": { "item": "nuclear_reactor" },
@@ -59,7 +60,8 @@
         "H": { "item": "afs_exosuit_worker", "chance": 60 },
         "G": { "item": "afs_civilian_armory", "chance": 80, "repeat": [ 1, 3 ] },
         "I": { "item": "afs_crate_civ_rand" },
-        "B": { "item": "homebooks", "repeat": [ 2, 3 ] }
+        "B": { "item": "homebooks", "repeat": [ 2, 3 ] },
+        "F": { "item": "afs_old_food_storage", "chance": 60 }
       },
       "place_monster": [
         { "group": "AFS_GROUP_ROBOT_LOW_RISK", "x": [ 7, 23 ], "y": [ 7, 13 ], "pack_size": [ 1, 4 ], "chance": 40 },
