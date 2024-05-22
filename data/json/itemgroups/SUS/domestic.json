@@ -1066,7 +1066,7 @@
       { "group": "hats_unisex", "prob": 20 },
       { "group": "scarfs_unisex", "prob": 20 },
       { "item": "crutches", "prob": 1 }
-      { "item": "woven_anklet", "prob": 5 },
+      { "item": "woven_anklet", "prob": 5 }
     ]
   },
   {
