@@ -46,11 +46,5 @@
     "id": "PSI_EXTENDED_CHANNELING_ON",
     "//": "remove after 0.I",
     "trait": "PSI_EXTENDED_CHANNELING",
-  },
-  {
-    "type": "TRAIT_MIGRATION",
-    "id": "PSI_EXTENDED_CHANNELING_ON",
-    "//": "remove after 0.I",
-    "trait": "PSI_EXTENDED_CHANNELING",
   }
 ]
