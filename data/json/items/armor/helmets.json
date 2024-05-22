@@ -201,7 +201,7 @@
         "moves": 250,
         "description": "Pocket for a face shield, or a front night vision attachment.",
         "flag_restriction": [ "HELMET_FACE_SHIELD", "HELMET_FRONT_ATTACHMENT" ],
-        "inherits_flags": true
+        "inherits_flags": false
       },
       {
         "pocket_type": "CONTAINER",
@@ -374,7 +374,7 @@
         "moves": 250,
         "description": "Pocket for a front night vision attachment.",
         "flag_restriction": [ "HELMET_FRONT_ATTACHMENT" ],
-        "inherits_flags": true
+        "inherits_flags": false
       }
     ],
     "melee_damage": { "bash": 2 }
@@ -422,7 +422,7 @@
         "moves": 250,
         "description": "Pocket for a face shield, or a front night vision attachment.",
         "flag_restriction": [ "HELMET_FACE_SHIELD", "HELMET_FRONT_ATTACHMENT" ],
-        "inherits_flags": true
+        "inherits_flags": false
       },
       {
         "pocket_type": "CONTAINER",
@@ -2877,7 +2877,7 @@
         "moves": 250,
         "description": "Pocket for a face shield, or a front night vision attachment.",
         "flag_restriction": [ "HELMET_FACE_SHIELD", "HELMET_FRONT_ATTACHMENT" ],
-        "inherits_flags": true
+        "inherits_flags": false
       },
       {
         "pocket_type": "CONTAINER",
