@@ -124,6 +124,16 @@
     "locations": [ "land" ]
   },
   {
+    "id": "afs_general_store_1",
+    "type": "city_building",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "afs_general_store_n1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "afs_general_store_n2_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "afs_general_store_n3_north" }
+    ],
+    "locations": [ "land" ]
+  },
+  {
     "id": "afs_shuttle_pad",
     "type": "city_building",
     "overmaps": [
