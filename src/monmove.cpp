@@ -1633,7 +1633,9 @@ bool monster::bash_at( const tripoint &p )
         return false;
     }
 
-    bool try_bash = !can_move_to( p ) || one_in( 3 );
+    bool dummy = false; //discard
+    const bool too_cramped = !can_move_to_vehicle_tile( get_map().getglobal( p ), dummy );
+    bool try_bash = !can_move_to( p ) || one_in( 3 ) || too_cramped;
     if( !try_bash ) {
         return false;
     }
@@ -1643,7 +1645,7 @@ bool monster::bash_at( const tripoint &p )
     }
 
     map &here = get_map();
-    if( !( here.is_bashable_furn( p ) || here.veh_at( p ).obstacle_at_part() ) ) {
+    if( !( here.is_bashable_furn( p ) || here.veh_at( p ).obstacle_at_part() || too_cramped ) ) {
         // if the only thing here is road or flat, rarely bash it
         bool flat_ground = here.has_flag( ter_furn_flag::TFLAG_ROAD, p ) ||
                            here.has_flag( ter_furn_flag::TFLAG_FLAT, p );
