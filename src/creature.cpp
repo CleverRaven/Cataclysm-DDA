@@ -194,16 +194,20 @@ void Creature::setpos( const tripoint &p )
 
 static units::volume size_to_volume( creature_size size_class )
 {
+    // returns midpoint of size from volume_to_size, minus 1_ml
+    // e.g. max tiny size is 7500, max small size is 46250, we return
+    // 46250+7500 / 2 - 1_ml = 26875_ml - 1ml
+    // This is still stupid and both of these functions should be merged into one single source of truth.
     if( size_class == creature_size::tiny ) {
-        return 7499_ml;
+        return 3749_ml;
     } else if( size_class == creature_size::small ) {
-        return 46249_ml;
+        return 26874_ml;
     } else if( size_class == creature_size::medium ) {
-        return 107999_ml;
+        return 77124_ml;
     } else if( size_class == creature_size::large ) {
-        return 483749_ml;
+        return 295874_ml;
     }
-    return DEFAULT_TILE_VOLUME - 1_ml;
+    return 741874_ml;
 }
 
 bool Creature::can_move_to_vehicle_tile( const tripoint_abs_ms &loc, bool &cramped ) const
