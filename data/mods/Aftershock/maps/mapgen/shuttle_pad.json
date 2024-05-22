@@ -9,11 +9,11 @@
         "                                                ",
         " ññññññññññññññññññññññññññññññññññññ////////// ",
         " ñ                                  //E&qq/v.h/ ",
-        " ñ   $$$$$ $$$$   $$$$ $$  $$$$$$$$ #...ö.+.kk/ ",
-        " ñ  $$''''''''''''''''''''''''''''$$//&.qq/.../ ",
+        " ñ   $$$$$ $$$$   $$$$ $$  $$$$$$$$ #..,ö.+.kk/ ",
+        " ñ  $$''''''''''''''''''''''''''''$$//&.qq/.,./ ",
         " ñ  $''''''   '''' '   '''''' ' '''$ //+////+// ",
-        " ñ  $'''''' '' '''   ''''  '''  '''$ =..../..l/ ",
-        " ñ   '''$$''   ''''$$'''''  ''$$'''  =ccc./..l/ ",
+        " ñ  $'''''' '' '''   ''''  '''  '''$ =.,../..l/ ",
+        " ñ   '''$$''   ''''$$'''''  ''$$'''  =ccc./,.l/ ",
         " ñ  $'''$''' '''''''' '''''  ''$'''  /===//!/// ",
         " ñ  $'''   ''' ''  ''    ''' ''''''$      /./ ñ ",
         " ñ  $'''' '''''  ''''''''''''''''''$'' '''/!/ ñ ",
@@ -32,11 +32,12 @@
         "                                                "
       ],
       "palettes": [ "afs_habitat_structure", "afs_habitat_mech_furnishing" ],
-      "terrain": { "'": "t_thconc_floor_no_roof", "$": "t_sidewalk", "ñ": "t_chainfence" },
+      "terrain": { "'": "t_thconc_floor_no_roof", "$": "t_sidewalk", "ñ": "t_chainfence", ",": "t_metal_floor_olight_inactive" },
       "furniture": { "&": "f_sealed_intermodal_crate", "e": "f_intermodal_crate_open" },
       "items": { "&": [ { "item": "afs_crate_civ_rand" } ] },
       "monster": { "ö": { "monster": "mon_skitterbot" } },
-      "place_monster": [ { "group": "AFS_GROUP_RUIN_MOXIE", "x": [ 2, 22 ], "y": [ 2, 22 ], "pack_size": [ 1, 2 ], "chance": 50 } ]
+      "place_monster": [ { "group": "AFS_GROUP_RUIN_MOXIE", "x": [ 2, 22 ], "y": [ 2, 22 ], "pack_size": [ 1, 2 ], "chance": 50 } ],
+      "place_nested": [ { "chunks": [ [ "null", 80 ], [ "afs_map_lights_on", 20 ] ], "x": 24, "y": 0 } ]
     }
   },
   {

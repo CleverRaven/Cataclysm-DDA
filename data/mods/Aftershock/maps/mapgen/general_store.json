@@ -9,19 +9,19 @@
         "                        ",
         "    /////               ",
         "   //nn.!               ",
-        "   /L...!               ",
+        "   /L.,.!               ",
         "   /L.../   A           ",
         "  ///!!//=/////=/////   ",
         "  /.......nllll.nBBB//  ",
-        "  /..................#  ",
+        "  /..,......,.....,..#  ",
         "  =.......neeee.nttt//  ",
         "  =.......ngggg.nppp/   ",
-        "  /ccccc............=   ",
-        "  /....C./ffff//+//+/   ",
-        "  /nrrr/+//////../../   ",
+        "  /ccccc....,.....,.=   ",
+        "  /..,.C./ffff//+//+/   ",
+        "  /nrrr/+//////,./,./   ",
         "  //////..ge.i/nb/nb/   ",
-        "  /...+...ge.I///////   ",
-        "  #.s./p..ge...+..<//   ",
+        "  /.,.+..,ge,I///////   ",
+        "  #.s./p..ge...+,.<//   ",
         "  /$DD/p......//////    ",
         "  /////p...Iii/         ",
         "  ''''//111////         ",
@@ -32,7 +32,7 @@
         "                        "
       ],
       "palettes": [ "afs_habitat_structure" ],
-      "terrain": { "'": "t_thconc_floor_no_roof", "1": "t_door_metal_locked", "A": "t_atm" },
+      "terrain": { "'": "t_thconc_floor_no_roof", "1": "t_door_metal_locked", "A": "t_atm", ",": "t_metal_floor_olight_inactive" },
       "//": "An Electronic safe would be prefered but the gunsafe furniture is hardcoded to say do you want to hack this gunsafe?",
       "furniture": {
         "s": "f_stool",
@@ -69,7 +69,8 @@
         "r": { "item": "afs_tools_structural_repair", "chance": 25, "repeat": [ 1, 2 ] }
       },
       "place_loot": [ { "group": "afs_register_random", "x": [ 3, 6 ], "y": 10, "repeat": 1 } ],
-      "place_monster": [ { "group": "AFS_GROUP_RUIN_MOXIE", "x": [ 0, 23 ], "y": [ 0, 23 ], "pack_size": [ 1, 3 ], "chance": 20 } ]
+      "place_monster": [ { "group": "AFS_GROUP_RUIN_MOXIE", "x": [ 0, 23 ], "y": [ 0, 23 ], "pack_size": [ 1, 3 ], "chance": 20 } ],
+      "place_nested": [ { "chunks": [ [ "null", 80 ], [ "afs_map_lights_on", 20 ] ], "x": 0, "y": 0 } ]
     }
   },
   {
@@ -88,15 +89,15 @@
         "  ''//=////==///==//''  ",
         "  '//kk/B..h.h..vqq//'  ",
         "  '/$.h/B..yyy.....d/'  ",
-        "  '/y..+...yyy.....U=   ",
+        "  '/y,.+...yyy...,.U=   ",
         "  '/$.W/...h.h./foUU/   ",
-        "  '/////ch.....//////   ",
+        "  '/////ch..,..//////   ",
         "  '/y.W/.rrrrr..+.b/'   ",
-        "  '/$..+.rsssr.l/wP/'   ",
+        "  '/$,.+.rsssr.l/wP/'   ",
         "  '/..h/.rrrrr.//////   ",
-        "  '//kk/..eee..+..>//   ",
+        "  '//kk/..eee..+,.>//   ",
         "  ''//=//!//////////    ",
-        "  ''''''/..SO/'         ",
+        "  ''''''/.,SO/'         ",
         "      ''//#///'         ",
         "                        ",
         "                        ",
@@ -105,7 +106,7 @@
         "                        "
       ],
       "palettes": [ "afs_habitat_structure", "afs_habitat_residential_furnishing" ],
-      "terrain": { "'": "t_flat_roof", "r": "t_carpet_red" },
+      "terrain": { "'": "t_flat_roof", "r": "t_carpet_red", ",": "t_metal_floor_olight_inactive" },
       "furniture": {
         "b": "f_habitat_bathroom",
         "e": "f_entertainment_center",
@@ -124,7 +125,8 @@
         "B": { "item": "homebooks", "repeat": [ 2, 3 ] },
         "f": { "item": "afs_old_food_storage", "chance": 60 },
         "q": { "item": "afs_old_food_storage", "chance": 60 }
-      }
+      },
+      "place_nested": [ { "chunks": [ [ "null", 80 ], [ "afs_map_lights_on", 20 ] ], "x": 0, "y": 0 } ]
     }
   },
   {
@@ -160,6 +162,15 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "afs_map_lights_on",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "place_ter_furn_transforms": [ { "transform": "afs_lights_on", "x": [ 0, 23 ], "y": [ 0, 23 ] } ]
     }
   }
 ]
