@@ -2449,7 +2449,7 @@ class Character : public Creature, public visitable
         /** Returns a value used when attempting to intimidate NPC's */
         int intimidation() const;
 
-        void set_skills_from_hobbies();
+        void set_skills_from_hobbies( bool no_override = false );
 
         void set_bionics_from_hobbies();
 
