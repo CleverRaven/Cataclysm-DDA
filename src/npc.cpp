@@ -688,7 +688,7 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
     }
     // Add proficiencies
     for( const proficiency_id &prof : myclass->_starting_proficiencies ) {
-        add_proficiency( prof );
+        add_proficiency( prof, false, true );
     }
     if( myclass->is_common() ) {
         add_default_background();
