@@ -11065,51 +11065,13 @@ void Character::process_effects()
     }
 
     // Being stuck in tight spaces sucks. TODO: could be expanded to apply to non-vehicle conditions.
-    if( has_effect( effect_cramped_space ) ) {
-        map &here = get_map();
-        const tripoint your_pos = pos();
-        const optional_vpart_position vp_there = here.veh_at( your_pos );
-        if( !vp_there ) {
-            remove_effect( effect_cramped_space );
-            return;
-        }
-        if( is_npc() && !has_effect( effect_narcosis ) && has_effect( effect_cramped_space ) ) {
+    bool cramped = has_effect( effect_cramped_space );
+    // return is intentionally discarded, sets cramped if appropriate
+    can_move_to_vehicle_tile( get_map().getglobal( pos() ), cramped );
+    if( cramped ) {
+        if( is_npc() && !has_effect( effect_narcosis ) ) {
             npc &as_npc = dynamic_cast<npc &>( *this );
             as_npc.complain_about( "cramped_vehicle", 30_minutes, "<cramped_vehicle>", false );
-        }
-        bool is_cramped_space = false;
-        vehicle &veh = vp_there->vehicle();
-        units::volume capacity = 0_ml;
-        units::volume free_cargo = 0_ml;
-        auto cargo_parts = veh.get_parts_at( your_pos, "CARGO", part_status_flag::any );
-        for( vehicle_part *&part : cargo_parts ) {
-            vehicle_stack contents = veh.get_items( *part );
-            const optional_vpart_position vp = here.veh_at( your_pos );
-            if( !vp.part_with_feature( "CARGO_PASSABLE", false ) ) {
-                capacity += contents.max_volume();
-                free_cargo += contents.free_volume();
-            }
-            const creature_size size = get_size();
-            if( capacity > 0_ml ) {
-                // Open-topped vehicle parts have more room.
-                if( !veh.enclosed_at( your_pos ) ) {
-                    free_cargo *= 1.2;
-                }
-                if( ( size == creature_size::tiny && free_cargo < 15625_ml ) ||
-                    ( size == creature_size::small && free_cargo < 31250_ml ) ||
-                    ( size == creature_size::medium && free_cargo < 62500_ml ) ||
-                    ( size == creature_size::large && free_cargo < 125000_ml ) ||
-                    ( size == creature_size::huge && free_cargo < 250000_ml ) ) {
-                    is_cramped_space = true;
-                }
-            }
-            if( get_size() == creature_size::huge && !vp.part_with_feature( "AISLE", false ) &&
-                !vp.part_with_feature( "HUGE_OK", false ) ) {
-                is_cramped_space = true;
-            }
-        }
-        if( !is_cramped_space ) {
-            remove_effect( effect_cramped_space );
         }
     }
 
