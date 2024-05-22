@@ -275,6 +275,12 @@ bool Creature::can_move_to_vehicle_tile( const tripoint_abs_ms &loc, bool &cramp
     return true;
 }
 
+bool Creature::can_move_to_vehicle_tile( const tripoint_abs_ms &loc ) const
+{
+    bool dummy = false;
+    return can_move_to_vehicle_tile( loc, dummy );
+}
+
 void Creature::move_to( const tripoint_abs_ms &loc )
 {
     const tripoint_abs_ms old_loc = get_location();

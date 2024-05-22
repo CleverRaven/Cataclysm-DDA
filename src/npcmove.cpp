@@ -404,8 +404,7 @@ bool npc::could_move_onto( const tripoint &p ) const
     if( !here.passable( p ) ) {
         return false;
     }
-    bool dummy = false; // handled elsewhere
-    if( !can_move_to_vehicle_tile( here.getglobal( p ), dummy ) ) {
+    if( !can_move_to_vehicle_tile( here.getglobal( p ) ) ) {
         return false;
     }
 
@@ -2900,8 +2899,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         }
     }
 
-    bool dummy = false; //Handled further down due to possible branching logic
-    if( !can_move_to_vehicle_tile( here.getglobal( p ), dummy ) ) {
+    if( !can_move_to_vehicle_tile( here.getglobal( p ) ) ) {
         auto other_points = here.get_dir_circle( pos(), p );
         for( const tripoint &ot : other_points ) {
             if( could_move_onto( ot ) && ( nomove == nullptr || nomove->find( ot ) == nomove->end() ) ) {

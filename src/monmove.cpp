@@ -1633,8 +1633,7 @@ bool monster::bash_at( const tripoint &p )
         return false;
     }
 
-    bool dummy = false; //discard
-    const bool too_cramped = !can_move_to_vehicle_tile( get_map().getglobal( p ), dummy );
+    const bool too_cramped = !can_move_to_vehicle_tile( get_map().getglobal( p ) );
     bool try_bash = !can_move_to( p ) || one_in( 3 ) || too_cramped;
     if( !try_bash ) {
         return false;

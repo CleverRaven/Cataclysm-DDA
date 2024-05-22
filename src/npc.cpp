@@ -3346,9 +3346,8 @@ std::unordered_set<tripoint> npc::get_path_avoid() const
     }
 
     // Why is this in path avoid if they can't move there at all?
-    bool dummy = false; // handled elsewhere
     for( const tripoint &p : here.points_in_radius( pos(), 6 ) ) {
-        if( !can_move_to_vehicle_tile( here.getglobal( p ), dummy ) ) {
+        if( !can_move_to_vehicle_tile( here.getglobal( p ) ) ) {
             ret.insert( p );
         }
     }
