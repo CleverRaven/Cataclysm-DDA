@@ -302,8 +302,10 @@ void catacurses::init_pair( const short pair, const base_color f, const base_col
                                 OK, "init_pair" );
 }
 
-catacurses::window catacurses::newscr;
 catacurses::window catacurses::stdscr;
+#if !defined(USE_PDCURSES)
+catacurses::window catacurses::newscr;
+#endif
 
 void catacurses::resizeterm()
 {
@@ -324,10 +326,12 @@ void catacurses::init_interface()
     if( !stdscr ) {
         throw std::runtime_error( "initscr failed" );
     }
+#if !defined(USE_PDCURSES)
     newscr = window( std::shared_ptr<void>( ::newscr, []( void *const ) { } ) );
     if( !newscr ) {
         throw std::runtime_error( "null newscr" );
     }
+#endif
     // our curses wrapper does not support changing this behavior, ncurses must
     // behave exactly like the wrapper, therefore:
     noecho();  // Don't echo keypresses

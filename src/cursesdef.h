@@ -92,8 +92,12 @@ enum base_color : short {
 using chtype = int;
 using attr_t = unsigned short;
 
-extern window newscr;
 extern window stdscr;
+#if defined(USE_PDCURSES)
+inline constexpr window &newscr = stdscr;
+#else
+extern window newscr;
+#endif
 
 window newwin( int nlines, int ncols, const point &begin );
 void wborder( const window &win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, chtype tr,
