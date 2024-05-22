@@ -236,7 +236,11 @@
       { "prob": 1, "count": 1, "group": "melatonin_tablet_bottle_plastic_pill_supplement_10" }
       { "item": "bat_anklet", "prob": 10 },
       { "item": "flower_anklet", "prob": 10 },
-      { "item": "woven_anklet", "prob": 10 }
+      { "item": "woven_anklet", "prob": 10 },
+      { "item": "gold_lip_ring_loop", "prob": 5 },
+      { "item": "gold_lip_ring_stud", "prob": 5 },
+      { "item": "silver_lip_ring_loop", "prob": 6 },
+      { "item": "silver_lip_ring_stud", "prob": 6 }
     ]
   },
   {
