@@ -356,8 +356,8 @@
   {
     "abstract": "mon_generic_chick_tiny",
     "type": "MONSTER",
-    "name": { "str": "brown chick" },
-    "description": "A tiny darkly-colored chick, it could be from a number of different species.",
+    "name": { "str": "grey chick" },
+    "description": "A tiny dull-colored chick, it could be from a number of different species.",
     "copy-from": "mon_generic_chick",
     "volume": "7 ml",
     "weight": "5 g",
